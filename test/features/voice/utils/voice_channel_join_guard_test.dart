@@ -249,21 +249,25 @@ void main() {
   });
 
   group('shouldIgnoreVoiceServerUpdateWhenConnected', () {
-    test('ignores server update for an active live session', () {
-      const VoiceSessionState state = VoiceSessionState(
-        isConnected: true,
-        channelId: channelId,
-      );
-      expect(
-        shouldIgnoreVoiceServerUpdateWhenConnected(
-          state: state,
-          resolvedChannelId: channelId,
-          hasLiveKitRoom: true,
-          isRoomConnected: true,
-        ),
-        isTrue,
-      );
-    });
+    test(
+      'ignores server update for an active live session on same endpoint',
+      () {
+        const VoiceSessionState state = VoiceSessionState(
+          isConnected: true,
+          channelId: channelId,
+          voiceServerEndpoint: 'wss://livekit.example',
+        );
+        expect(
+          shouldIgnoreVoiceServerUpdateWhenConnected(
+            state: state,
+            resolvedChannelId: channelId,
+            hasLiveKitRoom: true,
+            isRoomConnected: true,
+          ),
+          isTrue,
+        );
+      },
+    );
 
     test('accepts server update when transport is not live', () {
       const VoiceSessionState state = VoiceSessionState(

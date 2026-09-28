@@ -5,7 +5,6 @@ import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_con
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animated_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_load_error_placeholder.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_animated_image_url.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_media_viewer_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/hdr_aware_image_url.dart';
@@ -15,16 +14,11 @@ import 'package:fluxer_app/features/settings/providers/appearance_preferences_pr
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_markdown/fluxer_markdown.dart';
 
 /// An inline image / gifv embed
 class EmbedImage extends ConsumerWidget {
   final Embed embed;
   final MediaDimensionSize dimensionSize;
-  final bool isSpoiler;
-  final bool revealSpoiler;
-  final FluxerSpoilerSyncController? spoilerSyncController;
-  final List<String> spoilerSyncKeys;
   final String? channelId;
   final String? messageId;
   final int? embedIndex;
@@ -33,10 +27,6 @@ class EmbedImage extends ConsumerWidget {
   const EmbedImage({
     required this.embed,
     this.dimensionSize = MediaDimensionSize.small,
-    this.isSpoiler = false,
-    this.revealSpoiler = false,
-    this.spoilerSyncController,
-    this.spoilerSyncKeys = const [],
     this.channelId,
     this.messageId,
     this.embedIndex,
@@ -77,64 +67,57 @@ class EmbedImage extends ConsumerWidget {
         maxWidth: dimensions.maxWidth,
         maxHeight: dimensions.maxHeight,
       ),
-      child: SpoilerOverlay(
-        isSpoiler: isSpoiler,
-        initiallyRevealed: revealSpoiler,
+      child: MatureMediaOverlay(
+        channelId: channelId,
+        isMatureMedia: embed.isMatureMedia,
         borderRadius: BorderRadius.circular(4),
-        spoilerSyncController: spoilerSyncController,
-        syncKeys: spoilerSyncKeys,
-        child: MatureMediaOverlay(
-          channelId: channelId,
-          isMatureMedia: embed.isMatureMedia,
+        child: ClipRRect(
           borderRadius: BorderRadius.circular(4),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: FluxerGestureDetector(
-              onTap: canOpenEmbedMediaViewer(media)
-                  ? () => openEmbedMediaViewer(
-                      context,
-                      media: media,
-                      title: embed.title,
-                      animated: animate,
-                      embedIndex: embedIndex,
-                      channelId: channelId,
-                      messageId: messageId,
-                      actionScope: mediaActionScope,
-                    )
-                  : null,
-              child: animate
-                  ? SizedBox(
-                      width: cellWidth,
-                      height: cellHeight,
-                      child: EmbedAnimatedImage(
-                        animatedUrl: animatedEmbedImageUrl(
-                          embedMediaEffectiveUrl(media),
-                        ),
-                        staticUrl: staticEmbedImageUrl(
-                          embedMediaEffectiveUrl(media),
-                        ),
-                        visibilityKey:
-                            '${channelId}_${messageId}_'
-                            '${embedIndex}_${embed.type.name}',
-                        fit: BoxFit.contain,
-                        placeholder: placeholder,
-                        errorPlaceholder: errorPlaceholder,
+          child: FluxerGestureDetector(
+            onTap: canOpenEmbedMediaViewer(media)
+                ? () => openEmbedMediaViewer(
+                    context,
+                    media: media,
+                    title: embed.title,
+                    animated: animate,
+                    embedIndex: embedIndex,
+                    channelId: channelId,
+                    messageId: messageId,
+                    actionScope: mediaActionScope,
+                  )
+                : null,
+            child: animate
+                ? SizedBox(
+                    width: cellWidth,
+                    height: cellHeight,
+                    child: EmbedAnimatedImage(
+                      animatedUrl: animatedEmbedImageUrl(
+                        embedMediaEffectiveUrl(media),
                       ),
-                    )
-                  : _EmbedStaticImage(
-                      imageUrl: buildHdrAwareImageUrl(
-                        url: embedMediaEffectiveUrl(media),
-                        mode: hdrDisplayMode,
-                        contentType: media.contentType,
+                      staticUrl: staticEmbedImageUrl(
+                        embedMediaEffectiveUrl(media),
                       ),
-                      cellWidth: cellWidth,
-                      cellHeight: cellHeight,
-                      sourceWidth: media.width,
-                      sourceHeight: media.height,
+                      visibilityKey:
+                          '${channelId}_${messageId}_'
+                          '${embedIndex}_${embed.type.name}',
+                      fit: BoxFit.contain,
                       placeholder: placeholder,
                       errorPlaceholder: errorPlaceholder,
                     ),
-            ),
+                  )
+                : _EmbedStaticImage(
+                    imageUrl: buildHdrAwareImageUrl(
+                      url: embedMediaEffectiveUrl(media),
+                      mode: hdrDisplayMode,
+                      contentType: media.contentType,
+                    ),
+                    cellWidth: cellWidth,
+                    cellHeight: cellHeight,
+                    sourceWidth: media.width,
+                    sourceHeight: media.height,
+                    placeholder: placeholder,
+                    errorPlaceholder: errorPlaceholder,
+                  ),
           ),
         ),
       ),

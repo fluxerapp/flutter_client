@@ -24,7 +24,7 @@ void main() {
     await tester.pumpWidget(
       _buildTestApp(
         ThemeSwatchButton(
-          label: 'Dark Theme',
+          label: 'Dark theme',
           backgroundColor: const Color(0xFF1D1C22),
           isSelected: false,
           onTap: () {},
@@ -32,13 +32,13 @@ void main() {
       ),
     );
 
-    expect(find.text('Dark Theme'), findsNothing);
+    expect(find.text('Dark theme'), findsNothing);
 
     await tester.longPress(find.byType(ThemeSwatchButton));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 100));
 
-    expect(find.text('Dark Theme'), findsOneWidget);
+    expect(find.text('Dark theme'), findsOneWidget);
     expect(find.byType(FluxerTooltip), findsOneWidget);
   });
 
@@ -48,7 +48,7 @@ void main() {
     await tester.pumpWidget(
       _buildTestApp(
         ThemeSwatchButton(
-          label: 'Light Theme',
+          label: 'Light theme',
           backgroundColor: const Color(0xFFFBFBFC),
           isSelected: true,
           onTap: () {},
@@ -56,7 +56,7 @@ void main() {
       ),
     );
 
-    expect(find.bySemanticsLabel('Light Theme'), findsOneWidget);
+    expect(find.bySemanticsLabel('Light theme'), findsOneWidget);
     handle.dispose();
   });
 }

@@ -1,12 +1,14 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_callkit_incoming/entities/call_kit_params.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/voice/utils/voice_call_ring.dart';
 import 'package:fluxer_app/features/voice/utils/voice_callkit_params.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:test/test.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   test('incoming ring params include headers', () {
     final CallKitParams params = buildIncomingCallRingParams(
       callKitId: 'call',

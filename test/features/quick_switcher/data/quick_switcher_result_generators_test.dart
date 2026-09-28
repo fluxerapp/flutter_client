@@ -101,7 +101,7 @@ void main() {
         settings: const <QuickSwitcherSettingsCandidate>[
           QuickSwitcherSettingsCandidate(
             id: 'user-settings',
-            title: 'User Settings',
+            title: 'User settings',
             target: QuickSwitcherSettingsTarget.userSettings,
             searchValues: <String>['Settings', 'User'],
             sortWeight: 0,

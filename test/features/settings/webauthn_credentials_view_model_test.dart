@@ -42,12 +42,17 @@ class _FakeClient extends FluxerClient {
   UsersApi get users => _fakeUsers;
 }
 
-WebAuthnCredentialResponse _cred({required String id, String name = 'Key'}) {
+WebAuthnCredentialResponse _cred({
+  required String id,
+  String name = 'Key',
+  String rpId = 'fluxer.com',
+}) {
   return WebAuthnCredentialResponse(
     id: id,
     name: name,
     createdAt: '2026-01-01T00:00:00Z',
     lastUsedAt: null,
+    rpId: rpId,
   );
 }
 

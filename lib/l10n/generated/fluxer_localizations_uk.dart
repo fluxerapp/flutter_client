@@ -16,7 +16,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Щось не так з інстансом.\nМає виправитись за секунду!';
 
   @override
-  String get gatewayReconnectingToast => 'Перепідключення…';
+  String get gatewayReconnectingToast => 'Повторне підключення…';
 
   @override
   String get gatewayConnectedToast => 'Підключено';
@@ -68,11 +68,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get nagbarMaintenanceComplete => 'Обслуговування завершено.';
+  String get nagbarMaintenanceComplete => 'Технічне обслуговування завершено.';
 
   @override
   String nagbarUnclaimedAccountMessage(String displayName) {
-    return 'Привіт, $displayName, підтвердьте свій обліковий запис, щоб не втратити доступ.';
+    return 'Привіт, $displayName, зареєструйте свій обліковий запис, щоб не втратити доступ.';
   }
 
   @override
@@ -183,7 +183,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Не вдалося відкрити платіжний портал. Спробуйте ще раз за мить.';
 
   @override
-  String get welcomeBack => 'Раді бачити вас знову';
+  String get welcomeBack => 'З поверненням';
 
   @override
   String get email => 'Електронна пошта';
@@ -214,10 +214,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get organizationSsoProvider =>
-      'Увійдіть за допомогою постачальника єдиного входу вашої організації.';
+      'Увійдіть за допомогою єдиного входу вашої організації.';
 
   @override
-  String get failedToStartSso => 'Не вдалося розпочати SSO';
+  String get failedToStartSso => 'Не вдалося запустити SSO';
 
   @override
   String get ssoCancelled => 'Вхід через SSO було скасовано';
@@ -231,7 +231,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get logInViaBrowser => 'Увійти через браузер';
 
   @override
-  String get needAccountPrompt => 'Немає облікового запису? ';
+  String get needAccountPrompt => 'Потрібен обліковий запис? ';
 
   @override
   String get register => 'Зареєструватися';
@@ -240,18 +240,17 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Підтвердьте, що ви людина';
+  String get captchaTitle => 'Підтвердьте, що ви не робот';
 
   @override
   String get captchaDescription =>
       'Нам потрібно переконатися, що ви не бот. Будь ласка, пройдіть перевірку нижче.';
 
   @override
-  String get captchaSwitchToHcaptcha =>
-      'Виникли проблеми? Спробуйте hCaptcha замість цього';
+  String get captchaSwitchToHcaptcha => 'Виникли проблеми? Спробуйте hCaptcha';
 
   @override
-  String get captchaSwitchToTurnstile => 'Спробуйте Turnstile замість цього';
+  String get captchaSwitchToTurnstile => 'Спробуйте Turnstile';
 
   @override
   String get cancel => 'Скасувати';
@@ -305,7 +304,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get mfaMethodTotp => 'Програма-автентифікатор';
 
   @override
-  String get mfaMethodWebauthn => 'Ключ безпеки / Ключ доступу';
+  String get mfaMethodWebauthn => 'Ключ безпеки / ключ доступу';
 
   @override
   String get mfaTotpDescription =>
@@ -318,14 +317,14 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get mfaTryAnotherMethod => 'Спробувати інший метод';
 
   @override
-  String get mfaUseSecurityKey => 'Спробуйте ключ безпеки / пароль';
+  String get mfaUseSecurityKey => 'Спробувати ключ безпеки / ключ доступу';
 
   @override
   String get accountSelectorTitle => 'Виберіть обліковий запис';
 
   @override
   String get accountSelectorDescription =>
-      'Виберіть обліковий запис для продовження або додайте інший.';
+      'Виберіть обліковий запис, щоб продовжити, або додайте інший.';
 
   @override
   String get accountAdd => 'Додати обліковий запис';
@@ -355,20 +354,20 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get accountManageTitle => 'Керування обліковими записами';
+  String get accountManageTitle => 'Керувати обліковими записами';
 
   @override
   String get accountSwitchFailed =>
-      'Не вдалося переключити облікові записи. Спробуйте ще раз.';
+      'Не вдалося змінити обліковий запис. Спробуйте ще раз.';
 
   @override
-  String get profileTabMenuSwitchAccounts => 'Переключити облікові записи';
+  String get profileTabMenuSwitchAccounts => 'Змінити обліковий запис';
 
   @override
-  String get statusChangeSheetTitle => 'Встановити статус';
+  String get statusChangeSheetTitle => 'Установити статус';
 
   @override
-  String get statusOnlineStatusSection => 'Статус онлайн';
+  String get statusOnlineStatusSection => 'Онлайн-статус';
 
   @override
   String get statusOnline => 'Онлайн';
@@ -383,10 +382,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get statusInvisible => 'Невидимий';
 
   @override
-  String get statusOffline => 'Офлайн';
+  String get statusOffline => 'Не в мережі';
 
   @override
-  String get statusUntilIChangeIt => 'Доки я не змінюю';
+  String get statusUntilIChangeIt => 'Доки я не зміню';
 
   @override
   String get statusDontClear => 'Не очищати';
@@ -423,10 +422,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get statusDndDescription =>
-      'Ви не отримуватимете сповіщень на робочому столі';
+      'Ви не отримуватимете сповіщення на комп\'ютері';
 
   @override
-  String get statusInvisibleDescription => 'Ви будете виглядати офлайн';
+  String get statusInvisibleDescription => 'Для інших ви будете офлайн';
 
   @override
   String get customStatusSetTitle => 'Встановити власний статус';
@@ -441,10 +440,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get customStatusPlaceholder => 'Що відбувається?';
 
   @override
-  String get customStatusChooseEmoji => 'Вибрати емоджі';
+  String get customStatusChooseEmoji => 'Виберіть емоджі';
 
   @override
-  String get customStatusClearAfter => 'Очистити після';
+  String get customStatusClearAfter => 'Очистити через';
 
   @override
   String get customStatusSave => 'Зберегти';
@@ -493,7 +492,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get suspendedRecheck => 'Перевірити оновлення';
+  String get suspendedRecheck => 'Перевірити наявність оновлень';
 
   @override
   String suspendedRecheckCooldown(int seconds) {
@@ -550,7 +549,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get forgotPasswordBackToLogin => 'Повернутися до входу';
 
   @override
-  String get resetPasswordTitle => 'Встановіть новий пароль';
+  String get resetPasswordTitle => 'Встановити новий пароль';
 
   @override
   String get resetPasswordDescription =>
@@ -572,10 +571,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get registerTitle => 'Створити обліковий запис';
 
   @override
-  String get registerDisplayName => 'Відображуване ім\'я (необов\'язково)';
+  String get registerDisplayName => 'Ім\'я для відображення (необов\'язково)';
 
   @override
-  String get registerDisplayNameHint => 'Як до вас звертатися?';
+  String get registerDisplayNameHint => 'Як вас називати?';
 
   @override
   String get registerUsername => 'Ім\'я користувача (необов\'язково)';
@@ -608,13 +607,13 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get registerConsentPrefix => 'Я погоджуюся з ';
 
   @override
-  String get registerConsentTerms => 'Умовами надання послуг';
+  String get registerConsentTerms => 'Умови використання';
 
   @override
   String get registerConsentAnd => ' та ';
 
   @override
-  String get registerConsentPrivacy => 'Політикою конфіденційності';
+  String get registerConsentPrivacy => 'Політика конфіденційності';
 
   @override
   String get registerConfirmPassword => 'Підтвердьте пароль';
@@ -711,7 +710,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get embedInviteJoinGroup => 'Приєднатися до групи';
 
   @override
-  String get embedInviteAlreadyJoined => 'Уже приєднано';
+  String get embedInviteAlreadyJoined => 'Ви вже учасник';
 
   @override
   String get embedInviteDisabled => 'Запрошення вимкнено';
@@ -721,7 +720,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String embedInvitePausedRaid(String productName) {
-    return '$productName виявив потенційну атаку, тому нові користувачі наразі не можуть приєднатися.';
+    return '$productName виявив потенційний рейд, тому нові користувачі наразі не можуть приєднатися.';
   }
 
   @override
@@ -730,11 +729,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String inviteAcceptRaidInvitesPaused(String productName) {
-    return '$productName виявив потенційну атаку в цій спільноті. Запрошення призупинено, тому нові користувачі наразі не можуть приєднатися.';
+    return '$productName виявив потенційний рейд у цій спільноті. Запрошення призупинено, тому нові користувачі наразі не можуть приєднатися.';
   }
 
   @override
-  String get inviteAcceptTitle => 'Вас запросили приєднатися';
+  String get inviteAcceptTitle => 'Вас запросили приєднатися до спільноти';
 
   @override
   String get inviteAcceptJoinButton => 'Приєднатися до спільноти';
@@ -797,7 +796,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get channelAccessDeniedDescription =>
-      'У вас немає доступу до каналу, де було надіслано це повідомлення.';
+      'У вас немає доступу до каналу, куди було надіслано це повідомлення.';
 
   @override
   String get messageJumpLinkNoAccess => 'Немає доступу';
@@ -806,7 +805,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get okay => 'Гаразд';
 
   @override
-  String get embedThemeTitle => 'Спільна тема';
+  String get embedThemeTitle => 'Тема, якою поділилися';
 
   @override
   String get embedThemeSubtitle => 'Цей клієнт не підтримує власні теми.';
@@ -876,17 +875,17 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get embedGiftClaimAccountHelp =>
-      'Щоб активувати цей подарунок, увійдіть в обліковий запис.';
+      'Щоб активувати цей подарунок, зареєструйте свій обліковий запис.';
 
   @override
-  String get embedGiftClaim => 'Забрати подарунок';
+  String get embedGiftClaim => 'Отримати подарунок';
 
   @override
   String get embedGiftClaimed => 'Подарунок отримано';
 
   @override
   String get embedGiftClaimAccount =>
-      'Щоб активувати, увійдіть в обліковий запис';
+      'Зареєструвати обліковий запис для активації';
 
   @override
   String get embedGiftUnknownTitle => 'Невідомий подарунок';
@@ -950,17 +949,17 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get giftCopyLink => 'Копіювати посилання на подарунок';
 
   @override
-  String get privacySettings => 'Налаштування конфіденційності';
+  String get privacySettings => 'Налаштування приватності';
 
   @override
-  String get privacyDirectMessages => 'Приватні повідомлення';
+  String get privacyDirectMessages => 'Особисті повідомлення';
 
   @override
   String get privacyDirectMessagesDescription =>
       'Дозволити приватні повідомлення від інших учасників цієї спільноти';
 
   @override
-  String get privacyBotDirectMessages => 'Приватні повідомлення від ботів';
+  String get privacyBotDirectMessages => 'Особисті повідомлення від бота';
 
   @override
   String get privacyBotDirectMessagesDescription =>
@@ -974,7 +973,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get communityDebug => 'Налагодження спільноти';
 
   @override
-  String get copiedToClipboard => 'Скопійовано до буфера обміну';
+  String get copiedToClipboard => 'Скопійовано в буфер обміну';
 
   @override
   String get notificationSettings => 'Налаштування сповіщень';
@@ -1011,7 +1010,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get notificationMobilePush => 'Мобільні push-сповіщення';
 
   @override
-  String get notificationOverrides => 'Налаштування сповіщень';
+  String get notificationOverrides => 'Перевизначення сповіщень';
 
   @override
   String get notificationSelectChannel => 'Виберіть канал або категорію';
@@ -1020,14 +1019,14 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get notificationOnlyAtMentions => 'Лише @згадки';
 
   @override
-  String get notificationMuteChannel => 'Вимкнути канал';
+  String get notificationMuteChannel => 'Вимкнути сповіщення каналу';
 
   @override
-  String get notificationUnmuteChannel => 'Увімкнути канал';
+  String get notificationUnmuteChannel => 'Увімкнути сповіщення каналу';
 
   @override
   String get notificationUseCategoryDefault =>
-      'Використовувати стандартні налаштування категорії';
+      'Використовувати типове значення категорії';
 
   @override
   String get notificationUseCommunityDefault =>
@@ -1040,16 +1039,16 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get dmMarkAsRead => 'Позначити як прочитане';
 
   @override
-  String get dmMuteConversation => 'Вимкнути приватне повідомлення';
+  String get dmMuteConversation => 'Вимкнути сповіщення';
 
   @override
-  String get dmUnmuteConversation => 'Увімкнути приватне повідомлення';
+  String get dmUnmuteConversation => 'Увімкнути сповіщення';
 
   @override
-  String get dmPinDm => 'Закріпити приватне повідомлення';
+  String get dmPinDm => 'Закріпити приватний чат';
 
   @override
-  String get dmUnpinDm => 'Відкріпити приватне повідомлення';
+  String get dmUnpinDm => 'Відкріпити приватний чат';
 
   @override
   String get dmAlwaysShowInSidebar => 'Завжди показувати в бічній панелі';
@@ -1058,10 +1057,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get dmRemoveFromAlwaysShown => 'Видалити з «Завжди показувати»';
 
   @override
-  String get dmCloseDm => 'Закрити приватне повідомлення';
+  String get dmCloseDm => 'Закрити приватний чат';
 
   @override
-  String get dmCloseDmConfirmTitle => 'Закрити приватне повідомлення';
+  String get dmCloseDmConfirmTitle => 'Закрити приватний чат';
 
   @override
   String dmCloseDmConfirmDescription(String username) {
@@ -1070,29 +1069,29 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get dmDeleteMyMessagesTitle =>
-      'Видалити ваші повідомлення в цій бесіді?';
+      'Видалити ваші повідомлення в цій розмові?';
 
   @override
   String get dmDeleteMyMessagesDescription =>
-      'Це назавжди видалить усі повідомлення, які ви коли-небудь надсилали в цій бесіді. Цю дію не можна скасувати.';
+      'Це назавжди видалить усі повідомлення, які ви коли-небудь надсилали в цій розмові. Цю дію не можна скасувати.';
 
   @override
-  String get dmCopyChannelId => 'Скопіювати ID каналу';
+  String get dmCopyChannelId => 'Копіювати ID каналу';
 
   @override
-  String get dmChannelIdCopied => 'ID каналу скопійовано';
+  String get dmChannelIdCopied => 'Ідентифікатор каналу скопійовано';
 
   @override
-  String get dmCopyUserId => 'Скопіювати ID користувача';
+  String get dmCopyUserId => 'Копіювати ID користувача';
 
   @override
-  String get dmUserIdCopied => 'ID користувача скопійовано';
+  String get dmUserIdCopied => 'Ідентифікатор користувача скопійовано';
 
   @override
   String get dmViewProfile => 'Переглянути профіль';
 
   @override
-  String get dmVoiceCall => 'Розпочати голосовий виклик';
+  String get dmVoiceCall => 'Почати голосовий дзвінок';
 
   @override
   String get incomingVoiceCallTitle => 'Вхідний голосовий виклик';
@@ -1104,7 +1103,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get incomingVoiceCallDecline => 'Відхилити';
 
   @override
-  String get incomingVoiceCallLabel => 'Вхідний виклик';
+  String get incomingVoiceCallLabel => 'Вхідний дзвінок';
 
   @override
   String get incomingVoiceCallIgnore => 'Ігнорувати';
@@ -1138,7 +1137,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get dmBlock => 'Заблокувати';
 
   @override
-  String get dmLeaveGroup => 'Покинути групу';
+  String get dmLeaveGroup => 'Вийти з групи';
 
   @override
   String get dmNoCommunitiesAvailable => 'Спільноти недоступні';
@@ -1173,42 +1172,42 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get dmMuteFor3Days => 'На 3 дні';
 
   @override
-  String get dmMuteForever => 'Доки не ввімкну знову';
+  String get dmMuteForever => 'Доки я не ввімкну знову';
 
   @override
-  String get dmPinGroupDm => 'Закріпити групове приватне повідомлення';
+  String get dmPinGroupDm => 'Закріпити груповий чат';
 
   @override
-  String get dmUnpinGroupDm => 'Відкріпити груповий DM';
+  String get dmUnpinGroupDm => 'Відкріпити груповий чат';
 
   @override
-  String get dmUnnamedGroup => 'Безіменна група';
+  String get dmUnnamedGroup => 'Група без назви';
 
   @override
   String dmOwnersGroup(String resolvedName) {
-    return 'Група \"$resolvedName\"';
+    return 'Група «$resolvedName»';
   }
 
   @override
-  String get dmFavoriteDm => 'Додати DM до вибраного';
+  String get dmFavoriteDm => 'Додати приватний чат до вибраного';
 
   @override
-  String get dmUnfavoriteDm => 'Видалити DM з вибраного';
+  String get dmUnfavoriteDm => 'Видалити приватний чат з вибраного';
 
   @override
-  String get dmFavoriteGroupDm => 'Додати груповий DM до вибраного';
+  String get dmFavoriteGroupDm => 'Додати груповий чат до вибраного';
 
   @override
-  String get dmUnfavoriteGroupDm => 'Видалити груповий DM з вибраного';
+  String get dmUnfavoriteGroupDm => 'Видалити груповий чат з вибраного';
 
   @override
   String get dmChangeFriendNickname => 'Змінити псевдонім друга';
 
   @override
-  String get dmRemoveFriend => 'Видалити друга';
+  String get dmRemoveFriend => 'Видалити з друзів';
 
   @override
-  String get dmAddFriend => 'Додати друга';
+  String get dmAddFriend => 'Додати в друзі';
 
   @override
   String get dmAcceptFriendRequest => 'Прийняти запит на додавання в друзі';
@@ -1217,7 +1216,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get dmIgnoreFriendRequest => 'Ігнорувати запит на додавання в друзі';
 
   @override
-  String get dmFriendRequestSent => 'Запит надіслано';
+  String get dmFriendRequestSent => 'Запит на додавання в друзі надіслано';
 
   @override
   String get dmUnblock => 'Розблокувати';
@@ -1232,10 +1231,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get dmDebugCategory => 'Налагодити категорію';
 
   @override
-  String get dmPinned => 'Закріплений DM';
+  String get dmPinned => 'Закріплений приватний чат';
 
   @override
-  String get dmUnpinned => 'Відкріплений DM';
+  String get dmUnpinned => 'Відкріплений приватний чат';
 
   @override
   String get dmMuted => 'Вимкнено звук DM';
@@ -1244,7 +1243,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get dmUnmuted => 'Увімкнено звук DM';
 
   @override
-  String get dmRemoveFriendConfirmTitle => 'Видалити друга';
+  String get dmRemoveFriendConfirmTitle => 'Видалити з друзів';
 
   @override
   String dmRemoveFriendConfirmDescription(String username) {
@@ -1260,7 +1259,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get dmFriendRequestSentToast => 'Запит надіслано';
+  String get dmFriendRequestSentToast => 'Запит на додавання в друзі надіслано';
 
   @override
   String get dmFriendRequestFailed =>
@@ -1287,7 +1286,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get dmAddFriends => 'Додати друзів';
 
   @override
-  String get addFriendSheetTitle => 'Додати друга';
+  String get addFriendSheetTitle => 'Додати в друзі';
 
   @override
   String get addFriendUsernameHint => 'Ім\'я користувача#0000';
@@ -1299,31 +1298,31 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get addFriendSendRequest => 'Надіслати запит';
 
   @override
-  String get addFriendNoUserFound => 'Користувача з таким ім\'ям не знайдено.';
+  String get addFriendNoUserFound => 'Користувача з таким іменем не знайдено.';
 
   @override
   String get addFriendInvalidUsername =>
       'Введіть дійсне ім\'я користувача (Ім\'я користувача#0000).';
 
   @override
-  String get addFriendOutgoingSuccess => 'Запит надіслано';
+  String get addFriendOutgoingSuccess => 'Запит на додавання в друзі надіслано';
 
   @override
-  String get addFriendClaimTitle => 'Підтвердіть свій обліковий запис';
+  String get addFriendClaimTitle => 'Зареєструйте свій обліковий запис';
 
   @override
   String get addFriendClaimDescription =>
-      'Підтвердьте свій обліковий запис, щоб надсилати запити на додавання в друзі.';
+      'Зареєструйте свій обліковий запис, щоб надсилати запити на додавання в друзі.';
 
   @override
   String get addFriendVerifyTitle => 'Підтвердьте свою електронну пошту';
 
   @override
   String get addFriendVerifyDescription =>
-      'Вам потрібно підтвердити свою електронну пошту, перш ніж ви зможете надсилати запити на додавання в друзі.';
+      'Щоб надсилати запити на додавання в друзі, потрібно підтвердити свою електронну адресу.';
 
   @override
-  String get addFriendVerifyEmail => 'Підтвердити пошту';
+  String get addFriendVerifyEmail => 'Підтвердити електронну пошту';
 
   @override
   String addFriendIncomingRequests(int count) {
@@ -1336,10 +1335,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get addFriendIncomingStatus => 'Вхідний запит';
+  String get addFriendIncomingStatus => 'Вхідний запит на додавання в друзі';
 
   @override
-  String get addFriendOutgoingStatus => 'Запит надіслано';
+  String get addFriendOutgoingStatus => 'Запит на додавання в друзі надіслано';
 
   @override
   String get addFriendViewProfile => 'Переглянути профіль';
@@ -1354,16 +1353,16 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get addFriendAcceptTitle => 'Прийняти запит на додавання в друзі';
 
   @override
-  String get addFriendIgnoreTitle => 'Ігнорувати запит у друзі';
+  String get addFriendIgnoreTitle => 'Ігнорувати запит на додавання в друзі';
 
   @override
   String addFriendAcceptConfirmDescription(String userName) {
-    return 'Прийняти запит у друзі від $userName?';
+    return 'Прийняти запит на додавання в друзі від $userName?';
   }
 
   @override
   String addFriendIgnoreConfirmDescription(String displayName) {
-    return 'Ігнорувати запит у друзі від $displayName?';
+    return 'Ігнорувати запит на додавання в друзі від $displayName?';
   }
 
   @override
@@ -1371,26 +1370,26 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get addFriendCancelRequestFailed =>
-      'Не вдалося скасувати запит у друзі. Спробуйте ще раз.';
+      'Не вдалося скасувати запит на додавання в друзі. Спробуйте ще раз.';
 
   @override
   String get addFriendNotAcceptingRequests =>
-      'Зараз вони не приймають запити в друзі.';
+      'Ця людина зараз не приймає запити на додавання в друзі.';
 
   @override
   String get addFriendUnblockFirst =>
-      'Спочатку розблокуйте їх, щоб надіслати запит у друзі.';
+      'Щоб надіслати запит на додавання в друзі, спочатку розблокуйте користувача.';
 
   @override
   String get addFriendCannotSendToSelf =>
-      'Ви не можете надіслати запит у друзі самому собі.';
+      'Ви не можете надіслати собі запит на додавання в друзі.';
 
   @override
-  String get addFriendAlreadyFriends => 'Ви вже дружите з цим користувачем.';
+  String get addFriendAlreadyFriends => 'Ви вже друзі з цим користувачем.';
 
   @override
   String get addFriendClaimToSend =>
-      'Завершіть реєстрацію, щоб надсилати запити в друзі.';
+      'Завершіть реєстрацію, щоб надсилати запити на додавання в друзі.';
 
   @override
   String get addFriendVerifyToSend =>
@@ -1398,7 +1397,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get addFriendFriendsListFull =>
-      'Ваш список друзів заповнений, або заповнений у них. Видаліть когось і спробуйте ще раз.';
+      'Ваш або їхній список друзів заповнений. Видаліть когось і спробуйте ще раз.';
 
   @override
   String get userTagBot => 'BOT';
@@ -1413,7 +1412,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get emojiSearchEmpty => 'Емоджі не знайдено за вашим запитом';
 
   @override
-  String get emojiAutocompleteDefaultLabel => 'Стандартний емоджі';
+  String get emojiAutocompleteDefaultLabel => 'Стандартний емодзі';
 
   @override
   String emojiInfoDefaultDescription(String productName) {
@@ -1433,10 +1432,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Це власне емоджі зі спільноти. Щоб використовувати це емоджі, попросіть автора надіслати запрошення.';
 
   @override
-  String get emojiInfoFromHeader => 'Цей емоджі з';
+  String get emojiInfoFromHeader => 'Цей емодзі з';
 
   @override
-  String get emojiInfoDiscoverableCommunity => 'Спільнота, яку можна знайти';
+  String get emojiInfoDiscoverableCommunity => 'Спільнота в Discovery';
 
   @override
   String get emojiInfoPrivateCommunity => 'Приватна спільнота';
@@ -1448,13 +1447,13 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get emojiInfoAddToFavorites => 'Додати до вибраного';
 
   @override
-  String get emojiInfoRemoveFromFavorites => 'Видалити з обраного';
+  String get emojiInfoRemoveFromFavorites => 'Видалити з вибраного';
 
   @override
-  String get emojiFrequentlyUsed => 'Часто використовувані';
+  String get emojiFrequentlyUsed => 'Часто вживані';
 
   @override
-  String get emojiTabGifs => 'GIF';
+  String get emojiTabGifs => 'GIF-файли';
 
   @override
   String get emojiTabMedia => 'Медіа';
@@ -1481,14 +1480,14 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get gifPickerFavorites => 'Вибране';
 
   @override
-  String get gifPickerFavoritesEmptyTitle => 'Улюблених GIF-ок ще немає';
+  String get gifPickerFavoritesEmptyTitle => 'Вибраних GIF ще немає';
 
   @override
   String get gifPickerFavoritesEmptyDescription =>
       'Додайте GIF до вибраного, щоб побачити його тут.';
 
   @override
-  String get gifPickerTrending => 'Популярні GIF';
+  String get gifPickerTrending => 'Популярні GIF-файли';
 
   @override
   String get gifPickerNoResultsTitle => 'Немає результатів пошуку';
@@ -1536,7 +1535,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get emojiPlutoniumUpsellButton => 'Отримати Plutonium';
 
   @override
-  String get emojiPlutoniumUpsellDismiss => 'Не показувати знову';
+  String get emojiPlutoniumUpsellDismiss => 'Більше не показувати';
 
   @override
   String emojiPlutoniumUpsellCustomEmoji(int count) {
@@ -1565,7 +1564,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String externalLinkWarningLeaving(String productName) {
-    return 'Ви збираєтеся покинути $productName';
+    return 'Ви покидаєте $productName';
   }
 
   @override
@@ -1597,11 +1596,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get externalLinkStripTrackingLabel =>
-      'Видаляти параметри відстеження з URL';
+      'Видаляти параметри відстеження з посилань';
 
   @override
   String get externalLinkStripTrackingDescription =>
-      'Автоматично видаляйте параметри відстеження (як-от utm_source, fbclid, gclid) з URL у повідомленнях, які ви надсилаєте. Посилання очищується перед тим, як потрапити до когось іншого.';
+      'Автоматично видаляти параметри відстеження (як-от utm_source, fbclid, gclid) з URL-адрес у повідомленнях, які ви надсилаєте. Очищає посилання до того, як воно дійде до інших.';
 
   @override
   String get externalLinkTrustAllConfirmTitle =>
@@ -1609,7 +1608,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get externalLinkTrustAllConfirmDescription =>
-      'Це дозволить довіряти всім зовнішнім посиланням і пропускати попередження для кожного домену. Ваші наявні довірені домени будуть замінені. Це менш безпечно.';
+      'Це дозволить довіряти всім зовнішнім посиланням і пропускати попередження для кожного домену. Ваші наявні довірені домени буде замінено. Це менш безпечно.';
 
   @override
   String get externalLinkTrustAllConfirmAction => 'Довіряти всім';
@@ -1620,14 +1619,14 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get externalLinkStopTrustingAllDescription =>
-      'Попередження про зовнішні посилання знову з\'являтимуться. Вам потрібно буде додавати довірені домени окремо.';
+      'Знову відображатимуться попередження про зовнішні посилання. Вам потрібно буде додавати довірені домени окремо.';
 
   @override
   String get externalLinkStopTrustingAllAction => 'Вимкнути довіру до всіх';
 
   @override
   String get externalLinkTrustedAllDescription =>
-      'Усім зовнішнім посиланням довіряють. Попередження не відображатимуться.';
+      'Усі зовнішні посилання надійні. Попередження не відображатимуться.';
 
   @override
   String externalLinkTrustedDomainsDescription(int count) {
@@ -1683,14 +1682,14 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get cropMouseHint => 'Drag corners to resize, drag inside to move';
 
   @override
-  String get changeYourFluxerTag => 'Змінити ваш Ім\'я користувача';
+  String get changeYourFluxerTag => 'Змінити ім\'я користувача';
 
   @override
   String get fluxerTagInputLabel => 'Ім\'я користувача';
 
   @override
   String get fluxerTagDescriptionBase =>
-      'Імена користувачів можуть містити лише літери (a-z, A-Z), цифри (0-9) та підкреслення. Імена користувачів нечутливі до регістру.';
+      'Імена користувачів можуть містити лише літери (a-z, A-Z), цифри (0-9) та символи підкреслення. Імена користувачів не чутливі до регістру.';
 
   @override
   String get fluxerTagDescriptionVisionary =>
@@ -1707,14 +1706,14 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get validationAllowedChars =>
-      'Лише літери (a-z, A-Z), цифри (0-9) та підкреслення (_)';
+      'Лише літери (a-z, A-Z), цифри (0-9) та символи підкреслення (_)';
 
   @override
   String get discriminatorPremiumTooltip =>
       'Отримайте Plutonium, щоб налаштувати свій тег або зберегти його під час зміни імені користувача';
 
   @override
-  String get fluxerTagAlreadyTaken => 'Ім\'я користувача вже зайнятий';
+  String get fluxerTagAlreadyTaken => 'Ім\'я користувача вже зайняте';
 
   @override
   String fluxerTagAlreadyTakenBody(String username, String discriminator) {
@@ -1773,17 +1772,17 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get profileCustomizationDescription =>
-      'Редагуйте зовнішній вигляд свого профілю та переглядайте його в реальному часі';
+      'Редагуйте вигляд свого профілю й одразу переглядайте результат';
 
   @override
   String get usernameLabel => 'Ім\'я користувача';
 
   @override
   String get claimAccountToChangeFluxerTag =>
-      'Підтвердьте свій обліковий запис, щоб змінити свій Ім\'я користувача';
+      'Зареєструйте обліковий запис, щоб змінити ім\'я користувача';
 
   @override
-  String get changeFluxerTag => 'Змінити Ім\'я користувача';
+  String get changeFluxerTag => 'Змінити ім\'я користувача';
 
   @override
   String customizeTagWithPlutoniumTooltip(String discriminator) {
@@ -1800,7 +1799,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get displayNameLabel => 'Відображуване ім\'я';
+  String get displayNameLabel => 'Ім\'я для відображення';
 
   @override
   String get pronounsLabel => 'Займенники';
@@ -1832,7 +1831,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'PNG, JPEG, WebP, GIF. Макс. 10 МБ. Мінімум: 960×540px (16:9)';
 
   @override
-  String get accentColorLabel => 'Акцентний колір';
+  String get accentColorLabel => 'Колір акценту';
 
   @override
   String get accentColorDescription =>
@@ -1843,7 +1842,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get aboutMeHelperText =>
-      'Ви можете використовувати посилання, емоджі та Markdown.';
+      'Можна використовувати посилання, емодзі та Markdown.';
 
   @override
   String get emojiPickerTitle => 'Емоджі';
@@ -1879,10 +1878,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get maskVisionaryDescription =>
-      'Відображати ваш Visionary як звичайну підписку';
+      'Натомість показувати Visionary як звичайну підписку';
 
   @override
-  String get hideVisionaryIdBadge => 'Приховати значок ID Visionary';
+  String get hideVisionaryIdBadge => 'Сховати значок Visionary ID';
 
   @override
   String hideVisionaryIdBadgeWithSequence(int sequence) {
@@ -1890,7 +1889,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get hideVisionaryIdDescription => 'Видалити ваш значок ID Visionary';
+  String get hideVisionaryIdDescription => 'Видалити значок Visionary ID';
 
   @override
   String premiumTrialSubscriptionStarts(String date) {
@@ -1940,14 +1939,14 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get unclaimedAccountTitle => 'Непідтверджений обліковий запис';
+  String get unclaimedAccountTitle => 'Незареєстрований обліковий запис';
 
   @override
   String get unclaimedAccountDescription =>
       'Ваш обліковий запис ще не підтверджено. Без електронної пошти та пароля ви можете втратити доступ. Підтвердьте свій обліковий запис зараз, щоб захистити його.';
 
   @override
-  String get claimAccount => 'Підтвердити обліковий запис';
+  String get claimAccount => 'Зареєструвати обліковий запис';
 
   @override
   String get profileTypeLabel => 'Тип профілю';
@@ -1957,10 +1956,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get profileTypeGuildDescription =>
-      'Ви редагуєте свій профіль для спільноти. Цей профіль буде видно лише в цій спільноті та замінить ваш глобальний профіль.';
+      'Ви редагуєте свій профіль для спільноти. Цей профіль буде видимий лише в цій спільноті та замінить ваш глобальний профіль.';
 
   @override
-  String get communityNicknameLabel => 'Нікнейм спільноти';
+  String get communityNicknameLabel => 'Псевдонім у спільноті';
 
   @override
   String get perGuildPremiumUpsellText =>
@@ -1970,7 +1969,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get avatarModeInherit => 'Використовувати глобальний профіль';
 
   @override
-  String get avatarModeCustom => 'Використовувати власне зображення';
+  String get avatarModeCustom => 'Використати власне зображення';
 
   @override
   String get avatarModeUnset => 'Не показувати';
@@ -2032,13 +2031,13 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get securityLoginEmailAddressLabel => 'Адреса електронної пошти';
+  String get securityLoginEmailAddressLabel => 'Електронна адреса';
 
   @override
-  String get securityLoginNoEmailSet => 'Електронну адресу не встановлено';
+  String get securityLoginNoEmailSet => 'Електронну адресу не вказано';
 
   @override
-  String get securityLoginChangeEmail => 'Змінити електронну пошту';
+  String get securityLoginChangeEmail => 'Змінити електронну адресу';
 
   @override
   String get securityLoginAddEmail => 'Додати електронну пошту';
@@ -2047,7 +2046,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get securityLoginReveal => 'Показати';
 
   @override
-  String get securityLoginHide => 'Приховати';
+  String get securityLoginHide => 'Сховати';
 
   @override
   String get securityLoginPasswordSectionTitle => 'Пароль';
@@ -2101,7 +2100,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get passwordChangeVerify => 'Підтвердити';
 
   @override
-  String get passwordChangeNewPasswordTitle => 'Встановіть новий пароль';
+  String get passwordChangeNewPasswordTitle => 'Встановити новий пароль';
 
   @override
   String get passwordChangeNewPasswordDescription =>
@@ -2126,7 +2125,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get passwordChangeInvalidCode => 'Недійсний або прострочений код';
 
   @override
-  String get emailChangeTitle => 'Змінити електронну пошту';
+  String get emailChangeTitle => 'Змінити електронну адресу';
 
   @override
   String get emailChangeIntroDescription =>
@@ -2144,14 +2143,14 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Введіть код підтвердження, надісланий на вашу поточну електронну адресу.';
 
   @override
-  String get emailChangeNewEmailTitle => 'Введіть нову електронну пошту';
+  String get emailChangeNewEmailTitle => 'Введіть нову електронну адресу';
 
   @override
   String get emailChangeNewEmailDescription =>
       'Введіть нову адресу електронної пошти, яку ви хочете використовувати.';
 
   @override
-  String get emailChangeNewEmailLabel => 'Нова електронна пошта';
+  String get emailChangeNewEmailLabel => 'Нова електронна адреса';
 
   @override
   String get emailChangeNewEmailSubmit => 'Надіслати код підтвердження';
@@ -2200,25 +2199,25 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get securityTfaSectionDescription =>
-      'Додайте додатковий рівень безпеки до свого облікового запису';
+      'Додайте ще один рівень безпеки для свого облікового запису';
 
   @override
   String get securityTfaAuthenticatorApp => 'Програма автентифікації';
 
   @override
   String get securityTfaAuthenticatorEnabled =>
-      'Двофакторна автентифікація увімкнена';
+      'Двофакторну автентифікацію ввімкнено';
 
   @override
   String get securityTfaAuthenticatorDisabled =>
-      'Використовуйте програму автентифікації для генерації кодів для двофакторної автентифікації';
+      'Використовуйте застосунок автентифікації для генерації кодів двофакторної автентифікації';
 
   @override
   String get securityTfaBackupCodes => 'Резервні коди';
 
   @override
   String get securityTfaBackupCodesDescription =>
-      'Перегляньте та керуйте своїми резервними кодами для відновлення облікового запису';
+      'Переглядайте резервні коди для відновлення облікового запису та керуйте ними';
 
   @override
   String get securityTfaViewCodes => 'Переглянути коди';
@@ -2272,14 +2271,14 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get securityPasskeyNameTitle => 'Назва ключа доступу';
+  String get securityPasskeyNameTitle => 'Назвати ключ доступу';
 
   @override
   String get securityPasskeyNameLabel => 'Назва ключа доступу';
 
   @override
   String get securityPasskeyNameHint =>
-      'напр. YubiKey, iPhone, робочий комп\'ютер';
+      'наприклад, YubiKey, iPhone, робочий комп\'ютер';
 
   @override
   String get securityPhoneSectionTitle => 'Номер телефону';
@@ -2315,7 +2314,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get securityClaimDescription =>
-      'Підтвердьте свій обліковий запис, щоб отримати доступ до функцій безпеки, таких як двофакторна автентифікація та ключі доступу.';
+      'Зареєструйте свій обліковий запис, щоб отримати доступ до функцій безпеки, таких як двофакторна автентифікація та ключі доступу.';
 
   @override
   String get securityVerifyEmailRequired =>
@@ -2339,7 +2338,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get totpEnableSuccess => 'Двофакторну автентифікацію ввімкнено';
 
   @override
-  String get totpDisableTitle => 'Видалення програми автентифікації';
+  String get totpDisableTitle => 'Видалити застосунок автентифікації';
 
   @override
   String get totpDisableDescription =>
@@ -2435,7 +2434,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get phoneSmsUnavailable =>
-      'SMS-перевірка наразі недоступна. Спробуйте пізніше або зверніться до служби підтримки.';
+      'Підтвердження через SMS наразі недоступне. Спробуйте пізніше або зверніться до служби підтримки.';
 
   @override
   String get phoneNotEligible =>
@@ -2458,7 +2457,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get phoneInboundStepOpenMessaging =>
-      'Відкрийте програму обміну повідомленнями на телефоні та створіть нове текстове повідомлення.';
+      'Відкрийте застосунок для обміну повідомленнями на телефоні та створіть нове текстове повідомлення.';
 
   @override
   String phoneInboundStepSendCode(String code, String number) {
@@ -2497,7 +2496,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String requiredActionIntroEmailAndPhone(String productName) {
-    return 'Щоб продовжити користуватися $productName, виконайте необхідні кроки з підтвердження електронної пошти та номера телефону.';
+    return 'Щоб продовжити користуватися $productName, виконайте наведені нижче обов\'язкові кроки з підтвердження електронної пошти та номера телефону.';
   }
 
   @override
@@ -2505,11 +2504,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String requiredActionChooseMethodDescription(String productName) {
-    return 'Щоб продовжити користуватися $productName, виконайте один із наведених нижче способів перевірки.';
+    return 'Щоб продовжити користуватися $productName, скористайтеся одним із наведених нижче способів перевірки.';
   }
 
   @override
-  String get requiredActionUseEmail => 'Використати емейл';
+  String get requiredActionUseEmail => 'Використати електронну пошту';
 
   @override
   String get requiredActionUsePhone => 'Використати телефон';
@@ -2543,7 +2542,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get dangerZoneDisableDescription =>
-      'Тимчасово вимкніть свій обліковий запис. Ви зможете активувати його пізніше, увійшовши знову.';
+      'Тимчасово деактивувати обліковий запис. Ви зможете відновити його пізніше, увійшовши знову.';
 
   @override
   String get dangerZoneDisableConfirmDescription =>
@@ -2554,7 +2553,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get dangerZoneDeleteDescription =>
-      'Назавжди видаліть свій обліковий запис та всі пов\'язані дані. Цю дію неможливо скасувати.';
+      'Безповоротно видалити свій обліковий запис та всі пов\'язані дані. Цю дію не можна скасувати.';
 
   @override
   String get dangerZoneDeleteCancelSubscription =>
@@ -2562,7 +2561,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get dangerZoneDeleteCannotDeleteAccount =>
-      'Не вдалося видалити обліковий запис';
+      'Неможливо видалити обліковий запис';
 
   @override
   String get dangerZoneDeleteOwnsCommunities =>
@@ -2580,19 +2579,19 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get dangerZoneDeleteConfirmDescription =>
-      'Ви впевнені, що хочете видалити свій обліковий запис? Ця дія запланує ваш обліковий запис на остаточне видалення.';
+      'Ви впевнені, що хочете видалити свій обліковий запис? Ця дія запланує остаточне видалення вашого облікового запису.';
 
   @override
   String get dangerZoneDeleteBullet1 =>
-      'Ви можете скасувати процес видалення протягом 14 днів';
+      'Ви можете скасувати видалення протягом 14 днів';
 
   @override
   String get dangerZoneDeleteBullet2 =>
-      'Через 14 днів ваш обліковий запис буде назавжди видалено';
+      'Через 14 днів ваш обліковий запис буде остаточно видалено';
 
   @override
   String get dangerZoneDeleteBullet3 =>
-      'Після обробки видалення ви не зможете відновити доступ до свого облікового запису';
+      'Після обробки запиту на видалення ви не зможете відновити доступ до свого облікового запису';
 
   @override
   String get dangerZoneDeleteBullet4 =>
@@ -2603,11 +2602,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Якщо ви хочете експортувати свої дані або спочатку видалити повідомлення, відвідайте розділ Панель конфіденційності в Налаштуваннях користувача перед продовженням.';
 
   @override
-  String get claimAccountTitle => 'Підтвердьте свій обліковий запис';
+  String get claimAccountTitle => 'Зареєструйте свій обліковий запис';
 
   @override
   String get claimAccountDescription =>
-      'Підтвердьте свій обліковий запис, додавши електронну адресу та пароль. Ми надішлемо код підтвердження для перевірки вашої електронної адреси перед завершенням.';
+      'Зареєструйте свій обліковий запис, додавши електронну пошту та пароль. Перед завершенням ми надішлемо код для підтвердження вашої адреси.';
 
   @override
   String get claimAccountEmailLabel => 'Електронна пошта';
@@ -2623,7 +2622,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Введіть код, який ми надіслали на вашу електронну пошту, щоб підтвердити її. Ваш пароль буде встановлено після підтвердження коду.';
 
   @override
-  String get claimAccountSuccess => 'Обліковий запис успішно отримано';
+  String get claimAccountSuccess => 'Обліковий запис успішно зареєстровано';
 
   @override
   String get importantInformation => 'Важлива інформація:';
@@ -2776,7 +2775,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get relativeTimeJustNow => 'щойно';
 
   @override
-  String get authorizedAppsTitle => 'Авторизовані програми';
+  String get authorizedAppsTitle => 'Авторизовані застосунки';
 
   @override
   String authorizedAppsDescription(String productName) {
@@ -2784,15 +2783,15 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get authorizedAppsEmptyTitle => 'Немає авторизованих програм';
+  String get authorizedAppsEmptyTitle => 'Немає авторизованих застосунків';
 
   @override
   String get authorizedAppsEmptyDescription =>
-      'Ви ще не надали доступ до свого облікового запису жодній програмі.';
+      'Ви ще не авторизували жодних застосунків для доступу до вашого облікового запису.';
 
   @override
   String get authorizedAppsLoadError =>
-      'Не вдалося завантажити авторизовані програми';
+      'Не вдалося завантажити авторизовані застосунки';
 
   @override
   String authorizedAppsAuthorizedOn(String date) {
@@ -2803,7 +2802,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get authorizedAppsPermissionsGranted => 'Надані дозволи';
 
   @override
-  String get authorizedAppsRevoke => 'Відкликати';
+  String get authorizedAppsRevoke => 'Скасувати';
 
   @override
   String get authorizedAppsRevokeTitle => 'Відкликати доступ програми';
@@ -2818,56 +2817,55 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Доступ до основної інформації вашого профілю (ім\'я користувача, аватар тощо)';
 
   @override
-  String get authorizedAppsScopeEmail =>
-      'Переглядати вашу адресу електронної пошти';
+  String get authorizedAppsScopeEmail => 'Переглянути вашу електронну адресу';
 
   @override
   String get authorizedAppsScopeGuilds =>
-      'Переглядати спільноти, учасником яких ви є';
+      'Переглянути спільноти, учасником яких ви є';
 
   @override
   String get authorizedAppsScopeConnections =>
-      'Переглядати ваші підключені облікові записи';
+      'Переглянути підключені облікові записи';
 
   @override
   String get authorizedAppsScopeBot =>
-      'Додавати бота до спільноти з запитаними дозволами';
+      'Додати бота до спільноти із запитаними дозволами';
 
   @override
   String get authorizedAppsScopeAdmin =>
       'Доступ до адміністративних кінцевих точок';
 
   @override
-  String get applicationsTitle => 'Applications';
+  String get applicationsTitle => 'Застосунки';
 
   @override
-  String get applicationsCreate => 'Create application';
+  String get applicationsCreate => 'Створити застосунок';
 
   @override
-  String get applicationsCreateSubmit => 'Create';
+  String get applicationsCreateSubmit => 'Створити';
 
   @override
   String get applicationsCreateClaimTooltip =>
-      'Claim your account to create applications.';
+      'Щоб створювати застосунки, зареєструйте свій обліковий запис.';
 
   @override
   String applicationsDocsLink(String domain) {
-    return 'Read the documentation ($domain)';
+    return 'Прочитати документацію ($domain)';
   }
 
   @override
-  String get applicationsLoadError => 'Unable to load applications';
+  String get applicationsLoadError => 'Не вдалося завантажити застосунки';
 
   @override
   String get applicationsLoadErrorDescription =>
-      'Check your connection and try again.';
+      'Перевірте з\'єднання та спробуйте ще раз.';
 
   @override
-  String get applicationsEmptyTitle => 'No applications yet';
+  String get applicationsEmptyTitle => 'Ще немає застосунків';
 
   @override
   String applicationsEmptyDescription(String apiName) {
-    return 'Create your first application to get started with the $apiName.';
+    return 'Створіть свій перший застосунок, щоб почати роботу з $apiName.';
   }
 
   @override
@@ -2876,207 +2874,210 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get applicationsName => 'Application name';
+  String get applicationsName => 'Назва застосунку';
 
   @override
-  String get applicationsNameHint => 'My application';
+  String get applicationsNameHint => 'Мій застосунок';
 
   @override
-  String get applicationsNameRequired => 'Application name is required';
+  String get applicationsNameRequired => 'Потрібна назва застосунку';
 
   @override
-  String get applicationsBackToList => 'Back to list';
+  String get applicationsBackToList => 'Назад до списку';
 
   @override
-  String get applicationsDetailLoadError => 'Couldn\'t load this application';
+  String get applicationsDetailLoadError =>
+      'Не вдалося завантажити цей застосунок';
 
   @override
   String get applicationsDetailLoadErrorDescription =>
-      'Try again or go back to the applications list.';
+      'Спробуйте ще раз або поверніться до списку застосунків.';
 
   @override
-  String get applicationsId => 'Application ID';
+  String get applicationsId => 'ID застосунку';
 
   @override
-  String get applicationsCopyId => 'Copy ID';
+  String get applicationsCopyId => 'Копіювати ID';
 
   @override
-  String get applicationsSecretsTitle => 'Secrets & tokens';
+  String get applicationsSecretsTitle => 'Секрети й токени';
 
   @override
   String get applicationsSecretsDescription =>
-      'Keep these safe. Regenerating will break existing integrations.';
+      'Зберігайте їх у безпеці. Повторне генерування призведе до порушення наявних інтеграцій.';
 
   @override
-  String get applicationsClientSecret => 'Client secret';
+  String get applicationsClientSecret => 'Секрет клієнта';
 
   @override
-  String get applicationsBotToken => 'Bot token';
+  String get applicationsBotToken => 'Токен бота';
 
   @override
-  String get applicationsRegenerate => 'Regenerate';
+  String get applicationsRegenerate => 'Згенерувати повторно';
 
   @override
   String get applicationsRegenerateClientSecretTitle =>
-      'Regenerate client secret?';
+      'Згенерувати секрет клієнта повторно?';
 
   @override
-  String get applicationsRegenerateBotTokenTitle => 'Regenerate bot token?';
+  String get applicationsRegenerateBotTokenTitle =>
+      'Згенерувати токен бота повторно?';
 
   @override
   String get applicationsRegenerateClientSecretDescription =>
-      'Regenerating will invalidate the current secret. Update any code that uses the old value.';
+      'Повторна генерація зробить поточний секрет недійсним. Оновіть весь код, що використовує старе значення.';
 
   @override
   String get applicationsRegenerateBotTokenDescription =>
-      'Regenerating will invalidate the current token. Update any code that uses the old value.';
+      'Повторна генерація зробить поточний токен недійсним. Оновіть весь код, що використовує старе значення.';
 
   @override
   String get applicationsClientSecretRegenerated =>
-      'Client secret regenerated. Update any code that uses the old secret.';
+      'Секрет клієнта оновлено. Оновіть весь код, що використовує старий секрет.';
 
   @override
   String get applicationsBotTokenRegenerated =>
-      'Bot token regenerated. Update any code that uses the old token.';
+      'Токен бота оновлено. Оновіть код, який використовує старий токен.';
 
   @override
-  String get applicationsRegenerateFailed => 'Couldn\'t regenerate secret';
+  String get applicationsRegenerateFailed =>
+      'Не вдалося повторно згенерувати секрет';
 
   @override
-  String get applicationsInfoTitle => 'Application information';
+  String get applicationsInfoTitle => 'Інформація про застосунок';
 
   @override
   String get applicationsInfoDescription =>
-      'Basic settings and allowed redirect URIs.';
+      'Основні налаштування та дозволені URI переспрямування.';
 
   @override
-  String get applicationsPublicBot => 'Public bot';
+  String get applicationsPublicBot => 'Публічний бот';
 
   @override
   String get applicationsPublicBotDescription =>
-      'Allow anyone to invite this bot to their communities.';
+      'Дозволити будь-кому запрошувати цього бота до своїх спільнот.';
 
   @override
-  String get applicationsRequireCodeGrant => 'Require OAuth2 code grant';
+  String get applicationsRequireCodeGrant => 'Вимагати надання коду OAuth2';
 
   @override
   String get applicationsRequireCodeGrantDescription =>
-      'Requires a redirect URI and an authorization code when inviting this bot.';
+      'Потрібні URI переспрямування та код авторизації під час запрошення цього бота.';
 
   @override
-  String get applicationsRedirectUris => 'Redirect URIs';
+  String get applicationsRedirectUris => 'URI переспрямування';
 
   @override
-  String get applicationsAddRedirect => 'Add redirect';
+  String get applicationsAddRedirect => 'Додати переспрямування';
 
   @override
-  String get applicationsDeleteRedirect => 'Delete redirect URI';
+  String get applicationsDeleteRedirect => 'Видалити URI переспрямування';
 
   @override
-  String get applicationsBotProfileTitle => 'Bot profile';
+  String get applicationsBotProfileTitle => 'Профіль бота';
 
   @override
   String get applicationsBotProfileDescription =>
-      'Avatar, tag, and rich profile details for your bot.';
+      'Аватар, тег і розширені дані профілю для вашого бота.';
 
   @override
-  String get applicationsBotAvatar => 'Bot avatar';
+  String get applicationsBotAvatar => 'Аватар бота';
 
   @override
-  String get applicationsUsernameRequired => 'Username is required';
+  String get applicationsUsernameRequired => 'Ім\'я користувача обов\'язкове';
 
   @override
   String get applicationsUsernameTooLong =>
-      'Username must be at most 32 characters';
+      'Ім\'я користувача має містити не більше 32 символів';
 
   @override
   String get applicationsUsernameInvalid =>
-      'Username can only contain letters, numbers, and underscores';
+      'Ім\'я користувача може містити лише літери, цифри та символи підкреслення';
 
   @override
-  String get applicationsBotUsername => 'Bot username';
+  String get applicationsBotUsername => 'Ім\'я користувача бота';
 
   @override
-  String get applicationsDiscriminator => 'Discriminator';
+  String get applicationsDiscriminator => 'Дискримінатор';
 
   @override
-  String get applicationsBotBio => 'Bot bio';
+  String get applicationsBotBio => 'Про бота';
 
   @override
   String get applicationsBotBioHint =>
-      'A helpful bot that does amazing things!';
+      'Корисний бот, який робить дивовижні речі!';
 
   @override
-  String get applicationsNoBotBanner => 'No bot banner';
+  String get applicationsNoBotBanner => 'Без банера бота';
 
   @override
-  String get applicationsFriendlyBot => 'Friendly bot';
+  String get applicationsFriendlyBot => 'Дружній бот';
 
   @override
   String get applicationsFriendlyBotDescription =>
-      'Allow users to send this bot friend requests for manual approval.';
+      'Дозволити користувачам надсилати цьому боту запити на додавання в друзі для ручного схвалення.';
 
   @override
   String get applicationsManualFriendApproval =>
-      'Require manual friend approval';
+      'Вимагати ручного схвалення запитів на додавання в друзі';
 
   @override
   String get applicationsManualFriendApprovalDescription =>
-      'Friend requests to this bot need manual approval.';
+      'Запити на додавання в друзі до цього бота потребують ручного схвалення.';
 
   @override
-  String get applicationsOauthBuilderTitle => 'OAuth2 URL builder';
+  String get applicationsOauthBuilderTitle => 'Конструктор URL-адрес OAuth2';
 
   @override
   String get applicationsOauthBuilderDescription =>
       'Construct an authorize URL with scopes and permissions.';
 
   @override
-  String get applicationsScopes => 'Scopes';
+  String get applicationsScopes => 'Області дії';
 
   @override
-  String get applicationsRedirectUri => 'Redirect URI';
+  String get applicationsRedirectUri => 'URI переспрямування';
 
   @override
-  String get applicationsSelectRedirectUri => 'Select a redirect URI';
+  String get applicationsSelectRedirectUri => 'Виберіть URI переспрямування';
 
   @override
   String get applicationsRedirectRequiredCodeGrant =>
-      'Redirect URI is required because this bot requires OAuth2 code grant.';
+      'URI переспрямування обов\'язковий, оскільки цей бот вимагає надання коду OAuth2.';
 
   @override
   String get applicationsRedirectRequiredScopes =>
-      'Redirect URI is required when not using only the bot scope.';
+      'URI переспрямування потрібен, якщо використовується не лише область дії бота.';
 
   @override
-  String get applicationsBotPermissions => 'Bot permissions';
+  String get applicationsBotPermissions => 'Дозволи бота';
 
   @override
-  String get applicationsAuthorizeUrl => 'Authorize URL';
+  String get applicationsAuthorizeUrl => 'URL-адреса авторизації';
 
   @override
   String get applicationsAuthorizeUrlPlaceholder =>
-      'Select scopes (and redirect URI if required)';
+      'Виберіть області дії (і URI переспрямування, якщо потрібно)';
 
   @override
   String get applicationsCopyAuthorizeUrl => 'Copy authorize URL';
 
   @override
-  String get applicationsCopiedUrl => 'Copied URL to clipboard';
+  String get applicationsCopiedUrl => 'URL скопійовано в буфер обміну';
 
   @override
-  String get applicationsDangerTitle => 'Danger zone';
+  String get applicationsDangerTitle => 'Небезпечна зона';
 
   @override
   String get applicationsDangerSubtitle =>
-      'This cannot be undone. Removing the application also deletes its bot.';
+      'Цю дію не можна скасувати. Видалення застосунку також призведе до видалення його бота.';
 
   @override
   String get applicationsDangerHelper =>
-      'Once deleted, the application and its credentials are permanently removed.';
+      'Після видалення застосунок та його облікові дані будуть назавжди видалені.';
 
   @override
-  String get applicationsDelete => 'Delete application';
+  String get applicationsDelete => 'Видалити застосунок';
 
   @override
   String applicationsDeleteConfirmDescription(String name) {
@@ -3084,42 +3085,42 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get applicationsDeleteFailed => 'Couldn\'t delete application';
+  String get applicationsDeleteFailed => 'Не вдалося видалити застосунок';
 
   @override
-  String get applicationsUpdated => 'Application updated successfully';
+  String get applicationsUpdated => 'Застосунок успішно оновлено';
 
   @override
-  String get applicationsNoChanges => 'No changes to save';
+  String get applicationsNoChanges => 'Немає змін для збереження';
 
   @override
-  String get applicationsSearchBots => 'Applications & bots';
+  String get applicationsSearchBots => 'Застосунки та боти';
 
   @override
   String get applicationsSearchBotsDescription =>
-      'Create and manage applications and bots for your account';
+      'Створюйте застосунки та ботів для свого облікового запису й керуйте ними';
 
   @override
   String get applicationsSearchInfoDescription =>
-      'Edit application basics and redirect URIs';
+      'Редагувати основні дані застосунку та URI переспрямування';
 
   @override
   String get applicationsSearchBotProfileDescription =>
-      'Edit the bot avatar, tag, bio, banner, and friend request behavior';
+      'Змінити аватар, тег, біографію, банер бота та поведінку запитів на додавання в друзі';
 
   @override
   String get applicationsSearchOauthDescription =>
-      'Build an authorization URL with scopes, redirects, and bot permissions';
+      'Створіть URL-адресу авторизації з областями дії, переспрямуваннями та дозволами бота';
 
   @override
   String get applicationsSearchSecretsDescription =>
-      'View and regenerate client secrets and bot tokens';
+      'Переглянути та повторно згенерувати секрети клієнта й токени бота';
 
   @override
-  String get applicationsSearchBotsKeyword => 'Bots';
+  String get applicationsSearchBotsKeyword => 'Боти';
 
   @override
-  String get applicationsSearchDocumentation => 'Documentation';
+  String get applicationsSearchDocumentation => 'Документація';
 
   @override
   String get privacyPendingDeletionTitle => 'Очікує видалення';
@@ -3129,7 +3130,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get blockedUsersDescription =>
-      'Заблоковані користувачі не можуть надсилати вам запити на дружбу або писати вам особисті повідомлення.';
+      'Заблоковані користувачі не можуть надсилати вам запити на додавання в друзі або писати вам безпосередньо.';
 
   @override
   String get blockedUsersEmptyTitle => 'Немає заблокованих користувачів';
@@ -3153,7 +3154,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get blockedUsersCopyTag => 'Копіювати Ім\'я користувача';
+  String get blockedUsersCopyTag => 'Копіювати ім\'я користувача';
 
   @override
   String get blockedUsersCopyId => 'Копіювати ID користувача';
@@ -3171,17 +3172,17 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get userProfileMessage => 'Повідомлення';
 
   @override
-  String get userProfileVoiceCall => 'Голосовий виклик';
+  String get userProfileVoiceCall => 'Голосовий дзвінок';
 
   @override
-  String get userProfileVideoCall => 'Відеовиклик';
+  String get userProfileVideoCall => 'Відеодзвінок';
 
   @override
   String get userProfileEditProfile => 'Редагувати профіль';
 
   @override
   String userProfileStaffBadgeTooltip(String productName) {
-    return 'Команда $productName';
+    return 'Співробітник $productName';
   }
 
   @override
@@ -3258,7 +3259,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get userProfileOpenBlockedDmTitle => 'Відкрити приватне повідомлення';
+  String get userProfileOpenBlockedDmTitle => 'Відкрити приватний чат';
 
   @override
   String userProfileOpenBlockedDmDescription(String username) {
@@ -3269,7 +3270,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get blockedUserComposerBarrierAction => 'Розблокувати';
 
   @override
-  String get userProfileOpenDm => 'Відкрити приватне повідомлення';
+  String get userProfileOpenDm => 'Відкрити приватний чат';
 
   @override
   String get userProfileNoteTitle => 'Примітка';
@@ -3327,7 +3328,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildSettingsRolesTab => 'Ролі';
 
   @override
-  String get memberRolesConfirmOk => 'OK';
+  String get memberRolesConfirmOk => 'Гаразд';
 
   @override
   String get userProfileLocalTime => 'Місцевий час';
@@ -3337,12 +3338,12 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String userProfileTimeAheadOfYou(String duration) {
-    return 'на $duration попереду вас';
+    return 'На $duration попереду вас';
   }
 
   @override
   String userProfileTimeBehindYou(String duration) {
-    return 'На $duration пізніше, ніж у вас';
+    return 'На $duration позаду вас';
   }
 
   @override
@@ -3440,28 +3441,28 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get userProfileActionFailed => 'Дія не вдалася, спробуйте ще раз';
 
   @override
-  String get userProfileChangeNickname => 'Змінити нікнейм';
+  String get userProfileChangeNickname => 'Змінити псевдонім';
 
   @override
   String get userProfileKick => 'Вигнати';
 
   @override
-  String get userProfileBan => 'Заборонити';
+  String get userProfileBan => 'Заблокувати';
 
   @override
-  String get userProfileTimeout => 'Тимчасово заблокувати';
+  String get userProfileTimeout => 'Тайм-аут';
 
   @override
-  String get userProfileRemoveTimeout => 'Зняти тимчасове блокування';
+  String get userProfileRemoveTimeout => 'Зняти тайм-аут';
 
   @override
-  String get userProfileTransferOwnership => 'Передати власність';
+  String get userProfileTransferOwnership => 'Передати право власності';
 
   @override
-  String get userProfileReportUser => 'Повідомити про користувача';
+  String get userProfileReportUser => 'Поскаржитися на користувача';
 
   @override
-  String get userProfileReportMessage => 'Повідомити про повідомлення';
+  String get userProfileReportMessage => 'Поскаржитися на повідомлення';
 
   @override
   String userProfileKickConfirmTitle(String username) {
@@ -3512,10 +3513,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get userProfileBanDeleteNone => 'Не видаляти жодних';
 
   @override
-  String get userProfileBanDelete24h => 'Попередні 24 години';
+  String get userProfileBanDelete24h => 'За останні 24 години';
 
   @override
-  String get userProfileBanDelete7d => 'Попередні 7 днів';
+  String get userProfileBanDelete7d => 'За останні 7 днів';
 
   @override
   String get userProfileBanReasonLabel => 'Причина (необов\'язково)';
@@ -3570,7 +3571,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get userProfileNicknameSuccess => 'Псевдонім оновлено';
 
   @override
-  String get userProfileTransferSuccess => 'Власність передано';
+  String get userProfileTransferSuccess => 'Право власності передано';
 
   @override
   String get durationPermanent => 'Назавжди';
@@ -3609,21 +3610,20 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get duration1Month => '1 місяць';
 
   @override
-  String get durationCustom => 'Власна…';
+  String get durationCustom => 'Власне…';
 
   @override
-  String get iarReportUserTitle => 'Повідомити про користувача';
+  String get iarReportUserTitle => 'Поскаржитися на користувача';
 
   @override
-  String get iarReportGuildTitle => 'Поскаржитись на спільноту';
+  String get iarReportGuildTitle => 'Поскаржитися на спільноту';
 
   @override
   String get iarReportGuildPreconfirmBody =>
       'Якщо скарга стосується певного повідомлення в цій спільноті, надішліть скаргу на це повідомлення. Скарги на повідомлення надають нашій команді безпеки найчіткіший контекст, а додавання деталей у коментарях може пришвидшити розгляд. Продовжуйте скаржитися на спільноту в цілому, лише якщо скарга на повідомлення не охоплює ширшу проблему.';
 
   @override
-  String get iarContinueToReportCommunity =>
-      'Продовжити скаржитись на спільноту';
+  String get iarContinueToReportCommunity => 'Продовжити скаргу на спільноту';
 
   @override
   String get iarPreviewCommunitySubtitle => 'Спільнота';
@@ -3649,7 +3649,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get iarReasonMatureContentGuildLabel =>
-      'Контент для дорослих або небезпечний контент';
+      'Контент для дорослих або неналежне обмеження доступу';
 
   @override
   String get iarReasonMatureContentGuildDescription =>
@@ -3657,14 +3657,14 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get iarReasonChildSafetyGuildDescription =>
-      'Загрожує неповнолітнім або містить матеріали щодо експлуатації дітей.';
+      'Загрожує неповнолітнім або містить матеріали з експлуатацією дітей.';
 
   @override
   String get iarReasonRaidLabel => 'Координація рейду';
 
   @override
   String get iarReasonRaidDescription =>
-      'Координує рейди, бригінг або утиски щодо людей чи спільнот.';
+      'Координує рейди, масові нападки або переслідування людей чи спільнот.';
 
   @override
   String get iarReasonSpamGuildDescription =>
@@ -3683,7 +3683,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get iarReasonPrivacyGuildDescription =>
-      'Поширює особисту інформацію, переслідує користувачів або координує зловживання конфіденційністю.';
+      'Поширює особисту інформацію, переслідує користувачів або координує порушення конфіденційності.';
 
   @override
   String get iarReasonSelfHarmGuildLabel => 'Закликає до самоушкодження';
@@ -3693,7 +3693,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Пропагує самогубство, самоушкодження або розлади харчової поведінки.';
 
   @override
-  String get iarReasonInappropriateProfile => 'Недоречний профіль';
+  String get iarReasonInappropriateProfile => 'Неприйнятний профіль';
 
   @override
   String get iarReasonInappropriateProfileDescription =>
@@ -3715,7 +3715,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get typingIndicatorMultiple => 'Кілька людей набирають текст...';
+  String get typingIndicatorMultiple => 'Кілька людей друкують...';
 
   @override
   String get typingIndicatorHandful =>
@@ -3733,42 +3733,42 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String systemJoinGladYoureHere(String username) {
-    return 'Раді, що ти тут, $username!';
+    return 'Раді, що ви тут, $username!';
   }
 
   @override
   String systemJoinWelcomeMakeYourselfAtHome(String username) {
-    return 'Ласкаво просимо, $username! Почувайся як удома.';
+    return 'Вітаємо, $username! Почувайтеся як удома.';
   }
 
   @override
   String systemJoinHelloNiceToHaveYouHere(String username) {
-    return 'Привіт, $username! Раді бачити тебе тут.';
+    return 'Привіт, $username! Раді вас бачити.';
   }
 
   @override
   String systemJoinHelloJumpInWheneverYoureReady(String username) {
-    return 'Привіт, $username! Долучайся, коли будеш готовий.';
+    return 'Привіт, $username! Приєднуйтесь, коли будете готові.';
   }
 
   @override
   String systemJoinHeyGreatToSeeYouHere(String username) {
-    return 'Привіт, $username, радий бачити тебе тут!';
+    return 'Привіт, $username, раді вас тут бачити!';
   }
 
   @override
   String systemJoinHeyThereHopeYouEnjoyYourStay(String username) {
-    return 'Привіт, $username! Сподіваємося, тобі сподобається.';
+    return 'Привіт, $username! Сподіваємося, вам тут сподобається.';
   }
 
   @override
   String systemJoinHeyWelcomeAboard(String username) {
-    return 'Привіт, $username, ласкаво просимо на борт!';
+    return 'Привіт, $username, ласкаво просимо!';
   }
 
   @override
   String systemJoinGladYouMadeIt(String username) {
-    return 'Раді, що ти приєднався, $username!';
+    return 'Раді, що ви приєдналися, $username!';
   }
 
   @override
@@ -3778,46 +3778,46 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String systemJoinWelcome(String username) {
-    return 'Ласкаво просимо, $username!';
+    return 'Вітаємо, $username!';
   }
 
   @override
   String systemJoinWelcomeWereGladYoureHere(String username) {
-    return 'Ласкаво просимо, $username! Ми раді, що ти тут.';
+    return 'Вітаємо, $username! Ми раді, що ви з нами.';
   }
 
   @override
   String systemJoinWelcomeHopeYouEnjoyYourTimeHere(String username) {
-    return 'Ласкаво просимо, $username! Сподіваємося, тобі сподобається час тут.';
+    return 'Вітаємо, $username! Сподіваємося, вам тут сподобається.';
   }
 
   @override
   String systemJoinWelcomeYourNextConversationStartsHere(String username) {
-    return 'Ласкаво просимо, $username! Твоя наступна розмова починається тут.';
+    return 'Вітаємо, $username! Ваша наступна розмова починається тут.';
   }
 
   @override
   String systemJoinWelcomeWereHappyToHaveYouHere(String username) {
-    return 'Ласкаво просимо, $username. Ми раді, що ти тут.';
+    return 'Вітаємо, $username. Ми раді, що ви з нами.';
   }
 
   @override
   String systemJoinGreatToSeeYouWelcomeIn(String username) {
-    return 'Раді бачити тебе, $username! Ласкаво просимо.';
+    return 'Раді вас бачити, $username! Ласкаво просимо.';
   }
 
   @override
   String systemJoinYoureHereGoodToHaveYouWithUs(String username) {
-    return 'Ти тут, $username! Добре, що ти з нами.';
+    return 'Ви тут, $username! Раді, що ви з нами.';
   }
 
   @override
   String systemJoinYouveArrivedLetsGetStarted(String username) {
-    return 'Ти прибув, $username! Почнемо.';
+    return 'Ви прибули, $username! Почнімо.';
   }
 
   @override
-  String get relativeTimeShortNow => 'щойно';
+  String get relativeTimeShortNow => 'зараз';
 
   @override
   String relativeTimeShortMinutes(int count) {
@@ -3894,7 +3894,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get linkedDevicesExitSelection => 'Вийти з режиму вибору';
 
   @override
-  String get linkedDevicesSelectAll => 'Вибрати все';
+  String get linkedDevicesSelectAll => 'Виділити все';
 
   @override
   String get linkedDevicesClearSelection => 'Очистити вибір';
@@ -3983,31 +3983,31 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get linkedDevicesUnknownPlatform => 'Невідома платформа';
 
   @override
-  String get linkedDevicesViewDetails => 'View details';
+  String get linkedDevicesViewDetails => 'Переглянути деталі';
 
   @override
-  String get linkedDevicesDetailsTitle => 'Device details';
+  String get linkedDevicesDetailsTitle => 'Деталі пристрою';
 
   @override
-  String get linkedDevicesDetailsDevice => 'Device';
+  String get linkedDevicesDetailsDevice => 'Пристрій';
 
   @override
-  String get linkedDevicesDetailsClient => 'Client';
+  String get linkedDevicesDetailsClient => 'Клієнт';
 
   @override
-  String get linkedDevicesDetailsLocation => 'Location';
+  String get linkedDevicesDetailsLocation => 'Місцезнаходження';
 
   @override
-  String get linkedDevicesDetailsIp => 'IP address';
+  String get linkedDevicesDetailsIp => 'IP-адреса';
 
   @override
-  String get linkedDevicesDetailsLastUsed => 'Last used';
+  String get linkedDevicesDetailsLastUsed => 'Востаннє використано';
 
   @override
-  String get linkedDevicesCurrentSession => 'Current session';
+  String get linkedDevicesCurrentSession => 'Поточна сесія';
 
   @override
-  String get linkedDevicesUnknown => 'Unknown';
+  String get linkedDevicesUnknown => 'Невідомо';
 
   @override
   String slowmodeLabel(String duration) {
@@ -4051,24 +4051,24 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String systemDmComposerBarrier(String productName) {
-    return 'Системні оголошення від співробітників $productName. Тут не можна відповідати.';
+    return 'Системні оголошення від команди $productName. Тут не можна відповідати.';
   }
 
   @override
   String get channelComposerBarrierGuildSendDisabled =>
-      'Надсилання повідомлень тимчасово призупинено в цій спільноті.';
+      'Обмін повідомленнями в цій спільноті тимчасово призупинено.';
 
   @override
   String get channelComposerBarrierTimedOut =>
-      'Ви тимчасово заблоковані. Надсилання повідомлень, реакції та голосовий зв\'язок призупинено до закінчення терміну блокування.';
+      'У вас тайм-аут. Обмін повідомленнями, реакції та голосовий зв\'язок призупинено до закінчення тайм-ауту.';
 
   @override
   String get channelComposerBarrierUnclaimedAccount =>
-      'Вам потрібно підтвердити свій обліковий запис, щоб надсилати повідомлення в цій спільноті.';
+      'Щоб надсилати повідомлення в цій спільноті, потрібно зареєструвати свій обліковий запис.';
 
   @override
   String get channelComposerBarrierUnverifiedEmail =>
-      'Вам потрібно підтвердити свою електронну пошту, щоб надсилати повідомлення в цій спільноті.';
+      'Щоб надсилати повідомлення в цій спільноті, потрібно підтвердити свою електронну адресу.';
 
   @override
   String get channelComposerBarrierAccountTooNew =>
@@ -4076,18 +4076,18 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get channelComposerBarrierNotMemberLongEnough =>
-      'Ви недостатньо довго є учасником цієї спільноти, щоб надсилати повідомлення.';
+      'Ви ще недостатньо довго є учасником цієї спільноти, щоб надсилати повідомлення.';
 
   @override
   String get channelComposerBarrierNoPhoneNumber =>
-      'Вам потрібно підтвердити номер телефону, щоб надсилати повідомлення в цій спільноті.';
+      'Щоб надсилати повідомлення в цій спільноті, потрібно підтвердити номер телефону.';
 
   @override
   String get channelComposerBarrierVerifyEmail =>
       'Підтвердити електронну пошту';
 
   @override
-  String get channelComposerBarrierVerifyPhone => 'Підтвердити телефон';
+  String get channelComposerBarrierVerifyPhone => 'Підтвердити номер телефону';
 
   @override
   String chatAttachmentTooMany(int max) {
@@ -4129,7 +4129,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get voiceMessageMicPermissionDenied =>
-      'Не вдалося розпочати запис. Надайте доступ до мікрофона.';
+      'Не вдається розпочати запис. Дозвольте доступ до мікрофона.';
 
   @override
   String get voiceMessageRecordingNotSupported =>
@@ -4141,7 +4141,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get voiceMessageRecordingFailed =>
-      'Запис не вдався. Спробуйте ще раз.';
+      'Не вдалося записати. Спробуйте ще раз.';
 
   @override
   String get voiceMessageSendFailed =>
@@ -4149,11 +4149,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get voiceMessageRecordingHint =>
-      'Говоріть зараз. Натисніть «Зупинити», коли закінчите — пізніше можна буде обрізати.';
+      'Говоріть. Натисніть «Зупинити», коли закінчите — потім можна буде обрізати.';
 
   @override
   String get voiceMessageReviewHint =>
-      'Перетягніть маркери, щоб обрізати, потім натисніть «Надіслати».';
+      'Перетягніть маркери, щоб обрізати, а потім натисніть «Надіслати».';
 
   @override
   String get voiceMessageStop => 'Зупинити';
@@ -4162,13 +4162,13 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get voiceMessageStartRecording => 'Почати запис';
 
   @override
-  String get voiceMessageRerecord => 'Re-record';
+  String get voiceMessageRerecord => 'Записати знову';
 
   @override
   String get voiceMessagePlay => 'Відтворити';
 
   @override
-  String get voiceMessagePause => 'Призупинити';
+  String get voiceMessagePause => 'Пауза';
 
   @override
   String get voiceMessageSeekForward => 'Перемотати вперед';
@@ -4183,7 +4183,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
     );
     final String secondsString = secondsNumberFormat.format(seconds);
 
-    return 'Виділений фрагмент має бути щонайменше $secondsStringс.';
+    return 'Виділення має бути щонайменше $secondsString с.';
   }
 
   @override
@@ -4216,7 +4216,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Не вдалося завантажити вкладення';
 
   @override
-  String get chatAttachmentExpiredTooltip => 'Вкладення застаріло';
+  String get chatAttachmentExpiredTooltip => 'Термін дії вкладення закінчився';
 
   @override
   String chatTextualPreviewExpandLines(int count) {
@@ -4371,27 +4371,27 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get channelContentWarningTitle => 'Попередження про вміст каналу';
 
   @override
-  String get defaultContentWarningBody => 'Це містить чутливий вміст.';
+  String get defaultContentWarningBody => 'Тут міститься делікатний вміст.';
 
   @override
   String get matureCommunityBody =>
-      'Ця спільнота позначена як така, що містить матеріали для дорослих, і може містити те, що може бути неприйнятним для деяких користувачів.';
+      'Ця спільнота позначена як така, що містить контент для дорослих, і може містити матеріали, які можуть бути неприйнятними для деяких користувачів.';
 
   @override
   String get matureCategoryBody =>
-      'Ця категорія позначена як така, що містить матеріали для дорослих, і може містити те, що може бути неприйнятним для деяких користувачів.';
+      'Ця категорія позначена як така, що містить контент для дорослих, і може містити матеріали, які можуть бути неприйнятними для деяких користувачів.';
 
   @override
   String get matureChannelBody =>
-      'Цей канал позначений як такий, що містить матеріали для дорослих, і може містити те, що може бути неприйнятним для деяких користувачів.';
+      'Цей канал позначено як такий, що містить контент для дорослих, і може містити матеріали, які можуть бути неприйнятними для деяких користувачів.';
 
   @override
   String get matureVoiceChannelBody =>
-      'Цей голосовий канал позначений як такий, що містить матеріали для дорослих, і може містити те, що може бути неприйнятним для деяких користувачів.';
+      'Цей голосовий канал позначено як такий, що містить контент для дорослих, і в ньому можуть бути матеріали, неприйнятні для деяких користувачів.';
 
   @override
   String get matureLinkChannelBody =>
-      'Цей посилальний канал позначений як такий, що містить матеріали для дорослих, і може відкривати те, що може бути неприйнятним для деяких користувачів.';
+      'Цей канал за посиланням позначено як такий, що містить контент для дорослих, і може відкривати матеріали, які можуть бути неприйнятними для деяких користувачів.';
 
   @override
   String get matureCommunityUnavailableBody =>
@@ -4422,16 +4422,18 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Керуйте тим, як медіа для дорослих або чутливий медіа фільтрується в різних контекстах';
 
   @override
-  String get sensitiveContentFriendDmLabel => 'Прямі повідомлення від друзів';
+  String get sensitiveContentFriendDmLabel =>
+      'Особисті повідомлення від друзів';
 
   @override
-  String get sensitiveContentNonFriendDmLabel => 'Прямі повідомлення від інших';
+  String get sensitiveContentNonFriendDmLabel =>
+      'Особисті повідомлення від інших';
 
   @override
   String get sensitiveContentGuildLabel => 'Повідомлення в каналах спільноти';
 
   @override
-  String get sensitiveContentFilterShow => 'Показати';
+  String get sensitiveContentFilterShow => 'Показувати';
 
   @override
   String get sensitiveContentFilterBlur => 'Розмити';
@@ -4473,7 +4475,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String chatAttachmentExpiresOn(String date) {
-    return 'Термін дії до $date';
+    return 'Термін дії закінчується $date';
   }
 
   @override
@@ -4519,10 +4521,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get connectionRemove => 'Видалити';
 
   @override
-  String get connectionVerifiedLabel => 'Це підключення було перевірено.';
+  String get connectionVerifiedLabel => 'Це підключення підтверджено.';
 
   @override
-  String get connectionUnverifiedLabel => 'Це підключення не було перевірено.';
+  String get connectionUnverifiedLabel => 'Це підключення не підтверджено.';
 
   @override
   String get connectionAddTitle => 'Додати підключення';
@@ -4531,7 +4533,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get connectionTypeLabel => 'Тип підключення';
 
   @override
-  String get connectionHandleLabel => 'Дескриптор';
+  String get connectionHandleLabel => 'Ім\'я користувача';
 
   @override
   String get connectionDomainLabel => 'Домен';
@@ -4552,14 +4554,14 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get connectionContinue => 'Продовжити';
 
   @override
-  String get connectionVerifyTitle => 'Перевірити підключення';
+  String get connectionVerifyTitle => 'Підтвердити підключення';
 
   @override
   String get connectionVerifyInstructions =>
       'Використовуйте запис нижче, щоб підтвердити володіння доменом.';
 
   @override
-  String get connectionDnsRecordTitle => 'Запис TXT DNS';
+  String get connectionDnsRecordTitle => 'Запис DNS TXT';
 
   @override
   String get connectionDnsHostLabel => 'Хост';
@@ -4577,7 +4579,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get connectionCopied => 'Скопійовано!';
 
   @override
-  String get connectionTokenFileTitle => 'Надати файл токена';
+  String get connectionTokenFileTitle => 'Розмістіть файл токена';
 
   @override
   String get connectionTokenFileDescription =>
@@ -4595,7 +4597,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get connectionSaveTokenDialogTitle => 'Зберегти fluxer-verification';
 
   @override
-  String get connectionVerifyButton => 'Перевірити';
+  String get connectionVerifyButton => 'Підтвердити';
 
   @override
   String get connectionBack => 'Назад';
@@ -4626,7 +4628,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get connectionVisibilityCommunityMembersDesc =>
-      'Дозволити учасникам спільнот, до яких ви належите, бачити це підключення';
+      'Дозволити учасникам спільнот, у яких ви перебуваєте, бачити це підключення';
 
   @override
   String get connectionRemoveTitle => 'Видалити підключення';
@@ -4703,20 +4705,20 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get lookAndFeelHdrStandardDescription =>
-      'Тонування HDR-зображень до стандартного діапазону, зменшуючи пікову яскравість.';
+      'Перетворювати HDR-зображення у стандартний діапазон, зменшуючи пікову яскравість.';
 
   @override
   String get lookAndFeelHdrDisplayModeLabel =>
-      'Режим дисплея з широким динамічним діапазоном';
+      'Режим дисплея з високим динамічним діапазоном';
 
   @override
   String get lookAndFeelThemeDark => 'Темна тема';
 
   @override
-  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+  String get lookAndFeelThemeDarkLegacy => 'Темна (застаріла) тема';
 
   @override
-  String get lookAndFeelThemeCoal => 'Вугільна тема';
+  String get lookAndFeelThemeCoal => 'Тема «Вугілля»';
 
   @override
   String get lookAndFeelThemeLight => 'Світла тема';
@@ -4754,7 +4756,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get lookAndFeelAppZoomTitle => 'Масштаб застосунку';
 
   @override
-  String get lookAndFeelAppZoomDescription => 'Налаштувати масштаб програми.';
+  String get lookAndFeelAppZoomDescription => 'Налаштуйте масштаб застосунку.';
 
   @override
   String get lookAndFeelChatWallpaperTitle => 'Шпалери чату';
@@ -4839,11 +4841,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get lookAndFeelInterfaceDescription =>
-      'Налаштуйте елементи та поведінку інтерфейсу.';
+      'Налаштуйте елементи інтерфейсу та поведінку.';
 
   @override
   String get lookAndFeelChannelTypingIndicatorsTitle =>
-      'Індикатори набору тексту в списку каналів';
+      'Індикатори набору тексту у списку каналів';
 
   @override
   String get lookAndFeelChannelTypingIndicatorsDescription =>
@@ -4851,7 +4853,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get lookAndFeelChannelTypingIndicatorAvatarsName =>
-      'Індикатор набору тексту + Аватари';
+      'Індикатор набору тексту + аватари';
 
   @override
   String get lookAndFeelChannelTypingIndicatorAvatarsDescription =>
@@ -4870,7 +4872,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get lookAndFeelChannelTypingIndicatorHiddenDescription =>
-      'Не показувати індикатори набору тексту в списку каналів';
+      'Не показувати індикатори набору тексту у списку каналів';
 
   @override
   String get lookAndFeelShowSelectedChannelTypingIndicatorLabel =>
@@ -4905,7 +4907,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get lookAndFeelNekoDescription => 'Різні параметри інтерфейсу.';
 
   @override
-  String get lookAndFeelShowNekoLabel => 'Показати Неко';
+  String get lookAndFeelShowNekoLabel => 'Показувати Неко';
 
   @override
   String get lookAndFeelShowNekoDescription =>
@@ -4913,7 +4915,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get lookAndFeelVoiceChannelJoinTitle =>
-      'Поведінка при вході в голосовий канал';
+      'Поведінка під час приєднання до голосового каналу';
 
   @override
   String get lookAndFeelVoiceChannelJoinDescription =>
@@ -4921,7 +4923,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get lookAndFeelRequireDoubleClickJoinLabel =>
-      'Вимагати подвійне клацання для входу в голосові канали';
+      'Вимагати подвійне натискання для приєднання до голосових каналів';
 
   @override
   String get lookAndFeelRequireDoubleClickJoinDescription =>
@@ -4991,18 +4993,18 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get lookAndFeelChannelListSectionDescription =>
-      'Керуйте відображенням непрочитаних повідомлень для вимкнених каналів у списках каналів.';
+      'Керуйте поведінкою індикатора непрочитаних повідомлень для каналів із вимкненими сповіщеннями у списках каналів.';
 
   @override
   String get lookAndFeelShowFadedUnreadOnMutedChannelsLabel =>
-      'Показувати індикатор непрочитаних на вимкнених каналах';
+      'Показувати індикатор непрочитаних повідомлень на каналах із вимкненими сповіщеннями';
 
   @override
   String get lookAndFeelShowFadedUnreadOnMutedChannelsDescription =>
       'Якщо ввімкнено, вимкнені канали показують блідий індикатор непрочитаних зліва. Згадки все одно з\'являтимуться незалежно від цього налаштування.';
 
   @override
-  String get lookAndFeelActiveNowSectionTitle => 'Зараз активно';
+  String get lookAndFeelActiveNowSectionTitle => 'Зараз активні';
 
   @override
   String get lookAndFeelActiveNowSectionDescription =>
@@ -5010,11 +5012,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get lookAndFeelShowActiveNowLabel =>
-      'Показувати \"Зараз активно\" на головному екрані';
+      'Показувати «Зараз активні» на головному екрані';
 
   @override
   String get lookAndFeelShowActiveNowDescription =>
-      'Показувати \"Зараз активно\" на головному екрані, щоб відображати друзів, активних у голосовому чаті. Ви побачите попередній перегляд, контекст каналу, хто вже там, і швидкий спосіб приєднатися.';
+      'Показувати «Зараз активні» на головному екрані, щоб бачити друзів, які спілкуються голосом. Ви побачите попередній перегляд, контекст каналу, хто вже там, і швидкий спосіб приєднатися.';
 
   @override
   String get lookAndFeelFavoritesSectionTitle => 'Вибране';
@@ -5041,32 +5043,32 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Позначайте канали зі списку чатів зірочкою, щоб вони зберігалися тут.';
 
   @override
-  String get favoritesWelcomeTitle => 'Ласкаво просимо до обраного';
+  String get favoritesWelcomeTitle => 'Ласкаво просимо до вибраного';
 
   @override
   String get favoritesWelcomeDescription =>
-      'Ваш особистий простір для швидкого доступу до каналів, особистих повідомлень і груп, які вам подобаються. Натисніть зірочку біля будь-якого каналу, щоб додати його сюди.';
+      'Ваш особистий простір для швидкого доступу до улюблених каналів, особистих повідомлень і груп. Натисніть зірочку на будь-якому каналі, щоб додати його сюди.';
 
   @override
-  String get favoritesWelcomeTip => 'Не подобається? Вимкніть будь-коли.';
+  String get favoritesWelcomeTip => 'Не для вас? Вимкніть у будь-який час.';
 
   @override
-  String get favoritesDisableButton => 'Вимкнути обране';
+  String get favoritesDisableButton => 'Вимкнути вибране';
 
   @override
-  String get favoritesAddedToast => 'Додано до обраного';
+  String get favoritesAddedToast => 'Додано до вибраного';
 
   @override
-  String get favoritesRemovedToast => 'Видалено з обраного';
+  String get favoritesRemovedToast => 'Видалено з вибраного';
 
   @override
   String get favoritesHiddenToast => 'Обране приховано';
 
   @override
-  String get favoritesMute => 'Вимкнути сповіщення для обраного';
+  String get favoritesMute => 'Вимкнути сповіщення для вибраного';
 
   @override
-  String get favoritesUnmute => 'Увімкнути сповіщення для обраного';
+  String get favoritesUnmute => 'Увімкнути сповіщення для вибраного';
 
   @override
   String get favoritesHeaderMenu => 'Меню обраного';
@@ -5078,10 +5080,12 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get favoritesCategoryNameLabel => 'Назва категорії';
 
   @override
-  String get favoritesHideMutedChannels => 'Приховувати вимкнені канали';
+  String get favoritesHideMutedChannels =>
+      'Приховати канали з вимкненими сповіщеннями';
 
   @override
-  String get favoritesShowMutedChannels => 'Показувати вимкнені канали';
+  String get favoritesShowMutedChannels =>
+      'Показати канали з вимкненими сповіщеннями';
 
   @override
   String get favoritesSetNickname => 'Встановити псевдонім';
@@ -5102,24 +5106,24 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get favoritesOtherCategory => 'Інше';
 
   @override
-  String get favoritesRemoveFromFavorites => 'Видалити з обраного';
+  String get favoritesRemoveFromFavorites => 'Видалити з вибраного';
 
   @override
-  String get favoritesAddToFavorites => 'Додати до обраного';
+  String get favoritesAddToFavorites => 'Додати до вибраного';
 
   @override
   String get favoritesAddToSavedMedia => 'Додати до збережених медіа';
 
   @override
-  String get favoritesRemoveFromSavedMedia => 'Видалити з вибраних медіафайлів';
+  String get favoritesRemoveFromSavedMedia => 'Видалити зі збережених медіа';
 
   @override
   String get favoritesAddToUrlOnlyGifFavorites =>
-      'Додати до улюблених GIF-файлів за URL-адресою';
+      'Додати до вибраних GIF за URL-адресою';
 
   @override
   String get favoritesRemoveFromUrlOnlyGifFavorites =>
-      'Видалити з улюблених GIF-зображень, збережених за URL-адресою';
+      'Видалити з вибраних GIF за URL-адресою';
 
   @override
   String get savedMediaAddTitle => 'Додати до збережених медіа';
@@ -5146,7 +5150,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get savedMediaSaveError => 'Не вдалося оновити збережені медіа.';
 
   @override
-  String get savedMediaNameRequired => 'Введіть ім\'я.';
+  String get savedMediaNameRequired => 'Введіть назву.';
 
   @override
   String get gifFavoriteFirstTimeTitle =>
@@ -5176,7 +5180,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Використовувати збережені медіа';
 
   @override
-  String get favoritesHideConfirmTitle => 'Приховати обране';
+  String get favoritesHideConfirmTitle => 'Сховати вибране';
 
   @override
   String get favoritesHideConfirmDescription =>
@@ -5215,7 +5219,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get messagesMediaDefaultHideMutedChannelsLabel =>
-      'Приховувати вимкнені канали за замовчуванням';
+      'Приховувати канали з вимкненими сповіщеннями за замовчуванням';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDescription =>
@@ -5223,19 +5227,19 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get messagesMediaDefaultHideMutedChannelsEnableTitle =>
-      'Приховувати вимкнені канали за замовчуванням?';
+      'Приховувати канали з вимкненими сповіщеннями за замовчуванням?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsEnableDescription =>
-      'У нових спільнотах, до яких ви приєднаєтеся, вимкнені канали будуть автоматично приховані. Бажаєте також застосувати це налаштування до всіх наявних спільнот?';
+      'У нових спільнотах, до яких ви приєднаєтеся, канали з вимкненими сповіщеннями автоматично приховуватимуться. Застосувати це налаштування й до всіх наявних спільнот?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDisableTitle =>
-      'Припинити приховувати вимкнені канали за замовчуванням?';
+      'Припинити приховувати канали з вимкненими сповіщеннями за замовчуванням?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDisableDescription =>
-      'У нових спільнотах, до яких ви приєднаєтеся, вимкнені канали більше не будуть автоматично приховані. Бажаєте також показувати вимкнені канали у всіх наявних спільнотах?';
+      'У нових спільнотах, до яких ви приєднаєтеся, канали з вимкненими сповіщеннями більше не приховуватимуться автоматично. Показувати такі канали й в усіх наявних спільнотах?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsApplyAllAction =>
@@ -5243,7 +5247,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get messagesMediaDefaultHideMutedChannelsShowAllAction =>
-      'Показати у всіх спільнотах';
+      'Показувати в усіх спільнотах';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsNewOnlyAction =>
@@ -5262,7 +5266,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String messagesMediaDisplayInlineAttachmentLabel(String productName) {
-    return 'Під час завантаження безпосередньо до $productName';
+    return 'Під час завантаження безпосередньо в $productName';
   }
 
   @override
@@ -5275,7 +5279,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get messagesMediaLinkPreviewsToggleLabel =>
-      'Показувати вбудовані елементи та попередній перегляд веб-посилань';
+      'Показувати вбудований вміст і попередній перегляд посилань на сайти';
 
   @override
   String get messagesMediaReactionsSectionTitle => 'Реакції';
@@ -5286,10 +5290,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get messagesMediaReactionsToggleLabel =>
-      'Показувати реакції емоджі на повідомлення';
+      'Показувати реакції емоджі на повідомленнях';
 
   @override
-  String get messagesMediaSpoilersSectionTitle => 'Прихований вміст';
+  String get messagesMediaSpoilersSectionTitle => 'Вміст спойлера';
 
   @override
   String get messagesMediaSpoilersSectionDescription =>
@@ -5299,7 +5303,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get messagesMediaSpoilersRadioLabel => 'Показувати прихований вміст';
 
   @override
-  String get messagesMediaSpoilersOnClickName => 'За натисканням';
+  String get messagesMediaSpoilersOnClickName => 'При натисканні';
 
   @override
   String get messagesMediaSpoilersOnClickDescription =>
@@ -5377,19 +5381,19 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get messagesMediaAutocompleteDefaultEmojisLabel =>
-      'Показувати стандартні емоджі в автодоповненні виразів';
+      'Показувати стандартні емодзі в автозаповненні виразів';
 
   @override
   String get messagesMediaAutocompleteCustomEmojisLabel =>
-      'Показувати власні емоджі в автодоповненні виразів';
+      'Показувати власні емоджі в автозаповненні виразів';
 
   @override
   String get messagesMediaAutocompleteStickersLabel =>
-      'Показувати стікери в автодоповненні виразів';
+      'Показувати стікери в автозаповненні виразів';
 
   @override
   String get messagesMediaAutocompleteSavedMediaLabel =>
-      'Показувати збережені медіа в автодоповненні виразів';
+      'Показувати збережені медіа в автозаповненні виразів';
 
   @override
   String get messagesMediaEditingSectionTitle => 'Редагування повідомлень';
@@ -5410,7 +5414,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Налаштуйте яскравість кольорів теми в усій програмі.';
 
   @override
-  String get accessibilityVisualGroupTitle => 'Візуальні';
+  String get accessibilityVisualGroupTitle => 'Візуальні налаштування';
 
   @override
   String get accessibilityAlwaysUnderlineLinksLabel =>
@@ -5430,7 +5434,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get accessibilityDmMessagePreviewGroupTitle =>
-      'Попередній перегляд повідомлень у прямих повідомленнях';
+      'Попередній перегляд повідомлень у приватних чатах';
 
   @override
   String get accessibilityDmMessagePreviewGroupDescription =>
@@ -5438,33 +5442,32 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get accessibilityDmMessagePreviewModeLabel =>
-      'Режим попереднього перегляду повідомлень у прямих повідомленнях';
+      'Режим попереднього перегляду повідомлень у приватних чатах';
 
   @override
   String get accessibilityDmMessagePreviewAllName => 'Усі повідомлення';
 
   @override
   String get accessibilityDmMessagePreviewAllDescription =>
-      'Показувати попередній перегляд повідомлень для всіх діалогів у прямих повідомленнях';
+      'Показувати попередній перегляд повідомлень для всіх приватних чатів';
 
   @override
   String get accessibilityDmMessagePreviewUnreadOnlyName =>
-      'Лише непрочитані прямі повідомлення';
+      'Лише непрочитані приватні чати';
 
   @override
   String get accessibilityDmMessagePreviewUnreadOnlyDescription =>
-      'Показувати попередній перегляд повідомлень лише для прямих повідомлень з непрочитаними повідомленнями';
+      'Показувати попередній перегляд повідомлень лише для приватних чатів із непрочитаними повідомленнями';
 
   @override
   String get accessibilityDmMessagePreviewNoneName => 'Немає';
 
   @override
   String get accessibilityDmMessagePreviewNoneDescription =>
-      'Не показувати попередній перегляд повідомлень у списку прямих повідомлень';
+      'Не показувати попередній перегляд повідомлень у списку приватних чатів';
 
   @override
-  String get accessibilityScreenReaderGroupTitle =>
-      'Екранний ріOutput only the localized string. Do not output JSON, notes, labels, quotes, or Markdown fences.';
+  String get accessibilityScreenReaderGroupTitle => 'Програма читання з екрана';
 
   @override
   String accessibilityScreenReaderGroupDescription(String productName) {
@@ -5480,7 +5483,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Дозволити програмам читання з екрана оголошувати нові повідомлення, що надходять у відкритий канал. Звуки сповіщень залишаються без змін.';
 
   @override
-  String get accessibilityTtsGroupTitle => 'Текст в мовлення';
+  String get accessibilityTtsGroupTitle => 'Перетворення тексту на мовлення';
 
   @override
   String get accessibilityTtsGroupDescription =>
@@ -5516,11 +5519,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get accessibilityEscapeExitsKeyboardModeLabel =>
-      'Клавіша Esc виходить з режиму клавіатури';
+      'Клавіша Esc вимикає режим клавіатури';
 
   @override
   String get accessibilityShowContextMenuShortcutsLabel =>
-      'Показувати швидкі клавіші контекстного меню';
+      'Показувати комбінації клавіш контекстного меню';
 
   @override
   String get accessibilityConfirmBeforeStartingCallsLabel =>
@@ -5574,7 +5577,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get accessibilityStickerAlwaysAnimateDescription =>
-      'Стікери завжди будуть анімовані';
+      'Стікери завжди анімуватимуться';
 
   @override
   String get accessibilityStickerAnimateOnInteractionName =>
@@ -5657,7 +5660,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get accessibilityTtsPlaybackFailedDescription =>
-      'Відтворення мовлення не вдалося. Спробуйте ще раз або перевірте, чи працює виведення звуку.';
+      'Не вдалося відтворити мовлення. Спробуйте ще раз або перевірте, чи працює виведення звуку.';
 
   @override
   String get ttsSubstitutionUnknownUser => 'невідомий користувач';
@@ -5686,7 +5689,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String ttsAuthorSaid(String authorName, String formatted) {
-    return '$authorName сказав(-ла): $formatted';
+    return '$authorName каже: $formatted';
   }
 
   @override
@@ -5695,7 +5698,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
     String authorName,
     String formatted,
   ) {
-    return 'У відповідь $replyAuthorName, $authorName сказав(-ла): $formatted';
+    return 'У відповідь $replyAuthorName, $authorName каже: $formatted';
   }
 
   @override
@@ -5723,56 +5726,56 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get dmListSentAnAttachment => 'Надіслав вкладення';
+  String get dmListSentAnAttachment => 'Надіслано вкладення';
 
   @override
   String systemPreviewPinnedMessage(String username) {
-    return '$username закріпив повідомлення в цьому каналі.';
+    return '$username закріпив(-ла) повідомлення в цьому каналі.';
   }
 
   @override
   String systemPreviewAddedToGroup(String username, String userName) {
-    return '$username додав $userName до групи.';
+    return '$username додав(-ла) $userName до групи.';
   }
 
   @override
   String systemPreviewAddedSomeoneToGroup(String username) {
-    return '$username додав когось до групи.';
+    return '$username додав(-ла) учасника до групи.';
   }
 
   @override
   String systemPreviewHasLeftGroup(String username) {
-    return '$username покинув групу.';
+    return '$username вийшов(-ла) з групи.';
   }
 
   @override
   String systemPreviewRemovedFromGroup(String username, String userName) {
-    return '$username видалив $userName з групи.';
+    return '$username вилучив(-ла) $userName із групи.';
   }
 
   @override
   String systemPreviewRemovedSomeoneFromGroup(String username) {
-    return '$username видалив когось із групи.';
+    return '$username вилучив(-ла) учасника з групи.';
   }
 
   @override
   String systemPreviewChangedChannelNameTo(String username, String newName) {
-    return '$username змінив назву каналу на $newName.';
+    return '$username змінив(-ла) назву каналу на «$newName».';
   }
 
   @override
   String systemPreviewChangedChannelName(String username) {
-    return '$username змінив назву каналу.';
+    return '$username змінив(-ла) назву каналу.';
   }
 
   @override
   String systemPreviewChangedChannelIcon(String username) {
-    return '$username змінив значок каналу.';
+    return '$username змінив(-ла) іконку каналу.';
   }
 
   @override
   String systemPreviewStartedCall(String username) {
-    return '$username розпочав дзвінок.';
+    return '$username розпочав(-ла) дзвінок.';
   }
 
   @override
@@ -5867,11 +5870,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get voiceConnectionConfirmSwitch => 'Переключитися на цей пристрій';
+  String get voiceConnectionConfirmSwitch => 'Перейти на цей пристрій';
 
   @override
   String get voiceConnectionConfirmJustJoin =>
-      'Просто приєднатися (зберегти інші з\'єднання)';
+      'Просто приєднатися (зберегти інші підключення)';
 
   @override
   String get voiceConnectionConfirmDoNothing =>
@@ -5896,19 +5899,19 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get voiceCallJoin => 'Приєднатися до дзвінка';
 
   @override
-  String get voiceChannelJoinConnect => 'Підключитися до голосу';
+  String get voiceChannelJoinConnect => 'Підключитися до голосового чату';
 
   @override
   String get voiceChannelNoConnectPermission =>
-      'У вас немає дозволу на приєднання до цього голосового каналу';
+      'У вас немає дозволу приєднатися до цього голосового каналу';
 
   @override
   String get voiceChannelE2eeEncrypted =>
-      'Мікрофон, камера та вміст спільного доступу до екрана наскрізно зашифровані.';
+      'Мікрофон, камера та вміст демонстрації екрана зашифровані наскрізно.';
 
   @override
   String get voiceCallE2eeEncrypted =>
-      'Мікрофон, камера та вміст спільного доступу до екрана наскрізно зашифровані.';
+      'Мікрофон, камера та вміст демонстрації екрана зашифровані наскрізно.';
 
   @override
   String get voiceChannelE2eeBroken =>
@@ -5939,7 +5942,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get voiceParticipantTooltipMobileDevice => 'Мобільний пристрій';
 
   @override
-  String get voiceParticipantTooltipDesktopDevice => 'Настільний пристрій';
+  String get voiceParticipantTooltipDesktopDevice => 'Комп\'ютер';
 
   @override
   String get voiceParticipantTooltipCommunityMuted => 'Вимкнено спільнотою';
@@ -5952,11 +5955,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Вимкнено спільнотою (звук)';
 
   @override
-  String get voiceParticipantTooltipDeafened => 'Вимкнено (звук)';
+  String get voiceParticipantTooltipDeafened => 'Звук вимкнено';
 
   @override
   String voiceParticipantTooltipConnection(String connectionId) {
-    return 'З\'єднання: $connectionId';
+    return 'Підключення: $connectionId';
   }
 
   @override
@@ -5971,7 +5974,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get voiceChannelLeave => 'Залишити';
+  String get voiceChannelLeave => 'Вийти';
 
   @override
   String get voiceControlMute => 'Вимкнути мікрофон';
@@ -5992,7 +5995,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get voiceControlFlipCamera => 'Змінити камеру';
 
   @override
-  String get voiceControlScreenShare => 'Спільний доступ до екрана';
+  String get voiceControlScreenShare => 'Демонстрація екрана';
 
   @override
   String get voiceScreenShareNotificationText => 'Демонструється ваш екран.';
@@ -6001,7 +6004,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get voiceControlMore => 'Більше';
 
   @override
-  String get voiceControlDisconnect => 'Відключитися';
+  String get voiceControlDisconnect => 'Від\'єднатися';
 
   @override
   String get voiceInChat => 'У голосовому чаті';
@@ -6016,7 +6019,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get voiceConnectionDismiss => 'Закрити';
 
   @override
-  String get voiceConnectionDisconnected => 'Відключено';
+  String get voiceConnectionDisconnected => 'Від\'єднано';
 
   @override
   String voicePingMs(int currentLatency) {
@@ -6041,7 +6044,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get voiceShowCallAvatars => 'Показувати аватари в дзвінку';
 
   @override
-  String get voiceShowConnectionId => 'Показати ідентифікатор з\'єднання';
+  String get voiceShowConnectionId => 'Показати ідентифікатор підключення';
 
   @override
   String get voiceAudioProcessing => 'Обробка аудіо';
@@ -6059,10 +6062,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get voiceConnectionNetworkSection => 'Мережа';
 
   @override
-  String get voiceConnectionPingLabel => 'Перевірка зв\'язку';
+  String get voiceConnectionPingLabel => 'Пінг';
 
   @override
-  String get voiceConnectionJitterLabel => 'Джиттер';
+  String get voiceConnectionJitterLabel => 'Джитер';
 
   @override
   String get voiceConnectionSendLabel => 'Надіслати';
@@ -6112,7 +6115,8 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get voiceParticipantMenuUnfocus => 'Прибрати фокус';
 
   @override
-  String get voiceParticipantMenuCommunityMute => 'Вимкнути звук у спільноті';
+  String get voiceParticipantMenuCommunityMute =>
+      'Вимкнути мікрофон у спільноті';
 
   @override
   String get voiceParticipantMenuCommunityDeafen => 'Вимкнути звук у спільноті';
@@ -6134,7 +6138,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get voiceControlChat => 'Чат';
 
   @override
-  String get voiceCallViewModeLabel => 'Переглянути';
+  String get voiceCallViewModeLabel => 'Вигляд';
 
   @override
   String get voiceCallViewModeGrid => 'Сітка';
@@ -6149,13 +6153,13 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get voicePanelUseEarpieceLabel => 'Використовувати слухавку';
 
   @override
-  String get voiceOutputRouteSpeaker => 'Speaker';
+  String get voiceOutputRouteSpeaker => 'Динамік';
 
   @override
   String get voiceOutputRouteEarpiece => 'Earpiece';
 
   @override
-  String get voiceOutputRouteHeadset => 'Headphones';
+  String get voiceOutputRouteHeadset => 'Навушники';
 
   @override
   String get voicePanelOnlyShowVideosLabel => 'Показувати лише відео';
@@ -6204,7 +6208,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get voiceWatchStream => 'Дивитися трансляцію';
 
   @override
-  String get voiceStopWatching => 'Припинити перегляд';
+  String get voiceStopWatching => 'Зупинити перегляд';
 
   @override
   String get voiceStopWatchingCurrentStreamTooltip =>
@@ -6217,7 +6221,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get voiceOwnScreenShareSubtitle => 'Ваш потік активний для учасників.';
 
   @override
-  String get voiceLiveBadge => 'LIVE';
+  String get voiceLiveBadge => 'Наживо';
 
   @override
   String get dmVoiceViewCall => 'Переглянути дзвінок';
@@ -6229,7 +6233,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get dmVoiceCallFullScreenTooltip => 'Відкрити дзвінок на весь екран';
 
   @override
-  String get dmVoiceStripStatusConnecting => 'З\'єднання...';
+  String get dmVoiceStripStatusConnecting => 'Підключення…';
 
   @override
   String get dmVoiceStripStatusInCall => 'У дзвінку';
@@ -6238,7 +6242,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get dmVoiceEmbeddedFallbackTitle => 'Голосовий дзвінок';
 
   @override
-  String get dmVoiceCallBarConnecting => 'З\'єднання...';
+  String get dmVoiceCallBarConnecting => 'Підключення…';
 
   @override
   String get dmVoiceCallBarDirectPrimary => 'Прямий дзвінок';
@@ -6250,7 +6254,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get dmVoiceCallBarIssueFallback => 'Проблема з голосом';
 
   @override
-  String get dmVoiceFullscreenTitle => 'Голос';
+  String get dmVoiceFullscreenTitle => 'Голосовий';
 
   @override
   String get voiceCallBarGuildConnectedFallback => 'Голос підключено';
@@ -6288,10 +6292,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get notificationsNoUnreadTitle => 'Немає непрочитаних повідомлень';
 
   @override
-  String get notificationsNoUnreadBody => 'Ви все прочитали.';
+  String get notificationsNoUnreadBody => 'Ви все переглянули.';
 
   @override
-  String get notificationsNoMentionsTitle => 'Немає останніх згадок';
+  String get notificationsNoMentionsTitle => 'Немає недавніх згадок';
 
   @override
   String get notificationsNoMentionsBody =>
@@ -6332,7 +6336,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get characterCounterTooLong => 'Повідомлення занадто довге';
+  String get characterCounterTooLong => 'Повідомлення задовге';
 
   @override
   String characterCounterRemainingPlutoniumUpsell(
@@ -6353,15 +6357,15 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get chatSendFailureUnclaimedDm =>
-      'Ваше повідомлення не могло бути доставлено. Вам потрібно підтвердити свій обліковий запис, щоб надсилати прямі повідомлення.';
+      'Ваше повідомлення не вдалося доставити. Щоб надсилати особисті повідомлення, вам потрібно зареєструвати свій обліковий запис.';
 
   @override
   String get chatSendFailureUnclaimedGeneral =>
-      'Ваше повідомлення не могло бути доставлено. Вам потрібно підтвердити свій обліковий запис, щоб надсилати повідомлення.';
+      'Ваше повідомлення не вдалося доставити. Щоб надсилати повідомлення, вам потрібно зареєструвати свій обліковий запис.';
 
   @override
   String get chatSendFailureContentBlocked =>
-      'Ваше повідомлення не могло бути доставлено, оскільки воно було позначено нашими системами безпеки. Якщо ви вважаєте, що це помилка, зв\'яжіться з підтримкою.';
+      'Ваше повідомлення не вдалося доставити, оскільки його позначено нашими системами безпеки. Якщо ви вважаєте, що це помилка, зверніться до служби підтримки.';
 
   @override
   String get chatSendFailureNsfwEmojiSticker =>
@@ -6383,14 +6387,14 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get privacyDashboardFriendsAndDirectMessagesSection =>
-      'Друзі та прямі повідомлення';
+      'Друзі та особисті повідомлення';
 
   @override
   String get privacyDashboardActivitySharingSection =>
       'Поширення інформації про активність';
 
   @override
-  String get privacyDashboardSensitiveContentSection => 'Конфіденційний вміст';
+  String get privacyDashboardSensitiveContentSection => 'Чутливий вміст';
 
   @override
   String get privacyDashboardDataExportSection => 'Експорт даних';
@@ -6416,7 +6420,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get privacyDashboardProfilePrivacySmallCommunitiesDesc =>
-      'Ваш повний профіль бачать друзі та учасники спільнот із 200 або менше учасниками';
+      'Ваш повний профіль бачать друзі та учасники ваших спільнот, у яких не більше ніж 200 учасників';
 
   @override
   String get privacyDashboardProfilePrivacyFriendsOnly => 'Лише друзі';
@@ -6452,7 +6456,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Дозволити учасникам спільнот, до яких ви належите, надсилати вам запити';
 
   @override
-  String get privacyDashboardDirectMessagesTitle => 'Приватні повідомлення';
+  String get privacyDashboardDirectMessagesTitle => 'Особисті повідомлення';
 
   @override
   String get privacyDashboardDirectMessagesMembers =>
@@ -6464,7 +6468,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDirectMessagesBots =>
-      'Дозволити прямі повідомлення від ботів спільноти';
+      'Дозволити особисті повідомлення від ботів спільноти';
 
   @override
   String get privacyDashboardDirectMessagesBotsDesc =>
@@ -6486,17 +6490,17 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Керуйте тим, хто може вам телефонувати';
 
   @override
-  String get privacyDashboardAllowedCallers => 'Дозволені абоненти';
+  String get privacyDashboardAllowedCallers => 'Кому дозволено дзвонити';
 
   @override
   String get privacyDashboardIncomingCallNobody => 'Нікого';
 
   @override
   String get privacyDashboardIncomingCallNobodyDesc =>
-      'Блокувати всі вхідні виклики';
+      'Блокувати всі вхідні дзвінки';
 
   @override
-  String get privacyDashboardIncomingCallFriendsOnly => 'Тільки друзі';
+  String get privacyDashboardIncomingCallFriendsOnly => 'Лише друзі';
 
   @override
   String get privacyDashboardIncomingCallFriendsOnlyDesc =>
@@ -6528,10 +6532,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Люди зі спільнот, у яких ви обоє перебуваєте, зможуть вам телефонувати';
 
   @override
-  String get privacyDashboardRingBehavior => 'Поведінка кільця';
+  String get privacyDashboardRingBehavior => 'Поведінка дзвінка';
 
   @override
-  String get privacyDashboardSilentCalls => 'Безшумні дзвінки від усіх';
+  String get privacyDashboardSilentCalls => 'Беззвучні дзвінки від усіх';
 
   @override
   String get privacyDashboardSilentCallsDesc =>
@@ -6539,14 +6543,14 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get privacyDashboardGroupDmTitle =>
-      'Хто може додавати вас до групових чатів';
+      'Хто може додавати вас у групові чати';
 
   @override
   String get privacyDashboardGroupDmDesc =>
       'Керуйте тим, хто може додавати вас до групових чатів без дозволу. Будь-хто все ще може надсилати вам посилання-запрошення для приєднання.';
 
   @override
-  String get privacyDashboardAllowedInvites => 'Дозволені запрошення';
+  String get privacyDashboardAllowedInvites => 'Кому дозволено запрошувати';
 
   @override
   String get privacyDashboardGroupDmNobodyDesc =>
@@ -6590,11 +6594,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get privacyDashboardVoiceActivityEnableDesc =>
-      'Ви збираєтеся почати ділитися своєю голосовою активністю з усіма друзями, включно з майбутніми. Це надішле оновлення всім їм, і змінити це можна буде лише через 24 години.';
+      'Ви збираєтеся почати ділитися своєю голосовою активністю з усіма друзями, включно з майбутніми. Усі вони отримають оновлення, а змінити це можна буде лише через 24 години.';
 
   @override
   String get privacyDashboardVoiceActivityDisableDesc =>
-      'Ви збираєтеся припинити ділитися своєю голосовою активністю з усіма друзями, включно з майбутніми. Це надішле оновлення всім їм і може бути змінено знову лише через 24 години.';
+      'Ви збираєтеся припинити ділитися своєю голосовою активністю з усіма друзями, включно з майбутніми. Усі вони отримають оновлення, а змінити це можна буде лише через 24 години.';
 
   @override
   String get privacyDashboardVoiceActivityEnableConfirm =>
@@ -6602,7 +6606,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get privacyDashboardVoiceActivityDisableConfirm =>
-      'Так, припинити поширення';
+      'Так, припинити ділитися';
 
   @override
   String privacyDashboardVoiceActivityCooldown(String time) {
@@ -6611,22 +6615,22 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get privacyDashboardVoiceActivityUpdated =>
-      'Налаштування спільного доступу до голосової активності оновлено';
+      'Показ голосової активності оновлено';
 
   @override
   String get privacyDashboardVoiceActivityUpdateFailed =>
-      'Не вдалося оновити спільний доступ до голосової активності';
+      'Наразі не вдалося оновити спільний доступ до голосової активності';
 
   @override
   String get privacyDashboardDataExportDesc =>
-      'Створіть архів даних свого облікового запису для завантаження, включно з повідомленнями та URL-адресами вкладень. Більшість людей хочуть усе, але ви можете звузити обсяг нижче.';
+      'Створіть архів даних свого облікового запису для завантаження, включно з повідомленнями та URL-адресами вкладень. Більшість людей хоче отримати все, але ви можете звузити обсяг нижче.';
 
   @override
   String get privacyDashboardExportMyData => 'Експортувати мої дані';
 
   @override
   String get privacyDashboardDataDeletionDesc =>
-      'Назавжди видалити надіслані вами повідомлення в особистих чатах, групових чатах та спільнотах. Процес виконується у фоновому режимі, і ви отримаєте особисте повідомлення після його завершення.';
+      'Назавжди видалити надіслані вами повідомлення у приватних чатах, групових чатах та спільнотах. Процес виконується у фоновому режимі, і ви отримаєте особисте повідомлення після його завершення.';
 
   @override
   String get privacyDashboardDeleteMyMessages => 'Видалити мої повідомлення';
@@ -6641,23 +6645,23 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDmConfirmAllowBotsTitle =>
-      'Дозволити ботам надсилати вам прямі повідомлення?';
+      'Дозволити ботам надсилати вам особисті повідомлення?';
 
   @override
   String get privacyDashboardDmConfirmBlockBotsTitle =>
-      'Блокувати ботів від надсилання вам прямих повідомлень?';
+      'Заборонити ботам надсилати вам особисті повідомлення?';
 
   @override
   String get privacyDashboardDmConfirmAllowMembersDesc =>
-      'Чи бажаєте ви також дозволити прямі повідомлення від учасників ваших наявних спільнот?';
+      'Чи хочете ви також дозволити особисті повідомлення від учасників ваших наявних спільнот?';
 
   @override
   String get privacyDashboardDmConfirmBlockMembersDesc =>
-      'Ви також бажаєте блокувати особисті повідомлення від учасників ваших наявних спільнот?';
+      'Чи хочете ви також заблокувати особисті повідомлення від учасників ваших наявних спільнот?';
 
   @override
   String get privacyDashboardDmConfirmAllowBotsDesc =>
-      'Чи дозволяєте ви ботам з наявних спільнот надсилати вам особисті повідомлення?';
+      'Чи хочете ви також дозволити ботам з наявних спільнот надсилати вам особисті повідомлення?';
 
   @override
   String get privacyDashboardDmConfirmBlockBotsDesc =>
@@ -6709,7 +6713,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDataRequestExportCustomDesc =>
-      'Виберіть типи бесід, спільноти та часовий проміжок, які потрібно включити в архів.';
+      'Виберіть типи розмов, спільноти та часовий проміжок, які потрібно включити в архів.';
 
   @override
   String get privacyDashboardDataRequestDeleteSelected =>
@@ -6717,7 +6721,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDataRequestDeleteSelectedDesc =>
-      'Виберіть, які типи бесід потрібно очистити.';
+      'Виберіть, які типи розмов потрібно очистити.';
 
   @override
   String get privacyDashboardDataRequestDeleteInaccessible =>
@@ -6725,24 +6729,24 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDataRequestDeleteInaccessibleDesc =>
-      'Видалити повідомлення лише зі спільнот і групових приватних чатів, які ви покинули або з яких вас видалили.';
+      'Видалити повідомлення лише зі спільнот і групових чатів, які ви покинули або з яких вас видалили.';
 
   @override
-  String get privacyDashboardDataRequestKindsTitle => 'Які бесіди';
+  String get privacyDashboardDataRequestKindsTitle => 'Які розмови';
 
   @override
   String get privacyDashboardDataRequestKindsBody =>
-      'Увімкніть типи бесід, які ви хочете включити.';
+      'Увімкніть типи розмов, які ви хочете включити.';
 
   @override
   String get privacyDashboardDataRequestKindDms => 'Відкриті приватні чати';
 
   @override
   String get privacyDashboardDataRequestKindDmsClosed =>
-      'Закриті приватні повідомлення';
+      'Закриті приватні чати';
 
   @override
-  String get privacyDashboardDataRequestKindGroupDms => 'Групові приватні чати';
+  String get privacyDashboardDataRequestKindGroupDms => 'Групові чати';
 
   @override
   String get privacyDashboardDataRequestKindCommunities => 'Спільноти';
@@ -6784,11 +6788,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDataRequestDateHelper =>
-      'Залиште будь-яке поле пустим, щоб не обмежувати цей кінець періоду.';
+      'Залиште поле порожнім, щоб не обмежувати відповідний кінець періоду.';
 
   @override
   String get privacyDashboardDataRequestNeedInclusion =>
-      'Виберіть принаймні один тип бесід для включення.';
+      'Виберіть принаймні один тип розмов, який потрібно включити.';
 
   @override
   String get privacyDashboardDataRequestDateRangeError =>
@@ -6800,7 +6804,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDataRequestExportConfirmEverything =>
-      'Ми створимо архів усіх повідомлень, які ви коли-небудь надсилали, і надішлемо вам електронний лист, коли він буде готовий. Посилання для завантаження в цьому листі дійсне протягом 7 днів.';
+      'Ми створимо архів для завантаження з усіма повідомленнями, які ви коли-небудь надсилали, і надішлемо вам електронний лист, коли він буде готовий. Посилання для завантаження в цьому листі дійсне протягом 7 днів.';
 
   @override
   String get privacyDashboardDataRequestExportConfirmCustom =>
@@ -6815,7 +6819,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Після початку відновлення неможливе. Ми надішлемо вам особисте повідомлення, коли процес завершиться.';
 
   @override
-  String get privacyDashboardDataRequestRequestExport => 'Запит на експорт';
+  String get privacyDashboardDataRequestRequestExport => 'Запитати експорт';
 
   @override
   String get privacyDashboardDataRequestDeleteMessages =>
@@ -6825,7 +6829,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get privacyDashboardDataRequestSummaryScope => 'Область пошуку';
 
   @override
-  String get privacyDashboardDataRequestSummaryConversations => 'Бесіди';
+  String get privacyDashboardDataRequestSummaryConversations => 'Розмови';
 
   @override
   String get privacyDashboardDataRequestSummaryCommunities => 'Спільноти';
@@ -6883,15 +6887,14 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDataRequestSummaryDmsClosed =>
-      'Закриті приватні повідомлення';
+      'Закриті приватні чати';
 
   @override
   String get privacyDashboardDataRequestSummaryDmsBoth =>
       'Особисті повідомлення (відкриті та закриті)';
 
   @override
-  String get privacyDashboardDataRequestSummaryGroupDms =>
-      'Групові приватні чати';
+  String get privacyDashboardDataRequestSummaryGroupDms => 'Групові чати';
 
   @override
   String get privacyDashboardDataRequestSummaryCommunitiesIncluded =>
@@ -6981,7 +6984,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get doubleTapReactionHint => 'Double tap a message to';
 
   @override
-  String get doubleTapReactionEdit => 'Edit';
+  String get doubleTapReactionEdit => 'Редагувати';
 
   @override
   String get doubleTapReactionEditTitle => 'Edit default';
@@ -7011,7 +7014,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get forwardSearchHint => 'Шукати канали або приватні повідомлення';
 
   @override
-  String get forwardDirectMessagesSection => 'Приватні повідомлення';
+  String get forwardDirectMessagesSection => 'Особисті повідомлення';
 
   @override
   String get forwardCommentHint => 'Додати коментар (необов’язково)';
@@ -7039,7 +7042,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Очікування завершення повільного режиму в одному або кількох вибраних каналах.';
 
   @override
-  String get slowmodeRateLimitedTitle => 'Увімкнено повільний режим';
+  String get slowmodeRateLimitedTitle => 'Повільний режим активний';
 
   @override
   String slowmodeRateLimitedMessage(String duration) {
@@ -7084,7 +7087,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get forwardDestinationGuildSendDisabled =>
-      'Надсилання повідомлень вимкнено в цій спільноті';
+      'Надсилання повідомлень у цій спільноті вимкнено';
 
   @override
   String get forwardDestinationTimedOut =>
@@ -7096,7 +7099,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get chatMessageCopyText => 'Скопіювати повідомлення';
+  String get chatMessageCopyText => 'Копіювати повідомлення';
 
   @override
   String get chatMessageCopyEmbedText => 'Скопіювати текст вбудовування';
@@ -7130,7 +7133,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get chatMessageSpeak => 'Озвучити повідомлення';
 
   @override
-  String get chatMessageStopSpeaking => 'Припинити говорити';
+  String get chatMessageStopSpeaking => 'Зупинити озвучення';
 
   @override
   String get chatMessagePin => 'Закріпити повідомлення';
@@ -7142,17 +7145,17 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get chatMessageUnpinIt => 'Відкріпити';
 
   @override
-  String get chatMessageBookmark => 'Додати до закладок';
+  String get chatMessageBookmark => 'Додати в закладки';
 
   @override
-  String get chatMessageRemoveBookmark => 'Видалити закладку';
+  String get chatMessageRemoveBookmark => 'Видалити із закладок';
 
   @override
   String get chatMessageMarkAsUnread => 'Позначити як непрочитане';
 
   @override
   String get chatMessageCopyMessageLink =>
-      'Скопіювати посилання на повідомлення';
+      'Копіювати посилання на повідомлення';
 
   @override
   String get chatMessageOpenLink => 'Відкрити посилання';
@@ -7161,7 +7164,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get chatMessageCopyLink => 'Копіювати посилання';
 
   @override
-  String get chatMessageCopyMessageId => 'Скопіювати ID повідомлення';
+  String get chatMessageCopyMessageId => 'Копіювати ID повідомлення';
 
   @override
   String get chatMessageViewReactions => 'Переглянути реакції';
@@ -7186,7 +7189,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get chatReactionsSheetTitle => 'Реакції';
 
   @override
-  String get chatReactionsSheetEmpty => 'Ще ніхто не реагував.';
+  String get chatReactionsSheetEmpty => 'Ще ніхто не поставив цю реакцію.';
 
   @override
   String get chatReactionAddFailed => 'Не вдалося додати реакцію';
@@ -7195,17 +7198,17 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get chatReactionRemoveFailed => 'Не вдалося видалити реакцію';
 
   @override
-  String get chatMessageReport => 'Повідомити про повідомлення';
+  String get chatMessageReport => 'Поскаржитися на повідомлення';
 
   @override
-  String get iarReportMessageTitle => 'Повідомити про повідомлення';
+  String get iarReportMessageTitle => 'Поскаржитися на повідомлення';
 
   @override
-  String get iarThisUserFallback => 'цього користувача';
+  String get iarThisUserFallback => 'цей користувач';
 
   @override
   String get iarModalDescription =>
-      'Повідомте про порушення правил або знайдіть інструменти для керування контактами та налаштуваннями.';
+      'Поскаржитися на порушення правил або знайти інструменти для керування спілкуванням і налаштуваннями.';
 
   @override
   String get iarPathStepAriaLabel => 'Що вам потрібно?';
@@ -7220,7 +7223,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get iarReasonSelectHint => 'Виберіть причину';
 
   @override
-  String get iarPickAnOptionToast => 'Виберіть опцію, щоб продовжити.';
+  String get iarPickAnOptionToast => 'Виберіть варіант, щоб продовжити.';
 
   @override
   String get iarPickARuleToast => 'Виберіть порушене правило.';
@@ -7235,11 +7238,12 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get iarPathPreferenceMessage => 'Мені не подобається цей контент';
 
   @override
-  String get iarCategoryTargetedHarmLabel => 'Погрози, домагання або шкода';
+  String get iarCategoryTargetedHarmLabel =>
+      'Погрози, переслідування або заподіяння шкоди';
 
   @override
   String get iarCategoryTargetedHarmDescription =>
-      'Булінг, погрози, мова ворожнечі, насильство, рейди або контент, що заохочує самопошкодження.';
+      'Булінг, погрози, ненависть, насильство, рейди або контент, що спонукає до самоушкодження.';
 
   @override
   String get iarCategorySafetyMinorsLabel =>
@@ -7247,15 +7251,15 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get iarCategorySafetyMinorsDescription =>
-      'Діти в небезпеці, контент для дорослих не на місці або небажана поведінка.';
+      'Неповнолітні в небезпеці, контент для дорослих не в тому місці або небажана поведінка.';
 
   @override
   String get iarCategoryPrivacyIdentityLabel =>
-      'Конфіденційність або видавання себе за іншого';
+      'Конфіденційність або видавання себе за іншу особу';
 
   @override
   String get iarCategoryPrivacyIdentityDescription =>
-      'Публікація особистої інформації, переслідування, видавання себе за іншу особу або недоречний профіль.';
+      'Доксинг, переслідування, видавання себе за іншу особу або неприйнятний профіль.';
 
   @override
   String get iarCategoryDeceptionLabel =>
@@ -7263,36 +7267,35 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get iarCategoryDeceptionDescription =>
-      'Фішинг, шахрайство, шкідливі посилання або неправдиві заяви, які можуть завдати реальної шкоди.';
+      'Фішинг, шахрайство, шкідливі посилання або неправдиві твердження, що можуть завдати реальної шкоди.';
 
   @override
-  String get iarCategoryIllegalOtherLabel =>
-      'Незаконна діяльність або щось інше';
+  String get iarCategoryIllegalOtherLabel => 'Незаконна діяльність або інше';
 
   @override
   String get iarCategoryIllegalOtherDescription =>
-      'Незаконний продаж, сприяння злочинній діяльності або явне порушення правил, яке не підпадає під вищезазначені категорії.';
+      'Незаконний продаж, сприяння злочинності або явне порушення правил, що не підпадає під інші категорії.';
 
   @override
-  String get iarReasonHarassmentLabel => 'Домагання або погрози';
+  String get iarReasonHarassmentLabel => 'Переслідування або погрози';
 
   @override
   String get iarReasonHarassmentMessageDescription =>
-      'Булінг, повторні небажані контакти, переслідування або цілеспрямована образа.';
+      'Булінг, небажані повторювані контакти, переслідування або цілеспрямовані образи.';
 
   @override
   String get iarReasonHateLabel => 'Мова ворожнечі';
 
   @override
   String get iarReasonHateMessageDescription =>
-      'Образи, дегуманізуюча мова або напади на захищені групи.';
+      'Образливі прізвиська, дегуманізуючі висловлювання або нападки на захищені групи.';
 
   @override
-  String get iarReasonViolenceLabel => 'Насильство або погрози насильства';
+  String get iarReasonViolenceLabel => 'Насильство або погрози насильством';
 
   @override
   String get iarReasonViolenceDescription =>
-      'Реальні погрози, графічне насильство або прославлення насильства.';
+      'Реальні погрози, відверті сцени насильства або його прославляння.';
 
   @override
   String get iarReasonMatureContentLabel =>
@@ -7300,7 +7303,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get iarReasonMatureContentMessageDescription =>
-      'Небажана поведінка або контент для дорослих не на місці.';
+      'Небажана поведінка або контент для дорослих не в тому місці.';
 
   @override
   String get iarReasonChildSafetyLabel =>
@@ -7308,64 +7311,64 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get iarReasonChildSafetyMessageDescription =>
-      'Контент, пов\'язаний із грумінгом або експлуатацією дітей.';
+      'Матеріали, що стосуються грумінгу або експлуатації дітей.';
 
   @override
   String get iarReasonHarmfulMisinfoLabel => 'Шкідлива дезінформація';
 
   @override
   String get iarReasonHarmfulMisinfoDescription =>
-      'Неправдиві заяви, які можуть завдати реальної шкоди.';
+      'Неправдиві заяви, що можуть завдати реальної шкоди.';
 
   @override
   String get iarReasonSpamLabel => 'Спам, шахрайство або фішинг';
 
   @override
   String get iarReasonSpamMessageDescription =>
-      'Масовий спам, шахрайство, підроблені роздачі призів або зловживання обліковим записом.';
+      'Масовий спам, шахрайство, фейкові розіграші або неправомірне використання облікового запису.';
 
   @override
   String get iarReasonMalwareLabel => 'Шкідливе ПЗ або небезпечні посилання';
 
   @override
   String get iarReasonMalwareDescription =>
-      'Шкідливе ПЗ, крадіжка облікових даних або небезпечні файли.';
+      'Шкідливе програмне забезпечення, крадіжка облікових даних або небезпечні файли.';
 
   @override
   String get iarReasonPrivacyLabel => 'Порушення конфіденційності';
 
   @override
   String get iarReasonPrivacyDescription =>
-      'Публікація особистої інформації, розкриття приватних даних або переслідування.';
+      'Доксинг, розкриття приватної інформації або переслідування.';
 
   @override
   String get iarReasonImpersonationLabel =>
-      'Видавання себе за іншого або обманний медіаконтент';
+      'Видавання себе за іншу особу або оманливі медіа';
 
   @override
   String get iarReasonImpersonationMessageDescription =>
-      'Видавання себе за іншу особу, включно з обманним контентом, згенерованим ШІ.';
+      'Видавання себе за іншу особу, включно з оманливим контентом, згенерованим ШІ.';
 
   @override
   String get iarReasonIllegalLabel => 'Незаконна діяльність';
 
   @override
   String get iarReasonIllegalDescription =>
-      'Незаконний продаж, сприяння злочинній діяльності або протиправні дії.';
+      'Незаконний продаж, сприяння злочинності або протиправна діяльність.';
 
   @override
-  String get iarReasonSelfHarmLabel => 'Самопошкодження або суїцид';
+  String get iarReasonSelfHarmLabel => 'Заподіяння собі шкоди або самогубство';
 
   @override
   String get iarReasonSelfHarmMessageDescription =>
-      'Пропаганда або інструкції, що заохочують самопошкодження або розлади харчової поведінки.';
+      'Просування або інструкції, що заохочують до самоушкодження чи розладів харчової поведінки.';
 
   @override
-  String get iarReasonOtherLabel => 'Інше явне порушення правил';
+  String get iarReasonOtherLabel => 'Ще одне явне порушення правил';
 
   @override
   String iarReasonOtherDescription(String productName) {
-    return 'Використовуйте лише якщо це явно порушує правила $productName і не підпадає під вищезазначені категорії.';
+    return 'Використовуйте, лише якщо це чітко порушує правила $productName і не підпадає під жодну з перелічених вище категорій.';
   }
 
   @override
@@ -7379,36 +7382,36 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get iarSafetyNoteSelfHarm =>
-      'Якщо хтось може перебувати в безпосередній небезпеці, зв\'яжіться з місцевими екстреними службами, якщо це безпечно для вас.';
+      'Якщо хтось у безпосередній небезпеці, зверніться до місцевих екстрених служб, якщо це можна зробити безпечно.';
 
   @override
   String get iarSafetyNoteViolence =>
-      'Якщо це реальна неминуча загроза, також зв\'яжіться з місцевими екстреними службами.';
+      'Якщо це реальна неминуча загроза, також зверніться до місцевих екстрених служб.';
 
   @override
   String get iarSafetyNoteTerrorism =>
-      'Якщо це неминуча терористична загроза, також зв\'яжіться з місцевими екстреними службами.';
+      'Якщо це неминуча терористична загроза, також зверніться до місцевих екстрених служб.';
 
   @override
   String get iarActionBlockUserTitle => 'Заблокувати цього користувача';
 
   @override
   String get iarActionBlockUserDescription =>
-      'Припинити надсилання повідомлень і запитів на дружбу.';
+      'Більше не отримувати повідомлення та запити на додавання в друзі.';
 
   @override
   String get iarActionBlockUserButton => 'Заблокувати';
 
   @override
   String get iarActionCopyMessageLinkTitle =>
-      'Скопіювати посилання на повідомлення';
+      'Копіювати посилання на повідомлення';
 
   @override
   String get iarActionCopyMessageLinkDescription =>
-      'Надіслати модераторам спільноти.';
+      'Поділитися з модераторами спільноти.';
 
   @override
-  String get iarActionCopyMessageLinkButton => 'Скопіювати';
+  String get iarActionCopyMessageLinkButton => 'Копіювати';
 
   @override
   String get iarActionCloseDmTitle => 'Закрити цей приватний чат';
@@ -7418,25 +7421,25 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Не блокує. Можна відкрити знову пізніше.';
 
   @override
-  String get iarActionCloseDmButton => 'Закрити приватне повідомлення';
+  String get iarActionCloseDmButton => 'Закрити приватний чат';
 
   @override
-  String get iarActionLeaveCommunityTitle => 'Покинути спільноту';
+  String get iarActionLeaveCommunityTitle => 'Вийти зі спільноти';
 
   @override
   String get iarActionLeaveCommunityDescription =>
-      'Припинити бачити її контент та учасників.';
+      'Більше не бачити його вміст і учасників.';
 
   @override
-  String get iarActionLeaveCommunityButton => 'Покинути';
+  String get iarActionLeaveCommunityButton => 'Вийти';
 
   @override
   String get iarActionDmSettingsTitle =>
-      'Налаштування приватних повідомлень і запитів у друзі';
+      'Налаштування особистих повідомлень і запитів на додавання в друзі';
 
   @override
   String get iarActionDmSettingsDescription =>
-      'Змінити, хто може зв\'язуватися з вами.';
+      'Змінити, хто може з вами зв\'язуватися.';
 
   @override
   String get iarActionCallSettingsTitle =>
@@ -7464,7 +7467,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get iarActionDeleteMessageDeletedTooltip =>
-      'Це повідомлення вже було видалено.';
+      'Це повідомлення вже видалено.';
 
   @override
   String get iarActionBanUserTitle => 'Заблокувати цього користувача';
@@ -7481,10 +7484,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get iarActionBanUserBannedTooltip =>
-      'Цей користувач вже заблокований у спільноті.';
+      'Цього користувача вже заблоковано в спільноті.';
 
   @override
-  String get iarCloseDmConfirmTitle => 'Закрити приватне повідомлення';
+  String get iarCloseDmConfirmTitle => 'Закрити приватний чат';
 
   @override
   String iarCloseDmConfirmDescription(String name) {
@@ -7492,11 +7495,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get iarSuccessTitle => 'Звіт надіслано';
+  String get iarSuccessTitle => 'Скаргу надіслано';
 
   @override
   String get iarSuccessBody =>
-      'Наша команда безпеки розглядає його. Ми надішлемо вам приватне повідомлення та електронний лист, щойно приймемо рішення.';
+      'Наша команда безпеки перевіряє це. Ми надішлемо вам особисте повідомлення та електронний лист, щойно винесемо рішення.';
 
   @override
   String get iarAlreadyReportedTitle => 'Вже надіслано звіт';
@@ -7509,10 +7512,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get iarBackButton => 'Назад';
 
   @override
-  String get iarContinueButton => 'Далі';
+  String get iarContinueButton => 'Продовжити';
 
   @override
-  String get iarSendReportButton => 'Надіслати звіт';
+  String get iarSendReportButton => 'Надіслати скаргу';
 
   @override
   String get iarDoneButton => 'Готово';
@@ -7550,10 +7553,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Не вдалося покинути цю спільноту. Спробуйте ще раз.';
 
   @override
-  String get chatMessageSuppressEmbeds => 'Приховати вбудовування';
+  String get chatMessageSuppressEmbeds => 'Приховати вбудований вміст';
 
   @override
-  String get chatMessageUnsuppressEmbeds => 'Показати вбудовування';
+  String get chatMessageUnsuppressEmbeds => 'Показати вбудований вміст';
 
   @override
   String get chatMessageDelete => 'Видалити повідомлення';
@@ -7579,12 +7582,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get chatEditingMessage => 'Редагування повідомлення';
 
   @override
-  String get chatReplyOriginalDeleted =>
-      'Оригінальне повідомлення було видалено';
+  String get chatReplyOriginalDeleted => 'Вихідне повідомлення видалено';
 
   @override
   String get chatReplyOriginalFailedToLoad =>
-      'Не вдалося завантажити оригінальне повідомлення';
+      'Не вдалося завантажити вихідне повідомлення';
 
   @override
   String get chatReplyAttachedMedia =>
@@ -7614,11 +7616,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get chatReplyHiddenBlockedAuthor =>
-      'Відповідь приховано, оскільки оригінального автора заблоковано.';
+      'Відповідь приховано, оскільки автора початкового повідомлення заблоковано.';
 
   @override
   String get chatReplyHiddenSpammerAuthor =>
-      'Відповідь приховано, оскільки оригінального автора позначено як спамера.';
+      'Відповідь приховано, оскільки автора початкового повідомлення позначено як спамера.';
 
   @override
   String get devMarkAsSpamLocally => 'Позначити як спам локально';
@@ -7630,16 +7632,17 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get chatMessagesLoadError => 'Не вдалося завантажити повідомлення.';
 
   @override
-  String get chatReplyMentionOverrideTitle => 'Ігнорувати налаштування згадок?';
+  String get chatReplyMentionOverrideTitle =>
+      'Перевизначити налаштування згадок?';
 
   @override
   String chatReplyMentionPrefersMentionBody(String authorNickname) {
-    return 'Автор $authorNickname віддає перевагу згадкам у відповідях. Надіслати без згадки все одно?';
+    return '$authorNickname надає перевагу відповідям із @згадкою. Усе одно надіслати без згадки?';
   }
 
   @override
   String chatReplyMentionPrefersNoMentionBody(String authorNickname) {
-    return '$authorNickname надає перевагу відповідям без згадки @. Надіслати зі згадкою все одно?';
+    return '$authorNickname надає перевагу відповідям без @згадки. Усе одно надіслати зі згадкою?';
   }
 
   @override
@@ -7647,11 +7650,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get chatReplyMentionDisableTooltip =>
-      'Натисніть, щоб вимкнути сповіщення користувача, якому ви відповідаєте.';
+      'Натисніть, щоб вимкнути згадку користувача, якому ви відповідаєте.';
 
   @override
   String get chatReplyMentionEnableTooltip =>
-      'Натисніть, щоб увімкнути сповіщення користувача, якому ви відповідаєте.';
+      'Натисніть, щоб увімкнути згадку користувача, якому ви відповідаєте.';
 
   @override
   String get chatReplyMentionAccessibilityLabel =>
@@ -7670,14 +7673,14 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get chatEditMessageHint => 'Редагувати повідомлення';
 
   @override
-  String get chatEditNoChanges => 'Змін для збереження немає';
+  String get chatEditNoChanges => 'Немає змін для збереження';
 
   @override
   String get chatChannelNotReady =>
       'Цей канал ще не готовий. Спробуйте ще раз за мить.';
 
   @override
-  String get chatMessageEdited => '(ред.)';
+  String get chatMessageEdited => '(змінено)';
 
   @override
   String get chatMessageSilent =>
@@ -7697,7 +7700,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get mediaViewerImagePreview => 'Попередній перегляд зображення';
 
   @override
-  String get mediaViewerClose => 'Закрити переглядач медіафайлів';
+  String get mediaViewerClose => 'Закрити перегляд медіа';
 
   @override
   String get mediaViewerOpenInBrowser => 'Відкрити в браузері';
@@ -7712,16 +7715,16 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get mediaViewerForward => 'Переслати';
 
   @override
-  String get mediaViewerZoomIn => 'Збільшити';
+  String get mediaViewerZoomIn => 'Збільшити масштаб';
 
   @override
-  String get mediaViewerZoomOut => 'Зменшити';
+  String get mediaViewerZoomOut => 'Зменшити масштаб';
 
   @override
-  String get mediaViewerPreviousAttachment => 'Попередній вкладений файл';
+  String get mediaViewerPreviousAttachment => 'Попереднє вкладення';
 
   @override
-  String get mediaViewerNextAttachment => 'Наступний вкладений файл';
+  String get mediaViewerNextAttachment => 'Наступне вкладення';
 
   @override
   String mediaViewerAttachmentIndex(int current, int total) {
@@ -7763,7 +7766,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
-      'Сповістити користувачів із цією роллю, які мають дозвіл переглядати цей канал.';
+      'Сповістити користувачів із цією роллю, які мають дозвіл на перегляд цього каналу.';
 
   @override
   String get composerAutocompleteSuggestions => 'Пропозиції';
@@ -7800,7 +7803,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get composerAutocompleteStickersHeading => 'Стікери';
 
   @override
-  String get composerAutocompleteGifsHeading => 'GIF-и';
+  String get composerAutocompleteGifsHeading => 'GIF-файли';
 
   @override
   String get composerAutocompleteNoGifs => 'GIF не знайдено';
@@ -7831,11 +7834,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get composerCommandNickDescription =>
-      'Змінити ваш нік у цій спільноті.';
+      'Змінити свій псевдонім у цій спільноті.';
 
   @override
   String get composerCommandKickDescription =>
-      'Видалити учасника зі спільноти.';
+      'Вигнати учасника з цієї спільноти.';
 
   @override
   String get composerCommandBanDescription =>
@@ -7856,7 +7859,8 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get composerCommandGifDescription => 'Знайти та надіслати GIF.';
 
   @override
-  String get composerCommandMemberOption => 'Учасник, якого потрібно вибрати.';
+  String get composerCommandMemberOption =>
+      'Учасник, до якого застосувати команду.';
 
   @override
   String get composerCommandReasonOption => 'Причина (необов\'язково).';
@@ -7869,7 +7873,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get composerCommandNicknameOption =>
-      'Ваш новий нікнейм або залиште порожнім, щоб скинути його.';
+      'Ваш новий псевдонім або залиште порожнім, щоб скинути його.';
 
   @override
   String get composerCommandDeleteMessagesOption =>
@@ -7884,11 +7888,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get composerCommandDeleteMessagesOneDay => 'Попередні 24 години';
+  String get composerCommandDeleteMessagesOneDay => 'За останні 24 години';
 
   @override
   String get composerCommandOptionRequired =>
-      'Цей параметр є обов\'язковим. Будь ласка, надайте значення.';
+      'Цей параметр обов\'язковий. Укажіть значення.';
 
   @override
   String get composerCommandClear => 'Очистити команду';
@@ -7898,7 +7902,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
     String previousNickname,
     String newNickname,
   ) {
-    return 'Ви змінили свій нікнейм у цій спільноті з **$previousNickname** на **$newNickname**.';
+    return 'Ви змінили свій псевдонім у цій спільноті з **$previousNickname** на **$newNickname**.';
   }
 
   @override
@@ -7919,7 +7923,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get addGuildModalLandingDescription =>
-      'Створіть нову спільноту або приєднайтеся до існуючої.';
+      'Створіть нову спільноту або приєднайтеся до наявної.';
 
   @override
   String get addGuildCreateCommunity => 'Створити спільноту';
@@ -7973,7 +7977,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get addGuildCreateClaimDescription =>
-      'Щоб створити спільноту, потрібно підтвердити свій обліковий запис.';
+      'Щоб створити спільноту, потрібно зареєструвати свій обліковий запис.';
 
   @override
   String get addGuildCreateVerifyTitle => 'Підтвердьте свою електронну пошту';
@@ -8060,18 +8064,18 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Ви впевнені, що хочете видалити всі реакції з цього повідомлення?';
 
   @override
-  String get chatMessagePinConfirm => 'Pin';
+  String get chatMessagePinConfirm => 'Закріпити';
 
   @override
   String get chatMessagePinConfirmDescription =>
-      'Pin this message to the channel for everyone to see.';
+      'Закріпити це повідомлення в каналі, щоб його бачили всі.';
 
   @override
   String get chatMessageUnpinConfirmTitle => 'Відкріпити повідомлення';
 
   @override
   String get chatMessageUnpinConfirmDescription =>
-      'Відправити це закріплення назад у минуле?';
+      'Надіслати це закріплене повідомлення назад у минуле?';
 
   @override
   String systemPinMessage(
@@ -8093,7 +8097,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get channelPinsEmptyDescription =>
-      'Закріплені повідомлення з\'являтимуться тут.';
+      'Закріплені повідомлення відображаються тут.';
 
   @override
   String get channelDetailsFallbackTitle => 'Деталі';
@@ -8120,8 +8124,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get channelDetailsGroupSettingsTitle => 'Налаштування групи';
 
   @override
-  String get channelDetailsDmSettingsTitle =>
-      'Налаштування приватного повідомлення';
+  String get channelDetailsDmSettingsTitle => 'Налаштування приватного чату';
 
   @override
   String get channelDetailsInvitePeople => 'Запросити людей';
@@ -8290,7 +8293,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String channelSettingsVoiceQualityKbps(int kilobits) {
-    return '$kilobits тис. біт/с';
+    return '$kilobits кбіт/с';
   }
 
   @override
@@ -8331,7 +8334,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get channelSettingsVoiceRegion => 'Регіон для голосового зв\'язку';
+  String get channelSettingsVoiceRegion => 'Голосовий регіон';
 
   @override
   String get channelSettingsVoiceRegionDescription =>
@@ -8357,7 +8360,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get channelSettingsMatureContentOverride =>
-      'Перевизначення для контенту для дорослих';
+      'Перевизначення контенту для дорослих';
 
   @override
   String channelSettingsMatureContentSectionDescription(String scopeLevel) {
@@ -8392,7 +8395,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get channelSettingsMatureContentCategorySource => 'Категорія';
+  String get channelSettingsMatureContentCategorySource => 'категорія';
 
   @override
   String get channelSettingsMatureContentCommunitySource => 'спільноти';
@@ -8416,20 +8419,20 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get channelSettingsContentWarningDefault =>
-      'Цей вміст може бути чутливим.';
+      'Тут міститься делікатний вміст.';
 
   @override
   String channelSettingsPermissionsNeedManageChannels(
     String manageChannelsPermissionLabel,
   ) {
-    return 'Щоб редагувати ці дозволи, вам потрібен дозвіл \"$manageChannelsPermissionLabel\".';
+    return 'Щоб редагувати ці дозволи, вам потрібен дозвіл «$manageChannelsPermissionLabel».';
   }
 
   @override
   String channelSettingsPermissionsNeedManageRoles(
     String manageRolesPermissionLabel,
   ) {
-    return 'Щоб редагувати ці дозволи, вам потрібен дозвіл \"$manageRolesPermissionLabel\".';
+    return 'Щоб редагувати ці дозволи, вам потрібен дозвіл «$manageRolesPermissionLabel».';
   }
 
   @override
@@ -8460,11 +8463,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get channelSettingsPermissionsConfigureRoleOverrides =>
-      'Налаштувати перевизначення для цієї ролі';
+      'Налаштуйте перевизначення для цієї ролі';
 
   @override
   String get channelSettingsPermissionsConfigureMemberOverrides =>
-      'Налаштувати винятки для цього учасника';
+      'Налаштуйте перевизначення для цього учасника';
 
   @override
   String get channelSettingsPermissionsSearchPlaceholder => 'Пошук дозволів…';
@@ -8557,7 +8560,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get channelSettingsWebhooksEmptyDescription =>
-      'Для цього каналу не налаштовано жодних вебхуків. Створіть вебхук, щоб дозволити зовнішнім програмам надсилати повідомлення.';
+      'Для цього каналу не налаштовано жодних вебхуків. Створіть вебхук, щоб дозволити зовнішнім застосункам надсилати повідомлення.';
 
   @override
   String get channelSettingsWebhooksUnsupported =>
@@ -8639,7 +8642,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get channelMenuDeleteMyMessagesDescription =>
-      'Буде назавжди видалено всі повідомлення, які ви коли-небудь надсилали в цьому каналі. Цю дію не можна скасувати.';
+      'Це назавжди видалить усі повідомлення, які ви коли-небудь надсилали в цьому каналі. Цю дію не можна скасувати.';
 
   @override
   String get channelMenuDeleteMyMessagesConfirm => 'Видалити мої повідомлення';
@@ -8764,13 +8767,13 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get channelDetailsSearchTitle => 'Пошук';
 
   @override
-  String get channelDetailsSearchHint => 'Шукати повідомлення';
+  String get channelDetailsSearchHint => 'Пошук повідомлень';
 
   @override
   String get channelDetailsSearchFilterFrom => 'Від';
 
   @override
-  String get channelDetailsSearchFilterHas => 'Має';
+  String get channelDetailsSearchFilterHas => 'Містить';
 
   @override
   String get channelDetailsSearchFilterIn => 'У';
@@ -8860,13 +8863,13 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Переслані повідомлення';
 
   @override
-  String get channelDetailsSearchFilterSort => 'Сортувати';
+  String get channelDetailsSearchFilterSort => 'Сортування';
 
   @override
   String get channelHeaderSearchFiltersTitle => 'Фільтри пошуку';
 
   @override
-  String get channelHeaderSearchRecentTitle => 'Нещодавні пошуки';
+  String get channelHeaderSearchRecentTitle => 'Останні пошуки';
 
   @override
   String get channelHeaderSearchUsersTitle => 'Користувачі';
@@ -8928,7 +8931,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get channelHeaderSearchFilterDescFileType =>
-      'розширення файлу, наприклад png';
+      'розширення файлу, наприклад, png';
 
   @override
   String get channelHeaderSearchFilterDescSort => 'за часом або релевантністю';
@@ -9028,14 +9031,14 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get channelDetailsJumpToMessage => 'Перейти до повідомлення';
 
   @override
-  String get channelDetailsUnpinMessage => 'Скасувати закріплення повідомлення';
+  String get channelDetailsUnpinMessage => 'Відкріпити повідомлення';
 
   @override
   String get channelDetailsCopyMessageLink =>
-      'Скопіювати посилання на повідомлення';
+      'Копіювати посилання на повідомлення';
 
   @override
-  String get channelDetailsCopyMessageId => 'Скопіювати ID повідомлення';
+  String get channelDetailsCopyMessageId => 'Копіювати ID повідомлення';
 
   @override
   String get channelDetailsMessageUnpinned => 'Повідомлення відкріплено';
@@ -9051,14 +9054,14 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get channelDetailsSearchScopeAllDmsOnlyGuild =>
-      'Усі особисті повідомлення';
+      'Лише всі приватні чати';
 
   @override
   String get channelDetailsSearchScopeAllDms => 'Усі приватні чати';
 
   @override
   String get channelDetailsSearchScopeOpenDmsOnlyGuild =>
-      'Лише відкриті особисті повідомлення';
+      'Лише відкриті приватні чати';
 
   @override
   String get channelDetailsSearchScopeOpenDms => 'Відкриті приватні чати';
@@ -9069,11 +9072,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get channelDetailsSearchScopeOpenDmsAndCommunities =>
-      'Відкриті особисті чати та спільноти';
+      'Відкриті приватні чати + спільноти';
 
   @override
   String get channelDetailsSearchScopeCurrentCommunityDescription =>
-      'Шукати лише в цій спільноті';
+      'Шукати лише в поточній спільноті';
 
   @override
   String get channelDetailsSearchScopeCurrentDmDescription =>
@@ -9085,11 +9088,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get channelDetailsSearchScopeAllDmsOnlyGuildDescription =>
-      'Лише в усіх особистих чатах, у яких ви коли-небудь були';
+      'Лише в усіх приватних чатах, у яких ви коли-небудь були';
 
   @override
   String get channelDetailsSearchScopeAllDmsDescription =>
-      'У всіх ваших особистих чатах';
+      'У всіх приватних чатах, у яких ви коли-небудь були';
 
   @override
   String get channelDetailsSearchScopeOpenDmsOnlyGuildDescription =>
@@ -9114,19 +9117,19 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get channelDetailsSearchSortOldest => 'Спочатку найстаріші';
 
   @override
-  String get channelDetailsSearchSortRelevance => 'Найбільш релевантні';
+  String get channelDetailsSearchSortRelevance => 'Найрелевантніші';
 
   @override
   String get channelDetailsSearchSortNewestDescription =>
-      'Показувати найновіші повідомлення спочатку';
+      'Спочатку показувати найновіші повідомлення';
 
   @override
   String get channelDetailsSearchSortOldestDescription =>
-      'Показувати найстаріші повідомлення спочатку';
+      'Спочатку показувати найстаріші повідомлення';
 
   @override
   String get channelDetailsSearchSortRelevanceDescription =>
-      'Показувати найрелевантніші повідомлення спочатку';
+      'Спочатку показувати найрелевантніші повідомлення';
 
   @override
   String get channelDetailsSearchContentImage => 'Завантаження зображення';
@@ -9135,7 +9138,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get channelDetailsSearchContentVideo => 'Завантаження відео';
 
   @override
-  String get channelDetailsSearchContentAudio => 'Аудіозапис';
+  String get channelDetailsSearchContentAudio => 'Завантаження аудіо';
 
   @override
   String get channelDetailsSearchContentFile => 'Завантаження файлу';
@@ -9145,7 +9148,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get channelDetailsSearchContentEmbed =>
-      'Попередній перегляд посилання або вбудований контент';
+      'Попередній перегляд посилання або вбудований вміст';
 
   @override
   String get channelDetailsSearchContentSticker => 'Стікер';
@@ -9168,15 +9171,15 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get channelDetailsSearchContentLinkDescription =>
-      'Введено URL в тексті повідомлення';
+      'URL, введений у тексті повідомлення';
 
   @override
   String get channelDetailsSearchContentEmbedDescription =>
-      'Вирішені попередні перегляди та розширені вбудовування, а не завантаження';
+      'Згенеровані попередні перегляди та розширений вбудований вміст, а не завантажені файли';
 
   @override
   String get channelDetailsSearchContentStickerDescription =>
-      'Стікер прикріплено до повідомлення';
+      'Стікер, прикріплений до повідомлення';
 
   @override
   String channelDetailsSearchContentTypesCount(int count) {
@@ -9188,7 +9191,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get personalNotesSubtitle =>
-      'Ваш приватний простір для думок і нагадувань';
+      'Ваш особистий простір для думок і нагадувань';
 
   @override
   String groupDmWelcome(String displayName) {
@@ -9248,7 +9251,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Анімовані іконки не підтримуються';
 
   @override
-  String get groupDmIconFileTooLargeTitle => 'Файл значка завеликий';
+  String get groupDmIconFileTooLargeTitle => 'Файл іконки завеликий';
 
   @override
   String groupDmIconFileTooLargeBody(String maxSize) {
@@ -9279,7 +9282,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get groupDmAddFriends => 'Додати';
 
   @override
-  String get groupDmOrSendInvite => 'або надішліть запрошення другу:';
+  String get groupDmOrSendInvite => 'або надішліть запрошення другові:';
 
   @override
   String get groupDmGenerateInviteLink => 'Згенерувати посилання-запрошення';
@@ -9349,7 +9352,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get groupDmInvitesRevokeConfirm =>
-      'Скасувати це запрошення? Це не можна буде скасувати.';
+      'Скасувати це запрошення? Цю дію не можна скасувати.';
 
   @override
   String get groupDmInviteRevoked => 'Запрошення скасовано';
@@ -9374,7 +9377,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String channelComposerHint(String channelName) {
-    return 'Message #$channelName';
+    return 'Написати в #$channelName';
   }
 
   @override
@@ -9384,11 +9387,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String groupDmNamedComposerHint(String groupName) {
-    return 'Message $groupName';
+    return 'Написати в $groupName';
   }
 
   @override
-  String get groupDmComposerHint => 'Message group';
+  String get groupDmComposerHint => 'Група повідомлень';
 
   @override
   String get composerHint => 'Message';
@@ -9478,7 +9481,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Це назавжди видалить кожне повідомлення та вкладення у ваших особистих нотатках. Це неможливо скасувати.';
 
   @override
-  String get purgePersonalNotesConfirmButton => 'Видалити';
+  String get purgePersonalNotesConfirmButton => 'Очистити';
 
   @override
   String purgePersonalNotesSuccess(int count) {
@@ -9641,7 +9644,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get premiumMonthly => 'Щомісяця';
 
   @override
-  String get premiumYearly => 'Щорічно';
+  String get premiumYearly => 'Щороку';
 
   @override
   String get premiumPerMonth => 'на місяць';
@@ -9656,7 +9659,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get premiumSave17 => 'Заощадьте 17%';
 
   @override
-  String get premiumUpgradeNow => 'Оновити зараз';
+  String get premiumUpgradeNow => 'Підписатися зараз';
 
   @override
   String get premiumBuyGift => 'Купити подарунок';
@@ -9803,7 +9806,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String premiumDisclaimerPurchased(String terms, String privacy) {
-    return 'Купуючи, ви погоджуєтеся з нашими $terms та $privacy.';
+    return 'Здійснивши покупку, ви погодилися з нашими $terms та $privacy.';
   }
 
   @override
@@ -9822,7 +9825,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get premiumCheckoutStartFailedBody =>
-      'Під час оформлення замовлення сталася помилка. Повторіть спробу пізніше.';
+      'Під час оформлення замовлення сталася помилка. Спробуйте ще раз за мить.';
 
   @override
   String get premiumGiftSubscriptionBlocksRecurring =>
@@ -9865,14 +9868,14 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get premiumCustomerPortalOpenFailedBody =>
-      'Під час відкриття платіжного порталу сталася помилка. Повторіть спробу пізніше.';
+      'Під час відкриття платіжного порталу сталася помилка. Спробуйте ще раз за мить.';
 
   @override
   String get premiumAlreadyVisionaryTitle => 'Ви вже Visionary';
 
   @override
   String get premiumAlreadyVisionaryBody =>
-      'Visionary вже включає постійний доступ, тому регулярна підписка не потрібна. Ви все ще можете купувати подарунки для інших.';
+      'Visionary вже надає постійний доступ, тому регулярна підписка не потрібна. Ви й надалі можете купувати подарунки для інших.';
 
   @override
   String get premiumExistingSubscriptionTitle => 'Підписка вже існує';
@@ -9909,7 +9912,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get premiumPerkProfileBadge => 'Значок профілю';
 
   @override
-  String get premiumPerkCustomVideoBackgrounds => 'Власні відеофони';
+  String get premiumPerkCustomVideoBackgrounds => 'Власні фони для відео';
 
   @override
   String get premiumPerkEntranceSounds => 'Звуки входу';
@@ -9963,7 +9966,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get userSettingsNavPrivacyDashboard => 'Панель конфіденційності';
 
   @override
-  String get userSettingsNavAuthorizedApps => 'Авторизовані програми';
+  String get userSettingsNavAuthorizedApps => 'Авторизовані застосунки';
 
   @override
   String get userSettingsNavBlockedUsers => 'Заблоковані користувачі';
@@ -9981,7 +9984,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get userSettingsNavAccessibility => 'Доступність';
 
   @override
-  String get userSettingsNavChat => 'Повідомлення та медіа';
+  String get userSettingsNavChat => 'Чат';
 
   @override
   String get userSettingsNavAudioAndVideo => 'Аудіо та відео';
@@ -10037,18 +10040,18 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get audioAndVideoVoiceProcessingSectionTitle => 'Обробка голосу';
 
   @override
-  String get audioAndVideoFocusedVoiceLabel => 'Фокусований голос';
+  String get audioAndVideoFocusedVoiceLabel => 'Чіткий голос';
 
   @override
   String get audioAndVideoFocusedVoiceDescription =>
-      'Рекомендовано. Очищає мікрофон для чіткої мови.';
+      'Рекомендовано. Очищає звук мікрофона для чіткої мови.';
 
   @override
-  String get audioAndVideoDirectInputLabel => 'Прямий ввід';
+  String get audioAndVideoDirectInputLabel => 'Прямий вхід';
 
   @override
   String get audioAndVideoDirectInputDescription =>
-      'Надсилає ваш звук без змін. Найкраще, якщо ви використовуєте зовнішнє аудіопрограмне забезпечення.';
+      'Надсилає ваш звук без змін. Найкраще, якщо ви використовуєте зовнішні аудіопрограми.';
 
   @override
   String get audioAndVideoCustomProfileLabel => 'Власні';
@@ -10084,10 +10087,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get audioAndVideoMicTestSectionTitle => 'Тест мікрофона';
 
   @override
-  String get audioAndVideoMicTestStartLabel => 'Розпочати тест мікрофона';
+  String get audioAndVideoMicTestStartLabel => 'Почати перевірку мікрофона';
 
   @override
-  String get audioAndVideoMicTestStopLabel => 'Зупинити тест мікрофона';
+  String get audioAndVideoMicTestStopLabel => 'Зупинити перевірку мікрофона';
 
   @override
   String audioAndVideoMicTestPermissionRequired(String productName) {
@@ -10139,12 +10142,12 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String audioAndVideoMicrophonePermissionRequired(String productName) {
-    return 'Щоб переглянути список пристроїв, програмі $productName потрібен доступ до мікрофона.';
+    return 'Щоб переглянути список пристроїв, застосунку $productName потрібен доступ до мікрофона.';
   }
 
   @override
   String audioAndVideoCameraPermissionRequired(String productName) {
-    return 'Щоб відобразити ваші пристрої, програмі $productName потрібен доступ до камери.';
+    return 'Щоб відобразити ваші пристрої, застосунку $productName потрібен доступ до камери.';
   }
 
   @override
@@ -10187,11 +10190,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get notificationsPushInactiveTimeoutLabel =>
-      'Таймаут неактивності push-сповіщень';
+      'Час неактивності для push-сповіщень';
 
   @override
   String notificationsPushInactiveTimeoutDescription(String productName) {
-    return '$productName не надсилає сповіщення на ваші мобільні пристрої, коли ви працюєте за комп’ютером. Оберіть, скільки часу має пройти бездіяльності на робочому столі, перш ніж ви почнете отримувати сповіщення.';
+    return '$productName не надсилає push-сповіщення на ваші мобільні пристрої, коли ви за комп’ютером. Виберіть, скільки часу ви маєте бути неактивними на комп’ютері, перш ніж почнете отримувати push-сповіщення.';
   }
 
   @override
@@ -10213,28 +10216,28 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Налаштування згадок у відповідях';
 
   @override
-  String get notificationsMentionNoPreferenceName => 'Без налаштувань';
+  String get notificationsMentionNoPreferenceName => 'Не має значення';
 
   @override
   String get notificationsMentionNoPreferenceDescription =>
       'Враховувати намір відправника, без попередження, коли він вмикає згадку @';
 
   @override
-  String get notificationsMentionPreferMentionName => 'Бажані згадки';
+  String get notificationsMentionPreferMentionName => 'Зі згадкою @';
 
   @override
   String get notificationsMentionPreferMentionDescription =>
-      'За замовчуванням відповідає на згадки про вас і попереджає відправника, якщо він вимкне цю функцію';
+      'За замовчуванням відповіді міститимуть згадку @, а відправник отримає попередження, якщо він її вимкне';
 
   @override
-  String get notificationsMentionPreferNoMentionName => 'Не згадувати мене';
+  String get notificationsMentionPreferNoMentionName => 'Без згадки @';
 
   @override
   String get notificationsMentionPreferNoMentionDescription =>
       'За замовчуванням відповіді не міститимуть згадки @, а відправник отримає попередження, якщо він її ввімкне';
 
   @override
-  String get notificationsTtsSectionTitle => 'Текстові повідомлення';
+  String get notificationsTtsSectionTitle => 'Озвучення сповіщень';
 
   @override
   String get notificationsTtsEnableCommandLabel =>
@@ -10267,7 +10270,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get notificationsTtsModeAllChannelsDescription =>
-      'Нехай кожне вхідне повідомлення буде озвучено, незалежно від того, який канал відкрито.';
+      'Озвучувати кожне вхідне повідомлення, незалежно від того, який канал відкрито.';
 
   @override
   String get notificationsTtsModeCurrentChannelName => 'Лише активний канал';
@@ -10277,11 +10280,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Озвучує лише канал, який ви переглядаєте. Озвучення слідує за вами між каналами.';
 
   @override
-  String get notificationsTtsModeNeverName => 'Ніколи автоматично';
+  String get notificationsTtsModeNeverName => 'Не озвучувати автоматично';
 
   @override
   String get notificationsTtsModeNeverDescription =>
-      'Залишатися беззвучним, доки хтось не запустить /tts вручну.';
+      'Нічого не озвучує, доки хтось не запустить /tts вручну.';
 
   @override
   String get notificationsTtsModeAriaLabel => 'Озвучувати всі повідомлення';
@@ -10294,7 +10297,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get notificationsMasterVolumeDescription =>
-      'Встановлює рівень для кожного звукового ефекту. Налаштування для окремих звуків ігнорують це.';
+      'Встановлює рівень для кожного звукового ефекту. Перевизначення для окремих звуків не враховують це.';
 
   @override
   String get notificationsResetToDefaultVolume =>
@@ -10324,7 +10327,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get notificationsPerSoundVolumeDescription =>
-      'Установіть власну гучність для окремих звуків. Звуки без перевизначення відповідають основній гучності.';
+      'Установіть власну гучність для окремих звуків. Звуки без перевизначення використовують загальну гучність.';
 
   @override
   String notificationsPerSoundVolumeOverrideDescription(int overrideCount) {
@@ -10338,11 +10341,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String notificationsResetSoundToMasterVolume(String label) {
-    return 'Скинути $label до основної гучності';
+    return 'Скинути $label до загальної гучності';
   }
 
   @override
-  String get notificationsResetAllOverrides => 'Скинути всі налаштування';
+  String get notificationsResetAllOverrides => 'Скинути всі перевизначення';
 
   @override
   String notificationsMuteSound(String label) {
@@ -10360,23 +10363,23 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get notificationsSoundDirectMessage =>
-      'Сповіщення про приватні повідомлення';
+      'Сповіщення про особисті повідомлення';
 
   @override
   String get notificationsSoundSameChannelMessage =>
       'Сповіщення про повідомлення поточного каналу';
 
   @override
-  String get notificationsSoundMute => 'Вимкнути звук';
+  String get notificationsSoundMute => 'Вимкнення мікрофона';
 
   @override
-  String get notificationsSoundUnmute => 'Увімкнути звук голосу';
+  String get notificationsSoundUnmute => 'Увімкнення мікрофона';
 
   @override
   String get notificationsSoundDeaf => 'Вимкнення звуку в голосовому чаті';
 
   @override
-  String get notificationsSoundUndeaf => 'Голос увімкнено';
+  String get notificationsSoundUndeaf => 'Увімкнення звуку в голосовому чаті';
 
   @override
   String get notificationsSoundUserJoin => 'Користувач приєднується до каналу';
@@ -10396,7 +10399,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get notificationsSoundVoiceDisconnect =>
-      'Голосовий зв\'язок розірвано';
+      'Голосове з\'єднання розірвано';
 
   @override
   String get notificationsSoundIncomingRing => 'Вхідний дзвінок';
@@ -10430,6 +10433,48 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Не вдалося ввімкнути сповіщення. Щоб продовжити, надайте дозвіл на сповіщення.';
 
   @override
+  String get notificationsPushRelaySectionTitle =>
+      'Ретранслятор push-сповіщень';
+
+  @override
+  String notificationsPushRelaySectionDescription(String pushProvider) {
+    return '$pushProvider доставляє push-сповіщення лише через власну службу, тож сповіщення для цього пристрою йдуть через ретранслятор Fluxer.';
+  }
+
+  @override
+  String get notificationsPushRelayConsentLabel =>
+      'Використовувати push-ретранслятор Fluxer';
+
+  @override
+  String get notificationsPushRelayConsentDescription =>
+      'Якщо вимкнути, реєстрацію push для цього пристрою буде видалено, і він перестане отримувати сповіщення.';
+
+  @override
+  String get pushRelayConsentTitle => 'Ретранслятор push-сповіщень';
+
+  @override
+  String pushRelayConsentDescription(String pushProvider) {
+    return '$pushProvider доставляє push-сповіщення лише через власну службу, тож сповіщення для цього пристрою йдуть через ретранслятор Fluxer.';
+  }
+
+  @override
+  String get pushRelayConsentNoticePrefix => 'Прийміть ';
+
+  @override
+  String get pushRelayConsentNoticeLink =>
+      'повідомлення про конфіденційність push-ретранслятора';
+
+  @override
+  String get pushRelayConsentNoticeSuffix =>
+      ', щоб увімкнути push-сповіщення на цьому пристрої. Прийняти потрібно один раз для кожного пристрою.';
+
+  @override
+  String get pushRelayConsentAgree => 'Прийняти та продовжити';
+
+  @override
+  String get pushRelayConsentDecline => 'Не зараз';
+
+  @override
   String get userSettingsNavLanguageAndTime => 'Мова та час';
 
   @override
@@ -10448,7 +10493,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get languageAndTimeTimeFormatSectionDescription =>
-      'Виберіть, як відображатиметься час у програмі';
+      'Виберіть, як відображатиметься час у застосунку';
 
   @override
   String get languageAndTimeTimeFormatSelectionLabel => 'Вибір формату часу';
@@ -10464,17 +10509,17 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String languageAndTimeTimeFormatAppLanguage(String format) {
-    return 'Мова програми: $format';
+    return 'Формат часу мови застосунку: $format';
   }
 
   @override
   String languageAndTimeTimeFormatSystemLocale(String format) {
-    return 'Системна локаль: $format';
+    return 'Формат часу системи: $format';
   }
 
   @override
   String get languageAndTimeUseSystemLocaleForTimeFormat =>
-      'Використовувати системну мову для формату часу';
+      'Використовувати регіональні налаштування системи для формату часу';
 
   @override
   String get languageAndTimeTimeFormatSyncFailed =>
@@ -10499,6 +10544,29 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get defaultAppsWebBrowserExternal => 'Зовнішній браузер';
+
+  @override
+  String get userSettingsNavAppIcon => 'App icon';
+
+  @override
+  String get appIconSectionTitle => 'App icon';
+
+  @override
+  String get appIconSectionDescription =>
+      'Choose which icon appears on your home screen.';
+
+  @override
+  String get appIconOptionDefault => 'Default';
+
+  @override
+  String get appIconOptionStarfield => 'Starfield';
+
+  @override
+  String get appIconOptionSweden => 'Швеція';
+
+  @override
+  String get appIconUnsupported =>
+      'Changing the app icon is not available on this device.';
 
   @override
   String get userSettingsNavAdvanced => 'Додатково';
@@ -10550,15 +10618,15 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get advancedSettingEnableTextSelectionDescription =>
-      'Дозволити виділення тексту в програмі';
+      'Дозволити виділення тексту в застосунку';
 
   @override
   String get advancedSettingVideoSeekThumbnailsLabel =>
-      'Увімкнути мініатюри для навігації відео';
+      'Увімкнути мініатюри перемотування відео';
 
   @override
   String get advancedSettingVideoSeekThumbnailsDescription =>
-      'Мініатюра або поточний кадр під час перегляду відео';
+      'Мініатюра або поточний кадр під час перемотування відео';
 
   @override
   String get advancedSettingHapticFeedbackLabel => 'Тактильний відгук';
@@ -10591,18 +10659,18 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get advancedSettingKeyboardHintsDescription =>
-      'Підказки щодо комбінацій клавіш у спливаючих підказках.';
+      'Показувати комбінації клавіш у спливаючих підказках';
 
   @override
   String get advancedSettingEnableFavoritesLabel => 'Увімкнути вибране';
 
   @override
   String get advancedSettingEnableFavoritesDescription =>
-      'Показувати улюблене в усьому додатку';
+      'Показувати вибране в усьому застосунку';
 
   @override
   String get advancedSettingVoiceChannelJoinBehaviorLabel =>
-      'Поведінка при приєднанні до голосового каналу';
+      'Поведінка під час приєднання до голосового каналу';
 
   @override
   String get advancedSettingVoiceChannelJoinBehaviorDescription =>
@@ -10630,22 +10698,22 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get advancedSettingSaveGifFavoritesDescription =>
-      'Виберіть, як зберігатимуться улюблені GIF-файли';
+      'Виберіть, як зберігатимуться вибрані GIF';
 
   @override
   String get advancedSettingMediaButtonsLabel => 'Кнопки медіа';
 
   @override
   String get advancedSettingMediaButtonsDescription =>
-      'Налаштуйте, які кнопки та індикатори відображаються на медіафайлах і вбудованих об’єктах';
+      'Налаштуйте, які кнопки та індикатори відображаються на медіафайлах і у вбудованому вмісті';
 
   @override
   String get advancedSettingPreuploadAttachmentsLabel =>
-      'Завантажуйте вкладення перед відправленням';
+      'Завантажувати вкладення перед надсиланням';
 
   @override
   String get advancedSettingPreuploadAttachmentsDescription =>
-      'Почніть завантажувати вкладення одразу після їх додавання до поля введення повідомлення';
+      'Завантажувати вкладення одразу після їх додавання до поля введення повідомлення';
 
   @override
   String get advancedSettingStripTrackingLabel =>
@@ -10668,21 +10736,22 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get advancedSettingSearchEnginesDescription =>
-      'Налаштуйте пошукові системи, які використовуються для пошуку за виділеним текстом';
+      'Налаштуйте пошукові системи, які використовуються для пошуку виділеного тексту';
 
   @override
   String get advancedSettingTranslatorsLabel => 'Перекладачі';
 
   @override
   String get advancedSettingTranslatorsDescription =>
-      'Налаштуйте постачальників перекладу, які використовуються для вибраного тексту';
+      'Налаштуйте постачальників перекладу, які використовуються для виділеного тексту';
 
   @override
-  String get advancedSettingReverseImageSearchLabel => 'Пошук зображень';
+  String get advancedSettingReverseImageSearchLabel =>
+      'Зворотний пошук зображень';
 
   @override
   String get advancedSettingReverseImageSearchDescription =>
-      'Пошук зворотного зображення';
+      'Постачальники зворотного пошуку зображень';
 
   @override
   String get advancedSettingMessageActionBarLabel =>
@@ -10705,7 +10774,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get advancedSettingInputButtonsDescription =>
-      'Оберіть, які кнопки відображатимуться в полі введення повідомлень';
+      'Виберіть, які кнопки відображатимуться в полі введення повідомлень';
 
   @override
   String get advancedSettingScrollToBottomOnSendLabel =>
@@ -10713,23 +10782,23 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get advancedSettingScrollToBottomOnSendDescription =>
-      'Оберіть, як чат переміщуватиметься після відправлення повідомлення';
+      'Оберіть, як чат прокручується після надсилання повідомлення';
 
   @override
   String get advancedSettingSkipMarkAllAsReadLabel =>
-      'Пропускати підтвердження \"Позначити все як прочитане\"';
+      'Пропускати підтвердження «Позначити всі як прочитані»';
 
   @override
   String get advancedSettingSkipMarkAllAsReadDescription =>
-      'Позначити всі непрочитані канали в папці \"Вхідні\" як прочитані негайно, без запиту підтвердження';
+      'Позначати всі непрочитані канали у вхідних як прочитані одразу, без запиту підтвердження';
 
   @override
   String get advancedSettingHideMutedChannelsLabel =>
-      'Приховувати вимкнені канали за замовчуванням';
+      'Приховувати канали з вимкненими сповіщеннями за замовчуванням';
 
   @override
   String get advancedSettingHideMutedChannelsDescription =>
-      'Приховувати вимкнені канали з бічних панелей спільнот';
+      'Не показувати канали з вимкненими сповіщеннями в бічних панелях спільнот';
 
   @override
   String get advancedSettingShowGifIndicatorLabel => 'Показувати індикатор GIF';
@@ -10748,7 +10817,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get advancedSettingShowMediaFavoriteLabel =>
-      'Показувати кнопку \"Улюблене\"';
+      'Показувати кнопку додавання до вибраного';
 
   @override
   String get advancedSettingShowSuppressEmbedsLabel =>
@@ -10772,7 +10841,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get advancedSettingShowDefaultEmojisAutocompleteLabel =>
-      'Показувати стандартні емоджі в автозавершенні виразів';
+      'Показувати стандартні емодзі в автозаповненні виразів';
 
   @override
   String get advancedSettingShowCustomEmojisAutocompleteLabel =>
@@ -10784,7 +10853,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get advancedSettingShowSavedMediaAutocompleteLabel =>
-      'Показувати збережені медіа у пропозиціях автозаповнення';
+      'Показувати збережені медіа в автозаповненні виразів';
 
   @override
   String get advancedSettingShowGifsButtonLabel => 'Показувати кнопку GIF';
@@ -10809,23 +10878,23 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get advancedSettingNewDeviceAlertsDescription =>
-      'Запит на нові аудіопристрої';
+      'Запитувати про нові аудіопристрої';
 
   @override
   String get advancedSettingConnectionVolumeControlsLabel =>
-      'Керування гучністю з\'єднання';
+      'Керування гучністю підключення';
 
   @override
   String get advancedSettingConnectionVolumeControlsDescription =>
-      'Показувати повзунки гучності учасників для кожного пристрою в меню голосу';
+      'Показувати повзунки гучності учасників для кожного пристрою в голосових меню';
 
   @override
   String get advancedSettingScreenSharePreviewBehaviorLabel =>
-      'Попередній перегляд поведінки спільного доступу до екрана';
+      'Поведінка попереднього перегляду демонстрації екрана';
 
   @override
   String get advancedSettingScreenSharePreviewBehaviorDescription =>
-      'Попередній перегляд, відкриття у новому вікні та поведінка мініатюр потоку';
+      'Поведінка попереднього перегляду, спливаючого вікна та мініатюр трансляції';
 
   @override
   String get advancedSettingScreenShareCodecLabel =>
@@ -10833,7 +10902,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get advancedSettingScreenShareCodecDescription =>
-      'Відеокодек для спільного використання екрана';
+      'Відеокодек для демонстрації екрана';
 
   @override
   String get advancedSettingScreenShareCodecAuto =>
@@ -10856,11 +10925,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get advancedSettingPauseScreenSharePreviewLabel =>
-      'Призупинити попередній перегляд мого спільного екрана у фоновому режимі';
+      'Призупиняти попередній перегляд моєї демонстрації екрана у фоновому режимі';
 
   @override
   String get advancedSettingHideStreamPreviewLabel =>
-      'Приховати мініатюру попереднього перегляду мого потоку';
+      'Приховати мініатюру попереднього перегляду моєї трансляції';
 
   @override
   String get advancedSettingDeveloperModeLabel => 'Увімкнути режим розробника';
@@ -10904,7 +10973,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get advancedSettingBuiltInSearchEnginesDescription =>
-      'Увімкніть або вимкніть вбудовані пошукові системи. Увімкнені системи з\'являтимуться в контекстному меню повідомлення, коли виділено текст.';
+      'Увімкніть або вимкніть вбудовані пошукові системи. Увімкнені системи з\'являються в контекстному меню повідомлення, коли виділено текст.';
 
   @override
   String get advancedSettingCustomSearchEnginesLabel =>
@@ -10961,7 +11030,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get advancedSettingDefaultReverseImageSearchLabel =>
-      'Пошук зображень за замовчуванням';
+      'Зворотний пошук зображень за замовчуванням';
 
   @override
   String get advancedSettingDefaultReverseImageSearchDescription =>
@@ -10969,11 +11038,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get advancedSettingBuiltInReverseImageSearchLabel =>
-      'Вбудований пошук зображень';
+      'Вбудований зворотний пошук зображень';
 
   @override
   String get advancedSettingBuiltInReverseImageSearchDescription =>
-      'Увімкніть або вимкніть вбудовані провайдери зворотного пошуку зображень. Увімкнені провайдери з\'являтимуться в контекстному меню зображень, аватарів, банерів, стікерів та емоджі.';
+      'Увімкніть або вимкніть вбудовані сервіси зворотного пошуку зображень. Увімкнені сервіси з\'являються в контекстному меню зображень, аватарів, банерів, стікерів та емодзі.';
 
   @override
   String get advancedSettingCustomReverseImageSearchLabel =>
@@ -11023,7 +11092,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get advancedSettingSearchProviderNameLabel => 'Назва';
 
   @override
-  String get advancedSettingSearchProviderUrlLabel => 'Шаблон URL';
+  String get advancedSettingSearchProviderUrlLabel => 'Шаблон URL-адреси';
 
   @override
   String get advancedSettingSearchProviderNameTextPlaceholder =>
@@ -11053,7 +11122,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get advancedSettingSearchProviderNameRequired => 'Введіть ім\'я.';
+  String get advancedSettingSearchProviderNameRequired => 'Введіть назву.';
 
   @override
   String get advancedSettingSearchProviderUrlRequired =>
@@ -11071,7 +11140,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get advancedSettingSearchProviderUrlMustBeValid =>
-      'Шаблон URL має бути дійсною URL-адресою.';
+      'Шаблон URL-адреси має бути дійсною URL-адресою.';
 
   @override
   String get advancedSettingAddSearchProviderAction => 'Додати';
@@ -11090,7 +11159,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get userSettingsNavApplications => 'Програми';
+  String get userSettingsNavApplications => 'Застосунки';
 
   @override
   String get userSettingsNavAppLogs => 'Журнали програми';
@@ -11136,11 +11205,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Вийти';
 
   @override
-  String get userSettingsLogOutConfirmTitle => 'Sign out?';
+  String get userSettingsLogOutConfirmTitle => 'Вийти?';
 
   @override
   String get userSettingsLogOutConfirmDescription =>
-      'You can sign back in at any time.';
+      'Ви можете ввійти знову в будь-який час.';
 
   @override
   String get quickSwitcherTabSearch => 'Пошук';
@@ -11150,17 +11219,17 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get quickSwitcherSearchPlaceholder =>
-      'Пошук каналів, людей або спільнот';
+      'Шукати канали, людей або спільноти';
 
   @override
   String get quickSwitcherSearchFriends => 'Пошук друзів';
 
   @override
-  String get quickSwitcherNoMatchesFound => 'Збігів не знайдено';
+  String get quickSwitcherNoMatchesFound => 'Нічого не знайдено';
 
   @override
   String get quickSwitcherEmptyHint =>
-      'Спробуйте інше ім\'я або використовуйте префікси @ / # / ! / * для фільтрації результатів.';
+      'Спробуйте іншу назву або використайте префікси @ / # / ! / *, щоб відфільтрувати результати.';
 
   @override
   String get quickSwitcherSectionPeople => 'Люди';
@@ -11212,23 +11281,23 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get savedMessagesRemoveTooltip => 'Видалити із закладок';
 
   @override
-  String get savedMessagesAddedToast => 'Added to bookmarks';
+  String get savedMessagesAddedToast => 'Додано до закладок';
 
   @override
-  String get savedMessagesRemovedToast => 'Removed from bookmarks';
+  String get savedMessagesRemovedToast => 'Видалено із закладок';
 
   @override
   String get quickSwitcherMentionsLabel => 'Згадки';
 
   @override
-  String get quickSwitcherFriendsEmptyTitle => 'Ще немає друзів';
+  String get quickSwitcherFriendsEmptyTitle => 'Друзів ще немає';
 
   @override
   String get quickSwitcherFriendsEmptyHint => 'Додайте друга, щоб почати.';
 
   @override
   String get quickSwitcherFriendsNoMatchTitle =>
-      'Друзів, що відповідають пошуку, не знайдено';
+      'Немає друзів, які відповідають цьому пошуку';
 
   @override
   String get quickSwitcherFriendsNoMatchHint => 'Спробуйте інше ім\'я.';
@@ -11258,7 +11327,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get quickSwitcherSearchAliasInbox => 'Вхідні';
 
   @override
-  String get quickSwitcherSearchAliasSaved => 'Збережені';
+  String get quickSwitcherSearchAliasSaved => 'Збережено';
 
   @override
   String get uiClose => 'Закрити';
@@ -11300,7 +11369,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get uiReset => 'Скинути';
 
   @override
-  String get uiOpenColorPicker => 'Відкрити вибір кольору';
+  String get uiOpenColorPicker => 'Відкрити палітру кольорів';
 
   @override
   String get uiSelectPlaceholder => 'Вибрати';
@@ -11394,7 +11463,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Дослідити доступні спільноти';
 
   @override
-  String get discoveryExplore => 'Дослідити';
+  String get discoveryExplore => 'Огляд';
 
   @override
   String get discoveryExplorePublicCommunities =>
@@ -11405,7 +11474,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Хочете додати свою спільноту сюди? Подайте заявку, якщо ви відповідаєте вимогам у налаштуваннях вашої спільноти > Дослідження.';
 
   @override
-  String get discoverySearchCommunities => 'Пошук спільноти';
+  String get discoverySearchCommunities => 'Пошук спільнот';
 
   @override
   String get discoveryFilterByLanguage => 'Фільтрувати за мовою';
@@ -11429,22 +11498,22 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get discoveryCategoryEducation => 'Освіта';
 
   @override
-  String get discoveryCategoryScienceAndTechnology => 'Наука та технології';
+  String get discoveryCategoryScienceAndTechnology => 'Наука й технології';
 
   @override
-  String get discoveryCategoryContentCreator => 'Створювачі контенту';
+  String get discoveryCategoryContentCreator => 'Автор контенту';
 
   @override
-  String get discoveryCategoryAnimeAndManga => 'Аніме та манга';
+  String get discoveryCategoryAnimeAndManga => 'Аніме та манґа';
 
   @override
-  String get discoveryCategoryMoviesAndTv => 'Фільми та ТБ';
+  String get discoveryCategoryMoviesAndTv => 'Фільми й ТБ';
 
   @override
   String get discoveryCategoryOther => 'Інше';
 
   @override
-  String get discoveryNoCommunitiesMatch => 'Спільноти не знайдено.';
+  String get discoveryNoCommunitiesMatch => 'Спільнот не знайдено.';
 
   @override
   String get discoveryJoinCommunity => 'Приєднатися до спільноти';
@@ -11473,13 +11542,13 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get discoveryNoDescription => 'Немає опису.';
+  String get discoveryNoDescription => 'Без опису.';
 
   @override
   String get discoveryCommunities => 'Спільноти';
 
   @override
-  String get discoveryApps => 'Додатки';
+  String get discoveryApps => 'Застосунки';
 
   @override
   String get discoveryJoinErrorGenericTitle =>
@@ -11490,7 +11559,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Щось пішло не так. Спробуйте ще раз за мить.';
 
   @override
-  String get discoveryJoinErrorFullTitle => 'Ця спільнота переповнена';
+  String get discoveryJoinErrorFullTitle => 'Ця спільнота заповнена';
 
   @override
   String get discoveryJoinErrorFullMessage =>
@@ -11501,7 +11570,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorMaxGuildsMessage =>
-      'Ви перебуваєте в максимальній кількості спільнот. Залиште одну та спробуйте ще раз.';
+      'Ви досягли максимальної кількості спільнот. Покиньте одну та спробуйте ще раз.';
 
   @override
   String get discoveryJoinErrorBannedTitle =>
@@ -11509,7 +11578,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorBannedMessage =>
-      'Вам заборонено в цій спільноті.';
+      'Вас заблоковано в цій спільноті.';
 
   @override
   String get discoveryJoinErrorNotAvailableTitle =>
@@ -11517,30 +11586,30 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      'Можливо, вона покинула розділ «Дослідження» або вимкнула нові приєднання. Оновіть сторінку, і ви більше її не побачите.';
+      'Можливо, спільноту вилучено з Discovery або вимкнено нові приєднання. Оновіть сторінку, і ви більше її не побачите.';
 
   @override
   String get discoveryJoinErrorRateLimitTitle => 'Ви надто поспішаєте';
 
   @override
   String get discoveryJoinErrorRateLimitMessage =>
-      'Будь ласка, зачекайте хвилину та спробуйте ще раз.';
+      'Зачекайте трохи й спробуйте ще раз.';
 
   @override
   String get guildNavbarAddCommunity => 'Додати спільноту';
 
   @override
-  String get guildNavbarHelp => 'Допомога';
+  String get guildNavbarHelp => 'Довідка';
 
   @override
-  String get scrollIndicatorNew => 'NEW';
+  String get scrollIndicatorNew => 'НОВЕ';
 
   @override
   String get scrollIndicatorNewMessage => 'НОВЕ ПОВІДОМЛЕННЯ';
 
   @override
   String guildNavbarCollapseFolder(String folderName) {
-    return 'Згорнути теку $folderName';
+    return 'Згорнути $folderName';
   }
 
   @override
@@ -11561,7 +11630,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get navigationItemMuted => 'вимкнено';
+  String get navigationItemMuted => 'сповіщення вимкнено';
 
   @override
   String get authShowPassword => 'Показати пароль';
@@ -11636,13 +11705,13 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildFolderIconLabel => 'Іконка папки';
 
   @override
-  String get guildFolderDelete => 'Видалити теку';
+  String get guildFolderDelete => 'Видалити папку';
 
   @override
   String get guildFolderIconFolder => 'Папка';
 
   @override
-  String get guildFolderIconStar => 'Позначити зірочкою';
+  String get guildFolderIconStar => 'Зірка';
 
   @override
   String get guildFolderIconHeart => 'Серце';
@@ -11654,13 +11723,13 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildFolderIconGameController => 'Ігровий контролер';
 
   @override
-  String get guildFolderIconShield => 'Захист';
+  String get guildFolderIconShield => 'Щит';
 
   @override
   String get guildFolderIconMusicNote => 'Музична нота';
 
   @override
-  String get guildFolderMarkAsRead => 'Позначити теку як прочитану';
+  String get guildFolderMarkAsRead => 'Позначити папку як прочитану';
 
   @override
   String get guildBulkMuteCommunities => 'Вимкнути сповіщення спільнот';
@@ -11690,21 +11759,21 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildBulkDisableMobilePush => 'Вимкнути мобільні push-сповіщення';
 
   @override
-  String get guildBulkAllowDirectMessages => 'Дозволити приватні повідомлення';
+  String get guildBulkAllowDirectMessages => 'Дозволити особисті повідомлення';
 
   @override
-  String get guildBulkBlockDirectMessages => 'Блокувати приватні повідомлення';
+  String get guildBulkBlockDirectMessages => 'Блокувати особисті повідомлення';
 
   @override
   String get guildBulkAllowBotDirectMessages =>
-      'Дозволити боту надсилати особисті повідомлення';
+      'Дозволити ботам надсилати особисті повідомлення';
 
   @override
   String get guildBulkBlockBotDirectMessages =>
       'Блокувати особисті повідомлення від бота';
 
   @override
-  String get guildNavbarGroupDm => 'Груповий DM';
+  String get guildNavbarGroupDm => 'Груповий чат';
 
   @override
   String get guildNavbarCreateChannel => 'Створити канал';
@@ -11765,10 +11834,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get guildNavbarSearchFriends => 'Шукати друзів';
+  String get guildNavbarSearchFriends => 'Пошук друзів';
 
   @override
-  String get guildNavbarNoFriendsYet => 'Ще немає друзів';
+  String get guildNavbarNoFriendsYet => 'Друзів ще немає';
 
   @override
   String get guildNavbarNoResults => 'Немає результатів';
@@ -11778,7 +11847,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Або надішліть посилання для запрошення другові:';
 
   @override
-  String get guildNavbarInviteLink => 'Посилання для запрошення';
+  String get guildNavbarInviteLink => 'Посилання-запрошення';
 
   @override
   String get guildNavbarCopy => 'Копіювати';
@@ -11792,7 +11861,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildNavbarInviteNeverExpires =>
-      'Це посилання для запрошення ніколи не закінчується.';
+      'Це посилання-запрошення не має терміну дії.';
 
   @override
   String guildNavbarInviteExpiresIn(String duration) {
@@ -11800,14 +11869,14 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get guildNavbarEditInviteLink => 'Редагувати посилання для запрошення';
+  String get guildNavbarEditInviteLink => 'Редагувати посилання-запрошення';
 
   @override
   String get guildNavbarInviteLinkSettings =>
-      'Налаштування посилання для запрошення';
+      'Налаштування посилання-запрошення';
 
   @override
-  String get guildNavbarExpireAfter => 'Закінчується через';
+  String get guildNavbarExpireAfter => 'Термін дії';
 
   @override
   String get guildNavbarMaxUses => 'Максимальна кількість використань';
@@ -11829,14 +11898,14 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildNavbarInvite => 'Запросити';
 
   @override
-  String get guildNavbarLeaveCommunityTitle => 'Покинути спільноту';
+  String get guildNavbarLeaveCommunityTitle => 'Вийти зі спільноти';
 
   @override
   String get guildNavbarLeaveCommunityDescription =>
       'Ви впевнені, що хочете покинути цю спільноту? Ви більше не зможете бачити жодних повідомлень.';
 
   @override
-  String get guildNavbarLeaveCommunityConfirm => 'Покинути спільноту';
+  String get guildNavbarLeaveCommunityConfirm => 'Вийти зі спільноти';
 
   @override
   String get guildNavbarDeleteMyMessagesTitle =>
@@ -11871,7 +11940,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildNavbarInvitesPaused =>
-      'Запрошення наразі призупинено в цій спільноті';
+      'Запрошення в цій спільноті наразі призупинено';
 
   @override
   String get guildNavbarDurationNever => 'ніколи';
@@ -11906,7 +11975,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildNavbarNoLimit => 'Без обмежень';
 
   @override
-  String get guildNavbarOneUse => '1 раз';
+  String get guildNavbarOneUse => '1 використання';
 
   @override
   String guildNavbarUses(int count) {
@@ -11929,13 +11998,14 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildMenuEditCommunityProfile => 'Редагувати профіль спільноти';
 
   @override
-  String get guildMenuUnmuteCommunity => 'Вимкнути сповіщення спільноти';
+  String get guildMenuUnmuteCommunity => 'Увімкнути сповіщення спільноти';
 
   @override
   String get guildMenuMuteCommunity => 'Вимкнути сповіщення спільноти';
 
   @override
-  String get guildMenuHideMutedChannels => 'Приховати вимкнені канали';
+  String get guildMenuHideMutedChannels =>
+      'Приховати канали з вимкненими сповіщеннями';
 
   @override
   String get guildMenuReportCommunity => 'Поскаржитися на спільноту';
@@ -11976,7 +12046,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildMenuSettingsCustomInviteUrl => 'Власне посилання-запрошення';
 
   @override
-  String get guildMenuSettingsDiscovery => 'Пошук';
+  String get guildMenuSettingsDiscovery => 'Discovery';
 
   @override
   String get guildMenuSettingsMembers => 'Учасники';
@@ -11985,7 +12055,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildMenuSettingsInviteLinks => 'Запрошення';
 
   @override
-  String get guildMenuSettingsBans => 'Бани';
+  String get guildMenuSettingsBans => 'Блокування';
 
   @override
   String get guildMenuSettingsChannels => 'Канали';
@@ -11995,7 +12065,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'У вас немає дозволу переглядати цю вкладку налаштувань.';
 
   @override
-  String get guildSettingsOverviewIconTitle => 'Значок';
+  String get guildSettingsOverviewIconTitle => 'Іконка';
 
   @override
   String get guildSettingsUploadImage => 'Завантажити зображення';
@@ -12064,7 +12134,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsRolesRoleColorHelper =>
-      'Введіть колір (шістнадцятковий код, rgb(), hsl() або назва) або скористайтеся палітрою.';
+      'Введіть колір (hex, rgb(), hsl() або назву) або скористайтеся палітрою.';
 
   @override
   String get guildSettingsRolesShowSeparately => 'Показувати цю роль окремо';
@@ -12103,11 +12173,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsRolesSwitchToDenseLayout =>
-      'Перейти до компактного вигляду';
+      'Перейти до щільного вигляду';
 
   @override
   String get guildSettingsRolesSwitchToComfyLayout =>
-      'Перейти до зручного макета';
+      'Перейти до зручного вигляду';
 
   @override
   String get guildSettingsRolesSingleColumn => 'Один стовпець';
@@ -12133,7 +12203,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildSettingsRolesHoistOrder => 'Порядок відображення';
 
   @override
-  String get guildSettingsRolesResetHoistOrder => 'Скинути до типових';
+  String get guildSettingsRolesResetHoistOrder => 'Скинути до типового';
 
   @override
   String get guildSettingsRolesHoistOrderHelp =>
@@ -12141,7 +12211,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsRolesNoHoistedRoles =>
-      'Немає піднятих ролей. Увімкніть \"Показувати цю роль окремо\" для ролі, щоб побачити її тут.';
+      'Немає піднятих ролей. Увімкніть «Показувати цю роль окремо» для ролі, щоб побачити її тут.';
 
   @override
   String get guildSettingsRolesLockedTooltip =>
@@ -12154,7 +12224,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsRolesCannotEditHigherRole =>
-      'Ви не можете редагувати роль, яка є на одному рівні або вище вашої найвищої ролі';
+      'Ви не можете редагувати роль, яка на одному рівні з вашою найвищою роллю або вище за неї';
 
   @override
   String get guildSettingsRolesCannotGrantPermission =>
@@ -12200,7 +12270,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsRolesResetHoistFailedTitle =>
-      'Не вдалося скинути порядок підняття';
+      'Не вдалося скинути порядок відображення';
 
   @override
   String get guildSettingsRolesTryAgainInAMoment => 'Спробуйте ще раз за мить.';
@@ -12236,14 +12306,14 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get permissionAdministratorDescription =>
-      'Надає всі дозволи та обходить обмеження каналу. Дуже конфіденційно.';
+      'Надає всі дозволи та обходить обмеження каналів. Дуже ризиковано.';
 
   @override
-  String get permissionViewActivityLog => 'Перегляд журналу активності';
+  String get permissionViewActivityLog => 'Переглядати журнал дій';
 
   @override
   String get permissionViewActivityLogDescription =>
-      'Перегляд журналу активності спільноти зі змінами та діями модерації.';
+      'Переглядати журнал дій спільноти зі змінами та діями модерації.';
 
   @override
   String get permissionManageCommunity => 'Керувати спільнотою';
@@ -12257,7 +12327,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get permissionManageRolesDescription =>
-      'Створюйте, редагуйте або видаляйте ролі, що нижчі за вашу найвищу роль. Також дозволяє редагувати перевизначення дозволів каналу.';
+      'Створювати, редагувати або видаляти ролі, нижчі за вашу найвищу роль. Також дозволяє редагувати перевизначення дозволів каналу.';
 
   @override
   String get permissionManageChannels => 'Керувати каналами';
@@ -12274,22 +12344,22 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get permissionManagePermissionsDescription =>
-      'Редагувати дозволи для ролей і учасників у цьому каналі.';
+      'Редагувати перевизначення дозволів для ролей і учасників у цьому каналі.';
 
   @override
   String get permissionManageWebhooksChannelDescription =>
-      'Створюйте, редагуйте або видаляйте вебхуки для цього каналу.';
+      'Створювати, редагувати або видаляти вебхуки для цього каналу.';
 
   @override
   String get permissionViewChannelMembersChannelDescription =>
-      'Переглянути список учасників цього каналу.';
+      'Переглядати список учасників цього каналу.';
 
   @override
   String get permissionCreateInviteLinksChannelDescription =>
       'Керуйте посиланнями-запрошеннями для цього каналу.';
 
   @override
-  String get permissionOverwriteDeny => 'Відхилити';
+  String get permissionOverwriteDeny => 'Заборонити';
 
   @override
   String get permissionOverwriteInherit => 'Нейтрально (успадкувати)';
@@ -12303,10 +12373,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get permissionManageChannelsDescription =>
-      'Створюйте, редагуйте або видаляйте канали та категорії.';
+      'Створювати, редагувати або видаляти канали та категорії.';
 
   @override
-  String get permissionKickMembers => 'Видаляти учасників';
+  String get permissionKickMembers => 'Виганяти учасників';
 
   @override
   String get permissionBanMembers => 'Блокувати учасників';
@@ -12315,13 +12385,14 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get permissionCreateInviteLinks => 'Створювати посилання-запрошення';
 
   @override
-  String get permissionChangeOwnNickname => 'Змінити власний нікнейм';
+  String get permissionChangeOwnNickname => 'Змінити власний псевдонім';
 
   @override
-  String get permissionChangeOwnNicknameDescription => 'Оновити свій нікнейм.';
+  String get permissionChangeOwnNicknameDescription =>
+      'Оновлювати свій псевдонім.';
 
   @override
-  String get permissionManageNicknames => 'Керувати нікнеймами';
+  String get permissionManageNicknames => 'Керувати псевдонімами';
 
   @override
   String get permissionManageNicknamesDescription =>
@@ -12332,10 +12403,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get permissionCreateEmojiStickersDescription =>
-      'Завантажуйте нові емоджі та стікери, а також керуйте власними творіннями.';
+      'Завантажувати нові емодзі та стікери, а також керувати власними творіннями.';
 
   @override
-  String get permissionManageEmojiStickers => 'Керування емоджі та стікерами';
+  String get permissionManageEmojiStickers => 'Керувати емодзі та стікерами';
 
   @override
   String get permissionManageEmojiStickersDescription =>
@@ -12346,7 +12417,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get permissionManageWebhooksDescription =>
-      'Створюйте, редагуйте або видаляйте вебхуки.';
+      'Створювати, редагувати або видаляти вебхуки.';
 
   @override
   String get permissionSendMessages => 'Надсилати повідомлення';
@@ -12408,7 +12479,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Ігнорувати обмеження частоти повідомлень для кожного каналу.';
 
   @override
-  String get permissionTimeOutMembers => 'Тимчасово вимкнути учасників';
+  String get permissionTimeOutMembers => 'Застосовувати тайм-аут до учасників';
 
   @override
   String get permissionTimeOutMembersDescription =>
@@ -12418,11 +12489,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get permissionViewChannel => 'Переглядати канал';
 
   @override
-  String get permissionViewChannelMembers => 'Перегляд учасників каналу';
+  String get permissionViewChannelMembers => 'Переглядати учасників каналу';
 
   @override
   String get permissionViewChannelMembersDescription =>
-      'Переглянути список учасників каналів у цій спільноті.';
+      'Переглядати список учасників каналів у цій спільноті.';
 
   @override
   String get permissionConnect => 'Підключитися';
@@ -12439,16 +12510,16 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get permissionUseVoiceActivityDescription =>
-      'Без цього дозволу потрібен режим \"Натисни і говори\".';
+      'Без цього дозволу потрібен режим «Натисни і говори».';
 
   @override
-  String get permissionPrioritySpeaker => 'Пріоритетний доповідач';
+  String get permissionPrioritySpeaker => 'Пріоритетний мовець';
 
   @override
-  String get permissionMuteMembers => 'Вимкнути учасників';
+  String get permissionMuteMembers => 'Вимикати мікрофон учасникам';
 
   @override
-  String get permissionDeafenMembers => 'Вимкнути звук учасникам';
+  String get permissionDeafenMembers => 'Вимикати звук учасникам';
 
   @override
   String get permissionMoveMembers => 'Переміщувати учасників';
@@ -12458,7 +12529,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Перетягуйте учасників між каналами, до яких вони мають доступ.';
 
   @override
-  String get permissionSetVoiceRegion => 'Змінити голосовий регіон';
+  String get permissionSetVoiceRegion => 'Змінювати голосовий регіон';
 
   @override
   String guildSettingsEmojiSlotInfo(int staticCount, int animatedCount) {
@@ -12481,11 +12552,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationVerificationDescription =>
-      'Виберіть, що учасники повинні мати, перш ніж вони зможуть надсилати повідомлення або надсилати приватні повідомлення учасникам спільноти.';
+      'Виберіть, що повинні мати учасники, перш ніж вони зможуть писати в каналах або надсилати особисті повідомлення учасникам спільноти.';
 
   @override
   String get guildSettingsModerationVerificationRolesBypass =>
-      'Учасники з ролями можуть обходити ці перевірки. Для загальнодоступних просторів ми рекомендуємо ввімкнути верифікацію.';
+      'Учасники з ролями можуть обходити ці перевірки. Для публічних просторів радимо ввімкнути перевірку.';
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
@@ -12493,7 +12564,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationMatureTitle =>
-      'Контент для дорослих і попередження про контент';
+      'Контент для дорослих і попередження про вміст';
 
   @override
   String get guildSettingsModerationMatureSectionDescription =>
@@ -12507,18 +12578,18 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Позначте цю спільноту як таку, що містить контент для дорослих.';
 
   @override
-  String get guildSettingsVerificationNone => 'Жодного';
+  String get guildSettingsVerificationNone => 'Немає';
 
   @override
   String get guildSettingsVerificationNoneDescription =>
-      'Верифікація не потрібна.';
+      'Перевірка не потрібна.';
 
   @override
   String get guildSettingsVerificationLow => 'Низький';
 
   @override
   String get guildSettingsVerificationLowDescription =>
-      'Вимагає підтвердженої адреси електронної пошти.';
+      'Потрібна підтверджена електронна адреса.';
 
   @override
   String get guildSettingsVerificationMedium => 'Середній';
@@ -12532,25 +12603,25 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsVerificationHighDescription =>
-      'Вимагає всього з середнього рівня, плюс бути учасником спільноти щонайменше 10 хвилин.';
+      'Потрібні всі вимоги рівня «Середній», а також членство в спільноті щонайменше 10 хвилин.';
 
   @override
   String get guildSettingsVerificationHighest => 'Дуже високий';
 
   @override
   String get guildSettingsVerificationHighestDescription =>
-      'Вимагає підтвердженого номера телефону.';
+      'Потрібен підтверджений номер телефону.';
 
   @override
   String get guildSettingsAuditLogDescription =>
       'Відстежуйте дії модераторів у спільноті.';
 
   @override
-  String get guildSettingsAuditLogEmpty => 'Ще немає журналів';
+  String get guildSettingsAuditLogEmpty => 'Журнал поки порожній';
 
   @override
   String get guildSettingsAuditLogEmptyDescription =>
-      'Дії модерації та зміни спільноти з\'являтимуться тут.';
+      'Тут відображатимуться дії модерації та зміни спільноти.';
 
   @override
   String get guildSettingsAuditLogFilterAllUsers => 'Усі користувачі';
@@ -12566,11 +12637,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsAuditLogLoadError =>
-      'Виникла помилка під час завантаження журналу дій.';
+      'Під час завантаження журналу дій сталася помилка.';
 
   @override
   String get guildSettingsAuditLogLoadErrorTitle =>
-      'Не вдалося завантажити журнали дій';
+      'Не вдалося завантажити журнали активності';
 
   @override
   String get guildSettingsAuditLogReason => 'Причина';
@@ -12638,7 +12709,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get auditLogActionMemberDisconnect => 'Учасника відключено';
 
   @override
-  String get auditLogActionBotAdd => 'Бота додано';
+  String get auditLogActionBotAdd => 'Додано бота';
 
   @override
   String get auditLogActionRoleCreate => 'Роль створено';
@@ -12668,7 +12739,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get auditLogActionWebhookDelete => 'Вебхук видалено';
 
   @override
-  String get auditLogActionEmojiCreate => 'Емоджі створено';
+  String get auditLogActionEmojiCreate => 'Емодзі створено';
 
   @override
   String get auditLogActionEmojiUpdate => 'Емоджі оновлено';
@@ -13118,11 +13189,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildSettingsLoadMore => 'Завантажити ще';
 
   @override
-  String get guildSettingsLoadingMore => 'Loading...';
+  String get guildSettingsLoadingMore => 'Завантаження...';
 
   @override
   String get guildSettingsWebhooksDescription =>
-      'Переглядайте та керуйте всіма вебхуками, налаштованими у вашій спільноті.';
+      'Переглядайте всі вебхуки, налаштовані у вашій спільноті, та керуйте ними.';
 
   @override
   String get guildSettingsWebhooksEmpty => 'Вебхуків немає';
@@ -13158,7 +13229,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildSettingsCopyUrl => 'Копіювати URL';
 
   @override
-  String get guildSettingsCopiedUrl => 'URL скопійовано до буфера обміну';
+  String get guildSettingsCopiedUrl => 'URL скопійовано в буфер обміну';
 
   @override
   String get guildSettingsDeleteWebhook => 'Видалити вебхук';
@@ -13183,7 +13254,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Додайте свою спільноту до розділу \"Цікаве\", щоб інші могли її знайти та приєднатися.';
+      'Додайте свою спільноту до Discovery, щоб інші могли знайти її та приєднатися.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle =>
@@ -13195,7 +13266,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryStatusLabel => 'Стан:';
+  String get guildSettingsDiscoveryStatusLabel => 'Статус:';
 
   @override
   String get guildSettingsDiscoveryStatusPending => 'Очікує';
@@ -13216,7 +13287,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApprovedInfo =>
-      'Ваша спільнота відображається в \"Пошуку\". Ви можете оновити інформацію про неї нижче або вилучити її.';
+      'Ваша спільнота є в Discovery. Ви можете оновити деталі оголошення нижче або відкликати його, щоб прибрати спільноту звідти.';
 
   @override
   String get guildSettingsDiscoveryPendingInfo =>
@@ -13234,7 +13305,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'Мова, якою спілкується більшість вашої спільноти. Використовується для фільтрації результатів пошуку.';
+      'Мова, якою спілкується більшість вашої спільноти. Використовується для фільтрації результатів у Discovery.';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => 'Опис';
@@ -13299,14 +13370,15 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApplicationSent =>
-      'Заявку на виявлення надіслано';
+      'Заявку в Discovery надіслано';
 
   @override
-  String get guildSettingsDiscoveryListingUpdated => 'Список знахідок оновлено';
+  String get guildSettingsDiscoveryListingUpdated =>
+      'Оголошення в Discovery оновлено';
 
   @override
   String get guildSettingsDiscoveryApplicationWithdrawn =>
-      'Заявку на пошук відкликано';
+      'Заявку в Discovery відкликано';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorTitle =>
@@ -13338,7 +13410,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get guildMembersSort => 'Сортувати';
+  String get guildMembersSort => 'Сортування';
 
   @override
   String get guildSettingsMembersSortNewest => 'Спочатку найновіші';
@@ -13354,7 +13426,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String guildMembersColumnJoinedProduct(String productName) {
-    return 'Приєднався до $productName';
+    return 'У $productName з';
   }
 
   @override
@@ -13460,7 +13532,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get guildMembersJoinSourceVanityUrl => 'Власна URL-адреса';
+  String get guildMembersJoinSourceVanityUrl => 'Персоналізована URL-адреса';
 
   @override
   String get guildMembersJoinSourceBotInvite => 'Запрошення бота';
@@ -13469,7 +13541,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildMembersJoinSourcePlatformAdmin => 'Адміністратор платформи';
 
   @override
-  String get guildMembersJoinSourceDiscovery => 'Пошук';
+  String get guildMembersJoinSourceDiscovery => 'Discovery';
 
   @override
   String get guildMembersJoinMethodUnknown => 'Невідомо';
@@ -13582,11 +13654,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String guildSettingsInvitesPausedBecauseRaid(String productName) {
-    return 'Запрошення призупинено, оскільки $productName виявив потенційну атаку. Нові користувачі наразі не можуть приєднатися.';
+    return 'Запрошення призупинено, оскільки $productName виявив потенційний рейд. Нові користувачі наразі не можуть приєднатися.';
   }
 
   @override
-  String get guildSettingsInvitesLabelInviter => 'Запросив:';
+  String get guildSettingsInvitesLabelInviter => 'Хто запросив:';
 
   @override
   String get guildSettingsInvitesLabelChannel => 'Канал:';
@@ -13595,7 +13667,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildSettingsInvitesLabelCode => 'Код:';
 
   @override
-  String get guildSettingsInvitesLabelUses => 'Використовує:';
+  String get guildSettingsInvitesLabelUses => 'Кількість використань:';
 
   @override
   String get guildSettingsInvitesLabelCreated => 'Створено:';
@@ -13627,7 +13699,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsInvitesRevokeFailedDescription =>
-      'Посилання може бути активним. Спробуйте ще раз пізніше.';
+      'Посилання, можливо, досі працює. Спробуйте ще раз за мить.';
 
   @override
   String guildSettingsInviteUses(int uses, int maxUses) {
@@ -13641,10 +13713,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsBansDescription =>
-      'Переглядайте та керуйте заблокованими користувачами.';
+      'Переглядайте заблокованих користувачів та керуйте ними.';
 
   @override
-  String get guildSettingsBansSearchHint => 'Пошук блокувань';
+  String get guildSettingsBansSearchHint => 'Пошук заблокованих';
 
   @override
   String get guildSettingsBansEmpty => 'Немає заблокованих користувачів.';
@@ -13658,7 +13730,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsBanExpiresLabel => 'Термін дії';
+  String get guildSettingsBanExpiresLabel => 'Закінчується';
 
   @override
   String get guildSettingsUnban => 'Розблокувати';
@@ -13669,7 +13741,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsBansNoSearchResults =>
-      'Не знайдено блокувань, що відповідають вашому пошуку.';
+      'Не знайдено блокувань, які відповідають вашому пошуку.';
 
   @override
   String get guildSettingsBanDetailsTitle => 'Деталі блокування';
@@ -13678,10 +13750,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildSettingsBanViewDetails => 'Переглянути деталі';
 
   @override
-  String get guildSettingsBannedOn => 'Заблоковано';
+  String get guildSettingsBannedOn => 'Дата блокування';
 
   @override
-  String get guildSettingsBannedBy => 'Заблоковано';
+  String get guildSettingsBannedBy => 'Ким заблоковано';
 
   @override
   String get guildSettingsRevokeBanTitle => 'Скасувати блокування';
@@ -13708,14 +13780,14 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildSettingsCommunitySettings => 'Налаштування спільноти';
 
   @override
-  String get guildSettingsDeleteCommunity => 'Delete community';
+  String get guildSettingsDeleteCommunity => 'Видалити спільноту';
 
   @override
   String get guildSettingsDeleteCommunityConfirm =>
-      'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.';
+      'Ви впевнені, що хочете видалити цю спільноту? Цю дію не можна скасувати. Усі канали, повідомлення та налаштування буде видалено назавжди.';
 
   @override
-  String get guildSettingsCommunityDeleted => 'Community deleted';
+  String get guildSettingsCommunityDeleted => 'Спільноту видалено';
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
@@ -13738,7 +13810,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Керуйте профілем, каналами та налаштуваннями за замовчуванням вашої спільноти.';
 
   @override
-  String get guildSettingsOverviewBrandingTitle => 'Брендинг';
+  String get guildSettingsOverviewBrandingTitle => 'Брендування';
 
   @override
   String get guildSettingsOverviewBrandingDescription =>
@@ -13748,7 +13820,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildSettingsOverviewBannerUpload => 'Завантажити банер';
 
   @override
-  String get guildSettingsOverviewIdleTitle => 'Налаштування бездіяльності';
+  String get guildSettingsOverviewIdleTitle => 'Налаштування неактивності';
 
   @override
   String get guildSettingsOverviewIdleDescription =>
@@ -13767,7 +13839,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsOverviewNotificationsLargeGuild =>
-      'Спільноти з понад 250 учасниками автоматично отримують налаштування \"лише згадки\". Ваше початкове налаштування зберігається і буде відновлено, якщо кількість учасників спільноти впаде нижче 250.';
+      'Спільноти з понад 250 учасниками автоматично переходять на налаштування «Лише згадки». Ваші початкові налаштування зберігаються та будуть відновлені, якщо кількість учасників спільноти стане меншою за 250.';
 
   @override
   String get guildSettingsOverviewAdvancedTitle => 'Додатково';
@@ -13778,17 +13850,17 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsOverviewHideOwnerCrown =>
-      'Приховати корону власника спільноти';
+      'Сховати корону власника спільноти';
 
   @override
-  String get guildSettingsOverviewDetachedBanner => 'Відокремлений банер';
+  String get guildSettingsOverviewDetachedBanner => 'Окремий банер';
 
   @override
   String get guildSettingsOverviewDetachedBannerHint =>
-      'Відображає банер у власному розділі під заголовком спільноти.';
+      'Показує банер в окремому розділі під заголовком спільноти.';
 
   @override
-  String get guildSettingsOverviewUploadIcon => 'Завантажити значок';
+  String get guildSettingsOverviewUploadIcon => 'Завантажити іконку';
 
   @override
   String get guildSettingsOverviewRemoveImage => 'Видалити';
@@ -13797,27 +13869,27 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildSettingsOverviewSplashTitle => 'Фон запрошення';
 
   @override
-  String get guildSettingsOverviewEmbedSplashTitle => 'Фон вбудовування чату';
+  String get guildSettingsOverviewEmbedSplashTitle => 'Фон вбудованого чату';
 
   @override
   String get guildSettingsOverviewEmbedSplashHint =>
-      'Відображається у вбудовуваннях запрошень у чаті.';
+      'Відображається у вбудованих запрошеннях у чаті.';
 
   @override
   String get guildSettingsOverviewUploadBackground => 'Завантажити фон';
 
   @override
-  String get guildSettingsOverviewNoCommunityBanner => 'Немає банера спільноти';
+  String get guildSettingsOverviewNoCommunityBanner => 'Без банера спільноти';
 
   @override
-  String get guildSettingsOverviewNoInviteBackground => 'Немає фону запрошення';
+  String get guildSettingsOverviewNoInviteBackground => 'Без фону запрошення';
 
   @override
   String get guildSettingsOverviewInvitePreviewTitle => 'Попередній перегляд';
 
   @override
   String get guildSettingsOverviewInvitePreviewHint =>
-      'Перегляньте, як ваше запрошення виглядає для відвідувачів.';
+      'Подивіться, як ваше запрошення виглядає для відвідувачів.';
 
   @override
   String get guildSettingsOverviewTextChannelNamesTitle =>
@@ -13838,17 +13910,17 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildSettingsSplashAlignmentCenter => 'По центру';
 
   @override
-  String get guildSettingsSplashAlignmentLeft => 'Зліва';
+  String get guildSettingsSplashAlignmentLeft => 'Ліворуч';
 
   @override
-  String get guildSettingsSplashAlignmentRight => 'Справа';
+  String get guildSettingsSplashAlignmentRight => 'Праворуч';
 
   @override
   String get guildSettingsSplashAlignmentHint =>
       'Застосовується лише на широких екранах.';
 
   @override
-  String get permissionReadMessageHistory => 'Читання історії повідомлень';
+  String get permissionReadMessageHistory => 'Читати історію повідомлень';
 
   @override
   String guildSettingsOverviewMessageHistoryTitle(String permission) {
@@ -13862,7 +13934,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsOverviewMessageHistoryOpen =>
-      'Відкрити поріг історії повідомлень';
+      'Відкрити налаштування порогу історії повідомлень';
 
   @override
   String get guildSettingsMessageHistoryThresholdTitle =>
@@ -13873,7 +13945,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Увімкнути поріг історії повідомлень';
 
   @override
-  String get guildSettingsMessageHistoryThresholdDate => 'Дата порогу';
+  String get guildSettingsMessageHistoryThresholdDate => 'Порогова дата';
 
   @override
   String get guildSettingsMessageHistoryThresholdDateHint =>
@@ -13885,7 +13957,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsOverviewFlexibleNamesHint =>
-      'Дозволити великі літери та пробіли в назвах текстових каналів. Вимкнено обмежує назви нижнім регістром з дефісами та підкресленнями.';
+      'Дозволити великі літери та пробіли в назвах текстових каналів. Якщо вимкнено, у назвах дозволені лише малі літери, дефіси та підкреслення.';
 
   @override
   String get guildSettingsOverviewHideOwnerCrownHint =>
@@ -13900,7 +13972,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Анімовані банери вимагають функції спільноти «Анімований банер».';
 
   @override
-  String get guildSettingsAfkChannel => 'Канал AFK / бездіяльності';
+  String get guildSettingsAfkChannel => 'Канал AFK / неактивних';
 
   @override
   String get guildSettingsAfkChannelHint =>
@@ -13910,7 +13982,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildSettingsNoAfkChannel => 'Немає каналу AFK';
 
   @override
-  String get guildSettingsAfkTimeout => 'Тайм-аут AFK';
+  String get guildSettingsAfkTimeout => 'Час очікування неактивності';
 
   @override
   String get guildSettingsAfkTimeout1Min => '1 хвилина';
@@ -13940,10 +14012,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Привітання та системні повідомлення з\'являтимуться тут.';
 
   @override
-  String get guildSettingsNoSystemChannel => 'Немає системного каналу';
+  String get guildSettingsNoSystemChannel => 'Системного каналу немає';
 
   @override
-  String get guildSettingsHideJoinMessages => 'Приховати повідомлення про вхід';
+  String get guildSettingsHideJoinMessages =>
+      'Приховати повідомлення про приєднання';
 
   @override
   String get guildSettingsHideJoinMessagesHint =>
@@ -13984,11 +14057,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Спільноти, перелічені в Discovery, мають обмежені можливості модерації.';
 
   @override
-  String get guildSettingsModerationContentFilterTitle => 'Фільтрація контенту';
+  String get guildSettingsModerationContentFilterTitle => 'Фільтрування вмісту';
 
   @override
   String get guildSettingsModerationContentFilterDescription =>
-      'Автоматично перевіряти повідомлення на наявність відвертого контенту в каналах, не позначених як контент для дорослих.';
+      'Автоматично перевіряти повідомлення на наявність відвертого вмісту в каналах, не позначених як вміст для дорослих.';
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
@@ -13999,7 +14072,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsContentFilterOffDescription =>
-      'Дозволити спільноті самостійно модерувати';
+      'Дозволити спільноті модерувати себе';
 
   @override
   String get guildSettingsContentFilterNoRole =>
@@ -14014,7 +14087,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsContentFilterAllDescription =>
-      'Максимальний захист для сімейних просторів';
+      'Максимальний захист для сімейних спільнот';
 
   @override
   String get guildSettingsModerationMatureOff => 'Вимкнено';
@@ -14024,7 +14097,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsContentWarningToggle =>
-      'Показувати попередження про контент';
+      'Показувати попередження про вміст';
 
   @override
   String get guildSettingsContentWarningToggleDescription =>
@@ -14035,7 +14108,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsContentWarningTextPlaceholder =>
-      'Це містить чутливий контент.';
+      'Тут міститься делікатний вміст.';
 
   @override
   String get guildSettingsModeration2faTitle => 'Вимога 2FA';
@@ -14050,11 +14123,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get guildSettingsModeration2faOwnerOnlyTooltip =>
-      'Лише власник спільноти може змінити цей параметр';
+      'Змінити цей параметр може лише власник спільноти';
 
   @override
   String get guildSettingsModeration2faEnableFirstTooltip =>
-      'Увімкніть 2FA у своєму обліковому записі, щоб змінити цей параметр';
+      'Увімкніть двофакторну автентифікацію в обліковому записі, щоб змінити цей параметр';
 
   @override
   String get guildSettingsEmojiSearchHint => 'Пошук емоджі';
@@ -14085,7 +14158,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String guildSettingsEmojiUploadRequirements(String maxSize) {
-    return 'Назви емоджі повинні містити щонайменше 2 символи та можуть використовувати літери, цифри та підкреслення. Розмір емоджі повинен бути меншим за $maxSize. Статичні зображення автоматично змінюються до розміру 128x128 пікселів і стискаються. Анімовані емоджі та SVG повинні вже відповідати обмеженню.';
+    return 'Назви емодзі мають містити щонайменше 2 символи та можуть складатися з літер, цифр і підкреслень. Розмір емодзі має бути меншим за $maxSize. Статичні зображення автоматично змінюються до розміру 128x128 пікселів і стискаються. Анімовані емодзі та SVG мають одразу відповідати обмеженню.';
   }
 
   @override
@@ -14128,7 +14201,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildSettingsEmojiColumnName => 'Назва';
 
   @override
-  String get guildSettingsEmojiColumnUploader => 'Завантажено';
+  String get guildSettingsEmojiColumnUploader => 'Ким завантажено';
 
   @override
   String get guildSettingsEmojiUnknownUploader => 'Невідомо';
@@ -14280,7 +14353,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String guildSettingsStickerUploadRequirements(String maxSize) {
-    return 'Стікери зберігаються у розмірі 320x320 пікселів і повинні бути меншими за $maxSize. Статичні зображення автоматично змінюються та стискаються. Анімовані стікери та SVG повинні вже відповідати обмеженню.';
+    return 'Стікери зберігаються у розмірі 320x320 пікселів і повинні бути меншими за $maxSize. Статичні зображення автоматично масштабуються та стискаються. Анімовані стікери та SVG мають одразу відповідати обмеженню.';
   }
 
   @override
@@ -14317,11 +14390,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildSettingsStickerTagAdd => 'Додати';
 
   @override
-  String get guildSettingsStickerNameRequired => 'Необхідно вказати ім\'я';
+  String get guildSettingsStickerNameRequired => 'Необхідно вказати назву';
 
   @override
   String get guildSettingsStickerNameTooShort =>
-      'Ім\'я має містити щонайменше 2 символи';
+      'Назва має містити щонайменше 2 символи';
 
   @override
   String get guildSettingsStickerNameTooLong =>
@@ -14378,7 +14451,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildSettingsBannedUsersTitle => 'Заблоковані користувачі';
 
   @override
-  String get guildSettingsInvitesTableInviter => 'Запросив';
+  String get guildSettingsInvitesTableInviter => 'Хто запросив';
 
   @override
   String get guildSettingsInvitesTableChannel => 'Канал';
@@ -14387,7 +14460,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildSettingsInvitesTableCode => 'Код';
 
   @override
-  String get guildSettingsInvitesTableUses => 'Використання';
+  String get guildSettingsInvitesTableUses => 'Використань';
 
   @override
   String get guildSettingsInvitesTableCreated => 'Створено';
@@ -14427,11 +14500,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get createDmClaimToStartDms =>
-      'Щоб почати особисті повідомлення, активуйте свій обліковий запис.';
+      'Зареєструйте свій обліковий запис, щоб писати особисті повідомлення.';
 
   @override
   String get createDmVerifyToStartDms =>
-      'Підтвердьте свою електронну пошту, щоб почати приватні повідомлення.';
+      'Підтвердьте свою електронну пошту, щоб писати особисті повідомлення.';
 
   @override
   String get createDmVerifyYourEmail => 'Підтвердьте свою електронну пошту';
@@ -14471,7 +14544,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get createDmUnaddableIntro =>
-      'Цих людей не можна додати до цієї групової переписки:';
+      'Цих людей не можна додати до цього групового чату:';
 
   @override
   String createDmUnaddableProceed(int count) {
@@ -14490,7 +14563,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Ви не можете надіслати повідомлення цьому користувачеві';
 
   @override
-  String get createDmUnaddableNotFriends => 'Немає у списку друзів';
+  String get createDmUnaddableNotFriends => 'Не у вашому списку друзів';
 
   @override
   String get createDmUnaddableGroupDisabled =>
@@ -14530,7 +14603,8 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get keybindSectionMisc => 'Різне';
 
   @override
-  String get keybindActionShowShortcutsList => 'Показати список швидких клавіш';
+  String get keybindActionShowShortcutsList =>
+      'Показати список комбінацій клавіш';
 
   @override
   String get keybindActionCopyText => 'Копіювати текст';
@@ -14553,15 +14627,15 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get keybindActionHistoryForward =>
-      'Перейти вперед по історії переглянутих каналів';
+      'Перейти до наступного переглянутого каналу';
 
   @override
   String get keybindActionJumpUnreadChannels =>
-      'Перейти між непрочитаними каналами';
+      'Переходити між непрочитаними каналами';
 
   @override
   String get keybindActionJumpMentionChannels =>
-      'Перейти до непрочитаних каналів зі згадками';
+      'Переходити між непрочитаними каналами зі згадками';
 
   @override
   String get keybindActionJumpCurrentCall => 'Перейти до поточного дзвінка';
@@ -14572,7 +14646,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get keybindActionPreviousCommunityOrDms =>
-      'Перейти до попередньої спільноти або приватних повідомлень';
+      'Перейти до попередньої спільноти або приватних чатів';
 
   @override
   String get keybindActionNextCommunityOrDms =>
@@ -14607,11 +14681,12 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get keybindActionGoToEighthCommunity => 'Перейти до восьмої спільноти';
 
   @override
-  String get keybindActionToggleQuickSwitcher => 'Перемкнути швидкий перемикач';
+  String get keybindActionToggleQuickSwitcher =>
+      'Відкрити/закрити швидкий перемикач';
 
   @override
   String get keybindActionCreateOrJoinCommunity =>
-      'Створити або приєднатися до спільноти';
+      'Створити спільноту або приєднатися до неї';
 
   @override
   String get keybindActionStartDragAndDrop => 'Почати перетягування';
@@ -14620,7 +14695,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get keybindActionMove => 'Перемістити';
 
   @override
-  String get keybindActionDropItem => 'Викинути предмет';
+  String get keybindActionDropItem => 'Відпустити елемент';
 
   @override
   String get keybindActionCancel => 'Скасувати';
@@ -14644,11 +14719,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get keybindActionMarkTopInboxRead =>
-      'Позначити верхній канал вхідних як прочитаний';
+      'Позначити верхній канал у вхідних як прочитаний';
 
   @override
   String get keybindActionMarkAllInboxRead =>
-      'Позначити всі канали вхідних як прочитані';
+      'Позначити всі канали у вхідних як прочитані';
 
   @override
   String get keybindActionToggleMemberList =>
@@ -14696,10 +14771,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get keybindActionStartDmCall =>
-      'Почати дзвінок в особистому або груповому чаті';
+      'Почати дзвінок у приватному або груповому чаті';
 
   @override
-  String get keybindActionToggleSoundboard => 'Увімкнути/вимкнути деку звуків';
+  String get keybindActionToggleSoundboard =>
+      'Увімкнути/вимкнути звукову панель';
 
   @override
   String get keybindActionToggleCompactCallView =>
@@ -14729,7 +14805,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Відкрити спливаюче вікно студії тем';
 
   @override
-  String get keybindActionZoomIn => 'Збільшити';
+  String get keybindActionZoomIn => 'Збільшити масштаб';
 
   @override
   String get keybindActionZoomOut => 'Зменшити масштаб';
@@ -14784,7 +14860,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get assistantOkOpened => 'Opening Fluxer.';
 
   @override
-  String get assistantOkMessageSent => 'Message sent.';
+  String get assistantOkMessageSent => 'Повідомлення надіслано.';
 
   @override
   String get assistantOkCustomStatusSet => 'Custom status updated.';

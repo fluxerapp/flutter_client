@@ -51,7 +51,7 @@ class _ProfileBioEditorHarnessState extends State<_ProfileBioEditorHarness> {
             child: FluxerInput.multiline(
               controller: bioController,
               focusNode: bioFocusNode,
-              label: 'About Me',
+              label: 'About me',
               maxLines: 8,
               onChanged: (_) => setState(() {}),
               onTapOutside: (_) => bioFocusNode.unfocus(),
@@ -160,7 +160,7 @@ void main() {
               FluxerInput(
                 controller: controller,
                 focusNode: focusNode,
-                label: 'Display Name',
+                label: 'Display name',
                 onTapOutside: (_) => focusNode.unfocus(),
               ),
               const SizedBox(height: 24),

@@ -1,0 +1,55 @@
+{
+  "fill" : {
+    "solid" : "display-p3:0.10381,0.09845,0.03734,1.00000"
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "fill" : "automatic",
+          "image-name" : "Vector.svg",
+          "name" : "Vector"
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.3
+      }
+    },
+    {
+      "layers" : [
+        {
+          "blend-mode" : "overlay",
+          "glass" : false,
+          "image-name" : "Flag_of_Sweden.svg",
+          "name" : "Flag_of_Sweden",
+          "position" : {
+            "scale" : 1.04,
+            "translation-in-points" : [
+              -0.24644852776373227,
+              0
+            ]
+          }
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}

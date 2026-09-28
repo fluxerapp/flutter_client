@@ -266,20 +266,20 @@ void main() {
       await tester.longPress(find.text('general'));
       await _pumpSidebar(tester);
 
-      expect(find.text('Mark as Read'), findsNothing);
-      expect(find.text('Copy Link'), findsOneWidget);
-      expect(find.text('Copy Channel ID'), findsOneWidget);
-      expect(find.text('Notification Settings'), findsOneWidget);
-      expect(find.text('Delete My Messages'), findsOneWidget);
+      expect(find.text('Mark as read'), findsNothing);
+      expect(find.text('Copy link'), findsOneWidget);
+      expect(find.text('Copy channel ID'), findsOneWidget);
+      expect(find.text('Notification settings'), findsOneWidget);
+      expect(find.text('Delete my messages'), findsOneWidget);
       expect(find.text('Open link'), findsNothing);
-      expect(find.text('Debug Channel'), findsNothing);
+      expect(find.text('Debug channel'), findsNothing);
       expect(find.text('Delete channel'), findsNothing);
 
       double dy(String label) => tester.getTopLeft(find.text(label)).dy;
-      expect(dy('Copy Link'), lessThan(dy('Mute Channel')));
-      expect(dy('Mute Channel'), lessThan(dy('Notification Settings')));
-      expect(dy('Notification Settings'), lessThan(dy('Copy Channel ID')));
-      expect(dy('Copy Channel ID'), lessThan(dy('Delete My Messages')));
+      expect(dy('Copy link'), lessThan(dy('Mute channel')));
+      expect(dy('Mute channel'), lessThan(dy('Notification settings')));
+      expect(dy('Notification settings'), lessThan(dy('Copy channel ID')));
+      expect(dy('Copy channel ID'), lessThan(dy('Delete my messages')));
     });
 
     testWidgets('tablet channel menu opens near the pressed row', (
@@ -300,16 +300,16 @@ void main() {
       await tester.longPress(find.text('general'));
       await _pumpSidebar(tester);
 
-      expect(find.text('Copy Link'), findsOneWidget);
+      expect(find.text('Copy link'), findsOneWidget);
       expect(
         find.ancestor(
-          of: find.text('Copy Link'),
+          of: find.text('Copy link'),
           matching: find.byType(Material),
         ),
         findsWidgets,
       );
 
-      final Offset menuTopLeft = tester.getTopLeft(find.text('Copy Link'));
+      final Offset menuTopLeft = tester.getTopLeft(find.text('Copy link'));
       expect(menuTopLeft.dx, greaterThan(channelCenter.dx - 40));
       expect(menuTopLeft.dy, greaterThan(channelCenter.dy - 40));
       expect((menuTopLeft - channelCenter).distance, lessThan(280));
@@ -335,9 +335,9 @@ void main() {
       await tester.longPress(find.text('general'));
       await _pumpSidebar(tester);
 
-      expect(find.text('Mark as Read'), findsOneWidget);
+      expect(find.text('Mark as read'), findsOneWidget);
       double dy(String label) => tester.getTopLeft(find.text(label)).dy;
-      expect(dy('Mark as Read'), lessThan(dy('Copy Link')));
+      expect(dy('Mark as read'), lessThan(dy('Copy link')));
     });
 
     testWidgets('channel menu shows invite people when permitted', (
@@ -361,9 +361,9 @@ void main() {
       await tester.longPress(find.text('general'));
       await _pumpSidebar(tester);
 
-      expect(find.text('Invite People'), findsOneWidget);
+      expect(find.text('Invite people'), findsOneWidget);
       double dy(String label) => tester.getTopLeft(find.text(label)).dy;
-      expect(dy('Invite People'), lessThan(dy('Copy Link')));
+      expect(dy('Invite people'), lessThan(dy('Copy link')));
     });
 
     testWidgets('voice channel menu shows open chat and delete my messages', (
@@ -384,7 +384,7 @@ void main() {
       await _pumpSidebar(tester);
 
       expect(find.text('Open chat'), findsOneWidget);
-      expect(find.text('Delete My Messages'), findsOneWidget);
+      expect(find.text('Delete my messages'), findsOneWidget);
     });
 
     testWidgets('category menu shows mute, copy id, and mark read actions', (
@@ -406,12 +406,12 @@ void main() {
 
       expect(find.text('Mute category'), findsOneWidget);
       expect(find.text('Copy category ID'), findsOneWidget);
-      expect(find.text('Mark as Read'), findsOneWidget);
-      expect(find.text('Debug Category'), findsNothing);
+      expect(find.text('Mark as read'), findsOneWidget);
+      expect(find.text('Debug category'), findsNothing);
 
       // Order must mirror the web category menu: Mark as Read -> Mute -> Copy ID.
       double dy(String label) => tester.getTopLeft(find.text(label)).dy;
-      expect(dy('Mark as Read'), lessThan(dy('Mute category')));
+      expect(dy('Mark as read'), lessThan(dy('Mute category')));
       expect(dy('Mute category'), lessThan(dy('Copy category ID')));
     });
 
@@ -438,9 +438,9 @@ void main() {
       expect(find.text('Delete channel'), findsOneWidget);
       double dy(String label) => tester.getTopLeft(find.text(label)).dy;
       expect(dy('Edit channel'), lessThan(dy('Duplicate channel')));
-      expect(dy('Duplicate channel'), lessThan(dy('Copy Channel ID')));
-      expect(dy('Copy Channel ID'), lessThan(dy('Delete channel')));
-      expect(dy('Delete channel'), lessThan(dy('Delete My Messages')));
+      expect(dy('Duplicate channel'), lessThan(dy('Copy channel ID')));
+      expect(dy('Copy channel ID'), lessThan(dy('Delete channel')));
+      expect(dy('Delete channel'), lessThan(dy('Delete my messages')));
     });
 
     testWidgets('edit channel opens channel settings', (tester) async {
@@ -498,7 +498,7 @@ void main() {
       await tester.longPress(find.text('general'));
       await _pumpSidebar(tester);
 
-      expect(find.text('Debug Channel'), findsOneWidget);
+      expect(find.text('Debug channel'), findsOneWidget);
     });
 
     testWidgets('category menu shows Debug Category in developer mode', (
@@ -519,7 +519,7 @@ void main() {
       await tester.longPress(find.text('My Category'));
       await _pumpSidebar(tester);
 
-      expect(find.text('Debug Category'), findsOneWidget);
+      expect(find.text('Debug category'), findsOneWidget);
     });
 
     testWidgets('link channel menu shows Open Link', (tester) async {
@@ -554,9 +554,9 @@ void main() {
       expect(find.text('Open link'), findsOneWidget);
       expect(find.text('Copy channel link'), findsOneWidget);
       expect(find.text('Copy redirect link'), findsOneWidget);
-      expect(find.text('Notification Settings'), findsOneWidget);
-      expect(find.text('Mute Channel'), findsNothing);
-      expect(find.text('Copy Link'), findsNothing);
+      expect(find.text('Notification settings'), findsOneWidget);
+      expect(find.text('Mute channel'), findsNothing);
+      expect(find.text('Copy link'), findsNothing);
 
       double dy(String label) => tester.getTopLeft(find.text(label)).dy;
       expect(dy('Open link'), lessThan(dy('Copy redirect link')));

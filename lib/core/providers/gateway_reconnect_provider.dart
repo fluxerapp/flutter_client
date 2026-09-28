@@ -44,33 +44,72 @@ class GatewayResumeReconnectInFlight extends _$GatewayResumeReconnectInFlight {
 
 /// Nudges the gateway socket after resume, giving the network stack one
 /// [kResumeReconnectDelay] beat to wake when connectivity is not up yet.
+///
+/// When [forceReconnect] is true (failure screen), stuck connecting states
+/// get [GatewayConnection.reconnectNow] instead of waiting on backoff.
+Future<void> nudgeGatewayConnectionReconnect(
+  GatewayConnection connection, {
+  void Function({required bool inFlight})? onResumeReconnectInFlight,
+  Future<bool> Function() hasConnectivity = _hasAnyConnectivity,
+  bool forceReconnect = false,
+}) async {
+  var holdInFlightUntilOnline = false;
+  onResumeReconnectInFlight?.call(inFlight: true);
+  try {
+    var hasConnection = await hasConnectivity();
+    if (!hasConnection) {
+      await Future<void>.delayed(kResumeReconnectDelay);
+      hasConnection = await hasConnectivity();
+    }
+    if (!hasConnection) {
+      talker.warning('[Gateway] Reconnect skipped: no connectivity');
+      return;
+    }
+    talker.info('[Gateway] Reconnect nudge starting');
+    if (connection.isReconnectSuspended) {
+      await connection.unsuspendAndReconnect();
+      holdInFlightUntilOnline = onResumeReconnectInFlight != null;
+      return;
+    }
+    final GatewayState state = connection.state;
+    if (state == GatewayState.connected) {
+      if (forceReconnect || connection.isLikelyStale) {
+        await connection.reconnectNow();
+        holdInFlightUntilOnline =
+            onResumeReconnectInFlight != null && !forceReconnect;
+      }
+      return;
+    }
+    if (state == GatewayState.failed ||
+        (forceReconnect &&
+            (state == GatewayState.connecting ||
+                state == GatewayState.reconnecting))) {
+      await connection.reconnectNow();
+      return;
+    }
+    if (state == GatewayState.connecting ||
+        state == GatewayState.reconnecting) {
+      return;
+    }
+    await connection.nudgeReconnect();
+    holdInFlightUntilOnline = onResumeReconnectInFlight != null;
+  } finally {
+    if (!holdInFlightUntilOnline) {
+      onResumeReconnectInFlight?.call(inFlight: false);
+    }
+  }
+}
+
 Future<void> nudgeGatewayReconnectAfterResume(
   GatewayConnection connection, {
   void Function({required bool inFlight})? onResumeReconnectInFlight,
   Future<bool> Function() hasConnectivity = _hasAnyConnectivity,
-}) async {
-  onResumeReconnectInFlight?.call(inFlight: true);
-  var hasConnection = await hasConnectivity();
-  if (!hasConnection) {
-    await Future<void>.delayed(kResumeReconnectDelay);
-    hasConnection = await hasConnectivity();
-  }
-  if (!hasConnection) {
-    talker.warning('[Gateway] Resume reconnect skipped: no connectivity');
-    onResumeReconnectInFlight?.call(inFlight: false);
-    return;
-  }
-  talker.info('[Gateway] Resume reconnect starting');
-  if (connection.state == GatewayState.connecting ||
-      connection.state == GatewayState.reconnecting) {
-    onResumeReconnectInFlight?.call(inFlight: false);
-    return;
-  }
-  if (connection.state == GatewayState.connected) {
-    await connection.reconnectNow();
-    return;
-  }
-  await connection.nudgeReconnect();
+}) {
+  return nudgeGatewayConnectionReconnect(
+    connection,
+    onResumeReconnectInFlight: onResumeReconnectInFlight,
+    hasConnectivity: hasConnectivity,
+  );
 }
 
 Future<bool> _hasAnyConnectivity() async {
@@ -190,6 +229,7 @@ Raw<StreamSubscription<GatewayState>?> gatewayStateListener(Ref ref) {
   final connection = ref.watch(gatewayConnectionProvider);
   Timer? failureTimer;
   GatewayState? reconnectingState;
+  var failureTimeoutPasses = 0;
 
   void clearFailureTimer() {
     failureTimer?.cancel();
@@ -198,6 +238,7 @@ Raw<StreamSubscription<GatewayState>?> gatewayStateListener(Ref ref) {
 
   void markOnline() {
     clearFailureTimer();
+    failureTimeoutPasses = 0;
     reconnectingState = null;
     ref
         .read(gatewayResumeReconnectInFlightProvider.notifier)
@@ -208,6 +249,7 @@ Raw<StreamSubscription<GatewayState>?> gatewayStateListener(Ref ref) {
 
   void markFailed() {
     clearFailureTimer();
+    failureTimeoutPasses = 0;
     reconnectingState = null;
     ref
         .read(gatewayResumeReconnectInFlightProvider.notifier)
@@ -267,6 +309,26 @@ Raw<StreamSubscription<GatewayState>?> gatewayStateListener(Ref ref) {
         return;
       }
       if (connection.state != GatewayState.connected) {
+        if (ref.read(gatewayConnectionFailedProvider)) {
+          talker.warning(
+            '[Gateway] Failure screen reconnect timeout — forcing reconnect',
+          );
+          unawaited(
+            nudgeGatewayConnectionReconnect(connection, forceReconnect: true),
+          );
+          scheduleFailureTimeout();
+          return;
+        }
+        if (failureTimeoutPasses == 0) {
+          failureTimeoutPasses++;
+          talker.warning(
+            '[Gateway] Reconnect failure timeout — forcing reconnect',
+          );
+          unawaited(connection.reconnectNow());
+          scheduleFailureTimeout();
+          return;
+        }
+        failureTimeoutPasses = 0;
         talker.warning('[Gateway] Reconnect failure timeout reached');
         markFailed();
       }
@@ -278,7 +340,7 @@ Raw<StreamSubscription<GatewayState>?> gatewayStateListener(Ref ref) {
     ref.read(serverReachableProvider.notifier).setReachable(value: true);
     final bool onFailureScreen = ref.read(gatewayConnectionFailedProvider);
     if (onFailureScreen) {
-      clearFailureTimer();
+      scheduleFailureTimeout();
     } else {
       ref.read(gatewayConnectionFailedProvider.notifier).reset();
       scheduleFailureTimeout();

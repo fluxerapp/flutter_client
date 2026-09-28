@@ -2,9 +2,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/router/route_kind.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
+import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   group('contextualGuildIdProvider', () {
     test('returns route guild ID without reading channel guild provider', () {
       var channelGuildIdReads = 0;
@@ -41,6 +45,13 @@ void main() {
                 channelId: 'channel-1',
               ),
             ),
+            channelListViewModelProvider.overrideWithValue(
+              const ChannelListState(
+                guild: null,
+                selectedChannelId: 'channel-1',
+                categories: [],
+              ),
+            ),
             channelGuildIdProvider(
               'channel-1',
             ).overrideWith((Ref ref) => Stream<String?>.value('guild-from-db')),
@@ -57,6 +68,48 @@ void main() {
         await Future<void>.delayed(Duration.zero);
 
         expect(container.read(contextualGuildIdProvider), 'guild-from-db');
+      },
+    );
+
+    test(
+      'resolves guild ID from in-memory channel list before DB stream emits',
+      () {
+        final ProviderContainer container = ProviderContainer(
+          overrides: [
+            routeStateProvider.overrideWithValue(
+              _routeState(
+                location: '/channels/@favorites/channel-1',
+                guildId: null,
+                channelId: 'channel-1',
+              ),
+            ),
+            channelListViewModelProvider.overrideWithValue(
+              const ChannelListState(
+                guild: null,
+                selectedChannelId: 'channel-1',
+                categories: [
+                  ChannelCategory(
+                    id: 'cat-1',
+                    name: 'Text',
+                    channels: [
+                      Channel(
+                        id: 'channel-1',
+                        guildId: 'guild-from-list',
+                        name: 'general',
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            channelGuildIdProvider(
+              'channel-1',
+            ).overrideWith((Ref ref) => const Stream<String?>.empty()),
+          ],
+        );
+        addTearDown(container.dispose);
+
+        expect(container.read(contextualGuildIdProvider), 'guild-from-list');
       },
     );
 

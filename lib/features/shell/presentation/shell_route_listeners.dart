@@ -8,6 +8,9 @@ import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/permissions/guild_channel_permission_cleanup.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/push/push_notifications_coordinator.dart';
+import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_prompt_provider.dart';
+import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_provider.dart';
+import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_sheet.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_distributor_setup.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_distributor_ui.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_no_distributor_dismissal_provider.dart';
@@ -125,6 +128,23 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
       });
     }
 
+    if (PushProviderGuard.isApple || PushProviderGuard.isFirebaseMessaging) {
+      ref.listenManual<bool>(pushRelayConsentPromptProvider, (
+        bool? previous,
+        bool next,
+      ) {
+        if (!next) {
+          return;
+        }
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted) {
+            return;
+          }
+          _schedulePushRelayConsentPrompt();
+        });
+      });
+    }
+
     ref.listenManual<HomeQuickAction?>(pendingHomeQuickActionProvider, (
       HomeQuickAction? previous,
       HomeQuickAction? next,
@@ -170,6 +190,50 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
         );
       });
     });
+  }
+
+  void _schedulePushRelayConsentPrompt({int attempt = 0}) {
+    if (!mounted) {
+      return;
+    }
+    if (!ref.read(pushRelayConsentPromptProvider)) {
+      return;
+    }
+    final promptNotifier = ref.read(pushRelayConsentPromptProvider.notifier);
+    if (promptNotifier.presentationInFlight) {
+      return;
+    }
+    final BuildContext? rootContext = rootNavigatorKey.currentContext;
+    if (rootContext == null || !rootContext.mounted) {
+      if (attempt >= 60) {
+        return;
+      }
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) {
+          return;
+        }
+        _schedulePushRelayConsentPrompt(attempt: attempt + 1);
+      });
+      return;
+    }
+    promptNotifier.beginPresentation();
+    unawaited(_presentPushRelayConsent(rootContext));
+  }
+
+  Future<void> _presentPushRelayConsent(BuildContext rootContext) async {
+    final promptNotifier = ref.read(pushRelayConsentPromptProvider.notifier);
+    try {
+      final bool? agreed = await showPushRelayConsentSheet(rootContext);
+      if (!mounted) {
+        return;
+      }
+      await recordPushRelayConsentSheetResult(
+        consent: ref.read(pushRelayConsentProvider.notifier),
+        agreed: agreed,
+      );
+    } finally {
+      promptNotifier.endPresentation();
+    }
   }
 
   void _presentHomeQuickAction(HomeQuickAction action, {bool retried = false}) {

@@ -7,17 +7,19 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 class FluxerSettingsNavItem {
   const FluxerSettingsNavItem({
     required this.label,
-    required this.icon,
     required this.onTap,
+    this.icon,
+    this.leading,
     this.hint,
     this.isDanger = false,
     this.isDisabled = false,
     this.onDisabledTap,
-  });
+  }) : assert(icon != null || leading != null, 'Provide icon or leading');
 
   final String label;
   final String? hint;
-  final IconData icon;
+  final IconData? icon;
+  final Widget? leading;
   final VoidCallback onTap;
   final bool isDanger;
   final bool isDisabled;
@@ -134,6 +136,7 @@ class _FluxerSettingsNavItemWidget extends StatelessWidget {
         label: item.label,
         onTap: item.onTap,
         icon: item.icon,
+        leading: item.leading,
         isDanger: true,
       );
     }
@@ -143,6 +146,7 @@ class _FluxerSettingsNavItemWidget extends StatelessWidget {
         label: item.label,
         onTap: item.onDisabledTap ?? item.onTap,
         icon: item.icon,
+        leading: item.leading,
         enabled: false,
         trailing: PhosphorIcon(
           PhosphorIconsBold.caretRight,
@@ -157,6 +161,7 @@ class _FluxerSettingsNavItemWidget extends StatelessWidget {
       hint: item.hint,
       onTap: item.onTap,
       icon: item.icon,
+      leading: item.leading,
     );
   }
 }

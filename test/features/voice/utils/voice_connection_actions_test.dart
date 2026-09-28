@@ -123,7 +123,7 @@ void main() {
       await tester.tap(find.text('Join'));
       await tester.pumpAndSettle();
 
-      expect(find.text('Voice Connection Confirmation'), findsNothing);
+      expect(find.text('Voice connection confirmation'), findsNothing);
       expect(voiceSession.connectCallCount, 1);
       expect(voiceSession.lastForceJoin, isFalse);
       expect(gateway.voiceStateUpdates, isEmpty);
@@ -174,7 +174,7 @@ void main() {
       await tester.tap(find.text('Join'));
       await tester.pumpAndSettle();
 
-      expect(find.text('Voice Connection Confirmation'), findsNothing);
+      expect(find.text('Voice connection confirmation'), findsNothing);
       expect(gateway.voiceStateUpdates, hasLength(1));
       expect(gateway.voiceStateUpdates.single.connectionId, _otherConnectionId);
       expect(voiceSession.connectCallCount, 1);
@@ -232,7 +232,7 @@ void main() {
               );
         },
         afterModalOpens: (WidgetTester tester) async {
-          await tester.tap(find.text('Switch to This Device').last);
+          await tester.tap(find.text('Switch to this device').last);
           await tester.pumpAndSettle();
         },
       );
@@ -258,7 +258,7 @@ void main() {
         initialVoiceStates: _otherDeviceVoiceStates(),
         afterModalOpens: (WidgetTester tester) async {
           await tester.tap(
-            find.text('Just Join (Keep Other Connections)').last,
+            find.text('Just join (keep other connections)').last,
           );
           await tester.pumpAndSettle();
         },
@@ -285,7 +285,7 @@ void main() {
         popBranchAfterModalOpens: true,
         afterModalOpens: (WidgetTester tester) async {
           await tester.tap(
-            find.text('Just Join (Keep Other Connections)').last,
+            find.text('Just join (keep other connections)').last,
           );
           await tester.pumpAndSettle();
         },

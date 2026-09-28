@@ -22,6 +22,7 @@ import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_callkit_engine_gate_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/services/voice_settings_applicator.dart';
@@ -226,6 +227,9 @@ class VoiceCallKitCoordinatorLogic {
       await AudioManager.instance.setEngineAvailability(
         AudioEngineAvailability.defaultAvailability,
       );
+      _ref
+          .read(voiceCallKitEngineSuppressedProvider.notifier)
+          .setSuppressed(false);
     } on Object catch (error) {
       talker.warning(
         '[VoiceCallKit] audio session recovery setEngineAvailability failed: $error',
@@ -264,6 +268,9 @@ class VoiceCallKitCoordinatorLogic {
       await AudioManager.instance.setEngineAvailability(
         AudioEngineAvailability.defaultAvailability,
       );
+      _ref
+          .read(voiceCallKitEngineSuppressedProvider.notifier)
+          .setSuppressed(false);
       await AudioManager.instance.setAudioSessionManagementMode(
         AudioSessionManagementMode.automatic,
       );
@@ -311,8 +318,12 @@ class VoiceCallKitCoordinatorLogic {
             ? AudioEngineAvailability.defaultAvailability
             : AudioEngineAvailability.none,
       );
+      _ref
+          .read(voiceCallKitEngineSuppressedProvider.notifier)
+          .setSuppressed(!enableEngine);
     } on Object catch (error) {
       talker.warning('[VoiceCallKit] setEngineAvailability failed: $error');
+      return;
     }
   }
 

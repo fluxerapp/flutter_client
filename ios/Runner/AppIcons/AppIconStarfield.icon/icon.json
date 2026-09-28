@@ -1,0 +1,44 @@
+{
+  "fill" : {
+    "solid" : "display-p3:0.01961,0.01569,0.05098,1.00000"
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "blend-mode" : "lighten",
+          "fill" : "automatic",
+          "glass" : true,
+          "image-name" : "Vector.svg",
+          "name" : "Vector",
+          "opacity" : 1
+        },
+        {
+          "fill" : "automatic",
+          "glass" : true,
+          "image-name" : "StarfieldStars.svg",
+          "name" : "StarfieldStars"
+        },
+        {
+          "fill" : "automatic",
+          "image-name" : "StarfieldBackground.svg",
+          "name" : "StarfieldBackground"
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.35
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}

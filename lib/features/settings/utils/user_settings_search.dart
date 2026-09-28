@@ -1,4 +1,5 @@
 import 'package:fluxer_app/core/instance/instance_constants.dart';
+import 'package:fluxer_app/core/platform/alternate_app_icon_settings.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_billing_utils.dart';
@@ -100,6 +101,8 @@ Set<UserSettingsSection> visibleUserSettingsSearchSections({
           ) &&
           (section != UserSettingsSection.defaultApps ||
               isFluxerNativeMobileOs) &&
+          (section != UserSettingsSection.appIcon ||
+              isAlternateAppIconSettingsAvailable) &&
           (section != UserSettingsSection.shortcuts || !isTouchPrimary))
         section,
   };

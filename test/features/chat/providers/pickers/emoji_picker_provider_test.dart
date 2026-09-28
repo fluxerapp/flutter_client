@@ -75,6 +75,18 @@ void main() {
 
       expect(result, isEmpty);
     });
+
+    test('shows active guild emojis before guild list is ready', () {
+      final result = guildEmojiEntriesForPicker(
+        guilds: const <Guild>[],
+        emojis: emojis,
+        activeGuildId: '1',
+        isPremium: false,
+      );
+
+      expect(result.keys.map((guild) => guild.id), ['1']);
+      expect(result.values.single.map((emoji) => emoji.id), ['a']);
+    });
   });
 
   test('lockedGuildEmojiEntriesForUpsell returns non-active guild emojis', () {

@@ -4,23 +4,17 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_shared.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_youtube.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_inline_video_player.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_youtube_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_markdown/fluxer_markdown.dart';
 
 /// A video embed
 class EmbedVideo extends StatelessWidget {
   final Embed embed;
   final MediaDimensionSize dimensionSize;
-  final bool isSpoiler;
-  final bool revealSpoiler;
-  final FluxerSpoilerSyncController? spoilerSyncController;
-  final List<String> spoilerSyncKeys;
   final String? channelId;
   final String? messageId;
   final int? embedIndex;
@@ -29,10 +23,6 @@ class EmbedVideo extends StatelessWidget {
   const EmbedVideo({
     required this.embed,
     this.dimensionSize = MediaDimensionSize.small,
-    this.isSpoiler = false,
-    this.revealSpoiler = false,
-    this.spoilerSyncController,
-    this.spoilerSyncKeys = const [],
     this.channelId,
     this.messageId,
     this.embedIndex,
@@ -84,20 +74,13 @@ class EmbedVideo extends StatelessWidget {
                 dimensionSize: dimensionSize,
                 posterFit: isMediaOnly ? BoxFit.cover : BoxFit.contain,
               );
-        final Widget media = SpoilerOverlay(
-          isSpoiler: isSpoiler,
-          initiallyRevealed: revealSpoiler,
+        final Widget media = MatureMediaOverlay(
+          channelId: channelId,
+          isMatureMedia: embed.isMatureMedia,
           borderRadius: BorderRadius.circular(mediaRadius),
-          spoilerSyncController: spoilerSyncController,
-          syncKeys: spoilerSyncKeys,
-          child: MatureMediaOverlay(
-            channelId: channelId,
-            isMatureMedia: embed.isMatureMedia,
+          child: ClipRRect(
             borderRadius: BorderRadius.circular(mediaRadius),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(mediaRadius),
-              child: player,
-            ),
+            child: player,
           ),
         );
 

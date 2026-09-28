@@ -70,8 +70,8 @@ void main() {
         ),
       );
 
-      expect(find.text('Mutual Friends (2)'), findsOneWidget);
-      expect(find.text('Mutual Communities (1)'), findsOneWidget);
+      expect(find.text('Mutual friends (2)'), findsOneWidget);
+      expect(find.text('Mutual communities (1)'), findsOneWidget);
     });
 
     testWidgets('opens friend list bottom sheet', (WidgetTester tester) async {
@@ -88,10 +88,10 @@ void main() {
         ),
       );
 
-      await tester.tap(find.text('Mutual Friends (1)'));
+      await tester.tap(find.text('Mutual friends (1)'));
       await tester.pumpAndSettle();
 
-      expect(find.text('Mutual Friends'), findsOneWidget);
+      expect(find.text('Mutual friends'), findsOneWidget);
       expect(find.text('Alice'), findsOneWidget);
       expect(find.text('alice#1234'), findsOneWidget);
     });

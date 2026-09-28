@@ -44,7 +44,7 @@ void main() {
       ),
       findsOneWidget,
     );
-    expect(find.textContaining('Community Settings > General'), findsOneWidget);
+    expect(find.textContaining('Community settings > General'), findsOneWidget);
   });
 
   testWidgets('shows remaining count when more than 3 communities owned', (

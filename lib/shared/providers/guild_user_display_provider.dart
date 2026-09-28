@@ -9,16 +9,20 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
 import 'package:fluxer_app/shared/services/guild_member_hydration_service.dart';
+import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/mention_display_utils.dart';
 
 String? resolveGuildIdForChannel(WidgetRef ref, String? channelId) {
   if (channelId != null && channelId.isNotEmpty) {
-    final String? activeChannelId = ref.watch(activeChannelIdProvider);
-    if (channelId == activeChannelId) {
-      return ref.watch(contextualGuildIdProvider);
+    final channel = resolveGuildChannel(ref, channelId);
+    if (channel != null && channel.guildId.isNotEmpty) {
+      return channel.guildId;
     }
-    return ref.watch(channelGuildIdProvider(channelId)).value;
+    final fromStream = ref.watch(channelGuildIdProvider(channelId)).value;
+    if (fromStream != null && fromStream.isNotEmpty) {
+      return fromStream;
+    }
   }
   return ref.watch(contextualGuildIdProvider);
 }

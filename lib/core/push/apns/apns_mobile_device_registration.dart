@@ -10,6 +10,7 @@ import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/push_provider.dart';
 import 'package:fluxer_app/core/push/push_notification_permission.dart';
 import 'package:fluxer_app/core/push/push_service.dart';
+import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_provider.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_key_store.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_registration.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_relay.dart';
@@ -51,6 +52,11 @@ class ApnsMobileDeviceRegistration extends _$ApnsMobileDeviceRegistration {
         }
       })
       ..listen<bool>(appUiForegroundProvider, (bool? previous, bool next) {
+        if (next && previous == false) {
+          unawaited(sync());
+        }
+      })
+      ..listen<bool>(pushRelayConsentProvider, (bool? previous, bool next) {
         if (next && previous == false) {
           unawaited(sync());
         }
@@ -161,6 +167,10 @@ class ApnsMobileDeviceRegistration extends _$ApnsMobileDeviceRegistration {
       environment: environmentName,
       deviceTokenHex: hex,
     );
+    if (!await ensurePushRelayConsent(ref, relayUrl)) {
+      _logApnsWarning('sync aborted: push relay consent not granted');
+      return;
+    }
     final WebPushAccountKeys keys = await _keyStore.ensureKeys(userId);
     await unregisterLegacyRawTokenOnce(
       keyStore: _keyStore,

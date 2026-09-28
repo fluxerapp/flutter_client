@@ -216,7 +216,7 @@
     "@mfaMethodTotp": {
         "description": "Label for the TOTP authenticator method."
     },
-    "mfaMethodWebauthn": "Security Key / Passkey",
+    "mfaMethodWebauthn": "Security key / passkey",
     "@mfaMethodWebauthn": {
         "description": "Label for the WebAuthn security key method."
     },
@@ -414,15 +414,15 @@
     "@signOut": {
         "description": "Context menu option to sign out of current account."
     },
-    "suspendedPermanentTitle": "Account Permanently Suspended",
+    "suspendedPermanentTitle": "Account permanently suspended",
     "@suspendedPermanentTitle": {
         "description": "Title when account is permanently banned."
     },
-    "suspendedTemporaryTitle": "Account Suspended",
+    "suspendedTemporaryTitle": "Account suspended",
     "@suspendedTemporaryTitle": {
         "description": "Title when account is temporarily suspended."
     },
-    "suspendedPermanentDescription": "Your account has been permanently suspended for violating our Terms of Service.",
+    "suspendedPermanentDescription": "Your account has been permanently suspended for violating our terms of service.",
     "@suspendedPermanentDescription": {
         "description": "Description for permanent suspension."
     },
@@ -450,7 +450,7 @@
     "@suspendedReason": {
         "description": "Label for ban reason."
     },
-    "suspendedAppealDeadline": "Appeal Deadline",
+    "suspendedAppealDeadline": "Appeal deadline",
     "@suspendedAppealDeadline": {
         "description": "Label for appeal deadline date."
     },
@@ -463,7 +463,7 @@
             }
         }
     },
-    "suspendedRecheck": "Check for Updates",
+    "suspendedRecheck": "Check for updates",
     "@suspendedRecheck": {
         "description": "Button to recheck ban status."
     },
@@ -476,7 +476,7 @@
             }
         }
     },
-    "suspendedBackToLogin": "Back to Login",
+    "suspendedBackToLogin": "Back to login",
     "@suspendedBackToLogin": {
         "description": "Button to return to login screen."
     },
@@ -488,19 +488,19 @@
     "@suspendedAppealHint": {
         "description": "Placeholder text for the appeal textarea."
     },
-    "suspendedAppealSubmit": "Submit Appeal",
+    "suspendedAppealSubmit": "Submit appeal",
     "@suspendedAppealSubmit": {
         "description": "Button to submit an appeal."
     },
-    "suspendedAppealPending": "Pending Review",
+    "suspendedAppealPending": "Pending review",
     "@suspendedAppealPending": {
         "description": "Badge for appeal with pending status."
     },
-    "suspendedAppealAccepted": "Appeal Accepted",
+    "suspendedAppealAccepted": "Appeal accepted",
     "@suspendedAppealAccepted": {
         "description": "Badge for accepted appeal."
     },
-    "suspendedAppealRejected": "Appeal Rejected",
+    "suspendedAppealRejected": "Appeal rejected",
     "@suspendedAppealRejected": {
         "description": "Badge for rejected appeal."
     },
@@ -508,7 +508,7 @@
     "@suspendedAppealAcceptedDescription": {
         "description": "Message when appeal is accepted."
     },
-    "suspendedSignIn": "Sign In to Your Account",
+    "suspendedSignIn": "Sign in to your account",
     "@suspendedSignIn": {
         "description": "Button to sign in after appeal is accepted."
     },
@@ -564,7 +564,7 @@
     "@registerTitle": {
         "description": "Title for the registration screen."
     },
-    "registerDisplayName": "Display Name (Optional)",
+    "registerDisplayName": "Display name (optional)",
     "@registerDisplayName": {
         "description": "Label for the display name field."
     },
@@ -572,7 +572,7 @@
     "@registerDisplayNameHint": {
         "description": "Hint for the display name field."
     },
-    "registerUsername": "Username (Optional)",
+    "registerUsername": "Username (optional)",
     "@registerUsername": {
         "description": "Label for the username field."
     },
@@ -600,7 +600,7 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsent": "I agree to the Terms of Service and Privacy Policy",
+    "registerConsent": "I agree to the terms of service and privacy policy",
     "@registerConsent": {
         "description": "Consent checkbox label for registration (plain text fallback)."
     },
@@ -608,7 +608,7 @@
     "@registerConsentPrefix": {
         "description": "Text before the Terms of Service link in the consent checkbox."
     },
-    "registerConsentTerms": "Terms of Service",
+    "registerConsentTerms": "Terms of service",
     "@registerConsentTerms": {
         "description": "Terms of Service link text in the consent checkbox."
     },
@@ -616,11 +616,11 @@
     "@registerConsentAnd": {
         "description": "Conjunction between Terms and Privacy links."
     },
-    "registerConsentPrivacy": "Privacy Policy",
+    "registerConsentPrivacy": "Privacy policy",
     "@registerConsentPrivacy": {
         "description": "Privacy Policy link text in the consent checkbox."
     },
-    "registerConfirmPassword": "Confirm Password",
+    "registerConfirmPassword": "Confirm password",
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
     },
@@ -676,11 +676,11 @@
     "@errorUnableToResetPassword": {
         "description": "Generic fallback error when password reset fails unexpectedly."
     },
-    "embedInviteJoin": "Join Community",
+    "embedInviteJoin": "Join community",
     "@embedInviteJoin": {
         "description": "Button to join a guild from an invite embed card."
     },
-    "embedInviteGoTo": "Go to Community",
+    "embedInviteGoTo": "Go to community",
     "@embedInviteGoTo": {
         "description": "Button when user is already a member of the guild."
     },
@@ -702,7 +702,7 @@
             }
         }
     },
-    "embedInviteUnknownTitle": "Unknown Invite",
+    "embedInviteUnknownTitle": "Unknown invite",
     "@embedInviteUnknownTitle": {
         "description": "Title when an invite is expired or invalid."
     },
@@ -710,7 +710,7 @@
     "@embedInviteUnknownSubtitle": {
         "description": "Subtitle when an invite is expired or invalid."
     },
-    "embedInviteUnavailable": "Invite Unavailable",
+    "embedInviteUnavailable": "Invite unavailable",
     "@embedInviteUnavailable": {
         "description": "Disabled button label when an invite is unavailable."
     },
@@ -718,19 +718,19 @@
     "@inviteAcceptTitle": {
         "description": "Title of the invite accept modal."
     },
-    "inviteAcceptJoinButton": "Join Community",
+    "inviteAcceptJoinButton": "Join community",
     "@inviteAcceptJoinButton": {
         "description": "Primary action to join a community from the invite modal."
     },
-    "inviteAcceptGoToButton": "Go to Community",
+    "inviteAcceptGoToButton": "Go to community",
     "@inviteAcceptGoToButton": {
         "description": "Primary action when the user is already a member of the invited community."
     },
-    "inviteAcceptInvitesPaused": "Invites Paused",
+    "inviteAcceptInvitesPaused": "Invites paused",
     "@inviteAcceptInvitesPaused": {
         "description": "Disabled action label when community invites are paused."
     },
-    "inviteAcceptNotFoundTitle": "Invite Invalid",
+    "inviteAcceptNotFoundTitle": "Invite invalid",
     "@inviteAcceptNotFoundTitle": {
         "description": "Title when an invite link is expired or invalid."
     },
@@ -779,7 +779,7 @@
     "@mentionUnknownChannel": {
         "description": "Fallback name shown in a channel mention pill when the channel is not found."
     },
-    "channelAccessDeniedTitle": "Channel Access Denied",
+    "channelAccessDeniedTitle": "Channel access denied",
     "@channelAccessDeniedTitle": {
         "description": "Title of the modal shown when clicking a jump link to an inaccessible channel."
     },
@@ -807,11 +807,11 @@
     "@embedThemeUnavailableButton": {
         "description": "Button on the theme embed card - themes aren't supported in the client."
     },
-    "privacySettings": "Privacy Settings",
+    "privacySettings": "Privacy settings",
     "@privacySettings": {
         "description": "Title for guild privacy settings bottom sheet."
     },
-    "privacyDirectMessages": "Direct Messages",
+    "privacyDirectMessages": "Direct messages",
     "@privacyDirectMessages": {
         "description": "Label for the DM toggle in guild privacy settings."
     },
@@ -819,7 +819,7 @@
     "@privacyDirectMessagesDescription": {
         "description": "Description for the DM toggle in guild privacy settings."
     },
-    "privacyBotDirectMessages": "Bot Direct Messages",
+    "privacyBotDirectMessages": "Bot direct messages",
     "@privacyBotDirectMessages": {
         "description": "Label for the bot DM toggle in guild privacy settings."
     },
@@ -831,7 +831,7 @@
     "@privacyMutualDmsDisabled": {
         "description": "Warning shown when guild has DISABLE_MUTUAL_DMS feature."
     },
-    "communityDebug": "Community Debug",
+    "communityDebug": "Community debug",
     "@communityDebug": {
         "description": "Title for the debug community bottom sheet."
     },
@@ -839,7 +839,7 @@
     "@copiedToClipboard": {
         "description": "Toast message after copying text to clipboard."
     },
-    "notificationSettings": "Notification Settings",
+    "notificationSettings": "Notification settings",
     "@notificationSettings": {
         "description": "Title for guild notification settings bottom sheet."
     },
@@ -856,15 +856,15 @@
     "@notificationMuteDescription": {
         "description": "Description for the mute toggle in guild notification settings."
     },
-    "notificationCommunitySettings": "Community Notification Settings",
+    "notificationCommunitySettings": "Community notification settings",
     "@notificationCommunitySettings": {
         "description": "Section title for notification frequency options."
     },
-    "notificationAllMessages": "All Messages",
+    "notificationAllMessages": "All messages",
     "@notificationAllMessages": {
         "description": "Radio option for receiving all message notifications."
     },
-    "notificationOnlyMentions": "Only Mentions",
+    "notificationOnlyMentions": "Only mentions",
     "@notificationOnlyMentions": {
         "description": "Radio option for receiving only mention notifications."
     },
@@ -876,15 +876,15 @@
     "@notificationSuppressEveryone": {
         "description": "Toggle label to suppress everyone and here mentions."
     },
-    "notificationSuppressRoles": "Suppress All Role @mentions",
+    "notificationSuppressRoles": "Suppress all role @mentions",
     "@notificationSuppressRoles": {
         "description": "Toggle label to suppress all role mentions."
     },
-    "notificationMobilePush": "Mobile Push Notifications",
+    "notificationMobilePush": "Mobile push notifications",
     "@notificationMobilePush": {
         "description": "Toggle label for mobile push notifications."
     },
-    "notificationOverrides": "Notification Overrides",
+    "notificationOverrides": "Notification overrides",
     "@notificationOverrides": {
         "description": "Section title for per-channel notification overrides."
     },
@@ -896,19 +896,19 @@
     "@notificationOnlyAtMentions": {
         "description": "Switch label for only mentions override option."
     },
-    "notificationMuteChannel": "Mute Channel",
+    "notificationMuteChannel": "Mute channel",
     "@notificationMuteChannel": {
         "description": "Switch label for muting a channel override."
     },
-    "notificationUnmuteChannel": "Unmute Channel",
+    "notificationUnmuteChannel": "Unmute channel",
     "@notificationUnmuteChannel": {
         "description": "Action label for unmuting a channel from the context menu."
     },
-    "notificationNoCategory": "No Category",
+    "notificationNoCategory": "No category",
     "@notificationNoCategory": {
         "description": "Fallback category name for channels without a parent category."
     },
-    "dmMarkAsRead": "Mark as Read",
+    "dmMarkAsRead": "Mark as read",
     "@dmMarkAsRead": {
         "description": "DM context menu action to mark conversation as read."
     },
@@ -928,11 +928,11 @@
     "@dmUnpinDm": {
         "description": "DM context menu action to unpin a DM."
     },
-    "dmAlwaysShowInSidebar": "Always Show in Sidebar",
+    "dmAlwaysShowInSidebar": "Always show in sidebar",
     "@dmAlwaysShowInSidebar": {
         "description": "DM context menu action to always show in sidebar."
     },
-    "dmRemoveFromAlwaysShown": "Remove from Always Shown",
+    "dmRemoveFromAlwaysShown": "Remove from always shown",
     "@dmRemoveFromAlwaysShown": {
         "description": "DM context menu action to remove from always shown."
     },
@@ -953,7 +953,7 @@
             }
         }
     },
-    "dmCopyChannelId": "Copy Channel ID",
+    "dmCopyChannelId": "Copy channel ID",
     "@dmCopyChannelId": {
         "description": "DM context menu action to copy the channel ID."
     },
@@ -961,7 +961,7 @@
     "@dmChannelIdCopied": {
         "description": "Toast message after copying a channel ID."
     },
-    "dmCopyUserId": "Copy User ID",
+    "dmCopyUserId": "Copy user ID",
     "@dmCopyUserId": {
         "description": "DM context menu action to copy the recipient user ID."
     },
@@ -969,11 +969,11 @@
     "@dmUserIdCopied": {
         "description": "Toast message after copying a user ID."
     },
-    "dmViewProfile": "View Profile",
+    "dmViewProfile": "View profile",
     "@dmViewProfile": {
         "description": "DM context menu action to view recipient profile."
     },
-    "dmVoiceCall": "Start Voice Call",
+    "dmVoiceCall": "Start voice call",
     "@dmVoiceCall": {
         "description": "DM context menu action to start a voice call."
     },
@@ -1013,7 +1013,7 @@
     "@incomingVoiceRingingUpdateFailed": {
         "description": "Snack when decline or ignore fails to notify the server about ringing."
     },
-    "dmAddNote": "Add Note",
+    "dmAddNote": "Add note",
     "@dmAddNote": {
         "description": "DM context menu action to add a note about the user."
     },
@@ -1021,7 +1021,7 @@
     "@dmEditGroup": {
         "description": "DM context menu action to edit a group DM."
     },
-    "dmInviteToCommunity": "Invite to Community",
+    "dmInviteToCommunity": "Invite to community",
     "@dmInviteToCommunity": {
         "description": "DM context menu action to invite user to a community."
     },
@@ -1029,7 +1029,7 @@
     "@dmBlock": {
         "description": "DM context menu action to block a user."
     },
-    "dmLeaveGroup": "Leave Group",
+    "dmLeaveGroup": "Leave group",
     "@dmLeaveGroup": {
         "description": "DM context menu action to leave a group DM."
     },
@@ -1082,7 +1082,7 @@
     "@dmMuteForever": {
         "description": "Mute duration option: indefinite."
     },
-    "dmPinGroupDm": "Pin Group DM",
+    "dmPinGroupDm": "Pin group DM",
     "@dmPinGroupDm": {
         "description": "DM context menu action to pin a group DM."
     },
@@ -1090,19 +1090,19 @@
     "@dmUnpinGroupDm": {
         "description": "DM context menu action to unpin a group DM."
     },
-    "dmFavoriteDm": "Favorite DM",
+    "dmFavoriteDm": "Favourite DM",
     "@dmFavoriteDm": {
         "description": "DM context menu action to favorite a DM."
     },
-    "dmUnfavoriteDm": "Unfavorite DM",
+    "dmUnfavoriteDm": "Unfavourite DM",
     "@dmUnfavoriteDm": {
         "description": "DM context menu action to unfavorite a DM."
     },
-    "dmFavoriteGroupDm": "Favorite group DM",
+    "dmFavoriteGroupDm": "Favourite group DM",
     "@dmFavoriteGroupDm": {
         "description": "DM context menu action to favorite a group DM."
     },
-    "dmUnfavoriteGroupDm": "Unfavorite group DM",
+    "dmUnfavoriteGroupDm": "Unfavourite group DM",
     "@dmUnfavoriteGroupDm": {
         "description": "DM context menu action to unfavorite a group DM."
     },
@@ -1376,7 +1376,7 @@
     "@emojiAutocompleteDefaultLabel": {
         "description": "Short right-side label in the chat composer emoji autocomplete shown for built-in (unicode) emoji; custom emoji show their guild name instead. Keep it concise."
     },
-    "emojiFrequentlyUsed": "Frequently Used",
+    "emojiFrequentlyUsed": "Frequently used",
     "@emojiFrequentlyUsed": {
         "description": "Frequently used emojis section."
     },
@@ -1412,7 +1412,7 @@
     "@gifPickerPoweredByKlipy": {
         "description": "Short powered-by KLIPY label in the GIF picker search field."
     },
-    "gifPickerFavorites": "Favorites",
+    "gifPickerFavorites": "Favourites",
     "@gifPickerFavorites": {
         "description": "Favorites category tile in the GIF picker."
     },
@@ -1420,7 +1420,7 @@
     "@gifPickerTrending": {
         "description": "Trending GIFs category and view title."
     },
-    "gifPickerNoResultsTitle": "No Search Results",
+    "gifPickerNoResultsTitle": "No search results",
     "@gifPickerNoResultsTitle": {
         "description": "GIF picker empty search title."
     },
@@ -1444,7 +1444,7 @@
     "@emojiCategoryNature": {
         "description": "Animals & nature category."
     },
-    "emojiCategoryFood": "Food & Drink",
+    "emojiCategoryFood": "Food & drink",
     "@emojiCategoryFood": {
         "description": "Food & drink category."
     },
@@ -1452,7 +1452,7 @@
     "@emojiCategoryActivity": {
         "description": "Activities & sports category."
     },
-    "emojiCategoryTravel": "Travel & Places",
+    "emojiCategoryTravel": "Travel & places",
     "@emojiCategoryTravel": {
         "description": "Travel & places category."
     },
@@ -1506,7 +1506,7 @@
             }
         }
     },
-    "externalLinkWarningTitle": "External Link Warning",
+    "externalLinkWarningTitle": "External link warning",
     "@externalLinkWarningTitle": {
         "description": "Title of the external link warning modal."
     },
@@ -1527,7 +1527,7 @@
     "@externalLinkWarningDestinationUrl": {
         "description": "Label above the destination URL in the external link warning modal."
     },
-    "externalLinksSectionTitle": "External Links",
+    "externalLinksSectionTitle": "External links",
     "@externalLinksSectionTitle": {
         "description": "Heading for the external links settings section."
     },
@@ -1543,7 +1543,7 @@
     "@externalLinkWarningTrustSuffix": {
         "description": "Suffix after the hostname in the trust-domain checkbox label."
     },
-    "externalLinkVisitSite": "Visit Site",
+    "externalLinkVisitSite": "Visit site",
     "@externalLinkVisitSite": {
         "description": "Primary action to continue to an external site."
     },
@@ -1567,7 +1567,7 @@
     "@externalLinkTrustAllConfirmDescription": {
         "description": "Description of the confirmation modal for trusting all external links."
     },
-    "externalLinkTrustAllConfirmAction": "Trust All",
+    "externalLinkTrustAllConfirmAction": "Trust all",
     "@externalLinkTrustAllConfirmAction": {
         "description": "Confirm action for trusting all external links."
     },
@@ -1579,7 +1579,7 @@
     "@externalLinkStopTrustingAllDescription": {
         "description": "Description of the confirmation modal for disabling trust-all external links."
     },
-    "externalLinkStopTrustingAllAction": "Disable Trust All",
+    "externalLinkStopTrustingAllAction": "Disable trust all",
     "@externalLinkStopTrustingAllAction": {
         "description": "Confirm action for disabling trust-all external links."
     },
@@ -1612,7 +1612,7 @@
     "@animatedBannersRequirePlutonium": {
         "description": "Toast shown when non-premium user tries uploading animated banner."
     },
-    "animatedAvifNotSupported": "Animated AVIF Not Supported",
+    "animatedAvifNotSupported": "Animated AVIF not supported",
     "@animatedAvifNotSupported": {
         "description": "Title for animated AVIF confirmation sheet."
     },
@@ -1620,7 +1620,7 @@
     "@animatedAvifNotSupportedBody": {
         "description": "Body text explaining animated AVIF limitation."
     },
-    "uploadAsIs": "Upload As-Is",
+    "uploadAsIs": "Upload as-is",
     "@uploadAsIs": {
         "description": "Button to upload an animated image without cropping."
     },
@@ -1628,11 +1628,11 @@
     "@croppingAnimatedNotSupported": {
         "description": "Toast when premium user uploads animated image that can't be cropped."
     },
-    "cropAvatar": "Crop Avatar",
+    "cropAvatar": "Crop avatar",
     "@cropAvatar": {
         "description": "Title for the avatar crop bottom sheet."
     },
-    "cropBanner": "Crop Banner",
+    "cropBanner": "Crop banner",
     "@cropBanner": {
         "description": "Title for the banner crop bottom sheet."
     },
@@ -1646,7 +1646,7 @@
     },
     "cropTouchHint": "Pinch to zoom, drag to reposition",
     "cropMouseHint": "Drag corners to resize, drag inside to move",
-    "changeYourFluxerTag": "Change Your Username",
+    "changeYourFluxerTag": "Change your username",
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
     },
@@ -1686,7 +1686,7 @@
     "@discriminatorPremiumTooltip": {
         "description": "Tooltip on disabled discriminator field for non-premium users."
     },
-    "fluxerTagAlreadyTaken": "Username Already Taken",
+    "fluxerTagAlreadyTaken": "Username already taken",
     "@fluxerTagAlreadyTaken": {
         "description": "Title for the tag-taken confirmation sheet."
     },
@@ -1702,7 +1702,7 @@
             }
         }
     },
-    "customTagIsTemporary": "Custom Tag Is Temporary",
+    "customTagIsTemporary": "Custom tag is temporary",
     "@customTagIsTemporary": {
         "description": "Title for the temporary tag warning sheet."
     },
@@ -1719,7 +1719,7 @@
     "@customTagTemporaryBody": {
         "description": "Warning body when premium subscription expiry date is unknown."
     },
-    "iUnderstandContinue": "I Understand, Continue",
+    "iUnderstandContinue": "I understand, continue",
     "@iUnderstandContinue": {
         "description": "Button to acknowledge a warning and proceed."
     },
@@ -1765,7 +1765,7 @@
     "@continueAction": {
         "description": "Generic continue button label."
     },
-    "profileCustomizationTitle": "Profile Customisation",
+    "profileCustomizationTitle": "Profile customisation",
     "@profileCustomizationTitle": {
         "description": "Heading for the profile customization settings section."
     },
@@ -1781,7 +1781,7 @@
     "@claimAccountToChangeFluxerTag": {
         "description": "Tooltip when unverified user hovers the disabled Change username button."
     },
-    "changeFluxerTag": "Change Username",
+    "changeFluxerTag": "Change username",
     "@changeFluxerTag": {
         "description": "Button label to open the username change flow."
     },
@@ -1807,7 +1807,7 @@
             }
         }
     },
-    "displayNameLabel": "Display Name",
+    "displayNameLabel": "Display name",
     "@displayNameLabel": {
         "description": "Label for the display name input."
     },
@@ -1819,11 +1819,11 @@
     "@avatarLabel": {
         "description": "Label for the avatar upload section."
     },
-    "changeAvatar": "Change Avatar",
+    "changeAvatar": "Change avatar",
     "@changeAvatar": {
         "description": "Button to upload a new avatar image."
     },
-    "removeAvatar": "Remove Avatar",
+    "removeAvatar": "Remove avatar",
     "@removeAvatar": {
         "description": "Button to remove the current avatar."
     },
@@ -1835,11 +1835,11 @@
     "@bannerLabel": {
         "description": "Label for the banner upload section."
     },
-    "changeBanner": "Change Banner",
+    "changeBanner": "Change banner",
     "@changeBanner": {
         "description": "Button to upload a new banner image."
     },
-    "removeBanner": "Remove Banner",
+    "removeBanner": "Remove banner",
     "@removeBanner": {
         "description": "Button to remove the current banner."
     },
@@ -1847,7 +1847,7 @@
     "@bannerDescription": {
         "description": "Helper text describing banner image requirements."
     },
-    "accentColorLabel": "Accent Colour",
+    "accentColorLabel": "Accent colour",
     "@accentColorLabel": {
         "description": "Label for the accent color picker."
     },
@@ -1855,7 +1855,7 @@
     "@accentColorDescription": {
         "description": "Helper text for the accent color picker."
     },
-    "aboutMeLabel": "About Me",
+    "aboutMeLabel": "About me",
     "@aboutMeLabel": {
         "description": "Label for the bio text area."
     },
@@ -1867,7 +1867,7 @@
     "@emojiPickerTitle": {
         "description": "Title for the emoji picker sheet."
     },
-    "plutoniumBadgePrivacyTitle": "Plutonium Badge Privacy",
+    "plutoniumBadgePrivacyTitle": "Plutonium badge privacy",
     "@plutoniumBadgePrivacyTitle": {
         "description": "Heading for the premium badge privacy settings section."
     },
@@ -1979,7 +1979,7 @@
     "@profilePreviewMessage": {
         "description": "Disabled message button in the profile preview card."
     },
-    "profilePreviewMemberSince": "{productName} Member Since",
+    "profilePreviewMemberSince": "{productName} member since",
     "@profilePreviewMemberSince": {
         "description": "Label for the member-since date in the profile preview card.",
         "placeholders": {
@@ -1988,7 +1988,7 @@
             }
         }
     },
-    "unclaimedAccountTitle": "Unclaimed Account",
+    "unclaimedAccountTitle": "Unclaimed account",
     "@unclaimedAccountTitle": {
         "description": "Title for the unclaimed account warning bar."
     },
@@ -1996,15 +1996,15 @@
     "@unclaimedAccountDescription": {
         "description": "Description for the unclaimed account warning bar."
     },
-    "claimAccount": "Claim Account",
+    "claimAccount": "Claim account",
     "@claimAccount": {
         "description": "Button to start the account claiming flow."
     },
-    "profileTypeLabel": "Profile Type",
+    "profileTypeLabel": "Profile type",
     "@profileTypeLabel": {
         "description": "Label for the profile type dropdown"
     },
-    "profileTypeGlobal": "Global Profile",
+    "profileTypeGlobal": "Global profile",
     "@profileTypeGlobal": {
         "description": "Option for global profile in profile type selector"
     },
@@ -2012,7 +2012,7 @@
     "@profileTypeGuildDescription": {
         "description": "Description shown when editing a per-guild profile"
     },
-    "communityNicknameLabel": "Community Nickname",
+    "communityNicknameLabel": "Community nickname",
     "@communityNicknameLabel": {
         "description": "Label for the community nickname field"
     },
@@ -2020,15 +2020,15 @@
     "@perGuildPremiumUpsellText": {
         "description": "Upsell text for per-guild premium features"
     },
-    "avatarModeInherit": "Use Global Profile",
+    "avatarModeInherit": "Use global profile",
     "@avatarModeInherit": {
         "description": "Avatar/banner mode: inherit from global profile"
     },
-    "avatarModeCustom": "Use Custom Image",
+    "avatarModeCustom": "Use custom image",
     "@avatarModeCustom": {
         "description": "Avatar/banner mode: use a custom image"
     },
-    "avatarModeUnset": "Don't Show",
+    "avatarModeUnset": "Don't show",
     "@avatarModeUnset": {
         "description": "Avatar/banner mode: hide even if global exists"
     },
@@ -2036,7 +2036,7 @@
     "@profileSavedToast": {
         "description": "Toast message shown after successfully saving profile changes."
     },
-    "profileEditButton": "Edit Profile",
+    "profileEditButton": "Edit profile",
     "@profileEditButton": {
         "description": "Button label to open profile editing from the profile content card."
     },
@@ -2052,7 +2052,7 @@
     "@profileNoteEmpty": {
         "description": "Placeholder shown when no personal note has been set for a user."
     },
-    "sudoTitle": "Verify Your Identity",
+    "sudoTitle": "Verify your identity",
     "@sudoTitle": {
         "description": "Title for the sudo verification bottom sheet shown for sensitive operations."
     },
@@ -2060,7 +2060,7 @@
     "@sudoDescription": {
         "description": "Description text in the sudo verification bottom sheet."
     },
-    "sudoAuthenticatorCode": "Authenticator Code",
+    "sudoAuthenticatorCode": "Authenticator code",
     "@sudoAuthenticatorCode": {
         "description": "Label for the TOTP authenticator code input field in sudo verification."
     },
@@ -2092,7 +2092,7 @@
     "@securitySectionDescription": {
         "description": "Description for Security section heading."
     },
-    "securityLoginEmailSectionTitle": "Email Settings",
+    "securityLoginEmailSectionTitle": "Email settings",
     "@securityLoginEmailSectionTitle": {
         "description": "Title for email settings section in Security & Login."
     },
@@ -2105,7 +2105,7 @@
             }
         }
     },
-    "securityLoginEmailAddressLabel": "Email Address",
+    "securityLoginEmailAddressLabel": "Email address",
     "@securityLoginEmailAddressLabel": {
         "description": "Label for email address row."
     },
@@ -2113,11 +2113,11 @@
     "@securityLoginNoEmailSet": {
         "description": "Shown when the user has no email address set."
     },
-    "securityLoginChangeEmail": "Change Email",
+    "securityLoginChangeEmail": "Change email",
     "@securityLoginChangeEmail": {
         "description": "Button label to change email address."
     },
-    "securityLoginAddEmail": "Add Email",
+    "securityLoginAddEmail": "Add email",
     "@securityLoginAddEmail": {
         "description": "Button label to add an email address."
     },
@@ -2137,7 +2137,7 @@
     "@securityLoginPasswordSectionDescription": {
         "description": "Description for password section."
     },
-    "securityLoginCurrentPasswordLabel": "Current Password",
+    "securityLoginCurrentPasswordLabel": "Current password",
     "@securityLoginCurrentPasswordLabel": {
         "description": "Label for current password row."
     },
@@ -2158,15 +2158,15 @@
     "@securityLoginNoPasswordSet": {
         "description": "Shown when the user has no password set."
     },
-    "securityLoginChangePassword": "Change Password",
+    "securityLoginChangePassword": "Change password",
     "@securityLoginChangePassword": {
         "description": "Button label to change password."
     },
-    "securityLoginSetPassword": "Set Password",
+    "securityLoginSetPassword": "Set password",
     "@securityLoginSetPassword": {
         "description": "Button label to set a password."
     },
-    "passwordChangeTitle": "Change Password",
+    "passwordChangeTitle": "Change password",
     "@passwordChangeTitle": {
         "description": "Title for password change flow."
     },
@@ -2178,7 +2178,7 @@
     "@passwordChangeStart": {
         "description": "Button label to start password change flow."
     },
-    "passwordChangeVerifyTitle": "Verify Your Email",
+    "passwordChangeVerifyTitle": "Verify your email",
     "@passwordChangeVerifyTitle": {
         "description": "Title for email verification step in password change."
     },
@@ -2186,7 +2186,7 @@
     "@passwordChangeVerifyDescription": {
         "description": "Description for email verification step."
     },
-    "passwordChangeVerificationCode": "Verification Code",
+    "passwordChangeVerificationCode": "Verification code",
     "@passwordChangeVerificationCode": {
         "description": "Label for verification code input."
     },
@@ -2194,7 +2194,7 @@
     "@passwordChangeVerify": {
         "description": "Button label to verify the code."
     },
-    "passwordChangeNewPasswordTitle": "Set New Password",
+    "passwordChangeNewPasswordTitle": "Set new password",
     "@passwordChangeNewPasswordTitle": {
         "description": "Title for new password entry step."
     },
@@ -2202,15 +2202,15 @@
     "@passwordChangeNewPasswordDescription": {
         "description": "Description for new password entry step."
     },
-    "passwordChangeNewPassword": "New Password",
+    "passwordChangeNewPassword": "New password",
     "@passwordChangeNewPassword": {
         "description": "Label for new password input."
     },
-    "passwordChangeConfirmPassword": "Confirm New Password",
+    "passwordChangeConfirmPassword": "Confirm new password",
     "@passwordChangeConfirmPassword": {
         "description": "Label for confirm password input."
     },
-    "passwordChangeSubmit": "Change Password",
+    "passwordChangeSubmit": "Change password",
     "@passwordChangeSubmit": {
         "description": "Button label to submit password change."
     },
@@ -2226,7 +2226,7 @@
     "@passwordChangeInvalidCode": {
         "description": "Error shown when verification code is invalid."
     },
-    "emailChangeTitle": "Change Email",
+    "emailChangeTitle": "Change email",
     "@emailChangeTitle": {
         "description": "Title for email change flow."
     },
@@ -2238,7 +2238,7 @@
     "@emailChangeStart": {
         "description": "Button label to start email change flow."
     },
-    "emailChangeVerifyOriginalTitle": "Verify Current Email",
+    "emailChangeVerifyOriginalTitle": "Verify current email",
     "@emailChangeVerifyOriginalTitle": {
         "description": "Title for verifying original email step."
     },
@@ -2246,7 +2246,7 @@
     "@emailChangeVerifyOriginalDescription": {
         "description": "Description for original email verification step."
     },
-    "emailChangeNewEmailTitle": "Enter New Email",
+    "emailChangeNewEmailTitle": "Enter new email",
     "@emailChangeNewEmailTitle": {
         "description": "Title for new email entry step."
     },
@@ -2254,15 +2254,15 @@
     "@emailChangeNewEmailDescription": {
         "description": "Description for new email entry step."
     },
-    "emailChangeNewEmailLabel": "New Email",
+    "emailChangeNewEmailLabel": "New email",
     "@emailChangeNewEmailLabel": {
         "description": "Label for new email input."
     },
-    "emailChangeNewEmailSubmit": "Send Verification Code",
+    "emailChangeNewEmailSubmit": "Send verification code",
     "@emailChangeNewEmailSubmit": {
         "description": "Button label to submit new email and send verification code."
     },
-    "emailChangeVerifyNewTitle": "Verify New Email",
+    "emailChangeVerifyNewTitle": "Verify new email",
     "@emailChangeVerifyNewTitle": {
         "description": "Title for verifying new email step."
     },
@@ -2291,7 +2291,7 @@
             }
         }
     },
-    "verificationCode": "Verification Code",
+    "verificationCode": "Verification code",
     "@verificationCode": {
         "description": "Generic label for verification code input."
     },
@@ -2315,7 +2315,7 @@
     "@save": {
         "description": "Generic save button label."
     },
-    "securityTfaSectionTitle": "Two-Factor Authentication",
+    "securityTfaSectionTitle": "Two-factor authentication",
     "@securityTfaSectionTitle": {
         "description": "Title for the 2FA section."
     },
@@ -2335,7 +2335,7 @@
     "@securityTfaAuthenticatorDisabled": {
         "description": "Status when TOTP is disabled."
     },
-    "securityTfaBackupCodes": "Backup Codes",
+    "securityTfaBackupCodes": "Backup codes",
     "@securityTfaBackupCodes": {
         "description": "Label for backup codes row."
     },
@@ -2343,7 +2343,7 @@
     "@securityTfaBackupCodesDescription": {
         "description": "Description for backup codes."
     },
-    "securityTfaViewCodes": "View Codes",
+    "securityTfaViewCodes": "View codes",
     "@securityTfaViewCodes": {
         "description": "Button to view backup codes."
     },
@@ -2355,7 +2355,7 @@
     "@securityPasskeysSectionDescription": {
         "description": "Description for passkeys section."
     },
-    "securityPasskeysRegistered": "Registered Passkeys",
+    "securityPasskeysRegistered": "Registered passkeys",
     "@securityPasskeysRegistered": {
         "description": "Label for registered passkeys row."
     },
@@ -2372,7 +2372,7 @@
             }
         }
     },
-    "securityPasskeysAdd": "Add Passkey",
+    "securityPasskeysAdd": "Add passkey",
     "@securityPasskeysAdd": {
         "description": "Button to add a passkey."
     },
@@ -2398,7 +2398,7 @@
     "@securityPasskeysRename": {
         "description": "Button to rename a passkey."
     },
-    "securityPasskeysDeleteTitle": "Delete Passkey",
+    "securityPasskeysDeleteTitle": "Delete passkey",
     "@securityPasskeysDeleteTitle": {
         "description": "Title for passkey delete confirmation."
     },
@@ -2411,19 +2411,19 @@
             }
         }
     },
-    "securityPasskeyNameTitle": "Name Passkey",
+    "securityPasskeyNameTitle": "Name passkey",
     "@securityPasskeyNameTitle": {
         "description": "Title for passkey naming sheet."
     },
-    "securityPasskeyNameLabel": "Passkey Name",
+    "securityPasskeyNameLabel": "Passkey name",
     "@securityPasskeyNameLabel": {
         "description": "Label for passkey name input."
     },
-    "securityPasskeyNameHint": "e.g., YubiKey, iPhone, Work Computer",
+    "securityPasskeyNameHint": "e.g., YubiKey, iPhone, work computer",
     "@securityPasskeyNameHint": {
         "description": "Hint for passkey name input."
     },
-    "securityPhoneSectionTitle": "Phone Number",
+    "securityPhoneSectionTitle": "Phone number",
     "@securityPhoneSectionTitle": {
         "description": "Title for phone number section."
     },
@@ -2431,7 +2431,7 @@
     "@securityPhoneSectionDescription": {
         "description": "Description for phone number section."
     },
-    "securityPhoneLabel": "Phone Number",
+    "securityPhoneLabel": "Phone number",
     "@securityPhoneLabel": {
         "description": "Label for phone number row."
     },
@@ -2439,7 +2439,7 @@
     "@securityPhoneNone": {
         "description": "Shown when no phone number is set."
     },
-    "securityPhoneAdd": "Add Phone",
+    "securityPhoneAdd": "Add phone",
     "@securityPhoneAdd": {
         "description": "Button to add phone number."
     },
@@ -2447,7 +2447,7 @@
     "@securityPhoneRemove": {
         "description": "Button to remove phone number."
     },
-    "securityPhoneRemoveTitle": "Remove Phone Number",
+    "securityPhoneRemoveTitle": "Remove phone number",
     "@securityPhoneRemoveTitle": {
         "description": "Title for phone remove confirmation."
     },
@@ -2459,7 +2459,7 @@
     "@securityPhoneRemoved": {
         "description": "Toast after phone removed."
     },
-    "securityClaimTitle": "Security Features",
+    "securityClaimTitle": "Security features",
     "@securityClaimTitle": {
         "description": "Title when user needs to claim account for security."
     },
@@ -2471,7 +2471,7 @@
     "@securityVerifyEmailRequired": {
         "description": "Warning when email is not verified."
     },
-    "totpEnableTitle": "Setup Authenticator App",
+    "totpEnableTitle": "Setup authenticator app",
     "@totpEnableTitle": {
         "description": "Title for TOTP enable sheet."
     },
@@ -2491,7 +2491,7 @@
     "@totpEnableSuccess": {
         "description": "Toast after TOTP enabled."
     },
-    "totpDisableTitle": "Remove Authenticator App",
+    "totpDisableTitle": "Remove authenticator app",
     "@totpDisableTitle": {
         "description": "Title for TOTP disable sheet."
     },
@@ -2503,7 +2503,7 @@
     "@totpDisableSuccess": {
         "description": "Toast after TOTP disabled."
     },
-    "backupCodesTitle": "Backup Codes",
+    "backupCodesTitle": "Backup codes",
     "@backupCodesTitle": {
         "description": "Title for backup codes sheet."
     },
@@ -2531,7 +2531,7 @@
     "@backupCodesDone": {
         "description": "Button to close backup codes sheet."
     },
-    "backupCodesViewTitle": "View Backup Codes",
+    "backupCodesViewTitle": "View backup codes",
     "@backupCodesViewTitle": {
         "description": "Title for viewing existing backup codes."
     },
@@ -2539,11 +2539,11 @@
     "@backupCodesViewDescription": {
         "description": "Description for view backup codes."
     },
-    "phoneAddTitle": "Add Phone Number",
+    "phoneAddTitle": "Add phone number",
     "@phoneAddTitle": {
         "description": "Title for phone add sheet."
     },
-    "phoneAddLabel": "Phone Number",
+    "phoneAddLabel": "Phone number",
     "@phoneAddLabel": {
         "description": "Label for phone input."
     },
@@ -2555,11 +2555,11 @@
     "@phoneAddFooter": {
         "description": "Footer text for phone input."
     },
-    "phoneAddSendCode": "Send Code",
+    "phoneAddSendCode": "Send code",
     "@phoneAddSendCode": {
         "description": "Button to send phone verification code."
     },
-    "phoneVerifyTitle": "Verify Phone Number",
+    "phoneVerifyTitle": "Verify phone number",
     "@phoneVerifyTitle": {
         "description": "Title for phone verify step."
     },
@@ -2571,7 +2571,7 @@
     "@phoneAddSuccess": {
         "description": "Toast after phone added."
     },
-    "dangerZoneSectionTitle": "Danger Zone",
+    "dangerZoneSectionTitle": "Danger zone",
     "@dangerZoneSectionTitle": {
         "description": "Title for danger zone section."
     },
@@ -2579,7 +2579,7 @@
     "@dangerZoneSectionDescription": {
         "description": "Description for danger zone section heading."
     },
-    "dangerZoneDisableTitle": "Disable Account",
+    "dangerZoneDisableTitle": "Disable account",
     "@dangerZoneDisableTitle": {
         "description": "Title for account disable."
     },
@@ -2591,7 +2591,7 @@
     "@dangerZoneDisableConfirmDescription": {
         "description": "Confirmation description for account disable."
     },
-    "dangerZoneDeleteTitle": "Delete Account",
+    "dangerZoneDeleteTitle": "Delete account",
     "@dangerZoneDeleteTitle": {
         "description": "Title for account delete."
     },
@@ -2649,11 +2649,11 @@
     "@dangerZoneDeleteBullet4": {
         "description": "Fourth bullet point."
     },
-    "dangerZoneDeleteDisclaimer": "If you want to export your data or delete your messages first, please visit the Privacy Dashboard section in User Settings before proceeding.",
+    "dangerZoneDeleteDisclaimer": "If you want to export your data or delete your messages first, please visit the Privacy dashboard section in User settings before proceeding.",
     "@dangerZoneDeleteDisclaimer": {
         "description": "Disclaimer about data export before deletion."
     },
-    "claimAccountTitle": "Claim Your Account",
+    "claimAccountTitle": "Claim your account",
     "@claimAccountTitle": {
         "description": "Title for claim account sheet."
     },
@@ -2669,7 +2669,7 @@
     "@claimAccountPasswordLabel": {
         "description": "Label for password input in claim account."
     },
-    "claimAccountSendCode": "Send Code",
+    "claimAccountSendCode": "Send code",
     "@claimAccountSendCode": {
         "description": "Button to send verification code."
     },
@@ -2742,7 +2742,7 @@
     "@relativeTimeJustNow": {
         "description": "Relative time for very recent events."
     },
-    "authorizedAppsTitle": "Authorized Applications",
+    "authorizedAppsTitle": "Authorised applications",
     "@authorizedAppsTitle": {
         "description": "Title for the Authorized Applications settings section."
     },
@@ -2755,7 +2755,7 @@
             }
         }
     },
-    "authorizedAppsEmptyTitle": "No Authorized Applications",
+    "authorizedAppsEmptyTitle": "No authorised applications",
     "@authorizedAppsEmptyTitle": {
         "description": "Title shown when the user has no authorized OAuth2 applications."
     },
@@ -2821,11 +2821,11 @@
     "@authorizedAppsScopeAdmin": {
         "description": "OAuth2 scope description: admin."
     },
-    "privacyPendingDeletionTitle": "Pending Deletion",
+    "privacyPendingDeletionTitle": "Pending deletion",
     "@privacyPendingDeletionTitle": {
         "description": "Title of the warning alert shown when a bulk message deletion is pending."
     },
-    "blockedUsersTitle": "Blocked Users",
+    "blockedUsersTitle": "Blocked users",
     "@blockedUsersTitle": {
         "description": "Header title of the Blocked Users settings page."
     },
@@ -2833,7 +2833,7 @@
     "@blockedUsersDescription": {
         "description": "Subtitle under the Blocked Users header."
     },
-    "blockedUsersEmptyTitle": "No Blocked Users",
+    "blockedUsersEmptyTitle": "No blocked users",
     "@blockedUsersEmptyTitle": {
         "description": "Empty state title shown when the user has not blocked anyone."
     },
@@ -2849,7 +2849,7 @@
     "@blockedUsersUnblock": {
         "description": "Button label that unblocks a user."
     },
-    "blockedUsersUnblockTitle": "Unblock User",
+    "blockedUsersUnblockTitle": "Unblock user",
     "@blockedUsersUnblockTitle": {
         "description": "Title of the bottom sheet that confirms unblocking a user."
     },
@@ -2866,7 +2866,7 @@
     "@blockedUsersCopyTag": {
         "description": "Context menu item that copies the user's tag."
     },
-    "blockedUsersCopyId": "Copy User ID",
+    "blockedUsersCopyId": "Copy user ID",
     "@blockedUsersCopyId": {
         "description": "Context menu item that copies the user's ID."
     },
@@ -2882,15 +2882,15 @@
     "@userProfileMessage": {
         "description": "Action card label that opens a DM with the user."
     },
-    "userProfileVoiceCall": "Voice Call",
+    "userProfileVoiceCall": "Voice call",
     "@userProfileVoiceCall": {
         "description": "Action card label that starts a voice call with the user."
     },
-    "userProfileVideoCall": "Video Call",
+    "userProfileVideoCall": "Video call",
     "@userProfileVideoCall": {
         "description": "Action card label that starts a video call with the user."
     },
-    "userProfileEditProfile": "Edit Profile",
+    "userProfileEditProfile": "Edit profile",
     "@userProfileEditProfile": {
         "description": "Action card label shown on the current user's own profile sheet."
     },
@@ -2981,7 +2981,7 @@
             }
         }
     },
-    "userProfileMutualFriends": "Mutual Friends ({count})",
+    "userProfileMutualFriends": "Mutual friends ({count})",
     "@userProfileMutualFriends": {
         "description": "Profile mutual friends entry label with count.",
         "placeholders": {
@@ -2990,7 +2990,7 @@
             }
         }
     },
-    "userProfileMutualCommunities": "Mutual Communities ({count})",
+    "userProfileMutualCommunities": "Mutual communities ({count})",
     "@userProfileMutualCommunities": {
         "description": "Profile mutual communities entry label with count.",
         "placeholders": {
@@ -2999,11 +2999,11 @@
             }
         }
     },
-    "userProfileMutualFriendsTitle": "Mutual Friends",
+    "userProfileMutualFriendsTitle": "Mutual friends",
     "@userProfileMutualFriendsTitle": {
         "description": "Bottom sheet title for mutual friends."
     },
-    "userProfileMutualCommunitiesTitle": "Mutual Communities",
+    "userProfileMutualCommunitiesTitle": "Mutual communities",
     "@userProfileMutualCommunitiesTitle": {
         "description": "Bottom sheet title for mutual communities."
     },
@@ -3065,43 +3065,43 @@
     "@userProfileNoteEmpty": {
         "description": "Hint text when no note has been written yet."
     },
-    "userProfileMemberSince": "Member Since",
+    "userProfileMemberSince": "Member since",
     "@userProfileMemberSince": {
         "description": "Header of the member-since section in the bio card."
     },
-    "userProfileAboutMe": "About Me",
+    "userProfileAboutMe": "About me",
     "@userProfileAboutMe": {
         "description": "Header of the bio section in the bio card."
     },
-    "userProfileCopyUsername": "Copy Username",
+    "userProfileCopyUsername": "Copy username",
     "@userProfileCopyUsername": {
         "description": "Three-dot menu item: copy username#discriminator to clipboard."
     },
-    "userProfileCopyUserId": "Copy User ID",
+    "userProfileCopyUserId": "Copy user ID",
     "@userProfileCopyUserId": {
         "description": "Three-dot menu item: copy user snowflake to clipboard."
     },
-    "userProfileViewMainProfile": "View Main Profile",
+    "userProfileViewMainProfile": "View main profile",
     "@userProfileViewMainProfile": {
         "description": "Three-dot menu item shown from a community profile that switches to the user's main profile."
     },
-    "userProfileViewCommunityProfile": "View Community Profile",
+    "userProfileViewCommunityProfile": "View community profile",
     "@userProfileViewCommunityProfile": {
         "description": "Three-dot menu item shown from a main profile that switches back to the user's community profile."
     },
-    "userProfileBlockUser": "Block User",
+    "userProfileBlockUser": "Block user",
     "@userProfileBlockUser": {
         "description": "Three-dot menu item to block the user."
     },
-    "userProfileUnblockUser": "Unblock User",
+    "userProfileUnblockUser": "Unblock user",
     "@userProfileUnblockUser": {
         "description": "Three-dot menu item to unblock the user."
     },
-    "userProfileRemoveFriend": "Remove Friend",
+    "userProfileRemoveFriend": "Remove friend",
     "@userProfileRemoveFriend": {
         "description": "Three-dot menu item to remove the friendship."
     },
-    "userProfileBlockConfirmTitle": "Block User",
+    "userProfileBlockConfirmTitle": "Block user",
     "@userProfileBlockConfirmTitle": {
         "description": "Confirmation sheet title before blocking a user."
     },
@@ -3114,7 +3114,7 @@
             }
         }
     },
-    "userProfileUnblockConfirmTitle": "Unblock User",
+    "userProfileUnblockConfirmTitle": "Unblock user",
     "@userProfileUnblockConfirmTitle": {
         "description": "Confirmation sheet title before unblocking a user."
     },
@@ -3127,7 +3127,7 @@
             }
         }
     },
-    "userProfileRemoveFriendConfirmTitle": "Remove Friend",
+    "userProfileRemoveFriendConfirmTitle": "Remove friend",
     "@userProfileRemoveFriendConfirmTitle": {
         "description": "Confirmation sheet title before removing a friend."
     },
@@ -3680,7 +3680,7 @@
             }
         }
     },
-    "linkedDevicesTitle": "My Devices",
+    "linkedDevicesTitle": "My devices",
     "@linkedDevicesTitle": {
         "description": "Heading for the Linked Devices settings page."
     },
@@ -3688,27 +3688,27 @@
     "@linkedDevicesDescription": {
         "description": "Description shown under the Linked Devices heading."
     },
-    "linkedDevicesCurrentDevice": "Current Device",
+    "linkedDevicesCurrentDevice": "Current device",
     "@linkedDevicesCurrentDevice": {
         "description": "Group label for the session currently making the request."
     },
-    "linkedDevicesOtherDevices": "Other Devices",
+    "linkedDevicesOtherDevices": "Other devices",
     "@linkedDevicesOtherDevices": {
         "description": "Group label for sessions other than the current one."
     },
-    "linkedDevicesEnterSelection": "Enter Selection Mode",
+    "linkedDevicesEnterSelection": "Enter selection mode",
     "@linkedDevicesEnterSelection": {
         "description": "Tooltip on the button that enables bulk-revoke selection mode."
     },
-    "linkedDevicesExitSelection": "Exit Selection Mode",
+    "linkedDevicesExitSelection": "Exit selection mode",
     "@linkedDevicesExitSelection": {
         "description": "Tooltip on the button that disables bulk-revoke selection mode."
     },
-    "linkedDevicesSelectAll": "Select All",
+    "linkedDevicesSelectAll": "Select all",
     "@linkedDevicesSelectAll": {
         "description": "Tooltip on the select-all button while in selection mode."
     },
-    "linkedDevicesClearSelection": "Clear Selection",
+    "linkedDevicesClearSelection": "Clear selection",
     "@linkedDevicesClearSelection": {
         "description": "Tooltip on the clear-selection button while in selection mode."
     },
@@ -3763,7 +3763,7 @@
     "@linkedDevicesLogoutDisclaimer": {
         "description": "Disclaimer shown beneath the bulk-action button."
     },
-    "linkedDevicesLoadErrorTitle": "Network Error",
+    "linkedDevicesLoadErrorTitle": "Network error",
     "@linkedDevicesLoadErrorTitle": {
         "description": "Title shown when loading the sessions list fails."
     },
@@ -3788,7 +3788,7 @@
     "@linkedDevicesUnknownOs": {
         "description": "Fallback shown when the session's OS field is missing."
     },
-    "linkedDevicesUnknownPlatform": "Unknown Platform",
+    "linkedDevicesUnknownPlatform": "Unknown platform",
     "@linkedDevicesUnknownPlatform": {
         "description": "Fallback shown when the session's platform field is missing."
     },
@@ -4249,11 +4249,11 @@
     "@connectionUnverifiedLabel": {
         "description": "Semantic label / tooltip for the unverified badge on a connection card."
     },
-    "connectionAddTitle": "Add Connection",
+    "connectionAddTitle": "Add connection",
     "@connectionAddTitle": {
         "description": "Title of the add-connection bottom sheet (step 1)."
     },
-    "connectionTypeLabel": "Connection Type",
+    "connectionTypeLabel": "Connection type",
     "@connectionTypeLabel": {
         "description": "Label for the connection-type select in the add-connection sheet."
     },
@@ -4285,7 +4285,7 @@
     "@connectionContinue": {
         "description": "Primary button label on the add-connection sheet for the domain flow."
     },
-    "connectionVerifyTitle": "Verify Connection",
+    "connectionVerifyTitle": "Verify connection",
     "@connectionVerifyTitle": {
         "description": "Title of the verify-connection bottom sheet (step 2)."
     },
@@ -4351,7 +4351,7 @@
     "@connectionBack": {
         "description": "Secondary button on the verify step that returns to step 1."
     },
-    "connectionEditTitle": "Edit Connection",
+    "connectionEditTitle": "Edit connection",
     "@connectionEditTitle": {
         "description": "Title of the edit-connection bottom sheet."
     },
@@ -4375,7 +4375,7 @@
     "@connectionVisibilityFriendsDesc": {
         "description": "Description under the Friends visibility toggle."
     },
-    "connectionVisibilityCommunityMembers": "Community Members",
+    "connectionVisibilityCommunityMembers": "Community members",
     "@connectionVisibilityCommunityMembers": {
         "description": "Label for the Community Members visibility toggle."
     },
@@ -4383,7 +4383,7 @@
     "@connectionVisibilityCommunityMembersDesc": {
         "description": "Description under the Community Members visibility toggle."
     },
-    "connectionRemoveTitle": "Remove Connection",
+    "connectionRemoveTitle": "Remove connection",
     "@connectionRemoveTitle": {
         "description": "Title of the remove-connection confirmation sheet."
     },
@@ -4439,7 +4439,7 @@
     "@connectionEnterDomain": {
         "description": "Inline error shown when the domain input is empty."
     },
-    "lookAndFeelTitle": "Look & Feel",
+    "lookAndFeelTitle": "Look & feel",
     "@lookAndFeelTitle": {
         "description": "Title of the Look & Feel (Appearance) settings page."
     },
@@ -4451,23 +4451,23 @@
     "@lookAndFeelThemeSectionDescription": {
         "description": "Section description for theme selection."
     },
-    "lookAndFeelThemeDark": "Dark Theme",
+    "lookAndFeelThemeDark": "Dark theme",
     "@lookAndFeelThemeDark": {
         "description": "Label on the dark theme swatch button."
     },
-    "lookAndFeelThemeDarkLegacy": "Dark (Legacy) Theme",
+    "lookAndFeelThemeDarkLegacy": "Dark (legacy) theme",
     "@lookAndFeelThemeDarkLegacy": {
         "description": "Label on the legacy dark theme swatch button."
     },
-    "lookAndFeelThemeCoal": "Coal Theme",
+    "lookAndFeelThemeCoal": "Coal theme",
     "@lookAndFeelThemeCoal": {
         "description": "Label on the coal (pitch-black) theme swatch button."
     },
-    "lookAndFeelThemeLight": "Light Theme",
+    "lookAndFeelThemeLight": "Light theme",
     "@lookAndFeelThemeLight": {
         "description": "Label on the light theme swatch button."
     },
-    "lookAndFeelThemeSystem": "System Theme",
+    "lookAndFeelThemeSystem": "System theme",
     "@lookAndFeelThemeSystem": {
         "description": "Label on the system (OS-driven) theme swatch button."
     },
@@ -4511,7 +4511,7 @@
     "@lookAndFeelChannelTypingIndicatorsDescription": {
         "description": "Subsection description for channel typing indicators."
     },
-    "lookAndFeelChannelTypingIndicatorAvatarsName": "Typing Indicator + Avatars",
+    "lookAndFeelChannelTypingIndicatorAvatarsName": "Typing indicator + avatars",
     "@lookAndFeelChannelTypingIndicatorAvatarsName": {
         "description": "Radio option label for showing the typing indicator with user avatars."
     },
@@ -4519,7 +4519,7 @@
     "@lookAndFeelChannelTypingIndicatorAvatarsDescription": {
         "description": "Radio option description for typing indicator + avatars."
     },
-    "lookAndFeelChannelTypingIndicatorOnlyName": "Typing Indicator Only",
+    "lookAndFeelChannelTypingIndicatorOnlyName": "Typing indicator only",
     "@lookAndFeelChannelTypingIndicatorOnlyName": {
         "description": "Radio option label for typing indicator without avatars."
     },
@@ -4547,7 +4547,7 @@
     "@lookAndFeelTypingIndicatorPreviewChannelName": {
         "description": "Placeholder channel name shown in the typing-indicator preview card."
     },
-    "lookAndFeelKeyboardHintsTitle": "Keyboard Hints",
+    "lookAndFeelKeyboardHintsTitle": "Keyboard hints",
     "@lookAndFeelKeyboardHintsTitle": {
         "description": "Section title for keyboard shortcut hint visibility settings."
     },
@@ -4616,7 +4616,7 @@
             }
         }
     },
-    "lookAndFeelCollapseDMsLabel": "Collapse DMs Into Folder",
+    "lookAndFeelCollapseDMsLabel": "Collapse DMs into folder",
     "@lookAndFeelCollapseDMsLabel": {
         "description": "Toggle label — collapse unread DMs into the Fluxer button folder."
     },
@@ -4629,7 +4629,7 @@
             }
         }
     },
-    "lookAndFeelChannelListSectionTitle": "Channel List",
+    "lookAndFeelChannelListSectionTitle": "Channel list",
     "@lookAndFeelChannelListSectionTitle": {
         "description": "Section title for channel list options."
     },
@@ -4645,23 +4645,23 @@
     "@lookAndFeelShowFadedUnreadOnMutedChannelsDescription": {
         "description": "Toggle description for faded unread on muted channels."
     },
-    "lookAndFeelActiveNowSectionTitle": "Active Now",
+    "lookAndFeelActiveNowSectionTitle": "Active now",
     "@lookAndFeelActiveNowSectionTitle": {
         "description": "Section title for Active Now visibility."
     },
-    "lookAndFeelActiveNowSectionDescription": "Control how Active Now surfaces across the app.",
+    "lookAndFeelActiveNowSectionDescription": "Control how active now surfaces across the app.",
     "@lookAndFeelActiveNowSectionDescription": {
         "description": "Section description for Active Now visibility."
     },
-    "lookAndFeelShowActiveNowLabel": "Show Active Now on the home screen",
+    "lookAndFeelShowActiveNowLabel": "Show active now on the home screen",
     "@lookAndFeelShowActiveNowLabel": {
         "description": "Toggle label — show Active Now on the home screen."
     },
-    "lookAndFeelShowActiveNowDescription": "Show Active Now on the home screen to surface friends active in voice. You'll see a preview, the channel context, who's already there, and a quick way to join in.",
+    "lookAndFeelShowActiveNowDescription": "Show active now on the home screen to surface friends active in voice. You'll see a preview, the channel context, who's already there, and a quick way to join in.",
     "@lookAndFeelShowActiveNowDescription": {
         "description": "Toggle description for show-active-now."
     },
-    "lookAndFeelFavoritesSectionTitle": "Favorites",
+    "lookAndFeelFavoritesSectionTitle": "Favourites",
     "@lookAndFeelFavoritesSectionTitle": {
         "description": "Section title for favorites visibility."
     },
@@ -4669,7 +4669,7 @@
     "@lookAndFeelFavoritesSectionDescription": {
         "description": "Section description for favorites visibility."
     },
-    "lookAndFeelEnableFavoritesLabel": "Enable Favorites",
+    "lookAndFeelEnableFavoritesLabel": "Enable favourites",
     "@lookAndFeelEnableFavoritesLabel": {
         "description": "Toggle label — enable the Favorites feature."
     },
@@ -4677,7 +4677,7 @@
     "@lookAndFeelEnableFavoritesDescription": {
         "description": "Toggle description for the Enable Favorites switch."
     },
-    "favoritesTitle": "Favorites",
+    "favoritesTitle": "Favourites",
     "@favoritesTitle": {
         "description": "Title for the favorites section."
     },
@@ -4689,7 +4689,7 @@
     "@favoritesEmptyDescription": {
         "description": "Empty state description for favorites."
     },
-    "favoritesWelcomeTitle": "Welcome to favorites",
+    "favoritesWelcomeTitle": "Welcome to favourites",
     "@favoritesWelcomeTitle": {
         "description": "Welcome screen title for favorites."
     },
@@ -4701,15 +4701,15 @@
     "@favoritesWelcomeTip": {
         "description": "Welcome screen tip for disabling favorites."
     },
-    "favoritesDisableButton": "Disable favorites",
+    "favoritesDisableButton": "Disable favourites",
     "@favoritesDisableButton": {
         "description": "Button to disable favorites from welcome screen."
     },
-    "favoritesAddedToast": "Added to Favorites",
+    "favoritesAddedToast": "Added to favourites",
     "@favoritesAddedToast": {
         "description": "Toast when a channel is added to favorites."
     },
-    "favoritesRemovedToast": "Removed from Favorites",
+    "favoritesRemovedToast": "Removed from favourites",
     "@favoritesRemovedToast": {
         "description": "Toast when a channel is removed from favorites."
     },
@@ -4717,11 +4717,11 @@
     "@favoritesHiddenToast": {
         "description": "Toast when favorites UI is hidden."
     },
-    "favoritesMute": "Mute favorites",
+    "favoritesMute": "Mute favourites",
     "@favoritesMute": {
         "description": "Action to mute the favorites section."
     },
-    "favoritesUnmute": "Unmute favorites",
+    "favoritesUnmute": "Unmute favourites",
     "@favoritesUnmute": {
         "description": "Action to unmute the favorites section."
     },
@@ -4761,7 +4761,7 @@
     "@favoritesMoveToCategory": {
         "description": "Action to move a favorite to a category."
     },
-    "favoritesUncategorized": "Uncategorized",
+    "favoritesUncategorized": "Uncategorised",
     "@favoritesUncategorized": {
         "description": "Label for uncategorized favorites."
     },
@@ -4769,15 +4769,15 @@
     "@favoritesOtherCategory": {
         "description": "Label for favorites in deleted categories."
     },
-    "favoritesRemoveFromFavorites": "Remove from Favorites",
+    "favoritesRemoveFromFavorites": "Remove from favourites",
     "@favoritesRemoveFromFavorites": {
         "description": "Action to remove a channel from favorites."
     },
-    "favoritesAddToFavorites": "Add to Favorites",
+    "favoritesAddToFavorites": "Add to favourites",
     "@favoritesAddToFavorites": {
         "description": "Action to add a channel to favorites."
     },
-    "favoritesHideConfirmTitle": "Hide favorites",
+    "favoritesHideConfirmTitle": "Hide favourites",
     "@favoritesHideConfirmTitle": {
         "description": "Title for hide favorites confirmation."
     },
@@ -4785,7 +4785,7 @@
     "@favoritesHideConfirmDescription": {
         "description": "Description for hide favorites confirmation."
     },
-    "favoritesDirectMessageSubtitle": "Direct Message",
+    "favoritesDirectMessageSubtitle": "Direct message",
     "@favoritesDirectMessageSubtitle": {
         "description": "Subtitle for a 1:1 DM in the favorites channel list."
     },
@@ -4857,7 +4857,7 @@
     "@messagesMediaDefaultHideMutedChannelsNewOnlyAction": {
         "description": "Secondary confirmation action to only affect new communities."
     },
-    "messagesMediaDisplaySectionTitle": "Media Display",
+    "messagesMediaDisplaySectionTitle": "Media display",
     "@messagesMediaDisplaySectionTitle": {
         "description": "Section title for media display settings."
     },
@@ -4878,7 +4878,7 @@
             }
         }
     },
-    "messagesMediaLinkPreviewsSectionTitle": "Link Previews",
+    "messagesMediaLinkPreviewsSectionTitle": "Link previews",
     "@messagesMediaLinkPreviewsSectionTitle": {
         "description": "Section title for link preview settings."
     },
@@ -4902,7 +4902,7 @@
     "@messagesMediaReactionsToggleLabel": {
         "description": "Toggle label for displaying emoji reactions."
     },
-    "messagesMediaSpoilersSectionTitle": "Spoiler Content",
+    "messagesMediaSpoilersSectionTitle": "Spoiler content",
     "@messagesMediaSpoilersSectionTitle": {
         "description": "Section title for spoiler content settings."
     },
@@ -4926,7 +4926,7 @@
     "@messagesMediaSpoilersIfModeratorName": {
         "description": "Spoiler reveal option — auto-show in channels with Manage Messages."
     },
-    "messagesMediaSpoilersIfModeratorDescription": "Always show spoiler content in channels where you have the \"Manage Messages\" permission",
+    "messagesMediaSpoilersIfModeratorDescription": "Always show spoiler content in channels where you have the \"Manage messages\" permission",
     "@messagesMediaSpoilersIfModeratorDescription": {
         "description": "Spoiler reveal option description for moderator-only auto-show."
     },
@@ -4938,7 +4938,7 @@
     "@messagesMediaSpoilersAlwaysDescription": {
         "description": "Spoiler reveal option description for always-show."
     },
-    "messagesMediaSizeSectionTitle": "Media Size Preferences",
+    "messagesMediaSizeSectionTitle": "Media size preferences",
     "@messagesMediaSizeSectionTitle": {
         "description": "Section title for media size preferences."
     },
@@ -4970,7 +4970,7 @@
     "@messagesMediaSizeComfortableDescription": {
         "description": "Description for the large media size option."
     },
-    "messagesMediaGifsSectionTitle": "GIF Behaviour",
+    "messagesMediaGifsSectionTitle": "GIF behaviour",
     "@messagesMediaGifsSectionTitle": {
         "description": "Section title for GIF behavior."
     },
@@ -5006,7 +5006,7 @@
     "@messagesMediaAutocompleteSavedMediaLabel": {
         "description": "Toggle label for saved media in expression autocomplete."
     },
-    "messagesMediaEditingSectionTitle": "Message Editing",
+    "messagesMediaEditingSectionTitle": "Message editing",
     "@messagesMediaEditingSectionTitle": {
         "description": "Section title for message editing settings."
     },
@@ -5157,7 +5157,7 @@
             }
         }
     },
-    "voiceConnectionConfirmTitle": "Voice Connection Confirmation",
+    "voiceConnectionConfirmTitle": "Voice connection confirmation",
     "@voiceConnectionConfirmTitle": {
         "description": "Title of the multi-device voice join confirmation dialog."
     },
@@ -5170,11 +5170,11 @@
             }
         }
     },
-    "voiceConnectionConfirmSwitch": "Switch to This Device",
+    "voiceConnectionConfirmSwitch": "Switch to this device",
     "@voiceConnectionConfirmSwitch": {
         "description": "Primary action: disconnect other devices and use this one."
     },
-    "voiceConnectionConfirmJustJoin": "Just Join (Keep Other Connections)",
+    "voiceConnectionConfirmJustJoin": "Just join (keep other connections)",
     "@voiceConnectionConfirmJustJoin": {
         "description": "Secondary action: add this device without ending other sessions."
     },
@@ -5190,7 +5190,7 @@
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
     },
-    "voiceChannelJoinConnect": "Connect to Voice",
+    "voiceChannelJoinConnect": "Connect to voice",
     "@voiceChannelJoinConnect": {
         "description": "Primary action in the mobile bottom sheet before joining a voice channel from the channel list."
     },
@@ -5349,7 +5349,7 @@
     "@voiceErrorScreenShareUnsupported": {
         "description": "Error shown when screen sharing is invoked on a platform that does not support it."
     },
-    "voiceWatchStream": "Watch Stream",
+    "voiceWatchStream": "Watch stream",
     "@voiceWatchStream": {
         "description": "Primary button on a screen-share tile to subscribe to the remote stream."
     },
@@ -5457,7 +5457,7 @@
     "@notificationsMentionIncludeGuilds": {
         "description": "Checkbox label for all guild/community mentions filter."
     },
-    "notificationsNoUnreadTitle": "No Unread Messages",
+    "notificationsNoUnreadTitle": "No unread messages",
     "@notificationsNoUnreadTitle": {
         "description": "Empty-state title when there are no unreads."
     },
@@ -5465,7 +5465,7 @@
     "@notificationsNoUnreadBody": {
         "description": "Empty-state body when there are no unreads."
     },
-    "notificationsNoMentionsTitle": "No Recent Mentions",
+    "notificationsNoMentionsTitle": "No recent mentions",
     "@notificationsNoMentionsTitle": {
         "description": "Empty-state title when there are no recent mentions."
     },
@@ -6158,19 +6158,19 @@
     "@iarLeaveCommunityFailedToast": {
         "description": "Toast shown when leaving the community from the IAR action card fails."
     },
-    "chatMessageSuppressEmbeds": "Suppress Embeds",
+    "chatMessageSuppressEmbeds": "Suppress embeds",
     "@chatMessageSuppressEmbeds": {
         "description": "Action label that hides link previews / embeds on the message."
     },
-    "chatMessageUnsuppressEmbeds": "Unsuppress Embeds",
+    "chatMessageUnsuppressEmbeds": "Unsuppress embeds",
     "@chatMessageUnsuppressEmbeds": {
         "description": "Action label that re-enables previously hidden link previews / embeds on the message."
     },
-    "chatMessageDelete": "Delete Message",
+    "chatMessageDelete": "Delete message",
     "@chatMessageDelete": {
         "description": "Action label for deleting a message."
     },
-    "chatMessageDeleteConfirmTitle": "Delete Message",
+    "chatMessageDeleteConfirmTitle": "Delete message",
     "@chatMessageDeleteConfirmTitle": {
         "description": "Title for the delete message confirmation dialog."
     },
@@ -6416,7 +6416,7 @@
     "@addGuildPackInstalled": {
         "description": "Toast shown after accepting an emoji or sticker pack invite."
     },
-    "chatMessageRemoveAllReactionsConfirmTitle": "Remove All Reactions",
+    "chatMessageRemoveAllReactionsConfirmTitle": "Remove all reactions",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
         "description": "Title for the remove-all-reactions confirmation sheet."
     },
@@ -6581,7 +6581,7 @@
     "@userSettingsNavProfile": {
         "description": "User settings navigation item for profile settings."
     },
-    "userSettingsNavSecurityLogin": "Security & Login",
+    "userSettingsNavSecurityLogin": "Security & login",
     "@userSettingsNavSecurityLogin": {
         "description": "User settings navigation item for security and login settings."
     },
@@ -6593,19 +6593,19 @@
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
-    "userSettingsNavPrivacyDashboard": "Privacy Dashboard",
+    "userSettingsNavPrivacyDashboard": "Privacy dashboard",
     "@userSettingsNavPrivacyDashboard": {
         "description": "User settings navigation item for the privacy dashboard."
     },
-    "userSettingsNavAuthorizedApps": "Authorized Apps",
+    "userSettingsNavAuthorizedApps": "Authorised apps",
     "@userSettingsNavAuthorizedApps": {
         "description": "User settings navigation item for authorized applications."
     },
-    "userSettingsNavBlockedUsers": "Blocked Users",
+    "userSettingsNavBlockedUsers": "Blocked users",
     "@userSettingsNavBlockedUsers": {
         "description": "User settings navigation item for blocked users."
     },
-    "userSettingsNavLinkedDevices": "Linked Devices",
+    "userSettingsNavLinkedDevices": "Linked devices",
     "@userSettingsNavLinkedDevices": {
         "description": "User settings navigation item for linked devices."
     },
@@ -6613,7 +6613,7 @@
     "@userSettingsNavConnections": {
         "description": "User settings navigation item for connected accounts."
     },
-    "userSettingsNavLookAndFeel": "Look & Feel",
+    "userSettingsNavLookAndFeel": "Look & feel",
     "@userSettingsNavLookAndFeel": {
         "description": "User settings navigation item for appearance settings."
     },
@@ -6625,11 +6625,11 @@
     "@userSettingsNavChat": {
         "description": "User settings navigation item for chat settings."
     },
-    "userSettingsNavAudioAndVideo": "Audio & Video",
+    "userSettingsNavAudioAndVideo": "Audio & video",
     "@userSettingsNavAudioAndVideo": {
         "description": "User settings navigation item for audio and video settings."
     },
-    "userSettingsNavLanguageAndTime": "Language & Time",
+    "userSettingsNavLanguageAndTime": "Language & time",
     "@userSettingsNavLanguageAndTime": {
         "description": "User settings navigation item for language and time settings."
     },
@@ -6667,27 +6667,27 @@
     "@userSettingsNavApplications": {
         "description": "User settings navigation item for developer applications."
     },
-    "userSettingsNavAppLogs": "App Logs",
+    "userSettingsNavAppLogs": "App logs",
     "@userSettingsNavAppLogs": {
         "description": "User settings navigation item for in-app logs."
     },
-    "userSettingsNavDeveloperTools": "Developer Tools",
+    "userSettingsNavDeveloperTools": "Developer tools",
     "@userSettingsNavDeveloperTools": {
         "description": "User settings navigation item for staff developer tools."
     },
-    "userSettingsNavLimitsConfig": "Limits Config",
+    "userSettingsNavLimitsConfig": "Limits config",
     "@userSettingsNavLimitsConfig": {
         "description": "User settings navigation item for staff limits configuration."
     },
-    "userSettingsNavFeatureFlags": "Feature Flags",
+    "userSettingsNavFeatureFlags": "Feature flags",
     "@userSettingsNavFeatureFlags": {
         "description": "User settings navigation item for staff feature flags."
     },
-    "userSettingsNavWhatsNew": "What's New",
+    "userSettingsNavWhatsNew": "What's new",
     "@userSettingsNavWhatsNew": {
         "description": "User settings navigation item for release notes."
     },
-    "userSettingsNavLogOut": "Log Out",
+    "userSettingsNavLogOut": "Log out",
     "@userSettingsNavLogOut": {
         "description": "User settings navigation item to sign out of the account."
     },
@@ -6743,15 +6743,15 @@
     "@quickSwitcherHomeLabel": {
         "description": "Quick switcher label for navigating to the home DM list."
     },
-    "quickSwitcherDirectMessagesLabel": "Direct Messages",
+    "quickSwitcherDirectMessagesLabel": "Direct messages",
     "@quickSwitcherDirectMessagesLabel": {
         "description": "Quick switcher subtitle for the home virtual guild entry."
     },
-    "quickSwitcherFavoritesLabel": "Favorites",
+    "quickSwitcherFavoritesLabel": "Favourites",
     "@quickSwitcherFavoritesLabel": {
         "description": "Quick switcher label for the favorites virtual guild entry."
     },
-    "quickSwitcherUserSettingsLabel": "User Settings",
+    "quickSwitcherUserSettingsLabel": "User settings",
     "@quickSwitcherUserSettingsLabel": {
         "description": "Quick switcher settings entry for user settings."
     },
@@ -6950,11 +6950,11 @@
     "@comingSoon": {
         "description": "Generic toast when a feature is not yet available."
     },
-    "guildNavbarDirectMessages": "Direct Messages",
+    "guildNavbarDirectMessages": "Direct messages",
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
     },
-    "guildNavbarExploreDiscoverableCommunities": "Explore Discoverable Communities",
+    "guildNavbarExploreDiscoverableCommunities": "Explore discoverable communities",
     "@guildNavbarExploreDiscoverableCommunities": {
         "description": "Label for the explore communities button in the guild navbar."
     },
@@ -7002,15 +7002,15 @@
     "@discoveryCategoryEducation": {
         "description": "Discovery category label for education communities."
     },
-    "discoveryCategoryScienceAndTechnology": "Science & Technology",
+    "discoveryCategoryScienceAndTechnology": "Science & technology",
     "@discoveryCategoryScienceAndTechnology": {
         "description": "Discovery category label for science and technology communities."
     },
-    "discoveryCategoryContentCreator": "Content Creator",
+    "discoveryCategoryContentCreator": "Content creator",
     "@discoveryCategoryContentCreator": {
         "description": "Discovery category label for content creator communities."
     },
-    "discoveryCategoryAnimeAndManga": "Anime & Manga",
+    "discoveryCategoryAnimeAndManga": "Anime & manga",
     "@discoveryCategoryAnimeAndManga": {
         "description": "Discovery category label for anime and manga communities."
     },
@@ -7113,7 +7113,7 @@
     "@discoveryJoinErrorRateLimitMessage": {
         "description": "Body when joining a discovery community is rate limited."
     },
-    "guildNavbarAddCommunity": "Add a Community",
+    "guildNavbarAddCommunity": "Add a community",
     "@guildNavbarAddCommunity": {
         "description": "Label for the add community button in the guild navbar."
     },
@@ -7150,7 +7150,7 @@
     "@guildNavbarChannelType": {
         "description": "Section label for channel type selection in create channel modal."
     },
-    "guildNavbarTextChannel": "Text Channel",
+    "guildNavbarTextChannel": "Text channel",
     "@guildNavbarTextChannel": {
         "description": "Label for the text channel type option."
     },
@@ -7158,7 +7158,7 @@
     "@guildNavbarTextChannelDescription": {
         "description": "Description for the text channel type option."
     },
-    "guildNavbarVoiceChannel": "Voice Channel",
+    "guildNavbarVoiceChannel": "Voice channel",
     "@guildNavbarVoiceChannel": {
         "description": "Label for the voice channel type option."
     },
@@ -7166,7 +7166,7 @@
     "@guildNavbarVoiceChannelDescription": {
         "description": "Description for the voice channel type option."
     },
-    "guildNavbarLinkChannel": "Link Channel",
+    "guildNavbarLinkChannel": "Link channel",
     "@guildNavbarLinkChannel": {
         "description": "Label for the link channel type option."
     },
@@ -7269,15 +7269,15 @@
     "@guildNavbarInviteLinkSettings": {
         "description": "Title for the invite link settings modal."
     },
-    "guildNavbarExpireAfter": "Expire After",
+    "guildNavbarExpireAfter": "Expire after",
     "@guildNavbarExpireAfter": {
         "description": "Label for invite link expiry dropdown."
     },
-    "guildNavbarMaxUses": "Max Number of Uses",
+    "guildNavbarMaxUses": "Max number of uses",
     "@guildNavbarMaxUses": {
         "description": "Label for invite link max uses dropdown."
     },
-    "guildNavbarGrantTemporaryMembership": "Grant Temporary Membership",
+    "guildNavbarGrantTemporaryMembership": "Grant temporary membership",
     "@guildNavbarGrantTemporaryMembership": {
         "description": "Toggle label for temporary membership on invite links."
     },
@@ -7285,7 +7285,7 @@
     "@guildNavbarTemporaryMembershipDescription": {
         "description": "Description for the temporary membership toggle."
     },
-    "guildNavbarCreateNewLink": "Create New Link",
+    "guildNavbarCreateNewLink": "Create new link",
     "@guildNavbarCreateNewLink": {
         "description": "Confirm button in invite link settings modal."
     },
@@ -7297,7 +7297,7 @@
     "@guildNavbarInvite": {
         "description": "Button to send an invite to a recipient."
     },
-    "guildNavbarLeaveCommunityTitle": "Leave Community",
+    "guildNavbarLeaveCommunityTitle": "Leave community",
     "@guildNavbarLeaveCommunityTitle": {
         "description": "Title for the leave community confirmation dialog."
     },
@@ -7305,7 +7305,7 @@
     "@guildNavbarLeaveCommunityDescription": {
         "description": "Description for the leave community confirmation dialog."
     },
-    "guildNavbarLeaveCommunityConfirm": "Leave Community",
+    "guildNavbarLeaveCommunityConfirm": "Leave community",
     "@guildNavbarLeaveCommunityConfirm": {
         "description": "Confirm button for the leave community dialog."
     },
@@ -7317,7 +7317,7 @@
     "@guildNavbarDeleteMyMessagesDescription": {
         "description": "Description for the delete my messages confirmation dialog."
     },
-    "guildNavbarDeleteMyMessagesConfirm": "Delete My Messages",
+    "guildNavbarDeleteMyMessagesConfirm": "Delete my messages",
     "@guildNavbarDeleteMyMessagesConfirm": {
         "description": "Confirm button for the delete my messages dialog."
     },
@@ -7413,47 +7413,47 @@
             }
         }
     },
-    "guildMenuMarkAsRead": "Mark as Read",
+    "guildMenuMarkAsRead": "Mark as read",
     "@guildMenuMarkAsRead": {
         "description": "Guild menu action to mark all channels as read."
     },
-    "guildPeekMoreOptions": "More Options",
+    "guildPeekMoreOptions": "More options",
     "@guildPeekMoreOptions": {
         "description": "Guild peek menu action to open the full guild options sheet."
     },
-    "guildMenuInviteMembers": "Invite Members",
+    "guildMenuInviteMembers": "Invite members",
     "@guildMenuInviteMembers": {
         "description": "Guild menu action to open the invite members flow."
     },
-    "guildMenuCommunitySettings": "Community Settings",
+    "guildMenuCommunitySettings": "Community settings",
     "@guildMenuCommunitySettings": {
         "description": "Guild menu submenu for community settings tabs."
     },
-    "guildMenuEditCommunityProfile": "Edit Community Profile",
+    "guildMenuEditCommunityProfile": "Edit community profile",
     "@guildMenuEditCommunityProfile": {
         "description": "Guild menu action to edit the community profile."
     },
-    "guildMenuUnmuteCommunity": "Unmute Community",
+    "guildMenuUnmuteCommunity": "Unmute community",
     "@guildMenuUnmuteCommunity": {
         "description": "Guild menu action to unmute the community."
     },
-    "guildMenuMuteCommunity": "Mute Community",
+    "guildMenuMuteCommunity": "Mute community",
     "@guildMenuMuteCommunity": {
         "description": "Guild menu submenu to mute the community."
     },
-    "guildMenuHideMutedChannels": "Hide Muted Channels",
+    "guildMenuHideMutedChannels": "Hide muted channels",
     "@guildMenuHideMutedChannels": {
         "description": "Guild menu checkbox to hide muted channels."
     },
-    "guildMenuReportCommunity": "Report Community",
+    "guildMenuReportCommunity": "Report community",
     "@guildMenuReportCommunity": {
         "description": "Guild menu action to report the community."
     },
-    "guildMenuDebugCommunity": "Debug Community",
+    "guildMenuDebugCommunity": "Debug community",
     "@guildMenuDebugCommunity": {
         "description": "Guild menu action to open community debug info."
     },
-    "guildMenuCopyCommunityId": "Copy Community ID",
+    "guildMenuCopyCommunityId": "Copy community ID",
     "@guildMenuCopyCommunityId": {
         "description": "Guild menu action to copy the community ID."
     },
@@ -7470,7 +7470,7 @@
     "@guildMenuSettingsGeneral": {
         "description": "Community settings tab for general overview."
     },
-    "guildMenuSettingsRoles": "Roles & Permissions",
+    "guildMenuSettingsRoles": "Roles & permissions",
     "@guildMenuSettingsRoles": {
         "description": "Community settings tab for roles and permissions."
     },
@@ -7482,7 +7482,7 @@
     "@guildMenuSettingsStickers": {
         "description": "Community settings tab for custom stickers."
     },
-    "guildMenuSettingsSafetyModeration": "Safety & Moderation",
+    "guildMenuSettingsSafetyModeration": "Safety & moderation",
     "@guildMenuSettingsSafetyModeration": {
         "description": "Community settings tab for safety and moderation."
     },
@@ -7494,7 +7494,7 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsCustomInviteUrl": "Custom Invite URL",
+    "guildMenuSettingsCustomInviteUrl": "Custom invite URL",
     "@guildMenuSettingsCustomInviteUrl": {
         "description": "Community settings tab for custom invite URLs."
     },
@@ -7522,7 +7522,7 @@
     "@guildSettingsOverviewIconTitle": {
         "description": "Title for the guild icon section in overview settings."
     },
-    "guildSettingsUploadImage": "Upload Image",
+    "guildSettingsUploadImage": "Upload image",
     "@guildSettingsUploadImage": {
         "description": "Button label to upload an image in guild settings."
     },
@@ -8866,7 +8866,7 @@
     "@guildSettingsRevokeBanError": {
         "description": "Error when revoking a ban fails."
     },
-    "guildSettingsCommunitySettings": "Community Settings",
+    "guildSettingsCommunitySettings": "Community settings",
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
     },
@@ -8972,7 +8972,7 @@
     "@guildSettingsSplashCardAlignment": {
         "description": "Label for invite splash card alignment selector."
     },
-    "guildSettingsSplashAlignmentCenter": "Center",
+    "guildSettingsSplashAlignmentCenter": "Centre",
     "@guildSettingsSplashAlignmentCenter": {
         "description": "Center alignment option for invite splash card."
     },
@@ -9026,7 +9026,7 @@
     "@guildSettingsMessageHistoryThresholdDate": {
         "description": "Label for threshold date picker."
     },
-    "guildSettingsMessageHistoryThresholdDateHint": "Members without Read Message History can view messages sent after this date.",
+    "guildSettingsMessageHistoryThresholdDateHint": "Members without Read message history can view messages sent after this date.",
     "@guildSettingsMessageHistoryThresholdDateHint": {
         "description": "Hint for threshold date picker."
     },
@@ -9042,11 +9042,11 @@
     "@guildSettingsOverviewHideOwnerCrownHint": {
         "description": "Description for hide owner crown toggle."
     },
-    "guildSettingsAnimatedIconRequiresFeature": "Animated icons require the Animated Icon community feature.",
+    "guildSettingsAnimatedIconRequiresFeature": "Animated icons require the animated icon community feature.",
     "@guildSettingsAnimatedIconRequiresFeature": {
         "description": "Error when uploading animated icon without feature."
     },
-    "guildSettingsAnimatedBannerRequiresFeature": "Animated banners require the Animated Banner community feature.",
+    "guildSettingsAnimatedBannerRequiresFeature": "Animated banners require the animated banner community feature.",
     "@guildSettingsAnimatedBannerRequiresFeature": {
         "description": "Error when uploading animated banner without feature."
     },
@@ -9198,7 +9198,7 @@
             }
         }
     },
-    "dmDebugCategory": "Debug Category",
+    "dmDebugCategory": "Debug category",
     "@dmDebugCategory": {
         "description": "Category context menu action to debug category data."
     },
@@ -9336,7 +9336,7 @@
     "@channelSettingsChannelNamePlaceholder": {
         "description": "Placeholder for channel name field in channel settings."
     },
-    "channelSettingsSlowmode": "Slow mode",
+    "channelSettingsSlowmode": "Slowmode",
     "@channelSettingsSlowmode": {
         "description": "Label for slowmode control in channel settings."
     },
@@ -9413,7 +9413,7 @@
             }
         }
     },
-    "channelSettingsMatureContentCategorySource": "Category",
+    "channelSettingsMatureContentCategorySource": "category",
     "@channelSettingsMatureContentCategorySource": {
         "description": "Lowercase source label for inherited mature content from category."
     },
@@ -9489,7 +9489,7 @@
     "@channelSettingsInvitesEmpty": {
         "description": "Empty state title for channel invites."
     },
-    "channelSettingsInvitesLoadFailedDescription": "There was an error loading the invite links for this channel. Please try again.",
+    "channelSettingsInvitesLoadFailedDescription": "There was an error loading the invite links for this channel. Try again.",
     "@channelSettingsInvitesLoadFailedDescription": {
         "description": "Error description when channel invites fail to load."
     },
@@ -9595,7 +9595,7 @@
     "@notificationsMentionPreferMentionDescription": {
         "description": "Description for the prefer @mention option."
     },
-    "notificationsPerSoundVolumeTitle": "Volume per sound",
+    "notificationsPerSoundVolumeTitle": "Per-sound volume",
     "@notificationsPerSoundVolumeTitle": {
         "description": "Accordion title for per-sound volume overrides."
     },
@@ -9693,7 +9693,7 @@
             }
         }
     },
-    "createDmDuplicateGroupDescription": "You've already got a group with these users. Do you really want to create a new one? That's fine too!",
+    "createDmDuplicateGroupDescription": "You already have a group with these users. Do you really want to create a new one? That's fine too!",
     "@createDmDuplicateGroupDescription": {
         "description": "Body text in the duplicate group confirmation modal."
     },
@@ -9705,7 +9705,7 @@
     "@savedMessagesRemoveTooltip": {
         "description": "Tooltip for removing a saved message bookmark."
     },
-    "savedMessagesEmptyTitle": "No saved messages",
+    "savedMessagesEmptyTitle": "No bookmarks",
     "@savedMessagesEmptyTitle": {
         "description": "Empty-state title on the saved messages page."
     },
@@ -9767,7 +9767,7 @@
     "@notificationsMentionPreferNoMentionName": {
         "description": "Mention preference option: prefer no @mention."
     },
-    "notificationsMentionPreferNoMentionDescription": "Les réponses par défaut omettent la @mention et avertissent l'expéditeur s'il l'active",
+    "notificationsMentionPreferNoMentionDescription": "Default replies to omit the @mention, and warn the sender if they enable it",
     "@notificationsMentionPreferNoMentionDescription": {
         "description": "Description for the prefer no @mention option."
     },
@@ -9895,7 +9895,7 @@
     "@channelDetailsAddFriendsToGroup": {
         "description": "Group DM menu action to add friends to the group."
     },
-    "channelDetailsInvitePeople": "Invite People",
+    "channelDetailsInvitePeople": "Invite people",
     "@channelDetailsInvitePeople": {
         "description": "Channel details menu action to invite people."
     },
@@ -10083,7 +10083,7 @@
     "@iarReasonHarassmentGuildLabel": {
         "description": "Community-report reason label for harassment or targeted abuse."
     },
-    "iarReasonHarassmentGuildDescription": "Communities can facilitate pile-ons or targeted abuse.",
+    "iarReasonHarassmentGuildDescription": "Community facilitates pile-ons or targeted abuse.",
     "@iarReasonHarassmentGuildDescription": {
         "description": "Community-report reason description for harassment or targeted abuse."
     },
@@ -10201,7 +10201,7 @@
     "@channelSettingsWebhooksDescription": {
         "description": "Description for the channel webhooks settings tab."
     },
-    "channelSettingsWebhooksUnsupported": "This channel doesn't support webhooks.",
+    "channelSettingsWebhooksUnsupported": "This channel does not support webhooks.",
     "@channelSettingsWebhooksUnsupported": {
         "description": "Message when the channel type does not support webhooks."
     },
@@ -10290,7 +10290,7 @@
     "@channelDetailsSearchScopeOpenDmsOnlyGuild": {
         "description": "Search scope label for open DMs when searching from a guild channel."
     },
-    "channelDetailsSearchScopeAllDmsOnlyGuildDescription": "Only in DMs you've been in",
+    "channelDetailsSearchScopeAllDmsOnlyGuildDescription": "Across all DMs you've ever been in only",
     "@channelDetailsSearchScopeAllDmsOnlyGuildDescription": {
         "description": "Description for all DMs scope when searching from a guild channel."
     },
@@ -10298,7 +10298,7 @@
     "@channelDetailsSearchScopeAllDmsDescription": {
         "description": "Description for all DMs scope when searching from a DM."
     },
-    "channelDetailsSearchScopeAllDmsAndCommunitiesDescription": "Across all DMs you've ever been in + all Communities you're currently in",
+    "channelDetailsSearchScopeAllDmsAndCommunitiesDescription": "Across all DMs you've ever been in + all communities you're currently in",
     "@channelDetailsSearchScopeAllDmsAndCommunitiesDescription": {
         "description": "Description for the all DMs and communities search scope."
     },
@@ -10310,7 +10310,7 @@
     "@groupDmCouldntProcessImage": {
         "description": "Title when a cropped group icon cannot be processed."
     },
-    "groupDmFailedToProcessCroppedImage": "Failed to process the cropped image. Please try again.",
+    "groupDmFailedToProcessCroppedImage": "Failed to process the cropped image. Try again.",
     "@groupDmFailedToProcessCroppedImage": {
         "description": "Body when a cropped group icon cannot be processed."
     },
@@ -10346,7 +10346,7 @@
     "@groupDmLoadingInvites": {
         "description": "Loading state for group DM invites list."
     },
-    "groupDmInvitesRevokeConfirm": "Revoke this invite? This can't be undone.",
+    "groupDmInvitesRevokeConfirm": "Revoke this invite? Can't be undone.",
     "@groupDmInvitesRevokeConfirm": {
         "description": "Confirmation body when revoking a group DM invite."
     },
@@ -10405,6 +10405,60 @@
     "notificationsEnableNotificationsPermissionDenied": "Couldn't enable notifications. Allow notification permission to continue.",
     "@notificationsEnableNotificationsPermissionDenied": {
         "description": "Toast shown when enabling notifications fails because permission was denied."
+    },
+    "notificationsPushRelaySectionTitle": "Push notification relay",
+    "@notificationsPushRelaySectionTitle": {
+        "description": "Notification settings section title for the Fluxer push relay."
+    },
+    "notificationsPushRelaySectionDescription": "{pushProvider} only delivers push notifications through their own service, so pushes for this device pass through the Fluxer relay.",
+    "@notificationsPushRelaySectionDescription": {
+        "description": "Notification settings section description explaining why the push relay exists.",
+        "placeholders": {
+            "pushProvider": {
+                "type": "String"
+            }
+        }
+    },
+    "notificationsPushRelayConsentLabel": "Use the Fluxer push relay",
+    "@notificationsPushRelayConsentLabel": {
+        "description": "Toggle label for agreeing to the Fluxer push relay on this device."
+    },
+    "notificationsPushRelayConsentDescription": "Turning this off removes this device's push registration, so this device stops receiving push notifications.",
+    "@notificationsPushRelayConsentDescription": {
+        "description": "Toggle description explaining that revoking push relay consent unregisters the device."
+    },
+    "pushRelayConsentTitle": "Push notification relay",
+    "@pushRelayConsentTitle": {
+        "description": "Title of the one-time Fluxer push relay consent sheet."
+    },
+    "pushRelayConsentDescription": "{pushProvider} only delivers push notifications through their own service, so pushes for this device pass through the Fluxer relay.",
+    "@pushRelayConsentDescription": {
+        "description": "Subtitle of the push relay consent sheet explaining why the relay exists.",
+        "placeholders": {
+            "pushProvider": {
+                "type": "String"
+            }
+        }
+    },
+    "pushRelayConsentNoticePrefix": "Agree to the ",
+    "@pushRelayConsentNoticePrefix": {
+        "description": "Text before the push relay privacy notice link in the consent sheet."
+    },
+    "pushRelayConsentNoticeLink": "Push Relay Privacy Notice",
+    "@pushRelayConsentNoticeLink": {
+        "description": "Link text for the supplemental push relay privacy notice."
+    },
+    "pushRelayConsentNoticeSuffix": " to turn on push notifications on this device. You only need to agree once per device.",
+    "@pushRelayConsentNoticeSuffix": {
+        "description": "Text after the push relay privacy notice link in the consent sheet."
+    },
+    "pushRelayConsentAgree": "Agree and continue",
+    "@pushRelayConsentAgree": {
+        "description": "Button that records agreement to the push relay privacy notice."
+    },
+    "pushRelayConsentDecline": "Not now",
+    "@pushRelayConsentDecline": {
+        "description": "Button that declines the push relay privacy notice and leaves push notifications off."
     },
     "languageAndTimeTimeFormatAuto": "Auto",
     "@languageAndTimeTimeFormatAuto": {
@@ -10487,7 +10541,7 @@
     "@guildSettingsInvitesRevokeFailedTitle": {
         "description": "Error title when revoking an invite fails."
     },
-    "guildSettingsInvitesRevokeFailedDescription": "The link might still work. Try again in a moment.",
+    "guildSettingsInvitesRevokeFailedDescription": "The link may still work. Try again in a moment.",
     "@guildSettingsInvitesRevokeFailedDescription": {
         "description": "Error description when revoking an invite fails."
     },
@@ -10596,7 +10650,7 @@
     "@guildSettingsRolesComfyLayout": {
         "description": "Tooltip when permission list is in dense layout."
     },
-    "guildSettingsRolesSwitchToDenseLayout": "Switch to compact layout",
+    "guildSettingsRolesSwitchToDenseLayout": "Switch to dense layout",
     "@guildSettingsRolesSwitchToDenseLayout": {
         "description": "Aria label for switching to dense layout."
     },
@@ -10604,7 +10658,7 @@
     "@guildSettingsRolesSwitchToTwoColumns": {
         "description": "Aria label for switching to two columns."
     },
-    "guildSettingsRolesCannotGrantPermission": "You can't grant a permission you don't have",
+    "guildSettingsRolesCannotGrantPermission": "You cannot grant a permission you don't have",
     "@guildSettingsRolesCannotGrantPermission": {
         "description": "Tooltip when user cannot grant a permission."
     },
@@ -10621,7 +10675,7 @@
     "@guildSettingsRolesResetHoistFailedTitle": {
         "description": "Error modal title when hoist reset fails."
     },
-    "permissionCategoryAudioVideo": "Audio and video",
+    "permissionCategoryAudioVideo": "Audio & video",
     "@permissionCategoryAudioVideo": {
         "description": "Permission category label."
     },
@@ -10661,7 +10715,7 @@
     "@permissionUseExternalStickers": {
         "description": "Permission name."
     },
-    "permissionTimeOutMembersDescription": "Stop members from sending messages, reacting, and joining voice for a set time.",
+    "permissionTimeOutMembersDescription": "Prevent members from sending messages, reacting, and joining voice for a duration.",
     "@permissionTimeOutMembersDescription": {
         "description": "Permission description."
     },
@@ -10681,7 +10735,7 @@
     "@voicePanelOnlyShowVideosDescription": {
         "description": "Description for the only-show-videos switch in the voice call panel."
     },
-    "voicePanelShowOwnCameraLabel": "Show my camera",
+    "voicePanelShowOwnCameraLabel": "Show my own camera",
     "@voicePanelShowOwnCameraLabel": {
         "description": "Switch label to show or hide the local camera tile in the voice call grid."
     },
@@ -10810,7 +10864,7 @@
     "@addGuildCreateGuidelinesBefore": {
         "description": "Text before the community guidelines link on the create sub-view."
     },
-    "channelDetailsSearchContentVideo": "Video Upload",
+    "channelDetailsSearchContentVideo": "Video upload",
     "@channelDetailsSearchContentVideo": {
         "description": "Content filter label for uploaded videos."
     },
@@ -10969,23 +11023,23 @@
     "@channelSettingsPermissionsSyncWithCategory": {
         "description": "Button label to sync channel permissions with the parent category."
     },
-    "channelDetailsSearchScopeCurrentCommunityDescription": "Search only in this Community",
+    "channelDetailsSearchScopeCurrentCommunityDescription": "Search only in the current community",
     "@channelDetailsSearchScopeCurrentCommunityDescription": {
         "description": "Description for the current community search scope."
     },
-    "channelDetailsSearchScopeAllCommunitiesDescription": "Across all Communities you're currently in",
+    "channelDetailsSearchScopeAllCommunitiesDescription": "Across all communities you're currently in",
     "@channelDetailsSearchScopeAllCommunitiesDescription": {
         "description": "Description for the all communities search scope."
     },
-    "channelDetailsSearchContentAudio": "Audio Upload",
+    "channelDetailsSearchContentAudio": "Audio upload",
     "@channelDetailsSearchContentAudio": {
         "description": "Content filter label for uploaded audio."
     },
-    "channelDetailsSearchContentFile": "File Upload",
+    "channelDetailsSearchContentFile": "File upload",
     "@channelDetailsSearchContentFile": {
         "description": "Content filter label for uploaded files."
     },
-    "channelDetailsSearchContentLinkDescription": "URL typed in the message text",
+    "channelDetailsSearchContentLinkDescription": "Typed URL in the message text",
     "@channelDetailsSearchContentLinkDescription": {
         "description": "Description for the link content filter."
     },
@@ -11013,11 +11067,11 @@
     "@groupDmUpdateFailed": {
         "description": "Error toast when group update fails."
     },
-    "groupDmAnimatedIconNotSupported": "Animated icons aren't supported. Use a static image.",
+    "groupDmAnimatedIconNotSupported": "Animated icons are not supported. Use a static image.",
     "@groupDmAnimatedIconNotSupported": {
         "description": "Error when user selects an animated group icon."
     },
-    "guildSettingsRolesCannotEditHigherRole": "You can't edit a role that's at or above your highest role",
+    "guildSettingsRolesCannotEditHigherRole": "You cannot edit a role at or above your highest role",
     "@guildSettingsRolesCannotEditHigherRole": {
         "description": "Tooltip when role hierarchy blocks editing."
     },
@@ -11057,7 +11111,7 @@
     "@guildSettingsRolesCreatedSuccess": {
         "description": "Toast after creating a role."
     },
-    "guildSettingsRolesDeletedSuccess": "Role deleted",
+    "guildSettingsRolesDeletedSuccess": "Role deleted successfully",
     "@guildSettingsRolesDeletedSuccess": {
         "description": "Toast after deleting a role."
     },
@@ -11150,7 +11204,7 @@
     "@permissionAddReactionsDescription": {
         "description": "Permission description."
     },
-    "permissionBypassSlowmode": "Bypass slow mode",
+    "permissionBypassSlowmode": "Bypass slowmode",
     "@permissionBypassSlowmode": {
         "description": "Permission name."
     },
@@ -11214,11 +11268,11 @@
     "@guildSettingsInvitesCopyLink": {
         "description": "Action to copy an invite link."
     },
-    "guildSettingsInvitesLoadFailedDescription": "There was an error loading the invites. Please try again.",
+    "guildSettingsInvitesLoadFailedDescription": "There was an error loading the invites. Try again.",
     "@guildSettingsInvitesLoadFailedDescription": {
         "description": "Error description when invites fail to load."
     },
-    "guildSettingsInvitesShowCreatedDate": "Show creation date instead of expiry date",
+    "guildSettingsInvitesShowCreatedDate": "Show creation date instead of expiration date",
     "@guildSettingsInvitesShowCreatedDate": {
         "description": "Toggle to show invite creation date instead of expiration."
     },
@@ -11254,7 +11308,7 @@
     "@dmListMessagesTitle": {
         "description": "Mobile header title for the DM list."
     },
-    "dmListDirectMessagesTitle": "Direct Messages",
+    "dmListDirectMessagesTitle": "Direct messages",
     "@dmListDirectMessagesTitle": {
         "description": "Desktop section header for the DM conversation list."
     },
@@ -11266,7 +11320,7 @@
     "@addGuildCreateNameLabel": {
         "description": "Label for the community name input on the create sub-view."
     },
-    "addGuildCreateAnimatedIconUnsupported": "Animated icons aren't supported when creating a new community. Use a static image.",
+    "addGuildCreateAnimatedIconUnsupported": "Animated icons are not supported when creating a new community. Use a static image.",
     "@addGuildCreateAnimatedIconUnsupported": {
         "description": "Error when the user picks an animated image for a new community icon."
     },
@@ -11346,7 +11400,7 @@
     "@channelSettingsWebhooksEmptyDescription": {
         "description": "Empty state description for channel webhooks."
     },
-    "channelSettingsWebhooksLoadFailedDescription": "There was an error loading the webhooks for this channel. Please try again.",
+    "channelSettingsWebhooksLoadFailedDescription": "There was an error loading the webhooks for this channel. Try again.",
     "@channelSettingsWebhooksLoadFailedDescription": {
         "description": "Error description when channel webhooks fail to load."
     },
@@ -11390,7 +11444,7 @@
     "@groupDmRateLimited": {
         "description": "Error when add-friends requests are rate limited."
     },
-    "groupDmInvitesLoadFailed": "Failed to load invites. Please try again.",
+    "groupDmInvitesLoadFailed": "Failed to load invites. Try again.",
     "@groupDmInvitesLoadFailed": {
         "description": "Inline error when group DM invites fail to load."
     },
@@ -11434,7 +11488,7 @@
     "@notificationsSoundScreenShareStart": {
         "description": "Sound toggle label for screen share start."
     },
-    "notificationsSoundScreenShareStop": "Screen share stopped",
+    "notificationsSoundScreenShareStop": "Screen share stop",
     "@notificationsSoundScreenShareStop": {
         "description": "Sound toggle label for screen share stop."
     },
@@ -11502,7 +11556,7 @@
     "@permissionOverwriteSetAllHelp": {
         "description": "Helper text above bulk permission state buttons in channel permissions."
     },
-    "permissionManageEmojiStickers": "Manage emoji and stickers",
+    "permissionManageEmojiStickers": "Manage emoji & stickers",
     "@permissionManageEmojiStickers": {
         "description": "Permission name."
     },
@@ -11611,7 +11665,7 @@
     "@channelMenuDeleteMyMessagesTitle": {
         "description": "Confirmation title for deleting all of the caller's messages in a channel."
     },
-    "channelMenuDeleteMyMessagesDescription": "This will permanently delete every message you've ever sent in this channel. This cannot be undone.",
+    "channelMenuDeleteMyMessagesDescription": "This will permanently delete every message you have ever sent in this channel. This cannot be undone.",
     "@channelMenuDeleteMyMessagesDescription": {
         "description": "Confirmation description for deleting all of the caller's messages in a channel."
     },
@@ -11837,11 +11891,11 @@
     "@channelDetailsChannelSettingsTitle": {
         "description": "Title for the channel details overflow menu on guild channels."
     },
-    "channelDetailsGroupSettingsTitle": "Group Settings",
+    "channelDetailsGroupSettingsTitle": "Group settings",
     "@channelDetailsGroupSettingsTitle": {
         "description": "Title for the channel details overflow menu on group DMs."
     },
-    "channelDetailsDmSettingsTitle": "DM Settings",
+    "channelDetailsDmSettingsTitle": "DM settings",
     "@channelDetailsDmSettingsTitle": {
         "description": "Title for the channel details overflow menu on 1:1 DMs."
     },
@@ -11877,7 +11931,7 @@
     "@channelDetailsPinsLoadFailedTitle": {
         "description": "Error title when pinned messages fail to load in channel details."
     },
-    "channelDetailsPinsGuildEndHint": "Members with the \"Pin Messages\" permission can pin messages for everyone to see.",
+    "channelDetailsPinsGuildEndHint": "Members with the \"Pin messages\" permission can pin messages for everyone to see.",
     "@channelDetailsPinsGuildEndHint": {
         "description": "Footer hint at the end of the pins list in guild channels."
     },
@@ -11897,7 +11951,7 @@
     "@channelDetailsSearchSortBy": {
         "description": "Title for the sort filter sheet in channel message search."
     },
-    "channelDetailsSearchIn": "Search In",
+    "channelDetailsSearchIn": "Search in",
     "@channelDetailsSearchIn": {
         "description": "Title for the search scope filter sheet in channel message search."
     },
@@ -11913,7 +11967,7 @@
     "@channelDetailsHasFilterPrompt": {
         "description": "Prompt above content filter options in channel message search."
     },
-    "channelDetailsSearchResultTitle": "Search Result",
+    "channelDetailsSearchResultTitle": "Search result",
     "@channelDetailsSearchResultTitle": {
         "description": "Title for the search result action sheet in channel details."
     },
@@ -11945,11 +11999,11 @@
     "@channelDetailsSearchScopeOpenDms": {
         "description": "Search scope label for open DMs when searching from a DM."
     },
-    "channelDetailsSearchScopeAllDmsAndCommunities": "All DMs + Communities",
+    "channelDetailsSearchScopeAllDmsAndCommunities": "All DMs + communities",
     "@channelDetailsSearchScopeAllDmsAndCommunities": {
         "description": "Search scope label for all DMs and communities."
     },
-    "channelDetailsSearchScopeOpenDmsAndCommunities": "Open DMs + Communities",
+    "channelDetailsSearchScopeOpenDmsAndCommunities": "Open DMs + communities",
     "@channelDetailsSearchScopeOpenDmsAndCommunities": {
         "description": "Search scope label for open DMs and communities."
     },
@@ -11961,11 +12015,11 @@
     "@channelDetailsSearchScopeOpenDmsDescription": {
         "description": "Description for open DMs scope when searching from a DM."
     },
-    "channelDetailsSearchScopeOpenDmsAndCommunitiesDescription": "In all DMs you currently have open + all Communities you're currently in",
+    "channelDetailsSearchScopeOpenDmsAndCommunitiesDescription": "In all DMs you currently have open + all communities you're currently in",
     "@channelDetailsSearchScopeOpenDmsAndCommunitiesDescription": {
         "description": "Description for the open DMs and communities search scope."
     },
-    "channelDetailsSearchSortRelevance": "Most Relevant",
+    "channelDetailsSearchSortRelevance": "Most relevant",
     "@channelDetailsSearchSortRelevance": {
         "description": "Sort option label for most relevant messages first."
     },
@@ -11981,7 +12035,7 @@
     "@channelDetailsSearchSortRelevanceDescription": {
         "description": "Description for the relevance sort option."
     },
-    "channelDetailsSearchContentImage": "Image Upload",
+    "channelDetailsSearchContentImage": "Image upload",
     "@channelDetailsSearchContentImage": {
         "description": "Content filter label for uploaded images."
     },
@@ -12015,7 +12069,7 @@
             }
         }
     },
-    "groupDmInvalidImageBody": "That image is invalid. Please try another one.",
+    "groupDmInvalidImageBody": "That image is invalid. Try another one.",
     "@groupDmInvalidImageBody": {
         "description": "Body when the selected group icon image cannot be used."
     },
@@ -12064,7 +12118,7 @@
     "@channelDetailsSearchContentLink": {
         "description": "Content filter label for typed links."
     },
-    "channelDetailsSearchContentEmbed": "Link Preview or Embed",
+    "channelDetailsSearchContentEmbed": "Link preview or embed",
     "@channelDetailsSearchContentEmbed": {
         "description": "Content filter label for link previews and embeds."
     },
@@ -12230,7 +12284,7 @@
     "@iarPreviewCommunitySubtitle": {
         "description": "Subtitle shown under the community name in the IAR preview card."
     },
-    "iarReasonChildSafetyGuildDescription": "Endangers minors or hosts child exploitation content.",
+    "iarReasonChildSafetyGuildDescription": "Endangers minors or hosts child-exploitation content.",
     "@iarReasonChildSafetyGuildDescription": {
         "description": "Community-report reason description for child safety."
     },
@@ -12289,7 +12343,7 @@
             }
         }
     },
-    "groupDmAnimatedIconNotSupportedTitle": "Animated icons aren't supported",
+    "groupDmAnimatedIconNotSupportedTitle": "Animated icons are not supported",
     "@groupDmAnimatedIconNotSupportedTitle": {
         "description": "Title when user selects an animated group icon."
     },
@@ -12342,7 +12396,7 @@
     "@languageAndTimeTimeFormatSectionDescription": {
         "description": "Settings section description for time format preference."
     },
-    "guildNavbarChannelTypeSelection": "Choose channel type",
+    "guildNavbarChannelTypeSelection": "Channel type selection",
     "@guildNavbarChannelTypeSelection": {
         "description": "Accessibility label for channel type radio group in create channel modal."
     },
@@ -12366,7 +12420,7 @@
     "@phoneSmsUnavailable": {
         "description": "SMS provider unavailable error."
     },
-    "phoneNotEligible": "Phone verification isn't available for this account. Use another method or contact support.",
+    "phoneNotEligible": "Phone verification is not available for this account. Use another method or contact support.",
     "@phoneNotEligible": {
         "description": "Account not eligible for phone verification."
     },
@@ -12414,7 +12468,7 @@
     "@phoneCaptchaRequired": {
         "description": "Captcha required for phone verification."
     },
-    "phoneSomethingWentWrong": "Something went wrong. Please try again.",
+    "phoneSomethingWentWrong": "Something went wrong. Try again.",
     "@phoneSomethingWentWrong": {
         "description": "Generic phone verification error."
     },
@@ -12470,7 +12524,7 @@
     "@channelDetailsMembersEmptyTitle": {
         "description": "Empty state title when channel details has no members loaded."
     },
-    "channelDetailsSearchScopeCurrentCommunity": "Current Community",
+    "channelDetailsSearchScopeCurrentCommunity": "Current community",
     "@channelDetailsSearchScopeCurrentCommunity": {
         "description": "Search scope label for the current community."
     },
@@ -12486,7 +12540,7 @@
     "@channelDetailsSearchScopeAllDmsOnlyGuild": {
         "description": "Search scope label for all DMs when searching from a guild channel."
     },
-    "channelDetailsSearchScopeCurrentDmDescription": "Search only in this DM",
+    "channelDetailsSearchScopeCurrentDmDescription": "Search only in the current DM",
     "@channelDetailsSearchScopeCurrentDmDescription": {
         "description": "Description for the current DM search scope."
     },
@@ -12514,7 +12568,7 @@
     "@createDmUnaddableUserNotFound": {
         "description": "Reason when an unaddable recipient is unknown."
     },
-    "createDmUnaddableGroupDisabled": "Can't be added to group DMs",
+    "createDmUnaddableGroupDisabled": "Doesn't allow being added to group DMs",
     "@createDmUnaddableGroupDisabled": {
         "description": "Reason when a user disabled group DM additions."
     },
@@ -12700,7 +12754,7 @@
     "@channelSettingsPermissionsSyncedWithParentPrefix": {
         "description": "Prefix for the synced-with-parent banner in channel permissions."
     },
-    "channelSettingsDeleteInviteConfirm": "Delete this invite? This can't be undone.",
+    "channelSettingsDeleteInviteConfirm": "Delete this invite? Can't be undone.",
     "@channelSettingsDeleteInviteConfirm": {
         "description": "Confirmation message for deleting a channel invite."
     },
@@ -12897,7 +12951,7 @@
     "@embedGiftUnknownTitle": {
         "description": "Title when a gift code cannot be resolved."
     },
-    "embedGiftUnknownSubtitle": "This gift code is invalid or has already been claimed.",
+    "embedGiftUnknownSubtitle": "This gift code is invalid or already claimed.",
     "@embedGiftUnknownSubtitle": {
         "description": "Subtitle when a gift code cannot be resolved."
     },
@@ -12931,7 +12985,7 @@
     "@giftRedeemInvalidTitle": {
         "description": "Error modal title for an invalid gift code."
     },
-    "giftRedeemInvalidMessage": "This code is invalid or has already been used.",
+    "giftRedeemInvalidMessage": "This code is invalid or already used.",
     "@giftRedeemInvalidMessage": {
         "description": "Error modal body for an invalid gift code."
     },
@@ -12939,7 +12993,7 @@
     "@giftRedeemAlreadyRedeemedTitle": {
         "description": "Error modal title when a gift was already redeemed."
     },
-    "giftRedeemAlreadyRedeemedMessage": "This code has already been redeemed.",
+    "giftRedeemAlreadyRedeemedMessage": "This code was already redeemed.",
     "@giftRedeemAlreadyRedeemedMessage": {
         "description": "Error modal body when a gift was already redeemed."
     },
@@ -12955,7 +13009,7 @@
     "@giftRedeemFailedTitle": {
         "description": "Generic gift redeem error modal title."
     },
-    "giftRedeemFailedMessage": "Couldn't redeem this gift. Please try again.",
+    "giftRedeemFailedMessage": "Couldn't redeem this gift. Try again.",
     "@giftRedeemFailedMessage": {
         "description": "Generic gift redeem error modal body."
     },
@@ -13032,7 +13086,7 @@
     "@emojiInfoVerifiedCommunity": {
         "description": "Tooltip for the verified badge on a source community in the emoji info sheet."
     },
-    "emojiInfoAddToFavorites": "Add to Favourites",
+    "emojiInfoAddToFavorites": "Add to favourites",
     "@emojiInfoAddToFavorites": {
         "description": "Accessibility label for adding an emoji to favorites from the emoji info sheet."
     },
@@ -13210,7 +13264,7 @@
     "@memberRolesConfirmOk": {
         "description": "Confirm button for the no roles available dialog."
     },
-    "slowmodeStatusEnabled": "Slow mode is enabled",
+    "slowmodeStatusEnabled": "Slowmode is enabled",
     "@slowmodeStatusEnabled": {
         "description": "Short label in the wide composer slowmode indicator when the reader is free to send."
     },
@@ -13352,7 +13406,7 @@
     "@chatTextualPreviewWrapText": {
         "description": "Toggle soft-wrapping in textual attachment previews."
     },
-    "chatTextualPreviewSizeError": "File too large for inline preview (limit {previewLimitKb} KB).",
+    "chatTextualPreviewSizeError": "File is too large for inline preview (limit {previewLimitKb} KB).",
     "@chatTextualPreviewSizeError": {
         "description": "Error when attachment exceeds textual preview size limit.",
         "placeholders": {
@@ -13389,7 +13443,7 @@
     "@lookAndFeelHdrFullDescription": {
         "description": "Description for the full dynamic range HDR option."
     },
-    "lookAndFeelHdrStandardName": "Standard",
+    "lookAndFeelHdrStandardName": "Standard range",
     "@lookAndFeelHdrStandardName": {
         "description": "HDR radio option that tone-maps HDR content to SDR."
     },
@@ -13409,7 +13463,7 @@
     "@lookAndFeelAppZoomTitle": {
         "description": "Section title for the app zoom slider."
     },
-    "lookAndFeelAppZoomDescription": "Adjust the app's zoom level.",
+    "lookAndFeelAppZoomDescription": "Adjust the application's zoom level.",
     "@lookAndFeelAppZoomDescription": {
         "description": "Section description for the app zoom slider."
     },
@@ -13466,7 +13520,7 @@
     "@guildUnavailableDescription": {
         "description": "Body shown when a community is temporarily offline."
     },
-    "guildNotFoundTitle": "This isn't the community you're looking for.",
+    "guildNotFoundTitle": "This is not the community you're looking for.",
     "@guildNotFoundTitle": {
         "description": "Title shown when the active community is missing."
     },
@@ -13611,7 +13665,7 @@
     "@accessibilityScreenReaderAnnounceNewMessagesLabel": {
         "description": "Toggle label for announcing incoming messages to screen readers."
     },
-    "accessibilityScreenReaderAnnounceNewMessagesDescription": "Let screen readers announce new messages as they arrive in the open channel. Notification sounds aren't affected.",
+    "accessibilityScreenReaderAnnounceNewMessagesDescription": "Let screen readers announce new messages as they arrive in the open channel. Notification sounds are unaffected.",
     "@accessibilityScreenReaderAnnounceNewMessagesDescription": {
         "description": "Toggle description for announcing incoming messages to screen readers."
     },
@@ -13648,7 +13702,7 @@
             }
         }
     },
-    "accessibilityPreviewUserName": "Preview User",
+    "accessibilityPreviewUserName": "Preview user",
     "@accessibilityPreviewUserName": {
         "description": "Fallback display name for the accessibility preview message author."
     },
@@ -13684,7 +13738,7 @@
     "@accessibilityPlayAnimatedEmojisLabel": {
         "description": "Toggle label for playing animated emojis."
     },
-    "accessibilityAutoPlayGifsMobileLabel": "Autoplay GIFs",
+    "accessibilityAutoPlayGifsMobileLabel": "Automatically play GIFs",
     "@accessibilityAutoPlayGifsMobileLabel": {
         "description": "Toggle label for GIF autoplay on mobile."
     },
@@ -13737,7 +13791,7 @@
     "@accessibilityStickerAnimateOnPressDescription": {
         "description": "Description for sticker animate-on-press on touch devices."
     },
-    "accessibilityStickerAnimateOnHoverDescription": "Stickers will animate when you hover over or interact with them",
+    "accessibilityStickerAnimateOnHoverDescription": "Stickers will animate when you hover or interact with them",
     "@accessibilityStickerAnimateOnHoverDescription": {
         "description": "Description for sticker animate-on-hover on desktop."
     },
@@ -13785,7 +13839,7 @@
     "@accessibilityReducedMotionOverrideManualDescription": {
         "description": "Reduce motion description when not synced with system."
     },
-    "accessibilityReducedMotionAnimationTabHint": "Animated emojis, GIFs, and stickers stay under your control in the Animation tab.",
+    "accessibilityReducedMotionAnimationTabHint": "Animated emojis, GIFs and stickers stay under your control in the Animation tab.",
     "@accessibilityReducedMotionAnimationTabHint": {
         "description": "Extra hint under reduce motion while reduced motion is active."
     },
@@ -13817,7 +13871,7 @@
     "@accessibilityTtsPlaybackFailedDescription": {
         "description": "Shown when TTS playback fails."
     },
-    "ttsSubstitutionUnknownUser": "Unknown user",
+    "ttsSubstitutionUnknownUser": "unknown user",
     "@ttsSubstitutionUnknownUser": {
         "description": "TTS substitution for unresolved user mentions."
     },
@@ -13825,7 +13879,7 @@
     "@ttsSubstitutionUnknownRole": {
         "description": "TTS substitution for unresolved role mentions."
     },
-    "ttsSubstitutionUnknownChannel": "Unknown channel",
+    "ttsSubstitutionUnknownChannel": "unknown channel",
     "@ttsSubstitutionUnknownChannel": {
         "description": "TTS substitution for unresolved channel mentions."
     },
@@ -13837,7 +13891,7 @@
     "@ttsSubstitutionSpoiler": {
         "description": "TTS substitution for spoiler content."
     },
-    "ttsSubstitutionEmoji": "Emoji: {emojiName}",
+    "ttsSubstitutionEmoji": "emoji {emojiName}",
     "@ttsSubstitutionEmoji": {
         "description": "TTS substitution for custom emoji.",
         "placeholders": {
@@ -14172,7 +14226,7 @@
     "@privacyDashboardFriendRequestsEveryoneDesc": {
         "description": "Privacy dashboard friend request toggle description."
     },
-    "privacyDashboardFriendRequestsFriendsOfFriends": "Friends of Friends",
+    "privacyDashboardFriendRequestsFriendsOfFriends": "Friends of friends",
     "@privacyDashboardFriendRequestsFriendsOfFriends": {
         "description": "Privacy dashboard friend request toggle label."
     },
@@ -14180,7 +14234,7 @@
     "@privacyDashboardFriendRequestsFriendsOfFriendsDesc": {
         "description": "Privacy dashboard friend request toggle description."
     },
-    "privacyDashboardFriendRequestsCommunityMembers": "Community Members",
+    "privacyDashboardFriendRequestsCommunityMembers": "Community members",
     "@privacyDashboardFriendRequestsCommunityMembers": {
         "description": "Privacy dashboard friend request toggle label."
     },
@@ -14244,7 +14298,7 @@
     "@privacyDashboardIncomingCallFriendsOnlyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallCustom": "Friends + Custom",
+    "privacyDashboardIncomingCallCustom": "Friends + custom",
     "@privacyDashboardIncomingCallCustom": {
         "description": "Privacy > Communication: radio option label."
     },
@@ -14340,7 +14394,7 @@
     "@privacyDashboardVoiceActivityEnableDesc": {
         "description": "Privacy > Active now: confirmation modal body."
     },
-    "privacyDashboardVoiceActivityDisableDesc": "You're about to stop sharing your voice activity with all your friends, including future ones. This sends an update to all of them and can only be changed again in 24 hours.",
+    "privacyDashboardVoiceActivityDisableDesc": "You're about to stop sharing your voice activity with every friend you have, including future ones. This sends an update to all of them and can only be changed again in 24 hours.",
     "@privacyDashboardVoiceActivityDisableDesc": {
         "description": "Privacy > Active now: confirmation modal body."
     },
@@ -14377,7 +14431,7 @@
     "@privacyDashboardExportMyData": {
         "description": "Privacy dashboard data export button label."
     },
-    "privacyDashboardDataDeletionDesc": "Permanently remove messages you have sent across DMs, group DMs, and communities. This runs in the background, and you'll get a DM when it finishes.",
+    "privacyDashboardDataDeletionDesc": "Permanently remove messages you have sent across DMs, group DMs, and communities. The work runs in the background, and you will get a DM when it finishes.",
     "@privacyDashboardDataDeletionDesc": {
         "description": "Description shown on the settings page above the Delete my messages button."
     },
@@ -14417,7 +14471,7 @@
     "@privacyDashboardDmConfirmBlockBotsDesc": {
         "description": "Confirmation prompt in the connections tab."
     },
-    "privacyDashboardDmConfirmPerCommunityHint": "You can also change this setting per-community by long-pressing the community name and selecting Privacy Settings.",
+    "privacyDashboardDmConfirmPerCommunityHint": "You can also change this setting per-community by long-pressing the community name and selecting privacy settings.",
     "@privacyDashboardDmConfirmPerCommunityHint": {
         "description": "Confirmation prompt hint in the connections tab."
     },
@@ -14461,7 +14515,7 @@
     "@privacyDashboardDataRequestExportEverything": {
         "description": "Scope option that exports every message and metadata."
     },
-    "privacyDashboardDataRequestExportEverythingDesc": "Export every message you have ever sent, plus all your account settings, memberships, and metadata.",
+    "privacyDashboardDataRequestExportEverythingDesc": "Export every message you have ever sent, plus all of your account settings, memberships, and metadata.",
     "@privacyDashboardDataRequestExportEverythingDesc": {
         "description": "Description for the Everything export option."
     },
@@ -14469,7 +14523,7 @@
     "@privacyDashboardDataRequestExportCustom": {
         "description": "Scope option that lets the user filter what to export."
     },
-    "privacyDashboardDataRequestExportCustomDesc": "Choose which conversation types, communities, and time frame to include in the archive.",
+    "privacyDashboardDataRequestExportCustomDesc": "Choose which conversation kinds, communities, and time window to include in the archive.",
     "@privacyDashboardDataRequestExportCustomDesc": {
         "description": "Description for the Custom export option."
     },
@@ -14477,11 +14531,11 @@
     "@privacyDashboardDataRequestDeleteSelected": {
         "description": "Scope option for message deletion."
     },
-    "privacyDashboardDataRequestDeleteSelectedDesc": "Choose which types of conversations to clean up.",
+    "privacyDashboardDataRequestDeleteSelectedDesc": "Pick which kinds of conversations to clean up.",
     "@privacyDashboardDataRequestDeleteSelectedDesc": {
         "description": "Description for the Choose what to include scope option."
     },
-    "privacyDashboardDataRequestDeleteInaccessible": "Only places I can't access any more",
+    "privacyDashboardDataRequestDeleteInaccessible": "Only places I can't access anymore",
     "@privacyDashboardDataRequestDeleteInaccessible": {
         "description": "Scope option for inaccessible-only deletion."
     },
@@ -14573,11 +14627,11 @@
     "@privacyDashboardDataRequestConfirmTitle": {
         "description": "Heading of the confirm step."
     },
-    "privacyDashboardDataRequestExportConfirmEverything": "We'll build a downloadable archive of every message you've ever sent and email you when it's ready. The download link in that email expires after 7 days.",
+    "privacyDashboardDataRequestExportConfirmEverything": "We'll build a downloadable archive of every message you have ever sent and email you when it's ready. The download link in that email expires after 7 days.",
     "@privacyDashboardDataRequestExportConfirmEverything": {
         "description": "Confirm-step copy when export scope is everything."
     },
-    "privacyDashboardDataRequestExportConfirmCustom": "We'll create a downloadable archive that matches the filters below and email you when it's ready. The download link in that email expires after 7 days.",
+    "privacyDashboardDataRequestExportConfirmCustom": "We'll build a downloadable archive that matches the filters below and email you when it's ready. The download link in that email expires after 7 days.",
     "@privacyDashboardDataRequestExportConfirmCustom": {
         "description": "Confirm-step copy when export scope is custom."
     },
@@ -14585,7 +14639,7 @@
     "@privacyDashboardDataRequestDeleteConfirm": {
         "description": "Confirm-step copy for message deletion."
     },
-    "privacyDashboardDataRequestDeleteDanger": "There's no recovery once this starts. We'll DM you when it finishes.",
+    "privacyDashboardDataRequestDeleteDanger": "There is no recovery once this starts. We will DM you when it finishes.",
     "@privacyDashboardDataRequestDeleteDanger": {
         "description": "Destructive notice on the confirm step of deletion."
     },
@@ -14740,11 +14794,11 @@
     "@privacyDashboardDataRequestFailed": {
         "description": "Toast when a data export or deletion request fails."
     },
-    "forwardSendSlowmodeBlocked": "Waiting for slowmode to expire in one or more selected channels.",
+    "forwardSendSlowmodeBlocked": "Waiting for slowmode in one or more selected channels to expire.",
     "@forwardSendSlowmodeBlocked": {
         "description": "Notice shown in the forward sheet when send is blocked because a selected destination is cooling down."
     },
-    "slowmodeRateLimitedTitle": "Slow mode active",
+    "slowmodeRateLimitedTitle": "Slowmode active",
     "@slowmodeRateLimitedTitle": {
         "description": "Title for the modal shown when slowmode blocks sending a message."
     },
@@ -14899,7 +14953,7 @@
     "@composerCommandUnflipDescription": {
         "description": "Slash-command description for /unflip."
     },
-    "composerCommandMeDescription": "Send an action message (shown in italics).",
+    "composerCommandMeDescription": "Send an action message (wraps in italics).",
     "@composerCommandMeDescription": {
         "description": "Slash-command description for /me."
     },
@@ -14915,7 +14969,7 @@
     "@composerCommandNickDescription": {
         "description": "Slash-command description for /nick."
     },
-    "composerCommandKickDescription": "Remove a member from this community.",
+    "composerCommandKickDescription": "Kick a member from this community.",
     "@composerCommandKickDescription": {
         "description": "Slash-command description for /kick."
     },
@@ -15509,7 +15563,7 @@
             }
         }
     },
-    "giftSettingsAlreadyRedeemed": "This gift has already been redeemed",
+    "giftSettingsAlreadyRedeemed": "This gift has been redeemed",
     "giftSettingsRedeemForYourself": "Redeem for yourself",
     "giftSettingsShareWithFriend": "Share with a friend",
     "premiumPlutoniumTagline": "Unlock higher limits and exclusive features while supporting an independent communication platform.",
@@ -15517,10 +15571,10 @@
     "premiumForMe": "For me",
     "premiumAsAGift": "As a gift",
     "premiumMonthly": "Monthly",
-    "premiumYearly": "Annually",
+    "premiumYearly": "Yearly",
     "premiumPerMonth": "per month",
     "premiumPerYear": "per year",
-    "premiumOneTimePurchase": "One-time purchase",
+    "premiumOneTimePurchase": "one-time purchase",
     "premiumSave17": "Save 17%",
     "premiumUpgradeNow": "Upgrade now",
     "premiumBuyGift": "Buy gift",
@@ -15580,7 +15634,7 @@
     "premiumRedeemGiftCode": "Redeem gift code",
     "premiumGiftBadge": "Gift",
     "premiumCancelSubscriptionTitle": "Cancel subscription?",
-    "premiumCancelSubscriptionBody": "You'll keep your perks until your next renewal date, then have a 3-day grace period to resubscribe and keep your subscriber history.",
+    "premiumCancelSubscriptionBody": "You keep your perks until your next renewal date, then have a 3-day grace period to resubscribe and keep your subscriber history.",
     "premiumCancelSubscriptionConfirm": "Cancel subscription",
     "premiumKeepSubscription": "Keep subscription",
     "premiumPurchaseHistoryTitle": "Purchase history",
@@ -15630,13 +15684,13 @@
             }
         }
     },
-    "premiumDisclaimerRefund": "Self-service refunds are available within 3 days of payment, once every 30 days. Refunding a subscription cancels it. EU/EEA buyers waive the 14-day right of withdrawal at checkout to access content immediately. Please use the in-app refund button instead of a chargeback. Chargebacks can permanently restrict your account. Stripe handles payments securely. We never see your full card number.",
+    "premiumDisclaimerRefund": "Self-serve refunds available within 3 days of payment, once every 30 days. Refunding a subscription cancels it. EU/EEA buyers waive the 14-day right of withdrawal at checkout to access content immediately. Use the in-app refund button instead of a chargeback. Chargebacks can permanently restrict your account. Stripe handles payment securely. We never see your full card number.",
     "premiumTermsOfService": "Terms of service",
     "premiumPrivacyPolicy": "Privacy policy",
     "premiumCheckoutStartFailedTitle": "Couldn't start checkout",
     "premiumCheckoutStartFailedBody": "Something went wrong while starting checkout. Please try again in a moment.",
     "premiumGiftSubscriptionBlocksRecurring": "You're currently on a gift subscription. It won't renew. You can redeem more gift codes to extend it. Recurring subscriptions can be started after your gift time ends.",
-    "premiumPlanUnavailable": "This plan is unavailable. Contact support.",
+    "premiumPlanUnavailable": "This plan isn't available. Contact support.",
     "premiumCompletePaymentTitle": "Complete payment",
     "premiumCompletePaymentBody": "You are now navigating to Stripe to complete the payment. Return to Fluxer once you've completed it.",
     "premiumChoosePaymentMethodTitle": "Choose payment method",
@@ -15656,7 +15710,7 @@
     "premiumClaimAccountToPurchase": "Claim your account to purchase Fluxer Plutonium.",
     "premiumVerifyEmailToPurchase": "You need to verify your email before you can purchase Fluxer Plutonium.",
     "premiumPerkCustomUsernameTag": "Custom username tag",
-    "premiumPerkPerCommunityProfiles": "Profiles per community",
+    "premiumPerkPerCommunityProfiles": "Per-community profiles",
     "premiumPerkMessageScheduling": "Message scheduling",
     "premiumPerkProfileBadge": "Profile badge",
     "premiumPerkCustomVideoBackgrounds": "Custom video backgrounds",
@@ -15687,7 +15741,7 @@
     "@notificationsTtsEnableCommandLabel": {
         "description": "Toggle label for enabling /tts speech playback."
     },
-    "notificationsTtsEnableCommandDescription": "Let /tts read your message aloud. Disabling this setting will make those commands appear as regular text.",
+    "notificationsTtsEnableCommandDescription": "Let /tts read your message aloud. Disabling the setting keeps those commands as regular text.",
     "@notificationsTtsEnableCommandDescription": {
         "description": "Toggle description for enabling /tts speech playback."
     },
@@ -15711,11 +15765,11 @@
     "@notificationsTtsAutoNarrationDescription": {
         "description": "Description for automatic TTS narration mode settings."
     },
-    "notificationsTtsModeAllChannelsName": "All channels",
+    "notificationsTtsModeAllChannelsName": "Every channel",
     "@notificationsTtsModeAllChannelsName": {
         "description": "TTS narration mode: speak messages from every channel."
     },
-    "notificationsTtsModeAllChannelsDescription": "Have every incoming message spoken, regardless of which channel is open.",
+    "notificationsTtsModeAllChannelsDescription": "Let every incoming message be spoken, regardless of which channel is open.",
     "@notificationsTtsModeAllChannelsDescription": {
         "description": "Description for speaking messages from every channel."
     },
@@ -15735,7 +15789,7 @@
     "@notificationsTtsModeNeverDescription": {
         "description": "Description for never speaking automatically."
     },
-    "notificationsTtsModeAriaLabel": "Speak all messages aloud",
+    "notificationsTtsModeAriaLabel": "Speak all messages out loud",
     "@notificationsTtsModeAriaLabel": {
         "description": "Accessibility label for the TTS narration mode radio group."
     },
@@ -15796,7 +15850,7 @@
     "advancedSettingEnableFavoritesLabel": "Enable favourites",
     "advancedSettingEnableFavoritesDescription": "Show favourites throughout the app",
     "advancedSettingVoiceChannelJoinBehaviorLabel": "Voice channel join behaviour",
-    "advancedSettingVoiceChannelJoinBehaviorDescription": "Confirmation or double-click to join community voice",
+    "advancedSettingVoiceChannelJoinBehaviorDescription": "Confirmation or double-click for community voice joins",
     "advancedSettingRequireDoubleClickJoinLabel": "Require double-click to join voice channels",
     "advancedSettingConfirmBeforeJoiningVoiceLabel": "Confirm before joining voice channels",
     "advancedSettingAutoSendGifsLabel": "Automatically send GIFs when selected",
@@ -15820,11 +15874,11 @@
     "advancedSettingMessageActionBarLabel": "Message action bar",
     "advancedSettingMessageActionBarDescription": "Customise the action bar that appears when hovering over messages",
     "advancedSettingExpressionAutocompleteLabel": "Expression autocomplete",
-    "advancedSettingExpressionAutocompleteDescription": "Choose what appears when you type a colon in the message input",
+    "advancedSettingExpressionAutocompleteDescription": "Pick what appears when you type a colon in the message input",
     "advancedSettingInputButtonsLabel": "Message input buttons",
-    "advancedSettingInputButtonsDescription": "Choose which buttons appear in the message input",
+    "advancedSettingInputButtonsDescription": "Pick which buttons show in the message input",
     "advancedSettingScrollToBottomOnSendLabel": "Scroll to bottom when sending a message",
-    "advancedSettingScrollToBottomOnSendDescription": "Choose how chat scrolls after you send a message",
+    "advancedSettingScrollToBottomOnSendDescription": "Choose how chat moves after you send a message",
     "advancedSettingSkipMarkAllAsReadLabel": "Skip \"Mark all as read\" confirmation",
     "advancedSettingSkipMarkAllAsReadDescription": "Mark all unread inbox channels as read immediately, without asking to confirm",
     "advancedSettingHideMutedChannelsLabel": "Hide muted channels by default",
@@ -15834,7 +15888,7 @@
     "advancedSettingShowMediaDeleteLabel": "Show delete button",
     "advancedSettingShowMediaDownloadLabel": "Show download button",
     "advancedSettingShowMediaFavoriteLabel": "Show favourite button",
-    "advancedSettingShowSuppressEmbedsLabel": "Show 'suppress embeds' button",
+    "advancedSettingShowSuppressEmbedsLabel": "Show suppress embeds button",
     "advancedSettingShowMessageActionBarLabel": "Show message action bar",
     "advancedSettingShowOnlyMoreButtonLabel": "Show only more button",
     "advancedSettingShowQuickReactionsLabel": "Show quick reactions",
@@ -15892,7 +15946,7 @@
     "advancedSettingEnableAtLeastOneTranslatorLabel": "Enable at least one translator below.",
     "advancedSettingRemoveTranslatorLabel": "Remove translator",
     "advancedSettingDefaultReverseImageSearchLabel": "Default reverse image search",
-    "advancedSettingDefaultReverseImageSearchDescription": "Choose which reverse image search service is used by default when searching for an image.",
+    "advancedSettingDefaultReverseImageSearchDescription": "Choose which reverse image search service is used by default when searching an image.",
     "advancedSettingBuiltInReverseImageSearchLabel": "Built-in reverse image search",
     "advancedSettingBuiltInReverseImageSearchDescription": "Enable or disable built-in reverse image search providers. Enabled providers appear in the context menu of images, avatars, banners, stickers, and emoji.",
     "advancedSettingCustomReverseImageSearchLabel": "Custom reverse image search",
@@ -15983,11 +16037,11 @@
     "@uiMoreActions": {
         "description": "Accessible label for icon-only overflow menus."
     },
-    "guildNavbarGuildSelected": "Selected",
+    "guildNavbarGuildSelected": "selected",
     "@guildNavbarGuildSelected": {
         "description": "Screen reader suffix when a guild navbar item is selected."
     },
-    "guildNavbarGuildUnread": "Unread",
+    "guildNavbarGuildUnread": "unread",
     "@guildNavbarGuildUnread": {
         "description": "Screen reader suffix when a guild navbar item has unread channels."
     },
@@ -16000,7 +16054,7 @@
             }
         }
     },
-    "navigationItemMuted": "Muted",
+    "navigationItemMuted": "muted",
     "@navigationItemMuted": {
         "description": "Screen reader suffix when a channel, DM, or favorites item is muted."
     },
@@ -16206,7 +16260,7 @@
     "@guildSettingsWebhooksLoadFailedTitle": {
         "description": "Error title when guild webhooks fail to load."
     },
-    "guildSettingsWebhooksLoadFailedDescription": "There was an error loading the webhooks. Please try again.",
+    "guildSettingsWebhooksLoadFailedDescription": "There was an error loading the webhooks. Try again.",
     "@guildSettingsWebhooksLoadFailedDescription": {
         "description": "Error description when guild webhooks fail to load."
     },
@@ -16263,7 +16317,7 @@
     "@guildSettingsDiscoveryPendingInfo": {
         "description": "Info banner when the discovery application is pending review."
     },
-    "guildSettingsDiscoveryCategoryHelp": "Choose the category that best describes your community. You can change this at any time.",
+    "guildSettingsDiscoveryCategoryHelp": "Choose the category that best describes your community. You can change this any time.",
     "@guildSettingsDiscoveryCategoryHelp": {
         "description": "Help text below the discovery category field."
     },
@@ -16490,7 +16544,7 @@
     "@guildMembersClearAll": {
         "description": "Button to clear all role filters on the community members page."
     },
-    "guildMembersRowsPerPage": "Members per page",
+    "guildMembersRowsPerPage": "Rows per page",
     "@guildMembersRowsPerPage": {
         "description": "Pagination page size label on the community members page."
     },
@@ -16498,7 +16552,7 @@
     "@guildMembersEmptySearch": {
         "description": "Empty state when no members match filters on the community members page."
     },
-    "guildMembersLoadError": "Something went wrong loading members. Please try again later.",
+    "guildMembersLoadError": "Something went wrong loading members. Try again later.",
     "@guildMembersLoadError": {
         "description": "Error state on the community members page."
     },
@@ -16639,7 +16693,7 @@
             }
         }
     },
-    "guildSettingsEmojiUploadFailed": "Failed to upload emojis. Please try again.",
+    "guildSettingsEmojiUploadFailed": "Failed to upload emojis. Try again.",
     "guildSettingsEmojiSomeFailedTitle": "Some emojis couldn't be added",
     "guildSettingsEmojiSomeFailedBody": "Review these files and try again with smaller or simpler images.",
     "guildSettingsEmojiRenameTitle": "Rename emoji",
@@ -16692,7 +16746,7 @@
     "guildSettingsStickerDensityCozy": "Cosy",
     "guildSettingsStickerDensityCompact": "Compact",
     "guildSettingsStickersLoadFailedTitle": "Failed to load stickers",
-    "guildSettingsStickersLoadFailedBody": "There was an error loading the stickers. Please try again.",
+    "guildSettingsStickersLoadFailedBody": "There was an error loading the stickers. Try again.",
     "guildSettingsStickersSearchEmpty": "No stickers found matching your search.",
     "guildSettingsStickersEmptySearch": "No stickers found",
     "guildSettingsStickerNoSlots": "No sticker slots available",
@@ -16769,14 +16823,14 @@
     "keybindActionToggleLastGuildDms": "Toggle between last community and DMs",
     "keybindActionPreviousCommunityOrDms": "Switch to previous community or DMs",
     "keybindActionNextCommunityOrDms": "Switch to next community or DMs",
-    "keybindActionGoToDms": "Go to Direct Messages",
+    "keybindActionGoToDms": "Go to direct messages",
     "keybindActionGoToFirstCommunity": "Go to first community",
     "keybindActionGoToSecondCommunity": "Go to second community",
     "keybindActionGoToThirdCommunity": "Go to third community",
     "keybindActionGoToFourthCommunity": "Go to fourth community",
     "keybindActionGoToFifthCommunity": "Go to fifth community",
     "keybindActionGoToSixthCommunity": "Go to sixth community",
-    "keybindActionGoToSeventhCommunity": "Go to the seventh community",
+    "keybindActionGoToSeventhCommunity": "Go to seventh community",
     "keybindActionGoToEighthCommunity": "Go to eighth community",
     "keybindActionToggleQuickSwitcher": "Toggle quick switcher",
     "keybindActionCreateOrJoinCommunity": "Create or join a community",
@@ -16814,7 +16868,7 @@
     "keybindActionSearchMessages": "Search messages",
     "keybindActionOpenContextMenu": "Open the context menu",
     "keybindActionOpenSettings": "Open your settings",
-    "keybindActionOpenThemeStudio": "Open theme studio pop-out",
+    "keybindActionOpenThemeStudio": "Open theme studio popout",
     "keybindActionZoomIn": "Zoom in",
     "keybindActionZoomOut": "Zoom out",
     "keybindActionZoomReset": "Reset zoom",
@@ -16825,5 +16879,424 @@
     "homeQuickActionDms": "DMs",
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
-    }
+    },
+    "applicationsTitle": "Applications",
+    "@applicationsTitle": {
+        "description": "Title for the developer Applications settings tab."
+    },
+    "applicationsCreate": "Create application",
+    "@applicationsCreate": {
+        "description": "Button that opens the create-application sheet."
+    },
+    "applicationsCreateSubmit": "Create",
+    "@applicationsCreateSubmit": {
+        "description": "Primary submit label in the create-application sheet."
+    },
+    "applicationsCreateClaimTooltip": "Claim your account to create applications.",
+    "@applicationsCreateClaimTooltip": {
+        "description": "Tooltip on the disabled create button for unclaimed accounts."
+    },
+    "applicationsDocsLink": "Read the documentation ({domain})",
+    "@applicationsDocsLink": {
+        "description": "Link to developer documentation. domain is the docs host.",
+        "placeholders": {
+            "domain": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsLoadError": "Unable to load applications",
+    "@applicationsLoadError": {
+        "description": "Error title when the applications list fails to load."
+    },
+    "applicationsLoadErrorDescription": "Check your connection and try again.",
+    "@applicationsLoadErrorDescription": {
+        "description": "Error body when the applications list fails to load."
+    },
+    "applicationsEmptyTitle": "No applications yet",
+    "@applicationsEmptyTitle": {
+        "description": "Empty-state title when the user has no developer applications."
+    },
+    "applicationsEmptyDescription": "Create your first application to get started with the {apiName}.",
+    "@applicationsEmptyDescription": {
+        "description": "Empty-state body. apiName is the product API display name.",
+        "placeholders": {
+            "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsName": "Application name",
+    "@applicationsName": {
+        "description": "Label for the application name field."
+    },
+    "applicationsNameHint": "My application",
+    "@applicationsNameHint": {
+        "description": "Placeholder for the application name field."
+    },
+    "applicationsNameRequired": "Application name is required",
+    "@applicationsNameRequired": {
+        "description": "Validation error when the application name is empty."
+    },
+    "applicationsBackToList": "Back to list",
+    "@applicationsBackToList": {
+        "description": "Button that returns from application details to the list."
+    },
+    "applicationsDetailLoadError": "Couldn't load this application",
+    "@applicationsDetailLoadError": {
+        "description": "Error title when a single application fails to load."
+    },
+    "applicationsDetailLoadErrorDescription": "Try again or go back to the applications list.",
+    "@applicationsDetailLoadErrorDescription": {
+        "description": "Error body when a single application fails to load."
+    },
+    "applicationsId": "Application ID",
+    "@applicationsId": {
+        "description": "Label for the read-only application ID field."
+    },
+    "applicationsCopyId": "Copy ID",
+    "@applicationsCopyId": {
+        "description": "Button that copies the application ID."
+    },
+    "applicationsSecretsTitle": "Secrets & tokens",
+    "@applicationsSecretsTitle": {
+        "description": "Section title for client secret and bot token."
+    },
+    "applicationsSecretsDescription": "Keep these safe. Regenerating will break existing integrations.",
+    "@applicationsSecretsDescription": {
+        "description": "Section description for secrets and tokens."
+    },
+    "applicationsClientSecret": "Client secret",
+    "@applicationsClientSecret": {
+        "description": "Label for the OAuth2 client secret field."
+    },
+    "applicationsBotToken": "Bot token",
+    "@applicationsBotToken": {
+        "description": "Label for the bot token field."
+    },
+    "applicationsRegenerate": "Regenerate",
+    "@applicationsRegenerate": {
+        "description": "Button that rotates a secret or token."
+    },
+    "applicationsRegenerateClientSecretTitle": "Regenerate client secret?",
+    "@applicationsRegenerateClientSecretTitle": {
+        "description": "Confirmation title when regenerating the client secret."
+    },
+    "applicationsRegenerateBotTokenTitle": "Regenerate bot token?",
+    "@applicationsRegenerateBotTokenTitle": {
+        "description": "Confirmation title when regenerating the bot token."
+    },
+    "applicationsRegenerateClientSecretDescription": "Regenerating will invalidate the current secret. Update any code that uses the old value.",
+    "@applicationsRegenerateClientSecretDescription": {
+        "description": "Confirmation body when regenerating the client secret."
+    },
+    "applicationsRegenerateBotTokenDescription": "Regenerating will invalidate the current token. Update any code that uses the old value.",
+    "@applicationsRegenerateBotTokenDescription": {
+        "description": "Confirmation body when regenerating the bot token."
+    },
+    "applicationsClientSecretRegenerated": "Client secret regenerated. Update any code that uses the old secret.",
+    "@applicationsClientSecretRegenerated": {
+        "description": "Toast after a client secret is rotated."
+    },
+    "applicationsBotTokenRegenerated": "Bot token regenerated. Update any code that uses the old token.",
+    "@applicationsBotTokenRegenerated": {
+        "description": "Toast after a bot token is rotated."
+    },
+    "applicationsRegenerateFailed": "Couldn't regenerate secret",
+    "@applicationsRegenerateFailed": {
+        "description": "Error toast when rotating a secret or token fails."
+    },
+    "applicationsInfoTitle": "Application information",
+    "@applicationsInfoTitle": {
+        "description": "Section title for basic application settings."
+    },
+    "applicationsInfoDescription": "Basic settings and allowed redirect URIs.",
+    "@applicationsInfoDescription": {
+        "description": "Section description for basic application settings."
+    },
+    "applicationsPublicBot": "Public bot",
+    "@applicationsPublicBot": {
+        "description": "Switch label for allowing anyone to invite the bot."
+    },
+    "applicationsPublicBotDescription": "Allow anyone to invite this bot to their communities.",
+    "@applicationsPublicBotDescription": {
+        "description": "Switch description for public bot."
+    },
+    "applicationsRequireCodeGrant": "Require OAuth2 code grant",
+    "@applicationsRequireCodeGrant": {
+        "description": "Switch label for requiring an OAuth2 code grant on invite."
+    },
+    "applicationsRequireCodeGrantDescription": "Requires a redirect URI and an authorisation code when inviting this bot.",
+    "@applicationsRequireCodeGrantDescription": {
+        "description": "Switch description for OAuth2 code grant."
+    },
+    "applicationsRedirectUris": "Redirect URIs",
+    "@applicationsRedirectUris": {
+        "description": "Label for the redirect URI list."
+    },
+    "applicationsAddRedirect": "Add redirect",
+    "@applicationsAddRedirect": {
+        "description": "Button that adds another redirect URI row."
+    },
+    "applicationsDeleteRedirect": "Delete redirect URI",
+    "@applicationsDeleteRedirect": {
+        "description": "Accessibility label for removing a redirect URI row."
+    },
+    "applicationsBotProfileTitle": "Bot profile",
+    "@applicationsBotProfileTitle": {
+        "description": "Section title for bot profile settings."
+    },
+    "applicationsBotProfileDescription": "Avatar, tag, and rich profile details for your bot.",
+    "@applicationsBotProfileDescription": {
+        "description": "Section description for bot profile settings."
+    },
+    "applicationsBotAvatar": "Bot avatar",
+    "@applicationsBotAvatar": {
+        "description": "Label for the bot avatar preview."
+    },
+    "applicationsUsernameRequired": "Username is required",
+    "@applicationsUsernameRequired": {
+        "description": "Validation error when the bot username is empty."
+    },
+    "applicationsUsernameTooLong": "Username must be at most 32 characters",
+    "@applicationsUsernameTooLong": {
+        "description": "Validation error when the bot username is too long."
+    },
+    "applicationsUsernameInvalid": "Username can only contain letters, numbers, and underscores",
+    "@applicationsUsernameInvalid": {
+        "description": "Validation error when the bot username has invalid characters."
+    },
+    "applicationsBotUsername": "Bot username",
+    "@applicationsBotUsername": {
+        "description": "Label for the bot username field."
+    },
+    "applicationsDiscriminator": "Discriminator",
+    "@applicationsDiscriminator": {
+        "description": "Label for the read-only bot discriminator."
+    },
+    "applicationsBotBio": "Bot bio",
+    "@applicationsBotBio": {
+        "description": "Label for the bot biography field."
+    },
+    "applicationsBotBioHint": "A helpful bot that does amazing things!",
+    "@applicationsBotBioHint": {
+        "description": "Placeholder for the bot biography field."
+    },
+    "applicationsNoBotBanner": "No bot banner",
+    "@applicationsNoBotBanner": {
+        "description": "Placeholder shown when the bot has no banner."
+    },
+    "applicationsFriendlyBot": "Friendly bot",
+    "@applicationsFriendlyBot": {
+        "description": "Switch label for allowing friend requests to the bot."
+    },
+    "applicationsFriendlyBotDescription": "Allow users to send this bot friend requests for manual approval.",
+    "@applicationsFriendlyBotDescription": {
+        "description": "Switch description for friendly bot."
+    },
+    "applicationsManualFriendApproval": "Require manual friend approval",
+    "@applicationsManualFriendApproval": {
+        "description": "Switch label for requiring manual friend-request approval."
+    },
+    "applicationsManualFriendApprovalDescription": "Friend requests to this bot need manual approval.",
+    "@applicationsManualFriendApprovalDescription": {
+        "description": "Switch description for manual friend approval."
+    },
+    "applicationsOauthBuilderTitle": "OAuth2 URL builder",
+    "@applicationsOauthBuilderTitle": {
+        "description": "Section title for the authorize URL builder."
+    },
+    "applicationsScopes": "Scopes",
+    "@applicationsScopes": {
+        "description": "Label for OAuth2 scope checkboxes."
+    },
+    "applicationsRedirectUri": "Redirect URI",
+    "@applicationsRedirectUri": {
+        "description": "Label for the authorize URL redirect selector."
+    },
+    "applicationsSelectRedirectUri": "Select a redirect URI",
+    "@applicationsSelectRedirectUri": {
+        "description": "Placeholder for the authorize URL redirect selector."
+    },
+    "applicationsRedirectRequiredCodeGrant": "Redirect URI is required because this bot requires OAuth2 code grant.",
+    "@applicationsRedirectRequiredCodeGrant": {
+        "description": "Validation shown when a redirect is required by code grant."
+    },
+    "applicationsRedirectRequiredScopes": "Redirect URI is required when not using only the bot scope.",
+    "@applicationsRedirectRequiredScopes": {
+        "description": "Validation shown when a redirect is required by selected scopes."
+    },
+    "applicationsBotPermissions": "Bot permissions",
+    "@applicationsBotPermissions": {
+        "description": "Label for bot permission checkboxes in the URL builder."
+    },
+    "applicationsAuthorizeUrl": "Authorise URL",
+    "@applicationsAuthorizeUrl": {
+        "description": "Label for the generated authorize URL field."
+    },
+    "applicationsAuthorizeUrlPlaceholder": "Select scopes (and redirect URI if required)",
+    "@applicationsAuthorizeUrlPlaceholder": {
+        "description": "Placeholder when the authorize URL cannot be built yet."
+    },
+    "applicationsCopiedUrl": "Copied URL to clipboard",
+    "@applicationsCopiedUrl": {
+        "description": "Toast after copying the authorize URL."
+    },
+    "applicationsDangerTitle": "Danger zone",
+    "@applicationsDangerTitle": {
+        "description": "Section title for deleting an application."
+    },
+    "applicationsDangerSubtitle": "This cannot be undone. Removing the application also deletes its bot.",
+    "@applicationsDangerSubtitle": {
+        "description": "Section subtitle for deleting an application."
+    },
+    "applicationsDangerHelper": "Once deleted, the application and its credentials are permanently removed.",
+    "@applicationsDangerHelper": {
+        "description": "Helper text in the application danger zone."
+    },
+    "applicationsDelete": "Delete application",
+    "@applicationsDelete": {
+        "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteFailed": "Couldn't delete application",
+    "@applicationsDeleteFailed": {
+        "description": "Error toast when deleting an application fails."
+    },
+    "applicationsUpdated": "Application updated successfully",
+    "@applicationsUpdated": {
+        "description": "Toast after saving application changes."
+    },
+    "applicationsNoChanges": "No changes to save",
+    "@applicationsNoChanges": {
+        "description": "Toast when save is pressed with no dirty fields."
+    },
+    "applicationsSearchBots": "Applications & bots",
+    "@applicationsSearchBots": {
+        "description": "Settings search entry for the Applications tab."
+    },
+    "applicationsSearchBotsDescription": "Create and manage applications and bots for your account",
+    "@applicationsSearchBotsDescription": {
+        "description": "Settings search description for the Applications tab."
+    },
+    "applicationsSearchInfoDescription": "Edit application basics and redirect URIs",
+    "@applicationsSearchInfoDescription": {
+        "description": "Settings search description for application information."
+    },
+    "applicationsSearchBotProfileDescription": "Edit the bot avatar, tag, bio, banner, and friend request behaviour",
+    "@applicationsSearchBotProfileDescription": {
+        "description": "Settings search description for bot profile."
+    },
+    "applicationsSearchOauthDescription": "Build an authorisation URL with scopes, redirects, and bot permissions",
+    "@applicationsSearchOauthDescription": {
+        "description": "Settings search description for the OAuth2 URL builder."
+    },
+    "applicationsSearchSecretsDescription": "View and regenerate client secrets and bot tokens",
+    "@applicationsSearchSecretsDescription": {
+        "description": "Settings search description for secrets and tokens."
+    },
+    "applicationsSearchBotsKeyword": "Bots",
+    "@applicationsSearchBotsKeyword": {
+        "description": "Settings search synonym for applications."
+    },
+    "applicationsSearchDocumentation": "Documentation",
+    "@applicationsSearchDocumentation": {
+        "description": "Settings search synonym for the applications docs link."
+    },
+    "linkedDevicesViewDetails": "View details",
+    "@linkedDevicesViewDetails": {
+        "description": "Tooltip and accessibility label for opening a linked device details modal."
+    },
+    "linkedDevicesDetailsTitle": "Device details",
+    "@linkedDevicesDetailsTitle": {
+        "description": "Title of the linked device details modal."
+    },
+    "linkedDevicesDetailsDevice": "Device",
+    "@linkedDevicesDetailsDevice": {
+        "description": "Label for the operating system in the linked device details modal."
+    },
+    "linkedDevicesDetailsClient": "Client",
+    "@linkedDevicesDetailsClient": {
+        "description": "Label for the client/platform in the linked device details modal."
+    },
+    "linkedDevicesDetailsLocation": "Location",
+    "@linkedDevicesDetailsLocation": {
+        "description": "Label for the approximate location in the linked device details modal."
+    },
+    "linkedDevicesDetailsIp": "IP address",
+    "@linkedDevicesDetailsIp": {
+        "description": "Label for the masked IP address in the linked device details modal."
+    },
+    "linkedDevicesDetailsLastUsed": "Last used",
+    "@linkedDevicesDetailsLastUsed": {
+        "description": "Label for last activity time in the linked device details modal."
+    },
+    "linkedDevicesCurrentSession": "Current session",
+    "@linkedDevicesCurrentSession": {
+        "description": "Last-used value shown for the session currently making the request."
+    },
+    "linkedDevicesUnknown": "Unknown",
+    "@linkedDevicesUnknown": {
+        "description": "Fallback when a linked device detail such as last used time is missing."
+    },
+    "voiceOutputRouteSpeaker": "Speaker",
+    "@voiceOutputRouteSpeaker": {
+        "description": "Voice output route that plays call audio through the phone speaker."
+    },
+    "voiceOutputRouteHeadset": "Headphones",
+    "@voiceOutputRouteHeadset": {
+        "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
+    },
+    "doubleTapReactionEdit": "Edit",
+    "@doubleTapReactionEdit": {
+        "description": "Button that opens the double-tap default emoji picker."
+    },
+    "notificationReplyPlaceholder": "Message",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "chatMessagePinConfirm": "Pin",
+    "@chatMessagePinConfirm": {
+        "description": "Confirm button label on the pin message confirmation modal."
+    },
+    "chatMessagePinConfirmDescription": "Pin this message to the channel for everyone to see.",
+    "@chatMessagePinConfirmDescription": {
+        "description": "Body text for the pin message confirmation modal."
+    },
+    "appIconOptionDefault": "Default",
+    "@appIconOptionDefault": {
+        "description": "App icon option for the build default icon (release or canary)."
+    },
+    "appIconOptionSweden": "Sweden",
+    "@appIconOptionSweden": {
+        "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "userSettingsLogOutConfirmTitle": "Sign out?",
+    "@userSettingsLogOutConfirmTitle": {
+        "description": "Title of the confirmation shown before logging out from user settings."
+    },
+    "userSettingsLogOutConfirmDescription": "You can sign back in at any time.",
+    "@userSettingsLogOutConfirmDescription": {
+        "description": "Body of the confirmation shown before logging out from user settings."
+    },
+    "savedMessagesAddedToast": "Added to bookmarks",
+    "@savedMessagesAddedToast": {
+        "description": "Toast confirming a message was bookmarked."
+    },
+    "savedMessagesRemovedToast": "Removed from bookmarks",
+    "@savedMessagesRemovedToast": {
+        "description": "Toast confirming a message bookmark was removed."
+    },
+    "guildSettingsDeleteCommunity": "Delete community",
+    "@guildSettingsDeleteCommunity": {
+        "description": "Destructive footer button in community settings. Opens the delete-community confirmation."
+    },
+    "guildSettingsDeleteCommunityConfirm": "Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.",
+    "@guildSettingsDeleteCommunityConfirm": {
+        "description": "Confirmation copy for deleting a community."
+    },
+    "guildSettingsCommunityDeleted": "Community deleted",
+    "@guildSettingsCommunityDeleted": {
+        "description": "Success toast after a community is deleted."
+    },
+    "assistantOkMessageSent": "Message sent."
 }

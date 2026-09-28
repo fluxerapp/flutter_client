@@ -107,16 +107,16 @@ void main() {
 
     testWidgets('shows mark as read when guild has unread', (tester) async {
       await pumpPanel(tester, hasUnread: true);
-      expect(find.text('Mark as Read'), findsOneWidget);
-      expect(find.text('Notification Settings'), findsOneWidget);
-      expect(find.text('More Options'), findsOneWidget);
+      expect(find.text('Mark as read'), findsOneWidget);
+      expect(find.text('Notification settings'), findsOneWidget);
+      expect(find.text('More options'), findsOneWidget);
     });
 
     testWidgets('hides mark as read when guild has no unread', (tester) async {
       await pumpPanel(tester, hasUnread: false);
-      expect(find.text('Mark as Read'), findsNothing);
-      expect(find.text('Notification Settings'), findsOneWidget);
-      expect(find.text('More Options'), findsOneWidget);
+      expect(find.text('Mark as read'), findsNothing);
+      expect(find.text('Notification settings'), findsOneWidget);
+      expect(find.text('More options'), findsOneWidget);
     });
   });
 

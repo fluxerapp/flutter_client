@@ -239,7 +239,7 @@ void main() {
       final List<String> labels = flattenChannelMenuLabels(groups);
       expect(actions, contains(ChannelMenuAction.copyLink));
       expect(actions, isNot(contains(ChannelMenuAction.copyRedirectLink)));
-      expect(labels, contains('Copy Link'));
+      expect(labels, contains('Copy link'));
       expect(labels, isNot(contains('Copy redirect link')));
     });
 

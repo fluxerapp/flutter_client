@@ -110,6 +110,8 @@ dependencies:
   web_socket_channel: ^3.0.2
   window_manager: ^0.5.2
   wakelock_plus: ^1.8.0
+  dynamic_app_icon_flutter_plus: ^2.2.1
+  altcha_widget: ^2.0.5
 
 dependency_overrides:
   # mockito >=5.6.5 requires analyzer ^13, incompatible with the overrides below.
@@ -172,6 +174,7 @@ flutter:
     - assets/images/badges/
     - assets/images/connections/
     - assets/images/browsers/
+    - assets/images/app_icon_previews/ios/
     - assets/emojis.json
     - assets/emoji-sprites/
 

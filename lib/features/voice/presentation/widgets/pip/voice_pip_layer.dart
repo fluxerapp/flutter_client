@@ -691,6 +691,7 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
         _lastPipSubscribeKey = subscribeKey;
         final Room? liveKitRoom = voice.liveKitRoom;
         final String? tileId = featuredTileId;
+        final String? voiceConnectionId = voice.activeConnectionId;
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (!mounted || liveKitRoom == null) {
             return;
@@ -699,6 +700,16 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
             syncCollapsedVoiceVideoSubscriptions(
               room: liveKitRoom,
               featuredTileId: tileId,
+              isSessionCurrent: () {
+                if (!mounted) {
+                  return false;
+                }
+                final VoiceSessionState current = ref.read(
+                  voiceSessionProvider,
+                );
+                return identical(current.liveKitRoom, liveKitRoom) &&
+                    current.activeConnectionId == voiceConnectionId;
+              },
             ),
           );
         });

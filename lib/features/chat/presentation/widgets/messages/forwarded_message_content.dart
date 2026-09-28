@@ -14,9 +14,9 @@ import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attach
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_link.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_rich.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_spoiler_wrap.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_video.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_gallery_utils.dart';
@@ -56,7 +56,6 @@ class ForwardedMessageContent extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final spoileredUrls = extractSpoileredUrls(snapshot.content);
     final attachmentSize = snapshot.hasCompactAttachments
         ? MediaDimensionSize.small
         : chatPreferences.attachmentMediaDimensionSize;
@@ -128,10 +127,12 @@ class ForwardedMessageContent extends ConsumerWidget {
                         .map((entry) {
                           final int embedIndex = entry.$1;
                           final embed = entry.$2;
-                          final spoilerSyncKeys = spoilerSyncKeysForEmbed(
-                            embed,
-                            spoileredUrls,
-                          );
+                          final spoilerSyncKeys =
+                              spoilerSyncKeysForMessageEmbed(
+                                messageContent: snapshot.content,
+                                embed: embed,
+                                messageEmbeds: snapshot.embeds,
+                              );
                           return Padding(
                             padding: const EdgeInsets.only(top: 4),
                             child: _ForwardedEmbed(
@@ -237,10 +238,6 @@ class _ForwardedEmbed extends StatelessWidget {
       EmbedType.image || EmbedType.gifv => EmbedImage(
         embed: embed,
         dimensionSize: dimensionSize,
-        isSpoiler: isSpoiler,
-        revealSpoiler: revealSpoilers,
-        spoilerSyncController: spoilerSyncController,
-        spoilerSyncKeys: spoilerSyncKeys,
         channelId: channelId,
         messageId: messageId,
         embedIndex: embedIndex,
@@ -259,27 +256,18 @@ class _ForwardedEmbed extends StatelessWidget {
       EmbedType.video => EmbedVideo(
         embed: embed,
         dimensionSize: dimensionSize,
-        isSpoiler: isSpoiler,
-        revealSpoiler: revealSpoilers,
-        spoilerSyncController: spoilerSyncController,
-        spoilerSyncKeys: spoilerSyncKeys,
         channelId: channelId,
         embedIndex: embedIndex,
         videoActionScope: mediaActionScope,
       ),
     };
 
-    if (embed.type == EmbedType.image ||
-        embed.type == EmbedType.gifv ||
-        embed.type == EmbedType.video) {
-      return child;
-    }
-
-    return SpoilerOverlay(
+    return wrapEmbedSpoiler(
+      type: embed.type,
       isSpoiler: isSpoiler,
-      initiallyRevealed: revealSpoilers,
+      revealSpoilers: revealSpoilers,
       spoilerSyncController: spoilerSyncController,
-      syncKeys: spoilerSyncKeys,
+      spoilerSyncKeys: spoilerSyncKeys,
       child: child,
     );
   }

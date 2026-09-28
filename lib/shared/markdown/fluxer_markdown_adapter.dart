@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_alert.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_mention.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
+import 'package:fluxer_app/features/chat/utils/messages/spoiler_utils.dart';
 import 'package:fluxer_app/features/emoji/presentation/sheets/emoji_info_bottom_sheet.dart';
 import 'package:fluxer_app/features/guilds/utils/invite_link_navigator.dart';
 import 'package:fluxer_app/features/settings/utils/open_user_settings_deep_link.dart';
@@ -22,17 +23,6 @@ import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/emoji_utils.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:go_router/go_router.dart';
-
-String? _normalizeSpoilerSyncUrl(String url) {
-  final uri = Uri.tryParse(url);
-  if (uri == null || !uri.hasScheme || uri.host.isEmpty) {
-    return null;
-  }
-  final normalized = uri.toString();
-  return normalized.endsWith('/')
-      ? normalized.substring(0, normalized.length - 1)
-      : normalized;
-}
 
 String _fluxerAppLinkToHttps(String href) {
   if (href.startsWith('fluxer://')) {
@@ -274,7 +264,7 @@ FluxerMarkdownConfig createFluxerMarkdownConfig({
     onTapLink: _fluxerOnTapLink,
     spoilersInitiallyRevealed: revealSpoilers,
     spoilerSyncController: spoilerSyncController,
-    spoilerSyncKeyNormalizer: _normalizeSpoilerSyncUrl,
+    spoilerSyncKeyNormalizer: normalizeSpoilerUrl,
     timestampFormatter: timestampFormatter,
     alertBuilder: _fluxerAlertBuilder,
     onCopyCode: _fluxerOnCopyCode,

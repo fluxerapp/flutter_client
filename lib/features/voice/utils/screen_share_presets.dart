@@ -1,6 +1,8 @@
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:livekit_client/livekit_client.dart';
 
+const int kScreenShareMaxVideoBitrateBps = 9000000;
+
 const List<int> kSupportedScreenShareFrameRates = <int>[15, 30, 60];
 
 VideoParameters screenShareVideoParameters({
@@ -12,7 +14,7 @@ VideoParameters screenShareVideoParameters({
     ScreenshareResolution.high => VideoParameters(
       dimensions: const VideoDimensions(1920, 1080),
       encoding: VideoEncoding(
-        maxBitrate: 3 * 1000 * 1000,
+        maxBitrate: kScreenShareMaxVideoBitrateBps,
         maxFramerate: clampedFrameRate,
       ),
     ),

@@ -58,6 +58,8 @@ ProviderContainer _makeContainer(_BulkAdapter adapter) {
 }
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   test('flushes pending acks when app moves to background', () async {
     final adapter = _BulkAdapter();
     final container = _makeContainer(adapter);

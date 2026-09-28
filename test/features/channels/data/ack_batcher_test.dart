@@ -192,4 +192,24 @@ void main() {
       expect(adapter.recordedBatches.first.single['message_id'], '200');
     },
   );
+
+  test('foreground batching uses shorter delay than background', () async {
+    final adapter = _BulkAckAdapter();
+    final batcher = AckBatcher(client: _client(adapter));
+    addTearDown(batcher.dispose);
+
+    batcher.setForegroundBatching(foreground: true);
+    batcher.queue(
+      channelId: 'c-1',
+      messageId: 'm-1',
+      immediate: false,
+      hadMentions: false,
+    );
+
+    await Future<void>.delayed(const Duration(milliseconds: 400));
+    expect(adapter.recordedBatches, isEmpty);
+
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+    expect(adapter.recordedBatches, hasLength(1));
+  });
 }

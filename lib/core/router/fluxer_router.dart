@@ -3,6 +3,7 @@ import 'dart:async' show unawaited;
 import 'package:fluxer_app/core/observability/fluxer_route_trace_observer.dart';
 import 'package:fluxer_app/core/providers/app_startup_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/providers/splash_exit_allowed_provider.dart';
@@ -64,6 +65,7 @@ import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/voice/presentation/dm_voice_call_fullscreen_page.dart'
     deferred as dm_voice_call;
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_dart/gateway.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -281,7 +283,9 @@ GoRouter fluxerRouter(Ref ref) {
       if (isAuthenticated &&
           !isConnectionFailed &&
           isOnReconnecting &&
-          isGatewayReady) {
+          (isGatewayReady ||
+              ref.read(gatewayConnectionProvider).state ==
+                  GatewayState.connected)) {
         return ref
             .read(preReconnectingLocationProvider.notifier)
             .takeOrRestore(

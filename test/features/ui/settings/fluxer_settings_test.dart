@@ -103,12 +103,12 @@ void main() {
                 FluxerSettingsFormSection(
                   title: 'Profile',
                   description: 'Shown on your public account.',
-                  children: [Text('Display Name'), Text('Bio')],
+                  children: [Text('Display name'), Text('Bio')],
                 ),
                 FluxerSettingsDangerZone(
-                  title: 'Danger Zone',
+                  title: 'Danger zone',
                   description: 'These actions are permanent.',
-                  child: Text('Delete Account'),
+                  child: Text('Delete account'),
                 ),
               ],
             ),
@@ -118,10 +118,10 @@ void main() {
 
       expect(find.text('Profile'), findsOneWidget);
       expect(find.text('Shown on your public account.'), findsOneWidget);
-      expect(find.text('Display Name'), findsOneWidget);
-      expect(find.text('Danger Zone'), findsOneWidget);
+      expect(find.text('Display name'), findsOneWidget);
+      expect(find.text('Danger zone'), findsOneWidget);
       expect(find.text('These actions are permanent.'), findsOneWidget);
-      expect(find.text('Delete Account'), findsOneWidget);
+      expect(find.text('Delete account'), findsOneWidget);
     });
   });
 }

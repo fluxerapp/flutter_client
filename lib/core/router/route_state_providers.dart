@@ -4,7 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_kind.dart';
 import 'package:fluxer_app/core/router/shell_location_resolver.dart';
+import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
+import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -255,16 +257,23 @@ String? activeChannelId(Ref ref) {
 }
 
 /// Guild context for the active chat view. Uses the route guild ID when
-/// present; otherwise resolves from the active channel row in the DB.
+/// present; otherwise resolves from the in-memory channel list or DB row.
 @riverpod
 String? contextualGuildId(Ref ref) {
   final String? routeGuildId = ref.watch(activeGuildIdProvider);
-  if (routeGuildId != null) {
+  if (routeGuildId != null && routeGuildId.isNotEmpty) {
     return routeGuildId;
   }
   final String? channelId = ref.watch(activeChannelIdProvider);
   if (channelId == null || channelId.isEmpty) {
     return null;
+  }
+  final channel = findChannelById(
+    ref.watch(channelListViewModelProvider),
+    channelId,
+  );
+  if (channel != null && channel.guildId.isNotEmpty) {
+    return channel.guildId;
   }
   return ref.watch(channelGuildIdProvider(channelId)).value;
 }

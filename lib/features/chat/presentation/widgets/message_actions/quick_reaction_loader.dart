@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/qu
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 
 Future<List<QuickReactionItem>?> loadQuickReactionItems(
@@ -112,6 +113,7 @@ class MessageQuickReactionRow extends ConsumerStatefulWidget {
 class _MessageQuickReactionRowState
     extends ConsumerState<MessageQuickReactionRow> {
   List<QuickReactionItem> _items = kQuickReactionDefaults;
+  String? _lastLoadedGuildKey;
 
   @override
   void initState() {
@@ -119,13 +121,35 @@ class _MessageQuickReactionRowState
     unawaited(_refreshItems());
   }
 
+  @override
+  void didUpdateWidget(MessageQuickReactionRow oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.channelId != widget.channelId ||
+        oldWidget.guildId != widget.guildId) {
+      _lastLoadedGuildKey = null;
+      unawaited(_refreshItems());
+    }
+  }
+
+  String? _resolvedGuildId() {
+    return widget.guildId ?? resolveGuildIdForChannel(ref, widget.channelId);
+  }
+
+  String _guildLoadKey(String? guildId) =>
+      '${widget.channelId}:${guildId ?? ''}';
+
   Future<void> _refreshItems() async {
+    final String? guildId = _resolvedGuildId();
+    final String loadKey = _guildLoadKey(guildId);
+    _lastLoadedGuildKey = loadKey;
     final loaded = await loadQuickReactionItems(
       ref,
       channelId: widget.channelId,
-      guildId: widget.guildId,
+      guildId: guildId,
     );
-    if (!mounted || loaded == null) {
+    if (!mounted ||
+        loaded == null ||
+        _guildLoadKey(_resolvedGuildId()) != loadKey) {
       return;
     }
     setState(() => _items = loaded);
@@ -133,6 +157,10 @@ class _MessageQuickReactionRowState
 
   @override
   Widget build(BuildContext context) {
+    final String loadKey = _guildLoadKey(_resolvedGuildId());
+    if (loadKey != _lastLoadedGuildKey) {
+      unawaited(_refreshItems());
+    }
     return QuickReactionRow(
       items: _items,
       onReaction: widget.onReaction,

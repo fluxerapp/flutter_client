@@ -51,7 +51,7 @@ jobs:
           config-name: release-drafter-beta.yml
           token: ${{ steps.create-token.outputs.token }}
           commitish: beta
-          version: ${{ steps.resolve_beta_version.outputs.version_name }}
+          version: ${{ steps.resolve_beta_version.outputs.release_drafter_version }}
 
       - name: Append direct commits
         env:

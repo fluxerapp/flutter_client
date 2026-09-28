@@ -4,6 +4,7 @@ import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_dart/export.dart';
 
 const Duration kAckBatchDelay = Duration(seconds: 3);
+const Duration kAckForegroundBatchDelay = Duration(milliseconds: 750);
 const int kAckBatchSize = 100;
 const Duration kAckRetryBaseDelay = Duration(seconds: 5);
 const Duration kAckRetryMaxDelay = Duration(seconds: 60);
@@ -24,7 +25,9 @@ class AckBatcher {
     this.batchSize = kAckBatchSize,
     this.retryBaseDelay = kAckRetryBaseDelay,
     this.retryMaxDelay = kAckRetryMaxDelay,
-  });
+  }) {
+    _queueBatchDelay = batchDelay;
+  }
 
   final FluxerClient _client;
 
@@ -40,6 +43,22 @@ class AckBatcher {
   Timer? _flushTimer;
   Future<void>? _inflightFlush;
   bool _disposed = false;
+  late Duration _queueBatchDelay;
+
+  void setForegroundBatching({required bool foreground}) {
+    _queueBatchDelay = foreground ? kAckForegroundBatchDelay : batchDelay;
+    if (_disposed || _pending.isEmpty) {
+      return;
+    }
+    final DateTime now = DateTime.now();
+    final DateTime cap = now.add(_queueBatchDelay);
+    for (final _PendingAck entry in _pending.values) {
+      if (entry.deadline.isAfter(cap)) {
+        entry.deadline = cap;
+      }
+    }
+    _rescheduleTimer();
+  }
 
   void queue({
     required String channelId,
@@ -51,7 +70,9 @@ class AckBatcher {
       return;
     }
     final now = DateTime.now();
-    final deadline = (immediate || hadMentions) ? now : now.add(batchDelay);
+    final deadline = (immediate || hadMentions)
+        ? now
+        : now.add(_queueBatchDelay);
     final existing = _pending[channelId];
     if (existing == null) {
       _pending[channelId] = _PendingAck(

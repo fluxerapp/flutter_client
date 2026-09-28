@@ -23,6 +23,25 @@ def normalize_beta_number(beta_number: int) -> int:
     return beta_number
 
 
+def semver_numeric_triplet(version: str) -> str:
+    parts = version.split(".")
+    if len(parts) != 3:
+        return version
+    try:
+        return ".".join(str(int(part)) for part in parts)
+    except ValueError:
+        return version
+
+
+def semver_beta_version_name(version_name: str) -> str:
+    """Semver form for release-drafter (no zero-padded month)."""
+    match = re.match(r"^(\d+\.\d+\.\d+)-beta\.(\d+)$", version_name)
+    if match is None:
+        return version_name
+    base = semver_numeric_triplet(match.group(1))
+    return f"{base}-beta.{int(match.group(2))}"
+
+
 def canonical_release_base(version: str) -> str | None:
     parts = version.split(".")
     if len(parts) != 3:
@@ -199,8 +218,10 @@ def _write_github_output(*, version_name: str, beta_number: int, tag_name: str |
     github_output = os.environ.get("GITHUB_OUTPUT", "").strip()
     if github_output == "":
         return
+    release_drafter_version = semver_beta_version_name(version_name)
     with open(github_output, "a", encoding="utf-8") as handle:
         handle.write(f"version_name={version_name}\n")
+        handle.write(f"release_drafter_version={release_drafter_version}\n")
         handle.write(f"beta_number={beta_number}\n")
         if tag_name is not None:
             handle.write(f"tag_name={tag_name}\n")

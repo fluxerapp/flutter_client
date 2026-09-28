@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:fake_async/fake_async.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
@@ -56,17 +57,31 @@ class _TestGatewayConnection extends GatewayConnection {
   }
 }
 
+class _ForceReconnectGatewayConnection extends _TestGatewayConnection {
+  int reconnectNowCalls = 0;
+
+  @override
+  Future<void> reconnectNow() async {
+    reconnectNowCalls++;
+    emit(GatewayState.reconnecting);
+  }
+}
+
 class _NudgeGatewayConnection extends GatewayConnection {
-  _NudgeGatewayConnection({this.suspended = false})
+  _NudgeGatewayConnection({this.suspended = false, this.likelyStale = false})
     : super(token: 'test', dio: Dio());
 
   final bool suspended;
+  final bool likelyStale;
   int nudgeCalls = 0;
   int reconnectNowCalls = 0;
   GatewayState current = GatewayState.disconnected;
 
   @override
   bool get isReconnectSuspended => suspended;
+
+  @override
+  bool get isLikelyStale => likelyStale;
 
   @override
   GatewayState get state => current;
@@ -78,6 +93,11 @@ class _NudgeGatewayConnection extends GatewayConnection {
 
   @override
   Future<void> reconnectNow() async {
+    reconnectNowCalls++;
+  }
+
+  @override
+  Future<void> unsuspendAndReconnect() async {
     reconnectNowCalls++;
   }
 }
@@ -478,7 +498,7 @@ void main() {
       });
     });
 
-    test('nudges a suspended connection without forcing a socket', () {
+    test('unsuspends a background-suspended connection', () {
       fakeAsync((FakeAsync async) {
         final connection = _NudgeGatewayConnection(suspended: true);
         unawaited(
@@ -488,13 +508,14 @@ void main() {
           ),
         );
         async.flushMicrotasks();
-        expect(connection.nudgeCalls, 1);
+        expect(connection.reconnectNowCalls, 1);
+        expect(connection.nudgeCalls, 0);
       });
     });
 
-    test('reconnects a socket that is still marked connected', () {
+    test('reconnects a stale socket still marked connected', () {
       fakeAsync((FakeAsync async) {
-        final connection = _NudgeGatewayConnection()
+        final connection = _NudgeGatewayConnection(likelyStale: true)
           ..current = GatewayState.connected;
         unawaited(
           nudgeGatewayReconnectAfterResume(
@@ -508,10 +529,10 @@ void main() {
       });
     });
 
-    test('skips when a reconnect is already in progress', () {
+    test('leaves a healthy connected socket alone', () {
       fakeAsync((FakeAsync async) {
         final connection = _NudgeGatewayConnection()
-          ..current = GatewayState.reconnecting;
+          ..current = GatewayState.connected;
         unawaited(
           nudgeGatewayReconnectAfterResume(
             connection,
@@ -519,7 +540,79 @@ void main() {
           ),
         );
         async.flushMicrotasks();
+        expect(connection.reconnectNowCalls, 0);
         expect(connection.nudgeCalls, 0);
+      });
+    });
+
+    test(
+      'force reconnect breaks through an in-progress reconnecting state',
+      () {
+        fakeAsync((FakeAsync async) {
+          final connection = _NudgeGatewayConnection()
+            ..current = GatewayState.reconnecting;
+          unawaited(
+            nudgeGatewayConnectionReconnect(
+              connection,
+              hasConnectivity: () async => true,
+              forceReconnect: true,
+            ),
+          );
+          async.flushMicrotasks();
+          expect(connection.reconnectNowCalls, 1);
+        });
+      },
+    );
+  });
+
+  group('gatewayStateListener failure screen recovery', () {
+    test(
+      'schedules another timeout while reconnecting on the failure screen',
+      () {
+        fakeAsync((FakeAsync async) {
+          final _TestGatewayConnection connection = _TestGatewayConnection();
+          final ProviderContainer container = ProviderContainer(
+            overrides: <Override>[
+              gatewayConnectionProvider.overrideWithValue(connection),
+              appUiForegroundProvider.overrideWithValue(true),
+            ],
+          )..read(gatewayStateListenerProvider);
+
+          container
+              .read(gatewayConnectionFailedProvider.notifier)
+              .setFailed(value: true);
+          connection.emit(GatewayState.reconnecting);
+
+          async.elapse(kGatewayReconnectFailureTimeout);
+          expect(container.read(gatewayConnectionFailedProvider), isTrue);
+
+          container.dispose();
+          unawaited(connection.dispose());
+        });
+      },
+    );
+
+    test('soft timeout forces reconnect before marking failed', () {
+      fakeAsync((FakeAsync async) {
+        final _ForceReconnectGatewayConnection connection =
+            _ForceReconnectGatewayConnection();
+        final ProviderContainer container = ProviderContainer(
+          overrides: <Override>[
+            gatewayConnectionProvider.overrideWithValue(connection),
+            appUiForegroundProvider.overrideWithValue(true),
+          ],
+        )..read(gatewayStateListenerProvider);
+
+        connection.emit(GatewayState.reconnecting);
+        async.elapse(kGatewayReconnectFailureTimeout);
+        expect(connection.reconnectNowCalls, 1);
+        expect(container.read(gatewayConnectionFailedProvider), isFalse);
+
+        async.elapse(kGatewayReconnectFailureTimeout);
+        expect(container.read(gatewayConnectionFailedProvider), isTrue);
+
+        container.dispose();
+        unawaited(connection.dispose());
       });
     });
   });

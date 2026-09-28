@@ -31,7 +31,7 @@ class _DeleteAccountLauncher extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return ElevatedButton(
       onPressed: () => AccountDeleteSheet.show(context, ref),
-      child: const Text('Delete Account'),
+      child: const Text('Delete account'),
     );
   }
 }
@@ -75,7 +75,7 @@ void main() {
       _wrap(container: container, child: const _DeleteAccountLauncher()),
     );
 
-    await tester.tap(find.text('Delete Account'));
+    await tester.tap(find.text('Delete account'));
     await tester.pumpAndSettle();
 
     expect(find.text('Cannot delete account'), findsOneWidget);
@@ -103,7 +103,7 @@ void main() {
       _wrap(container: container, child: const _DeleteAccountLauncher()),
     );
 
-    await tester.tap(find.text('Delete Account'));
+    await tester.tap(find.text('Delete account'));
     await tester.pumpAndSettle();
 
     expect(

@@ -10,7 +10,6 @@
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		184F59D3C4E13DFAB2C06DE7 /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E234D355EEB026D81BF5DA2E /* Pods_RunnerTests.framework */; };
 		331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C807B294A618700263BE5 /* RunnerTests.swift */; };
-		FB0AF0072F5C97000078A536 /* CallRingPayloadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AF0062F5C97000078A535 /* CallRingPayloadTests.swift */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		6B1799F170A79F24FE5D0334 /* ShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A731873E52EB77026A27F23B /* ShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
@@ -25,25 +24,9 @@
 		B2B98F9097C589EDA7A0AD0C /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3055A54FF1FA07BFAC97E137 /* ShareViewController.swift */; };
 		FB041B002F4B711E00771E23 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = FB041AFF2F4B711E00771E23 /* AppIcon.icon */; };
 		FB0ADAC52F5C91D70078A4D4 /* ApplePushBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADAC42F5C91D70078A4D4 /* ApplePushBridge.swift */; };
-		FB0AF0042F5C97000078A533 /* CallRingPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AF0032F5C97000078A532 /* CallRingPayload.swift */; };
-		FB0AF1022F5C98000078A542 /* CallRingUuid.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AF1012F5C98000078A541 /* CallRingUuid.swift */; };
-		FB0AF0052F5C97000078A534 /* CallRingPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AF0032F5C97000078A532 /* CallRingPayload.swift */; };
-		FB0AF1032F5C98000078A543 /* CallRingUuid.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AF1012F5C98000078A541 /* CallRingUuid.swift */; };
-		FBC1A0022F9E220100EA2F01 /* PhysicalKeyboardBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC1A0012F9E220100EA2F01 /* PhysicalKeyboardBridge.swift */; };
-		FBC1A0042F9E220100EA2F03 /* VoiceSpeakerRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC1A0032F9E220100EA2F02 /* VoiceSpeakerRoute.swift */; };
 		FB0ADAC62F5C91D80078A4D4 /* PushNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */; };
 		FB0ADAC72F5C91D80078A4D5 /* PushNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */; };
 		FB0ADAC92F5C91D80078A4D6 /* PushNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */; };
-		FB0AE0212F5C96000078A521 /* SnowflakeTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0202F5C96000078A520 /* SnowflakeTime.swift */; };
-		FB0AE0222F5C96000078A522 /* SnowflakeTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0202F5C96000078A520 /* SnowflakeTime.swift */; };
-		FB0AE0232F5C96000078A523 /* SnowflakeTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0202F5C96000078A520 /* SnowflakeTime.swift */; };
-		FB0AE0122F5C95000078A512 /* WebPushKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0102F5C95000078A510 /* WebPushKeychain.swift */; };
-		FB0AE0142F5C95000078A514 /* WebPushKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0102F5C95000078A510 /* WebPushKeychain.swift */; };
-		FB0AE0162F5C95000078A516 /* WebPushKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0102F5C95000078A510 /* WebPushKeychain.swift */; };
-		FB0AE0132F5C95000078A513 /* WebPushRecordDecryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0112F5C95000078A511 /* WebPushRecordDecryptor.swift */; };
-		FB0AE0152F5C95000078A515 /* WebPushRecordDecryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0112F5C95000078A511 /* WebPushRecordDecryptor.swift */; };
-		FB0AE0172F5C95000078A517 /* WebPushRecordDecryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0112F5C95000078A511 /* WebPushRecordDecryptor.swift */; };
-		FB0AE0192F5C95000078A519 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FB0AE0182F5C95000078A518 /* Localizable.strings */; };
 		FB0ADACB2F5C91D80078A4D7 /* ForegroundPushNotificationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADACA2F5C91D80078A4D7 /* ForegroundPushNotificationPolicy.swift */; };
 		FB0ADACC2F5C91D80078A4D8 /* ForegroundPushNotificationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADACA2F5C91D80078A4D7 /* ForegroundPushNotificationPolicy.swift */; };
 		FB0ADACD2F5C91D80078A4D9 /* ForegroundPushNotificationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADACA2F5C91D80078A4D7 /* ForegroundPushNotificationPolicy.swift */; };
@@ -61,7 +44,22 @@
 		FB0ADB0F2F5C92000078A4EF /* emojis.json in Resources */ = {isa = PBXBuildFile; fileRef = FB0ADB032F5C92000078A4E3 /* emojis.json */; };
 		FB0ADBE12F5C93000078A4F1 /* message.caf in Resources */ = {isa = PBXBuildFile; fileRef = FB0ADBE02F5C93000078A4F0 /* message.caf */; };
 		FB0ADBE22F5C93000078A4F2 /* direct_message.caf in Resources */ = {isa = PBXBuildFile; fileRef = FB0ADBE32F5C93000078A4F3 /* direct_message.caf */; };
+		FB0AE0122F5C95000078A512 /* WebPushKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0102F5C95000078A510 /* WebPushKeychain.swift */; };
+		FB0AE0132F5C95000078A513 /* WebPushRecordDecryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0112F5C95000078A511 /* WebPushRecordDecryptor.swift */; };
+		FB0AE0142F5C95000078A514 /* WebPushKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0102F5C95000078A510 /* WebPushKeychain.swift */; };
+		FB0AE0152F5C95000078A515 /* WebPushRecordDecryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0112F5C95000078A511 /* WebPushRecordDecryptor.swift */; };
+		FB0AE0162F5C95000078A516 /* WebPushKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0102F5C95000078A510 /* WebPushKeychain.swift */; };
+		FB0AE0172F5C95000078A517 /* WebPushRecordDecryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0112F5C95000078A511 /* WebPushRecordDecryptor.swift */; };
+		FB0AE0192F5C95000078A519 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FB0AE0182F5C95000078A518 /* Localizable.strings */; };
+		FB0AE0212F5C96000078A521 /* SnowflakeTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0202F5C96000078A520 /* SnowflakeTime.swift */; };
+		FB0AE0222F5C96000078A522 /* SnowflakeTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0202F5C96000078A520 /* SnowflakeTime.swift */; };
+		FB0AE0232F5C96000078A523 /* SnowflakeTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AE0202F5C96000078A520 /* SnowflakeTime.swift */; };
+		FB0AF0042F5C97000078A533 /* CallRingPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AF0032F5C97000078A532 /* CallRingPayload.swift */; };
+		FB0AF0052F5C97000078A534 /* CallRingPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AF0032F5C97000078A532 /* CallRingPayload.swift */; };
+		FB0AF0072F5C97000078A536 /* CallRingPayloadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AF0062F5C97000078A535 /* CallRingPayloadTests.swift */; };
 		FB0AF0092F5C97000078A538 /* incoming_ring.caf in Resources */ = {isa = PBXBuildFile; fileRef = FB0AF0082F5C97000078A537 /* incoming_ring.caf */; };
+		FB0AF1022F5C98000078A542 /* CallRingUuid.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AF1012F5C98000078A541 /* CallRingUuid.swift */; };
+		FB0AF1032F5C98000078A543 /* CallRingUuid.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AF1012F5C98000078A541 /* CallRingUuid.swift */; };
 		FBA74A012F83B0FA00330527 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBA74A002F83B0FA00330527 /* ReplayKit.framework */; };
 		FBA74A082F83B0FA00330527 /* BroadcastExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = FBA749FF2F83B0FA00330527 /* BroadcastExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FBA74A263F83B0FA00330527 /* Atomic.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA74A203F83B0FA00330527 /* Atomic.swift */; };
@@ -71,6 +69,10 @@
 		FBA74A2A3F83B0FA00330527 /* SocketConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA74A253F83B0FA00330527 /* SocketConnection.swift */; };
 		FBBBF6E93010D5F7005E613C /* receive-sharing-intent in Frameworks */ = {isa = PBXBuildFile; productRef = FBBBF6E83010D5F7005E613C /* receive-sharing-intent */; };
 		FBBF3E5F2FB7A6FD0080FF5E /* NotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = FBBF3E582FB7A6FD0080FF5E /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		FBC1A0022F9E220100EA2F01 /* PhysicalKeyboardBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC1A0012F9E220100EA2F01 /* PhysicalKeyboardBridge.swift */; };
+		FBC1A0042F9E220100EA2F03 /* VoiceSpeakerRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC1A0032F9E220100EA2F02 /* VoiceSpeakerRoute.swift */; };
+		FBF7EE55306987EF00160D72 /* AppIconStarfield.icon in Resources */ = {isa = PBXBuildFile; fileRef = FBF7EE54306987EF00160D72 /* AppIconStarfield.icon */; };
+		FBF7EE57306989E000160D72 /* AppIconSweden.icon in Resources */ = {isa = PBXBuildFile; fileRef = FBF7EE56306989E000160D72 /* AppIconSweden.icon */; };
 		FBF8ABC92F9E0F4900EA2D6F /* CanaryAppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = FBF8ABC82F9E0F4900EA2D6F /* CanaryAppIcon.icon */; };
 /* End PBXBuildFile section */
 
@@ -145,7 +147,6 @@
 		323C4FE138C3CFF89A4B107B /* Pods-RunnerTests.profile-beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.profile-beta.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.profile-beta.xcconfig"; sourceTree = "<group>"; };
 		32ADE8DB6964E19E168902C8 /* Pods-Runner.profile-stable.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-stable.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-stable.xcconfig"; sourceTree = "<group>"; };
 		331C807B294A618700263BE5 /* RunnerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerTests.swift; sourceTree = "<group>"; };
-		FB0AF0062F5C97000078A535 /* CallRingPayloadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallRingPayloadTests.swift; sourceTree = "<group>"; };
 		331C8081294A63A400263BE5 /* RunnerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RunnerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		35C33869E199AFDBEFD8ABB7 /* Pods-RunnerTests.release-canary.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.release-canary.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.release-canary.xcconfig"; sourceTree = "<group>"; };
 		3A339F3E258064EF46FCC0FB /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -201,15 +202,7 @@
 		FB041AFF2F4B711E00771E23 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		FB0ADAC12F5C91D50078A4D4 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		FB0ADAC42F5C91D70078A4D4 /* ApplePushBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplePushBridge.swift; sourceTree = "<group>"; };
-		FB0AF0032F5C97000078A532 /* CallRingPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallRingPayload.swift; sourceTree = "<group>"; };
-		FB0AF1012F5C98000078A541 /* CallRingUuid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallRingUuid.swift; sourceTree = "<group>"; };
-		FBC1A0012F9E220100EA2F01 /* PhysicalKeyboardBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicalKeyboardBridge.swift; sourceTree = "<group>"; };
-		FBC1A0032F9E220100EA2F02 /* VoiceSpeakerRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceSpeakerRoute.swift; sourceTree = "<group>"; };
 		FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationPayload.swift; sourceTree = "<group>"; };
-		FB0AE0202F5C96000078A520 /* SnowflakeTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnowflakeTime.swift; sourceTree = "<group>"; };
-		FB0AE0102F5C95000078A510 /* WebPushKeychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPushKeychain.swift; sourceTree = "<group>"; };
-		FB0AE0112F5C95000078A511 /* WebPushRecordDecryptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPushRecordDecryptor.swift; sourceTree = "<group>"; };
-		FB0AE01A2F5C95000078A51A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FB0ADACA2F5C91D80078A4D7 /* ForegroundPushNotificationPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForegroundPushNotificationPolicy.swift; sourceTree = "<group>"; };
 		FB0ADB002F5C92000078A4E0 /* NotificationImageAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationImageAttachment.swift; sourceTree = "<group>"; };
 		FB0ADB012F5C92000078A4E1 /* NotificationEmojiDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationEmojiDecoder.swift; sourceTree = "<group>"; };
@@ -217,7 +210,14 @@
 		FB0ADB032F5C92000078A4E3 /* emojis.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = emojis.json; path = ../../assets/emojis.json; sourceTree = "<group>"; };
 		FB0ADBE02F5C93000078A4F0 /* message.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = message.caf; sourceTree = "<group>"; };
 		FB0ADBE32F5C93000078A4F3 /* direct_message.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = direct_message.caf; sourceTree = "<group>"; };
+		FB0AE0102F5C95000078A510 /* WebPushKeychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPushKeychain.swift; sourceTree = "<group>"; };
+		FB0AE0112F5C95000078A511 /* WebPushRecordDecryptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPushRecordDecryptor.swift; sourceTree = "<group>"; };
+		FB0AE01A2F5C95000078A51A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		FB0AE0202F5C96000078A520 /* SnowflakeTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnowflakeTime.swift; sourceTree = "<group>"; };
+		FB0AF0032F5C97000078A532 /* CallRingPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallRingPayload.swift; sourceTree = "<group>"; };
+		FB0AF0062F5C97000078A535 /* CallRingPayloadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallRingPayloadTests.swift; sourceTree = "<group>"; };
 		FB0AF0082F5C97000078A537 /* incoming_ring.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = incoming_ring.caf; sourceTree = "<group>"; };
+		FB0AF1012F5C98000078A541 /* CallRingUuid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallRingUuid.swift; sourceTree = "<group>"; };
 		FB0F16FA2FF99E9C00F01CED /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/Main.strings"; sourceTree = "<group>"; };
 		FB0F16FB2FF99E9C00F01CED /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		FB0F16FE2FF99ED800F01CED /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Main.strings; sourceTree = "<group>"; };
@@ -277,6 +277,10 @@
 		FBA74A243F83B0FA00330527 /* SampleUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleUploader.swift; sourceTree = "<group>"; };
 		FBA74A253F83B0FA00330527 /* SocketConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketConnection.swift; sourceTree = "<group>"; };
 		FBBF3E582FB7A6FD0080FF5E /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		FBC1A0012F9E220100EA2F01 /* PhysicalKeyboardBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicalKeyboardBridge.swift; sourceTree = "<group>"; };
+		FBC1A0032F9E220100EA2F02 /* VoiceSpeakerRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceSpeakerRoute.swift; sourceTree = "<group>"; };
+		FBF7EE54306987EF00160D72 /* AppIconStarfield.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIconStarfield.icon; sourceTree = "<group>"; };
+		FBF7EE56306989E000160D72 /* AppIconSweden.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIconSweden.icon; sourceTree = "<group>"; };
 		FBF8ABC82F9E0F4900EA2D6F /* CanaryAppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = CanaryAppIcon.icon; sourceTree = "<group>"; };
 		FD58880BB4495395298E1AE8 /* Pods-RunnerTests.release-stable.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.release-stable.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.release-stable.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -292,6 +296,17 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		FB0AF1002F5C98000078A540 /* CallKit */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = CallKit;
+			sourceTree = "<group>";
+		};
 		FBBF3E592FB7A6FD0080FF5E /* NotificationService */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -302,17 +317,6 @@
 			explicitFolders = (
 			);
 			path = NotificationService;
-			sourceTree = "<group>";
-		};
-		FB0AF1002F5C98000078A540 /* CallKit */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = CallKit;
 			sourceTree = "<group>";
 		};
 		FC0A55157A00000100000010 /* Assistant */ = {
@@ -437,6 +441,7 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				FBF7EE53306987C500160D72 /* AppIcons */,
 				FB0ADAC12F5C91D50078A4D4 /* Runner.entitlements */,
 				FB041AFF2F4B711E00771E23 /* AppIcon.icon */,
 				FBF8ABC82F9E0F4900EA2D6F /* CanaryAppIcon.icon */,
@@ -540,6 +545,15 @@
 				A731873E52EB77026A27F23B /* ShareExtension.appex */,
 			);
 			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		FBF7EE53306987C500160D72 /* AppIcons */ = {
+			isa = PBXGroup;
+			children = (
+				FBF7EE56306989E000160D72 /* AppIconSweden.icon */,
+				FBF7EE54306987EF00160D72 /* AppIconStarfield.icon */,
+			);
+			path = AppIcons;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -753,12 +767,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FBF7EE55306987EF00160D72 /* AppIconStarfield.icon in Resources */,
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				FBF8ABC92F9E0F4900EA2D6F /* CanaryAppIcon.icon in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
 				FB041B002F4B711E00771E23 /* AppIcon.icon in Resources */,
+				FBF7EE57306989E000160D72 /* AppIconSweden.icon in Resources */,
 				FB0ADBE12F5C93000078A4F1 /* message.caf in Resources */,
 				FB0ADBE22F5C93000078A4F2 /* direct_message.caf in Resources */,
 				FB0AF0092F5C97000078A538 /* incoming_ring.caf in Resources */,
@@ -992,14 +1008,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		FB0AE0182F5C95000078A518 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FB0AE01A2F5C95000078A51A /* en */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
 		97C146FA1CF9000F007C117D /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1082,6 +1090,14 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
+		FB0AE0182F5C95000078A518 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FB0AE01A2F5C95000078A51A /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -1142,6 +1158,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "AppIconStarfield AppIconSweden";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
@@ -1341,6 +1358,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "AppIconStarfield AppIconSweden";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
@@ -1375,6 +1393,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "AppIconStarfield AppIconSweden";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
@@ -1408,6 +1427,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "AppIconStarfield AppIconSweden";
 				ASSETCATALOG_COMPILER_APPICON_NAME = CanaryAppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
@@ -1462,6 +1482,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "AppIconStarfield AppIconSweden";
 				ASSETCATALOG_COMPILER_APPICON_NAME = CanaryAppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
@@ -1510,6 +1531,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4F9A2B16A1C34D3E9B5A8D21 /* Profile.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "AppIconStarfield AppIconSweden";
 				ASSETCATALOG_COMPILER_APPICON_NAME = CanaryAppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
@@ -1558,6 +1580,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "AppIconStarfield AppIconSweden";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
@@ -1607,6 +1630,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "AppIconStarfield AppIconSweden";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
@@ -1655,6 +1679,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4F9A2B16A1C34D3E9B5A8D21 /* Profile.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "AppIconStarfield AppIconSweden";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
@@ -2404,6 +2429,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3G5837T29K;
@@ -2411,7 +2437,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
-				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
@@ -2451,6 +2476,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3G5837T29K;
@@ -2458,7 +2484,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
-				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
@@ -2498,6 +2523,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3G5837T29K;
@@ -2505,7 +2531,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
-				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
@@ -2545,6 +2570,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3G5837T29K;
@@ -2552,7 +2578,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
-				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
@@ -2592,6 +2617,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3G5837T29K;
@@ -2599,7 +2625,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
-				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
@@ -2636,6 +2661,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3G5837T29K;
@@ -2643,7 +2669,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
-				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
@@ -2680,6 +2705,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3G5837T29K;
@@ -2687,7 +2713,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
-				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
@@ -2724,6 +2749,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3G5837T29K;
@@ -2731,7 +2757,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
-				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
@@ -2768,6 +2793,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3G5837T29K;
@@ -2775,7 +2801,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
-				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
@@ -2812,6 +2837,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3G5837T29K;
@@ -2819,7 +2845,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
-				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
@@ -2856,6 +2881,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3G5837T29K;
@@ -2863,7 +2889,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
-				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
@@ -2900,6 +2925,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3G5837T29K;
@@ -2907,7 +2933,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
-				CODE_SIGN_ENTITLEMENTS = NotificationService/NotificationService.entitlements;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
@@ -2939,6 +2964,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "AppIconStarfield AppIconSweden";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
@@ -2988,6 +3014,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "AppIconStarfield AppIconSweden";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
@@ -3036,6 +3063,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4F9A2B16A1C34D3E9B5A8D21 /* Profile.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "AppIconStarfield AppIconSweden";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;

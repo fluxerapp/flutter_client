@@ -24,6 +24,7 @@ import 'package:fluxer_app/core/push/fcm/fcm_notification_tap_binding.dart';
 import 'package:fluxer_app/core/push/local_push_notifications.dart';
 import 'package:fluxer_app/core/push/pending_push_notification_path_provider.dart';
 import 'package:fluxer_app/core/push/push_notification_tap_handler.dart';
+import 'package:fluxer_app/core/push/push_tray_background_listener_provider.dart';
 import 'package:fluxer_app/core/push/services/firebase_messaging_push_service.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_mobile_device_registration.dart';
 import 'package:fluxer_app/core/quick_actions/pending_home_quick_action_provider.dart';
@@ -70,6 +71,7 @@ void authenticatedSessionBindings(Ref ref) {
     ..read(connectivityListenerProvider)
     ..read(gatewayEphemeralStateRecoveryListenerProvider)
     ..read(ackBatcherGatewayListenerProvider)
+    ..read(pushTrayBackgroundListenerProvider)
     ..read(fluxerSfxIncomingRingBindingProvider)
     ..read(fluxerMessageSfxBindingProvider)
     ..read(fluxerTtsBindingProvider)

@@ -323,7 +323,7 @@ void main() {
                   unawaited(
                     FluxerBottomSheet.show(
                       context,
-                      title: 'Notification Settings',
+                      title: 'Notification settings',
                       builder: (context, close) {
                         return const Padding(
                           padding: EdgeInsets.all(16),
@@ -342,15 +342,15 @@ void main() {
 
       await tester.tap(find.text('Open'));
       await tester.pumpAndSettle();
-      expect(find.text('Notification Settings'), findsOneWidget);
+      expect(find.text('Notification settings'), findsOneWidget);
 
       await tester.drag(
-        find.text('Notification Settings'),
+        find.text('Notification settings'),
         const Offset(0, 200),
       );
       await tester.pumpAndSettle();
 
-      expect(find.text('Notification Settings'), findsNothing);
+      expect(find.text('Notification settings'), findsNothing);
       expect(find.text('Open'), findsOneWidget);
     });
 

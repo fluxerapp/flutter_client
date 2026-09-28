@@ -625,10 +625,10 @@ int guildChannelVoiceParticipantCount(
   );
 }
 
-/// Clears ephemeral gateway derived UI state after session recovery
+/// Clears ephemeral gateway derived UI state after a full identify (READY).
 @Riverpod(keepAlive: true)
 void gatewayEphemeralStateRecoveryListener(Ref ref) {
-  ref.listen<int>(gatewaySessionRecoveryProvider, (int? previous, int next) {
+  ref.listen<int>(gatewayFullRecoveryProvider, (int? previous, int next) {
     if (next <= 0 || previous == next) {
       return;
     }

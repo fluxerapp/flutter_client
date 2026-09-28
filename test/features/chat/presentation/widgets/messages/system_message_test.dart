@@ -339,7 +339,7 @@ void main() {
         onReaction: onReaction,
       );
       expect(find.byType(MessageReactionsBar), findsOneWidget);
-      expect(find.bySemanticsLabel('Add Reaction'), findsNothing);
+      expect(find.bySemanticsLabel('Add reaction'), findsNothing);
 
       await _pumpSystemMessage(
         tester,
@@ -350,7 +350,7 @@ void main() {
         canAddReactions: true,
         onReaction: onReaction,
       );
-      expect(find.bySemanticsLabel('Add Reaction'), findsOneWidget);
+      expect(find.bySemanticsLabel('Add reaction'), findsOneWidget);
 
       semantics.dispose();
     });

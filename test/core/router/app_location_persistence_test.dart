@@ -63,6 +63,35 @@ void main() {
       persistAppLocation(db, '/reconnecting');
       expect(await readPersistedAppLocation(db), isNull);
     });
+
+    test('ignores non-navigable locations', () async {
+      persistAppLocation(db, '/unknown');
+      persistAppLocation(db, '/settings/user');
+      expect(await readPersistedAppLocation(db), isNull);
+    });
+  });
+
+  group('isNavigableAppLocation', () {
+    test('accepts shell and channel shapes', () {
+      expect(isNavigableAppLocation('/notifications'), isTrue);
+      expect(isNavigableAppLocation('/channels/@me'), isTrue);
+      expect(isNavigableAppLocation('/channels/guild-1/chan-1'), isTrue);
+      expect(
+        isNavigableAppLocation('/settings/guild/guild-1/overview'),
+        isTrue,
+      );
+    });
+
+    test('rejects unknown and over-deep paths', () {
+      expect(isNavigableAppLocation('/unknown'), isFalse);
+      expect(isNavigableAppLocation('/settings/user'), isFalse);
+      expect(
+        isNavigableAppLocation('/channels/guild-1/chan-1/msg/extra'),
+        isFalse,
+      );
+      expect(isNavigableAppLocation('/channels/@me/members'), isFalse);
+      expect(isNavigableAppLocation('/channels/guild-1/members'), isTrue);
+    });
   });
 
   group('restoreAppLocation', () {
@@ -86,6 +115,25 @@ void main() {
     test('falls back when guild is missing', () async {
       persistAppLocation(db, '/channels/missing-guild/chan-1');
       expect(await restoreAppLocation(db: db), RoutePaths.me);
+      expect(await readPersistedAppLocation(db), isNull);
+    });
+
+    test('clears unknown persisted path', () async {
+      await db.guildLastChannelDao.setLastChannel(
+        kAppLastLocationKey,
+        '/unknown',
+      );
+      expect(await restoreAppLocation(db: db), RoutePaths.me);
+      expect(await readPersistedAppLocation(db), isNull);
+    });
+
+    test('clears over-deep channel path', () async {
+      await db.guildLastChannelDao.setLastChannel(
+        kAppLastLocationKey,
+        '/channels/guild-1/chan-1/msg/extra',
+      );
+      expect(await restoreAppLocation(db: db), RoutePaths.me);
+      expect(await readPersistedAppLocation(db), isNull);
     });
 
     test(

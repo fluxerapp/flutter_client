@@ -204,7 +204,11 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
       completionHandler([])
       return
     }
+    let identifier = notification.request.identifier
     completionHandler([])
+    UNUserNotificationCenter.current().removeDeliveredNotifications(
+      withIdentifiers: [identifier]
+    )
   }
 
   private func handleClearPayload(

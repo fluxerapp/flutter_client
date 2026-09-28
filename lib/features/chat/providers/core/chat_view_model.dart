@@ -13,6 +13,7 @@ import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.da
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
@@ -79,6 +80,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/guild_member_prefetch.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/gateway.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -705,6 +707,9 @@ class ChatViewModel extends _$ChatViewModel {
       })
       ..listen<bool>(appUiForegroundProvider, (bool? previous, bool next) {
         if (previous == false && next) {
+          if (!_shouldResyncAfterForegroundReturn()) {
+            return;
+          }
           _foregroundResyncGeneration++;
           _invalidateMessageCacheTrust();
           _onSessionNeedsMessageResync();
@@ -2685,6 +2690,22 @@ class ChatViewModel extends _$ChatViewModel {
       return;
     }
     unawaited(_reconcileCurrentChannelFromNetwork());
+  }
+
+  bool _shouldResyncAfterForegroundReturn() {
+    try {
+      final GatewayConnection connection = ref.read(gatewayConnectionProvider);
+      if (connection.isReconnectSuspended) {
+        return true;
+      }
+      if (connection.state == GatewayState.connected &&
+          !connection.isLikelyStale) {
+        return false;
+      }
+    } on Object {
+      return true;
+    }
+    return true;
   }
 
   /// Identity-preserving [mergeMentionHighlightFlags]: several preserve-window

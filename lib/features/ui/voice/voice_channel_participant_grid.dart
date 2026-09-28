@@ -200,6 +200,13 @@ class _VoiceChannelParticipantGridState
 
   VoiceGridPackedLayoutMetrics? _cachedLayoutMetrics;
   int? _cachedLayoutKey;
+  VoiceGridCompactLayout? _cachedCompactLayout;
+  int? _cachedCompactKey;
+  final Map<String, _VoiceGridTileItem> _placedTiles =
+      <String, _VoiceGridTileItem>{};
+  final Map<String, Rect> _placedRects = <String, Rect>{};
+  final Map<String, GlobalKey> _tileKeys = <String, GlobalKey>{};
+  final Set<String> _departingTileIds = <String>{};
 
   @override
   void initState() {
@@ -254,6 +261,60 @@ class _VoiceChannelParticipantGridState
       compact: compact,
     );
     return _cachedLayoutMetrics!;
+  }
+
+  VoiceGridCompactLayout _resolveCompactLayout({
+    required int cameraCount,
+    required int screenShareCount,
+    required double containerWidth,
+    required double containerHeight,
+  }) {
+    final int layoutCacheKey = Object.hash(
+      cameraCount,
+      screenShareCount,
+      containerWidth.round(),
+      containerHeight.round(),
+    );
+    if (_cachedCompactKey == layoutCacheKey && _cachedCompactLayout != null) {
+      return _cachedCompactLayout!;
+    }
+    _cachedCompactKey = layoutCacheKey;
+    _cachedCompactLayout = resolveVoiceGridCompactLayout(
+      cameraCount: cameraCount,
+      screenShareCount: screenShareCount,
+      containerWidth: containerWidth,
+      containerHeight: containerHeight,
+    );
+    return _cachedCompactLayout!;
+  }
+
+  void _syncPlacedTiles(List<_VoiceGridTileItem> tiles, List<Rect> rects) {
+    final Set<String> current = <String>{};
+    final int count = math.min(tiles.length, rects.length);
+    for (int i = 0; i < count; i++) {
+      final String tileId = tiles[i].tileId;
+      current.add(tileId);
+      _placedTiles[tileId] = tiles[i];
+      _placedRects[tileId] = rects[i];
+      _departingTileIds.remove(tileId);
+    }
+    for (final String tileId in _placedRects.keys.toList()) {
+      if (!current.contains(tileId)) {
+        _departingTileIds.add(tileId);
+      }
+    }
+  }
+
+  void _finishDeparting(String tileId) {
+    if (!mounted || !_departingTileIds.contains(tileId)) {
+      return;
+    }
+    setState(() {
+      _departingTileIds.remove(tileId);
+      _placedTiles.remove(tileId);
+      _placedRects.remove(tileId);
+      _tileKeys.remove(tileId);
+    });
   }
 
   void _revealOverlay() {
@@ -639,13 +700,6 @@ class _VoiceChannelParticipantGridState
     final bool compact = innerWidth < 520 || innerHeight < 360;
     final int count = tiles.length;
 
-    final VoiceGridPackedLayoutMetrics packed = _resolveLayoutMetrics(
-      tileCount: count,
-      containerWidth: innerWidth,
-      containerHeight: innerHeight,
-      compact: compact,
-    );
-
     _VoiceGridTileItem? pinned;
     if (layout.pinnedTileId != null) {
       for (final _VoiceGridTileItem tile in tiles) {
@@ -655,6 +709,60 @@ class _VoiceChannelParticipantGridState
         }
       }
     }
+
+    final bool focus =
+        layout.mode == VoiceCallLayoutMode.focus || pinned != null;
+    final bool useCompact = compact && !focus;
+    if (!useCompact) {
+      _placedTiles.clear();
+      _placedRects.clear();
+      _departingTileIds.clear();
+      _tileKeys.clear();
+    }
+    if (useCompact) {
+      final List<_VoiceGridTileItem> cameras = <_VoiceGridTileItem>[];
+      final List<_VoiceGridTileItem> shares = <_VoiceGridTileItem>[];
+      for (final _VoiceGridTileItem tile in tiles) {
+        if (tile.source == VoiceParticipantTileSource.screenShare) {
+          shares.add(tile);
+        } else {
+          cameras.add(tile);
+        }
+      }
+      final VoiceGridCompactLayout compactLayout = _resolveCompactLayout(
+        cameraCount: cameras.length,
+        screenShareCount: shares.length,
+        containerWidth: innerWidth,
+        containerHeight: innerHeight,
+      );
+      return _wrapLayoutSurface(
+        maxWidth: maxWidth,
+        maxHeight: maxHeight,
+        child: Padding(
+          padding: stageInsets,
+          child: _buildGrid(
+            context: context,
+            maxWidth: innerWidth,
+            maxHeight: innerHeight,
+            compactLayout: compactLayout,
+            tiles: <_VoiceGridTileItem>[...cameras, ...shares],
+            watchedTileIds: watchedTileIds,
+            room: room,
+            me: me,
+            localConnectionId: localConnectionId,
+            baseUrl: baseUrl,
+            l10n: l10n,
+          ),
+        ),
+      );
+    }
+
+    final VoiceGridPackedLayoutMetrics packed = _resolveLayoutMetrics(
+      tileCount: count,
+      containerWidth: innerWidth,
+      containerHeight: innerHeight,
+      compact: compact,
+    );
 
     final VoiceCallVisualLayout visual = resolveVoiceCallVisualLayout(
       isFocusMode: layout.mode == VoiceCallLayoutMode.focus,
@@ -894,7 +1002,6 @@ class _VoiceChannelParticipantGridState
     required BuildContext context,
     required double maxWidth,
     required double maxHeight,
-    required VoiceGridLayoutMetrics metrics,
     required List<_VoiceGridTileItem> tiles,
     required Set<String> watchedTileIds,
     required Room? room,
@@ -902,6 +1009,87 @@ class _VoiceChannelParticipantGridState
     required String? localConnectionId,
     required String? baseUrl,
     required FluxerLocalizations l10n,
+    VoiceGridLayoutMetrics? metrics,
+    VoiceGridCompactLayout? compactLayout,
+  }) {
+    final List<Rect> rects = compactLayout != null
+        ? compactLayout.rects
+        : _equalTileRects(metrics: metrics!, tiles: tiles);
+    if (compactLayout != null && rects.length == tiles.length) {
+      _syncPlacedTiles(tiles, rects);
+    }
+    final List<Widget> positioned = <Widget>[
+      for (int i = 0; i < tiles.length && i < rects.length; i++)
+        _placedGridTile(
+          context: context,
+          tileKey: compactLayout == null
+              ? ValueKey<String>(tiles[i].tileId)
+              : _tileKeys.putIfAbsent(tiles[i].tileId, GlobalKey.new),
+          tile: tiles[i],
+          rect: rects[i],
+          departing: false,
+          watchedTileIds: watchedTileIds,
+          room: room,
+          me: me,
+          localConnectionId: localConnectionId,
+          baseUrl: baseUrl,
+          l10n: l10n,
+        ),
+    ];
+    if (compactLayout != null) {
+      final Set<String> visibleIds = <String>{
+        for (final _VoiceGridTileItem tile in tiles) tile.tileId,
+      };
+      for (final String tileId in _departingTileIds.toList()) {
+        if (visibleIds.contains(tileId)) {
+          continue;
+        }
+        final _VoiceGridTileItem? tile = _placedTiles[tileId];
+        final Rect? rect = _placedRects[tileId];
+        if (tile == null || rect == null) {
+          continue;
+        }
+        positioned.add(
+          _placedGridTile(
+            context: context,
+            tileKey: _tileKeys.putIfAbsent(tileId, GlobalKey.new),
+            tile: tile,
+            rect: rect,
+            departing: true,
+            watchedTileIds: watchedTileIds,
+            room: room,
+            me: me,
+            localConnectionId: localConnectionId,
+            baseUrl: baseUrl,
+            l10n: l10n,
+          ),
+        );
+      }
+    }
+    final Widget stack = Stack(children: positioned);
+    if (compactLayout == null) {
+      return SizedBox(width: maxWidth, height: maxHeight, child: stack);
+    }
+    double extent = math.max(maxHeight, compactLayout.contentHeight);
+    for (final String tileId in _departingTileIds) {
+      final Rect? rect = _placedRects[tileId];
+      if (rect != null && rect.bottom > extent) {
+        extent = rect.bottom;
+      }
+    }
+    if (extent <= maxHeight + 0.5) {
+      return SizedBox(width: maxWidth, height: maxHeight, child: stack);
+    }
+    return SingleChildScrollView(
+      primary: false,
+      physics: const ClampingScrollPhysics(),
+      child: SizedBox(width: maxWidth, height: extent, child: stack),
+    );
+  }
+
+  List<Rect> _equalTileRects({
+    required VoiceGridLayoutMetrics metrics,
+    required List<_VoiceGridTileItem> tiles,
   }) {
     final ({double width, double height}) placed = voiceGridPlacedTileSize(
       cellWidth: metrics.tileWidth,
@@ -916,59 +1104,73 @@ class _VoiceChannelParticipantGridState
     final double tileW = placed.width;
     final double tileH = placed.height;
     final double gap = metrics.gap;
-    final double availableWidth = metrics.availableWidth;
-    final double availableHeight = metrics.availableHeight;
     final int rows = math.max(1, (tiles.length / columns).ceil());
     final double blockHeight = rows * tileH + (rows - 1) * gap;
     final double startY =
         metrics.verticalPadding +
-        math.max(0, (availableHeight - blockHeight) / 2);
-
-    final List<Widget> positioned = <Widget>[];
+        math.max(0, (metrics.availableHeight - blockHeight) / 2);
+    final List<Rect> rects = List<Rect>.filled(tiles.length, Rect.zero);
     for (int i = 0; i < tiles.length; i++) {
-      final _VoiceGridTileItem tile = tiles[i];
       final int row = i ~/ columns;
       final int itemsInRow = (row == rows - 1)
           ? tiles.length - row * columns
           : columns;
       final double rowWidth = itemsInRow * tileW + (itemsInRow - 1) * gap;
       final double startX =
-          metrics.sidePadding + math.max(0, (availableWidth - rowWidth) / 2);
+          metrics.sidePadding +
+          math.max(0, (metrics.availableWidth - rowWidth) / 2);
       final int colInRow = i - row * columns;
-      final double x = startX + colInRow * (tileW + gap);
-      final double y = startY + row * (tileH + gap);
-      positioned.add(
-        AnimatedPositioned(
-          key: ValueKey<String>(tile.tileId),
-          duration: _tileMoveDuration(context),
-          curve: _kTileMoveCurve,
-          left: x,
-          top: y,
-          width: tileW,
-          height: tileH,
-          child: RepaintBoundary(
-            child: _TileEnterAnimation(
-              child: _buildCard(
-                context: context,
-                tile: tile,
-                room: room,
-                me: me,
-                localConnectionId: localConnectionId,
-                baseUrl: baseUrl,
-                l10n: l10n,
-                isFocusMain: false,
-                isActiveScreenShare: watchedTileIds.contains(tile.tileId),
-                fillContainer: true,
-              ),
-            ),
-          ),
-        ),
+      rects[i] = Rect.fromLTWH(
+        startX + colInRow * (tileW + gap),
+        startY + row * (tileH + gap),
+        tileW,
+        tileH,
       );
     }
-    return SizedBox(
-      width: maxWidth,
-      height: maxHeight,
-      child: Stack(children: positioned),
+    return rects;
+  }
+
+  Widget _placedGridTile({
+    required BuildContext context,
+    required Key tileKey,
+    required _VoiceGridTileItem tile,
+    required Rect rect,
+    required bool departing,
+    required Set<String> watchedTileIds,
+    required Room? room,
+    required String? me,
+    required String? localConnectionId,
+    required String? baseUrl,
+    required FluxerLocalizations l10n,
+  }) {
+    final Duration duration = _tileMoveDuration(context);
+    return AnimatedPositioned(
+      key: tileKey,
+      duration: duration,
+      curve: _kTileMoveCurve,
+      left: rect.left,
+      top: rect.top,
+      width: rect.width,
+      height: rect.height,
+      child: _TilePresence(
+        departing: departing,
+        duration: duration,
+        onDeparted: () => _finishDeparting(tile.tileId),
+        child: RepaintBoundary(
+          child: _buildCard(
+            context: context,
+            tile: tile,
+            room: room,
+            me: me,
+            localConnectionId: localConnectionId,
+            baseUrl: baseUrl,
+            l10n: l10n,
+            isFocusMain: false,
+            isActiveScreenShare: watchedTileIds.contains(tile.tileId),
+            fillContainer: true,
+          ),
+        ),
+      ),
     );
   }
 
@@ -1253,27 +1455,119 @@ class _VoiceChannelParticipantGridState
   }
 }
 
-/// Fades a tile in on first appearance, then stays put while
-/// [AnimatedPositioned] handles subsequent movement.
-class _TileEnterAnimation extends StatelessWidget {
-  const _TileEnterAnimation({required this.child});
+class _TilePresence extends StatefulWidget {
+  const _TilePresence({
+    required this.departing,
+    required this.duration,
+    required this.onDeparted,
+    required this.child,
+  });
 
+  final bool departing;
+  final Duration duration;
+  final VoidCallback onDeparted;
   final Widget child;
 
   @override
+  State<_TilePresence> createState() => _TilePresenceState();
+}
+
+class _TilePresenceState extends State<_TilePresence>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final CurvedAnimation _curve;
+  late final Animation<double> _scale;
+  final GlobalKey _childKey = GlobalKey();
+  bool _leaveNotified = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this, duration: widget.duration);
+    _curve = CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic);
+    _scale = Tween<double>(begin: 0.96, end: 1).animate(_curve);
+    if (widget.duration == Duration.zero || widget.departing) {
+      _controller.value = 1;
+    }
+    _controller.addStatusListener(_onStatus);
+    if (widget.duration == Duration.zero) {
+      if (widget.departing) {
+        _scheduleDeparted();
+      }
+    } else if (widget.departing) {
+      _reverseOut();
+    } else {
+      _controller.forward();
+    }
+  }
+
+  void _onStatus(AnimationStatus status) {
+    if (!mounted) {
+      return;
+    }
+    if (status == AnimationStatus.completed && !widget.departing) {
+      setState(() {});
+    }
+  }
+
+  @override
+  void didUpdateWidget(_TilePresence oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.duration != widget.duration) {
+      _controller.duration = widget.duration;
+    }
+    if (widget.departing && !oldWidget.departing) {
+      if (widget.duration == Duration.zero) {
+        _scheduleDeparted();
+      } else {
+        _reverseOut();
+      }
+    } else if (!widget.departing && oldWidget.departing) {
+      _leaveNotified = false;
+      if (widget.duration == Duration.zero) {
+        _controller.value = 1;
+      } else {
+        _controller.forward();
+      }
+    }
+  }
+
+  void _notifyDeparted() {
+    if (!mounted || !widget.departing || _leaveNotified) {
+      return;
+    }
+    _leaveNotified = true;
+    widget.onDeparted();
+  }
+
+  void _reverseOut() {
+    _controller.reverse().whenComplete(_notifyDeparted);
+  }
+
+  void _scheduleDeparted() {
+    WidgetsBinding.instance.addPostFrameCallback((_) => _notifyDeparted());
+  }
+
+  @override
+  void dispose() {
+    _controller.removeStatusListener(_onStatus);
+    _curve.dispose();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final bool reduceMotion = MediaQuery.disableAnimationsOf(context);
-    if (reduceMotion) {
+    final Widget child = KeyedSubtree(key: _childKey, child: widget.child);
+    final bool settled =
+        widget.duration == Duration.zero ||
+        (_controller.isCompleted && !widget.departing);
+    if (settled) {
       return child;
     }
-    return TweenAnimationBuilder<double>(
-      tween: Tween<double>(begin: 0, end: 1),
-      duration: context.motion.panel,
-      curve: Curves.easeOutCubic,
-      builder: (BuildContext context, double value, Widget? animatedChild) {
-        return Opacity(opacity: value.clamp(0, 1), child: animatedChild);
-      },
-      child: child,
+    return FadeTransition(
+      opacity: _curve,
+      child: ScaleTransition(scale: _scale, child: child),
     );
   }
 }

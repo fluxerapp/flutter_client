@@ -1,3 +1,5 @@
+import 'dart:ui' show Rect;
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/voice/utils/voice_grid_layout/voice_grid_layout.dart';
 
@@ -191,20 +193,13 @@ void main() {
       }
     });
 
-    test('fills the mosaic instead of letterboxing a 16:9 island', () {
+    test('keeps a wide stage on the column breakpoints', () {
       final VoiceGridLayoutMetrics metrics = resolveVoiceGridLayoutMetrics(
-        tileCount: 2,
-        containerWidth: 390,
-        containerHeight: 700,
-        compact: true,
+        tileCount: 10,
+        containerWidth: 1920,
+        containerHeight: 1080,
       );
-      expect(metrics.columns, 1);
-      expect(metrics.rows, 2);
-      expect(metrics.tileWidth, closeTo(metrics.availableWidth, _epsilon));
-      expect(
-        metrics.tileHeight * 2 + metrics.gap,
-        closeTo(metrics.availableHeight, _epsilon),
-      );
+      expect(metrics.columns, 4);
     });
 
     test('squares a lone avatar tile', () {
@@ -353,6 +348,115 @@ void main() {
       );
       expect(packed.metrics.contentWidth, lessThanOrEqualTo(180 + _epsilon));
       expect(packed.metrics.contentHeight, lessThanOrEqualTo(1200 + _epsilon));
+    });
+  });
+
+  group('resolveVoiceGridCompactLayout', () {
+    test('stacks two people as squares', () {
+      final VoiceGridCompactLayout layout = resolveVoiceGridCompactLayout(
+        cameraCount: 2,
+        screenShareCount: 0,
+        containerWidth: 390,
+        containerHeight: 700,
+      );
+      expect(layout.rects, hasLength(2));
+      final Rect first = layout.rects[0];
+      final Rect second = layout.rects[1];
+      expect(first.width, closeTo(first.height, 0.51));
+      expect(second.width, closeTo(first.width, 0.51));
+      expect(second.left, closeTo(first.left, 0.51));
+      expect(second.top, greaterThan(first.bottom));
+      expect(first.width, lessThan(366));
+      expect(layout.contentHeight, lessThanOrEqualTo(700 + _epsilon));
+    });
+
+    test('uses two columns of squares for four and five people', () {
+      final VoiceGridCompactLayout four = resolveVoiceGridCompactLayout(
+        cameraCount: 4,
+        screenShareCount: 0,
+        containerWidth: 390,
+        containerHeight: 700,
+      );
+      expect(four.rects[1].left, greaterThan(four.rects[0].right - _epsilon));
+      expect(four.rects[1].top, closeTo(four.rects[0].top, 0.51));
+      expect(four.rects[2].top, greaterThan(four.rects[0].bottom));
+      expect(four.rects[0].width, closeTo(four.rects[0].height, 0.51));
+      expect(four.rects[3].width, closeTo(four.rects[0].width, 0.51));
+
+      final VoiceGridCompactLayout five = resolveVoiceGridCompactLayout(
+        cameraCount: 5,
+        screenShareCount: 0,
+        containerWidth: 390,
+        containerHeight: 700,
+      );
+      expect(five.rects, hasLength(5));
+      expect(five.rects[1].left, greaterThan(five.rects[0].right - _epsilon));
+      expect(five.rects[4].width, closeTo(five.rects[0].width, 0.51));
+      expect(five.rects[4].height, closeTo(five.rects[4].width, 0.51));
+      expect(five.rects[4].left, greaterThan(five.rects[0].left + 1));
+      expect(five.rects[4].top, greaterThan(five.rects[2].top));
+    });
+
+    test('shrinks squares when screens are shared', () {
+      final VoiceGridCompactLayout people = resolveVoiceGridCompactLayout(
+        cameraCount: 5,
+        screenShareCount: 0,
+        containerWidth: 390,
+        containerHeight: 700,
+      );
+      final VoiceGridCompactLayout shared = resolveVoiceGridCompactLayout(
+        cameraCount: 5,
+        screenShareCount: 2,
+        containerWidth: 390,
+        containerHeight: 700,
+      );
+      expect(shared.rects, hasLength(7));
+      for (int i = 0; i < 5; i++) {
+        expect(shared.rects[i].width, closeTo(shared.rects[i].height, 0.51));
+      }
+      expect(shared.rects[0].width, lessThan(people.rects[0].width));
+      for (final Rect share in shared.rects.skip(5)) {
+        expect(share.width / share.height, closeTo(16 / 9, 0.05));
+        expect(share.width, greaterThan(share.height));
+        expect(share.width, closeTo(366, 1));
+        expect(share.left, closeTo(12, 1));
+      }
+      expect(shared.rects[6].top, greaterThan(shared.rects[5].bottom));
+    });
+
+    test('uses three columns once seven people are in the call', () {
+      final VoiceGridCompactLayout layout = resolveVoiceGridCompactLayout(
+        cameraCount: 7,
+        screenShareCount: 0,
+        containerWidth: 390,
+        containerHeight: 700,
+      );
+      expect(
+        layout.rects[1].left,
+        greaterThan(layout.rects[0].right - _epsilon),
+      );
+      expect(
+        layout.rects[2].left,
+        greaterThan(layout.rects[1].right - _epsilon),
+      );
+      expect(layout.rects[2].top, closeTo(layout.rects[0].top, 0.51));
+      expect(layout.rects[0].width, closeTo(layout.rects[0].height, 0.51));
+    });
+
+    test('scrolls instead of squashing a tall stack', () {
+      final VoiceGridCompactLayout layout = resolveVoiceGridCompactLayout(
+        cameraCount: 30,
+        screenShareCount: 0,
+        containerWidth: 390,
+        containerHeight: 700,
+      );
+      expect(layout.contentHeight, greaterThan(700));
+      expect(
+        layout.rects.first.width,
+        closeTo(layout.rects.first.height, 0.51),
+      );
+      expect(layout.rects.first.width, greaterThan(100));
+      expect(layout.rects.first.left, greaterThanOrEqualTo(0));
     });
   });
 }

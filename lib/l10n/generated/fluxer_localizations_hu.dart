@@ -37,13 +37,13 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get connectingCaps => 'CONNECTING';
 
   @override
-  String get splashConnectionLost => 'Kapcsolat elveszett';
+  String get splashConnectionLost => 'Kapcsolat megszakadt';
 
   @override
   String get splashViewOnStatusPage => 'Megtekintés az állapotoldalon';
 
   @override
-  String get splashConnectionIssuesPrompt => 'Kapcsolati problémák?';
+  String get splashConnectionIssuesPrompt => 'Kapcsolódási problémák?';
 
   @override
   String get splashStatusPageLink => 'Állapotoldal';
@@ -55,7 +55,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get splashIncidentHistory => 'Incidens előzmények';
 
   @override
-  String get nagbarLearnMore => 'Tudjon meg többet';
+  String get nagbarLearnMore => 'További információ';
 
   @override
   String nagbarMaintenanceScheduled(String localizedTime, String duration) {
@@ -72,12 +72,12 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String nagbarUnclaimedAccountMessage(String displayName) {
-    return 'Szia, $displayName! Igazold a fiókodat, hogy ne veszítsd el a hozzáférésed.';
+    return 'Szia, $displayName! Fejezd be a fiókod regisztrációját, hogy ne veszítsd el a hozzáférésedet.';
   }
 
   @override
   String nagbarEmailVerificationMessage(String displayName) {
-    return 'Szia, $displayName! Kérjük, erősítsd meg az e-mail címedet.';
+    return 'Szia, $displayName! Erősítsd meg az e-mail-címedet.';
   }
 
   @override
@@ -214,10 +214,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get organizationSsoProvider =>
-      'Jelentkezz be a szervezet egyetlen bejelentkezési szolgáltatójával.';
+      'Jelentkezz be a szervezeted egységes bejelentkezési szolgáltatójával.';
 
   @override
-  String get failedToStartSso => 'Nem sikerült elindítani az SSO-t';
+  String get failedToStartSso =>
+      'Nem sikerült elindítani az egységes bejelentkezést (SSO)';
 
   @override
   String get ssoCancelled => 'Az SSO bejelentkezés megszakítva';
@@ -231,7 +232,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get logInViaBrowser => 'Bejelentkezés böngészőn keresztül';
 
   @override
-  String get needAccountPrompt => 'Nincs fiókod? ';
+  String get needAccountPrompt => 'Nincs még fiókod? ';
 
   @override
   String get register => 'Regisztráció';
@@ -248,16 +249,16 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get captchaSwitchToHcaptcha =>
-      'Problémáid vannak? Próbáld meg az hCaptcha-t';
+      'Problémába ütköztél? Próbáld inkább a hCaptchát';
 
   @override
-  String get captchaSwitchToTurnstile => 'Próbáld meg a Turnstile-t';
+  String get captchaSwitchToTurnstile => 'Próbáld meg inkább a Turnstile-t';
 
   @override
   String get cancel => 'Mégse';
 
   @override
-  String get ipAuthCheckEmail => 'Ellenőrizd az e-mailedet';
+  String get ipAuthCheckEmail => 'Ellenőrizd az e-mailjeidet';
 
   @override
   String ipAuthDescription(String email) {
@@ -265,7 +266,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get ipAuthConnectionLost => 'Kapcsolat elveszett';
+  String get ipAuthConnectionLost => 'Kapcsolat megszakadt';
 
   @override
   String get ipAuthConnectionLostDescription =>
@@ -279,7 +280,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Ez az engedélyezési link lejárt. Kérjük, jelentkezz be újra.';
 
   @override
-  String get ipAuthResendEmail => 'Újraküldés';
+  String get ipAuthResendEmail => 'E-mail újraküldése';
 
   @override
   String get ipAuthResent => 'Újraküldve';
@@ -296,7 +297,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get next => 'Tovább';
 
   @override
-  String get mfaTitle => 'Kétfaktoros hitelesítés';
+  String get mfaTitle => 'Kétlépcsős azonosítás';
 
   @override
   String get mfaChooseMethod => 'Válassz egy ellenőrzési módszert';
@@ -305,7 +306,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get mfaMethodTotp => 'Hitelesítő alkalmazás';
 
   @override
-  String get mfaMethodWebauthn => 'Biztonsági kulcs / Jelszókulcs';
+  String get mfaMethodWebauthn => 'Biztonsági kulcs / jelszókulcs';
 
   @override
   String get mfaTotpDescription =>
@@ -318,10 +319,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get mfaTryAnotherMethod => 'Próbálj másik módszert';
 
   @override
-  String get mfaUseSecurityKey => 'Próbáld meg biztonsági kulccsal / jelszóval';
+  String get mfaUseSecurityKey =>
+      'Biztonsági kulcs vagy jelszókulcs használata';
 
   @override
-  String get accountSelectorTitle => 'Válassz egy fiókot';
+  String get accountSelectorTitle => 'Fiók kiválasztása';
 
   @override
   String get accountSelectorDescription =>
@@ -340,11 +342,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get accountRemoveDescription =>
-      'Ez eltávolítja az ehhez a fiókhoz mentett munkamenetet.';
+      'Ezzel eltávolítja a mentett munkamenetet ehhez a fiókhoz.';
 
   @override
   String get accountRemoveOnlyDescription =>
-      'Ez eltávolítja az egyetlen mentett fiókot ezen az eszközön.';
+      'Ezzel eltávolítja az egyetlen mentett fiókot erről az eszközről.';
 
   @override
   String get accountExpired => 'Lejárt';
@@ -359,10 +361,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get accountSwitchFailed =>
-      'Nem sikerült váltani a fiókok között. Próbáld újra.';
+      'Nem sikerült fiókot váltani. Próbáld újra.';
 
   @override
-  String get profileTabMenuSwitchAccounts => 'Fiókok váltása';
+  String get profileTabMenuSwitchAccounts => 'Fiókváltás';
 
   @override
   String get statusChangeSheetTitle => 'Állapot beállítása';
@@ -374,10 +376,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get statusOnline => 'Online';
 
   @override
-  String get statusIdle => 'Szünetel';
+  String get statusIdle => 'Inaktív';
 
   @override
-  String get statusDnd => 'Ne zavarjanak';
+  String get statusDnd => 'Ne zavarj';
 
   @override
   String get statusInvisible => 'Láthatatlan';
@@ -386,10 +388,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get statusOffline => 'Offline';
 
   @override
-  String get statusUntilIChangeIt => 'Amíg nem változtatom meg';
+  String get statusUntilIChangeIt => 'Amíg meg nem változtatom';
 
   @override
-  String get statusDontClear => 'Ne törölje';
+  String get statusDontClear => 'Ne töröld';
 
   @override
   String get statusFor10Seconds => '10 másodpercig';
@@ -423,10 +425,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get statusDndDescription =>
-      'Nem fogsz értesítéseket kapni asztali gépen';
+      'Nem fogsz értesítéseket kapni az asztali gépen';
 
   @override
-  String get statusInvisibleDescription => 'Offline állapotban leszel látható';
+  String get statusInvisibleDescription =>
+      'Offline állapotban fogsz megjelenni';
 
   @override
   String get customStatusSetTitle => 'Egyéni állapot beállítása';
@@ -438,13 +441,13 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get customStatusClear => 'Egyéni állapot törlése';
 
   @override
-  String get customStatusPlaceholder => 'Mi történik?';
+  String get customStatusPlaceholder => 'Mi újság?';
 
   @override
-  String get customStatusChooseEmoji => 'Válassz egy emojit';
+  String get customStatusChooseEmoji => 'Válassz emojit';
 
   @override
-  String get customStatusClearAfter => 'Törlés ekkor:';
+  String get customStatusClearAfter => 'Törlés ennyi idő után';
 
   @override
   String get customStatusSave => 'Mentés';
@@ -482,7 +485,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get suspendedPermanent => 'Végleges';
 
   @override
-  String get suspendedReason => 'Indok';
+  String get suspendedReason => 'Ok (indoklás)';
 
   @override
   String get suspendedAppealDeadline => 'Fellebbezési határidő';
@@ -493,7 +496,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get suspendedRecheck => 'Frissítések ellenőrzése';
+  String get suspendedRecheck => 'Frissítések keresése';
 
   @override
   String suspendedRecheckCooldown(int seconds) {
@@ -534,10 +537,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get forgotPasswordDescription =>
-      'Add meg az e-mail címedet, és küldünk egy linket a jelszavad visszaállításához.';
+      'Add meg az e-mail-címedet, és küldünk egy linket a jelszavad visszaállításához.';
 
   @override
-  String get forgotPasswordSubmit => 'Visszaállítási link küldése';
+  String get forgotPasswordSubmit => 'Jelszó-visszaállító link küldése';
 
   @override
   String get forgotPasswordSentTitle => 'Ellenőrizd az e-mailjeidet';
@@ -550,7 +553,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get forgotPasswordBackToLogin => 'Vissza a bejelentkezéshez';
 
   @override
-  String get resetPasswordTitle => 'Állíts be új jelszót';
+  String get resetPasswordTitle => 'Új jelszó beállítása';
 
   @override
   String get resetPasswordDescription =>
@@ -572,17 +575,17 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get registerTitle => 'Fiók létrehozása';
 
   @override
-  String get registerDisplayName => 'Megjelenítendő név (Opcionális)';
+  String get registerDisplayName => 'Megjelenítendő név (opcionális)';
 
   @override
-  String get registerDisplayNameHint => 'Hogyan szólítsanak téged?';
+  String get registerDisplayNameHint => 'Hogyan szólítsanak?';
 
   @override
-  String get registerUsername => 'Felhasználónév (Opcionális)';
+  String get registerUsername => 'Felhasználónév (opcionális)';
 
   @override
   String get registerUsernameHint =>
-      'Hagyd üresen a véletlenszerű felhasználónévhez';
+      'Hagyd üresen, ha véletlenszerű felhasználónevet szeretnél';
 
   @override
   String get registerUsernameTagHint =>
@@ -608,13 +611,13 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get registerConsentPrefix => 'Elfogadom a ';
 
   @override
-  String get registerConsentTerms => 'Felhasználási feltételeket';
+  String get registerConsentTerms => 'Szolgáltatási feltételek';
 
   @override
   String get registerConsentAnd => ' és a ';
 
   @override
-  String get registerConsentPrivacy => 'Adatvédelmi irányelveket';
+  String get registerConsentPrivacy => 'Adatvédelmi irányelvek';
 
   @override
   String get registerConfirmPassword => 'Jelszó megerősítése';
@@ -682,7 +685,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Nem sikerült alaphelyzetbe állítani a jelszót. Kérjük, próbálkozzon újra.';
 
   @override
-  String get embedInviteJoin => 'Csatlakozz a közösséghez';
+  String get embedInviteJoin => 'Csatlakozás a közösséghez';
 
   @override
   String get embedInviteGoTo => 'Ugrás a közösséghez';
@@ -704,7 +707,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get embedInviteUnknownSubtitle => 'Próbálj meg új meghívót kérni.';
 
   @override
-  String get embedInviteUnavailable => 'A meghívó nem elérhető';
+  String get embedInviteUnavailable => 'Meghívó nem elérhető';
 
   @override
   String get embedInviteJoinGroup => 'Csatlakozás a csoporthoz';
@@ -725,18 +728,18 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get inviteAcceptInvitesPausedTryAgain =>
-      'Ez a közösség szünetelteti a meghívásokat. Később újra próbálkozhatsz.';
+      'Ez a közösség szünetelteti a meghívókat. Később újra próbálkozhatsz.';
 
   @override
   String inviteAcceptRaidInvitesPaused(String productName) {
-    return '$productName potenciális támadást észlelt ebben a közösségben. A meghívások szünetelnek, így az új felhasználók jelenleg nem csatlakozhatnak.';
+    return '$productName potenciális támadást észlelt ebben a közösségben. A meghívók szünetelnek, így az új felhasználók jelenleg nem csatlakozhatnak.';
   }
 
   @override
-  String get inviteAcceptTitle => 'Meghívást kaptál, hogy csatlakozz';
+  String get inviteAcceptTitle => 'Meghívtak, hogy csatlakozz';
 
   @override
-  String get inviteAcceptJoinButton => 'Csatlakozz a közösséghez';
+  String get inviteAcceptJoinButton => 'Csatlakozás a közösséghez';
 
   @override
   String get inviteAcceptGoToButton => 'Ugrás a közösséghez';
@@ -762,7 +765,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get invalidDeepLinkGoHomeButton => 'Ugrás a kezdőoldalra';
 
   @override
-  String get inviteAcceptJoinGroupButton => 'Csatlakozz a csoporthoz';
+  String get inviteAcceptJoinGroupButton => 'Csatlakozás a csoporthoz';
 
   @override
   String inviteAcceptGroupDmDescription(String inviterName) {
@@ -792,7 +795,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get mentionUnknownChannel => 'unknown-channel';
 
   @override
-  String get channelAccessDeniedTitle => 'Nincs hozzáférés a csatornához';
+  String get channelAccessDeniedTitle => 'Csatorna-hozzáférés megtagadva';
 
   @override
   String get channelAccessDeniedDescription =>
@@ -869,23 +872,24 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get embedGiftClaimHelp => 'Kattints az ajándékod igényléséhez!';
+  String get embedGiftClaimHelp => 'Kattints az ajándékod beváltásához!';
 
   @override
   String get embedGiftAlreadyRedeemed => 'Már beváltva';
 
   @override
   String get embedGiftClaimAccountHelp =>
-      'Regisztrálj, hogy beválthasd ezt az ajándékot.';
+      'Az ajándék beváltásához fejezd be a fiókod regisztrációját.';
 
   @override
-  String get embedGiftClaim => 'Ajándék igénylése';
+  String get embedGiftClaim => 'Ajándék beváltása';
 
   @override
   String get embedGiftClaimed => 'Ajándék beváltva';
 
   @override
-  String get embedGiftClaimAccount => 'Fiók igénylése a beváltáshoz';
+  String get embedGiftClaimAccount =>
+      'A beváltáshoz fejezd be a fiókregisztrációt';
 
   @override
   String get embedGiftUnknownTitle => 'Ismeretlen ajándék';
@@ -951,14 +955,14 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get privacySettings => 'Adatvédelmi beállítások';
 
   @override
-  String get privacyDirectMessages => 'Névtelen üzenetek';
+  String get privacyDirectMessages => 'Közvetlen üzenetek';
 
   @override
   String get privacyDirectMessagesDescription =>
       'Engedélyezze a névtelen üzeneteket más tagoktól ebben a közösségben';
 
   @override
-  String get privacyBotDirectMessages => 'Botok névtelen üzenetei';
+  String get privacyBotDirectMessages => 'Botok közvetlen üzenetei';
 
   @override
   String get privacyBotDirectMessagesDescription =>
@@ -991,7 +995,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Közösségi értesítési beállítások';
 
   @override
-  String get notificationAllMessages => 'Minden üzenet';
+  String get notificationAllMessages => 'Összes üzenet';
 
   @override
   String get notificationOnlyMentions => 'Csak említések';
@@ -1006,27 +1010,26 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get notificationSuppressRoles => 'Elnyom minden szerep @említést';
 
   @override
-  String get notificationMobilePush => 'Mobil push értesítések';
+  String get notificationMobilePush => 'Mobilos pushértesítések';
 
   @override
-  String get notificationOverrides => 'Értesítési felülbírálatok';
+  String get notificationOverrides => 'Egyéni értesítési beállítások';
 
   @override
-  String get notificationSelectChannel =>
-      'Válassz egy csatornát vagy kategóriát';
+  String get notificationSelectChannel => 'Válassz csatornát vagy kategóriát';
 
   @override
   String get notificationOnlyAtMentions => 'Csak @említések';
 
   @override
-  String get notificationMuteChannel => 'Némítsa el a csatornát';
+  String get notificationMuteChannel => 'Csatorna némítása';
 
   @override
   String get notificationUnmuteChannel => 'Csatorna némításának feloldása';
 
   @override
   String get notificationUseCategoryDefault =>
-      'Kategória alapértelmezett használata';
+      'Kategória alapértelmezésének használata';
 
   @override
   String get notificationUseCommunityDefault =>
@@ -1036,19 +1039,19 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get notificationNoCategory => 'Nincs kategória';
 
   @override
-  String get dmMarkAsRead => 'Jelölje olvasottként';
+  String get dmMarkAsRead => 'Megjelölés olvasottként';
 
   @override
-  String get dmMuteConversation => 'Némítsa el a DM-et';
+  String get dmMuteConversation => 'DM némítása';
 
   @override
   String get dmUnmuteConversation => 'DM némításának feloldása';
 
   @override
-  String get dmPinDm => 'Személyes üzenet rögzítése';
+  String get dmPinDm => 'DM rögzítése';
 
   @override
-  String get dmUnpinDm => 'Személyes üzenet rögzítésének feloldása';
+  String get dmUnpinDm => 'DM rögzítésének feloldása';
 
   @override
   String get dmAlwaysShowInSidebar => 'Mindig megjelenít a sávban';
@@ -1057,10 +1060,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get dmRemoveFromAlwaysShown => 'Eltávolítás a mindig láthatókból';
 
   @override
-  String get dmCloseDm => 'DM bezárása';
+  String get dmCloseDm => 'Közvetlen beszélgetés bezárása';
 
   @override
-  String get dmCloseDmConfirmTitle => 'DM bezárása';
+  String get dmCloseDmConfirmTitle => 'Közvetlen beszélgetés bezárása';
 
   @override
   String dmCloseDmConfirmDescription(String username) {
@@ -1079,13 +1082,13 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get dmCopyChannelId => 'Csatornaazonosító másolása';
 
   @override
-  String get dmChannelIdCopied => 'Csatornaazonosító másolva';
+  String get dmChannelIdCopied => 'Csatornaazonosító kimásolva';
 
   @override
-  String get dmCopyUserId => 'Felhasználóazonosító másolása';
+  String get dmCopyUserId => 'Felhasználói azonosító másolása';
 
   @override
-  String get dmUserIdCopied => 'Felhasználóazonosító másolva';
+  String get dmUserIdCopied => 'Felhasználói azonosító másolva';
 
   @override
   String get dmViewProfile => 'Profil megtekintése';
@@ -1106,7 +1109,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get incomingVoiceCallLabel => 'Bejövő hívás';
 
   @override
-  String get incomingVoiceCallIgnore => 'Figyelmen kívül hagyás';
+  String get incomingVoiceCallIgnore => 'Elutasítás';
 
   @override
   String get directVoiceCallNotEligible =>
@@ -1175,10 +1178,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get dmMuteForever => 'Amíg vissza nem kapcsolom';
 
   @override
-  String get dmPinGroupDm => 'Csoportos DM rögzítése';
+  String get dmPinGroupDm => 'Csoportos beszélgetés rögzítése';
 
   @override
-  String get dmUnpinGroupDm => 'Pineltlenítés csoportos DM';
+  String get dmUnpinGroupDm => 'Csoportos beszélgetés rögzítésének feloldása';
 
   @override
   String get dmUnnamedGroup => 'Névtelen csoport';
@@ -1189,37 +1192,39 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get dmFavoriteDm => 'Kedvenc DM';
+  String get dmFavoriteDm => 'DM hozzáadása a kedvencekhez';
 
   @override
-  String get dmUnfavoriteDm => 'Nem kedvelt DM';
+  String get dmUnfavoriteDm => 'DM eltávolítása a kedvencek közül';
 
   @override
-  String get dmFavoriteGroupDm => 'Kedvenc csoportos DM';
+  String get dmFavoriteGroupDm =>
+      'Csoportos beszélgetés hozzáadása a kedvencekhez';
 
   @override
-  String get dmUnfavoriteGroupDm => 'Nem kedvelt csoportos DM';
+  String get dmUnfavoriteGroupDm =>
+      'Csoportos beszélgetés eltávolítása a kedvencek közül';
 
   @override
-  String get dmChangeFriendNickname => 'Barát becenevének módosítása';
+  String get dmChangeFriendNickname => 'Ismerős becenevének módosítása';
 
   @override
-  String get dmRemoveFriend => 'Barát eltávolítása';
+  String get dmRemoveFriend => 'Eltávolítás az ismerősök közül';
 
   @override
-  String get dmAddFriend => 'Barát hozzáadása';
+  String get dmAddFriend => 'Ismerős hozzáadása';
 
   @override
-  String get dmAcceptFriendRequest => 'Barát kérés elfogadása';
+  String get dmAcceptFriendRequest => 'Ismerősjelölés elfogadása';
 
   @override
-  String get dmIgnoreFriendRequest => 'Barát kérés figyelmen kívül hagyása';
+  String get dmIgnoreFriendRequest => 'Ismerősjelölés mellőzése';
 
   @override
-  String get dmFriendRequestSent => 'Elküldött barát kérés';
+  String get dmFriendRequestSent => 'Ismerősjelölés elküldve';
 
   @override
-  String get dmUnblock => 'Feloldás';
+  String get dmUnblock => 'Tiltás feloldása';
 
   @override
   String get dmDebugUser => 'Felhasználó hibakeresése';
@@ -1231,10 +1236,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get dmDebugCategory => 'Kategória hibakeresése';
 
   @override
-  String get dmPinned => 'Pinelt DM';
+  String get dmPinned => 'Rögzített DM';
 
   @override
-  String get dmUnpinned => 'Pineltlenített DM';
+  String get dmUnpinned => 'Rögzítés feloldva (közvetlen üzenet)';
 
   @override
   String get dmMuted => 'Némított DM';
@@ -1243,7 +1248,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get dmUnmuted => 'Némítatlan DM';
 
   @override
-  String get dmRemoveFriendConfirmTitle => 'Barát eltávolítása';
+  String get dmRemoveFriendConfirmTitle => 'Eltávolítás az ismerősök közül';
 
   @override
   String dmRemoveFriendConfirmDescription(String username) {
@@ -1251,7 +1256,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get dmBlockConfirmTitle => 'Felhasználó blokkolása';
+  String get dmBlockConfirmTitle => 'Felhasználó letiltása';
 
   @override
   String dmBlockConfirmDescription(String username) {
@@ -1259,7 +1264,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get dmFriendRequestSentToast => 'Barát kérés elküldve';
+  String get dmFriendRequestSentToast => 'Ismerősjelölés elküldve';
 
   @override
   String get dmFriendRequestFailed => 'Nem sikerült elküldeni a barát kérést';
@@ -1283,16 +1288,16 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Nem sikerült figyelmen kívül hagyni a barát kérést';
 
   @override
-  String get dmAddFriends => 'Barátok hozzáadása';
+  String get dmAddFriends => 'Ismerősök hozzáadása';
 
   @override
-  String get addFriendSheetTitle => 'Barát hozzáadása';
+  String get addFriendSheetTitle => 'Ismerős hozzáadása';
 
   @override
   String get addFriendUsernameHint => 'Felhasználónév#0000';
 
   @override
-  String get addFriendUsernameLabel => 'Barát felhasználóneve';
+  String get addFriendUsernameLabel => 'Ismerős felhasználóneve';
 
   @override
   String get addFriendSendRequest => 'Kérés küldése';
@@ -1306,24 +1311,24 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Adjon meg érvényes felhasználónevet (Felhasználónév#0000).';
 
   @override
-  String get addFriendOutgoingSuccess => 'Barát kérés elküldve';
+  String get addFriendOutgoingSuccess => 'Ismerősjelölés elküldve';
 
   @override
-  String get addFriendClaimTitle => 'Igényeld a fiókodat';
+  String get addFriendClaimTitle => 'Fejezd be a fiókod regisztrációját';
 
   @override
   String get addFriendClaimDescription =>
-      'Igényeld a fiókodat a barát kérések küldéséhez.';
+      'Fejezd be a fiókod regisztrációját, hogy ismerősjelöléseket küldhess.';
 
   @override
-  String get addFriendVerifyTitle => 'Erősítsd meg az e-mail címedet';
+  String get addFriendVerifyTitle => 'E-mail-cím megerősítése';
 
   @override
   String get addFriendVerifyDescription =>
-      'E-mail címedet igazolnod kell, mielőtt barát kéréseket küldhetsz.';
+      'Ismerősjelölések küldése előtt meg kell erősítened az e-mail-címedet.';
 
   @override
-  String get addFriendVerifyEmail => 'E-mail igazolása';
+  String get addFriendVerifyEmail => 'E-mail-cím megerősítése';
 
   @override
   String addFriendIncomingRequests(int count) {
@@ -1336,10 +1341,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get addFriendIncomingStatus => 'Bejövő barát kérés';
+  String get addFriendIncomingStatus => 'Bejövő ismerősjelölés';
 
   @override
-  String get addFriendOutgoingStatus => 'Elküldött barát kérés';
+  String get addFriendOutgoingStatus => 'Ismerősjelölés elküldve';
 
   @override
   String get addFriendViewProfile => 'Profil megtekintése';
@@ -1348,58 +1353,58 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get addFriendAccept => 'Elfogadás';
 
   @override
-  String get addFriendIgnore => 'Figyelmen kívül hagyás';
+  String get addFriendIgnore => 'Elutasítás';
 
   @override
-  String get addFriendAcceptTitle => 'Barát kérés elfogadása';
+  String get addFriendAcceptTitle => 'Ismerősjelölés elfogadása';
 
   @override
-  String get addFriendIgnoreTitle => 'Barátkérés figyelmen kívül hagyása';
+  String get addFriendIgnoreTitle => 'Ismerősjelölés mellőzése';
 
   @override
   String addFriendAcceptConfirmDescription(String userName) {
-    return 'Elfogadod a(z) $userName barátfelkérését?';
+    return 'Elfogadod $userName ismerősjelölését?';
   }
 
   @override
   String addFriendIgnoreConfirmDescription(String displayName) {
-    return 'Figyelmen kívül hagyod a(z) $displayName barátfelkérését?';
+    return '$displayName ismerősjelölésének mellőzése?';
   }
 
   @override
-  String get addFriendCancelRequest => 'Kérés törlése';
+  String get addFriendCancelRequest => 'Kérelem visszavonása';
 
   @override
   String get addFriendCancelRequestFailed =>
-      'Nem sikerült törölni a barátfelkérést. Próbáld újra.';
+      'Nem sikerült visszavonni az ismerősjelölést. Próbáld újra.';
 
   @override
   String get addFriendNotAcceptingRequests =>
-      'Jelenleg nem fogadnak barátfelkéréseket.';
+      'Jelenleg nem fogad ismerősjelöléseket.';
 
   @override
   String get addFriendUnblockFirst =>
-      'Először blokkold fel, hogy barátfelkérést küldhess.';
+      'Ismerősjelölés küldéséhez előbb oldd fel a letiltását.';
 
   @override
   String get addFriendCannotSendToSelf =>
-      'Nem küldhetsz magadnak barátfelkérést.';
+      'Nem küldhetsz magadnak ismerősjelölést.';
 
   @override
   String get addFriendAlreadyFriends =>
-      'Már barátok vagytok ezzel a felhasználóval.';
+      'Már ismerősök vagytok ezzel a felhasználóval.';
 
   @override
   String get addFriendClaimToSend =>
-      'Fejezd be a regisztrációt a barátfelkérések küldéséhez.';
+      'Fejezd be a regisztrációt, hogy ismerősjelöléseket küldhess.';
 
   @override
   String get addFriendVerifyToSend =>
-      'Ellenőrizd az e-mail címed, mielőtt barátkérelmeket küldenél.';
+      'Ismerősjelölések küldése előtt erősítsd meg az e-mail-címedet.';
 
   @override
   String get addFriendFriendsListFull =>
-      'A barátlistád vagy az övék tele van. Távolíts el valakit, és próbáld újra.';
+      'Megtelt az ismerőslistád vagy az övé. Távolíts el valakit, és próbáld újra.';
 
   @override
   String get userTagBot => 'BOT';
@@ -1428,7 +1433,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get emojiInfoCustomUnknownDescription =>
-      'Ez egy egyéni hangulatjel egy közösségből.';
+      'Ez egy közösség egyéni emojija.';
 
   @override
   String get emojiInfoCustomInviteRequiredDescription =>
@@ -1496,18 +1501,17 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get gifPickerNoResultsTitle => 'Nincs találat';
 
   @override
-  String get gifPickerNoResultsDescription =>
-      'Próbálj meg más keresőkifejezést';
+  String get gifPickerNoResultsDescription => 'Próbálj másik keresőkifejezést';
 
   @override
   String get gifPickerLoadFailedTitle => 'Nem sikerült betölteni a GIF-eket';
 
   @override
   String get gifPickerLoadFailedBody =>
-      'Ellenőrizd a kapcsolatodat, és próbáld újra.';
+      'Ellenőrizd a kapcsolatot, és próbáld újra.';
 
   @override
-  String get emojiCategoryPeople => 'Emberek';
+  String get emojiCategoryPeople => 'Személyek';
 
   @override
   String get emojiCategoryNature => 'Természet';
@@ -1539,7 +1543,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get emojiPlutoniumUpsellButton => 'Szerezz Plutoniumot';
 
   @override
-  String get emojiPlutoniumUpsellDismiss => 'Ne mutasd meg újra';
+  String get emojiPlutoniumUpsellDismiss => 'Ne mutasd többé';
 
   @override
   String emojiPlutoniumUpsellCustomEmoji(int count) {
@@ -1564,11 +1568,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get externalLinkWarningTitle => 'Külső hivatkozás figyelmeztetés';
+  String get externalLinkWarningTitle => 'Figyelmeztetés külső hivatkozásnál';
 
   @override
   String externalLinkWarningLeaving(String productName) {
-    return 'Elhagyod a ${productName}t';
+    return 'Elhagyod a(z) $productName alkalmazást';
   }
 
   @override
@@ -1593,47 +1597,47 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       ' — kihagyja ezt a figyelmeztetést a következő alkalommal';
 
   @override
-  String get externalLinkVisitSite => 'Webhely megtekintése';
+  String get externalLinkVisitSite => 'Webhely felkeresése';
 
   @override
   String get externalLinkTrustAllLabel =>
-      'Minden külső hivatkozás megbízhatóként jelölése';
+      'Minden külső link megjelölése megbízhatóként';
 
   @override
   String get externalLinkStripTrackingLabel =>
-      'Követési paraméterek eltávolítása a hivatkozásokból';
+      'Követési paraméterek eltávolítása az URL-ekből';
 
   @override
   String get externalLinkStripTrackingDescription =>
-      'Automatikus eltávolítja a követési paramétereket (pl. utm_source, fbclid, gclid) az általad küldött üzenetekben lévő hivatkozásokból. Tisztítja a hivatkozást, mielőtt bárki más eléri azt.';
+      'Automatikusan eltávolítja a követési paramétereket (például utm_source, fbclid, gclid) az elküldött üzenetekben lévő URL-ekből. A linket megtisztítja, mielőtt az bárki máshoz eljutna.';
 
   @override
   String get externalLinkTrustAllConfirmTitle =>
-      'Minden külső hivatkozás megbízhatóként jelölése?';
+      'Megbízol minden külső hivatkozásban?';
 
   @override
   String get externalLinkTrustAllConfirmDescription =>
-      'Ez minden külső hivatkozást megbízhatóként jelöl, és kihagyja a figyelmeztetést minden domain esetén. A meglévő megbízható domainjeid felülírásra kerülnek. Ez kevésbé biztonságos.';
+      'Ez megbízhatónak jelöl minden külső hivatkozást, és kihagyja a figyelmeztetést minden domain esetében. A meglévő megbízható domainjeid felülíródnak. Ez kevésbé biztonságos.';
 
   @override
   String get externalLinkTrustAllConfirmAction =>
-      'Mind megbízhatóként jelölése';
+      'Összes megjelölése megbízhatóként';
 
   @override
   String get externalLinkStopTrustingAllTitle =>
-      'Minden hivatkozás megbízhatóként jelölésének leállítása?';
+      'Minden link megbízhatóságának megszüntetése?';
 
   @override
   String get externalLinkStopTrustingAllDescription =>
-      'A külső hivatkozásokra vonatkozó figyelmeztetések újra megjelennek. Egyedileg kell hozzáadnod a megbízható domaineket.';
+      'A külső hivatkozásokra vonatkozó figyelmeztetések újra megjelennek. A megbízható domaineket egyenként kell hozzáadnod.';
 
   @override
   String get externalLinkStopTrustingAllAction =>
-      'Megbízhatóként jelölés kikapcsolása';
+      'Minden hivatkozás automatikus elfogadásának kikapcsolása';
 
   @override
   String get externalLinkTrustedAllDescription =>
-      'Minden külső hivatkozás megbízható. Nem jelennek meg figyelmeztetések.';
+      'Minden külső hivatkozás megbízható. A figyelmeztetések nem jelennek meg.';
 
   @override
   String externalLinkTrustedDomainsDescription(int count) {
@@ -1671,10 +1675,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Az animált képek vágása még nem támogatott. Az eredeti feltöltés kerül felhasználásra.';
 
   @override
-  String get cropAvatar => 'Avatar vágása';
+  String get cropAvatar => 'Profilkép körbevágása';
 
   @override
-  String get cropBanner => 'Banner vágása';
+  String get cropBanner => 'Borítókép körbevágása';
 
   @override
   String get skip => 'Kihagyás';
@@ -1696,7 +1700,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get fluxerTagDescriptionBase =>
-      'A felhasználónevek csak betűket (a-z, A-Z), számokat (0-9) és aláhúzásjeleket tartalmazhatnak. A felhasználónevek nem érzékenyek a kis- és nagybetűk megkülönböztetésére.';
+      'A felhasználónevek csak betűket (a-z, A-Z), számokat (0-9) és aláhúzásjeleket tartalmazhatnak. A felhasználónevek nem különböztetik meg a kis- és nagybetűket.';
 
   @override
   String get fluxerTagDescriptionVisionary =>
@@ -1713,14 +1717,14 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get validationAllowedChars =>
-      'Csak betűk (a-z, A-Z), számok (0-9) és aláhúzásjel (_)';
+      'Csak betűk (a-z, A-Z), számok (0-9) és aláhúzásjelek (_)';
 
   @override
   String get discriminatorPremiumTooltip =>
       'Szerezz Plutoniumot a tagod testreszabásához, vagy tartsd meg a felhasználóneved módosításakor';
 
   @override
-  String get fluxerTagAlreadyTaken => 'Felhasználónév már foglalt';
+  String get fluxerTagAlreadyTaken => 'A felhasználónév már foglalt';
 
   @override
   String fluxerTagAlreadyTakenBody(String username, String discriminator) {
@@ -1772,21 +1776,21 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'A Felhasználónév frissítése sikertelen. Kérlek, próbáld újra.';
 
   @override
-  String get continueAction => 'Tovább';
+  String get continueAction => 'Folytatás';
 
   @override
   String get profileCustomizationTitle => 'Profil testreszabása';
 
   @override
   String get profileCustomizationDescription =>
-      'Módosítsd a profilod megjelenését, és nézd meg az élő előnézetet';
+      'Profilod megjelenésének szerkesztése és élő előnézet megtekintése';
 
   @override
   String get usernameLabel => 'Felhasználónév';
 
   @override
   String get claimAccountToChangeFluxerTag =>
-      'Fiók igénylése a Felhasználónév módosításához';
+      'A felhasználóneved megváltoztatásához fejezd be a fiókod regisztrációját';
 
   @override
   String get changeFluxerTag => 'Felhasználónév módosítása';
@@ -1838,18 +1842,18 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'PNG, JPEG, WebP, GIF. Max. 10 MB. Minimum: 960×540px (16:9)';
 
   @override
-  String get accentColorLabel => 'Kiemelő szín';
+  String get accentColorLabel => 'Kiemelőszín';
 
   @override
   String get accentColorDescription =>
-      'A profilod szegélyének és borítóképének színét alakítja';
+      'A profilod szegélyének és borítóképének színét szabályozza';
 
   @override
   String get aboutMeLabel => 'Rólam';
 
   @override
   String get aboutMeHelperText =>
-      'Használhatsz linkeket, emojikat és Markdown formázást.';
+      'Használhatsz linkeket, emojikat és Markdown-formázást.';
 
   @override
   String get emojiPickerTitle => 'Emoji';
@@ -1883,14 +1887,15 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get maskVisionaryAsSubscription =>
-      'Látnok jelvény előfizetésként való megjelenítése';
+      'A Visionary megjelenítése normál előfizetésként';
 
   @override
   String get maskVisionaryDescription =>
-      'Mutasd a Látnok jelvényedet egy normál előfizetésként';
+      'A Visionary-előfizetés megjelenítése normál előfizetésként';
 
   @override
-  String get hideVisionaryIdBadge => 'Látnok azonosító jelvény elrejtése';
+  String get hideVisionaryIdBadge =>
+      'Visionary-azonosító jelvényének elrejtése';
 
   @override
   String hideVisionaryIdBadgeWithSequence(int sequence) {
@@ -1899,7 +1904,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get hideVisionaryIdDescription =>
-      'Távolítsd el a Látnok azonosító jelvényedet';
+      'Visionary-azonosító jelvényének eltávolítása';
 
   @override
   String premiumTrialSubscriptionStarts(String date) {
@@ -1944,28 +1949,28 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String profilePreviewMemberSince(String productName) {
-    return '$productName tag';
+    return '$productName-tagság kezdete';
   }
 
   @override
-  String get unclaimedAccountTitle => 'Nem igényelt fiók';
+  String get unclaimedAccountTitle => 'Befejezetlen regisztrációjú fiók';
 
   @override
   String get unclaimedAccountDescription =>
       'A fiókod még nincs igényelve. E-mail és jelszó nélkül elveszítheted a hozzáférést. Igényeld a fiókodat most a biztonság érdekében.';
 
   @override
-  String get claimAccount => 'Fiók igénylése';
+  String get claimAccount => 'Fiókregisztráció befejezése';
 
   @override
-  String get profileTypeLabel => 'Profil típusa';
+  String get profileTypeLabel => 'Profiltípus';
 
   @override
   String get profileTypeGlobal => 'Globális profil';
 
   @override
   String get profileTypeGuildDescription =>
-      'Közösségenkénti profilodat szerkeszted. Ez a profil csak ebben a közösségben lesz látható, és felülírja a globális profilodat.';
+      'A közösségi profilodat szerkeszted. Ez a profil csak ebben a közösségben lesz látható, és felülírja a globális profilodat.';
 
   @override
   String get communityNicknameLabel => 'Közösségi becenév';
@@ -1981,7 +1986,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get avatarModeCustom => 'Egyéni kép használata';
 
   @override
-  String get avatarModeUnset => 'Ne jelenjen meg';
+  String get avatarModeUnset => 'Ne mutasd';
 
   @override
   String get profileSavedToast => 'Profil frissítve';
@@ -1990,7 +1995,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get profileEditButton => 'Profil szerkesztése';
 
   @override
-  String get profileNoteLabel => 'Jegyzet';
+  String get profileNoteLabel => 'Megjegyzés';
 
   @override
   String get profileNoteVisibility => '(csak te láthatod)';
@@ -2041,22 +2046,22 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get securityLoginEmailAddressLabel => 'E-mail cím';
+  String get securityLoginEmailAddressLabel => 'E-mail-cím';
 
   @override
-  String get securityLoginNoEmailSet => 'Nincs e-mail cím beállítva';
+  String get securityLoginNoEmailSet => 'Nincs beállítva e-mail-cím';
 
   @override
-  String get securityLoginChangeEmail => 'E-mail cím módosítása';
+  String get securityLoginChangeEmail => 'E-mail-cím módosítása';
 
   @override
-  String get securityLoginAddEmail => 'E-mail cím hozzáadása';
+  String get securityLoginAddEmail => 'E-mail-cím hozzáadása';
 
   @override
-  String get securityLoginReveal => 'Mutat';
+  String get securityLoginReveal => 'Felfedés';
 
   @override
-  String get securityLoginHide => 'Elrejt';
+  String get securityLoginHide => 'Elrejtés';
 
   @override
   String get securityLoginPasswordSectionTitle => 'Jelszó';
@@ -2077,7 +2082,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get securityLoginPasswordNeverChanged => 'Utoljára módosítva: Soha';
 
   @override
-  String get securityLoginNoPasswordSet => 'Nincs jelszó beállítva';
+  String get securityLoginNoPasswordSet => 'Nincs beállítva jelszó';
 
   @override
   String get securityLoginChangePassword => 'Jelszó módosítása';
@@ -2093,10 +2098,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Elküldünk egy ellenőrző kódot az e-mail címedre, hogy megerősítsük személyazonosságodat, mielőtt módosítanánk a jelszavadat.';
 
   @override
-  String get passwordChangeStart => 'Indítás';
+  String get passwordChangeStart => 'Kezdés';
 
   @override
-  String get passwordChangeVerifyTitle => 'Hitelesítsd az e-mailedet';
+  String get passwordChangeVerifyTitle => 'E-mail-cím megerősítése';
 
   @override
   String get passwordChangeVerifyDescription =>
@@ -2106,7 +2111,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get passwordChangeVerificationCode => 'Ellenőrző kód';
 
   @override
-  String get passwordChangeVerify => 'Hitelesítés';
+  String get passwordChangeVerify => 'Ellenőrzés';
 
   @override
   String get passwordChangeNewPasswordTitle => 'Új jelszó beállítása';
@@ -2125,7 +2130,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get passwordChangeSubmit => 'Jelszó módosítása';
 
   @override
-  String get passwordChangeSuccess => 'Jelszó módosítva';
+  String get passwordChangeSuccess => 'Jelszó megváltoztatva';
 
   @override
   String get passwordChangePasswordsDoNotMatch => 'A jelszavak nem egyeznek';
@@ -2134,14 +2139,14 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get passwordChangeInvalidCode => 'Érvénytelen vagy lejárt kód';
 
   @override
-  String get emailChangeTitle => 'E-mail cím módosítása';
+  String get emailChangeTitle => 'E-mail-cím módosítása';
 
   @override
   String get emailChangeIntroDescription =>
       'Az e-mail cím megváltoztatása előtt ellenőrző kódokat küldünk az Ön személyazonosságának igazolásához.';
 
   @override
-  String get emailChangeStart => 'Indítás';
+  String get emailChangeStart => 'Kezdés';
 
   @override
   String get emailChangeVerifyOriginalTitle =>
@@ -2152,14 +2157,14 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Adja meg az aktuális e-mail címére küldött ellenőrző kódot.';
 
   @override
-  String get emailChangeNewEmailTitle => 'Új e-mail cím megadása';
+  String get emailChangeNewEmailTitle => 'Új e-mail-cím megadása';
 
   @override
   String get emailChangeNewEmailDescription =>
       'Adja meg az új e-mail címet, amelyet használni szeretne.';
 
   @override
-  String get emailChangeNewEmailLabel => 'Új e-mail cím';
+  String get emailChangeNewEmailLabel => 'Új e-mail-cím';
 
   @override
   String get emailChangeNewEmailSubmit => 'Ellenőrző kód küldése';
@@ -2172,7 +2177,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Adja meg az új e-mail címére küldött ellenőrző kódot.';
 
   @override
-  String get emailChangeSuccess => 'E-mail cím módosítva';
+  String get emailChangeSuccess => 'E-mail-cím megváltoztatva';
 
   @override
   String get emailChangeInvalidCode => 'Érvénytelen vagy lejárt kód';
@@ -2195,7 +2200,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get enable => 'Engedélyezés';
 
   @override
-  String get disable => 'Letiltás';
+  String get disable => 'Kikapcsolás';
 
   @override
   String get delete => 'Törlés';
@@ -2204,42 +2209,42 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get save => 'Mentés';
 
   @override
-  String get securityTfaSectionTitle => 'Kétfaktoros hitelesítés';
+  String get securityTfaSectionTitle => 'Kétlépcsős azonosítás';
 
   @override
   String get securityTfaSectionDescription =>
-      'Adjunk hozzá egy extra biztonsági réteget a fiókjához';
+      'Tedd még biztonságosabbá a fiókodat';
 
   @override
   String get securityTfaAuthenticatorApp => 'Hitelesítő alkalmazás';
 
   @override
   String get securityTfaAuthenticatorEnabled =>
-      'A kétfaktoros hitelesítés engedélyezve van';
+      'A kétlépcsős azonosítás engedélyezve van';
 
   @override
   String get securityTfaAuthenticatorDisabled =>
-      'Használjon hitelesítő alkalmazást kódok generálásához a kétfaktoros hitelesítéshez';
+      'Használj hitelesítő alkalmazást a kétlépcsős azonosításhoz szükséges kódok generálásához';
 
   @override
-  String get securityTfaBackupCodes => 'Biztonsági mentési kódok';
+  String get securityTfaBackupCodes => 'Biztonsági kódok';
 
   @override
   String get securityTfaBackupCodesDescription =>
-      'Tekintse meg és kezelje a biztonsági mentési kódjait a fiók helyreállításához';
+      'Fiók-helyreállító biztonsági kódok megtekintése és kezelése';
 
   @override
   String get securityTfaViewCodes => 'Kódok megtekintése';
 
   @override
-  String get securityPasskeysSectionTitle => 'Jelszó nélküli kulcsok';
+  String get securityPasskeysSectionTitle => 'Jelszókulcsok';
 
   @override
   String get securityPasskeysSectionDescription =>
       'Használjon jelszó nélküli kulcsokat a jelszó nélküli bejelentkezéshez és a kétfaktoros hitelesítéshez';
 
   @override
-  String get securityPasskeysRegistered => 'Regisztrált jelszó nélküli kulcsok';
+  String get securityPasskeysRegistered => 'Regisztrált jelszókulcsok';
 
   @override
   String get securityPasskeysNone =>
@@ -2257,7 +2262,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get securityPasskeysAdd => 'Jelszó nélküli kulcs hozzáadása';
+  String get securityPasskeysAdd => 'Jelszókulcs hozzáadása';
 
   @override
   String securityPasskeysAdded(String date) {
@@ -2273,7 +2278,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get securityPasskeysRename => 'Átnevezés';
 
   @override
-  String get securityPasskeysDeleteTitle => 'Jelszó nélküli kulcs törlése';
+  String get securityPasskeysDeleteTitle => 'Jelszókulcs törlése';
 
   @override
   String securityPasskeysDeleteDescription(String name) {
@@ -2281,14 +2286,14 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get securityPasskeyNameTitle => 'Jelszó nélküli kulcs elnevezése';
+  String get securityPasskeyNameTitle => 'Jelszókulcs elnevezése';
 
   @override
-  String get securityPasskeyNameLabel => 'Jelszó nélküli kulcs neve';
+  String get securityPasskeyNameLabel => 'Jelszókulcs neve';
 
   @override
   String get securityPasskeyNameHint =>
-      'pl. YubiKey, iPhone, Munkahelyi számítógép';
+      'pl. YubiKey, iPhone, munkahelyi számítógép';
 
   @override
   String get securityPhoneSectionTitle => 'Telefonszám';
@@ -2323,7 +2328,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get securityClaimDescription =>
-      'Igényeld a fiókodat a biztonsági funkciók, például a kétfaktoros hitelesítés és a jelszómentes belépés eléréséhez.';
+      'Fejezd be a fiókod regisztrációját, hogy hozzáférhess a biztonsági funkciókhoz, például a kétlépcsős azonosításhoz és a jelszókulcsokhoz.';
 
   @override
   String get securityVerifyEmailRequired =>
@@ -2354,10 +2359,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Add meg a 6 számjegyű kódot a hitelesítő alkalmazásodból a kétfaktoros hitelesítés letiltásához.';
 
   @override
-  String get totpDisableSuccess => 'A kétfaktoros hitelesítés letiltva';
+  String get totpDisableSuccess => 'Kétlépcsős azonosítás kikapcsolva';
 
   @override
-  String get backupCodesTitle => 'Biztonsági mentési kódok';
+  String get backupCodesTitle => 'Biztonsági kódok';
 
   @override
   String get backupCodesWarning =>
@@ -2381,7 +2386,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get backupCodesDone => 'Kész';
 
   @override
-  String get backupCodesViewTitle => 'Biztonsági mentési kódok megtekintése';
+  String get backupCodesViewTitle => 'Biztonsági kódok megtekintése';
 
   @override
   String get backupCodesViewDescription =>
@@ -2423,15 +2428,15 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get phoneNumberRequired => 'Telefonszám megadása kötelező';
 
   @override
-  String get phoneEnterValidNumber => 'Adjon meg érvényes mobilszámot.';
+  String get phoneEnterValidNumber => 'Adj meg egy érvényes mobilszámot.';
 
   @override
   String get phoneCannotBeUsed =>
-      'Ez a telefonszám nem használható. Próbáljon meg egy másik mobilszámot, vagy lépjen kapcsolatba az ügyfélszolgálattal.';
+      'Ez a telefonszám nem használható. Próbálj másik mobilszámot, vagy fordulj az ügyfélszolgálathoz.';
 
   @override
   String get phoneAlreadyUsed =>
-      'Ezt a telefonszámot már használták. Próbáljon meg egy másik számot, vagy lépjen kapcsolatba az ügyfélszolgálattal.';
+      'Ezt a telefonszámot már használták. Próbálj másik számot, vagy fordulj az ügyfélszolgálathoz.';
 
   @override
   String get phoneCodeDidNotWork =>
@@ -2443,18 +2448,18 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get phoneSmsUnavailable =>
-      'Az SMS-ellenőrzés jelenleg nem érhető el. Próbálja újra később, vagy lépjen kapcsolatba az ügyfélszolgálattal.';
+      'Az SMS-ellenőrzés jelenleg nem érhető el. Próbáld újra később, vagy fordulj az ügyfélszolgálathoz.';
 
   @override
   String get phoneNotEligible =>
-      'A telefonszám-ellenőrzés nem érhető el ehhez a fiókhoz. Használjon másik módszert, vagy lépjen kapcsolatba az ügyfélszolgálattal.';
+      'A telefonszám-ellenőrzés nem érhető el ehhez a fiókhoz. Használj másik módszert, vagy fordulj az ügyfélszolgálathoz.';
 
   @override
   String get phoneCaptchaRequired =>
-      'A telefonszám ellenőrzése előtt böngészőellenőrzés szükséges. Próbálja újra a bejelentkezési oldalról, vagy lépjen kapcsolatba az ügyfélszolgálattal.';
+      'A telefonszám ellenőrzése előtt böngészőellenőrzés szükséges. Próbáld újra a bejelentkezési oldalról, vagy fordulj az ügyfélszolgálathoz.';
 
   @override
-  String get phoneSomethingWentWrong => 'Hiba történt. Próbálja újra.';
+  String get phoneSomethingWentWrong => 'Hiba történt. Próbáld újra.';
 
   @override
   String get phoneInboundExpensiveDescription =>
@@ -2491,21 +2496,21 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String requiredActionIntroGeneric(String productName) {
-    return 'A $productName további használatához végezze el a szükséges ellenőrzést.';
+    return 'A(z) $productName további használatához végezd el a szükséges ellenőrzést.';
   }
 
   @override
   String get requiredActionIntroPhone =>
-      'A folytatáshoz a regisztrációdhoz egy további spamellenőrzésre van szükség.';
+      'A regisztrációdhoz még egy spamellenőrzés szükséges, mielőtt folytathatnád.';
 
   @override
   String requiredActionIntroEmailOrPhone(String productName) {
-    return 'Igazolja e-mail címét vagy telefonszámát, hogy továbbra is használhassa a(z) $productName alkalmazást.';
+    return 'A(z) $productName további használatához erősítsd meg az e-mail-címedet, vagy igazold a telefonszámodat.';
   }
 
   @override
   String requiredActionIntroEmailAndPhone(String productName) {
-    return 'A $productName további használatához végezze el az alábbi e-mail- és telefonszám-ellenőrzési lépéseket.';
+    return 'A(z) $productName további használatához végezd el az alábbi kötelező e-mail- és telefonszám-ellenőrzési lépéseket.';
   }
 
   @override
@@ -2513,7 +2518,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String requiredActionChooseMethodDescription(String productName) {
-    return 'A $productName további használatához végezze el az alábbi ellenőrzési módok egyikét.';
+    return 'A(z) $productName további használatához végezd el az alábbi ellenőrzési módok egyikét.';
   }
 
   @override
@@ -2548,11 +2553,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Visszavonhatatlan és pusztító műveletek';
 
   @override
-  String get dangerZoneDisableTitle => 'Fiók letiltása';
+  String get dangerZoneDisableTitle => 'Fiók inaktiválása';
 
   @override
   String get dangerZoneDisableDescription =>
-      'Ideiglenesen tiltsd le a fiókodat. Később újra aktiválhatod, ha újra bejelentkezel.';
+      'Ideiglenesen inaktiválhatod a fiókodat. Később újraaktiválhatod, ha bejelentkezel.';
 
   @override
   String get dangerZoneDisableConfirmDescription =>
@@ -2563,19 +2568,18 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get dangerZoneDeleteDescription =>
-      'Véglegesen törölje a fiókodat és az összes kapcsolódó adatot. Ez a művelet nem vonható vissza.';
+      'Véglegesen törli a fiókodat és minden kapcsolódó adatot. Ez nem vonható vissza.';
 
   @override
   String get dangerZoneDeleteCancelSubscription =>
       'A fiókod törlése előtt mondd le az aktív Plutonium előfizetésedet a Plutonium beállításaiban.';
 
   @override
-  String get dangerZoneDeleteCannotDeleteAccount =>
-      'Nem lehet törölni a fiókot';
+  String get dangerZoneDeleteCannotDeleteAccount => 'A fiók nem törölhető';
 
   @override
   String get dangerZoneDeleteOwnsCommunities =>
-      'Nem törölheted a fiókodat, amíg közösségek tulajdonosa vagy. Először ruházd át a tulajdonjogot a következő közösségekre:';
+      'Nem törölheted a fiókodat, amíg közösségek tulajdonosa vagy. Először ruházd át a következő közösségek tulajdonjogát:';
 
   @override
   String dangerZoneDeleteAndXMore(int count) {
@@ -2589,19 +2593,19 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get dangerZoneDeleteConfirmDescription =>
-      'Biztosan törölni szeretnéd a fiókodat? Ez a művelet ütemezni fogja a fiókod végleges törlését.';
+      'Biztosan törölni szeretnéd a fiókodat? Ezzel a művelettel végleges törlésre jelölöd a fiókodat.';
 
   @override
   String get dangerZoneDeleteBullet1 =>
-      'A törlési folyamatot 14 napon belül lemondhatod';
+      'A törlési folyamatot 14 napon belül visszavonhatod';
 
   @override
   String get dangerZoneDeleteBullet2 =>
-      '14 nap elteltével a fiókod véglegesen törlődik';
+      '14 nap múlva fiókod véglegesen törlődik';
 
   @override
   String get dangerZoneDeleteBullet3 =>
-      'A törlés feldolgozása után nem tudod visszanyerni a hozzáférést a fiókodhoz';
+      'A törlés feldolgozása után nem tudod visszaállítani a fiókodhoz való hozzáférést';
 
   @override
   String get dangerZoneDeleteBullet4 =>
@@ -2612,14 +2616,14 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Ha exportálni szeretnéd az adataidat, vagy először törölni szeretnéd az üzeneteidet, kérjük, mielőtt folytatnád, keresd fel az Adatvédelmi irányítópultot a Felhasználói beállításokban.';
 
   @override
-  String get claimAccountTitle => 'Igényeld a fiókodat';
+  String get claimAccountTitle => 'Fejezd be a fiókod regisztrációját';
 
   @override
   String get claimAccountDescription =>
-      'Igényeld a fiókodat egy e-mail cím és jelszó hozzáadásával. Elküldünk egy ellenőrző kódot az e-mail címed megerősítéséhez, mielőtt befejeznéd.';
+      'Fejezd be a fiókod regisztrációját egy e-mail-cím és jelszó megadásával. A befejezés előtt ellenőrző kódot küldünk az e-mail-címed megerősítéséhez.';
 
   @override
-  String get claimAccountEmailLabel => 'E-mail cím';
+  String get claimAccountEmailLabel => 'E-mail';
 
   @override
   String get claimAccountPasswordLabel => 'Jelszó';
@@ -2629,13 +2633,13 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get claimAccountVerifyDescription =>
-      'Írd be az e-mail címedre küldött kódot a hitelesítéshez. A jelszavad a kód megerősítése után lesz beállítva.';
+      'Add meg az e-mail-címedre küldött kódot az ellenőrzéshez. A jelszavad a kód megerősítése után lesz beállítva.';
 
   @override
-  String get claimAccountSuccess => 'Fiók sikeresen igényelve';
+  String get claimAccountSuccess => 'A fiókregisztráció sikeresen befejeződött';
 
   @override
-  String get importantInformation => 'Fontos információk:';
+  String get importantInformation => 'Fontos információ:';
 
   @override
   String get genericError => 'Hiba történt';
@@ -2795,7 +2799,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get authorizedAppsEmptyDescription =>
-      'Még nem engedélyeztél semmilyen alkalmazást a fiókod elérésére.';
+      'Még egyetlen alkalmazásnak sem adtál hozzáférést a fiókodhoz.';
 
   @override
   String get authorizedAppsLoadError =>
@@ -2823,57 +2827,57 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get authorizedAppsScopeIdentify =>
-      'Hozzáférést biztosít az alapvető profilinformációidhoz (felhasználónév, avatar stb.)';
+      'Hozzáférés az alapvető profiladataidhoz (felhasználónév, profilkép stb.)';
 
   @override
-  String get authorizedAppsScopeEmail => 'Az e-mail címed megtekintése';
+  String get authorizedAppsScopeEmail => 'E-mail-címed megtekintése';
 
   @override
   String get authorizedAppsScopeGuilds =>
-      'A közösségek, amelyeknek tagja vagy, megtekintése';
+      'Azoknak a közösségeknek a megtekintése, amelyeknek tagja vagy';
 
   @override
-  String get authorizedAppsScopeConnections =>
-      'Csatlakoztatott fiókjaid megtekintése';
+  String get authorizedAppsScopeConnections => 'Kapcsolt fiókok megtekintése';
 
   @override
   String get authorizedAppsScopeBot =>
-      'Bot hozzáadása egy közösséghez a kért engedélyekkel';
+      'Bot hozzáadása egy közösséghez a kért jogosultságokkal';
 
   @override
   String get authorizedAppsScopeAdmin => 'Adminisztratív végpontok elérése';
 
   @override
-  String get applicationsTitle => 'Applications';
+  String get applicationsTitle => 'Alkalmazások';
 
   @override
-  String get applicationsCreate => 'Create application';
+  String get applicationsCreate => 'Alkalmazás létrehozása';
 
   @override
-  String get applicationsCreateSubmit => 'Create';
+  String get applicationsCreateSubmit => 'Létrehozás';
 
   @override
   String get applicationsCreateClaimTooltip =>
-      'Claim your account to create applications.';
+      'Alkalmazások létrehozásához fejezd be a fiókod regisztrációját.';
 
   @override
   String applicationsDocsLink(String domain) {
-    return 'Read the documentation ($domain)';
+    return 'Dokumentáció olvasása ($domain)';
   }
 
   @override
-  String get applicationsLoadError => 'Unable to load applications';
+  String get applicationsLoadError =>
+      'Nem sikerült betölteni az alkalmazásokat';
 
   @override
   String get applicationsLoadErrorDescription =>
-      'Check your connection and try again.';
+      'Ellenőrizd a kapcsolatot, és próbáld újra.';
 
   @override
-  String get applicationsEmptyTitle => 'No applications yet';
+  String get applicationsEmptyTitle => 'Még nincsenek alkalmazások';
 
   @override
   String applicationsEmptyDescription(String apiName) {
-    return 'Create your first application to get started with the $apiName.';
+    return 'Hozd létre az első alkalmazásodat a(z) $apiName használatához.';
   }
 
   @override
@@ -2882,207 +2886,211 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get applicationsName => 'Application name';
+  String get applicationsName => 'Alkalmazás neve';
 
   @override
-  String get applicationsNameHint => 'My application';
+  String get applicationsNameHint => 'Saját alkalmazás';
 
   @override
-  String get applicationsNameRequired => 'Application name is required';
+  String get applicationsNameRequired => 'Az alkalmazás neve kötelező';
 
   @override
-  String get applicationsBackToList => 'Back to list';
+  String get applicationsBackToList => 'Vissza a listához';
 
   @override
-  String get applicationsDetailLoadError => 'Couldn\'t load this application';
+  String get applicationsDetailLoadError =>
+      'Nem sikerült betölteni az alkalmazást';
 
   @override
   String get applicationsDetailLoadErrorDescription =>
-      'Try again or go back to the applications list.';
+      'Próbáld újra, vagy térj vissza az alkalmazások listájához.';
 
   @override
-  String get applicationsId => 'Application ID';
+  String get applicationsId => 'Alkalmazásazonosító';
 
   @override
-  String get applicationsCopyId => 'Copy ID';
+  String get applicationsCopyId => 'Azonosító másolása';
 
   @override
-  String get applicationsSecretsTitle => 'Secrets & tokens';
+  String get applicationsSecretsTitle => 'Titkos kulcsok és tokenek';
 
   @override
   String get applicationsSecretsDescription =>
-      'Keep these safe. Regenerating will break existing integrations.';
+      'Őrizd meg őket biztonságosan. Az újragenerálás működésképtelenné teszi a meglévő integrációkat.';
 
   @override
-  String get applicationsClientSecret => 'Client secret';
+  String get applicationsClientSecret => 'Kliens titkos kulcsa';
 
   @override
-  String get applicationsBotToken => 'Bot token';
+  String get applicationsBotToken => 'Bottoken';
 
   @override
-  String get applicationsRegenerate => 'Regenerate';
+  String get applicationsRegenerate => 'Újragenerálás';
 
   @override
   String get applicationsRegenerateClientSecretTitle =>
-      'Regenerate client secret?';
+      'Újragenerálod a kliens titkos kulcsát?';
 
   @override
-  String get applicationsRegenerateBotTokenTitle => 'Regenerate bot token?';
+  String get applicationsRegenerateBotTokenTitle =>
+      'Újragenerálod a bot tokenjét?';
 
   @override
   String get applicationsRegenerateClientSecretDescription =>
-      'Regenerating will invalidate the current secret. Update any code that uses the old value.';
+      'Az újragenerálás érvényteleníti a jelenlegi titkos kulcsot. Frissítsd az összes kódot, amely a régi értéket használja.';
 
   @override
   String get applicationsRegenerateBotTokenDescription =>
-      'Regenerating will invalidate the current token. Update any code that uses the old value.';
+      'Az újragenerálás érvényteleníti az aktuális tokent. Frissítsd az összes kódot, amely a régi értéket használja.';
 
   @override
   String get applicationsClientSecretRegenerated =>
-      'Client secret regenerated. Update any code that uses the old secret.';
+      'A kliens titkos kulcsa újra lett generálva. Frissítsd az összes kódot, amely a régi kulcsot használja.';
 
   @override
   String get applicationsBotTokenRegenerated =>
-      'Bot token regenerated. Update any code that uses the old token.';
+      'A bottoken újra lett generálva. Frissítsd az összes kódot, amely a régi tokent használja.';
 
   @override
-  String get applicationsRegenerateFailed => 'Couldn\'t regenerate secret';
+  String get applicationsRegenerateFailed =>
+      'Nem sikerült újra létrehozni a titkos kulcsot';
 
   @override
-  String get applicationsInfoTitle => 'Application information';
+  String get applicationsInfoTitle => 'Alkalmazás adatai';
 
   @override
   String get applicationsInfoDescription =>
-      'Basic settings and allowed redirect URIs.';
+      'Alapbeállítások és engedélyezett átirányítási URI-k.';
 
   @override
-  String get applicationsPublicBot => 'Public bot';
+  String get applicationsPublicBot => 'Nyilvános bot';
 
   @override
   String get applicationsPublicBotDescription =>
-      'Allow anyone to invite this bot to their communities.';
+      'Engedélyezi, hogy bárki meghívhassa ezt a botot a közösségeibe.';
 
   @override
-  String get applicationsRequireCodeGrant => 'Require OAuth2 code grant';
+  String get applicationsRequireCodeGrant =>
+      'OAuth2 engedélyezési kód megkövetelése';
 
   @override
   String get applicationsRequireCodeGrantDescription =>
-      'Requires a redirect URI and an authorization code when inviting this bot.';
+      'A bot meghívásához átirányítási URI és engedélyezési kód szükséges.';
 
   @override
-  String get applicationsRedirectUris => 'Redirect URIs';
+  String get applicationsRedirectUris => 'Átirányítási URI-k';
 
   @override
-  String get applicationsAddRedirect => 'Add redirect';
+  String get applicationsAddRedirect => 'Átirányítás hozzáadása';
 
   @override
-  String get applicationsDeleteRedirect => 'Delete redirect URI';
+  String get applicationsDeleteRedirect => 'Átirányítási URI törlése';
 
   @override
-  String get applicationsBotProfileTitle => 'Bot profile';
+  String get applicationsBotProfileTitle => 'Botprofil';
 
   @override
   String get applicationsBotProfileDescription =>
-      'Avatar, tag, and rich profile details for your bot.';
+      'A botod profilképe, címkéje és részletes profiladatai.';
 
   @override
-  String get applicationsBotAvatar => 'Bot avatar';
+  String get applicationsBotAvatar => 'Bot profilképe';
 
   @override
-  String get applicationsUsernameRequired => 'Username is required';
+  String get applicationsUsernameRequired => 'Felhasználónév megadása kötelező';
 
   @override
   String get applicationsUsernameTooLong =>
-      'Username must be at most 32 characters';
+      'A felhasználónév legfeljebb 32 karakterből állhat';
 
   @override
   String get applicationsUsernameInvalid =>
-      'Username can only contain letters, numbers, and underscores';
+      'A felhasználónév csak betűket, számokat és aláhúzásjeleket tartalmazhat';
 
   @override
-  String get applicationsBotUsername => 'Bot username';
+  String get applicationsBotUsername => 'Bot felhasználóneve';
 
   @override
-  String get applicationsDiscriminator => 'Discriminator';
+  String get applicationsDiscriminator => 'Számazonosító';
 
   @override
-  String get applicationsBotBio => 'Bot bio';
+  String get applicationsBotBio => 'Bot bemutatkozása';
 
   @override
   String get applicationsBotBioHint =>
-      'A helpful bot that does amazing things!';
+      'Egy segítőkész bot, ami csodálatos dolgokra képes!';
 
   @override
-  String get applicationsNoBotBanner => 'No bot banner';
+  String get applicationsNoBotBanner => 'A botnak nincs borítóképe';
 
   @override
-  String get applicationsFriendlyBot => 'Friendly bot';
+  String get applicationsFriendlyBot => 'Barátságos bot';
 
   @override
   String get applicationsFriendlyBotDescription =>
-      'Allow users to send this bot friend requests for manual approval.';
+      'A felhasználók kézi jóváhagyást igénylő ismerősjelöléseket küldhetnek ennek a botnak.';
 
   @override
   String get applicationsManualFriendApproval =>
-      'Require manual friend approval';
+      'Ismerősjelölések kézi jóváhagyásának megkövetelése';
 
   @override
   String get applicationsManualFriendApprovalDescription =>
-      'Friend requests to this bot need manual approval.';
+      'A botnak küldött ismerősjelöléseket kézzel kell jóváhagyni.';
 
   @override
-  String get applicationsOauthBuilderTitle => 'OAuth2 URL builder';
+  String get applicationsOauthBuilderTitle => 'OAuth2 URL-készítő';
 
   @override
   String get applicationsOauthBuilderDescription =>
       'Construct an authorize URL with scopes and permissions.';
 
   @override
-  String get applicationsScopes => 'Scopes';
+  String get applicationsScopes => 'Hatókörök';
 
   @override
-  String get applicationsRedirectUri => 'Redirect URI';
+  String get applicationsRedirectUri => 'Átirányítási URI';
 
   @override
-  String get applicationsSelectRedirectUri => 'Select a redirect URI';
+  String get applicationsSelectRedirectUri => 'Átirányítási URI kiválasztása';
 
   @override
   String get applicationsRedirectRequiredCodeGrant =>
-      'Redirect URI is required because this bot requires OAuth2 code grant.';
+      'Átirányítási URI szükséges, mert ez a bot OAuth2 engedélyezési kódot igényel.';
 
   @override
   String get applicationsRedirectRequiredScopes =>
-      'Redirect URI is required when not using only the bot scope.';
+      'Átirányítási URI szükséges, ha a bot hatókörön kívül más hatókört is használsz.';
 
   @override
-  String get applicationsBotPermissions => 'Bot permissions';
+  String get applicationsBotPermissions => 'Botjogosultságok';
 
   @override
-  String get applicationsAuthorizeUrl => 'Authorize URL';
+  String get applicationsAuthorizeUrl => 'URL engedélyezése';
 
   @override
   String get applicationsAuthorizeUrlPlaceholder =>
-      'Select scopes (and redirect URI if required)';
+      'Hatókörök kiválasztása (és átirányítási URI, ha szükséges)';
 
   @override
   String get applicationsCopyAuthorizeUrl => 'Copy authorize URL';
 
   @override
-  String get applicationsCopiedUrl => 'Copied URL to clipboard';
+  String get applicationsCopiedUrl => 'URL kimásolva a vágólapra';
 
   @override
-  String get applicationsDangerTitle => 'Danger zone';
+  String get applicationsDangerTitle => 'Veszélyzóna';
 
   @override
   String get applicationsDangerSubtitle =>
-      'This cannot be undone. Removing the application also deletes its bot.';
+      'Ezt nem lehet visszavonni. Az alkalmazás eltávolítása a botját is törli.';
 
   @override
   String get applicationsDangerHelper =>
-      'Once deleted, the application and its credentials are permanently removed.';
+      'Törlés után az alkalmazás és a hitelesítő adatai véglegesen eltávolításra kerülnek.';
 
   @override
-  String get applicationsDelete => 'Delete application';
+  String get applicationsDelete => 'Alkalmazás törlése';
 
   @override
   String applicationsDeleteConfirmDescription(String name) {
@@ -3090,42 +3098,42 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get applicationsDeleteFailed => 'Couldn\'t delete application';
+  String get applicationsDeleteFailed => 'Nem sikerült törölni az alkalmazást';
 
   @override
-  String get applicationsUpdated => 'Application updated successfully';
+  String get applicationsUpdated => 'Alkalmazás sikeresen frissítve';
 
   @override
-  String get applicationsNoChanges => 'No changes to save';
+  String get applicationsNoChanges => 'Nincs menthető változás';
 
   @override
-  String get applicationsSearchBots => 'Applications & bots';
+  String get applicationsSearchBots => 'Alkalmazások és botok';
 
   @override
   String get applicationsSearchBotsDescription =>
-      'Create and manage applications and bots for your account';
+      'Alkalmazások és botok létrehozása és kezelése a fiókodhoz';
 
   @override
   String get applicationsSearchInfoDescription =>
-      'Edit application basics and redirect URIs';
+      'Alapvető alkalmazásadatok és átirányítási URI-k szerkesztése';
 
   @override
   String get applicationsSearchBotProfileDescription =>
-      'Edit the bot avatar, tag, bio, banner, and friend request behavior';
+      'A bot profilképének, címkéjének, bemutatkozásának, borítóképének és ismerősjelölési beállításainak szerkesztése';
 
   @override
   String get applicationsSearchOauthDescription =>
-      'Build an authorization URL with scopes, redirects, and bot permissions';
+      'Engedélyezési URL létrehozása hatókörökkel, átirányításokkal és botjogosultságokkal';
 
   @override
   String get applicationsSearchSecretsDescription =>
-      'View and regenerate client secrets and bot tokens';
+      'Kliensek titkos kulcsainak és bottokeneknek a megtekintése és újragenerálása';
 
   @override
-  String get applicationsSearchBotsKeyword => 'Bots';
+  String get applicationsSearchBotsKeyword => 'Botok';
 
   @override
-  String get applicationsSearchDocumentation => 'Documentation';
+  String get applicationsSearchDocumentation => 'Dokumentáció';
 
   @override
   String get privacyPendingDeletionTitle => 'Függőben lévő törlés';
@@ -3135,23 +3143,23 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get blockedUsersDescription =>
-      'A letiltott felhasználók nem küldhetnek neked barátfelkérést vagy közvetlen üzenetet.';
+      'A letiltott felhasználók nem küldhetnek neked ismerősjelölést vagy közvetlen üzenetet.';
 
   @override
   String get blockedUsersEmptyTitle => 'Nincsenek letiltott felhasználók';
 
   @override
-  String get blockedUsersEmptyDescription => 'Még nem tiltottál le senkit.';
+  String get blockedUsersEmptyDescription => 'Még senkit sem tiltottál le.';
 
   @override
   String get blockedUsersLoadError =>
       'Nem sikerült betölteni a letiltott felhasználókat';
 
   @override
-  String get blockedUsersUnblock => 'Feloldás';
+  String get blockedUsersUnblock => 'Tiltás feloldása';
 
   @override
-  String get blockedUsersUnblockTitle => 'Felhasználó feloldása';
+  String get blockedUsersUnblockTitle => 'Felhasználó letiltásának feloldása';
 
   @override
   String blockedUsersUnblockDescription(String username) {
@@ -3180,14 +3188,14 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get userProfileVoiceCall => 'Hanghívás';
 
   @override
-  String get userProfileVideoCall => 'Videohívás';
+  String get userProfileVideoCall => 'Videóhívás';
 
   @override
   String get userProfileEditProfile => 'Profil szerkesztése';
 
   @override
   String userProfileStaffBadgeTooltip(String productName) {
-    return '$productName Csapat';
+    return '$productName munkatárs';
   }
 
   @override
@@ -3197,12 +3205,12 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String userProfilePartnerBadgeTooltip(String productName) {
-    return '$productName Partner';
+    return '$productName partner';
   }
 
   @override
   String userProfileBugHunterBadgeTooltip(String productName) {
-    return '$productName Bug Hunter';
+    return '$productName hibavadász';
   }
 
   @override
@@ -3253,10 +3261,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get userProfileMutualCommunitiesTitle => 'Közös közösségek';
 
   @override
-  String get userProfileNoMutualFriends => 'Nem található közös ismerős.';
+  String get userProfileNoMutualFriends => 'Nincsenek közös ismerősök.';
 
   @override
-  String get userProfileNoMutualCommunities => 'Nem található közös közösség.';
+  String get userProfileNoMutualCommunities => 'Nincsenek közös közösségek.';
 
   @override
   String userProfileMutualCommunityNickname(String nickname) {
@@ -3278,10 +3286,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get userProfileOpenDm => 'DM megnyitása';
 
   @override
-  String get userProfileNoteTitle => 'Jegyzet';
+  String get userProfileNoteTitle => 'Megjegyzés';
 
   @override
-  String get userProfileNoteVisibility => '(csak neked látható)';
+  String get userProfileNoteVisibility => '(csak te láthatod)';
 
   @override
   String get userProfileNoteSave => 'Mentés';
@@ -3290,10 +3298,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get userProfileNoteDelete => 'Törlés';
 
   @override
-  String get userProfileNoteEmpty => 'Koppints a jegyzet hozzáadásához';
+  String get userProfileNoteEmpty => 'Kattints jegyzet hozzáadásához';
 
   @override
-  String get userProfileMemberSince => 'Tagság kezdete';
+  String get userProfileMemberSince => 'Tag ekkortól';
 
   @override
   String get userProfileAboutMe => 'Rólam';
@@ -3339,16 +3347,16 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get userProfileLocalTime => 'Helyi idő';
 
   @override
-  String get userProfileSameTimeAsYou => 'Ugyanaz az időzóna, mint a tiéd';
+  String get userProfileSameTimeAsYou => 'Ugyanannyi az idő, mint nálad';
 
   @override
   String userProfileTimeAheadOfYou(String duration) {
-    return 'Ennyivel előtted: $duration';
+    return 'Időeltérés hozzád képest: +$duration';
   }
 
   @override
   String userProfileTimeBehindYou(String duration) {
-    return 'Ennyivel mögötted: $duration';
+    return 'Időeltérés hozzád képest: −$duration';
   }
 
   @override
@@ -3406,10 +3414,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get userProfileBlockUser => 'Felhasználó letiltása';
 
   @override
-  String get userProfileUnblockUser => 'Felhasználó feloldása';
+  String get userProfileUnblockUser => 'Felhasználó letiltásának feloldása';
 
   @override
-  String get userProfileRemoveFriend => 'Ismerős eltávolítása';
+  String get userProfileRemoveFriend => 'Eltávolítás az ismerősök közül';
 
   @override
   String get userProfileBlockConfirmTitle => 'Felhasználó letiltása';
@@ -3420,7 +3428,8 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get userProfileUnblockConfirmTitle => 'Felhasználó feloldása';
+  String get userProfileUnblockConfirmTitle =>
+      'Felhasználó letiltásának feloldása';
 
   @override
   String userProfileUnblockConfirmDescription(String username) {
@@ -3428,7 +3437,8 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get userProfileRemoveFriendConfirmTitle => 'Ismerős eltávolítása';
+  String get userProfileRemoveFriendConfirmTitle =>
+      'Eltávolítás az ismerősök közül';
 
   @override
   String userProfileRemoveFriendConfirmDescription(String username) {
@@ -3454,19 +3464,19 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get userProfileBan => 'Kitiltás';
 
   @override
-  String get userProfileTimeout => 'Időtúllépés';
+  String get userProfileTimeout => 'Ideiglenes korlátozás';
 
   @override
-  String get userProfileRemoveTimeout => 'Időtúllépés eltávolítása';
+  String get userProfileRemoveTimeout => 'Ideiglenes korlátozás feloldása';
 
   @override
-  String get userProfileTransferOwnership => 'Tulajdonjog átadása';
+  String get userProfileTransferOwnership => 'Tulajdonjog átruházása';
 
   @override
-  String get userProfileReportUser => 'Felhasználó jelentése';
+  String get userProfileReportUser => 'Felhasználó bejelentése';
 
   @override
-  String get userProfileReportMessage => 'Üzenet jelentése';
+  String get userProfileReportMessage => 'Üzenet bejelentése';
 
   @override
   String userProfileKickConfirmTitle(String username) {
@@ -3511,7 +3521,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get userProfileBanDeleteHistoryLabel => 'Üzenethalmaz törlése';
+  String get userProfileBanDeleteHistoryLabel => 'Üzenetelőzmények törlése';
 
   @override
   String get userProfileBanDeleteNone => 'Ne törölj semmit';
@@ -3523,7 +3533,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get userProfileBanDelete7d => 'Előző 7 nap';
 
   @override
-  String get userProfileBanReasonLabel => 'Indok (nem kötelező)';
+  String get userProfileBanReasonLabel => 'Ok (opcionális)';
 
   @override
   String get userProfileBanReasonHint => 'Add meg a kitiltás okát';
@@ -3537,7 +3547,8 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get userProfileTimeoutDurationLabel => 'Némítás időtartama';
+  String get userProfileTimeoutDurationLabel =>
+      'Ideiglenes korlátozás időtartama';
 
   @override
   String get userProfileTimeoutSubmit => 'Tag némítása';
@@ -3575,7 +3586,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get userProfileNicknameSuccess => 'Becenév frissítve';
 
   @override
-  String get userProfileTransferSuccess => 'Tulajdonjog átadva';
+  String get userProfileTransferSuccess => 'Tulajdonjog átruházva';
 
   @override
   String get durationPermanent => 'Végleges';
@@ -3617,18 +3628,17 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get durationCustom => 'Egyéni…';
 
   @override
-  String get iarReportUserTitle => 'Felhasználó jelentése';
+  String get iarReportUserTitle => 'Felhasználó bejelentése';
 
   @override
-  String get iarReportGuildTitle => 'Közösség jelentése';
+  String get iarReportGuildTitle => 'Közösség bejelentése';
 
   @override
   String get iarReportGuildPreconfirmBody =>
-      'Ha ez a bejelentés a közösség egy adott üzenetére vonatkozik, inkább azt az üzenetet jelentsd. Az üzenetjelentések adják a legvilágosabb kontextust biztonsági csapatunknak, és a megjegyzésekben megadott részletek segíthetnek nekünk gyorsabban áttekinteni. Csak akkor folytasd a közösség egészének jelentésével, ha egy üzenet jelentése nem fogná át a szélesebb problémát.';
+      'Ha a bejelentés a közösség egy konkrét üzenetére vonatkozik, inkább azt az üzenetet jelentsd be. Az üzenet bejelentése mutatja meg legjobban a körülményeket a biztonsági csapatunknak, a megjegyzésekben megadott részletek pedig gyorsíthatják az elbírálást. Csak akkor jelentsd be az egész közösséget, ha egy üzenet bejelentése nem mutatná meg a probléma teljes körét.';
 
   @override
-  String get iarContinueToReportCommunity =>
-      'Folytatás a közösség jelentéséhez';
+  String get iarContinueToReportCommunity => 'Tovább a közösség bejelentéséhez';
 
   @override
   String get iarPreviewCommunitySubtitle => 'Közösség';
@@ -3651,30 +3661,30 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get iarReasonTerrorismDescription =>
-      'Erőszakos szélsőséges tevékenységet népszerűsít, toboroz vagy koordinál.';
+      'Erőszakos szélsőséges tevékenységet népszerűsít vagy szervez, illetve arra toboroz.';
 
   @override
   String get iarReasonMatureContentGuildLabel =>
-      'Érett tartalom vagy nem biztonságos korlátozás';
+      'Felnőtt tartalom vagy nem megfelelő hozzáférési korlátozás';
 
   @override
   String get iarReasonMatureContentGuildDescription =>
-      'Érett tartalom megfelelő korhatár-besorolás nélkül.';
+      'Felnőtt tartalom megfelelő hozzáférési korlátozás nélkül.';
 
   @override
   String get iarReasonChildSafetyGuildDescription =>
       'Kiskorúakat veszélyeztet, vagy gyermekek kizsákmányolásával kapcsolatos tartalmat tartalmaz.';
 
   @override
-  String get iarReasonRaidLabel => 'Rajtaütés koordinálása';
+  String get iarReasonRaidLabel => 'Összehangolt támadás szervezése';
 
   @override
   String get iarReasonRaidDescription =>
-      'Koordinálja a rajtaütéseket, a brigádos támadásokat vagy a zaklatást személyek vagy közösségek ellen.';
+      'Személyek vagy közösségek ellen szervez összehangolt támadásokat, tömeges fellépést vagy zaklatást.';
 
   @override
   String get iarReasonSpamGuildDescription =>
-      'A közösség a platform spam-elésére, átverésére vagy visszaélésére szolgál.';
+      'A közösség spamküldésre, átverésre vagy a platformmal való visszaélésre jött létre.';
 
   @override
   String get iarReasonMalwareGuildLabel => 'Kártevő terjesztése';
@@ -3721,7 +3731,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get typingIndicatorMultiple => 'Többen írnak...';
+  String get typingIndicatorMultiple => 'Többen is épp írnak...';
 
   @override
   String get typingIndicatorHandful =>
@@ -3754,7 +3764,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String systemJoinHelloJumpInWheneverYoureReady(String username) {
-    return 'Szia, $username! Csak csatlakozz, amikor készen állsz.';
+    return 'Szia, $username! Csatlakozz, amikor készen állsz.';
   }
 
   @override
@@ -3764,7 +3774,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String systemJoinHeyThereHopeYouEnjoyYourStay(String username) {
-    return 'Szia, $username! Reméljük, élvezed a tartózkodásodat.';
+    return 'Szia, $username! Reméljük, jól érzed magad nálunk.';
   }
 
   @override
@@ -3774,7 +3784,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String systemJoinGladYouMadeIt(String username) {
-    return 'Örülünk, hogy megérkeztél, $username!';
+    return 'Örülünk, hogy itt vagy, $username!';
   }
 
   @override
@@ -3794,7 +3804,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String systemJoinWelcomeHopeYouEnjoyYourTimeHere(String username) {
-    return 'Üdv, $username! Reméljük, élvezed az itt töltött idődet.';
+    return 'Üdv, $username! Reméljük, jól érzed magad nálunk.';
   }
 
   @override
@@ -3804,22 +3814,22 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String systemJoinWelcomeWereHappyToHaveYouHere(String username) {
-    return 'Üdv, $username. Örülünk, hogy itt vagy.';
+    return 'Üdvözlünk, $username! Örülünk, hogy itt vagy.';
   }
 
   @override
   String systemJoinGreatToSeeYouWelcomeIn(String username) {
-    return 'Örülünk, hogy látunk, $username! Üdv!';
+    return 'Örülünk, hogy látunk, $username! Üdv a fedélzeten.';
   }
 
   @override
   String systemJoinYoureHereGoodToHaveYouWithUs(String username) {
-    return 'Itt vagy, $username! Jó, hogy velünk vagy.';
+    return 'Szia, $username! Örülünk, hogy velünk vagy.';
   }
 
   @override
   String systemJoinYouveArrivedLetsGetStarted(String username) {
-    return 'Megérkeztél, $username! Kezdjük el.';
+    return 'Megérkeztél, $username! Kezdjünk is hozzá.';
   }
 
   @override
@@ -3881,7 +3891,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get linkedDevicesTitle => 'Csatlakoztatott eszközök';
+  String get linkedDevicesTitle => 'Saját eszközök';
 
   @override
   String get linkedDevicesDescription =>
@@ -3909,7 +3919,8 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get linkedDevicesRevokeTooltip => 'Eszköz visszavonása';
 
   @override
-  String get linkedDevicesSignOutAll => 'Kijelentkeztetés minden más eszközről';
+  String get linkedDevicesSignOutAll =>
+      'Kijelentkezés az összes többi eszközről';
 
   @override
   String linkedDevicesSignOutN(int count) {
@@ -3935,7 +3946,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get linkedDevicesSignOutAllSheetTitle =>
-      'Jelentkeztetés minden más eszközről';
+      'Kijelentkezés az összes többi eszközről';
 
   @override
   String linkedDevicesSignOutSheetDescription(int count) {
@@ -3990,31 +4001,31 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get linkedDevicesUnknownPlatform => 'Ismeretlen platform';
 
   @override
-  String get linkedDevicesViewDetails => 'View details';
+  String get linkedDevicesViewDetails => 'Részletek megtekintése';
 
   @override
-  String get linkedDevicesDetailsTitle => 'Device details';
+  String get linkedDevicesDetailsTitle => 'Eszköz részletei';
 
   @override
-  String get linkedDevicesDetailsDevice => 'Device';
+  String get linkedDevicesDetailsDevice => 'Eszköz';
 
   @override
-  String get linkedDevicesDetailsClient => 'Client';
+  String get linkedDevicesDetailsClient => 'Kliens';
 
   @override
-  String get linkedDevicesDetailsLocation => 'Location';
+  String get linkedDevicesDetailsLocation => 'Hely';
 
   @override
-  String get linkedDevicesDetailsIp => 'IP address';
+  String get linkedDevicesDetailsIp => 'IP-cím';
 
   @override
-  String get linkedDevicesDetailsLastUsed => 'Last used';
+  String get linkedDevicesDetailsLastUsed => 'Utolsó használat';
 
   @override
-  String get linkedDevicesCurrentSession => 'Current session';
+  String get linkedDevicesCurrentSession => 'Jelenlegi munkamenet';
 
   @override
-  String get linkedDevicesUnknown => 'Unknown';
+  String get linkedDevicesUnknown => 'Ismeretlen';
 
   @override
   String slowmodeLabel(String duration) {
@@ -4054,46 +4065,46 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get channelNoSendPermissionHint =>
-      'Nem küldhetsz üzeneteket ebben a csatornában.';
+      'Ebben a csatornában nem küldhetsz üzeneteket.';
 
   @override
   String systemDmComposerBarrier(String productName) {
-    return '$productName munkatársaitól érkező rendszerértesítések. Ide nem válaszolhatsz.';
+    return 'Rendszerüzenetek a(z) $productName munkatársaitól. Itt nem válaszolhatsz.';
   }
 
   @override
   String get channelComposerBarrierGuildSendDisabled =>
-      'Az üzenetküldés ideiglenesen szüneteltetve van ebben a közösségben.';
+      'Az üzenetküldés átmenetileg szünetel ebben a közösségben.';
 
   @override
   String get channelComposerBarrierTimedOut =>
-      'Időkérésen vagy. Az üzenetküldés, reakciók és hanghívások szüneteltetve vannak az időkorlát lejártáig.';
+      'Ideiglenes korlátozás alatt állsz. A lejártáig nem küldhetsz üzeneteket, nem reagálhatsz és nem csatlakozhatsz hangbeszélgetéshez.';
 
   @override
   String get channelComposerBarrierUnclaimedAccount =>
-      'Igényelned kell a fiókodat az üzenetküldéshez ebben a közösségben.';
+      'Ahhoz, hogy ebben a közösségben üzeneteket küldhess, be kell fejezned a fiókod regisztrációját.';
 
   @override
   String get channelComposerBarrierUnverifiedEmail =>
-      'Igényelned kell az e-mail címed igazolását az üzenetküldéshez ebben a közösségben.';
+      'Ahhoz, hogy üzeneteket küldhess ebben a közösségben, igazolnod kell az e-mail-címedet.';
 
   @override
   String get channelComposerBarrierAccountTooNew =>
-      'A fiókod túl új az üzenetküldéshez ebben a közösségben.';
+      'A fiókod túl új ahhoz, hogy üzeneteket küldj ebben a közösségben.';
 
   @override
   String get channelComposerBarrierNotMemberLongEnough =>
-      'Nem vagy tagja ennek a közösségnek elég régóta az üzenetküldéshez.';
+      'Még nem vagy elég régóta tagja ennek a közösségnek ahhoz, hogy üzeneteket küldhess.';
 
   @override
   String get channelComposerBarrierNoPhoneNumber =>
-      'Igazolnod kell egy telefonszámot az üzenetküldéshez ebben a közösségben.';
+      'Telefonszámot kell igazolnod, hogy üzeneteket küldhess ebben a közösségben.';
 
   @override
-  String get channelComposerBarrierVerifyEmail => 'E-mail igazolása';
+  String get channelComposerBarrierVerifyEmail => 'E-mail-cím megerősítése';
 
   @override
-  String get channelComposerBarrierVerifyPhone => 'Telefonszám igazolása';
+  String get channelComposerBarrierVerifyPhone => 'Telefonszám ellenőrzése';
 
   @override
   String chatAttachmentTooMany(int max) {
@@ -4134,7 +4145,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get voiceMessageMicPermissionDenied =>
-      'Nem lehet elindítani a rögzítést. Engedélyezd a mikrofon hozzáférését.';
+      'Nem sikerült elindítani a felvételt. Engedélyezd a mikrofonhoz való hozzáférést.';
 
   @override
   String get voiceMessageRecordingNotSupported =>
@@ -4146,15 +4157,15 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get voiceMessageRecordingFailed =>
-      'A rögzítés sikertelen volt. Próbáld újra.';
+      'A felvétel sikertelen. Próbáld újra.';
 
   @override
   String get voiceMessageSendFailed =>
-      'Nem lehet elküldeni a hangüzenetet. Próbáld újra.';
+      'Nem sikerült elküldeni a hangüzenetet. Próbáld újra.';
 
   @override
   String get voiceMessageRecordingHint =>
-      'Beszélj most. Nyomd meg a Leállítás gombot, ha végeztél – később vághatsz.';
+      'Beszélj most. Ha végeztél, nyomd meg a Leállítás gombot – a felvételt utólag megvághatod.';
 
   @override
   String get voiceMessageReviewHint =>
@@ -4164,16 +4175,16 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get voiceMessageStop => 'Leállítás';
 
   @override
-  String get voiceMessageStartRecording => 'Rögzítés indítása';
+  String get voiceMessageStartRecording => 'Felvétel indítása';
 
   @override
-  String get voiceMessageRerecord => 'Re-record';
+  String get voiceMessageRerecord => 'Újrafelvétel';
 
   @override
   String get voiceMessagePlay => 'Lejátszás';
 
   @override
-  String get voiceMessagePause => 'Szünet';
+  String get voiceMessagePause => 'Szüneteltetés';
 
   @override
   String get voiceMessageSeekForward => 'Ugrás előre';
@@ -4188,7 +4199,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
     );
     final String secondsString = secondsNumberFormat.format(seconds);
 
-    return 'A kiválasztásnak legalább $secondsString mp-nek kell lennie.';
+    return 'A kijelölésnek legalább $secondsString másodpercnek kell lennie.';
   }
 
   @override
@@ -4298,7 +4309,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get chatTextualPreviewSearchLanguage => 'Nyelv keresése…';
 
   @override
-  String get chatTextualPreviewSyntaxHighlighting => 'Szintaxis kiemelés';
+  String get chatTextualPreviewSyntaxHighlighting => 'Szintaxiskiemelés';
 
   @override
   String get chatTextualPreviewNoLanguagesFound => 'Nincs találat';
@@ -4343,10 +4354,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get chatMediaSpoilerOverlayLabel => 'SPOILER';
 
   @override
-  String get chatMediaSpoilerRevealLabel => 'Spoiler megjelenítése';
+  String get chatMediaSpoilerRevealLabel => 'Spoiler felfedése';
 
   @override
-  String get matureMediaRevealButton => 'Megjelenítés';
+  String get matureMediaRevealButton => 'Felfedés';
 
   @override
   String get matureMediaRevealHint => 'Kattints a megjelenítéshez';
@@ -4355,13 +4366,13 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get matureContentTitle => 'Felnőtt tartalom';
 
   @override
-  String get matureCommunityTitle => 'Érett közösség';
+  String get matureCommunityTitle => 'Felnőtt tartalmú közösség';
 
   @override
-  String get matureCategoryTitle => 'Érett kategória';
+  String get matureCategoryTitle => 'Felnőtt tartalmú kategória';
 
   @override
-  String get matureChannelTitle => 'Érett csatorna';
+  String get matureChannelTitle => 'Felnőtt tartalmú csatorna';
 
   @override
   String get communityContentWarningTitle =>
@@ -4369,46 +4380,46 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get categoryContentWarningTitle =>
-      'Kategóriára vonatkozó tartalomra vonatkozó figyelmeztetés';
+      'A kategória tartalmára vonatkozó figyelmeztetés';
 
   @override
   String get channelContentWarningTitle =>
-      'Csatornára vonatkozó tartalomra vonatkozó figyelmeztetés';
+      'A csatorna tartalmára vonatkozó figyelmeztetés';
 
   @override
   String get defaultContentWarningBody => 'Ez érzékeny tartalmat tartalmaz.';
 
   @override
   String get matureCommunityBody =>
-      'Ez a közösség érett tartalomra van jelölve, és olyan anyagokat tartalmazhat, amelyek némely felhasználó számára nem megfelelőek.';
+      'Ez a közösség felnőtt tartalomként van megjelölve, és olyan anyagokat tartalmazhat, amelyek egyes felhasználók számára nem megfelelőek.';
 
   @override
   String get matureCategoryBody =>
-      'Ez a kategória érett tartalomra van jelölve, és olyan anyagokat tartalmazhat, amelyek némely felhasználó számára nem megfelelőek.';
+      'Ez a kategória felnőtt tartalommal van megjelölve, és olyan anyagokat tartalmazhat, amelyek egyes felhasználók számára nem megfelelőek.';
 
   @override
   String get matureChannelBody =>
-      'Ez a csatorna érett tartalomra van jelölve, és olyan anyagokat tartalmazhat, amelyek némely felhasználó számára nem megfelelőek.';
+      'Ez a csatorna felnőtt tartalommal van megjelölve, és olyan anyagokat tartalmazhat, amelyek egyes felhasználók számára nem megfelelőek.';
 
   @override
   String get matureVoiceChannelBody =>
-      'Ez a hangcsatorna érett tartalomra van jelölve, és olyan anyagokat tartalmazhat, amelyek némely felhasználó számára nem megfelelőek.';
+      'Ez a hangcsatorna felnőtt tartalommal van megjelölve, és olyan anyagokat tartalmazhat, amelyek egyes felhasználók számára nem megfelelőek.';
 
   @override
   String get matureLinkChannelBody =>
-      'Ez a linkcsatorna érett tartalomra van jelölve, és olyan anyagokat nyithat meg, amelyek némely felhasználó számára nem megfelelőek.';
+      'Ez a linkcsatorna felnőtt tartalomként van megjelölve, és olyan anyagokat nyithat meg, amelyek egyes felhasználók számára nem megfelelőek.';
 
   @override
   String get matureCommunityUnavailableBody =>
-      'Ez az érett közösség nem elérhető a fiókod számára.';
+      'Ez a felnőtt tartalmú közösség nem érhető el a fiókod számára.';
 
   @override
   String get matureCategoryUnavailableBody =>
-      'Ez az érett kategória nem elérhető a fiókod számára.';
+      'Ez a felnőtt tartalmú kategória nem érhető el a fiókod számára.';
 
   @override
   String get matureChannelUnavailableBody =>
-      'Ez az érett csatorna nem elérhető a fiókod számára.';
+      'Ez a felnőtt tartalmú csatorna nem érhető el a fiókod számára.';
 
   @override
   String get matureContentProceedButton => 'Tovább';
@@ -4417,7 +4428,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get matureContentUnderstandButton => 'Értem';
 
   @override
-  String get matureContentOpenLinkButton => 'Hivatkozás megnyitása';
+  String get matureContentOpenLinkButton => 'Link megnyitása';
 
   @override
   String get sensitiveContentSectionTitle => 'Érzékeny tartalom';
@@ -4427,7 +4438,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Szabályozd, hogyan szűrődjön az érett vagy érzékeny média különböző kontextusokban';
 
   @override
-  String get sensitiveContentFriendDmLabel => 'Közvetlen üzenetek barátoktól';
+  String get sensitiveContentFriendDmLabel => 'Közvetlen üzenetek ismerősöktől';
 
   @override
   String get sensitiveContentNonFriendDmLabel => 'Közvetlen üzenetek másoktól';
@@ -4478,7 +4489,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String chatAttachmentExpiresOn(String date) {
-    return 'Lejárat: $date';
+    return 'Lejár ekkor: $date';
   }
 
   @override
@@ -4495,7 +4506,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get connectionsEmptyTitle => 'Még nincsenek kapcsolatok';
+  String get connectionsEmptyTitle => 'Még nincsenek összekapcsolt fiókok';
 
   @override
   String get connectionsEmptyDescriptionBluesky =>
@@ -4515,7 +4526,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get connectionsAddBlueskyAriaLabel => 'Bluesky kapcsolat hozzáadása';
 
   @override
-  String get connectionsAddDomainAriaLabel => 'Domain kapcsolat hozzáadása';
+  String get connectionsAddDomainAriaLabel => 'Domainkapcsolat hozzáadása';
 
   @override
   String get connectionEdit => 'Szerkesztés';
@@ -4524,11 +4535,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get connectionRemove => 'Eltávolítás';
 
   @override
-  String get connectionVerifiedLabel => 'Ez a kapcsolat hitelesítve lett.';
+  String get connectionVerifiedLabel => 'Ez a kapcsolat ellenőrizve lett.';
 
   @override
   String get connectionUnverifiedLabel =>
-      'Ez a kapcsolat nem lett hitelesítve.';
+      'Ez a kapcsolat még nincs ellenőrizve.';
 
   @override
   String get connectionAddTitle => 'Kapcsolat hozzáadása';
@@ -4537,10 +4548,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get connectionTypeLabel => 'Kapcsolat típusa';
 
   @override
-  String get connectionHandleLabel => 'Felhasználónév';
+  String get connectionHandleLabel => 'Azonosító';
 
   @override
-  String get connectionDomainLabel => 'Tartomány';
+  String get connectionDomainLabel => 'Domain';
 
   @override
   String get connectionHandlePlaceholder => 'username.bsky.social';
@@ -4549,13 +4560,13 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get connectionDomainPlaceholder => 'example.com';
 
   @override
-  String get connectionAlreadyExists => 'Ez a kapcsolat már létezik.';
+  String get connectionAlreadyExists => 'Ez a kapcsolat már megvan.';
 
   @override
   String get connectionConnectBluesky => 'Csatlakozás Bluesky-val';
 
   @override
-  String get connectionContinue => 'Tovább';
+  String get connectionContinue => 'Folytatás';
 
   @override
   String get connectionVerifyTitle => 'Kapcsolat ellenőrzése';
@@ -4574,7 +4585,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get connectionDnsValueLabel => 'Érték';
 
   @override
-  String get connectionCopyHost => 'Gazda másolása';
+  String get connectionCopyHost => 'Gazdagép másolása';
 
   @override
   String get connectionCopyValue => 'Érték másolása';
@@ -4583,7 +4594,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get connectionCopied => 'Másolva!';
 
   @override
-  String get connectionTokenFileTitle => 'A token fájl kiszolgálása';
+  String get connectionTokenFileTitle => 'Tokenfájl kiszolgálása';
 
   @override
   String get connectionTokenFileDescription =>
@@ -4618,24 +4629,24 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get connectionVisibilityEveryoneDesc =>
-      'Engedélyezd bárkinek, hogy lássa ezt a kapcsolatot a profilodon';
+      'Bárki láthatja ezt a kapcsolatot a profilodon';
 
   @override
   String get connectionVisibilityFriends => 'Ismerősök';
 
   @override
   String get connectionVisibilityFriendsDesc =>
-      'Engedélyezd az ismerőseidnek, hogy lássák ezt a kapcsolatot';
+      'Engedélyezd, hogy az ismerőseid lássák ezt a kapcsolatot';
 
   @override
   String get connectionVisibilityCommunityMembers => 'Közösségi tagok';
 
   @override
   String get connectionVisibilityCommunityMembersDesc =>
-      'Engedélyezd a közösségeid tagjainak, hogy lássák ezt a kapcsolatot';
+      'A közösségeid tagjai láthatják ezt a kapcsolatot';
 
   @override
-  String get connectionRemoveTitle => 'Kapcsolat eltávolítása';
+  String get connectionRemoveTitle => 'Fiók összekapcsolásának megszüntetése';
 
   @override
   String get connectionRemoveDescription =>
@@ -4696,14 +4707,14 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get lookAndFeelHdrSectionDescription =>
-      'Beállítás, hogy az HDR képek hogyan jelenjenek meg HDR-képes monitorokon.';
+      'Állítsd be, hogyan jelenjenek meg a HDR-képek a HDR-képes monitorokon.';
 
   @override
   String get lookAndFeelHdrFullName => 'Teljes dinamikatartomány';
 
   @override
   String get lookAndFeelHdrFullDescription =>
-      'HDR képek megjelenítése teljes fényerővel és színskálával.';
+      'HDR-képek megjelenítése teljes fényerővel és színskálával.';
 
   @override
   String get lookAndFeelHdrStandardName => 'Normál tartomány';
@@ -4720,7 +4731,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get lookAndFeelThemeDark => 'Sötét téma';
 
   @override
-  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+  String get lookAndFeelThemeDarkLegacy => 'Sötét (régi) téma';
 
   @override
   String get lookAndFeelThemeCoal => 'Szén téma';
@@ -4733,7 +4744,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesLabel =>
-      'Szinkronizálja a témát az eszközök között';
+      'Téma szinkronizálása az eszközökön';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesDescription =>
@@ -4752,7 +4763,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get lookAndFeelChatFontScalingDescription =>
-      'Állítsd be a betűméretet a csevegési területen.';
+      'A betűméret módosítása a csevegőfelületen.';
 
   @override
   String get lookAndFeelChatFontSizeLabel => 'Csevegés betűmérete';
@@ -4841,18 +4852,18 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get lookAndFeelHideUserAvatarsLabel =>
-      'Felhasználói avatárok elrejtése';
+      'Felhasználói profilképek elrejtése';
 
   @override
   String get lookAndFeelInterfaceTitle => 'Felület';
 
   @override
   String get lookAndFeelInterfaceDescription =>
-      'Felület elemek és viselkedések testreszabása.';
+      'Felület elemeinek és viselkedésének testreszabása.';
 
   @override
   String get lookAndFeelChannelTypingIndicatorsTitle =>
-      'Csatornalista gépelési jelzői';
+      'A csatornalista gépelésjelzői';
 
   @override
   String get lookAndFeelChannelTypingIndicatorsDescription =>
@@ -4860,25 +4871,25 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get lookAndFeelChannelTypingIndicatorAvatarsName =>
-      'Gépelési jelző + Avatárok';
+      'Gépelésjelző + profilképek';
 
   @override
   String get lookAndFeelChannelTypingIndicatorAvatarsDescription =>
-      'Gépelési jelző megjelenítése felhasználói avatárokkal a csatornalistában';
+      'Gépelésjelző megjelenítése profilképekkel a csatornalistában';
 
   @override
-  String get lookAndFeelChannelTypingIndicatorOnlyName => 'Csak gépelési jelző';
+  String get lookAndFeelChannelTypingIndicatorOnlyName => 'Csak gépelésjelző';
 
   @override
   String get lookAndFeelChannelTypingIndicatorOnlyDescription =>
-      'Csak a gépelési jelző megjelenítése avatárok nélkül';
+      'Csak a gépelésjelző megjelenítése, profilképek nélkül';
 
   @override
   String get lookAndFeelChannelTypingIndicatorHiddenName => 'Rejtett';
 
   @override
   String get lookAndFeelChannelTypingIndicatorHiddenDescription =>
-      'Ne jelenjenek meg gépelési jelzők a csatornalistában';
+      'Ne jelenjenek meg a gépelési jelzők a csatornalistában';
 
   @override
   String get lookAndFeelShowSelectedChannelTypingIndicatorLabel =>
@@ -4892,7 +4903,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get lookAndFeelTypingIndicatorPreviewChannelName => 'általános';
 
   @override
-  String get lookAndFeelKeyboardHintsTitle => 'Billentyűzet tippek';
+  String get lookAndFeelKeyboardHintsTitle => 'Billentyűzetsúgók';
 
   @override
   String get lookAndFeelKeyboardHintsDescription =>
@@ -4913,7 +4924,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get lookAndFeelNekoDescription => 'Egyéb felületi opciók.';
 
   @override
-  String get lookAndFeelShowNekoLabel => 'Neko mutatása';
+  String get lookAndFeelShowNekoLabel => 'Neko megjelenítése';
 
   @override
   String get lookAndFeelShowNekoDescription =>
@@ -4921,7 +4932,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get lookAndFeelVoiceChannelJoinTitle =>
-      'Hangcsatornához való csatlakozás viselkedése';
+      'Csatlakozási viselkedés hangcsatornán';
 
   @override
   String get lookAndFeelVoiceChannelJoinDescription =>
@@ -4998,18 +5009,18 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get lookAndFeelChannelListSectionDescription =>
-      'Szabályozd az olvasatlan jelzők viselkedését a némított csatornákon a csatornalistákban.';
+      'A némított csatornák olvasatlanjelzőjének viselkedése a csatornalistákban.';
 
   @override
   String get lookAndFeelShowFadedUnreadOnMutedChannelsLabel =>
-      'Olvasatlan jelző mutatása némított csatornákon';
+      'Olvasatlan jelzése némított csatornákon';
 
   @override
   String get lookAndFeelShowFadedUnreadOnMutedChannelsDescription =>
       'Ha engedélyezve van, a némított csatornák halvány olvasatlan jelzőt mutatnak a bal oldalon. Az említések továbbra is megjelennek e beállításoktól függetlenül.';
 
   @override
-  String get lookAndFeelActiveNowSectionTitle => 'Most aktív';
+  String get lookAndFeelActiveNowSectionTitle => 'Most aktívak';
 
   @override
   String get lookAndFeelActiveNowSectionDescription =>
@@ -5017,11 +5028,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get lookAndFeelShowActiveNowLabel =>
-      'Most aktív mutatása a kezdőképernyőn';
+      'Most aktívak megjelenítése a kezdőképernyőn';
 
   @override
   String get lookAndFeelShowActiveNowDescription =>
-      'Mutasd a Most aktív funkciót a kezdőképernyőn, hogy lásd az aktív barátaidat hangcsatornákban. Látni fogsz egy előnézetet, a csatorna kontextusát, hogy kik vannak már ott, és gyors módot a csatlakozásra.';
+      'Jelenítsd meg a Most aktívak részt a kezdőképernyőn, hogy lásd a hangbeszélgetésekben részt vevő ismerőseidet. Előnézetet kapsz, láthatod a csatornát és a résztvevőket, és gyorsan csatlakozhatsz.';
 
   @override
   String get lookAndFeelFavoritesSectionTitle => 'Kedvencek';
@@ -5048,11 +5059,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Jelöld a csatornákat a csevegés fejlécében, hogy itt tartsd őket.';
 
   @override
-  String get favoritesWelcomeTitle => 'Üdvözlünk a Kedvencek között';
+  String get favoritesWelcomeTitle => 'Üdv a kedvencek között';
 
   @override
   String get favoritesWelcomeDescription =>
-      'A személyes helyed a kedvelt csatornák, DM-ek és csoportok gyors eléréséhez. Nyomd meg a csillagot bármelyik csatornán, hogy hozzáadd ide.';
+      'Személyes tered, ahol gyorsan elérheted a kedvenc csatornáidat, közvetlen üzeneteidet és csoportjaidat. Nyomd meg a csillagot bármelyik csatornán, hogy hozzáadd ide.';
 
   @override
   String get favoritesWelcomeTip => 'Nem neked való? Bármikor kikapcsolhatod.';
@@ -5061,10 +5072,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get favoritesDisableButton => 'Kedvencek kikapcsolása';
 
   @override
-  String get favoritesAddedToast => 'Hozzáadva a Kedvencekhez';
+  String get favoritesAddedToast => 'Hozzáadva a kedvencekhez';
 
   @override
-  String get favoritesRemovedToast => 'Eltávolítva a Kedvencekből';
+  String get favoritesRemovedToast => 'Eltávolítva a kedvencek közül';
 
   @override
   String get favoritesHiddenToast => 'Kedvencek elrejtve';
@@ -5088,7 +5099,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get favoritesHideMutedChannels => 'Némított csatornák elrejtése';
 
   @override
-  String get favoritesShowMutedChannels => 'Némított csatornák mutatása';
+  String get favoritesShowMutedChannels => 'Némított csatornák megjelenítése';
 
   @override
   String get favoritesSetNickname => 'Becenév beállítása';
@@ -5103,40 +5114,40 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get favoritesMoveToCategory => 'Áthelyezés kategóriába';
 
   @override
-  String get favoritesUncategorized => 'Kategoriálatlan';
+  String get favoritesUncategorized => 'Besorolatlan';
 
   @override
-  String get favoritesOtherCategory => 'Más';
+  String get favoritesOtherCategory => 'Egyéb';
 
   @override
-  String get favoritesRemoveFromFavorites => 'Eltávolítás a Kedvencekből';
+  String get favoritesRemoveFromFavorites => 'Eltávolítás a kedvencekből';
 
   @override
-  String get favoritesAddToFavorites => 'Hozzáadás a Kedvencekhez';
+  String get favoritesAddToFavorites => 'Hozzáadás a kedvencekhez';
 
   @override
-  String get favoritesAddToSavedMedia => 'Mentés a médiatárba';
+  String get favoritesAddToSavedMedia => 'Hozzáadás a mentett médiához';
 
   @override
   String get favoritesRemoveFromSavedMedia =>
-      'Eltávolítás a mentett médiák közül';
+      'Eltávolítás a mentett média közül';
 
   @override
   String get favoritesAddToUrlOnlyGifFavorites =>
-      'GIF-fájlok hozzáadása URL alapján (feltöltés nélkül) a kedvencekhez.';
+      'Hozzáadás az URL-alapú GIF-kedvencekhez';
 
   @override
   String get favoritesRemoveFromUrlOnlyGifFavorites =>
       'Eltávolítás az URL-en alapuló GIF-kedvencek közül';
 
   @override
-  String get savedMediaAddTitle => 'Mentés a médiatárba';
+  String get savedMediaAddTitle => 'Hozzáadás a mentett médiához';
 
   @override
   String get savedMediaFormNameLabel => 'Név';
 
   @override
-  String get savedMediaFormNameHint => 'Saját média';
+  String get savedMediaFormNameHint => 'Szuper médiatartalmam';
 
   @override
   String get savedMediaFormAltTextLabel => 'Alternatív szöveg';
@@ -5229,27 +5240,27 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get messagesMediaDefaultHideMutedChannelsEnableTitle =>
-      'Némított csatornák elrejtése alapértelmezetten?';
+      'Alapértelmezés szerint elrejted a némított csatornákat?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsEnableDescription =>
-      'Az új közösségek, amelyekhez csatlakozol, automatikusan elrejtik a némított csatornákat. Szeretnéd ezt a beállítást az összes meglévő közösségedre is alkalmazni?';
+      'Azokban a közösségekben, amelyekhez ezután csatlakozol, a némított csatornák automatikusan rejtve lesznek. Szeretnéd ezt a beállítást az összes meglévő közösségedre is alkalmazni?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDisableTitle =>
-      'Némított csatornák elrejtésének leállítása alapértelmezetten?';
+      'Kikapcsolod a némított csatornák alapértelmezett elrejtését?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDisableDescription =>
-      'Az új közösségek, amelyekhez csatlakozol, nem rejtik el automatikusan a némított csatornákat. Szeretnéd megmutatni a némított csatornákat az összes meglévő közösségedben?';
+      'Azokban a közösségekben, amelyekhez ezután csatlakozol, a némított csatornák többé nem lesznek automatikusan elrejtve. Szeretnéd az összes meglévő közösségedben is megjeleníteni a némított csatornákat?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsApplyAllAction =>
-      'Alkalmazás minden közösségre';
+      'Alkalmazás az összes közösségre';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsShowAllAction =>
-      'Mutatás minden közösségben';
+      'Megjelenítés az összes közösségben';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsNewOnlyAction =>
@@ -5268,11 +5279,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String messagesMediaDisplayInlineAttachmentLabel(String productName) {
-    return 'Amikor közvetlenül a $productName van feltöltve';
+    return 'Közvetlenül a(z) $productName felületére történő feltöltéskor';
   }
 
   @override
-  String get messagesMediaLinkPreviewsSectionTitle => 'Link előnézetek';
+  String get messagesMediaLinkPreviewsSectionTitle => 'Linkelőnézetek';
 
   @override
   String get messagesMediaLinkPreviewsSectionDescription =>
@@ -5280,7 +5291,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get messagesMediaLinkPreviewsToggleLabel =>
-      'Előnézetek és weboldal linkek megjelenítése';
+      'Beágyazott tartalmak és webhelylinkek előnézetének megjelenítése';
 
   @override
   String get messagesMediaReactionsSectionTitle => 'Reakciók';
@@ -5291,10 +5302,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get messagesMediaReactionsToggleLabel =>
-      'Emoji reakciók megjelenítése az üzeneteken';
+      'Emojireakciók megjelenítése az üzeneteken';
 
   @override
-  String get messagesMediaSpoilersSectionTitle => 'Rejtett tartalom';
+  String get messagesMediaSpoilersSectionTitle => 'Spoilertartalom';
 
   @override
   String get messagesMediaSpoilersSectionDescription =>
@@ -5309,7 +5320,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get messagesMediaSpoilersOnClickDescription =>
-      'Rejtett tartalom megjelenítése kattintáskor';
+      'Spoiler tartalom megjelenítése kattintásra';
 
   @override
   String get messagesMediaSpoilersIfModeratorName =>
@@ -5324,7 +5335,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get messagesMediaSpoilersAlwaysDescription =>
-      'Mindig jelenítse meg a rejtett tartalmat';
+      'A spoilertartalom mindig legyen látható';
 
   @override
   String get messagesMediaSizeSectionTitle => 'Média méretpreferenciák';
@@ -5362,7 +5373,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get messagesMediaGifsAutoSendLabel =>
-      'Automatikus küldés kiválasztott GIF-ek esetén';
+      'GIF-ek automatikus küldése kiválasztáskor';
 
   @override
   String get messagesMediaCameraUploadsSectionTitle => 'Kameraképek feltöltése';
@@ -5384,19 +5395,19 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get messagesMediaAutocompleteDefaultEmojisLabel =>
-      'Alapértelmezett emojik megjelenítése a kifejezés automatikus kiegészítésében';
+      'Alapértelmezett emojik megjelenítése a kifejezés-automatikus kiegészítésben';
 
   @override
   String get messagesMediaAutocompleteCustomEmojisLabel =>
-      'Egyéni emojik megjelenítése a kifejezés automatikus kiegészítésében';
+      'Egyéni emojik megjelenítése az automatikus kiegészítésben';
 
   @override
   String get messagesMediaAutocompleteStickersLabel =>
-      'Matricák megjelenítése a kifejezés automatikus kiegészítésében';
+      'Matricák megjelenítése az automatikus kiegészítésben';
 
   @override
   String get messagesMediaAutocompleteSavedMediaLabel =>
-      'Mentett média megjelenítése a kifejezés automatikus kiegészítésében';
+      'Mentett média megjelenítése a kifejezés-automatikus kiegészítésben';
 
   @override
   String get messagesMediaEditingSectionTitle => 'Üzenet szerkesztése';
@@ -5436,21 +5447,22 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Áthúzott szöveg halványítása';
 
   @override
-  String get accessibilityDmMessagePreviewGroupTitle => 'DM üzenetelőnézetek';
+  String get accessibilityDmMessagePreviewGroupTitle => 'DM-üzenetek előnézete';
 
   @override
   String get accessibilityDmMessagePreviewGroupDescription =>
       'Szabályozza, mikor jelenjenek meg üzenetelőnézetek a DM listában.';
 
   @override
-  String get accessibilityDmMessagePreviewModeLabel => 'DM üzenetelőnézet mód';
+  String get accessibilityDmMessagePreviewModeLabel =>
+      'DM-üzenetek előnézeti módja';
 
   @override
-  String get accessibilityDmMessagePreviewAllName => 'Minden üzenet';
+  String get accessibilityDmMessagePreviewAllName => 'Összes üzenet';
 
   @override
   String get accessibilityDmMessagePreviewAllDescription =>
-      'Üzenetelőnézetek megjelenítése minden DM csevegéshez';
+      'Üzenetelőnézetek megjelenítése minden közvetlen beszélgetésnél';
 
   @override
   String get accessibilityDmMessagePreviewUnreadOnlyName =>
@@ -5458,14 +5470,14 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get accessibilityDmMessagePreviewUnreadOnlyDescription =>
-      'Csak az olvasatlan üzenetekkel rendelkező DM-ekhez jelenítsen meg üzenetelőnézeteket';
+      'Üzenetelőnézetek megjelenítése csak az olvasatlan üzeneteket tartalmazó közvetlen beszélgetéseknél';
 
   @override
   String get accessibilityDmMessagePreviewNoneName => 'Nincs';
 
   @override
   String get accessibilityDmMessagePreviewNoneDescription =>
-      'Ne jelenítsen meg üzenetelőnézeteket a DM listában';
+      'Ne jelenjenek meg üzenetelőnézetek a DM-listában';
 
   @override
   String get accessibilityScreenReaderGroupTitle => 'Képernyőolvasó';
@@ -5488,7 +5500,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get accessibilityTtsGroupDescription =>
-      'Válassza ki a beszélt szöveg sebességét.';
+      'Válaszd ki a felolvasás sebességét.';
 
   @override
   String get accessibilityTtsSpeechPlaybackSpeedLabel =>
@@ -5520,11 +5532,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get accessibilityEscapeExitsKeyboardModeLabel =>
-      'Az Esc billentyűvel léphet ki a billentyűzet módból';
+      'Az Esc billentyűvel léphetsz ki a billentyűzetes módból';
 
   @override
   String get accessibilityShowContextMenuShortcutsLabel =>
-      'Helyi menü parancsikonok megjelenítése';
+      'Billentyűparancsok megjelenítése a helyi menüben';
 
   @override
   String get accessibilityConfirmBeforeStartingCallsLabel =>
@@ -5539,7 +5551,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get accessibilityPlayAnimatedEmojisLabel =>
-      'Animált hangulatjelek lejátszása';
+      'Animált emojik lejátszása';
 
   @override
   String get accessibilityAutoPlayGifsMobileLabel =>
@@ -5547,7 +5559,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String accessibilityAutoPlayGifsDesktopLabel(String productName) {
-    return 'GIF-ek automatikus lejátszása, ha a $productName fókuszban van';
+    return 'GIF-ek automatikus lejátszása, ha a(z) $productName fókuszban van';
   }
 
   @override
@@ -5556,11 +5568,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get accessibilityPausedEmojiByReducedMotion =>
-      'Szüneteltetve a csökkentett mozgás miatt. Kapcsolja be az animált hangulatjelek lejátszásához.';
+      'A csökkentett mozgás miatt szünetel. Kapcsold be az animált emojik folyamatos lejátszásához.';
 
   @override
   String get accessibilityPausedGifByReducedMotion =>
-      'Szüneteltetve a csökkentett mozgás miatt. Kapcsolja be a GIF-ek lejátszásához.';
+      'A csökkentett mozgás miatt szünetel. Kapcsold be a GIF-ek folyamatos lejátszásához.';
 
   @override
   String get accessibilityGifDefaultsOffOnMobile =>
@@ -5574,7 +5586,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Matricaanimáció beállításai';
 
   @override
-  String get accessibilityStickerAlwaysAnimateName => 'Mindig animálja';
+  String get accessibilityStickerAlwaysAnimateName => 'Folyamatos animáció';
 
   @override
   String get accessibilityStickerAlwaysAnimateDescription =>
@@ -5620,7 +5632,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get accessibilitySyncReducedMotionWithSystemDescription =>
-      'Használja az eszköz rendszerének csökkentett mozgásra vonatkozó beállítását, vagy szabja testre alább.';
+      'Használd az eszközöd rendszerének mozgáscsökkentési beállítását, vagy szabd testre alább.';
 
   @override
   String get accessibilityReducedMotionOverrideLabel => 'Mozgás csökkentése';
@@ -5635,7 +5647,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get accessibilityReducedMotionAnimationTabHint =>
-      'Az animált hangulatjelek, GIF-ek és matricák az Animáció lapon maradnak az irányítása alatt.';
+      'Az animált emojik, GIF-ek és matricák működését az Animáció lapon szabályozhatod.';
 
   @override
   String get accessibilityConfirmStartCallTitle => 'Hívás indítása?';
@@ -5676,11 +5688,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get ttsSubstitutionCodeBlock => 'kódblokk';
 
   @override
-  String get ttsSubstitutionSpoiler => 'Plutonium';
+  String get ttsSubstitutionSpoiler => 'spoiler';
 
   @override
   String ttsSubstitutionEmoji(String emojiName) {
-    return '$emojiName hangulatjel';
+    return '$emojiName emoji';
   }
 
   @override
@@ -5731,12 +5743,12 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String systemPreviewPinnedMessage(String username) {
-    return '$username rögzített egy üzenetet ebbe a csatornába.';
+    return '$username üzenetet rögzített ebben a csatornában.';
   }
 
   @override
   String systemPreviewAddedToGroup(String username, String userName) {
-    return '$username hozzáadta $userName elemet a csoporthoz.';
+    return '$username hozzáadta $userName felhasználót a csoporthoz.';
   }
 
   @override
@@ -5751,7 +5763,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String systemPreviewRemovedFromGroup(String username, String userName) {
-    return '$username eltávolította $userName elemet a csoportból.';
+    return '$username eltávolította $userName felhasználót a csoportból.';
   }
 
   @override
@@ -5761,12 +5773,12 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String systemPreviewChangedChannelNameTo(String username, String newName) {
-    return '$username átnevezte a csatornát erre: $newName.';
+    return '$username megváltoztatta a csatorna nevét: $newName.';
   }
 
   @override
   String systemPreviewChangedChannelName(String username) {
-    return '$username átnevezte a csatornát.';
+    return '$username megváltoztatta a csatorna nevét.';
   }
 
   @override
@@ -5801,7 +5813,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get systemCallDurationFewSeconds => 'néhány másodperc';
 
   @override
-  String get systemCallDurationMinute => 'egy perce';
+  String get systemCallDurationMinute => 'egy perc';
 
   @override
   String get systemCallDurationOneYear => '1 év';
@@ -5850,7 +5862,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String systemUnknownMessage(String productName) {
-    return 'Frissítse a(z) $productName alkalmazást az üzenet megtekintéséhez.';
+    return 'Az üzenet megtekintéséhez frissítsd a(z) $productName alkalmazást.';
   }
 
   @override
@@ -5874,11 +5886,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get voiceConnectionConfirmJustJoin =>
-      'Csatlakozás (tartsd meg a többi kapcsolatot)';
+      'Csatlakozás (egyéb kapcsolatok megtartása)';
 
   @override
-  String get voiceConnectionConfirmDoNothing =>
-      'Ne csinálj semmit, nem akarok csatlakozni';
+  String get voiceConnectionConfirmDoNothing => 'Nem csatlakozom';
 
   @override
   String get voiceJoinFailedTitle => 'Nem sikerült csatlakozni a hanghíváshoz';
@@ -5898,27 +5909,27 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get voiceCallJoin => 'Csatlakozás a híváshoz';
 
   @override
-  String get voiceChannelJoinConnect => 'Csatlakozás hanghoz';
+  String get voiceChannelJoinConnect => 'Csatlakozás hangcsatornához';
 
   @override
   String get voiceChannelNoConnectPermission =>
-      'Nincs engedélyed csatlakozni ehhez a hangcsatornához';
+      'Nincs jogosultságod csatlakozni ehhez a hangcsatornához';
 
   @override
   String get voiceChannelE2eeEncrypted =>
-      'A mikrofon, a kamera és a képernyőmegosztás tartalma végponttól végpontig titkosított.';
+      'A mikrofon-, kamera- és képernyőmegosztás során továbbított adatok végpontok közötti titkosítással vannak védve.';
 
   @override
   String get voiceCallE2eeEncrypted =>
-      'A mikrofon, a kamera és a képernyőmegosztás tartalma végponttól végpontig titkosított.';
+      'A mikrofon-, kamera- és képernyőmegosztás során továbbított adatok végpontok közötti titkosítással vannak védve.';
 
   @override
   String get voiceChannelE2eeBroken =>
-      'A végponttól végpontig tartó titkosítás nem érhető el, mert egy nem támogatott résztvevő van ebben a hangcsatornában.';
+      'A végpontok közötti titkosítás nem érhető el, mert a hangcsatorna egyik résztvevőjének kliense nem támogatja.';
 
   @override
   String get voiceCallE2eeBroken =>
-      'A végponttól végpontig tartó titkosítás nem érhető el, mert egy nem támogatott résztvevő van ebben a hívásban.';
+      'A végpontok közötti titkosítás nem érhető el, mert a hívás egyik résztvevőjének kliense nem támogatja.';
 
   @override
   String get voiceE2eeUpdateRequired =>
@@ -5938,7 +5949,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get voiceChannelStatusError => 'Hiba';
 
   @override
-  String get voiceParticipantTooltipMobileDevice => 'Mobil eszköz';
+  String get voiceParticipantTooltipMobileDevice => 'Mobileszköz';
 
   @override
   String get voiceParticipantTooltipDesktopDevice => 'Asztali eszköz';
@@ -5954,7 +5965,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Közösség süketítette le';
 
   @override
-  String get voiceParticipantTooltipDeafened => 'Süketítve';
+  String get voiceParticipantTooltipDeafened => 'Hang kikapcsolva';
 
   @override
   String voiceParticipantTooltipConnection(String connectionId) {
@@ -5982,10 +5993,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get voiceControlUnmute => 'Némítás feloldása';
 
   @override
-  String get voiceControlDeafen => 'Süketítés';
+  String get voiceControlDeafen => 'Hang kikapcsolása';
 
   @override
-  String get voiceControlUndeafen => 'Süketítés feloldása';
+  String get voiceControlUndeafen => 'Hang visszakapcsolása';
 
   @override
   String get voiceControlVideo => 'Videó';
@@ -6065,7 +6076,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get voiceConnectionPingLabel => 'Ping';
 
   @override
-  String get voiceConnectionJitterLabel => 'Zavar';
+  String get voiceConnectionJitterLabel => 'Jitter';
 
   @override
   String get voiceConnectionSendLabel => 'Küldés';
@@ -6109,16 +6120,18 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get voiceParticipantMenuViewProfile => 'Profil megtekintése';
 
   @override
-  String get voiceParticipantMenuFocus => 'Fókuszálás erre a személyre';
+  String get voiceParticipantMenuFocus => 'Felhasználó kiemelése';
 
   @override
-  String get voiceParticipantMenuUnfocus => 'Fókusz feloldása';
+  String get voiceParticipantMenuUnfocus => 'Kiemelés megszüntetése';
 
   @override
-  String get voiceParticipantMenuCommunityMute => 'Közösségi némítás';
+  String get voiceParticipantMenuCommunityMute =>
+      'Mikrofon némítása közösségi szinten';
 
   @override
-  String get voiceParticipantMenuCommunityDeafen => 'Közösségi némítás';
+  String get voiceParticipantMenuCommunityDeafen =>
+      'Hang kikapcsolása közösségi szinten';
 
   @override
   String get voiceParticipantMenuUserVolume => 'Felhasználó hangereje';
@@ -6127,7 +6140,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get voiceParticipantMenuStreamVolume => 'Stream hangereje';
 
   @override
-  String get voiceParticipantMenuStopStreaming => 'Leállítás';
+  String get voiceParticipantMenuStopStreaming => 'Streamelés leállítása';
 
   @override
   String get voiceParticipantModerationFailed =>
@@ -6153,13 +6166,13 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Hangszóró helyett a telefon hangszóróját használja';
 
   @override
-  String get voiceOutputRouteSpeaker => 'Speaker';
+  String get voiceOutputRouteSpeaker => 'Hangszóró';
 
   @override
   String get voiceOutputRouteEarpiece => 'Earpiece';
 
   @override
-  String get voiceOutputRouteHeadset => 'Headphones';
+  String get voiceOutputRouteHeadset => 'Fejhallgató';
 
   @override
   String get voicePanelOnlyShowVideosLabel => 'Csak a videók megjelenítése';
@@ -6205,10 +6218,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'A képernyőmegosztás nem érhető el ezen az eszközön.';
 
   @override
-  String get voiceWatchStream => 'Stream megtekintése';
+  String get voiceWatchStream => 'Adás megtekintése';
 
   @override
-  String get voiceStopWatching => 'Leállítás';
+  String get voiceStopWatching => 'Nézés leállítása';
 
   @override
   String get voiceStopWatchingCurrentStreamTooltip =>
@@ -6222,7 +6235,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'A streamed élőben látható a résztvevők számára.';
 
   @override
-  String get voiceLiveBadge => 'ÉLŐ';
+  String get voiceLiveBadge => 'Élő';
 
   @override
   String get dmVoiceViewCall => 'Hívás megtekintése';
@@ -6235,7 +6248,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Hívás megnyitása teljes képernyőn';
 
   @override
-  String get dmVoiceStripStatusConnecting => 'Kapcsolódás…';
+  String get dmVoiceStripStatusConnecting => 'Csatlakozás…';
 
   @override
   String get dmVoiceStripStatusInCall => 'Hívásban';
@@ -6244,7 +6257,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get dmVoiceEmbeddedFallbackTitle => 'Hanghívás';
 
   @override
-  String get dmVoiceCallBarConnecting => 'Kapcsolódás…';
+  String get dmVoiceCallBarConnecting => 'Csatlakozás…';
 
   @override
   String get dmVoiceCallBarDirectPrimary => 'Közvetlen hívás';
@@ -6271,7 +6284,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get notificationsFilterMentions => 'Említések';
 
   @override
-  String get notificationsBookmarksTooltip => 'Könyvjelzők';
+  String get notificationsBookmarksTooltip => 'Mentett üzenetek';
 
   @override
   String get notificationsMentionFilterTooltip => 'Említések szűrése';
@@ -6289,16 +6302,16 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get notificationsMentionIncludeGuilds =>
-      'Tartalmazza az összes közösségi említést';
+      'Összes közösségi említés belefoglalása';
 
   @override
   String get notificationsNoUnreadTitle => 'Nincsenek olvasatlan üzenetek';
 
   @override
-  String get notificationsNoUnreadBody => 'Minden naprakész.';
+  String get notificationsNoUnreadBody => 'Mindent elolvastál.';
 
   @override
-  String get notificationsNoMentionsTitle => 'Nincsenek új említések';
+  String get notificationsNoMentionsTitle => 'Nincsenek legutóbbi említések';
 
   @override
   String get notificationsNoMentionsBody =>
@@ -6321,7 +6334,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get notificationsViewAllUnread => 'Összes olvasatlan megtekintése';
 
   @override
-  String get notificationsMarkAsRead => 'Olvasottként jelölés';
+  String get notificationsMarkAsRead => 'Megjelölés olvasottként';
 
   @override
   String get notificationsExpand => 'Kibontás';
@@ -6359,15 +6372,15 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get chatSendFailureUnclaimedDm =>
-      'Az üzenetedet nem lehetett kézbesíteni. Fiókod igénylésével tudsz közvetlen üzeneteket küldeni.';
+      'Az üzenetedet nem sikerült kézbesíteni. Közvetlen üzenetek küldéséhez fejezd be a fiókod regisztrációját.';
 
   @override
   String get chatSendFailureUnclaimedGeneral =>
-      'Az üzenetedet nem lehetett kézbesíteni. Fiókod igénylésével tudsz üzeneteket küldeni.';
+      'Az üzenetedet nem sikerült kézbesíteni. Üzenetek küldéséhez fejezd be a fiókod regisztrációját.';
 
   @override
   String get chatSendFailureContentBlocked =>
-      'Az üzenetedet nem lehetett kézbesíteni, mert a biztonsági rendszereink jelölték. Ha úgy gondolod, hogy ez hiba, kérjük, lépj kapcsolatba az ügyfélszolgálattal.';
+      'Az üzenetedet nem sikerült kézbesíteni, mert a biztonsági rendszereink megjelölték. Ha úgy gondolod, ez tévedés, kérjük, vedd fel a kapcsolatot az ügyfélszolgálattal.';
 
   @override
   String get chatSendFailureNsfwEmojiSticker =>
@@ -6388,16 +6401,16 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get privacyDashboardFriendsAndDirectMessagesSection =>
-      'Barátok és közvetlen üzenetek';
+      'Ismerősök és közvetlen üzenetek';
 
   @override
-  String get privacyDashboardActivitySharingSection => 'Aktivitásmegosztás';
+  String get privacyDashboardActivitySharingSection => 'Tevékenységmegosztás';
 
   @override
   String get privacyDashboardSensitiveContentSection => 'Érzékeny tartalom';
 
   @override
-  String get privacyDashboardDataExportSection => 'Adat exportálása';
+  String get privacyDashboardDataExportSection => 'Adatexportálás';
 
   @override
   String get privacyDashboardDataDeletionSection => 'Adattörlés';
@@ -6412,11 +6425,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get privacyDashboardProfilePrivacyAllCommunitiesDesc =>
-      'Teljes profilod látható az ismerőseid és a közösségeid tagjai számára';
+      'A teljes profilod látható az ismerőseid és a közösségeid összes tagja számára';
 
   @override
   String get privacyDashboardProfilePrivacySmallCommunities =>
-      'Csak barátok és kis közösségek';
+      'Csak ismerősök és kis közösségek';
 
   @override
   String get privacyDashboardProfilePrivacySmallCommunitiesDesc =>
@@ -6449,7 +6462,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get privacyDashboardFriendRequestsCommunityMembers =>
-      'Közösség tagjai';
+      'Közösségi tagok';
 
   @override
   String get privacyDashboardFriendRequestsCommunityMembersDesc =>
@@ -6496,10 +6509,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get privacyDashboardIncomingCallNobodyDesc =>
-      'Blokkolj minden beérkező hívást';
+      'Minden bejövő hívás letiltása';
 
   @override
-  String get privacyDashboardIncomingCallFriendsOnly => 'Csak barátok';
+  String get privacyDashboardIncomingCallFriendsOnly => 'Csak ismerősök';
 
   @override
   String get privacyDashboardIncomingCallFriendsOnlyDesc =>
@@ -6531,10 +6544,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Azok, akikkel mindkettőtöknek van közös közössége, felhívhatnak.';
 
   @override
-  String get privacyDashboardRingBehavior => 'Gyűrű viselkedése';
+  String get privacyDashboardRingBehavior => 'Csengetés működése';
 
   @override
-  String get privacyDashboardSilentCalls => 'Némított hívások mindenkitől';
+  String get privacyDashboardSilentCalls =>
+      'Csengetés nélküli hívások mindenkitől';
 
   @override
   String get privacyDashboardSilentCallsDesc =>
@@ -6542,7 +6556,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get privacyDashboardGroupDmTitle =>
-      'Ki vehet fel csoportos csevegésekbe';
+      'Ki vehet fel csoportos beszélgetésekbe';
 
   @override
   String get privacyDashboardGroupDmDesc =>
@@ -6577,7 +6591,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get privacyDashboardVoiceActivityTitle =>
-      'Hangtevékenység az „Aktív most\" funkcióban';
+      'Hangtevékenység a Most aktívak részben';
 
   @override
   String get privacyDashboardShareVoiceActivity =>
@@ -6585,23 +6599,23 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get privacyDashboardVoiceActivityEnableTitle =>
-      'Megosztod a hangtevékenységet az összes barátoddal?';
+      'Megosztod a hangtevékenységedet az összes ismerősöddel?';
 
   @override
   String get privacyDashboardVoiceActivityDisableTitle =>
-      'Leállítja a hangtevékenység megosztását az összes baráttal?';
+      'Leállítod a hangtevékenységed megosztását az összes ismerősöddel?';
 
   @override
   String get privacyDashboardVoiceActivityEnableDesc =>
-      'Mostantól megosztod a hangtevékenységedet az összes barátoddal, beleértve a jövőbelieket is. Ez frissítést küld nekik, és csak 24 óra múlva módosítható újra.';
+      'Megosztod a hangtevékenységedet az összes ismerősöddel, a később hozzáadottakkal is. Erről mindannyian frissítést kapnak, és a beállítást csak 24 óra múlva módosíthatod újra.';
 
   @override
   String get privacyDashboardVoiceActivityDisableDesc =>
-      'Hamarosan leállítod a hangtevékenységed megosztását az összes barátoddal, beleértve a jövőbelieket is. Ez frissítést küld nekik, és csak 24 óra múlva módosítható újra.';
+      'Leállítod a hangtevékenységed megosztását az összes ismerősöddel, a később hozzáadottakkal is. Erről mindannyian frissítést kapnak, és a beállítást csak 24 óra múlva módosíthatod újra.';
 
   @override
   String get privacyDashboardVoiceActivityEnableConfirm =>
-      'Igen, megosztás az összes baráttal';
+      'Igen, megosztás az összes ismerőssel';
 
   @override
   String get privacyDashboardVoiceActivityDisableConfirm =>
@@ -6609,7 +6623,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String privacyDashboardVoiceActivityCooldown(String time) {
-    return 'Újra elérhető ekkor: $time';
+    return 'Újra elérhető $time múlva';
   }
 
   @override
@@ -6622,21 +6636,21 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDataExportDesc =>
-      'Készítsen letölthető archívumot fiókadatairól, beleértve az üzeneteket és a csatolmányok URL-jeit. A legtöbben mindent szeretnének, de alább szűkítheti a kört.';
+      'Készíts letölthető archívumot a fiókadataidról, beleértve az üzeneteket és a mellékletek URL-jeit. A legtöbben mindent szeretnének exportálni, de alább szűkítheted a kört.';
 
   @override
   String get privacyDashboardExportMyData => 'Adataim exportálása';
 
   @override
   String get privacyDashboardDataDeletionDesc =>
-      'Véglegesen törli az üzeneteket, amelyeket közvetlen üzenetekben, csoportos közvetlen üzenetekben és közösségekben küldött. A folyamat a háttérben fut, és közvetlen üzenetben értesítjük, ha elkészült.';
+      'Véglegesen törli a közvetlen és csoportos beszélgetésekben, valamint a közösségekben küldött üzeneteidet. A folyamat a háttérben fut, és közvetlen üzenetben értesítünk, ha elkészült.';
 
   @override
   String get privacyDashboardDeleteMyMessages => 'Üzeneteim törlése';
 
   @override
   String get privacyDashboardDmConfirmAllowMembersTitle =>
-      'Engedélyezi a közvetlen üzeneteket a közösség tagjaitól?';
+      'Engedélyezed a közvetlen üzeneteket a közösség tagjaitól?';
 
   @override
   String get privacyDashboardDmConfirmBlockMembersTitle =>
@@ -6644,11 +6658,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDmConfirmAllowBotsTitle =>
-      'Engedélyezi, hogy botok közvetlen üzeneteket küldjenek Önnek?';
+      'Engedélyezed, hogy a botok közvetlen üzeneteket küldjenek neked?';
 
   @override
   String get privacyDashboardDmConfirmBlockBotsTitle =>
-      'Blokkolja, hogy botok közvetlen üzeneteket küldjenek Önnek?';
+      'Megtiltod, hogy a botok közvetlen üzeneteket küldjenek neked?';
 
   @override
   String get privacyDashboardDmConfirmAllowMembersDesc =>
@@ -6675,8 +6689,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Engedélyezés minden közösség számára';
 
   @override
-  String get privacyDashboardDmConfirmBlockAll =>
-      'Blokkolás minden közösségben';
+  String get privacyDashboardDmConfirmBlockAll => 'Letiltás minden közösségben';
 
   @override
   String get privacyDashboardDmConfirmSkip => 'Lépés kihagyása';
@@ -6706,22 +6719,22 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDataRequestExportEverythingDesc =>
-      'Exportálja az összes elküldött üzenetét, valamint az összes fiókbeállítását, tagságát és metaadatát.';
+      'Exportáld az összes valaha elküldött üzenetedet, valamint az összes fiókbeállításodat, tagságodat és metaadatodat.';
 
   @override
   String get privacyDashboardDataRequestExportCustom => 'Egyéni kiválasztás';
 
   @override
   String get privacyDashboardDataRequestExportCustomDesc =>
-      'Válassza ki, mely beszélgetéstípusokat, közösségeket és időszakot szeretné belefoglalni az archívumba.';
+      'Válaszd ki, mely beszélgetéstípusokat, közösségeket és időszakot szeretnéd belefoglalni az archívumba.';
 
   @override
   String get privacyDashboardDataRequestDeleteSelected =>
-      'Válassza ki, mit szeretne belefoglalni';
+      'Válaszd ki, mit szeretnél belefoglalni';
 
   @override
   String get privacyDashboardDataRequestDeleteSelectedDesc =>
-      'Válaszd ki, milyen típusú beszélgetéseket szeretnél törölni.';
+      'Válaszd ki, mely beszélgetéstípusok üzeneteit szeretnéd törölni.';
 
   @override
   String get privacyDashboardDataRequestDeleteInaccessible =>
@@ -6729,10 +6742,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDataRequestDeleteInaccessibleDesc =>
-      'Csak azokat az üzeneteket törölje, amelyek olyan közösségekből és csoportos közvetlen üzenetekből származnak, amelyeket elhagyott, vagy amelyekből eltávolították.';
+      'Csak azokból a közösségekből és csoportos beszélgetésekből törölje az üzeneteidet, amelyeket elhagytál, vagy amelyekből eltávolítottak.';
 
   @override
-  String get privacyDashboardDataRequestKindsTitle => 'Melyik beszélgetések';
+  String get privacyDashboardDataRequestKindsTitle => 'Mely beszélgetések';
 
   @override
   String get privacyDashboardDataRequestKindsBody =>
@@ -6742,10 +6755,12 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get privacyDashboardDataRequestKindDms => 'Nyitott közvetlen üzenetek';
 
   @override
-  String get privacyDashboardDataRequestKindDmsClosed => 'Lezárt DM-ek';
+  String get privacyDashboardDataRequestKindDmsClosed =>
+      'Bezárt közvetlen beszélgetések';
 
   @override
-  String get privacyDashboardDataRequestKindGroupDms => 'Csoportos DM-ek';
+  String get privacyDashboardDataRequestKindGroupDms =>
+      'Csoportos beszélgetések';
 
   @override
   String get privacyDashboardDataRequestKindCommunities => 'Közösségek';
@@ -6758,7 +6773,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDataRequestGuildFilterExclude =>
-      'Mindent belefoglal, kivéve a kiválasztottat';
+      'Minden, kivéve a kijelölteket';
 
   @override
   String get privacyDashboardDataRequestGuildFilterInclude =>
@@ -6775,7 +6790,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get privacyDashboardDataRequestDateMode => 'Időtartomány';
 
   @override
-  String get privacyDashboardDataRequestAllTime => 'Mindig';
+  String get privacyDashboardDataRequestAllTime => 'Teljes időszak';
 
   @override
   String get privacyDashboardDataRequestCustomRange => 'Egyéni időtartomány';
@@ -6788,11 +6803,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDataRequestDateHelper =>
-      'Hagyja üresen bármelyik mezőt, ha a tartományt azon a végén korlátlanul szeretné hagyni.';
+      'Hagyd üresen bármelyik mezőt, ha a tartomány adott végét nem szeretnéd korlátozni.';
 
   @override
   String get privacyDashboardDataRequestNeedInclusion =>
-      'Válasszon ki legalább egy beszélgetéstípust a felvételhez.';
+      'Válassz ki legalább egy beszélgetéstípust, amelyre a művelet kiterjedjen.';
 
   @override
   String get privacyDashboardDataRequestDateRangeError =>
@@ -6804,7 +6819,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDataRequestExportConfirmEverything =>
-      'Összeállítunk egy letölthető archívumot az összes elküldött üzenetéről, és e-mailben értesítjük, ha elkészült. Az e-mailben található letöltési link 7 nap múlva lejár.';
+      'Letölthető archívumot készítünk az összes valaha elküldött üzenetedből, és e-mailben értesítünk, ha elkészült. Az e-mailben található letöltési link 7 nap után lejár.';
 
   @override
   String get privacyDashboardDataRequestExportConfirmCustom =>
@@ -6882,14 +6897,15 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDataRequestSummaryDmsClosed =>
-      'Lezárt közvetlen üzenetek';
+      'Bezárt közvetlen beszélgetések';
 
   @override
   String get privacyDashboardDataRequestSummaryDmsBoth =>
-      'Közvetlen üzenetek (nyitott és zárt)';
+      'Közvetlen beszélgetések (megnyitottak és bezártak)';
 
   @override
-  String get privacyDashboardDataRequestSummaryGroupDms => 'Csoportos DM-ek';
+  String get privacyDashboardDataRequestSummaryGroupDms =>
+      'Csoportos beszélgetések';
 
   @override
   String get privacyDashboardDataRequestSummaryCommunitiesIncluded =>
@@ -6970,7 +6986,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get doubleTapReactionHint => 'Double tap a message to';
 
   @override
-  String get doubleTapReactionEdit => 'Edit';
+  String get doubleTapReactionEdit => 'Szerkesztés';
 
   @override
   String get doubleTapReactionEditTitle => 'Edit default';
@@ -7073,7 +7089,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get forwardDestinationGuildSendDisabled =>
-      'Üzenetküldés letiltva ebben a közösségben';
+      'Az üzenetküldés le van tiltva ebben a közösségben';
 
   @override
   String get forwardDestinationTimedOut =>
@@ -7125,22 +7141,23 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get chatMessagePin => 'Üzenet rögzítése';
 
   @override
-  String get chatMessageUnpin => 'Üzenet rögzítésének megszüntetése';
+  String get chatMessageUnpin => 'Üzenet rögzítésének feloldása';
 
   @override
-  String get chatMessageUnpinIt => 'Rögzítés megszüntetése';
+  String get chatMessageUnpinIt => 'Rögzítés feloldása';
 
   @override
-  String get chatMessageBookmark => 'Üzenet könyvjelzőzése';
+  String get chatMessageBookmark => 'Üzenet mentése';
 
   @override
-  String get chatMessageRemoveBookmark => 'Könyvjelző eltávolítása';
+  String get chatMessageRemoveBookmark =>
+      'Eltávolítás a mentett üzenetek közül';
 
   @override
-  String get chatMessageMarkAsUnread => 'Megjelölés olvasatlanként';
+  String get chatMessageMarkAsUnread => 'Olvasatlanként jelölés';
 
   @override
-  String get chatMessageCopyMessageLink => 'Üzenet hivatkozásának másolása';
+  String get chatMessageCopyMessageLink => 'Üzenetlink másolása';
 
   @override
   String get chatMessageOpenLink => 'Link megnyitása';
@@ -7149,7 +7166,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get chatMessageCopyLink => 'Link másolása';
 
   @override
-  String get chatMessageCopyMessageId => 'Üzenet ID másolása';
+  String get chatMessageCopyMessageId => 'Üzenetazonosító másolása';
 
   @override
   String get chatMessageViewReactions => 'Reakciók megtekintése';
@@ -7174,7 +7191,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get chatReactionsSheetTitle => 'Reakciók';
 
   @override
-  String get chatReactionsSheetEmpty => 'Még senki sem reagált erre.';
+  String get chatReactionsSheetEmpty => 'Még senki sem reagált így.';
 
   @override
   String get chatReactionAddFailed => 'Reakció hozzáadása sikertelen';
@@ -7183,32 +7200,32 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get chatReactionRemoveFailed => 'A reakció eltávolítása sikertelen';
 
   @override
-  String get chatMessageReport => 'Üzenet jelentése';
+  String get chatMessageReport => 'Üzenet bejelentése';
 
   @override
-  String get iarReportMessageTitle => 'Üzenet jelentése';
+  String get iarReportMessageTitle => 'Üzenet bejelentése';
 
   @override
-  String get iarThisUserFallback => 'ezt a felhasználót';
+  String get iarThisUserFallback => 'ez a felhasználó';
 
   @override
   String get iarModalDescription =>
-      'Jelents egy szabálysértést, vagy keress eszközöket a kapcsolatok és beállítások kezeléséhez.';
+      'Szabálysértés bejelentése, vagy eszközök keresése a kapcsolatok és beállítások kezeléséhez.';
 
   @override
   String get iarPathStepAriaLabel => 'Mire van szükséged?';
 
   @override
-  String get iarCategoryStepTitle => 'Milyen szabálysértés történt?';
+  String get iarCategoryStepTitle => 'Milyen szabályt sértettek meg?';
 
   @override
-  String get iarReasonStepTitle => 'Melyik szabálysértés történt?';
+  String get iarReasonStepTitle => 'Melyik szabályt szegték meg?';
 
   @override
   String get iarReasonSelectHint => 'Válassz okot';
 
   @override
-  String get iarPickAnOptionToast => 'Válassz egy opciót a folytatáshoz.';
+  String get iarPickAnOptionToast => 'Válassz egy lehetőséget a folytatáshoz.';
 
   @override
   String get iarPickARuleToast => 'Válaszd ki a megsértett szabályt.';
@@ -7224,19 +7241,20 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get iarPathPreferenceMessage => 'Nem kedvelem ezt a tartalmat';
 
   @override
-  String get iarCategoryTargetedHarmLabel => 'Fenyegetés, zaklatás vagy kár';
+  String get iarCategoryTargetedHarmLabel =>
+      'Fenyegetés, zaklatás vagy bántalmazás';
 
   @override
   String get iarCategoryTargetedHarmDescription =>
-      'Zaklatás, gyűlöletbeszéd, erőszak, rajtaütés vagy önkárosításra buzdító tartalom.';
+      'Zaklatás, fenyegetés, gyűlölet, erőszak, összehangolt támadások vagy önkárosításra ösztönző tartalom.';
 
   @override
   String get iarCategorySafetyMinorsLabel =>
-      'Gyermekvédelem vagy felnőtt tartalom';
+      'Gyermekbiztonság vagy felnőtt tartalom';
 
   @override
   String get iarCategorySafetyMinorsDescription =>
-      'Kiskorúak veszélyben, felnőtt tartalom nem megfelelő helyen, vagy nem kívánt viselkedés.';
+      'Kiskorúak veszélyeztetése, nem megfelelő helyen megjelenő felnőtt tartalom vagy nem kívánt viselkedés.';
 
   @override
   String get iarCategoryPrivacyIdentityLabel =>
@@ -7244,45 +7262,43 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get iarCategoryPrivacyIdentityDescription =>
-      'Doxxing, zaklatás, másnak kiadni magát, vagy nem megfelelő profil.';
+      'Doxxing, követéses zaklatás, személyazonossággal való visszaélés vagy nem megfelelő profil.';
 
   @override
   String get iarCategoryDeceptionLabel =>
-      'Csalás, kártevő szoftver vagy félretájékoztatás';
+      'Csalások, rosszindulatú programok vagy félretájékoztatás';
 
   @override
   String get iarCategoryDeceptionDescription =>
-      'Adathalászat, csalás, kártékony linkek vagy valós kárt okozó hamis állítások.';
+      'Adathalászat, csalás, rosszindulatú hivatkozások vagy valós károkat okozó hamis állítások.';
 
   @override
-  String get iarCategoryIllegalOtherLabel =>
-      'Illegális tevékenység vagy valami más';
+  String get iarCategoryIllegalOtherLabel => 'Illegális tevékenység vagy egyéb';
 
   @override
   String get iarCategoryIllegalOtherDescription =>
-      'Illegális értékesítés, bűncselekmény elősegítése, vagy egyértelmű szabályszegés, ami nem illeszkedik a fentiekhez.';
+      'Illegális értékesítés, bűncselekmény elősegítése vagy egyértelmű szabálysértés, ami nem illik a fenti kategóriákba.';
 
   @override
   String get iarReasonHarassmentLabel => 'Zaklatás vagy fenyegetés';
 
   @override
   String get iarReasonHarassmentMessageDescription =>
-      'Zaklatás, ismételt nem kívánt kapcsolatfelvétel, követés vagy célzott bántalmazás.';
+      'Megfélemlítés, ismételt kéretlen kapcsolatfelvétel, követéses zaklatás vagy célzott bántalmazás.';
 
   @override
   String get iarReasonHateLabel => 'Gyűlöletbeszéd';
 
   @override
   String get iarReasonHateMessageDescription =>
-      'Sértő kifejezések, dehumanizáló nyelv vagy védett csoportok elleni támadások.';
+      'Gyalázkodás, dehumanizáló nyelvezet vagy védett csoportok elleni támadások.';
 
   @override
-  String get iarReasonViolenceLabel =>
-      'Erőszak vagy erőszakkal való fenyegetés';
+  String get iarReasonViolenceLabel => 'Erőszak vagy erőszakos fenyegetés';
 
   @override
   String get iarReasonViolenceDescription =>
-      'Hiteles fenyegetések, grafikus erőszak vagy erőszak dicsőítése.';
+      'Hiteles fenyegetések, explicit erőszak vagy az erőszak dicsőítése.';
 
   @override
   String get iarReasonMatureContentLabel => 'Felnőtt tartalom vagy zaklatás';
@@ -7293,47 +7309,47 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get iarReasonChildSafetyLabel =>
-      'Gyermekvédelem vagy kiskorúak kizsákmányolása';
+      'Gyermekbiztonság vagy kiskorúak kizsákmányolása';
 
   @override
   String get iarReasonChildSafetyMessageDescription =>
-      'Grooming vagy kiskorúakat kizsákmányoló tartalom.';
+      'Gyermekek szexuális célú behálózása vagy kizsákmányolásukhoz kapcsolódó tartalom.';
 
   @override
   String get iarReasonHarmfulMisinfoLabel => 'Káros félretájékoztatás';
 
   @override
   String get iarReasonHarmfulMisinfoDescription =>
-      'Valós kárt okozó hamis állítások.';
+      'Valótlan állítások, amelyek valós károkat okozhatnak.';
 
   @override
-  String get iarReasonSpamLabel => 'Spam, csalás vagy adathalászat';
+  String get iarReasonSpamLabel => 'Spam, átverés vagy adathalászat';
 
   @override
   String get iarReasonSpamMessageDescription =>
-      'Tömeges spam, csalás, hamis nyereményjátékok vagy fiók-visszaélés.';
+      'Tömeges spam, csalás, hamis nyereményjátékok vagy fiókokkal való visszaélés.';
 
   @override
-  String get iarReasonMalwareLabel => 'Kártevő szoftver vagy veszélyes linkek';
+  String get iarReasonMalwareLabel => 'Kártevő vagy veszélyes linkek';
 
   @override
   String get iarReasonMalwareDescription =>
-      'Kártevő szoftver, jelszólopás vagy káros fájlok.';
+      'Kártevő, hitelesítő adatok lopása vagy káros fájlok.';
 
   @override
-  String get iarReasonPrivacyLabel => 'Adatvédelmi sérelem';
+  String get iarReasonPrivacyLabel => 'Adatvédelmi szabálysértés';
 
   @override
   String get iarReasonPrivacyDescription =>
-      'Doxxing, kiszivárgott privát információk vagy zaklatás.';
+      'Doxxing, személyes adatok közzététele vagy zaklatás.';
 
   @override
   String get iarReasonImpersonationLabel =>
-      'Személyiséglopás vagy megtévesztő média';
+      'Megszemélyesítés vagy megtévesztő média';
 
   @override
   String get iarReasonImpersonationMessageDescription =>
-      'Másoknak kiadni magát, beleértve a megtévesztő AI által generált tartalmat is.';
+      'Más személynek adja ki magát, akár megtévesztő, mesterséges intelligenciával létrehozott tartalommal.';
 
   @override
   String get iarReasonIllegalLabel => 'Illegális tevékenység';
@@ -7343,18 +7359,18 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Illegális értékesítés, bűncselekmény elősegítése vagy jogellenes tevékenység.';
 
   @override
-  String get iarReasonSelfHarmLabel => 'Önkárosítás vagy öngyilkosság';
+  String get iarReasonSelfHarmLabel => 'Önsértés vagy öngyilkosság';
 
   @override
   String get iarReasonSelfHarmMessageDescription =>
-      'Önkárosításra vagy evészavarokra buzdító promóció vagy utasítások.';
+      'Önsértésre vagy étkezési zavarokra ösztönző tartalom vagy útmutatás.';
 
   @override
-  String get iarReasonOtherLabel => 'Egyéb egyértelmű szabályszegés';
+  String get iarReasonOtherLabel => 'Egy másik egyértelmű szabálysértés';
 
   @override
   String iarReasonOtherDescription(String productName) {
-    return 'Csak akkor használd, ha egyértelműen megszegi a $productName szabályait, és nem illeszkedik a fentiekhez.';
+    return 'Csak akkor használd, ha egyértelműen sérti a(z) $productName szabályait, és nem illik a fentiekbe.';
   }
 
   @override
@@ -7368,79 +7384,80 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get iarSafetyNoteSelfHarm =>
-      'Ha valaki azonnali veszélyben lehet, lépj kapcsolatba a helyi segélyhívóval, ha ezt biztonságosan megteheted.';
+      'Ha valakit közvetlen veszély fenyegethet, értesítsd a helyi segélyszolgálatokat, amennyiben ezt biztonságosan megteheted.';
 
   @override
   String get iarSafetyNoteViolence =>
-      'Ha ez egy hiteles, közvetlen fenyegetés, szintén lépj kapcsolatba a helyi segélyhívóval.';
+      'Ha valós, közvetlen fenyegetésről van szó, értesítsd a helyi segélyszolgálatokat is.';
 
   @override
   String get iarSafetyNoteTerrorism =>
-      'Ha ez egy közvetlen terrorfenyegetés, szintén lépj kapcsolatba a helyi segélyhívóval.';
+      'Ha közvetlen terrorfenyegetésről van szó, értesítsd a helyi segélyszolgálatokat is.';
 
   @override
-  String get iarActionBlockUserTitle => 'Blokkolás';
+  String get iarActionBlockUserTitle => 'Felhasználó letiltása';
 
   @override
   String get iarActionBlockUserDescription =>
-      'Üzenetek és barátfelkérések blokkolása.';
+      'Üzenetek és ismerősjelölések leállítása.';
 
   @override
-  String get iarActionBlockUserButton => 'Blokkolás';
+  String get iarActionBlockUserButton => 'Letiltás';
 
   @override
-  String get iarActionCopyMessageLinkTitle => 'Üzenet hivatkozásának másolása';
+  String get iarActionCopyMessageLinkTitle => 'Üzenetlink másolása';
 
   @override
   String get iarActionCopyMessageLinkDescription =>
-      'Oszd meg a közösségi moderátorokkal.';
+      'Megosztás a közösségi moderátorokkal.';
 
   @override
   String get iarActionCopyMessageLinkButton => 'Másolás';
 
   @override
-  String get iarActionCloseDmTitle => 'DM bezárása';
+  String get iarActionCloseDmTitle => 'Közvetlen beszélgetés bezárása';
 
   @override
   String get iarActionCloseDmDescription =>
-      'Nem blokkol. Később újra megnyithatod.';
+      'Nem tiltja le. Később újra megnyithatod.';
 
   @override
-  String get iarActionCloseDmButton => 'DM bezárása';
+  String get iarActionCloseDmButton => 'Közvetlen beszélgetés bezárása';
 
   @override
-  String get iarActionLeaveCommunityTitle => 'Elhagyom a közösséget';
+  String get iarActionLeaveCommunityTitle => 'Közösség elhagyása';
 
   @override
   String get iarActionLeaveCommunityDescription =>
-      'Ne lássam a tartalmát és a tagjait.';
+      'Ne lásd többé a tartalmát és a tagjait.';
 
   @override
-  String get iarActionLeaveCommunityButton => 'Elhagyás';
+  String get iarActionLeaveCommunityButton => 'Kilépés';
 
   @override
-  String get iarActionDmSettingsTitle => 'DM és ismerős kérés beállításai';
+  String get iarActionDmSettingsTitle => 'DM- és ismerősjelölési beállítások';
 
   @override
-  String get iarActionDmSettingsDescription => 'Változtasd meg, ki érhet el.';
+  String get iarActionDmSettingsDescription =>
+      'Állítsd be, hogy ki léphet kapcsolatba veled.';
 
   @override
   String get iarActionCallSettingsTitle =>
-      'Hívás és csoportos csevegés beállításai';
+      'Hívások és csoportos beszélgetések beállításai';
 
   @override
   String get iarActionCallSettingsDescription =>
-      'Változtasd meg, ki hívhat vagy adhat hozzá.';
+      'Módosítsd, hogy ki hívhat fel vagy adhat hozzá csoportos beszélgetésekhez.';
 
   @override
   String get iarActionOpenButton => 'Megnyitás';
 
   @override
-  String get iarActionDeleteMessageTitle => 'Töröld ezt az üzenetet';
+  String get iarActionDeleteMessageTitle => 'Üzenet törlése';
 
   @override
   String get iarActionDeleteMessageDescription =>
-      'Távolítsd el mindenki számára a csatornából.';
+      'Eltávolítás a csatornából mindenki számára.';
 
   @override
   String get iarActionDeleteMessageButton => 'Törlés';
@@ -7450,27 +7467,27 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get iarActionDeleteMessageDeletedTooltip =>
-      'Ez az üzenet már törölve lett.';
+      'Ezt az üzenetet már törölték.';
 
   @override
-  String get iarActionBanUserTitle => 'Tiltsd le ezt a felhasználót';
+  String get iarActionBanUserTitle => 'Felhasználó kitiltása';
 
   @override
   String get iarActionBanUserDescription =>
-      'Nyisd meg a letiltási párbeszédablakot ehhez a közösséghez.';
+      'A közösség kitiltási párbeszédablakának megnyitása.';
 
   @override
-  String get iarActionBanUserButton => 'Letiltás';
+  String get iarActionBanUserButton => 'Kitiltás';
 
   @override
-  String get iarActionBanUserBannedButton => 'Letiltva';
+  String get iarActionBanUserBannedButton => 'Kitiltva';
 
   @override
   String get iarActionBanUserBannedTooltip =>
-      'Ez a felhasználó már le van tiltva a közösségből.';
+      'Ez a felhasználó már ki van tiltva a közösségből.';
 
   @override
-  String get iarCloseDmConfirmTitle => 'DM bezárása';
+  String get iarCloseDmConfirmTitle => 'Közvetlen beszélgetés bezárása';
 
   @override
   String iarCloseDmConfirmDescription(String name) {
@@ -7478,11 +7495,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get iarSuccessTitle => 'Jelentés elküldve';
+  String get iarSuccessTitle => 'Bejelentés elküldve';
 
   @override
   String get iarSuccessBody =>
-      'Biztonsági csapatunk áttekinti. DM-ben és e-mailben értesítünk, amint döntést hoztunk.';
+      'Biztonsági csapatunk felülvizsgálja a bejelentést. DM-et és e-mailt küldünk, amint megszületett a döntés.';
 
   @override
   String get iarAlreadyReportedTitle => 'Már jelentetted';
@@ -7495,10 +7512,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get iarBackButton => 'Vissza';
 
   @override
-  String get iarContinueButton => 'Tovább';
+  String get iarContinueButton => 'Folytatás';
 
   @override
-  String get iarSendReportButton => 'Jelentés küldése';
+  String get iarSendReportButton => 'Bejelentés küldése';
 
   @override
   String get iarDoneButton => 'Kész';
@@ -7536,10 +7553,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Nem sikerült elhagyni ezt a közösséget. Kérlek, próbáld újra.';
 
   @override
-  String get chatMessageSuppressEmbeds => 'Lejáratás elnyomása';
+  String get chatMessageSuppressEmbeds => 'Beágyazott tartalmak elrejtése';
 
   @override
-  String get chatMessageUnsuppressEmbeds => 'Lejáratás megjelenítése';
+  String get chatMessageUnsuppressEmbeds =>
+      'Beágyazott tartalmak megjelenítése';
 
   @override
   String get chatMessageDelete => 'Üzenet törlése';
@@ -7572,7 +7590,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Az eredeti üzenet betöltése sikertelen';
 
   @override
-  String get chatReplyAttachedMedia => 'Az üzenet mellékelt médiát tartalmaz';
+  String get chatReplyAttachedMedia => 'Az üzenet médiamellékletet tartalmaz';
 
   @override
   String chatBlockedMessagesCollapsed(int count) {
@@ -7615,29 +7633,28 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get chatReplyMentionOverrideTitle =>
-      'Felülírjam az említés beállításait?';
+      'Felülbírálod az említési beállítást?';
 
   @override
   String chatReplyMentionPrefersMentionBody(String authorNickname) {
-    return '$authorNickname felhasználó preferálja az @említéseket a válaszokban. Küldjem el említés nélkül így is?';
+    return '$authorNickname szeretné, ha @említést kapna a válaszokban. Mégis elküldöd említés nélkül?';
   }
 
   @override
   String chatReplyMentionPrefersNoMentionBody(String authorNickname) {
-    return '$authorNickname nem szeretné, ha válaszaid @mentionnel érkeznének. Küldjem mégis a mentionnel?';
+    return '$authorNickname nem szeretné, ha @említéssel válaszolnának neki. Elküldöd az említéssel együtt?';
   }
 
   @override
-  String get chatReplyMentionIgnorePreference =>
-      'Figyelmen kívül hagyom az előnyben részesítést';
+  String get chatReplyMentionIgnorePreference => 'Beállítás mellőzése';
 
   @override
   String get chatReplyMentionDisableTooltip =>
-      'Kattints ide, hogy ne értesítsd a felhasználót, akinek válaszolsz.';
+      'Kattints ide, ha nem szeretnéd értesíteni a felhasználót, akinek válaszolsz.';
 
   @override
   String get chatReplyMentionEnableTooltip =>
-      'Kattints ide, hogy értesítsd a felhasználót, akinek válaszolsz.';
+      'Kattints ide, hogy értesítést küldj annak a felhasználónak, akinek válaszolsz.';
 
   @override
   String get chatReplyMentionAccessibilityLabel =>
@@ -7650,13 +7667,13 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get chatReplyMentionOff => 'OFF';
 
   @override
-  String get chatReplyCancel => 'Válasz törlése';
+  String get chatReplyCancel => 'Válasz visszavonása';
 
   @override
   String get chatEditMessageHint => 'Üzenet szerkesztése';
 
   @override
-  String get chatEditNoChanges => 'Nincsenek menthető változtatások';
+  String get chatEditNoChanges => 'Nincs menthető változás';
 
   @override
   String get chatChannelNotReady =>
@@ -7682,7 +7699,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get mediaViewerImagePreview => 'Kép előnézete';
 
   @override
-  String get mediaViewerClose => 'Médiaablak bezárása';
+  String get mediaViewerClose => 'Médiafájl-nézegető bezárása';
 
   @override
   String get mediaViewerOpenInBrowser => 'Megnyitás böngészőben';
@@ -7738,7 +7755,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get chatAttachmentVideoPause => 'Videó szüneteltetése';
 
   @override
-  String get chatAttachmentVideoProgress => 'Videó állása';
+  String get chatAttachmentVideoProgress => 'Videó előrehaladása';
 
   @override
   String get chatVideoPlaybackFailed => 'A videó nem játszható le.';
@@ -7748,7 +7765,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
-      'Értesíti az ezzel a szerepkörrel rendelkező felhasználókat, akiknek van engedélyük a csatorna megtekintésére.';
+      'Az ezzel a szerepkörrel rendelkező, a csatorna megtekintésére jogosult felhasználók értesítése.';
 
   @override
   String get composerAutocompleteSuggestions => 'Javaslatok';
@@ -7757,7 +7774,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get composerAutocompleteCommandsHeading => 'Parancsok';
 
   @override
-  String get composerAutocompleteChoicesHeading => 'Választások';
+  String get composerAutocompleteChoicesHeading => 'Választási lehetőségek';
 
   @override
   String get composerAutocompleteOptionalArgumentsHeading =>
@@ -7796,7 +7813,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get composerCommandTableflipDescription =>
-      'Hozzáfűzi ezt: (╯°□°)╯︵ ┻━┻ az üzenetéhez.';
+      'Ezt fűzi hozzá az üzenetedhez: (╯°□°)╯︵ ┻━┻.';
 
   @override
   String get composerCommandUnflipDescription =>
@@ -7808,7 +7825,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get composerCommandSpoilerDescription =>
-      'Spoiler üzenet küldése (spoiler címkék közé zárja).';
+      'Spoilerüzenet küldése (spoilerjelölők közé zárva).';
 
   @override
   String get composerCommandTtsDescription => 'Szövegfelolvasó üzenet küldése.';
@@ -7819,7 +7836,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get composerCommandKickDescription =>
-      'Tag eltávolítása a közösségből.';
+      'Tag kirúgása ebből a közösségből.';
 
   @override
   String get composerCommandBanDescription =>
@@ -7856,7 +7873,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get composerCommandDeleteMessagesOption =>
-      'A tagadott tag nemrég küldött üzeneteinek mennyi előzményét töröljük.';
+      'A tag legutóbbi üzeneteiből törlendő időszak.';
 
   @override
   String get composerCommandDeleteMessagesNone => 'Ne törölj semmit';
@@ -7881,7 +7898,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
     String previousNickname,
     String newNickname,
   ) {
-    return 'Megváltoztattad a becenevedet ebben a közösségben: **$previousNickname**-ről **$newNickname**-re.';
+    return 'Megváltoztattad a becenevedet ebben a közösségben. Korábbi becenév: **$previousNickname**. Új becenév: **$newNickname**.';
   }
 
   @override
@@ -7902,26 +7919,26 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get addGuildModalLandingDescription =>
-      'Hozzon létre új közösséget, vagy csatlakozzon egy meglévőhöz.';
+      'Új közösség létrehozása vagy csatlakozás egy meglévőhöz.';
 
   @override
   String get addGuildCreateCommunity => 'Közösség létrehozása';
 
   @override
-  String get addGuildJoinCommunity => 'Közösséghez csatlakozás';
+  String get addGuildJoinCommunity => 'Csatlakozás a közösséghez';
 
   @override
   String get addGuildImportDiscordTemplate => 'Discord sablon importálása';
 
   @override
-  String get addGuildJoinTitle => 'Csatlakozás egy közösséghez';
+  String get addGuildJoinTitle => 'Csatlakozás közösséghez';
 
   @override
   String get addGuildJoinDescription =>
-      'Adja meg a meghívó linket a közösséghez való csatlakozáshoz.';
+      'Írd be a meghívólinket a közösséghez való csatlakozáshoz.';
 
   @override
-  String get addGuildInviteLinkLabel => 'Meghívó link';
+  String get addGuildInviteLinkLabel => 'Meghívólink';
 
   @override
   String get addGuildJoinSubmit => 'Csatlakozás a közösséghez';
@@ -7938,7 +7955,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get addGuildCreateDescription =>
-      'Közösség létrehozása, ahol tudsz beszélgetni a barátaiddal.';
+      'Hozz létre egy közösséget, ahol az ismerőseiddel cseveghetsz.';
 
   @override
   String get addGuildCreateNameLabel => 'Közösség neve';
@@ -7951,22 +7968,22 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Nem sikerült létrehozni a közösséget. Kérlek, próbáld újra.';
 
   @override
-  String get addGuildCreateClaimTitle => 'Igényeld a fiókod';
+  String get addGuildCreateClaimTitle => 'Fejezd be a fiókod regisztrációját';
 
   @override
   String get addGuildCreateClaimDescription =>
-      'Közösség létrehozása előtt igényelned kell a fiókodat.';
+      'Közösség létrehozása előtt be kell fejezned a fiókod regisztrációját.';
 
   @override
-  String get addGuildCreateVerifyTitle => 'Erősítsd meg az email címed';
+  String get addGuildCreateVerifyTitle => 'E-mail-cím megerősítése';
 
   @override
   String get addGuildCreateVerifyDescription =>
-      'Közösség létrehozása előtt meg kell erősítened az email címedet.';
+      'Közösség létrehozása előtt meg kell erősítened az e-mail-címedet.';
 
   @override
   String get addGuildCreateAnimatedIconUnsupported =>
-      'Az animált ikonok nem támogatottak új közösség létrehozásakor. Használj statikus képet.';
+      'Új közösség létrehozásakor nem támogatottak az animált ikonok. Használj statikus képet.';
 
   @override
   String get addGuildCreateGuidelinesBefore =>
@@ -7985,7 +8002,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get addGuildCreateChangeIcon => 'Ikon módosítása';
 
   @override
-  String get addGuildCreateIconLabel => 'Közösségi ikon';
+  String get addGuildCreateIconLabel => 'Közösség ikonja';
 
   @override
   String get addGuildCreateIconHint =>
@@ -8042,18 +8059,18 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Biztosan el szeretné távolítani az összes reakciót erről az üzenetről?';
 
   @override
-  String get chatMessagePinConfirm => 'Pin';
+  String get chatMessagePinConfirm => 'Rögzítés';
 
   @override
   String get chatMessagePinConfirmDescription =>
-      'Pin this message to the channel for everyone to see.';
+      'Rögzítsd ezt az üzenetet a csatornában, hogy mindenki láthassa.';
 
   @override
-  String get chatMessageUnpinConfirmTitle => 'Üzenet leválasztása';
+  String get chatMessageUnpinConfirmTitle => 'Üzenet rögzítésének feloldása';
 
   @override
   String get chatMessageUnpinConfirmDescription =>
-      'Visszatekerjük ezt a pin-t az időben?';
+      'Visszaküldöd ezt a rögzítést az időben?';
 
   @override
   String systemPinMessage(
@@ -8075,7 +8092,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get channelPinsEmptyDescription =>
-      'Itt jelennek meg a rögzített üzenetek.';
+      'A rögzített üzenetek itt jelennek meg.';
 
   @override
   String get channelDetailsFallbackTitle => 'Részletek';
@@ -8102,13 +8119,13 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get channelDetailsGroupSettingsTitle => 'Csoportbeállítások';
 
   @override
-  String get channelDetailsDmSettingsTitle => 'Személyes üzenetek beállításai';
+  String get channelDetailsDmSettingsTitle => 'DM-beállítások';
 
   @override
   String get channelDetailsInvitePeople => 'Emberek meghívása';
 
   @override
-  String get channelDetailsCopyLink => 'Hivatkozás másolása';
+  String get channelDetailsCopyLink => 'Link másolása';
 
   @override
   String get channelMenuCopyChannelLink => 'Csatornalink másolása';
@@ -8139,7 +8156,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get channelSettingsTabOverview => 'Áttekintés';
 
   @override
-  String get channelSettingsTabPermissions => 'Engedélyek';
+  String get channelSettingsTabPermissions => 'Jogosultságok';
 
   @override
   String get channelSettingsTabInvites => 'Meghívók';
@@ -8185,7 +8202,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get categoryExpandAllCategories => 'Összes kategória kibontása';
 
   @override
-  String get categoryCollapseAllCategories => 'Összes kategória becsukása';
+  String get categoryCollapseAllCategories => 'Összes kategória összecsukása';
 
   @override
   String get categoryMuteCategory => 'Kategória némítása';
@@ -8329,7 +8346,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get channelSettingsVoiceRegionsLoadFailedDescription =>
-      'Próbálja meg újra egy pillanat múlva.';
+      'Próbáld újra egy kis idő múlva.';
 
   @override
   String get channelSettingsResetSlider =>
@@ -8405,14 +8422,14 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String channelSettingsPermissionsNeedManageChannels(
     String manageChannelsPermissionLabel,
   ) {
-    return 'A(z) \"$manageChannelsPermissionLabel\" engedély szükséges ezen engedélyek szerkesztéséhez.';
+    return 'E jogosultságok szerkesztéséhez a(z) „$manageChannelsPermissionLabel” jogosultság szükséges.';
   }
 
   @override
   String channelSettingsPermissionsNeedManageRoles(
     String manageRolesPermissionLabel,
   ) {
-    return 'A(z) \"$manageRolesPermissionLabel\" engedély szükséges ezen jogosultságok szerkesztéséhez.';
+    return 'E jogosultságok szerkesztéséhez a(z) „$manageRolesPermissionLabel” jogosultság szükséges.';
   }
 
   @override
@@ -8426,7 +8443,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get channelSettingsPermissionsAccessOverrides =>
-      'Hozzáférési felülbírálások';
+      'Egyéni hozzáférési jogosultságok';
 
   @override
   String channelSettingsPermissionsEditAccessFor(String name) {
@@ -8435,7 +8452,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get channelSettingsPermissionsBackToOverrides =>
-      'Vissza a felülbírálásokhoz';
+      'Vissza az egyéni jogosultságokhoz';
 
   @override
   String get channelSettingsPermissionsConfigureBaseAccess =>
@@ -8443,19 +8460,19 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get channelSettingsPermissionsConfigureRoleOverrides =>
-      'Felülbírálások konfigurálása ehhez a szerepkörhöz';
+      'Egyéni jogosultságok beállítása ehhez a szerepkörhöz';
 
   @override
   String get channelSettingsPermissionsConfigureMemberOverrides =>
-      'Tag felülbírálási beállításai';
+      'Egyéni jogosultságok beállítása ehhez a taghoz';
 
   @override
   String get channelSettingsPermissionsSearchPlaceholder =>
-      'Engedélyek keresése…';
+      'Jogosultságok keresése…';
 
   @override
   String get channelSettingsPermissionsChannelAccessUpdated =>
-      'Csatorna hozzáférés frissítve';
+      'Csatorna-hozzáférés frissítve';
 
   @override
   String get channelSettingsPermissionsTitle => 'Hozzáférések kezelése';
@@ -8480,14 +8497,15 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get channelSettingsPermissionsSyncedWithParentToast =>
-      'A csatorna szinkronizálva van a szülő kategóriával';
+      'A csatorna szinkronizálva van a szülőkategóriával';
 
   @override
-  String get channelSettingsPermissionsAddOverride => 'Felülbírálás hozzáadása';
+  String get channelSettingsPermissionsAddOverride =>
+      'Egyéni jogosultságok hozzáadása';
 
   @override
   String get channelSettingsPermissionsSearchRolesOrMembers =>
-      'Szerepek vagy tagok keresése…';
+      'Szerepkörök vagy tagok keresése…';
 
   @override
   String get channelSettingsPermissionsRolesAndMembers =>
@@ -8498,7 +8516,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get channelSettingsDeleteInviteConfirm =>
-      'Törli ezt a meghívót? A művelet nem vonható vissza.';
+      'Törlöd ezt a meghívót? A művelet nem vonható vissza.';
 
   @override
   String get channelSettingsCopyInviteCode => 'Meghívókód másolása';
@@ -8518,7 +8536,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get channelSettingsInvitesDescription =>
-      'Kezelje a csatorna meghívási hivatkozásait.';
+      'A csatorna meghívólinkjeinek kezelése.';
 
   @override
   String get channelSettingsInvitesCreate => 'Meghívó létrehozása';
@@ -8532,7 +8550,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get channelSettingsInvitesLoadFailedDescription =>
-      'Hiba történt a csatorna meghívólinkjeinek betöltésekor. Próbálja újra.';
+      'Hiba történt a csatorna meghívólinkjeinek betöltésekor. Próbáld újra.';
 
   @override
   String get channelSettingsWebhooksDescription =>
@@ -8560,7 +8578,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get channelSettingsWebhooksLoadFailedDescription =>
-      'Hiba történt a csatorna webhookjainak betöltésekor. Próbálja újra.';
+      'Hiba történt a csatorna webhookjainak betöltésekor. Próbáld újra.';
 
   @override
   String channelSettingsWebhooksCreatedBy(String creator, String date) {
@@ -8592,7 +8610,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get channelSettingsWebhooksUrl => 'Webhook URL';
 
   @override
-  String get channelSettingsWebhooksCopyUrl => 'Webhook URL másolása';
+  String get channelSettingsWebhooksCopyUrl => 'Webhook URL-jének másolása';
 
   @override
   String get channelSettingsWebhooksDelete => 'Webhook törlése';
@@ -8607,7 +8625,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get channelSettingsWebhookTryAgainInAMoment =>
-      'Próbálja meg újra egy pillanat múlva.';
+      'Próbáld újra egy kis idő múlva.';
 
   @override
   String get channelMenuOpenChat => 'Csevegés megnyitása';
@@ -8617,18 +8635,18 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get channelMenuResetMatureContentAgreeState =>
-      'Felnőtt tartalomra vonatkozó megállapodás állapotának visszaállítása';
+      'Felnőtt tartalomra vonatkozó beleegyezés állapotának visszaállítása';
 
   @override
   String get channelMenuDeleteMyMessagesTitle =>
-      'Törli az üzeneteit ebből a csatornából?';
+      'Törlöd az üzeneteidet ebből a csatornából?';
 
   @override
   String get channelMenuDeleteMyMessagesDescription =>
       'Ez véglegesen törli az összes üzenetet, amit valaha küldtél ebben a csatornában. Ez a művelet nem vonható vissza.';
 
   @override
-  String get channelMenuDeleteMyMessagesConfirm => 'Saját üzeneteim törlése';
+  String get channelMenuDeleteMyMessagesConfirm => 'Üzeneteim törlése';
 
   @override
   String get channelMenuDeletedYourMessages => 'Törölted az üzeneteidet';
@@ -8849,7 +8867,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get channelDetailsSearchFilterSort => 'Rendezés';
 
   @override
-  String get channelHeaderSearchFiltersTitle => 'Szűrők keresése';
+  String get channelHeaderSearchFiltersTitle => 'Keresési szűrők';
 
   @override
   String get channelHeaderSearchRecentTitle => 'Legutóbbi keresések';
@@ -8910,7 +8928,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get channelHeaderSearchFilterDescFileName =>
-      'a csatolmány fájlnevének része';
+      'a melléklet fájlnevének része';
 
   @override
   String get channelHeaderSearchFilterDescFileType =>
@@ -9014,11 +9032,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get channelDetailsJumpToMessage => 'Ugrás az üzenethez';
 
   @override
-  String get channelDetailsUnpinMessage =>
-      'Üzenet eltávolítása a tűzött üzenetek közül';
+  String get channelDetailsUnpinMessage => 'Üzenet rögzítésének feloldása';
 
   @override
-  String get channelDetailsCopyMessageLink => 'Üzenet hivatkozásának másolása';
+  String get channelDetailsCopyMessageLink => 'Üzenetlink másolása';
 
   @override
   String get channelDetailsCopyMessageId => 'Üzenetazonosító másolása';
@@ -9030,39 +9047,40 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get channelDetailsSearchScopeCurrentCommunity => 'Jelenlegi közösség';
 
   @override
-  String get channelDetailsSearchScopeCurrentDm => 'Jelenlegi DM';
+  String get channelDetailsSearchScopeCurrentDm =>
+      'Aktuális közvetlen beszélgetés';
 
   @override
-  String get channelDetailsSearchScopeAllCommunities => 'Minden közösség';
+  String get channelDetailsSearchScopeAllCommunities => 'Összes közösség';
 
   @override
-  String get channelDetailsSearchScopeAllDmsOnlyGuild => 'Összes privát üzenet';
+  String get channelDetailsSearchScopeAllDmsOnlyGuild =>
+      'Csak közvetlen beszélgetések';
 
   @override
-  String get channelDetailsSearchScopeAllDms => 'Összes DM';
+  String get channelDetailsSearchScopeAllDms => 'Összes közvetlen beszélgetés';
 
   @override
-  String get channelDetailsSearchScopeOpenDmsOnlyGuild =>
-      'Csak privát üzenetek';
+  String get channelDetailsSearchScopeOpenDmsOnlyGuild => 'Csak nyitott DM-ek';
 
   @override
   String get channelDetailsSearchScopeOpenDms => 'Nyitott közvetlen üzenetek';
 
   @override
   String get channelDetailsSearchScopeAllDmsAndCommunities =>
-      'Minden DM + Közösség';
+      'Összes közvetlen beszélgetés + közösség';
 
   @override
   String get channelDetailsSearchScopeOpenDmsAndCommunities =>
-      'Nyitott DM-ek + Közösségek';
+      'Nyitott DM-ek + közösségek';
 
   @override
   String get channelDetailsSearchScopeCurrentCommunityDescription =>
-      'Csak az aktuális közösségben keress';
+      'Keresés csak az aktuális közösségben';
 
   @override
   String get channelDetailsSearchScopeCurrentDmDescription =>
-      'Csak az aktuális DM-ben keressen';
+      'Keresés csak az aktuális közvetlen beszélgetésben';
 
   @override
   String get channelDetailsSearchScopeAllCommunitiesDescription =>
@@ -9070,11 +9088,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get channelDetailsSearchScopeAllDmsOnlyGuildDescription =>
-      'Csak az összes privát üzenetben, amiben valaha is részt vettél';
+      'Csak az összes közvetlen beszélgetésben, amelyben valaha részt vettél';
 
   @override
   String get channelDetailsSearchScopeAllDmsDescription =>
-      'Az összes privát beszélgetésben, amiben valaha részt vettél';
+      'Az összes közvetlen beszélgetésben, amelyben valaha részt vettél';
 
   @override
   String get channelDetailsSearchScopeOpenDmsOnlyGuildDescription =>
@@ -9093,10 +9111,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Minden megnyitott privát üzenetben + minden csatlakozott Közösségben';
 
   @override
-  String get channelDetailsSearchSortNewest => 'Legújabbak';
+  String get channelDetailsSearchSortNewest => 'Legújabb elöl';
 
   @override
-  String get channelDetailsSearchSortOldest => 'Legrégebbi';
+  String get channelDetailsSearchSortOldest => 'Először a legrégebbiek';
 
   @override
   String get channelDetailsSearchSortRelevance => 'Legrelevánsabb';
@@ -9114,10 +9132,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'A legrelevánsabb üzenetek jelenjenek meg először';
 
   @override
-  String get channelDetailsSearchContentImage => 'Kép feltöltése';
+  String get channelDetailsSearchContentImage => 'Képfeltöltés';
 
   @override
-  String get channelDetailsSearchContentVideo => 'Videó feltöltés';
+  String get channelDetailsSearchContentVideo => 'Videófeltöltés';
 
   @override
   String get channelDetailsSearchContentAudio => 'Hangfeltöltés';
@@ -9129,7 +9147,8 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get channelDetailsSearchContentLink => 'Link';
 
   @override
-  String get channelDetailsSearchContentEmbed => 'Link előnézet vagy beágyazás';
+  String get channelDetailsSearchContentEmbed =>
+      'Linkelőnézet vagy beágyazott tartalom';
 
   @override
   String get channelDetailsSearchContentSticker => 'Matrica';
@@ -9156,7 +9175,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get channelDetailsSearchContentEmbedDescription =>
-      'Feloldott előnézetek és gazdag beágyazások, nem feltöltések';
+      'Lekért előnézetek és részletes beágyazott tartalmak, feltöltések nélkül';
 
   @override
   String get channelDetailsSearchContentStickerDescription =>
@@ -9172,7 +9191,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get personalNotesSubtitle =>
-      'A saját privát helyed gondolatoknak és emlékeztetőknek';
+      'A privát tered gondolatokhoz és emlékeztetőkhöz';
 
   @override
   String groupDmWelcome(String displayName) {
@@ -9225,7 +9244,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get groupDmAnimatedIconNotSupported =>
-      'Animált ikonok használata nem támogatott. Használjon statikus képet.';
+      'Az animált ikonok nem támogatottak. Használj statikus képet.';
 
   @override
   String get groupDmAnimatedIconNotSupportedTitle =>
@@ -9250,20 +9269,20 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get groupDmFailedToProcessCroppedImage =>
-      'Nem sikerült feldolgozni a kivágott képet. Próbálja újra.';
+      'Nem sikerült feldolgozni a körbevágott képet. Próbáld újra.';
 
   @override
   String get groupDmInvalidImage => 'Érvénytelen kép';
 
   @override
   String get groupDmInvalidImageBody =>
-      'Ez a kép érvénytelen. Próbálkozzon egy másikkal.';
+      'Ez a kép érvénytelen. Próbálj másikat.';
 
   @override
   String get groupDmAddFriends => 'Hozzáadás';
 
   @override
-  String get groupDmOrSendInvite => 'vagy küldj meghívót egy barátodnak:';
+  String get groupDmOrSendInvite => 'vagy küldj meghívót egy ismerősödnek:';
 
   @override
   String get groupDmGenerateInviteLink => 'Meghívólink generálása';
@@ -9329,11 +9348,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get groupDmInvitesLoadFailed =>
-      'Nem sikerült betölteni a meghívókat. Próbálja újra.';
+      'Nem sikerült betölteni a meghívókat. Próbáld újra.';
 
   @override
   String get groupDmInvitesRevokeConfirm =>
-      'Visszavonja ezt a meghívót? Nem vonható vissza.';
+      'Visszavonod ezt a meghívót? Ez nem vonható vissza.';
 
   @override
   String get groupDmInviteRevoked => 'Meghívó visszavonva';
@@ -9358,7 +9377,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String channelComposerHint(String channelName) {
-    return 'Message #$channelName';
+    return 'Üzenet ide: #$channelName';
   }
 
   @override
@@ -9368,11 +9387,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String groupDmNamedComposerHint(String groupName) {
-    return 'Message $groupName';
+    return 'Üzenet ide: $groupName';
   }
 
   @override
-  String get groupDmComposerHint => 'Message group';
+  String get groupDmComposerHint => 'Üzenetcsoport';
 
   @override
   String get composerHint => 'Message';
@@ -9454,7 +9473,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get messageAccessibilityEmptySummary => 'egy üzenet';
 
   @override
-  String get personalNotesPrivateSpace => 'A saját privát helyed';
+  String get personalNotesPrivateSpace => 'A privát tered';
 
   @override
   String get purgePersonalNotes => 'Személyes jegyzetek törlése';
@@ -9504,7 +9523,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get userSettingsSearchClear => 'Keresés törlése';
 
   @override
-  String get userSettingsSearchNoResults => 'Nincsenek beállítások';
+  String get userSettingsSearchNoResults => 'Nem található beállítás';
 
   @override
   String get userSettingsNavProfile => 'Profil';
@@ -9519,7 +9538,8 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get userSettingsNavGiftsAndCodes => 'Ajándékok';
 
   @override
-  String get giftSettingsClaimAccountTitle => 'Fiók igénylése';
+  String get giftSettingsClaimAccountTitle =>
+      'Fejezd be a fiókod regisztrációját';
 
   @override
   String get giftSettingsClaimAccountDescription =>
@@ -9561,10 +9581,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get giftSettingsLoadFailedTitle =>
-      'Nem sikerült betölteni az ajándéklistát';
+      'Nem sikerült betölteni az ajándékokat';
 
   @override
-  String get giftSettingsLoadFailedDescription => 'Próbálja újra később.';
+  String get giftSettingsLoadFailedDescription => 'Próbáld újra később.';
 
   @override
   String get giftSettingsTryAgain => 'Újra';
@@ -9608,7 +9628,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get giftSettingsRedeemForYourself => 'Beváltás magadnak';
 
   @override
-  String get giftSettingsShareWithFriend => 'Megosztás egy baráttal';
+  String get giftSettingsShareWithFriend => 'Megosztás egy ismerőssel';
 
   @override
   String get premiumPlutoniumTagline =>
@@ -9642,7 +9662,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get premiumSave17 => '17% megtakarítás';
 
   @override
-  String get premiumUpgradeNow => 'Frissítés most';
+  String get premiumUpgradeNow => 'Csomagváltás most';
 
   @override
   String get premiumBuyGift => 'Ajándék vásárlása';
@@ -9685,7 +9705,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get premiumViewGifts => 'Ajándékok megtekintése';
 
   @override
-  String get premiumReadyToUpgrade => 'Készen állsz a frissítésre?';
+  String get premiumReadyToUpgrade => 'Készen állsz a csomagváltásra?';
 
   @override
   String get premiumReadyToBuyGift => 'Készen állsz egy ajándék vásárlására?';
@@ -9724,7 +9744,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get premiumCancelSubscriptionBody =>
-      'A kedvezményeket a következő megújítási dátumig megtartja, majd 3 nap türelmi idő áll rendelkezésére az újbóli feliratkozáshoz, hogy megőrizze előfizetői előzményeit.';
+      'Az előnyöket a következő megújítási dátumig megtartod. Ezután 3 napos türelmi időszak áll rendelkezésedre, hogy újra előfizess és megőrizd az előfizetői előzményeidet.';
 
   @override
   String get premiumCancelSubscriptionConfirm => 'Előfizetés lemondása';
@@ -9789,12 +9809,12 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String premiumDisclaimerPurchased(String terms, String privacy) {
-    return 'A vásárlással elfogadod a(z) $terms és $privacy feltételeinket.';
+    return 'A vásárlással elfogadtad a következőket: $terms és $privacy.';
   }
 
   @override
   String get premiumDisclaimerRefund =>
-      'Önkiszolgáló visszatérítés a fizetéstől számított 3 napon belül, 30 naponta egyszer. Az előfizetés visszatérítése annak lemondását vonja maga után. Az EU/EGT vásárlók lemondanak a 14 napos elállási jogról a fizetéskor, hogy azonnal hozzáférjenek a tartalomhoz. Használja az alkalmazáson belüli visszatérítési gombot a visszaterhelés helyett. A visszaterhelések véglegesen korlátozhatják fiókját. A Stripe biztonságosan kezeli a fizetést. Soha nem látjuk a teljes kártyaszámát.';
+      'A fizetéstől számított 3 napon belül, 30 naponta egyszer önkiszolgáló visszatérítés kérhető. Az előfizetés visszatérítése megszünteti az előfizetést. Az EU/EGT vásárlói fizetéskor lemondanak a 14 napos elállási jogukról, hogy azonnal hozzáférhessenek a tartalomhoz. Banki visszaterhelés helyett használd az alkalmazáson belüli visszatérítési gombot. A banki visszaterhelés a fiókod végleges korlátozását eredményezheti. A fizetést a Stripe biztonságosan kezeli. A teljes kártyaszámodat soha nem látjuk.';
 
   @override
   String get premiumTermsOfService => 'Szolgáltatási feltételek';
@@ -9808,7 +9828,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get premiumCheckoutStartFailedBody =>
-      'Hiba történt a fizetés elindításakor. Kérjük, próbálja meg újra később.';
+      'Hiba történt a fizetés elindításakor. Próbáld újra egy kis idő múlva.';
 
   @override
   String get premiumGiftSubscriptionBlocksRecurring =>
@@ -9851,7 +9871,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get premiumCustomerPortalOpenFailedBody =>
-      'Hiba történt a számlázási portál megnyitásakor. Kérjük, próbálja meg újra később.';
+      'Hiba történt a számlázási portál megnyitásakor. Próbáld újra egy kis idő múlva.';
 
   @override
   String get premiumAlreadyVisionaryTitle => 'Már Visionary vagy';
@@ -9883,7 +9903,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'A Fluxer Plutonium megvásárlásához először igazolnod kell az e-mail címedet.';
 
   @override
-  String get premiumPerkCustomUsernameTag => 'Egyéni felhasználónév-címke';
+  String get premiumPerkCustomUsernameTag => 'Egyéni felhasználói címke';
 
   @override
   String get premiumPerkPerCommunityProfiles => 'Közösségenkénti profilok';
@@ -9904,8 +9924,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get premiumPerkCommunities => 'Közösségek';
 
   @override
-  String get premiumPerkMessageCharacterLimit =>
-      'Üzenet karaktereinek korlátja';
+  String get premiumPerkMessageCharacterLimit => 'Üzenet karakterkorlátja';
 
   @override
   String get premiumPerkBookmarkedMessages => 'Mentett üzenetek';
@@ -9924,14 +9943,14 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get premiumPerkGlobalEmojiStickerAccess =>
-      'Globális hangulatjel- és matricaelérés';
+      'Emojik és matricák használata mindenhol';
 
   @override
   String get premiumPerkVideoQuality => 'Videó minősége';
 
   @override
   String get premiumPerkAnimatedAvatarsBanners =>
-      'Animált avatárok és profil bannerek';
+      'Animált profilképek és borítóképek';
 
   @override
   String get premiumPerkEarlyAccess => 'Korai hozzáférés az új funkciókhoz';
@@ -9955,7 +9974,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get userSettingsNavBlockedUsers => 'Letiltott felhasználók';
 
   @override
-  String get userSettingsNavLinkedDevices => 'Csatlakoztatott eszközök';
+  String get userSettingsNavLinkedDevices => 'Összekapcsolt eszközök';
 
   @override
   String get userSettingsNavConnections => 'Kapcsolatok';
@@ -9967,13 +9986,13 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get userSettingsNavAccessibility => 'Kisegítő lehetőségek';
 
   @override
-  String get userSettingsNavChat => 'Üzenetek és média';
+  String get userSettingsNavChat => 'Csevegés';
 
   @override
   String get userSettingsNavAudioAndVideo => 'Hang és videó';
 
   @override
-  String get userSettingsNavShortcuts => 'Gyorsbillentyűk';
+  String get userSettingsNavShortcuts => 'Billentyűparancsok';
 
   @override
   String get audioAndVideoAudioSectionTitle => 'Hang';
@@ -10004,7 +10023,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get audioAndVideoOutputDeviceLabel => 'Kimeneti eszköz';
 
   @override
-  String get audioAndVideoDefaultDeviceLabel => 'Alapértelmezet';
+  String get audioAndVideoDefaultDeviceLabel => 'Alapértelmezett';
 
   @override
   String get audioAndVideoUseSpeakerLabel => 'Hangszóró használata';
@@ -10023,31 +10042,31 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get audioAndVideoVoiceProcessingSectionTitle => 'Hangfeldolgozás';
 
   @override
-  String get audioAndVideoFocusedVoiceLabel => 'Fókuszált hang';
+  String get audioAndVideoFocusedVoiceLabel => 'Beszédkiemelés';
 
   @override
   String get audioAndVideoFocusedVoiceDescription =>
-      'Ajánlott. Megtisztítja a mikrofonod hangját a tiszta beszédhanghoz.';
+      'Ajánlott. Megtisztítja a mikrofon hangját az érthető beszédhez.';
 
   @override
   String get audioAndVideoDirectInputLabel => 'Közvetlen bemenet';
 
   @override
   String get audioAndVideoDirectInputDescription =>
-      'Módosítás nélkül továbbítja a hangod. Akkor a legjobb, ha külső hangszoftvert használsz.';
+      'Érintetlenül küldi a hangot. Akkor a legjobb, ha külső audioszoftvert használsz.';
 
   @override
-  String get audioAndVideoCustomProfileLabel => 'Egyedi';
+  String get audioAndVideoCustomProfileLabel => 'Egyéni';
 
   @override
   String get audioAndVideoCustomProfileDescription =>
-      'Minden beállítást te állítasz be: zajcsökkentés, visszhangkioltás és erősítés.';
+      'Állítsd be az egyes beállításokat magad: zajszűrés, visszhangszűrés és erősítés.';
 
   @override
-  String get audioAndVideoNoiseSuppressionSectionTitle => 'Zajcsökkentés';
+  String get audioAndVideoNoiseSuppressionSectionTitle => 'Zajszűrés';
 
   @override
-  String get audioAndVideoNoiseSuppressionEnhancedLabel => 'Fejlett';
+  String get audioAndVideoNoiseSuppressionEnhancedLabel => 'Továbbfejlesztett';
 
   @override
   String get audioAndVideoNoiseSuppressionStandardLabel => 'Szokványos';
@@ -10056,24 +10075,24 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get audioAndVideoNoiseSuppressionNoneLabel => 'Nincs';
 
   @override
-  String get audioAndVideoEchoCancellationLabel => 'Visszhangkioltás';
+  String get audioAndVideoEchoCancellationLabel => 'Visszhangszűrés';
 
   @override
   String get audioAndVideoAutomaticGainControlLabel =>
-      'Erősítés automatikus beállítása';
+      'Automatikus erősítésszabályozás';
 
   @override
   String get audioAndVideoAutomaticGainControlDescription =>
       'Kiegyenlíti a mikrofonod hangerejét. Kikapcsolásra kerül, ha a fejlett zajcsökkentés aktív.';
 
   @override
-  String get audioAndVideoMicTestSectionTitle => 'Mikrofonpróba';
+  String get audioAndVideoMicTestSectionTitle => 'Mikrofonteszt';
 
   @override
-  String get audioAndVideoMicTestStartLabel => 'Mikrofonpróba indítása';
+  String get audioAndVideoMicTestStartLabel => 'Mikrofonteszt indítása';
 
   @override
-  String get audioAndVideoMicTestStopLabel => 'Mikrofonpróba leállítása';
+  String get audioAndVideoMicTestStopLabel => 'Mikrofonteszt leállítása';
 
   @override
   String audioAndVideoMicTestPermissionRequired(String productName) {
@@ -10087,7 +10106,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get audioAndVideoMirrorCameraLabel => 'Kamera tükrözése';
 
   @override
-  String get audioAndVideoCameraQualitySectionTitle => 'Kameraminőség';
+  String get audioAndVideoCameraQualitySectionTitle => 'Kamera minősége';
 
   @override
   String get audioAndVideoCameraQuality480pLabel => '480p';
@@ -10125,7 +10144,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String audioAndVideoMicrophonePermissionRequired(String productName) {
-    return 'A $productName-nek mikrofon-hozzáférésre van szüksége az eszközeid listázásához.';
+    return 'A(z) $productName mikrofon-hozzáférést igényel az eszközök listázásához.';
   }
 
   @override
@@ -10162,7 +10181,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get notificationsEnableDesktopNotificationsDescription =>
-      'Az operációs rendszer értesítési központját használja. A csatornánkénti/közösségenkénti vezérlőkhöz kattintson jobb gombbal egy közösség ikonjára, és nyissa meg az értesítési beállításokat.';
+      'Az operációs rendszer értesítési központját használja. A csatornánkénti és közösségenkénti beállításokhoz kattints jobb gombbal egy közösség ikonjára, és nyisd meg az értesítési beállításokat.';
 
   @override
   String get notificationsEnableBrowserNotificationsLabel =>
@@ -10174,11 +10193,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get notificationsPushInactiveTimeoutLabel =>
-      'Inaktív push értesítések időtúllépése';
+      'Pushértesítésekhez szükséges inaktivitási idő';
 
   @override
   String notificationsPushInactiveTimeoutDescription(String productName) {
-    return 'A $productName nem küld értesítéseket a mobil eszközödre, amikor éppen a számítógépednél vagy. Válaszd ki, mennyi idő inaktivitás után szeretnéd újra megkapni az értesítéseket.';
+    return 'A(z) $productName nem küld pushértesítéseket a mobileszközeidre, amikor a számítógépednél vagy. Válaszd ki, mennyi ideig kell inaktívnak lenned a számítógépen ahhoz, hogy pushértesítéseket kapj.';
   }
 
   @override
@@ -10197,7 +10216,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get notificationsReplyMentionPreferenceAriaLabel =>
-      'Említésre vonatkozó válaszbeállítások';
+      'Említési beállítás válaszokhoz';
 
   @override
   String get notificationsMentionNoPreferenceName => 'Nincs preferencia';
@@ -10212,22 +10231,22 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get notificationsMentionPreferMentionDescription =>
-      'Alapértelmezés szerint válaszol az @említésre, és figyelmezteti a küldőt, ha kikapcsolja azt';
+      'A neked szóló válaszok alapértelmezés szerint tartalmazzanak @említést; a küldő kapjon figyelmeztetést, ha kikapcsolja';
 
   @override
-  String get notificationsMentionPreferNoMentionName => 'Nincs @említés';
+  String get notificationsMentionPreferNoMentionName =>
+      'Említés mellőzésének előnyben részesítése';
 
   @override
   String get notificationsMentionPreferNoMentionDescription =>
-      'Az alapértelmezett válaszok kihagyják az @említést, és figyelmeztetik a küldőt, ha engedélyezi azt';
+      'A neked szóló válaszok alapértelmezés szerint ne tartalmazzanak @említést; a küldő kapjon figyelmeztetést, ha bekapcsolja';
 
   @override
-  String get notificationsTtsSectionTitle =>
-      'Szöveges üzenet-szintézis értesítések';
+  String get notificationsTtsSectionTitle => 'Értesítések szövegfelolvasással';
 
   @override
   String get notificationsTtsEnableCommandLabel =>
-      'TTS felolvasás engedélyezése';
+      'A /tts paranccsal küldött szöveg felolvasásának engedélyezése';
 
   @override
   String get notificationsTtsEnableCommandDescription =>
@@ -10264,7 +10283,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get notificationsTtsModeCurrentChannelDescription =>
-      'Csak az éppen megtekintett csatornát meséli el. A felolvasás követi Önt a csatornák között.';
+      'Csak az éppen megtekintett csatorna üzeneteit olvassa fel. A felolvasás a csatornaváltásokat is követi.';
 
   @override
   String get notificationsTtsModeNeverName => 'Soha ne automatikusan';
@@ -10284,7 +10303,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get notificationsMasterVolumeDescription =>
-      'Beállítja az összes hangeffektus hangerejét. Az egyedi hangeffektusok felülbírálják ezt a beállítást.';
+      'Beállítja az összes hangeffekt hangerőszintjét. Az egyes hangokhoz megadott egyéni hangerő figyelmen kívül hagyja ezt.';
 
   @override
   String get notificationsResetToDefaultVolume =>
@@ -10314,11 +10333,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get notificationsPerSoundVolumeDescription =>
-      'Egyedi hangerő beállítása az egyes hangokhoz. Azok a hangok, amelyekhez nincs felülbírálás, az alap hangerőt követik.';
+      'Egyéni hangerő beállítása az egyes hangokhoz. Egyéni beállítás nélkül a hangok a fő hangerőt követik.';
 
   @override
   String notificationsPerSoundVolumeOverrideDescription(int overrideCount) {
-    return 'Aktív, egyéni hangbeállítások: $overrideCount.';
+    return 'Aktív egyéni hangerő-beállítások: $overrideCount.';
   }
 
   @override
@@ -10337,12 +10356,12 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String notificationsMuteSound(String label) {
-    return 'Némít $label';
+    return '$label némítása';
   }
 
   @override
   String notificationsUnmuteSound(String label) {
-    return 'Hangosíts fel $label';
+    return '$label némításának feloldása';
   }
 
   @override
@@ -10354,19 +10373,19 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get notificationsSoundSameChannelMessage =>
-      'Aktuális csatorna üzenetértesítések';
+      'Az aktuális csatorna üzenetértesítései';
 
   @override
-  String get notificationsSoundMute => 'Hang némítása';
+  String get notificationsSoundMute => 'Mikrofon némítása';
 
   @override
-  String get notificationsSoundUnmute => 'Némítás feloldása';
+  String get notificationsSoundUnmute => 'Mikrofon némításának feloldása';
 
   @override
-  String get notificationsSoundDeaf => 'Hang némítása';
+  String get notificationsSoundDeaf => 'Bejövő hang kikapcsolása';
 
   @override
-  String get notificationsSoundUndeaf => 'Némítás feloldása (hang)';
+  String get notificationsSoundUndeaf => 'Bejövő hang visszakapcsolása';
 
   @override
   String get notificationsSoundUserJoin =>
@@ -10421,6 +10440,48 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Nem sikerült engedélyezni az értesítéseket. Engedélyezze az értesítési hozzáférést a folytatáshoz.';
 
   @override
+  String get notificationsPushRelaySectionTitle =>
+      'Push-értesítések továbbítója';
+
+  @override
+  String notificationsPushRelaySectionDescription(String pushProvider) {
+    return 'A(z) $pushProvider csak a saját szolgáltatásán keresztül kézbesít push-értesítéseket, ezért az eszköz értesítései a Fluxer továbbítóján haladnak át.';
+  }
+
+  @override
+  String get notificationsPushRelayConsentLabel =>
+      'A Fluxer push-továbbítójának használata';
+
+  @override
+  String get notificationsPushRelayConsentDescription =>
+      'Ha ezt kikapcsolod, az eszköz push-regisztrációja törlődik, és az eszköz nem kap több push-értesítést.';
+
+  @override
+  String get pushRelayConsentTitle => 'Push-értesítések továbbítója';
+
+  @override
+  String pushRelayConsentDescription(String pushProvider) {
+    return 'A(z) $pushProvider csak a saját szolgáltatásán keresztül kézbesít push-értesítéseket, ezért az eszköz értesítései a Fluxer továbbítóján haladnak át.';
+  }
+
+  @override
+  String get pushRelayConsentNoticePrefix => 'Fogadd el a ';
+
+  @override
+  String get pushRelayConsentNoticeLink =>
+      'push-továbbító adatvédelmi tájékoztatóját';
+
+  @override
+  String get pushRelayConsentNoticeSuffix =>
+      ', hogy bekapcsold a push-értesítéseket ezen az eszközön. Eszközönként csak egyszer kell elfogadnod.';
+
+  @override
+  String get pushRelayConsentAgree => 'Elfogadom és folytatom';
+
+  @override
+  String get pushRelayConsentDecline => 'Most nem';
+
+  @override
   String get userSettingsNavLanguageAndTime => 'Nyelv és idő';
 
   @override
@@ -10456,17 +10517,17 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String languageAndTimeTimeFormatAppLanguage(String format) {
-    return 'Alkalmazás nyelve: $format';
+    return 'Alkalmazás nyelvének időformátuma: $format';
   }
 
   @override
   String languageAndTimeTimeFormatSystemLocale(String format) {
-    return 'Rendszernyelv: $format';
+    return 'Rendszer időformátuma: $format';
   }
 
   @override
   String get languageAndTimeUseSystemLocaleForTimeFormat =>
-      'Rendszernyelv használata az időformátumhoz';
+      'Rendszer területi beállításainak használata az időformátumhoz';
 
   @override
   String get languageAndTimeTimeFormatSyncFailed =>
@@ -10493,6 +10554,29 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get defaultAppsWebBrowserExternal => 'Külső böngésző';
 
   @override
+  String get userSettingsNavAppIcon => 'App icon';
+
+  @override
+  String get appIconSectionTitle => 'App icon';
+
+  @override
+  String get appIconSectionDescription =>
+      'Choose which icon appears on your home screen.';
+
+  @override
+  String get appIconOptionDefault => 'Alapértelmezett';
+
+  @override
+  String get appIconOptionStarfield => 'Starfield';
+
+  @override
+  String get appIconOptionSweden => 'Svédország';
+
+  @override
+  String get appIconUnsupported =>
+      'Changing the app icon is not available on this device.';
+
+  @override
   String get userSettingsNavAdvanced => 'Speciális';
 
   @override
@@ -10513,7 +10597,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get advancedSettingsConfigure => 'Konfigurálás';
+  String get advancedSettingsConfigure => 'Beállítás';
 
   @override
   String get advancedSettingsCategoryPrivacy => 'Adatvédelem';
@@ -10542,15 +10626,15 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get advancedSettingEnableTextSelectionDescription =>
-      'Lehetővé teszi a szöveg kiválasztását az alkalmazásban.';
+      'Szöveg kijelölésének engedélyezése az alkalmazásban';
 
   @override
   String get advancedSettingVideoSeekThumbnailsLabel =>
-      'Engedélyezze a videókeresés miniatűrjeit';
+      'Videótekerési bélyegképek engedélyezése';
 
   @override
   String get advancedSettingVideoSeekThumbnailsDescription =>
-      'Miniatűr vagy élő kép a videó lejátszása közben';
+      'Bélyegkép vagy aktuális képkocka videótekerés közben';
 
   @override
   String get advancedSettingHapticFeedbackLabel => 'Rezgés visszajelzés';
@@ -10579,11 +10663,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'A logó kicsinyítése a kezdőképernyőről való kilépéskor';
 
   @override
-  String get advancedSettingKeyboardHintsLabel => 'Billentyűzet-tippek';
+  String get advancedSettingKeyboardHintsLabel => 'Billentyűzetsúgók';
 
   @override
   String get advancedSettingKeyboardHintsDescription =>
-      'Billentyűparancs-segédletek a tooltipokban.';
+      'Billentyűparancsok jelzése a buboréksúgókban';
 
   @override
   String get advancedSettingEnableFavoritesLabel => 'Kedvencek engedélyezése';
@@ -10629,15 +10713,15 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get advancedSettingMediaButtonsDescription =>
-      'Testre szabhatja, hogy mely gombok és jelzők jelenjenek meg a médiafájlokhoz csatolt képeken és beágyazásokon';
+      'Állítsd be, mely gombok és jelzők jelenjenek meg a médiamellékleteken és a beágyazott tartalmakon';
 
   @override
   String get advancedSettingPreuploadAttachmentsLabel =>
-      'Töltsön fel mellékleteket a küldés előtt';
+      'Mellékletek feltöltése küldés előtt';
 
   @override
   String get advancedSettingPreuploadAttachmentsDescription =>
-      'A csatolt fájlok feltöltése azonnal elkezdődik, amint azok hozzáadódnak az üzenetbe';
+      'Mellékletek feltöltésének indítása, amint hozzáadod őket az üzenetbeviteli mezőhöz';
 
   @override
   String get advancedSettingStripTrackingLabel =>
@@ -10649,7 +10733,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get advancedSettingTrustAllLinksLabel =>
-      'Minden külső hivatkozás megbízható';
+      'Minden külső link megjelölése megbízhatóként';
 
   @override
   String get advancedSettingTrustAllLinksDescription =>
@@ -10660,14 +10744,14 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get advancedSettingSearchEnginesDescription =>
-      'A kiválasztott szövegből használt keresőmotorok konfigurálása';
+      'Kijelölt szöveg kereséséhez használt keresőmotorok beállítása';
 
   @override
   String get advancedSettingTranslatorsLabel => 'Fordítók';
 
   @override
   String get advancedSettingTranslatorsDescription =>
-      'A kiválasztott szövegből használt fordítói szolgáltatók konfigurálása';
+      'Kijelölt szöveg fordításához használt szolgáltatók beállítása';
 
   @override
   String get advancedSettingReverseImageSearchLabel =>
@@ -10678,11 +10762,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Fordított képkereső szolgáltatók';
 
   @override
-  String get advancedSettingMessageActionBarLabel => 'Üzenet műveletsáv';
+  String get advancedSettingMessageActionBarLabel => 'Üzenetműveletek sávja';
 
   @override
   String get advancedSettingMessageActionBarDescription =>
-      'Azon műveletsáv testreszabása, amely az üzenetek fölé mozgatva jelenik meg';
+      'Az üzenet fölé vitt egérmutatónál megjelenő műveletsáv testreszabása';
 
   @override
   String get advancedSettingExpressionAutocompleteLabel =>
@@ -10690,7 +10774,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get advancedSettingExpressionAutocompleteDescription =>
-      'Válaszd ki, mi jelenjen meg, amikor beírsz egy kettőspontot az üzenetbeveteli mezőben';
+      'Válaszd ki, mi jelenjen meg, amikor kettőspontot írsz az üzenetbeviteli mezőbe';
 
   @override
   String get advancedSettingInputButtonsLabel => 'Üzenetbeviteli gombok';
@@ -10705,15 +10789,15 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get advancedSettingScrollToBottomOnSendDescription =>
-      'Válaszd ki, hogy a csevegés hogyan folytatódik az üzenet küldése után';
+      'Válaszd ki, hogyan görgessen a csevegés az üzenet elküldése után';
 
   @override
   String get advancedSettingSkipMarkAllAsReadLabel =>
-      '\"Összes megjelölése olvasottként\" megerősítés kihagyása';
+      '„Összes megjelölése olvasottként” megerősítés kihagyása';
 
   @override
   String get advancedSettingSkipMarkAllAsReadDescription =>
-      'Az összes olvasatlan beérkező csatorna azonnali megjelölése olvasottként, megerősítés kérése nélkül';
+      'A beérkezett üzenetek összes olvasatlan csatornájának azonnali megjelölése olvasottként, megerősítés nélkül';
 
   @override
   String get advancedSettingHideMutedChannelsLabel =>
@@ -10721,7 +10805,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get advancedSettingHideMutedChannelsDescription =>
-      'Elrejtett csatornák a közösségi oldalsávokból';
+      'A némított csatornák elrejtése a közösségi oldalsávokból';
 
   @override
   String get advancedSettingShowGifIndicatorLabel => 'GIF-jelző megjelenítése';
@@ -10743,11 +10827,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get advancedSettingShowSuppressEmbedsLabel =>
-      'Beágyazások elrejtése gomb megjelenítése';
+      'Beágyazott tartalmak elrejtésére szolgáló gomb megjelenítése';
 
   @override
   String get advancedSettingShowMessageActionBarLabel =>
-      'Üzenetkezelő sáv megjelenítése';
+      'Üzenetműveletek sávjának megjelenítése';
 
   @override
   String get advancedSettingShowOnlyMoreButtonLabel =>
@@ -10781,15 +10865,14 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get advancedSettingShowGifsButtonLabel => 'GIF-gomb megjelenítése';
 
   @override
-  String get advancedSettingShowMediaButtonLabel => 'Média gomb megjelenítése';
+  String get advancedSettingShowMediaButtonLabel => 'Médiagomb megjelenítése';
 
   @override
   String get advancedSettingShowStickersButtonLabel =>
       'Matricák gomb megjelenítése';
 
   @override
-  String get advancedSettingShowEmojiButtonLabel =>
-      'Hangulatjel gomb megjelenítése';
+  String get advancedSettingShowEmojiButtonLabel => 'Emojigomb megjelenítése';
 
   @override
   String get advancedSettingShowSendButtonLabel => 'Küldés gomb megjelenítése';
@@ -10800,7 +10883,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get advancedSettingNewDeviceAlertsDescription =>
-      'Kérje az új audioeszközöket';
+      'Rákérdezés új hangeszközök csatlakoztatásakor';
 
   @override
   String get advancedSettingConnectionVolumeControlsLabel =>
@@ -10808,7 +10891,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get advancedSettingConnectionVolumeControlsDescription =>
-      'Mutasd az eszközspecifikus hangerőszabályzókat a hangmenükben';
+      'Résztvevőnként és eszközönként külön hangerőcsúszkák megjelenítése a hangmenükben';
 
   @override
   String get advancedSettingScreenSharePreviewBehaviorLabel =>
@@ -10816,14 +10899,14 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get advancedSettingScreenSharePreviewBehaviorDescription =>
-      'Előnézet, külön ablakban való megjelenítés és videó miniatűr viselkedése';
+      'Előnézetek, külön ablakok és streambélyegképek működése';
 
   @override
-  String get advancedSettingScreenShareCodecLabel => 'Képernyőmegosztás kodek';
+  String get advancedSettingScreenShareCodecLabel => 'Képernyőmegosztási kodek';
 
   @override
   String get advancedSettingScreenShareCodecDescription =>
-      'Videó kodek képernyőmegosztáshoz';
+      'Videokodek képernyőmegosztáshoz';
 
   @override
   String get advancedSettingScreenShareCodecAuto => 'Automatikus (ajánlott)';
@@ -10849,7 +10932,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get advancedSettingHideStreamPreviewLabel =>
-      'Streamelőnézetem miniatűrjének elrejtése';
+      'Saját stream előnézeti bélyegképének elrejtése';
 
   @override
   String get advancedSettingDeveloperModeLabel =>
@@ -10894,7 +10977,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get advancedSettingBuiltInSearchEnginesDescription =>
-      'Beépített keresőmotorok engedélyezése vagy letiltása. Az engedélyezett motorok megjelennek az üzenet helyi menüjében, amikor szöveget jelöl ki.';
+      'Beépített keresőmotorok engedélyezése vagy letiltása. Az engedélyezett keresőmotorok megjelennek az üzenet helyi menüjében, amikor szöveget jelölsz ki.';
 
   @override
   String get advancedSettingCustomSearchEnginesLabel => 'Egyéni keresőmotorok';
@@ -10927,7 +11010,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get advancedSettingBuiltInTranslatorsDescription =>
-      'Beépített fordítók engedélyezése vagy letiltása. Az engedélyezett fordítók megjelennek az üzenet helyi menüjében, ha szöveget jelöl ki.';
+      'Beépített fordítók engedélyezése vagy letiltása. Az engedélyezett fordítók megjelennek az üzenet helyi menüjében, amikor szöveget jelölsz ki.';
 
   @override
   String get advancedSettingCustomTranslatorsLabel => 'Egyéni fordítók';
@@ -10961,7 +11044,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get advancedSettingBuiltInReverseImageSearchDescription =>
-      'Beépített fordított képkereső szolgáltatók engedélyezése vagy letiltása. Az engedélyezett szolgáltatók megjelennek a képek, avatárok, bannerek, matricák és hangulatjelek helyi menüjében.';
+      'Beépített fordított képkereső szolgáltatók engedélyezése vagy letiltása. Az engedélyezett szolgáltatók megjelennek a képek, profilképek, borítóképek, matricák és emojik helyi menüjében.';
 
   @override
   String get advancedSettingCustomReverseImageSearchLabel =>
@@ -11124,11 +11207,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Kijelentkezés';
 
   @override
-  String get userSettingsLogOutConfirmTitle => 'Sign out?';
+  String get userSettingsLogOutConfirmTitle => 'Kijelentkezés?';
 
   @override
   String get userSettingsLogOutConfirmDescription =>
-      'You can sign back in at any time.';
+      'Bármikor újra bejelentkezhetsz.';
 
   @override
   String get quickSwitcherTabSearch => 'Keresés';
@@ -11148,7 +11231,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get quickSwitcherEmptyHint =>
-      'Próbálkozz más névvel, vagy használj @ / # / ! / * előtagokat az eredmények szűréséhez.';
+      'Próbálj meg egy másik nevet, vagy használj @ / # / ! / * előtagokat az eredmények szűréséhez.';
 
   @override
   String get quickSwitcherSectionPeople => 'Személyek';
@@ -11172,7 +11255,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get quickSwitcherHomeLabel => 'Kezdőlap';
 
   @override
-  String get quickSwitcherDirectMessagesLabel => 'Névjegyek';
+  String get quickSwitcherDirectMessagesLabel => 'Közvetlen üzenetek';
 
   @override
   String get quickSwitcherFavoritesLabel => 'Kedvencek';
@@ -11184,43 +11267,45 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get quickSwitcherNotificationsLabel => 'Értesítések';
 
   @override
-  String get quickSwitcherBookmarksLabel => 'Könyvjelzők';
+  String get quickSwitcherBookmarksLabel => 'Mentett üzenetek';
 
   @override
-  String get savedMessagesEmptyTitle => 'Nincsenek könyvjelzők';
+  String get savedMessagesEmptyTitle => 'Nincsenek mentett üzenetek';
 
   @override
   String get savedMessagesEmptyBody =>
-      'Üzenetek könyvjelzőzése későbbi megtekintéshez.';
+      'Mentsd el az üzeneteket, hogy később visszatérhess hozzájuk.';
 
   @override
   String get savedMessagesEndBody => 'Itt nincs több látnivaló.';
 
   @override
-  String get savedMessagesRemoveTooltip => 'Könyvjelző eltávolítása';
+  String get savedMessagesRemoveTooltip =>
+      'Eltávolítás a mentett üzenetek közül';
 
   @override
-  String get savedMessagesAddedToast => 'Added to bookmarks';
+  String get savedMessagesAddedToast => 'Hozzáadva a mentett üzenetekhez';
 
   @override
-  String get savedMessagesRemovedToast => 'Removed from bookmarks';
+  String get savedMessagesRemovedToast =>
+      'Eltávolítva a mentett üzenetek közül';
 
   @override
   String get quickSwitcherMentionsLabel => 'Említések';
 
   @override
-  String get quickSwitcherFriendsEmptyTitle => 'Még nincsenek ismerősök';
+  String get quickSwitcherFriendsEmptyTitle => 'Még nincsenek ismerőseid';
 
   @override
   String get quickSwitcherFriendsEmptyHint =>
-      'Adj hozzá egy ismerőst az indításhoz.';
+      'Kezdéshez vegyél fel egy ismerőst.';
 
   @override
   String get quickSwitcherFriendsNoMatchTitle =>
-      'Nincs ismerős, aki megfelelne a keresésnek';
+      'Nincs a keresésnek megfelelő ismerős';
 
   @override
-  String get quickSwitcherFriendsNoMatchHint => 'Próbálkozz más névvel.';
+  String get quickSwitcherFriendsNoMatchHint => 'Próbálj meg egy másik nevet.';
 
   @override
   String get quickSwitcherSearchAliasUser => 'Felhasználó';
@@ -11244,10 +11329,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get quickSwitcherSearchAliasStarred => 'Csillagozott';
 
   @override
-  String get quickSwitcherSearchAliasInbox => 'Beérkezett';
+  String get quickSwitcherSearchAliasInbox => 'Beérkezett üzenetek';
 
   @override
-  String get quickSwitcherSearchAliasSaved => 'Mentett';
+  String get quickSwitcherSearchAliasSaved => 'Mentve';
 
   @override
   String get uiClose => 'Bezárás';
@@ -11283,7 +11368,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get uiMoreActions => 'További műveletek';
 
   @override
-  String get uiUnsavedChanges => 'Nem mentett módosítások';
+  String get uiUnsavedChanges => 'Nem mentett változások';
 
   @override
   String get uiReset => 'Visszaállítás';
@@ -11375,14 +11460,14 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get comingSoon => 'Hamarosan';
 
   @override
-  String get guildNavbarDirectMessages => 'Névjegyek';
+  String get guildNavbarDirectMessages => 'Közvetlen üzenetek';
 
   @override
   String get guildNavbarExploreDiscoverableCommunities =>
       'Fedezd fel a közösségeket';
 
   @override
-  String get discoveryExplore => 'Fedezd fel';
+  String get discoveryExplore => 'Felfedezés';
 
   @override
   String get discoveryExplorePublicCommunities =>
@@ -11399,7 +11484,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get discoveryFilterByLanguage => 'Szűrés nyelv szerint';
 
   @override
-  String get discoveryAllLanguages => 'Minden nyelv';
+  String get discoveryAllLanguages => 'Összes nyelv';
 
   @override
   String get discoveryAllCategories => 'Összes';
@@ -11420,7 +11505,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get discoveryCategoryScienceAndTechnology => 'Tudomány és technológia';
 
   @override
-  String get discoveryCategoryContentCreator => 'Tartalomgyártó';
+  String get discoveryCategoryContentCreator => 'Tartalomkészítő';
 
   @override
   String get discoveryCategoryAnimeAndManga => 'Anime és manga';
@@ -11432,7 +11517,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get discoveryCategoryOther => 'Egyéb';
 
   @override
-  String get discoveryNoCommunitiesMatch => 'Nincs találat.';
+  String get discoveryNoCommunitiesMatch => 'Nincs egyező közösség.';
 
   @override
   String get discoveryJoinCommunity => 'Csatlakozás a közösséghez';
@@ -11467,7 +11552,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get discoveryCommunities => 'Közösségek';
 
   @override
-  String get discoveryApps => 'Appok';
+  String get discoveryApps => 'Alkalmazások';
 
   @override
   String get discoveryJoinErrorGenericTitle =>
@@ -11475,18 +11560,18 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorGenericMessage =>
-      'Valami hiba történt. Kérlek, próbáld újra később.';
+      'Hiba történt. Próbáld újra egy kis idő múlva.';
 
   @override
-  String get discoveryJoinErrorFullTitle => 'Ez a közösség tele van';
+  String get discoveryJoinErrorFullTitle => 'Ez a közösség megtelt';
 
   @override
   String get discoveryJoinErrorFullMessage =>
-      'Ez a közösség elérte a taglétszám-korlátját, így jelenleg nem tudsz csatlakozni.';
+      'Ez a közösség elérte a taglétszám-korlátját, így most nem tudsz csatlakozni.';
 
   @override
   String get discoveryJoinErrorMaxGuildsTitle =>
-      'Elérted a közösségi limiteket';
+      'Elérted a közösségek számának korlátját';
 
   @override
   String get discoveryJoinErrorMaxGuildsMessage =>
@@ -11498,7 +11583,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorBannedMessage =>
-      'Kitiltottak ebből a közösségből.';
+      'Ki lettél tiltva ebből a közösségből.';
 
   @override
   String get discoveryJoinErrorNotAvailableTitle =>
@@ -11506,14 +11591,14 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      'Lehet, hogy kilépett a felfedezésből, vagy kikapcsolta az új csatlakozásokat. Frissítsd az oldalt, és nem fogod újra látni.';
+      'Lehet, hogy már nem szerepel a Felfedezésben, vagy letiltotta az új csatlakozásokat. Frissítsd az oldalt, és többé nem fogod látni.';
 
   @override
-  String get discoveryJoinErrorRateLimitTitle => 'Túl gyorsan próbálkozol';
+  String get discoveryJoinErrorRateLimitTitle => 'Túl gyors vagy';
 
   @override
   String get discoveryJoinErrorRateLimitMessage =>
-      'Kérlek, várj egy pillanatot, és próbáld újra.';
+      'Kérjük, várj egy pillanatot, majd próbáld újra.';
 
   @override
   String get guildNavbarAddCommunity => 'Közösség hozzáadása';
@@ -11522,18 +11607,18 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get guildNavbarHelp => 'Súgó';
 
   @override
-  String get scrollIndicatorNew => 'NEW';
+  String get scrollIndicatorNew => 'ÚJ';
 
   @override
   String get scrollIndicatorNewMessage => 'ÚJ ÜZENET';
 
   @override
   String guildNavbarCollapseFolder(String folderName) {
-    return 'Mappa kinyitása: $folderName';
+    return '$folderName összecsukása';
   }
 
   @override
-  String get guildNavbarGuildSelected => 'Kiválasztva';
+  String get guildNavbarGuildSelected => 'kiválasztva';
 
   @override
   String get guildNavbarGuildUnread => 'olvasatlan';
@@ -11568,13 +11653,13 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get friendsFriendActions => 'Barát műveletek';
 
   @override
-  String get friendsAcceptRequest => 'Ismerős felkérés elfogadása';
+  String get friendsAcceptRequest => 'Ismerősjelölés elfogadása';
 
   @override
   String get friendsDeclineRequest => 'Meghívás elutasítása';
 
   @override
-  String get friendsCancelRequest => 'Barátkérelem visszavonása';
+  String get friendsCancelRequest => 'Ismerősjelölés visszavonása';
 
   @override
   String get friendsOpenInbox => 'Beérkezett üzenetek';
@@ -11583,13 +11668,13 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get profileRemoveFriend => 'Eltávolítás az ismerősök közül';
 
   @override
-  String get profileUnblockUser => 'Felhasználó feloldása';
+  String get profileUnblockUser => 'Felhasználó letiltásának feloldása';
 
   @override
-  String get profileAcceptFriendRequest => 'Ismerős felkérés elfogadása';
+  String get profileAcceptFriendRequest => 'Ismerősjelölés elfogadása';
 
   @override
-  String get profileCancelFriendRequest => 'Barátkérelem visszavonása';
+  String get profileCancelFriendRequest => 'Ismerősjelölés visszavonása';
 
   @override
   String get profileSendFriendRequest => 'Ismerős hozzáadása';
@@ -11629,7 +11714,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get guildFolderIconFolder => 'Mappa';
 
   @override
-  String get guildFolderIconStar => 'Csillagozás';
+  String get guildFolderIconStar => 'Csillag';
 
   @override
   String get guildFolderIconHeart => 'Szív';
@@ -11680,7 +11765,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get guildBulkAllowDirectMessages => 'Közvetlen üzenetek engedélyezése';
 
   @override
-  String get guildBulkBlockDirectMessages => 'Közvetlen üzenetek blokkolása';
+  String get guildBulkBlockDirectMessages => 'Közvetlen üzenetek letiltása';
 
   @override
   String get guildBulkAllowBotDirectMessages =>
@@ -11688,10 +11773,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildBulkBlockBotDirectMessages =>
-      'Botok közvetlen üzeneteinek blokkolása';
+      'Botok közvetlen üzeneteinek letiltása';
 
   @override
-  String get guildNavbarGroupDm => 'Csoportos DM';
+  String get guildNavbarGroupDm => 'Csoportos beszélgetés';
 
   @override
   String get guildNavbarCreateChannel => 'Csatorna létrehozása';
@@ -11752,10 +11837,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get guildNavbarSearchFriends => 'Barátok keresése';
+  String get guildNavbarSearchFriends => 'Ismerősök keresése';
 
   @override
-  String get guildNavbarNoFriendsYet => 'Még nincsenek barátok';
+  String get guildNavbarNoFriendsYet => 'Még nincsenek ismerőseid';
 
   @override
   String get guildNavbarNoResults => 'Nincs találat';
@@ -11765,7 +11850,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Vagy küldj meghívó linket egy barátnak:';
 
   @override
-  String get guildNavbarInviteLink => 'Meghívó link';
+  String get guildNavbarInviteLink => 'Meghívólink';
 
   @override
   String get guildNavbarCopy => 'Másolás';
@@ -11778,8 +11863,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'A meghívó linked 7 nap múlva lejár.';
 
   @override
-  String get guildNavbarInviteNeverExpires =>
-      'Ez a meghívó link soha nem jár le.';
+  String get guildNavbarInviteNeverExpires => 'Ez a meghívólink sosem jár le.';
 
   @override
   String guildNavbarInviteExpiresIn(String duration) {
@@ -11787,16 +11871,16 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get guildNavbarEditInviteLink => 'Meghívó link szerkesztése';
+  String get guildNavbarEditInviteLink => 'Meghívólink szerkesztése';
 
   @override
-  String get guildNavbarInviteLinkSettings => 'Meghívó link beállításai';
+  String get guildNavbarInviteLinkSettings => 'Meghívólink beállításai';
 
   @override
-  String get guildNavbarExpireAfter => 'Lejárat után';
+  String get guildNavbarExpireAfter => 'Lejárati idő';
 
   @override
-  String get guildNavbarMaxUses => 'Maximális felhasználások száma';
+  String get guildNavbarMaxUses => 'Felhasználások maximális száma';
 
   @override
   String get guildNavbarGrantTemporaryMembership =>
@@ -11807,7 +11891,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'A tagokat eltávolítjuk, amikor offline állapotba kerülnek, hacsak nincs hozzárendelve szerepkör';
 
   @override
-  String get guildNavbarCreateNewLink => 'Új link létrehozása';
+  String get guildNavbarCreateNewLink => 'Új hivatkozás létrehozása';
 
   @override
   String get guildNavbarSent => 'Elküldve';
@@ -11827,7 +11911,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildNavbarDeleteMyMessagesTitle =>
-      'Töröljem az üzeneteimet ebben a közösségben?';
+      'Törlöd az üzeneteidet ebből a közösségből?';
 
   @override
   String get guildNavbarDeleteMyMessagesDescription =>
@@ -11841,10 +11925,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildNavbarCouldNotDeleteYourMessages =>
-      'Nem sikerült törölni az üzeneteidet';
+      'Nem sikerült törölni az üzeneteket';
 
   @override
-  String get guildNavbarRemoveOverride => 'Felülírás eltávolítása';
+  String get guildNavbarRemoveOverride => 'Egyéni beállítás eltávolítása';
 
   @override
   String guildNavbarMutedUntil(String formattedDate) {
@@ -11858,7 +11942,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildNavbarInvitesPaused =>
-      'A meghívók jelenleg szüneteltetve vannak ebben a közösségben';
+      'A meghívók jelenleg szünetelnek ebben a közösségben';
 
   @override
   String get guildNavbarDurationNever => 'soha';
@@ -11890,7 +11974,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get guildNavbarNever => 'Soha';
 
   @override
-  String get guildNavbarNoLimit => 'Nincs limit';
+  String get guildNavbarNoLimit => 'Nincs korlát';
 
   @override
   String get guildNavbarOneUse => '1 használat';
@@ -11901,10 +11985,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get guildMenuMarkAsRead => 'Jelölés olvasottként';
+  String get guildMenuMarkAsRead => 'Megjelölés olvasottként';
 
   @override
-  String get guildPeekMoreOptions => 'További opciók';
+  String get guildPeekMoreOptions => 'További lehetőségek';
 
   @override
   String get guildMenuInviteMembers => 'Tagok meghívása';
@@ -11925,13 +12009,13 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get guildMenuHideMutedChannels => 'Némított csatornák elrejtése';
 
   @override
-  String get guildMenuReportCommunity => 'Közösség jelentése';
+  String get guildMenuReportCommunity => 'Közösség bejelentése';
 
   @override
   String get guildMenuDebugCommunity => 'Közösség hibakeresése';
 
   @override
-  String get guildMenuCopyCommunityId => 'Közösség ID másolása';
+  String get guildMenuCopyCommunityId => 'Közösségi azonosító másolása';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
@@ -11972,7 +12056,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get guildMenuSettingsInviteLinks => 'Meghívók';
 
   @override
-  String get guildMenuSettingsBans => 'Tiltások';
+  String get guildMenuSettingsBans => 'Kitiltások';
 
   @override
   String get guildMenuSettingsChannels => 'Csatornák';
@@ -11988,7 +12072,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get guildSettingsUploadImage => 'Kép feltöltése';
 
   @override
-  String get guildSettingsOverviewBannerTitle => 'Banner';
+  String get guildSettingsOverviewBannerTitle => 'Borítókép';
 
   @override
   String get guildSettingsOverviewBannerHint =>
@@ -11998,7 +12082,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get guildSettingsOverviewNameTitle => 'Név';
 
   @override
-  String get guildSettingsOverviewNameHint => 'Az én fantasztikus közösségem';
+  String get guildSettingsOverviewNameHint => 'Szuper közösségem';
 
   @override
   String get guildSettingsOverviewStatsTitle => 'Statisztikák';
@@ -12038,7 +12122,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsRolesEditSubtitle =>
-      'Szerepkör-beállítások és engedélyek konfigurálása';
+      'Szerepkör-beállítások és jogosultságok megadása';
 
   @override
   String get guildSettingsRolesDisplaySection => 'Megjelenítés';
@@ -12055,11 +12139,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsRolesShowSeparately =>
-      'Szerepkör megjelenítése külön';
+      'Szerepkör külön megjelenítése';
 
   @override
   String get guildSettingsRolesShowSeparatelyHelper =>
-      'Felsorolja az ezzel a szerepkörrel rendelkező tagokat a saját szakaszukban a taglistán.';
+      'Az ezzel a szerepkörrel rendelkező tagokat külön szakaszban jeleníti meg a taglistában.';
 
   @override
   String get guildSettingsRolesAllowMentions =>
@@ -12072,16 +12156,16 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsRolesClearPermissionsHelp =>
-      'Ezzel a gombbal gyorsan törölheted az összes engedélyt.';
+      'Ezzel a gombbal gyorsan törölheted az összes jogosultságot.';
 
   @override
-  String get guildSettingsRolesClearPermissions => 'Engedélyek törlése';
+  String get guildSettingsRolesClearPermissions => 'Jogosultságok törlése';
 
   @override
-  String get guildSettingsRolesPermissionsSection => 'Engedélyek';
+  String get guildSettingsRolesPermissionsSection => 'Jogosultságok';
 
   @override
-  String get guildSettingsRolesSearchPermissions => 'Engedélyek keresése';
+  String get guildSettingsRolesSearchPermissions => 'Jogosultságok keresése';
 
   @override
   String get guildSettingsRolesDenseLayout => 'Sűrű elrendezés';
@@ -12111,24 +12195,27 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get guildSettingsRolesSwitchToTwoColumns => 'Váltás két oszlopra';
 
   @override
-  String get guildSettingsRolesNoPermissionsFound => 'Nincsenek engedélyek';
+  String get guildSettingsRolesNoPermissionsFound =>
+      'Nem található jogosultság';
 
   @override
-  String get guildSettingsRolesCustomHoistOrder => 'Egyéni kiemelési sorrend';
+  String get guildSettingsRolesCustomHoistOrder =>
+      'Külön megjelenített szerepkörök egyéni sorrendje';
 
   @override
-  String get guildSettingsRolesHoistOrder => 'Kiemelési sorrend';
+  String get guildSettingsRolesHoistOrder =>
+      'Külön megjelenített szerepkörök sorrendje';
 
   @override
   String get guildSettingsRolesResetHoistOrder => 'Alaphelyzetbe állítás';
 
   @override
   String get guildSettingsRolesHoistOrderHelp =>
-      'Húzd a rangokat a sorrendjük testreszabásához a taglistában.';
+      'Húzd a szerepköröket a taglistában megjelenő sorrendjük beállításához.';
 
   @override
   String get guildSettingsRolesNoHoistedRoles =>
-      'Nincsenek kiemelt szerepek. Ahhoz, hogy itt lásd, engedélyezd a \"Szerep megjelenítése külön\" opciót egy szerepnél.';
+      'Nincsenek külön megjelenített szerepkörök. Kapcsold be egy szerepkörnél a „Szerepkör külön megjelenítése” beállítást, hogy itt megjelenjen.';
 
   @override
   String get guildSettingsRolesLockedTooltip =>
@@ -12141,11 +12228,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsRolesCannotEditHigherRole =>
-      'Nem szerkeszthetsz olyan rangot, amely a legmagasabb rangoddal azonos vagy annál magasabb';
+      'Nem szerkeszthetsz a legmagasabb szerepköröddel azonos vagy annál magasabb szintű szerepkört';
 
   @override
   String get guildSettingsRolesCannotGrantPermission =>
-      'Nem adhatsz olyan engedélyt, amivel te sem rendelkezel';
+      'Nem adhatsz meg olyan jogosultságot, amellyel te sem rendelkezel';
 
   @override
   String get guildSettingsRolesCannotRemoveOwnPermission =>
@@ -12164,7 +12251,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsRolesHoistResetSuccess =>
-      'A kiemelési sorrend visszaállítva az alapértelmezettre';
+      'A külön megjelenített szerepkörök sorrendje visszaállítva az alapértelmezettre';
 
   @override
   String get guildSettingsRolesNameRequiredTitle => 'Szerepkör neve kötelező';
@@ -12192,11 +12279,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsRolesResetHoistFailedTitle =>
-      'Nem sikerült visszaállítani az emelési sorrendet';
+      'Nem sikerült visszaállítani a külön megjelenített szerepkörök sorrendjét';
 
   @override
   String get guildSettingsRolesTryAgainInAMoment =>
-      'Próbálja meg újra egy pillanat múlva.';
+      'Próbáld újra egy kis idő múlva.';
 
   @override
   String guildSettingsRolesDeleteConfirm(String name) {
@@ -12222,21 +12309,21 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get permissionCategoryAudioVideo => 'Hang és videó';
 
   @override
-  String get permissionUnknown => 'Ismeretlen engedély';
+  String get permissionUnknown => 'Ismeretlen jogosultság';
 
   @override
   String get permissionAdministrator => 'Rendszergazda';
 
   @override
   String get permissionAdministratorDescription =>
-      'Minden engedélyt megad, és megkerüli a csatornakorlátozásokat. Rendkívül érzékeny.';
+      'Minden jogosultságot megad, és megkerüli a csatornakorlátozásokat. Különösen érzékeny jogosultság.';
 
   @override
-  String get permissionViewActivityLog => 'Tevékenységi napló megtekintése';
+  String get permissionViewActivityLog => 'Tevékenységnapló megtekintése';
 
   @override
   String get permissionViewActivityLogDescription =>
-      'Olvassa el a közösség változási és moderálási naplóját.';
+      'A közösség módosításait és moderálási műveleteit rögzítő tevékenységnapló megtekintése.';
 
   @override
   String get permissionManageCommunity => 'Közösség kezelése';
@@ -12250,7 +12337,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get permissionManageRolesDescription =>
-      'Szerepkörök létrehozása, szerkesztése vagy törlése a legmagasabb szerepköröd alatt. Lehetővé teszi a csatornaengedély-felülírások szerkesztését is.';
+      'A legmagasabb szerepkörödnél alacsonyabb szerepkörök létrehozása, szerkesztése vagy törlése. Az egyéni csatornajogosultságok szerkesztését is lehetővé teszi.';
 
   @override
   String get permissionManageChannels => 'Csatornák kezelése';
@@ -12260,26 +12347,26 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get permissionManageChannelDescription =>
-      'Átnevezheted és szerkesztheted a csatorna beállításait.';
+      'A csatorna átnevezése és beállításainak szerkesztése.';
 
   @override
-  String get permissionManagePermissions => 'Engedélyek kezelése';
+  String get permissionManagePermissions => 'Jogosultságok kezelése';
 
   @override
   String get permissionManagePermissionsDescription =>
-      'A szerepkörök és tagok felülírásainak szerkesztése ebben a csatornában.';
+      'Szerepkörök és tagok egyéni jogosultságainak szerkesztése ebben a csatornában.';
 
   @override
   String get permissionManageWebhooksChannelDescription =>
-      'Webhooks létrehozása, szerkesztése vagy törlése ehhez a csatornához.';
+      'Webhookok létrehozása, szerkesztése vagy törlése ehhez a csatornához.';
 
   @override
   String get permissionViewChannelMembersChannelDescription =>
-      'Tekintse meg a csatorna taglistáját.';
+      'A csatorna taglistájának megtekintése.';
 
   @override
   String get permissionCreateInviteLinksChannelDescription =>
-      'Kezelje a csatorna meghívási hivatkozásait.';
+      'A csatorna meghívólinkjeinek kezelése.';
 
   @override
   String get permissionOverwriteDeny => 'Elutasítás';
@@ -12292,14 +12379,14 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get permissionOverwriteSetAllHelp =>
-      'Ezekkel a gombokkal gyorsan beállíthatod az összes engedélyt.';
+      'Ezekkel a gombokkal gyorsan beállíthatod az összes jogosultságot.';
 
   @override
   String get permissionManageChannelsDescription =>
       'Csatornák és kategóriák létrehozása, szerkesztése vagy törlése.';
 
   @override
-  String get permissionKickMembers => 'Tagok eltávolítása';
+  String get permissionKickMembers => 'Tagok kirúgása';
 
   @override
   String get permissionBanMembers => 'Tagok kitiltása';
@@ -12329,12 +12416,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Új emojik és matricák feltöltése, valamint saját alkotások kezelése.';
 
   @override
-  String get permissionManageEmojiStickers =>
-      'Hangulatjelek és matricák kezelése';
+  String get permissionManageEmojiStickers => 'Emojik és matricák kezelése';
 
   @override
   String get permissionManageEmojiStickersDescription =>
-      'Más tagok által létrehozott hangulatjelek és matricák szerkesztése vagy törlése.';
+      'Más tagok által létrehozott emojik és matricák szerkesztése vagy törlése.';
 
   @override
   String get permissionManageWebhooks => 'Webhookok kezelése';
@@ -12382,7 +12468,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get permissionUseExternalEmojiDescription =>
-      'Hangulatjelek használata más közösségekből.';
+      'Más közösségek emojijainak használata.';
 
   @override
   String get permissionUseExternalStickers => 'Külső matricák használata';
@@ -12402,7 +12488,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Csatornánkénti üzenetküldési korlátok figyelmen kívül hagyása.';
 
   @override
-  String get permissionTimeOutMembers => 'Tagok időleges korlátozása';
+  String get permissionTimeOutMembers => 'Tagok ideiglenes korlátozása';
 
   @override
   String get permissionTimeOutMembersDescription =>
@@ -12416,7 +12502,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get permissionViewChannelMembersDescription =>
-      'Tekintse meg a közösség csatornáinak taglistáját.';
+      'A közösség csatornáihoz tartozó taglisták megtekintése.';
 
   @override
   String get permissionConnect => 'Csatlakozás';
@@ -12428,20 +12514,20 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get permissionStreamVideo => 'Videó streamelése';
 
   @override
-  String get permissionUseVoiceActivity => 'Hangaktivitás használata';
+  String get permissionUseVoiceActivity => 'Beszédérzékelés használata';
 
   @override
   String get permissionUseVoiceActivityDescription =>
-      'Ezen engedély nélkül az adóvevő funkció használata kötelező.';
+      'E jogosultság nélkül adásgombot kell használni.';
 
   @override
-  String get permissionPrioritySpeaker => 'Prioritásos beszélő';
+  String get permissionPrioritySpeaker => 'Elsőbbségi beszélő';
 
   @override
-  String get permissionMuteMembers => 'Tagok némítása';
+  String get permissionMuteMembers => 'Tagok mikrofonjának némítása';
 
   @override
-  String get permissionDeafenMembers => 'Tagok némítása';
+  String get permissionDeafenMembers => 'Hang kikapcsolása a tagoknál';
 
   @override
   String get permissionMoveMembers => 'Tagok áthelyezése';
@@ -12470,15 +12556,15 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get guildSettingsStickersEmpty => 'Még nincsenek egyéni matricák.';
 
   @override
-  String get guildSettingsModerationVerificationTitle => 'Tag ellenőrzés';
+  String get guildSettingsModerationVerificationTitle => 'Tagellenőrzés';
 
   @override
   String get guildSettingsModerationVerificationDescription =>
-      'Válaszd meg, hogy a tagoknak mi feleljen meg, mielőtt posztolhatnak vagy üzenetet küldhetnek a közösség tagjainak.';
+      'Válaszd ki, hogy a tagoknak mivel kell rendelkezniük, mielőtt bejegyzéseket tehetnek közzé vagy közvetlen üzenetet küldhetnek a közösség tagjainak.';
 
   @override
   String get guildSettingsModerationVerificationRolesBypass =>
-      'A szerepkörrel rendelkező tagok átugorhatják ezeket az ellenőrzéseket. Nyilvános helyekhez javasoljuk az ellenőrzés engedélyezését.';
+      'A szerepkörrel rendelkező tagok megkerülhetik ezeket az ellenőrzéseket. Nyilvános terek esetén javasoljuk az ellenőrzés engedélyezését.';
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
@@ -12486,7 +12572,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationMatureTitle =>
-      'Felnőtt tartalom és figyelmeztetések';
+      'Felnőtt tartalom és tartalmi figyelmeztetések';
 
   @override
   String get guildSettingsModerationMatureSectionDescription =>
@@ -12511,7 +12597,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsVerificationLowDescription =>
-      'Ellenőrzött e-mail címet igényel.';
+      'Megerősített e-mail-cím szükséges.';
 
   @override
   String get guildSettingsVerificationMedium => 'Közepes';
@@ -12525,25 +12611,25 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsVerificationHighDescription =>
-      'Mindent igényel, ami a közepesnél, plusz legalább 10 perc tagság a közösségben.';
+      'A közepes szint minden feltételét megköveteli, továbbá legalább 10 perces közösségi tagságot.';
 
   @override
   String get guildSettingsVerificationHighest => 'Nagyon magas';
 
   @override
   String get guildSettingsVerificationHighestDescription =>
-      'Ellenőrzött telefonszámot igényel.';
+      'Igazolt telefonszám szükséges.';
 
   @override
   String get guildSettingsAuditLogDescription =>
-      'Kövesd nyomon a moderátori tevékenységeket a közösségben.';
+      'Kövesd nyomon a moderátori műveleteket a közösségben.';
 
   @override
   String get guildSettingsAuditLogEmpty => 'Még nincsenek naplók';
 
   @override
   String get guildSettingsAuditLogEmptyDescription =>
-      'A moderálási műveletek és a közösségi változások itt jelennek meg.';
+      'Itt jelennek meg a moderálási műveletek és a közösségi változások.';
 
   @override
   String get guildSettingsAuditLogFilterAllUsers => 'Minden felhasználó';
@@ -12559,14 +12645,14 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsAuditLogLoadError =>
-      'Hiba történt az eseménynapló betöltése közben.';
+      'Hiba történt a tevékenységnapló betöltése közben.';
 
   @override
   String get guildSettingsAuditLogLoadErrorTitle =>
-      'Nem sikerült betölteni az eseménynaplókat';
+      'Nem sikerült betölteni a tevékenységnaplókat';
 
   @override
-  String get guildSettingsAuditLogReason => 'Ok';
+  String get guildSettingsAuditLogReason => 'Ok (indoklás)';
 
   @override
   String get guildSettingsAuditLogSomeone => 'valaki';
@@ -12590,7 +12676,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get auditLogActionChannelCreate => 'Csatorna létrehozva';
 
   @override
-  String get auditLogActionChannelUpdate => 'Csatorna frissítve';
+  String get auditLogActionChannelUpdate => 'A csatorna frissítve';
 
   @override
   String get auditLogActionChannelDelete => 'Csatorna törölve';
@@ -12617,13 +12703,13 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get auditLogActionMemberBanAdd => 'Tag kitiltva';
 
   @override
-  String get auditLogActionMemberBanRemove => 'Tag kitiltása visszavonva';
+  String get auditLogActionMemberBanRemove => 'Tag kitiltása feloldva';
 
   @override
   String get auditLogActionMemberUpdate => 'Tag frissítve';
 
   @override
-  String get auditLogActionMemberRoleUpdate => 'Tag szerepkörök frissítve';
+  String get auditLogActionMemberRoleUpdate => 'Tag szerepkörei frissítve';
 
   @override
   String get auditLogActionMemberMove => 'Tag áthelyezve';
@@ -12686,10 +12772,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get auditLogActionMessageBulkDelete => 'Üzenetek törölve';
 
   @override
-  String get auditLogActionMessagePin => 'Üzenet bejelölve';
+  String get auditLogActionMessagePin => 'Üzenet rögzítve';
 
   @override
-  String get auditLogActionMessageUnpin => 'Üzenet bejelölésének megszüntetése';
+  String get auditLogActionMessageUnpin => 'Üzenet rögzítése feloldva';
 
   @override
   String auditLogSummaryGuildUpdate(String actor) {
@@ -13112,11 +13198,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get guildSettingsLoadMore => 'Több betöltése';
 
   @override
-  String get guildSettingsLoadingMore => 'Loading...';
+  String get guildSettingsLoadingMore => 'Betöltés...';
 
   @override
   String get guildSettingsWebhooksDescription =>
-      'Az összes közösségedben konfigurált webhook megtekintése és kezelése.';
+      'A közösségedben beállított összes webhook megtekintése és kezelése.';
 
   @override
   String get guildSettingsWebhooksEmpty => 'Nincsenek webhookok';
@@ -13137,7 +13223,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsWebhooksLoadFailedDescription =>
-      'Hiba történt a webhookok betöltésekor. Próbálja újra.';
+      'Hiba történt a webhookok betöltésekor. Próbáld újra.';
 
   @override
   String get guildSettingsWebhooksUpdated => 'Webhookok frissítve';
@@ -13153,7 +13239,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get guildSettingsCopyUrl => 'URL másolása';
 
   @override
-  String get guildSettingsCopiedUrl => 'URL másolva a vágólapra';
+  String get guildSettingsCopiedUrl => 'URL vágólapra másolva';
 
   @override
   String get guildSettingsDeleteWebhook => 'Webhook törlése';
@@ -13210,11 +13296,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApprovedInfo =>
-      'A közösséged szerepel a Felfedezésben. Az adatait alább frissítheted, vagy visszavonhatod a listázást.';
+      'A közösséged szerepel a Felfedezésben. Alább frissítheted a bejegyzés adatait, vagy visszavonhatod, hogy eltávolítsd.';
 
   @override
   String get guildSettingsDiscoveryPendingInfo =>
-      'Jelentkezésed felülvizsgálat alatt van. Továbbra is frissítheted a hirdetés részleteit, vagy visszavonhatod a jelentkezést.';
+      'A jelentkezésed felülvizsgálatra vár. Addig is frissítheted a bejegyzésed adatait, vagy visszavonhatod a jelentkezést.';
 
   @override
   String get guildSettingsDiscoveryCategory => 'Kategória';
@@ -13286,7 +13372,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsDiscoveryApply => 'Alkalmaz';
+  String get guildSettingsDiscoveryApply => 'Alkalmazás';
 
   @override
   String get guildSettingsDiscoverySave => 'Mentés';
@@ -13296,15 +13382,15 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApplicationSent =>
-      'Felfedezési kérelem elküldve';
+      'A Felfedezésbe való jelentkezés elküldve';
 
   @override
   String get guildSettingsDiscoveryListingUpdated =>
-      'Felfedezési lista frissítve';
+      'A Felfedezésben szereplő bejegyzés frissítve';
 
   @override
   String get guildSettingsDiscoveryApplicationWithdrawn =>
-      'Felfedezési kérelem visszavonva';
+      'A Felfedezésbe való jelentkezés visszavonva';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorTitle =>
@@ -13312,7 +13398,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorDescription =>
-      'Próbálja meg újra egy pillanat múlva.';
+      'Próbáld újra egy kis idő múlva.';
 
   @override
   String get guildSettingsMembersDescription =>
@@ -13352,7 +13438,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String guildMembersColumnJoinedProduct(String productName) {
-    return 'Csatlakozott a $productName szolgáltatáshoz';
+    return 'Csatlakozott a(z) $productName szolgáltatáshoz';
   }
 
   @override
@@ -13434,7 +13520,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String guildMembersGoToPageItem(int page) {
-    return 'Ugrás a(z) $page oldalra';
+    return 'Ugrás a(z) $page. oldalra';
   }
 
   @override
@@ -13457,7 +13543,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get guildMembersJoinSourceVanityUrl => 'Egyedi URL';
+  String get guildMembersJoinSourceVanityUrl => 'Egyéni meghívólink';
 
   @override
   String get guildMembersJoinSourceBotInvite => 'Bot meghívása';
@@ -13524,7 +13610,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsInvitesDescription =>
-      'Tekintse meg a közösség összes meghívóját. Új meghívó létrehozásához lépjen egy csatornára, és használja a meghívás gombot.';
+      'A közösség összes meghívójának megtekintése. Új meghívó létrehozásához nyiss meg egy csatornát, és használd a meghívás gombot.';
 
   @override
   String get guildSettingsInvitesEmpty => 'Nincsenek meghívólinkek';
@@ -13539,7 +13625,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsInvitesLoadFailedDescription =>
-      'Hiba történt a meghívók betöltésekor. Próbálja újra.';
+      'Hiba történt a meghívók betöltésekor. Próbáld újra.';
 
   @override
   String get guildSettingsInvitesTryAgain => 'Újra';
@@ -13564,7 +13650,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsInvitesPauseConfirmDescription =>
-      'Szünetelteted a meghívásokat? Az új felhasználók nem tudnak csatlakozni meghívólinken keresztül, amíg újra nem engedélyezed. A meglévő tagokat ez nem érinti.';
+      'Szünetelteted a meghívókat? Az új felhasználók nem tudnak csatlakozni meghívólinken keresztül, amíg újra nem engedélyezed. A meglévő tagokat ez nem érinti.';
 
   @override
   String get guildSettingsInvitesEnableConfirmDescription =>
@@ -13583,7 +13669,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsInvitesLabelInviter => 'Meghívó:';
+  String get guildSettingsInvitesLabelInviter => 'Meghívó felhasználó:';
 
   @override
   String get guildSettingsInvitesLabelChannel => 'Csatorna:';
@@ -13638,10 +13724,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsBansDescription =>
-      'Letiltott felhasználók megtekintése és kezelése.';
+      'Kitiltott felhasználók megtekintése és kezelése.';
 
   @override
-  String get guildSettingsBansSearchHint => 'Letiltások keresése';
+  String get guildSettingsBansSearchHint => 'Kitiltások keresése';
 
   @override
   String get guildSettingsBansEmpty => 'Nincsenek letiltott felhasználók.';
@@ -13661,26 +13747,26 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get guildSettingsUnban => 'Feloldás';
 
   @override
-  String get guildSettingsBansLoading => 'Letiltott felhasználók betöltése';
+  String get guildSettingsBansLoading => 'Kitiltott felhasználók betöltése';
 
   @override
   String get guildSettingsBansNoSearchResults =>
-      'Nem található letiltás a keresésnek megfelelően.';
+      'Nincs a keresésnek megfelelő kitiltás.';
 
   @override
-  String get guildSettingsBanDetailsTitle => 'Letiltás részletei';
+  String get guildSettingsBanDetailsTitle => 'Kitiltás részletei';
 
   @override
   String get guildSettingsBanViewDetails => 'Részletek megtekintése';
 
   @override
-  String get guildSettingsBannedOn => 'Letiltva ekkor:';
+  String get guildSettingsBannedOn => 'Kitiltva ekkor';
 
   @override
-  String get guildSettingsBannedBy => 'Letiltotta:';
+  String get guildSettingsBannedBy => 'Kitiltotta';
 
   @override
-  String get guildSettingsRevokeBanTitle => 'Letiltás visszavonása';
+  String get guildSettingsRevokeBanTitle => 'Kitiltás visszavonása';
 
   @override
   String guildSettingsRevokeBanDescription(String displayName) {
@@ -13704,14 +13790,14 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get guildSettingsCommunitySettings => 'Közösségi beállítások';
 
   @override
-  String get guildSettingsDeleteCommunity => 'Delete community';
+  String get guildSettingsDeleteCommunity => 'Közösség törlése';
 
   @override
   String get guildSettingsDeleteCommunityConfirm =>
-      'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.';
+      'Biztosan törölni szeretnéd ezt a közösséget? Ez a művelet nem vonható vissza. Minden csatorna, üzenet és beállítás véglegesen törlődik.';
 
   @override
-  String get guildSettingsCommunityDeleted => 'Community deleted';
+  String get guildSettingsCommunityDeleted => 'Közösség törölve';
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
@@ -13741,7 +13827,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Profilkép, név, banner és meghívó háttér frissítése';
 
   @override
-  String get guildSettingsOverviewBannerUpload => 'Banner feltöltése';
+  String get guildSettingsOverviewBannerUpload => 'Borítókép feltöltése';
 
   @override
   String get guildSettingsOverviewIdleTitle => 'Inaktivitási beállítások';
@@ -13763,25 +13849,25 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsOverviewNotificationsLargeGuild =>
-      'A 250 főt meghaladó közösségek automatikusan az „csak említések” beállításra kerülnek. Az eredeti beállításod megmarad, és visszaállítódik, ha a közösség 250 fő alá csökken.';
+      'A 250 főnél nagyobb közösségekben kötelező a „Csak említések” beállítás. Az eredeti beállításod megmarad, és visszaáll, ha a közösség létszáma 250 alá csökken.';
 
   @override
   String get guildSettingsOverviewAdvancedTitle => 'Speciális';
 
   @override
   String get guildSettingsOverviewFlexibleNames =>
-      'Engedélyezze a rugalmas szöveges csatornaneveket';
+      'Rugalmas szöveges csatornanevek engedélyezése';
 
   @override
   String get guildSettingsOverviewHideOwnerCrown =>
-      'Elrejtés a közösség tulajdonosának koronája';
+      'Közösségtulajdonosi korona elrejtése';
 
   @override
-  String get guildSettingsOverviewDetachedBanner => 'Elválasztott banner';
+  String get guildSettingsOverviewDetachedBanner => 'Különálló borítókép';
 
   @override
   String get guildSettingsOverviewDetachedBannerHint =>
-      'A bannert a közösség fejlécétől elkülönülve jeleníti meg.';
+      'A borítóképet külön szakaszban jeleníti meg a közösség fejléce alatt.';
 
   @override
   String get guildSettingsOverviewUploadIcon => 'Ikon feltöltése';
@@ -13790,39 +13876,41 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get guildSettingsOverviewRemoveImage => 'Eltávolítás';
 
   @override
-  String get guildSettingsOverviewSplashTitle => 'Meghívó háttér';
+  String get guildSettingsOverviewSplashTitle => 'Meghívó háttere';
 
   @override
   String get guildSettingsOverviewEmbedSplashTitle =>
-      'Csevegés beágyazás háttér';
+      'Csevegésbe ágyazott tartalom háttere';
 
   @override
   String get guildSettingsOverviewEmbedSplashHint =>
-      'Megjelenik a csevegésben lévő meghívó beágyazásokban.';
+      'Megjelenik a chatben található meghívó-beágyazásokban.';
 
   @override
   String get guildSettingsOverviewUploadBackground => 'Háttér feltöltése';
 
   @override
-  String get guildSettingsOverviewNoCommunityBanner => 'Nincs közösségi banner';
+  String get guildSettingsOverviewNoCommunityBanner =>
+      'Nincs közösségi borítókép';
 
   @override
-  String get guildSettingsOverviewNoInviteBackground => 'Nincs meghívó háttér';
+  String get guildSettingsOverviewNoInviteBackground =>
+      'Nincs meghívó-háttérkép';
 
   @override
   String get guildSettingsOverviewInvitePreviewTitle => 'Előnézet';
 
   @override
   String get guildSettingsOverviewInvitePreviewHint =>
-      'Tekintse meg, hogyan néz ki a meghívója a látogatók számára.';
+      'Nézd meg, hogyan néz ki a meghívód a látogatók számára.';
 
   @override
   String get guildSettingsOverviewTextChannelNamesTitle =>
-      'Szöveges csatornanevek';
+      'Szöveges csatornák nevei';
 
   @override
   String get guildSettingsOverviewOwnerCrownTitle =>
-      'Közösség tulajdonosának koronája';
+      'Közösségtulajdonosi korona';
 
   @override
   String get guildSettingsOverviewOwnerCrownDescription =>
@@ -13842,7 +13930,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsSplashAlignmentHint =>
-      'Csak széles képernyőkön érvényes.';
+      'Csak széles képernyőn jelenik meg.';
 
   @override
   String get permissionReadMessageHistory => 'Üzenetelőzmények olvasása';
@@ -13859,18 +13947,18 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsOverviewMessageHistoryOpen =>
-      'Üzenetelőzmények küszöb megnyitása';
+      'Üzenetelőzmények küszöbértékének megnyitása';
 
   @override
   String get guildSettingsMessageHistoryThresholdTitle =>
-      'Üzenetelőzmények küszöb';
+      'Üzenetelőzmények küszöbértéke';
 
   @override
   String get guildSettingsMessageHistoryThresholdEnable =>
-      'Üzenetelőzmények küszöb engedélyezése';
+      'Üzenetelőzmények kezdődátumának engedélyezése';
 
   @override
-  String get guildSettingsMessageHistoryThresholdDate => 'Küszöb dátum';
+  String get guildSettingsMessageHistoryThresholdDate => 'Küszöbdátum';
 
   @override
   String get guildSettingsMessageHistoryThresholdDateHint =>
@@ -13878,11 +13966,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsMessageHistoryThresholdUpdated =>
-      'Üzenetelőzmények küszöb frissítve';
+      'Üzenetelőzmények küszöbértéke frissítve';
 
   @override
   String get guildSettingsOverviewFlexibleNamesHint =>
-      'Engedélyezze a nagybetűket és a szóközöket a szöveges csatornanevekben. Kikapcsolva a neveket kisbetűsre korlátozza kötőjelekkel és aláhúzásokkal.';
+      'A szöveges csatornanevek tartalmazhatnak nagybetűket és szóközöket. Kikapcsolva a nevek kisbetűsek, kötőjelekkel és aláhúzásokkal.';
 
   @override
   String get guildSettingsOverviewHideOwnerCrownHint =>
@@ -13897,17 +13985,18 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Az animált bannerekhez az Animált banner közösségi funkció szükséges.';
 
   @override
-  String get guildSettingsAfkChannel => 'AFK / tétlen csatorna';
+  String get guildSettingsAfkChannel =>
+      'AFK-csatorna / inaktív tagok csatornája';
 
   @override
   String get guildSettingsAfkChannelHint =>
       'Mozgassa a tagokat ebbe a csatornába, ha AFK-ban vannak.';
 
   @override
-  String get guildSettingsNoAfkChannel => 'Nincs AFK csatorna';
+  String get guildSettingsNoAfkChannel => 'Nincs AFK-csatorna';
 
   @override
-  String get guildSettingsAfkTimeout => 'AFK időtúllépés';
+  String get guildSettingsAfkTimeout => 'AFK-időkorlát';
 
   @override
   String get guildSettingsAfkTimeout1Min => '1 perc';
@@ -13937,7 +14026,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Az üdvözlő és rendszerüzenetek itt jelennek meg.';
 
   @override
-  String get guildSettingsNoSystemChannel => 'Nincs rendszercsatorna';
+  String get guildSettingsNoSystemChannel => 'Nincs rendszerüzenet-csatorna';
 
   @override
   String get guildSettingsHideJoinMessages => 'Csatlakozási üzenetek elrejtése';
@@ -13951,7 +14040,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Alapértelmezett értesítési beállítások';
 
   @override
-  String get guildSettingsNotificationsAll => 'Minden üzenet';
+  String get guildSettingsNotificationsAll => 'Összes üzenet';
 
   @override
   String get guildSettingsNotificationsAllDescription =>
@@ -13985,7 +14074,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDescription =>
-      'Automatikus üzenetszűrés explicit tartalomra az érett tartalomra nem jelölt csatornákban.';
+      'Automatikusan ellenőrzi, hogy tartalmaznak-e explicit tartalmat a felnőtt tartalomra nem megjelölt csatornák üzenetei.';
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
@@ -13996,22 +14085,22 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsContentFilterOffDescription =>
-      'Hagyd, hogy a közösség önszabályozzon';
+      'Engedd, hogy a közösség önmagát moderálja';
 
   @override
   String get guildSettingsContentFilterNoRole =>
-      'Szűrés szerepkör nélküli tagoknál';
+      'Szerepkör nélküli tagok üzeneteinek szűrése';
 
   @override
   String get guildSettingsContentFilterNoRoleDescription =>
-      'Ajánlott a legtöbb közösség számára';
+      'A legtöbb közösség számára ajánlott';
 
   @override
-  String get guildSettingsContentFilterAll => 'Mindenki szűrése';
+  String get guildSettingsContentFilterAll => 'Minden tag üzeneteinek szűrése';
 
   @override
   String get guildSettingsContentFilterAllDescription =>
-      'Maximális védelem a családbarát helyek számára';
+      'Maximális védelem a családbarát tereknek';
 
   @override
   String get guildSettingsModerationMatureOff => 'Ki';
@@ -14021,7 +14110,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsContentWarningToggle =>
-      'Tartalomfigyelmeztetés megjelenítése';
+      'Tartalmi figyelmeztetés megjelenítése';
 
   @override
   String get guildSettingsContentWarningToggleDescription =>
@@ -14035,8 +14124,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Ez érzékeny tartalmat tartalmaz.';
 
   @override
-  String get guildSettingsModeration2faTitle =>
-      'Kétfaktoros hitelesítés követelmény';
+  String get guildSettingsModeration2faTitle => '2FA-követelmény';
 
   @override
   String get guildSettingsModeration2faDescription =>
@@ -14044,18 +14132,18 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsModeration2faSwitchLabel =>
-      'Kétfaktoros hitelesítés követelése moderálási műveletekhez';
+      'Kétlépcsős azonosítás megkövetelése a moderálási műveletekhez';
 
   @override
   String get guildSettingsModeration2faOwnerOnlyTooltip =>
-      'Csak a közösség tulajdonosa módosíthatja ezt a beállítást';
+      'Ezt a beállítást csak a közösség tulajdonosa módosíthatja';
 
   @override
   String get guildSettingsModeration2faEnableFirstTooltip =>
-      'Engedélyezd a kétfaktoros hitelesítést a fiókodban a beállítás módosításához';
+      'A beállítás módosításához engedélyezd a kétlépcsős azonosítást a fiókodon';
 
   @override
-  String get guildSettingsEmojiSearchHint => 'Keresés emojik között';
+  String get guildSettingsEmojiSearchHint => 'Emojik keresése';
 
   @override
   String get guildSettingsEmojiUploadTitle => 'Emoji feltöltése';
@@ -14068,22 +14156,22 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsEmojiLoadFailed =>
-      'Nem sikerült betölteni az emojikat. Próbálja meg később.';
+      'Nem sikerült betölteni az emojikat. Próbáld újra később.';
 
   @override
   String get guildSettingsEmojiSearchEmpty =>
-      'Nincs a keresésnek megfelelő hangulatjel.';
+      'Nincs a keresésnek megfelelő emoji.';
 
   @override
-  String get guildSettingsEmojiNoSlots => 'Nincs elérhető hangulatjel-hely';
+  String get guildSettingsEmojiNoSlots => 'Nincs szabad emojihely';
 
   @override
   String get guildSettingsEmojiSlotsFull =>
-      'Elérted a maximális hangulatjel-számot. Törölj néhány meglévő hangulatjelet, hogy helyet csinálj.';
+      'Elérted az emojik maximális számát. Törölj néhány meglévő emojit, hogy helyet szabadíts fel.';
 
   @override
   String guildSettingsEmojiUploadRequirements(String maxSize) {
-    return 'Az emojiknak legalább 2 karakterből kell állniuk, és betűket, számokat és alulvonásokat tartalmazhatnak. Az emojik mérete legfeljebb $maxSize lehet. A statikus képek automatikusan átméretezésre kerülnek 128x128 pixeles méretre és tömörítésre kerülnek. Az animált emojiknak és SVG-knek már meg kell felelniük a korlátozásnak.';
+    return 'Az emojik nevének legalább 2 karakterből kell állnia, és betűket, számokat és aláhúzásjeleket tartalmazhat. Az emojik méretének $maxSize alatt kell lennie. A statikus képeket automatikusan 128×128 képpontosra méretezzük és tömörítjük. Az animált emojiknak és az SVG-knek már feltöltéskor meg kell felelniük a méretkorlátnak.';
   }
 
   @override
@@ -14106,7 +14194,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsEmojiSomeFailedTitle =>
-      'Néhány hangulatjel nem adható hozzá';
+      'Néhány emojit nem sikerült hozzáadni';
 
   @override
   String get guildSettingsEmojiSomeFailedBody =>
@@ -14132,7 +14220,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get guildSettingsEmojiUnknownUploader => 'Ismeretlen';
 
   @override
-  String get guildSettingsEmojiDeleteTitle => 'Hangulatjel törlése';
+  String get guildSettingsEmojiDeleteTitle => 'Emoji törlése';
 
   @override
   String guildSettingsEmojiDeleteBody(String name) {
@@ -14141,7 +14229,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsEmojiPurgeLabel =>
-      'Eltávolítás a tárhelyről és a CDN-ről';
+      'Emoji törlése a tárhelyről és a CDN-ről';
 
   @override
   String get guildSettingsEmojiNameTooShort =>
@@ -14152,7 +14240,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Az emoji neve legfeljebb 32 karakter hosszú lehet';
 
   @override
-  String get guildSettingsEmojiInvalidNameTitle => 'Érvénytelen hangulatjelnév';
+  String get guildSettingsEmojiInvalidNameTitle => 'Érvénytelen emojinév';
 
   @override
   String get guildSettingsEmojiRenameFailedTitle =>
@@ -14160,7 +14248,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsEmojiRenameFailedBody =>
-      'A név visszaállt az eredetire. Kérjük, próbálja meg újra egy pillanat múlva.';
+      'A név visszaállt az előző értékére. Próbáld újra egy kis idő múlva.';
 
   @override
   String get guildSettingsEmojiGoneTitle => 'Ez az emoji már nem létezik';
@@ -14182,7 +14270,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsEmojiRateLimitedBody =>
-      'Kérjük, várjon egy pillanatot, majd próbálja meg újra az átnevezést.';
+      'Várj egy pillanatot, majd próbáld újra az átnevezést.';
 
   @override
   String get guildSettingsEmojiDeleteFailedTitle =>
@@ -14215,11 +14303,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsCloneEmojiUpdateFailed =>
-      'Nem sikerült frissíteni az emoji klónozást';
+      'Nem sikerült frissíteni az emoji másolási beállítását';
 
   @override
   String get guildSettingsCloneStickerUpdateFailed =>
-      'Nem sikerült frissíteni a matrica klónozását';
+      'Nem sikerült frissíteni a matrica másolási beállítását';
 
   @override
   String guildSettingsNonAnimatedEmoji(int count) {
@@ -14232,7 +14320,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsStickersSearchHint => 'Keresés matricák között';
+  String get guildSettingsStickersSearchHint => 'Matricák keresése';
 
   @override
   String get guildSettingsStickerSlotsTitle => 'Matricahelyek';
@@ -14259,30 +14347,30 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildSettingsStickersLoadFailedBody =>
-      'Hiba történt a matricák betöltésekor. Próbálja újra.';
+      'Hiba történt a matricák betöltésekor. Próbáld újra.';
 
   @override
   String get guildSettingsStickersSearchEmpty =>
       'Nincsenek a keresésnek megfelelő matricák.';
 
   @override
-  String get guildSettingsStickersEmptySearch => 'Nincsenek matricák';
+  String get guildSettingsStickersEmptySearch => 'Nem található matrica';
 
   @override
-  String get guildSettingsStickerNoSlots => 'Nincsenek elérhető matricafiókok';
+  String get guildSettingsStickerNoSlots => 'Nincs szabad matricahely';
 
   @override
   String get guildSettingsStickerSlotsFull =>
-      'Elérte a matricák maximális számát. Töröljön néhány meglévő matricát, hogy helyet szabadítson fel.';
+      'Elérted a matricák maximális számát. Törölj néhány meglévő matricát, hogy helyet szabadíts fel.';
 
   @override
   String guildSettingsStickerUploadRequirements(String maxSize) {
-    return 'A matricákat 320x320 pixeles méretben mentjük, és legfeljebb $maxSize méretűek lehetnek. A statikus képek automatikusan átméretezésre kerülnek és tömörítésre kerülnek. Az animált matricáknak és SVG-knek már meg kell felelniük a korlátozásnak.';
+    return 'A matricákat 320x320 képpontban mentjük, és a méretüknek $maxSize alatt kell lennie. A statikus képeket automatikusan átméretezzük és tömörítjük. Az animált matricáknak és SVG-knek már feltöltéskor bele kell férniük a korlátba.';
   }
 
   @override
   String get guildSettingsStickerUnsupportedTitle =>
-      'Nem támogatott matrica fájl';
+      'Nem támogatott matricafájl';
 
   @override
   String get guildSettingsStickerAddTitle => 'Matrica hozzáadása';
@@ -14375,7 +14463,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get guildSettingsBannedUsersTitle => 'Kitiltott felhasználók';
 
   @override
-  String get guildSettingsInvitesTableInviter => 'Meghívó';
+  String get guildSettingsInvitesTableInviter => 'Meghívó felhasználó';
 
   @override
   String get guildSettingsInvitesTableChannel => 'Csatorna';
@@ -14384,7 +14472,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get guildSettingsInvitesTableCode => 'Kód';
 
   @override
-  String get guildSettingsInvitesTableUses => 'Felhasználások';
+  String get guildSettingsInvitesTableUses => 'Használatok';
 
   @override
   String get guildSettingsInvitesTableCreated => 'Létrehozva';
@@ -14399,10 +14487,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get guildSettingsAuditLogFilterAction => 'Szűrés művelet szerint';
 
   @override
-  String get createDm => 'DM létrehozása';
+  String get createDm => 'Közvetlen beszélgetés létrehozása';
 
   @override
-  String get createGroupDm => 'Csoportos DM létrehozása';
+  String get createGroupDm => 'Csoportos beszélgetés létrehozása';
 
   @override
   String get createDmNewMessage => 'Új üzenet';
@@ -14412,27 +14500,27 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get createDmChooseFriendsSubtitle =>
-      'Válassz barátokat az üzenetküldéshez.';
+      'Válassz ismerősöket az üzenetküldéshez.';
 
   @override
-  String get createDmSearchFriends => 'Barátok keresése';
+  String get createDmSearchFriends => 'Ismerősök keresése';
 
   @override
-  String get createDmNoFriendsFound => 'Nincsenek barátok';
+  String get createDmNoFriendsFound => 'Nem található ismerős';
 
   @override
   String get createDmNoFriendsYet => 'Még nincsenek ismerőseid';
 
   @override
   String get createDmClaimToStartDms =>
-      'Igazold a fiókodat, hogy elkezdhess privát üzeneteket küldeni.';
+      'Fejezd be a fiókod regisztrációját, hogy közvetlen beszélgetéseket kezdeményezhess.';
 
   @override
   String get createDmVerifyToStartDms =>
-      'Igazold az e-mail címed a közvetlen üzenetek indításához.';
+      'Közvetlen beszélgetések indításához erősítsd meg az e-mail-címedet.';
 
   @override
-  String get createDmVerifyYourEmail => 'E-mail-cím ellenőrzése';
+  String get createDmVerifyYourEmail => 'E-mail-cím megerősítése';
 
   @override
   String get createDmNewGroup => 'Új csoport';
@@ -14469,7 +14557,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get createDmUnaddableIntro =>
-      'A következő személyek nem adhatók hozzá ehhez a csoportos DM-hez:';
+      'A következő személyek nem adhatók hozzá ehhez a csoportos beszélgetéshez:';
 
   @override
   String createDmUnaddableProceed(int count) {
@@ -14478,7 +14566,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get createDmUnaddableNoneRemaining =>
-      'Nincs több címzett, akivel csoportos közvetlen üzenetet hozhatnál létre.';
+      'Nincs több címzett, akivel csoportos beszélgetést hozhatnál létre.';
 
   @override
   String get createDmUnaddableUserNotFound => 'A felhasználó nem található';
@@ -14488,11 +14576,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Ezt a felhasználót nem tudod üzenetben elérni';
 
   @override
-  String get createDmUnaddableNotFriends => 'Nincs a barátlistádon';
+  String get createDmUnaddableNotFriends => 'Nincs az ismerőseid között';
 
   @override
   String get createDmUnaddableGroupDisabled =>
-      'Nem adható hozzá csoportos DM-ekhez';
+      'Nem engedi, hogy csoportos beszélgetésekhez adják';
 
   @override
   String get createDmFailed =>
@@ -14502,10 +14590,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get dmListMessagesTitle => 'Üzenetek';
 
   @override
-  String get dmListDirectMessagesTitle => 'Direct Messages';
+  String get dmListDirectMessagesTitle => 'Közvetlen üzenetek';
 
   @override
-  String get keybindsSearchShortcuts => 'Gyorsbillentyűk keresése';
+  String get keybindsSearchShortcuts => 'Billentyűparancsok keresése';
 
   @override
   String get keybindSectionDefaults => 'Alapértelmezett';
@@ -14579,13 +14667,13 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Váltás a következő közösségre vagy DM-re';
 
   @override
-  String get keybindActionGoToDms => 'Ugrás az üzenetekhez';
+  String get keybindActionGoToDms => 'Ugrás a közvetlen üzenetekhez';
 
   @override
   String get keybindActionGoToFirstCommunity => 'Ugrás az első közösséghez';
 
   @override
-  String get keybindActionGoToSecondCommunity => 'Ugrás a második közösségre';
+  String get keybindActionGoToSecondCommunity => 'Ugrás a második közösséghez';
 
   @override
   String get keybindActionGoToThirdCommunity => 'Ugrás a harmadik közösséghez';
@@ -14597,7 +14685,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get keybindActionGoToFifthCommunity => 'Ugrás az ötödik közösséghez';
 
   @override
-  String get keybindActionGoToSixthCommunity => 'Ugrás a hatodik közösségre';
+  String get keybindActionGoToSixthCommunity => 'Ugrás a hatodik közösséghez';
 
   @override
   String get keybindActionGoToSeventhCommunity => 'Ugrás a hetedik közösséghez';
@@ -14614,7 +14702,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Közösség létrehozása vagy csatlakozás';
 
   @override
-  String get keybindActionStartDragAndDrop => 'Húzd ide';
+  String get keybindActionStartDragAndDrop => 'Húzás és ejtés indítása';
 
   @override
   String get keybindActionMove => 'Áthelyezés';
@@ -14634,21 +14722,23 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Csatorna megjelölése olvasottként';
 
   @override
-  String get keybindActionStartGroupDm => 'Csoportos DM indítása';
+  String get keybindActionStartGroupDm => 'Csoportos beszélgetés indítása';
 
   @override
-  String get keybindActionTogglePinnedMessages => 'Rögzített üzenetek váltása';
+  String get keybindActionTogglePinnedMessages =>
+      'Rögzített üzenetek megjelenítése/elrejtése';
 
   @override
-  String get keybindActionToggleInbox => 'Bejövő üzenetek váltása';
+  String get keybindActionToggleInbox =>
+      'Beérkezett üzenetek megjelenítése/elrejtése';
 
   @override
   String get keybindActionMarkTopInboxRead =>
-      'A legfelső beérkező csatorna megjelölése olvasottként';
+      'A beérkezett üzenetek legfelső csatornájának megjelölése olvasottként';
 
   @override
   String get keybindActionMarkAllInboxRead =>
-      'Összes bejövő csatorna megjelölése olvasottként';
+      'A beérkezett üzenetek összes csatornájának megjelölése olvasottként';
 
   @override
   String get keybindActionToggleMemberList =>
@@ -14656,10 +14746,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get keybindActionToggleEmojiPicker =>
-      'Hangulatjel-választó megjelenítése/elrejtése';
+      'Emojiválasztó megnyitása/bezárása';
 
   @override
-  String get keybindActionToggleGifPicker => 'GIF-választó kapcsolása';
+  String get keybindActionToggleGifPicker => 'GIF-választó megnyitása/bezárása';
 
   @override
   String get keybindActionToggleStickerPicker =>
@@ -14676,7 +14766,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Ugrás a legrégebbi olvasatlan üzenetre';
 
   @override
-  String get keybindActionFocusComposer => 'Fókuszáljon a szövegmezőre';
+  String get keybindActionFocusComposer => 'Fókuszálj a szövegmezőre';
 
   @override
   String get keybindActionUploadFile => 'Fájl feltöltése';
@@ -14685,7 +14775,8 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get keybindActionCopyChannelLink => 'Csatornalink másolása';
 
   @override
-  String get keybindActionToggleSavedMedia => 'Mentett média váltása';
+  String get keybindActionToggleSavedMedia =>
+      'Mentett média megjelenítése/elrejtése';
 
   @override
   String get keybindActionSendVoiceMessage => 'Hangüzenet küldése';
@@ -14701,17 +14792,18 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Hívás indítása DM-ben vagy csoportban';
 
   @override
-  String get keybindActionToggleSoundboard => 'Hangtábla be/ki kapcsolása';
+  String get keybindActionToggleSoundboard => 'Hangpanel megnyitása/bezárása';
 
   @override
   String get keybindActionToggleCompactCallView =>
       'Kompakt hívásnézet kibontása vagy összecsukása';
 
   @override
-  String get keybindActionPushToTalkPriority => 'Adás gomb (prioritás)';
+  String get keybindActionPushToTalkPriority => 'Adásgomb (elsőbbségi)';
 
   @override
-  String get keybindActionVoiceActivityPriority => 'Hangaktivitás prioritása';
+  String get keybindActionVoiceActivityPriority =>
+      'Beszédérzékelés elsőbbséggel';
 
   @override
   String get keybindActionOpenHelp => 'Súgó megnyitása';
@@ -14785,7 +14877,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get assistantOkOpened => 'Opening Fluxer.';
 
   @override
-  String get assistantOkMessageSent => 'Message sent.';
+  String get assistantOkMessageSent => 'Üzenet elküldve.';
 
   @override
   String get assistantOkCustomStatusSet => 'Custom status updated.';

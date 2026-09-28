@@ -1,7 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/build/push_provider_guard.dart';
+import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
+import 'package:fluxer_app/core/push/apns/apns_mobile_device_registration.dart';
+import 'package:fluxer_app/core/push/apns/apns_voip_mobile_device_registration.dart';
+import 'package:fluxer_app/core/push/fcm/fcm_mobile_device_registration.dart';
+import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_provider.dart';
+import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_sheet.dart';
+import 'package:fluxer_app/core/push/web_push/web_push_relay.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_notifications_permission_banner.dart';
@@ -135,6 +143,41 @@ class UserNotificationsSettings extends ConsumerWidget {
               ],
             ],
           ),
+          if (pushRelayConsentIsAvailable() &&
+              !ref.watch(isActiveInstanceOfficialProvider))
+            FluxerSettingsSection(
+              sectionId: 'push-relay',
+              title: l10n.notificationsPushRelaySectionTitle,
+              description: l10n.notificationsPushRelaySectionDescription(
+                pushRelayProviderName(isApple: PushProviderGuard.isApple),
+              ),
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    FluxerSettingsSwitchItem(
+                      label: l10n.notificationsPushRelayConsentLabel,
+                      description:
+                          l10n.notificationsPushRelayConsentDescription,
+                      value: ref.watch(pushRelayConsentProvider),
+                      onChanged: (bool value) => unawaited(
+                        _handlePushRelayConsentChanged(
+                          context: context,
+                          ref: ref,
+                          value: value,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: layout.s2),
+                    FluxerTextLink(
+                      text: l10n.pushRelayConsentNoticeLink,
+                      url: kPushRelayNoticeUrl,
+                      style: textStyles.smallText,
+                    ),
+                  ],
+                ),
+              ],
+            ),
           FluxerSettingsSection(
             sectionId: 'mention-preference',
             title: l10n.notificationsMentionPreferenceSectionTitle,
@@ -191,6 +234,46 @@ class UserNotificationsSettings extends ConsumerWidget {
         ],
       ),
     );
+  }
+}
+
+Future<void> _handlePushRelayConsentChanged({
+  required BuildContext context,
+  required WidgetRef ref,
+  required bool value,
+}) async {
+  final PushRelayConsent consent = ref.read(pushRelayConsentProvider.notifier);
+  await consent.ensureLoaded();
+
+  if (!value) {
+    await consent.setEnabled(value: false);
+    await _unregisterPushRelayMobileDevices(ref);
+    return;
+  }
+
+  if (!context.mounted) {
+    return;
+  }
+  final bool? agreed = await showPushRelayConsentSheet(context);
+  if (!context.mounted) {
+    return;
+  }
+  await recordPushRelayConsentSheetResult(consent: consent, agreed: agreed);
+}
+
+Future<void> _unregisterPushRelayMobileDevices(WidgetRef ref) async {
+  if (PushProviderGuard.isApple) {
+    await ref
+        .read(apnsMobileDeviceRegistrationProvider.notifier)
+        .unregisterCurrentToken();
+    await ref
+        .read(apnsVoipMobileDeviceRegistrationProvider.notifier)
+        .unregisterCurrentToken();
+  }
+  if (PushProviderGuard.isFirebaseMessaging) {
+    await ref
+        .read(fcmMobileDeviceRegistrationProvider.notifier)
+        .unregisterCurrentToken();
   }
 }
 

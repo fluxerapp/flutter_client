@@ -89,7 +89,7 @@ void main() {
                 onPressed: () {
                   pendingResult = FluxerConfirmSheet.show(
                     context,
-                    title: 'Unpin Message',
+                    title: 'Unpin message',
                     description: 'Are you sure?',
                     confirmLabel: 'Unpin',
                     onConfirm: () => onConfirmCalls++,
@@ -104,7 +104,7 @@ void main() {
 
       await tester.tap(find.text('Open'));
       await tester.pumpAndSettle();
-      expect(find.text('Unpin Message'), findsOneWidget);
+      expect(find.text('Unpin message'), findsOneWidget);
 
       // Dismiss without confirming — pop the sheet route directly to mimic
       // a swipe-down / backdrop tap.

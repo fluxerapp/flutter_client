@@ -20,7 +20,11 @@ bool voicePipParticipantMatchesIdentity(
 Future<void> syncCollapsedVoiceVideoSubscriptions({
   required Room room,
   required String? featuredTileId,
+  bool Function()? isSessionCurrent,
 }) async {
+  if (isSessionCurrent != null && !isSessionCurrent()) {
+    return;
+  }
   final parsed = featuredTileId == null
       ? null
       : parseVoiceParticipantTileId(featuredTileId);
@@ -31,6 +35,9 @@ Future<void> syncCollapsedVoiceVideoSubscriptions({
   ];
   final List<Future<void>> pending = <Future<void>>[];
   for (final Participant participant in participants) {
+    if (isSessionCurrent != null && !isSessionCurrent()) {
+      return;
+    }
     final bool isFeaturedParticipant =
         parsed != null &&
         voicePipParticipantMatchesIdentity(participant, parsed.identity);
@@ -45,9 +52,9 @@ Future<void> syncCollapsedVoiceVideoSubscriptions({
               ? featuredSource == VoiceParticipantTileSource.screenShare
               : featuredSource == VoiceParticipantTileSource.camera);
       if (shouldSubscribe && !publication.subscribed) {
-        pending.add(publication.subscribe());
+        pending.add(_safeSubscribe(publication));
       } else if (!shouldSubscribe && publication.subscribed) {
-        pending.add(publication.unsubscribe());
+        pending.add(_safeUnsubscribe(publication));
       }
     }
     final bool subscribeScreenAudio =
@@ -60,12 +67,28 @@ Future<void> syncCollapsedVoiceVideoSubscriptions({
       continue;
     }
     if (subscribeScreenAudio && !audio.subscribed) {
-      pending.add(audio.subscribe());
+      pending.add(_safeSubscribe(audio));
     } else if (!subscribeScreenAudio && audio.subscribed) {
-      pending.add(audio.unsubscribe());
+      pending.add(_safeUnsubscribe(audio));
     }
   }
   if (pending.isNotEmpty) {
     await Future.wait(pending);
+  }
+}
+
+Future<void> _safeSubscribe(RemoteTrackPublication publication) async {
+  try {
+    await publication.subscribe();
+  } on Object {
+    return;
+  }
+}
+
+Future<void> _safeUnsubscribe(RemoteTrackPublication publication) async {
+  try {
+    await publication.unsubscribe();
+  } on Object {
+    return;
   }
 }

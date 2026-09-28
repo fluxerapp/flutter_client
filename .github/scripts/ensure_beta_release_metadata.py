@@ -14,6 +14,7 @@ from beta_release_metadata import (
     build_release_patch_payload,
     patch_release,
     resolve_beta_version_from_github,
+    semver_beta_version_name,
 )
 
 
@@ -33,7 +34,7 @@ def main() -> int:
     except (OSError, ValueError, subprocess.CalledProcessError) as exc:
         print(exc, file=sys.stderr)
         return 1
-    tag_name = f"v{version_name}"
+    tag_name = f"v{semver_beta_version_name(version_name)}"
     if previous_tag != "" and previous_tag != tag_name:
         print(f"Adjusted beta tag from {previous_tag} to {tag_name}")
     payload = build_release_patch_payload(

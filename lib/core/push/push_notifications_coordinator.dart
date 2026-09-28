@@ -20,6 +20,7 @@ import 'package:fluxer_app/core/push/push_notification_payload.dart';
 import 'package:fluxer_app/core/push/push_notification_permission.dart';
 import 'package:fluxer_app/core/push/push_notification_tap_handler.dart';
 import 'package:fluxer_app/core/push/push_service.dart';
+import 'package:fluxer_app/core/push/push_tray_registry_provider.dart';
 import 'package:fluxer_app/core/push/services/firebase_messaging_push_service.dart';
 import 'package:fluxer_app/core/push/services/unified_push_service.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_distributor_setup.dart';
@@ -138,6 +139,11 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
       isAppForeground: isForeground,
       payload: message.payload,
     )) {
+      if (!isNotificationClearPayload(message.payload)) {
+        ref
+            .read(pushTrayRegistryProvider)
+            .markForegroundPushSuppressed(message.payload);
+      }
       if (kDebugMode) {
         debugPrint(
           '[PushNotificationsCoordinator] skip foreground push '

@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
-import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/plutonium_upsell_banner.dart';
@@ -26,6 +25,7 @@ import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provid
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/emoji_sprite_sheet.dart';
@@ -422,7 +422,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
 
   _EmojiPickerData _watchPickerData() {
     ref.watch(emojiRegistryLoadedProvider);
-    final activeGuildId = ref.watch(contextualGuildIdProvider);
+    final activeGuildId = resolveGuildIdForChannel(ref, widget.channelId);
     final guilds = _guildsFor(
       organized: ref.watch(organizedGuildListProvider),
       activeGuildId: activeGuildId,
@@ -478,7 +478,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
   }
 
   Map<Guild, List<GuildEmojiEntry>> _readGuildEmojisByGuild() {
-    final activeGuildId = ref.read(contextualGuildIdProvider);
+    final activeGuildId = resolveGuildIdForChannel(ref, widget.channelId);
     final guilds = _guildsFor(
       organized: ref.read(organizedGuildListProvider),
       activeGuildId: activeGuildId,

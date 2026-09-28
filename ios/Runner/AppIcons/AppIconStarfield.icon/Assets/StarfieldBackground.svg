@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1024" height="1024" fill="#05040D"/>
+  <defs>
+    <linearGradient id="bgLinear" x1="102" y1="0" x2="973" y2="1024" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#05040D"/>
+      <stop offset="0.46" stop-color="#080616"/>
+      <stop offset="1" stop-color="#0D0A1C"/>
+    </linearGradient>
+    <radialGradient id="bgRadial1" cx="287" cy="102" r="435" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7A57BF" stop-opacity="0.212"/>
+      <stop offset="0.7" stop-color="#7A57BF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="bgRadial2" cx="840" cy="860" r="384" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#5B4197" stop-opacity="0.190"/>
+      <stop offset="0.72" stop-color="#5B4197" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bgLinear)"/>
+  <rect width="1024" height="1024" fill="url(#bgRadial1)"/>
+  <rect width="1024" height="1024" fill="url(#bgRadial2)"/>
+</svg>

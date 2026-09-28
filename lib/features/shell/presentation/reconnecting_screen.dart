@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
+import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/offline_account_switcher_link.dart';
@@ -15,6 +15,8 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+const Duration kReconnectingScreenRetryInterval = Duration(seconds: 20);
+
 class ReconnectingScreen extends ConsumerStatefulWidget {
   const ReconnectingScreen({super.key});
 
@@ -23,7 +25,8 @@ class ReconnectingScreen extends ConsumerStatefulWidget {
 }
 
 class _ReconnectingScreenState extends ConsumerState<ReconnectingScreen> {
-  var _nudged = false;
+  Timer? _retryTimer;
+  var _nudgeInFlight = false;
 
   @override
   void initState() {
@@ -34,36 +37,34 @@ class _ReconnectingScreenState extends ConsumerState<ReconnectingScreen> {
       }
       unawaited(_nudgeConnection());
       unawaited(ref.read(serviceStatusIncidentReadProvider.notifier).refresh());
+      _retryTimer = Timer.periodic(kReconnectingScreenRetryInterval, (_) {
+        if (!mounted) {
+          return;
+        }
+        unawaited(_nudgeConnection());
+      });
     });
   }
 
+  @override
+  void dispose() {
+    _retryTimer?.cancel();
+    super.dispose();
+  }
+
   Future<void> _nudgeConnection() async {
-    if (_nudged) {
+    if (_nudgeInFlight || !ref.read(authStateProvider)) {
       return;
     }
-    // A session-expiry sign-out nulls the token and invalidates the gateway
-    // connection provider — reading it would throw. The router is already
-    // redirecting to /login at that point.
-    if (!ref.read(authStateProvider)) {
+    _nudgeInFlight = true;
+    try {
+      final GatewayConnection connection = ref.read(gatewayConnectionProvider);
+      await nudgeGatewayConnectionReconnect(connection, forceReconnect: true);
+    } on StateError {
       return;
+    } finally {
+      _nudgeInFlight = false;
     }
-    final List<ConnectivityResult> results = await Connectivity()
-        .checkConnectivity();
-    final bool hasConnection = results.any(
-      (ConnectivityResult r) => r != ConnectivityResult.none,
-    );
-    if (!hasConnection || !mounted) {
-      return;
-    }
-    final connection = ref.read(gatewayConnectionProvider);
-    final GatewayState state = connection.state;
-    if (state == GatewayState.connecting ||
-        state == GatewayState.reconnecting) {
-      _nudged = true;
-      return;
-    }
-    _nudged = true;
-    await connection.nudgeReconnect();
   }
 
   @override
@@ -71,7 +72,6 @@ class _ReconnectingScreenState extends ConsumerState<ReconnectingScreen> {
     final FluxerLocalizations strings = FluxerLocalizations.of(context);
     ref.listen<bool>(appUiForegroundProvider, (bool? previous, bool next) {
       if (previous == false && next) {
-        _nudged = false;
         unawaited(_nudgeConnection());
       }
     });

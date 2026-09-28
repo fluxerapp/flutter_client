@@ -81,7 +81,7 @@ void main() {
       await tester.tap(find.text('Open'));
       await tester.pumpAndSettle();
 
-      expect(find.text('Voice Connection Confirmation'), findsOneWidget);
+      expect(find.text('Voice connection confirmation'), findsOneWidget);
       expect(find.textContaining('1 other device'), findsOneWidget);
 
       await tester.tap(find.text("Do nothing, I don't want to join"));
@@ -99,14 +99,14 @@ void main() {
       await tester.tap(find.text('Open'));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text('Switch to This Device'));
+      await tester.tap(find.text('Switch to this device'));
       await tester.pumpAndSettle();
 
       expect(
         await resultCompleter.future,
         VoiceConnectionConfirmResult.switchToThisDevice,
       );
-      expect(find.text('Voice Connection Confirmation'), findsNothing);
+      expect(find.text('Voice connection confirmation'), findsNothing);
     });
 
     testWidgets('just join button returns justJoin and closes modal', (
@@ -118,14 +118,14 @@ void main() {
       await tester.tap(find.text('Open'));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text('Just Join (Keep Other Connections)'));
+      await tester.tap(find.text('Just join (keep other connections)'));
       await tester.pumpAndSettle();
 
       expect(
         await resultCompleter.future,
         VoiceConnectionConfirmResult.justJoin,
       );
-      expect(find.text('Voice Connection Confirmation'), findsNothing);
+      expect(find.text('Voice connection confirmation'), findsNothing);
     });
 
     testWidgets('cancel button returns null and closes modal', (tester) async {
@@ -139,7 +139,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(await resultCompleter.future, isNull);
-      expect(find.text('Voice Connection Confirmation'), findsNothing);
+      expect(find.text('Voice connection confirmation'), findsNothing);
     });
 
     testWidgets('header close button returns null and closes modal', (
@@ -155,7 +155,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(await resultCompleter.future, isNull);
-      expect(find.text('Voice Connection Confirmation'), findsNothing);
+      expect(find.text('Voice connection confirmation'), findsNothing);
     });
   });
 }

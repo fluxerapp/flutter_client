@@ -158,7 +158,32 @@ Map<Guild, List<GuildEmojiEntry>> guildEmojiEntriesForPicker({
   final targetGuilds = hasGlobalEmojiAccess
       ? guilds
       : guilds.where((guild) => guild.id == activeGuildId).toList();
-  return _groupEmojiEntriesByGuild(guilds: targetGuilds, emojis: emojis);
+  final grouped = _groupEmojiEntriesByGuild(
+    guilds: targetGuilds,
+    emojis: emojis,
+  );
+  if (hasGlobalEmojiAccess ||
+      activeGuildId == null ||
+      activeGuildId.isEmpty ||
+      grouped.keys.any((guild) => guild.id == activeGuildId)) {
+    return grouped;
+  }
+  final activeEmojis = emojis
+      .where((emoji) => emoji.guildId == activeGuildId)
+      .toList(growable: false);
+  if (activeEmojis.isEmpty) {
+    return grouped;
+  }
+  Guild? knownGuild;
+  for (final Guild guild in targetGuilds) {
+    if (guild.id == activeGuildId) {
+      knownGuild = guild;
+      break;
+    }
+  }
+  final Guild guildKey = knownGuild ?? Guild(id: activeGuildId, name: '');
+  return Map<Guild, List<GuildEmojiEntry>>.from(grouped)
+    ..[guildKey] = activeEmojis;
 }
 
 List<GuildEmojiEntry> lockedGuildEmojiEntriesForUpsell({
