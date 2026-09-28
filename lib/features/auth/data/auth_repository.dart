@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:fluxer_app/core/api/captcha_api_codes.dart';
+import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/service_unavailable.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide AuthSession;
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
@@ -710,6 +712,15 @@ class AuthRepository {
   }
 
   AuthFailure _failureFromDio(DioException error) {
+    final String? apiCode = apiErrorCodeFromDioException(error);
+    if (apiCode == kCaptchaRequiredApiCode ||
+        apiCode == kInvalidCaptchaApiCode) {
+      return const AuthFailure(
+        'Verification failed.',
+        kind: AuthFailureKind.verificationFailed,
+      );
+    }
+
     if (isHttpServiceUnavailable(error)) {
       return const AuthFailure(
         'This instance is temporarily unavailable.',

@@ -4,9 +4,8 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/api/altcha_solver.dart';
+import 'package:fluxer_app/core/api/captcha_api_codes.dart';
 import 'package:fluxer_app/core/talker.dart';
-
-const _kCaptchaCodes = {'CAPTCHA_REQUIRED', 'INVALID_CAPTCHA'};
 
 const _kCaptchaInternalKey = '_captchaInternal';
 
@@ -14,12 +13,21 @@ const int _kMaxCaptchaSolves = 2;
 
 const Duration _kSlowSolveHintDelay = Duration(seconds: 2);
 
+typedef SolveAltchaChallengeCallback =
+    Future<String?> Function(Map<String, dynamic> challenge);
+
 class CaptchaInterceptor extends Interceptor {
-  CaptchaInterceptor({required this.dio, required this.showSlowSolveHint});
+  CaptchaInterceptor({
+    required this.dio,
+    required this.showSlowSolveHint,
+    this.solveChallenge = solveAltchaChallenge,
+  });
 
   final Dio dio;
 
   final VoidCallback Function() showSlowSolveHint;
+
+  final SolveAltchaChallengeCallback solveChallenge;
 
   Future<void> _solveQueue = Future<void>.value();
 
@@ -31,10 +39,16 @@ class CaptchaInterceptor extends Interceptor {
       return;
     }
 
-    final Map<String, dynamic>? challenge = readAltchaChallenge(
+    final AltchaChallengeParseResult parsed = parseAltchaChallenge(
       err.response?.data,
     );
+    final Map<String, dynamic>? challenge = parsed.challenge;
     if (challenge == null) {
+      _warnInvalidAltchaPayload(
+        err.requestOptions.path,
+        parsed.rejectionReason,
+        rejected: false,
+      );
       handler.next(err);
       return;
     }
@@ -91,15 +105,24 @@ class CaptchaInterceptor extends Interceptor {
         handler.resolve(response);
         return;
       } on DioException catch (retryError) {
+        final AltchaChallengeParseResult parsed = parseAltchaChallenge(
+          retryError.response?.data,
+        );
         final Map<String, dynamic>? nextChallenge =
-            _isCaptchaChallenge(retryError)
-            ? readAltchaChallenge(retryError.response?.data)
-            : null;
+            _isCaptchaChallenge(retryError) ? parsed.challenge : null;
         if (nextChallenge == null || solve == _kMaxCaptchaSolves) {
-          talker.warning(
-            '[CaptchaInterceptor] Retry failed: '
-            '${retryError.response?.statusCode} ${retryError.message}',
-          );
+          if (_isCaptchaChallenge(retryError) && nextChallenge == null) {
+            _warnInvalidAltchaPayload(
+              retryError.requestOptions.path,
+              parsed.rejectionReason,
+              rejected: true,
+            );
+          } else {
+            talker.warning(
+              '[CaptchaInterceptor] Retry failed: '
+              '${retryError.response?.statusCode} ${retryError.message}',
+            );
+          }
           handler.next(retryError);
           return;
         }
@@ -115,11 +138,23 @@ class CaptchaInterceptor extends Interceptor {
       dismissHint = showSlowSolveHint();
     });
     try {
-      return await solveAltchaChallenge(challenge);
+      return await solveChallenge(challenge);
     } finally {
       hintTimer.cancel();
       dismissHint?.call();
     }
+  }
+
+  void _warnInvalidAltchaPayload(
+    String path,
+    String? rejectionReason, {
+    required bool rejected,
+  }) {
+    final String phase = rejected ? 'rejected' : 'required';
+    talker.warning(
+      '[CaptchaInterceptor] $path: captcha $phase but ALTCHA payload is invalid '
+      '(${rejectionReason ?? 'unknown'})',
+    );
   }
 
   bool _isCaptchaChallenge(DioException error) {
@@ -128,19 +163,23 @@ class CaptchaInterceptor extends Interceptor {
       return false;
     }
     final String? code = _extractErrorCode(response);
-    return code != null && _kCaptchaCodes.contains(code);
+    return code != null && kCaptchaApiCodes.contains(code);
   }
 
   String? _extractErrorCode(Response<dynamic> response) {
-    final data = response.data;
-    if (data is Map<String, dynamic>) {
-      return data['code'] as String?;
+    final Object? data = response.data;
+    if (data is Map) {
+      final Object? code = data['code'];
+      return code is String ? code : null;
     }
     if (data is String) {
       try {
-        final parsed = jsonDecode(data) as Map<String, dynamic>;
-        return parsed['code'] as String?;
-      } on Exception {
+        final Object? parsed = jsonDecode(data);
+        if (parsed is Map) {
+          final Object? code = parsed['code'];
+          return code is String ? code : null;
+        }
+      } on FormatException {
         return null;
       }
     }

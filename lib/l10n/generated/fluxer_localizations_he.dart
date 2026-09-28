@@ -11349,6 +11349,10 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get authCheckStillWorking => 'Still working on it…';
 
   @override
+  String get authVerificationFailed =>
+      'Couldn\'t complete verification. Try again.';
+
+  @override
   String get chatLoadingMessages => 'טוען הודעות';
 
   @override

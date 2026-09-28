@@ -397,11 +397,7 @@ class LoginViewModel extends _$LoginViewModel {
       }
       state = state.copyWith(showRegister: false, isLoggingIn: false);
     } on AuthFailure catch (error) {
-      state = state.copyWith(
-        errorMessage: error.fieldErrors.isEmpty ? error.message : null,
-        fieldErrors: error.fieldErrors,
-        isLoggingIn: false,
-      );
+      state = _stateAfterAuthFailure(state, error);
     } on Exception catch (e) {
       talker.error('[LoginViewModel] Register error: $e');
       state = state.copyWith(
@@ -511,11 +507,7 @@ class LoginViewModel extends _$LoginViewModel {
       await ref.read(authRepositoryProvider).forgotPassword(email: email);
       state = state.copyWith(forgotPasswordEmailSent: true, isLoggingIn: false);
     } on AuthFailure catch (error) {
-      state = state.copyWith(
-        errorMessage: error.fieldErrors.isEmpty ? error.message : null,
-        fieldErrors: error.fieldErrors,
-        isLoggingIn: false,
-      );
+      state = _stateAfterAuthFailure(state, error);
     } on Exception catch (e) {
       talker.error('[LoginViewModel] Forgot password error: $e');
       state = state.copyWith(
@@ -564,11 +556,7 @@ class LoginViewModel extends _$LoginViewModel {
           state = state.copyWith(resetToken: null, isLoggingIn: false);
       }
     } on AuthFailure catch (error) {
-      state = state.copyWith(
-        errorMessage: error.fieldErrors.isEmpty ? error.message : null,
-        fieldErrors: error.fieldErrors,
-        isLoggingIn: false,
-      );
+      state = _stateAfterAuthFailure(state, error);
     } on Exception catch (e) {
       talker.error('[LoginViewModel] Reset password error: $e');
       state = state.copyWith(
@@ -654,11 +642,7 @@ class LoginViewModel extends _$LoginViewModel {
         );
         return false;
       }
-      state = state.copyWith(
-        errorMessage: error.fieldErrors.isEmpty ? error.message : null,
-        fieldErrors: error.fieldErrors,
-        isLoggingIn: false,
-      );
+      state = _stateAfterAuthFailure(state, error);
       return false;
     } on Exception catch (e) {
       if (ref.read(addAccountInstanceGuardProvider) != null) {
@@ -699,6 +683,25 @@ class LoginViewModel extends _$LoginViewModel {
       );
     }
     return restored;
+  }
+
+  LoginViewState _stateAfterAuthFailure(
+    LoginViewState current,
+    AuthFailure error,
+  ) {
+    if (error.kind == AuthFailureKind.verificationFailed) {
+      return current.copyWith(
+        errorType: LoginError.verificationFailed,
+        errorMessage: null,
+        fieldErrors: const {},
+        isLoggingIn: false,
+      );
+    }
+    return current.copyWith(
+      errorMessage: error.fieldErrors.isEmpty ? error.message : null,
+      fieldErrors: error.fieldErrors,
+      isLoggingIn: false,
+    );
   }
 
   Future<bool> _restoreAuthenticatedSession() async {
@@ -757,7 +760,7 @@ class LoginViewModel extends _$LoginViewModel {
             .read(addAccountInstanceGuardProvider.notifier)
             .restoreActiveInstance();
       }
-      state = state.copyWith(errorMessage: error.message, isLoggingIn: false);
+      state = _stateAfterAuthFailure(state, error);
     } on PasskeyAuthCancelledException {
       state = state.copyWith(isLoggingIn: false);
     } on AuthenticatorException catch (e) {

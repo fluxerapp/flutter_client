@@ -27,6 +27,20 @@ List<int> _bytes(int length, int seed) {
   return List<int>.generate(length, (int i) => (i * 31 + seed) & 0xff);
 }
 
+Map<String, dynamic> _validChallengeParameters([
+  Map<String, dynamic> overrides = const <String, dynamic>{},
+]) {
+  return <String, dynamic>{
+    'algorithm': 'PBKDF2/SHA-256',
+    'cost': 1000,
+    'keyLength': 32,
+    'nonce': '0a1b',
+    'salt': 'c2d3',
+    'keyPrefix': '00',
+    ...overrides,
+  };
+}
+
 void main() {
   group('altchaDeriveKey', () {
     final List<(ChallengeParameters, List<int>, List<int>)> vectors = [
@@ -142,12 +156,7 @@ void main() {
       return <String, dynamic>{
         'captcha_provider': 'altcha',
         'altcha_challenge': <String, dynamic>{
-          'parameters': <String, dynamic>{
-            'nonce': '0a1b',
-            'salt': 'c2d3',
-            'keyPrefix': '0',
-            ...overrides,
-          },
+          'parameters': _validChallengeParameters(overrides),
           'signature': 'abc',
         },
       };
@@ -163,6 +172,43 @@ void main() {
     expect(
       readAltchaChallenge(body(<String, dynamic>{'keyPrefix': 'g0'})),
       isNull,
+    );
+  });
+
+  test('rejects challenges with unsupported or out-of-range parameters', () {
+    Map<String, dynamic> body(Map<String, dynamic> parameterOverrides) {
+      return <String, dynamic>{
+        'captcha_provider': 'altcha',
+        'altcha_challenge': <String, dynamic>{
+          'parameters': _validChallengeParameters(parameterOverrides),
+          'signature': 'abc',
+        },
+      };
+    }
+
+    expect(
+      parseAltchaChallenge(
+        body(<String, dynamic>{'cost': kAltchaMaxCost + 1}),
+      ).rejectionReason,
+      'challenge cost is out of range',
+    );
+    expect(
+      parseAltchaChallenge(
+        body(<String, dynamic>{'algorithm': 'PBKDF2/SHA-999'}),
+      ).rejectionReason,
+      'challenge algorithm is not supported',
+    );
+    expect(
+      parseAltchaChallenge(
+        body(<String, dynamic>{'keyLength': kAltchaMaxKeyLength + 1}),
+      ).rejectionReason,
+      'challenge keyLength is out of range',
+    );
+    expect(
+      readAltchaChallenge(
+        body(<String, dynamic>{'cost': 1000.0, 'keyLength': 32.0}),
+      ),
+      isNotNull,
     );
   });
 }

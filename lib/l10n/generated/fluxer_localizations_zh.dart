@@ -10776,6 +10776,10 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get authCheckStillWorking => 'Still working on it…';
 
   @override
+  String get authVerificationFailed =>
+      'Couldn\'t complete verification. Try again.';
+
+  @override
   String get chatLoadingMessages => '正在加载消息';
 
   @override

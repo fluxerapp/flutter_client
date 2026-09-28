@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/api/captcha_api_codes.dart';
 import 'package:fluxer_app/features/auth/domain/phone_verification_failure.dart';
 import 'package:fluxer_app/features/auth/utils/phone_verification_errors.dart';
 
@@ -51,6 +52,17 @@ void main() {
         ),
       );
       expect(failure.kind, PhoneVerificationErrorKind.rateLimited);
+      expect(failure.field, PhoneVerificationErrorField.general);
+    });
+
+    test('maps captcha errors to verification failed', () {
+      final PhoneVerificationFailure failure = phoneVerificationFailureFromDio(
+        _dioException(
+          statusCode: 400,
+          data: const <String, dynamic>{'code': kCaptchaRequiredApiCode},
+        ),
+      );
+      expect(failure.kind, PhoneVerificationErrorKind.verificationFailed);
       expect(failure.field, PhoneVerificationErrorField.general);
     });
 

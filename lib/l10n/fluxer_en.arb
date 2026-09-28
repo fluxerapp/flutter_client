@@ -13751,6 +13751,10 @@
     "@authCheckStillWorking": {
         "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
     },
+    "authVerificationFailed": "Couldn't complete verification. Try again.",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
+    },
     "chatLoadingMessages": "Loading messages",
     "@chatLoadingMessages": {
         "description": "Screen reader label for the chat message list loading skeleton."

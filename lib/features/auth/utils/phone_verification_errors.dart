@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:fluxer_app/core/api/captcha_api_codes.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/features/auth/domain/phone_verification_failure.dart';
 
@@ -92,6 +93,11 @@ PhoneVerificationFailure phoneVerificationFailureFromDio(
     kPhoneAddNotEligibleCode ||
     kPhoneVerificationRequiredCode => const PhoneVerificationFailure(
       kind: PhoneVerificationErrorKind.phoneNotEligible,
+      field: PhoneVerificationErrorField.general,
+    ),
+    kCaptchaRequiredApiCode ||
+    kInvalidCaptchaApiCode => const PhoneVerificationFailure(
+      kind: PhoneVerificationErrorKind.verificationFailed,
       field: PhoneVerificationErrorField.general,
     ),
     _ => const PhoneVerificationFailure(

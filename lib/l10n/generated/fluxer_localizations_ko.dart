@@ -11010,6 +11010,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get authCheckStillWorking => 'Still working on it…';
 
   @override
+  String get authVerificationFailed =>
+      'Couldn\'t complete verification. Try again.';
+
+  @override
   String get chatLoadingMessages => '메시지 불러오는 중';
 
   @override

@@ -19116,6 +19116,12 @@ abstract class FluxerLocalizations {
   /// **'Still working on it…'**
   String get authCheckStillWorking;
 
+  /// Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t complete verification. Try again.'**
+  String get authVerificationFailed;
+
   /// Screen reader label for the chat message list loading skeleton.
   ///
   /// In en, this message translates to:
