@@ -149,7 +149,7 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 100));
 
-      expect(find.text('Frequently Used'), findsOneWidget);
+      expect(find.text('Frequently used'), findsOneWidget);
       expect(
         find.byWidgetPredicate(
           (widget) =>
@@ -177,7 +177,7 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 100));
 
-      expect(find.text('Frequently Used'), findsOneWidget);
+      expect(find.text('Frequently used'), findsOneWidget);
       expect(
         find.byWidgetPredicate(
           (widget) =>

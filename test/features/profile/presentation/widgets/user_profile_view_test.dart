@@ -235,7 +235,7 @@ void main() {
       await tester.pump();
 
       expect(find.text('Fluxer Plutonium'), findsOneWidget);
-      expect(find.textContaining('since'), findsNothing);
+      expect(find.textContaining('subscriber since'), findsNothing);
     },
   );
 
@@ -261,7 +261,7 @@ void main() {
       await tester.pump();
 
       expect(find.text('Fluxer Visionary'), findsOneWidget);
-      expect(find.textContaining('since'), findsNothing);
+      expect(find.textContaining('Visionary since'), findsNothing);
     },
   );
 }

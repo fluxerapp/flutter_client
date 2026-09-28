@@ -64,7 +64,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String nagbarMaintenanceInProgress(String duration) {
-    return 'Održavanje je u tijeku. Predviđeno trajanje: $duration.';
+    return 'Održavanje je u tijeku. Očekivano trajanje: $duration.';
   }
 
   @override
@@ -72,7 +72,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String nagbarUnclaimedAccountMessage(String displayName) {
-    return 'Hej $displayName, preuzmi svoj račun kako ne bi izgubio pristup.';
+    return 'Hej $displayName, preuzmite svoj račun kako ne biste izgubili pristup.';
   }
 
   @override
@@ -145,7 +145,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get nagbarViewGiftInventory => 'Prikaži inventar darova';
+  String get nagbarViewGiftInventory => 'Prikaži inventar poklona';
 
   @override
   String get nagbarVisionaryMfa =>
@@ -183,7 +183,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Nismo mogli otvoriti portal za naplatu. Molimo pokušajte ponovno za trenutak.';
 
   @override
-  String get welcomeBack => 'Dobrodošli natrag';
+  String get welcomeBack => 'Dobro došli natrag';
 
   @override
   String get email => 'E-pošta';
@@ -231,7 +231,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get logInViaBrowser => 'Prijavi se putem preglednika';
 
   @override
-  String get needAccountPrompt => 'Trebaš račun? ';
+  String get needAccountPrompt => 'Trebate račun? ';
 
   @override
   String get register => 'Registracija';
@@ -248,7 +248,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get captchaSwitchToHcaptcha =>
-      'Imate poteškoća? Pokušajte s hCaptchom';
+      'Imate poteškoća? Umjesto toga pokušajte s hCaptchom';
 
   @override
   String get captchaSwitchToTurnstile => 'Pokušajte s Turnstileom';
@@ -296,7 +296,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get next => 'Dalje';
 
   @override
-  String get mfaTitle => 'Autentifikacija u dva koraka';
+  String get mfaTitle => 'Dvostruka provjera autentičnosti';
 
   @override
   String get mfaChooseMethod => 'Odaberite metodu provjere';
@@ -305,7 +305,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get mfaMethodTotp => 'Aplikacija za provjeru autentičnosti';
 
   @override
-  String get mfaMethodWebauthn => 'Sigurnosni ključ / Passkey';
+  String get mfaMethodWebauthn => 'Sigurnosni ključ / pristupni ključ';
 
   @override
   String get mfaTotpDescription =>
@@ -356,11 +356,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get accountManageTitle => 'Upravljanje računima';
+  String get accountManageTitle => 'Upravljaj računima';
 
   @override
   String get accountSwitchFailed =>
-      'Nije uspjelo prebacivanje računa. Pokušajte ponovno.';
+      'Nije moguće promijeniti račun. Pokušajte ponovno.';
 
   @override
   String get profileTabMenuSwitchAccounts => 'Promijeni račun';
@@ -372,7 +372,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get statusOnlineStatusSection => 'Status na mreži';
 
   @override
-  String get statusOnline => 'Dostupan';
+  String get statusOnline => 'Na mreži';
 
   @override
   String get statusIdle => 'Neaktivan';
@@ -429,7 +429,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get statusInvisibleDescription => 'Prikazivat ćete se izvan mreže';
 
   @override
-  String get customStatusSetTitle => 'Postavi status';
+  String get customStatusSetTitle => 'Postavi prilagođeni status';
 
   @override
   String get customStatusCurrentHint => 'Prilagođeni status';
@@ -573,10 +573,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get registerTitle => 'Izradi račun';
 
   @override
-  String get registerDisplayName => 'Prikazano ime (neobavezno)';
+  String get registerDisplayName => 'Ime za prikaz (neobavezno)';
 
   @override
-  String get registerDisplayNameHint => 'Kako te ljudi trebaju zvati?';
+  String get registerDisplayNameHint => 'Kako da vas ljudi zovu?';
 
   @override
   String get registerUsername => 'Korisničko ime (neobavezno)';
@@ -615,20 +615,20 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get registerConsentAnd => ' i ';
 
   @override
-  String get registerConsentPrivacy => 'Pravila o zaštiti privatnosti';
+  String get registerConsentPrivacy => 'Pravila privatnosti';
 
   @override
-  String get registerConfirmPassword => 'Potvrdi lozinku';
+  String get registerConfirmPassword => 'Potvrdite lozinku';
 
   @override
   String get registerSubmit => 'Izradi račun';
 
   @override
-  String get registerHaveAccount => 'Već imaš račun? ';
+  String get registerHaveAccount => 'Već imate račun? ';
 
   @override
   String get registerPendingApproval =>
-      'Tvoj zahtjev za račun čeka odobrenje. Možeš se prijaviti nakon što ga administrator odobri.';
+      'Vaš zahtjev za račun čeka odobrenje. Možete se prijaviti nakon što ga administrator odobri.';
 
   @override
   String get registerClosed =>
@@ -685,7 +685,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get embedInviteJoin => 'Pridruži se zajednici';
 
   @override
-  String get embedInviteGoTo => 'Idi u zajednicu';
+  String get embedInviteGoTo => 'Idi na zajednicu';
 
   @override
   String embedInviteOnline(String count) {
@@ -698,7 +698,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get embedInviteUnknownTitle => 'Nepoznat poziv';
+  String get embedInviteUnknownTitle => 'Nepoznata pozivnica';
 
   @override
   String get embedInviteUnknownSubtitle =>
@@ -740,10 +740,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get inviteAcceptJoinButton => 'Pridruži se zajednici';
 
   @override
-  String get inviteAcceptGoToButton => 'Idi u zajednicu';
+  String get inviteAcceptGoToButton => 'Idi na zajednicu';
 
   @override
-  String get inviteAcceptInvitesPaused => 'Pozivnice su pauzirane';
+  String get inviteAcceptInvitesPaused => 'Pozivnice pauzirane';
 
   @override
   String get inviteAcceptNotFoundTitle => 'Neispravan poziv';
@@ -797,7 +797,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get channelAccessDeniedDescription =>
-      'Nemate pristup kanalu na koji je poslana ova poruka.';
+      'Nemate pristup kanalu u kojem je poslana ova poruka.';
 
   @override
   String get messageJumpLinkNoAccess => 'Nema pristupa';
@@ -869,17 +869,17 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get embedGiftClaimHelp => 'Dodirnite za preuzimanje poklona!';
+  String get embedGiftClaimHelp => 'Kliknite za preuzimanje poklona!';
 
   @override
   String get embedGiftAlreadyRedeemed => 'Već iskorišteno';
 
   @override
   String get embedGiftClaimAccountHelp =>
-      'Preuzmite svoj račun kako biste iskoristili ovaj dar.';
+      'Preuzmite svoj račun kako biste iskoristili ovaj poklon.';
 
   @override
-  String get embedGiftClaim => 'Preuzmi dar';
+  String get embedGiftClaim => 'Preuzmi poklon';
 
   @override
   String get embedGiftClaimed => 'Poklon preuzet';
@@ -892,7 +892,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get embedGiftUnknownSubtitle =>
-      'Ovaj poklon-kod nije važeći ili je već iskorišten.';
+      'Ovaj kôd poklona nije važeći ili je već iskorišten.';
 
   @override
   String get embedGiftUnavailable => 'Poklon nije dostupan';
@@ -903,7 +903,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get giftAcceptAlreadyClaimed => 'Ovaj je dar već preuzet.';
+  String get giftAcceptAlreadyClaimed => 'Ovaj je poklon već preuzet.';
 
   @override
   String get giftAcceptMaybeLater => 'Možda kasnije';
@@ -935,7 +935,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get giftRedeemFailedMessage =>
-      'Nismo uspjeli iskoristiti ovaj dar. Pokušajte ponovno.';
+      'Nije moguće iskoristiti ovaj poklon. Pokušajte ponovno.';
 
   @override
   String get giftVisionaryCannotRedeemTitle =>
@@ -946,7 +946,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Visionary računi ne mogu iskoristiti Plutonium poklone. Umjesto toga, kopirajte poveznicu kako biste je podijelili s prijateljem.';
 
   @override
-  String get giftCopyLink => 'Kopiraj poveznicu za dar';
+  String get giftCopyLink => 'Kopiraj poveznicu za poklon';
 
   @override
   String get privacySettings => 'Postavke privatnosti';
@@ -959,7 +959,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Dopusti izravne poruke od drugih članova u ovoj zajednici';
 
   @override
-  String get privacyBotDirectMessages => 'Izravne poruke od bota';
+  String get privacyBotDirectMessages => 'Izravne poruke botova';
 
   @override
   String get privacyBotDirectMessagesDescription =>
@@ -970,7 +970,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Administratori zajednice onemogućili su primanje izravnih poruka isključivo od zajedničkih članova u ovoj zajednici.';
 
   @override
-  String get communityDebug => 'Debug zajednice';
+  String get communityDebug => 'Otklanjanje pogrešaka zajednice';
 
   @override
   String get copiedToClipboard => 'Kopirano u međuspremnik';
@@ -980,7 +980,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String notificationMuteGuild(String guildName) {
-    return 'Isključi zvuk za $guildName';
+    return 'Isključi obavijesti za $guildName';
   }
 
   @override
@@ -1009,7 +1009,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get notificationMobilePush => 'Mobilne push obavijesti';
 
   @override
-  String get notificationOverrides => 'Prilagođene obavijesti';
+  String get notificationOverrides => 'Prilagodba obavijesti';
 
   @override
   String get notificationSelectChannel => 'Odaberite kanal ili kategoriju';
@@ -1018,14 +1018,13 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get notificationOnlyAtMentions => 'Samo @spominjanja';
 
   @override
-  String get notificationMuteChannel => 'Utišaj kanal';
+  String get notificationMuteChannel => 'Isključi obavijesti za kanal';
 
   @override
-  String get notificationUnmuteChannel => 'Odglumi kanal';
+  String get notificationUnmuteChannel => 'Uključi obavijesti za kanal';
 
   @override
-  String get notificationUseCategoryDefault =>
-      'Upotrijebi zadano za kategoriju';
+  String get notificationUseCategoryDefault => 'Koristi zadano za kategoriju';
 
   @override
   String get notificationUseCommunityDefault => 'Koristi zadano za zajednicu';
@@ -1037,16 +1036,16 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get dmMarkAsRead => 'Označi kao pročitano';
 
   @override
-  String get dmMuteConversation => 'Isključi obavijesti za DM';
+  String get dmMuteConversation => 'Isključi obavijesti za izravnu poruku';
 
   @override
-  String get dmUnmuteConversation => 'Uključi zvuk izravne poruke';
+  String get dmUnmuteConversation => 'Uključi obavijesti za izravnu poruku';
 
   @override
   String get dmPinDm => 'Prikvači izravnu poruku';
 
   @override
-  String get dmUnpinDm => 'Ukloni DM iz prikvačenih';
+  String get dmUnpinDm => 'Otkvači izravnu poruku';
 
   @override
   String get dmAlwaysShowInSidebar => 'Uvijek prikaži u bočnoj traci';
@@ -1080,13 +1079,13 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get dmChannelIdCopied => 'ID kanala kopiran';
 
   @override
-  String get dmCopyUserId => 'Kopiraj ID korisnika';
+  String get dmCopyUserId => 'Kopiraj korisnički ID';
 
   @override
   String get dmUserIdCopied => 'Korisnički ID kopiran';
 
   @override
-  String get dmViewProfile => 'Pogledaj profil';
+  String get dmViewProfile => 'Prikaži profil';
 
   @override
   String get dmVoiceCall => 'Započni glasovni poziv';
@@ -1173,10 +1172,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get dmMuteForever => 'Dok ga ponovno ne uključim';
 
   @override
-  String get dmPinGroupDm => 'Prikvači grupni DM';
+  String get dmPinGroupDm => 'Prikvači grupnu izravnu poruku';
 
   @override
-  String get dmUnpinGroupDm => 'Odstrani grupni DM s vrha';
+  String get dmUnpinGroupDm => 'Otkvači grupnu izravnu poruku';
 
   @override
   String get dmUnnamedGroup => 'Neimenovana grupa';
@@ -1187,16 +1186,16 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get dmFavoriteDm => 'Omiljeni izravni chat';
+  String get dmFavoriteDm => 'Dodaj izravnu poruku u favorite';
 
   @override
-  String get dmUnfavoriteDm => 'Ukloni iz favorita';
+  String get dmUnfavoriteDm => 'Ukloni izravnu poruku iz favorita';
 
   @override
-  String get dmFavoriteGroupDm => 'Označi grupni DM kao omiljeni';
+  String get dmFavoriteGroupDm => 'Dodaj grupnu izravnu poruku u favorite';
 
   @override
-  String get dmUnfavoriteGroupDm => 'Ukloni iz omiljenih grupnog DM-a';
+  String get dmUnfavoriteGroupDm => 'Ukloni grupnu izravnu poruku iz favorita';
 
   @override
   String get dmChangeFriendNickname => 'Promijeni nadimak prijatelja';
@@ -1211,19 +1210,19 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get dmAcceptFriendRequest => 'Prihvati zahtjev za prijateljstvo';
 
   @override
-  String get dmIgnoreFriendRequest => 'Ignoriraj zahtjev za prijateljstvo';
+  String get dmIgnoreFriendRequest => 'Zanemari zahtjev za prijateljstvo';
 
   @override
-  String get dmFriendRequestSent => 'Poslan zahtjev za prijateljstvo';
+  String get dmFriendRequestSent => 'Zahtjev za prijateljstvo poslan';
 
   @override
   String get dmUnblock => 'Deblokiraj';
 
   @override
-  String get dmDebugUser => 'Debugiraj korisnika';
+  String get dmDebugUser => 'Otklanjanje pogrešaka korisnika';
 
   @override
-  String get dmDebugChannel => 'Debugiraj kanal';
+  String get dmDebugChannel => 'Otklanjanje pogrešaka kanala';
 
   @override
   String get dmDebugCategory => 'Debugiraj kategoriju';
@@ -1232,7 +1231,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get dmPinned => 'Prikvačena izravna poruka';
 
   @override
-  String get dmUnpinned => 'DM je otkvačen';
+  String get dmUnpinned => 'Izravna poruka je otkvačena';
 
   @override
   String get dmMuted => 'Nečujni DM';
@@ -1311,14 +1310,14 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get addFriendClaimDescription =>
-      'Potvrdite svoj račun za slanje zahtjeva za prijateljstvo.';
+      'Preuzmite svoj račun za slanje zahtjeva za prijateljstvo.';
 
   @override
   String get addFriendVerifyTitle => 'Potvrdite svoju e-poštu';
 
   @override
   String get addFriendVerifyDescription =>
-      'Morate potvrditi svoju e-adresu prije nego što možete slati zahtjeve za prijateljstvo.';
+      'Morate potvrditi svoju adresu e-pošte prije nego što možete slati zahtjeve za prijateljstvo.';
 
   @override
   String get addFriendVerifyEmail => 'Potvrdite e-poštu';
@@ -1373,11 +1372,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get addFriendNotAcceptingRequests =>
-      'Trenutno ne prihvaćaju zahtjeve za prijateljstvo.';
+      'Trenutačno ne prihvaćaju zahtjeve za prijateljstvo.';
 
   @override
   String get addFriendUnblockFirst =>
-      'Prvo ih odblokirajte da biste poslali zahtjev za prijateljstvo.';
+      'Prvo ih deblokirajte da biste poslali zahtjev za prijateljstvo.';
 
   @override
   String get addFriendCannotSendToSelf =>
@@ -1396,7 +1395,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get addFriendFriendsListFull =>
-      'Vaš popis prijatelja je pun, ili je njihov. Uklonite nekoga i pokušajte ponovno.';
+      'Vaš ili njihov popis prijatelja je pun. Uklonite nekoga i pokušajte ponovno.';
 
   @override
   String get userTagBot => 'BOT';
@@ -1434,7 +1433,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get emojiInfoFromHeader => 'Ovaj emoji je iz';
 
   @override
-  String get emojiInfoDiscoverableCommunity => 'Zajednica za otkrivanje';
+  String get emojiInfoDiscoverableCommunity => 'Zajednica u Otkrivanju';
 
   @override
   String get emojiInfoPrivateCommunity => 'Privatna zajednica';
@@ -1449,7 +1448,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get emojiInfoRemoveFromFavorites => 'Ukloni iz favorita';
 
   @override
-  String get emojiFrequentlyUsed => 'Često korišteni';
+  String get emojiFrequentlyUsed => 'Često korišteno';
 
   @override
   String get emojiTabGifs => 'GIF-ovi';
@@ -1461,7 +1460,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get emojiTabStickers => 'Naljepnice';
 
   @override
-  String get emojiTabEmojis => 'Emotikoni';
+  String get emojiTabEmojis => 'Emojiji';
 
   @override
   String get gifPickerSearch => 'Pretraži GIF-ove';
@@ -1559,7 +1558,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get externalLinkWarningTitle => 'Upozorenje na vanjsku poveznicu';
+  String get externalLinkWarningTitle => 'Upozorenje za vanjsku poveznicu';
 
   @override
   String externalLinkWarningLeaving(String productName) {
@@ -1588,7 +1587,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       ' — preskoči ovo upozorenje sljedeći put';
 
   @override
-  String get externalLinkVisitSite => 'Posjeti web-mjesto';
+  String get externalLinkVisitSite => 'Posjeti stranicu';
 
   @override
   String get externalLinkTrustAllLabel => 'Vjeruj svim vanjskim poveznicama';
@@ -1599,7 +1598,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get externalLinkStripTrackingDescription =>
-      'Automatski ukloni parametre za praćenje (kao što su utm_source, fbclid, gclid) iz URL-ova u porukama koje šalješ. Očisti vezu prije nego što dođe do bilo koga drugog.';
+      'Automatski uklanja parametre za praćenje (poput utm_source, fbclid, gclid) iz URL-ova u porukama koje šaljete. Poveznica se čisti prije nego što dođe do bilo koga drugog.';
 
   @override
   String get externalLinkTrustAllConfirmTitle =>
@@ -1607,10 +1606,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get externalLinkTrustAllConfirmDescription =>
-      'Ovo će vjerovati svim vanjskim poveznicama i preskočiti upozorenje za svaku domenu. Vaše postojeće pouzdane domene bit će zamijenjene. Ovo je manje sigurno.';
+      'Time ćete vjerovati svim vanjskim poveznicama i preskočiti upozorenje za svaku domenu. Vaše postojeće pouzdane domene bit će zamijenjene. Ovo je manje sigurno.';
 
   @override
-  String get externalLinkTrustAllConfirmAction => 'Dopusti sve';
+  String get externalLinkTrustAllConfirmAction => 'Vjeruj svima';
 
   @override
   String get externalLinkStopTrustingAllTitle =>
@@ -1621,7 +1620,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Upozorenja za vanjske poveznice ponovno će se prikazati. Pouzdane domene morat ćete dodati pojedinačno.';
 
   @override
-  String get externalLinkStopTrustingAllAction => 'Onemogući povjerenje u sve';
+  String get externalLinkStopTrustingAllAction => 'Prestani vjerovati svima';
 
   @override
   String get externalLinkTrustedAllDescription =>
@@ -1666,7 +1665,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get cropAvatar => 'Obreži avatar';
 
   @override
-  String get cropBanner => 'Obreži banner';
+  String get cropBanner => 'Obreži naslovnu sliku';
 
   @override
   String get skip => 'Preskoči';
@@ -1806,7 +1805,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get pronounsLabel => 'Zamjenice';
 
   @override
-  String get avatarLabel => 'Profilna slika';
+  String get avatarLabel => 'Avatar';
 
   @override
   String get changeAvatar => 'Promijeni avatar';
@@ -1819,13 +1818,13 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'PNG, JPEG, WebP, GIF. Maksimalno 10 MB. Preporučeno: 512×512 px';
 
   @override
-  String get bannerLabel => 'Natpis';
+  String get bannerLabel => 'Naslovna slika';
 
   @override
   String get changeBanner => 'Promijeni naslovnu sliku';
 
   @override
-  String get removeBanner => 'Ukloni natpis';
+  String get removeBanner => 'Ukloni naslovnu sliku';
 
   @override
   String get bannerDescription =>
@@ -1836,14 +1835,14 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get accentColorDescription =>
-      'Prilagođava boju obruba i natpisa na vašem profilu';
+      'Prilagođava boju obruba i naslovne slike na vašem profilu';
 
   @override
   String get aboutMeLabel => 'O meni';
 
   @override
   String get aboutMeHelperText =>
-      'Možeš koristiti poveznice, emotikone i Markdown.';
+      'Možete koristiti poveznice, emojije i Markdown.';
 
   @override
   String get emojiPickerTitle => 'Emojii';
@@ -1875,11 +1874,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Uklonite datum prve kupnje Plutoniuma s vaše značke';
 
   @override
-  String get maskVisionaryAsSubscription => 'Maskiraj Vizionara kao pretplatu';
+  String get maskVisionaryAsSubscription => 'Maskiraj Visionary kao pretplatu';
 
   @override
   String get maskVisionaryDescription =>
-      'Prikaži svoju Vizionarsku pretplatu kao običnu';
+      'Prikaži svoj Visionary kao običnu pretplatu';
 
   @override
   String get hideVisionaryIdBadge => 'Sakrij značku Visionary ID';
@@ -1928,18 +1927,18 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Kupnje unutar aplikacije još nisu dostupne na ovoj platformi. Pratite nas — uskoro!';
 
   @override
-  String get profilePreviewLabel => 'Pregled';
+  String get profilePreviewLabel => 'Pretpregled';
 
   @override
   String get profilePreviewMessage => 'Poruka';
 
   @override
   String profilePreviewMemberSince(String productName) {
-    return 'Član od $productName';
+    return 'Član ${productName}a od';
   }
 
   @override
-  String get unclaimedAccountTitle => 'Račun koji nije preuzet';
+  String get unclaimedAccountTitle => 'Nepreuzet račun';
 
   @override
   String get unclaimedAccountDescription =>
@@ -1952,24 +1951,24 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get profileTypeLabel => 'Vrsta profila';
 
   @override
-  String get profileTypeGlobal => 'Opći profil';
+  String get profileTypeGlobal => 'Globalni profil';
 
   @override
   String get profileTypeGuildDescription =>
       'Uređujete svoj profil za ovu zajednicu. Ovaj će profil biti vidljiv samo u ovoj zajednici i nadjačat će vaš globalni profil.';
 
   @override
-  String get communityNicknameLabel => 'Nadimak zajednice';
+  String get communityNicknameLabel => 'Nadimak u zajednici';
 
   @override
   String get perGuildPremiumUpsellText =>
       'Prilagođavanje vašeg avatara, banera, naglasne boje i biografije za pojedinačne zajednice zahtijeva Plutonium. Nadimak i zamjenice zajednice besplatni su za sve.';
 
   @override
-  String get avatarModeInherit => 'Upotrijebi globalni profil';
+  String get avatarModeInherit => 'Koristi globalni profil';
 
   @override
-  String get avatarModeCustom => 'Upotrijebi prilagođenu sliku';
+  String get avatarModeCustom => 'Koristi prilagođenu sliku';
 
   @override
   String get avatarModeUnset => 'Ne prikazuj';
@@ -1997,7 +1996,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Ova radnja zahtijeva provjeru da biste nastavili.';
 
   @override
-  String get sudoAuthenticatorCode => 'Kod za provjeru autentičnosti';
+  String get sudoAuthenticatorCode => 'Kôd za autentifikaciju';
 
   @override
   String get sudoMethodPassword => 'Lozinka';
@@ -2035,7 +2034,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get securityLoginEmailAddressLabel => 'Adresa e-pošte';
 
   @override
-  String get securityLoginNoEmailSet => 'E-adresa nije postavljena';
+  String get securityLoginNoEmailSet => 'Adresa e-pošte nije postavljena';
 
   @override
   String get securityLoginChangeEmail => 'Promijeni e-poštu';
@@ -2087,7 +2086,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get passwordChangeStart => 'Pokreni';
 
   @override
-  String get passwordChangeVerifyTitle => 'Potvrdi svoju e-poštu';
+  String get passwordChangeVerifyTitle => 'Potvrdite svoju e-poštu';
 
   @override
   String get passwordChangeVerifyDescription =>
@@ -2100,17 +2099,17 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get passwordChangeVerify => 'Potvrdi';
 
   @override
-  String get passwordChangeNewPasswordTitle => 'Postavi novu zaporku';
+  String get passwordChangeNewPasswordTitle => 'Postavi novu lozinku';
 
   @override
   String get passwordChangeNewPasswordDescription =>
       'Unesite svoju novu zaporku u nastavku.';
 
   @override
-  String get passwordChangeNewPassword => 'Nova zaporka';
+  String get passwordChangeNewPassword => 'Nova lozinka';
 
   @override
-  String get passwordChangeConfirmPassword => 'Potvrdi novu zaporku';
+  String get passwordChangeConfirmPassword => 'Potvrdite novu lozinku';
 
   @override
   String get passwordChangeSubmit => 'Promijeni lozinku';
@@ -2142,7 +2141,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Unesite verifikacijski kod poslan na vašu trenutnu e-adresu.';
 
   @override
-  String get emailChangeNewEmailTitle => 'Unesite novu e-poštu';
+  String get emailChangeNewEmailTitle => 'Unesite novu e-adresu';
 
   @override
   String get emailChangeNewEmailDescription =>
@@ -2194,11 +2193,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get save => 'Spremi';
 
   @override
-  String get securityTfaSectionTitle => 'Dvostupanjska provjera autentičnosti';
+  String get securityTfaSectionTitle => 'Dvostruka provjera autentičnosti';
 
   @override
   String get securityTfaSectionDescription =>
-      'Dodajte dodatni sloj sigurnosti svom računu';
+      'Dodajte još jedan sloj sigurnosti svom računu';
 
   @override
   String get securityTfaAuthenticatorApp =>
@@ -2206,18 +2205,18 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get securityTfaAuthenticatorEnabled =>
-      'Dostupna je dvostruka provjera autentičnosti';
+      'Dvostruka provjera autentičnosti je omogućena';
 
   @override
   String get securityTfaAuthenticatorDisabled =>
-      'Upotrijebite aplikaciju za autentifikaciju za generiranje kodova za dvostruku provjeru autentičnosti';
+      'Upotrijebite aplikaciju za autentifikaciju koja generira kodove za dvostruku provjeru autentičnosti';
 
   @override
-  String get securityTfaBackupCodes => 'Sigurnosni kodovi';
+  String get securityTfaBackupCodes => 'Rezervni kodovi';
 
   @override
   String get securityTfaBackupCodesDescription =>
-      'Pregledajte i upravljajte kodovima za sigurnosno kopiranje za oporavak računa';
+      'Pregledajte svoje rezervne kodove za oporavak računa i upravljajte njima';
 
   @override
   String get securityTfaViewCodes => 'Prikaži kodove';
@@ -2230,7 +2229,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Koristite pristupne ključeve za prijavu bez lozinke i dvostruku provjeru autentičnosti';
 
   @override
-  String get securityPasskeysRegistered => 'Registrirani sigurnosni ključevi';
+  String get securityPasskeysRegistered => 'Registrirani pristupni ključevi';
 
   @override
   String get securityPasskeysNone => 'Nema registriranih prolaznih ključeva';
@@ -2271,13 +2270,14 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get securityPasskeyNameTitle => 'Naziv sigurnosnog ključa';
+  String get securityPasskeyNameTitle => 'Imenujte pristupni ključ';
 
   @override
   String get securityPasskeyNameLabel => 'Naziv pristupnog ključa';
 
   @override
-  String get securityPasskeyNameHint => 'npr. YubiKey, iPhone, Radno računalo';
+  String get securityPasskeyNameHint =>
+      'npr. YubiKey, iPhone, poslovno računalo';
 
   @override
   String get securityPhoneSectionTitle => 'Broj telefona';
@@ -2313,7 +2313,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get securityClaimDescription =>
-      'Zatražite svoj račun za pristup sigurnosnim značajkama kao što su dvostruka provjera autentičnosti i pristupni ključevi.';
+      'Preuzmite svoj račun za pristup sigurnosnim značajkama kao što su dvostruka provjera autentičnosti i pristupni ključevi.';
 
   @override
   String get securityVerifyEmailRequired =>
@@ -2349,7 +2349,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Dvostruka provjera autentičnosti onemogućena';
 
   @override
-  String get backupCodesTitle => 'Sigurnosni kodovi';
+  String get backupCodesTitle => 'Rezervni kodovi';
 
   @override
   String get backupCodesWarning =>
@@ -2372,7 +2372,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get backupCodesDone => 'Gotovo';
 
   @override
-  String get backupCodesViewTitle => 'Pogledaj sigurnosne kodove';
+  String get backupCodesViewTitle => 'Prikaži rezervne kodove';
 
   @override
   String get backupCodesViewDescription =>
@@ -2395,14 +2395,14 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get phoneAddSendCode => 'Pošalji kod';
 
   @override
-  String get phoneVerifyTitle => 'Potvrdi broj telefona';
+  String get phoneVerifyTitle => 'Potvrdite telefonski broj';
 
   @override
   String get phoneVerifyDescription =>
       'Unesite verifikacijski kod poslan na vaš broj telefona.';
 
   @override
-  String get phoneAddSuccess => 'Telefonski broj potvrđen';
+  String get phoneAddSuccess => 'Broj telefona potvrđen';
 
   @override
   String get phoneCountryLabel => 'Država';
@@ -2426,7 +2426,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get phoneCodeDidNotWork =>
-      'Taj kôd nije radio. Provjerite ga i pokušajte ponovno.';
+      'Taj kôd ne radi. Provjerite ga i pokušajte ponovno.';
 
   @override
   String get phoneTooManyAttempts =>
@@ -2470,7 +2470,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Pričekajte da primimo vašu poruku. Ovo može potrajati minutu.';
 
   @override
-  String get phoneInboundGetNewCode => 'Zatraži novi kod';
+  String get phoneInboundGetNewCode => 'Zatraži novi kôd';
 
   @override
   String get phoneInboundChallengeCodeLabel => 'Kod za slanje';
@@ -2488,7 +2488,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get requiredActionIntroPhone =>
-      'Vaša registracija zahtijeva dodatnu provjeru protiv spama prije nego što možete nastaviti.';
+      'Vaša registracija zahtijeva dodatnu provjeru radi zaštite od neželjene pošte prije nego što možete nastaviti.';
 
   @override
   String requiredActionIntroEmailOrPhone(String productName) {
@@ -2505,7 +2505,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String requiredActionChooseMethodDescription(String productName) {
-    return 'Dovršite jedan od putova provjere u nastavku kako biste nastavili koristiti $productName.';
+    return 'Dovršite jedan od načina provjere u nastavku kako biste nastavili koristiti $productName.';
   }
 
   @override
@@ -2539,11 +2539,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get dangerZoneSectionDescription => 'Nepovratne i destruktivne radnje';
 
   @override
-  String get dangerZoneDisableTitle => 'Onemogući račun';
+  String get dangerZoneDisableTitle => 'Deaktiviraj račun';
 
   @override
   String get dangerZoneDisableDescription =>
-      'Privremeno deaktivirajte svoj račun. Možete ga ponovno aktivirati kasnije prijavom.';
+      'Privremeno deaktivirajte svoj račun. Možete ga kasnije ponovno aktivirati prijavom.';
 
   @override
   String get dangerZoneDisableConfirmDescription =>
@@ -2603,11 +2603,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Ako želite izvesti svoje podatke ili izbrisati svoje poruke, molimo posjetite odjeljak Nadzorna ploča za privatnost u Korisničkim postavkama prije nastavka.';
 
   @override
-  String get claimAccountTitle => 'Preuzmi svoj račun';
+  String get claimAccountTitle => 'Preuzmite svoj račun';
 
   @override
   String get claimAccountDescription =>
-      'Preuzmite svoj račun dodavanjem e-pošte i lozinke. Poslat ćemo vam kontrolni kôd za potvrdu e-pošte prije dovršetka.';
+      'Preuzmite svoj račun dodavanjem e-pošte i lozinke. Poslat ćemo vam kod za provjeru kako bismo potvrdili vašu e-poštu prije dovršetka.';
 
   @override
   String get claimAccountEmailLabel => 'E-pošta';
@@ -2782,15 +2782,15 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get authorizedAppsEmptyTitle => 'Nijedna ovlaštena aplikacija';
+  String get authorizedAppsEmptyTitle => 'Nema autoriziranih aplikacija';
 
   @override
   String get authorizedAppsEmptyDescription =>
-      'Niste ovlastili nijednu aplikaciju za pristup vašem računu.';
+      'Niste ovlastili nijednu aplikaciju za pristup svojem računu.';
 
   @override
   String get authorizedAppsLoadError =>
-      'Nije uspjelo učitavanje ovlaštenih aplikacija';
+      'Učitavanje autoriziranih aplikacija nije uspjelo';
 
   @override
   String authorizedAppsAuthorizedOn(String date) {
@@ -2832,36 +2832,36 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get authorizedAppsScopeAdmin => 'Pristupite administrativnim točkama';
 
   @override
-  String get applicationsTitle => 'Applications';
+  String get applicationsTitle => 'Aplikacije';
 
   @override
-  String get applicationsCreate => 'Create application';
+  String get applicationsCreate => 'Stvori aplikaciju';
 
   @override
-  String get applicationsCreateSubmit => 'Create';
+  String get applicationsCreateSubmit => 'Stvori';
 
   @override
   String get applicationsCreateClaimTooltip =>
-      'Claim your account to create applications.';
+      'Preuzmite svoj račun za izradu aplikacija.';
 
   @override
   String applicationsDocsLink(String domain) {
-    return 'Read the documentation ($domain)';
+    return 'Pročitajte dokumentaciju ($domain)';
   }
 
   @override
-  String get applicationsLoadError => 'Unable to load applications';
+  String get applicationsLoadError => 'Nije moguće učitati aplikacije';
 
   @override
   String get applicationsLoadErrorDescription =>
-      'Check your connection and try again.';
+      'Provjerite vezu i pokušajte ponovno.';
 
   @override
-  String get applicationsEmptyTitle => 'No applications yet';
+  String get applicationsEmptyTitle => 'Još nema aplikacija';
 
   @override
   String applicationsEmptyDescription(String apiName) {
-    return 'Create your first application to get started with the $apiName.';
+    return 'Izradite svoju prvu aplikaciju kako biste počeli koristiti $apiName.';
   }
 
   @override
@@ -2870,207 +2870,211 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get applicationsName => 'Application name';
+  String get applicationsName => 'Naziv aplikacije';
 
   @override
-  String get applicationsNameHint => 'My application';
+  String get applicationsNameHint => 'Moja aplikacija';
 
   @override
-  String get applicationsNameRequired => 'Application name is required';
+  String get applicationsNameRequired => 'Naziv aplikacije je obavezan';
 
   @override
-  String get applicationsBackToList => 'Back to list';
+  String get applicationsBackToList => 'Natrag na popis';
 
   @override
-  String get applicationsDetailLoadError => 'Couldn\'t load this application';
+  String get applicationsDetailLoadError =>
+      'Nije moguće učitati ovu aplikaciju';
 
   @override
   String get applicationsDetailLoadErrorDescription =>
-      'Try again or go back to the applications list.';
+      'Pokušajte ponovno ili se vratite na popis aplikacija.';
 
   @override
-  String get applicationsId => 'Application ID';
+  String get applicationsId => 'ID aplikacije';
 
   @override
-  String get applicationsCopyId => 'Copy ID';
+  String get applicationsCopyId => 'Kopiraj ID';
 
   @override
-  String get applicationsSecretsTitle => 'Secrets & tokens';
+  String get applicationsSecretsTitle => 'Tajne i tokeni';
 
   @override
   String get applicationsSecretsDescription =>
-      'Keep these safe. Regenerating will break existing integrations.';
+      'Čuvajte ih na sigurnom. Ponovno generiranje prekinut će postojeće integracije.';
 
   @override
-  String get applicationsClientSecret => 'Client secret';
+  String get applicationsClientSecret => 'Klijentska tajna';
 
   @override
-  String get applicationsBotToken => 'Bot token';
+  String get applicationsBotToken => 'Token bota';
 
   @override
-  String get applicationsRegenerate => 'Regenerate';
+  String get applicationsRegenerate => 'Ponovno generiraj';
 
   @override
   String get applicationsRegenerateClientSecretTitle =>
-      'Regenerate client secret?';
+      'Ponovno generirati klijentsku tajnu?';
 
   @override
-  String get applicationsRegenerateBotTokenTitle => 'Regenerate bot token?';
+  String get applicationsRegenerateBotTokenTitle =>
+      'Ponovno generirati token bota?';
 
   @override
   String get applicationsRegenerateClientSecretDescription =>
-      'Regenerating will invalidate the current secret. Update any code that uses the old value.';
+      'Ponovno generiranje poništit će trenutačnu tajnu. Ažurirajte sav kôd koji koristi staru vrijednost.';
 
   @override
   String get applicationsRegenerateBotTokenDescription =>
-      'Regenerating will invalidate the current token. Update any code that uses the old value.';
+      'Ponovno generiranje poništit će trenutačni token. Ažurirajte sav kôd koji koristi staru vrijednost.';
 
   @override
   String get applicationsClientSecretRegenerated =>
-      'Client secret regenerated. Update any code that uses the old secret.';
+      'Klijentska tajna je ponovno generirana. Ažurirajte sav kod koji koristi staru tajnu.';
 
   @override
   String get applicationsBotTokenRegenerated =>
-      'Bot token regenerated. Update any code that uses the old token.';
+      'Token bota je ponovno generiran. Ažurirajte sav kod koji koristi stari token.';
 
   @override
-  String get applicationsRegenerateFailed => 'Couldn\'t regenerate secret';
+  String get applicationsRegenerateFailed =>
+      'Nije moguće ponovno generirati tajnu';
 
   @override
-  String get applicationsInfoTitle => 'Application information';
+  String get applicationsInfoTitle => 'Informacije o aplikaciji';
 
   @override
   String get applicationsInfoDescription =>
-      'Basic settings and allowed redirect URIs.';
+      'Osnovne postavke i dopušteni URI-ji za preusmjeravanje.';
 
   @override
-  String get applicationsPublicBot => 'Public bot';
+  String get applicationsPublicBot => 'Javni bot';
 
   @override
   String get applicationsPublicBotDescription =>
-      'Allow anyone to invite this bot to their communities.';
+      'Dopusti bilo kome da pozove ovog bota u svoje zajednice.';
 
   @override
-  String get applicationsRequireCodeGrant => 'Require OAuth2 code grant';
+  String get applicationsRequireCodeGrant => 'Zahtijevaj OAuth2 dodjelu koda';
 
   @override
   String get applicationsRequireCodeGrantDescription =>
-      'Requires a redirect URI and an authorization code when inviting this bot.';
+      'Zahtijeva URI za preusmjeravanje i autorizacijski kod prilikom pozivanja ovog bota.';
 
   @override
-  String get applicationsRedirectUris => 'Redirect URIs';
+  String get applicationsRedirectUris => 'URI-ji za preusmjeravanje';
 
   @override
-  String get applicationsAddRedirect => 'Add redirect';
+  String get applicationsAddRedirect => 'Dodaj preusmjeravanje';
 
   @override
-  String get applicationsDeleteRedirect => 'Delete redirect URI';
+  String get applicationsDeleteRedirect => 'Izbriši URI za preusmjeravanje';
 
   @override
-  String get applicationsBotProfileTitle => 'Bot profile';
+  String get applicationsBotProfileTitle => 'Profil bota';
 
   @override
   String get applicationsBotProfileDescription =>
-      'Avatar, tag, and rich profile details for your bot.';
+      'Avatar, oznaka i detalji bogatog profila za vašeg bota.';
 
   @override
-  String get applicationsBotAvatar => 'Bot avatar';
+  String get applicationsBotAvatar => 'Avatar bota';
 
   @override
-  String get applicationsUsernameRequired => 'Username is required';
+  String get applicationsUsernameRequired => 'Korisničko ime je obavezno';
 
   @override
   String get applicationsUsernameTooLong =>
-      'Username must be at most 32 characters';
+      'Korisničko ime mora imati najviše 32 znaka';
 
   @override
   String get applicationsUsernameInvalid =>
-      'Username can only contain letters, numbers, and underscores';
+      'Korisničko ime može sadržavati samo slova, brojeve i podvlake';
 
   @override
-  String get applicationsBotUsername => 'Bot username';
+  String get applicationsBotUsername => 'Korisničko ime bota';
 
   @override
-  String get applicationsDiscriminator => 'Discriminator';
+  String get applicationsDiscriminator => 'Diskriminator';
 
   @override
-  String get applicationsBotBio => 'Bot bio';
+  String get applicationsBotBio => 'Opis bota';
 
   @override
   String get applicationsBotBioHint =>
-      'A helpful bot that does amazing things!';
+      'Koristan bot koji radi nevjerojatne stvari!';
 
   @override
-  String get applicationsNoBotBanner => 'No bot banner';
+  String get applicationsNoBotBanner => 'Nema naslovne slike bota';
 
   @override
-  String get applicationsFriendlyBot => 'Friendly bot';
+  String get applicationsFriendlyBot => 'Prijateljski bot';
 
   @override
   String get applicationsFriendlyBotDescription =>
-      'Allow users to send this bot friend requests for manual approval.';
+      'Dopusti korisnicima slanje zahtjeva za prijateljstvo ovom botu radi ručnog odobrenja.';
 
   @override
   String get applicationsManualFriendApproval =>
-      'Require manual friend approval';
+      'Zahtijevaj ručno odobravanje zahtjeva za prijateljstvo';
 
   @override
   String get applicationsManualFriendApprovalDescription =>
-      'Friend requests to this bot need manual approval.';
+      'Zahtjevi za prijateljstvo ovom botu zahtijevaju ručno odobrenje.';
 
   @override
-  String get applicationsOauthBuilderTitle => 'OAuth2 URL builder';
+  String get applicationsOauthBuilderTitle => 'OAuth2 alat za izradu URL-ova';
 
   @override
   String get applicationsOauthBuilderDescription =>
       'Construct an authorize URL with scopes and permissions.';
 
   @override
-  String get applicationsScopes => 'Scopes';
+  String get applicationsScopes => 'Opsezi';
 
   @override
-  String get applicationsRedirectUri => 'Redirect URI';
+  String get applicationsRedirectUri => 'URI za preusmjeravanje';
 
   @override
-  String get applicationsSelectRedirectUri => 'Select a redirect URI';
+  String get applicationsSelectRedirectUri =>
+      'Odaberite URI za preusmjeravanje';
 
   @override
   String get applicationsRedirectRequiredCodeGrant =>
-      'Redirect URI is required because this bot requires OAuth2 code grant.';
+      'URI za preusmjeravanje je obavezan jer ovaj bot zahtijeva OAuth2 dodjelu koda.';
 
   @override
   String get applicationsRedirectRequiredScopes =>
-      'Redirect URI is required when not using only the bot scope.';
+      'URI za preusmjeravanje je obavezan kada se ne koristi samo opseg bota.';
 
   @override
-  String get applicationsBotPermissions => 'Bot permissions';
+  String get applicationsBotPermissions => 'Dopuštenja bota';
 
   @override
-  String get applicationsAuthorizeUrl => 'Authorize URL';
+  String get applicationsAuthorizeUrl => 'URL za autorizaciju';
 
   @override
   String get applicationsAuthorizeUrlPlaceholder =>
-      'Select scopes (and redirect URI if required)';
+      'Odaberite opsege (i URI za preusmjeravanje ako je potrebno)';
 
   @override
   String get applicationsCopyAuthorizeUrl => 'Copy authorize URL';
 
   @override
-  String get applicationsCopiedUrl => 'Copied URL to clipboard';
+  String get applicationsCopiedUrl => 'URL kopiran u međuspremnik';
 
   @override
-  String get applicationsDangerTitle => 'Danger zone';
+  String get applicationsDangerTitle => 'Opasna zona';
 
   @override
   String get applicationsDangerSubtitle =>
-      'This cannot be undone. Removing the application also deletes its bot.';
+      'Ovo se ne može poništiti. Uklanjanjem aplikacije briše se i njezin bot.';
 
   @override
   String get applicationsDangerHelper =>
-      'Once deleted, the application and its credentials are permanently removed.';
+      'Nakon brisanja, aplikacija i njezine vjerodajnice trajno se uklanjaju.';
 
   @override
-  String get applicationsDelete => 'Delete application';
+  String get applicationsDelete => 'Izbriši aplikaciju';
 
   @override
   String applicationsDeleteConfirmDescription(String name) {
@@ -3078,42 +3082,42 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get applicationsDeleteFailed => 'Couldn\'t delete application';
+  String get applicationsDeleteFailed => 'Nije moguće izbrisati aplikaciju';
 
   @override
-  String get applicationsUpdated => 'Application updated successfully';
+  String get applicationsUpdated => 'Aplikacija je uspješno ažurirana';
 
   @override
-  String get applicationsNoChanges => 'No changes to save';
+  String get applicationsNoChanges => 'Nema promjena za spremanje';
 
   @override
-  String get applicationsSearchBots => 'Applications & bots';
+  String get applicationsSearchBots => 'Aplikacije i botovi';
 
   @override
   String get applicationsSearchBotsDescription =>
-      'Create and manage applications and bots for your account';
+      'Stvarajte aplikacije i botove za svoj račun i upravljajte njima';
 
   @override
   String get applicationsSearchInfoDescription =>
-      'Edit application basics and redirect URIs';
+      'Uredite osnove aplikacije i URI-je za preusmjeravanje';
 
   @override
   String get applicationsSearchBotProfileDescription =>
-      'Edit the bot avatar, tag, bio, banner, and friend request behavior';
+      'Uredite botov avatar, oznaku, opis, natpis i ponašanje zahtjeva za prijateljstvo';
 
   @override
   String get applicationsSearchOauthDescription =>
-      'Build an authorization URL with scopes, redirects, and bot permissions';
+      'Izradite URL za autorizaciju s opsezima, preusmjeravanjima i dopuštenjima bota';
 
   @override
   String get applicationsSearchSecretsDescription =>
-      'View and regenerate client secrets and bot tokens';
+      'Pregledajte i ponovno generirajte tajne klijenta i tokene botova';
 
   @override
-  String get applicationsSearchBotsKeyword => 'Bots';
+  String get applicationsSearchBotsKeyword => 'Botovi';
 
   @override
-  String get applicationsSearchDocumentation => 'Documentation';
+  String get applicationsSearchDocumentation => 'Dokumentacija';
 
   @override
   String get privacyPendingDeletionTitle => 'Čeka brisanje';
@@ -3126,7 +3130,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Blokirani korisnici ne mogu vam slati zahtjeve za prijateljstvo niti vam izravno slati poruke.';
 
   @override
-  String get blockedUsersEmptyTitle => 'Nitko nije blokiran';
+  String get blockedUsersEmptyTitle => 'Nema blokiranih korisnika';
 
   @override
   String get blockedUsersEmptyDescription => 'Još nikoga niste blokirali.';
@@ -3139,7 +3143,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get blockedUsersUnblock => 'Deblokiraj';
 
   @override
-  String get blockedUsersUnblockTitle => 'Odblokiraj korisnika';
+  String get blockedUsersUnblockTitle => 'Deblokiraj korisnika';
 
   @override
   String blockedUsersUnblockDescription(String username) {
@@ -3150,7 +3154,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get blockedUsersCopyTag => 'Kopiraj korisničko ime';
 
   @override
-  String get blockedUsersCopyId => 'Kopiraj ID korisnika';
+  String get blockedUsersCopyId => 'Kopiraj korisnički ID';
 
   @override
   String get userProfileLoadError => 'Nije moguće učitati profil';
@@ -3168,14 +3172,14 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get userProfileVoiceCall => 'Glasovni poziv';
 
   @override
-  String get userProfileVideoCall => 'Video poziv';
+  String get userProfileVideoCall => 'Videopoziv';
 
   @override
   String get userProfileEditProfile => 'Uredi profil';
 
   @override
   String userProfileStaffBadgeTooltip(String productName) {
-    return 'Osoblje $productName';
+    return 'Osoblje ${productName}a';
   }
 
   @override
@@ -3185,12 +3189,12 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String userProfilePartnerBadgeTooltip(String productName) {
-    return 'Partner $productName';
+    return 'Partner ${productName}a';
   }
 
   @override
   String userProfileBugHunterBadgeTooltip(String productName) {
-    return 'Lovac na bugove $productName';
+    return 'Lovac na bugove ${productName}a';
   }
 
   @override
@@ -3208,7 +3212,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String userProfileVisionaryBadgeTooltip(String productName) {
-    return '$productName vizionar';
+    return '$productName Visionary';
   }
 
   @override
@@ -3278,7 +3282,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get userProfileNoteDelete => 'Izbriši';
 
   @override
-  String get userProfileNoteEmpty => 'Dodirnite za dodavanje bilješke';
+  String get userProfileNoteEmpty => 'Kliknite za dodavanje bilješke';
 
   @override
   String get userProfileMemberSince => 'Član od';
@@ -3327,7 +3331,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get userProfileLocalTime => 'Lokalno vrijeme';
 
   @override
-  String get userProfileSameTimeAsYou => 'Isto vrijeme kao i vaše';
+  String get userProfileSameTimeAsYou => 'Isto vrijeme kao i vi';
 
   @override
   String userProfileTimeAheadOfYou(String duration) {
@@ -3382,7 +3386,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get userProfileCopyUsername => 'Kopiraj korisničko ime';
 
   @override
-  String get userProfileCopyUserId => 'Kopiraj ID korisnika';
+  String get userProfileCopyUserId => 'Kopiraj korisnički ID';
 
   @override
   String get userProfileViewMainProfile => 'Prikaži glavni profil';
@@ -3394,7 +3398,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get userProfileBlockUser => 'Blokiraj korisnika';
 
   @override
-  String get userProfileUnblockUser => 'Odblokiraj korisnika';
+  String get userProfileUnblockUser => 'Deblokiraj korisnika';
 
   @override
   String get userProfileRemoveFriend => 'Ukloni prijatelja';
@@ -3408,7 +3412,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get userProfileUnblockConfirmTitle => 'Odblokiraj korisnika';
+  String get userProfileUnblockConfirmTitle => 'Deblokiraj korisnika';
 
   @override
   String userProfileUnblockConfirmDescription(String username) {
@@ -3443,10 +3447,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get userProfileBan => 'Zabrani';
 
   @override
-  String get userProfileTimeout => 'Istek vremena';
+  String get userProfileTimeout => 'Vremensko ograničenje';
 
   @override
-  String get userProfileRemoveTimeout => 'Ukloni privremenu zabranu';
+  String get userProfileRemoveTimeout => 'Ukloni vremensko ograničenje';
 
   @override
   String get userProfileTransferOwnership => 'Prijenos vlasništva';
@@ -3505,7 +3509,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get userProfileBanDeleteHistoryLabel => 'Izbriši povijest poruka';
 
   @override
-  String get userProfileBanDeleteNone => 'Nemoj izbrisati nijednu';
+  String get userProfileBanDeleteNone => 'Ne briši ništa';
 
   @override
   String get userProfileBanDelete24h => 'Prethodna 24 sata';
@@ -3520,7 +3524,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get userProfileBanReasonHint => 'Unesite razlog zabrane';
 
   @override
-  String get userProfileBanSubmit => 'Zabrani članu';
+  String get userProfileBanSubmit => 'Zabrani pristup članu';
 
   @override
   String userProfileTimeoutSheetTitle(String username) {
@@ -3528,7 +3532,8 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get userProfileTimeoutDurationLabel => 'Trajanje isključenja';
+  String get userProfileTimeoutDurationLabel =>
+      'Trajanje vremenskog ograničenja';
 
   @override
   String get userProfileTimeoutSubmit => 'Ograniči člana';
@@ -3652,18 +3657,18 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get iarReasonChildSafetyGuildDescription =>
-      'Ugrožava maloljetnike ili sadrži sadržaj iskorištavanja djece.';
+      'Ugrožava maloljetnike ili sadrži materijal iskorištavanja djece.';
 
   @override
   String get iarReasonRaidLabel => 'Koordinacija napada';
 
   @override
   String get iarReasonRaidDescription =>
-      'Koordinira napade, grupno prijavljivanje ili uznemiravanje ljudi ili zajednica.';
+      'Koordinira napade, hajke ili uznemiravanje ljudi ili zajednica.';
 
   @override
   String get iarReasonSpamGuildDescription =>
-      'Zajednica postoji za slanje neželjene pošte, prevare ili zloupotrebu platforme.';
+      'Zajednica postoji radi slanja neželjene pošte, prijevara ili zlouporabe platforme.';
 
   @override
   String get iarReasonMalwareGuildLabel => 'Distribucija zlonamjernog softvera';
@@ -3730,12 +3735,12 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String systemJoinWelcomeMakeYourselfAtHome(String username) {
-    return 'Dobrodošli, $username! Udomaćite se.';
+    return 'Dobro došli, $username! Osjećajte se kao kod kuće.';
   }
 
   @override
   String systemJoinHelloNiceToHaveYouHere(String username) {
-    return 'Pozdrav, $username! Drago nam je što ste ovdje.';
+    return 'Pozdrav, $username! Lijepo je što ste s nama.';
   }
 
   @override
@@ -3760,12 +3765,12 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String systemJoinGladYouMadeIt(String username) {
-    return 'Drago nam je što si ovdje, $username!';
+    return 'Super što si tu, $username!';
   }
 
   @override
   String systemJoinWelcomeIn(String username) {
-    return 'Dobro došli, $username!';
+    return 'Dobro nam došli, $username!';
   }
 
   @override
@@ -3785,22 +3790,22 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String systemJoinWelcomeYourNextConversationStartsHere(String username) {
-    return 'Dobrodošli, $username! Vaš sljedeći razgovor počinje ovdje.';
+    return 'Dobro došli, $username! Vaš sljedeći razgovor počinje ovdje.';
   }
 
   @override
   String systemJoinWelcomeWereHappyToHaveYouHere(String username) {
-    return 'Dobrodošli, $username. Drago nam je što ste ovdje.';
+    return 'Dobro došli, $username. Drago nam je što ste nam se pridružili.';
   }
 
   @override
   String systemJoinGreatToSeeYouWelcomeIn(String username) {
-    return 'Drago nam je što te vidimo, $username! Dobrodošao/la.';
+    return 'Lijepo te vidjeti, $username! Slobodno uđi.';
   }
 
   @override
   String systemJoinYoureHereGoodToHaveYouWithUs(String username) {
-    return 'Tu si, $username! Drago nam je što si s nama.';
+    return 'Tu ste, $username! Drago nam je što ste s nama.';
   }
 
   @override
@@ -3877,7 +3882,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get linkedDevicesCurrentDevice => 'Trenutni uređaj';
 
   @override
-  String get linkedDevicesOtherDevices => 'Drugi uređaji';
+  String get linkedDevicesOtherDevices => 'Ostali uređaji';
 
   @override
   String get linkedDevicesEnterSelection => 'Uđi u način odabira';
@@ -3895,7 +3900,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get linkedDevicesRevokeTooltip => 'Opozovi uređaj';
 
   @override
-  String get linkedDevicesSignOutAll => 'Odjavi se sa svih ostalih uređaja';
+  String get linkedDevicesSignOutAll => 'Odjavi sve ostale uređaje';
 
   @override
   String linkedDevicesSignOutN(int count) {
@@ -3920,8 +3925,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get linkedDevicesSignOutAllSheetTitle =>
-      'Odjavi se sa svih ostalih uređaja';
+  String get linkedDevicesSignOutAllSheetTitle => 'Odjavi sve ostale uređaje';
 
   @override
   String linkedDevicesSignOutSheetDescription(int count) {
@@ -3976,31 +3980,31 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get linkedDevicesUnknownPlatform => 'Nepoznata platforma';
 
   @override
-  String get linkedDevicesViewDetails => 'View details';
+  String get linkedDevicesViewDetails => 'Prikaži detalje';
 
   @override
-  String get linkedDevicesDetailsTitle => 'Device details';
+  String get linkedDevicesDetailsTitle => 'Detalji uređaja';
 
   @override
-  String get linkedDevicesDetailsDevice => 'Device';
+  String get linkedDevicesDetailsDevice => 'Uređaj';
 
   @override
-  String get linkedDevicesDetailsClient => 'Client';
+  String get linkedDevicesDetailsClient => 'Klijent';
 
   @override
-  String get linkedDevicesDetailsLocation => 'Location';
+  String get linkedDevicesDetailsLocation => 'Lokacija';
 
   @override
-  String get linkedDevicesDetailsIp => 'IP address';
+  String get linkedDevicesDetailsIp => 'IP adresa';
 
   @override
-  String get linkedDevicesDetailsLastUsed => 'Last used';
+  String get linkedDevicesDetailsLastUsed => 'Posljednja upotreba';
 
   @override
-  String get linkedDevicesCurrentSession => 'Current session';
+  String get linkedDevicesCurrentSession => 'Trenutna sesija';
 
   @override
-  String get linkedDevicesUnknown => 'Unknown';
+  String get linkedDevicesUnknown => 'Nepoznato';
 
   @override
   String slowmodeLabel(String duration) {
@@ -4044,7 +4048,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String systemDmComposerBarrier(String productName) {
-    return 'Sistemske obavijesti osoblja $productName. Ovdje ne možete odgovoriti.';
+    return 'Sustavne obavijesti osoblja ${productName}a. Ovdje ne možete odgovoriti.';
   }
 
   @override
@@ -4053,11 +4057,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get channelComposerBarrierTimedOut =>
-      'Isteklo vam je vrijeme. Slanje poruka, reakcije i glasovne poruke pauzirani su dok ne istekne vrijeme.';
+      'Imate vremensko ograničenje. Slanje poruka, reagiranje i pridruživanje glasovnim kanalima pauzirani su dok vremensko ograničenje ne istekne.';
 
   @override
   String get channelComposerBarrierUnclaimedAccount =>
-      'Morate potvrditi svoj račun da biste slali poruke u ovoj zajednici.';
+      'Morate preuzeti svoj račun da biste slali poruke u ovoj zajednici.';
 
   @override
   String get channelComposerBarrierUnverifiedEmail =>
@@ -4139,7 +4143,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get voiceMessageRecordingHint =>
-      'Govorite sada. Pritisnite Zaustavi kada završite — možete obrezati kasnije.';
+      'Govorite sada. Pritisnite Zaustavi kada završite — snimku možete obrezati kasnije.';
 
   @override
   String get voiceMessageReviewHint =>
@@ -4333,7 +4337,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get matureMediaRevealButton => 'Otkrij';
 
   @override
-  String get matureMediaRevealHint => 'Dodirnite za prikaz';
+  String get matureMediaRevealHint => 'Kliknite za prikaz';
 
   @override
   String get matureContentTitle => 'Sadržaj za odrasle';
@@ -4377,7 +4381,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get matureLinkChannelBody =>
-      'Ovaj kanal s poveznicama označen je kao sadržaj za odrasle i može sadržavati materijal koji možda nije prikladan za neke korisnike.';
+      'Ovaj kanal s poveznicama označen je kao sadržaj za odrasle i može otvoriti materijal koji možda nije prikladan za neke korisnike.';
 
   @override
   String get matureCommunityUnavailableBody =>
@@ -4401,7 +4405,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get matureContentOpenLinkButton => 'Otvori poveznicu';
 
   @override
-  String get sensitiveContentSectionTitle => 'Osjetljiv sadržaj';
+  String get sensitiveContentSectionTitle => 'Osjetljivi sadržaj';
 
   @override
   String get sensitiveContentSectionDescription =>
@@ -4468,7 +4472,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get connectionsTitle => 'Povezivanja';
+  String get connectionsTitle => 'Povezani računi';
 
   @override
   String connectionsDescription(String productName) {
@@ -4476,7 +4480,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get connectionsEmptyTitle => 'Još nema veza';
+  String get connectionsEmptyTitle => 'Još nema povezanih računa';
 
   @override
   String get connectionsEmptyDescriptionBluesky =>
@@ -4517,7 +4521,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get connectionTypeLabel => 'Vrsta veze';
 
   @override
-  String get connectionHandleLabel => 'Ručica';
+  String get connectionHandleLabel => 'Korisničko ime';
 
   @override
   String get connectionDomainLabel => 'Domena';
@@ -4548,13 +4552,13 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get connectionDnsRecordTitle => 'DNS TXT zapis';
 
   @override
-  String get connectionDnsHostLabel => 'Domaćin';
+  String get connectionDnsHostLabel => 'Host';
 
   @override
   String get connectionDnsValueLabel => 'Vrijednost';
 
   @override
-  String get connectionCopyHost => 'Kopiraj hosta';
+  String get connectionCopyHost => 'Kopiraj host';
 
   @override
   String get connectionCopyValue => 'Kopiraj vrijednost';
@@ -4570,7 +4574,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Preuzmite **fluxer-verification** i stavite ga u svoju mapu **.well-known** kako bismo mogli potvrditi domenu.';
 
   @override
-  String get connectionTokenFileDownload => 'Preuzmi fluxer-verifikaciju';
+  String get connectionTokenFileDownload => 'Preuzmi fluxer-verification';
 
   @override
   String connectionTokenFileMeta(String dnsUrl) {
@@ -4598,7 +4602,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get connectionVisibilityEveryoneDesc =>
-      'Dopusti svima da vide ovu vezu na tvom profilu';
+      'Dopusti svima da vide ovu vezu na vašem profilu';
 
   @override
   String get connectionVisibilityFriends => 'Prijatelji';
@@ -4612,7 +4616,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get connectionVisibilityCommunityMembersDesc =>
-      'Dopusti članovima zajednica u kojima si da vide ovu vezu';
+      'Dopusti članovima zajednica u kojima ste da vide ovu vezu';
 
   @override
   String get connectionRemoveTitle => 'Ukloni vezu';
@@ -4700,16 +4704,16 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get lookAndFeelThemeDark => 'Tamna tema';
 
   @override
-  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+  String get lookAndFeelThemeDarkLegacy => 'Tamna (naslijeđena) tema';
 
   @override
-  String get lookAndFeelThemeCoal => 'Tema ugljena';
+  String get lookAndFeelThemeCoal => 'Ugljena tema';
 
   @override
   String get lookAndFeelThemeLight => 'Svijetla tema';
 
   @override
-  String get lookAndFeelThemeSystem => 'Sistemska tema';
+  String get lookAndFeelThemeSystem => 'Tema sustava';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesLabel =>
@@ -4735,7 +4739,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Prilagodite veličinu fonta u području čavrljanja.';
 
   @override
-  String get lookAndFeelChatFontSizeLabel => 'Veličina fonta čavrljanja';
+  String get lookAndFeelChatFontSizeLabel => 'Veličina fonta za chat';
 
   @override
   String get lookAndFeelAppZoomTitle => 'Razina zumiranja aplikacije';
@@ -4838,7 +4842,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get lookAndFeelChannelTypingIndicatorAvatarsName =>
-      'Pokazatelj tipkanja + avatari';
+      'Indikator tipkanja + avatari';
 
   @override
   String get lookAndFeelChannelTypingIndicatorAvatarsDescription =>
@@ -4871,7 +4875,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get lookAndFeelTypingIndicatorPreviewChannelName => 'općenito';
 
   @override
-  String get lookAndFeelKeyboardHintsTitle => 'Kratice na tipkovnici';
+  String get lookAndFeelKeyboardHintsTitle => 'Savjeti za tipkovnicu';
 
   @override
   String get lookAndFeelKeyboardHintsDescription =>
@@ -4977,18 +4981,18 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get lookAndFeelChannelListSectionDescription =>
-      'Kontrolirajte ponašanje indikatora nepročitanih poruka za isključene kanale na popisima kanala.';
+      'Kontrolirajte ponašanje indikatora nepročitanih poruka za utišane kanale na popisima kanala.';
 
   @override
   String get lookAndFeelShowFadedUnreadOnMutedChannelsLabel =>
-      'Prikaži indikator nepročitanih poruka na isključenim kanalima';
+      'Prikaži indikator nepročitanih poruka na utišanim kanalima';
 
   @override
   String get lookAndFeelShowFadedUnreadOnMutedChannelsDescription =>
       'Kad je omogućeno, utišani kanali prikazuju blijedu indikaciju nepročitanih poruka s lijeve strane. Spominjanja se i dalje prikazuju bez obzira na ovu postavku.';
 
   @override
-  String get lookAndFeelActiveNowSectionTitle => 'Aktivni sada';
+  String get lookAndFeelActiveNowSectionTitle => 'Aktivno sada';
 
   @override
   String get lookAndFeelActiveNowSectionDescription =>
@@ -4996,11 +5000,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get lookAndFeelShowActiveNowLabel =>
-      'Prikaži aktivne korisnike na početnom zaslonu';
+      'Prikaži \"Aktivno sada\" na početnom zaslonu';
 
   @override
   String get lookAndFeelShowActiveNowDescription =>
-      'Prikaži aktivne sada na početnom zaslonu kako bi se istaknuli prijatelji aktivni u glasovnim kanalima. Vidjet ćete pregled, kontekst kanala, tko je već tamo i brz način za pridruživanje.';
+      'Prikažite \"Aktivno sada\" na početnom zaslonu kako biste vidjeli prijatelje koji su aktivni u glasovnom chatu. Vidjet ćete pretpregled, kontekst kanala, tko je već tamo i brz način za pridruživanje.';
 
   @override
   String get lookAndFeelFavoritesSectionTitle => 'Favoriti';
@@ -5027,14 +5031,14 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Zvijezdama označi kanale iz zaglavlja chata kako bi ih zadržao ovdje.';
 
   @override
-  String get favoritesWelcomeTitle => 'Dobrodošli u favorite';
+  String get favoritesWelcomeTitle => 'Dobro došli u favorite';
 
   @override
   String get favoritesWelcomeDescription =>
       'Vaš osobni prostor za brzi pristup omiljenim kanalima, izravnim porukama i grupama. Pritisnite zvjezdicu na bilo kojem kanalu da biste ga dodali ovdje.';
 
   @override
-  String get favoritesWelcomeTip => 'Nije za vas? Isključite bilo kada.';
+  String get favoritesWelcomeTip => 'Nije za vas? Isključite ih bilo kada.';
 
   @override
   String get favoritesDisableButton => 'Onemogući favorite';
@@ -5049,10 +5053,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get favoritesHiddenToast => 'Omiljene su skrivene';
 
   @override
-  String get favoritesMute => 'Utišaj favorite';
+  String get favoritesMute => 'Isključi obavijesti za favorite';
 
   @override
-  String get favoritesUnmute => 'Odblokiraj favorite';
+  String get favoritesUnmute => 'Uključi obavijesti za favorite';
 
   @override
   String get favoritesHeaderMenu => 'Meni favorita';
@@ -5064,10 +5068,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get favoritesCategoryNameLabel => 'Naziv kategorije';
 
   @override
-  String get favoritesHideMutedChannels => 'Sakrij isključene kanale';
+  String get favoritesHideMutedChannels => 'Sakrij utišane kanale';
 
   @override
-  String get favoritesShowMutedChannels => 'Prikaži isključene kanale';
+  String get favoritesShowMutedChannels => 'Prikaži utišane kanale';
 
   @override
   String get favoritesSetNickname => 'Postavi nadimak';
@@ -5101,7 +5105,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get favoritesAddToUrlOnlyGifFavorites =>
-      'Dodaj u URL-only GIF favorite';
+      'Dodaj u favorite GIF-ova pohranjenih putem URL-a';
 
   @override
   String get favoritesRemoveFromUrlOnlyGifFavorites =>
@@ -5120,7 +5124,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get savedMediaFormAltTextLabel => 'Alternativni tekst';
 
   @override
-  String get savedMediaFormAltTextHint => 'Opis medija';
+  String get savedMediaFormAltTextHint => 'Opišite medij';
 
   @override
   String get savedMediaFormTagsLabel => 'Oznake';
@@ -5132,7 +5136,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get savedMediaSaveError => 'Nije moguće ažurirati spremljene medije.';
 
   @override
-  String get savedMediaNameRequired => 'Ime je obavezno.';
+  String get savedMediaNameRequired => 'Naziv je obavezan.';
 
   @override
   String get gifFavoriteFirstTimeTitle =>
@@ -5201,7 +5205,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get messagesMediaDefaultHideMutedChannelsLabel =>
-      'Sakrij isključene kanale po zadanim postavkama';
+      'Sakrij utišane kanale po zadanim postavkama';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDescription =>
@@ -5209,19 +5213,19 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get messagesMediaDefaultHideMutedChannelsEnableTitle =>
-      'Sakriti isključene kanale po zadanim postavkama?';
+      'Sakriti utišane kanale po zadanim postavkama?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsEnableDescription =>
-      'Nove zajednice kojima se pridružite automatski će imati skrivene isključene kanale. Želite li primijeniti ovu postavku i na sve postojeće zajednice?';
+      'U novim zajednicama kojima se pridružite utišani kanali bit će automatski skriveni. Želite li primijeniti ovu postavku i na sve postojeće zajednice?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDisableTitle =>
-      'Prestati skrivati isključene kanale po zadanim postavkama?';
+      'Prestati skrivati utišane kanale po zadanim postavkama?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDisableDescription =>
-      'Nove zajednice kojima se pridružite više neće automatski skrivati isključene kanale. Želite li prikazati isključene kanale i u svim postojećim zajednicama?';
+      'U novim zajednicama kojima se pridružite utišani kanali više neće biti automatski skriveni. Želite li prikazati utišane kanale i u svim postojećim zajednicama?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsApplyAllAction =>
@@ -5236,7 +5240,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Samo nove zajednice';
 
   @override
-  String get messagesMediaDisplaySectionTitle => 'Medijski prikaz';
+  String get messagesMediaDisplaySectionTitle => 'Prikaz medija';
 
   @override
   String get messagesMediaDisplaySectionDescription =>
@@ -5252,7 +5256,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get messagesMediaLinkPreviewsSectionTitle => 'Pretpregledi veza';
+  String get messagesMediaLinkPreviewsSectionTitle => 'Pregledi poveznica';
 
   @override
   String get messagesMediaLinkPreviewsSectionDescription =>
@@ -5260,7 +5264,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get messagesMediaLinkPreviewsToggleLabel =>
-      'Prikaži ugrađene i pretpregledaj poveznice web-mjesta';
+      'Prikaži ugrađeni sadržaj i pretpreglede poveznica na web-stranice';
 
   @override
   String get messagesMediaReactionsSectionTitle => 'Reakcije';
@@ -5274,7 +5278,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Prikaži reakcije emojijima na porukama';
 
   @override
-  String get messagesMediaSpoilersSectionTitle => 'Sadržaj sa spojlerom';
+  String get messagesMediaSpoilersSectionTitle => 'Sadržaj spojlera';
 
   @override
   String get messagesMediaSpoilersSectionDescription =>
@@ -5303,7 +5307,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get messagesMediaSpoilersAlwaysDescription =>
-      'Uvijek prikaži sadržaj sa spojlerima';
+      'Uvijek prikaži sadržaj spojlera';
 
   @override
   String get messagesMediaSizeSectionTitle => 'Postavke veličine medija';
@@ -5362,7 +5366,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get messagesMediaAutocompleteDefaultEmojisLabel =>
-      'Prikaži zadane emotikone u automatskom dovršavanju izraza';
+      'Prikaži zadane emojije u automatskom dovršavanju izraza';
 
   @override
   String get messagesMediaAutocompleteCustomEmojisLabel =>
@@ -5411,11 +5415,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get accessibilityDimStrikethroughTextLabel =>
-      'Zatamni precrtani tekst';
+      'Priguši precrtani tekst';
 
   @override
   String get accessibilityDmMessagePreviewGroupTitle =>
-      'Pretpregledi poruka u izravnim porukama';
+      'Pretpregledi izravnih poruka';
 
   @override
   String get accessibilityDmMessagePreviewGroupDescription =>
@@ -5423,14 +5427,14 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get accessibilityDmMessagePreviewModeLabel =>
-      'Način pregleda DM poruka';
+      'Način pretpregleda izravnih poruka';
 
   @override
   String get accessibilityDmMessagePreviewAllName => 'Sve poruke';
 
   @override
   String get accessibilityDmMessagePreviewAllDescription =>
-      'Prikaži pretpreglede poruka za sve DM razgovore';
+      'Prikaži pretpreglede poruka za sve razgovore u izravnim porukama';
 
   @override
   String get accessibilityDmMessagePreviewUnreadOnlyName =>
@@ -5478,14 +5482,14 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get accessibilityTtsPlaySampleLabel => 'Reproduciraj uzorak';
 
   @override
-  String get accessibilityTtsSilenceSampleLabel => 'Uzorak tišine';
+  String get accessibilityTtsSilenceSampleLabel => 'Zaustavi uzorak';
 
   @override
   String get accessibilityPreviewButtonLabel => 'Gumb za pretpregled';
 
   @override
   String accessibilityPreviewLinksMessage(String linkPreviewExampleUrl) {
-    return 'Ovako izgledaju pretpregledi poveznica: $linkPreviewExampleUrl';
+    return 'Ovako izgledaju poveznice: $linkPreviewExampleUrl';
   }
 
   @override
@@ -5562,7 +5566,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get accessibilityStickerAnimateOnInteractionName =>
-      'Animacija pri interakciji';
+      'Animiraj pri interakciji';
 
   @override
   String get accessibilityStickerAnimateOnPressDescription =>
@@ -5633,7 +5637,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get accessibilityTtsSampleText =>
-      'Doktore, ja sam iz budućnosti. Došao sam ovdje u vremenskom stroju koji ste vi izumili. Sada mi treba vaša pomoć da se vratim u 1985. godinu.';
+      'Doktore, ja sam iz budućnosti. Došao sam ovamo vremenskim strojem koji ste vi izumili. Sada mi treba vaša pomoć da se vratim u 1985. godinu.';
 
   @override
   String get accessibilityTtsUnsupportedDescription =>
@@ -5670,7 +5674,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String ttsAuthorSaid(String authorName, String formatted) {
-    return '$authorName je rekao/rekla: $formatted';
+    return '$authorName kaže: $formatted';
   }
 
   @override
@@ -5679,7 +5683,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
     String authorName,
     String formatted,
   ) {
-    return 'Odgovor na poruku korisnika $replyAuthorName, $authorName je rekao: $formatted';
+    return 'Odgovarajući korisniku $replyAuthorName, $authorName kaže: $formatted';
   }
 
   @override
@@ -5711,17 +5715,17 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String systemPreviewPinnedMessage(String username) {
-    return '$username je prikvačio poruku na ovaj kanal.';
+    return '$username je prikvačio/la poruku na ovaj kanal.';
   }
 
   @override
   String systemPreviewAddedToGroup(String username, String userName) {
-    return '$username je dodao/dodala $userName u grupu.';
+    return '$username je dodao/la $userName u grupu.';
   }
 
   @override
   String systemPreviewAddedSomeoneToGroup(String username) {
-    return '$username je dodao/dodala nekoga u grupu.';
+    return '$username je dodao/la nekoga u grupu.';
   }
 
   @override
@@ -5731,12 +5735,12 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String systemPreviewRemovedFromGroup(String username, String userName) {
-    return '$username je uklonio/uklonila $userName iz grupe.';
+    return '$username je uklonio/la $userName iz grupe.';
   }
 
   @override
   String systemPreviewRemovedSomeoneFromGroup(String username) {
-    return '$username je uklonio/uklonila nekoga iz grupe.';
+    return '$username je uklonio/la nekoga iz grupe.';
   }
 
   @override
@@ -5746,17 +5750,17 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String systemPreviewChangedChannelName(String username) {
-    return '$username je promijenio naziv kanala.';
+    return '$username je promijenio/la naziv kanala.';
   }
 
   @override
   String systemPreviewChangedChannelIcon(String username) {
-    return '$username je promijenio ikonu kanala.';
+    return '$username je promijenio/la ikonu kanala.';
   }
 
   @override
   String systemPreviewStartedCall(String username) {
-    return '$username je započeo poziv.';
+    return '$username je započeo/la poziv.';
   }
 
   @override
@@ -5778,13 +5782,13 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get systemCallDurationFewSeconds => 'prije nekoliko sekundi';
+  String get systemCallDurationFewSeconds => 'nekoliko sekundi';
 
   @override
   String get systemCallDurationMinute => 'minutu';
 
   @override
-  String get systemCallDurationOneYear => '1 godina';
+  String get systemCallDurationOneYear => '1 godinu';
 
   @override
   String get systemCallDurationOneMonth => '1 mjesec';
@@ -5850,14 +5854,15 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get voiceConnectionConfirmSwitch => 'Prebaci na ovaj uređaj';
+  String get voiceConnectionConfirmSwitch => 'Prebaci se na ovaj uređaj';
 
   @override
   String get voiceConnectionConfirmJustJoin =>
-      'Pridruži se (zadrži ostale veze)';
+      'Samo se pridruži (zadrži ostale veze)';
 
   @override
-  String get voiceConnectionConfirmDoNothing => 'Ne želim se pridružiti';
+  String get voiceConnectionConfirmDoNothing =>
+      'Ne radi ništa, ne želim se pridružiti';
 
   @override
   String get voiceJoinFailedTitle => 'Nismo se mogli pridružiti pozivu';
@@ -5877,7 +5882,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get voiceCallJoin => 'Pridruži se pozivu';
 
   @override
-  String get voiceChannelJoinConnect => 'Poveži se na glas';
+  String get voiceChannelJoinConnect => 'Povezivanje na glasovni kanal';
 
   @override
   String get voiceChannelNoConnectPermission =>
@@ -5885,19 +5890,19 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get voiceChannelE2eeEncrypted =>
-      'Mikrofon, kamera i sadržaj dijeljenja zaslona su šifrirani od kraja do kraja.';
+      'Mikrofon, kamera i sadržaj dijeljenja zaslona šifrirani su od kraja do kraja.';
 
   @override
   String get voiceCallE2eeEncrypted =>
-      'Mikrofon, kamera i sadržaj dijeljenja zaslona su šifrirani od kraja do kraja.';
+      'Mikrofon, kamera i sadržaj dijeljenja zaslona šifrirani su od kraja do kraja.';
 
   @override
   String get voiceChannelE2eeBroken =>
-      'End-to-end enkripcija nije dostupna jer se u ovom glasovnom kanalu nalazi sudionik koji nije podržan.';
+      'Šifriranje od kraja do kraja nije dostupno jer se u ovom glasovnom kanalu nalazi sudionik koji nije podržan.';
 
   @override
   String get voiceCallE2eeBroken =>
-      'End-to-end enkripcija nije dostupna jer je u pozivu sudionik koji nije podržan.';
+      'Šifriranje od kraja do kraja nije dostupno jer je u pozivu sudionik koji nije podržan.';
 
   @override
   String get voiceE2eeUpdateRequired =>
@@ -5920,7 +5925,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get voiceParticipantTooltipMobileDevice => 'Mobilni uređaj';
 
   @override
-  String get voiceParticipantTooltipDesktopDevice => 'Stolni uređaj';
+  String get voiceParticipantTooltipDesktopDevice => 'Stolno računalo';
 
   @override
   String get voiceParticipantTooltipCommunityMuted => 'Zajednica je utišala';
@@ -5984,7 +5989,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get voiceControlDisconnect => 'Prekini vezu';
 
   @override
-  String get voiceInChat => 'U glasovnom chatu';
+  String get voiceInChat => 'U glasovnom razgovoru';
 
   @override
   String get voiceConnectionFailed => 'Veza nije uspjela';
@@ -6018,7 +6023,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get voiceConnectionAdvancedStats => 'Napredno';
 
   @override
-  String get voiceShowCallAvatars => 'Prikaži avatare poziva';
+  String get voiceShowCallAvatars => 'Prikaži avatare u pozivu';
 
   @override
   String get voiceShowConnectionId => 'Prikaži ID veze';
@@ -6092,10 +6097,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get voiceParticipantMenuUnfocus => 'Ukloni fokus';
 
   @override
-  String get voiceParticipantMenuCommunityMute => 'Isključi zvuk u zajednici';
+  String get voiceParticipantMenuCommunityMute =>
+      'Isključi mikrofon u zajednici';
 
   @override
-  String get voiceParticipantMenuCommunityDeafen => 'Zajednica utišava';
+  String get voiceParticipantMenuCommunityDeafen => 'Isključi zvuk u zajednici';
 
   @override
   String get voiceParticipantMenuUserVolume => 'Glasnoća korisnika';
@@ -6114,7 +6120,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get voiceControlChat => 'Čavrljanje';
 
   @override
-  String get voiceCallViewModeLabel => 'Prikaži';
+  String get voiceCallViewModeLabel => 'Prikaz';
 
   @override
   String get voiceCallViewModeGrid => 'Rešetka';
@@ -6129,13 +6135,13 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get voicePanelUseEarpieceLabel => 'Upotrijebi slušalicu';
 
   @override
-  String get voiceOutputRouteSpeaker => 'Speaker';
+  String get voiceOutputRouteSpeaker => 'Zvučnik';
 
   @override
   String get voiceOutputRouteEarpiece => 'Earpiece';
 
   @override
-  String get voiceOutputRouteHeadset => 'Headphones';
+  String get voiceOutputRouteHeadset => 'Slušalice';
 
   @override
   String get voicePanelOnlyShowVideosLabel => 'Prikaži samo videozapise';
@@ -6148,7 +6154,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get voicePanelShowOwnCameraLabel => 'Prikaži moju kameru';
 
   @override
-  String get voicePrioritizeSpeakersLabel => 'Prioritiziraj govornike';
+  String get voicePrioritizeSpeakersLabel => 'Daj prednost govornicima';
 
   @override
   String get voiceTextChatShow => 'Prikaži chat';
@@ -6184,7 +6190,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get voiceWatchStream => 'Gledaj prijenos';
 
   @override
-  String get voiceStopWatching => 'Prekini gledanje';
+  String get voiceStopWatching => 'Zaustavi gledanje';
 
   @override
   String get voiceStopWatchingCurrentStreamTooltip =>
@@ -6231,7 +6237,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get dmVoiceCallBarIssueFallback => 'Problem s pozivom';
 
   @override
-  String get dmVoiceFullscreenTitle => 'Glasovno';
+  String get dmVoiceFullscreenTitle => 'Glas';
 
   @override
   String get voiceCallBarGuildConnectedFallback => 'Glas povezan';
@@ -6246,7 +6252,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get notificationsFilterMentions => 'Spominjanja';
 
   @override
-  String get notificationsBookmarksTooltip => 'Spremljene poruke';
+  String get notificationsBookmarksTooltip => 'Oznake';
 
   @override
   String get notificationsMentionFilterTooltip => 'Filtriraj spominjanja';
@@ -6266,7 +6272,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Uključi sva spominjanja zajednice';
 
   @override
-  String get notificationsNoUnreadTitle => 'Nema neproučenih poruka';
+  String get notificationsNoUnreadTitle => 'Nema nepročitanih poruka';
 
   @override
   String get notificationsNoUnreadBody => 'Sve ste pročitali.';
@@ -6334,15 +6340,15 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get chatSendFailureUnclaimedDm =>
-      'Vaša poruka nije mogla biti isporučena. Morate potvrditi svoj račun da biste slali izravne poruke.';
+      'Vaša poruka nije mogla biti isporučena. Morate preuzeti svoj račun da biste slali izravne poruke.';
 
   @override
   String get chatSendFailureUnclaimedGeneral =>
-      'Vaša poruka nije mogla biti isporučena. Morate potvrditi svoj račun da biste slali poruke.';
+      'Vaša poruka nije mogla biti isporučena. Morate preuzeti svoj račun da biste slali poruke.';
 
   @override
   String get chatSendFailureContentBlocked =>
-      'Vaša poruka nije mogla biti isporučena jer ju je naš sustav sigurnosti označio. Ako mislite da je ovo pogreška, obratite se podršci.';
+      'Vaša poruka nije mogla biti isporučena jer ju je naš sigurnosni sustav označio. Ako mislite da je ovo pogreška, obratite se podršci.';
 
   @override
   String get chatSendFailureNsfwEmojiSticker =>
@@ -6369,7 +6375,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get privacyDashboardActivitySharingSection => 'Dijeljenje aktivnosti';
 
   @override
-  String get privacyDashboardSensitiveContentSection => 'Osjetljiv sadržaj';
+  String get privacyDashboardSensitiveContentSection => 'Osjetljivi sadržaj';
 
   @override
   String get privacyDashboardDataExportSection => 'Izvoz podataka';
@@ -6465,7 +6471,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Upravljajte tko vas može nazvati';
 
   @override
-  String get privacyDashboardAllowedCallers => 'Dozvoljeni pozivatelji';
+  String get privacyDashboardAllowedCallers => 'Dopušteni pozivatelji';
 
   @override
   String get privacyDashboardIncomingCallNobody => 'Nitko';
@@ -6507,7 +6513,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Ljudi iz zajednica u kojima ste oboje članovi mogu vas zvati';
 
   @override
-  String get privacyDashboardRingBehavior => 'Ponašanje prstena';
+  String get privacyDashboardRingBehavior => 'Ponašanje zvona';
 
   @override
   String get privacyDashboardSilentCalls => 'Tihi pozivi od svih';
@@ -6525,7 +6531,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Upravljajte tko vas može dodati u grupne razgovore bez pitanja. Svatko vam i dalje može poslati poveznicu za pozivnicu za pridruživanje.';
 
   @override
-  String get privacyDashboardAllowedInvites => 'Dozvoljena pozivanja';
+  String get privacyDashboardAllowedInvites => 'Dopuštena pozivanja';
 
   @override
   String get privacyDashboardGroupDmNobodyDesc =>
@@ -6553,11 +6559,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get privacyDashboardVoiceActivityTitle =>
-      'Glasovna aktivnost u odjeljku „Aktivno sada\"';
+      'Glasovna aktivnost u odjeljku „Aktivno sada”';
 
   @override
   String get privacyDashboardShareVoiceActivity =>
-      'Podijelite svoju glasovnu aktivnost s prijateljima';
+      'Dijelite svoju glasovnu aktivnost s prijateljima';
 
   @override
   String get privacyDashboardVoiceActivityEnableTitle =>
@@ -6573,7 +6579,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get privacyDashboardVoiceActivityDisableDesc =>
-      'Prestat ćeš dijeliti svoju glasovnu aktivnost sa svim svojim prijateljima, uključujući i buduće. Ovo šalje obavijest svima njima i može se ponovno promijeniti tek za 24 sata.';
+      'Prestat ćete dijeliti svoju glasovnu aktivnost sa svim svojim prijateljima, uključujući i buduće. Ovo šalje obavijest svima njima i može se ponovno promijeniti tek za 24 sata.';
 
   @override
   String get privacyDashboardVoiceActivityEnableConfirm =>
@@ -6585,7 +6591,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String privacyDashboardVoiceActivityCooldown(String time) {
-    return 'Dostupno ponovno za $time';
+    return 'Ponovno dostupno za $time';
   }
 
   @override
@@ -6594,7 +6600,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get privacyDashboardVoiceActivityUpdateFailed =>
-      'Trenutno nije moguće ažurirati dijeljenje glasovne aktivnosti';
+      'Trenutačno nije moguće ažurirati dijeljenje glasovne aktivnosti';
 
   @override
   String get privacyDashboardDataExportDesc =>
@@ -6605,7 +6611,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDataDeletionDesc =>
-      'Trajno uklonite poruke koje ste poslali u izravnim porukama, grupnim izravnim porukama i zajednicama. Rad se odvija u pozadini, a izravnu poruku primit ćete kada završi.';
+      'Trajno uklonite poruke koje ste poslali u izravnim porukama, grupnim izravnim porukama i zajednicama. Postupak se odvija u pozadini, a kada završi primit ćete izravnu poruku.';
 
   @override
   String get privacyDashboardDeleteMyMessages => 'Izbriši moje poruke';
@@ -6620,7 +6626,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDmConfirmAllowBotsTitle =>
-      'Dopustiti botovima slanje izravnih poruka?';
+      'Dopustiti botovima da vam šalju izravne poruke?';
 
   @override
   String get privacyDashboardDmConfirmBlockBotsTitle =>
@@ -6628,7 +6634,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDmConfirmAllowMembersDesc =>
-      'Želite li dopustiti izravne poruke od članova postojećih zajednica?';
+      'Želite li dopustiti i izravne poruke od članova postojećih zajednica?';
 
   @override
   String get privacyDashboardDmConfirmBlockMembersDesc =>
@@ -6636,7 +6642,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDmConfirmAllowBotsDesc =>
-      'Želite li dopustiti botovima iz postojećih zajednica da vam šalju izravne poruke?';
+      'Želite li dopustiti i botovima iz postojećih zajednica da vam šalju izravne poruke?';
 
   @override
   String get privacyDashboardDmConfirmBlockBotsDesc =>
@@ -6680,7 +6686,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDataRequestExportEverythingDesc =>
-      'Izvezite svaku poruku koju ste ikada poslali, plus sve postavke računa, članstva i metapodatke.';
+      'Izvezite svaku poruku koju ste ikada poslali te sve postavke računa, članstva i metapodatke.';
 
   @override
   String get privacyDashboardDataRequestExportCustom => 'Prilagođeni odabir';
@@ -6713,7 +6719,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Odaberite vrste razgovora koje želite uključiti.';
 
   @override
-  String get privacyDashboardDataRequestKindDms => 'Otvoreni izravni razgovori';
+  String get privacyDashboardDataRequestKindDms => 'Otvorene izravne poruke';
 
   @override
   String get privacyDashboardDataRequestKindDmsClosed =>
@@ -6733,7 +6739,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDataRequestGuildFilterExclude =>
-      'Uključi sve osim odabranog';
+      'Uključi sve osim odabranih';
 
   @override
   String get privacyDashboardDataRequestGuildFilterInclude => 'Samo odabrane';
@@ -6749,7 +6755,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get privacyDashboardDataRequestDateMode => 'Vremenski raspon';
 
   @override
-  String get privacyDashboardDataRequestAllTime => 'Sve vrijeme';
+  String get privacyDashboardDataRequestAllTime => 'Cijelo razdoblje';
 
   @override
   String get privacyDashboardDataRequestCustomRange => 'Prilagođeni raspon';
@@ -6762,7 +6768,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDataRequestDateHelper =>
-      'Ostavite bilo koje polje prazno kako biste ostavili taj kraj vremenskog okvira neograničenim.';
+      'Ostavite bilo koje polje prazno da taj kraj vremenskog okvira ostane neograničen.';
 
   @override
   String get privacyDashboardDataRequestNeedInclusion =>
@@ -6790,7 +6796,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDataRequestDeleteDanger =>
-      'Nema oporavka nakon što ovo započne. Poslat ćemo vam izravnu poruku kada završi.';
+      'Nakon što ovo započne, povratka nema. Poslat ćemo vam izravnu poruku kada završi.';
 
   @override
   String get privacyDashboardDataRequestRequestExport => 'Zatraži izvoz';
@@ -6799,7 +6805,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get privacyDashboardDataRequestDeleteMessages => 'Izbriši poruke';
 
   @override
-  String get privacyDashboardDataRequestSummaryScope => 'Opseg pretraživanja';
+  String get privacyDashboardDataRequestSummaryScope => 'Opseg';
 
   @override
   String get privacyDashboardDataRequestSummaryConversations => 'Razgovori';
@@ -6946,7 +6952,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get doubleTapReactionHint => 'Double tap a message to';
 
   @override
-  String get doubleTapReactionEdit => 'Edit';
+  String get doubleTapReactionEdit => 'Uredi';
 
   @override
   String get doubleTapReactionEditTitle => 'Edit default';
@@ -6993,7 +6999,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get forwardSuccessToast => 'Poruka proslijeđena';
 
   @override
-  String get forwardFailed => 'Slanje poruke nije uspjelo';
+  String get forwardFailed => 'Prosljeđivanje poruke nije uspjelo';
 
   @override
   String get forwardCommentSlowmodeDisabled =>
@@ -7001,7 +7007,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get forwardSendSlowmodeBlocked =>
-      'Čeka se istek sporog načina rada u jednom ili više odabranih kanala.';
+      'Čeka se istek usporenog načina rada u jednom ili više odabranih kanala.';
 
   @override
   String get slowmodeRateLimitedTitle => 'Usporeni način rada aktivan';
@@ -7093,7 +7099,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get chatMessageSpeak => 'Pročitaj poruku';
 
   @override
-  String get chatMessageStopSpeaking => 'Prestani govoriti';
+  String get chatMessageStopSpeaking => 'Zaustavi čitanje';
 
   @override
   String get chatMessagePin => 'Prikvači poruku';
@@ -7114,7 +7120,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get chatMessageMarkAsUnread => 'Označi kao nepročitano';
 
   @override
-  String get chatMessageCopyMessageLink => 'Kopiraj poveznicu na poruku';
+  String get chatMessageCopyMessageLink => 'Kopiraj poveznicu poruke';
 
   @override
   String get chatMessageOpenLink => 'Otvori poveznicu';
@@ -7132,7 +7138,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get chatMessageRemoveAllReactions => 'Ukloni sve reakcije';
 
   @override
-  String get chatMessageDebug => 'Debug poruka';
+  String get chatMessageDebug => 'Otklanjanje pogrešaka poruke';
 
   @override
   String get chatMessageDebugSheetTitle => 'Otklanjanje pogrešaka poruke';
@@ -7148,7 +7154,8 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get chatReactionsSheetTitle => 'Reakcije';
 
   @override
-  String get chatReactionsSheetEmpty => 'Nitko još nije reagirao na ovo.';
+  String get chatReactionsSheetEmpty =>
+      'Nitko još nije reagirao ovim emojijem.';
 
   @override
   String get chatReactionAddFailed => 'Neuspješno dodavanje reakcije';
@@ -7173,7 +7180,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get iarPathStepAriaLabel => 'Što vam treba?';
 
   @override
-  String get iarCategoryStepTitle => 'Koja vrsta pravila je prekršena?';
+  String get iarCategoryStepTitle => 'Koja je vrsta pravila prekršena?';
 
   @override
   String get iarReasonStepTitle => 'Koje je pravilo prekršeno?';
@@ -7210,7 +7217,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get iarCategorySafetyMinorsDescription =>
-      'Maloljetnici u opasnosti, neprikladan sadržaj na pogrešnom mjestu ili neželjeno ponašanje.';
+      'Maloljetnici u opasnosti, sadržaj za odrasle na pogrešnom mjestu ili neželjeno ponašanje.';
 
   @override
   String get iarCategoryPrivacyIdentityLabel =>
@@ -7218,7 +7225,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get iarCategoryPrivacyIdentityDescription =>
-      'Doksanje, uhođenje, lažno predstavljanje ili neprikladan profil.';
+      'Doxxing, uhođenje, lažno predstavljanje ili neprikladan profil.';
 
   @override
   String get iarCategoryDeceptionLabel =>
@@ -7234,7 +7241,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get iarCategoryIllegalOtherDescription =>
-      'Nezakonita prodaja, omogućavanje kriminalnih radnji ili jasno kršenje pravila koje se ne uklapa u gornje kategorije.';
+      'Nezakonita prodaja, omogućavanje kaznenih djela ili jasno kršenje pravila koje se ne uklapa u gornje kategorije.';
 
   @override
   String get iarReasonHarassmentLabel => 'Uznemiravanje ili prijetnje';
@@ -7271,7 +7278,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get iarReasonChildSafetyMessageDescription =>
-      'Sadržaj iskorištavanja djece ili vrbovanja.';
+      'Sadržaj s vrbovanjem ili iskorištavanjem djece.';
 
   @override
   String get iarReasonHarmfulMisinfoLabel => 'Štetne dezinformacije';
@@ -7282,7 +7289,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get iarReasonSpamLabel =>
-      'Neželjena pošta, prevare ili krađa identiteta';
+      'Neželjena pošta, prijevare ili krađa identiteta';
 
   @override
   String get iarReasonSpamMessageDescription =>
@@ -7301,7 +7308,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get iarReasonPrivacyDescription =>
-      'Doksanje, otkrivanje privatnih podataka ili uhođenje.';
+      'Doxxing, otkrivanje privatnih podataka ili uhođenje.';
 
   @override
   String get iarReasonImpersonationLabel =>
@@ -7359,7 +7366,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get iarActionBlockUserDescription =>
-      'Zaustavi poruke i zahtjeve za prijateljstvo.';
+      'Zaustavite poruke i zahtjeve za prijateljstvo.';
 
   @override
   String get iarActionBlockUserButton => 'Blokiraj';
@@ -7375,11 +7382,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get iarActionCopyMessageLinkButton => 'Kopiraj';
 
   @override
-  String get iarActionCloseDmTitle => 'Zatvori ovaj DM';
+  String get iarActionCloseDmTitle => 'Zatvori ovu izravnu poruku';
 
   @override
   String get iarActionCloseDmDescription =>
-      'Ne blokira. Možete ponovno otvoriti kasnije.';
+      'Ne blokira. Možete ga kasnije ponovno otvoriti.';
 
   @override
   String get iarActionCloseDmButton => 'Zatvori izravnu poruku';
@@ -7389,14 +7396,14 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get iarActionLeaveCommunityDescription =>
-      'Prestanite vidjeti njegov sadržaj i članove.';
+      'Prestanite vidjeti njezin sadržaj i članove.';
 
   @override
   String get iarActionLeaveCommunityButton => 'Napusti';
 
   @override
   String get iarActionDmSettingsTitle =>
-      'Postavke DM-a i zahtjeva za prijateljstvo';
+      'Postavke izravnih poruka i zahtjeva za prijateljstvo';
 
   @override
   String get iarActionDmSettingsDescription =>
@@ -7404,7 +7411,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get iarActionCallSettingsTitle =>
-      'Postavke poziva i grupnog čavrljanja';
+      'Postavke poziva i grupnog razgovora';
 
   @override
   String get iarActionCallSettingsDescription =>
@@ -7434,17 +7441,17 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get iarActionBanUserDescription =>
-      'Otvorite dijaloški okvir za zabranu za ovu zajednicu.';
+      'Otvorite dijaloški okvir za zabranu u ovoj zajednici.';
 
   @override
   String get iarActionBanUserButton => 'Zabrani';
 
   @override
-  String get iarActionBanUserBannedButton => 'Zabranjen';
+  String get iarActionBanUserBannedButton => 'Zabranjen pristup';
 
   @override
   String get iarActionBanUserBannedTooltip =>
-      'Ovaj je korisnik već baniran iz zajednice.';
+      'Ovom je korisniku već zabranjen pristup zajednici.';
 
   @override
   String get iarCloseDmConfirmTitle => 'Zatvori izravnu poruku';
@@ -7455,7 +7462,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get iarSuccessTitle => 'Izvješće poslano';
+  String get iarSuccessTitle => 'Prijava poslana';
 
   @override
   String get iarSuccessBody =>
@@ -7475,7 +7482,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get iarContinueButton => 'Nastavi';
 
   @override
-  String get iarSendReportButton => 'Pošalji izvješće';
+  String get iarSendReportButton => 'Pošalji prijavu';
 
   @override
   String get iarDoneButton => 'Gotovo';
@@ -7513,10 +7520,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Nismo mogli napustiti ovu zajednicu. Molimo pokušajte ponovno.';
 
   @override
-  String get chatMessageSuppressEmbeds => 'Sakrij pretpreglede';
+  String get chatMessageSuppressEmbeds => 'Sakrij ugrađeni sadržaj';
 
   @override
-  String get chatMessageUnsuppressEmbeds => 'Prikaži poveznice';
+  String get chatMessageUnsuppressEmbeds => 'Prikaži pretpreglede';
 
   @override
   String get chatMessageDelete => 'Izbriši poruku';
@@ -7532,7 +7539,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get chatMessageDeleteAttachment => 'Izbriši privitak';
 
   @override
-  String get chatMessageEditAttachmentAltText => 'Uredi alternativni tekst';
+  String get chatMessageEditAttachmentAltText => 'Uredi zamjenski tekst';
 
   @override
   String get chatMessageMore => 'Više';
@@ -7545,7 +7552,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get chatReplyOriginalFailedToLoad =>
-      'Učitavanje originalne poruke nije uspjelo';
+      'Učitavanje izvorne poruke nije uspjelo';
 
   @override
   String get chatReplyAttachedMedia => 'Poruka sadrži priložene medije';
@@ -7581,7 +7588,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Odgovor je skriven jer je izvorni autor označen kao spamer.';
 
   @override
-  String get devMarkAsSpamLocally => 'Označi kao neželjeno lokalno';
+  String get devMarkAsSpamLocally => 'Lokalno označi kao neželjeno';
 
   @override
   String get devIgnoreSpamFlag => 'Zanemari oznaku neželjene pošte';
@@ -7595,12 +7602,12 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String chatReplyMentionPrefersMentionBody(String authorNickname) {
-    return '$authorNickname želi da ga se spominje u odgovorima. Želite li svejedno poslati bez spominjanja?';
+    return '$authorNickname želi @spominjanje u odgovorima. Želite li svejedno poslati bez spominjanja?';
   }
 
   @override
   String chatReplyMentionPrefersNoMentionBody(String authorNickname) {
-    return '$authorNickname preferira odgovore bez spominjanja. Želite li svejedno poslati sa spominjanjem?';
+    return '$authorNickname ne želi @spominjanje u odgovorima. Želite li svejedno poslati sa spominjanjem?';
   }
 
   @override
@@ -7638,7 +7645,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Ovaj kanal još nije spreman. Pokušajte ponovno za trenutak.';
 
   @override
-  String get chatMessageEdited => '(uredio)';
+  String get chatMessageEdited => '(uređeno)';
 
   @override
   String get chatMessageSilent => 'Ovo je bila @silent poruka.';
@@ -7672,7 +7679,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get mediaViewerForward => 'Proslijedi';
 
   @override
-  String get mediaViewerZoomIn => 'Povećaj';
+  String get mediaViewerZoomIn => 'Povećaj prikaz';
 
   @override
   String get mediaViewerZoomOut => 'Smanji prikaz';
@@ -7784,7 +7791,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get composerCommandSpoilerDescription =>
-      'Pošalji poruku sa spojlerom (omotava u spojler oznake).';
+      'Pošalji poruku sa spojlerom (omata je u oznake za spojler).';
 
   @override
   String get composerCommandTtsDescription =>
@@ -7816,7 +7823,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get composerCommandGifDescription => 'Pretražite i pošaljite GIF.';
 
   @override
-  String get composerCommandMemberOption => 'Član kojeg treba ciljati.';
+  String get composerCommandMemberOption => 'Član na kojeg se radnja odnosi.';
 
   @override
   String get composerCommandReasonOption => 'Razlog (neobavezno).';
@@ -7833,10 +7840,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get composerCommandDeleteMessagesOption =>
-      'Koliko nedavnih poruka člana želite izbrisati.';
+      'Koji dio nedavne povijesti poruka člana izbrisati.';
 
   @override
-  String get composerCommandDeleteMessagesNone => 'Nemoj izbrisati nijednu';
+  String get composerCommandDeleteMessagesNone => 'Ne briši ništa';
 
   @override
   String composerCommandDeleteMessagesDays(int count) {
@@ -7932,7 +7939,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get addGuildCreateClaimDescription =>
-      'Morate potvrditi svoj račun prije nego što možete stvoriti zajednicu.';
+      'Morate preuzeti svoj račun prije nego što možete stvoriti zajednicu.';
 
   @override
   String get addGuildCreateVerifyTitle => 'Potvrdite svoju e-poštu';
@@ -8018,18 +8025,18 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Jeste li sigurni da želite ukloniti sve reakcije iz ove poruke?';
 
   @override
-  String get chatMessagePinConfirm => 'Pin';
+  String get chatMessagePinConfirm => 'Prikvači';
 
   @override
   String get chatMessagePinConfirmDescription =>
-      'Pin this message to the channel for everyone to see.';
+      'Prikvačite ovu poruku na kanal kako bi je svi vidjeli.';
 
   @override
   String get chatMessageUnpinConfirmTitle => 'Otkvači poruku';
 
   @override
   String get chatMessageUnpinConfirmDescription =>
-      'Vratiti ovu pribadaču u prošlost?';
+      'Vratiti ovu prikvačenu poruku u prošlost?';
 
   @override
   String systemPinMessage(
@@ -8115,7 +8122,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get channelSettingsTabOverview => 'Pregled';
 
   @override
-  String get channelSettingsTabPermissions => 'Dozvole';
+  String get channelSettingsTabPermissions => 'Dopuštenja';
 
   @override
   String get channelSettingsTabInvites => 'Pozivnice';
@@ -8167,7 +8174,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get categoryMuteCategory => 'Isključi obavijesti za kategoriju';
 
   @override
-  String get categoryUnmuteCategory => 'Uključi zvuk kategorije';
+  String get categoryUnmuteCategory => 'Uključi obavijesti za kategoriju';
 
   @override
   String get categoryCopyCategoryId => 'Kopiraj ID kategorije';
@@ -8185,7 +8192,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get channelSettingsUrlPlaceholder => 'https://example.com';
 
   @override
-  String get channelSettingsTopic => 'Tema';
+  String get channelSettingsTopic => 'Tema kanala';
 
   @override
   String get channelSettingsTopicPlaceholder => 'Dodajte temu ovom kanalu';
@@ -8201,7 +8208,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Skratite temu i pokušajte ponovno.';
 
   @override
-  String get channelSettingsSlowmode => 'Usporeni način';
+  String get channelSettingsSlowmode => 'Usporeni način rada';
 
   @override
   String channelSettingsSlowmodeDescription(
@@ -8270,7 +8277,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get channelSettingsConnectionLimit => 'Ograničenje veze';
+  String get channelSettingsConnectionLimit => 'Ograničenje broja veza';
 
   @override
   String get channelSettingsConnectionLimitDescription =>
@@ -8288,7 +8295,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get channelSettingsVoiceRegion => 'Regija glasa';
+  String get channelSettingsVoiceRegion => 'Glasovna regija';
 
   @override
   String get channelSettingsVoiceRegionDescription =>
@@ -8303,7 +8310,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get channelSettingsVoiceRegionsLoadFailedDescription =>
-      'Pokušajte ponovo za trenutak.';
+      'Pokušajte ponovno za trenutak.';
 
   @override
   String get channelSettingsResetSlider => 'Vrati klizač na zadanu vrijednost';
@@ -8313,7 +8320,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get channelSettingsMatureContentOverride =>
-      'Nadjačavanje zrelog sadržaja';
+      'Nadjačavanje postavke sadržaja za odrasle';
 
   @override
   String channelSettingsMatureContentSectionDescription(String scopeLevel) {
@@ -8379,14 +8386,14 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String channelSettingsPermissionsNeedManageChannels(
     String manageChannelsPermissionLabel,
   ) {
-    return 'Potrebna vam je dozvola \"$manageChannelsPermissionLabel\" za uređivanje ovih dozvola.';
+    return 'Potrebno vam je dopuštenje \"$manageChannelsPermissionLabel\" za uređivanje ovih dopuštenja.';
   }
 
   @override
   String channelSettingsPermissionsNeedManageRoles(
     String manageRolesPermissionLabel,
   ) {
-    return 'Potrebna vam je dozvola \"$manageRolesPermissionLabel\" za uređivanje ovih dozvola.';
+    return 'Potrebno vam je dopuštenje \"$manageRolesPermissionLabel\" za uređivanje ovih dopuštenja.';
   }
 
   @override
@@ -8399,7 +8406,8 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get channelSettingsEveryoneRole => '@everyone';
 
   @override
-  String get channelSettingsPermissionsAccessOverrides => 'Izmjene pristupa';
+  String get channelSettingsPermissionsAccessOverrides =>
+      'Nadjačavanja pristupa';
 
   @override
   String channelSettingsPermissionsEditAccessFor(String name) {
@@ -8416,7 +8424,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get channelSettingsPermissionsConfigureRoleOverrides =>
-      'Konfigurirajte izmjene za ovu ulogu';
+      'Konfigurirajte iznimke za ovu ulogu';
 
   @override
   String get channelSettingsPermissionsConfigureMemberOverrides =>
@@ -8456,7 +8464,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Kanal sinkroniziran s nadređenom kategorijom';
 
   @override
-  String get channelSettingsPermissionsAddOverride => 'Dodaj iznimku';
+  String get channelSettingsPermissionsAddOverride => 'Dodaj nadjačavanje';
 
   @override
   String get channelSettingsPermissionsSearchRolesOrMembers =>
@@ -8473,7 +8481,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Izbrisati ovu pozivnicu? Ne može se poništiti.';
 
   @override
-  String get channelSettingsCopyInviteCode => 'Kopiraj pozivni kôd';
+  String get channelSettingsCopyInviteCode => 'Kopiraj kod pozivnice';
 
   @override
   String get channelSettingsCopyInviteUrl => 'Kopiraj URL pozivnice';
@@ -8483,24 +8491,24 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get channelSettingsWebhookCreateFailed =>
-      'Stvaranje web-kuke nije uspjelo';
+      'Stvaranje webhooka nije uspjelo';
 
   @override
   String get channelSettingsCreateWebhook => 'Stvori webhook';
 
   @override
   String get channelSettingsInvitesDescription =>
-      'Upravljajte poveznicama za pozivanje za ovaj kanal.';
+      'Upravljajte poveznicama za pozivnice na ovom kanalu.';
 
   @override
   String get channelSettingsInvitesCreate => 'Stvori pozivnicu';
 
   @override
-  String get channelSettingsInvitesEmpty => 'Nema pozivnih poveznica';
+  String get channelSettingsInvitesEmpty => 'Nema poveznica za pozivnice';
 
   @override
   String get channelSettingsInvitesEmptyDescription =>
-      'Ovaj kanal još nema poveznice za pozivnice. Stvorite jednu kako biste pozvali ljude na ovaj kanal.';
+      'Ovaj kanal još nema poveznica za pozivnice. Stvorite jednu kako biste pozvali ljude u ovaj kanal.';
 
   @override
   String get channelSettingsInvitesLoadFailedDescription =>
@@ -8508,18 +8516,18 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get channelSettingsWebhooksDescription =>
-      'Upravljajte dolaznim webhookovima koji mogu objavljivati poruke na ovom kanalu.';
+      'Upravljajte dolaznim webhookovima koji mogu objavljivati poruke u ovom kanalu.';
 
   @override
-  String get channelSettingsWebhooksEmpty => 'Nema web-dojavnika';
+  String get channelSettingsWebhooksEmpty => 'Nema webhookova';
 
   @override
   String get channelSettingsWebhooksEmptyDescription =>
-      'Nema konfiguriranih web-dojavnika za ovaj kanal. Stvorite web-dojavnik kako biste vanjskim aplikacijama omogućili objavljivanje poruka.';
+      'Nema konfiguriranih webhookova za ovaj kanal. Stvorite webhook kako biste vanjskim aplikacijama omogućili objavljivanje poruka.';
 
   @override
   String get channelSettingsWebhooksUnsupported =>
-      'Ovaj kanal ne podržava web-dojavnike.';
+      'Ovaj kanal ne podržava webhookove.';
 
   @override
   String channelSettingsWebhooksPermissionRequired(String permission) {
@@ -8528,11 +8536,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get channelSettingsWebhooksLoadFailedTitle =>
-      'Učitavanje web-dojavnika nije uspjelo';
+      'Učitavanje webhookova nije uspjelo';
 
   @override
   String get channelSettingsWebhooksLoadFailedDescription =>
-      'Došlo je do pogreške prilikom učitavanja web-dojavnika za ovaj kanal. Pokušajte ponovno.';
+      'Došlo je do pogreške prilikom učitavanja webhookova za ovaj kanal. Pokušajte ponovno.';
 
   @override
   String channelSettingsWebhooksCreatedBy(String creator, String date) {
@@ -8543,7 +8551,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get channelSettingsWebhooksUnknownUser => 'Nepoznat korisnik';
 
   @override
-  String get channelSettingsWebhooksAvatar => 'Profilna slika';
+  String get channelSettingsWebhooksAvatar => 'Avatar';
 
   @override
   String get channelSettingsWebhooksUploadImage => 'Učitaj sliku';
@@ -8555,23 +8563,23 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get channelSettingsWebhooksName => 'Naziv';
 
   @override
-  String get channelSettingsWebhooksNamePlaceholder => 'Naziv web-kuke';
+  String get channelSettingsWebhooksNamePlaceholder => 'Naziv webhooka';
 
   @override
   String get channelSettingsWebhooksChannel => 'Kanal';
 
   @override
-  String get channelSettingsWebhooksUrl => 'URL web-dojavnika';
+  String get channelSettingsWebhooksUrl => 'URL webhooka';
 
   @override
-  String get channelSettingsWebhooksCopyUrl => 'Kopiraj URL web-dojavnika';
+  String get channelSettingsWebhooksCopyUrl => 'Kopiraj URL webhooka';
 
   @override
   String get channelSettingsWebhooksDelete => 'Izbriši webhook';
 
   @override
   String get channelSettingsWebhooksDeleteFailed =>
-      'Brisanje web-dojavnika nije uspjelo';
+      'Nije moguće izbrisati ovaj webhook';
 
   @override
   String get channelSettingsWebhooksDeleteConfirm =>
@@ -8579,7 +8587,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get channelSettingsWebhookTryAgainInAMoment =>
-      'Pokušajte ponovo za trenutak.';
+      'Pokušajte ponovno za trenutak.';
 
   @override
   String get channelMenuOpenChat => 'Otvori čavrljanje';
@@ -8712,7 +8720,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get channelHeaderMemberList => 'Popis članova';
 
   @override
-  String get channelHeaderInbox => 'Ulazna pošta';
+  String get channelHeaderInbox => 'Pristigla pošta';
 
   @override
   String get channelHeaderNotificationSettingsMuted =>
@@ -8728,7 +8736,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get channelDetailsSearchFilterFrom => 'Od';
 
   @override
-  String get channelDetailsSearchFilterHas => 'Ima';
+  String get channelDetailsSearchFilterHas => 'Sadrži';
 
   @override
   String get channelDetailsSearchFilterIn => 'U';
@@ -8817,13 +8825,13 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Proslijeđene poruke';
 
   @override
-  String get channelDetailsSearchFilterSort => 'Sortiraj';
+  String get channelDetailsSearchFilterSort => 'Sortiranje';
 
   @override
   String get channelHeaderSearchFiltersTitle => 'Filtri pretraživanja';
 
   @override
-  String get channelHeaderSearchRecentTitle => 'Nedavne pretrage';
+  String get channelHeaderSearchRecentTitle => 'Nedavna pretraživanja';
 
   @override
   String get channelHeaderSearchUsersTitle => 'Korisnici';
@@ -8914,7 +8922,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get channelDetailsSearchFilterByContent => 'Filtriraj po sadržaju';
 
   @override
-  String get channelDetailsSearchSortBy => 'Poredaj rezultate po';
+  String get channelDetailsSearchSortBy => 'Sortiraj rezultate po';
 
   @override
   String get channelDetailsSearchIn => 'Pretraži u';
@@ -8941,7 +8949,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Isprobajte drugačije pojmove za pretraživanje ili filtre.';
 
   @override
-  String get channelDetailsMembersOnline => 'Online';
+  String get channelDetailsMembersOnline => 'Na mreži';
 
   @override
   String get channelDetailsMembersOffline => 'Izvan mreže';
@@ -8981,10 +8989,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get channelDetailsJumpToMessage => 'Skoči na poruku';
 
   @override
-  String get channelDetailsUnpinMessage => 'Odstrani iz pribadače';
+  String get channelDetailsUnpinMessage => 'Otkvači poruku';
 
   @override
-  String get channelDetailsCopyMessageLink => 'Kopiraj poveznicu na poruku';
+  String get channelDetailsCopyMessageLink => 'Kopiraj poveznicu poruke';
 
   @override
   String get channelDetailsCopyMessageId => 'Kopiraj ID poruke';
@@ -8996,36 +9004,36 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get channelDetailsSearchScopeCurrentCommunity => 'Trenutna zajednica';
 
   @override
-  String get channelDetailsSearchScopeCurrentDm => 'Trenutni DM';
+  String get channelDetailsSearchScopeCurrentDm => 'Trenutačna izravna poruka';
 
   @override
   String get channelDetailsSearchScopeAllCommunities => 'Sve zajednice';
 
   @override
   String get channelDetailsSearchScopeAllDmsOnlyGuild =>
-      'Samo svi izravni razgovori';
+      'Samo sve izravne poruke';
 
   @override
-  String get channelDetailsSearchScopeAllDms => 'Svi izravni razgovori';
+  String get channelDetailsSearchScopeAllDms => 'Sve izravne poruke';
 
   @override
   String get channelDetailsSearchScopeOpenDmsOnlyGuild =>
-      'Samo izravni razgovori';
+      'Samo otvorene izravne poruke';
 
   @override
-  String get channelDetailsSearchScopeOpenDms => 'Otvoreni izravni razgovori';
+  String get channelDetailsSearchScopeOpenDms => 'Otvorene izravne poruke';
 
   @override
   String get channelDetailsSearchScopeAllDmsAndCommunities =>
-      'Svi DM-ovi + zajednice';
+      'Sve izravne poruke + zajednice';
 
   @override
   String get channelDetailsSearchScopeOpenDmsAndCommunities =>
-      'Otvoreni izravni i zajednice';
+      'Otvorene izravne poruke + zajednice';
 
   @override
   String get channelDetailsSearchScopeCurrentCommunityDescription =>
-      'Pretraži samo u ovoj zajednici';
+      'Pretraživanje samo u trenutačnoj zajednici';
 
   @override
   String get channelDetailsSearchScopeCurrentDmDescription =>
@@ -9060,10 +9068,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'U svim izravnim porukama koje trenutno imate otvorene + svim zajednicama u kojima ste trenutno član';
 
   @override
-  String get channelDetailsSearchSortNewest => 'Najnovije prvo';
+  String get channelDetailsSearchSortNewest => 'Prvo najnovije';
 
   @override
-  String get channelDetailsSearchSortOldest => 'Najstarije prvo';
+  String get channelDetailsSearchSortOldest => 'Prvo najstarije';
 
   @override
   String get channelDetailsSearchSortRelevance => 'Najrelevantnije';
@@ -9087,7 +9095,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get channelDetailsSearchContentVideo => 'Prijenos videozapisa';
 
   @override
-  String get channelDetailsSearchContentAudio => 'Audiozapis';
+  String get channelDetailsSearchContentAudio => 'Prijenos zvuka';
 
   @override
   String get channelDetailsSearchContentFile => 'Prijenos datoteke';
@@ -9097,7 +9105,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get channelDetailsSearchContentEmbed =>
-      'Pretpregled veze ili ugrađeni sadržaj';
+      'Pregled poveznice ili ugrađeni sadržaj';
 
   @override
   String get channelDetailsSearchContentSticker => 'Naljepnica';
@@ -9116,15 +9124,15 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get channelDetailsSearchContentFileDescription =>
-      'Bilo koji učitani privitak';
+      'Bilo koji preneseni privitak';
 
   @override
   String get channelDetailsSearchContentLinkDescription =>
-      'Upišite URL u tekst poruke';
+      'Upisani URL u tekstu poruke';
 
   @override
   String get channelDetailsSearchContentEmbedDescription =>
-      'Riješeni pregledi i obogaćeni ugrađeni sadržaji, ne prijenosi';
+      'Dohvaćeni pretpregledi i obogaćeni ugrađeni sadržaj, ne prijenosi';
 
   @override
   String get channelDetailsSearchContentStickerDescription =>
@@ -9211,7 +9219,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get groupDmUnsupportedIconFormat => 'Nepodržan format ikone';
 
   @override
-  String get groupDmUnsupportedIconFormatBody => 'Nepodržani tip datoteke.';
+  String get groupDmUnsupportedIconFormatBody => 'Nepodržana vrsta datoteke.';
 
   @override
   String get groupDmCouldntProcessImage => 'Nije moguće obraditi sliku';
@@ -9244,7 +9252,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get groupDmAddFriendFailed =>
-      'Nije bilo moguće dodati ovog prijatelja u grupu. Pokušajte ponovno.';
+      'Nije moguće dodati ovog prijatelja u grupu. Pokušajte ponovno.';
 
   @override
   String get groupDmAddFailed => 'Nije moguće dodati u grupu';
@@ -9255,15 +9263,15 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get groupDmRateLimited =>
-      'Prebrzo idete. Pričekajte trenutak pa pokušajte ponovno.';
+      'Usporite malo. Pričekajte trenutak pa pokušajte ponovno.';
 
   @override
   String get groupDmCreateInviteFailed =>
-      'Nije bilo moguće stvoriti poveznicu za pozivnicu';
+      'Nije moguće stvoriti poveznicu za pozivnicu';
 
   @override
   String get groupDmCreateInviteFailedBody =>
-      'Nije bilo moguće generirati poveznicu za pozivnicu. Pokušajte ponovno.';
+      'Nije moguće generirati poveznicu za pozivnicu. Pokušajte ponovno.';
 
   @override
   String get guildNavbarCreateInviteFailed =>
@@ -9282,7 +9290,8 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Stvaranje pozivnica za ovu zajednicu privremeno je onemogućeno.';
 
   @override
-  String get groupDmCopyInviteFailed => 'Kopiranje pozivnice nije uspjelo';
+  String get groupDmCopyInviteFailed =>
+      'Kopiranje poveznice za pozivnicu nije uspjelo';
 
   @override
   String get groupDmInvitesOwnerOnly =>
@@ -9296,7 +9305,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get groupDmInvitesLoadFailed =>
-      'Pozivnice nije moguće učitati. Pokušajte ponovno.';
+      'Učitavanje pozivnica nije uspjelo. Pokušajte ponovno.';
 
   @override
   String get groupDmInvitesRevokeConfirm =>
@@ -9325,7 +9334,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String channelComposerHint(String channelName) {
-    return 'Poruka #$channelName';
+    return 'Poruka u #$channelName';
   }
 
   @override
@@ -9335,7 +9344,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String groupDmNamedComposerHint(String groupName) {
-    return 'Poruka $groupName';
+    return 'Poruka za $groupName';
   }
 
   @override
@@ -9429,7 +9438,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Ovo će trajno izbrisati svaku poruku i privitak u vašim osobnim bilješkama. Ovo se ne može poništiti.';
 
   @override
-  String get purgePersonalNotesConfirmButton => 'Očisti';
+  String get purgePersonalNotesConfirmButton => 'Izbriši';
 
   @override
   String purgePersonalNotesSuccess(int count) {
@@ -9490,7 +9499,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Preuzmite svoj račun za iskorištavanje ili upravljanje Plutonium kodovima za poklone.';
 
   @override
-  String get giftSettingsRedeemTitle => 'Iskoristi dar';
+  String get giftSettingsRedeemTitle => 'Iskoristi poklon';
 
   @override
   String get giftSettingsRedeemDescription =>
@@ -9507,7 +9516,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Poklon uspješno iskorišten. Uživajte u Plutoniumu.';
 
   @override
-  String get giftSettingsPurchasedTitle => 'Kupljeni darovi';
+  String get giftSettingsPurchasedTitle => 'Kupljeni pokloni';
 
   @override
   String get giftSettingsPurchasedDescription =>
@@ -9528,7 +9537,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Učitavanje inventara poklona nije uspjelo';
 
   @override
-  String get giftSettingsLoadFailedDescription => 'Pokušajte ponovo kasnije.';
+  String get giftSettingsLoadFailedDescription => 'Pokušajte ponovno kasnije.';
 
   @override
   String get giftSettingsTryAgain => 'Pokušaj ponovno';
@@ -9565,7 +9574,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get giftSettingsAlreadyRedeemed => 'Ovaj je dar iskorišten';
+  String get giftSettingsAlreadyRedeemed => 'Ovaj je poklon iskorišten';
 
   @override
   String get giftSettingsRedeemForYourself => 'Iskoristi za sebe';
@@ -9645,7 +9654,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get premiumViewGifts => 'Prikaži darove';
+  String get premiumViewGifts => 'Prikaži poklone';
 
   @override
   String get premiumReadyToUpgrade => 'Spremni za nadogradnju?';
@@ -9677,7 +9686,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get premiumManageSubscription => 'Upravljanje pretplatom';
 
   @override
-  String get premiumRedeemGiftCode => 'Iskoristi poklon-bon';
+  String get premiumRedeemGiftCode => 'Iskoristi kôd poklona';
 
   @override
   String get premiumGiftBadge => 'Poklon';
@@ -9758,7 +9767,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Samoposlužni povrat novca dostupan je unutar 3 dana od plaćanja, jednom svakih 30 dana. Povratom novca za pretplatu, pretplata se otkazuje. Kupci iz EU/EGP-a odriču se prava na odustajanje od kupnje u roku od 14 dana prilikom naplate kako bi odmah pristupili sadržaju. Koristite gumb za povrat novca u aplikaciji umjesto povrata putem banke. Povrati putem banke mogu trajno ograničiti vaš račun. Stripe sigurno obrađuje plaćanje. Nikada ne vidimo cijeli broj vaše kartice.';
 
   @override
-  String get premiumTermsOfService => 'Uvjeti korištenja';
+  String get premiumTermsOfService => 'Uvjeti pružanja usluge';
 
   @override
   String get premiumPrivacyPolicy => 'Pravila privatnosti';
@@ -9814,11 +9823,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Nešto je pošlo po zlu prilikom otvaranja portala za naplatu. Pokušajte ponovno za nekoliko trenutaka.';
 
   @override
-  String get premiumAlreadyVisionaryTitle => 'Već ste Vizionar';
+  String get premiumAlreadyVisionaryTitle => 'Već ste Visionary';
 
   @override
   String get premiumAlreadyVisionaryBody =>
-      'Visionary već uključuje trajni pristup, tako da pretplata nije potrebna. I dalje možete kupovati darove za druge.';
+      'Visionary već uključuje trajni pristup, pa ponavljajuća pretplata nije potrebna. I dalje možete kupovati poklone za druge.';
 
   @override
   String get premiumExistingSubscriptionTitle => 'Pretplata već postoji';
@@ -9828,7 +9837,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Pronašli smo postojeću pretplatu na Fluxer Plutonium za ovaj račun. Upravljajte njome u sigurnosnom portalu za naplatu kako biste ažurirali podatke o plaćanju ili provjerili status obnove. Ako ste upravo platili, pričekajte minutu i ponovno otvorite ovu stranicu.';
 
   @override
-  String get premiumPurchasesDisabledTitle => 'Kupnje nedostupne';
+  String get premiumPurchasesDisabledTitle => 'Kupnja nije dostupna';
 
   @override
   String get premiumPurchasesDisabledBody =>
@@ -9868,7 +9877,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Ograničenje broja znakova u poruci';
 
   @override
-  String get premiumPerkBookmarkedMessages => 'Spremljene poruke';
+  String get premiumPerkBookmarkedMessages => 'Označene poruke';
 
   @override
   String get premiumPerkFileUploadSize => 'Veličina datoteke za prijenos';
@@ -9877,21 +9886,21 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get premiumPerkEmojiStickerPacks => 'Paketi emotikona i naljepnica';
 
   @override
-  String get premiumPerkSavedMedia => 'Spremljeni medijski sadržaji';
+  String get premiumPerkSavedMedia => 'Spremljeni mediji';
 
   @override
-  String get premiumPerkUseAnimatedEmojis => 'Koristite animirane emojije';
+  String get premiumPerkUseAnimatedEmojis => 'Korištenje animiranih emojija';
 
   @override
   String get premiumPerkGlobalEmojiStickerAccess =>
-      'Globalni pristup emotikonima i naljepnicama';
+      'Globalni pristup emojijima i naljepnicama';
 
   @override
-  String get premiumPerkVideoQuality => 'Kvaliteta videozapisa';
+  String get premiumPerkVideoQuality => 'Kvaliteta videa';
 
   @override
   String get premiumPerkAnimatedAvatarsBanners =>
-      'Animirani avatari i natpisi profila';
+      'Animirani avatari i naslovne slike profila';
 
   @override
   String get premiumPerkEarlyAccess => 'Rani pristup novim značajkama';
@@ -9918,7 +9927,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get userSettingsNavLinkedDevices => 'Povezani uređaji';
 
   @override
-  String get userSettingsNavConnections => 'Povezane aplikacije';
+  String get userSettingsNavConnections => 'Povezani računi';
 
   @override
   String get userSettingsNavLookAndFeel => 'Izgled i dojam';
@@ -10085,7 +10094,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String audioAndVideoMicrophonePermissionRequired(String productName) {
-    return 'Aplikacija $productName treba pristup mikrofonu za popisivanje vaših uređaja.';
+    return 'Aplikacija $productName treba pristup mikrofonu za prikaz vaših uređaja.';
   }
 
   @override
@@ -10112,12 +10121,12 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String notificationsEnableNotificationsDescription(String productName) {
-    return 'Primajte obavijesti kada primate poruke. Možda ćete morati dopustiti obavijesti za $productName u postavkama uređaja. Za kontrole po kanalu/zajednici otvorite postavke obavijesti iz izbornika zajednice.';
+    return 'Primajte obavijesti kada dobijete poruke. Možda ćete morati dopustiti obavijesti za $productName u postavkama uređaja. Za kontrole po kanalu/zajednici otvorite postavke obavijesti iz izbornika zajednice.';
   }
 
   @override
   String get notificationsEnableDesktopNotificationsLabel =>
-      'Omogući obavijesti na računalu';
+      'Omogući obavijesti na radnoj površini';
 
   @override
   String get notificationsEnableDesktopNotificationsDescription =>
@@ -10129,7 +10138,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get notificationsEnableBrowserNotificationsDescription =>
-      'Primajte obavijesti kada dobijete poruke. Možda ćete morati dopustiti obavijesti u postavkama preglednika. Za kontrole po kanalu/zajednici, desnom tipkom miša kliknite ikonu zajednice i otvorite postavke obavijesti.';
+      'Primajte obavijesti kada dobijete poruke. Možda ćete morati dopustiti obavijesti u postavkama preglednika. Za kontrole po kanalu/zajednici desnom tipkom miša kliknite ikonu zajednice i otvorite postavke obavijesti.';
 
   @override
   String get notificationsPushInactiveTimeoutLabel =>
@@ -10137,7 +10146,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String notificationsPushInactiveTimeoutDescription(String productName) {
-    return '$productName sprječava slanje obavijesti na vaš mobilni uređaj kada ste za računalom. Odaberite koliko dugo trebate biti neaktivan/na računalu prije nego što počnete primati obavijesti.';
+    return '$productName izbjegava slanje push obavijesti na vaše mobilne uređaje dok ste za računalom. Odaberite koliko dugo morate biti neaktivni na računalu prije nego što počnete primati push obavijesti.';
   }
 
   @override
@@ -10166,14 +10175,14 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Poštujte namjeru pošiljatelja, bez upozorenja kada uključi/isključi spominjanje s @';
 
   @override
-  String get notificationsMentionPreferMentionName => 'Preferiraj spominjanje';
+  String get notificationsMentionPreferMentionName => 'Uz @spominjanje';
 
   @override
   String get notificationsMentionPreferMentionDescription =>
-      'Zadano odgovara na spominjanje vas i upozorava pošiljatelja ako ga isključi';
+      'Zadani odgovori uključuju spominjanje s @, a pošiljatelja se upozorava ako ga isključi';
 
   @override
-  String get notificationsMentionPreferNoMentionName => 'Bez spominjanja (@)';
+  String get notificationsMentionPreferNoMentionName => 'Bez @spominjanja';
 
   @override
   String get notificationsMentionPreferNoMentionDescription =>
@@ -10219,14 +10228,14 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get notificationsTtsModeCurrentChannelDescription =>
-      'Pripovijeda samo kanal koji gledate. Pripovijedanje vas prati između kanala.';
+      'Čita samo kanal koji gledate. Naracija vas prati između kanala.';
 
   @override
   String get notificationsTtsModeNeverName => 'Nikad automatski';
 
   @override
   String get notificationsTtsModeNeverDescription =>
-      'Ostanite tihi osim ako netko ručno ne pokrene /tts.';
+      'Ne čita ništa naglas osim ako netko ručno ne pokrene /tts.';
 
   @override
   String get notificationsTtsModeAriaLabel => 'Čitaj sve poruke naglas';
@@ -10239,7 +10248,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get notificationsMasterVolumeDescription =>
-      'Postavlja razinu za svaki zvučni efekt. Pojedinačne postavke zvuka zanemaruju ovu postavku.';
+      'Postavlja razinu za svaki zvučni efekt. Nadjačavanja za pojedine zvukove zanemaruju ovu postavku.';
 
   @override
   String get notificationsResetToDefaultVolume => 'Vrati na zadanu glasnoću';
@@ -10253,10 +10262,12 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Vaše postojeće postavke zvuka obavijesti bit će zadržane.';
 
   @override
-  String get notificationsShowMoreSoundEffects => 'Pokaži više zvučnih efekata';
+  String get notificationsShowMoreSoundEffects =>
+      'Prikaži više zvučnih efekata';
 
   @override
-  String get notificationsShowFewerSoundEffects => 'Pokaži manje zvučne efekte';
+  String get notificationsShowFewerSoundEffects =>
+      'Prikaži manje zvučnih efekata';
 
   @override
   String get notificationsPreviewSound => 'Pretpregled zvuka';
@@ -10280,24 +10291,25 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String notificationsResetSoundToMasterVolume(String label) {
-    return 'Poništi $label na glavnu glasnoću';
+    return 'Vrati $label na glavnu glasnoću';
   }
 
   @override
-  String get notificationsResetAllOverrides => 'Poništi sva premošćenja';
+  String get notificationsResetAllOverrides =>
+      'Poništi sve prilagodbe glasnoće';
 
   @override
   String notificationsMuteSound(String label) {
-    return 'Isključi zvuk $label.';
+    return 'Isključi zvuk za $label';
   }
 
   @override
   String notificationsUnmuteSound(String label) {
-    return 'Uključi zvuk $label.';
+    return 'Uključi zvuk za $label';
   }
 
   @override
-  String get notificationsSoundMessage => 'Obavijesti o porukama zajednice';
+  String get notificationsSoundMessage => 'Obavijesti o porukama u zajednici';
 
   @override
   String get notificationsSoundDirectMessage =>
@@ -10308,19 +10320,19 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Obavijesti o porukama trenutačnog kanala';
 
   @override
-  String get notificationsSoundMute => 'Glas isključen';
+  String get notificationsSoundMute => 'Isključivanje mikrofona';
 
   @override
   String get notificationsSoundUnmute => 'Uključivanje mikrofona';
 
   @override
-  String get notificationsSoundDeaf => 'Glas je isključen';
+  String get notificationsSoundDeaf => 'Isključivanje zvuka';
 
   @override
-  String get notificationsSoundUndeaf => 'Uklanjanje prigušivanja glasa';
+  String get notificationsSoundUndeaf => 'Uključivanje zvuka';
 
   @override
-  String get notificationsSoundUserJoin => 'Korisnik se pridružio kanalu';
+  String get notificationsSoundUserJoin => 'Korisnik se pridružuje kanalu';
 
   @override
   String get notificationsSoundUserLeave => 'Korisnik napušta kanal';
@@ -10351,7 +10363,8 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get notificationsSoundScreenShareStart => 'Početak dijeljenja zaslona';
 
   @override
-  String get notificationsSoundScreenShareStop => 'Zaustavi dijeljenje zaslona';
+  String get notificationsSoundScreenShareStop =>
+      'Završetak dijeljenja zaslona';
 
   @override
   String get notificationsAfkTimeoutSyncFailed =>
@@ -10445,12 +10458,12 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String languageAndTimeTimeFormatAppLanguage(String format) {
-    return 'Jezik aplikacije: $format';
+    return 'Format vremena prema jeziku aplikacije: $format';
   }
 
   @override
   String languageAndTimeTimeFormatSystemLocale(String format) {
-    return 'Jezik sustava: $format';
+    return 'Format vremena sustava: $format';
   }
 
   @override
@@ -10482,23 +10495,23 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get defaultAppsWebBrowserExternal => 'Vanjski preglednik';
 
   @override
-  String get userSettingsNavAppIcon => 'App Icon';
+  String get userSettingsNavAppIcon => 'App icon';
 
   @override
-  String get appIconSectionTitle => 'App Icon';
+  String get appIconSectionTitle => 'App icon';
 
   @override
   String get appIconSectionDescription =>
       'Choose which icon appears on your home screen.';
 
   @override
-  String get appIconOptionDefault => 'Default';
+  String get appIconOptionDefault => 'Zadano';
 
   @override
   String get appIconOptionStarfield => 'Starfield';
 
   @override
-  String get appIconOptionSweden => 'Sweden';
+  String get appIconOptionSweden => 'Švedska';
 
   @override
   String get appIconUnsupported =>
@@ -10544,25 +10557,25 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get advancedSettingsCategoryMedia => 'Mediji';
 
   @override
-  String get advancedSettingsCategoryVoice => 'Glasovno';
+  String get advancedSettingsCategoryVoice => 'Glas';
 
   @override
-  String get advancedSettingsCategoryDeveloper => 'Razvojni programer';
+  String get advancedSettingsCategoryDeveloper => 'Za programere';
 
   @override
   String get advancedSettingEnableTextSelectionLabel => 'Omogući odabir teksta';
 
   @override
   String get advancedSettingEnableTextSelectionDescription =>
-      'Omogućuje odabir teksta u aplikaciji.';
+      'Dopusti odabir teksta u aplikaciji';
 
   @override
   String get advancedSettingVideoSeekThumbnailsLabel =>
-      'Omogućite sličice za brzu navigaciju kroz videozapis';
+      'Omogući sličice za brzu navigaciju kroz videozapis';
 
   @override
   String get advancedSettingVideoSeekThumbnailsDescription =>
-      'Sličica ili živi okvir tijekom pregledavanja videa';
+      'Sličica ili kadar uživo tijekom pomicanja videozapisa';
 
   @override
   String get advancedSettingHapticFeedbackLabel => 'Haptička povratna veza';
@@ -10576,7 +10589,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get advancedSettingShowNekoDescription =>
-      'Mačka Neko koja juri vaš pokazivač';
+      'Mačka Neko koja juri za vašim pokazivačem';
 
   @override
   String get advancedSettingShowNekoDescriptionTouch =>
@@ -10595,7 +10608,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get advancedSettingKeyboardHintsDescription =>
-      'Prikaz savjeta za prečace na tipkovnici u alatnim trakama.';
+      'Savjeti za tipkovne prečace u opisima alata';
 
   @override
   String get advancedSettingEnableFavoritesLabel => 'Omogući favorite';
@@ -10610,7 +10623,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get advancedSettingVoiceChannelJoinBehaviorDescription =>
-      'Potvrda ili dvostruki klik za pridruživanje glasovnom kanalu zajednice.';
+      'Potvrda ili dvostruki klik za pridruživanje glasovnim kanalima zajednice';
 
   @override
   String get advancedSettingRequireDoubleClickJoinLabel =>
@@ -10637,7 +10650,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Odaberite kako se pohranjuju omiljeni GIF-ovi sa zvjezdicom';
 
   @override
-  String get advancedSettingMediaButtonsLabel => 'Medijske tipke';
+  String get advancedSettingMediaButtonsLabel => 'Gumbi za medije';
 
   @override
   String get advancedSettingMediaButtonsDescription =>
@@ -10645,11 +10658,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get advancedSettingPreuploadAttachmentsLabel =>
-      'Učitajte priloge prije slanja';
+      'Prenesi privitke prije slanja';
 
   @override
   String get advancedSettingPreuploadAttachmentsDescription =>
-      'Počnite s prijenosom priloga čim se dodaju u polje za unos poruke';
+      'Počnite s prijenosom privitaka čim se dodaju u polje za unos poruke';
 
   @override
   String get advancedSettingStripTrackingLabel =>
@@ -10657,7 +10670,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get advancedSettingStripTrackingDescription =>
-      'Automatski ukloni parametre za praćenje iz URL-ova u porukama koje šalješ';
+      'Automatski uklanja parametre za praćenje iz URL-ova u porukama koje šaljete';
 
   @override
   String get advancedSettingTrustAllLinksLabel =>
@@ -10665,14 +10678,14 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get advancedSettingTrustAllLinksDescription =>
-      'Preskoči upozorenje za vanjske poveznice za sve domene';
+      'Preskoči upozorenje o vanjskim poveznicama za sve domene';
 
   @override
   String get advancedSettingSearchEnginesLabel => 'Tražilice';
 
   @override
   String get advancedSettingSearchEnginesDescription =>
-      'Konfigurirajte pretraživače koji se koriste za odabran tekst';
+      'Konfigurirajte pretraživače koji se koriste za odabrani tekst';
 
   @override
   String get advancedSettingTranslatorsLabel => 'Prevoditelji';
@@ -10687,7 +10700,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get advancedSettingReverseImageSearchDescription =>
-      'Davatelji usluga pretraživanja slika';
+      'Davatelji usluga obrnutog pretraživanja slika';
 
   @override
   String get advancedSettingMessageActionBarLabel => 'Traka radnji poruke';
@@ -10729,14 +10742,14 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get advancedSettingHideMutedChannelsLabel =>
-      'Sakrij isključene kanale po zadanim postavkama';
+      'Sakrij utišane kanale po zadanim postavkama';
 
   @override
   String get advancedSettingHideMutedChannelsDescription =>
-      'Sakrij kanale koje ste isključili iz bočnih traka zajednice';
+      'Sakrij kanale koje ste utišali iz bočnih traka zajednica';
 
   @override
-  String get advancedSettingShowGifIndicatorLabel => 'Prikaži GIF indikator';
+  String get advancedSettingShowGifIndicatorLabel => 'Prikaži indikator GIF-a';
 
   @override
   String get advancedSettingShowAttachmentExpiryLabel =>
@@ -10755,7 +10768,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get advancedSettingShowSuppressEmbedsLabel =>
-      'Prikaži gumb za suzbijanje ugrađenih sadržaja';
+      'Prikaži gumb za skrivanje ugrađenog sadržaja';
 
   @override
   String get advancedSettingShowMessageActionBarLabel =>
@@ -10773,7 +10786,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get advancedSettingShowDefaultEmojisAutocompleteLabel =>
-      'Prikaži zadane emotikone u automatskom dovršavanju izraza';
+      'Prikaži zadane emojije u automatskom dovršavanju izraza';
 
   @override
   String get advancedSettingShowCustomEmojisAutocompleteLabel =>
@@ -10798,7 +10811,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Prikaži gumb za naljepnice';
 
   @override
-  String get advancedSettingShowEmojiButtonLabel => 'Prikaži gumb za emotikone';
+  String get advancedSettingShowEmojiButtonLabel => 'Prikaži gumb za emoji';
 
   @override
   String get advancedSettingShowSendButtonLabel => 'Prikaži gumb za slanje';
@@ -10809,7 +10822,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get advancedSettingNewDeviceAlertsDescription =>
-      'Prikazivanje obavijesti za nove audio uređaje';
+      'Upit pri povezivanju novih audio uređaja';
 
   @override
   String get advancedSettingConnectionVolumeControlsLabel =>
@@ -10817,7 +10830,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get advancedSettingConnectionVolumeControlsDescription =>
-      'Prikaži klizače glasnoće sudionika za svaki uređaj u izbornicima za glasnoću';
+      'Prikaži klizače glasnoće sudionika za svaki uređaj u glasovnim izbornicima';
 
   @override
   String get advancedSettingScreenSharePreviewBehaviorLabel =>
@@ -10825,7 +10838,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get advancedSettingScreenSharePreviewBehaviorDescription =>
-      'Pregled, ponašanje u odvojenom prozoru i sličica za prijenos uživo';
+      'Ponašanje pretpregleda, skočnog prozora i sličice streama';
 
   @override
   String get advancedSettingScreenShareCodecLabel =>
@@ -10855,7 +10868,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get advancedSettingPauseScreenSharePreviewLabel =>
-      'Pauziraj pregled dijeljenja zaslona u pozadini';
+      'Pauziraj pretpregled mog dijeljenja zaslona u pozadini';
 
   @override
   String get advancedSettingHideStreamPreviewLabel =>
@@ -10895,7 +10908,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get advancedSettingDefaultSearchEngineDescription =>
-      'Odaberite koju će tražilicu koristiti zadano prilikom pretraživanja odabranog teksta.';
+      'Odaberite koja će se tražilica koristiti prema zadanim postavkama prilikom pretraživanja odabranog teksta.';
 
   @override
   String get advancedSettingBuiltInSearchEnginesLabel => 'Ugrađene tražilice';
@@ -10950,14 +10963,14 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get advancedSettingEnableAtLeastOneTranslatorLabel =>
-      'Omogućite barem jedan prevoditelj u nastavku.';
+      'Omogućite barem jednog prevoditelja u nastavku.';
 
   @override
   String get advancedSettingRemoveTranslatorLabel => 'Ukloni prevoditelja';
 
   @override
   String get advancedSettingDefaultReverseImageSearchLabel =>
-      'Zadano pretraživanje obrnutom slikom';
+      'Zadana obrnuta pretraga slika';
 
   @override
   String get advancedSettingDefaultReverseImageSearchDescription =>
@@ -10986,7 +10999,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get advancedSettingEnableAtLeastOneReverseImageSearchLabel =>
-      'Omogućite barem jednog pružatelja pretraživanja slika u nastavku.';
+      'Omogućite barem jednog pružatelja obrnutog pretraživanja slika u nastavku.';
 
   @override
   String get advancedSettingRemoveReverseImageSearchLabel =>
@@ -11046,11 +11059,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get advancedSettingSearchProviderNameRequired => 'Ime je obavezno.';
+  String get advancedSettingSearchProviderNameRequired => 'Naziv je obavezan.';
 
   @override
   String get advancedSettingSearchProviderUrlRequired =>
-      'Obrazac URL-a je obavezan.';
+      'Uzorak URL-a je obavezan.';
 
   @override
   String advancedSettingSearchProviderUrlMustContainQuery(Object query) {
@@ -11064,7 +11077,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get advancedSettingSearchProviderUrlMustBeValid =>
-      'URL obrazac mora biti važeći URL.';
+      'Uzorak URL-a mora biti važeći URL.';
 
   @override
   String get advancedSettingAddSearchProviderAction => 'Dodaj';
@@ -11089,7 +11102,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get userSettingsNavAppLogs => 'Dnevnici aplikacije';
 
   @override
-  String get userSettingsNavDeveloperTools => 'Alati za razvojne inženjere';
+  String get userSettingsNavDeveloperTools => 'Alati za razvojne programere';
 
   @override
   String get userSettingsNavLimitsConfig => 'Konfiguracija ograničenja';
@@ -11129,11 +11142,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Odjava';
 
   @override
-  String get userSettingsLogOutConfirmTitle => 'Sign out?';
+  String get userSettingsLogOutConfirmTitle => 'Želite li se odjaviti?';
 
   @override
   String get userSettingsLogOutConfirmDescription =>
-      'You can sign back in at any time.';
+      'Možete se ponovno prijaviti bilo kada.';
 
   @override
   String get quickSwitcherTabSearch => 'Pretraživanje';
@@ -11189,7 +11202,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get quickSwitcherNotificationsLabel => 'Obavijesti';
 
   @override
-  String get quickSwitcherBookmarksLabel => 'Spremljene poruke';
+  String get quickSwitcherBookmarksLabel => 'Oznake';
 
   @override
   String get savedMessagesEmptyTitle => 'Nema oznaka';
@@ -11205,10 +11218,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get savedMessagesRemoveTooltip => 'Ukloni oznaku';
 
   @override
-  String get savedMessagesAddedToast => 'Added to bookmarks';
+  String get savedMessagesAddedToast => 'Dodano u oznake';
 
   @override
-  String get savedMessagesRemovedToast => 'Removed from bookmarks';
+  String get savedMessagesRemovedToast => 'Uklonjeno iz oznaka';
 
   @override
   String get quickSwitcherMentionsLabel => 'Spominjanja';
@@ -11248,7 +11261,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get quickSwitcherSearchAliasStarred => 'Označenim';
 
   @override
-  String get quickSwitcherSearchAliasInbox => 'Ulazna pošta';
+  String get quickSwitcherSearchAliasInbox => 'Pristigla pošta';
 
   @override
   String get quickSwitcherSearchAliasSaved => 'Spremljeno';
@@ -11384,7 +11397,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Istraži zajednice koje se mogu otkriti';
 
   @override
-  String get discoveryExplore => 'Istražite';
+  String get discoveryExplore => 'Istraži';
 
   @override
   String get discoveryExplorePublicCommunities => 'Istraži javne zajednice';
@@ -11487,11 +11500,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorMaxGuildsTitle =>
-      'Dosegnuli ste ograničenje zajednica';
+      'Dosegli ste ograničenje broja zajednica';
 
   @override
   String get discoveryJoinErrorMaxGuildsMessage =>
-      'U maksimalnom ste broju zajednica. Napustite jednu i pokušajte ponovno.';
+      'Dosegli ste najveći dopušteni broj zajednica. Napustite jednu i pokušajte ponovno.';
 
   @override
   String get discoveryJoinErrorBannedTitle =>
@@ -11499,7 +11512,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorBannedMessage =>
-      'Izbačeni ste iz ove zajednice.';
+      'Zabranjen vam je pristup ovoj zajednici.';
 
   @override
   String get discoveryJoinErrorNotAvailableTitle =>
@@ -11507,10 +11520,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      'Moguće je da je napustila otkrivanje ili isključila nova pridruživanja. Osvježite stranicu i više je nećete vidjeti.';
+      'Moguće je da je napustila Otkrivanje ili isključila nova pridruživanja. Osvježite stranicu i više je nećete vidjeti.';
 
   @override
-  String get discoveryJoinErrorRateLimitTitle => 'Prebrzo idete';
+  String get discoveryJoinErrorRateLimitTitle => 'Usporite malo';
 
   @override
   String get discoveryJoinErrorRateLimitMessage =>
@@ -11551,7 +11564,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get navigationItemMuted => 'isključeno';
+  String get navigationItemMuted => 'utišano';
 
   @override
   String get authShowPassword => 'Prikaži lozinku';
@@ -11578,7 +11591,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get friendsCancelRequest => 'Poništi zahtjev za prijateljstvo';
 
   @override
-  String get friendsOpenInbox => 'Ulazna pošta';
+  String get friendsOpenInbox => 'Pristigla pošta';
 
   @override
   String get profileRemoveFriend => 'Ukloni prijatelja';
@@ -11635,7 +11648,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get guildFolderIconHeart => 'Srce';
 
   @override
-  String get guildFolderIconBookmark => 'Zabilježi';
+  String get guildFolderIconBookmark => 'Oznaka';
 
   @override
   String get guildFolderIconGameController => 'Kontroler za igre';
@@ -11647,13 +11660,13 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get guildFolderIconMusicNote => 'Glazbena nota';
 
   @override
-  String get guildFolderMarkAsRead => 'Označi mapu pročitanom';
+  String get guildFolderMarkAsRead => 'Označi mapu kao pročitanu';
 
   @override
-  String get guildBulkMuteCommunities => 'Isključi zvuk zajednicama';
+  String get guildBulkMuteCommunities => 'Isključi obavijesti za zajednice';
 
   @override
-  String get guildBulkUnmuteCommunities => 'Uključi zvuk zajednicama';
+  String get guildBulkUnmuteCommunities => 'Uključi obavijesti za zajednice';
 
   @override
   String get guildBulkCommunityNotificationSettings =>
@@ -11682,10 +11695,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get guildBulkBlockDirectMessages => 'Blokiraj izravne poruke';
 
   @override
-  String get guildBulkAllowBotDirectMessages => 'Dopusti izravne poruke bota';
+  String get guildBulkAllowBotDirectMessages => 'Dopusti izravne poruke botova';
 
   @override
-  String get guildBulkBlockBotDirectMessages => 'Blokiraj izravne poruke bota';
+  String get guildBulkBlockBotDirectMessages =>
+      'Blokiraj izravne poruke botova';
 
   @override
   String get guildNavbarGroupDm => 'Grupna izravna poruka';
@@ -11776,7 +11790,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildNavbarInviteNeverExpires =>
-      'Ova pozivna veza nikad ne istječe.';
+      'Ova poveznica za pozivnicu nikad ne istječe.';
 
   @override
   String guildNavbarInviteExpiresIn(String duration) {
@@ -11787,7 +11801,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get guildNavbarEditInviteLink => 'Uredi poveznicu za pozivnicu';
 
   @override
-  String get guildNavbarInviteLinkSettings => 'Postavke veze za pozivnicu';
+  String get guildNavbarInviteLinkSettings => 'Postavke poveznice za pozivnicu';
 
   @override
   String get guildNavbarExpireAfter => 'Istječe nakon';
@@ -11890,7 +11904,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get guildNavbarNoLimit => 'Bez ograničenja';
 
   @override
-  String get guildNavbarOneUse => '1 upotreba';
+  String get guildNavbarOneUse => '1 korištenje';
 
   @override
   String guildNavbarUses(int count) {
@@ -11913,19 +11927,19 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get guildMenuEditCommunityProfile => 'Uredi profil zajednice';
 
   @override
-  String get guildMenuUnmuteCommunity => 'Odglumi zajednicu';
+  String get guildMenuUnmuteCommunity => 'Uključi obavijesti za zajednicu';
 
   @override
-  String get guildMenuMuteCommunity => 'Utišaj zajednicu';
+  String get guildMenuMuteCommunity => 'Isključi obavijesti za zajednicu';
 
   @override
-  String get guildMenuHideMutedChannels => 'Sakrij prigušene kanale';
+  String get guildMenuHideMutedChannels => 'Sakrij utišane kanale';
 
   @override
   String get guildMenuReportCommunity => 'Prijavi zajednicu';
 
   @override
-  String get guildMenuDebugCommunity => 'Debugiraj zajednicu';
+  String get guildMenuDebugCommunity => 'Otklanjanje pogrešaka zajednice';
 
   @override
   String get guildMenuCopyCommunityId => 'Kopiraj ID zajednice';
@@ -11986,7 +12000,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get guildSettingsUploadImage => 'Učitaj sliku';
 
   @override
-  String get guildSettingsOverviewBannerTitle => 'Natpis';
+  String get guildSettingsOverviewBannerTitle => 'Naslovna slika';
 
   @override
   String get guildSettingsOverviewBannerHint =>
@@ -12005,7 +12019,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get guildSettingsOverviewMembers => 'Članovi';
 
   @override
-  String get guildSettingsOverviewOnline => 'Online';
+  String get guildSettingsOverviewOnline => 'Na mreži';
 
   @override
   String get guildSettingsRolesDescription =>
@@ -12069,13 +12083,13 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsRolesClearPermissionsHelp =>
-      'Ovim gumbom brzo obrišite sva dopuštenja.';
+      'Koristite ovaj gumb za brzo brisanje svih dopuštenja.';
 
   @override
   String get guildSettingsRolesClearPermissions => 'Obriši dopuštenja';
 
   @override
-  String get guildSettingsRolesPermissionsSection => 'Dozvole';
+  String get guildSettingsRolesPermissionsSection => 'Dopuštenja';
 
   @override
   String get guildSettingsRolesSearchPermissions => 'Pretražite dopuštenja';
@@ -12088,11 +12102,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsRolesSwitchToDenseLayout =>
-      'Prebaci na zbijeni prikaz';
+      'Prebaci na zgusnuti izgled';
 
   @override
   String get guildSettingsRolesSwitchToComfyLayout =>
-      'Prebaci na udoban izgled';
+      'Prebaci na ugodan izgled';
 
   @override
   String get guildSettingsRolesSingleColumn => 'Jedan stupac';
@@ -12154,7 +12168,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get guildSettingsRolesUpdatedSuccess => 'Uloge su uspješno ažurirane';
 
   @override
-  String get guildSettingsRolesCreatedSuccess => 'Uloga uspješno izrađena';
+  String get guildSettingsRolesCreatedSuccess => 'Uloga je uspješno stvorena';
 
   @override
   String get guildSettingsRolesDeletedSuccess => 'Uloga je uspješno izbrisana';
@@ -12172,7 +12186,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsRolesCreateFailedTitle =>
-      'Nije bilo moguće stvoriti ulogu';
+      'Nije moguće stvoriti ulogu';
 
   @override
   String get guildSettingsRolesUpdateFailedTitle =>
@@ -12189,11 +12203,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsRolesResetHoistFailedTitle =>
-      'Nije bilo moguće poništiti redoslijed isticanja';
+      'Nije moguće poništiti redoslijed isticanja';
 
   @override
   String get guildSettingsRolesTryAgainInAMoment =>
-      'Pokušajte ponovo za trenutak.';
+      'Pokušajte ponovno za trenutak.';
 
   @override
   String guildSettingsRolesDeleteConfirm(String name) {
@@ -12207,7 +12221,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get permissionCategoryMessagesMedia => 'Poruke i mediji';
 
   @override
-  String get permissionCategoryModeration => 'Moderacija';
+  String get permissionCategoryModeration => 'Moderiranje';
 
   @override
   String get permissionCategoryChannelAccess => 'Pristup kanalu';
@@ -12219,7 +12233,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get permissionCategoryAudioVideo => 'Audio i video';
 
   @override
-  String get permissionUnknown => 'Nepoznata dozvola';
+  String get permissionUnknown => 'Nepoznato dopuštenje';
 
   @override
   String get permissionAdministrator => 'Administrator';
@@ -12229,11 +12243,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Daje sva dopuštenja i zaobilazi ograničenja kanala. Vrlo osjetljivo.';
 
   @override
-  String get permissionViewActivityLog => 'Prikaz dnevnika aktivnosti';
+  String get permissionViewActivityLog => 'Prikaz evidencije aktivnosti';
 
   @override
   String get permissionViewActivityLogDescription =>
-      'Čitanje zapisnika aktivnosti zajednice o promjenama i radnjama moderiranja.';
+      'Čitanje evidencije aktivnosti zajednice o promjenama i radnjama moderiranja.';
 
   @override
   String get permissionManageCommunity => 'Upravljanje zajednicom';
@@ -12268,7 +12282,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get permissionManageWebhooksChannelDescription =>
-      'Stvaranje, uređivanje ili brisanje web-dojavnika za ovaj kanal.';
+      'Stvaranje, uređivanje ili brisanje webhookova za ovaj kanal.';
 
   @override
   String get permissionViewChannelMembersChannelDescription =>
@@ -12276,7 +12290,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get permissionCreateInviteLinksChannelDescription =>
-      'Upravljajte poveznicama za pozivanje za ovaj kanal.';
+      'Upravljajte poveznicama za pozivnice na ovom kanalu.';
 
   @override
   String get permissionOverwriteDeny => 'Odbij';
@@ -12289,7 +12303,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get permissionOverwriteSetAllHelp =>
-      'Koristite ove gumbe za brzo postavljanje svih dozvola.';
+      'Koristite ove gumbe za brzo postavljanje svih dopuštenja.';
 
   @override
   String get permissionManageChannelsDescription =>
@@ -12299,7 +12313,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get permissionKickMembers => 'Izbaci članove';
 
   @override
-  String get permissionBanMembers => 'Zabrani članovima';
+  String get permissionBanMembers => 'Zabrani pristup članovima';
 
   @override
   String get permissionCreateInviteLinks => 'Stvaranje poveznica za pozivnice';
@@ -12338,7 +12352,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get permissionManageWebhooksDescription =>
-      'Stvaranje, uređivanje ili brisanje web-dojavnika.';
+      'Stvaranje, uređivanje ili brisanje webhookova.';
 
   @override
   String get permissionSendMessages => 'Slanje poruka';
@@ -12361,7 +12375,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get permissionPinMessages => 'Prikvači poruke';
 
   @override
-  String get permissionEmbedLinks => 'Ugradi poveznice';
+  String get permissionEmbedLinks => 'Ugrađivanje poveznica';
 
   @override
   String get permissionAttachFiles => 'Priloži datoteke';
@@ -12371,14 +12385,14 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get permissionMentionEveryoneDescription =>
-      'Spomenite sve ili bilo koju ulogu (čak i ako uloga nije postavljena kao spomenjiva).';
+      'Spomeni sve ili bilo koju ulogu (čak i ako za ulogu nije dopušteno spominjanje).';
 
   @override
-  String get permissionUseExternalEmoji => 'Koristi vanjske emotikone';
+  String get permissionUseExternalEmoji => 'Koristi vanjske emojije';
 
   @override
   String get permissionUseExternalEmojiDescription =>
-      'Koristite emojije iz drugih zajednica.';
+      'Upotrebljavaj emojije iz drugih zajednica.';
 
   @override
   String get permissionUseExternalStickers => 'Koristi vanjske naljepnice';
@@ -12388,7 +12402,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get permissionAddReactionsDescription =>
-      'Dodajte nove reakcije na poruke.';
+      'Dodaj nove reakcije na poruke.';
 
   @override
   String get permissionBypassSlowmode => 'Zaobiđi usporeni način rada';
@@ -12398,11 +12412,12 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Zanemari ograničenja broja poruka po kanalu.';
 
   @override
-  String get permissionTimeOutMembers => 'Privremeno isključi članove';
+  String get permissionTimeOutMembers =>
+      'Postavi vremensko ograničenje članovima';
 
   @override
   String get permissionTimeOutMembersDescription =>
-      'Spriječite članove da šalju poruke, reagiraju i pridružuju se glasovnim pozivima na određeno vrijeme.';
+      'Spriječite članove da šalju poruke, reagiraju i pridružuju se glasovnim kanalima na određeno vrijeme.';
 
   @override
   String get permissionViewChannel => 'Prikaz kanala';
@@ -12418,23 +12433,23 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get permissionConnect => 'Poveži';
 
   @override
-  String get permissionSpeak => 'Govoriti';
+  String get permissionSpeak => 'Govor';
 
   @override
-  String get permissionStreamVideo => 'Streamanje videozapisa';
+  String get permissionStreamVideo => 'Prijenos videozapisa';
 
   @override
   String get permissionUseVoiceActivity => 'Koristi glasovnu aktivnost';
 
   @override
   String get permissionUseVoiceActivityDescription =>
-      'Bez ove dozvole, potrebno je pritisnuti za razgovor.';
+      'Bez ovog dopuštenja obavezna je značajka pritisni za govor.';
 
   @override
   String get permissionPrioritySpeaker => 'Prioritetni govornik';
 
   @override
-  String get permissionMuteMembers => 'Isključi zvuk članovima';
+  String get permissionMuteMembers => 'Utišaj članove';
 
   @override
   String get permissionDeafenMembers => 'Isključi zvuk članovima';
@@ -12517,18 +12532,18 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Zahtijeva potvrđenu adresu e-pošte i račun star najmanje 5 minuta.';
 
   @override
-  String get guildSettingsVerificationHigh => 'Visoko';
+  String get guildSettingsVerificationHigh => 'Visoka';
 
   @override
   String get guildSettingsVerificationHighDescription =>
-      'Zahtijeva sve iz srednje razine, plus članstvo u zajednici najmanje 10 minuta.';
+      'Zahtijeva sve što i srednja razina te članstvo u zajednici od najmanje 10 minuta.';
 
   @override
   String get guildSettingsVerificationHighest => 'Vrlo visoka';
 
   @override
   String get guildSettingsVerificationHighestDescription =>
-      'Zahtijeva verificirani broj telefona.';
+      'Zahtijeva potvrđeni broj telefona.';
 
   @override
   String get guildSettingsAuditLogDescription =>
@@ -12555,11 +12570,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsAuditLogLoadError =>
-      'Došlo je do pogreške pri učitavanju dnevnika aktivnosti.';
+      'Došlo je do pogreške pri učitavanju evidencije aktivnosti.';
 
   @override
   String get guildSettingsAuditLogLoadErrorTitle =>
-      'Nije moguće učitati zapise aktivnosti';
+      'Nije moguće učitati evidenciju aktivnosti';
 
   @override
   String get guildSettingsAuditLogReason => 'Razlog';
@@ -12609,7 +12624,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get auditLogActionMemberPrune => 'Članovi uklonjeni';
 
   @override
-  String get auditLogActionMemberBanAdd => 'Član zabranjen';
+  String get auditLogActionMemberBanAdd => 'Članu zabranjen pristup';
 
   @override
   String get auditLogActionMemberBanRemove => 'Članu ukinuta zabrana';
@@ -12624,7 +12639,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get auditLogActionMemberMove => 'Član premješten';
 
   @override
-  String get auditLogActionMemberDisconnect => 'Član je prekinuo vezu';
+  String get auditLogActionMemberDisconnect => 'Član odspojen';
 
   @override
   String get auditLogActionBotAdd => 'Bot dodan';
@@ -12654,7 +12669,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get auditLogActionWebhookUpdate => 'Webhook ažuriran';
 
   @override
-  String get auditLogActionWebhookDelete => 'Web-dojavnik izbrisan';
+  String get auditLogActionWebhookDelete => 'Webhook izbrisan';
 
   @override
   String get auditLogActionEmojiCreate => 'Emoji izrađen';
@@ -12681,7 +12696,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get auditLogActionMessageBulkDelete => 'Poruke izbrisane';
 
   @override
-  String get auditLogActionMessagePin => 'Poruka je prikvačena';
+  String get auditLogActionMessagePin => 'Poruka prikvačena';
 
   @override
   String get auditLogActionMessageUnpin => 'Poruka otkvačena';
@@ -13113,10 +13128,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsWebhooksDescription =>
-      'Pregledajte i upravljajte svim web-dojavnicima konfiguriranima u vašoj zajednici.';
+      'Pregledajte sve webhookove konfigurirane u vašoj zajednici i upravljajte njima.';
 
   @override
-  String get guildSettingsWebhooksEmpty => 'Nema web-dojavnika';
+  String get guildSettingsWebhooksEmpty => 'Nema webhookova';
 
   @override
   String guildSettingsWebhooksEmptyDescription(String channelSettingsPath) {
@@ -13130,18 +13145,18 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsWebhooksLoadFailedTitle =>
-      'Učitavanje web-dojavnika nije uspjelo';
+      'Učitavanje webhookova nije uspjelo';
 
   @override
   String get guildSettingsWebhooksLoadFailedDescription =>
-      'Došlo je do pogreške prilikom učitavanja web-dojavnika. Pokušajte ponovno.';
+      'Došlo je do pogreške prilikom učitavanja webhookova. Pokušajte ponovno.';
 
   @override
-  String get guildSettingsWebhooksUpdated => 'Webhooks ažurirani';
+  String get guildSettingsWebhooksUpdated => 'Webhookovi ažurirani';
 
   @override
   String get guildSettingsWebhooksUpdateFailed =>
-      'Ažuriranje web-dojavnika nije uspjelo';
+      'Ažuriranje webhookova nije uspjelo';
 
   @override
   String get guildSettingsUnknownChannel => 'Nepoznat kanal';
@@ -13212,7 +13227,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPendingInfo =>
-      'Vaša je prijava na čekanju. I dalje možete ažurirati pojedinosti oglasa ili povući prijavu.';
+      'Vaša prijava čeka pregled. I dalje možete ažurirati pojedinosti unosa ili povući prijavu.';
 
   @override
   String get guildSettingsDiscoveryCategory => 'Kategorija';
@@ -13226,7 +13241,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'Jezik kojim govori većina vaše zajednice. Koristi se za filtriranje rezultata otkrivanja.';
+      'Jezik kojim govori većina vaše zajednice. Koristi se za filtriranje rezultata Otkrivanja.';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => 'Opis';
@@ -13273,7 +13288,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryTagRequirements(int maxLength) {
-    return 'Oznake moraju imati 2 do $maxLength alfanumeričkih znakova.';
+    return 'Oznake moraju imati od 2 do $maxLength alfanumeričkih znakova.';
   }
 
   @override
@@ -13292,15 +13307,15 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApplicationSent =>
-      'Prijava za otkrivanje poslana';
+      'Prijava za Otkrivanje poslana';
 
   @override
   String get guildSettingsDiscoveryListingUpdated =>
-      'Popis za otkrivanje ažuriran';
+      'Unos u Otkrivanju ažuriran';
 
   @override
   String get guildSettingsDiscoveryApplicationWithdrawn =>
-      'Prijava za otkrivanje povučena';
+      'Prijava za Otkrivanje povučena';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorTitle =>
@@ -13308,7 +13323,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorDescription =>
-      'Pokušajte ponovo za trenutak.';
+      'Pokušajte ponovno za trenutak.';
 
   @override
   String get guildSettingsMembersDescription =>
@@ -13316,7 +13331,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsMembersSearchHint =>
-      'Pretraživanje po korisničkom imenu ili ID-u';
+      'Pretražite po korisničkom imenu ili ID-u';
 
   @override
   String guildSettingsMembersResultsTitle(int count) {
@@ -13332,7 +13347,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get guildMembersSort => 'Sortiraj';
+  String get guildMembersSort => 'Sortiranje';
 
   @override
   String get guildSettingsMembersSortNewest => 'Prvo najnovije';
@@ -13348,7 +13363,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String guildMembersColumnJoinedProduct(String productName) {
-    return 'Pridružio/la se $productName';
+    return 'Pridružio/la se ${productName}u';
   }
 
   @override
@@ -13365,7 +13380,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildMembersFilterJoinedProduct =>
-      'Filtriraj po datumu kreiranja računa';
+      'Filtriraj po datumu stvaranja računa';
 
   @override
   String get guildMembersFilterJoinMethod =>
@@ -13390,13 +13405,13 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get guildMembersFilterPast2Weeks => 'Zadnja 2 tjedna';
 
   @override
-  String get guildMembersFilterPast3Weeks => 'Posljednja 3 tjedna';
+  String get guildMembersFilterPast3Weeks => 'Zadnja 3 tjedna';
 
   @override
   String get guildMembersFilterPast4Weeks => 'Zadnja 4 tjedna';
 
   @override
-  String get guildMembersFilterPast3Months => 'Posljednja 3 mjeseca';
+  String get guildMembersFilterPast3Months => 'Zadnja 3 mjeseca';
 
   @override
   String get guildMembersFilterCustomRange => 'Prilagođeni raspon...';
@@ -13438,7 +13453,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get guildMembersJumpToPage => 'Skoči na stranicu';
 
   @override
-  String get guildMembersJoinSourceCreator => 'Autor zajednice';
+  String get guildMembersJoinSourceCreator => 'Osnivač zajednice';
 
   @override
   String get guildMembersJoinSourceInvite => 'Pozovi';
@@ -13454,7 +13469,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
-  String get guildMembersJoinSourceVanityUrl => 'URL po želji';
+  String get guildMembersJoinSourceVanityUrl => 'Prilagođeni URL';
 
   @override
   String get guildMembersJoinSourceBotInvite => 'Pozivnica za bota';
@@ -13524,11 +13539,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Pregledajte sve pozivnice za ovu zajednicu. Za stvaranje nove pozivnice idite na kanal i upotrijebite gumb za pozivanje.';
 
   @override
-  String get guildSettingsInvitesEmpty => 'Nema pozivnih poveznica';
+  String get guildSettingsInvitesEmpty => 'Nema poveznica za pozivnice';
 
   @override
   String get guildSettingsInvitesEmptyDescription =>
-      'Ova zajednica još nema poveznice za pozivnice. Idite na kanal i izradite pozivnicu kako biste pozvali ljude.';
+      'Ova zajednica još nema poveznica za pozivnice. Idite na kanal i izradite pozivnicu kako biste pozvali ljude.';
 
   @override
   String get guildSettingsInvitesLoadFailedTitle =>
@@ -13543,7 +13558,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsInvitesShowCreatedDate =>
-      'Prikaži datum kreiranja umjesto datuma isteka';
+      'Prikaži datum stvaranja umjesto datuma isteka';
 
   @override
   String get guildSettingsInvitesPauseInvites => 'Pauziraj pozivnice';
@@ -13561,7 +13576,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsInvitesPauseConfirmDescription =>
-      'Pauzirati pozivnice? Novi se korisnici neće moći pridružiti putem poveznica za poziv dok ih ponovno ne omogućite. To neće utjecati na postojeće članove.';
+      'Pauzirati pozivnice? Novi se korisnici neće moći pridružiti putem poveznica za pozivnice dok ih ponovno ne omogućite. To neće utjecati na postojeće članove.';
 
   @override
   String get guildSettingsInvitesEnableConfirmDescription =>
@@ -13589,7 +13604,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get guildSettingsInvitesLabelCode => 'Kod:';
 
   @override
-  String get guildSettingsInvitesLabelUses => 'Koristi:';
+  String get guildSettingsInvitesLabelUses => 'Broj korištenja:';
 
   @override
   String get guildSettingsInvitesLabelCreated => 'Stvoreno:';
@@ -13621,7 +13636,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsInvitesRevokeFailedDescription =>
-      'Veza možda i dalje radi. Pokušajte ponovno za trenutak.';
+      'Poveznica možda i dalje radi. Pokušajte ponovno za trenutak.';
 
   @override
   String guildSettingsInviteUses(int uses, int maxUses) {
@@ -13635,10 +13650,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsBansDescription =>
-      'Pregledajte i upravljajte blokiranim korisnicima.';
+      'Pregledajte zabranjene korisnike i upravljajte njima.';
 
   @override
-  String get guildSettingsBansSearchHint => 'Pretraži zabrane';
+  String get guildSettingsBansSearchHint => 'Pretražite zabrane';
 
   @override
   String get guildSettingsBansEmpty => 'Nema zabranjenih korisnika.';
@@ -13658,7 +13673,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get guildSettingsUnban => 'Vrati zabranu';
 
   @override
-  String get guildSettingsBansLoading => 'Učitavanje blokiranih korisnika';
+  String get guildSettingsBansLoading => 'Učitavanje zabranjenih korisnika';
 
   @override
   String get guildSettingsBansNoSearchResults =>
@@ -13671,13 +13686,13 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get guildSettingsBanViewDetails => 'Prikaži detalje';
 
   @override
-  String get guildSettingsBannedOn => 'Zabranjeno';
+  String get guildSettingsBannedOn => 'Datum zabrane';
 
   @override
-  String get guildSettingsBannedBy => 'Zabranio/la';
+  String get guildSettingsBannedBy => 'Zabranu izdao';
 
   @override
-  String get guildSettingsRevokeBanTitle => 'Poništi zabranu';
+  String get guildSettingsRevokeBanTitle => 'Opozovi zabranu';
 
   @override
   String guildSettingsRevokeBanDescription(String displayName) {
@@ -13701,14 +13716,14 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get guildSettingsCommunitySettings => 'Postavke zajednice';
 
   @override
-  String get guildSettingsDeleteCommunity => 'Delete community';
+  String get guildSettingsDeleteCommunity => 'Izbriši zajednicu';
 
   @override
   String get guildSettingsDeleteCommunityConfirm =>
-      'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.';
+      'Jeste li sigurni da želite izbrisati ovu zajednicu? Ova se radnja ne može poništiti. Svi kanali, poruke i postavke bit će trajno izbrisani.';
 
   @override
-  String get guildSettingsCommunityDeleted => 'Community deleted';
+  String get guildSettingsCommunityDeleted => 'Zajednica izbrisana';
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
@@ -13759,7 +13774,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsOverviewNotificationsLargeGuild =>
-      'Zajednice s više od 250 ljudi prisilno se prebacuju na postavku \"samo spominjanja\". Vaša izvorna postavka je sačuvana i bit će vraćena ako zajednica padne ispod 250 članova.';
+      'Zajednice s više od 250 ljudi prisilno se prebacuju na postavku \"samo spominjanja\". Vaša je izvorna postavka sačuvana i bit će vraćena ako zajednica padne ispod 250 članova.';
 
   @override
   String get guildSettingsOverviewAdvancedTitle => 'Napredno';
@@ -13777,7 +13792,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsOverviewDetachedBannerHint =>
-      'Prikazuje natpis u vlastitom odjeljku ispod zaglavlja zajednice.';
+      'Prikazuje naslovnu sliku u vlastitom odjeljku ispod zaglavlja zajednice.';
 
   @override
   String get guildSettingsOverviewUploadIcon => 'Učitaj ikonu';
@@ -13808,7 +13823,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Nema pozadine pozivnice';
 
   @override
-  String get guildSettingsOverviewInvitePreviewTitle => 'Pregled';
+  String get guildSettingsOverviewInvitePreviewTitle => 'Pretpregled';
 
   @override
   String get guildSettingsOverviewInvitePreviewHint =>
@@ -13829,7 +13844,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get guildSettingsSplashCardAlignment => 'Poravnanje kartice';
 
   @override
-  String get guildSettingsSplashAlignmentCenter => 'Centriraj';
+  String get guildSettingsSplashAlignmentCenter => 'Sredina';
 
   @override
   String get guildSettingsSplashAlignmentLeft => 'Lijevo';
@@ -13867,7 +13882,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Omogući prag povijesti poruka';
 
   @override
-  String get guildSettingsMessageHistoryThresholdDate => 'Datum praga';
+  String get guildSettingsMessageHistoryThresholdDate => 'Granični datum';
 
   @override
   String get guildSettingsMessageHistoryThresholdDateHint =>
@@ -13894,7 +13909,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Animirani baneri zahtijevaju zajednicu s značajkom animiranih banera.';
 
   @override
-  String get guildSettingsAfkChannel => 'AFK / kanal neaktivnosti';
+  String get guildSettingsAfkChannel => 'AFK / kanal za neaktivne';
 
   @override
   String get guildSettingsAfkChannelHint =>
@@ -13904,7 +13919,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get guildSettingsNoAfkChannel => 'Nema AFK kanala';
 
   @override
-  String get guildSettingsAfkTimeout => 'AFK istek vremena';
+  String get guildSettingsAfkTimeout => 'Vrijeme neaktivnosti';
 
   @override
   String get guildSettingsAfkTimeout1Min => '1 minuta';
@@ -13982,7 +13997,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDescription =>
-      'Automatski provjeravajte poruke na eksplicitan sadržaj u kanalima koji nisu označeni kao sadržaj za odrasle.';
+      'Poruke se automatski provjeravaju radi otkrivanja eksplicitnog sadržaja u kanalima koji nisu označeni za sadržaj za odrasle.';
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
@@ -14003,7 +14018,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Preporučeno za većinu zajednica';
 
   @override
-  String get guildSettingsContentFilterAll => 'Filtriraj sve';
+  String get guildSettingsContentFilterAll => 'Filtriraj sve članove';
 
   @override
   String get guildSettingsContentFilterAllDescription =>
@@ -14031,7 +14046,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Ovo sadrži osjetljiv sadržaj.';
 
   @override
-  String get guildSettingsModeration2faTitle => 'Zahtjev za 2F-autentifikaciju';
+  String get guildSettingsModeration2faTitle => 'Obvezna 2FA';
 
   @override
   String get guildSettingsModeration2faDescription =>
@@ -14039,7 +14054,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsModeration2faSwitchLabel =>
-      'Za radnje moderiranja potrebna je dvostruka autentifikacija';
+      'Zahtijevaj 2FA za radnje moderiranja';
 
   @override
   String get guildSettingsModeration2faOwnerOnlyTooltip =>
@@ -14064,26 +14079,26 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsEmojiLoadFailed =>
-      'Učitavanje emotikona nije uspjelo. Pokušajte ponovno kasnije.';
+      'Učitavanje emojija nije uspjelo. Pokušajte ponovno kasnije.';
 
   @override
   String get guildSettingsEmojiSearchEmpty =>
       'Nema emojija koji odgovaraju vašoj pretrazi.';
 
   @override
-  String get guildSettingsEmojiNoSlots => 'Nema dostupnih mjesta za emotikone';
+  String get guildSettingsEmojiNoSlots => 'Nema dostupnih mjesta za emojije';
 
   @override
   String get guildSettingsEmojiSlotsFull =>
-      'Dosegnuli ste maksimalan broj emojija. Izbrišite neke postojeće emojije kako biste oslobodili prostor.';
+      'Dosegli ste maksimalan broj emojija. Izbrišite neke postojeće emojije kako biste oslobodili prostor.';
 
   @override
   String guildSettingsEmojiUploadRequirements(String maxSize) {
-    return 'Nazivi emotikona moraju imati najmanje 2 znaka i mogu sadržavati slova, brojeve i podvlake. Emotikoni moraju biti manji od $maxSize. Statične slike se automatski mijenjaju veličine na 128x128 piksela i komprimiraju. Animirani emotikoni i SVG-ovi već trebaju odgovarati limitu.';
+    return 'Nazivi emojija moraju imati najmanje 2 znaka i mogu sadržavati slova, brojeve i podvlake. Emojiji moraju biti manji od $maxSize. Statične slike automatski se smanjuju na 128x128 piksela i komprimiraju. Animirani emojiji i SVG-ovi moraju već zadovoljavati ograničenje.';
   }
 
   @override
-  String get guildSettingsEmojiUploadingTitle => 'Prijenos emojija';
+  String get guildSettingsEmojiUploadingTitle => 'Učitavanje emojija';
 
   @override
   String guildSettingsEmojiUploadingBody(int count) {
@@ -14098,7 +14113,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsEmojiUploadFailed =>
-      'Prijenos emotikona nije uspio. Pokušajte ponovno.';
+      'Prijenos emojija nije uspio. Pokušajte ponovno.';
 
   @override
   String get guildSettingsEmojiSomeFailedTitle =>
@@ -14122,7 +14137,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get guildSettingsEmojiColumnName => 'Naziv';
 
   @override
-  String get guildSettingsEmojiColumnUploader => 'Poslao/la';
+  String get guildSettingsEmojiColumnUploader => 'Učitao/la';
 
   @override
   String get guildSettingsEmojiUnknownUploader => 'Nepoznato';
@@ -14174,7 +14189,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Nemate dopuštenje za preimenovanje ovog emojija. Naziv je vraćen na prethodni.';
 
   @override
-  String get guildSettingsEmojiRateLimitedTitle => 'Prebrzo idete';
+  String get guildSettingsEmojiRateLimitedTitle => 'Usporite malo';
 
   @override
   String get guildSettingsEmojiRateLimitedBody =>
@@ -14251,7 +14266,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsStickersLoadFailedTitle =>
-      'Naljepnice se nisu uspjele učitati';
+      'Učitavanje naljepnica nije uspjelo';
 
   @override
   String get guildSettingsStickersLoadFailedBody =>
@@ -14270,11 +14285,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsStickerSlotsFull =>
-      'Dosegnuli ste maksimalan broj naljepnica. Izbrišite neke postojeće naljepnice kako biste oslobodili prostor.';
+      'Dosegli ste maksimalan broj naljepnica. Izbrišite neke postojeće naljepnice kako biste oslobodili prostor.';
 
   @override
   String guildSettingsStickerUploadRequirements(String maxSize) {
-    return 'Naljepnice se spremaju u veličini 320x320 piksela i moraju biti manje od $maxSize. Statične slike se automatski mijenjaju veličine i komprimiraju. Animirane naljepnice i SVG-ovi već trebaju odgovarati limitu.';
+    return 'Naljepnice se spremaju u veličini 320x320 piksela i moraju biti manje od $maxSize. Statične slike automatski se smanjuju i komprimiraju. Animirane naljepnice i SVG-ovi već moraju biti unutar ograničenja.';
   }
 
   @override
@@ -14311,7 +14326,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get guildSettingsStickerTagAdd => 'Dodaj';
 
   @override
-  String get guildSettingsStickerNameRequired => 'Ime je obavezno';
+  String get guildSettingsStickerNameRequired => 'Naziv je obavezan';
 
   @override
   String get guildSettingsStickerNameTooShort =>
@@ -14327,7 +14342,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildSettingsStickerCreateFailedTitle =>
-      'Nije bilo moguće izraditi ovu naljepnicu';
+      'Nije moguće stvoriti ovu naljepnicu';
 
   @override
   String get guildSettingsStickerTooLargeTitle => 'Naljepnica je prevelika';
@@ -14369,7 +14384,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get guildSettingsVanityUrlRemove => 'Ukloni';
 
   @override
-  String get guildSettingsBannedUsersTitle => 'Blokirani korisnici';
+  String get guildSettingsBannedUsersTitle => 'Zabranjeni korisnici';
 
   @override
   String get guildSettingsInvitesTableInviter => 'Pozivatelj';
@@ -14381,10 +14396,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get guildSettingsInvitesTableCode => 'Kod';
 
   @override
-  String get guildSettingsInvitesTableUses => 'Koristi';
+  String get guildSettingsInvitesTableUses => 'Broj korištenja';
 
   @override
-  String get guildSettingsInvitesTableCreated => 'Kreirano';
+  String get guildSettingsInvitesTableCreated => 'Stvoreno';
 
   @override
   String get guildSettingsInvitesTableExpires => 'Istječe';
@@ -14396,7 +14411,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get guildSettingsAuditLogFilterAction => 'Filtriraj po radnji';
 
   @override
-  String get createDm => 'Kreiraj izravnu poruku';
+  String get createDm => 'Stvori izravnu poruku';
 
   @override
   String get createGroupDm => 'Stvori grupnu izravnu poruku';
@@ -14418,7 +14433,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get createDmNoFriendsFound => 'Nema pronađenih prijatelja';
 
   @override
-  String get createDmNoFriendsYet => 'Još nemaš prijatelja';
+  String get createDmNoFriendsYet => 'Još nemate prijatelja';
 
   @override
   String get createDmClaimToStartDms =>
@@ -14466,7 +14481,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get createDmUnaddableIntro =>
-      'Sljedeće osobe nije moguće dodati u ovaj grupni DM:';
+      'Sljedeće osobe nije moguće dodati u ovu grupnu izravnu poruku:';
 
   @override
   String createDmUnaddableProceed(int count) {
@@ -14550,7 +14565,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get keybindActionHistoryForward =>
-      'Pomicanje naprijed kroz povijest pregledanih kanala';
+      'Kretanje naprijed kroz povijest pregledanih kanala';
 
   @override
   String get keybindActionJumpUnreadChannels => 'Skoči na nepročitane kanale';
@@ -14564,7 +14579,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get keybindActionToggleLastGuildDms =>
-      'Prebacivanje između zadnje zajednice i izravnih poruka';
+      'Prebaci se između posljednje zajednice i izravnih poruka';
 
   @override
   String get keybindActionPreviousCommunityOrDms =>
@@ -14607,7 +14622,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get keybindActionCreateOrJoinCommunity =>
-      'Stvori ili se pridruži zajednici';
+      'Stvori zajednicu ili joj se pridruži';
 
   @override
   String get keybindActionStartDragAndDrop => 'Pokreni povlačenje i ispuštanje';
@@ -14622,20 +14637,20 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get keybindActionCancel => 'Odustani';
 
   @override
-  String get keybindActionMarkCommunityRead => 'Označi zajednicu pročitanom';
+  String get keybindActionMarkCommunityRead => 'Označi zajednicu kao pročitanu';
 
   @override
-  String get keybindActionMarkChannelRead => 'Označi kanal pročitanim';
+  String get keybindActionMarkChannelRead => 'Označi kanal kao pročitan';
 
   @override
-  String get keybindActionStartGroupDm => 'Započnite grupnu izravnu poruku';
+  String get keybindActionStartGroupDm => 'Započni grupnu izravnu poruku';
 
   @override
   String get keybindActionTogglePinnedMessages =>
       'Uključi/isključi prikvačene poruke';
 
   @override
-  String get keybindActionToggleInbox => 'Prebaci na pristiglu poštu';
+  String get keybindActionToggleInbox => 'Uključi/isključi pristiglu poštu';
 
   @override
   String get keybindActionMarkTopInboxRead =>
@@ -14647,7 +14662,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get keybindActionToggleMemberList =>
-      'Uključi/isključi popis članova ili glasovni chat';
+      'Uključi/isključi popis članova ili glasovni razgovor';
 
   @override
   String get keybindActionToggleEmojiPicker => 'Uključi/isključi birač emojija';
@@ -14660,10 +14675,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Uključi/isključi birač naljepnica';
 
   @override
-  String get keybindActionScrollChatUp => 'Pomakni chat gore';
+  String get keybindActionScrollChatUp => 'Pomakni chat prema gore';
 
   @override
-  String get keybindActionScrollChatDown => 'Pomaknite chat prema dolje';
+  String get keybindActionScrollChatDown => 'Pomakni chat prema dolje';
 
   @override
   String get keybindActionJumpOldestUnread =>
@@ -14679,7 +14694,8 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get keybindActionCopyChannelLink => 'Kopiraj poveznicu kanala';
 
   @override
-  String get keybindActionToggleSavedMedia => 'Prebaci spremljene medije';
+  String get keybindActionToggleSavedMedia =>
+      'Uključi/isključi spremljene medije';
 
   @override
   String get keybindActionSendVoiceMessage => 'Pošalji glasovnu poruku';
@@ -14692,7 +14708,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get keybindActionStartDmCall =>
-      'Započnite poziv u izravnoj poruci ili grupi';
+      'Započni poziv u izravnoj poruci ili grupi';
 
   @override
   String get keybindActionToggleSoundboard => 'Uključi/isključi zvučnu ploču';
@@ -14726,7 +14742,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Otvori skočni prozor studija tema';
 
   @override
-  String get keybindActionZoomIn => 'Povećaj';
+  String get keybindActionZoomIn => 'Povećaj prikaz';
 
   @override
   String get keybindActionZoomOut => 'Smanji prikaz';
@@ -14781,7 +14797,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get assistantOkOpened => 'Opening Fluxer.';
 
   @override
-  String get assistantOkMessageSent => 'Message sent.';
+  String get assistantOkMessageSent => 'Poruka poslana.';
 
   @override
   String get assistantOkCustomStatusSet => 'Custom status updated.';

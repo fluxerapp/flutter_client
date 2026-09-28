@@ -115,7 +115,7 @@ void main() {
     await tester.pumpWidget(_wrap(const UserLinkedDevices(), api: api));
     await tester.pumpAndSettle();
 
-    expect(find.text('Network Error'), findsOneWidget);
+    expect(find.text('Network error'), findsOneWidget);
     expect(find.text('Retry'), findsOneWidget);
   });
 
@@ -187,7 +187,7 @@ void main() {
     await tester.pumpWidget(_wrap(const UserLinkedDevices(), api: api));
     await tester.pumpAndSettle();
 
-    expect(find.text('Network Error'), findsOneWidget);
+    expect(find.text('Network error'), findsOneWidget);
     expect(find.text('Retry'), findsOneWidget);
     expect(find.text('CURRENT DEVICE'), findsNothing);
     expect(find.text('OTHER DEVICES'), findsNothing);
@@ -309,7 +309,7 @@ void main() {
 
     expect(find.byKey(const ValueKey('View details')), findsNWidgets(3));
 
-    await tester.tap(find.byKey(const ValueKey('Enter Selection Mode')));
+    await tester.tap(find.byKey(const ValueKey('Enter selection mode')));
     await tester.pump();
 
     expect(find.byKey(const ValueKey('View details')), findsNothing);

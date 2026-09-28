@@ -33,8 +33,8 @@ void main() {
         buildTestApp(const UserProfileBioCard(bio: null, userId: '1')),
       );
       await tester.pumpAndSettle();
-      expect(find.text('About Me'), findsNothing);
-      expect(find.text('Member Since'), findsOneWidget);
+      expect(find.text('About me'), findsNothing);
+      expect(find.text('Member since'), findsOneWidget);
     });
 
     testWidgets('hides About Me when bio is whitespace', (tester) async {
@@ -42,7 +42,7 @@ void main() {
         buildTestApp(const UserProfileBioCard(bio: '   ', userId: '1')),
       );
       await tester.pumpAndSettle();
-      expect(find.text('About Me'), findsNothing);
+      expect(find.text('About me'), findsNothing);
     });
 
     testWidgets('shows About Me when bio has content', (tester) async {
@@ -50,7 +50,7 @@ void main() {
         buildTestApp(const UserProfileBioCard(bio: 'hi', userId: '1')),
       );
       await tester.pumpAndSettle();
-      expect(find.text('About Me'), findsOneWidget);
+      expect(find.text('About me'), findsOneWidget);
     });
 
     testWidgets('hides local time when timezone offset is null', (

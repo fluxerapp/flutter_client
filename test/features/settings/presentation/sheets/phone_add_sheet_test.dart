@@ -43,7 +43,7 @@ void main() {
     await tester.pumpWidget(_wrap(child: const _PhoneAddLauncher()));
     await tester.tap(find.text('Verify Phone'));
     await tester.pumpAndSettle();
-    expect(find.text('Send Code'), findsOneWidget);
+    expect(find.text('Send code'), findsOneWidget);
     expect(find.text('Country'), findsOneWidget);
   });
 }

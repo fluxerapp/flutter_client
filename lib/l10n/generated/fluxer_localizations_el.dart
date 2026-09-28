@@ -37,13 +37,13 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get connectingCaps => 'CONNECTING';
 
   @override
-  String get splashConnectionLost => 'Χάθηκε η σύνδεση';
+  String get splashConnectionLost => 'Η σύνδεση χάθηκε';
 
   @override
   String get splashViewOnStatusPage => 'Προβολή στη σελίδα κατάστασης';
 
   @override
-  String get splashConnectionIssuesPrompt => 'Προβλήματα σύνδεσης;';
+  String get splashConnectionIssuesPrompt => 'Πρόβλημα σύνδεσης;';
 
   @override
   String get splashStatusPageLink => 'Σελίδα κατάστασης';
@@ -72,7 +72,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String nagbarUnclaimedAccountMessage(String displayName) {
-    return 'Γεια σου $displayName, διεκδίκησε τον λογαριασμό σου για να μην χάσεις την πρόσβαση.';
+    return 'Γεια σας $displayName, διεκδικήστε τον λογαριασμό σας για να μην χάσετε την πρόσβαση.';
   }
 
   @override
@@ -214,10 +214,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get organizationSsoProvider =>
-      'Συνδεθείτε μέσω του παρόχου ενιαίας σύνδεσης του οργανισμού σας.';
+      'Συνδεθείτε με τον πάροχο ενιαίας σύνδεσης του οργανισμού σας.';
 
   @override
-  String get failedToStartSso => 'Αποτυχία εκκίνησης SSO';
+  String get failedToStartSso => 'Αποτυχία έναρξης SSO';
 
   @override
   String get ssoCancelled => 'Η σύνδεση SSO ακυρώθηκε';
@@ -248,7 +248,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get captchaSwitchToHcaptcha =>
-      'Έχετε προβλήματα; Δοκιμάστε το hCaptcha αντ\' αυτού';
+      'Αντιμετωπίζετε προβλήματα; Δοκιμάστε το hCaptcha';
 
   @override
   String get captchaSwitchToTurnstile => 'Δοκιμάστε το Turnstile αντ\' αυτού';
@@ -257,7 +257,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get cancel => 'Ακύρωση';
 
   @override
-  String get ipAuthCheckEmail => 'Ελέγξτε το email σας';
+  String get ipAuthCheckEmail => 'Έλεγξε το email σου';
 
   @override
   String ipAuthDescription(String email) {
@@ -265,7 +265,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get ipAuthConnectionLost => 'Χάθηκε η σύνδεση';
+  String get ipAuthConnectionLost => 'Η σύνδεση χάθηκε';
 
   @override
   String get ipAuthConnectionLostDescription =>
@@ -279,10 +279,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Αυτός ο σύνδεσμος εξουσιοδότησης έληξε. Παρακαλώ συνδεθείτε ξανά.';
 
   @override
-  String get ipAuthResendEmail => 'Επαναποστολή email';
+  String get ipAuthResendEmail => 'Επανάληψη αποστολής email';
 
   @override
-  String get ipAuthResent => 'Επαναστάλθηκε';
+  String get ipAuthResent => 'Εστάλη ξανά';
 
   @override
   String ipAuthResendCountdown(int seconds) {
@@ -305,7 +305,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get mfaMethodTotp => 'Εφαρμογή ελέγχου ταυτότητας';
 
   @override
-  String get mfaMethodWebauthn => 'Κλειδί ασφαλείας / Κλειδί πρόσβασης';
+  String get mfaMethodWebauthn => 'Κλειδί ασφαλείας / κλειδί πρόσβασης';
 
   @override
   String get mfaTotpDescription =>
@@ -319,7 +319,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get mfaUseSecurityKey =>
-      'Δοκιμάστε κλειδί ασφαλείας / κωδικό πρόσβασης';
+      'Δοκιμάστε κλειδί ασφαλείας / κλειδί πρόσβασης';
 
   @override
   String get accountSelectorTitle => 'Επιλέξτε λογαριασμό';
@@ -341,11 +341,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get accountRemoveDescription =>
-      'Αυτό θα αφαιρέσει την αποθηκευμένη συνεδρία για αυτόν τον λογαριασμό.';
+      'Αυτό θα καταργήσει την αποθηκευμένη συνεδρία για αυτόν τον λογαριασμό.';
 
   @override
   String get accountRemoveOnlyDescription =>
-      'Αυτό θα αφαιρέσει τον μοναδικό αποθηκευμένο λογαριασμό σε αυτήν τη συσκευή.';
+      'Αυτό θα καταργήσει τον μόνο αποθηκευμένο λογαριασμό σε αυτήν τη συσκευή.';
 
   @override
   String get accountExpired => 'Έληξε';
@@ -360,7 +360,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get accountSwitchFailed =>
-      'Δεν ήταν δυνατή η εναλλαγή λογαριασμών. Δοκιμάστε ξανά.';
+      'Δεν ήταν δυνατή η αλλαγή λογαριασμών. Δοκιμάστε ξανά.';
 
   @override
   String get profileTabMenuSwitchAccounts => 'Εναλλαγή λογαριασμών';
@@ -390,7 +390,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get statusUntilIChangeIt => 'Μέχρι να το αλλάξω';
 
   @override
-  String get statusDontClear => 'Μην καθαρίσετε';
+  String get statusDontClear => 'Να μην γίνει εκκαθάριση';
 
   @override
   String get statusFor10Seconds => 'Για 10 δευτερόλεπτα';
@@ -436,16 +436,16 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get customStatusCurrentHint => 'Προσαρμοσμένη κατάσταση';
 
   @override
-  String get customStatusClear => 'Καθαρισμός προσαρμοσμένης κατάστασης';
+  String get customStatusClear => 'Εκκαθάριση προσαρμοσμένης κατάστασης';
 
   @override
   String get customStatusPlaceholder => 'Τι συμβαίνει;';
 
   @override
-  String get customStatusChooseEmoji => 'Επιλογή emoji';
+  String get customStatusChooseEmoji => 'Επιλέξτε ένα emoji';
 
   @override
-  String get customStatusClearAfter => 'Καθαρισμός μετά από';
+  String get customStatusClearAfter => 'Εκκαθάριση μετά από';
 
   @override
   String get customStatusSave => 'Αποθήκευση';
@@ -494,7 +494,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get suspendedRecheck => 'Έλεγχος για Ενημερώσεις';
+  String get suspendedRecheck => 'Έλεγχος για ενημερώσεις';
 
   @override
   String suspendedRecheckCooldown(int seconds) {
@@ -535,13 +535,13 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get forgotPasswordDescription =>
-      'Εισαγάγετε τη διεύθυνση email σας και θα σας στείλουμε έναν σύνδεσμο για να επαναφέρετε τον κωδικό σας.';
+      'Εισάγετε το email σας και θα σας στείλουμε έναν σύνδεσμο για να επαναφέρετε τον κωδικό πρόσβασής σας.';
 
   @override
   String get forgotPasswordSubmit => 'Αποστολή συνδέσμου επαναφοράς';
 
   @override
-  String get forgotPasswordSentTitle => 'Ελέγξτε το email σας';
+  String get forgotPasswordSentTitle => 'Έλεγξε το email σου';
 
   @override
   String get forgotPasswordSentDescription =>
@@ -573,13 +573,13 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get registerTitle => 'Δημιουργία λογαριασμού';
 
   @override
-  String get registerDisplayName => 'Όνομα Εμφάνισης (Προαιρετικό)';
+  String get registerDisplayName => 'Όνομα εμφάνισης (προαιρετικό)';
 
   @override
-  String get registerDisplayNameHint => 'Πώς θέλετε να σας αποκαλούν;';
+  String get registerDisplayNameHint => 'Πώς να σε φωνάζουν;';
 
   @override
-  String get registerUsername => 'Όνομα Χρήστη (Προαιρετικό)';
+  String get registerUsername => 'Όνομα χρήστη (προαιρετικό)';
 
   @override
   String get registerUsernameHint => 'Αφήστε κενό για τυχαίο όνομα χρήστη';
@@ -608,30 +608,30 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get registerConsentPrefix => 'Συμφωνώ με τους ';
 
   @override
-  String get registerConsentTerms => 'Όρους Παροχής Υπηρεσιών';
+  String get registerConsentTerms => 'Όροι παροχής υπηρεσιών';
 
   @override
   String get registerConsentAnd => ' και ';
 
   @override
-  String get registerConsentPrivacy => 'Πολιτική Απορρήτου';
+  String get registerConsentPrivacy => 'Πολιτική απορρήτου';
 
   @override
-  String get registerConfirmPassword => 'Επιβεβαίωση Κωδικού Πρόσβασης';
+  String get registerConfirmPassword => 'Επιβεβαίωση κωδικού πρόσβασης';
 
   @override
   String get registerSubmit => 'Δημιουργία λογαριασμού';
 
   @override
-  String get registerHaveAccount => 'Έχετε ήδη λογαριασμό; ';
+  String get registerHaveAccount => 'Έχεις ήδη λογαριασμό; ';
 
   @override
   String get registerPendingApproval =>
-      'Το αίτημα λογαριασμού σου εκκρεμεί για έγκριση. Μπορείς να συνδεθείς αφού το εγκρίνει ένας διαχειριστής.';
+      'Το αίτημα λογαριασμού σας εκκρεμεί για έγκριση. Μπορείτε να συνδεθείτε αφού το εγκρίνει ένας διαχειριστής.';
 
   @override
   String get registerClosed =>
-      'Οι εγγραφές είναι προς το παρόν κλειστές. Χρησιμοποίησε έναν σύνδεσμο εγγραφής από διαχειριστή για να δημιουργήσεις λογαριασμό.';
+      'Οι εγγραφές είναι προς το παρόν κλειστές. Χρησιμοποιήστε έναν σύνδεσμο εγγραφής από διαχειριστή για να δημιουργήσετε λογαριασμό.';
 
   @override
   String get passkeyNoCredentials =>
@@ -682,10 +682,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Αδύνατη η επαναφορά κωδικού πρόσβασης. Δοκιμάστε ξανά.';
 
   @override
-  String get embedInviteJoin => 'Συμμετοχή στην Κοινότητα';
+  String get embedInviteJoin => 'Συμμετοχή στην κοινότητα';
 
   @override
-  String get embedInviteGoTo => 'Μετάβαση στην Κοινότητα';
+  String get embedInviteGoTo => 'Μετάβαση στην κοινότητα';
 
   @override
   String embedInviteOnline(String count) {
@@ -698,11 +698,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get embedInviteUnknownTitle => 'Άγνωστη Πρόσκληση';
+  String get embedInviteUnknownTitle => 'Άγνωστη πρόσκληση';
 
   @override
   String get embedInviteUnknownSubtitle =>
-      'Δοκιμάστε να ζητήσετε νέα πρόσκληση.';
+      'Δοκιμάστε να ζητήσετε μια νέα πρόσκληση.';
 
   @override
   String get embedInviteUnavailable => 'Η πρόσκληση δεν είναι διαθέσιμη';
@@ -735,16 +735,16 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get inviteAcceptTitle => 'Έχετε προσκληθεί να συμμετάσχετε';
+  String get inviteAcceptTitle => 'Έχετε προσκληθεί να γίνετε μέλος';
 
   @override
-  String get inviteAcceptJoinButton => 'Συμμετοχή στην Κοινότητα';
+  String get inviteAcceptJoinButton => 'Συμμετοχή στην κοινότητα';
 
   @override
-  String get inviteAcceptGoToButton => 'Μετάβαση στην Κοινότητα';
+  String get inviteAcceptGoToButton => 'Μετάβαση στην κοινότητα';
 
   @override
-  String get inviteAcceptInvitesPaused => 'Οι προσκλήσεις έχουν τεθεί σε παύση';
+  String get inviteAcceptInvitesPaused => 'Προσκλήσεις σε παύση';
 
   @override
   String get inviteAcceptNotFoundTitle => 'Μη έγκυρη πρόσκληση';
@@ -761,7 +761,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Αυτός ο σύνδεσμος ενδέχεται να είναι κατεστραμμένος, να είναι διαθέσιμος μόνο στο διαδίκτυο ή να μην έχετε πρόσβαση. Ελέγξτε τον σύνδεσμο και δοκιμάστε ξανά.';
 
   @override
-  String get invalidDeepLinkGoHomeButton => 'Πήγαινε στην αρχική';
+  String get invalidDeepLinkGoHomeButton => 'Μετάβαση στην αρχική';
 
   @override
   String get inviteAcceptJoinGroupButton => 'Συμμετοχή στην ομάδα';
@@ -795,20 +795,21 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get mentionUnknownChannel => 'unknown-channel';
 
   @override
-  String get channelAccessDeniedTitle => 'Πρόσβαση στο κανάλι Απαγορεύτηκε';
+  String get channelAccessDeniedTitle =>
+      'Δεν επιτρέπεται η πρόσβαση στο κανάλι';
 
   @override
   String get channelAccessDeniedDescription =>
       'Δεν έχετε πρόσβαση στο κανάλι όπου στάλθηκε αυτό το μήνυμα.';
 
   @override
-  String get messageJumpLinkNoAccess => 'Χωρίς πρόσβαση';
+  String get messageJumpLinkNoAccess => 'Δεν υπάρχει πρόσβαση';
 
   @override
-  String get okay => 'Εντάξει';
+  String get okay => 'OK';
 
   @override
-  String get embedThemeTitle => 'Κοινόχρηστο θέμα';
+  String get embedThemeTitle => 'Κοινοποιημένο θέμα';
 
   @override
   String get embedThemeSubtitle =>
@@ -872,7 +873,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get embedGiftClaimHelp => 'Πατήστε για να λάβετε το δώρο σας!';
+  String get embedGiftClaimHelp => 'Πατήστε για να παραλάβετε το δώρο σας!';
 
   @override
   String get embedGiftAlreadyRedeemed => 'Έχει ήδη εξαργυρωθεί';
@@ -882,7 +883,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Διεκδικήστε τον λογαριασμό σας για να εξαργυρώσετε αυτό το δώρο.';
 
   @override
-  String get embedGiftClaim => 'Διεκδίκηση δώρου';
+  String get embedGiftClaim => 'Παραλαβή δώρου';
 
   @override
   String get embedGiftClaimed => 'Το δώρο παραλήφθηκε';
@@ -895,7 +896,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get embedGiftUnknownSubtitle =>
-      'Αυτός ο κωδικός δώρου δεν είναι έγκυρος ή έχει ήδη χρησιμοποιηθεί.';
+      'Αυτός ο κωδικός δώρου δεν είναι έγκυρος ή έχει ήδη παραληφθεί.';
 
   @override
   String get embedGiftUnavailable => 'Το δώρο δεν είναι διαθέσιμο';
@@ -906,7 +907,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get giftAcceptAlreadyClaimed => 'Αυτό το δώρο έχει ήδη εξαργυρωθεί.';
+  String get giftAcceptAlreadyClaimed => 'Αυτό το δώρο έχει ήδη παραληφθεί.';
 
   @override
   String get giftAcceptMaybeLater => 'Ίσως αργότερα';
@@ -956,14 +957,14 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get privacySettings => 'Ρυθμίσεις απορρήτου';
 
   @override
-  String get privacyDirectMessages => 'Άμεσες Συνομιλίες';
+  String get privacyDirectMessages => 'Απευθείας μηνύματα';
 
   @override
   String get privacyDirectMessagesDescription =>
       'Να επιτρέπονται άμεσες συνομιλίες από άλλα μέλη σε αυτήν την κοινότητα';
 
   @override
-  String get privacyBotDirectMessages => 'Άμεσες Συνομιλίες Bot';
+  String get privacyBotDirectMessages => 'Απευθείας μηνύματα bot';
 
   @override
   String get privacyBotDirectMessagesDescription =>
@@ -974,13 +975,13 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Οι διαχειριστές της κοινότητας έχουν απενεργοποιήσει τη λήψη άμεσων συνομιλιών αποκλειστικά από αμοιβαία μέλη σε αυτήν την κοινότητα.';
 
   @override
-  String get communityDebug => 'Αποσφαλμάτωση Κοινότητας';
+  String get communityDebug => 'Εντοπισμός σφαλμάτων κοινότητας';
 
   @override
   String get copiedToClipboard => 'Αντιγράφηκε στο πρόχειρο';
 
   @override
-  String get notificationSettings => 'Ρυθμίσεις Ειδοποιήσεων';
+  String get notificationSettings => 'Ρυθμίσεις ειδοποιήσεων';
 
   @override
   String notificationMuteGuild(String guildName) {
@@ -993,13 +994,13 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get notificationCommunitySettings =>
-      'Ρυθμίσεις Ειδοποιήσεων Κοινότητας';
+      'Ρυθμίσεις ειδοποιήσεων κοινότητας';
 
   @override
-  String get notificationAllMessages => 'Όλα τα Μηνύματα';
+  String get notificationAllMessages => 'Όλα τα μηνύματα';
 
   @override
-  String get notificationOnlyMentions => 'Μόνο Αναφορές';
+  String get notificationOnlyMentions => 'Μόνο αναφορές';
 
   @override
   String get notificationNothing => 'Τίποτα';
@@ -1011,13 +1012,13 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get notificationSuppressRoles => 'Καταστολή όλων των @αναφορών ρόλων';
 
   @override
-  String get notificationMobilePush => 'Ειδοποιήσεις push για κινητά';
+  String get notificationMobilePush => 'Ειδοποιήσεις push σε κινητό';
 
   @override
   String get notificationOverrides => 'Παρακάμψεις ειδοποιήσεων';
 
   @override
-  String get notificationSelectChannel => 'Επιλογή καναλιού ή κατηγορίας';
+  String get notificationSelectChannel => 'Επιλέξτε ένα κανάλι ή κατηγορία';
 
   @override
   String get notificationOnlyAtMentions => 'Μόνο @αναφορές';
@@ -1038,19 +1039,19 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get notificationNoCategory => 'Χωρίς κατηγορία';
 
   @override
-  String get dmMarkAsRead => 'Σήμανση ως αναγνωσμένο';
+  String get dmMarkAsRead => 'Σήμανση ως αναγνωσμένου';
 
   @override
-  String get dmMuteConversation => 'Σίγαση απευθείας μηνύματος';
+  String get dmMuteConversation => 'Σίγαση DM';
 
   @override
-  String get dmUnmuteConversation => 'Κατάργηση σίγασης απευθείας μηνύματος';
+  String get dmUnmuteConversation => 'Κατάργηση σίγασης DM';
 
   @override
-  String get dmPinDm => 'Καρφίτσωμα απευθείας μηνύματος';
+  String get dmPinDm => 'Καρφίτσωμα DM';
 
   @override
-  String get dmUnpinDm => 'Αποκαρφίτσωμα απευθείας μηνύματος';
+  String get dmUnpinDm => 'Κατάργηση καρφιτσώματος DM';
 
   @override
   String get dmAlwaysShowInSidebar => 'Εμφάνιση πάντα στην πλαϊνή μπάρα';
@@ -1059,10 +1060,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get dmRemoveFromAlwaysShown => 'Αφαίρεση από πάντα εμφανιζόμενα';
 
   @override
-  String get dmCloseDm => 'Κλείσιμο απευθείας μηνύματος';
+  String get dmCloseDm => 'Κλείσιμο DM';
 
   @override
-  String get dmCloseDmConfirmTitle => 'Κλείσιμο απευθείας μηνύματος';
+  String get dmCloseDmConfirmTitle => 'Κλείσιμο DM';
 
   @override
   String dmCloseDmConfirmDescription(String username) {
@@ -1139,7 +1140,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get dmBlock => 'Αποκλεισμός';
 
   @override
-  String get dmLeaveGroup => 'Έξοδος από την ομάδα';
+  String get dmLeaveGroup => 'Αποχώρηση από την ομάδα';
 
   @override
   String get dmNoCommunitiesAvailable => 'Δεν υπάρχουν διαθέσιμες κοινότητες';
@@ -1174,13 +1175,13 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get dmMuteFor3Days => 'Για 3 ημέρες';
 
   @override
-  String get dmMuteForever => 'Μέχρι να την ενεργοποιήσω ξανά';
+  String get dmMuteForever => 'Μέχρι να το ενεργοποιήσω ξανά';
 
   @override
-  String get dmPinGroupDm => 'Καρφίτσωμα ομαδικού απευθείας μηνύματος';
+  String get dmPinGroupDm => 'Καρφίτσωμα ομαδικής συνομιλίας';
 
   @override
-  String get dmUnpinGroupDm => 'Αποκαρφίτσωμα Ομαδικής Συνομιλίας';
+  String get dmUnpinGroupDm => 'Κατάργηση καρφιτσώματος ομαδικής συνομιλίας';
 
   @override
   String get dmUnnamedGroup => 'Ομάδα χωρίς όνομα';
@@ -1191,53 +1192,53 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get dmFavoriteDm => 'Προσθήκη Συνομιλίας στα Αγαπημένα';
+  String get dmFavoriteDm => 'Προσθήκη DM στα αγαπημένα';
 
   @override
-  String get dmUnfavoriteDm => 'Αφαίρεση Συνομιλίας από τα Αγαπημένα';
+  String get dmUnfavoriteDm => 'Αφαίρεση DM από τα αγαπημένα';
 
   @override
-  String get dmFavoriteGroupDm => 'Προσθήκη Ομαδικής Συνομιλίας στα Αγαπημένα';
+  String get dmFavoriteGroupDm => 'Προσθήκη ομαδικής συνομιλίας στα αγαπημένα';
 
   @override
   String get dmUnfavoriteGroupDm =>
-      'Αφαίρεση Ομαδικής Συνομιλίας από τα Αγαπημένα';
+      'Αφαίρεση ομαδικής συνομιλίας από τα αγαπημένα';
 
   @override
-  String get dmChangeFriendNickname => 'Αλλαγή Ψευδωνύμου Φίλου';
+  String get dmChangeFriendNickname => 'Αλλαγή ψευδώνυμου φίλου';
 
   @override
-  String get dmRemoveFriend => 'Αφαίρεση Φίλου';
+  String get dmRemoveFriend => 'Κατάργηση φίλου';
 
   @override
-  String get dmAddFriend => 'Προσθήκη Φίλου';
+  String get dmAddFriend => 'Προσθήκη φίλου';
 
   @override
-  String get dmAcceptFriendRequest => 'Αποδοχή Αιτήματος Φιλίας';
+  String get dmAcceptFriendRequest => 'Αποδοχή αιτήματος φιλίας';
 
   @override
-  String get dmIgnoreFriendRequest => 'Αγνόηση Αιτήματος Φιλίας';
+  String get dmIgnoreFriendRequest => 'Αγνόηση αιτήματος φιλίας';
 
   @override
-  String get dmFriendRequestSent => 'Απεστάλη Αίτημα Φιλίας';
+  String get dmFriendRequestSent => 'Το αίτημα φιλίας στάλθηκε';
 
   @override
   String get dmUnblock => 'Ξεμπλοκάρισμα';
 
   @override
-  String get dmDebugUser => 'Εντοπισμός Σφαλμάτων Χρήστη';
+  String get dmDebugUser => 'Εντοπισμός σφαλμάτων χρήστη';
 
   @override
-  String get dmDebugChannel => 'Εντοπισμός Σφαλμάτων Καναλιού';
+  String get dmDebugChannel => 'Εντοπισμός σφαλμάτων καναλιού';
 
   @override
   String get dmDebugCategory => 'Εντοπισμός σφαλμάτων κατηγορίας';
 
   @override
-  String get dmPinned => 'Καρφιτσωμένη Συνομιλία';
+  String get dmPinned => 'Καρφιτσωμένο DM';
 
   @override
-  String get dmUnpinned => 'Ξεκαρφιτσωμένη Συνομιλία';
+  String get dmUnpinned => 'Καταργήθηκε το καρφίτσωμα του DM';
 
   @override
   String get dmMuted => 'Σίγαση Συνομιλίας';
@@ -1246,7 +1247,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get dmUnmuted => 'Επαναφορά Ήχου Συνομιλίας';
 
   @override
-  String get dmRemoveFriendConfirmTitle => 'Αφαίρεση Φίλου';
+  String get dmRemoveFriendConfirmTitle => 'Κατάργηση φίλου';
 
   @override
   String dmRemoveFriendConfirmDescription(String username) {
@@ -1254,7 +1255,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get dmBlockConfirmTitle => 'Μπλοκάρισμα Χρήστη';
+  String get dmBlockConfirmTitle => 'Μπλοκάρισμα χρήστη';
 
   @override
   String dmBlockConfirmDescription(String username) {
@@ -1322,7 +1323,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get addFriendVerifyDescription =>
-      'Πρέπει να επαληθεύσετε τη διεύθυνση email σας πριν μπορέσετε να στείλετε αιτήματα φιλίας.';
+      'Πρέπει να επαληθεύσετε τη διεύθυνση email σας πριν στείλετε αιτήματα φιλίας.';
 
   @override
   String get addFriendVerifyEmail => 'Επαλήθευση email';
@@ -1360,12 +1361,12 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String addFriendAcceptConfirmDescription(String userName) {
-    return 'Να αποδεχτείς το αίτημα φιλίας από τον/την $userName;';
+    return 'Να αποδεχτείτε το αίτημα φιλίας από τον/την $userName;';
   }
 
   @override
   String addFriendIgnoreConfirmDescription(String displayName) {
-    return 'Να αγνοήσεις το αίτημα φιλίας από τον/την $displayName;';
+    return 'Να αγνοήσετε το αίτημα φιλίας από τον/την $displayName;';
   }
 
   @override
@@ -1373,26 +1374,26 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get addFriendCancelRequestFailed =>
-      'Δεν ήταν δυνατή η ακύρωση του αιτήματος φιλίας. Δοκίμασε ξανά.';
+      'Δεν ήταν δυνατή η ακύρωση του αιτήματος φιλίας. Δοκιμάστε ξανά.';
 
   @override
   String get addFriendNotAcceptingRequests =>
-      'Αυτή τη στιγμή δεν δέχονται αιτήματα φιλίας.';
+      'Δεν δέχονται αιτήματα φιλίας αυτήν τη στιγμή.';
 
   @override
   String get addFriendUnblockFirst =>
-      'Ξεμπλοκάρισέ τους πρώτα για να στείλεις αίτημα φιλίας.';
+      'Ξεμπλοκάρετέ τους πρώτα για να στείλετε αίτημα φιλίας.';
 
   @override
   String get addFriendCannotSendToSelf =>
-      'Δεν μπορείς να στείλεις αίτημα φιλίας στον εαυτό σου.';
+      'Δεν μπορείτε να στείλετε αίτημα φιλίας στον εαυτό σας.';
 
   @override
   String get addFriendAlreadyFriends => 'Είστε ήδη φίλοι με αυτόν τον χρήστη.';
 
   @override
   String get addFriendClaimToSend =>
-      'Ολοκλήρωσε την εγγραφή σου για να στείλεις αιτήματα φιλίας.';
+      'Ολοκληρώστε την εγγραφή για να στείλετε αιτήματα φιλίας.';
 
   @override
   String get addFriendVerifyToSend =>
@@ -1400,7 +1401,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get addFriendFriendsListFull =>
-      'Η λίστα φίλων σας είναι πλήρης ή η δική τους. Αφαιρέστε κάποιον και δοκιμάστε ξανά.';
+      'Η λίστα φίλων σας ή η δική τους είναι πλήρης. Αφαιρέστε κάποιον και δοκιμάστε ξανά.';
 
   @override
   String get userTagBot => 'BOT';
@@ -1439,7 +1440,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get emojiInfoFromHeader => 'Αυτό το emoji προέρχεται από';
 
   @override
-  String get emojiInfoDiscoverableCommunity => 'Κοινότητα προς ανακάλυψη';
+  String get emojiInfoDiscoverableCommunity => 'Κοινότητα στην Ανακάλυψη';
 
   @override
   String get emojiInfoPrivateCommunity => 'Ιδιωτική κοινότητα';
@@ -1451,7 +1452,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get emojiInfoAddToFavorites => 'Προσθήκη στα αγαπημένα';
 
   @override
-  String get emojiInfoRemoveFromFavorites => 'Αφαίρεση από τα Αγαπημένα';
+  String get emojiInfoRemoveFromFavorites => 'Αφαίρεση από τα αγαπημένα';
 
   @override
   String get emojiFrequentlyUsed => 'Συχνά χρησιμοποιούμενα';
@@ -1460,7 +1461,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get emojiTabGifs => 'GIF';
 
   @override
-  String get emojiTabMedia => 'Μέσα';
+  String get emojiTabMedia => 'Πολυμέσα';
 
   @override
   String get emojiTabStickers => 'Αυτοκόλλητα';
@@ -1494,33 +1495,32 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get gifPickerTrending => 'Δημοφιλή GIF';
 
   @override
-  String get gifPickerNoResultsTitle => 'Δεν βρέθηκαν αποτελέσματα αναζήτησης';
+  String get gifPickerNoResultsTitle => 'Κανένα αποτέλεσμα αναζήτησης';
 
   @override
-  String get gifPickerNoResultsDescription =>
-      'Δοκιμάστε έναν άλλο όρο αναζήτησης';
+  String get gifPickerNoResultsDescription => 'Δοκιμάστε άλλον όρο αναζήτησης';
 
   @override
   String get gifPickerLoadFailedTitle => 'Αδυναμία φόρτωσης GIF';
 
   @override
   String get gifPickerLoadFailedBody =>
-      'Ελέγξτε τη σύνδεσή σας και δοκιμάστε ξανά.';
+      'Έλεγξε τη σύνδεσή σου και δοκίμασε ξανά.';
 
   @override
-  String get emojiCategoryPeople => 'Άνθρωποι';
+  String get emojiCategoryPeople => 'Άτομα';
 
   @override
   String get emojiCategoryNature => 'Φύση';
 
   @override
-  String get emojiCategoryFood => 'Φαγητό & Ποτό';
+  String get emojiCategoryFood => 'Φαγητό & ποτό';
 
   @override
   String get emojiCategoryActivity => 'Δραστηριότητες';
 
   @override
-  String get emojiCategoryTravel => 'Ταξίδια & Μέρη';
+  String get emojiCategoryTravel => 'Ταξίδια και μέρη';
 
   @override
   String get emojiCategoryObjects => 'Αντικείμενα';
@@ -1565,11 +1565,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get externalLinkWarningTitle => 'Προειδοποίηση εξωτερικού συνδέσμου';
+  String get externalLinkWarningTitle => 'Προειδοποίηση για εξωτερικό σύνδεσμο';
 
   @override
   String externalLinkWarningLeaving(String productName) {
-    return 'Πρόκειται να φύγετε από το $productName';
+    return 'Πρόκειται να αποχωρήσετε από το $productName';
   }
 
   @override
@@ -1577,7 +1577,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Οι εξωτερικοί σύνδεσμοι μπορεί να είναι επικίνδυνοι. Παρακαλώ προσέξτε.';
 
   @override
-  String get externalLinkWarningDestinationUrl => 'Προορισμός URL:';
+  String get externalLinkWarningDestinationUrl => 'URL προορισμού:';
 
   @override
   String get externalLinksSectionTitle => 'Εξωτερικοί σύνδεσμοι';
@@ -1598,42 +1598,42 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get externalLinkTrustAllLabel =>
-      'Εμπιστεύσου όλους τους εξωτερικούς συνδέσμους';
+      'Εμπιστοσύνη σε όλους τους εξωτερικούς συνδέσμους';
 
   @override
   String get externalLinkStripTrackingLabel =>
-      'Αφαίρεσε παραμέτρους παρακολούθησης από διευθύνσεις URL';
+      'Αφαίρεση παραμέτρων παρακολούθησης από URL';
 
   @override
   String get externalLinkStripTrackingDescription =>
-      'Αφαίρεσε αυτόματα παραμέτρους παρακολούθησης (όπως utm_source, fbclid, gclid) από τις διευθύνσεις URL στα μηνύματα που στέλνεις. Καθαρίζει τον σύνδεσμο πριν φτάσει σε οποιονδήποτε άλλο.';
+      'Αυτόματη αφαίρεση παραμέτρων παρακολούθησης (όπως utm_source, fbclid, gclid) από τις διευθύνσεις URL στα μηνύματα που στέλνετε. Καθαρίζει τον σύνδεσμο πριν φτάσει σε οποιονδήποτε άλλο.';
 
   @override
   String get externalLinkTrustAllConfirmTitle =>
-      'Εμπιστεύεσαι όλους τους εξωτερικούς συνδέσμους;';
+      'Να εμπιστεύεστε όλους τους εξωτερικούς συνδέσμους;';
 
   @override
   String get externalLinkTrustAllConfirmDescription =>
-      'Αυτό θα εμπιστευτεί όλους τους εξωτερικούς συνδέσμους και θα παρακάμψει την προειδοποίηση για κάθε τομέα. Οι υπάρχοντες έμπιστοι τομείς σου θα αντικατασταθούν. Αυτό είναι λιγότερο ασφαλές.';
+      'Έτσι θα εμπιστεύεστε όλους τους εξωτερικούς συνδέσμους και θα παραλείπετε την προειδοποίηση για κάθε τομέα. Οι υπάρχοντες αξιόπιστοι τομείς σας θα αντικατασταθούν. Αυτό είναι λιγότερο ασφαλές.';
 
   @override
-  String get externalLinkTrustAllConfirmAction => 'Εμπιστεύσου Όλους';
+  String get externalLinkTrustAllConfirmAction => 'Εμπιστοσύνη σε όλους';
 
   @override
   String get externalLinkStopTrustingAllTitle =>
-      'Διακοπή εμπιστοσύνης σε όλους τους συνδέσμους;';
+      'Να μην εμπιστεύεστε πλέον όλους τους συνδέσμους;';
 
   @override
   String get externalLinkStopTrustingAllDescription =>
-      'Οι προειδοποιήσεις για εξωτερικούς συνδέσμους θα εμφανίζονται ξανά. Θα χρειαστεί να προσθέσεις έμπιστους τομείς ξεχωριστά.';
+      'Οι προειδοποιήσεις για εξωτερικούς συνδέσμους θα εμφανιστούν ξανά. Θα χρειαστεί να προσθέσετε μεμονωμένα τους αξιόπιστους τομείς.';
 
   @override
   String get externalLinkStopTrustingAllAction =>
-      'Απενεργοποίηση Εμπιστοσύνης σε Όλους';
+      'Απενεργοποίηση εμπιστοσύνης όλων των συνδέσμων';
 
   @override
   String get externalLinkTrustedAllDescription =>
-      'Όλοι οι εξωτερικοί σύνδεσμοι είναι έμπιστοι. Δεν θα εμφανίζονται προειδοποιήσεις.';
+      'Όλοι οι εξωτερικοί σύνδεσμοι θεωρούνται αξιόπιστοι. Δεν θα εμφανίζονται προειδοποιήσεις.';
 
   @override
   String externalLinkTrustedDomainsDescription(int count) {
@@ -1671,10 +1671,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Η περικοπή κινούμενων εικόνων δεν υποστηρίζεται ακόμη. Θα χρησιμοποιηθεί η αρχική μεταφόρτωση.';
 
   @override
-  String get cropAvatar => 'Περικοπή Avatar';
+  String get cropAvatar => 'Περικοπή avatar';
 
   @override
-  String get cropBanner => 'Περικοπή Κορδέλας';
+  String get cropBanner => 'Περικοπή banner';
 
   @override
   String get skip => 'Παράλειψη';
@@ -1689,14 +1689,14 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get cropMouseHint => 'Drag corners to resize, drag inside to move';
 
   @override
-  String get changeYourFluxerTag => 'Αλλαγή του Όνομα χρήστη σου';
+  String get changeYourFluxerTag => 'Αλλαγή ονόματος χρήστη';
 
   @override
   String get fluxerTagInputLabel => 'Όνομα χρήστη';
 
   @override
   String get fluxerTagDescriptionBase =>
-      'Τα ονόματα χρήστη μπορούν να περιέχουν μόνο γράμματα (a-z, A-Z), αριθμούς (0-9) και κάτω παύλες. Τα ονόματα χρήστη δεν λαμβάνουν υπόψη πεζά/κεφαλαία.';
+      'Τα ονόματα χρήστη μπορούν να περιέχουν μόνο γράμματα (a-z, A-Z), αριθμούς (0-9) και κάτω παύλες. Δεν γίνεται διάκριση πεζών-κεφαλαίων στα ονόματα χρήστη.';
 
   @override
   String get fluxerTagDescriptionVisionary =>
@@ -1720,7 +1720,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Απόκτησε Plutonium για να προσαρμόσεις το tag σου ή κράτησέ το όταν αλλάζεις το όνομα χρήστη σου';
 
   @override
-  String get fluxerTagAlreadyTaken => 'Το Όνομα χρήστη έχει ήδη ληφθεί';
+  String get fluxerTagAlreadyTaken =>
+      'Αυτό το όνομα χρήστη χρησιμοποιείται ήδη';
 
   @override
   String fluxerTagAlreadyTakenBody(String username, String discriminator) {
@@ -1765,7 +1766,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Είσαι σε δοκιμαστική περίοδο Plutonium. Αναβάθμισε για να κρατήσεις το προσαρμοσμένο tag σου και να κερδίσεις ένα σήμα στο προφίλ σου.';
 
   @override
-  String get fluxerTagUpdated => 'Το Όνομα χρήστη ενημερώθηκε';
+  String get fluxerTagUpdated => 'Το όνομα χρήστη ενημερώθηκε';
 
   @override
   String get fluxerTagUpdateFailed =>
@@ -1775,21 +1776,21 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get continueAction => 'Συνέχεια';
 
   @override
-  String get profileCustomizationTitle => 'Προσαρμογή Προφίλ';
+  String get profileCustomizationTitle => 'Προσαρμογή προφίλ';
 
   @override
   String get profileCustomizationDescription =>
-      'Επεξεργάσου την εμφάνιση του προφίλ σου και δες μια ζωντανή προεπισκόπηση';
+      'Επεξεργαστείτε την εμφάνιση του προφίλ σας και δείτε μια ζωντανή προεπισκόπηση';
 
   @override
   String get usernameLabel => 'Όνομα χρήστη';
 
   @override
   String get claimAccountToChangeFluxerTag =>
-      'Διεκδίκησε τον λογαριασμό σου για να αλλάξεις το Όνομα χρήστη σου';
+      'Διεκδικήστε τον λογαριασμό σας για να αλλάξετε το όνομα χρήστη σας';
 
   @override
-  String get changeFluxerTag => 'Αλλαγή Όνομα χρήστη';
+  String get changeFluxerTag => 'Αλλαγή ονόματος χρήστη';
 
   @override
   String customizeTagWithPlutoniumTooltip(String discriminator) {
@@ -1806,50 +1807,50 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get displayNameLabel => 'Εμφανιζόμενο Όνομα';
+  String get displayNameLabel => 'Όνομα εμφάνισης';
 
   @override
   String get pronounsLabel => 'Αντωνυμίες';
 
   @override
-  String get avatarLabel => 'Προφίλ Εικόνας';
+  String get avatarLabel => 'Εικόνα προφίλ';
 
   @override
-  String get changeAvatar => 'Αλλαγή Εικόνας Προφίλ';
+  String get changeAvatar => 'Αλλαγή avatar';
 
   @override
-  String get removeAvatar => 'Αφαίρεση Εικόνας Προφίλ';
+  String get removeAvatar => 'Κατάργηση avatar';
 
   @override
   String get avatarDescription =>
       'PNG, JPEG, WebP, GIF. Μέγιστο 10MB. Συνιστάται: 512×512px';
 
   @override
-  String get bannerLabel => 'Εικόνα Εξωφύλλου';
+  String get bannerLabel => 'Banner';
 
   @override
-  String get changeBanner => 'Αλλαγή Εικόνας Εξωφύλλου';
+  String get changeBanner => 'Αλλαγή banner';
 
   @override
-  String get removeBanner => 'Αφαίρεση Εικόνας Εξωφύλλου';
+  String get removeBanner => 'Κατάργηση banner';
 
   @override
   String get bannerDescription =>
       'PNG, JPEG, WebP, GIF. Μέγιστο 10MB. Ελάχιστο: 960×540px (16:9)';
 
   @override
-  String get accentColorLabel => 'Χρώμα Έμφασης';
+  String get accentColorLabel => 'Χρώμα έμφασης';
 
   @override
   String get accentColorDescription =>
-      'Προσαρμόζει το περίγραμμα και το χρώμα του εξωφύλλου στο προφίλ σας';
+      'Προσαρμόζει το χρώμα του περιγράμματος και του banner στο προφίλ σας';
 
   @override
   String get aboutMeLabel => 'Σχετικά με εμένα';
 
   @override
   String get aboutMeHelperText =>
-      'Μπορείτε να χρησιμοποιήσετε συνδέσμους, emoji και Markdown.';
+      'Μπορείτε να χρησιμοποιήσετε συνδέσμους, emoji και μορφοποίηση κειμένου (markdown).';
 
   @override
   String get emojiPickerTitle => 'Emoji';
@@ -1882,14 +1883,15 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Αφαιρέστε την ημερομηνία πρώτης αγοράς Plutonium από το σήμα σας';
 
   @override
-  String get maskVisionaryAsSubscription => 'Απόκρυψη Visionary ως συνδρομή';
+  String get maskVisionaryAsSubscription =>
+      'Εμφάνιση του Visionary ως συνδρομής';
 
   @override
   String get maskVisionaryDescription =>
-      'Εμφάνιση του Visionary σας ως κανονική συνδρομή';
+      'Εμφάνιση του Visionary ως κανονική συνδρομή';
 
   @override
-  String get hideVisionaryIdBadge => 'Απόκρυψη σήματος ID Visionary';
+  String get hideVisionaryIdBadge => 'Απόκρυψη σήματος Visionary ID';
 
   @override
   String hideVisionaryIdBadgeWithSequence(int sequence) {
@@ -1897,7 +1899,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get hideVisionaryIdDescription => 'Αφαιρέστε το σήμα ID Visionary σας';
+  String get hideVisionaryIdDescription => 'Κατάργηση του σήματος Visionary ID';
 
   @override
   String premiumTrialSubscriptionStarts(String date) {
@@ -1943,31 +1945,31 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String profilePreviewMemberSince(String productName) {
-    return 'Μέλος $productName από';
+    return 'Μέλος του $productName από';
   }
 
   @override
-  String get unclaimedAccountTitle => 'Μη διεκδικημένος Λογαριασμός';
+  String get unclaimedAccountTitle => 'Μη διεκδικημένος λογαριασμός';
 
   @override
   String get unclaimedAccountDescription =>
       'Ο λογαριασμός σας δεν έχει διεκδικηθεί ακόμη. Χωρίς email και κωδικό πρόσβασης, μπορεί να χάσετε την πρόσβαση. Διεκδικήστε τον λογαριασμό σας τώρα για να τον ασφαλίσετε.';
 
   @override
-  String get claimAccount => 'Διεκδίκηση Λογαριασμού';
+  String get claimAccount => 'Διεκδίκηση λογαριασμού';
 
   @override
-  String get profileTypeLabel => 'Τύπος Προφίλ';
+  String get profileTypeLabel => 'Τύπος προφίλ';
 
   @override
-  String get profileTypeGlobal => 'Καθολικό Προφίλ';
+  String get profileTypeGlobal => 'Γενικό προφίλ';
 
   @override
   String get profileTypeGuildDescription =>
-      'Επεξεργάζεστε το προφίλ σας ανά κοινότητα. Αυτό το προφίλ θα είναι ορατό μόνο σε αυτήν την κοινότητα και θα αντικαταστήσει το καθολικό σας προφίλ.';
+      'Επεξεργάζεστε το προφίλ σας για αυτήν την κοινότητα. Αυτό το προφίλ θα είναι ορατό μόνο σε αυτήν την κοινότητα και θα υπερισχύει του καθολικού σας προφίλ.';
 
   @override
-  String get communityNicknameLabel => 'Ψευδώνυμο Κοινότητας';
+  String get communityNicknameLabel => 'Ψευδώνυμο κοινότητας';
 
   @override
   String get perGuildPremiumUpsellText =>
@@ -2011,7 +2013,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get sudoMethodPassword => 'Κωδικός πρόσβασης';
 
   @override
-  String get sudoMethodTotp => 'Έλεγχος ταυτότητας';
+  String get sudoMethodTotp => 'Authenticator';
 
   @override
   String get sudoVerificationFailed => 'Η επαλήθευση απέτυχε. Δοκιμάστε ξανά.';
@@ -2051,7 +2053,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get securityLoginAddEmail => 'Προσθήκη email';
 
   @override
-  String get securityLoginReveal => 'Εμφάνιση';
+  String get securityLoginReveal => 'Αποκάλυψη';
 
   @override
   String get securityLoginHide => 'Απόκρυψη';
@@ -2134,7 +2136,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get passwordChangeInvalidCode => 'Μη έγκυρος ή ληγμένος κωδικός';
 
   @override
-  String get emailChangeTitle => 'Αλλαγή Email';
+  String get emailChangeTitle => 'Αλλαγή email';
 
   @override
   String get emailChangeIntroDescription =>
@@ -2151,17 +2153,17 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Εισαγάγετε τον κωδικό επαλήθευσης που στάλθηκε στην τρέχουσα διεύθυνση email σας.';
 
   @override
-  String get emailChangeNewEmailTitle => 'Εισαγωγή Νέου Email';
+  String get emailChangeNewEmailTitle => 'Εισαγάγετε νέο email';
 
   @override
   String get emailChangeNewEmailDescription =>
       'Εισαγάγετε τη νέα διεύθυνση email που θέλετε να χρησιμοποιήσετε.';
 
   @override
-  String get emailChangeNewEmailLabel => 'Νέο Email';
+  String get emailChangeNewEmailLabel => 'Νέο email';
 
   @override
-  String get emailChangeNewEmailSubmit => 'Αποστολή Κωδικού Επαλήθευσης';
+  String get emailChangeNewEmailSubmit => 'Αποστολή κωδικού επαλήθευσης';
 
   @override
   String get emailChangeVerifyNewTitle => 'Επαλήθευση Νέου Email';
@@ -2177,7 +2179,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get emailChangeInvalidCode => 'Μη έγκυρος ή ληγμένος κωδικός';
 
   @override
-  String get resend => 'Επαναποστολή';
+  String get resend => 'Επανάληψη αποστολής';
 
   @override
   String resendCountdown(int seconds) {
@@ -2185,7 +2187,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get verificationCode => 'Κωδικός Επαλήθευσης';
+  String get verificationCode => 'Κωδικός επαλήθευσης';
 
   @override
   String get verify => 'Επαλήθευση';
@@ -2203,11 +2205,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get save => 'Αποθήκευση';
 
   @override
-  String get securityTfaSectionTitle => 'Έλεγχος Ταυτότητας Δύο Παραγόντων';
+  String get securityTfaSectionTitle => 'Έλεγχος ταυτότητας δύο παραγόντων';
 
   @override
   String get securityTfaSectionDescription =>
-      'Προσθέστε ένα επιπλέον επίπεδο ασφάλειας στον λογαριασμό σας';
+      'Πρόσθεσε ένα επιπλέον επίπεδο ασφαλείας στον λογαριασμό σου';
 
   @override
   String get securityTfaAuthenticatorApp => 'Εφαρμογή Επαλήθευσης';
@@ -2218,27 +2220,27 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get securityTfaAuthenticatorDisabled =>
-      'Χρησιμοποιήστε μια εφαρμογή επαλήθευσης για τη δημιουργία κωδικών για τον έλεγχο ταυτότητας δύο παραγόντων';
+      'Χρησιμοποιήστε μια εφαρμογή ελέγχου ταυτότητας για να δημιουργήσετε κωδικούς για έλεγχο ταυτότητας δύο παραγόντων';
 
   @override
-  String get securityTfaBackupCodes => 'Κωδικοί Εφεδρείας';
+  String get securityTfaBackupCodes => 'Εφεδρικοί κωδικοί';
 
   @override
   String get securityTfaBackupCodesDescription =>
-      'Προβολή και διαχείριση των κωδικών εφεδρείας σας για ανάκτηση λογαριασμού';
+      'Προβολή και διαχείριση των εφεδρικών κωδικών σας για ανάκτηση λογαριασμού';
 
   @override
-  String get securityTfaViewCodes => 'Προβολή Κωδικών';
+  String get securityTfaViewCodes => 'Προβολή κωδικών';
 
   @override
-  String get securityPasskeysSectionTitle => 'Κλειδιά Πρόσβασης';
+  String get securityPasskeysSectionTitle => 'Κλειδιά πρόσβασης';
 
   @override
   String get securityPasskeysSectionDescription =>
       'Χρησιμοποιήστε κλειδιά πρόσβασης για σύνδεση χωρίς κωδικό πρόσβασης και έλεγχο ταυτότητας δύο παραγόντων';
 
   @override
-  String get securityPasskeysRegistered => 'Καταχωρημένα Κλειδιά Πρόσβασης';
+  String get securityPasskeysRegistered => 'Καταχωρισμένα κλειδιά πρόσβασης';
 
   @override
   String get securityPasskeysNone => 'Δεν έχουν καταχωρηθεί κλειδιά πρόσβασης';
@@ -2255,7 +2257,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get securityPasskeysAdd => 'Προσθήκη Κλειδιού Πρόσβασης';
+  String get securityPasskeysAdd => 'Προσθήκη κλειδιού πρόσβασης';
 
   @override
   String securityPasskeysAdded(String date) {
@@ -2271,7 +2273,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get securityPasskeysRename => 'Μετονομασία';
 
   @override
-  String get securityPasskeysDeleteTitle => 'Διαγραφή Κλειδιού Πρόσβασης';
+  String get securityPasskeysDeleteTitle => 'Διαγραφή κλειδιού πρόσβασης';
 
   @override
   String securityPasskeysDeleteDescription(String name) {
@@ -2279,24 +2281,24 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get securityPasskeyNameTitle => 'Ονομασία Κλειδιού Πρόσβασης';
+  String get securityPasskeyNameTitle => 'Ονομασία κλειδιού πρόσβασης';
 
   @override
-  String get securityPasskeyNameLabel => 'Όνομα Κλειδιού Πρόσβασης';
+  String get securityPasskeyNameLabel => 'Όνομα κλειδιού πρόσβασης';
 
   @override
   String get securityPasskeyNameHint =>
-      'π.χ. YubiKey, iPhone, Υπολογιστής Εργασίας';
+      'π.χ. YubiKey, iPhone, υπολογιστής εργασίας';
 
   @override
-  String get securityPhoneSectionTitle => 'Αριθμός Τηλεφώνου';
+  String get securityPhoneSectionTitle => 'Αριθμός τηλεφώνου';
 
   @override
   String get securityPhoneSectionDescription =>
       'Διαχειριστείτε τον αριθμό τηλεφώνου σας.';
 
   @override
-  String get securityPhoneLabel => 'Αριθμός Τηλεφώνου';
+  String get securityPhoneLabel => 'Αριθμός τηλεφώνου';
 
   @override
   String get securityPhoneNone => 'Δεν έχει προστεθεί αριθμός τηλεφώνου.';
@@ -2318,11 +2320,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get securityPhoneRemoved => 'Ο αριθμός τηλεφώνου αφαιρέθηκε';
 
   @override
-  String get securityClaimTitle => 'Λειτουργίες Ασφαλείας';
+  String get securityClaimTitle => 'Λειτουργίες ασφαλείας';
 
   @override
   String get securityClaimDescription =>
-      'Διεκδικήστε τον λογαριασμό σας για να αποκτήσετε πρόσβαση σε λειτουργίες ασφαλείας, όπως ο έλεγχος ταυτότητας δύο παραγόντων και τα κλειδιά πρόσβασης.';
+      'Διεκδικήστε τον λογαριασμό σας για να αποκτήσετε πρόσβαση σε λειτουργίες ασφαλείας, όπως έλεγχος ταυτότητας δύο παραγόντων και κλειδιά πρόσβασης.';
 
   @override
   String get securityVerifyEmailRequired =>
@@ -2347,7 +2349,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Ο έλεγχος ταυτότητας δύο παραγόντων έχει ενεργοποιηθεί';
 
   @override
-  String get totpDisableTitle => 'Αφαίρεση Εφαρμογής Επαλήθευσης';
+  String get totpDisableTitle => 'Κατάργηση εφαρμογής ελέγχου ταυτότητας';
 
   @override
   String get totpDisableDescription =>
@@ -2358,7 +2360,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Ο έλεγχος ταυτότητας δύο παραγόντων απενεργοποιήθηκε';
 
   @override
-  String get backupCodesTitle => 'Κωδικοί Εφεδρείας';
+  String get backupCodesTitle => 'Εφεδρικοί κωδικοί';
 
   @override
   String get backupCodesWarning =>
@@ -2379,10 +2381,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Έχω κατεβάσει ή αντιγράψει τους κωδικούς εφεδρείας μου και τους έχω αποθηκεύσει σε ασφαλές μέρος.';
 
   @override
-  String get backupCodesDone => 'Έγινε';
+  String get backupCodesDone => 'Τέλος';
 
   @override
-  String get backupCodesViewTitle => 'Προβολή Κωδικών Εφεδρείας';
+  String get backupCodesViewTitle => 'Προβολή εφεδρικών κωδικών';
 
   @override
   String get backupCodesViewDescription =>
@@ -2392,7 +2394,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get phoneAddTitle => 'Προσθήκη Αριθμού Τηλεφώνου';
 
   @override
-  String get phoneAddLabel => 'Αριθμός Τηλεφώνου';
+  String get phoneAddLabel => 'Αριθμός τηλεφώνου';
 
   @override
   String get phoneAddHint => 'Εισαγάγετε τον αριθμό τηλεφώνου σας';
@@ -2402,10 +2404,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Θα στείλουμε έναν κωδικό SMS όταν είναι διαθέσιμος. Ο αριθμός σας δεν συνδέεται με τον λογαριασμό σας. Διατηρούμε μόνο έναν κρυπτογραφημένο δείκτη, χωρίς αναγνωριστικό χρήστη, για να επιτρέψουμε το πολύ 2 επαληθεύσεις σε περίπου 30 ημέρες.';
 
   @override
-  String get phoneAddSendCode => 'Αποστολή Κωδικού';
+  String get phoneAddSendCode => 'Αποστολή κωδικού';
 
   @override
-  String get phoneVerifyTitle => 'Επαλήθευση Αριθμού Τηλεφώνου';
+  String get phoneVerifyTitle => 'Επαλήθευση αριθμού τηλεφώνου';
 
   @override
   String get phoneVerifyDescription =>
@@ -2441,7 +2443,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get phoneTooManyAttempts =>
-      'Πολλές προσπάθειες. Περιμένετε λίγο και δοκιμάστε ξανά.';
+      'Πάρα πολλές προσπάθειες. Περιμένετε λίγο και δοκιμάστε ξανά.';
 
   @override
   String get phoneSmsUnavailable =>
@@ -2468,7 +2470,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get phoneInboundStepOpenMessaging =>
-      'Άνοιξε την εφαρμογή μηνυμάτων του τηλεφώνου σου και δημιούργησε ένα νέο μήνυμα.';
+      'Ανοίξτε την εφαρμογή μηνυμάτων του τηλεφώνου σας και δημιουργήστε ένα νέο μήνυμα κειμένου.';
 
   @override
   String phoneInboundStepSendCode(String code, String number) {
@@ -2498,7 +2500,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get requiredActionIntroPhone =>
-      'Η εγγραφή σου χρειάζεται έναν επιπλέον έλεγχο anti-spam πριν μπορέσεις να συνεχίσεις.';
+      'Η εγγραφή σας χρειάζεται έναν επιπλέον έλεγχο κατά των ανεπιθύμητων μηνυμάτων πριν συνεχίσετε.';
 
   @override
   String requiredActionIntroEmailOrPhone(String productName) {
@@ -2543,29 +2545,29 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get requiredActionSignOut => 'Αποσύνδεση';
 
   @override
-  String get dangerZoneSectionTitle => 'Ζώνη Κινδύνου';
+  String get dangerZoneSectionTitle => 'Επικίνδυνη ζώνη';
 
   @override
   String get dangerZoneSectionDescription =>
       'Μη αναστρέψιμες και καταστροφικές ενέργειες';
 
   @override
-  String get dangerZoneDisableTitle => 'Απενεργοποίηση Λογαριασμού';
+  String get dangerZoneDisableTitle => 'Απενεργοποίηση λογαριασμού';
 
   @override
   String get dangerZoneDisableDescription =>
-      'Απενεργοποιήστε προσωρινά τον λογαριασμό σας. Μπορείτε να τον ενεργοποιήσετε ξανά αργότερα, κάνοντας ξανά είσοδο.';
+      'Απενεργοποιήστε προσωρινά τον λογαριασμό σας. Μπορείτε να τον επανενεργοποιήσετε αργότερα συνδεόμενοι ξανά.';
 
   @override
   String get dangerZoneDisableConfirmDescription =>
       'Η απενεργοποίηση του λογαριασμού σας θα σας αποσυνδέσει από όλες τις συνεδρίες. Μπορείτε να ενεργοποιήσετε ξανά τον λογαριασμό σας οποιαδήποτε στιγμή κάνοντας ξανά είσοδο.';
 
   @override
-  String get dangerZoneDeleteTitle => 'Διαγραφή Λογαριασμού';
+  String get dangerZoneDeleteTitle => 'Διαγραφή λογαριασμού';
 
   @override
   String get dangerZoneDeleteDescription =>
-      'Διαγράψτε μόνιμα τον λογαριασμό σας και όλα τα σχετικά δεδομένα. Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.';
+      'Διαγράψτε οριστικά τον λογαριασμό σας και όλα τα σχετικά δεδομένα. Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.';
 
   @override
   String get dangerZoneDeleteCancelSubscription =>
@@ -2573,11 +2575,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get dangerZoneDeleteCannotDeleteAccount =>
-      'Αδυναμία διαγραφής λογαριασμού';
+      'Δεν είναι δυνατή η διαγραφή λογαριασμού';
 
   @override
   String get dangerZoneDeleteOwnsCommunities =>
-      'Δεν μπορείτε να διαγράψετε τον λογαριασμό σας ενώ είστε κάτοχος κοινοτήτων. Μεταφέρετε πρώτα την ιδιοκτησία των ακόλουθων κοινοτήτων:';
+      'Δεν μπορείτε να διαγράψετε τον λογαριασμό σας όσο είστε κάτοχος κοινοτήτων. Μεταφέρετε πρώτα την ιδιοκτησία των παρακάτω κοινοτήτων:';
 
   @override
   String dangerZoneDeleteAndXMore(int count) {
@@ -2591,7 +2593,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get dangerZoneDeleteConfirmDescription =>
-      'Είστε σίγουροι ότι θέλετε να διαγράψετε τον λογαριασμό σας; Αυτή η ενέργεια θα προγραμματίσει τον λογαριασμό σας για μόνιμη διαγραφή.';
+      'Είστε σίγουροι ότι θέλετε να διαγράψετε τον λογαριασμό σας; Αυτή η ενέργεια θα προγραμματίσει τον λογαριασμό σας για οριστική διαγραφή.';
 
   @override
   String get dangerZoneDeleteBullet1 =>
@@ -2599,7 +2601,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get dangerZoneDeleteBullet2 =>
-      'Μετά από 14 ημέρες, ο λογαριασμός σας θα διαγραφεί μόνιμα';
+      'Μετά από 14 ημέρες, ο λογαριασμός σας θα διαγραφεί οριστικά';
 
   @override
   String get dangerZoneDeleteBullet3 =>
@@ -2614,14 +2616,14 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Αν θέλετε να εξάγετε τα δεδομένα σας ή να διαγράψετε πρώτα τα μηνύματά σας, επισκεφθείτε την ενότητα Πίνακας Ελέγχου Απορρήτου στις Ρυθμίσεις Χρήστη πριν προχωρήσετε.';
 
   @override
-  String get claimAccountTitle => 'Διεκδίκηση Λογαριασμού';
+  String get claimAccountTitle => 'Διεκδικήστε τον λογαριασμό σας';
 
   @override
   String get claimAccountDescription =>
-      'Διεκδικήστε τον λογαριασμό σας προσθέτοντας ένα email και έναν κωδικό πρόσβασης. Θα σας στείλουμε έναν κωδικό επαλήθευσης για να επιβεβαιώσετε το email σας πριν ολοκληρωθεί.';
+      'Διεκδικήστε τον λογαριασμό σας προσθέτοντας ένα email και έναν κωδικό πρόσβασης. Θα στείλουμε έναν κωδικό επαλήθευσης για να επιβεβαιώσουμε το email σας πριν ολοκληρώσουμε τη διαδικασία.';
 
   @override
-  String get claimAccountEmailLabel => 'Διεύθυνση Email';
+  String get claimAccountEmailLabel => 'Email';
 
   @override
   String get claimAccountPasswordLabel => 'Κωδικός πρόσβασης';
@@ -2631,7 +2633,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get claimAccountVerifyDescription =>
-      'Εισαγάγετε τον κωδικό που στείλαμε στο email σας για να το επαληθεύσετε. Ο κωδικός πρόσβασής σας θα οριστεί μόλις επιβεβαιωθεί ο κωδικός.';
+      'Εισάγετε τον κωδικό που στείλαμε στο email σας για να το επαληθεύσετε. Ο κωδικός πρόσβασής σας θα οριστεί μόλις επιβεβαιωθεί ο κωδικός επαλήθευσης.';
 
   @override
   String get claimAccountSuccess => 'Ο λογαριασμός διεκδικήθηκε με επιτυχία';
@@ -2785,7 +2787,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get relativeTimeJustNow => 'μόλις τώρα';
 
   @override
-  String get authorizedAppsTitle => 'Εξουσιοδοτημένες Εφαρμογές';
+  String get authorizedAppsTitle => 'Εξουσιοδοτημένες εφαρμογές';
 
   @override
   String authorizedAppsDescription(String productName) {
@@ -2794,7 +2796,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get authorizedAppsEmptyTitle =>
-      'Δεν υπάρχουν Εξουσιοδοτημένες Εφαρμογές';
+      'Δεν υπάρχουν εξουσιοδοτημένες εφαρμογές';
 
   @override
   String get authorizedAppsEmptyDescription =>
@@ -2802,7 +2804,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get authorizedAppsLoadError =>
-      'Αδυναμία Φόρτωσης Εξουσιοδοτημένων Εφαρμογών';
+      'Αποτυχία φόρτωσης εξουσιοδοτημένων εφαρμογών';
 
   @override
   String authorizedAppsAuthorizedOn(String date) {
@@ -2832,51 +2834,52 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get authorizedAppsScopeGuilds =>
-      'Προβολή των κοινοτήτων στις οποίες είστε μέλος';
+      'Δείτε τις κοινότητες στις οποίες είστε μέλος';
 
   @override
   String get authorizedAppsScopeConnections =>
-      'Προβολή των συνδεδεμένων λογαριασμών σας';
+      'Δείτε τους συνδεδεμένους λογαριασμούς σας';
 
   @override
   String get authorizedAppsScopeBot =>
-      'Προσθήκη ενός bot σε μια κοινότητα με τα ζητούμενα δικαιώματα';
+      'Προσθήκη bot σε μια κοινότητα με τα ζητούμενα δικαιώματα';
 
   @override
   String get authorizedAppsScopeAdmin =>
       'Πρόσβαση σε διαχειριστικά σημεία πρόσβασης';
 
   @override
-  String get applicationsTitle => 'Applications';
+  String get applicationsTitle => 'Εφαρμογές';
 
   @override
-  String get applicationsCreate => 'Create application';
+  String get applicationsCreate => 'Δημιουργία εφαρμογής';
 
   @override
-  String get applicationsCreateSubmit => 'Create';
+  String get applicationsCreateSubmit => 'Δημιουργία';
 
   @override
   String get applicationsCreateClaimTooltip =>
-      'Claim your account to create applications.';
+      'Διεκδικήστε τον λογαριασμό σας για να δημιουργήσετε εφαρμογές.';
 
   @override
   String applicationsDocsLink(String domain) {
-    return 'Read the documentation ($domain)';
+    return 'Διαβάστε την τεκμηρίωση ($domain)';
   }
 
   @override
-  String get applicationsLoadError => 'Unable to load applications';
+  String get applicationsLoadError =>
+      'Δεν είναι δυνατή η φόρτωση των εφαρμογών';
 
   @override
   String get applicationsLoadErrorDescription =>
-      'Check your connection and try again.';
+      'Έλεγξε τη σύνδεσή σου και δοκίμασε ξανά.';
 
   @override
-  String get applicationsEmptyTitle => 'No applications yet';
+  String get applicationsEmptyTitle => 'Δεν υπάρχουν εφαρμογές ακόμα';
 
   @override
   String applicationsEmptyDescription(String apiName) {
-    return 'Create your first application to get started with the $apiName.';
+    return 'Δημιουργήστε την πρώτη σας εφαρμογή για να ξεκινήσετε με το $apiName.';
   }
 
   @override
@@ -2885,207 +2888,212 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get applicationsName => 'Application name';
+  String get applicationsName => 'Όνομα εφαρμογής';
 
   @override
-  String get applicationsNameHint => 'My application';
+  String get applicationsNameHint => 'Η εφαρμογή μου';
 
   @override
-  String get applicationsNameRequired => 'Application name is required';
+  String get applicationsNameRequired => 'Απαιτείται όνομα εφαρμογής';
 
   @override
-  String get applicationsBackToList => 'Back to list';
+  String get applicationsBackToList => 'Επιστροφή στη λίστα';
 
   @override
-  String get applicationsDetailLoadError => 'Couldn\'t load this application';
+  String get applicationsDetailLoadError =>
+      'Δεν ήταν δυνατή η φόρτωση αυτής της εφαρμογής';
 
   @override
   String get applicationsDetailLoadErrorDescription =>
-      'Try again or go back to the applications list.';
+      'Δοκιμάστε ξανά ή επιστρέψτε στη λίστα εφαρμογών.';
 
   @override
-  String get applicationsId => 'Application ID';
+  String get applicationsId => 'Αναγνωριστικό εφαρμογής';
 
   @override
-  String get applicationsCopyId => 'Copy ID';
+  String get applicationsCopyId => 'Αντιγραφή ID';
 
   @override
-  String get applicationsSecretsTitle => 'Secrets & tokens';
+  String get applicationsSecretsTitle => 'Μυστικά και token';
 
   @override
   String get applicationsSecretsDescription =>
-      'Keep these safe. Regenerating will break existing integrations.';
+      'Κράτησέ τα ασφαλή. Η αναδημιουργία θα διακόψει τις υπάρχουσες ενσωματώσεις.';
 
   @override
-  String get applicationsClientSecret => 'Client secret';
+  String get applicationsClientSecret => 'Μυστικό πελάτη';
 
   @override
-  String get applicationsBotToken => 'Bot token';
+  String get applicationsBotToken => 'Token bot';
 
   @override
-  String get applicationsRegenerate => 'Regenerate';
+  String get applicationsRegenerate => 'Αναδημιουργία';
 
   @override
   String get applicationsRegenerateClientSecretTitle =>
-      'Regenerate client secret?';
+      'Να δημιουργηθεί ξανά το μυστικό πελάτη;';
 
   @override
-  String get applicationsRegenerateBotTokenTitle => 'Regenerate bot token?';
+  String get applicationsRegenerateBotTokenTitle =>
+      'Να δημιουργηθεί ξανά το διακριτικό του bot;';
 
   @override
   String get applicationsRegenerateClientSecretDescription =>
-      'Regenerating will invalidate the current secret. Update any code that uses the old value.';
+      'Η αναδημιουργία θα ακυρώσει το τρέχον μυστικό. Ενημερώστε κάθε κώδικα που χρησιμοποιεί την παλιά τιμή.';
 
   @override
   String get applicationsRegenerateBotTokenDescription =>
-      'Regenerating will invalidate the current token. Update any code that uses the old value.';
+      'Η αναδημιουργία θα ακυρώσει το τρέχον διακριτικό. Ενημερώστε κάθε κώδικα που χρησιμοποιεί την παλιά τιμή.';
 
   @override
   String get applicationsClientSecretRegenerated =>
-      'Client secret regenerated. Update any code that uses the old secret.';
+      'Το μυστικό του πελάτη ανανεώθηκε. Ενημερώστε κάθε κώδικα που χρησιμοποιεί το παλιό μυστικό.';
 
   @override
   String get applicationsBotTokenRegenerated =>
-      'Bot token regenerated. Update any code that uses the old token.';
+      'Το bot token ανανεώθηκε. Ενημερώστε κάθε κώδικα που χρησιμοποιεί το παλιό token.';
 
   @override
-  String get applicationsRegenerateFailed => 'Couldn\'t regenerate secret';
+  String get applicationsRegenerateFailed =>
+      'Δεν ήταν δυνατή η ανανέωση του μυστικού κλειδιού';
 
   @override
-  String get applicationsInfoTitle => 'Application information';
+  String get applicationsInfoTitle => 'Πληροφορίες εφαρμογής';
 
   @override
   String get applicationsInfoDescription =>
-      'Basic settings and allowed redirect URIs.';
+      'Βασικές ρυθμίσεις και επιτρεπόμενα URI ανακατεύθυνσης.';
 
   @override
-  String get applicationsPublicBot => 'Public bot';
+  String get applicationsPublicBot => 'Δημόσιο bot';
 
   @override
   String get applicationsPublicBotDescription =>
-      'Allow anyone to invite this bot to their communities.';
+      'Να επιτρέπεται σε οποιονδήποτε να προσκαλεί αυτό το bot στις κοινότητές του.';
 
   @override
-  String get applicationsRequireCodeGrant => 'Require OAuth2 code grant';
+  String get applicationsRequireCodeGrant =>
+      'Απαίτηση εκχώρησης κωδικού OAuth2';
 
   @override
   String get applicationsRequireCodeGrantDescription =>
-      'Requires a redirect URI and an authorization code when inviting this bot.';
+      'Απαιτεί URI ανακατεύθυνσης και κωδικό εξουσιοδότησης κατά την πρόσκληση αυτού του bot.';
 
   @override
-  String get applicationsRedirectUris => 'Redirect URIs';
+  String get applicationsRedirectUris => 'URI ανακατεύθυνσης';
 
   @override
-  String get applicationsAddRedirect => 'Add redirect';
+  String get applicationsAddRedirect => 'Προσθήκη ανακατεύθυνσης';
 
   @override
-  String get applicationsDeleteRedirect => 'Delete redirect URI';
+  String get applicationsDeleteRedirect => 'Διαγραφή διεύθυνσης ανακατεύθυνσης';
 
   @override
-  String get applicationsBotProfileTitle => 'Bot profile';
+  String get applicationsBotProfileTitle => 'Προφίλ bot';
 
   @override
   String get applicationsBotProfileDescription =>
-      'Avatar, tag, and rich profile details for your bot.';
+      'Εικόνα προφίλ, ετικέτα και λεπτομέρειες εμπλουτισμένου προφίλ για το bot σας.';
 
   @override
-  String get applicationsBotAvatar => 'Bot avatar';
+  String get applicationsBotAvatar => 'Εικόνα προφίλ bot';
 
   @override
-  String get applicationsUsernameRequired => 'Username is required';
+  String get applicationsUsernameRequired => 'Απαιτείται όνομα χρήστη';
 
   @override
   String get applicationsUsernameTooLong =>
-      'Username must be at most 32 characters';
+      'Το όνομα χρήστη πρέπει να έχει έως 32 χαρακτήρες';
 
   @override
   String get applicationsUsernameInvalid =>
-      'Username can only contain letters, numbers, and underscores';
+      'Το όνομα χρήστη μπορεί να περιέχει μόνο γράμματα, αριθμούς και κάτω παύλες';
 
   @override
-  String get applicationsBotUsername => 'Bot username';
+  String get applicationsBotUsername => 'Όνομα χρήστη bot';
 
   @override
-  String get applicationsDiscriminator => 'Discriminator';
+  String get applicationsDiscriminator => 'Διακριτικό';
 
   @override
-  String get applicationsBotBio => 'Bot bio';
+  String get applicationsBotBio => 'Βιογραφικό bot';
 
   @override
   String get applicationsBotBioHint =>
-      'A helpful bot that does amazing things!';
+      'Ένα εξυπηρετικό bot που κάνει καταπληκτικά πράγματα!';
 
   @override
-  String get applicationsNoBotBanner => 'No bot banner';
+  String get applicationsNoBotBanner => 'Χωρίς banner bot';
 
   @override
-  String get applicationsFriendlyBot => 'Friendly bot';
+  String get applicationsFriendlyBot => 'Φιλικό bot';
 
   @override
   String get applicationsFriendlyBotDescription =>
-      'Allow users to send this bot friend requests for manual approval.';
+      'Να επιτρέπεται στους χρήστες να στέλνουν αιτήματα φιλίας σε αυτό το bot για μη αυτόματη έγκριση.';
 
   @override
   String get applicationsManualFriendApproval =>
-      'Require manual friend approval';
+      'Να απαιτείται μη αυτόματη έγκριση φιλίας';
 
   @override
   String get applicationsManualFriendApprovalDescription =>
-      'Friend requests to this bot need manual approval.';
+      'Τα αιτήματα φιλίας προς αυτό το bot χρειάζονται μη αυτόματη έγκριση.';
 
   @override
-  String get applicationsOauthBuilderTitle => 'OAuth2 URL builder';
+  String get applicationsOauthBuilderTitle => 'Δημιουργία URL OAuth2';
 
   @override
   String get applicationsOauthBuilderDescription =>
       'Construct an authorize URL with scopes and permissions.';
 
   @override
-  String get applicationsScopes => 'Scopes';
+  String get applicationsScopes => 'Δικαιώματα πρόσβασης';
 
   @override
-  String get applicationsRedirectUri => 'Redirect URI';
+  String get applicationsRedirectUri => 'URI ανακατεύθυνσης';
 
   @override
-  String get applicationsSelectRedirectUri => 'Select a redirect URI';
+  String get applicationsSelectRedirectUri => 'Επιλέξτε ένα URI ανακατεύθυνσης';
 
   @override
   String get applicationsRedirectRequiredCodeGrant =>
-      'Redirect URI is required because this bot requires OAuth2 code grant.';
+      'Απαιτείται URI ανακατεύθυνσης, επειδή αυτό το bot απαιτεί εκχώρηση κωδικού OAuth2.';
 
   @override
   String get applicationsRedirectRequiredScopes =>
-      'Redirect URI is required when not using only the bot scope.';
+      'Το URI ανακατεύθυνσης απαιτείται όταν δεν χρησιμοποιείται μόνο το πεδίο εφαρμογής του bot.';
 
   @override
-  String get applicationsBotPermissions => 'Bot permissions';
+  String get applicationsBotPermissions => 'Δικαιώματα bot';
 
   @override
-  String get applicationsAuthorizeUrl => 'Authorize URL';
+  String get applicationsAuthorizeUrl => 'URL εξουσιοδότησης';
 
   @override
   String get applicationsAuthorizeUrlPlaceholder =>
-      'Select scopes (and redirect URI if required)';
+      'Επιλέξτε πεδία εφαρμογής (και URI ανακατεύθυνσης, αν χρειάζεται)';
 
   @override
   String get applicationsCopyAuthorizeUrl => 'Copy authorize URL';
 
   @override
-  String get applicationsCopiedUrl => 'Copied URL to clipboard';
+  String get applicationsCopiedUrl =>
+      'Αντιγράφηκε η διεύθυνση URL στο πρόχειρο';
 
   @override
-  String get applicationsDangerTitle => 'Danger zone';
+  String get applicationsDangerTitle => 'Επικίνδυνη ζώνη';
 
   @override
   String get applicationsDangerSubtitle =>
-      'This cannot be undone. Removing the application also deletes its bot.';
+      'Αυτή η ενέργεια δεν μπορεί να αναιρεθεί. Με την κατάργηση της εφαρμογής διαγράφεται και το bot της.';
 
   @override
   String get applicationsDangerHelper =>
-      'Once deleted, the application and its credentials are permanently removed.';
+      'Μόλις διαγραφεί, η εφαρμογή και τα διαπιστευτήριά της καταργούνται οριστικά.';
 
   @override
-  String get applicationsDelete => 'Delete application';
+  String get applicationsDelete => 'Διαγραφή εφαρμογής';
 
   @override
   String applicationsDeleteConfirmDescription(String name) {
@@ -3093,68 +3101,69 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get applicationsDeleteFailed => 'Couldn\'t delete application';
+  String get applicationsDeleteFailed =>
+      'Δεν ήταν δυνατή η διαγραφή της εφαρμογής';
 
   @override
-  String get applicationsUpdated => 'Application updated successfully';
+  String get applicationsUpdated => 'Η εφαρμογή ενημερώθηκε';
 
   @override
-  String get applicationsNoChanges => 'No changes to save';
+  String get applicationsNoChanges => 'Δεν υπάρχουν αλλαγές για αποθήκευση';
 
   @override
-  String get applicationsSearchBots => 'Applications & bots';
+  String get applicationsSearchBots => 'Εφαρμογές και bot';
 
   @override
   String get applicationsSearchBotsDescription =>
-      'Create and manage applications and bots for your account';
+      'Δημιουργία και διαχείριση εφαρμογών και bot για τον λογαριασμό σας';
 
   @override
   String get applicationsSearchInfoDescription =>
-      'Edit application basics and redirect URIs';
+      'Επεξεργασία βασικών στοιχείων εφαρμογής και URI ανακατεύθυνσης';
 
   @override
   String get applicationsSearchBotProfileDescription =>
-      'Edit the bot avatar, tag, bio, banner, and friend request behavior';
+      'Επεξεργασία του avatar, της ετικέτας, του βιογραφικού, του banner και της συμπεριφοράς αιτήματος φιλίας του bot';
 
   @override
   String get applicationsSearchOauthDescription =>
-      'Build an authorization URL with scopes, redirects, and bot permissions';
+      'Δημιουργία URL εξουσιοδότησης με πεδία εφαρμογής, ανακατευθύνσεις και δικαιώματα bot';
 
   @override
   String get applicationsSearchSecretsDescription =>
-      'View and regenerate client secrets and bot tokens';
+      'Προβολή και αναδημιουργία μυστικών πελάτη και bot tokens';
 
   @override
-  String get applicationsSearchBotsKeyword => 'Bots';
+  String get applicationsSearchBotsKeyword => 'Bot';
 
   @override
-  String get applicationsSearchDocumentation => 'Documentation';
+  String get applicationsSearchDocumentation => 'Τεκμηρίωση';
 
   @override
   String get privacyPendingDeletionTitle => 'Αναμονή Διαγραφής';
 
   @override
-  String get blockedUsersTitle => 'Αποκλεισμένοι Χρήστες';
+  String get blockedUsersTitle => 'Μπλοκαρισμένοι χρήστες';
 
   @override
   String get blockedUsersDescription =>
-      'Οι αποκλεισμένοι χρήστες δεν μπορούν να σας στείλουν αιτήματα φιλίας ή να σας στείλουν απευθείας μηνύματα.';
+      'Οι μπλοκαρισμένοι χρήστες δεν μπορούν να σας στείλουν αιτήματα φιλίας ούτε απευθείας μηνύματα.';
 
   @override
-  String get blockedUsersEmptyTitle => 'Δεν υπάρχουν Αποκλεισμένοι Χρήστες';
+  String get blockedUsersEmptyTitle => 'Κανένας μπλοκαρισμένος χρήστης';
 
   @override
   String get blockedUsersEmptyDescription =>
-      'Δεν έχετε αποκλείσει κανέναν ακόμα.';
+      'Δεν έχετε μπλοκάρει κανέναν ακόμα.';
 
   @override
   String get blockedUsersLoadError => 'Αδυναμία Φόρτωσης Αποκλεισμένων Χρηστών';
 
   @override
-  String get blockedUsersUnblock => 'Αποκλεισμός';
+  String get blockedUsersUnblock => 'Ξεμπλοκάρισμα';
 
   @override
-  String get blockedUsersUnblockTitle => 'Αποκλεισμός Χρήστη';
+  String get blockedUsersUnblockTitle => 'Ξεμπλοκάρισμα χρήστη';
 
   @override
   String blockedUsersUnblockDescription(String username) {
@@ -3162,10 +3171,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get blockedUsersCopyTag => 'Αντιγραφή Όνομα χρήστη';
+  String get blockedUsersCopyTag => 'Αντιγραφή ονόματος χρήστη';
 
   @override
-  String get blockedUsersCopyId => 'Αντιγραφή ID Χρήστη';
+  String get blockedUsersCopyId => 'Αντιγραφή αναγνωριστικού χρήστη';
 
   @override
   String get userProfileLoadError => 'Αδυναμία φόρτωσης προφίλ';
@@ -3180,13 +3189,13 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get userProfileMessage => 'Μήνυμα';
 
   @override
-  String get userProfileVoiceCall => 'Φωνητική Κλήση';
+  String get userProfileVoiceCall => 'Φωνητική κλήση';
 
   @override
   String get userProfileVideoCall => 'Βιντεοκλήση';
 
   @override
-  String get userProfileEditProfile => 'Επεξεργασία Προφίλ';
+  String get userProfileEditProfile => 'Επεξεργασία προφίλ';
 
   @override
   String userProfileStaffBadgeTooltip(String productName) {
@@ -3205,7 +3214,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String userProfileBugHunterBadgeTooltip(String productName) {
-    return 'Κυνηγός Σφαλμάτων $productName';
+    return 'Κυνηγός σφαλμάτων $productName';
   }
 
   @override
@@ -3241,19 +3250,19 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String userProfileMutualFriends(int count) {
-    return 'Κοινοί Φίλοι ($count)';
+    return 'Κοινοί φίλοι ($count)';
   }
 
   @override
   String userProfileMutualCommunities(int count) {
-    return 'Κοινές Κοινότητες ($count)';
+    return 'Κοινές κοινότητες ($count)';
   }
 
   @override
-  String get userProfileMutualFriendsTitle => 'Κοινοί Φίλοι';
+  String get userProfileMutualFriendsTitle => 'Κοινοί φίλοι';
 
   @override
-  String get userProfileMutualCommunitiesTitle => 'Κοινές Κοινότητες';
+  String get userProfileMutualCommunitiesTitle => 'Κοινές κοινότητες';
 
   @override
   String get userProfileNoMutualFriends => 'Δεν βρέθηκαν κοινοί φίλοι.';
@@ -3268,7 +3277,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get userProfileOpenBlockedDmTitle => 'Άνοιγμα Άμεσου Μηνύματος';
+  String get userProfileOpenBlockedDmTitle => 'Άνοιγμα DM';
 
   @override
   String userProfileOpenBlockedDmDescription(String username) {
@@ -3279,7 +3288,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get blockedUserComposerBarrierAction => 'Ξεμπλοκάρισμα';
 
   @override
-  String get userProfileOpenDm => 'Άνοιγμα Άμεσου Μηνύματος';
+  String get userProfileOpenDm => 'Άνοιγμα DM';
 
   @override
   String get userProfileNoteTitle => 'Σημείωση';
@@ -3294,7 +3303,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get userProfileNoteDelete => 'Διαγραφή';
 
   @override
-  String get userProfileNoteEmpty => 'Πατήστε για να προσθέσετε σημείωση';
+  String get userProfileNoteEmpty => 'Πάτησε για να προσθέσεις μια σημείωση';
 
   @override
   String get userProfileMemberSince => 'Μέλος από';
@@ -3319,7 +3328,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String memberRolesNoRolesYet(String rolesSettingsPath) {
-    return 'Δεν υπάρχουν ρόλοι ακόμα. Πρόσθεσε ρόλους στο $rolesSettingsPath';
+    return 'Δεν υπάρχουν ρόλοι ακόμα. Προσθέστε ρόλους στο $rolesSettingsPath';
   }
 
   @override
@@ -3352,7 +3361,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String userProfileTimeBehindYou(String duration) {
-    return '$duration πίσω σας';
+    return '$duration πίσω από εσάς';
   }
 
   @override
@@ -3395,28 +3404,28 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get userProfileCopyUsername => 'Αντιγραφή Ονόματος Χρήστη';
+  String get userProfileCopyUsername => 'Αντιγραφή ονόματος χρήστη';
 
   @override
-  String get userProfileCopyUserId => 'Αντιγραφή Αναγνωριστικού Χρήστη';
+  String get userProfileCopyUserId => 'Αντιγραφή αναγνωριστικού χρήστη';
 
   @override
   String get userProfileViewMainProfile => 'Προβολή Κύριου Προφίλ';
 
   @override
-  String get userProfileViewCommunityProfile => 'Προβολή Προφίλ Κοινότητας';
+  String get userProfileViewCommunityProfile => 'Προβολή προφίλ κοινότητας';
 
   @override
-  String get userProfileBlockUser => 'Μπλοκάρισμα Χρήστη';
+  String get userProfileBlockUser => 'Μπλοκάρισμα χρήστη';
 
   @override
-  String get userProfileUnblockUser => 'Ξεμπλοκάρισμα Χρήστη';
+  String get userProfileUnblockUser => 'Ξεμπλοκάρισμα χρήστη';
 
   @override
-  String get userProfileRemoveFriend => 'Αφαίρεση Φίλου';
+  String get userProfileRemoveFriend => 'Κατάργηση φίλου';
 
   @override
-  String get userProfileBlockConfirmTitle => 'Μπλοκάρισμα Χρήστη';
+  String get userProfileBlockConfirmTitle => 'Μπλοκάρισμα χρήστη';
 
   @override
   String userProfileBlockConfirmDescription(String username) {
@@ -3424,7 +3433,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get userProfileUnblockConfirmTitle => 'Ξεμπλοκάρισμα Χρήστη';
+  String get userProfileUnblockConfirmTitle => 'Ξεμπλοκάρισμα χρήστη';
 
   @override
   String userProfileUnblockConfirmDescription(String username) {
@@ -3432,7 +3441,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get userProfileRemoveFriendConfirmTitle => 'Αφαίρεση Φίλου';
+  String get userProfileRemoveFriendConfirmTitle => 'Κατάργηση φίλου';
 
   @override
   String userProfileRemoveFriendConfirmDescription(String username) {
@@ -3450,22 +3459,22 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Η ενέργεια απέτυχε, παρακαλώ προσπαθήστε ξανά';
 
   @override
-  String get userProfileChangeNickname => 'Αλλαγή ψευδωνύμου';
+  String get userProfileChangeNickname => 'Αλλαγή ψευδώνυμου';
 
   @override
   String get userProfileKick => 'Αποβολή';
 
   @override
-  String get userProfileBan => 'Απαγόρευση';
+  String get userProfileBan => 'Αποκλεισμός';
 
   @override
-  String get userProfileTimeout => 'Περιορισμός χρόνου';
+  String get userProfileTimeout => 'Προσωρινός περιορισμός';
 
   @override
-  String get userProfileRemoveTimeout => 'Αφαίρεση περιορισμού χρόνου';
+  String get userProfileRemoveTimeout => 'Κατάργηση προσωρινού περιορισμού';
 
   @override
-  String get userProfileTransferOwnership => 'Μεταφορά ιδιοκτησίας';
+  String get userProfileTransferOwnership => 'Μεταβίβαση ιδιοκτησίας';
 
   @override
   String get userProfileReportUser => 'Αναφορά χρήστη';
@@ -3521,20 +3530,20 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get userProfileBanDeleteHistoryLabel => 'Διαγραφή ιστορικού μηνυμάτων';
 
   @override
-  String get userProfileBanDeleteNone => 'Μην διαγράψεις κανένα';
+  String get userProfileBanDeleteNone => 'Να μην διαγραφεί τίποτα';
 
   @override
-  String get userProfileBanDelete24h => 'Προηγούμενες 24 ώρες';
+  String get userProfileBanDelete24h => 'Τελευταίες 24 ώρες';
 
   @override
-  String get userProfileBanDelete7d => 'Προηγούμενες 7 ημέρες';
+  String get userProfileBanDelete7d => 'Τελευταίες 7 ημέρες';
 
   @override
   String get userProfileBanReasonLabel => 'Λόγος (προαιρετικό)';
 
   @override
   String get userProfileBanReasonHint =>
-      'Εισαγάγετε έναν λόγο για τον αποκλεισμό';
+      'Πληκτρολογήστε έναν λόγο για τον αποκλεισμό';
 
   @override
   String get userProfileBanSubmit => 'Αποκλεισμός μέλους';
@@ -3546,7 +3555,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get userProfileTimeoutDurationLabel =>
-      'Διάρκεια αποκλεισμού μηνυμάτων';
+      'Διάρκεια προσωρινού περιορισμού';
 
   @override
   String get userProfileTimeoutSubmit => 'Αποκλεισμός μηνυμάτων μέλους';
@@ -3584,10 +3593,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get userProfileNicknameSuccess => 'Το ψευδώνυμο ενημερώθηκε';
 
   @override
-  String get userProfileTransferSuccess => 'Η ιδιοκτησία μεταφέρθηκε';
+  String get userProfileTransferSuccess => 'Η ιδιοκτησία μεταβιβάστηκε';
 
   @override
-  String get durationPermanent => 'Μόνιμα';
+  String get durationPermanent => 'Μόνιμη';
 
   @override
   String get duration60Seconds => '60 δευτερόλεπτα';
@@ -3623,7 +3632,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get duration1Month => '1 μήνας';
 
   @override
-  String get durationCustom => 'Προσαρμοσμένο...';
+  String get durationCustom => 'Προσαρμοσμένο…';
 
   @override
   String get iarReportUserTitle => 'Αναφορά χρήστη';
@@ -3662,11 +3671,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get iarReasonMatureContentGuildLabel =>
-      'Περιεχόμενο για ενήλικες ή μη ασφαλής περίφραξη';
+      'Περιεχόμενο για ενήλικες ή μη ασφαλής έλεγχος πρόσβασης';
 
   @override
   String get iarReasonMatureContentGuildDescription =>
-      'Περιεχόμενο ενηλίκων χωρίς κατάλληλη περίφραξη.';
+      'Περιεχόμενο ενηλίκων χωρίς κατάλληλο έλεγχο πρόσβασης.';
 
   @override
   String get iarReasonChildSafetyGuildDescription =>
@@ -3677,7 +3686,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get iarReasonRaidDescription =>
-      'Συντονίζει επιθέσεις, οργανωμένες παρενοχλήσεις ή παρενοχλήσεις εναντίον ατόμων ή κοινοτήτων.';
+      'Συντονίζει επιδρομές, οργανωμένες επιθέσεις ή παρενόχληση εναντίον ατόμων ή κοινοτήτων.';
 
   @override
   String get iarReasonSpamGuildDescription =>
@@ -3727,7 +3736,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get typingIndicatorMultiple => 'Αρκετά άτομα γράφουν...';
+  String get typingIndicatorMultiple => 'Αρκετά άτομα πληκτρολογούν...';
 
   @override
   String get typingIndicatorHandful =>
@@ -3747,7 +3756,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String systemJoinGladYoureHere(String username) {
-    return 'Χαίρομαι που είσαι εδώ, $username!';
+    return 'Χαιρόμαστε που είσαι εδώ, $username!';
   }
 
   @override
@@ -3757,22 +3766,22 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String systemJoinHelloNiceToHaveYouHere(String username) {
-    return 'Γεια σου, $username! Χαίρομαι που είσαι εδώ.';
+    return 'Γεια σου, $username! Χαρά μας που σε έχουμε εδώ.';
   }
 
   @override
   String systemJoinHelloJumpInWheneverYoureReady(String username) {
-    return 'Γεια σου, $username! Μπες όποτε είσαι έτοιμος.';
+    return 'Γεια σου, $username! Μπες όποτε θέλεις.';
   }
 
   @override
   String systemJoinHeyGreatToSeeYouHere(String username) {
-    return 'Γεια σου $username, χαίρομαι που σε βλέπω εδώ!';
+    return 'Γεια σου $username, χαρά μας που σε βλέπουμε εδώ!';
   }
 
   @override
   String systemJoinHeyThereHopeYouEnjoyYourStay(String username) {
-    return 'Γεια σου, $username! Ελπίζω να απολαύσεις τη διαμονή σου.';
+    return 'Γεια σου, $username! Ελπίζουμε να περάσεις όμορφα.';
   }
 
   @override
@@ -3782,12 +3791,12 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String systemJoinGladYouMadeIt(String username) {
-    return 'Χαίρομαι που τα κατάφερες, $username!';
+    return 'Χαιρόμαστε που τα κατάφερες, $username!';
   }
 
   @override
   String systemJoinWelcomeIn(String username) {
-    return 'Καλώς ήρθες, $username!';
+    return 'Καλώς όρισες, $username!';
   }
 
   @override
@@ -3802,32 +3811,32 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String systemJoinWelcomeHopeYouEnjoyYourTimeHere(String username) {
-    return 'Καλώς ήρθες, $username! Ελπίζω να απολαύσεις τον χρόνο σου εδώ.';
+    return 'Καλώς ήρθες, $username! Ελπίζουμε να περάσεις όμορφα εδώ.';
   }
 
   @override
   String systemJoinWelcomeYourNextConversationStartsHere(String username) {
-    return 'Καλώς ήρθες, $username! Η επόμενη συζήτησή σου ξεκινά εδώ.';
+    return 'Καλώς ήρθες, $username! Η επόμενη συνομιλία σου ξεκινά εδώ.';
   }
 
   @override
   String systemJoinWelcomeWereHappyToHaveYouHere(String username) {
-    return 'Καλώς ήρθες, $username. Χαιρόμαστε που σε έχουμε εδώ.';
+    return 'Καλώς ήρθες, $username. Χαιρόμαστε που σε έχουμε στην παρέα μας.';
   }
 
   @override
   String systemJoinGreatToSeeYouWelcomeIn(String username) {
-    return 'Χαίρομαι που σε βλέπω, $username! Καλώς ήρθες.';
+    return 'Χαιρόμαστε που σε βλέπουμε, $username! Καλώς ήρθες.';
   }
 
   @override
   String systemJoinYoureHereGoodToHaveYouWithUs(String username) {
-    return 'Είσαι εδώ, $username! Καλό είναι να σε έχουμε μαζί μας.';
+    return 'Ήρθες, $username! Χαρά μας που σε έχουμε μαζί μας.';
   }
 
   @override
   String systemJoinYouveArrivedLetsGetStarted(String username) {
-    return 'Έφτασες, $username! Ας ξεκινήσουμε.';
+    return 'Καλώς ήρθες, $username! Ας ξεκινήσουμε.';
   }
 
   @override
@@ -3889,17 +3898,17 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get linkedDevicesTitle => 'Οι Συσκευές μου';
+  String get linkedDevicesTitle => 'Οι συσκευές μου';
 
   @override
   String get linkedDevicesDescription =>
       'Δείτε όλες τις συσκευές που είναι συνδεδεμένες στον λογαριασμό σας. Ανακαλέστε τυχόν συνεδρίες που δεν αναγνωρίζετε.';
 
   @override
-  String get linkedDevicesCurrentDevice => 'Τρέχουσα Συσκευή';
+  String get linkedDevicesCurrentDevice => 'Τρέχουσα συσκευή';
 
   @override
-  String get linkedDevicesOtherDevices => 'Άλλες Συσκευές';
+  String get linkedDevicesOtherDevices => 'Άλλες συσκευές';
 
   @override
   String get linkedDevicesEnterSelection => 'Είσοδος Λειτουργίας Επιλογής';
@@ -3908,16 +3917,17 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get linkedDevicesExitSelection => 'Έξοδος Λειτουργίας Επιλογής';
 
   @override
-  String get linkedDevicesSelectAll => 'Επιλογή Όλων';
+  String get linkedDevicesSelectAll => 'Επιλογή όλων';
 
   @override
-  String get linkedDevicesClearSelection => 'Εκκαθάριση Επιλογής';
+  String get linkedDevicesClearSelection => 'Κατάργηση επιλογής';
 
   @override
   String get linkedDevicesRevokeTooltip => 'Ανάκληση συσκευής';
 
   @override
-  String get linkedDevicesSignOutAll => 'Αποσύνδεση όλων των άλλων συσκευών';
+  String get linkedDevicesSignOutAll =>
+      'Αποσύνδεση από όλες τις άλλες συσκευές';
 
   @override
   String linkedDevicesSignOutN(int count) {
@@ -3943,7 +3953,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get linkedDevicesSignOutAllSheetTitle =>
-      'Αποσύνδεση όλων των άλλων συσκευών';
+      'Αποσύνδεση από όλες τις άλλες συσκευές';
 
   @override
   String linkedDevicesSignOutSheetDescription(int count) {
@@ -3970,7 +3980,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Θα χρειαστεί να συνδεθείτε ξανά σε όλες τις αποσυνδεδεμένες συσκευές';
 
   @override
-  String get linkedDevicesLoadErrorTitle => 'Σφάλμα Δικτύου';
+  String get linkedDevicesLoadErrorTitle => 'Σφάλμα δικτύου';
 
   @override
   String get linkedDevicesLoadErrorDescription =>
@@ -3998,31 +4008,31 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get linkedDevicesUnknownPlatform => 'Άγνωστη Πλατφόρμα';
 
   @override
-  String get linkedDevicesViewDetails => 'View details';
+  String get linkedDevicesViewDetails => 'Προβολή λεπτομερειών';
 
   @override
-  String get linkedDevicesDetailsTitle => 'Device details';
+  String get linkedDevicesDetailsTitle => 'Λεπτομέρειες συσκευής';
 
   @override
-  String get linkedDevicesDetailsDevice => 'Device';
+  String get linkedDevicesDetailsDevice => 'Συσκευή';
 
   @override
-  String get linkedDevicesDetailsClient => 'Client';
+  String get linkedDevicesDetailsClient => 'Εφαρμογή';
 
   @override
-  String get linkedDevicesDetailsLocation => 'Location';
+  String get linkedDevicesDetailsLocation => 'Τοποθεσία';
 
   @override
-  String get linkedDevicesDetailsIp => 'IP address';
+  String get linkedDevicesDetailsIp => 'Διεύθυνση IP';
 
   @override
-  String get linkedDevicesDetailsLastUsed => 'Last used';
+  String get linkedDevicesDetailsLastUsed => 'Τελευταία χρήση';
 
   @override
-  String get linkedDevicesCurrentSession => 'Current session';
+  String get linkedDevicesCurrentSession => 'Τρέχουσα συνεδρία';
 
   @override
-  String get linkedDevicesUnknown => 'Unknown';
+  String get linkedDevicesUnknown => 'Άγνωστο';
 
   @override
   String slowmodeLabel(String duration) {
@@ -4047,7 +4057,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String slowmodeTooltipSetImmune(String durationLabel) {
-    return 'Η αργή λειτουργία έχει οριστεί σε $durationLabel, αλλά εσείς είστε εξαιρούμενος.';
+    return 'Η αργή λειτουργία έχει οριστεί σε $durationLabel, αλλά εσείς εξαιρείστε.';
   }
 
   @override
@@ -4071,11 +4081,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get channelComposerBarrierGuildSendDisabled =>
-      'Η αποστολή μηνυμάτων έχει προσωρινά ανασταλεί σε αυτήν την κοινότητα.';
+      'Η ανταλλαγή μηνυμάτων έχει προσωρινά τεθεί σε παύση σε αυτήν την κοινότητα.';
 
   @override
   String get channelComposerBarrierTimedOut =>
-      'Έχετε τεθεί σε παύση. Η αποστολή μηνυμάτων, οι αντιδράσεις και η φωνή έχουν ανασταλεί μέχρι να λήξει η παύση.';
+      'Είστε σε προσωρινό περιορισμό. Η ανταλλαγή μηνυμάτων, οι αντιδράσεις και η φωνή έχουν τεθεί σε παύση μέχρι να λήξει ο περιορισμός.';
 
   @override
   String get channelComposerBarrierUnclaimedAccount =>
@@ -4087,11 +4097,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get channelComposerBarrierAccountTooNew =>
-      'Ο λογαριασμός σας είναι πολύ νέος για να στείλετε μηνύματα σε αυτήν την κοινότητα.';
+      'Ο λογαριασμός σας είναι πολύ καινούριος για να στέλνετε μηνύματα σε αυτήν την κοινότητα.';
 
   @override
   String get channelComposerBarrierNotMemberLongEnough =>
-      'Δεν είστε μέλος αυτής της κοινότητας αρκετά καιρό για να στείλετε μηνύματα.';
+      'Δεν είστε μέλος αυτής της κοινότητας για αρκετό καιρό ώστε να στέλνετε μηνύματα.';
 
   @override
   String get channelComposerBarrierNoPhoneNumber =>
@@ -4141,7 +4151,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get voiceMessageMicPermissionDenied =>
-      'Αδύνατη η έναρξη εγγραφής. Παραχωρήστε πρόσβαση στο μικρόφωνο.';
+      'Δεν είναι δυνατή η έναρξη εγγραφής. Επιτρέψτε την πρόσβαση στο μικρόφωνο.';
 
   @override
   String get voiceMessageRecordingNotSupported =>
@@ -4157,15 +4167,15 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get voiceMessageSendFailed =>
-      'Αδύνατη η αποστολή φωνητικού μηνύματος. Δοκιμάστε ξανά.';
+      'Δεν είναι δυνατή η αποστολή φωνητικού μηνύματος. Δοκιμάστε ξανά.';
 
   @override
   String get voiceMessageRecordingHint =>
-      'Μιλήστε τώρα. Πατήστε Διακοπή όταν τελειώσετε — μπορείτε να περικόψετε αργότερα.';
+      'Μιλήστε τώρα. Πατήστε «Διακοπή» όταν τελειώσετε — μπορείτε να το περικόψετε αργότερα.';
 
   @override
   String get voiceMessageReviewHint =>
-      'Σύρετε τα χειριστήρια για περικοπή, και μετά πατήστε Αποστολή.';
+      'Σύρετε τις λαβές για περικοπή και, στη συνέχεια, πατήστε «Αποστολή».';
 
   @override
   String get voiceMessageStop => 'Διακοπή';
@@ -4174,7 +4184,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get voiceMessageStartRecording => 'Έναρξη εγγραφής';
 
   @override
-  String get voiceMessageRerecord => 'Re-record';
+  String get voiceMessageRerecord => 'Νέα εγγραφή';
 
   @override
   String get voiceMessagePlay => 'Αναπαραγωγή';
@@ -4214,7 +4224,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get chatAttachmentSpoilerLabel => 'Σήμανση ως spoiler';
 
   @override
-  String get chatAttachmentRemove => 'Αφαίρεση συνημμένου';
+  String get chatAttachmentRemove => 'Κατάργηση συνημμένου';
 
   @override
   String get chatAttachmentDownload => 'Λήψη';
@@ -4226,7 +4236,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get chatAttachmentDownloadFailedToast => 'Αδυναμία λήψης συνημμένου';
 
   @override
-  String get chatAttachmentExpiredTooltip => 'Το συνημμένο έχει λήξει';
+  String get chatAttachmentExpiredTooltip => 'Το συνημμένο έληξε';
 
   @override
   String chatTextualPreviewExpandLines(int count) {
@@ -4349,25 +4359,25 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get chatMediaSpoilerOverlayLabel => 'SPOILER';
 
   @override
-  String get chatMediaSpoilerRevealLabel => 'Εμφάνιση spoiler';
+  String get chatMediaSpoilerRevealLabel => 'Αποκάλυψη spoiler';
 
   @override
-  String get matureMediaRevealButton => 'Εμφάνιση';
+  String get matureMediaRevealButton => 'Αποκάλυψη';
 
   @override
-  String get matureMediaRevealHint => 'Κάντε κλικ για εμφάνιση';
+  String get matureMediaRevealHint => 'Πατήστε για εμφάνιση';
 
   @override
-  String get matureContentTitle => 'Περιεχόμενο ακατάλληλο για ανηλίκους';
+  String get matureContentTitle => 'Περιεχόμενο για ενήλικες';
 
   @override
-  String get matureCommunityTitle => 'Ενήλικη κοινότητα';
+  String get matureCommunityTitle => 'Κοινότητα ενηλίκων';
 
   @override
-  String get matureCategoryTitle => 'Ενήλικη κατηγορία';
+  String get matureCategoryTitle => 'Κατηγορία ενηλίκων';
 
   @override
-  String get matureChannelTitle => 'Ενήλικο κανάλι';
+  String get matureChannelTitle => 'Κανάλι ενηλίκων';
 
   @override
   String get communityContentWarningTitle =>
@@ -4382,40 +4392,39 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Προειδοποίηση περιεχομένου καναλιού';
 
   @override
-  String get defaultContentWarningBody =>
-      'Αυτό περιέχει ευαίσθητο περιεχόμενο.';
+  String get defaultContentWarningBody => 'Περιέχει ευαίσθητο περιεχόμενο.';
 
   @override
   String get matureCommunityBody =>
-      'Αυτή η κοινότητα έχει επισημανθεί για περιεχόμενο ενηλίκων και μπορεί να περιέχει υλικό που μπορεί να είναι ακατάλληλο για ορισμένους χρήστες.';
+      'Αυτή η κοινότητα έχει επισημανθεί για περιεχόμενο ενηλίκων και ενδέχεται να περιέχει υλικό που μπορεί να είναι ακατάλληλο για ορισμένους χρήστες.';
 
   @override
   String get matureCategoryBody =>
-      'Αυτή η κατηγορία έχει επισημανθεί για περιεχόμενο ενηλίκων και μπορεί να περιέχει υλικό που μπορεί να είναι ακατάλληλο για ορισμένους χρήστες.';
+      'Αυτή η κατηγορία έχει επισημανθεί για περιεχόμενο ενηλίκων και ενδέχεται να περιέχει υλικό που μπορεί να είναι ακατάλληλο για ορισμένους χρήστες.';
 
   @override
   String get matureChannelBody =>
-      'Αυτό το κανάλι έχει επισημανθεί για περιεχόμενο ενηλίκων και μπορεί να περιέχει υλικό που μπορεί να είναι ακατάλληλο για ορισμένους χρήστες.';
+      'Αυτό το κανάλι έχει επισημανθεί για περιεχόμενο ενηλίκων και ενδέχεται να περιέχει υλικό που μπορεί να είναι ακατάλληλο για ορισμένους χρήστες.';
 
   @override
   String get matureVoiceChannelBody =>
-      'Αυτό το κανάλι φωνής έχει επισημανθεί για περιεχόμενο ενηλίκων και μπορεί να περιέχει υλικό που μπορεί να είναι ακατάλληλο για ορισμένους χρήστες.';
+      'Αυτό το φωνητικό κανάλι έχει επισημανθεί για ενήλικο περιεχόμενο και ενδέχεται να περιέχει υλικό που μπορεί να είναι ακατάλληλο για ορισμένους χρήστες.';
 
   @override
   String get matureLinkChannelBody =>
-      'Αυτό το κανάλι συνδέσμων έχει επισημανθεί για περιεχόμενο ενηλίκων και μπορεί να ανοίξει υλικό που μπορεί να είναι ακατάλληλο για ορισμένους χρήστες.';
+      'Αυτό το κανάλι συνδέσμου έχει επισημανθεί για περιεχόμενο ενηλίκων και ενδέχεται να ανοίξει υλικό που μπορεί να είναι ακατάλληλο για ορισμένους χρήστες.';
 
   @override
   String get matureCommunityUnavailableBody =>
-      'Αυτή η ενήλικη κοινότητα δεν είναι διαθέσιμη στον λογαριασμό σας.';
+      'Αυτή η κοινότητα ενηλίκων δεν είναι διαθέσιμη στον λογαριασμό σας.';
 
   @override
   String get matureCategoryUnavailableBody =>
-      'Αυτή η ενήλικη κατηγορία δεν είναι διαθέσιμη στον λογαριασμό σας.';
+      'Αυτή η κατηγορία ενηλίκων δεν είναι διαθέσιμη στον λογαριασμό σας.';
 
   @override
   String get matureChannelUnavailableBody =>
-      'Αυτό το ενήλικο κανάλι δεν είναι διαθέσιμο στον λογαριασμό σας.';
+      'Αυτό το κανάλι ενηλίκων δεν είναι διαθέσιμο στον λογαριασμό σας.';
 
   @override
   String get matureContentProceedButton => 'Συνέχεια';
@@ -4434,10 +4443,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Ελέγξτε πώς φιλτράρεται το περιεχόμενο ενηλίκων ή ευαίσθητων μέσων σε διαφορετικά πλαίσια';
 
   @override
-  String get sensitiveContentFriendDmLabel => 'Άμεσα μηνύματα από φίλους';
+  String get sensitiveContentFriendDmLabel => 'Απευθείας μηνύματα από φίλους';
 
   @override
-  String get sensitiveContentNonFriendDmLabel => 'Άμεσα μηνύματα από άλλους';
+  String get sensitiveContentNonFriendDmLabel =>
+      'Απευθείας μηνύματα από άλλους';
 
   @override
   String get sensitiveContentGuildLabel => 'Μηνύματα σε κανάλια κοινότητας';
@@ -4446,7 +4456,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get sensitiveContentFilterShow => 'Εμφάνιση';
 
   @override
-  String get sensitiveContentFilterBlur => 'Θόλωμα';
+  String get sensitiveContentFilterBlur => 'Θάμπωμα';
 
   @override
   String get sensitiveContentFilterBlock => 'Αποκλεισμός';
@@ -4538,13 +4548,13 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Αυτή η σύνδεση δεν έχει επαληθευτεί.';
 
   @override
-  String get connectionAddTitle => 'Προσθήκη Σύνδεσης';
+  String get connectionAddTitle => 'Προσθήκη σύνδεσης';
 
   @override
-  String get connectionTypeLabel => 'Τύπος Σύνδεσης';
+  String get connectionTypeLabel => 'Τύπος σύνδεσης';
 
   @override
-  String get connectionHandleLabel => 'Χειριστής';
+  String get connectionHandleLabel => 'Όνομα χρήστη';
 
   @override
   String get connectionDomainLabel => 'Τομέας';
@@ -4565,7 +4575,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get connectionContinue => 'Συνέχεια';
 
   @override
-  String get connectionVerifyTitle => 'Επαλήθευση Σύνδεσης';
+  String get connectionVerifyTitle => 'Επαλήθευση σύνδεσης';
 
   @override
   String get connectionVerifyInstructions =>
@@ -4590,7 +4600,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get connectionCopied => 'Αντιγράφηκε!';
 
   @override
-  String get connectionTokenFileTitle => 'Παρέχετε το αρχείο διακριτικού';
+  String get connectionTokenFileTitle => 'Παροχή του αρχείου token';
 
   @override
   String get connectionTokenFileDescription =>
@@ -4614,35 +4624,35 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get connectionBack => 'Πίσω';
 
   @override
-  String get connectionEditTitle => 'Επεξεργασία Σύνδεσης';
+  String get connectionEditTitle => 'Επεξεργασία σύνδεσης';
 
   @override
   String get connectionEditDescription =>
-      'Επιλέξτε ποιος μπορεί να δει αυτήν τη σύνδεση στο προφίλ σας.';
+      'Επίλεξε ποιος μπορεί να δει αυτήν τη σύνδεση στο προφίλ σου.';
 
   @override
   String get connectionVisibilityEveryone => 'Όλοι';
 
   @override
   String get connectionVisibilityEveryoneDesc =>
-      'Επιτρέψτε σε οποιονδήποτε να δει αυτήν τη σύνδεση στο προφίλ σας';
+      'Να επιτρέπεται σε οποιονδήποτε να βλέπει αυτήν τη σύνδεση στο προφίλ σου';
 
   @override
   String get connectionVisibilityFriends => 'Φίλοι';
 
   @override
   String get connectionVisibilityFriendsDesc =>
-      'Επιτρέψτε στους φίλους σας να δουν αυτήν τη σύνδεση';
+      'Να επιτρέπεται στους φίλους σας να βλέπουν αυτήν τη σύνδεση';
 
   @override
-  String get connectionVisibilityCommunityMembers => 'Μέλη Κοινότητας';
+  String get connectionVisibilityCommunityMembers => 'Μέλη κοινότητας';
 
   @override
   String get connectionVisibilityCommunityMembersDesc =>
-      'Επιτρέψτε στα μέλη από κοινότητες στις οποίες ανήκετε να δουν αυτήν τη σύνδεση';
+      'Να επιτρέπεται στα μέλη των κοινοτήτων στις οποίες ανήκετε να βλέπουν αυτήν τη σύνδεση';
 
   @override
-  String get connectionRemoveTitle => 'Αφαίρεση Σύνδεσης';
+  String get connectionRemoveTitle => 'Κατάργηση σύνδεσης';
 
   @override
   String get connectionRemoveDescription =>
@@ -4718,26 +4728,26 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get lookAndFeelHdrStandardDescription =>
-      'Προσαρμόστε τις εικόνες HDR στο τυπικό εύρος, μειώνοντας τη μέγιστη φωτεινότητα.';
+      'Τονική προσαρμογή των εικόνων HDR στο τυπικό εύρος, με μείωση της μέγιστης φωτεινότητας.';
 
   @override
   String get lookAndFeelHdrDisplayModeLabel =>
       'Λειτουργία οθόνης υψηλού δυναμικού εύρους';
 
   @override
-  String get lookAndFeelThemeDark => 'Σκούρο Θέμα';
+  String get lookAndFeelThemeDark => 'Σκούρο θέμα';
 
   @override
-  String get lookAndFeelThemeDarkLegacy => 'Dark (Legacy) Theme';
+  String get lookAndFeelThemeDarkLegacy => 'Σκούρο θέμα (παλιό)';
 
   @override
-  String get lookAndFeelThemeCoal => 'Θέμα Ανθρακί';
+  String get lookAndFeelThemeCoal => 'Θέμα Coal';
 
   @override
-  String get lookAndFeelThemeLight => 'Φωτεινό Θέμα';
+  String get lookAndFeelThemeLight => 'Ανοιχτό θέμα';
 
   @override
-  String get lookAndFeelThemeSystem => 'Θέμα Συστήματος';
+  String get lookAndFeelThemeSystem => 'Θέμα συστήματος';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesLabel =>
@@ -4761,7 +4771,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get lookAndFeelChatFontScalingDescription =>
-      'Προσαρμόστε το μέγεθος της γραμματοσειράς στην περιοχή συνομιλίας.';
+      'Προσαρμόστε το μέγεθος γραμματοσειράς στην περιοχή συνομιλίας.';
 
   @override
   String get lookAndFeelChatFontSizeLabel =>
@@ -4820,7 +4830,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get lookAndFeelMessagesSectionDescription =>
-      'Επίλεξε πώς θα εμφανίζονται τα μηνύματα στις συνομιλίες.';
+      'Επίλεξε πώς θα εμφανίζονται τα μηνύματα στα κανάλια συνομιλίας.';
 
   @override
   String get lookAndFeelMessageGroupSpacingLabel =>
@@ -4836,18 +4846,18 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Λειτουργία εμφάνισης μηνυμάτων';
 
   @override
-  String get lookAndFeelMessageDisplayComfyName => 'Άνετο';
+  String get lookAndFeelMessageDisplayComfyName => 'Άνετη';
 
   @override
   String get lookAndFeelMessageDisplayComfyDescription =>
       'Ευρύχωρη διάταξη με σαφή οπτικό διαχωρισμό μεταξύ των μηνυμάτων.';
 
   @override
-  String get lookAndFeelMessageDisplayDenseName => 'Πυκνή';
+  String get lookAndFeelMessageDisplayDenseName => 'Συμπαγής';
 
   @override
   String get lookAndFeelMessageDisplayDenseDescription =>
-      'Μεγιστοποιεί τα ορατά μηνύματα με ελάχιστη απόσταση.';
+      'Μεγιστοποιεί τον αριθμό των ορατών μηνυμάτων με ελάχιστα κενά.';
 
   @override
   String get lookAndFeelHideUserAvatarsLabel => 'Απόκρυψη avatar χρηστών';
@@ -4857,11 +4867,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get lookAndFeelInterfaceDescription =>
-      'Προσαρμόστε στοιχεία και συμπεριφορές διεπαφής.';
+      'Προσαρμόστε στοιχεία και συμπεριφορές της διεπαφής.';
 
   @override
   String get lookAndFeelChannelTypingIndicatorsTitle =>
-      'Ενδείξεις πληκτρολόγησης λίστας καναλιών';
+      'Ενδείξεις πληκτρολόγησης στη λίστα καναλιών';
 
   @override
   String get lookAndFeelChannelTypingIndicatorsDescription =>
@@ -4869,26 +4879,26 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get lookAndFeelChannelTypingIndicatorAvatarsName =>
-      'Ενδείξεις πληκτρολόγησης + Είδωλα';
+      'Ένδειξη πληκτρολόγησης + avatar';
 
   @override
   String get lookAndFeelChannelTypingIndicatorAvatarsDescription =>
-      'Εμφάνιση ενδείξεων πληκτρολόγησης με είδωλα χρηστών στη λίστα καναλιών';
+      'Εμφάνιση ένδειξης πληκτρολόγησης με avatar χρηστών στη λίστα καναλιών';
 
   @override
   String get lookAndFeelChannelTypingIndicatorOnlyName =>
-      'Μόνο ενδείξεις πληκτρολόγησης';
+      'Μόνο ένδειξη πληκτρολόγησης';
 
   @override
   String get lookAndFeelChannelTypingIndicatorOnlyDescription =>
-      'Εμφάνιση μόνο της ένδειξης πληκτρολόγησης χωρίς είδωλα';
+      'Να εμφανίζεται μόνο η ένδειξη πληκτρολόγησης χωρίς avatar';
 
   @override
   String get lookAndFeelChannelTypingIndicatorHiddenName => 'Κρυφό';
 
   @override
   String get lookAndFeelChannelTypingIndicatorHiddenDescription =>
-      'Μην εμφανίζετε ενδείξεις πληκτρολόγησης στη λίστα καναλιών';
+      'Να μην εμφανίζονται οι ενδείξεις πληκτρολόγησης στη λίστα καναλιών';
 
   @override
   String get lookAndFeelShowSelectedChannelTypingIndicatorLabel =>
@@ -4931,7 +4941,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get lookAndFeelVoiceChannelJoinTitle =>
-      'Συμπεριφορά εισόδου σε κανάλια φωνής';
+      'Συμπεριφορά εισόδου σε φωνητικό κανάλι';
 
   @override
   String get lookAndFeelVoiceChannelJoinDescription =>
@@ -4939,7 +4949,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get lookAndFeelRequireDoubleClickJoinLabel =>
-      'Απαίτηση διπλού κλικ για είσοδο σε κανάλια φωνής';
+      'Απαίτηση διπλού κλικ για είσοδο σε φωνητικά κανάλια';
 
   @override
   String get lookAndFeelRequireDoubleClickJoinDescription =>
@@ -4977,11 +4987,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildUnavailableDescription => 'Κάτι πήγε στραβά. Το διορθώνουμε.';
 
   @override
-  String get guildNotFoundTitle => 'Αυτή δεν είναι η κοινότητα που ψάχνεις.';
+  String get guildNotFoundTitle => 'Αυτή δεν είναι η κοινότητα που ψάχνετε.';
 
   @override
   String get guildNotFoundDescription =>
-      'Η κοινότητα που ψάχνεις μπορεί να έχει διαγραφεί ή να μην έχεις πρόσβαση σε αυτήν.';
+      'Η κοινότητα που ψάχνετε μπορεί να έχει διαγραφεί ή να μην έχετε πρόσβαση σε αυτήν.';
 
   @override
   String guildStaffOnlyAccessibleNagbar(
@@ -5007,11 +5017,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get lookAndFeelChannelListSectionDescription =>
-      'Ελέγξτε τη συμπεριφορά της ένδειξης μη αναγνωσμένων για τα σιωπηλά κανάλια στις λίστες καναλιών.';
+      'Ελέγξτε τη συμπεριφορά της ένδειξης μη αναγνωσμένων μηνυμάτων για τα κανάλια σε σίγαση στις λίστες καναλιών.';
 
   @override
   String get lookAndFeelShowFadedUnreadOnMutedChannelsLabel =>
-      'Εμφάνιση ένδειξης μη αναγνωσμένων σε σίγαση καναλιών';
+      'Εμφάνιση ένδειξης μη αναγνωσμένων στα κανάλια σε σίγαση';
 
   @override
   String get lookAndFeelShowFadedUnreadOnMutedChannelsDescription =>
@@ -5026,11 +5036,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get lookAndFeelShowActiveNowLabel =>
-      'Εμφάνιση Ενεργών τώρα στην αρχική οθόνη';
+      'Εμφάνιση \"Ενεργός τώρα\" στην αρχική οθόνη';
 
   @override
   String get lookAndFeelShowActiveNowDescription =>
-      'Εμφανίστε τους Ενεργούς τώρα στην αρχική οθόνη για να βλέπετε φίλους που είναι ενεργοί σε φωνή. Θα βλέπετε μια προεπισκόπηση, το πλαίσιο του καναλιού, ποιοι είναι ήδη εκεί και έναν γρήγορο τρόπο να συμμετάχετε.';
+      'Εμφάνιση \"Ενεργός τώρα\" στην αρχική οθόνη για να βλέπεις φίλους που είναι ενεργοί σε φωνητική συνομιλία. Θα δεις μια προεπισκόπηση, το περιβάλλον του καναλιού, ποιος είναι ήδη εκεί και έναν γρήγορο τρόπο να συμμετάσχεις.';
 
   @override
   String get lookAndFeelFavoritesSectionTitle => 'Αγαπημένα';
@@ -5040,7 +5050,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Ελέγξτε την ορατότητα των αγαπημένων σε όλη την εφαρμογή.';
 
   @override
-  String get lookAndFeelEnableFavoritesLabel => 'Ενεργοποίηση Αγαπημένων';
+  String get lookAndFeelEnableFavoritesLabel => 'Ενεργοποίηση αγαπημένων';
 
   @override
   String get lookAndFeelEnableFavoritesDescription =>
@@ -5057,24 +5067,24 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Καρφιτσώστε κανάλια από την κεφαλίδα συνομιλίας για να τα κρατήσετε εδώ.';
 
   @override
-  String get favoritesWelcomeTitle => 'Καλώς ήρθατε στα Αγαπημένα';
+  String get favoritesWelcomeTitle => 'Καλώς ήρθατε στα αγαπημένα';
 
   @override
   String get favoritesWelcomeDescription =>
-      'Ο προσωπικός σας χώρος για γρήγορη πρόσβαση σε κανάλια, απευθείας μηνύματα και ομάδες που αγαπάτε. Πατήστε το αστέρι σε οποιοδήποτε κανάλι για να το προσθέσετε εδώ.';
+      'Ο προσωπικός σας χώρος για γρήγορη πρόσβαση σε κανάλια, DM και ομάδες που αγαπάτε. Πατήστε το αστεράκι σε οποιοδήποτε κανάλι για να το προσθέσετε εδώ.';
 
   @override
   String get favoritesWelcomeTip =>
-      'Δεν σας αρέσει; Απενεργοποιήστε το οποιαδήποτε στιγμή.';
+      'Δεν είναι για εσάς; Απενεργοποιήστε το όποτε θέλετε.';
 
   @override
   String get favoritesDisableButton => 'Απενεργοποίηση αγαπημένων';
 
   @override
-  String get favoritesAddedToast => 'Προστέθηκε στα Αγαπημένα';
+  String get favoritesAddedToast => 'Προστέθηκε στα αγαπημένα';
 
   @override
-  String get favoritesRemovedToast => 'Αφαιρέθηκε από τα Αγαπημένα';
+  String get favoritesRemovedToast => 'Αφαιρέθηκε από τα αγαπημένα';
 
   @override
   String get favoritesHiddenToast => 'Τα Αγαπημένα αποκρύφτηκαν';
@@ -5119,10 +5129,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get favoritesOtherCategory => 'Άλλο';
 
   @override
-  String get favoritesRemoveFromFavorites => 'Αφαίρεση από τα Αγαπημένα';
+  String get favoritesRemoveFromFavorites => 'Αφαίρεση από τα αγαπημένα';
 
   @override
-  String get favoritesAddToFavorites => 'Προσθήκη στα Αγαπημένα';
+  String get favoritesAddToFavorites => 'Προσθήκη στα αγαπημένα';
 
   @override
   String get favoritesAddToSavedMedia => 'Προσθήκη στα αποθηκευμένα πολυμέσα';
@@ -5137,7 +5147,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get favoritesRemoveFromUrlOnlyGifFavorites =>
-      'Αφαίρεση από τις αγαπημένες GIF που έχουν αποθηκευτεί με URL';
+      'Αφαίρεση από τα αγαπημένα GIF που αποθηκεύονται μόνο μέσω URL';
 
   @override
   String get savedMediaAddTitle => 'Προσθήκη στα αποθηκευμένα πολυμέσα';
@@ -5152,7 +5162,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get savedMediaFormAltTextLabel => 'Εναλλακτικό κείμενο';
 
   @override
-  String get savedMediaFormAltTextHint => 'Περιγράψτε το μέσο';
+  String get savedMediaFormAltTextHint => 'Περιγράψτε το στοιχείο πολυμέσων';
 
   @override
   String get savedMediaFormTagsLabel => 'Ετικέτες';
@@ -5201,7 +5211,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Αυτό θα αποκρύψει όλα τα στοιχεία διεπαφής που σχετίζονται με τα αγαπημένα, συμπεριλαμβανομένων των κουμπιών και των στοιχείων μενού. Τα υπάρχοντα αγαπημένα σας θα διατηρηθούν και μπορούν να ενεργοποιηθούν ξανά ανά πάσα στιγμή από τις Ρυθμίσεις > Για προχωρημένους > Εμφάνιση.';
 
   @override
-  String get favoritesDirectMessageSubtitle => 'Απευθείας Μήνυμα';
+  String get favoritesDirectMessageSubtitle => 'Απευθείας μήνυμα';
 
   @override
   String get messagesMediaDisplayGroupTitle => 'Εμφάνιση';
@@ -5225,7 +5235,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Προσαρμόστε τις ρυθμίσεις εισαγωγής μηνυμάτων.';
 
   @override
-  String get messagesMediaSidebarGroupTitle => 'Πλευρική μπάρα';
+  String get messagesMediaSidebarGroupTitle => 'Πλευρική γραμμή';
 
   @override
   String get messagesMediaSidebarGroupDescription =>
@@ -5241,19 +5251,19 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get messagesMediaDefaultHideMutedChannelsEnableTitle =>
-      'Απόκρυψη καναλιών σε σίγαση από προεπιλογή;';
+      'Να αποκρύπτονται τα κανάλια σε σίγαση από προεπιλογή;';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsEnableDescription =>
-      'Οι νέες κοινότητες στις οποίες θα εισέλθετε θα έχουν αυτόματα κρυφά τα κανάλια σε σίγαση. Θέλετε επίσης να εφαρμόσετε αυτήν τη ρύθμιση σε όλες τις υπάρχουσες κοινότητές σας;';
+      'Οι νέες κοινότητες στις οποίες συμμετέχετε θα έχουν αυτόματα κρυφά τα κανάλια σε σίγαση. Θέλετε να εφαρμόσετε αυτήν τη ρύθμιση και σε όλες τις υπάρχουσες κοινότητές σας;';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDisableTitle =>
-      'Διακοπή απόκρυψης καναλιών σε σίγαση από προεπιλογή;';
+      'Να μην αποκρύπτονται πλέον τα κανάλια σε σίγαση από προεπιλογή;';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDisableDescription =>
-      'Οι νέες κοινότητες στις οποίες θα εισέλθετε δεν θα έχουν πλέον αυτόματα κρυφά τα κανάλια σε σίγαση. Θέλετε επίσης να εμφανίσετε τα κανάλια σε σίγαση σε όλες τις υπάρχουσες κοινότητές σας;';
+      'Οι νέες κοινότητες στις οποίες συμμετέχετε δεν θα έχουν πλέον κρυμμένα αυτόματα τα κανάλια σε σίγαση. Θέλετε επίσης να εμφανίζονται τα κανάλια σε σίγαση σε όλες τις υπάρχουσες κοινότητές σας;';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsApplyAllAction =>
@@ -5280,7 +5290,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String messagesMediaDisplayInlineAttachmentLabel(String productName) {
-    return 'Όταν μεταφορτώνονται απευθείας στο $productName';
+    return 'Όταν ανεβάζεται απευθείας στο $productName';
   }
 
   @override
@@ -5293,7 +5303,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get messagesMediaLinkPreviewsToggleLabel =>
-      'Εμφάνιση ενσωματώσεων και προεπισκόπηση συνδέσμων ιστοτόπων';
+      'Εμφάνιση ενσωματώσεων και προεπισκόπησης συνδέσμων ιστοτόπων';
 
   @override
   String get messagesMediaReactionsSectionTitle => 'Αντιδράσεις';
@@ -5307,7 +5317,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Εμφάνιση αντιδράσεων emoji στα μηνύματα';
 
   @override
-  String get messagesMediaSpoilersSectionTitle => 'Περιεχόμενο Spoiler';
+  String get messagesMediaSpoilersSectionTitle => 'Περιεχόμενο spoiler';
 
   @override
   String get messagesMediaSpoilersSectionDescription =>
@@ -5321,11 +5331,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get messagesMediaSpoilersOnClickDescription =>
-      'Εμφάνιση περιεχομένου spoiler όταν κάνετε κλικ';
+      'Εμφάνιση περιεχομένου spoiler όταν πατηθεί';
 
   @override
   String get messagesMediaSpoilersIfModeratorName =>
-      'Σε κανάλια που κάνω συντονισμό';
+      'Στα κανάλια που συντονίζω';
 
   @override
   String get messagesMediaSpoilersIfModeratorDescription =>
@@ -5336,7 +5346,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get messagesMediaSpoilersAlwaysDescription =>
-      'Εμφάνιση περιεχομένου spoiler πάντα';
+      'Να εμφανίζεται πάντα το περιεχόμενο spoiler';
 
   @override
   String get messagesMediaSizeSectionTitle => 'Προτιμήσεις μεγέθους πολυμέσων';
@@ -5375,7 +5385,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get messagesMediaGifsAutoSendLabel =>
-      'Αυτόματη αποστολή GIF κατά την επιλογή';
+      'Αυτόματη αποστολή GIF όταν επιλεγεί';
 
   @override
   String get messagesMediaCameraUploadsSectionTitle => 'Μεταφορτώσεις κάμερας';
@@ -5413,7 +5423,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Εμφάνιση αποθηκευμένων πολυμέσων στην αυτόματη συμπλήρωση εκφράσεων';
 
   @override
-  String get messagesMediaEditingSectionTitle => 'Επεξεργασία μηνυμάτων';
+  String get messagesMediaEditingSectionTitle => 'Επεξεργασία μηνύματος';
 
   @override
   String get messagesMediaEditingSectionDescription =>
@@ -5431,7 +5441,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Προσαρμόστε πόσο έντονα εμφανίζονται τα χρώματα του θέματος σε όλη την εφαρμογή.';
 
   @override
-  String get accessibilityVisualGroupTitle => 'Οπτικά';
+  String get accessibilityVisualGroupTitle => 'Όραση';
 
   @override
   String get accessibilityAlwaysUnderlineLinksLabel =>
@@ -5447,7 +5457,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get accessibilityDimStrikethroughTextLabel =>
-      'Αμύδρωση διαγραμμένου κειμένου';
+      'Αχνό διαγραμμένο κείμενο';
 
   @override
   String get accessibilityDmMessagePreviewGroupTitle =>
@@ -5474,17 +5484,18 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get accessibilityDmMessagePreviewUnreadOnlyDescription =>
-      'Εμφάνιση προεπισκοπήσεων μηνυμάτων μόνο για DM με μη αναγνωσμένα μηνύματα';
+      'Να εμφανίζονται προεπισκοπήσεις μηνυμάτων μόνο για DM με μη αναγνωσμένα μηνύματα';
 
   @override
-  String get accessibilityDmMessagePreviewNoneName => 'Κανένα';
+  String get accessibilityDmMessagePreviewNoneName => 'Καμία';
 
   @override
   String get accessibilityDmMessagePreviewNoneDescription =>
-      'Μην εμφανίζετε προεπισκοπήσεις μηνυμάτων στη λίστα DM';
+      'Να μην εμφανίζονται προεπισκοπήσεις μηνυμάτων στη λίστα DM';
 
   @override
-  String get accessibilityScreenReaderGroupTitle => 'Ανάγνωση οθόνης';
+  String get accessibilityScreenReaderGroupTitle =>
+      'Πρόγραμμα ανάγνωσης οθόνης';
 
   @override
   String accessibilityScreenReaderGroupDescription(String productName) {
@@ -5497,14 +5508,14 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get accessibilityScreenReaderAnnounceNewMessagesDescription =>
-      'Οι αναγνώστες οθόνης να ανακοινώνουν τα νέα μηνύματα καθώς φτάνουν στο ανοιχτό κανάλι. Οι ήχοι ειδοποιήσεων δεν επηρεάζονται.';
+      'Τα προγράμματα ανάγνωσης οθόνης ανακοινώνουν τα νέα μηνύματα καθώς φτάνουν στο ανοιχτό κανάλι. Οι ήχοι ειδοποιήσεων δεν επηρεάζονται.';
 
   @override
   String get accessibilityTtsGroupTitle => 'Κείμενο σε ομιλία';
 
   @override
   String get accessibilityTtsGroupDescription =>
-      'Επιλέξτε μια ταχύτητα για το αναγνωσμένο κείμενο.';
+      'Επιλέξτε μια ταχύτητα για την εκφώνηση του κειμένου.';
 
   @override
   String get accessibilityTtsSpeechPlaybackSpeedLabel =>
@@ -5536,7 +5547,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get accessibilityEscapeExitsKeyboardModeLabel =>
-      'Το πλήκτρο Esc βγαίνει από τη λειτουργία πληκτρολογίου';
+      'Το πλήκτρο Esc κάνει έξοδο από τη λειτουργία πληκτρολογίου';
 
   @override
   String get accessibilityShowContextMenuShortcutsLabel =>
@@ -5562,12 +5573,12 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String accessibilityAutoPlayGifsDesktopLabel(String productName) {
-    return 'Αυτόματη αναπαραγωγή GIF όταν το $productName είναι σε εστίαση';
+    return 'Αυτόματη αναπαραγωγή GIF όταν το $productName είναι στο προσκήνιο';
   }
 
   @override
   String get accessibilityPlayingDespiteReducedMotion =>
-      'Αναπαραγωγή παρά την περιορισμένη κίνηση.';
+      'Αναπαραγωγή παρά τη μειωμένη κίνηση.';
 
   @override
   String get accessibilityPausedEmojiByReducedMotion =>
@@ -5616,7 +5627,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get accessibilityStickersAlwaysDespiteReducedMotion =>
-      'Πάντα κινούμενη, παρά τη μειωμένη κίνηση.';
+      'Πάντα σε κίνηση, παρά τη μειωμένη κίνηση.';
 
   @override
   String get accessibilityStickersReducedMotionHint =>
@@ -5642,11 +5653,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get accessibilityReducedMotionOverrideSyncedDescription =>
-      'Απενεργοποίηση κινούμενων σχεδίων και μεταβάσεων. Ελέγχεται αυτήν τη στιγμή από τις ρυθμίσεις του συστήματός σας.';
+      'Απενεργοποίηση κινήσεων και μεταβάσεων. Ελέγχεται αυτήν τη στιγμή από τη ρύθμιση του συστήματός σας.';
 
   @override
   String get accessibilityReducedMotionOverrideManualDescription =>
-      'Απενεργοποίηση κινούμενων σχεδίων και μεταβάσεων σε όλη την εφαρμογή.';
+      'Απενεργοποίηση κινήσεων και μεταβάσεων σε όλη την εφαρμογή.';
 
   @override
   String get accessibilityReducedMotionAnimationTabHint =>
@@ -5691,7 +5702,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get ttsSubstitutionCodeBlock => 'μπλοκ κώδικα';
 
   @override
-  String get ttsSubstitutionSpoiler => 'αποκάλυψη';
+  String get ttsSubstitutionSpoiler => 'σπόιλερ';
 
   @override
   String ttsSubstitutionEmoji(String emojiName) {
@@ -5700,12 +5711,12 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String ttsSubstitutionSlashCommand(String commandName) {
-    return '/$commandName';
+    return 'κάθετος $commandName';
   }
 
   @override
   String ttsAuthorSaid(String authorName, String formatted) {
-    return 'Ο/Η $authorName είπε: $formatted';
+    return '$authorName είπε: $formatted';
   }
 
   @override
@@ -5714,7 +5725,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String authorName,
     String formatted,
   ) {
-    return 'Απάντηση σε $replyAuthorName, ο/η $authorName είπε: $formatted';
+    return 'Απαντώντας σε $replyAuthorName, $authorName είπε: $formatted';
   }
 
   @override
@@ -5761,37 +5772,37 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String systemPreviewHasLeftGroup(String username) {
-    return 'Ο/Η $username έφυγε από την ομάδα.';
+    return 'Ο/Η $username αποχώρησε από την ομάδα.';
   }
 
   @override
   String systemPreviewRemovedFromGroup(String username, String userName) {
-    return '$username αφαίρεσε τον/την $userName από την ομάδα.';
+    return 'Ο/Η $username αφαίρεσε τον/την $userName από την ομάδα.';
   }
 
   @override
   String systemPreviewRemovedSomeoneFromGroup(String username) {
-    return '$username αφαίρεσε κάποιον από την ομάδα.';
+    return 'Ο/Η $username αφαίρεσε κάποιον από την ομάδα.';
   }
 
   @override
   String systemPreviewChangedChannelNameTo(String username, String newName) {
-    return '$username άλλαξε το όνομα του καναλιού σε $newName.';
+    return 'Ο/Η $username άλλαξε το όνομα του καναλιού σε $newName.';
   }
 
   @override
   String systemPreviewChangedChannelName(String username) {
-    return '$username άλλαξε το όνομα του καναλιού.';
+    return 'Ο/Η $username άλλαξε το όνομα του καναλιού.';
   }
 
   @override
   String systemPreviewChangedChannelIcon(String username) {
-    return '$username άλλαξε το εικονίδιο του καναλιού.';
+    return 'Ο/Η $username άλλαξε την εικόνα του καναλιού.';
   }
 
   @override
   String systemPreviewStartedCall(String username) {
-    return '$username ξεκίνησε μια κλήση.';
+    return 'Ο/Η $username ξεκίνησε μια κλήση.';
   }
 
   @override
@@ -5813,13 +5824,13 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get systemCallDurationFewSeconds => 'πριν λίγα δευτερόλεπτα';
+  String get systemCallDurationFewSeconds => 'λίγα δευτερόλεπτα';
 
   @override
   String get systemCallDurationMinute => 'ένα λεπτό';
 
   @override
-  String get systemCallDurationOneYear => '1 χρόνος';
+  String get systemCallDurationOneYear => '1 έτος';
 
   @override
   String get systemCallDurationOneMonth => '1 μήνας';
@@ -5869,7 +5880,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get voiceConnectionConfirmTitle => 'Επιβεβαίωση Σύνδεσης Φωνής';
+  String get voiceConnectionConfirmTitle => 'Επιβεβαίωση σύνδεσης φωνής';
 
   @override
   String voiceConnectionConfirmDescription(int count) {
@@ -5885,15 +5896,15 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get voiceConnectionConfirmSwitch => 'Μετάβαση σε Αυτή τη Συσκευή';
+  String get voiceConnectionConfirmSwitch => 'Μετάβαση σε αυτήν τη συσκευή';
 
   @override
   String get voiceConnectionConfirmJustJoin =>
-      'Απλή Σύνδεση (Διατήρηση Άλλων Συνδέσεων)';
+      'Απλή σύνδεση (διατήρηση άλλων συνδέσεων)';
 
   @override
   String get voiceConnectionConfirmDoNothing =>
-      'Να μην γίνει τίποτα, δεν θέλω να συνδεθώ';
+      'Να μην κάνω τίποτα, δεν θέλω να μπω';
 
   @override
   String get voiceJoinFailedTitle => 'Αδυναμία συμμετοχής στη φωνητική κλήση';
@@ -5907,29 +5918,29 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Αυτό είναι ένα φωνητικό κανάλι. Συνδεθείτε για να αρχίσετε να μιλάτε!';
 
   @override
-  String get voiceChannelJoin => 'Συμμετοχή στο κανάλι φωνητικής συνομιλίας';
+  String get voiceChannelJoin => 'Συμμετοχή στο φωνητικό κανάλι';
 
   @override
   String get voiceCallJoin => 'Συμμετοχή στην κλήση';
 
   @override
-  String get voiceChannelJoinConnect => 'Σύνδεση στη Φωνή';
+  String get voiceChannelJoinConnect => 'Σύνδεση σε φωνητική συνομιλία';
 
   @override
   String get voiceChannelNoConnectPermission =>
-      'Δεν έχετε άδεια να συνδεθείτε σε αυτό το φωνητικό κανάλι';
+      'Δεν έχετε δικαίωμα να μπείτε σε αυτό το φωνητικό κανάλι';
 
   @override
   String get voiceChannelE2eeEncrypted =>
-      'Το περιεχόμενο του μικροφώνου, της κάμερας και της κοινής χρήσης οθόνης είναι κρυπτογραφημένο από άκρο σε άκρο.';
+      'Το μικρόφωνο, η κάμερα και το περιεχόμενο κοινής χρήσης οθόνης είναι κρυπτογραφημένα από άκρο σε άκρο.';
 
   @override
   String get voiceCallE2eeEncrypted =>
-      'Το περιεχόμενο του μικροφώνου, της κάμερας και της κοινής χρήσης οθόνης είναι κρυπτογραφημένο από άκρο σε άκρο.';
+      'Το μικρόφωνο, η κάμερα και το περιεχόμενο κοινής χρήσης οθόνης είναι κρυπτογραφημένα από άκρο σε άκρο.';
 
   @override
   String get voiceChannelE2eeBroken =>
-      'Η κρυπτογράφηση από άκρο σε άκρο δεν είναι διαθέσιμη επειδή ένας μη υποστηριζόμενος συμμετέχων βρίσκεται σε αυτό το φωνητικό κανάλι.';
+      'Η κρυπτογράφηση από άκρο σε άκρο δεν είναι διαθέσιμη επειδή υπάρχει μη υποστηριζόμενος συμμετέχων σε αυτό το φωνητικό κανάλι.';
 
   @override
   String get voiceCallE2eeBroken =>
@@ -5944,7 +5955,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Δεν ήταν δυνατή η εκκίνηση του μικροφώνου σας. Παραμένετε στην κλήση.';
 
   @override
-  String get voiceChannelStatusConnecting => 'Σύνδεση...';
+  String get voiceChannelStatusConnecting => 'Σύνδεση…';
 
   @override
   String get voiceChannelStatusConnected => 'Συνδέθηκε';
@@ -5953,7 +5964,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get voiceChannelStatusError => 'Σφάλμα';
 
   @override
-  String get voiceParticipantTooltipMobileDevice => 'Κινητή συσκευή';
+  String get voiceParticipantTooltipMobileDevice => 'Κινητό';
 
   @override
   String get voiceParticipantTooltipDesktopDevice => 'Συσκευή υπολογιστή';
@@ -5970,7 +5981,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Κώφωση από την κοινότητα';
 
   @override
-  String get voiceParticipantTooltipDeafened => 'Κωφός';
+  String get voiceParticipantTooltipDeafened => 'Σε σίγαση ήχου';
 
   @override
   String voiceParticipantTooltipConnection(String connectionId) {
@@ -5998,10 +6009,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get voiceControlUnmute => 'Αποσίγαση';
 
   @override
-  String get voiceControlDeafen => 'Κώφωση';
+  String get voiceControlDeafen => 'Σίγαση ήχου';
 
   @override
-  String get voiceControlUndeafen => 'Αποκώφωση';
+  String get voiceControlUndeafen => 'Κατάργηση σίγασης ήχου';
 
   @override
   String get voiceControlVideo => 'Βίντεο';
@@ -6032,7 +6043,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get voiceConnectionRetry => 'Δοκιμάστε ξανά';
 
   @override
-  String get voiceConnectionDismiss => 'Απόρριψη';
+  String get voiceConnectionDismiss => 'Παράβλεψη';
 
   @override
   String get voiceConnectionDisconnected => 'Αποσυνδέθηκε';
@@ -6078,7 +6089,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get voiceConnectionNetworkSection => 'Δίκτυο';
 
   @override
-  String get voiceConnectionPingLabel => 'Πινγκ';
+  String get voiceConnectionPingLabel => 'Ping';
 
   @override
   String get voiceConnectionJitterLabel => 'Αστάθεια (Jitter)';
@@ -6128,14 +6139,15 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get voiceParticipantMenuFocus => 'Εστίαση σε αυτό το άτομο';
 
   @override
-  String get voiceParticipantMenuUnfocus => 'Αποεστίαση';
+  String get voiceParticipantMenuUnfocus => 'Κατάργηση εστίασης';
 
   @override
   String get voiceParticipantMenuCommunityMute =>
       'Σίγαση μέλους στην κοινότητα';
 
   @override
-  String get voiceParticipantMenuCommunityDeafen => 'Αποσιώπηση στην κοινότητα';
+  String get voiceParticipantMenuCommunityDeafen =>
+      'Σίγαση ήχου μέλους στην κοινότητα';
 
   @override
   String get voiceParticipantMenuUserVolume => 'Ένταση χρήστη';
@@ -6169,13 +6181,13 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get voicePanelUseEarpieceLabel => 'Χρήση ακουστικού';
 
   @override
-  String get voiceOutputRouteSpeaker => 'Speaker';
+  String get voiceOutputRouteSpeaker => 'Ηχείο';
 
   @override
   String get voiceOutputRouteEarpiece => 'Earpiece';
 
   @override
-  String get voiceOutputRouteHeadset => 'Headphones';
+  String get voiceOutputRouteHeadset => 'Ακουστικά';
 
   @override
   String get voicePanelOnlyShowVideosLabel => 'Εμφάνιση μόνο βίντεο';
@@ -6221,10 +6233,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Η κοινή χρήση οθόνης δεν είναι διαθέσιμη σε αυτήν τη συσκευή.';
 
   @override
-  String get voiceWatchStream => 'Παρακολούθηση Ροής';
+  String get voiceWatchStream => 'Παρακολούθηση ροής';
 
   @override
-  String get voiceStopWatching => 'Παύση παρακολούθησης';
+  String get voiceStopWatching => 'Διακοπή παρακολούθησης';
 
   @override
   String get voiceStopWatchingCurrentStreamTooltip =>
@@ -6238,7 +6250,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Η ροή σας είναι ζωντανή για τους συμμετέχοντες.';
 
   @override
-  String get voiceLiveBadge => 'LIVE';
+  String get voiceLiveBadge => 'Ζωντανά';
 
   @override
   String get dmVoiceViewCall => 'Προβολή κλήσης';
@@ -6250,7 +6262,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get dmVoiceCallFullScreenTooltip => 'Άνοιγμα κλήσης σε πλήρη οθόνη';
 
   @override
-  String get dmVoiceStripStatusConnecting => 'Σύνδεση...';
+  String get dmVoiceStripStatusConnecting => 'Σύνδεση…';
 
   @override
   String get dmVoiceStripStatusInCall => 'Σε κλήση';
@@ -6259,7 +6271,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get dmVoiceEmbeddedFallbackTitle => 'Φωνητική κλήση';
 
   @override
-  String get dmVoiceCallBarConnecting => 'Σύνδεση...';
+  String get dmVoiceCallBarConnecting => 'Σύνδεση…';
 
   @override
   String get dmVoiceCallBarDirectPrimary => 'Απευθείας κλήση';
@@ -6310,17 +6322,17 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Δεν υπάρχουν μη αναγνωσμένα μηνύματα';
 
   @override
-  String get notificationsNoUnreadBody => 'Έχετε ενημερωθεί.';
+  String get notificationsNoUnreadBody => 'Τα είδατε όλα.';
 
   @override
-  String get notificationsNoMentionsTitle => 'Δεν υπάρχουν πρόσφατες αναφορές';
+  String get notificationsNoMentionsTitle => 'Καμία πρόσφατη αναφορά';
 
   @override
   String get notificationsNoMentionsBody =>
       'Όλες οι @αναφορές σας θα εμφανίζονται εδώ για 7 ημέρες.';
 
   @override
-  String get notificationsMentionsEndTitle => 'Έφτασες στο τέλος';
+  String get notificationsMentionsEndTitle => 'Φτάσατε στο τέλος';
 
   @override
   String get notificationsMentionsEndBody =>
@@ -6330,16 +6342,16 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get notificationsJump => 'Μετάβαση';
 
   @override
-  String get notificationsRemoveMentionTooltip => 'Αφαίρεση αναφοράς';
+  String get notificationsRemoveMentionTooltip => 'Κατάργηση αναφοράς';
 
   @override
   String get notificationsViewAllUnread => 'Προβολή όλων των μη αναγνωσμένων';
 
   @override
-  String get notificationsMarkAsRead => 'Σήμανση ως αναγνωσμένα';
+  String get notificationsMarkAsRead => 'Σήμανση ως αναγνωσμένου';
 
   @override
-  String get notificationsExpand => 'Επέκταση';
+  String get notificationsExpand => 'Ανάπτυξη';
 
   @override
   String get notificationsCollapse => 'Σύμπτυξη';
@@ -6374,15 +6386,15 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get chatSendFailureUnclaimedDm =>
-      'Το μήνυμά σας δεν μπόρεσε να παραδοθεί. Πρέπει να διεκδικήσετε τον λογαριασμό σας για να στείλετε απευθείας μηνύματα.';
+      'Το μήνυμά σας δεν ήταν δυνατό να παραδοθεί. Πρέπει να διεκδικήσετε τον λογαριασμό σας για να στείλετε απευθείας μηνύματα.';
 
   @override
   String get chatSendFailureUnclaimedGeneral =>
-      'Το μήνυμά σας δεν μπόρεσε να παραδοθεί. Πρέπει να διεκδικήσετε τον λογαριασμό σας για να στείλετε μηνύματα.';
+      'Το μήνυμά σας δεν παραδόθηκε. Πρέπει να διεκδικήσετε τον λογαριασμό σας για να στείλετε μηνύματα.';
 
   @override
   String get chatSendFailureContentBlocked =>
-      'Το μήνυμά σας δεν μπόρεσε να παραδοθεί επειδή επισημάνθηκε από τα συστήματα ασφαλείας μας. Εάν πιστεύετε ότι πρόκειται για λάθος, επικοινωνήστε με την υποστήριξη.';
+      'Το μήνυμά σας δεν παραδόθηκε επειδή επισημάνθηκε από τα συστήματα ασφαλείας μας. Αν πιστεύετε ότι πρόκειται για λάθος, επικοινωνήστε με την υποστήριξη.';
 
   @override
   String get chatSendFailureNsfwEmojiSticker =>
@@ -6393,7 +6405,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Μόνο εσείς μπορείτε να δείτε αυτό το μήνυμα.';
 
   @override
-  String get chatClientSystemDismiss => 'Απόρριψη';
+  String get chatClientSystemDismiss => 'Παράβλεψη';
 
   @override
   String get privacyDashboardCommunicationSection => 'Επικοινωνία';
@@ -6403,7 +6415,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get privacyDashboardFriendsAndDirectMessagesSection =>
-      'Φίλοι και άμεσες ανταλλαγές μηνυμάτων';
+      'Φίλοι και απευθείας μηνύματα';
 
   @override
   String get privacyDashboardActivitySharingSection =>
@@ -6547,10 +6559,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Άτομα από κοινότητες στις οποίες ανήκετε και οι δύο μπορούν να σας καλέσουν';
 
   @override
-  String get privacyDashboardRingBehavior => 'Συμπεριφορά δακτυλίου';
+  String get privacyDashboardRingBehavior => 'Συμπεριφορά κλήσης';
 
   @override
-  String get privacyDashboardSilentCalls => 'Σίγαση κλήσεων από όλους';
+  String get privacyDashboardSilentCalls => 'Σιωπηλές κλήσεις από όλους';
 
   @override
   String get privacyDashboardSilentCallsDesc =>
@@ -6593,7 +6605,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get privacyDashboardVoiceActivityTitle =>
-      'Δραστηριότητα φωνής στο «Ενεργός τώρα»';
+      'Φωνητική δραστηριότητα στο «Ενεργός τώρα»';
 
   @override
   String get privacyDashboardShareVoiceActivity =>
@@ -6601,7 +6613,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get privacyDashboardVoiceActivityEnableTitle =>
-      'Κοινή χρήση δραστηριότητας φωνής με όλους τους φίλους;';
+      'Κοινοποίηση της φωνητικής δραστηριότητας σε όλους τους φίλους;';
 
   @override
   String get privacyDashboardVoiceActivityDisableTitle =>
@@ -6634,7 +6646,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get privacyDashboardVoiceActivityUpdateFailed =>
-      'Δεν ήταν δυνατή η ενημέρωση της κοινοποίησης δραστηριότητας φωνής αυτή τη στιγμή';
+      'Δεν ήταν δυνατή η ενημέρωση της κοινοποίησης φωνητικής δραστηριότητας αυτή τη στιγμή';
 
   @override
   String get privacyDashboardDataExportDesc =>
@@ -6645,7 +6657,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDataDeletionDesc =>
-      'Οριστική διαγραφή των μηνυμάτων που έχετε στείλει σε προσωπικές συνομιλίες, ομαδικές προσωπικές συνομιλίες και κοινότητες. Η διαδικασία εκτελείται στο παρασκήνιο και θα λάβετε ένα προσωπικό μήνυμα όταν ολοκληρωθεί.';
+      'Οριστική διαγραφή των μηνυμάτων που έχετε στείλει σε DM, ομαδικές συνομιλίες και κοινότητες. Η διαδικασία εκτελείται στο παρασκήνιο και θα λάβετε ένα DM όταν ολοκληρωθεί.';
 
   @override
   String get privacyDashboardDeleteMyMessages => 'Διαγραφή των μηνυμάτων μου';
@@ -6664,15 +6676,15 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDmConfirmBlockBotsTitle =>
-      'Να μπλοκάρονται τα bot από το να σου στέλνουν απευθείας μηνύματα;';
+      'Να αποκλείονται τα απευθείας μηνύματα από bot;';
 
   @override
   String get privacyDashboardDmConfirmAllowMembersDesc =>
-      'Θέλεις να επιτρέψεις και τα απευθείας μηνύματα από μέλη των υπαρχουσών κοινοτήτων σου;';
+      'Θέλετε να επιτρέψετε και τα απευθείας μηνύματα από μέλη των υπαρχουσών κοινοτήτων σας;';
 
   @override
   String get privacyDashboardDmConfirmBlockMembersDesc =>
-      'Θέλετε να μπλοκάρετε και τα απευθείας μηνύματα από μέλη των υπαρχουσών κοινοτήτων σας;';
+      'Θέλετε επίσης να αποκλείσετε τα απευθείας μηνύματα από μέλη των υπαρχουσών κοινοτήτων σας;';
 
   @override
   String get privacyDashboardDmConfirmAllowBotsDesc =>
@@ -6688,7 +6700,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDmConfirmAllowAll =>
-      'Να επιτρέπεται σε όλες τις κοινότητες';
+      'Να επιτραπεί για όλες τις κοινότητες';
 
   @override
   String get privacyDashboardDmConfirmBlockAll =>
@@ -6714,7 +6726,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDataRequestDeleteSuccess =>
-      'Θα το επεξεργαστούμε το συντομότερο δυνατό. Θα λάβετε ένα προσωπικό μήνυμα από εμάς όταν ολοκληρωθεί.';
+      'Θα το επεξεργαστούμε το συντομότερο δυνατό. Θα λάβετε ένα DM από εμάς όταν ολοκληρωθεί.';
 
   @override
   String get privacyDashboardDataRequestScopeTitle => 'Τι να συμπεριλάβετε';
@@ -6724,7 +6736,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDataRequestExportEverythingDesc =>
-      'Εξαγωγή κάθε μηνύματος που έχετε στείλει, καθώς και όλων των ρυθμίσεων του λογαριασμού σας, των συνδρομών και των μεταδεδομένων σας.';
+      'Εξαγωγή κάθε μηνύματος που έχετε στείλει, καθώς και όλων των ρυθμίσεων του λογαριασμού σας, των συμμετοχών και των μεταδεδομένων σας.';
 
   @override
   String get privacyDashboardDataRequestExportCustom => 'Προσαρμοσμένη επιλογή';
@@ -6747,7 +6759,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDataRequestDeleteInaccessibleDesc =>
-      'Να διαγραφούν μόνο μηνύματα από κοινότητες και ομαδικά DM από τα οποία έχετε αποχωρήσει ή έχετε αφαιρεθεί.';
+      'Να διαγραφούν μόνο μηνύματα από κοινότητες και ομαδικές συνομιλίες από τις οποίες έχετε αποχωρήσει ή έχετε αφαιρεθεί.';
 
   @override
   String get privacyDashboardDataRequestKindsTitle => 'Ποιες συνομιλίες';
@@ -6780,7 +6792,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDataRequestGuildFilterInclude =>
-      'Μόνο οι επιλεγμένοι';
+      'Μόνο οι επιλεγμένες';
 
   @override
   String get privacyDashboardDataRequestCommunitiesEmpty =>
@@ -6793,7 +6805,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get privacyDashboardDataRequestDateMode => 'Εύρος χρόνου';
 
   @override
-  String get privacyDashboardDataRequestAllTime => 'Όλη την ώρα';
+  String get privacyDashboardDataRequestAllTime => 'Όλο το διάστημα';
 
   @override
   String get privacyDashboardDataRequestCustomRange => 'Προσαρμοσμένο εύρος';
@@ -6806,7 +6818,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDataRequestDateHelper =>
-      'Αφήστε οποιοδήποτε πεδίο κενό για να αφήσετε αυτό το άκρο του παραθύρου απεριόριστο.';
+      'Αφήστε ένα από τα δύο πεδία κενό για να μείνει αυτό το άκρο του εύρους χωρίς όριο.';
 
   @override
   String get privacyDashboardDataRequestNeedInclusion =>
@@ -6822,7 +6834,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDataRequestExportConfirmEverything =>
-      'Θα δημιουργήσουμε ένα αρχείο με όλα τα μηνύματα που έχετε στείλει και θα σας στείλουμε email όταν είναι έτοιμο. Ο σύνδεσμος λήψης σε αυτό το email λήγει μετά από 7 ημέρες.';
+      'Θα δημιουργήσουμε ένα αρχείο με δυνατότητα λήψης που θα περιέχει όλα τα μηνύματα που έχετε στείλει και θα σας στείλουμε email όταν είναι έτοιμο. Ο σύνδεσμος λήψης σε αυτό το email λήγει μετά από 7 ημέρες.';
 
   @override
   String get privacyDashboardDataRequestExportConfirmCustom =>
@@ -6830,7 +6842,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDataRequestDeleteConfirm =>
-      'Διαγραφή οριστικά των μηνυμάτων που ταιριάζουν με τα παρακάτω φίλτρα. Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.';
+      'Οριστική διαγραφή των μηνυμάτων που ταιριάζουν με τα παρακάτω φίλτρα. Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.';
 
   @override
   String get privacyDashboardDataRequestDeleteDanger =>
@@ -6844,7 +6856,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get privacyDashboardDataRequestDeleteMessages => 'Διαγραφή μηνυμάτων';
 
   @override
-  String get privacyDashboardDataRequestSummaryScope => 'Πεδίο εφαρμογής';
+  String get privacyDashboardDataRequestSummaryScope => 'Εύρος';
 
   @override
   String get privacyDashboardDataRequestSummaryConversations => 'Συνομιλίες';
@@ -6856,7 +6868,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get privacyDashboardDataRequestSummaryTimeRange => 'Εύρος χρόνου';
 
   @override
-  String get privacyDashboardDataRequestSummaryNone => 'Κανένα';
+  String get privacyDashboardDataRequestSummaryNone => 'Καμία';
 
   @override
   String privacyDashboardDataRequestSummaryFrom(String start) {
@@ -6897,7 +6909,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get privacyDashboardDataRequestSummaryDmsOpen =>
-      'Ανοιχτά προσωπικά μηνύματα';
+      'Ανοιχτά απευθείας μηνύματα';
 
   @override
   String get privacyDashboardDataRequestSummaryDmsClosed =>
@@ -6990,7 +7002,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get doubleTapReactionHint => 'Double tap a message to';
 
   @override
-  String get doubleTapReactionEdit => 'Edit';
+  String get doubleTapReactionEdit => 'Επεξεργασία';
 
   @override
   String get doubleTapReactionEditTitle => 'Edit default';
@@ -7093,7 +7105,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get forwardDestinationGuildSendDisabled =>
-      'Η αποστολή μηνυμάτων είναι απενεργοποιημένη σε αυτήν την κοινότητα';
+      'Η αποστολή μηνυμάτων έχει απενεργοποιηθεί σε αυτήν την κοινότητα';
 
   @override
   String get forwardDestinationTimedOut =>
@@ -7145,19 +7157,19 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get chatMessagePin => 'Καρφίτσωμα μηνύματος';
 
   @override
-  String get chatMessageUnpin => 'Αποκαρφίτσωμα μηνύματος';
+  String get chatMessageUnpin => 'Κατάργηση καρφιτσώματος μηνύματος';
 
   @override
-  String get chatMessageUnpinIt => 'Αποκαρφίτσωμά το';
+  String get chatMessageUnpinIt => 'Ξεκαρφιτσώστε το';
 
   @override
-  String get chatMessageBookmark => 'Προσθήκη σελιδοδείκτη στο μήνυμα';
+  String get chatMessageBookmark => 'Σελιδοδείκτης μηνύματος';
 
   @override
-  String get chatMessageRemoveBookmark => 'Αφαίρεση σελιδοδείκτη';
+  String get chatMessageRemoveBookmark => 'Κατάργηση σελιδοδείκτη';
 
   @override
-  String get chatMessageMarkAsUnread => 'Σήμανση ως μη αναγνωσμένο';
+  String get chatMessageMarkAsUnread => 'Σήμανση ως μη αναγνωσμένου';
 
   @override
   String get chatMessageCopyMessageLink => 'Αντιγραφή συνδέσμου μηνύματος';
@@ -7175,7 +7187,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get chatMessageViewReactions => 'Προβολή αντιδράσεων';
 
   @override
-  String get chatMessageRemoveAllReactions => 'Αφαίρεση όλων των αντιδράσεων';
+  String get chatMessageRemoveAllReactions => 'Κατάργηση όλων των αντιδράσεων';
 
   @override
   String get chatMessageDebug => 'Εντοπισμός σφαλμάτων μηνύματος';
@@ -7195,7 +7207,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get chatReactionsSheetEmpty =>
-      'Κανείς δεν έχει αντιδράσει ακόμα σε αυτό.';
+      'Κανείς δεν έχει αντιδράσει ακόμα με αυτό.';
 
   @override
   String get chatReactionAddFailed => 'Αποτυχία προσθήκης αντίδρασης';
@@ -7210,11 +7222,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get iarReportMessageTitle => 'Αναφορά μηνύματος';
 
   @override
-  String get iarThisUserFallback => 'αυτόν τον χρήστη';
+  String get iarThisUserFallback => 'αυτός ο χρήστης';
 
   @override
   String get iarModalDescription =>
-      'Αναφέρετε παραβίαση κανόνα ή βρείτε εργαλεία για τη διαχείριση επαφών και προτιμήσεων.';
+      'Αναφέρετε μια παραβίαση κανόνων ή βρείτε εργαλεία για τη διαχείριση επαφών και προτιμήσεων.';
 
   @override
   String get iarPathStepAriaLabel => 'Τι χρειάζεστε;';
@@ -7229,7 +7241,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get iarReasonSelectHint => 'Επιλέξτε έναν λόγο';
 
   @override
-  String get iarPickAnOptionToast => 'Επιλέξτε μια επιλογή για να συνεχίσετε.';
+  String get iarPickAnOptionToast => 'Κάντε μια επιλογή για να συνεχίσετε.';
 
   @override
   String get iarPickARuleToast => 'Επιλέξτε τον κανόνα που παραβιάστηκε.';
@@ -7249,22 +7261,22 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get iarCategoryTargetedHarmDescription =>
-      'Εκφοβισμός, απειλές, μίσος, βία, επιθέσεις ή περιεχόμενο που προωθεί τον αυτοτραυματισμό.';
+      'Εκφοβισμός, απειλές, μίσος, βία, επιδρομές ή περιεχόμενο που προωθεί τον αυτοτραυματισμό.';
 
   @override
   String get iarCategorySafetyMinorsLabel =>
-      'Ασφάλεια παιδιών ή ώριμο περιεχόμενο';
+      'Ασφάλεια παιδιών ή ακατάλληλο περιεχόμενο';
 
   @override
   String get iarCategorySafetyMinorsDescription =>
-      'Παιδιά σε κίνδυνο, ώριμο περιεχόμενο σε λάθος μέρος ή ανεπιθύμητη συμπεριφορά.';
+      'Ανήλικοι σε κίνδυνο, περιεχόμενο ενηλίκων σε λάθος μέρος ή ανεπιθύμητη συμπεριφορά.';
 
   @override
   String get iarCategoryPrivacyIdentityLabel => 'Απόρρητο ή πλαστοπροσωπία';
 
   @override
   String get iarCategoryPrivacyIdentityDescription =>
-      'Doxxing, παρακολούθηση, προσποίηση κάποιου άλλου ή ακατάλληλο προφίλ.';
+      'Doxxing, καταδίωξη, προσποίηση ταυτότητας ή ακατάλληλο προφίλ.';
 
   @override
   String get iarCategoryDeceptionLabel =>
@@ -7272,7 +7284,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get iarCategoryDeceptionDescription =>
-      'Phishing, απάτη, κακόβουλοι σύνδεσμοι ή ψευδείς ισχυρισμοί που είναι πιθανό να προκαλέσουν βλάβη στον πραγματικό κόσμο.';
+      'Phishing, απάτη, κακόβουλοι σύνδεσμοι ή ψευδείς ισχυρισμοί που ενδέχεται να προκαλέσουν πραγματική βλάβη.';
 
   @override
   String get iarCategoryIllegalOtherLabel =>
@@ -7280,35 +7292,36 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get iarCategoryIllegalOtherDescription =>
-      'Παράνομες πωλήσεις, διευκόλυνση εγκληματικότητας ή σαφής παραβίαση κανόνων που δεν ταιριάζει παραπάνω.';
+      'Παράνομες πωλήσεις, διευκόλυνση εγκληματικών πράξεων ή σαφής παραβίαση κανόνων που δεν εμπίπτει στις παραπάνω κατηγορίες.';
 
   @override
   String get iarReasonHarassmentLabel => 'Παρενόχληση ή απειλές';
 
   @override
   String get iarReasonHarassmentMessageDescription =>
-      'Εκφοβισμός, επαναλαμβανόμενη ανεπιθύμητη επικοινωνία, παρακολούθηση ή στοχευμένη κατάχρηση.';
+      'Εκφοβισμός, επανειλημμένη ανεπιθύμητη επικοινωνία, παρακολούθηση ή στοχευμένη κακοποίηση.';
 
   @override
   String get iarReasonHateLabel => 'Ρητορική μίσους';
 
   @override
   String get iarReasonHateMessageDescription =>
-      'Βρισιές, αποανθρωποποιητική γλώσσα ή επιθέσεις σε προστατευόμενες ομάδες.';
+      'Υβριστικοί χαρακτηρισμοί, απανθρωποποιητική γλώσσα ή επιθέσεις σε προστατευόμενες ομάδες.';
 
   @override
-  String get iarReasonViolenceLabel => 'Βία ή βίαιες απειλές';
+  String get iarReasonViolenceLabel => 'Βία ή απειλές βίας';
 
   @override
   String get iarReasonViolenceDescription =>
-      'Αξιόπιστες απειλές, γραφική βία ή εξύμνηση της βίας.';
+      'Αξιόπιστες απειλές, σοκαριστική βία ή εξύμνηση της βίας.';
 
   @override
-  String get iarReasonMatureContentLabel => 'Ώριμο περιεχόμενο ή παρενόχληση';
+  String get iarReasonMatureContentLabel =>
+      'Περιεχόμενο για ενήλικες ή παρενόχληση';
 
   @override
   String get iarReasonMatureContentMessageDescription =>
-      'Ανεπιθύμητη συμπεριφορά ή ώριμο περιεχόμενο σε λάθος μέρος.';
+      'Ανεπιθύμητη συμπεριφορά ή περιεχόμενο για ενήλικες σε λάθος μέρος.';
 
   @override
   String get iarReasonChildSafetyLabel =>
@@ -7316,21 +7329,21 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get iarReasonChildSafetyMessageDescription =>
-      'Περιεχόμενο εκμετάλλευσης ή παραπλάνησης ανηλίκων.';
+      'Αποπλάνηση ανηλίκων ή περιεχόμενο εκμετάλλευσης παιδιών.';
 
   @override
   String get iarReasonHarmfulMisinfoLabel => 'Επιβλαβής παραπληροφόρηση';
 
   @override
   String get iarReasonHarmfulMisinfoDescription =>
-      'Ψευδείς ισχυρισμοί που είναι πιθανό να προκαλέσουν βλάβη στον πραγματικό κόσμο.';
+      'Ψευδείς ισχυρισμοί που ενδέχεται να προκαλέσουν πραγματική βλάβη.';
 
   @override
-  String get iarReasonSpamLabel => 'Spam, απάτες ή phishing';
+  String get iarReasonSpamLabel => 'Ανεπιθύμητα, απάτες ή phishing';
 
   @override
   String get iarReasonSpamMessageDescription =>
-      'Μαζικό spam, απάτη, ψεύτικες δωροεπιταγές ή κατάχρηση λογαριασμού.';
+      'Μαζικά ανεπιθύμητα μηνύματα, απάτη, ψεύτικες κληρώσεις ή κατάχρηση λογαριασμού.';
 
   @override
   String get iarReasonMalwareLabel =>
@@ -7338,29 +7351,29 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get iarReasonMalwareDescription =>
-      'Κακόβουλο λογισμικό, κλοπή διαπιστευτηρίων ή επικίνδυνα αρχεία.';
+      'Κακόβουλο λογισμικό, κλοπή διαπιστευτηρίων ή επιβλαβή αρχεία.';
 
   @override
   String get iarReasonPrivacyLabel => 'Παραβίαση απορρήτου';
 
   @override
   String get iarReasonPrivacyDescription =>
-      'Doxxing, αποκάλυψη ιδιωτικών πληροφοριών ή παρακολούθηση.';
+      'Doxxing, έκθεση προσωπικών δεδομένων ή καταδίωξη.';
 
   @override
   String get iarReasonImpersonationLabel =>
-      'Πλαστοπροσωπία ή παραπλανητικά μέσα';
+      'Πλαστοπροσωπία ή παραπλανητικό περιεχόμενο';
 
   @override
   String get iarReasonImpersonationMessageDescription =>
-      'Προσποίηση κάποιου άλλου, συμπεριλαμβανομένου παραπλανητικού περιεχομένου που δημιουργήθηκε από AI.';
+      'Προσποίηση ότι είστε κάποιος άλλος, συμπεριλαμβανομένου περιεχομένου που δημιουργείται από AI με σκοπό την εξαπάτηση.';
 
   @override
   String get iarReasonIllegalLabel => 'Παράνομη δραστηριότητα';
 
   @override
   String get iarReasonIllegalDescription =>
-      'Παράνομες πωλήσεις, διευκόλυνση εγκληματικότητας ή παράνομη δραστηριότητα.';
+      'Παράνομες πωλήσεις, διευκόλυνση εγκληματικών πράξεων ή παράνομη δραστηριότητα.';
 
   @override
   String get iarReasonSelfHarmLabel => 'Αυτοτραυματισμός ή αυτοκτονία';
@@ -7370,11 +7383,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Προώθηση ή οδηγίες που ενθαρρύνουν τον αυτοτραυματισμό ή τις διατροφικές διαταραχές.';
 
   @override
-  String get iarReasonOtherLabel => 'Άλλη σαφής παραβίαση κανόνα';
+  String get iarReasonOtherLabel => 'Άλλη μια σαφής παραβίαση κανόνων';
 
   @override
   String iarReasonOtherDescription(String productName) {
-    return 'Χρησιμοποιήστε μόνο εάν παραβιάζει σαφώς τους κανόνες του $productName και δεν ταιριάζει παραπάνω.';
+    return 'Χρησιμοποιήστε το μόνο αν παραβιάζει σαφώς τους κανόνες του $productName και δεν ταιριάζει με τα παραπάνω.';
   }
 
   @override
@@ -7388,18 +7401,18 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get iarSafetyNoteSelfHarm =>
-      'Εάν κάποιος κινδυνεύει άμεσα, επικοινωνήστε με τις τοπικές υπηρεσίες έκτακτης ανάγκης, εάν μπορείτε να το κάνετε με ασφάλεια.';
+      'Αν κάποιος βρίσκεται σε άμεσο κίνδυνο, επικοινωνήστε με τις τοπικές υπηρεσίες έκτακτης ανάγκης, εφόσον μπορείτε να το κάνετε με ασφάλεια.';
 
   @override
   String get iarSafetyNoteViolence =>
-      'Εάν πρόκειται για αξιόπιστη άμεση απειλή, επικοινωνήστε επίσης με τις τοπικές υπηρεσίες έκτακτης ανάγκης.';
+      'Αν πρόκειται για μια αξιόπιστη επικείμενη απειλή, επικοινωνήστε και με τις τοπικές υπηρεσίες έκτακτης ανάγκης.';
 
   @override
   String get iarSafetyNoteTerrorism =>
-      'Εάν πρόκειται για άμεση τρομοκρατική απειλή, επικοινωνήστε επίσης με τις τοπικές υπηρεσίες έκτακτης ανάγκης.';
+      'Αν πρόκειται για επικείμενη τρομοκρατική απειλή, επικοινωνήστε και με τις τοπικές υπηρεσίες έκτακτης ανάγκης.';
 
   @override
-  String get iarActionBlockUserTitle => 'Αποκλεισμός αυτού του χρήστη';
+  String get iarActionBlockUserTitle => 'Μπλοκάρισμα αυτού του χρήστη';
 
   @override
   String get iarActionBlockUserDescription =>
@@ -7413,7 +7426,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get iarActionCopyMessageLinkDescription =>
-      'Μοιραστείτε με τους διαχειριστές της κοινότητας.';
+      'Κοινοποίηση στους συντονιστές της κοινότητας.';
 
   @override
   String get iarActionCopyMessageLinkButton => 'Αντιγραφή';
@@ -7423,36 +7436,35 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get iarActionCloseDmDescription =>
-      'Δεν αποκλείει. Μπορείτε να το ανοίξετε ξανά αργότερα.';
+      'Δεν μπλοκάρει. Μπορείτε να το ξανανοίξετε αργότερα.';
 
   @override
-  String get iarActionCloseDmButton => 'Κλείσιμο απευθείας μηνύματος';
+  String get iarActionCloseDmButton => 'Κλείσιμο DM';
 
   @override
   String get iarActionLeaveCommunityTitle => 'Αποχώρηση από την κοινότητα';
 
   @override
   String get iarActionLeaveCommunityDescription =>
-      'Σταμάτα να βλέπεις το περιεχόμενο και τα μέλη της.';
+      'Διακοπή προβολής του περιεχομένου και των μελών της.';
 
   @override
   String get iarActionLeaveCommunityButton => 'Αποχώρηση';
 
   @override
-  String get iarActionDmSettingsTitle =>
-      'Ρυθμίσεις απευθείας μηνυμάτων & αιτημάτων φιλίας';
+  String get iarActionDmSettingsTitle => 'Ρυθμίσεις DM και αιτημάτων φιλίας';
 
   @override
   String get iarActionDmSettingsDescription =>
-      'Άλλαξε ποιος μπορεί να επικοινωνήσει μαζί σου.';
+      'Αλλάξτε ποιος μπορεί να επικοινωνήσει μαζί σας.';
 
   @override
   String get iarActionCallSettingsTitle =>
-      'Ρυθμίσεις κλήσεων & ομαδικών συνομιλιών';
+      'Ρυθμίσεις κλήσεων και ομαδικών συνομιλιών';
 
   @override
   String get iarActionCallSettingsDescription =>
-      'Άλλαξε ποιος μπορεί να σε καλέσει ή να σε προσθέσει.';
+      'Αλλάξτε ποιος μπορεί να σας καλέσει ή να σας προσθέσει.';
 
   @override
   String get iarActionOpenButton => 'Άνοιγμα';
@@ -7462,7 +7474,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get iarActionDeleteMessageDescription =>
-      'Αφαίρεσέ το από το κανάλι για όλους.';
+      'Κατάργησή του από το κανάλι για όλους.';
 
   @override
   String get iarActionDeleteMessageButton => 'Διαγραφή';
@@ -7479,20 +7491,20 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get iarActionBanUserDescription =>
-      'Άνοιγμα του παραθύρου αποκλεισμού για αυτήν την κοινότητα.';
+      'Άνοιγμα του παραθύρου διαλόγου αποκλεισμού για αυτήν την κοινότητα.';
 
   @override
   String get iarActionBanUserButton => 'Αποκλεισμός';
 
   @override
-  String get iarActionBanUserBannedButton => 'Αποκλείστηκε';
+  String get iarActionBanUserBannedButton => 'Έχει αποκλειστεί';
 
   @override
   String get iarActionBanUserBannedTooltip =>
       'Αυτός ο χρήστης έχει ήδη αποκλειστεί από την κοινότητα.';
 
   @override
-  String get iarCloseDmConfirmTitle => 'Κλείσιμο απευθείας μηνύματος';
+  String get iarCloseDmConfirmTitle => 'Κλείσιμο DM';
 
   @override
   String iarCloseDmConfirmDescription(String name) {
@@ -7500,11 +7512,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get iarSuccessTitle => 'Αναφορά στάλθηκε';
+  String get iarSuccessTitle => 'Η αναφορά στάλθηκε';
 
   @override
   String get iarSuccessBody =>
-      'Η ομάδα ασφαλείας μας την ελέγχει. Θα σου στείλουμε ένα απευθείας μήνυμα και email μόλις καταλήξουμε σε απόφαση.';
+      'Η ομάδα ασφαλείας μας το εξετάζει. Θα σας στείλουμε ένα DM και ένα email μόλις καταλήξουμε σε απόφαση.';
 
   @override
   String get iarAlreadyReportedTitle => 'Έχει ήδη γίνει αναφορά';
@@ -7558,16 +7570,16 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Δεν ήταν δυνατή η αποχώρηση από αυτήν την κοινότητα. Δοκίμασε ξανά.';
 
   @override
-  String get chatMessageSuppressEmbeds => 'Απόκρυψη Ενσωματώσεων';
+  String get chatMessageSuppressEmbeds => 'Απόκρυψη ενσωματώσεων';
 
   @override
-  String get chatMessageUnsuppressEmbeds => 'Εμφάνιση Ενσωματώσεων';
+  String get chatMessageUnsuppressEmbeds => 'Εμφάνιση ενσωματώσεων';
 
   @override
-  String get chatMessageDelete => 'Διαγραφή Μηνύματος';
+  String get chatMessageDelete => 'Διαγραφή μηνύματος';
 
   @override
-  String get chatMessageDeleteConfirmTitle => 'Διαγραφή Μηνύματος';
+  String get chatMessageDeleteConfirmTitle => 'Διαγραφή μηνύματος';
 
   @override
   String get chatMessageDeleteConfirmDescription =>
@@ -7619,14 +7631,14 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get chatReplyHiddenBlockedAuthor =>
-      'Η απάντηση είναι κρυφή, επειδή ο αρχικός συντάκτης έχει αποκλειστεί.';
+      'Η απάντηση είναι κρυφή, επειδή ο αρχικός συντάκτης είναι μπλοκαρισμένος.';
 
   @override
   String get chatReplyHiddenSpammerAuthor =>
-      'Η απάντηση αποκρύφτηκε επειδή ο αρχικός συντάκτης έχει επισημανθεί ως ανεπιθύμητος.';
+      'Η απάντηση είναι κρυφή, επειδή ο αρχικός συντάκτης έχει επισημανθεί ως αποστολέας spam.';
 
   @override
-  String get devMarkAsSpamLocally => 'Σήμανση ως ανεπιθύμητο τοπικά';
+  String get devMarkAsSpamLocally => 'Σήμανση ως ανεπιθύμητου τοπικά';
 
   @override
   String get devIgnoreSpamFlag => 'Παράβλεψη επισήμανσης ανεπιθύμητου';
@@ -7639,16 +7651,16 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String chatReplyMentionPrefersMentionBody(String authorNickname) {
-    return 'Ο/Η $authorNickname προτιμά να γίνεται @αναφορά σε απαντήσεις. Να σταλεί χωρίς την αναφορά ούτως ή άλλως;';
+    return 'Ο/Η $authorNickname προτιμά να γίνεται αναφορά (@mention) στις απαντήσεις. Να σταλεί χωρίς την αναφορά παρόλα αυτά;';
   }
 
   @override
   String chatReplyMentionPrefersNoMentionBody(String authorNickname) {
-    return '$authorNickname προτιμά απαντήσεις χωρίς @αναφορά. Θέλετε να στείλετε με την αναφορά ούτως ή άλλως;';
+    return 'Ο/Η $authorNickname προτιμά οι απαντήσεις να μην περιέχουν αναφορά (@mention). Να σταλεί με την αναφορά παρόλα αυτά;';
   }
 
   @override
-  String get chatReplyMentionIgnorePreference => 'Αγνόηση προτίμησης';
+  String get chatReplyMentionIgnorePreference => 'Παράβλεψη προτίμησης';
 
   @override
   String get chatReplyMentionDisableTooltip =>
@@ -7682,7 +7694,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Αυτό το κανάλι δεν είναι έτοιμο ακόμα. Δοκιμάστε ξανά σε λίγο.';
 
   @override
-  String get chatMessageEdited => '(επεξεργάστηκε)';
+  String get chatMessageEdited => '(επεξεργασμένο)';
 
   @override
   String get chatMessageSilent => 'Αυτό ήταν ένα μήνυμα @silent.';
@@ -7738,7 +7750,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get mediaViewerDismissBackdrop => 'Κλείσιμο';
+  String get mediaViewerDismissBackdrop => 'Παράβλεψη';
 
   @override
   String get chatAttachmentVideoToggleControls => 'Εναλλαγή ελέγχων βίντεο';
@@ -7767,7 +7779,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
-      'Ειδοποιήστε τους χρήστες με αυτόν τον ρόλο που έχουν δικαίωμα προβολής αυτού του καναλιού.';
+      'Ειδοποίηση χρηστών με αυτόν τον ρόλο που έχουν δικαίωμα προβολής αυτού του καναλιού.';
 
   @override
   String get composerAutocompleteSuggestions => 'Προτάσεις';
@@ -7798,7 +7810,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get composerAutocompleteRolesHeading => 'Ρόλοι';
 
   @override
-  String get composerAutocompleteMediaHeading => 'Μέσα';
+  String get composerAutocompleteMediaHeading => 'Πολυμέσα';
 
   @override
   String get composerAutocompleteStickersHeading => 'Αυτοκόλλητα';
@@ -7823,11 +7835,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get composerCommandMeDescription =>
-      'Στείλε ένα μήνυμα ενέργειας (εμφανίζεται με πλάγια γραφή).';
+      'Στείλτε ένα μήνυμα ενέργειας (εμφανίζεται με πλάγια γραφή).';
 
   @override
   String get composerCommandSpoilerDescription =>
-      'Στείλε μήνυμα-έκπληξη (το κρύβει με ετικέτες spoiler).';
+      'Στείλτε μήνυμα spoiler (το τυλίγει σε ετικέτες spoiler).';
 
   @override
   String get composerCommandTtsDescription =>
@@ -7839,7 +7851,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get composerCommandKickDescription =>
-      'Διαγραφή μέλους από αυτήν την κοινότητα.';
+      'Αποβολή μέλους από αυτήν την κοινότητα.';
 
   @override
   String get composerCommandBanDescription =>
@@ -7851,23 +7863,23 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get composerCommandSavedDescription =>
-      'Στείλε ένα αποθηκευμένο πολυμεσικό στοιχείο.';
+      'Στείλτε ένα αποθηκευμένο πολυμεσικό στοιχείο.';
 
   @override
-  String get composerCommandStickerDescription => 'Στείλε ένα αυτοκόλλητο.';
+  String get composerCommandStickerDescription => 'Στείλτε ένα αυτοκόλλητο.';
 
   @override
   String get composerCommandGifDescription => 'Αναζήτηση και αποστολή GIF.';
 
   @override
   String get composerCommandMemberOption =>
-      'Το μέλος στο οποίο θα γίνει στόχευση.';
+      'Το μέλος στο οποίο θα εφαρμοστεί η ενέργεια.';
 
   @override
   String get composerCommandReasonOption => 'Λόγος (προαιρετικό).';
 
   @override
-  String get composerCommandMessageOption => 'Το μήνυμα για αποστολή.';
+  String get composerCommandMessageOption => 'Το μήνυμα που θα σταλεί.';
 
   @override
   String get composerCommandQueryOption => 'Τι να αναζητήσετε.';
@@ -7881,7 +7893,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Πόσο από το πρόσφατο ιστορικό μηνυμάτων του μέλους θέλετε να διαγράψετε.';
 
   @override
-  String get composerCommandDeleteMessagesNone => 'Να μην διαγραφούν';
+  String get composerCommandDeleteMessagesNone => 'Να μην διαγραφεί τίποτα';
 
   @override
   String composerCommandDeleteMessagesDays(int count) {
@@ -7889,11 +7901,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get composerCommandDeleteMessagesOneDay => 'Προηγούμενες 24 ώρες';
+  String get composerCommandDeleteMessagesOneDay => 'Τελευταίες 24 ώρες';
 
   @override
   String get composerCommandOptionRequired =>
-      'Αυτή η επιλογή είναι απαραίτητη. Παρακαλώ δώστε μια τιμή.';
+      'Αυτή η επιλογή είναι υποχρεωτική. Δώστε μια τιμή.';
 
   @override
   String get composerCommandClear => 'Εκκαθάριση εντολής';
@@ -7903,7 +7915,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
     String previousNickname,
     String newNickname,
   ) {
-    return 'Άλλαξες το ψευδώνυμό σου σε αυτήν την κοινότητα από **$previousNickname** σε **$newNickname**.';
+    return 'Αλλάξατε το ψευδώνυμό σας σε αυτήν την κοινότητα από **$previousNickname** σε **$newNickname**.';
   }
 
   @override
@@ -7924,29 +7936,29 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get addGuildModalLandingDescription =>
-      'Δημιουργήστε μια νέα κοινότητα ή συνδεθείτε σε μια υπάρχουσα.';
+      'Δημιουργία νέας κοινότητας ή συμμετοχή σε υπάρχουσα.';
 
   @override
   String get addGuildCreateCommunity => 'Δημιουργία κοινότητας';
 
   @override
-  String get addGuildJoinCommunity => 'Σύνδεση στην κοινότητα';
+  String get addGuildJoinCommunity => 'Συμμετοχή στην κοινότητα';
 
   @override
   String get addGuildImportDiscordTemplate => 'Εισαγωγή προτύπου Discord';
 
   @override
-  String get addGuildJoinTitle => 'Σύνδεση σε κοινότητα';
+  String get addGuildJoinTitle => 'Γίνετε μέλος σε μια κοινότητα';
 
   @override
   String get addGuildJoinDescription =>
-      'Εισαγάγετε τον σύνδεσμο πρόσκλησης για να συνδεθείτε σε μια κοινότητα.';
+      'Εισάγετε τον σύνδεσμο πρόσκλησης για να μπείτε σε μια κοινότητα.';
 
   @override
   String get addGuildInviteLinkLabel => 'Σύνδεσμος πρόσκλησης';
 
   @override
-  String get addGuildJoinSubmit => 'Σύνδεση στην κοινότητα';
+  String get addGuildJoinSubmit => 'Συμμετοχή στην κοινότητα';
 
   @override
   String get addGuildInviteInvalid =>
@@ -7961,7 +7973,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get addGuildCreateDescription =>
-      'Δημιούργησε μια κοινότητα για να συνομιλείς με τους φίλους σου.';
+      'Δημιουργήστε μια κοινότητα για να συνομιλείτε με τους φίλους σας.';
 
   @override
   String get addGuildCreateNameLabel => 'Όνομα κοινότητας';
@@ -7974,22 +7986,22 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Δεν ήταν δυνατή η δημιουργία της κοινότητας. Δοκιμάστε ξανά.';
 
   @override
-  String get addGuildCreateClaimTitle => 'Διεκδίκησε τον λογαριασμό σου';
+  String get addGuildCreateClaimTitle => 'Διεκδικήστε τον λογαριασμό σας';
 
   @override
   String get addGuildCreateClaimDescription =>
-      'Πρέπει να επιβεβαιώσεις τον λογαριασμό σου πριν δημιουργήσεις μια κοινότητα.';
+      'Πρέπει να διεκδικήσετε τον λογαριασμό σας πριν δημιουργήσετε μια κοινότητα.';
 
   @override
   String get addGuildCreateVerifyTitle => 'Επαληθεύστε το email σας';
 
   @override
   String get addGuildCreateVerifyDescription =>
-      'Πρέπει να επιβεβαιώσεις τη διεύθυνση email σου πριν δημιουργήσεις μια κοινότητα.';
+      'Πρέπει να επαληθεύσετε τη διεύθυνση email σας πριν δημιουργήσετε μια κοινότητα.';
 
   @override
   String get addGuildCreateAnimatedIconUnsupported =>
-      'Οι κινούμενες εικονίδια δεν υποστηρίζονται κατά τη δημιουργία μιας νέας κοινότητας. Χρησιμοποιήστε μια στατική εικόνα.';
+      'Τα κινούμενα εικονίδια δεν υποστηρίζονται κατά τη δημιουργία νέας κοινότητας. Χρησιμοποιήστε μια στατική εικόνα.';
 
   @override
   String get addGuildCreateGuidelinesBefore =>
@@ -8058,25 +8070,26 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get chatMessageRemoveAllReactionsConfirmTitle =>
-      'Αφαίρεση όλων των αντιδράσεων';
+      'Κατάργηση όλων των αντιδράσεων';
 
   @override
   String get chatMessageRemoveAllReactionsConfirmDescription =>
       'Είστε σίγουροι ότι θέλετε να αφαιρέσετε όλες τις αντιδράσεις από αυτό το μήνυμα;';
 
   @override
-  String get chatMessagePinConfirm => 'Pin';
+  String get chatMessagePinConfirm => 'Καρφίτσωμα';
 
   @override
   String get chatMessagePinConfirmDescription =>
-      'Pin this message to the channel for everyone to see.';
+      'Καρφιτσώστε αυτό το μήνυμα στο κανάλι για να το βλέπουν όλοι.';
 
   @override
-  String get chatMessageUnpinConfirmTitle => 'Αποκαθήλωση μηνύματος';
+  String get chatMessageUnpinConfirmTitle =>
+      'Κατάργηση καρφιτσώματος μηνύματος';
 
   @override
   String get chatMessageUnpinConfirmDescription =>
-      'Θέλετε να στείλετε αυτήν την καρφίτσα πίσω στο χρόνο;';
+      'Να στείλετε αυτό το καρφιτσωμένο μήνυμα πίσω στον χρόνο;';
 
   @override
   String systemPinMessage(
@@ -8122,10 +8135,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get channelDetailsChannelSettingsTitle => 'Ρυθμίσεις καναλιού';
 
   @override
-  String get channelDetailsGroupSettingsTitle => 'Ρυθμίσεις Ομάδας';
+  String get channelDetailsGroupSettingsTitle => 'Ρυθμίσεις ομάδας';
 
   @override
-  String get channelDetailsDmSettingsTitle => 'Ρυθμίσεις απευθείας μηνυμάτων';
+  String get channelDetailsDmSettingsTitle => 'Ρυθμίσεις DM';
 
   @override
   String get channelDetailsInvitePeople => 'Πρόσκληση ατόμων';
@@ -8168,7 +8181,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get channelSettingsTabInvites => 'Προσκλήσεις';
 
   @override
-  String get channelSettingsTabWebhooks => 'Webhooks';
+  String get channelSettingsTabWebhooks => 'Webhook';
 
   @override
   String get channelSettingsDeleteChannel => 'Διαγραφή καναλιού';
@@ -8344,7 +8357,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Επιλέξτε μια περιοχή φωνής για αυτό το κανάλι. Η Αυτόματη χρησιμοποιεί την πλησιέστερη περιοχή.';
 
   @override
-  String get channelSettingsVoiceRegionAutomatic => 'Αυτόματο';
+  String get channelSettingsVoiceRegionAutomatic => 'Αυτόματα';
 
   @override
   String get channelSettingsVoiceRegionsLoadFailed =>
@@ -8429,14 +8442,14 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String channelSettingsPermissionsNeedManageChannels(
     String manageChannelsPermissionLabel,
   ) {
-    return 'Χρειάζεστε την άδεια \"$manageChannelsPermissionLabel\" για να επεξεργαστείτε αυτές τις άδειες.';
+    return 'Χρειάζεστε το δικαίωμα «$manageChannelsPermissionLabel» για να επεξεργαστείτε αυτά τα δικαιώματα.';
   }
 
   @override
   String channelSettingsPermissionsNeedManageRoles(
     String manageRolesPermissionLabel,
   ) {
-    return 'Χρειάζεστε την άδεια \"$manageRolesPermissionLabel\" για να επεξεργαστείτε αυτές τις άδειες.';
+    return 'Χρειάζεστε το δικαίωμα «$manageRolesPermissionLabel» για να επεξεργαστείτε αυτά τα δικαιώματα.';
   }
 
   @override
@@ -8459,7 +8472,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get channelSettingsPermissionsBackToOverrides =>
-      'Πίσω στις εξαιρέσεις';
+      'Επιστροφή στις παρακάμψεις';
 
   @override
   String get channelSettingsPermissionsConfigureBaseAccess =>
@@ -8467,11 +8480,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get channelSettingsPermissionsConfigureRoleOverrides =>
-      'Διαμόρφωση εξαιρέσεων για αυτόν τον ρόλο';
+      'Διαμόρφωση παρακάμψεων για αυτόν τον ρόλο';
 
   @override
   String get channelSettingsPermissionsConfigureMemberOverrides =>
-      'Διαμόρφωση εξαιρέσεων για αυτό το μέλος';
+      'Διαμόρφωση παρακάμψεων για αυτό το μέλος';
 
   @override
   String get channelSettingsPermissionsSearchPlaceholder =>
@@ -8507,7 +8520,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Το κανάλι συγχρονίστηκε με τη γονική κατηγορία';
 
   @override
-  String get channelSettingsPermissionsAddOverride => 'Προσθήκη εξαίρεσης';
+  String get channelSettingsPermissionsAddOverride => 'Προσθήκη παράκαμψης';
 
   @override
   String get channelSettingsPermissionsSearchRolesOrMembers =>
@@ -8559,7 +8572,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get channelSettingsWebhooksDescription =>
-      'Διαχειριστείτε τα εισερχόμενα webhooks που μπορούν να δημοσιεύουν μηνύματα σε αυτό το κανάλι.';
+      'Διαχειριστείτε τα εισερχόμενα webhook που μπορούν να δημοσιεύουν μηνύματα σε αυτό το κανάλι.';
 
   @override
   String get channelSettingsWebhooksEmpty => 'Δεν υπάρχουν webhooks';
@@ -8597,7 +8610,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get channelSettingsWebhooksAvatar => 'Εικόνα προφίλ';
 
   @override
-  String get channelSettingsWebhooksUploadImage => 'Αποστολή εικόνας';
+  String get channelSettingsWebhooksUploadImage => 'Ανέβασμα εικόνας';
 
   @override
   String get channelSettingsWebhooksRemove => 'Αφαίρεση';
@@ -8612,7 +8625,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get channelSettingsWebhooksChannel => 'Κανάλι';
 
   @override
-  String get channelSettingsWebhooksUrl => 'URL Webhook';
+  String get channelSettingsWebhooksUrl => 'URL του webhook';
 
   @override
   String get channelSettingsWebhooksCopyUrl => 'Αντιγραφή URL webhook';
@@ -8622,7 +8635,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get channelSettingsWebhooksDeleteFailed =>
-      'Αδυναμία διαγραφής αυτού του webhook';
+      'Δεν ήταν δυνατή η διαγραφή αυτού του webhook';
 
   @override
   String get channelSettingsWebhooksDeleteConfirm =>
@@ -8667,7 +8680,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get channelDetailsTextChannel => 'Κανάλι κειμένου';
 
   @override
-  String get channelDetailsVoiceChannel => 'Κανάλι φωνής';
+  String get channelDetailsVoiceChannel => 'Φωνητικό κανάλι';
 
   @override
   String get channelDetailsCategory => 'Κατηγορία';
@@ -8722,7 +8735,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Τα μέλη θα εμφανιστούν εδώ μόλις φορτώσουν τα δεδομένα της κοινότητας.';
 
   @override
-  String get memberListPermissionDeniedTitle => 'Δεν μπορείς να δεις τα μέλη';
+  String get memberListPermissionDeniedTitle => 'Δεν μπορείτε να δείτε τα μέλη';
 
   @override
   String get memberListPermissionDeniedBody =>
@@ -8748,7 +8761,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Μπορείς να καρφιτσώσεις μηνύματα σε αυτή τη συνομιλία για να τα δουν όλοι.';
 
   @override
-  String get channelDetailsPinsEndReached => 'Έφτασες στο τέλος';
+  String get channelDetailsPinsEndReached => 'Φτάσατε στο τέλος';
 
   @override
   String get channelHeaderOpenDetails => 'Άνοιγμα λεπτομερειών καναλιού';
@@ -8780,7 +8793,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get channelDetailsSearchFilterFrom => 'Από';
 
   @override
-  String get channelDetailsSearchFilterHas => 'Έχει';
+  String get channelDetailsSearchFilterHas => 'Περιέχει';
 
   @override
   String get channelDetailsSearchFilterIn => 'Σε';
@@ -8808,13 +8821,13 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get channelDetailsSearchAuthorTypeUser => 'Χρήστης';
 
   @override
-  String get channelDetailsSearchAuthorTypeBot => 'Μποτ';
+  String get channelDetailsSearchAuthorTypeBot => 'Bot';
 
   @override
   String get channelDetailsSearchAuthorTypeWebhook => 'Webhook';
 
   @override
-  String get channelDetailsSearchFilterByChannel => 'Φιλτράρισμα ανά κανάλι';
+  String get channelDetailsSearchFilterByChannel => 'Φιλτράρισμα κατά κανάλι';
 
   @override
   String get channelDetailsSearchChannelsHint => 'Αναζήτηση καναλιών';
@@ -8968,7 +8981,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get channelDetailsSearchFilterByUser => 'Φιλτράρισμα ανά χρήστη';
+  String get channelDetailsSearchFilterByUser => 'Φιλτράρισμα κατά χρήστη';
 
   @override
   String get channelDetailsSearchFilterByContent =>
@@ -9004,7 +9017,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Δοκιμάστε διαφορετικούς όρους αναζήτησης ή φίλτρα.';
 
   @override
-  String get channelDetailsMembersOnline => 'Συνδεδεμένοι';
+  String get channelDetailsMembersOnline => 'Σε σύνδεση';
 
   @override
   String get channelDetailsMembersOffline => 'Εκτός σύνδεσης';
@@ -9046,7 +9059,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get channelDetailsJumpToMessage => 'Μετάβαση στο μήνυμα';
 
   @override
-  String get channelDetailsUnpinMessage => 'Αποκατάσταση μηνύματος';
+  String get channelDetailsUnpinMessage => 'Κατάργηση καρφιτσώματος μηνύματος';
 
   @override
   String get channelDetailsCopyMessageLink => 'Αντιγραφή συνδέσμου μηνύματος';
@@ -9059,42 +9072,41 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get channelDetailsMessageUnpinned => 'Το μήνυμα αποκαρφιτσώθηκε';
 
   @override
-  String get channelDetailsSearchScopeCurrentCommunity => 'Τρέχουσα Κοινότητα';
+  String get channelDetailsSearchScopeCurrentCommunity => 'Τρέχουσα κοινότητα';
 
   @override
-  String get channelDetailsSearchScopeCurrentDm => 'Τρέχουσα συνομιλία';
+  String get channelDetailsSearchScopeCurrentDm => 'Τρέχον DM';
 
   @override
   String get channelDetailsSearchScopeAllCommunities => 'Όλες οι κοινότητες';
 
   @override
-  String get channelDetailsSearchScopeAllDmsOnlyGuild =>
-      'Μόνο όλα τα απευθείας μηνύματα';
+  String get channelDetailsSearchScopeAllDmsOnlyGuild => 'Μόνο όλα τα DM';
 
   @override
-  String get channelDetailsSearchScopeAllDms => 'Όλες οι συζητήσεις';
+  String get channelDetailsSearchScopeAllDms => 'Όλα τα DM';
 
   @override
-  String get channelDetailsSearchScopeOpenDmsOnlyGuild => 'Μόνο άμεσα μηνύματα';
+  String get channelDetailsSearchScopeOpenDmsOnlyGuild => 'Μόνο ανοιχτά DM';
 
   @override
   String get channelDetailsSearchScopeOpenDms => 'Ανοιχτά DM';
 
   @override
   String get channelDetailsSearchScopeAllDmsAndCommunities =>
-      'Όλα τα άμεσα μηνύματα + Κοινότητες';
+      'Όλα τα DM + κοινότητες';
 
   @override
   String get channelDetailsSearchScopeOpenDmsAndCommunities =>
-      'Ανοιχτά απευθείας μηνύματα + Κοινότητες';
+      'Ανοιχτά DM + κοινότητες';
 
   @override
   String get channelDetailsSearchScopeCurrentCommunityDescription =>
-      'Αναζήτηση μόνο στην τρέχουσα Κοινότητα';
+      'Αναζήτηση μόνο στην τρέχουσα κοινότητα';
 
   @override
   String get channelDetailsSearchScopeCurrentDmDescription =>
-      'Αναζήτηση μόνο σε αυτήν τη συνομιλία';
+      'Αναζήτηση μόνο στο τρέχον DM';
 
   @override
   String get channelDetailsSearchScopeAllCommunitiesDescription =>
@@ -9102,11 +9114,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get channelDetailsSearchScopeAllDmsOnlyGuildDescription =>
-      'Μόνο σε όλες τις προσωπικές συνομιλίες στις οποίες συμμετείχατε';
+      'Μόνο σε όλα τα DM στα οποία έχετε βρεθεί ποτέ';
 
   @override
   String get channelDetailsSearchScopeAllDmsDescription =>
-      'Σε όλες τις συνομιλίες που έχεις συμμετάσχει';
+      'Σε όλα τα DM στα οποία έχετε βρεθεί ποτέ';
 
   @override
   String get channelDetailsSearchScopeOpenDmsOnlyGuildDescription =>
@@ -9125,13 +9137,13 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Σε όλα τα άμεσα μηνύματα που έχεις ανοιχτά + σε όλες τις Κοινότητες που είσαι μέλος';
 
   @override
-  String get channelDetailsSearchSortNewest => 'Νεότερα Πρώτα';
+  String get channelDetailsSearchSortNewest => 'Πιο πρόσφατα πρώτα';
 
   @override
-  String get channelDetailsSearchSortOldest => 'Παλαιότερα Πρώτα';
+  String get channelDetailsSearchSortOldest => 'Παλαιότερα πρώτα';
 
   @override
-  String get channelDetailsSearchSortRelevance => 'Πιο Σχετικά';
+  String get channelDetailsSearchSortRelevance => 'Πιο σχετικό';
 
   @override
   String get channelDetailsSearchSortNewestDescription =>
@@ -9146,13 +9158,13 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Εμφάνιση πρώτα των πιο σχετικών μηνυμάτων';
 
   @override
-  String get channelDetailsSearchContentImage => 'Μεταφόρτωση εικόνας';
+  String get channelDetailsSearchContentImage => 'Ανέβασμα εικόνας';
 
   @override
   String get channelDetailsSearchContentVideo => 'Μεταφόρτωση βίντεο';
 
   @override
-  String get channelDetailsSearchContentAudio => 'Μεταφόρτωση ήχου';
+  String get channelDetailsSearchContentAudio => 'Ανέβασμα ήχου';
 
   @override
   String get channelDetailsSearchContentFile => 'Μεταφόρτωση αρχείου';
@@ -9169,11 +9181,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get channelDetailsSearchContentImageDescription =>
-      'Μόνο αρχεία εικόνων που ανέβηκαν';
+      'Μόνο ανεβασμένα αρχεία εικόνας';
 
   @override
   String get channelDetailsSearchContentVideoDescription =>
-      'Μόνο βίντεο που ανέβηκαν';
+      'Μόνο ανεβασμένα αρχεία βίντεο';
 
   @override
   String get channelDetailsSearchContentAudioDescription =>
@@ -9189,7 +9201,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get channelDetailsSearchContentEmbedDescription =>
-      'Επιλύθηκαν προεπισκοπήσεις και εμπλουτισμένες ενσωματώσεις, όχι μεταφορτώσεις';
+      'Ανακτημένες προεπισκοπήσεις και εμπλουτισμένες ενσωματώσεις, όχι ανεβασμένα αρχεία';
 
   @override
   String get channelDetailsSearchContentStickerDescription =>
@@ -9205,7 +9217,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get personalNotesSubtitle =>
-      'Ο ιδιωτικός σας χώρος για σκέψεις και υπενθυμίσεις';
+      'Ο προσωπικός σας χώρος για σκέψεις και υπενθυμίσεις';
 
   @override
   String groupDmWelcome(String displayName) {
@@ -9241,7 +9253,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get groupDmGroupIcon => 'Εικονίδιο ομάδας';
 
   @override
-  String get groupDmUploadIcon => 'Αποστολή εικονιδίου';
+  String get groupDmUploadIcon => 'Ανέβασμα εικονιδίου';
 
   @override
   String get groupDmChangeIcon => 'Αλλαγή εικονιδίου';
@@ -9258,11 +9270,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get groupDmAnimatedIconNotSupported =>
-      'Οι κινούμενες εικονίδια δεν υποστηρίζονται. Χρησιμοποιήστε μια στατική εικόνα.';
+      'Τα κινούμενα εικονίδια δεν υποστηρίζονται. Χρησιμοποιήστε μια στατική εικόνα.';
 
   @override
   String get groupDmAnimatedIconNotSupportedTitle =>
-      'Οι κινούμενες εικόνες δεν υποστηρίζονται';
+      'Τα κινούμενα εικονίδια δεν υποστηρίζονται';
 
   @override
   String get groupDmIconFileTooLargeTitle =>
@@ -9300,7 +9312,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get groupDmAddFriends => 'Προσθήκη';
 
   @override
-  String get groupDmOrSendInvite => 'ή στείλε μια πρόσκληση σε ένα φίλο:';
+  String get groupDmOrSendInvite => 'ή στείλτε μια πρόσκληση σε έναν φίλο:';
 
   @override
   String get groupDmGenerateInviteLink => 'Δημιουργία συνδέσμου πρόσκλησης';
@@ -9309,7 +9321,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get groupDmCreateInvite => 'Δημιουργία';
 
   @override
-  String get groupDmInviteExpires24Hours => 'Η πρόσκλησή σου λήγει σε 24 ώρες';
+  String get groupDmInviteExpires24Hours => 'Η πρόσκλησή σας λήγει σε 24 ώρες';
 
   @override
   String get groupDmAddFriendFailed =>
@@ -9324,7 +9336,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get groupDmRateLimited =>
-      'Πηγαίνεις πολύ γρήγορα. Περίμενε λίγο και δοκίμασε ξανά.';
+      'Προχωράτε πολύ γρήγορα. Περιμένετε λίγο και δοκιμάστε ξανά.';
 
   @override
   String get groupDmCreateInviteFailed =>
@@ -9395,7 +9407,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String channelComposerHint(String channelName) {
-    return 'Message #$channelName';
+    return 'Μήνυμα προς #$channelName';
   }
 
   @override
@@ -9405,11 +9417,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String groupDmNamedComposerHint(String groupName) {
-    return 'Message $groupName';
+    return 'Μήνυμα προς $groupName';
   }
 
   @override
-  String get groupDmComposerHint => 'Message group';
+  String get groupDmComposerHint => 'Ομάδα μηνυμάτων';
 
   @override
   String get composerHint => 'Message';
@@ -9489,7 +9501,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get messageAccessibilityEmptySummary => 'ένα μήνυμα';
 
   @override
-  String get personalNotesPrivateSpace => 'Ο ιδιωτικός σας χώρος';
+  String get personalNotesPrivateSpace => 'Ο προσωπικός σας χώρος';
 
   @override
   String get purgePersonalNotes => 'Εκκαθάριση προσωπικών σημειώσεων';
@@ -9554,7 +9566,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get userSettingsNavGiftsAndCodes => 'Δώρα';
 
   @override
-  String get giftSettingsClaimAccountTitle => 'Διεκδίκησε τον λογαριασμό σου';
+  String get giftSettingsClaimAccountTitle => 'Διεκδικήστε τον λογαριασμό σας';
 
   @override
   String get giftSettingsClaimAccountDescription =>
@@ -9643,11 +9655,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get giftSettingsRedeemForYourself => 'Εξαργύρωση για εσάς';
 
   @override
-  String get giftSettingsShareWithFriend => 'Κοινή χρήση με φίλο';
+  String get giftSettingsShareWithFriend => 'Κοινοποίηση σε φίλο';
 
   @override
   String get premiumPlutoniumTagline =>
-      'Ξεκλείδωσε υψηλότερα όρια και αποκλειστικές λειτουργίες, ενώ υποστηρίζεις μια ανεξάρτητη πλατφόρμα επικοινωνίας.';
+      'Ξεκλειδώστε υψηλότερα όρια και αποκλειστικές λειτουργίες, υποστηρίζοντας ταυτόχρονα μια ανεξάρτητη πλατφόρμα επικοινωνίας.';
 
   @override
   String get premiumPurchaseMode => 'Τρόπος αγοράς';
@@ -9724,7 +9736,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get premiumReadyToUpgrade => 'Έτοιμοι για αναβάθμιση;';
 
   @override
-  String get premiumReadyToBuyGift => 'Έτοιμος/η να αγοράσεις ένα δώρο;';
+  String get premiumReadyToBuyGift => 'Έτοιμοι να αγοράσετε ένα δώρο;';
 
   @override
   String premiumMonthlyPrice(String price) {
@@ -9805,7 +9817,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get premiumSubscriptionCanceling => 'Ακύρωση';
+  String get premiumSubscriptionCanceling => 'Ακυρώνεται';
 
   @override
   String premiumCancelsOn(String date) {
@@ -9825,15 +9837,15 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String premiumDisclaimerPurchased(String terms, String privacy) {
-    return 'Με την αγορά, συμφωνείτε με τους $terms και την $privacy μας.';
+    return 'Με την αγορά, συμφωνήσατε με τους $terms και την $privacy μας.';
   }
 
   @override
   String get premiumDisclaimerRefund =>
-      'Αυτοματοποιημένες επιστροφές χρημάτων είναι διαθέσιμες εντός 3 ημερών από την πληρωμή, μία φορά κάθε 30 ημέρες. Η επιστροφή χρημάτων μιας συνδρομής την ακυρώνει. Οι αγοραστές από ΕΕ/ΕΟΧ παραιτούνται από το δικαίωμα υπαναχώρησης 14 ημερών κατά την ολοκλήρωση της αγοράς για άμεση πρόσβαση στο περιεχόμενο. Χρησιμοποιήστε το κουμπί επιστροφής χρημάτων εντός της εφαρμογής αντί για αντιστροφή χρέωσης. Οι αντιστροφές χρεώσεων μπορούν να περιορίσουν μόνιμα τον λογαριασμό σας. Η Stripe χειρίζεται την πληρωμή με ασφάλεια. Δεν βλέπουμε ποτέ τον πλήρη αριθμό της κάρτας σας.';
+      'Οι επιστροφές χρημάτων με αυτοεξυπηρέτηση είναι διαθέσιμες εντός 3 ημερών από την πληρωμή, μία φορά κάθε 30 ημέρες. Η επιστροφή χρημάτων μιας συνδρομής την ακυρώνει. Οι αγοραστές από ΕΕ/ΕΟΧ παραιτούνται από το δικαίωμα υπαναχώρησης 14 ημερών κατά την ολοκλήρωση της αγοράς για άμεση πρόσβαση στο περιεχόμενο. Χρησιμοποιήστε το κουμπί επιστροφής χρημάτων εντός της εφαρμογής αντί για αντιστροφή χρέωσης. Οι αντιστροφές χρεώσεων μπορούν να περιορίσουν μόνιμα τον λογαριασμό σας. Η Stripe χειρίζεται την πληρωμή με ασφάλεια. Δεν βλέπουμε ποτέ τον πλήρη αριθμό της κάρτας σας.';
 
   @override
-  String get premiumTermsOfService => 'Όροι χρήσης';
+  String get premiumTermsOfService => 'Όροι παροχής υπηρεσιών';
 
   @override
   String get premiumPrivacyPolicy => 'Πολιτική απορρήτου';
@@ -9848,7 +9860,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get premiumGiftSubscriptionBlocksRecurring =>
-      'Έχεις συνδρομή δώρου. Δεν θα ανανεωθεί αυτόματα. Μπορείς να εξαργυρώσεις κι άλλους κωδικούς δώρου για να την επεκτείνεις. Οι συνδρομές με αυτόματη ανανέωση μπορούν να ξεκινήσουν αφού λήξει η συνδρομή δώρου.';
+      'Έχετε συνδρομή δώρου. Δεν θα ανανεωθεί αυτόματα. Μπορείτε να εξαργυρώσετε κι άλλους κωδικούς δώρου για να την επεκτείνετε. Οι συνδρομές με αυτόματη ανανέωση μπορούν να ξεκινήσουν αφού λήξει η συνδρομή δώρου.';
 
   @override
   String get premiumPlanUnavailable =>
@@ -9883,7 +9895,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get premiumCustomerPortalOpenFailedTitle =>
-      'Δεν ήταν δυνατή η φόρτωση της πύλης χρέωσης';
+      'Δεν ήταν δυνατό το άνοιγμα της πύλης χρέωσης';
 
   @override
   String get premiumCustomerPortalOpenFailedBody =>
@@ -9919,7 +9931,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Πρέπει να επαληθεύσεις το email σου πριν αγοράσεις το Fluxer Plutonium.';
 
   @override
-  String get premiumPerkCustomUsernameTag => 'Προσαρμοσμένο όνομα χρήστη';
+  String get premiumPerkCustomUsernameTag =>
+      'Προσαρμοσμένη ετικέτα ονόματος χρήστη';
 
   @override
   String get premiumPerkPerCommunityProfiles => 'Προφίλ ανά κοινότητα';
@@ -9943,7 +9956,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get premiumPerkMessageCharacterLimit => 'Όριο χαρακτήρων μηνύματος';
 
   @override
-  String get premiumPerkBookmarkedMessages => 'Σελιδοδεικτοποιημένα μηνύματα';
+  String get premiumPerkBookmarkedMessages => 'Μηνύματα με σελιδοδείκτη';
 
   @override
   String get premiumPerkFileUploadSize => 'Μέγεθος αρχείου προς αποστολή';
@@ -9959,7 +9972,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get premiumPerkGlobalEmojiStickerAccess =>
-      'Παγκόσμια πρόσβαση σε emoji και αυτοκόλλητα';
+      'Καθολική πρόσβαση σε emoji και αυτοκόλλητα';
 
   @override
   String get premiumPerkVideoQuality => 'Ποιότητα βίντεο';
@@ -9984,13 +9997,13 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get userSettingsNavPrivacyDashboard => 'Πίνακας Ελέγχου Απορρήτου';
 
   @override
-  String get userSettingsNavAuthorizedApps => 'Εξουσιοδοτημένες Εφαρμογές';
+  String get userSettingsNavAuthorizedApps => 'Εξουσιοδοτημένες εφαρμογές';
 
   @override
-  String get userSettingsNavBlockedUsers => 'Αποκλεισμένοι Χρήστες';
+  String get userSettingsNavBlockedUsers => 'Μπλοκαρισμένοι χρήστες';
 
   @override
-  String get userSettingsNavLinkedDevices => 'Συνδεδεμένες Συσκευές';
+  String get userSettingsNavLinkedDevices => 'Συνδεδεμένες συσκευές';
 
   @override
   String get userSettingsNavConnections => 'Συνδέσεις';
@@ -10002,10 +10015,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get userSettingsNavAccessibility => 'Προσβασιμότητα';
 
   @override
-  String get userSettingsNavChat => 'Μηνύματα & Πολυμέσα';
+  String get userSettingsNavChat => 'Συνομιλία';
 
   @override
-  String get userSettingsNavAudioAndVideo => 'Ήχος & Βίντεο';
+  String get userSettingsNavAudioAndVideo => 'Ήχος και βίντεο';
 
   @override
   String get userSettingsNavShortcuts => 'Συντομεύσεις';
@@ -10088,7 +10101,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get audioAndVideoNoiseSuppressionStandardLabel => 'Τυπική';
 
   @override
-  String get audioAndVideoNoiseSuppressionNoneLabel => 'Κανένα';
+  String get audioAndVideoNoiseSuppressionNoneLabel => 'Καμία';
 
   @override
   String get audioAndVideoEchoCancellationLabel => 'Ακύρωση ηχούς';
@@ -10105,10 +10118,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get audioAndVideoMicTestSectionTitle => 'Δοκιμή μικροφώνου';
 
   @override
-  String get audioAndVideoMicTestStartLabel => 'Έναρξη ελέγχου μικροφώνου';
+  String get audioAndVideoMicTestStartLabel => 'Έναρξη δοκιμής μικροφώνου';
 
   @override
-  String get audioAndVideoMicTestStopLabel => 'Διακοπή ελέγχου μικροφώνου';
+  String get audioAndVideoMicTestStopLabel => 'Διακοπή δοκιμής μικροφώνου';
 
   @override
   String audioAndVideoMicTestPermissionRequired(String productName) {
@@ -10197,7 +10210,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get notificationsEnableDesktopNotificationsDescription =>
-      'Χρησιμοποιεί το κέντρο γνωστοποιήσεων του λειτουργικού συστήματος. Για έλεγχο ανά κανάλι/κοινότητα, κάντε δεξί κλικ στο εικονίδιο μιας κοινότητας και ανοίξτε τις ρυθμίσεις γνωστοποιήσεων.';
+      'Χρησιμοποιεί το κέντρο ειδοποιήσεων του λειτουργικού συστήματος. Για έλεγχο ανά κανάλι/κοινότητα, κάντε δεξί κλικ στο εικονίδιο μιας κοινότητας και ανοίξτε τις ρυθμίσεις ειδοποιήσεων.';
 
   @override
   String get notificationsEnableBrowserNotificationsLabel =>
@@ -10213,7 +10226,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String notificationsPushInactiveTimeoutDescription(String productName) {
-    return 'Το $productName αποφεύγει την αποστολή ειδοποιήσεων μέσω push στις κινητές σας συσκευές όταν βρίσκεστε στον υπολογιστή σας. Επιλέξτε για πόσο καιρό πρέπει να είστε ανενεργός στην επιφάνεια εργασίας πριν λάβετε ειδοποιήσεις μέσω push.';
+    return 'Το $productName αποφεύγει την αποστολή ειδοποιήσεων push στις κινητές σας συσκευές όταν βρίσκεστε στον υπολογιστή σας. Επιλέξτε πόση ώρα πρέπει να μείνετε ανενεργοί στον υπολογιστή πριν λάβετε ειδοποιήσεις push.';
   }
 
   @override
@@ -10245,18 +10258,19 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get notificationsMentionPreferMentionDescription =>
-      'Απαντάει αυτόματα σε αναφορές με @ σε εσάς και προειδοποιεί τον αποστολέα αν το απενεργοποιήσει';
+      'Από προεπιλογή οι απαντήσεις σάς κάνουν αναφορά (@mention) και ο αποστολέας προειδοποιείται αν το απενεργοποιήσει';
 
   @override
   String get notificationsMentionPreferNoMentionName =>
-      'Προτίμηση χωρίς αναφορές (@mention)';
+      'Προτίμηση χωρίς αναφορά με @';
 
   @override
   String get notificationsMentionPreferNoMentionDescription =>
-      'Οι προεπιλεγμένες απαντήσεις παραλείπουν την αναφορά @, και προειδοποιούν τον αποστολέα αν την ενεργοποιήσει';
+      'Από προεπιλογή οι απαντήσεις παραλείπουν την αναφορά (@mention) και ο αποστολέας προειδοποιείται αν την ενεργοποιήσει';
 
   @override
-  String get notificationsTtsSectionTitle => 'Ειδοποιήσεις κειμένου σε ομιλία';
+  String get notificationsTtsSectionTitle =>
+      'Ειδοποιήσεις μετατροπής κειμένου σε ομιλία';
 
   @override
   String get notificationsTtsEnableCommandLabel =>
@@ -10296,7 +10310,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get notificationsTtsModeCurrentChannelDescription =>
-      'Αφηγείται μόνο το κανάλι που βλέπετε. Η αφήγηση σας ακολουθεί μεταξύ των καναλιών.';
+      'Αφηγείται μόνο το κανάλι που βλέπετε. Η αφήγηση σάς ακολουθεί μεταξύ των καναλιών.';
 
   @override
   String get notificationsTtsModeNeverName => 'Ποτέ αυτόματα';
@@ -10306,8 +10320,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Να παραμένει σιωπηλό, εκτός αν κάποιος εκτελέσει το /tts χειροκίνητα.';
 
   @override
-  String get notificationsTtsModeAriaLabel =>
-      'Να διαβάζονται όλα τα μηνύματα δυνατά';
+  String get notificationsTtsModeAriaLabel => 'Εκφώνηση όλων των μηνυμάτων';
 
   @override
   String get notificationsSoundsSectionTitle => 'Ήχοι';
@@ -10343,7 +10356,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get notificationsPreviewSound => 'Προεπισκόπηση ήχου';
 
   @override
-  String get notificationsPerSoundVolumeTitle => 'Ένταση ήχου ανά ήχο';
+  String get notificationsPerSoundVolumeTitle => 'Ένταση ανά ήχο';
 
   @override
   String get notificationsPerSoundVolumeDescription =>
@@ -10351,7 +10364,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String notificationsPerSoundVolumeOverrideDescription(int overrideCount) {
-    return 'Ενεργές προσαρμοσμένες ρυθμίσεις έντασης ήχου: $overrideCount.';
+    return 'Ενεργές παρακάμψεις έντασης ήχων: $overrideCount.';
   }
 
   @override
@@ -10365,7 +10378,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get notificationsResetAllOverrides => 'Επαναφορά όλων των εξαιρέσεων';
+  String get notificationsResetAllOverrides => 'Επαναφορά όλων των παρακάμψεων';
 
   @override
   String notificationsMuteSound(String label) {
@@ -10389,19 +10402,19 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Ειδοποιήσεις μηνυμάτων τρέχοντος καναλιού';
 
   @override
-  String get notificationsSoundMute => 'Σίγαση φωνής';
+  String get notificationsSoundMute => 'Σίγαση μικροφώνου';
 
   @override
-  String get notificationsSoundUnmute => 'Κατάργηση σίγασης φωνής';
+  String get notificationsSoundUnmute => 'Κατάργηση σίγασης μικροφώνου';
 
   @override
-  String get notificationsSoundDeaf => 'Απενεργοποίηση ήχου φωνής';
+  String get notificationsSoundDeaf => 'Σίγαση ήχου';
 
   @override
-  String get notificationsSoundUndeaf => 'Απενεργοποίηση σίγασης φωνής';
+  String get notificationsSoundUndeaf => 'Κατάργηση σίγασης ήχου';
 
   @override
-  String get notificationsSoundUserJoin => 'Ο χρήστης μπήκε στο κανάλι';
+  String get notificationsSoundUserJoin => 'Ο χρήστης μπαίνει στο κανάλι';
 
   @override
   String get notificationsSoundUserLeave => 'Ο χρήστης αποχωρεί από το κανάλι';
@@ -10416,14 +10429,13 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get notificationsSoundViewerLeave => 'Ο θεατής αποχωρεί από τη ροή';
 
   @override
-  String get notificationsSoundVoiceDisconnect =>
-      'Η φωνητική κλήση αποσυνδέθηκε';
+  String get notificationsSoundVoiceDisconnect => 'Αποσύνδεση φωνής';
 
   @override
   String get notificationsSoundIncomingRing => 'Εισερχόμενη κλήση';
 
   @override
-  String get notificationsSoundCameraOn => 'Κάμερα ανοιχτή';
+  String get notificationsSoundCameraOn => 'Κάμερα ενεργοποιημένη';
 
   @override
   String get notificationsSoundCameraOff => 'Κάμερα απενεργοποιημένη';
@@ -10528,12 +10540,12 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String languageAndTimeTimeFormatAppLanguage(String format) {
-    return 'Γλώσσα εφαρμογής: $format';
+    return 'Μορφή ώρας της γλώσσας της εφαρμογής: $format';
   }
 
   @override
   String languageAndTimeTimeFormatSystemLocale(String format) {
-    return 'Γλώσσα συστήματος: $format';
+    return 'Μορφή ώρας του συστήματος: $format';
   }
 
   @override
@@ -10566,23 +10578,23 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get defaultAppsWebBrowserExternal => 'Εξωτερικό πρόγραμμα περιήγησης';
 
   @override
-  String get userSettingsNavAppIcon => 'App Icon';
+  String get userSettingsNavAppIcon => 'App icon';
 
   @override
-  String get appIconSectionTitle => 'App Icon';
+  String get appIconSectionTitle => 'App icon';
 
   @override
   String get appIconSectionDescription =>
       'Choose which icon appears on your home screen.';
 
   @override
-  String get appIconOptionDefault => 'Default';
+  String get appIconOptionDefault => 'Προεπιλογή';
 
   @override
   String get appIconOptionStarfield => 'Starfield';
 
   @override
-  String get appIconOptionSweden => 'Sweden';
+  String get appIconOptionSweden => 'Σουηδία';
 
   @override
   String get appIconUnsupported =>
@@ -10609,7 +10621,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get advancedSettingsConfigure => 'Ρυθμίσεις';
+  String get advancedSettingsConfigure => 'Διαμόρφωση';
 
   @override
   String get advancedSettingsCategoryPrivacy => 'Απόρρητο';
@@ -10624,7 +10636,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get advancedSettingsCategoryChat => 'Συνομιλία';
 
   @override
-  String get advancedSettingsCategoryMedia => 'Μέσα';
+  String get advancedSettingsCategoryMedia => 'Πολυμέσα';
 
   @override
   String get advancedSettingsCategoryVoice => 'Φωνή';
@@ -10638,15 +10650,15 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get advancedSettingEnableTextSelectionDescription =>
-      'Επιτρέπει την επιλογή κειμένου στην εφαρμογή';
+      'Να επιτρέπεται η επιλογή κειμένου στην εφαρμογή';
 
   @override
   String get advancedSettingVideoSeekThumbnailsLabel =>
-      'Ενεργοποίηση μικρογραφιών αναζήτησης βίντεο';
+      'Ενεργοποίηση μικρογραφιών προεπισκόπησης βίντεο';
 
   @override
   String get advancedSettingVideoSeekThumbnailsDescription =>
-      'Μικρογραφία ή ζωντανή εικόνα κατά την προεπισκόπηση βίντεο';
+      'Μικρογραφία ή ζωντανό καρέ κατά τη μετακίνηση στο βίντεο';
 
   @override
   String get advancedSettingHapticFeedbackLabel => 'Απτική ανάδραση';
@@ -10679,7 +10691,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get advancedSettingKeyboardHintsDescription =>
-      'Υπενθυμίσεις συντομεύσεων πληκτρολογίου στις συμβουλές εργαλείων';
+      'Υποδείξεις συντομεύσεων πληκτρολογίου στις επεξηγήσεις';
 
   @override
   String get advancedSettingEnableFavoritesLabel => 'Ενεργοποίηση αγαπημένων';
@@ -10690,7 +10702,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get advancedSettingVoiceChannelJoinBehaviorLabel =>
-      'Συμπεριφορά εισόδου σε κανάλι φωνής';
+      'Συμπεριφορά εισόδου σε φωνητικό κανάλι';
 
   @override
   String get advancedSettingVoiceChannelJoinBehaviorDescription =>
@@ -10698,11 +10710,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get advancedSettingRequireDoubleClickJoinLabel =>
-      'Απαίτηση διπλού κλικ για είσοδο σε κανάλια φωνής';
+      'Απαίτηση διπλού κλικ για είσοδο σε φωνητικά κανάλια';
 
   @override
   String get advancedSettingConfirmBeforeJoiningVoiceLabel =>
-      'Επιβεβαίωση πριν την είσοδο σε κανάλια φωνής';
+      'Επιβεβαίωση πριν την είσοδο σε φωνητικά κανάλια';
 
   @override
   String get advancedSettingAutoSendGifsLabel =>
@@ -10710,7 +10722,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get advancedSettingAutoSendGifsDescription =>
-      'Αυτόματη αποστολή GIF από την επιλογή χωρίς επιβεβαίωση';
+      'Αυτόματη αποστολή GIF από τον επιλογέα χωρίς επιβεβαίωση';
 
   @override
   String get advancedSettingSaveGifFavoritesLabel =>
@@ -10725,15 +10737,15 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get advancedSettingMediaButtonsDescription =>
-      'Προσαρμόστε ποια κουμπιά και ενδείξεις θα εμφανίζονται στις επισυναπτόμενες φωτογραφίες και στα ενσωματωμένα περιεχόμενα';
+      'Προσαρμόστε ποια κουμπιά και ενδείξεις εμφανίζονται στα συνημμένα πολυμέσα και στις ενσωματώσεις';
 
   @override
   String get advancedSettingPreuploadAttachmentsLabel =>
-      'Ανεβάστε συνημμένα πριν στείλετε';
+      'Ανέβασμα συνημμένων πριν από την αποστολή';
 
   @override
   String get advancedSettingPreuploadAttachmentsDescription =>
-      'Ξεκινήστε την αποστολή των συνημμένων μόλις αυτά προστεθούν στο πλαίσιο εισαγωγής μηνυμάτων';
+      'Έναρξη αποστολής των συνημμένων μόλις προστεθούν στο πλαίσιο μηνύματος';
 
   @override
   String get advancedSettingStripTrackingLabel =>
@@ -10741,11 +10753,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get advancedSettingStripTrackingDescription =>
-      'Αυτόματη κατάργηση παραμέτρων παρακολούθησης από URL σε μηνύματα που στέλνετε';
+      'Αυτόματη αφαίρεση παραμέτρων παρακολούθησης από URL στα μηνύματα που στέλνετε';
 
   @override
   String get advancedSettingTrustAllLinksLabel =>
-      'Να εμπιστεύεστε όλους τους εξωτερικούς συνδέσμους';
+      'Εμπιστοσύνη σε όλους τους εξωτερικούς συνδέσμους';
 
   @override
   String get advancedSettingTrustAllLinksDescription =>
@@ -10756,21 +10768,22 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get advancedSettingSearchEnginesDescription =>
-      'Διαμόρφωση των μηχανών αναζήτησης που χρησιμοποιούνται για κείμενο που έχει επιλεγεί';
+      'Διαμόρφωση των μηχανών αναζήτησης που χρησιμοποιούνται για το επιλεγμένο κείμενο';
 
   @override
   String get advancedSettingTranslatorsLabel => 'Μεταφραστές';
 
   @override
   String get advancedSettingTranslatorsDescription =>
-      'Διαμόρφωση των παρόχων μεταφραστών που χρησιμοποιούνται για το επιλεγμένο κείμενο';
+      'Διαμόρφωση των παρόχων μετάφρασης που χρησιμοποιούνται για το επιλεγμένο κείμενο';
 
   @override
-  String get advancedSettingReverseImageSearchLabel => 'Αναζήτηση εικόνας';
+  String get advancedSettingReverseImageSearchLabel =>
+      'Αντίστροφη αναζήτηση εικόνας';
 
   @override
   String get advancedSettingReverseImageSearchDescription =>
-      'Πάροχοι υπηρεσιών αντίστροφης αναζήτησης εικόνων';
+      'Πάροχοι αντίστροφης αναζήτησης εικόνων';
 
   @override
   String get advancedSettingMessageActionBarLabel =>
@@ -10778,7 +10791,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get advancedSettingMessageActionBarDescription =>
-      'Προσαρμόστε τη γραμμή ενεργειών που εμφανίζεται όταν τοποθετείτε τον δείκτη του ποντικιού πάνω από μηνύματα';
+      'Προσαρμόστε τη γραμμή ενεργειών που εμφανίζεται όταν περνάτε το ποντίκι πάνω από τα μηνύματα';
 
   @override
   String get advancedSettingExpressionAutocompleteLabel =>
@@ -10786,7 +10799,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get advancedSettingExpressionAutocompleteDescription =>
-      'Επιλέξτε τι εμφανίζεται όταν πληκτρολογείτε άνω τελεία στο πεδίο εισαγωγής μηνυμάτων';
+      'Επιλέξτε τι εμφανίζεται όταν πληκτρολογείτε άνω και κάτω τελεία στο πεδίο εισαγωγής μηνυμάτων';
 
   @override
   String get advancedSettingInputButtonsLabel => 'Κουμπιά εισαγωγής μηνυμάτων';
@@ -10809,11 +10822,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get advancedSettingSkipMarkAllAsReadDescription =>
-      'Να επισημανθούν όλα τα αδιάβαστα κανάλια εισερχομένων ως αναγνωσμένα αμέσως, χωρίς επιβεβαίωση';
+      'Σήμανση όλων των μη αναγνωσμένων καναλιών εισερχομένων ως αναγνωσμένων αμέσως, χωρίς επιβεβαίωση';
 
   @override
   String get advancedSettingHideMutedChannelsLabel =>
-      'Απόκρυψη σιωπηλών καναλιών από προεπιλογή';
+      'Απόκρυψη καναλιών σε σίγαση από προεπιλογή';
 
   @override
   String get advancedSettingHideMutedChannelsDescription =>
@@ -10913,7 +10926,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get advancedSettingScreenSharePreviewBehaviorDescription =>
-      'Προεπισκόπηση, εμφάνιση σε ξεχωριστό παράθυρο και συμπεριφορά της μικρογραφίας ροής';
+      'Συμπεριφορά προεπισκόπησης, ξεχωριστού παραθύρου και μικρογραφίας ροής';
 
   @override
   String get advancedSettingScreenShareCodecLabel =>
@@ -10947,7 +10960,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get advancedSettingHideStreamPreviewLabel =>
-      'Απόκρυψη μικρογραφίας προεπισκόπησης ροής μου';
+      'Απόκρυψη μικρογραφίας προεπισκόπησης της ροής μου';
 
   @override
   String get advancedSettingDeveloperModeLabel =>
@@ -11060,7 +11073,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get advancedSettingBuiltInReverseImageSearchLabel =>
-      'Ενσωματωμένη αναζήτηση αντίστροφης εικόνας';
+      'Ενσωματωμένη αντίστροφη αναζήτηση εικόνας';
 
   @override
   String get advancedSettingBuiltInReverseImageSearchDescription =>
@@ -11068,7 +11081,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get advancedSettingCustomReverseImageSearchLabel =>
-      'Προσαρμοσμένη αναζήτηση εικόνων';
+      'Προσαρμοσμένη αντίστροφη αναζήτηση εικόνων';
 
   @override
   String advancedSettingCustomReverseImageSearchDescription(Object url) {
@@ -11104,11 +11117,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get advancedSettingAddReverseImageSearchTitle =>
-      'Προσθήκη μηχανής αναζήτησης αντίστροφης εικόνας';
+      'Προσθήκη μηχανής αντίστροφης αναζήτησης εικόνων';
 
   @override
   String get advancedSettingEditReverseImageSearchTitle =>
-      'Επεξεργασία μηχανής αναζήτησης αντίστροφης εικόνας';
+      'Επεξεργασία μηχανής αντίστροφης αναζήτησης εικόνων';
 
   @override
   String get advancedSettingSearchProviderNameLabel => 'Όνομα';
@@ -11162,7 +11175,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get advancedSettingSearchProviderUrlMustBeValid =>
-      'Το μοτίβο URL πρέπει να είναι ένα έγκυρο URL.';
+      'Το μοτίβο URL πρέπει να είναι έγκυρο URL.';
 
   @override
   String get advancedSettingAddSearchProviderAction => 'Προσθήκη';
@@ -11187,7 +11200,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get userSettingsNavAppLogs => 'Αρχεία Καταγραφής Εφαρμογής';
 
   @override
-  String get userSettingsNavDeveloperTools => 'Εργαλεία Προγραμματιστή';
+  String get userSettingsNavDeveloperTools => 'Εργαλεία προγραμματιστή';
 
   @override
   String get userSettingsNavLimitsConfig => 'Ρύθμιση Ορίων';
@@ -11227,11 +11240,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get userSettingsNavLogOut => 'Αποσύνδεση';
 
   @override
-  String get userSettingsLogOutConfirmTitle => 'Sign out?';
+  String get userSettingsLogOutConfirmTitle => 'Αποσύνδεση;';
 
   @override
   String get userSettingsLogOutConfirmDescription =>
-      'You can sign back in at any time.';
+      'Μπορείτε να συνδεθείτε ξανά οποιαδήποτε στιγμή.';
 
   @override
   String get quickSwitcherTabSearch => 'Αναζήτηση';
@@ -11247,11 +11260,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get quickSwitcherSearchFriends => 'Αναζήτηση φίλων';
 
   @override
-  String get quickSwitcherNoMatchesFound => 'Δεν βρέθηκαν αντιστοιχίες';
+  String get quickSwitcherNoMatchesFound => 'Δεν βρέθηκαν αποτελέσματα';
 
   @override
   String get quickSwitcherEmptyHint =>
-      'Δοκιμάστε ένα διαφορετικό όνομα ή χρησιμοποιήστε προθέματα @ / # / ! / * για να φιλτράρετε τα αποτελέσματα.';
+      'Δοκιμάστε άλλο όνομα ή χρησιμοποιήστε τα προθέματα @ / # / ! / * για να φιλτράρετε τα αποτελέσματα.';
 
   @override
   String get quickSwitcherSectionPeople => 'Άτομα';
@@ -11263,10 +11276,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get quickSwitcherSectionTextChannels => 'Κανάλια κειμένου';
 
   @override
-  String get quickSwitcherSectionVoiceChannels => 'Κανάλια φωνής';
+  String get quickSwitcherSectionVoiceChannels => 'Φωνητικά κανάλια';
 
   @override
-  String get quickSwitcherSectionCommunities => 'Κοινοτήτες';
+  String get quickSwitcherSectionCommunities => 'Κοινότητες';
 
   @override
   String get quickSwitcherSectionSettings => 'Ρυθμίσεις';
@@ -11275,7 +11288,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get quickSwitcherHomeLabel => 'Αρχική';
 
   @override
-  String get quickSwitcherDirectMessagesLabel => 'Άμεσα μηνύματα';
+  String get quickSwitcherDirectMessagesLabel => 'Απευθείας μηνύματα';
 
   @override
   String get quickSwitcherFavoritesLabel => 'Αγαπημένα';
@@ -11303,10 +11316,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get savedMessagesRemoveTooltip => 'Κατάργηση σελιδοδείκτη';
 
   @override
-  String get savedMessagesAddedToast => 'Added to bookmarks';
+  String get savedMessagesAddedToast => 'Προστέθηκε στους σελιδοδείκτες';
 
   @override
-  String get savedMessagesRemovedToast => 'Removed from bookmarks';
+  String get savedMessagesRemovedToast => 'Αφαιρέθηκε από τους σελιδοδείκτες';
 
   @override
   String get quickSwitcherMentionsLabel => 'Αναφορές';
@@ -11316,7 +11329,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get quickSwitcherFriendsEmptyHint =>
-      'Προσθέστε έναν φίλο για να ξεκινήσετε.';
+      'Πρόσθεσε έναν φίλο για να ξεκινήσεις.';
 
   @override
   String get quickSwitcherFriendsNoMatchTitle =>
@@ -11330,7 +11343,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get quickSwitcherSearchAliasUser => 'Χρήστης';
 
   @override
-  String get quickSwitcherSearchAliasYou => 'Εσύ';
+  String get quickSwitcherSearchAliasYou => 'Εσείς';
 
   @override
   String get quickSwitcherSearchAliasDm => 'DM';
@@ -11351,7 +11364,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get quickSwitcherSearchAliasInbox => 'Εισερχόμενα';
 
   @override
-  String get quickSwitcherSearchAliasSaved => 'Αποθηκευμένα';
+  String get quickSwitcherSearchAliasSaved => 'Αποθηκευμένη';
 
   @override
   String get uiClose => 'Κλείσιμο';
@@ -11408,7 +11421,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get uiDismissNotification => 'Απόρριψη ειδοποίησης';
 
   @override
-  String get uiColorPickerTitle => 'Επιλογέας χρώματος';
+  String get uiColorPickerTitle => 'Επιλογή χρώματος';
 
   @override
   String get mentionConfirmTitle => 'Να γίνει αναφορά σε όλους;';
@@ -11477,10 +11490,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Συνδεθείτε στην παρουσία για να συνδεθείτε';
 
   @override
-  String get comingSoon => 'Σύντομα κοντά σας';
+  String get comingSoon => 'Σύντομα';
 
   @override
-  String get guildNavbarDirectMessages => 'Άμεσα Μηνύματα';
+  String get guildNavbarDirectMessages => 'Απευθείας μηνύματα';
 
   @override
   String get guildNavbarExploreDiscoverableCommunities =>
@@ -11510,7 +11523,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get discoveryAllCategories => 'Όλα';
 
   @override
-  String get discoveryCategoryGaming => 'Gaming';
+  String get discoveryCategoryGaming => 'Παιχνίδια';
 
   @override
   String get discoveryCategoryMusic => 'Μουσική';
@@ -11522,22 +11535,22 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get discoveryCategoryEducation => 'Εκπαίδευση';
 
   @override
-  String get discoveryCategoryScienceAndTechnology => 'Επιστήμη & Τεχνολογία';
+  String get discoveryCategoryScienceAndTechnology => 'Επιστήμη και τεχνολογία';
 
   @override
-  String get discoveryCategoryContentCreator => 'Δημιουργός Περιεχομένου';
+  String get discoveryCategoryContentCreator => 'Δημιουργός περιεχομένου';
 
   @override
-  String get discoveryCategoryAnimeAndManga => 'Anime & Manga';
+  String get discoveryCategoryAnimeAndManga => 'Anime και manga';
 
   @override
-  String get discoveryCategoryMoviesAndTv => 'Ταινίες & TV';
+  String get discoveryCategoryMoviesAndTv => 'Ταινίες και τηλεόραση';
 
   @override
   String get discoveryCategoryOther => 'Άλλο';
 
   @override
-  String get discoveryNoCommunitiesMatch => 'Καμία κοινότητα δεν ταιριάζει.';
+  String get discoveryNoCommunitiesMatch => 'Δεν βρέθηκαν κοινότητες.';
 
   @override
   String get discoveryJoinCommunity => 'Συμμετοχή στην κοινότητα';
@@ -11569,37 +11582,37 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get discoveryNoDescription => 'Χωρίς περιγραφή.';
 
   @override
-  String get discoveryCommunities => 'Κοινοτήτων';
+  String get discoveryCommunities => 'Κοινότητες';
 
   @override
   String get discoveryApps => 'Εφαρμογές';
 
   @override
   String get discoveryJoinErrorGenericTitle =>
-      'Αδύνατη η συμμετοχή σε αυτήν την κοινότητα';
+      'Δεν ήταν δυνατή η συμμετοχή σε αυτήν την κοινότητα';
 
   @override
   String get discoveryJoinErrorGenericMessage =>
-      'Κάτι πήγε στραβά. Παρακαλώ δοκιμάστε ξανά σε λίγο.';
+      'Κάτι πήγε στραβά. Δοκιμάστε ξανά σε λίγο.';
 
   @override
-  String get discoveryJoinErrorFullTitle => 'Αυτή η κοινότητα είναι γεμάτη';
+  String get discoveryJoinErrorFullTitle => 'Αυτή η κοινότητα είναι πλήρης';
 
   @override
   String get discoveryJoinErrorFullMessage =>
-      'Αυτή η κοινότητα έφτασε στο όριο μελών της, οπότε δεν μπορείτε να συμμετάσχετε αυτήν τη στιγμή.';
+      'Αυτή η κοινότητα έχει φτάσει το όριο μελών της, οπότε δεν μπορείτε να συμμετάσχετε αυτήν τη στιγμή.';
 
   @override
   String get discoveryJoinErrorMaxGuildsTitle =>
-      'Έχετε φτάσει στο όριο κοινοτήτων';
+      'Έχετε φτάσει το όριο κοινοτήτων';
 
   @override
   String get discoveryJoinErrorMaxGuildsMessage =>
-      'Είστε στον μέγιστο αριθμό κοινοτήτων. Αφήστε μία και δοκιμάστε ξανά.';
+      'Έχετε φτάσει τον μέγιστο αριθμό κοινοτήτων. Αποχωρήστε από μία και δοκιμάστε ξανά.';
 
   @override
   String get discoveryJoinErrorBannedTitle =>
-      'Δεν μπορείτε να συμμετάσχετε σε αυτήν την κοινότητα';
+      'Δεν μπορείτε να μπείτε σε αυτήν την κοινότητα';
 
   @override
   String get discoveryJoinErrorBannedMessage =>
@@ -11611,10 +11624,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      'Μπορεί να έχει φύγει από την εξερεύνηση ή να έχει απενεργοποιήσει νέες συμμετοχές. Ανανεώστε τη σελίδα και δεν θα τη δείτε ξανά.';
+      'Ενδέχεται να έχει καταργηθεί από την Ανακάλυψη ή να έχει απενεργοποιήσει τις νέες συμμετοχές. Ανανεώστε τη σελίδα και δεν θα το ξαναδείτε.';
 
   @override
-  String get discoveryJoinErrorRateLimitTitle => 'Πηγαίνετε πολύ γρήγορα';
+  String get discoveryJoinErrorRateLimitTitle => 'Προχωράτε πολύ γρήγορα';
 
   @override
   String get discoveryJoinErrorRateLimitMessage =>
@@ -11627,7 +11640,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildNavbarHelp => 'Βοήθεια';
 
   @override
-  String get scrollIndicatorNew => 'NEW';
+  String get scrollIndicatorNew => 'ΝΕΟ';
 
   @override
   String get scrollIndicatorNewMessage => 'ΝΕΟ ΜΗΝΥΜΑ';
@@ -11734,7 +11747,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildFolderIconFolder => 'Φάκελος';
 
   @override
-  String get guildFolderIconStar => 'Με αστέρι';
+  String get guildFolderIconStar => 'Αστέρι';
 
   @override
   String get guildFolderIconHeart => 'Καρδιά';
@@ -11749,7 +11762,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildFolderIconShield => 'Ασπίδα';
 
   @override
-  String get guildFolderIconMusicNote => 'Νότα μουσικής';
+  String get guildFolderIconMusicNote => 'Μουσική νότα';
 
   @override
   String get guildFolderMarkAsRead => 'Σήμανση φακέλου ως αναγνωσμένου';
@@ -11792,14 +11805,14 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildBulkAllowBotDirectMessages =>
-      'Να επιτρέπονται απευθείας μηνύματα από bot';
+      'Να επιτρέπονται τα απευθείας μηνύματα από bot';
 
   @override
   String get guildBulkBlockBotDirectMessages =>
       'Αποκλεισμός απευθείας μηνυμάτων από bot';
 
   @override
-  String get guildNavbarGroupDm => 'Ομαδικό DM';
+  String get guildNavbarGroupDm => 'Ομαδική συνομιλία';
 
   @override
   String get guildNavbarCreateChannel => 'Δημιουργία καναλιού';
@@ -11815,7 +11828,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Αποστολή μηνυμάτων, εικόνων, GIF και emoji';
 
   @override
-  String get guildNavbarVoiceChannel => 'Κανάλι φωνής';
+  String get guildNavbarVoiceChannel => 'Φωνητικό κανάλι';
 
   @override
   String get guildNavbarVoiceChannelDescription =>
@@ -11866,7 +11879,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildNavbarNoFriendsYet => 'Δεν υπάρχουν φίλοι ακόμα';
 
   @override
-  String get guildNavbarNoResults => 'Δεν βρέθηκαν αποτελέσματα';
+  String get guildNavbarNoResults => 'Κανένα αποτέλεσμα';
 
   @override
   String get guildNavbarInviteLinkPrompt =>
@@ -11935,7 +11948,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildNavbarDeleteMyMessagesTitle =>
-      'Διαγραφή των μηνυμάτων σας σε αυτήν την κοινότητα;';
+      'Να διαγραφούν τα μηνύματά σας σε αυτήν την κοινότητα;';
 
   @override
   String get guildNavbarDeleteMyMessagesDescription =>
@@ -11952,7 +11965,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Δεν ήταν δυνατή η διαγραφή των μηνυμάτων σας';
 
   @override
-  String get guildNavbarRemoveOverride => 'Αφαίρεση παράκαμψης';
+  String get guildNavbarRemoveOverride => 'Κατάργηση παράκαμψης';
 
   @override
   String guildNavbarMutedUntil(String formattedDate) {
@@ -11966,7 +11979,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildNavbarInvitesPaused =>
-      'Οι προσκλήσεις έχουν παγώσει προσωρινά σε αυτήν την κοινότητα';
+      'Οι προσκλήσεις έχουν τεθεί σε παύση σε αυτήν την κοινότητα';
 
   @override
   String get guildNavbarDurationNever => 'ποτέ';
@@ -12009,7 +12022,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
-  String get guildMenuMarkAsRead => 'Σήμανση ως αναγνωσμένα';
+  String get guildMenuMarkAsRead => 'Σήμανση ως αναγνωσμένου';
 
   @override
   String get guildPeekMoreOptions => 'Περισσότερες επιλογές';
@@ -12036,7 +12049,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildMenuReportCommunity => 'Αναφορά κοινότητας';
 
   @override
-  String get guildMenuDebugCommunity => 'Αποσφαλμάτωση κοινότητας';
+  String get guildMenuDebugCommunity => 'Εντοπισμός σφαλμάτων κοινότητας';
 
   @override
   String get guildMenuCopyCommunityId => 'Αντιγραφή αναγνωριστικού κοινότητας';
@@ -12065,7 +12078,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildMenuSettingsActivityLog => 'Αρχείο δραστηριοτήτων';
 
   @override
-  String get guildMenuSettingsWebhooks => 'Webhooks';
+  String get guildMenuSettingsWebhooks => 'Webhook';
 
   @override
   String get guildMenuSettingsCustomInviteUrl => 'Προσαρμοσμένο URL πρόσκλησης';
@@ -12080,7 +12093,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildMenuSettingsInviteLinks => 'Προσκλήσεις';
 
   @override
-  String get guildMenuSettingsBans => 'Απαγορεύσεις';
+  String get guildMenuSettingsBans => 'Αποκλεισμοί';
 
   @override
   String get guildMenuSettingsChannels => 'Κανάλια';
@@ -12093,7 +12106,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildSettingsOverviewIconTitle => 'Εικονίδιο';
 
   @override
-  String get guildSettingsUploadImage => 'Μεταφόρτωση εικόνας';
+  String get guildSettingsUploadImage => 'Ανέβασμα εικόνας';
 
   @override
   String get guildSettingsOverviewBannerTitle => 'Banner';
@@ -12106,7 +12119,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildSettingsOverviewNameTitle => 'Όνομα';
 
   @override
-  String get guildSettingsOverviewNameHint => 'Η υπέροχη κοινότητά μου';
+  String get guildSettingsOverviewNameHint => 'Η τέλεια κοινότητά μου';
 
   @override
   String get guildSettingsOverviewStatsTitle => 'Στατιστικά';
@@ -12134,7 +12147,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildSettingsRolesDeleteRole => 'Διαγραφή ρόλου';
 
   @override
-  String get guildSettingsRolesBackToRoles => 'Πίσω στους ρόλους';
+  String get guildSettingsRolesBackToRoles => 'Επιστροφή στους ρόλους';
 
   @override
   String get guildSettingsBackToSettings => 'Επιστροφή στις ρυθμίσεις';
@@ -12159,7 +12172,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsRolesRoleColorHelper =>
-      'Πληκτρολογήστε ένα χρώμα (δεκαεξαδικό, rgb(), hsl() ή όνομα) ή χρησιμοποιήστε την επιλογή.';
+      'Πληκτρολογήστε ένα χρώμα (δεκαεξαδικό, rgb(), hsl() ή όνομα) ή χρησιμοποιήστε τον επιλογέα.';
 
   @override
   String get guildSettingsRolesShowSeparately =>
@@ -12195,10 +12208,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildSettingsRolesDenseLayout => 'Συμπαγής διάταξη';
 
   @override
-  String get guildSettingsRolesComfyLayout => 'Βολική διάταξη';
+  String get guildSettingsRolesComfyLayout => 'Άνετη διάταξη';
 
   @override
-  String get guildSettingsRolesSwitchToDenseLayout => 'Συμπυκνωμένη διάταξη';
+  String get guildSettingsRolesSwitchToDenseLayout =>
+      'Εναλλαγή σε συμπαγή διάταξη';
 
   @override
   String get guildSettingsRolesSwitchToComfyLayout =>
@@ -12227,7 +12241,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildSettingsRolesHoistOrder => 'Σειρά εμφάνισης';
 
   @override
-  String get guildSettingsRolesResetHoistOrder => 'Επαναφορά στις προεπιλογές';
+  String get guildSettingsRolesResetHoistOrder => 'Επαναφορά στην προεπιλογή';
 
   @override
   String get guildSettingsRolesHoistOrderHelp =>
@@ -12235,7 +12249,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsRolesNoHoistedRoles =>
-      'Δεν υπάρχουν εμφανείς ρόλοι. Ενεργοποίησε την επιλογή \"Εμφάνιση αυτού του ρόλου ξεχωριστά\" σε έναν ρόλο για να τον δεις εδώ.';
+      'Δεν υπάρχουν ρόλοι που να εμφανίζονται ξεχωριστά. Ενεργοποιήστε την επιλογή \"Εμφάνιση αυτού του ρόλου ξεχωριστά\" σε έναν ρόλο για να τον δείτε εδώ.';
 
   @override
   String get guildSettingsRolesLockedTooltip =>
@@ -12248,11 +12262,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsRolesCannotEditHigherRole =>
-      'Δεν μπορείς να επεξεργαστείς έναν ρόλο που είναι ίδιος ή ανώτερος από τον δικό σου';
+      'Δεν μπορείτε να επεξεργαστείτε ρόλο που βρίσκεται στο ίδιο ή σε ανώτερο επίπεδο από τον υψηλότερο ρόλο σας';
 
   @override
   String get guildSettingsRolesCannotGrantPermission =>
-      'Δεν μπορείς να δώσεις μια άδεια που δεν έχεις';
+      'Δεν μπορείτε να εκχωρήσετε δικαίωμα που δεν έχετε';
 
   @override
   String get guildSettingsRolesCannotRemoveOwnPermission =>
@@ -12260,10 +12274,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsRolesUpdatedSuccess =>
-      'Οι ρόλοι ενημερώθηκαν επιτυχώς';
+      'Οι ρόλοι ενημερώθηκαν με επιτυχία';
 
   @override
-  String get guildSettingsRolesCreatedSuccess => 'Ο ρόλος δημιουργήθηκε';
+  String get guildSettingsRolesCreatedSuccess =>
+      'Ο ρόλος δημιουργήθηκε με επιτυχία';
 
   @override
   String get guildSettingsRolesDeletedSuccess =>
@@ -12278,7 +12293,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsRolesNameRequiredBody =>
-      'Δώστε έναν τίτλο στον ρόλο πριν την αποθήκευση.';
+      'Δώστε ένα όνομα στον ρόλο πριν την αποθήκευση.';
 
   @override
   String get guildSettingsRolesCreateFailedTitle =>
@@ -12299,7 +12314,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsRolesResetHoistFailedTitle =>
-      'Δεν ήταν δυνατή η επαναφορά της σειράς ανύψωσης';
+      'Δεν ήταν δυνατή η επαναφορά της σειράς εμφάνισης';
 
   @override
   String get guildSettingsRolesTryAgainInAMoment => 'Δοκιμάστε ξανά σε λίγο.';
@@ -12328,14 +12343,14 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get permissionCategoryAudioVideo => 'Ήχος και βίντεο';
 
   @override
-  String get permissionUnknown => 'Άγνωστη άδεια';
+  String get permissionUnknown => 'Άγνωστο δικαίωμα';
 
   @override
   String get permissionAdministrator => 'Διαχειριστής';
 
   @override
   String get permissionAdministratorDescription =>
-      'Παρέχει όλες τις άδειες και παρακάμπτει τους περιορισμούς καναλιών. Εξαιρετικά ευαίσθητο.';
+      'Παρέχει όλα τα δικαιώματα και παρακάμπτει τους περιορισμούς καναλιών. Εξαιρετικά ευαίσθητο.';
 
   @override
   String get permissionViewActivityLog =>
@@ -12343,7 +12358,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get permissionViewActivityLogDescription =>
-      'Διαβάστε το αρχείο καταγραφής δραστηριότητας της κοινότητας για αλλαγές και ενέργειες συντονισμού.';
+      'Ανάγνωση του αρχείου καταγραφής δραστηριότητας της κοινότητας με τις αλλαγές και τις ενέργειες συντονισμού.';
 
   @override
   String get permissionManageCommunity => 'Διαχείριση κοινότητας';
@@ -12357,7 +12372,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get permissionManageRolesDescription =>
-      'Δημιουργία, επεξεργασία ή διαγραφή ρόλων κάτω από τον υψηλότερο ρόλο σας. Επίσης, επιτρέπει την επεξεργασία των αντικαταστάσεων δικαιωμάτων καναλιού.';
+      'Δημιουργία, επεξεργασία ή διαγραφή ρόλων κάτω από τον υψηλότερο ρόλο σας. Επιτρέπει επίσης την επεξεργασία των παρακάμψεων δικαιωμάτων καναλιού.';
 
   @override
   String get permissionManageChannels => 'Διαχείριση καναλιών';
@@ -12374,7 +12389,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get permissionManagePermissionsDescription =>
-      'Επεξεργασία εξαιρέσεων για ρόλους και μέλη σε αυτό το κανάλι.';
+      'Επεξεργασία παρακάμψεων για ρόλους και μέλη σε αυτό το κανάλι.';
 
   @override
   String get permissionManageWebhooksChannelDescription =>
@@ -12395,11 +12410,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get permissionOverwriteInherit => 'Ουδέτερο (κληρονομείται)';
 
   @override
-  String get permissionOverwriteAllow => 'Να επιτρέπεται';
+  String get permissionOverwriteAllow => 'Έγκριση';
 
   @override
   String get permissionOverwriteSetAllHelp =>
-      'Χρησιμοποιήστε αυτά τα κουμπιά για να ορίσετε γρήγορα όλες τις άδειες.';
+      'Χρησιμοποιήστε αυτά τα κουμπιά για να ορίσετε γρήγορα όλα τα δικαιώματα.';
 
   @override
   String get permissionManageChannelsDescription =>
@@ -12415,14 +12430,14 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get permissionCreateInviteLinks => 'Δημιουργία συνδέσμων πρόσκλησης';
 
   @override
-  String get permissionChangeOwnNickname => 'Αλλαγή δικού του ψευδώνυμου';
+  String get permissionChangeOwnNickname => 'Αλλαγή προσωπικού ψευδώνυμου';
 
   @override
   String get permissionChangeOwnNicknameDescription =>
-      'Ενημέρωσε το ψευδώνυμό σου.';
+      'Ενημέρωση του δικού σας ψευδωνύμου.';
 
   @override
-  String get permissionManageNicknames => 'Διαχείριση ψευδώνυμων';
+  String get permissionManageNicknames => 'Διαχείριση ψευδωνύμων';
 
   @override
   String get permissionManageNicknamesDescription =>
@@ -12434,7 +12449,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get permissionCreateEmojiStickersDescription =>
-      'Ανεβάστε νέα emoji και αυτοκόλλητα, και διαχειριστείτε τις δικές σας δημιουργίες.';
+      'Ανέβασμα νέων emoji και αυτοκόλλητων και διαχείριση των δικών σας δημιουργιών.';
 
   @override
   String get permissionManageEmojiStickers =>
@@ -12467,7 +12482,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get permissionManageMessagesDescription =>
-      'Διαγραφή μηνυμάτων άλλων μελών. Η καρφίτσωμα ελέγχεται ξεχωριστά.';
+      'Διαγραφή μηνυμάτων άλλων μελών. Το καρφίτσωμα ελέγχεται ξεχωριστά.';
 
   @override
   String get permissionPinMessages => 'Καρφίτσωμα μηνυμάτων';
@@ -12484,7 +12499,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get permissionMentionEveryoneDescription =>
-      'Αναφορά σε όλους ή σε οποιονδήποτε ρόλο (ακόμα κι αν ο ρόλος δεν έχει οριστεί ως αναφοράς).';
+      'Αναφορά σε όλους ή σε οποιονδήποτε ρόλο (ακόμα κι αν δεν επιτρέπονται οι αναφορές για αυτόν τον ρόλο).';
 
   @override
   String get permissionUseExternalEmoji => 'Χρήση εξωτερικών emoji';
@@ -12511,7 +12526,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Παράβλεψη ορίων ρυθμού μηνυμάτων ανά κανάλι.';
 
   @override
-  String get permissionTimeOutMembers => 'Θέση σε προσωρινή αναστολή μελών';
+  String get permissionTimeOutMembers => 'Προσωρινός περιορισμός μελών';
 
   @override
   String get permissionTimeOutMembersDescription =>
@@ -12541,7 +12556,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get permissionUseVoiceActivityDescription =>
-      'Χωρίς αυτήν την άδεια, απαιτείται η λειτουργία push-to-talk.';
+      'Χωρίς αυτό το δικαίωμα, απαιτείται η λειτουργία push-to-talk.';
 
   @override
   String get permissionPrioritySpeaker => 'Ομιλητής προτεραιότητας';
@@ -12550,7 +12565,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get permissionMuteMembers => 'Σίγαση μελών';
 
   @override
-  String get permissionDeafenMembers => 'Σίγαση μελών';
+  String get permissionDeafenMembers => 'Σίγαση ήχου μελών';
 
   @override
   String get permissionMoveMembers => 'Μετακίνηση μελών';
@@ -12585,7 +12600,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationVerificationDescription =>
-      'Επιλέξτε τι πρέπει να έχουν τα μέλη πριν μπορούν να δημοσιεύουν ή να στέλνουν απευθείας μηνύματα σε μέλη της κοινότητας.';
+      'Επιλέξτε τι πρέπει να έχουν τα μέλη πριν δημοσιεύσουν ή στείλουν DM σε μέλη της κοινότητας.';
 
   @override
   String get guildSettingsModerationVerificationRolesBypass =>
@@ -12597,21 +12612,21 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationMatureTitle =>
-      'Ώριμο περιεχόμενο & προειδοποιήσεις περιεχομένου';
+      'Περιεχόμενο για ενήλικες και προειδοποιήσεις περιεχομένου';
 
   @override
   String get guildSettingsModerationMatureSectionDescription =>
       'Ρυθμίστε την επισήμανση ώριμου περιεχομένου και τις προαιρετικές προειδοποιήσεις περιεχομένου για τα μέλη.';
 
   @override
-  String get guildSettingsModerationMatureToggle => 'Ώριμο περιεχόμενο';
+  String get guildSettingsModerationMatureToggle => 'Περιεχόμενο για ενήλικες';
 
   @override
   String get guildSettingsModerationMatureToggleDescription =>
       'Σημειώστε αυτήν την κοινότητα ως περιέχουσα ώριμο περιεχόμενο.';
 
   @override
-  String get guildSettingsVerificationNone => 'Κανένα';
+  String get guildSettingsVerificationNone => 'Καμία';
 
   @override
   String get guildSettingsVerificationNoneDescription =>
@@ -12622,10 +12637,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsVerificationLowDescription =>
-      'Απαιτεί μια επαληθευμένη διεύθυνση email.';
+      'Απαιτείται επαληθευμένη διεύθυνση email.';
 
   @override
-  String get guildSettingsVerificationMedium => 'Μεσαίο';
+  String get guildSettingsVerificationMedium => 'Μέτριο';
 
   @override
   String get guildSettingsVerificationMediumDescription =>
@@ -12636,25 +12651,26 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsVerificationHighDescription =>
-      'Απαιτεί τα πάντα στο μεσαίο επίπεδο, συν ότι είναι μέλος της κοινότητας για τουλάχιστον 10 λεπτά.';
+      'Απαιτούνται όλα όσα και στο επίπεδο \"Μέτρια\", καθώς και συμμετοχή στην κοινότητα για τουλάχιστον 10 λεπτά.';
 
   @override
   String get guildSettingsVerificationHighest => 'Πολύ υψηλό';
 
   @override
   String get guildSettingsVerificationHighestDescription =>
-      'Απαιτεί έναν επαληθευμένο αριθμό τηλεφώνου.';
+      'Απαιτείται επαληθευμένος αριθμός τηλεφώνου.';
 
   @override
   String get guildSettingsAuditLogDescription =>
-      'Παρακολουθήστε τις ενέργειες των συντονιστών σε όλη την κοινότητα.';
+      'Παρακολούθηση των ενεργειών των συντονιστών σε όλη την κοινότητα.';
 
   @override
-  String get guildSettingsAuditLogEmpty => 'Δεν υπάρχουν ακόμη καταγραφές';
+  String get guildSettingsAuditLogEmpty =>
+      'Δεν υπάρχουν ακόμα αρχεία καταγραφής';
 
   @override
   String get guildSettingsAuditLogEmptyDescription =>
-      'Οι ενέργειες συντονισμού και οι αλλαγές στην κοινότητα θα εμφανίζονται εδώ.';
+      'Εδώ θα εμφανίζονται οι ενέργειες συντονισμού και οι αλλαγές στην κοινότητα.';
 
   @override
   String get guildSettingsAuditLogFilterAllUsers => 'Όλοι οι χρήστες';
@@ -12674,10 +12690,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsAuditLogLoadErrorTitle =>
-      'Αδυναμία φόρτωσης αρχείων καταγραφής δραστηριοτήτων';
+      'Δεν είναι δυνατή η φόρτωση του αρχείου δραστηριοτήτων';
 
   @override
-  String get guildSettingsAuditLogReason => 'Αιτιολογία';
+  String get guildSettingsAuditLogReason => 'Λόγος';
 
   @override
   String get guildSettingsAuditLogSomeone => 'κάποιος';
@@ -12728,14 +12744,15 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get auditLogActionMemberBanAdd => 'Το μέλος αποκλείστηκε';
 
   @override
-  String get auditLogActionMemberBanRemove => 'Το μέλος αποαποκλείστηκε';
+  String get auditLogActionMemberBanRemove =>
+      'Ο αποκλεισμός του μέλους καταργήθηκε';
 
   @override
   String get auditLogActionMemberUpdate => 'Το μέλος ενημερώθηκε';
 
   @override
   String get auditLogActionMemberRoleUpdate =>
-      'Οι ρόλοι των μελών ενημερώθηκαν';
+      'Οι ρόλοι του μέλους ενημερώθηκαν';
 
   @override
   String get auditLogActionMemberMove => 'Το μέλος μετακινήθηκε';
@@ -12744,7 +12761,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get auditLogActionMemberDisconnect => 'Το μέλος αποσυνδέθηκε';
 
   @override
-  String get auditLogActionBotAdd => 'Το bot προστέθηκε';
+  String get auditLogActionBotAdd => 'Προστέθηκε bot';
 
   @override
   String get auditLogActionRoleCreate => 'Ο ρόλος δημιουργήθηκε';
@@ -12753,55 +12770,55 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get auditLogActionRoleUpdate => 'Ο ρόλος ενημερώθηκε';
 
   @override
-  String get auditLogActionRoleDelete => 'Ρόλος διαγράφηκε';
+  String get auditLogActionRoleDelete => 'Ο ρόλος διαγράφηκε';
 
   @override
-  String get auditLogActionInviteCreate => 'Πρόσκληση δημιουργήθηκε';
+  String get auditLogActionInviteCreate => 'Η πρόσκληση δημιουργήθηκε';
 
   @override
   String get auditLogActionInviteUpdate => 'Πρόσκληση ενημερώθηκε';
 
   @override
-  String get auditLogActionInviteDelete => 'Πρόσκληση διαγράφηκε';
+  String get auditLogActionInviteDelete => 'Η πρόσκληση διαγράφηκε';
 
   @override
-  String get auditLogActionWebhookCreate => 'Webhook δημιουργήθηκε';
+  String get auditLogActionWebhookCreate => 'Το webhook δημιουργήθηκε';
 
   @override
-  String get auditLogActionWebhookUpdate => 'Webhook ενημερώθηκε';
+  String get auditLogActionWebhookUpdate => 'Το webhook ενημερώθηκε';
 
   @override
-  String get auditLogActionWebhookDelete => 'Webhook διαγράφηκε';
+  String get auditLogActionWebhookDelete => 'Το webhook διαγράφηκε';
 
   @override
-  String get auditLogActionEmojiCreate => 'Emoji δημιουργήθηκε';
+  String get auditLogActionEmojiCreate => 'Δημιουργήθηκε emoji';
 
   @override
-  String get auditLogActionEmojiUpdate => 'Emoji ενημερώθηκε';
+  String get auditLogActionEmojiUpdate => 'Το emoji ενημερώθηκε';
 
   @override
-  String get auditLogActionEmojiDelete => 'Emoji διαγράφηκε';
+  String get auditLogActionEmojiDelete => 'Το emoji διαγράφηκε';
 
   @override
-  String get auditLogActionStickerCreate => 'Αυτοκόλλητο δημιουργήθηκε';
+  String get auditLogActionStickerCreate => 'Το αυτοκόλλητο δημιουργήθηκε';
 
   @override
-  String get auditLogActionStickerUpdate => 'Αυτοκόλλητο ενημερώθηκε';
+  String get auditLogActionStickerUpdate => 'Το αυτοκόλλητο ενημερώθηκε';
 
   @override
-  String get auditLogActionStickerDelete => 'Αυτοκόλλητο διαγράφηκε';
+  String get auditLogActionStickerDelete => 'Το αυτοκόλλητο διαγράφηκε';
 
   @override
-  String get auditLogActionMessageDelete => 'Μήνυμα διαγράφηκε';
+  String get auditLogActionMessageDelete => 'Το μήνυμα διαγράφηκε';
 
   @override
-  String get auditLogActionMessageBulkDelete => 'Μηνύματα διαγράφηκαν';
+  String get auditLogActionMessageBulkDelete => 'Τα μηνύματα διαγράφηκαν';
 
   @override
-  String get auditLogActionMessagePin => 'Μήνυμα καρφιτσώθηκε';
+  String get auditLogActionMessagePin => 'Το μήνυμα καρφιτσώθηκε';
 
   @override
-  String get auditLogActionMessageUnpin => 'Μήνυμα ξεκαρφιτσώθηκε';
+  String get auditLogActionMessageUnpin => 'Το μήνυμα αποκαρφιτσώθηκε';
 
   @override
   String auditLogSummaryGuildUpdate(String actor) {
@@ -13228,7 +13245,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildSettingsLoadMore => 'Φόρτωση περισσότερων';
 
   @override
-  String get guildSettingsLoadingMore => 'Loading...';
+  String get guildSettingsLoadingMore => 'Φόρτωση...';
 
   @override
   String get guildSettingsWebhooksDescription =>
@@ -13294,7 +13311,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Καταχώρισε την κοινότητά σου στην Ανακάλυψη, ώστε να μπορούν να τη βρουν και να συμμετάσχουν σε αυτήν και άλλοι.';
+      'Καταχώρισε την κοινότητά σου στην Ανακάλυψη, για να μπορούν άλλοι να τη βρουν και να μπουν σε αυτήν.';
 
   @override
   String get guildSettingsDiscoveryNotEnoughMembersTitle =>
@@ -13345,14 +13362,14 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryPrimaryLanguageHelp =>
-      'Η γλώσσα που μιλάει η κοινότητά σου. Χρησιμοποιείται για το φιλτράρισμα των αποτελεσμάτων στην Ανακάλυψη.';
+      'Η γλώσσα που μιλάει η κοινότητά σας. Χρησιμοποιείται για το φιλτράρισμα των αποτελεσμάτων στην Ανακάλυψη.';
 
   @override
   String get guildSettingsDiscoveryDescriptionField => 'Περιγραφή';
 
   @override
   String get guildSettingsDiscoveryDescriptionPlaceholder =>
-      'Περιέγραψε την κοινότητά σου';
+      'Περιγράψτε την κοινότητά σας';
 
   @override
   String get guildSettingsDiscoveryDescriptionRequired =>
@@ -13378,7 +13395,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryTagsHint =>
-      'Πρόσθεσε μια ετικέτα και πάτησε Enter';
+      'Προσθέστε μια ετικέτα και πατήστε Enter';
 
   @override
   String get guildSettingsDiscoveryAddTag => 'Προσθήκη';
@@ -13399,7 +13416,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String guildSettingsDiscoveryTagLimit(int maxTags) {
-    return 'Μπορείτε να προσθέσετε έως $maxTags ετικέτες.';
+    return 'Μπορείτε να προσθέσετε μόνο έως $maxTags ετικέτες.';
   }
 
   @override
@@ -13413,7 +13430,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApplicationSent =>
-      'Η αίτηση ανακάλυψης στάλθηκε';
+      'Η αίτηση για την Ανακάλυψη στάλθηκε';
 
   @override
   String get guildSettingsDiscoveryListingUpdated =>
@@ -13421,11 +13438,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsDiscoveryApplicationWithdrawn =>
-      'Η αίτηση ανακάλυψης αποσύρθηκε';
+      'Η αίτηση για την Ανακάλυψη αποσύρθηκε';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorTitle =>
-      'Αδυναμία ανάκλησης αίτησης';
+      'Δεν ήταν δυνατή η απόσυρση της αίτησης';
 
   @override
   String get guildSettingsDiscoveryWithdrawErrorDescription =>
@@ -13455,7 +13472,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildMembersSort => 'Ταξινόμηση';
 
   @override
-  String get guildSettingsMembersSortNewest => 'Νεότεροι πρώτα';
+  String get guildSettingsMembersSortNewest => 'Πιο πρόσφατα πρώτα';
 
   @override
   String get guildMembersSortOldest => 'Παλαιότερα πρώτα';
@@ -13552,7 +13569,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String guildMembersGoToPageItem(int page) {
-    return 'Πήγαινε στη σελίδα $page';
+    return 'Μετάβαση στη σελίδα $page';
   }
 
   @override
@@ -13650,7 +13667,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsInvitesEmptyDescription =>
-      'Αυτή η κοινότητα δεν έχει συνδέσμους πρόσκλησης ακόμα. Πήγαινε σε ένα κανάλι και δημιούργησε μια πρόσκληση για να καλέσεις άτομα.';
+      'Αυτή η κοινότητα δεν έχει συνδέσμους πρόσκλησης ακόμα. Μεταβείτε σε ένα κανάλι και δημιουργήστε μια πρόσκληση για να προσκαλέσετε άτομα.';
 
   @override
   String get guildSettingsInvitesLoadFailedTitle =>
@@ -13683,7 +13700,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsInvitesPauseConfirmDescription =>
-      'Παύση προσκλήσεων; Οι νέοι χρήστες δεν θα μπορούν να μπουν μέσω συνδέσμων πρόσκλησης μέχρι να τις ενεργοποιήσεις ξανά. Τα υπάρχοντα μέλη δεν θα επηρεαστούν.';
+      'Παύση προσκλήσεων; Οι νέοι χρήστες δεν θα μπορούν να μπουν μέσω συνδέσμων πρόσκλησης μέχρι να τις ενεργοποιήσετε ξανά. Τα υπάρχοντα μέλη δεν θα επηρεαστούν.';
 
   @override
   String get guildSettingsInvitesEnableConfirmDescription =>
@@ -13820,17 +13837,17 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Δεν ήταν δυνατή η ανάκληση του αποκλεισμού. Δοκιμάστε ξανά.';
 
   @override
-  String get guildSettingsCommunitySettings => 'Ρυθμίσεις Κοινότητας';
+  String get guildSettingsCommunitySettings => 'Ρυθμίσεις κοινότητας';
 
   @override
-  String get guildSettingsDeleteCommunity => 'Delete community';
+  String get guildSettingsDeleteCommunity => 'Διαγραφή κοινότητας';
 
   @override
   String get guildSettingsDeleteCommunityConfirm =>
-      'Are you sure you want to delete this community? This action cannot be undone. All channels, messages, and settings will be permanently deleted.';
+      'Είστε σίγουροι ότι θέλετε να διαγράψετε αυτήν την κοινότητα; Αυτή η ενέργεια δεν μπορεί να αναιρεθεί. Όλα τα κανάλια, τα μηνύματα και οι ρυθμίσεις θα διαγραφούν οριστικά.';
 
   @override
-  String get guildSettingsCommunityDeleted => 'Community deleted';
+  String get guildSettingsCommunityDeleted => 'Η κοινότητα διαγράφηκε';
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
@@ -13860,7 +13877,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Ενημερώστε το εικονίδιο, το όνομα, το banner και το φόντο πρόσκλησης';
 
   @override
-  String get guildSettingsOverviewBannerUpload => 'Μεταφόρτωση banner';
+  String get guildSettingsOverviewBannerUpload => 'Ανέβασμα banner';
 
   @override
   String get guildSettingsOverviewIdleTitle => 'Ρυθμίσεις αδράνειας';
@@ -13882,7 +13899,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsOverviewNotificationsLargeGuild =>
-      'Οι κοινότητες με πάνω από 250 άτομα αναγκάζονται στη ρύθμιση \"μόνο αναφορές\". Η αρχική σας ρύθμιση διατηρείται και θα αποκατασταθεί εάν η κοινότητα πέσει κάτω από 250 μέλη.';
+      'Οι κοινότητες με πάνω από 250 άτομα αναγκάζονται να χρησιμοποιούν τη ρύθμιση \"μόνο αναφορές\". Η αρχική σας ρύθμιση διατηρείται και θα αποκατασταθεί αν η κοινότητα πέσει κάτω από 250 μέλη.';
 
   @override
   String get guildSettingsOverviewAdvancedTitle => 'Για προχωρημένους';
@@ -13893,17 +13910,17 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsOverviewHideOwnerCrown =>
-      'Απόκρυψη κορώνας διαχειριστή κοινότητας';
+      'Απόκρυψη στέμματος ιδιοκτήτη κοινότητας';
 
   @override
-  String get guildSettingsOverviewDetachedBanner => 'Αποσπασμένο banner';
+  String get guildSettingsOverviewDetachedBanner => 'Ξεχωριστό banner';
 
   @override
   String get guildSettingsOverviewDetachedBannerHint =>
-      'Εμφανίζει το banner σε δική του ενότητα κάτω από την κεφαλίδα της κοινότητας.';
+      'Εμφανίζει το banner στη δική του ενότητα κάτω από την κεφαλίδα της κοινότητας.';
 
   @override
-  String get guildSettingsOverviewUploadIcon => 'Μεταφόρτωση εικονιδίου';
+  String get guildSettingsOverviewUploadIcon => 'Ανέβασμα εικονιδίου';
 
   @override
   String get guildSettingsOverviewRemoveImage => 'Αφαίρεση';
@@ -13917,14 +13934,14 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsOverviewEmbedSplashHint =>
-      'Εμφανίζεται σε ενσωματώσεις πρόσκλησης στη συνομιλία.';
+      'Εμφανίζεται στις ενσωματώσεις πρόσκλησης στη συνομιλία.';
 
   @override
-  String get guildSettingsOverviewUploadBackground => 'Μεταφόρτωση φόντου';
+  String get guildSettingsOverviewUploadBackground => 'Ανέβασμα φόντου';
 
   @override
   String get guildSettingsOverviewNoCommunityBanner =>
-      'Χωρίς banner κοινότητας';
+      'Δεν υπάρχει banner κοινότητας';
 
   @override
   String get guildSettingsOverviewNoInviteBackground =>
@@ -13943,7 +13960,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsOverviewOwnerCrownTitle =>
-      'Κορώνα διαχειριστή κοινότητας';
+      'Στέμμα κατόχου κοινότητας';
 
   @override
   String get guildSettingsOverviewOwnerCrownDescription =>
@@ -13963,7 +13980,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsSplashAlignmentHint =>
-      'Ισχύει μόνο σε ευρείες οθόνες.';
+      'Εφαρμόζεται μόνο σε μεγάλες οθόνες.';
 
   @override
   String get permissionReadMessageHistory => 'Ανάγνωση ιστορικού μηνυμάτων';
@@ -13980,7 +13997,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsOverviewMessageHistoryOpen =>
-      'Άνοιγμα ορίου ιστορικού μηνυμάτων';
+      'Όριο ιστορικού μηνυμάτων';
 
   @override
   String get guildSettingsMessageHistoryThresholdTitle =>
@@ -14003,7 +14020,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsOverviewFlexibleNamesHint =>
-      'Επιτρέπει κεφαλαία γράμματα και κενά στα ονόματα καναλιών κειμένου. Η απενεργοποίηση περιορίζει τα ονόματα σε πεζά με παύλες και κάτω παύλες.';
+      'Να επιτρέπονται κεφαλαία γράμματα και κενά στα ονόματα των καναλιών κειμένου. Η απενεργοποίηση περιορίζει τα ονόματα σε πεζά με παύλες και κάτω παύλες.';
 
   @override
   String get guildSettingsOverviewHideOwnerCrownHint =>
@@ -14018,7 +14035,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Τα κινούμενα banners απαιτούν τη δυνατότητα κοινότητας \"Animated Banner\".';
 
   @override
-  String get guildSettingsAfkChannel => 'Κανάλι AFK / αδράνειας';
+  String get guildSettingsAfkChannel => 'Κανάλι αδράνειας / AFK';
 
   @override
   String get guildSettingsAfkChannelHint =>
@@ -14028,7 +14045,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildSettingsNoAfkChannel => 'Χωρίς κανάλι AFK';
 
   @override
-  String get guildSettingsAfkTimeout => 'Χρονικό όριο AFK';
+  String get guildSettingsAfkTimeout => 'Χρονικό όριο αδράνειας';
 
   @override
   String get guildSettingsAfkTimeout1Min => '1 λεπτό';
@@ -14058,7 +14075,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Μηνύματα καλωσορίσματος και συστήματος θα εμφανίζονται εδώ.';
 
   @override
-  String get guildSettingsNoSystemChannel => 'Χωρίς κανάλι συστήματος';
+  String get guildSettingsNoSystemChannel => 'Δεν υπάρχει κανάλι συστήματος';
 
   @override
   String get guildSettingsHideJoinMessages => 'Απόκρυψη μηνυμάτων εισόδου';
@@ -14107,7 +14124,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDescription =>
-      'Αυτόματη σάρωση μηνυμάτων για περιεχόμενο που είναι ακατάλληλο σε κανάλια που δεν έχουν επισημανθεί ως περιεχόμενο για ενηλίκους.';
+      'Αυτόματος έλεγχος των μηνυμάτων για ακατάλληλο περιεχόμενο σε κανάλια που δεν έχουν επισημανθεί για περιεχόμενο ενηλίκων.';
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
@@ -14118,7 +14135,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsContentFilterOffDescription =>
-      'Αφήστε την κοινότητα να αυτο-εποπτεύεται';
+      'Άσε την κοινότητα να συντονίζεται μόνη της';
 
   @override
   String get guildSettingsContentFilterNoRole =>
@@ -14155,7 +14172,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsContentWarningTextPlaceholder =>
-      'Αυτό περιέχει ευαίσθητο περιεχόμενο.';
+      'Περιέχει ευαίσθητο περιεχόμενο.';
 
   @override
   String get guildSettingsModeration2faTitle => 'Απαίτηση 2FA';
@@ -14166,11 +14183,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsModeration2faSwitchLabel =>
-      'Απαίτηση 2FA για ενέργειες διαχείρισης';
+      'Απαίτηση 2FA για ενέργειες συντονισμού';
 
   @override
   String get guildSettingsModeration2faOwnerOnlyTooltip =>
-      'Μόνο ο ιδιοκτήτης της κοινότητας μπορεί να αλλάξει αυτήν τη ρύθμιση';
+      'Μόνο ο κάτοχος της κοινότητας μπορεί να αλλάξει αυτήν τη ρύθμιση';
 
   @override
   String get guildSettingsModeration2faEnableFirstTooltip =>
@@ -14180,7 +14197,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildSettingsEmojiSearchHint => 'Αναζήτηση emoji';
 
   @override
-  String get guildSettingsEmojiUploadTitle => 'Αποστολή emoji';
+  String get guildSettingsEmojiUploadTitle => 'Ανέβασμα emoji';
 
   @override
   String get guildSettingsEmojiSlotsTitle => 'Θέσεις για emoji';
@@ -14207,7 +14224,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String guildSettingsEmojiUploadRequirements(String maxSize) {
-    return 'Τα ονόματα emoji πρέπει να έχουν τουλάχιστον 2 χαρακτήρες και μπορούν να χρησιμοποιούν γράμματα, αριθμούς και κάτω παύλες. Τα emoji πρέπει να είναι μικρότερα από $maxSize. Οι στατικές εικόνες αλλάζουν αυτόματα μέγεθος σε 128x128 εικονοστοιχία και συμπιέζονται αυτόματα. Τα κινούμενα emoji και τα SVG πρέπει ήδη να ταιριάζουν με το όριο.';
+    return 'Τα ονόματα emoji πρέπει να έχουν τουλάχιστον 2 χαρακτήρες και μπορούν να χρησιμοποιούν γράμματα, αριθμούς και κάτω παύλες. Τα emoji πρέπει να είναι μικρότερα από $maxSize. Οι στατικές εικόνες αλλάζουν μέγεθος σε 128x128 εικονοστοιχία και συμπιέζονται αυτόματα. Τα κινούμενα emoji και τα SVG πρέπει να είναι ήδη εντός του ορίου.';
   }
 
   @override
@@ -14250,7 +14267,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildSettingsEmojiColumnName => 'Όνομα';
 
   @override
-  String get guildSettingsEmojiColumnUploader => 'Αναρτήθηκε από';
+  String get guildSettingsEmojiColumnUploader => 'Ανέβηκε από';
 
   @override
   String get guildSettingsEmojiUnknownUploader => 'Άγνωστο';
@@ -14280,18 +14297,18 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsEmojiRenameFailedTitle =>
-      'Αδυναμία μετονομασίας αυτού του emoji';
+      'Δεν ήταν δυνατή η μετονομασία αυτού του emoji';
 
   @override
   String get guildSettingsEmojiRenameFailedBody =>
-      'Το όνομα επανήλθε στην προηγούμενη του κατάσταση. Δοκιμάστε ξανά σε λίγο.';
+      'Το όνομα επανήλθε σε αυτό που ήταν πριν. Δοκιμάστε ξανά σε λίγο.';
 
   @override
   String get guildSettingsEmojiGoneTitle => 'Αυτό το emoji δεν υπάρχει πλέον';
 
   @override
   String get guildSettingsEmojiGoneBody =>
-      'Ενδέχεται να έχει διαγραφεί. Το όνομα επανήλθε στην προηγούμενη κατάστασή του.';
+      'Ενδέχεται να έχει διαγραφεί. Το όνομα επανήλθε σε αυτό που ήταν πριν.';
 
   @override
   String get guildSettingsEmojiNoPermissionRenameTitle =>
@@ -14299,7 +14316,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsEmojiNoPermissionRenameBody =>
-      'Δεν έχετε δικαίωμα να μετονομάσετε αυτό το emoji. Το όνομα επανήλθε στην προηγούμενη του κατάσταση.';
+      'Δεν έχετε δικαίωμα να μετονομάσετε αυτό το emoji. Το όνομα επανήλθε στο προηγούμενο.';
 
   @override
   String get guildSettingsEmojiRateLimitedTitle => 'Προχωράτε πολύ γρήγορα';
@@ -14310,7 +14327,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsEmojiDeleteFailedTitle =>
-      'Αδυναμία διαγραφής αυτού του emoji';
+      'Δεν ήταν δυνατή η διαγραφή αυτού του emoji';
 
   @override
   String get guildSettingsEmojiDeleteNoPermissionTitle =>
@@ -14372,7 +14389,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildSettingsStickerDensity => 'Πυκνότητα αυτοκόλλητων';
 
   @override
-  String get guildSettingsStickerDensityCozy => 'Ζεστό';
+  String get guildSettingsStickerDensityCozy => 'Άνετο';
 
   @override
   String get guildSettingsStickerDensityCompact => 'Συμπαγής';
@@ -14402,7 +14419,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String guildSettingsStickerUploadRequirements(String maxSize) {
-    return 'Τα αυτοκόλλητα αποθηκεύονται σε 320x320 εικονοστοιχία και πρέπει να είναι μικρότερα από $maxSize. Οι στατικές εικόνες αλλάζουν αυτόματα μέγεθος και συμπιέζονται. Τα κινούμενα αυτοκόλλητα και τα SVG πρέπει ήδη να ταιριάζουν με το όριο.';
+    return 'Τα αυτοκόλλητα αποθηκεύονται σε 320x320 εικονοστοιχία και πρέπει να είναι μικρότερα από $maxSize. Οι στατικές εικόνες αλλάζουν αυτόματα μέγεθος και συμπιέζονται. Τα κινούμενα αυτοκόλλητα και τα SVG πρέπει να είναι ήδη εντός του ορίου.';
   }
 
   @override
@@ -14425,7 +14442,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildSettingsStickerDescriptionLabel => 'Περιγραφή';
 
   @override
-  String get guildSettingsStickerDescriptionHint => 'Περιέγραψε το αυτοκόλλητο';
+  String get guildSettingsStickerDescriptionHint => 'Περιγράψτε το αυτοκόλλητο';
 
   @override
   String guildSettingsStickerTagsLabel(int count, int limit) {
@@ -14463,7 +14480,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsStickerCompressFailedTitle =>
-      'Το αυτοκόλλητο δεν συμπιέστηκε αρκετά';
+      'Δεν ήταν δυνατή η επαρκής συμπίεση του αυτοκόλλητου';
 
   @override
   String get guildSettingsStickerDeleteTitle => 'Διαγραφή αυτοκόλλητου';
@@ -14475,7 +14492,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get guildSettingsStickerPurgeLabel =>
-      'Διαγραφή αυτού του αυτοκόλλητου από τον χώρο αποθήκευσης και το CDN';
+      'Εκκαθάριση αυτού του αυτοκόλλητου από τον χώρο αποθήκευσης και το CDN';
 
   @override
   String get guildSettingsStickerDeleteFailedTitle =>
@@ -14522,10 +14539,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get guildSettingsAuditLogFilterUser => 'Φιλτράρισμα κατά χρήστη';
 
   @override
-  String get guildSettingsAuditLogFilterAction => 'Φιλτράρισμα κατά ενέργειας';
+  String get guildSettingsAuditLogFilterAction => 'Φιλτράρισμα κατά ενέργεια';
 
   @override
-  String get createDm => 'Δημιουργία νέας συνομιλίας';
+  String get createDm => 'Δημιουργία DM';
 
   @override
   String get createGroupDm => 'Δημιουργία ομαδικής συνομιλίας';
@@ -14547,15 +14564,15 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get createDmNoFriendsFound => 'Δεν βρέθηκαν φίλοι';
 
   @override
-  String get createDmNoFriendsYet => 'Δεν έχεις φίλους ακόμα';
+  String get createDmNoFriendsYet => 'Δεν έχετε φίλους ακόμα';
 
   @override
   String get createDmClaimToStartDms =>
-      'Διεκδικήστε τον λογαριασμό σας για να ξεκινήσετε απευθείας μηνύματα.';
+      'Διεκδικήστε τον λογαριασμό σας για να ξεκινήσετε DM.';
 
   @override
   String get createDmVerifyToStartDms =>
-      'Επαληθεύστε το email σας για να ξεκινήσετε απευθείας μηνύματα.';
+      'Επαληθεύστε το email σας για να ξεκινήσετε DM.';
 
   @override
   String get createDmVerifyYourEmail => 'Επαληθεύστε το email σας';
@@ -14581,7 +14598,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get createDmDuplicateGroupDescription =>
-      'Έχεις ήδη μια ομάδα με αυτούς τους χρήστες. Θέλεις όντως να δημιουργήσεις μια νέα; Κανένα πρόβλημα!';
+      'Έχετε ήδη μια ομάδα με αυτούς τους χρήστες. Θέλετε όντως να δημιουργήσετε μια νέα; Κανένα πρόβλημα!';
 
   @override
   String get createDmNoActivityYet => 'Καμία δραστηριότητα ακόμα';
@@ -14611,10 +14628,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get createDmUnaddableBlocked =>
-      'Δεν μπορείς να στείλεις μήνυμα σε αυτόν τον χρήστη';
+      'Δεν μπορείτε να στείλετε μήνυμα σε αυτόν τον χρήστη';
 
   @override
-  String get createDmUnaddableNotFriends => 'Δεν είναι στη λίστα φίλων σου';
+  String get createDmUnaddableNotFriends => 'Δεν είναι στη λίστα φίλων σας';
 
   @override
   String get createDmUnaddableGroupDisabled =>
@@ -14628,7 +14645,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get dmListMessagesTitle => 'Μηνύματα';
 
   @override
-  String get dmListDirectMessagesTitle => 'Άμεσα μηνύματα';
+  String get dmListDirectMessagesTitle => 'Απευθείας μηνύματα';
 
   @override
   String get keybindsSearchShortcuts => 'Αναζήτηση συντομεύσεων';
@@ -14643,7 +14660,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get keybindSectionNavigation => 'Πλοήγηση';
 
   @override
-  String get keybindSectionDragAndDrop => 'Σύρετε και αποθέστε';
+  String get keybindSectionDragAndDrop => 'Μεταφορά και απόθεση';
 
   @override
   String get keybindSectionChat => 'Συνομιλία';
@@ -14662,7 +14679,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get keybindActionCopyText => 'Αντιγραφή κειμένου';
 
   @override
-  String get keybindActionMarkUnread => 'Σήμανση ως μη αναγνωσμένο';
+  String get keybindActionMarkUnread => 'Σήμανση ως μη αναγνωσμένου';
 
   @override
   String get keybindActionFocusTextarea => 'Εστίαση στο πεδίο κειμένου';
@@ -14675,7 +14692,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get keybindActionHistoryBack =>
-      'Πλοήγηση προς τα πίσω στο ιστορικό καναλιών που προβλήθηκαν';
+      'Μετακίνηση προς τα πίσω στο ιστορικό καναλιών που προβλήθηκαν';
 
   @override
   String get keybindActionHistoryForward =>
@@ -14687,14 +14704,14 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get keybindActionJumpMentionChannels =>
-      'Μετάβαση σε μη αναγνωσμένα κανάλια με αναφορές';
+      'Μετάβαση μεταξύ μη αναγνωσμένων καναλιών με αναφορές';
 
   @override
   String get keybindActionJumpCurrentCall => 'Μετάβαση στην τρέχουσα κλήση';
 
   @override
   String get keybindActionToggleLastGuildDms =>
-      'Εναλλαγή μεταξύ τελευταίας κοινότητας και προσωπικών μηνυμάτων';
+      'Εναλλαγή μεταξύ τελευταίας κοινότητας και DM';
 
   @override
   String get keybindActionPreviousCommunityOrDms =>
@@ -14705,7 +14722,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Εναλλαγή στην επόμενη κοινότητα ή στα DM';
 
   @override
-  String get keybindActionGoToDms => 'Μετάβαση στα άμεσα μηνύματα';
+  String get keybindActionGoToDms => 'Μετάβαση στα απευθείας μηνύματα';
 
   @override
   String get keybindActionGoToFirstCommunity => 'Μετάβαση στην πρώτη κοινότητα';
@@ -14726,18 +14743,19 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Μετάβαση στην πέμπτη κοινότητα';
 
   @override
-  String get keybindActionGoToSixthCommunity => 'Πήγαινε στην έκτη κοινότητα';
+  String get keybindActionGoToSixthCommunity => 'Μετάβαση στην έκτη κοινότητα';
 
   @override
   String get keybindActionGoToSeventhCommunity =>
-      'Πήγαινε στην έβδομη κοινότητα';
+      'Μετάβαση στην έβδομη κοινότητα';
 
   @override
   String get keybindActionGoToEighthCommunity =>
       'Μετάβαση στην όγδοη κοινότητα';
 
   @override
-  String get keybindActionToggleQuickSwitcher => 'Εναλλαγή γρήγορης εναλλαγής';
+  String get keybindActionToggleQuickSwitcher =>
+      'Εμφάνιση/απόκρυψη γρήγορης εναλλαγής';
 
   @override
   String get keybindActionCreateOrJoinCommunity =>
@@ -14757,7 +14775,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get keybindActionMarkCommunityRead =>
-      'Σήμανση κοινότητας ως αναγνωσμένη';
+      'Σήμανση κοινότητας ως αναγνωσμένης';
 
   @override
   String get keybindActionMarkChannelRead => 'Σήμανση καναλιού ως αναγνωσμένου';
@@ -14774,11 +14792,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get keybindActionMarkTopInboxRead =>
-      'Σήμανση του κορυφαίου καναλιού εισερχομένων ως αναγνωσμένου';
+      'Σήμανση του πρώτου καναλιού εισερχομένων ως αναγνωσμένου';
 
   @override
   String get keybindActionMarkAllInboxRead =>
-      'Σήμανση όλων των συνομιλιών εισερχομένων ως αναγνωσμένων';
+      'Σήμανση όλων των καναλιών εισερχομένων ως αναγνωσμένων';
 
   @override
   String get keybindActionToggleMemberList =>
@@ -14788,11 +14806,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get keybindActionToggleEmojiPicker => 'Εναλλαγή επιλογέα emoji';
 
   @override
-  String get keybindActionToggleGifPicker => 'Εναλλαγή επιλογής GIF';
+  String get keybindActionToggleGifPicker => 'Εναλλαγή επιλογέα GIF';
 
   @override
   String get keybindActionToggleStickerPicker =>
-      'Εναλλαγή επιλογής αυτοκόλλητων';
+      'Εναλλαγή επιλογέα αυτοκόλλητων';
 
   @override
   String get keybindActionScrollChatUp => 'Κύλιση συνομιλίας προς τα πάνω';
@@ -14808,7 +14826,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get keybindActionFocusComposer => 'Εστίαση στο πεδίο κειμένου';
 
   @override
-  String get keybindActionUploadFile => 'Αποστολή αρχείου';
+  String get keybindActionUploadFile => 'Ανέβασμα αρχείου';
 
   @override
   String get keybindActionCopyChannelLink => 'Αντιγραφή συνδέσμου καναλιού';
@@ -14827,10 +14845,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get keybindActionDeclineCall => 'Απόρριψη εισερχόμενης κλήσης';
 
   @override
-  String get keybindActionStartDmCall => 'Ξεκινήστε μια κλήση σε DM ή ομάδα';
+  String get keybindActionStartDmCall => 'Έναρξη κλήσης σε DM ή ομάδα';
 
   @override
-  String get keybindActionToggleSoundboard => 'Εναλλαγή ηχοσανίδας';
+  String get keybindActionToggleSoundboard => 'Εναλλαγή πίνακα ήχων';
 
   @override
   String get keybindActionToggleCompactCallView =>
@@ -14841,7 +14859,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get keybindActionVoiceActivityPriority =>
-      'Προτεραιότητα δραστηριότητας φωνής';
+      'Προτεραιότητα φωνητικής δραστηριότητας';
 
   @override
   String get keybindActionOpenHelp => 'Άνοιγμα βοήθειας';
@@ -14915,7 +14933,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get assistantOkOpened => 'Opening Fluxer.';
 
   @override
-  String get assistantOkMessageSent => 'Message sent.';
+  String get assistantOkMessageSent => 'Το μήνυμα στάλθηκε.';
 
   @override
   String get assistantOkCustomStatusSet => 'Custom status updated.';

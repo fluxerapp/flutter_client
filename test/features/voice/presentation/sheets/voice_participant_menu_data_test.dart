@@ -16,8 +16,8 @@ VoiceParticipantMenuLabels _labels() {
     userVolume: 'User volume',
     streamVolume: 'Stream volume',
     prioritizeSpeakers: 'Prioritize speakers',
-    watchStream: 'Watch Stream',
-    stopWatching: 'Stop Watching',
+    watchStream: 'Watch stream',
+    stopWatching: 'Stop watching',
     stopStreaming: 'Stop streaming',
   );
 }
@@ -200,7 +200,7 @@ void main() {
     );
 
     expect(_hasLabel(groups, 'View profile'), isFalse);
-    expect(_findAction(groups, 'Watch Stream'), isNotNull);
+    expect(_findAction(groups, 'Watch stream'), isNotNull);
     expect(_findVolume(groups, 'User volume'), isNull);
   });
 
@@ -217,7 +217,7 @@ void main() {
       ),
     );
 
-    expect(_findAction(groups, 'Stop Watching'), isNotNull);
+    expect(_findAction(groups, 'Stop watching'), isNotNull);
     expect(_findCheckbox(groups, 'Mute'), isNotNull);
     expect(_findVolume(groups, 'Stream volume'), isNotNull);
     expect(_hasLabel(groups, 'View profile'), isFalse);

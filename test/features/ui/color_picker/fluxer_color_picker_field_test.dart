@@ -37,7 +37,7 @@ void main() {
           FluxerColorPickerField(
             value: 0x112233,
             onChanged: values.add,
-            label: 'Accent Color',
+            label: 'Accent color',
           ),
         ),
       );
@@ -55,7 +55,7 @@ void main() {
           FluxerColorPickerField(
             value: 0x112233,
             onChanged: values.add,
-            label: 'Accent Color',
+            label: 'Accent color',
           ),
         ),
       );
@@ -100,7 +100,7 @@ void main() {
           FluxerColorPickerField(
             value: 0x112233,
             onChanged: (_) {},
-            label: 'Accent Color',
+            label: 'Accent color',
           ),
         ),
       );

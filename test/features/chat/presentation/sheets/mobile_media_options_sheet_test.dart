@@ -85,7 +85,7 @@ void main() {
       await tester.tap(find.text('Open in browser'));
       await tester.pumpAndSettle();
 
-      expect(find.text('External Link Warning'), findsOneWidget);
+      expect(find.text('External link warning'), findsOneWidget);
       expect(find.text(_externalEmbedUrl), findsOneWidget);
     },
   );
@@ -231,13 +231,13 @@ void main() {
     await tester.tap(find.text('open'));
     await tester.pumpAndSettle();
 
-    final Finder editAltText = find.text('Edit Alt Text');
+    final Finder editAltText = find.text('Edit alt text');
     await tester.ensureVisible(editAltText);
     await tester.pumpAndSettle();
     await tester.tap(editAltText);
     await tester.pumpAndSettle();
 
     expect(find.text('Edit attachment'), findsOneWidget);
-    expect(find.text('Edit Alt Text'), findsNothing);
+    expect(find.text('Edit alt text'), findsNothing);
   });
 }

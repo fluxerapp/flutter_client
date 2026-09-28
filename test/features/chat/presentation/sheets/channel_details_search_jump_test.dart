@@ -317,7 +317,7 @@ void main() {
     // resolves on removal from the stack, not when the transition ends.
     await tester.longPress(find.byType(MessagePreviewTile).first);
     await tester.pumpAndSettle();
-    final Finder jumpItem = find.text('Jump to Message');
+    final Finder jumpItem = find.text('Jump to message');
     expect(jumpItem, findsOneWidget, reason: 'the action menu must be open');
 
     await tester.tap(jumpItem);

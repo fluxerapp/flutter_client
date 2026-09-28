@@ -115,7 +115,7 @@ void main() {
     await tester.tap(find.text('Open in browser'));
     await tester.pumpAndSettle();
 
-    expect(find.text('External Link Warning'), findsOneWidget);
+    expect(find.text('External link warning'), findsOneWidget);
     expect(find.text('https://www.youtube.com/watch?v=abc'), findsOneWidget);
   });
 

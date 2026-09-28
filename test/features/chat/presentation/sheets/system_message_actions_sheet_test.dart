@@ -116,20 +116,20 @@ void main() {
       await tester.tap(find.text('Open'));
       await tester.pumpAndSettle();
 
-      expect(find.text('Add Reaction'), findsOneWidget);
-      expect(find.text('Mark as Unread'), findsOneWidget);
-      expect(find.text('Copy Message Link'), findsOneWidget);
-      expect(find.text('Copy Message ID'), findsOneWidget);
-      expect(find.text('Delete Message'), findsOneWidget);
-      expect(find.text('Debug Message'), findsOneWidget);
+      expect(find.text('Add reaction'), findsOneWidget);
+      expect(find.text('Mark as unread'), findsOneWidget);
+      expect(find.text('Copy message link'), findsOneWidget);
+      expect(find.text('Copy message ID'), findsOneWidget);
+      expect(find.text('Delete message'), findsOneWidget);
+      expect(find.text('Debug message'), findsOneWidget);
 
       expect(find.text('Reply'), findsNothing);
       expect(find.text('Forward'), findsNothing);
-      expect(find.text('Edit Message'), findsNothing);
+      expect(find.text('Edit message'), findsNothing);
       expect(find.text('Pin message'), findsNothing);
-      expect(find.text('Bookmark Message'), findsNothing);
-      expect(find.text('Report Message'), findsNothing);
-      expect(find.text('Copy Message'), findsNothing);
+      expect(find.text('Bookmark message'), findsNothing);
+      expect(find.text('Report message'), findsNothing);
+      expect(find.text('Copy message'), findsNothing);
     },
   );
 
@@ -175,8 +175,8 @@ void main() {
     await tester.tap(find.text('Open'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Copy Message'), findsOneWidget);
-    await tester.tap(find.text('Copy Message'));
+    expect(find.text('Copy message'), findsOneWidget);
+    await tester.tap(find.text('Copy message'));
     await tester.pumpAndSettle();
 
     final l10n = testL10n;

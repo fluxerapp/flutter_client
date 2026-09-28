@@ -216,7 +216,7 @@ void main() {
       const UserSettingsSearchHit sectionHit = UserSettingsSearchHit(
         id: 'section:lookAndFeel',
         section: UserSettingsSection.lookAndFeel,
-        label: 'Look & Feel',
+        label: 'Look & feel',
         score: 80,
       );
       final UserSettingsSearchSidebar sidebar = buildUserSettingsSearchSidebar(

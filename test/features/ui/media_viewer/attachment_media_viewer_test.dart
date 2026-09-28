@@ -294,7 +294,7 @@ void main() {
       );
       await tester.pump();
 
-      expect(find.byTooltip('Add to Favorites'), findsOneWidget);
+      expect(find.byTooltip('Add to favorites'), findsOneWidget);
     });
 
     testWidgets('uses touch gesture page when touch is primary', (

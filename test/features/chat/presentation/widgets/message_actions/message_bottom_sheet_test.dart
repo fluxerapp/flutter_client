@@ -199,10 +199,10 @@ void main() {
       await tester.tap(find.text('Open'));
       await tester.pumpAndSettle();
 
-      final deleteItems = find.text('Delete Attachment');
+      final deleteItems = find.text('Delete attachment');
       expect(deleteItems, findsNWidgets(2));
 
-      final editAltTextItems = find.text('Edit Alt Text');
+      final editAltTextItems = find.text('Edit alt text');
       expect(editAltTextItems, findsOneWidget);
 
       await tester.ensureVisible(deleteItems.first);
@@ -248,7 +248,7 @@ void main() {
       await tester.tap(find.text('Open'));
       await tester.pumpAndSettle();
 
-      expect(find.text('Delete Attachment'), findsNothing);
+      expect(find.text('Delete attachment'), findsNothing);
     });
   });
 

@@ -193,7 +193,7 @@ void main() {
     expect(find.text('Theme'), findsOneWidget);
     expect(find.text('High dynamic range'), findsOneWidget);
     expect(find.text('App zoom level'), findsOneWidget);
-    expect(find.text('Chat Wallpaper'), findsOneWidget);
+    expect(find.text('Chat wallpaper'), findsOneWidget);
     expect(
       find.text('Choose a background for chat. This stays on this device.'),
       findsOneWidget,
@@ -201,8 +201,8 @@ void main() {
     expect(find.text('Dim wallpaper'), findsOneWidget);
     expect(find.text('Messages'), findsOneWidget);
     expect(find.text('Interface'), findsOneWidget);
-    expect(find.text('Channel List'), findsOneWidget);
-    expect(find.text('Active Now'), findsOneWidget);
+    expect(find.text('Channel list'), findsOneWidget);
+    expect(find.text('Active now'), findsOneWidget);
     expect(find.text('Favorites'), findsOneWidget);
   });
 
@@ -297,7 +297,7 @@ void main() {
     );
     await tester.pump();
 
-    await tester.tap(find.bySemanticsLabel('Light Theme'));
+    await tester.tap(find.bySemanticsLabel('Light theme'));
     await tester.pump();
 
     expect(container.read(themePreferenceProvider).mode, FluxerThemeMode.light);
@@ -351,11 +351,11 @@ void main() {
     expect(container.read(appearancePreferencesProvider).showFavorites, isTrue);
 
     await tester.dragUntilVisible(
-      find.bySemanticsLabel(RegExp('Enable Favorites')),
+      find.bySemanticsLabel(RegExp('Enable favorites')),
       find.byType(Scrollable),
       const Offset(0, -200),
     );
-    await tester.tap(find.bySemanticsLabel(RegExp('Enable Favorites')));
+    await tester.tap(find.bySemanticsLabel(RegExp('Enable favorites')));
     await tester.pump();
 
     expect(
