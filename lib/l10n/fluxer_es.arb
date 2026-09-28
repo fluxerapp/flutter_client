@@ -134,22 +134,6 @@
     "@orDivider": {
         "description": "Divider between alternative actions (e.g. email login vs SSO)."
     },
-    "captchaTitle": "Verifica que eres humano",
-    "@captchaTitle": {
-        "description": "Title for the captcha verification modal."
-    },
-    "captchaDescription": "Necesitamos asegurarnos de que no eres un bot. Por favor, completa la verificación a continuación.",
-    "@captchaDescription": {
-        "description": "Explanatory text in the captcha modal body."
-    },
-    "captchaSwitchToHcaptcha": "¿Tienes problemas? Prueba hCaptcha en su lugar",
-    "@captchaSwitchToHcaptcha": {
-        "description": "Link to switch from Turnstile to hCaptcha provider."
-    },
-    "captchaSwitchToTurnstile": "Prueba Turnstile en su lugar",
-    "@captchaSwitchToTurnstile": {
-        "description": "Link to switch from hCaptcha to Turnstile provider."
-    },
     "cancel": "Cancelar",
     "@cancel": {
         "description": "Generic cancel button label."
@@ -9380,10 +9364,6 @@
     "phoneNotEligible": "La verificación telefónica no está disponible para esta cuenta. Usa otro método o contacta con soporte.",
     "@phoneNotEligible": {
         "description": "Account not eligible for phone verification."
-    },
-    "phoneCaptchaRequired": "Se requiere una comprobación del navegador antes de la verificación del teléfono. Inténtalo de nuevo desde la página de inicio de sesión o contacta con el soporte.",
-    "@phoneCaptchaRequired": {
-        "description": "Captcha required for phone verification."
     },
     "phoneSomethingWentWrong": "Ha ocurrido un error. Inténtalo de nuevo.",
     "@phoneSomethingWentWrong": {

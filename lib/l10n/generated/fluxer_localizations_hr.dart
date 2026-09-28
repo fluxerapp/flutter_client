@@ -240,20 +240,6 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Potvrdite da ste čovjek';
-
-  @override
-  String get captchaDescription =>
-      'Moramo provjeriti niste li bot. Molimo dovršite provjeru u nastavku.';
-
-  @override
-  String get captchaSwitchToHcaptcha =>
-      'Imate poteškoća? Umjesto toga pokušajte s hCaptchom';
-
-  @override
-  String get captchaSwitchToTurnstile => 'Pokušajte s Turnstileom';
-
-  @override
   String get cancel => 'Odustani';
 
   @override
@@ -2439,10 +2425,6 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   @override
   String get phoneNotEligible =>
       'Telefonska provjera nije dostupna za ovaj račun. Upotrijebite drugu metodu ili se obratite podršci.';
-
-  @override
-  String get phoneCaptchaRequired =>
-      'Potrebna je provjera preglednika prije provjere telefona. Pokušajte ponovno sa stranice za prijavu ili se obratite podršci.';
 
   @override
   String get phoneSomethingWentWrong =>
@@ -11571,6 +11553,9 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get authHidePassword => 'Sakrij lozinku';
+
+  @override
+  String get authCheckStillWorking => 'Still working on it…';
 
   @override
   String get chatLoadingMessages => 'Učitavanje poruka';

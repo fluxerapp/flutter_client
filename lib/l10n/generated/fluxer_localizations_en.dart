@@ -239,19 +239,6 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Verify you\'re human';
-
-  @override
-  String get captchaDescription =>
-      'We need to make sure you\'re not a bot. Please complete the verification below.';
-
-  @override
-  String get captchaSwitchToHcaptcha => 'Having issues? Try hCaptcha instead';
-
-  @override
-  String get captchaSwitchToTurnstile => 'Try Turnstile instead';
-
-  @override
   String get cancel => 'Cancel';
 
   @override
@@ -2416,10 +2403,6 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   @override
   String get phoneNotEligible =>
       'Phone verification is not available for this account. Use another method or contact support.';
-
-  @override
-  String get phoneCaptchaRequired =>
-      'A browser check is required before phone verification. Try again from the sign-in page or contact support.';
 
   @override
   String get phoneSomethingWentWrong => 'Something went wrong. Try again.';
@@ -11461,6 +11444,9 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get authHidePassword => 'Hide password';
 
   @override
+  String get authCheckStillWorking => 'Still working on it…';
+
+  @override
   String get chatLoadingMessages => 'Loading messages';
 
   @override
@@ -14876,19 +14862,6 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Verify you\'re human';
-
-  @override
-  String get captchaDescription =>
-      'We need to make sure you\'re not a bot. Please complete the verification below.';
-
-  @override
-  String get captchaSwitchToHcaptcha => 'Having issues? Try hCaptcha instead';
-
-  @override
-  String get captchaSwitchToTurnstile => 'Try Turnstile instead';
-
-  @override
   String get cancel => 'Cancel';
 
   @override
@@ -17053,10 +17026,6 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   @override
   String get phoneNotEligible =>
       'Phone verification is not available for this account. Use another method or contact support.';
-
-  @override
-  String get phoneCaptchaRequired =>
-      'A browser check is required before phone verification. Try again from the sign-in page or contact support.';
 
   @override
   String get phoneSomethingWentWrong => 'Something went wrong. Try again.';
@@ -26031,6 +26000,9 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get authHidePassword => 'Hide password';
 
   @override
+  String get authCheckStillWorking => 'Still working on it…';
+
+  @override
   String get chatLoadingMessages => 'Loading messages';
 
   @override
@@ -29396,19 +29368,6 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Verify you\'re human';
-
-  @override
-  String get captchaDescription =>
-      'We need to make sure you\'re not a bot. Please complete the verification below.';
-
-  @override
-  String get captchaSwitchToHcaptcha => 'Having issues? Try hCaptcha instead';
-
-  @override
-  String get captchaSwitchToTurnstile => 'Try Turnstile instead';
-
-  @override
   String get cancel => 'Cancel';
 
   @override
@@ -31573,10 +31532,6 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   @override
   String get phoneNotEligible =>
       'Phone verification is not available for this account. Use another method or contact support.';
-
-  @override
-  String get phoneCaptchaRequired =>
-      'A browser check is required before phone verification. Try again from the sign-in page or contact support.';
 
   @override
   String get phoneSomethingWentWrong => 'Something went wrong. Try again.';
@@ -40232,6 +40187,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get authHidePassword => 'Hide password';
+
+  @override
+  String get authCheckStillWorking => 'Still working on it…';
 
   @override
   String get chatLoadingMessages => 'Loading messages';

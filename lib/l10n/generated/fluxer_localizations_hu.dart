@@ -241,20 +241,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Igazold, hogy ember vagy';
-
-  @override
-  String get captchaDescription =>
-      'Biztosítanunk kell, hogy nem vagy bot. Kérjük, végezd el az alábbi ellenőrzést.';
-
-  @override
-  String get captchaSwitchToHcaptcha =>
-      'Problémába ütköztél? Próbáld inkább a hCaptchát';
-
-  @override
-  String get captchaSwitchToTurnstile => 'Próbáld meg inkább a Turnstile-t';
-
-  @override
   String get cancel => 'Mégse';
 
   @override
@@ -2453,10 +2439,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   @override
   String get phoneNotEligible =>
       'A telefonszám-ellenőrzés nem érhető el ehhez a fiókhoz. Használj másik módszert, vagy fordulj az ügyfélszolgálathoz.';
-
-  @override
-  String get phoneCaptchaRequired =>
-      'A telefonszám ellenőrzése előtt böngészőellenőrzés szükséges. Próbáld újra a bejelentkezési oldalról, vagy fordulj az ügyfélszolgálathoz.';
 
   @override
   String get phoneSomethingWentWrong => 'Hiba történt. Próbáld újra.';
@@ -11642,6 +11624,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get authHidePassword => 'Jelszó elrejtése';
+
+  @override
+  String get authCheckStillWorking => 'Still working on it…';
 
   @override
   String get chatLoadingMessages => 'Üzenetek betöltése';

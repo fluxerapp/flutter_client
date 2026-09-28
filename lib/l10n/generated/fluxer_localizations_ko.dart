@@ -231,18 +231,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => '사람인지 확인';
-
-  @override
-  String get captchaDescription => '봇이 아님을 확인해야 합니다. 아래 인증을 완료해주세요.';
-
-  @override
-  String get captchaSwitchToHcaptcha => '문제가 있으신가요? hCaptcha를 대신 사용해 보세요';
-
-  @override
-  String get captchaSwitchToTurnstile => '대신 Turnstile을 시도해 보세요';
-
-  @override
   String get cancel => '취소';
 
   @override
@@ -2330,10 +2318,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   @override
   String get phoneNotEligible =>
       '이 계정에서는 전화 인증을 사용할 수 없습니다. 다른 방법을 사용하거나 고객지원팀에 문의하세요.';
-
-  @override
-  String get phoneCaptchaRequired =>
-      '전화번호 인증 전에 브라우저 확인이 필요합니다. 로그인 페이지에서 다시 시도하거나 고객지원팀에 문의하세요.';
 
   @override
   String get phoneSomethingWentWrong => '문제가 발생했습니다. 다시 시도해 주세요.';
@@ -11021,6 +11005,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get authHidePassword => '비밀번호 숨기기';
+
+  @override
+  String get authCheckStillWorking => 'Still working on it…';
 
   @override
   String get chatLoadingMessages => '메시지 불러오는 중';

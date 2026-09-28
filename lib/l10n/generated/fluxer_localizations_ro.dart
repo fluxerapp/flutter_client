@@ -240,20 +240,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Confirmă că ești om';
-
-  @override
-  String get captchaDescription =>
-      'Trebuie să ne asigurăm că nu ești un robot. Te rugăm să finalizezi verificarea de mai jos.';
-
-  @override
-  String get captchaSwitchToHcaptcha =>
-      'Întâmpini probleme? Încearcă hCaptcha în schimb';
-
-  @override
-  String get captchaSwitchToTurnstile => 'Încearcă Turnstile în schimb';
-
-  @override
   String get cancel => 'Anulează';
 
   @override
@@ -2447,10 +2433,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   @override
   String get phoneNotEligible =>
       'Verificarea numărului de telefon nu este disponibilă pentru acest cont. Folosește o altă metodă sau contactează asistența.';
-
-  @override
-  String get phoneCaptchaRequired =>
-      'Este necesară o verificare în browser înainte de verificarea telefonică. Încearcă din nou de pe pagina de conectare sau contactează asistența.';
 
   @override
   String get phoneSomethingWentWrong =>
@@ -11620,6 +11602,9 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get authHidePassword => 'Ascunde parola';
+
+  @override
+  String get authCheckStillWorking => 'Still working on it…';
 
   @override
   String get chatLoadingMessages => 'Se încarcă mesajele';

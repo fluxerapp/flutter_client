@@ -8,7 +8,7 @@ cd "${ROOT}"
 files="$(
   git ls-files '*.dart' \
     | grep -vE '\.(g|freezed|pb|pbenum|pbjson|fcm)\.dart$' \
-    | grep -vE '^(dart_sdk|build|cloudflare_turnstile|packages/fluxer_fcm)/' \
+    | grep -vE '^(dart_sdk|build|packages/fluxer_fcm)/' \
     | grep -vE '^lib/core/synced_preferences/generated/' \
     || true
 )"

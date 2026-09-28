@@ -240,20 +240,6 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Επιβεβαιώστε ότι είστε άνθρωπος';
-
-  @override
-  String get captchaDescription =>
-      'Πρέπει να βεβαιωθούμε ότι δεν είστε ρομπότ. Ολοκληρώστε την επαλήθευση παρακάτω.';
-
-  @override
-  String get captchaSwitchToHcaptcha =>
-      'Αντιμετωπίζετε προβλήματα; Δοκιμάστε το hCaptcha';
-
-  @override
-  String get captchaSwitchToTurnstile => 'Δοκιμάστε το Turnstile αντ\' αυτού';
-
-  @override
   String get cancel => 'Ακύρωση';
 
   @override
@@ -2452,10 +2438,6 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   @override
   String get phoneNotEligible =>
       'Η επαλήθευση τηλεφώνου δεν είναι διαθέσιμη για αυτόν τον λογαριασμό. Χρησιμοποιήστε άλλη μέθοδο ή επικοινωνήστε με την υποστήριξη.';
-
-  @override
-  String get phoneCaptchaRequired =>
-      'Απαιτείται έλεγχος προγράμματος περιήγησης πριν από την επαλήθευση τηλεφώνου. Δοκιμάστε ξανά από τη σελίδα σύνδεσης ή επικοινωνήστε με την υποστήριξη.';
 
   @override
   String get phoneSomethingWentWrong => 'Κάτι πήγε στραβά. Δοκιμάστε ξανά.';
@@ -11675,6 +11657,9 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get authHidePassword => 'Απόκρυψη κωδικού';
+
+  @override
+  String get authCheckStillWorking => 'Still working on it…';
 
   @override
   String get chatLoadingMessages => 'Φόρτωση μηνυμάτων';

@@ -239,20 +239,6 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Потвърди, че си човек';
-
-  @override
-  String get captchaDescription =>
-      'Трябва да се уверим, че не сте бот. Моля, завършете проверката по-долу.';
-
-  @override
-  String get captchaSwitchToHcaptcha =>
-      'Имаш проблеми? Опитай hCaptcha вместо това';
-
-  @override
-  String get captchaSwitchToTurnstile => 'Опитай с Turnstile вместо това';
-
-  @override
   String get cancel => 'Отказ';
 
   @override
@@ -2441,10 +2427,6 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   @override
   String get phoneNotEligible =>
       'Потвърждаването по телефон не е налично за този акаунт. Използвай друг метод или се свържи с поддръжката.';
-
-  @override
-  String get phoneCaptchaRequired =>
-      'Необходима е проверка на браузъра, преди да потвърдиш телефона си. Опитай отново от страницата за вход или се свържи с екипа за поддръжка.';
 
   @override
   String get phoneSomethingWentWrong => 'Нещо се обърка. Опитай отново.';
@@ -11659,6 +11641,9 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get authHidePassword => 'Скрий паролата';
+
+  @override
+  String get authCheckStillWorking => 'Still working on it…';
 
   @override
   String get chatLoadingMessages => 'Зареждане на съобщения';

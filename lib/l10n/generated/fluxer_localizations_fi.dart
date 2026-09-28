@@ -239,21 +239,6 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Vahvista, että olet ihminen';
-
-  @override
-  String get captchaDescription =>
-      'Meidän on varmistettava, ettet ole botti. Suorita vahvistus alla.';
-
-  @override
-  String get captchaSwitchToHcaptcha =>
-      'Onko ongelmia? Kokeile sen sijaan hCaptchaa';
-
-  @override
-  String get captchaSwitchToTurnstile =>
-      'Kokeile sen sijaan Turnstile-varmennusta';
-
-  @override
   String get cancel => 'Peruuta';
 
   @override
@@ -2437,10 +2422,6 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   @override
   String get phoneNotEligible =>
       'Puhelinnumeron vahvistus ei ole käytettävissä tällä tilillä. Käytä toista menetelmää tai ota yhteyttä tukeen.';
-
-  @override
-  String get phoneCaptchaRequired =>
-      'Selaimen tarkistus vaaditaan ennen puhelinnumeron vahvistamista. Yritä uudelleen kirjautumissivulta tai ota yhteyttä tukeen.';
 
   @override
   String get phoneSomethingWentWrong => 'Jokin meni pieleen. Yritä uudelleen.';
@@ -11554,6 +11535,9 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get authHidePassword => 'Piilota salasana';
+
+  @override
+  String get authCheckStillWorking => 'Still working on it…';
 
   @override
   String get chatLoadingMessages => 'Ladataan viestejä';

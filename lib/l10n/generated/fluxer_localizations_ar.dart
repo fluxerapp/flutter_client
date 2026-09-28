@@ -239,20 +239,6 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'تأكيد أنك لست روبوتًا';
-
-  @override
-  String get captchaDescription =>
-      'نحتاج للتأكد من أنك لست روبوتًا. الرجاء إكمال التحقق أدناه.';
-
-  @override
-  String get captchaSwitchToHcaptcha =>
-      'هل تواجه مشكلات؟ جرّب hCaptcha بدلاً من ذلك';
-
-  @override
-  String get captchaSwitchToTurnstile => 'جرّب Turnstile بدلاً من ذلك';
-
-  @override
   String get cancel => 'إلغاء';
 
   @override
@@ -2414,10 +2400,6 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   @override
   String get phoneNotEligible =>
       'التحقق من الهاتف غير متاح لهذا الحساب. استخدم طريقة أخرى أو اتصل بالدعم.';
-
-  @override
-  String get phoneCaptchaRequired =>
-      'يلزم إجراء فحص للمتصفح قبل التحقق من رقم الهاتف. حاول مرة أخرى من صفحة تسجيل الدخول أو اتصل بالدعم.';
 
   @override
   String get phoneSomethingWentWrong => 'حدث خطأ ما. يُرجى المحاولة مرة أخرى.';
@@ -11431,6 +11413,9 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get authHidePassword => 'إخفاء كلمة المرور';
+
+  @override
+  String get authCheckStillWorking => 'Still working on it…';
 
   @override
   String get chatLoadingMessages => 'جارٍ تحميل الرسائل';

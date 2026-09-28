@@ -240,19 +240,6 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Verifica di essere una persona';
-
-  @override
-  String get captchaDescription =>
-      'Dobbiamo assicurarci che tu non sia un bot. Completa la verifica qui sotto.';
-
-  @override
-  String get captchaSwitchToHcaptcha => 'Problemi? Prova hCaptcha';
-
-  @override
-  String get captchaSwitchToTurnstile => 'Prova Turnstile';
-
-  @override
   String get cancel => 'Annulla';
 
   @override
@@ -2439,10 +2426,6 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   @override
   String get phoneNotEligible =>
       'La verifica telefonica non è disponibile per questo account. Usa un altro metodo o contatta l\'assistenza.';
-
-  @override
-  String get phoneCaptchaRequired =>
-      'È richiesto un controllo del browser prima della verifica telefonica. Riprova dalla pagina di accesso o contatta il supporto.';
 
   @override
   String get phoneSomethingWentWrong => 'Si è verificato un errore. Riprova.';
@@ -11609,6 +11592,9 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
 
   @override
   String get authHidePassword => 'Nascondi password';
+
+  @override
+  String get authCheckStillWorking => 'Still working on it…';
 
   @override
   String get chatLoadingMessages => 'Caricamento messaggi';

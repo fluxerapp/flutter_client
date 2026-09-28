@@ -530,30 +530,6 @@ abstract class FluxerLocalizations {
   /// **'OR'**
   String get orDivider;
 
-  /// Title for the captcha verification modal.
-  ///
-  /// In en, this message translates to:
-  /// **'Verify you\'re human'**
-  String get captchaTitle;
-
-  /// Explanatory text in the captcha modal body.
-  ///
-  /// In en, this message translates to:
-  /// **'We need to make sure you\'re not a bot. Please complete the verification below.'**
-  String get captchaDescription;
-
-  /// Link to switch from Turnstile to hCaptcha provider.
-  ///
-  /// In en, this message translates to:
-  /// **'Having issues? Try hCaptcha instead'**
-  String get captchaSwitchToHcaptcha;
-
-  /// Link to switch from hCaptcha to Turnstile provider.
-  ///
-  /// In en, this message translates to:
-  /// **'Try Turnstile instead'**
-  String get captchaSwitchToTurnstile;
-
   /// Generic cancel button label.
   ///
   /// In en, this message translates to:
@@ -4315,12 +4291,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Phone verification is not available for this account. Use another method or contact support.'**
   String get phoneNotEligible;
-
-  /// Captcha required for phone verification.
-  ///
-  /// In en, this message translates to:
-  /// **'A browser check is required before phone verification. Try again from the sign-in page or contact support.'**
-  String get phoneCaptchaRequired;
 
   /// Generic phone verification error.
   ///
@@ -19139,6 +19109,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Hide password'**
   String get authHidePassword;
+
+  /// Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed.
+  ///
+  /// In en, this message translates to:
+  /// **'Still working on it…'**
+  String get authCheckStillWorking;
 
   /// Screen reader label for the chat message list loading skeleton.
   ///

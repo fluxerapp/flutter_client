@@ -9,7 +9,6 @@ analyzer:
   exclude:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
-    - "cloudflare_turnstile/**"
     - "build/**"
     - "dart_sdk/**"
     - "lib/core/push/**/*.fcm.dart"

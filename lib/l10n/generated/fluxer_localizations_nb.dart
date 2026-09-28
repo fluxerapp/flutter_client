@@ -239,20 +239,6 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Bekreft at du er et menneske';
-
-  @override
-  String get captchaDescription =>
-      'Vi må forsikre oss om at du ikke er en bot. Vennligst fullfør bekreftelsen nedenfor.';
-
-  @override
-  String get captchaSwitchToHcaptcha =>
-      'Har du problemer? Prøv hCaptcha i stedet';
-
-  @override
-  String get captchaSwitchToTurnstile => 'Prøv Turnstile i stedet';
-
-  @override
   String get cancel => 'Avbryt';
 
   @override
@@ -2428,10 +2414,6 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   @override
   String get phoneNotEligible =>
       'Telefonverifisering er ikke tilgjengelig for denne kontoen. Bruk en annen metode eller kontakt kundestøtte.';
-
-  @override
-  String get phoneCaptchaRequired =>
-      'En nettlesersjekk kreves før telefonverifisering. Prøv igjen fra påloggingssiden eller kontakt kundestøtte.';
 
   @override
   String get phoneSomethingWentWrong => 'Noe gikk galt. Prøv igjen.';
@@ -11554,6 +11536,9 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get authHidePassword => 'Skjul passord';
+
+  @override
+  String get authCheckStillWorking => 'Still working on it…';
 
   @override
   String get chatLoadingMessages => 'Laster meldinger';

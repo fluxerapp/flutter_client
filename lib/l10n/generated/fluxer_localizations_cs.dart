@@ -239,20 +239,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Ověřte, že jste člověk';
-
-  @override
-  String get captchaDescription =>
-      'Musíme se ujistit, že nejste robot. Dokončete prosím ověření níže.';
-
-  @override
-  String get captchaSwitchToHcaptcha =>
-      'Máte potíže? Zkuste místo toho hCaptcha';
-
-  @override
-  String get captchaSwitchToTurnstile => 'Zkusit místo toho Turnstile';
-
-  @override
   String get cancel => 'Zrušit';
 
   @override
@@ -2434,10 +2420,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   @override
   String get phoneNotEligible =>
       'Ověření telefonního čísla není pro tento účet k dispozici. Použijte jinou metodu nebo kontaktujte podporu.';
-
-  @override
-  String get phoneCaptchaRequired =>
-      'Před ověřením telefonu je vyžadována kontrola prohlížeče. Zkuste to znovu z přihlašovací stránky nebo kontaktujte podporu.';
 
   @override
   String get phoneSomethingWentWrong => 'Něco se pokazilo. Zkuste to znovu.';
@@ -11572,6 +11554,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get authHidePassword => 'Skrýt heslo';
+
+  @override
+  String get authCheckStillWorking => 'Still working on it…';
 
   @override
   String get chatLoadingMessages => 'Načítání zpráv';

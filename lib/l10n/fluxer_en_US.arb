@@ -134,22 +134,6 @@
     "@orDivider": {
         "description": "Divider between alternative actions (e.g. email login vs SSO)."
     },
-    "captchaTitle": "Verify you're human",
-    "@captchaTitle": {
-        "description": "Title for the captcha verification modal."
-    },
-    "captchaDescription": "We need to make sure you're not a bot. Please complete the verification below.",
-    "@captchaDescription": {
-        "description": "Explanatory text in the captcha modal body."
-    },
-    "captchaSwitchToHcaptcha": "Having issues? Try hCaptcha instead",
-    "@captchaSwitchToHcaptcha": {
-        "description": "Link to switch from Turnstile to hCaptcha provider."
-    },
-    "captchaSwitchToTurnstile": "Try Turnstile instead",
-    "@captchaSwitchToTurnstile": {
-        "description": "Link to switch from hCaptcha to Turnstile provider."
-    },
     "cancel": "Cancel",
     "@cancel": {
         "description": "Generic cancel button label."
@@ -12396,10 +12380,6 @@
     "@phoneNotEligible": {
         "description": "Account not eligible for phone verification."
     },
-    "phoneCaptchaRequired": "A browser check is required before phone verification. Try again from the sign-in page or contact support.",
-    "@phoneCaptchaRequired": {
-        "description": "Captcha required for phone verification."
-    },
     "phoneSomethingWentWrong": "Something went wrong. Try again.",
     "@phoneSomethingWentWrong": {
         "description": "Generic phone verification error."
@@ -16081,6 +16061,10 @@
     "authHidePassword": "Hide password",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "Still working on it…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
     },
     "chatLoadingMessages": "Loading messages",
     "@chatLoadingMessages": {

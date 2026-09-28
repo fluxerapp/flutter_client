@@ -134,22 +134,6 @@
     "@orDivider": {
         "description": "Divider between alternative actions (e.g. email login vs SSO)."
     },
-    "captchaTitle": "Підтвердьте, що ви не робот",
-    "@captchaTitle": {
-        "description": "Title for the captcha verification modal."
-    },
-    "captchaDescription": "Нам потрібно переконатися, що ви не бот. Будь ласка, пройдіть перевірку нижче.",
-    "@captchaDescription": {
-        "description": "Explanatory text in the captcha modal body."
-    },
-    "captchaSwitchToHcaptcha": "Виникли проблеми? Спробуйте hCaptcha",
-    "@captchaSwitchToHcaptcha": {
-        "description": "Link to switch from Turnstile to hCaptcha provider."
-    },
-    "captchaSwitchToTurnstile": "Спробуйте Turnstile",
-    "@captchaSwitchToTurnstile": {
-        "description": "Link to switch from hCaptcha to Turnstile provider."
-    },
     "cancel": "Скасувати",
     "@cancel": {
         "description": "Generic cancel button label."
@@ -12179,10 +12163,6 @@
     "phoneSmsUnavailable": "Підтвердження через SMS наразі недоступне. Спробуйте пізніше або зверніться до служби підтримки.",
     "@phoneSmsUnavailable": {
         "description": "SMS provider unavailable error."
-    },
-    "phoneCaptchaRequired": "Перед підтвердженням номера телефону потрібна перевірка в браузері. Спробуйте ще раз зі сторінки входу або зверніться до служби підтримки.",
-    "@phoneCaptchaRequired": {
-        "description": "Captcha required for phone verification."
     },
     "phoneSomethingWentWrong": "Щось пішло не так. Спробуйте ще раз.",
     "@phoneSomethingWentWrong": {

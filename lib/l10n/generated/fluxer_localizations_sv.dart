@@ -238,20 +238,6 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Verifiera att du är människa';
-
-  @override
-  String get captchaDescription =>
-      'Vi måste se till att du inte är en bot. Vänligen slutför verifieringen nedan.';
-
-  @override
-  String get captchaSwitchToHcaptcha =>
-      'Har du problem? Prova hCaptcha istället';
-
-  @override
-  String get captchaSwitchToTurnstile => 'Prova Turnstile istället';
-
-  @override
   String get cancel => 'Avbryt';
 
   @override
@@ -2429,10 +2415,6 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   @override
   String get phoneNotEligible =>
       'Telefonverifiering är inte tillgänglig för det här kontot. Använd en annan metod eller kontakta support.';
-
-  @override
-  String get phoneCaptchaRequired =>
-      'En webbläsarkontroll krävs innan telefonverifiering. Försök igen från inloggningssidan eller kontakta supporten.';
 
   @override
   String get phoneSomethingWentWrong => 'Något gick fel. Försök igen.';
@@ -11555,6 +11537,9 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get authHidePassword => 'Dölj lösenord';
+
+  @override
+  String get authCheckStillWorking => 'Still working on it…';
 
   @override
   String get chatLoadingMessages => 'Läser in meddelanden';

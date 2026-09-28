@@ -239,20 +239,6 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get orDivider => 'OU';
 
   @override
-  String get captchaTitle => 'Verifique se você é humano';
-
-  @override
-  String get captchaDescription =>
-      'Precisamos ter certeza de que você não é um robô. Por favor, complete a verificação abaixo.';
-
-  @override
-  String get captchaSwitchToHcaptcha =>
-      'Problemas? Tente o hCaptcha em vez disso';
-
-  @override
-  String get captchaSwitchToTurnstile => 'Tente o Turnstile em vez disso';
-
-  @override
   String get cancel => 'Cancelar';
 
   @override
@@ -2430,10 +2416,6 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   @override
   String get phoneNotEligible =>
       'Phone verification is not available for this account. Use another method or contact support.';
-
-  @override
-  String get phoneCaptchaRequired =>
-      'A browser check is required before phone verification. Try again from the sign-in page or contact support.';
 
   @override
   String get phoneSomethingWentWrong => 'Something went wrong. Try again.';
@@ -11512,6 +11494,9 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get authHidePassword => 'Hide password';
 
   @override
+  String get authCheckStillWorking => 'Still working on it…';
+
+  @override
   String get chatLoadingMessages => 'Loading messages';
 
   @override
@@ -14941,19 +14926,6 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get orDivider => 'OU';
 
   @override
-  String get captchaTitle => 'Verifique se você é humano';
-
-  @override
-  String get captchaDescription =>
-      'Precisamos ter certeza de que você não é um robô. Por favor, complete a verificação abaixo.';
-
-  @override
-  String get captchaSwitchToHcaptcha => 'Está com problemas? Tente o hCaptcha';
-
-  @override
-  String get captchaSwitchToTurnstile => 'Tentar Turnstile em vez disso';
-
-  @override
   String get cancel => 'Cancelar';
 
   @override
@@ -17135,10 +17107,6 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   @override
   String get phoneNotEligible =>
       'A verificação por telefone não está disponível para esta conta. Use outro método ou entre em contato com o suporte.';
-
-  @override
-  String get phoneCaptchaRequired =>
-      'É necessária uma verificação no navegador antes da verificação por telefone. Tente novamente na página de login ou entre em contato com o suporte.';
 
   @override
   String get phoneSomethingWentWrong => 'Algo deu errado. Tente novamente.';

@@ -231,18 +231,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => '验证你不是机器人';
-
-  @override
-  String get captchaDescription => '我们需要确保您不是机器人。请完成以下验证。';
-
-  @override
-  String get captchaSwitchToHcaptcha => '遇到问题？试试 hCaptcha';
-
-  @override
-  String get captchaSwitchToTurnstile => '改用 Turnstile';
-
-  @override
   String get cancel => '取消';
 
   @override
@@ -2295,9 +2283,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get phoneNotEligible => '此账号无法进行手机验证。请使用其他方式或联系支持团队。';
-
-  @override
-  String get phoneCaptchaRequired => '电话验证前需要进行浏览器检查。请从登录页面重试，或联系支持团队。';
 
   @override
   String get phoneSomethingWentWrong => '出错了。请重试。';
@@ -10788,6 +10773,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get authHidePassword => '隐藏密码';
 
   @override
+  String get authCheckStillWorking => 'Still working on it…';
+
+  @override
   String get chatLoadingMessages => '正在加载消息';
 
   @override
@@ -14032,18 +14020,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => '驗證您是真人';
-
-  @override
-  String get captchaDescription => '我們需要確認您不是機器人。請完成下方的驗證。';
-
-  @override
-  String get captchaSwitchToHcaptcha => '有問題嗎？改用 hCaptcha 試試';
-
-  @override
-  String get captchaSwitchToTurnstile => '改用 Turnstile 驗證';
-
-  @override
   String get cancel => '取消';
 
   @override
@@ -16097,9 +16073,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get phoneNotEligible => '此帳號無法使用電話驗證。請使用其他方式或聯絡客服。';
-
-  @override
-  String get phoneCaptchaRequired => '電話驗證前需要進行瀏覽器檢查。請從登入頁面重試，或聯絡客服。';
 
   @override
   String get phoneSomethingWentWrong => '發生錯誤。請再試一次。';

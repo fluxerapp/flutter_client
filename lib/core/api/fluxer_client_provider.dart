@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:fluxer_app/core/api/captcha_dialog.dart';
 import 'package:fluxer_app/core/api/captcha_interceptor.dart';
 import 'package:fluxer_app/core/api/fluxer_api_features.dart';
 import 'package:fluxer_app/core/api/fluxer_client_properties.dart';
@@ -16,6 +15,9 @@ import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
+import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
+import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
+import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
@@ -74,19 +76,14 @@ Dio _buildFluxerDio({required Ref ref, required String baseUrl}) {
   dio.interceptors.add(
     CaptchaInterceptor(
       dio: dio,
-      showCaptchaDialog:
-          ({
-            required preferredProvider,
-            required turnstileSiteKey,
-            required hcaptchaSiteKey,
-            required baseUrl,
-          }) => showCaptchaDialog(
-            navigatorKey: rootNavigatorKey,
-            preferredProvider: preferredProvider,
-            turnstileSiteKey: turnstileSiteKey,
-            hcaptchaSiteKey: hcaptchaSiteKey,
-            baseUrl: baseUrl,
-          ),
+      showSlowSolveHint: () {
+        final FluxerToast toast = FluxerToast(
+          message: ref.read(appLocalizationsProvider).authCheckStillWorking,
+          duration: const Duration(seconds: 60),
+        );
+        ref.read(toastProvider.notifier).show(toast);
+        return () => ref.read(toastProvider.notifier).hide(toast);
+      },
     ),
   );
   dio.interceptors.add(

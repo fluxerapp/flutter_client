@@ -342,22 +342,6 @@
     "@orDivider": {
         "description": "Divider between alternative actions (e.g. email login vs SSO)."
     },
-    "captchaTitle": "पुष्टि करें कि आप इंसान हैं",
-    "@captchaTitle": {
-        "description": "Title for the captcha verification modal."
-    },
-    "captchaDescription": "यह सुनिश्चित करने के लिए कि आप बॉट नहीं हैं, हमें आपकी पुष्टि करने की आवश्यकता है। कृपया नीचे दिए गए सत्यापन को पूरा करें।",
-    "@captchaDescription": {
-        "description": "Explanatory text in the captcha modal body."
-    },
-    "captchaSwitchToHcaptcha": "समस्या आ रही है? इसके बजाय hCaptcha आज़माएँ",
-    "@captchaSwitchToHcaptcha": {
-        "description": "Link to switch from Turnstile to hCaptcha provider."
-    },
-    "captchaSwitchToTurnstile": "इसके बजाय Turnstile आज़माएँ",
-    "@captchaSwitchToTurnstile": {
-        "description": "Link to switch from hCaptcha to Turnstile provider."
-    },
     "cancel": "रद्द करें",
     "@cancel": {
         "description": "Generic cancel button label."
@@ -3158,10 +3142,6 @@
     "phoneNotEligible": "इस अकाउंट के लिए फ़ोन वेरिफ़िकेशन उपलब्ध नहीं है। कोई दूसरा तरीका इस्तेमाल करें या सहायता से संपर्क करें।",
     "@phoneNotEligible": {
         "description": "Account not eligible for phone verification."
-    },
-    "phoneCaptchaRequired": "फ़ोन वेरिफ़िकेशन से पहले ब्राउज़र जाँच ज़रूरी है। साइन-इन पेज से फिर से कोशिश करें या सहायता से संपर्क करें।",
-    "@phoneCaptchaRequired": {
-        "description": "Captcha required for phone verification."
     },
     "phoneSomethingWentWrong": "कुछ गड़बड़ हो गई। फिर से कोशिश करें।",
     "@phoneSomethingWentWrong": {

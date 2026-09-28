@@ -239,19 +239,6 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'ยืนยันว่าคุณไม่ใช่หุ่นยนต์';
-
-  @override
-  String get captchaDescription =>
-      'เราต้องแน่ใจว่าคุณไม่ใช่บอท โปรดทำการยืนยันด้านล่าง';
-
-  @override
-  String get captchaSwitchToHcaptcha => 'มีปัญหาใช่ไหม? ลองใช้ hCaptcha แทน';
-
-  @override
-  String get captchaSwitchToTurnstile => 'ลองใช้ Turnstile แทน';
-
-  @override
   String get cancel => 'ยกเลิก';
 
   @override
@@ -2410,10 +2397,6 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   @override
   String get phoneNotEligible =>
       'การยืนยันทางโทรศัพท์ไม่พร้อมใช้งานสำหรับบัญชีนี้ โปรดใช้วิธีอื่นหรือติดต่อฝ่ายสนับสนุน';
-
-  @override
-  String get phoneCaptchaRequired =>
-      'ต้องมีการตรวจสอบเบราว์เซอร์ก่อนยืนยันเบอร์โทรศัพท์ ลองอีกครั้งจากหน้าลงชื่อเข้าใช้หรือติดต่อฝ่ายสนับสนุน';
 
   @override
   String get phoneSomethingWentWrong => 'เกิดข้อผิดพลาด โปรดลองอีกครั้ง';
@@ -11447,6 +11430,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get authHidePassword => 'ซ่อนรหัสผ่าน';
+
+  @override
+  String get authCheckStillWorking => 'Still working on it…';
 
   @override
   String get chatLoadingMessages => 'กำลังโหลดข้อความ';

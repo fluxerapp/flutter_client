@@ -121,5 +121,36 @@ void main() {
 
       expect(find.text('Temporary'), findsNothing);
     });
+
+    testWidgets('hide removes a visible or pending toast', (tester) async {
+      await tester.pumpWidget(buildTestApp(const SizedBox.shrink()));
+
+      final container = ProviderScope.containerOf(
+        tester.element(find.byType(FluxerToastOverlay)),
+      );
+      final notifier = container.read(toastProvider.notifier);
+      const first = FluxerToast(message: 'First');
+      const pending = FluxerToast(message: 'Pending');
+
+      notifier.show(first);
+      await tester.pumpAndSettle();
+      expect(find.text('First'), findsOneWidget);
+
+      notifier
+        ..show(pending)
+        ..hide(pending);
+      await tester.pumpAndSettle();
+      expect(find.text('First'), findsNothing);
+      expect(find.text('Pending'), findsNothing);
+
+      notifier.show(first);
+      await tester.pump();
+      expect(find.text('First'), findsOneWidget);
+
+      notifier.hide(first);
+      await tester.pumpAndSettle();
+      expect(find.text('First'), findsNothing);
+      expect(container.read(toastProvider), isEmpty);
+    });
   });
 }

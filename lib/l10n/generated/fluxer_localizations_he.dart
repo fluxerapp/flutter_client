@@ -238,19 +238,6 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'יש לוודא שאתה אנושי';
-
-  @override
-  String get captchaDescription =>
-      'אנחנו צריכים לוודא שאתה לא רובוט. אנא השלם את האימות למטה.';
-
-  @override
-  String get captchaSwitchToHcaptcha => 'נתקלת בבעיות? נסה את hCaptcha במקום';
-
-  @override
-  String get captchaSwitchToTurnstile => 'נסה במקום זאת את Turnstile';
-
-  @override
   String get cancel => 'ביטול';
 
   @override
@@ -2399,10 +2386,6 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   @override
   String get phoneNotEligible =>
       'אימות טלפוני אינו זמין עבור חשבון זה. השתמש בשיטה אחרת או פנה לתמיכה.';
-
-  @override
-  String get phoneCaptchaRequired =>
-      'נדרשת בדיקת דפדפן לפני אימות הטלפון. יש לנסות שוב מדף ההתחברות או ליצור קשר עם התמיכה.';
 
   @override
   String get phoneSomethingWentWrong => 'משהו השתבש. יש לנסות שוב.';
@@ -11361,6 +11344,9 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String get authHidePassword => 'הסתר סיסמה';
+
+  @override
+  String get authCheckStillWorking => 'Still working on it…';
 
   @override
   String get chatLoadingMessages => 'טוען הודעות';

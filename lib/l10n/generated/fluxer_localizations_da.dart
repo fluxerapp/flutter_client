@@ -239,20 +239,6 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Bekræft, at du er et menneske';
-
-  @override
-  String get captchaDescription =>
-      'Vi skal sikre os, at du ikke er en bot. Udfør venligst bekræftelsen herunder.';
-
-  @override
-  String get captchaSwitchToHcaptcha =>
-      'Oplever du problemer? Prøv hCaptcha i stedet';
-
-  @override
-  String get captchaSwitchToTurnstile => 'Prøv Turnstile i stedet';
-
-  @override
   String get cancel => 'Annuller';
 
   @override
@@ -2429,10 +2415,6 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   @override
   String get phoneNotEligible =>
       'Telefonbekræftelse er ikke tilgængelig for denne konto. Brug en anden metode, eller kontakt support.';
-
-  @override
-  String get phoneCaptchaRequired =>
-      'Der kræves et browsertjek, før telefonbekræftelse kan udføres. Prøv igen fra loginskærmen, eller kontakt support.';
 
   @override
   String get phoneSomethingWentWrong => 'Der opstod en fejl. Prøv igen.';
@@ -11538,6 +11520,9 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
 
   @override
   String get authHidePassword => 'Skjul adgangskode';
+
+  @override
+  String get authCheckStillWorking => 'Still working on it…';
 
   @override
   String get chatLoadingMessages => 'Indlæser beskeder';

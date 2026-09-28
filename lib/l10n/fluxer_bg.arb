@@ -342,22 +342,6 @@
     "@orDivider": {
         "description": "Divider between alternative actions (e.g. email login vs SSO)."
     },
-    "captchaTitle": "Потвърди, че си човек",
-    "@captchaTitle": {
-        "description": "Title for the captcha verification modal."
-    },
-    "captchaDescription": "Трябва да се уверим, че не сте бот. Моля, завършете проверката по-долу.",
-    "@captchaDescription": {
-        "description": "Explanatory text in the captcha modal body."
-    },
-    "captchaSwitchToHcaptcha": "Имаш проблеми? Опитай hCaptcha вместо това",
-    "@captchaSwitchToHcaptcha": {
-        "description": "Link to switch from Turnstile to hCaptcha provider."
-    },
-    "captchaSwitchToTurnstile": "Опитай с Turnstile вместо това",
-    "@captchaSwitchToTurnstile": {
-        "description": "Link to switch from hCaptcha to Turnstile provider."
-    },
     "cancel": "Отказ",
     "@cancel": {
         "description": "Generic cancel button label."
@@ -3158,10 +3142,6 @@
     "phoneNotEligible": "Потвърждаването по телефон не е налично за този акаунт. Използвай друг метод или се свържи с поддръжката.",
     "@phoneNotEligible": {
         "description": "Account not eligible for phone verification."
-    },
-    "phoneCaptchaRequired": "Необходима е проверка на браузъра, преди да потвърдиш телефона си. Опитай отново от страницата за вход или се свържи с екипа за поддръжка.",
-    "@phoneCaptchaRequired": {
-        "description": "Captcha required for phone verification."
     },
     "phoneSomethingWentWrong": "Нещо се обърка. Опитай отново.",
     "@phoneSomethingWentWrong": {

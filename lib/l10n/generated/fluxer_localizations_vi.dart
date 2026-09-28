@@ -240,19 +240,6 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Xác minh bạn không phải robot';
-
-  @override
-  String get captchaDescription =>
-      'Chúng tôi cần đảm bảo bạn không phải là bot. Vui lòng hoàn tất xác minh bên dưới.';
-
-  @override
-  String get captchaSwitchToHcaptcha => 'Gặp sự cố? Thử dùng hCaptcha';
-
-  @override
-  String get captchaSwitchToTurnstile => 'Thử dùng Turnstile';
-
-  @override
   String get cancel => 'Hủy';
 
   @override
@@ -2426,10 +2413,6 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   @override
   String get phoneNotEligible =>
       'Xác minh số điện thoại không khả dụng cho tài khoản này. Hãy dùng phương thức khác hoặc liên hệ bộ phận hỗ trợ.';
-
-  @override
-  String get phoneCaptchaRequired =>
-      'Cần xác minh trình duyệt trước khi xác minh số điện thoại. Hãy thử lại từ trang đăng nhập hoặc liên hệ bộ phận hỗ trợ.';
 
   @override
   String get phoneSomethingWentWrong => 'Đã xảy ra lỗi. Vui lòng thử lại.';
@@ -11541,6 +11524,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get authHidePassword => 'Ẩn mật khẩu';
+
+  @override
+  String get authCheckStillWorking => 'Still working on it…';
 
   @override
   String get chatLoadingMessages => 'Đang tải tin nhắn';

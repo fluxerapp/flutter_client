@@ -240,19 +240,6 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Підтвердьте, що ви не робот';
-
-  @override
-  String get captchaDescription =>
-      'Нам потрібно переконатися, що ви не бот. Будь ласка, пройдіть перевірку нижче.';
-
-  @override
-  String get captchaSwitchToHcaptcha => 'Виникли проблеми? Спробуйте hCaptcha';
-
-  @override
-  String get captchaSwitchToTurnstile => 'Спробуйте Turnstile';
-
-  @override
   String get cancel => 'Скасувати';
 
   @override
@@ -2439,10 +2426,6 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   @override
   String get phoneNotEligible =>
       'Підтвердження номера телефону недоступне для цього облікового запису. Скористайтеся іншим способом або зверніться до служби підтримки.';
-
-  @override
-  String get phoneCaptchaRequired =>
-      'Перед підтвердженням номера телефону потрібна перевірка в браузері. Спробуйте ще раз зі сторінки входу або зверніться до служби підтримки.';
 
   @override
   String get phoneSomethingWentWrong => 'Щось пішло не так. Спробуйте ще раз.';
@@ -11637,6 +11620,9 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get authHidePassword => 'Сховати пароль';
+
+  @override
+  String get authCheckStillWorking => 'Still working on it…';
 
   @override
   String get chatLoadingMessages => 'Завантаження повідомлень';

@@ -239,19 +239,6 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Verifieer dat je een mens bent';
-
-  @override
-  String get captchaDescription =>
-      'We moeten controleren of je geen bot bent. Voltooi de verificatie hieronder.';
-
-  @override
-  String get captchaSwitchToHcaptcha => 'Problemen? Probeer hCaptcha';
-
-  @override
-  String get captchaSwitchToTurnstile => 'Probeer Turnstile';
-
-  @override
   String get cancel => 'Annuleren';
 
   @override
@@ -2437,10 +2424,6 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   @override
   String get phoneNotEligible =>
       'Telefoonverificatie is niet beschikbaar voor dit account. Gebruik een andere methode of neem contact op met de ondersteuning.';
-
-  @override
-  String get phoneCaptchaRequired =>
-      'Voordat je je telefoonnummer kunt verifiëren, is een browsercontrole vereist. Probeer het opnieuw vanaf de inlogpagina of neem contact op met support.';
 
   @override
   String get phoneSomethingWentWrong =>
@@ -11593,6 +11576,9 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get authHidePassword => 'Wachtwoord verbergen';
+
+  @override
+  String get authCheckStillWorking => 'Still working on it…';
 
   @override
   String get chatLoadingMessages => 'Berichten laden';

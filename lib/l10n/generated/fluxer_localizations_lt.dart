@@ -239,19 +239,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Patvirtinkite, kad esate žmogus';
-
-  @override
-  String get captchaDescription =>
-      'Turime įsitikinti, kad nesate robotas. Prašome užpildyti žemiau esantį patvirtinimą.';
-
-  @override
-  String get captchaSwitchToHcaptcha => 'Kyla problemų? Išbandykite „hCaptcha“';
-
-  @override
-  String get captchaSwitchToTurnstile => 'Vietoj to išbandykite „Turnstile“';
-
-  @override
   String get cancel => 'Atšaukti';
 
   @override
@@ -2443,10 +2430,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get phoneNotEligible =>
       'Telefono numerio patvirtinimas šiai paskyrai negalimas. Naudokite kitą metodą arba susisiekite su palaikymo komanda.';
-
-  @override
-  String get phoneCaptchaRequired =>
-      'Prieš patvirtinant telefono numerį, reikalingas naršyklės patikrinimas. Bandykite dar kartą prisijungimo puslapyje arba susisiekite su palaikymo komanda.';
 
   @override
   String get phoneSomethingWentWrong => 'Kažkas nepavyko. Bandykite dar kartą.';
@@ -11639,6 +11622,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get authHidePassword => 'Slėpti slaptažodį';
+
+  @override
+  String get authCheckStillWorking => 'Still working on it…';
 
   @override
   String get chatLoadingMessages => 'Įkeliamos žinutės';

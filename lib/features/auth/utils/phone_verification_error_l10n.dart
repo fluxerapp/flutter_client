@@ -16,7 +16,6 @@ extension PhoneVerificationFailureL10n on PhoneVerificationFailure {
       PhoneVerificationErrorKind.rateLimited => l10n.phoneTooManyAttempts,
       PhoneVerificationErrorKind.smsUnavailable => l10n.phoneSmsUnavailable,
       PhoneVerificationErrorKind.phoneNotEligible => l10n.phoneNotEligible,
-      PhoneVerificationErrorKind.captchaRequired => l10n.phoneCaptchaRequired,
       PhoneVerificationErrorKind.unknown => l10n.phoneSomethingWentWrong,
     };
   }

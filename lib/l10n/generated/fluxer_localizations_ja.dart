@@ -232,18 +232,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => '人間であることを確認してください';
-
-  @override
-  String get captchaDescription => 'あなたがボットではないことを確認する必要があります。以下の認証を完了してください。';
-
-  @override
-  String get captchaSwitchToHcaptcha => '問題が発生しましたか？hCaptchaをお試しください';
-
-  @override
-  String get captchaSwitchToTurnstile => '代わりにTurnstileをお試しください';
-
-  @override
   String get cancel => 'キャンセル';
 
   @override
@@ -2331,10 +2319,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   @override
   String get phoneNotEligible =>
       'このアカウントでは電話番号認証をご利用いただけません。別の方法を使用するか、サポートにお問い合わせください。';
-
-  @override
-  String get phoneCaptchaRequired =>
-      '電話番号認証の前にブラウザチェックが必要です。サインインページからやり直すか、サポートにお問い合わせください。';
 
   @override
   String get phoneSomethingWentWrong => '問題が発生しました。もう一度お試しください。';
@@ -11040,6 +11024,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get authHidePassword => 'パスワードを非表示';
+
+  @override
+  String get authCheckStillWorking => 'Still working on it…';
 
   @override
   String get chatLoadingMessages => 'メッセージを読み込み中';

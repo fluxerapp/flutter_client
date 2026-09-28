@@ -239,19 +239,6 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Verifikasi bahwa kamu manusia';
-
-  @override
-  String get captchaDescription =>
-      'Kami perlu memastikan Anda bukan bot. Silakan selesaikan verifikasi di bawah ini.';
-
-  @override
-  String get captchaSwitchToHcaptcha => 'Ada masalah? Coba pakai hCaptcha saja';
-
-  @override
-  String get captchaSwitchToTurnstile => 'Coba Turnstile saja';
-
-  @override
   String get cancel => 'Batal';
 
   @override
@@ -2429,10 +2416,6 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   @override
   String get phoneNotEligible =>
       'Verifikasi telepon tidak tersedia untuk akun ini. Gunakan metode lain atau hubungi dukungan.';
-
-  @override
-  String get phoneCaptchaRequired =>
-      'Pemeriksaan browser diperlukan sebelum verifikasi telepon. Coba lagi dari halaman masuk atau hubungi dukungan.';
 
   @override
   String get phoneSomethingWentWrong => 'Terjadi kesalahan. Coba lagi.';
@@ -11532,6 +11515,9 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get authHidePassword => 'Sembunyikan kata sandi';
+
+  @override
+  String get authCheckStillWorking => 'Still working on it…';
 
   @override
   String get chatLoadingMessages => 'Memuat pesan';

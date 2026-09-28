@@ -6,7 +6,6 @@ enum PhoneVerificationErrorKind {
   rateLimited,
   smsUnavailable,
   phoneNotEligible,
-  captchaRequired,
   unknown,
 }
 

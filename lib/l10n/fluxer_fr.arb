@@ -134,22 +134,6 @@
     "@orDivider": {
         "description": "Divider between alternative actions (e.g. email login vs SSO)."
     },
-    "captchaTitle": "Vérifiez que vous n'êtes pas un robot",
-    "@captchaTitle": {
-        "description": "Title for the captcha verification modal."
-    },
-    "captchaDescription": "Nous devons nous assurer que vous n'êtes pas un robot. Veuillez compléter la vérification ci-dessous.",
-    "@captchaDescription": {
-        "description": "Explanatory text in the captcha modal body."
-    },
-    "captchaSwitchToHcaptcha": "Vous rencontrez des problèmes ? Essayez plutôt hCaptcha",
-    "@captchaSwitchToHcaptcha": {
-        "description": "Link to switch from Turnstile to hCaptcha provider."
-    },
-    "captchaSwitchToTurnstile": "Essayer plutôt Turnstile",
-    "@captchaSwitchToTurnstile": {
-        "description": "Link to switch from hCaptcha to Turnstile provider."
-    },
     "cancel": "Annuler",
     "@cancel": {
         "description": "Generic cancel button label."
@@ -12274,10 +12258,6 @@
     "requiredActionResendVerificationEmail": "Renvoyer l'e-mail de vérification",
     "@requiredActionResendVerificationEmail": {
         "description": "Button to resend verification email."
-    },
-    "phoneCaptchaRequired": "Une vérification du navigateur est requise avant la vérification du téléphone. Réessayez depuis la page de connexion ou contactez l'assistance.",
-    "@phoneCaptchaRequired": {
-        "description": "Captcha required for phone verification."
     },
     "phoneCountryLabel": "Pays",
     "@phoneCountryLabel": {

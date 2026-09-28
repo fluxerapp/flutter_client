@@ -134,22 +134,6 @@
     "@orDivider": {
         "description": "Divider between alternative actions (e.g. email login vs SSO)."
     },
-    "captchaTitle": "Подтвердите, что вы не робот",
-    "@captchaTitle": {
-        "description": "Title for the captcha verification modal."
-    },
-    "captchaDescription": "Нам нужно убедиться, что вы не бот. Пожалуйста, пройдите проверку ниже.",
-    "@captchaDescription": {
-        "description": "Explanatory text in the captcha modal body."
-    },
-    "captchaSwitchToHcaptcha": "Возникли проблемы? Попробуйте hCaptcha",
-    "@captchaSwitchToHcaptcha": {
-        "description": "Link to switch from Turnstile to hCaptcha provider."
-    },
-    "captchaSwitchToTurnstile": "Попробовать Turnstile",
-    "@captchaSwitchToTurnstile": {
-        "description": "Link to switch from hCaptcha to Turnstile provider."
-    },
     "cancel": "Отмена",
     "@cancel": {
         "description": "Generic cancel button label."
@@ -9522,10 +9506,6 @@
     "phoneNotEligible": "Подтверждение по телефону недоступно для этого аккаунта. Используйте другой способ или обратитесь в поддержку.",
     "@phoneNotEligible": {
         "description": "Account not eligible for phone verification."
-    },
-    "phoneCaptchaRequired": "Перед подтверждением номера телефона требуется проверка в браузере. Повторите попытку со страницы входа или обратитесь в службу поддержки.",
-    "@phoneCaptchaRequired": {
-        "description": "Captcha required for phone verification."
     },
     "requiredActionUsePhone": "Использовать телефон",
     "@requiredActionUsePhone": {

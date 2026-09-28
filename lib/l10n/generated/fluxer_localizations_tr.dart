@@ -239,20 +239,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'İnsan olduğunuzu doğrulayın';
-
-  @override
-  String get captchaDescription =>
-      'Bot olmadığınızdan emin olmamız gerekiyor. Lütfen aşağıdaki doğrulamayı tamamlayın.';
-
-  @override
-  String get captchaSwitchToHcaptcha =>
-      'Sorun mu yaşıyorsunuz? Bunun yerine hCaptcha\'yı deneyin';
-
-  @override
-  String get captchaSwitchToTurnstile => 'Bunun yerine Turnstile\'ı dene';
-
-  @override
   String get cancel => 'İptal';
 
   @override
@@ -2431,10 +2417,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   @override
   String get phoneNotEligible =>
       'Bu hesap için telefon doğrulaması kullanılamıyor. Başka bir yöntem kullanın veya destek ekibiyle iletişime geçin.';
-
-  @override
-  String get phoneCaptchaRequired =>
-      'Telefon doğrulamasından önce tarayıcı kontrolü gerekiyor. Giriş sayfasından tekrar deneyin veya destekle iletişime geçin.';
 
   @override
   String get phoneSomethingWentWrong =>
@@ -11536,6 +11518,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get authHidePassword => 'Parolayı gizle';
+
+  @override
+  String get authCheckStillWorking => 'Still working on it…';
 
   @override
   String get chatLoadingMessages => 'Mesajlar yükleniyor';

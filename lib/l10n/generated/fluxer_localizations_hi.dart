@@ -239,20 +239,6 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'पुष्टि करें कि आप इंसान हैं';
-
-  @override
-  String get captchaDescription =>
-      'यह सुनिश्चित करने के लिए कि आप बॉट नहीं हैं, हमें आपकी पुष्टि करने की आवश्यकता है। कृपया नीचे दिए गए सत्यापन को पूरा करें।';
-
-  @override
-  String get captchaSwitchToHcaptcha =>
-      'समस्या आ रही है? इसके बजाय hCaptcha आज़माएँ';
-
-  @override
-  String get captchaSwitchToTurnstile => 'इसके बजाय Turnstile आज़माएँ';
-
-  @override
   String get cancel => 'रद्द करें';
 
   @override
@@ -2433,10 +2419,6 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   @override
   String get phoneNotEligible =>
       'इस अकाउंट के लिए फ़ोन वेरिफ़िकेशन उपलब्ध नहीं है। कोई दूसरा तरीका इस्तेमाल करें या सहायता से संपर्क करें।';
-
-  @override
-  String get phoneCaptchaRequired =>
-      'फ़ोन वेरिफ़िकेशन से पहले ब्राउज़र जाँच ज़रूरी है। साइन-इन पेज से फिर से कोशिश करें या सहायता से संपर्क करें।';
 
   @override
   String get phoneSomethingWentWrong => 'कुछ गड़बड़ हो गई। फिर से कोशिश करें।';
@@ -11518,6 +11500,9 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get authHidePassword => 'पासवर्ड छिपाएं';
+
+  @override
+  String get authCheckStillWorking => 'Still working on it…';
 
   @override
   String get chatLoadingMessages => 'संदेश लोड हो रहे हैं';
