@@ -3,11 +3,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/badge/app_icon_badge_coordinator.dart';
 import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
+import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/push/push_notifications_coordinator.dart';
+import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_prompt_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_kind.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
+import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
+import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
+import 'package:fluxer_app/core/theme/fluxer_theme.dart';
+import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/channels/data/channel_repository.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
@@ -17,6 +24,8 @@ import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart'
 import 'package:fluxer_app/features/shell/presentation/shell_route_listeners.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/gateway.dart';
+
+import '../../../helpers/test_l10n.dart';
 
 void main() {
   testWidgets('restored guild route loads channels on first shell mount', (
@@ -124,6 +133,71 @@ void main() {
     expect(tester.takeException(), isNull);
     expect(channelRepository.watchedGuildIds, <String>['guild-1']);
     expect(container.read(channelListViewModelProvider).guild?.id, 'guild-1');
+  });
+
+  testWidgets('relay consent requested before shell mount shows once', (
+    WidgetTester tester,
+  ) async {
+    final GatewayConnection gatewayConnection = GatewayConnection(
+      token: 'test-token',
+      dio: Dio(),
+    );
+    addTearDown(gatewayConnection.dispose);
+
+    final ProviderContainer container = ProviderContainer(
+      overrides: [
+        routeStateProvider.overrideWith(
+          () => _TestRouteStateNotifier(_RouteStateSource()),
+        ),
+        guildListViewModelProvider.overrideWithValue(
+          const GuildListViewState(guilds: <Guild>[]),
+        ),
+        channelRepositoryProvider.overrideWithValue(
+          _RecordingChannelRepository(),
+        ),
+        gatewayConnectionProvider.overrideWithValue(gatewayConnection),
+        pushNotificationsCoordinatorProvider.overrideWithValue(false),
+        appIconBadgeCoordinatorProvider.overrideWithValue(null),
+        instanceRuntimeConfigProvider.overrideWithValue(
+          InstanceRuntimeConfig.defaults,
+        ),
+        isActiveInstanceOfficialProvider.overrideWithValue(false),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    container.read(pushRelayConsentPromptProvider.notifier).requestPrompt();
+
+    final colorTheme = buildDarkColorTheme();
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: MaterialApp(
+          navigatorKey: rootNavigatorKey,
+          locale: kTestLocale,
+          localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+          supportedLocales: FluxerLocalizations.supportedLocales,
+          theme: buildFluxerTheme(
+            colorTheme: colorTheme,
+            textTheme: FluxerTextTheme.fromColors(colorTheme),
+            layoutTheme: FluxerLayoutTheme.scaled(),
+          ),
+          home: const ShellRouteListeners(child: SizedBox.shrink()),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
+
+    expect(tester.takeException(), isNull);
+    expect(find.text(testL10n.pushRelayConsentTitle), findsOneWidget);
+    expect(container.read(pushRelayConsentPromptProvider), isFalse);
+    expect(
+      container
+          .read(pushRelayConsentPromptProvider.notifier)
+          .presentationInFlight,
+      isTrue,
+    );
   });
 }
 

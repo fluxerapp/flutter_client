@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/audio/chat_attachment/chat_attachment_audio_sess
 import 'package:fluxer_app/core/badge/app_icon_badge_coordinator.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/permissions/guild_channel_permission_cleanup.dart';
+import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/push/push_notifications_coordinator.dart';
 import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_prompt_provider.dart';
@@ -142,7 +143,7 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
           }
           _schedulePushRelayConsentPrompt();
         });
-      });
+      }, fireImmediately: true);
     }
 
     ref.listenManual<HomeQuickAction?>(pendingHomeQuickActionProvider, (
@@ -196,7 +197,8 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
     if (!mounted) {
       return;
     }
-    if (!ref.read(pushRelayConsentPromptProvider)) {
+    if (!ref.read(pushRelayConsentPromptProvider) ||
+        ref.read(isActiveInstanceOfficialProvider)) {
       return;
     }
     final promptNotifier = ref.read(pushRelayConsentPromptProvider.notifier);

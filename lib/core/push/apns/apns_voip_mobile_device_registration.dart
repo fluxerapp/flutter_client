@@ -28,6 +28,7 @@ class ApnsVoipMobileDeviceRegistration
   String? _lastRegisteredUserId;
   String? _lastRegisteredRelayUrl;
   String? _lastRegisteredPublicKey;
+  String? _unregisteredWithoutConsentKey;
   bool _syncInFlight = false;
   bool _syncQueued = false;
   final WebPushKeyStore _keyStore = WebPushKeyStore(
@@ -154,6 +155,7 @@ class ApnsVoipMobileDeviceRegistration
       talker.warning(
         '[ApnsVoipMobileDeviceRegistration] push relay consent not granted',
       );
+      await _unregisterWithoutConsent(userId: userId, relayUrl: relayUrl);
       return;
     }
     final WebPushAccountKeys keys = await _keyStore.ensureKeys(userId);
@@ -217,18 +219,7 @@ class ApnsVoipMobileDeviceRegistration
       return;
     }
     try {
-      await ref
-          .read(fluxerClientProvider)
-          .users
-          .unregisterMobilePushDevice(
-            body: UnregisterMobileDeviceRequest(
-              platform:
-                  UnregisterMobileDeviceRequestPlatformPlatform.iosApnsVoip,
-              token: relayUrl,
-              appId: AppBuildConfig.mobilePushAppId,
-              providerEnvironment: _unregisterProviderEnvironment,
-            ),
-          );
+      await _unregisterToken(relayUrl);
       _lastRegisteredUserId = null;
       _lastRegisteredRelayUrl = null;
       _lastRegisteredPublicKey = null;
@@ -239,5 +230,42 @@ class ApnsVoipMobileDeviceRegistration
         '[ApnsVoipMobileDeviceRegistration] unregister failed',
       );
     }
+  }
+
+  Future<void> _unregisterWithoutConsent({
+    required String userId,
+    required String relayUrl,
+  }) async {
+    final String key = '$userId|$relayUrl';
+    if (_unregisteredWithoutConsentKey == key) {
+      return;
+    }
+    try {
+      await _unregisterToken(relayUrl);
+      _unregisteredWithoutConsentKey = key;
+      _lastRegisteredUserId = null;
+      _lastRegisteredRelayUrl = null;
+      _lastRegisteredPublicKey = null;
+    } on DioException catch (e, st) {
+      talker.handle(
+        e,
+        st,
+        '[ApnsVoipMobileDeviceRegistration] unregister failed',
+      );
+    }
+  }
+
+  Future<void> _unregisterToken(String relayUrl) {
+    return ref
+        .read(fluxerClientProvider)
+        .users
+        .unregisterMobilePushDevice(
+          body: UnregisterMobileDeviceRequest(
+            platform: UnregisterMobileDeviceRequestPlatformPlatform.iosApnsVoip,
+            token: relayUrl,
+            appId: AppBuildConfig.mobilePushAppId,
+            providerEnvironment: _unregisterProviderEnvironment,
+          ),
+        );
   }
 }

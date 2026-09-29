@@ -29,6 +29,7 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
   String? _lastRegisteredUserId;
   String? _lastRegisteredRelayUrl;
   String? _lastRegisteredPublicKey;
+  String? _unregisteredWithoutConsentKey;
   bool _syncInFlight = false;
   final WebPushKeyStore _keyStore = WebPushKeyStore();
 
@@ -152,6 +153,7 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
           '[FcmMobileDeviceRegistration] push relay consent not granted',
         );
       }
+      await _unregisterWithoutConsent(userId: userId, relayUrl: relayUrl);
       return;
     }
     final WebPushAccountKeys keys = await _keyStore.ensureKeys(userId);
@@ -220,6 +222,27 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
         fcmRelayUrl(appId: AppBuildConfig.mobilePushAppId, deviceToken: token);
     try {
       await _unregisterToken(relayUrl);
+      _lastRegisteredUserId = null;
+      _lastRegisteredRelayUrl = null;
+      _lastRegisteredPublicKey = null;
+    } on DioException catch (e, st) {
+      if (kDebugMode) {
+        debugPrint('[FcmMobileDeviceRegistration] unregister failed: $e\n$st');
+      }
+    }
+  }
+
+  Future<void> _unregisterWithoutConsent({
+    required String userId,
+    required String relayUrl,
+  }) async {
+    final String key = '$userId|$relayUrl';
+    if (_unregisteredWithoutConsentKey == key) {
+      return;
+    }
+    try {
+      await _unregisterToken(relayUrl);
+      _unregisteredWithoutConsentKey = key;
       _lastRegisteredUserId = null;
       _lastRegisteredRelayUrl = null;
       _lastRegisteredPublicKey = null;
