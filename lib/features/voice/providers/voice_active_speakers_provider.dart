@@ -64,7 +64,7 @@ class VoiceActiveSpeakers extends _$VoiceActiveSpeakers {
     final Room? room = ref.watch(
       voiceSessionProvider.select((VoiceSessionState s) => s.liveKitRoom),
     );
-    ref.onDispose(_detach);
+    ref.onDispose(_detachForDispose);
     _attachTo(room);
     return const VoiceActiveSpeakersState();
   }
@@ -138,7 +138,11 @@ class VoiceActiveSpeakers extends _$VoiceActiveSpeakers {
     );
   }
 
-  void _detach() {
+  void _detachForDispose() {
+    _detach(emitState: false);
+  }
+
+  void _detach({bool emitState = true}) {
     _debounceTimer?.cancel();
     _debounceTimer = null;
     _hasPendingEmit = false;
@@ -154,6 +158,8 @@ class VoiceActiveSpeakers extends _$VoiceActiveSpeakers {
     if (listener != null) {
       unawaited(listener.dispose());
     }
-    _emit();
+    if (emitState) {
+      _emit();
+    }
   }
 }

@@ -51,6 +51,51 @@ final class CallRingPayloadTests: XCTestCase {
     XCTAssertEqual(outcome, .reject(messageId: "m"))
   }
 
+  func testRejectsARingMissingChannelOrMessage() {
+    let missingChannel = CallRingResolver.resolve(
+      plaintext: #"{"data":{"type":"call_ring","message_id":"m","expires_at_ms":5000}}"#,
+      accountUserId: "u",
+      nowMs: 1000
+    )
+    XCTAssertEqual(missingChannel, .reject(messageId: "m"))
+
+    let missingMessage = CallRingResolver.resolve(
+      plaintext: #"{"data":{"type":"call_ring","channel_id":"c","expires_at_ms":5000}}"#,
+      accountUserId: "u",
+      nowMs: 1000
+    )
+    XCTAssertEqual(missingMessage, .reject(messageId: nil))
+  }
+
+  func testUsesFallbackNameAndFloorsAShortRemainingWindow() {
+    let outcome = CallRingResolver.resolve(
+      plaintext: #"{"type":"call_ring","channel_id":"c","message_id":"m","expires_at_ms":1500}"#,
+      accountUserId: "u",
+      nowMs: 1000
+    )
+    guard case .ring(let fields) = outcome else {
+      return XCTFail("expected a ring")
+    }
+    XCTAssertEqual(fields.callerName, CallRingResolver.fallbackHandle)
+    XCTAssertEqual(fields.handle, CallRingResolver.fallbackHandle)
+    XCTAssertEqual(fields.durationMs, CallRingResolver.minimumDurationMs)
+    XCTAssertEqual(fields.channelId, "c")
+  }
+
+  func testAcceptsARingForTheSignedInAccount() {
+    let outcome = CallRingResolver.resolve(
+      plaintext: #"{"data":{"type":"call_ring","channel_id":42,"message_id":7,"target_user_id":"u","expires_at_ms":5000}}"#,
+      accountUserId: "u",
+      nowMs: 1000
+    )
+    guard case .ring(let fields) = outcome else {
+      return XCTFail("expected a ring")
+    }
+    XCTAssertEqual(fields.channelId, "42")
+    XCTAssertEqual(fields.messageId, "7")
+    XCTAssertEqual(fields.durationMs, 4000)
+  }
+
   func testCallUuidIsStableForTheSameMessage() {
     let first = CallRingUuid.v5(name: "m")
     let second = CallRingUuid.v5(name: "m")

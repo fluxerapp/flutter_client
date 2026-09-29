@@ -37,14 +37,22 @@ void main() {
     );
   });
 
-  test('background decrypt failure still shows a call', () {
+  test('undecrypted payloads are dropped', () {
     expect(
       resolveAndroidPushIncomingAction(
         decrypted: false,
         backgroundMode: true,
         payload: const <String, String>{},
       ),
-      AndroidPushIncomingAction.showFallbackCall,
+      AndroidPushIncomingAction.discard,
+    );
+    expect(
+      resolveAndroidPushIncomingAction(
+        decrypted: false,
+        backgroundMode: false,
+        payload: const <String, String>{},
+      ),
+      AndroidPushIncomingAction.discard,
     );
   });
 

@@ -6,6 +6,7 @@ import 'package:fluxer_app/features/auth/domain/login_error.dart';
 import 'package:fluxer_app/features/auth/domain/mfa_challenge.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/auth/providers/passkey_error.dart';
+import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:passkeys/exceptions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -157,6 +158,9 @@ class MfaViewModel extends _$MfaViewModel {
   }
 
   String _failureMessage(AuthFailure failure, {String? preferredField}) {
+    if (failure.kind == AuthFailureKind.verificationFailed) {
+      return ref.read(appLocalizationsProvider).authVerificationFailed;
+    }
     final preferredMessage = preferredField == null
         ? null
         : failure.fieldErrors[preferredField];

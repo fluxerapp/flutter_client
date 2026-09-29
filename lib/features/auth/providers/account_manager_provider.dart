@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/api/session_authorization_header.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/providers/app_startup_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/push/push_account_lifecycle.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
@@ -57,9 +58,10 @@ class AccountManager extends _$AccountManager {
 
   /// Switches to a different stored account.
   ///
-  /// Validates the token with the server first (`GET /users/@me`). If the
-  /// token is expired or invalid, the account is marked invalid and a
-  /// [SessionExpiredFailure] is thrown so the UI can prompt re-login.
+  /// Validates the token with the server first (`GET /users/@me` on that
+  /// account's instance). If the token is expired or invalid, the account is
+  /// marked invalid and a [SessionExpiredFailure] is thrown so the UI can
+  /// prompt re-login.
   Future<void> switchToAccount(String userId) async {
     state = state.copyWith(isSwitching: true);
 
@@ -75,10 +77,12 @@ class AccountManager extends _$AccountManager {
 
       final InstanceConfigSnapshot instanceSnapshot = await authRepository
           .resolveInstanceSnapshotForUser(userId);
-      ref.read(activeInstanceProvider.notifier).applySnapshot(instanceSnapshot);
-
-      // Validate the stored token against the server before switching.
-      final isValid = await _validateToken(session.token);
+      // Validate on the target host, then mark that session active before
+      // the live instance changes.
+      final isValid = await _validateToken(
+        session.token,
+        baseUrl: instanceSnapshot.apiBaseUrl,
+      );
       if (!isValid) {
         await db.authSessionDao.markInvalid(userId);
         await loadAccounts();
@@ -86,8 +90,8 @@ class AccountManager extends _$AccountManager {
         throw SessionExpiredFailure(userId);
       }
 
-      // Update lastActive to make this the active session.
       await db.authSessionDao.touchSession(userId);
+      ref.read(activeInstanceProvider.notifier).applySnapshot(instanceSnapshot);
 
       await PushAccountLifecycle.leaveActiveAccount(
         ref,
@@ -105,6 +109,7 @@ class AccountManager extends _$AccountManager {
           .read(appStartupProvider.future)
           .timeout(_kPostSwitchStartupTimeout);
 
+      ref.read(gatewayConnectionFailedProvider.notifier).reset();
       state = state.copyWith(isSwitching: false);
     } on SessionExpiredFailure {
       rethrow;
@@ -115,15 +120,15 @@ class AccountManager extends _$AccountManager {
     }
   }
 
-  /// Validates a token by calling `GET /users/@me` against the active
+  /// Validates a token with `GET /users/@me`. [baseUrl] defaults to the live
   /// instance. Returns `false` on 401. Other errors rethrow so a down
   /// instance does not expire the session.
-  Future<bool> _validateToken(String token) async {
+  Future<bool> _validateToken(String token, {String? baseUrl}) async {
     try {
-      final baseUrl = ref.read(fluxerBaseUrlProvider);
+      final String resolvedBaseUrl = baseUrl ?? ref.read(fluxerBaseUrlProvider);
       await Dio(
         BaseOptions(
-          baseUrl: baseUrl,
+          baseUrl: resolvedBaseUrl,
           headers: {'Authorization': formatSessionAuthorizationHeader(token)},
           connectTimeout: const Duration(seconds: 5),
           receiveTimeout: const Duration(seconds: 5),

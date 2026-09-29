@@ -1,7 +1,6 @@
 import 'package:uuid/uuid.dart';
 
 const String kCallRingType = 'call_ring';
-const String kCallRingFallbackName = 'Fluxer';
 const String kCallRingFallbackHandle = 'Incoming call';
 const int kCallRingMinimumDurationMs = 1000;
 
@@ -66,7 +65,7 @@ CallRingDisplay resolveCallRingDisplay({
   } else if (knownChannelName != null && knownChannelName.isNotEmpty) {
     name = knownChannelName;
   } else {
-    name = kCallRingFallbackName;
+    name = kCallRingFallbackHandle;
   }
   return CallRingDisplay(
     nameCaller: name,

@@ -17,7 +17,7 @@ class CustomStatusDisplay extends StatelessWidget {
   });
 
   final String? stored;
-  final int maxLines;
+  final int? maxLines;
   final double emojiSize;
   final TextStyle? textStyle;
 
@@ -33,7 +33,11 @@ class CustomStatusDisplay extends StatelessWidget {
     if (emoji == null && !hasText) {
       return const SizedBox.shrink();
     }
+    final bool clamp = maxLines != null;
     return Row(
+      crossAxisAlignment: maxLines == 1
+          ? CrossAxisAlignment.center
+          : CrossAxisAlignment.start,
       children: <Widget>[
         if (emoji != null) ...<Widget>[
           emoji,
@@ -49,7 +53,7 @@ class CustomStatusDisplay extends StatelessWidget {
                     color: context.colors.textSecondary,
                   ),
               maxLines: maxLines,
-              overflow: TextOverflow.ellipsis,
+              overflow: clamp ? TextOverflow.ellipsis : null,
             ),
           ),
       ],

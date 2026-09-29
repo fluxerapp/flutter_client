@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:fluxer_app/core/api/captcha_api_codes.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/features/auth/domain/phone_verification_failure.dart';
 
@@ -12,8 +13,6 @@ const String kRateLimitedCode = 'RATE_LIMITED';
 const String kSmsVerificationUnavailableCode = 'SMS_VERIFICATION_UNAVAILABLE';
 const String kPhoneAddNotEligibleCode = 'PHONE_ADD_NOT_ELIGIBLE';
 const String kPhoneVerificationRequiredCode = 'PHONE_VERIFICATION_REQUIRED';
-const String kCaptchaRequiredCode = 'CAPTCHA_REQUIRED';
-const String kInvalidCaptchaCode = 'INVALID_CAPTCHA';
 
 enum PhoneVerificationErrorContext { phoneNumber, phoneCode, general }
 
@@ -96,9 +95,9 @@ PhoneVerificationFailure phoneVerificationFailureFromDio(
       kind: PhoneVerificationErrorKind.phoneNotEligible,
       field: PhoneVerificationErrorField.general,
     ),
-    kCaptchaRequiredCode ||
-    kInvalidCaptchaCode => const PhoneVerificationFailure(
-      kind: PhoneVerificationErrorKind.captchaRequired,
+    kCaptchaRequiredApiCode ||
+    kInvalidCaptchaApiCode => const PhoneVerificationFailure(
+      kind: PhoneVerificationErrorKind.verificationFailed,
       field: PhoneVerificationErrorField.general,
     ),
     _ => const PhoneVerificationFailure(

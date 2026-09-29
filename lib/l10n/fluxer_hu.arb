@@ -134,22 +134,6 @@
     "@orDivider": {
         "description": "Divider between alternative actions (e.g. email login vs SSO)."
     },
-    "captchaTitle": "Igazold, hogy ember vagy",
-    "@captchaTitle": {
-        "description": "Title for the captcha verification modal."
-    },
-    "captchaDescription": "Biztosítanunk kell, hogy nem vagy bot. Kérjük, végezd el az alábbi ellenőrzést.",
-    "@captchaDescription": {
-        "description": "Explanatory text in the captcha modal body."
-    },
-    "captchaSwitchToHcaptcha": "Problémába ütköztél? Próbáld inkább a hCaptchát",
-    "@captchaSwitchToHcaptcha": {
-        "description": "Link to switch from Turnstile to hCaptcha provider."
-    },
-    "captchaSwitchToTurnstile": "Próbáld meg inkább a Turnstile-t",
-    "@captchaSwitchToTurnstile": {
-        "description": "Link to switch from hCaptcha to Turnstile provider."
-    },
     "cancel": "Mégse",
     "@cancel": {
         "description": "Generic cancel button label."
@@ -11889,10 +11873,6 @@
     "phoneNotEligible": "A telefonszám-ellenőrzés nem érhető el ehhez a fiókhoz. Használj másik módszert, vagy fordulj az ügyfélszolgálathoz.",
     "@phoneNotEligible": {
         "description": "Account not eligible for phone verification."
-    },
-    "phoneCaptchaRequired": "A telefonszám ellenőrzése előtt böngészőellenőrzés szükséges. Próbáld újra a bejelentkezési oldalról, vagy fordulj az ügyfélszolgálathoz.",
-    "@phoneCaptchaRequired": {
-        "description": "Captcha required for phone verification."
     },
     "phoneSomethingWentWrong": "Hiba történt. Próbáld újra.",
     "@phoneSomethingWentWrong": {

@@ -134,22 +134,6 @@
     "@orDivider": {
         "description": "Divider between alternative actions (e.g. email login vs SSO)."
     },
-    "captchaTitle": "Verifique se você é humano",
-    "@captchaTitle": {
-        "description": "Title for the captcha verification modal."
-    },
-    "captchaDescription": "Precisamos ter certeza de que você não é um robô. Por favor, complete a verificação abaixo.",
-    "@captchaDescription": {
-        "description": "Explanatory text in the captcha modal body."
-    },
-    "captchaSwitchToHcaptcha": "Está com problemas? Tente o hCaptcha",
-    "@captchaSwitchToHcaptcha": {
-        "description": "Link to switch from Turnstile to hCaptcha provider."
-    },
-    "captchaSwitchToTurnstile": "Tentar Turnstile em vez disso",
-    "@captchaSwitchToTurnstile": {
-        "description": "Link to switch from hCaptcha to Turnstile provider."
-    },
     "cancel": "Cancelar",
     "@cancel": {
         "description": "Generic cancel button label."
@@ -12237,10 +12221,6 @@
     "phoneCannotBeUsed": "Este número de telefone não pode ser usado. Tente outro número de celular ou entre em contato com o suporte.",
     "@phoneCannotBeUsed": {
         "description": "API error when phone number is rejected."
-    },
-    "phoneCaptchaRequired": "É necessária uma verificação no navegador antes da verificação por telefone. Tente novamente na página de login ou entre em contato com o suporte.",
-    "@phoneCaptchaRequired": {
-        "description": "Captcha required for phone verification."
     },
     "phoneInboundExpensiveDescription": "Enviar um SMS para este número de telefone é muito caro, então precisamos que você nos envie um SMS. Você também pode entrar em contato com o suporte para que possamos remover essa exigência da sua conta.",
     "@phoneInboundExpensiveDescription": {

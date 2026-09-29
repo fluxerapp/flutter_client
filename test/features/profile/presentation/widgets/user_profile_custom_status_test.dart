@@ -58,6 +58,18 @@ void main() {
       expect(find.text('Coding'), findsOneWidget);
     });
 
+    testWidgets('shows a long status without clamping it', (tester) async {
+      const String status =
+          'Writing a status that runs all the way out to the character '
+          'limit so the whole thing stays readable after it is saved.';
+      await tester.pumpWidget(
+        buildTestApp(const UserProfileCustomStatus(text: status)),
+      );
+      final Text text = tester.widget<Text>(find.byType(Text));
+      expect(text.maxLines, isNull);
+      expect(text.overflow, isNot(TextOverflow.ellipsis));
+    });
+
     testWidgets('renders custom emoji for emoji-only stored status', (
       tester,
     ) async {

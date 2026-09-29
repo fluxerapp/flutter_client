@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/settings/domain/guild_asset_mode.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/fluxer_tag_change_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/image_crop_sheet.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/profile_local_time_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/profile_preview_card.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
@@ -548,6 +549,12 @@ class _UserProfileState extends ConsumerState<UserProfile> {
                           onTapOutside: (_) =>
                               FocusManager.instance.primaryFocus?.unfocus(),
                         ),
+                        if (!state.isPerGuildProfile) ...[
+                          SizedBox(height: layout.s6),
+                          ProfileLocalTimeSettingsSection(
+                            disabled: state.needsKnownEmailVerification,
+                          ),
+                        ],
                         if (state.isPerGuildProfile &&
                             !hasPerGuildProfiles &&
                             shouldShowPremiumCommerce &&

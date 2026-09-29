@@ -34,7 +34,6 @@ UnifiedPushIncomingAction resolveUnifiedPushIncomingAction({
     case AndroidPushIncomingAction.showLocally:
       return UnifiedPushIncomingAction.showLocally;
     case AndroidPushIncomingAction.showIncomingCall:
-    case AndroidPushIncomingAction.showFallbackCall:
       return UnifiedPushIncomingAction.showIncomingCall;
     case AndroidPushIncomingAction.emit:
       return UnifiedPushIncomingAction.emitToCoordinator;

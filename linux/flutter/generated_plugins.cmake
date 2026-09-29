@@ -3,14 +3,12 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
-  altcha_widget
   audioplayers_linux
   desktop_drop
   desktop_webview_window
   file_selector_linux
   flutter_inappwebview_linux
   flutter_secure_storage_linux
-  flutter_timezone
   flutter_webrtc
   gtk
   irondash_engine_context

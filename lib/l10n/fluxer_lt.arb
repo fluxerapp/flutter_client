@@ -134,22 +134,6 @@
     "@orDivider": {
         "description": "Divider between alternative actions (e.g. email login vs SSO)."
     },
-    "captchaTitle": "Patvirtinkite, kad esate žmogus",
-    "@captchaTitle": {
-        "description": "Title for the captcha verification modal."
-    },
-    "captchaDescription": "Turime įsitikinti, kad nesate robotas. Prašome užpildyti žemiau esantį patvirtinimą.",
-    "@captchaDescription": {
-        "description": "Explanatory text in the captcha modal body."
-    },
-    "captchaSwitchToHcaptcha": "Kyla problemų? Išbandykite „hCaptcha“",
-    "@captchaSwitchToHcaptcha": {
-        "description": "Link to switch from Turnstile to hCaptcha provider."
-    },
-    "captchaSwitchToTurnstile": "Vietoj to išbandykite „Turnstile“",
-    "@captchaSwitchToTurnstile": {
-        "description": "Link to switch from hCaptcha to Turnstile provider."
-    },
     "cancel": "Atšaukti",
     "@cancel": {
         "description": "Generic cancel button label."
@@ -9724,10 +9708,6 @@
     "phoneNotEligible": "Telefono numerio patvirtinimas šiai paskyrai negalimas. Naudokite kitą metodą arba susisiekite su palaikymo komanda.",
     "@phoneNotEligible": {
         "description": "Account not eligible for phone verification."
-    },
-    "phoneCaptchaRequired": "Prieš patvirtinant telefono numerį, reikalingas naršyklės patikrinimas. Bandykite dar kartą prisijungimo puslapyje arba susisiekite su palaikymo komanda.",
-    "@phoneCaptchaRequired": {
-        "description": "Captcha required for phone verification."
     },
     "phoneInboundChallengeCodeLabel": "Kodas, kurį reikia išsiųsti",
     "@phoneInboundChallengeCodeLabel": {

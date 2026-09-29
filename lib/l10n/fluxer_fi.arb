@@ -134,22 +134,6 @@
     "@orDivider": {
         "description": "Divider between alternative actions (e.g. email login vs SSO)."
     },
-    "captchaTitle": "Vahvista, että olet ihminen",
-    "@captchaTitle": {
-        "description": "Title for the captcha verification modal."
-    },
-    "captchaDescription": "Meidän on varmistettava, ettet ole botti. Suorita vahvistus alla.",
-    "@captchaDescription": {
-        "description": "Explanatory text in the captcha modal body."
-    },
-    "captchaSwitchToHcaptcha": "Onko ongelmia? Kokeile sen sijaan hCaptchaa",
-    "@captchaSwitchToHcaptcha": {
-        "description": "Link to switch from Turnstile to hCaptcha provider."
-    },
-    "captchaSwitchToTurnstile": "Kokeile sen sijaan Turnstile-varmennusta",
-    "@captchaSwitchToTurnstile": {
-        "description": "Link to switch from hCaptcha to Turnstile provider."
-    },
     "cancel": "Peruuta",
     "@cancel": {
         "description": "Generic cancel button label."
@@ -12238,10 +12222,6 @@
     "phoneNotEligible": "Puhelinnumeron vahvistus ei ole käytettävissä tällä tilillä. Käytä toista menetelmää tai ota yhteyttä tukeen.",
     "@phoneNotEligible": {
         "description": "Account not eligible for phone verification."
-    },
-    "phoneCaptchaRequired": "Selaimen tarkistus vaaditaan ennen puhelinnumeron vahvistamista. Yritä uudelleen kirjautumissivulta tai ota yhteyttä tukeen.",
-    "@phoneCaptchaRequired": {
-        "description": "Captcha required for phone verification."
     },
     "phoneInboundStepSendCode": "Lähetä koodi {code} numeroon {number}.",
     "@phoneInboundStepSendCode": {

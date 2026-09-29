@@ -134,22 +134,6 @@
     "@orDivider": {
         "description": "Divider between alternative actions (e.g. email login vs SSO)."
     },
-    "captchaTitle": "사람인지 확인",
-    "@captchaTitle": {
-        "description": "Title for the captcha verification modal."
-    },
-    "captchaDescription": "봇이 아님을 확인해야 합니다. 아래 인증을 완료해주세요.",
-    "@captchaDescription": {
-        "description": "Explanatory text in the captcha modal body."
-    },
-    "captchaSwitchToHcaptcha": "문제가 있으신가요? hCaptcha를 대신 사용해 보세요",
-    "@captchaSwitchToHcaptcha": {
-        "description": "Link to switch from Turnstile to hCaptcha provider."
-    },
-    "captchaSwitchToTurnstile": "대신 Turnstile을 시도해 보세요",
-    "@captchaSwitchToTurnstile": {
-        "description": "Link to switch from hCaptcha to Turnstile provider."
-    },
     "cancel": "취소",
     "@cancel": {
         "description": "Generic cancel button label."
@@ -12188,10 +12172,6 @@
     "phoneNotEligible": "이 계정에서는 전화 인증을 사용할 수 없습니다. 다른 방법을 사용하거나 고객지원팀에 문의하세요.",
     "@phoneNotEligible": {
         "description": "Account not eligible for phone verification."
-    },
-    "phoneCaptchaRequired": "전화번호 인증 전에 브라우저 확인이 필요합니다. 로그인 페이지에서 다시 시도하거나 고객지원팀에 문의하세요.",
-    "@phoneCaptchaRequired": {
-        "description": "Captcha required for phone verification."
     },
     "phoneInboundStepWait": "메시지를 받을 때까지 기다려 주세요. 1분 정도 소요될 수 있습니다.",
     "@phoneInboundStepWait": {

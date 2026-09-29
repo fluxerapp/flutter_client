@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.d
 import 'package:fluxer_app/features/channels/providers/channel_typing_provider.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/channel_details_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_topic_dialog.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/utils/channel_header_utils.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
@@ -27,6 +28,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_dart/gateway.dart';
+import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class ChannelHeaderLeftSection extends ConsumerStatefulWidget {
@@ -143,13 +145,20 @@ class _ChannelHeaderLeftSectionState
                     channelId: widget.channel!.id,
                   ),
                 ),
-                child: Text(
-                  topic,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: context.textStyles.bodySmall.copyWith(
-                    color: mutedColor,
-                    fontSize: 13,
+                child: IgnorePointer(
+                  child: MessageMarkdown(
+                    data: topic,
+                    channelId: widget.channel!.id,
+                    guildId: widget.channel!.guildId,
+                    markdownContext:
+                        FluxerMarkdownContext.restrictedInlineReply,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    baseStyle: context.textStyles.bodySmall.copyWith(
+                      color: mutedColor,
+                      fontSize: 13,
+                      height: 18 / 13,
+                    ),
                   ),
                 ),
               ),

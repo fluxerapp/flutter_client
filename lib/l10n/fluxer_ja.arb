@@ -134,22 +134,6 @@
     "@orDivider": {
         "description": "Divider between alternative actions (e.g. email login vs SSO)."
     },
-    "captchaTitle": "人間であることを確認してください",
-    "@captchaTitle": {
-        "description": "Title for the captcha verification modal."
-    },
-    "captchaDescription": "あなたがボットではないことを確認する必要があります。以下の認証を完了してください。",
-    "@captchaDescription": {
-        "description": "Explanatory text in the captcha modal body."
-    },
-    "captchaSwitchToHcaptcha": "問題が発生しましたか？hCaptchaをお試しください",
-    "@captchaSwitchToHcaptcha": {
-        "description": "Link to switch from Turnstile to hCaptcha provider."
-    },
-    "captchaSwitchToTurnstile": "代わりにTurnstileをお試しください",
-    "@captchaSwitchToTurnstile": {
-        "description": "Link to switch from hCaptcha to Turnstile provider."
-    },
     "cancel": "キャンセル",
     "@cancel": {
         "description": "Generic cancel button label."
@@ -12132,10 +12116,6 @@
     "phoneNotEligible": "このアカウントでは電話番号認証をご利用いただけません。別の方法を使用するか、サポートにお問い合わせください。",
     "@phoneNotEligible": {
         "description": "Account not eligible for phone verification."
-    },
-    "phoneCaptchaRequired": "電話番号認証の前にブラウザチェックが必要です。サインインページからやり直すか、サポートにお問い合わせください。",
-    "@phoneCaptchaRequired": {
-        "description": "Captcha required for phone verification."
     },
     "phoneSomethingWentWrong": "問題が発生しました。もう一度お試しください。",
     "@phoneSomethingWentWrong": {

@@ -183,6 +183,30 @@ String? resolvePushDisplayTag(Map<String, String> payload) {
       resolvePushNotificationTag(enriched);
 }
 
+/// Reads `target_user_id` from a local-notification launch payload.
+String? targetUserIdFromPushPayloadJson(String? payloadJson) {
+  if (payloadJson == null || payloadJson.isEmpty) {
+    return null;
+  }
+  final Object? decoded = _tryJsonDecode(payloadJson);
+  if (decoded is! Map) {
+    return null;
+  }
+  final Map<String, String> payload = <String, String>{};
+  for (final MapEntry<dynamic, dynamic> entry in decoded.entries) {
+    final Object? value = entry.value;
+    if (value == null) {
+      continue;
+    }
+    payload[entry.key.toString()] = value.toString();
+  }
+  final String? userId = normalizePushTapPayload(payload)['target_user_id'];
+  if (userId == null || userId.isEmpty) {
+    return null;
+  }
+  return userId;
+}
+
 /// Normalizes provider-specific tap payloads into navigation fields.
 Map<String, String> normalizePushTapPayload(Map<String, String> raw) {
   final Map<String, String> payload = Map<String, String>.from(raw);

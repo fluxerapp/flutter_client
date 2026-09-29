@@ -19,7 +19,6 @@ enum AndroidPushIncomingAction {
   showLocally,
   emit,
   showIncomingCall,
-  showFallbackCall,
 }
 
 AndroidPushIncomingAction resolveAndroidPushIncomingAction({
@@ -28,9 +27,7 @@ AndroidPushIncomingAction resolveAndroidPushIncomingAction({
   required Map<String, String> payload,
 }) {
   if (!decrypted) {
-    return backgroundMode
-        ? AndroidPushIncomingAction.showFallbackCall
-        : AndroidPushIncomingAction.discard;
+    return AndroidPushIncomingAction.discard;
   }
   if (isCallRingPayload(payload)) {
     if (callRingWindowHasClosed(
@@ -62,13 +59,13 @@ class AndroidPushPipeline {
   }) async {
     final Uint8List? record = decodeWebPushCiphertext(ciphertextBase64);
     if (record == null) {
-      return _fallbackIfBackground(backgroundMode);
+      return Future<PushMessage?>.value();
     }
     final List<WebPushAccountKeys> keys;
     try {
       keys = await (keyStore ?? WebPushKeyStore()).readAll();
     } on Object {
-      return _fallbackIfBackground(backgroundMode);
+      return Future<PushMessage?>.value();
     }
     final DecryptedWebPush? decrypted = await decryptWebPushForAccounts(
       record: record,
@@ -76,28 +73,12 @@ class AndroidPushPipeline {
       fallbackId: webPushFallbackId(),
     );
     if (decrypted == null) {
-      return _fallbackIfBackground(backgroundMode);
+      return Future<PushMessage?>.value();
     }
     return dispatch(
       message: decrypted.message,
       backgroundMode: backgroundMode,
       decrypted: true,
-    );
-  }
-
-  static Future<PushMessage?> _fallbackIfBackground(bool backgroundMode) {
-    if (!backgroundMode) {
-      return Future<PushMessage?>.value();
-    }
-    return dispatch(
-      message: PushMessage(
-        id: webPushFallbackId(),
-        title: null,
-        body: null,
-        payload: const <String, String>{},
-      ),
-      backgroundMode: true,
-      decrypted: false,
     );
   }
 
@@ -134,10 +115,7 @@ class AndroidPushPipeline {
         await LocalPushNotifications().showPushMessage(message);
         return null;
       case AndroidPushIncomingAction.showIncomingCall:
-        await _showIncomingCall(message, fallback: false);
-        return null;
-      case AndroidPushIncomingAction.showFallbackCall:
-        await _showIncomingCall(message, fallback: true);
+        await _showIncomingCall(message);
         return null;
       case AndroidPushIncomingAction.emit:
         return message;
@@ -169,25 +147,16 @@ class AndroidPushPipeline {
     }
   }
 
-  static Future<void> _showIncomingCall(
-    PushMessage message, {
-    required bool fallback,
-  }) async {
+  static Future<void> _showIncomingCall(PushMessage message) async {
     final int nowMs = DateTime.now().millisecondsSinceEpoch;
-    final CallRingDisplay display = fallback
-        ? CallRingDisplay(
-            nameCaller: kCallRingFallbackName,
-            handle: kCallRingFallbackHandle,
-            durationMs: kVoiceCallKitRingDuration.inMilliseconds,
-          )
-        : resolveCallRingDisplay(payload: message.payload, nowMs: nowMs);
+    final CallRingDisplay display = resolveCallRingDisplay(
+      payload: message.payload,
+      nowMs: nowMs,
+    );
     final String? messageId = message.payload['message_id'];
-    final String callKitId;
-    if (!fallback && messageId != null && messageId.isNotEmpty) {
-      callKitId = callKitIdForMessageId(messageId);
-    } else {
-      callKitId = const Uuid().v4();
-    }
+    final String callKitId = messageId != null && messageId.isNotEmpty
+        ? callKitIdForMessageId(messageId)
+        : const Uuid().v4();
     try {
       await FlutterCallkitIncoming.showCallkitIncoming(
         buildIncomingCallRingParams(
@@ -195,7 +164,6 @@ class AndroidPushPipeline {
           display: display,
           channelId: message.payload['channel_id'],
           messageId: messageId,
-          showMissedCall: !fallback,
         ),
       );
     } on Object {

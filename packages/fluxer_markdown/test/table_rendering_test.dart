@@ -170,7 +170,7 @@ void main() {
       ]);
     });
 
-    testWidgets('wraps table in rounded border container', (tester) async {
+    testWidgets('wraps table in rounded clip and border', (tester) async {
       const String input = '''
 | Header | Value |
 | --- | --- |
@@ -189,25 +189,19 @@ void main() {
         ),
       );
 
-      final Container tableContainer = tester.widget<Container>(
+      final ClipRRect clip = tester.widget<ClipRRect>(
         find.descendant(
           of: find.byType(SingleChildScrollView),
-          matching: find.byWidgetPredicate(
-            (Widget widget) =>
-                widget is Container &&
-                widget.decoration is BoxDecoration &&
-                (widget.decoration! as BoxDecoration).border != null,
-          ),
+          matching: find.byType(ClipRRect),
         ),
       );
-      final BoxDecoration decoration =
-          tableContainer.decoration! as BoxDecoration;
+      expect(clip.borderRadius, const BorderRadius.all(Radius.circular(6)));
+      final Table table = tester.widget<Table>(find.byType(Table));
       expect(
-        decoration.borderRadius,
+        table.border?.borderRadius,
         const BorderRadius.all(Radius.circular(6)),
       );
-      expect(decoration.border?.top.color, _tableBorderColor);
-      final Table table = tester.widget<Table>(find.byType(Table));
+      expect(table.border?.top.color, _tableBorderColor);
       expect(table.border?.horizontalInside.color, _tableBorderColor);
     });
 
@@ -408,6 +402,52 @@ void main() {
         tester.getTopLeft(helloText).dy - tester.getTopLeft(helloCell).dy,
         closeTo(8, 1),
       );
+    });
+
+    testWidgets('empty body cells keep the same row height as populated rows', (
+      tester,
+    ) async {
+      const String input = '''
+| A | B | C |
+| --- | --- | --- |
+| one | two | three |
+|  | two | three |
+|   | two | three |
+| one | two |''';
+
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: FluxerMarkdown(
+              astParser: parseTestMarkdownAst,
+              data: input,
+              config: _testMarkdownConfig,
+              baseStyle: _baseStyle,
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final Finder oddRowCells = _tableCellWithColor(_rowOddBackgroundColor);
+      final Finder evenRowCells = _tableCellWithColor(_rowEvenBackgroundColor);
+      expect(oddRowCells, findsNWidgets(6));
+      expect(evenRowCells, findsNWidgets(6));
+
+      final List<double> rowHeights = <double>[
+        tester.getSize(oddRowCells.at(0)).height,
+        tester.getSize(evenRowCells.at(0)).height,
+        tester.getSize(oddRowCells.at(3)).height,
+        tester.getSize(evenRowCells.at(3)).height,
+      ];
+      for (var i = 1; i < rowHeights.length; i++) {
+        expect(
+          rowHeights[i],
+          closeTo(rowHeights[0], 1),
+          reason:
+              'body rows with empty or missing cells should match full rows',
+        );
+      }
     });
 
     testWidgets('wide emoji table renders with visible height', (tester) async {

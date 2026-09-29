@@ -33,6 +33,13 @@ FluxerDatabase openTestDatabase() {
 /// `flutter_test/src/widget_tester.dart`, so it runs last and tear-downs still
 /// observe `inTest == true`. This is the final point at which the tree can be
 /// released.
+/// Clears the widget tree and fires drift stream-cache timers before the test
+/// binding checks pending timers.
+Future<void> releaseTestWidgetTree(WidgetTester tester) async {
+  await tester.pumpWidget(const SizedBox.shrink());
+  await tester.pump(const Duration(milliseconds: 1));
+}
+
 Future<void> _releaseWidgetTree() async {
   if (BindingBase.debugBindingType() == null) {
     return; // No binding was ever initialised, so there is no tree.

@@ -134,22 +134,6 @@
     "@orDivider": {
         "description": "Divider between alternative actions (e.g. email login vs SSO)."
     },
-    "captchaTitle": "İnsan olduğunuzu doğrulayın",
-    "@captchaTitle": {
-        "description": "Title for the captcha verification modal."
-    },
-    "captchaDescription": "Bot olmadığınızdan emin olmamız gerekiyor. Lütfen aşağıdaki doğrulamayı tamamlayın.",
-    "@captchaDescription": {
-        "description": "Explanatory text in the captcha modal body."
-    },
-    "captchaSwitchToHcaptcha": "Sorun mu yaşıyorsunuz? Bunun yerine hCaptcha'yı deneyin",
-    "@captchaSwitchToHcaptcha": {
-        "description": "Link to switch from Turnstile to hCaptcha provider."
-    },
-    "captchaSwitchToTurnstile": "Bunun yerine Turnstile'ı dene",
-    "@captchaSwitchToTurnstile": {
-        "description": "Link to switch from hCaptcha to Turnstile provider."
-    },
     "cancel": "İptal",
     "@cancel": {
         "description": "Generic cancel button label."
@@ -12431,10 +12415,6 @@
     "phoneEnterValidNumber": "Geçerli bir cep telefonu numarası girin.",
     "@phoneEnterValidNumber": {
         "description": "Validation error for invalid phone format."
-    },
-    "phoneCaptchaRequired": "Telefon doğrulamasından önce tarayıcı kontrolü gerekiyor. Giriş sayfasından tekrar deneyin veya destekle iletişime geçin.",
-    "@phoneCaptchaRequired": {
-        "description": "Captcha required for phone verification."
     },
     "phoneSomethingWentWrong": "Bir şeyler ters gitti. Tekrar deneyin.",
     "@phoneSomethingWentWrong": {

@@ -122,6 +122,7 @@ void main() {
 
     expect(find.text(testL10n.chatMessageCopyLink), findsOneWidget);
     expect(find.text(testL10n.chatMessageOpenLink), findsOneWidget);
+    await releaseTestWidgetTree(tester);
   });
 
   testWidgets('long pressing plain text keeps the plain message actions', (
@@ -136,5 +137,6 @@ void main() {
 
     expect(find.text(testL10n.chatMessageCopyLink), findsNothing);
     expect(find.text(testL10n.chatMessageReply), findsOneWidget);
+    await releaseTestWidgetTree(tester);
   });
 }

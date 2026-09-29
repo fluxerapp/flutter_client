@@ -134,22 +134,6 @@
     "@orDivider": {
         "description": "Divider between alternative actions (e.g. email login vs SSO)."
     },
-    "captchaTitle": "驗證您是真人",
-    "@captchaTitle": {
-        "description": "Title for the captcha verification modal."
-    },
-    "captchaDescription": "我們需要確認您不是機器人。請完成下方的驗證。",
-    "@captchaDescription": {
-        "description": "Explanatory text in the captcha modal body."
-    },
-    "captchaSwitchToHcaptcha": "有問題嗎？改用 hCaptcha 試試",
-    "@captchaSwitchToHcaptcha": {
-        "description": "Link to switch from Turnstile to hCaptcha provider."
-    },
-    "captchaSwitchToTurnstile": "改用 Turnstile 驗證",
-    "@captchaSwitchToTurnstile": {
-        "description": "Link to switch from hCaptcha to Turnstile provider."
-    },
     "cancel": "取消",
     "@cancel": {
         "description": "Generic cancel button label."
@@ -12477,10 +12461,6 @@
     "phoneNotEligible": "此帳號無法使用電話驗證。請使用其他方式或聯絡客服。",
     "@phoneNotEligible": {
         "description": "Account not eligible for phone verification."
-    },
-    "phoneCaptchaRequired": "電話驗證前需要進行瀏覽器檢查。請從登入頁面重試，或聯絡客服。",
-    "@phoneCaptchaRequired": {
-        "description": "Captcha required for phone verification."
     },
     "phoneSomethingWentWrong": "發生錯誤。請再試一次。",
     "@phoneSomethingWentWrong": {

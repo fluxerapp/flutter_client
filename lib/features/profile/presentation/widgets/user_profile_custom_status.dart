@@ -8,6 +8,6 @@ class UserProfileCustomStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomStatusDisplay(stored: text);
+    return CustomStatusDisplay(stored: text, maxLines: null);
   }
 }

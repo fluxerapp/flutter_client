@@ -69,13 +69,10 @@ class PushNotificationTapHandler extends _$PushNotificationTapHandler {
     if (targetUserId != null &&
         targetUserId.isNotEmpty &&
         targetUserId != currentUserId) {
-      final bool known = ref
-          .read(accountManagerProvider)
-          .accounts
-          .any(
-            (StoredAccount account) =>
-                account.userId == targetUserId && account.isValid,
-          );
+      final bool known = await _isKnownValidAccount(targetUserId);
+      if (!ref.mounted) {
+        return;
+      }
       if (!known) {
         talker.warning(
           '[PushNotificationTap] target account is not on this device',
@@ -108,5 +105,30 @@ class PushNotificationTapHandler extends _$PushNotificationTapHandler {
       return;
     }
     ref.read(deepLinkHandlerProvider.notifier).handlePath(path);
+  }
+
+  Future<bool> _isKnownValidAccount(String userId) async {
+    if (_listedValidAccount(userId)) {
+      return true;
+    }
+    try {
+      await ref.read(accountManagerProvider.notifier).loadAccounts();
+    } on Object catch (error, stackTrace) {
+      talker.handle(error, stackTrace, '[PushNotificationTap] load accounts');
+    }
+    if (!ref.mounted) {
+      return false;
+    }
+    return _listedValidAccount(userId);
+  }
+
+  bool _listedValidAccount(String userId) {
+    return ref
+        .read(accountManagerProvider)
+        .accounts
+        .any(
+          (StoredAccount account) =>
+              account.userId == userId && account.isValid,
+        );
   }
 }

@@ -134,22 +134,6 @@
     "@orDivider": {
         "description": "Divider between alternative actions (e.g. email login vs SSO)."
     },
-    "captchaTitle": "Bekræft, at du er et menneske",
-    "@captchaTitle": {
-        "description": "Title for the captcha verification modal."
-    },
-    "captchaDescription": "Vi skal sikre os, at du ikke er en bot. Udfør venligst bekræftelsen herunder.",
-    "@captchaDescription": {
-        "description": "Explanatory text in the captcha modal body."
-    },
-    "captchaSwitchToHcaptcha": "Oplever du problemer? Prøv hCaptcha i stedet",
-    "@captchaSwitchToHcaptcha": {
-        "description": "Link to switch from Turnstile to hCaptcha provider."
-    },
-    "captchaSwitchToTurnstile": "Prøv Turnstile i stedet",
-    "@captchaSwitchToTurnstile": {
-        "description": "Link to switch from hCaptcha to Turnstile provider."
-    },
     "cancel": "Annuller",
     "@cancel": {
         "description": "Generic cancel button label."
@@ -12166,10 +12150,6 @@
     "phoneEnterValidNumber": "Indtast et gyldigt mobilnummer.",
     "@phoneEnterValidNumber": {
         "description": "Validation error for invalid phone format."
-    },
-    "phoneCaptchaRequired": "Der kræves et browsertjek, før telefonbekræftelse kan udføres. Prøv igen fra loginskærmen, eller kontakt support.",
-    "@phoneCaptchaRequired": {
-        "description": "Captcha required for phone verification."
     },
     "phoneSomethingWentWrong": "Der opstod en fejl. Prøv igen.",
     "@phoneSomethingWentWrong": {

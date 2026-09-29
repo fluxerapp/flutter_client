@@ -37,4 +37,51 @@ void main() {
     );
     expect(params.headers, isEmpty);
   });
+
+  test('native voip calls keep channel id and accepted state', () {
+    final List<CallKitParams> calls = callKitParamsFromNativeVoipCalls(
+      <Object?>[
+        <Object?, Object?>{
+          'id': 'call-1',
+          'nameCaller': 'Ada',
+          'handle': 'Ada',
+          'isAccepted': true,
+          'extra': <Object?, Object?>{
+            'channelId': 'channel',
+            'messageId': 'message',
+          },
+        },
+        <Object?, Object?>{'nameCaller': 'missing id'},
+        'not-a-call',
+      ],
+    );
+
+    expect(calls, hasLength(1));
+    expect(calls.single.id, 'call-1');
+    expect(calls.single.isAccepted, isTrue);
+    expect(calls.single.extra?['channelId'], 'channel');
+    expect(calls.single.extra?['messageId'], 'message');
+    expect(callKitParamsFromNativeVoipCalls(null), isEmpty);
+  });
+
+  test('native voip calls drop an empty id and a bad extra map', () {
+    final List<CallKitParams> calls = callKitParamsFromNativeVoipCalls(
+      <Object?>[
+        <Object?, Object?>{
+          'id': '',
+          'extra': <Object?, Object?>{'channelId': 'channel'},
+        },
+        <Object?, Object?>{
+          'id': 'ring',
+          'isAccepted': false,
+          'extra': 'channel',
+        },
+      ],
+    );
+
+    expect(calls, hasLength(1));
+    expect(calls.single.id, 'ring');
+    expect(calls.single.isAccepted, isFalse);
+    expect(calls.single.extra, isNull);
+  });
 }

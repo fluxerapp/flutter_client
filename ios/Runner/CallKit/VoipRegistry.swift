@@ -8,24 +8,17 @@ final class VoipRegistry: NSObject {
 
   private let reporter = IncomingCallReporter()
   private var registry: PKPushRegistry?
-  private var pushDelegate: NSObject?
+  private var pushDelegate: VoipPushDelegate?
   private var pendingTokenHex: String?
+  private var parkedCompletions: [ObjectIdentifier: [() -> Void]] = [:]
 
   func start() {
     if registry != nil {
       return
     }
     reporter.start()
-    let delegate: PKPushRegistryDelegate
-    if #available(iOS 26.4, *) {
-      let modern = ModernVoipPushDelegate(owner: self)
-      pushDelegate = modern
-      delegate = modern
-    } else {
-      let classic = ClassicVoipPushDelegate(owner: self)
-      pushDelegate = classic
-      delegate = classic
-    }
+    let delegate = VoipPushDelegate(owner: self)
+    pushDelegate = delegate
     let registry = PKPushRegistry(queue: reporter.queue)
     registry.delegate = delegate
     registry.desiredPushTypes = [.voIP]
@@ -63,11 +56,30 @@ final class VoipRegistry: NSObject {
   }
 
   fileprivate func receive(payload: PKPushPayload, completion: @escaping () -> Void) {
-    reporter.handle(payload: payload, completion: completion)
+    let payloadId = ObjectIdentifier(payload)
+    if parkedCompletions[payloadId] != nil {
+      parkedCompletions[payloadId]?.append(completion)
+      return
+    }
+    parkedCompletions[payloadId] = []
+    NSLog("[CallKit] voip payload")
+    reporter.handle(payload: payload) { [weak self] in
+      guard let self else {
+        completion()
+        return
+      }
+      self.reporter.queue.async {
+        let parked = self.parkedCompletions.removeValue(forKey: payloadId) ?? []
+        completion()
+        for parkedCompletion in parked {
+          parkedCompletion()
+        }
+      }
+    }
   }
 }
 
-private final class ClassicVoipPushDelegate: NSObject, PKPushRegistryDelegate {
+private final class VoipPushDelegate: NSObject, PKPushRegistryDelegate {
   private unowned let owner: VoipRegistry
 
   init(owner: VoipRegistry) {
@@ -102,44 +114,16 @@ private final class ClassicVoipPushDelegate: NSObject, PKPushRegistryDelegate {
       completion()
       return
     }
-    NSLog("[CallKit] voip payload")
     owner.receive(payload: payload, completion: completion)
   }
-}
 
-@available(iOS 26.4, *)
-private final class ModernVoipPushDelegate: NSObject, PKPushRegistryDelegate {
-  private unowned let owner: VoipRegistry
-
-  init(owner: VoipRegistry) {
-    self.owner = owner
-  }
-
-  func pushRegistry(
-    _ registry: PKPushRegistry,
-    didUpdate pushCredentials: PKPushCredentials,
-    for type: PKPushType
-  ) {
-    guard type == .voIP else {
-      return
-    }
-    owner.storeVoipToken(pushCredentials.token)
-  }
-
-  func pushRegistry(_ registry: PKPushRegistry, didInvalidatePushTokenFor type: PKPushType) {
-    guard type == .voIP else {
-      return
-    }
-    owner.clearVoipToken()
-  }
-
+  @available(iOS 26.4, *)
   func pushRegistry(
     _ registry: PKPushRegistry,
     didReceiveIncomingVoIPPushWith payload: PKPushPayload,
     metadata: PKVoIPPushMetadata,
     withCompletionHandler completion: @escaping () -> Void
   ) {
-    NSLog("[CallKit] voip payload")
     owner.receive(payload: payload, completion: completion)
   }
 }

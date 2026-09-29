@@ -240,20 +240,6 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Verifica que eres humano';
-
-  @override
-  String get captchaDescription =>
-      'Necesitamos asegurarnos de que no eres un bot. Por favor, completa la verificación a continuación.';
-
-  @override
-  String get captchaSwitchToHcaptcha =>
-      '¿Tienes problemas? Prueba hCaptcha en su lugar';
-
-  @override
-  String get captchaSwitchToTurnstile => 'Prueba Turnstile en su lugar';
-
-  @override
   String get cancel => 'Cancelar';
 
   @override
@@ -2458,10 +2444,6 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
       'La verificación telefónica no está disponible para esta cuenta. Usa otro método o contacta con soporte.';
 
   @override
-  String get phoneCaptchaRequired =>
-      'Se requiere una comprobación del navegador antes de la verificación del teléfono. Inténtalo de nuevo desde la página de inicio de sesión o contacta con el soporte.';
-
-  @override
   String get phoneSomethingWentWrong =>
       'Ha ocurrido un error. Inténtalo de nuevo.';
 
@@ -3353,6 +3335,60 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
 
   @override
   String get userProfileLocalTime => 'Hora local';
+
+  @override
+  String get profileLocalTimeSettingsTitle => 'Profile local time';
+
+  @override
+  String profileLocalTimeSettingsSummary(String productName) {
+    return 'Set your time zone once so $productName can keep your UTC offset current when daylight saving time changes. Other people can only see your UTC offset, not your exact time zone identifier.';
+  }
+
+  @override
+  String get profileLocalTimeEditButton => 'Edit profile local time';
+
+  @override
+  String get profileLocalTimeTimezoneLabel => 'Time zone';
+
+  @override
+  String profileLocalTimeTimezoneHelp(String productName) {
+    return 'Choose the time zone $productName uses to calculate your UTC offset for profile local time.';
+  }
+
+  @override
+  String get profileLocalTimeSearchTimezones => 'Search time zones';
+
+  @override
+  String get profileLocalTimeNotSet => 'Not set';
+
+  @override
+  String profileLocalTimePrivacyNote(
+    String timezoneIdentifierExample,
+    String productName,
+  ) {
+    return 'Other people can only see your current UTC offset when you choose to share profile local time. They do not see your exact time zone identifier, such as $timezoneIdentifierExample. $productName stores that identifier only so the offset can update automatically when daylight saving time changes.';
+  }
+
+  @override
+  String get profileLocalTimePrivacyEveryone => 'Everyone';
+
+  @override
+  String get profileLocalTimePrivacyEveryoneDesc =>
+      'Allow anyone who can view your full profile to see your local time';
+
+  @override
+  String get profileLocalTimePrivacyFriends => 'Friends';
+
+  @override
+  String get profileLocalTimePrivacyFriendsDesc =>
+      'Allow your friends to see your local time';
+
+  @override
+  String get profileLocalTimePrivacyCommunityMembers => 'Community members';
+
+  @override
+  String get profileLocalTimePrivacyCommunityMembersDesc =>
+      'Allow members from communities you\'re in to see your local time';
 
   @override
   String get userProfileSameTimeAsYou => 'Misma hora que tú';
@@ -11670,6 +11706,13 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get authHidePassword => 'Ocultar contraseña';
 
   @override
+  String get authCheckStillWorking => 'Still working on it…';
+
+  @override
+  String get authVerificationFailed =>
+      'Couldn\'t complete verification. Try again.';
+
+  @override
   String get chatLoadingMessages => 'Cargando mensajes';
 
   @override
@@ -15160,20 +15203,6 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   String get orDivider => 'O';
 
   @override
-  String get captchaTitle => 'Verifica que eres humano';
-
-  @override
-  String get captchaDescription =>
-      'Necesitamos asegurarnos de que no eres un robot. Por favor, completa la verificación a continuación.';
-
-  @override
-  String get captchaSwitchToHcaptcha =>
-      '¿Tienes problemas? Prueba hCaptcha en su lugar';
-
-  @override
-  String get captchaSwitchToTurnstile => 'Prueba Turnstile en su lugar';
-
-  @override
   String get cancel => 'Cancelar';
 
   @override
@@ -17375,10 +17404,6 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   @override
   String get phoneNotEligible =>
       'La verificación telefónica no está disponible para esta cuenta. Usa otro método o contacta a soporte.';
-
-  @override
-  String get phoneCaptchaRequired =>
-      'Se requiere una verificación del navegador antes de la verificación telefónica. Intenta de nuevo desde la página de inicio de sesión o contacta a soporte.';
 
   @override
   String get phoneSomethingWentWrong => 'Algo salió mal. Intenta de nuevo.';

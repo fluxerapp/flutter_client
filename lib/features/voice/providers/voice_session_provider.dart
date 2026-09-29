@@ -1716,8 +1716,8 @@ class VoiceSession extends _$VoiceSession {
     logVoiceLifecycle(
       'session_provider_dispose',
       connectGeneration: _connectGeneration,
-      channelId: state.channelId,
-      connectionId: state.activeConnectionId,
+      channelId: _expectedChannelId,
+      connectionId: _pendingServerDisconnectConnectionId,
       reason: 'teardown_on_dispose',
     );
     _cancelConnectWatchdog();

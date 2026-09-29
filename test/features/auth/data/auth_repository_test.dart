@@ -354,6 +354,57 @@ void main() {
       );
     });
 
+    test('persistInstanceSnapshot leaves other accounts untouched', () async {
+      const InstanceConfigSnapshot fluxer = InstanceConfigSnapshot(
+        apiBaseUrl: 'https://fluxer.com/api/v1',
+        gatewayUrl: 'wss://gateway.fluxer.com',
+        displayDomain: 'fluxer.com',
+      );
+      const InstanceConfigSnapshot hosted = InstanceConfigSnapshot(
+        apiBaseUrl: 'https://chat.example.com/api',
+        gatewayUrl: 'wss://chat.example.com/gateway',
+        displayDomain: 'chat.example.com',
+      );
+      await db.authSessionDao.saveSessionMetadata(
+        userId: 'user-a',
+        username: 'ada',
+        instanceSnapshotJson: fluxer.toJson(),
+      );
+      await tokenStorage.saveToken(userId: 'user-a', token: 'token-a');
+      await tokenStorage.saveApiBaseUrl(
+        userId: 'user-a',
+        apiBaseUrl: fluxer.apiBaseUrl,
+      );
+      await db.authSessionDao.markInvalid('user-a');
+      await db.authSessionDao.saveSessionMetadata(
+        userId: 'user-b',
+        username: 'bob',
+        instanceSnapshotJson: hosted.toJson(),
+      );
+      await tokenStorage.saveToken(userId: 'user-b', token: 'token-b');
+
+      final beforeA = await db.authSessionDao.getSession('user-a');
+      final beforeB = await db.authSessionDao.getSession('user-b');
+      const InstanceConfigSnapshot updated = InstanceConfigSnapshot(
+        apiBaseUrl: 'https://chat.example.com/api/v2',
+        gatewayUrl: 'wss://chat.example.com/gateway',
+        displayDomain: 'chat.example.com',
+      );
+
+      await repository.persistInstanceSnapshot(updated);
+
+      final afterA = await db.authSessionDao.getSession('user-a');
+      final afterB = await db.authSessionDao.getSession('user-b');
+      expect(afterA!.instanceSnapshotJson, beforeA!.instanceSnapshotJson);
+      expect(afterA.isValid, isFalse);
+      expect(afterA.lastActive, beforeA.lastActive);
+      expect(await tokenStorage.readApiBaseUrl('user-a'), fluxer.apiBaseUrl);
+      expect(afterB!.instanceSnapshotJson, updated.toJson());
+      expect(afterB.isValid, beforeB!.isValid);
+      expect(afterB.lastActive, beforeB.lastActive);
+      expect(await tokenStorage.readApiBaseUrl('user-b'), updated.apiBaseUrl);
+    });
+
     test(
       'persistApiBaseUrls copies instance urls into secure storage',
       () async {

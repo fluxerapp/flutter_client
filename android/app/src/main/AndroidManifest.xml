@@ -153,10 +153,18 @@
             android:excludeFromRecents="true"
             android:launchMode="singleInstance" />
         <activity
-            android:name="com.linusu.flutter_web_auth_2.CallbackActivity"
+            android:name="com.linusu.flutter_web_auth_2.AuthenticationManagementActivity"
+            android:autoRemoveFromRecents="true"
+            android:excludeFromRecents="true" />
+        <activity
+            android:name=".SsoCallbackActivity"
             android:exported="true"
-            android:taskAffinity="">
-            <intent-filter android:label="flutter_web_auth_2">
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:autoRemoveFromRecents="true"
+            android:excludeFromRecents="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            <intent-filter android:label="fluxer_sso_callback">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />

@@ -35,9 +35,6 @@ void main(List<String> args) async {
     if (code.targetOS == OS.iOS) {
       environment['IPHONEOS_DEPLOYMENT_TARGET'] = '${code.iOS.targetVersion}';
     }
-    if (code.targetOS == OS.macOS) {
-      environment['MACOSX_DEPLOYMENT_TARGET'] = '${code.macOS.targetVersion}';
-    }
 
     final ProcessResult result;
     try {

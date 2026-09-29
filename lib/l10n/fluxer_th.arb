@@ -134,22 +134,6 @@
     "@orDivider": {
         "description": "Divider between alternative actions (e.g. email login vs SSO)."
     },
-    "captchaTitle": "ยืนยันว่าคุณไม่ใช่หุ่นยนต์",
-    "@captchaTitle": {
-        "description": "Title for the captcha verification modal."
-    },
-    "captchaDescription": "เราต้องแน่ใจว่าคุณไม่ใช่บอท โปรดทำการยืนยันด้านล่าง",
-    "@captchaDescription": {
-        "description": "Explanatory text in the captcha modal body."
-    },
-    "captchaSwitchToHcaptcha": "มีปัญหาใช่ไหม? ลองใช้ hCaptcha แทน",
-    "@captchaSwitchToHcaptcha": {
-        "description": "Link to switch from Turnstile to hCaptcha provider."
-    },
-    "captchaSwitchToTurnstile": "ลองใช้ Turnstile แทน",
-    "@captchaSwitchToTurnstile": {
-        "description": "Link to switch from hCaptcha to Turnstile provider."
-    },
     "cancel": "ยกเลิก",
     "@cancel": {
         "description": "Generic cancel button label."
@@ -12179,10 +12163,6 @@
     "phoneNotEligible": "การยืนยันทางโทรศัพท์ไม่พร้อมใช้งานสำหรับบัญชีนี้ โปรดใช้วิธีอื่นหรือติดต่อฝ่ายสนับสนุน",
     "@phoneNotEligible": {
         "description": "Account not eligible for phone verification."
-    },
-    "phoneCaptchaRequired": "ต้องมีการตรวจสอบเบราว์เซอร์ก่อนยืนยันเบอร์โทรศัพท์ ลองอีกครั้งจากหน้าลงชื่อเข้าใช้หรือติดต่อฝ่ายสนับสนุน",
-    "@phoneCaptchaRequired": {
-        "description": "Captcha required for phone verification."
     },
     "phoneSomethingWentWrong": "เกิดข้อผิดพลาด โปรดลองอีกครั้ง",
     "@phoneSomethingWentWrong": {

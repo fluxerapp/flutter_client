@@ -17,10 +17,12 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/fluxer_sfx_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
+import 'package:fluxer_app/core/providers/startup_session_expiry.dart';
 import 'package:fluxer_app/core/providers/well_known_provider.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_entrypoint.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_mobile_device_registration.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_notification_tap_binding.dart';
+import 'package:fluxer_app/core/push/launch_notification_account.dart';
 import 'package:fluxer_app/core/push/local_push_notifications.dart';
 import 'package:fluxer_app/core/push/pending_push_notification_path_provider.dart';
 import 'package:fluxer_app/core/push/push_notification_tap_handler.dart';
@@ -116,6 +118,7 @@ class AppStartup extends _$AppStartup {
 
   void _invalidateGatewayBindings() {
     ref.read(gatewayReadyProvider.notifier).reset();
+    ref.read(gatewayConnectionFailedProvider.notifier).reset();
     ref.read(guildAvailabilityProvider.notifier).clear();
     ref
       ..invalidate(authenticatedSessionBindingsProvider)
@@ -162,6 +165,21 @@ class AppStartup extends _$AppStartup {
         await authRepository.migrateLegacyTokens();
         if (!ref.mounted) {
           return;
+        }
+        if (PushProviderGuard.isFirebaseMessaging && Platform.isAndroid) {
+          final String? payloadJson = await LocalPushNotifications()
+              .peekLaunchPayload();
+          if (!ref.mounted) {
+            return;
+          }
+          await selectStoredAccountForLaunchPayload(
+            payloadJson: payloadJson,
+            dao: ref.read(fluxerDatabaseProvider).authSessionDao,
+            readSession: authRepository.getSession,
+          );
+          if (!ref.mounted) {
+            return;
+          }
         }
         await ref
             .read(activeInstanceProvider.notifier)
@@ -233,6 +251,10 @@ class AppStartup extends _$AppStartup {
         }
         validatedUser = user;
 
+        final active = await database.authSessionDao.getActiveSession();
+        if (!ref.mounted || active?.userId != session.userId) {
+          return;
+        }
         await database.authSessionDao.updateUserData(
           userId: session.userId,
           username: user.username,
@@ -252,6 +274,26 @@ class AppStartup extends _$AppStartup {
         break;
       } on DioException catch (e) {
         if (e.response?.statusCode == 401) {
+          if (!ref.mounted) {
+            return;
+          }
+          final stored = await authRepository.resolveInstanceSnapshotForUser(
+            session.userId,
+          );
+          final bool expire = startupShouldExpireSession(
+            mounted: ref.mounted,
+            requestBaseUrl: e.requestOptions.baseUrl,
+            storedApiBaseUrl: stored.apiBaseUrl,
+          );
+          if (!expire) {
+            if (ref.mounted) {
+              debugPrint(
+                '[AppStartup] Ignoring 401 for ${session.userId}; '
+                'request host does not match the stored instance',
+              );
+            }
+            return;
+          }
           debugPrint(
             '[AppStartup] Session invalid for ${session.userId}, '
             'trying next…',

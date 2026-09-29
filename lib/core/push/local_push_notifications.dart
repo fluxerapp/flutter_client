@@ -53,7 +53,21 @@ final class LocalPushNotifications {
   final FlutterLocalNotificationsPlugin _plugin =
       FlutterLocalNotificationsPlugin();
   bool _initialized = false;
+  bool _launchDispatched = false;
+  Future<bool>? _initializing;
   void Function(String? payloadJson)? _onNotificationTap;
+
+  /// Android launch payload. Does not deliver the tap.
+  Future<String?> peekLaunchPayload() async {
+    if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) {
+      return null;
+    }
+    final bool ready = await _initializePlugin();
+    if (!ready) {
+      return null;
+    }
+    return _readLaunchPayloadJson();
+  }
 
   Future<bool> ensureInitialized({
     void Function(String? payloadJson)? onNotificationTap,
@@ -64,9 +78,45 @@ final class LocalPushNotifications {
     if (kIsWeb) {
       return true;
     }
-    if (_initialized) {
+    final bool ready = await _initializePlugin();
+    if (!ready) {
+      return false;
+    }
+    if (_launchDispatched || _onNotificationTap == null) {
       return true;
     }
+    _launchDispatched = true;
+    try {
+      final String? payload = await _readLaunchPayloadJson();
+      if (payload != null) {
+        _onNotificationTap?.call(payload);
+      }
+    } on Object catch (e, st) {
+      if (kDebugMode) {
+        debugPrint('[LocalPushNotifications] launch payload: $e\n$st');
+      }
+    }
+    return true;
+  }
+
+  Future<bool> _initializePlugin() {
+    if (_initialized) {
+      return Future<bool>.value(true);
+    }
+    final Future<bool>? inFlight = _initializing;
+    if (inFlight != null) {
+      return inFlight;
+    }
+    final Future<bool> run = _initializePluginOnce();
+    _initializing = run;
+    return run.whenComplete(() {
+      if (identical(_initializing, run)) {
+        _initializing = null;
+      }
+    });
+  }
+
+  Future<bool> _initializePluginOnce() async {
     try {
       const DarwinInitializationSettings darwin = DarwinInitializationSettings(
         requestAlertPermission: false,
@@ -92,13 +142,6 @@ final class LocalPushNotifications {
       _initialized = ok ?? false;
       if (!_initialized) {
         return false;
-      }
-      try {
-        await _handleLaunchNotification();
-      } on Object catch (e, st) {
-        if (kDebugMode) {
-          debugPrint('[LocalPushNotifications] launch payload: $e\n$st');
-        }
       }
       if (defaultTargetPlatform == TargetPlatform.android) {
         try {
@@ -215,7 +258,7 @@ final class LocalPushNotifications {
     }
   }
 
-  Future<void> _handleLaunchNotification() async {
+  Future<String?> _readLaunchPayloadJson() async {
     final NotificationAppLaunchDetails? details = await _plugin
         .getNotificationAppLaunchDetails();
     final NotificationResponse? response = details?.notificationResponse;
@@ -223,9 +266,13 @@ final class LocalPushNotifications {
         !details.didNotificationLaunchApp ||
         response == null ||
         response.actionId == kPushReplyActionId) {
-      return;
+      return null;
     }
-    _onNotificationTap?.call(response.payload);
+    final String? payload = response.payload;
+    if (payload == null || payload.isEmpty) {
+      return null;
+    }
+    return payload;
   }
 
   Future<void> showPushMessage(PushMessage message) async {

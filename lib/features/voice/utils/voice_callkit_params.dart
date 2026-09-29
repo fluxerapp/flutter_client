@@ -128,3 +128,48 @@ CallKitParams buildIncomingCallRingParams({
     ),
   );
 }
+
+List<CallKitParams> callKitParamsFromNativeVoipCalls(Object? raw) {
+  if (raw is! List) {
+    return const <CallKitParams>[];
+  }
+  final List<CallKitParams> calls = <CallKitParams>[];
+  for (final Object? entry in raw) {
+    final CallKitParams? params = _callKitParamsFromNativeVoipCall(entry);
+    if (params != null) {
+      calls.add(params);
+    }
+  }
+  return calls;
+}
+
+CallKitParams? _callKitParamsFromNativeVoipCall(Object? raw) {
+  if (raw is! Map) {
+    return null;
+  }
+  final Map<String, dynamic> json = <String, dynamic>{};
+  for (final MapEntry<Object?, Object?> entry in raw.entries) {
+    final String? key = entry.key?.toString();
+    if (key == null || key.isEmpty) {
+      continue;
+    }
+    json[key] = key == 'extra' ? _stringKeyMap(entry.value) : entry.value;
+  }
+  final Object? id = json['id'];
+  if (id is! String || id.isEmpty) {
+    return null;
+  }
+  return CallKitParams.fromJson(json);
+}
+
+Map<String, dynamic>? _stringKeyMap(Object? raw) {
+  if (raw is! Map) {
+    return null;
+  }
+  return Map<String, dynamic>.from(
+    raw.map(
+      (Object? key, Object? value) =>
+          MapEntry<String, Object?>(key.toString(), value),
+    ),
+  );
+}

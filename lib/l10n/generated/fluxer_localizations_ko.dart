@@ -231,18 +231,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => '사람인지 확인';
-
-  @override
-  String get captchaDescription => '봇이 아님을 확인해야 합니다. 아래 인증을 완료해주세요.';
-
-  @override
-  String get captchaSwitchToHcaptcha => '문제가 있으신가요? hCaptcha를 대신 사용해 보세요';
-
-  @override
-  String get captchaSwitchToTurnstile => '대신 Turnstile을 시도해 보세요';
-
-  @override
   String get cancel => '취소';
 
   @override
@@ -2332,10 +2320,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
       '이 계정에서는 전화 인증을 사용할 수 없습니다. 다른 방법을 사용하거나 고객지원팀에 문의하세요.';
 
   @override
-  String get phoneCaptchaRequired =>
-      '전화번호 인증 전에 브라우저 확인이 필요합니다. 로그인 페이지에서 다시 시도하거나 고객지원팀에 문의하세요.';
-
-  @override
   String get phoneSomethingWentWrong => '문제가 발생했습니다. 다시 시도해 주세요.';
 
   @override
@@ -3187,6 +3171,60 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get userProfileLocalTime => '현지 시간';
+
+  @override
+  String get profileLocalTimeSettingsTitle => 'Profile local time';
+
+  @override
+  String profileLocalTimeSettingsSummary(String productName) {
+    return 'Set your time zone once so $productName can keep your UTC offset current when daylight saving time changes. Other people can only see your UTC offset, not your exact time zone identifier.';
+  }
+
+  @override
+  String get profileLocalTimeEditButton => 'Edit profile local time';
+
+  @override
+  String get profileLocalTimeTimezoneLabel => 'Time zone';
+
+  @override
+  String profileLocalTimeTimezoneHelp(String productName) {
+    return 'Choose the time zone $productName uses to calculate your UTC offset for profile local time.';
+  }
+
+  @override
+  String get profileLocalTimeSearchTimezones => 'Search time zones';
+
+  @override
+  String get profileLocalTimeNotSet => 'Not set';
+
+  @override
+  String profileLocalTimePrivacyNote(
+    String timezoneIdentifierExample,
+    String productName,
+  ) {
+    return 'Other people can only see your current UTC offset when you choose to share profile local time. They do not see your exact time zone identifier, such as $timezoneIdentifierExample. $productName stores that identifier only so the offset can update automatically when daylight saving time changes.';
+  }
+
+  @override
+  String get profileLocalTimePrivacyEveryone => 'Everyone';
+
+  @override
+  String get profileLocalTimePrivacyEveryoneDesc =>
+      'Allow anyone who can view your full profile to see your local time';
+
+  @override
+  String get profileLocalTimePrivacyFriends => 'Friends';
+
+  @override
+  String get profileLocalTimePrivacyFriendsDesc =>
+      'Allow your friends to see your local time';
+
+  @override
+  String get profileLocalTimePrivacyCommunityMembers => 'Community members';
+
+  @override
+  String get profileLocalTimePrivacyCommunityMembersDesc =>
+      'Allow members from communities you\'re in to see your local time';
 
   @override
   String get userProfileSameTimeAsYou => '회원님과 동일한 시간대';
@@ -11021,6 +11059,13 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get authHidePassword => '비밀번호 숨기기';
+
+  @override
+  String get authCheckStillWorking => 'Still working on it…';
+
+  @override
+  String get authVerificationFailed =>
+      'Couldn\'t complete verification. Try again.';
 
   @override
   String get chatLoadingMessages => '메시지 불러오는 중';

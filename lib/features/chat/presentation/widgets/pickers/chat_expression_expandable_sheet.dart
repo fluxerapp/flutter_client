@@ -74,6 +74,7 @@ class ChatExpressionExpandableSheetState
   bool _isClosing = false;
   bool _isSearchFocused = false;
   bool _searchExpandScheduled = false;
+  bool _suppressSearchExpand = false;
   bool _ignoreContentDrag = false;
   double _contentDragSlopAccumulated = 0;
   Timer? _closeTimer;
@@ -172,6 +173,7 @@ class ChatExpressionExpandableSheetState
       return;
     }
     if (hasFocus) {
+      _suppressSearchExpand = false;
       _lockedCollapsedHeight ??= _height;
     } else {
       _lockedCollapsedHeight = null;
@@ -204,8 +206,6 @@ class ChatExpressionExpandableSheetState
     return _height >= _expandedHeightCache - 1;
   }
 
-  bool get _isDocked => (_height - _minHeight).abs() < 1;
-
   ExpandableSheetDragHandlers get _sheetDragHandlers {
     return ExpandableSheetDragHandlers(
       onVerticalDragStart: _onHeaderDragStart,
@@ -232,7 +232,7 @@ class ChatExpressionExpandableSheetState
   }
 
   void _onSearchActivated() {
-    if (_isExpanded || _searchExpandScheduled) {
+    if (_suppressSearchExpand || _isExpanded || _searchExpandScheduled) {
       return;
     }
     _searchExpandScheduled = true;
@@ -250,7 +250,9 @@ class ChatExpressionExpandableSheetState
     }
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _searchExpandScheduled = false;
-      if (!mounted || !ref.read(expressionPanelProvider)) {
+      if (!mounted ||
+          _suppressSearchExpand ||
+          !ref.read(expressionPanelProvider)) {
         return;
       }
       if (!_searchFocusNode.hasFocus) {
@@ -489,7 +491,13 @@ class ChatExpressionExpandableSheetState
   }
 
   void _snapToDockedIfNeeded() {
-    if (!_isDocked) {
+    _suppressSearchExpand = true;
+    _searchExpandScheduled = false;
+    if (_searchFocusNode.hasFocus) {
+      _searchFocusNode.unfocus();
+    }
+    _lockedCollapsedHeight = null;
+    if ((_height - _minHeight).abs() >= 1) {
       _snapToHeight(_minHeight);
     }
   }

@@ -422,6 +422,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     _keyboardRestore.handleLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      _maybeReserveUnmeasuredKeyboard();
+    }
   }
 
   bool _shouldTrackKeyboardRestore() {
@@ -600,6 +603,44 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (_composerFocused != focused) {
       setState(() => _composerFocused = focused);
     }
+    if (focused) {
+      _maybeReserveUnmeasuredKeyboard();
+    } else {
+      ref
+          .read(mobileKeyboardMetricsProvider.notifier)
+          .clearUnmeasuredKeyboardReservation();
+    }
+  }
+
+  void _maybeReserveUnmeasuredKeyboard() {
+    if (!mounted || !isMobileLayout(context)) {
+      return;
+    }
+    if (isComposerPanelOpen(
+      expressionPanelOpen: ref.read(expressionPanelProvider),
+      attachmentPanelOpen: ref.read(attachmentPanelProvider),
+    )) {
+      return;
+    }
+    if (ref.read(physicalKeyboardConnectedProvider).value ?? false) {
+      return;
+    }
+    if (!_focusNode.hasFocus && !_keyboardRestore.hasPendingRestore) {
+      return;
+    }
+    ref
+        .read(mobileKeyboardMetricsProvider.notifier)
+        .reserveUnmeasuredKeyboard();
+  }
+
+  @override
+  void deactivate() {
+    if (mounted) {
+      ref
+          .read(mobileKeyboardMetricsProvider.notifier)
+          .clearUnmeasuredKeyboardReservation();
+    }
+    super.deactivate();
   }
 
   @override

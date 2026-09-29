@@ -134,22 +134,6 @@
     "@orDivider": {
         "description": "Divider between alternative actions (e.g. email login vs SSO)."
     },
-    "captchaTitle": "Επιβεβαιώστε ότι είστε άνθρωπος",
-    "@captchaTitle": {
-        "description": "Title for the captcha verification modal."
-    },
-    "captchaDescription": "Πρέπει να βεβαιωθούμε ότι δεν είστε ρομπότ. Ολοκληρώστε την επαλήθευση παρακάτω.",
-    "@captchaDescription": {
-        "description": "Explanatory text in the captcha modal body."
-    },
-    "captchaSwitchToHcaptcha": "Αντιμετωπίζετε προβλήματα; Δοκιμάστε το hCaptcha",
-    "@captchaSwitchToHcaptcha": {
-        "description": "Link to switch from Turnstile to hCaptcha provider."
-    },
-    "captchaSwitchToTurnstile": "Δοκιμάστε το Turnstile αντ' αυτού",
-    "@captchaSwitchToTurnstile": {
-        "description": "Link to switch from hCaptcha to Turnstile provider."
-    },
     "cancel": "Ακύρωση",
     "@cancel": {
         "description": "Generic cancel button label."
@@ -12173,10 +12157,6 @@
     "phoneAlreadyUsed": "Αυτός ο αριθμός τηλεφώνου έχει ήδη χρησιμοποιηθεί. Δοκιμάστε έναν άλλο αριθμό ή επικοινωνήστε με την υποστήριξη.",
     "@phoneAlreadyUsed": {
         "description": "API error when phone number was reused."
-    },
-    "phoneCaptchaRequired": "Απαιτείται έλεγχος προγράμματος περιήγησης πριν από την επαλήθευση τηλεφώνου. Δοκιμάστε ξανά από τη σελίδα σύνδεσης ή επικοινωνήστε με την υποστήριξη.",
-    "@phoneCaptchaRequired": {
-        "description": "Captcha required for phone verification."
     },
     "phoneSomethingWentWrong": "Κάτι πήγε στραβά. Δοκιμάστε ξανά.",
     "@phoneSomethingWentWrong": {

@@ -28,6 +28,15 @@ UserUpdateWithVerificationRequest buildCurrentUserProfileUpdateRequest(
       state.isEditedPronounsSet && state.editedPronouns != state.pronouns,
       state.editedPronouns,
     ),
+    timezone: _patchField(
+      state.isEditedTimezoneSet && state.editedTimezone != state.timezone,
+      state.editedTimezone,
+    ),
+    timezonePrivacyFlags:
+        state.isEditedTimezonePrivacyFlagsSet &&
+            state.editedTimezonePrivacyFlags != state.timezonePrivacyFlags
+        ? state.editedTimezonePrivacyFlags
+        : null,
     accentColor: _patchField(
       state.isEditedAccentColorSet &&
           state.editedAccentColor != state.accentColor,

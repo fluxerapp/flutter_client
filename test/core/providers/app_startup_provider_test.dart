@@ -7,6 +7,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/api/service_unavailable.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
 import 'package:fluxer_app/core/providers/app_startup_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -304,6 +306,81 @@ void main() {
       expect(bindCount, 2);
       expect(container.read(gatewayReadyProvider), isFalse);
     },
+  );
+
+  test('401 against another host does not expire the session', () async {
+    final db = openTestDatabase();
+    final MapAuthTokenStorage tokens = MapAuthTokenStorage();
+    await _saveSession(db, tokens, apiBaseUrl: 'https://self.example/api');
+    final container = _startupContainer(
+      db: db,
+      tokens: tokens,
+      apiBaseUrl: 'https://other.example/api',
+      statusCode: 401,
+    );
+    addTearDown(container.dispose);
+
+    await container.read(appStartupProvider.future);
+
+    final session = await db.authSessionDao.getSession('user-1');
+    expect(session!.isValid, isTrue);
+  });
+
+  test('401 on the stored host expires the session', () async {
+    final db = openTestDatabase();
+    final MapAuthTokenStorage tokens = MapAuthTokenStorage();
+    await _saveSession(db, tokens, apiBaseUrl: 'https://self.example/api');
+    final container = _startupContainer(
+      db: db,
+      tokens: tokens,
+      apiBaseUrl: 'https://self.example/api',
+      statusCode: 401,
+    );
+    addTearDown(container.dispose);
+
+    await container.read(appStartupProvider.future);
+
+    final session = await db.authSessionDao.getSession('user-1');
+    expect(session!.isValid, isFalse);
+  });
+}
+
+Future<void> _saveSession(
+  FluxerDatabase db,
+  MapAuthTokenStorage tokens, {
+  required String apiBaseUrl,
+}) async {
+  await db.authSessionDao.saveSessionMetadata(
+    userId: 'user-1',
+    instanceSnapshotJson: InstanceConfigSnapshot(
+      apiBaseUrl: apiBaseUrl,
+      gatewayUrl: 'wss://self.example/gateway',
+      displayDomain: 'self.example',
+    ).toJson(),
+  );
+  await tokens.saveToken(userId: 'user-1', token: 'token-1');
+}
+
+ProviderContainer _startupContainer({
+  required FluxerDatabase db,
+  required MapAuthTokenStorage tokens,
+  required String apiBaseUrl,
+  required int statusCode,
+}) {
+  final Dio dio = Dio(BaseOptions(baseUrl: apiBaseUrl))
+    ..httpClientAdapter = _UsersMeAdapter(statusCode: statusCode);
+  return ProviderContainer(
+    retry: (int retryCount, Object error) => null,
+    overrides: [
+      fluxerDatabaseProvider.overrideWithValue(db),
+      wellKnownProvider.overrideWith(_FakeWellKnown.new),
+      appRuntimeInfoProvider.overrideWith((Ref ref) => _testRuntimeInfo),
+      authTokenStorageProvider.overrideWithValue(tokens),
+      fluxerClientProvider.overrideWithValue(
+        FluxerClient(dio, baseUrl: apiBaseUrl),
+      ),
+      authenticatedSessionBindingsProvider.overrideWith((Ref ref) {}),
+    ],
   );
 }
 

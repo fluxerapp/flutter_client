@@ -13,6 +13,8 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
+import 'package:fluxer_app/features/profile/domain/profile_timezone_privacy_flags.dart';
+import 'package:fluxer_app/features/profile/utils/timezone_catalog.dart';
 import 'package:fluxer_app/features/settings/domain/guild_asset_mode.dart';
 import 'package:fluxer_app/shared/external_links/external_link_utils.dart'
     as external_link_utils;
@@ -65,6 +67,8 @@ class UserSettingsViewState {
 
   final String? bio;
   final String? pronouns;
+  final String? timezone;
+  final int? timezonePrivacyFlags;
   final int? accentColor;
   final String? banner;
   final String? email;
@@ -99,6 +103,8 @@ class UserSettingsViewState {
   final Object? _editedDisplayName;
   final Object? _editedBio;
   final Object? _editedPronouns;
+  final Object? _editedTimezone;
+  final Object? _editedTimezonePrivacyFlags;
   final Object? _editedAccentColor;
   final String? editedAvatarBase64;
   final String? editedBannerBase64;
@@ -157,6 +163,8 @@ class UserSettingsViewState {
     this.publicFlags = 0,
     this.bio,
     this.pronouns,
+    this.timezone,
+    this.timezonePrivacyFlags,
     this.accentColor,
     this.banner,
     this.email,
@@ -188,6 +196,8 @@ class UserSettingsViewState {
     this._editedDisplayName = _unset,
     this._editedBio = _unset,
     this._editedPronouns = _unset,
+    this._editedTimezone = _unset,
+    this._editedTimezonePrivacyFlags = _unset,
     this._editedAccentColor = _unset,
     this.editedAvatarBase64,
     this.editedBannerBase64,
@@ -229,6 +239,37 @@ class UserSettingsViewState {
   String? get editedPronouns =>
       _editedPronouns == _unset ? null : _editedPronouns as String?;
   bool get isEditedPronounsSet => _editedPronouns != _unset;
+
+  String? get editedTimezone =>
+      _editedTimezone == _unset ? null : _editedTimezone as String?;
+  bool get isEditedTimezoneSet => _editedTimezone != _unset;
+
+  int? get editedTimezonePrivacyFlags => _editedTimezonePrivacyFlags == _unset
+      ? null
+      : _editedTimezonePrivacyFlags as int?;
+  bool get isEditedTimezonePrivacyFlagsSet =>
+      _editedTimezonePrivacyFlags != _unset;
+
+  String? get effectiveTimezone =>
+      isEditedTimezoneSet ? editedTimezone : timezone;
+
+  int get resolvedTimezonePrivacyFlags =>
+      timezonePrivacyFlags ?? ProfileTimezonePrivacyFlags.defaultFlags;
+
+  int get effectiveTimezonePrivacyFlags => isEditedTimezonePrivacyFlagsSet
+      ? (editedTimezonePrivacyFlags ?? ProfileTimezonePrivacyFlags.defaultFlags)
+      : resolvedTimezonePrivacyFlags;
+
+  int? get previewTimezoneOffset {
+    if (isPerGuildProfile) {
+      return null;
+    }
+    final String? tz = effectiveTimezone;
+    if (tz == null || effectiveTimezonePrivacyFlags == 0) {
+      return null;
+    }
+    return currentOffsetMinutesForTimezone(tz);
+  }
 
   int? get editedAccentColor =>
       _editedAccentColor == _unset ? null : _editedAccentColor as int?;
@@ -470,6 +511,13 @@ class UserSettingsViewState {
     if (isEditedPronounsSet && editedPronouns != pronouns) {
       return true;
     }
+    if (isEditedTimezoneSet && editedTimezone != timezone) {
+      return true;
+    }
+    if (isEditedTimezonePrivacyFlagsSet &&
+        editedTimezonePrivacyFlags != timezonePrivacyFlags) {
+      return true;
+    }
     if (isEditedAccentColorSet && editedAccentColor != accentColor) {
       return true;
     }
@@ -552,6 +600,10 @@ class UserSettingsViewState {
     int? publicFlags,
     Object? bio = _unset,
     Object? pronouns = _unset,
+    Object? timezone = _unset,
+    Object? timezonePrivacyFlags = _unset,
+    Object? editedTimezone = _unset,
+    Object? editedTimezonePrivacyFlags = _unset,
     Object? accentColor = _unset,
     Object? banner = _unset,
     Object? email = _unset,
@@ -646,6 +698,10 @@ class UserSettingsViewState {
       publicFlags: publicFlags ?? this.publicFlags,
       bio: bio == _unset ? this.bio : bio as String?,
       pronouns: pronouns == _unset ? this.pronouns : pronouns as String?,
+      timezone: timezone == _unset ? this.timezone : timezone as String?,
+      timezonePrivacyFlags: timezonePrivacyFlags == _unset
+          ? this.timezonePrivacyFlags
+          : timezonePrivacyFlags as int?,
       accentColor: accentColor == _unset
           ? this.accentColor
           : accentColor as int?,
@@ -723,6 +779,16 @@ class UserSettingsViewState {
           : editedPronouns == _resetEdited
           ? _unset
           : editedPronouns,
+      editedTimezone: editedTimezone == _unset
+          ? _editedTimezone
+          : editedTimezone == _resetEdited
+          ? _unset
+          : editedTimezone,
+      editedTimezonePrivacyFlags: editedTimezonePrivacyFlags == _unset
+          ? _editedTimezonePrivacyFlags
+          : editedTimezonePrivacyFlags == _resetEdited
+          ? _unset
+          : editedTimezonePrivacyFlags,
       editedAccentColor: editedAccentColor == _unset
           ? _editedAccentColor
           : editedAccentColor == _resetEdited
@@ -968,6 +1034,8 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
       publicFlags: profile.flags,
       bio: profile.bio,
       pronouns: profile.pronouns,
+      timezone: profile.timezone,
+      timezonePrivacyFlags: profile.timezonePrivacyFlags,
       accentColor: profile.accentColor,
       banner: profile.banner,
       email: profile.email,
@@ -1016,6 +1084,24 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
 
   void updatePronouns(String value) {
     state = state.copyWith(editedPronouns: value);
+  }
+
+  void updateTimezone(String? value) {
+    final String? trimmed = value?.trim();
+    final String? next = trimmed == null || trimmed.isEmpty ? null : trimmed;
+    final bool wasUnset = state.effectiveTimezone == null;
+    if (wasUnset && next != null) {
+      state = state.copyWith(
+        editedTimezone: next,
+        editedTimezonePrivacyFlags: ProfileTimezonePrivacyFlags.defaultFlags,
+      );
+      return;
+    }
+    state = state.copyWith(editedTimezone: next);
+  }
+
+  void updateTimezonePrivacyFlags(int flags) {
+    state = state.copyWith(editedTimezonePrivacyFlags: flags);
   }
 
   void updateAccentColor(int value) {
@@ -1330,6 +1416,8 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
       editedDisplayName: UserSettingsViewState._resetEdited,
       editedBio: UserSettingsViewState._resetEdited,
       editedPronouns: UserSettingsViewState._resetEdited,
+      editedTimezone: UserSettingsViewState._resetEdited,
+      editedTimezonePrivacyFlags: UserSettingsViewState._resetEdited,
       editedAccentColor: UserSettingsViewState._resetEdited,
       editedPremiumBadgeHidden: UserSettingsViewState._resetEdited,
       editedPremiumBadgeMasked: UserSettingsViewState._resetEdited,

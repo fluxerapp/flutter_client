@@ -239,19 +239,6 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'ยืนยันว่าคุณไม่ใช่หุ่นยนต์';
-
-  @override
-  String get captchaDescription =>
-      'เราต้องแน่ใจว่าคุณไม่ใช่บอท โปรดทำการยืนยันด้านล่าง';
-
-  @override
-  String get captchaSwitchToHcaptcha => 'มีปัญหาใช่ไหม? ลองใช้ hCaptcha แทน';
-
-  @override
-  String get captchaSwitchToTurnstile => 'ลองใช้ Turnstile แทน';
-
-  @override
   String get cancel => 'ยกเลิก';
 
   @override
@@ -2412,10 +2399,6 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'การยืนยันทางโทรศัพท์ไม่พร้อมใช้งานสำหรับบัญชีนี้ โปรดใช้วิธีอื่นหรือติดต่อฝ่ายสนับสนุน';
 
   @override
-  String get phoneCaptchaRequired =>
-      'ต้องมีการตรวจสอบเบราว์เซอร์ก่อนยืนยันเบอร์โทรศัพท์ ลองอีกครั้งจากหน้าลงชื่อเข้าใช้หรือติดต่อฝ่ายสนับสนุน';
-
-  @override
   String get phoneSomethingWentWrong => 'เกิดข้อผิดพลาด โปรดลองอีกครั้ง';
 
   @override
@@ -3290,6 +3273,60 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get userProfileLocalTime => 'เวลาท้องถิ่น';
+
+  @override
+  String get profileLocalTimeSettingsTitle => 'Profile local time';
+
+  @override
+  String profileLocalTimeSettingsSummary(String productName) {
+    return 'Set your time zone once so $productName can keep your UTC offset current when daylight saving time changes. Other people can only see your UTC offset, not your exact time zone identifier.';
+  }
+
+  @override
+  String get profileLocalTimeEditButton => 'Edit profile local time';
+
+  @override
+  String get profileLocalTimeTimezoneLabel => 'Time zone';
+
+  @override
+  String profileLocalTimeTimezoneHelp(String productName) {
+    return 'Choose the time zone $productName uses to calculate your UTC offset for profile local time.';
+  }
+
+  @override
+  String get profileLocalTimeSearchTimezones => 'Search time zones';
+
+  @override
+  String get profileLocalTimeNotSet => 'Not set';
+
+  @override
+  String profileLocalTimePrivacyNote(
+    String timezoneIdentifierExample,
+    String productName,
+  ) {
+    return 'Other people can only see your current UTC offset when you choose to share profile local time. They do not see your exact time zone identifier, such as $timezoneIdentifierExample. $productName stores that identifier only so the offset can update automatically when daylight saving time changes.';
+  }
+
+  @override
+  String get profileLocalTimePrivacyEveryone => 'Everyone';
+
+  @override
+  String get profileLocalTimePrivacyEveryoneDesc =>
+      'Allow anyone who can view your full profile to see your local time';
+
+  @override
+  String get profileLocalTimePrivacyFriends => 'Friends';
+
+  @override
+  String get profileLocalTimePrivacyFriendsDesc =>
+      'Allow your friends to see your local time';
+
+  @override
+  String get profileLocalTimePrivacyCommunityMembers => 'Community members';
+
+  @override
+  String get profileLocalTimePrivacyCommunityMembersDesc =>
+      'Allow members from communities you\'re in to see your local time';
 
   @override
   String get userProfileSameTimeAsYou => 'เวลาเดียวกับคุณ';
@@ -11447,6 +11484,13 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get authHidePassword => 'ซ่อนรหัสผ่าน';
+
+  @override
+  String get authCheckStillWorking => 'Still working on it…';
+
+  @override
+  String get authVerificationFailed =>
+      'Couldn\'t complete verification. Try again.';
 
   @override
   String get chatLoadingMessages => 'กำลังโหลดข้อความ';

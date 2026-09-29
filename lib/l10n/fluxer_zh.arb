@@ -134,22 +134,6 @@
     "@orDivider": {
         "description": "Divider between alternative actions (e.g. email login vs SSO)."
     },
-    "captchaTitle": "验证你不是机器人",
-    "@captchaTitle": {
-        "description": "Title for the captcha verification modal."
-    },
-    "captchaDescription": "我们需要确保您不是机器人。请完成以下验证。",
-    "@captchaDescription": {
-        "description": "Explanatory text in the captcha modal body."
-    },
-    "captchaSwitchToHcaptcha": "遇到问题？试试 hCaptcha",
-    "@captchaSwitchToHcaptcha": {
-        "description": "Link to switch from Turnstile to hCaptcha provider."
-    },
-    "captchaSwitchToTurnstile": "改用 Turnstile",
-    "@captchaSwitchToTurnstile": {
-        "description": "Link to switch from hCaptcha to Turnstile provider."
-    },
     "cancel": "取消",
     "@cancel": {
         "description": "Generic cancel button label."
@@ -12206,10 +12190,6 @@
     "phoneNotEligible": "此账号无法进行手机验证。请使用其他方式或联系支持团队。",
     "@phoneNotEligible": {
         "description": "Account not eligible for phone verification."
-    },
-    "phoneCaptchaRequired": "电话验证前需要进行浏览器检查。请从登录页面重试，或联系支持团队。",
-    "@phoneCaptchaRequired": {
-        "description": "Captcha required for phone verification."
     },
     "phoneSomethingWentWrong": "出错了。请重试。",
     "@phoneSomethingWentWrong": {

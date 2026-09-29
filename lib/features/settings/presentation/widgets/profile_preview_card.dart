@@ -10,6 +10,7 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_badges.dart';
+import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_timezone_section.dart';
 import 'package:fluxer_app/features/profile/utils/premium_badge_visibility.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
@@ -236,6 +237,10 @@ class _ProfilePreviewCardState extends ConsumerState<ProfilePreviewCard> {
                           effectiveBio.trim().isNotEmpty) ...[
                         SizedBox(height: layout.s2),
                         _buildBio(effectiveBio, colors, textStyles),
+                      ],
+                      if (s.previewTimezoneOffset case final offset?) ...[
+                        SizedBox(height: layout.s2),
+                        UserProfileTimezoneSection(timezoneOffset: offset),
                       ],
                       if (_memberSinceDate(s) case final date?) ...[
                         SizedBox(height: layout.s2),

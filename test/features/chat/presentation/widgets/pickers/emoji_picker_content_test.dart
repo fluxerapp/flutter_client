@@ -27,6 +27,7 @@ import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/emoji_sprite_sheet.dart';
 
+import '../../../../../helpers/open_test_database.dart';
 import '../../../../../helpers/test_l10n.dart';
 
 class _FakeDmViewModel extends DmViewModel {
@@ -157,6 +158,7 @@ void main() {
         ),
         findsWidgets,
       );
+      await releaseTestWidgetTree(tester);
     },
   );
 
@@ -185,6 +187,7 @@ void main() {
         ),
         findsNothing,
       );
+      await releaseTestWidgetTree(tester);
     },
   );
 
@@ -213,6 +216,7 @@ void main() {
       );
       expect(image.animated, isTrue);
       expect(image.requestSize, kCustomEmojiPickerFetchSize);
+      await releaseTestWidgetTree(tester);
     },
   );
 
@@ -245,6 +249,7 @@ void main() {
       ),
     );
     expect(image.size, 40);
+    await releaseTestWidgetTree(tester);
   });
 
   testWidgets('long press opens emoji info sheet for custom emoji', (
@@ -283,6 +288,7 @@ void main() {
 
     expect(find.text(':party:'), findsOneWidget);
     expect(find.text(testL10n.emojiInfoCustomGuildDescription), findsOneWidget);
+    await releaseTestWidgetTree(tester);
   });
 
   testWidgets('category sidebar buttons expose tooltip labels', (tester) async {
@@ -304,5 +310,6 @@ void main() {
       const Locale('en', 'US'),
     );
     expect(find.bySemanticsLabel(l10n.emojiCategoryPeople), findsOneWidget);
+    await releaseTestWidgetTree(tester);
   });
 }

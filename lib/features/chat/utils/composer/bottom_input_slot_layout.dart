@@ -105,6 +105,7 @@ double resolveBottomInputSlotHeight({
   required bool isKeyboardVisible,
   required double safeAreaBottom,
   double? heldSlotHeightOverride,
+  bool unmeasuredKeyboardReserved = false,
 }) {
   if (heldSlotHeightOverride != null) {
     return heldSlotHeightOverride;
@@ -122,7 +123,30 @@ double resolveBottomInputSlotHeight({
   if (isKeyboardVisible && liveKeyboardHeight > 0) {
     return quantizeBottomInputHeight(liveKeyboardHeight);
   }
+  if (unmeasuredKeyboardReserved &&
+      liveKeyboardHeight <= 0 &&
+      anchorHeight > 0) {
+    return quantizeBottomInputHeight(anchorHeight);
+  }
   return 0;
+}
+
+bool shouldClearUnmeasuredKeyboardReservation({
+  required bool unmeasuredKeyboardReserved,
+  required double previousLiveHeight,
+  required double mergedHeight,
+  required bool hadKeyboardInsetWhileReserved,
+}) {
+  if (!unmeasuredKeyboardReserved) {
+    return false;
+  }
+  if (mergedHeight > 0) {
+    return true;
+  }
+  if (previousLiveHeight > 0 && mergedHeight <= 0) {
+    return true;
+  }
+  return hadKeyboardInsetWhileReserved && mergedHeight <= 0;
 }
 
 InlineExpressionPanelSnapTarget inlineExpressionPanelSnapTarget({

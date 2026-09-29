@@ -23,6 +23,7 @@ class MobileKeyboardMetricsState {
     required this.fallbackKeyboardHeight,
     required this.isPortrait,
     this.anchoredKeyboardHeight,
+    this.unmeasuredKeyboardReserved = false,
   });
 
   final double liveKeyboardHeight;
@@ -31,6 +32,7 @@ class MobileKeyboardMetricsState {
   final double? anchoredKeyboardHeight;
   final double fallbackKeyboardHeight;
   final bool isPortrait;
+  final bool unmeasuredKeyboardReserved;
 
   double resolveAnchorHeight() => inlineExpressionPanelAnchorHeight(
     anchoredKeyboardHeight: anchoredKeyboardHeight,
@@ -45,6 +47,7 @@ class MobileKeyboardMetricsState {
     bool clearAnchoredKeyboardHeight = false,
     double? fallbackKeyboardHeight,
     bool? isPortrait,
+    bool? unmeasuredKeyboardReserved,
   }) {
     return MobileKeyboardMetricsState(
       liveKeyboardHeight: liveKeyboardHeight ?? this.liveKeyboardHeight,
@@ -56,6 +59,8 @@ class MobileKeyboardMetricsState {
       fallbackKeyboardHeight:
           fallbackKeyboardHeight ?? this.fallbackKeyboardHeight,
       isPortrait: isPortrait ?? this.isPortrait,
+      unmeasuredKeyboardReserved:
+          unmeasuredKeyboardReserved ?? this.unmeasuredKeyboardReserved,
     );
   }
 }
@@ -76,12 +81,15 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
   /// Paired native systemBars inset for IME-only normalization.
   double _nativeSafeAreaBottom = 0;
 
+  bool _hadKeyboardInsetWhileReserved = false;
+
   @override
   MobileKeyboardMetricsState build() {
     ref.onDispose(_disposeListeners);
     _nativeKeyboardHeight = 0;
     _viewInsetsKeyboardHeight = 0;
     _nativeSafeAreaBottom = 0;
+    _hadKeyboardInsetWhileReserved = false;
     const MobileKeyboardMetricsState initialState = MobileKeyboardMetricsState(
       liveKeyboardHeight: 0,
       isKeyboardVisible: false,
@@ -210,6 +218,17 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
       viewInsetsHeight: _viewInsetsKeyboardHeight,
     );
     final bool nextVisible = mergedHeight > 0;
+    if (state.unmeasuredKeyboardReserved &&
+        (nativeImeOnly > 0 || _viewInsetsKeyboardHeight > 0)) {
+      _hadKeyboardInsetWhileReserved = true;
+    }
+    final bool clearUnmeasuredReservation =
+        shouldClearUnmeasuredKeyboardReservation(
+          unmeasuredKeyboardReserved: state.unmeasuredKeyboardReserved,
+          previousLiveHeight: state.liveKeyboardHeight,
+          mergedHeight: mergedHeight,
+          hadKeyboardInsetWhileReserved: _hadKeyboardInsetWhileReserved,
+        );
     final bool shouldEmit = shouldEmitKeyboardHeightUpdate(
       previousHeight: state.liveKeyboardHeight,
       nextHeight: mergedHeight,
@@ -221,6 +240,9 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
     if (!shouldEmit) {
       if (safeAreaBottom != null && safeAreaBottom != state.safeAreaBottom) {
         state = state.copyWith(safeAreaBottom: safeAreaBottom);
+      }
+      if (clearUnmeasuredReservation && state.unmeasuredKeyboardReserved) {
+        state = state.copyWith(unmeasuredKeyboardReserved: false);
       }
       return;
     }
@@ -238,11 +260,32 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
       isKeyboardVisible: nextVisible,
       safeAreaBottom: resolvedSafeAreaBottom,
       anchoredKeyboardHeight: nextAnchored,
+      unmeasuredKeyboardReserved:
+          !clearUnmeasuredReservation && state.unmeasuredKeyboardReserved,
     );
     if (nextAnchored != null &&
         (previousAnchored == null || nextAnchored > previousAnchored)) {
       _schedulePersistAnchor(nextAnchored);
     }
+  }
+
+  void reserveUnmeasuredKeyboard() {
+    if (!ref.mounted || state.liveKeyboardHeight > 0) {
+      return;
+    }
+    if (state.unmeasuredKeyboardReserved) {
+      return;
+    }
+    _hadKeyboardInsetWhileReserved = false;
+    state = state.copyWith(unmeasuredKeyboardReserved: true);
+  }
+
+  void clearUnmeasuredKeyboardReservation() {
+    if (!ref.mounted || !state.unmeasuredKeyboardReserved) {
+      return;
+    }
+    _hadKeyboardInsetWhileReserved = false;
+    state = state.copyWith(unmeasuredKeyboardReserved: false);
   }
 
   void captureKeyboardAnchor(double height) {

@@ -108,6 +108,81 @@ void main() {
         0,
       );
     });
+
+    test('reserves anchor height when keyboard is focused but unmeasured', () {
+      expect(
+        resolveBottomInputSlotHeight(
+          isPanelOpen: false,
+          transition: BottomInputTransition.idle,
+          lockedHeight: 0,
+          anchorHeight: 302,
+          panelHeight: 0,
+          liveKeyboardHeight: 0,
+          isKeyboardVisible: false,
+          safeAreaBottom: 34,
+          unmeasuredKeyboardReserved: true,
+        ),
+        302,
+      );
+    });
+
+    test('live keyboard height replaces unmeasured reservation', () {
+      expect(
+        resolveBottomInputSlotHeight(
+          isPanelOpen: false,
+          transition: BottomInputTransition.idle,
+          lockedHeight: 0,
+          anchorHeight: 302,
+          panelHeight: 0,
+          liveKeyboardHeight: 318,
+          isKeyboardVisible: true,
+          safeAreaBottom: 34,
+          unmeasuredKeyboardReserved: true,
+        ),
+        318,
+      );
+    });
+  });
+
+  group('shouldClearUnmeasuredKeyboardReservation', () {
+    test('clears after live height drops to zero', () {
+      expect(
+        shouldClearUnmeasuredKeyboardReservation(
+          unmeasuredKeyboardReserved: true,
+          previousLiveHeight: 302,
+          mergedHeight: 0,
+          hadKeyboardInsetWhileReserved: false,
+        ),
+        isTrue,
+      );
+    });
+
+    test(
+      'clears when inset was seen then keyboard hides without live height',
+      () {
+        expect(
+          shouldClearUnmeasuredKeyboardReservation(
+            unmeasuredKeyboardReserved: true,
+            previousLiveHeight: 0,
+            mergedHeight: 0,
+            hadKeyboardInsetWhileReserved: true,
+          ),
+          isTrue,
+        );
+      },
+    );
+
+    test('keeps reservation before any inset while opening', () {
+      expect(
+        shouldClearUnmeasuredKeyboardReservation(
+          unmeasuredKeyboardReserved: true,
+          previousLiveHeight: 0,
+          mergedHeight: 0,
+          hadKeyboardInsetWhileReserved: false,
+        ),
+        isFalse,
+      );
+    });
   });
 
   group('resolvePanelReservedLayoutHeight', () {

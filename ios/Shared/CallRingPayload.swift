@@ -20,7 +20,6 @@ struct CallRingFields: Equatable {
 }
 
 enum CallRingResolver {
-  static let fallbackName = "Fluxer"
   static let fallbackHandle = "Incoming call"
   static let minimumDurationMs = 1000
 
@@ -63,7 +62,7 @@ enum CallRingResolver {
         channelId: channelId,
         messageId: messageId,
         callerId: text(fields["caller_id"]),
-        callerName: callerName ?? fallbackName,
+        callerName: callerName ?? fallbackHandle,
         handle: callerName ?? fallbackHandle,
         callerAvatarUrl: text(fields["caller_avatar_url"]),
         durationMs: max(minimumDurationMs, remaining)

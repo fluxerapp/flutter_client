@@ -23,6 +23,11 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
   private var answerHangup: DispatchWorkItem?
   private var methodChannel: FlutterMethodChannel?
   private var pendingNotify: (event: String, body: [String: Any], uuid: UUID)?
+  private var pendingTerminal: (event: String, body: [String: Any])?
+  private var listenerReady = false
+  private var notifyAttempt = 0
+  private var notifyRetry: DispatchWorkItem?
+  private var terminalRetry: DispatchWorkItem?
   private var callAudioActive = false
   private var backgroundTask = UIBackgroundTaskIdentifier.invalid
   private var backgroundGeneration = 0
@@ -77,6 +82,20 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
             result(ringing)
           }
         }
+      case "currentCalls":
+        self.queue.async {
+          let payload = self.currentCallsPayload()
+          DispatchQueue.main.async {
+            result(payload)
+          }
+        }
+      case "listening":
+        self.queue.async {
+          self.markListenerReady()
+          DispatchQueue.main.async {
+            result(nil)
+          }
+        }
       default:
         result(FlutterMethodNotImplemented)
       }
@@ -97,14 +116,14 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
         completion: completion
       )
     case .reject(let messageId):
-      NSLog("[CallKit] voip push kept on screen without a parsed ring")
+      NSLog("[CallKit] voip push was not a live ring")
       let uuid = messageId.map { CallRingUuid.v5(name: $0) } ?? UUID()
       report(
         uuid: uuid,
-        name: CallRingResolver.fallbackName,
+        name: CallRingResolver.fallbackHandle,
         handle: CallRingResolver.fallbackHandle,
         fields: nil,
-        endAfterReport: false,
+        endAfterReport: true,
         completion: completion
       )
     }
@@ -123,6 +142,9 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
       self.ringTimers.removeAll()
       self.calls.removeAll()
       self.pendingNotify = nil
+      self.cancelNotifyRetry()
+      self.terminalRetry?.cancel()
+      self.terminalRetry = nil
       self.callAudioActive = false
     }
   }
@@ -206,12 +228,13 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
     }
     if pendingNotify?.uuid == uuid {
       pendingNotify = nil
+      cancelNotifyRetry()
     }
     guard let call else {
       return
     }
     let event = call.answered ? Self.endedEvent : Self.declineEvent
-    emit(event, body: eventBody(call, uuid: uuid, accepted: call.answered))
+    emitTerminal(event, body: eventBody(call, uuid: uuid, accepted: call.answered))
   }
 
   private func report(
@@ -345,6 +368,7 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
       calls.removeValue(forKey: other)
       if pendingNotify?.uuid == other {
         pendingNotify = nil
+        cancelNotifyRetry()
       }
       callProvider?.end(uuid: other, reason: .unanswered)
     }
@@ -367,9 +391,10 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
     calls.removeValue(forKey: uuid)
     if pendingNotify?.uuid == uuid {
       pendingNotify = nil
+      cancelNotifyRetry()
     }
     callProvider?.end(uuid: uuid, reason: .unanswered)
-    emit(Self.timeoutEvent, body: eventBody(call, uuid: uuid, accepted: false))
+    emitTerminal(Self.timeoutEvent, body: eventBody(call, uuid: uuid, accepted: false))
   }
 
   private func scheduleAnswerHangup() {
@@ -402,6 +427,7 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
     }
     ringTimers.removeAll()
     pendingNotify = nil
+    cancelNotifyRetry()
     let ending = Array(calls.keys)
     calls.removeAll()
     for uuid in ending {
@@ -427,21 +453,88 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
     ]
   }
 
+  private func currentCallsPayload() -> [[String: Any]] {
+    var payload: [[String: Any]] = []
+    payload.reserveCapacity(calls.count)
+    for (uuid, call) in calls {
+      payload.append(eventBody(call, uuid: uuid, accepted: call.answered))
+    }
+    return payload
+  }
+
   private func publish(_ event: String, uuid: UUID, body: [String: Any]) {
     pendingNotify = (event, body, uuid)
+    notifyAttempt = 0
     emit(event, body: body)
-    for delay in [1.0, 3.0] {
-      queue.asyncAfter(deadline: .now() + delay) { [weak self] in
-        self?.retryNotify()
-      }
+    scheduleNotifyRetry()
+  }
+
+  private func scheduleNotifyRetry() {
+    cancelNotifyRetry()
+    guard !listenerReady, pendingNotify != nil else {
+      return
     }
+    guard notifyAttempt < Self.notifyRetryDelays.count else {
+      return
+    }
+    let delay = Self.notifyRetryDelays[notifyAttempt]
+    notifyAttempt += 1
+    let work = DispatchWorkItem { [weak self] in
+      self?.retryNotify()
+    }
+    notifyRetry = work
+    queue.asyncAfter(deadline: .now() + delay, execute: work)
   }
 
   private func retryNotify() {
-    guard let pending = pendingNotify, calls[pending.uuid] != nil else {
+    notifyRetry = nil
+    guard !listenerReady, let pending = pendingNotify, calls[pending.uuid] != nil else {
       return
     }
     emit(pending.event, body: pending.body)
+    scheduleNotifyRetry()
+  }
+
+  private func cancelNotifyRetry() {
+    notifyRetry?.cancel()
+    notifyRetry = nil
+  }
+
+  private func markListenerReady() {
+    listenerReady = true
+    cancelNotifyRetry()
+    if let pending = pendingNotify, calls[pending.uuid] != nil {
+      emit(pending.event, body: pending.body)
+    }
+    pendingNotify = nil
+    guard let terminal = pendingTerminal else {
+      return
+    }
+    emit(terminal.event, body: terminal.body)
+    scheduleTerminalRetry()
+  }
+
+  private func emitTerminal(_ event: String, body: [String: Any]) {
+    pendingTerminal = (event, body)
+    emit(event, body: body)
+    guard listenerReady else {
+      return
+    }
+    scheduleTerminalRetry()
+  }
+
+  private func scheduleTerminalRetry() {
+    terminalRetry?.cancel()
+    let work = DispatchWorkItem { [weak self] in
+      guard let self, let pending = self.pendingTerminal else {
+        return
+      }
+      self.pendingTerminal = nil
+      self.terminalRetry = nil
+      self.emit(pending.event, body: pending.body)
+    }
+    terminalRetry = work
+    queue.asyncAfter(deadline: .now() + 1, execute: work)
   }
 
   private func reemitAudioSessionIfActive() {
@@ -547,6 +640,7 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
       && nsError.code == CXErrorCodeIncomingCallError.callUUIDAlreadyExists.rawValue
   }
 
+  private static let notifyRetryDelays: [Double] = [1, 2, 3, 5, 8, 13, 21]
   private static let incomingEvent = "com.hiennv.flutter_callkit_incoming.ACTION_CALL_INCOMING"
   private static let acceptEvent = "com.hiennv.flutter_callkit_incoming.ACTION_CALL_ACCEPT"
   private static let declineEvent = "com.hiennv.flutter_callkit_incoming.ACTION_CALL_DECLINE"

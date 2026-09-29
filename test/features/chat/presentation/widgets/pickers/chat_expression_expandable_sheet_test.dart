@@ -229,6 +229,62 @@ void main() {
       expect(heightAfterSelect, closeTo(dockedHeight, 4));
     });
 
+    testWidgets(
+      'selecting an expression docks a search-expanded sheet and unfocuses search',
+      (tester) async {
+        final ProviderContainer container = ProviderContainer();
+        addTearDown(container.dispose);
+        await _pumpSheet(
+          tester,
+          colorTheme: colorTheme,
+          container: container,
+          includeSearchField: true,
+        );
+        container.read(expressionPanelProvider.notifier).open();
+        await tester.pump();
+        final Finder sheet = find.byKey(kChatExpressionSheetKey);
+        final double dockedHeight = tester.getSize(sheet).height;
+        final ChatExpressionExpandableSheetState sheetState = tester.state(
+          find.byType(ChatExpressionExpandableSheet),
+        );
+        sheetState.onSearchActivatedForTest();
+        await tester.pumpAndSettle();
+        expect(sheetState.searchFocusNodeForTest.hasFocus, isTrue);
+        expect(tester.getSize(sheet).height, greaterThan(dockedHeight + 40));
+        sheetState.onEmojiSelectForTest('thumbsup', '\uD83D\uDC4D');
+        await tester.pumpAndSettle();
+        expect(tester.getSize(sheet).height, closeTo(dockedHeight, 4));
+        expect(sheetState.searchFocusNodeForTest.hasFocus, isFalse);
+      },
+    );
+
+    testWidgets(
+      'selecting an expression docks when search focus locked the expanded height',
+      (tester) async {
+        await _pumpSheet(
+          tester,
+          colorTheme: colorTheme,
+          includeSearchField: true,
+        );
+        final Finder sheet = find.byKey(kChatExpressionSheetKey);
+        final double dockedHeight = tester.getSize(sheet).height;
+        final ChatExpressionExpandableSheetState sheetState = tester.state(
+          find.byType(ChatExpressionExpandableSheet),
+        );
+        await _expandSheet(tester);
+        final double expandedHeight = tester.getSize(sheet).height;
+        expect(expandedHeight, greaterThan(dockedHeight + 40));
+        sheetState.searchFocusNodeForTest.requestFocus();
+        await tester.pump();
+        expect(sheetState.searchFocusNodeForTest.hasFocus, isTrue);
+        expect(tester.getSize(sheet).height, closeTo(expandedHeight, 4));
+        sheetState.onEmojiSelectForTest('thumbsup', '\uD83D\uDC4D');
+        await tester.pumpAndSettle();
+        expect(tester.getSize(sheet).height, closeTo(dockedHeight, 4));
+        expect(sheetState.searchFocusNodeForTest.hasFocus, isFalse);
+      },
+    );
+
     testWidgets('close animates height before provider teardown', (
       tester,
     ) async {
@@ -366,11 +422,22 @@ void main() {
   });
 }
 
+Future<void> _expandSheet(WidgetTester tester) async {
+  final Offset handleCenter = tester.getCenter(
+    find.byKey(kChatExpressionSheetDragHeaderKey),
+  );
+  final TestGesture expandGesture = await tester.startGesture(handleCenter);
+  await expandGesture.moveBy(const Offset(0, -220));
+  await expandGesture.up();
+  await tester.pumpAndSettle();
+}
+
 Future<void> _pumpSheet(
   WidgetTester tester, {
   required FluxerColorTheme colorTheme,
   double collapsedHeight = _kDockedContentHeight,
   ProviderContainer? container,
+  bool includeSearchField = false,
 }) async {
   await tester.binding.setSurfaceSize(_kMobileViewport);
   addTearDown(() => tester.binding.setSurfaceSize(null));
@@ -419,13 +486,30 @@ Future<void> _pumpSheet(
                           BuildContext context,
                           ScrollController scrollController,
                         ) {
-                          return ListView(
+                          final Widget list = ListView(
                             controller: scrollController,
                             children: const <Widget>[
                               SizedBox(
                                 height: 800,
                                 child: ColoredBox(color: Color(0xFF333333)),
                               ),
+                            ],
+                          );
+                          if (!includeSearchField) {
+                            return list;
+                          }
+                          final FocusNode focusNode = context
+                              .findAncestorStateOfType<
+                                ChatExpressionExpandableSheetState
+                              >()!
+                              .searchFocusNodeForTest;
+                          return Column(
+                            children: <Widget>[
+                              Focus(
+                                focusNode: focusNode,
+                                child: const SizedBox.shrink(),
+                              ),
+                              Expanded(child: list),
                             ],
                           );
                         },

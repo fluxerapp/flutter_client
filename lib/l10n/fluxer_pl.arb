@@ -134,22 +134,6 @@
     "@orDivider": {
         "description": "Divider between alternative actions (e.g. email login vs SSO)."
     },
-    "captchaTitle": "Potwierdź, że nie jesteś robotem",
-    "@captchaTitle": {
-        "description": "Title for the captcha verification modal."
-    },
-    "captchaDescription": "Musimy upewnić się, że nie jesteś botem. Ukończ poniższą weryfikację.",
-    "@captchaDescription": {
-        "description": "Explanatory text in the captcha modal body."
-    },
-    "captchaSwitchToHcaptcha": "Masz problemy? Spróbuj użyć hCaptcha",
-    "@captchaSwitchToHcaptcha": {
-        "description": "Link to switch from Turnstile to hCaptcha provider."
-    },
-    "captchaSwitchToTurnstile": "Wypróbuj Turnstile",
-    "@captchaSwitchToTurnstile": {
-        "description": "Link to switch from hCaptcha to Turnstile provider."
-    },
     "cancel": "Anuluj",
     "@cancel": {
         "description": "Generic cancel button label."
@@ -12003,10 +11987,6 @@
     "phoneNotEligible": "Weryfikacja numeru telefonu nie jest dostępna dla tego konta. Użyj innej metody lub skontaktuj się z pomocą techniczną.",
     "@phoneNotEligible": {
         "description": "Account not eligible for phone verification."
-    },
-    "phoneCaptchaRequired": "Przed weryfikacją telefonu wymagane jest sprawdzenie przeglądarki. Spróbuj ponownie ze strony logowania lub skontaktuj się z pomocą techniczną.",
-    "@phoneCaptchaRequired": {
-        "description": "Captcha required for phone verification."
     },
     "phoneInboundStepOpenMessaging": "Otwórz aplikację do SMS-ów w telefonie i utwórz nową wiadomość.",
     "@phoneInboundStepOpenMessaging": {
