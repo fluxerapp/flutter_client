@@ -11,11 +11,13 @@ class PremiumPurchaseDisclaimer extends StatelessWidget {
   const PremiumPurchaseDisclaimer({
     this.isPremium = false,
     this.alignCenter = true,
+    this.showRefundNote = true,
     super.key,
   });
 
   final bool isPremium;
   final bool alignCenter;
+  final bool showRefundNote;
 
   @override
   Widget build(BuildContext context) {
@@ -69,12 +71,14 @@ class PremiumPurchaseDisclaimer extends StatelessWidget {
             ),
             textAlign: alignCenter ? TextAlign.center : TextAlign.start,
           ),
-          SizedBox(height: layout.s2),
-          Text(
-            l10n.premiumDisclaimerRefund,
-            style: mutedStyle,
-            textAlign: alignCenter ? TextAlign.center : TextAlign.start,
-          ),
+          if (showRefundNote) ...[
+            SizedBox(height: layout.s2),
+            Text(
+              l10n.premiumDisclaimerRefund,
+              style: mutedStyle,
+              textAlign: alignCenter ? TextAlign.center : TextAlign.start,
+            ),
+          ],
         ],
       ),
     );

@@ -34,12 +34,12 @@ WellKnownFluxerResponse _buildEveryoneModeWellKnown() {
     ),
     captcha: InstanceCaptchaSchema(
       provider: InstanceCaptchaProviderSchema.none,
-      hcaptchaSiteKey: null,
-      turnstileSiteKey: null,
     ),
     features: InstanceFeaturesSchema(
       voiceEnabled: true,
       stripeEnabled: false,
+      premiumEnabled: false,
+      stripeServiceable: false,
       selfHosted: true,
       presignedAttachmentUploads: false,
       emailsEnabled: false,
@@ -92,6 +92,8 @@ WellKnownFluxerResponse _buildEveryoneModeWellKnown() {
         themeColor: null,
         statusPageUrl: null,
         statusPageIncidentHistoryUrl: null,
+        premiumProductName: 'Plutonium',
+        premiumInfoUrl: null,
       ),
       setup: InstanceSetupSchema(configured: true, adminUrl: null),
       legal: InstanceAppPublicSchemaLegal(termsUrl: null, privacyUrl: null),

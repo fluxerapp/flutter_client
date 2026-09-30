@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
+import 'package:fluxer_app/core/premium/plutonium_store_gate.dart';
 import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
@@ -99,7 +100,7 @@ class FluxerPlutoniumUpsell extends ConsumerWidget {
   }
 
   void _openPlutonium(BuildContext context) {
-    if (AppBuildConfig.isOssWebCheckout) {
+    if (AppBuildConfig.isOssWebCheckout || isPlutoniumStorePageActive()) {
       unawaited(
         openUserBillingSettings(context, UserSettingsSection.fluxerPlutonium),
       );

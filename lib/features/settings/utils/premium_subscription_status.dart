@@ -29,6 +29,9 @@ class PremiumSubscriptionStatus {
     required this.shouldUseCancelQuickAction,
     required this.shouldUseReactivateQuickAction,
     required this.shouldUseChangePlanQuickAction,
+    this.subscriptionProvider,
+    this.manageUrl,
+    this.allowsStripeBilling = true,
   });
 
   final bool isPremium;
@@ -44,6 +47,9 @@ class PremiumSubscriptionStatus {
   final bool shouldUseCancelQuickAction;
   final bool shouldUseReactivateQuickAction;
   final bool shouldUseChangePlanQuickAction;
+  final PremiumSubscriptionProvider? subscriptionProvider;
+  final String? manageUrl;
+  final bool allowsStripeBilling;
 }
 
 DateTime? _parseOptionalDate(String? value) {
@@ -81,10 +87,27 @@ PremiumSubscriptionStatus computePremiumSubscriptionStatus({
       (actual?.isVisionary ?? false);
   final bool hasEverPurchased =
       actual?.hasEverPurchased ?? userPrivate?.hasEverPurchased ?? false;
-  final bool premiumWillCancel =
-      actual?.premiumWillCancel ?? userPrivate?.premiumWillCancel ?? false;
+  final PremiumSubscriptionProvider? subscriptionProvider =
+      premiumState?.subscriptionProvider;
+  final bool storeOwnsSubscription =
+      subscriptionProvider == PremiumSubscriptionProvider.appStore ||
+      subscriptionProvider == PremiumSubscriptionProvider.googlePlay;
+  final PremiumStoreSubscriptionState? store = storeOwnsSubscription
+      ? premiumState?.store
+      : null;
+  final bool allowsStripeBilling =
+      subscriptionProvider == null ||
+      subscriptionProvider == PremiumSubscriptionProvider.stripe;
+  final bool premiumWillCancel = store != null
+      ? !store.willRenew
+      : (actual?.premiumWillCancel ?? userPrivate?.premiumWillCancel ?? false);
   final String? billingCycle =
-      actual?.premiumBillingCycle?.json ?? userPrivate?.premiumBillingCycle;
+      actual?.premiumBillingCycle?.json ??
+      store?.billingCycle.json ??
+      userPrivate?.premiumBillingCycle;
+  final String? manageUrl = store == null || store.manageUrl.isEmpty
+      ? null
+      : store.manageUrl;
   final bool isGiftSubscription =
       billingCycle == null &&
       hasPaidPremium &&
@@ -139,6 +162,7 @@ PremiumSubscriptionStatus computePremiumSubscriptionStatus({
   final bool shouldShowPremiumCard =
       hasPaidPremium || isInGracePeriod || showExpiredState;
   final bool shouldUseCancelQuickAction =
+      allowsStripeBilling &&
       hasPaidPremium &&
       !isVisionary &&
       !isInGracePeriod &&
@@ -146,6 +170,7 @@ PremiumSubscriptionStatus computePremiumSubscriptionStatus({
       !premiumWillCancel &&
       !isGiftSubscription;
   final bool shouldUseReactivateQuickAction =
+      allowsStripeBilling &&
       hasPaidPremium &&
       premiumWillCancel &&
       !isVisionary &&
@@ -153,6 +178,7 @@ PremiumSubscriptionStatus computePremiumSubscriptionStatus({
       !isFullyExpired &&
       !isGiftSubscription;
   final bool shouldUseChangePlanQuickAction =
+      allowsStripeBilling &&
       hasPaidPremium &&
       !isVisionary &&
       !isInGracePeriod &&
@@ -175,5 +201,8 @@ PremiumSubscriptionStatus computePremiumSubscriptionStatus({
     shouldUseCancelQuickAction: shouldUseCancelQuickAction,
     shouldUseReactivateQuickAction: shouldUseReactivateQuickAction,
     shouldUseChangePlanQuickAction: shouldUseChangePlanQuickAction,
+    subscriptionProvider: subscriptionProvider,
+    manageUrl: manageUrl,
+    allowsStripeBilling: allowsStripeBilling,
   );
 }

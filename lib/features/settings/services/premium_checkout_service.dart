@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/premium/premium_billing_service.dart';
 import 'package:fluxer_app/features/settings/providers/premium_settings_state_provider.dart';
+import 'package:fluxer_app/features/settings/utils/premium_subscription_manage.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/providers/current_user_private_provider.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
@@ -58,7 +59,7 @@ Future<void> startPremiumCheckout({
   }
 
   CheckoutPaymentMethodEnum? paymentMethod;
-  final String? currency = priceIds.currency.json;
+  final String currency = priceIds.currency;
   if (!selected.isGift &&
       (plan == PremiumCheckoutPlan.monthly ||
           plan == PremiumCheckoutPlan.yearly)) {
@@ -167,6 +168,23 @@ Future<void> openPremiumCustomerPortal(
   await handleExternalLinkTap(context, url, skipWarning: true);
 }
 
+Future<void> openPremiumManageAction(
+  BuildContext context,
+  WidgetRef ref,
+  PremiumManageAction action,
+) async {
+  switch (action.kind) {
+    case PremiumManageKind.customerPortal:
+      await openPremiumCustomerPortal(context, ref);
+    case PremiumManageKind.storeUrl:
+      final String? url = action.url;
+      if (url == null || !context.mounted) {
+        return;
+      }
+      await handleExternalLinkTap(context, url, skipWarning: true);
+  }
+}
+
 Future<void> _refreshPremiumBillingState(WidgetRef ref) async {
   await ref.read(premiumSettingsStateProvider.notifier).refresh();
   await ref.read(currentUserPrivateReadProvider.notifier).refresh();
@@ -251,24 +269,7 @@ Future<void> _handleCheckoutDioError(
         );
         return;
       case 'existing_subscription':
-        await FluxerModal.show<void>(
-          context,
-          title: l10n.premiumExistingSubscriptionTitle,
-          description: l10n.premiumExistingSubscriptionBody,
-          centered: true,
-          actionsBuilder: (pop) => [
-            TextButton(
-              onPressed: () async {
-                pop();
-                if (context.mounted) {
-                  await openPremiumCustomerPortal(context, ref);
-                }
-              },
-              child: Text(l10n.premiumManageSubscription),
-            ),
-          ],
-          builder: (_, _) => const SizedBox.shrink(),
-        );
+        await _showExistingSubscription(context, ref, l10n);
         return;
       case 'purchase_disabled':
         await _showCheckoutError(
@@ -286,6 +287,45 @@ Future<void> _handleCheckoutDioError(
     context,
     title: l10n.premiumCheckoutStartFailedTitle,
     message: l10n.premiumCheckoutStartFailedBody,
+  );
+}
+
+Future<void> _showExistingSubscription(
+  BuildContext context,
+  WidgetRef ref,
+  FluxerLocalizations l10n,
+) async {
+  final PremiumStateResponse? premium = ref
+      .read(premiumSettingsStateProvider)
+      .value;
+  final PremiumManageAction? action = premiumManageAction(
+    surface: PremiumManageSurface.billing,
+    provider: premium?.subscriptionProvider,
+    manageUrl: premium?.store?.manageUrl,
+  );
+  final bool portal = action?.kind == PremiumManageKind.customerPortal;
+  await FluxerModal.show<void>(
+    context,
+    title: l10n.premiumExistingSubscriptionTitle,
+    description: portal
+        ? l10n.premiumExistingSubscriptionBody
+        : l10n.storePlutoniumAlreadySubscribed,
+    centered: true,
+    actionsBuilder: (pop) => [
+      if (action != null)
+        TextButton(
+          onPressed: () async {
+            pop();
+            if (context.mounted) {
+              await openPremiumManageAction(context, ref, action);
+            }
+          },
+          child: Text(l10n.premiumManageSubscription),
+        )
+      else
+        TextButton(onPressed: () => pop(), child: Text(l10n.okay)),
+    ],
+    builder: (_, _) => const SizedBox.shrink(),
   );
 }
 

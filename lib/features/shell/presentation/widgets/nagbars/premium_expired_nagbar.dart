@@ -1,17 +1,19 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/premium/premium_billing_service.dart';
+import 'package:fluxer_app/features/settings/providers/premium_settings_state_provider.dart';
+import 'package:fluxer_app/features/settings/utils/premium_subscription_manage.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/nagbar_widget.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/premium_grace_period_nagbar.dart';
+import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/premium_nagbar_manage.dart';
 import 'package:fluxer_app/features/shell/providers/nagbar_dismissals_provider.dart';
 import 'package:fluxer_app/features/ui/nagbar/fluxer_nagbar.dart';
 import 'package:fluxer_app/features/ui/nagbar/fluxer_nagbar_button.dart';
 import 'package:fluxer_app/features/ui/nagbar/fluxer_nagbar_content.dart';
-import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
-import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
+import 'package:fluxer_dart/export.dart';
 
 class PremiumExpiredNagbar extends ConsumerStatefulWidget
     implements NagbarWidget {
@@ -25,33 +27,32 @@ class PremiumExpiredNagbar extends ConsumerStatefulWidget
 class _PremiumExpiredNagbarState extends ConsumerState<PremiumExpiredNagbar> {
   bool _isLoading = false;
 
-  Future<void> _openPortal() async {
-    setState(() => _isLoading = true);
-    final String? url = await createPremiumCustomerPortalSession(ref);
-    if (!mounted) {
-      return;
-    }
-    setState(() => _isLoading = false);
-    if (url == null) {
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: FluxerLocalizations.of(
-                context,
-              ).nagbarBillingPortalFailed,
-              variant: FluxerToastVariant.danger,
-            ),
-          );
-      return;
-    }
-    await handleExternalLinkTap(context, url);
+  Future<void> _openManage(PremiumManageAction action) {
+    return openPremiumNagbarManage(
+      context: context,
+      ref: ref,
+      action: action,
+      setLoading: ({required bool loading}) =>
+          setState(() => _isLoading = loading),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final bool isMobile = isMobileLayout(context);
+    final PremiumStateResponse? premium = ref
+        .watch(premiumSettingsStateProvider)
+        .value;
+    final PremiumManageAction? manage = premiumNagbarManageAction(
+      provider: premium?.subscriptionProvider,
+      manageUrl: premium?.store?.manageUrl,
+    );
+    VoidCallback? onManage;
+    if (!_isLoading && manage != null) {
+      final PremiumManageAction action = manage;
+      onManage = () => unawaited(_openManage(action));
+    }
     return FluxerNagbar(
       isMobile: isMobile,
       backgroundColor: const Color(0xFFDC2626),
@@ -64,12 +65,14 @@ class _PremiumExpiredNagbarState extends ConsumerState<PremiumExpiredNagbar> {
         message: l10n.nagbarPremiumExpired(kPremiumProductName),
         onDismiss: () =>
             ref.read(nagbarDismissalsProvider.notifier).dismissPremiumExpired(),
-        actions: FluxerNagbarButton(
-          isMobile: isMobile,
-          label: l10n.nagbarManageSubscription,
-          isLoading: _isLoading,
-          onPressed: _isLoading ? null : _openPortal,
-        ),
+        actions: manage == null
+            ? null
+            : FluxerNagbarButton(
+                isMobile: isMobile,
+                label: l10n.nagbarManageSubscription,
+                isLoading: _isLoading,
+                onPressed: onManage,
+              ),
       ),
     );
   }

@@ -306,6 +306,96 @@ void main() {
       );
     });
 
+    testWidgets('renders strikethrough around masked links', (tester) async {
+      const String url = 'https://fluxer.app';
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: FluxerMarkdown(
+              astParser: parseTestMarkdownAst,
+              data: '~~[strike]($url)~~',
+              config: _testMarkdownConfig,
+            ),
+          ),
+        ),
+      );
+      final RichText richText = tester.widget<RichText>(find.byType(RichText));
+      expect(richText.text.toPlainText(), 'strike');
+      expect(
+        _leafTextHasStyle(
+          richText.text,
+          'strike',
+          decoration: TextDecoration.lineThrough,
+        ),
+        isTrue,
+      );
+    });
+
+    testWidgets('renders strikethrough around autolinks', (tester) async {
+      const String url = 'https://fluxer.app';
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: FluxerMarkdown(
+              astParser: parseTestMarkdownAst,
+              data: '~~$url~~',
+              config: _testMarkdownConfig,
+            ),
+          ),
+        ),
+      );
+      final RichText richText = tester.widget<RichText>(find.byType(RichText));
+      expect(richText.text.toPlainText(), url);
+      expect(
+        _leafTextHasStyle(
+          richText.text,
+          url,
+          decoration: TextDecoration.lineThrough,
+        ),
+        isTrue,
+      );
+    });
+
+    testWidgets('keeps underline on struck links when links are underlined', (
+      tester,
+    ) async {
+      const String url = 'https://fluxer.app';
+      const FluxerMarkdownConfig config = FluxerMarkdownConfig(
+        resolveEmojiShortcode: _noopEmojiShortcode,
+        unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
+        customEmojiUrlBuilder: _noopCustomEmojiUrl,
+        alwaysUnderlineLinks: true,
+      );
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: FluxerMarkdown(
+              astParser: parseTestMarkdownAst,
+              data: '~~[strike]($url)~~',
+              config: config,
+            ),
+          ),
+        ),
+      );
+      final RichText richText = tester.widget<RichText>(find.byType(RichText));
+      expect(
+        _leafTextHasStyle(
+          richText.text,
+          'strike',
+          decoration: TextDecoration.lineThrough,
+        ),
+        isTrue,
+      );
+      expect(
+        _leafTextHasStyle(
+          richText.text,
+          'strike',
+          decoration: TextDecoration.underline,
+        ),
+        isTrue,
+      );
+    });
+
     testWidgets('renders strikethrough inside masked link labels', (
       tester,
     ) async {

@@ -91,6 +91,7 @@ int _keywordMatchScore(List<String> keywords, String word) {
 Set<UserSettingsSection> visibleUserSettingsSearchSections({
   required bool showBilling,
   required bool isTouchPrimary,
+  bool showGifts = true,
 }) {
   return {
     for (final UserSettingsSection section in UserSettingsSection.values)
@@ -98,6 +99,7 @@ Set<UserSettingsSection> visibleUserSettingsSearchSections({
           isUserSettingsBillingSectionAvailable(
             section,
             showBilling: showBilling,
+            showGifts: showGifts,
           ) &&
           (section != UserSettingsSection.defaultApps ||
               isFluxerNativeMobileOs) &&
@@ -113,6 +115,7 @@ List<UserSettingsSearchHit> searchVisibleUserSettings({
   required String query,
   required bool showBilling,
   required bool isTouchPrimary,
+  bool showGifts = true,
   String productName = InstanceConstants.defaultProductName,
 }) {
   if (query.trim().isEmpty) {
@@ -123,6 +126,7 @@ List<UserSettingsSearchHit> searchVisibleUserSettings({
     query: query,
     visibleSections: visibleUserSettingsSearchSections(
       showBilling: showBilling,
+      showGifts: showGifts,
       isTouchPrimary: isTouchPrimary,
     ),
     isTouchPrimary: isTouchPrimary,

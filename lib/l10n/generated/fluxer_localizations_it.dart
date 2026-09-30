@@ -9976,6 +9976,183 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   String get premiumPerkVideoQualityStock => 'Fino a 4K/60fps';
 
   @override
+  String storePlutoniumPriceLine(String monthly, String yearly) {
+    return '$monthly or $yearly';
+  }
+
+  @override
+  String get storePlutoniumMonthSuffix => '/mo';
+
+  @override
+  String get storePlutoniumYearSuffix => '/yr';
+
+  @override
+  String get storePlutoniumPriceOr => 'or';
+
+  @override
+  String get storePlutoniumEmojiTitle => 'Your emojis, everywhere';
+
+  @override
+  String get storePlutoniumEmojiBody =>
+      'Bring custom emojis and stickers from any of your communities into every chat and community you\'re in.';
+
+  @override
+  String get storePlutoniumProfileTitle => 'A profile that stands out';
+
+  @override
+  String get storePlutoniumProfileBody =>
+      'Get an animated avatar and banner, a subscriber badge, the four-digit tag you want after your username*, and a separate profile for each community.';
+
+  @override
+  String get storePlutoniumFilesTitle => 'Send files up to 500 MB';
+
+  @override
+  String get storePlutoniumFilesBody =>
+      'Share full-length videos and big files without shrinking them first. Free accounts can send up to 25 MB.';
+
+  @override
+  String get storePlutoniumCompareTitle => 'Compare Free and Plutonium';
+
+  @override
+  String get storePlutoniumCompareMobileNote =>
+      'Not all of these features are in the mobile app. Some are only available on desktop.';
+
+  @override
+  String get storePlutoniumNotAvailable => 'Not available';
+
+  @override
+  String get storePlutoniumAvailable => 'Available';
+
+  @override
+  String get storePlutoniumCompareTag =>
+      'Pick the 4-digit number after your username*';
+
+  @override
+  String get storePlutoniumCompareProfile =>
+      'A separate profile for each community';
+
+  @override
+  String get storePlutoniumCompareBadge => 'Subscriber badge on your profile';
+
+  @override
+  String get storePlutoniumCompareBackgrounds =>
+      'Video call backgrounds you can save';
+
+  @override
+  String get storePlutoniumCompareCommunities => 'Communities you can join';
+
+  @override
+  String get storePlutoniumCompareCharacters =>
+      'Characters in a single message';
+
+  @override
+  String get storePlutoniumCompareBookmarks => 'Messages you can bookmark';
+
+  @override
+  String get storePlutoniumCompareUpload => 'Largest file you can upload';
+
+  @override
+  String get storePlutoniumCompareSavedMedia =>
+      'Media items you can save for later';
+
+  @override
+  String get storePlutoniumCompareAnimatedEmoji =>
+      'Use animated emojis in messages';
+
+  @override
+  String get storePlutoniumCompareCustomEmoji =>
+      'Use custom emojis and stickers in any community';
+
+  @override
+  String get storePlutoniumCompareVideo =>
+      'Video call and screen share quality';
+
+  @override
+  String get storePlutoniumCompareAvatar =>
+      'Animated avatar and profile banner';
+
+  @override
+  String get storePlutoniumCompareEarlyAccess => 'Early access to new features';
+
+  @override
+  String get storePlutoniumCompareThemes => 'Custom themes for the app';
+
+  @override
+  String get storePlutoniumVideoFree => 'Up to 720p at 30 FPS';
+
+  @override
+  String get storePlutoniumVideoPlutonium => 'Up to 4K at 60 FPS';
+
+  @override
+  String get storePlutoniumTagFootnote =>
+      'You can only pick a tag that nobody else with the same username already has. Usernames aren\'t case sensitive, so Mina#4821 and mina#4821 count as the same. The #0000 tag is reserved for Fluxer Visionary members.';
+
+  @override
+  String get storePlutoniumLearnVisionary => 'Learn more about Visionary.';
+
+  @override
+  String get storePlutoniumDonatePrompt =>
+      'Just want to support Fluxer\'s open source development? ';
+
+  @override
+  String get storePlutoniumDonateLink => 'Donate instead.';
+
+  @override
+  String get storePlutoniumHighlightsLead =>
+      'Subscribing funds Fluxer and unlocks';
+
+  @override
+  String get storePlutoniumHighlightEmoji =>
+      'Custom emoji and stickers in any chat';
+
+  @override
+  String get storePlutoniumHighlightProfile =>
+      'Animated profile, badge, and custom 4-digit number';
+
+  @override
+  String get storePlutoniumHighlightFiles => 'Uploads up to 500 MB';
+
+  @override
+  String get storePlutoniumHighlightMessages =>
+      'Send messages up to 4,000 characters';
+
+  @override
+  String get storePlutoniumHighlightCommunityProfile =>
+      'A separate profile for each community';
+
+  @override
+  String get storePlutoniumHighlightsMore => 'And more';
+
+  @override
+  String get storePlutoniumRenewsThroughPlay =>
+      'Renews automatically through Google Play until you cancel.';
+
+  @override
+  String get storePlutoniumRenewsThroughAppStore =>
+      'Renews automatically through the App Store until you cancel.';
+
+  @override
+  String get storePlutoniumAlreadySubscribed =>
+      'You already have a Fluxer Plutonium subscription.';
+
+  @override
+  String storePlutoniumSavePercent(int percent) {
+    return 'Save $percent%';
+  }
+
+  @override
+  String get storePlutoniumWaiting =>
+      'Purchase received. Plutonium will show here once it activates.';
+
+  @override
+  String get storePlutoniumUnavailable =>
+      'Subscriptions in the app aren\'t available on this device yet.';
+
+  @override
+  String get storePlutoniumVisionaryStatus =>
+      'Visionary already includes permanent access, so a recurring subscription isn\'t needed.';
+
+  @override
   String get userSettingsNavPrivacyDashboard => 'Dashboard privacy';
 
   @override

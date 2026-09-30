@@ -232,9 +232,14 @@ List<UserSettingsDesktopNavEntry> buildUserSettingsDesktopNav({
   required bool showBilling,
   required bool showJoinFluxerLabs,
   required bool isTouchPrimary,
+  bool showGifts = true,
 }) => [
   ..._userSettingsDesktopNavYourAccount,
-  if (showBilling) ..._userSettingsDesktopNavBilling,
+  if (showBilling)
+    ..._userSettingsDesktopNavBilling.where(
+      (UserSettingsDesktopNavEntry entry) =>
+          showGifts || entry.section != UserSettingsSection.giftsAndCodes,
+    ),
   ..._userSettingsDesktopNavApplicationStart,
   if (!isTouchPrimary) ..._userSettingsDesktopNavApplicationShortcuts,
   ..._userSettingsDesktopNavApplicationEnd,
@@ -261,6 +266,7 @@ int? indexForUserSettingsSection(
   required bool showBilling,
   required bool showJoinFluxerLabs,
   required bool isTouchPrimary,
+  bool showGifts = true,
 }) {
   if (!isUserSettingsStaffOnlySectionAvailable(section)) {
     return null;
@@ -268,11 +274,13 @@ int? indexForUserSettingsSection(
   if (!isUserSettingsBillingSectionAvailable(
     section,
     showBilling: showBilling,
+    showGifts: showGifts,
   )) {
     return null;
   }
   final List<UserSettingsDesktopNavEntry> nav = buildUserSettingsDesktopNav(
     showBilling: showBilling,
+    showGifts: showGifts,
     showJoinFluxerLabs: showJoinFluxerLabs,
     isTouchPrimary: isTouchPrimary,
   );
@@ -289,9 +297,11 @@ IconData? iconForUserSettingsSection(
   required bool showBilling,
   required bool showJoinFluxerLabs,
   required bool isTouchPrimary,
+  bool showGifts = true,
 }) {
   for (final UserSettingsDesktopNavEntry entry in buildUserSettingsDesktopNav(
     showBilling: showBilling,
+    showGifts: showGifts,
     showJoinFluxerLabs: showJoinFluxerLabs,
     isTouchPrimary: isTouchPrimary,
   )) {
@@ -319,6 +329,7 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
   required bool showBilling,
   required bool showJoinFluxerLabs,
   required bool isTouchPrimary,
+  bool showGifts = true,
 }) {
   FluxerSettingsNavItem link(UserSettingsSection section, IconData icon) {
     return FluxerSettingsNavItem(
@@ -346,7 +357,8 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
         label: userSettingsNavGroupLabel(l10n, UserSettingsNavGroup.billing),
         items: [
           link(UserSettingsSection.fluxerPlutonium, PhosphorIconsFill.crown),
-          link(UserSettingsSection.giftsAndCodes, PhosphorIconsFill.gift),
+          if (showGifts)
+            link(UserSettingsSection.giftsAndCodes, PhosphorIconsFill.gift),
         ],
       ),
     FluxerSettingsNavGroup(

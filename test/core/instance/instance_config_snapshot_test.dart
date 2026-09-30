@@ -36,6 +36,8 @@ void main() {
             'features': <String, dynamic>{
               'voice_enabled': true,
               'stripe_enabled': true,
+              'premium_enabled': true,
+              'stripe_serviceable': true,
               'self_hosted': false,
               'presigned_attachment_uploads': true,
               'emails_enabled': true,
@@ -81,6 +83,8 @@ void main() {
                 'wordmark_url': null,
                 'favicon_url': null,
                 'theme_color': null,
+                'premium_product_name': 'Plutonium',
+                'premium_info_url': null,
               },
               'setup': <String, dynamic>{'configured': true, 'admin_url': null},
               'legal': <String, dynamic>{

@@ -400,12 +400,12 @@ InstanceConfigSnapshot _snapshot({
       ),
       captcha: const InstanceCaptchaSchema(
         provider: InstanceCaptchaProviderSchema.none,
-        hcaptchaSiteKey: null,
-        turnstileSiteKey: null,
       ),
       features: InstanceFeaturesSchema(
         voiceEnabled: true,
         stripeEnabled: false,
+        premiumEnabled: false,
+        stripeServiceable: false,
         selfHosted: selfHosted,
         presignedAttachmentUploads: false,
         emailsEnabled: true,
@@ -453,6 +453,8 @@ InstanceConfigSnapshot _snapshot({
           themeColor: null,
           statusPageUrl: null,
           statusPageIncidentHistoryUrl: null,
+          premiumProductName: 'Plutonium',
+          premiumInfoUrl: null,
         ),
         setup: const InstanceSetupSchema(configured: true, adminUrl: null),
         legal: InstanceAppPublicSchemaLegal(

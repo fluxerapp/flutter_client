@@ -24,6 +24,7 @@ import flutter_tts
 import flutter_web_auth_2
 import flutter_webrtc
 import gal
+import in_app_purchase_storekit
 import irondash_engine_context
 import livekit_client
 import local_translation
@@ -63,6 +64,7 @@ func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   FlutterWebAuth2Plugin.register(with: registry.registrar(forPlugin: "FlutterWebAuth2Plugin"))
   FlutterWebRTCPlugin.register(with: registry.registrar(forPlugin: "FlutterWebRTCPlugin"))
   GalPlugin.register(with: registry.registrar(forPlugin: "GalPlugin"))
+  InAppPurchasePlugin.register(with: registry.registrar(forPlugin: "InAppPurchasePlugin"))
   IrondashEngineContextPlugin.register(with: registry.registrar(forPlugin: "IrondashEngineContextPlugin"))
   LiveKitPlugin.register(with: registry.registrar(forPlugin: "LiveKitPlugin"))
   LocalTranslationPlugin.register(with: registry.registrar(forPlugin: "LocalTranslationPlugin"))

@@ -13,6 +13,7 @@
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.android.vending.BILLING" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
@@ -240,6 +241,9 @@
         </intent>
         <intent>
             <action android:name="android.intent.action.TTS_SERVICE" />
+        </intent>
+        <intent>
+            <action android:name="com.android.vending.billing.InAppBillingService.BIND" />
         </intent>
         <package android:name="com.android.chrome" />
         <package android:name="org.mozilla.firefox" />

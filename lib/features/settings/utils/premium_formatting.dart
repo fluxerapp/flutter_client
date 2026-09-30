@@ -77,9 +77,12 @@ String formatPremiumShortDate(DateTime date, String locale) {
 }
 
 String? priceIdsCurrencyCode(PremiumCurrency currency) {
-  return currency.json;
+  return currency.isEmpty ? null : currency;
 }
 
-String? giftCurrencyCode(PremiumCurrency currency) {
-  return currency.json;
+String? giftCurrencyCode(PremiumCurrency? currency) {
+  if (currency == null || currency.isEmpty) {
+    return null;
+  }
+  return currency;
 }

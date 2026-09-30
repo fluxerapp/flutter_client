@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/forwarded_message_content.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_sticker_image.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provider.dart';
 import 'package:fluxer_app/features/chat/utils/media/save_message_media_favorite.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
@@ -175,6 +176,24 @@ void main() {
       expect(find.byType(SavedMediaFavoriteToolbarButton), findsOneWidget);
     },
   );
+
+  testWidgets('snapshot stickers are shown inside the forwarded message', (
+    tester,
+  ) async {
+    final MessageSnapshot snapshot = MessageSnapshot(
+      timestamp: DateTime(2026, 5, 9),
+      stickers: const [
+        MessageSticker(id: 'sticker-1', name: 'wave', animated: false),
+      ],
+    );
+
+    await tester.pumpWidget(
+      _buildTestApp(child: _content(snapshot: snapshot, renderEmbeds: false)),
+    );
+
+    expect(find.byType(MessageStickerImage), findsOneWidget);
+    expect(find.bySemanticsLabel('wave'), findsOneWidget);
+  });
 }
 
 String _forwardTooltip(WidgetTester tester) {

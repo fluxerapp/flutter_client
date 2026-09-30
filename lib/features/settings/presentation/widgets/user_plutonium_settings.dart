@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/settings/providers/user_settings_view_model.
 import 'package:fluxer_app/features/settings/services/premium_checkout_service.dart';
 import 'package:fluxer_app/features/settings/utils/open_user_billing_settings.dart';
 import 'package:fluxer_app/features/settings/utils/premium_formatting.dart';
+import 'package:fluxer_app/features/settings/utils/premium_subscription_manage.dart';
 import 'package:fluxer_app/features/settings/utils/premium_subscription_status.dart';
 import 'package:fluxer_app/features/shell/providers/current_user_private_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -116,6 +117,12 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
       currency: giftCurrency,
       locale: locale,
     );
+    final PremiumManageAction? manage = _manageAction(status);
+    VoidCallback? openManage;
+    if (manage != null) {
+      final PremiumManageAction action = manage;
+      openManage = () => unawaited(_openManage(context, action));
+    }
 
     return SingleChildScrollView(
       controller: widget.scrollController,
@@ -162,15 +169,19 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
               portalLoading: _portalLoading,
               cancelLoading: _cancelLoading,
               reactivateLoading: _reactivateLoading,
-              onManage: () => unawaited(_openPortal(context)),
+              onManage: openManage,
               onCancel: () => unawaited(_confirmCancel(context, l10n)),
               onReactivate: () => unawaited(_reactivate(context)),
               onRedeemGift: widget.onOpenGifts,
             ),
-          if (status.hasEverPurchased && premiumState != null) ...[
+          if (status.hasEverPurchased &&
+              premiumState != null &&
+              status.allowsStripeBilling) ...[
             SizedBox(height: layout.s6),
             _PurchaseHistorySection(
-              onManagePayment: () => unawaited(_openPortal(context)),
+              onManagePayment: () => unawaited(
+                _openManage(context, const PremiumManageAction.portal()),
+              ),
               portalLoading: _portalLoading,
             ),
             if (premiumState.billing.refundEligibility.eligible) ...[
@@ -314,9 +325,20 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
     }
   }
 
-  Future<void> _openPortal(BuildContext context) async {
+  PremiumManageAction? _manageAction(PremiumSubscriptionStatus status) {
+    return premiumManageAction(
+      surface: PremiumManageSurface.billing,
+      provider: status.subscriptionProvider,
+      manageUrl: status.manageUrl,
+    );
+  }
+
+  Future<void> _openManage(
+    BuildContext context,
+    PremiumManageAction action,
+  ) async {
     setState(() => _portalLoading = true);
-    await openPremiumCustomerPortal(context, ref);
+    await openPremiumManageAction(context, ref, action);
     if (mounted) {
       setState(() => _portalLoading = false);
     }
@@ -630,7 +652,7 @@ class _SubscriptionSummary extends StatelessWidget {
   final bool portalLoading;
   final bool cancelLoading;
   final bool reactivateLoading;
-  final VoidCallback onManage;
+  final VoidCallback? onManage;
   final VoidCallback onCancel;
   final VoidCallback onReactivate;
   final VoidCallback? onRedeemGift;
@@ -710,7 +732,7 @@ class _SubscriptionSummary extends StatelessWidget {
               spacing: layout.s2,
               runSpacing: layout.s2,
               children: [
-                if (!status.shouldUseReactivateQuickAction)
+                if (onManage != null && !status.shouldUseReactivateQuickAction)
                   FluxerButton.secondary(
                     label: l10n.premiumManageSubscription,
                     isLoading: portalLoading,
@@ -740,9 +762,10 @@ class _SubscriptionSummary extends StatelessWidget {
               ],
             ),
             SizedBox(height: layout.s4),
-            const PremiumPurchaseDisclaimer(
+            PremiumPurchaseDisclaimer(
               isPremium: true,
               alignCenter: false,
+              showRefundNote: status.allowsStripeBilling,
             ),
           ],
         ),

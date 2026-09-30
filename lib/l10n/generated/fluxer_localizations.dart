@@ -16405,6 +16405,300 @@ abstract class FluxerLocalizations {
   /// **'Up to 4K/60fps'**
   String get premiumPerkVideoQualityStock;
 
+  /// No description provided for @storePlutoniumPriceLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{monthly} or {yearly}'**
+  String storePlutoniumPriceLine(String monthly, String yearly);
+
+  /// No description provided for @storePlutoniumMonthSuffix.
+  ///
+  /// In en, this message translates to:
+  /// **'/mo'**
+  String get storePlutoniumMonthSuffix;
+
+  /// No description provided for @storePlutoniumYearSuffix.
+  ///
+  /// In en, this message translates to:
+  /// **'/yr'**
+  String get storePlutoniumYearSuffix;
+
+  /// No description provided for @storePlutoniumPriceOr.
+  ///
+  /// In en, this message translates to:
+  /// **'or'**
+  String get storePlutoniumPriceOr;
+
+  /// No description provided for @storePlutoniumEmojiTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your emojis, everywhere'**
+  String get storePlutoniumEmojiTitle;
+
+  /// No description provided for @storePlutoniumEmojiBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Bring custom emojis and stickers from any of your communities into every chat and community you\'re in.'**
+  String get storePlutoniumEmojiBody;
+
+  /// No description provided for @storePlutoniumProfileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A profile that stands out'**
+  String get storePlutoniumProfileTitle;
+
+  /// No description provided for @storePlutoniumProfileBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Get an animated avatar and banner, a subscriber badge, the four-digit tag you want after your username*, and a separate profile for each community.'**
+  String get storePlutoniumProfileBody;
+
+  /// No description provided for @storePlutoniumFilesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Send files up to 500 MB'**
+  String get storePlutoniumFilesTitle;
+
+  /// No description provided for @storePlutoniumFilesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Share full-length videos and big files without shrinking them first. Free accounts can send up to 25 MB.'**
+  String get storePlutoniumFilesBody;
+
+  /// No description provided for @storePlutoniumCompareTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare Free and Plutonium'**
+  String get storePlutoniumCompareTitle;
+
+  /// No description provided for @storePlutoniumCompareMobileNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Not all of these features are in the mobile app. Some are only available on desktop.'**
+  String get storePlutoniumCompareMobileNote;
+
+  /// No description provided for @storePlutoniumNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Not available'**
+  String get storePlutoniumNotAvailable;
+
+  /// No description provided for @storePlutoniumAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Available'**
+  String get storePlutoniumAvailable;
+
+  /// No description provided for @storePlutoniumCompareTag.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick the 4-digit number after your username*'**
+  String get storePlutoniumCompareTag;
+
+  /// No description provided for @storePlutoniumCompareProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'A separate profile for each community'**
+  String get storePlutoniumCompareProfile;
+
+  /// No description provided for @storePlutoniumCompareBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscriber badge on your profile'**
+  String get storePlutoniumCompareBadge;
+
+  /// No description provided for @storePlutoniumCompareBackgrounds.
+  ///
+  /// In en, this message translates to:
+  /// **'Video call backgrounds you can save'**
+  String get storePlutoniumCompareBackgrounds;
+
+  /// No description provided for @storePlutoniumCompareCommunities.
+  ///
+  /// In en, this message translates to:
+  /// **'Communities you can join'**
+  String get storePlutoniumCompareCommunities;
+
+  /// No description provided for @storePlutoniumCompareCharacters.
+  ///
+  /// In en, this message translates to:
+  /// **'Characters in a single message'**
+  String get storePlutoniumCompareCharacters;
+
+  /// No description provided for @storePlutoniumCompareBookmarks.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages you can bookmark'**
+  String get storePlutoniumCompareBookmarks;
+
+  /// No description provided for @storePlutoniumCompareUpload.
+  ///
+  /// In en, this message translates to:
+  /// **'Largest file you can upload'**
+  String get storePlutoniumCompareUpload;
+
+  /// No description provided for @storePlutoniumCompareSavedMedia.
+  ///
+  /// In en, this message translates to:
+  /// **'Media items you can save for later'**
+  String get storePlutoniumCompareSavedMedia;
+
+  /// No description provided for @storePlutoniumCompareAnimatedEmoji.
+  ///
+  /// In en, this message translates to:
+  /// **'Use animated emojis in messages'**
+  String get storePlutoniumCompareAnimatedEmoji;
+
+  /// No description provided for @storePlutoniumCompareCustomEmoji.
+  ///
+  /// In en, this message translates to:
+  /// **'Use custom emojis and stickers in any community'**
+  String get storePlutoniumCompareCustomEmoji;
+
+  /// No description provided for @storePlutoniumCompareVideo.
+  ///
+  /// In en, this message translates to:
+  /// **'Video call and screen share quality'**
+  String get storePlutoniumCompareVideo;
+
+  /// No description provided for @storePlutoniumCompareAvatar.
+  ///
+  /// In en, this message translates to:
+  /// **'Animated avatar and profile banner'**
+  String get storePlutoniumCompareAvatar;
+
+  /// No description provided for @storePlutoniumCompareEarlyAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Early access to new features'**
+  String get storePlutoniumCompareEarlyAccess;
+
+  /// No description provided for @storePlutoniumCompareThemes.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom themes for the app'**
+  String get storePlutoniumCompareThemes;
+
+  /// No description provided for @storePlutoniumVideoFree.
+  ///
+  /// In en, this message translates to:
+  /// **'Up to 720p at 30 FPS'**
+  String get storePlutoniumVideoFree;
+
+  /// No description provided for @storePlutoniumVideoPlutonium.
+  ///
+  /// In en, this message translates to:
+  /// **'Up to 4K at 60 FPS'**
+  String get storePlutoniumVideoPlutonium;
+
+  /// No description provided for @storePlutoniumTagFootnote.
+  ///
+  /// In en, this message translates to:
+  /// **'You can only pick a tag that nobody else with the same username already has. Usernames aren\'t case sensitive, so Mina#4821 and mina#4821 count as the same. The #0000 tag is reserved for Fluxer Visionary members.'**
+  String get storePlutoniumTagFootnote;
+
+  /// No description provided for @storePlutoniumLearnVisionary.
+  ///
+  /// In en, this message translates to:
+  /// **'Learn more about Visionary.'**
+  String get storePlutoniumLearnVisionary;
+
+  /// No description provided for @storePlutoniumDonatePrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Just want to support Fluxer\'s open source development? '**
+  String get storePlutoniumDonatePrompt;
+
+  /// No description provided for @storePlutoniumDonateLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Donate instead.'**
+  String get storePlutoniumDonateLink;
+
+  /// No description provided for @storePlutoniumHighlightsLead.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribing funds Fluxer and unlocks'**
+  String get storePlutoniumHighlightsLead;
+
+  /// No description provided for @storePlutoniumHighlightEmoji.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom emoji and stickers in any chat'**
+  String get storePlutoniumHighlightEmoji;
+
+  /// No description provided for @storePlutoniumHighlightProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Animated profile, badge, and custom 4-digit number'**
+  String get storePlutoniumHighlightProfile;
+
+  /// No description provided for @storePlutoniumHighlightFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploads up to 500 MB'**
+  String get storePlutoniumHighlightFiles;
+
+  /// No description provided for @storePlutoniumHighlightMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'Send messages up to 4,000 characters'**
+  String get storePlutoniumHighlightMessages;
+
+  /// No description provided for @storePlutoniumHighlightCommunityProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'A separate profile for each community'**
+  String get storePlutoniumHighlightCommunityProfile;
+
+  /// No description provided for @storePlutoniumHighlightsMore.
+  ///
+  /// In en, this message translates to:
+  /// **'And more'**
+  String get storePlutoniumHighlightsMore;
+
+  /// No description provided for @storePlutoniumRenewsThroughPlay.
+  ///
+  /// In en, this message translates to:
+  /// **'Renews automatically through Google Play until you cancel.'**
+  String get storePlutoniumRenewsThroughPlay;
+
+  /// No description provided for @storePlutoniumRenewsThroughAppStore.
+  ///
+  /// In en, this message translates to:
+  /// **'Renews automatically through the App Store until you cancel.'**
+  String get storePlutoniumRenewsThroughAppStore;
+
+  /// No description provided for @storePlutoniumAlreadySubscribed.
+  ///
+  /// In en, this message translates to:
+  /// **'You already have a Fluxer Plutonium subscription.'**
+  String get storePlutoniumAlreadySubscribed;
+
+  /// No description provided for @storePlutoniumSavePercent.
+  ///
+  /// In en, this message translates to:
+  /// **'Save {percent}%'**
+  String storePlutoniumSavePercent(int percent);
+
+  /// No description provided for @storePlutoniumWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase received. Plutonium will show here once it activates.'**
+  String get storePlutoniumWaiting;
+
+  /// No description provided for @storePlutoniumUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscriptions in the app aren\'t available on this device yet.'**
+  String get storePlutoniumUnavailable;
+
+  /// No description provided for @storePlutoniumVisionaryStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Visionary already includes permanent access, so a recurring subscription isn\'t needed.'**
+  String get storePlutoniumVisionaryStatus;
+
   /// User settings navigation item for the privacy dashboard.
   ///
   /// In en, this message translates to:

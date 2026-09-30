@@ -28,6 +28,7 @@ class ApnsMobileDeviceRegistration extends _$ApnsMobileDeviceRegistration {
   String? _lastRegisteredUserId;
   String? _lastRegisteredRelayUrl;
   String? _lastRegisteredPublicKey;
+  String? _unregisteredWithoutConsentKey;
   bool _syncInFlight = false;
   final WebPushKeyStore _keyStore = WebPushKeyStore();
 
@@ -169,6 +170,7 @@ class ApnsMobileDeviceRegistration extends _$ApnsMobileDeviceRegistration {
     );
     if (!await ensurePushRelayConsent(ref, relayUrl)) {
       _logApnsWarning('sync aborted: push relay consent not granted');
+      await _unregisterWithoutConsent(userId: userId, relayUrl: relayUrl);
       return;
     }
     final WebPushAccountKeys keys = await _keyStore.ensureKeys(userId);
@@ -275,6 +277,32 @@ class ApnsMobileDeviceRegistration extends _$ApnsMobileDeviceRegistration {
         st,
         '[ApnsMobileDeviceRegistration] APNs unregister failed '
         'status=$statusCode response=$responseData',
+      );
+    }
+  }
+
+  Future<void> _unregisterWithoutConsent({
+    required String userId,
+    required String relayUrl,
+  }) async {
+    final String key = '$userId|$relayUrl';
+    if (_unregisteredWithoutConsentKey == key) {
+      return;
+    }
+    try {
+      await _unregisterToken(
+        relayUrl,
+        providerEnvironment: _unregisterProviderEnvironment,
+      );
+      _unregisteredWithoutConsentKey = key;
+      _lastRegisteredUserId = null;
+      _lastRegisteredRelayUrl = null;
+      _lastRegisteredPublicKey = null;
+    } on DioException catch (e, st) {
+      talker.handle(
+        e,
+        st,
+        '[ApnsMobileDeviceRegistration] APNs unregister failed',
       );
     }
   }

@@ -17,6 +17,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_rich.
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_spoiler_wrap.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_video.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_sticker_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_gallery_utils.dart';
@@ -152,6 +153,22 @@ class ForwardedMessageContent extends ConsumerWidget {
                           );
                         });
                   }(),
+                if (snapshot.stickers.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: [
+                        for (final MessageSticker sticker in snapshot.stickers)
+                          MessageStickerImage(
+                            sticker: sticker,
+                            visibilityKey:
+                                '${message.channelId}_${message.id}_forward_${sticker.id}',
+                          ),
+                      ],
+                    ),
+                  ),
                 if (message.messageReference != null)
                   Padding(
                     padding: const EdgeInsets.only(top: 6),

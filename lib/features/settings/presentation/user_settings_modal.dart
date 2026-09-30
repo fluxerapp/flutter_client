@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/build/app_diagnostic_clipboard_text.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/platform/alternate_app_icon_settings.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
+import 'package:fluxer_app/core/premium/plutonium_store_gate.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
@@ -25,6 +26,8 @@ import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_nav.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_search_query.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/app_licenses.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_page.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_style.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/settings_sidebar.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_accessibility.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_advanced_settings.dart';
@@ -183,6 +186,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
         : indexForUserSettingsSection(
             widget.initialSection!,
             showBilling: showBilling,
+            showGifts: userSettingsShowGiftBillingNav(ref),
             showJoinFluxerLabs: showJoinFluxerLabs,
             isTouchPrimary: isTouchPrimary,
           );
@@ -231,6 +235,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
     final List<UserSettingsDesktopNavEntry> desktopNav =
         buildUserSettingsDesktopNav(
           showBilling: showBilling,
+          showGifts: userSettingsShowGiftBillingNav(ref),
           showJoinFluxerLabs: showJoinFluxerLabs,
           isTouchPrimary: isTouchPrimary,
         );
@@ -254,11 +259,15 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
   }) {
     final l10n = FluxerLocalizations.of(context);
     final selectedEntry = desktopNav[_selectedIndex];
+    final bool storePane =
+        isPlutoniumStorePageActive() &&
+        selectedEntry.section == UserSettingsSection.fluxerPlutonium;
     final double contentGutter = wideSettingsContentEdgeGutter(context);
     final List<UserSettingsSearchHit> hits = searchVisibleUserSettings(
       l10n: l10n,
       query: debouncedSearchQuery,
       showBilling: showBilling,
+      showGifts: userSettingsShowGiftBillingNav(ref),
       isTouchPrimary: isTouchPrimaryInput(ref),
       productName: ref.watch(
         instanceRuntimeConfigProvider.select((config) => config.productName),
@@ -315,28 +324,48 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
                 color: context.colors.borderColor,
               ),
               Expanded(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: contentGutter),
+                child: ColoredBox(
+                  color: storePane
+                      ? PlutoniumStoreStyle.spaceTop
+                      : Colors.transparent,
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: 12),
+                        padding: EdgeInsets.fromLTRB(
+                          contentGutter,
+                          12,
+                          contentGutter,
+                          0,
+                        ),
                         child: Row(
                           children: [
                             Text(
                               selectedEntry.displayLabel(l10n),
-                              style: context.textStyles.heading,
+                              style: storePane
+                                  ? context.textStyles.heading.copyWith(
+                                      color: PlutoniumStoreStyle.ink,
+                                    )
+                                  : context.textStyles.heading,
                             ),
                             const Spacer(),
-                            _buildCloseButton(),
+                            _buildCloseButton(
+                              color: storePane ? PlutoniumStoreStyle.ink : null,
+                            ),
                           ],
                         ),
                       ),
                       Expanded(
-                        child: WideSettingsContentLayout(
-                          includeHorizontalGutter: false,
-                          child: _buildContent(state, desktopNav),
-                        ),
+                        child: storePane
+                            ? _buildContent(state, desktopNav)
+                            : Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: contentGutter,
+                                ),
+                                child: WideSettingsContentLayout(
+                                  includeHorizontalGutter: false,
+                                  child: _buildContent(state, desktopNav),
+                                ),
+                              ),
                       ),
                     ],
                   ),
@@ -386,6 +415,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
     final int? index = indexForUserSettingsSection(
       hit.section,
       showBilling: showBilling,
+      showGifts: userSettingsShowGiftBillingNav(ref),
       showJoinFluxerLabs: showJoinFluxerLabs,
       isTouchPrimary: isTouchPrimary,
     );
@@ -464,6 +494,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
         final int? index = indexForUserSettingsSection(
           target,
           showBilling: showBilling,
+          showGifts: userSettingsShowGiftBillingNav(ref),
           showJoinFluxerLabs: showJoinFluxerLabs,
           isTouchPrimary: isTouchPrimary,
         );
@@ -474,7 +505,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
     );
   }
 
-  Widget _buildCloseButton() => InkWell(
+  Widget _buildCloseButton({Color? color}) => InkWell(
     onTap: () => Navigator.of(context).pop(),
     borderRadius: BorderRadius.circular(20),
     child: SizedBox(
@@ -483,7 +514,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
       child: PhosphorIcon(
         PhosphorIconsBold.x,
         size: 18,
-        color: context.colors.interactiveNormal,
+        color: color ?? context.colors.interactiveNormal,
       ),
     ),
   );
@@ -574,6 +605,7 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
       l10n: l10n,
       query: debouncedSearchQuery,
       showBilling: showBilling,
+      showGifts: userSettingsShowGiftBillingNav(ref),
       isTouchPrimary: isTouchPrimary,
       productName: ref.watch(
         instanceRuntimeConfigProvider.select((config) => config.productName),
@@ -607,6 +639,7 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
               onJoinFluxerLabs: () => unawaited(_joinFluxerLabs()),
               onLogout: _logout,
               showBilling: showBilling,
+              showGifts: userSettingsShowGiftBillingNav(ref),
               showJoinFluxerLabs: showJoinFluxerLabs,
               isTouchPrimary: isTouchPrimary,
             ),
@@ -635,6 +668,7 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
     if (!isUserSettingsBillingSectionAvailable(
       section,
       showBilling: userSettingsShowBillingNav(ref),
+      showGifts: userSettingsShowGiftBillingNav(ref),
     )) {
       return;
     }
@@ -643,11 +677,16 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
       return;
     }
     final l10n = FluxerLocalizations.of(context);
+    final bool storePage =
+        section == UserSettingsSection.fluxerPlutonium &&
+        isPlutoniumStorePageActive();
     final canDismiss = ValueNotifier<bool>(true);
     unawaited(
       FluxerPageSheet.showScrollable<void>(
         context,
         title: userSettingsSectionLabel(l10n, section),
+        backgroundColor: storePage ? PlutoniumStoreStyle.spaceTop : null,
+        foregroundColor: storePage ? PlutoniumStoreStyle.ink : null,
         canDismissNotifier: canDismiss,
         builder: (sheetContext, scrollController, close) =>
             _MobileSettingsContentBody(
@@ -790,6 +829,7 @@ Widget _buildUserSettingsSectionContent({
   if (!isUserSettingsBillingSectionAvailable(
     section,
     showBilling: userSettingsShowBillingNav(ref),
+    showGifts: userSettingsShowGiftBillingNav(ref),
   )) {
     return const SizedBox.shrink();
   }
@@ -861,6 +901,9 @@ Widget _buildUserSettingsSectionContent({
           ? const UserLanguageAndTime()
           : UserLanguageAndTime(scrollController: scrollController);
     case UserSettingsSection.fluxerPlutonium:
+      if (isPlutoniumStorePageActive()) {
+        return PlutoniumStorePage(scrollController: scrollController);
+      }
       return UserPlutoniumSettings(
         scrollController: scrollController,
         onOpenGifts: onNavigateSection == null

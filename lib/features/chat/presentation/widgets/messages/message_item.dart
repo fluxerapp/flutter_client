@@ -1,9 +1,7 @@
 import 'dart:async';
 
-import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
@@ -19,7 +17,6 @@ import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_rich.
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_spoiler_wrap.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_theme.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_video.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animated_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/message_bottom_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/message_actions/message_context_menu.dart';
@@ -33,6 +30,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_l
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_reactions_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_row_layout.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_sticker_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_translation_indicator.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
@@ -95,8 +93,6 @@ const _kReplyBottomGap = 4.0;
 /// and the reply content.
 const _kReplyLineEndGap = 6.0;
 
-const _kMessageStickerSize = 160.0;
-const _kMessageStickerRequestSize = 320;
 const double _kMessageSendingOpacity = 0.5;
 
 /// Immutable bundle of per-list render settings hoisted out of [MessageItem].
@@ -1150,7 +1146,13 @@ class _MessageItemState extends ConsumerState<MessageItem> {
             child: Wrap(
               spacing: 8,
               runSpacing: 8,
-              children: msg.stickers.map(_buildSticker).toList(),
+              children: [
+                for (final MessageSticker sticker in msg.stickers)
+                  MessageStickerImage(
+                    sticker: sticker,
+                    visibilityKey: '${msg.channelId}_${msg.id}_${sticker.id}',
+                  ),
+              ],
             ),
           ),
         ),
@@ -1986,55 +1988,6 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         child: child,
       ),
     );
-  }
-
-  Widget _buildSticker(MessageSticker sticker) {
-    final Widget stickerImage;
-    if (sticker.animated) {
-      stickerImage = SizedBox(
-        width: _kMessageStickerSize,
-        height: _kMessageStickerSize,
-        child: EmbedAnimatedImage(
-          animatedUrl: sticker.urlForSize(_kMessageStickerRequestSize),
-          staticUrl: FluxerMediaUrl.sticker(id: sticker.id),
-          visibilityKey:
-              '${widget.message.channelId}_${widget.message.id}_${sticker.id}',
-          useStickerAnimationPreference: true,
-          fit: BoxFit.contain,
-          placeholder: const SizedBox(
-            width: _kMessageStickerSize,
-            height: _kMessageStickerSize,
-          ),
-        ),
-      );
-    } else {
-      stickerImage = CachedNetworkImage(
-        imageUrl: sticker.urlForSize(_kMessageStickerRequestSize),
-        cacheKey: sticker.cacheKeyForSize(_kMessageStickerRequestSize),
-        width: _kMessageStickerSize,
-        height: _kMessageStickerSize,
-        memCacheWidth: _kMessageStickerSize.toInt(),
-        fadeInDuration: Duration.zero,
-        fadeOutDuration: Duration.zero,
-        fit: BoxFit.contain,
-        placeholder: (_, _) => const SizedBox(
-          width: _kMessageStickerSize,
-          height: _kMessageStickerSize,
-        ),
-        errorBuilder: (_, _, _) => SizedBox(
-          width: _kMessageStickerSize,
-          height: _kMessageStickerSize,
-          child: Center(
-            child: PhosphorIcon(
-              PhosphorIconsDuotone.sticker,
-              size: 48,
-              color: context.colors.textTertiaryMuted,
-            ),
-          ),
-        ),
-      );
-    }
-    return Semantics(label: sticker.name, image: true, child: stickerImage);
   }
 
   Widget _buildActions(

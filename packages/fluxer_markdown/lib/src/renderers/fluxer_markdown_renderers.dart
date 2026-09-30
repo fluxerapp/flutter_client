@@ -1206,6 +1206,20 @@ class _MarkdownBlockRenderer {
   }
 }
 
+TextDecoration _mergeTextDecoration(
+  TextDecoration? current,
+  TextDecoration addition,
+) {
+  final TextDecoration base = current ?? TextDecoration.none;
+  if (addition == TextDecoration.none || base.contains(addition)) {
+    return base;
+  }
+  if (base == TextDecoration.none) {
+    return addition;
+  }
+  return TextDecoration.combine(<TextDecoration>[base, addition]);
+}
+
 class _MarkdownInlineRenderer {
   _MarkdownInlineRenderer({
     required this.context,
@@ -1282,7 +1296,10 @@ class _MarkdownInlineRenderer {
         );
       case 'del':
         final deletedStyle = effectiveStyle.copyWith(
-          decoration: TextDecoration.lineThrough,
+          decoration: _mergeTextDecoration(
+            effectiveStyle.decoration,
+            TextDecoration.lineThrough,
+          ),
           color: config.dimStrikethroughText
               ? effectiveStyle.color?.withValues(alpha: 0.5)
               : effectiveStyle.color,
@@ -1293,7 +1310,10 @@ class _MarkdownInlineRenderer {
         );
       case 'underline':
         final underlineStyle = effectiveStyle.copyWith(
-          decoration: TextDecoration.underline,
+          decoration: _mergeTextDecoration(
+            effectiveStyle.decoration,
+            TextDecoration.underline,
+          ),
         );
         return TextSpan(
           style: underlineStyle,
@@ -1438,8 +1458,8 @@ class _MarkdownInlineRenderer {
     final linkStyle = style.copyWith(
       color: linkColor,
       decoration: config.alwaysUnderlineLinks
-          ? TextDecoration.underline
-          : TextDecoration.none,
+          ? _mergeTextDecoration(style.decoration, TextDecoration.underline)
+          : style.decoration ?? TextDecoration.none,
       decorationColor: linkColor,
     );
     final children = _attachLinkRecognizers(

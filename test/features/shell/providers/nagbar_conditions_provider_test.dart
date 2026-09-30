@@ -257,12 +257,12 @@ WellKnownFluxerResponse _buildWellKnown({required bool selfHosted}) {
     ),
     captcha: const InstanceCaptchaSchema(
       provider: InstanceCaptchaProviderSchema.none,
-      hcaptchaSiteKey: null,
-      turnstileSiteKey: null,
     ),
     features: InstanceFeaturesSchema(
       voiceEnabled: true,
       stripeEnabled: false,
+      premiumEnabled: false,
+      stripeServiceable: false,
       selfHosted: selfHosted,
       presignedAttachmentUploads: false,
       emailsEnabled: true,
@@ -310,6 +310,8 @@ WellKnownFluxerResponse _buildWellKnown({required bool selfHosted}) {
         themeColor: null,
         statusPageUrl: null,
         statusPageIncidentHistoryUrl: null,
+        premiumProductName: 'Plutonium',
+        premiumInfoUrl: null,
       ),
       setup: InstanceSetupSchema(configured: true, adminUrl: null),
       legal: InstanceAppPublicSchemaLegal(termsUrl: null, privacyUrl: null),

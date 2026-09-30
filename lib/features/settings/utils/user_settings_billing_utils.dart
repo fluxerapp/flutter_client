@@ -15,7 +15,11 @@ bool get isOssWebCheckoutBuild => AppBuildConfig.isOssWebCheckout;
 bool isUserSettingsBillingSectionAvailable(
   UserSettingsSection section, {
   required bool showBilling,
+  bool showGifts = true,
 }) {
+  if (section == UserSettingsSection.giftsAndCodes) {
+    return showBilling && showGifts;
+  }
   if (!isUserSettingsBillingSection(section)) {
     return true;
   }

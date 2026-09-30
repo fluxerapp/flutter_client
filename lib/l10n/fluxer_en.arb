@@ -12241,6 +12241,72 @@
     "premiumPerkCustomThemes": "Custom themes",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "Up to 4K/60fps",
+    "storePlutoniumPriceLine": "{monthly} or {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/mo",
+    "storePlutoniumYearSuffix": "/yr",
+    "storePlutoniumPriceOr": "or",
+    "storePlutoniumEmojiTitle": "Your emojis, everywhere",
+    "storePlutoniumEmojiBody": "Bring custom emojis and stickers from any of your communities into every chat and community you're in.",
+    "storePlutoniumProfileTitle": "A profile that stands out",
+    "storePlutoniumProfileBody": "Get an animated avatar and banner, a subscriber badge, the four-digit tag you want after your username*, and a separate profile for each community.",
+    "storePlutoniumFilesTitle": "Send files up to 500 MB",
+    "storePlutoniumFilesBody": "Share full-length videos and big files without shrinking them first. Free accounts can send up to 25 MB.",
+    "storePlutoniumCompareTitle": "Compare Free and Plutonium",
+    "storePlutoniumCompareMobileNote": "Not all of these features are in the mobile app. Some are only available on desktop.",
+    "storePlutoniumNotAvailable": "Not available",
+    "storePlutoniumAvailable": "Available",
+    "storePlutoniumCompareTag": "Pick the 4-digit number after your username*",
+    "storePlutoniumCompareProfile": "A separate profile for each community",
+    "storePlutoniumCompareBadge": "Subscriber badge on your profile",
+    "storePlutoniumCompareBackgrounds": "Video call backgrounds you can save",
+    "storePlutoniumCompareCommunities": "Communities you can join",
+    "storePlutoniumCompareCharacters": "Characters in a single message",
+    "storePlutoniumCompareBookmarks": "Messages you can bookmark",
+    "storePlutoniumCompareUpload": "Largest file you can upload",
+    "storePlutoniumCompareSavedMedia": "Media items you can save for later",
+    "storePlutoniumCompareAnimatedEmoji": "Use animated emojis in messages",
+    "storePlutoniumCompareCustomEmoji": "Use custom emojis and stickers in any community",
+    "storePlutoniumCompareVideo": "Video call and screen share quality",
+    "storePlutoniumCompareAvatar": "Animated avatar and profile banner",
+    "storePlutoniumCompareEarlyAccess": "Early access to new features",
+    "storePlutoniumCompareThemes": "Custom themes for the app",
+    "storePlutoniumVideoFree": "Up to 720p at 30 FPS",
+    "storePlutoniumVideoPlutonium": "Up to 4K at 60 FPS",
+    "storePlutoniumTagFootnote": "You can only pick a tag that nobody else with the same username already has. Usernames aren't case sensitive, so Mina#4821 and mina#4821 count as the same. The #0000 tag is reserved for Fluxer Visionary members.",
+    "storePlutoniumLearnVisionary": "Learn more about Visionary.",
+    "storePlutoniumDonatePrompt": "Just want to support Fluxer's open source development? ",
+    "storePlutoniumDonateLink": "Donate instead.",
+    "storePlutoniumHighlightsLead": "Subscribing funds Fluxer and unlocks",
+    "storePlutoniumHighlightEmoji": "Custom emoji and stickers in any chat",
+    "storePlutoniumHighlightProfile": "Animated profile, badge, and custom 4-digit number",
+    "storePlutoniumHighlightFiles": "Uploads up to 500 MB",
+    "storePlutoniumHighlightMessages": "Send messages up to 4,000 characters",
+    "storePlutoniumHighlightCommunityProfile": "A separate profile for each community",
+    "storePlutoniumHighlightsMore": "And more",
+    "storePlutoniumRenewsThroughPlay": "Renews automatically through Google Play until you cancel.",
+    "storePlutoniumRenewsThroughAppStore": "Renews automatically through the App Store until you cancel.",
+    "storePlutoniumAlreadySubscribed": "You already have a Fluxer Plutonium subscription.",
+    "storePlutoniumSavePercent": "Save {percent}%",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "Purchase received. Plutonium will show here once it activates.",
+    "storePlutoniumUnavailable": "Subscriptions in the app aren't available on this device yet.",
+    "storePlutoniumVisionaryStatus": "Visionary already includes permanent access, so a recurring subscription isn't needed.",
     "userSettingsNavPrivacyDashboard": "Privacy dashboard",
     "@userSettingsNavPrivacyDashboard": {
         "description": "User settings navigation item for the privacy dashboard."

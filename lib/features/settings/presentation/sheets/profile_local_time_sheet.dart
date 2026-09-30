@@ -42,10 +42,7 @@ List<FluxerSelectItem<String>> _timezoneSelectItems(String notSetLabel) {
 class ProfileLocalTimeSheet {
   ProfileLocalTimeSheet._();
 
-  static Future<void> show(
-    BuildContext context, {
-    required bool disabled,
-  }) {
+  static Future<void> show(BuildContext context, {required bool disabled}) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final String title = l10n.profileLocalTimeSettingsTitle;
     if (isMobileLayout(context)) {
@@ -92,8 +89,12 @@ class _ProfileLocalTimeEditorBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final UserSettingsViewState state = ref.watch(userSettingsViewModelProvider);
-    final UserSettingsViewModel vm = ref.read(userSettingsViewModelProvider.notifier);
+    final UserSettingsViewState state = ref.watch(
+      userSettingsViewModelProvider,
+    );
+    final UserSettingsViewModel vm = ref.read(
+      userSettingsViewModelProvider.notifier,
+    );
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final colors = context.colors;
     final textStyles = context.textStyles;
@@ -140,9 +141,7 @@ class _ProfileLocalTimeEditorBody extends ConsumerWidget {
           scrollableSheet: true,
           stretch: true,
           onChanged: (String value) {
-            vm.updateTimezone(
-              value == _kTimezoneNotSetValue ? null : value,
-            );
+            vm.updateTimezone(value == _kTimezoneNotSetValue ? null : value);
           },
         ),
         SizedBox(height: layout.s6),
@@ -151,7 +150,8 @@ class _ProfileLocalTimeEditorBody extends ConsumerWidget {
             FluxerSwitchGroupItem(
               label: l10n.profileLocalTimePrivacyEveryone,
               description: l10n.profileLocalTimePrivacyEveryoneDesc,
-              value: hasTimezone && hasFlag(ProfileTimezonePrivacyFlags.everyone),
+              value:
+                  hasTimezone && hasFlag(ProfileTimezonePrivacyFlags.everyone),
               enabled: !disabled && hasTimezone,
               onChanged: (bool value) => togglePrivacy(
                 ProfileTimezonePrivacyFlags.everyone,
