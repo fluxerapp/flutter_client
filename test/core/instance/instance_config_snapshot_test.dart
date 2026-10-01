@@ -50,6 +50,7 @@ void main() {
               'single_community': false,
               'single_community_guild_id': null,
               'direct_messages_disabled': false,
+              'guild_create_access': true,
             },
             'services': <String, dynamic>{
               'gif_enabled': true,

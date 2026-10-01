@@ -72,6 +72,8 @@ class ChatExpressionExpandableSheetState
   bool? _dragWasPastCollapsed;
   bool _initialized = false;
   bool _isClosing = false;
+  BottomInputSlot? _closingSlot;
+  ComposerPanelClosing? _closingPanel;
   bool _isSearchFocused = false;
   bool _searchExpandScheduled = false;
   bool _suppressSearchExpand = false;
@@ -156,7 +158,8 @@ class ChatExpressionExpandableSheetState
   void dispose() {
     _closeTimer?.cancel();
     if (_isClosing) {
-      ref.read(bottomInputSlotProvider.notifier).clearHeldSlotHeight();
+      _closingSlot?.clearHeldSlotHeight();
+      _closingPanel?.reset();
     }
     _searchFocusNode
       ..removeListener(_onSearchFocusChanged)
@@ -438,6 +441,12 @@ class ChatExpressionExpandableSheetState
           .holdSlotHeight(animateSlotFrom);
     }
 
+    final ComposerPanelClosing closingPanel = ref.read(
+      composerPanelClosingProvider.notifier,
+    );
+    _closingSlot = ref.read(bottomInputSlotProvider.notifier);
+    _closingPanel = closingPanel;
+    closingPanel.start();
     updateExpandableSheetHeight(heightNotifier: _heightNotifier, nextHeight: 0);
     _isDraggingNotifier.value = false;
     setState(() {
@@ -451,6 +460,10 @@ class ChatExpressionExpandableSheetState
     if (animateSlotFrom > 0) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted || !_isClosing) {
+          return;
+        }
+        if (ref.read(bottomInputSlotProvider).transition ==
+            BottomInputTransition.lockingToKeyboard) {
           return;
         }
         ref.read(bottomInputSlotProvider.notifier).holdSlotHeight(0);
@@ -482,6 +495,9 @@ class ChatExpressionExpandableSheetState
     }
     setState(() => _isClosing = false);
     ref.read(bottomInputSlotProvider.notifier).clearHeldSlotHeight();
+    ref.read(composerPanelClosingProvider.notifier).reset();
+    _closingSlot = null;
+    _closingPanel = null;
     ref.read(expressionPanelProvider.notifier).close();
     ref.read(attachmentPanelProvider.notifier).close();
   }

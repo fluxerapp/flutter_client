@@ -22,6 +22,7 @@ void main() {
         isClickableChannelMention(_channel(ChannelType.guildLink)),
         isTrue,
       );
+      expect(isClickableChannelMention(_channel(ChannelType.unknown)), isTrue);
     });
 
     test('returns false for category and private channel types', () {

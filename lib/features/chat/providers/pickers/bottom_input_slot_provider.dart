@@ -245,7 +245,6 @@ class BottomInputSlot extends _$BottomInputSlot {
       panelHeight: resolvedPanelHeight,
       liveKeyboardHeight: metrics.liveKeyboardHeight,
       isKeyboardVisible: metrics.isKeyboardVisible,
-      safeAreaBottom: metrics.safeAreaBottom,
       heldSlotHeightOverride: _heldSlotHeightOverride,
       unmeasuredKeyboardReserved: metrics.unmeasuredKeyboardReserved,
     );

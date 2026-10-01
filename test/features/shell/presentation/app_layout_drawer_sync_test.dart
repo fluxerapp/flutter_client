@@ -41,7 +41,7 @@ void main() {
       expect(container.read(currentRevealSideProvider), RevealSide.left);
     });
 
-    test('chat sync leaves reveal side alone', () {
+    test('chat route does not close an open channel list', () {
       final container = _bareContainer();
 
       syncForRoute(container, '/channels/@me');
@@ -49,6 +49,10 @@ void main() {
 
       syncForRoute(container, '/channels/guild/channel');
       expect(container.read(currentRevealSideProvider), RevealSide.left);
+
+      setRevealSide(container, RevealSide.main);
+      syncForRoute(container, '/channels/guild/other');
+      expect(container.read(currentRevealSideProvider), RevealSide.main);
     });
 
     test('members route does not flip the drawer', () {

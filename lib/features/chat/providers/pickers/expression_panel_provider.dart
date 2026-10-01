@@ -31,6 +31,20 @@ class ComposerPanelDismissRequest extends _$ComposerPanelDismissRequest {
   void requestAnimatedClose() => state++;
 }
 
+final NotifierProvider<ComposerPanelClosing, bool>
+composerPanelClosingProvider = NotifierProvider<ComposerPanelClosing, bool>(
+  ComposerPanelClosing.new,
+);
+
+class ComposerPanelClosing extends Notifier<bool> {
+  @override
+  bool build() => false;
+
+  void start() => state = true;
+
+  void reset() => state = false;
+}
+
 @Riverpod(keepAlive: true)
 class ExpressionPanelTab extends _$ExpressionPanelTab {
   @override

@@ -111,8 +111,8 @@ QuickSwitcherCandidateSets buildQuickSwitcherCandidateSets(
     );
   }
   for (final Channel channel in input.guildChannels) {
-    if (channel.type != ChannelType.guildText &&
-        channel.type != ChannelType.guildVoice) {
+    if (!isGuildTextBasedChannelType(channel.type) &&
+        channel.type != ChannelType.unknown) {
       continue;
     }
     final Guild? guild = guildsById[channel.guildId];

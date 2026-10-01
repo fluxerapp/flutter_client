@@ -27,6 +27,7 @@ enum ChannelMenuAction {
   copyChannelId,
   deleteChannel,
   deleteMyMessages,
+  follow,
 }
 
 class ChannelMenuEntry {
@@ -71,6 +72,7 @@ class ChannelMenuState {
     required this.showResetMatureContent,
     required this.showDeleteChannel,
     required this.showDeleteMyMessages,
+    required this.showFollow,
     this.mutedHint,
     this.vanityUrlCode,
   });
@@ -95,6 +97,7 @@ class ChannelMenuState {
   final bool showResetMatureContent;
   final bool showDeleteChannel;
   final bool showDeleteMyMessages;
+  final bool showFollow;
   final String? mutedHint;
   final String? vanityUrlCode;
 }
@@ -114,8 +117,9 @@ ChannelMenuState resolveChannelMenuState({
   required bool voiceChannelJoinRequiresDoubleClick,
   String? vanityUrlCode,
   String? mutedHint,
+  bool canFollow = false,
 }) {
-  final bool isTextChannel = channel.type == ChannelType.guildText;
+  final bool isTextChannel = isAnnouncementConvertibleChannel(channel.type);
   final bool isVoiceChannel = channel.type == ChannelType.guildVoice;
   final bool isLinkChannel = channel.type == ChannelType.guildLink;
   final bool isGuildChannel = isTextChannel || isVoiceChannel || isLinkChannel;
@@ -166,6 +170,7 @@ ChannelMenuState resolveChannelMenuState({
     showResetMatureContent: developerMode && hasAgreedToMatureContent,
     showDeleteChannel: canManageChannels,
     showDeleteMyMessages: isTextChannel || isVoiceChannel,
+    showFollow: canFollow && isGuildAnnouncementChannelType(channel.type),
   );
 }
 
@@ -219,6 +224,15 @@ List<ChannelMenuGroup> buildChannelMenuGroups({
         label: l10n.channelDetailsInvitePeople,
         icon: PhosphorIconsFill.userPlus,
         action: ChannelMenuAction.invitePeople,
+      ),
+    );
+  }
+  if (state.showFollow) {
+    inviteItems.add(
+      ChannelMenuEntry(
+        label: l10n.channelMenuFollow,
+        icon: PhosphorIconsFill.megaphone,
+        action: ChannelMenuAction.follow,
       ),
     );
   }

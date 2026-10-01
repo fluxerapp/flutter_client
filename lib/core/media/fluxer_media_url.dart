@@ -20,13 +20,29 @@ abstract final class FluxerMediaUrl {
     if (userId.isEmpty) {
       return null;
     }
-    try {
-      final BigInt index =
-          BigInt.parse(userId) % BigInt.from(defaultAvatarCount);
+    final int? index = _decimalMod(userId, defaultAvatarCount);
+    if (index != null) {
       return '$fluxerStaticCdn/avatars/$index.png';
+    }
+    try {
+      final BigInt bigIndex =
+          BigInt.parse(userId) % BigInt.from(defaultAvatarCount);
+      return '$fluxerStaticCdn/avatars/$bigIndex.png';
     } on FormatException {
       return null;
     }
+  }
+
+  static int? _decimalMod(String value, int divisor) {
+    int remainder = 0;
+    for (int i = 0; i < value.length; i++) {
+      final int digit = value.codeUnitAt(i) - 0x30;
+      if (digit < 0 || digit > 9) {
+        return null;
+      }
+      remainder = (remainder * 10 + digit) % divisor;
+    }
+    return remainder;
   }
 
   static String? userAvatar({

@@ -3,8 +3,10 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 
 const Set<ChannelType> clickableChannelMentionTypes = <ChannelType>{
   ChannelType.guildText,
+  ChannelType.guildAnnouncement,
   ChannelType.guildVoice,
   ChannelType.guildLink,
+  ChannelType.unknown,
 };
 
 bool isClickableChannelMention(Channel channel) {

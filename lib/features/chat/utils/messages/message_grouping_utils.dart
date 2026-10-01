@@ -22,6 +22,9 @@ bool isNewMessageGroup(Message current, Message? previous) {
   if (previous == null) {
     return true;
   }
+  if (current.isCrosspostCopy || previous.isCrosspostCopy) {
+    return true;
+  }
   if (current.type == messageTypeReply || current.isReply) {
     return true;
   }

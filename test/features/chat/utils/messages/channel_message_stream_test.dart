@@ -281,6 +281,57 @@ void main() {
       expect(findChannelStreamRenderIndex(stream, '2'), 0);
       expect(findChannelStreamDataIndex(stream, '1'), 1);
     });
+
+    test('the built index agrees with a scan of the stream', () {
+      final List<Message> messages = <Message>[
+        _message(id: '1', authorId: 'a', timestamp: DateTime.utc(2026)),
+        _message(
+          id: '2',
+          authorId: 'blocked',
+          timestamp: DateTime.utc(2026, 1, 1, 1),
+        ),
+        _message(
+          id: '3',
+          authorId: 'blocked',
+          timestamp: DateTime.utc(2026, 1, 1, 2),
+        ),
+        _message(id: '4', authorId: 'a', timestamp: DateTime.utc(2026, 1, 2)),
+        _message(
+          id: '5',
+          authorId: 'blocked',
+          timestamp: DateTime.utc(2026, 1, 3),
+        ),
+      ];
+      final ({List<ChannelStreamItem> items, ChannelStreamIndex index}) built =
+          createIndexedChannelStream(
+            messages: messages,
+            oldestUnreadMessageId: '4',
+            context: _context,
+          );
+      final List<ChannelStreamItem> stream = built.items;
+
+      for (int i = 0; i < messages.length; i += 1) {
+        final String id = messages[i].id;
+        expect(
+          built.index.itemOfMessage(id),
+          findChannelStreamDataIndex(stream, id),
+        );
+        expect(built.index.windowIndexOf(id), i);
+      }
+      for (int i = 0; i < stream.length; i += 1) {
+        final ChannelStreamItem item = stream[i];
+        if (item.type.isCollapsedGroup) {
+          expect(built.index.itemOfGroup(item.groupKey!), i);
+        }
+        if (item.type == ChannelStreamType.divider) {
+          final String key = channelStreamDividerKey(
+            stream[i + 1].messages.first.id,
+          );
+          expect(built.index.itemOfDivider(key), i);
+        }
+      }
+      expect(built.index.itemOfMessage('missing'), isNull);
+    });
   });
 
   group('stream spacing helpers', () {

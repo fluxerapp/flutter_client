@@ -153,6 +153,22 @@ void main() {
       expect(received?.url, 'https://cdn.example/a.ogg');
     });
 
+    test('USER_UPDATE emits the current user profile', () async {
+      UserPrivateResponse? received;
+      final GatewayEventHandler handler = GatewayEventHandler(
+        database: database,
+        onCurrentUserUpdate: (UserPrivateResponse user) {
+          received = user;
+        },
+      );
+
+      await handler.handle(UserUpdateEvent(user: _privateUser('u1')));
+
+      expect(received?.id, 'u1');
+      expect(received?.premiumType, UserPremiumTypes.subscription);
+      expect(received?.traits, contains('premium'));
+    });
+
     test('VOICE_STATE_ACK emits callback', () async {
       VoiceStateAckEvent? received;
       final handler = GatewayEventHandler(
@@ -169,4 +185,54 @@ void main() {
       expect(received?.mutationId, 'm1');
     });
   });
+}
+
+UserPrivateResponse _privateUser(String id) {
+  return UserPrivateResponse(
+    hasVerifiedPhone: false,
+    username: 'ada',
+    discriminator: '0001',
+    globalName: null,
+    avatar: null,
+    avatarColor: null,
+    privacyAgreedAt: null,
+    termsAgreedAt: null,
+    pendingBulkMessageDeletion: null,
+    flags: 0,
+    unreadGiftInventoryCount: 0,
+    isStaff: false,
+    acls: const <String>[],
+    traits: const <String>['premium'],
+    email: 'ada@example.com',
+    hasUnreadGiftInventory: false,
+    hasEverPurchased: true,
+    id: id,
+    bio: null,
+    pronouns: null,
+    accentColor: null,
+    banner: null,
+    hasDismissedPremiumOnboarding: false,
+    bannerColor: null,
+    mfaEnabled: false,
+    nsfwAllowed: true,
+    verified: true,
+    premiumType: UserPremiumTypes.subscription,
+    premiumSince: '2026-03-14T00:00:00.000Z',
+    premiumUntil: null,
+    premiumWillCancel: false,
+    premiumBillingCycle: 'monthly',
+    premiumLifetimeSequence: null,
+    premiumGraceEndsAt: null,
+    premiumDiscriminator: false,
+    requiredActions: const <String>[],
+    premiumBadgeMasked: false,
+    premiumBadgeTimestampHidden: false,
+    premiumBadgeSequenceHidden: false,
+    premiumPurchaseDisabled: false,
+    premiumEnabledOverride: false,
+    passwordLastChangedAt: null,
+    lastVoiceActivitySharingChangeAt: null,
+    premiumBadgeHidden: false,
+    premiumPerksDisabled: false,
+  );
 }

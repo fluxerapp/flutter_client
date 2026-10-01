@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/push_provider_kind.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
@@ -18,6 +21,23 @@ bool isPlutoniumStorePageActive() {
   return resolvePlutoniumStorePage(
     ossWebCheckout: AppBuildConfig.isOssWebCheckout,
     desktopOs: isFluxerDesktopOs,
+    pushProvider: AppBuildConfig.pushProvider,
+  );
+}
+
+bool resolvePlutoniumStorePurchasesEnabled({
+  required bool isAndroid,
+  required PushProviderKind pushProvider,
+}) {
+  return isAndroid && pushProvider == PushProviderKind.firebaseMessaging;
+}
+
+bool isPlutoniumStorePurchasesEnabled() {
+  if (kIsWeb || !Platform.isAndroid) {
+    return false;
+  }
+  return resolvePlutoniumStorePurchasesEnabled(
+    isAndroid: true,
     pushProvider: AppBuildConfig.pushProvider,
   );
 }

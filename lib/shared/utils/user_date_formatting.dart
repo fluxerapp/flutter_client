@@ -48,9 +48,11 @@ String formatUserTime(
   required bool use12Hour,
   bool withSeconds = false,
 }) {
-  return DateFormat(
-    _timePattern(locale, use12Hour: use12Hour, withSeconds: withSeconds),
+  return _cachedFormat(
+    _UserFormatKind.time,
     locale,
+    use12Hour: use12Hour,
+    withSeconds: withSeconds,
   ).format(localDateTime);
 }
 
@@ -60,8 +62,8 @@ String formatUserDateTime(
   required bool use12Hour,
   bool withSeconds = false,
 }) {
-  return _withUserTime(
-    DateFormat.yMd(locale),
+  return _cachedFormat(
+    _UserFormatKind.shortDateTime,
     locale,
     use12Hour: use12Hour,
     withSeconds: withSeconds,
@@ -77,22 +79,59 @@ String formatUserMediumDateTime(
   String locale, {
   required bool use12Hour,
 }) {
-  return _withUserTime(
-    DateFormat.yMMMd(locale),
+  return _cachedFormat(
+    _UserFormatKind.mediumDateTime,
     locale,
     use12Hour: use12Hour,
+    withSeconds: false,
   ).format(localDateTime);
 }
 
-DateFormat _withUserTime(
-  DateFormat dateFormat,
+enum _UserFormatKind { time, shortDateTime, mediumDateTime }
+
+typedef _UserFormatKey = ({
+  _UserFormatKind kind,
+  String locale,
+  bool use12Hour,
+  bool withSeconds,
+});
+
+final Map<_UserFormatKey, DateFormat> _formatCache =
+    <_UserFormatKey, DateFormat>{};
+
+DateFormat _cachedFormat(
+  _UserFormatKind kind,
   String locale, {
   required bool use12Hour,
-  bool withSeconds = false,
+  required bool withSeconds,
 }) {
-  return dateFormat.addPattern(
+  final _UserFormatKey key = (
+    kind: kind,
+    locale: locale,
+    use12Hour: use12Hour,
+    withSeconds: withSeconds,
+  );
+  return _formatCache[key] ??= _buildFormat(
+    kind,
+    locale,
     _timePattern(locale, use12Hour: use12Hour, withSeconds: withSeconds),
   );
+}
+
+DateFormat _buildFormat(
+  _UserFormatKind kind,
+  String locale,
+  String timePattern,
+) {
+  return switch (kind) {
+    _UserFormatKind.time => DateFormat(timePattern, locale),
+    _UserFormatKind.shortDateTime => DateFormat.yMd(
+      locale,
+    ).addPattern(timePattern),
+    _UserFormatKind.mediumDateTime => DateFormat.yMMMd(
+      locale,
+    ).addPattern(timePattern),
+  };
 }
 
 String _timePattern(

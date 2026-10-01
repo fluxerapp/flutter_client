@@ -1,4 +1,5 @@
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 
 const Map<int, bool> kMessageTypeDeletable = <int, bool>{
@@ -10,6 +11,7 @@ const Map<int, bool> kMessageTypeDeletable = <int, bool>{
   messageTypeChannelIconChange: false,
   messageTypeChannelPinnedMessage: true,
   messageTypeUserJoin: true,
+  messageTypeChannelFollowAdd: true,
   messageTypeReply: true,
   messageTypeClientSystem: false,
 };
@@ -155,4 +157,36 @@ bool canEditAttachmentAltText({
     return false;
   }
   return canManageMessages;
+}
+
+bool canPublishMessage({
+  required Message message,
+  required ChannelType? channelType,
+  required bool isOwnMessage,
+  required bool canSendMessages,
+  required bool canManageMessages,
+  required bool isDmChannel,
+  required bool isSendDisabled,
+}) {
+  if (isDmChannel || isSendDisabled) {
+    return false;
+  }
+  if (channelType != ChannelType.guildAnnouncement) {
+    return false;
+  }
+  if (message.type != messageTypeDefault || message.isReply) {
+    return false;
+  }
+  if (message.deliveryState != MessageDeliveryState.sent) {
+    return false;
+  }
+  if (message.hasForwardSnapshots ||
+      message.isForwarded ||
+      message.isCrosspostCopy) {
+    return false;
+  }
+  if (!canSendMessages) {
+    return false;
+  }
+  return isOwnMessage || canManageMessages;
 }

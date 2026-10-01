@@ -7,7 +7,8 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart' show StickerAnimationOptions;
 import 'package:visibility_detector/visibility_detector.dart';
 
-/// Plays [animatedUrl] while visible and [staticUrl] otherwise. Respects the
+/// Plays [animatedUrl] while visible. On screen, the animated image stays
+/// loaded and pauses instead of swapping to [staticUrl]. Respects the
 /// nearest [AnimatedImagePlaybackScope] for visibility coordination.
 class EmbedAnimatedImage extends ConsumerStatefulWidget {
   const EmbedAnimatedImage({
@@ -43,16 +44,20 @@ class EmbedAnimatedImage extends ConsumerStatefulWidget {
 
 class _EmbedAnimatedImageState extends ConsumerState<EmbedAnimatedImage> {
   AnimatedImagePlaybackController? _controller;
-  late final ValueNotifier<bool> _playingNotifier;
+  late final ValueNotifier<({bool playing, bool loadAnimated})> _playback;
   bool _localVisible = false;
   bool _hideScheduled = false;
   bool _interacting = false;
-  bool? _motionAllowed;
+  bool _gifAutoPlay = true;
+  StickerAnimationOptions _stickerMode = StickerAnimationOptions.alwaysAnimate;
 
   @override
   void initState() {
     super.initState();
-    _playingNotifier = ValueNotifier<bool>(false);
+    _playback = ValueNotifier<({bool playing, bool loadAnimated})>((
+      playing: false,
+      loadAnimated: false,
+    ));
   }
 
   @override
@@ -76,7 +81,7 @@ class _EmbedAnimatedImageState extends ConsumerState<EmbedAnimatedImage> {
     _hideScheduled = false;
     _controller?.removeListener(_onControllerChanged);
     _controller?.unregister(widget.visibilityKey);
-    _playingNotifier.dispose();
+    _playback.dispose();
     super.dispose();
   }
 
@@ -95,28 +100,51 @@ class _EmbedAnimatedImageState extends ConsumerState<EmbedAnimatedImage> {
     _syncPlaying();
   }
 
-  bool _resolveMotionAllowed(MotionPreferencesModel motion) {
+  bool get _playbackAllowed {
     if (!widget.useStickerAnimationPreference) {
-      return motion.effectiveGifAutoPlay;
+      return _gifAutoPlay;
     }
     return resolveStickerPlaybackActive(
-      mode: motion.effectiveAnimateStickers,
+      mode: _stickerMode,
       interacting: _interacting,
     );
   }
 
-  void _syncPlaying({bool? motionAllowed}) {
+  bool get _loadAllowed {
+    if (!widget.useStickerAnimationPreference) {
+      return _gifAutoPlay;
+    }
+    return _stickerMode != StickerAnimationOptions.neverAnimate;
+  }
+
+  void _applyMotion(MotionPreferencesModel motion) {
+    if (_gifAutoPlay == motion.effectiveGifAutoPlay &&
+        _stickerMode == motion.effectiveAnimateStickers) {
+      return;
+    }
+    _gifAutoPlay = motion.effectiveGifAutoPlay;
+    _stickerMode = motion.effectiveAnimateStickers;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _syncPlaying();
+      }
+    });
+  }
+
+  void _syncPlaying() {
     if (!mounted) {
       return;
     }
-    final bool allowed = motionAllowed ?? _motionAllowed ?? true;
-    final bool playing =
-        allowed &&
-        (_controller?.isPlaying(widget.visibilityKey) ?? _localVisible);
-    if (_playingNotifier.value == playing) {
+    final bool playbackActive =
+        _controller?.isPlaying(widget.visibilityKey) ?? _localVisible;
+    final ({bool playing, bool loadAnimated}) next = (
+      playing: _playbackAllowed && playbackActive,
+      loadAnimated: _loadAllowed && _localVisible,
+    );
+    if (_playback.value == next) {
       return;
     }
-    _playingNotifier.value = playing;
+    _playback.value = next;
   }
 
   void _applyVisibility(VisibilityInfo info, {required bool visible}) {
@@ -160,15 +188,7 @@ class _EmbedAnimatedImageState extends ConsumerState<EmbedAnimatedImage> {
   @override
   Widget build(BuildContext context) {
     final MotionPreferencesModel motion = effectiveMotionOf(ref, context);
-    final bool allowed = _resolveMotionAllowed(motion);
-    if (_motionAllowed != allowed) {
-      _motionAllowed = allowed;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
-          _syncPlaying(motionAllowed: allowed);
-        }
-      });
-    }
+    _applyMotion(motion);
 
     if (widget.animatedUrl.isEmpty) {
       return widget.errorPlaceholder ??
@@ -179,12 +199,14 @@ class _EmbedAnimatedImageState extends ConsumerState<EmbedAnimatedImage> {
       key: ObjectKey(this),
       onVisibilityChanged: _onVisibilityChanged,
       child: ListenableBuilder(
-        listenable: _playingNotifier,
+        listenable: _playback,
         builder: (BuildContext context, Widget? _) {
+          final ({bool playing, bool loadAnimated}) playback = _playback.value;
           return FluxerAnimatedImage(
             animatedUrl: widget.animatedUrl,
             staticUrl: widget.staticUrl,
-            playing: _playingNotifier.value,
+            playing: playback.playing,
+            loadAnimated: playback.loadAnimated,
             fit: widget.fit,
             placeholder: widget.placeholder,
             errorPlaceholder: widget.errorPlaceholder,

@@ -157,6 +157,26 @@ void main() {
       );
     });
 
+    test('unrecognized channels only open the overview tab', () {
+      const Channel unknownChannel = Channel(
+        id: 'unknown-1',
+        guildId: guildId,
+        name: 'future',
+        type: ChannelType.unknown,
+        storedTypeWire: 42,
+      );
+      expect(
+        visibleChannelSettingsTabs(
+          channel: unknownChannel,
+          permissions:
+              Permission.manageChannels.value |
+              Permission.manageRoles.value |
+              Permission.manageWebhooks.value,
+        ),
+        <ChannelSettingsTab>[ChannelSettingsTab.overview],
+      );
+    });
+
     test('denies webhooks on link channels even with manageWebhooks', () {
       expect(
         canAccessChannelSettingsTab(

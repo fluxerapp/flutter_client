@@ -314,7 +314,7 @@ class _GuildOverviewWidgetState extends ConsumerState<GuildOverviewWidget> {
               .where((Channel c) => c.type == ChannelType.guildVoice)
               .toList();
           final List<Channel> textChannels = channels
-              .where((Channel c) => c.type == ChannelType.guildText)
+              .where((Channel c) => isAnnouncementConvertibleChannel(c.type))
               .toList();
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,

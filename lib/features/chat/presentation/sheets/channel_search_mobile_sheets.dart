@@ -320,9 +320,7 @@ class _ChannelSearchChannelFilterSheetState
     return <Channel>[
       for (final ChannelCategory category in categories)
         ...category.channels.where(
-          (Channel channel) =>
-              channel.type == ChannelType.guildText ||
-              channel.type == ChannelType.guildVoice,
+          (Channel channel) => isGuildTextBasedChannelType(channel.type),
         ),
     ];
   }

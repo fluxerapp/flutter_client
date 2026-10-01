@@ -9,10 +9,12 @@
 /// marker between them. The live tail is `(newestId, 1.0)`; underfilled
 /// content hugs the bottom for the same reason.
 ///
-/// `anchorEpoch` keys the subtree: every re-anchor attaches a fresh
+/// `anchorEpoch` keys the subtree: a re-anchor attaches a fresh
 /// ScrollPosition whose first layout places the anchor at its fraction -
-/// atomic positioning, no wrong-paint frame, no settle loop. A missing or
-/// null anchor degrades to the same bottom-anchored layout.
+/// atomic positioning, no wrong-paint frame, no settle loop. Moving the
+/// anchor to a row beside the split keeps the epoch, and the host corrects
+/// the pixels itself. A missing or null anchor degrades to the same
+/// bottom-anchored layout.
 library;
 
 import 'package:flutter/foundation.dart';
@@ -68,8 +70,9 @@ class MessageListViewport extends StatelessWidget {
     super.key,
   });
 
-  /// Bumped on every re-anchor; keys the scrollable subtree so a fresh
-  /// ScrollPosition lays out ONCE with the anchor at its fraction.
+  /// Bumped on a re-anchor; keys the scrollable subtree so a fresh
+  /// ScrollPosition lays out ONCE with the anchor at its fraction. Moving
+  /// the anchor to a row already beside the split keeps the epoch.
   final int anchorEpoch;
 
   final List<ChannelStreamItem> stream;

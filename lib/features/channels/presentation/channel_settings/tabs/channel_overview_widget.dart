@@ -1,19 +1,24 @@
 import 'dart:async';
 import 'dart:math' show max;
 
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/channels/domain/announcement_follow.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/domain/channel_overview_update.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/tabs/channel_overview_mature_content_section.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/widgets/channel_overview_voice_section.dart';
+import 'package:fluxer_app/features/channels/presentation/widgets/unrecognized_channel_view.dart';
+import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/channels/providers/channel_settings_providers.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/settings/domain/guild/roles/guild_role_permission_spec.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_emoji_picker_popout.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_emoji_picker_sheet.dart';
@@ -22,6 +27,7 @@ import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/features/ui/select/fluxer_select.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_sheet.dart';
+import 'package:fluxer_app/features/ui/switch_group/fluxer_switch_group.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -186,6 +192,13 @@ class _ChannelOverviewWidgetState extends ConsumerState<ChannelOverviewWidget> {
       await _showTopicTooLongModal();
       return;
     }
+    if (widget.channel.type == ChannelType.guildAnnouncement &&
+        !_current.announcement) {
+      final bool confirmed = await _confirmStopAnnouncement();
+      if (!confirmed || !mounted) {
+        return;
+      }
+    }
     setState(() => _isSaving = true);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     try {
@@ -210,6 +223,22 @@ class _ChannelOverviewWidgetState extends ConsumerState<ChannelOverviewWidget> {
               variant: FluxerToastVariant.success,
             ),
           );
+    } on DioException catch (error) {
+      if (!mounted) {
+        return;
+      }
+      if (apiErrorCodeFromDioException(error) == kChannelHasFollowedChannels) {
+        await _showConvertFailedModal();
+        return;
+      }
+      ref
+          .read(toastProvider.notifier)
+          .show(
+            FluxerToast(
+              message: userFacingErrorMessage(error, l10n.networkErrorMessage),
+              variant: FluxerToastVariant.danger,
+            ),
+          );
     } on Object catch (error) {
       if (!mounted) {
         return;
@@ -227,6 +256,53 @@ class _ChannelOverviewWidgetState extends ConsumerState<ChannelOverviewWidget> {
         setState(() => _isSaving = false);
       }
     }
+  }
+
+  Future<bool> _confirmStopAnnouncement() async {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    int? followerCount;
+    var unknown = false;
+    try {
+      final ChannelFollowerStatsResponse stats = await ref
+          .read(channelRepositoryProvider)
+          .getFollowerStats(widget.channel.id);
+      followerCount = stats.channelCount;
+    } on Object {
+      unknown = true;
+    }
+    if (!mounted) {
+      return false;
+    }
+    if (!unknown && followerCount == 0) {
+      return true;
+    }
+    final bool? confirmed = await FluxerConfirmSheet.show(
+      context,
+      title: l10n.channelSettingsStopAnnouncementTitle,
+      description: unknown
+          ? l10n.channelSettingsStopAnnouncementUnknown
+          : l10n.channelSettingsStopAnnouncementBody(followerCount ?? 0),
+      confirmLabel: l10n.channelSettingsConvertChannel,
+    );
+    return confirmed ?? false;
+  }
+
+  Future<void> _showConvertFailedModal() {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    return FluxerModal.show<void>(
+      context,
+      title: l10n.channelSettingsConvertFailed,
+      centered: true,
+      builder: (BuildContext dialogContext, VoidCallback close) {
+        return Text(
+          l10n.channelSettingsChannelHasFollowers,
+          style: dialogContext.textStyles.bodySmall,
+        );
+      },
+      actionsBuilder: (void Function([void]) pop) => <Widget>[
+        FluxerButton.primary(onPressed: () => pop(), label: l10n.uiConfirm),
+      ],
+    );
   }
 
   void _handleReset() {
@@ -266,6 +342,9 @@ class _ChannelOverviewWidgetState extends ConsumerState<ChannelOverviewWidget> {
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final Channel channel = widget.channel;
+    if (channel.type == ChannelType.unknown) {
+      return const UnrecognizedChannelView();
+    }
     final bool isCategory = channel.isCategory;
     final bool isLink = channel.type == ChannelType.guildLink;
     final bool isVoice = channel.type == ChannelType.guildVoice;
@@ -334,6 +413,22 @@ class _ChannelOverviewWidgetState extends ConsumerState<ChannelOverviewWidget> {
             ],
           ],
           if (showMessaging) ...<Widget>[
+            if (isAnnouncementConvertibleChannel(channel.type)) ...<Widget>[
+              SizedBox(height: context.layout.s6),
+              FluxerSwitchGroup(
+                children: <Widget>[
+                  FluxerSwitchGroupItem(
+                    label: l10n.channelSettingsAnnouncementChannel,
+                    description:
+                        l10n.channelSettingsAnnouncementChannelDescription,
+                    value: _current.announcement,
+                    onChanged: (bool value) {
+                      _updateCurrent(_current.copyWith(announcement: value));
+                    },
+                  ),
+                ],
+              ),
+            ],
             SizedBox(height: context.layout.s6),
             ListenableBuilder(
               listenable: _topicController,

@@ -5,7 +5,9 @@ import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
+import 'package:fluxer_app/features/channels/domain/announcement_follow.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/channels/presentation/sheets/channel_follow_sheet.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/header/channel_header_icon_button.dart';
@@ -21,6 +23,7 @@ import 'package:fluxer_app/features/dm/presentation/create_dm_flow.dart';
 import 'package:fluxer_app/features/dm/providers/create_dm_view_model.dart';
 import 'package:fluxer_app/features/favorites/domain/favorite_guild_id.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
 import 'package:fluxer_app/features/notifications/presentation/inbox_popout.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -86,6 +89,16 @@ class ChannelHeaderToolbar extends ConsumerWidget {
         if (channel != null && !isPersonalNotes)
           buildChannelNotificationButton(channel: channel!),
         ..._buildCallButtons(context, ref),
+        if (canOfferAnnouncementFollow(
+          channel,
+          ref.watch(guildPermissionsProvider),
+        ))
+          ChannelHeaderIconButton(
+            icon: PhosphorIconsFill.megaphone,
+            label: l10n.channelHeaderFollow,
+            onPressed: () =>
+                unawaited(ChannelFollowSheet.show(context, channel: channel!)),
+          ),
         if (showPins && targetId != null)
           buildChannelPinsButton(
             channelId: targetId,

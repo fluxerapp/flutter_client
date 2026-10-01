@@ -75,6 +75,7 @@ WellKnownFluxerResponse _wellKnownWithMessageLength(int length) {
       singleCommunity: false,
       singleCommunityGuildId: null,
       directMessagesDisabled: false,
+      guildCreateAccess: true,
     ),
     services: const InstanceServicesSchema(
       gifEnabled: true,

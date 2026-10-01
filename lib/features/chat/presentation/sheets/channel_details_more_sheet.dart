@@ -100,6 +100,19 @@ Future<void> _showDetailsMoreSheet(
             icon: PhosphorIconsBold.pushPin,
             onTap: () => run(() => onToggleDmPin(isPinned: isDmPinned)),
           ),
+        if (canOfferAnnouncementFollow(
+          channel,
+          ref.read(guildPermissionsProvider),
+        ))
+          FluxerBottomSheetMenuItem(
+            label: l10n.channelMenuFollow,
+            icon: PhosphorIconsBold.megaphone,
+            onTap: () {
+              final Channel target = channel!;
+              close();
+              unawaited(ChannelFollowSheet.show(context, channel: target));
+            },
+          ),
         if (inviteChannel != null && canCreateInvite)
           FluxerBottomSheetMenuItem(
             label: l10n.channelDetailsInvitePeople,
@@ -499,9 +512,11 @@ String? _detailsSubtitle({
   if (channel != null) {
     return switch (channel.type) {
       ChannelType.guildText => l10n.channelDetailsTextChannel,
+      ChannelType.guildAnnouncement => l10n.channelDetailsAnnouncementChannel,
       ChannelType.guildVoice => l10n.channelDetailsVoiceChannel,
       ChannelType.guildCategory => l10n.channelDetailsCategory,
       ChannelType.guildLink => l10n.channelDetailsLinkChannel,
+      ChannelType.unknown => l10n.channelDetailsUnsupportedChannel,
       ChannelType.dm ||
       ChannelType.groupDm ||
       ChannelType.dmPersonalNotes => l10n.channelDetailsGenericChannel,

@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart' show Value;
 import 'package:fake_async/fake_async.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
@@ -125,4 +126,44 @@ void main() {
       expect(flushCounts, <int>[1, 1, 1]);
     });
   });
+
+  test(
+    'flush advances the channel row without re-emitting channel watchers (#713)',
+    () async {
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          lastMessageId: const Value('100'),
+        ),
+      );
+      final List<List<Channel>> emissions = <List<Channel>>[];
+      final sub = db.channelDao.watchAllChannels().listen(emissions.add);
+      addTearDown(sub.cancel);
+      await pumpEventQueue();
+      expect(emissions, hasLength(1));
+
+      batcher.enqueueMessage(
+        companion: MessagesCompanion.insert(
+          id: '200',
+          channelId: 'channel-1',
+          authorId: 'user-1',
+          content: 'hello',
+          timestamp: DateTime.utc(2020),
+        ),
+        channelId: 'channel-1',
+        messageId: '200',
+      );
+      await batcher.flush();
+      await pumpEventQueue();
+
+      expect(emissions, hasLength(1));
+      expect(
+        (await db.channelDao.getChannelById('channel-1'))?.lastMessageId,
+        '200',
+      );
+      expect(index.lastMessageIdFor('channel-1'), '200');
+    },
+  );
 }

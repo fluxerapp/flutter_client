@@ -4,10 +4,12 @@ import 'package:dio/dio.dart';
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/gateway/channel_last_message_index.dart';
 import 'package:fluxer_app/core/gateway/gateway_event_handler.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/data/read_state_write_batcher.dart';
+import 'package:fluxer_app/features/chat/data/chat_unread_summary.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
@@ -1339,4 +1341,114 @@ void main() {
       expect(readState?.lastMessageId, ackId);
     },
   );
+
+  group('tail delete and the last-message index (#713)', () {
+    final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
+    final remainingId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+    final deletedId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+    late FluxerDatabase db;
+    late ChannelLastMessageIndex index;
+    late GatewayEventHandler handler;
+
+    Future<void> seedChannel(List<String> cachedIds) async {
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          lastMessageId: Value(deletedId),
+        ),
+      );
+      await db.messageDao.upsertMessages([
+        for (final id in cachedIds)
+          _cachedMessage(id: id, channelId: 'channel-1', authorId: 'other'),
+      ]);
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('channel-1'),
+          lastMessageId: Value(ackId),
+        ),
+      );
+      index.applyBatch(<String, String>{'channel-1': deletedId});
+    }
+
+    setUp(() {
+      db = openTestDatabase();
+      index = ChannelLastMessageIndex();
+      addTearDown(index.dispose);
+      handler = GatewayEventHandler(
+        database: db,
+        currentUserId: 'me',
+        readStateRepository: ReadStateRepository(FluxerClient(Dio()), db),
+        channelLastMessageIndex: index,
+      );
+    });
+
+    test('deleting the tail with other unread remaining does not mark the '
+        'unread summary estimated', () async {
+      await seedChannel([ackId, remainingId, deletedId]);
+
+      await handler.handle(
+        MessageDeleteEvent(channelId: 'channel-1', messageId: deletedId),
+      );
+
+      final String? row = (await db.channelDao.getChannelById(
+        'channel-1',
+      ))?.lastMessageId;
+      expect(row, remainingId);
+      expect(index.lastMessageIdFor('channel-1'), remainingId);
+      final ChatUnreadSummary summary = computeChatUnreadSummary(
+        messages: [
+          for (final id in [ackId, remainingId])
+            ChatUnreadMessageRef(id: id, authorId: 'other'),
+        ],
+        ackLastMessageId: ackId,
+        mentionCount: 0,
+        channelLastMessageId: index.lastMessageIdFor('channel-1'),
+        hasMoreNewerMessages: false,
+        hasMoreOlderMessages: false,
+      );
+      expect(summary.displayUnreadCount, 1);
+      expect(summary.isEstimated, isFalse);
+    });
+
+    test('a bulk tail delete rewinds the index to the row', () async {
+      await seedChannel([ackId, remainingId, deletedId]);
+
+      await handler.handle(
+        MessageDeleteBulkEvent(channelId: 'channel-1', ids: [deletedId]),
+      );
+
+      expect(index.lastMessageIdFor('channel-1'), remainingId);
+    });
+
+    test(
+      'a delete that empties the channel rewinds the pointer to null',
+      () async {
+        await seedChannel([deletedId]);
+
+        await handler.handle(
+          MessageDeleteEvent(channelId: 'channel-1', messageId: deletedId),
+        );
+
+        expect(
+          (await db.channelDao.getChannelById('channel-1'))?.lastMessageId,
+          isNull,
+        );
+        expect(index.lastMessageIdFor('channel-1'), isNull);
+      },
+    );
+
+    test('a delete keeps an index pointer that was not deleted', () async {
+      await seedChannel([ackId, remainingId, deletedId]);
+      final newerId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 13));
+      index.applyBatch(<String, String>{'channel-1': newerId});
+
+      await handler.handle(
+        MessageDeleteEvent(channelId: 'channel-1', messageId: deletedId),
+      );
+
+      expect(index.lastMessageIdFor('channel-1'), newerId);
+    });
+  });
 }

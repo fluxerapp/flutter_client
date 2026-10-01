@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/chat/domain/message_translation.dart';
 import 'package:fluxer_app/features/chat/presentation/modals/pin_message_confirm_modal.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/message_debug_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/message_reactions_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/sheets/publish_message_sheets.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/unpin_message_confirm_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/double_tap_reaction_hint.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_loader.dart';
@@ -48,6 +49,7 @@ enum MessageAction {
   copyText,
   copyEmbedText,
   pin,
+  publish,
   bookmark,
   markAsUnread,
   copyMessageLink,
@@ -73,6 +75,7 @@ Future<MessageAction?> showMessageBottomSheet(
   required bool canManageMessages,
   required bool canSendMessages,
   required bool developerMode,
+  bool canPublish = false,
   List<QuickReactionItem>? quickItems,
   String? quickReactionChannelId,
   String? quickReactionGuildId,
@@ -92,6 +95,7 @@ Future<MessageAction?> showMessageBottomSheet(
     canSendMessages: canSendMessages,
     developerMode: developerMode,
     isSendDisabled: isSendDisabled,
+    canPublish: canPublish,
   );
   return FluxerBottomSheet.showScrollable<MessageAction>(
     context,
@@ -172,6 +176,8 @@ Future<void> dispatchMessageAction({
         channelId: message.channelId,
         messageId: message.id,
       );
+    case MessageAction.publish:
+      unawaited(publishMessage(ref: ref, context: context, message: message));
     case MessageAction.pin:
       if (message.isPinned) {
         unawaited(
@@ -355,6 +361,7 @@ List<Widget> buildMessageActionMenuGroups({
       isUserMessage &&
       message.messageSnapshots.isEmpty;
   final bool canShowPin = isUserMessage && permissions.canPinMessage;
+  final bool canShowPublish = permissions.canPublish;
   final bool canShowBookmark = isUserMessage && supportsInteractiveActions;
   final bool canShowSuppressEmbeds = canSuppressEmbedsOnMessage(
     message: message,
@@ -420,6 +427,14 @@ List<Widget> buildMessageActionMenuGroups({
   ];
 
   final List<Widget> managementItems = <Widget>[
+    if (canShowPublish)
+      FluxerBottomSheetMenuItem(
+        icon: PhosphorIconsFill.megaphone,
+        label: message.isCrossposted
+            ? l10n.chatMessagePublished
+            : l10n.chatMessagePublish,
+        onTap: () => onAction(MessageAction.publish),
+      ),
     if (canShowPin)
       FluxerBottomSheetMenuItem(
         icon: PhosphorIconsFill.pushPin,

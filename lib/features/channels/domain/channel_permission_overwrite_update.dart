@@ -295,6 +295,7 @@ ChannelUpdateRequestBodyVariant1 buildChannelPermissionOverwritesUpdate({
           .toList();
   return switch (channel.type) {
     ChannelType.guildText ||
+    ChannelType.guildAnnouncement ||
     ChannelType.guildVoice ||
     ChannelType.guildCategory ||
     ChannelType.guildLink => ChannelUpdateRequestBodyVariant1(

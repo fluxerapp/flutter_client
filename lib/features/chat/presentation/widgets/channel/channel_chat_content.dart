@@ -213,6 +213,9 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
       _mismatchResyncChannelId = null;
       return;
     }
+    if (!_canSyncForRoute()) {
+      return;
+    }
     if (_mismatchResyncChannelId == widget.channelId) {
       return;
     }

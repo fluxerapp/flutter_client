@@ -76,6 +76,23 @@ RegExp buildChannelJumpLinkPattern(Set<String> hosts) {
   );
 }
 
+String? _instanceJumpLinkPatternBase;
+RegExp? _instanceJumpLinkPattern;
+
+/// [buildChannelJumpLinkPattern] for [channelJumpLinkHosts] of the current
+/// instance, cached until [InstanceEndpoints.webApp] changes.
+RegExp instanceChannelJumpLinkPattern() {
+  final String base = InstanceEndpoints.webApp;
+  final RegExp? cached = _instanceJumpLinkPattern;
+  if (cached != null && base == _instanceJumpLinkPatternBase) {
+    return cached;
+  }
+  _instanceJumpLinkPatternBase = base;
+  return _instanceJumpLinkPattern = buildChannelJumpLinkPattern(
+    channelJumpLinkHosts(instanceWebAppBase: base),
+  );
+}
+
 bool _isSnowflake(String? s) {
   if (s == null || s.isEmpty) {
     return false;

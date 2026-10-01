@@ -13,13 +13,10 @@ String formatMessageTimestamp(
   DateTime? now,
 }) {
   final DateTime reference = now ?? DateTime.now();
-  final String time = formatUserTime(
-    localDateTime,
-    locale,
-    use12Hour: use12Hour,
-  );
   if (_isSameCalendarDay(localDateTime, reference)) {
-    return l10n.chatMessageTimestampToday(time);
+    return l10n.chatMessageTimestampToday(
+      formatUserTime(localDateTime, locale, use12Hour: use12Hour),
+    );
   }
   final DateTime yesterday = DateTime(
     reference.year,
@@ -27,7 +24,9 @@ String formatMessageTimestamp(
     reference.day,
   ).subtract(const Duration(days: 1));
   if (_isSameCalendarDay(localDateTime, yesterday)) {
-    return l10n.chatMessageTimestampYesterday(time);
+    return l10n.chatMessageTimestampYesterday(
+      formatUserTime(localDateTime, locale, use12Hour: use12Hour),
+    );
   }
   return formatUserDateTime(localDateTime, locale, use12Hour: use12Hour);
 }

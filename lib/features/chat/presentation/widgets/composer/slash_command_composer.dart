@@ -5,6 +5,7 @@ import 'package:fluxer_app/features/chat/services/composer_slash_session.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_enter_send.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/keyboard_focus_restore.dart';
 
 class SlashCommandComposer extends StatefulWidget {
   const SlashCommandComposer({
@@ -28,14 +29,17 @@ class SlashCommandComposer extends StatefulWidget {
   State<SlashCommandComposer> createState() => _SlashCommandComposerState();
 }
 
-class _SlashCommandComposerState extends State<SlashCommandComposer> {
+class _SlashCommandComposerState extends State<SlashCommandComposer>
+    with WidgetsBindingObserver {
   final List<TextEditingController> _controllers = <TextEditingController>[];
   final List<FocusNode> _focusNodes = <FocusNode>[];
   int _syncedLength = -1;
+  bool _pendingSlotRestore = false;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     widget.session.addListener(_onSession);
     _syncControllers();
   }
@@ -52,9 +56,23 @@ class _SlashCommandComposerState extends State<SlashCommandComposer> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     widget.session.removeListener(_onSession);
     _disposeEditors();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (isAppBackgroundLifecycleState(state)) {
+      _pendingSlotRestore = widget.session.focus == ComposerSlashFocus.slot;
+      return;
+    }
+    if (state != AppLifecycleState.resumed || !_pendingSlotRestore) {
+      return;
+    }
+    _pendingSlotRestore = false;
+    _restoreFocusedSlot();
   }
 
   void _disposeEditors() {
@@ -110,15 +128,35 @@ class _SlashCommandComposerState extends State<SlashCommandComposer> {
   }
 
   void _restoreFocus() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) {
-        return;
-      }
-      if (widget.session.focus == ComposerSlashFocus.slot &&
-          widget.session.focusedSlotIndex < _focusNodes.length) {
-        _focusNodes[widget.session.focusedSlotIndex].requestFocus();
-      }
-    });
+    _afterFrame(() => _focusActiveSlot(reconnectIfFocused: false));
+  }
+
+  void _restoreFocusedSlot() {
+    _afterFrame(() => _focusActiveSlot(reconnectIfFocused: true));
+  }
+
+  void _afterFrame(VoidCallback action) {
+    WidgetsBinding.instance
+      ..scheduleFrame()
+      ..addPostFrameCallback((_) {
+        if (!mounted) {
+          return;
+        }
+        action();
+      });
+  }
+
+  void _focusActiveSlot({required bool reconnectIfFocused}) {
+    if (widget.session.focus != ComposerSlashFocus.slot ||
+        widget.session.focusedSlotIndex >= _focusNodes.length) {
+      return;
+    }
+    final FocusNode node = _focusNodes[widget.session.focusedSlotIndex];
+    if (reconnectIfFocused && node.hasFocus) {
+      reconnectComposerKeyboard(node);
+      return;
+    }
+    node.requestFocus();
   }
 
   KeyEventResult _onSlotKey(int index, KeyEvent event) {

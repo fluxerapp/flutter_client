@@ -286,6 +286,7 @@ WellKnownFluxerResponse _buildWellKnown({required bool selfHosted}) {
       singleCommunity: false,
       singleCommunityGuildId: null,
       directMessagesDisabled: false,
+      guildCreateAccess: true,
     ),
     services: const InstanceServicesSchema(
       gifEnabled: true,

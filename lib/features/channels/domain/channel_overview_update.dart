@@ -41,6 +41,7 @@ class ChannelOverviewFormState {
     required this.userLimit,
     required this.voiceConnectionLimit,
     required this.rtcRegion,
+    this.announcement = false,
   });
 
   final String name;
@@ -54,6 +55,7 @@ class ChannelOverviewFormState {
   final int userLimit;
   final int voiceConnectionLimit;
   final String? rtcRegion;
+  final bool announcement;
 
   factory ChannelOverviewFormState.fromChannel(Channel channel) {
     return ChannelOverviewFormState(
@@ -71,6 +73,7 @@ class ChannelOverviewFormState {
       voiceConnectionLimit:
           channel.voiceConnectionLimit ?? kDefaultVoiceConnectionLimit,
       rtcRegion: channel.rtcRegion,
+      announcement: channel.type == ChannelType.guildAnnouncement,
     );
   }
 
@@ -85,7 +88,8 @@ class ChannelOverviewFormState {
         bitrateKbps != original.bitrateKbps ||
         userLimit != original.userLimit ||
         voiceConnectionLimit != original.voiceConnectionLimit ||
-        rtcRegion != original.rtcRegion;
+        rtcRegion != original.rtcRegion ||
+        announcement != original.announcement;
   }
 
   static const Object _unset = Object();
@@ -102,6 +106,7 @@ class ChannelOverviewFormState {
     int? userLimit,
     int? voiceConnectionLimit,
     Object? rtcRegion = _unset,
+    bool? announcement,
   }) {
     return ChannelOverviewFormState(
       name: name ?? this.name,
@@ -119,6 +124,7 @@ class ChannelOverviewFormState {
       rtcRegion: identical(rtcRegion, _unset)
           ? this.rtcRegion
           : rtcRegion as String?,
+      announcement: announcement ?? this.announcement,
     );
   }
 }
@@ -214,8 +220,17 @@ ChannelUpdateRequestBodyVariant1 buildChannelOverviewUpdate({
           current.rtcRegion != original.rtcRegion
       ? current.rtcRegion
       : null;
+  final num? type =
+      canManageChannel &&
+          isAnnouncementConvertibleChannel(channel.type) &&
+          current.announcement != original.announcement
+      ? (current.announcement
+            ? ChannelType.guildAnnouncement.wireValue
+            : ChannelType.guildText.wireValue)
+      : null;
   return switch (channel.type) {
     ChannelType.guildText ||
+    ChannelType.guildAnnouncement ||
     ChannelType.guildVoice ||
     ChannelType.guildCategory ||
     ChannelType.guildLink => ChannelUpdateRequestBodyVariant1(
@@ -230,6 +245,7 @@ ChannelUpdateRequestBodyVariant1 buildChannelOverviewUpdate({
       rateLimitPerUser: rateLimitPerUser,
       rtcRegion: rtcRegion,
       name: name,
+      type: type,
     ),
     _ => throw UnsupportedError(
       'Channel overview updates are not supported for ${channel.type}',

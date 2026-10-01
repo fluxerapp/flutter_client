@@ -9,6 +9,8 @@ part 'current_user_private_provider.g.dart';
 
 @Riverpod(keepAlive: true)
 class CurrentUserPrivateRead extends _$CurrentUserPrivateRead {
+  int _epoch = 0;
+
   @override
   UserPrivateResponse? build() {
     ref.listen<String?>(currentUserIdProvider, (
@@ -16,6 +18,7 @@ class CurrentUserPrivateRead extends _$CurrentUserPrivateRead {
       String? next,
     ) {
       if (next == null) {
+        _epoch++;
         state = null;
         return;
       }
@@ -29,18 +32,29 @@ class CurrentUserPrivateRead extends _$CurrentUserPrivateRead {
   UserPrivateResponse? get startupUser => state;
 
   set startupUser(UserPrivateResponse user) {
+    apply(user);
+  }
+
+  void apply(UserPrivateResponse user) {
+    _epoch++;
     state = user;
   }
 
   Future<void> refresh() async {
     final String? userId = ref.read(currentUserIdProvider);
     if (userId == null) {
+      _epoch++;
       state = null;
       return;
     }
+    final int epoch = ++_epoch;
     try {
       final FluxerClient client = ref.read(fluxerClientProvider);
-      state = await client.users.getCurrentUser();
+      final UserPrivateResponse user = await client.users.getCurrentUser();
+      if (!ref.mounted || epoch != _epoch) {
+        return;
+      }
+      state = user;
     } on Object {
       // Keep the last known profile when refresh fails.
     }

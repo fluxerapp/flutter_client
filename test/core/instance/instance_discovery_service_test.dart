@@ -47,6 +47,7 @@ void main() {
           'single_community': false,
           'single_community_guild_id': null,
           'direct_messages_disabled': false,
+          'guild_create_access': true,
         },
         'services': <String, dynamic>{
           'gif_enabled': true,
@@ -233,6 +234,7 @@ Map<String, dynamic> buildOfficialDiscovery({int apiCodeVersion = 1}) {
       'single_community': false,
       'single_community_guild_id': null,
       'direct_messages_disabled': false,
+      'guild_create_access': true,
     },
     'services': <String, dynamic>{
       'gif_enabled': true,

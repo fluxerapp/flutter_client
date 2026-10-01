@@ -232,10 +232,6 @@ void main() {
     return database;
   }
 
-  /// Opens the channel, pages backwards past the trim cap, then applies the
-  /// scroll-end around-trim (the widget's settle path) near the oldest row,
-  /// which drops the newest side and detaches the window from the live
-  /// tail - the state a jump to latest replaces wholesale.
   Future<void> detachWindow(ChatViewModel notifier, ProviderContainer c) async {
     await notifier.switchChannel(_channelId);
     await _flushAsync();
@@ -250,7 +246,10 @@ void main() {
     if (loaded.length <= kMaxLoadedMessages) {
       fail('window never exceeded the trim cap');
     }
-    notifier.trimAroundVisible(loaded.first.id);
+    notifier.trimToSpan(
+      firstId: loaded.first.id,
+      lastId: loaded[kTrimmedMessageWindowSize - 1].id,
+    );
     await _flushAsync();
     if (!c.read(chatViewModelProvider).hasMoreNewerMessages) {
       fail('window never detached from the live tail');

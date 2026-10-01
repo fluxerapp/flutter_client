@@ -36,6 +36,9 @@ bool shouldShowPinsForContext({
   if (dm != null && dm.isSystem) {
     return false;
   }
+  if (channel?.type == ChannelType.unknown) {
+    return false;
+  }
   return channel != null || dm != null;
 }
 
@@ -47,6 +50,9 @@ bool shouldShowSearchForContext({
   if (isPersonalNotes) {
     return false;
   }
+  if (channel?.type == ChannelType.unknown) {
+    return false;
+  }
   return channel != null || dm != null;
 }
 
@@ -54,6 +60,9 @@ bool shouldShowMemberListToggle({
   required Channel? channel,
   required DmConversation? dm,
 }) {
+  if (channel?.type == ChannelType.unknown) {
+    return false;
+  }
   if (channel != null) {
     return true;
   }

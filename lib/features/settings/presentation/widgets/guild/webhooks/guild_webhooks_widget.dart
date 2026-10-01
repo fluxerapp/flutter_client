@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/widgets/channel_webhook_list_item.dart';
+import 'package:fluxer_app/features/channels/utils/webhook_utils.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/webhooks/guild_webhooks_empty_state.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/webhooks/guild_webhooks_header.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/webhooks/guild_webhooks_info_box.dart';
@@ -107,7 +108,15 @@ class _GuildWebhooksWidgetState extends ConsumerState<GuildWebhooksWidget> {
       widget.webhooks,
       channelNames,
     );
-    if (sortedWebhooks.isEmpty) {
+    final List<WebhookResponse> incoming = <WebhookResponse>[
+      for (final WebhookResponse webhook in sortedWebhooks)
+        if (!isChannelFollowerWebhook(webhook)) webhook,
+    ];
+    final List<WebhookResponse> followed = <WebhookResponse>[
+      for (final WebhookResponse webhook in sortedWebhooks)
+        if (isChannelFollowerWebhook(webhook)) webhook,
+    ];
+    if (incoming.isEmpty && followed.isEmpty) {
       return const Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -122,40 +131,106 @@ class _GuildWebhooksWidgetState extends ConsumerState<GuildWebhooksWidget> {
       slivers: <Widget>[
         const SliverToBoxAdapter(child: GuildWebhooksHeader()),
         const SliverToBoxAdapter(child: GuildWebhooksInfoBox()),
-        SliverPadding(
-          padding: EdgeInsets.fromLTRB(
-            context.layout.s4,
-            0,
-            context.layout.s4,
-            kSettingsScrollBottomPadding,
-          ),
-          sliver: SliverList(
-            delegate: SliverChildBuilderDelegate((
-              BuildContext context,
-              int index,
-            ) {
-              final WebhookResponse webhook = sortedWebhooks[index];
-              return Padding(
-                padding: EdgeInsets.only(bottom: context.layout.s3),
-                child: ChannelWebhookListItem(
-                  key: ValueKey<String>('${webhook.id}-$_formVersion'),
-                  channelId: webhook.channelId,
-                  webhook: webhook,
-                  channelName: resolveWebhookChannelName(
-                    l10n: l10n,
-                    channelId: webhook.channelId,
-                    channelNames: channelNames,
-                  ),
+        if (incoming.isNotEmpty)
+          SliverPadding(
+            padding: EdgeInsets.fromLTRB(
+              context.layout.s4,
+              0,
+              context.layout.s4,
+              followed.isEmpty ? kSettingsScrollBottomPadding : 0,
+            ),
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate((
+                BuildContext context,
+                int index,
+              ) {
+                return _webhookTile(
+                  context,
+                  l10n: l10n,
+                  webhook: incoming[index],
+                  channelNames: channelNames,
                   availableChannels: availableChannels,
-                  formVersion: _formVersion,
-                  onUpdate: _handleWebhookUpdate,
-                  onDelete: _handleWebhookDelete,
-                ),
-              );
-            }, childCount: sortedWebhooks.length),
+                );
+              }, childCount: incoming.length),
+            ),
           ),
-        ),
+        if (followed.isNotEmpty) ...<Widget>[
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(
+                context.layout.s4,
+                context.layout.s2,
+                context.layout.s4,
+                context.layout.s2,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    l10n.channelSettingsFollowedChannels,
+                    style: context.textStyles.label,
+                  ),
+                  SizedBox(height: context.layout.s1),
+                  Text(
+                    l10n.guildSettingsFollowedChannelsDescription,
+                    style: context.textStyles.smallText.copyWith(
+                      color: context.colors.textTertiary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SliverPadding(
+            padding: EdgeInsets.fromLTRB(
+              context.layout.s4,
+              0,
+              context.layout.s4,
+              kSettingsScrollBottomPadding,
+            ),
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate((
+                BuildContext context,
+                int index,
+              ) {
+                return _webhookTile(
+                  context,
+                  l10n: l10n,
+                  webhook: followed[index],
+                  channelNames: channelNames,
+                  availableChannels: availableChannels,
+                );
+              }, childCount: followed.length),
+            ),
+          ),
+        ],
       ],
+    );
+  }
+
+  Widget _webhookTile(
+    BuildContext context, {
+    required FluxerLocalizations l10n,
+    required WebhookResponse webhook,
+    required Map<String, String> channelNames,
+    required List<Channel> availableChannels,
+  }) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: context.layout.s3),
+      child: ChannelWebhookListItem(
+        key: ValueKey<String>('${webhook.id}-$_formVersion'),
+        channelId: webhook.channelId,
+        webhook: webhook,
+        channelName: resolveWebhookChannelName(
+          l10n: l10n,
+          channelId: webhook.channelId,
+          channelNames: channelNames,
+        ),
+        availableChannels: availableChannels,
+        formVersion: _formVersion,
+        onUpdate: _handleWebhookUpdate,
+        onDelete: _handleWebhookDelete,
+      ),
     );
   }
 

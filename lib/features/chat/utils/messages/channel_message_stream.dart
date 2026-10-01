@@ -127,15 +127,69 @@ String? getCollapsedMessageGroupKey({
   return null;
 }
 
+/// Tile key of the date divider placed before [nextMessageId], stable across
+/// page landings and trims.
+String channelStreamDividerKey(String nextMessageId) =>
+    'divider-$nextMessageId';
+
+/// O(1) lookups into one built stream, recorded while it is built.
+class ChannelStreamIndex {
+  ChannelStreamIndex._(this.messages);
+
+  static final ChannelStreamIndex empty = ChannelStreamIndex._(
+    const <Message>[],
+  );
+
+  /// The window the stream was built from.
+  final List<Message> messages;
+  final Map<String, int> _itemByMessageId = <String, int>{};
+  final Map<String, int> _itemByGroupKey = <String, int>{};
+  final Map<String, int> _itemByDividerKey = <String, int>{};
+  final Map<String, int> _windowIndexByMessageId = <String, int>{};
+
+  /// Stream data index of the item holding [messageId], collapsed groups
+  /// included.
+  int? itemOfMessage(String messageId) => _itemByMessageId[messageId];
+
+  int? itemOfGroup(String groupKey) => _itemByGroupKey[groupKey];
+
+  /// Stream data index of the divider keyed [dividerKey]
+  /// ([channelStreamDividerKey]).
+  int? itemOfDivider(String dividerKey) => _itemByDividerKey[dividerKey];
+
+  /// Index of [messageId] in [messages].
+  int? windowIndexOf(String messageId) => _windowIndexByMessageId[messageId];
+}
+
 List<ChannelStreamItem> createChannelStream({
   required List<Message> messages,
   required String? oldestUnreadMessageId,
   required ChannelCollapseContext context,
   String? groupSplitBoundaryId,
 }) {
+  return createIndexedChannelStream(
+    messages: messages,
+    oldestUnreadMessageId: oldestUnreadMessageId,
+    context: context,
+    groupSplitBoundaryId: groupSplitBoundaryId,
+  ).items;
+}
+
+/// [createChannelStream] plus a [ChannelStreamIndex] filled in the same pass.
+({List<ChannelStreamItem> items, ChannelStreamIndex index})
+createIndexedChannelStream({
+  required List<Message> messages,
+  required String? oldestUnreadMessageId,
+  required ChannelCollapseContext context,
+  String? groupSplitBoundaryId,
+}) {
   if (messages.isEmpty) {
-    return const <ChannelStreamItem>[];
+    return (
+      items: const <ChannelStreamItem>[],
+      index: ChannelStreamIndex.empty,
+    );
   }
+  final ChannelStreamIndex index = ChannelStreamIndex._(messages);
   final List<MessageCollapseAssignment> assignments =
       buildMessageCollapseAssignments(messages: messages, context: context);
   final List<ChannelStreamItem> stream = <ChannelStreamItem>[];
@@ -157,6 +211,8 @@ List<ChannelStreamItem> createChannelStream({
           dividerDate: message.timestamp,
         ),
       );
+      index._itemByDividerKey[channelStreamDividerKey(message.id)] =
+          stream.length - 1;
       lastDateDividerTimestamp = message.timestamp;
     }
 
@@ -196,6 +252,10 @@ List<ChannelStreamItem> createChannelStream({
         );
         stream.add(activeCollapsedItem);
         targetItem = activeCollapsedItem;
+        index._itemByGroupKey.putIfAbsent(
+          activeCollapsedItem.groupKey!,
+          () => stream.length - 1,
+        );
       }
     } else {
       activeCollapsedGroupKey = null;
@@ -206,6 +266,8 @@ List<ChannelStreamItem> createChannelStream({
       );
       stream.add(targetItem);
     }
+    index._itemByMessageId.putIfAbsent(message.id, () => stream.length - 1);
+    index._windowIndexByMessageId.putIfAbsent(message.id, () => i);
 
     if (unreadBoundaryPending && oldestUnreadMessageId == message.id) {
       final ChannelStreamItem? previousItem = stream.length > 1
@@ -234,7 +296,7 @@ List<ChannelStreamItem> createChannelStream({
     }
   }
 
-  return stream;
+  return (items: stream, index: index);
 }
 
 int? findChannelStreamDataIndex(

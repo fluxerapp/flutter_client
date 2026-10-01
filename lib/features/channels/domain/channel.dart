@@ -8,8 +8,10 @@ enum ChannelType {
   guildVoice(2),
   groupDm(3),
   guildCategory(4),
+  guildAnnouncement(5),
   guildLink(998),
-  dmPersonalNotes(999);
+  dmPersonalNotes(999),
+  unknown(-1);
 
   const ChannelType(this.wireValue);
 
@@ -17,23 +19,31 @@ enum ChannelType {
 
   static ChannelType fromWire(int value) {
     for (final ChannelType type in values) {
+      if (type == ChannelType.unknown) {
+        continue;
+      }
       if (type.wireValue == value) {
         return type;
       }
     }
-    return ChannelType.guildText;
+    return ChannelType.unknown;
   }
 }
+
+int persistedChannelTypeWire(int? json) =>
+    json ?? ChannelType.unknown.wireValue;
 
 /// Guild channels that support text based unread tracking (text + voice).
 const Set<ChannelType> guildTextBasedChannelTypes = <ChannelType>{
   ChannelType.guildText,
   ChannelType.guildVoice,
+  ChannelType.guildAnnouncement,
 };
 
 bool isGuildTextBasedChannel(int type) =>
     type == ChannelType.guildText.wireValue ||
-    type == ChannelType.guildVoice.wireValue;
+    type == ChannelType.guildVoice.wireValue ||
+    type == ChannelType.guildAnnouncement.wireValue;
 
 bool isGuildTextBasedChannelType(ChannelType type) =>
     guildTextBasedChannelTypes.contains(type);
@@ -46,6 +56,15 @@ bool isGuildCategoryChannelType(int type) =>
 
 bool isGuildLinkChannelType(int type) =>
     type == ChannelType.guildLink.wireValue;
+
+bool isGuildAnnouncementChannelType(ChannelType type) =>
+    type == ChannelType.guildAnnouncement;
+
+bool isAnnouncementConvertibleChannel(ChannelType type) =>
+    type == ChannelType.guildText || type == ChannelType.guildAnnouncement;
+
+bool isChannelFollowTargetType(ChannelType type) =>
+    type == ChannelType.guildText;
 
 @immutable
 class Channel {
@@ -67,6 +86,7 @@ class Channel {
   final int? bitrate;
   final String? rtcRegion;
   final int? voiceConnectionLimit;
+  final int? storedTypeWire;
 
   const Channel({
     required this.id,
@@ -87,7 +107,10 @@ class Channel {
     this.bitrate,
     this.rtcRegion,
     this.voiceConnectionLimit,
+    this.storedTypeWire,
   });
+
+  int get typeWire => storedTypeWire ?? type.wireValue;
 
   Channel copyWith({
     String? id,
@@ -108,13 +131,21 @@ class Channel {
     int? bitrate,
     String? rtcRegion,
     int? voiceConnectionLimit,
+    int? typeWire,
   }) {
+    final ChannelType nextType = type ?? this.type;
+    final int nextWire =
+        typeWire ??
+        (type != null && type != this.type
+            ? nextType.wireValue
+            : this.typeWire);
     return Channel(
       id: id ?? this.id,
       guildId: guildId ?? this.guildId,
       name: name ?? this.name,
       url: url ?? this.url,
-      type: type ?? this.type,
+      type: nextType,
+      storedTypeWire: nextWire,
       topic: topic ?? this.topic,
       parentId: parentId ?? this.parentId,
       position: position ?? this.position,
@@ -139,6 +170,7 @@ class Channel {
       name: row.name,
       url: row.url,
       type: ChannelType.fromWire(row.type),
+      storedTypeWire: row.type,
       topic: row.topic,
       parentId: row.parentId,
       position: row.position,
@@ -161,7 +193,7 @@ class Channel {
       guildId: guildId,
       name: name,
       url: Value(url),
-      type: Value(type.wireValue),
+      type: Value(typeWire),
       topic: Value(topic),
       parentId: Value(parentId),
       position: Value(position),
@@ -188,6 +220,7 @@ class Channel {
         other.name == name &&
         other.url == url &&
         other.type == type &&
+        other.typeWire == typeWire &&
         other.topic == topic &&
         other.parentId == parentId &&
         other.position == position &&
@@ -210,6 +243,7 @@ class Channel {
     name,
     url,
     type,
+    typeWire,
     topic,
     parentId,
     position,
@@ -318,8 +352,10 @@ int _channelDisplayBucket(Channel channel) {
     case ChannelType.guildVoice:
       return 1;
     case ChannelType.guildText:
+    case ChannelType.guildAnnouncement:
     case ChannelType.guildLink:
     case ChannelType.guildCategory:
+    case ChannelType.unknown:
     case ChannelType.dm:
     case ChannelType.groupDm:
     case ChannelType.dmPersonalNotes:

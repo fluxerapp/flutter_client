@@ -45,10 +45,12 @@
     <uses-permission android:name="com.huawei.android.launcher.permission.READ_SETTINGS" />
     <uses-permission android:name="com.huawei.android.launcher.permission.WRITE_SETTINGS" />
 
+    <!-- Without a category, Xiaomi Game Turbo treats the app as a game and caps it at 60 Hz (flutter/flutter#192600). -->
     <application
         android:label="${appLabel}"
         android:icon="@mipmap/ic_launcher"
         android:localeConfig="@xml/locales_config"
+        android:appCategory="social"
         android:enableOnBackInvokedCallback="true">
         <activity
             android:name=".MainActivity"

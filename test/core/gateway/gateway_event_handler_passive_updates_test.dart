@@ -93,12 +93,21 @@ void main() {
       );
 
       final index = ChannelLastMessageIndex();
+      final List<List<Channel>> emissions = <List<Channel>>[];
+      final sub = db.channelDao.watchAllChannels().listen(emissions.add);
+      addTearDown(sub.cancel);
+      await pumpEventQueue();
+      expect(emissions, hasLength(1));
+
       await _dispatchPassiveUpdates(
         db: db,
         index: index,
         guildId: guildId,
         channels: {channelId: newMessageId},
       );
+      await pumpEventQueue();
+
+      expect(emissions, hasLength(1));
 
       final channel = await db.channelDao.getChannelById(channelId);
       expect(channel?.lastMessageId, newMessageId);

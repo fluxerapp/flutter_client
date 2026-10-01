@@ -225,6 +225,7 @@ class _CodeEntryState extends ConsumerState<_CodeEntry>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    _keyboardRestore.dispose();
     _codeController
       ..removeListener(_syncCodeToViewModel)
       ..dispose();

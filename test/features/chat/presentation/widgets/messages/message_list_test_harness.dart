@@ -138,6 +138,11 @@ Future<void> pumpScrollToBottom(WidgetTester tester) async {
   await tester.pump();
 }
 
+Future<void> pumpMessageListIdleTrim(WidgetTester tester) async {
+  await tester.pump(const Duration(seconds: 2));
+  await pumpFluxerFrames(tester);
+}
+
 Future<void> disposeMessageList(WidgetTester tester) async {
   await tester.pumpWidget(const SizedBox.shrink());
   await tester.pump(const Duration(milliseconds: 1));
@@ -149,6 +154,10 @@ int messageListAnchorEpoch(WidgetTester tester) {
   );
   return viewport.anchorEpoch;
 }
+
+String? messageListAnchorId(WidgetTester tester) => tester
+    .widget<MessageListViewport>(find.byType(MessageListViewport))
+    .anchorId;
 
 /// Scroll offset at which the oldest LOADED row tops the viewport: the min
 /// extent plus whatever skeleton filler stands in for unloaded history.
@@ -538,7 +547,7 @@ class InstrumentedChatViewModel extends ChatViewModel {
   final bool enableTrimToNewestWindow;
   int loadNewerCallCount = 0;
   int loadMoreCallCount = 0;
-  int trimAroundVisibleCallCount = 0;
+  int detachedTrimCallCount = 0;
   final List<bool> userScrollActiveLog = <bool>[];
   String? _latestReplacementNewestId;
 
@@ -657,9 +666,9 @@ class InstrumentedChatViewModel extends ChatViewModel {
   }
 
   @override
-  void trimAroundVisible(String visibleMessageId) {
-    trimAroundVisibleCallCount += 1;
-    super.trimAroundVisible(visibleMessageId);
+  void trimToSpan({required String firstId, required String lastId}) {
+    detachedTrimCallCount += 1;
+    super.trimToSpan(firstId: firstId, lastId: lastId);
   }
 
   @override
@@ -779,13 +788,14 @@ Future<InstrumentedChatViewModel> pumpBottomList(
   required bool hasMoreNewer,
   int count = 60,
   bool enableTrimToNewestWindow = false,
+  List<Message>? messages,
 }) async {
   tester.view.physicalSize = const Size(420, 640);
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.resetPhysicalSize);
   addTearDown(tester.view.resetDevicePixelRatio);
   final InstrumentedChatViewModel chatViewModel = InstrumentedChatViewModel(
-    detachedState(seedMessages(count), hasMoreNewer: hasMoreNewer),
+    detachedState(messages ?? seedMessages(count), hasMoreNewer: hasMoreNewer),
     enableTrimToNewestWindow: enableTrimToNewestWindow,
   );
   await tester.pumpWidget(

@@ -1410,6 +1410,7 @@ class _FakeWellKnown extends WellKnown {
         singleCommunity: false,
         singleCommunityGuildId: null,
         directMessagesDisabled: false,
+        guildCreateAccess: true,
       ),
       services: InstanceServicesSchema(
         gifEnabled: false,

@@ -1,107 +1,96 @@
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluxer_app/shared/gestures/defer_horizontal_drag_while_coasting.dart';
 
 const Key kExpressionPanelShellGestureBlockKey = Key('chat-expression-sheet');
 const Key kPlaybackSeekShellGestureBlockKey = Key('playback-seek');
 
+/// True when [globalPosition] is over a horizontal [Scrollable] under
+/// [searchRoot] that has room to scroll.
 bool isPointerOverOverflowingHorizontalScrollable(
   BuildContext searchRoot,
   Offset globalPosition, {
   required int viewId,
 }) {
-  final HitTestResult result = HitTestResult();
-  WidgetsBinding.instance.hitTestInView(result, globalPosition, viewId);
-  for (final HitTestEntry entry in result.path) {
-    if (entry.target is! RenderObject) {
-      continue;
-    }
-    if (_horizontalScrollPositionForHit(
-          entry.target as RenderObject,
-          searchRoot,
-        ) !=
-        null) {
-      return true;
-    }
-  }
-  return false;
+  return _isPointerOverRegion(
+    searchRoot,
+    _hitRenderObjectsAndAncestors(globalPosition, viewId),
+    _overflowingHorizontalScrollableRender,
+  );
 }
 
-bool isPointerOverDescendantWithKey(
+/// True when [globalPosition] is over a region under [searchRoot] that the
+/// shell drawer must not claim horizontal drags from: a coasting message
+/// list, an overflowing horizontal [Scrollable], the expression sheet, or an
+/// active playback seek bar.
+bool isPointerOverShellHorizontalGestureBlock(
   BuildContext searchRoot,
   Offset globalPosition, {
-  required Key key,
   required int viewId,
 }) {
-  final Element rootElement = searchRoot as Element;
-  RenderObject? keyedRender;
-  void findKeyedElement(Element element) {
-    if (keyedRender != null) {
-      return;
-    }
-    if (element.widget.key == key) {
-      keyedRender = element.findRenderObject();
-      return;
-    }
-    element.visitChildren(findKeyedElement);
-  }
-
-  findKeyedElement(rootElement);
-  final RenderObject? resolvedKeyedRender = keyedRender;
-  if (resolvedKeyedRender == null) {
-    return false;
-  }
-  final HitTestResult result = HitTestResult();
-  WidgetsBinding.instance.hitTestInView(result, globalPosition, viewId);
-  for (final HitTestEntry entry in result.path) {
-    if (entry.target is! RenderObject) {
-      continue;
-    }
-    if (_isRenderDescendantOf(
-      entry.target as RenderObject,
-      resolvedKeyedRender,
-    )) {
-      return true;
-    }
-  }
-  return false;
+  return _isPointerOverRegion(
+    searchRoot,
+    _hitRenderObjectsAndAncestors(globalPosition, viewId),
+    (Element element) {
+      final Widget widget = element.widget;
+      if (widget is DeferHorizontalDragWhileCoasting) {
+        return widget.defer ? element.findRenderObject() : null;
+      }
+      if (widget.key == kExpressionPanelShellGestureBlockKey ||
+          widget.key == kPlaybackSeekShellGestureBlockKey) {
+        return element.findRenderObject();
+      }
+      return _overflowingHorizontalScrollableRender(element);
+    },
+  );
 }
 
-ScrollPosition? _horizontalScrollPositionForHit(
-  RenderObject hit,
-  BuildContext searchRoot,
+Set<RenderObject> _hitRenderObjectsAndAncestors(
+  Offset globalPosition,
+  int viewId,
 ) {
-  ScrollPosition? matched;
-  void visit(Element element) {
-    if (matched != null) {
-      return;
-    }
-    final State<StatefulWidget>? state = switch (element) {
-      StatefulElement(:final State<StatefulWidget> state) => state,
+  final HitTestResult result = HitTestResult();
+  WidgetsBinding.instance.hitTestInView(result, globalPosition, viewId);
+  final Set<RenderObject> hit = <RenderObject>{};
+  for (final HitTestEntry entry in result.path) {
+    RenderObject? current = switch (entry.target) {
+      final RenderObject target => target,
       _ => null,
     };
-    if (state is ScrollableState &&
-        state.widget.axis == Axis.horizontal &&
-        state.position.maxScrollExtent > 0) {
-      final RenderObject? scrollableRender = state.context.findRenderObject();
-      if (scrollableRender != null &&
-          _isRenderDescendantOf(hit, scrollableRender)) {
-        matched = state.position;
-      }
+    while (current != null && hit.add(current)) {
+      current = current.parent;
+    }
+  }
+  return hit;
+}
+
+bool _isPointerOverRegion(
+  BuildContext searchRoot,
+  Set<RenderObject> hit,
+  RenderObject? Function(Element element) regionRender,
+) {
+  bool found = false;
+  void visit(Element element) {
+    if (found) {
+      return;
+    }
+    final RenderObject? region = regionRender(element);
+    if (region != null && hit.contains(region)) {
+      found = true;
+      return;
     }
     element.visitChildren(visit);
   }
 
   visit(searchRoot as Element);
-  return matched;
+  return found;
 }
 
-bool _isRenderDescendantOf(RenderObject descendant, RenderObject ancestor) {
-  RenderObject? current = descendant;
-  while (current != null) {
-    if (current == ancestor) {
-      return true;
-    }
-    current = current.parent;
+RenderObject? _overflowingHorizontalScrollableRender(Element element) {
+  if (element case StatefulElement(state: final ScrollableState state)
+      when state.widget.axis == Axis.horizontal &&
+          state.position.maxScrollExtent > 0) {
+    return element.findRenderObject();
   }
-  return false;
+  return null;
 }

@@ -321,6 +321,10 @@ class _ForwardedSourceButtonState
   }
 
   Future<_ForwardedSourceData?> _load() async {
+    final String? messageId = widget.reference.messageId;
+    if (messageId == null || messageId.isEmpty) {
+      return null;
+    }
     final db = ref.read(fluxerDatabaseProvider);
     final guildChannel = await db.channelDao.getChannelById(
       widget.reference.channelId,
@@ -330,7 +334,7 @@ class _ForwardedSourceButtonState
       final guildRow = await db.guildDao.getServerById(guildId);
       return _ForwardedSourceData.guildChannel(
         channelId: widget.reference.channelId,
-        messageId: widget.reference.messageId,
+        messageId: messageId,
         guildId: guildId,
         channelName: guildChannel.name,
         channelType: ChannelType.fromWire(guildChannel.type),
@@ -351,7 +355,7 @@ class _ForwardedSourceButtonState
           .conversationFromChannelRow(dmChannel);
       return _ForwardedSourceData.groupDm(
         channelId: widget.reference.channelId,
-        messageId: widget.reference.messageId,
+        messageId: messageId,
         name: resolveGroupDmDisplayName(dm: conversation),
       );
     }
@@ -367,7 +371,7 @@ class _ForwardedSourceButtonState
     );
     return _ForwardedSourceData.dm(
       channelId: widget.reference.channelId,
-      messageId: widget.reference.messageId,
+      messageId: messageId,
       name: name,
       avatar: user?.avatar,
       userId: user?.id ?? dmChannel.recipientId,

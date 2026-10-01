@@ -1,9 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/domain/hide_muted_channels_filter.dart';
 import 'package:fluxer_app/features/channels/providers/channel_mute_provider.dart';
-import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/favorites/domain/favorite_guild_id.dart';
@@ -12,10 +13,31 @@ import 'package:fluxer_app/features/favorites/providers/favorite_channels_provid
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 
+/// Guild channel rows for the current favorites only.
+final StreamProvider<List<Channel>> favoriteGuildChannelsProvider =
+    StreamProvider.autoDispose<List<Channel>>((ref) {
+      final List<String> ids = <String>[
+        for (final db.FavoriteChannel favorite
+            in ref.watch(favoriteChannelsProvider).value ??
+                const <db.FavoriteChannel>[])
+          if (!isFavoriteDmGuildId(favorite.guildId)) favorite.channelId,
+      ];
+      if (ids.isEmpty) {
+        return Stream<List<Channel>>.value(const <Channel>[]);
+      }
+      return ref
+          .watch(fluxerDatabaseProvider)
+          .channelDao
+          .watchChannelsByIds(ids)
+          .map((rows) => rows.map(Channel.fromRow).toList())
+          .distinct(listEquals);
+    });
+
 final Provider<List<ResolvedFavoriteEntry>> favoriteResolvedEntriesProvider =
     Provider.autoDispose<List<ResolvedFavoriteEntry>>((ref) {
       final favorites = ref.watch(favoriteChannelsProvider).value ?? const [];
-      final channels = ref.watch(allChannelsProvider).value ?? const [];
+      final channels =
+          ref.watch(favoriteGuildChannelsProvider).value ?? const [];
       final dms = ref.watch(
         dmViewModelProvider.select((state) => state.conversations),
       );

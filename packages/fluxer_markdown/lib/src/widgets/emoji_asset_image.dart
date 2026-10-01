@@ -73,44 +73,60 @@ class CachedEmojiAssetImage extends StatefulWidget {
 }
 
 class _CachedEmojiAssetImageState extends State<CachedEmojiAssetImage> {
-  late Future<Uint8List> _bytesFuture;
+  Uint8List? _bytes;
+  Future<Uint8List>? _bytesFuture;
 
   @override
   void initState() {
     super.initState();
-    _bytesFuture = EmojiAssetCache.loadBytes(widget.url);
+    _resolve();
   }
 
   @override
   void didUpdateWidget(covariant CachedEmojiAssetImage oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.url != widget.url) {
-      _bytesFuture = EmojiAssetCache.loadBytes(widget.url);
+      _resolve();
     }
+  }
+
+  void _resolve() {
+    _bytes = EmojiAssetCache.peekBytes(widget.url);
+    _bytesFuture = _bytes == null
+        ? EmojiAssetCache.loadBytes(widget.url)
+        : null;
   }
 
   @override
   Widget build(BuildContext context) {
+    final bytes = _bytes;
     return SizedBox(
       width: widget.size,
       height: widget.size,
-      child: FutureBuilder<Uint8List>(
-        future: _bytesFuture,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return widget.fallback;
-          }
-          if (!snapshot.hasData) {
-            return SizedBox(width: widget.size, height: widget.size);
-          }
-          return EmojiAssetImage(
-            bytes: snapshot.data!,
-            size: widget.size,
-            fallback: widget.fallback,
-            url: widget.url,
-          );
-        },
-      ),
+      child: bytes != null
+          ? EmojiAssetImage(
+              bytes: bytes,
+              size: widget.size,
+              fallback: widget.fallback,
+              url: widget.url,
+            )
+          : FutureBuilder<Uint8List>(
+              future: _bytesFuture,
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return widget.fallback;
+                }
+                if (!snapshot.hasData) {
+                  return SizedBox(width: widget.size, height: widget.size);
+                }
+                return EmojiAssetImage(
+                  bytes: snapshot.data!,
+                  size: widget.size,
+                  fallback: widget.fallback,
+                  url: widget.url,
+                );
+              },
+            ),
     );
   }
 }

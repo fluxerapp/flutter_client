@@ -29,7 +29,7 @@ class GuildChannelSettingsEntry {
   int get channelType => switch (kind) {
     GuildChannelSettingsEntryKind.category =>
       ChannelType.guildCategory.wireValue,
-    GuildChannelSettingsEntryKind.channel => channel!.type.wireValue,
+    GuildChannelSettingsEntryKind.channel => channel!.typeWire,
   };
 
   String? get parentId => switch (kind) {

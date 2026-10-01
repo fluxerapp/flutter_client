@@ -283,6 +283,14 @@ class _ContextMenuPage extends ConsumerWidget {
           icon: PhosphorIconsBold.textAlignLeft,
           onTap: () => pop(MessageAction.copyEmbedText),
         ),
+      if (permissions.canPublish)
+        _MenuItem(
+          label: message.isCrossposted
+              ? l10n.chatMessagePublished
+              : l10n.chatMessagePublish,
+          icon: PhosphorIconsBold.megaphone,
+          onTap: () => pop(MessageAction.publish),
+        ),
       _MenuItem(
         label: message.isPinned ? l10n.chatMessageUnpin : l10n.chatMessagePin,
         icon: PhosphorIconsBold.pushPin,

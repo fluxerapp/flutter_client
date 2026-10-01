@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/gateway/channel_last_message_index.dart';
@@ -139,11 +140,7 @@ class GuildReadState extends _$GuildReadState {
         next,
         ignoreLastMessageOnly: true,
       );
-      final staleLastMessageIds = _diffStaleLastMessageIds(
-        _channelSnapshot,
-        next,
-        lastMessageIndex,
-      );
+      final staleLastMessageIds = _diffLastMessageIds(_channelSnapshot, next);
       _channelSnapshot = next;
       final allTouched = <String>{...touched, ...staleLastMessageIds};
       if (allTouched.isNotEmpty) {
@@ -156,6 +153,15 @@ class GuildReadState extends _$GuildReadState {
     ) {
       if (updates.isEmpty) {
         return;
+      }
+      for (final MapEntry<String, String> update in updates.entries) {
+        final Channel? channel = _channelSnapshot[update.key];
+        if (channel != null &&
+            compareSnowflakeIds(update.value, channel.lastMessageId) >= 0) {
+          _channelSnapshot[update.key] = channel.copyWith(
+            lastMessageId: Value(update.value),
+          );
+        }
       }
       _enqueueChannels(
         updates.keys,
@@ -363,10 +369,20 @@ class GuildReadState extends _$GuildReadState {
           if (_pendingTrustIndex.remove(id)) {
             trustedFromRefresh.add(id);
           } else {
+            final Channel? fresh = await db.channelDao.getChannelById(id);
+            final String? pointer = fresh == null
+                ? channel.lastMessageId
+                : fresh.lastMessageId;
+            final Channel? current = _channelSnapshot[id];
+            if (fresh != null && current != null) {
+              _channelSnapshot[id] = current.copyWith(
+                lastMessageId: Value(pointer),
+              );
+            }
             final resolved = await resolveLatestMessageIdForChannel(
               db,
               id,
-              channelLastMessageId: channel.lastMessageId,
+              channelLastMessageId: pointer,
             );
             _latestMessageIdByChannel[id] = resolved.id;
             _channelLastExistsInCacheByChannel[id] = resolved.existsInCache;
@@ -691,19 +707,15 @@ bool _readStateEquals(ReadState a, ReadState b) =>
     a.manual == b.manual &&
     a.stickyUnreadMessageId == b.stickyUnreadMessageId;
 
-Set<String> _diffStaleLastMessageIds(
+/// Ignores the index: a delete rewinds it before this emission lands.
+Set<String> _diffLastMessageIds(
   Map<String, Channel> previous,
   Map<String, Channel> next,
-  ChannelLastMessageIndex lastMessageIndex,
 ) {
   final changed = <String>{};
   for (final entry in next.entries) {
     final Channel? old = previous[entry.key];
-    if (old == null || old.lastMessageId == entry.value.lastMessageId) {
-      continue;
-    }
-    if (lastMessageIndex.lastMessageIdFor(entry.key) !=
-        entry.value.lastMessageId) {
+    if (old != null && old.lastMessageId != entry.value.lastMessageId) {
       changed.add(entry.key);
     }
   }

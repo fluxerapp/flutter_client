@@ -98,6 +98,9 @@ class MessageReferencesNotifier extends _$MessageReferencesNotifier {
           ? reference.channelId
           : channelId;
       final refMessageId = reference.messageId;
+      if (refMessageId == null || refMessageId.isEmpty) {
+        continue;
+      }
       if (_hasResolvedMessage(
         refChannelId: refChannelId,
         refMessageId: refMessageId,
@@ -132,6 +135,9 @@ class MessageReferencesNotifier extends _$MessageReferencesNotifier {
     if (reference != null && reference.type != MessageReferenceType.forward) {
       final refChannelId = reference.channelId;
       final refMessageId = reference.messageId;
+      if (refMessageId == null || refMessageId.isEmpty) {
+        return;
+      }
       if (!_isDeleted(refChannelId, refMessageId) &&
           !state.cachedMessages.containsKey(
             MessageReferencesState.key(refChannelId, refMessageId),

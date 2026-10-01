@@ -125,7 +125,7 @@ void main() {
     expect(handle.hasPendingRestore, isFalse);
   });
 
-  testWidgets('does not re-request focus when the field stays focused', (
+  testWidgets('reconnects the keyboard when the field stays focused', (
     tester,
   ) async {
     final FocusNode focusNode = FocusNode();
@@ -147,8 +147,119 @@ void main() {
     await tester.pumpAndSettle();
     expect(focusNode.hasFocus, isTrue);
 
+    tester.testTextInput.log.clear();
     await backgroundApp(handle);
     await resumeApp(handle);
+    await tester.pump();
+
+    expect(focusNode.hasFocus, isTrue);
+    expect(handle.hasPendingRestore, isFalse);
+    expect(
+      tester.testTextInput.log.map((call) => call.method),
+      contains('TextInput.show'),
+    );
+
+    await tester.pump(kKeyboardFocusRestoreRetryDelay);
+    await tester.pump();
+  });
+
+  testWidgets('replaces a focused connection on the next frame', (
+    tester,
+  ) async {
+    final FocusNode focusNode = FocusNode();
+    addTearDown(focusNode.dispose);
+    final KeyboardFocusRestoreHandle handle = KeyboardFocusRestoreHandle(
+      focusNode: focusNode,
+      shouldTrackOnBackground: () => true,
+      canRestoreFocus: () => true,
+    );
+    addTearDown(handle.dispose);
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(body: TextField(focusNode: focusNode)),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    focusNode.requestFocus();
+    await tester.pumpAndSettle();
+    tester.testTextInput.log.clear();
+
+    handle.replaceFocusedConnection();
+    await tester.pump();
+
+    expect(focusNode.hasFocus, isTrue);
+    expect(
+      tester.testTextInput.log.map((call) => call.method),
+      contains('TextInput.show'),
+    );
+  });
+
+  testWidgets('refocuses when the keyboard stays closed after resume', (
+    tester,
+  ) async {
+    final FocusNode focusNode = FocusNode();
+    addTearDown(focusNode.dispose);
+    final KeyboardFocusRestoreHandle handle = KeyboardFocusRestoreHandle(
+      focusNode: focusNode,
+      shouldTrackOnBackground: () => true,
+      canRestoreFocus: () => true,
+    );
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(body: TextField(focusNode: focusNode)),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    focusNode.requestFocus();
+    await tester.pumpAndSettle();
+
+    await backgroundApp(handle);
+    await resumeApp(handle);
+    await tester.pump();
+    await tester.pump(kKeyboardFocusRestoreRetryDelay);
+    await tester.pump();
+
+    expect(focusNode.hasFocus, isTrue);
+    expect(handle.hasPendingRestore, isFalse);
+  });
+
+  testWidgets('keeps pending restore when the resume frame is cancelled', (
+    tester,
+  ) async {
+    final FocusNode focusNode = FocusNode();
+    addTearDown(focusNode.dispose);
+    final KeyboardFocusRestoreHandle handle = KeyboardFocusRestoreHandle(
+      focusNode: focusNode,
+      shouldTrackOnBackground: () => true,
+      canRestoreFocus: () => true,
+    );
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(body: TextField(focusNode: focusNode)),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    focusNode.requestFocus();
+    await tester.pumpAndSettle();
+
+    await backgroundApp(handle);
+    focusNode.unfocus();
+    await tester.pump();
+
+    await resumeApp(handle);
+    handle.handleLifecycleState(AppLifecycleState.inactive);
+    await tester.pump();
+
+    expect(focusNode.hasFocus, isFalse);
+    expect(handle.hasPendingRestore, isTrue);
+
+    handle.handleLifecycleState(AppLifecycleState.resumed);
     await tester.pump();
 
     expect(focusNode.hasFocus, isTrue);

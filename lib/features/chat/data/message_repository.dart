@@ -832,9 +832,28 @@ class MessageRepository {
         content: content,
       );
       return await _persistSdkMessage(channelId: channelId, schema: schema);
-    } on DioException catch (e) {
-      throw Exception(userFacingErrorMessage(e, 'Failed to edit message'));
+    } on DioException {
+      rethrow;
     }
+  }
+
+  Future<Message> crosspostMessage({
+    required String channelId,
+    required String messageId,
+  }) async {
+    final MessageResponseSchema schema = await _client.channels
+        .crosspostMessage(channelId: channelId, messageId: messageId);
+    return _persistSdkMessage(channelId: channelId, schema: schema);
+  }
+
+  Future<CrosspostSourceResponse> getCrosspostSource({
+    required String channelId,
+    required String messageId,
+  }) {
+    return _client.channels.getMessageCrosspostSource(
+      channelId: channelId,
+      messageId: messageId,
+    );
   }
 
   Future<void> deleteAttachment({

@@ -68,8 +68,8 @@ class QuickSwitcherChannelResolver {
     Channel channel,
     String? viewContext,
   ) {
-    if (channel.type != ChannelType.guildText &&
-        channel.type != ChannelType.guildVoice) {
+    if (!isGuildTextBasedChannelType(channel.type) &&
+        channel.type != ChannelType.unknown) {
       return null;
     }
     final Guild? guild = guildsById[channel.guildId];

@@ -232,4 +232,49 @@ void main() {
       },
     );
   });
+
+  group('ChannelDao.advanceLastMessageIdSilently', () {
+    late FluxerDatabase db;
+
+    setUp(() async {
+      db = openTestDatabase();
+      await db.channelDao.upsertChannel(
+        _channel(id: 'c1', lastMessageId: newerId),
+      );
+    });
+
+    test(
+      'updates the row without re-emitting channel watchers (#713)',
+      () async {
+        final List<List<Channel>> all = <List<Channel>>[];
+        final List<List<Channel>> guild = <List<Channel>>[];
+        final allSub = db.channelDao.watchAllChannels().listen(all.add);
+        final guildSub = db.channelDao.watchChannels('g1').listen(guild.add);
+        addTearDown(allSub.cancel);
+        addTearDown(guildSub.cancel);
+        await pumpEventQueue();
+        expect((all.length, guild.length), (1, 1));
+
+        await db.channelDao.advanceLastMessageIdSilently('c1', newestId);
+        await pumpEventQueue();
+
+        expect((all.length, guild.length), (1, 1));
+        expect(
+          (await db.channelDao.getChannelById('c1'))?.lastMessageId,
+          newestId,
+        );
+
+        await db.channelDao.setLastMessageId('c1', newerId);
+        await pumpEventQueue();
+        expect((all.length, guild.length), (2, 2));
+      },
+    );
+
+    test('never moves the pointer backwards', () async {
+      await db.channelDao.advanceLastMessageIdSilently('c1', olderId);
+
+      final Channel? row = await db.channelDao.getChannelById('c1');
+      expect(row?.lastMessageId, newerId);
+    });
+  });
 }

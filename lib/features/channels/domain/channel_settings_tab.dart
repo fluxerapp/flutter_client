@@ -26,6 +26,9 @@ List<ChannelSettingsTab> visibleChannelSettingsTabs({
     permissions,
     Permission.manageWebhooks,
   );
+  if (channel.type == ChannelType.unknown) {
+    return const <ChannelSettingsTab>[ChannelSettingsTab.overview];
+  }
   final List<ChannelSettingsTab> tabs = <ChannelSettingsTab>[];
   if (canManageChannels || canUpdateRtcRegion) {
     tabs.add(ChannelSettingsTab.overview);

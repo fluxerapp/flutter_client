@@ -925,6 +925,53 @@ void main() {
     expect(_sliderDx(tester), 0);
   });
 
+  testWidgets('first move of exactly touch slop on wide table stays in table', (
+    tester,
+  ) async {
+    final router = _routerFor(
+      '/channels/guild/channel',
+      harness: _drawerHarnessWithWideTable,
+    );
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+
+    await tester.pumpWidget(
+      _buildDrawerApp(container: container, router: router),
+    );
+    await tester.pumpAndSettle();
+    final ScrollableState scrollable = tableScrollableState(tester);
+    scrollable.position.jumpTo(scrollable.position.maxScrollExtent / 2);
+    await tester.pump();
+    final double before = scrollable.position.pixels;
+    final gesture = await tester.startGesture(tableDragStart(tester));
+    await gesture.moveBy(const Offset(kTouchSlop, 0));
+    await gesture.moveBy(const Offset(60, 0));
+    await gesture.up();
+    await tester.pumpAndSettle();
+    expect(scrollable.position.pixels, lessThan(before));
+    expect(_sliderDx(tester), 0);
+  });
+
+  testWidgets('rightward drag on narrow table opens the drawer', (
+    tester,
+  ) async {
+    final router = _routerFor(
+      '/channels/guild/channel',
+      harness: _drawerHarnessWithNarrowTable,
+    );
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+
+    await tester.pumpWidget(
+      _buildDrawerApp(container: container, router: router),
+    );
+    await tester.pumpAndSettle();
+    expect(tableScrollableState(tester).position.maxScrollExtent, 0);
+    await tester.dragFrom(tableDragStart(tester), const Offset(200, 0));
+    await tester.pumpAndSettle();
+    expect(_sliderDx(tester), 400);
+  });
+
   testWidgets('ignores horizontal drag on playback seek surface', (
     tester,
   ) async {
@@ -1080,10 +1127,195 @@ void main() {
     expect(find.bySemanticsLabel('Chat pane'), findsNothing);
     handle.dispose();
   });
+
+  testWidgets('chat keeps animating after the channel list fully covers it '
+      '(#713)', (tester) async {
+    final baseLog = _TickLog();
+    final sliderLog = _TickLog();
+    final router = _routerFor(
+      '/channels/guild/channel',
+      harness: () =>
+          _drawerHarnessWithTickProbes(base: baseLog, slider: sliderLog),
+    );
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+
+    await tester.pumpWidget(
+      _buildDrawerApp(container: container, router: router),
+    );
+    await tester.pump();
+    final Set<State<_TickProbe>> mountedProbes = {...sliderLog.states};
+    expect(await _ticksDuring(tester, sliderLog), greaterThan(0));
+
+    await tester.dragFrom(const Offset(10, 400), const Offset(260, 0));
+    await tester.pump();
+    expect(_sliderDx(tester), lessThan(400));
+    expect(await _ticksDuring(tester, sliderLog, ms: 50), greaterThan(0));
+
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(_sliderDx(tester), 400);
+    await tester.pump();
+    expect(await _ticksDuring(tester, sliderLog, ms: 300), 0);
+
+    final TestGesture gesture = await tester.startGesture(
+      const Offset(240, 400),
+    );
+    await gesture.moveBy(const Offset(-40, 0));
+    await gesture.moveBy(const Offset(-40, 0));
+    await tester.pump();
+    expect(_sliderDx(tester), lessThan(400));
+    expect(await _ticksDuring(tester, sliderLog), greaterThan(0));
+
+    await gesture.moveBy(const Offset(-240, 0));
+    await gesture.up();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(_sliderDx(tester), 0);
+    expect(await _ticksDuring(tester, sliderLog), greaterThan(0));
+    expect(sliderLog.states, mountedProbes);
+  });
+
+  testWidgets('channel list keeps animating under a full screen chat (#713)', (
+    tester,
+  ) async {
+    final baseLog = _TickLog();
+    final sliderLog = _TickLog();
+    final router = _routerFor(
+      '/channels/guild/channel',
+      harness: () =>
+          _drawerHarnessWithTickProbes(base: baseLog, slider: sliderLog),
+    );
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+
+    await tester.pumpWidget(
+      _buildDrawerApp(container: container, router: router),
+    );
+    await tester.pump();
+    final Set<State<_TickProbe>> mountedProbes = {...baseLog.states};
+    expect(await _ticksDuring(tester, baseLog, ms: 300), 0);
+
+    final TestGesture gesture = await tester.startGesture(
+      const Offset(10, 400),
+    );
+    await gesture.moveBy(const Offset(40, 0));
+    await gesture.moveBy(const Offset(40, 0));
+    await tester.pump();
+    expect(_sliderDx(tester), greaterThan(0));
+    expect(await _ticksDuring(tester, baseLog), greaterThan(0));
+
+    await gesture.moveBy(const Offset(-80, 0));
+    await gesture.up();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(_sliderDx(tester), 0);
+    await tester.pump();
+    expect(await _ticksDuring(tester, baseLog, ms: 300), 0);
+    expect(baseLog.states, mountedProbes);
+  });
+
+  testWidgets('peeked compact-wide chat keeps animating (#713)', (
+    tester,
+  ) async {
+    final baseLog = _TickLog();
+    final sliderLog = _TickLog();
+    final router = _routerFor(
+      '/channels/guild/channel',
+      harness: () =>
+          _drawerHarnessWithTickProbes(base: baseLog, slider: sliderLog),
+    );
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+    const double peekWidth =
+        Breakpoints.guildListWidth + Breakpoints.channelSidebarWidth;
+
+    await tester.pumpWidget(
+      _buildDrawerApp(
+        container: container,
+        router: router,
+        size: const Size(984, 800),
+      ),
+    );
+    await tester.pump();
+    await tester.dragFrom(const Offset(20, 400), const Offset(400, 0));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(_sliderDx(tester), peekWidth);
+    await tester.pump();
+
+    expect(await _ticksDuring(tester, sliderLog), greaterThan(0));
+  });
 }
 
 const _sliderKey = ValueKey<String>('slider');
 const _inactiveSeekKey = ValueKey<String>('inactive-seek');
+
+class _TickLog {
+  int ticks = 0;
+  final Set<State<_TickProbe>> states = <State<_TickProbe>>{};
+}
+
+class _TickProbe extends StatefulWidget {
+  const _TickProbe({required this.log});
+
+  final _TickLog log;
+
+  @override
+  State<_TickProbe> createState() => _TickProbeState();
+}
+
+class _TickProbeState extends State<_TickProbe>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.log.states.add(this);
+    _controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 1))
+          ..addListener(() => widget.log.ticks++)
+          ..repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => const SizedBox.expand();
+}
+
+Future<int> _ticksDuring(
+  WidgetTester tester,
+  _TickLog log, {
+  int ms = 100,
+}) async {
+  final int before = log.ticks;
+  await tester.pump(Duration(milliseconds: ms));
+  return log.ticks - before;
+}
+
+Widget _drawerHarnessWithTickProbes({
+  required _TickLog base,
+  required _TickLog slider,
+}) {
+  return SidebarDrawer(
+    revealDuration: const Duration(milliseconds: 200),
+    snapBackDuration: const Duration(milliseconds: 200),
+    base: ColoredBox(
+      color: Colors.blue,
+      child: _TickProbe(log: base),
+    ),
+    slider: ColoredBox(
+      key: _sliderKey,
+      color: Colors.red,
+      child: _TickProbe(log: slider),
+    ),
+  );
+}
 
 GoRouter _routerFor(
   String initialLocation, {
@@ -1156,6 +1388,24 @@ Widget _drawerHarnessWithWideTable() {
       child: FluxerMarkdown(
         astParser: parseNativeFluxerMarkdownAst,
         data: kWideMarkdownTable,
+        config: kWideTableMarkdownConfig,
+      ),
+    ),
+  );
+}
+
+Widget _drawerHarnessWithNarrowTable() {
+  return const SidebarDrawer(
+    revealDuration: Duration.zero,
+    snapBackDuration: Duration.zero,
+    base: ColoredBox(color: Colors.blue),
+    slider: SizedBox(
+      key: _sliderKey,
+      width: 400,
+      height: 120,
+      child: FluxerMarkdown(
+        astParser: parseNativeFluxerMarkdownAst,
+        data: kNarrowMarkdownTable,
         config: kWideTableMarkdownConfig,
       ),
     ),

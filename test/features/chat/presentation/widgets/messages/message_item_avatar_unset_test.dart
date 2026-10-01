@@ -22,6 +22,7 @@ import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_dart/export.dart';
 
 import '../../../../../helpers/instance_runtime_config_override.dart';
+import '../../../../../helpers/message_item_test_overrides.dart';
 import '../../../../../helpers/test_l10n.dart';
 
 /// Author snowflake used by every case in this file.
@@ -91,6 +92,7 @@ Widget _app({
     key: ValueKey<Object>(authorDisplay.avatarUrl ?? 'unset'),
     overrides: [
       instanceRuntimeConfigOverride(),
+      ...messageItemTestProviderOverrides(),
       guildUserDisplayProvider((
         _authorId,
         _guildId,
@@ -135,7 +137,7 @@ CachedNetworkImage _avatarImage(WidgetTester tester) {
 
 void main() {
   group('MessageItem avatar AVATAR_UNSET', () {
-    testWidgets(
+    messageItemTestWidgets(
       'avatar-unset member message requests default avatar URL, not global',
       (tester) async {
         await tester.pumpWidget(
@@ -151,7 +153,7 @@ void main() {
       },
     );
 
-    testWidgets(
+    messageItemTestWidgets(
       'same author flips between global and default URLs when unset toggles',
       (tester) async {
         // Shown first — global avatar URL is the image identity.
@@ -180,7 +182,7 @@ void main() {
       },
     );
 
-    testWidgets(
+    messageItemTestWidgets(
       'avatar identity stays stable across optimistic→delivered message id swap',
       (tester) async {
         final optimistic = _message().copyWith(id: 'optimistic-temp-id');

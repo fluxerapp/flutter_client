@@ -1,19 +1,25 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/gateway/gateway_event_handler.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
+import 'package:fluxer_app/features/chat/data/message_write_batcher.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_ready_provider.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/gateway.dart' show MessageDeleteEvent;
 
 import '../../../helpers/open_test_database.dart';
 
@@ -1214,4 +1220,103 @@ void main() {
       expect(entry?.mentionCount, 0);
     },
   );
+
+  group('silent tail advances (#713)', () {
+    late FluxerDatabase db;
+    late ProviderContainer container;
+    late MessageWriteBatcher batcher;
+    late String readMessageId;
+    late String newMessageId;
+
+    bool? guildHasUnread() =>
+        container.read(guildReadStateProvider)['guild-1']?.hasUnread;
+
+    setUp(() async {
+      db = openTestDatabase();
+      readMessageId = _recentSnowflake(ago: const Duration(hours: 2));
+      newMessageId = _recentSnowflake();
+      await _seedGuild(
+        db,
+        'guild-1',
+        channels: [
+          (
+            id: 'channel-1',
+            name: 'general',
+            type: 0,
+            lastMessageId: readMessageId,
+          ),
+        ],
+      );
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('channel-1'),
+          lastMessageId: Value(readMessageId),
+        ),
+      );
+      container = _container(db);
+      addTearDown(container.dispose);
+      batcher = MessageWriteBatcher(
+        database: db,
+        channelLastMessageIndex: container.read(
+          channelLastMessageIndexProvider,
+        ),
+      );
+      addTearDown(batcher.dispose);
+      container.read(gatewayReadyProvider.notifier).setReady();
+      final sub = container.listen(
+        guildReadStateProvider,
+        (_, _) {},
+        fireImmediately: true,
+      );
+      addTearDown(sub.close);
+      await _waitUntilReady(container);
+      expect(guildHasUnread(), isFalse);
+
+      batcher.enqueueMessage(
+        companion: _cachedMessage(id: newMessageId, channelId: 'channel-1'),
+        channelId: 'channel-1',
+        messageId: newMessageId,
+      );
+      await batcher.flush();
+    });
+
+    test('a batcher flush past the ack flips the guild to hasUnread', () async {
+      await _waitFor(() => guildHasUnread() ?? false);
+
+      expect(
+        (await db.channelDao.getChannelById('channel-1'))?.lastMessageId,
+        newMessageId,
+      );
+    });
+
+    test(
+      'deleting the silently advanced tail still clears guild unread',
+      () async {
+        await _waitFor(() => guildHasUnread() ?? false);
+
+        await GatewayEventHandler(
+          database: db,
+          currentUserId: 'me',
+          readStateRepository: ReadStateRepository(FluxerClient(Dio()), db),
+          channelLastMessageIndex: container.read(
+            channelLastMessageIndexProvider,
+          ),
+        ).handle(
+          MessageDeleteEvent(channelId: 'channel-1', messageId: newMessageId),
+        );
+
+        await _waitFor(() => guildHasUnread() == false);
+        expect(
+          (await db.channelDao.getChannelById('channel-1'))?.lastMessageId,
+          readMessageId,
+        );
+        expect(
+          container
+              .read(channelLastMessageIndexProvider)
+              .lastMessageIdFor('channel-1'),
+          readMessageId,
+        );
+      },
+    );
+  });
 }

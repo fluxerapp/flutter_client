@@ -93,18 +93,13 @@ class _FluxerTypingDotsState extends State<FluxerTypingDots>
           dotSpacing: widget.dotSpacing,
         ),
         height: widget.dotSize,
-        child: AnimatedBuilder(
-          animation: _controller,
-          builder: (BuildContext context, Widget? child) {
-            return CustomPaint(
-              painter: FluxerTypingDotsPainter(
-                progress: _controller.value,
-                color: widget.color,
-                dotSize: widget.dotSize,
-                dotSpacing: widget.dotSpacing,
-              ),
-            );
-          },
+        child: CustomPaint(
+          painter: FluxerTypingDotsPainter(
+            progress: _controller,
+            color: widget.color,
+            dotSize: widget.dotSize,
+            dotSpacing: widget.dotSpacing,
+          ),
         ),
       ),
     );
@@ -112,14 +107,14 @@ class _FluxerTypingDotsState extends State<FluxerTypingDots>
 }
 
 class FluxerTypingDotsPainter extends CustomPainter {
-  const FluxerTypingDotsPainter({
+  FluxerTypingDotsPainter({
     required this.progress,
     required this.color,
     required this.dotSize,
     required this.dotSpacing,
-  });
+  }) : super(repaint: progress);
 
-  final double progress;
+  final Animation<double> progress;
   final Color color;
   final double dotSize;
   final double dotSpacing;
@@ -134,7 +129,7 @@ class FluxerTypingDotsPainter extends CustomPainter {
     final double y = size.height / 2;
     for (int index = 0; index < kFluxerTypingDotCount; index++) {
       final double wave = fluxerTypingDotWave(
-        progress,
+        progress.value,
         kFluxerTypingDotDelays[index],
       );
       final double opacity = 0.3 + 0.7 * wave;

@@ -1,5 +1,7 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
@@ -38,6 +40,12 @@ class CreateChannelSheet {
         permissionOverwrites: [],
         contentWarningLevel: ContentWarningLevelInput.inherit,
       ),
+      5 => ChannelCreateRequest5(
+        name: name,
+        type: GuildAnnouncementChannelCreateRequestTypeType.guildAnnouncement,
+        parentId: parentId,
+        contentWarningLevel: ContentWarningLevelInput.inherit,
+      ),
       998 => ChannelCreateRequest998(
         name: name,
         type: GuildLinkChannelCreateRequestTypeType.guildLink,
@@ -61,126 +69,237 @@ class CreateChannelSheet {
     String? parentId,
   }) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    var currentName = '';
-    var currentUrl = '';
-    var selectedType = ChannelType.guildText.wireValue;
-    final ValueNotifier<bool> formValid = ValueNotifier<bool>(false);
+    final _ChannelDraft draft = _ChannelDraft();
+    final Future<ChannelCreateRequest?> result;
+    if (isMobileLayout(context)) {
+      result = FluxerBottomSheet.show<ChannelCreateRequest>(
+        context,
+        title: l10n.guildNavbarCreateChannel,
+        useRootNavigator: true,
+        builder: (BuildContext _, VoidCallback _) {
+          return _CreateChannelForm(
+            draft: draft,
+            actions: _CreateChannelActions(
+              draft: draft,
+              parentId: parentId,
+              useRootNavigator: true,
+            ),
+          );
+        },
+      );
+    } else {
+      result = FluxerModal.show<ChannelCreateRequest>(
+        context,
+        title: l10n.guildNavbarCreateChannel,
+        builder: (BuildContext _, VoidCallback _) {
+          return _CreateChannelForm(draft: draft);
+        },
+        actions: <Widget>[
+          _CreateChannelActions(draft: draft, parentId: parentId),
+        ],
+      );
+    }
+    return result;
+  }
+}
 
-    void updateValidity() {
-      final bool nameOk = currentName.trim().isNotEmpty;
-      final bool urlOk =
-          selectedType != ChannelType.guildLink.wireValue ||
-          isValidUrl(currentUrl);
-      formValid.value = nameOk && urlOk;
+class _ChannelDraft {
+  String name = '';
+  String url = '';
+  int type = ChannelType.guildText.wireValue;
+  final ValueNotifier<bool> valid = ValueNotifier<bool>(false);
+
+  void sync() {
+    final bool nameOk = name.trim().isNotEmpty;
+    final bool urlOk =
+        !isGuildLinkChannelType(type) || CreateChannelSheet.isValidUrl(url);
+    valid.value = nameOk && urlOk;
+  }
+
+  void dispose() => valid.dispose();
+
+  ChannelCreateRequest request(String? parentId) {
+    return CreateChannelSheet.buildRequest(
+      name: name.trim(),
+      selectedType: type,
+      url: url,
+      parentId: parentId,
+    );
+  }
+}
+
+class _CreateChannelForm extends StatefulWidget {
+  const _CreateChannelForm({required this.draft, this.actions});
+
+  final _ChannelDraft draft;
+  final Widget? actions;
+
+  @override
+  State<_CreateChannelForm> createState() => _CreateChannelFormState();
+}
+
+class _CreateChannelFormState extends State<_CreateChannelForm> {
+  @override
+  void dispose() {
+    widget.draft.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final Widget fields = _CreateChannelFields(
+      draft: widget.draft,
+      onTypeChanged: (int value) {
+        setState(() => widget.draft.type = value);
+        widget.draft.sync();
+      },
+    );
+    final Widget? actions = widget.actions;
+    if (actions == null) {
+      return fields;
     }
 
-    return FluxerModal.show<ChannelCreateRequest>(
-      context,
-      title: l10n.guildNavbarCreateChannel,
-      builder: (BuildContext dialogContext, VoidCallback close) {
-        final layout = dialogContext.layout;
-        return StatefulBuilder(
-          builder:
-              (
-                BuildContext stfContext,
-                void Function(void Function()) setModalState,
-              ) {
-                final colors = stfContext.colors;
-                final textStyles = stfContext.textStyles;
-                return Semantics(
-                  label: l10n.guildNavbarChannelTypeSelection,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(bottom: layout.s2),
-                        child: Text(
-                          l10n.guildNavbarChannelType,
-                          style: textStyles.label.copyWith(
-                            color: colors.textPrimary,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                      FluxerRadioGroup<int>(
-                        value: selectedType,
-                        onChanged: (int value) {
-                          setModalState(() => selectedType = value);
-                          updateValidity();
-                        },
-                        items: <FluxerRadioItem<int>>[
-                          FluxerRadioItem<int>(
-                            value: ChannelType.guildText.wireValue,
-                            label: l10n.guildNavbarTextChannel,
-                            description: l10n.guildNavbarTextChannelDescription,
-                          ),
-                          FluxerRadioItem<int>(
-                            value: ChannelType.guildVoice.wireValue,
-                            label: l10n.guildNavbarVoiceChannel,
-                            description:
-                                l10n.guildNavbarVoiceChannelDescription,
-                          ),
-                          FluxerRadioItem<int>(
-                            value: ChannelType.guildLink.wireValue,
-                            label: l10n.guildNavbarLinkChannel,
-                            description: l10n.guildNavbarLinkChannelDescription,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: layout.s4),
-                      FluxerInput(
-                        label: l10n.guildNavbarNameLabel,
-                        hint: l10n.guildNavbarNewChannelHint,
-                        maxLength: 100,
-                        autofocus: true,
-                        onChanged: (String value) {
-                          currentName = value;
-                          updateValidity();
-                        },
-                      ),
-                      if (isGuildLinkChannelType(selectedType)) ...<Widget>[
-                        SizedBox(height: layout.s4),
-                        FluxerInput(
-                          label: l10n.guildNavbarUrlLabel,
-                          hint: l10n.guildNavbarUrlHint,
-                          maxLength: 1024,
-                          keyboardType: TextInputType.url,
-                          onChanged: (String value) {
-                            currentUrl = value;
-                            updateValidity();
-                          },
-                        ),
-                      ],
-                    ],
-                  ),
-                );
-              },
-        );
-      },
-      actions: <Widget>[
-        ValueListenableBuilder<bool>(
-          valueListenable: formValid,
-          builder: (BuildContext _, bool isValid, Widget? _) =>
-              FluxerButton.primary(
-                onPressed: isValid
-                    ? () {
-                        Navigator.of(context).pop(
-                          buildRequest(
-                            name: currentName.trim(),
-                            selectedType: selectedType,
-                            url: currentUrl,
-                            parentId: parentId,
-                          ),
-                        );
-                      }
-                    : null,
-                label: l10n.guildNavbarCreateChannel,
+    final layout = context.layout;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Flexible(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s2),
+            child: fields,
+          ),
+        ),
+        FluxerBottomSheetFooter(child: actions),
+      ],
+    );
+  }
+}
+
+class _CreateChannelFields extends StatelessWidget {
+  const _CreateChannelFields({
+    required this.draft,
+    required this.onTypeChanged,
+  });
+
+  final _ChannelDraft draft;
+  final ValueChanged<int> onTypeChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final layout = context.layout;
+    final colors = context.colors;
+    final textStyles = context.textStyles;
+    return Semantics(
+      label: l10n.guildNavbarChannelTypeSelection,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(bottom: layout.s2),
+            child: Text(
+              l10n.guildNavbarChannelType,
+              style: textStyles.label.copyWith(
+                color: colors.textPrimary,
+                fontWeight: FontWeight.w600,
               ),
+            ),
+          ),
+          FluxerRadioGroup<int>(
+            value: draft.type,
+            onChanged: onTypeChanged,
+            items: <FluxerRadioItem<int>>[
+              FluxerRadioItem<int>(
+                value: ChannelType.guildText.wireValue,
+                label: l10n.guildNavbarTextChannel,
+                description: l10n.guildNavbarTextChannelDescription,
+              ),
+              FluxerRadioItem<int>(
+                value: ChannelType.guildAnnouncement.wireValue,
+                label: l10n.guildNavbarAnnouncementChannel,
+                description: l10n.guildNavbarAnnouncementChannelDescription,
+              ),
+              FluxerRadioItem<int>(
+                value: ChannelType.guildVoice.wireValue,
+                label: l10n.guildNavbarVoiceChannel,
+                description: l10n.guildNavbarVoiceChannelDescription,
+              ),
+              FluxerRadioItem<int>(
+                value: ChannelType.guildLink.wireValue,
+                label: l10n.guildNavbarLinkChannel,
+                description: l10n.guildNavbarLinkChannelDescription,
+              ),
+            ],
+          ),
+          SizedBox(height: layout.s4),
+          FluxerInput(
+            label: l10n.guildNavbarNameLabel,
+            hint: l10n.guildNavbarNewChannelHint,
+            maxLength: 100,
+            autofocus: true,
+            onChanged: (String value) {
+              draft.name = value;
+              draft.sync();
+            },
+          ),
+          if (isGuildLinkChannelType(draft.type)) ...<Widget>[
+            SizedBox(height: layout.s4),
+            FluxerInput(
+              label: l10n.guildNavbarUrlLabel,
+              hint: l10n.guildNavbarUrlHint,
+              maxLength: 1024,
+              keyboardType: TextInputType.url,
+              onChanged: (String value) {
+                draft.url = value;
+                draft.sync();
+              },
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _CreateChannelActions extends StatelessWidget {
+  const _CreateChannelActions({
+    required this.draft,
+    required this.parentId,
+    this.useRootNavigator = false,
+  });
+
+  final _ChannelDraft draft;
+  final String? parentId;
+  final bool useRootNavigator;
+
+  @override
+  Widget build(BuildContext context) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        ValueListenableBuilder<bool>(
+          valueListenable: draft.valid,
+          builder: (BuildContext _, bool isValid, Widget? _) {
+            return FluxerButton.primary(
+              onPressed: isValid
+                  ? () {
+                      Navigator.of(
+                        context,
+                        rootNavigator: useRootNavigator,
+                      ).pop(draft.request(parentId));
+                    }
+                  : null,
+              label: l10n.guildNavbarCreateChannel,
+            );
+          },
         ),
         const SizedBox(height: 8),
         FluxerButton.secondary(
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () =>
+              Navigator.of(context, rootNavigator: useRootNavigator).pop(),
           label: l10n.cancel,
         ),
       ],

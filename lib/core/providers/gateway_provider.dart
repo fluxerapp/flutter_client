@@ -45,8 +45,10 @@ import 'package:fluxer_app/features/members/providers/member_list_viewport_provi
 import 'package:fluxer_app/features/settings/providers/connections_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/guild/known_guild_bans_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/webhook_live_refresh_provider.dart';
+import 'package:fluxer_app/features/settings/providers/premium_settings_state_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/webauthn_credentials_view_model.dart';
+import 'package:fluxer_app/features/shell/providers/current_user_private_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
@@ -408,6 +410,9 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     onUserSettingsHydrate: (settings) => ifMounted(() {
       unawaited(_handleUserSettingsHydrate(ref, settings));
     }),
+    onCurrentUserUpdate: (UserPrivateResponse user) => ifMounted(() {
+      _applyCurrentUserUpdate(ref, user);
+    }),
     onUnavailableGuildsReady: (rawGuilds) => ifMounted(() {
       ref.read(guildAvailabilityProvider.notifier).loadFromReady(rawGuilds);
     }),
@@ -521,4 +526,53 @@ Future<void> _handleUserSettingsHydrate(
     return;
   }
   await notifier.applyServerSettings(settings);
+}
+
+void _applyCurrentUserUpdate(Ref ref, UserPrivateResponse user) {
+  final String? userId = ref.read(currentUserIdProvider);
+  if (userId == null || user.id != userId) {
+    return;
+  }
+  final UserPrivateResponse? previous = ref.read(
+    currentUserPrivateReadProvider,
+  );
+  ref.read(currentUserPrivateReadProvider.notifier).apply(user);
+  if (!_currentUserPremiumChanged(previous, user)) {
+    return;
+  }
+  unawaited(
+    ref.read(premiumSettingsStateProvider.notifier).refresh(silent: true),
+  );
+}
+
+bool _currentUserPremiumChanged(
+  UserPrivateResponse? previous,
+  UserPrivateResponse next,
+) {
+  if (previous == null) {
+    return _userHasPremium(next);
+  }
+  return previous.premiumType != next.premiumType ||
+      previous.premiumPerksDisabled != next.premiumPerksDisabled ||
+      previous.premiumWillCancel != next.premiumWillCancel ||
+      previous.premiumUntil != next.premiumUntil ||
+      previous.premiumSince != next.premiumSince ||
+      previous.premiumGraceEndsAt != next.premiumGraceEndsAt ||
+      previous.premiumBillingCycle != next.premiumBillingCycle ||
+      previous.premiumLifetimeSequence != next.premiumLifetimeSequence ||
+      previous.hasEverPurchased != next.hasEverPurchased ||
+      !_sameTraits(previous.traits, next.traits);
+}
+
+bool _userHasPremium(UserPrivateResponse user) {
+  final UserPremiumTypes? type = user.premiumType;
+  return (type != null && type != UserPremiumTypes.none) ||
+      user.premiumPerksDisabled ||
+      user.traits.contains('premium');
+}
+
+bool _sameTraits(List<String> previous, List<String> next) {
+  final Set<String> before = previous.toSet();
+  final Set<String> after = next.toSet();
+  return before.length == after.length && before.containsAll(after);
 }

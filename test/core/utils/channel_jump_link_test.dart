@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/instance/instance_endpoints.dart';
 import 'package:fluxer_app/core/utils/channel_jump_link.dart';
 
 void main() {
@@ -87,6 +88,17 @@ void main() {
         isFalse,
       );
     });
+  });
+
+  test('the instance pattern follows a web app change after caching', () {
+    addTearDown(InstanceEndpoints.resetToDefaults);
+    const String link = 'https://chat.example.com/channels/@me/$channelId';
+
+    InstanceEndpoints.webApp = 'https://web.fluxer.app';
+    expect(instanceChannelJumpLinkPattern().hasMatch(link), isFalse);
+
+    InstanceEndpoints.webApp = 'https://chat.example.com';
+    expect(instanceChannelJumpLinkPattern().hasMatch(link), isTrue);
   });
 
   group('parseChannelJumpLink', () {

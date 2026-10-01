@@ -1,11 +1,15 @@
 import 'dart:convert';
 
-import 'package:drift/drift.dart' show Value;
+import 'package:drift/drift.dart'
+    show ApplyInterceptor, QueryExecutor, QueryInterceptor, Value;
+import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/gateway/gateway_event_handler.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
@@ -14,6 +18,7 @@ import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
+import 'package:fluxer_dart/gateway.dart' show PassiveUpdatesEvent;
 
 import '../../../helpers/open_test_database.dart';
 
@@ -64,6 +69,132 @@ Future<void> _waitFor(bool Function() condition) async {
     await Future<void>.delayed(const Duration(milliseconds: 20));
   }
   fail('condition not met within timeout');
+}
+
+class _SelectLog extends QueryInterceptor {
+  final List<(String, List<Object?>)> completed = <(String, List<Object?>)>[];
+
+  @override
+  Future<List<Map<String, Object?>>> runSelect(
+    QueryExecutor executor,
+    String statement,
+    List<Object?> args,
+  ) async {
+    final List<Map<String, Object?>> rows = await executor.runSelect(
+      statement,
+      args,
+    );
+    completed.add((statement, args));
+    return rows;
+  }
+
+  int channelReads(String channelId) => completed
+      .where(
+        ((String, List<Object?>) e) =>
+            e.$1.contains('FROM "channels"') && e.$2.contains(channelId),
+      )
+      .length;
+
+  int lastMessageReads(String channelId) => completed
+      .where(
+        ((String, List<Object?>) e) =>
+            e.$1.contains('FROM "messages"') &&
+            e.$1.contains('LIMIT 1') &&
+            e.$2.contains(channelId),
+      )
+      .length;
+}
+
+Future<void> _waitForQuiet(_SelectLog log) async {
+  var last = -1;
+  var stablePolls = 0;
+  for (var i = 0; i < 100; i++) {
+    if (log.completed.length == last) {
+      stablePolls += 1;
+      if (stablePolls == 3) {
+        return;
+      }
+    } else {
+      stablePolls = 0;
+      last = log.completed.length;
+    }
+    await Future<void>.delayed(const Duration(milliseconds: 20));
+  }
+  fail('database never went quiet');
+}
+
+MessagesCompanion _messageRow(String id, String channelId) {
+  return MessagesCompanion.insert(
+    id: id,
+    channelId: channelId,
+    authorId: 'other',
+    content: 'message $id',
+    timestamp: DateTime.fromMillisecondsSinceEpoch(
+      snowflakeTimestampMs(id),
+      isUtc: true,
+    ),
+  );
+}
+
+Future<
+  ({
+    FluxerDatabase db,
+    _SelectLog log,
+    ProviderContainer container,
+    List<int> notificationsA,
+  })
+>
+_watchTwoChannels() async {
+  final _SelectLog log = _SelectLog();
+  final FluxerDatabase db = FluxerDatabase.forTesting(
+    NativeDatabase.memory().interceptWith(log),
+  );
+  addTearDown(db.close);
+  const guildId = 'guild-1';
+  const userId = 'me';
+  for (final (String channelId, int hour) in <(String, int)>[
+    ('channel-a', 10),
+    ('channel-b', 11),
+  ]) {
+    final String newest = _snowflakeForUtc(DateTime.utc(2026, 5, 6, hour));
+    await _seedUnreadChannel(
+      db: db,
+      guildId: guildId,
+      channelId: channelId,
+      userId: userId,
+      lastMessageId: newest,
+      ackId: newest,
+    );
+    await db.messageDao.upsertMessage(_messageRow(newest, channelId));
+  }
+  final container = _container(db: db, userId: userId, guildId: guildId);
+  addTearDown(container.dispose);
+  container.read(gatewayReadyProvider.notifier).setReady();
+  final List<int> notificationsA = <int>[0];
+  final subA = container.listen(
+    channelUnreadProvider('channel-a'),
+    (_, _) => notificationsA[0] += 1,
+    fireImmediately: true,
+  );
+  final subB = container.listen(
+    channelUnreadProvider('channel-b'),
+    (_, _) {},
+    fireImmediately: true,
+  );
+  addTearDown(subA.close);
+  addTearDown(subB.close);
+  await _waitFor(
+    () =>
+        container.read(channelUnreadProvider('channel-a')).hasValue &&
+        container.read(channelUnreadProvider('channel-b')).hasValue,
+  );
+  await _waitForQuiet(log);
+  return (
+    db: db,
+    log: log,
+    container: container,
+    notificationsA: notificationsA,
+  );
 }
 
 Future<void> _seedUnreadChannel({
@@ -389,4 +520,114 @@ void main() {
       expect(unread?.hasUnreadMessages, isFalse);
     },
   );
+
+  test('persisting an older page does not recompute unread for other '
+      'channels (#713)', () async {
+    final watched = await _watchTwoChannels();
+    final _SelectLog log = watched.log;
+    final int readsA = log.channelReads('channel-a');
+    final int readsB = log.channelReads('channel-b');
+    final int lastReadsA = log.lastMessageReads('channel-a');
+    final int lastReadsB = log.lastMessageReads('channel-b');
+
+    await watched.db.messageDao.upsertMessages(<MessagesCompanion>[
+      for (int minute = 0; minute < 5; minute += 1)
+        _messageRow(
+          _snowflakeForUtc(DateTime.utc(2026, 5, 6, 9, minute)),
+          'channel-a',
+        ),
+    ]);
+    await _waitFor(
+      () =>
+          log.lastMessageReads('channel-a') > lastReadsA &&
+          log.lastMessageReads('channel-b') > lastReadsB,
+    );
+    await _waitForQuiet(log);
+
+    expect(
+      log.channelReads('channel-a'),
+      readsA,
+      reason: 'older rows leave channel A newest message unchanged',
+    );
+    expect(
+      log.channelReads('channel-b'),
+      readsB,
+      reason: 'a messages write elsewhere must not recompute channel B',
+    );
+  });
+
+  test('a live message in channel B recomputes only channel B', () async {
+    final watched = await _watchTwoChannels();
+    final _SelectLog log = watched.log;
+    final int readsA = log.channelReads('channel-a');
+    final int readsB = log.channelReads('channel-b');
+    final int lastReadsA = log.lastMessageReads('channel-a');
+
+    await watched.db.messageDao.upsertMessage(
+      _messageRow(_snowflakeForUtc(DateTime.utc(2026, 5, 6, 12)), 'channel-b'),
+    );
+    await _waitFor(
+      () =>
+          log.lastMessageReads('channel-a') > lastReadsA &&
+          log.channelReads('channel-b') > readsB,
+    );
+    await _waitForQuiet(log);
+
+    expect(log.channelReads('channel-a'), readsA);
+  });
+
+  test('an unread recompute that changes nothing does not notify '
+      'listeners', () async {
+    final watched = await _watchTwoChannels();
+    final _SelectLog log = watched.log;
+    final int readsA = log.channelReads('channel-a');
+    final int notifications = watched.notificationsA[0];
+
+    await watched.db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: 'channel-a',
+        guildId: 'guild-1',
+        name: 'renamed',
+      ),
+    );
+    await _waitFor(() => log.channelReads('channel-a') > readsA + 1);
+    await _waitForQuiet(log);
+
+    expect(
+      watched.notificationsA[0],
+      notifications,
+      reason: 'an equal unread state would rebuild every sidebar watcher',
+    );
+  });
+
+  test('a PASSIVE_UPDATES tail advance flips channelUnread (#713)', () async {
+    final watched = await _watchTwoChannels();
+    final ProviderContainer container = watched.container;
+    expect(
+      container.read(channelUnreadProvider('channel-a')).value?.hasUnread,
+      isFalse,
+    );
+
+    await GatewayEventHandler(
+      database: watched.db,
+      channelLastMessageIndex: container.read(channelLastMessageIndexProvider),
+    ).handle(
+      PassiveUpdatesEvent(
+        guildId: 'guild-1',
+        channels: <String, String>{
+          'channel-a': _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12)),
+        },
+      ),
+    );
+
+    await _waitFor(
+      () =>
+          container.read(channelUnreadProvider('channel-a')).value?.hasUnread ??
+          false,
+    );
+    expect(
+      container.read(channelUnreadProvider('channel-b')).value?.hasUnread,
+      isFalse,
+    );
+  });
 }

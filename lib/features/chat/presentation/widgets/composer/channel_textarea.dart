@@ -29,6 +29,7 @@ import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/menus/composer_attach_source_menu.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_attachment_area.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/announcement_follow_barrier.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/blocked_user_composer_barrier.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/channel_composer_barrier.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
@@ -421,6 +422,12 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (_slashSession.isActive) {
+      if (state == AppLifecycleState.resumed) {
+        _maybeReserveUnmeasuredKeyboard();
+      }
+      return;
+    }
     _keyboardRestore.handleLifecycleState(state);
     if (state == AppLifecycleState.resumed) {
       _maybeReserveUnmeasuredKeyboard();
@@ -625,12 +632,19 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     if (ref.read(physicalKeyboardConnectedProvider).value ?? false) {
       return;
     }
-    if (!_focusNode.hasFocus && !_keyboardRestore.hasPendingRestore) {
+    if (!_composerEntryFocused() && !_keyboardRestore.hasPendingRestore) {
       return;
     }
     ref
         .read(mobileKeyboardMetricsProvider.notifier)
         .reserveUnmeasuredKeyboard();
+  }
+
+  bool _composerEntryFocused() {
+    if (_slashSession.isActive) {
+      return _slashSession.focus == ComposerSlashFocus.slot;
+    }
+    return _focusNode.hasFocus;
   }
 
   @override
@@ -646,6 +660,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   @override
   void dispose() {
     _chatKeybindEffectsSubscription?.close();
+    _keyboardRestore.dispose();
     _composerFocus.unregister(_requestComposerFocus);
     WidgetsBinding.instance.removeObserver(this);
     _focusNode
@@ -893,6 +908,14 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                                       ),
                                     )) {
                                       _closeComposerPanelsAndFocusComposer();
+                                      return;
+                                    }
+                                    if (_focusNode.hasFocus &&
+                                        MediaQuery.viewInsetsOf(
+                                              context,
+                                            ).bottom <=
+                                            0) {
+                                      _keyboardRestore.reconnectOpenField();
                                     }
                                   },
                                 ),
@@ -1029,6 +1052,12 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       ..listen<String>(
         chatViewModelProvider.select((ChatViewState state) => state.channelId),
         (String? previous, String next) {
+          if (previous != null && previous != next && mounted) {
+            _clearSlashSession();
+            if (MediaQuery.viewInsetsOf(context).bottom <= 0) {
+              _keyboardRestore.replaceFocusedConnection();
+            }
+          }
           final DmConversation? nextDm = findDmById(
             ref.read(
               dmViewModelProvider.select(
@@ -1107,6 +1136,14 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     );
     final ChannelMessagePermissions perms =
         watchChannelMessagePermissionsForComposer(ref, channelId);
+    final Channel? composerChannel = ref
+        .watch(channelByIdProvider(channelId))
+        .value;
+    if (composerChannel != null &&
+        isGuildAnnouncementChannelType(composerChannel.type) &&
+        perms.showsNoSendPermissionHint) {
+      return AnnouncementFollowBarrier(channel: composerChannel);
+    }
     final String guildId = ref.watch(
       channelListViewModelProvider.select(
         (ChannelListState state) =>
@@ -1792,7 +1829,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
           ? _buildMobileLayout(context, perms)
           : _buildLargeLayout(context, perms),
     );
-    if (!isMobileLayout(context) || !isPanelOpen) {
+    final bool panelClosing = ref.watch(composerPanelClosingProvider);
+    if (!isMobileLayout(context) || !isPanelOpen || panelClosing) {
       return composerField;
     }
     return ExcludeFocus(child: composerField);

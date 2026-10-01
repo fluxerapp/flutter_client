@@ -58,6 +58,9 @@ class ChannelListState {
     if (!isMemberListVisible) {
       return false;
     }
+    if (channelType == ChannelType.unknown) {
+      return false;
+    }
     if (channelType == ChannelType.guildVoice) {
       return defaultHiddenChannelMembersOpen.contains(channelId);
     }

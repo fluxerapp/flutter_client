@@ -28,7 +28,7 @@ class ChannelReorderDragItem {
       kind: channel.isCategory
           ? ChannelReorderDragKind.category
           : ChannelReorderDragKind.channel,
-      channelType: channel.type.wireValue,
+      channelType: channel.typeWire,
       parentId: channel.parentId,
       guildId: channel.guildId,
     );
@@ -65,7 +65,7 @@ class ChannelReorderTarget {
   factory ChannelReorderTarget.fromChannel(Channel channel) {
     return ChannelReorderTarget(
       id: channel.id,
-      channelType: channel.type.wireValue,
+      channelType: channel.typeWire,
       parentId: channel.parentId,
       guildId: channel.guildId,
     );
@@ -101,6 +101,7 @@ bool _isVoiceType(int channelType) {
 
 bool _isTextType(int channelType) {
   return channelType == ChannelType.guildText.wireValue ||
+      channelType == ChannelType.guildAnnouncement.wireValue ||
       channelType == ChannelType.guildLink.wireValue;
 }
 

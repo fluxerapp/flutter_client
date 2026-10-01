@@ -20,6 +20,7 @@ class InstanceRuntimeConfig {
     required this.registrationClosed,
     required this.adminRegistrationUrlsEnabled,
     required this.collectDateOfBirth,
+    this.guildCreateAccess = true,
     this.iconUrl,
     this.symbolUrl,
     this.logoUrl,
@@ -47,6 +48,7 @@ class InstanceRuntimeConfig {
   final bool singleCommunity;
   final String? singleCommunityGuildId;
   final bool directMessagesDisabled;
+  final bool guildCreateAccess;
   final bool registrationClosed;
   final bool adminRegistrationUrlsEnabled;
   final bool collectDateOfBirth;
@@ -105,6 +107,7 @@ class InstanceRuntimeConfig {
           ? null
           : singleCommunityGuildId,
       directMessagesDisabled: response.community.directMessagesDisabled,
+      guildCreateAccess: response.community.guildCreateAccess,
       registrationClosed:
           response.registration.mode == InstanceRegistrationModeSchema.closed,
       adminRegistrationUrlsEnabled:
@@ -158,6 +161,7 @@ class InstanceRuntimeConfig {
         other.singleCommunity == singleCommunity &&
         other.singleCommunityGuildId == singleCommunityGuildId &&
         other.directMessagesDisabled == directMessagesDisabled &&
+        other.guildCreateAccess == guildCreateAccess &&
         other.registrationClosed == registrationClosed &&
         other.adminRegistrationUrlsEnabled == adminRegistrationUrlsEnabled &&
         other.collectDateOfBirth == collectDateOfBirth;
@@ -183,6 +187,7 @@ class InstanceRuntimeConfig {
     singleCommunity,
     singleCommunityGuildId,
     directMessagesDisabled,
+    guildCreateAccess,
     registrationClosed,
     adminRegistrationUrlsEnabled,
     collectDateOfBirth,

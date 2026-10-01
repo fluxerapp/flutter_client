@@ -1,7 +1,7 @@
+import 'package:fluxer_app/core/premium/plutonium_store_gate.dart';
 import 'package:fluxer_dart/export.dart';
 
-// TEMP: Remove once the stores are fully set up.
-bool get plutoniumStorePurchasesEnabled => false;
+bool get plutoniumStorePurchasesEnabled => isPlutoniumStorePurchasesEnabled();
 
 enum PlutoniumBillingStore { appStore, googlePlay }
 

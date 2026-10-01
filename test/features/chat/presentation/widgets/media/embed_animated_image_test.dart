@@ -3,6 +3,7 @@
 // ignore_for_file: riverpod_lint/scoped_providers_should_specify_dependencies
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/animated_image_playback_controller.dart';
@@ -143,6 +144,54 @@ void main() {
       );
     });
 
+    testWidgets('keeps the animated image mounted while scroll pauses it', (
+      tester,
+    ) async {
+      final AnimatedImagePlaybackController controller =
+          AnimatedImagePlaybackController(suppressWhileScrolling: true);
+      await tester.pumpWidget(
+        _wrap(
+          AnimatedImagePlaybackScope(
+            controller: controller,
+            child: const SizedBox(
+              height: 200,
+              child: EmbedAnimatedImage(
+                animatedUrl: 'https://x/a.webp',
+                staticUrl: 'https://x/a.png',
+                visibilityKey: 'v-scroll',
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+      controller.setScrollActive(active: true);
+      await tester.pump();
+
+      final FluxerAnimatedImage image = tester.widget<FluxerAnimatedImage>(
+        find.byType(FluxerAnimatedImage),
+      );
+      expect(image.playing, isFalse);
+      expect(image.loadAnimated, isTrue);
+      final TickerMode ticker = tester.widget<TickerMode>(
+        find.byKey(const ValueKey<String>('fluxer-animated-image-ticker')),
+      );
+      expect(ticker.enabled, isFalse);
+      expect(
+        find.descendant(
+          of: find.byKey(
+            const ValueKey<String>('fluxer-animated-image-ticker'),
+          ),
+          matching: find.byWidgetPredicate(
+            (Widget widget) =>
+                widget is CachedNetworkImage &&
+                widget.imageUrl.contains('a.webp'),
+          ),
+        ),
+        findsOneWidget,
+      );
+    });
+
     testWidgets('keeps playing while the playback controller is scrolling', (
       tester,
     ) async {
@@ -263,6 +312,89 @@ void main() {
         find.byType(FluxerAnimatedImage),
       );
       expect(image.playing, isFalse);
+      expect(image.loadAnimated, isFalse);
+      expect(
+        find.byKey(const ValueKey<String>('fluxer-animated-image-ticker')),
+        findsNothing,
+      );
+      expect(
+        tester
+            .widget<CachedNetworkImage>(find.byType(CachedNetworkImage))
+            .imageUrl,
+        'https://x/a.png',
+      );
+    });
+
+    testWidgets('sticker mode holds the animated frame until interaction', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _wrap(
+          const SizedBox(
+            height: 200,
+            child: EmbedAnimatedImage(
+              animatedUrl: 'https://x/a.webp',
+              staticUrl: 'https://x/a.png',
+              visibilityKey: 'sticker-idle',
+              useStickerAnimationPreference: true,
+            ),
+          ),
+          animateStickers: StickerAnimationOptions.animateOnInteraction,
+        ),
+      );
+      await tester.pump();
+      final FluxerAnimatedImage image = tester.widget<FluxerAnimatedImage>(
+        find.byType(FluxerAnimatedImage),
+      );
+      expect(image.playing, isFalse);
+      expect(image.loadAnimated, isTrue);
+      final TickerMode ticker = tester.widget<TickerMode>(
+        find.byKey(const ValueKey<String>('fluxer-animated-image-ticker')),
+      );
+      expect(ticker.enabled, isFalse);
+    });
+
+    testWidgets('sticker mode plays while the pointer is over it', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _wrap(
+          const SizedBox(
+            width: 200,
+            height: 200,
+            child: EmbedAnimatedImage(
+              animatedUrl: 'https://x/a.webp',
+              staticUrl: 'https://x/a.png',
+              visibilityKey: 'sticker-hover',
+              useStickerAnimationPreference: true,
+            ),
+          ),
+          animateStickers: StickerAnimationOptions.animateOnInteraction,
+        ),
+      );
+      await tester.pump();
+
+      final TestGesture gesture = await tester.createGesture(
+        kind: PointerDeviceKind.mouse,
+      );
+      await gesture.addPointer(
+        location: tester.getCenter(find.byType(EmbedAnimatedImage)),
+      );
+      await tester.pump();
+      FluxerAnimatedImage image = tester.widget<FluxerAnimatedImage>(
+        find.byType(FluxerAnimatedImage),
+      );
+      expect(image.playing, isTrue);
+      expect(image.loadAnimated, isTrue);
+
+      await gesture.moveTo(const Offset(400, 400));
+      await tester.pump();
+      image = tester.widget<FluxerAnimatedImage>(
+        find.byType(FluxerAnimatedImage),
+      );
+      expect(image.playing, isFalse);
+      expect(image.loadAnimated, isTrue);
+      await gesture.removePointer();
     });
 
     testWidgets('sticker mode plays when always animate', (tester) async {
@@ -332,7 +464,9 @@ void main() {
           .widgetList<FluxerAnimatedImage>(find.byType(FluxerAnimatedImage))
           .toList();
       expect(images[0].playing, isFalse);
+      expect(images[0].loadAnimated, isFalse);
       expect(images[1].playing, isTrue);
+      expect(images[1].loadAnimated, isTrue);
     });
 
     testWidgets('stays playing across a transient hide blip', (tester) async {

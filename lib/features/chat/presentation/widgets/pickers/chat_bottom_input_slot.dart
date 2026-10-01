@@ -60,14 +60,15 @@ class BottomInputSpacer extends ConsumerWidget {
   }
 
   double _keyboardSpacerHeight(BuildContext context, double slotHeight) {
-    if (slotHeight <= 0) {
+    final double viewInset = MediaQuery.viewInsetsOf(context).bottom;
+    final double resolved = viewInset > 0 ? viewInset : slotHeight;
+    if (resolved <= 0) {
       return 0;
     }
-    final double homeInset = MediaQuery.viewPaddingOf(context).bottom;
-    if (slotHeight >= homeInset) {
-      return slotHeight;
-    }
-    return homeInset > 0 ? homeInset : slotHeight;
+    return bottomInputKeyboardSpacerHeight(
+      slotHeight: resolved,
+      homeIndicatorInset: MediaQuery.viewPaddingOf(context).bottom,
+    );
   }
 
   Widget _animatedSpacer(BuildContext context, double height) {

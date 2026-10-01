@@ -627,9 +627,7 @@ class _ChannelHeaderSearchFieldState
     final List<Channel> channels = <Channel>[
       for (final ChannelCategory category in categories)
         ...category.channels.where(
-          (Channel channel) =>
-              channel.type == ChannelType.guildText ||
-              channel.type == ChannelType.guildVoice,
+          (Channel channel) => isGuildTextBasedChannelType(channel.type),
         ),
     ];
     final String normalized = query.toLowerCase();

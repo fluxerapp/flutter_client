@@ -27,7 +27,7 @@ class ChannelMoveComputation {
 }
 
 bool _isTextChannel(Channel channel) {
-  return channel.type == ChannelType.guildText ||
+  return isAnnouncementConvertibleChannel(channel.type) ||
       channel.type == ChannelType.guildLink;
 }
 

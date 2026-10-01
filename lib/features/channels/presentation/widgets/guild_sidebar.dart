@@ -18,6 +18,7 @@ import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
+import 'package:fluxer_app/features/channels/domain/announcement_follow.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/domain/channel_unread_state.dart';
 import 'package:fluxer_app/features/channels/presentation/category_menu_data.dart';
@@ -25,6 +26,7 @@ import 'package:fluxer_app/features/channels/presentation/channel_menu_data.dart
 import 'package:fluxer_app/features/channels/presentation/channel_settings/channel_settings_flow.dart';
 import 'package:fluxer_app/features/channels/presentation/delete_channel_flow.dart';
 import 'package:fluxer_app/features/channels/presentation/modals/show_channel_invite_modal.dart';
+import 'package:fluxer_app/features/channels/presentation/sheets/channel_follow_sheet.dart';
 import 'package:fluxer_app/features/channels/presentation/sheets/channel_notification_settings_sheet.dart';
 import 'package:fluxer_app/features/channels/presentation/sheets/mute_duration_sheet.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
@@ -918,6 +920,10 @@ class _ChannelTile extends ConsumerWidget {
       ),
       mutedHint: mutedHint,
       vanityUrlCode: guild.vanityUrlCode,
+      canFollow: canOfferAnnouncementFollow(
+        channel,
+        ref.read(guildPermissionsProvider),
+      ),
     );
     final List<ChannelMenuGroup> groups = buildChannelMenuGroups(
       l10n: l10n,
@@ -1002,6 +1008,9 @@ class _ChannelTile extends ConsumerWidget {
         unawaited(
           _toggleFavorite(hostContext, ref, isFavorite: menuState.isFavorite),
         );
+      case ChannelMenuAction.follow:
+        close();
+        unawaited(ChannelFollowSheet.show(hostContext, channel: channel));
       case ChannelMenuAction.invitePeople:
         close();
         unawaited(

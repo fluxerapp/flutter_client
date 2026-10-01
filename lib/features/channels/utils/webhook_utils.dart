@@ -72,11 +72,17 @@ String resolveWebhookApiPublicBase(WellKnownFluxerResponse? wellKnown) {
 String buildWebhookUrl({
   required String apiPublicBase,
   required String webhookId,
-  required String token,
+  required String? token,
 }) {
+  if (token == null || token.isEmpty) {
+    return '';
+  }
   final String base = _stripTrailingSlashes(apiPublicBase);
   return '$base/webhooks/$webhookId/$token';
 }
+
+bool isChannelFollowerWebhook(WebhookResponse webhook) =>
+    webhook.type == WebhookType.channelFollower;
 
 String? resolveWebhookAvatarUrl({
   required String webhookId,

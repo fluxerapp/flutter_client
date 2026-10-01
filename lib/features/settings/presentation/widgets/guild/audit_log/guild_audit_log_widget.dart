@@ -180,7 +180,7 @@ class _GuildAuditLogWidgetState extends ConsumerState<GuildAuditLogWidget> {
     final Map<String, Channel> channelsById = _buildChannelsById();
     return <String, String>{
       for (final MapEntry<String, Channel> entry in channelsById.entries)
-        entry.key: entry.value.type == ChannelType.guildText
+        entry.key: isAnnouncementConvertibleChannel(entry.value.type)
             ? '#${entry.value.name}'
             : entry.value.name,
     };

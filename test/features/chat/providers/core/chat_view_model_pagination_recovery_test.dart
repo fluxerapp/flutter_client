@@ -43,8 +43,12 @@ void main() {
     await paginationFlushAsync();
     await notifier.loadMore();
     await paginationFlushAsync();
-    notifier.trimAroundVisible(
-      container.read(chatViewModelProvider).messages.first.id,
+    notifier.trimToSpan(
+      firstId: container.read(chatViewModelProvider).messages.first.id,
+      lastId: container
+          .read(chatViewModelProvider)
+          .messages[kTrimmedMessageWindowSize - 1]
+          .id,
     );
     await paginationFlushAsync();
 
@@ -102,8 +106,12 @@ void main() {
     await paginationFlushAsync();
     await notifier.loadMore();
     await paginationFlushAsync();
-    notifier.trimAroundVisible(
-      container.read(chatViewModelProvider).messages.first.id,
+    notifier.trimToSpan(
+      firstId: container.read(chatViewModelProvider).messages.first.id,
+      lastId: container
+          .read(chatViewModelProvider)
+          .messages[kTrimmedMessageWindowSize - 1]
+          .id,
     );
     await paginationFlushAsync();
 
@@ -212,8 +220,12 @@ void main() {
     await paginationFlushAsync();
     await notifier.loadMore();
     await paginationFlushAsync();
-    notifier.trimAroundVisible(
-      container.read(chatViewModelProvider).messages.first.id,
+    notifier.trimToSpan(
+      firstId: container.read(chatViewModelProvider).messages.first.id,
+      lastId: container
+          .read(chatViewModelProvider)
+          .messages[kTrimmedMessageWindowSize - 1]
+          .id,
     );
     await paginationFlushAsync();
 

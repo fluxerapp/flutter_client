@@ -15088,4 +15088,304 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get assistantOkCustomStatusCleared => 'Custom status cleared.';
+
+  @override
+  String get guildNavbarAnnouncementChannel => 'Announcement Channel';
+
+  @override
+  String get guildNavbarAnnouncementChannelDescription =>
+      'Post updates that other communities can follow into their own channels';
+
+  @override
+  String get channelDetailsAnnouncementChannel => 'Announcement Channel';
+
+  @override
+  String get channelSettingsAnnouncementChannel => 'Announcement Channel';
+
+  @override
+  String get channelSettingsAnnouncementChannelDescription =>
+      'Lets other communities follow this channel and get copies of what you publish.';
+
+  @override
+  String get channelSettingsStopAnnouncementTitle =>
+      'Stop being an announcement channel?';
+
+  @override
+  String channelSettingsStopAnnouncementBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count channels follow this channel. Converting it to a text channel removes those follows.',
+      one:
+          '1 channel follows this channel. Converting it to a text channel removes that follow.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get channelSettingsStopAnnouncementUnknown =>
+      'Converting this channel to a text channel removes every channel that follows it.';
+
+  @override
+  String get channelSettingsConvertChannel => 'Convert';
+
+  @override
+  String get channelSettingsConvertFailed => 'Couldn\'t convert this channel';
+
+  @override
+  String get channelSettingsChannelHasFollowers =>
+      'This channel still has followers. Remove those follows before converting it.';
+
+  @override
+  String get channelMenuFollow => 'Follow Channel';
+
+  @override
+  String get channelFollowTitle => 'Follow this channel';
+
+  @override
+  String get channelFollowBody =>
+      'Choose where its published messages should go. You can unfollow any time in Community settings → Webhooks.';
+
+  @override
+  String get channelFollowCommunity => 'Community';
+
+  @override
+  String get channelFollowChannel => 'Channel';
+
+  @override
+  String get channelFollowSelectCommunity => 'Select a community';
+
+  @override
+  String get channelFollowSelectChannel => 'Select a channel';
+
+  @override
+  String get channelFollowAgeWarning =>
+      'This is an age-restricted channel. Updates can only go to age-restricted channels.';
+
+  @override
+  String get channelFollowContentWarning =>
+      'This channel has a content warning. Updates can only go to channels with a content warning or an age restriction.';
+
+  @override
+  String get channelFollowHiddenHint =>
+      'Communities and channels where you can\'t manage webhooks are hidden.';
+
+  @override
+  String get channelFollowEmpty =>
+      'You can\'t manage webhooks in any community. Ask an admin to follow this channel.';
+
+  @override
+  String get channelFollowSubmit => 'Follow';
+
+  @override
+  String get channelFollowFailed => 'Couldn\'t follow this channel.';
+
+  @override
+  String get channelFollowSuccessTitle => 'Updates are on their way!';
+
+  @override
+  String channelFollowSuccessBody(String sourceName, String targetName) {
+    return 'Messages published in $sourceName will show up in #$targetName.';
+  }
+
+  @override
+  String get channelFollowSuccessDismiss => 'Got it!';
+
+  @override
+  String get channelFollowBarrier =>
+      'Follow to get these announcements in a channel you choose.';
+
+  @override
+  String get channelHeaderFollow => 'Follow channel';
+
+  @override
+  String get chatMessagePublish => 'Publish';
+
+  @override
+  String get chatMessagePublished => 'Published';
+
+  @override
+  String get chatMessagePublishConfirmTitle => 'Publish message?';
+
+  @override
+  String get chatMessagePublishConfirmBody =>
+      'This sends a copy to every channel that follows this one.';
+
+  @override
+  String get chatMessagePublishedToast => 'Message published';
+
+  @override
+  String get chatMessageAlreadyPublished =>
+      'This message is already published.';
+
+  @override
+  String get chatMessagePublishFailedTitle => 'Couldn\'t publish this message';
+
+  @override
+  String get chatMessagePublishFailedBody =>
+      'Something went wrong. Try again in a moment.';
+
+  @override
+  String get chatMessagePublishLimitTitle => 'Slow down';
+
+  @override
+  String chatMessagePublishLimitBody(String duration) {
+    return 'You can publish again in $duration.';
+  }
+
+  @override
+  String get chatMessagePublishLimitUnknown =>
+      'You are publishing too quickly. Try again in a moment.';
+
+  @override
+  String get chatMessageDeletePublished =>
+      'This also removes the copies that were sent to channels following this one.';
+
+  @override
+  String get chatMessageEditPublishedTitle => 'Edit published message?';
+
+  @override
+  String get chatMessageEditPublishedBody =>
+      'This updates the copies that were sent to channels following this one.';
+
+  @override
+  String get chatMessageEditPublishedSave => 'Save';
+
+  @override
+  String get chatMessageEditLimitTitle => 'Slow down';
+
+  @override
+  String chatMessageEditLimitBody(String duration) {
+    return 'You can edit this published message again in $duration.';
+  }
+
+  @override
+  String get chatMessageEditLimitUnknown =>
+      'You are editing this published message too quickly. Try again in a moment.';
+
+  @override
+  String get chatMessageOriginalDeleted => '[Original message deleted]';
+
+  @override
+  String get userTagCommunity => 'Community';
+
+  @override
+  String systemFollowAdd(String username, String source) {
+    return '$username followed $source into this channel. Messages published there will appear here.';
+  }
+
+  @override
+  String systemPreviewFollowAdd(String username, String source) {
+    return '$username followed $source into this channel.';
+  }
+
+  @override
+  String get publishNudgeNotSent => 'Not sent to followers yet.';
+
+  @override
+  String get publishNudgeHideForever => 'Don\'t show again';
+
+  @override
+  String get publishNudgeDismiss => 'Dismiss';
+
+  @override
+  String get channelSettingsFollowedChannels => 'Followed channels';
+
+  @override
+  String get channelSettingsFollowedChannelsDescription =>
+      'Announcement channels this channel follows. Unfollow to stop receiving copies.';
+
+  @override
+  String get guildSettingsFollowedChannelsDescription =>
+      'Announcement channels followed by channels in this community.';
+
+  @override
+  String channelSettingsFollowedFrom(String guildName, String channelName) {
+    return 'From $guildName #$channelName';
+  }
+
+  @override
+  String get channelSettingsFollowedPaused =>
+      'Updates are paused because the source channel is no longer available.';
+
+  @override
+  String channelSettingsUnfollowTitle(String name) {
+    return 'Unfollow $name?';
+  }
+
+  @override
+  String get channelSettingsUnfollowBody =>
+      'This channel will stop receiving copies from that announcement channel.';
+
+  @override
+  String get channelSettingsUnfollow => 'Unfollow';
+
+  @override
+  String get channelSettingsUnfollowFailed =>
+      'Couldn\'t unfollow this channel.';
+
+  @override
+  String channelSettingsDeliveredTo(String channelName) {
+    return 'Delivered to #$channelName';
+  }
+
+  @override
+  String get crosspostCommunityTitle => 'Community';
+
+  @override
+  String get crosspostGoToCommunity => 'Go to community';
+
+  @override
+  String get crosspostJoinCommunity => 'Join Community';
+
+  @override
+  String get crosspostSourceFailed =>
+      'Couldn\'t load this community. Try again in a moment.';
+
+  @override
+  String get crosspostSourceUnavailable =>
+      'This community is no longer available';
+
+  @override
+  String crosspostMembers(int count) {
+    return '$count members';
+  }
+
+  @override
+  String crosspostOnline(int count) {
+    return '$count online';
+  }
+
+  @override
+  String durationMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minutes',
+      one: '1 minute',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String durationSeconds(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count seconds',
+      one: '1 second',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get channelUnsupportedTitle => 'Unsupported channel type';
+
+  @override
+  String get channelUnsupportedBody =>
+      'This version of the app doesn\'t support this channel type.';
+
+  @override
+  String get channelDetailsUnsupportedChannel => 'Unsupported channel';
 }

@@ -24851,6 +24851,462 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Custom status cleared.'**
   String get assistantOkCustomStatusCleared;
+
+  /// No description provided for @guildNavbarAnnouncementChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'Announcement Channel'**
+  String get guildNavbarAnnouncementChannel;
+
+  /// No description provided for @guildNavbarAnnouncementChannelDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Post updates that other communities can follow into their own channels'**
+  String get guildNavbarAnnouncementChannelDescription;
+
+  /// No description provided for @channelDetailsAnnouncementChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'Announcement Channel'**
+  String get channelDetailsAnnouncementChannel;
+
+  /// No description provided for @channelSettingsAnnouncementChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'Announcement Channel'**
+  String get channelSettingsAnnouncementChannel;
+
+  /// No description provided for @channelSettingsAnnouncementChannelDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Lets other communities follow this channel and get copies of what you publish.'**
+  String get channelSettingsAnnouncementChannelDescription;
+
+  /// No description provided for @channelSettingsStopAnnouncementTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop being an announcement channel?'**
+  String get channelSettingsStopAnnouncementTitle;
+
+  /// No description provided for @channelSettingsStopAnnouncementBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 channel follows this channel. Converting it to a text channel removes that follow.} other{{count} channels follow this channel. Converting it to a text channel removes those follows.}}'**
+  String channelSettingsStopAnnouncementBody(int count);
+
+  /// No description provided for @channelSettingsStopAnnouncementUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Converting this channel to a text channel removes every channel that follows it.'**
+  String get channelSettingsStopAnnouncementUnknown;
+
+  /// No description provided for @channelSettingsConvertChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'Convert'**
+  String get channelSettingsConvertChannel;
+
+  /// No description provided for @channelSettingsConvertFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t convert this channel'**
+  String get channelSettingsConvertFailed;
+
+  /// No description provided for @channelSettingsChannelHasFollowers.
+  ///
+  /// In en, this message translates to:
+  /// **'This channel still has followers. Remove those follows before converting it.'**
+  String get channelSettingsChannelHasFollowers;
+
+  /// No description provided for @channelMenuFollow.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow Channel'**
+  String get channelMenuFollow;
+
+  /// No description provided for @channelFollowTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow this channel'**
+  String get channelFollowTitle;
+
+  /// No description provided for @channelFollowBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose where its published messages should go. You can unfollow any time in Community settings → Webhooks.'**
+  String get channelFollowBody;
+
+  /// No description provided for @channelFollowCommunity.
+  ///
+  /// In en, this message translates to:
+  /// **'Community'**
+  String get channelFollowCommunity;
+
+  /// No description provided for @channelFollowChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'Channel'**
+  String get channelFollowChannel;
+
+  /// No description provided for @channelFollowSelectCommunity.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a community'**
+  String get channelFollowSelectCommunity;
+
+  /// No description provided for @channelFollowSelectChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a channel'**
+  String get channelFollowSelectChannel;
+
+  /// No description provided for @channelFollowAgeWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'This is an age-restricted channel. Updates can only go to age-restricted channels.'**
+  String get channelFollowAgeWarning;
+
+  /// No description provided for @channelFollowContentWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'This channel has a content warning. Updates can only go to channels with a content warning or an age restriction.'**
+  String get channelFollowContentWarning;
+
+  /// No description provided for @channelFollowHiddenHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Communities and channels where you can\'t manage webhooks are hidden.'**
+  String get channelFollowHiddenHint;
+
+  /// No description provided for @channelFollowEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'You can\'t manage webhooks in any community. Ask an admin to follow this channel.'**
+  String get channelFollowEmpty;
+
+  /// No description provided for @channelFollowSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow'**
+  String get channelFollowSubmit;
+
+  /// No description provided for @channelFollowFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t follow this channel.'**
+  String get channelFollowFailed;
+
+  /// No description provided for @channelFollowSuccessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Updates are on their way!'**
+  String get channelFollowSuccessTitle;
+
+  /// No description provided for @channelFollowSuccessBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages published in {sourceName} will show up in #{targetName}.'**
+  String channelFollowSuccessBody(String sourceName, String targetName);
+
+  /// No description provided for @channelFollowSuccessDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it!'**
+  String get channelFollowSuccessDismiss;
+
+  /// No description provided for @channelFollowBarrier.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow to get these announcements in a channel you choose.'**
+  String get channelFollowBarrier;
+
+  /// No description provided for @channelHeaderFollow.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow channel'**
+  String get channelHeaderFollow;
+
+  /// No description provided for @chatMessagePublish.
+  ///
+  /// In en, this message translates to:
+  /// **'Publish'**
+  String get chatMessagePublish;
+
+  /// No description provided for @chatMessagePublished.
+  ///
+  /// In en, this message translates to:
+  /// **'Published'**
+  String get chatMessagePublished;
+
+  /// No description provided for @chatMessagePublishConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Publish message?'**
+  String get chatMessagePublishConfirmTitle;
+
+  /// No description provided for @chatMessagePublishConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This sends a copy to every channel that follows this one.'**
+  String get chatMessagePublishConfirmBody;
+
+  /// No description provided for @chatMessagePublishedToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Message published'**
+  String get chatMessagePublishedToast;
+
+  /// No description provided for @chatMessageAlreadyPublished.
+  ///
+  /// In en, this message translates to:
+  /// **'This message is already published.'**
+  String get chatMessageAlreadyPublished;
+
+  /// No description provided for @chatMessagePublishFailedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t publish this message'**
+  String get chatMessagePublishFailedTitle;
+
+  /// No description provided for @chatMessagePublishFailedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Try again in a moment.'**
+  String get chatMessagePublishFailedBody;
+
+  /// No description provided for @chatMessagePublishLimitTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Slow down'**
+  String get chatMessagePublishLimitTitle;
+
+  /// No description provided for @chatMessagePublishLimitBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You can publish again in {duration}.'**
+  String chatMessagePublishLimitBody(String duration);
+
+  /// No description provided for @chatMessagePublishLimitUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'You are publishing too quickly. Try again in a moment.'**
+  String get chatMessagePublishLimitUnknown;
+
+  /// No description provided for @chatMessageDeletePublished.
+  ///
+  /// In en, this message translates to:
+  /// **'This also removes the copies that were sent to channels following this one.'**
+  String get chatMessageDeletePublished;
+
+  /// No description provided for @chatMessageEditPublishedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit published message?'**
+  String get chatMessageEditPublishedTitle;
+
+  /// No description provided for @chatMessageEditPublishedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This updates the copies that were sent to channels following this one.'**
+  String get chatMessageEditPublishedBody;
+
+  /// No description provided for @chatMessageEditPublishedSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get chatMessageEditPublishedSave;
+
+  /// No description provided for @chatMessageEditLimitTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Slow down'**
+  String get chatMessageEditLimitTitle;
+
+  /// No description provided for @chatMessageEditLimitBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You can edit this published message again in {duration}.'**
+  String chatMessageEditLimitBody(String duration);
+
+  /// No description provided for @chatMessageEditLimitUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'You are editing this published message too quickly. Try again in a moment.'**
+  String get chatMessageEditLimitUnknown;
+
+  /// No description provided for @chatMessageOriginalDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'[Original message deleted]'**
+  String get chatMessageOriginalDeleted;
+
+  /// No description provided for @userTagCommunity.
+  ///
+  /// In en, this message translates to:
+  /// **'Community'**
+  String get userTagCommunity;
+
+  /// No description provided for @systemFollowAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'{username} followed {source} into this channel. Messages published there will appear here.'**
+  String systemFollowAdd(String username, String source);
+
+  /// No description provided for @systemPreviewFollowAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'{username} followed {source} into this channel.'**
+  String systemPreviewFollowAdd(String username, String source);
+
+  /// No description provided for @publishNudgeNotSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Not sent to followers yet.'**
+  String get publishNudgeNotSent;
+
+  /// No description provided for @publishNudgeHideForever.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t show again'**
+  String get publishNudgeHideForever;
+
+  /// No description provided for @publishNudgeDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss'**
+  String get publishNudgeDismiss;
+
+  /// No description provided for @channelSettingsFollowedChannels.
+  ///
+  /// In en, this message translates to:
+  /// **'Followed channels'**
+  String get channelSettingsFollowedChannels;
+
+  /// No description provided for @channelSettingsFollowedChannelsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Announcement channels this channel follows. Unfollow to stop receiving copies.'**
+  String get channelSettingsFollowedChannelsDescription;
+
+  /// No description provided for @guildSettingsFollowedChannelsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Announcement channels followed by channels in this community.'**
+  String get guildSettingsFollowedChannelsDescription;
+
+  /// No description provided for @channelSettingsFollowedFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'From {guildName} #{channelName}'**
+  String channelSettingsFollowedFrom(String guildName, String channelName);
+
+  /// No description provided for @channelSettingsFollowedPaused.
+  ///
+  /// In en, this message translates to:
+  /// **'Updates are paused because the source channel is no longer available.'**
+  String get channelSettingsFollowedPaused;
+
+  /// No description provided for @channelSettingsUnfollowTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unfollow {name}?'**
+  String channelSettingsUnfollowTitle(String name);
+
+  /// No description provided for @channelSettingsUnfollowBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This channel will stop receiving copies from that announcement channel.'**
+  String get channelSettingsUnfollowBody;
+
+  /// No description provided for @channelSettingsUnfollow.
+  ///
+  /// In en, this message translates to:
+  /// **'Unfollow'**
+  String get channelSettingsUnfollow;
+
+  /// No description provided for @channelSettingsUnfollowFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t unfollow this channel.'**
+  String get channelSettingsUnfollowFailed;
+
+  /// No description provided for @channelSettingsDeliveredTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered to #{channelName}'**
+  String channelSettingsDeliveredTo(String channelName);
+
+  /// No description provided for @crosspostCommunityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Community'**
+  String get crosspostCommunityTitle;
+
+  /// No description provided for @crosspostGoToCommunity.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to community'**
+  String get crosspostGoToCommunity;
+
+  /// No description provided for @crosspostJoinCommunity.
+  ///
+  /// In en, this message translates to:
+  /// **'Join Community'**
+  String get crosspostJoinCommunity;
+
+  /// No description provided for @crosspostSourceFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load this community. Try again in a moment.'**
+  String get crosspostSourceFailed;
+
+  /// No description provided for @crosspostSourceUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'This community is no longer available'**
+  String get crosspostSourceUnavailable;
+
+  /// No description provided for @crosspostMembers.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} members'**
+  String crosspostMembers(int count);
+
+  /// No description provided for @crosspostOnline.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} online'**
+  String crosspostOnline(int count);
+
+  /// No description provided for @durationMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 minute} other{{count} minutes}}'**
+  String durationMinutes(int count);
+
+  /// No description provided for @durationSeconds.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 second} other{{count} seconds}}'**
+  String durationSeconds(int count);
+
+  /// No description provided for @channelUnsupportedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unsupported channel type'**
+  String get channelUnsupportedTitle;
+
+  /// No description provided for @channelUnsupportedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This version of the app doesn\'t support this channel type.'**
+  String get channelUnsupportedBody;
+
+  /// No description provided for @channelDetailsUnsupportedChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'Unsupported channel'**
+  String get channelDetailsUnsupportedChannel;
 }
 
 class _FluxerLocalizationsDelegate

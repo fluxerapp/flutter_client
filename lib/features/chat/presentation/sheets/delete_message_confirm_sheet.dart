@@ -39,7 +39,9 @@ Future<bool?> showDeleteMessageConfirmSheet(
   final bool? confirmed = await FluxerConfirmSheet.show(
     sheetContext,
     title: l10n.chatMessageDeleteConfirmTitle,
-    description: l10n.chatMessageDeleteConfirmDescription,
+    description: message.isCrossposted
+        ? l10n.chatMessageDeletePublished
+        : l10n.chatMessageDeleteConfirmDescription,
     body: MessageConfirmPreview(message: message, guildId: guildId),
     confirmLabel: l10n.chatMessageDelete,
     isDanger: true,

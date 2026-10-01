@@ -37,8 +37,8 @@ class ChannelWebhooks extends _$ChannelWebhooks {
     state = AsyncData<List<WebhookResponse>>(await _loadWebhooks());
   }
 
-  Future<WebhookResponse> createWebhook({required String name}) async {
-    final WebhookResponse response = await ref
+  Future<void> createWebhook({required String name}) async {
+    await ref
         .read(fluxerClientProvider)
         .webhooks
         .createWebhook(
@@ -46,7 +46,6 @@ class ChannelWebhooks extends _$ChannelWebhooks {
           body: WebhookCreateRequest(name: name),
         );
     await reload();
-    return response;
   }
 
   Future<void> deleteWebhook(String webhookId) async {

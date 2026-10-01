@@ -203,14 +203,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_math_fork:
-    dependency: transitive
-    description:
-      name: flutter_math_fork
-      sha256: "6d5f2f1aa57ae539ffb0a04bb39d2da67af74601d685a161aff7ce5bda5fa407"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.7.4"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -332,14 +324,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.12.0"
-  latext:
+  katex:
     dependency: "direct main"
     description:
-      name: latext
-      sha256: "4dc2e3b8436cf8bce2d74b3af53055d56b9dc83c816fec5cf1c8f2789bf89a64"
+      name: katex
+      sha256: dd9e043367ddf668b915db10005e101049f0f767db58bb2dd594c40c3a412892
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.1"
+    version: "1.0.0"
+  katex_dart:
+    dependency: transitive
+    description:
+      name: katex_dart
+      sha256: "9ffb18e394a3817f4cdfa04fd497ca30d3e3b45661e3e17f7705b8ae68dd5be9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.1"
   leak_tracker:
     dependency: transitive
     description:
@@ -420,14 +420,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.19.0"
-  nested:
-    dependency: transitive
-    description:
-      name: nested
-      sha256: "03bac4c528c64c95c722ec99280375a6f2fc708eec17c7b3f07253b626cd2a20"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   objective_c:
     dependency: transitive
     description:
@@ -549,14 +541,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
-  provider:
-    dependency: transitive
-    description:
-      name: provider
-      sha256: "4e82183fa20e5ca25703ead7e05de9e4cceed1fbd1eadc1ac3cb6f565a09f272"
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.1.5+1"
   pub_semver:
     dependency: transitive
     description:
@@ -626,14 +610,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.12"
-  tuple:
-    dependency: transitive
-    description:
-      name: tuple
-      sha256: a97ce2013f240b2f3807bcbaf218765b6f301c3eff91092bcfa23a039e7dd151
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.2"
   typed_data:
     dependency: transitive
     description:

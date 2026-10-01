@@ -106,6 +106,38 @@ void main() {
       );
       expect(formatted, '14:30');
     });
+
+    test('follows a locale and a 12/24-hour change after a cached format', () {
+      expect(
+        _normalize(formatUserTime(sample, 'en_US', use12Hour: true)),
+        '2:30 PM',
+      );
+      expect(
+        _normalize(formatUserTime(sample, 'en_GB', use12Hour: true)),
+        '2:30 pm',
+      );
+      expect(formatUserTime(sample, 'en_GB', use12Hour: false), '14:30');
+      expect(
+        _normalize(formatUserTime(sample, 'en_US', use12Hour: true)),
+        '2:30 PM',
+      );
+    });
+
+    test('time, date-time, and seconds formats do not share a cache entry', () {
+      expect(formatUserTime(sample, 'en_US', use12Hour: false), '14:30');
+      expect(
+        formatUserTime(sample, 'en_US', use12Hour: false, withSeconds: true),
+        '14:30:00',
+      );
+      expect(
+        formatUserDateTime(sample, 'en_US', use12Hour: false),
+        '1/1/2025 14:30',
+      );
+      expect(
+        formatUserMediumDateTime(sample, 'en_US', use12Hour: false),
+        'Jan 1, 2025 14:30',
+      );
+    });
   });
 
   test('formatUserMediumDate uses the requested locale', () {

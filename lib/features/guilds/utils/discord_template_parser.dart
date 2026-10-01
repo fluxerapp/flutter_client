@@ -29,7 +29,8 @@ class DiscordGuildTemplate {
     int categoryCount = 0;
     for (final TemplateChannel channel in sourceGuild.channels) {
       final int? type = mapTemplateChannelTypeToFluxer(channel.type.toInt());
-      if (type == ChannelType.guildText.wireValue) {
+      if (type == ChannelType.guildText.wireValue ||
+          type == ChannelType.guildAnnouncement.wireValue) {
         textChannelCount++;
       } else if (type == ChannelType.guildVoice.wireValue) {
         voiceChannelCount++;
@@ -96,12 +97,13 @@ String? parseTemplateCode(String input) {
 
 int? mapTemplateChannelTypeToFluxer(int channelType) {
   if (channelType == ChannelType.guildText.wireValue ||
+      channelType == ChannelType.guildAnnouncement.wireValue ||
       channelType == ChannelType.guildVoice.wireValue ||
       channelType == ChannelType.guildCategory.wireValue) {
     return channelType;
   }
   if (channelType == _discordGuildAnnouncementChannelType) {
-    return ChannelType.guildText.wireValue;
+    return ChannelType.guildAnnouncement.wireValue;
   }
   if (channelType == _discordGuildStageVoiceChannelType) {
     return ChannelType.guildVoice.wireValue;

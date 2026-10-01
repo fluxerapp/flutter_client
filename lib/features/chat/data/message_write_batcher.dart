@@ -129,7 +129,7 @@ class MessageWriteBatcher {
       await _database.transaction(() async {
         await _database.messageDao.upsertMessages(messages);
         for (final MapEntry<String, String> entry in lastMessageIds.entries) {
-          await _database.channelDao.updateLastMessageId(
+          await _database.channelDao.advanceLastMessageIdSilently(
             entry.key,
             entry.value,
           );

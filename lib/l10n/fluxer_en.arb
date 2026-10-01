@@ -17588,5 +17588,185 @@
     "assistantOkOpened": "Opening Fluxer.",
     "assistantOkMessageSent": "Message sent.",
     "assistantOkCustomStatusSet": "Custom status updated.",
-    "assistantOkCustomStatusCleared": "Custom status cleared."
+    "assistantOkCustomStatusCleared": "Custom status cleared.",
+
+    "guildNavbarAnnouncementChannel": "Announcement Channel",
+    "guildNavbarAnnouncementChannelDescription": "Post updates that other communities can follow into their own channels",
+    "channelDetailsAnnouncementChannel": "Announcement Channel",
+    "channelSettingsAnnouncementChannel": "Announcement Channel",
+    "channelSettingsAnnouncementChannelDescription": "Lets other communities follow this channel and get copies of what you publish.",
+    "channelSettingsStopAnnouncementTitle": "Stop being an announcement channel?",
+    "channelSettingsStopAnnouncementBody": "{count, plural, =1{1 channel follows this channel. Converting it to a text channel removes that follow.} other{{count} channels follow this channel. Converting it to a text channel removes those follows.}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "Converting this channel to a text channel removes every channel that follows it.",
+    "channelSettingsConvertChannel": "Convert",
+    "channelSettingsConvertFailed": "Couldn't convert this channel",
+    "channelSettingsChannelHasFollowers": "This channel still has followers. Remove those follows before converting it.",
+    "channelMenuFollow": "Follow Channel",
+    "channelFollowTitle": "Follow this channel",
+    "channelFollowBody": "Choose where its published messages should go. You can unfollow any time in Community settings → Webhooks.",
+    "channelFollowCommunity": "Community",
+    "channelFollowChannel": "Channel",
+    "channelFollowSelectCommunity": "Select a community",
+    "channelFollowSelectChannel": "Select a channel",
+    "channelFollowAgeWarning": "This is an age-restricted channel. Updates can only go to age-restricted channels.",
+    "channelFollowContentWarning": "This channel has a content warning. Updates can only go to channels with a content warning or an age restriction.",
+    "channelFollowHiddenHint": "Communities and channels where you can't manage webhooks are hidden.",
+    "channelFollowEmpty": "You can't manage webhooks in any community. Ask an admin to follow this channel.",
+    "channelFollowSubmit": "Follow",
+    "channelFollowFailed": "Couldn't follow this channel.",
+    "channelFollowSuccessTitle": "Updates are on their way!",
+    "channelFollowSuccessBody": "Messages published in {sourceName} will show up in #{targetName}.",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "Got it!",
+    "channelFollowBarrier": "Follow to get these announcements in a channel you choose.",
+    "channelHeaderFollow": "Follow channel",
+    "chatMessagePublish": "Publish",
+    "chatMessagePublished": "Published",
+    "chatMessagePublishConfirmTitle": "Publish message?",
+    "chatMessagePublishConfirmBody": "This sends a copy to every channel that follows this one.",
+    "chatMessagePublishedToast": "Message published",
+    "chatMessageAlreadyPublished": "This message is already published.",
+    "chatMessagePublishFailedTitle": "Couldn't publish this message",
+    "chatMessagePublishFailedBody": "Something went wrong. Try again in a moment.",
+    "chatMessagePublishLimitTitle": "Slow down",
+    "chatMessagePublishLimitBody": "You can publish again in {duration}.",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "You are publishing too quickly. Try again in a moment.",
+    "chatMessageDeletePublished": "This also removes the copies that were sent to channels following this one.",
+    "chatMessageEditPublishedTitle": "Edit published message?",
+    "chatMessageEditPublishedBody": "This updates the copies that were sent to channels following this one.",
+    "chatMessageEditPublishedSave": "Save",
+    "chatMessageEditLimitTitle": "Slow down",
+    "chatMessageEditLimitBody": "You can edit this published message again in {duration}.",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "You are editing this published message too quickly. Try again in a moment.",
+    "chatMessageOriginalDeleted": "[Original message deleted]",
+    "userTagCommunity": "Community",
+    "systemFollowAdd": "{username} followed {source} into this channel. Messages published there will appear here.",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username} followed {source} into this channel.",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "Not sent to followers yet.",
+    "publishNudgeHideForever": "Don't show again",
+    "publishNudgeDismiss": "Dismiss",
+    "channelSettingsFollowedChannels": "Followed channels",
+    "channelSettingsFollowedChannelsDescription": "Announcement channels this channel follows. Unfollow to stop receiving copies.",
+    "guildSettingsFollowedChannelsDescription": "Announcement channels followed by channels in this community.",
+    "channelSettingsFollowedFrom": "From {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "Updates are paused because the source channel is no longer available.",
+    "channelSettingsUnfollowTitle": "Unfollow {name}?",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "This channel will stop receiving copies from that announcement channel.",
+    "channelSettingsUnfollow": "Unfollow",
+    "channelSettingsUnfollowFailed": "Couldn't unfollow this channel.",
+    "channelSettingsDeliveredTo": "Delivered to #{channelName}",
+    "@channelSettingsDeliveredTo": {
+        "placeholders": {
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "crosspostCommunityTitle": "Community",
+    "crosspostGoToCommunity": "Go to community",
+    "crosspostJoinCommunity": "Join Community",
+    "crosspostSourceFailed": "Couldn't load this community. Try again in a moment.",
+    "crosspostSourceUnavailable": "This community is no longer available",
+    "crosspostMembers": "{count} members",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "{count} online",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, =1{1 minute} other{{count} minutes}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, =1{1 second} other{{count} seconds}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "Unsupported channel type",
+    "channelUnsupportedBody": "This version of the app doesn't support this channel type.",
+    "channelDetailsUnsupportedChannel": "Unsupported channel"
 }

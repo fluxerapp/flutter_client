@@ -17,7 +17,10 @@ enum EmbedType { rich, image, gifv, link, video }
 
 enum MessageDeliveryState { sending, sent, failed }
 
+const int messageFlagCrossposted = 1 << 0;
+const int messageFlagIsCrosspost = 1 << 1;
 const int messageFlagSuppressEmbeds = 1 << 2;
+const int messageFlagSourceMessageDeleted = 1 << 3;
 const int messageFlagSuppressNotifications = 1 << 12;
 const int messageFlagCompactAttachments = 1 << 17;
 const int attachmentFlagIsSpoiler = 1 << 3;
@@ -34,6 +37,7 @@ const int messageTypeChannelNameChange = 4;
 const int messageTypeChannelIconChange = 5;
 const int messageTypeChannelPinnedMessage = 6;
 const int messageTypeUserJoin = 7;
+const int messageTypeChannelFollowAdd = 12;
 const int messageTypeReply = 19;
 const int messageTypeClientSystem = 99;
 
@@ -602,7 +606,7 @@ class Reaction {
 
 class MessageReference {
   final String channelId;
-  final String messageId;
+  final String? messageId;
   final String? guildId;
   final MessageReferenceType type;
 
@@ -650,7 +654,7 @@ class MessageReference {
   factory MessageReference.fromJson(Map<String, dynamic> json) {
     return MessageReference(
       channelId: json['channel_id'] as String? ?? '',
-      messageId: json['message_id'] as String? ?? '',
+      messageId: json['message_id'] as String?,
       guildId: json['guild_id'] as String?,
       type: MessageReferenceType.fromJson(json['type'] as int? ?? 0),
     );
@@ -658,7 +662,7 @@ class MessageReference {
 
   Map<String, dynamic> toJson() => {
     'channel_id': channelId,
-    'message_id': messageId,
+    if (messageId != null) 'message_id': messageId,
     'guild_id': guildId,
     'type': type.toJson(),
   };
@@ -916,7 +920,8 @@ bool isKnownSystemMessageType(int type) {
     messageTypeChannelNameChange ||
     messageTypeChannelIconChange ||
     messageTypeChannelPinnedMessage ||
-    messageTypeUserJoin => true,
+    messageTypeUserJoin ||
+    messageTypeChannelFollowAdd => true,
     _ => false,
   };
 }
@@ -1646,6 +1651,10 @@ class Message {
 
   bool get hasForwardSnapshots => messageSnapshots.isNotEmpty;
   bool get suppressEmbeds => (flags & messageFlagSuppressEmbeds) != 0;
+  bool get isCrossposted => (flags & messageFlagCrossposted) != 0;
+  bool get isCrosspostCopy => (flags & messageFlagIsCrosspost) != 0;
+  bool get isCrosspostSourceDeleted =>
+      isCrosspostCopy && (flags & messageFlagSourceMessageDeleted) != 0;
 
   /// Text of every rendered embed, embeds separated by a blank line. Empty
   /// when embeds are suppressed or carry no text.

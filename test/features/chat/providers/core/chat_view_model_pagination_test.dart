@@ -91,9 +91,10 @@ void main() {
     expect(merged.messages, hasLength(250));
     expect(merged.hasMoreNewerMessages, isFalse);
 
-    // The scroll-end around-trim (the widget's settle path) bounds the
-    // window around the reader and re-opens the dropped newer side.
-    notifier.trimAroundVisible(oldestId);
+    notifier.trimToSpan(
+      firstId: oldestId,
+      lastId: merged.messages[kTrimmedMessageWindowSize - 1].id,
+    );
     await paginationFlushAsync();
 
     final bounded = container.read(chatViewModelProvider);
@@ -102,6 +103,49 @@ void main() {
     expect(bounded.messages.last.id, all[kTrimmedMessageWindowSize - 1]['id']);
     expect(bounded.messages.last.id, isNot(newestId));
     expect(bounded.hasMoreNewerMessages, isTrue);
+  });
+
+  test('leaving a channel with a pending idle trim parks a trimmed '
+      'window', () async {
+    final db = openTestDatabase();
+    for (final String id in <String>['channel-1', 'channel-2']) {
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(id: id, guildId: 'guild-1', name: id),
+      );
+    }
+    final List<Map<String, Object?>> all = paginationChannelMessages(
+      'channel-1',
+      250,
+    );
+    final adapter = PaginatingAdapter(
+      messagesByChannel: {'channel-1': all},
+      pageLimit: 150,
+    );
+    final container = paginationContainer(db, adapter);
+    addTearDown(container.dispose);
+
+    final notifier = container.read(chatViewModelProvider.notifier);
+    await notifier.switchChannel('channel-1');
+    await paginationFlushAsync();
+    await notifier.loadMore();
+    await paginationFlushAsync();
+    expect(container.read(chatViewModelProvider).messages, hasLength(250));
+
+    final String readerId = all[125]['id']! as String;
+    notifier.setPendingTrimAround(channelId: 'channel-1', messageId: readerId);
+    await notifier.switchChannel('channel-2', loadMessages: false);
+    await paginationFlushAsync();
+    await notifier.switchChannel('channel-1');
+    await paginationFlushAsync();
+
+    final ChatViewState restored = container.read(chatViewModelProvider);
+    expect(
+      restored.messages,
+      hasLength(kTrimmedMessageWindowSize),
+      reason: 'the parked window must be no larger than the settle trim left',
+    );
+    expect(restored.messages.map((m) => m.id), contains(readerId));
+    expect(restored.hasMoreNewerMessages, isTrue);
   });
 
   test('recovery reconcile defers while the user is scrolling', () async {
@@ -193,9 +237,12 @@ void main() {
     expect(adapter.beforeFetchCount, 2, reason: 'no request at the cap');
     expect(container.read(chatViewModelProvider).messages, hasLength(450));
 
-    // The scroll-end around-trim shrinks the window; loads resume.
-    notifier.trimAroundVisible(
-      container.read(chatViewModelProvider).messages.first.id,
+    notifier.trimToSpan(
+      firstId: container.read(chatViewModelProvider).messages.first.id,
+      lastId: container
+          .read(chatViewModelProvider)
+          .messages[kTrimmedMessageWindowSize - 1]
+          .id,
     );
     await paginationFlushAsync();
     expect(

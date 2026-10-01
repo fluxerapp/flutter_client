@@ -14,7 +14,6 @@ import 'package:fluxer_app/features/shell/providers/drawer_reveal_sync_trigger_p
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/shell/providers/shell_blocks_horizontal_gestures_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/gestures/defer_horizontal_drag_while_coasting.dart';
 import 'package:fluxer_app/shared/gestures/directional_horizontal_drag_recognizer.dart';
 import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
 
@@ -50,6 +49,8 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
   bool _initialTranslateSet = false;
   bool _publishPastHalfScheduled = false;
   double _lastWidth = 0;
+  final ValueNotifier<bool> _sliderTickersEnabled = ValueNotifier<bool>(true);
+  final ValueNotifier<bool> _baseTickersEnabled = ValueNotifier<bool>(true);
 
   Duration _revealDuration(BuildContext context) =>
       widget.revealDuration ?? horizontalSwipeRevealDuration(context);
@@ -61,16 +62,21 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
   void initState() {
     super.initState();
     _currentSide = ref.read(currentRevealSideProvider);
-    _animationController = AnimationController.unbounded(
-      vsync: this,
-      duration: kHorizontalSwipeRevealDuration,
-    )..addListener(_schedulePublishPastHalf);
+    _animationController =
+        AnimationController.unbounded(
+            vsync: this,
+            duration: kHorizontalSwipeRevealDuration,
+          )
+          ..addListener(_schedulePublishPastHalf)
+          ..addListener(_syncPaneTickers)
+          ..addStatusListener((AnimationStatus _) => _syncPaneTickers());
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _syncWidth(MediaQuery.sizeOf(context).width);
+    _syncPaneTickers();
   }
 
   void _syncWidth(double width) {
@@ -107,6 +113,8 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
   @override
   void dispose() {
     _animationController.dispose();
+    _sliderTickersEnabled.dispose();
+    _baseTickersEnabled.dispose();
     super.dispose();
   }
 
@@ -129,6 +137,14 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
             ),
           );
     });
+  }
+
+  void _syncPaneTickers() {
+    final double translate = _animationController.value;
+    final bool atRest = !_animationController.isAnimating;
+    _sliderTickersEnabled.value =
+        !atRest || _lastWidth <= 0 || translate < _lastWidth;
+    _baseTickersEnabled.value = !atRest || translate > 0;
   }
 
   bool _isSidebarDrawerLocked() {
@@ -285,32 +301,9 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
   }
 
   bool _shouldDeferDrawerGesture(PointerDownEvent event) {
-    if (isPointerOverHorizontalDragCoastDefer(
+    return isPointerOverShellHorizontalGestureBlock(
       context,
       event.position,
-      viewId: event.viewId,
-    )) {
-      return true;
-    }
-    if (isPointerOverOverflowingHorizontalScrollable(
-      context,
-      event.position,
-      viewId: event.viewId,
-    )) {
-      return true;
-    }
-    if (isPointerOverDescendantWithKey(
-      context,
-      event.position,
-      key: kExpressionPanelShellGestureBlockKey,
-      viewId: event.viewId,
-    )) {
-      return true;
-    }
-    return isPointerOverDescendantWithKey(
-      context,
-      event.position,
-      key: kPlaybackSeekShellGestureBlockKey,
       viewId: event.viewId,
     );
   }
@@ -391,13 +384,25 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
         children: [
           ExcludeSemantics(
             excluding: !peek && revealSide == RevealSide.main,
-            child: RepaintBoundary(child: widget.base),
+            child: RepaintBoundary(
+              child: ValueListenableBuilder<bool>(
+                valueListenable: _baseTickersEnabled,
+                child: widget.base,
+                builder: (BuildContext context, bool enabled, Widget? base) =>
+                    TickerMode(enabled: enabled, child: base!),
+              ),
+            ),
           ),
           AnimatedBuilder(
             animation: _animationController,
             child: ExcludeSemantics(
               excluding: !peek && revealSide == RevealSide.left,
-              child: _DrawerSliderLayer(slider: widget.slider),
+              child: ValueListenableBuilder<bool>(
+                valueListenable: _sliderTickersEnabled,
+                child: _DrawerSliderLayer(slider: widget.slider),
+                builder: (BuildContext context, bool enabled, Widget? slider) =>
+                    TickerMode(enabled: enabled, child: slider!),
+              ),
             ),
             builder: (context, slider) {
               Widget layer = slider!;

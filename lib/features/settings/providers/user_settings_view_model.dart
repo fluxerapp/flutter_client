@@ -16,6 +16,7 @@ import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.
 import 'package:fluxer_app/features/profile/domain/profile_timezone_privacy_flags.dart';
 import 'package:fluxer_app/features/profile/utils/timezone_catalog.dart';
 import 'package:fluxer_app/features/settings/domain/guild_asset_mode.dart';
+import 'package:fluxer_app/features/shell/providers/current_user_private_provider.dart';
 import 'package:fluxer_app/shared/external_links/external_link_utils.dart'
     as external_link_utils;
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
@@ -868,6 +869,15 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
   @override
   UserSettingsViewState build() {
     final userId = ref.watch(currentUserIdProvider);
+    ref.listen<UserPrivateResponse?>(currentUserPrivateReadProvider, (
+      UserPrivateResponse? _,
+      UserPrivateResponse? next,
+    ) {
+      if (next == null || next.id != state.userId) {
+        return;
+      }
+      applyPrivateProfile(next);
+    });
     if (userId != null) {
       _watchUser(userId);
       _watchSettings(userId);

@@ -2,7 +2,7 @@ name: fluxer_app
 description: "Official Fluxer Mobile client built on the Flutter framework"
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 2026.09.100+1
+version: 2026.10.100+1
 
 environment:
   sdk: ^3.12.0

@@ -143,6 +143,8 @@ class _LoginFormState extends ConsumerState<LoginForm>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    _emailKeyboardRestore.dispose();
+    _passwordKeyboardRestore.dispose();
     _emailFocusNode.removeListener(_trackEmailFocus);
     _passwordFocusNode.removeListener(_trackPasswordFocus);
     _emailController.removeListener(_syncEmailToViewModel);

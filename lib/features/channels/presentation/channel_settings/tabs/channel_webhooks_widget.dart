@@ -108,7 +108,15 @@ class ChannelWebhooksWidget extends ConsumerWidget {
         ),
       ),
       data: (List<WebhookResponse> webhooks) {
-        if (webhooks.isEmpty) {
+        final List<WebhookResponse> incoming = <WebhookResponse>[
+          for (final WebhookResponse webhook in webhooks)
+            if (!isChannelFollowerWebhook(webhook)) webhook,
+        ];
+        final List<WebhookResponse> followed = <WebhookResponse>[
+          for (final WebhookResponse webhook in webhooks)
+            if (isChannelFollowerWebhook(webhook)) webhook,
+        ];
+        if (incoming.isEmpty && followed.isEmpty) {
           return _buildStatusShell(
             context,
             l10n: l10n,
@@ -131,32 +139,87 @@ class ChannelWebhooksWidget extends ConsumerWidget {
           slivers: <Widget>[
             SliverToBoxAdapter(child: header),
             SliverToBoxAdapter(child: _buildCreateButton(context, l10n, ref)),
-            SliverPadding(
-              padding: EdgeInsets.fromLTRB(
-                context.layout.s4,
-                0,
-                context.layout.s4,
-                context.layout.s4,
+            if (incoming.isNotEmpty)
+              SliverPadding(
+                padding: EdgeInsets.fromLTRB(
+                  context.layout.s4,
+                  0,
+                  context.layout.s4,
+                  context.layout.s4,
+                ),
+                sliver: SliverList(
+                  delegate: SliverChildBuilderDelegate((
+                    BuildContext context,
+                    int index,
+                  ) {
+                    final WebhookResponse webhook = incoming[index];
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: context.layout.s3),
+                      child: ChannelWebhookListItem(
+                        channelId: channel.id,
+                        webhook: webhook,
+                        channelName:
+                            channelNames[webhook.channelId] ?? channel.name,
+                        availableChannels: availableChannels,
+                      ),
+                    );
+                  }, childCount: incoming.length),
+                ),
               ),
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate((
-                  BuildContext context,
-                  int index,
-                ) {
-                  final WebhookResponse webhook = webhooks[index];
-                  return Padding(
-                    padding: EdgeInsets.only(bottom: context.layout.s3),
-                    child: ChannelWebhookListItem(
-                      channelId: channel.id,
-                      webhook: webhook,
-                      channelName:
-                          channelNames[webhook.channelId] ?? channel.name,
-                      availableChannels: availableChannels,
-                    ),
-                  );
-                }, childCount: webhooks.length),
+            if (followed.isNotEmpty) ...<Widget>[
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(
+                    context.layout.s4,
+                    context.layout.s2,
+                    context.layout.s4,
+                    context.layout.s2,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        l10n.channelSettingsFollowedChannels,
+                        style: context.textStyles.label,
+                      ),
+                      SizedBox(height: context.layout.s1),
+                      Text(
+                        l10n.channelSettingsFollowedChannelsDescription,
+                        style: context.textStyles.smallText.copyWith(
+                          color: context.colors.textTertiary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ),
+              SliverPadding(
+                padding: EdgeInsets.fromLTRB(
+                  context.layout.s4,
+                  0,
+                  context.layout.s4,
+                  context.layout.s4,
+                ),
+                sliver: SliverList(
+                  delegate: SliverChildBuilderDelegate((
+                    BuildContext context,
+                    int index,
+                  ) {
+                    final WebhookResponse webhook = followed[index];
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: context.layout.s3),
+                      child: ChannelWebhookListItem(
+                        channelId: channel.id,
+                        webhook: webhook,
+                        channelName:
+                            channelNames[webhook.channelId] ?? channel.name,
+                        availableChannels: availableChannels,
+                      ),
+                    );
+                  }, childCount: followed.length),
+                ),
+              ),
+            ],
           ],
         );
       },

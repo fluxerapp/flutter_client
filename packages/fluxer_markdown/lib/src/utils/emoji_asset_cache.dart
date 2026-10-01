@@ -25,7 +25,61 @@ class EmojiAssetCache {
   static final BaseCacheManager _cacheManager =
       CachedNetworkImageProvider.defaultCacheManager;
 
-  static Future<Uint8List> loadBytes(String url) async {
+  /// Upper bound on emoji held in the in-memory bytes cache.
+  @visibleForTesting
+  static const int maxMemoryEntries = 256;
+
+  /// Upper bound on total bytes in the in-memory cache.
+  @visibleForTesting
+  static const int maxMemoryBytes = 4 * 1024 * 1024;
+
+  static final Map<String, Uint8List> _memory = <String, Uint8List>{};
+  static int _memoryBytes = 0;
+  static final Map<String, Future<Uint8List>> _inFlight =
+      <String, Future<Uint8List>>{};
+
+  /// Returns the bytes for [url] if already in memory, without I/O.
+  static Uint8List? peekBytes(String url) {
+    final bytes = _memory.remove(url);
+    if (bytes != null) {
+      _memory[url] = bytes;
+    }
+    return bytes;
+  }
+
+  static Future<Uint8List> loadBytes(String url) {
+    final cached = peekBytes(url);
+    if (cached != null) {
+      return SynchronousFuture<Uint8List>(cached);
+    }
+    return _inFlight[url] ??= _load(url);
+  }
+
+  static Future<Uint8List> _load(String url) async {
+    try {
+      final bytes = await _loadFromDisk(url);
+      _remember(url, bytes);
+      return bytes;
+    } finally {
+      unawaited(_inFlight.remove(url));
+    }
+  }
+
+  static void _remember(String url, Uint8List bytes) {
+    final previous = _memory.remove(url);
+    if (previous != null) {
+      _memoryBytes -= previous.length;
+    }
+    _memory[url] = bytes;
+    _memoryBytes += bytes.length;
+    while (_memory.length > 1 &&
+        (_memory.length > maxMemoryEntries || _memoryBytes > maxMemoryBytes)) {
+      final oldest = _memory.keys.first;
+      _memoryBytes -= _memory.remove(oldest)!.length;
+    }
+  }
+
+  static Future<Uint8List> _loadFromDisk(String url) async {
     final cacheKey = '$_kEmojiAssetCacheVersion:$url';
     final cached = await _cacheManager.getFileFromCache(cacheKey);
     if (cached != null) {
@@ -65,6 +119,9 @@ class EmojiAssetCache {
 
   @visibleForTesting
   static Future<void> clearCacheForTesting() async {
+    _memory.clear();
+    _memoryBytes = 0;
+    _inFlight.clear();
     await _cacheManager.emptyCache();
   }
 }

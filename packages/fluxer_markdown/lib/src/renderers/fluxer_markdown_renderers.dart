@@ -23,7 +23,7 @@ import 'package:fluxer_markdown/src/widgets/fluxer_live_timestamp.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown_link_registry.dart';
 import 'package:fluxer_markdown/src/widgets/system_emoji_fallback.dart';
 import 'package:intl/intl.dart';
-import 'package:latext/latext.dart';
+import 'package:katex/katex.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:material_ui/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -145,11 +145,13 @@ String _toRomanListMarker(int index) {
   return buffer.toString();
 }
 
+final RegExp _kLatexControlSequence = RegExp(r'\\[a-zA-Z]+');
+
 bool _isValidLatexContent(String code) {
   if (code.length > 1024) {
     return false;
   }
-  return RegExp(r'\\[a-zA-Z]+').allMatches(code).length <= 64;
+  return _kLatexControlSequence.allMatches(code).length <= 64;
 }
 
 double _listMarkerColumnWidth({
@@ -875,6 +877,7 @@ class _MarkdownBlockRenderer {
       isDark: isDark,
       baseStyle: baseStyle,
       codeTextStyle: config.codeTextStyle,
+      codeBackgroundColor: config.inlineCodeBackgroundColor,
       onCopyCode: config.onCopyCode,
     );
   }
@@ -2303,6 +2306,7 @@ class FluxerCodeBlockWidget extends StatelessWidget {
     required this.isDark,
     required this.baseStyle,
     this.codeTextStyle,
+    this.codeBackgroundColor,
     this.onCopyCode,
     super.key,
   });
@@ -2311,6 +2315,7 @@ class FluxerCodeBlockWidget extends StatelessWidget {
   final bool isDark;
   final TextStyle baseStyle;
   final TextStyle? codeTextStyle;
+  final Color? codeBackgroundColor;
   final FluxerCodeCopyHandler? onCopyCode;
 
   static const _kPadding = EdgeInsets.all(FluxerMarkupSpacing.codePadding);
@@ -2334,7 +2339,7 @@ class FluxerCodeBlockWidget extends StatelessWidget {
               Theme.of(context).colorScheme.surfaceContainerHighest);
 
     if (_isLatexLanguage(rawLang)) {
-      if (!_isValidLatexContent(code)) {
+      Widget plainCode() {
         final TextStyle monoStyle = codeTextStyleFrom(
           baseStyle,
           codeTextStyle: codeTextStyle,
@@ -2345,19 +2350,34 @@ class FluxerCodeBlockWidget extends StatelessWidget {
           child: Container(
             width: double.infinity,
             decoration: BoxDecoration(color: bgColor, borderRadius: _kRadius),
-            padding: const EdgeInsets.all(FluxerMarkupSpacing.codePadding),
+            padding: _kPadding,
             child: Text(code, style: monoStyle),
           ),
         );
       }
+
+      if (!_isValidLatexContent(code)) {
+        return plainCode();
+      }
+      final Color textColor =
+          baseStyle.color ?? Theme.of(context).colorScheme.onSurface;
+      final TextStyle monoStyle = codeTextStyleFrom(
+        baseStyle,
+        codeTextStyle: codeTextStyle,
+        color: textColor,
+      );
       return _FluxerCodeBlockWithCopy(
         code: code,
         onCopyCode: onCopyCode,
         child: _FluxerLatexCodeBlockBody(
-          code: code,
-          baseStyle: baseStyle,
-          codeTextStyle: codeTextStyle,
-          bgColor: bgColor,
+          math: Math(
+            code,
+            displayMode: true,
+            fontSize: FluxerMarkupSpacing.rem(0.75),
+            color: textColor,
+            onError: (context, error) => Text(code, style: monoStyle),
+          ),
+          bgColor: codeBackgroundColor ?? bgColor,
         ),
       );
     }
@@ -2425,47 +2445,37 @@ class FluxerCodeBlockWidget extends StatelessWidget {
 }
 
 class _FluxerLatexCodeBlockBody extends StatelessWidget {
-  const _FluxerLatexCodeBlockBody({
-    required this.code,
-    required this.baseStyle,
-    required this.bgColor,
-    this.codeTextStyle,
-  });
+  const _FluxerLatexCodeBlockBody({required this.math, required this.bgColor});
 
-  final String code;
-  final TextStyle baseStyle;
+  final Widget math;
   final Color bgColor;
-  final TextStyle? codeTextStyle;
 
-  static const _kPadding = EdgeInsets.all(FluxerMarkupSpacing.codePadding);
   static const _kRadius = BorderRadius.all(Radius.circular(4));
+  static final EdgeInsets _kPadding = EdgeInsets.all(
+    FluxerMarkupSpacing.rem(0.75),
+  );
 
   @override
   Widget build(BuildContext context) {
-    final Color textColor =
-        baseStyle.color ?? Theme.of(context).colorScheme.onSurface;
-    final TextStyle monoStyle = codeTextStyleFrom(
-      baseStyle,
-      codeTextStyle: codeTextStyle,
-      color: textColor,
-    );
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(color: bgColor, borderRadius: _kRadius),
       padding: _kPadding,
-      child: Center(
-        child: LaTexT(
-          laTeXCode: Text(
-            '${r'$$'}$code${r'$$'}',
-            textAlign: TextAlign.center,
-            style: baseStyle.copyWith(color: textColor),
-          ),
-          equationStyle: baseStyle.copyWith(
-            color: textColor,
-            fontSize: (baseStyle.fontSize ?? 16) * 1.1,
-          ),
-          onErrorFallback: (String text) => Text(text, style: monoStyle),
-        ),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final double minWidth = constraints.maxWidth.isFinite
+              ? constraints.maxWidth
+              : 0;
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            primary: false,
+            physics: const ClampingScrollPhysics(),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minWidth: minWidth),
+              child: Center(child: math),
+            ),
+          );
+        },
       ),
     );
   }

@@ -150,11 +150,7 @@ Future<List<ForwardDestination>> forwardDestinations(
 
   final List<Channel> guildChannels =
       allChannels
-          .where(
-            (Channel c) =>
-                c.type == ChannelType.guildText ||
-                c.type == ChannelType.guildVoice,
-          )
+          .where((Channel c) => isGuildTextBasedChannelType(c.type))
           .toList()
         ..sort((Channel a, Channel b) {
           final String an = (guildsById[a.guildId]?.name ?? '').toLowerCase();

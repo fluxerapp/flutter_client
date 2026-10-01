@@ -4455,7 +4455,7 @@ void main() {
     // pixel offset, never absence-of-scroll-call: the primary snap was a
     // layout-time teleport that emitted no scroll call at all.
     testWidgets(
-      'a scroll-end trim bounds the window without moving the visible rows',
+      'an idle trim bounds the window without moving the visible rows',
       (WidgetTester tester) async {
         final InstrumentedChatViewModel chatViewModel = await pumpBottomList(
           tester,
@@ -4479,17 +4479,22 @@ void main() {
           reason: 'no trim while the gesture is held',
         );
 
-        // Zero-velocity release: the settle applies the around-trim. The
-        // rows on screen keep their pixels - both removals land at the far
-        // sliver ends, away from the reader.
         final String probeId = centerVisibleMessageItemId(tester);
         final ({String id, Rect rect}) before = anchorSample(tester, probeId);
+        final String keptAnchorId =
+            messageListAnchorId(tester) ?? chatViewModel.state.messages.last.id;
         await gesture.up();
         await pumpFluxerFrames(tester);
+        await pumpMessageListIdleTrim(tester);
 
         expect(
-          chatViewModel.state.messages,
-          hasLength(kTrimmedMessageWindowSize),
+          chatViewModel.state.messages.length,
+          lessThanOrEqualTo(kMaxLoadedMessages),
+        );
+        expect(
+          chatViewModel.state.messages.map((Message m) => m.id),
+          contains(keptAnchorId),
+          reason: 'a span that holds the anchor needs no re-anchor',
         );
         expect(
           chatViewModel.state.hasMoreMessages,

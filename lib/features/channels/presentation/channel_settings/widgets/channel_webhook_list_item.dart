@@ -214,11 +214,18 @@ class _ChannelWebhookListItemState
 
   Future<void> _handleDelete() async {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final bool follower = isChannelFollowerWebhook(widget.webhook);
     final bool? confirmed = await FluxerConfirmSheet.show(
       context,
-      title: l10n.channelSettingsWebhooksDelete,
-      description: l10n.channelSettingsWebhooksDeleteConfirm,
-      confirmLabel: l10n.channelSettingsWebhooksDelete,
+      title: follower
+          ? l10n.channelSettingsUnfollowTitle(widget.webhook.name)
+          : l10n.channelSettingsWebhooksDelete,
+      description: follower
+          ? l10n.channelSettingsUnfollowBody
+          : l10n.channelSettingsWebhooksDeleteConfirm,
+      confirmLabel: follower
+          ? l10n.channelSettingsUnfollow
+          : l10n.channelSettingsWebhooksDelete,
       isDanger: true,
       onConfirm: () {},
     );
@@ -273,6 +280,7 @@ class _ChannelWebhookListItemState
       widget.webhook.id,
     );
     final String createdDate = formatUserMediumDate(createdAt, l10n.localeName);
+    final bool isFollower = isChannelFollowerWebhook(widget.webhook);
     final String? avatarUrl = resolveWebhookAvatarUrl(
       webhookId: widget.webhook.id,
       avatar: _effectiveAvatar?.isEmpty ?? true ? null : _effectiveAvatar,
@@ -332,10 +340,12 @@ class _ChannelWebhookListItemState
                                 ),
                                 SizedBox(height: context.layout.s1),
                                 Text(
-                                  l10n.channelSettingsWebhooksCreatedBy(
-                                    creatorName,
-                                    createdDate,
-                                  ),
+                                  isFollower
+                                      ? _followerSubtitle(l10n)
+                                      : l10n.channelSettingsWebhooksCreatedBy(
+                                          creatorName,
+                                          createdDate,
+                                        ),
                                   style: context.textStyles.timestamp.copyWith(
                                     color: context.colors.textPrimaryMuted,
                                   ),
@@ -399,16 +409,19 @@ class _ChannelWebhookListItemState
                     spacing: context.layout.s2,
                     runSpacing: context.layout.s2,
                     children: <Widget>[
-                      FluxerButton.secondary(
-                        onPressed: _copyWebhookUrl,
-                        label: l10n.channelSettingsWebhooksCopyUrl,
-                        size: FluxerButtonSize.small,
-                        icon: PhosphorIconsBold.copy,
-                        fitContent: true,
-                      ),
+                      if (!isFollower && _webhookUrl.isNotEmpty)
+                        FluxerButton.secondary(
+                          onPressed: _copyWebhookUrl,
+                          label: l10n.channelSettingsWebhooksCopyUrl,
+                          size: FluxerButtonSize.small,
+                          icon: PhosphorIconsBold.copy,
+                          fitContent: true,
+                        ),
                       FluxerButton.dangerSecondary(
                         onPressed: _isDeleting ? null : _handleDelete,
-                        label: l10n.channelSettingsWebhooksDelete,
+                        label: isFollower
+                            ? l10n.channelSettingsUnfollow
+                            : l10n.channelSettingsWebhooksDelete,
                         size: FluxerButtonSize.small,
                         icon: PhosphorIconsBold.trash,
                         isLoading: _isDeleting,
@@ -422,6 +435,15 @@ class _ChannelWebhookListItemState
         ],
       ),
     );
+  }
+
+  String _followerSubtitle(FluxerLocalizations l10n) {
+    final WebhookResponseSourceGuild? guild = widget.webhook.sourceGuild;
+    final WebhookResponseSourceChannel? channel = widget.webhook.sourceChannel;
+    if (guild == null || channel == null) {
+      return l10n.channelSettingsFollowedPaused;
+    }
+    return l10n.channelSettingsFollowedFrom(guild.name, channel.name);
   }
 
   String _resolveDisplayChannelName() {
@@ -514,15 +536,17 @@ class _ChannelWebhookListItemState
           imageUrl: avatarUrl,
           size: 64,
         ),
-        SizedBox(height: context.layout.s2),
-        FluxerButton.secondary(
-          onPressed: _isUpdatingAvatar ? null : _handleAvatarUpload,
-          label: l10n.channelSettingsWebhooksUploadImage,
-          size: FluxerButtonSize.small,
-          isLoading: _isUpdatingAvatar,
-          fitContent: true,
-        ),
-        if (hasAvatar) ...<Widget>[
+        if (!isChannelFollowerWebhook(widget.webhook)) ...<Widget>[
+          SizedBox(height: context.layout.s2),
+          FluxerButton.secondary(
+            onPressed: _isUpdatingAvatar ? null : _handleAvatarUpload,
+            label: l10n.channelSettingsWebhooksUploadImage,
+            size: FluxerButtonSize.small,
+            isLoading: _isUpdatingAvatar,
+            fitContent: true,
+          ),
+        ],
+        if (hasAvatar && !isChannelFollowerWebhook(widget.webhook)) ...<Widget>[
           SizedBox(height: context.layout.s2),
           FluxerButton.secondary(
             onPressed: _handleClearAvatar,
@@ -540,7 +564,14 @@ class _ChannelWebhookListItemState
     required FluxerLocalizations l10n,
     bool stackFields = false,
   }) {
-    final List<FluxerSelectItem<String>> channelItems = widget.availableChannels
+    final List<Channel> moveChannels = isChannelFollowerWebhook(widget.webhook)
+        ? widget.availableChannels
+              .where(
+                (Channel channel) => isChannelFollowTargetType(channel.type),
+              )
+              .toList()
+        : widget.availableChannels;
+    final List<FluxerSelectItem<String>> channelItems = moveChannels
         .map(
           (Channel channel) =>
               FluxerSelectItem<String>(value: channel.id, label: channel.name),

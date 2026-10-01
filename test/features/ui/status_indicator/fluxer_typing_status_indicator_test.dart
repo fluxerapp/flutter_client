@@ -30,16 +30,17 @@ Finder _typingPaintFinder() => find.descendant(
   matching: find.byType(CustomPaint),
 );
 
-CustomPainter _typingPainter(WidgetTester tester) {
-  return tester.widget<CustomPaint>(_typingPaintFinder()).painter!;
+double _dotsProgress(WidgetTester tester) {
+  final CustomPaint paint = tester.widget<CustomPaint>(_typingPaintFinder());
+  return (paint.painter! as FluxerTypingDotsPainter).progress.value;
 }
 
-Future<CustomPainter> _awaitPainter(WidgetTester tester) async {
+Future<double> _awaitProgress(WidgetTester tester) async {
   final Finder paintFinder = _typingPaintFinder();
   for (int i = 0; i < 20; i++) {
     await tester.pump();
     if (paintFinder.evaluate().isNotEmpty) {
-      return _typingPainter(tester);
+      return _dotsProgress(tester);
     }
   }
   fail('typing indicator painter not found');
@@ -116,10 +117,10 @@ void main() {
         findsNothing,
       );
 
-      final CustomPainter first = _typingPainter(tester);
+      final double first = _dotsProgress(tester);
       await tester.pump(const Duration(milliseconds: 600));
-      final CustomPainter second = _typingPainter(tester);
-      expect(second.shouldRepaint(first), isTrue);
+      final double second = _dotsProgress(tester);
+      expect(second, isNot(first));
     });
 
     testWidgets('keeps dots inset from the pill edges', (tester) async {
@@ -169,25 +170,25 @@ void main() {
 
     testWidgets('pauses animation when scrolled offscreen', (tester) async {
       await tester.pumpWidget(_wrapPositioned(onScreen: true));
-      final CustomPainter first = await _awaitPainter(tester);
+      final double first = await _awaitProgress(tester);
 
       await tester.pump(const Duration(milliseconds: 600));
-      final CustomPainter second = _typingPainter(tester);
+      final double second = _dotsProgress(tester);
       expect(
-        second.shouldRepaint(first),
-        isTrue,
+        second,
+        isNot(first),
         reason: 'control: visible typing indicator should animate',
       );
 
       await tester.pumpWidget(_wrapPositioned(onScreen: false));
       await tester.pump();
-      final CustomPainter frozen = _typingPainter(tester);
+      final double frozen = _dotsProgress(tester);
 
       await tester.pump(const Duration(milliseconds: 600));
-      final CustomPainter afterOffscreen = _typingPainter(tester);
+      final double afterOffscreen = _dotsProgress(tester);
       expect(
-        afterOffscreen.shouldRepaint(frozen),
-        isFalse,
+        afterOffscreen,
+        frozen,
         reason: 'offscreen typing indicator must freeze',
       );
     });
@@ -203,25 +204,25 @@ void main() {
         ),
       );
       await tester.pump();
-      final CustomPainter first = await _awaitPainter(tester);
+      final double first = await _awaitProgress(tester);
 
       await tester.pump(const Duration(milliseconds: 600));
-      final CustomPainter second = _typingPainter(tester);
+      final double second = _dotsProgress(tester);
       expect(
-        second.shouldRepaint(first),
-        isTrue,
+        second,
+        isNot(first),
         reason: 'control: foreground typing indicator should animate',
       );
 
       tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
       await tester.pump();
-      final CustomPainter frozen = _typingPainter(tester);
+      final double frozen = _dotsProgress(tester);
 
       await tester.pump(const Duration(milliseconds: 600));
-      final CustomPainter afterPause = _typingPainter(tester);
+      final double afterPause = _dotsProgress(tester);
       expect(
-        afterPause.shouldRepaint(frozen),
-        isFalse,
+        afterPause,
+        frozen,
         reason: 'backgrounded typing indicator must freeze',
       );
     });

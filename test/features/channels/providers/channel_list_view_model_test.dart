@@ -1,7 +1,10 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/features/channels/data/channel_repository.dart';
@@ -11,7 +14,10 @@ import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/guilds/data/guild_repository.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
+import 'package:fluxer_dart/export.dart' show FluxerClient;
 import 'package:riverpod/src/framework.dart' show Override;
+
+import '../../../helpers/open_test_database.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -270,6 +276,74 @@ void main() {
           ),
       isFalse,
     );
+  });
+
+  group('ChannelRepository.watchChannels', () {
+    late db.FluxerDatabase database;
+    late List<List<Channel>> emissions;
+    late StreamController<void> emitted;
+
+    setUp(() async {
+      database = openTestDatabase();
+      await database.channelDao.upsertChannel(
+        db.ChannelsCompanion.insert(
+          id: 'c1',
+          guildId: 'g1',
+          name: 'general',
+          lastMessageId: const Value('100'),
+        ),
+      );
+      emissions = <List<Channel>>[];
+      emitted = StreamController<void>.broadcast();
+      final StreamSubscription<List<Channel>> sub =
+          ChannelRepository(
+            FluxerClient(Dio()),
+            Dio(),
+            database,
+          ).watchChannels('g1').listen((List<Channel> rows) {
+            emissions.add(rows);
+            emitted.add(null);
+          });
+      addTearDown(sub.cancel);
+      addTearDown(emitted.close);
+    });
+
+    Future<void> waitForEmissions(int count) async {
+      while (emissions.length < count) {
+        await emitted.stream.first;
+      }
+    }
+
+    Future<void> rename(String name) => database.channelDao.upsertChannel(
+      db.ChannelsCompanion.insert(id: 'c1', guildId: 'g1', name: name),
+    );
+
+    test(
+      'a lastMessageId-only write does not re-emit the guild channel list (#713)',
+      () async {
+        await waitForEmissions(1);
+
+        final Future<void> pointerSeen = database.channelDao
+            .watchChannels('g1')
+            .firstWhere(
+              (List<db.Channel> rows) => rows.single.lastMessageId == '200',
+            );
+        await database.channelDao.updateLastMessageId('c1', '200');
+        await pointerSeen;
+
+        expect(emissions, hasLength(1));
+      },
+    );
+
+    test('a channel rename still re-emits the guild channel list', () async {
+      await waitForEmissions(1);
+
+      await rename('renamed');
+      await waitForEmissions(2);
+
+      expect(emissions[0].single.name, 'general');
+      expect(emissions[1].single.name, 'renamed');
+    });
   });
 }
 

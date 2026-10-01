@@ -63,6 +63,7 @@ WellKnownFluxerResponse _buildEveryoneModeWellKnown() {
       singleCommunity: false,
       singleCommunityGuildId: null,
       directMessagesDisabled: false,
+      guildCreateAccess: true,
     ),
     services: InstanceServicesSchema(
       gifEnabled: true,

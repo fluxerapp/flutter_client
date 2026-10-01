@@ -120,6 +120,7 @@ class _SudoVerificationSheetContentState
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    _keyboardRestore.dispose();
     _passwordController.dispose();
     _totpController.dispose();
     _inputFocusNode.dispose();

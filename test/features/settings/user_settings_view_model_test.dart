@@ -2,10 +2,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/settings/domain/guild_asset_mode.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/shell/providers/current_user_private_provider.dart';
 import 'package:fluxer_dart/export.dart';
 
 import '../../helpers/open_test_database.dart';
@@ -298,6 +300,51 @@ void main() {
     expect(notifyCount, greaterThan(baseline));
   });
 
+  test('private profile updates unlock plutonium without a relaunch', () {
+    final FluxerDatabase db = openTestDatabase();
+    final ProviderContainer container = ProviderContainer(
+      overrides: [
+        fluxerDatabaseProvider.overrideWithValue(db),
+        fluxerClientProvider.overrideWithValue(_OfflineFluxerClient()),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    container.read(currentUserIdProvider.notifier).set('u1');
+    container.read(userSettingsViewModelProvider);
+    expect(container.read(userSettingsViewModelProvider).isPremium, isFalse);
+    expect(
+      container.read(currentUserEntitlementsProvider).isEffectivelyPremium,
+      isFalse,
+    );
+
+    container
+        .read(currentUserPrivateReadProvider.notifier)
+        .apply(
+          _privateUser(
+            'u1',
+            premiumType: UserPremiumTypes.subscription,
+            traits: const <String>['premium'],
+          ),
+        );
+
+    final UserSettingsViewState settings = container.read(
+      userSettingsViewModelProvider,
+    );
+    expect(settings.isPremium, isTrue);
+    expect(settings.premiumType, UserPremiumTypes.subscription.json);
+    expect(settings.premiumSince, '2026-03-14T00:00:00.000Z');
+    expect(
+      container.read(currentUserEntitlementsProvider).isEffectivelyPremium,
+      isTrue,
+    );
+    expect(container.read(isEffectivelyPremiumProvider), isTrue);
+    expect(
+      container.read(currentUserPremiumTypeProvider),
+      UserPremiumTypes.subscription.json,
+    );
+  });
+
   test('reset clears isSaving for per-guild profile', () {
     final container = ProviderContainer(
       overrides: [
@@ -314,6 +361,61 @@ void main() {
 
     expect(container.read(userSettingsViewModelProvider).isSaving, isFalse);
   });
+}
+
+UserPrivateResponse _privateUser(
+  String id, {
+  UserPremiumTypes? premiumType,
+  List<String> traits = const <String>[],
+}) {
+  return UserPrivateResponse(
+    hasVerifiedPhone: false,
+    username: 'user-$id',
+    discriminator: '0001',
+    globalName: null,
+    avatar: null,
+    avatarColor: null,
+    privacyAgreedAt: null,
+    termsAgreedAt: null,
+    pendingBulkMessageDeletion: null,
+    flags: 0,
+    unreadGiftInventoryCount: 0,
+    isStaff: false,
+    acls: const <String>[],
+    traits: traits,
+    email: null,
+    hasUnreadGiftInventory: false,
+    hasEverPurchased:
+        premiumType != null && premiumType != UserPremiumTypes.none,
+    id: id,
+    bio: null,
+    pronouns: null,
+    accentColor: null,
+    banner: null,
+    hasDismissedPremiumOnboarding: false,
+    bannerColor: null,
+    mfaEnabled: false,
+    nsfwAllowed: true,
+    verified: true,
+    premiumType: premiumType,
+    premiumSince: '2026-03-14T00:00:00.000Z',
+    premiumUntil: null,
+    premiumWillCancel: false,
+    premiumBillingCycle: 'monthly',
+    premiumLifetimeSequence: null,
+    premiumGraceEndsAt: null,
+    premiumDiscriminator: false,
+    requiredActions: const <String>[],
+    premiumBadgeMasked: false,
+    premiumBadgeTimestampHidden: false,
+    premiumBadgeSequenceHidden: false,
+    premiumPurchaseDisabled: false,
+    premiumEnabledOverride: false,
+    passwordLastChangedAt: null,
+    lastVoiceActivitySharingChangeAt: null,
+    premiumBadgeHidden: false,
+    premiumPerksDisabled: false,
+  );
 }
 
 class _PerGuildSavingUserSettings extends UserSettingsViewModel {

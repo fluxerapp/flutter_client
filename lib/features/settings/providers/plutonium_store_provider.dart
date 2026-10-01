@@ -311,8 +311,8 @@ class PlutoniumStoreNotifier extends Notifier<PlutoniumStoreState> {
 
   Future<void> _refreshEntitlements() async {
     try {
-      await ref.read(premiumSettingsStateProvider.notifier).refresh();
       await ref.read(currentUserPrivateReadProvider.notifier).refresh();
+      await ref.read(premiumSettingsStateProvider.notifier).refresh();
     } on Object {
       return;
     }

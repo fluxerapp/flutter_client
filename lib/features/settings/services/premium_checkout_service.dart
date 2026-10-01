@@ -186,8 +186,8 @@ Future<void> openPremiumManageAction(
 }
 
 Future<void> _refreshPremiumBillingState(WidgetRef ref) async {
-  await ref.read(premiumSettingsStateProvider.notifier).refresh();
   await ref.read(currentUserPrivateReadProvider.notifier).refresh();
+  await ref.read(premiumSettingsStateProvider.notifier).refresh();
 }
 
 Future<void> cancelPremiumSubscription(WidgetRef ref) async {

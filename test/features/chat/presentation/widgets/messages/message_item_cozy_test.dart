@@ -18,6 +18,7 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
 
 import '../../../../../helpers/instance_runtime_config_override.dart';
+import '../../../../../helpers/message_item_test_overrides.dart';
 import '../../../../../helpers/test_l10n.dart';
 
 Message _message() {
@@ -60,6 +61,7 @@ Widget _app(Widget child) {
   return ProviderScope(
     overrides: [
       instanceRuntimeConfigOverride(),
+      ...messageItemTestProviderOverrides(),
       use12HourTimeFormatProvider.overrideWithValue(false),
     ],
     child: MaterialApp(
@@ -78,74 +80,77 @@ Widget _app(Widget child) {
 
 void main() {
   group('MessageItem cozy layout', () {
-    testWidgets('group-start rows use the full-size avatar and author header', (
-      tester,
-    ) async {
-      await tester.pumpWidget(
-        _app(MessageItem(message: _message(), renderSettings: _cozySettings)),
-      );
-      await tester.pump();
+    messageItemTestWidgets(
+      'group-start rows use the full-size avatar and author header',
+      (tester) async {
+        await tester.pumpWidget(
+          _app(MessageItem(message: _message(), renderSettings: _cozySettings)),
+        );
+        await tester.pump();
 
-      final FluxerAvatar avatar = tester.widget<FluxerAvatar>(
-        find.byType(FluxerAvatar),
-      );
-      expect(avatar.size, kMessageAvatarSize);
-      expect(find.textContaining('Alice'), findsOneWidget);
-    });
+        final FluxerAvatar avatar = tester.widget<FluxerAvatar>(
+          find.byType(FluxerAvatar),
+        );
+        expect(avatar.size, kMessageAvatarSize);
+        expect(find.textContaining('Alice'), findsOneWidget);
+      },
+    );
 
-    testWidgets('grouped continuation rows hide avatar and author header', (
-      tester,
-    ) async {
-      await tester.pumpWidget(
-        _app(
-          MessageItem(
-            message: _message(),
-            isGrouped: true,
-            renderSettings: _cozySettings,
-          ),
-        ),
-      );
-      await tester.pump();
-
-      expect(find.byType(FluxerAvatar), findsNothing);
-      expect(find.text('Alice'), findsNothing);
-    });
-
-    testWidgets('long author names truncate instead of wrapping timestamp', (
-      tester,
-    ) async {
-      const String longName = 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
-      final DateTime now = DateTime.now();
-      final DateTime timestamp = DateTime(now.year, now.month, now.day, 12);
-      await tester.binding.setSurfaceSize(const Size(320, 640));
-      addTearDown(() => tester.binding.setSurfaceSize(null));
-
-      await tester.pumpWidget(
-        _app(
-          MessageItem(
-            message: _message().copyWith(
-              authorName: longName,
-              timestamp: timestamp,
+    messageItemTestWidgets(
+      'grouped continuation rows hide avatar and author header',
+      (tester) async {
+        await tester.pumpWidget(
+          _app(
+            MessageItem(
+              message: _message(),
+              isGrouped: true,
+              renderSettings: _cozySettings,
             ),
-            renderSettings: _cozySettings,
           ),
-        ),
-      );
-      await tester.pump();
+        );
+        await tester.pump();
 
-      final Finder nameFinder = find.textContaining('AAAA');
-      final Finder timestampFinder = find.textContaining('12:00');
-      expect(nameFinder, findsOneWidget);
-      expect(timestampFinder, findsOneWidget);
-      expect(
-        (tester.getTopLeft(timestampFinder).dy -
-                tester.getTopLeft(nameFinder).dy)
-            .abs(),
-        lessThan(10),
-      );
-    });
+        expect(find.byType(FluxerAvatar), findsNothing);
+        expect(find.text('Alice'), findsNothing);
+      },
+    );
 
-    testWidgets('dense mode does not use the cozy avatar layout', (
+    messageItemTestWidgets(
+      'long author names truncate instead of wrapping timestamp',
+      (tester) async {
+        const String longName = 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+        final DateTime now = DateTime.now();
+        final DateTime timestamp = DateTime(now.year, now.month, now.day, 12);
+        await tester.binding.setSurfaceSize(const Size(320, 640));
+        addTearDown(() => tester.binding.setSurfaceSize(null));
+
+        await tester.pumpWidget(
+          _app(
+            MessageItem(
+              message: _message().copyWith(
+                authorName: longName,
+                timestamp: timestamp,
+              ),
+              renderSettings: _cozySettings,
+            ),
+          ),
+        );
+        await tester.pump();
+
+        final Finder nameFinder = find.textContaining('AAAA');
+        final Finder timestampFinder = find.textContaining('12:00');
+        expect(nameFinder, findsOneWidget);
+        expect(timestampFinder, findsOneWidget);
+        expect(
+          (tester.getTopLeft(timestampFinder).dy -
+                  tester.getTopLeft(nameFinder).dy)
+              .abs(),
+          lessThan(10),
+        );
+      },
+    );
+
+    messageItemTestWidgets('dense mode does not use the cozy avatar layout', (
       tester,
     ) async {
       await tester.pumpWidget(

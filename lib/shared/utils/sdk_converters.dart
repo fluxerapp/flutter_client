@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/features/channels/domain/channel.dart'
+    as app_channel;
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
 
@@ -103,7 +105,7 @@ db.ChannelsCompanion channelFromSdk(ChannelResponse sdk, String guildId) {
     guildId: guildId,
     name: sdk.name ?? '',
     url: Value(sdk.url),
-    type: Value(sdk.type.json ?? 0),
+    type: Value(app_channel.persistedChannelTypeWire(sdk.type.json)),
     topic: Value(sdk.topic),
     parentId: Value(sdk.parentId),
     position: Value(sdk.position ?? 0),

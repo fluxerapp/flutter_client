@@ -103,7 +103,6 @@ double resolveBottomInputSlotHeight({
   required double panelHeight,
   required double liveKeyboardHeight,
   required bool isKeyboardVisible,
-  required double safeAreaBottom,
   double? heldSlotHeightOverride,
   bool unmeasuredKeyboardReserved = false,
 }) {
@@ -216,12 +215,18 @@ double resolveNativeImeOnlyHeight({
   return imeOnly > 0 ? imeOnly : 0;
 }
 
-/// Max of IME-normalized native height and Flutter viewInsets.bottom.
+/// viewInsets when it is non-zero, otherwise the native height.
 double resolveDualSourceLiveKeyboardHeight({
   required double nativeHeight,
   required double viewInsetsHeight,
 }) {
-  return math.max(nativeHeight, viewInsetsHeight);
+  if (viewInsetsHeight > 0) {
+    return viewInsetsHeight;
+  }
+  if (nativeHeight > 0) {
+    return nativeHeight;
+  }
+  return 0;
 }
 
 bool shouldPersistKeyboardAnchor({

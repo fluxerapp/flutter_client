@@ -1,3 +1,5 @@
+import 'package:fluxer_app/features/channels/domain/channel.dart'
+    as app_channel;
 import 'package:fluxer_app/features/guilds/utils/invite_code.dart';
 import 'package:fluxer_dart/export.dart';
 
@@ -67,7 +69,7 @@ class GuildInviteEntry {
       code: code,
       channelId: channel.id,
       channelName: channel.name ?? '',
-      channelType: channel.type.json ?? 0,
+      channelType: app_channel.persistedChannelTypeWire(channel.type.json),
       uses: uses,
       maxUses: maxUses,
       createdAt: createdAt,

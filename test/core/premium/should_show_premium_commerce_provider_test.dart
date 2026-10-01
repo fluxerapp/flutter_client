@@ -61,6 +61,7 @@ WellKnownFluxerResponse _selfHostedWellKnown() {
       singleCommunity: false,
       singleCommunityGuildId: null,
       directMessagesDisabled: false,
+      guildCreateAccess: true,
     ),
     services: InstanceServicesSchema(
       gifEnabled: true,

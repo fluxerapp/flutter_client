@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/features/channels/domain/channel.dart'
+    as app_channel;
 import 'package:fluxer_app/features/guilds/data/guild_local_cleanup.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
@@ -81,7 +83,7 @@ class GuildRepository {
         id: channel.id,
         guildId: guild.id,
         name: channel.name ?? 'general',
-        type: Value(channel.type.json ?? 0),
+        type: Value(app_channel.persistedChannelTypeWire(channel.type.json)),
       ),
     ]);
   }

@@ -195,7 +195,9 @@ Future<void> _navigateToForwardDestination({
   container
       .read(recentChannelVisitsProvider.notifier)
       .recordVisit(channelId: channelId, guildId: guildId);
-  if (isDm || channel == null || channel.type == ChannelType.guildText) {
+  if (isDm ||
+      channel == null ||
+      isAnnouncementConvertibleChannel(channel.type)) {
     unawaited(
       container.read(chatViewModelProvider.notifier).switchChannel(channelId),
     );

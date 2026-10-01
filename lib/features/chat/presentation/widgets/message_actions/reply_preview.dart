@@ -17,6 +17,7 @@ import 'package:fluxer_app/features/chat/utils/messages/channel_message_stream.d
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/markdown/message_markdown_settings.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart'
@@ -57,12 +58,23 @@ class InlineReplyPreview extends ConsumerWidget {
       return const SizedBox.shrink();
     }
     final parentChannelId = message.replyParentChannelId;
-    ref.watch(messageReferencesProvider);
-    final List<Message> channelMessages = ref.watch(
+    final Message? windowParent = ref.watch(
       chatViewModelProvider.select(
-        (state) => state.channelId == parentChannelId
-            ? state.messages
-            : const <Message>[],
+        (ChatViewState state) => state.channelId == parentChannelId
+            ? _findMessage(state.messages, parentMessageId)
+            : null,
+      ),
+    );
+    final String referenceKey = MessageReferencesState.key(
+      parentChannelId,
+      parentMessageId,
+    );
+    ref.watch(
+      messageReferencesProvider.select(
+        (MessageReferencesState state) => (
+          deleted: state.deletedKeys.contains(referenceKey),
+          cached: state.cachedMessages[referenceKey],
+        ),
       ),
     );
     final resolution = ref
@@ -70,29 +82,38 @@ class InlineReplyPreview extends ConsumerWidget {
         .resolveSync(
           channelId: parentChannelId,
           messageId: parentMessageId,
-          channelMessages: channelMessages,
+          channelMessages: windowParent == null
+              ? const <Message>[]
+              : <Message>[windowParent],
         );
     final replyMsg = resolution.message;
     final String? resolvedGuildId =
         guildId ?? ref.watch(contextualGuildIdProvider);
     final String? resolvedCurrentUserId =
         currentUserId ?? ref.watch(currentUserIdProvider);
-    final String? revealedCollapsedGroupKey = ref.watch(
-      chatViewModelProvider.select((state) => state.revealedCollapsedGroupKey),
-    );
     final ChannelCollapseContext collapseContext = ref.watch(
       channelCollapseContextProvider,
     );
+    final ChannelStreamType? replyCollapsedType = replyMsg == null
+        ? null
+        : collapseContext.collapsedTypeFor(replyMsg);
     final bool isReplyVisible =
         replyMsg == null ||
-        isMessageInRevealedCollapsedGroup(
-          messages: channelMessages,
-          messageId: replyMsg.id,
-          revealedCollapsedGroupKey: revealedCollapsedGroupKey,
-          context: collapseContext,
+        replyCollapsedType == null ||
+        ref.watch(
+          chatViewModelProvider.select(
+            (ChatViewState state) =>
+                state.channelId != parentChannelId ||
+                isMessageInRevealedCollapsedGroup(
+                  messages: state.messages,
+                  messageId: replyMsg.id,
+                  revealedCollapsedGroupKey: state.revealedCollapsedGroupKey,
+                  context: collapseContext,
+                ),
+          ),
         );
     final ChannelStreamType? hiddenReplyType = !isReplyVisible
-        ? collapseContext.collapsedTypeFor(replyMsg)
+        ? replyCollapsedType
         : null;
     final String? hiddenReplyLabel = switch (hiddenReplyType) {
       ChannelStreamType.messageGroupBlocked =>
@@ -235,14 +256,23 @@ class InlineReplyPreview extends ConsumerWidget {
   }
 }
 
-class _ReplyPreviewContent extends StatelessWidget {
+Message? _findMessage(List<Message> messages, String messageId) {
+  for (final Message message in messages) {
+    if (message.id == messageId) {
+      return message;
+    }
+  }
+  return null;
+}
+
+class _ReplyPreviewContent extends ConsumerWidget {
   const _ReplyPreviewContent({required this.message, required this.emptyLabel});
 
   final Message message;
   final String emptyLabel;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final style = context.textStyles.bodySmall.copyWith(
       color: context.colors.textPrimaryMuted,
       fontSize: _kReplyPreviewFontSize,
@@ -257,18 +287,32 @@ class _ReplyPreviewContent extends StatelessWidget {
         maxLines: 1,
       );
     }
+    final MessageMarkdownSettings settings =
+        MessageMarkdownSettingsScope.maybeOf(context) ??
+        MessageMarkdownSettings.watch(ref, context);
     return IgnorePointer(
       child: SizedBox(
         width: double.infinity,
-        child: MessageMarkdown(
-          data: content,
-          channelId: message.channelId,
-          messageId: message.id,
-          mentionChannels: message.mentionChannels,
-          markdownContext: FluxerMarkdownContext.restrictedInlineReply,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          baseStyle: style,
+        child: MessageMarkdownSettingsScope(
+          settings: MessageMarkdownSettings(
+            use12Hour: settings.use12Hour,
+            alwaysUnderlineLinks: settings.alwaysUnderlineLinks,
+            dimStrikethroughText: settings.dimStrikethroughText,
+            animateCustomEmoji: false,
+            enableTextSelection: settings.enableTextSelection,
+            searchEngines: settings.searchEngines,
+            selectionContextMenuBuilder: settings.selectionContextMenuBuilder,
+          ),
+          child: MessageMarkdown(
+            data: content,
+            channelId: message.channelId,
+            messageId: message.id,
+            mentionChannels: message.mentionChannels,
+            markdownContext: FluxerMarkdownContext.restrictedInlineReply,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            baseStyle: style,
+          ),
         ),
       ),
     );
