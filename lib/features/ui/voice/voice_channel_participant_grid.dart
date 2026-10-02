@@ -609,35 +609,6 @@ class _VoiceChannelParticipantGridState
               ),
         )
         .toList();
-    final List<_VoiceGridTileItem> tileItems;
-    if (prioritizeSpeakingParticipants) {
-      ref.watch(
-        voiceActiveSpeakersProvider.select((VoiceActiveSpeakersState speakers) {
-          return voiceGridOrderSignature(
-            _orderTiles(
-              consolidatedTiles,
-              liveKit,
-              me,
-              localConnectionId,
-              speakers,
-            ).map((_VoiceGridTileItem tile) => tile.tileId),
-          );
-        }),
-      );
-      tileItems = voiceGridTilesForDisplay(
-        prioritizeSpeakingParticipants: true,
-        tiles: consolidatedTiles,
-        orderBySpeaking: (List<_VoiceGridTileItem> tiles) => _orderTiles(
-          tiles,
-          liveKit,
-          me,
-          localConnectionId,
-          ref.read(voiceActiveSpeakersProvider),
-        ),
-      );
-    } else {
-      tileItems = consolidatedTiles;
-    }
     final String? baseUrl = ref.watch(fluxerBaseUrlProvider);
     final Set<String> watchedTileIds = ref.watch(
       voiceScreenShareWatchTileProvider,
@@ -652,31 +623,41 @@ class _VoiceChannelParticipantGridState
     _featuredTileId = featuredTileId;
     _pipPhase = pipPhase;
     _isConnected = isConnected;
-    _syncViewerKeys(tileItems, watchedTileIds);
-    if (layout.pinnedTileId != null &&
-        !tileItems.any(
-          (_VoiceGridTileItem tile) => tile.tileId == layout.pinnedTileId,
-        )) {
-      _scheduleClearStalePin();
-    }
-    return Listener(
-      onPointerHover: _onPointerHover,
-      child: LayoutBuilder(
-        builder: (BuildContext c, BoxConstraints cons) {
-          return _buildLayout(
-            context: context,
-            constraints: cons,
-            tiles: tileItems,
-            watchedTileIds: watchedTileIds,
-            layout: layout,
-            room: liveKit,
-            me: me,
-            localConnectionId: localConnectionId,
-            baseUrl: baseUrl,
-            l10n: l10n,
-          );
-        },
-      ),
+    return _SpeakingOrderedGrid(
+      prioritizeSpeakingParticipants: prioritizeSpeakingParticipants,
+      tiles: consolidatedTiles,
+      liveKit: liveKit,
+      me: me,
+      localConnectionId: localConnectionId,
+      orderTiles: _orderTiles,
+      builder: (BuildContext context, List<_VoiceGridTileItem> tileItems) {
+        _syncViewerKeys(tileItems, watchedTileIds);
+        if (layout.pinnedTileId != null &&
+            !tileItems.any(
+              (_VoiceGridTileItem tile) => tile.tileId == layout.pinnedTileId,
+            )) {
+          _scheduleClearStalePin();
+        }
+        return Listener(
+          onPointerHover: _onPointerHover,
+          child: LayoutBuilder(
+            builder: (BuildContext c, BoxConstraints cons) {
+              return _buildLayout(
+                context: context,
+                constraints: cons,
+                tiles: tileItems,
+                watchedTileIds: watchedTileIds,
+                layout: layout,
+                room: liveKit,
+                me: me,
+                localConnectionId: localConnectionId,
+                baseUrl: baseUrl,
+                l10n: l10n,
+              );
+            },
+          ),
+        );
+      },
     );
   }
 
@@ -1168,6 +1149,8 @@ class _VoiceChannelParticipantGridState
             isFocusMain: false,
             isActiveScreenShare: watchedTileIds.contains(tile.tileId),
             fillContainer: true,
+            tileWidth: rect.width,
+            tileHeight: rect.height,
           ),
         ),
       ),
@@ -1405,6 +1388,8 @@ class _VoiceChannelParticipantGridState
     bool fillContainer = false,
     bool omitVideoTrack = false,
     bool edgeToEdge = false,
+    double tileWidth = 0,
+    double tileHeight = 0,
   }) {
     final bool featured = tile.tileId == _featuredTileId;
     final bool hostFeatured = featured && voicePipHostsFeatured(_pipPhase);
@@ -1422,6 +1407,8 @@ class _VoiceChannelParticipantGridState
       isFocusMain: isFocusMain,
       isFilmstrip: isFilmstrip,
       fillContainer: fillContainer,
+      tileWidth: tileWidth,
+      tileHeight: tileHeight,
       extraDeviceCount: tile.extraDeviceCount,
       streamPreviewUrl: buildViewerStreamPreviewUrl(
         baseUrl: baseUrl,
@@ -1452,6 +1439,68 @@ class _VoiceChannelParticipantGridState
       return KeyedSubtree(key: kVoicePipExpandSlotKey, child: wrapped);
     }
     return wrapped;
+  }
+}
+
+class _SpeakingOrderedGrid extends ConsumerWidget {
+  const _SpeakingOrderedGrid({
+    required this.prioritizeSpeakingParticipants,
+    required this.tiles,
+    required this.liveKit,
+    required this.me,
+    required this.localConnectionId,
+    required this.orderTiles,
+    required this.builder,
+  });
+
+  final bool prioritizeSpeakingParticipants;
+  final List<_VoiceGridTileItem> tiles;
+  final Room? liveKit;
+  final String? me;
+  final String? localConnectionId;
+  final List<_VoiceGridTileItem> Function(
+    List<_VoiceGridTileItem> tiles,
+    Room? liveKit,
+    String? me,
+    String? localConnectionId,
+    VoiceActiveSpeakersState speakers,
+  )
+  orderTiles;
+  final Widget Function(BuildContext context, List<_VoiceGridTileItem> tiles)
+  builder;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(
+      voiceActiveSpeakersProvider.select((VoiceActiveSpeakersState speakers) {
+        if (!prioritizeSpeakingParticipants) {
+          return '';
+        }
+        return voiceGridOrderSignature(
+          orderTiles(
+            tiles,
+            liveKit,
+            me,
+            localConnectionId,
+            speakers,
+          ).map((_VoiceGridTileItem tile) => tile.tileId),
+        );
+      }),
+    );
+    final List<_VoiceGridTileItem> tileItems = voiceGridTilesForDisplay(
+      prioritizeSpeakingParticipants: prioritizeSpeakingParticipants,
+      tiles: tiles,
+      orderBySpeaking: (List<_VoiceGridTileItem> input) {
+        return orderTiles(
+          input,
+          liveKit,
+          me,
+          localConnectionId,
+          ref.read(voiceActiveSpeakersProvider),
+        );
+      },
+    );
+    return builder(context, tileItems);
   }
 }
 
@@ -1586,6 +1635,8 @@ class _VoiceParticipantCard extends ConsumerWidget {
     required this.isFocusMain,
     required this.isFilmstrip,
     required this.fillContainer,
+    required this.tileWidth,
+    required this.tileHeight,
     required this.streamPreviewUrl,
     required this.onTap,
     required this.onWatch,
@@ -1609,6 +1660,8 @@ class _VoiceParticipantCard extends ConsumerWidget {
   final bool isFocusMain;
   final bool isFilmstrip;
   final bool fillContainer;
+  final double tileWidth;
+  final double tileHeight;
   final bool edgeToEdge;
   final int extraDeviceCount;
   final String? streamPreviewUrl;
@@ -1697,8 +1750,8 @@ class _VoiceParticipantCard extends ConsumerWidget {
       subscribeQuality: voiceCameraSubscribeQuality(
         isFilmstrip: isFilmstrip,
         isFocusMain: isFocusMain || (isActiveScreenShare && !isFilmstrip),
-        tileWidth: fillContainer ? 800 : 0,
-        tileHeight: fillContainer ? 450 : 0,
+        tileWidth: tileWidth,
+        tileHeight: tileHeight,
       ),
     );
     final StringBuffer semantics = StringBuffer(display);

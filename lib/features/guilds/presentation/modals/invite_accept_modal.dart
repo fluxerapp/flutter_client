@@ -7,7 +7,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/router/navigate_to_content.dart';
-import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
@@ -172,9 +171,15 @@ class _InviteAcceptModalBodyState extends ConsumerState<InviteAcceptModalBody> {
     }
   }
 
-  void _navigateToGuild({required String guildId, required String channelId}) {
-    final String path = RoutePaths.guildChannel(guildId, channelId);
-    navigateToContentVia(ref, path);
+  void _navigateToGuild(InviteResponseSchemaGuildInviteResponse invite) {
+    navigateToContentVia(
+      ref,
+      guildInviteNavigationPath(
+        guildId: invite.guild.id,
+        channelType: invite.channel.type,
+        channelId: invite.channel.id,
+      ),
+    );
     _close();
   }
 
@@ -207,10 +212,7 @@ class _InviteAcceptModalBodyState extends ConsumerState<InviteAcceptModalBody> {
           l10n: l10n,
           isAccepting: _isAccepting,
           onJoin: () => unawaited(_acceptInvite()),
-          onGoTo: () => _navigateToGuild(
-            guildId: invite.guild.id,
-            channelId: invite.channel.id,
-          ),
+          onGoTo: () => _navigateToGuild(invite),
         ),
         InviteAcceptGroupDm(:final invite) => _InviteAcceptBackground(
           splashUrl: null,

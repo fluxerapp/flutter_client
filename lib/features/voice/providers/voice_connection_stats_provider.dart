@@ -32,6 +32,7 @@ class VoiceConnectionStatsNotifier extends _$VoiceConnectionStatsNotifier {
   Timer? _timer;
   DateTime? _connectedAt;
   EventsListener<RoomEvent>? _listener;
+  Room? _listenedRoom;
 
   @override
   VoiceConnectionStats build() {
@@ -39,39 +40,47 @@ class VoiceConnectionStatsNotifier extends _$VoiceConnectionStatsNotifier {
       _timer?.cancel();
       unawaited(_listener?.dispose());
     });
-    ref.listen<VoiceSessionState>(voiceSessionProvider, (
-      VoiceSessionState? previous,
-      VoiceSessionState next,
-    ) {
+    ref.listen<VoiceSessionState>(voiceSessionProvider, _syncSession);
+    final VoiceSessionState voice = ref.read(voiceSessionProvider);
+    if (voice.isConnected) {
+      _connectedAt ??= DateTime.now();
+    }
+    _syncSession(null, voice, trackConnectEdge: false, resetWhenIdle: false);
+    return const VoiceConnectionStats();
+  }
+
+  void _syncSession(
+    VoiceSessionState? previous,
+    VoiceSessionState next, {
+    bool trackConnectEdge = true,
+    bool resetWhenIdle = true,
+  }) {
+    if (trackConnectEdge) {
       if (next.isConnected && !(previous?.isConnected ?? false)) {
         _connectedAt = DateTime.now();
       }
       if (!next.isConnected) {
         _connectedAt = null;
       }
-      if (next.isInVoice) {
-        _attachToRoom(next.liveKitRoom);
-        _startPolling();
-      } else {
-        _timer?.cancel();
-        _timer = null;
-        _detachListener();
+    }
+    if (!next.isInVoice) {
+      _timer?.cancel();
+      _timer = null;
+      _detachListener();
+      if (resetWhenIdle) {
         state = const VoiceConnectionStats();
       }
-    });
-    final VoiceSessionState voice = ref.read(voiceSessionProvider);
-    if (voice.isConnected) {
-      _connectedAt ??= DateTime.now();
+      return;
     }
-    if (voice.isInVoice) {
-      _attachToRoom(voice.liveKitRoom);
-      _startPolling();
+    if (!identical(_listenedRoom, next.liveKitRoom)) {
+      _attachToRoom(next.liveKitRoom);
     }
-    return const VoiceConnectionStats();
+    _startPolling();
   }
 
   void _attachToRoom(Room? room) {
     _detachListener();
+    _listenedRoom = room;
     if (room == null) {
       return;
     }
@@ -89,6 +98,7 @@ class VoiceConnectionStatsNotifier extends _$VoiceConnectionStatsNotifier {
   void _detachListener() {
     unawaited(_listener?.dispose());
     _listener = null;
+    _listenedRoom = null;
   }
 
   void _startPolling() {
@@ -114,20 +124,39 @@ class VoiceConnectionStatsNotifier extends _$VoiceConnectionStatsNotifier {
     }
     final LocalParticipant? local = room.localParticipant;
     final int? rtt = _latencyFromQuality(local?.connectionQuality);
-    final List<int> history = List<int>.from(state.latencyHistory);
-    if (rtt != null) {
-      history.add(rtt);
+    final int? latency = rtt ?? state.currentLatencyMs;
+    final int participantCount = room.remoteParticipants.length + 1;
+    final Duration? duration = _connectedAt == null
+        ? null
+        : DateTime.now().difference(_connectedAt!);
+    final VoiceLatencySignalTone tone = voiceLatencySignalTone(
+      latencyMs: latency,
+    );
+    final VoiceLatencySignalTone previousTone = voiceLatencySignalTone(
+      latencyMs: state.currentLatencyMs,
+      history: state.latencyHistory,
+    );
+    final bool signalChanged =
+        latency != state.currentLatencyMs ||
+        participantCount != state.participantCount ||
+        tone != previousTone;
+    final bool durationChanged =
+        duration?.inSeconds != state.sessionDuration?.inSeconds;
+    if (!signalChanged && !durationChanged) {
+      return;
+    }
+    List<int> history = state.latencyHistory;
+    if (rtt != null && (history.isEmpty || history.last != rtt)) {
+      history = List<int>.from(history)..add(rtt);
       if (history.length > 30) {
         history.removeAt(0);
       }
     }
     state = VoiceConnectionStats(
-      currentLatencyMs: rtt ?? state.currentLatencyMs,
+      currentLatencyMs: latency,
       latencyHistory: history,
-      sessionDuration: _connectedAt == null
-          ? null
-          : DateTime.now().difference(_connectedAt!),
-      participantCount: room.remoteParticipants.length + 1,
+      sessionDuration: duration,
+      participantCount: participantCount,
     );
   }
 

@@ -4,6 +4,7 @@ import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart'
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_notification_resolution.dart';
+import 'package:fluxer_app/features/settings/providers/sound_preferences_provider.dart';
 import 'package:fluxer_dart/export.dart';
 
 class MessageNotificationSfxDeduper {
@@ -49,9 +50,10 @@ enum MessageNotificationSfxClipKind {
 
 extension MessageNotificationSfxClipKindX on MessageNotificationSfxClipKind {
   String get soundSettingsKey => switch (this) {
-    MessageNotificationSfxClipKind.message => 'message',
-    MessageNotificationSfxClipKind.directMessage => 'direct-message',
-    MessageNotificationSfxClipKind.sameChannelMessage => 'same-channel-message',
+    MessageNotificationSfxClipKind.message => kSoundTypeMessage,
+    MessageNotificationSfxClipKind.directMessage => kSoundTypeDirectMessage,
+    MessageNotificationSfxClipKind.sameChannelMessage =>
+      kSoundTypeSameChannelMessage,
   };
 }
 

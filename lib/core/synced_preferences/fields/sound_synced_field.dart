@@ -69,6 +69,12 @@ class SoundSyncedField
   }
 
   @override
+  bool ignoreAckedRemoteShrink(SoundLocalState local, SoundLocalState remote) {
+    // Keep a local sound edit when a stale snapshot arrives.
+    return !statesEqual(local, remote);
+  }
+
+  @override
   bool statesEqual(SoundLocalState a, SoundLocalState b) {
     return a.allSoundsDisabled == b.allSoundsDisabled &&
         a.masterVolume == b.masterVolume &&

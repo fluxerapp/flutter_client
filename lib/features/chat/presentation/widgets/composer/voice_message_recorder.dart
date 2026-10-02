@@ -32,7 +32,7 @@ class _VoiceMessageRecorderState extends State<VoiceMessageRecorder> {
   void didUpdateWidget(covariant VoiceMessageRecorder oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.disabled &&
-        widget.controller.isRecording &&
+        (widget.controller.isArming || widget.controller.isRecording) &&
         !widget.controller.isSending) {
       unawaited(widget.controller.discardIfDisabled());
     }

@@ -17,7 +17,9 @@ class GuildRootPlaceholder extends ConsumerWidget {
     final Set<String> trackedUnavailableGuildIds = ref.watch(
       guildAvailabilityProvider,
     );
-    final AsyncValue<Guild?> guildAsync = ref.watch(guildByIdProvider(guildId));
+    final AsyncValue<Guild?> guildAsync = ref.watch(
+      guildStreamByIdProvider(guildId),
+    );
     final Guild? guild = guildAsync.value;
     final bool guildOutageUnavailable = isGuildOutageUnavailable(
       guildId: guildId,

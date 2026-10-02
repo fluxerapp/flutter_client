@@ -45,7 +45,7 @@ class NotificationPreferencesState {
   }
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class NotificationPreferences extends _$NotificationPreferences {
   @override
   NotificationPreferencesState build() {

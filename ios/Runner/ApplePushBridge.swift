@@ -25,6 +25,8 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
   private var replyHandlerReady = false
   private var pendingReplies: [PendingReply] = []
   private var replyCategoryGeneration = 0
+  private var activeUserId: String?
+  private static let activeUserIdKey = "fluxer_active_user_id"
 
   private override init() {
     super.init()
@@ -182,8 +184,10 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
       return
     }
     let isAppForeground = applicationState == .active
-    if !ForegroundPushNotificationPolicy.shouldProcessAlertPush(
-      isAppForeground: isAppForeground
+    if !ForegroundPushNotificationPolicy.shouldProcessPush(
+      userInfo: resolved,
+      isAppForeground: isAppForeground,
+      activeUserId: resolvedActiveUserId()
     ) {
       completion(.noData)
       return
@@ -204,11 +208,41 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
       completionHandler([])
       return
     }
+    if ForegroundPushNotificationPolicy.shouldProcessPush(
+      userInfo: resolved,
+      isAppForeground: true,
+      activeUserId: resolvedActiveUserId()
+    ) {
+      completionHandler([.banner, .list, .sound])
+      return
+    }
     let identifier = notification.request.identifier
     completionHandler([])
     UNUserNotificationCenter.current().removeDeliveredNotifications(
       withIdentifiers: [identifier]
     )
+  }
+
+  private func resolvedActiveUserId() -> String? {
+    if let activeUserId, !activeUserId.isEmpty {
+      return activeUserId
+    }
+    let stored = UserDefaults.standard.string(forKey: Self.activeUserIdKey)
+    if let stored, !stored.isEmpty {
+      return stored
+    }
+    return nil
+  }
+
+  private func setActiveUserId(_ userId: String?) {
+    let trimmed = userId?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+    if trimmed.isEmpty {
+      activeUserId = nil
+      UserDefaults.standard.removeObject(forKey: Self.activeUserIdKey)
+      return
+    }
+    activeUserId = trimmed
+    UserDefaults.standard.set(trimmed, forKey: Self.activeUserIdKey)
   }
 
   private func handleClearPayload(
@@ -298,7 +332,9 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
   }
 
   func emitNotificationTap(userInfo: [AnyHashable: Any]) {
-    let payload = Self.flattenUserInfo(userInfo)
+    let payload = Self.flattenUserInfo(
+      WebPushRecordDecryptor.resolvedUserInfo(userInfo)
+    )
     DispatchQueue.main.async {
       guard let sink = self.tapEventSink else {
         self.pendingTapPayload = payload
@@ -457,6 +493,12 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
         self.replyHandlerReady = true
         result(nil)
         self.flushPendingReplies()
+      }
+    case "setActiveUserId":
+      let userId = call.arguments as? String
+      DispatchQueue.main.async {
+        self.setActiveUserId(userId)
+        result(nil)
       }
     default:
       result(FlutterMethodNotImplemented)

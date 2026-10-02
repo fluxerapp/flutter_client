@@ -1,4 +1,5 @@
 const int kVoiceMessageMinSendDurationMs = 500;
+const int kVoiceMessageHoldArmDelayMs = 300;
 const int kVoiceMessageRecordingTickMs = 120;
 const int kVoiceMessageRecordingSampleRate = 44100;
 const int kVoiceMessageLivePcmWindowSamples = 256;

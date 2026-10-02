@@ -5,6 +5,19 @@ import 'package:fluxer_app/core/audio/message_notification_sfx_scheduler.dart';
 
 void main() {
   group('MessageNotificationSfxScheduler.schedule', () {
+    test('dropPending cancels a sound that has not played yet', () {
+      fakeAsync((FakeAsync async) {
+        final List<FluxerSfxClip> played = <FluxerSfxClip>[];
+        final MessageNotificationSfxScheduler scheduler =
+            MessageNotificationSfxScheduler()
+              ..schedule(clip: FluxerSfxClip.message, play: played.add)
+              ..dropPending();
+        async.elapse(const Duration(milliseconds: 120));
+        expect(played, isEmpty);
+        expect(scheduler.pendingClip, isNull);
+      });
+    });
+
     test('plays after debounce on first schedule', () {
       fakeAsync((FakeAsync async) {
         final List<FluxerSfxClip> played = <FluxerSfxClip>[];

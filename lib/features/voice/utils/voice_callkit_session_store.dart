@@ -81,9 +81,28 @@ class VoiceCallKitSessionStore {
     String? callKitId,
     String? messageId,
     String? connectionId,
+    String? targetUserId,
+    String? guildId,
   }) {
     final String? existingId = _callKitIdByChannelId[channelId];
     if (existingId != null) {
+      final VoiceCallKitSession? existing = _sessionsByCallKitId[existingId];
+      if (existing != null) {
+        final String? nextTarget = existing.targetUserId ?? targetUserId;
+        final String? nextGuild = existing.guildId ?? guildId;
+        if (nextTarget != existing.targetUserId ||
+            nextGuild != existing.guildId) {
+          _sessionsByCallKitId[existingId] = VoiceCallKitSession(
+            callKitId: existing.callKitId,
+            channelId: existing.channelId,
+            kind: existing.kind,
+            messageId: existing.messageId,
+            connectionId: existing.connectionId,
+            targetUserId: nextTarget,
+            guildId: nextGuild,
+          );
+        }
+      }
       return existingId;
     }
     final String resolvedId = callKitId ?? resolveVoiceCallKitSessionId();
@@ -93,6 +112,8 @@ class VoiceCallKitSessionStore {
       kind: kind,
       messageId: messageId,
       connectionId: connectionId,
+      targetUserId: targetUserId,
+      guildId: guildId,
     );
     _sessionsByCallKitId[resolvedId] = session;
     _callKitIdByChannelId[channelId] = resolvedId;
@@ -130,6 +151,8 @@ class VoiceCallKitSessionStore {
       kind: VoiceCallKitSessionKind.activeVoice,
       messageId: existing.messageId,
       connectionId: voice.activeConnectionId,
+      targetUserId: existing.targetUserId,
+      guildId: existing.guildId,
     );
     _presentedIncomingChannelIds.remove(channelId);
   }

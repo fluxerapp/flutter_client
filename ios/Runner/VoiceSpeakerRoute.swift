@@ -3,6 +3,38 @@ import Flutter
 import UIKit
 import WebRTC
 
+enum VoiceOutputPortPlan: Equatable {
+  case speaker
+  case earpiece
+  case headset(AVAudioSession.Port)
+  case headsetUnavailable
+}
+
+let voiceCallInputPortPriority: [AVAudioSession.Port] = [
+  .bluetoothHFP,
+  .headsetMic,
+  .usbAudio,
+]
+
+func voiceOutputPortPlan(
+  route: String,
+  availableInputPorts: [AVAudioSession.Port]
+) -> VoiceOutputPortPlan {
+  switch route {
+  case "earpiece":
+    return .earpiece
+  case "headset":
+    for port in voiceCallInputPortPriority {
+      if availableInputPorts.contains(port) {
+        return .headset(port)
+      }
+    }
+    return .headsetUnavailable
+  default:
+    return .speaker
+  }
+}
+
 final class VoiceSpeakerRouteBridge {
   static let shared = VoiceSpeakerRouteBridge()
 
@@ -21,16 +53,41 @@ final class VoiceSpeakerRouteBridge {
       switch call.method {
       case "setRoute":
         let route = (call.arguments as? [String: Any])?["route"] as? String
-        let session = RTCAudioSession.sharedInstance()
-        session.lockForConfiguration()
-        defer { session.unlockForConfiguration() }
-        try? session.overrideOutputAudioPort(route == "speaker" ? .speaker : .none)
+        Self.apply(route: route ?? "speaker")
         result(nil)
       case "availableRoutes":
         result(Self.availableRouteNames())
       default:
         result(FlutterMethodNotImplemented)
       }
+    }
+  }
+
+  private static func apply(route: String) {
+    let session = RTCAudioSession.sharedInstance()
+    session.lockForConfiguration()
+    defer { session.unlockForConfiguration() }
+    let av = AVAudioSession.sharedInstance()
+    let inputs = av.availableInputs ?? []
+    let plan = voiceOutputPortPlan(
+      route: route,
+      availableInputPorts: inputs.map(\.portType)
+    )
+    switch plan {
+    case .speaker:
+      try? av.setPreferredInput(nil)
+      try? session.overrideOutputAudioPort(.speaker)
+    case .earpiece:
+      try? session.overrideOutputAudioPort(.none)
+      let builtIn = inputs.first { $0.portType == .builtInMic }
+      try? av.setPreferredInput(builtIn)
+    case .headset(let port):
+      try? session.overrideOutputAudioPort(.none)
+      let match = inputs.first { $0.portType == port }
+      try? av.setPreferredInput(match)
+    case .headsetUnavailable:
+      try? session.overrideOutputAudioPort(.none)
+      try? av.setPreferredInput(nil)
     }
   }
 

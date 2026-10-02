@@ -4,25 +4,17 @@ import 'package:fluxer_app/features/settings/utils/oauth_authorize_url.dart';
 
 void main() {
   group('resolveOAuthAuthorizeOrigin', () {
-    test('prefers marketing URL over web app and display domain', () {
+    test('uses the web app URL', () {
       expect(
         resolveOAuthAuthorizeOrigin(
-          displayDomain: 'api.example.com',
-          marketingUrl: 'https://fluxer.app/',
-          webAppUrl: 'https://app.example.com',
+          displayDomain: 'fluxer.app',
+          webAppUrl: 'https://web.fluxer.app/',
         ),
-        'https://fluxer.app',
+        'https://web.fluxer.app',
       );
     });
 
-    test('falls back to web app then https display domain', () {
-      expect(
-        resolveOAuthAuthorizeOrigin(
-          displayDomain: 'example.com',
-          webAppUrl: 'https://app.example.com/',
-        ),
-        'https://app.example.com',
-      );
+    test('falls back to https display domain', () {
       expect(
         resolveOAuthAuthorizeOrigin(displayDomain: 'example.com'),
         'https://example.com',

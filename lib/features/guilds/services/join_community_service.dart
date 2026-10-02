@@ -88,8 +88,7 @@ Future<void> _joinGuildInvite({
     final client = ref.read(fluxerClientProvider);
     await client.invites.acceptInvite(inviteCode: code);
     await ref.read(guildRepositoryProvider).stageGuildJoinFromInvite(invite);
-    ref.invalidate(guildByIdProvider(guildId));
-    final Guild? stagedGuild = await ref.read(
+    final Guild? stagedGuild = await ref.refresh(
       guildByIdProvider(guildId).future,
     );
     if (stagedGuild != null) {
@@ -98,7 +97,27 @@ Future<void> _joinGuildInvite({
           .loadChannels(guildId, guild: stagedGuild);
     }
   }
-  _navigateToContent(ref, RoutePaths.guildChannel(guildId, channelId));
+  _navigateToContent(
+    ref,
+    guildInviteNavigationPath(
+      guildId: guildId,
+      channelType: invite.channel.type,
+      channelId: channelId,
+    ),
+  );
+}
+
+/// Category and link channels open the community root instead.
+String guildInviteNavigationPath({
+  required String guildId,
+  required ChannelType channelType,
+  required String channelId,
+}) {
+  if (channelType == ChannelType.guildCategory ||
+      channelType == ChannelType.guildLink) {
+    return RoutePaths.guild(guildId);
+  }
+  return RoutePaths.guildChannel(guildId, channelId);
 }
 
 Future<void> _joinGroupDmInvite({

@@ -36,6 +36,9 @@ class GuildRepository {
 
   Future<void> syncServers() async {
     try {
+      final Set<String> localIdsBeforeFetch = (await _db.guildDao.getServers())
+          .map((row) => row.id)
+          .toSet();
       final guilds = await _client.guilds.listGuilds();
       final guildOrder = await _fetchGuildOrder();
       final unavailableIds = await _unavailableGuildIds();
@@ -48,8 +51,18 @@ class GuildRepository {
         );
       }).toList();
       await _db.guildDao.upsertServers(companions);
-      final apiIds = guilds.map((guild) => guild.id).toSet();
-      await removeGuildsNotInLocalDb(_db, apiIds);
+      final Set<String> apiIds = guilds.map((guild) => guild.id).toSet();
+      final Set<String> localIdsAfterUpsert = (await _db.guildDao.getServers())
+          .map((row) => row.id)
+          .toSet();
+      await removeGuildsNotInLocalDb(
+        _db,
+        guildIdsKeptAfterMembershipSync(
+          apiGuildIds: apiIds,
+          localGuildIdsBeforeFetch: localIdsBeforeFetch,
+          localGuildIdsAfterUpsert: localIdsAfterUpsert,
+        ),
+      );
     } on DioException catch (e) {
       throw Exception(e.response?.statusMessage ?? 'Failed to fetch servers');
     }

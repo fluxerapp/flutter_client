@@ -31,6 +31,12 @@ class _InviteAcceptPageState extends State<InviteAcceptPage> {
     if (!mounted) {
       return;
     }
+    final String path = GoRouter.of(
+      context,
+    ).routeInformationProvider.value.uri.path;
+    if (path != RoutePaths.inviteLink(widget.code)) {
+      return;
+    }
     context.go(RoutePaths.me);
   }
 

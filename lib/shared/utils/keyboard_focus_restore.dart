@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
+import 'package:fluxer_app/features/chat/utils/composer/bottom_input_slot_layout.dart';
 
-const Duration kKeyboardFocusRestoreRetryDelay = Duration(milliseconds: 100);
+const Duration kKeyboardFocusRestoreRetryDelay = Duration(milliseconds: 350);
 
 /// paused or hidden. inactive is system UI over the app, like paste.
 bool isAppBackgroundLifecycleState(AppLifecycleState state) {
@@ -138,7 +139,7 @@ class KeyboardFocusRestoreHandle {
       if (!focusNode.hasFocus || _keyboardInsetBottom() > 0) {
         return;
       }
-      if (_anotherEditableHasFocus()) {
+      if (_anotherEditableHasFocus() || _fieldIsComposing()) {
         return;
       }
       focusNode.unfocus();
@@ -167,7 +168,22 @@ class KeyboardFocusRestoreHandle {
     if (context == null) {
       return 0;
     }
-    return MediaQuery.viewInsetsOf(context).bottom;
+    final double mediaQueryInset = MediaQuery.viewInsetsOf(context).bottom;
+    final view = View.of(context);
+    return resolvedKeyboardInsetBottomFrom(
+      mediaQueryInsetBottom: mediaQueryInset,
+      physicalViewInsetBottom: view.viewInsets.bottom,
+      devicePixelRatio: view.devicePixelRatio,
+    );
+  }
+
+  bool _fieldIsComposing() {
+    final EditableTextState? editable = _editableTextState(focusNode);
+    if (editable == null) {
+      return false;
+    }
+    final TextRange composing = editable.widget.controller.value.composing;
+    return composing.isValid && !composing.isCollapsed;
   }
 }
 

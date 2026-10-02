@@ -44,7 +44,7 @@ void main() {
       );
     });
 
-    test('returns false when e2ee key is present', () {
+    test('detects endpoint change when an e2ee key is present', () {
       expect(
         isVoiceServerRegionChange(
           state: liveConnected,
@@ -56,7 +56,7 @@ void main() {
           incomingChannelId: channelId,
           e2eeKey: 'secret-key',
         ),
-        isFalse,
+        isTrue,
       );
     });
   });
@@ -73,6 +73,22 @@ void main() {
           incomingToken: 'token',
           incomingChannelId: channelId,
           e2eeKey: null,
+        ),
+        isFalse,
+      );
+    });
+
+    test('does not ignore a keyed region change', () {
+      expect(
+        shouldIgnoreVoiceServerUpdateForStableSession(
+          state: liveConnected,
+          resolvedChannelId: channelId,
+          hasLiveKitRoom: true,
+          isRoomConnected: true,
+          incomingEndpoint: 'wss://new.example',
+          incomingToken: 'token',
+          incomingChannelId: channelId,
+          e2eeKey: 'secret-key',
         ),
         isFalse,
       );

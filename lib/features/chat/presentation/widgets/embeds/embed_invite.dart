@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/dm/utils/group_dm_display_name.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
+import 'package:fluxer_app/features/guilds/services/join_community_service.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_invite_action_state.dart';
 import 'package:fluxer_app/features/ui/badge/fluxer_guild_badge.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
@@ -134,26 +135,37 @@ class _GuildInviteCard extends StatelessWidget {
     );
   }
 
-  void _onJoin({required bool isMember}) {
+  Future<void> _onJoin(BuildContext context, {required bool isMember}) async {
     if (isMember) {
       ref
           .read(fluxerRouterProvider)
-          .go(RoutePaths.guildChannel(invite.guild.id, invite.channel.id));
+          .go(
+            guildInviteNavigationPath(
+              guildId: invite.guild.id,
+              channelType: invite.channel.type,
+              channelId: invite.channel.id,
+            ),
+          );
       return;
     }
-    unawaited(
-      ref
-          .read(fluxerClientProvider)
-          .invites
-          .acceptInvite(inviteCode: code)
-          .then((_) {
-            ref
-                .read(fluxerRouterProvider)
-                .go(
-                  RoutePaths.guildChannel(invite.guild.id, invite.channel.id),
-                );
-          }),
-    );
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    try {
+      await joinCommunityViaInvite(ref: ref, rawInput: code, l10n: l10n);
+    } on JoinCommunityException catch (error) {
+      if (!context.mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(error.message)));
+    } on Object {
+      if (!context.mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.addGuildJoinFailed)));
+    }
   }
 
   @override
@@ -244,7 +256,8 @@ class _GuildInviteCard extends StatelessWidget {
         footer: FluxerButton.primary(
           onPressed: actionState.isActionDisabled
               ? null
-              : () => _onJoin(isMember: actionState.isMember),
+              : () =>
+                    unawaited(_onJoin(context, isMember: actionState.isMember)),
           label: actionState.primaryActionLabel(
             joinLabel: l10n.embedInviteJoin,
             goToLabel: l10n.embedInviteGoTo,

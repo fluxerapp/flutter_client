@@ -272,6 +272,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   bool _isApplyingWireText = false;
   bool _composerFocused = false;
   String? _lastWireTextPushedToState;
+  final ValueNotifier<bool> _showComposerCounter = ValueNotifier<bool>(false);
 
   Widget _wideComposerIconButton({
     required BuildContext context,
@@ -467,6 +468,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   }
 
   void _syncStateFromController() {
+    _syncComposerCounterPadding();
     if (_isApplyingWireText) {
       return;
     }
@@ -492,13 +494,57 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       _lastWireTextPushedToState = wire;
       return;
     }
+    if (_shouldDeferComposerStateWriteBack(wire)) {
+      return;
+    }
     unawaited(_applyWireTextFromState(wire));
   }
 
-  Future<void> _applyWireTextFromState(String wire) async {
+  bool _shouldDeferComposerStateWriteBack(String wireFromState) {
+    if (!_focusNode.hasFocus) {
+      return false;
+    }
+    final TextEditingValue editing = _controller.value;
+    if (editing.composing.isValid) {
+      return true;
+    }
+    final String localWire = stripPrivateUseCharacters(
+      _controller.toWireText(),
+    );
+    if (localWire.isEmpty) {
+      return wireFromState.isNotEmpty;
+    }
+    if (wireFromState.isEmpty) {
+      return true;
+    }
+    if (wireFromState.length < localWire.length &&
+        localWire.startsWith(wireFromState)) {
+      return true;
+    }
+    return false;
+  }
+
+  void _syncComposerCounterPadding() {
+    final int maxMessageLength = ref.read(maxMessageLengthProvider);
+    final bool show =
+        _composerContentLength(_sendableWireText()) >
+        (maxMessageLength * 0.8).floor();
+    if (show == _showComposerCounter.value) {
+      return;
+    }
+    _showComposerCounter.value = show;
+  }
+
+  Future<void> _applyWireTextFromState(
+    String wire, {
+    bool force = false,
+  }) async {
+    if (!force && _focusNode.hasFocus && _controller.value.composing.isValid) {
+      return;
+    }
     _isApplyingWireText = true;
     try {
-      await _controller.applyWireText(wire);
+      await _controller.applyWireText(wire, force: force);
       _lastWireTextPushedToState = wire;
     } finally {
       _isApplyingWireText = false;
@@ -671,7 +717,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       ..removeListener(_onSlashSessionChanged)
       ..dispose();
     _composerScrollController.dispose();
-    _controller.dispose();
+    _controller
+      ..removeListener(_syncStateFromController)
+      ..dispose();
+    _showComposerCounter.dispose();
     _voiceRecording.dispose();
     super.dispose();
   }
@@ -811,47 +860,39 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
             FluxerClipboardScopeState clipboardScope,
             FocusNode focusNode,
           ) {
-            return ListenableBuilder(
-              listenable: _controller,
-              builder: (BuildContext context, Widget? child) {
-                final int contentLength = _composerContentLength(
-                  _sendableWireText(),
-                );
-                final bool showCounter =
-                    contentLength > (maxMessageLength * 0.8).floor();
-                final InputDecoration effectiveDecoration = decoration.copyWith(
-                  contentPadding: showCounter
-                      ? basePadding +
-                            const EdgeInsets.only(right: 28, bottom: 18)
-                      : basePadding,
-                );
-                return Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    _composerOpacity(
-                      context: context,
-                      enabled: perms.isComposerEnabled,
-                      child: Semantics(
-                        label: _resolveHintText(),
-                        textField: true,
-                        child: wrapBoundedTextClip(
-                          maxLines: maxLines,
-                          child: _slashSession.isActive
-                              ? SlashCommandComposer(
-                                  session: _slashSession,
-                                  enabled: perms.isComposerEnabled,
-                                  style: context.textStyles.inputText,
-                                  enterSends: _enterSends,
-                                  onKeyEvent: (KeyEvent event) =>
-                                      handleComposerAutocompleteKey(
-                                        _composerFieldKey.currentState,
-                                        event,
-                                      ),
-                                  onSubmit: () {
-                                    unawaited(_onSendPressed());
-                                  },
-                                )
-                              : TextField(
+            return Stack(
+              clipBehavior: Clip.none,
+              children: [
+                _composerOpacity(
+                  context: context,
+                  enabled: perms.isComposerEnabled,
+                  child: Semantics(
+                    label: _resolveHintText(),
+                    textField: true,
+                    child: wrapBoundedTextClip(
+                      maxLines: maxLines,
+                      child: _slashSession.isActive
+                          ? SlashCommandComposer(
+                              session: _slashSession,
+                              enabled: perms.isComposerEnabled,
+                              style: context.textStyles.inputText,
+                              enterSends: _enterSends,
+                              onKeyEvent: (KeyEvent event) =>
+                                  handleComposerAutocompleteKey(
+                                    _composerFieldKey.currentState,
+                                    event,
+                                  ),
+                              onSubmit: () {
+                                unawaited(_onSendPressed());
+                              },
+                            )
+                          : ValueListenableBuilder<bool>(
+                              valueListenable: _showComposerCounter,
+                              builder: (BuildContext context, bool showCounter, Widget? _) {
+                                return TextField(
+                                  key: const ValueKey<String>(
+                                    'channel-composer-field',
+                                  ),
                                   controller: _controller,
                                   focusNode: focusNode,
                                   scrollController: _composerScrollController,
@@ -864,7 +905,15 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                                   minLines: minLines,
                                   maxLines: maxLines,
                                   selectionWidthStyle: BoxWidthStyle.tight,
-                                  decoration: effectiveDecoration,
+                                  decoration: decoration.copyWith(
+                                    contentPadding: showCounter
+                                        ? basePadding +
+                                              const EdgeInsets.only(
+                                                right: 28,
+                                                bottom: 18,
+                                              )
+                                        : basePadding,
+                                  ),
                                   textAlignVertical: textAlignVertical,
                                   textCapitalization:
                                       TextCapitalization.sentences,
@@ -911,31 +960,36 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
                                       return;
                                     }
                                     if (_focusNode.hasFocus &&
-                                        MediaQuery.viewInsetsOf(
-                                              context,
-                                            ).bottom <=
+                                        resolvedKeyboardInsetBottom(context) <=
                                             0) {
                                       _keyboardRestore.reconnectOpenField();
                                     }
                                   },
-                                ),
-                        ),
-                      ),
+                                );
+                              },
+                            ),
                     ),
-                    Positioned(
-                      right: 8,
-                      bottom: 8,
-                      child: MessageCharacterCounter(
-                        currentLength: contentLength,
+                  ),
+                ),
+                Positioned(
+                  right: 8,
+                  bottom: 8,
+                  child: ListenableBuilder(
+                    listenable: _controller,
+                    builder: (BuildContext context, Widget? _) {
+                      return MessageCharacterCounter(
+                        currentLength: _composerContentLength(
+                          _sendableWireText(),
+                        ),
                         maxLength: maxMessageLength,
                         canUpgrade: canUpgrade,
                         premiumMaxLength: premiumMaxLength,
                         onUpgradePressed: () => _showPlutoniumSheet(context),
-                      ),
-                    ),
-                  ],
-                );
-              },
+                      );
+                    },
+                  ),
+                ),
+              ],
             );
           },
     );
@@ -1054,7 +1108,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         (String? previous, String next) {
           if (previous != null && previous != next && mounted) {
             _clearSlashSession();
-            if (MediaQuery.viewInsetsOf(context).bottom <= 0) {
+            if (resolvedKeyboardInsetBottom(context) <= 0) {
               _keyboardRestore.replaceFocusedConnection();
             }
           }
@@ -2530,6 +2584,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
           stripPrivateUseCharacters(
             ref.read(chatViewModelProvider).messageText,
           ),
+          force: true,
         );
       } else {
         _controller.selection = TextSelection.collapsed(

@@ -164,6 +164,8 @@ class AndroidPushPipeline {
           display: display,
           channelId: message.payload['channel_id'],
           messageId: messageId,
+          targetUserId: message.payload['target_user_id'],
+          guildId: message.payload['guild_id'],
         ),
       );
     } on Object {

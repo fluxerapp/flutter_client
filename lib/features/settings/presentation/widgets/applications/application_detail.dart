@@ -500,7 +500,6 @@ class _ApplicationDetailState extends ConsumerState<ApplicationDetail> {
     final InstanceConfigSnapshot snapshot = ref.watch(activeInstanceProvider);
     final String origin = resolveOAuthAuthorizeOrigin(
       displayDomain: snapshot.displayDomain,
-      marketingUrl: snapshot.wellKnown?.endpoints.marketing,
       webAppUrl: (snapshot.wellKnown?.endpoints.webapp.isNotEmpty ?? false)
           ? snapshot.wellKnown!.endpoints.webapp
           : InstanceEndpoints.webApp,

@@ -87,7 +87,7 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
       guildAvailabilityProvider,
     );
     final AsyncValue<Guild?> guildAsync = ref.watch(
-      guildByIdProvider(widget.guildId),
+      guildStreamByIdProvider(widget.guildId),
     );
     final Guild? guild = guildAsync.value;
     final bool guildOutageUnavailable = isGuildOutageUnavailable(

@@ -57,6 +57,8 @@ CallKitParams buildVoiceCallKitParams({
       kVoiceCallKitExtraChannelId: channelId,
       kVoiceCallKitExtraMessageId: ?messageId,
       kVoiceCallKitExtraIsDm: display.isDm,
+      if (guildId != null && guildId.isNotEmpty)
+        kVoiceCallKitExtraGuildId: guildId,
     },
     headers: const <String, dynamic>{},
     android: AndroidParams(
@@ -85,6 +87,8 @@ CallKitParams buildIncomingCallRingParams({
   required CallRingDisplay display,
   String? channelId,
   String? messageId,
+  String? targetUserId,
+  String? guildId,
   String acceptLabel = 'Accept',
   String declineLabel = 'Decline',
   bool showMissedCall = true,
@@ -106,6 +110,10 @@ CallKitParams buildIncomingCallRingParams({
         kVoiceCallKitExtraChannelId: channelId,
       if (messageId != null && messageId.isNotEmpty)
         kVoiceCallKitExtraMessageId: messageId,
+      if (targetUserId != null && targetUserId.isNotEmpty)
+        kVoiceCallKitExtraTargetUserId: targetUserId,
+      if (guildId != null && guildId.isNotEmpty)
+        kVoiceCallKitExtraGuildId: guildId,
     },
     headers: const <String, dynamic>{},
     android: AndroidParams(

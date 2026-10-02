@@ -4,6 +4,7 @@ import 'package:drift/drift.dart' show CancellationException;
 import 'package:fluxer_app/core/audio/enums/fluxer_sfx_clip.dart';
 import 'package:fluxer_app/core/audio/fluxer_sfx.dart';
 import 'package:fluxer_app/core/audio/message_notification_sfx_scheduler.dart';
+import 'package:fluxer_app/core/audio/sound_effect_policy.dart';
 import 'package:fluxer_app/core/notifications/system_notification_sound_policy.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
@@ -16,7 +17,9 @@ import 'package:fluxer_app/features/chat/services/message_notification_sfx_gate.
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/profile/domain/presence_notification_policy.dart';
 import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
+import 'package:fluxer_app/features/settings/providers/notification_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/sound_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/utils/sound_sfx_playback.dart';
 import 'package:fluxer_app/features/settings/utils/sound_type_utils.dart';
 import 'package:fluxer_app/features/settings/utils/sound_volume_utils.dart';
 import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls_provider.dart';
@@ -24,6 +27,43 @@ import 'package:fluxer_app/features/voice/utils/voice_callkit_policy.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'fluxer_sfx_provider.g.dart';
+
+bool _soundEffectAllowed(Ref ref, String soundType) {
+  return shouldPlaySoundEffect(
+    notificationsEnabled: ref
+        .read(notificationPreferencesProvider)
+        .notificationsEnabled,
+    soundPrefs: ref.read(soundPreferencesProvider),
+    soundType: soundType,
+  );
+}
+
+void _playConfiguredSfx(Ref ref, FluxerSfxClip clip) {
+  unawaited(
+    playFluxerSoundEffect(
+      prefs: ref.read(soundPreferencesProvider),
+      sfx: ref.read(fluxerSfxProvider),
+      clip: clip,
+      notificationsEnabled: ref
+          .read(notificationPreferencesProvider)
+          .notificationsEnabled,
+    ),
+  );
+}
+
+void _dropDisallowedPendingSfx(
+  Ref ref,
+  MessageNotificationSfxScheduler scheduler,
+) {
+  final FluxerSfxClip? pending = scheduler.pendingClip;
+  if (pending == null) {
+    return;
+  }
+  final String? soundType = soundTypeForFluxerSfxClip(pending);
+  if (soundType == null || !_soundEffectAllowed(ref, soundType)) {
+    scheduler.dropPending();
+  }
+}
 
 FluxerSfxClip _clipForKind(MessageNotificationSfxClipKind kind) {
   return switch (kind) {
@@ -58,6 +98,13 @@ void fluxerMessageSfxBinding(Ref ref) {
         },
       );
   ref.onDispose(scheduler.dispose);
+  void refreshQueuedSfx() {
+    _dropDisallowedPendingSfx(ref, scheduler);
+  }
+
+  ref
+    ..listen(soundPreferencesProvider, (_, _) => refreshQueuedSfx())
+    ..listen(notificationPreferencesProvider, (_, _) => refreshQueuedSfx());
   final StreamSubscription<MessageRealtimeEvent> sub = ref
       .read(messageRealtimeBusProvider)
       .stream
@@ -94,27 +141,14 @@ void fluxerMessageSfxBinding(Ref ref) {
           if (await isSystemNotificationSoundSuppressed()) {
             return;
           }
-          final SoundPreferencesState soundPrefs = ref.read(
-            soundPreferencesProvider,
-          );
-          if (!soundPrefs.isSoundTypeEnabled(
-            request.clipKind.soundSettingsKey,
-          )) {
+          if (!_soundEffectAllowed(ref, request.clipKind.soundSettingsKey)) {
             return;
           }
           final FluxerSfxClip clip = _clipForKind(request.clipKind);
-          final double volume = computeEffectiveSfxVolume(
-            prefs: soundPrefs,
-            soundType: request.clipKind.soundSettingsKey,
-          );
           scheduler.schedule(
             clip: clip,
             play: (FluxerSfxClip scheduledClip) {
-              unawaited(
-                ref
-                    .read(fluxerSfxProvider)
-                    .playOneShot(scheduledClip, volume: volume),
-              );
+              _playConfiguredSfx(ref, scheduledClip);
             },
           );
         } on CancellationException {
@@ -141,13 +175,11 @@ void fluxerSfxIncomingRingBinding(Ref ref) {
       hasPendingIncoming: pending.isNotEmpty,
     );
     final SoundPreferencesState soundPrefs = ref.read(soundPreferencesProvider);
-    final bool soundEnabled = soundPrefs.isSoundTypeEnabled(
-      kSoundTypeIncomingRing,
+    final bool soundEnabled = shouldPlaySoundEffect(
+      soundPrefs: soundPrefs,
+      soundType: kSoundTypeIncomingRing,
     );
     if (shouldPlay && soundEnabled) {
-      if (isIncomingRingPlaying) {
-        return;
-      }
       isIncomingRingPlaying = true;
       final double volume = computeEffectiveSfxVolume(
         prefs: soundPrefs,
@@ -168,6 +200,9 @@ void fluxerSfxIncomingRingBinding(Ref ref) {
       syncIncomingRingLoop();
     }, fireImmediately: true)
     ..listen<bool>(appUiForegroundProvider, (_, _) {
+      syncIncomingRingLoop();
+    })
+    ..listen(soundPreferencesProvider, (_, _) {
       syncIncomingRingLoop();
     });
 }

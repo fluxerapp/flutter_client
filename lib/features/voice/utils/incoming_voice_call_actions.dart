@@ -166,10 +166,11 @@ Future<void> executeIgnoreIncomingVoiceCall(
 
 Future<void> executeAcceptIncomingVoiceCallFromCallKit(
   Ref ref,
-  String channelId,
-) async {
+  String channelId, {
+  String? guildId,
+}) async {
   try {
-    await executeAcceptIncomingVoiceCallCore(ref, channelId);
+    await executeAcceptIncomingVoiceCallCore(ref, channelId, guildId: guildId);
   } on Object {
     final BuildContext? ctx = rootNavigatorKey.currentContext;
     if (ctx == null || !ctx.mounted) {
@@ -225,8 +226,9 @@ Future<void> executeIgnoreIncomingVoiceCallFromCallKit(
 
 Future<void> executeAcceptIncomingVoiceCallCore(
   Ref ref,
-  String channelId,
-) async {
+  String channelId, {
+  String? guildId,
+}) async {
   final String? uid = ref.read(currentUserIdProvider);
   if (uid != null) {
     ref
@@ -237,7 +239,10 @@ Future<void> executeAcceptIncomingVoiceCallCore(
   final db.Channel? channelRow = await database.channelDao.getChannelById(
     channelId,
   );
-  final String? guildIdForJoin = channelRow?.guildId;
+  final String? fallbackGuildId = guildId == null || guildId.isEmpty
+      ? null
+      : guildId;
+  final String? guildIdForJoin = channelRow?.guildId ?? fallbackGuildId;
   final Channel? channel = channelRow == null
       ? null
       : Channel.fromRow(channelRow);

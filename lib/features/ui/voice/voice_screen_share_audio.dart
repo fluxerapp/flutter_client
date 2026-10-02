@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
@@ -43,10 +44,8 @@ class _VoiceScreenShareAudioState extends ConsumerState<VoiceScreenShareAudio> {
   void didUpdateWidget(covariant VoiceScreenShareAudio oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.audioTrack != widget.audioTrack ||
-        oldWidget.enabled != widget.enabled ||
-        oldWidget.streamKey != widget.streamKey) {
+        oldWidget.enabled != widget.enabled) {
       _syncPlayback();
-      return;
     }
     unawaited(_applyVolume());
   }
@@ -57,19 +56,8 @@ class _VoiceScreenShareAudioState extends ConsumerState<VoiceScreenShareAudio> {
     super.dispose();
   }
 
-  bool get _isPlaybackEnabled {
-    if (!widget.enabled) {
-      return false;
-    }
-    final String? streamKey = widget.streamKey;
-    if (streamKey == null) {
-      return true;
-    }
-    return !ref.read(voiceStreamAudioProvider).isMuted(streamKey);
-  }
-
   void _syncPlayback() {
-    if (_isPlaybackEnabled) {
+    if (widget.enabled) {
       _hold(widget.audioTrack);
       return;
     }
@@ -78,7 +66,6 @@ class _VoiceScreenShareAudioState extends ConsumerState<VoiceScreenShareAudio> {
 
   void _hold(AudioTrack track) {
     if (_heldTrack == track) {
-      unawaited(_applyVolume());
       return;
     }
     _release(immediate: false);
@@ -87,8 +74,9 @@ class _VoiceScreenShareAudioState extends ConsumerState<VoiceScreenShareAudio> {
   }
 
   Future<void> _start(AudioTrack track) async {
+    final bool startedPlayback;
     try {
-      await _session.retain(track);
+      startedPlayback = await _session.retain(track);
     } on Object {
       if (_heldTrack == track) {
         _release(immediate: true);
@@ -99,7 +87,17 @@ class _VoiceScreenShareAudioState extends ConsumerState<VoiceScreenShareAudio> {
       return;
     }
     _started = true;
-    await _applyVolume();
+    final bool flipEnabled =
+        startedPlayback &&
+        !kIsWeb &&
+        defaultTargetPlatform == TargetPlatform.android;
+    await _applyVolume(flipEnabled: flipEnabled);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || _heldTrack != track || !_started) {
+        return;
+      }
+      unawaited(_applyVolume());
+    });
   }
 
   void _release({required bool immediate}) {
@@ -112,25 +110,44 @@ class _VoiceScreenShareAudioState extends ConsumerState<VoiceScreenShareAudio> {
     _session.release(track, immediate: immediate);
   }
 
-  Future<void> _applyVolume() async {
+  bool get _muted {
+    final String? streamKey = widget.streamKey;
+    if (streamKey == null) {
+      return false;
+    }
+    return ref.read(voiceStreamAudioProvider).isMuted(streamKey);
+  }
+
+  Future<void> _applyVolume({bool flipEnabled = false}) async {
     final AudioTrack? track = _heldTrack;
     if (track == null || !_started) {
       return;
     }
     final String? streamKey = widget.streamKey;
+    final bool muted = _muted;
     final int outputVolume = ref.read(voiceSettingsProvider).outputVolume;
     final int streamVolume = streamKey == null
         ? kDefaultVoiceVolumePercent
         : ref.read(voiceStreamAudioProvider).volumeFor(streamKey);
-    await applyStreamVolumeToTrack(
-      track: track,
-      streamVolumePercent: streamVolume,
-      outputVolumePercent: outputVolume,
-    );
+    try {
+      await applyScreenShareAudibleToTrack(
+        track: track,
+        muted: muted,
+        streamVolumePercent: streamVolume,
+        outputVolumePercent: outputVolume,
+        flipEnabled: flipEnabled,
+      );
+    } on Object {
+      return;
+    }
+    if (!mounted || _heldTrack != track || !_started || _muted == muted) {
+      return;
+    }
+    // Mute changed while the gain update was in flight.
+    await _applyVolume();
   }
 
   void _onPrefsChanged() {
-    _syncPlayback();
     unawaited(_applyVolume());
   }
 

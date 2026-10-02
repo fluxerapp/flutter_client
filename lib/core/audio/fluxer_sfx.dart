@@ -108,6 +108,11 @@ class FluxerSFX {
     double volume = _kDefaultSfxVolume,
   }) async {
     if (_activeLoopClip == clip && _loopPlaybackActive) {
+      try {
+        await _loopPlayer.setVolume(_clampVolume(volume));
+      } on Object {
+        return;
+      }
       return;
     }
     _activeLoopClip = clip;

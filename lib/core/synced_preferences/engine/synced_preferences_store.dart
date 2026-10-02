@@ -279,6 +279,11 @@ class SyncedPreferencesStore {
         }
         continue;
       }
+      if (wasFirstHydrate &&
+          field == SyncedPreferenceField.sound &&
+          _dirtyFields.contains(field)) {
+        continue;
+      }
       if (isProtected && !wasFirstHydrate) {
         if (remote != null &&
             adapter.hasInboundUpdatesWhileProtected(local, remote)) {

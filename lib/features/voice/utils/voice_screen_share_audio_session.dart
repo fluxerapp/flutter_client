@@ -22,7 +22,8 @@ class VoiceScreenShareAudioSession<T> {
   final Map<T, _Playback<T>> _playback = <T, _Playback<T>>{};
   var _sessionEnded = false;
 
-  Future<void> retain(T track) {
+  /// True when this retain is the one that started playback.
+  Future<bool> retain(T track) {
     final _Playback<T> playback = _playback.putIfAbsent(
       track,
       _Playback<T>.new,
@@ -30,13 +31,16 @@ class VoiceScreenShareAudioSession<T> {
     playback.stopTimer?.cancel();
     playback.stopTimer = null;
     playback.refs++;
-    return _enqueue(playback, () async {
+    var started = false;
+    final Future<void> done = _enqueue(playback, () async {
       if (playback.refs == 0 || playback.playing) {
         return;
       }
       await start(track);
       playback.playing = true;
+      started = true;
     });
+    return done.then((_) => started);
   }
 
   void release(T track, {bool immediate = false}) {

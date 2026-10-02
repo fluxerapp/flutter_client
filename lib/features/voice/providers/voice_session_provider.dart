@@ -54,6 +54,7 @@ import 'package:fluxer_app/features/voice/utils/voice_lifecycle_log.dart';
 import 'package:fluxer_app/features/voice/utils/voice_participant_volume_utils.dart';
 import 'package:fluxer_app/features/voice/utils/voice_server_update_decision.dart';
 import 'package:fluxer_app/features/voice/voice_session_errors.dart';
+import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:livekit_client/livekit_client.dart';
@@ -69,10 +70,7 @@ const List<Duration> _kMicPublishRetryDelays = <Duration>[
   Duration(seconds: 2),
   Duration(seconds: 5),
 ];
-const int _kScreenSharePublicationWaitIterations = 50;
-const Duration _kScreenSharePublicationWaitInterval = Duration(
-  milliseconds: 200,
-);
+const Duration _kScreenSharePublicationTimeout = Duration(seconds: 8);
 const Timeouts _kE2eeConnectTimeouts = Timeouts(
   connection: Duration(seconds: 20),
   debounce: Duration(milliseconds: 20),
@@ -107,6 +105,9 @@ class VoiceSession extends _$VoiceSession {
   bool _togglingVideo = false;
   bool _togglingScreenShare = false;
   bool _reconcilingSelfStream = false;
+  bool _selfStreamReconcileDirty = false;
+  bool? _lastReportedSelfStream;
+  int? _handledRoomConnectedAttempt;
   bool _startWithVideoAfterConnect = false;
   DateTime? _lastCameraOrientationRefresh;
   LocalParticipant? _observedLocalParticipant;
@@ -120,6 +121,8 @@ class VoiceSession extends _$VoiceSession {
   Room? _regionHotSwapPendingRoom;
   Timer? _regionHotSwapTimeoutTimer;
   Future<void>? _leaveVoiceInFlight;
+  bool _endCallRequested = false;
+  String? _leaveChannelId;
   Timer? _deferredServerDisconnectTimer;
   String? _pendingServerDisconnectConnectionId;
   int? _boundRoomAttemptId;
@@ -1156,44 +1159,24 @@ class VoiceSession extends _$VoiceSession {
     }
     final String? e2eeKey = event.e2eeKey;
     final bool useE2ee = e2eeKey != null && e2eeKey.isNotEmpty;
-    BaseKeyProvider? keyProvider;
-    if (useE2ee) {
-      try {
-        keyProvider = await BaseKeyProvider.create();
-        await keyProvider.setSharedKey(e2eeKey);
-        talker.info('[Voice][E2EE] Shared key configured on BaseKeyProvider.');
-      } on Object catch (e) {
-        talker.error('[Voice][E2EE] Key provider setup failed: $e');
-        if (attempt == _connectGeneration) {
-          _cancelConnectWatchdog();
-          state = state.copyWith(
-            isConnecting: false,
-            errorMessage: 'Could not connect to voice.',
-          );
-        }
-        return;
+    final RoomOptions roomOptions;
+    try {
+      roomOptions = await _roomOptionsForVoice(
+        resolvedChannelId: resolvedChannelId,
+        e2eeKey: e2eeKey,
+      );
+    } on Object catch (e) {
+      talker.error('[Voice][E2EE] Key provider setup failed: $e');
+      if (attempt == _connectGeneration) {
+        _cancelConnectWatchdog();
+        state = state.copyWith(
+          isConnecting: false,
+          errorMessage: 'Could not connect to voice.',
+        );
       }
+      return;
     }
     final VoiceSettingsState voiceSettings = ref.read(voiceSettingsProvider);
-    final VoiceSettingsApplicator applicator = ref.read(
-      voiceSettingsApplicatorProvider,
-    );
-    final int? channelBitrate = await _bitrateForChannel(resolvedChannelId);
-    final RoomOptions baseRoomOptions = applicator.buildRoomOptions(
-      voiceSettings,
-      channelBitrate: channelBitrate,
-    );
-    final RoomOptions roomOptions = RoomOptions(
-      dynacast: baseRoomOptions.dynacast,
-      encryption: keyProvider != null
-          ? E2EEOptions(keyProvider: keyProvider)
-          : null,
-      defaultAudioCaptureOptions: baseRoomOptions.defaultAudioCaptureOptions,
-      defaultAudioPublishOptions: baseRoomOptions.defaultAudioPublishOptions,
-      defaultCameraCaptureOptions: baseRoomOptions.defaultCameraCaptureOptions,
-      defaultScreenShareCaptureOptions:
-          baseRoomOptions.defaultScreenShareCaptureOptions,
-    );
     final Room room = Room(roomOptions: roomOptions);
     _managedLiveKitRoom = room;
     if (attempt != _connectGeneration) {
@@ -1232,6 +1215,9 @@ class VoiceSession extends _$VoiceSession {
       timeouts: useE2ee ? _kE2eeConnectTimeouts : Timeouts.defaultTimeouts,
     );
     _armLiveKitConnectWatchdog(attempt);
+    final VoiceSettingsApplicator applicator = ref.read(
+      voiceSettingsApplicatorProvider,
+    );
     try {
       unawaited(applicator.applySpeakerOutput(settings: voiceSettings));
       await room.connect(
@@ -1240,7 +1226,7 @@ class VoiceSession extends _$VoiceSession {
         connectOptions: connectOptions,
       );
       _joinTiming?.mark('room.connect');
-      if (keyProvider != null) {
+      if (useE2ee) {
         await room.setE2EEEnabled(true);
         _logVoiceE2eeSnapshot(
           'LiveKit transport connected with E2EE',
@@ -1378,16 +1364,21 @@ class VoiceSession extends _$VoiceSession {
       connectionId: event.connectionId,
     );
     await _abortRegionHotSwap();
-    final VoiceSettingsState voiceSettings = ref.read(voiceSettingsProvider);
-    final VoiceSettingsApplicator applicator = ref.read(
-      voiceSettingsApplicatorProvider,
-    );
-    final int? channelBitrate = await _bitrateForChannel(resolvedChannelId);
-    final RoomOptions baseRoomOptions = applicator.buildRoomOptions(
-      voiceSettings,
-      channelBitrate: channelBitrate,
-    );
-    final Room newRoom = Room(roomOptions: baseRoomOptions);
+    final String? e2eeKey = _e2eeKeyForRegionHotSwap(event.e2eeKey);
+    final RoomOptions roomOptions;
+    try {
+      roomOptions = await _roomOptionsForVoice(
+        resolvedChannelId: resolvedChannelId,
+        e2eeKey: e2eeKey,
+      );
+    } on Object catch (e, st) {
+      talker.error('[Voice][E2EE] Region change key setup failed: $e', e, st);
+      if (attempt == _connectGeneration) {
+        state = state.copyWith(isReconnecting: false);
+      }
+      return;
+    }
+    final Room newRoom = Room(roomOptions: roomOptions);
     _regionHotSwapPendingRoom = newRoom;
     state = state.copyWith(isReconnecting: true, clearError: true);
     _cancelRegionHotSwapTimeout();
@@ -1405,7 +1396,12 @@ class VoiceSession extends _$VoiceSession {
       await newRoom.connect(
         event.endpoint,
         event.token,
-        connectOptions: const ConnectOptions(autoSubscribe: false),
+        connectOptions: ConnectOptions(
+          autoSubscribe: false,
+          timeouts: e2eeKey != null
+              ? _kE2eeConnectTimeouts
+              : Timeouts.defaultTimeouts,
+        ),
       );
       if (attempt != _connectGeneration ||
           _regionHotSwapPendingRoom != newRoom) {
@@ -1415,7 +1411,16 @@ class VoiceSession extends _$VoiceSession {
         );
         return;
       }
-      await _restoreLocalMediaAfterRegionHotSwap(
+      if (e2eeKey != null) {
+        await newRoom.setE2EEEnabled(true);
+        _logVoiceE2eeSnapshot(
+          'region change connected with E2EE',
+          room: newRoom,
+          channelId: resolvedChannelId,
+          guildId: state.guildId,
+        );
+      }
+      final bool shareDropped = await _restoreLocalMediaAfterRegionHotSwap(
         newRoom: newRoom,
         resolvedChannelId: resolvedChannelId,
         attempt: attempt,
@@ -1441,6 +1446,7 @@ class VoiceSession extends _$VoiceSession {
         voiceServerEndpoint: event.endpoint,
         activeConnectionId: event.connectionId,
         liveKitRoom: newRoom,
+        e2eeKey: e2eeKey,
       );
       _bindVoiceRoomEvents(
         room: newRoom,
@@ -1462,6 +1468,11 @@ class VoiceSession extends _$VoiceSession {
           attempt: attempt,
         ),
       );
+      if (shareDropped) {
+        unawaited(
+          _reconcileSelfStreamState(reason: 'region_share_not_restored'),
+        );
+      }
       unawaited(_disconnectRegionHotSwapPreviousRoom(previousRoom));
       talker.info(
         '[Voice] LiveKit region change complete (endpoint=${event.endpoint}).',
@@ -1475,17 +1486,17 @@ class VoiceSession extends _$VoiceSession {
     }
   }
 
-  Future<void> _restoreLocalMediaAfterRegionHotSwap({
+  Future<bool> _restoreLocalMediaAfterRegionHotSwap({
     required Room newRoom,
     required String resolvedChannelId,
     required int attempt,
   }) async {
     if (attempt != _connectGeneration) {
-      return;
+      return false;
     }
     final LocalParticipant? participant = newRoom.localParticipant;
     if (participant == null) {
-      return;
+      return false;
     }
     final VoiceSettingsState settings = ref.read(voiceSettingsProvider);
     final VoiceSettingsApplicator applicator = ref.read(
@@ -1508,21 +1519,82 @@ class VoiceSession extends _$VoiceSession {
         cameraCaptureOptions: _cameraCaptureOptions(),
       );
     }
+    var shareDropped = false;
     if (voiceState?.selfStream ?? false) {
-      await applicator.setScreenShareEnabled(
-        participant: participant,
-        room: newRoom,
-        settings: settings,
-        enabled: true,
-        captureScreenAudio: true,
+      final String notificationText = ref
+          .read(appLocalizationsProvider)
+          .voiceScreenShareNotificationText;
+      final bool hasBackground = await enableAndroidScreenShareBackground(
+        notificationText: notificationText,
       );
+      if (!hasBackground) {
+        shareDropped = true;
+        talker.warning(
+          '[Voice] Screen-share background service could not be restarted '
+          'after region change.',
+        );
+      } else {
+        await applicator.setScreenShareEnabled(
+          participant: participant,
+          room: newRoom,
+          settings: settings,
+          enabled: true,
+          captureScreenAudio: true,
+        );
+      }
     }
+    return shareDropped;
+  }
+
+  String? _e2eeKeyForRegionHotSwap(String? incomingKey) {
+    if (incomingKey != null && incomingKey.isNotEmpty) {
+      return incomingKey;
+    }
+    final String? current = state.e2eeKey;
+    if (current != null && current.isNotEmpty) {
+      return current;
+    }
+    return null;
+  }
+
+  Future<RoomOptions> _roomOptionsForVoice({
+    required String resolvedChannelId,
+    required String? e2eeKey,
+  }) async {
+    final bool useE2ee = e2eeKey != null && e2eeKey.isNotEmpty;
+    BaseKeyProvider? keyProvider;
+    if (useE2ee) {
+      keyProvider = await BaseKeyProvider.create();
+      await keyProvider.setSharedKey(e2eeKey);
+      talker.info('[Voice][E2EE] Shared key configured on BaseKeyProvider.');
+    }
+    final VoiceSettingsState voiceSettings = ref.read(voiceSettingsProvider);
+    final VoiceSettingsApplicator applicator = ref.read(
+      voiceSettingsApplicatorProvider,
+    );
+    final int? channelBitrate = await _bitrateForChannel(resolvedChannelId);
+    final RoomOptions baseRoomOptions = applicator.buildRoomOptions(
+      voiceSettings,
+      channelBitrate: channelBitrate,
+    );
+    return RoomOptions(
+      dynacast: baseRoomOptions.dynacast,
+      encryption: keyProvider != null
+          ? E2EEOptions(keyProvider: keyProvider)
+          : null,
+      defaultAudioCaptureOptions: baseRoomOptions.defaultAudioCaptureOptions,
+      defaultAudioPublishOptions: baseRoomOptions.defaultAudioPublishOptions,
+      defaultCameraCaptureOptions: baseRoomOptions.defaultCameraCaptureOptions,
+      defaultScreenShareCaptureOptions:
+          baseRoomOptions.defaultScreenShareCaptureOptions,
+    );
   }
 
   Future<void> _disconnectRegionHotSwapPreviousRoom(Room previousRoom) async {
     await _disconnectAndDisposeRoom(
       previousRoom,
       reason: 'region_hotswap_previous',
+      releaseLocalCapture: false,
     );
   }
 
@@ -1622,31 +1694,57 @@ class VoiceSession extends _$VoiceSession {
   }
 
   Future<void> leaveVoice({bool endCall = true}) async {
+    if (endCall) {
+      _endCallRequested = true;
+    }
     if (_leaveVoiceInFlight != null) {
       await _leaveVoiceInFlight;
+      await _finishRequestedEndCall();
       return;
     }
     final Completer<void> leaveCompleter = Completer<void>();
     _leaveVoiceInFlight = leaveCompleter.future;
     try {
-      await _leaveVoiceImpl(endCall: endCall);
+      await _leaveVoiceImpl();
     } finally {
-      if (!leaveCompleter.isCompleted) {
-        leaveCompleter.complete();
+      try {
+        await _finishRequestedEndCall();
+      } finally {
+        if (!leaveCompleter.isCompleted) {
+          leaveCompleter.complete();
+        }
+        _leaveVoiceInFlight = null;
       }
-      _leaveVoiceInFlight = null;
     }
   }
 
-  Future<void> _leaveVoiceImpl({required bool endCall}) async {
+  Future<void> _finishRequestedEndCall() async {
+    if (!_endCallRequested) {
+      return;
+    }
+    _endCallRequested = false;
+    final String? channelId = _leaveChannelId;
+    if (channelId == null) {
+      return;
+    }
+    try {
+      final FluxerClient client = ref.read(fluxerClientProvider);
+      await client.channels.endCall(channelId: channelId);
+    } on Object catch (e) {
+      talker.warning('[Voice] endCall: $e');
+    }
+  }
+
+  Future<void> _leaveVoiceImpl() async {
     _joinTiming = null;
     _intentionalLiveKitTeardown = true;
+    _leaveChannelId = state.channelId;
     logVoiceLifecycle(
       'leave_voice',
       connectGeneration: _connectGeneration,
       channelId: state.channelId,
       connectionId: state.activeConnectionId,
-      reason: endCall ? 'end_call' : 'leave_only',
+      reason: _endCallRequested ? 'end_call' : 'leave_only',
     );
     _cancelConnectWatchdog();
     _cancelLiveKitConnectWatchdog();
@@ -1698,15 +1796,10 @@ class VoiceSession extends _$VoiceSession {
       connectionId: connectionId,
       skipGatewayDisconnect: true,
     );
+    _lastReportedSelfStream = null;
+    _selfStreamReconcileDirty = false;
+    _handledRoomConnectedAttempt = null;
     state = const VoiceSessionState();
-    if (endCall && channelId != null) {
-      try {
-        final FluxerClient client = ref.read(fluxerClientProvider);
-        await client.channels.endCall(channelId: channelId);
-      } on Object catch (e) {
-        talker.warning('[Voice] endCall: $e');
-      }
-    }
   }
 
   void _teardownOnDispose() {
@@ -1726,6 +1819,7 @@ class VoiceSession extends _$VoiceSession {
     unawaited(_abortRegionHotSwap());
     _cancelDeferredServerDisconnect();
     _cancelSpeakerOutputRetry();
+    unawaited(disableAndroidScreenShareBackground());
     _detachMediaDeviceChangeListener();
     _detachLocalParticipantListener();
     _detachRoomEventsListener();
@@ -1737,13 +1831,24 @@ class VoiceSession extends _$VoiceSession {
     unawaited(_disconnectAndDisposeRoom(roomToDisconnect));
   }
 
-  Future<void> _disconnectAndDisposeRoom(Room room, {String? reason}) async {
+  Future<void> _disconnectAndDisposeRoom(
+    Room room, {
+    String? reason,
+    bool releaseLocalCapture = true,
+  }) async {
     final bool teardownAlreadyArmed = _intentionalLiveKitTeardown;
     _intentionalLiveKitTeardown = true;
     final String reasonSuffix = reason == null ? '' : ' after $reason';
     try {
       final LocalParticipant? localParticipant = room.localParticipant;
-      if (localParticipant != null) {
+      if (localParticipant != null && releaseLocalCapture) {
+        try {
+          await localParticipant.setScreenShareEnabled(false);
+        } on Object catch (error) {
+          talker.debug(
+            '[Voice] failed to disable screen share on disconnect: $error',
+          );
+        }
         try {
           await localParticipant.setCameraEnabled(false);
         } on Object catch (error) {
@@ -2357,22 +2462,46 @@ class VoiceSession extends _$VoiceSession {
     return false;
   }
 
+  Future<void> _waitForScreenSharePublication() async {
+    if (_hasPublishedLocalScreenShareVideo(requireTrack: true)) {
+      return;
+    }
+    final LocalParticipant? participant = state.liveKitRoom?.localParticipant;
+    if (participant == null) {
+      return;
+    }
+    final Completer<void> published = Completer<void>();
+    void onChanged() {
+      if (published.isCompleted) {
+        return;
+      }
+      if (_hasPublishedLocalScreenShareVideo(requireTrack: true)) {
+        published.complete();
+      }
+    }
+
+    participant.addListener(onChanged);
+    try {
+      await published.future.timeout(_kScreenSharePublicationTimeout);
+    } on TimeoutException {
+      return;
+    } finally {
+      participant.removeListener(onChanged);
+    }
+  }
+
   Future<void> _reconcileSelfStreamState({
     required String reason,
     bool waitForPublication = false,
   }) async {
     if (_reconcilingSelfStream) {
+      _selfStreamReconcileDirty = true;
       return;
     }
     _reconcilingSelfStream = true;
     try {
       if (waitForPublication) {
-        for (int i = 0; i < _kScreenSharePublicationWaitIterations; i++) {
-          if (_hasPublishedLocalScreenShareVideo(requireTrack: true)) {
-            break;
-          }
-          await Future<void>.delayed(_kScreenSharePublicationWaitInterval);
-        }
+        await _waitForScreenSharePublication();
       }
       final bool actualSelfStream = _hasPublishedLocalScreenShareVideo(
         requireTrack: false,
@@ -2382,17 +2511,34 @@ class VoiceSession extends _$VoiceSession {
       if (actualSelfStream == currentSelfStream) {
         return;
       }
+      if (_lastReportedSelfStream == actualSelfStream) {
+        return;
+      }
       talker.debug(
         '[Voice] selfStream reconcile ($reason): '
         '$currentSelfStream -> $actualSelfStream',
       );
+      _lastReportedSelfStream = actualSelfStream;
       await _applySelfStreamState(selfStream: actualSelfStream);
     } finally {
       _reconcilingSelfStream = false;
+      if (_selfStreamReconcileDirty) {
+        _selfStreamReconcileDirty = false;
+        unawaited(_reconcileSelfStreamState(reason: reason));
+      }
     }
   }
 
   void _handleLocalParticipantChanged() {
+    if (_reconcilingSelfStream) {
+      final bool published = _hasPublishedLocalScreenShareVideo(
+        requireTrack: false,
+      );
+      if (published != _lastReportedSelfStream) {
+        _selfStreamReconcileDirty = true;
+      }
+      return;
+    }
     unawaited(_reconcileSelfStreamState(reason: 'local_participant_changed'));
   }
 
@@ -2464,6 +2610,13 @@ class VoiceSession extends _$VoiceSession {
     if (!_isLatestRoomAttempt(attempt)) {
       return;
     }
+    if (_handledRoomConnectedAttempt == attempt) {
+      unawaited(
+        _reconcileLocalAudioPublish(reason: 'room_connected_duplicate'),
+      );
+      return;
+    }
+    _handledRoomConnectedAttempt = attempt;
     _intentionalLiveKitTeardown = false;
     logVoiceLifecycle(
       'livekit_room_connected',
@@ -2473,12 +2626,6 @@ class VoiceSession extends _$VoiceSession {
       connectionState: room.connectionState.name,
     );
     _cancelLiveKitConnectWatchdog();
-    if (state.isConnected && state.channelId == resolvedChannelId) {
-      unawaited(
-        _reconcileLocalAudioPublish(reason: 'room_connected_duplicate'),
-      );
-      return;
-    }
     _attachLocalParticipantListener(room.localParticipant);
     state = state.copyWith(
       isConnecting: false,

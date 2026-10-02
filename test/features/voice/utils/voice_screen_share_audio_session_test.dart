@@ -64,6 +64,36 @@ void main() {
       });
     });
 
+    test('only the retain that starts playback reports started', () {
+      fakeAsync((FakeAsync async) {
+        final List<String> events = <String>[];
+        final VoiceScreenShareAudioSession<Object> playback = session(
+          events: events,
+        );
+        final Object track = Object();
+        bool? first;
+        bool? second;
+        unawaited(playback.retain(track).then((bool value) => first = value));
+        unawaited(playback.retain(track).then((bool value) => second = value));
+        tick(async);
+        expect(first, isTrue);
+        expect(second, isFalse);
+        expect(events, <String>['start']);
+
+        playback
+          ..release(track)
+          ..release(track);
+        tick(async, kVoiceTrackHandoffGrace);
+        expect(events, <String>['start', 'stop']);
+
+        bool? again;
+        unawaited(playback.retain(track).then((bool value) => again = value));
+        tick(async);
+        expect(again, isTrue);
+        expect(events, <String>['start', 'stop', 'start']);
+      });
+    });
+
     test('a second retain does not start the track again', () {
       fakeAsync((FakeAsync async) {
         final List<String> events = <String>[];

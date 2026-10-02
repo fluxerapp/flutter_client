@@ -21,6 +21,7 @@ import 'package:fluxer_app/core/push/push_notification_permission.dart';
 import 'package:fluxer_app/core/push/push_notification_tap_handler.dart';
 import 'package:fluxer_app/core/push/push_service.dart';
 import 'package:fluxer_app/core/push/push_tray_registry_provider.dart';
+import 'package:fluxer_app/core/push/services/apple_push_service.dart';
 import 'package:fluxer_app/core/push/services/firebase_messaging_push_service.dart';
 import 'package:fluxer_app/core/push/services/unified_push_service.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_distributor_setup.dart';
@@ -46,6 +47,9 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
       ..read(fcmNotificationTapBindingProvider)
       ..listen<bool>(appUiForegroundProvider, (_, bool next) {
         _syncForegroundState(isAppForeground: next);
+      }, fireImmediately: true)
+      ..listen<String?>(currentUserIdProvider, (String? _, String? next) {
+        unawaited(ApplePushService.syncActiveUserId(next));
       }, fireImmediately: true);
     if (!_bootstrapScheduled) {
       _bootstrapScheduled = true;
@@ -67,6 +71,7 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
       return ForegroundPushNotificationPolicy.shouldProcessPush(
         isAppForeground: isAppForeground,
         payload: payload,
+        activeUserId: ref.read(currentUserIdProvider),
       );
     });
   }
@@ -135,9 +140,11 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
 
   void _onIncomingPush(PushMessage message) {
     final bool isForeground = ref.read(appUiForegroundProvider);
+    final String? activeUserId = ref.read(currentUserIdProvider);
     if (!ForegroundPushNotificationPolicy.shouldProcessPush(
       isAppForeground: isForeground,
       payload: message.payload,
+      activeUserId: activeUserId,
     )) {
       if (!isNotificationClearPayload(message.payload)) {
         ref
@@ -159,7 +166,21 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
     if (PushProviderGuard.isApple) {
       return;
     }
-    unawaited(_showAndroidPushIfNotRinging(message));
+    final Map<String, String> payload =
+        ForegroundPushNotificationPolicy.notificationPayloadForDisplay(
+          payload: message.payload,
+          isAppForeground: isForeground,
+          activeUserId: activeUserId,
+        );
+    final PushMessage toShow = identical(payload, message.payload)
+        ? message
+        : PushMessage(
+            id: message.id,
+            title: message.title,
+            body: message.body,
+            payload: payload,
+          );
+    unawaited(_showAndroidPushIfNotRinging(toShow));
   }
 
   Future<void> _showAndroidPushIfNotRinging(PushMessage message) async {

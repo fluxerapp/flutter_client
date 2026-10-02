@@ -448,6 +448,81 @@ void main() {
     });
   });
 
+  test('shorter keyboard replaces a taller saved anchor', () async {
+    SharedPreferences.setMockInitialValues(<String, Object>{
+      'mobile_keyboard_anchor_height_portrait': 420.0,
+    });
+    final ProviderContainer container = ProviderContainer();
+    addTearDown(container.dispose);
+    container.listen(mobileKeyboardMetricsProvider, (_, _) {});
+    await Future<void>.value();
+    await Future<void>.delayed(Duration.zero);
+
+    expect(
+      container.read(mobileKeyboardMetricsProvider).anchoredKeyboardHeight,
+      420,
+    );
+
+    final MobileKeyboardMetrics notifier = container.read(
+      mobileKeyboardMetricsProvider.notifier,
+    );
+    notifier.updateLayout(screenHeight: 800, isPortrait: true, isIos: true);
+    notifier.syncViewInsets(180, safeAreaBottom: 0);
+    expect(
+      container.read(mobileKeyboardMetricsProvider).anchoredKeyboardHeight,
+      420,
+    );
+
+    notifier.syncViewInsets(302, safeAreaBottom: 0);
+    expect(
+      container.read(mobileKeyboardMetricsProvider).anchoredKeyboardHeight,
+      420,
+    );
+
+    notifier.syncViewInsets(0, safeAreaBottom: 0);
+    expect(
+      container.read(mobileKeyboardMetricsProvider).anchoredKeyboardHeight,
+      302,
+    );
+
+    await Future<void>.delayed(const Duration(milliseconds: 350));
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    expect(
+      preferences.getDouble('mobile_keyboard_anchor_height_portrait'),
+      302,
+    );
+  });
+
+  test('stuck short viewInsets yields to the native ime', () async {
+    final ProviderContainer container = ProviderContainer();
+    addTearDown(container.dispose);
+    container.listen(mobileKeyboardMetricsProvider, (_, _) {});
+    await Future<void>.value();
+
+    final MobileKeyboardMetrics notifier = container.read(
+      mobileKeyboardMetricsProvider.notifier,
+    );
+    notifier
+      ..debugApplyNativeMetrics(
+        keyboardHeight: 336,
+        isKeyboardVisible: true,
+        nativeSafeAreaBottom: 34,
+      )
+      ..syncViewInsets(180, safeAreaBottom: 0);
+    expect(
+      container.read(mobileKeyboardMetricsProvider).liveKeyboardHeight,
+      180,
+    );
+
+    await Future<void>.delayed(kUnmeasuredKeyboardReservationTimeout);
+    await Future<void>.value();
+
+    expect(
+      container.read(mobileKeyboardMetricsProvider).liveKeyboardHeight,
+      302,
+    );
+  });
+
   test('ignores a persisted shortcut-bar anchor', () async {
     SharedPreferences.setMockInitialValues(<String, Object>{
       'mobile_keyboard_anchor_height_portrait': 55.0,

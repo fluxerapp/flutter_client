@@ -384,7 +384,7 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
   }
 
   Widget _flightVideo({
-    required String tileId,
+    required Widget video,
     required double t,
     bool dragging = false,
   }) {
@@ -417,7 +417,7 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(radius),
-            child: VoicePipVideo(tileId: tileId),
+            child: video,
           ),
         ),
       ),
@@ -428,6 +428,7 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
   Widget _buildPip({
     required BuildContext context,
     required String tileId,
+    required Widget video,
     required VoiceSessionState voice,
     required bool hasVideo,
     required Offset? storedOrigin,
@@ -484,7 +485,7 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
           opacity: fade,
           child: KeyedSubtree(
             key: kVoicePipFlightKey,
-            child: _flightVideo(tileId: tileId, t: t),
+            child: _flightVideo(video: video, t: t),
           ),
         ),
       );
@@ -494,7 +495,7 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
       child: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          _flightVideo(tileId: tileId, t: 0, dragging: _dragging),
+          _flightVideo(video: video, t: 0, dragging: _dragging),
           FluxerGestureDetector(
             key: kVoiceInAppPipKey,
             behavior: HitTestBehavior.opaque,
@@ -728,16 +729,24 @@ class _VoicePipLayerState extends ConsumerState<VoicePipLayer>
 
     final bool hasFeaturedVideo = ref.watch(voicePipFeaturedHasVideoProvider);
     final Offset? pipPlacement = ref.watch(voicePipPlacementProvider);
+    final Widget? featuredVideo = featuredTileId == null
+        ? null
+        : RepaintBoundary(
+            key: ValueKey<String>(featuredTileId),
+            child: VoicePipVideo(tileId: featuredTileId),
+          );
     return Stack(
       children: <Widget>[
         widget.child,
-        if (showOverlay)
+        if (showOverlay && featuredVideo != null)
           AnimatedBuilder(
             animation: _flightTick,
-            builder: (BuildContext context, Widget? _) {
+            child: featuredVideo,
+            builder: (BuildContext context, Widget? video) {
               return _buildPip(
                 context: context,
                 tileId: featuredTileId,
+                video: video!,
                 voice: voice,
                 hasVideo: hasFeaturedVideo,
                 storedOrigin: pipPlacement,

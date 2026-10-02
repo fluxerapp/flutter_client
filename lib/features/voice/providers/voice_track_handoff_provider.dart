@@ -3,6 +3,7 @@ import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_screen_share_audio_session.dart';
+import 'package:fluxer_app/features/voice/utils/voice_stream_audio_utils.dart';
 import 'package:fluxer_app/features/voice/utils/voice_track_renderer_cache.dart';
 import 'package:livekit_client/livekit_client.dart';
 
@@ -42,12 +43,8 @@ final voiceScreenShareAudioSessionProvider =
     Provider<VoiceScreenShareAudioSession<AudioTrack>>((Ref ref) {
       final VoiceScreenShareAudioSession<AudioTrack> session =
           VoiceScreenShareAudioSession<AudioTrack>(
-            start: (AudioTrack track) async {
-              await track.start();
-            },
-            stop: (AudioTrack track) async {
-              await track.stop();
-            },
+            start: resumeScreenSharePlayback,
+            stop: pauseScreenSharePlayback,
           );
       _bindVoiceSession(
         ref,

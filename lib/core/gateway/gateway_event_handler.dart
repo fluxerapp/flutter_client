@@ -765,6 +765,10 @@ class GatewayEventHandler {
       }
     }
 
+    final Set<String> localGuildIdsBeforeReady = isSameUserReconnect
+        ? (await database.guildDao.getServers()).map((row) => row.id).toSet()
+        : const <String>{};
+
     // Parsed on an isolate before BEGIN so the multi-second parse on large
     // accounts does not extend the write lock.
     List<ParsedReadyGuild> processedGuilds = const <ParsedReadyGuild>[];
@@ -970,8 +974,18 @@ class GatewayEventHandler {
             for (final rawGuild in event.rawGuilds)
               if (rawGuild['id'] is String) rawGuild['id'] as String,
           };
+          final Set<String> localIdsNow = (await database.guildDao.getServers())
+              .map((row) => row.id)
+              .toSet();
           prunedGuildIds.addAll(
-            await removeGuildsNotInLocalDb(database, readyGuildIds),
+            await removeGuildsNotInLocalDb(
+              database,
+              guildIdsKeptAfterMembershipSync(
+                apiGuildIds: readyGuildIds,
+                localGuildIdsBeforeFetch: localGuildIdsBeforeReady,
+                localGuildIdsAfterUpsert: localIdsNow,
+              ),
+            ),
           );
         }
 

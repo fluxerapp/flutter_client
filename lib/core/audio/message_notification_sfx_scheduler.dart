@@ -22,6 +22,15 @@ class MessageNotificationSfxScheduler {
   DateTime? _queuedAt;
   DateTime? _lastPlayedAt;
 
+  FluxerSfxClip? get pendingClip => _pendingClip;
+
+  void dropPending() {
+    _debounceTimer?.cancel();
+    _debounceTimer = null;
+    _pendingClip = null;
+    _queuedAt = null;
+  }
+
   void schedule({
     required FluxerSfxClip clip,
     required MessageNotificationSfxPlayCallback play,
@@ -70,9 +79,7 @@ class MessageNotificationSfxScheduler {
   }
 
   void dispose() {
-    _debounceTimer?.cancel();
-    _debounceTimer = null;
-    _pendingClip = null;
-    _queuedAt = null;
+    dropPending();
+    _lastPlayedAt = null;
   }
 }

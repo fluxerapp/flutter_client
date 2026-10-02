@@ -353,6 +353,27 @@ void main() {
     });
   });
 
+  group('resolvedKeyboardInsetBottomFrom', () {
+    test('converts physical view insets to logical pixels', () {
+      expect(
+        resolvedKeyboardInsetBottomFrom(
+          mediaQueryInsetBottom: 0,
+          physicalViewInsetBottom: 906,
+          devicePixelRatio: 3,
+        ),
+        302,
+      );
+      expect(
+        resolvedKeyboardInsetBottomFrom(
+          mediaQueryInsetBottom: 302,
+          physicalViewInsetBottom: 906,
+          devicePixelRatio: 3,
+        ),
+        302,
+      );
+    });
+  });
+
   group('resolveDualSourceLiveKeyboardHeight', () {
     test('viewInsets wins over a taller native height', () {
       expect(

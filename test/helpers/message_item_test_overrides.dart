@@ -13,25 +13,31 @@ void messageItemTestWidgets(
   bool skip = false,
   Timeout? timeout,
 }) {
-  testWidgets(description, (WidgetTester tester) async {
-    await callback(tester);
-    await releaseTestWidgetTree(tester);
-  }, skip: skip, timeout: timeout);
+  testWidgets(
+    description,
+    (WidgetTester tester) async {
+      await callback(tester);
+      await releaseTestWidgetTree(tester);
+    },
+    skip: skip,
+    timeout: timeout,
+  );
 }
 
-const UserSettingsViewState kMessageItemTestUserSettings = UserSettingsViewState(
-  userId: 'test-user',
-  username: 'tester',
-  displayName: 'Tester',
-  discriminator: '0000',
-  avatar: null,
-  avatarColor: null,
-  memberSince: null,
-  status: 'online',
-  messageDisplayCompact: false,
-  developerMode: false,
-  trustedDomains: <String>[],
-);
+const UserSettingsViewState kMessageItemTestUserSettings =
+    UserSettingsViewState(
+      userId: 'test-user',
+      username: 'tester',
+      displayName: 'Tester',
+      discriminator: '0000',
+      avatar: null,
+      avatarColor: null,
+      memberSince: null,
+      status: 'online',
+      messageDisplayCompact: false,
+      developerMode: false,
+      trustedDomains: <String>[],
+    );
 
 List<Override> messageItemTestProviderOverrides() => [
   advancedPreferencesProvider.overrideWithValue(

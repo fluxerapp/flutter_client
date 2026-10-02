@@ -790,6 +790,35 @@ void main() {
     });
   });
 
+  group('incomingRingBelongsToOtherAccount', () {
+    test('keeps a ring for another account', () {
+      expect(
+        incomingRingBelongsToOtherAccount(
+          ringTargetUserId: 'user-b',
+          activeUserId: 'user-a',
+        ),
+        isTrue,
+      );
+    });
+
+    test('follows the gateway for the open account', () {
+      expect(
+        incomingRingBelongsToOtherAccount(
+          ringTargetUserId: 'user-a',
+          activeUserId: 'user-a',
+        ),
+        isFalse,
+      );
+      expect(
+        incomingRingBelongsToOtherAccount(
+          ringTargetUserId: null,
+          activeUserId: 'user-a',
+        ),
+        isFalse,
+      );
+    });
+  });
+
   group('kVoiceCallKitSpeakerReapplyDelays', () {
     test('retries speaker after CallKit takes the session', () {
       expect(kVoiceCallKitSpeakerReapplyDelays, <Duration>[

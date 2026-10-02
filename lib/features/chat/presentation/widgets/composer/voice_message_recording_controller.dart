@@ -39,6 +39,7 @@ class VoiceMessageRecordingController extends ChangeNotifier {
 
   Timer? _durationTimer;
   Timer? _rmsTimer;
+  Timer? _armTimer;
   StreamSubscription<void>? _maxDurationSubscription;
   int? _pointerId;
   Offset? _pointerStart;
@@ -47,6 +48,7 @@ class VoiceMessageRecordingController extends ChangeNotifier {
   int _previewSyncAttempts = 0;
   String _channelId = '';
   bool _isActive = false;
+  bool _isArming = false;
   bool _isRecording = false;
   bool _isLocked = false;
   bool _isSending = false;
@@ -55,6 +57,7 @@ class VoiceMessageRecordingController extends ChangeNotifier {
   bool _disposed = false;
 
   bool get isActive => _isActive;
+  bool get isArming => _isArming;
   bool get isRecording => _isRecording;
   bool get isLocked => _isLocked;
   bool get isSending => _isSending;
@@ -159,16 +162,46 @@ class VoiceMessageRecordingController extends ChangeNotifier {
     required String channelId,
     required PointerDownEvent event,
   }) async {
-    if (_isActive || _isSending || _pointerId != null) {
+    if (_isActive || _isSending || _isArming || _pointerId != null) {
       return;
     }
     _channelId = channelId;
     _pointerStart = event.position;
     _lastPointerPosition = event.position;
+    _isArming = true;
     _attachPointerRoute(event.pointer);
+    _armTimer = Timer(
+      const Duration(milliseconds: kVoiceMessageHoldArmDelayMs),
+      () {
+        unawaited(_commitHold(context));
+      },
+    );
+  }
+
+  Future<void> _commitHold(BuildContext context) async {
+    _armTimer = null;
+    if (!_isArming || _pointerId == null || _disposed) {
+      _isArming = false;
+      return;
+    }
+    if (!context.mounted) {
+      _abortArm();
+      return;
+    }
+    _isArming = false;
     _beginSession(locked: false);
     _schedulePreviewSync();
     await _startRecording(context);
+  }
+
+  void _abortArm() {
+    _armTimer?.cancel();
+    _armTimer = null;
+    _isArming = false;
+    _detachPointerRoute();
+    _pointerId = null;
+    _pointerStart = null;
+    _lastPointerPosition = null;
   }
 
   Future<void> startLocked({
@@ -282,6 +315,9 @@ class VoiceMessageRecordingController extends ChangeNotifier {
   }
 
   Future<void> cancel() async {
+    _armTimer?.cancel();
+    _armTimer = null;
+    _isArming = false;
     _detachPointerRoute();
     _stopMeters();
     await _maxDurationSubscription?.cancel();
@@ -364,6 +400,7 @@ class VoiceMessageRecordingController extends ChangeNotifier {
   void _resetUi() {
     _setShellGesturesBlocked(false);
     _isActive = false;
+    _isArming = false;
     _isRecording = false;
     _isLocked = false;
     _isSending = false;
@@ -430,6 +467,10 @@ class VoiceMessageRecordingController extends ChangeNotifier {
     if (_pointerId != event.pointer) {
       return;
     }
+    if (_isArming) {
+      _abortArm();
+      return;
+    }
     _updateHoldPreviews(event.position);
     final VoiceMessageHoldReleaseAction action = resolveVoiceMessageHoldRelease(
       isLocked: _isLocked,
@@ -471,6 +512,10 @@ class VoiceMessageRecordingController extends ChangeNotifier {
     if (_pointerId != event.pointer) {
       return;
     }
+    if (_isArming) {
+      _abortArm();
+      return;
+    }
     if (_isLocked) {
       _detachPointerRoute();
       _pointerId = null;
@@ -488,6 +533,10 @@ class VoiceMessageRecordingController extends ChangeNotifier {
   }
 
   Future<void> discardIfDisabled() async {
+    if (_isArming) {
+      _abortArm();
+      return;
+    }
     if (_isRecording && !_isSending) {
       await stop(send: false);
     }
@@ -496,6 +545,9 @@ class VoiceMessageRecordingController extends ChangeNotifier {
   @override
   void dispose() {
     _disposed = true;
+    _armTimer?.cancel();
+    _armTimer = null;
+    _isArming = false;
     _detachPointerRoute();
     _stopMeters();
     unawaited(_maxDurationSubscription?.cancel());

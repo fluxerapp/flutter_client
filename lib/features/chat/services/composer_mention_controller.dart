@@ -102,8 +102,11 @@ class ComposerMentionController extends InlineTokenTextEditingController {
   /// emoji, and registry-resolvable emoji (shortcodes, skin-tone forms, raw
   /// unicode). Unresolvable shortcodes stay literal text so typed colons like
   /// `12:30:45` are never mis-chipped.
-  Future<void> applyWireText(String wire) async {
+  Future<void> applyWireText(String wire, {bool force = false}) async {
     if (toWireText() == wire) {
+      return;
+    }
+    if (!force && value.composing.isValid) {
       return;
     }
     if (wire.isEmpty) {
@@ -128,6 +131,9 @@ class ComposerMentionController extends InlineTokenTextEditingController {
       return;
     }
     if (toWireText() == wire) {
+      return;
+    }
+    if (!force && value.composing.isValid) {
       return;
     }
     replaceWireDisplay(

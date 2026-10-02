@@ -6,6 +6,8 @@ const Uuid _voiceCallKitUuid = Uuid();
 const String kVoiceCallKitExtraMessageId = 'messageId';
 const String kVoiceCallKitExtraConnectionId = 'connectionId';
 const String kVoiceCallKitExtraIsDm = 'isDm';
+const String kVoiceCallKitExtraTargetUserId = 'targetUserId';
+const String kVoiceCallKitExtraGuildId = 'guildId';
 
 enum VoiceCallKitSessionKind { incomingRing, outgoingRing, activeVoice }
 
@@ -24,6 +26,8 @@ class VoiceCallKitSession {
     required this.kind,
     this.messageId,
     this.connectionId,
+    this.targetUserId,
+    this.guildId,
   });
 
   final String callKitId;
@@ -31,6 +35,21 @@ class VoiceCallKitSession {
   final VoiceCallKitSessionKind kind;
   final String? messageId;
   final String? connectionId;
+  final String? targetUserId;
+  final String? guildId;
+}
+
+bool incomingRingBelongsToOtherAccount({
+  required String? ringTargetUserId,
+  required String? activeUserId,
+}) {
+  if (ringTargetUserId == null ||
+      ringTargetUserId.isEmpty ||
+      activeUserId == null ||
+      activeUserId.isEmpty) {
+    return false;
+  }
+  return ringTargetUserId != activeUserId;
 }
 
 bool shouldPresentIncomingVoiceSheet({

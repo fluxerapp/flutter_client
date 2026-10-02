@@ -187,6 +187,46 @@ void main() {
     expect(pushedFolderChunks, folderChunks);
   });
 
+  test(
+    'stale settings snapshot does not revert a local sound change',
+    () async {
+      final database = openTestDatabase();
+      final usersApi = _FakeUsersApi();
+      addTearDown(database.close);
+
+      final container = ProviderContainer(
+        overrides: [
+          fluxerDatabaseProvider.overrideWithValue(database),
+          fluxerClientProvider.overrideWithValue(_FakeClient(usersApi)),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      final initialWire = _wireWithGuildFoldersAndSound(
+        folderIds: {42},
+        masterVolume: 100,
+      );
+      final store = container.read(syncedPreferencesStoreProvider);
+      await store.hydrateFromUserSettings(
+        _testUserSettings(syncedPreferences: initialWire),
+      );
+
+      await container
+          .read(soundPreferencesProvider.notifier)
+          .setAllSoundsDisabled(value: true);
+      await flushSyncedPreferencesDebounce(store);
+
+      await store.hydrateFromUserSettings(
+        _testUserSettings(syncedPreferences: initialWire),
+      );
+
+      expect(
+        container.read(soundPreferencesProvider).allSoundsDisabled,
+        isTrue,
+      );
+    },
+  );
+
   test('empty synced_preferences after hydrate does not push', () async {
     final database = openTestDatabase();
     final usersApi = _FakeUsersApi();

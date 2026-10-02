@@ -173,7 +173,7 @@ void main() {
       ).called(1);
       verify(mockLoopPlayer.setReleaseMode(ReleaseMode.loop)).called(1);
       verify(mockLoopPlayer.stop()).called(1);
-      verify(mockLoopPlayer.setVolume(any)).called(1);
+      verify(mockLoopPlayer.setVolume(any)).called(2);
       verify(mockLoopPlayer.play(any)).called(1);
     });
   });

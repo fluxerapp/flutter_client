@@ -235,6 +235,36 @@ class RunnerTests: XCTestCase {
     )
   }
 
+  func testForegroundPushPolicyShowsAnotherAccountsAlert() {
+    let alertPayload: [AnyHashable: Any] = [
+      "aps": ["alert": ["title": "Ping", "body": "Hello"]],
+      "channel_id": "456",
+      "message_id": "msg-1",
+      "target_user_id": "user-b",
+      "url": "/channels/@me/456/msg-1",
+    ]
+    XCTAssertTrue(
+      ForegroundPushNotificationPolicy.shouldProcessPush(
+        userInfo: alertPayload,
+        isAppForeground: true,
+        activeUserId: "user-a"
+      )
+    )
+    XCTAssertFalse(
+      ForegroundPushNotificationPolicy.shouldProcessPush(
+        userInfo: alertPayload,
+        isAppForeground: true,
+        activeUserId: "user-b"
+      )
+    )
+    XCTAssertTrue(
+      ForegroundPushNotificationPolicy.targetsOtherAccount(
+        userInfo: alertPayload,
+        activeUserId: "user-a"
+      )
+    )
+  }
+
   func testForegroundPushPolicyAlwaysProcessesClearPayloads() {
     let clearPayload: [AnyHashable: Any] = [
       "type": "notification_clear",

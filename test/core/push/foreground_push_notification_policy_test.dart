@@ -48,6 +48,7 @@ void main() {
         ForegroundPushNotificationPolicy.shouldProcessPush(
           isAppForeground: true,
           payload: alertPayload,
+          activeUserId: 'user-a',
         ),
         isFalse,
       );
@@ -57,6 +58,45 @@ void main() {
           payload: alertPayload,
         ),
         isTrue,
+      );
+    });
+
+    test('shows a foreground push for another account', () {
+      const Map<String, String> alertPayload = <String, String>{
+        'channel_id': '456',
+        'message_id': 'msg-1',
+        'target_user_id': 'user-b',
+        'badge_count': '4',
+        'url': '/channels/@me/456/msg-1',
+      };
+      expect(
+        ForegroundPushNotificationPolicy.shouldProcessPush(
+          isAppForeground: true,
+          payload: alertPayload,
+          activeUserId: 'user-a',
+        ),
+        isTrue,
+      );
+      expect(
+        ForegroundPushNotificationPolicy.shouldProcessPush(
+          isAppForeground: true,
+          payload: alertPayload,
+          activeUserId: 'user-b',
+        ),
+        isFalse,
+      );
+      expect(
+        ForegroundPushNotificationPolicy.notificationPayloadForDisplay(
+          payload: alertPayload,
+          isAppForeground: true,
+          activeUserId: 'user-a',
+        ),
+        <String, String>{
+          'channel_id': '456',
+          'message_id': 'msg-1',
+          'target_user_id': 'user-b',
+          'url': '/channels/@me/456/msg-1',
+        },
       );
     });
   });

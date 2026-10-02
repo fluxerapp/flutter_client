@@ -152,11 +152,6 @@ class _ResolvedVoiceConnectionStatus extends ConsumerWidget {
     final colors = context.colors;
     final layout = context.layout;
     final VoiceSettingsState settings = ref.watch(voiceSettingsProvider);
-    final VoiceConnectionStats stats = ref.watch(voiceConnectionStatsProvider);
-    final VoiceLatencySignalTone tone = voiceLatencySignalTone(
-      latencyMs: stats.currentLatencyMs,
-      history: stats.latencyHistory,
-    );
     final String? connectionId = voice.activeConnectionId;
     final VoiceState? selfVs = connectionId == null
         ? null
@@ -232,15 +227,7 @@ class _ResolvedVoiceConnectionStatus extends ConsumerWidget {
           Row(
             children: <Widget>[
               if (voice.isConnected) ...<Widget>[
-                Tooltip(
-                  message: stats.currentLatencyMs == null
-                      ? l10n.voiceMeasuringLatency
-                      : l10n.voicePingMs(stats.currentLatencyMs!),
-                  child: VoiceSignalStrengthIcon(
-                    latencyMs: stats.currentLatencyMs,
-                    tone: tone,
-                  ),
-                ),
+                const _VoiceLatencyIcon(),
                 SizedBox(width: layout.s2),
               ],
               Expanded(
@@ -404,6 +391,32 @@ class _ResolvedVoiceConnectionStatus extends ConsumerWidget {
           ),
         ];
       },
+    );
+  }
+}
+
+class _VoiceLatencyIcon extends ConsumerWidget {
+  const _VoiceLatencyIcon();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final (int? latencyMs, VoiceLatencySignalTone tone) = ref.watch(
+      voiceConnectionStatsProvider.select((VoiceConnectionStats stats) {
+        return (
+          stats.currentLatencyMs,
+          voiceLatencySignalTone(
+            latencyMs: stats.currentLatencyMs,
+            history: stats.latencyHistory,
+          ),
+        );
+      }),
+    );
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    return Tooltip(
+      message: latencyMs == null
+          ? l10n.voiceMeasuringLatency
+          : l10n.voicePingMs(latencyMs),
+      child: VoiceSignalStrengthIcon(latencyMs: latencyMs, tone: tone),
     );
   }
 }

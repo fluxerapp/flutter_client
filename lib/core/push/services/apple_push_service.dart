@@ -32,6 +32,19 @@ class ApplePushService implements PushService {
     await requestPushNotificationPermission();
   }
 
+  static Future<void> syncActiveUserId(String? userId) async {
+    if (!_shouldUseNativeChannel()) {
+      return;
+    }
+    try {
+      await _channel.invokeMethod<void>('setActiveUserId', userId);
+    } on MissingPluginException {
+      return;
+    } on PlatformException {
+      return;
+    }
+  }
+
   static Future<void> installReplyHandler() {
     if (!_shouldUseNativeChannel() || _replyReadyAnnounced) {
       return Future<void>.value();

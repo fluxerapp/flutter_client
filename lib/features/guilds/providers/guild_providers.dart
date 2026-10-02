@@ -19,3 +19,12 @@ Future<Guild?> guildById(Ref ref, String id) async {
   final row = await db.guildDao.getServerById(id);
   return row == null ? null : Guild.fromRow(row);
 }
+
+/// Follows the local guild row. [guildById] does not update after it resolves.
+@riverpod
+Stream<Guild?> guildStreamById(Ref ref, String id) {
+  final db = ref.watch(fluxerDatabaseProvider);
+  return db.guildDao
+      .watchServerById(id)
+      .map((row) => row == null ? null : Guild.fromRow(row));
+}

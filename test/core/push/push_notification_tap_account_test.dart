@@ -85,6 +85,10 @@ void main() {
       container.read(pendingPushNotificationPathProvider)?.accountUserId,
       'user-b',
     );
+    expect(
+      container.read(pendingPushNotificationPathProvider)?.path,
+      '/channels/@me/dm-1/msg-9',
+    );
   });
 
   test('cross-account tap ignores a user that is not stored', () async {

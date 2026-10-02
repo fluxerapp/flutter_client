@@ -14,13 +14,8 @@ const String kExampleCallbackUrl = 'https://example.com/callback';
 
 String resolveOAuthAuthorizeOrigin({
   required String displayDomain,
-  String? marketingUrl,
   String? webAppUrl,
 }) {
-  final String? marketing = _nonEmptyBase(marketingUrl);
-  if (marketing != null) {
-    return marketing;
-  }
   final String? webApp = _nonEmptyBase(webAppUrl);
   if (webApp != null) {
     return webApp;

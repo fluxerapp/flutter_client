@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'dart:math' as math;
-import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,6 +6,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/channel_t
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/chat_bottom_input_slot.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/mobile_keyboard_metrics_provider.dart';
+import 'package:fluxer_app/features/chat/utils/composer/bottom_input_slot_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -97,18 +96,6 @@ class _ChatComposerColumnState extends ConsumerState<ChatComposerColumn>
     }
   }
 
-  double _resolvedViewInsetsBottom(BuildContext context) {
-    final double mediaQueryInset = MediaQuery.viewInsetsOf(context).bottom;
-    final ui.FlutterView? flutterView =
-        ui.PlatformDispatcher.instance.implicitView;
-    if (flutterView == null) {
-      return mediaQueryInset;
-    }
-    final double viewInset =
-        flutterView.viewInsets.bottom / flutterView.devicePixelRatio;
-    return math.max(mediaQueryInset, viewInset);
-  }
-
   void _syncKeyboardMetrics() {
     if (!isMobileLayout(context)) {
       return;
@@ -121,7 +108,7 @@ class _ChatComposerColumnState extends ConsumerState<ChatComposerColumn>
         isIos: !kIsWeb && Platform.isIOS,
       )
       ..syncViewInsets(
-        _resolvedViewInsetsBottom(context),
+        resolvedKeyboardInsetBottom(context),
         safeAreaBottom: mediaQuery.padding.bottom,
       );
   }
@@ -131,7 +118,7 @@ class _ChatComposerColumnState extends ConsumerState<ChatComposerColumn>
     if (!isMobileLayout(context)) {
       _lastSyncedViewInsetsBottom = null;
     } else {
-      final double viewInsetsBottom = _resolvedViewInsetsBottom(context);
+      final double viewInsetsBottom = resolvedKeyboardInsetBottom(context);
       if (viewInsetsBottom != _lastSyncedViewInsetsBottom) {
         _lastSyncedViewInsetsBottom = viewInsetsBottom;
         _scheduleKeyboardMetricsSync();

@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_recorder.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_recording_controller.dart';
+import 'package:fluxer_app/features/chat/utils/attachments/voice_message_constants.dart';
 import 'package:fluxer_app/features/shell/providers/shell_manual_gesture_block_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -111,5 +112,66 @@ void main() {
     controller.debugSetActive(value: true);
     await tester.pump();
     expect(_micFill(tester), colors.brandPrimary);
+  });
+
+  testWidgets('a short tap does not start recording', (tester) async {
+    final ProviderContainer container = ProviderContainer();
+    addTearDown(container.dispose);
+    late VoiceMessageRecordingController controller;
+    await tester.pumpWidget(
+      _buildRecorderTestApp(
+        container: container,
+        child: _RecorderHarness(
+          onCreated: (VoiceMessageRecordingController value) {
+            controller = value;
+          },
+        ),
+      ),
+    );
+    await tester.pump();
+
+    await tester.tap(find.byType(VoiceMessageRecorder));
+    await tester.pump(
+      const Duration(milliseconds: kVoiceMessageHoldArmDelayMs),
+    );
+
+    expect(controller.isArming, isFalse);
+    expect(controller.isActive, isFalse);
+    expect(container.read(shellManualGestureBlockProvider), isFalse);
+  });
+
+  testWidgets('releasing before the arm delay does not start recording', (
+    tester,
+  ) async {
+    final ProviderContainer container = ProviderContainer();
+    addTearDown(container.dispose);
+    late VoiceMessageRecordingController controller;
+    await tester.pumpWidget(
+      _buildRecorderTestApp(
+        container: container,
+        child: _RecorderHarness(
+          onCreated: (VoiceMessageRecordingController value) {
+            controller = value;
+          },
+        ),
+      ),
+    );
+    await tester.pump();
+
+    final TestGesture gesture = await tester.startGesture(
+      tester.getCenter(find.byType(VoiceMessageRecorder)),
+    );
+    await tester.pump(
+      const Duration(milliseconds: kVoiceMessageHoldArmDelayMs - 1),
+    );
+    expect(controller.isArming, isTrue);
+    expect(controller.isActive, isFalse);
+
+    await gesture.up();
+    await tester.pump(
+      const Duration(milliseconds: kVoiceMessageHoldArmDelayMs),
+    );
+    expect(controller.isArming, isFalse);
+    expect(controller.isActive, isFalse);
   });
 }

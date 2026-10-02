@@ -57,6 +57,7 @@
 		FB0AF0042F5C97000078A533 /* CallRingPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AF0032F5C97000078A532 /* CallRingPayload.swift */; };
 		FB0AF0052F5C97000078A534 /* CallRingPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AF0032F5C97000078A532 /* CallRingPayload.swift */; };
 		FB0AF0072F5C97000078A536 /* CallRingPayloadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AF0062F5C97000078A535 /* CallRingPayloadTests.swift */; };
+		FB0AF10B2F5C98000078A54B /* VoiceSpeakerRouteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AF10A2F5C98000078A54A /* VoiceSpeakerRouteTests.swift */; };
 		FB0AF0092F5C97000078A538 /* incoming_ring.caf in Resources */ = {isa = PBXBuildFile; fileRef = FB0AF0082F5C97000078A537 /* incoming_ring.caf */; };
 		FB0AF1022F5C98000078A542 /* CallRingUuid.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AF1012F5C98000078A541 /* CallRingUuid.swift */; };
 		FB0AF1032F5C98000078A543 /* CallRingUuid.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0AF1012F5C98000078A541 /* CallRingUuid.swift */; };
@@ -216,6 +217,7 @@
 		FB0AE0202F5C96000078A520 /* SnowflakeTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnowflakeTime.swift; sourceTree = "<group>"; };
 		FB0AF0032F5C97000078A532 /* CallRingPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallRingPayload.swift; sourceTree = "<group>"; };
 		FB0AF0062F5C97000078A535 /* CallRingPayloadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallRingPayloadTests.swift; sourceTree = "<group>"; };
+		FB0AF10A2F5C98000078A54A /* VoiceSpeakerRouteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceSpeakerRouteTests.swift; sourceTree = "<group>"; };
 		FB0AF0082F5C97000078A537 /* incoming_ring.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = incoming_ring.caf; sourceTree = "<group>"; };
 		FB0AF1012F5C98000078A541 /* CallRingUuid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallRingUuid.swift; sourceTree = "<group>"; };
 		FB0F16FA2FF99E9C00F01CED /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/Main.strings"; sourceTree = "<group>"; };
@@ -393,6 +395,7 @@
 				A15F1E13F500000000000007 /* AssistantSendAndCallTests.swift */,
 				331C807B294A618700263BE5 /* RunnerTests.swift */,
 				FB0AF0062F5C97000078A535 /* CallRingPayloadTests.swift */,
+				FB0AF10A2F5C98000078A54A /* VoiceSpeakerRouteTests.swift */,
 			);
 			path = RunnerTests;
 			sourceTree = "<group>";
@@ -911,6 +914,7 @@
 				A15F1E13F500000000000008 /* AssistantSendAndCallTests.swift in Sources */,
 				331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */,
 				FB0AF0072F5C97000078A536 /* CallRingPayloadTests.swift in Sources */,
+				FB0AF10B2F5C98000078A54B /* VoiceSpeakerRouteTests.swift in Sources */,
 				FB0ADAC92F5C91D80078A4D6 /* PushNotificationPayload.swift in Sources */,
 				FB0AE0232F5C96000078A523 /* SnowflakeTime.swift in Sources */,
 				FB0AE0162F5C95000078A516 /* WebPushKeychain.swift in Sources */,

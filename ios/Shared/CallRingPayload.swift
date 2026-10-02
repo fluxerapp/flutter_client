@@ -13,6 +13,8 @@ struct CallRingFields: Equatable {
   let handle: String
   let callerAvatarUrl: String?
   let durationMs: Int
+  let targetUserId: String?
+  let guildId: String?
 
   var callUUID: UUID {
     CallRingUuid.v5(name: messageId)
@@ -65,7 +67,10 @@ enum CallRingResolver {
         callerName: callerName ?? fallbackHandle,
         handle: callerName ?? fallbackHandle,
         callerAvatarUrl: text(fields["caller_avatar_url"]),
-        durationMs: max(minimumDurationMs, remaining)
+        durationMs: max(minimumDurationMs, remaining),
+        targetUserId: text(fields["target_user_id"])
+          ?? (accountUserId.isEmpty ? nil : accountUserId),
+        guildId: text(fields["guild_id"])
       )
     )
   }

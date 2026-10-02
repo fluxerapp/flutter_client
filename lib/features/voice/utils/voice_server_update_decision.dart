@@ -1,8 +1,7 @@
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_channel_join_guard.dart';
 
-/// LiveKit endpoint change while already connected on the same channel (no E2EE
-/// key on the server update).
+/// LiveKit endpoint change while already connected on the same channel.
 bool isVoiceServerRegionChange({
   required VoiceSessionState state,
   required String resolvedChannelId,
@@ -34,9 +33,6 @@ bool isVoiceServerRegionChange({
     return false;
   }
   if (incomingEndpoint == currentEndpoint) {
-    return false;
-  }
-  if (e2eeKey != null && e2eeKey.isNotEmpty) {
     return false;
   }
   return true;

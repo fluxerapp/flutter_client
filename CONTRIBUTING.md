@@ -84,6 +84,28 @@ Strings are managed on [Weblate](https://weblate.fluxer.tools/projects/flutter-c
 - **LiveKit / WebRTC** — voice and video calls
 - **FCM / UnifiedPush / APNs** — push notifications (platform dependent)
 
+## Where things live
+
+`lib/` is split up like this:
+
+- **`lib/features/<feature>/`** — one part of the app (chat, guilds, settings, and so on). Widgets live in `presentation/` (pages, widgets, sheets, modals). Add `domain/`, `providers/`, `data/`, `services/`, or `utils/` only if that feature already has them.
+- **`lib/core/`** — API, database, gateway, router, push, theme, and permissions.
+- **`lib/shared/`** — helpers used by more than one feature.
+- **`lib/features/ui/`** — shared widgets (buttons, inputs, sheets, modals, toasts). Check here before adding a new Material widget.
+- **`lib/l10n/fluxer_en.arb`** — English strings. Other languages stay on Weblate (see [Translating](#translating)).
+
+`dart_sdk/` and `fluxer/` are git submodules. Leave them alone in a pull
+request to this repo.
+
+## Writing UI and code
+
+- Import widgets from `package:fluxer_app/material_ui.dart` (not `package:flutter/material.dart`). Use package imports (`package:fluxer_app/...`).
+- Colors, text, spacing, and motion are on `BuildContext`: `context.colors`, `context.textStyles`, `context.layout`, and `context.motion`. `context.motion` is already reduced when reduced motion is on.
+- Buttons, sheets, modals, and inputs live in `lib/features/ui/` (`FluxerButton` and the rest). Icons are Phosphor (`phosphor_flutter`).
+- Strings go in `lib/l10n/fluxer_en.arb` and are read with `FluxerLocalizations.of(context)`.
+- State uses Riverpod with `@riverpod`. Widgets that read providers are `ConsumerWidget` or `ConsumerStatefulWidget`. `*.g.dart` files are not committed (see [Build generated files](#build-generated-files)).
+- Keep comments short (endless it's somthing conplex). Skip one when the code is already clear.
+
 ## Version numbers
 
 Releases use `{year}.{month}.{public release number}`, for example `2026.07.100`.

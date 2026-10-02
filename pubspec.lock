@@ -285,10 +285,10 @@ packages:
     dependency: transitive
     description:
       name: built_collection
-      sha256: "376e3dd27b51ea877c28d525560790aee2e6fbb5f20e2f85d5081027d94e2100"
+      sha256: "44922ecebd8e3d0cef743dadd3b54df4e87e2a4c52a29465a1872aa9e192caa8"
       url: "https://pub.dev"
     source: hosted
-    version: "5.1.1"
+    version: "5.1.2"
   built_value:
     dependency: transitive
     description:
@@ -365,10 +365,10 @@ packages:
     dependency: transitive
     description:
       name: cli_util
-      sha256: ff6785f7e9e3c38ac98b2fb035701789de90154024a75b6cb926445e83197d1c
+      sha256: "71e43f1976c3eae2d9468a5b4d6600bf8cae61508b87f27fa1799228935d48ab"
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.2"
+    version: "0.5.2"
   clock:
     dependency: "direct main"
     description:
@@ -445,10 +445,10 @@ packages:
     dependency: "direct main"
     description:
       name: crop_your_image
-      sha256: "14c8977b11a009dc5e73e0f6522970f93363e38183f1b2ffefe1676dc9c3f49d"
+      sha256: "8cd2936d5e2f1a23b330390df0c7e59d685892d63f374196e498905e0896cc2c"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   cross_file:
     dependency: "direct main"
     description:
@@ -565,10 +565,10 @@ packages:
     dependency: "direct main"
     description:
       name: device_info_plus
-      sha256: "0891702f96b2e465fe567b7ec448380e6b1c14f60af552a8536d9f583b6b8442"
+      sha256: ade1c36f8355d6284c98e4a47992ea263887ed3d1acb281e37635dd45f04c4aa
       url: "https://pub.dev"
     source: hosted
-    version: "13.2.0"
+    version: "13.3.0"
   device_info_plus_platform_interface:
     dependency: transitive
     description:
@@ -637,10 +637,10 @@ packages:
     dependency: "direct main"
     description:
       name: drift
-      sha256: e3b6352aa02e60bed6ffc3cc9894c421578dad5fbef21b1f7f57cdc0e4edabcb
+      sha256: a21a6a7a9e6a0bcabdf47a9af4247c556d38dc9bfe9f05c4fdf72a488bb57eab
       url: "https://pub.dev"
     source: hosted
-    version: "2.35.0"
+    version: "2.35.1"
   drift_dev:
     dependency: "direct dev"
     description:
@@ -1137,10 +1137,10 @@ packages:
     dependency: "direct main"
     description:
       name: gaimon
-      sha256: cb70dfa678f4a0cdd6cf6ad0498d82c768fbcfe02eb61db6ea1230de82f6ac8b
+      sha256: e35559d3a00ae1cd71f62427919c245440fdf579711ebb70b7fb90612e7ff9b9
       url: "https://pub.dev"
     source: hosted
-    version: "1.5.0"
+    version: "1.5.1"
   gal:
     dependency: "direct main"
     description:
@@ -1161,10 +1161,10 @@ packages:
     dependency: "direct main"
     description:
       name: go_router
-      sha256: "008ab21d89d0de8ccd79586838f7533f126c2d894f50bf25f2947888d3c225b5"
+      sha256: "530dcbb298dc7c319aea9e3b7c580a61effb2abee2c93825d2dd8d5af0e230f1"
       url: "https://pub.dev"
     source: hosted
-    version: "18.0.1"
+    version: "18.0.2"
   graphs:
     dependency: transitive
     description:
@@ -1201,10 +1201,10 @@ packages:
     dependency: transitive
     description:
       name: hive_ce
-      sha256: "650b64282b7ea664ea58a08492d2b163ac6dc6d0ef552d0d77aac6678e1518e9"
+      sha256: "2b1bf607ddf852cad8deaf2331cac0e54289d3a3c64079463b26f196008909ce"
       url: "https://pub.dev"
     source: hosted
-    version: "2.20.0"
+    version: "2.20.1"
   hooks:
     dependency: transitive
     description:
@@ -1273,10 +1273,10 @@ packages:
     dependency: transitive
     description:
       name: image_picker_ios
-      sha256: ee3885b6fcd71958fbc79770dd194c63371439d536d69c47b279171a486482ae
+      sha256: "815921d05ef87d64dc64e9f7f855967614a9a67086d0c60fa27d47a1cd9a8896"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.13+7"
+    version: "0.8.13+9"
   image_picker_linux:
     dependency: transitive
     description:
@@ -1390,10 +1390,10 @@ packages:
     dependency: transitive
     description:
       name: jni
-      sha256: f038e58b4dc2c9037f50e233175086337e0b305e356d28211bf55f21c504cbd3
+      sha256: "6b9ca0602fef0230e83149afbe3f9f8227e94f2bbe84a1da4f14d699742f402d"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.3"
+    version: "1.1.0"
   jni_flutter:
     dependency: transitive
     description:
@@ -1422,10 +1422,10 @@ packages:
     dependency: transitive
     description:
       name: jovial_svg
-      sha256: "53d5ef08fafb28c56131bfd83894221597f522c324fb0f0e6fcbfdcae3b0867d"
+      sha256: "075071ae3b67d7bdf85979616d9fd6c4da27c2e6ab2e68b86e412cca87385225"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.30"
+    version: "1.1.31"
   js:
     dependency: transitive
     description:
@@ -1718,10 +1718,10 @@ packages:
     dependency: transitive
     description:
       name: octo_image
-      sha256: "34faa6639a78c7e3cbe79be6f9f96535867e879748ade7d17c9b1ae7536293bd"
+      sha256: "49c4f93afc10f1ad4fdef9db88fed9c65a8eb5d9ad0a4fa9b128d7fedeb41418"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.2"
   opentelemetry:
     dependency: "direct main"
     description:
@@ -1742,10 +1742,10 @@ packages:
     dependency: "direct main"
     description:
       name: package_info_plus
-      sha256: "127e1751e37ffb2ff4658beeaca77bad0c27bf5f932bd3a501c2296926d4b481"
+      sha256: "73ef2cd5c11a7548f9b7f6fc2a4f6113de2e64aa2a70de63feede95548822908"
       url: "https://pub.dev"
     source: hosted
-    version: "10.2.1"
+    version: "10.2.2"
   package_info_plus_platform_interface:
     dependency: transitive
     description:
@@ -1894,10 +1894,10 @@ packages:
     dependency: transitive
     description:
       name: permission_handler_apple
-      sha256: f49cb15a064ea9d974fc7fbb302099353b7b170d07284e86e264561579e5bcf8
+      sha256: "066bbbc60031b63b916a3871e7bb4b6a8c5e7cec8146dafec53d1da304eff0a5"
       url: "https://pub.dev"
     source: hosted
-    version: "9.6.1"
+    version: "9.6.2"
   permission_handler_html:
     dependency: transitive
     description:
@@ -1926,18 +1926,18 @@ packages:
     dependency: transitive
     description:
       name: petitparser
-      sha256: "91bd59303e9f769f108f8df05e371341b15d59e995e6806aefab827b58336675"
+      sha256: "2f1564aadb14215e478563b5406cb80729d022158c01dc50c96013c2f7eb4790"
       url: "https://pub.dev"
     source: hosted
-    version: "7.0.2"
+    version: "7.1.0"
   phone_numbers_parser:
     dependency: "direct main"
     description:
       name: phone_numbers_parser
-      sha256: "5c4367d9874927c517ee042241fd31af0fc91d099c69bcc5525ed6b368c3026a"
+      sha256: "3177c2d38ca0a269ed398626535a5082bc08ae27e562b145c2f470a6242fc681"
       url: "https://pub.dev"
     source: hosted
-    version: "9.0.26"
+    version: "9.0.27"
   phosphor_flutter:
     dependency: "direct main"
     description:
@@ -2159,10 +2159,10 @@ packages:
     dependency: transitive
     description:
       name: record_linux
-      sha256: b7484fdaf1f6d291543b9cf615e78096662b02df68d7a4728b13f352bde58d27
+      sha256: "766b3ebad3a318a42e06a5924f7eaf4d7e792f9b152d1d749f5b12c2a64bcef5"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.1"
+    version: "2.1.2"
   record_macos:
     dependency: transitive
     description:
@@ -2319,10 +2319,10 @@ packages:
     dependency: "direct main"
     description:
       name: sensors_plus
-      sha256: "31182c626623de79d3f7e1f9b43028f940821ee012c092f68f165fe55b867822"
+      sha256: "50a01f66846bff68de947bd5df225c3627c923c467f758867f3916350be059ac"
       url: "https://pub.dev"
     source: hosted
-    version: "7.1.0"
+    version: "7.1.1"
   sensors_plus_platform_interface:
     dependency: transitive
     description:
@@ -2335,10 +2335,10 @@ packages:
     dependency: transitive
     description:
       name: share_plus
-      sha256: "34f00f9becd2743c1fb05363d624f9f70d37f7ccdcdda47450bc0b8c9d327b8c"
+      sha256: db40767f130189d53f3ae8a6393c217ff4a492da1baff718a9873679c0c00224
       url: "https://pub.dev"
     source: hosted
-    version: "13.3.0"
+    version: "13.3.1"
   share_plus_platform_interface:
     dependency: transitive
     description:
