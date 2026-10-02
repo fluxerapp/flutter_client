@@ -515,6 +515,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       return wireFromState.isNotEmpty;
     }
     if (wireFromState.isEmpty) {
+      if (_lastWireTextPushedToState != null &&
+          _lastWireTextPushedToState!.isNotEmpty) {
+        return false;
+      }
       return true;
     }
     if (wireFromState.length < localWire.length &&
@@ -533,6 +537,18 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       return;
     }
     _showComposerCounter.value = show;
+  }
+
+  void _resetComposerInputAfterSend() {
+    _clearSlashSession();
+    _lastWireTextPushedToState = '';
+    if (_showComposerCounter.value) {
+      _showComposerCounter.value = false;
+    }
+    if (_controller.toWireText().isEmpty && _controller.text.isEmpty) {
+      return;
+    }
+    unawaited(_applyWireTextFromState('', force: true));
   }
 
   Future<void> _applyWireTextFromState(
@@ -2219,6 +2235,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
     );
     if (isEditing) {
       FluxerHaptics.send();
+      _resetComposerInputAfterSend();
       unawaited(vm.sendMessage(text: wireText.trim()));
       return;
     }
@@ -2324,7 +2341,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       return;
     }
 
-    _clearSlashSession();
+    _resetComposerInputAfterSend();
     unawaited(vm.sendMessage(text: baseContent.trim(), tts: tts));
   }
 
