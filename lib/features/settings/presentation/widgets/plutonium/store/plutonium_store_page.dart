@@ -26,7 +26,7 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
 
 const String _kDonateUrl = 'https://fluxer.app/donate';
-const String _kVisionaryUrl = 'https://fluxer.app/visionary';
+const String _kVisionaryUrl = 'https://fluxer.app/help/visionary';
 
 class PlutoniumStorePage extends ConsumerStatefulWidget {
   const PlutoniumStorePage({this.scrollController, super.key});
