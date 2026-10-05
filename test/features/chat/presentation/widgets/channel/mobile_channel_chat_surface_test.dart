@@ -1390,6 +1390,7 @@ class _FakeWellKnown extends WellKnown {
         selfHosted: false,
         presignedAttachmentUploads: false,
         emailsEnabled: false,
+        phoneVerificationEnabled: false,
       ),
       gif: InstanceGifSchema(
         provider: '',

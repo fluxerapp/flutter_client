@@ -77,7 +77,6 @@ class UserSettingsViewState {
   final bool isProfileLoaded;
   final String? passwordLastChangedAt;
   final bool mfaEnabled;
-  final String? phone;
   final bool hasVerifiedPhone;
   final List<String> requiredActions;
   final List<int> authenticatorTypes;
@@ -173,7 +172,6 @@ class UserSettingsViewState {
     this.isProfileLoaded = false,
     this.passwordLastChangedAt,
     this.mfaEnabled = false,
-    this.phone,
     this.hasVerifiedPhone = false,
     this.requiredActions = const <String>[],
     this.authenticatorTypes = const [],
@@ -612,7 +610,6 @@ class UserSettingsViewState {
     bool? isProfileLoaded,
     Object? passwordLastChangedAt = _unset,
     bool? mfaEnabled,
-    Object? phone = _unset,
     bool? hasVerifiedPhone,
     List<String>? requiredActions,
     List<int>? authenticatorTypes,
@@ -714,7 +711,6 @@ class UserSettingsViewState {
           ? this.passwordLastChangedAt
           : passwordLastChangedAt as String?,
       mfaEnabled: mfaEnabled ?? this.mfaEnabled,
-      phone: phone == _unset ? this.phone : phone as String?,
       hasVerifiedPhone: hasVerifiedPhone ?? this.hasVerifiedPhone,
       requiredActions: requiredActions ?? this.requiredActions,
       authenticatorTypes: authenticatorTypes ?? this.authenticatorTypes,
@@ -1052,7 +1048,6 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
       verified: profile.verified,
       passwordLastChangedAt: profile.passwordLastChangedAt,
       mfaEnabled: profile.mfaEnabled,
-      phone: profile.phone,
       hasVerifiedPhone: profile.hasVerifiedPhone,
       requiredActions: List<String>.from(profile.requiredActions),
       authenticatorTypes:

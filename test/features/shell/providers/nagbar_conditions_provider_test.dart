@@ -266,6 +266,7 @@ WellKnownFluxerResponse _buildWellKnown({required bool selfHosted}) {
       selfHosted: selfHosted,
       presignedAttachmentUploads: false,
       emailsEnabled: true,
+      phoneVerificationEnabled: false,
     ),
     gif: const InstanceGifSchema(
       provider: 'tenor',

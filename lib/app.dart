@@ -18,7 +18,6 @@ import 'package:fluxer_app/features/accessibility/providers/effective_motion_pre
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/gateway_reconnect_banner.dart';
 import 'package:fluxer_app/features/shell/presentation/native_titlebar.dart';
-import 'package:fluxer_app/features/shell/presentation/widgets/required_action_gate.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast_overlay.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/incoming_voice_call_layer.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/pip/voice_pip_layer.dart';
@@ -126,10 +125,8 @@ class _FluxerAppState extends ConsumerState<FluxerApp> {
       builder: (context, child) {
         final Widget layered = InputModalityListener(
           child: AppUiLifecycleObserver(
-            child: RequiredActionGate(
-              child: IncomingVoiceCallLayer(
-                child: VoicePipLayer(child: child!),
-              ),
+            child: IncomingVoiceCallLayer(
+              child: VoicePipLayer(child: child!),
             ),
           ),
         );

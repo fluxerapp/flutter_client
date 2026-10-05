@@ -409,6 +409,7 @@ InstanceConfigSnapshot _snapshot({
         selfHosted: selfHosted,
         presignedAttachmentUploads: false,
         emailsEnabled: true,
+        phoneVerificationEnabled: false,
       ),
       gif: const InstanceGifSchema(
         provider: 'tenor',

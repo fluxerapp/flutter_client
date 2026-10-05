@@ -31,7 +31,6 @@ enum GuildComposerBlockReason {
   unverifiedEmail,
   accountTooNew,
   notMemberLongEnough,
-  noPhoneNumber,
   guildSendDisabled,
   timedOut,
 }
@@ -171,13 +170,6 @@ GuildComposerAccess evaluateGuildComposerAccess(GuildVerificationInput input) {
         );
       }
     }
-  }
-  if (effectiveLevel >= GuildVerificationLevel.veryHigh &&
-      !input.hasVerifiedPhone) {
-    return const GuildComposerAccess(
-      canAccess: false,
-      reason: GuildComposerBlockReason.noPhoneNumber,
-    );
   }
   return GuildComposerAccess.allowed;
 }
