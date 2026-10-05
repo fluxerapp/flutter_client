@@ -1,8 +1,6 @@
 import 'package:fluxer_dart/export.dart';
 
 const Map<String, Object> _featureDefaultsForOlderServers = <String, Object>{
-  'account_identity': 'email',
-  'tag_style': 'random',
   'phone_verification_enabled': false,
 };
 
