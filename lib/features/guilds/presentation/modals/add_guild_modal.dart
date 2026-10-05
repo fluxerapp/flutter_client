@@ -182,7 +182,7 @@ class _AddGuildFlowState extends ConsumerState<_AddGuildFlow> {
   }
 
   bool _canCreateCommunities(UserSettingsViewState settings) {
-    return settings.hasVerifiedEmail && settings.verified;
+    return settings.isClaimed && settings.isVerified;
   }
 
   bool _canSubmitCreate(UserSettingsViewState settings) {

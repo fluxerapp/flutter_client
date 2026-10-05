@@ -76,6 +76,7 @@ QuickSwitcherCandidateSets buildQuickSwitcherCandidateSets(
         () => quickSwitcherUserCandidateFromFriend(
           friend,
           dmChannelId: _dmChannelIdForUser(input.conversations, friend.id),
+          uniqueUsernames: input.uniqueUsernames,
         ),
       );
     }

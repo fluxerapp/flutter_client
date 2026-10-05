@@ -553,6 +553,173 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get resetPasswordMismatch => 'Hesla se neshodují.';
 
   @override
+  String get recoverAccountTitle => 'Obnovit účet';
+
+  @override
+  String get recoverAccountDescription =>
+      'Zadejte své uživatelské jméno a obnovovací klíč z vaší obnovovací sady a poté zvolte nové heslo.';
+
+  @override
+  String get recoverAccountNoKit =>
+      'Žádný záchranný balíček? Požádejte administrátora této instance o odkaz na obnovení hesla.';
+
+  @override
+  String get recoveryKitTitle => 'Vaše sada pro obnovení';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'Pokud zapomenete heslo, tato sada je jediný způsob, jak se dostat zpět do svého účtu. Uložte si ji na bezpečné místo, například do správce hesel nebo jako tištěnou kopii.';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      'Vaše stará sada pro obnovení již nefunguje. Tuto novou si uložte na bezpečné místo.';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'Vaše heslo bylo resetováno. Vaše stará sada pro obnovení již nefunguje. Uložte si tuto novou sadu na bezpečné místo.';
+
+  @override
+  String get recoveryKitWarning =>
+      'Kdokoli s tímto klíčem může resetovat vaše heslo. Nikdy ho nesdílejte.';
+
+  @override
+  String get recoveryKitKeyLabel => 'Obnovovací klíč';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return 'Klíč k obnovení $productName';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'Tuto stránku si uložte na bezpečné místo. Pokud zapomenete heslo, můžete ji použít k obnovení přístupu ke svému účtu. Kdokoli s tímto obnovovacím klíčem může resetovat vaše heslo, takže ho nikdy nesdílejte.';
+
+  @override
+  String get recoveryKitInstanceLabel => 'Instance';
+
+  @override
+  String get recoveryKitCreatedAtLabel => 'Vytvořeno';
+
+  @override
+  String get recoveryKitQrCaption =>
+      'Naskenujte a otevřete stránku pro obnovení s předvyplněnými údaji.';
+
+  @override
+  String get recoveryKitStepsTitle => 'Jak obnovit svůj účet';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return 'Přejděte na $recoverUrl nebo naskenujte QR kód.';
+  }
+
+  @override
+  String get recoveryKitStepEnter =>
+      'Zadejte své uživatelské jméno a tento obnovovací klíč.';
+
+  @override
+  String get recoveryKitStepPassword =>
+      'Zvolte nové heslo. Dostanete novou sadu pro obnovení a tato přestane fungovat.';
+
+  @override
+  String get recoveryKitBackupCodesTitle => 'Dvoufaktorové záložní kódy';
+
+  @override
+  String get recoveryKitBackupCodesNote =>
+      'Každý kód funguje jednou místo vaší aplikace pro ověřování.';
+
+  @override
+  String get recoveryKitBackupCodesFailed =>
+      'Nepodařilo se načíst vaše záložní kódy.';
+
+  @override
+  String get recoveryKitIncludeBackupCodes =>
+      'Zahrnout mé záložní kódy dvoufázového ověření do uloženého obrázku';
+
+  @override
+  String get recoveryKitCopy => 'Kopírovat';
+
+  @override
+  String get recoveryKitCopied => 'Klíč pro obnovení zkopírován';
+
+  @override
+  String get recoveryKitSaveImage => 'Uložit obrázek';
+
+  @override
+  String get recoveryKitSaved => 'Sada pro obnovení uložena';
+
+  @override
+  String get recoveryKitSavedToPhotos => 'Sada pro obnovení uložena do fotek';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'Sadu pro obnovení se nepodařilo uložit. Zkus to znovu nebo místo toho zkopíruj klíč.';
+
+  @override
+  String get recoveryKitAcknowledge =>
+      'Uložil/a jsem si svou sadu pro obnovení na bezpečné místo';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'Nepodařilo se vytvořit váš záchranný balíček. Můžete si ho vytvořit později v nastavení účtu.';
+
+  @override
+  String get recoveryKitSectionTitle => 'Záchranná sada';
+
+  @override
+  String get recoveryKitSectionDescription =>
+      'Umožňuje resetovat heslo, pokud ho zapomenete.';
+
+  @override
+  String get recoveryKitNone => 'Ještě nemáte záchrannou sadu';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return 'Vytvořeno $time';
+  }
+
+  @override
+  String get recoveryKitCreate => 'Vytvořit záchrannou sadu';
+
+  @override
+  String get recoveryKitCreateNew => 'Vytvořit novou sadu';
+
+  @override
+  String get recoveryKitReplaceTitle => 'Vytvořit nový obnovovací klíč?';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      'Vaše současná sada přestane fungovat, jakmile bude vytvořena nová.';
+
+  @override
+  String get recoveryKitReminderTitle => 'Uložit obnovovací sadu';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'Váš účet nemá zadanou e-mailovou adresu. Pokud zapomenete heslo, jediná cesta zpět je záchranná sada. Zabere to jen chvilku.';
+
+  @override
+  String get registerUsernameSignInHint =>
+      'Přihlašujete se tímto uživatelským jménem. Vyberte si takové, které si zapamatujete.';
+
+  @override
+  String get registerUsernameTaken => 'Toto uživatelské jméno je již obsazené';
+
+  @override
+  String get registerUsernameAvailable =>
+      'Toto uživatelské jméno je k dispozici';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'Získejte svůj účet výběrem uživatelského jména a hesla. Přihlásíte se s nimi, takže si vyberte takové, na které si vzpomenete.';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'Váš účet ještě není uplatněn. Bez uživatelského jména a hesla se nebudete moci přihlásit z jiných zařízení a můžete ztratit přístup ke svému účtu. Uplatněte svůj účet nyní a zabezpečte ho.';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'Uživatelské jméno';
+
+  @override
   String get registerTitle => 'Vytvořit účet';
 
   @override
@@ -655,6 +822,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get errorInvalidEmailOrPassword => 'Neplatný e-mail nebo heslo.';
+
+  @override
+  String get errorInvalidUsernameOrPassword =>
+      'Neplatné uživatelské jméno nebo heslo.';
 
   @override
   String get errorUnableToSendResetLink =>

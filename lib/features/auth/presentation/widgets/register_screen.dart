@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart'
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/auth_form_error_text.dart';
 import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
+import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/auth/providers/login_error_l10n.dart';
 import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
 import 'package:fluxer_app/features/auth/providers/pending_registration_url_code_provider.dart';
@@ -22,6 +23,12 @@ import 'package:fluxer_app/features/ui/warning_alert/fluxer_warning_alert.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:intl/intl.dart';
+
+enum _UsernameAvailability { idle, checking, available, taken }
+
+const int _kMaxUsernameLength = 32;
+final RegExp _kUsernamePattern = RegExp(r'^[a-zA-Z0-9_]+$');
+const Duration _kAvailabilityCheckDelay = Duration(milliseconds: 350);
 
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({required this.onBack, super.key});
@@ -49,6 +56,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   int? _birthYear;
   bool _consent = false;
   bool _isRestoringDraft = false;
+
+  Timer? _availabilityTimer;
+  String _availabilityUsername = '';
+  _UsernameAvailability _availability = _UsernameAvailability.idle;
 
   int get _daysInMonth {
     if (_birthYear != null && _birthMonth != null) {
@@ -141,7 +152,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     });
     _emailController.addListener(_saveDraft);
     _displayNameController.addListener(_saveDraft);
-    _usernameController.addListener(_saveDraft);
+    _usernameController
+      ..addListener(_saveDraft)
+      ..addListener(_scheduleAvailabilityCheck);
     _passwordController.addListener(_saveDraft);
     _confirmController.addListener(_saveDraft);
   }
@@ -187,8 +200,60 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         );
   }
 
+  String get _trimmedUsername => _usernameController.text.trim();
+
+  bool get _usernameFormatValid =>
+      _trimmedUsername.length <= _kMaxUsernameLength &&
+      _kUsernamePattern.hasMatch(_trimmedUsername);
+
+  _UsernameAvailability get _currentAvailability =>
+      _availabilityUsername == _trimmedUsername
+      ? _availability
+      : _UsernameAvailability.idle;
+
+  void _scheduleAvailabilityCheck() {
+    _availabilityTimer?.cancel();
+    final String username = _trimmedUsername;
+    if (!ref.read(uniqueUsernamesProvider) ||
+        username.isEmpty ||
+        !_usernameFormatValid) {
+      return;
+    }
+    if (username == _availabilityUsername &&
+        _availability != _UsernameAvailability.idle) {
+      return;
+    }
+    _availabilityTimer = Timer(
+      _kAvailabilityCheckDelay,
+      () => unawaited(_checkAvailability(username)),
+    );
+  }
+
+  Future<void> _checkAvailability(String username) async {
+    setState(() {
+      _availabilityUsername = username;
+      _availability = _UsernameAvailability.checking;
+    });
+    _UsernameAvailability next;
+    try {
+      final bool available = await ref
+          .read(authRepositoryProvider)
+          .isUsernameAvailable(username);
+      next = available
+          ? _UsernameAvailability.available
+          : _UsernameAvailability.taken;
+    } on Exception {
+      next = _UsernameAvailability.idle;
+    }
+    if (!mounted || _availabilityUsername != username) {
+      return;
+    }
+    setState(() => _availability = next);
+  }
+
   @override
   void dispose() {
+    _availabilityTimer?.cancel();
     _emailController.dispose();
     _displayNameController.dispose();
     _usernameController.dispose();
@@ -204,8 +269,15 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   bool _isFormValid({
     required bool requiresConsent,
     required bool requiresDateOfBirth,
+    required bool usernameSignIn,
+    required bool uniqueUsernames,
   }) {
-    return _emailRegex.hasMatch(_emailController.text.trim()) &&
+    final bool identityValid = usernameSignIn
+        ? _trimmedUsername.isNotEmpty && _usernameFormatValid
+        : _emailRegex.hasMatch(_emailController.text.trim());
+    return identityValid &&
+        !(uniqueUsernames &&
+            _currentAvailability == _UsernameAvailability.taken) &&
         _passwordController.text.isNotEmpty &&
         _confirmController.text.isNotEmpty &&
         (!requiresDateOfBirth ||
@@ -244,6 +316,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         !_isFormValid(
           requiresConsent: _requiresConsent(instance),
           requiresDateOfBirth: runtime.collectDateOfBirth,
+          usernameSignIn: runtime.usernameSignIn,
+          uniqueUsernames: runtime.uniqueUsernames,
         )) {
       return;
     }
@@ -262,7 +336,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
     unawaited(
       notifier.submitRegister(
-        email: _emailController.text,
+        email: runtime.usernameSignIn ? null : _emailController.text,
         password: _passwordController.text,
         dateOfBirth: dob,
         username: _usernameController.text,
@@ -299,6 +373,20 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       ),
     );
     final bool isRegistrationClosed = !canRegister;
+    final bool usernameSignIn = ref.watch(
+      instanceRuntimeConfigProvider.select(
+        (InstanceRuntimeConfig config) => config.usernameSignIn,
+      ),
+    );
+    final bool uniqueUsernames = ref.watch(uniqueUsernamesProvider);
+    final _UsernameAvailability availability = _currentAvailability;
+    final String? usernameStatus = switch (availability) {
+      _UsernameAvailability.taken => l10n.registerUsernameTaken,
+      _UsernameAvailability.available => l10n.registerUsernameAvailable,
+      _ when usernameSignIn => l10n.registerUsernameSignInHint,
+      _ when uniqueUsernames => null,
+      _ => l10n.registerUsernameTagHint,
+    };
     final String? pendingApprovalUserId = vm.pendingApprovalUserId;
 
     return AbsorbPointer(
@@ -328,18 +416,19 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               SizedBox(height: layout.s5),
             ],
 
-            // Email
-            FluxerInput(
-              controller: _emailController,
-              label: l10n.email,
-              autofillHints: const [AutofillHints.email],
-              keyboardType: TextInputType.emailAddress,
-              textInputAction: TextInputAction.next,
-              onSubmitted: (_) => _displayNameFocus.requestFocus(),
-              onChanged: (_) => setState(() {}),
-              errorText: vm.fieldErrors['email'],
-            ),
-            SizedBox(height: layout.s5),
+            if (!usernameSignIn) ...[
+              FluxerInput(
+                controller: _emailController,
+                label: l10n.email,
+                autofillHints: const [AutofillHints.email],
+                keyboardType: TextInputType.emailAddress,
+                textInputAction: TextInputAction.next,
+                onSubmitted: (_) => _displayNameFocus.requestFocus(),
+                onChanged: (_) => setState(() {}),
+                errorText: vm.fieldErrors['email'],
+              ),
+              SizedBox(height: layout.s5),
+            ],
 
             // Display name
             FluxerInput(
@@ -362,21 +451,31 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             FluxerInput(
               controller: _usernameController,
               focusNode: _usernameFocus,
-              label: l10n.registerUsername,
-              hint: l10n.registerUsernameHint,
+              label: usernameSignIn
+                  ? l10n.usernameLabel
+                  : l10n.registerUsername,
+              hint: usernameSignIn ? null : l10n.registerUsernameHint,
               autofillHints: const [AutofillHints.newUsername],
+              autocorrect: !usernameSignIn,
               textInputAction: TextInputAction.next,
               onSubmitted: (_) => _passwordFocus.requestFocus(),
+              onChanged: (_) => setState(() {}),
               errorText: vm.fieldErrors['username'],
             ),
-            SizedBox(height: layout.s1),
-            Text(
-              l10n.registerUsernameTagHint,
-              style: textStyles.bodySmall.copyWith(
-                color: colors.textTertiary,
-                fontSize: 12,
+            if (usernameStatus != null) ...[
+              SizedBox(height: layout.s1),
+              Text(
+                usernameStatus,
+                style: textStyles.bodySmall.copyWith(
+                  color: switch (availability) {
+                    _UsernameAvailability.taken => colors.textDanger,
+                    _UsernameAvailability.available => colors.accentSuccess,
+                    _ => colors.textTertiary,
+                  },
+                  fontSize: 12,
+                ),
               ),
-            ),
+            ],
             if (vm.usernameSuggestions.isNotEmpty)
               Padding(
                 padding: EdgeInsets.only(top: layout.s2),
@@ -608,6 +707,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   _isFormValid(
                         requiresConsent: requiresConsent,
                         requiresDateOfBirth: collectDateOfBirth,
+                        usernameSignIn: usernameSignIn,
+                        uniqueUsernames: uniqueUsernames,
                       ) &&
                       !vm.isLoggingIn &&
                       canRegister &&

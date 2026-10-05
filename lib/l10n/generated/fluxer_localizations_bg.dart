@@ -554,6 +554,175 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get resetPasswordMismatch => 'Паролите не съвпадат.';
 
   @override
+  String get recoverAccountTitle => 'Възстановете акаунта си';
+
+  @override
+  String get recoverAccountDescription =>
+      'Въведете вашето потребителско име и ключ за възстановяване от комплекта си за възстановяване, след което изберете нова парола.';
+
+  @override
+  String get recoverAccountNoKit =>
+      'Нямате комплект за възстановяване? Поискайте от администратор на този сървър връзка за нулиране на паролата.';
+
+  @override
+  String get recoveryKitTitle => 'Вашият комплект за възстановяване';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'Ако забравите паролата си, този комплект е единственият начин да влезете отново в акаунта си. Съхранявайте го на сигурно място, например в мениджър на пароли или като разпечатка.';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      'Старият ви комплект за възстановяване вече не работи. Съхранявайте този нов на сигурно място.';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'Паролата ви е нулирана. Старият ви комплект за възстановяване вече не работи. Съхранявайте този нов някъде на сигурно място.';
+
+  @override
+  String get recoveryKitWarning =>
+      'Всеки с този ключ може да нулира паролата ви. Никога не го споделяйте.';
+
+  @override
+  String get recoveryKitKeyLabel => 'Ключ за възстановяване';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return 'Резервен комплект на $productName';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'Пазете тази страница на сигурно място. Ако забравите паролата си, можете да я използвате, за да влезете отново в профила си. Всеки, който има този ключ за възстановяване, може да нулира паролата ви, така че никога не го споделяйте.';
+
+  @override
+  String get recoveryKitInstanceLabel => 'Инстанция';
+
+  @override
+  String get recoveryKitCreatedAtLabel => 'Създадена';
+
+  @override
+  String get recoveryKitQrCaption =>
+      'Сканирайте, за да отворите страницата за възстановяване с попълнени данни.';
+
+  @override
+  String get recoveryKitStepsTitle => 'Как да възстановите акаунта си';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return 'Отидете на $recoverUrl или сканирайте QR кода.';
+  }
+
+  @override
+  String get recoveryKitStepEnter =>
+      'Въведете вашето потребителско име и този ключ за възстановяване.';
+
+  @override
+  String get recoveryKitStepPassword =>
+      'Изберете нова парола. Ще получите нов комплект за възстановяване и този ще спре да работи.';
+
+  @override
+  String get recoveryKitBackupCodesTitle =>
+      'Резервни кодове за двуфакторна автентикация';
+
+  @override
+  String get recoveryKitBackupCodesNote =>
+      'Всеки код работи еднократно вместо приложението ви за удостоверяване.';
+
+  @override
+  String get recoveryKitBackupCodesFailed =>
+      'Не успяхме да заредим резервните ви кодове.';
+
+  @override
+  String get recoveryKitIncludeBackupCodes =>
+      'Включи резервните ми кодове за двуфакторно удостоверяване в запазеното изображение';
+
+  @override
+  String get recoveryKitCopy => 'Копирай';
+
+  @override
+  String get recoveryKitCopied => 'Ключът за възстановяване е копиран';
+
+  @override
+  String get recoveryKitSaveImage => 'Запази изображение';
+
+  @override
+  String get recoveryKitSaved => 'Комплектът за възстановяване е запазен';
+
+  @override
+  String get recoveryKitSavedToPhotos =>
+      'Комплектът за възстановяване е запазен в снимките';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'Комплектът за възстановяване не можа да бъде запазен. Опитай отново или копирай ключа.';
+
+  @override
+  String get recoveryKitAcknowledge =>
+      'Съхраних комплекта си за възстановяване на сигурно място';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'Не успяхме да създадем вашия комплект за възстановяване. Можете да създадете такъв по-късно в настройките на профила си.';
+
+  @override
+  String get recoveryKitSectionTitle => 'Комплект за възстановяване';
+
+  @override
+  String get recoveryKitSectionDescription =>
+      'Позволява ви да нулирате паролата си, ако я забравите.';
+
+  @override
+  String get recoveryKitNone => 'Все още нямате комплект за възстановяване';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return 'Създадено $time';
+  }
+
+  @override
+  String get recoveryKitCreate => 'Създай комплект за възстановяване';
+
+  @override
+  String get recoveryKitCreateNew => 'Създай нов комплект';
+
+  @override
+  String get recoveryKitReplaceTitle =>
+      'Създаване на нов комплект за възстановяване?';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      'Настоящият ви комплект спира да работи веднага щом бъде създаден нов.';
+
+  @override
+  String get recoveryKitReminderTitle => 'Запазете комплект за възстановяване';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'В профила ви няма имейл адрес. Ако забравите паролата си, комплектът за възстановяване е единственият начин да влезете отново. Отнема само минута.';
+
+  @override
+  String get registerUsernameSignInHint =>
+      'Влизате с това потребителско име. Изберете такова, което ще запомните.';
+
+  @override
+  String get registerUsernameTaken => 'Това потребителско име вече е заето';
+
+  @override
+  String get registerUsernameAvailable => 'Това потребителско име е налично';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'Заяви своя акаунт, като избереш потребителско име и парола. С тях ще влизаш в системата, така че избери такива, които ще помниш.';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'Акаунтът ви все още не е заявен. Без потребителско име и парола няма да можете да влезете от други устройства и може да загубите достъп до акаунта си. Заявете акаунта си сега, за да го защитите.';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'Потребителско име';
+
+  @override
   String get registerTitle => 'Създаване на акаунт';
 
   @override
@@ -656,6 +825,10 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get errorInvalidEmailOrPassword => 'Невалиден имейл или парола.';
+
+  @override
+  String get errorInvalidUsernameOrPassword =>
+      'Невалидно потребителско име или парола.';
 
   @override
   String get errorUnableToSendResetLink =>

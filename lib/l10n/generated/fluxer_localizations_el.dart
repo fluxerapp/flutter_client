@@ -556,6 +556,176 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get resetPasswordMismatch => 'Οι κωδικοί πρόσβασης δεν ταιριάζουν.';
 
   @override
+  String get recoverAccountTitle => 'Ανάκτηση του λογαριασμού σας';
+
+  @override
+  String get recoverAccountDescription =>
+      'Εισαγάγετε το όνομα χρήστη σας και το κλειδί ανάκτησης από το κιτ ανάκτησής σας, και στη συνέχεια επιλέξτε έναν νέο κωδικό πρόσβασης.';
+
+  @override
+  String get recoverAccountNoKit =>
+      'Δεν έχετε κιτ ανάκτησης; Ζητήστε από έναν διαχειριστή αυτής της παρουσίας έναν σύνδεσμο επαναφοράς κωδικού πρόσβασης.';
+
+  @override
+  String get recoveryKitTitle => 'Το κιτ ανάκτησής σου';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'Αν ξεχάσεις τον κωδικό σου, αυτό το κιτ είναι ο μόνος τρόπος να ξαναμπείς στον λογαριασμό σου. Φύλαξέ το κάπου ασφαλώς, όπως σε έναν διαχειριστή κωδικών πρόσβασης ή σε μια εκτυπωμένη κόπια.';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      'Το παλιό σου κιτ ανάκτησης δεν λειτουργεί πλέον. Φύλαξε αυτό το νέο σε ασφαλές μέρος.';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'Ο κωδικός πρόσβασής σας έχει γίνει επαναφορά. Το παλιό σας κιτ ανάκτησης δεν λειτουργεί πλέον. Αποθηκεύστε αυτό το νέο κάπου ασφαλές.';
+
+  @override
+  String get recoveryKitWarning =>
+      'Οποιοσδήποτε έχει αυτό το κλειδί μπορεί να επαναφέρει τον κωδικό πρόσβασής σας. Μην το μοιράζεστε ποτέ.';
+
+  @override
+  String get recoveryKitKeyLabel => 'Κλειδί ανάκτησης';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return 'Κιτ ανάκτησης $productName';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'Κρατήστε αυτή τη σελίδα κάπου ασφαλή. Αν ξεχάσετε τον κωδικό πρόσβασής σας, μπορείτε να τη χρησιμοποιήσετε για να επανέλθετε στον λογαριασμό σας. Οποιοσδήποτε έχει αυτό το κλειδί ανάκτησης μπορεί να επαναφέρει τον κωδικό πρόσβασής σας, οπότε μην το μοιράζεστε ποτέ.';
+
+  @override
+  String get recoveryKitInstanceLabel => 'Διεύθυνση διακομιστή';
+
+  @override
+  String get recoveryKitCreatedAtLabel => 'Δημιουργήθηκε';
+
+  @override
+  String get recoveryKitQrCaption =>
+      'Σάρωσε για να ανοίξεις τη σελίδα ανάκτησης με τα στοιχεία σου συμπληρωμένα.';
+
+  @override
+  String get recoveryKitStepsTitle => 'Πώς να ανακτήσετε τον λογαριασμό σας';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return 'Μεταβείτε στο $recoverUrl ή σαρώστε τον κωδικό QR.';
+  }
+
+  @override
+  String get recoveryKitStepEnter =>
+      'Εισαγάγετε το όνομα χρήστη σας και αυτό το κλειδί ανάκτησης.';
+
+  @override
+  String get recoveryKitStepPassword =>
+      'Δημιουργήστε έναν νέο κωδικό πρόσβασης. Θα λάβετε ένα νέο κιτ ανάκτησης και αυτό θα πάψει να λειτουργεί.';
+
+  @override
+  String get recoveryKitBackupCodesTitle =>
+      'Κωδικοί αντιγράφων ασφαλείας δύο παραγόντων';
+
+  @override
+  String get recoveryKitBackupCodesNote =>
+      'Κάθε κωδικός λειτουργεί μία φορά στη θέση της εφαρμογής ελέγχου ταυτότητας.';
+
+  @override
+  String get recoveryKitBackupCodesFailed =>
+      'Δεν ήταν δυνατή η φόρτωση των εφεδρικών κωδικών σας.';
+
+  @override
+  String get recoveryKitIncludeBackupCodes =>
+      'Συμπερίληψη των εφεδρικών κωδικών έλεγχου ταυτότητας δύο παραγόντων στην αποθηκευμένη εικόνα';
+
+  @override
+  String get recoveryKitCopy => 'Αντιγραφή';
+
+  @override
+  String get recoveryKitCopied => 'Το κλειδί ανάκτησης αντιγράφηκε';
+
+  @override
+  String get recoveryKitSaveImage => 'Αποθήκευση εικόνας';
+
+  @override
+  String get recoveryKitSaved => 'Το κιτ ανάκτησης αποθηκεύτηκε';
+
+  @override
+  String get recoveryKitSavedToPhotos =>
+      'Το κιτ ανάκτησης αποθηκεύτηκε στις φωτογραφίες';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'Δεν ήταν δυνατή η αποθήκευση του κιτ ανάκτησης. Δοκίμασε ξανά ή αντέγραψε το κλειδί.';
+
+  @override
+  String get recoveryKitAcknowledge =>
+      'Αποθήκευσα το κιτ ανάκτησής μου κάπου ασφαλώς';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'Δεν ήταν δυνατή η δημιουργία του κιτ ανάκτησής σας. Μπορείτε να δημιουργήσετε ένα αργότερα στις ρυθμίσεις του λογαριασμού σας.';
+
+  @override
+  String get recoveryKitSectionTitle => 'Κιτ ανάκτησης';
+
+  @override
+  String get recoveryKitSectionDescription =>
+      'Σας επιτρέπει να επαναφέρετε τον κωδικό πρόσβασής σας αν τον ξεχάσετε.';
+
+  @override
+  String get recoveryKitNone => 'Δεν έχετε ακόμη κιτ ανάκτησης';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return 'Δημιουργήθηκε $time';
+  }
+
+  @override
+  String get recoveryKitCreate => 'Δημιουργία κιτ ανάκτησης';
+
+  @override
+  String get recoveryKitCreateNew => 'Δημιουργία νέου κιτ';
+
+  @override
+  String get recoveryKitReplaceTitle => 'Δημιουργία νέου κιτ ανάκτησης;';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      'Το τρέχον κιτ σας παύει να λειτουργεί μόλις δημιουργηθεί το νέο.';
+
+  @override
+  String get recoveryKitReminderTitle => 'Αποθήκευση κιτ ανάκτησης';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'Ο λογαριασμός σας δεν έχει διεύθυνση email. Αν ξεχάσετε τον κωδικό πρόσβασής σας, ένα κιτ ανάκτησης είναι ο μόνος τρόπος να ξαναμπείτε. Χρειάζεται μόνο ένα λεπτό.';
+
+  @override
+  String get registerUsernameSignInHint =>
+      'Συνδέεστε με αυτό το όνομα χρήστη. Επιλέξτε ένα που θα θυμάστε.';
+
+  @override
+  String get registerUsernameTaken =>
+      'Αυτό το όνομα χρήστη χρησιμοποιείται ήδη';
+
+  @override
+  String get registerUsernameAvailable =>
+      'Αυτό το όνομα χρήστη είναι διαθέσιμο';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'Διεκδίκησε τον λογαριασμό σου επιλέγοντας ένα όνομα χρήστη και έναν κωδικό πρόσβασης. Με αυτά θα συνδέεσαι, οπότε διάλεξε αυτά που θα θυμάσαι.';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'Ο λογαριασμός σας δεν έχει διεκδικηθεί ακόμη. Χωρίς όνομα χρήστη και κωδικό πρόσβασης, δεν θα μπορείτε να συνδεθείτε από άλλες συσκευές και μπορεί να χάσετε την πρόσβαση στον λογαριασμό σας. Διεκδικήστε τώρα τον λογαριασμό σας για να τον ασφαλίσετε.';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'Όνομα χρήστη';
+
+  @override
   String get registerTitle => 'Δημιουργία λογαριασμού';
 
   @override
@@ -658,6 +828,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   @override
   String get errorInvalidEmailOrPassword =>
       'Μη έγκυρο email ή κωδικός πρόσβασης.';
+
+  @override
+  String get errorInvalidUsernameOrPassword =>
+      'Μη έγκυρο όνομα χρήστη ή κωδικός πρόσβασης.';
 
   @override
   String get errorUnableToSendResetLink =>

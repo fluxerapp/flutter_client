@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/features/auth/presentation/mfa_screen.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/forgot_password_screen.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/ip_authorization_screen.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/login_form.dart';
+import 'package:fluxer_app/features/auth/presentation/widgets/recover_account_screen.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/register_screen.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/reset_password_screen.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/sso_button.dart';
@@ -28,6 +30,15 @@ class AuthFlowContent extends ConsumerWidget {
         token: vm.resetToken!,
         onBack: notifier.clearResetToken,
       );
+    }
+
+    if (vm.showForgotPassword &&
+        ref.watch(
+          instanceRuntimeConfigProvider.select(
+            (config) => config.usernameSignIn,
+          ),
+        )) {
+      return RecoverAccountScreen(onBack: notifier.backFromForgotPassword);
     }
 
     if (vm.showForgotPassword) {

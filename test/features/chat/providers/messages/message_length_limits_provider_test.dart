@@ -56,6 +56,8 @@ WellKnownFluxerResponse _wellKnownWithMessageLength(int length) {
       presignedAttachmentUploads: false,
       emailsEnabled: false,
       phoneVerificationEnabled: false,
+      accountIdentity: AccountIdentityModeSchema.email,
+      tagStyle: TagStyleSchema.random,
     ),
     gif: const InstanceGifSchema(
       provider: 'tenor',

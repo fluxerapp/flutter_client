@@ -553,6 +553,173 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get resetPasswordMismatch => 'كلمتا المرور غير متطابقتين.';
 
   @override
+  String get recoverAccountTitle => 'استعادة حسابك';
+
+  @override
+  String get recoverAccountDescription =>
+      'أدخل اسم المستخدم الخاص بك ومفتاح الاسترداد من مجموعة الاسترداد الخاصة بك، ثم اختر كلمة مرور جديدة.';
+
+  @override
+  String get recoverAccountNoKit =>
+      'ليس لديك مجموعة استرداد؟ اطلب من مسؤول هذا المثيل رابطًا لإعادة تعيين كلمة المرور.';
+
+  @override
+  String get recoveryKitTitle => 'عدة الاسترداد الخاصة بك';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'إذا نسيت كلمة مرورك، فهذه المجموعة هي الطريقة الوحيدة للعودة إلى حسابك. قم بتخزينها في مكان آمن، مثل مدير كلمات المرور أو نسخة مطبوعة.';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      'لم تعد مجموعة الاسترداد القديمة الخاصة بك تعمل. قم بتخزين هذه المجموعة الجديدة في مكان آمن.';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'تمت إعادة تعيين كلمة المرور الخاصة بك. لم تعد مجموعة الاسترداد القديمة الخاصة بك تعمل. قم بتخزين هذه المجموعة الجديدة في مكان آمن.';
+
+  @override
+  String get recoveryKitWarning =>
+      'يمكن لأي شخص يمتلك هذا المفتاح إعادة تعيين كلمة مرورك. لا تشاركه أبدًا.';
+
+  @override
+  String get recoveryKitKeyLabel => 'مفتاح الاسترداد';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return 'عدة استرداد $productName';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'احتفظ بهذه الصفحة في مكان آمن. إذا نسيت كلمة مرورك، يمكنك استخدامها للعودة إلى حسابك. يمكن لأي شخص لديه مفتاح الاسترداد هذا إعادة تعيين كلمة مرورك، لذا لا تشاركه أبدًا.';
+
+  @override
+  String get recoveryKitInstanceLabel => 'المثيل';
+
+  @override
+  String get recoveryKitCreatedAtLabel => 'تم الإنشاء';
+
+  @override
+  String get recoveryKitQrCaption =>
+      'امسح ضوئيًا لفتح صفحة الاسترداد مع ملء تفاصيلك.';
+
+  @override
+  String get recoveryKitStepsTitle => 'كيفية استعادة حسابك';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return 'انتقل إلى $recoverUrl أو امسح رمز الاستجابة السريعة.';
+  }
+
+  @override
+  String get recoveryKitStepEnter =>
+      'أدخل اسم المستخدم الخاص بك ومفتاح الاسترداد هذا.';
+
+  @override
+  String get recoveryKitStepPassword =>
+      'اختر كلمة مرور جديدة. ستحصل على مجموعة استرداد جديدة وستتوقف هذه المجموعة عن العمل.';
+
+  @override
+  String get recoveryKitBackupCodesTitle =>
+      'رموز النسخ الاحتياطي للعاملين بخطوتين';
+
+  @override
+  String get recoveryKitBackupCodesNote =>
+      'كل رمز يعمل مرة واحدة بدلاً من تطبيق المصادقة الخاص بك.';
+
+  @override
+  String get recoveryKitBackupCodesFailed =>
+      'تعذر تحميل رموز النسخ الاحتياطي الخاصة بك.';
+
+  @override
+  String get recoveryKitIncludeBackupCodes =>
+      'تضمين رموز النسخ الاحتياطي للمصادقة الثنائية في الصورة المحفوظة';
+
+  @override
+  String get recoveryKitCopy => 'نسخ';
+
+  @override
+  String get recoveryKitCopied => 'تم نسخ مفتاح الاسترداد';
+
+  @override
+  String get recoveryKitSaveImage => 'حفظ الصورة';
+
+  @override
+  String get recoveryKitSaved => 'تم حفظ مجموعة الاسترداد';
+
+  @override
+  String get recoveryKitSavedToPhotos => 'تم حفظ مجموعة الاسترداد في الصور';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'تعذر حفظ مجموعة الاسترداد. حاول مرة أخرى أو انسخ المفتاح بدلًا من ذلك.';
+
+  @override
+  String get recoveryKitAcknowledge =>
+      'لقد خزنت مجموعة الاسترداد الخاصة بي في مكان آمن';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'تعذر إنشاء مجموعة الاسترداد الخاصة بك. يمكنك إنشاؤها لاحقًا في إعدادات حسابك.';
+
+  @override
+  String get recoveryKitSectionTitle => 'عدة الاسترداد';
+
+  @override
+  String get recoveryKitSectionDescription =>
+      'يتيح لك إعادة تعيين كلمة المرور الخاصة بك إذا نسيتها.';
+
+  @override
+  String get recoveryKitNone => 'ليس لديك مجموعة استرداد بعد';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return 'تم الإنشاء $time';
+  }
+
+  @override
+  String get recoveryKitCreate => 'إنشاء مجموعة استرداد';
+
+  @override
+  String get recoveryKitCreateNew => 'إنشاء مجموعة جديدة';
+
+  @override
+  String get recoveryKitReplaceTitle => 'إنشاء مجموعة استرداد جديدة؟';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      'ستتوقف مجموعتك الحالية عن العمل بمجرد إنشاء المجموعة الجديدة.';
+
+  @override
+  String get recoveryKitReminderTitle => 'احفظ مجموعة استرداد';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'ليس لحسابك عنوان بريد إلكتروني. إذا نسيت كلمة مرورك، فإن مجموعة الاسترداد هي الطريقة الوحيدة للعودة. يستغرق الأمر دقيقة واحدة فقط.';
+
+  @override
+  String get registerUsernameSignInHint =>
+      'تسجل الدخول باستخدام اسم المستخدم هذا. اختر اسمًا تتذكره.';
+
+  @override
+  String get registerUsernameTaken => 'اسم المستخدم هذا مستخدم بالفعل';
+
+  @override
+  String get registerUsernameAvailable => 'اسم المستخدم هذا متاح';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'قم بالمطالبة بحسابك عن طريق اختيار اسم مستخدم وكلمة مرور. ستقوم بتسجيل الدخول بهما، لذا اختر كلمات تتذكرها.';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'حسابك لم تتم المطالبة به بعد. بدون اسم مستخدم وكلمة مرور، لن تتمكن من تسجيل الدخول من أجهزة أخرى وقد تفقد الوصول إلى حسابك. طالب بحسابك الآن لتأمينه.';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'اسم المستخدم';
+
+  @override
   String get registerTitle => 'إنشاء حساب';
 
   @override
@@ -654,6 +821,10 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   @override
   String get errorInvalidEmailOrPassword =>
       'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
+
+  @override
+  String get errorInvalidUsernameOrPassword =>
+      'اسم المستخدم أو كلمة المرور غير صحيحة.';
 
   @override
   String get errorUnableToSendResetLink =>

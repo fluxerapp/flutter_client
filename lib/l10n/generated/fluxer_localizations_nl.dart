@@ -554,6 +554,171 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get resetPasswordMismatch => 'Wachtwoorden komen niet overeen.';
 
   @override
+  String get recoverAccountTitle => 'Herstel je account';
+
+  @override
+  String get recoverAccountDescription =>
+      'Voer uw gebruikersnaam en de herstelsleutel uit uw herstelkit in, kies dan een nieuw wachtwoord.';
+
+  @override
+  String get recoverAccountNoKit =>
+      'Geen herstelkit? Vraag een beheerder van dit exemplaar om een link om je wachtwoord opnieuw in te stellen.';
+
+  @override
+  String get recoveryKitTitle => 'Je herstelkit';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'Als je je wachtwoord vergeet, is deze kit de enige manier om weer toegang te krijgen tot je account. Bewaar hem ergens veilig, zoals in een wachtwoordmanager of een afgedrukte kopie.';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      'Je oude herstelkit werkt niet meer. Bewaar deze nieuwe ergens veilig.';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'Je wachtwoord is gereset. Je oude herstelkit werkt niet meer. Bewaar deze nieuwe ergens veilig.';
+
+  @override
+  String get recoveryKitWarning =>
+      'Iedereen met deze sleutel kan je wachtwoord opnieuw instellen. Deel deze nooit.';
+
+  @override
+  String get recoveryKitKeyLabel => 'Herstelcode';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return '$productName herstelkit';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'Bewaar deze pagina ergens veilig. Als je je wachtwoord vergeet, kun je het gebruiken om weer toegang te krijgen tot je account. Iedereen met deze herstelsleutel kan je wachtwoord opnieuw instellen, dus deel hem nooit.';
+
+  @override
+  String get recoveryKitInstanceLabel => 'Instantie';
+
+  @override
+  String get recoveryKitCreatedAtLabel => 'Aangemaakt';
+
+  @override
+  String get recoveryKitQrCaption =>
+      'Scan om de herstelpagina te openen met uw gegevens ingevuld.';
+
+  @override
+  String get recoveryKitStepsTitle => 'Hoe u uw account herstelt';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return 'Ga naar $recoverUrl of scan de QR-code.';
+  }
+
+  @override
+  String get recoveryKitStepEnter =>
+      'Voer je gebruikersnaam en deze herstelsleutel in.';
+
+  @override
+  String get recoveryKitStepPassword =>
+      'Kies een nieuw wachtwoord. Je krijgt een nieuwe herstelkit en deze werkt dan niet meer.';
+
+  @override
+  String get recoveryKitBackupCodesTitle => 'Back-upcodes voor twee stappen';
+
+  @override
+  String get recoveryKitBackupCodesNote =>
+      'Elke code werkt één keer in plaats van je authenticatie-app.';
+
+  @override
+  String get recoveryKitBackupCodesFailed => 'Kon uw back-upcodes niet laden.';
+
+  @override
+  String get recoveryKitIncludeBackupCodes =>
+      'Mijn back-upcodes voor tweestapsverificatie opnemen in de opgeslagen afbeelding';
+
+  @override
+  String get recoveryKitCopy => 'Kopiëren';
+
+  @override
+  String get recoveryKitCopied => 'Herstelsleutel gekopieerd';
+
+  @override
+  String get recoveryKitSaveImage => 'Afbeelding opslaan';
+
+  @override
+  String get recoveryKitSaved => 'Herstelkit opgeslagen';
+
+  @override
+  String get recoveryKitSavedToPhotos => 'Herstelkit opgeslagen in Foto\'s';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'Kan de herstelkit niet opslaan. Probeer het opnieuw of kopieer de sleutel.';
+
+  @override
+  String get recoveryKitAcknowledge =>
+      'Ik heb mijn herstelkit ergens veilig opgeslagen';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'Kon uw herstelkit niet aanmaken. U kunt er later een aanmaken in uw accountinstellingen.';
+
+  @override
+  String get recoveryKitSectionTitle => 'Herstelkit';
+
+  @override
+  String get recoveryKitSectionDescription =>
+      'Hiermee kun je je wachtwoord opnieuw instellen als je het vergeet.';
+
+  @override
+  String get recoveryKitNone => 'Je hebt nog geen herstelkit';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return 'Gemaakt $time';
+  }
+
+  @override
+  String get recoveryKitCreate => 'Maak herstelkit';
+
+  @override
+  String get recoveryKitCreateNew => 'Maak een nieuwe kit';
+
+  @override
+  String get recoveryKitReplaceTitle => 'Nieuwe herstelkit aanmaken?';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      'Je huidige kit werkt niet meer zodra de nieuwe is aangemaakt.';
+
+  @override
+  String get recoveryKitReminderTitle => 'Bewaar een herstelkit';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'Uw account heeft geen e-mailadres. Als u uw wachtwoord vergeet, is een herstelkit de enige manier om weer toegang te krijgen. Het duurt maar een minuut.';
+
+  @override
+  String get registerUsernameSignInHint =>
+      'Je meldt je aan met deze gebruikersnaam. Kies er een die je onthoudt.';
+
+  @override
+  String get registerUsernameTaken => 'Deze gebruikersnaam is al in gebruik';
+
+  @override
+  String get registerUsernameAvailable => 'Deze gebruikersnaam is beschikbaar';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'Claim je account door een gebruikersnaam en wachtwoord te kiezen. Je meldt je hiermee aan, dus kies er een die je kunt onthouden.';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'Je account is nog niet geclaimd. Zonder gebruikersnaam en wachtwoord kun je niet inloggen vanaf andere apparaten en kun je de toegang tot je account verliezen. Claim je account nu om het te beveiligen.';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'Gebruikersnaam';
+
+  @override
   String get registerTitle => 'Account aanmaken';
 
   @override
@@ -656,6 +821,10 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get errorInvalidEmailOrPassword => 'Ongeldige e-mail of wachtwoord.';
+
+  @override
+  String get errorInvalidUsernameOrPassword =>
+      'Ongeldige gebruikersnaam of wachtwoord.';
 
   @override
   String get errorUnableToSendResetLink =>

@@ -555,6 +555,176 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get resetPasswordMismatch => 'Parolele nu se potrivesc.';
 
   @override
+  String get recoverAccountTitle => 'Recuperează-ți contul';
+
+  @override
+  String get recoverAccountDescription =>
+      'Introdu numele de utilizator și cheia de recuperare din kitul tău de recuperare, apoi alege o parolă nouă.';
+
+  @override
+  String get recoverAccountNoKit =>
+      'Nu ai un kit de recuperare? Cere administratorului acestei instanțe un link pentru resetarea parolei.';
+
+  @override
+  String get recoveryKitTitle => 'Kitul tău de recuperare';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'Dacă uiți parola, acest kit este singura modalitate de a reveni în contul tău. Păstrează-l într-un loc sigur, cum ar fi un manager de parole sau o copie tipărită.';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      'Vechiul tău kit de recuperare nu mai funcționează. Păstrează-l pe acesta nou undeva în siguranță.';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'Parola ta a fost resetată. Vechiul tău kit de recuperare nu mai funcționează. Păstrează-l pe acesta nou undeva în siguranță.';
+
+  @override
+  String get recoveryKitWarning =>
+      'Oricine deține această cheie îți poate reseta parola. Nu o distribui niciodată.';
+
+  @override
+  String get recoveryKitKeyLabel => 'Cheie de recuperare';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return 'Kit de recuperare $productName';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'Păstrează această pagină într-un loc sigur. Dacă uiți parola, o poți folosi pentru a-ți recupera accesul la cont. Oricine deține această cheie de recuperare îți poate reseta parola, așa că nu o împărtăși niciodată.';
+
+  @override
+  String get recoveryKitInstanceLabel => 'Instanță';
+
+  @override
+  String get recoveryKitCreatedAtLabel => 'Creată';
+
+  @override
+  String get recoveryKitQrCaption =>
+      'Scanează pentru a deschide pagina de recuperare cu detaliile tale completate.';
+
+  @override
+  String get recoveryKitStepsTitle => 'Cum să-ți recuperezi contul';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return 'Mergi la $recoverUrl sau scanează codul QR.';
+  }
+
+  @override
+  String get recoveryKitStepEnter =>
+      'Introdu numele de utilizator și această cheie de recuperare.';
+
+  @override
+  String get recoveryKitStepPassword =>
+      'Alege o parolă nouă. Primești un kit de recuperare nou, iar acesta nu va mai funcționa.';
+
+  @override
+  String get recoveryKitBackupCodesTitle =>
+      'Coduri de rezervă pentru autentificare în doi pași';
+
+  @override
+  String get recoveryKitBackupCodesNote =>
+      'Fiecare cod funcționează o singură dată în locul aplicației tale de autentificare.';
+
+  @override
+  String get recoveryKitBackupCodesFailed =>
+      'Nu am putut încărca codurile de rezervă.';
+
+  @override
+  String get recoveryKitIncludeBackupCodes =>
+      'Include codurile mele de rezervă pentru autentificarea în doi pași în imaginea salvată';
+
+  @override
+  String get recoveryKitCopy => 'Copiază';
+
+  @override
+  String get recoveryKitCopied => 'Cheia de recuperare a fost copiată';
+
+  @override
+  String get recoveryKitSaveImage => 'Salvează imaginea';
+
+  @override
+  String get recoveryKitSaved => 'Kitul de recuperare a fost salvat';
+
+  @override
+  String get recoveryKitSavedToPhotos =>
+      'Kitul de recuperare a fost salvat în Fotografii';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'Kitul de recuperare nu a putut fi salvat. Încearcă din nou sau copiază cheia.';
+
+  @override
+  String get recoveryKitAcknowledge =>
+      'Mi-am salvat kitul de recuperare într-un loc sigur';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'Nu am putut crea kitul de recuperare. Îl poți crea mai târziu în setările contului tău.';
+
+  @override
+  String get recoveryKitSectionTitle => 'Kit de recuperare';
+
+  @override
+  String get recoveryKitSectionDescription =>
+      'Îți permite să-ți resetezi parola dacă o uiți.';
+
+  @override
+  String get recoveryKitNone => 'Nu ai încă un kit de recuperare';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return 'Creat $time';
+  }
+
+  @override
+  String get recoveryKitCreate => 'Creează kit de recuperare';
+
+  @override
+  String get recoveryKitCreateNew => 'Creează un kit nou';
+
+  @override
+  String get recoveryKitReplaceTitle => 'Creezi un nou kit de recuperare?';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      'Kitul tău actual nu va mai funcționa imediat ce cel nou va fi creat.';
+
+  @override
+  String get recoveryKitReminderTitle => 'Salvează un kit de recuperare';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'Contul tău nu are o adresă de e-mail. Dacă uiți parola, un kit de recuperare este singura modalitate de a reveni. Durează doar un minut.';
+
+  @override
+  String get registerUsernameSignInHint =>
+      'Te autentifici cu acest nume de utilizator. Alege unul pe care ți-l vei aminti.';
+
+  @override
+  String get registerUsernameTaken =>
+      'Acest nume de utilizator este deja ocupat';
+
+  @override
+  String get registerUsernameAvailable =>
+      'Acest nume de utilizator este disponibil';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'Revendică-ți contul alegând un nume de utilizator și o parolă. Te vei conecta cu ele, așa că alege unele pe care ți le vei aminti.';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'Contul tău nu a fost încă revendicat. Fără un nume de utilizator și o parolă, nu vei putea să te conectezi de pe alte dispozitive și ai putea pierde accesul la contul tău. Revendică-ți acum contul pentru a-l securiza.';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'Nume de utilizator';
+
+  @override
   String get registerTitle => 'Creează un cont';
 
   @override
@@ -657,6 +827,10 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get errorInvalidEmailOrPassword => 'Email sau parolă invalidă.';
+
+  @override
+  String get errorInvalidUsernameOrPassword =>
+      'Nume de utilizator sau parolă nevalide.';
 
   @override
   String get errorUnableToSendResetLink =>

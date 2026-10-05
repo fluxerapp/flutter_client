@@ -551,6 +551,171 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get resetPasswordMismatch => 'הסיסמאות אינן תואמות.';
 
   @override
+  String get recoverAccountTitle => 'שחזר את החשבון שלך';
+
+  @override
+  String get recoverAccountDescription =>
+      'הזן את שם המשתמש שלך ואת מפתח השחזור מתוך ערכת השחזור שלך, ואז בחר סיסמה חדשה.';
+
+  @override
+  String get recoverAccountNoKit =>
+      'אין לך ערכת שחזור? בקש ממנהל המערכת של המופע הזה קישור לאיפוס סיסמה.';
+
+  @override
+  String get recoveryKitTitle => 'ערכת השחזור שלך';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'אם תשכח את הסיסמה שלך, הקיט הזה הוא הדרך היחידה לחזור לחשבון שלך. שמור אותו במקום בטוח, כמו מנהל סיסמאות או עותק מודפס.';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      'ערכת השחזור הישנה שלך כבר לא עובדת. שמור את החדשה במקום בטוח.';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'סיסמתך אופסה. ערכת השחזור הישנה שלך כבר לא עובדת. שמור את הערכה החדשה הזו במקום בטוח.';
+
+  @override
+  String get recoveryKitWarning =>
+      'כל מי שיש לו את המפתח הזה יכול לאפס את הסיסמה שלך. לעולם אל תשתף אותו.';
+
+  @override
+  String get recoveryKitKeyLabel => 'מפתח שחזור';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return 'ערכת שחזור של $productName';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'שמור דף זה במקום בטוח. אם תשכח את הסיסמה שלך, תוכל להשתמש בו כדי לחזור לחשבונך. כל מי שיש לו את מפתח השחזור הזה יכול לאפס את הסיסמה שלך, אז לעולם אל תשתף אותו.';
+
+  @override
+  String get recoveryKitInstanceLabel => 'מופע';
+
+  @override
+  String get recoveryKitCreatedAtLabel => 'נוצר';
+
+  @override
+  String get recoveryKitQrCaption =>
+      'סרוק כדי לפתוח את דף השחזור עם הפרטים שלך ממולאים.';
+
+  @override
+  String get recoveryKitStepsTitle => 'איך לשחזר את החשבון שלך';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return 'עבור אל $recoverUrl או סרוק את קוד ה-QR.';
+  }
+
+  @override
+  String get recoveryKitStepEnter =>
+      'הזן את שם המשתמש שלך ואת מפתח השחזור הזה.';
+
+  @override
+  String get recoveryKitStepPassword =>
+      'בחר סיסמה חדשה. תקבל ערכת שחזור חדשה והערכה הנוכחית תפסיק לעבוד.';
+
+  @override
+  String get recoveryKitBackupCodesTitle => 'קודי גיבוי דו-שלביים';
+
+  @override
+  String get recoveryKitBackupCodesNote =>
+      'כל קוד עובד פעם אחת במקום אפליקציית האימות שלך.';
+
+  @override
+  String get recoveryKitBackupCodesFailed =>
+      'לא ניתן היה לטעון את קודי הגיבוי שלך.';
+
+  @override
+  String get recoveryKitIncludeBackupCodes =>
+      'לכלול את קודי הגיבוי שלי לאימות דו-שלבי בתמונה השמורה';
+
+  @override
+  String get recoveryKitCopy => 'העתקה';
+
+  @override
+  String get recoveryKitCopied => 'מפתח השחזור הועתק';
+
+  @override
+  String get recoveryKitSaveImage => 'שמירת תמונה';
+
+  @override
+  String get recoveryKitSaved => 'ערכת השחזור נשמרה';
+
+  @override
+  String get recoveryKitSavedToPhotos => 'ערכת השחזור נשמרה בתמונות';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'לא ניתן היה לשמור את ערכת השחזור. נסה שוב או העתק את המפתח במקום זאת.';
+
+  @override
+  String get recoveryKitAcknowledge => 'שמרתי את ערכת השחזור שלי במקום בטוח';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'לא הצלחנו ליצור את ערכת השחזור שלך. תוכל ליצור אחת מאוחר יותר בהגדרות החשבון שלך.';
+
+  @override
+  String get recoveryKitSectionTitle => 'ערכת שחזור';
+
+  @override
+  String get recoveryKitSectionDescription =>
+      'מאפשר לך לאפס את הסיסמה שלך אם תשכח אותה.';
+
+  @override
+  String get recoveryKitNone => 'עדיין אין לך ערכת שחזור';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return 'נוצר $time';
+  }
+
+  @override
+  String get recoveryKitCreate => 'צור ערכת שחזור';
+
+  @override
+  String get recoveryKitCreateNew => 'צור ערכה חדשה';
+
+  @override
+  String get recoveryKitReplaceTitle => 'צור ערכת שחזור חדשה?';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      'הערכה הנוכחית שלך תפסיק לעבוד ברגע שהחדשה תיצור.';
+
+  @override
+  String get recoveryKitReminderTitle => 'שמור ערכת שחזור';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'לחשבונך אין כתובת אימייל. אם תשכח את הסיסמה שלך, ערכת שחזור היא הדרך היחידה לחזור. זה לוקח רק דקה.';
+
+  @override
+  String get registerUsernameSignInHint =>
+      'אתה נכנס עם שם המשתמש הזה. בחר אחד שתזכור.';
+
+  @override
+  String get registerUsernameTaken => 'שם המשתמש הזה כבר תפוס';
+
+  @override
+  String get registerUsernameAvailable => 'השם הזה זמין';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'אמת את החשבון שלך על ידי בחירת שם משתמש וסיסמה. תתחבר איתם, אז בחר כאלה שתזכור.';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'החשבון שלך עדיין לא נתבע. ללא שם משתמש וסיסמה, לא תוכל להתחבר ממכשירים אחרים ועלול לאבד גישה לחשבון שלך. תבע את החשבון שלך עכשיו כדי לאבטח אותו.';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'שם משתמש';
+
+  @override
   String get registerTitle => 'צור חשבון';
 
   @override
@@ -646,6 +811,9 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String get errorInvalidEmailOrPassword => 'כתובת אימייל או סיסמה שגויים.';
+
+  @override
+  String get errorInvalidUsernameOrPassword => 'שם משתמש או סיסמה לא חוקיים.';
 
   @override
   String get errorUnableToSendResetLink =>

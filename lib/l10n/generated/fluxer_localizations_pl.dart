@@ -557,6 +557,174 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   String get resetPasswordMismatch => 'Hasła nie pasują do siebie.';
 
   @override
+  String get recoverAccountTitle => 'Odzyskaj swoje konto';
+
+  @override
+  String get recoverAccountDescription =>
+      'Wpisz swoją nazwę użytkownika i klucz odzyskiwania z zestawu odzyskiwania, a następnie wybierz nowe hasło.';
+
+  @override
+  String get recoverAccountNoKit =>
+      'Nie masz zestawu do odzyskiwania? Poproś administratora tej instancji o link do zresetowania hasła.';
+
+  @override
+  String get recoveryKitTitle => 'Twój zestaw odzyskiwania';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'Jeśli zapomnisz hasła, ten zestaw będzie jedynym sposobem na powrót do konta. Przechowuj go w bezpiecznym miejscu, na przykład w menedżerze haseł lub jako wydrukowaną kopię.';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      'Twój stary zestaw odzyskiwania danych już nie działa. Przechowaj ten nowy w bezpiecznym miejscu.';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'Twoje hasło zostało zresetowane. Twój stary zestaw odzyskiwania nie działa już. Przechowaj ten nowy w bezpiecznym miejscu.';
+
+  @override
+  String get recoveryKitWarning =>
+      'Każdy, kto ma ten klucz, może zresetować Twoje hasło. Nigdy go nie udostępniaj.';
+
+  @override
+  String get recoveryKitKeyLabel => 'Klucz odzyskiwania';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return 'Zestaw odzyskiwania $productName';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'Zapisz tę stronę w bezpiecznym miejscu. Jeśli zapomnisz hasła, możesz jej użyć, aby odzyskać dostęp do konta. Każda osoba posiadająca ten klucz odzyskiwania może zresetować Twoje hasło, dlatego nigdy go nie udostępniaj.';
+
+  @override
+  String get recoveryKitInstanceLabel => 'Instancja';
+
+  @override
+  String get recoveryKitCreatedAtLabel => 'Utworzono';
+
+  @override
+  String get recoveryKitQrCaption =>
+      'Zeskanuj, aby otworzyć stronę odzyskiwania z wypełnionymi danymi.';
+
+  @override
+  String get recoveryKitStepsTitle => 'Jak odzyskać konto';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return 'Przejdź do $recoverUrl lub zeskanuj kod QR.';
+  }
+
+  @override
+  String get recoveryKitStepEnter =>
+      'Wpisz swoją nazwę użytkownika i ten klucz odzyskiwania.';
+
+  @override
+  String get recoveryKitStepPassword =>
+      'Wybierz nowe hasło. Otrzymasz nowy zestaw odzyskiwania, a ten przestanie działać.';
+
+  @override
+  String get recoveryKitBackupCodesTitle =>
+      'Kody zapasowe do uwierzytelniania dwuskładnikowego';
+
+  @override
+  String get recoveryKitBackupCodesNote =>
+      'Każdy kod działa raz zamiast Twojej aplikacji uwierzytelniającej.';
+
+  @override
+  String get recoveryKitBackupCodesFailed =>
+      'Nie udało się załadować kodów zapasowych.';
+
+  @override
+  String get recoveryKitIncludeBackupCodes =>
+      'Dołącz moje kody zapasowe uwierzytelniania dwuskładnikowego do zapisanego obrazu';
+
+  @override
+  String get recoveryKitCopy => 'Kopiuj';
+
+  @override
+  String get recoveryKitCopied => 'Skopiowano klucz odzyskiwania';
+
+  @override
+  String get recoveryKitSaveImage => 'Zapisz obraz';
+
+  @override
+  String get recoveryKitSaved => 'Zapisano zestaw odzyskiwania';
+
+  @override
+  String get recoveryKitSavedToPhotos =>
+      'Zapisano zestaw odzyskiwania w Zdjęciach';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'Nie udało się zapisać zestawu odzyskiwania. Spróbuj ponownie lub skopiuj klucz.';
+
+  @override
+  String get recoveryKitAcknowledge =>
+      'Przechowam mój zestaw odzyskiwania w bezpiecznym miejscu';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'Nie udało się utworzyć zestawu odzyskiwania. Możesz go utworzyć później w ustawieniach konta.';
+
+  @override
+  String get recoveryKitSectionTitle => 'Zestaw odzyskiwania';
+
+  @override
+  String get recoveryKitSectionDescription =>
+      'Pozwala zresetować hasło, jeśli je zapomnisz.';
+
+  @override
+  String get recoveryKitNone => 'Nie masz jeszcze zestawu odzyskiwania';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return 'Utworzono $time';
+  }
+
+  @override
+  String get recoveryKitCreate => 'Utwórz zestaw odzyskiwania';
+
+  @override
+  String get recoveryKitCreateNew => 'Utwórz nowy zestaw';
+
+  @override
+  String get recoveryKitReplaceTitle => 'Utworzyć nowy zestaw odzyskiwania?';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      'Twój obecny zestaw przestanie działać, gdy tylko utworzysz nowy.';
+
+  @override
+  String get recoveryKitReminderTitle => 'Zapisz zestaw odzyskiwania';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'Twoje konto nie ma adresu e-mail. Jeśli zapomnisz hasła, zestaw odzyskiwania to jedyny sposób na powrót. Zajmie to tylko minutę.';
+
+  @override
+  String get registerUsernameSignInHint =>
+      'Logujesz się tym identyfikatorem. Wybierz taki, który zapamiętasz.';
+
+  @override
+  String get registerUsernameTaken => 'Ta nazwa użytkownika jest już zajęta';
+
+  @override
+  String get registerUsernameAvailable => 'Ta nazwa użytkownika jest dostępna';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'Zarejestruj swoje konto, wybierając nazwę użytkownika i hasło. Będziesz się logować za ich pomocą, więc wybierz takie, które zapamiętasz.';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'Twoje konto nie zostało jeszcze odebrane. Bez nazwy użytkownika i hasła nie będziesz mógł/mogła logować się z innych urządzeń i możesz stracić dostęp do swojego konta. Odbierz swoje konto teraz, aby je zabezpieczyć.';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'Nazwa użytkownika';
+
+  @override
   String get registerTitle => 'Utwórz konto';
 
   @override
@@ -660,6 +828,10 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   @override
   String get errorInvalidEmailOrPassword =>
       'Nieprawidłowy adres e-mail lub hasło.';
+
+  @override
+  String get errorInvalidUsernameOrPassword =>
+      'Nieprawidłowa nazwa użytkownika lub hasło.';
 
   @override
   String get errorUnableToSendResetLink =>

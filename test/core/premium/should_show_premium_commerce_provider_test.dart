@@ -42,6 +42,8 @@ WellKnownFluxerResponse _selfHostedWellKnown() {
       presignedAttachmentUploads: false,
       emailsEnabled: false,
       phoneVerificationEnabled: false,
+      accountIdentity: AccountIdentityModeSchema.email,
+      tagStyle: TagStyleSchema.random,
     ),
     gif: InstanceGifSchema(
       provider: 'tenor',

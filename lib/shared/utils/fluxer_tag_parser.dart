@@ -8,12 +8,21 @@ class FluxerTagParseResult {
   final String discriminator;
 }
 
-FluxerTagParseResult parseFluxerTagInput(String input) {
+final RegExp _zeroDiscriminatorInput = RegExp(r'^0{1,4}$');
+
+FluxerTagParseResult parseFluxerTagInput(
+  String input, {
+  bool uniqueUsernames = false,
+}) {
   final parts = input.split('#');
   if (parts.length > 1) {
+    final String discriminator = parts.sublist(1).join('#');
     return FluxerTagParseResult(
       username: parts.first,
-      discriminator: parts.sublist(1).join('#'),
+      discriminator:
+          uniqueUsernames && _zeroDiscriminatorInput.hasMatch(discriminator)
+          ? '0000'
+          : discriminator,
     );
   }
   return FluxerTagParseResult(username: input, discriminator: '0000');

@@ -554,6 +554,173 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get resetPasswordMismatch => 'Salasanat eivät täsmää.';
 
   @override
+  String get recoverAccountTitle => 'Palauta tilisi';
+
+  @override
+  String get recoverAccountDescription =>
+      'Syötä käyttäjänimesi ja palautusavaimesi palautuspaketistasi ja valitse sitten uusi salasana.';
+
+  @override
+  String get recoverAccountNoKit =>
+      'Ei palautussarjaa? Pyydä tämän instanssin ylläpitäjältä linkkiä salasanan vaihtamiseksi.';
+
+  @override
+  String get recoveryKitTitle => 'Palautussarjanne';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'Jos unohdat salasanasi, tämä paketti on ainoa tapa päästä takaisin tilillesi. Säilytä se turvallisessa paikassa, kuten salasananhallintaohjelmassa tai tulosteena.';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      'Vanha palautussarja ei toimi enää. Säilytä tämä uusi turvallisessa paikassa.';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'Salasanasi on nollattu. Vanha palautussarjasi ei toimi enää. Säilytä tämä uusi turvallisessa paikassa.';
+
+  @override
+  String get recoveryKitWarning =>
+      'Kuka tahansa tällä avaimella voi nollata salasanasi. Älä koskaan jaa sitä.';
+
+  @override
+  String get recoveryKitKeyLabel => 'Palautusavain';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return '$productName-palautussarja';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'Säilytä tämä sivu turvallisessa paikassa. Jos unohdat salasanasi, voit käyttää sitä kirjautuaksesi takaisin tilillesi. Kuka tahansa, jolla on tämä palautusavain, voi nollata salasanasi, joten älä koskaan jaa sitä.';
+
+  @override
+  String get recoveryKitInstanceLabel => 'Instanssi';
+
+  @override
+  String get recoveryKitCreatedAtLabel => 'Luotu';
+
+  @override
+  String get recoveryKitQrCaption =>
+      'Skannaa avataksesi palautussivun täytettyine tietojesi kanssa.';
+
+  @override
+  String get recoveryKitStepsTitle => 'Näin palautat tilisi';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return 'Siirry osoitteeseen $recoverUrl tai skannaa QR-koodi.';
+  }
+
+  @override
+  String get recoveryKitStepEnter =>
+      'Syötä käyttäjänimesi ja tämä palautusavain.';
+
+  @override
+  String get recoveryKitStepPassword =>
+      'Valitse uusi salasana. Saat uuden palautussarjan, ja tämä lakkaa toimimasta.';
+
+  @override
+  String get recoveryKitBackupCodesTitle =>
+      'Varmuuskopion kaksivaiheiset koodit';
+
+  @override
+  String get recoveryKitBackupCodesNote =>
+      'Jokainen koodi toimii kerran autentikointisovelluksesi sijasta.';
+
+  @override
+  String get recoveryKitBackupCodesFailed =>
+      'Varmuuskoodien lataaminen epäonnistui.';
+
+  @override
+  String get recoveryKitIncludeBackupCodes =>
+      'Sisällytä kaksivaiheisen tunnistautumisen varakoodini tallennettuun kuvaan';
+
+  @override
+  String get recoveryKitCopy => 'Kopioi';
+
+  @override
+  String get recoveryKitCopied => 'Palautusavain kopioitu';
+
+  @override
+  String get recoveryKitSaveImage => 'Tallenna kuva';
+
+  @override
+  String get recoveryKitSaved => 'Palautuspaketti tallennettu';
+
+  @override
+  String get recoveryKitSavedToPhotos => 'Palautuspaketti tallennettu kuviin';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'Palautuspakettia ei voitu tallentaa. Yritä uudelleen tai kopioi avain.';
+
+  @override
+  String get recoveryKitAcknowledge =>
+      'Olen tallentanut palautussarjani turvalliseen paikkaan';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'Et voitu luoda palautussarjaasi. Voit luoda sen myöhemmin tiliasetuksistasi.';
+
+  @override
+  String get recoveryKitSectionTitle => 'Palautussarja';
+
+  @override
+  String get recoveryKitSectionDescription =>
+      'Mahdollistaa salasanasi nollaamisen, jos unohdat sen.';
+
+  @override
+  String get recoveryKitNone => 'Sinulla ei ole vielä palautussarjaa';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return 'Luotu $time';
+  }
+
+  @override
+  String get recoveryKitCreate => 'Luo palautussarja';
+
+  @override
+  String get recoveryKitCreateNew => 'Luo uusi paketti';
+
+  @override
+  String get recoveryKitReplaceTitle => 'Luo uusi palautussarja?';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      'Nykyinen pakettisi lakkaa toimimasta heti, kun uusi luodaan.';
+
+  @override
+  String get recoveryKitReminderTitle => 'Tallenna palautussarja';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'Tililläsi ei ole sähköpostiosoitetta. Jos unohdat salasanasi, palautussarja on ainoa tapa päästä takaisin sisään. Se vie vain minuutin.';
+
+  @override
+  String get registerUsernameSignInHint =>
+      'Kirjaudut sisään tällä käyttäjänimellä. Valitse sellainen, jonka muistat.';
+
+  @override
+  String get registerUsernameTaken => 'Tämä käyttäjänimi on jo käytössä';
+
+  @override
+  String get registerUsernameAvailable => 'Tämä käyttäjänimi on vapaana';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'Lunasta tilisi valitsemalla käyttäjänimi ja salasana. Kirjaudut niillä sisään, joten valitse sellaiset, jotka muistat.';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'Tiliäsi ei ole vielä lunastettu. Ilman käyttäjätunnusta ja salasanaa et voi kirjautua sisään muilta laitteilta ja saatat menettää pääsyn tiliisi. Lunasta tilisi nyt varmistaaksesi sen.';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'Käyttäjänimi';
+
+  @override
   String get registerTitle => 'Luo tili';
 
   @override
@@ -656,6 +823,10 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   @override
   String get errorInvalidEmailOrPassword =>
       'Virheellinen sähköpostiosoite tai salasana.';
+
+  @override
+  String get errorInvalidUsernameOrPassword =>
+      'Virheellinen käyttäjänimi tai salasana.';
 
   @override
   String get errorUnableToSendResetLink =>

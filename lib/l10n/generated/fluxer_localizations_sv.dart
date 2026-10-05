@@ -551,6 +551,175 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get resetPasswordMismatch => 'Lösenorden matchar inte.';
 
   @override
+  String get recoverAccountTitle => 'Återställ ditt konto';
+
+  @override
+  String get recoverAccountDescription =>
+      'Ange ditt användarnamn och återställningsnyckeln från ditt återställningskit, välj sedan ett nytt lösenord.';
+
+  @override
+  String get recoverAccountNoKit =>
+      'Inget återställningskit? Be en administratör för den här instansen om en länk för att återställa lösenordet.';
+
+  @override
+  String get recoveryKitTitle => 'Ditt återställningskit';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'Om du glömmer ditt lösenord är det här kitet det enda sättet att komma tillbaka till ditt konto. Spara det någonstans säkert, till exempel i en lösenordshanterare eller som en utskrift.';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      'Din gamla återställningsnyckel fungerar inte längre. Förvara den nya på en säker plats.';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'Ditt lösenord har återställts. Ditt gamla återställningskit fungerar inte längre. Spara detta nya någonstans säkert.';
+
+  @override
+  String get recoveryKitWarning =>
+      'Alla med den här nyckeln kan återställa ditt lösenord. Dela den aldrig.';
+
+  @override
+  String get recoveryKitKeyLabel => 'Återställningsnyckel';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return '$productName återställningskit';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'Spara den här sidan på en säker plats. Om du glömmer ditt lösenord kan du använda den för att komma tillbaka till ditt konto. Vem som helst med den här återställningsnyckeln kan återställa ditt lösenord, så dela den aldrig.';
+
+  @override
+  String get recoveryKitInstanceLabel => 'Instans';
+
+  @override
+  String get recoveryKitCreatedAtLabel => 'Skapad';
+
+  @override
+  String get recoveryKitQrCaption =>
+      'Skanna för att öppna återställningssidan med dina uppgifter ifyllda.';
+
+  @override
+  String get recoveryKitStepsTitle => 'Hur du återställer ditt konto';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return 'Gå till $recoverUrl eller skanna QR-koden.';
+  }
+
+  @override
+  String get recoveryKitStepEnter =>
+      'Ange ditt användarnamn och den här återställningsnyckeln.';
+
+  @override
+  String get recoveryKitStepPassword =>
+      'Välj ett nytt lösenord. Du får ett nytt återställningskit och det här slutar fungera.';
+
+  @override
+  String get recoveryKitBackupCodesTitle =>
+      'Säkerhetskoder för tvåfaktorsautentisering';
+
+  @override
+  String get recoveryKitBackupCodesNote =>
+      'Varje kod fungerar en gång istället för din autentiseringsapp.';
+
+  @override
+  String get recoveryKitBackupCodesFailed =>
+      'Kunde inte ladda dina säkerhetskopieringskoder.';
+
+  @override
+  String get recoveryKitIncludeBackupCodes =>
+      'Inkludera mina reservkoder för tvåfaktorsautentisering i den sparade bilden';
+
+  @override
+  String get recoveryKitCopy => 'Kopiera';
+
+  @override
+  String get recoveryKitCopied => 'Återställningsnyckeln har kopierats';
+
+  @override
+  String get recoveryKitSaveImage => 'Spara bild';
+
+  @override
+  String get recoveryKitSaved => 'Återställningspaketet har sparats';
+
+  @override
+  String get recoveryKitSavedToPhotos =>
+      'Återställningspaketet har sparats i Bilder';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'Det gick inte att spara återställningspaketet. Försök igen eller kopiera nyckeln i stället.';
+
+  @override
+  String get recoveryKitAcknowledge =>
+      'Jag har sparat mitt återställningskit någonstans säkert';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'Kunde inte skapa ditt återställningskit. Du kan skapa ett senare i dina kontoinställningar.';
+
+  @override
+  String get recoveryKitSectionTitle => 'Återställningskit';
+
+  @override
+  String get recoveryKitSectionDescription =>
+      'Låter dig återställa ditt lösenord om du glömmer det.';
+
+  @override
+  String get recoveryKitNone => 'Du har ingen återställningskit än';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return 'Skapad $time';
+  }
+
+  @override
+  String get recoveryKitCreate => 'Skapa återställningskit';
+
+  @override
+  String get recoveryKitCreateNew => 'Skapa ett nytt kit';
+
+  @override
+  String get recoveryKitReplaceTitle => 'Skapa ett nytt återställningskit?';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      'Ditt nuvarande kit slutar fungera så fort det nya skapas.';
+
+  @override
+  String get recoveryKitReminderTitle => 'Spara ett återställningskit';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'Ditt konto saknar e-postadress. Om du glömmer ditt lösenord är en återställningsnyckel det enda sättet att komma tillbaka. Det tar bara en minut.';
+
+  @override
+  String get registerUsernameSignInHint =>
+      'Du loggar in med det här användarnamnet. Välj ett du kommer att komma ihåg.';
+
+  @override
+  String get registerUsernameTaken =>
+      'Det här användarnamnet är redan upptaget';
+
+  @override
+  String get registerUsernameAvailable => 'Det här användarnamnet är ledigt';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'Ange ett användarnamn och lösenord för ditt konto. Du loggar in med dem, så välj sådana du kommer att komma ihåg.';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'Ditt konto är inte anslutet än. Utan ett användarnamn och lösenord kan du inte logga in från andra enheter och du kan förlora åtkomsten till ditt konto. Anslut ditt konto nu för att säkra det.';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'Användarnamn';
+
+  @override
   String get registerTitle => 'Skapa ett konto';
 
   @override
@@ -653,6 +822,10 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   @override
   String get errorInvalidEmailOrPassword =>
       'Ogiltig e-postadress eller lösenord.';
+
+  @override
+  String get errorInvalidUsernameOrPassword =>
+      'Ogiltigt användarnamn eller lösenord.';
 
   @override
   String get errorUnableToSendResetLink =>

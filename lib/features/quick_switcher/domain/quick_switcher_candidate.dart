@@ -2,6 +2,7 @@ import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_types.dart';
+import 'package:fluxer_app/shared/utils/user_tag.dart';
 
 enum QuickSwitcherCandidateType {
   user,
@@ -235,9 +236,14 @@ Map<String, QuickSwitcherUserCandidate> _buildUserByChannelId(
 QuickSwitcherUserCandidate quickSwitcherUserCandidateFromFriend(
   Friend friend, {
   String? dmChannelId,
+  bool uniqueUsernames = false,
 }) {
   final String title = friend.nickname ?? friend.displayName;
-  final String subtitle = friend.tag;
+  final String subtitle = formatUserTag(
+    friend.username,
+    friend.discriminator,
+    uniqueUsernames: uniqueUsernames,
+  );
   return QuickSwitcherUserCandidate(
     id: friend.id,
     title: title,

@@ -553,6 +553,172 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get resetPasswordMismatch => 'Şifreler eşleşmiyor.';
 
   @override
+  String get recoverAccountTitle => 'Hesabını kurtar';
+
+  @override
+  String get recoverAccountDescription =>
+      'Kurtarma anahtarınızı ve kurtarma kitinizdeki kurtarma anahtarını girin, ardından yeni bir şifre seçin.';
+
+  @override
+  String get recoverAccountNoKit =>
+      'Kurtarma kiti yok mu? Parola sıfırlama bağlantısı için bu örneğin yöneticisinden yardım isteyin.';
+
+  @override
+  String get recoveryKitTitle => 'Kurtarma kitiniz';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'Parolanızı unutursanız, bu kit hesabınıza geri dönmenin tek yoludur. Güvenli bir yerde, örneğin bir parola yöneticisinde veya basılı bir kopya olarak saklayın.';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      'Eski kurtarma kitiniz artık çalışmıyor. Bu yeni kiti güvenli bir yere saklayın.';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'Şifreniz sıfırlandı. Eski kurtarma kitiniz artık çalışmıyor. Bu yeni kurtarma kitini güvenli bir yere saklayın.';
+
+  @override
+  String get recoveryKitWarning =>
+      'Bu anahtara sahip herkes parolanızı sıfırlayabilir. Asla paylaşmayın.';
+
+  @override
+  String get recoveryKitKeyLabel => 'Kurtarma anahtarı';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return '$productName kurtarma kiti';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'Bu sayfayı güvenli bir yerde saklayın. Parolanızı unutursanız, hesabınıza geri dönmek için kullanabilirsiniz. Bu kurtarma anahtarına sahip herkes parolanızı sıfırlayabilir, bu yüzden asla paylaşmayın.';
+
+  @override
+  String get recoveryKitInstanceLabel => 'Sunucu Adresi';
+
+  @override
+  String get recoveryKitCreatedAtLabel => 'Oluşturuldu';
+
+  @override
+  String get recoveryKitQrCaption =>
+      'Ayrıntılarınızın doldurulduğu kurtarma sayfasını açmak için tara.';
+
+  @override
+  String get recoveryKitStepsTitle => 'Hesabınızı nasıl kurtarabilirsiniz';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return '$recoverUrl adresine gidin veya QR kodu tarayın.';
+  }
+
+  @override
+  String get recoveryKitStepEnter =>
+      'Kullanıcı adınızı ve bu kurtarma anahtarını girin.';
+
+  @override
+  String get recoveryKitStepPassword =>
+      'Yeni bir şifre seçin. Yeni bir kurtarma kiti alacaksınız ve bu mevcut kitiniz çalışmayı durduracak.';
+
+  @override
+  String get recoveryKitBackupCodesTitle => 'İki faktörlü yedek kodları';
+
+  @override
+  String get recoveryKitBackupCodesNote =>
+      'Her kod, kimlik doğrulama uygulamanızın yerine tek seferlik kullanılabilir.';
+
+  @override
+  String get recoveryKitBackupCodesFailed => 'Yedek kodlarınız yüklenemedi.';
+
+  @override
+  String get recoveryKitIncludeBackupCodes =>
+      'İki faktörlü kimlik doğrulama yedek kodlarımı kaydedilen görsele ekle';
+
+  @override
+  String get recoveryKitCopy => 'Kopyala';
+
+  @override
+  String get recoveryKitCopied => 'Kurtarma anahtarı kopyalandı';
+
+  @override
+  String get recoveryKitSaveImage => 'Görseli kaydet';
+
+  @override
+  String get recoveryKitSaved => 'Kurtarma kiti kaydedildi';
+
+  @override
+  String get recoveryKitSavedToPhotos =>
+      'Kurtarma kiti Fotoğraflar\'a kaydedildi';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'Kurtarma kiti kaydedilemedi. Tekrar dene veya bunun yerine anahtarı kopyala.';
+
+  @override
+  String get recoveryKitAcknowledge =>
+      'Kurtarma kitimi güvenli bir yere sakladım';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'Kurtarma kitiniz oluşturulamadı. Daha sonra hesap ayarlarınızdan bir tane oluşturabilirsiniz.';
+
+  @override
+  String get recoveryKitSectionTitle => 'Kurtarma kiti';
+
+  @override
+  String get recoveryKitSectionDescription =>
+      'Unutursanız parolanızı sıfırlamanızı sağlar.';
+
+  @override
+  String get recoveryKitNone => 'Henüz bir kurtarma kitiniz yok';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return '$time tarihinde oluşturuldu';
+  }
+
+  @override
+  String get recoveryKitCreate => 'Kurtarma kiti oluştur';
+
+  @override
+  String get recoveryKitCreateNew => 'Yeni bir kit oluştur';
+
+  @override
+  String get recoveryKitReplaceTitle => 'Yeni bir kurtarma kiti oluştursun mu?';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      'Yeni kit oluşturulduğunda mevcut kit\'iniz çalışmayı durduracaktır.';
+
+  @override
+  String get recoveryKitReminderTitle => 'Kurtarma kiti kaydet';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'Hesabınızda e-posta adresi yok. Parolanızı unutursanız, kurtarma kiti tek geri dönüş yolunuzdur. Bir dakika sürer.';
+
+  @override
+  String get registerUsernameSignInHint =>
+      'Bu kullanıcı adıyla oturum açarsınız. Hatırlayacağınız bir tane seçin.';
+
+  @override
+  String get registerUsernameTaken => 'Bu kullanıcı adı zaten alınmış';
+
+  @override
+  String get registerUsernameAvailable => 'Bu kullanıcı adı kullanılabilir';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'Kullanıcı adı ve şifre seçerek hesabınızı talep edin. Bunlarla oturum açacaksınız, bu yüzden hatırlayacağınız bir şeyler seçin.';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'Hesabınız henüz alınmamış. Kullanıcı adı ve şifre olmadan başka cihazlardan giriş yapamazsınız ve hesabınıza erişimi kaybedebilirsiniz. Hesabınızı güvence altına almak için şimdi alın.';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'Kullanıcı adı';
+
+  @override
   String get registerTitle => 'Hesap oluştur';
 
   @override
@@ -655,6 +821,10 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get errorInvalidEmailOrPassword => 'Geçersiz e-posta veya parola.';
+
+  @override
+  String get errorInvalidUsernameOrPassword =>
+      'Geçersiz kullanıcı adı veya şifre.';
 
   @override
   String get errorUnableToSendResetLink =>

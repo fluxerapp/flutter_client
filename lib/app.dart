@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart' as l10n;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/assistant/assistant_binding.dart';
+import 'package:fluxer_app/core/instance/account_identity_sync.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
@@ -15,6 +16,7 @@ import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/features/accessibility/domain/resolve_reduced_motion.dart';
 import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
 import 'package:fluxer_app/features/accessibility/providers/effective_motion_preferences_provider.dart';
+import 'package:fluxer_app/features/recovery_kit/presentation/recovery_kit_gate.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/gateway_reconnect_banner.dart';
 import 'package:fluxer_app/features/shell/presentation/native_titlebar.dart';
@@ -125,8 +127,12 @@ class _FluxerAppState extends ConsumerState<FluxerApp> {
       builder: (context, child) {
         final Widget layered = InputModalityListener(
           child: AppUiLifecycleObserver(
-            child: IncomingVoiceCallLayer(
-              child: VoicePipLayer(child: child!),
+            child: AccountIdentitySync(
+              child: RecoveryKitGate(
+                child: IncomingVoiceCallLayer(
+                  child: VoicePipLayer(child: child!),
+                ),
+              ),
             ),
           ),
         );

@@ -537,6 +537,162 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get resetPasswordMismatch => 'パスワードが一致しません。';
 
   @override
+  String get recoverAccountTitle => 'アカウントを復元する';
+
+  @override
+  String get recoverAccountDescription =>
+      'ユーザー名とリカバリーキットのリカバリーキーを入力し、新しいパスワードを選択してください。';
+
+  @override
+  String get recoverAccountNoKit =>
+      '復旧キットをお持ちでない場合、このインスタンスの管理者にパスワードリセットリンクを依頼してください。';
+
+  @override
+  String get recoveryKitTitle => 'リカバリーキット';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'パスワードを忘れた場合、このキットがアカウントに戻る唯一の方法です。パスワードマネージャーや印刷物など、安全な場所に保管してください。';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      '古いリカバリーキットはもう使えません。新しいキットは安全な場所に保管してください。';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'パスワードがリセットされました。以前のリカバリーキットはもう使えません。新しいキットは安全な場所に保管してください。';
+
+  @override
+  String get recoveryKitWarning => 'このキーを持つ人は誰でもパスワードをリセットできます。絶対に共有しないでください。';
+
+  @override
+  String get recoveryKitKeyLabel => 'リカバリーキー';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return '$productName のリカバリーキット';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'このページは安全な場所に保管してください。パスワードを忘れた場合、アカウントに再度アクセスするために使用できます。このリカバリーキーを持つ人は誰でもパスワードをリセットできるため、絶対に共有しないでください。';
+
+  @override
+  String get recoveryKitInstanceLabel => 'インスタンス';
+
+  @override
+  String get recoveryKitCreatedAtLabel => '作成日';
+
+  @override
+  String get recoveryKitQrCaption => '詳細が入力された復旧ページを開くにはスキャンしてください。';
+
+  @override
+  String get recoveryKitStepsTitle => 'アカウントを復元する方法';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return '$recoverUrl にアクセスするか、QR コードをスキャンしてください。';
+  }
+
+  @override
+  String get recoveryKitStepEnter => 'ユーザー名とこのリカバリーキーを入力してください。';
+
+  @override
+  String get recoveryKitStepPassword =>
+      '新しいパスワードを選択してください。新しいリカバリーキットが発行され、このキットは無効になります。';
+
+  @override
+  String get recoveryKitBackupCodesTitle => '2段階認証のバックアップコード';
+
+  @override
+  String get recoveryKitBackupCodesNote => '各コードは、認証アプリの代わりとして一度だけ使用できます。';
+
+  @override
+  String get recoveryKitBackupCodesFailed => 'バックアップコードを読み込めませんでした。';
+
+  @override
+  String get recoveryKitIncludeBackupCodes => '保存する画像に二要素認証のバックアップコードを含める';
+
+  @override
+  String get recoveryKitCopy => 'コピー';
+
+  @override
+  String get recoveryKitCopied => 'リカバリーキーをコピーしました';
+
+  @override
+  String get recoveryKitSaveImage => '画像を保存';
+
+  @override
+  String get recoveryKitSaved => 'リカバリーキットを保存しました';
+
+  @override
+  String get recoveryKitSavedToPhotos => 'リカバリーキットを写真に保存しました';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'リカバリーキットを保存できませんでした。もう一度試すか、代わりにキーをコピーしてください。';
+
+  @override
+  String get recoveryKitAcknowledge => 'リカバリーキットは安全な場所に保管しました';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'リカバリーキットを作成できませんでした。後でアカウント設定から作成できます。';
+
+  @override
+  String get recoveryKitSectionTitle => 'リカバリーキット';
+
+  @override
+  String get recoveryKitSectionDescription => 'パスワードを忘れた場合にリセットできます。';
+
+  @override
+  String get recoveryKitNone => 'リカバリーキットがまだありません';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return '$timeに作成';
+  }
+
+  @override
+  String get recoveryKitCreate => 'リカバリーキットを作成';
+
+  @override
+  String get recoveryKitCreateNew => '新しいキットを作成';
+
+  @override
+  String get recoveryKitReplaceTitle => '新しいリカバリーキットを作成しますか？';
+
+  @override
+  String get recoveryKitReplaceDescription => '新しいキットが作成されると、現在のキットは機能しなくなります。';
+
+  @override
+  String get recoveryKitReminderTitle => 'リカバリーキットを保存';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'メールアドレスが登録されていません。パスワードを忘れた場合、リカバリーキットが唯一の復旧手段となります。わずか1分で作成できます。';
+
+  @override
+  String get registerUsernameSignInHint => 'このユーザー名でサインインします。覚えやすいものを選択してください。';
+
+  @override
+  String get registerUsernameTaken => 'このユーザー名は既に使用されています';
+
+  @override
+  String get registerUsernameAvailable => 'このユーザー名は利用可能です';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'ユーザー名とパスワードを選んでアカウントを申請してください。これらでサインインするので、覚えておけるものを選びましょう。';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'アカウントはまだ請求されていません。ユーザー名とパスワードがないと、他のデバイスからサインインできなくなり、アカウントへのアクセスを失う可能性があります。今すぐアカウントを請求して保護してください。';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'ユーザー名';
+
+  @override
   String get registerTitle => 'アカウントを作成';
 
   @override
@@ -630,6 +786,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get errorInvalidEmailOrPassword => 'メールアドレスまたはパスワードが無効です。';
+
+  @override
+  String get errorInvalidUsernameOrPassword => 'ユーザー名またはパスワードが正しくありません。';
 
   @override
   String get errorUnableToSendResetLink => 'リセットリンクを送信できませんでした。もう一度お試しください。';

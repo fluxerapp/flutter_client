@@ -1,12 +1,15 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_badges.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_custom_status.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/user_tag.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-class UserProfileHeader extends StatelessWidget {
+class UserProfileHeader extends ConsumerWidget {
   const UserProfileHeader({
     required this.username,
     required this.discriminator,
@@ -41,7 +44,7 @@ class UserProfileHeader extends StatelessWidget {
   final VoidCallback? onDisplayNameTap;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.colors;
     final textStyles = context.textStyles;
     final layout = context.layout;
@@ -95,7 +98,12 @@ class UserProfileHeader extends StatelessWidget {
             runSpacing: 4,
             children: [
               Text(
-                '$username#$discriminator',
+                formatUserTag(
+                  username,
+                  discriminator,
+                  uniqueUsernames: ref.watch(uniqueUsernamesProvider),
+                  bot: isBot,
+                ),
                 style: textStyles.bodySmall.copyWith(
                   color: colors.textTertiary,
                   fontWeight: FontWeight.w500,

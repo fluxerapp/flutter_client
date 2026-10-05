@@ -555,6 +555,174 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get resetPasswordMismatch => 'Паролі не збігаються.';
 
   @override
+  String get recoverAccountTitle => 'Відновіть свій обліковий запис';
+
+  @override
+  String get recoverAccountDescription =>
+      'Введіть ім\'я користувача та ключ відновлення з вашого комплекту відновлення, а потім виберіть новий пароль.';
+
+  @override
+  String get recoverAccountNoKit =>
+      'Немає резервного набору? Попросіть адміністратора цього екземпляра надіслати вам посилання для скидання пароля.';
+
+  @override
+  String get recoveryKitTitle => 'Ваш комплект відновлення';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'Якщо ви забудете пароль, цей набір буде єдиним способом повернути доступ до свого облікового запису. Зберігайте його в безпечному місці, наприклад, у менеджері паролів або в роздрукованому вигляді.';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      'Ваш старий набір для відновлення більше не працює. Зберігайте цей новий у безпечному місці.';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'Ваш пароль скинуто. Ваш старий комплект для відновлення більше не працює. Зберігайте цей новий десь у безпечному місці.';
+
+  @override
+  String get recoveryKitWarning =>
+      'Будь-хто, хто матиме цей ключ, зможе скинути ваш пароль. Ніколи не діліться ним.';
+
+  @override
+  String get recoveryKitKeyLabel => 'Ключ відновлення';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return 'Відновлювальний набір $productName';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'Збережіть цю сторінку в безпечному місці. Якщо ви забудете пароль, ви зможете скористатися нею, щоб відновити доступ до свого облікового запису. Будь-хто, хто матиме цей ключ відновлення, зможе скинути ваш пароль, тому ніколи не діліться ним.';
+
+  @override
+  String get recoveryKitInstanceLabel => 'Екземпляр';
+
+  @override
+  String get recoveryKitCreatedAtLabel => 'Створено';
+
+  @override
+  String get recoveryKitQrCaption =>
+      'Скануйте, щоб відкрити сторінку відновлення з уже заповненими даними.';
+
+  @override
+  String get recoveryKitStepsTitle => 'Як відновити ваш обліковий запис';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return 'Перейдіть за посиланням $recoverUrl або відскануйте QR-код.';
+  }
+
+  @override
+  String get recoveryKitStepEnter =>
+      'Введіть своє ім\'я користувача та цей ключ відновлення.';
+
+  @override
+  String get recoveryKitStepPassword =>
+      'Виберіть новий пароль. Ви отримаєте новий набір для відновлення, а цей перестане працювати.';
+
+  @override
+  String get recoveryKitBackupCodesTitle =>
+      'Резервні коди двофакторної автентифікації';
+
+  @override
+  String get recoveryKitBackupCodesNote =>
+      'Кожен код діє один раз замість вашого автентифікатора.';
+
+  @override
+  String get recoveryKitBackupCodesFailed =>
+      'Не вдалося завантажити резервні коди.';
+
+  @override
+  String get recoveryKitIncludeBackupCodes =>
+      'Додати мої резервні коди двофакторної автентифікації до збереженого зображення';
+
+  @override
+  String get recoveryKitCopy => 'Копіювати';
+
+  @override
+  String get recoveryKitCopied => 'Ключ відновлення скопійовано';
+
+  @override
+  String get recoveryKitSaveImage => 'Зберегти зображення';
+
+  @override
+  String get recoveryKitSaved => 'Набір для відновлення збережено';
+
+  @override
+  String get recoveryKitSavedToPhotos =>
+      'Набір для відновлення збережено у фото';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'Не вдалося зберегти набір для відновлення. Спробуй ще раз або скопіюй ключ.';
+
+  @override
+  String get recoveryKitAcknowledge =>
+      'Я надійно зберіг свій набір для відновлення';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'Не вдалося створити ваш комплект відновлення. Ви можете створити його пізніше в налаштуваннях облікового запису.';
+
+  @override
+  String get recoveryKitSectionTitle => 'Набір для відновлення';
+
+  @override
+  String get recoveryKitSectionDescription =>
+      'Дозволяє скинути пароль, якщо ви його забудете.';
+
+  @override
+  String get recoveryKitNone => 'У вас ще немає комплекту для відновлення';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return 'Створено $time';
+  }
+
+  @override
+  String get recoveryKitCreate => 'Створити резервний набір';
+
+  @override
+  String get recoveryKitCreateNew => 'Створити новий набір';
+
+  @override
+  String get recoveryKitReplaceTitle => 'Створити новий комплект відновлення?';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      'Ваш поточний комплект перестане працювати, щойно буде створено новий.';
+
+  @override
+  String get recoveryKitReminderTitle => 'Зберегти резервний набір';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'Ваш обліковий запис не має адреси електронної пошти. Якщо ви забудете пароль, відновити доступ можна буде лише за допомогою комплекту для відновлення. Це займе всього хвилину.';
+
+  @override
+  String get registerUsernameSignInHint =>
+      'Ви входите за допомогою цього імені користувача. Виберіть те, яке запам\'ятаєте.';
+
+  @override
+  String get registerUsernameTaken => 'Цей нікнейм вже зайнятий';
+
+  @override
+  String get registerUsernameAvailable => 'Цей нікнейм доступний';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'Зареєструйте свій обліковий запис, вибравши ім\'я користувача та пароль. Ви будете входити за їх допомогою, тому оберіть ті, які запам\'ятаєте.';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'Ваш обліковий запис ще не підтверджено. Без імені користувача та пароля ви не зможете входити з інших пристроїв і можете втратити доступ до свого облікового запису. Підтвердьте свій обліковий запис зараз, щоб захистити його.';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'Ім\'я користувача';
+
+  @override
   String get registerTitle => 'Створити обліковий запис';
 
   @override
@@ -658,6 +826,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   @override
   String get errorInvalidEmailOrPassword =>
       'Неправильна електронна пошта або пароль.';
+
+  @override
+  String get errorInvalidUsernameOrPassword =>
+      'Неправильне ім\'я користувача або пароль.';
 
   @override
   String get errorUnableToSendResetLink =>

@@ -317,7 +317,7 @@ class _PendingApprovalAuthRepository implements AuthRepository {
 
   @override
   Future<RegistrationResult> register({
-    required String email,
+    required String? email,
     required String password,
     String? dateOfBirth,
     String? username,
@@ -410,6 +410,8 @@ InstanceConfigSnapshot _snapshot({
         presignedAttachmentUploads: false,
         emailsEnabled: true,
         phoneVerificationEnabled: false,
+        accountIdentity: AccountIdentityModeSchema.email,
+        tagStyle: TagStyleSchema.random,
       ),
       gif: const InstanceGifSchema(
         provider: 'tenor',

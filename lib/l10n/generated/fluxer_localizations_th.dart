@@ -552,6 +552,170 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get resetPasswordMismatch => 'รหัสผ่านไม่ตรงกัน';
 
   @override
+  String get recoverAccountTitle => 'กู้คืนบัญชีของคุณ';
+
+  @override
+  String get recoverAccountDescription =>
+      'กรอกชื่อผู้ใช้และคีย์กู้คืนจากชุดกู้คืนของคุณ จากนั้นเลือกรหัสผ่านใหม่';
+
+  @override
+  String get recoverAccountNoKit =>
+      'ไม่มีชุดกู้คืน? ขอลิงก์รีเซ็ตรหัสผ่านจากผู้ดูแลของอินสแตนซ์นี้';
+
+  @override
+  String get recoveryKitTitle => 'ชุดกู้คืนของคุณ';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'หากคุณลืมรหัสผ่าน ชุดกู้คืนนี้จะเป็นวิธีเดียวที่จะกลับเข้าสู่บัญชีของคุณได้ โปรดเก็บไว้ในที่ปลอดภัย เช่น ตัวจัดการรหัสผ่าน หรือพิมพ์ออกมา';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      'ชุดกู้คืนเก่าของคุณใช้ไม่ได้แล้ว โปรดเก็บชุดใหม่นี้ไว้ในที่ปลอดภัย';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'รีเซ็ต‌รหัสผ่านของคุณแล้ว ชุดกู้คืนเก่าของคุณใช้ไม่ได้อีกต่อไป เก็บชุดใหม่นี้ไว้ในที่ปลอดภัย';
+
+  @override
+  String get recoveryKitWarning =>
+      'ใครก็ตามที่มีคีย์นี้สามารถรีเซ็ตรหัสผ่านของคุณได้ ห้ามแชร์เด็ดขาด';
+
+  @override
+  String get recoveryKitKeyLabel => 'คีย์การกู้คืน';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return 'ชุดกู้คืน $productName';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'เก็บหน้านี้ไว้ในที่ปลอดภัย หากคุณลืมรหัสผ่าน คุณสามารถใช้หน้านี้เพื่อกลับเข้าสู่บัญชีของคุณได้ ใครก็ตามที่มีคีย์การกู้คืนนี้สามารถรีเซ็ตรหัสผ่านของคุณได้ ดังนั้นอย่าแชร์ให้ใคร';
+
+  @override
+  String get recoveryKitInstanceLabel => 'อินสแตนซ์';
+
+  @override
+  String get recoveryKitCreatedAtLabel => 'สร้างเมื่อ';
+
+  @override
+  String get recoveryKitQrCaption =>
+      'สแกนเพื่อเปิดหน้ากู้คืนพร้อมรายละเอียดของคุณที่กรอกไว้แล้ว';
+
+  @override
+  String get recoveryKitStepsTitle => 'วิธีเรียกคืนบัญชีของคุณ';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return 'ไปที่ $recoverUrl หรือสแกนคิวอาร์โค้ด';
+  }
+
+  @override
+  String get recoveryKitStepEnter => 'กรอกชื่อผู้ใช้และคีย์การกู้คืนนี้';
+
+  @override
+  String get recoveryKitStepPassword =>
+      'เลือก รหัสผ่าน ใหม่ คุณจะได้รับชุดกู้คืนใหม่ และชุดนี้จะหยุดทำงาน';
+
+  @override
+  String get recoveryKitBackupCodesTitle =>
+      'รหัสสำรองสำหรับการยืนยันสองขั้นตอน';
+
+  @override
+  String get recoveryKitBackupCodesNote =>
+      'แต่ละรหัสใช้ได้ครั้งเดียวแทนแอปยืนยันตัวตนของคุณ';
+
+  @override
+  String get recoveryKitBackupCodesFailed => 'ไม่สามารถโหลดรหัสสำรองของคุณได้';
+
+  @override
+  String get recoveryKitIncludeBackupCodes =>
+      'รวมรหัสสำรองการยืนยันตัวตนแบบสองขั้นตอนของฉันไว้ในรูปภาพที่บันทึก';
+
+  @override
+  String get recoveryKitCopy => 'คัดลอก';
+
+  @override
+  String get recoveryKitCopied => 'คัดลอกคีย์กู้คืนแล้ว';
+
+  @override
+  String get recoveryKitSaveImage => 'บันทึกรูปภาพ';
+
+  @override
+  String get recoveryKitSaved => 'บันทึกชุดกู้คืนแล้ว';
+
+  @override
+  String get recoveryKitSavedToPhotos => 'บันทึกชุดกู้คืนลงในรูปภาพแล้ว';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'ไม่สามารถบันทึกชุดกู้คืนได้ ลองอีกครั้งหรือคัดลอกคีย์แทน';
+
+  @override
+  String get recoveryKitAcknowledge => 'ฉันได้เก็บชุดกู้คืนไว้ในที่ปลอดภัยแล้ว';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'ไม่สามารถสร้างชุดกู้คืนของคุณได้ คุณสามารถสร้างได้ในภายหลังในการตั้งค่าบัญชีของคุณ';
+
+  @override
+  String get recoveryKitSectionTitle => 'ชุดกู้คืน';
+
+  @override
+  String get recoveryKitSectionDescription =>
+      'ช่วยให้คุณรีเซ็ตรหัสผ่านได้หากคุณลืม';
+
+  @override
+  String get recoveryKitNone => 'คุณยังไม่มีชุดกู้คืน';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return 'สร้างเมื่อ $time';
+  }
+
+  @override
+  String get recoveryKitCreate => 'สร้างชุดกู้คืน';
+
+  @override
+  String get recoveryKitCreateNew => 'สร้างชุดใหม่';
+
+  @override
+  String get recoveryKitReplaceTitle => 'สร้างชุดกู้คืนใหม่หรือไม่';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      'ชุดข้อมูลปัจจุบันของคุณจะหยุดทำงานทันทีที่มีการสร้างชุดข้อมูลใหม่';
+
+  @override
+  String get recoveryKitReminderTitle => 'บันทึกชุดกู้คืน';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'บัญชีของคุณไม่มีที่อยู่อีเมล หากคุณลืมรหัสผ่าน ชุดกู้คืนจะเป็นวิธีเดียวที่จะกลับเข้าสู่ระบบได้ ใช้เวลาเพียงนาทีเดียว';
+
+  @override
+  String get registerUsernameSignInHint =>
+      'คุณจะใช้ชื่อผู้ใช้นี้ในการลงชื่อเข้าใช้ เลือกชื่อที่คุณจะจำได้';
+
+  @override
+  String get registerUsernameTaken => 'ชื่อผู้ใช้นี้มีคนใช้แล้ว';
+
+  @override
+  String get registerUsernameAvailable => 'ชื่อผู้ใช้นี้ว่างอยู่';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'ยืนยันบัญชีของคุณด้วยการเลือกชื่อผู้ใช้และรหัสผ่าน คุณจะใช้สิ่งเหล่านี้ในการลงชื่อเข้าใช้ ดังนั้นโปรดเลือกสิ่งที่จำได้ง่าย';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'บัญชีของคุณยังไม่ได้รับการยืนยัน หากไม่มีชื่อผู้ใช้และรหัสผ่าน คุณจะไม่สามารถลงชื่อเข้าใช้จากอุปกรณ์อื่นได้ และอาจสูญเสียการเข้าถึงบัญชีของคุณ ยืนยันบัญชีของคุณตอนนี้เพื่อรักษาความปลอดภัย';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'ชื่อผู้ใช้';
+
+  @override
   String get registerTitle => 'สร้างบัญชี';
 
   @override
@@ -651,6 +815,10 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get errorInvalidEmailOrPassword => 'อีเมลหรือรหัสผ่านไม่ถูกต้อง';
+
+  @override
+  String get errorInvalidUsernameOrPassword =>
+      'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง';
 
   @override
   String get errorUnableToSendResetLink =>

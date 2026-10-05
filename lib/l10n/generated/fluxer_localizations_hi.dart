@@ -553,6 +553,171 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get resetPasswordMismatch => 'पासवर्ड मेल नहीं खाते।';
 
   @override
+  String get recoverAccountTitle => 'अपना खाता रिकवर करें';
+
+  @override
+  String get recoverAccountDescription =>
+      'अपना यूज़रनेम और अपनी रिकवरी किट से रिकवरी की दर्ज करें, फिर एक नया पासवर्ड चुनें।';
+
+  @override
+  String get recoverAccountNoKit =>
+      'कोई रिकवरी किट नहीं है? पासवर्ड रीसेट लिंक के लिए इस इंस्टेंस के एडमिन से पूछें।';
+
+  @override
+  String get recoveryKitTitle => 'आपकी रिकवरी किट';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'अगर आप अपना पासवर्ड भूल जाते हैं, तो यह किट आपके खाते में वापस आने का एकमात्र तरीका है। इसे सुरक्षित जगह पर रखें, जैसे पासवर्ड मैनेजर या प्रिंट की हुई कॉपी।';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      'आपका पुराना रिकवरी किट अब काम नहीं करता है। इस नए किट को कहीं सुरक्षित रखें।';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'आपका पासवर्ड रीसेट हो गया है। आपकी पुरानी रिकवरी किट अब काम नहीं करेगी। इस नई किट को कहीं सुरक्षित रखें।';
+
+  @override
+  String get recoveryKitWarning =>
+      'इस कुंजी वाला कोई भी व्यक्ति आपका पासवर्ड रीसेट कर सकता है। इसे कभी भी साझा न करें।';
+
+  @override
+  String get recoveryKitKeyLabel => 'रिकवरी कुंजी';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return '$productName रिकवरी किट';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'इस पेज को सुरक्षित रखें। यदि आप अपना पासवर्ड भूल जाते हैं, तो आप अपने खाते में वापस जाने के लिए इसका उपयोग कर सकते हैं। इस रिकवरी कुंजी वाला कोई भी व्यक्ति आपका पासवर्ड रीसेट कर सकता है, इसलिए इसे कभी भी साझा न करें।';
+
+  @override
+  String get recoveryKitInstanceLabel => 'इंस्टेंस';
+
+  @override
+  String get recoveryKitCreatedAtLabel => 'बनाया गया';
+
+  @override
+  String get recoveryKitQrCaption =>
+      'स्कैन करके अपना विवरण भरा हुआ रिकवरी पेज खोलें।';
+
+  @override
+  String get recoveryKitStepsTitle => 'अपना खाता कैसे रिकवर करें';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return '$recoverUrl पर जाएं या QR कोड स्कैन करें।';
+  }
+
+  @override
+  String get recoveryKitStepEnter => 'अपना यूज़रनेम और यह रिकवरी की दर्ज करें।';
+
+  @override
+  String get recoveryKitStepPassword =>
+      'एक नया पासवर्ड चुनें। आपको एक नया रिकवरी किट मिलेगा और यह वाला काम करना बंद कर देगा।';
+
+  @override
+  String get recoveryKitBackupCodesTitle => 'टू-फैक्टर बैकअप कोड';
+
+  @override
+  String get recoveryKitBackupCodesNote =>
+      'हर कोड एक बार आपके ऑथेंटिकेटर ऐप की जगह काम करता है।';
+
+  @override
+  String get recoveryKitBackupCodesFailed => 'आपके बैकअप कोड लोड नहीं हो सके।';
+
+  @override
+  String get recoveryKitIncludeBackupCodes =>
+      'सहेजी गई छवि में मेरे टू-फ़ैक्टर बैकअप कोड शामिल करें';
+
+  @override
+  String get recoveryKitCopy => 'कॉपी करें';
+
+  @override
+  String get recoveryKitCopied => 'रिकवरी कुंजी कॉपी की गई';
+
+  @override
+  String get recoveryKitSaveImage => 'छवि सहेजें';
+
+  @override
+  String get recoveryKitSaved => 'रिकवरी किट सहेजी गई';
+
+  @override
+  String get recoveryKitSavedToPhotos => 'रिकवरी किट फ़ोटो में सहेजी गई';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'रिकवरी किट सहेजी नहीं जा सकी। फिर से कोशिश करें या इसके बजाय कुंजी कॉपी करें।';
+
+  @override
+  String get recoveryKitAcknowledge =>
+      'मैंने अपनी रिकवरी किट कहीं सुरक्षित रख ली है';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'आपका रिकवरी किट नहीं बनाया जा सका। आप इसे बाद में अपनी खाता सेटिंग में बना सकते हैं।';
+
+  @override
+  String get recoveryKitSectionTitle => 'रिकवरी किट';
+
+  @override
+  String get recoveryKitSectionDescription =>
+      'यह आपको अपना पासवर्ड भूल जाने पर रीसेट करने की सुविधा देता है।';
+
+  @override
+  String get recoveryKitNone => 'आपके पास अभी तक कोई रिकवरी किट नहीं है';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return '$time को बनाया गया';
+  }
+
+  @override
+  String get recoveryKitCreate => 'रिकवरी किट बनाएँ';
+
+  @override
+  String get recoveryKitCreateNew => 'नया किट बनाएँ';
+
+  @override
+  String get recoveryKitReplaceTitle => 'नया रिकवरी किट बनाएँ?';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      'आपका मौजूदा किट नया किट बनने के तुरंत बाद काम करना बंद कर देगा।';
+
+  @override
+  String get recoveryKitReminderTitle => 'रिकवरी किट सहेजें';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'आपके खाते में कोई ईमेल पता नहीं है। यदि आप अपना पासवर्ड भूल जाते हैं, तो रिकवरी किट ही वापस आने का एकमात्र तरीका है। इसमें बस एक मिनट लगता है।';
+
+  @override
+  String get registerUsernameSignInHint =>
+      'आप इस यूज़रनेम से साइन इन करते हैं। ऐसा यूज़रनेम चुनें जो आपको याद रहे।';
+
+  @override
+  String get registerUsernameTaken =>
+      'यह उपयोगकर्ता नाम पहले से ही लिया हुआ है';
+
+  @override
+  String get registerUsernameAvailable => 'यह उपयोगकर्ता नाम उपलब्ध है';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'अपना अकाउंट क्लेम करने के लिए एक यूज़रनेम और पासवर्ड चुनें। आप इनसे साइन इन करेंगे, इसलिए ऐसे चुनें जो आपको याद रहें।';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'आपका खाता अभी तक क्लेम नहीं किया गया है। यूज़रनेम और पासवर्ड के बिना, आप अन्य डिवाइस से साइन इन नहीं कर पाएंगे और आप अपने खाते तक पहुंच खो सकते हैं। अपने खाते को सुरक्षित करने के लिए अभी क्लेम करें।';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'यूज़रनेम';
+
+  @override
   String get registerTitle => 'अकाउंट बनाएँ';
 
   @override
@@ -654,6 +819,10 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get errorInvalidEmailOrPassword => 'अमान्य ईमेल या पासवर्ड।';
+
+  @override
+  String get errorInvalidUsernameOrPassword =>
+      'अमान्य उपयोगकर्ता नाम या पासवर्ड।';
 
   @override
   String get errorUnableToSendResetLink =>

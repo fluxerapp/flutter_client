@@ -553,6 +553,172 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get resetPasswordMismatch => 'Kata sandi tidak cocok.';
 
   @override
+  String get recoverAccountTitle => 'Pulihkan akun Anda';
+
+  @override
+  String get recoverAccountDescription =>
+      'Masukkan nama pengguna dan kunci pemulihan Anda dari kit pemulihan, lalu pilih kata sandi baru.';
+
+  @override
+  String get recoverAccountNoKit =>
+      'Tidak punya kit pemulihan? Minta tautan pengaturan ulang kata sandi dari admin instance ini.';
+
+  @override
+  String get recoveryKitTitle => 'Kit pemulihan Anda';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'Jika Anda lupa kata sandi, kit ini adalah satu-satunya cara untuk kembali ke akun Anda. Simpan di tempat yang aman, seperti pengelola kata sandi atau salinan cetak.';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      'Kit pemulihan lama Anda tidak berfungsi lagi. Simpan kit baru ini di tempat yang aman.';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'Kata sandi Anda telah direset. Kit pemulihan lama Anda tidak lagi berfungsi. Simpan kit baru ini di tempat yang aman.';
+
+  @override
+  String get recoveryKitWarning =>
+      'Siapa pun yang memiliki kunci ini dapat mengatur ulang sandi Anda. Jangan pernah membagikannya.';
+
+  @override
+  String get recoveryKitKeyLabel => 'Kunci pemulihan';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return 'Kit pemulihan $productName';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'Simpan halaman ini di tempat yang aman. Jika Anda lupa kata sandi, Anda dapat menggunakannya untuk kembali ke akun Anda. Siapa pun yang memiliki kunci pemulihan ini dapat mengatur ulang kata sandi Anda, jadi jangan pernah membagikannya.';
+
+  @override
+  String get recoveryKitInstanceLabel => 'Instans';
+
+  @override
+  String get recoveryKitCreatedAtLabel => 'Dibuat';
+
+  @override
+  String get recoveryKitQrCaption =>
+      'Pindai untuk membuka halaman pemulihan dengan detail Anda terisi.';
+
+  @override
+  String get recoveryKitStepsTitle => 'Cara memulihkan akun Anda';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return 'Buka $recoverUrl atau pindai kode QR.';
+  }
+
+  @override
+  String get recoveryKitStepEnter =>
+      'Masukkan nama pengguna Anda dan kunci pemulihan ini.';
+
+  @override
+  String get recoveryKitStepPassword =>
+      'Pilih kata sandi baru. Anda akan mendapatkan kit pemulihan baru dan yang ini tidak akan berfungsi lagi.';
+
+  @override
+  String get recoveryKitBackupCodesTitle => 'Kode cadangan dua faktor';
+
+  @override
+  String get recoveryKitBackupCodesNote =>
+      'Setiap kode berfungsi sekali sebagai pengganti aplikasi autentikator Anda.';
+
+  @override
+  String get recoveryKitBackupCodesFailed =>
+      'Tidak dapat memuat kode cadangan Anda.';
+
+  @override
+  String get recoveryKitIncludeBackupCodes =>
+      'Sertakan kode cadangan autentikasi dua faktor saya di gambar yang disimpan';
+
+  @override
+  String get recoveryKitCopy => 'Salin';
+
+  @override
+  String get recoveryKitCopied => 'Kunci pemulihan disalin';
+
+  @override
+  String get recoveryKitSaveImage => 'Simpan gambar';
+
+  @override
+  String get recoveryKitSaved => 'Kit pemulihan disimpan';
+
+  @override
+  String get recoveryKitSavedToPhotos => 'Kit pemulihan disimpan ke Foto';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'Tidak dapat menyimpan kit pemulihan. Coba lagi atau salin kuncinya saja.';
+
+  @override
+  String get recoveryKitAcknowledge =>
+      'Saya telah menyimpan kit pemulihan saya di tempat yang aman';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'Tidak dapat membuat kit pemulihan Anda. Anda dapat membuatnya nanti di pengaturan akun Anda.';
+
+  @override
+  String get recoveryKitSectionTitle => 'Kit pemulihan';
+
+  @override
+  String get recoveryKitSectionDescription =>
+      'Memungkinkan Anda mengatur ulang sandi jika lupa.';
+
+  @override
+  String get recoveryKitNone => 'Anda belum memiliki kit pemulihan';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return 'Dibuat $time';
+  }
+
+  @override
+  String get recoveryKitCreate => 'Buat kit pemulihan';
+
+  @override
+  String get recoveryKitCreateNew => 'Buat kit baru';
+
+  @override
+  String get recoveryKitReplaceTitle => 'Buat kit pemulihan baru?';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      'Kit Anda saat ini berhenti berfungsi segera setelah kit baru dibuat.';
+
+  @override
+  String get recoveryKitReminderTitle => 'Simpan kit pemulihan';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'Akun Anda tidak memiliki alamat email. Jika Anda lupa kata sandi, kit pemulihan adalah satu-satunya cara untuk masuk kembali. Hanya perlu semenit.';
+
+  @override
+  String get registerUsernameSignInHint =>
+      'Anda masuk dengan nama pengguna ini. Pilih salah satu yang akan Anda ingat.';
+
+  @override
+  String get registerUsernameTaken => 'Nama pengguna ini sudah digunakan';
+
+  @override
+  String get registerUsernameAvailable => 'Nama pengguna ini tersedia';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'Klaim akun Anda dengan memilih nama pengguna dan kata sandi. Anda masuk menggunakan keduanya, jadi pilihlah yang akan Anda ingat.';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'Akun Anda belum diklaim. Tanpa nama pengguna dan kata sandi, Anda tidak akan dapat masuk dari perangkat lain dan Anda bisa kehilangan akses ke akun Anda. Klaim akun Anda sekarang untuk mengamankannya.';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'Nama pengguna';
+
+  @override
   String get registerTitle => 'Buat akun';
 
   @override
@@ -652,6 +818,10 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get errorInvalidEmailOrPassword => 'Email atau kata sandi salah.';
+
+  @override
+  String get errorInvalidUsernameOrPassword =>
+      'Nama pengguna atau kata sandi tidak valid.';
 
   @override
   String get errorUnableToSendResetLink =>

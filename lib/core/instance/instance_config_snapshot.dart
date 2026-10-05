@@ -4,6 +4,7 @@ import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
 import 'package:fluxer_app/core/instance/instance_endpoints.dart';
 import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
+import 'package:fluxer_app/core/instance/well_known_compat.dart';
 import 'package:fluxer_dart/export.dart';
 
 class InstanceConfigSnapshot {
@@ -67,7 +68,7 @@ class InstanceConfigSnapshot {
       return null;
     }
     try {
-      return WellKnownFluxerResponse.fromJson(Map<String, dynamic>.from(value));
+      return parseWellKnownFluxer(Map<String, dynamic>.from(value));
     } on Object {
       return null;
     }

@@ -554,6 +554,173 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get resetPasswordMismatch => 'Slaptažodžiai nesutampa.';
 
   @override
+  String get recoverAccountTitle => 'Atkurti paskyrą';
+
+  @override
+  String get recoverAccountDescription =>
+      'Įveskite savo vartotojo vardą ir atkūrimo rinkinio atkūrimo raktą, tada pasirinkite naują slaptažodį.';
+
+  @override
+  String get recoverAccountNoKit =>
+      'Nėra atkūrimo rinkinio? Paprašykite šio serverio administratoriaus slaptažodžio nustatymo iš naujo nuorodos.';
+
+  @override
+  String get recoveryKitTitle => 'Tavo atkūrimo rinkinys';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'Jei pamiršite slaptažodį, šis rinkinys yra vienintelis būdas grįžti į paskyrą. Laikykite jį saugioje vietoje, pavyzdžiui, slaptažodžių tvarkyklėje arba atspausdintą kopiją.';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      'Jūsų senasis atkūrimo rinkinys nebeveikia. Šį naująjį laikykite saugioje vietoje.';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'Jūsų slaptažodis nustatytas iš naujo. Jūsų senasis atkūrimo rinkinys nebeveikia. Laikykite šį naująjį saugioje vietoje.';
+
+  @override
+  String get recoveryKitWarning =>
+      'Kiekvienas, turintis šį raktą, gali atstatyti jūsų slaptažodį. Niekada juo nesidalinkite.';
+
+  @override
+  String get recoveryKitKeyLabel => 'Pagalbos raktas';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return '$productName atkūrimo rinkinys';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'Laikykite šį puslapį saugioje vietoje. Jei pamiršite slaptažodį, galėsite jį naudoti, kad vėl prisijungtumėte prie savo paskyros. Bet kas, turintis šį atkūrimo raktą, gali pakeisti jūsų slaptažodį, todėl niekada juo nesidalinkite.';
+
+  @override
+  String get recoveryKitInstanceLabel => 'Instance';
+
+  @override
+  String get recoveryKitCreatedAtLabel => 'Sukurta';
+
+  @override
+  String get recoveryKitQrCaption =>
+      'Nuskaitykite, kad atidarytumėte atkūrimo puslapį su užpildyta jūsų informacija.';
+
+  @override
+  String get recoveryKitStepsTitle => 'Kaip atkurti paskyrą';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return 'Eikite į $recoverUrl arba nuskaitykite QR kodą.';
+  }
+
+  @override
+  String get recoveryKitStepEnter =>
+      'Įveskite savo vartotojo vardą ir šį atkūrimo raktą.';
+
+  @override
+  String get recoveryKitStepPassword =>
+      'Pasirinkite naują slaptažodį. Gausite naują atkūrimo rinkinį, o šis nustos veikti.';
+
+  @override
+  String get recoveryKitBackupCodesTitle =>
+      'Dviejų veiksnių autentifikavimo atsarginiai kodai';
+
+  @override
+  String get recoveryKitBackupCodesNote =>
+      'Kiekvienas kodas veikia vieną kartą, pakeisdamas jūsų autentifikavimo programėlę.';
+
+  @override
+  String get recoveryKitBackupCodesFailed => 'Nepavyko įkelti atsarginių kodų.';
+
+  @override
+  String get recoveryKitIncludeBackupCodes =>
+      'Įtraukti mano dviejų veiksnių autentifikavimo atsarginius kodus į išsaugotą vaizdą';
+
+  @override
+  String get recoveryKitCopy => 'Kopijuoti';
+
+  @override
+  String get recoveryKitCopied => 'Atkūrimo raktas nukopijuotas';
+
+  @override
+  String get recoveryKitSaveImage => 'Išsaugoti vaizdą';
+
+  @override
+  String get recoveryKitSaved => 'Atkūrimo rinkinys išsaugotas';
+
+  @override
+  String get recoveryKitSavedToPhotos =>
+      'Atkūrimo rinkinys išsaugotas nuotraukose';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'Nepavyko išsaugoti atkūrimo rinkinio. Bandyk dar kartą arba nukopijuok raktą.';
+
+  @override
+  String get recoveryKitAcknowledge =>
+      'Atsidėjau savo atkūrimo rinkinį saugioje vietoje';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'Nepavyko sukurti jūsų atkūrimo rinkinio. Vėliau galėsite jį sukurti paskyros nustatymuose.';
+
+  @override
+  String get recoveryKitSectionTitle => 'Atsarginių kopijų rinkinys';
+
+  @override
+  String get recoveryKitSectionDescription =>
+      'Leidžia atkurti slaptažodį, jei jį pamiršite.';
+
+  @override
+  String get recoveryKitNone => 'Dar neturite atkūrimo rinkinio';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return 'Sukurtas $time';
+  }
+
+  @override
+  String get recoveryKitCreate => 'Sukurti atkūrimo rinkinį';
+
+  @override
+  String get recoveryKitCreateNew => 'Sukurti naują rinkinį';
+
+  @override
+  String get recoveryKitReplaceTitle => 'Sukurti naują atkūrimo rinkinį?';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      'Jūsų dabartinis rinkinys nustos veikti, kai tik bus sukurtas naujas.';
+
+  @override
+  String get recoveryKitReminderTitle => 'Saugoti atkūrimo rinkinį';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'Jūsų paskyroje nėra el. pašto adreso. Jei pamiršite slaptažodį, atsigavimo rinkinys yra vienintelis būdas grįžti. Tai užtruks tik minutę.';
+
+  @override
+  String get registerUsernameSignInHint =>
+      'Prisijunkite naudodami šį vartotojo vardą. Pasirinkite tokį, kurį atsiminsite.';
+
+  @override
+  String get registerUsernameTaken => 'Šis vartotojo vardas jau užimtas';
+
+  @override
+  String get registerUsernameAvailable => 'Šis vartotojo vardas yra laisvas';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'Prisijunkite prie savo paskyros pasirinkdami vartotojo vardą ir slaptažodį. Jais prisijungsite, todėl pasirinkite tokius, kuriuos atsiminsite.';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'Jūsų paskyra dar nepaprašyta. Be vartotojo vardo ir slaptažodžio negalėsite prisijungti iš kitų įrenginių ir galite prarasti prieigą prie savo paskyros. Paprašykite savo paskyros dabar, kad ją apsaugotumėte.';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'Naudotojo vardas';
+
+  @override
   String get registerTitle => 'Sukurti paskyrą';
 
   @override
@@ -656,6 +823,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get errorInvalidEmailOrPassword =>
       'Neteisingas el. paštas arba slaptažodis.';
+
+  @override
+  String get errorInvalidUsernameOrPassword =>
+      'Neteisingas naudotojo vardas arba slaptažodis.';
 
   @override
   String get errorUnableToSendResetLink =>

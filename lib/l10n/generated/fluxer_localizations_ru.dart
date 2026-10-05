@@ -556,6 +556,175 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   String get resetPasswordMismatch => 'Пароли не совпадают.';
 
   @override
+  String get recoverAccountTitle => 'Восстановите доступ к аккаунту';
+
+  @override
+  String get recoverAccountDescription =>
+      'Введите ваше имя пользователя и ключ восстановления из вашего набора для восстановления, затем выберите новый пароль.';
+
+  @override
+  String get recoverAccountNoKit =>
+      'Нет набора для восстановления? Попросите администратора этого экземпляра выслать вам ссылку для сброса пароля.';
+
+  @override
+  String get recoveryKitTitle => 'Ваш комплект восстановления';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'Если вы забудете пароль, этот набор станет единственным способом восстановить доступ к своей учетной записи. Храните его в надежном месте, например, в менеджере паролей или в распечатанном виде.';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      'Ваш старый комплект для восстановления больше не работает. Храните этот новый в надежном месте.';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'Ваш пароль сброшен. Ваш старый комплект для восстановления больше не работает. Сохраните этот новый комплект в надежном месте.';
+
+  @override
+  String get recoveryKitWarning =>
+      'Любой, у кого есть этот ключ, может сбросить ваш пароль. Никогда никому его не передавайте.';
+
+  @override
+  String get recoveryKitKeyLabel => 'Ключ восстановления';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return 'Ключ восстановления $productName';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'Сохраните эту страницу в надежном месте. Если вы забудете пароль, вы сможете использовать ее, чтобы снова войти в свою учетную запись. Любой, у кого есть этот ключ восстановления, может сбросить ваш пароль, поэтому никогда никому его не передавайте.';
+
+  @override
+  String get recoveryKitInstanceLabel => 'Экземпляр';
+
+  @override
+  String get recoveryKitCreatedAtLabel => 'Создано';
+
+  @override
+  String get recoveryKitQrCaption =>
+      'Отсканируйте, чтобы открыть страницу восстановления с заполненными данными.';
+
+  @override
+  String get recoveryKitStepsTitle => 'Как восстановить аккаунт';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return 'Перейдите по ссылке $recoverUrl или отсканируйте QR-код.';
+  }
+
+  @override
+  String get recoveryKitStepEnter =>
+      'Введите ваше имя пользователя и этот ключ восстановления.';
+
+  @override
+  String get recoveryKitStepPassword =>
+      'Выберите новый пароль. Вы получите новый комплект для восстановления, и этот перестанет работать.';
+
+  @override
+  String get recoveryKitBackupCodesTitle =>
+      'Резервные коды двухфакторной аутентификации';
+
+  @override
+  String get recoveryKitBackupCodesNote =>
+      'Каждый код можно использовать один раз вместо приложения для аутентификации.';
+
+  @override
+  String get recoveryKitBackupCodesFailed =>
+      'Не удалось загрузить резервные коды.';
+
+  @override
+  String get recoveryKitIncludeBackupCodes =>
+      'Добавить мои резервные коды двухфакторной аутентификации в сохранённое изображение';
+
+  @override
+  String get recoveryKitCopy => 'Скопировать';
+
+  @override
+  String get recoveryKitCopied => 'Ключ восстановления скопирован';
+
+  @override
+  String get recoveryKitSaveImage => 'Сохранить изображение';
+
+  @override
+  String get recoveryKitSaved => 'Набор для восстановления сохранён';
+
+  @override
+  String get recoveryKitSavedToPhotos =>
+      'Набор для восстановления сохранён в фото';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'Не удалось сохранить набор для восстановления. Попробуй ещё раз или скопируй ключ.';
+
+  @override
+  String get recoveryKitAcknowledge =>
+      'Я сохранил свой набор для восстановления в надежном месте';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'Не удалось создать ваш комплект восстановления. Вы можете создать его позже в настройках аккаунта.';
+
+  @override
+  String get recoveryKitSectionTitle => 'Набор для восстановления';
+
+  @override
+  String get recoveryKitSectionDescription =>
+      'Позволяет сбросить пароль, если вы его забудете.';
+
+  @override
+  String get recoveryKitNone => 'У вас еще нет комплекта восстановления';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return 'Создано $time';
+  }
+
+  @override
+  String get recoveryKitCreate => 'Создать комплект восстановления';
+
+  @override
+  String get recoveryKitCreateNew => 'Создать новый набор';
+
+  @override
+  String get recoveryKitReplaceTitle =>
+      'Создать новый комплект восстановления?';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      'Ваш текущий комплект перестанет работать, как только будет создан новый.';
+
+  @override
+  String get recoveryKitReminderTitle => 'Сохранить резервный комплект';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'На вашем аккаунте нет адреса электронной почты. Если вы забудете пароль, восстановить доступ можно будет только с помощью комплекта восстановления. Это займет всего минуту.';
+
+  @override
+  String get registerUsernameSignInHint =>
+      'Вы входите в систему с этим именем пользователя. Выберите то, которое запомните.';
+
+  @override
+  String get registerUsernameTaken => 'Этот никнейм уже занят';
+
+  @override
+  String get registerUsernameAvailable => 'Этот никнейм свободен';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'Зарегистрируйте свою учетную запись, выбрав имя пользователя и пароль. Вы будете входить в систему с их помощью, поэтому выберите те, которые вы запомните.';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'Ваша учётная запись ещё не подтверждена. Без имени пользователя и пароля вы не сможете войти с других устройств и можете потерять доступ к своей учётной записи. Подтвердите свою учётную запись сейчас, чтобы обезопасить её.';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'Имя пользователя';
+
+  @override
   String get registerTitle => 'Создать аккаунт';
 
   @override
@@ -659,6 +828,10 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   @override
   String get errorInvalidEmailOrPassword =>
       'Неверный адрес электронной почты или пароль.';
+
+  @override
+  String get errorInvalidUsernameOrPassword =>
+      'Неверное имя пользователя или пароль.';
 
   @override
   String get errorUnableToSendResetLink =>

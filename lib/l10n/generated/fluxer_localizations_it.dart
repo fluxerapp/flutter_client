@@ -553,6 +553,173 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   String get resetPasswordMismatch => 'Le password non corrispondono.';
 
   @override
+  String get recoverAccountTitle => 'Recupera il tuo account';
+
+  @override
+  String get recoverAccountDescription =>
+      'Inserisci il tuo nome utente e la chiave di recupero dal tuo kit di recupero, quindi scegli una nuova password.';
+
+  @override
+  String get recoverAccountNoKit =>
+      'Nessun kit di recupero? Chiedi a un amministratore di questa istanza un link per reimpostare la password.';
+
+  @override
+  String get recoveryKitTitle => 'Il tuo kit di recupero';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'Se dimentichi la password, questo kit è l\'unico modo per rientrare nel tuo account. Conservalo in un posto sicuro, come un gestore di password o una copia cartacea.';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      'Il tuo vecchio kit di recupero non funziona più. Conserva questo nuovo in un posto sicuro.';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'La tua password è stata reimpostata. Il tuo vecchio kit di recupero non funziona più. Conserva questo nuovo kit in un luogo sicuro.';
+
+  @override
+  String get recoveryKitWarning =>
+      'Chiunque abbia questa chiave può reimpostare la tua password. Non condividerla mai.';
+
+  @override
+  String get recoveryKitKeyLabel => 'Chiave di recupero';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return 'Kit di recupero $productName';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'Conserva questa pagina in un posto sicuro. Se dimentichi la password, puoi usarla per rientrare nel tuo account. Chiunque possieda questa chiave di recupero può reimpostare la tua password, quindi non condividerla mai.';
+
+  @override
+  String get recoveryKitInstanceLabel => 'Istanza';
+
+  @override
+  String get recoveryKitCreatedAtLabel => 'Creato';
+
+  @override
+  String get recoveryKitQrCaption =>
+      'Scansiona per aprire la pagina di recupero con i tuoi dati precompilati.';
+
+  @override
+  String get recoveryKitStepsTitle => 'Come recuperare il tuo account';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return 'Vai su $recoverUrl o scansiona il codice QR.';
+  }
+
+  @override
+  String get recoveryKitStepEnter =>
+      'Inserisci il tuo nome utente e questa chiave di recupero.';
+
+  @override
+  String get recoveryKitStepPassword =>
+      'Scegli una nuova password. Riceverai un nuovo kit di recupero e questo smetterà di funzionare.';
+
+  @override
+  String get recoveryKitBackupCodesTitle =>
+      'Codici di backup per l\'autenticazione a due fattori';
+
+  @override
+  String get recoveryKitBackupCodesNote =>
+      'Ogni codice funziona una volta sola al posto della tua app di autenticazione.';
+
+  @override
+  String get recoveryKitBackupCodesFailed =>
+      'Impossibile caricare i tuoi codici di backup.';
+
+  @override
+  String get recoveryKitIncludeBackupCodes =>
+      'Includi i miei codici di backup per l\'autenticazione a due fattori nell\'immagine salvata';
+
+  @override
+  String get recoveryKitCopy => 'Copia';
+
+  @override
+  String get recoveryKitCopied => 'Chiave di recupero copiata';
+
+  @override
+  String get recoveryKitSaveImage => 'Salva immagine';
+
+  @override
+  String get recoveryKitSaved => 'Kit di recupero salvato';
+
+  @override
+  String get recoveryKitSavedToPhotos => 'Kit di recupero salvato in Foto';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'Impossibile salvare il kit di recupero. Riprova o copia la chiave.';
+
+  @override
+  String get recoveryKitAcknowledge =>
+      'Ho salvato il mio kit di recupero in un posto sicuro';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'Impossibile creare il tuo kit di recupero. Potrai crearne uno in seguito nelle impostazioni del tuo account.';
+
+  @override
+  String get recoveryKitSectionTitle => 'Kit di recupero';
+
+  @override
+  String get recoveryKitSectionDescription =>
+      'Ti permette di reimpostare la password se la dimentichi.';
+
+  @override
+  String get recoveryKitNone => 'Non hai ancora un kit di recupero';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return 'Creato $time';
+  }
+
+  @override
+  String get recoveryKitCreate => 'Crea kit di recupero';
+
+  @override
+  String get recoveryKitCreateNew => 'Crea un nuovo kit';
+
+  @override
+  String get recoveryKitReplaceTitle => 'Crea un nuovo kit di recupero?';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      'Il tuo kit attuale smette di funzionare non appena ne viene creato uno nuovo.';
+
+  @override
+  String get recoveryKitReminderTitle => 'Salva un kit di recupero';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'Il tuo account non ha un indirizzo email. Se dimentichi la password, un kit di recupero è l\'unico modo per rientrare. Ci vuole solo un minuto.';
+
+  @override
+  String get registerUsernameSignInHint =>
+      'Accedi con questo nome utente. Scegline uno che ricorderai.';
+
+  @override
+  String get registerUsernameTaken => 'Questo nome utente è già in uso';
+
+  @override
+  String get registerUsernameAvailable => 'Questo nome utente è disponibile';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'Rivendica il tuo account scegliendo un nome utente e una password. Ti serviranno per accedere, quindi scegline di cui ti ricorderai.';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'Il tuo account non è ancora stato rivendicato. Senza nome utente e password, non potrai accedere da altri dispositivi e potresti perdere l\'accesso al tuo account. Rivendica subito il tuo account per metterlo in sicurezza.';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'Nome utente';
+
+  @override
   String get registerTitle => 'Crea un account';
 
   @override
@@ -652,6 +819,10 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
 
   @override
   String get errorInvalidEmailOrPassword => 'Email o password non validi.';
+
+  @override
+  String get errorInvalidUsernameOrPassword =>
+      'Nome utente o password non validi.';
 
   @override
   String get errorUnableToSendResetLink =>

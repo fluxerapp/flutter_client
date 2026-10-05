@@ -73,6 +73,10 @@ class DeepLinkHandler extends _$DeepLinkHandler {
       return;
     }
 
+    if (_tryHandleRecoverLink(normalizedUri)) {
+      return;
+    }
+
     _extractRegistrationUrlCode(normalizedUri);
 
     if (!isAllowedDeepLinkPath(normalizedUri)) {
@@ -158,6 +162,27 @@ class DeepLinkHandler extends _$DeepLinkHandler {
     // Navigate to login screen if not already there.
     ref.read(fluxerRouterProvider).go('/login');
 
+    return true;
+  }
+
+  bool _tryHandleRecoverLink(Uri uri) {
+    if (uri.pathSegments.firstOrNull != 'recover' ||
+        !ref.read(instanceRuntimeConfigProvider).usernameSignIn) {
+      return false;
+    }
+    if (ref.read(authStateProvider)) {
+      return true;
+    }
+    final Map<String, String> params = uri.fragment.isEmpty
+        ? const <String, String>{}
+        : Uri.splitQueryString(uri.fragment);
+    ref
+        .read(loginViewModelProvider.notifier)
+        .showRecoverAccountScreen(
+          login: params['username'] ?? '',
+          recoveryKey: params['key'] ?? '',
+        );
+    ref.read(fluxerRouterProvider).go('/login');
     return true;
   }
 

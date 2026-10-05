@@ -556,6 +556,176 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get resetPasswordMismatch => 'Passwörter stimmen nicht überein.';
 
   @override
+  String get recoverAccountTitle => 'Konto wiederherstellen';
+
+  @override
+  String get recoverAccountDescription =>
+      'Gib deinen Benutzernamen und den Wiederherstellungsschlüssel aus deinem Wiederherstellungskit ein und wähle dann ein neues Passwort.';
+
+  @override
+  String get recoverAccountNoKit =>
+      'Kein Wiederherstellungsschlüssel? Frage einen Administrator dieser Instanz nach einem Link zum Zurücksetzen des Passworts.';
+
+  @override
+  String get recoveryKitTitle => 'Dein Wiederherstellungskit';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'Wenn du dein Passwort vergisst, ist dieses Kit der einzige Weg zurück in dein Konto. Bewahre es sicher auf, zum Beispiel in einem Passwort-Manager oder als ausgedruckte Kopie.';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      'Dein altes Wiederherstellungsset funktioniert nicht mehr. Bewahre dieses neue sicher auf.';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'Dein Passwort wurde zurückgesetzt. Dein altes Recovery Kit ist nicht mehr gültig. Bewahre dieses neue sicher auf.';
+
+  @override
+  String get recoveryKitWarning =>
+      'Jeder mit diesem Schlüssel kann dein Passwort zurücksetzen. Teile ihn niemals.';
+
+  @override
+  String get recoveryKitKeyLabel => 'Wiederherstellungsschlüssel';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return '$productName Wiederherstellungsschlüssel';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'Bewahre diese Seite gut auf. Wenn du dein Passwort vergisst, kannst du sie verwenden, um wieder auf dein Konto zuzugreifen. Jeder, der diesen Wiederherstellungsschlüssel hat, kann dein Passwort zurücksetzen. Teile ihn also niemals.';
+
+  @override
+  String get recoveryKitInstanceLabel => 'Instanz';
+
+  @override
+  String get recoveryKitCreatedAtLabel => 'Erstellt';
+
+  @override
+  String get recoveryKitQrCaption =>
+      'Scanne, um die Wiederherstellungsseite mit deinen ausgefüllten Daten zu öffnen.';
+
+  @override
+  String get recoveryKitStepsTitle => 'So stellen Sie Ihr Konto wieder her';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return 'Gehe zu $recoverUrl oder scanne den QR-Code.';
+  }
+
+  @override
+  String get recoveryKitStepEnter =>
+      'Gib deinen Benutzernamen und diesen Wiederherstellungsschlüssel ein.';
+
+  @override
+  String get recoveryKitStepPassword =>
+      'Wähle ein neues Passwort. Du erhältst ein neues Recovery Kit und dieses hier wird ungültig.';
+
+  @override
+  String get recoveryKitBackupCodesTitle => 'Zwei-Faktor-Backup-Codes';
+
+  @override
+  String get recoveryKitBackupCodesNote =>
+      'Jeder Code funktioniert einmal anstelle deiner Authentifizierungs-App.';
+
+  @override
+  String get recoveryKitBackupCodesFailed =>
+      'Deine Backup-Codes konnten nicht geladen werden.';
+
+  @override
+  String get recoveryKitIncludeBackupCodes =>
+      'Meine Backup-Codes für die Zwei-Faktor-Authentifizierung in das gespeicherte Bild aufnehmen';
+
+  @override
+  String get recoveryKitCopy => 'Kopieren';
+
+  @override
+  String get recoveryKitCopied => 'Wiederherstellungsschlüssel kopiert';
+
+  @override
+  String get recoveryKitSaveImage => 'Bild speichern';
+
+  @override
+  String get recoveryKitSaved => 'Wiederherstellungskit gespeichert';
+
+  @override
+  String get recoveryKitSavedToPhotos =>
+      'Wiederherstellungskit in Fotos gespeichert';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'Das Wiederherstellungskit konnte nicht gespeichert werden. Versuche es erneut oder kopiere stattdessen den Schlüssel.';
+
+  @override
+  String get recoveryKitAcknowledge =>
+      'Ich habe mein Wiederherstellungspaket irgendwo sicher abgelegt';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'Wiederherstellungsschlüssel konnte nicht erstellt werden. Du kannst ihn später in deinen Kontoeinstellungen erstellen.';
+
+  @override
+  String get recoveryKitSectionTitle => 'Wiederherstellungskit';
+
+  @override
+  String get recoveryKitSectionDescription =>
+      'Damit kannst du dein Passwort zurücksetzen, falls du es vergisst.';
+
+  @override
+  String get recoveryKitNone => 'Du hast noch kein Wiederherstellungspaket';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return 'Erstellt $time';
+  }
+
+  @override
+  String get recoveryKitCreate => 'Wiederherstellungspaket erstellen';
+
+  @override
+  String get recoveryKitCreateNew => 'Neues Kit erstellen';
+
+  @override
+  String get recoveryKitReplaceTitle =>
+      'Neues Wiederherstellungspaket erstellen?';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      'Dein aktuelles Kit funktioniert nicht mehr, sobald das neue erstellt wurde.';
+
+  @override
+  String get recoveryKitReminderTitle =>
+      'Wiederherstellungsschlüssel speichern';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'Dein Konto hat keine E-Mail-Adresse. Wenn du dein Passwort vergisst, ist ein Wiederherstellungskit der einzige Weg zurück. Das dauert nur eine Minute.';
+
+  @override
+  String get registerUsernameSignInHint =>
+      'Du meldest dich mit diesem Benutzernamen an. Wähle einen, den du dir merken kannst.';
+
+  @override
+  String get registerUsernameTaken =>
+      'Dieser Benutzername ist bereits vergeben';
+
+  @override
+  String get registerUsernameAvailable => 'Dieser Benutzername ist verfügbar';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'Beanspruche dein Konto, indem du einen Benutzernamen und ein Passwort wählst. Du meldest dich damit an, wähle also welche, die du dir merken kannst.';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'Dein Konto ist noch nicht beansprucht. Ohne Benutzername und Passwort kannst du dich nicht von anderen Geräten aus anmelden und könntest den Zugriff auf dein Konto verlieren. Beanspruche dein Konto jetzt, um es zu sichern.';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'Benutzername';
+
+  @override
   String get registerTitle => 'Account erstellen';
 
   @override
@@ -659,6 +829,10 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   @override
   String get errorInvalidEmailOrPassword =>
       'Ungültige E-Mail-Adresse oder Passwort.';
+
+  @override
+  String get errorInvalidUsernameOrPassword =>
+      'Ungültiger Benutzername oder ungültiges Passwort.';
 
   @override
   String get errorUnableToSendResetLink =>

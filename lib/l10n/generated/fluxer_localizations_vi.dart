@@ -556,6 +556,172 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get resetPasswordMismatch => 'Mật khẩu không khớp.';
 
   @override
+  String get recoverAccountTitle => 'Khôi phục tài khoản của bạn';
+
+  @override
+  String get recoverAccountDescription =>
+      'Nhập tên người dùng và khóa khôi phục từ bộ dụng cụ khôi phục của bạn, sau đó chọn mật khẩu mới.';
+
+  @override
+  String get recoverAccountNoKit =>
+      'Không có bộ phục hồi? Hãy yêu cầu quản trị viên của phiên bản này cung cấp liên kết đặt lại mật khẩu.';
+
+  @override
+  String get recoveryKitTitle => 'Bộ dụng cụ khôi phục của bạn';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'Nếu bạn quên mật khẩu, bộ công cụ này là cách duy nhất để truy cập lại tài khoản của bạn. Hãy lưu trữ nó ở một nơi an toàn, chẳng hạn như trình quản lý mật khẩu hoặc bản in.';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      'Bộ công cụ khôi phục cũ của bạn không còn hoạt động nữa. Hãy cất giữ bộ công cụ mới này ở nơi an toàn.';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'Mật khẩu của bạn đã được đặt lại. Bộ phục hồi cũ của bạn không còn hoạt động nữa. Hãy lưu trữ bộ phục hồi mới này ở một nơi an toàn.';
+
+  @override
+  String get recoveryKitWarning =>
+      'Bất kỳ ai có khóa này đều có thể đặt lại mật khẩu của bạn. Không bao giờ chia sẻ khóa này.';
+
+  @override
+  String get recoveryKitKeyLabel => 'Khóa khôi phục';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return 'Bộ phục hồi $productName';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'Hãy giữ trang này ở nơi an toàn. Nếu bạn quên mật khẩu, bạn có thể sử dụng nó để truy cập lại vào tài khoản của mình. Bất kỳ ai có khóa khôi phục này đều có thể đặt lại mật khẩu của bạn, vì vậy đừng bao giờ chia sẻ nó.';
+
+  @override
+  String get recoveryKitInstanceLabel => 'Phiên bản';
+
+  @override
+  String get recoveryKitCreatedAtLabel => 'Đã tạo';
+
+  @override
+  String get recoveryKitQrCaption =>
+      'Quét để mở trang khôi phục với thông tin chi tiết của bạn đã được điền sẵn.';
+
+  @override
+  String get recoveryKitStepsTitle => 'Cách khôi phục tài khoản của bạn';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return 'Truy cập $recoverUrl hoặc quét mã QR.';
+  }
+
+  @override
+  String get recoveryKitStepEnter =>
+      'Nhập tên người dùng và khóa khôi phục này.';
+
+  @override
+  String get recoveryKitStepPassword =>
+      'Đặt mật khẩu mới. Bạn sẽ nhận được bộ phục hồi mới và bộ này sẽ ngừng hoạt động.';
+
+  @override
+  String get recoveryKitBackupCodesTitle => 'Mã dự phòng hai yếu tố';
+
+  @override
+  String get recoveryKitBackupCodesNote =>
+      'Mỗi mã chỉ dùng được một lần thay cho ứng dụng xác thực của bạn.';
+
+  @override
+  String get recoveryKitBackupCodesFailed =>
+      'Không thể tải mã dự phòng của bạn.';
+
+  @override
+  String get recoveryKitIncludeBackupCodes =>
+      'Bao gồm mã dự phòng xác thực hai yếu tố của tôi trong hình ảnh đã lưu';
+
+  @override
+  String get recoveryKitCopy => 'Sao chép';
+
+  @override
+  String get recoveryKitCopied => 'Đã sao chép khóa khôi phục';
+
+  @override
+  String get recoveryKitSaveImage => 'Lưu hình ảnh';
+
+  @override
+  String get recoveryKitSaved => 'Đã lưu bộ khôi phục';
+
+  @override
+  String get recoveryKitSavedToPhotos => 'Đã lưu bộ khôi phục vào Ảnh';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'Không thể lưu bộ khôi phục. Hãy thử lại hoặc sao chép khóa.';
+
+  @override
+  String get recoveryKitAcknowledge =>
+      'Tôi đã lưu bộ dụng cụ khôi phục của mình ở một nơi an toàn';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'Không thể tạo bộ phục hồi của bạn. Bạn có thể tạo sau trong cài đặt tài khoản.';
+
+  @override
+  String get recoveryKitSectionTitle => 'Bộ phục hồi';
+
+  @override
+  String get recoveryKitSectionDescription =>
+      'Cho phép bạn đặt lại mật khẩu nếu bạn quên.';
+
+  @override
+  String get recoveryKitNone => 'Bạn chưa có bộ công cụ khôi phục';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return 'Đã tạo $time';
+  }
+
+  @override
+  String get recoveryKitCreate => 'Tạo bộ phục hồi';
+
+  @override
+  String get recoveryKitCreateNew => 'Tạo bộ mới';
+
+  @override
+  String get recoveryKitReplaceTitle => 'Tạo bộ phục hồi mới?';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      'Bộ công cụ hiện tại của bạn sẽ ngừng hoạt động ngay khi bộ công cụ mới được tạo.';
+
+  @override
+  String get recoveryKitReminderTitle => 'Lưu bộ dụng cụ khôi phục';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'Tài khoản của bạn chưa có địa chỉ email. Nếu quên mật khẩu, bộ dụng cụ khôi phục là cách duy nhất để truy cập lại. Chỉ mất một phút thôi.';
+
+  @override
+  String get registerUsernameSignInHint =>
+      'Bạn đăng nhập bằng tên người dùng này. Hãy chọn một tên bạn sẽ nhớ.';
+
+  @override
+  String get registerUsernameTaken => 'Tên người dùng này đã được sử dụng';
+
+  @override
+  String get registerUsernameAvailable => 'Tên người dùng này có sẵn';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'Xác nhận tài khoản của bạn bằng cách chọn tên người dùng và mật khẩu. Bạn sẽ đăng nhập bằng chúng, vì vậy hãy chọn những thông tin bạn sẽ nhớ.';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'Tài khoản của bạn chưa được xác nhận. Nếu không có tên người dùng và mật khẩu, bạn sẽ không thể đăng nhập từ các thiết bị khác và có thể mất quyền truy cập vào tài khoản của mình. Hãy xác nhận tài khoản ngay bây giờ để bảo mật.';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'Tên người dùng';
+
+  @override
   String get registerTitle => 'Tạo tài khoản';
 
   @override
@@ -658,6 +824,10 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get errorInvalidEmailOrPassword => 'Email hoặc mật khẩu không hợp lệ.';
+
+  @override
+  String get errorInvalidUsernameOrPassword =>
+      'Tên người dùng hoặc mật khẩu không hợp lệ.';
 
   @override
   String get errorUnableToSendResetLink =>

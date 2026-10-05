@@ -534,6 +534,165 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get resetPasswordMismatch => '비밀번호가 일치하지 않습니다.';
 
   @override
+  String get recoverAccountTitle => '계정 복구';
+
+  @override
+  String get recoverAccountDescription =>
+      '복구 키트를 받은 복구 키와 사용자 이름을 입력한 다음, 새 비밀번호를 선택하세요.';
+
+  @override
+  String get recoverAccountNoKit =>
+      '복구 키트가 없으신가요? 이 인스턴스의 관리자에게 비밀번호 재설정 링크를 요청하세요.';
+
+  @override
+  String get recoveryKitTitle => '복구 키트';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      '비밀번호를 잊으셨다면, 이 복구 키가 계정에 다시 로그인할 수 있는 유일한 방법입니다. 비밀번호 관리자나 인쇄된 복사본처럼 안전한 곳에 보관하세요.';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      '기존 복구 키는 더 이상 작동하지 않습니다. 새 복구 키를 안전한 곳에 보관하세요.';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      '비밀번호가 재설정되었습니다. 이전 복구 키는 더 이상 작동하지 않습니다. 새 복구 키를 안전한 곳에 보관하세요.';
+
+  @override
+  String get recoveryKitWarning =>
+      '이 키를 가진 사람은 누구나 비밀번호를 재설정할 수 있습니다. 절대 공유하지 마세요.';
+
+  @override
+  String get recoveryKitKeyLabel => '복구 키';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return '$productName 복구 키트';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      '이 페이지를 안전한 곳에 보관하세요. 비밀번호를 잊어버렸을 때 계정에 다시 로그인하는 데 사용할 수 있습니다. 이 복구 키를 가진 사람은 누구나 비밀번호를 재설정할 수 있으므로 절대 공유하지 마세요.';
+
+  @override
+  String get recoveryKitInstanceLabel => '인스턴스';
+
+  @override
+  String get recoveryKitCreatedAtLabel => '생성됨';
+
+  @override
+  String get recoveryKitQrCaption => '스캔하여 복구 페이지를 열고 세부 정보를 미리 입력하세요.';
+
+  @override
+  String get recoveryKitStepsTitle => '계정 복구 방법';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return '$recoverUrl로 이동하거나 QR 코드를 스캔하세요.';
+  }
+
+  @override
+  String get recoveryKitStepEnter => '사용자 이름과 복구 키를 입력하세요.';
+
+  @override
+  String get recoveryKitStepPassword =>
+      '새 비밀번호를 선택하세요. 새 복구 키트를 받게 되며, 이 복구 키트는 더 이상 작동하지 않습니다.';
+
+  @override
+  String get recoveryKitBackupCodesTitle => '2단계 인증 백업 코드';
+
+  @override
+  String get recoveryKitBackupCodesNote => '각 코드는 인증 앱을 대신하여 한 번 사용할 수 있습니다.';
+
+  @override
+  String get recoveryKitBackupCodesFailed => '백업 코드를 불러올 수 없습니다.';
+
+  @override
+  String get recoveryKitIncludeBackupCodes => '저장되는 이미지에 2단계 인증 백업 코드 포함';
+
+  @override
+  String get recoveryKitCopy => '복사';
+
+  @override
+  String get recoveryKitCopied => '복구 키를 복사했습니다';
+
+  @override
+  String get recoveryKitSaveImage => '이미지 저장';
+
+  @override
+  String get recoveryKitSaved => '복구 키트를 저장했습니다';
+
+  @override
+  String get recoveryKitSavedToPhotos => '복구 키트를 사진에 저장했습니다';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      '복구 키트를 저장할 수 없습니다. 다시 시도하거나 대신 키를 복사하세요.';
+
+  @override
+  String get recoveryKitAcknowledge => '복구 키트를 안전한 곳에 보관했어요';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      '복구 키트를 만들 수 없습니다. 나중에 계정 설정에서 만들 수 있습니다.';
+
+  @override
+  String get recoveryKitSectionTitle => '복구 키트';
+
+  @override
+  String get recoveryKitSectionDescription => '비밀번호를 잊어버렸을 때 재설정할 수 있습니다.';
+
+  @override
+  String get recoveryKitNone => '복구 키트가 아직 없습니다';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return '$time에 생성됨';
+  }
+
+  @override
+  String get recoveryKitCreate => '복구 키트 만들기';
+
+  @override
+  String get recoveryKitCreateNew => '새 키트 만들기';
+
+  @override
+  String get recoveryKitReplaceTitle => '새 복구 키트를 만드시겠어요?';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      '새 복구 키트를 만들면 현재 복구 키트는 작동을 멈춥니다.';
+
+  @override
+  String get recoveryKitReminderTitle => '복구 키트 저장';
+
+  @override
+  String get recoveryKitReminderBody =>
+      '계정에 이메일 주소가 없습니다. 비밀번호를 잊으셨을 경우, 복구 키트가 유일한 복구 방법입니다. 1분이면 충분합니다.';
+
+  @override
+  String get registerUsernameSignInHint =>
+      '이 사용자 이름으로 로그인합니다. 기억하기 쉬운 이름으로 선택하세요.';
+
+  @override
+  String get registerUsernameTaken => '이 사용자 이름은 이미 사용 중입니다';
+
+  @override
+  String get registerUsernameAvailable => '이 사용자 이름은 사용할 수 있습니다';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      '사용자 이름과 비밀번호를 선택하여 계정을 등록하세요. 이 정보로 로그인하므로 기억하기 쉬운 것으로 선택하세요.';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      '계정을 아직 등록하지 않으셨습니다. 사용자 이름과 비밀번호가 없으면 다른 기기에서 로그인할 수 없으며 계정에 액세스하지 못할 수 있습니다. 지금 계정을 등록하여 안전하게 보호하세요.';
+
+  @override
+  String get addFriendUsernameOnlyHint => '사용자 이름';
+
+  @override
   String get registerTitle => '계정 만들기';
 
   @override
@@ -627,6 +786,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get errorInvalidEmailOrPassword => '잘못된 이메일 또는 비밀번호입니다.';
+
+  @override
+  String get errorInvalidUsernameOrPassword => '사용자 이름 또는 비밀번호가 올바르지 않습니다.';
 
   @override
   String get errorUnableToSendResetLink => '재설정 링크를 보낼 수 없습니다. 다시 시도해 주세요.';

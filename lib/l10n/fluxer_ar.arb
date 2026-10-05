@@ -544,6 +544,205 @@
     "@resetPasswordMismatch": {
         "description": "Error when password and confirmation don't match."
     },
+    "recoverAccountTitle": "استعادة حسابك",
+    "@recoverAccountTitle": {
+        "description": "Title of the screen where someone resets their password with a recovery kit."
+    },
+    "recoverAccountDescription": "أدخل اسم المستخدم الخاص بك ومفتاح الاسترداد من مجموعة الاسترداد الخاصة بك، ثم اختر كلمة مرور جديدة.",
+    "@recoverAccountDescription": {
+        "description": "Description on the account recovery screen."
+    },
+    "recoverAccountNoKit": "ليس لديك مجموعة استرداد؟ اطلب من مسؤول هذا المثيل رابطًا لإعادة تعيين كلمة المرور.",
+    "@recoverAccountNoKit": {
+        "description": "Hint under the account recovery form for people without a recovery kit."
+    },
+    "recoveryKitTitle": "عدة الاسترداد الخاصة بك",
+    "@recoveryKitTitle": {
+        "description": "Title of the sheet that shows a newly created account recovery kit."
+    },
+    "recoveryKitCreatedDescription": "إذا نسيت كلمة مرورك، فهذه المجموعة هي الطريقة الوحيدة للعودة إلى حسابك. قم بتخزينها في مكان آمن، مثل مدير كلمات المرور أو نسخة مطبوعة.",
+    "@recoveryKitCreatedDescription": {
+        "description": "Recovery kit sheet description for a newly created kit."
+    },
+    "recoveryKitReplacedDescription": "لم تعد مجموعة الاسترداد القديمة الخاصة بك تعمل. قم بتخزين هذه المجموعة الجديدة في مكان آمن.",
+    "@recoveryKitReplacedDescription": {
+        "description": "Recovery kit sheet description shown after a kit replaces an older one."
+    },
+    "recoveryKitRecoveredDescription": "تمت إعادة تعيين كلمة المرور الخاصة بك. لم تعد مجموعة الاسترداد القديمة الخاصة بك تعمل. قم بتخزين هذه المجموعة الجديدة في مكان آمن.",
+    "@recoveryKitRecoveredDescription": {
+        "description": "Recovery kit sheet description shown after someone recovers their account with a recovery key."
+    },
+    "recoveryKitWarning": "يمكن لأي شخص يمتلك هذا المفتاح إعادة تعيين كلمة مرورك. لا تشاركه أبدًا.",
+    "@recoveryKitWarning": {
+        "description": "Warning under the recovery key in the recovery kit sheet."
+    },
+    "recoveryKitKeyLabel": "مفتاح الاسترداد",
+    "@recoveryKitKeyLabel": {
+        "description": "Label for the account recovery key."
+    },
+    "recoveryKitDocumentTitle": "عدة استرداد {productName}",
+    "@recoveryKitDocumentTitle": {
+        "description": "Title of the saved recovery kit image. productName is the app name.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitDocumentIntro": "احتفظ بهذه الصفحة في مكان آمن. إذا نسيت كلمة مرورك، يمكنك استخدامها للعودة إلى حسابك. يمكن لأي شخص لديه مفتاح الاسترداد هذا إعادة تعيين كلمة مرورك، لذا لا تشاركه أبدًا.",
+    "@recoveryKitDocumentIntro": {
+        "description": "Introduction on the saved recovery kit image."
+    },
+    "recoveryKitInstanceLabel": "المثيل",
+    "@recoveryKitInstanceLabel": {
+        "description": "Label for the server address on the saved recovery kit."
+    },
+    "recoveryKitCreatedAtLabel": "تم الإنشاء",
+    "@recoveryKitCreatedAtLabel": {
+        "description": "Label for the creation date on the saved recovery kit."
+    },
+    "recoveryKitQrCaption": "امسح ضوئيًا لفتح صفحة الاسترداد مع ملء تفاصيلك.",
+    "@recoveryKitQrCaption": {
+        "description": "Caption under the QR code on the saved recovery kit."
+    },
+    "recoveryKitStepsTitle": "كيفية استعادة حسابك",
+    "@recoveryKitStepsTitle": {
+        "description": "Heading above the recovery steps on the saved recovery kit."
+    },
+    "recoveryKitStepOpen": "انتقل إلى {recoverUrl} أو امسح رمز الاستجابة السريعة.",
+    "@recoveryKitStepOpen": {
+        "description": "First recovery step on the saved recovery kit. recoverUrl is the address of the recovery page.",
+        "placeholders": {
+            "recoverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitStepEnter": "أدخل اسم المستخدم الخاص بك ومفتاح الاسترداد هذا.",
+    "@recoveryKitStepEnter": {
+        "description": "Second recovery step on the saved recovery kit."
+    },
+    "recoveryKitStepPassword": "اختر كلمة مرور جديدة. ستحصل على مجموعة استرداد جديدة وستتوقف هذه المجموعة عن العمل.",
+    "@recoveryKitStepPassword": {
+        "description": "Third recovery step on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesTitle": "رموز النسخ الاحتياطي للعاملين بخطوتين",
+    "@recoveryKitBackupCodesTitle": {
+        "description": "Heading above the two-factor backup codes on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesNote": "كل رمز يعمل مرة واحدة بدلاً من تطبيق المصادقة الخاص بك.",
+    "@recoveryKitBackupCodesNote": {
+        "description": "Note under the two-factor backup codes heading on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesFailed": "تعذر تحميل رموز النسخ الاحتياطي الخاصة بك.",
+    "@recoveryKitBackupCodesFailed": {
+        "description": "Toast shown when the two-factor backup codes for the recovery kit cannot be loaded."
+    },
+    "recoveryKitIncludeBackupCodes": "تضمين رموز النسخ الاحتياطي للمصادقة الثنائية في الصورة المحفوظة",
+    "@recoveryKitIncludeBackupCodes": {
+        "description": "Checkbox in the recovery kit sheet that adds the two-factor backup codes to the saved image."
+    },
+    "recoveryKitCopy": "نسخ",
+    "@recoveryKitCopy": {
+        "description": "Button that copies the account recovery key."
+    },
+    "recoveryKitCopied": "تم نسخ مفتاح الاسترداد",
+    "@recoveryKitCopied": {
+        "description": "Toast shown after the recovery key is copied."
+    },
+    "recoveryKitSaveImage": "حفظ الصورة",
+    "@recoveryKitSaveImage": {
+        "description": "Button that saves the recovery kit as an image."
+    },
+    "recoveryKitSaved": "تم حفظ مجموعة الاسترداد",
+    "@recoveryKitSaved": {
+        "description": "Toast shown after the recovery kit image is saved to a file."
+    },
+    "recoveryKitSavedToPhotos": "تم حفظ مجموعة الاسترداد في الصور",
+    "@recoveryKitSavedToPhotos": {
+        "description": "Toast shown after the recovery kit image is saved to the photo library."
+    },
+    "recoveryKitSaveFailed": "تعذر حفظ مجموعة الاسترداد. حاول مرة أخرى أو انسخ المفتاح بدلًا من ذلك.",
+    "@recoveryKitSaveFailed": {
+        "description": "Toast shown when saving the recovery kit image fails."
+    },
+    "recoveryKitAcknowledge": "لقد خزنت مجموعة الاسترداد الخاصة بي في مكان آمن",
+    "@recoveryKitAcknowledge": {
+        "description": "Checkbox that confirms the recovery kit is stored before closing the sheet."
+    },
+    "recoveryKitCreateFailed": "تعذر إنشاء مجموعة الاسترداد الخاصة بك. يمكنك إنشاؤها لاحقًا في إعدادات حسابك.",
+    "@recoveryKitCreateFailed": {
+        "description": "Toast shown when a recovery kit cannot be created."
+    },
+    "recoveryKitSectionTitle": "عدة الاسترداد",
+    "@recoveryKitSectionTitle": {
+        "description": "Title of the recovery kit section in security settings."
+    },
+    "recoveryKitSectionDescription": "يتيح لك إعادة تعيين كلمة المرور الخاصة بك إذا نسيتها.",
+    "@recoveryKitSectionDescription": {
+        "description": "Description of the recovery kit section in security settings."
+    },
+    "recoveryKitNone": "ليس لديك مجموعة استرداد بعد",
+    "@recoveryKitNone": {
+        "description": "Shown in security settings when the account has no recovery kit."
+    },
+    "recoveryKitCreatedRelative": "تم الإنشاء {time}",
+    "@recoveryKitCreatedRelative": {
+        "description": "When the current recovery kit was created. time is a relative time such as 3 days ago.",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitCreate": "إنشاء مجموعة استرداد",
+    "@recoveryKitCreate": {
+        "description": "Button that creates a recovery kit."
+    },
+    "recoveryKitCreateNew": "إنشاء مجموعة جديدة",
+    "@recoveryKitCreateNew": {
+        "description": "Button that replaces the existing recovery kit with a new one."
+    },
+    "recoveryKitReplaceTitle": "إنشاء مجموعة استرداد جديدة؟",
+    "@recoveryKitReplaceTitle": {
+        "description": "Title of the confirmation shown before replacing an existing recovery kit."
+    },
+    "recoveryKitReplaceDescription": "ستتوقف مجموعتك الحالية عن العمل بمجرد إنشاء المجموعة الجديدة.",
+    "@recoveryKitReplaceDescription": {
+        "description": "Body of the confirmation shown before replacing an existing recovery kit."
+    },
+    "recoveryKitReminderTitle": "احفظ مجموعة استرداد",
+    "@recoveryKitReminderTitle": {
+        "description": "Title of the one-time prompt asking a signed-in user without a recovery kit to create one."
+    },
+    "recoveryKitReminderBody": "ليس لحسابك عنوان بريد إلكتروني. إذا نسيت كلمة مرورك، فإن مجموعة الاسترداد هي الطريقة الوحيدة للعودة. يستغرق الأمر دقيقة واحدة فقط.",
+    "@recoveryKitReminderBody": {
+        "description": "Body of the one-time prompt asking a signed-in user without a recovery kit to create one."
+    },
+    "registerUsernameSignInHint": "تسجل الدخول باستخدام اسم المستخدم هذا. اختر اسمًا تتذكره.",
+    "@registerUsernameSignInHint": {
+        "description": "Helper text under the required username field when the instance uses usernames to sign in."
+    },
+    "registerUsernameTaken": "اسم المستخدم هذا مستخدم بالفعل",
+    "@registerUsernameTaken": {
+        "description": "Registration form message when the chosen username belongs to someone else."
+    },
+    "registerUsernameAvailable": "اسم المستخدم هذا متاح",
+    "@registerUsernameAvailable": {
+        "description": "Registration form message when the chosen username is free to use."
+    },
+    "claimAccountUsernameDescription": "قم بالمطالبة بحسابك عن طريق اختيار اسم مستخدم وكلمة مرور. ستقوم بتسجيل الدخول بهما، لذا اختر كلمات تتذكرها.",
+    "@claimAccountUsernameDescription": {
+        "description": "Description in the claim account sheet on instances where people sign in with a username."
+    },
+    "unclaimedAccountDescriptionUsername": "حسابك لم تتم المطالبة به بعد. بدون اسم مستخدم وكلمة مرور، لن تتمكن من تسجيل الدخول من أجهزة أخرى وقد تفقد الوصول إلى حسابك. طالب بحسابك الآن لتأمينه.",
+    "@unclaimedAccountDescriptionUsername": {
+        "description": "Description for the unclaimed account warning on instances where people sign in with a username."
+    },
+    "addFriendUsernameOnlyHint": "اسم المستخدم",
+    "@addFriendUsernameOnlyHint": {
+        "description": "Placeholder for the add friend field on instances where usernames have no tag."
+    },
     "registerTitle": "إنشاء حساب",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -651,6 +850,10 @@
     "errorInvalidEmailOrPassword": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
     "@errorInvalidEmailOrPassword": {
         "description": "Error shown on the login screen when the email and password combination is incorrect."
+    },
+    "errorInvalidUsernameOrPassword": "اسم المستخدم أو كلمة المرور غير صحيحة.",
+    "@errorInvalidUsernameOrPassword": {
+        "description": "Sign-in error on instances where people sign in with a username."
     },
     "errorUnableToSendResetLink": "تعذر إرسال رابط إعادة التعيين. يرجى المحاولة مرة أخرى.",
     "@errorUnableToSendResetLink": {

@@ -1,12 +1,21 @@
 import 'package:fluxer_app/features/settings/domain/guild/guild_ban_entry.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
+import 'package:fluxer_app/shared/utils/user_tag.dart';
 import 'package:fluxer_dart/export.dart';
 
 class GuildBansUtils {
   GuildBansUtils._();
 
-  static String buildUserTag(UserPartialResponse user) {
-    return '${user.username}#${user.discriminator}';
+  static String buildUserTag(
+    UserPartialResponse user, {
+    bool uniqueUsernames = false,
+  }) {
+    return formatUserTag(
+      user.username,
+      user.discriminator,
+      uniqueUsernames: uniqueUsernames,
+      bot: user.bot ?? false,
+    );
   }
 
   static String buildSearchHaystack(UserPartialResponse user, String? reason) {

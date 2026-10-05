@@ -16,6 +16,7 @@ class QuickSwitcherBuildInput {
     required this.guildMembers,
     required this.hasFavorites,
     this.directMessagesDisabled = false,
+    this.uniqueUsernames = false,
   });
 
   final FluxerLocalizations l10n;
@@ -27,4 +28,5 @@ class QuickSwitcherBuildInput {
   final List<Member> guildMembers;
   final bool hasFavorites;
   final bool directMessagesDisabled;
+  final bool uniqueUsernames;
 }

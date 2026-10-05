@@ -6,10 +6,10 @@ CreateDmRestriction? getCreateDmRestriction(UserSettingsViewState settings) {
   if (!settings.isProfileLoaded) {
     return null;
   }
-  if (!settings.hasVerifiedEmail) {
+  if (!settings.isClaimed) {
     return CreateDmRestriction.unclaimed;
   }
-  if (!settings.verified) {
+  if (!settings.isVerified) {
     return CreateDmRestriction.unverified;
   }
   return null;

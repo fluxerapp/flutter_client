@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_ban_entry.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
@@ -141,7 +142,10 @@ class _GuildBanDetailsBodyState extends ConsumerState<_GuildBanDetailsBody> {
       username: user.username,
       globalName: user.globalName,
     );
-    final String tag = GuildBansUtils.buildUserTag(user);
+    final String tag = GuildBansUtils.buildUserTag(
+      user,
+      uniqueUsernames: ref.watch(uniqueUsernamesProvider),
+    );
     final colors = context.colors;
     final textStyles = context.textStyles;
     final layout = context.layout;

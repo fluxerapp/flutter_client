@@ -249,6 +249,7 @@ class QuickSwitcher extends _$QuickSwitcher {
         directMessagesDisabled: ref
             .read(instanceRuntimeConfigProvider)
             .directMessagesDisabled,
+        uniqueUsernames: ref.read(uniqueUsernamesProvider),
       ),
     );
   }

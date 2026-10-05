@@ -553,6 +553,172 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get resetPasswordMismatch => 'Passwords do not match.';
 
   @override
+  String get recoverAccountTitle => 'Recover your account';
+
+  @override
+  String get recoverAccountDescription =>
+      'Enter your username and the recovery key from your recovery kit, then choose a new password.';
+
+  @override
+  String get recoverAccountNoKit =>
+      'No recovery kit? Ask an admin of this instance for a password reset link.';
+
+  @override
+  String get recoveryKitTitle => 'Your recovery kit';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'If you forget your password, this kit is the only way back into your account. Store it somewhere safe, like a password manager or a printed copy.';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      'Your old recovery kit no longer works. Store this new one somewhere safe.';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'Your password is reset. Your old recovery kit no longer works. Store this new one somewhere safe.';
+
+  @override
+  String get recoveryKitWarning =>
+      'Anyone with this key can reset your password. Never share it.';
+
+  @override
+  String get recoveryKitKeyLabel => 'Recovery key';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return '$productName recovery kit';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'Keep this page somewhere safe. If you forget your password, you can use it to get back into your account. Anyone with this recovery key can reset your password, so never share it.';
+
+  @override
+  String get recoveryKitInstanceLabel => 'Instance';
+
+  @override
+  String get recoveryKitCreatedAtLabel => 'Created';
+
+  @override
+  String get recoveryKitQrCaption =>
+      'Scan to open the recovery page with your details filled in.';
+
+  @override
+  String get recoveryKitStepsTitle => 'How to recover your account';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return 'Go to $recoverUrl or scan the QR code.';
+  }
+
+  @override
+  String get recoveryKitStepEnter =>
+      'Enter your username and this recovery key.';
+
+  @override
+  String get recoveryKitStepPassword =>
+      'Choose a new password. You get a new recovery kit and this one stops working.';
+
+  @override
+  String get recoveryKitBackupCodesTitle => 'Two-factor backup codes';
+
+  @override
+  String get recoveryKitBackupCodesNote =>
+      'Each code works once in place of your authenticator app.';
+
+  @override
+  String get recoveryKitBackupCodesFailed =>
+      'Couldn\'t load your backup codes.';
+
+  @override
+  String get recoveryKitIncludeBackupCodes =>
+      'Include my two-factor backup codes in the saved image';
+
+  @override
+  String get recoveryKitCopy => 'Copy';
+
+  @override
+  String get recoveryKitCopied => 'Recovery key copied';
+
+  @override
+  String get recoveryKitSaveImage => 'Save image';
+
+  @override
+  String get recoveryKitSaved => 'Recovery kit saved';
+
+  @override
+  String get recoveryKitSavedToPhotos => 'Recovery kit saved to Photos';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'Couldn\'t save the recovery kit. Try again or copy the key instead.';
+
+  @override
+  String get recoveryKitAcknowledge =>
+      'I\'ve stored my recovery kit somewhere safe';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'Couldn\'t create your recovery kit. You can create one later in your account settings.';
+
+  @override
+  String get recoveryKitSectionTitle => 'Recovery kit';
+
+  @override
+  String get recoveryKitSectionDescription =>
+      'Lets you reset your password if you forget it.';
+
+  @override
+  String get recoveryKitNone => 'You don\'t have a recovery kit yet';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return 'Created $time';
+  }
+
+  @override
+  String get recoveryKitCreate => 'Create recovery kit';
+
+  @override
+  String get recoveryKitCreateNew => 'Create a new kit';
+
+  @override
+  String get recoveryKitReplaceTitle => 'Create a new recovery kit?';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      'Your current kit stops working as soon as the new one is created.';
+
+  @override
+  String get recoveryKitReminderTitle => 'Save a recovery kit';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'Your account has no email address. If you forget your password, a recovery kit is the only way back in. It only takes a minute.';
+
+  @override
+  String get registerUsernameSignInHint =>
+      'You sign in with this username. Pick one you will remember.';
+
+  @override
+  String get registerUsernameTaken => 'This username is already taken';
+
+  @override
+  String get registerUsernameAvailable => 'This username is available';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'Claim your account by choosing a username and password. You sign in with them, so pick ones you will remember.';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'Your account is not yet claimed. Without a username and password, you won\'t be able to sign in from other devices and you could lose access to your account. Claim your account now to secure it.';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'Username';
+
+  @override
   String get registerTitle => 'Create an account';
 
   @override
@@ -654,6 +820,9 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get errorInvalidEmailOrPassword => 'Invalid email or password.';
+
+  @override
+  String get errorInvalidUsernameOrPassword => 'Invalid username or password.';
 
   @override
   String get errorUnableToSendResetLink =>
@@ -15711,6 +15880,172 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get resetPasswordMismatch => 'Passwords do not match.';
 
   @override
+  String get recoverAccountTitle => 'Recover your account';
+
+  @override
+  String get recoverAccountDescription =>
+      'Enter your username and the recovery key from your recovery kit, then choose a new password.';
+
+  @override
+  String get recoverAccountNoKit =>
+      'No recovery kit? Ask an admin of this instance for a password reset link.';
+
+  @override
+  String get recoveryKitTitle => 'Your recovery kit';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'If you forget your password, this kit is the only way back into your account. Store it somewhere safe, like a password manager or a printed copy.';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      'Your old recovery kit no longer works. Store this new one somewhere safe.';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'Your password is reset. Your old recovery kit no longer works. Store this new one somewhere safe.';
+
+  @override
+  String get recoveryKitWarning =>
+      'Anyone with this key can reset your password. Never share it.';
+
+  @override
+  String get recoveryKitKeyLabel => 'Recovery key';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return '$productName recovery kit';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'Keep this page somewhere safe. If you forget your password, you can use it to get back into your account. Anyone with this recovery key can reset your password, so never share it.';
+
+  @override
+  String get recoveryKitInstanceLabel => 'Instance';
+
+  @override
+  String get recoveryKitCreatedAtLabel => 'Created';
+
+  @override
+  String get recoveryKitQrCaption =>
+      'Scan to open the recovery page with your details filled in.';
+
+  @override
+  String get recoveryKitStepsTitle => 'How to recover your account';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return 'Go to $recoverUrl or scan the QR code.';
+  }
+
+  @override
+  String get recoveryKitStepEnter =>
+      'Enter your username and this recovery key.';
+
+  @override
+  String get recoveryKitStepPassword =>
+      'Choose a new password. You get a new recovery kit and this one stops working.';
+
+  @override
+  String get recoveryKitBackupCodesTitle => 'Two-factor backup codes';
+
+  @override
+  String get recoveryKitBackupCodesNote =>
+      'Each code works once in place of your authenticator app.';
+
+  @override
+  String get recoveryKitBackupCodesFailed =>
+      'Couldn\'t load your backup codes.';
+
+  @override
+  String get recoveryKitIncludeBackupCodes =>
+      'Include my two-factor backup codes in the saved image';
+
+  @override
+  String get recoveryKitCopy => 'Copy';
+
+  @override
+  String get recoveryKitCopied => 'Recovery key copied';
+
+  @override
+  String get recoveryKitSaveImage => 'Save image';
+
+  @override
+  String get recoveryKitSaved => 'Recovery kit saved';
+
+  @override
+  String get recoveryKitSavedToPhotos => 'Recovery kit saved to Photos';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'Couldn\'t save the recovery kit. Try again or copy the key instead.';
+
+  @override
+  String get recoveryKitAcknowledge =>
+      'I\'ve stored my recovery kit somewhere safe';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'Couldn\'t create your recovery kit. You can create one later in your account settings.';
+
+  @override
+  String get recoveryKitSectionTitle => 'Recovery kit';
+
+  @override
+  String get recoveryKitSectionDescription =>
+      'Lets you reset your password if you forget it.';
+
+  @override
+  String get recoveryKitNone => 'You don\'t have a recovery kit yet';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return 'Created $time';
+  }
+
+  @override
+  String get recoveryKitCreate => 'Create recovery kit';
+
+  @override
+  String get recoveryKitCreateNew => 'Create a new kit';
+
+  @override
+  String get recoveryKitReplaceTitle => 'Create a new recovery kit?';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      'Your current kit stops working as soon as the new one is created.';
+
+  @override
+  String get recoveryKitReminderTitle => 'Save a recovery kit';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'Your account has no email address. If you forget your password, a recovery kit is the only way back in. It only takes a minute.';
+
+  @override
+  String get registerUsernameSignInHint =>
+      'You sign in with this username. Pick one you will remember.';
+
+  @override
+  String get registerUsernameTaken => 'This username is already taken';
+
+  @override
+  String get registerUsernameAvailable => 'This username is available';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'Claim your account by choosing a username and password. You sign in with them, so pick ones you will remember.';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'Your account is not yet claimed. Without a username and password, you won\'t be able to sign in from other devices and you could lose access to your account. Claim your account now to secure it.';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'Username';
+
+  @override
   String get registerTitle => 'Create an account';
 
   @override
@@ -15812,6 +16147,9 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get errorInvalidEmailOrPassword => 'Invalid email or password.';
+
+  @override
+  String get errorInvalidUsernameOrPassword => 'Invalid username or password.';
 
   @override
   String get errorUnableToSendResetLink =>
@@ -30221,6 +30559,172 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get resetPasswordMismatch => 'Passwords do not match.';
 
   @override
+  String get recoverAccountTitle => 'Recover your account';
+
+  @override
+  String get recoverAccountDescription =>
+      'Enter your username and the recovery key from your recovery kit, then choose a new password.';
+
+  @override
+  String get recoverAccountNoKit =>
+      'No recovery kit? Ask an admin of this instance for a password reset link.';
+
+  @override
+  String get recoveryKitTitle => 'Your recovery kit';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'If you forget your password, this kit is the only way back into your account. Store it somewhere safe, like a password manager or a printed copy.';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      'Your old recovery kit no longer works. Store this new one somewhere safe.';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'Your password is reset. Your old recovery kit no longer works. Store this new one somewhere safe.';
+
+  @override
+  String get recoveryKitWarning =>
+      'Anyone with this key can reset your password. Never share it.';
+
+  @override
+  String get recoveryKitKeyLabel => 'Recovery key';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return '$productName recovery kit';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'Keep this page somewhere safe. If you forget your password, you can use it to get back into your account. Anyone with this recovery key can reset your password, so never share it.';
+
+  @override
+  String get recoveryKitInstanceLabel => 'Instance';
+
+  @override
+  String get recoveryKitCreatedAtLabel => 'Created';
+
+  @override
+  String get recoveryKitQrCaption =>
+      'Scan to open the recovery page with your details filled in.';
+
+  @override
+  String get recoveryKitStepsTitle => 'How to recover your account';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return 'Go to $recoverUrl or scan the QR code.';
+  }
+
+  @override
+  String get recoveryKitStepEnter =>
+      'Enter your username and this recovery key.';
+
+  @override
+  String get recoveryKitStepPassword =>
+      'Choose a new password. You get a new recovery kit and this one stops working.';
+
+  @override
+  String get recoveryKitBackupCodesTitle => 'Two-factor backup codes';
+
+  @override
+  String get recoveryKitBackupCodesNote =>
+      'Each code works once in place of your authenticator app.';
+
+  @override
+  String get recoveryKitBackupCodesFailed =>
+      'Couldn\'t load your backup codes.';
+
+  @override
+  String get recoveryKitIncludeBackupCodes =>
+      'Include my two-factor backup codes in the saved image';
+
+  @override
+  String get recoveryKitCopy => 'Copy';
+
+  @override
+  String get recoveryKitCopied => 'Recovery key copied';
+
+  @override
+  String get recoveryKitSaveImage => 'Save image';
+
+  @override
+  String get recoveryKitSaved => 'Recovery kit saved';
+
+  @override
+  String get recoveryKitSavedToPhotos => 'Recovery kit saved to Photos';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'Couldn\'t save the recovery kit. Try again or copy the key instead.';
+
+  @override
+  String get recoveryKitAcknowledge =>
+      'I\'ve stored my recovery kit somewhere safe';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'Couldn\'t create your recovery kit. You can create one later in your account settings.';
+
+  @override
+  String get recoveryKitSectionTitle => 'Recovery kit';
+
+  @override
+  String get recoveryKitSectionDescription =>
+      'Lets you reset your password if you forget it.';
+
+  @override
+  String get recoveryKitNone => 'You don\'t have a recovery kit yet';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return 'Created $time';
+  }
+
+  @override
+  String get recoveryKitCreate => 'Create recovery kit';
+
+  @override
+  String get recoveryKitCreateNew => 'Create a new kit';
+
+  @override
+  String get recoveryKitReplaceTitle => 'Create a new recovery kit?';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      'Your current kit stops working as soon as the new one is created.';
+
+  @override
+  String get recoveryKitReminderTitle => 'Save a recovery kit';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'Your account has no email address. If you forget your password, a recovery kit is the only way back in. It only takes a minute.';
+
+  @override
+  String get registerUsernameSignInHint =>
+      'You sign in with this username. Pick one you will remember.';
+
+  @override
+  String get registerUsernameTaken => 'This username is already taken';
+
+  @override
+  String get registerUsernameAvailable => 'This username is available';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'Claim your account by choosing a username and password. You sign in with them, so pick ones you will remember.';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'Your account is not yet claimed. Without a username and password, you won\'t be able to sign in from other devices and you could lose access to your account. Claim your account now to secure it.';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'Username';
+
+  @override
   String get registerTitle => 'Create an account';
 
   @override
@@ -30322,6 +30826,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get errorInvalidEmailOrPassword => 'Invalid email or password.';
+
+  @override
+  String get errorInvalidUsernameOrPassword => 'Invalid username or password.';
 
   @override
   String get errorUnableToSendResetLink =>

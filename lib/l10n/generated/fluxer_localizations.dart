@@ -1106,6 +1106,282 @@ abstract class FluxerLocalizations {
   /// **'Passwords do not match.'**
   String get resetPasswordMismatch;
 
+  /// Title of the screen where someone resets their password with a recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'Recover your account'**
+  String get recoverAccountTitle;
+
+  /// Description on the account recovery screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your username and the recovery key from your recovery kit, then choose a new password.'**
+  String get recoverAccountDescription;
+
+  /// Hint under the account recovery form for people without a recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'No recovery kit? Ask an admin of this instance for a password reset link.'**
+  String get recoverAccountNoKit;
+
+  /// Title of the sheet that shows a newly created account recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'Your recovery kit'**
+  String get recoveryKitTitle;
+
+  /// Recovery kit sheet description for a newly created kit.
+  ///
+  /// In en, this message translates to:
+  /// **'If you forget your password, this kit is the only way back into your account. Store it somewhere safe, like a password manager or a printed copy.'**
+  String get recoveryKitCreatedDescription;
+
+  /// Recovery kit sheet description shown after a kit replaces an older one.
+  ///
+  /// In en, this message translates to:
+  /// **'Your old recovery kit no longer works. Store this new one somewhere safe.'**
+  String get recoveryKitReplacedDescription;
+
+  /// Recovery kit sheet description shown after someone recovers their account with a recovery key.
+  ///
+  /// In en, this message translates to:
+  /// **'Your password is reset. Your old recovery kit no longer works. Store this new one somewhere safe.'**
+  String get recoveryKitRecoveredDescription;
+
+  /// Warning under the recovery key in the recovery kit sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Anyone with this key can reset your password. Never share it.'**
+  String get recoveryKitWarning;
+
+  /// Label for the account recovery key.
+  ///
+  /// In en, this message translates to:
+  /// **'Recovery key'**
+  String get recoveryKitKeyLabel;
+
+  /// Title of the saved recovery kit image. productName is the app name.
+  ///
+  /// In en, this message translates to:
+  /// **'{productName} recovery kit'**
+  String recoveryKitDocumentTitle(String productName);
+
+  /// Introduction on the saved recovery kit image.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep this page somewhere safe. If you forget your password, you can use it to get back into your account. Anyone with this recovery key can reset your password, so never share it.'**
+  String get recoveryKitDocumentIntro;
+
+  /// Label for the server address on the saved recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'Instance'**
+  String get recoveryKitInstanceLabel;
+
+  /// Label for the creation date on the saved recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'Created'**
+  String get recoveryKitCreatedAtLabel;
+
+  /// Caption under the QR code on the saved recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan to open the recovery page with your details filled in.'**
+  String get recoveryKitQrCaption;
+
+  /// Heading above the recovery steps on the saved recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'How to recover your account'**
+  String get recoveryKitStepsTitle;
+
+  /// First recovery step on the saved recovery kit. recoverUrl is the address of the recovery page.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to {recoverUrl} or scan the QR code.'**
+  String recoveryKitStepOpen(String recoverUrl);
+
+  /// Second recovery step on the saved recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your username and this recovery key.'**
+  String get recoveryKitStepEnter;
+
+  /// Third recovery step on the saved recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a new password. You get a new recovery kit and this one stops working.'**
+  String get recoveryKitStepPassword;
+
+  /// Heading above the two-factor backup codes on the saved recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'Two-factor backup codes'**
+  String get recoveryKitBackupCodesTitle;
+
+  /// Note under the two-factor backup codes heading on the saved recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'Each code works once in place of your authenticator app.'**
+  String get recoveryKitBackupCodesNote;
+
+  /// Toast shown when the two-factor backup codes for the recovery kit cannot be loaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load your backup codes.'**
+  String get recoveryKitBackupCodesFailed;
+
+  /// Checkbox in the recovery kit sheet that adds the two-factor backup codes to the saved image.
+  ///
+  /// In en, this message translates to:
+  /// **'Include my two-factor backup codes in the saved image'**
+  String get recoveryKitIncludeBackupCodes;
+
+  /// Button that copies the account recovery key.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get recoveryKitCopy;
+
+  /// Toast shown after the recovery key is copied.
+  ///
+  /// In en, this message translates to:
+  /// **'Recovery key copied'**
+  String get recoveryKitCopied;
+
+  /// Button that saves the recovery kit as an image.
+  ///
+  /// In en, this message translates to:
+  /// **'Save image'**
+  String get recoveryKitSaveImage;
+
+  /// Toast shown after the recovery kit image is saved to a file.
+  ///
+  /// In en, this message translates to:
+  /// **'Recovery kit saved'**
+  String get recoveryKitSaved;
+
+  /// Toast shown after the recovery kit image is saved to the photo library.
+  ///
+  /// In en, this message translates to:
+  /// **'Recovery kit saved to Photos'**
+  String get recoveryKitSavedToPhotos;
+
+  /// Toast shown when saving the recovery kit image fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t save the recovery kit. Try again or copy the key instead.'**
+  String get recoveryKitSaveFailed;
+
+  /// Checkbox that confirms the recovery kit is stored before closing the sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'ve stored my recovery kit somewhere safe'**
+  String get recoveryKitAcknowledge;
+
+  /// Toast shown when a recovery kit cannot be created.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t create your recovery kit. You can create one later in your account settings.'**
+  String get recoveryKitCreateFailed;
+
+  /// Title of the recovery kit section in security settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Recovery kit'**
+  String get recoveryKitSectionTitle;
+
+  /// Description of the recovery kit section in security settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Lets you reset your password if you forget it.'**
+  String get recoveryKitSectionDescription;
+
+  /// Shown in security settings when the account has no recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have a recovery kit yet'**
+  String get recoveryKitNone;
+
+  /// When the current recovery kit was created. time is a relative time such as 3 days ago.
+  ///
+  /// In en, this message translates to:
+  /// **'Created {time}'**
+  String recoveryKitCreatedRelative(String time);
+
+  /// Button that creates a recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'Create recovery kit'**
+  String get recoveryKitCreate;
+
+  /// Button that replaces the existing recovery kit with a new one.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a new kit'**
+  String get recoveryKitCreateNew;
+
+  /// Title of the confirmation shown before replacing an existing recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a new recovery kit?'**
+  String get recoveryKitReplaceTitle;
+
+  /// Body of the confirmation shown before replacing an existing recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'Your current kit stops working as soon as the new one is created.'**
+  String get recoveryKitReplaceDescription;
+
+  /// Title of the one-time prompt asking a signed-in user without a recovery kit to create one.
+  ///
+  /// In en, this message translates to:
+  /// **'Save a recovery kit'**
+  String get recoveryKitReminderTitle;
+
+  /// Body of the one-time prompt asking a signed-in user without a recovery kit to create one.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account has no email address. If you forget your password, a recovery kit is the only way back in. It only takes a minute.'**
+  String get recoveryKitReminderBody;
+
+  /// Helper text under the required username field when the instance uses usernames to sign in.
+  ///
+  /// In en, this message translates to:
+  /// **'You sign in with this username. Pick one you will remember.'**
+  String get registerUsernameSignInHint;
+
+  /// Registration form message when the chosen username belongs to someone else.
+  ///
+  /// In en, this message translates to:
+  /// **'This username is already taken'**
+  String get registerUsernameTaken;
+
+  /// Registration form message when the chosen username is free to use.
+  ///
+  /// In en, this message translates to:
+  /// **'This username is available'**
+  String get registerUsernameAvailable;
+
+  /// Description in the claim account sheet on instances where people sign in with a username.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim your account by choosing a username and password. You sign in with them, so pick ones you will remember.'**
+  String get claimAccountUsernameDescription;
+
+  /// Description for the unclaimed account warning on instances where people sign in with a username.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account is not yet claimed. Without a username and password, you won\'t be able to sign in from other devices and you could lose access to your account. Claim your account now to secure it.'**
+  String get unclaimedAccountDescriptionUsername;
+
+  /// Placeholder for the add friend field on instances where usernames have no tag.
+  ///
+  /// In en, this message translates to:
+  /// **'Username'**
+  String get addFriendUsernameOnlyHint;
+
   /// Title for the registration screen.
   ///
   /// In en, this message translates to:
@@ -1285,6 +1561,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Invalid email or password.'**
   String get errorInvalidEmailOrPassword;
+
+  /// Sign-in error on instances where people sign in with a username.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid username or password.'**
+  String get errorInvalidUsernameOrPassword;
 
   /// Generic fallback error when forgot password request fails.
   ///

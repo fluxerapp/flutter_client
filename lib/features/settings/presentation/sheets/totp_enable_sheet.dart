@@ -54,7 +54,7 @@ class _TotpEnableSheetState extends ConsumerState<TotpEnableSheet> {
         .productName;
     _encodedSecret = encodeTotpSecret(_secret);
     _otpauthUrl = encodeTotpSecretAsUrl(
-      accountName: settings.email ?? '',
+      accountName: settings.email ?? settings.username,
       secret: _secret,
       issuer: productName,
     );

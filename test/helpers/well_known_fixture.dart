@@ -1,4 +1,5 @@
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
+import 'package:fluxer_app/core/instance/well_known_compat.dart';
 import 'package:fluxer_dart/export.dart';
 
 WellKnownFluxerResponse wellKnownFixture({
@@ -7,8 +8,10 @@ WellKnownFluxerResponse wellKnownFixture({
   String api = 'https://chat.example/api',
   String gateway = 'wss://chat.example/gateway',
   bool selfHosted = true,
+  String? accountIdentity,
+  String? tagStyle,
 }) {
-  return WellKnownFluxerResponse.fromJson(<String, dynamic>{
+  return parseWellKnownFluxer(<String, dynamic>{
     'api_code_version': 1,
     'endpoints': <String, dynamic>{
       'api': api,
@@ -31,7 +34,9 @@ WellKnownFluxerResponse wellKnownFixture({
       'stripe_serviceable': false,
       'self_hosted': selfHosted,
       'presigned_attachment_uploads': true,
-      'emails_enabled': true,
+      'emails_enabled': accountIdentity != 'username',
+      'account_identity': ?accountIdentity,
+      'tag_style': ?tagStyle,
     },
     'registration': <String, dynamic>{
       'mode': 'open',

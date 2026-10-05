@@ -6,7 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
+import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
 import 'package:fluxer_app/core/providers/active_instance_provider.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/features/auth/data/auth_repository.dart';
 import 'package:fluxer_app/features/auth/data/auth_token_storage.dart';
 import 'package:fluxer_app/features/auth/data/sso_auth_service.dart';
@@ -20,6 +22,7 @@ import 'package:fluxer_app/features/auth/providers/registration_draft_provider.d
 import 'package:fluxer_dart/export.dart';
 
 import '../../../helpers/open_test_database.dart';
+import '../../../helpers/well_known_fixture.dart';
 
 const InstanceConfigSnapshot _originalInstance = InstanceConfigSnapshot(
   apiBaseUrl: 'https://a.example/api',
@@ -32,13 +35,17 @@ class _FakeAuthRepository implements AuthRepository {
 
   final AuthFailure? failure;
   final Object? passkeyException;
+  final List<({String identifier, bool usernameSignIn})> loginCalls =
+      <({String identifier, bool usernameSignIn})>[];
 
   @override
   Future<LoginResult> login({
     required String email,
     required String password,
     String? inviteCode,
+    bool usernameSignIn = false,
   }) {
+    loginCalls.add((identifier: email, usernameSignIn: usernameSignIn));
     return Future<LoginResult>.error(
       failure ??
           const AuthFailure(
@@ -114,6 +121,32 @@ ProviderContainer _containerFor(AuthFailure failure) {
   );
   addTearDown(container.dispose);
   return container;
+}
+
+({ProviderContainer container, _FakeAuthRepository repository})
+_identityContainer({String? accountIdentity}) {
+  final _FakeAuthRepository repository = _FakeAuthRepository(
+    failure: const AuthFailure(
+      'Invalid email or password.',
+      kind: AuthFailureKind.invalidCredentials,
+    ),
+  );
+  final container = ProviderContainer(
+    overrides: [
+      authRepositoryProvider.overrideWithValue(repository),
+      instanceRuntimeConfigProvider.overrideWithValue(
+        InstanceRuntimeConfig.fromWellKnown(
+          wellKnownFixture(
+            media: 'https://chat.example/media',
+            staticCdn: 'https://chat.example/static',
+            accountIdentity: accountIdentity,
+          ),
+        ),
+      ),
+    ],
+  );
+  addTearDown(container.dispose);
+  return (container: container, repository: repository);
 }
 
 ProviderContainer _container() {
@@ -354,6 +387,47 @@ void main() {
     final LoginViewState state = container.read(loginViewModelProvider);
     expect(state.isLoggingIn, isFalse);
     expect(state.errorType, LoginError.passkeyFailed);
+  });
+
+  test('username sign-in sends a bare username as the login', () async {
+    final setup = _identityContainer(accountIdentity: 'username');
+    setup.container.read(loginViewModelProvider.notifier)
+      ..updateEmail('alice')
+      ..updatePassword('hunter2hunter2');
+
+    await setup.container.read(loginViewModelProvider.notifier).login();
+
+    final state = setup.container.read(loginViewModelProvider);
+    expect(setup.repository.loginCalls, [
+      (identifier: 'alice', usernameSignIn: true),
+    ]);
+    expect(state.errorType, LoginError.invalidUsernameOrPassword);
+  });
+
+  test('email sign-in still rejects a bare username locally', () async {
+    final setup = _identityContainer(accountIdentity: 'email');
+    setup.container.read(loginViewModelProvider.notifier)
+      ..updateEmail('alice')
+      ..updatePassword('hunter2hunter2');
+
+    await setup.container.read(loginViewModelProvider.notifier).login();
+
+    final state = setup.container.read(loginViewModelProvider);
+    expect(setup.repository.loginCalls, isEmpty);
+    expect(state.errorType, LoginError.invalidEmail);
+  });
+
+  test('a recovery link prefills the recover screen once', () {
+    final container = _container();
+    final notifier = container.read(loginViewModelProvider.notifier)
+      ..showRecoverAccountScreen(login: 'alice', recoveryKey: 'ABCD');
+
+    expect(container.read(loginViewModelProvider).showForgotPassword, isTrue);
+    expect(notifier.takeRecoveryPrefill(), (
+      login: 'alice',
+      recoveryKey: 'ABCD',
+    ));
+    expect(notifier.takeRecoveryPrefill(), isNull);
   });
 }
 

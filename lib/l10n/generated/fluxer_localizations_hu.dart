@@ -558,6 +558,174 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get resetPasswordMismatch => 'A jelszavak nem egyeznek.';
 
   @override
+  String get recoverAccountTitle => 'Fiókod helyreállítása';
+
+  @override
+  String get recoverAccountDescription =>
+      'Add meg a felhasználónevedet és a helyreállítási kulcsodat a helyreállítási csomagodból, majd válassz egy új jelszót.';
+
+  @override
+  String get recoverAccountNoKit =>
+      'Nincs helyreállító csomagod? Kérj jelszó-visszaállítási linket az instanciád rendszergazdájától.';
+
+  @override
+  String get recoveryKitTitle => 'A helyreállító készleted';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'Ha elfelejted a jelszavadat, ez a készlet az egyetlen módja a fiókodba való visszajutásnak. Tárold biztonságos helyen, például jelszókezelőben vagy kinyomtatva.';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      'A régi helyreállító kulcsod már nem működik. Tárold ezt az újat biztonságos helyen.';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'Jelszavad vissza lett állítva. A régi visszaállító kulcsod már nem érvényes. Tárold ezt az újat biztonságos helyen.';
+
+  @override
+  String get recoveryKitWarning =>
+      'Aki birtokolja ezt a kulcsot, visszaállíthatja a jelszavát. Soha ne oszd meg senkivel.';
+
+  @override
+  String get recoveryKitKeyLabel => 'Helyreállítási kulcs';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return '$productName visszaállítási csomag';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'Őrizd meg ezt az oldalt biztonságos helyen. Ha elfelejtenéd a jelszavadat, ezzel léphetsz be újra a fiókodba. Bárki, aki birtokolja ezt a visszaállítási kulcsot, visszaállíthatja a jelszavadat, ezért soha ne oszd meg senkivel.';
+
+  @override
+  String get recoveryKitInstanceLabel => 'Példány';
+
+  @override
+  String get recoveryKitCreatedAtLabel => 'Létrehozva';
+
+  @override
+  String get recoveryKitQrCaption =>
+      'A beolvasással megnyithatod a helyreállítási oldalt, amelyen az adataid már ki vannak töltve.';
+
+  @override
+  String get recoveryKitStepsTitle => 'Fiókod helyreállításának módja';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return 'Menj a(z) $recoverUrl címre, vagy olvasd be a QR-kódot.';
+  }
+
+  @override
+  String get recoveryKitStepEnter =>
+      'Add meg a felhasználónevedet és ezt a helyreállítási kulcsot.';
+
+  @override
+  String get recoveryKitStepPassword =>
+      'Válassz új jelszót. Új helyreállítási készletet kapsz, és ez a készlet nem fog működni.';
+
+  @override
+  String get recoveryKitBackupCodesTitle => 'Kétfaktoros biztonsági kódok';
+
+  @override
+  String get recoveryKitBackupCodesNote =>
+      'Minden kód egyszer használható az automatikus hitelesítő alkalmazásod helyett.';
+
+  @override
+  String get recoveryKitBackupCodesFailed =>
+      'Nem sikerült betölteni a biztonsági mentési kódokat.';
+
+  @override
+  String get recoveryKitIncludeBackupCodes =>
+      'A kétlépcsős azonosítás tartalékkódjaim szerepeljenek a mentett képen';
+
+  @override
+  String get recoveryKitCopy => 'Másolás';
+
+  @override
+  String get recoveryKitCopied => 'Helyreállítási kulcs másolva';
+
+  @override
+  String get recoveryKitSaveImage => 'Kép mentése';
+
+  @override
+  String get recoveryKitSaved => 'Helyreállítási csomag mentve';
+
+  @override
+  String get recoveryKitSavedToPhotos =>
+      'Helyreállítási csomag mentve a fotók közé';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'Nem sikerült menteni a helyreállítási csomagot. Próbáld újra, vagy másold ki inkább a kulcsot.';
+
+  @override
+  String get recoveryKitAcknowledge =>
+      'Elmentettem a helyreállító készletemet egy biztonságos helyre';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'Nem sikerült létrehozni a helyreállító csomagot. Később is létrehozhatsz egyet a fiókbeállításaidban.';
+
+  @override
+  String get recoveryKitSectionTitle => 'Helyreállítási készlet';
+
+  @override
+  String get recoveryKitSectionDescription =>
+      'Lehetővé teszi a jelszavad visszaállítását, ha elfelejtenéd.';
+
+  @override
+  String get recoveryKitNone => 'Még nincs helyreállítási csomagod';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return 'Létrehozva: $time';
+  }
+
+  @override
+  String get recoveryKitCreate => 'Helyreállítási készlet létrehozása';
+
+  @override
+  String get recoveryKitCreateNew => 'Új készlet létrehozása';
+
+  @override
+  String get recoveryKitReplaceTitle => 'Új helyreállítókészletet hoz létre?';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      'Az aktuális készleted azonnal használhatatlanná válik, amint létrehozol egy újat.';
+
+  @override
+  String get recoveryKitReminderTitle =>
+      'Helyezz el egy helyreállító készletet';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'Fiókodhoz nincs hozzárendelve e-mail cím. Ha elfelejted a jelszavadat, csak egy helyreállítási csomaggal tudsz visszajutni. Csak egy percet vesz igénybe.';
+
+  @override
+  String get registerUsernameSignInHint =>
+      'Ezzel a felhasználónévvel jelentkezel be. Válassz egyet, amit meg fogsz jegyezni.';
+
+  @override
+  String get registerUsernameTaken => 'Ez a felhasználónév már foglalt';
+
+  @override
+  String get registerUsernameAvailable => 'Ez a felhasználónév szabad';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'Foglald le a fiókodat egy felhasználónév és jelszó kiválasztásával. Ezekkel jelentkezel be, ezért olyanokat válassz, amiket meg fogsz jegyezni.';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'A fiókod még nincs igényelve. Felhasználónév és jelszó nélkül nem tudsz bejelentkezni más eszközökről, és elveszítheted a hozzáférést a fiókodhoz. Igényeld a fiókodat most, hogy biztosítsd.';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'Felhasználónév';
+
+  @override
   String get registerTitle => 'Fiók létrehozása';
 
   @override
@@ -661,6 +829,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   @override
   String get errorInvalidEmailOrPassword =>
       'Érvénytelen e-mail cím vagy jelszó.';
+
+  @override
+  String get errorInvalidUsernameOrPassword =>
+      'Érvénytelen felhasználónév vagy jelszó.';
 
   @override
   String get errorUnableToSendResetLink =>

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
@@ -220,7 +221,13 @@ class _UserProfileState extends ConsumerState<UserProfile> {
                   ),
                   SizedBox(height: layout.s1),
                   Text(
-                    l10n.unclaimedAccountDescription,
+                    ref.watch(
+                          userSettingsViewModelProvider.select(
+                            (s) => s.usernameSignIn,
+                          ),
+                        )
+                        ? l10n.unclaimedAccountDescriptionUsername
+                        : l10n.unclaimedAccountDescription,
                     style: textStyles.smallText.copyWith(
                       color: colors.textSecondary,
                     ),
@@ -662,7 +669,7 @@ class _UserProfileState extends ConsumerState<UserProfile> {
             ),
           ),
         ),
-        if (!state.hasVerifiedEmail) _buildUnclaimedAccountBar(layout, l10n),
+        if (!state.isClaimed) _buildUnclaimedAccountBar(layout, l10n),
       ],
     );
   }
@@ -943,9 +950,9 @@ class _UserProfileState extends ConsumerState<UserProfile> {
     final bool hasCustomDiscriminator = ref.watch(
       instanceFeatureEnabledProvider(LimitKeys.featureCustomDiscriminator),
     );
-    final bool shouldShowPremiumCommerce = ref.watch(
-      shouldShowPremiumCommerceProvider,
-    );
+    final bool uniqueUsernames = ref.watch(uniqueUsernamesProvider);
+    final bool shouldShowPremiumCommerce =
+        !uniqueUsernames && ref.watch(shouldShowPremiumCommerceProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -956,7 +963,7 @@ class _UserProfileState extends ConsumerState<UserProfile> {
           spacing: layout.s2,
           runSpacing: layout.s2,
           children: [
-            if (!state.hasVerifiedEmail)
+            if (!state.isClaimed)
               FluxerTooltip(
                 message: l10n.claimAccountToChangeFluxerTag,
                 child: FluxerButton.primary(
@@ -998,7 +1005,11 @@ class _UserProfileState extends ConsumerState<UserProfile> {
           ],
         ),
         SizedBox(height: layout.s3),
-        FluxerHintText(l10n.changeUsernameAndTagHint),
+        FluxerHintText(
+          uniqueUsernames
+              ? l10n.changeYourFluxerTag
+              : l10n.changeUsernameAndTagHint,
+        ),
         if (state.premiumDiscriminator &&
             shouldShowPremiumCommerce &&
             !state.hasLifetimePremium) ...[

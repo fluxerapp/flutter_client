@@ -756,6 +756,205 @@
     "@resetPasswordMismatch": {
         "description": "Error when password and confirmation don't match."
     },
+    "recoverAccountTitle": "अपना खाता रिकवर करें",
+    "@recoverAccountTitle": {
+        "description": "Title of the screen where someone resets their password with a recovery kit."
+    },
+    "recoverAccountDescription": "अपना यूज़रनेम और अपनी रिकवरी किट से रिकवरी की दर्ज करें, फिर एक नया पासवर्ड चुनें।",
+    "@recoverAccountDescription": {
+        "description": "Description on the account recovery screen."
+    },
+    "recoverAccountNoKit": "कोई रिकवरी किट नहीं है? पासवर्ड रीसेट लिंक के लिए इस इंस्टेंस के एडमिन से पूछें।",
+    "@recoverAccountNoKit": {
+        "description": "Hint under the account recovery form for people without a recovery kit."
+    },
+    "recoveryKitTitle": "आपकी रिकवरी किट",
+    "@recoveryKitTitle": {
+        "description": "Title of the sheet that shows a newly created account recovery kit."
+    },
+    "recoveryKitCreatedDescription": "अगर आप अपना पासवर्ड भूल जाते हैं, तो यह किट आपके खाते में वापस आने का एकमात्र तरीका है। इसे सुरक्षित जगह पर रखें, जैसे पासवर्ड मैनेजर या प्रिंट की हुई कॉपी।",
+    "@recoveryKitCreatedDescription": {
+        "description": "Recovery kit sheet description for a newly created kit."
+    },
+    "recoveryKitReplacedDescription": "आपका पुराना रिकवरी किट अब काम नहीं करता है। इस नए किट को कहीं सुरक्षित रखें।",
+    "@recoveryKitReplacedDescription": {
+        "description": "Recovery kit sheet description shown after a kit replaces an older one."
+    },
+    "recoveryKitRecoveredDescription": "आपका पासवर्ड रीसेट हो गया है। आपकी पुरानी रिकवरी किट अब काम नहीं करेगी। इस नई किट को कहीं सुरक्षित रखें।",
+    "@recoveryKitRecoveredDescription": {
+        "description": "Recovery kit sheet description shown after someone recovers their account with a recovery key."
+    },
+    "recoveryKitWarning": "इस कुंजी वाला कोई भी व्यक्ति आपका पासवर्ड रीसेट कर सकता है। इसे कभी भी साझा न करें।",
+    "@recoveryKitWarning": {
+        "description": "Warning under the recovery key in the recovery kit sheet."
+    },
+    "recoveryKitKeyLabel": "रिकवरी कुंजी",
+    "@recoveryKitKeyLabel": {
+        "description": "Label for the account recovery key."
+    },
+    "recoveryKitDocumentTitle": "{productName} रिकवरी किट",
+    "@recoveryKitDocumentTitle": {
+        "description": "Title of the saved recovery kit image. productName is the app name.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitDocumentIntro": "इस पेज को सुरक्षित रखें। यदि आप अपना पासवर्ड भूल जाते हैं, तो आप अपने खाते में वापस जाने के लिए इसका उपयोग कर सकते हैं। इस रिकवरी कुंजी वाला कोई भी व्यक्ति आपका पासवर्ड रीसेट कर सकता है, इसलिए इसे कभी भी साझा न करें।",
+    "@recoveryKitDocumentIntro": {
+        "description": "Introduction on the saved recovery kit image."
+    },
+    "recoveryKitInstanceLabel": "इंस्टेंस",
+    "@recoveryKitInstanceLabel": {
+        "description": "Label for the server address on the saved recovery kit."
+    },
+    "recoveryKitCreatedAtLabel": "बनाया गया",
+    "@recoveryKitCreatedAtLabel": {
+        "description": "Label for the creation date on the saved recovery kit."
+    },
+    "recoveryKitQrCaption": "स्कैन करके अपना विवरण भरा हुआ रिकवरी पेज खोलें।",
+    "@recoveryKitQrCaption": {
+        "description": "Caption under the QR code on the saved recovery kit."
+    },
+    "recoveryKitStepsTitle": "अपना खाता कैसे रिकवर करें",
+    "@recoveryKitStepsTitle": {
+        "description": "Heading above the recovery steps on the saved recovery kit."
+    },
+    "recoveryKitStepOpen": "{recoverUrl} पर जाएं या QR कोड स्कैन करें।",
+    "@recoveryKitStepOpen": {
+        "description": "First recovery step on the saved recovery kit. recoverUrl is the address of the recovery page.",
+        "placeholders": {
+            "recoverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitStepEnter": "अपना यूज़रनेम और यह रिकवरी की दर्ज करें।",
+    "@recoveryKitStepEnter": {
+        "description": "Second recovery step on the saved recovery kit."
+    },
+    "recoveryKitStepPassword": "एक नया पासवर्ड चुनें। आपको एक नया रिकवरी किट मिलेगा और यह वाला काम करना बंद कर देगा।",
+    "@recoveryKitStepPassword": {
+        "description": "Third recovery step on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesTitle": "टू-फैक्टर बैकअप कोड",
+    "@recoveryKitBackupCodesTitle": {
+        "description": "Heading above the two-factor backup codes on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesNote": "हर कोड एक बार आपके ऑथेंटिकेटर ऐप की जगह काम करता है।",
+    "@recoveryKitBackupCodesNote": {
+        "description": "Note under the two-factor backup codes heading on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesFailed": "आपके बैकअप कोड लोड नहीं हो सके।",
+    "@recoveryKitBackupCodesFailed": {
+        "description": "Toast shown when the two-factor backup codes for the recovery kit cannot be loaded."
+    },
+    "recoveryKitIncludeBackupCodes": "सहेजी गई छवि में मेरे टू-फ़ैक्टर बैकअप कोड शामिल करें",
+    "@recoveryKitIncludeBackupCodes": {
+        "description": "Checkbox in the recovery kit sheet that adds the two-factor backup codes to the saved image."
+    },
+    "recoveryKitCopy": "कॉपी करें",
+    "@recoveryKitCopy": {
+        "description": "Button that copies the account recovery key."
+    },
+    "recoveryKitCopied": "रिकवरी कुंजी कॉपी की गई",
+    "@recoveryKitCopied": {
+        "description": "Toast shown after the recovery key is copied."
+    },
+    "recoveryKitSaveImage": "छवि सहेजें",
+    "@recoveryKitSaveImage": {
+        "description": "Button that saves the recovery kit as an image."
+    },
+    "recoveryKitSaved": "रिकवरी किट सहेजी गई",
+    "@recoveryKitSaved": {
+        "description": "Toast shown after the recovery kit image is saved to a file."
+    },
+    "recoveryKitSavedToPhotos": "रिकवरी किट फ़ोटो में सहेजी गई",
+    "@recoveryKitSavedToPhotos": {
+        "description": "Toast shown after the recovery kit image is saved to the photo library."
+    },
+    "recoveryKitSaveFailed": "रिकवरी किट सहेजी नहीं जा सकी। फिर से कोशिश करें या इसके बजाय कुंजी कॉपी करें।",
+    "@recoveryKitSaveFailed": {
+        "description": "Toast shown when saving the recovery kit image fails."
+    },
+    "recoveryKitAcknowledge": "मैंने अपनी रिकवरी किट कहीं सुरक्षित रख ली है",
+    "@recoveryKitAcknowledge": {
+        "description": "Checkbox that confirms the recovery kit is stored before closing the sheet."
+    },
+    "recoveryKitCreateFailed": "आपका रिकवरी किट नहीं बनाया जा सका। आप इसे बाद में अपनी खाता सेटिंग में बना सकते हैं।",
+    "@recoveryKitCreateFailed": {
+        "description": "Toast shown when a recovery kit cannot be created."
+    },
+    "recoveryKitSectionTitle": "रिकवरी किट",
+    "@recoveryKitSectionTitle": {
+        "description": "Title of the recovery kit section in security settings."
+    },
+    "recoveryKitSectionDescription": "यह आपको अपना पासवर्ड भूल जाने पर रीसेट करने की सुविधा देता है।",
+    "@recoveryKitSectionDescription": {
+        "description": "Description of the recovery kit section in security settings."
+    },
+    "recoveryKitNone": "आपके पास अभी तक कोई रिकवरी किट नहीं है",
+    "@recoveryKitNone": {
+        "description": "Shown in security settings when the account has no recovery kit."
+    },
+    "recoveryKitCreatedRelative": "{time} को बनाया गया",
+    "@recoveryKitCreatedRelative": {
+        "description": "When the current recovery kit was created. time is a relative time such as 3 days ago.",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitCreate": "रिकवरी किट बनाएँ",
+    "@recoveryKitCreate": {
+        "description": "Button that creates a recovery kit."
+    },
+    "recoveryKitCreateNew": "नया किट बनाएँ",
+    "@recoveryKitCreateNew": {
+        "description": "Button that replaces the existing recovery kit with a new one."
+    },
+    "recoveryKitReplaceTitle": "नया रिकवरी किट बनाएँ?",
+    "@recoveryKitReplaceTitle": {
+        "description": "Title of the confirmation shown before replacing an existing recovery kit."
+    },
+    "recoveryKitReplaceDescription": "आपका मौजूदा किट नया किट बनने के तुरंत बाद काम करना बंद कर देगा।",
+    "@recoveryKitReplaceDescription": {
+        "description": "Body of the confirmation shown before replacing an existing recovery kit."
+    },
+    "recoveryKitReminderTitle": "रिकवरी किट सहेजें",
+    "@recoveryKitReminderTitle": {
+        "description": "Title of the one-time prompt asking a signed-in user without a recovery kit to create one."
+    },
+    "recoveryKitReminderBody": "आपके खाते में कोई ईमेल पता नहीं है। यदि आप अपना पासवर्ड भूल जाते हैं, तो रिकवरी किट ही वापस आने का एकमात्र तरीका है। इसमें बस एक मिनट लगता है।",
+    "@recoveryKitReminderBody": {
+        "description": "Body of the one-time prompt asking a signed-in user without a recovery kit to create one."
+    },
+    "registerUsernameSignInHint": "आप इस यूज़रनेम से साइन इन करते हैं। ऐसा यूज़रनेम चुनें जो आपको याद रहे।",
+    "@registerUsernameSignInHint": {
+        "description": "Helper text under the required username field when the instance uses usernames to sign in."
+    },
+    "registerUsernameTaken": "यह उपयोगकर्ता नाम पहले से ही लिया हुआ है",
+    "@registerUsernameTaken": {
+        "description": "Registration form message when the chosen username belongs to someone else."
+    },
+    "registerUsernameAvailable": "यह उपयोगकर्ता नाम उपलब्ध है",
+    "@registerUsernameAvailable": {
+        "description": "Registration form message when the chosen username is free to use."
+    },
+    "claimAccountUsernameDescription": "अपना अकाउंट क्लेम करने के लिए एक यूज़रनेम और पासवर्ड चुनें। आप इनसे साइन इन करेंगे, इसलिए ऐसे चुनें जो आपको याद रहें।",
+    "@claimAccountUsernameDescription": {
+        "description": "Description in the claim account sheet on instances where people sign in with a username."
+    },
+    "unclaimedAccountDescriptionUsername": "आपका खाता अभी तक क्लेम नहीं किया गया है। यूज़रनेम और पासवर्ड के बिना, आप अन्य डिवाइस से साइन इन नहीं कर पाएंगे और आप अपने खाते तक पहुंच खो सकते हैं। अपने खाते को सुरक्षित करने के लिए अभी क्लेम करें।",
+    "@unclaimedAccountDescriptionUsername": {
+        "description": "Description for the unclaimed account warning on instances where people sign in with a username."
+    },
+    "addFriendUsernameOnlyHint": "यूज़रनेम",
+    "@addFriendUsernameOnlyHint": {
+        "description": "Placeholder for the add friend field on instances where usernames have no tag."
+    },
     "registerTitle": "अकाउंट बनाएँ",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -875,6 +1074,10 @@
     "errorInvalidEmailOrPassword": "अमान्य ईमेल या पासवर्ड।",
     "@errorInvalidEmailOrPassword": {
         "description": "Error shown on the login screen when the email and password combination is incorrect."
+    },
+    "errorInvalidUsernameOrPassword": "अमान्य उपयोगकर्ता नाम या पासवर्ड।",
+    "@errorInvalidUsernameOrPassword": {
+        "description": "Sign-in error on instances where people sign in with a username."
     },
     "errorUnableToSendResetLink": "रीसेट लिंक भेजने में असमर्थ। कृपया पुनः प्रयास करें।",
     "@errorUnableToSendResetLink": {

@@ -532,6 +532,156 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get resetPasswordMismatch => '两次输入的密码不匹配。';
 
   @override
+  String get recoverAccountTitle => '恢复你的账户';
+
+  @override
+  String get recoverAccountDescription => '输入您的用户名和恢复工具包中的恢复密钥，然后选择一个新密码。';
+
+  @override
+  String get recoverAccountNoKit => '没有恢复工具？请向此实例的管理员请求重置密码链接。';
+
+  @override
+  String get recoveryKitTitle => '你的恢复工具包';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      '如果忘记密码，此恢复工具是您重新登录账户的唯一途径。请将其存放在安全的地方，例如密码管理器或打印副本。';
+
+  @override
+  String get recoveryKitReplacedDescription => '您旧的恢复密钥已失效。请妥善保管新的恢复密钥。';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      '您的密码已重置。旧的恢复密钥已失效。请妥善保管新的恢复密钥。';
+
+  @override
+  String get recoveryKitWarning => '拥有此密钥的任何人都可以重置您的密码。切勿分享。';
+
+  @override
+  String get recoveryKitKeyLabel => '恢复密钥';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return '$productName 恢复密钥';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      '请妥善保管此页面。如果忘记密码，可以使用它重新登录您的账户。拥有此恢复密钥的任何人都可以重置您的密码，切勿分享。';
+
+  @override
+  String get recoveryKitInstanceLabel => '实例';
+
+  @override
+  String get recoveryKitCreatedAtLabel => '创建时间';
+
+  @override
+  String get recoveryKitQrCaption => '扫描以打开恢复页面，并填入您的详细信息。';
+
+  @override
+  String get recoveryKitStepsTitle => '如何恢复你的账户';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return '前往 $recoverUrl 或扫描二维码。';
+  }
+
+  @override
+  String get recoveryKitStepEnter => '输入你的用户名和此恢复密钥。';
+
+  @override
+  String get recoveryKitStepPassword => '设置新密码。您将获得一套新的恢复工具包，旧的将失效。';
+
+  @override
+  String get recoveryKitBackupCodesTitle => '两步验证备份代码';
+
+  @override
+  String get recoveryKitBackupCodesNote => '每个代码在用于身份验证器应用时都可使用一次。';
+
+  @override
+  String get recoveryKitBackupCodesFailed => '无法加载您的备用代码。';
+
+  @override
+  String get recoveryKitIncludeBackupCodes => '在保存的图片中包含我的双重验证备用码';
+
+  @override
+  String get recoveryKitCopy => '复制';
+
+  @override
+  String get recoveryKitCopied => '已复制恢复密钥';
+
+  @override
+  String get recoveryKitSaveImage => '保存图片';
+
+  @override
+  String get recoveryKitSaved => '已保存恢复包';
+
+  @override
+  String get recoveryKitSavedToPhotos => '已将恢复包保存到照片';
+
+  @override
+  String get recoveryKitSaveFailed => '无法保存恢复包。请重试，或改为复制密钥。';
+
+  @override
+  String get recoveryKitAcknowledge => '我已将恢复工具包存放在安全的地方';
+
+  @override
+  String get recoveryKitCreateFailed => '无法创建你的恢复工具包。你可以在稍后在账户设置中创建。';
+
+  @override
+  String get recoveryKitSectionTitle => '恢复工具包';
+
+  @override
+  String get recoveryKitSectionDescription => '如果忘记密码，可以使用它来重置。';
+
+  @override
+  String get recoveryKitNone => '你还没有恢复工具包';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return '创建于 $time';
+  }
+
+  @override
+  String get recoveryKitCreate => '创建恢复工具包';
+
+  @override
+  String get recoveryKitCreateNew => '创建新套件';
+
+  @override
+  String get recoveryKitReplaceTitle => '创建新的恢复套件？';
+
+  @override
+  String get recoveryKitReplaceDescription => '创建新恢复工具包后，您当前的工具包将停止工作。';
+
+  @override
+  String get recoveryKitReminderTitle => '保存恢复工具包';
+
+  @override
+  String get recoveryKitReminderBody =>
+      '您的账号未绑定邮箱。如果忘记密码，恢复工具是找回账号的唯一途径。只需一分钟即可完成。';
+
+  @override
+  String get registerUsernameSignInHint => '您将使用此用户名登录。请选择一个您能记住的。';
+
+  @override
+  String get registerUsernameTaken => '该用户名已被占用';
+
+  @override
+  String get registerUsernameAvailable => '该用户名可用';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      '选择用户名和密码来认领你的账号。你将用它们来登录，所以请选择你记得住的。';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      '您的账户尚未认领。没有用户名和密码，您将无法从其他设备登录，并可能丢失账户访问权限。立即认领您的账户以确保其安全。';
+
+  @override
+  String get addFriendUsernameOnlyHint => '用户名';
+
+  @override
   String get registerTitle => '创建账号';
 
   @override
@@ -620,6 +770,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get errorInvalidEmailOrPassword => '电子邮件或密码无效。';
+
+  @override
+  String get errorInvalidUsernameOrPassword => '用户名或密码无效。';
 
   @override
   String get errorUnableToSendResetLink => '无法发送重置链接。请重试。';
@@ -14856,6 +15009,156 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get resetPasswordMismatch => '密碼不符。';
 
   @override
+  String get recoverAccountTitle => '復原你的帳號';
+
+  @override
+  String get recoverAccountDescription => '輸入你的使用者名稱和復原套件中的復原金鑰，然後選擇一個新密碼。';
+
+  @override
+  String get recoverAccountNoKit => '沒有復原工具？請詢問此伺服器的管理員以取得重設密碼連結。';
+
+  @override
+  String get recoveryKitTitle => '你的復原工具組';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      '如果忘記密碼，這個還原套件是您重新登入帳戶的唯一方法。請將它存放在安全的地方，例如密碼管理器或列印副本。';
+
+  @override
+  String get recoveryKitReplacedDescription => '你舊的復原工具組已失效。請將這個新的工具組存放在安全的地方。';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      '你的密碼已重設。你舊的復原套件已失效。請將這個新的套件存放在安全的地方。';
+
+  @override
+  String get recoveryKitWarning => '擁有此金鑰的任何人都可以重設您的密碼。請勿分享。';
+
+  @override
+  String get recoveryKitKeyLabel => '復原金鑰';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return '$productName 復原套件';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      '請將此頁面妥善保管。若您忘記密碼，可使用此頁面重新登入您的帳號。持有此還原金鑰的任何人皆可重設您的密碼，請勿與他人分享。';
+
+  @override
+  String get recoveryKitInstanceLabel => '伺服器位址';
+
+  @override
+  String get recoveryKitCreatedAtLabel => '建立時間';
+
+  @override
+  String get recoveryKitQrCaption => '掃描以開啟復原頁面，並填入您的詳細資料。';
+
+  @override
+  String get recoveryKitStepsTitle => '如何復原你的帳號';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return '前往 $recoverUrl 或掃描 QR code。';
+  }
+
+  @override
+  String get recoveryKitStepEnter => '輸入你的使用者名稱和這個復原金鑰。';
+
+  @override
+  String get recoveryKitStepPassword => '設定新密碼。你會收到一份新的復原套件，而這份就無法使用了。';
+
+  @override
+  String get recoveryKitBackupCodesTitle => '兩步驟驗證備份驗證碼';
+
+  @override
+  String get recoveryKitBackupCodesNote => '每個代碼都可供您在驗證器應用程式中使用一次。';
+
+  @override
+  String get recoveryKitBackupCodesFailed => '無法載入您的備份驗證碼。';
+
+  @override
+  String get recoveryKitIncludeBackupCodes => '在儲存的圖片中加入我的雙重驗證備用碼';
+
+  @override
+  String get recoveryKitCopy => '複製';
+
+  @override
+  String get recoveryKitCopied => '已複製復原金鑰';
+
+  @override
+  String get recoveryKitSaveImage => '儲存圖片';
+
+  @override
+  String get recoveryKitSaved => '已儲存復原套件';
+
+  @override
+  String get recoveryKitSavedToPhotos => '已將復原套件儲存至照片';
+
+  @override
+  String get recoveryKitSaveFailed => '無法儲存復原套件。請再試一次，或改為複製金鑰。';
+
+  @override
+  String get recoveryKitAcknowledge => '我已將我的復原套件存放在安全的地方';
+
+  @override
+  String get recoveryKitCreateFailed => '無法建立你的復原工具組。你之後可以在帳戶設定中建立。';
+
+  @override
+  String get recoveryKitSectionTitle => '復原工具組';
+
+  @override
+  String get recoveryKitSectionDescription => '讓你忘記密碼時可以重設。';
+
+  @override
+  String get recoveryKitNone => '你還沒有復原套件';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return '建立於 $time';
+  }
+
+  @override
+  String get recoveryKitCreate => '建立復原套件';
+
+  @override
+  String get recoveryKitCreateNew => '建立新套件';
+
+  @override
+  String get recoveryKitReplaceTitle => '要建立新的復原套件嗎？';
+
+  @override
+  String get recoveryKitReplaceDescription => '你目前的套件將在新套件建立後立即失效。';
+
+  @override
+  String get recoveryKitReminderTitle => '儲存復原套件';
+
+  @override
+  String get recoveryKitReminderBody =>
+      '你的帳號沒有設定電子郵件。如果忘記密碼，恢復套件是唯一能重新登入的方式。只需一分鐘即可完成。';
+
+  @override
+  String get registerUsernameSignInHint => '你將使用此使用者名稱登入。請選擇一個你會記得的。';
+
+  @override
+  String get registerUsernameTaken => '這個使用者名稱已被註冊';
+
+  @override
+  String get registerUsernameAvailable => '這個使用者名稱可以使用';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      '選擇使用者名稱和密碼來領取你的帳號。你將使用它們來登入，所以請選擇你會記住的。';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      '您的帳戶尚未領取。沒有使用者名稱和密碼，您將無法從其他裝置登入，並且可能會遺失帳戶存取權。立即領取您的帳戶以確保安全。';
+
+  @override
+  String get addFriendUsernameOnlyHint => '使用者名稱';
+
+  @override
   String get registerTitle => '建立帳號';
 
   @override
@@ -14944,6 +15247,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get errorInvalidEmailOrPassword => '電子郵件或密碼無效。';
+
+  @override
+  String get errorInvalidUsernameOrPassword => '使用者名稱或密碼無效。';
 
   @override
   String get errorUnableToSendResetLink => '無法傳送重設連結。請再試一次。';

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/friends/domain/friend_request_exception.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
@@ -50,7 +51,10 @@ class _AddFriendFormState extends ConsumerState<AddFriendForm> {
 
   Future<void> _handleSubmit() async {
     final l10n = FluxerLocalizations.of(context);
-    final parsed = parseFluxerTagInput(_controller.text.trim());
+    final parsed = parseFluxerTagInput(
+      _controller.text.trim(),
+      uniqueUsernames: ref.read(uniqueUsernamesProvider),
+    );
     if (!isValidFluxerTagSubmission(parsed.username, parsed.discriminator)) {
       setState(() {
         _resultStatus = _FormResultStatus.error;
@@ -103,7 +107,7 @@ class _AddFriendFormState extends ConsumerState<AddFriendForm> {
     if (!settings.isProfileLoaded) {
       return const Center(child: FluxerLoadingSpinner());
     }
-    if (!settings.hasVerifiedEmail) {
+    if (!settings.isClaimed) {
       return _AddFriendGate(
         icon: PhosphorIconsFill.warningCircle,
         title: l10n.addFriendClaimTitle,
@@ -112,7 +116,7 @@ class _AddFriendFormState extends ConsumerState<AddFriendForm> {
         onAction: () => ClaimAccountSheet.show(context, ref),
       );
     }
-    if (!settings.verified) {
+    if (!settings.isVerified) {
       return _AddFriendGate(
         icon: PhosphorIconsFill.envelopeSimple,
         title: l10n.addFriendVerifyTitle,
@@ -128,7 +132,9 @@ class _AddFriendFormState extends ConsumerState<AddFriendForm> {
         FluxerInput(
           controller: _controller,
           label: l10n.addFriendUsernameLabel,
-          hint: l10n.addFriendUsernameHint,
+          hint: ref.watch(uniqueUsernamesProvider)
+              ? l10n.addFriendUsernameOnlyHint
+              : l10n.addFriendUsernameHint,
           enabled: !_isLoading,
           onChanged: (_) {
             _clearResult();

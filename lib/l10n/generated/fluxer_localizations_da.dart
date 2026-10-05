@@ -553,6 +553,172 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get resetPasswordMismatch => 'Adgangskoder stemmer ikke overens.';
 
   @override
+  String get recoverAccountTitle => 'Gendan din konto';
+
+  @override
+  String get recoverAccountDescription =>
+      'Indtast dit brugernavn og den gendannelsesnøgle, du fik fra dit gendannelsessæt, og vælg derefter en ny adgangskode.';
+
+  @override
+  String get recoverAccountNoKit =>
+      'Ingen gendannelsespakke? Bed en administrator af denne instans om et link til nulstilling af adgangskode.';
+
+  @override
+  String get recoveryKitTitle => 'Dit gendannelsessæt';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'Hvis du glemmer din adgangskode, er dette kit den eneste måde at komme ind i din konto igen. Opbevar det et sikkert sted, f.eks. i en adgangskodeadministrator eller som en udskrift.';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      'Dit gamle gendannelsessæt virker ikke længere. Opbevar dette nye et sikkert sted.';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'Din adgangskode er nulstillet. Dit gamle gendannelsessæt virker ikke længere. Opbevar dette nye et sikkert sted.';
+
+  @override
+  String get recoveryKitWarning =>
+      'Alle med denne nøgle kan nulstille din adgangskode. Del den aldrig.';
+
+  @override
+  String get recoveryKitKeyLabel => 'Gendannelsesnøgle';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return '$productName gendannelsessæt';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'Opbevar denne side et sikkert sted. Hvis du glemmer din adgangskode, kan du bruge den til at få adgang til din konto igen. Enhver med denne gendannelsesnøgle kan nulstille din adgangskode, så del den aldrig.';
+
+  @override
+  String get recoveryKitInstanceLabel => 'Instans';
+
+  @override
+  String get recoveryKitCreatedAtLabel => 'Oprettet';
+
+  @override
+  String get recoveryKitQrCaption =>
+      'Scan for at åbne genoprettelsessiden med dine oplysninger udfyldt.';
+
+  @override
+  String get recoveryKitStepsTitle => 'Sådan gendanner du din konto';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return 'Gå til $recoverUrl eller scan QR-koden.';
+  }
+
+  @override
+  String get recoveryKitStepEnter =>
+      'Indtast dit brugernavn og denne gendannelsesnøgle.';
+
+  @override
+  String get recoveryKitStepPassword =>
+      'Vælg en ny adgangskode. Du får et nyt gendannelsessæt, og dette holder op med at virke.';
+
+  @override
+  String get recoveryKitBackupCodesTitle => 'To-faktor backupkoder';
+
+  @override
+  String get recoveryKitBackupCodesNote =>
+      'Hver kode kan bruges én gang i stedet for din godkendelsesapp.';
+
+  @override
+  String get recoveryKitBackupCodesFailed =>
+      'Kunne ikke indlæse dine backupkoder.';
+
+  @override
+  String get recoveryKitIncludeBackupCodes =>
+      'Medtag mine backupkoder til totrinsbekræftelse i det gemte billede';
+
+  @override
+  String get recoveryKitCopy => 'Kopiér';
+
+  @override
+  String get recoveryKitCopied => 'Gendannelsesnøgle kopieret';
+
+  @override
+  String get recoveryKitSaveImage => 'Gem billede';
+
+  @override
+  String get recoveryKitSaved => 'Gendannelsessæt gemt';
+
+  @override
+  String get recoveryKitSavedToPhotos => 'Gendannelsessæt gemt i Fotos';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'Gendannelsessættet kunne ikke gemmes. Prøv igen, eller kopiér nøglen i stedet.';
+
+  @override
+  String get recoveryKitAcknowledge =>
+      'Jeg har gemt mit gendannelsessæt et sikkert sted';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'Kunne ikke oprette dit gendannelsessæt. Du kan oprette et senere i dine kontoindstillinger.';
+
+  @override
+  String get recoveryKitSectionTitle => 'Gendannelsessæt';
+
+  @override
+  String get recoveryKitSectionDescription =>
+      'Gør det muligt at nulstille din adgangskode, hvis du glemmer den.';
+
+  @override
+  String get recoveryKitNone => 'Du har endnu ikke et gendannelsessæt';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return 'Oprettet $time';
+  }
+
+  @override
+  String get recoveryKitCreate => 'Opret gendannelsessæt';
+
+  @override
+  String get recoveryKitCreateNew => 'Opret et nyt sæt';
+
+  @override
+  String get recoveryKitReplaceTitle => 'Opret et nyt gendannelsessæt?';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      'Dit nuværende kit holder op med at virke, så snart det nye er oprettet.';
+
+  @override
+  String get recoveryKitReminderTitle => 'Gem et gendannelsessæt';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'Din konto har ingen e-mailadresse. Hvis du glemmer din adgangskode, er et gendannelsessæt den eneste vej tilbage. Det tager kun et minut.';
+
+  @override
+  String get registerUsernameSignInHint =>
+      'Du logger ind med dette brugernavn. Vælg et, du vil huske.';
+
+  @override
+  String get registerUsernameTaken => 'Dette brugernavn er allerede taget';
+
+  @override
+  String get registerUsernameAvailable => 'Brugernavnet er ledigt';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'Gør krav på din konto ved at vælge et brugernavn og en adgangskode. Du logger ind med dem, så vælg nogle, du kan huske.';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'Din konto er endnu ikke gjort krav på. Uden et brugernavn og en adgangskode vil du ikke kunne logge ind fra andre enheder, og du kan miste adgangen til din konto. Gør din konto krav på nu for at sikre den.';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'Brugernavn';
+
+  @override
   String get registerTitle => 'Opret en konto';
 
   @override
@@ -653,6 +819,10 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
 
   @override
   String get errorInvalidEmailOrPassword => 'Ugyldig e-mail eller adgangskode.';
+
+  @override
+  String get errorInvalidUsernameOrPassword =>
+      'Ugyldigt brugernavn eller adgangskode.';
 
   @override
   String get errorUnableToSendResetLink =>

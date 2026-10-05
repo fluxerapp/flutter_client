@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_ban_entry.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
@@ -88,19 +89,22 @@ class GuildBanActionsSheet {
   }
 }
 
-class _GuildBanActionsHeader extends StatelessWidget {
+class _GuildBanActionsHeader extends ConsumerWidget {
   const _GuildBanActionsHeader({required this.entry});
 
   final GuildBanEntry entry;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final user = entry.ban.user;
     final String displayName = resolveDisplayName(
       username: user.username,
       globalName: user.globalName,
     );
-    final String tag = GuildBansUtils.buildUserTag(user);
+    final String tag = GuildBansUtils.buildUserTag(
+      user,
+      uniqueUsernames: ref.watch(uniqueUsernamesProvider),
+    );
     final layout = context.layout;
     final colors = context.colors;
     final textStyles = context.textStyles;

@@ -544,6 +544,205 @@
     "@resetPasswordMismatch": {
         "description": "Error when password and confirmation don't match."
     },
+    "recoverAccountTitle": "กู้คืนบัญชีของคุณ",
+    "@recoverAccountTitle": {
+        "description": "Title of the screen where someone resets their password with a recovery kit."
+    },
+    "recoverAccountDescription": "กรอกชื่อผู้ใช้และคีย์กู้คืนจากชุดกู้คืนของคุณ จากนั้นเลือกรหัสผ่านใหม่",
+    "@recoverAccountDescription": {
+        "description": "Description on the account recovery screen."
+    },
+    "recoverAccountNoKit": "ไม่มีชุดกู้คืน? ขอลิงก์รีเซ็ตรหัสผ่านจากผู้ดูแลของอินสแตนซ์นี้",
+    "@recoverAccountNoKit": {
+        "description": "Hint under the account recovery form for people without a recovery kit."
+    },
+    "recoveryKitTitle": "ชุดกู้คืนของคุณ",
+    "@recoveryKitTitle": {
+        "description": "Title of the sheet that shows a newly created account recovery kit."
+    },
+    "recoveryKitCreatedDescription": "หากคุณลืมรหัสผ่าน ชุดกู้คืนนี้จะเป็นวิธีเดียวที่จะกลับเข้าสู่บัญชีของคุณได้ โปรดเก็บไว้ในที่ปลอดภัย เช่น ตัวจัดการรหัสผ่าน หรือพิมพ์ออกมา",
+    "@recoveryKitCreatedDescription": {
+        "description": "Recovery kit sheet description for a newly created kit."
+    },
+    "recoveryKitReplacedDescription": "ชุดกู้คืนเก่าของคุณใช้ไม่ได้แล้ว โปรดเก็บชุดใหม่นี้ไว้ในที่ปลอดภัย",
+    "@recoveryKitReplacedDescription": {
+        "description": "Recovery kit sheet description shown after a kit replaces an older one."
+    },
+    "recoveryKitRecoveredDescription": "รีเซ็ต‌รหัสผ่านของคุณแล้ว ชุดกู้คืนเก่าของคุณใช้ไม่ได้อีกต่อไป เก็บชุดใหม่นี้ไว้ในที่ปลอดภัย",
+    "@recoveryKitRecoveredDescription": {
+        "description": "Recovery kit sheet description shown after someone recovers their account with a recovery key."
+    },
+    "recoveryKitWarning": "ใครก็ตามที่มีคีย์นี้สามารถรีเซ็ตรหัสผ่านของคุณได้ ห้ามแชร์เด็ดขาด",
+    "@recoveryKitWarning": {
+        "description": "Warning under the recovery key in the recovery kit sheet."
+    },
+    "recoveryKitKeyLabel": "คีย์การกู้คืน",
+    "@recoveryKitKeyLabel": {
+        "description": "Label for the account recovery key."
+    },
+    "recoveryKitDocumentTitle": "ชุดกู้คืน {productName}",
+    "@recoveryKitDocumentTitle": {
+        "description": "Title of the saved recovery kit image. productName is the app name.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitDocumentIntro": "เก็บหน้านี้ไว้ในที่ปลอดภัย หากคุณลืมรหัสผ่าน คุณสามารถใช้หน้านี้เพื่อกลับเข้าสู่บัญชีของคุณได้ ใครก็ตามที่มีคีย์การกู้คืนนี้สามารถรีเซ็ตรหัสผ่านของคุณได้ ดังนั้นอย่าแชร์ให้ใคร",
+    "@recoveryKitDocumentIntro": {
+        "description": "Introduction on the saved recovery kit image."
+    },
+    "recoveryKitInstanceLabel": "อินสแตนซ์",
+    "@recoveryKitInstanceLabel": {
+        "description": "Label for the server address on the saved recovery kit."
+    },
+    "recoveryKitCreatedAtLabel": "สร้างเมื่อ",
+    "@recoveryKitCreatedAtLabel": {
+        "description": "Label for the creation date on the saved recovery kit."
+    },
+    "recoveryKitQrCaption": "สแกนเพื่อเปิดหน้ากู้คืนพร้อมรายละเอียดของคุณที่กรอกไว้แล้ว",
+    "@recoveryKitQrCaption": {
+        "description": "Caption under the QR code on the saved recovery kit."
+    },
+    "recoveryKitStepsTitle": "วิธีเรียกคืนบัญชีของคุณ",
+    "@recoveryKitStepsTitle": {
+        "description": "Heading above the recovery steps on the saved recovery kit."
+    },
+    "recoveryKitStepOpen": "ไปที่ {recoverUrl} หรือสแกนคิวอาร์โค้ด",
+    "@recoveryKitStepOpen": {
+        "description": "First recovery step on the saved recovery kit. recoverUrl is the address of the recovery page.",
+        "placeholders": {
+            "recoverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitStepEnter": "กรอกชื่อผู้ใช้และคีย์การกู้คืนนี้",
+    "@recoveryKitStepEnter": {
+        "description": "Second recovery step on the saved recovery kit."
+    },
+    "recoveryKitStepPassword": "เลือก รหัสผ่าน ใหม่ คุณจะได้รับชุดกู้คืนใหม่ และชุดนี้จะหยุดทำงาน",
+    "@recoveryKitStepPassword": {
+        "description": "Third recovery step on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesTitle": "รหัสสำรองสำหรับการยืนยันสองขั้นตอน",
+    "@recoveryKitBackupCodesTitle": {
+        "description": "Heading above the two-factor backup codes on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesNote": "แต่ละรหัสใช้ได้ครั้งเดียวแทนแอปยืนยันตัวตนของคุณ",
+    "@recoveryKitBackupCodesNote": {
+        "description": "Note under the two-factor backup codes heading on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesFailed": "ไม่สามารถโหลดรหัสสำรองของคุณได้",
+    "@recoveryKitBackupCodesFailed": {
+        "description": "Toast shown when the two-factor backup codes for the recovery kit cannot be loaded."
+    },
+    "recoveryKitIncludeBackupCodes": "รวมรหัสสำรองการยืนยันตัวตนแบบสองขั้นตอนของฉันไว้ในรูปภาพที่บันทึก",
+    "@recoveryKitIncludeBackupCodes": {
+        "description": "Checkbox in the recovery kit sheet that adds the two-factor backup codes to the saved image."
+    },
+    "recoveryKitCopy": "คัดลอก",
+    "@recoveryKitCopy": {
+        "description": "Button that copies the account recovery key."
+    },
+    "recoveryKitCopied": "คัดลอกคีย์กู้คืนแล้ว",
+    "@recoveryKitCopied": {
+        "description": "Toast shown after the recovery key is copied."
+    },
+    "recoveryKitSaveImage": "บันทึกรูปภาพ",
+    "@recoveryKitSaveImage": {
+        "description": "Button that saves the recovery kit as an image."
+    },
+    "recoveryKitSaved": "บันทึกชุดกู้คืนแล้ว",
+    "@recoveryKitSaved": {
+        "description": "Toast shown after the recovery kit image is saved to a file."
+    },
+    "recoveryKitSavedToPhotos": "บันทึกชุดกู้คืนลงในรูปภาพแล้ว",
+    "@recoveryKitSavedToPhotos": {
+        "description": "Toast shown after the recovery kit image is saved to the photo library."
+    },
+    "recoveryKitSaveFailed": "ไม่สามารถบันทึกชุดกู้คืนได้ ลองอีกครั้งหรือคัดลอกคีย์แทน",
+    "@recoveryKitSaveFailed": {
+        "description": "Toast shown when saving the recovery kit image fails."
+    },
+    "recoveryKitAcknowledge": "ฉันได้เก็บชุดกู้คืนไว้ในที่ปลอดภัยแล้ว",
+    "@recoveryKitAcknowledge": {
+        "description": "Checkbox that confirms the recovery kit is stored before closing the sheet."
+    },
+    "recoveryKitCreateFailed": "ไม่สามารถสร้างชุดกู้คืนของคุณได้ คุณสามารถสร้างได้ในภายหลังในการตั้งค่าบัญชีของคุณ",
+    "@recoveryKitCreateFailed": {
+        "description": "Toast shown when a recovery kit cannot be created."
+    },
+    "recoveryKitSectionTitle": "ชุดกู้คืน",
+    "@recoveryKitSectionTitle": {
+        "description": "Title of the recovery kit section in security settings."
+    },
+    "recoveryKitSectionDescription": "ช่วยให้คุณรีเซ็ตรหัสผ่านได้หากคุณลืม",
+    "@recoveryKitSectionDescription": {
+        "description": "Description of the recovery kit section in security settings."
+    },
+    "recoveryKitNone": "คุณยังไม่มีชุดกู้คืน",
+    "@recoveryKitNone": {
+        "description": "Shown in security settings when the account has no recovery kit."
+    },
+    "recoveryKitCreatedRelative": "สร้างเมื่อ {time}",
+    "@recoveryKitCreatedRelative": {
+        "description": "When the current recovery kit was created. time is a relative time such as 3 days ago.",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitCreate": "สร้างชุดกู้คืน",
+    "@recoveryKitCreate": {
+        "description": "Button that creates a recovery kit."
+    },
+    "recoveryKitCreateNew": "สร้างชุดใหม่",
+    "@recoveryKitCreateNew": {
+        "description": "Button that replaces the existing recovery kit with a new one."
+    },
+    "recoveryKitReplaceTitle": "สร้างชุดกู้คืนใหม่หรือไม่",
+    "@recoveryKitReplaceTitle": {
+        "description": "Title of the confirmation shown before replacing an existing recovery kit."
+    },
+    "recoveryKitReplaceDescription": "ชุดข้อมูลปัจจุบันของคุณจะหยุดทำงานทันทีที่มีการสร้างชุดข้อมูลใหม่",
+    "@recoveryKitReplaceDescription": {
+        "description": "Body of the confirmation shown before replacing an existing recovery kit."
+    },
+    "recoveryKitReminderTitle": "บันทึกชุดกู้คืน",
+    "@recoveryKitReminderTitle": {
+        "description": "Title of the one-time prompt asking a signed-in user without a recovery kit to create one."
+    },
+    "recoveryKitReminderBody": "บัญชีของคุณไม่มีที่อยู่อีเมล หากคุณลืมรหัสผ่าน ชุดกู้คืนจะเป็นวิธีเดียวที่จะกลับเข้าสู่ระบบได้ ใช้เวลาเพียงนาทีเดียว",
+    "@recoveryKitReminderBody": {
+        "description": "Body of the one-time prompt asking a signed-in user without a recovery kit to create one."
+    },
+    "registerUsernameSignInHint": "คุณจะใช้ชื่อผู้ใช้นี้ในการลงชื่อเข้าใช้ เลือกชื่อที่คุณจะจำได้",
+    "@registerUsernameSignInHint": {
+        "description": "Helper text under the required username field when the instance uses usernames to sign in."
+    },
+    "registerUsernameTaken": "ชื่อผู้ใช้นี้มีคนใช้แล้ว",
+    "@registerUsernameTaken": {
+        "description": "Registration form message when the chosen username belongs to someone else."
+    },
+    "registerUsernameAvailable": "ชื่อผู้ใช้นี้ว่างอยู่",
+    "@registerUsernameAvailable": {
+        "description": "Registration form message when the chosen username is free to use."
+    },
+    "claimAccountUsernameDescription": "ยืนยันบัญชีของคุณด้วยการเลือกชื่อผู้ใช้และรหัสผ่าน คุณจะใช้สิ่งเหล่านี้ในการลงชื่อเข้าใช้ ดังนั้นโปรดเลือกสิ่งที่จำได้ง่าย",
+    "@claimAccountUsernameDescription": {
+        "description": "Description in the claim account sheet on instances where people sign in with a username."
+    },
+    "unclaimedAccountDescriptionUsername": "บัญชีของคุณยังไม่ได้รับการยืนยัน หากไม่มีชื่อผู้ใช้และรหัสผ่าน คุณจะไม่สามารถลงชื่อเข้าใช้จากอุปกรณ์อื่นได้ และอาจสูญเสียการเข้าถึงบัญชีของคุณ ยืนยันบัญชีของคุณตอนนี้เพื่อรักษาความปลอดภัย",
+    "@unclaimedAccountDescriptionUsername": {
+        "description": "Description for the unclaimed account warning on instances where people sign in with a username."
+    },
+    "addFriendUsernameOnlyHint": "ชื่อผู้ใช้",
+    "@addFriendUsernameOnlyHint": {
+        "description": "Placeholder for the add friend field on instances where usernames have no tag."
+    },
     "registerTitle": "สร้างบัญชี",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -651,6 +850,10 @@
     "errorInvalidEmailOrPassword": "อีเมลหรือรหัสผ่านไม่ถูกต้อง",
     "@errorInvalidEmailOrPassword": {
         "description": "Error shown on the login screen when the email and password combination is incorrect."
+    },
+    "errorInvalidUsernameOrPassword": "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง",
+    "@errorInvalidUsernameOrPassword": {
+        "description": "Sign-in error on instances where people sign in with a username."
     },
     "errorUnableToSendResetLink": "ไม่สามารถส่งลิงก์รีเซ็ตได้ โปรดลองอีกครั้ง",
     "@errorUnableToSendResetLink": {

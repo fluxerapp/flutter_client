@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/members/domain/guild_members_search_models.dart';
 import 'package:fluxer_app/features/members/presentation/menus/guild_member_context_menu.dart';
@@ -11,6 +12,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
+import 'package:fluxer_app/shared/utils/user_tag.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class GuildMemberSearchRow extends ConsumerWidget {
@@ -119,7 +121,12 @@ class GuildMemberSearchRow extends ConsumerWidget {
                       )
                     else
                       Text(
-                        member.tag,
+                        formatUserTag(
+                          member.username,
+                          member.discriminator,
+                          uniqueUsernames: ref.watch(uniqueUsernamesProvider),
+                          bot: member.isBot,
+                        ),
                         style: context.textStyles.bodySmall.copyWith(
                           color: context.colors.textPrimaryMuted,
                         ),

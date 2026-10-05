@@ -556,6 +556,174 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get resetPasswordMismatch => 'Lozinke se ne podudaraju.';
 
   @override
+  String get recoverAccountTitle => 'Vratite pristup svojem računu';
+
+  @override
+  String get recoverAccountDescription =>
+      'Unesite svoje korisničko ime i ključ za oporavak iz svog kompleta za oporavak, a zatim odaberite novu lozinku.';
+
+  @override
+  String get recoverAccountNoKit =>
+      'Nemaš komplet za oporavak? Zatraži od administratora ove instance poveznicu za poništavanje lozinke.';
+
+  @override
+  String get recoveryKitTitle => 'Vaš komplet za oporavak';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'Ako zaboravite lozinku, ovaj komplet je jedini način da se vratite na svoj račun. Pohranite ga na sigurno mjesto, poput upravitelja lozinki ili ispisane kopije.';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      'Vaš stari komplet za oporavak više ne radi. Novi komplet pohranite na sigurno mjesto.';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'Lozinka vam je poništena. Vaš stari komplet za oporavak više ne radi. Pohranite ovaj novi komplet na sigurno mjesto.';
+
+  @override
+  String get recoveryKitWarning =>
+      'Svatko s ovim ključem može poništiti tvoju lozinku. Nikada ga ne dijeli.';
+
+  @override
+  String get recoveryKitKeyLabel => 'Kljuc za oporavak';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return '$productName komplet za oporavak';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'Ovu stranicu čuvajte na sigurnom mjestu. Ako zaboravite lozinku, možete je upotrijebiti za ponovni pristup svojem računu. Svatko tko posjeduje ovaj ključ za oporavak može poništiti vašu lozinku, stoga ga nikada nemojte dijeliti.';
+
+  @override
+  String get recoveryKitInstanceLabel => 'Instanca';
+
+  @override
+  String get recoveryKitCreatedAtLabel => 'Stvoreno';
+
+  @override
+  String get recoveryKitQrCaption =>
+      'Skeniraj za otvaranje stranice za oporavak s ispunjenim podacima.';
+
+  @override
+  String get recoveryKitStepsTitle => 'Kako oporaviti svoj račun';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return 'Idi na $recoverUrl ili skeniraj QR kod.';
+  }
+
+  @override
+  String get recoveryKitStepEnter =>
+      'Unesite svoje korisničko ime i ovaj ključ za oporavak.';
+
+  @override
+  String get recoveryKitStepPassword =>
+      'Odaberite novu zaporku. Dobit ćete novi komplet za oporavak i ovaj više neće raditi.';
+
+  @override
+  String get recoveryKitBackupCodesTitle =>
+      'Sigurnosni kodovi za dvofaktorsku provjeru';
+
+  @override
+  String get recoveryKitBackupCodesNote =>
+      'Svaki kôd radi jednom umjesto vaše aplikacije za provjeru autentičnosti.';
+
+  @override
+  String get recoveryKitBackupCodesFailed =>
+      'Nismo mogli učitati vaše sigurnosne kodove.';
+
+  @override
+  String get recoveryKitIncludeBackupCodes =>
+      'Uključi moje rezervne kodove za dvofaktorsku autentifikaciju u spremljenu sliku';
+
+  @override
+  String get recoveryKitCopy => 'Kopiraj';
+
+  @override
+  String get recoveryKitCopied => 'Ključ za oporavak kopiran';
+
+  @override
+  String get recoveryKitSaveImage => 'Spremi sliku';
+
+  @override
+  String get recoveryKitSaved => 'Paket za oporavak spremljen';
+
+  @override
+  String get recoveryKitSavedToPhotos =>
+      'Paket za oporavak spremljen u fotografije';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'Paket za oporavak nije moguće spremiti. Pokušaj ponovno ili umjesto toga kopiraj ključ.';
+
+  @override
+  String get recoveryKitAcknowledge =>
+      'Spremljen/a sam komplet za oporavak na sigurno mjesto';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'Nismo mogli stvoriti vaš komplet za oporavak. Možete ga izraditi kasnije u postavkama računa.';
+
+  @override
+  String get recoveryKitSectionTitle => 'Komplet za oporavak';
+
+  @override
+  String get recoveryKitSectionDescription =>
+      'Omogućuje vam poništavanje lozinke ako je zaboravite.';
+
+  @override
+  String get recoveryKitNone => 'Još nemate komplet za oporavak';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return 'Stvoreno $time';
+  }
+
+  @override
+  String get recoveryKitCreate => 'Stvori komplet za oporavak';
+
+  @override
+  String get recoveryKitCreateNew => 'Stvori novi komplet';
+
+  @override
+  String get recoveryKitReplaceTitle => 'Izraditi novi komplet za oporavak?';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      'Vaš postojeći komplet prestaje raditi čim se izradi novi.';
+
+  @override
+  String get recoveryKitReminderTitle => 'Spremi komplet za oporavak';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'Tvoj račun nema pridruženu e-adresu. Ako zaboraviš lozinku, komplet za oporavak jedini je način da se vratiš. Potrebna je samo minuta.';
+
+  @override
+  String get registerUsernameSignInHint =>
+      'Prijavljuješ se ovim korisničkim imenom. Odaberi ono kojeg ćeš se sjetiti.';
+
+  @override
+  String get registerUsernameTaken => 'Ovo korisničko ime je već zauzeto';
+
+  @override
+  String get registerUsernameAvailable => 'Ovo je korisničko ime dostupno';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'Zatražite svoj račun odabirom korisničkog imena i lozinke. Prijavljujete se s njima, stoga odaberite one kojih ćete se sjećati.';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'Tvoj račun još nije preuzet. Bez korisničkog imena i lozinke nećeš se moći prijaviti s drugih uređaja i mogao bi izgubiti pristup svom računu. Preuzmi svoj račun sada kako bi ga osigurao.';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'Korisničko ime';
+
+  @override
   String get registerTitle => 'Izradi račun';
 
   @override
@@ -658,6 +826,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get errorInvalidEmailOrPassword => 'Neispravna e-pošta ili zaporka.';
+
+  @override
+  String get errorInvalidUsernameOrPassword =>
+      'Neispravno korisničko ime ili lozinka.';
 
   @override
   String get errorUnableToSendResetLink =>

@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/recovery_kit/presentation/recovery_kit_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/account_delete_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/account_disable_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/backup_codes_sheet.dart';
@@ -84,8 +85,11 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
             description: l10n.securityAccountDescription,
             isFirst: true,
             children: [
-              _buildEmailSection(state, colors, l10n),
+              if (!state.usernameSignIn)
+                _buildEmailSection(state, colors, l10n),
               _buildPasswordSection(state, colors, l10n),
+              if (state.usernameSignIn && state.isClaimed)
+                const RecoveryKitSettingsSubsection(),
             ],
           ),
           FluxerSettingsSection(
@@ -166,7 +170,7 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
       title: l10n.securityLoginPasswordSectionTitle,
       description: l10n.securityLoginPasswordSectionDescription,
       children: [
-        if (!s.hasVerifiedEmail) ...[
+        if (!s.isClaimed) ...[
           Text(
             l10n.securityLoginNoPasswordSet,
             style: context.textStyles.bodySmall.copyWith(
@@ -216,7 +220,7 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
     FluxerColorTheme colors,
     FluxerLocalizations l10n,
   ) {
-    if (!s.hasVerifiedEmail) {
+    if (!s.isClaimed) {
       return FluxerSettingsSubsection(
         title: l10n.securityClaimTitle,
         description: l10n.securityClaimDescription,
@@ -230,7 +234,7 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
       );
     }
 
-    if (!s.verified) {
+    if (!s.isVerified) {
       return FluxerSettingsSubsection(
         title: l10n.securityTfaSectionTitle,
         description: l10n.securityTfaSectionDescription,
@@ -565,7 +569,7 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
       title: l10n.dangerZoneSectionTitle,
       description: l10n.dangerZoneSectionDescription,
       children: [
-        if (s.hasVerifiedEmail)
+        if (s.isClaimed)
           FluxerSettingsSubsection(
             title: l10n.dangerZoneDisableTitle,
             description: l10n.dangerZoneDisableDescription,

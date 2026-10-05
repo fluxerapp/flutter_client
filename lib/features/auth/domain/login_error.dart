@@ -5,6 +5,7 @@
 enum LoginError {
   invalidEmail,
   invalidCredentials,
+  invalidUsernameOrPassword,
   unableToCreateAccount,
   unableToSignIn,
   unableToSendResetLink,
