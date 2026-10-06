@@ -1,7 +1,7 @@
 > [!CAUTION]
 > The Fluxer Flutter mobile client is still in beta so features will be missing or broken. There is currently no set release date for the app, but you can join our public beta!.
 >
-> Please checkout the [known issues list](https://github.com/fluxerapp/flutter_client/issues/439) before reporting an issue.
+> Bug reports and feature requests have moved to [feedback.fluxer.com](https://feedback.fluxer.com). Sign in with your Fluxer account to post, vote and follow updates. Check the [known issues in the mobile beta](https://feedback.fluxer.com/p/1830) first.
 
 <p align="center">
   <img src="./docs/media/logo-graphic.png" alt="Fluxer graphic logo" width="400">
@@ -23,7 +23,7 @@
 
 This is the repo for the official Fluxer mobile / tablet app powered by Flutter (desktop is in the works also but mobile is the main focus currently).
 
-You can follow more about the V1 development and what features are planned/implemented in this [Roadmap issue](https://github.com/fluxerapp/flutter_client/issues/184).
+You can follow what is planned in the [Fluxer roadmap](https://fluxer.app/blog/roadmap-2026).
 
 # Community
 
@@ -69,9 +69,7 @@ Stable, beta, and canary Android release builds on GitHub are signed with this S
 
 ## Bug reporting
 
-You must report bugs or feedback in [Fluxer Labs community](https://fluxer.gg/fluxer-labs) and bugs are synced to Github from the community.
-
-Please do not report mobile issues on the main Fluxer Github repo.
+Report bugs and request features at [feedback.fluxer.com](https://feedback.fluxer.com). Sign in with your Fluxer account. GitHub Issues are closed.
 
 ## Self-hosted instances
 
