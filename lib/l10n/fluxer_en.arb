@@ -14286,27 +14286,27 @@
     "@guildNavbarChannelType": {
         "description": "Section label for channel type selection in create channel modal."
     },
-    "guildNavbarTextChannel": "Text channel",
+    "guildNavbarTextChannel": "Text",
     "@guildNavbarTextChannel": {
         "description": "Label for the text channel type option."
     },
-    "guildNavbarTextChannelDescription": "Send messages, images, GIFs, and emoji",
+    "guildNavbarTextChannelDescription": "Send messages, images, GIFs and emoji",
     "@guildNavbarTextChannelDescription": {
         "description": "Description for the text channel type option."
     },
-    "guildNavbarVoiceChannel": "Voice channel",
+    "guildNavbarVoiceChannel": "Voice",
     "@guildNavbarVoiceChannel": {
         "description": "Label for the voice channel type option."
     },
-    "guildNavbarVoiceChannelDescription": "Hang out together with voice, video, and screen share",
+    "guildNavbarVoiceChannelDescription": "Hang out with voice, video and screen share",
     "@guildNavbarVoiceChannelDescription": {
         "description": "Description for the voice channel type option."
     },
-    "guildNavbarLinkChannel": "Link channel",
+    "guildNavbarLinkChannel": "Link",
     "@guildNavbarLinkChannel": {
         "description": "Label for the link channel type option."
     },
-    "guildNavbarLinkChannelDescription": "Quick access to an external website or resource",
+    "guildNavbarLinkChannelDescription": "Shortcut to an external website",
     "@guildNavbarLinkChannelDescription": {
         "description": "Description for the link channel type option."
     },
@@ -14329,6 +14329,22 @@
     "guildNavbarChannelTypeSelection": "Channel type selection",
     "@guildNavbarChannelTypeSelection": {
         "description": "Accessibility label for channel type radio group in create channel modal."
+    },
+    "guildNavbarPrivateChannel": "Private channel",
+    "@guildNavbarPrivateChannel": {
+        "description": "Label for the private channel toggle in the create channel modal."
+    },
+    "guildNavbarPrivateChannelDescription": "Only selected members and roles will be able to view this channel.",
+    "@guildNavbarPrivateChannelDescription": {
+        "description": "Description for the private channel toggle in the create channel modal."
+    },
+    "guildNavbarAddMembersOrRoles": "Add members or roles",
+    "@guildNavbarAddMembersOrRoles": {
+        "description": "Title of the create channel step that picks who can view a private channel."
+    },
+    "guildNavbarAddMembersOrRolesHint": "Search members or roles",
+    "@guildNavbarAddMembersOrRolesHint": {
+        "description": "Search hint in the create channel step that picks who can view a private channel."
     },
     "guildNavbarCreateCategory": "Create category",
     "@guildNavbarCreateCategory": {
@@ -18276,8 +18292,8 @@
     "assistantOkCustomStatusSet": "Custom status updated.",
     "assistantOkCustomStatusCleared": "Custom status cleared.",
 
-    "guildNavbarAnnouncementChannel": "Announcement channel",
-    "guildNavbarAnnouncementChannelDescription": "Post updates that other communities can follow into their own channels",
+    "guildNavbarAnnouncementChannel": "Announcement",
+    "guildNavbarAnnouncementChannelDescription": "Post updates other communities can follow",
     "channelDetailsAnnouncementChannel": "Announcement channel",
     "channelSettingsAnnouncementChannel": "Announcement channel",
     "channelSettingsAnnouncementChannelDescription": "Lets other communities follow this channel and get copies of what you publish.",
@@ -18459,7 +18475,7 @@
     "@forumChannelTypeForum": {
         "description": "Forum and media channel UI."
     },
-    "forumChannelTypeForumDescription": "Posts organised by topic, with tags and a place for each conversation.",
+    "forumChannelTypeForumDescription": "Posts organized by topic and tags",
     "@forumChannelTypeForumDescription": {
         "description": "Forum and media channel UI."
     },
@@ -18467,7 +18483,7 @@
     "@forumChannelTypeMedia": {
         "description": "Forum and media channel UI."
     },
-    "forumChannelTypeMediaDescription": "Posts built around images and videos, shown as a gallery.",
+    "forumChannelTypeMediaDescription": "Posts built around images and videos",
     "@forumChannelTypeMediaDescription": {
         "description": "Forum and media channel UI."
     },

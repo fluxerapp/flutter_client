@@ -95,7 +95,7 @@ class FluxerRadioGroup<T> extends StatelessWidget {
                 padding: EdgeInsets.only(
                   top: dense || item.leading != null ? 0 : 2,
                 ),
-                child: _RadioIndicator(isSelected: isSelected),
+                child: FluxerRadioIndicator(selected: isSelected),
               ),
               const SizedBox(width: 8),
               if (item.leading != null) ...[
@@ -152,20 +152,37 @@ class FluxerRadioGroup<T> extends StatelessWidget {
   }
 }
 
-class _RadioIndicator extends StatelessWidget {
-  const _RadioIndicator({required this.isSelected});
+Color fluxerRadioRingColor(BuildContext context) {
+  final colors = context.colors;
+  return Theme.of(context).brightness == Brightness.light
+      ? _mix(colors.textSecondary, Colors.black, 0.3)
+      : _mix(colors.borderColor, Colors.white, 0.3);
+}
 
-  final bool isSelected;
+Color _mix(Color a, Color b, double t) {
+  final double wa = a.a * (1 - t);
+  final double wb = b.a * t;
+  final double alpha = wa + wb;
+  if (alpha == 0) {
+    return Colors.transparent;
+  }
+  return Color.from(
+    alpha: alpha,
+    red: (a.r * wa + b.r * wb) / alpha,
+    green: (a.g * wa + b.g * wb) / alpha,
+    blue: (a.b * wa + b.b * wb) / alpha,
+  );
+}
+
+class FluxerRadioIndicator extends StatelessWidget {
+  const FluxerRadioIndicator({required this.selected, super.key});
+
+  final bool selected;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final borderDerived = Color.lerp(colors.borderColor, Colors.white, 0.3)!;
-    final unselectedFill = Color.lerp(
-      colors.backgroundPrimary,
-      borderDerived,
-      0.45,
-    )!;
+    final Color ring = fluxerRadioRingColor(context);
 
     return AnimatedContainer(
       duration: context.motion.normal,
@@ -173,13 +190,15 @@ class _RadioIndicator extends StatelessWidget {
       height: 18,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: isSelected ? colors.brandPrimary : unselectedFill,
+        color: selected
+            ? colors.brandPrimary
+            : _mix(colors.backgroundPrimary, ring, 0.45),
         border: Border.all(
-          color: isSelected ? colors.brandPrimary : borderDerived,
-          width: 1.5,
+          color: selected ? colors.brandPrimary : ring,
+          width: 2,
         ),
       ),
-      child: isSelected
+      child: selected
           ? Center(
               child: Container(
                 width: 8,

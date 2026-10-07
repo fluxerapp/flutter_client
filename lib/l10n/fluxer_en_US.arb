@@ -7518,27 +7518,27 @@
     "@guildNavbarChannelType": {
         "description": "Section label for channel type selection in create channel modal."
     },
-    "guildNavbarTextChannel": "Text channel",
+    "guildNavbarTextChannel": "Text",
     "@guildNavbarTextChannel": {
         "description": "Label for the text channel type option."
     },
-    "guildNavbarTextChannelDescription": "Send messages, images, GIFs, and emoji",
+    "guildNavbarTextChannelDescription": "Send messages, images, GIFs and emoji",
     "@guildNavbarTextChannelDescription": {
         "description": "Description for the text channel type option."
     },
-    "guildNavbarVoiceChannel": "Voice channel",
+    "guildNavbarVoiceChannel": "Voice",
     "@guildNavbarVoiceChannel": {
         "description": "Label for the voice channel type option."
     },
-    "guildNavbarVoiceChannelDescription": "Hang out together with voice, video, and screen share",
+    "guildNavbarVoiceChannelDescription": "Hang out with voice, video and screen share",
     "@guildNavbarVoiceChannelDescription": {
         "description": "Description for the voice channel type option."
     },
-    "guildNavbarLinkChannel": "Link channel",
+    "guildNavbarLinkChannel": "Link",
     "@guildNavbarLinkChannel": {
         "description": "Label for the link channel type option."
     },
-    "guildNavbarLinkChannelDescription": "Quick access to an external website or resource",
+    "guildNavbarLinkChannelDescription": "Shortcut to an external website",
     "@guildNavbarLinkChannelDescription": {
         "description": "Description for the link channel type option."
     },

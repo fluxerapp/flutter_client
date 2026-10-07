@@ -20070,37 +20070,37 @@ abstract class FluxerLocalizations {
   /// Label for the text channel type option.
   ///
   /// In en, this message translates to:
-  /// **'Text channel'**
+  /// **'Text'**
   String get guildNavbarTextChannel;
 
   /// Description for the text channel type option.
   ///
   /// In en, this message translates to:
-  /// **'Send messages, images, GIFs, and emoji'**
+  /// **'Send messages, images, GIFs and emoji'**
   String get guildNavbarTextChannelDescription;
 
   /// Label for the voice channel type option.
   ///
   /// In en, this message translates to:
-  /// **'Voice channel'**
+  /// **'Voice'**
   String get guildNavbarVoiceChannel;
 
   /// Description for the voice channel type option.
   ///
   /// In en, this message translates to:
-  /// **'Hang out together with voice, video, and screen share'**
+  /// **'Hang out with voice, video and screen share'**
   String get guildNavbarVoiceChannelDescription;
 
   /// Label for the link channel type option.
   ///
   /// In en, this message translates to:
-  /// **'Link channel'**
+  /// **'Link'**
   String get guildNavbarLinkChannel;
 
   /// Description for the link channel type option.
   ///
   /// In en, this message translates to:
-  /// **'Quick access to an external website or resource'**
+  /// **'Shortcut to an external website'**
   String get guildNavbarLinkChannelDescription;
 
   /// Label for name input fields in guild navbar modals.
@@ -20132,6 +20132,30 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Channel type selection'**
   String get guildNavbarChannelTypeSelection;
+
+  /// Label for the private channel toggle in the create channel modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Private channel'**
+  String get guildNavbarPrivateChannel;
+
+  /// Description for the private channel toggle in the create channel modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Only selected members and roles will be able to view this channel.'**
+  String get guildNavbarPrivateChannelDescription;
+
+  /// Title of the create channel step that picks who can view a private channel.
+  ///
+  /// In en, this message translates to:
+  /// **'Add members or roles'**
+  String get guildNavbarAddMembersOrRoles;
+
+  /// Search hint in the create channel step that picks who can view a private channel.
+  ///
+  /// In en, this message translates to:
+  /// **'Search members or roles'**
+  String get guildNavbarAddMembersOrRolesHint;
 
   /// Title and confirm label for the create category modal.
   ///
@@ -25753,13 +25777,13 @@ abstract class FluxerLocalizations {
   /// No description provided for @guildNavbarAnnouncementChannel.
   ///
   /// In en, this message translates to:
-  /// **'Announcement channel'**
+  /// **'Announcement'**
   String get guildNavbarAnnouncementChannel;
 
   /// No description provided for @guildNavbarAnnouncementChannelDescription.
   ///
   /// In en, this message translates to:
-  /// **'Post updates that other communities can follow into their own channels'**
+  /// **'Post updates other communities can follow'**
   String get guildNavbarAnnouncementChannelDescription;
 
   /// No description provided for @channelDetailsAnnouncementChannel.
@@ -26215,7 +26239,7 @@ abstract class FluxerLocalizations {
   /// Forum and media channel UI.
   ///
   /// In en, this message translates to:
-  /// **'Posts organised by topic, with tags and a place for each conversation.'**
+  /// **'Posts organized by topic and tags'**
   String get forumChannelTypeForumDescription;
 
   /// Forum and media channel UI.
@@ -26227,7 +26251,7 @@ abstract class FluxerLocalizations {
   /// Forum and media channel UI.
   ///
   /// In en, this message translates to:
-  /// **'Posts built around images and videos, shown as a gallery.'**
+  /// **'Posts built around images and videos'**
   String get forumChannelTypeMediaDescription;
 
   /// Forum and media channel UI.

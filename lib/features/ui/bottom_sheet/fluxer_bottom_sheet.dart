@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet_drag.dart';
 import 'package:fluxer_app/features/ui/overlay/fluxer_overlay_back_handler.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
+import 'package:fluxer_app/features/ui/radio_group/fluxer_radio_group.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -1322,42 +1323,6 @@ List<Widget> _intersperseDividers(List<Widget> items, FluxerColorTheme colors) {
 // Menu items
 // ---------------------------------------------------------------------------
 
-class FluxerMenuRadioIndicator extends StatelessWidget {
-  const FluxerMenuRadioIndicator({required this.selected, super.key});
-
-  final bool selected;
-
-  @override
-  Widget build(BuildContext context) {
-    final FluxerColorTheme colors = context.colors;
-
-    return Container(
-      width: 20,
-      height: 20,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: selected ? colors.brandPrimary : Colors.transparent,
-        border: Border.all(
-          color: selected ? colors.brandPrimary : colors.interactiveMuted,
-          width: 2,
-        ),
-      ),
-      child: selected
-          ? Center(
-              child: Container(
-                width: 8,
-                height: 8,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: colors.textPrimary,
-                ),
-              ),
-            )
-          : null,
-    );
-  }
-}
-
 class FluxerBottomSheetMenuItem extends StatelessWidget {
   final String label;
   final String? hint;
@@ -1576,7 +1541,7 @@ class FluxerBottomSheetMenuRadioItem extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 12),
-                  FluxerMenuRadioIndicator(selected: isSelected),
+                  FluxerRadioIndicator(selected: isSelected),
                 ],
               ),
             ),

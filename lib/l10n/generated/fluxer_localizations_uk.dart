@@ -12218,6 +12218,19 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get guildNavbarChannelTypeSelection => 'Вибір типу каналу';
 
   @override
+  String get guildNavbarPrivateChannel => 'Private channel';
+
+  @override
+  String get guildNavbarPrivateChannelDescription =>
+      'Only selected members and roles will be able to view this channel.';
+
+  @override
+  String get guildNavbarAddMembersOrRoles => 'Add members or roles';
+
+  @override
+  String get guildNavbarAddMembersOrRolesHint => 'Search members or roles';
+
+  @override
   String get guildNavbarCreateCategory => 'Створити категорію';
 
   @override
@@ -15642,11 +15655,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get assistantOkCustomStatusCleared => 'Custom status cleared.';
 
   @override
-  String get guildNavbarAnnouncementChannel => 'Announcement channel';
+  String get guildNavbarAnnouncementChannel => 'Announcement';
 
   @override
   String get guildNavbarAnnouncementChannelDescription =>
-      'Post updates that other communities can follow into their own channels';
+      'Post updates other communities can follow';
 
   @override
   String get channelDetailsAnnouncementChannel => 'Announcement channel';
@@ -15946,14 +15959,14 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get forumChannelTypeForumDescription =>
-      'Posts organised by topic, with tags and a place for each conversation.';
+      'Posts organized by topic and tags';
 
   @override
   String get forumChannelTypeMedia => 'Media';
 
   @override
   String get forumChannelTypeMediaDescription =>
-      'Posts built around images and videos, shown as a gallery.';
+      'Posts built around images and videos';
 
   @override
   String get forumNewPost => 'New post';
