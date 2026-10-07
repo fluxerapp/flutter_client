@@ -6521,6 +6521,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Jūsų žinutė nebuvo pristatyta, nes ją pažymėjo mūsų saugos sistemos. Jei manote, kad tai klaida, susisiekite su palaikymo komanda.';
 
   @override
+  String get chatSendFailureContentBlockedSelfHosted =>
+      'Jūsų žinutė nebuvo pristatyta, nes ją pažymėjo mūsų saugos sistemos. Jei manote, kad tai klaida, susisiekite su šios instancijos administratoriais.';
+
+  @override
   String get chatSendFailureNsfwEmojiSticker =>
       'Jūsų žinutė negalėjo būti pristatyta, nes joje yra suaugusiems skirtų jaustukų ar lipdukų, kurie neleidžiami šiame kontekste.';
 
@@ -9736,6 +9740,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Šis planas nepasiekiamas. Susisiekite su palaikymo komanda.';
 
   @override
+  String get premiumPlanUnavailableSelfHosted =>
+      'Šis planas nepasiekiamas. Susisiekite su šios instancijos administratoriais.';
+
+  @override
   String get premiumCompletePaymentTitle => 'Užbaigti mokėjimą';
 
   @override
@@ -9788,8 +9796,13 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get premiumPurchasesDisabledTitle => 'Pirkimai negalimi';
 
   @override
-  String get premiumPurchasesDisabledBody =>
-      'Pirkimai šiai paskyrai yra išjungti. Jei manote, kad tai klaida, susisiekite su support@fluxer.app.';
+  String premiumPurchasesDisabledBody(String supportEmail) {
+    return 'Pirkimai šiai paskyrai yra išjungti. Jei manote, kad tai klaida, susisiekite su $supportEmail.';
+  }
+
+  @override
+  String get premiumPurchasesDisabledBodySelfHosted =>
+      'Pirkimai šiai paskyrai yra išjungti. Jei manote, kad tai klaida, susisiekite su šios instancijos administratoriais.';
 
   @override
   String get premiumClaimAccountToPurchase =>

@@ -5733,6 +5733,10 @@
     "@chatSendFailureContentBlocked": {
         "description": "Fluxerbot system message when message content is blocked by safety systems."
     },
+    "chatSendFailureContentBlockedSelfHosted": "تعذّر تسليم رسالتك لأن أنظمة الأمان لدينا وضعت عليها علامة. إذا كنت تعتقد أن هذا خطأ، فيُرجى التواصل مع مسؤولي هذا المثيل.",
+    "@chatSendFailureContentBlockedSelfHosted": {
+        "description": "Fluxerbot system message on a self-hosted instance when message content is blocked by safety systems. Names no support mailbox."
+    },
     "chatSendFailureNsfwEmojiSticker": "لم يتم تسليم رسالتك لأنها تحتوي على رموز تعبيرية أو ملصقات ناضجة غير مسموح بها في هذا السياق.",
     "@chatSendFailureNsfwEmojiSticker": {
         "description": "Fluxerbot system message when mature emoji or stickers are blocked."
@@ -15618,6 +15622,10 @@
     "premiumCheckoutStartFailedTitle": "تعذر بدء عملية الدفع",
     "premiumCheckoutStartFailedBody": "حدث خطأ ما أثناء بدء عملية الدفع. يرجى المحاولة مرة أخرى بعد قليل.",
     "premiumPlanUnavailable": "هذه الخطة غير متاحة. اتصل بالدعم.",
+    "premiumPlanUnavailableSelfHosted": "هذه الخطة غير متاحة. اتصل بمسؤولي هذا المثيل.",
+    "@premiumPlanUnavailableSelfHosted": {
+        "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
+    },
     "premiumCompletePaymentTitle": "إتمام الدفع",
     "premiumCompletePaymentBody": "أنت الآن تنتقل إلى Stripe لإكمال الدفع. عد إلى Fluxer بمجرد الانتهاء منه.",
     "premiumChoosePaymentMethodTitle": "اختيار طريقة الدفع",
@@ -15633,7 +15641,19 @@
     "premiumExistingSubscriptionTitle": "الاشتراك موجود بالفعل",
     "premiumExistingSubscriptionBody": "لقد وجدنا اشتراكًا حاليًا في Fluxer Plutonium لهذا الحساب. قم بإدارته في بوابة الفوترة الآمنة لتحديث تفاصيل الدفع أو التحقق من حالة التجديد. إذا دفعت للتو، انتظر دقيقة وأعد فتح هذه الصفحة.",
     "premiumPurchasesDisabledTitle": "المشتريات غير متاحة",
-    "premiumPurchasesDisabledBody": "تم تعطيل عمليات الشراء لهذا الحساب. اتصل بـ support@fluxer.app إذا بدا هذا الأمر خاطئًا.",
+    "premiumPurchasesDisabledBody": "تم تعطيل عمليات الشراء لهذا الحساب. اتصل بـ {supportEmail} إذا بدا هذا الأمر خاطئًا.",
+    "@premiumPurchasesDisabledBody": {
+        "description": "Shown on the official hosted instance when purchases are disabled for the account. supportEmail is the support mailbox.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumPurchasesDisabledBodySelfHosted": "تم تعطيل عمليات الشراء لهذا الحساب. اتصل بمسؤولي هذا المثيل إذا بدا هذا الأمر خاطئًا.",
+    "@premiumPurchasesDisabledBodySelfHosted": {
+        "description": "Shown on a self-hosted instance when purchases are disabled for the account. Names no email address."
+    },
     "premiumClaimAccountToPurchase": "احصل على حسابك لشراء Fluxer Plutonium.",
     "premiumVerifyEmailToPurchase": "تحتاج إلى التحقق من بريدك الإلكتروني قبل أن تتمكن من شراء Fluxer Plutonium.",
     "premiumPerkCustomUsernameTag": "علامة اسم المستخدم المخصصة",

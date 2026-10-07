@@ -5733,6 +5733,10 @@
     "@chatSendFailureContentBlocked": {
         "description": "Fluxerbot system message when message content is blocked by safety systems."
     },
+    "chatSendFailureContentBlockedSelfHosted": "Το μήνυμά σας δεν παραδόθηκε επειδή επισημάνθηκε από τα συστήματα ασφαλείας μας. Αν πιστεύετε ότι πρόκειται για λάθος, επικοινωνήστε με τους διαχειριστές αυτής της παρουσίας.",
+    "@chatSendFailureContentBlockedSelfHosted": {
+        "description": "Fluxerbot system message on a self-hosted instance when message content is blocked by safety systems. Names no support mailbox."
+    },
     "chatSendFailureNsfwEmojiSticker": "Το μήνυμά σας δεν μπόρεσε να παραδοθεί επειδή περιέχει ώριμα emoji ή αυτοκόλλητα που δεν επιτρέπονται σε αυτό το πλαίσιο.",
     "@chatSendFailureNsfwEmojiSticker": {
         "description": "Fluxerbot system message when mature emoji or stickers are blocked."
@@ -15618,6 +15622,10 @@
     "premiumCheckoutStartFailedTitle": "Δεν ήταν δυνατή η έναρξη της ολοκλήρωσης αγοράς",
     "premiumCheckoutStartFailedBody": "Κάτι πήγε στραβά κατά την έναρξη της ολοκλήρωσης αγοράς. Δοκιμάστε ξανά σε λίγο.",
     "premiumPlanUnavailable": "Αυτό το πρόγραμμα δεν είναι διαθέσιμο. Επικοινωνήστε με την υποστήριξη.",
+    "premiumPlanUnavailableSelfHosted": "Αυτό το πρόγραμμα δεν είναι διαθέσιμο. Επικοινωνήστε με τους διαχειριστές αυτής της παρουσίας.",
+    "@premiumPlanUnavailableSelfHosted": {
+        "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
+    },
     "premiumCompletePaymentTitle": "Ολοκλήρωση πληρωμής",
     "premiumCompletePaymentBody": "Μεταβαίνετε τώρα στο Stripe για να ολοκληρώσετε την πληρωμή. Επιστρέψτε στο Fluxer μόλις την ολοκληρώσετε.",
     "premiumChoosePaymentMethodTitle": "Επιλέξτε τρόπο πληρωμής",
@@ -15633,7 +15641,19 @@
     "premiumExistingSubscriptionTitle": "Η συνδρομή υπάρχει ήδη",
     "premiumExistingSubscriptionBody": "Βρήκαμε μια υπάρχουσα συνδρομή Fluxer Plutonium για αυτόν τον λογαριασμό. Διαχειριστείτε την στην ασφαλή πύλη χρεώσεων για να ενημερώσετε τα στοιχεία πληρωμής ή να ελέγξετε την κατάσταση ανανέωσης. Αν μόλις πληρώσατε, περιμένετε ένα λεπτό και ξανανοίξτε αυτήν τη σελίδα.",
     "premiumPurchasesDisabledTitle": "Οι αγορές δεν είναι διαθέσιμες",
-    "premiumPurchasesDisabledBody": "Οι αγορές έχουν απενεργοποιηθεί για αυτόν τον λογαριασμό. Επικοινωνήστε με το support@fluxer.app αν αυτό φαίνεται λάθος.",
+    "premiumPurchasesDisabledBody": "Οι αγορές έχουν απενεργοποιηθεί για αυτόν τον λογαριασμό. Επικοινωνήστε με το {supportEmail} αν αυτό φαίνεται λάθος.",
+    "@premiumPurchasesDisabledBody": {
+        "description": "Shown on the official hosted instance when purchases are disabled for the account. supportEmail is the support mailbox.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumPurchasesDisabledBodySelfHosted": "Οι αγορές έχουν απενεργοποιηθεί για αυτόν τον λογαριασμό. Επικοινωνήστε με τους διαχειριστές αυτής της παρουσίας αν αυτό φαίνεται λάθος.",
+    "@premiumPurchasesDisabledBodySelfHosted": {
+        "description": "Shown on a self-hosted instance when purchases are disabled for the account. Names no email address."
+    },
     "premiumClaimAccountToPurchase": "Διεκδίκησε τον λογαριασμό σου για να αγοράσεις Fluxer Plutonium.",
     "premiumVerifyEmailToPurchase": "Πρέπει να επαληθεύσεις το email σου πριν αγοράσεις το Fluxer Plutonium.",
     "premiumPerkCustomUsernameTag": "Προσαρμοσμένη ετικέτα ονόματος χρήστη",

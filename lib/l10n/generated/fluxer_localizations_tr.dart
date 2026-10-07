@@ -6458,6 +6458,10 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Mesajınız güvenlik sistemlerimiz tarafından işaretlendiği için gönderilemedi. Bunun bir hata olduğunu düşünüyorsanız lütfen destek ekibiyle iletişime geçin.';
 
   @override
+  String get chatSendFailureContentBlockedSelfHosted =>
+      'Mesajınız güvenlik sistemlerimiz tarafından işaretlendiği için gönderilemedi. Bunun bir hata olduğunu düşünüyorsanız lütfen bu kurulumun yöneticileriyle iletişime geçin.';
+
+  @override
   String get chatSendFailureNsfwEmojiSticker =>
       'Mesajınız, bu bağlamda izin verilmeyen yetişkinlere yönelik emojiler veya çıkartmalar içerdiği için teslim edilemedi.';
 
@@ -9654,6 +9658,10 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Bu plan kullanılamıyor. Destekle iletişime geçin.';
 
   @override
+  String get premiumPlanUnavailableSelfHosted =>
+      'Bu plan kullanılamıyor. Bu kurulumun yöneticileriyle iletişime geçin.';
+
+  @override
   String get premiumCompletePaymentTitle => 'Ödemeyi tamamla';
 
   @override
@@ -9706,8 +9714,13 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get premiumPurchasesDisabledTitle => 'Satın alımlar kullanılamıyor';
 
   @override
-  String get premiumPurchasesDisabledBody =>
-      'Bu hesap için satın alımlar devre dışı bırakıldı. Yanlış görünüyorsa support@fluxer.app ile iletişime geçin.';
+  String premiumPurchasesDisabledBody(String supportEmail) {
+    return 'Bu hesap için satın alımlar devre dışı bırakıldı. Yanlış görünüyorsa $supportEmail ile iletişime geçin.';
+  }
+
+  @override
+  String get premiumPurchasesDisabledBodySelfHosted =>
+      'Bu hesap için satın alımlar devre dışı bırakıldı. Yanlış görünüyorsa bu kurulumun yöneticileriyle iletişime geçin.';
 
   @override
   String get premiumClaimAccountToPurchase =>
@@ -11401,7 +11414,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get instanceUrlHelper =>
-      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+      'Resmi kurulum için fluxer.app\'i veya kendi barındırdığınız bir kurulumun tam URL\'sini kullanın.';
 
   @override
   String get resetToDefaultInstance => 'Fluxer\'a sıfırla';
@@ -15167,7 +15180,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get assistantDmsDisabled =>
-      'Direct messages are disabled on this instance.';
+      'Bu kurulumda doğrudan mesajlar devre dışı bırakıldı.';
 
   @override
   String get assistantFailed => 'Fluxer bunu tamamlayamadı.';

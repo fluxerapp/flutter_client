@@ -5733,6 +5733,10 @@
     "@chatSendFailureContentBlocked": {
         "description": "Fluxerbot system message when message content is blocked by safety systems."
     },
+    "chatSendFailureContentBlockedSelfHosted": "你的消息未能送达，因为它被我们的安全系统标记了。如果你认为这是误判，请联系此实例的管理员。",
+    "@chatSendFailureContentBlockedSelfHosted": {
+        "description": "Fluxerbot system message on a self-hosted instance when message content is blocked by safety systems. Names no support mailbox."
+    },
     "chatSendFailureNsfwEmojiSticker": "你的消息因包含在此上下文中不允许的成人表情符号或贴纸而无法送达。",
     "@chatSendFailureNsfwEmojiSticker": {
         "description": "Fluxerbot system message when mature emoji or stickers are blocked."
@@ -15618,6 +15622,10 @@
     "premiumCheckoutStartFailedTitle": "无法开始结账",
     "premiumCheckoutStartFailedBody": "启动结账时出错了。请稍后重试。",
     "premiumPlanUnavailable": "此套餐不可用。请联系支持团队。",
+    "premiumPlanUnavailableSelfHosted": "此套餐不可用。请联系此实例的管理员。",
+    "@premiumPlanUnavailableSelfHosted": {
+        "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
+    },
     "premiumCompletePaymentTitle": "完成支付",
     "premiumCompletePaymentBody": "您即将跳转至 Stripe 完成支付。完成后请返回 Fluxer。",
     "premiumChoosePaymentMethodTitle": "选择付款方式",
@@ -15633,7 +15641,19 @@
     "premiumExistingSubscriptionTitle": "订阅已存在",
     "premiumExistingSubscriptionBody": "我们已在此账号下找到一个现有的 Fluxer Plutonium 订阅。请在安全账单门户中管理它，以更新付款详情或查看续订状态。如果您刚付款，请等待一分钟后重新打开此页面。",
     "premiumPurchasesDisabledTitle": "无法购买",
-    "premiumPurchasesDisabledBody": "此账号已禁用购买功能。如果此情况不正确，请联系 support@fluxer.app。",
+    "premiumPurchasesDisabledBody": "此账号已禁用购买功能。如果此情况不正确，请联系 {supportEmail}。",
+    "@premiumPurchasesDisabledBody": {
+        "description": "Shown on the official hosted instance when purchases are disabled for the account. supportEmail is the support mailbox.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumPurchasesDisabledBodySelfHosted": "此账号已禁用购买功能。如果此情况不正确，请联系此实例的管理员。",
+    "@premiumPurchasesDisabledBodySelfHosted": {
+        "description": "Shown on a self-hosted instance when purchases are disabled for the account. Names no email address."
+    },
     "premiumClaimAccountToPurchase": "认领您的账号以购买 Fluxer Plutonium。",
     "premiumVerifyEmailToPurchase": "您需要先验证您的电子邮件，然后才能购买 Fluxer Plutonium。",
     "premiumPerkCustomUsernameTag": "自定义用户名标签",

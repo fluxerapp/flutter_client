@@ -5733,6 +5733,10 @@
     "@chatSendFailureContentBlocked": {
         "description": "Fluxerbot system message when message content is blocked by safety systems."
     },
+    "chatSendFailureContentBlockedSelfHosted": "Jūsų žinutė nebuvo pristatyta, nes ją pažymėjo mūsų saugos sistemos. Jei manote, kad tai klaida, susisiekite su šios instancijos administratoriais.",
+    "@chatSendFailureContentBlockedSelfHosted": {
+        "description": "Fluxerbot system message on a self-hosted instance when message content is blocked by safety systems. Names no support mailbox."
+    },
     "chatSendFailureNsfwEmojiSticker": "Jūsų žinutė negalėjo būti pristatyta, nes joje yra suaugusiems skirtų jaustukų ar lipdukų, kurie neleidžiami šiame kontekste.",
     "@chatSendFailureNsfwEmojiSticker": {
         "description": "Fluxerbot system message when mature emoji or stickers are blocked."
@@ -15618,6 +15622,10 @@
     "premiumCheckoutStartFailedTitle": "Nepavyko pradėti atsiskaitymo",
     "premiumCheckoutStartFailedBody": "Nepavyko pradėti atsiskaitymo. Bandykite dar kartą po akimirkos.",
     "premiumPlanUnavailable": "Šis planas nepasiekiamas. Susisiekite su palaikymo komanda.",
+    "premiumPlanUnavailableSelfHosted": "Šis planas nepasiekiamas. Susisiekite su šios instancijos administratoriais.",
+    "@premiumPlanUnavailableSelfHosted": {
+        "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
+    },
     "premiumCompletePaymentTitle": "Užbaigti mokėjimą",
     "premiumCompletePaymentBody": "Dabar būsite nukreipti į „Stripe“, kad užbaigtumėte mokėjimą. Grįžkite į „Fluxer“, kai baigsite.",
     "premiumChoosePaymentMethodTitle": "Pasirinkite mokėjimo būdą",
@@ -15633,7 +15641,19 @@
     "premiumExistingSubscriptionTitle": "Prenumerata jau yra",
     "premiumExistingSubscriptionBody": "Jūsų paskyrai radome galiojančią „Fluxer Plutonium“ prenumeratą. Tvarkykite ją saugiame atsiskaitymo portale, kad atnaujintumėte mokėjimo duomenis arba patikrintumėte atnaujinimo būseną. Jei ką tik sumokėjote, palaukite minutę ir iš naujo atidarykite šį puslapį.",
     "premiumPurchasesDisabledTitle": "Pirkimai negalimi",
-    "premiumPurchasesDisabledBody": "Pirkimai šiai paskyrai yra išjungti. Jei manote, kad tai klaida, susisiekite su support@fluxer.app.",
+    "premiumPurchasesDisabledBody": "Pirkimai šiai paskyrai yra išjungti. Jei manote, kad tai klaida, susisiekite su {supportEmail}.",
+    "@premiumPurchasesDisabledBody": {
+        "description": "Shown on the official hosted instance when purchases are disabled for the account. supportEmail is the support mailbox.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumPurchasesDisabledBodySelfHosted": "Pirkimai šiai paskyrai yra išjungti. Jei manote, kad tai klaida, susisiekite su šios instancijos administratoriais.",
+    "@premiumPurchasesDisabledBodySelfHosted": {
+        "description": "Shown on a self-hosted instance when purchases are disabled for the account. Names no email address."
+    },
     "premiumClaimAccountToPurchase": "Prisijunkite prie savo paskyros, kad įsigytumėte Fluxer Plutonium.",
     "premiumVerifyEmailToPurchase": "Norėdami įsigyti „Fluxer Plutonium“, turite patvirtinti savo el. paštą.",
     "premiumPerkCustomUsernameTag": "Pasirinktinė naudotojo vardo žyma",

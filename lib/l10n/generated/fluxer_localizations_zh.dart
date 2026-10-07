@@ -6076,6 +6076,10 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
       '你的消息未能送达，因为它被我们的安全系统标记了。如果你认为这是误判，请联系支持团队。';
 
   @override
+  String get chatSendFailureContentBlockedSelfHosted =>
+      '你的消息未能送达，因为它被我们的安全系统标记了。如果你认为这是误判，请联系此实例的管理员。';
+
+  @override
   String get chatSendFailureNsfwEmojiSticker =>
       '你的消息因包含在此上下文中不允许的成人表情符号或贴纸而无法送达。';
 
@@ -9055,6 +9059,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get premiumPlanUnavailable => '此套餐不可用。请联系支持团队。';
 
   @override
+  String get premiumPlanUnavailableSelfHosted => '此套餐不可用。请联系此实例的管理员。';
+
+  @override
   String get premiumCompletePaymentTitle => '完成支付';
 
   @override
@@ -9104,8 +9111,13 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get premiumPurchasesDisabledTitle => '无法购买';
 
   @override
-  String get premiumPurchasesDisabledBody =>
-      '此账号已禁用购买功能。如果此情况不正确，请联系 support@fluxer.app。';
+  String premiumPurchasesDisabledBody(String supportEmail) {
+    return '此账号已禁用购买功能。如果此情况不正确，请联系 $supportEmail。';
+  }
+
+  @override
+  String get premiumPurchasesDisabledBodySelfHosted =>
+      '此账号已禁用购买功能。如果此情况不正确，请联系此实例的管理员。';
 
   @override
   String get premiumClaimAccountToPurchase => '认领您的账号以购买 Fluxer Plutonium。';
@@ -20926,6 +20938,10 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
       '您的訊息無法送達，因為它已被我們的安全系統標記。如果您認為這是錯誤，請聯絡客服。';
 
   @override
+  String get chatSendFailureContentBlockedSelfHosted =>
+      '您的訊息無法送達，因為它已被我們的安全系統標記。如果您認為這是錯誤，請聯絡此實例的管理員。';
+
+  @override
   String get chatSendFailureNsfwEmojiSticker =>
       '您的訊息無法送達，因為其中包含在此情境不允許的成人表情符號或貼圖。';
 
@@ -23903,6 +23919,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get premiumPlanUnavailable => '此方案無法使用。請聯絡客服。';
 
   @override
+  String get premiumPlanUnavailableSelfHosted => '此方案無法使用。請聯絡此實例的管理員。';
+
+  @override
   String get premiumCompletePaymentTitle => '完成付款';
 
   @override
@@ -23952,8 +23971,13 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get premiumPurchasesDisabledTitle => '無法購買';
 
   @override
-  String get premiumPurchasesDisabledBody =>
-      '此帳號已停用購買功能。如果這看起來有誤，請聯絡 support@fluxer.app。';
+  String premiumPurchasesDisabledBody(String supportEmail) {
+    return '此帳號已停用購買功能。如果這看起來有誤，請聯絡 $supportEmail。';
+  }
+
+  @override
+  String get premiumPurchasesDisabledBodySelfHosted =>
+      '此帳號已停用購買功能。如果這看起來有誤，請聯絡此實例的管理員。';
 
   @override
   String get premiumClaimAccountToPurchase => '領取你的帳號即可購買 Fluxer Plutonium。';

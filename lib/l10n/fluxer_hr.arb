@@ -7803,6 +7803,10 @@
     "@chatSendFailureContentBlocked": {
         "description": "Fluxerbot system message when message content is blocked by safety systems."
     },
+    "chatSendFailureContentBlockedSelfHosted": "Vaša poruka nije mogla biti isporučena jer ju je naš sigurnosni sustav označio. Ako mislite da je ovo pogreška, obratite se administratorima ove instance.",
+    "@chatSendFailureContentBlockedSelfHosted": {
+        "description": "Fluxerbot system message on a self-hosted instance when message content is blocked by safety systems. Names no support mailbox."
+    },
     "chatSendFailureNsfwEmojiSticker": "Tvoja poruka nije mogla biti dostavljena jer sadrži neprikladne emotikone ili naljepnice koje nisu dopuštene u ovom kontekstu.",
     "@chatSendFailureNsfwEmojiSticker": {
         "description": "Fluxerbot system message when mature emoji or stickers are blocked."
@@ -11567,6 +11571,10 @@
     "premiumCheckoutStartFailedTitle": "Nije moguće pokrenuti naplatu",
     "premiumCheckoutStartFailedBody": "Nešto je pošlo po zlu prilikom pokretanja naplate. Pokušajte ponovno za nekoliko trenutaka.",
     "premiumPlanUnavailable": "Ovaj plan nije dostupan. Obratite se podršci.",
+    "premiumPlanUnavailableSelfHosted": "Ovaj plan nije dostupan. Obratite se administratorima ove instance.",
+    "@premiumPlanUnavailableSelfHosted": {
+        "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
+    },
     "premiumCompletePaymentTitle": "Dovrši plaćanje",
     "premiumCompletePaymentBody": "Sada prelazite na Stripe kako biste dovršili plaćanje. Vratite se u Fluxer nakon što završite.",
     "premiumChoosePaymentMethodTitle": "Odaberite način plaćanja",
@@ -11582,7 +11590,19 @@
     "premiumExistingSubscriptionTitle": "Pretplata već postoji",
     "premiumExistingSubscriptionBody": "Pronašli smo postojeću pretplatu na Fluxer Plutonium za ovaj račun. Upravljajte njome u sigurnosnom portalu za naplatu kako biste ažurirali podatke o plaćanju ili provjerili status obnove. Ako ste upravo platili, pričekajte minutu i ponovno otvorite ovu stranicu.",
     "premiumPurchasesDisabledTitle": "Kupnja nije dostupna",
-    "premiumPurchasesDisabledBody": "Kupnje su onemogućene za ovaj račun. Obratite se na support@fluxer.app ako ovo izgleda pogrešno.",
+    "premiumPurchasesDisabledBody": "Kupnje su onemogućene za ovaj račun. Obratite se na {supportEmail} ako ovo izgleda pogrešno.",
+    "@premiumPurchasesDisabledBody": {
+        "description": "Shown on the official hosted instance when purchases are disabled for the account. supportEmail is the support mailbox.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumPurchasesDisabledBodySelfHosted": "Kupnje su onemogućene za ovaj račun. Obratite se administratorima ove instance ako ovo izgleda pogrešno.",
+    "@premiumPurchasesDisabledBodySelfHosted": {
+        "description": "Shown on a self-hosted instance when purchases are disabled for the account. Names no email address."
+    },
     "premiumClaimAccountToPurchase": "Preuzmite svoj račun za kupnju Fluxer Plutonium.",
     "premiumVerifyEmailToPurchase": "Potrebno je potvrditi svoju e-poštu prije nego što možete kupiti Fluxer Plutonium.",
     "premiumPerkCustomUsernameTag": "Prilagođena korisnička oznaka",

@@ -7803,6 +7803,10 @@
     "@chatSendFailureContentBlocked": {
         "description": "Fluxerbot system message when message content is blocked by safety systems."
     },
+    "chatSendFailureContentBlockedSelfHosted": "आपका मैसेज डिलीवर नहीं हो सका क्योंकि इसे हमारे सुरक्षा सिस्टम ने फ़्लैग किया था। अगर आपको लगता है कि यह गलती से हुआ है, तो कृपया इस इंस्टेंस के एडमिनिस्ट्रेटर से संपर्क करें।",
+    "@chatSendFailureContentBlockedSelfHosted": {
+        "description": "Fluxerbot system message on a self-hosted instance when message content is blocked by safety systems. Names no support mailbox."
+    },
     "chatSendFailureNsfwEmojiSticker": "आपका संदेश डिलीवर नहीं हो सका क्योंकि इसमें ऐसे परिपक्व इमोजी या स्टिकर थे जो इस संदर्भ में अनुमत नहीं हैं।",
     "@chatSendFailureNsfwEmojiSticker": {
         "description": "Fluxerbot system message when mature emoji or stickers are blocked."
@@ -11567,6 +11571,10 @@
     "premiumCheckoutStartFailedTitle": "चेकआउट शुरू नहीं किया जा सका",
     "premiumCheckoutStartFailedBody": "चेकआउट शुरू करते समय कुछ गड़बड़ हो गई। कृपया कुछ देर बाद फिर से कोशिश करें।",
     "premiumPlanUnavailable": "यह प्लान उपलब्ध नहीं है। सहायता से संपर्क करें।",
+    "premiumPlanUnavailableSelfHosted": "यह प्लान उपलब्ध नहीं है। इस इंस्टेंस के एडमिनिस्ट्रेटर से संपर्क करें।",
+    "@premiumPlanUnavailableSelfHosted": {
+        "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
+    },
     "premiumCompletePaymentTitle": "भुगतान पूरा करें",
     "premiumCompletePaymentBody": "आप भुगतान पूरा करने के लिए अब स्ट्राइप पर जा रहे हैं। इसे पूरा करने के बाद Fluxer पर वापस आएं।",
     "premiumChoosePaymentMethodTitle": "भुगतान का तरीका चुनें",
@@ -11582,7 +11590,19 @@
     "premiumExistingSubscriptionTitle": "सदस्यता पहले से मौजूद है",
     "premiumExistingSubscriptionBody": "हमें इस खाते के लिए एक मौजूदा Fluxer Plutonium सदस्यता मिली है। भुगतान विवरण अपडेट करने या नवीनीकरण की स्थिति जांचने के लिए इसे सुरक्षित बिलिंग पोर्टल में प्रबंधित करें। यदि आपने अभी भुगतान किया है, तो एक मिनट प्रतीक्षा करें और इस पृष्ठ को पुनः खोलें।",
     "premiumPurchasesDisabledTitle": "खरीदारी उपलब्ध नहीं है",
-    "premiumPurchasesDisabledBody": "इस खाते के लिए खरीदारी अक्षम कर दी गई है। यदि यह गलत लगता है तो support@fluxer.app पर संपर्क करें।",
+    "premiumPurchasesDisabledBody": "इस खाते के लिए खरीदारी अक्षम कर दी गई है। यदि यह गलत लगता है तो {supportEmail} पर संपर्क करें।",
+    "@premiumPurchasesDisabledBody": {
+        "description": "Shown on the official hosted instance when purchases are disabled for the account. supportEmail is the support mailbox.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumPurchasesDisabledBodySelfHosted": "इस खाते के लिए खरीदारी अक्षम कर दी गई है। यदि यह गलत लगता है तो इस इंस्टेंस के एडमिनिस्ट्रेटर से संपर्क करें।",
+    "@premiumPurchasesDisabledBodySelfHosted": {
+        "description": "Shown on a self-hosted instance when purchases are disabled for the account. Names no email address."
+    },
     "premiumClaimAccountToPurchase": "Fluxer Plutonium खरीदने के लिए अपना खाता क्लेम करें।",
     "premiumVerifyEmailToPurchase": "Fluxer Plutonium खरीदने से पहले आपको अपना ईमेल वेरिफाई करना होगा।",
     "premiumPerkCustomUsernameTag": "कस्टम यूज़रनेम टैग",

@@ -6411,6 +6411,10 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
       'تعذّر تسليم رسالتك لأن أنظمة الأمان لدينا وضعت عليها علامة. إذا كنت تعتقد أن هذا خطأ، فيُرجى التواصل مع الدعم.';
 
   @override
+  String get chatSendFailureContentBlockedSelfHosted =>
+      'تعذّر تسليم رسالتك لأن أنظمة الأمان لدينا وضعت عليها علامة. إذا كنت تعتقد أن هذا خطأ، فيُرجى التواصل مع مسؤولي هذا المثيل.';
+
+  @override
   String get chatSendFailureNsfwEmojiSticker =>
       'لم يتم تسليم رسالتك لأنها تحتوي على رموز تعبيرية أو ملصقات ناضجة غير مسموح بها في هذا السياق.';
 
@@ -9573,6 +9577,10 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get premiumPlanUnavailable => 'هذه الخطة غير متاحة. اتصل بالدعم.';
 
   @override
+  String get premiumPlanUnavailableSelfHosted =>
+      'هذه الخطة غير متاحة. اتصل بمسؤولي هذا المثيل.';
+
+  @override
   String get premiumCompletePaymentTitle => 'إتمام الدفع';
 
   @override
@@ -9624,8 +9632,13 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get premiumPurchasesDisabledTitle => 'المشتريات غير متاحة';
 
   @override
-  String get premiumPurchasesDisabledBody =>
-      'تم تعطيل عمليات الشراء لهذا الحساب. اتصل بـ support@fluxer.app إذا بدا هذا الأمر خاطئًا.';
+  String premiumPurchasesDisabledBody(String supportEmail) {
+    return 'تم تعطيل عمليات الشراء لهذا الحساب. اتصل بـ $supportEmail إذا بدا هذا الأمر خاطئًا.';
+  }
+
+  @override
+  String get premiumPurchasesDisabledBodySelfHosted =>
+      'تم تعطيل عمليات الشراء لهذا الحساب. اتصل بمسؤولي هذا المثيل إذا بدا هذا الأمر خاطئًا.';
 
   @override
   String get premiumClaimAccountToPurchase =>

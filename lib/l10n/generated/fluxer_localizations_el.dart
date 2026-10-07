@@ -6521,6 +6521,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Το μήνυμά σας δεν παραδόθηκε επειδή επισημάνθηκε από τα συστήματα ασφαλείας μας. Αν πιστεύετε ότι πρόκειται για λάθος, επικοινωνήστε με την υποστήριξη.';
 
   @override
+  String get chatSendFailureContentBlockedSelfHosted =>
+      'Το μήνυμά σας δεν παραδόθηκε επειδή επισημάνθηκε από τα συστήματα ασφαλείας μας. Αν πιστεύετε ότι πρόκειται για λάθος, επικοινωνήστε με τους διαχειριστές αυτής της παρουσίας.';
+
+  @override
   String get chatSendFailureNsfwEmojiSticker =>
       'Το μήνυμά σας δεν μπόρεσε να παραδοθεί επειδή περιέχει ώριμα emoji ή αυτοκόλλητα που δεν επιτρέπονται σε αυτό το πλαίσιο.';
 
@@ -9768,6 +9772,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Αυτό το πρόγραμμα δεν είναι διαθέσιμο. Επικοινωνήστε με την υποστήριξη.';
 
   @override
+  String get premiumPlanUnavailableSelfHosted =>
+      'Αυτό το πρόγραμμα δεν είναι διαθέσιμο. Επικοινωνήστε με τους διαχειριστές αυτής της παρουσίας.';
+
+  @override
   String get premiumCompletePaymentTitle => 'Ολοκλήρωση πληρωμής';
 
   @override
@@ -9820,8 +9828,13 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get premiumPurchasesDisabledTitle => 'Οι αγορές δεν είναι διαθέσιμες';
 
   @override
-  String get premiumPurchasesDisabledBody =>
-      'Οι αγορές έχουν απενεργοποιηθεί για αυτόν τον λογαριασμό. Επικοινωνήστε με το support@fluxer.app αν αυτό φαίνεται λάθος.';
+  String premiumPurchasesDisabledBody(String supportEmail) {
+    return 'Οι αγορές έχουν απενεργοποιηθεί για αυτόν τον λογαριασμό. Επικοινωνήστε με το $supportEmail αν αυτό φαίνεται λάθος.';
+  }
+
+  @override
+  String get premiumPurchasesDisabledBodySelfHosted =>
+      'Οι αγορές έχουν απενεργοποιηθεί για αυτόν τον λογαριασμό. Επικοινωνήστε με τους διαχειριστές αυτής της παρουσίας αν αυτό φαίνεται λάθος.';
 
   @override
   String get premiumClaimAccountToPurchase =>

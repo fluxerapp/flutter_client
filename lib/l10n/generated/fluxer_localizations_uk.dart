@@ -6490,6 +6490,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Ваше повідомлення не вдалося доставити, оскільки його позначено нашими системами безпеки. Якщо ви вважаєте, що це помилка, зверніться до служби підтримки.';
 
   @override
+  String get chatSendFailureContentBlockedSelfHosted =>
+      'Ваше повідомлення не вдалося доставити, оскільки його позначено нашими системами безпеки. Якщо ви вважаєте, що це помилка, зверніться до адміністраторів цього екземпляра.';
+
+  @override
   String get chatSendFailureNsfwEmojiSticker =>
       'Ваше повідомлення не могло бути доставлено, оскільки воно містить недоречні емоджі або стікери, які не дозволені в цьому контексті.';
 
@@ -9732,6 +9736,10 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
       'Цей тарифний план недоступний. Зверніться до служби підтримки.';
 
   @override
+  String get premiumPlanUnavailableSelfHosted =>
+      'Цей тарифний план недоступний. Зверніться до адміністраторів цього екземпляра.';
+
+  @override
   String get premiumCompletePaymentTitle => 'Завершити оплату';
 
   @override
@@ -9784,8 +9792,13 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get premiumPurchasesDisabledTitle => 'Покупки недоступні';
 
   @override
-  String get premiumPurchasesDisabledBody =>
-      'Покупки для цього облікового запису вимкнено. Зверніться до support@fluxer.app, якщо це виглядає неправильно.';
+  String premiumPurchasesDisabledBody(String supportEmail) {
+    return 'Покупки для цього облікового запису вимкнено. Зверніться до $supportEmail, якщо це виглядає неправильно.';
+  }
+
+  @override
+  String get premiumPurchasesDisabledBodySelfHosted =>
+      'Покупки для цього облікового запису вимкнено. Зверніться до адміністраторів цього екземпляра, якщо це виглядає неправильно.';
 
   @override
   String get premiumClaimAccountToPurchase =>

@@ -6201,6 +6201,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
       '회원님의 메시지가 안전 시스템에 의해 차단되어 전송되지 못했습니다. 오류라고 생각하시면 고객지원팀에 문의해 주세요.';
 
   @override
+  String get chatSendFailureContentBlockedSelfHosted =>
+      '회원님의 메시지가 안전 시스템에 의해 차단되어 전송되지 못했습니다. 오류라고 생각하시면 이 인스턴스의 관리자에게 문의해 주세요.';
+
+  @override
   String get chatSendFailureNsfwEmojiSticker =>
       '이 컨텍스트에서 허용되지 않는 성인용 이모지 또는 스티커가 포함되어 있어 메시지를 전달할 수 없습니다.';
 
@@ -9256,6 +9260,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get premiumPlanUnavailable => '이용할 수 없는 플랜입니다. 고객지원팀에 문의하세요.';
 
   @override
+  String get premiumPlanUnavailableSelfHosted =>
+      '이용할 수 없는 플랜입니다. 이 인스턴스의 관리자에게 문의하세요.';
+
+  @override
   String get premiumCompletePaymentTitle => '결제 완료하기';
 
   @override
@@ -9307,8 +9315,13 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get premiumPurchasesDisabledTitle => '구매 불가';
 
   @override
-  String get premiumPurchasesDisabledBody =>
-      '이 계정에서는 구매가 비활성화되어 있습니다. 문제가 잘못된 것으로 보이면 support@fluxer.app으로 문의하세요.';
+  String premiumPurchasesDisabledBody(String supportEmail) {
+    return '이 계정에서는 구매가 비활성화되어 있습니다. 문제가 잘못된 것으로 보이면 $supportEmail으로 문의하세요.';
+  }
+
+  @override
+  String get premiumPurchasesDisabledBodySelfHosted =>
+      '이 계정에서는 구매가 비활성화되어 있습니다. 문제가 잘못된 것으로 보이면 이 인스턴스의 관리자에게 문의하세요.';
 
   @override
   String get premiumClaimAccountToPurchase =>

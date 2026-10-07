@@ -5733,6 +5733,10 @@
     "@chatSendFailureContentBlocked": {
         "description": "Fluxerbot system message when message content is blocked by safety systems."
     },
+    "chatSendFailureContentBlockedSelfHosted": "Mesajınız güvenlik sistemlerimiz tarafından işaretlendiği için gönderilemedi. Bunun bir hata olduğunu düşünüyorsanız lütfen bu kurulumun yöneticileriyle iletişime geçin.",
+    "@chatSendFailureContentBlockedSelfHosted": {
+        "description": "Fluxerbot system message on a self-hosted instance when message content is blocked by safety systems. Names no support mailbox."
+    },
     "chatSendFailureNsfwEmojiSticker": "Mesajınız, bu bağlamda izin verilmeyen yetişkinlere yönelik emojiler veya çıkartmalar içerdiği için teslim edilemedi.",
     "@chatSendFailureNsfwEmojiSticker": {
         "description": "Fluxerbot system message when mature emoji or stickers are blocked."
@@ -6827,6 +6831,7 @@
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
     },
+    "instanceUrlHelper": "Resmi kurulum için fluxer.app'i veya kendi barındırdığınız bir kurulumun tam URL'sini kullanın.",
     "@instanceUrlHelper": {
         "description": "Helper text explaining official vs self-hosted instance URLs."
     },
@@ -15617,6 +15622,10 @@
     "premiumCheckoutStartFailedTitle": "Ödeme başlatılamadı",
     "premiumCheckoutStartFailedBody": "Ödeme başlatılırken bir sorun oluştu. Lütfen bir süre sonra tekrar deneyin.",
     "premiumPlanUnavailable": "Bu plan kullanılamıyor. Destekle iletişime geçin.",
+    "premiumPlanUnavailableSelfHosted": "Bu plan kullanılamıyor. Bu kurulumun yöneticileriyle iletişime geçin.",
+    "@premiumPlanUnavailableSelfHosted": {
+        "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
+    },
     "premiumCompletePaymentTitle": "Ödemeyi tamamla",
     "premiumCompletePaymentBody": "Ödemeyi tamamlamak için şimdi Stripe'a yönlendiriliyorsunuz. Tamamladıktan sonra Fluxer'a geri dönün.",
     "premiumChoosePaymentMethodTitle": "Ödeme yöntemi seçin",
@@ -15632,7 +15641,19 @@
     "premiumExistingSubscriptionTitle": "Abonelik zaten mevcut",
     "premiumExistingSubscriptionBody": "Bu hesap için mevcut bir Fluxer Plutonium aboneliği bulduk. Ödeme ayrıntılarını güncellemek veya yenileme durumunu kontrol etmek için güvenli faturalandırma portalında yönetin. Az önce ödeme yaptıysanız, bir dakika bekleyip bu sayfayı yeniden açın.",
     "premiumPurchasesDisabledTitle": "Satın alımlar kullanılamıyor",
-    "premiumPurchasesDisabledBody": "Bu hesap için satın alımlar devre dışı bırakıldı. Yanlış görünüyorsa support@fluxer.app ile iletişime geçin.",
+    "premiumPurchasesDisabledBody": "Bu hesap için satın alımlar devre dışı bırakıldı. Yanlış görünüyorsa {supportEmail} ile iletişime geçin.",
+    "@premiumPurchasesDisabledBody": {
+        "description": "Shown on the official hosted instance when purchases are disabled for the account. supportEmail is the support mailbox.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumPurchasesDisabledBodySelfHosted": "Bu hesap için satın alımlar devre dışı bırakıldı. Yanlış görünüyorsa bu kurulumun yöneticileriyle iletişime geçin.",
+    "@premiumPurchasesDisabledBodySelfHosted": {
+        "description": "Shown on a self-hosted instance when purchases are disabled for the account. Names no email address."
+    },
     "premiumClaimAccountToPurchase": "Fluxer Plutonium satın almak için hesabını talep et.",
     "premiumVerifyEmailToPurchase": "Fluxer Plutonium satın almadan önce e-postanı doğrulaman gerekiyor.",
     "premiumPerkCustomUsernameTag": "Özel kullanıcı adı etiketi",
@@ -16904,6 +16925,7 @@
     "@assistantNotFound": {
         "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
     },
+    "assistantDmsDisabled": "Bu kurulumda doğrudan mesajlar devre dışı bırakıldı.",
     "@assistantDmsDisabled": {
         "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
     },

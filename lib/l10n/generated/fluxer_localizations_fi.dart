@@ -6466,6 +6466,10 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Viestiäsi ei voitu toimittaa, koska turvajärjestelmämme merkitsivät sen. Jos uskot tämän olevan virhe, ota yhteyttä tukeen.';
 
   @override
+  String get chatSendFailureContentBlockedSelfHosted =>
+      'Viestiäsi ei voitu toimittaa, koska turvajärjestelmämme merkitsivät sen. Jos uskot tämän olevan virhe, ota yhteyttä tämän instanssin ylläpitäjiin.';
+
+  @override
   String get chatSendFailureNsfwEmojiSticker =>
       'Viestiäsi ei voitu toimittaa, koska se sisälsi aikuisille tarkoitettuja hymiöitä tai tarroja, joita ei sallita tässä yhteydessä.';
 
@@ -9669,6 +9673,10 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
       'Tämä tilaus ei ole saatavilla. Ota yhteyttä tukeen.';
 
   @override
+  String get premiumPlanUnavailableSelfHosted =>
+      'Tämä tilaus ei ole saatavilla. Ota yhteyttä tämän instanssin ylläpitäjiin.';
+
+  @override
   String get premiumCompletePaymentTitle => 'Suorita maksu';
 
   @override
@@ -9721,8 +9729,13 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get premiumPurchasesDisabledTitle => 'Ostaminen ei ole käytettävissä';
 
   @override
-  String get premiumPurchasesDisabledBody =>
-      'Ostokset on poistettu käytöstä tältä tililtä. Ota yhteyttä osoitteeseen support@fluxer.app, jos tämä näyttää virheelliseltä.';
+  String premiumPurchasesDisabledBody(String supportEmail) {
+    return 'Ostokset on poistettu käytöstä tältä tililtä. Ota yhteyttä osoitteeseen $supportEmail, jos tämä näyttää virheelliseltä.';
+  }
+
+  @override
+  String get premiumPurchasesDisabledBodySelfHosted =>
+      'Ostokset on poistettu käytöstä tältä tililtä. Ota yhteyttä tämän instanssin ylläpitäjiin, jos tämä näyttää virheelliseltä.';
 
   @override
   String get premiumClaimAccountToPurchase =>

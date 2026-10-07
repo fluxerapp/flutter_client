@@ -7803,6 +7803,10 @@
     "@chatSendFailureContentBlocked": {
         "description": "Fluxerbot system message when message content is blocked by safety systems."
     },
+    "chatSendFailureContentBlockedSelfHosted": "Mesajul tău nu a putut fi livrat deoarece a fost semnalat de sistemele noastre de siguranță. Dacă crezi că este o greșeală, te rugăm să contactezi administratorii acestei instanțe.",
+    "@chatSendFailureContentBlockedSelfHosted": {
+        "description": "Fluxerbot system message on a self-hosted instance when message content is blocked by safety systems. Names no support mailbox."
+    },
     "chatSendFailureNsfwEmojiSticker": "Mesajul tău nu a putut fi livrat deoarece conține emoji sau stickere mature, care nu sunt permise în acest context.",
     "@chatSendFailureNsfwEmojiSticker": {
         "description": "Fluxerbot system message when mature emoji or stickers are blocked."
@@ -11567,6 +11571,10 @@
     "premiumCheckoutStartFailedTitle": "Nu s-a putut iniția plata",
     "premiumCheckoutStartFailedBody": "A apărut o eroare la inițierea plății. Te rugăm să încerci din nou mai târziu.",
     "premiumPlanUnavailable": "Acest plan nu este disponibil. Contactează asistența.",
+    "premiumPlanUnavailableSelfHosted": "Acest plan nu este disponibil. Contactează administratorii acestei instanțe.",
+    "@premiumPlanUnavailableSelfHosted": {
+        "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
+    },
     "premiumCompletePaymentTitle": "Finalizează plata",
     "premiumCompletePaymentBody": "Acum vei fi redirecționat către Stripe pentru a finaliza plata. Revino la Fluxer după ce ai terminat.",
     "premiumChoosePaymentMethodTitle": "Alege metoda de plată",
@@ -11582,7 +11590,19 @@
     "premiumExistingSubscriptionTitle": "Abonamentul există deja",
     "premiumExistingSubscriptionBody": "Am găsit un abonament Fluxer Plutonium existent pentru acest cont. Gestionați-l în portalul de facturare securizat pentru a actualiza detaliile de plată sau pentru a verifica starea reînnoirii. Dacă tocmai ați plătit, așteptați un minut și redeschideți această pagină.",
     "premiumPurchasesDisabledTitle": "Achizițiile nu sunt disponibile",
-    "premiumPurchasesDisabledBody": "Achizițiile sunt dezactivate pentru acest cont. Contactați support@fluxer.app dacă credeți că este o greșeală.",
+    "premiumPurchasesDisabledBody": "Achizițiile sunt dezactivate pentru acest cont. Contactați {supportEmail} dacă credeți că este o greșeală.",
+    "@premiumPurchasesDisabledBody": {
+        "description": "Shown on the official hosted instance when purchases are disabled for the account. supportEmail is the support mailbox.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumPurchasesDisabledBodySelfHosted": "Achizițiile sunt dezactivate pentru acest cont. Contactați administratorii acestei instanțe dacă credeți că este o greșeală.",
+    "@premiumPurchasesDisabledBodySelfHosted": {
+        "description": "Shown on a self-hosted instance when purchases are disabled for the account. Names no email address."
+    },
     "premiumClaimAccountToPurchase": "Revendică-ți contul pentru a cumpăra Fluxer Plutonium.",
     "premiumVerifyEmailToPurchase": "Trebuie să îți verifici emailul înainte de a putea achiziționa Fluxer Plutonium.",
     "premiumPerkCustomUsernameTag": "Tag de utilizator personalizat",

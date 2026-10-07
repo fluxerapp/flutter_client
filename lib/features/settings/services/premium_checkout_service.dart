@@ -2,7 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/premium/premium_billing_service.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/features/settings/providers/premium_settings_state_provider.dart';
+import 'package:fluxer_app/features/settings/utils/premium_purchases_disabled_l10n.dart';
 import 'package:fluxer_app/features/settings/utils/premium_subscription_manage.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/providers/current_user_private_provider.dart';
@@ -41,7 +43,10 @@ Future<void> startPremiumCheckout({
     await _showCheckoutError(
       context,
       title: l10n.premiumCheckoutStartFailedTitle,
-      message: l10n.premiumPlanUnavailable,
+      message: premiumPlanUnavailableMessage(
+        l10n,
+        selfHosted: ref.read(instanceRuntimeConfigProvider).selfHosted,
+      ),
     );
     return;
   }
@@ -263,7 +268,10 @@ Future<void> _handleCheckoutDioError(
         await _showCheckoutError(
           context,
           title: l10n.premiumPurchasesDisabledTitle,
-          message: l10n.premiumPurchasesDisabledBody,
+          message: premiumPurchasesDisabledMessage(
+            l10n,
+            selfHosted: ref.read(instanceRuntimeConfigProvider).selfHosted,
+          ),
         );
         return;
     }

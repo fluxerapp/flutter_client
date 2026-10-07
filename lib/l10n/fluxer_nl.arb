@@ -7803,6 +7803,10 @@
     "@chatSendFailureContentBlocked": {
         "description": "Fluxerbot system message when message content is blocked by safety systems."
     },
+    "chatSendFailureContentBlockedSelfHosted": "Je bericht kon niet worden bezorgd omdat het is gemarkeerd door onze veiligheidssystemen. Als je denkt dat dit een fout is, neem dan contact op met de beheerders van deze instantie.",
+    "@chatSendFailureContentBlockedSelfHosted": {
+        "description": "Fluxerbot system message on a self-hosted instance when message content is blocked by safety systems. Names no support mailbox."
+    },
     "chatSendFailureNsfwEmojiSticker": "Je bericht kon niet worden bezorgd omdat het volwassen emoji of stickers bevat die in deze context niet zijn toegestaan.",
     "@chatSendFailureNsfwEmojiSticker": {
         "description": "Fluxerbot system message when mature emoji or stickers are blocked."
@@ -11567,6 +11571,10 @@
     "premiumCheckoutStartFailedTitle": "Afrekenen kon niet worden gestart",
     "premiumCheckoutStartFailedBody": "Er is iets misgegaan bij het starten van de betaling. Probeer het over een ogenblik opnieuw.",
     "premiumPlanUnavailable": "Dit abonnement is niet beschikbaar. Neem contact op met de ondersteuning.",
+    "premiumPlanUnavailableSelfHosted": "Dit abonnement is niet beschikbaar. Neem contact op met de beheerders van deze instantie.",
+    "@premiumPlanUnavailableSelfHosted": {
+        "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
+    },
     "premiumCompletePaymentTitle": "Betaling afronden",
     "premiumCompletePaymentBody": "Je wordt nu doorgestuurd naar Stripe om de betaling te voltooien. Keer terug naar Fluxer zodra je dit hebt gedaan.",
     "premiumChoosePaymentMethodTitle": "Kies betaalmethode",
@@ -11582,7 +11590,19 @@
     "premiumExistingSubscriptionTitle": "Abonnement bestaat al",
     "premiumExistingSubscriptionBody": "We hebben een bestaand Fluxer Plutonium-abonnement voor dit account gevonden. Beheer het in het beveiligde factureringsportaal om betalingsgegevens bij te werken of de verlengingsstatus te controleren. Als je net hebt betaald, wacht dan een minuut en open deze pagina opnieuw.",
     "premiumPurchasesDisabledTitle": "Aankopen niet beschikbaar",
-    "premiumPurchasesDisabledBody": "Aankopen zijn uitgeschakeld voor dit account. Neem contact op met support@fluxer.app als dit onjuist lijkt.",
+    "premiumPurchasesDisabledBody": "Aankopen zijn uitgeschakeld voor dit account. Neem contact op met {supportEmail} als dit onjuist lijkt.",
+    "@premiumPurchasesDisabledBody": {
+        "description": "Shown on the official hosted instance when purchases are disabled for the account. supportEmail is the support mailbox.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumPurchasesDisabledBodySelfHosted": "Aankopen zijn uitgeschakeld voor dit account. Neem contact op met de beheerders van deze instantie als dit onjuist lijkt.",
+    "@premiumPurchasesDisabledBodySelfHosted": {
+        "description": "Shown on a self-hosted instance when purchases are disabled for the account. Names no email address."
+    },
     "premiumClaimAccountToPurchase": "Claim je account om Fluxer Plutonium te kopen.",
     "premiumVerifyEmailToPurchase": "Je moet je e-mailadres verifiëren voordat je Fluxer Plutonium kunt kopen.",
     "premiumPerkCustomUsernameTag": "Aangepaste gebruikersnaamtag",

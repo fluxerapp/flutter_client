@@ -6488,6 +6488,10 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
       'Non è stato possibile consegnare il tuo messaggio perché è stato segnalato dai nostri sistemi di sicurezza. Se ritieni che si tratti di un errore, contatta il supporto.';
 
   @override
+  String get chatSendFailureContentBlockedSelfHosted =>
+      'Non è stato possibile consegnare il tuo messaggio perché è stato segnalato dai nostri sistemi di sicurezza. Se ritieni che si tratti di un errore, contatta gli amministratori di questa istanza.';
+
+  @override
   String get chatSendFailureNsfwEmojiSticker =>
       'Il tuo messaggio non è stato recapitato perché contiene emoji o sticker per adulti non consentiti in questo contesto.';
 
@@ -9714,6 +9718,10 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
       'Questo piano non è disponibile. Contatta l\'assistenza.';
 
   @override
+  String get premiumPlanUnavailableSelfHosted =>
+      'Questo piano non è disponibile. Contatta gli amministratori di questa istanza.';
+
+  @override
   String get premiumCompletePaymentTitle => 'Completa il pagamento';
 
   @override
@@ -9766,8 +9774,13 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   String get premiumPurchasesDisabledTitle => 'Acquisti non disponibili';
 
   @override
-  String get premiumPurchasesDisabledBody =>
-      'Gli acquisti sono disabilitati per questo account. Contatta support@fluxer.app se pensi ci sia un errore.';
+  String premiumPurchasesDisabledBody(String supportEmail) {
+    return 'Gli acquisti sono disabilitati per questo account. Contatta $supportEmail se pensi ci sia un errore.';
+  }
+
+  @override
+  String get premiumPurchasesDisabledBodySelfHosted =>
+      'Gli acquisti sono disabilitati per questo account. Contatta gli amministratori di questa istanza se pensi ci sia un errore.';
 
   @override
   String get premiumClaimAccountToPurchase =>

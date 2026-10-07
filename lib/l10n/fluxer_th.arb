@@ -5733,6 +5733,10 @@
     "@chatSendFailureContentBlocked": {
         "description": "Fluxerbot system message when message content is blocked by safety systems."
     },
+    "chatSendFailureContentBlockedSelfHosted": "ไม่สามารถส่งข้อความของคุณได้ เนื่องจากถูกระบบความปลอดภัยของเราตรวจจับไว้ หากคุณคิดว่านี่เป็นความผิดพลาด โปรดติดต่อผู้ดูแลระบบของอินสแตนซ์นี้",
+    "@chatSendFailureContentBlockedSelfHosted": {
+        "description": "Fluxerbot system message on a self-hosted instance when message content is blocked by safety systems. Names no support mailbox."
+    },
     "chatSendFailureNsfwEmojiSticker": "ไม่สามารถส่งข้อความของคุณได้เนื่องจากมีอิโมจิหรือสติกเกอร์สำหรับผู้ใหญ่ที่ไม่ได้รับอนุญาตในบริบทนี้",
     "@chatSendFailureNsfwEmojiSticker": {
         "description": "Fluxerbot system message when mature emoji or stickers are blocked."
@@ -15618,6 +15622,10 @@
     "premiumCheckoutStartFailedTitle": "ไม่สามารถเริ่มชำระเงินได้",
     "premiumCheckoutStartFailedBody": "เกิดข้อผิดพลาดขณะเริ่มต้นการชำระเงิน โปรดลองอีกครั้งในภายหลัง",
     "premiumPlanUnavailable": "แพ็กเกจนี้ไม่พร้อมใช้งาน โปรดติดต่อฝ่ายสนับสนุน",
+    "premiumPlanUnavailableSelfHosted": "แพ็กเกจนี้ไม่พร้อมใช้งาน โปรดติดต่อผู้ดูแลระบบของอินสแตนซ์นี้",
+    "@premiumPlanUnavailableSelfHosted": {
+        "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
+    },
     "premiumCompletePaymentTitle": "ชำระเงินให้เสร็จสมบูรณ์",
     "premiumCompletePaymentBody": "คุณกำลังไปยัง Stripe เพื่อดำเนินการชำระเงินให้เสร็จสิ้น กลับไปที่ Fluxer เมื่อคุณดำเนินการเสร็จแล้ว",
     "premiumChoosePaymentMethodTitle": "เลือกช่องทางการชำระเงิน",
@@ -15633,7 +15641,19 @@
     "premiumExistingSubscriptionTitle": "มีการสมัครสมาชิกอยู่แล้ว",
     "premiumExistingSubscriptionBody": "เราพบการสมัครใช้งาน Fluxer Plutonium ที่มีอยู่สำหรับบัญชีนี้ จัดการได้ที่พอร์ทัลการเรียกเก็บเงินที่ปลอดภัยเพื่ออัปเดตรายละเอียดการชำระเงินหรือตรวจสอบสถานะการต่ออายุ หากคุณเพิ่งชำระเงิน โปรดรอสักครู่แล้วเปิดหน้านี้อีกครั้ง",
     "premiumPurchasesDisabledTitle": "ไม่สามารถซื้อได้",
-    "premiumPurchasesDisabledBody": "การซื้อถูกปิดใช้งานสำหรับบัญชีนี้ ติดต่อ support@fluxer.app หากดูเหมือนว่ามีข้อผิดพลาด",
+    "premiumPurchasesDisabledBody": "การซื้อถูกปิดใช้งานสำหรับบัญชีนี้ ติดต่อ {supportEmail} หากดูเหมือนว่ามีข้อผิดพลาด",
+    "@premiumPurchasesDisabledBody": {
+        "description": "Shown on the official hosted instance when purchases are disabled for the account. supportEmail is the support mailbox.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumPurchasesDisabledBodySelfHosted": "การซื้อถูกปิดใช้งานสำหรับบัญชีนี้ ติดต่อผู้ดูแลระบบของอินสแตนซ์นี้หากดูเหมือนว่ามีข้อผิดพลาด",
+    "@premiumPurchasesDisabledBodySelfHosted": {
+        "description": "Shown on a self-hosted instance when purchases are disabled for the account. Names no email address."
+    },
     "premiumClaimAccountToPurchase": "รับสิทธิ์บัญชีของคุณเพื่อซื้อ Fluxer Plutonium",
     "premiumVerifyEmailToPurchase": "คุณต้องยืนยันอีเมลของคุณก่อนจึงจะสามารถซื้อ Fluxer Plutonium ได้",
     "premiumPerkCustomUsernameTag": "แท็กชื่อผู้ใช้แบบกำหนดเอง",

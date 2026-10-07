@@ -6409,6 +6409,10 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'ไม่สามารถส่งข้อความของคุณได้ เนื่องจากถูกระบบความปลอดภัยของเราตรวจจับไว้ หากคุณคิดว่านี่เป็นความผิดพลาด โปรดติดต่อฝ่ายสนับสนุน';
 
   @override
+  String get chatSendFailureContentBlockedSelfHosted =>
+      'ไม่สามารถส่งข้อความของคุณได้ เนื่องจากถูกระบบความปลอดภัยของเราตรวจจับไว้ หากคุณคิดว่านี่เป็นความผิดพลาด โปรดติดต่อผู้ดูแลระบบของอินสแตนซ์นี้';
+
+  @override
   String get chatSendFailureNsfwEmojiSticker =>
       'ไม่สามารถส่งข้อความของคุณได้เนื่องจากมีอิโมจิหรือสติกเกอร์สำหรับผู้ใหญ่ที่ไม่ได้รับอนุญาตในบริบทนี้';
 
@@ -9574,6 +9578,10 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'แพ็กเกจนี้ไม่พร้อมใช้งาน โปรดติดต่อฝ่ายสนับสนุน';
 
   @override
+  String get premiumPlanUnavailableSelfHosted =>
+      'แพ็กเกจนี้ไม่พร้อมใช้งาน โปรดติดต่อผู้ดูแลระบบของอินสแตนซ์นี้';
+
+  @override
   String get premiumCompletePaymentTitle => 'ชำระเงินให้เสร็จสมบูรณ์';
 
   @override
@@ -9626,8 +9634,13 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get premiumPurchasesDisabledTitle => 'ไม่สามารถซื้อได้';
 
   @override
-  String get premiumPurchasesDisabledBody =>
-      'การซื้อถูกปิดใช้งานสำหรับบัญชีนี้ ติดต่อ support@fluxer.app หากดูเหมือนว่ามีข้อผิดพลาด';
+  String premiumPurchasesDisabledBody(String supportEmail) {
+    return 'การซื้อถูกปิดใช้งานสำหรับบัญชีนี้ ติดต่อ $supportEmail หากดูเหมือนว่ามีข้อผิดพลาด';
+  }
+
+  @override
+  String get premiumPurchasesDisabledBodySelfHosted =>
+      'การซื้อถูกปิดใช้งานสำหรับบัญชีนี้ ติดต่อผู้ดูแลระบบของอินสแตนซ์นี้หากดูเหมือนว่ามีข้อผิดพลาด';
 
   @override
   String get premiumClaimAccountToPurchase =>

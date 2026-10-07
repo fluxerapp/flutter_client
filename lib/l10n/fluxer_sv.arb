@@ -5733,6 +5733,10 @@
     "@chatSendFailureContentBlocked": {
         "description": "Fluxerbot system message when message content is blocked by safety systems."
     },
+    "chatSendFailureContentBlockedSelfHosted": "Ditt meddelande kunde inte levereras eftersom det flaggades av våra säkerhetssystem. Om du tror att detta är ett misstag, kontakta administratörerna för den här instansen.",
+    "@chatSendFailureContentBlockedSelfHosted": {
+        "description": "Fluxerbot system message on a self-hosted instance when message content is blocked by safety systems. Names no support mailbox."
+    },
     "chatSendFailureNsfwEmojiSticker": "Ditt meddelande kunde inte levereras eftersom det innehåller mogna emoji eller klistermärken som inte är tillåtna i detta sammanhang.",
     "@chatSendFailureNsfwEmojiSticker": {
         "description": "Fluxerbot system message when mature emoji or stickers are blocked."
@@ -15618,6 +15622,10 @@
     "premiumCheckoutStartFailedTitle": "Kunde inte starta betalning",
     "premiumCheckoutStartFailedBody": "Något gick fel när betalningen skulle startas. Försök igen om en stund.",
     "premiumPlanUnavailable": "Den här planen är inte tillgänglig. Kontakta supporten.",
+    "premiumPlanUnavailableSelfHosted": "Den här planen är inte tillgänglig. Kontakta administratörerna för den här instansen.",
+    "@premiumPlanUnavailableSelfHosted": {
+        "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
+    },
     "premiumCompletePaymentTitle": "Slutför betalning",
     "premiumCompletePaymentBody": "Du omdirigeras nu till Stripe för att slutföra betalningen. Återvänd till Fluxer när du är klar.",
     "premiumChoosePaymentMethodTitle": "Välj betalningsmetod",
@@ -15633,7 +15641,19 @@
     "premiumExistingSubscriptionTitle": "Abonnemanget finns redan",
     "premiumExistingSubscriptionBody": "Vi hittade en befintlig Fluxer Plutonium-prenumeration för det här kontot. Hantera den i den säkra faktureringsportalen för att uppdatera betalningsuppgifter eller kontrollera förnyelsestatus. Om du precis betalade, vänta en minut och öppna sidan igen.",
     "premiumPurchasesDisabledTitle": "Köp är inte tillgängliga",
-    "premiumPurchasesDisabledBody": "Köp är inaktiverade för det här kontot. Kontakta support@fluxer.app om detta verkar fel.",
+    "premiumPurchasesDisabledBody": "Köp är inaktiverade för det här kontot. Kontakta {supportEmail} om detta verkar fel.",
+    "@premiumPurchasesDisabledBody": {
+        "description": "Shown on the official hosted instance when purchases are disabled for the account. supportEmail is the support mailbox.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumPurchasesDisabledBodySelfHosted": "Köp är inaktiverade för det här kontot. Kontakta administratörerna för den här instansen om detta verkar fel.",
+    "@premiumPurchasesDisabledBodySelfHosted": {
+        "description": "Shown on a self-hosted instance when purchases are disabled for the account. Names no email address."
+    },
     "premiumClaimAccountToPurchase": "Hämta ditt konto för att köpa Fluxer Plutonium.",
     "premiumVerifyEmailToPurchase": "Du behöver verifiera din e-postadress innan du kan köpa Fluxer Plutonium.",
     "premiumPerkCustomUsernameTag": "Anpassad användartagg",

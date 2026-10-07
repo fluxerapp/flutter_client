@@ -6465,6 +6465,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Vaše zpráva nemohla být doručena, protože byla označena našimi bezpečnostními systémy. Pokud se domníváte, že jde o chybu, kontaktujte prosím podporu.';
 
   @override
+  String get chatSendFailureContentBlockedSelfHosted =>
+      'Vaše zpráva nemohla být doručena, protože byla označena našimi bezpečnostními systémy. Pokud se domníváte, že jde o chybu, kontaktujte prosím správce této instance.';
+
+  @override
   String get chatSendFailureNsfwEmojiSticker =>
       'Vaše zpráva nemohla být doručena, protože obsahuje nevhodné emoji nebo nálepky, které nejsou v tomto kontextu povoleny.';
 
@@ -9690,6 +9694,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Tento tarif není k dispozici. Kontaktujte podporu.';
 
   @override
+  String get premiumPlanUnavailableSelfHosted =>
+      'Tento tarif není k dispozici. Kontaktujte správce této instance.';
+
+  @override
   String get premiumCompletePaymentTitle => 'Dokončit platbu';
 
   @override
@@ -9742,8 +9750,13 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get premiumPurchasesDisabledTitle => 'Nákupy nejsou k dispozici';
 
   @override
-  String get premiumPurchasesDisabledBody =>
-      'Nákupy jsou pro tento účet zakázány. Pokud se vám to nezdá, kontaktujte support@fluxer.app.';
+  String premiumPurchasesDisabledBody(String supportEmail) {
+    return 'Nákupy jsou pro tento účet zakázány. Pokud se vám to nezdá, kontaktujte $supportEmail.';
+  }
+
+  @override
+  String get premiumPurchasesDisabledBodySelfHosted =>
+      'Nákupy jsou pro tento účet zakázány. Pokud se vám to nezdá, kontaktujte správce této instance.';
 
   @override
   String get premiumClaimAccountToPurchase =>

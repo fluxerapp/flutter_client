@@ -6452,6 +6452,10 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Tin nhắn của bạn không thể gửi đi vì đã bị hệ thống an toàn của chúng tôi gắn cờ. Nếu bạn cho rằng đây là lỗi, vui lòng liên hệ bộ phận hỗ trợ.';
 
   @override
+  String get chatSendFailureContentBlockedSelfHosted =>
+      'Tin nhắn của bạn không thể gửi đi vì đã bị hệ thống an toàn của chúng tôi gắn cờ. Nếu bạn cho rằng đây là lỗi, vui lòng liên hệ quản trị viên của máy chủ này.';
+
+  @override
   String get chatSendFailureNsfwEmojiSticker =>
       'Tin nhắn của bạn không thể gửi vì chứa biểu tượng cảm xúc hoặc nhãn dán nhạy cảm không được phép trong ngữ cảnh này.';
 
@@ -9656,6 +9660,10 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Gói này không khả dụng. Hãy liên hệ bộ phận hỗ trợ.';
 
   @override
+  String get premiumPlanUnavailableSelfHosted =>
+      'Gói này không khả dụng. Hãy liên hệ quản trị viên của máy chủ này.';
+
+  @override
   String get premiumCompletePaymentTitle => 'Hoàn tất thanh toán';
 
   @override
@@ -9709,8 +9717,13 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Tính năng mua hàng không khả dụng';
 
   @override
-  String get premiumPurchasesDisabledBody =>
-      'Giao dịch đã bị tắt cho tài khoản này. Liên hệ support@fluxer.app nếu bạn thấy có gì đó không đúng.';
+  String premiumPurchasesDisabledBody(String supportEmail) {
+    return 'Giao dịch đã bị tắt cho tài khoản này. Liên hệ $supportEmail nếu bạn thấy có gì đó không đúng.';
+  }
+
+  @override
+  String get premiumPurchasesDisabledBodySelfHosted =>
+      'Giao dịch đã bị tắt cho tài khoản này. Liên hệ quản trị viên của máy chủ này nếu bạn thấy có gì đó không đúng.';
 
   @override
   String get premiumClaimAccountToPurchase =>
@@ -11405,7 +11418,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get instanceUrlHelper =>
-      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+      'Sử dụng fluxer.app cho máy chủ chính thức hoặc URL chính xác của máy chủ tự lưu trữ.';
 
   @override
   String get resetToDefaultInstance => 'Đặt lại về Fluxer';
@@ -15196,7 +15209,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get assistantDmsDisabled =>
-      'Direct messages are disabled on this instance.';
+      'Tin nhắn trực tiếp đã bị tắt trên máy chủ này.';
 
   @override
   String get assistantFailed => 'Fluxer không thể hoàn thành tác vụ đó.';

@@ -6473,6 +6473,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Vaša poruka nije mogla biti isporučena jer ju je naš sigurnosni sustav označio. Ako mislite da je ovo pogreška, obratite se podršci.';
 
   @override
+  String get chatSendFailureContentBlockedSelfHosted =>
+      'Vaša poruka nije mogla biti isporučena jer ju je naš sigurnosni sustav označio. Ako mislite da je ovo pogreška, obratite se administratorima ove instance.';
+
+  @override
   String get chatSendFailureNsfwEmojiSticker =>
       'Tvoja poruka nije mogla biti dostavljena jer sadrži neprikladne emotikone ili naljepnice koje nisu dopuštene u ovom kontekstu.';
 
@@ -9683,6 +9687,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
       'Ovaj plan nije dostupan. Obratite se podršci.';
 
   @override
+  String get premiumPlanUnavailableSelfHosted =>
+      'Ovaj plan nije dostupan. Obratite se administratorima ove instance.';
+
+  @override
   String get premiumCompletePaymentTitle => 'Dovrši plaćanje';
 
   @override
@@ -9735,8 +9743,13 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get premiumPurchasesDisabledTitle => 'Kupnja nije dostupna';
 
   @override
-  String get premiumPurchasesDisabledBody =>
-      'Kupnje su onemogućene za ovaj račun. Obratite se na support@fluxer.app ako ovo izgleda pogrešno.';
+  String premiumPurchasesDisabledBody(String supportEmail) {
+    return 'Kupnje su onemogućene za ovaj račun. Obratite se na $supportEmail ako ovo izgleda pogrešno.';
+  }
+
+  @override
+  String get premiumPurchasesDisabledBodySelfHosted =>
+      'Kupnje su onemogućene za ovaj račun. Obratite se administratorima ove instance ako ovo izgleda pogrešno.';
 
   @override
   String get premiumClaimAccountToPurchase =>

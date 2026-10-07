@@ -6503,6 +6503,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Az üzenetedet nem sikerült kézbesíteni, mert a biztonsági rendszereink megjelölték. Ha úgy gondolod, ez tévedés, kérjük, vedd fel a kapcsolatot az ügyfélszolgálattal.';
 
   @override
+  String get chatSendFailureContentBlockedSelfHosted =>
+      'Az üzenetedet nem sikerült kézbesíteni, mert a biztonsági rendszereink megjelölték. Ha úgy gondolod, ez tévedés, kérjük, vedd fel a kapcsolatot ennek a példánynak az adminisztrátoraival.';
+
+  @override
   String get chatSendFailureNsfwEmojiSticker =>
       'Az üzenetedet nem lehetett kézbesíteni, mert olyan felnőtt tartalmú hangulatjeleket vagy matricákat tartalmaz, amelyek ebben a kontextusban nem engedélyezettek.';
 
@@ -9736,6 +9740,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
       'Ez a csomag nem elérhető. Vedd fel a kapcsolatot az ügyfélszolgálattal.';
 
   @override
+  String get premiumPlanUnavailableSelfHosted =>
+      'Ez a csomag nem elérhető. Vedd fel a kapcsolatot ennek a példánynak az adminisztrátoraival.';
+
+  @override
   String get premiumCompletePaymentTitle => 'Fizetés befejezése';
 
   @override
@@ -9788,8 +9796,13 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get premiumPurchasesDisabledTitle => 'Vásárlások nem elérhetők';
 
   @override
-  String get premiumPurchasesDisabledBody =>
-      'A vásárlások le vannak tiltva ehhez a fiókhoz. Ha úgy gondolod, hogy ez hiba, lépj kapcsolatba a support@fluxer.app címmel.';
+  String premiumPurchasesDisabledBody(String supportEmail) {
+    return 'A vásárlások le vannak tiltva ehhez a fiókhoz. Ha úgy gondolod, hogy ez hiba, lépj kapcsolatba a $supportEmail címmel.';
+  }
+
+  @override
+  String get premiumPurchasesDisabledBodySelfHosted =>
+      'A vásárlások le vannak tiltva ehhez a fiókhoz. Ha úgy gondolod, hogy ez hiba, lépj kapcsolatba ennek a példánynak az adminisztrátoraival.';
 
   @override
   String get premiumClaimAccountToPurchase =>

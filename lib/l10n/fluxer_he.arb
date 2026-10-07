@@ -7803,6 +7803,10 @@
     "@chatSendFailureContentBlocked": {
         "description": "Fluxerbot system message when message content is blocked by safety systems."
     },
+    "chatSendFailureContentBlockedSelfHosted": "ההודעה שלך לא נמסרה כי היא סומנה על ידי מערכות הבטיחות שלנו. אם לדעתך זו טעות, אנא פנה למנהלי המערכת של המופע הזה.",
+    "@chatSendFailureContentBlockedSelfHosted": {
+        "description": "Fluxerbot system message on a self-hosted instance when message content is blocked by safety systems. Names no support mailbox."
+    },
     "chatSendFailureNsfwEmojiSticker": "ההודעה שלך לא נמסרה מכיוון שהיא מכילה אימוג'י או מדבקות בוגרים שאסורים בהקשר זה.",
     "@chatSendFailureNsfwEmojiSticker": {
         "description": "Fluxerbot system message when mature emoji or stickers are blocked."
@@ -11567,6 +11571,10 @@
     "premiumCheckoutStartFailedTitle": "לא ניתן להתחיל את התשלום",
     "premiumCheckoutStartFailedBody": "משהו השתבש במהלך התחלת התשלום. יש לנסות שוב בעוד רגע.",
     "premiumPlanUnavailable": "התוכנית הזו אינה זמינה. יש ליצור קשר עם התמיכה.",
+    "premiumPlanUnavailableSelfHosted": "התוכנית הזו אינה זמינה. יש ליצור קשר עם מנהלי המערכת של המופע הזה.",
+    "@premiumPlanUnavailableSelfHosted": {
+        "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
+    },
     "premiumCompletePaymentTitle": "השלם תשלום",
     "premiumCompletePaymentBody": "אתה מועבר כעת ל-Stripe להשלמת התשלום. חזור ל-Fluxer לאחר שתסיים.",
     "premiumChoosePaymentMethodTitle": "בחירת אמצעי תשלום",
@@ -11582,7 +11590,19 @@
     "premiumExistingSubscriptionTitle": "המנוי כבר קיים",
     "premiumExistingSubscriptionBody": "מצאנו מנוי קיים של Fluxer Plutonium עבור חשבון זה. נהלו אותו בפורטל החיוב המאובטח כדי לעדכן פרטי תשלום או לבדוק את סטטוס החידוש. אם שילמתם זה עתה, המתינו דקה ופתחו מחדש את הדף הזה.",
     "premiumPurchasesDisabledTitle": "רכישות אינן זמינות",
-    "premiumPurchasesDisabledBody": "הרכישות מושבתות עבור חשבון זה. צור קשר עם support@fluxer.app אם זה נראה שגוי.",
+    "premiumPurchasesDisabledBody": "הרכישות מושבתות עבור חשבון זה. צור קשר עם {supportEmail} אם זה נראה שגוי.",
+    "@premiumPurchasesDisabledBody": {
+        "description": "Shown on the official hosted instance when purchases are disabled for the account. supportEmail is the support mailbox.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumPurchasesDisabledBodySelfHosted": "הרכישות מושבתות עבור חשבון זה. צור קשר עם מנהלי המערכת של המופע הזה אם זה נראה שגוי.",
+    "@premiumPurchasesDisabledBodySelfHosted": {
+        "description": "Shown on a self-hosted instance when purchases are disabled for the account. Names no email address."
+    },
     "premiumClaimAccountToPurchase": "אמת את חשבונך כדי לרכוש Fluxer Plutonium.",
     "premiumVerifyEmailToPurchase": "עליך לאמת את כתובת הדוא\"ל שלך לפני שתוכל לרכוש Fluxer Plutonium.",
     "premiumPerkCustomUsernameTag": "תגית שם משתמש מותאמת אישית",

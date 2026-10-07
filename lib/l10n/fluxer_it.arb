@@ -5733,6 +5733,10 @@
     "@chatSendFailureContentBlocked": {
         "description": "Fluxerbot system message when message content is blocked by safety systems."
     },
+    "chatSendFailureContentBlockedSelfHosted": "Non è stato possibile consegnare il tuo messaggio perché è stato segnalato dai nostri sistemi di sicurezza. Se ritieni che si tratti di un errore, contatta gli amministratori di questa istanza.",
+    "@chatSendFailureContentBlockedSelfHosted": {
+        "description": "Fluxerbot system message on a self-hosted instance when message content is blocked by safety systems. Names no support mailbox."
+    },
     "chatSendFailureNsfwEmojiSticker": "Il tuo messaggio non è stato recapitato perché contiene emoji o sticker per adulti non consentiti in questo contesto.",
     "@chatSendFailureNsfwEmojiSticker": {
         "description": "Fluxerbot system message when mature emoji or stickers are blocked."
@@ -15618,6 +15622,10 @@
     "premiumCheckoutStartFailedTitle": "Impossibile avviare il pagamento",
     "premiumCheckoutStartFailedBody": "Si è verificato un errore durante l'avvio del checkout. Riprova tra qualche istante.",
     "premiumPlanUnavailable": "Questo piano non è disponibile. Contatta l'assistenza.",
+    "premiumPlanUnavailableSelfHosted": "Questo piano non è disponibile. Contatta gli amministratori di questa istanza.",
+    "@premiumPlanUnavailableSelfHosted": {
+        "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
+    },
     "premiumCompletePaymentTitle": "Completa il pagamento",
     "premiumCompletePaymentBody": "Ora verrai reindirizzato a Stripe per completare il pagamento. Torna su Fluxer una volta terminato.",
     "premiumChoosePaymentMethodTitle": "Scegli un metodo di pagamento",
@@ -15633,7 +15641,19 @@
     "premiumExistingSubscriptionTitle": "Abbonamento già esistente",
     "premiumExistingSubscriptionBody": "Abbiamo trovato un abbonamento Fluxer Plutonium esistente per questo account. Gestiscilo nel portale di fatturazione sicuro per aggiornare i dettagli di pagamento o verificare lo stato del rinnovo. Se hai appena pagato, attendi un minuto e riapri questa pagina.",
     "premiumPurchasesDisabledTitle": "Acquisti non disponibili",
-    "premiumPurchasesDisabledBody": "Gli acquisti sono disabilitati per questo account. Contatta support@fluxer.app se pensi ci sia un errore.",
+    "premiumPurchasesDisabledBody": "Gli acquisti sono disabilitati per questo account. Contatta {supportEmail} se pensi ci sia un errore.",
+    "@premiumPurchasesDisabledBody": {
+        "description": "Shown on the official hosted instance when purchases are disabled for the account. supportEmail is the support mailbox.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumPurchasesDisabledBodySelfHosted": "Gli acquisti sono disabilitati per questo account. Contatta gli amministratori di questa istanza se pensi ci sia un errore.",
+    "@premiumPurchasesDisabledBodySelfHosted": {
+        "description": "Shown on a self-hosted instance when purchases are disabled for the account. Names no email address."
+    },
     "premiumClaimAccountToPurchase": "Rivendica il tuo account per acquistare Fluxer Plutonium.",
     "premiumVerifyEmailToPurchase": "Devi verificare la tua email prima di poter acquistare Fluxer Plutonium.",
     "premiumPerkCustomUsernameTag": "Tag nome utente personalizzato",

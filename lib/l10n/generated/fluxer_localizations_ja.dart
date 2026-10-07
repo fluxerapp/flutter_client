@@ -6204,6 +6204,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       'メッセージは安全システムによって不適切と判断されたため、送信できませんでした。誤りだと思われる場合は、サポートにお問い合わせください。';
 
   @override
+  String get chatSendFailureContentBlockedSelfHosted =>
+      'メッセージは安全システムによって不適切と判断されたため、送信できませんでした。誤りだと思われる場合は、このインスタンスの管理者にお問い合わせください。';
+
+  @override
   String get chatSendFailureNsfwEmojiSticker =>
       'このコンテキストで許可されていない成人向け絵文字またはステッカーが含まれているため、メッセージを配信できませんでした。';
 
@@ -9266,6 +9270,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get premiumPlanUnavailable => 'このプランはご利用いただけません。サポートにお問い合わせください。';
 
   @override
+  String get premiumPlanUnavailableSelfHosted =>
+      'このプランはご利用いただけません。このインスタンスの管理者にお問い合わせください。';
+
+  @override
   String get premiumCompletePaymentTitle => '支払いを完了';
 
   @override
@@ -9317,8 +9325,13 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get premiumPurchasesDisabledTitle => '購入できません';
 
   @override
-  String get premiumPurchasesDisabledBody =>
-      'このアカウントでは購入が無効になっています。問題があると思われる場合は、support@fluxer.app までお問い合わせください。';
+  String premiumPurchasesDisabledBody(String supportEmail) {
+    return 'このアカウントでは購入が無効になっています。問題があると思われる場合は、$supportEmail までお問い合わせください。';
+  }
+
+  @override
+  String get premiumPurchasesDisabledBodySelfHosted =>
+      'このアカウントでは購入が無効になっています。問題があると思われる場合は、このインスタンスの管理者までお問い合わせください。';
 
   @override
   String get premiumClaimAccountToPurchase =>

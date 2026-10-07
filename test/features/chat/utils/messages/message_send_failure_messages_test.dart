@@ -9,6 +9,7 @@ void main() {
     final String? message = clientSystemMessageForSendError(
       apiErrorCode: apiErrorCodeCannotSendMessagesToUser,
       l10n: l10n,
+      selfHosted: false,
     );
     expect(message, isNotNull);
     expect(message, contains('could not be delivered'));
@@ -19,6 +20,7 @@ void main() {
     final String? message = clientSystemMessageForSendError(
       apiErrorCode: apiErrorCodeUnclaimedAccountCannotSendDirectMessages,
       l10n: l10n,
+      selfHosted: false,
     );
     expect(message, l10n.chatSendFailureUnclaimedDm);
   });
@@ -27,6 +29,7 @@ void main() {
     final String? message = clientSystemMessageForSendError(
       apiErrorCode: apiErrorCodeUnclaimedAccountCannotSendMessages,
       l10n: l10n,
+      selfHosted: false,
     );
     expect(message, l10n.chatSendFailureUnclaimedGeneral);
   });
@@ -35,14 +38,26 @@ void main() {
     final String? message = clientSystemMessageForSendError(
       apiErrorCode: apiErrorCodeContentBlocked,
       l10n: l10n,
+      selfHosted: false,
     );
     expect(message, l10n.chatSendFailureContentBlocked);
+  });
+
+  test('maps content blocked error on a self-hosted instance', () {
+    final String? message = clientSystemMessageForSendError(
+      apiErrorCode: apiErrorCodeContentBlocked,
+      l10n: l10n,
+      selfHosted: true,
+    );
+    expect(message, l10n.chatSendFailureContentBlockedSelfHosted);
+    expect(message, isNot(contains('support')));
   });
 
   test('maps NSFW emoji sticker error', () {
     final String? message = clientSystemMessageForSendError(
       apiErrorCode: apiErrorCodeNsfwEmojiStickerBlocked,
       l10n: l10n,
+      selfHosted: false,
     );
     expect(message, l10n.chatSendFailureNsfwEmojiSticker);
   });
@@ -52,11 +67,16 @@ void main() {
       clientSystemMessageForSendError(
         apiErrorCode: 'SOME_OTHER_ERROR',
         l10n: l10n,
+        selfHosted: false,
       ),
       isNull,
     );
     expect(
-      clientSystemMessageForSendError(apiErrorCode: null, l10n: l10n),
+      clientSystemMessageForSendError(
+        apiErrorCode: null,
+        l10n: l10n,
+        selfHosted: false,
+      ),
       isNull,
     );
   });

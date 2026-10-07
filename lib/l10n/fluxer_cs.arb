@@ -5733,6 +5733,10 @@
     "@chatSendFailureContentBlocked": {
         "description": "Fluxerbot system message when message content is blocked by safety systems."
     },
+    "chatSendFailureContentBlockedSelfHosted": "Vaše zpráva nemohla být doručena, protože byla označena našimi bezpečnostními systémy. Pokud se domníváte, že jde o chybu, kontaktujte prosím správce této instance.",
+    "@chatSendFailureContentBlockedSelfHosted": {
+        "description": "Fluxerbot system message on a self-hosted instance when message content is blocked by safety systems. Names no support mailbox."
+    },
     "chatSendFailureNsfwEmojiSticker": "Vaše zpráva nemohla být doručena, protože obsahuje nevhodné emoji nebo nálepky, které nejsou v tomto kontextu povoleny.",
     "@chatSendFailureNsfwEmojiSticker": {
         "description": "Fluxerbot system message when mature emoji or stickers are blocked."
@@ -15618,6 +15622,10 @@
     "premiumCheckoutStartFailedTitle": "Nepodařilo se spustit platbu",
     "premiumCheckoutStartFailedBody": "Při zahájení platby se něco pokazilo. Zkuste to prosím za chvíli znovu.",
     "premiumPlanUnavailable": "Tento tarif není k dispozici. Kontaktujte podporu.",
+    "premiumPlanUnavailableSelfHosted": "Tento tarif není k dispozici. Kontaktujte správce této instance.",
+    "@premiumPlanUnavailableSelfHosted": {
+        "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
+    },
     "premiumCompletePaymentTitle": "Dokončit platbu",
     "premiumCompletePaymentBody": "Nyní budete přesměrováni na Stripe k dokončení platby. Po dokončení se vraťte do Fluxeru.",
     "premiumChoosePaymentMethodTitle": "Zvolte způsob platby",
@@ -15633,7 +15641,19 @@
     "premiumExistingSubscriptionTitle": "Předplatné už existuje",
     "premiumExistingSubscriptionBody": "Našli jsme existující předplatné Fluxer Plutonium pro tento účel. Spravujte ho v zabezpečeném platebním portálu pro aktualizaci platebních údajů nebo kontrolu stavu obnovení. Pokud jste právě zaplatili, počkejte minutu a znovu otevřete tuto stránku.",
     "premiumPurchasesDisabledTitle": "Nákupy nejsou k dispozici",
-    "premiumPurchasesDisabledBody": "Nákupy jsou pro tento účet zakázány. Pokud se vám to nezdá, kontaktujte support@fluxer.app.",
+    "premiumPurchasesDisabledBody": "Nákupy jsou pro tento účet zakázány. Pokud se vám to nezdá, kontaktujte {supportEmail}.",
+    "@premiumPurchasesDisabledBody": {
+        "description": "Shown on the official hosted instance when purchases are disabled for the account. supportEmail is the support mailbox.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumPurchasesDisabledBodySelfHosted": "Nákupy jsou pro tento účet zakázány. Pokud se vám to nezdá, kontaktujte správce této instance.",
+    "@premiumPurchasesDisabledBodySelfHosted": {
+        "description": "Shown on a self-hosted instance when purchases are disabled for the account. Names no email address."
+    },
     "premiumClaimAccountToPurchase": "Získejte svůj účet a kupte si Fluxer Plutonium.",
     "premiumVerifyEmailToPurchase": "Před nákupem Fluxer Plutonium si musíte ověřit svůj e-mail.",
     "premiumPerkCustomUsernameTag": "Vlastní čtyřmístný identifikátor",

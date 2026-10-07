@@ -7803,6 +7803,10 @@
     "@chatSendFailureContentBlocked": {
         "description": "Fluxerbot system message when message content is blocked by safety systems."
     },
+    "chatSendFailureContentBlockedSelfHosted": "Pesanmu tidak dapat dikirim karena ditandai oleh sistem keamanan kami. Jika menurutmu ini keliru, silakan hubungi administrator instance ini.",
+    "@chatSendFailureContentBlockedSelfHosted": {
+        "description": "Fluxerbot system message on a self-hosted instance when message content is blocked by safety systems. Names no support mailbox."
+    },
     "chatSendFailureNsfwEmojiSticker": "Pesan Anda tidak dapat terkirim karena berisi emoji atau stiker dewasa yang tidak diizinkan dalam konteks ini.",
     "@chatSendFailureNsfwEmojiSticker": {
         "description": "Fluxerbot system message when mature emoji or stickers are blocked."
@@ -11567,6 +11571,10 @@
     "premiumCheckoutStartFailedTitle": "Tidak dapat memulai pembayaran",
     "premiumCheckoutStartFailedBody": "Terjadi kesalahan saat memulai pembayaran. Silakan coba lagi sebentar lagi.",
     "premiumPlanUnavailable": "Paket ini tidak tersedia. Hubungi dukungan.",
+    "premiumPlanUnavailableSelfHosted": "Paket ini tidak tersedia. Hubungi administrator instance ini.",
+    "@premiumPlanUnavailableSelfHosted": {
+        "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
+    },
     "premiumCompletePaymentTitle": "Selesaikan pembayaran",
     "premiumCompletePaymentBody": "Anda sekarang diarahkan ke Stripe untuk menyelesaikan pembayaran. Kembali ke Fluxer setelah selesai.",
     "premiumChoosePaymentMethodTitle": "Pilih metode pembayaran",
@@ -11582,7 +11590,19 @@
     "premiumExistingSubscriptionTitle": "Langganan sudah ada",
     "premiumExistingSubscriptionBody": "Kami menemukan langganan Fluxer Plutonium yang sudah ada untuk akun ini. Kelola di portal penagihan aman untuk memperbarui detail pembayaran atau memeriksa status perpanjangan. Jika baru saja membayar, tunggu sebentar dan buka kembali halaman ini.",
     "premiumPurchasesDisabledTitle": "Pembelian tidak tersedia",
-    "premiumPurchasesDisabledBody": "Pembelian dinonaktifkan untuk akun ini. Hubungi support@fluxer.app jika ini terlihat salah.",
+    "premiumPurchasesDisabledBody": "Pembelian dinonaktifkan untuk akun ini. Hubungi {supportEmail} jika ini terlihat salah.",
+    "@premiumPurchasesDisabledBody": {
+        "description": "Shown on the official hosted instance when purchases are disabled for the account. supportEmail is the support mailbox.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumPurchasesDisabledBodySelfHosted": "Pembelian dinonaktifkan untuk akun ini. Hubungi administrator instance ini jika ini terlihat salah.",
+    "@premiumPurchasesDisabledBodySelfHosted": {
+        "description": "Shown on a self-hosted instance when purchases are disabled for the account. Names no email address."
+    },
     "premiumClaimAccountToPurchase": "Klaim akun Anda untuk membeli Fluxer Plutonium.",
     "premiumVerifyEmailToPurchase": "Anda perlu memverifikasi email Anda sebelum dapat membeli Fluxer Plutonium.",
     "premiumPerkCustomUsernameTag": "Tag nama pengguna khusus",
@@ -12953,6 +12973,7 @@
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
     },
+    "instanceUrlHelper": "Gunakan fluxer.app untuk instance resmi, atau URL persis dari instance yang di-host sendiri.",
     "@instanceUrlHelper": {
         "description": "Helper text explaining official vs self-hosted instance URLs."
     },
@@ -16875,6 +16896,7 @@
     "@assistantNotFound": {
         "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
     },
+    "assistantDmsDisabled": "Pesan langsung dinonaktifkan di instance ini.",
     "@assistantDmsDisabled": {
         "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
     },

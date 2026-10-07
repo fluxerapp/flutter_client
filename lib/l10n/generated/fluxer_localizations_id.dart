@@ -6449,6 +6449,10 @@ class FluxerLocalizationsId extends FluxerLocalizations {
       'Pesanmu tidak dapat dikirim karena ditandai oleh sistem keamanan kami. Jika menurutmu ini keliru, silakan hubungi dukungan.';
 
   @override
+  String get chatSendFailureContentBlockedSelfHosted =>
+      'Pesanmu tidak dapat dikirim karena ditandai oleh sistem keamanan kami. Jika menurutmu ini keliru, silakan hubungi administrator instance ini.';
+
+  @override
   String get chatSendFailureNsfwEmojiSticker =>
       'Pesan Anda tidak dapat terkirim karena berisi emoji atau stiker dewasa yang tidak diizinkan dalam konteks ini.';
 
@@ -9654,6 +9658,10 @@ class FluxerLocalizationsId extends FluxerLocalizations {
       'Paket ini tidak tersedia. Hubungi dukungan.';
 
   @override
+  String get premiumPlanUnavailableSelfHosted =>
+      'Paket ini tidak tersedia. Hubungi administrator instance ini.';
+
+  @override
   String get premiumCompletePaymentTitle => 'Selesaikan pembayaran';
 
   @override
@@ -9706,8 +9714,13 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get premiumPurchasesDisabledTitle => 'Pembelian tidak tersedia';
 
   @override
-  String get premiumPurchasesDisabledBody =>
-      'Pembelian dinonaktifkan untuk akun ini. Hubungi support@fluxer.app jika ini terlihat salah.';
+  String premiumPurchasesDisabledBody(String supportEmail) {
+    return 'Pembelian dinonaktifkan untuk akun ini. Hubungi $supportEmail jika ini terlihat salah.';
+  }
+
+  @override
+  String get premiumPurchasesDisabledBodySelfHosted =>
+      'Pembelian dinonaktifkan untuk akun ini. Hubungi administrator instance ini jika ini terlihat salah.';
 
   @override
   String get premiumClaimAccountToPurchase =>
@@ -11395,7 +11408,7 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get instanceUrlHelper =>
-      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+      'Gunakan fluxer.app untuk instance resmi, atau URL persis dari instance yang di-host sendiri.';
 
   @override
   String get resetToDefaultInstance => 'Atur ulang ke Fluxer';
@@ -15180,7 +15193,7 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get assistantDmsDisabled =>
-      'Direct messages are disabled on this instance.';
+      'Pesan langsung dinonaktifkan di instance ini.';
 
   @override
   String get assistantFailed => 'Fluxer tidak dapat menyelesaikan itu.';

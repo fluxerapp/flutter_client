@@ -6380,6 +6380,10 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
       'ההודעה שלך לא נמסרה כי היא סומנה על ידי מערכות הבטיחות שלנו. אם לדעתך זו טעות, אנא פנה לתמיכה.';
 
   @override
+  String get chatSendFailureContentBlockedSelfHosted =>
+      'ההודעה שלך לא נמסרה כי היא סומנה על ידי מערכות הבטיחות שלנו. אם לדעתך זו טעות, אנא פנה למנהלי המערכת של המופע הזה.';
+
+  @override
   String get chatSendFailureNsfwEmojiSticker =>
       'ההודעה שלך לא נמסרה מכיוון שהיא מכילה אימוג\'י או מדבקות בוגרים שאסורים בהקשר זה.';
 
@@ -9524,6 +9528,10 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
       'התוכנית הזו אינה זמינה. יש ליצור קשר עם התמיכה.';
 
   @override
+  String get premiumPlanUnavailableSelfHosted =>
+      'התוכנית הזו אינה זמינה. יש ליצור קשר עם מנהלי המערכת של המופע הזה.';
+
+  @override
   String get premiumCompletePaymentTitle => 'השלם תשלום';
 
   @override
@@ -9576,8 +9584,13 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get premiumPurchasesDisabledTitle => 'רכישות אינן זמינות';
 
   @override
-  String get premiumPurchasesDisabledBody =>
-      'הרכישות מושבתות עבור חשבון זה. צור קשר עם support@fluxer.app אם זה נראה שגוי.';
+  String premiumPurchasesDisabledBody(String supportEmail) {
+    return 'הרכישות מושבתות עבור חשבון זה. צור קשר עם $supportEmail אם זה נראה שגוי.';
+  }
+
+  @override
+  String get premiumPurchasesDisabledBodySelfHosted =>
+      'הרכישות מושבתות עבור חשבון זה. צור קשר עם מנהלי המערכת של המופע הזה אם זה נראה שגוי.';
 
   @override
   String get premiumClaimAccountToPurchase =>

@@ -6494,6 +6494,10 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Mesajul tău nu a putut fi livrat deoarece a fost semnalat de sistemele noastre de siguranță. Dacă crezi că este o greșeală, te rugăm să contactezi asistența.';
 
   @override
+  String get chatSendFailureContentBlockedSelfHosted =>
+      'Mesajul tău nu a putut fi livrat deoarece a fost semnalat de sistemele noastre de siguranță. Dacă crezi că este o greșeală, te rugăm să contactezi administratorii acestei instanțe.';
+
+  @override
   String get chatSendFailureNsfwEmojiSticker =>
       'Mesajul tău nu a putut fi livrat deoarece conține emoji sau stickere mature, care nu sunt permise în acest context.';
 
@@ -9719,6 +9723,10 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Acest plan nu este disponibil. Contactează asistența.';
 
   @override
+  String get premiumPlanUnavailableSelfHosted =>
+      'Acest plan nu este disponibil. Contactează administratorii acestei instanțe.';
+
+  @override
   String get premiumCompletePaymentTitle => 'Finalizează plata';
 
   @override
@@ -9771,8 +9779,13 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get premiumPurchasesDisabledTitle => 'Achizițiile nu sunt disponibile';
 
   @override
-  String get premiumPurchasesDisabledBody =>
-      'Achizițiile sunt dezactivate pentru acest cont. Contactați support@fluxer.app dacă credeți că este o greșeală.';
+  String premiumPurchasesDisabledBody(String supportEmail) {
+    return 'Achizițiile sunt dezactivate pentru acest cont. Contactați $supportEmail dacă credeți că este o greșeală.';
+  }
+
+  @override
+  String get premiumPurchasesDisabledBodySelfHosted =>
+      'Achizițiile sunt dezactivate pentru acest cont. Contactați administratorii acestei instanțe dacă credeți că este o greșeală.';
 
   @override
   String get premiumClaimAccountToPurchase =>

@@ -501,6 +501,7 @@ void main() {
         clientSystemMessageForSendError(
           apiErrorCode: apiErrorCodeCannotSendMessagesToUser,
           l10n: l10n,
+          selfHosted: false,
         ),
       );
     },

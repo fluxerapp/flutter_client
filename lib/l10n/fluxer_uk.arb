@@ -5733,6 +5733,10 @@
     "@chatSendFailureContentBlocked": {
         "description": "Fluxerbot system message when message content is blocked by safety systems."
     },
+    "chatSendFailureContentBlockedSelfHosted": "Ваше повідомлення не вдалося доставити, оскільки його позначено нашими системами безпеки. Якщо ви вважаєте, що це помилка, зверніться до адміністраторів цього екземпляра.",
+    "@chatSendFailureContentBlockedSelfHosted": {
+        "description": "Fluxerbot system message on a self-hosted instance when message content is blocked by safety systems. Names no support mailbox."
+    },
     "chatSendFailureNsfwEmojiSticker": "Ваше повідомлення не могло бути доставлено, оскільки воно містить недоречні емоджі або стікери, які не дозволені в цьому контексті.",
     "@chatSendFailureNsfwEmojiSticker": {
         "description": "Fluxerbot system message when mature emoji or stickers are blocked."
@@ -15618,6 +15622,10 @@
     "premiumCheckoutStartFailedTitle": "Не вдалося розпочати оформлення замовлення",
     "premiumCheckoutStartFailedBody": "Під час оформлення замовлення сталася помилка. Спробуйте ще раз за мить.",
     "premiumPlanUnavailable": "Цей тарифний план недоступний. Зверніться до служби підтримки.",
+    "premiumPlanUnavailableSelfHosted": "Цей тарифний план недоступний. Зверніться до адміністраторів цього екземпляра.",
+    "@premiumPlanUnavailableSelfHosted": {
+        "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
+    },
     "premiumCompletePaymentTitle": "Завершити оплату",
     "premiumCompletePaymentBody": "Ви переходите до Stripe для завершення оплати. Поверніться до Fluxer після завершення.",
     "premiumChoosePaymentMethodTitle": "Виберіть спосіб оплати",
@@ -15633,7 +15641,19 @@
     "premiumExistingSubscriptionTitle": "Підписка вже існує",
     "premiumExistingSubscriptionBody": "Ми знайшли наявну підписку Fluxer Plutonium для цього облікового запису. Керуйте нею в захищеному платіжному порталі, щоб оновити платіжні дані або перевірити статус поновлення. Якщо ви щойно оплатили, зачекайте хвилину та знову відкрийте цю сторінку.",
     "premiumPurchasesDisabledTitle": "Покупки недоступні",
-    "premiumPurchasesDisabledBody": "Покупки для цього облікового запису вимкнено. Зверніться до support@fluxer.app, якщо це виглядає неправильно.",
+    "premiumPurchasesDisabledBody": "Покупки для цього облікового запису вимкнено. Зверніться до {supportEmail}, якщо це виглядає неправильно.",
+    "@premiumPurchasesDisabledBody": {
+        "description": "Shown on the official hosted instance when purchases are disabled for the account. supportEmail is the support mailbox.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumPurchasesDisabledBodySelfHosted": "Покупки для цього облікового запису вимкнено. Зверніться до адміністраторів цього екземпляра, якщо це виглядає неправильно.",
+    "@premiumPurchasesDisabledBodySelfHosted": {
+        "description": "Shown on a self-hosted instance when purchases are disabled for the account. Names no email address."
+    },
     "premiumClaimAccountToPurchase": "Активуйте свій обліковий запис, щоб придбати Fluxer Plutonium.",
     "premiumVerifyEmailToPurchase": "Щоб придбати Fluxer Plutonium, вам потрібно підтвердити свою електронну пошту.",
     "premiumPerkCustomUsernameTag": "Власний тег користувача",

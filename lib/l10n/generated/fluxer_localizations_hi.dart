@@ -6451,6 +6451,10 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'आपका मैसेज डिलीवर नहीं हो सका क्योंकि इसे हमारे सुरक्षा सिस्टम ने फ़्लैग किया था। अगर आपको लगता है कि यह गलती से हुआ है, तो कृपया सहायता टीम से संपर्क करें।';
 
   @override
+  String get chatSendFailureContentBlockedSelfHosted =>
+      'आपका मैसेज डिलीवर नहीं हो सका क्योंकि इसे हमारे सुरक्षा सिस्टम ने फ़्लैग किया था। अगर आपको लगता है कि यह गलती से हुआ है, तो कृपया इस इंस्टेंस के एडमिनिस्ट्रेटर से संपर्क करें।';
+
+  @override
   String get chatSendFailureNsfwEmojiSticker =>
       'आपका संदेश डिलीवर नहीं हो सका क्योंकि इसमें ऐसे परिपक्व इमोजी या स्टिकर थे जो इस संदर्भ में अनुमत नहीं हैं।';
 
@@ -9652,6 +9656,10 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
       'यह प्लान उपलब्ध नहीं है। सहायता से संपर्क करें।';
 
   @override
+  String get premiumPlanUnavailableSelfHosted =>
+      'यह प्लान उपलब्ध नहीं है। इस इंस्टेंस के एडमिनिस्ट्रेटर से संपर्क करें।';
+
+  @override
   String get premiumCompletePaymentTitle => 'भुगतान पूरा करें';
 
   @override
@@ -9704,8 +9712,13 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get premiumPurchasesDisabledTitle => 'खरीदारी उपलब्ध नहीं है';
 
   @override
-  String get premiumPurchasesDisabledBody =>
-      'इस खाते के लिए खरीदारी अक्षम कर दी गई है। यदि यह गलत लगता है तो support@fluxer.app पर संपर्क करें।';
+  String premiumPurchasesDisabledBody(String supportEmail) {
+    return 'इस खाते के लिए खरीदारी अक्षम कर दी गई है। यदि यह गलत लगता है तो $supportEmail पर संपर्क करें।';
+  }
+
+  @override
+  String get premiumPurchasesDisabledBodySelfHosted =>
+      'इस खाते के लिए खरीदारी अक्षम कर दी गई है। यदि यह गलत लगता है तो इस इंस्टेंस के एडमिनिस्ट्रेटर से संपर्क करें।';
 
   @override
   String get premiumClaimAccountToPurchase =>

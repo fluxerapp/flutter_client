@@ -5421,6 +5421,7 @@ class ChatViewModel extends _$ChatViewModel {
     final String? systemMessageContent = clientSystemMessageForSendError(
       apiErrorCode: apiErrorCode,
       l10n: l10n,
+      selfHosted: ref.read(instanceRuntimeConfigProvider).selfHosted,
     );
     if (systemMessageContent != null) {
       nextMessages.add(
@@ -5586,6 +5587,7 @@ class ChatViewModel extends _$ChatViewModel {
       final String? systemMessageContent = clientSystemMessageForSendError(
         apiErrorCode: apiErrorCode,
         l10n: l10n,
+        selfHosted: ref.read(instanceRuntimeConfigProvider).selfHosted,
       );
       if (systemMessageContent != null) {
         nextMessages.add(

@@ -5733,6 +5733,10 @@
     "@chatSendFailureContentBlocked": {
         "description": "Fluxerbot system message when message content is blocked by safety systems."
     },
+    "chatSendFailureContentBlockedSelfHosted": "メッセージは安全システムによって不適切と判断されたため、送信できませんでした。誤りだと思われる場合は、このインスタンスの管理者にお問い合わせください。",
+    "@chatSendFailureContentBlockedSelfHosted": {
+        "description": "Fluxerbot system message on a self-hosted instance when message content is blocked by safety systems. Names no support mailbox."
+    },
     "chatSendFailureNsfwEmojiSticker": "このコンテキストで許可されていない成人向け絵文字またはステッカーが含まれているため、メッセージを配信できませんでした。",
     "@chatSendFailureNsfwEmojiSticker": {
         "description": "Fluxerbot system message when mature emoji or stickers are blocked."
@@ -15618,6 +15622,10 @@
     "premiumCheckoutStartFailedTitle": "チェックアウトを開始できませんでした",
     "premiumCheckoutStartFailedBody": "チェックアウトの開始中に問題が発生しました。しばらくしてからもう一度お試しください。",
     "premiumPlanUnavailable": "このプランはご利用いただけません。サポートにお問い合わせください。",
+    "premiumPlanUnavailableSelfHosted": "このプランはご利用いただけません。このインスタンスの管理者にお問い合わせください。",
+    "@premiumPlanUnavailableSelfHosted": {
+        "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
+    },
     "premiumCompletePaymentTitle": "支払いを完了",
     "premiumCompletePaymentBody": "支払いを完了するためにStripeに移動します。完了したらFluxerに戻ってください。",
     "premiumChoosePaymentMethodTitle": "支払い方法を選択",
@@ -15633,7 +15641,19 @@
     "premiumExistingSubscriptionTitle": "すでにサブスクリプションをご利用中です",
     "premiumExistingSubscriptionBody": "このアカウントには、既存のFluxer Plutoniumサブスクリプションが見つかりました。支払い方法の更新や更新状況の確認は、安全な請求ポータルで管理してください。最近お支払いいただいた場合は、1分ほど待ってからこのページを再度開いてください。",
     "premiumPurchasesDisabledTitle": "購入できません",
-    "premiumPurchasesDisabledBody": "このアカウントでは購入が無効になっています。問題があると思われる場合は、support@fluxer.app までお問い合わせください。",
+    "premiumPurchasesDisabledBody": "このアカウントでは購入が無効になっています。問題があると思われる場合は、{supportEmail} までお問い合わせください。",
+    "@premiumPurchasesDisabledBody": {
+        "description": "Shown on the official hosted instance when purchases are disabled for the account. supportEmail is the support mailbox.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumPurchasesDisabledBodySelfHosted": "このアカウントでは購入が無効になっています。問題があると思われる場合は、このインスタンスの管理者までお問い合わせください。",
+    "@premiumPurchasesDisabledBodySelfHosted": {
+        "description": "Shown on a self-hosted instance when purchases are disabled for the account. Names no email address."
+    },
     "premiumClaimAccountToPurchase": "Fluxer Plutonium を購入するためにアカウントを請求してください。",
     "premiumVerifyEmailToPurchase": "Fluxer Plutonium を購入するには、メールアドレスの認証が必要です。",
     "premiumPerkCustomUsernameTag": "カスタムユーザー名タグ",

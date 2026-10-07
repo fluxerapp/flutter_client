@@ -6463,6 +6463,10 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
       'Ditt meddelande kunde inte levereras eftersom det flaggades av våra säkerhetssystem. Om du tror att detta är ett misstag, kontakta supporten.';
 
   @override
+  String get chatSendFailureContentBlockedSelfHosted =>
+      'Ditt meddelande kunde inte levereras eftersom det flaggades av våra säkerhetssystem. Om du tror att detta är ett misstag, kontakta administratörerna för den här instansen.';
+
+  @override
   String get chatSendFailureNsfwEmojiSticker =>
       'Ditt meddelande kunde inte levereras eftersom det innehåller mogna emoji eller klistermärken som inte är tillåtna i detta sammanhang.';
 
@@ -9675,6 +9679,10 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
       'Den här planen är inte tillgänglig. Kontakta supporten.';
 
   @override
+  String get premiumPlanUnavailableSelfHosted =>
+      'Den här planen är inte tillgänglig. Kontakta administratörerna för den här instansen.';
+
+  @override
   String get premiumCompletePaymentTitle => 'Slutför betalning';
 
   @override
@@ -9727,8 +9735,13 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get premiumPurchasesDisabledTitle => 'Köp är inte tillgängliga';
 
   @override
-  String get premiumPurchasesDisabledBody =>
-      'Köp är inaktiverade för det här kontot. Kontakta support@fluxer.app om detta verkar fel.';
+  String premiumPurchasesDisabledBody(String supportEmail) {
+    return 'Köp är inaktiverade för det här kontot. Kontakta $supportEmail om detta verkar fel.';
+  }
+
+  @override
+  String get premiumPurchasesDisabledBodySelfHosted =>
+      'Köp är inaktiverade för det här kontot. Kontakta administratörerna för den här instansen om detta verkar fel.';
 
   @override
   String get premiumClaimAccountToPurchase =>

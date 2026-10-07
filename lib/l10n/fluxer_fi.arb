@@ -5733,6 +5733,10 @@
     "@chatSendFailureContentBlocked": {
         "description": "Fluxerbot system message when message content is blocked by safety systems."
     },
+    "chatSendFailureContentBlockedSelfHosted": "Viestiäsi ei voitu toimittaa, koska turvajärjestelmämme merkitsivät sen. Jos uskot tämän olevan virhe, ota yhteyttä tämän instanssin ylläpitäjiin.",
+    "@chatSendFailureContentBlockedSelfHosted": {
+        "description": "Fluxerbot system message on a self-hosted instance when message content is blocked by safety systems. Names no support mailbox."
+    },
     "chatSendFailureNsfwEmojiSticker": "Viestiäsi ei voitu toimittaa, koska se sisälsi aikuisille tarkoitettuja hymiöitä tai tarroja, joita ei sallita tässä yhteydessä.",
     "@chatSendFailureNsfwEmojiSticker": {
         "description": "Fluxerbot system message when mature emoji or stickers are blocked."
@@ -15618,6 +15622,10 @@
     "premiumCheckoutStartFailedTitle": "Kassan avaaminen epäonnistui",
     "premiumCheckoutStartFailedBody": "Jokin meni pieleen kassaa avattaessa. Yritä uudelleen hetken kuluttua.",
     "premiumPlanUnavailable": "Tämä tilaus ei ole saatavilla. Ota yhteyttä tukeen.",
+    "premiumPlanUnavailableSelfHosted": "Tämä tilaus ei ole saatavilla. Ota yhteyttä tämän instanssin ylläpitäjiin.",
+    "@premiumPlanUnavailableSelfHosted": {
+        "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
+    },
     "premiumCompletePaymentTitle": "Suorita maksu",
     "premiumCompletePaymentBody": "Siirryt nyt Stripeen maksun suorittamiseksi. Palaa Fluxeriin, kun olet suorittanut sen.",
     "premiumChoosePaymentMethodTitle": "Valitse maksutapa",
@@ -15633,7 +15641,19 @@
     "premiumExistingSubscriptionTitle": "Tilaus on jo olemassa",
     "premiumExistingSubscriptionBody": "Löysimme tilillesi jo olemassa olevan Fluxer Plutonium -tilauksen. Hallinnoi sitä suojatussa laskutusportaalissa päivittääksesi maksutietoja tai tarkistaaksesi uusimisen tilan. Jos maksoit juuri, odota hetki ja avaa sivu uudelleen.",
     "premiumPurchasesDisabledTitle": "Ostaminen ei ole käytettävissä",
-    "premiumPurchasesDisabledBody": "Ostokset on poistettu käytöstä tältä tililtä. Ota yhteyttä osoitteeseen support@fluxer.app, jos tämä näyttää virheelliseltä.",
+    "premiumPurchasesDisabledBody": "Ostokset on poistettu käytöstä tältä tililtä. Ota yhteyttä osoitteeseen {supportEmail}, jos tämä näyttää virheelliseltä.",
+    "@premiumPurchasesDisabledBody": {
+        "description": "Shown on the official hosted instance when purchases are disabled for the account. supportEmail is the support mailbox.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumPurchasesDisabledBodySelfHosted": "Ostokset on poistettu käytöstä tältä tililtä. Ota yhteyttä tämän instanssin ylläpitäjiin, jos tämä näyttää virheelliseltä.",
+    "@premiumPurchasesDisabledBodySelfHosted": {
+        "description": "Shown on a self-hosted instance when purchases are disabled for the account. Names no email address."
+    },
     "premiumClaimAccountToPurchase": "Lunasta tilisi ostaaksesi Fluxer Plutoniumia.",
     "premiumVerifyEmailToPurchase": "Sinun täytyy vahvistaa sähköpostisi ennen kuin voit ostaa Fluxer Plutoniumia.",
     "premiumPerkCustomUsernameTag": "Mukautettu käyttäjätunniste",

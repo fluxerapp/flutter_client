@@ -6429,6 +6429,10 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
       'Your message could not be delivered because it was flagged by our safety systems. If you believe this is a mistake, please contact support.';
 
   @override
+  String get chatSendFailureContentBlockedSelfHosted =>
+      'Your message could not be delivered because it was flagged by our safety systems. If you believe this is a mistake, please contact the administrators of this instance.';
+
+  @override
   String get chatSendFailureNsfwEmojiSticker =>
       'Your message could not be delivered because it contains mature emoji or stickers that are not allowed in this context.';
 
@@ -9606,6 +9610,10 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
       'This plan isn\'t available. Contact support.';
 
   @override
+  String get premiumPlanUnavailableSelfHosted =>
+      'This plan isn\'t available. Contact the administrators of this instance.';
+
+  @override
   String get premiumCompletePaymentTitle => 'Complete payment';
 
   @override
@@ -9658,8 +9666,13 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get premiumPurchasesDisabledTitle => 'Purchases unavailable';
 
   @override
-  String get premiumPurchasesDisabledBody =>
-      'Purchases are disabled for this account. Contact support@fluxer.app if this looks wrong.';
+  String premiumPurchasesDisabledBody(String supportEmail) {
+    return 'Purchases are disabled for this account. Contact $supportEmail if this looks wrong.';
+  }
+
+  @override
+  String get premiumPurchasesDisabledBodySelfHosted =>
+      'Purchases are disabled for this account. Contact this instance\'s administrators if this looks wrong.';
 
   @override
   String get premiumClaimAccountToPurchase =>
@@ -22141,6 +22154,10 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
       'Your message could not be delivered because it was flagged by our safety systems. If you believe this is a mistake, please contact support.';
 
   @override
+  String get chatSendFailureContentBlockedSelfHosted =>
+      'Your message could not be delivered because it was flagged by our safety systems. If you believe this is a mistake, please contact the administrators of this instance.';
+
+  @override
   String get chatSendFailureNsfwEmojiSticker =>
       'Your message could not be delivered because it contains mature emoji or stickers that are not allowed in this context.';
 
@@ -25314,6 +25331,10 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
       'This plan isn\'t available. Contact support.';
 
   @override
+  String get premiumPlanUnavailableSelfHosted =>
+      'This plan isn\'t available. Contact the administrators of this instance.';
+
+  @override
   String get premiumCompletePaymentTitle => 'Complete payment';
 
   @override
@@ -25366,8 +25387,13 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get premiumPurchasesDisabledTitle => 'Purchases unavailable';
 
   @override
-  String get premiumPurchasesDisabledBody =>
-      'Purchases are disabled for this account. Contact support@fluxer.app if this looks wrong.';
+  String premiumPurchasesDisabledBody(String supportEmail) {
+    return 'Purchases are disabled for this account. Contact $supportEmail if this looks wrong.';
+  }
+
+  @override
+  String get premiumPurchasesDisabledBodySelfHosted =>
+      'Purchases are disabled for this account. Contact this instance\'s administrators if this looks wrong.';
 
   @override
   String get premiumClaimAccountToPurchase =>
@@ -36761,6 +36787,10 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
       'Your message could not be delivered because it was flagged by our safety systems. If you believe this is a mistake, please contact support.';
 
   @override
+  String get chatSendFailureContentBlockedSelfHosted =>
+      'Your message could not be delivered because it was flagged by our safety systems. If you believe this is a mistake, please contact the administrators of this instance.';
+
+  @override
   String get chatSendFailureNsfwEmojiSticker =>
       'Your message could not be delivered because it contains mature emoji or stickers that are not allowed in this context.';
 
@@ -39909,6 +39939,10 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
       'This plan isn\'t available. Contact support.';
 
   @override
+  String get premiumPlanUnavailableSelfHosted =>
+      'This plan isn\'t available. Contact the administrators of this instance.';
+
+  @override
   String get premiumCompletePaymentTitle => 'Complete payment';
 
   @override
@@ -39961,8 +39995,13 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get premiumPurchasesDisabledTitle => 'Purchases unavailable';
 
   @override
-  String get premiumPurchasesDisabledBody =>
-      'Purchases are disabled for this account. Contact support@fluxer.app if this looks wrong.';
+  String premiumPurchasesDisabledBody(String supportEmail) {
+    return 'Purchases are disabled for this account. Contact $supportEmail if this looks wrong.';
+  }
+
+  @override
+  String get premiumPurchasesDisabledBodySelfHosted =>
+      'Purchases are disabled for this account. Contact this instance\'s administrators if this looks wrong.';
 
   @override
   String get premiumClaimAccountToPurchase =>

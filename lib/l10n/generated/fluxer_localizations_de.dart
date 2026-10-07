@@ -6518,6 +6518,10 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
       'Deine Nachricht konnte nicht zugestellt werden, da sie von unseren Sicherheitssystemen als bedenklich eingestuft wurde. Falls du denkst, dass dies ein Fehler ist, kontaktiere bitte den Support.';
 
   @override
+  String get chatSendFailureContentBlockedSelfHosted =>
+      'Deine Nachricht konnte nicht zugestellt werden, da sie von unseren Sicherheitssystemen als bedenklich eingestuft wurde. Falls du denkst, dass dies ein Fehler ist, kontaktiere bitte die Administratoren dieser Instanz.';
+
+  @override
   String get chatSendFailureNsfwEmojiSticker =>
       'Deine Nachricht konnte nicht zugestellt werden, da sie jugendgefährdende Emoji oder Sticker enthält, die in diesem Kontext nicht erlaubt sind.';
 
@@ -9761,6 +9765,10 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
       'Dieser Tarif ist nicht verfügbar. Kontaktiere den Support.';
 
   @override
+  String get premiumPlanUnavailableSelfHosted =>
+      'Dieser Tarif ist nicht verfügbar. Kontaktiere die Administratoren dieser Instanz.';
+
+  @override
   String get premiumCompletePaymentTitle => 'Zahlung abschließen';
 
   @override
@@ -9813,8 +9821,13 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get premiumPurchasesDisabledTitle => 'Käufe nicht verfügbar';
 
   @override
-  String get premiumPurchasesDisabledBody =>
-      'Käufe sind für dieses Konto deaktiviert. Kontaktiere support@fluxer.app, falls dies falsch aussieht.';
+  String premiumPurchasesDisabledBody(String supportEmail) {
+    return 'Käufe sind für dieses Konto deaktiviert. Kontaktiere $supportEmail, falls dies falsch aussieht.';
+  }
+
+  @override
+  String get premiumPurchasesDisabledBodySelfHosted =>
+      'Käufe sind für dieses Konto deaktiviert. Kontaktiere die Administratoren dieser Instanz, falls dies falsch aussieht.';
 
   @override
   String get premiumClaimAccountToPurchase =>

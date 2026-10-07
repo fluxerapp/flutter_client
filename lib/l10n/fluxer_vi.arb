@@ -7803,6 +7803,10 @@
     "@chatSendFailureContentBlocked": {
         "description": "Fluxerbot system message when message content is blocked by safety systems."
     },
+    "chatSendFailureContentBlockedSelfHosted": "Tin nhắn của bạn không thể gửi đi vì đã bị hệ thống an toàn của chúng tôi gắn cờ. Nếu bạn cho rằng đây là lỗi, vui lòng liên hệ quản trị viên của máy chủ này.",
+    "@chatSendFailureContentBlockedSelfHosted": {
+        "description": "Fluxerbot system message on a self-hosted instance when message content is blocked by safety systems. Names no support mailbox."
+    },
     "chatSendFailureNsfwEmojiSticker": "Tin nhắn của bạn không thể gửi vì chứa biểu tượng cảm xúc hoặc nhãn dán nhạy cảm không được phép trong ngữ cảnh này.",
     "@chatSendFailureNsfwEmojiSticker": {
         "description": "Fluxerbot system message when mature emoji or stickers are blocked."
@@ -11567,6 +11571,10 @@
     "premiumCheckoutStartFailedTitle": "Không thể bắt đầu thanh toán",
     "premiumCheckoutStartFailedBody": "Đã xảy ra lỗi khi bắt đầu thanh toán. Vui lòng thử lại sau giây lát.",
     "premiumPlanUnavailable": "Gói này không khả dụng. Hãy liên hệ bộ phận hỗ trợ.",
+    "premiumPlanUnavailableSelfHosted": "Gói này không khả dụng. Hãy liên hệ quản trị viên của máy chủ này.",
+    "@premiumPlanUnavailableSelfHosted": {
+        "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
+    },
     "premiumCompletePaymentTitle": "Hoàn tất thanh toán",
     "premiumCompletePaymentBody": "Bạn sẽ được chuyển hướng đến Stripe để hoàn tất thanh toán. Quay lại Fluxer sau khi hoàn tất.",
     "premiumChoosePaymentMethodTitle": "Chọn phương thức thanh toán",
@@ -11582,7 +11590,19 @@
     "premiumExistingSubscriptionTitle": "Gói đăng ký đã tồn tại",
     "premiumExistingSubscriptionBody": "Chúng tôi tìm thấy một gói đăng ký Fluxer Plutonium hiện có cho tài khoản này. Quản lý gói đăng ký đó trong cổng thanh toán bảo mật để cập nhật chi tiết thanh toán hoặc kiểm tra trạng thái gia hạn. Nếu bạn vừa thanh toán, hãy đợi một phút và mở lại trang này.",
     "premiumPurchasesDisabledTitle": "Tính năng mua hàng không khả dụng",
-    "premiumPurchasesDisabledBody": "Giao dịch đã bị tắt cho tài khoản này. Liên hệ support@fluxer.app nếu bạn thấy có gì đó không đúng.",
+    "premiumPurchasesDisabledBody": "Giao dịch đã bị tắt cho tài khoản này. Liên hệ {supportEmail} nếu bạn thấy có gì đó không đúng.",
+    "@premiumPurchasesDisabledBody": {
+        "description": "Shown on the official hosted instance when purchases are disabled for the account. supportEmail is the support mailbox.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumPurchasesDisabledBodySelfHosted": "Giao dịch đã bị tắt cho tài khoản này. Liên hệ quản trị viên của máy chủ này nếu bạn thấy có gì đó không đúng.",
+    "@premiumPurchasesDisabledBodySelfHosted": {
+        "description": "Shown on a self-hosted instance when purchases are disabled for the account. Names no email address."
+    },
     "premiumClaimAccountToPurchase": "Xác nhận tài khoản của bạn để mua Fluxer Plutonium.",
     "premiumVerifyEmailToPurchase": "Bạn cần xác minh email trước khi có thể mua Fluxer Plutonium.",
     "premiumPerkCustomUsernameTag": "Thẻ tên người dùng tùy chỉnh",
@@ -12953,6 +12973,7 @@
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
     },
+    "instanceUrlHelper": "Sử dụng fluxer.app cho máy chủ chính thức hoặc URL chính xác của máy chủ tự lưu trữ.",
     "@instanceUrlHelper": {
         "description": "Helper text explaining official vs self-hosted instance URLs."
     },
@@ -16875,6 +16896,7 @@
     "@assistantNotFound": {
         "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
     },
+    "assistantDmsDisabled": "Tin nhắn trực tiếp đã bị tắt trên máy chủ này.",
     "@assistantDmsDisabled": {
         "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
     },

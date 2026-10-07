@@ -10597,6 +10597,12 @@ abstract class FluxerLocalizations {
   /// **'Your message could not be delivered because it was flagged by our safety systems. If you believe this is a mistake, please contact support.'**
   String get chatSendFailureContentBlocked;
 
+  /// Fluxerbot system message on a self-hosted instance when message content is blocked by safety systems. Names no support mailbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Your message could not be delivered because it was flagged by our safety systems. If you believe this is a mistake, please contact the administrators of this instance.'**
+  String get chatSendFailureContentBlockedSelfHosted;
+
   /// Fluxerbot system message when mature emoji or stickers are blocked.
   ///
   /// In en, this message translates to:
@@ -15937,6 +15943,12 @@ abstract class FluxerLocalizations {
   /// **'This plan isn\'t available. Contact support.'**
   String get premiumPlanUnavailable;
 
+  /// Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox.
+  ///
+  /// In en, this message translates to:
+  /// **'This plan isn\'t available. Contact the administrators of this instance.'**
+  String get premiumPlanUnavailableSelfHosted;
+
   /// No description provided for @premiumCompletePaymentTitle.
   ///
   /// In en, this message translates to:
@@ -16027,11 +16039,17 @@ abstract class FluxerLocalizations {
   /// **'Purchases unavailable'**
   String get premiumPurchasesDisabledTitle;
 
-  /// No description provided for @premiumPurchasesDisabledBody.
+  /// Shown on the official hosted instance when purchases are disabled for the account. supportEmail is the support mailbox.
   ///
   /// In en, this message translates to:
-  /// **'Purchases are disabled for this account. Contact support@fluxer.app if this looks wrong.'**
-  String get premiumPurchasesDisabledBody;
+  /// **'Purchases are disabled for this account. Contact {supportEmail} if this looks wrong.'**
+  String premiumPurchasesDisabledBody(String supportEmail);
+
+  /// Shown on a self-hosted instance when purchases are disabled for the account. Names no email address.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchases are disabled for this account. Contact this instance\'s administrators if this looks wrong.'**
+  String get premiumPurchasesDisabledBodySelfHosted;
 
   /// No description provided for @premiumClaimAccountToPurchase.
   ///
