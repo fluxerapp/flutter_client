@@ -41,10 +41,6 @@ class VoiceCallDisplayPreferences extends _$VoiceCallDisplayPreferences {
     state = state.copyWith(showOwnCamera: value);
   }
 
-  void setSelfViewMinimized({required bool value}) {
-    state = state.copyWith(isSelfViewMinimized: value);
-  }
-
   void reset() {
     state = const VoiceCallDisplayPreferencesState();
   }

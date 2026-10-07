@@ -11,10 +11,7 @@ sealed class MdNode {
     final type = json['type']! as String;
     return switch (type) {
       'Text' => MdText(json['content']! as String),
-      'Blockquote' => MdBlockquote(
-        _children(json),
-        blankLines: json['blankLines'] as int?,
-      ),
+      'Blockquote' => MdBlockquote(_children(json)),
       'Strong' => MdStrong(_children(json)),
       'Emphasis' => MdEmphasis(_children(json)),
       'Underline' => MdUnderline(_children(json)),
@@ -44,9 +41,7 @@ sealed class MdNode {
           final Object text => MdNode.fromJson(text as Map<String, Object?>),
         },
         url: json['url']! as String,
-        escaped: json['escaped']! as bool,
         rawUrl: json['rawUrl']! as String,
-        source: json['source']! as String,
       ),
       'Mention' => MdMention(
         MdMentionKind.fromJson(json['kind']! as Map<String, Object?>),
@@ -102,9 +97,8 @@ final class MdText extends MdNode {
 }
 
 final class MdBlockquote extends MdNode {
-  const MdBlockquote(this.children, {this.blankLines});
+  const MdBlockquote(this.children);
   final List<MdNode> children;
-  final int? blankLines;
 }
 
 final class MdStrong extends MdNode {
@@ -180,16 +174,12 @@ final class MdLink extends MdNode {
   const MdLink({
     required this.text,
     required this.url,
-    required this.escaped,
     required this.rawUrl,
-    required this.source,
   });
 
   final MdNode? text;
   final String url;
-  final bool escaped;
   final String rawUrl;
-  final String source;
 }
 
 final class MdMention extends MdNode {
@@ -334,7 +324,6 @@ sealed class MdEmojiKind {
     return switch (kind) {
       'Standard' => MdStandardEmoji(
         raw: json['raw']! as String,
-        codepoints: json['codepoints']! as String,
         name: json['name']! as String,
       ),
       'Custom' => MdCustomEmoji(
@@ -350,12 +339,10 @@ sealed class MdEmojiKind {
 final class MdStandardEmoji extends MdEmojiKind {
   const MdStandardEmoji({
     required this.raw,
-    required this.codepoints,
     required this.name,
   });
 
   final String raw;
-  final String codepoints;
   final String name;
 }
 

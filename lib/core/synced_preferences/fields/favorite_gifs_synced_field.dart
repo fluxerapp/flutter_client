@@ -143,15 +143,6 @@ class FavoriteGifsSyncedField
     return a == b;
   }
 
-  static pickers_pb.FavoriteGifSettings toProtoForPush({
-    required FavoriteGifsSyncedLocalState local,
-    pickers_pb.FavoriteGifSettings? wireBase,
-  }) {
-    final proto = mergeOrCreate(wireBase, pickers_pb.FavoriteGifSettings.new);
-    FavoriteGifsSyncedField._writeProto(proto, local);
-    return proto;
-  }
-
   static void _writeProto(
     pickers_pb.FavoriteGifSettings proto,
     FavoriteGifsSyncedLocalState local,

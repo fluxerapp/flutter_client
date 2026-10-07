@@ -33,15 +33,6 @@ const double kVoiceControlEmbeddedBottomPadding = 8;
 
 enum VoiceChannelControlBarStyle { floating, embedded }
 
-double voiceChannelControlPillHeight() {
-  return kVoiceControlCircleSize + (kVoiceControlPillVerticalPadding * 2);
-}
-
-double voiceChannelControlBarSectionHeight() {
-  return voiceChannelControlPillHeight() +
-      (kVoiceControlBarVerticalPadding * 2);
-}
-
 const double kVoiceControlMorphingBarBorderWidth = 1;
 const double kVoiceControlMorphingCollapsedRadius = 36;
 const double kVoiceControlMorphingExpandedRadius = 20;
@@ -113,12 +104,6 @@ double voiceChannelControlMorphingWidthExpansion({
   );
 }
 
-double voiceChannelControlCollapsedFootprint(BuildContext context) {
-  return (kVoiceControlBarVerticalPadding * 2) +
-      voiceChannelControlMorphingHeaderHeight() +
-      MediaQuery.viewPaddingOf(context).bottom;
-}
-
 const List<BoxShadow> kVoiceControlFloatingBarShadow = <BoxShadow>[
   BoxShadow(
     color: Color.fromRGBO(0, 0, 0, 0.22),
@@ -151,9 +136,7 @@ BoxDecoration voiceChannelControlFloatingDecoration(
 }
 
 class VoiceChannelControlBar extends ConsumerWidget {
-  const VoiceChannelControlBar({this.channelId, super.key});
-
-  final String? channelId;
+  const VoiceChannelControlBar({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -180,8 +163,6 @@ class VoiceChannelControlBar extends ConsumerWidget {
     return SafeArea(
       top: false,
       child: VoiceChannelControlBarContent(
-        channelId: channelId,
-        guildId: guildId,
         isConnected: isConnected,
         connectionId: connectionId,
       ),
@@ -192,8 +173,6 @@ class VoiceChannelControlBar extends ConsumerWidget {
 class VoiceChannelControlBarContent extends ConsumerWidget {
   const VoiceChannelControlBarContent({
     required this.isConnected,
-    this.channelId,
-    this.guildId,
     this.connectionId,
     this.style = VoiceChannelControlBarStyle.floating,
     this.barInnerWidth,
@@ -203,8 +182,6 @@ class VoiceChannelControlBarContent extends ConsumerWidget {
     super.key,
   });
 
-  final String? channelId;
-  final String? guildId;
   final String? connectionId;
   final bool isConnected;
   final VoiceChannelControlBarStyle style;

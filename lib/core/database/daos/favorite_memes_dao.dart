@@ -10,9 +10,6 @@ class FavoriteMemesDao extends DatabaseAccessor<FluxerDatabase>
     with _$FavoriteMemesDaoMixin {
   FavoriteMemesDao(super.attachedDatabase);
 
-  Future<List<FavoriteMemesTableData>> getAll() =>
-      select(favoriteMemesTable).get();
-
   Stream<List<FavoriteMemesTableData>> watchAll() =>
       select(favoriteMemesTable).watch().suppressDriftCancellation;
 

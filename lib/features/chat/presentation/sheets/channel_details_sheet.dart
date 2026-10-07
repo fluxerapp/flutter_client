@@ -708,7 +708,6 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
                   channelId: targetChannelId,
                   guildId: widget.channel?.guildId,
                   scrollController: widget.scrollController,
-                  close: widget.close,
                 )
               : _MembersTab(
                   dm: widget.dm,

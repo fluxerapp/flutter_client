@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_wire_codec.dart';
-import 'package:fluxer_app/core/synced_preferences/favorites_state_codec.dart';
+import 'package:fluxer_app/core/synced_preferences/fields/favorites_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/accessibility.pb.dart'
     as accessibility_pb;
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/preferences.pb.dart'
@@ -41,13 +41,15 @@ void main() {
       expect(decoded.accessibility.hideKeyboardHints, isTrue);
     });
 
-    test('parseFieldNumbers returns all top-level fields', () {
+    test('parseTopLevelFieldChunks returns all top-level fields', () {
       final bytes = pb.SyncedPreferences(
         accessibility: accessibility_pb.AccessibilitySettings(),
         sidebar: pb.SidebarPreferences(),
         favorites: pb.FavoritesState(),
       ).writeToBuffer();
-      final numbers = SyncedPreferencesWireCodec.parseFieldNumbers(bytes);
+      final numbers = SyncedPreferencesWireCodec.parseTopLevelFieldChunks(
+        bytes,
+      ).map((chunk) => chunk.fieldNumber);
       expect(numbers, containsAll([1, 42, 40]));
     });
 
@@ -63,10 +65,7 @@ void main() {
       );
       final foreign = _encodeStringField(3, 'preview');
       final favoritesWire = base64Decode(
-        FavoritesStateCodec.encodeFavoritesIntoWire(
-          currentWire: null,
-          local: initial,
-        ),
+        _encodeFavorites(currentWire: null, local: initial),
       );
       final combined = base64Encode(
         Uint8List.fromList([...foreign, ...favoritesWire]),
@@ -158,4 +157,17 @@ Uint8List _encodeMessageField(int fieldNumber, List<int> messageBytes) {
     ..._encodeVarint(messageBytes.length),
     ...messageBytes,
   ]);
+}
+
+String _encodeFavorites({
+  required String? currentWire,
+  required FavoritesLocalState local,
+}) {
+  return SyncedPreferencesWireCodec.encodeFieldIntoWire(
+    currentWire: currentWire,
+    fieldNumber: SyncedPreferenceField.favorites.fieldNumber,
+    fieldMessageBytes: FavoritesStateHelpers.toProto(
+      FavoritesStateHelpers.normalizeForSync(local),
+    ).writeToBuffer(),
+  );
 }

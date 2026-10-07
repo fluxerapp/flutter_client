@@ -15,16 +15,6 @@ enum AlertType {
   final String label;
   final IconData icon;
 
-  static AlertType? tryParse(String raw) {
-    final key = raw.trim().toLowerCase();
-    for (final t in values) {
-      if (t.name == key) {
-        return t;
-      }
-    }
-    return null;
-  }
-
   Color accentColor(BuildContext context) {
     final colors = context.colors;
     return switch (this) {

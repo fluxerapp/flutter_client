@@ -63,7 +63,6 @@ void main() {
     const challenge = MfaChallenge(
       ticket: 'mfa-ticket',
       totp: true,
-      sms: true,
       webauthn: false,
     );
 
@@ -81,7 +80,6 @@ void main() {
     const challenge = MfaChallenge(
       ticket: 'mfa-ticket',
       totp: false,
-      sms: true,
       webauthn: false,
     );
 
@@ -111,7 +109,6 @@ void main() {
       const challenge = MfaChallenge(
         ticket: 'mfa-ticket',
         totp: false,
-        sms: false,
         webauthn: true,
       );
       final provider = mfaViewModelProvider(challenge);
@@ -155,7 +152,6 @@ Future<String?> _submitWithFailure(AuthFailure failure) async {
   const challenge = MfaChallenge(
     ticket: 'mfa-ticket',
     totp: true,
-    sms: false,
     webauthn: false,
   );
   final provider = mfaViewModelProvider(challenge);

@@ -188,18 +188,6 @@ class MatureContentAgreements {
   final List<String> agreedChannelIds;
   final List<String> agreedCategoryIds;
   final List<String> agreedGuildIds;
-
-  MatureContentAgreements copyWith({
-    List<String>? agreedChannelIds,
-    List<String>? agreedCategoryIds,
-    List<String>? agreedGuildIds,
-  }) {
-    return MatureContentAgreements(
-      agreedChannelIds: agreedChannelIds ?? this.agreedChannelIds,
-      agreedCategoryIds: agreedCategoryIds ?? this.agreedCategoryIds,
-      agreedGuildIds: agreedGuildIds ?? this.agreedGuildIds,
-    );
-  }
 }
 
 List<String> _dedupeStrings(Iterable<String> values) {

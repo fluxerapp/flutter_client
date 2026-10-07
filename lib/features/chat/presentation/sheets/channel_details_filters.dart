@@ -94,7 +94,6 @@ class _PickerUser {
     required this.discriminator,
     this.avatar,
     this.avatarColor,
-    this.status = 'offline',
   });
 
   factory _PickerUser.fromUserRow(db.User user, {String? nick}) {
@@ -109,7 +108,6 @@ class _PickerUser {
       discriminator: user.discriminator,
       avatar: user.avatar,
       avatarColor: user.avatarColor,
-      status: user.status,
     );
   }
 
@@ -124,7 +122,6 @@ class _PickerUser {
       discriminator: discriminator,
       avatar: member.avatar,
       avatarColor: member.avatarColor,
-      status: member.status,
     );
   }
 
@@ -134,7 +131,6 @@ class _PickerUser {
   final String discriminator;
   final String? avatar;
   final int? avatarColor;
-  final String status;
 
   String get tag {
     if (username.isEmpty) {

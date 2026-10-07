@@ -43,31 +43,23 @@ GuildAuditLogPage guildAuditLogPageFromSdk(
         avatarHash: user.avatar,
         avatarColor: user.avatarColor,
         isBot: user.bot ?? false,
-        displayName: user.globalName ?? user.username,
         avatarUrl: FluxerMediaUrl.userAvatar(
           userId: user.id,
           hash: user.avatar,
         ),
       ),
   };
-  final Map<String, String> userNames = <String, String>{
-    for (final MapEntry<String, GuildAuditLogUser> entry in users.entries)
-      entry.key: entry.value.displayName,
-  };
   final List<GuildAuditLogEntry> entries = sdk.auditLogEntries
       .map(guildAuditLogEntryFromSdk)
       .toList();
-  final String? nextBefore = entries.isNotEmpty ? entries.last.id : null;
   return GuildAuditLogPage(
     entries: entries,
-    userNames: userNames,
     users: users,
     threads: <String, Channel>{
       for (final ThreadChannelResponse thread
           in sdk.threads ?? const <ThreadChannelResponse>[])
         thread.id: threadFromResponse(thread, guildId),
     },
-    nextBefore: nextBefore,
   );
 }
 
@@ -80,16 +72,11 @@ GuildAuditLogEntryOptions? guildAuditLogEntryOptionsFromSdk(
   return GuildAuditLogEntryOptions(
     channelId: sdk.channelId,
     count: sdk.count,
-    deleteMemberDays: sdk.deleteMemberDays,
-    id: sdk.id,
-    integrationType: sdk.integrationType,
     messageId: sdk.messageId,
     membersRemoved: sdk.membersRemoved,
     roleName: sdk.roleName,
-    type: sdk.type,
     inviterId: sdk.inviterId,
     maxAge: sdk.maxAge,
-    maxUses: sdk.maxUses,
     temporary: sdk.temporary,
     uses: sdk.uses,
   );

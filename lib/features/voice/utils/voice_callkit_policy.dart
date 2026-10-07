@@ -4,13 +4,13 @@ import 'package:uuid/uuid.dart';
 const String kVoiceCallKitExtraChannelId = 'channelId';
 const Uuid _voiceCallKitUuid = Uuid();
 const String kVoiceCallKitExtraMessageId = 'messageId';
-const String kVoiceCallKitExtraConnectionId = 'connectionId';
+
 const String kVoiceCallKitExtraIsDm = 'isDm';
 const String kVoiceCallKitExtraTargetUserId = 'targetUserId';
 const String kVoiceCallKitExtraGuildId = 'guildId';
 const Duration kVoiceCallKitGatewayRingSyncDelay = Duration(seconds: 10);
 
-enum VoiceCallKitSessionKind { incomingRing, outgoingRing, activeVoice }
+enum VoiceCallKitSessionKind { incomingRing, activeVoice }
 
 typedef VoiceCallKitVoiceSnapshot = ({
   bool isInVoice,
@@ -221,13 +221,6 @@ bool shouldRestoreLiveKitAutomaticAudioSession({
   required bool hasCallKitSessions,
 }) {
   return callKitOwnsAudio && !hasCallKitSessions;
-}
-
-bool hasActiveVoiceCallKitSession(Iterable<VoiceCallKitSession> sessions) {
-  return sessions.any(
-    (VoiceCallKitSession session) =>
-        session.kind == VoiceCallKitSessionKind.activeVoice,
-  );
 }
 
 bool shouldScheduleCallKitAudioSessionRecovery({

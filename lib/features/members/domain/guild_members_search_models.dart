@@ -1,8 +1,4 @@
-import 'dart:convert';
-
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
-import 'package:fluxer_app/features/members/domain/member.dart';
-import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
@@ -22,18 +18,6 @@ class GuildMembersDateRangeFilter {
   final int? lte;
 
   bool get isActive => gte != null || lte != null;
-
-  GuildMembersDateRangeFilter copyWith({
-    int? Function()? gte,
-    int? Function()? lte,
-    bool clearGte = false,
-    bool clearLte = false,
-  }) {
-    return GuildMembersDateRangeFilter(
-      gte: clearGte ? null : (gte != null ? gte() : this.gte),
-      lte: clearLte ? null : (lte != null ? lte() : this.lte),
-    );
-  }
 
   static const GuildMembersDateRangeFilter empty =
       GuildMembersDateRangeFilter();
@@ -67,8 +51,6 @@ class GuildMembersJoinMethodFilter {
 class GuildMemberDisplayData {
   const GuildMemberDisplayData({
     required this.userId,
-    required this.displayName,
-    required this.tag,
     required this.username,
     required this.discriminator,
     required this.nickname,
@@ -88,8 +70,6 @@ class GuildMemberDisplayData {
   });
 
   final String userId;
-  final String displayName;
-  final String tag;
   final String username;
   final String discriminator;
   final String? nickname;
@@ -106,17 +86,6 @@ class GuildMemberDisplayData {
   final String? inviterId;
   final DateTime? userCreatedAt;
   final DateTime? communicationDisabledUntil;
-
-  bool matchesSearchQuery(String queryLower) {
-    if (queryLower.isEmpty) {
-      return true;
-    }
-    return username.toLowerCase().contains(queryLower) ||
-        displayName.toLowerCase().contains(queryLower) ||
-        tag.toLowerCase().contains(queryLower) ||
-        (nickname?.toLowerCase().contains(queryLower) ?? false) ||
-        (globalName?.toLowerCase().contains(queryLower) ?? false);
-  }
 
   String? avatarUrlFor(String guildId) {
     return resolveGuildMemberAvatarUrl(
@@ -145,56 +114,6 @@ class GuildMemberDisplayData {
       communicationDisabledUntil: communicationDisabledUntil,
       mute: false,
       deaf: false,
-    );
-  }
-
-  factory GuildMemberDisplayData.fromCachedMember({
-    required Member member,
-    required db.Member? memberRow,
-    required db.User? user,
-    JoinSourceType? joinSourceType,
-    String? sourceInviteCode,
-    String? inviterId,
-  }) {
-    final String discriminator = user?.discriminator ?? '0';
-    final String tag = '${member.username}#$discriminator';
-    final bool isAvatarUnset =
-        memberRow != null &&
-        hasMemberProfileFlag(
-          memberRow.profileFlags,
-          guildProfileAvatarUnsetFlag,
-        );
-    final String? serverAvatar = isAvatarUnset ? null : memberRow?.serverAvatar;
-    final String? resolvedAvatar = serverAvatar ?? user?.avatar;
-    final List<String> roleIds = member.roles.isNotEmpty
-        ? member.roles.map((MemberRole role) => role.id).toList()
-        : _roleIdsFromMemberRow(memberRow);
-    final DateTime? snowflakeTime = dateTimeFromUserSnowflakeOrNull(
-      member.id,
-    )?.toLocal();
-    return GuildMemberDisplayData(
-      userId: member.id,
-      displayName: member.displayName,
-      tag: tag,
-      username: member.username,
-      discriminator: discriminator,
-      nickname: member.nickname,
-      globalName: member.globalName,
-      avatar: resolvedAvatar,
-      serverAvatar: serverAvatar,
-      userAvatar: user?.avatar,
-      avatarColor: user?.avatarColor ?? member.avatarColor,
-      roleIds: roleIds,
-      joinedAt:
-          memberRow?.joinedAt ??
-          snowflakeTime ??
-          DateTime.fromMillisecondsSinceEpoch(0),
-      isBot: member.isBot,
-      joinSourceType: joinSourceType,
-      sourceInviteCode: sourceInviteCode,
-      inviterId: inviterId,
-      userCreatedAt: snowflakeTime,
-      communicationDisabledUntil: member.communicationDisabledUntil,
     );
   }
 
@@ -229,12 +148,6 @@ class GuildMemberDisplayData {
     ).toLocal();
     return GuildMemberDisplayData(
       userId: result.userId,
-      displayName: resolveDisplayName(
-        username: username,
-        guildNickname: nickname,
-        globalName: globalName,
-      ),
-      tag: '$username#$discriminator',
       username: username,
       discriminator: discriminator,
       nickname: nickname,
@@ -252,21 +165,6 @@ class GuildMemberDisplayData {
       userCreatedAt: snowflakeTime,
       communicationDisabledUntil: memberRow?.communicationDisabledUntil,
     );
-  }
-
-  static List<String> _roleIdsFromMemberRow(db.Member? memberRow) {
-    if (memberRow == null) {
-      return const <String>[];
-    }
-    try {
-      final Object? decoded = jsonDecode(memberRow.roleIdsJson);
-      if (decoded is List) {
-        return decoded.cast<String>();
-      }
-    } on Object {
-      // Fall through.
-    }
-    return const <String>[];
   }
 }
 

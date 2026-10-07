@@ -12,7 +12,6 @@ class ComposerSlashSlotState {
     required this.option,
     this.text = '',
     this.wire,
-    this.displayLabel,
     this.invalid = false,
     this.touched = false,
   });
@@ -20,7 +19,6 @@ class ComposerSlashSlotState {
   final ComposerCommandOption option;
   String text;
   String? wire;
-  String? displayLabel;
   bool invalid;
   bool touched;
 
@@ -108,7 +106,6 @@ class ComposerSlashSession extends ChangeNotifier {
     final ComposerSlashSlotState slot = _slots[index];
     slot
       ..text = text
-      ..displayLabel = null
       ..wire = null
       ..touched = slot.touched || text.trim().isNotEmpty;
     _showRequiredError = false;
@@ -126,7 +123,6 @@ class ComposerSlashSession extends ChangeNotifier {
     }
     _slots[index]
       ..text = display
-      ..displayLabel = display
       ..wire = wire
       ..invalid = false
       ..touched = true;

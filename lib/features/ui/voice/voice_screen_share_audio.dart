@@ -88,9 +88,7 @@ class _VoiceScreenShareAudioState extends ConsumerState<VoiceScreenShareAudio> {
     }
     _started = true;
     final bool flipEnabled =
-        startedPlayback &&
-        !kIsWeb &&
-        defaultTargetPlatform == TargetPlatform.android;
+        startedPlayback && defaultTargetPlatform == TargetPlatform.android;
     await _applyVolume(flipEnabled: flipEnabled);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted || _heldTrack != track || !_started) {

@@ -8,10 +8,3 @@ notificationMentionFeedStreamProvider =
       final FluxerDatabase db = ref.watch(fluxerDatabaseProvider);
       return db.notificationDao.watchMentionFeedOrdered();
     });
-
-final StreamProvider<NotificationMentionPref?>
-notificationMentionPrefsStreamProvider =
-    StreamProvider<NotificationMentionPref?>((Ref ref) {
-      final FluxerDatabase db = ref.watch(fluxerDatabaseProvider);
-      return db.notificationDao.watchMentionPrefs();
-    });

@@ -203,7 +203,7 @@ GoRouter fluxerRouter(Ref ref) {
     navigatorKey: rootNavigatorKey,
     initialLocation: '/login',
     errorBuilder: (BuildContext context, GoRouterState state) {
-      return InvalidDeepLinkScreen(uri: state.uri);
+      return const InvalidDeepLinkScreen();
     },
     refreshListenable: refreshNotifier,
     observers: [

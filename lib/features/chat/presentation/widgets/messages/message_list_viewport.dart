@@ -136,13 +136,9 @@ class MessageListViewport extends StatelessWidget {
   /// [startOfChannelHeader]); the trailing one sits below the newest row,
   /// before [trailingInset]. Null once that edge is loaded. Every
   /// "distance to the loaded tail" the host derives from
-  /// [ScrollMetrics.maxScrollExtent] subtracts [trailingFillerExtent].
+  /// [ScrollMetrics.maxScrollExtent] subtracts the trailing filler's height.
   final MessageListEdgeFiller? leadingFiller;
   final MessageListEdgeFiller? trailingFiller;
-
-  /// Extent each filler adds beyond the loaded rows.
-  double get leadingFillerExtent => leadingFiller?.specs.totalHeight ?? 0;
-  double get trailingFillerExtent => trailingFiller?.specs.totalHeight ?? 0;
 
   int? get _anchorDataIndex {
     final String? anchor = anchorId;

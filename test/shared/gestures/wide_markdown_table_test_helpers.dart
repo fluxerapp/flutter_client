@@ -11,7 +11,6 @@ const Color _rowEvenBackgroundColor = Color(0xFF334455);
 const Color _headerTextColor = Color(0xFF556677);
 
 const FluxerMarkdownConfig kWideTableMarkdownConfig = FluxerMarkdownConfig(
-  resolveEmojiShortcode: _noopEmojiShortcode,
   unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
   customEmojiUrlBuilder: _noopCustomEmojiUrl,
   tableBorderColor: _tableBorderColor,
@@ -33,8 +32,6 @@ const String kNarrowMarkdownTable = '''
 | --- | --- |
 | A | 1 |
 ''';
-
-String? _noopEmojiShortcode(String name) => null;
 
 String? _noopUnicodeEmojiUrl(String unicode) => null;
 

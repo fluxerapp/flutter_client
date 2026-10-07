@@ -2,7 +2,6 @@ import 'dart:async' show StreamSubscription, unawaited;
 import 'dart:io' show Platform;
 import 'dart:math' as math;
 
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/scheduler.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:sensors_plus/sensors_plus.dart';
@@ -124,8 +123,7 @@ class _StarfieldBackgroundState extends State<StarfieldBackground>
   int? _parallaxRotation;
   bool? _animationsEnabled;
 
-  bool get _parallaxSupported =>
-      !kIsWeb && (Platform.isAndroid || Platform.isIOS);
+  bool get _parallaxSupported => Platform.isAndroid || Platform.isIOS;
 
   @override
   void initState() {

@@ -126,7 +126,6 @@ void main() {
             throw Exception('boot failure');
           }
           return AppRuntimeInfo(
-            appName: 'Fluxer',
             packageName: 'com.fluxer',
             version: '1.0.0',
             buildNumber: '1',
@@ -391,7 +390,6 @@ ProviderContainer _startupContainer({
 }
 
 final AppRuntimeInfo _testRuntimeInfo = AppRuntimeInfo(
-  appName: 'Fluxer',
   packageName: 'com.fluxer',
   version: '1.0.0',
   buildNumber: '1',

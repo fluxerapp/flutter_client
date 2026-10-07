@@ -2,6 +2,29 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/channels/presentation/category_menu_data.dart';
 import '../../../helpers/test_l10n.dart';
 
+List<CategoryMenuAction> _flattenCategoryMenuActions(
+  List<CategoryMenuGroup> groups,
+) {
+  return <CategoryMenuAction>[
+    for (final CategoryMenuGroup group in groups)
+      for (final CategoryMenuEntry entry in group) entry.action,
+  ];
+}
+
+bool _categoryMenuEntryIsDanger(
+  List<CategoryMenuGroup> groups,
+  CategoryMenuAction action,
+) {
+  for (final CategoryMenuGroup group in groups) {
+    for (final CategoryMenuEntry entry in group) {
+      if (entry.action == action) {
+        return entry.isDanger;
+      }
+    }
+  }
+  return false;
+}
+
 void main() {
   final FluxerLocalizations l10n = testL10n;
 
@@ -54,7 +77,7 @@ void main() {
         l10n: l10n,
         state: fullState(),
       );
-      final List<CategoryMenuAction> actions = flattenCategoryMenuActions(
+      final List<CategoryMenuAction> actions = _flattenCategoryMenuActions(
         groups,
       );
       expect(actions, contains(CategoryMenuAction.markAsRead));
@@ -160,7 +183,7 @@ void main() {
         l10n: l10n,
         state: fullState(canManageChannels: false),
       );
-      final List<CategoryMenuAction> actions = flattenCategoryMenuActions(
+      final List<CategoryMenuAction> actions = _flattenCategoryMenuActions(
         groups,
       );
       expect(actions, isNot(contains(CategoryMenuAction.editCategory)));
@@ -173,11 +196,11 @@ void main() {
         state: fullState(),
       );
       expect(
-        categoryMenuEntryIsDanger(groups, CategoryMenuAction.deleteCategory),
+        _categoryMenuEntryIsDanger(groups, CategoryMenuAction.deleteCategory),
         isTrue,
       );
       expect(
-        categoryMenuEntryIsDanger(groups, CategoryMenuAction.editCategory),
+        _categoryMenuEntryIsDanger(groups, CategoryMenuAction.editCategory),
         isFalse,
       );
     });
@@ -187,7 +210,7 @@ void main() {
         l10n: l10n,
         state: fullState(developerMode: false),
       );
-      final List<CategoryMenuAction> actions = flattenCategoryMenuActions(
+      final List<CategoryMenuAction> actions = _flattenCategoryMenuActions(
         groups,
       );
       expect(actions, isNot(contains(CategoryMenuAction.debugCategory)));
@@ -203,7 +226,7 @@ void main() {
         l10n: l10n,
         state: fullState(hasAgreedToMatureContent: false),
       );
-      final List<CategoryMenuAction> actions = flattenCategoryMenuActions(
+      final List<CategoryMenuAction> actions = _flattenCategoryMenuActions(
         groups,
       );
       expect(

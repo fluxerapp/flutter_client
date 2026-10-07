@@ -36,14 +36,12 @@ class ChatExpressionExpandableSheet extends ConsumerStatefulWidget {
   const ChatExpressionExpandableSheet({
     required this.collapsedHeight,
     required this.dragHandleHeight,
-    required this.parentHeight,
     this.contentBuilder,
     super.key,
   });
 
   final double collapsedHeight;
   final double dragHandleHeight;
-  final double parentHeight;
   final Widget Function(
     BuildContext context,
     ScrollController scrollController,

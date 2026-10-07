@@ -28,11 +28,6 @@ class GatewayEventDispatcher {
     unawaited(_drain());
   }
 
-  Future<void> flushWriteBatchersAndDrain() async {
-    await onFlushWriteBatchers?.call();
-    await _drainUntilEmpty();
-  }
-
   Future<void> dispose() async {
     _disposed = true;
     await onFlushWriteBatchers?.call();
@@ -54,12 +49,6 @@ class GatewayEventDispatcher {
       if (_queue.isNotEmpty && !_disposed) {
         unawaited(_drain());
       }
-    }
-  }
-
-  Future<void> _drainUntilEmpty() async {
-    while (_queue.isNotEmpty && !_disposed) {
-      await _drain();
     }
   }
 }

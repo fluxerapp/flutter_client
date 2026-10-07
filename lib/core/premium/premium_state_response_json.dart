@@ -1,5 +1,3 @@
-import 'package:fluxer_dart/models/premium_state_response.dart';
-
 /// Normalizes premium state JSON before SDK deserialization.
 ///
 /// The API may omit or null out billing fields that the generated SDK still
@@ -35,8 +33,4 @@ Map<String, dynamic> normalizePremiumStateBillingJson(
     };
   }
   return normalized;
-}
-
-PremiumStateResponse decodePremiumStateResponse(Map<String, dynamic> json) {
-  return PremiumStateResponse.fromJson(normalizePremiumStateResponseJson(json));
 }

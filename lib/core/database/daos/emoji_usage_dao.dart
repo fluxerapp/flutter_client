@@ -58,31 +58,6 @@ class EmojiUsageDao extends DatabaseAccessor<FluxerDatabase>
     return top.map((e) => e.key).toList();
   }
 
-  /// Returns the top [limit] unicode emoji strings,
-  /// padded with [defaults] if not enough history.
-  Future<List<String>> getQuickReactionEmojis(
-    int limit,
-    List<String> defaults,
-  ) async {
-    final top = await getTopByFrecency(limit * 2);
-    final result = top
-        .where((e) => e.key.startsWith('unicode:'))
-        .map((e) => e.key.substring('unicode:'.length))
-        .take(limit)
-        .toList();
-
-    for (final d in defaults) {
-      if (result.length >= limit) {
-        break;
-      }
-      if (!result.contains(d)) {
-        result.add(d);
-      }
-    }
-
-    return result.take(limit).toList();
-  }
-
   /// Returns the frecency score for every tracked emoji keyed by its usage key
   /// (`unicode:<name>` / `custom:<guildId>:<id>`). Used to rank autocomplete
   /// results without per-key queries.

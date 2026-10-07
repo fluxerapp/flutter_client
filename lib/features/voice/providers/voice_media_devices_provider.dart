@@ -5,15 +5,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'voice_media_devices_provider.g.dart';
 
 class VoiceMediaDeviceOption {
-  const VoiceMediaDeviceOption({
-    required this.deviceId,
-    required this.label,
-    required this.kind,
-  });
+  const VoiceMediaDeviceOption({required this.deviceId, required this.label});
 
   final String deviceId;
   final String label;
-  final String kind;
 }
 
 class VoiceMediaDevicesState {
@@ -48,21 +43,13 @@ List<VoiceMediaDeviceOption> _withDefaultOption(
   List<VoiceMediaDeviceOption> devices,
 ) {
   return <VoiceMediaDeviceOption>[
-    const VoiceMediaDeviceOption(
-      deviceId: kDefaultVoiceDeviceId,
-      label: '',
-      kind: '',
-    ),
+    const VoiceMediaDeviceOption(deviceId: kDefaultVoiceDeviceId, label: ''),
     ...devices,
   ];
 }
 
 VoiceMediaDeviceOption _mapDevice(MediaDevice device) {
-  return VoiceMediaDeviceOption(
-    deviceId: device.deviceId,
-    label: device.label,
-    kind: device.kind,
-  );
+  return VoiceMediaDeviceOption(deviceId: device.deviceId, label: device.label);
 }
 
 @Riverpod(keepAlive: true)

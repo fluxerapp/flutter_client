@@ -8,10 +8,8 @@ void main() {
     categoryId: null,
     guildId: 'guild-1',
     effectiveMatureContent: true,
-    matureContentSource: EffectiveMatureSource.guild,
     effectiveWarningLevel: contentWarningLevelInherit,
     effectiveWarningText: null,
-    warningSource: EffectiveMatureSource.none,
     scope: MatureContentAgreementScope.guild,
     scopeId: 'guild-1',
   );
@@ -58,10 +56,8 @@ void main() {
       categoryId: null,
       guildId: 'guild-1',
       effectiveMatureContent: false,
-      matureContentSource: EffectiveMatureSource.channel,
       effectiveWarningLevel: contentWarningLevelContentWarning,
       effectiveWarningText: 'Sensitive',
-      warningSource: EffectiveMatureSource.channel,
       scope: MatureContentAgreementScope.channel,
       scopeId: 'channel-9',
     );
@@ -81,10 +77,8 @@ void main() {
       categoryId: null,
       guildId: 'guild-1',
       effectiveMatureContent: false,
-      matureContentSource: EffectiveMatureSource.none,
       effectiveWarningLevel: contentWarningLevelInherit,
       effectiveWarningText: null,
-      warningSource: EffectiveMatureSource.none,
       scope: MatureContentAgreementScope.channel,
       scopeId: 'channel-2',
     );
@@ -104,10 +98,8 @@ void main() {
       categoryId: null,
       guildId: 'guild-1',
       effectiveMatureContent: false,
-      matureContentSource: EffectiveMatureSource.channel,
       effectiveWarningLevel: contentWarningLevelContentWarning,
       effectiveWarningText: 'Sensitive',
-      warningSource: EffectiveMatureSource.channel,
       scope: MatureContentAgreementScope.channel,
       scopeId: 'channel-9',
     );

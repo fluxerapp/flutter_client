@@ -28,10 +28,9 @@ void main() {
   });
 
   group('engineSpeechRate', () {
-    test('web uses user rate, native uses half', () {
-      expect(engineSpeechRate(1, isWeb: true), 1);
-      expect(engineSpeechRate(1, isWeb: false), 0.5);
-      expect(engineSpeechRate(2, isWeb: false), 1);
+    test('engine rate is half the user rate', () {
+      expect(engineSpeechRate(1), 0.5);
+      expect(engineSpeechRate(2), 1);
     });
   });
 }

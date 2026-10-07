@@ -53,7 +53,6 @@ void main() {
           bottomInputSlotProvider,
         );
         expect(slot.slotHeight, 302);
-        expect(slot.mode, BottomInputMode.keyboard);
       },
     );
 

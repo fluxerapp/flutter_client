@@ -83,15 +83,6 @@ class SearchEnginesSyncedField
     );
   }
 
-  static pb.SearchEngineSettings toProtoForPush({
-    required SearchEnginesState local,
-    pb.SearchEngineSettings? wireBase,
-  }) {
-    final settings = mergeOrCreate(wireBase, pb.SearchEngineSettings.new);
-    writeSearchEnginesProto(settings, local);
-    return settings;
-  }
-
   static void writeSearchEnginesProto(
     pb.SearchEngineSettings proto,
     SearchEnginesState local,

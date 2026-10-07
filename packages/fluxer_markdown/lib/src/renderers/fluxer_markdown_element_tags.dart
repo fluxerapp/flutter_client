@@ -1,7 +1,6 @@
 /// Element tag names shared between the renderer and the native AST bridge
 /// in `package:fluxer_markdown_native` (`markdown_bridge.dart`).
 abstract final class FluxerMarkdownElementTags {
-  static const String underline = 'underline';
   static const String spoiler = 'spoiler';
   static const String emojiUnicode = 'emoji-unicode';
   static const String emojiCustom = 'emoji-custom';
@@ -13,9 +12,6 @@ abstract final class FluxerMarkdownElementTags {
   static const String mentionCommand = 'mention-command';
   static const String mentionGuildNav = 'mention-guild-nav';
   static const String timestamp = 'timestamp';
-  static const String alert = 'alert';
-  static const String subtext = 'subtext';
-  static const String blockSpoiler = 'block-spoiler';
   static const String blankLines = 'blank-lines';
 }
 

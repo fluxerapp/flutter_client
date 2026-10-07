@@ -28,12 +28,6 @@ class GuildRepository {
         .map((row) => row == null ? null : Guild.fromRow(row));
   }
 
-  Future<List<Guild>> getServers() async {
-    await syncServers();
-    final rows = await _db.guildDao.getServers();
-    return rows.map(Guild.fromRow).toList();
-  }
-
   Future<void> syncServers() async {
     try {
       final Set<String> localIdsBeforeFetch = (await _db.guildDao.getServers())

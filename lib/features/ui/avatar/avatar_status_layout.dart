@@ -96,18 +96,6 @@ _StatusConfig _getStatusConfig(double avatarSize) {
   );
 }
 
-double avatarStatusDotSize(double avatarSize) {
-  return _getStatusConfig(avatarSize).statusSize;
-}
-
-double avatarStatusCutoutRadius(double avatarSize) {
-  return _getStatusConfig(avatarSize).cutoutRadius;
-}
-
-double avatarStatusCutoutCenter(double avatarSize) {
-  return _getStatusConfig(avatarSize).cutoutCenter;
-}
-
 double mobilePhoneWidth(double statusDotSize) => statusDotSize;
 
 double mobilePhoneHeight(double phoneWidth) =>
@@ -126,16 +114,12 @@ class AvatarStatusLayout {
     required this.cutoutRadius,
     required this.statusRight,
     required this.statusBottom,
-    required this.mobileStatusRight,
-    required this.mobileStatusBottom,
     required this.typingWidth,
     required this.typingHeight,
     required this.typingRight,
     required this.typingBottom,
     required this.statusCutoutCenter,
     required this.typingCutoutRect,
-    required this.phoneWidth,
-    required this.phoneHeight,
     required this.phoneCutoutRect,
   });
 
@@ -143,16 +127,12 @@ class AvatarStatusLayout {
   final double cutoutRadius;
   final double statusRight;
   final double statusBottom;
-  final double mobileStatusRight;
-  final double mobileStatusBottom;
   final double typingWidth;
   final double typingHeight;
   final double typingRight;
   final double typingBottom;
   final Offset statusCutoutCenter;
   final RRect typingCutoutRect;
-  final double phoneWidth;
-  final double phoneHeight;
   final RRect phoneCutoutRect;
 
   factory AvatarStatusLayout.forAvatarSize(double avatarSize) {
@@ -197,24 +177,17 @@ class AvatarStatusLayout {
       ),
       Radius.circular(phoneWidth * kMobileCornerRadius + borderWidth),
     );
-    final double mobileStatusRight = avatarSize - cutoutCenter - phoneWidth / 2;
-    final double mobileStatusBottom =
-        avatarSize - cutoutCenter - phoneHeight / 2;
     return AvatarStatusLayout(
       statusDotSize: statusDotSize,
       cutoutRadius: cutoutRadius,
       statusRight: statusRight,
       statusBottom: statusBottom,
-      mobileStatusRight: mobileStatusRight,
-      mobileStatusBottom: mobileStatusBottom,
       typingWidth: typingWidth,
       typingHeight: typingHeight,
       typingRight: typingRight,
       typingBottom: typingBottom,
       statusCutoutCenter: statusCutoutCenter,
       typingCutoutRect: typingCutoutRect,
-      phoneWidth: phoneWidth,
-      phoneHeight: phoneHeight,
       phoneCutoutRect: phoneCutoutRect,
     );
   }

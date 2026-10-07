@@ -185,7 +185,6 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
         : showMatureContentGate
         ? MatureContentChannelGate(
             channelId: widget.channelId,
-            guildId: widget.guildId,
             channelType: channel?.type,
           )
         : isLinkChannel && channel != null

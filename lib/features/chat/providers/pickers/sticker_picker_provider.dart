@@ -34,8 +34,6 @@ class StickerEntry {
   final List<String> tags;
   final bool animated;
 
-  String get url => urlForSize(320);
-
   String urlForSize(int size) =>
       FluxerMediaUrl.sticker(id: id, animated: animated, size: size);
 

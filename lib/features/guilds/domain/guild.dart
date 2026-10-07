@@ -1,12 +1,7 @@
 import 'dart:convert';
 
-import 'package:drift/drift.dart';
-
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
-import 'package:fluxer_app/features/guilds/services/guild_verification.dart';
-import 'package:fluxer_app/features/guilds/utils/guild_notification_resolution.dart';
-import 'package:fluxer_dart/export.dart';
 
 export 'package:fluxer_app/core/media/fluxer_media_cdn.dart'
     show fluxerMediaCdn;
@@ -18,22 +13,17 @@ class Guild {
   final String? banner;
   final String? splash;
   final String? embedSplash;
-  final int splashCardAlignment;
-  final DateTime? messageHistoryCutoff;
   final int memberCount;
   final int onlineCount;
-  final String? description;
   final String? ownerId;
   final int position;
   final List<String> features;
   final bool unavailable;
   final int disabledOperations;
   final int verificationLevel;
-  final int mfaLevel;
   final bool nsfw;
   final int contentWarningLevel;
   final String? contentWarningText;
-  final int defaultMessageNotifications;
   final String? vanityUrlCode;
 
   const Guild({
@@ -43,22 +33,17 @@ class Guild {
     this.banner,
     this.splash,
     this.embedSplash,
-    this.splashCardAlignment = 0,
-    this.messageHistoryCutoff,
     this.memberCount = 0,
     this.onlineCount = 0,
-    this.description,
     this.ownerId,
     this.position = 0,
     this.features = const [],
     this.unavailable = false,
     this.disabledOperations = 0,
     this.verificationLevel = 0,
-    this.mfaLevel = 0,
     this.nsfw = false,
     this.contentWarningLevel = 0,
     this.contentWarningText,
-    this.defaultMessageNotifications = 0,
     this.vanityUrlCode,
   });
 
@@ -70,51 +55,18 @@ class Guild {
       banner: row.banner,
       splash: row.splash,
       embedSplash: row.embedSplash,
-      splashCardAlignment: row.splashCardAlignment,
-      messageHistoryCutoff: row.messageHistoryCutoff,
       memberCount: row.memberCount,
       onlineCount: row.onlineCount,
-      description: row.description,
       ownerId: row.ownerId,
       position: row.position,
       features: (jsonDecode(row.featuresJson) as List<dynamic>).cast<String>(),
       unavailable: row.unavailable,
       disabledOperations: row.disabledOperations,
       verificationLevel: row.verificationLevel,
-      mfaLevel: row.mfaLevel,
       nsfw: row.nsfw,
       contentWarningLevel: row.contentWarningLevel,
       contentWarningText: row.contentWarningText,
-      defaultMessageNotifications: row.defaultMessageNotifications,
       vanityUrlCode: row.vanityUrlCode,
-    );
-  }
-
-  db.ServersCompanion toCompanion() {
-    return db.ServersCompanion.insert(
-      id: id,
-      name: name,
-      icon: Value(icon),
-      banner: Value(banner),
-      splash: Value(splash),
-      embedSplash: Value(embedSplash),
-      splashCardAlignment: Value(splashCardAlignment),
-      messageHistoryCutoff: Value(messageHistoryCutoff),
-      memberCount: Value(memberCount),
-      onlineCount: Value(onlineCount),
-      description: Value(description),
-      ownerId: Value(ownerId),
-      position: Value(position),
-      featuresJson: Value(jsonEncode(features)),
-      unavailable: Value(unavailable),
-      disabledOperations: Value(disabledOperations),
-      verificationLevel: Value(verificationLevel),
-      mfaLevel: Value(mfaLevel),
-      nsfw: Value(nsfw),
-      contentWarningLevel: Value(contentWarningLevel),
-      contentWarningText: Value(contentWarningText),
-      defaultMessageNotifications: Value(defaultMessageNotifications),
-      vanityUrlCode: Value(vanityUrlCode),
     );
   }
 
@@ -135,19 +87,6 @@ class Guild {
   ///
   /// `MEMBER_LIST_UPDATES` is bit `1 << 6` of the `disabled_operations` bitmask.
   bool get isMemberListUpdatesDisabled => (disabledOperations & (1 << 6)) != 0;
-
-  int get effectiveVerificationLevel =>
-      effectiveGuildVerificationLevel(verificationLevel, isDiscoverable);
-
-  int get effectiveMessageNotifications {
-    if (isLargeGuildForNotifications(
-      memberCount: memberCount,
-      features: features,
-    )) {
-      return UserNotificationSettings.onlyMentions.json!;
-    }
-    return defaultMessageNotifications;
-  }
 
   bool get hasAnimatedIcon => icon?.startsWith('a_') ?? false;
   bool get hasAnimatedBanner => banner?.startsWith('a_') ?? false;

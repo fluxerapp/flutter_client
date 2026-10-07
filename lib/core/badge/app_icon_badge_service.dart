@@ -1,14 +1,12 @@
 import 'dart:io';
 
 import 'package:app_badge_plus/app_badge_plus.dart';
-import 'package:flutter/foundation.dart';
 
 /// Updates the OS app-icon badge via app_badge_plus.
 final class AppIconBadgeService {
   const AppIconBadgeService._();
 
-  static bool get _isMobile =>
-      !kIsWeb && (Platform.isIOS || Platform.isAndroid);
+  static bool get _isMobile => Platform.isIOS || Platform.isAndroid;
 
   static Future<void> update(int count) async {
     if (!_isMobile) {

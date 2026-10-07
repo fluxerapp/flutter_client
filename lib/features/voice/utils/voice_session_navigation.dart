@@ -31,18 +31,6 @@ void navigateToActiveVoiceSession(
   unawaited(context.push(RoutePaths.dmChannelCall(channelId)));
 }
 
-String voiceCallMinimizePath({required VoiceSessionState voice}) {
-  final String? guildId = voice.guildId;
-  if (guildId != null && guildId.isNotEmpty) {
-    return RoutePaths.guild(guildId);
-  }
-  final String? channelId = voice.channelId;
-  if (channelId != null && channelId.isNotEmpty) {
-    return RoutePaths.dmChannel(channelId);
-  }
-  return RoutePaths.me;
-}
-
 void goToPhoneVoiceChannelList({
   required BuildContext context,
   required ProviderContainer container,

@@ -18,24 +18,4 @@ class KeybindCombo {
   final bool meta;
 
   bool get hasTrigger => key.isNotEmpty || (code != null && code!.isNotEmpty);
-
-  KeybindCombo copyWith({
-    String? key,
-    String? code,
-    bool? ctrlOrMeta,
-    bool? ctrl,
-    bool? alt,
-    bool? shift,
-    bool? meta,
-  }) {
-    return KeybindCombo(
-      key: key ?? this.key,
-      code: code ?? this.code,
-      ctrlOrMeta: ctrlOrMeta ?? this.ctrlOrMeta,
-      ctrl: ctrl ?? this.ctrl,
-      alt: alt ?? this.alt,
-      shift: shift ?? this.shift,
-      meta: meta ?? this.meta,
-    );
-  }
 }

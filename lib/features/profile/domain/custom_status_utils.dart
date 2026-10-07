@@ -6,15 +6,6 @@ import 'package:fluxer_dart/gateway_client/custom_status_storage.dart'
 
 const int kCustomStatusTextLimit = 128;
 
-CustomStatusResponse? customStatusFromMap(Map<String, dynamic>? map) {
-  if (map == null || map.isEmpty) {
-    return null;
-  }
-  return normalizeCustomStatus(
-    _customStatusFromLenientMap(map.cast<String, Object?>()),
-  );
-}
-
 // Presence payloads omit emoji_animated, and a strict decode of them leaked
 // the raw JSON into status text.
 CustomStatusResponse _customStatusFromLenientMap(Map<String, Object?> map) {

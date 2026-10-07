@@ -32,10 +32,6 @@
     "@retry": {
         "description": "Generic label for retry actions (splash, errors, network, etc.)."
     },
-    "connectingCaps": "CONNECTING",
-    "@connectingCaps": {
-        "description": "Connecting text on the splash screen"
-    },
     "splashConnectionLost": "Verbinding verbroken",
     "@splashConnectionLost": {
         "description": "Fallback headline on splash when gateway is unavailable (web parity)."
@@ -301,10 +297,6 @@
             }
         }
     },
-    "ssoRequired": "Voor deze instantie is SSO vereist.",
-    "@ssoRequired": {
-        "description": "Short sign-in note shown when the instance requires single sign-on."
-    },
     "organizationSsoProvider": "Log in via de aanbieder van eenmalige aanmelding van je organisatie.",
     "@organizationSsoProvider": {
         "description": "Description shown when sign-in is restricted to the configured SSO provider."
@@ -325,10 +317,6 @@
                 "type": "String"
             }
         }
-    },
-    "logInViaBrowser": "Inloggen via browser",
-    "@logInViaBrowser": {
-        "description": "Secondary login that opens or uses the system browser."
     },
     "needAccountPrompt": "Account nodig? ",
     "@needAccountPrompt": {
@@ -444,26 +432,9 @@
     "@accountAdd": {
         "description": "Button to add a new account."
     },
-    "accountRemove": "Verwijderen",
-    "@accountRemove": {
-        "description": "Context menu option to remove a stored account."
-    },
-    "accountRemoveTitle": "Verwijder {username}",
-    "@accountRemoveTitle": {
-        "description": "Title for the remove account confirmation modal.",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
     "accountRemoveDescription": "Hiermee wordt de opgeslagen sessie voor dit account verwijderd.",
     "@accountRemoveDescription": {
         "description": "Description for the remove account confirmation modal."
-    },
-    "accountRemoveOnlyDescription": "Hiermee wordt het enige opgeslagen account op dit apparaat verwijderd.",
-    "@accountRemoveOnlyDescription": {
-        "description": "Description when removing the last stored account."
     },
     "accountExpired": "Verlopen",
     "@accountExpired": {
@@ -995,10 +966,6 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsent": "Ik ga akkoord met de Servicevoorwaarden en het Privacybeleid",
-    "@registerConsent": {
-        "description": "Consent checkbox label for registration (plain text fallback)."
-    },
     "registerConsentPrefix": "Ik ga akkoord met de ",
     "@registerConsentPrefix": {
         "description": "Text before the Terms of Service link in the consent checkbox."
@@ -1050,10 +1017,6 @@
     "passkeyTimeout": "Authenticatie met de passkey is verlopen. Probeer het opnieuw.",
     "@passkeyTimeout": {
         "description": "Error when passkey authentication times out."
-    },
-    "passkeyNotAvailable": "Passkeys zijn niet beschikbaar voor deze app. Log in met e-mail en wachtwoord in plaats daarvan.",
-    "@passkeyNotAvailable": {
-        "description": "Error for unknown passkey provider errors (e.g. TYPE_UNKNOWN)."
     },
     "passkeyFailed": "Authenticatie met de passkey is mislukt. Probeer het opnieuw.",
     "@passkeyFailed": {
@@ -1215,26 +1178,6 @@
     "inviteAcceptSomeone": "iemand",
     "@inviteAcceptSomeone": {
         "description": "Fallback inviter name when the inviter is unknown."
-    },
-    "inviteAcceptEmojiPack": "Emoji-pakket",
-    "@inviteAcceptEmojiPack": {
-        "description": "Label for an emoji pack invite."
-    },
-    "inviteAcceptStickerPack": "Stickerpakket",
-    "@inviteAcceptStickerPack": {
-        "description": "Label for a sticker pack invite."
-    },
-    "inviteAcceptInstallEmojiPack": "Emoji-pakket installeren",
-    "@inviteAcceptInstallEmojiPack": {
-        "description": "Primary action to install an emoji pack from an invite."
-    },
-    "inviteAcceptInstallStickerPack": "Stickerpakket installeren",
-    "@inviteAcceptInstallStickerPack": {
-        "description": "Primary action to install a sticker pack from an invite."
-    },
-    "inviteAcceptPackInstallNote": "Door deze uitnodiging te accepteren, wordt het pakket automatisch geïnstalleerd.",
-    "@inviteAcceptPackInstallNote": {
-        "description": "Note shown on expression pack invites before accepting."
     },
     "mentionUnknownChannel": "onbekend-kanaal",
     "@mentionUnknownChannel": {
@@ -2250,10 +2193,6 @@
             }
         }
     },
-    "emojiPlutoniumUpsellButton": "Plutonium aanschaffen",
-    "@emojiPlutoniumUpsellButton": {
-        "description": "Button label on the Plutonium upsell banner."
-    },
     "emojiPlutoniumUpsellDismiss": "Niet meer tonen",
     "@emojiPlutoniumUpsellDismiss": {
         "description": "Dismiss link on the Plutonium upsell banner."
@@ -2426,10 +2365,6 @@
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
     },
-    "fluxerTagInputLabel": "Gebruikersnaam",
-    "@fluxerTagInputLabel": {
-        "description": "Label above the username and discriminator input fields."
-    },
     "fluxerTagDescriptionBase": "Gebruikersnamen mogen alleen letters (a-z, A-Z), cijfers (0-9) en underscores bevatten. Gebruikersnamen zijn niet hoofdlettergevoelig.",
     "@fluxerTagDescriptionBase": {
         "description": "Base description text on the username change sheet."
@@ -2457,10 +2392,6 @@
     "validationAllowedChars": "Alleen letters (a-z, A-Z), cijfers (0-9) en underscores (_)",
     "@validationAllowedChars": {
         "description": "Validation rule for allowed username characters."
-    },
-    "discriminatorPremiumTooltip": "Koop Plutonium om je tag aan te passen of te behouden wanneer je je gebruikersnaam wijzigt",
-    "@discriminatorPremiumTooltip": {
-        "description": "Tooltip on disabled discriminator field for non-premium users."
     },
     "fluxerTagAlreadyTaken": "Gebruikersnaam is al in gebruik",
     "@fluxerTagAlreadyTaken": {
@@ -2515,19 +2446,6 @@
     "premiumUpsellCustomizeTag": "Pas je 4-cijferige tag aan of behoud deze bij het wijzigen van je gebruikersnaam",
     "@premiumUpsellCustomizeTag": {
         "description": "Upsell text encouraging non-premium users to get Plutonium for tag customization."
-    },
-    "premiumTrialExpiresOn": "Je Plutonium-proefperiode verloopt op {date}. Upgrade om je aangepaste tag te behouden en een badge op je profiel te verdienen.",
-    "@premiumTrialExpiresOn": {
-        "description": "Trial upsell with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActive": "Je bent bezig met een Plutonium-proefperiode. Upgrade om je aangepaste tag te behouden en een badge op je profiel te verdienen.",
-    "@premiumTrialActive": {
-        "description": "Trial upsell without specific expiry date."
     },
     "fluxerTagUpdated": "Gebruikersnaam bijgewerkt",
     "@fluxerTagUpdated": {
@@ -2701,32 +2619,6 @@
     "@hideVisionaryIdDescription": {
         "description": "Description for the toggle to hide the Visionary ID badge."
     },
-    "premiumTrialSubscriptionStarts": "Je hebt een Plutonium-proefabonnement — je abonnement begint op {date}",
-    "@premiumTrialSubscriptionStarts": {
-        "description": "Trial banner title when user has an active subscription pending after trial.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialSubscriptionStartsDescription": "Je abonnement begint automatisch wanneer je proefperiode afloopt. Je hoeft niets te doen.",
-    "@premiumTrialSubscriptionStartsDescription": {
-        "description": "Trial banner description when user has an active subscription pending after trial."
-    },
-    "premiumTrialExpiresOnProfile": "Je hebt een Plutonium-proefversie die afloopt op {date}",
-    "@premiumTrialExpiresOnProfile": {
-        "description": "Trial banner title with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActiveProfile": "Je hebt een Plutonium-proefperiode",
-    "@premiumTrialActiveProfile": {
-        "description": "Trial banner title without specific expiry date."
-    },
     "avatarDescriptionNonPremium": "JPEG, PNG, WebP. Max. 10 MB. Aanbevolen: 512×512px. Geanimeerde avatars (GIF) vereisen Plutonium.",
     "@avatarDescriptionNonPremium": {
         "description": "Avatar helper text for non-premium users, mentioning Plutonium requirement for animated avatars."
@@ -2811,22 +2703,6 @@
     "profileSavedToast": "Profiel bijgewerkt",
     "@profileSavedToast": {
         "description": "Toast message shown after successfully saving profile changes."
-    },
-    "profileEditButton": "Profiel bewerken",
-    "@profileEditButton": {
-        "description": "Button label to open profile editing from the profile content card."
-    },
-    "profileNoteLabel": "Notitie",
-    "@profileNoteLabel": {
-        "description": "Label for the personal note section on a user profile."
-    },
-    "profileNoteVisibility": "(alleen voor jou zichtbaar)",
-    "@profileNoteVisibility": {
-        "description": "Hint that the note is private and only visible to the current user."
-    },
-    "profileNoteEmpty": "Nog geen notitie.",
-    "@profileNoteEmpty": {
-        "description": "Placeholder shown when no personal note has been set for a user."
     },
     "sudoTitle": "Verifieer je identiteit",
     "@sudoTitle": {
@@ -3199,42 +3075,6 @@
     "@securityPasskeyNameHint": {
         "description": "Hint for passkey name input."
     },
-    "securityPhoneSectionTitle": "Telefoonnummer",
-    "@securityPhoneSectionTitle": {
-        "description": "Title for phone number section."
-    },
-    "securityPhoneSectionDescription": "Beheer je telefoonnummer.",
-    "@securityPhoneSectionDescription": {
-        "description": "Description for phone number section."
-    },
-    "securityPhoneLabel": "Telefoonnummer",
-    "@securityPhoneLabel": {
-        "description": "Label for phone number row."
-    },
-    "securityPhoneNone": "Geen telefoonnummer toegevoegd.",
-    "@securityPhoneNone": {
-        "description": "Shown when no phone number is set."
-    },
-    "securityPhoneAdd": "Telefoon toevoegen",
-    "@securityPhoneAdd": {
-        "description": "Button to add phone number."
-    },
-    "securityPhoneRemove": "Verwijderen",
-    "@securityPhoneRemove": {
-        "description": "Button to remove phone number."
-    },
-    "securityPhoneRemoveTitle": "Telefoonnummer verwijderen",
-    "@securityPhoneRemoveTitle": {
-        "description": "Title for phone remove confirmation."
-    },
-    "securityPhoneRemoveDescription": "Weet je zeker dat je je telefoonnummer wilt verwijderen?",
-    "@securityPhoneRemoveDescription": {
-        "description": "Description for phone remove confirmation."
-    },
-    "securityPhoneRemoved": "Telefoonnummer verwijderd",
-    "@securityPhoneRemoved": {
-        "description": "Toast after phone removed."
-    },
     "securityClaimTitle": "Beveiligingsfuncties",
     "@securityClaimTitle": {
         "description": "Title when user needs to claim account for security."
@@ -3287,10 +3127,6 @@
     "@backupCodesWarning": {
         "description": "Warning about backup codes."
     },
-    "backupCodesDownload": "Downloaden",
-    "@backupCodesDownload": {
-        "description": "Button to download backup codes."
-    },
     "backupCodesCopy": "Kopiëren",
     "@backupCodesCopy": {
         "description": "Button to copy backup codes."
@@ -3306,206 +3142,6 @@
     "backupCodesDone": "Klaar",
     "@backupCodesDone": {
         "description": "Button to close backup codes sheet."
-    },
-    "backupCodesViewTitle": "Back-upcodes bekijken",
-    "@backupCodesViewTitle": {
-        "description": "Title for viewing existing backup codes."
-    },
-    "backupCodesViewDescription": "Verificatie kan vereist zijn voordat u uw back-upcodes kunt bekijken.",
-    "@backupCodesViewDescription": {
-        "description": "Description for view backup codes."
-    },
-    "phoneAddTitle": "Telefoonnummer toevoegen",
-    "@phoneAddTitle": {
-        "description": "Title for phone add sheet."
-    },
-    "phoneAddLabel": "Telefoonnummer",
-    "@phoneAddLabel": {
-        "description": "Label for phone input."
-    },
-    "phoneAddHint": "Voer je telefoonnummer in",
-    "@phoneAddHint": {
-        "description": "Hint for phone input."
-    },
-    "phoneAddFooter": "We sturen een sms-code wanneer deze beschikbaar is. Je nummer wordt niet aan je account gekoppeld. We bewaren alleen een versleuteld merkteken, zonder gebruikers-ID, om maximaal 2 verificaties in ongeveer 30 dagen toe te staan.",
-    "@phoneAddFooter": {
-        "description": "Footer text for phone input."
-    },
-    "phoneAddSendCode": "Code verzenden",
-    "@phoneAddSendCode": {
-        "description": "Button to send phone verification code."
-    },
-    "phoneVerifyTitle": "Telefoonnummer verifiëren",
-    "@phoneVerifyTitle": {
-        "description": "Title for phone verify step."
-    },
-    "phoneVerifyDescription": "Voer de verificatiecode in die naar je telefoonnummer is verzonden.",
-    "@phoneVerifyDescription": {
-        "description": "Description for phone verify step."
-    },
-    "phoneAddSuccess": "Telefoonnummer geverifieerd",
-    "@phoneAddSuccess": {
-        "description": "Toast after phone verified."
-    },
-    "phoneCountryLabel": "Land",
-    "@phoneCountryLabel": {
-        "description": "Label for country selector in phone verification."
-    },
-    "phoneSearchCountries": "Landen zoeken...",
-    "@phoneSearchCountries": {
-        "description": "Search hint for country selector."
-    },
-    "phoneNumberRequired": "Telefoonnummer is verplicht",
-    "@phoneNumberRequired": {
-        "description": "Validation error when phone number is empty."
-    },
-    "phoneEnterValidNumber": "Voer een geldig mobiel telefoonnummer in.",
-    "@phoneEnterValidNumber": {
-        "description": "Validation error for invalid phone format."
-    },
-    "phoneCannotBeUsed": "Dit telefoonnummer kan niet worden gebruikt. Probeer een ander mobiel nummer of neem contact op met de ondersteuning.",
-    "@phoneCannotBeUsed": {
-        "description": "API error when phone number is rejected."
-    },
-    "phoneAlreadyUsed": "Dit telefoonnummer is al gebruikt. Probeer een ander nummer of neem contact op met support.",
-    "@phoneAlreadyUsed": {
-        "description": "API error when phone number was reused."
-    },
-    "phoneCodeDidNotWork": "Die code werkte niet. Controleer de code en probeer het opnieuw.",
-    "@phoneCodeDidNotWork": {
-        "description": "API error for invalid verification code."
-    },
-    "phoneTooManyAttempts": "Te veel pogingen. Wacht even en probeer het dan opnieuw.",
-    "@phoneTooManyAttempts": {
-        "description": "Rate limit error for phone verification."
-    },
-    "phoneSmsUnavailable": "Sms-verificatie is momenteel niet beschikbaar. Probeer het later opnieuw of neem contact op met de ondersteuning.",
-    "@phoneSmsUnavailable": {
-        "description": "SMS provider unavailable error."
-    },
-    "phoneNotEligible": "Telefoonverificatie is niet beschikbaar voor dit account. Gebruik een andere methode of neem contact op met de ondersteuning.",
-    "@phoneNotEligible": {
-        "description": "Account not eligible for phone verification."
-    },
-    "phoneSomethingWentWrong": "Er is iets misgegaan. Probeer het opnieuw.",
-    "@phoneSomethingWentWrong": {
-        "description": "Generic phone verification error."
-    },
-    "phoneInboundExpensiveDescription": "Een sms sturen naar dit telefoonnummer is te duur, dus we vragen je om ons in plaats daarvan een sms te sturen. Je kunt ook contact opnemen met support om deze vereiste van je account te laten verwijderen.",
-    "@phoneInboundExpensiveDescription": {
-        "description": "Inbound challenge reason for expensive destinations."
-    },
-    "phoneInboundDefaultDescription": "We hebben je nodig om ons een sms te sturen om je telefoonnummer te verifiëren.",
-    "@phoneInboundDefaultDescription": {
-        "description": "Default inbound challenge description."
-    },
-    "phoneInboundStepOpenMessaging": "Open de berichtenapp van je telefoon en maak een nieuw sms-bericht aan.",
-    "@phoneInboundStepOpenMessaging": {
-        "description": "Inbound verification step 1."
-    },
-    "phoneInboundStepSendCode": "Stuur de code {code} naar {number}.",
-    "@phoneInboundStepSendCode": {
-        "description": "Inbound verification step 2.",
-        "placeholders": {
-            "code": {
-                "type": "String"
-            },
-            "number": {
-                "type": "String"
-            }
-        }
-    },
-    "phoneInboundStepWait": "Wacht tot we je bericht hebben ontvangen. Dit kan even duren.",
-    "@phoneInboundStepWait": {
-        "description": "Inbound verification step 3."
-    },
-    "phoneInboundGetNewCode": "Nieuwe code ontvangen",
-    "@phoneInboundGetNewCode": {
-        "description": "Button to refresh inbound challenge."
-    },
-    "phoneInboundChallengeCodeLabel": "Code om te verzenden",
-    "@phoneInboundChallengeCodeLabel": {
-        "description": "Label for inbound challenge code."
-    },
-    "phoneInboundOurNumberLabel": "Verzenden naar",
-    "@phoneInboundOurNumberLabel": {
-        "description": "Label for inbound destination number."
-    },
-    "requiredActionTitle": "Accountverificatie vereist",
-    "@requiredActionTitle": {
-        "description": "Title for required action blocking modal."
-    },
-    "requiredActionIntroGeneric": "Voltooi de vereiste verificatie om {productName} te blijven gebruiken.",
-    "@requiredActionIntroGeneric": {
-        "description": "Generic required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroPhone": "Je registratie heeft een extra antispamcontrole nodig voordat je verder kunt gaan.",
-    "@requiredActionIntroPhone": {
-        "description": "Phone-only required action intro."
-    },
-    "requiredActionIntroEmailOrPhone": "Verifieer je e-mailadres of telefoonnummer om {productName} te blijven gebruiken.",
-    "@requiredActionIntroEmailOrPhone": {
-        "description": "Email or phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailAndPhone": "Voltooi de vereiste e-mail- en telefoonverificatiestappen hieronder om {productName} te blijven gebruiken.",
-    "@requiredActionIntroEmailAndPhone": {
-        "description": "Email and phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionChooseMethodTitle": "Kies een verificatiemethode",
-    "@requiredActionChooseMethodTitle": {
-        "description": "Title when user can pick email or phone."
-    },
-    "requiredActionChooseMethodDescription": "Voltooi een van de onderstaande verificatiemethoden om {productName} te blijven gebruiken.",
-    "@requiredActionChooseMethodDescription": {
-        "description": "Description when user can pick email or phone.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionUseEmail": "E-mail gebruiken",
-    "@requiredActionUseEmail": {
-        "description": "Button to choose email verification."
-    },
-    "requiredActionUsePhone": "Telefoon gebruiken",
-    "@requiredActionUsePhone": {
-        "description": "Button to choose phone verification."
-    },
-    "requiredActionCheckEmailTitle": "Controleer je e-mail",
-    "@requiredActionCheckEmailTitle": {
-        "description": "Title for email verification instructions."
-    },
-    "requiredActionCheckEmailDescription": "We hebben een verificatielink naar je e-mailadres gestuurd. Open deze om verder te gaan.",
-    "@requiredActionCheckEmailDescription": {
-        "description": "Description for email verification instructions."
-    },
-    "requiredActionResendVerificationEmail": "Verificatiemail opnieuw verzenden",
-    "@requiredActionResendVerificationEmail": {
-        "description": "Button to resend verification email."
-    },
-    "requiredActionVerificationEmailSent": "Verificatie-e-mail verzonden. Controleer je inbox.",
-    "@requiredActionVerificationEmailSent": {
-        "description": "Toast after resending verification email."
-    },
-    "requiredActionSignOut": "Uitloggen",
-    "@requiredActionSignOut": {
-        "description": "Sign out button in required action modal."
     },
     "dangerZoneSectionTitle": "Gevarenzone",
     "@dangerZoneSectionTitle": {
@@ -3824,10 +3460,6 @@
     "@authorizedAppsScopeAdmin": {
         "description": "OAuth2 scope description: admin."
     },
-    "privacyPendingDeletionTitle": "In behandeling",
-    "@privacyPendingDeletionTitle": {
-        "description": "Title of the warning alert shown when a bulk message deletion is pending."
-    },
     "blockedUsersTitle": "Geblokkeerde gebruikers",
     "@blockedUsersTitle": {
         "description": "Header title of the Blocked Users settings page."
@@ -4067,10 +3699,6 @@
     "userProfileNoteDelete": "Verwijderen",
     "@userProfileNoteDelete": {
         "description": "Delete button in the note editor sheet."
-    },
-    "userProfileNoteEmpty": "Klik om een notitie toe te voegen",
-    "@userProfileNoteEmpty": {
-        "description": "Hint text when no note has been written yet."
     },
     "userProfileMemberSince": "Lid sinds",
     "@userProfileMemberSince": {
@@ -5071,17 +4699,9 @@
     "@channelComposerBarrierNotMemberLongEnough": {
         "description": "Composer barrier when the user's guild membership is too recent."
     },
-    "channelComposerBarrierNoPhoneNumber": "Je moet een telefoonnummer verifiëren om berichten te kunnen versturen in deze community.",
-    "@channelComposerBarrierNoPhoneNumber": {
-        "description": "Composer barrier when the user must verify a phone number before messaging."
-    },
     "channelComposerBarrierVerifyEmail": "E-mailadres verifiëren",
     "@channelComposerBarrierVerifyEmail": {
         "description": "Action button on the composer barrier for unverified email."
-    },
-    "channelComposerBarrierVerifyPhone": "Telefoonnummer verifiëren",
-    "@channelComposerBarrierVerifyPhone": {
-        "description": "Action button on the composer barrier for missing phone verification."
     },
     "chatAttachmentTooMany": "Te veel bijlagen (max {max})",
     "@chatAttachmentTooMany": {
@@ -5116,10 +4736,6 @@
     "@chatAttachmentDropToSend": {
         "description": "Overlay hint when dragging files over chat with Shift held."
     },
-    "chatAttachmentSendVoiceMessage": "Spraakbericht verzenden",
-    "@chatAttachmentSendVoiceMessage": {
-        "description": "Menu item to open the voice message recorder."
-    },
     "voiceMessageTitle": "Spraakbericht",
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
@@ -5140,10 +4756,6 @@
     "@voiceMessageMicPermissionDenied": {
         "description": "Shown when microphone permission is denied for voice messages."
     },
-    "voiceMessageRecordingNotSupported": "Op dit apparaat is het opnemen van spraakberichten niet mogelijk.",
-    "@voiceMessageRecordingNotSupported": {
-        "description": "Shown when the device cannot record voice messages."
-    },
     "voiceMessageMicInUse": "Verlaat het videogesprek om een spraakbericht op te nemen.",
     "@voiceMessageMicInUse": {
         "description": "Shown when the microphone is already used by an active voice call."
@@ -5155,26 +4767,6 @@
     "voiceMessageSendFailed": "Spraakbericht kan niet worden verzonden. Probeer het opnieuw.",
     "@voiceMessageSendFailed": {
         "description": "Shown when sending a voice message fails."
-    },
-    "voiceMessageRecordingHint": "Spreek nu. Druk op Stop als je klaar bent — je kunt het daarna inkorten.",
-    "@voiceMessageRecordingHint": {
-        "description": "Help text while recording a voice message on desktop."
-    },
-    "voiceMessageReviewHint": "Versleep de selectiegrepen om bij te snijden en druk daarna op Verzenden.",
-    "@voiceMessageReviewHint": {
-        "description": "Help text while reviewing a voice message before send."
-    },
-    "voiceMessageStop": "Stoppen",
-    "@voiceMessageStop": {
-        "description": "Stop recording button in voice message composer."
-    },
-    "voiceMessageStartRecording": "Opname starten",
-    "@voiceMessageStartRecording": {
-        "description": "Button to retry voice recording after permission error."
-    },
-    "voiceMessageRerecord": "Opnieuw opnemen",
-    "@voiceMessageRerecord": {
-        "description": "Button to discard review and record again."
     },
     "voiceMessagePlay": "Afspelen",
     "@voiceMessagePlay": {
@@ -5191,16 +4783,6 @@
     "voiceMessageSeekBackward": "Terugspoelen",
     "@voiceMessageSeekBackward": {
         "description": "Accessibility hint when decreasing voice message seek position."
-    },
-    "voiceMessageSelectionTooShort": "De selectie moet minstens {seconds} s lang zijn.",
-    "@voiceMessageSelectionTooShort": {
-        "description": "Error when trimmed voice message is too short.",
-        "placeholders": {
-            "seconds": {
-                "type": "num",
-                "format": "compact"
-            }
-        }
     },
     "chatAttachmentEditTitle": "Bijlage bewerken",
     "@chatAttachmentEditTitle": {
@@ -5357,10 +4939,6 @@
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
     },
-    "chatAttachmentPasteTooltip": "Plak bestand vanaf klembord",
-    "@chatAttachmentPasteTooltip": {
-        "description": "Tooltip for pasting a file attachment from the clipboard."
-    },
     "chatAttachmentSpoiler": "Spoiler",
     "@chatAttachmentSpoiler": {
         "description": "Badge text for spoiler attachments."
@@ -5457,14 +5035,6 @@
     "@matureContentOpenLinkButton": {
         "description": "Primary action on mature link channel gates."
     },
-    "sensitiveContentSectionTitle": "Gevoelige inhoud",
-    "@sensitiveContentSectionTitle": {
-        "description": "Privacy settings section title for sensitive content filters."
-    },
-    "sensitiveContentSectionDescription": "Bepaal hoe volwassen of gevoelige media worden gefilterd in verschillende contexten",
-    "@sensitiveContentSectionDescription": {
-        "description": "Privacy settings section description for sensitive content filters."
-    },
     "sensitiveContentFriendDmLabel": "Directe berichten van vrienden",
     "@sensitiveContentFriendDmLabel": {
         "description": "Label for friend DM sensitive content filter."
@@ -5489,18 +5059,6 @@
     "@sensitiveContentFilterBlock": {
         "description": "Sensitive content filter option to block media."
     },
-    "sensitiveContentBlurUnscannedLabel": "Vervagen van media totdat de veiligheidsscan is voltooid",
-    "@sensitiveContentBlurUnscannedLabel": {
-        "description": "Toggle label for blurring unscanned media."
-    },
-    "sensitiveContentBlurUnscannedDescriptionAdult": "Wanneer ingeschakeld, worden afbeeldingen en video's vervaagd totdat de scan voor inhoudsveiligheid is voltooid.",
-    "@sensitiveContentBlurUnscannedDescriptionAdult": {
-        "description": "Description for blur-unscanned toggle for adult accounts."
-    },
-    "sensitiveContentBlurUnscannedDescriptionMinor": "Deze instelling is altijd ingeschakeld voor je account.",
-    "@sensitiveContentBlurUnscannedDescriptionMinor": {
-        "description": "Description for blur-unscanned toggle for minor accounts."
-    },
     "sensitiveContentResetButton": "Opnieuw instellen",
     "@sensitiveContentResetButton": {
         "description": "Reset button for sensitive content settings."
@@ -5517,10 +5075,6 @@
                 "type": "int"
             }
         }
-    },
-    "chatCancelUpload": "Upload annuleren",
-    "@chatCancelUpload": {
-        "description": "Button or menu action label for canceling an in-flight message attachment upload."
     },
     "chatAttachmentExpiresOn": "Verloopt op {date}",
     "@chatAttachmentExpiresOn": {
@@ -5790,10 +5344,6 @@
     "@connectionEnterDomain": {
         "description": "Inline error shown when the domain input is empty."
     },
-    "lookAndFeelTitle": "Uiterlijk",
-    "@lookAndFeelTitle": {
-        "description": "Title of the Look & Feel (Appearance) settings page."
-    },
     "lookAndFeelThemeSectionTitle": "Thema",
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
@@ -5861,14 +5411,6 @@
     "lookAndFeelThemeSyncFailed": "Kon de thema-instellingen niet synchroniseren met je account. Probeer het opnieuw.",
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
-    },
-    "lookAndFeelChatFontScalingTitle": "Lettergrootte chats",
-    "@lookAndFeelChatFontScalingTitle": {
-        "description": "Search label for chat font size within the Messages section."
-    },
-    "lookAndFeelChatFontScalingDescription": "Pas de lettergrootte aan in het chatvenster.",
-    "@lookAndFeelChatFontScalingDescription": {
-        "description": "Search description for chat font size."
     },
     "lookAndFeelChatFontSizeLabel": "Lettergrootte chat",
     "@lookAndFeelChatFontSizeLabel": {
@@ -5994,42 +5536,6 @@
     "lookAndFeelHideKeyboardHintsDescription": "Wanneer ingeschakeld, worden snelkoppelingbadges verborgen in tooltip-pop-ups.",
     "@lookAndFeelHideKeyboardHintsDescription": {
         "description": "Toggle description for the hide-keyboard-hints switch."
-    },
-    "lookAndFeelNekoTitle": "Overig",
-    "@lookAndFeelNekoTitle": {
-        "description": "Subsection title under Interface for Neko appearance settings."
-    },
-    "lookAndFeelNekoDescription": "Diverse interface-opties.",
-    "@lookAndFeelNekoDescription": {
-        "description": "Subsection description for Neko appearance settings."
-    },
-    "lookAndFeelShowNekoLabel": "Neko weergeven",
-    "@lookAndFeelShowNekoLabel": {
-        "description": "Toggle label for showing Neko in the chat footer."
-    },
-    "lookAndFeelShowNekoDescription": "Wanneer ingeschakeld, verschijnt Neko in de buurt van de chatinvoerbalk.",
-    "@lookAndFeelShowNekoDescription": {
-        "description": "Toggle description for showing Neko in chat."
-    },
-    "lookAndFeelVoiceChannelJoinTitle": "Gedrag bij deelnemen aan spraakkanaal",
-    "@lookAndFeelVoiceChannelJoinTitle": {
-        "description": "Subsection title under Interface — voice channel join behavior."
-    },
-    "lookAndFeelVoiceChannelJoinDescription": "Bepaal hoe je spraakkanalen in communities binnenkomt.",
-    "@lookAndFeelVoiceChannelJoinDescription": {
-        "description": "Subsection description for voice channel join behavior."
-    },
-    "lookAndFeelRequireDoubleClickJoinLabel": "Dubbelklikken vereist om spraakkanalen te betreden",
-    "@lookAndFeelRequireDoubleClickJoinLabel": {
-        "description": "Toggle label — require double-click to join voice channels."
-    },
-    "lookAndFeelRequireDoubleClickJoinDescription": "Wanneer ingeschakeld, moet je dubbelklikken op spraakkanalen om ze te joinen. Wanneer uitgeschakeld (standaard), join je het kanaal direct met een enkele klik.",
-    "@lookAndFeelRequireDoubleClickJoinDescription": {
-        "description": "Toggle description for the require-double-click voice channel join switch."
-    },
-    "lookAndFeelChatFontPreviewSample": "De snelle bruine vos springt over de luie hond.",
-    "@lookAndFeelChatFontPreviewSample": {
-        "description": "Sample text rendered at the selected chat font size to preview scaling."
     },
     "lookAndFeelGuildSidebarTitle": "Zijbalk van de community",
     "@lookAndFeelGuildSidebarTitle": {
@@ -6562,25 +6068,9 @@
     "@messagesMediaAutocompleteSavedMediaLabel": {
         "description": "Toggle label for saved media in expression autocomplete."
     },
-    "messagesMediaEditingSectionTitle": "Bericht bewerken",
-    "@messagesMediaEditingSectionTitle": {
-        "description": "Section title for message editing settings."
-    },
-    "messagesMediaEditingSectionDescription": "Bepaal wat er gebeurt met je bewerkingsconcept wanneer je annuleert.",
-    "@messagesMediaEditingSectionDescription": {
-        "description": "Section description for message editing settings."
-    },
-    "messagesMediaEditingPreserveDraftLabel": "Bewerkingsconcept bewaren bij annuleren",
-    "@messagesMediaEditingPreserveDraftLabel": {
-        "description": "Toggle label for preserving edit drafts on cancel."
-    },
     "accessibilitySaturationTitle": "Verzadiging",
     "@accessibilitySaturationTitle": {
         "description": "Section title for the theme saturation slider on the accessibility settings page."
-    },
-    "accessibilitySaturationDescription": "Pas aan hoe levendig de kleuren van het thema in de app worden weergegeven.",
-    "@accessibilitySaturationDescription": {
-        "description": "Section description for the theme saturation slider on the accessibility settings page."
     },
     "accessibilityVisualGroupTitle": "Weergave",
     "@accessibilityVisualGroupTitle": {
@@ -6605,10 +6095,6 @@
     "accessibilityDmMessagePreviewGroupTitle": "Voorbeelden van DM-berichten",
     "@accessibilityDmMessagePreviewGroupTitle": {
         "description": "Section title for DM message preview accessibility settings."
-    },
-    "accessibilityDmMessagePreviewGroupDescription": "Bepaal wanneer voorvertoningen van berichten worden weergegeven in de DM-lijst.",
-    "@accessibilityDmMessagePreviewGroupDescription": {
-        "description": "Section description for DM message preview accessibility settings."
     },
     "accessibilityDmMessagePreviewModeLabel": "Voorbeeldmodus DM-berichten",
     "@accessibilityDmMessagePreviewModeLabel": {
@@ -6752,10 +6238,6 @@
     "accessibilityPausedGifByReducedMotion": "Gepauzeerd door verminderde beweging. Schakel in om GIF's af te spelen.",
     "@accessibilityPausedGifByReducedMotion": {
         "description": "Description for GIF toggle while reduced motion is active."
-    },
-    "accessibilityGifDefaultsOffOnMobile": "Standaard uitgeschakeld op mobiel om batterij en data te besparen.",
-    "@accessibilityGifDefaultsOffOnMobile": {
-        "description": "Helper text for GIF autoplay default on mobile."
     },
     "accessibilityStickerAnimationsTitle": "Stickeranimaties",
     "@accessibilityStickerAnimationsTitle": {
@@ -7235,10 +6717,6 @@
     "@voiceMultiDeviceDisconnectFailed": {
         "description": "Shown when switch-to-this-device times out waiting for other sessions to leave."
     },
-    "voiceChannelEmptyDescription": "Dit is een spraakkanaal. Maak verbinding om te beginnen met praten!",
-    "@voiceChannelEmptyDescription": {
-        "description": "Empty state body when viewing a guild voice channel while not in the call."
-    },
     "voiceChannelJoin": "Deelnemen aan spraakkanaal",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
@@ -7282,14 +6760,6 @@
     "voiceChannelStatusConnecting": "Verbinden…",
     "@voiceChannelStatusConnecting": {
         "description": "Status in the in-page voice view while LiveKit is connecting."
-    },
-    "voiceChannelStatusConnected": "Verbonden",
-    "@voiceChannelStatusConnected": {
-        "description": "Status in the in-page voice view when the voice session is active."
-    },
-    "voiceChannelStatusError": "Fout",
-    "@voiceChannelStatusError": {
-        "description": "Short label in the channel header when the voice session reports an error."
     },
     "voiceParticipantTooltipMobileDevice": "Mobiel apparaat",
     "@voiceParticipantTooltipMobileDevice": {
@@ -7368,10 +6838,6 @@
     "voiceScreenShareNotificationText": "Uw scherm wordt gedeeld.",
     "@voiceScreenShareNotificationText": {
         "description": "Body text for the Android foreground notification shown while screen sharing."
-    },
-    "voiceControlMore": "Meer",
-    "@voiceControlMore": {
-        "description": "Tooltip: more voice actions in the voice call control bar."
     },
     "voiceControlDisconnect": "Verbinding verbreken",
     "@voiceControlDisconnect": {
@@ -7924,25 +7390,13 @@
     "@privacyDashboardFriendRequestsEveryone": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsEveryoneDesc": "Iedereen toestaan je vriendschapsverzoeken te sturen",
-    "@privacyDashboardFriendRequestsEveryoneDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsFriendsOfFriends": "Vrienden van vrienden",
     "@privacyDashboardFriendRequestsFriendsOfFriends": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsFriendsOfFriendsDesc": "Sta vrienden van je vrienden toe om je verzoeken te sturen",
-    "@privacyDashboardFriendRequestsFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsCommunityMembers": "Communityleden",
     "@privacyDashboardFriendRequestsCommunityMembers": {
         "description": "Privacy dashboard friend request toggle label."
-    },
-    "privacyDashboardFriendRequestsCommunityMembersDesc": "Sta leden van communities waar je lid van bent toe om je verzoeken te sturen",
-    "@privacyDashboardFriendRequestsCommunityMembersDesc": {
-        "description": "Privacy dashboard friend request toggle description."
     },
     "privacyDashboardDirectMessagesTitle": "Directe berichten",
     "@privacyDashboardDirectMessagesTitle": {
@@ -7952,65 +7406,29 @@
     "@privacyDashboardDirectMessagesMembers": {
         "description": "Privacy dashboard DM toggle label."
     },
-    "privacyDashboardDirectMessagesMembersDesc": "Sta leden van communities waar je lid van bent toe om je directe berichten te sturen",
-    "@privacyDashboardDirectMessagesMembersDesc": {
-        "description": "Privacy dashboard DM toggle description."
-    },
     "privacyDashboardDirectMessagesBots": "Directe berichten van communitybots toestaan",
     "@privacyDashboardDirectMessagesBots": {
         "description": "Privacy dashboard bot DM toggle label."
-    },
-    "privacyDashboardDirectMessagesBotsDesc": "Sta bots van communities waar je lid van bent toe om je directe berichten te sturen",
-    "@privacyDashboardDirectMessagesBotsDesc": {
-        "description": "Privacy dashboard bot DM toggle description."
-    },
-    "privacyDashboardConnectionsSectionDesc": "Bepaal wie je vriendschapsverzoeken en directe berichten kan sturen",
-    "@privacyDashboardConnectionsSectionDesc": {
-        "description": "Privacy dashboard connections section description."
-    },
-    "privacyDashboardCommunicationSectionDesc": "Bepaal wie je kan bellen en je kan toevoegen aan groepschats",
-    "@privacyDashboardCommunicationSectionDesc": {
-        "description": "Privacy dashboard communication section description."
     },
     "privacyDashboardIncomingCallsTitle": "Inkomende oproepen",
     "@privacyDashboardIncomingCallsTitle": {
         "description": "Privacy dashboard incoming calls subsection title."
     },
-    "privacyDashboardIncomingCallsDesc": "Bepaal wie je kan bellen",
-    "@privacyDashboardIncomingCallsDesc": {
-        "description": "Privacy dashboard incoming calls subsection description."
-    },
     "privacyDashboardAllowedCallers": "Toegestane bellers",
     "@privacyDashboardAllowedCallers": {
         "description": "Privacy > Communication: select label."
-    },
-    "privacyDashboardIncomingCallNobody": "Niemand",
-    "@privacyDashboardIncomingCallNobody": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallNobodyDesc": "Blokkeer alle inkomende oproepen",
     "@privacyDashboardIncomingCallNobodyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallFriendsOnly": "Alleen vrienden",
-    "@privacyDashboardIncomingCallFriendsOnly": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallFriendsOnlyDesc": "Sta alleen toe dat vrienden je bellen (aanbevolen)",
     "@privacyDashboardIncomingCallFriendsOnlyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallCustom": "Vrienden + Aangepast",
-    "@privacyDashboardIncomingCallCustom": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallCustomDesc": "Sta vrienden toe plus extra groepen die je kiest",
     "@privacyDashboardIncomingCallCustomDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardIncomingCallEveryone": "Iedereen",
-    "@privacyDashboardIncomingCallEveryone": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallEveryoneDesc": "Sta iedereen toe om je te bellen, zelfs onbekenden",
     "@privacyDashboardIncomingCallEveryoneDesc": {
@@ -8020,14 +7438,6 @@
     "@privacyDashboardAdditionalGroups": {
         "description": "Privacy dashboard label for custom permission groups."
     },
-    "privacyDashboardCallFriendsOfFriendsDesc": "Mensen die bevriend zijn met je vrienden kunnen je bellen",
-    "@privacyDashboardCallFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
-    "privacyDashboardCallGuildMembersDesc": "Mensen uit communities waar jullie allebei lid van zijn, kunnen je bellen",
-    "@privacyDashboardCallGuildMembersDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
     "privacyDashboardRingBehavior": "Belgedrag",
     "@privacyDashboardRingBehavior": {
         "description": "Privacy dashboard ring behavior subsection label."
@@ -8036,17 +7446,9 @@
     "@privacyDashboardSilentCalls": {
         "description": "Privacy dashboard silent calls toggle label."
     },
-    "privacyDashboardSilentCallsDesc": "Alle oproepen worden stil gemeld in plaats van over te gaan. Standaard zijn oproepen van niet-vrienden altijd stil.",
-    "@privacyDashboardSilentCallsDesc": {
-        "description": "Privacy dashboard silent calls toggle description."
-    },
     "privacyDashboardGroupDmTitle": "Wie jou kan toevoegen aan groepschats",
     "@privacyDashboardGroupDmTitle": {
         "description": "Privacy dashboard group DM subsection title."
-    },
-    "privacyDashboardGroupDmDesc": "Bepaal wie je zonder toestemming aan groepchats kan toevoegen. Iedereen kan je nog steeds uitnodigingslinks sturen om deel te nemen.",
-    "@privacyDashboardGroupDmDesc": {
-        "description": "Privacy dashboard group DM subsection description."
     },
     "privacyDashboardAllowedInvites": "Toegestane uitnodigingen",
     "@privacyDashboardAllowedInvites": {
@@ -8067,14 +7469,6 @@
     "privacyDashboardGroupDmEveryoneDesc": "Iedereen toestaan je toe te voegen aan groepschats zonder toestemming",
     "@privacyDashboardGroupDmEveryoneDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardGroupDmFriendsOfFriendsDesc": "Mensen die bevriend zijn met je vrienden kunnen je toevoegen aan groepschats",
-    "@privacyDashboardGroupDmFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
-    },
-    "privacyDashboardGroupDmGuildMembersDesc": "Mensen uit communities waar jullie allebei lid van zijn, kunnen je toevoegen aan groepschats",
-    "@privacyDashboardGroupDmGuildMembersDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
     },
     "privacyDashboardVoiceActivityTitle": "Spraakactiviteit in Nu actief",
     "@privacyDashboardVoiceActivityTitle": {
@@ -9227,26 +8621,6 @@
     "@composerAutocompleteOptionalArgumentsHeading": {
         "description": "Section heading in composer autocomplete for adding optional slash-command arguments."
     },
-    "composerAutocompleteChannelsHeading": "Kanalen",
-    "@composerAutocompleteChannelsHeading": {
-        "description": "Section heading in composer autocomplete for channel suggestions."
-    },
-    "composerAutocompleteMembersHeading": "Leden",
-    "@composerAutocompleteMembersHeading": {
-        "description": "Section heading in composer autocomplete for member suggestions."
-    },
-    "composerAutocompleteUsersHeading": "Gebruikers",
-    "@composerAutocompleteUsersHeading": {
-        "description": "Section heading in composer autocomplete for user suggestions."
-    },
-    "composerAutocompleteMentionsHeading": "Vermeldingen",
-    "@composerAutocompleteMentionsHeading": {
-        "description": "Section heading in composer autocomplete for mixed mention suggestions."
-    },
-    "composerAutocompleteRolesHeading": "Rollen",
-    "@composerAutocompleteRolesHeading": {
-        "description": "Section heading in composer autocomplete for role suggestions."
-    },
     "composerAutocompleteMediaHeading": "Media",
     "@composerAutocompleteMediaHeading": {
         "description": "Section heading in composer autocomplete for saved media."
@@ -9561,10 +8935,6 @@
     "@addGuildImportTemplateInvalid": {
         "description": "API error when Fluxer rejects the imported community template payload."
     },
-    "addGuildPackInstalled": "Pakket succesvol geïnstalleerd.",
-    "@addGuildPackInstalled": {
-        "description": "Toast shown after accepting an emoji or sticker pack invite."
-    },
     "chatMessageRemoveAllReactionsConfirmTitle": "Alle reacties verwijderen",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
         "description": "Title for the remove-all-reactions confirmation sheet."
@@ -9686,10 +9056,6 @@
     "channelDetailsDeleteChannel": "Kanaal verwijderen",
     "@channelDetailsDeleteChannel": {
         "description": "Channel details menu action to delete a guild channel."
-    },
-    "channelSettingsCategorySettingsTitle": "Categorie-instellingen",
-    "@channelSettingsCategorySettingsTitle": {
-        "description": "Title for category settings modal."
     },
     "channelSettingsEditCategory": "Categorie bewerken",
     "@channelSettingsEditCategory": {
@@ -9950,18 +9316,6 @@
     "@channelSettingsVoiceRegionsLoadFailedDescription": {
         "description": "Error modal body when voice regions fail to load in channel settings."
     },
-    "channelSettingsResetSlider": "Schuifregelaar op standaardwaarde zetten",
-    "@channelSettingsResetSlider": {
-        "description": "Tooltip for reset buttons on channel settings sliders."
-    },
-    "channelSettingsAdvanced": "Geavanceerd",
-    "@channelSettingsAdvanced": {
-        "description": "Collapsible advanced section title in channel overview."
-    },
-    "channelSettingsMatureContentOverride": "Afwijkende instelling voor inhoud voor volwassenen",
-    "@channelSettingsMatureContentOverride": {
-        "description": "Accessibility label for mature content override control."
-    },
     "channelSettingsMatureContentSectionDescription": "Overschrijf de instelling van het {scopeLevel}-niveau voor dit kanaal. Inhoud voor volwassenen wordt achter een poort getoond voordat je toegang krijgt.",
     "@channelSettingsMatureContentSectionDescription": {
         "description": "Section description for mature content settings in channel overview.",
@@ -10009,14 +9363,6 @@
             }
         }
     },
-    "channelSettingsMatureContentCategorySource": "categorie",
-    "@channelSettingsMatureContentCategorySource": {
-        "description": "Lowercase source label for inherited mature content from category."
-    },
-    "channelSettingsMatureContentCommunitySource": "community",
-    "@channelSettingsMatureContentCommunitySource": {
-        "description": "Lowercase source label for inherited mature content from community."
-    },
     "channelSettingsMatureContentCategoryScope": "Categorie",
     "@channelSettingsMatureContentCategoryScope": {
         "description": "Capitalized scope label when mature content inherits from a category."
@@ -10040,24 +9386,6 @@
     "channelSettingsContentWarningDefault": "Dit bevat gevoelige inhoud.",
     "@channelSettingsContentWarningDefault": {
         "description": "Default content warning text placeholder."
-    },
-    "channelSettingsPermissionsNeedManageChannels": "Je hebt de machtiging \"{manageChannelsPermissionLabel}\" nodig om deze machtigingen te bewerken.",
-    "@channelSettingsPermissionsNeedManageChannels": {
-        "description": "Error when user lacks manage channels permission for channel permissions tab.",
-        "placeholders": {
-            "manageChannelsPermissionLabel": {
-                "type": "String"
-            }
-        }
-    },
-    "channelSettingsPermissionsNeedManageRoles": "Je hebt de machtiging \"{manageRolesPermissionLabel}\" nodig om deze machtigingen te bewerken.",
-    "@channelSettingsPermissionsNeedManageRoles": {
-        "description": "Error when user lacks manage roles permission for channel permissions tab.",
-        "placeholders": {
-            "manageRolesPermissionLabel": {
-                "type": "String"
-            }
-        }
     },
     "channelSettingsUnknownRole": "Onbekende rol",
     "@channelSettingsUnknownRole": {
@@ -10143,10 +9471,6 @@
     "channelSettingsPermissionsSearchRolesOrMembers": "Zoek rollen of leden…",
     "@channelSettingsPermissionsSearchRolesOrMembers": {
         "description": "Placeholder for the add override search field."
-    },
-    "channelSettingsPermissionsRolesAndMembers": "Rollen en leden",
-    "@channelSettingsPermissionsRolesAndMembers": {
-        "description": "Section title in the add override picker."
     },
     "channelSettingsDeleteInvite": "Uitnodiging verwijderen",
     "@channelSettingsDeleteInvite": {
@@ -10240,10 +9564,6 @@
                 "type": "String"
             }
         }
-    },
-    "channelSettingsWebhooksUnknownUser": "Onbekende gebruiker",
-    "@channelSettingsWebhooksUnknownUser": {
-        "description": "Fallback label when webhook creator is unavailable."
     },
     "channelSettingsWebhooksAvatar": "Avatar",
     "@channelSettingsWebhooksAvatar": {
@@ -10432,10 +9752,6 @@
     "channelDetailsPinsEndReached": "Je hebt het einde bereikt",
     "@channelDetailsPinsEndReached": {
         "description": "Footer label when the user has scrolled through all pinned messages."
-    },
-    "channelHeaderOpenDetails": "Kanaaldetails openen",
-    "@channelHeaderOpenDetails": {
-        "description": "Accessibility label for the channel header title area."
     },
     "channelHeaderPinnedMessages": "Vastgezette berichten",
     "@channelHeaderPinnedMessages": {
@@ -10999,10 +10315,6 @@
     "@groupDmEditTitle": {
         "description": "Title for the edit group DM modal or sheet."
     },
-    "groupDmEditDetailsTooltip": "Groepsgegevens bewerken",
-    "@groupDmEditDetailsTooltip": {
-        "description": "Tooltip on the desktop group DM header edit action."
-    },
     "groupDmGroupName": "Groepsnaam",
     "@groupDmGroupName": {
         "description": "Label for the group name field in edit group."
@@ -11068,14 +10380,6 @@
     "@groupDmUnsupportedIconFormatBody": {
         "description": "Body when the selected group icon format is unsupported."
     },
-    "groupDmCouldntProcessImage": "Afbeelding kon niet worden verwerkt",
-    "@groupDmCouldntProcessImage": {
-        "description": "Title when a cropped group icon cannot be processed."
-    },
-    "groupDmFailedToProcessCroppedImage": "Verwerken van de bijgesneden afbeelding is mislukt. Probeer het opnieuw.",
-    "@groupDmFailedToProcessCroppedImage": {
-        "description": "Body when a cropped group icon cannot be processed."
-    },
     "groupDmInvalidImage": "Ongeldige afbeelding",
     "@groupDmInvalidImage": {
         "description": "Title when the selected group icon image cannot be used."
@@ -11108,10 +10412,6 @@
     "@groupDmAddFriendFailed": {
         "description": "Error when adding a single friend to a group DM fails."
     },
-    "groupDmAddFailed": "Kon niet toevoegen aan groep",
-    "@groupDmAddFailed": {
-        "description": "Title when adding friends to a group DM fails."
-    },
     "groupDmGroupFull": "Deze groep is vol. Verwijder iemand voordat je meer mensen toevoegt.",
     "@groupDmGroupFull": {
         "description": "Error when the group DM has no remaining member slots."
@@ -11119,10 +10419,6 @@
     "groupDmRateLimited": "Je gaat te snel. Wacht even en probeer het opnieuw.",
     "@groupDmRateLimited": {
         "description": "Error when add-friends requests are rate limited."
-    },
-    "groupDmCreateInviteFailed": "Kon geen uitnodigingslink maken",
-    "@groupDmCreateInviteFailed": {
-        "description": "Title when invite link generation fails."
     },
     "groupDmCreateInviteFailedBody": "Kon geen uitnodigingslink genereren. Probeer het opnieuw.",
     "@groupDmCreateInviteFailedBody": {
@@ -11405,10 +10701,6 @@
     "@userSettingsSearchPlaceholder": {
         "description": "Placeholder for the user settings search field."
     },
-    "userSettingsSearchFieldLabel": "Instellingen zoeken",
-    "@userSettingsSearchFieldLabel": {
-        "description": "Accessibility label for the user settings search field."
-    },
     "userSettingsSearchClear": "Zoekopdracht wissen",
     "@userSettingsSearchClear": {
         "description": "Accessibility label for clearing the user settings search field."
@@ -11451,8 +10743,6 @@
     "giftSettingsGiftUrl": "Cadeau-URL",
     "giftSettingsCopy": "Kopiëren",
     "giftSettingsCopied": "Gekopieerd",
-    "giftSettingsGiftUrlCopied": "Cadeau-URL gekopieerd naar klembord!",
-    "giftSettingsGiftUrlCopyFailed": "Kon de cadeaulink niet kopiëren",
     "giftSettingsPurchasedDate": "Gekocht op {date}",
     "@giftSettingsPurchasedDate": {
         "placeholders": {
@@ -11494,7 +10784,6 @@
     "premiumBuyGift": "Cadeau kopen",
     "premiumOneYearGift": "Cadeau voor 1 jaar",
     "premiumOneMonthGift": "Cadeau van 1 maand",
-    "premiumMostPopular": "Meest populair",
     "premiumScrollPrompt": "Scroll omlaag om alle voordelen van Plutonium te bekijken",
     "premiumFreeVsPlutonium": "Gratis versus Plutonium",
     "premiumFreeColumn": "Gratis",
@@ -11512,50 +10801,15 @@
     "premiumViewGifts": "Cadeaus bekijken",
     "premiumReadyToUpgrade": "Klaar om te upgraden?",
     "premiumReadyToBuyGift": "Cadeau kopen?",
-    "premiumMonthlyPrice": "Maandelijks {price}",
-    "@premiumMonthlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumYearlyPrice": "Jaarlijks {price}",
-    "@premiumYearlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneYearPrice": "1 jaar {price}",
-    "@premiumOneYearPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneMonthPrice": "1 maand {price}",
-    "@premiumOneMonthPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
     "premiumManageSubscription": "Abonnement beheren",
     "premiumRedeemGiftCode": "Cadeaucode inwisselen",
     "premiumGiftBadge": "Cadeau",
     "premiumCancelSubscriptionTitle": "Abonnement opzeggen?",
     "premiumCancelSubscriptionBody": "Je behoudt je voordelen tot je volgende verlengingsdatum, daarna heb je een respijtperiode van 3 dagen om je opnieuw te abonneren en je abonnementsgeschiedenis te behouden.",
     "premiumCancelSubscriptionConfirm": "Abonnement opzeggen",
-    "premiumKeepSubscription": "Abonnement behouden",
     "premiumPurchaseHistoryTitle": "Aankoopgeschiedenis",
     "premiumPurchaseHistoryDescription": "Je recente facturen. Om de betaalmethode voor je abonnement te wijzigen, voeg je er een toe of kies je er een in de facturatieportal en stel je deze in als standaard.",
     "premiumManagePaymentMethods": "Betaalmethoden beheren",
-    "premiumBillingHistory": "Factuurgeschiedenis",
-    "premiumSelfServeRefundTitle": "Zelfservice restitutie",
     "premiumSelfServeRefundButton": "Laatste aankoop terugbetalen",
     "premiumDisclaimerAgreementPrefix": "Door te kopen, ga je akkoord met onze ",
     "premiumDisclaimerAgreementPastPrefix": "Door te kopen, ging u akkoord met onze ",
@@ -11595,17 +10849,6 @@
         "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
     },
     "premiumComparisonFeatureColumn": "Functie",
-    "premiumDisclaimerPurchased": "Bij je aankoop ben je akkoord gegaan met onze {terms} en ons {privacy}.",
-    "@premiumDisclaimerPurchased": {
-        "placeholders": {
-            "terms": {
-                "type": "String"
-            },
-            "privacy": {
-                "type": "String"
-            }
-        }
-    },
     "premiumDisclaimerRefund": "Je kunt binnen 3 dagen na betaling zelf een terugbetaling aanvragen, maximaal eens per 30 dagen. Een terugbetaling van een abonnement beëindigt dat abonnement. Kopers uit de EU/EER doen bij het afrekenen afstand van het herroepingsrecht van 14 dagen om direct toegang te krijgen tot de inhoud. Gebruik de terugbetalingsknop in de app in plaats van een chargeback. Chargebacks kunnen tot permanente beperkingen van je account leiden. Stripe verwerkt betalingen veilig. Wij zien nooit je volledige kaartnummer.",
     "premiumTermsOfService": "Gebruiksvoorwaarden",
     "premiumPrivacyPolicy": "Privacybeleid",
@@ -11646,24 +10889,14 @@
     },
     "premiumClaimAccountToPurchase": "Claim je account om Fluxer Plutonium te kopen.",
     "premiumVerifyEmailToPurchase": "Je moet je e-mailadres verifiëren voordat je Fluxer Plutonium kunt kopen.",
-    "premiumPerkCustomUsernameTag": "Aangepaste gebruikersnaamtag",
-    "premiumPerkPerCommunityProfiles": "Profielen per community",
-    "premiumPerkMessageScheduling": "Bericht plannen",
-    "premiumPerkProfileBadge": "Profielbadge",
-    "premiumPerkCustomVideoBackgrounds": "Aangepaste videoachtergronden",
-    "premiumPerkEntranceSounds": "Binnenkomstgeluiden",
     "premiumPerkCommunities": "Communities",
     "premiumPerkMessageCharacterLimit": "Tekenlimiet voor berichten",
     "premiumPerkBookmarkedMessages": "Opgeslagen berichten",
     "premiumPerkFileUploadSize": "Grootte van bestandsupload",
-    "premiumPerkEmojiStickerPacks": "Emoji- en stickerpakketten",
-    "premiumPerkSavedMedia": "Opgeslagen media",
     "premiumPerkUseAnimatedEmojis": "Geanimeerde emoji's gebruiken",
-    "premiumPerkGlobalEmojiStickerAccess": "Overal toegang tot emoji's en stickers",
     "premiumPerkVideoQuality": "Videokwaliteit",
     "premiumPerkAnimatedAvatarsBanners": "Geanimeerde avatars en profielbanners",
     "premiumPerkEarlyAccess": "Vroege toegang tot nieuwe functies",
-    "premiumPerkCustomThemes": "Aangepaste thema's",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "Tot 4K/60 FPS",
     "storePlutoniumPriceLine": "{monthly} of {yearly}",
@@ -11892,16 +11125,6 @@
     "@audioAndVideoMicTestStopLabel": {
         "description": "Button label to stop the microphone test."
     },
-    "audioAndVideoMicTestPermissionRequired": "{productName} heeft microfoontoegang nodig om je invoer te testen.",
-    "@audioAndVideoMicTestPermissionRequired": {
-        "description": "Shown when microphone permission is required for the mic test.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
     "audioAndVideoCameraLabel": "Camera",
     "@audioAndVideoCameraLabel": {
         "description": "Label for camera device selection."
@@ -11946,39 +11169,9 @@
     "@audioAndVideoFrameRate60Label": {
         "description": "Screen share frame rate option for 60 FPS."
     },
-    "audioAndVideoHigherQualityRequiresPremium": "1080p en 60 FPS vereisen {premiumProductName}.",
-    "@audioAndVideoHigherQualityRequiresPremium": {
-        "description": "Note shown when higher video quality options require premium.",
-        "placeholders": {
-            "premiumProductName": {
-                "type": "String",
-                "example": "Plutonium"
-            }
-        }
-    },
     "audioAndVideoInstanceVideoQualityLimit": "Dit exemplaar staat momenteel scherm delen toe tot 720p met 30 FPS.",
     "@audioAndVideoInstanceVideoQualityLimit": {
         "description": "Note shown when instance limits block higher screen share quality."
-    },
-    "audioAndVideoMicrophonePermissionRequired": "{productName} heeft microfoontoegang nodig om je apparaten weer te geven.",
-    "@audioAndVideoMicrophonePermissionRequired": {
-        "description": "Shown when microphone permission is required to enumerate audio input devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
-    "audioAndVideoCameraPermissionRequired": "{productName} heeft cameratoegang nodig om je apparaten weer te geven.",
-    "@audioAndVideoCameraPermissionRequired": {
-        "description": "Shown when camera permission is required to enumerate video devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
     },
     "audioAndVideoSkipHideOwnCameraConfirmLabel": "Niet vragen als ik mijn camera verberg",
     "@audioAndVideoSkipHideOwnCameraConfirmLabel": {
@@ -12017,14 +11210,6 @@
     "notificationsEnableDesktopNotificationsDescription": "Gebruikt het meldingencentrum van het besturingssysteem. Klik voor instellingen per kanaal of community met de rechtermuisknop op een communitypictogram en open de meldingsinstellingen.",
     "@notificationsEnableDesktopNotificationsDescription": {
         "description": "Description for the enable desktop notifications toggle."
-    },
-    "notificationsEnableBrowserNotificationsLabel": "Browsermeldingen inschakelen",
-    "@notificationsEnableBrowserNotificationsLabel": {
-        "description": "Toggle label for enabling browser notifications."
-    },
-    "notificationsEnableBrowserNotificationsDescription": "Ontvang meldingen wanneer je berichten krijgt. Mogelijk moet je meldingen toestaan in je browserinstellingen. Klik voor instellingen per kanaal of community met de rechtermuisknop op een communitypictogram en open de meldingsinstellingen.",
-    "@notificationsEnableBrowserNotificationsDescription": {
-        "description": "Description for the enable browser notifications toggle."
     },
     "notificationsPushInactiveTimeoutLabel": "Time-out voor pushmeldingen (inactief)",
     "@notificationsPushInactiveTimeoutLabel": {
@@ -12404,10 +11589,6 @@
     "@languageAndTimeLanguageSectionDescription": {
         "description": "Settings section description for interface language preference."
     },
-    "languageAndTimeOpenLanguageSettings": "Open taalinstellingen",
-    "@languageAndTimeOpenLanguageSettings": {
-        "description": "Button that opens the system per-app language settings."
-    },
     "languageAndTimeTimeFormatSectionTitle": "Tijdnotatie",
     "@languageAndTimeTimeFormatSectionTitle": {
         "description": "Settings section title for time format preference."
@@ -12571,7 +11752,6 @@
     "advancedSettingStripTrackingLabel": "Trackingparameters uit URL's verwijderen",
     "advancedSettingStripTrackingDescription": "Trackingparameters automatisch verwijderen uit URL's in berichten die je verstuurt",
     "advancedSettingTrustAllLinksLabel": "Alle externe links vertrouwen",
-    "advancedSettingTrustAllLinksDescription": "Externe linkwaarschuwing overslaan voor alle domeinen",
     "advancedSettingSearchEnginesLabel": "Zoekmachines",
     "advancedSettingSearchEnginesDescription": "Configureer de zoekmachines die worden gebruikt voor geselecteerde tekst",
     "advancedSettingTranslatorsLabel": "Vertalers",
@@ -12627,13 +11807,6 @@
     "advancedSettingHideStreamPreviewLabel": "Miniatuur van mijn streamvoorbeeld verbergen",
     "advancedSettingDeveloperModeLabel": "Ontwikkelaarsmodus inschakelen",
     "advancedSettingDeveloperModeDescription": "Ontwikkelaarsmodus inschakelen",
-    "advancedSettingSearchEngineGoogle": "Google",
-    "advancedSettingSearchEngineDuckDuckGo": "DuckDuckGo",
-    "advancedSettingSearchEngineBing": "Bing",
-    "advancedSettingSearchEngineGoogleLens": "Google Lens",
-    "advancedSettingSearchEngineTinEye": "TinEye",
-    "advancedSettingTranslatorGoogle": "Google Translate",
-    "advancedSettingTranslatorDeepL": "DeepL",
     "advancedSettingDefaultSearchEngineLabel": "Standaard zoekmachine",
     "advancedSettingDefaultSearchEngineDescription": "Kies welke zoekmachine standaard wordt gebruikt bij het zoeken naar geselecteerde tekst.",
     "advancedSettingBuiltInSearchEnginesLabel": "Ingebouwde zoekmachines",
@@ -13812,10 +12985,6 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsCustomInviteUrl": "Aangepaste uitnodigings-URL",
-    "@guildMenuSettingsCustomInviteUrl": {
-        "description": "Community settings tab for custom invite URLs."
-    },
     "guildMenuSettingsDiscovery": "Ontdekken",
     "@guildMenuSettingsDiscovery": {
         "description": "Community settings tab for discovery settings."
@@ -13844,17 +13013,9 @@
     "@guildSettingsOverviewIconTitle": {
         "description": "Title for the guild icon section in overview settings."
     },
-    "guildSettingsUploadImage": "Afbeelding uploaden",
-    "@guildSettingsUploadImage": {
-        "description": "Button label to upload an image in guild settings."
-    },
     "guildSettingsOverviewBannerTitle": "Banner",
     "@guildSettingsOverviewBannerTitle": {
         "description": "Title for the guild banner section."
-    },
-    "guildSettingsOverviewBannerHint": "Upload een banner voor je server.",
-    "@guildSettingsOverviewBannerHint": {
-        "description": "Hint text for guild banner upload."
     },
     "guildSettingsOverviewNameTitle": "Naam",
     "@guildSettingsOverviewNameTitle": {
@@ -13863,22 +13024,6 @@
     "guildSettingsOverviewNameHint": "Mijn geweldige community",
     "@guildSettingsOverviewNameHint": {
         "description": "Hint for the guild name field."
-    },
-    "guildSettingsOverviewStatsTitle": "Statistieken",
-    "@guildSettingsOverviewStatsTitle": {
-        "description": "Title for guild statistics section."
-    },
-    "guildSettingsOverviewMembers": "Leden",
-    "@guildSettingsOverviewMembers": {
-        "description": "Label for member count in overview."
-    },
-    "guildSettingsOverviewOnline": "Online",
-    "@guildSettingsOverviewOnline": {
-        "description": "Label for online count in overview."
-    },
-    "guildSettingsRolesDescription": "Gebruik rollen om leden te groeperen en permissies toe te wijzen.",
-    "@guildSettingsRolesDescription": {
-        "description": "Description for the roles settings tab."
     },
     "guildSettingsCreateRole": "Rol aanmaken",
     "@guildSettingsCreateRole": {
@@ -13978,14 +13123,6 @@
     "@guildSettingsRolesComfyLayout": {
         "description": "Tooltip when permission list is in dense layout."
     },
-    "guildSettingsRolesSwitchToDenseLayout": "Overschakelen naar compacte lay-out",
-    "@guildSettingsRolesSwitchToDenseLayout": {
-        "description": "Aria label for switching to dense layout."
-    },
-    "guildSettingsRolesSwitchToComfyLayout": "Overschakelen naar comfortabele lay-out",
-    "@guildSettingsRolesSwitchToComfyLayout": {
-        "description": "Aria label for switching to comfy layout."
-    },
     "guildSettingsRolesSingleColumn": "Enkele kolom",
     "@guildSettingsRolesSingleColumn": {
         "description": "Tooltip when permission list is in two-column layout."
@@ -13994,21 +13131,9 @@
     "@guildSettingsRolesTwoColumns": {
         "description": "Tooltip when permission list is in single-column layout."
     },
-    "guildSettingsRolesSwitchToSingleColumn": "Overschakelen naar één kolom",
-    "@guildSettingsRolesSwitchToSingleColumn": {
-        "description": "Aria label for switching to single column."
-    },
-    "guildSettingsRolesSwitchToTwoColumns": "Naar twee kolommen wisselen",
-    "@guildSettingsRolesSwitchToTwoColumns": {
-        "description": "Aria label for switching to two columns."
-    },
     "guildSettingsRolesNoPermissionsFound": "Geen machtigingen gevonden",
     "@guildSettingsRolesNoPermissionsFound": {
         "description": "Empty state when permission search has no matches."
-    },
-    "guildSettingsRolesCustomHoistOrder": "Aangepaste volgorde van apart weergegeven rollen",
-    "@guildSettingsRolesCustomHoistOrder": {
-        "description": "Button to enter custom hoist order mode."
     },
     "guildSettingsRolesHoistOrder": "Volgorde van apart weergegeven rollen",
     "@guildSettingsRolesHoistOrder": {
@@ -14025,10 +13150,6 @@
     "guildSettingsRolesNoHoistedRoles": "Geen afzonderlijk weergegeven rollen. Schakel \"Deze rol afzonderlijk weergeven\" in bij een rol om deze hier te zien.",
     "@guildSettingsRolesNoHoistedRoles": {
         "description": "Empty state when no roles are hoisted."
-    },
-    "guildSettingsRolesLockedTooltip": "Je kunt deze rol niet bewerken omdat het je hoogste rol is of een rol die boven je staat",
-    "@guildSettingsRolesLockedTooltip": {
-        "description": "Tooltip on locked role rows."
     },
     "guildSettingsRolesNeedManageRolesPermission": "Je hebt de \"{permission}\"-permissie nodig om deze permissies te bewerken",
     "@guildSettingsRolesNeedManageRolesPermission": {
@@ -14136,10 +13257,6 @@
     "permissionCategoryAudioVideo": "Audio en video",
     "@permissionCategoryAudioVideo": {
         "description": "Permission category label."
-    },
-    "permissionUnknown": "Onbekende machtiging",
-    "@permissionUnknown": {
-        "description": "Fallback permission label."
     },
     "permissionAdministrator": "Beheerder",
     "@permissionAdministrator": {
@@ -14409,30 +13526,9 @@
     "@permissionSetVoiceRegion": {
         "description": "Permission name."
     },
-    "guildSettingsEmojiSlotInfo": "{staticCount} statische, {animatedCount} geanimeerde emoji-slots gebruikt",
-    "@guildSettingsEmojiSlotInfo": {
-        "description": "Emoji slot usage summary.",
-        "placeholders": {
-            "staticCount": {
-                "type": "int"
-            },
-            "animatedCount": {
-                "type": "int"
-            }
-        }
-    },
     "guildSettingsEmojiEmpty": "Nog geen aangepaste emoji.",
     "@guildSettingsEmojiEmpty": {
         "description": "Empty state for emoji settings."
-    },
-    "guildSettingsStickersSlotInfo": "{count} stickers geüpload",
-    "@guildSettingsStickersSlotInfo": {
-        "description": "Sticker slot usage summary.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsStickersEmpty": "Nog geen aangepaste stickers.",
     "@guildSettingsStickersEmpty": {
@@ -14478,8 +13574,6 @@
     "guildSettingsVerificationMediumDescription": "Vereist een geverifieerd e-mailadres en een account dat minstens 5 minuten oud is.",
     "guildSettingsVerificationHigh": "Hoog",
     "guildSettingsVerificationHighDescription": "Vereist alles van het niveau Gemiddeld, plus dat je minimaal 10 minuten lid bent van de community.",
-    "guildSettingsVerificationHighest": "Zeer hoog",
-    "guildSettingsVerificationHighestDescription": "Vereist een geverifieerd telefoonnummer.",
     "guildSettingsAuditLogDescription": "Houd moderatoracties bij in de hele community.",
     "@guildSettingsAuditLogDescription": {
         "description": "Subtitle under the activity-log page title."
@@ -14507,14 +13601,6 @@
     "guildSettingsAuditLogUnknownUser": "Onbekende gebruiker",
     "@guildSettingsAuditLogUnknownUser": {
         "description": "Fallback avatar label when the acting user is unavailable."
-    },
-    "guildSettingsAuditLogLoadError": "Er is iets misgegaan bij het laden van het activiteitenlogboek.",
-    "@guildSettingsAuditLogLoadError": {
-        "description": "Generic error shown when fetching log entries fails."
-    },
-    "guildSettingsAuditLogLoadErrorTitle": "Kan activiteitenlogboeken niet laden",
-    "@guildSettingsAuditLogLoadErrorTitle": {
-        "description": "Error-state title when fetching log entries failed."
     },
     "guildSettingsAuditLogReason": "Reden",
     "@guildSettingsAuditLogReason": {
@@ -15486,14 +14572,6 @@
     "@auditLogOptionPermanentMembership": {
         "description": "Audit log option detail sentence."
     },
-    "guildSettingsLoadMore": "Meer laden",
-    "@guildSettingsLoadMore": {
-        "description": "Button to load more audit log entries."
-    },
-    "guildSettingsLoadingMore": "Laden...",
-    "@guildSettingsLoadingMore": {
-        "description": "Loading state for pagination."
-    },
     "guildSettingsWebhooksDescription": "Bekijk en beheer elke webhook die is ingesteld voor je community.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
@@ -15540,42 +14618,9 @@
     "@guildSettingsUnknownChannel": {
         "description": "Fallback label when a webhook channel name is unavailable."
     },
-    "guildSettingsCopyUrl": "URL kopiëren",
-    "@guildSettingsCopyUrl": {
-        "description": "Tooltip to copy a URL."
-    },
     "guildSettingsCopiedUrl": "URL gekopieerd naar klembord",
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
-    },
-    "guildSettingsDeleteWebhook": "Webhook verwijderen",
-    "@guildSettingsDeleteWebhook": {
-        "description": "Tooltip to delete a webhook."
-    },
-    "guildSettingsVanityUrlDescription": "Stel een aangepaste uitnodigingslink in voor je server.",
-    "@guildSettingsVanityUrlDescription": {
-        "description": "Description for vanity URL tab."
-    },
-    "guildSettingsVanityUrlHint": "my-server",
-    "@guildSettingsVanityUrlHint": {
-        "description": "Hint for vanity URL input."
-    },
-    "guildSettingsSave": "Opslaan",
-    "@guildSettingsSave": {
-        "description": "Generic save button label."
-    },
-    "guildSettingsVanityUrlUsageTitle": "Gebruik",
-    "@guildSettingsVanityUrlUsageTitle": {
-        "description": "Title for vanity URL usage section."
-    },
-    "guildSettingsVanityUrlUses": "{count} keer gebruikt",
-    "@guildSettingsVanityUrlUses": {
-        "description": "Vanity URL usage count.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsDiscoveryDescription": "Zet je community in Ontdekken, zodat anderen deze kunnen vinden en lid kunnen worden.",
     "@guildSettingsDiscoveryDescription": {
@@ -15761,10 +14806,6 @@
     "@guildSettingsDiscoveryWithdrawErrorDescription": {
         "description": "Error modal body when withdrawing a discovery application fails."
     },
-    "guildSettingsMembersDescription": "Zoek en beheer serverleden.",
-    "@guildSettingsMembersDescription": {
-        "description": "Description for members tab."
-    },
     "guildSettingsMembersSearchHint": "Zoeken op gebruikersnaam of ID",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field on the community members page."
@@ -15829,10 +14870,6 @@
     },
     "guildMembersColumnRoles": "Rollen",
     "@guildMembersColumnRoles": {
-        "description": "Table column header on the community members page."
-    },
-    "guildMembersColumnActions": "Acties",
-    "@guildMembersColumnActions": {
         "description": "Table column header on the community members page."
     },
     "guildMembersFilterMemberSince": "Filteren op datum van lid worden",
@@ -15919,23 +14956,6 @@
     "@guildMembersIndexing": {
         "description": "Banner shown while guild members are being indexed."
     },
-    "guildMembersGoToPage": "Ga naar pagina",
-    "@guildMembersGoToPage": {
-        "description": "Pagination jump label on the community members page."
-    },
-    "guildMembersGoToPageItem": "Ga naar pagina {page}",
-    "@guildMembersGoToPageItem": {
-        "description": "Accessibility label for a pagination page button.",
-        "placeholders": {
-            "page": {
-                "type": "int"
-            }
-        }
-    },
-    "guildMembersJumpToPage": "Ga naar pagina",
-    "@guildMembersJumpToPage": {
-        "description": "Label for pagination jump input on the community members page."
-    },
     "guildMembersJoinSourceCreator": "Communitymaker",
     "@guildMembersJoinSourceCreator": {
         "description": "Join method label on the community members page."
@@ -16012,22 +15032,9 @@
             }
         }
     },
-    "guildMembersJoinedDaysAgo": "{count, plural, one {1 dag geleden} other {{count} dagen geleden}}",
-    "@guildMembersJoinedDaysAgo": {
-        "description": "Relative join time on the community members page.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
     "guildMembersChannelListLabel": "Leden",
     "@guildMembersChannelListLabel": {
         "description": "Label for the Members item at the top of the guild channel list."
-    },
-    "guildMembersChannelListSelected": "Leden, geselecteerd",
-    "@guildMembersChannelListSelected": {
-        "description": "Accessibility label when the Members channel list item is selected."
     },
     "guildSettingsInvitesTitle": "Uitnodigingen",
     "@guildSettingsInvitesTitle": {
@@ -16158,27 +15165,6 @@
     "@guildSettingsInvitesRevokeFailedDescription": {
         "description": "Error description when revoking an invite fails."
     },
-    "guildSettingsInviteUses": "{uses} / {maxUses} uitnodigingen",
-    "@guildSettingsInviteUses": {
-        "description": "Invite usage count.",
-        "placeholders": {
-            "uses": {
-                "type": "int"
-            },
-            "maxUses": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsInviteExpires": "Vervalt {date}",
-    "@guildSettingsInviteExpires": {
-        "description": "Invite expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBansDescription": "Verbannen gebruikers bekijken en beheren.",
     "@guildSettingsBansDescription": {
         "description": "Description for bans tab."
@@ -16191,30 +15177,9 @@
     "@guildSettingsBansEmpty": {
         "description": "Empty state for bans."
     },
-    "guildSettingsBanPermanent": "Permanent verbannen",
-    "@guildSettingsBanPermanent": {
-        "description": "Label for permanent ban."
-    },
-    "guildSettingsBanExpires": "Vervalt op {date}",
-    "@guildSettingsBanExpires": {
-        "description": "Ban expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBanExpiresLabel": "Verloopt",
     "@guildSettingsBanExpiresLabel": {
         "description": "Label for ban expiration row."
-    },
-    "guildSettingsUnban": "Opheffen",
-    "@guildSettingsUnban": {
-        "description": "Button to unban a user."
-    },
-    "guildSettingsBansLoading": "Verbannen gebruikers laden",
-    "@guildSettingsBansLoading": {
-        "description": "Loading state for the guild bans list."
     },
     "guildSettingsBansNoSearchResults": "Geen verbanningen gevonden die overeenkomen met je zoekopdracht.",
     "@guildSettingsBansNoSearchResults": {
@@ -16258,10 +15223,6 @@
             }
         }
     },
-    "guildSettingsBansLoadError": "Kon bans niet laden. Probeer het opnieuw.",
-    "@guildSettingsBansLoadError": {
-        "description": "Error when loading the guild bans list fails."
-    },
     "guildSettingsRevokeBanError": "Kon ban niet intrekken. Probeer het opnieuw.",
     "@guildSettingsRevokeBanError": {
         "description": "Error when revoking a ban fails."
@@ -16286,7 +15247,6 @@
     "@guildSettingsCategoryPeople": {
         "description": "Sidebar category for members, invites, and bans."
     },
-    "guildSettingsOverviewDescription": "Beheer het profiel, de kanalen en de standaardinstellingen van je community.",
     "guildSettingsOverviewBrandingTitle": "Huisstijl",
     "guildSettingsOverviewBrandingDescription": "Werk je pictogram, naam, banner en achtergrond voor uitnodigingen bij",
     "@guildSettingsOverviewBrandingDescription": {
@@ -16305,7 +15265,6 @@
     },
     "guildSettingsOverviewNotificationsTitle": "Standaardmeldingen",
     "guildSettingsOverviewNotificationsLargeGuild": "Bij communities met meer dan 250 leden wordt de instelling \"Alleen vermeldingen\" afgedwongen. Je oorspronkelijke instelling blijft behouden en wordt hersteld als de community minder dan 250 leden heeft.",
-    "guildSettingsOverviewAdvancedTitle": "Geavanceerd",
     "guildSettingsOverviewFlexibleNames": "Flexibele tekstkanaalnamen toestaan",
     "guildSettingsOverviewHideOwnerCrown": "Kroon van community-eigenaar verbergen",
     "guildSettingsOverviewDetachedBanner": "Losgekoppelde banner",
@@ -16331,10 +15290,6 @@
     "guildSettingsOverviewEmbedSplashTitle": "Achtergrond chat-embed",
     "@guildSettingsOverviewEmbedSplashTitle": {
         "description": "Title for embed splash upload section."
-    },
-    "guildSettingsOverviewEmbedSplashHint": "Wordt weergegeven in ingesloten uitnodigingen in de chat.",
-    "@guildSettingsOverviewEmbedSplashHint": {
-        "description": "Note shown when uploading chat embed background."
     },
     "guildSettingsOverviewUploadBackground": "Achtergrond uploaden",
     "@guildSettingsOverviewUploadBackground": {
@@ -16501,8 +15456,6 @@
     "@guildSettingsOverviewEmbedSplashUploadHint": {
         "description": "Upload requirements for chat embed background images."
     },
-    "guildSettingsModerationDescription": "Configureer verificatie-, inhoudsfilter- en instellingen voor volwassen inhoud.",
-    "guildSettingsModerationDiscoveryNotice": "Gemeenschappen die in de ontdekkingslijst staan, hebben beperkte moderatiemogelijkheden.",
     "guildSettingsModerationContentFilterTitle": "Inhoud filteren",
     "guildSettingsModerationContentFilterDescription": "Berichten automatisch controleren op seksueel expliciete inhoud in kanalen die niet zijn gemarkeerd voor inhoud voor volwassenen.",
     "guildSettingsModerationContentFilterDiscoveryNote": "Communities die in Ontdekken worden vermeld, moeten alle leden scannen. Deze instelling kan niet worden gewijzigd zolang Ontdekken is ingeschakeld.",
@@ -16512,8 +15465,6 @@
     "guildSettingsContentFilterNoRoleDescription": "Aanbevolen voor de meeste communities",
     "guildSettingsContentFilterAll": "Berichten van iedereen filteren",
     "guildSettingsContentFilterAllDescription": "Maximale bescherming voor gezinsvriendelijke ruimtes",
-    "guildSettingsModerationMatureOff": "Uit",
-    "guildSettingsModerationMatureOn": "Aan",
     "guildSettingsContentWarningToggle": "Toon een inhoudswaarschuwing",
     "@guildSettingsContentWarningToggle": {
         "description": "Switch label for the community content warning setting."
@@ -16533,7 +15484,6 @@
     "guildSettingsModeration2faTitle": "2FA-vereiste",
     "guildSettingsModeration2faDescription": "Vereis tweefactorauthenticatie voor moderators voordat ze gebruikers kunnen bannen, kicken, time-outen of berichten kunnen verwijderen.",
     "guildSettingsModeration2faSwitchLabel": "2FA vereisen voor moderatieacties",
-    "guildSettingsModeration2faOwnerOnlyTooltip": "Alleen de community-eigenaar kan deze instelling wijzigen",
     "guildSettingsModeration2faEnableFirstTooltip": "Schakel 2FA in voor je account om deze instelling te wijzigen",
     "guildSettingsEmojiSearchHint": "Emoji zoeken",
     "guildSettingsEmojiUploadTitle": "Emoji uploaden",
@@ -16541,7 +15491,6 @@
     "guildSettingsEmojiDropZone": "Sleep emoji-bestanden hierheen",
     "guildSettingsEmojiLoadFailed": "Emoji's laden mislukt. Probeer het later opnieuw.",
     "guildSettingsEmojiSearchEmpty": "Geen emoji's gevonden die overeenkomen met je zoekopdracht.",
-    "guildSettingsEmojiNoSlots": "Geen emojiplaatsen beschikbaar",
     "guildSettingsEmojiSlotsFull": "Je hebt het maximale aantal emoji's bereikt. Verwijder bestaande emoji's om ruimte te maken.",
     "guildSettingsEmojiUploadRequirements": "Namen van emoji's moeten minimaal 2 tekens bevatten en mogen letters, cijfers en underscores gebruiken. Emoji's moeten kleiner zijn dan {maxSize}. Statische afbeeldingen worden automatisch aangepast naar 128x128 pixels en gecomprimeerd. Geanimeerde emoji's en SVG's moeten al aan de limiet voldoen.",
     "@guildSettingsEmojiUploadRequirements": {
@@ -16551,24 +15500,11 @@
             }
         }
     },
-    "guildSettingsEmojiUploadingTitle": "Emoji's uploaden",
-    "guildSettingsEmojiUploadingBody": "Emoji's uploaden ({count, plural, one {# emoji} other {# emoji's}}). Dit kan even duren.",
-    "@guildSettingsEmojiUploadingBody": {
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsEmojiUploadFailed": "Uploaden van emoji's mislukt. Probeer het opnieuw.",
     "guildSettingsEmojiSomeFailedTitle": "Sommige emoji's konden niet worden toegevoegd",
-    "guildSettingsEmojiSomeFailedBody": "Controleer deze bestanden en probeer het opnieuw met kleinere of eenvoudigere afbeeldingen.",
     "guildSettingsEmojiRenameTitle": "Emoji hernoemen",
     "guildSettingsEmojiRenameHint": "2-32 tekens, letters, cijfers, underscores.",
-    "guildSettingsEmojiColumnEmoji": "Emoji",
     "guildSettingsEmojiColumnName": "Naam",
     "guildSettingsEmojiColumnUploader": "Geüpload door",
-    "guildSettingsEmojiUnknownUploader": "Onbekend",
     "guildSettingsEmojiDeleteTitle": "Emoji verwijderen",
     "guildSettingsEmojiDeleteBody": "Verwijder :{name}:? Dit kan niet ongedaan gemaakt worden.",
     "@guildSettingsEmojiDeleteBody": {
@@ -16583,15 +15519,7 @@
     "guildSettingsEmojiNameTooLong": "De emojinaam mag maximaal 32 tekens lang zijn",
     "guildSettingsEmojiInvalidNameTitle": "Ongeldige emojinaam",
     "guildSettingsEmojiRenameFailedTitle": "Deze emoji kon niet worden hernoemd",
-    "guildSettingsEmojiRenameFailedBody": "De vorige naam is hersteld. Probeer het zo meteen opnieuw.",
-    "guildSettingsEmojiGoneTitle": "Deze emoji bestaat niet meer",
-    "guildSettingsEmojiGoneBody": "De emoji is mogelijk verwijderd. De naam is teruggezet naar de vorige naam.",
-    "guildSettingsEmojiNoPermissionRenameTitle": "Je kunt deze emoji niet hernoemen",
-    "guildSettingsEmojiNoPermissionRenameBody": "Je hebt geen toestemming om deze emoji te hernoemen. De naam is teruggezet naar de vorige naam.",
-    "guildSettingsEmojiRateLimitedTitle": "Je gaat te snel",
-    "guildSettingsEmojiRateLimitedBody": "Wacht even en probeer de naam opnieuw te wijzigen.",
     "guildSettingsEmojiDeleteFailedTitle": "Deze emoji kon niet worden verwijderd",
-    "guildSettingsEmojiDeleteNoPermissionTitle": "Je kunt deze emoji niet verwijderen",
     "guildSettingsCloneEmojiTitle": "Anderen toestaan je emoji's te klonen",
     "guildSettingsCloneEmojiDescription": "Als dit is ingeschakeld, kunnen leden van andere community's de in-app 'Klonen'-snelkoppeling met één klik gebruiken voor je aangepaste emoji's. Dit voorkomt niet dat ze de afbeelding opslaan en zelf uploaden.",
     "guildSettingsCloneStickerTitle": "Anderen toestaan je stickers te klonen",
@@ -16632,8 +15560,6 @@
     "guildSettingsStickersLoadFailedTitle": "Stickers laden mislukt",
     "guildSettingsStickersLoadFailedBody": "Er is een fout opgetreden bij het laden van de stickers. Probeer het opnieuw.",
     "guildSettingsStickersSearchEmpty": "Geen stickers gevonden die overeenkomen met je zoekopdracht.",
-    "guildSettingsStickersEmptySearch": "Geen stickers gevonden",
-    "guildSettingsStickerNoSlots": "Geen stickerplaatsen beschikbaar",
     "guildSettingsStickerSlotsFull": "Je hebt het maximale aantal stickers bereikt. Verwijder enkele bestaande stickers om ruimte te maken.",
     "guildSettingsStickerUploadRequirements": "Stickers worden opgeslagen in 320x320 pixels en mogen maximaal {maxSize} zijn. Statische afbeeldingen worden automatisch verkleind en gecomprimeerd. Geanimeerde stickers en SVG's moeten al aan de limiet voldoen.",
     "@guildSettingsStickerUploadRequirements": {
@@ -16643,7 +15569,6 @@
             }
         }
     },
-    "guildSettingsStickerUnsupportedTitle": "Niet-ondersteund stickerbestand",
     "guildSettingsStickerAddTitle": "Sticker toevoegen",
     "guildSettingsStickerEditTitle": "Sticker bewerken",
     "guildSettingsStickerNameLabel": "Naam",
@@ -16668,8 +15593,6 @@
     "guildSettingsStickerNameTooLong": "Naam mag maximaal 30 tekens lang zijn",
     "guildSettingsStickerDescriptionTooLong": "Beschrijving mag maximaal 500 tekens bevatten",
     "guildSettingsStickerCreateFailedTitle": "Sticker kon niet worden gemaakt",
-    "guildSettingsStickerTooLargeTitle": "Sticker is te groot",
-    "guildSettingsStickerCompressFailedTitle": "Sticker kon niet voldoende worden gecomprimeerd",
     "guildSettingsStickerDeleteTitle": "Sticker verwijderen",
     "guildSettingsStickerDeleteBody": "Verwijder \"{name}\"? Dit kan niet ongedaan worden gemaakt.",
     "@guildSettingsStickerDeleteBody": {
@@ -16681,7 +15604,6 @@
     },
     "guildSettingsStickerPurgeLabel": "Sticker uit opslag en CDN verwijderen",
     "guildSettingsStickerDeleteFailedTitle": "Deze sticker kon niet worden verwijderd",
-    "guildSettingsStickerDeleteNoPermissionTitle": "Je kunt deze sticker niet verwijderen",
     "guildSettingsWebhooksInfo": "Om een webhook te maken, open je {channelSettingsPath}. Je kunt hier nog steeds alle bestaande webhooks bewerken en organiseren.",
     "@guildSettingsWebhooksInfo": {
         "description": "Info box on the guild webhooks tab.",
@@ -16691,8 +15613,6 @@
             }
         }
     },
-    "guildSettingsVanityUrlWarning": "Je aangepaste URL werkt niet, tenzij er minstens één kanaal zichtbaar is voor iedereen.",
-    "guildSettingsVanityUrlRemove": "Verwijderen",
     "guildSettingsBannedUsersTitle": "Verbannen gebruikers",
     "guildSettingsInvitesTableInviter": "Uitnodiger",
     "guildSettingsInvitesTableChannel": "Kanaal",

@@ -18,10 +18,8 @@ void main() {
     categoryId: null,
     guildId: 'guild-1',
     effectiveMatureContent: true,
-    matureContentSource: EffectiveMatureSource.channel,
     effectiveWarningLevel: contentWarningLevelInherit,
     effectiveWarningText: null,
-    warningSource: EffectiveMatureSource.none,
     scope: MatureContentAgreementScope.channel,
     scopeId: 'channel-1',
   );

@@ -5,8 +5,6 @@ import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 import 'package:material_ui/material_ui.dart';
 import 'support/native_test_parser.dart';
 
-String? _noopEmojiShortcode(String name) => null;
-
 String? _noopUnicodeEmojiUrl(String unicode) => null;
 
 void main() {
@@ -15,7 +13,6 @@ void main() {
     (tester) async {
       bool? requestedAnimated;
       final FluxerMarkdownConfig config = FluxerMarkdownConfig(
-        resolveEmojiShortcode: _noopEmojiShortcode,
         unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
         animateCustomEmoji: false,
         customEmojiUrlBuilder:
@@ -56,7 +53,6 @@ void main() {
   ) async {
     bool? requestedAnimated;
     final FluxerMarkdownConfig config = FluxerMarkdownConfig(
-      resolveEmojiShortcode: _noopEmojiShortcode,
       unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
       customEmojiUrlBuilder:
           ({required String id, required bool animated, required int size}) {
@@ -96,7 +92,6 @@ void main() {
     tester,
   ) async {
     final FluxerMarkdownConfig config = FluxerMarkdownConfig(
-      resolveEmojiShortcode: _noopEmojiShortcode,
       unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
       customEmojiUrlBuilder:
           ({required String id, required bool animated, required int size}) {

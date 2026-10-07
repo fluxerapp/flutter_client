@@ -28,10 +28,6 @@
     "@retry": {
         "description": "Generic label for retry actions (splash, errors, network, etc.)."
     },
-    "connectingCaps": "CONNECTING",
-    "@connectingCaps": {
-        "description": "Connecting text on the splash screen"
-    },
     "splashConnectionLost": "Připojení ztraceno",
     "@splashConnectionLost": {
         "description": "Fallback headline on splash when gateway is unavailable (web parity)."
@@ -93,10 +89,6 @@
             }
         }
     },
-    "ssoRequired": "Pro přístup k této instanci je vyžadováno SSO.",
-    "@ssoRequired": {
-        "description": "Short sign-in note shown when the instance requires single sign-on."
-    },
     "organizationSsoProvider": "Přihlaste se pomocí poskytovatele jednotného přihlášení vaší organizace.",
     "@organizationSsoProvider": {
         "description": "Description shown when sign-in is restricted to the configured SSO provider."
@@ -117,10 +109,6 @@
                 "type": "String"
             }
         }
-    },
-    "logInViaBrowser": "Přihlásit se přes prohlížeč",
-    "@logInViaBrowser": {
-        "description": "Secondary login that opens or uses the system browser."
     },
     "needAccountPrompt": "Potřebujete účet? ",
     "@needAccountPrompt": {
@@ -232,26 +220,9 @@
     "@accountAdd": {
         "description": "Button to add a new account."
     },
-    "accountRemove": "Odebrat",
-    "@accountRemove": {
-        "description": "Context menu option to remove a stored account."
-    },
-    "accountRemoveTitle": "Odebrat účet {username}",
-    "@accountRemoveTitle": {
-        "description": "Title for the remove account confirmation modal.",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
     "accountRemoveDescription": "Tímto odstraníte uloženou relaci pro tento účet.",
     "@accountRemoveDescription": {
         "description": "Description for the remove account confirmation modal."
-    },
-    "accountRemoveOnlyDescription": "Tímto odstraníte jediný uložený účet v tomto zařízení.",
-    "@accountRemoveOnlyDescription": {
-        "description": "Description when removing the last stored account."
     },
     "accountExpired": "Vypršela platnost",
     "@accountExpired": {
@@ -783,10 +754,6 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsent": "Souhlasím s podmínkami služby a zásadami ochrany osobních údajů",
-    "@registerConsent": {
-        "description": "Consent checkbox label for registration (plain text fallback)."
-    },
     "registerConsentPrefix": "Souhlasím s ",
     "@registerConsentPrefix": {
         "description": "Text before the Terms of Service link in the consent checkbox."
@@ -830,10 +797,6 @@
     "passkeyTimeout": "Autentizace passkey vypršela. Zkuste to prosím znovu.",
     "@passkeyTimeout": {
         "description": "Error when passkey authentication times out."
-    },
-    "passkeyNotAvailable": "Passkey nejsou pro tuto aplikaci k dispozici. Místo toho se přihlaste pomocí e-mailu a hesla.",
-    "@passkeyNotAvailable": {
-        "description": "Error for unknown passkey provider errors (e.g. TYPE_UNKNOWN)."
     },
     "passkeyFailed": "Autentizace pomocí hesla selhala. Zkuste to prosím znovu.",
     "@passkeyFailed": {
@@ -941,26 +904,6 @@
     "inviteAcceptSomeone": "někdo",
     "@inviteAcceptSomeone": {
         "description": "Fallback inviter name when the inviter is unknown."
-    },
-    "inviteAcceptEmojiPack": "Balíček emotikonů",
-    "@inviteAcceptEmojiPack": {
-        "description": "Label for an emoji pack invite."
-    },
-    "inviteAcceptStickerPack": "Balíček samolepek",
-    "@inviteAcceptStickerPack": {
-        "description": "Label for a sticker pack invite."
-    },
-    "inviteAcceptInstallEmojiPack": "Nainstalovat balíček emotikonů",
-    "@inviteAcceptInstallEmojiPack": {
-        "description": "Primary action to install an emoji pack from an invite."
-    },
-    "inviteAcceptInstallStickerPack": "Nainstalovat balíček samolepek",
-    "@inviteAcceptInstallStickerPack": {
-        "description": "Primary action to install a sticker pack from an invite."
-    },
-    "inviteAcceptPackInstallNote": "Přijetím tohoto pozvání se balíček automaticky nainstaluje.",
-    "@inviteAcceptPackInstallNote": {
-        "description": "Note shown on expression pack invites before accepting."
     },
     "mentionUnknownChannel": "neznámý-kanál",
     "@mentionUnknownChannel": {
@@ -1708,10 +1651,6 @@
             }
         }
     },
-    "emojiPlutoniumUpsellButton": "Získat Plutonium",
-    "@emojiPlutoniumUpsellButton": {
-        "description": "Button label on the Plutonium upsell banner."
-    },
     "emojiPlutoniumUpsellDismiss": "Už nezobrazovat",
     "@emojiPlutoniumUpsellDismiss": {
         "description": "Dismiss link on the Plutonium upsell banner."
@@ -1878,10 +1817,6 @@
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
     },
-    "fluxerTagInputLabel": "Uživatelské jméno",
-    "@fluxerTagInputLabel": {
-        "description": "Label above the username and discriminator input fields."
-    },
     "fluxerTagDescriptionBase": "Uživatelská jména mohou obsahovat pouze písmena (a-z, A-Z), číslice (0-9) a podtržítka. Na velikosti písmen nezáleží.",
     "@fluxerTagDescriptionBase": {
         "description": "Base description text on the username change sheet."
@@ -1909,10 +1844,6 @@
     "validationAllowedChars": "Pouze písmena (a-z, A-Z), čísla (0-9) a podtržítka (_)",
     "@validationAllowedChars": {
         "description": "Validation rule for allowed username characters."
-    },
-    "discriminatorPremiumTooltip": "Získejte Plutonium pro úpravu svého tagu nebo si ho ponechte při změně uživatelského jména",
-    "@discriminatorPremiumTooltip": {
-        "description": "Tooltip on disabled discriminator field for non-premium users."
     },
     "fluxerTagAlreadyTaken": "Uživatelské jméno je již obsazeno",
     "@fluxerTagAlreadyTaken": {
@@ -1967,19 +1898,6 @@
     "premiumUpsellCustomizeTag": "Upravte si svůj 4místný tag nebo si ho ponechte při změně uživatelského jména",
     "@premiumUpsellCustomizeTag": {
         "description": "Upsell text encouraging non-premium users to get Plutonium for tag customization."
-    },
-    "premiumTrialExpiresOn": "Vaše zkušební verze Plutonia vyprší {date}. Vylepšete si ji a ponechte si vlastní značku a získejte odznak na svém profilu.",
-    "@premiumTrialExpiresOn": {
-        "description": "Trial upsell with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActive": "Jste ve zkušební verzi Plutonium. Upgradujte, abyste si ponechali vlastní tag a získali odznak na svém profilu.",
-    "@premiumTrialActive": {
-        "description": "Trial upsell without specific expiry date."
     },
     "fluxerTagUpdated": "Uživatelské jméno aktualizováno",
     "@fluxerTagUpdated": {
@@ -2153,32 +2071,6 @@
     "@hideVisionaryIdDescription": {
         "description": "Description for the toggle to hide the Visionary ID badge."
     },
-    "premiumTrialSubscriptionStarts": "Jste na zkušební verzi Plutonia — vaše předplatné začíná {date}",
-    "@premiumTrialSubscriptionStarts": {
-        "description": "Trial banner title when user has an active subscription pending after trial.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialSubscriptionStartsDescription": "Vaše předplatné se automaticky spustí po skončení zkušební verze. Není třeba nic dělat.",
-    "@premiumTrialSubscriptionStartsDescription": {
-        "description": "Trial banner description when user has an active subscription pending after trial."
-    },
-    "premiumTrialExpiresOnProfile": "Jste na zkušební verzi Plutonia, která končí {date}",
-    "@premiumTrialExpiresOnProfile": {
-        "description": "Trial banner title with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActiveProfile": "Jste na zkušební verzi Plutonia",
-    "@premiumTrialActiveProfile": {
-        "description": "Trial banner title without specific expiry date."
-    },
     "avatarDescriptionNonPremium": "JPEG, PNG, WebP. Max 10 MB. Doporučeno: 512×512px. Animované avatary (GIF) vyžadují Plutonium.",
     "@avatarDescriptionNonPremium": {
         "description": "Avatar helper text for non-premium users, mentioning Plutonium requirement for animated avatars."
@@ -2263,22 +2155,6 @@
     "profileSavedToast": "Profil aktualizován",
     "@profileSavedToast": {
         "description": "Toast message shown after successfully saving profile changes."
-    },
-    "profileEditButton": "Upravit profil",
-    "@profileEditButton": {
-        "description": "Button label to open profile editing from the profile content card."
-    },
-    "profileNoteLabel": "Poznámka",
-    "@profileNoteLabel": {
-        "description": "Label for the personal note section on a user profile."
-    },
-    "profileNoteVisibility": "(viditelné jen vám)",
-    "@profileNoteVisibility": {
-        "description": "Hint that the note is private and only visible to the current user."
-    },
-    "profileNoteEmpty": "Zatím žádná poznámka.",
-    "@profileNoteEmpty": {
-        "description": "Placeholder shown when no personal note has been set for a user."
     },
     "sudoTitle": "Ověřte svou identitu",
     "@sudoTitle": {
@@ -2651,42 +2527,6 @@
     "@securityPasskeyNameHint": {
         "description": "Hint for passkey name input."
     },
-    "securityPhoneSectionTitle": "Telefonní číslo",
-    "@securityPhoneSectionTitle": {
-        "description": "Title for phone number section."
-    },
-    "securityPhoneSectionDescription": "Spravujte své telefonní číslo.",
-    "@securityPhoneSectionDescription": {
-        "description": "Description for phone number section."
-    },
-    "securityPhoneLabel": "Telefonní číslo",
-    "@securityPhoneLabel": {
-        "description": "Label for phone number row."
-    },
-    "securityPhoneNone": "Není přidáno žádné telefonní číslo.",
-    "@securityPhoneNone": {
-        "description": "Shown when no phone number is set."
-    },
-    "securityPhoneAdd": "Přidat telefonní číslo",
-    "@securityPhoneAdd": {
-        "description": "Button to add phone number."
-    },
-    "securityPhoneRemove": "Odebrat",
-    "@securityPhoneRemove": {
-        "description": "Button to remove phone number."
-    },
-    "securityPhoneRemoveTitle": "Odebrat telefonní číslo",
-    "@securityPhoneRemoveTitle": {
-        "description": "Title for phone remove confirmation."
-    },
-    "securityPhoneRemoveDescription": "Opravdu chcete odebrat své telefonní číslo?",
-    "@securityPhoneRemoveDescription": {
-        "description": "Description for phone remove confirmation."
-    },
-    "securityPhoneRemoved": "Telefonní číslo odebráno",
-    "@securityPhoneRemoved": {
-        "description": "Toast after phone removed."
-    },
     "securityClaimTitle": "Funkce zabezpečení",
     "@securityClaimTitle": {
         "description": "Title when user needs to claim account for security."
@@ -2739,10 +2579,6 @@
     "@backupCodesWarning": {
         "description": "Warning about backup codes."
     },
-    "backupCodesDownload": "Stáhnout",
-    "@backupCodesDownload": {
-        "description": "Button to download backup codes."
-    },
     "backupCodesCopy": "Kopírovat",
     "@backupCodesCopy": {
         "description": "Button to copy backup codes."
@@ -2758,46 +2594,6 @@
     "backupCodesDone": "Hotovo",
     "@backupCodesDone": {
         "description": "Button to close backup codes sheet."
-    },
-    "backupCodesViewTitle": "Zobrazit záložní kódy",
-    "@backupCodesViewTitle": {
-        "description": "Title for viewing existing backup codes."
-    },
-    "backupCodesViewDescription": "Před zobrazením záložních kódů může být vyžadováno ověření.",
-    "@backupCodesViewDescription": {
-        "description": "Description for view backup codes."
-    },
-    "phoneAddTitle": "Přidat telefonní číslo",
-    "@phoneAddTitle": {
-        "description": "Title for phone add sheet."
-    },
-    "phoneAddLabel": "Telefonní číslo",
-    "@phoneAddLabel": {
-        "description": "Label for phone input."
-    },
-    "phoneAddHint": "Zadejte své telefonní číslo",
-    "@phoneAddHint": {
-        "description": "Hint for phone input."
-    },
-    "phoneAddFooter": "Pošleme SMS kód, jakmile bude dostupný. Vaše číslo není propojeno s vaším účtem. Uchováváme pouze šifrovaný identifikátor bez ID uživatele, abychom umožnili maximálně 2 ověření přibližně za 30 dní.",
-    "@phoneAddFooter": {
-        "description": "Footer text for phone input."
-    },
-    "phoneAddSendCode": "Odeslat kód",
-    "@phoneAddSendCode": {
-        "description": "Button to send phone verification code."
-    },
-    "phoneVerifyTitle": "Ověřit telefonní číslo",
-    "@phoneVerifyTitle": {
-        "description": "Title for phone verify step."
-    },
-    "phoneVerifyDescription": "Zadejte ověřovací kód zaslaný na vaše telefonní číslo.",
-    "@phoneVerifyDescription": {
-        "description": "Description for phone verify step."
-    },
-    "phoneAddSuccess": "Telefonní číslo ověřeno",
-    "@phoneAddSuccess": {
-        "description": "Toast after phone added."
     },
     "dangerZoneSectionTitle": "Nebezpečná zóna",
     "@dangerZoneSectionTitle": {
@@ -3049,10 +2845,6 @@
     "@authorizedAppsScopeAdmin": {
         "description": "OAuth2 scope description: admin."
     },
-    "privacyPendingDeletionTitle": "Čeká na smazání",
-    "@privacyPendingDeletionTitle": {
-        "description": "Title of the warning alert shown when a bulk message deletion is pending."
-    },
     "blockedUsersTitle": "Blokovaní uživatelé",
     "@blockedUsersTitle": {
         "description": "Header title of the Blocked Users settings page."
@@ -3288,10 +3080,6 @@
     "userProfileNoteDelete": "Smazat",
     "@userProfileNoteDelete": {
         "description": "Delete button in the note editor sheet."
-    },
-    "userProfileNoteEmpty": "Kliknutím přidáte poznámku",
-    "@userProfileNoteEmpty": {
-        "description": "Hint text when no note has been written yet."
     },
     "userProfileMemberSince": "Členem od",
     "@userProfileMemberSince": {
@@ -4063,17 +3851,9 @@
     "@channelComposerBarrierNotMemberLongEnough": {
         "description": "Composer barrier when the user's guild membership is too recent."
     },
-    "channelComposerBarrierNoPhoneNumber": "Abyste mohli v této komunitě posílat zprávy, musíte si ověřit telefonní číslo.",
-    "@channelComposerBarrierNoPhoneNumber": {
-        "description": "Composer barrier when the user must verify a phone number before messaging."
-    },
     "channelComposerBarrierVerifyEmail": "Ověřit e-mail",
     "@channelComposerBarrierVerifyEmail": {
         "description": "Action button on the composer barrier for unverified email."
-    },
-    "channelComposerBarrierVerifyPhone": "Ověřit telefon",
-    "@channelComposerBarrierVerifyPhone": {
-        "description": "Action button on the composer barrier for missing phone verification."
     },
     "chatAttachmentTooMany": "Příliš mnoho příloh (max {max})",
     "@chatAttachmentTooMany": {
@@ -4100,10 +3880,6 @@
     "@chatAttachmentDropToSend": {
         "description": "Overlay hint when dragging files over chat with Shift held."
     },
-    "chatAttachmentSendVoiceMessage": "Odeslat hlasovou zprávu",
-    "@chatAttachmentSendVoiceMessage": {
-        "description": "Menu item to open the voice message recorder."
-    },
     "voiceMessageTitle": "Hlasová zpráva",
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
@@ -4124,10 +3900,6 @@
     "@voiceMessageMicPermissionDenied": {
         "description": "Shown when microphone permission is denied for voice messages."
     },
-    "voiceMessageRecordingNotSupported": "Nahrávání hlasu není na tomto zařízení podporováno.",
-    "@voiceMessageRecordingNotSupported": {
-        "description": "Shown when the device cannot record voice messages."
-    },
     "voiceMessageMicInUse": "Opusťte hlasový hovor a nahrajte hlasovou zprávu.",
     "@voiceMessageMicInUse": {
         "description": "Shown when the microphone is already used by an active voice call."
@@ -4140,26 +3912,6 @@
     "@voiceMessageSendFailed": {
         "description": "Shown when sending a voice message fails."
     },
-    "voiceMessageRecordingHint": "Mluvte. Až budete hotovi, stiskněte Zastavit – nahrávku pak můžete oříznout.",
-    "@voiceMessageRecordingHint": {
-        "description": "Help text while recording a voice message on desktop."
-    },
-    "voiceMessageReviewHint": "Přetažením úchytů zprávu ořízněte a poté stiskněte Odeslat.",
-    "@voiceMessageReviewHint": {
-        "description": "Help text while reviewing a voice message before send."
-    },
-    "voiceMessageStop": "Zastavit",
-    "@voiceMessageStop": {
-        "description": "Stop recording button in voice message composer."
-    },
-    "voiceMessageStartRecording": "Spustit nahrávání",
-    "@voiceMessageStartRecording": {
-        "description": "Button to retry voice recording after permission error."
-    },
-    "voiceMessageRerecord": "Nahrát znovu",
-    "@voiceMessageRerecord": {
-        "description": "Button to discard review and record again."
-    },
     "voiceMessagePlay": "Přehrát",
     "@voiceMessagePlay": {
         "description": "Play voice message preview."
@@ -4167,16 +3919,6 @@
     "voiceMessagePause": "Pozastavit",
     "@voiceMessagePause": {
         "description": "Pause voice message preview."
-    },
-    "voiceMessageSelectionTooShort": "Výběr musí trvat alespoň {seconds} s.",
-    "@voiceMessageSelectionTooShort": {
-        "description": "Error when trimmed voice message is too short.",
-        "placeholders": {
-            "seconds": {
-                "type": "num",
-                "format": "compact"
-            }
-        }
     },
     "chatAttachmentEditTitle": "Upravit přílohu",
     "@chatAttachmentEditTitle": {
@@ -4221,10 +3963,6 @@
     "chatAttachmentSourceBrowse": "Procházet soubory",
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
-    },
-    "chatAttachmentPasteTooltip": "Vložit soubor ze schránky",
-    "@chatAttachmentPasteTooltip": {
-        "description": "Tooltip for pasting an image attachment from the clipboard."
     },
     "chatAttachmentSpoiler": "Spoiler",
     "@chatAttachmentSpoiler": {
@@ -4322,14 +4060,6 @@
     "@matureContentOpenLinkButton": {
         "description": "Primary action on mature link channel gates."
     },
-    "sensitiveContentSectionTitle": "Citlivý obsah",
-    "@sensitiveContentSectionTitle": {
-        "description": "Privacy settings section title for sensitive content filters."
-    },
-    "sensitiveContentSectionDescription": "Ovládejte, jak je nevhodný nebo citlivý obsah filtrován v různých kontextech.",
-    "@sensitiveContentSectionDescription": {
-        "description": "Privacy settings section description for sensitive content filters."
-    },
     "sensitiveContentFriendDmLabel": "Přímé zprávy od přátel",
     "@sensitiveContentFriendDmLabel": {
         "description": "Label for friend DM sensitive content filter."
@@ -4354,18 +4084,6 @@
     "@sensitiveContentFilterBlock": {
         "description": "Sensitive content filter option to block media."
     },
-    "sensitiveContentBlurUnscannedLabel": "Rozmazat média do dokončení kontroly bezpečnosti",
-    "@sensitiveContentBlurUnscannedLabel": {
-        "description": "Toggle label for blurring unscanned media."
-    },
-    "sensitiveContentBlurUnscannedDescriptionAdult": "Pokud je povoleno, obrázky a videa se rozmažou, dokud se nedokončí kontrola bezpečnosti obsahu.",
-    "@sensitiveContentBlurUnscannedDescriptionAdult": {
-        "description": "Description for blur-unscanned toggle for adult accounts."
-    },
-    "sensitiveContentBlurUnscannedDescriptionMinor": "Toto nastavení je pro váš účet vždy zapnuté.",
-    "@sensitiveContentBlurUnscannedDescriptionMinor": {
-        "description": "Description for blur-unscanned toggle for minor accounts."
-    },
     "sensitiveContentResetButton": "Resetovat",
     "@sensitiveContentResetButton": {
         "description": "Reset button for sensitive content settings."
@@ -4382,10 +4100,6 @@
                 "type": "int"
             }
         }
-    },
-    "chatCancelUpload": "Zrušit nahrávání",
-    "@chatCancelUpload": {
-        "description": "Button or menu action label for canceling an in-flight message attachment upload."
     },
     "chatAttachmentExpiresOn": "Platí do {date}",
     "@chatAttachmentExpiresOn": {
@@ -4655,10 +4369,6 @@
     "@connectionEnterDomain": {
         "description": "Inline error shown when the domain input is empty."
     },
-    "lookAndFeelTitle": "Vzhled a chování",
-    "@lookAndFeelTitle": {
-        "description": "Title of the Look & Feel (Appearance) settings page."
-    },
     "lookAndFeelThemeSectionTitle": "Motiv",
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
@@ -4698,14 +4408,6 @@
     "lookAndFeelThemeSyncFailed": "Motiv se nepodařilo synchronizovat s vaším účtem. Zkuste to prosím znovu.",
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
-    },
-    "lookAndFeelChatFontScalingTitle": "Měřítko písma chatu",
-    "@lookAndFeelChatFontScalingTitle": {
-        "description": "Section title for the chat font size slider."
-    },
-    "lookAndFeelChatFontScalingDescription": "Upravte velikost písma v chatu.",
-    "@lookAndFeelChatFontScalingDescription": {
-        "description": "Section description for the chat font size slider."
     },
     "lookAndFeelInterfaceTitle": "Rozhraní",
     "@lookAndFeelInterfaceTitle": {
@@ -4774,42 +4476,6 @@
     "lookAndFeelHideKeyboardHintsDescription": "Když je povoleno, odznaky zkratek jsou skryty v kontextových oknech.",
     "@lookAndFeelHideKeyboardHintsDescription": {
         "description": "Toggle description for the hide-keyboard-hints switch."
-    },
-    "lookAndFeelNekoTitle": "Různé",
-    "@lookAndFeelNekoTitle": {
-        "description": "Subsection title under Interface for Neko appearance settings."
-    },
-    "lookAndFeelNekoDescription": "Různé možnosti rozhraní.",
-    "@lookAndFeelNekoDescription": {
-        "description": "Subsection description for Neko appearance settings."
-    },
-    "lookAndFeelShowNekoLabel": "Zobrazit Neko",
-    "@lookAndFeelShowNekoLabel": {
-        "description": "Toggle label for showing Neko in the chat footer."
-    },
-    "lookAndFeelShowNekoDescription": "Když je povoleno, Neko se zobrazí poblíž vstupního pole chatu.",
-    "@lookAndFeelShowNekoDescription": {
-        "description": "Toggle description for showing Neko in chat."
-    },
-    "lookAndFeelVoiceChannelJoinTitle": "Chování při připojení k hlasovému kanálu",
-    "@lookAndFeelVoiceChannelJoinTitle": {
-        "description": "Subsection title under Interface — voice channel join behavior."
-    },
-    "lookAndFeelVoiceChannelJoinDescription": "Ovládejte, jak se připojujete k hlasovým kanálům v komunitách.",
-    "@lookAndFeelVoiceChannelJoinDescription": {
-        "description": "Subsection description for voice channel join behavior."
-    },
-    "lookAndFeelRequireDoubleClickJoinLabel": "Vyžadovat dvojklik pro připojení k hlasovým kanálům",
-    "@lookAndFeelRequireDoubleClickJoinLabel": {
-        "description": "Toggle label — require double-click to join voice channels."
-    },
-    "lookAndFeelRequireDoubleClickJoinDescription": "Když je povoleno, budete muset dvakrát kliknout na hlasové kanály, abyste se k nim připojili. Když je zakázáno (výchozí), jedním kliknutím se okamžitě připojíte ke kanálu.",
-    "@lookAndFeelRequireDoubleClickJoinDescription": {
-        "description": "Toggle description for the require-double-click voice channel join switch."
-    },
-    "lookAndFeelChatFontPreviewSample": "Rychlá hnědá liška skáče přes líného psa.",
-    "@lookAndFeelChatFontPreviewSample": {
-        "description": "Sample text rendered at the selected chat font size to preview scaling."
     },
     "lookAndFeelGuildSidebarTitle": "Postranní panel komunity",
     "@lookAndFeelGuildSidebarTitle": {
@@ -5218,25 +4884,9 @@
     "@messagesMediaAutocompleteSavedMediaLabel": {
         "description": "Toggle label for saved media in expression autocomplete."
     },
-    "messagesMediaEditingSectionTitle": "Úprava zpráv",
-    "@messagesMediaEditingSectionTitle": {
-        "description": "Section title for message editing settings."
-    },
-    "messagesMediaEditingSectionDescription": "Ovládejte, co se stane s návrhem úpravy po zrušení.",
-    "@messagesMediaEditingSectionDescription": {
-        "description": "Section description for message editing settings."
-    },
-    "messagesMediaEditingPreserveDraftLabel": "Ponechat návrh úpravy při zrušení",
-    "@messagesMediaEditingPreserveDraftLabel": {
-        "description": "Toggle label for preserving edit drafts on cancel."
-    },
     "accessibilityDmMessagePreviewGroupTitle": "Náhledy zpráv v soukromých chatech",
     "@accessibilityDmMessagePreviewGroupTitle": {
         "description": "Section title for DM message preview accessibility settings."
-    },
-    "accessibilityDmMessagePreviewGroupDescription": "Ovládejte, kdy se zobrazují náhledy zpráv v seznamu přímých zpráv.",
-    "@accessibilityDmMessagePreviewGroupDescription": {
-        "description": "Section description for DM message preview accessibility settings."
     },
     "accessibilityDmMessagePreviewModeLabel": "Režim náhledu zpráv v soukromých chatech",
     "@accessibilityDmMessagePreviewModeLabel": {
@@ -5394,10 +5044,6 @@
     "@voiceConnectionConfirmDoNothing": {
         "description": "Dismiss the dialog without joining voice."
     },
-    "voiceChannelEmptyDescription": "Toto je hlasový kanál. Připojte se a začněte mluvit!",
-    "@voiceChannelEmptyDescription": {
-        "description": "Empty state body when viewing a guild voice channel while not in the call."
-    },
     "voiceChannelJoin": "Připojit se k hlasovému kanálu",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
@@ -5437,14 +5083,6 @@
     "voiceChannelStatusConnecting": "Připojování…",
     "@voiceChannelStatusConnecting": {
         "description": "Status in the in-page voice view while LiveKit is connecting."
-    },
-    "voiceChannelStatusConnected": "Připojeno",
-    "@voiceChannelStatusConnected": {
-        "description": "Status in the in-page voice view when the voice session is active."
-    },
-    "voiceChannelStatusError": "Chyba",
-    "@voiceChannelStatusError": {
-        "description": "Short label in the channel header when the voice session reports an error."
     },
     "voiceParticipantTooltipMobileDevice": "Mobilní zařízení",
     "@voiceParticipantTooltipMobileDevice": {
@@ -5519,10 +5157,6 @@
     "voiceScreenShareNotificationText": "Sdílíte obrazovku.",
     "@voiceScreenShareNotificationText": {
         "description": "Body text for the Android foreground notification shown while screen sharing."
-    },
-    "voiceControlMore": "Více",
-    "@voiceControlMore": {
-        "description": "Tooltip: more voice actions in the voice call control bar."
     },
     "voiceControlDisconnect": "Odpojit",
     "@voiceControlDisconnect": {
@@ -6378,10 +6012,6 @@
     "addGuildJoinFailed": "Nepodařilo se připojit ke komunitě. Zkuste to prosím znovu.",
     "@addGuildJoinFailed": {
         "description": "Generic error when joining a community via invite fails."
-    },
-    "addGuildPackInstalled": "Balíček byl úspěšně nainstalován.",
-    "@addGuildPackInstalled": {
-        "description": "Toast shown after accepting an emoji or sticker pack invite."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "Odebrat všechny reakce",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -7461,10 +7091,6 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsCustomInviteUrl": "Vlastní odkaz na pozvánku",
-    "@guildMenuSettingsCustomInviteUrl": {
-        "description": "Community settings tab for custom invite URLs."
-    },
     "guildMenuSettingsDiscovery": "Objevování",
     "@guildMenuSettingsDiscovery": {
         "description": "Community settings tab for discovery settings."
@@ -7489,17 +7115,9 @@
     "@guildSettingsOverviewIconTitle": {
         "description": "Title for the guild icon section in overview settings."
     },
-    "guildSettingsUploadImage": "Nahrát obrázek",
-    "@guildSettingsUploadImage": {
-        "description": "Button label to upload an image in guild settings."
-    },
     "guildSettingsOverviewBannerTitle": "Banner",
     "@guildSettingsOverviewBannerTitle": {
         "description": "Title for the guild banner section."
-    },
-    "guildSettingsOverviewBannerHint": "Nahrajte banner pro svůj server.",
-    "@guildSettingsOverviewBannerHint": {
-        "description": "Hint text for guild banner upload."
     },
     "guildSettingsOverviewNameTitle": "Název",
     "@guildSettingsOverviewNameTitle": {
@@ -7509,22 +7127,6 @@
     "@guildSettingsOverviewNameHint": {
         "description": "Hint for the guild name field."
     },
-    "guildSettingsOverviewStatsTitle": "Statistiky",
-    "@guildSettingsOverviewStatsTitle": {
-        "description": "Title for guild statistics section."
-    },
-    "guildSettingsOverviewMembers": "Členové",
-    "@guildSettingsOverviewMembers": {
-        "description": "Label for member count in overview."
-    },
-    "guildSettingsOverviewOnline": "Online",
-    "@guildSettingsOverviewOnline": {
-        "description": "Label for online count in overview."
-    },
-    "guildSettingsRolesDescription": "Použijte role ke seskupení členů a přiřazení oprávnění.",
-    "@guildSettingsRolesDescription": {
-        "description": "Description for the roles settings tab."
-    },
     "guildSettingsCreateRole": "Vytvořit roli",
     "@guildSettingsCreateRole": {
         "description": "Button to create a new role."
@@ -7533,30 +7135,9 @@
     "@guildSettingsRolesListTitle": {
         "description": "Title for the roles list section."
     },
-    "guildSettingsEmojiSlotInfo": "{staticCount} statických, {animatedCount} animovaných slotů pro emotikony obsazeno",
-    "@guildSettingsEmojiSlotInfo": {
-        "description": "Emoji slot usage summary.",
-        "placeholders": {
-            "staticCount": {
-                "type": "int"
-            },
-            "animatedCount": {
-                "type": "int"
-            }
-        }
-    },
     "guildSettingsEmojiEmpty": "Zatím žádné vlastní emotikony.",
     "@guildSettingsEmojiEmpty": {
         "description": "Empty state for emoji settings."
-    },
-    "guildSettingsStickersSlotInfo": "{count} samolepek nahráno",
-    "@guildSettingsStickersSlotInfo": {
-        "description": "Sticker slot usage summary.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsStickersEmpty": "Ještě žádné vlastní nálepky.",
     "@guildSettingsStickersEmpty": {
@@ -7602,8 +7183,6 @@
     "guildSettingsVerificationMediumDescription": "Vyžaduje ověřenou e-mailovou adresu a účet starý alespoň 5 minut.",
     "guildSettingsVerificationHigh": "Vysoká",
     "guildSettingsVerificationHighDescription": "Vyžaduje vše ze střední úrovně a navíc členství v komunitě po dobu alespoň 10 minut.",
-    "guildSettingsVerificationHighest": "Velmi vysoká",
-    "guildSettingsVerificationHighestDescription": "Vyžaduje ověřené telefonní číslo.",
     "guildSettingsAuditLogDescription": "Sledujte akce moderátorů napříč komunitou.",
     "@guildSettingsAuditLogDescription": {
         "description": "Subtitle under the activity-log page title."
@@ -7631,14 +7210,6 @@
     "guildSettingsAuditLogUnknownUser": "Neznámý uživatel",
     "@guildSettingsAuditLogUnknownUser": {
         "description": "Fallback avatar label when the acting user is unavailable."
-    },
-    "guildSettingsAuditLogLoadError": "Při načítání protokolu aktivit se vyskytla chyba.",
-    "@guildSettingsAuditLogLoadError": {
-        "description": "Generic error shown when fetching log entries fails."
-    },
-    "guildSettingsAuditLogLoadErrorTitle": "Nelze načíst protokoly aktivit",
-    "@guildSettingsAuditLogLoadErrorTitle": {
-        "description": "Error-state title when fetching log entries failed."
     },
     "guildSettingsAuditLogReason": "Důvod",
     "@guildSettingsAuditLogReason": {
@@ -8610,14 +8181,6 @@
     "@auditLogOptionPermanentMembership": {
         "description": "Audit log option detail sentence."
     },
-    "guildSettingsLoadMore": "Načíst další",
-    "@guildSettingsLoadMore": {
-        "description": "Button to load more audit log entries."
-    },
-    "guildSettingsLoadingMore": "Načítání...",
-    "@guildSettingsLoadingMore": {
-        "description": "Loading state for pagination."
-    },
     "guildSettingsWebhooksDescription": "Zobrazte a spravujte všechny webhooky nakonfigurované v rámci vaší komunity.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
@@ -8626,42 +8189,9 @@
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
-    "guildSettingsCopyUrl": "Zkopírovat URL",
-    "@guildSettingsCopyUrl": {
-        "description": "Tooltip to copy a URL."
-    },
     "guildSettingsCopiedUrl": "Adresa URL zkopírována do schránky",
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
-    },
-    "guildSettingsDeleteWebhook": "Smazat webhook",
-    "@guildSettingsDeleteWebhook": {
-        "description": "Tooltip to delete a webhook."
-    },
-    "guildSettingsVanityUrlDescription": "Nastavte vlastní odkaz pro pozvánku na váš server.",
-    "@guildSettingsVanityUrlDescription": {
-        "description": "Description for vanity URL tab."
-    },
-    "guildSettingsVanityUrlHint": "my-server",
-    "@guildSettingsVanityUrlHint": {
-        "description": "Hint for vanity URL input."
-    },
-    "guildSettingsSave": "Uložit",
-    "@guildSettingsSave": {
-        "description": "Generic save button label."
-    },
-    "guildSettingsVanityUrlUsageTitle": "Použití",
-    "@guildSettingsVanityUrlUsageTitle": {
-        "description": "Title for vanity URL usage section."
-    },
-    "guildSettingsVanityUrlUses": "{count} použití",
-    "@guildSettingsVanityUrlUses": {
-        "description": "Vanity URL usage count.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsDiscoveryDescription": "Zařaďte svou komunitu do Objevování, aby ji ostatní mohli najít a připojit se k ní.",
     "@guildSettingsDiscoveryDescription": {
@@ -8700,10 +8230,6 @@
     "@guildSettingsDiscoveryWithdraw": {
         "description": "Button to withdraw discovery application."
     },
-    "guildSettingsMembersDescription": "Vyhledávejte a spravujte členy serveru.",
-    "@guildSettingsMembersDescription": {
-        "description": "Description for members tab."
-    },
     "guildSettingsMembersSearchHint": "Hledat podle uživatelského jména nebo ID",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
@@ -8725,27 +8251,6 @@
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
-    "guildSettingsInviteUses": "{uses} / {maxUses} použití",
-    "@guildSettingsInviteUses": {
-        "description": "Invite usage count.",
-        "placeholders": {
-            "uses": {
-                "type": "int"
-            },
-            "maxUses": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsInviteExpires": "Vyprší {date}",
-    "@guildSettingsInviteExpires": {
-        "description": "Invite expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBansDescription": "Zobrazit a spravovat zabanované uživatele.",
     "@guildSettingsBansDescription": {
         "description": "Description for bans tab."
@@ -8758,30 +8263,9 @@
     "@guildSettingsBansEmpty": {
         "description": "Empty state for bans."
     },
-    "guildSettingsBanPermanent": "Trvalý ban",
-    "@guildSettingsBanPermanent": {
-        "description": "Label for permanent ban."
-    },
-    "guildSettingsBanExpires": "Vyprší {date}",
-    "@guildSettingsBanExpires": {
-        "description": "Ban expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBanExpiresLabel": "Vyprší",
     "@guildSettingsBanExpiresLabel": {
         "description": "Label for ban expiration row."
-    },
-    "guildSettingsUnban": "Zrušit ban",
-    "@guildSettingsUnban": {
-        "description": "Button to unban a user."
-    },
-    "guildSettingsBansLoading": "Načítání zabanovaných uživatelů",
-    "@guildSettingsBansLoading": {
-        "description": "Loading state for the guild bans list."
     },
     "guildSettingsBansNoSearchResults": "Nebyly nalezeny žádné bany odpovídající vašemu hledání.",
     "@guildSettingsBansNoSearchResults": {
@@ -8825,10 +8309,6 @@
             }
         }
     },
-    "guildSettingsBansLoadError": "Nepodařilo se načíst bany. Zkuste to znovu.",
-    "@guildSettingsBansLoadError": {
-        "description": "Error when loading the guild bans list fails."
-    },
     "guildSettingsRevokeBanError": "Nepodařilo se zrušit ban. Zkuste to znovu.",
     "@guildSettingsRevokeBanError": {
         "description": "Error when revoking a ban fails."
@@ -8853,7 +8333,6 @@
     "@guildSettingsCategoryPeople": {
         "description": "Sidebar category for members, invites, and bans."
     },
-    "guildSettingsOverviewDescription": "Spravujte profil své komunity, kanály a výchozí nastavení.",
     "guildSettingsOverviewBrandingTitle": "Vizuální identita",
     "guildSettingsOverviewBrandingDescription": "Aktualizujte ikonu, název, banner a pozadí pozvánky",
     "@guildSettingsOverviewBrandingDescription": {
@@ -8872,7 +8351,6 @@
     },
     "guildSettingsOverviewNotificationsTitle": "Výchozí oznámení",
     "guildSettingsOverviewNotificationsLargeGuild": "Komunity s více než 250 lidmi jsou automaticky přepnuty na nastavení „Pouze zmínky“. Původní nastavení se zachová a obnoví se, pokud počet členů komunity klesne pod 250.",
-    "guildSettingsOverviewAdvancedTitle": "Pokročilé",
     "guildSettingsOverviewFlexibleNames": "Povolit flexibilní názvy textových kanálů",
     "guildSettingsOverviewHideOwnerCrown": "Skrýt korunku vlastníka komunity",
     "guildSettingsOverviewDetachedBanner": "Odpojený banner",
@@ -8898,10 +8376,6 @@
     "guildSettingsOverviewEmbedSplashTitle": "Pozadí vložené pozvánky v chatu",
     "@guildSettingsOverviewEmbedSplashTitle": {
         "description": "Title for embed splash upload section."
-    },
-    "guildSettingsOverviewEmbedSplashHint": "Zobrazuje se ve vložených náhledech pozvánek v chatu.",
-    "@guildSettingsOverviewEmbedSplashHint": {
-        "description": "Note shown when uploading chat embed background."
     },
     "guildSettingsOverviewUploadBackground": "Nahrát pozadí",
     "@guildSettingsOverviewUploadBackground": {
@@ -9068,8 +8542,6 @@
     "@guildSettingsOverviewEmbedSplashUploadHint": {
         "description": "Upload requirements for chat embed background images."
     },
-    "guildSettingsModerationDescription": "Nastavte ověřování, filtrování obsahu a nastavení pro obsah pro dospělé.",
-    "guildSettingsModerationDiscoveryNotice": "Komunity uvedené v Discovery mají omezené možnosti moderování.",
     "guildSettingsModerationContentFilterTitle": "Filtrování obsahu",
     "guildSettingsModerationContentFilterDescription": "Automaticky kontrolovat zprávy na explicitní obsah v kanálech, které nejsou označeny jako určené pro dospělé.",
     "guildSettingsModerationContentFilterDiscoveryNote": "Komunity uvedené v Discovery musí skenovat všechny členy. Toto nastavení nelze změnit, dokud je povoleno Discovery.",
@@ -9079,8 +8551,6 @@
     "guildSettingsContentFilterNoRoleDescription": "Doporučeno pro většinu komunit",
     "guildSettingsContentFilterAll": "Filtrovat zprávy všech členů",
     "guildSettingsContentFilterAllDescription": "Maximální ochrana pro prostory vhodné pro rodiny",
-    "guildSettingsModerationMatureOff": "Vypnuto",
-    "guildSettingsModerationMatureOn": "Zapnuto",
     "guildSettingsContentWarningToggle": "Zobrazit upozornění na obsah",
     "@guildSettingsContentWarningToggle": {
         "description": "Switch label for the community content warning setting."
@@ -9100,7 +8570,6 @@
     "guildSettingsModeration2faTitle": "Požadavek na 2FA",
     "guildSettingsModeration2faDescription": "Vyžadujte dvoufaktorové ověření pro moderátory, než budou moci zabanovat, vyhodit, ztlumit nebo odstranit zprávy.",
     "guildSettingsModeration2faSwitchLabel": "Vyžadovat dvoufaktorové ověřování pro moderátorské zásahy",
-    "guildSettingsModeration2faOwnerOnlyTooltip": "Toto nastavení může změnit pouze vlastník komunity",
     "guildSettingsModeration2faEnableFirstTooltip": "Pro změnu tohoto nastavení zapněte na svém účtu dvoufaktorové ověřování",
     "guildSettingsEmojiSearchHint": "Hledat emoji",
     "guildSettingsEmojiUploadTitle": "Nahrát emoji",
@@ -9122,8 +8591,6 @@
     },
     "guildSettingsStickersSearchHint": "Hledat samolepky",
     "guildSettingsWebhooksInfo": "Chcete-li vytvořit webhook, otevřete {channelSettingsPath}. Všechny existující webhooky můžete zde stále upravovat a organizovat.",
-    "guildSettingsVanityUrlWarning": "Vaše vlastní URL nebude fungovat, pokud alespoň jeden kanál nebude viditelný pro všechny.",
-    "guildSettingsVanityUrlRemove": "Odebrat",
     "guildSettingsBannedUsersTitle": "Zabanovaní uživatelé",
     "guildSettingsInvitesTableInviter": "Autor pozvánky",
     "guildSettingsInvitesTableChannel": "Kanál",
@@ -9620,10 +9087,6 @@
     "@createDmNoActivityYet": {
         "description": "Fallback label for duplicate group list items with no recent activity."
     },
-    "accessibilitySaturationDescription": "Upravte, jak živě se zobrazují barvy motivu v celé aplikaci.",
-    "@accessibilitySaturationDescription": {
-        "description": "Section description for the theme saturation slider on the accessibility settings page."
-    },
     "systemCallDurationMonths": "{count} měsíců",
     "@systemCallDurationMonths": {
         "description": "Duration label for multiple months in a call duration.",
@@ -10041,14 +9504,6 @@
     "@guildSettingsRolesComfyLayout": {
         "description": "Tooltip when permission list is in dense layout."
     },
-    "guildSettingsRolesSwitchToDenseLayout": "Přepnout na zhuštěné rozvržení",
-    "@guildSettingsRolesSwitchToDenseLayout": {
-        "description": "Aria label for switching to dense layout."
-    },
-    "guildSettingsRolesSwitchToComfyLayout": "Přepnout na pohodlné rozvržení",
-    "@guildSettingsRolesSwitchToComfyLayout": {
-        "description": "Aria label for switching to comfy layout."
-    },
     "guildSettingsRolesSingleColumn": "Jeden sloupec",
     "@guildSettingsRolesSingleColumn": {
         "description": "Tooltip when permission list is in two-column layout."
@@ -10064,10 +9519,6 @@
     "guildSettingsRolesNoHoistedRoles": "Žádné samostatně zobrazené role. Aby se zde role zobrazila, zapněte u ní možnost „Zobrazit tuto roli samostatně“.",
     "@guildSettingsRolesNoHoistedRoles": {
         "description": "Empty state when no roles are hoisted."
-    },
-    "guildSettingsRolesLockedTooltip": "Tuto roli nemůžete upravit, protože je to vaše nejvyšší role nebo je nad vámi",
-    "@guildSettingsRolesLockedTooltip": {
-        "description": "Tooltip on locked role rows."
     },
     "guildSettingsRolesCannotEditHigherRole": "Nemůžete upravovat roli, která je na stejné úrovni nebo vyšší než vaše nejvyšší role",
     "@guildSettingsRolesCannotEditHigherRole": {
@@ -10106,10 +9557,6 @@
     "permissionCategoryAudioVideo": "Zvuk a video",
     "@permissionCategoryAudioVideo": {
         "description": "Permission category label."
-    },
-    "permissionUnknown": "Neznámé oprávnění",
-    "@permissionUnknown": {
-        "description": "Fallback permission label."
     },
     "permissionAdministrator": "Administrátor",
     "@permissionAdministrator": {
@@ -10408,16 +9855,6 @@
     "@audioAndVideoFrameRate60Label": {
         "description": "Screen share frame rate option for 60 FPS."
     },
-    "audioAndVideoMicrophonePermissionRequired": "Aplikace {productName} potřebuje přístup k mikrofonu, aby mohla zobrazit vaše zařízení.",
-    "@audioAndVideoMicrophonePermissionRequired": {
-        "description": "Shown when microphone permission is required to enumerate audio input devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
     "notificationsEnableNotificationsDescription": "Dostávejte oznámení o nových zprávách. Možná budete muset povolit oznámení pro aplikaci {productName} v nastavení zařízení. Ovládací prvky pro jednotlivé kanály/komunity najdete v nastavení oznámení v nabídce komunity.",
     "@notificationsEnableNotificationsDescription": {
         "description": "Description for the enable notifications toggle on mobile.",
@@ -10506,10 +9943,6 @@
     "@pushRelayConsentDecline": {
         "description": "Button that declines the push relay privacy notice and leaves push notifications off."
     },
-    "languageAndTimeOpenLanguageSettings": "Otevřít nastavení jazyka",
-    "@languageAndTimeOpenLanguageSettings": {
-        "description": "Button that opens the system per-app language settings."
-    },
     "languageAndTimeTimeFormatSectionTitle": "Formát času",
     "@languageAndTimeTimeFormatSectionTitle": {
         "description": "Settings section title for time format preference."
@@ -10518,17 +9951,9 @@
     "@savedMessagesEmptyTitle": {
         "description": "Empty-state title on the saved messages page."
     },
-    "guildSettingsRolesSwitchToTwoColumns": "Přepnout na dva sloupce",
-    "@guildSettingsRolesSwitchToTwoColumns": {
-        "description": "Aria label for switching to two columns."
-    },
     "guildSettingsRolesNoPermissionsFound": "Nenalezena žádná oprávnění",
     "@guildSettingsRolesNoPermissionsFound": {
         "description": "Empty state when permission search has no matches."
-    },
-    "guildSettingsRolesCustomHoistOrder": "Vlastní pořadí zobrazení",
-    "@guildSettingsRolesCustomHoistOrder": {
-        "description": "Button to enter custom hoist order mode."
     },
     "guildSettingsRolesHoistOrder": "Pořadí zobrazení",
     "@guildSettingsRolesHoistOrder": {
@@ -10972,10 +10397,6 @@
     "@guildSettingsRolesPermissionsSection": {
         "description": "Section title for role permissions."
     },
-    "guildSettingsRolesSwitchToSingleColumn": "Přepnout na jeden sloupec",
-    "@guildSettingsRolesSwitchToSingleColumn": {
-        "description": "Aria label for switching to single column."
-    },
     "guildSettingsRolesUpdateFailedTitle": "Nepodařilo se aktualizovat role",
     "@guildSettingsRolesUpdateFailedTitle": {
         "description": "Error modal title when role update fails."
@@ -11202,10 +10623,6 @@
     "@groupDmEditTitle": {
         "description": "Title for the edit group DM modal or sheet."
     },
-    "groupDmEditDetailsTooltip": "Upravit podrobnosti skupiny",
-    "@groupDmEditDetailsTooltip": {
-        "description": "Tooltip on the desktop group DM header edit action."
-    },
     "groupDmGroupName": "Název skupiny",
     "@groupDmGroupName": {
         "description": "Label for the group name field in edit group."
@@ -11242,10 +10659,6 @@
     "@groupDmUnsupportedIconFormatBody": {
         "description": "Body when the selected group icon format is unsupported."
     },
-    "groupDmCouldntProcessImage": "Nepodařilo se zpracovat obrázek",
-    "@groupDmCouldntProcessImage": {
-        "description": "Title when a cropped group icon cannot be processed."
-    },
     "groupDmInvalidImageBody": "Obrázek je neplatný. Zkuste jiný.",
     "@groupDmInvalidImageBody": {
         "description": "Body when the selected group icon image cannot be used."
@@ -11265,10 +10678,6 @@
     "groupDmAddFriendFailed": "Nepodařilo se přidat tohoto přítele do skupiny. Zkuste to prosím znovu.",
     "@groupDmAddFriendFailed": {
         "description": "Error when adding a single friend to a group DM fails."
-    },
-    "groupDmAddFailed": "Nepodařilo se přidat do skupiny",
-    "@groupDmAddFailed": {
-        "description": "Title when adding friends to a group DM fails."
     },
     "groupDmGroupFull": "Tato skupina je plná. Než přidáte další lidi, někoho odeberte.",
     "@groupDmGroupFull": {
@@ -11604,14 +11013,6 @@
     "@nagbarManageSubscription": {
         "description": "Nagbar CTA that opens the billing portal."
     },
-    "phoneCountryLabel": "Země",
-    "@phoneCountryLabel": {
-        "description": "Label for country selector in phone verification."
-    },
-    "phoneSearchCountries": "Hledat země...",
-    "@phoneSearchCountries": {
-        "description": "Search hint for country selector."
-    },
     "nagbarViewPremiumFeatures": "Zobrazit funkce {productName}",
     "@nagbarViewPremiumFeatures": {
         "description": "Premium onboarding nagbar CTA.",
@@ -11646,18 +11047,6 @@
     "nagbarBillingPortalFailed": "Nepodařilo se otevřít fakturační portál. Zkuste to prosím za chvíli znovu.",
     "@nagbarBillingPortalFailed": {
         "description": "Toast when opening the billing portal from a nagbar fails."
-    },
-    "phoneSmsUnavailable": "Ověření SMS zprávou momentálně není k dispozici. Zkuste to prosím později, nebo kontaktujte podporu.",
-    "@phoneSmsUnavailable": {
-        "description": "SMS provider unavailable error."
-    },
-    "requiredActionCheckEmailTitle": "Zkontrolujte svůj e-mail",
-    "@requiredActionCheckEmailTitle": {
-        "description": "Title for email verification instructions."
-    },
-    "requiredActionCheckEmailDescription": "Odeslali jsme odkaz k ověření na vaši e-mailovou adresu. Otevřete ho pro pokračování.",
-    "@requiredActionCheckEmailDescription": {
-        "description": "Description for email verification instructions."
     },
     "channelDetailsUnmutedConversation": "Zrušeno ztišení konverzace",
     "@channelDetailsUnmutedConversation": {
@@ -11700,10 +11089,6 @@
     "@groupDmWelcomeAddFriends": {
         "description": "Primary action on the group DM welcome hero."
     },
-    "groupDmFailedToProcessCroppedImage": "Nepodařilo se zpracovat oříznutý obrázek. Zkuste to znovu.",
-    "@groupDmFailedToProcessCroppedImage": {
-        "description": "Body when a cropped group icon cannot be processed."
-    },
     "groupDmCreateInvite": "Vytvořit",
     "@groupDmCreateInvite": {
         "description": "Button to create a group DM invite link."
@@ -11716,29 +11101,9 @@
     "@audioAndVideoCameraQualitySectionTitle": {
         "description": "Subsection title for camera resolution selection."
     },
-    "audioAndVideoHigherQualityRequiresPremium": "1080p a 60 FPS vyžadují {premiumProductName}.",
-    "@audioAndVideoHigherQualityRequiresPremium": {
-        "description": "Note shown when higher video quality options require premium.",
-        "placeholders": {
-            "premiumProductName": {
-                "type": "String",
-                "example": "Plutonium"
-            }
-        }
-    },
     "audioAndVideoInstanceVideoQualityLimit": "Tato instance momentálně umožňuje sdílení obrazovky až do rozlišení 720p při 30 snímcích za sekundu.",
     "@audioAndVideoInstanceVideoQualityLimit": {
         "description": "Note shown when instance limits block higher screen share quality."
-    },
-    "audioAndVideoCameraPermissionRequired": "Aplikace {productName} potřebuje přístup ke kameře, aby mohla zobrazit vaše zařízení.",
-    "@audioAndVideoCameraPermissionRequired": {
-        "description": "Shown when camera permission is required to enumerate video devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
     },
     "audioAndVideoSkipHideOwnCameraConfirmLabel": "Neptej se, když skryji svou kameru",
     "@audioAndVideoSkipHideOwnCameraConfirmLabel": {
@@ -11985,110 +11350,6 @@
     "@createDmUnaddableBlocked": {
         "description": "Reason when an unaddable recipient is blocked or DMs are disallowed."
     },
-    "phoneNumberRequired": "Je vyžadováno telefonní číslo",
-    "@phoneNumberRequired": {
-        "description": "Validation error when phone number is empty."
-    },
-    "phoneEnterValidNumber": "Zadejte platné číslo mobilního telefonu.",
-    "@phoneEnterValidNumber": {
-        "description": "Validation error for invalid phone format."
-    },
-    "phoneCannotBeUsed": "Toto telefonní číslo nelze použít. Zkuste jiné mobilní číslo nebo kontaktujte podporu.",
-    "@phoneCannotBeUsed": {
-        "description": "API error when phone number is rejected."
-    },
-    "phoneAlreadyUsed": "Toto telefonní číslo již bylo použito. Zkuste jiné číslo nebo kontaktujte podporu.",
-    "@phoneAlreadyUsed": {
-        "description": "API error when phone number was reused."
-    },
-    "phoneCodeDidNotWork": "Tento kód nefungoval. Zkontrolujte ho a zkuste to znovu.",
-    "@phoneCodeDidNotWork": {
-        "description": "API error for invalid verification code."
-    },
-    "phoneTooManyAttempts": "Příliš mnoho pokusů. Chvíli počkejte a zkuste to znovu.",
-    "@phoneTooManyAttempts": {
-        "description": "Rate limit error for phone verification."
-    },
-    "phoneNotEligible": "Ověření telefonního čísla není pro tento účet k dispozici. Použijte jinou metodu nebo kontaktujte podporu.",
-    "@phoneNotEligible": {
-        "description": "Account not eligible for phone verification."
-    },
-    "phoneInboundStepWait": "Počkejte, až obdržíme vaši zprávu. Může to chvíli trvat.",
-    "@phoneInboundStepWait": {
-        "description": "Inbound verification step 3."
-    },
-    "phoneInboundGetNewCode": "Získat nový kód",
-    "@phoneInboundGetNewCode": {
-        "description": "Button to refresh inbound challenge."
-    },
-    "phoneInboundChallengeCodeLabel": "Kód k odeslání",
-    "@phoneInboundChallengeCodeLabel": {
-        "description": "Label for inbound challenge code."
-    },
-    "phoneInboundOurNumberLabel": "Odeslat na",
-    "@phoneInboundOurNumberLabel": {
-        "description": "Label for inbound destination number."
-    },
-    "requiredActionIntroPhone": "Než budete moct pokračovat, je potřeba provést dodatečnou kontrolu proti spamu.",
-    "@requiredActionIntroPhone": {
-        "description": "Phone-only required action intro."
-    },
-    "requiredActionChooseMethodTitle": "Vyberte metodu ověření",
-    "@requiredActionChooseMethodTitle": {
-        "description": "Title when user can pick email or phone."
-    },
-    "requiredActionUseEmail": "Použít e-mail",
-    "@requiredActionUseEmail": {
-        "description": "Button to choose email verification."
-    },
-    "phoneSomethingWentWrong": "Něco se pokazilo. Zkuste to znovu.",
-    "@phoneSomethingWentWrong": {
-        "description": "Generic phone verification error."
-    },
-    "phoneInboundExpensiveDescription": "Odeslání SMS na toto telefonní číslo je příliš drahé, proto potřebujeme, abyste nám místo toho poslali SMS. Můžete také kontaktovat podporu a požádat o zrušení tohoto požadavku pro váš účet.",
-    "@phoneInboundExpensiveDescription": {
-        "description": "Inbound challenge reason for expensive destinations."
-    },
-    "phoneInboundDefaultDescription": "Potřebujeme, abyste nám poslali SMS pro ověření vašeho telefonního čísla.",
-    "@phoneInboundDefaultDescription": {
-        "description": "Default inbound challenge description."
-    },
-    "phoneInboundStepOpenMessaging": "Otevřete v telefonu aplikaci pro zprávy a vytvořte novou SMS.",
-    "@phoneInboundStepOpenMessaging": {
-        "description": "Inbound verification step 1."
-    },
-    "phoneInboundStepSendCode": "Odešli kód {code} na číslo {number}.",
-    "@phoneInboundStepSendCode": {
-        "description": "Inbound verification step 2.",
-        "placeholders": {
-            "code": {
-                "type": "String"
-            },
-            "number": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionTitle": "Je potřeba ověřit účet",
-    "@requiredActionTitle": {
-        "description": "Title for required action blocking modal."
-    },
-    "requiredActionUsePhone": "Použít telefon",
-    "@requiredActionUsePhone": {
-        "description": "Button to choose phone verification."
-    },
-    "requiredActionResendVerificationEmail": "Znovu poslat ověřovací e-mail",
-    "@requiredActionResendVerificationEmail": {
-        "description": "Button to resend verification email."
-    },
-    "requiredActionVerificationEmailSent": "Ověřovací e-mail byl odeslán. Zkontrolujte si doručenou poštu.",
-    "@requiredActionVerificationEmailSent": {
-        "description": "Toast after resending verification email."
-    },
-    "requiredActionSignOut": "Odhlásit se",
-    "@requiredActionSignOut": {
-        "description": "Sign out button in required action modal."
-    },
     "channelSettingsMatureContentCommunityScope": "Komunita",
     "@channelSettingsMatureContentCommunityScope": {
         "description": "Capitalized scope label when mature content inherits from the community."
@@ -12108,14 +11369,6 @@
     "notificationsEnableDesktopNotificationsDescription": "Používá oznamovací centrum OS. Pro nastavení oznámení pro jednotlivé kanály/komunity klikněte pravým tlačítkem na ikonu komunity a otevřete nastavení oznámení.",
     "@notificationsEnableDesktopNotificationsDescription": {
         "description": "Description for the enable desktop notifications toggle."
-    },
-    "notificationsEnableBrowserNotificationsLabel": "Povolit oznámení prohlížeče",
-    "@notificationsEnableBrowserNotificationsLabel": {
-        "description": "Toggle label for enabling browser notifications."
-    },
-    "notificationsEnableBrowserNotificationsDescription": "Dostávejte oznámení, když obdržíte zprávy. Možná budete muset povolit oznámení v nastavení prohlížeče. Pro ovládání oznámení pro jednotlivé kanály/komunity klikněte pravým tlačítkem na ikonu komunity a otevřete nastavení oznámení.",
-    "@notificationsEnableBrowserNotificationsDescription": {
-        "description": "Description for the enable browser notifications toggle."
     },
     "notificationsPushInactiveTimeoutDescription": "{productName} neposílá push oznámení do vašich mobilních zařízení, když jste u počítače. Zvolte, jak dlouho musíte být na počítači neaktivní, než začnete dostávat push oznámení.",
     "@notificationsPushInactiveTimeoutDescription": {
@@ -12289,10 +11542,6 @@
     "@groupDmRateLimited": {
         "description": "Error when add-friends requests are rate limited."
     },
-    "groupDmCreateInviteFailed": "Nepodařilo se vytvořit odkaz na pozvánku",
-    "@groupDmCreateInviteFailed": {
-        "description": "Title when invite link generation fails."
-    },
     "groupDmCreateInviteFailedBody": "Nepodařilo se vygenerovat odkaz na pozvánku. Zkuste to prosím znovu.",
     "@groupDmCreateInviteFailedBody": {
         "description": "Body when invite link generation fails."
@@ -12312,16 +11561,6 @@
     "audioAndVideoMicTestStartLabel": "Spustit test mikrofonu",
     "@audioAndVideoMicTestStartLabel": {
         "description": "Button label to start the microphone test."
-    },
-    "audioAndVideoMicTestPermissionRequired": "{productName} potřebuje přístup k mikrofonu, aby mohl otestovat váš vstup.",
-    "@audioAndVideoMicTestPermissionRequired": {
-        "description": "Shown when microphone permission is required for the mic test.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
     },
     "permissionManageCommunityDescription": "Upravit globální nastavení, jako je název, popis a ikona.",
     "@permissionManageCommunityDescription": {
@@ -12366,10 +11605,6 @@
     "channelDetailsDeleteChannel": "Smazat kanál",
     "@channelDetailsDeleteChannel": {
         "description": "Channel details menu action to delete a guild channel."
-    },
-    "channelSettingsCategorySettingsTitle": "Nastavení kategorie",
-    "@channelSettingsCategorySettingsTitle": {
-        "description": "Title for category settings modal."
     },
     "channelSettingsEditCategory": "Upravit kategorii",
     "@channelSettingsEditCategory": {
@@ -12491,18 +11726,6 @@
     "@channelSettingsVoiceRegionsLoadFailedDescription": {
         "description": "Error modal body when voice regions fail to load in channel settings."
     },
-    "channelSettingsResetSlider": "Obnovit výchozí hodnotu posuvníku",
-    "@channelSettingsResetSlider": {
-        "description": "Tooltip for reset buttons on channel settings sliders."
-    },
-    "channelSettingsAdvanced": "Pokročilé",
-    "@channelSettingsAdvanced": {
-        "description": "Collapsible advanced section title in channel overview."
-    },
-    "channelSettingsMatureContentOverride": "Vlastní nastavení obsahu pro dospělé",
-    "@channelSettingsMatureContentOverride": {
-        "description": "Accessibility label for mature content override control."
-    },
     "channelSettingsMatureContentOffDescription": "Ponechat tento kanál bez omezení pro obsah pro dospělé.",
     "@channelSettingsMatureContentOffDescription": {
         "description": "Description for the mature content off override option."
@@ -12521,32 +11744,6 @@
         "description": "Mature content summary when inherited setting is disabled.",
         "placeholders": {
             "inheritedSourceLabel": {
-                "type": "String"
-            }
-        }
-    },
-    "channelSettingsMatureContentCategorySource": "kategorie",
-    "@channelSettingsMatureContentCategorySource": {
-        "description": "Lowercase source label for inherited mature content from category."
-    },
-    "channelSettingsMatureContentCommunitySource": "komunita",
-    "@channelSettingsMatureContentCommunitySource": {
-        "description": "Lowercase source label for inherited mature content from community."
-    },
-    "channelSettingsPermissionsNeedManageChannels": "K úpravě těchto oprávnění potřebujete oprávnění \"{manageChannelsPermissionLabel}\".",
-    "@channelSettingsPermissionsNeedManageChannels": {
-        "description": "Error when user lacks manage channels permission for channel permissions tab.",
-        "placeholders": {
-            "manageChannelsPermissionLabel": {
-                "type": "String"
-            }
-        }
-    },
-    "channelSettingsPermissionsNeedManageRoles": "K úpravě těchto oprávnění potřebujete oprávnění \"{manageRolesPermissionLabel}\".",
-    "@channelSettingsPermissionsNeedManageRoles": {
-        "description": "Error when user lacks manage roles permission for channel permissions tab.",
-        "placeholders": {
-            "manageRolesPermissionLabel": {
                 "type": "String"
             }
         }
@@ -12594,10 +11791,6 @@
     "channelSettingsPermissionsSearchRolesOrMembers": "Hledat role nebo členy…",
     "@channelSettingsPermissionsSearchRolesOrMembers": {
         "description": "Placeholder for the add override search field."
-    },
-    "channelSettingsPermissionsRolesAndMembers": "Role a členové",
-    "@channelSettingsPermissionsRolesAndMembers": {
-        "description": "Section title in the add override picker."
     },
     "channelSettingsDeleteInvite": "Smazat pozvánku",
     "@channelSettingsDeleteInvite": {
@@ -12658,10 +11851,6 @@
                 "type": "String"
             }
         }
-    },
-    "channelSettingsWebhooksUnknownUser": "Neznámý uživatel",
-    "@channelSettingsWebhooksUnknownUser": {
-        "description": "Fallback label when webhook creator is unavailable."
     },
     "channelSettingsWebhooksAvatar": "Avatar",
     "@channelSettingsWebhooksAvatar": {
@@ -13058,42 +12247,6 @@
     "gifPickerFavoritesEmptyDescription": "Připněte si GIF a uvidíte ho tady.",
     "@gifPickerFavoritesEmptyDescription": {
         "description": "Empty state description for the GIF picker favorites view."
-    },
-    "requiredActionIntroGeneric": "Dokončete požadované ověření, abyste mohli nadále používat {productName}.",
-    "@requiredActionIntroGeneric": {
-        "description": "Generic required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailOrPhone": "Ověřte svůj e-mail nebo telefon, abyste mohli nadále používat {productName}.",
-    "@requiredActionIntroEmailOrPhone": {
-        "description": "Email or phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailAndPhone": "Pro další používání aplikace {productName} dokončete níže uvedené kroky ověření e-mailu a telefonu.",
-    "@requiredActionIntroEmailAndPhone": {
-        "description": "Email and phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionChooseMethodDescription": "Pro další používání aplikace {productName} dokončete jeden z níže uvedených způsobů ověření.",
-    "@requiredActionChooseMethodDescription": {
-        "description": "Description when user can pick email or phone.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
     },
     "networkErrorMessage": "Něco se pokazilo. Zkuste to znovu.",
     "@networkErrorMessage": {
@@ -13728,10 +12881,6 @@
     "@accessibilityPausedGifByReducedMotion": {
         "description": "Description for GIF toggle while reduced motion is active."
     },
-    "accessibilityGifDefaultsOffOnMobile": "Ve výchozím nastavení vypnuto na mobilu kvůli úspoře baterie a dat.",
-    "@accessibilityGifDefaultsOffOnMobile": {
-        "description": "Helper text for GIF autoplay default on mobile."
-    },
     "accessibilityStickerAnimationsTitle": "Animace samolepek",
     "@accessibilityStickerAnimationsTitle": {
         "description": "Subsection title for sticker animation preference."
@@ -14187,25 +13336,13 @@
     "@privacyDashboardFriendRequestsEveryone": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsEveryoneDesc": "Povolit komukoli posílat žádosti o přátelství",
-    "@privacyDashboardFriendRequestsEveryoneDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsFriendsOfFriends": "Přátelé přátel",
     "@privacyDashboardFriendRequestsFriendsOfFriends": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsFriendsOfFriendsDesc": "Povolit přátelům vašich přátel, aby vám mohli posílat žádosti",
-    "@privacyDashboardFriendRequestsFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsCommunityMembers": "Členové komunity",
     "@privacyDashboardFriendRequestsCommunityMembers": {
         "description": "Privacy dashboard friend request toggle label."
-    },
-    "privacyDashboardFriendRequestsCommunityMembersDesc": "Povolit členům komunit, ve kterých se nacházíte, aby vám mohli posílat žádosti",
-    "@privacyDashboardFriendRequestsCommunityMembersDesc": {
-        "description": "Privacy dashboard friend request toggle description."
     },
     "privacyDashboardDirectMessagesTitle": "Přímé zprávy",
     "@privacyDashboardDirectMessagesTitle": {
@@ -14215,65 +13352,29 @@
     "@privacyDashboardDirectMessagesMembers": {
         "description": "Privacy dashboard DM toggle label."
     },
-    "privacyDashboardDirectMessagesMembersDesc": "Povolit členům komunit, ve kterých se nacházíte, aby vám posílali přímé zprávy",
-    "@privacyDashboardDirectMessagesMembersDesc": {
-        "description": "Privacy dashboard DM toggle description."
-    },
     "privacyDashboardDirectMessagesBots": "Povolit přímé zprávy od komunitních botů",
     "@privacyDashboardDirectMessagesBots": {
         "description": "Privacy dashboard bot DM toggle label."
-    },
-    "privacyDashboardDirectMessagesBotsDesc": "Povolit botům z komunit, ve kterých jste, posílat vám přímé zprávy",
-    "@privacyDashboardDirectMessagesBotsDesc": {
-        "description": "Privacy dashboard bot DM toggle description."
-    },
-    "privacyDashboardConnectionsSectionDesc": "Ovládejte, kdo vám může posílat žádosti o přátelství a přímé zprávy",
-    "@privacyDashboardConnectionsSectionDesc": {
-        "description": "Privacy dashboard connections section description."
-    },
-    "privacyDashboardCommunicationSectionDesc": "Ovládejte, kdo vám může lhat a přidávat vás do skupinových chatů",
-    "@privacyDashboardCommunicationSectionDesc": {
-        "description": "Privacy dashboard communication section description."
     },
     "privacyDashboardIncomingCallsTitle": "Příchozí hovory",
     "@privacyDashboardIncomingCallsTitle": {
         "description": "Privacy dashboard incoming calls subsection title."
     },
-    "privacyDashboardIncomingCallsDesc": "Ovládejte, kdo vám může lhat",
-    "@privacyDashboardIncomingCallsDesc": {
-        "description": "Privacy dashboard incoming calls subsection description."
-    },
     "privacyDashboardAllowedCallers": "Kdo vám může volat",
     "@privacyDashboardAllowedCallers": {
         "description": "Privacy > Communication: select label."
-    },
-    "privacyDashboardIncomingCallNobody": "Nikdo",
-    "@privacyDashboardIncomingCallNobody": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallNobodyDesc": "Blokovat všechny příchozí hovory",
     "@privacyDashboardIncomingCallNobodyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallFriendsOnly": "Jen přátelé",
-    "@privacyDashboardIncomingCallFriendsOnly": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallFriendsOnlyDesc": "Povolit volání pouze přátelům (doporučeno)",
     "@privacyDashboardIncomingCallFriendsOnlyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallCustom": "Přátelé + Vlastní",
-    "@privacyDashboardIncomingCallCustom": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallCustomDesc": "Povolit přátelům a dalším skupinám, které vyberete",
     "@privacyDashboardIncomingCallCustomDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardIncomingCallEveryone": "Všichni",
-    "@privacyDashboardIncomingCallEveryone": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallEveryoneDesc": "Povolit komukoli, aby vám volal, i cizím lidem",
     "@privacyDashboardIncomingCallEveryoneDesc": {
@@ -14283,14 +13384,6 @@
     "@privacyDashboardAdditionalGroups": {
         "description": "Privacy dashboard label for custom permission groups."
     },
-    "privacyDashboardCallFriendsOfFriendsDesc": "Lidé, kteří jsou přáteli vašich přátel, vám mohou volat",
-    "@privacyDashboardCallFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
-    "privacyDashboardCallGuildMembersDesc": "Lidé z komunit, ve kterých jste oba, vám mohou volat",
-    "@privacyDashboardCallGuildMembersDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
     "privacyDashboardRingBehavior": "Chování vyzvánění",
     "@privacyDashboardRingBehavior": {
         "description": "Privacy dashboard ring behavior subsection label."
@@ -14299,17 +13392,9 @@
     "@privacyDashboardSilentCalls": {
         "description": "Privacy dashboard silent calls toggle label."
     },
-    "privacyDashboardSilentCallsDesc": "Všechny hovory budou místo zvonění tiše upozorňovat. Ve výchozím nastavení jsou hovory od neznámých kontaktů vždy tiché.",
-    "@privacyDashboardSilentCallsDesc": {
-        "description": "Privacy dashboard silent calls toggle description."
-    },
     "privacyDashboardGroupDmTitle": "Kdo vás může přidat do skupinových chatů",
     "@privacyDashboardGroupDmTitle": {
         "description": "Privacy dashboard group DM subsection title."
-    },
-    "privacyDashboardGroupDmDesc": "Ovládejte, kdo vás může přidávat do skupinových chatů bez zeptání. Kdokoli vám stále může poslat odkaz s pozvánkou k připojení.",
-    "@privacyDashboardGroupDmDesc": {
-        "description": "Privacy dashboard group DM subsection description."
     },
     "privacyDashboardAllowedInvites": "Kdo vás může přidávat do skupin",
     "@privacyDashboardAllowedInvites": {
@@ -14330,14 +13415,6 @@
     "privacyDashboardGroupDmEveryoneDesc": "Povolit komukoli přidat vás do skupinových chatů bez zeptání",
     "@privacyDashboardGroupDmEveryoneDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardGroupDmFriendsOfFriendsDesc": "Lidé, kteří jsou přáteli vašich přátel, vás mohou přidat do skupinových chatů",
-    "@privacyDashboardGroupDmFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
-    },
-    "privacyDashboardGroupDmGuildMembersDesc": "Lidé z komunit, ve kterých jste oba, vás mohou přidat do skupinových chatů",
-    "@privacyDashboardGroupDmGuildMembersDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
     },
     "privacyDashboardVoiceActivityTitle": "Hlasová aktivita v sekci Právě aktivní",
     "@privacyDashboardVoiceActivityTitle": {
@@ -14870,26 +13947,6 @@
     "@composerAutocompleteOptionalArgumentsHeading": {
         "description": "Section heading in composer autocomplete for adding optional slash-command arguments."
     },
-    "composerAutocompleteChannelsHeading": "Kanály",
-    "@composerAutocompleteChannelsHeading": {
-        "description": "Section heading in composer autocomplete for channel suggestions."
-    },
-    "composerAutocompleteMembersHeading": "Členové",
-    "@composerAutocompleteMembersHeading": {
-        "description": "Section heading in composer autocomplete for member suggestions."
-    },
-    "composerAutocompleteUsersHeading": "Uživatelé",
-    "@composerAutocompleteUsersHeading": {
-        "description": "Section heading in composer autocomplete for user suggestions."
-    },
-    "composerAutocompleteMentionsHeading": "Zmínky",
-    "@composerAutocompleteMentionsHeading": {
-        "description": "Section heading in composer autocomplete for mixed mention suggestions."
-    },
-    "composerAutocompleteRolesHeading": "Role",
-    "@composerAutocompleteRolesHeading": {
-        "description": "Section heading in composer autocomplete for role suggestions."
-    },
     "composerAutocompleteMediaHeading": "Média",
     "@composerAutocompleteMediaHeading": {
         "description": "Section heading in composer autocomplete for saved media."
@@ -15106,10 +14163,6 @@
     "memberListUnavailableBody": "Seznamy členů jsou v této komunitě dočasně nedostupné",
     "@memberListUnavailableBody": {
         "description": "Body when member list updates are disabled for the community."
-    },
-    "channelHeaderOpenDetails": "Otevřít podrobnosti kanálu",
-    "@channelHeaderOpenDetails": {
-        "description": "Accessibility label for the channel header title area."
     },
     "channelHeaderPinnedMessages": "Připnuté zprávy",
     "@channelHeaderPinnedMessages": {
@@ -15472,10 +14525,6 @@
     "@userSettingsSearchPlaceholder": {
         "description": "Placeholder for the user settings search field."
     },
-    "userSettingsSearchFieldLabel": "Hledat v nastavení",
-    "@userSettingsSearchFieldLabel": {
-        "description": "Accessibility label for the user settings search field."
-    },
     "userSettingsSearchClear": "Vymazat hledání",
     "@userSettingsSearchClear": {
         "description": "Accessibility label for clearing the user settings search field."
@@ -15502,8 +14551,6 @@
     "giftSettingsGiftUrl": "Odkaz na dárek",
     "giftSettingsCopy": "Kopírovat",
     "giftSettingsCopied": "Zkopírováno",
-    "giftSettingsGiftUrlCopied": "Adresa dárku zkopírována do schránky!",
-    "giftSettingsGiftUrlCopyFailed": "Nepodařilo se zkopírovat URL dárku",
     "giftSettingsPurchasedDate": "Zakoupeno {date}",
     "@giftSettingsPurchasedDate": {
         "placeholders": {
@@ -15545,7 +14592,6 @@
     "premiumBuyGift": "Koupit dárek",
     "premiumOneYearGift": "Dárek na 1 rok",
     "premiumOneMonthGift": "Dárek na 1 měsíc",
-    "premiumMostPopular": "Nejoblíbenější",
     "premiumScrollPrompt": "Přejděte dolů a zobrazte všechny výhody zahrnuté v Plutonium",
     "premiumFreeVsPlutonium": "Zdarma vs Plutonium",
     "premiumFreeColumn": "Zdarma",
@@ -15563,50 +14609,15 @@
     "premiumViewGifts": "Zobrazit dárky",
     "premiumReadyToUpgrade": "Chcete upgradovat?",
     "premiumReadyToBuyGift": "Chcete koupit dárek?",
-    "premiumMonthlyPrice": "Měsíčně {price}",
-    "@premiumMonthlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumYearlyPrice": "Ročně {price}",
-    "@premiumYearlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneYearPrice": "1 rok {price}",
-    "@premiumOneYearPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneMonthPrice": "1 měsíc {price}",
-    "@premiumOneMonthPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
     "premiumManageSubscription": "Spravovat předplatné",
     "premiumRedeemGiftCode": "Uplatnit dárkový kód",
     "premiumGiftBadge": "Dárek",
     "premiumCancelSubscriptionTitle": "Zrušit předplatné?",
     "premiumCancelSubscriptionBody": "Výhody si ponecháte do data příštího obnovení. Poté máte dodatečnou lhůtu 3 dnů na obnovení předplatného a zachování jeho historie.",
     "premiumCancelSubscriptionConfirm": "Zrušit předplatné",
-    "premiumKeepSubscription": "Ponechat předplatné",
     "premiumPurchaseHistoryTitle": "Historie nákupů",
     "premiumPurchaseHistoryDescription": "Vaše nedávné faktury. Pokud chcete změnit způsob platby pro své předplatné, přidejte nebo vyberte jeden v platebním portálu a nastavte jej jako výchozí.",
     "premiumManagePaymentMethods": "Spravovat platební metody",
-    "premiumBillingHistory": "Historie plateb",
-    "premiumSelfServeRefundTitle": "Vrácení peněz bez asistence",
     "premiumSelfServeRefundButton": "Vrátit poslední nákup",
     "premiumDisclaimerAgreementPrefix": "Zakoupením souhlasíte s našimi ",
     "premiumDisclaimerAgreementPastPrefix": "Zakoupením jste souhlasili s našimi ",
@@ -15646,17 +14657,6 @@
         "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
     },
     "premiumComparisonFeatureColumn": "Funkce",
-    "premiumDisclaimerPurchased": "Nákupem jste přijali naše {terms} a {privacy}.",
-    "@premiumDisclaimerPurchased": {
-        "placeholders": {
-            "terms": {
-                "type": "String"
-            },
-            "privacy": {
-                "type": "String"
-            }
-        }
-    },
     "premiumDisclaimerRefund": "Samoobslužné vrácení peněz je k dispozici do 3 dnů od platby, jednou za 30 dní. Vrácením peněz za předplatné dojde k jeho zrušení. Kupující z EU/EHP se při placení vzdávají 14denního práva na odstoupení od smlouvy, aby získali okamžitý přístup k obsahu. Místo zpětného zúčtování použijte tlačítko pro vrácení peněz v aplikaci. Zpětné zúčtování může trvale omezit váš účet. Platby bezpečně zpracovává Stripe. Nikdy nevidíme celé číslo vaší karty.",
     "premiumTermsOfService": "Podmínky služby",
     "premiumPrivacyPolicy": "Zásady ochrany osobních údajů",
@@ -15697,24 +14697,14 @@
     },
     "premiumClaimAccountToPurchase": "Získejte svůj účet a kupte si Fluxer Plutonium.",
     "premiumVerifyEmailToPurchase": "Před nákupem Fluxer Plutonium si musíte ověřit svůj e-mail.",
-    "premiumPerkCustomUsernameTag": "Vlastní čtyřmístný identifikátor",
-    "premiumPerkPerCommunityProfiles": "Profily pro jednotlivé komunity",
-    "premiumPerkMessageScheduling": "Plánování zpráv",
-    "premiumPerkProfileBadge": "Odznak profilu",
-    "premiumPerkCustomVideoBackgrounds": "Vlastní pozadí videa",
-    "premiumPerkEntranceSounds": "Zvuky při vstupu",
     "premiumPerkCommunities": "Komunity",
     "premiumPerkMessageCharacterLimit": "Limit znaků zprávy",
     "premiumPerkBookmarkedMessages": "Zprávy se záložkou",
     "premiumPerkFileUploadSize": "Velikost nahrávaného souboru",
-    "premiumPerkEmojiStickerPacks": "Balíčky emoji a samolepek",
-    "premiumPerkSavedMedia": "Uložená média",
     "premiumPerkUseAnimatedEmojis": "Používat animované emoji",
-    "premiumPerkGlobalEmojiStickerAccess": "Globální přístup k emoji a samolepkám",
     "premiumPerkVideoQuality": "Kvalita videa",
     "premiumPerkAnimatedAvatarsBanners": "Animované avatary a bannery profilu",
     "premiumPerkEarlyAccess": "Předběžný přístup k novým funkcím",
-    "premiumPerkCustomThemes": "Vlastní motivy",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "Až 4K/60 sn./s",
     "storePlutoniumPriceLine": "{monthly} nebo {yearly}",
@@ -15930,7 +14920,6 @@
     "advancedSettingStripTrackingLabel": "Odstranit parametry sledování z URL",
     "advancedSettingStripTrackingDescription": "Automaticky odstraňovat sledovací parametry z URL v odesílaných zprávách",
     "advancedSettingTrustAllLinksLabel": "Důvěřovat všem externím odkazům",
-    "advancedSettingTrustAllLinksDescription": "Přeskočit upozornění na externí odkaz pro všechny domény",
     "advancedSettingSearchEnginesLabel": "Vyhledávače",
     "advancedSettingSearchEnginesDescription": "Nastavit vyhledávače používané pro vybraný text",
     "advancedSettingTranslatorsLabel": "Překladače",
@@ -15986,13 +14975,6 @@
     "advancedSettingHideStreamPreviewLabel": "Skrýt náhled mého streamu",
     "advancedSettingDeveloperModeLabel": "Zapnout režim pro vývojáře",
     "advancedSettingDeveloperModeDescription": "Zapnout režim pro vývojáře",
-    "advancedSettingSearchEngineGoogle": "Google",
-    "advancedSettingSearchEngineDuckDuckGo": "DuckDuckGo",
-    "advancedSettingSearchEngineBing": "Bing",
-    "advancedSettingSearchEngineGoogleLens": "Google Lens",
-    "advancedSettingSearchEngineTinEye": "TinEye",
-    "advancedSettingTranslatorGoogle": "Překlad Google",
-    "advancedSettingTranslatorDeepL": "DeepL",
     "advancedSettingDefaultSearchEngineLabel": "Výchozí vyhledávač",
     "advancedSettingDefaultSearchEngineDescription": "Vyberte, který vyhledávač se bude používat ve výchozím nastavení při vyhledávání vybraného textu.",
     "advancedSettingBuiltInSearchEnginesLabel": "Vestavěné vyhledávače",
@@ -16546,10 +15528,6 @@
     "@guildMembersColumnRoles": {
         "description": "Table column header on the community members page."
     },
-    "guildMembersColumnActions": "Akce",
-    "@guildMembersColumnActions": {
-        "description": "Table column header on the community members page."
-    },
     "guildMembersFilterMemberSince": "Filtrovat podle data připojení",
     "@guildMembersFilterMemberSince": {
         "description": "Filter menu label on the community members page."
@@ -16634,23 +15612,6 @@
     "@guildMembersIndexing": {
         "description": "Banner shown while guild members are being indexed."
     },
-    "guildMembersGoToPage": "Přejít na stránku",
-    "@guildMembersGoToPage": {
-        "description": "Pagination jump label on the community members page."
-    },
-    "guildMembersGoToPageItem": "Přejít na stránku {page}",
-    "@guildMembersGoToPageItem": {
-        "description": "Accessibility label for a pagination page button.",
-        "placeholders": {
-            "page": {
-                "type": "int"
-            }
-        }
-    },
-    "guildMembersJumpToPage": "Přejít na stránku",
-    "@guildMembersJumpToPage": {
-        "description": "Label for pagination jump input on the community members page."
-    },
     "guildMembersJoinSourceCreator": "Tvůrce komunity",
     "@guildMembersJoinSourceCreator": {
         "description": "Join method label on the community members page."
@@ -16727,28 +15688,14 @@
             }
         }
     },
-    "guildMembersJoinedDaysAgo": "{count, plural, one {před 1 dnem} other {před # dny}}",
-    "@guildMembersJoinedDaysAgo": {
-        "description": "Relative join time on the community members page.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
     "guildMembersChannelListLabel": "Členové",
     "@guildMembersChannelListLabel": {
         "description": "Label for the Members item at the top of the guild channel list."
-    },
-    "guildMembersChannelListSelected": "Členové, vybráno",
-    "@guildMembersChannelListSelected": {
-        "description": "Accessibility label when the Members channel list item is selected."
     },
     "guildSettingsEmojiSlotsTitle": "Sloty na emoji",
     "guildSettingsEmojiDropZone": "Přetáhněte sem soubory emoji",
     "guildSettingsEmojiLoadFailed": "Nepodařilo se načíst emoji. Zkuste to prosím později.",
     "guildSettingsEmojiSearchEmpty": "Nebylo nalezeno žádné emoji odpovídající vašemu hledání.",
-    "guildSettingsEmojiNoSlots": "Žádné volné sloty pro emoji",
     "guildSettingsEmojiSlotsFull": "Dosáhli jste maximálního počtu emoji. Chcete-li uvolnit místo, odstraňte některé stávající emoji.",
     "guildSettingsEmojiUploadRequirements": "Názvy emoji musí mít alespoň 2 znaky a mohou obsahovat písmena, čísla a podtržítka. Emoji musí být menší než {maxSize}. Statické obrázky se automaticky zmenší na 128 × 128 pixelů a zkomprimují. Animované emoji a soubory SVG musí limit splňovat už před nahráním.",
     "@guildSettingsEmojiUploadRequirements": {
@@ -16758,24 +15705,11 @@
             }
         }
     },
-    "guildSettingsEmojiUploadingTitle": "Nahrávání emoji",
-    "guildSettingsEmojiUploadingBody": "Nahrávám {count, plural, one {# emoji} other {# emojis}}. Může to chvíli trvat.",
-    "@guildSettingsEmojiUploadingBody": {
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsEmojiUploadFailed": "Nepodařilo se nahrát emoji. Zkuste to znovu.",
     "guildSettingsEmojiSomeFailedTitle": "Některé emoji nebylo možné přidat",
-    "guildSettingsEmojiSomeFailedBody": "Zkontrolujte tyto soubory a zkuste to znovu s menšími nebo jednoduššími obrázky.",
     "guildSettingsEmojiRenameTitle": "Přejmenovat emoji",
     "guildSettingsEmojiRenameHint": "2–32 znaků, písmena, čísla, podtržítka.",
-    "guildSettingsEmojiColumnEmoji": "Emoji",
     "guildSettingsEmojiColumnName": "Název",
     "guildSettingsEmojiColumnUploader": "Nahráno uživatelem",
-    "guildSettingsEmojiUnknownUploader": "Neznámý",
     "guildSettingsEmojiDeleteTitle": "Smazat emoji",
     "guildSettingsEmojiDeleteBody": "Smazat :{name}:? Nelze vrátit zpět.",
     "@guildSettingsEmojiDeleteBody": {
@@ -16790,15 +15724,7 @@
     "guildSettingsEmojiNameTooLong": "Název emoji může mít maximálně 32 znaků",
     "guildSettingsEmojiInvalidNameTitle": "Neplatný název emoji",
     "guildSettingsEmojiRenameFailedTitle": "Nepodařilo se přejmenovat toto emoji",
-    "guildSettingsEmojiRenameFailedBody": "Název byl vrácen na původní. Zkuste to prosím za chvíli znovu.",
-    "guildSettingsEmojiGoneTitle": "Toto emoji již neexistuje",
-    "guildSettingsEmojiGoneBody": "Možná byla položka smazána. Název byl obnoven na původní.",
-    "guildSettingsEmojiNoPermissionRenameTitle": "Toto emoji nemůžete přejmenovat",
-    "guildSettingsEmojiNoPermissionRenameBody": "Nemáte oprávnění přejmenovat toto emoji. Název byl vrácen na původní.",
-    "guildSettingsEmojiRateLimitedTitle": "Postupujete příliš rychle",
-    "guildSettingsEmojiRateLimitedBody": "Počkejte chvíli a zkuste přejmenování znovu.",
     "guildSettingsEmojiDeleteFailedTitle": "Toto emoji se nepodařilo smazat",
-    "guildSettingsEmojiDeleteNoPermissionTitle": "Toto emoji nemůžete smazat",
     "guildSettingsCloneEmojiTitle": "Povolit ostatním klonovat vaše emoji",
     "guildSettingsCloneEmojiDescription": "Když je tato funkce zapnutá, členové jiných komunit můžou používat zkratku \"Klonovat\" na jedno kliknutí u vašich vlastních emoji. To jim ale nezabrání v tom, aby si obrázek uložili a nahráli ho sami.",
     "guildSettingsCloneStickerTitle": "Povolit ostatním klonovat vaše nálepky",
@@ -16822,8 +15748,6 @@
     "guildSettingsStickersLoadFailedTitle": "Nepodařilo se načíst samolepky",
     "guildSettingsStickersLoadFailedBody": "Při načítání samolepek došlo k chybě. Zkuste to znovu.",
     "guildSettingsStickersSearchEmpty": "Nebyly nalezeny žádné samolepky odpovídající vašemu hledání.",
-    "guildSettingsStickersEmptySearch": "Nebyly nalezeny žádné samolepky",
-    "guildSettingsStickerNoSlots": "Žádné volné sloty pro samolepky",
     "guildSettingsStickerSlotsFull": "Dosáhli jste maximálního počtu samolepek. Chcete-li uvolnit místo, smažte některé stávající samolepky.",
     "guildSettingsStickerUploadRequirements": "Samolepky jsou uloženy ve velikosti 320x320 pixelů a musí být menší než {maxSize}. Statické obrázky se automaticky upraví a komprimují. Animované samolepky a SVG soubory musí již odpovídat limitu.",
     "@guildSettingsStickerUploadRequirements": {
@@ -16833,7 +15757,6 @@
             }
         }
     },
-    "guildSettingsStickerUnsupportedTitle": "Nepodporovaný soubor samolepky",
     "guildSettingsStickerAddTitle": "Přidat samolepku",
     "guildSettingsStickerEditTitle": "Upravit samolepku",
     "guildSettingsStickerNameLabel": "Název",
@@ -16858,8 +15781,6 @@
     "guildSettingsStickerNameTooLong": "Název musí mít maximálně 30 znaků",
     "guildSettingsStickerDescriptionTooLong": "Popis musí mít maximálně 500 znaků",
     "guildSettingsStickerCreateFailedTitle": "Nepodařilo se vytvořit tuto samolepku",
-    "guildSettingsStickerTooLargeTitle": "Samolepka je příliš velká",
-    "guildSettingsStickerCompressFailedTitle": "Samolepku se nepodařilo dostatečně zkomprimovat",
     "guildSettingsStickerDeleteTitle": "Smazat samolepku",
     "guildSettingsStickerDeleteBody": "Smazat „{name}“? Nelze vrátit zpět.",
     "@guildSettingsStickerDeleteBody": {
@@ -16871,7 +15792,6 @@
     },
     "guildSettingsStickerPurgeLabel": "Vymazat tuto samolepku z úložiště a CDN",
     "guildSettingsStickerDeleteFailedTitle": "Nepodařilo se odstranit tento sticker",
-    "guildSettingsStickerDeleteNoPermissionTitle": "Tuto nálepku nemůžete smazat",
     "keybindsSearchShortcuts": "Hledat zkratky",
     "@keybindsSearchShortcuts": {
         "description": "Placeholder for the shortcuts settings search field."

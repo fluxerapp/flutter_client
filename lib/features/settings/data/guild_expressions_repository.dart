@@ -107,7 +107,6 @@ class GuildExpressionsRepository {
           name: response.name,
           description: response.description,
           tags: List<String>.from(response.tags),
-          animated: response.animated,
           uploader: const GuildExpressionUploader(id: '', username: 'Unknown'),
         ),
       );
@@ -138,7 +137,6 @@ class GuildExpressionsRepository {
           name: response.name,
           description: response.description,
           tags: List<String>.from(response.tags),
-          animated: response.animated,
           uploader: const GuildExpressionUploader(id: '', username: 'Unknown'),
         ),
       );

@@ -151,10 +151,6 @@ List<String> spoilerSyncKeysForEmbed(Embed embed, Set<String> spoileredUrls) {
   return List<String>.unmodifiable(keys);
 }
 
-bool isEmbedSpoilered(Embed embed, Set<String> spoileredUrls) {
-  return spoilerSyncKeysForEmbed(embed, spoileredUrls).isNotEmpty;
-}
-
 bool _messageContentIsOnlySpoilers(String content) {
   var rest = content;
   for (final RegExpMatch match in _spoilerRegex.allMatches(content)) {

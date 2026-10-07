@@ -22,7 +22,6 @@ void main() {
     name: 'wave',
     description: 'waves',
     tags: <String>['wave'],
-    animated: false,
     uploader: ownerUploader,
   );
 

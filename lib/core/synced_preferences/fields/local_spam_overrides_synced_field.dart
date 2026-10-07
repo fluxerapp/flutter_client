@@ -16,11 +16,6 @@ class LocalSpamOverridesLocalState {
 
   final List<String> spammerUserIds;
   final List<String> notSpammerUserIds;
-
-  static const empty = LocalSpamOverridesLocalState(
-    spammerUserIds: [],
-    notSpammerUserIds: [],
-  );
 }
 
 class LocalSpamOverridesSyncedField

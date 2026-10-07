@@ -15,30 +15,6 @@ VoiceCallVisualLayout resolveVoiceCallVisualLayout({
   return VoiceCallVisualLayout.packedGrid;
 }
 
-String? resolveVoiceCallMainTileId<T>({
-  required String? pinnedTileId,
-  required List<T> tiles,
-  required String Function(T tile) tileId,
-  required bool Function(T tile) isScreenShare,
-}) {
-  if (tiles.isEmpty) {
-    return null;
-  }
-  if (pinnedTileId != null) {
-    for (final T tile in tiles) {
-      if (tileId(tile) == pinnedTileId) {
-        return pinnedTileId;
-      }
-    }
-  }
-  for (final T tile in tiles) {
-    if (!isScreenShare(tile)) {
-      return tileId(tile);
-    }
-  }
-  return tileId(tiles.first);
-}
-
 bool voiceCallTileIsFocused({
   required bool isFocusMode,
   required String? pinnedTileId,

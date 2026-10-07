@@ -98,24 +98,6 @@ class InlineTokenTextEditingController extends TextEditingController {
     );
   }
 
-  void replaceSelectionWithDisplayFragment(String displayFragment) {
-    final TextSelection sel = selection;
-    if (!sel.isValid) {
-      return;
-    }
-    final String newText = text.replaceRange(
-      sel.start,
-      sel.end,
-      displayFragment,
-    );
-    value = TextEditingValue(
-      text: newText,
-      selection: TextSelection.collapsed(
-        offset: sel.start + displayFragment.length,
-      ),
-    );
-  }
-
   /// The length of [toWireText] without materializing the string.
   int get wireLength => _wireLengthOf(text.runes);
 
@@ -403,28 +385,6 @@ class InlineTokenTextEditingController extends TextEditingController {
       ),
       maxWireLength: maxActualLength,
       ensureTrailingSpace: ensureTrailingSpace,
-    );
-  }
-
-  /// Replaces `[start, end)` with an emoji selection as an [EmojiInlineToken].
-  ///
-  /// [maxActualLength] bounds the resulting [wireLength] (see
-  /// [replaceRangeWithToken]).
-  void replaceRangeWithEmoji(
-    int start,
-    int end,
-    String name,
-    String surrogates, {
-    int? maxActualLength,
-  }) {
-    replaceRangeWithToken(
-      start,
-      end,
-      EmojiInlineToken(
-        displayName: name,
-        wireText: buildEmojiWireToken(name, surrogates),
-      ),
-      maxWireLength: maxActualLength,
     );
   }
 

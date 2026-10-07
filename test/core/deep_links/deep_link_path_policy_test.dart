@@ -26,7 +26,7 @@ void main() {
     });
 
     test('ignores root, auth, admin, and infra paths', () {
-      for (final String path in kIgnoredDeepLinkPathExamples) {
+      for (final String path in _ignoredDeepLinkPaths) {
         expect(
           isAllowedDeepLinkPath(Uri.parse('https://web.fluxer.app$path')),
           isFalse,
@@ -36,10 +36,11 @@ void main() {
     });
 
     test('rejects paths with blocklisted characters', () {
-      expect(hasBlocklistedDeepLinkPathCharacters('/channels/"evil'), isTrue);
       expect(
-        hasBlocklistedDeepLinkPathCharacters('/channels/foo\nbar'),
-        isTrue,
+        isAllowedDeepLinkPath(
+          Uri.parse("https://web.fluxer.app/channels/'evil"),
+        ),
+        isFalse,
       );
     });
 
@@ -187,3 +188,28 @@ void main() {
     });
   });
 }
+
+const List<String> _ignoredDeepLinkPaths = [
+  '/',
+  '/authorize-ip',
+  '/login',
+  '/register',
+  '/forgot',
+  '/verify',
+  '/wasntme',
+  '/pending',
+  '/oauth2/authorize',
+  '/auth/sso/callback',
+  '/report',
+  '/admin',
+  '/premium-callback',
+  '/age-verification-callback',
+  '/connection-callback',
+  '/theme-studio',
+  '/theme',
+  '/bookmarks',
+  '/mentions',
+  '/settings/guild/123',
+  '/.well-known/fluxer',
+  '/_health',
+];

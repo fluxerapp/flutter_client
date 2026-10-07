@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart' as l10n;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/assistant/assistant_binding.dart';
 import 'package:fluxer_app/core/instance/account_identity_sync.dart';
@@ -25,6 +24,7 @@ import 'package:fluxer_app/features/voice/presentation/widgets/incoming_voice_ca
 import 'package:fluxer_app/features/voice/presentation/widgets/pip/voice_pip_layer.dart';
 import 'package:fluxer_app/features/voice/providers/voice_media_devices_provider.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
+import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/widgets/beta_banner.dart';
@@ -112,11 +112,7 @@ class _FluxerAppState extends ConsumerState<FluxerApp> {
     return MaterialApp.router(
       title: productName,
       debugShowCheckedModeBanner: false,
-      localizationsDelegates: const [
-        FluxerLocalizations.delegate,
-        ...GlobalMaterialLocalizations.delegates,
-        l10n.GlobalMaterialLocalizations.delegate,
-      ],
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       locale: appLocale,
       theme: theme,

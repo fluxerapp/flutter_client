@@ -41,5 +41,4 @@ class IntegrationTestConfig {
   static bool get hasGuildChannel => guildId.isNotEmpty && channelId.isNotEmpty;
 
   static const Duration shellTimeout = Duration(minutes: 3);
-  static const Duration navigationTimeout = Duration(seconds: 30);
 }

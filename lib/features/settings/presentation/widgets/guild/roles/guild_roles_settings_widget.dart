@@ -435,7 +435,6 @@ class _GuildRolesSettingsWidgetState
                 setState(() => _selectedRoleId = roleId),
             onCreateRole: () => _createRole(l10n),
             isCreatingRole: _pendingRoleCreation,
-            onEnterHoistOrderMode: () => setState(() => _hoistOrderMode = true),
             onExitHoistOrderMode: () => setState(() => _hoistOrderMode = false),
             onResetHoistOrder: () => _resetHoistOrder(l10n),
             onReorder: (int oldIndex, int newIndex) => _handleReorder(
@@ -496,7 +495,6 @@ class _GuildRolesSettingsWidgetState
             setState(() => _selectedRoleId = roleId),
         onCreateRole: () => _createRole(l10n),
         isCreatingRole: _pendingRoleCreation,
-        onEnterHoistOrderMode: () => setState(() => _hoistOrderMode = true),
         onExitHoistOrderMode: () => setState(() => _hoistOrderMode = false),
         onResetHoistOrder: () => _resetHoistOrder(l10n),
         onReorder: (int oldIndex, int newIndex) => _handleReorder(
@@ -562,7 +560,6 @@ class _GuildRolesSettingsWidgetState
             _mobileShowEditor = true;
           });
         },
-        onEnterHoistOrderMode: () => setState(() => _hoistOrderMode = true),
         onExitHoistOrderMode: () => setState(() => _hoistOrderMode = false),
         onResetHoistOrder: () => _resetHoistOrder(l10n),
         onReorder: (int oldIndex, int newIndex) => _handleReorder(

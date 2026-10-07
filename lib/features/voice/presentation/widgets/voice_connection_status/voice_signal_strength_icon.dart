@@ -4,13 +4,11 @@ import 'package:fluxer_app/material_ui.dart';
 
 class VoiceSignalStrengthIcon extends StatelessWidget {
   const VoiceSignalStrengthIcon({
-    required this.latencyMs,
     required this.tone,
     this.size = 16,
     super.key,
   });
 
-  final int? latencyMs;
   final VoiceLatencySignalTone tone;
   final double size;
 

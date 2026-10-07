@@ -19,7 +19,6 @@ class GuildMobileRoleList extends StatelessWidget {
     required this.onCreateRole,
     required this.isCreatingRole,
     required this.onSelectRole,
-    required this.onEnterHoistOrderMode,
     required this.onExitHoistOrderMode,
     required this.onResetHoistOrder,
     required this.onReorder,
@@ -36,7 +35,6 @@ class GuildMobileRoleList extends StatelessWidget {
   final VoidCallback onCreateRole;
   final bool isCreatingRole;
   final ValueChanged<String> onSelectRole;
-  final VoidCallback onEnterHoistOrderMode;
   final VoidCallback onExitHoistOrderMode;
   final VoidCallback onResetHoistOrder;
   final void Function(int oldIndex, int newIndex) onReorder;

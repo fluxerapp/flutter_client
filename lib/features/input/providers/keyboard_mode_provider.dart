@@ -15,8 +15,6 @@ class KeyboardModeNotifier extends Notifier<bool> {
       state = false;
     }
   }
-
-  void toggle() => state = !state;
 }
 
 final keyboardModeProvider = NotifierProvider<KeyboardModeNotifier, bool>(

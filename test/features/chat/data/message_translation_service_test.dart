@@ -17,9 +17,6 @@ class _FakeSource implements MessageTranslationSource {
   int detectCalls = 0;
 
   @override
-  String get id => 'fake';
-
-  @override
   Future<bool> isAvailable() async => available;
 
   @override

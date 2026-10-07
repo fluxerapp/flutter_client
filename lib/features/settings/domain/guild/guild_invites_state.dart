@@ -1,6 +1,6 @@
 import 'package:fluxer_app/features/settings/domain/guild/guild_invite_entry.dart';
 
-enum GuildInvitesLoadStatus { loading, success, error }
+enum GuildInvitesLoadStatus { success, error }
 
 class GuildInvitesState {
   const GuildInvitesState({

@@ -70,8 +70,8 @@ final class _Cursor {
     return switch (tag) {
       0 => MdText(readString()),
       1 => () {
-        final blankLines = readOptionalVarint();
-        return MdBlockquote(readNodes(), blankLines: blankLines);
+        readOptionalVarint();
+        return MdBlockquote(readNodes());
       }(),
       2 => MdStrong(readNodes()),
       3 => MdEmphasis(readNodes()),
@@ -114,13 +114,11 @@ final class _Cursor {
         final flags = readByte();
         final url = readString();
         final rawUrl = readString();
-        final source = readString();
+        readString();
         return MdLink(
           text: (flags & 2) != 0 ? readNode() : null,
           url: url,
-          escaped: (flags & 1) != 0,
           rawUrl: rawUrl,
-          source: source,
         );
       }(),
       14 => MdMention(_readMention()),
@@ -180,11 +178,11 @@ final class _Cursor {
   MdEmojiKind _readEmoji() {
     final kind = readByte();
     return switch (kind) {
-      0 => MdStandardEmoji(
-        raw: readString(),
-        codepoints: readString(),
-        name: readString(),
-      ),
+      0 => () {
+        final raw = readString();
+        readString();
+        return MdStandardEmoji(raw: raw, name: readString());
+      }(),
       1 => () {
         final animated = readByte() != 0;
         return MdCustomEmoji(

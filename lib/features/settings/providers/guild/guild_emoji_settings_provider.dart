@@ -6,7 +6,6 @@ import 'package:fluxer_app/features/guilds/utils/guild_features.dart';
 import 'package:fluxer_app/features/settings/data/guild_expressions_repository.dart';
 import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_emoji_settings_entry.dart';
 import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_emoji_settings_state.dart';
-import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_expression_uploader.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_expressions_repository_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_repository_provider.dart';
 import 'package:fluxer_app/features/settings/utils/expression_image_optimizer.dart';
@@ -20,21 +19,10 @@ part 'guild_emoji_settings_provider.g.dart';
 
 const Duration _kSearchDebounce = Duration(milliseconds: 300);
 
-class GuildEmojiUploadFailure {
-  const GuildEmojiUploadFailure({required this.name, required this.error});
-
-  final String name;
-  final String error;
-}
-
 class GuildEmojiUploadResult {
-  const GuildEmojiUploadResult({
-    required this.uploaded,
-    required this.failures,
-  });
+  const GuildEmojiUploadResult({required this.failureCount});
 
-  final List<GuildEmojiSettingsEntry> uploaded;
-  final List<GuildEmojiUploadFailure> failures;
+  final int failureCount;
 }
 
 @riverpod
@@ -163,16 +151,11 @@ class GuildEmojiSettings extends _$GuildEmojiSettings {
   }) async {
     final GuildEmojiSettingsState? current = state.value;
     if (current == null || current.uploadingCount != null) {
-      return const GuildEmojiUploadResult(
-        uploaded: <GuildEmojiSettingsEntry>[],
-        failures: <GuildEmojiUploadFailure>[],
-      );
+      return const GuildEmojiUploadResult(failureCount: 0);
     }
     state = AsyncData<GuildEmojiSettingsState>(
       current.copyWith(uploadingCount: files.length),
     );
-    final List<GuildEmojiUploadFailure> preparationFailures =
-        <GuildEmojiUploadFailure>[];
     final List<GuildEmojiCreateRequest> requests = <GuildEmojiCreateRequest>[];
     final int availableSlots = maxEmojis < 0
         ? files.length
@@ -180,11 +163,7 @@ class GuildEmojiSettings extends _$GuildEmojiSettings {
     final List<({String name, Uint8List bytes})> filesToProcess = files
         .take(availableSlots)
         .toList(growable: false);
-    for (int index = availableSlots; index < files.length; index++) {
-      preparationFailures.add(
-        GuildEmojiUploadFailure(name: files[index].name, error: 'slots_full'),
-      );
-    }
+    int failureCount = files.length - availableSlots;
     for (final ({String name, Uint8List bytes}) file in filesToProcess) {
       try {
         final String image = await optimizeGuildEmojiImage(
@@ -193,22 +172,13 @@ class GuildEmojiSettings extends _$GuildEmojiSettings {
         );
         final String emojiName = deriveGuildEmojiNameFromFileName(file.name);
         requests.add(GuildEmojiCreateRequest(name: emojiName, image: image));
-      } on ExpressionImageOptimizationException catch (error) {
-        preparationFailures.add(
-          GuildEmojiUploadFailure(name: file.name, error: error.reason.name),
-        );
       } on Object {
-        preparationFailures.add(
-          GuildEmojiUploadFailure(name: file.name, error: 'preparation_failed'),
-        );
+        failureCount++;
       }
     }
     final GuildExpressionsRepository repository = ref.read(
       guildExpressionsRepositoryProvider,
     );
-    final List<GuildEmojiSettingsEntry> uploaded = <GuildEmojiSettingsEntry>[];
-    final List<GuildEmojiUploadFailure> uploadFailures =
-        <GuildEmojiUploadFailure>[];
     for (final List<GuildEmojiCreateRequest> chunk
         in chunkExpressionUploadBatch(requests)) {
       if (chunk.isEmpty) {
@@ -217,30 +187,9 @@ class GuildEmojiSettings extends _$GuildEmojiSettings {
       try {
         final GuildEmojiBulkCreateResponse response = await repository
             .bulkCreateEmojis(guildId: guildId, emojis: chunk);
-        for (final GuildEmojiResponse emoji in response.success) {
-          uploaded.add(
-            GuildEmojiSettingsEntry(
-              id: emoji.id,
-              name: emoji.name,
-              animated: emoji.animated,
-              uploader: current.emojis.isNotEmpty
-                  ? current.emojis.first.uploader
-                  : const GuildExpressionUploader(id: '', username: 'Unknown'),
-            ),
-          );
-        }
-        for (final GuildEmojiBulkCreateResponseFailed failure
-            in response.failed) {
-          uploadFailures.add(
-            GuildEmojiUploadFailure(name: failure.name, error: failure.error),
-          );
-        }
+        failureCount += response.failed.length;
       } on Object {
-        for (final GuildEmojiCreateRequest request in chunk) {
-          uploadFailures.add(
-            GuildEmojiUploadFailure(name: request.name, error: 'upload_failed'),
-          );
-        }
+        failureCount += chunk.length;
       }
     }
     final GuildEmojiSettingsState latest = state.value ?? current;
@@ -258,13 +207,7 @@ class GuildEmojiSettings extends _$GuildEmojiSettings {
         clearUploadingCount: true,
       ),
     );
-    return GuildEmojiUploadResult(
-      uploaded: uploaded,
-      failures: <GuildEmojiUploadFailure>[
-        ...preparationFailures,
-        ...uploadFailures,
-      ],
-    );
+    return GuildEmojiUploadResult(failureCount: failureCount);
   }
 
   Future<void> toggleCloneAllowed({

@@ -40,7 +40,3 @@ ShellLayoutMode resolveMobileShellLayoutMode({
   // read, and the home branch never renders the tab layout.
   return mode == ShellLayoutMode.mainTab ? ShellLayoutMode.channelDrawer : mode;
 }
-
-bool canShellUtilityEdgeSwipePop(String location) {
-  return shellLayoutModeForLocation(location) == ShellLayoutMode.homeUtility;
-}

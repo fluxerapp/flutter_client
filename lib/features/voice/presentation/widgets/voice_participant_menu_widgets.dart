@@ -1,5 +1,4 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/features/ui/slider/fluxer_slider.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
@@ -249,18 +248,4 @@ class _VoiceParticipantVolumeSliderState
       ],
     );
   }
-}
-
-double estimateVoiceParticipantContextMenuHeight(List<Widget> items) {
-  var height = 16.0;
-  for (final Widget item in items) {
-    if (item is ContextMenuDivider) {
-      height += 13;
-    } else if (item is VoiceParticipantContextMenuVolumeItem) {
-      height += 72;
-    } else {
-      height += 38;
-    }
-  }
-  return height;
 }

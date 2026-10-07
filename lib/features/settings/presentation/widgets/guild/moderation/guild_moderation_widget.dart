@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/guilds/services/guild_verification.dart'
+    show supportedGuildVerificationLevel;
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_details.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_providers.dart';
@@ -15,7 +17,6 @@ const int _contentWarningTextMaxLength = 200;
 const Color _verificationLowColor = Color(0xFF22C55E);
 const Color _verificationMediumColor = Color(0xFFF59E0B);
 const Color _verificationHighColor = Color(0xFFF97316);
-const Color _verificationVeryHighColor = Color(0xFFEF4444);
 const Color _contentFilterMediumColor = Color(0xFFF59E0B);
 const Color _contentFilterHighColor = Color(0xFFEF4444);
 
@@ -64,7 +65,9 @@ class _GuildModerationWidgetState extends ConsumerState<GuildModerationWidget> {
   }
 
   void _applyDetails(GuildSettingsDetails details) {
-    _verificationLevel = details.guild.verificationLevel;
+    _verificationLevel = supportedGuildVerificationLevel(
+      details.guild.verificationLevel,
+    );
     _explicitContentFilter = details.explicitContentFilter;
     _mfaLevel = details.mfaLevel;
     _nsfw = details.guild.nsfw;
@@ -79,7 +82,8 @@ class _GuildModerationWidgetState extends ConsumerState<GuildModerationWidget> {
 
   bool get _isDirty {
     final GuildSettingsDetails details = widget.details;
-    return _verificationLevel != details.guild.verificationLevel ||
+    return _verificationLevel !=
+            supportedGuildVerificationLevel(details.guild.verificationLevel) ||
         _explicitContentFilter != details.explicitContentFilter ||
         _mfaLevel != details.mfaLevel ||
         _nsfw != details.guild.nsfw ||
@@ -330,12 +334,6 @@ const List<_ModerationOption> _verificationOptions = <_ModerationOption>[
     _verificationHighDescription,
     labelColor: _verificationHighColor,
   ),
-  _ModerationOption(
-    4,
-    _verificationHighestLabel,
-    _verificationHighestDescription,
-    labelColor: _verificationVeryHighColor,
-  ),
 ];
 
 const List<_ModerationOption> _contentFilterOptions = <_ModerationOption>[
@@ -370,10 +368,6 @@ String _verificationHighLabel(FluxerLocalizations l10n) =>
     l10n.guildSettingsVerificationHigh;
 String _verificationHighDescription(FluxerLocalizations l10n) =>
     l10n.guildSettingsVerificationHighDescription;
-String _verificationHighestLabel(FluxerLocalizations l10n) =>
-    l10n.guildSettingsVerificationHighest;
-String _verificationHighestDescription(FluxerLocalizations l10n) =>
-    l10n.guildSettingsVerificationHighestDescription;
 String _filterOffLabel(FluxerLocalizations l10n) =>
     l10n.guildSettingsContentFilterOff;
 String _filterOffDescription(FluxerLocalizations l10n) =>

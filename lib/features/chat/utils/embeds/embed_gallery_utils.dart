@@ -158,17 +158,6 @@ class EmbedGalleryIndex {
   }
 }
 
-bool isDuplicateEmbedAtIndex(int embedIndex, List<Embed> embedList) {
-  return EmbedGalleryIndex(embedList).isDuplicateAt(embedIndex);
-}
-
-List<EmbedMedia> collectGalleryImages({
-  required int embedIndex,
-  required List<Embed> embedList,
-}) {
-  return EmbedGalleryIndex(embedList).galleryImagesAt(embedIndex);
-}
-
 bool shouldShowEmbedGallery({
   required List<EmbedMedia> galleryImages,
   required bool hasAnyMedia,

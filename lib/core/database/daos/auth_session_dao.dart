@@ -93,9 +93,6 @@ class AuthSessionDao extends DatabaseAccessor<FluxerDatabase>
   Future<void> removeSession(String userId) =>
       (delete(authSessions)..where((t) => t.userId.equals(userId))).go();
 
-  /// Clears all sessions (full reset).
-  Future<void> clearSession() => delete(authSessions).go();
-
   Future<bool> _hasLegacyTokenColumn() async {
     final List<QueryRow> columns = await customSelect(
       'PRAGMA table_info(auth_sessions)',

@@ -70,14 +70,6 @@ class DmFolder extends _$DmFolder {
     );
   }
 
-  void setCollapseDMs({required bool value}) {
-    state = state.copyWith(
-      collapseDMs: value,
-      expanded: value && state.expanded,
-    );
-    unawaited(_persist());
-  }
-
   void toggleExpanded() {
     state = state.copyWith(expanded: !state.expanded);
   }
@@ -95,7 +87,4 @@ class DmFolder extends _$DmFolder {
     );
     unawaited(_persist());
   }
-
-  bool isAllowlisted(String channelId) =>
-      state.allowlistedIds.contains(channelId);
 }

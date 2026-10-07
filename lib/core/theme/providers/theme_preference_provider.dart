@@ -225,8 +225,6 @@ class ThemePreferenceState {
   final FluxerColorTheme coalColorTheme;
   final FluxerLayoutTheme layoutTheme;
 
-  bool get isSyncing => inflightTheme != null;
-
   FluxerColorTheme get colorTheme => switch (mode) {
     FluxerThemeMode.dark => darkColorTheme,
     FluxerThemeMode.darkLegacy => darkLegacyColorTheme,

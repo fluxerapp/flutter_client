@@ -1,7 +1,6 @@
 import 'dart:async' show unawaited;
 import 'dart:io' show Platform;
 
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:gaimon/gaimon.dart';
 
@@ -17,16 +16,13 @@ abstract final class FluxerHaptics {
   static final FluxerHapticPurrGate _purrGate = FluxerHapticPurrGate();
   static bool enabled = true;
 
-  static bool get supportsExpressive =>
-      !kIsWeb && (Platform.isIOS || Platform.isAndroid);
+  static bool get supportsExpressive => Platform.isIOS || Platform.isAndroid;
 
   static void selection() => _run(Gaimon.selection);
 
   static void light() => _run(Gaimon.light);
 
   static void medium() => _run(Gaimon.medium);
-
-  static void heavy() => _run(Gaimon.heavy);
 
   static void soft() {
     _run(() {
@@ -55,16 +51,6 @@ abstract final class FluxerHaptics {
         return;
       }
       Gaimon.medium();
-    });
-  }
-
-  static void error() {
-    _run(() {
-      if (supportsExpressive) {
-        Gaimon.error();
-        return;
-      }
-      Gaimon.heavy();
     });
   }
 

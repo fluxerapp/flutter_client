@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
+import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 import 'package:flutter/widgets.dart';
 import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -8,9 +8,6 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 const Curve kHorizontalSwipeCurve = Curves.fastEaseInToSlowEaseOut;
 
 const Duration kHorizontalSwipeRevealDuration = FluxerMotionTheme.slowDuration;
-
-const Duration kHorizontalSwipeSnapBackDuration =
-    FluxerMotionTheme.panelDuration;
 
 Duration horizontalSwipeRevealDuration(BuildContext context) =>
     context.motion.slow;
@@ -25,7 +22,7 @@ const double kHorizontalSwipeCompletionThresholdMaterial = 0.4;
 const double kHorizontalSwipeCompletionThresholdCupertino = 0.5;
 
 double horizontalSwipeCompletionThreshold() {
-  if (defaultTargetPlatform == TargetPlatform.iOS && !kIsWeb) {
+  if (defaultTargetPlatform == TargetPlatform.iOS) {
     return kHorizontalSwipeCompletionThresholdCupertino;
   }
   return kHorizontalSwipeCompletionThresholdMaterial;
@@ -41,7 +38,7 @@ double leadingEdgeHorizontalSwipeReserveWidth(BuildContext context) {
   final EdgeInsets padding = MediaQuery.paddingOf(context);
   final bool isRtl = Directionality.of(context) == TextDirection.rtl;
   final double startEdgePadding = isRtl ? padding.right : padding.left;
-  if (defaultTargetPlatform == TargetPlatform.iOS && !kIsWeb) {
+  if (defaultTargetPlatform == TargetPlatform.iOS) {
     return math.max(kBackSwipeEdgeMinWidthCupertino, startEdgePadding);
   }
   return math.max(kBackSwipeEdgeMinWidthMaterial, startEdgePadding);

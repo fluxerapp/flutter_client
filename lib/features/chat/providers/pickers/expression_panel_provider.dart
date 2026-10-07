@@ -19,8 +19,6 @@ class ExpressionPanel extends _$ExpressionPanel {
     ref.read(expressionPanelTabProvider.notifier).reset();
     ref.read(expressionPanelContentFadeProvider.notifier).reset();
   }
-
-  void toggle() => state = !state;
 }
 
 @Riverpod(keepAlive: true)

@@ -83,36 +83,6 @@ class FavoriteChannelsRepository {
     return added;
   }
 
-  Future<bool> removeCategory(String id) async {
-    final removed = await _database.favoriteChannelsDao.removeCategory(id);
-    if (removed) {
-      _store.markDirty(SyncedPreferenceField.favorites);
-    }
-    return removed;
-  }
-
-  Future<bool> renameCategory({
-    required String id,
-    required String name,
-  }) async {
-    final renamed = await _database.favoriteChannelsDao.renameCategory(
-      id: id,
-      name: name,
-    );
-    if (renamed) {
-      _store.markDirty(SyncedPreferenceField.favorites);
-    }
-    return renamed;
-  }
-
-  Future<void> moveCategory({required String id, required int position}) async {
-    await _database.favoriteChannelsDao.moveCategory(
-      id: id,
-      position: position,
-    );
-    _store.markDirty(SyncedPreferenceField.favorites);
-  }
-
   Future<bool> setChannelNickname({
     required String channelId,
     String? nickname,

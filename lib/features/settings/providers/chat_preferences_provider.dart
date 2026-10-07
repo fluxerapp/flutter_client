@@ -144,11 +144,6 @@ class ChatPreferences extends _$ChatPreferences {
     await _persist();
   }
 
-  Future<void> setPreserveEditDraft({required bool value}) async {
-    state = state.copyWith(preserveEditDraft: value);
-    await _persist();
-  }
-
   Future<void> setSanitizeUrls({required bool value}) async {
     state = state.copyWith(sanitizeUrls: value);
     await _persist();

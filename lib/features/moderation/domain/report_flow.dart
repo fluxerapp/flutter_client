@@ -33,7 +33,6 @@ class ReportFlowOutcome {
   const ReportFlowOutcome({
     required this.type,
     this.screenId,
-    this.reason,
     this.noticeId,
     this.url,
   });
@@ -42,7 +41,6 @@ class ReportFlowOutcome {
     return ReportFlowOutcome(
       type: ReportFlowOutcomeType.fromWire(_string(json, 'type')),
       screenId: _optionalString(json, 'screen_id'),
-      reason: _optionalString(json, 'reason'),
       noticeId: _optionalString(json, 'notice_id'),
       url: _optionalString(json, 'url'),
     );
@@ -50,7 +48,6 @@ class ReportFlowOutcome {
 
   final ReportFlowOutcomeType type;
   final String? screenId;
-  final String? reason;
   final String? noticeId;
   final String? url;
 }

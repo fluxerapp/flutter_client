@@ -8,8 +8,4 @@ class FcmCiphertextHooks {
   FcmCiphertextHooks._();
 
   static FcmCiphertextHandler? onCiphertext;
-
-  static void resetForTesting() {
-    onCiphertext = null;
-  }
 }

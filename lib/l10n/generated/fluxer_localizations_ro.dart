@@ -34,9 +34,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get retry => 'Reîncearcă';
 
   @override
-  String get connectingCaps => 'CONNECTING';
-
-  @override
   String get splashConnectionLost => 'Conexiune pierdută';
 
   @override
@@ -209,10 +206,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   }
 
   @override
-  String get ssoRequired =>
-      'Este necesar SSO pentru a accesa această instanță.';
-
-  @override
   String get organizationSsoProvider =>
       'Conectează-te cu furnizorul de autentificare unică al organizației tale.';
 
@@ -226,9 +219,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String preferSso(String provider) {
     return 'Preferi să folosești SSO? Continuă cu $provider.';
   }
-
-  @override
-  String get logInViaBrowser => 'Autentificare prin browser';
 
   @override
   String get needAccountPrompt => 'Ai nevoie de un cont? ';
@@ -318,20 +308,8 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get accountAdd => 'Adaugă un cont';
 
   @override
-  String get accountRemove => 'Elimină';
-
-  @override
-  String accountRemoveTitle(String username) {
-    return 'Elimină $username';
-  }
-
-  @override
   String get accountRemoveDescription =>
       'Aceasta va elimina sesiunea salvată pentru acest cont.';
-
-  @override
-  String get accountRemoveOnlyDescription =>
-      'Aceasta va elimina singurul cont salvat pe acest dispozitiv.';
 
   @override
   String get accountExpired => 'Expirat';
@@ -757,10 +735,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get registerYear => 'An';
 
   @override
-  String get registerConsent =>
-      'Sunt de acord cu Termenii de Serviciu și Politica de Confidențialitate';
-
-  @override
   String get registerConsentPrefix => 'Sunt de acord cu ';
 
   @override
@@ -804,10 +778,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   @override
   String get passkeyTimeout =>
       'Autentificarea cu cheia de acces a expirat. Te rugăm să încerci din nou.';
-
-  @override
-  String get passkeyNotAvailable =>
-      'Passkey-urile nu sunt disponibile pentru această aplicație. Conectează-te în schimb cu e-mail și parolă.';
 
   @override
   String get passkeyFailed =>
@@ -931,23 +901,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get inviteAcceptSomeone => 'cineva';
-
-  @override
-  String get inviteAcceptEmojiPack => 'Pachet de emojiuri';
-
-  @override
-  String get inviteAcceptStickerPack => 'Pachet de stickere';
-
-  @override
-  String get inviteAcceptInstallEmojiPack => 'Instalează pachetul de emoji';
-
-  @override
-  String get inviteAcceptInstallStickerPack =>
-      'Instalează pachetul de stickere';
-
-  @override
-  String get inviteAcceptPackInstallNote =>
-      'Acceptarea acestei invitații va instala pachetul automat.';
 
   @override
   String get mentionUnknownChannel => 'unknown-channel';
@@ -1726,9 +1679,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   }
 
   @override
-  String get emojiPlutoniumUpsellButton => 'Obține Plutonium';
-
-  @override
   String get emojiPlutoniumUpsellDismiss => 'Nu mai afișa asta';
 
   @override
@@ -1883,9 +1833,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get changeYourFluxerTag => 'Schimbă-ți numele de utilizator';
 
   @override
-  String get fluxerTagInputLabel => 'Nume de utilizator';
-
-  @override
   String get fluxerTagDescriptionBase =>
       'Numele de utilizator pot conține doar litere (a-z, A-Z), cifre (0-9) și liniuțe de subliniere. Numele de utilizator nu țin cont de majuscule/minuscule.';
 
@@ -1905,10 +1852,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   @override
   String get validationAllowedChars =>
       'Doar litere (a-z, A-Z), cifre (0-9) și liniuțe de subliniere (_)';
-
-  @override
-  String get discriminatorPremiumTooltip =>
-      'Obține Plutonium pentru a-ți personaliza eticheta sau păstreaz-o când schimbi numele de utilizator';
 
   @override
   String get fluxerTagAlreadyTaken => 'Nume de utilizator deja folosit';
@@ -1945,15 +1888,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   @override
   String get premiumUpsellCustomizeTag =>
       'Personalizează-ți eticheta de 4 cifre sau păstreaz-o când îți schimbi numele de utilizator';
-
-  @override
-  String premiumTrialExpiresOn(String date) {
-    return 'Încercarea ta Plutonium expiră pe $date. Fă upgrade pentru a păstra eticheta personalizată și pentru a câștiga o insignă pe profilul tău.';
-  }
-
-  @override
-  String get premiumTrialActive =>
-      'Ești la un trial Plutonium. Fă upgrade pentru a păstra eticheta personalizată și a câștiga o insignă pe profilul tău.';
 
   @override
   String get fluxerTagUpdated => 'Nume de utilizator actualizat';
@@ -2090,23 +2024,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get hideVisionaryIdDescription => 'Elimină-ți insigna ID vizionar';
 
   @override
-  String premiumTrialSubscriptionStarts(String date) {
-    return 'Ești la un trial Plutonium — abonamentul tău începe pe $date';
-  }
-
-  @override
-  String get premiumTrialSubscriptionStartsDescription =>
-      'Abonamentul tău va începe automat când se va termina perioada de probă. Nu este necesară nicio acțiune.';
-
-  @override
-  String premiumTrialExpiresOnProfile(String date) {
-    return 'Ești la un trial Plutonium care expiră pe $date';
-  }
-
-  @override
-  String get premiumTrialActiveProfile => 'Ești în perioada de probă Plutonium';
-
-  @override
   String get avatarDescriptionNonPremium =>
       'JPEG, PNG, WebP. Maxim 10 MB. Recomandat: 512×512 px. Avatarele animate (GIF) necesită Plutonium.';
 
@@ -2173,18 +2090,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get profileSavedToast => 'Profil actualizat';
-
-  @override
-  String get profileEditButton => 'Editează profilul';
-
-  @override
-  String get profileNoteLabel => 'Notă';
-
-  @override
-  String get profileNoteVisibility => '(vizibil doar pentru tine)';
-
-  @override
-  String get profileNoteEmpty => 'Nicio notă încă.';
 
   @override
   String get sudoTitle => 'Verifică-ți identitatea';
@@ -2478,35 +2383,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'de ex.: YubiKey, iPhone, computer de serviciu';
 
   @override
-  String get securityPhoneSectionTitle => 'Număr de telefon';
-
-  @override
-  String get securityPhoneSectionDescription =>
-      'Gestionează-ți numărul de telefon.';
-
-  @override
-  String get securityPhoneLabel => 'Număr de telefon';
-
-  @override
-  String get securityPhoneNone => 'Nu este adăugat niciun număr de telefon.';
-
-  @override
-  String get securityPhoneAdd => 'Adaugă număr de telefon';
-
-  @override
-  String get securityPhoneRemove => 'Elimină';
-
-  @override
-  String get securityPhoneRemoveTitle => 'Elimină numărul de telefon';
-
-  @override
-  String get securityPhoneRemoveDescription =>
-      'Ești sigur că vrei să-ți ștergi numărul de telefon?';
-
-  @override
-  String get securityPhoneRemoved => 'Număr de telefon eliminat';
-
-  @override
   String get securityClaimTitle => 'Funcții de securitate';
 
   @override
@@ -2554,9 +2430,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Dacă pierzi accesul la aplicația de autentificare și nu ai aceste coduri, vei fi blocat permanent din contul tău. Descarcă-le sau copiază-le acum și păstrează-le într-un loc sigur.';
 
   @override
-  String get backupCodesDownload => 'Descarcă';
-
-  @override
   String get backupCodesCopy => 'Copiază';
 
   @override
@@ -2569,164 +2442,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get backupCodesDone => 'Gata';
-
-  @override
-  String get backupCodesViewTitle => 'Vezi codurile de rezervă';
-
-  @override
-  String get backupCodesViewDescription =>
-      'Este posibil să fie necesară verificarea înainte de a vizualiza codurile de rezervă.';
-
-  @override
-  String get phoneAddTitle => 'Adaugă număr de telefon';
-
-  @override
-  String get phoneAddLabel => 'Număr de telefon';
-
-  @override
-  String get phoneAddHint => 'Introdu numărul de telefon';
-
-  @override
-  String get phoneAddFooter =>
-      'Vom trimite un cod SMS când va fi disponibil. Numărul tău nu este legat de contul tău. Păstrăm doar un marcator criptat, fără ID de utilizator, pentru a permite maximum 2 verificări în aproximativ 30 de zile.';
-
-  @override
-  String get phoneAddSendCode => 'Trimite codul';
-
-  @override
-  String get phoneVerifyTitle => 'Verifică numărul de telefon';
-
-  @override
-  String get phoneVerifyDescription =>
-      'Introdu codul de verificare trimis la numărul tău de telefon.';
-
-  @override
-  String get phoneAddSuccess => 'Număr de telefon verificat';
-
-  @override
-  String get phoneCountryLabel => 'Țara';
-
-  @override
-  String get phoneSearchCountries => 'Caută țări...';
-
-  @override
-  String get phoneNumberRequired => 'Numărul de telefon este obligatoriu';
-
-  @override
-  String get phoneEnterValidNumber =>
-      'Introdu un număr de telefon mobil valid.';
-
-  @override
-  String get phoneCannotBeUsed =>
-      'Acest număr de telefon nu poate fi utilizat. Încearcă un alt număr de mobil sau contactează asistența.';
-
-  @override
-  String get phoneAlreadyUsed =>
-      'Acest număr de telefon a fost deja utilizat. Încearcă un alt număr sau contactează asistența.';
-
-  @override
-  String get phoneCodeDidNotWork =>
-      'Codul nu a funcționat. Verifică-l și încearcă din nou.';
-
-  @override
-  String get phoneTooManyAttempts =>
-      'Prea multe încercări. Așteaptă puțin, apoi încearcă din nou.';
-
-  @override
-  String get phoneSmsUnavailable =>
-      'Verificarea prin SMS nu este disponibilă momentan. Încearcă din nou mai târziu sau contactează asistența.';
-
-  @override
-  String get phoneNotEligible =>
-      'Verificarea numărului de telefon nu este disponibilă pentru acest cont. Folosește o altă metodă sau contactează asistența.';
-
-  @override
-  String get phoneSomethingWentWrong =>
-      'Ceva nu a mers bine. Încearcă din nou.';
-
-  @override
-  String get phoneInboundExpensiveDescription =>
-      'Trimiterea unui SMS la acest număr de telefon este prea scumpă, așa că trebuie să ne trimiți un SMS în schimb. Poți contacta, de asemenea, suportul pentru a elimina această cerință din contul tău.';
-
-  @override
-  String get phoneInboundDefaultDescription =>
-      'Trebuie să ne trimiți un SMS pentru a-ți verifica numărul de telefon.';
-
-  @override
-  String get phoneInboundStepOpenMessaging =>
-      'Deschide aplicația de mesagerie a telefonului și creează un mesaj text nou.';
-
-  @override
-  String phoneInboundStepSendCode(String code, String number) {
-    return 'Trimite codul $code la $number.';
-  }
-
-  @override
-  String get phoneInboundStepWait =>
-      'Așteaptă să primim mesajul tău. Poate dura un minut.';
-
-  @override
-  String get phoneInboundGetNewCode => 'Cere cod nou';
-
-  @override
-  String get phoneInboundChallengeCodeLabel => 'Cod de trimis';
-
-  @override
-  String get phoneInboundOurNumberLabel => 'Trimite la';
-
-  @override
-  String get requiredActionTitle => 'Verificarea contului este necesară';
-
-  @override
-  String requiredActionIntroGeneric(String productName) {
-    return 'Finalizează verificarea necesară pentru a continua să utilizezi $productName.';
-  }
-
-  @override
-  String get requiredActionIntroPhone =>
-      'Înregistrarea ta necesită o verificare anti-spam suplimentară înainte de a putea continua.';
-
-  @override
-  String requiredActionIntroEmailOrPhone(String productName) {
-    return 'Verifică-ți adresa de e-mail sau numărul de telefon pentru a continua să folosești $productName.';
-  }
-
-  @override
-  String requiredActionIntroEmailAndPhone(String productName) {
-    return 'Finalizează pașii necesari de verificare a adresei de e-mail și a numărului de telefon de mai jos pentru a continua să utilizezi $productName.';
-  }
-
-  @override
-  String get requiredActionChooseMethodTitle => 'Alege o metodă de verificare';
-
-  @override
-  String requiredActionChooseMethodDescription(String productName) {
-    return 'Finalizează una dintre căile de verificare de mai jos pentru a continua să utilizezi $productName.';
-  }
-
-  @override
-  String get requiredActionUseEmail => 'Folosește e-mailul';
-
-  @override
-  String get requiredActionUsePhone => 'Folosește telefonul';
-
-  @override
-  String get requiredActionCheckEmailTitle => 'Verifică-ți e-mailul';
-
-  @override
-  String get requiredActionCheckEmailDescription =>
-      'Am trimis un link de verificare la adresa ta de e-mail. Deschide-l pentru a continua.';
-
-  @override
-  String get requiredActionResendVerificationEmail =>
-      'Retrimite emailul de verificare';
-
-  @override
-  String get requiredActionVerificationEmailSent =>
-      'E-mailul de verificare a fost trimis. Verifică-ți căsuța de e-mail.';
-
-  @override
-  String get requiredActionSignOut => 'Deconectare';
 
   @override
   String get dangerZoneSectionTitle => 'Zonă de risc';
@@ -3319,9 +3034,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get applicationsSearchDocumentation => 'Documentație';
 
   @override
-  String get privacyPendingDeletionTitle => 'Ștergere în așteptare';
-
-  @override
   String get blockedUsersTitle => 'Utilizatori blocați';
 
   @override
@@ -3480,9 +3192,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get userProfileNoteDelete => 'Șterge';
-
-  @override
-  String get userProfileNoteEmpty => 'Dă clic pentru a adăuga o notă';
 
   @override
   String get userProfileMemberSince => 'Membru din';
@@ -4244,14 +3953,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Nu ești membru al acestei comunități de suficient timp pentru a trimite mesaje.';
 
   @override
-  String get channelComposerBarrierNoPhoneNumber =>
-      'Trebuie să-ți verifici numărul de telefon pentru a trimite mesaje în această comunitate.';
-
-  @override
   String get channelComposerBarrierVerifyEmail => 'Verifică adresa de e-mail';
-
-  @override
-  String get channelComposerBarrierVerifyPhone => 'Verifică numărul de telefon';
 
   @override
   String chatAttachmentTooMany(int max) {
@@ -4276,9 +3978,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Eliberează fișierele pentru a le trimite acum';
 
   @override
-  String get chatAttachmentSendVoiceMessage => 'Trimite mesaj vocal';
-
-  @override
   String get voiceMessageTitle => 'Mesaj vocal';
 
   @override
@@ -4296,10 +3995,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Nu se poate începe înregistrarea. Permite accesul la microfon.';
 
   @override
-  String get voiceMessageRecordingNotSupported =>
-      'Înregistrarea vocală nu este acceptată pe acest dispozitiv.';
-
-  @override
   String get voiceMessageMicInUse =>
       'Părăsește apelul vocal pentru a înregistra un mesaj vocal.';
 
@@ -4312,23 +4007,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Nu s-a putut trimite mesajul vocal. Încearcă din nou.';
 
   @override
-  String get voiceMessageRecordingHint =>
-      'Vorbește acum. Apasă Oprește când ai terminat — poți decupa ulterior.';
-
-  @override
-  String get voiceMessageReviewHint =>
-      'Trage de mânere pentru a decupa, apoi apasă Trimite.';
-
-  @override
-  String get voiceMessageStop => 'Oprește';
-
-  @override
-  String get voiceMessageStartRecording => 'Începe înregistrarea';
-
-  @override
-  String get voiceMessageRerecord => 'Reînregistrează';
-
-  @override
   String get voiceMessagePlay => 'Redă';
 
   @override
@@ -4339,16 +4017,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get voiceMessageSeekBackward => 'Derulează înapoi';
-
-  @override
-  String voiceMessageSelectionTooShort(num seconds) {
-    final intl.NumberFormat secondsNumberFormat = intl.NumberFormat.compact(
-      locale: localeName,
-    );
-    final String secondsString = secondsNumberFormat.format(seconds);
-
-    return 'Selecția trebuie să aibă cel puțin ${secondsString}s.';
-  }
 
   @override
   String get chatAttachmentEditTitle => 'Editează atașamentul';
@@ -4493,9 +4161,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get chatAttachmentSourceBrowse => 'Răsfoiește fișiere';
 
   @override
-  String get chatAttachmentPasteTooltip => 'Lipește fișierul din clipboard';
-
-  @override
   String get chatAttachmentSpoiler => 'Spoiler';
 
   @override
@@ -4576,13 +4241,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get matureContentOpenLinkButton => 'Deschide linkul';
 
   @override
-  String get sensitiveContentSectionTitle => 'Conținut sensibil';
-
-  @override
-  String get sensitiveContentSectionDescription =>
-      'Controlează cum sunt filtrate mediile mature sau sensibile în diferite contexte';
-
-  @override
   String get sensitiveContentFriendDmLabel => 'Mesaje directe de la prieteni';
 
   @override
@@ -4601,18 +4259,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get sensitiveContentFilterBlock => 'Blochează';
 
   @override
-  String get sensitiveContentBlurUnscannedLabel =>
-      'Estompează media până la finalizarea scanării de siguranță';
-
-  @override
-  String get sensitiveContentBlurUnscannedDescriptionAdult =>
-      'Când este activată, imaginile și videoclipurile vor fi estompate până la finalizarea scanării de siguranță a conținutului.';
-
-  @override
-  String get sensitiveContentBlurUnscannedDescriptionMinor =>
-      'Această setare este mereu activată pentru contul tău.';
-
-  @override
   String get sensitiveContentResetButton => 'Resetare';
 
   @override
@@ -4628,9 +4274,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
     );
     return 'Se încarcă $_temp0';
   }
-
-  @override
-  String get chatCancelUpload => 'Anulează încărcarea';
 
   @override
   String chatAttachmentExpiresOn(String date) {
@@ -4837,9 +4480,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get connectionEnterDomain => 'Introdu un domeniu.';
 
   @override
-  String get lookAndFeelTitle => 'Aspect și aspect';
-
-  @override
   String get lookAndFeelThemeSectionTitle => 'Temă';
 
   @override
@@ -4900,13 +4540,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   @override
   String get lookAndFeelThemeSyncFailed =>
       'Nu am putut sincroniza tema în contul tău. Te rugăm să încerci din nou.';
-
-  @override
-  String get lookAndFeelChatFontScalingTitle => 'Scalare font chat';
-
-  @override
-  String get lookAndFeelChatFontScalingDescription =>
-      'Ajustează dimensiunea fontului în zona de chat.';
 
   @override
   String get lookAndFeelChatFontSizeLabel => 'Dimensiune font chat';
@@ -5059,39 +4692,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   @override
   String get lookAndFeelHideKeyboardHintsDescription =>
       'Când este activată, insignele de scurtătură sunt ascunse în ferestrele pop-up de ajutor.';
-
-  @override
-  String get lookAndFeelNekoTitle => 'Diverse';
-
-  @override
-  String get lookAndFeelNekoDescription => 'Opțiuni diverse de interfață.';
-
-  @override
-  String get lookAndFeelShowNekoLabel => 'Afișează Neko';
-
-  @override
-  String get lookAndFeelShowNekoDescription =>
-      'Când este activat, Neko apare lângă bara de introducere a mesajului.';
-
-  @override
-  String get lookAndFeelVoiceChannelJoinTitle =>
-      'Comportamentul la intrarea în canalul vocal';
-
-  @override
-  String get lookAndFeelVoiceChannelJoinDescription =>
-      'Controlează cum te alături canalelor vocale în comunități.';
-
-  @override
-  String get lookAndFeelRequireDoubleClickJoinLabel =>
-      'Solicită dublu clic pentru a te alătura canalelor vocale';
-
-  @override
-  String get lookAndFeelRequireDoubleClickJoinDescription =>
-      'Când este activată, va trebui să dai dublu clic pe canalele vocale pentru a te alătura. Când este dezactivată (implicit), un singur clic te va alătura imediat canalului.';
-
-  @override
-  String get lookAndFeelChatFontPreviewSample =>
-      'Vulpea rapidă maro sare peste câinele leneș.';
 
   @override
   String get lookAndFeelGuildSidebarTitle => 'Bară laterală a comunității';
@@ -5555,22 +5155,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Afișează media salvată în completarea automată a expresiilor';
 
   @override
-  String get messagesMediaEditingSectionTitle => 'Editare mesaj';
-
-  @override
-  String get messagesMediaEditingSectionDescription =>
-      'Controlează ce se întâmplă cu schița ta de editare când anulezi.';
-
-  @override
-  String get messagesMediaEditingPreserveDraftLabel =>
-      'Păstrează schița modificărilor la anulare';
-
-  @override
   String get accessibilitySaturationTitle => 'Saturație';
-
-  @override
-  String get accessibilitySaturationDescription =>
-      'Ajustează cât de vii apar culorile temei în aplicație.';
 
   @override
   String get accessibilityVisualGroupTitle => 'Vizual';
@@ -5594,10 +5179,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   @override
   String get accessibilityDmMessagePreviewGroupTitle =>
       'Previzualizări mesaje DM';
-
-  @override
-  String get accessibilityDmMessagePreviewGroupDescription =>
-      'Controlează când sunt afișate previzualizări ale mesajelor în lista de mesaje directe.';
 
   @override
   String get accessibilityDmMessagePreviewModeLabel =>
@@ -5717,10 +5298,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   @override
   String get accessibilityPausedGifByReducedMotion =>
       'Întrerupt din cauza mișcării reduse. Activează pentru a menține GIF-urile în redare.';
-
-  @override
-  String get accessibilityGifDefaultsOffOnMobile =>
-      'Dezactivat implicit pe mobil pentru a economisi bateria și datele mobile.';
 
   @override
   String get accessibilityStickerAnimationsTitle => 'Animații pentru stickere';
@@ -6044,10 +5621,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Nu am putut deconecta celelalte dispozitive. Încearcă din nou peste o clipă.';
 
   @override
-  String get voiceChannelEmptyDescription =>
-      'Acesta este un canal vocal. Conectează-te pentru a începe să vorbești!';
-
-  @override
   String get voiceChannelJoin => 'Alătură-te canalului vocal';
 
   @override
@@ -6086,12 +5659,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get voiceChannelStatusConnecting => 'Se conectează…';
-
-  @override
-  String get voiceChannelStatusConnected => 'Conectat';
-
-  @override
-  String get voiceChannelStatusError => 'Eroare';
 
   @override
   String get voiceParticipantTooltipMobileDevice => 'Dispozitiv mobil';
@@ -6155,9 +5722,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get voiceScreenShareNotificationText => 'Se partajează ecranul.';
-
-  @override
-  String get voiceControlMore => 'Mai multe';
 
   @override
   String get voiceControlDisconnect => 'Deconectare';
@@ -6596,24 +6160,12 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get privacyDashboardFriendRequestsEveryone => 'Toată lumea';
 
   @override
-  String get privacyDashboardFriendRequestsEveryoneDesc =>
-      'Permite oricui să-ți trimită cereri de prietenie';
-
-  @override
   String get privacyDashboardFriendRequestsFriendsOfFriends =>
       'Prieteni ai prietenilor';
 
   @override
-  String get privacyDashboardFriendRequestsFriendsOfFriendsDesc =>
-      'Permite prietenilor prietenilor tăi să-ți trimită cereri';
-
-  @override
   String get privacyDashboardFriendRequestsCommunityMembers =>
       'Membrii comunității';
-
-  @override
-  String get privacyDashboardFriendRequestsCommunityMembersDesc =>
-      'Permite membrilor din comunitățile tale să-ți trimită cereri';
 
   @override
   String get privacyDashboardDirectMessagesTitle => 'Mesaje directe';
@@ -6623,58 +6175,26 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Permite mesaje directe de la membrii comunității';
 
   @override
-  String get privacyDashboardDirectMessagesMembersDesc =>
-      'Permite membrilor din comunitățile tale să-ți trimită mesaje directe';
-
-  @override
   String get privacyDashboardDirectMessagesBots =>
       'Permite mesaje directe de la boții comunității';
-
-  @override
-  String get privacyDashboardDirectMessagesBotsDesc =>
-      'Permite roboților din comunitățile tale să-ți trimită mesaje directe';
-
-  @override
-  String get privacyDashboardConnectionsSectionDesc =>
-      'Controlează cine îți poate trimite cereri de prietenie și mesaje directe';
-
-  @override
-  String get privacyDashboardCommunicationSectionDesc =>
-      'Controlează cine te poate suna și cine te poate adăuga în conversații de grup';
 
   @override
   String get privacyDashboardIncomingCallsTitle => 'Apeluri primite';
 
   @override
-  String get privacyDashboardIncomingCallsDesc =>
-      'Controlează cine te poate suna';
-
-  @override
   String get privacyDashboardAllowedCallers => 'Apelanți permiși';
-
-  @override
-  String get privacyDashboardIncomingCallNobody => 'Nimeni';
 
   @override
   String get privacyDashboardIncomingCallNobodyDesc =>
       'Blochează toate apelurile primite';
 
   @override
-  String get privacyDashboardIncomingCallFriendsOnly => 'Doar prietenii';
-
-  @override
   String get privacyDashboardIncomingCallFriendsOnlyDesc =>
       'Permite doar prietenilor să te sune (recomandat)';
 
   @override
-  String get privacyDashboardIncomingCallCustom => 'Prietenii + Personalizat';
-
-  @override
   String get privacyDashboardIncomingCallCustomDesc =>
       'Permite prietenilor plus grupuri suplimentare pe care le alegi';
-
-  @override
-  String get privacyDashboardIncomingCallEveryone => 'Toată lumea';
 
   @override
   String get privacyDashboardIncomingCallEveryoneDesc =>
@@ -6684,14 +6204,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get privacyDashboardAdditionalGroups => 'Grupuri suplimentare';
 
   @override
-  String get privacyDashboardCallFriendsOfFriendsDesc =>
-      'Persoanele care sunt prietene cu prietenii tăi te pot suna';
-
-  @override
-  String get privacyDashboardCallGuildMembersDesc =>
-      'Persoanele din comunitățile în care vă aflați amândoi vă pot suna';
-
-  @override
   String get privacyDashboardRingBehavior => 'Comportament sonerie';
 
   @override
@@ -6699,16 +6211,8 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Apeluri silențioase de la toată lumea';
 
   @override
-  String get privacyDashboardSilentCallsDesc =>
-      'Toate apelurile vor notifica silențios în loc să sune. Implicit, apelurile de la persoane necunoscute sunt întotdeauna silențioase.';
-
-  @override
   String get privacyDashboardGroupDmTitle =>
       'Cine te poate adăuga la conversații de grup';
-
-  @override
-  String get privacyDashboardGroupDmDesc =>
-      'Controlează cine te poate adăuga în conversații de grup fără să ceară permisiunea. Oricine îți poate trimite în continuare linkuri de invitație pentru a te alătura.';
 
   @override
   String get privacyDashboardAllowedInvites => 'Invitații permise';
@@ -6728,14 +6232,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   @override
   String get privacyDashboardGroupDmEveryoneDesc =>
       'Permite oricui să te adauge în conversații de grup fără să ceară permisiunea';
-
-  @override
-  String get privacyDashboardGroupDmFriendsOfFriendsDesc =>
-      'Persoanele care sunt prietene cu prietenii tăi te pot adăuga în conversații de grup';
-
-  @override
-  String get privacyDashboardGroupDmGuildMembersDesc =>
-      'Persoanele din comunitățile în care vă aflați amândoi vă pot adăuga în conversații de grup';
 
   @override
   String get privacyDashboardVoiceActivityTitle =>
@@ -7698,21 +7194,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Argumente opționale';
 
   @override
-  String get composerAutocompleteChannelsHeading => 'Canale';
-
-  @override
-  String get composerAutocompleteMembersHeading => 'Membri';
-
-  @override
-  String get composerAutocompleteUsersHeading => 'Utilizatori';
-
-  @override
-  String get composerAutocompleteMentionsHeading => 'Mențiuni';
-
-  @override
-  String get composerAutocompleteRolesHeading => 'Roluri';
-
-  @override
   String get composerAutocompleteMediaHeading => 'Media';
 
   @override
@@ -7968,9 +7449,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Datele șablonului comunității sunt invalide sau incorecte.';
 
   @override
-  String get addGuildPackInstalled => 'Pachetul a fost instalat cu succes.';
-
-  @override
   String get chatMessageRemoveAllReactionsConfirmTitle =>
       'Elimină toate reacțiile';
 
@@ -8063,9 +7541,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get channelDetailsDeleteChannel => 'Șterge canalul';
-
-  @override
-  String get channelSettingsCategorySettingsTitle => 'Setări categorie';
 
   @override
   String get channelSettingsEditCategory => 'Editează categoria';
@@ -8267,17 +7742,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Încearcă din nou peste un moment.';
 
   @override
-  String get channelSettingsResetSlider =>
-      'Resetează glisorul la valoarea implicită';
-
-  @override
-  String get channelSettingsAdvanced => 'Avansat';
-
-  @override
-  String get channelSettingsMatureContentOverride =>
-      'Suprascriere conținut matur';
-
-  @override
   String channelSettingsMatureContentSectionDescription(String scopeLevel) {
     return 'Înlocuiește setarea de nivel $scopeLevel pentru acest canal. Conținutul matur este afișat în spatele unui filtru înainte de intrare.';
   }
@@ -8310,12 +7774,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   }
 
   @override
-  String get channelSettingsMatureContentCategorySource => 'categorie';
-
-  @override
-  String get channelSettingsMatureContentCommunitySource => 'comunitate';
-
-  @override
   String get channelSettingsMatureContentCategoryScope => 'Categorie';
 
   @override
@@ -8336,20 +7794,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   @override
   String get channelSettingsContentWarningDefault =>
       'Acest conținut este sensibil.';
-
-  @override
-  String channelSettingsPermissionsNeedManageChannels(
-    String manageChannelsPermissionLabel,
-  ) {
-    return 'Ai nevoie de permisiunea „$manageChannelsPermissionLabel” pentru a edita aceste permisiuni.';
-  }
-
-  @override
-  String channelSettingsPermissionsNeedManageRoles(
-    String manageRolesPermissionLabel,
-  ) {
-    return 'Ai nevoie de permisiunea „$manageRolesPermissionLabel” pentru a edita aceste permisiuni.';
-  }
 
   @override
   String get channelSettingsUnknownRole => 'Rol necunoscut';
@@ -8424,9 +7868,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Caută roluri sau membri…';
 
   @override
-  String get channelSettingsPermissionsRolesAndMembers => 'Roluri și membri';
-
-  @override
   String get channelSettingsDeleteInvite => 'Șterge invitația';
 
   @override
@@ -8499,9 +7940,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String channelSettingsWebhooksCreatedBy(String creator, String date) {
     return 'Creat de $creator pe $date';
   }
-
-  @override
-  String get channelSettingsWebhooksUnknownUser => 'Utilizator necunoscut';
 
   @override
   String get channelSettingsWebhooksAvatar => 'Avatar';
@@ -8657,9 +8095,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get channelDetailsPinsEndReached => 'Ai ajuns la final';
-
-  @override
-  String get channelHeaderOpenDetails => 'Deschide detaliile canalului';
 
   @override
   String get channelHeaderPinnedMessages => 'Mesaje fixate';
@@ -9126,9 +8561,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get groupDmEditTitle => 'Editează grupul';
 
   @override
-  String get groupDmEditDetailsTooltip => 'Editează detaliile grupului';
-
-  @override
   String get groupDmGroupName => 'Numele grupului';
 
   @override
@@ -9181,13 +8613,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get groupDmUnsupportedIconFormatBody => 'Tip de fișier neacceptat.';
 
   @override
-  String get groupDmCouldntProcessImage => 'Nu s-a putut procesa imaginea';
-
-  @override
-  String get groupDmFailedToProcessCroppedImage =>
-      'Procesarea imaginii decupate a eșuat. Încearcă din nou.';
-
-  @override
   String get groupDmInvalidImage => 'Imagine nevalidă';
 
   @override
@@ -9214,19 +8639,12 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Nu s-a putut adăuga acest prieten în grup. Te rugăm să încerci din nou.';
 
   @override
-  String get groupDmAddFailed => 'Nu s-a putut adăuga în grup';
-
-  @override
   String get groupDmGroupFull =>
       'Acest grup este plin. Elimină pe cineva înainte de a adăuga mai multe persoane.';
 
   @override
   String get groupDmRateLimited =>
       'Mergi prea repede. Așteaptă un moment și încearcă din nou.';
-
-  @override
-  String get groupDmCreateInviteFailed =>
-      'Nu s-a putut crea linkul de invitație';
 
   @override
   String get groupDmCreateInviteFailedBody =>
@@ -9431,9 +8849,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get userSettingsSearchPlaceholder => 'Caută setări...';
 
   @override
-  String get userSettingsSearchFieldLabel => 'Caută în setări';
-
-  @override
   String get userSettingsSearchClear => 'Șterge căutarea';
 
   @override
@@ -9513,14 +8928,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get giftSettingsCopied => 'Copiat';
 
   @override
-  String get giftSettingsGiftUrlCopied =>
-      'Adresa URL a cadoului a fost copiată în clipboard!';
-
-  @override
-  String get giftSettingsGiftUrlCopyFailed =>
-      'Nu s-a putut copia URL-ul cadoului';
-
-  @override
   String giftSettingsPurchasedDate(String date) {
     return 'Cumpărat $date';
   }
@@ -9588,9 +8995,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get premiumOneMonthGift => 'Cadou 1 lună';
 
   @override
-  String get premiumMostPopular => 'Cel mai popular';
-
-  @override
   String get premiumScrollPrompt =>
       'Derulează în jos pentru a vedea toate beneficiile incluse cu Plutonium';
 
@@ -9625,26 +9029,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get premiumReadyToBuyGift => 'Ești gata să cumperi un cadou?';
 
   @override
-  String premiumMonthlyPrice(String price) {
-    return 'Lunar $price';
-  }
-
-  @override
-  String premiumYearlyPrice(String price) {
-    return 'Anual $price';
-  }
-
-  @override
-  String premiumOneYearPrice(String price) {
-    return '1 an $price';
-  }
-
-  @override
-  String premiumOneMonthPrice(String price) {
-    return '1 lună $price';
-  }
-
-  @override
   String get premiumManageSubscription => 'Gestionează abonamentul';
 
   @override
@@ -9664,9 +9048,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get premiumCancelSubscriptionConfirm => 'Anulează abonamentul';
 
   @override
-  String get premiumKeepSubscription => 'Păstrează abonamentul';
-
-  @override
   String get premiumPurchaseHistoryTitle => 'Istoric achiziții';
 
   @override
@@ -9675,12 +9056,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get premiumManagePaymentMethods => 'Gestionează metodele de plată';
-
-  @override
-  String get premiumBillingHistory => 'Istoricul plăților';
-
-  @override
-  String get premiumSelfServeRefundTitle => 'Rambursare automată';
 
   @override
   String get premiumSelfServeRefundButton => 'Restituie ultima achiziție';
@@ -9727,11 +9102,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get premiumComparisonFeatureColumn => 'Funcție';
-
-  @override
-  String premiumDisclaimerPurchased(String terms, String privacy) {
-    return 'Prin achiziție, ai acceptat $terms și $privacy.';
-  }
 
   @override
   String get premiumDisclaimerRefund =>
@@ -9828,26 +9198,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Trebuie să îți verifici emailul înainte de a putea achiziționa Fluxer Plutonium.';
 
   @override
-  String get premiumPerkCustomUsernameTag => 'Tag de utilizator personalizat';
-
-  @override
-  String get premiumPerkPerCommunityProfiles =>
-      'Profiluri pentru fiecare comunitate';
-
-  @override
-  String get premiumPerkMessageScheduling => 'Programare mesaje';
-
-  @override
-  String get premiumPerkProfileBadge => 'Insignă de profil';
-
-  @override
-  String get premiumPerkCustomVideoBackgrounds =>
-      'Fundaluri video personalizate';
-
-  @override
-  String get premiumPerkEntranceSounds => 'Sunete de intrare';
-
-  @override
   String get premiumPerkCommunities => 'Comunități';
 
   @override
@@ -9860,17 +9210,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get premiumPerkFileUploadSize => 'Dimensiune fișier încărcat';
 
   @override
-  String get premiumPerkEmojiStickerPacks => 'Pachete de emoji și stickere';
-
-  @override
-  String get premiumPerkSavedMedia => 'Elemente media salvate';
-
-  @override
   String get premiumPerkUseAnimatedEmojis => 'Folosește emoji animate';
-
-  @override
-  String get premiumPerkGlobalEmojiStickerAccess =>
-      'Acces global la emoji și stickere';
 
   @override
   String get premiumPerkVideoQuality => 'Calitatea video';
@@ -9881,9 +9221,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get premiumPerkEarlyAccess => 'Acces timpuriu la funcții noi';
-
-  @override
-  String get premiumPerkCustomThemes => 'Teme personalizate';
 
   @override
   String get premiumPerkVideoQualityRestricted => '720p/30fps';
@@ -10203,11 +9540,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get audioAndVideoMicTestStopLabel => 'Oprește testul microfonului';
 
   @override
-  String audioAndVideoMicTestPermissionRequired(String productName) {
-    return '$productName are nevoie de acces la microfon pentru a testa intrarea audio.';
-  }
-
-  @override
   String get audioAndVideoCameraLabel => 'Cameră';
 
   @override
@@ -10242,23 +9574,8 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get audioAndVideoFrameRate60Label => '60 FPS';
 
   @override
-  String audioAndVideoHigherQualityRequiresPremium(String premiumProductName) {
-    return '1080p și 60 FPS necesită $premiumProductName.';
-  }
-
-  @override
   String get audioAndVideoInstanceVideoQualityLimit =>
       'Instanța curentă permite partajarea ecranului până la 720p la 30 FPS.';
-
-  @override
-  String audioAndVideoMicrophonePermissionRequired(String productName) {
-    return '$productName are nevoie de acces la microfon pentru a-ți afișa dispozitivele.';
-  }
-
-  @override
-  String audioAndVideoCameraPermissionRequired(String productName) {
-    return '$productName are nevoie de acces la cameră pentru a-ți afișa dispozitivele.';
-  }
 
   @override
   String get audioAndVideoSkipHideOwnCameraConfirmLabel =>
@@ -10289,14 +9606,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   @override
   String get notificationsEnableDesktopNotificationsDescription =>
       'Folosește centrul de notificări al sistemului de operare. Pentru control la nivel de canal/comunitate, dă clic dreapta pe o pictogramă de comunitate și deschide setările de notificare.';
-
-  @override
-  String get notificationsEnableBrowserNotificationsLabel =>
-      'Activează notificările în browser';
-
-  @override
-  String get notificationsEnableBrowserNotificationsDescription =>
-      'Primești notificări când îți sosesc mesaje. S-ar putea să fie nevoie să permiți notificările în setările browserului. Pentru controlul pe canal sau pe comunitate, dă clic dreapta pe pictograma unei comunități și deschide setările de notificare.';
 
   @override
   String get notificationsPushInactiveTimeoutLabel =>
@@ -10595,10 +9904,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Alege limba folosită în aplicație';
 
   @override
-  String get languageAndTimeOpenLanguageSettings =>
-      'Deschide setările de limbă';
-
-  @override
   String get languageAndTimeTimeFormatSectionTitle => 'Format oră';
 
   @override
@@ -10838,10 +10143,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Acordă încredere tuturor linkurilor externe';
 
   @override
-  String get advancedSettingTrustAllLinksDescription =>
-      'Omite avertismentul de link extern pentru toate domeniile';
-
-  @override
   String get advancedSettingSearchEnginesLabel => 'Motoare de căutare';
 
   @override
@@ -11045,27 +10346,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   @override
   String get advancedSettingDeveloperModeDescription =>
       'Activează modul dezvoltator';
-
-  @override
-  String get advancedSettingSearchEngineGoogle => 'Google';
-
-  @override
-  String get advancedSettingSearchEngineDuckDuckGo => 'DuckDuckGo';
-
-  @override
-  String get advancedSettingSearchEngineBing => 'Bing';
-
-  @override
-  String get advancedSettingSearchEngineGoogleLens => 'Google Lens';
-
-  @override
-  String get advancedSettingSearchEngineTinEye => 'TinEye';
-
-  @override
-  String get advancedSettingTranslatorGoogle => 'Traducere Google';
-
-  @override
-  String get advancedSettingTranslatorDeepL => 'DeepL';
 
   @override
   String get advancedSettingDefaultSearchEngineLabel =>
@@ -12174,10 +11454,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get guildMenuSettingsWebhooks => 'Webhook-uri';
 
   @override
-  String get guildMenuSettingsCustomInviteUrl =>
-      'URL de invitație personalizată';
-
-  @override
   String get guildMenuSettingsDiscovery => 'Discovery';
 
   @override
@@ -12200,33 +11476,13 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get guildSettingsOverviewIconTitle => 'Pictogramă';
 
   @override
-  String get guildSettingsUploadImage => 'Încarcă imaginea';
-
-  @override
   String get guildSettingsOverviewBannerTitle => 'Banner';
-
-  @override
-  String get guildSettingsOverviewBannerHint =>
-      'Încarcă un banner pentru serverul tău.';
 
   @override
   String get guildSettingsOverviewNameTitle => 'Nume';
 
   @override
   String get guildSettingsOverviewNameHint => 'Comunitatea mea minunată';
-
-  @override
-  String get guildSettingsOverviewStatsTitle => 'Statistici';
-
-  @override
-  String get guildSettingsOverviewMembers => 'Membri';
-
-  @override
-  String get guildSettingsOverviewOnline => 'Conectat';
-
-  @override
-  String get guildSettingsRolesDescription =>
-      'Folosește roluri pentru a grupa membrii și a le atribui permisiuni.';
 
   @override
   String get guildSettingsCreateRole => 'Creează rol';
@@ -12304,32 +11560,13 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get guildSettingsRolesComfyLayout => 'Aspect confortabil';
 
   @override
-  String get guildSettingsRolesSwitchToDenseLayout =>
-      'Treci la aspectul compact';
-
-  @override
-  String get guildSettingsRolesSwitchToComfyLayout =>
-      'Treci la aspectul confortabil';
-
-  @override
   String get guildSettingsRolesSingleColumn => 'O singură coloană';
 
   @override
   String get guildSettingsRolesTwoColumns => 'Două coloane';
 
   @override
-  String get guildSettingsRolesSwitchToSingleColumn =>
-      'Treci la o singură coloană';
-
-  @override
-  String get guildSettingsRolesSwitchToTwoColumns => 'Treci la două coloane';
-
-  @override
   String get guildSettingsRolesNoPermissionsFound => 'Nu s-au găsit permisiuni';
-
-  @override
-  String get guildSettingsRolesCustomHoistOrder =>
-      'Ordine personalizată de afișare';
 
   @override
   String get guildSettingsRolesHoistOrder => 'Ordine de afișare';
@@ -12345,10 +11582,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   @override
   String get guildSettingsRolesNoHoistedRoles =>
       'Nu există roluri afișate separat. Activează „Afișează acest rol separat” pentru un rol ca să-l vezi aici.';
-
-  @override
-  String get guildSettingsRolesLockedTooltip =>
-      'Nu poți edita acest rol, deoarece este rolul tău cel mai înalt sau este deasupra ta';
 
   @override
   String guildSettingsRolesNeedManageRolesPermission(String permission) {
@@ -12433,9 +11666,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get permissionCategoryAudioVideo => 'Audio și video';
-
-  @override
-  String get permissionUnknown => 'Permisiune necunoscută';
 
   @override
   String get permissionAdministrator => 'Administrator';
@@ -13014,17 +12244,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   }
 
   @override
-  String guildSettingsEmojiSlotInfo(int staticCount, int animatedCount) {
-    return '$staticCount emoji statice, $animatedCount emoji animate folosite';
-  }
-
-  @override
   String get guildSettingsEmojiEmpty => 'Încă nu există emoji personalizate.';
-
-  @override
-  String guildSettingsStickersSlotInfo(int count) {
-    return '$count stickere încărcate';
-  }
 
   @override
   String get guildSettingsStickersEmpty =>
@@ -13090,13 +12310,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Necesită totul la nivel mediu, plus să fii membru al comunității de cel puțin 10 minute.';
 
   @override
-  String get guildSettingsVerificationHighest => 'Foarte ridicat';
-
-  @override
-  String get guildSettingsVerificationHighestDescription =>
-      'Necesită un număr de telefon verificat.';
-
-  @override
   String get guildSettingsAuditLogDescription =>
       'Urmărește acțiunile moderatorilor în comunitate.';
 
@@ -13119,14 +12332,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get guildSettingsAuditLogUnknownUser => 'Utilizator necunoscut';
-
-  @override
-  String get guildSettingsAuditLogLoadError =>
-      'A apărut o eroare la încărcarea jurnalului de activitate.';
-
-  @override
-  String get guildSettingsAuditLogLoadErrorTitle =>
-      'Nu se pot încărca jurnalele de activitate';
 
   @override
   String get guildSettingsAuditLogReason => 'Motiv';
@@ -13702,12 +12907,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Acordă calitatea de membru permanent.';
 
   @override
-  String get guildSettingsLoadMore => 'Încarcă mai multe';
-
-  @override
-  String get guildSettingsLoadingMore => 'Se încarcă...';
-
-  @override
   String get guildSettingsWebhooksDescription =>
       'Vezi și gestionează fiecare webhook configurat în comunitatea ta.';
 
@@ -13743,31 +12942,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get guildSettingsUnknownChannel => 'Canal necunoscut';
 
   @override
-  String get guildSettingsCopyUrl => 'Copiază URL';
-
-  @override
   String get guildSettingsCopiedUrl => 'URL copiat în clipboard';
-
-  @override
-  String get guildSettingsDeleteWebhook => 'Șterge webhook-ul';
-
-  @override
-  String get guildSettingsVanityUrlDescription =>
-      'Setează un link de invitație personalizat pentru serverul tău.';
-
-  @override
-  String get guildSettingsVanityUrlHint => 'my-server';
-
-  @override
-  String get guildSettingsSave => 'Salvează';
-
-  @override
-  String get guildSettingsVanityUrlUsageTitle => 'Utilizare';
-
-  @override
-  String guildSettingsVanityUrlUses(int count) {
-    return '$count utilizări';
-  }
 
   @override
   String get guildSettingsDiscoveryDescription =>
@@ -13909,10 +13084,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Încearcă din nou peste un moment.';
 
   @override
-  String get guildSettingsMembersDescription =>
-      'Caută și gestionează membrii serverului.';
-
-  @override
   String get guildSettingsMembersSearchHint =>
       'Caută după nume de utilizator sau ID';
 
@@ -13954,9 +13125,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get guildMembersColumnRoles => 'Roluri';
-
-  @override
-  String get guildMembersColumnActions => 'Acțiuni';
 
   @override
   String get guildMembersFilterMemberSince => 'Filtrează după data alăturării';
@@ -14025,17 +13193,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get guildMembersIndexing => 'Se indexează membrii…';
 
   @override
-  String get guildMembersGoToPage => 'Mergi la pagină';
-
-  @override
-  String guildMembersGoToPageItem(int page) {
-    return 'Mergi la pagina $page';
-  }
-
-  @override
-  String get guildMembersJumpToPage => 'Salt la pagină';
-
-  @override
   String get guildMembersJoinSourceCreator => 'Creatorul comunității';
 
   @override
@@ -14098,21 +13255,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   }
 
   @override
-  String guildMembersJoinedDaysAgo(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'acum # zile',
-      one: 'acum 1 zi',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String get guildMembersChannelListLabel => 'Membri';
-
-  @override
-  String get guildMembersChannelListSelected => 'Membri, selectați';
 
   @override
   String get guildSettingsInvitesTitle => 'Invitații';
@@ -14222,16 +13365,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Linkul ar putea fi încă activ. Încearcă din nou mai târziu.';
 
   @override
-  String guildSettingsInviteUses(int uses, int maxUses) {
-    return '$uses / $maxUses utilizări';
-  }
-
-  @override
-  String guildSettingsInviteExpires(String date) {
-    return 'Expiră $date';
-  }
-
-  @override
   String get guildSettingsBansDescription =>
       'Vizualizează și gestionează utilizatorii banați.';
 
@@ -14242,21 +13375,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get guildSettingsBansEmpty => 'Niciun utilizator blocat.';
 
   @override
-  String get guildSettingsBanPermanent => 'Interdicție permanentă';
-
-  @override
-  String guildSettingsBanExpires(String date) {
-    return 'Expiră la $date';
-  }
-
-  @override
   String get guildSettingsBanExpiresLabel => 'Expiră';
-
-  @override
-  String get guildSettingsUnban => 'Eliminare interdicție';
-
-  @override
-  String get guildSettingsBansLoading => 'Se încarcă utilizatorii banați';
 
   @override
   String get guildSettingsBansNoSearchResults =>
@@ -14286,10 +13405,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String guildSettingsRevokeBanSuccess(String displayName) {
     return 'A anulat interdicția pentru $displayName';
   }
-
-  @override
-  String get guildSettingsBansLoadError =>
-      'Nu am putut încărca interdicțiile. Încearcă din nou.';
 
   @override
   String get guildSettingsRevokeBanError =>
@@ -14325,10 +13440,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get guildSettingsCategoryPeople => 'PEOPLE';
 
   @override
-  String get guildSettingsOverviewDescription =>
-      'Gestionează profilul, canalele și setările implicite ale comunității tale.';
-
-  @override
   String get guildSettingsOverviewBrandingTitle => 'Branding';
 
   @override
@@ -14360,9 +13471,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Comunitățile cu peste 250 de persoane sunt forțate să utilizeze setarea „doar mențiuni”. Setarea ta inițială este păstrată și va fi restabilită dacă numărul membrilor comunității scade sub 250.';
 
   @override
-  String get guildSettingsOverviewAdvancedTitle => 'Avansat';
-
-  @override
   String get guildSettingsOverviewFlexibleNames =>
       'Permite nume flexibile pentru canalele text';
 
@@ -14389,10 +13497,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   @override
   String get guildSettingsOverviewEmbedSplashTitle =>
       'Fundalul încorporării din chat';
-
-  @override
-  String get guildSettingsOverviewEmbedSplashHint =>
-      'Afișat în încorporările de invitație din chat.';
 
   @override
   String get guildSettingsOverviewUploadBackground =>
@@ -14569,14 +13673,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'JPEG, PNG, WebP, AVIF. Max. 10 MB. Minim: 960×540px (16:9). Afișat în previzualizările invitațiilor în chat.';
 
   @override
-  String get guildSettingsModerationDescription =>
-      'Configure verificarea, filtrarea conținutului și setările pentru conținut explicit.';
-
-  @override
-  String get guildSettingsModerationDiscoveryNotice =>
-      'Comunitățile listate la Descoperire au opțiuni de moderare restricționate.';
-
-  @override
   String get guildSettingsModerationContentFilterTitle =>
       'Filtrarea conținutului';
 
@@ -14611,12 +13707,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Protecție maximă pentru spații potrivite familiilor';
 
   @override
-  String get guildSettingsModerationMatureOff => 'Dezactivat';
-
-  @override
-  String get guildSettingsModerationMatureOn => 'Activat';
-
-  @override
   String get guildSettingsContentWarningToggle =>
       'Afișează un avertisment de conținut';
 
@@ -14644,10 +13734,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Solicită 2FA pentru acțiunile de moderare';
 
   @override
-  String get guildSettingsModeration2faOwnerOnlyTooltip =>
-      'Doar proprietarul comunității poate schimba această setare';
-
-  @override
   String get guildSettingsModeration2faEnableFirstTooltip =>
       'Activează autentificarea în doi pași pentru a schimba această setare';
 
@@ -14673,10 +13759,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Nu s-au găsit emoji-uri care să corespundă căutării tale.';
 
   @override
-  String get guildSettingsEmojiNoSlots =>
-      'Nu sunt sloturi disponibile pentru emoji-uri';
-
-  @override
   String get guildSettingsEmojiSlotsFull =>
       'Ai atins numărul maxim de emoji-uri. Șterge câteva emoji-uri existente pentru a face loc.';
 
@@ -14686,30 +13768,8 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsEmojiUploadingTitle => 'Se încarcă emoji';
-
-  @override
-  String guildSettingsEmojiUploadingBody(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '# emojiuri',
-      one: '# emoji',
-    );
-    return 'Se încarcă $_temp0. Acest proces poate dura puțin.';
-  }
-
-  @override
-  String get guildSettingsEmojiUploadFailed =>
-      'Nu s-au putut încărca emoji-urile. Încearcă din nou.';
-
-  @override
   String get guildSettingsEmojiSomeFailedTitle =>
       'Unele emoji-uri nu au putut fi adăugate';
-
-  @override
-  String get guildSettingsEmojiSomeFailedBody =>
-      'Revizuiește aceste fișiere și încearcă din nou cu imagini mai mici sau mai simple.';
 
   @override
   String get guildSettingsEmojiRenameTitle => 'Redenumește emoji-ul';
@@ -14719,16 +13779,10 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       '2-32 caractere, litere, cifre, cratime de subliniere.';
 
   @override
-  String get guildSettingsEmojiColumnEmoji => 'Emoji';
-
-  @override
   String get guildSettingsEmojiColumnName => 'Nume';
 
   @override
   String get guildSettingsEmojiColumnUploader => 'Încărcat de';
-
-  @override
-  String get guildSettingsEmojiUnknownUploader => 'Necunoscut';
 
   @override
   String get guildSettingsEmojiDeleteTitle => 'Șterge emoji';
@@ -14758,38 +13812,8 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Nu s-a putut redenumi acest emoji';
 
   @override
-  String get guildSettingsEmojiRenameFailedBody =>
-      'Numele a revenit la cel anterior. Încearcă din nou mai târziu.';
-
-  @override
-  String get guildSettingsEmojiGoneTitle => 'Acest emoji nu mai există';
-
-  @override
-  String get guildSettingsEmojiGoneBody =>
-      'Este posibil să fi fost șters. Numele a revenit la cel inițial.';
-
-  @override
-  String get guildSettingsEmojiNoPermissionRenameTitle =>
-      'Nu poți redenumi acest emoji';
-
-  @override
-  String get guildSettingsEmojiNoPermissionRenameBody =>
-      'Nu ai permisiunea de a redenumi acest emoji. Numele a revenit la cel anterior.';
-
-  @override
-  String get guildSettingsEmojiRateLimitedTitle => 'Mergi prea repede';
-
-  @override
-  String get guildSettingsEmojiRateLimitedBody =>
-      'Te rugăm să aștepți un moment și să încerci să redenumești din nou.';
-
-  @override
   String get guildSettingsEmojiDeleteFailedTitle =>
       'Nu s-a putut șterge acest emoji';
-
-  @override
-  String get guildSettingsEmojiDeleteNoPermissionTitle =>
-      'Nu poți șterge acest emoji';
 
   @override
   String get guildSettingsCloneEmojiTitle =>
@@ -14865,13 +13889,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Nu s-au găsit stickere care să se potrivească căutării tale.';
 
   @override
-  String get guildSettingsStickersEmptySearch => 'Nu s-au găsit stickere';
-
-  @override
-  String get guildSettingsStickerNoSlots =>
-      'Nu sunt sloturi disponibile pentru stickere';
-
-  @override
   String get guildSettingsStickerSlotsFull =>
       'Ai atins numărul maxim de stickere. Șterge câteva stickere existente pentru a face loc.';
 
@@ -14879,10 +13896,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String guildSettingsStickerUploadRequirements(String maxSize) {
     return 'Stickerele sunt salvate la 320x320 pixeli și trebuie să aibă mai puțin de $maxSize. Imaginile statice sunt redimensionate și comprimate automat. Stickerele animate și SVG-urile trebuie să respecte deja limita.';
   }
-
-  @override
-  String get guildSettingsStickerUnsupportedTitle =>
-      'Fișier sticker neacceptat';
 
   @override
   String get guildSettingsStickerAddTitle => 'Adaugă sticker';
@@ -14933,13 +13946,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Nu s-a putut crea acest sticker';
 
   @override
-  String get guildSettingsStickerTooLargeTitle => 'Stickerul este prea mare';
-
-  @override
-  String get guildSettingsStickerCompressFailedTitle =>
-      'Stickerul nu a putut fi comprimat suficient';
-
-  @override
   String get guildSettingsStickerDeleteTitle => 'Șterge stickerul';
 
   @override
@@ -14956,20 +13962,9 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
       'Nu s-a putut șterge acest sticker';
 
   @override
-  String get guildSettingsStickerDeleteNoPermissionTitle =>
-      'Nu poți șterge acest sticker';
-
-  @override
   String guildSettingsWebhooksInfo(String channelSettingsPath) {
     return 'Pentru a crea un webhook, deschide $channelSettingsPath. Poți edita și organiza în continuare toți webhook-urile existente aici.';
   }
-
-  @override
-  String get guildSettingsVanityUrlWarning =>
-      'URL-ul tău personalizat nu va funcționa decât dacă cel puțin un canal este vizibil pentru toată lumea.';
-
-  @override
-  String get guildSettingsVanityUrlRemove => 'Elimină';
 
   @override
   String get guildSettingsBannedUsersTitle => 'Utilizatori banați';
@@ -15458,12 +14453,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get channelFollowChannel => 'Canal';
 
   @override
-  String get channelFollowSelectCommunity => 'Select a community';
-
-  @override
-  String get channelFollowSelectChannel => 'Select a channel';
-
-  @override
   String get channelFollowAgeWarning =>
       'Acesta este un canal cu restricție de vârstă. Actualizările pot merge doar către canale cu restricție de vârstă.';
 
@@ -15625,15 +14614,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get channelSettingsUnfollow => 'Nu mai urmări';
 
   @override
-  String get channelSettingsUnfollowFailed =>
-      'Couldn\'t unfollow this channel.';
-
-  @override
-  String channelSettingsDeliveredTo(String channelName) {
-    return 'Delivered to #$channelName';
-  }
-
-  @override
   String get crosspostCommunityTitle => 'Comunitate';
 
   @override
@@ -15645,10 +14625,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   @override
   String get crosspostSourceFailed =>
       'Nu am putut încărca această comunitate. Încearcă din nou peste o clipă.';
-
-  @override
-  String get crosspostSourceUnavailable =>
-      'This community is no longer available';
 
   @override
   String crosspostMembers(int count) {

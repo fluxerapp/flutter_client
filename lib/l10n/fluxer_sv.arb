@@ -28,10 +28,6 @@
     "@retry": {
         "description": "Generic label for retry actions (splash, errors, network, etc.)."
     },
-    "connectingCaps": "CONNECTING",
-    "@connectingCaps": {
-        "description": "Connecting text on the splash screen"
-    },
     "splashConnectionLost": "Anslutningen bröts",
     "@splashConnectionLost": {
         "description": "Fallback headline on splash when gateway is unavailable (web parity)."
@@ -93,10 +89,6 @@
             }
         }
     },
-    "ssoRequired": "SSO krävs för att komma åt den här instansen.",
-    "@ssoRequired": {
-        "description": "Short sign-in note shown when the instance requires single sign-on."
-    },
     "organizationSsoProvider": "Logga in med din organisations SSO-leverantör.",
     "@organizationSsoProvider": {
         "description": "Description shown when sign-in is restricted to the configured SSO provider."
@@ -117,10 +109,6 @@
                 "type": "String"
             }
         }
-    },
-    "logInViaBrowser": "Logga in via webbläsare",
-    "@logInViaBrowser": {
-        "description": "Secondary login that opens or uses the system browser."
     },
     "needAccountPrompt": "Behöver du ett konto? ",
     "@needAccountPrompt": {
@@ -232,26 +220,9 @@
     "@accountAdd": {
         "description": "Button to add a new account."
     },
-    "accountRemove": "Ta bort",
-    "@accountRemove": {
-        "description": "Context menu option to remove a stored account."
-    },
-    "accountRemoveTitle": "Ta bort {username}",
-    "@accountRemoveTitle": {
-        "description": "Title for the remove account confirmation modal.",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
     "accountRemoveDescription": "Detta tar bort den sparade sessionen för det här kontot.",
     "@accountRemoveDescription": {
         "description": "Description for the remove account confirmation modal."
-    },
-    "accountRemoveOnlyDescription": "Detta tar bort det enda sparade kontot på den här enheten.",
-    "@accountRemoveOnlyDescription": {
-        "description": "Description when removing the last stored account."
     },
     "accountExpired": "Utgånget",
     "@accountExpired": {
@@ -783,10 +754,6 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsent": "Jag godkänner användarvillkoren och integritetspolicyn",
-    "@registerConsent": {
-        "description": "Consent checkbox label for registration (plain text fallback)."
-    },
     "registerConsentPrefix": "Jag godkänner ",
     "@registerConsentPrefix": {
         "description": "Text before the Terms of Service link in the consent checkbox."
@@ -830,10 +797,6 @@
     "passkeyTimeout": "Passkey-autentiseringen tog för lång tid. Försök igen.",
     "@passkeyTimeout": {
         "description": "Error when passkey authentication times out."
-    },
-    "passkeyNotAvailable": "Passkeys är inte tillgängliga för den här appen. Logga in med e-post och lösenord istället.",
-    "@passkeyNotAvailable": {
-        "description": "Error for unknown passkey provider errors (e.g. TYPE_UNKNOWN)."
     },
     "passkeyFailed": "Autentisering med lösennyckel misslyckades. Försök igen.",
     "@passkeyFailed": {
@@ -941,26 +904,6 @@
     "inviteAcceptSomeone": "någon",
     "@inviteAcceptSomeone": {
         "description": "Fallback inviter name when the inviter is unknown."
-    },
-    "inviteAcceptEmojiPack": "Emotipaket",
-    "@inviteAcceptEmojiPack": {
-        "description": "Label for an emoji pack invite."
-    },
-    "inviteAcceptStickerPack": "Klistermärkespaket",
-    "@inviteAcceptStickerPack": {
-        "description": "Label for a sticker pack invite."
-    },
-    "inviteAcceptInstallEmojiPack": "Installera emotipaket",
-    "@inviteAcceptInstallEmojiPack": {
-        "description": "Primary action to install an emoji pack from an invite."
-    },
-    "inviteAcceptInstallStickerPack": "Installera klistermärkespaket",
-    "@inviteAcceptInstallStickerPack": {
-        "description": "Primary action to install a sticker pack from an invite."
-    },
-    "inviteAcceptPackInstallNote": "Genom att acceptera denna inbjudan installeras paketet automatiskt.",
-    "@inviteAcceptPackInstallNote": {
-        "description": "Note shown on expression pack invites before accepting."
     },
     "mentionUnknownChannel": "okänd-kanal",
     "@mentionUnknownChannel": {
@@ -1708,10 +1651,6 @@
             }
         }
     },
-    "emojiPlutoniumUpsellButton": "Skaffa Plutonium",
-    "@emojiPlutoniumUpsellButton": {
-        "description": "Button label on the Plutonium upsell banner."
-    },
     "emojiPlutoniumUpsellDismiss": "Visa inte igen",
     "@emojiPlutoniumUpsellDismiss": {
         "description": "Dismiss link on the Plutonium upsell banner."
@@ -1878,10 +1817,6 @@
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
     },
-    "fluxerTagInputLabel": "Användarnamn",
-    "@fluxerTagInputLabel": {
-        "description": "Label above the username and discriminator input fields."
-    },
     "fluxerTagDescriptionBase": "Användarnamn får bara innehålla bokstäver (a-z, A-Z), siffror (0-9) och understreck. Användarnamn är inte skiftlägeskänsliga.",
     "@fluxerTagDescriptionBase": {
         "description": "Base description text on the username change sheet."
@@ -1909,10 +1844,6 @@
     "validationAllowedChars": "Endast bokstäver (a-z, A-Z), siffror (0-9) och understreck (_)",
     "@validationAllowedChars": {
         "description": "Validation rule for allowed username characters."
-    },
-    "discriminatorPremiumTooltip": "Skaffa Plutonium för att anpassa din tagg eller behålla den när du ändrar ditt användarnamn",
-    "@discriminatorPremiumTooltip": {
-        "description": "Tooltip on disabled discriminator field for non-premium users."
     },
     "fluxerTagAlreadyTaken": "Användarnamnet används redan",
     "@fluxerTagAlreadyTaken": {
@@ -1967,19 +1898,6 @@
     "premiumUpsellCustomizeTag": "Anpassa din 4-siffriga tagg eller behåll den när du ändrar ditt användarnamn",
     "@premiumUpsellCustomizeTag": {
         "description": "Upsell text encouraging non-premium users to get Plutonium for tag customization."
-    },
-    "premiumTrialExpiresOn": "Din Plutonium-prövoperiod löper ut den {date}. Uppgradera för att behålla din anpassade tagg och få en badge på din profil.",
-    "@premiumTrialExpiresOn": {
-        "description": "Trial upsell with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActive": "Du är på en Plutonium-prövoperiod. Uppgradera för att behålla din anpassade tagg och få en badge på din profil.",
-    "@premiumTrialActive": {
-        "description": "Trial upsell without specific expiry date."
     },
     "fluxerTagUpdated": "Användarnamnet uppdaterat",
     "@fluxerTagUpdated": {
@@ -2153,32 +2071,6 @@
     "@hideVisionaryIdDescription": {
         "description": "Description for the toggle to hide the Visionary ID badge."
     },
-    "premiumTrialSubscriptionStarts": "Du har en Plutonium-prövperiod — din prenumeration startar {date}",
-    "@premiumTrialSubscriptionStarts": {
-        "description": "Trial banner title when user has an active subscription pending after trial.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialSubscriptionStartsDescription": "Din prenumeration börjar automatiskt när din prövperiod slutar. Ingen åtgärd krävs.",
-    "@premiumTrialSubscriptionStartsDescription": {
-        "description": "Trial banner description when user has an active subscription pending after trial."
-    },
-    "premiumTrialExpiresOnProfile": "Du har en Plutonium-prövperiod som löper ut {date}",
-    "@premiumTrialExpiresOnProfile": {
-        "description": "Trial banner title with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActiveProfile": "Du har en Plutonium-prövperiod",
-    "@premiumTrialActiveProfile": {
-        "description": "Trial banner title without specific expiry date."
-    },
     "avatarDescriptionNonPremium": "JPEG, PNG, WebP. Max 10MB. Rekommenderas: 512×512px. Animerade avatarer (GIF) kräver Plutonium.",
     "@avatarDescriptionNonPremium": {
         "description": "Avatar helper text for non-premium users, mentioning Plutonium requirement for animated avatars."
@@ -2263,22 +2155,6 @@
     "profileSavedToast": "Profilen uppdaterad",
     "@profileSavedToast": {
         "description": "Toast message shown after successfully saving profile changes."
-    },
-    "profileEditButton": "Redigera profil",
-    "@profileEditButton": {
-        "description": "Button label to open profile editing from the profile content card."
-    },
-    "profileNoteLabel": "Anteckning",
-    "@profileNoteLabel": {
-        "description": "Label for the personal note section on a user profile."
-    },
-    "profileNoteVisibility": "(bara synligt för dig)",
-    "@profileNoteVisibility": {
-        "description": "Hint that the note is private and only visible to the current user."
-    },
-    "profileNoteEmpty": "Ingen anteckning ännu.",
-    "@profileNoteEmpty": {
-        "description": "Placeholder shown when no personal note has been set for a user."
     },
     "sudoTitle": "Verifiera din identitet",
     "@sudoTitle": {
@@ -2651,42 +2527,6 @@
     "@securityPasskeyNameHint": {
         "description": "Hint for passkey name input."
     },
-    "securityPhoneSectionTitle": "Telefonnummer",
-    "@securityPhoneSectionTitle": {
-        "description": "Title for phone number section."
-    },
-    "securityPhoneSectionDescription": "Hantera ditt telefonnummer",
-    "@securityPhoneSectionDescription": {
-        "description": "Description for phone number section."
-    },
-    "securityPhoneLabel": "Telefonnummer",
-    "@securityPhoneLabel": {
-        "description": "Label for phone number row."
-    },
-    "securityPhoneNone": "Inget telefonnummer tillagt.",
-    "@securityPhoneNone": {
-        "description": "Shown when no phone number is set."
-    },
-    "securityPhoneAdd": "Lägg till telefonnummer",
-    "@securityPhoneAdd": {
-        "description": "Button to add phone number."
-    },
-    "securityPhoneRemove": "Ta bort",
-    "@securityPhoneRemove": {
-        "description": "Button to remove phone number."
-    },
-    "securityPhoneRemoveTitle": "Ta bort telefonnummer",
-    "@securityPhoneRemoveTitle": {
-        "description": "Title for phone remove confirmation."
-    },
-    "securityPhoneRemoveDescription": "Är du säker på att du vill ta bort ditt telefonnummer?",
-    "@securityPhoneRemoveDescription": {
-        "description": "Description for phone remove confirmation."
-    },
-    "securityPhoneRemoved": "Telefonnummer borttaget",
-    "@securityPhoneRemoved": {
-        "description": "Toast after phone removed."
-    },
     "securityClaimTitle": "Säkerhetsfunktioner",
     "@securityClaimTitle": {
         "description": "Title when user needs to claim account for security."
@@ -2739,10 +2579,6 @@
     "@backupCodesWarning": {
         "description": "Warning about backup codes."
     },
-    "backupCodesDownload": "Ladda ner",
-    "@backupCodesDownload": {
-        "description": "Button to download backup codes."
-    },
     "backupCodesCopy": "Kopiera",
     "@backupCodesCopy": {
         "description": "Button to copy backup codes."
@@ -2758,46 +2594,6 @@
     "backupCodesDone": "Klar",
     "@backupCodesDone": {
         "description": "Button to close backup codes sheet."
-    },
-    "backupCodesViewTitle": "Visa reservkoder",
-    "@backupCodesViewTitle": {
-        "description": "Title for viewing existing backup codes."
-    },
-    "backupCodesViewDescription": "Verifiering kan krävas innan du kan visa dina säkerhetskopieringskoder.",
-    "@backupCodesViewDescription": {
-        "description": "Description for view backup codes."
-    },
-    "phoneAddTitle": "Lägg till telefonnummer",
-    "@phoneAddTitle": {
-        "description": "Title for phone add sheet."
-    },
-    "phoneAddLabel": "Telefonnummer",
-    "@phoneAddLabel": {
-        "description": "Label for phone input."
-    },
-    "phoneAddHint": "Ange ditt telefonnummer",
-    "@phoneAddHint": {
-        "description": "Hint for phone input."
-    },
-    "phoneAddFooter": "Vi skickar en SMS-kod när den är tillgänglig. Ditt nummer är inte kopplat till ditt konto. Vi behåller endast en krypterad markör, utan användar-ID, för att tillåta högst 2 verifieringar under cirka 30 dagar.",
-    "@phoneAddFooter": {
-        "description": "Footer text for phone input."
-    },
-    "phoneAddSendCode": "Skicka kod",
-    "@phoneAddSendCode": {
-        "description": "Button to send phone verification code."
-    },
-    "phoneVerifyTitle": "Verifiera telefonnummer",
-    "@phoneVerifyTitle": {
-        "description": "Title for phone verify step."
-    },
-    "phoneVerifyDescription": "Ange verifieringskoden som skickats till ditt telefonnummer.",
-    "@phoneVerifyDescription": {
-        "description": "Description for phone verify step."
-    },
-    "phoneAddSuccess": "Telefonnummer verifierat",
-    "@phoneAddSuccess": {
-        "description": "Toast after phone added."
     },
     "dangerZoneSectionTitle": "Riskfyllda åtgärder",
     "@dangerZoneSectionTitle": {
@@ -3049,10 +2845,6 @@
     "@authorizedAppsScopeAdmin": {
         "description": "OAuth2 scope description: admin."
     },
-    "privacyPendingDeletionTitle": "Väntar på radering",
-    "@privacyPendingDeletionTitle": {
-        "description": "Title of the warning alert shown when a bulk message deletion is pending."
-    },
     "blockedUsersTitle": "Blockerade användare",
     "@blockedUsersTitle": {
         "description": "Header title of the Blocked Users settings page."
@@ -3288,10 +3080,6 @@
     "userProfileNoteDelete": "Ta bort",
     "@userProfileNoteDelete": {
         "description": "Delete button in the note editor sheet."
-    },
-    "userProfileNoteEmpty": "Klicka för att lägga till en anteckning",
-    "@userProfileNoteEmpty": {
-        "description": "Hint text when no note has been written yet."
     },
     "userProfileMemberSince": "Medlem sedan",
     "@userProfileMemberSince": {
@@ -4063,17 +3851,9 @@
     "@channelComposerBarrierNotMemberLongEnough": {
         "description": "Composer barrier when the user's guild membership is too recent."
     },
-    "channelComposerBarrierNoPhoneNumber": "Du måste verifiera ett telefonnummer för att skicka meddelanden i den här communityn.",
-    "@channelComposerBarrierNoPhoneNumber": {
-        "description": "Composer barrier when the user must verify a phone number before messaging."
-    },
     "channelComposerBarrierVerifyEmail": "Verifiera e-postadress",
     "@channelComposerBarrierVerifyEmail": {
         "description": "Action button on the composer barrier for unverified email."
-    },
-    "channelComposerBarrierVerifyPhone": "Verifiera telefonnummer",
-    "@channelComposerBarrierVerifyPhone": {
-        "description": "Action button on the composer barrier for missing phone verification."
     },
     "chatAttachmentTooMany": "För många bilagor (max {max})",
     "@chatAttachmentTooMany": {
@@ -4100,10 +3880,6 @@
     "@chatAttachmentDropToSend": {
         "description": "Overlay hint when dragging files over chat with Shift held."
     },
-    "chatAttachmentSendVoiceMessage": "Skicka röstmeddelande",
-    "@chatAttachmentSendVoiceMessage": {
-        "description": "Menu item to open the voice message recorder."
-    },
     "voiceMessageTitle": "Röstmeddelande",
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
@@ -4124,10 +3900,6 @@
     "@voiceMessageMicPermissionDenied": {
         "description": "Shown when microphone permission is denied for voice messages."
     },
-    "voiceMessageRecordingNotSupported": "Röstinspelning stöds inte på den här enheten.",
-    "@voiceMessageRecordingNotSupported": {
-        "description": "Shown when the device cannot record voice messages."
-    },
     "voiceMessageMicInUse": "Lämna röstsamtalet för att spela in ett röstmeddelande.",
     "@voiceMessageMicInUse": {
         "description": "Shown when the microphone is already used by an active voice call."
@@ -4140,26 +3912,6 @@
     "@voiceMessageSendFailed": {
         "description": "Shown when sending a voice message fails."
     },
-    "voiceMessageRecordingHint": "Tala nu. Tryck på Stopp när du är klar – du kan trimma efteråt.",
-    "@voiceMessageRecordingHint": {
-        "description": "Help text while recording a voice message on desktop."
-    },
-    "voiceMessageReviewHint": "Dra handtagen för att trimma, tryck sedan på Skicka.",
-    "@voiceMessageReviewHint": {
-        "description": "Help text while reviewing a voice message before send."
-    },
-    "voiceMessageStop": "Stopp",
-    "@voiceMessageStop": {
-        "description": "Stop recording button in voice message composer."
-    },
-    "voiceMessageStartRecording": "Starta inspelning",
-    "@voiceMessageStartRecording": {
-        "description": "Button to retry voice recording after permission error."
-    },
-    "voiceMessageRerecord": "Spela in igen",
-    "@voiceMessageRerecord": {
-        "description": "Button to discard review and record again."
-    },
     "voiceMessagePlay": "Spela upp",
     "@voiceMessagePlay": {
         "description": "Play voice message preview."
@@ -4167,16 +3919,6 @@
     "voiceMessagePause": "Pausa",
     "@voiceMessagePause": {
         "description": "Pause voice message preview."
-    },
-    "voiceMessageSelectionTooShort": "Markeringen måste vara minst {seconds} s lång.",
-    "@voiceMessageSelectionTooShort": {
-        "description": "Error when trimmed voice message is too short.",
-        "placeholders": {
-            "seconds": {
-                "type": "num",
-                "format": "compact"
-            }
-        }
     },
     "chatAttachmentEditTitle": "Redigera bilaga",
     "@chatAttachmentEditTitle": {
@@ -4221,10 +3963,6 @@
     "chatAttachmentSourceBrowse": "Bläddra bland filer",
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
-    },
-    "chatAttachmentPasteTooltip": "Klistra in fil från urklipp",
-    "@chatAttachmentPasteTooltip": {
-        "description": "Tooltip for pasting an image attachment from the clipboard."
     },
     "chatAttachmentSpoiler": "Spoiler",
     "@chatAttachmentSpoiler": {
@@ -4322,14 +4060,6 @@
     "@matureContentOpenLinkButton": {
         "description": "Primary action on mature link channel gates."
     },
-    "sensitiveContentSectionTitle": "Känsligt innehåll",
-    "@sensitiveContentSectionTitle": {
-        "description": "Privacy settings section title for sensitive content filters."
-    },
-    "sensitiveContentSectionDescription": "Styr hur moget eller känsligt media filtreras i olika sammanhang",
-    "@sensitiveContentSectionDescription": {
-        "description": "Privacy settings section description for sensitive content filters."
-    },
     "sensitiveContentFriendDmLabel": "Direktmeddelanden från vänner",
     "@sensitiveContentFriendDmLabel": {
         "description": "Label for friend DM sensitive content filter."
@@ -4354,18 +4084,6 @@
     "@sensitiveContentFilterBlock": {
         "description": "Sensitive content filter option to block media."
     },
-    "sensitiveContentBlurUnscannedLabel": "Dölj media tills säkerhetsskanningen är klar",
-    "@sensitiveContentBlurUnscannedLabel": {
-        "description": "Toggle label for blurring unscanned media."
-    },
-    "sensitiveContentBlurUnscannedDescriptionAdult": "När det är aktiverat döljs bilder och videor tills säkerhetsskanningen av innehållet är klar.",
-    "@sensitiveContentBlurUnscannedDescriptionAdult": {
-        "description": "Description for blur-unscanned toggle for adult accounts."
-    },
-    "sensitiveContentBlurUnscannedDescriptionMinor": "Den här inställningen är alltid på för ditt konto.",
-    "@sensitiveContentBlurUnscannedDescriptionMinor": {
-        "description": "Description for blur-unscanned toggle for minor accounts."
-    },
     "sensitiveContentResetButton": "Återställ",
     "@sensitiveContentResetButton": {
         "description": "Reset button for sensitive content settings."
@@ -4382,10 +4100,6 @@
                 "type": "int"
             }
         }
-    },
-    "chatCancelUpload": "Avbryt uppladdning",
-    "@chatCancelUpload": {
-        "description": "Button or menu action label for canceling an in-flight message attachment upload."
     },
     "chatAttachmentExpiresOn": "Går ut den {date}",
     "@chatAttachmentExpiresOn": {
@@ -4655,10 +4369,6 @@
     "@connectionEnterDomain": {
         "description": "Inline error shown when the domain input is empty."
     },
-    "lookAndFeelTitle": "Utseende",
-    "@lookAndFeelTitle": {
-        "description": "Title of the Look & Feel (Appearance) settings page."
-    },
     "lookAndFeelThemeSectionTitle": "Tema",
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
@@ -4698,14 +4408,6 @@
     "lookAndFeelThemeSyncFailed": "Kunde inte synkronisera temat till ditt konto. Försök igen.",
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
-    },
-    "lookAndFeelChatFontScalingTitle": "Skalning av chattypsnitt",
-    "@lookAndFeelChatFontScalingTitle": {
-        "description": "Section title for the chat font size slider."
-    },
-    "lookAndFeelChatFontScalingDescription": "Justera textstorleken i chattområdet.",
-    "@lookAndFeelChatFontScalingDescription": {
-        "description": "Section description for the chat font size slider."
     },
     "lookAndFeelInterfaceTitle": "Gränssnitt",
     "@lookAndFeelInterfaceTitle": {
@@ -4774,42 +4476,6 @@
     "lookAndFeelHideKeyboardHintsDescription": "När det är aktiverat döljs kortkommandon i popup-fönster för verktygstips.",
     "@lookAndFeelHideKeyboardHintsDescription": {
         "description": "Toggle description for the hide-keyboard-hints switch."
-    },
-    "lookAndFeelNekoTitle": "Diverse",
-    "@lookAndFeelNekoTitle": {
-        "description": "Subsection title under Interface for Neko appearance settings."
-    },
-    "lookAndFeelNekoDescription": "Diverse gränssnittsinställningar.",
-    "@lookAndFeelNekoDescription": {
-        "description": "Subsection description for Neko appearance settings."
-    },
-    "lookAndFeelShowNekoLabel": "Visa Neko",
-    "@lookAndFeelShowNekoLabel": {
-        "description": "Toggle label for showing Neko in the chat footer."
-    },
-    "lookAndFeelShowNekoDescription": "När det är aktiverat visas Neko nära chattinmatningsfältet.",
-    "@lookAndFeelShowNekoDescription": {
-        "description": "Toggle description for showing Neko in chat."
-    },
-    "lookAndFeelVoiceChannelJoinTitle": "Beteende vid anslutning till röstkanal",
-    "@lookAndFeelVoiceChannelJoinTitle": {
-        "description": "Subsection title under Interface — voice channel join behavior."
-    },
-    "lookAndFeelVoiceChannelJoinDescription": "Styr hur du ansluter till röstkanaler i communities.",
-    "@lookAndFeelVoiceChannelJoinDescription": {
-        "description": "Subsection description for voice channel join behavior."
-    },
-    "lookAndFeelRequireDoubleClickJoinLabel": "Kräv dubbelklick för att ansluta till röstkanaler",
-    "@lookAndFeelRequireDoubleClickJoinLabel": {
-        "description": "Toggle label — require double-click to join voice channels."
-    },
-    "lookAndFeelRequireDoubleClickJoinDescription": "När det är aktiverat måste du dubbelklicka på röstkanaler för att ansluta. När det är inaktiverat (standard) ansluter ett enda klick omedelbart.",
-    "@lookAndFeelRequireDoubleClickJoinDescription": {
-        "description": "Toggle description for the require-double-click voice channel join switch."
-    },
-    "lookAndFeelChatFontPreviewSample": "Snabba den bruna räven hoppar över den lata hunden.",
-    "@lookAndFeelChatFontPreviewSample": {
-        "description": "Sample text rendered at the selected chat font size to preview scaling."
     },
     "lookAndFeelGuildSidebarTitle": "Serverlistan",
     "@lookAndFeelGuildSidebarTitle": {
@@ -5218,25 +4884,9 @@
     "@messagesMediaAutocompleteSavedMediaLabel": {
         "description": "Toggle label for saved media in expression autocomplete."
     },
-    "messagesMediaEditingSectionTitle": "Redigera meddelande",
-    "@messagesMediaEditingSectionTitle": {
-        "description": "Section title for message editing settings."
-    },
-    "messagesMediaEditingSectionDescription": "Styr vad som händer med ditt utkast när du avbryter.",
-    "@messagesMediaEditingSectionDescription": {
-        "description": "Section description for message editing settings."
-    },
-    "messagesMediaEditingPreserveDraftLabel": "Behåll utkast vid avbrytande",
-    "@messagesMediaEditingPreserveDraftLabel": {
-        "description": "Toggle label for preserving edit drafts on cancel."
-    },
     "accessibilityDmMessagePreviewGroupTitle": "Förhandsvisningar av DM-meddelanden",
     "@accessibilityDmMessagePreviewGroupTitle": {
         "description": "Section title for DM message preview accessibility settings."
-    },
-    "accessibilityDmMessagePreviewGroupDescription": "Styr när meddelandeförhandsgranskningar visas i DM-listan.",
-    "@accessibilityDmMessagePreviewGroupDescription": {
-        "description": "Section description for DM message preview accessibility settings."
     },
     "accessibilityDmMessagePreviewModeLabel": "Läge för förhandsvisning av DM-meddelanden",
     "@accessibilityDmMessagePreviewModeLabel": {
@@ -5394,10 +5044,6 @@
     "@voiceConnectionConfirmDoNothing": {
         "description": "Dismiss the dialog without joining voice."
     },
-    "voiceChannelEmptyDescription": "Det här är en röstkanal. Anslut för att börja prata!",
-    "@voiceChannelEmptyDescription": {
-        "description": "Empty state body when viewing a guild voice channel while not in the call."
-    },
     "voiceChannelJoin": "Gå med i röstkanalen",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
@@ -5437,14 +5083,6 @@
     "voiceChannelStatusConnecting": "Ansluter…",
     "@voiceChannelStatusConnecting": {
         "description": "Status in the in-page voice view while LiveKit is connecting."
-    },
-    "voiceChannelStatusConnected": "Ansluten",
-    "@voiceChannelStatusConnected": {
-        "description": "Status in the in-page voice view when the voice session is active."
-    },
-    "voiceChannelStatusError": "Fel",
-    "@voiceChannelStatusError": {
-        "description": "Short label in the channel header when the voice session reports an error."
     },
     "voiceParticipantTooltipMobileDevice": "Mobil enhet",
     "@voiceParticipantTooltipMobileDevice": {
@@ -5519,10 +5157,6 @@
     "voiceScreenShareNotificationText": "Delar din skärm.",
     "@voiceScreenShareNotificationText": {
         "description": "Body text for the Android foreground notification shown while screen sharing."
-    },
-    "voiceControlMore": "Mer",
-    "@voiceControlMore": {
-        "description": "Tooltip: more voice actions in the voice call control bar."
     },
     "voiceControlDisconnect": "Koppla från",
     "@voiceControlDisconnect": {
@@ -6378,10 +6012,6 @@
     "addGuildJoinFailed": "Kunde inte gå med i communityn. Försök igen.",
     "@addGuildJoinFailed": {
         "description": "Generic error when joining a community via invite fails."
-    },
-    "addGuildPackInstalled": "Paketet installerades lyckat.",
-    "@addGuildPackInstalled": {
-        "description": "Toast shown after accepting an emoji or sticker pack invite."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "Ta bort alla reaktioner",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -7461,10 +7091,6 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsCustomInviteUrl": "Anpassad inbjudningslänk",
-    "@guildMenuSettingsCustomInviteUrl": {
-        "description": "Community settings tab for custom invite URLs."
-    },
     "guildMenuSettingsDiscovery": "Upptäck",
     "@guildMenuSettingsDiscovery": {
         "description": "Community settings tab for discovery settings."
@@ -7489,17 +7115,9 @@
     "@guildSettingsOverviewIconTitle": {
         "description": "Title for the guild icon section in overview settings."
     },
-    "guildSettingsUploadImage": "Ladda upp bild",
-    "@guildSettingsUploadImage": {
-        "description": "Button label to upload an image in guild settings."
-    },
     "guildSettingsOverviewBannerTitle": "Banner",
     "@guildSettingsOverviewBannerTitle": {
         "description": "Title for the guild banner section."
-    },
-    "guildSettingsOverviewBannerHint": "Ladda upp en banner för din server.",
-    "@guildSettingsOverviewBannerHint": {
-        "description": "Hint text for guild banner upload."
     },
     "guildSettingsOverviewNameTitle": "Namn",
     "@guildSettingsOverviewNameTitle": {
@@ -7509,22 +7127,6 @@
     "@guildSettingsOverviewNameHint": {
         "description": "Hint for the guild name field."
     },
-    "guildSettingsOverviewStatsTitle": "Statistik",
-    "@guildSettingsOverviewStatsTitle": {
-        "description": "Title for guild statistics section."
-    },
-    "guildSettingsOverviewMembers": "Medlemmar",
-    "@guildSettingsOverviewMembers": {
-        "description": "Label for member count in overview."
-    },
-    "guildSettingsOverviewOnline": "Online",
-    "@guildSettingsOverviewOnline": {
-        "description": "Label for online count in overview."
-    },
-    "guildSettingsRolesDescription": "Använd roller för att gruppera medlemmar och tilldela behörigheter.",
-    "@guildSettingsRolesDescription": {
-        "description": "Description for the roles settings tab."
-    },
     "guildSettingsCreateRole": "Skapa roll",
     "@guildSettingsCreateRole": {
         "description": "Button to create a new role."
@@ -7533,30 +7135,9 @@
     "@guildSettingsRolesListTitle": {
         "description": "Title for the roles list section."
     },
-    "guildSettingsEmojiSlotInfo": "{staticCount} statiska, {animatedCount} animerade emojiplatser använda",
-    "@guildSettingsEmojiSlotInfo": {
-        "description": "Emoji slot usage summary.",
-        "placeholders": {
-            "staticCount": {
-                "type": "int"
-            },
-            "animatedCount": {
-                "type": "int"
-            }
-        }
-    },
     "guildSettingsEmojiEmpty": "Inga anpassade emojis än.",
     "@guildSettingsEmojiEmpty": {
         "description": "Empty state for emoji settings."
-    },
-    "guildSettingsStickersSlotInfo": "{count} stickers uppladdade",
-    "@guildSettingsStickersSlotInfo": {
-        "description": "Sticker slot usage summary.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsStickersEmpty": "Inga anpassade stickers än.",
     "@guildSettingsStickersEmpty": {
@@ -7602,8 +7183,6 @@
     "guildSettingsVerificationMediumDescription": "Kräver en verifierad e-postadress och ett konto som är minst 5 minuter gammalt.",
     "guildSettingsVerificationHigh": "Hög",
     "guildSettingsVerificationHighDescription": "Kräver allt på nivån ”Medel” samt att du har varit medlem i communityn i minst 10 minuter.",
-    "guildSettingsVerificationHighest": "Mycket hög",
-    "guildSettingsVerificationHighestDescription": "Kräver ett verifierat telefonnummer.",
     "guildSettingsAuditLogDescription": "Spåra moderatoråtgärder i hela communityn.",
     "@guildSettingsAuditLogDescription": {
         "description": "Subtitle under the activity-log page title."
@@ -7631,14 +7210,6 @@
     "guildSettingsAuditLogUnknownUser": "Okänd användare",
     "@guildSettingsAuditLogUnknownUser": {
         "description": "Fallback avatar label when the acting user is unavailable."
-    },
-    "guildSettingsAuditLogLoadError": "Något gick fel när aktivitetshistoriken skulle laddas.",
-    "@guildSettingsAuditLogLoadError": {
-        "description": "Generic error shown when fetching log entries fails."
-    },
-    "guildSettingsAuditLogLoadErrorTitle": "Kunde inte ladda aktivitetshistoriken",
-    "@guildSettingsAuditLogLoadErrorTitle": {
-        "description": "Error-state title when fetching log entries failed."
     },
     "guildSettingsAuditLogReason": "Anledning",
     "@guildSettingsAuditLogReason": {
@@ -8610,14 +8181,6 @@
     "@auditLogOptionPermanentMembership": {
         "description": "Audit log option detail sentence."
     },
-    "guildSettingsLoadMore": "Läs in mer",
-    "@guildSettingsLoadMore": {
-        "description": "Button to load more audit log entries."
-    },
-    "guildSettingsLoadingMore": "Läser in...",
-    "@guildSettingsLoadingMore": {
-        "description": "Loading state for pagination."
-    },
     "guildSettingsWebhooksDescription": "Visa och hantera alla webhooks som konfigurerats för din community.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
@@ -8626,42 +8189,9 @@
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
-    "guildSettingsCopyUrl": "Kopiera URL",
-    "@guildSettingsCopyUrl": {
-        "description": "Tooltip to copy a URL."
-    },
     "guildSettingsCopiedUrl": "URL kopierad till urklipp",
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
-    },
-    "guildSettingsDeleteWebhook": "Ta bort webhook",
-    "@guildSettingsDeleteWebhook": {
-        "description": "Tooltip to delete a webhook."
-    },
-    "guildSettingsVanityUrlDescription": "Ange en anpassad inbjudningslänk för din server.",
-    "@guildSettingsVanityUrlDescription": {
-        "description": "Description for vanity URL tab."
-    },
-    "guildSettingsVanityUrlHint": "my-server",
-    "@guildSettingsVanityUrlHint": {
-        "description": "Hint for vanity URL input."
-    },
-    "guildSettingsSave": "Spara",
-    "@guildSettingsSave": {
-        "description": "Generic save button label."
-    },
-    "guildSettingsVanityUrlUsageTitle": "Användning",
-    "@guildSettingsVanityUrlUsageTitle": {
-        "description": "Title for vanity URL usage section."
-    },
-    "guildSettingsVanityUrlUses": "{count} användningar",
-    "@guildSettingsVanityUrlUses": {
-        "description": "Vanity URL usage count.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsDiscoveryDescription": "Lista din community i Upptäck så att andra kan hitta och gå med.",
     "@guildSettingsDiscoveryDescription": {
@@ -8700,10 +8230,6 @@
     "@guildSettingsDiscoveryWithdraw": {
         "description": "Button to withdraw discovery application."
     },
-    "guildSettingsMembersDescription": "Sök och hantera servermedlemmar.",
-    "@guildSettingsMembersDescription": {
-        "description": "Description for members tab."
-    },
     "guildSettingsMembersSearchHint": "Sök efter användarnamn eller ID",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
@@ -8725,27 +8251,6 @@
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
-    "guildSettingsInviteUses": "{uses} / {maxUses} användningar",
-    "@guildSettingsInviteUses": {
-        "description": "Invite usage count.",
-        "placeholders": {
-            "uses": {
-                "type": "int"
-            },
-            "maxUses": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsInviteExpires": "Går ut {date}",
-    "@guildSettingsInviteExpires": {
-        "description": "Invite expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBansDescription": "Visa och hantera bannlysta användare.",
     "@guildSettingsBansDescription": {
         "description": "Description for bans tab."
@@ -8758,30 +8263,9 @@
     "@guildSettingsBansEmpty": {
         "description": "Empty state for bans."
     },
-    "guildSettingsBanPermanent": "Permanent bannlysning",
-    "@guildSettingsBanPermanent": {
-        "description": "Label for permanent ban."
-    },
-    "guildSettingsBanExpires": "Går ut {date}",
-    "@guildSettingsBanExpires": {
-        "description": "Ban expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBanExpiresLabel": "Upphör",
     "@guildSettingsBanExpiresLabel": {
         "description": "Label for ban expiration row."
-    },
-    "guildSettingsUnban": "Avbanna",
-    "@guildSettingsUnban": {
-        "description": "Button to unban a user."
-    },
-    "guildSettingsBansLoading": "Läser in bannlysta användare",
-    "@guildSettingsBansLoading": {
-        "description": "Loading state for the guild bans list."
     },
     "guildSettingsBansNoSearchResults": "Inga bannlysningar matchar din sökning.",
     "@guildSettingsBansNoSearchResults": {
@@ -8825,10 +8309,6 @@
             }
         }
     },
-    "guildSettingsBansLoadError": "Kunde inte ladda bannlysningar. Försök igen.",
-    "@guildSettingsBansLoadError": {
-        "description": "Error when loading the guild bans list fails."
-    },
     "guildSettingsRevokeBanError": "Kunde inte återkalla bannlysning. Försök igen.",
     "@guildSettingsRevokeBanError": {
         "description": "Error when revoking a ban fails."
@@ -8853,7 +8333,6 @@
     "@guildSettingsCategoryPeople": {
         "description": "Sidebar category for members, invites, and bans."
     },
-    "guildSettingsOverviewDescription": "Hantera din communitys profil, kanaler och standardinställningar.",
     "guildSettingsOverviewBrandingTitle": "Varumärke",
     "guildSettingsOverviewBrandingDescription": "Uppdatera din ikon, namn, banner och inbjudningsbakgrund",
     "@guildSettingsOverviewBrandingDescription": {
@@ -8872,7 +8351,6 @@
     },
     "guildSettingsOverviewNotificationsTitle": "Standardaviseringar",
     "guildSettingsOverviewNotificationsLargeGuild": "Communities med fler än 250 personer måste använda inställningen ”endast omnämnanden”. Din ursprungliga inställning sparas och återställs om communityn får färre än 250 medlemmar.",
-    "guildSettingsOverviewAdvancedTitle": "Avancerat",
     "guildSettingsOverviewFlexibleNames": "Tillåt flexibla textkanalnamn",
     "guildSettingsOverviewHideOwnerCrown": "Dölj communityägarens krona",
     "guildSettingsOverviewDetachedBanner": "Fristående banner",
@@ -8898,10 +8376,6 @@
     "guildSettingsOverviewEmbedSplashTitle": "Bakgrund för chattinbäddningar",
     "@guildSettingsOverviewEmbedSplashTitle": {
         "description": "Title for embed splash upload section."
-    },
-    "guildSettingsOverviewEmbedSplashHint": "Visas i inbäddade inbjudningar i chatten.",
-    "@guildSettingsOverviewEmbedSplashHint": {
-        "description": "Note shown when uploading chat embed background."
     },
     "guildSettingsOverviewUploadBackground": "Ladda upp bakgrund",
     "@guildSettingsOverviewUploadBackground": {
@@ -9068,8 +8542,6 @@
     "@guildSettingsOverviewEmbedSplashUploadHint": {
         "description": "Upload requirements for chat embed background images."
     },
-    "guildSettingsModerationDescription": "Konfigurera verifiering, innehållsfiltrering och inställningar för moget innehåll.",
-    "guildSettingsModerationDiscoveryNotice": "Listade communities i Discovery har begränsade modereringsalternativ.",
     "guildSettingsModerationContentFilterTitle": "Innehållsfiltrering",
     "guildSettingsModerationContentFilterDescription": "Granska automatiskt meddelanden efter sexuellt explicit innehåll i kanaler som inte är markerade för vuxet innehåll.",
     "guildSettingsModerationContentFilterDiscoveryNote": "Communities som listas i Discovery måste skanna alla medlemmar. Den här inställningen kan inte ändras medan Discovery är aktiverat.",
@@ -9079,8 +8551,6 @@
     "guildSettingsContentFilterNoRoleDescription": "Föreslås för de flesta communities",
     "guildSettingsContentFilterAll": "Filtrera alla",
     "guildSettingsContentFilterAllDescription": "Maximalt skydd för familjevänliga utrymmen",
-    "guildSettingsModerationMatureOff": "Av",
-    "guildSettingsModerationMatureOn": "På",
     "guildSettingsContentWarningToggle": "Visa en innehållsvarning",
     "@guildSettingsContentWarningToggle": {
         "description": "Switch label for the community content warning setting."
@@ -9100,7 +8570,6 @@
     "guildSettingsModeration2faTitle": "Krav på 2FA",
     "guildSettingsModeration2faDescription": "Moderatorer behöver inte tvåfaktorsautentisering för att bannlysa, sparka, tidsbegränsa eller ta bort meddelanden.",
     "guildSettingsModeration2faSwitchLabel": "Kräv 2FA för moderatoråtgärder",
-    "guildSettingsModeration2faOwnerOnlyTooltip": "Bara communityägaren kan ändra den här inställningen",
     "guildSettingsModeration2faEnableFirstTooltip": "Aktivera 2FA på ditt konto för att ändra den här inställningen",
     "guildSettingsEmojiSearchHint": "Sök bland emojier",
     "guildSettingsEmojiUploadTitle": "Ladda upp emoji",
@@ -9122,8 +8591,6 @@
     },
     "guildSettingsStickersSearchHint": "Sök bland klistermärken",
     "guildSettingsWebhooksInfo": "För att skapa en webhook, öppna {channelSettingsPath}. Du kan fortfarande redigera och organisera alla befintliga webhooks här.",
-    "guildSettingsVanityUrlWarning": "Din anpassade URL fungerar inte om inte minst en kanal är synlig för alla.",
-    "guildSettingsVanityUrlRemove": "Ta bort",
     "guildSettingsBannedUsersTitle": "Bannlysta användare",
     "guildSettingsInvitesTableInviter": "Inbjudare",
     "guildSettingsInvitesTableChannel": "Kanal",
@@ -9241,16 +8708,6 @@
     "@audioAndVideoCameraQuality1080pLabel": {
         "description": "Camera quality option for 1080p resolution."
     },
-    "audioAndVideoMicrophonePermissionRequired": "{productName} behöver mikrofonåtkomst för att visa dina enheter.",
-    "@audioAndVideoMicrophonePermissionRequired": {
-        "description": "Shown when microphone permission is required to enumerate audio input devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
     "notificationsGeneralSectionTitle": "Allmänt",
     "@notificationsGeneralSectionTitle": {
         "description": "Notifications settings section title for general notification controls."
@@ -9306,10 +8763,6 @@
     "savedMessagesRemoveTooltip": "Ta bort bokmärke",
     "@savedMessagesRemoveTooltip": {
         "description": "Tooltip for removing a saved message bookmark."
-    },
-    "notificationsEnableBrowserNotificationsLabel": "Aktivera webbläsaraviseringar",
-    "@notificationsEnableBrowserNotificationsLabel": {
-        "description": "Toggle label for enabling browser notifications."
     },
     "notificationsPushInactiveTimeoutLabel": "Tidsgräns för inaktivitet före pushaviseringar",
     "@notificationsPushInactiveTimeoutLabel": {
@@ -9595,25 +9048,9 @@
     "@guildSettingsRolesComfyLayout": {
         "description": "Tooltip when permission list is in dense layout."
     },
-    "guildSettingsRolesSwitchToDenseLayout": "Växla till kompakt layout",
-    "@guildSettingsRolesSwitchToDenseLayout": {
-        "description": "Aria label for switching to dense layout."
-    },
-    "guildSettingsRolesSwitchToSingleColumn": "Växla till en kolumn",
-    "@guildSettingsRolesSwitchToSingleColumn": {
-        "description": "Aria label for switching to single column."
-    },
-    "guildSettingsRolesSwitchToTwoColumns": "Växla till två kolumner",
-    "@guildSettingsRolesSwitchToTwoColumns": {
-        "description": "Aria label for switching to two columns."
-    },
     "guildSettingsRolesNoPermissionsFound": "Inga behörigheter hittades",
     "@guildSettingsRolesNoPermissionsFound": {
         "description": "Empty state when permission search has no matches."
-    },
-    "guildSettingsRolesCustomHoistOrder": "Anpassad visningsordning",
-    "@guildSettingsRolesCustomHoistOrder": {
-        "description": "Button to enter custom hoist order mode."
     },
     "guildSettingsRolesHoistOrder": "Visningsordning",
     "@guildSettingsRolesHoistOrder": {
@@ -9796,10 +9233,6 @@
             }
         }
     },
-    "groupDmFailedToProcessCroppedImage": "Det gick inte att bearbeta den beskurna bilden. Försök igen.",
-    "@groupDmFailedToProcessCroppedImage": {
-        "description": "Body when a cropped group icon cannot be processed."
-    },
     "groupDmInvalidImage": "Ogiltig bild",
     "@groupDmInvalidImage": {
         "description": "Title when the selected group icon image cannot be used."
@@ -9831,16 +9264,6 @@
     "audioAndVideoInstanceVideoQualityLimit": "Den här instansen tillåter för närvarande skärmdelning upp till 720p vid 30 FPS.",
     "@audioAndVideoInstanceVideoQualityLimit": {
         "description": "Note shown when instance limits block higher screen share quality."
-    },
-    "audioAndVideoCameraPermissionRequired": "{productName} behöver åtkomst till kameran för att visa dina enheter.",
-    "@audioAndVideoCameraPermissionRequired": {
-        "description": "Shown when camera permission is required to enumerate video devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
     },
     "permissionOverwriteInherit": "Neutral (ärver)",
     "@permissionOverwriteInherit": {
@@ -9918,16 +9341,6 @@
     "@audioAndVideoNoiseSuppressionStandardLabel": {
         "description": "Standard browser or platform noise suppression option."
     },
-    "audioAndVideoMicTestPermissionRequired": "{productName} behöver mikrofonåtkomst för att testa din inmatning.",
-    "@audioAndVideoMicTestPermissionRequired": {
-        "description": "Shown when microphone permission is required for the mic test.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
     "audioAndVideoCameraLabel": "Kamera",
     "@audioAndVideoCameraLabel": {
         "description": "Label for camera device selection."
@@ -9963,16 +9376,6 @@
     "audioAndVideoFrameRate60Label": "60 bildrutor/s",
     "@audioAndVideoFrameRate60Label": {
         "description": "Screen share frame rate option for 60 FPS."
-    },
-    "audioAndVideoHigherQualityRequiresPremium": "1080p och 60 FPS kräver {premiumProductName}.",
-    "@audioAndVideoHigherQualityRequiresPremium": {
-        "description": "Note shown when higher video quality options require premium.",
-        "placeholders": {
-            "premiumProductName": {
-                "type": "String",
-                "example": "Plutonium"
-            }
-        }
     },
     "languageAndTimeTimeFormatSectionDescription": "Välj hur tider visas i appen",
     "@languageAndTimeTimeFormatSectionDescription": {
@@ -10055,10 +9458,6 @@
                 "type": "String"
             }
         }
-    },
-    "guildSettingsRolesSwitchToComfyLayout": "Byt till rymlig layout",
-    "@guildSettingsRolesSwitchToComfyLayout": {
-        "description": "Aria label for switching to comfy layout."
     },
     "guildSettingsRolesSingleColumn": "En kolumn",
     "@guildSettingsRolesSingleColumn": {
@@ -10242,10 +9641,6 @@
             }
         }
     },
-    "channelSettingsWebhooksUnknownUser": "Okänd användare",
-    "@channelSettingsWebhooksUnknownUser": {
-        "description": "Fallback label when webhook creator is unavailable."
-    },
     "channelSettingsWebhooksDelete": "Ta bort webhook",
     "@channelSettingsWebhooksDelete": {
         "description": "Danger button to delete a webhook."
@@ -10357,10 +9752,6 @@
     "channelDetailsDeleteChannel": "Ta bort kanal",
     "@channelDetailsDeleteChannel": {
         "description": "Channel details menu action to delete a guild channel."
-    },
-    "channelSettingsCategorySettingsTitle": "Kategorinställningar",
-    "@channelSettingsCategorySettingsTitle": {
-        "description": "Title for category settings modal."
     },
     "channelSettingsEditCategory": "Redigera kategori",
     "@channelSettingsEditCategory": {
@@ -10510,10 +9901,6 @@
     "guildNavbarChannelTypeSelection": "Välj kanaltyp",
     "@guildNavbarChannelTypeSelection": {
         "description": "Accessibility label for channel type radio group in create channel modal."
-    },
-    "guildSettingsRolesLockedTooltip": "Du kan inte redigera den här rollen eftersom den är din högsta roll eller högre än dig",
-    "@guildSettingsRolesLockedTooltip": {
-        "description": "Tooltip on locked role rows."
     },
     "guildSettingsInvitesLoadFailedDescription": "Det gick inte att läsa in inbjudningarna. Försök igen.",
     "@guildSettingsInvitesLoadFailedDescription": {
@@ -10825,15 +10212,6 @@
     "@channelSettingsContentWarningText": {
         "description": "Label for custom content warning text field."
     },
-    "channelSettingsPermissionsNeedManageChannels": "Du behöver behörigheten \"{manageChannelsPermissionLabel}\" för att redigera dessa behörigheter.",
-    "@channelSettingsPermissionsNeedManageChannels": {
-        "description": "Error when user lacks manage channels permission for channel permissions tab.",
-        "placeholders": {
-            "manageChannelsPermissionLabel": {
-                "type": "String"
-            }
-        }
-    },
     "nagbarLearnMore": "Läs mer",
     "@nagbarLearnMore": {
         "description": "CTA on maintenance and other nagbars that open an external link."
@@ -10944,10 +10322,6 @@
     "groupDmOrSendInvite": "eller skicka en inbjudan till en vän:",
     "@groupDmOrSendInvite": {
         "description": "Label above the invite link field in add friends to group."
-    },
-    "groupDmAddFailed": "Kunde inte lägga till i grupp",
-    "@groupDmAddFailed": {
-        "description": "Title when adding friends to a group DM fails."
     },
     "systemCallMissed": "Du missade ett samtal från {username}.",
     "@systemCallMissed": {
@@ -11299,10 +10673,6 @@
     "@groupDmUnsupportedIconFormatBody": {
         "description": "Body when the selected group icon format is unsupported."
     },
-    "groupDmCouldntProcessImage": "Kunde inte bearbeta bilden",
-    "@groupDmCouldntProcessImage": {
-        "description": "Title when a cropped group icon cannot be processed."
-    },
     "groupDmInvalidImageBody": "Bilden är ogiltig. Försök med en annan.",
     "@groupDmInvalidImageBody": {
         "description": "Body when the selected group icon image cannot be used."
@@ -11367,10 +10737,6 @@
     "@dmGroupInvites": {
         "description": "Menu label for managing group DM invites."
     },
-    "groupDmEditDetailsTooltip": "Redigera gruppinformation",
-    "@groupDmEditDetailsTooltip": {
-        "description": "Tooltip on the desktop group DM header edit action."
-    },
     "groupDmGroupName": "Gruppnamn",
     "@groupDmGroupName": {
         "description": "Label for the group name field in edit group."
@@ -11398,10 +10764,6 @@
     "groupDmAddFriendFailed": "Kunde inte lägga till den här vännen i gruppen. Försök igen.",
     "@groupDmAddFriendFailed": {
         "description": "Error when adding a single friend to a group DM fails."
-    },
-    "groupDmCreateInviteFailed": "Kunde inte skapa inbjudningslänk",
-    "@groupDmCreateInviteFailed": {
-        "description": "Title when invite link generation fails."
     },
     "groupDmCreateInviteFailedBody": "Kunde inte skapa en inbjudningslänk. Försök igen.",
     "@groupDmCreateInviteFailedBody": {
@@ -11773,10 +11135,6 @@
     "@languageAndTimeLanguageSectionDescription": {
         "description": "Settings section description for interface language preference."
     },
-    "languageAndTimeOpenLanguageSettings": "Öppna språkinställningar",
-    "@languageAndTimeOpenLanguageSettings": {
-        "description": "Button that opens the system per-app language settings."
-    },
     "chatReplyHiddenBlockedAuthor": "Svar dolt eftersom den ursprungliga författaren är blockerad.",
     "@chatReplyHiddenBlockedAuthor": {
         "description": "Reply preview placeholder when the referenced author is blocked."
@@ -11792,10 +11150,6 @@
     "devIgnoreSpamFlag": "Ignorera spammarkering",
     "@devIgnoreSpamFlag": {
         "description": "Developer menu option to ignore the server spammer flag for a user."
-    },
-    "accessibilitySaturationDescription": "Justera hur livfulla temafärger visas i hela appen.",
-    "@accessibilitySaturationDescription": {
-        "description": "Section description for the theme saturation slider on the accessibility settings page."
     },
     "dmOwnersGroup": "Grupp för {resolvedName}",
     "@dmOwnersGroup": {
@@ -11995,10 +11349,6 @@
             }
         }
     },
-    "phoneCountryLabel": "Land",
-    "@phoneCountryLabel": {
-        "description": "Label for country selector in phone verification."
-    },
     "addGuildCreateVerifyDescription": "Du måste verifiera din e-postadress innan du kan skapa en community.",
     "@addGuildCreateVerifyDescription": {
         "description": "Gate description when the user must verify email before creating a community."
@@ -12035,126 +11385,6 @@
     "@groupDmIconFileTooLargeTitle": {
         "description": "Title when the selected group icon exceeds the size limit."
     },
-    "phoneInboundStepOpenMessaging": "Öppna telefonens meddelandeapp och skapa ett nytt SMS.",
-    "@phoneInboundStepOpenMessaging": {
-        "description": "Inbound verification step 1."
-    },
-    "phoneInboundStepSendCode": "Skicka koden {code} till {number}.",
-    "@phoneInboundStepSendCode": {
-        "description": "Inbound verification step 2.",
-        "placeholders": {
-            "code": {
-                "type": "String"
-            },
-            "number": {
-                "type": "String"
-            }
-        }
-    },
-    "phoneInboundStepWait": "Vänta tills vi har tagit emot ditt meddelande. Det kan ta en minut.",
-    "@phoneInboundStepWait": {
-        "description": "Inbound verification step 3."
-    },
-    "phoneInboundGetNewCode": "Hämta ny kod",
-    "@phoneInboundGetNewCode": {
-        "description": "Button to refresh inbound challenge."
-    },
-    "phoneInboundChallengeCodeLabel": "Kod att skicka",
-    "@phoneInboundChallengeCodeLabel": {
-        "description": "Label for inbound challenge code."
-    },
-    "requiredActionIntroPhone": "Din registrering behöver en extra antispamkontroll innan du kan fortsätta.",
-    "@requiredActionIntroPhone": {
-        "description": "Phone-only required action intro."
-    },
-    "phoneSearchCountries": "Sök länder...",
-    "@phoneSearchCountries": {
-        "description": "Search hint for country selector."
-    },
-    "phoneNumberRequired": "Telefonnummer krävs",
-    "@phoneNumberRequired": {
-        "description": "Validation error when phone number is empty."
-    },
-    "phoneEnterValidNumber": "Ange ett giltigt mobilnummer.",
-    "@phoneEnterValidNumber": {
-        "description": "Validation error for invalid phone format."
-    },
-    "phoneCannotBeUsed": "Det här telefonnumret kan inte användas. Prova ett annat mobilnummer eller kontakta supporten.",
-    "@phoneCannotBeUsed": {
-        "description": "API error when phone number is rejected."
-    },
-    "phoneAlreadyUsed": "Det här telefonnumret har redan använts. Prova ett annat nummer eller kontakta supporten.",
-    "@phoneAlreadyUsed": {
-        "description": "API error when phone number was reused."
-    },
-    "phoneCodeDidNotWork": "Koden fungerade inte. Kontrollera den och försök igen.",
-    "@phoneCodeDidNotWork": {
-        "description": "API error for invalid verification code."
-    },
-    "phoneTooManyAttempts": "För många försök. Vänta en stund och försök igen.",
-    "@phoneTooManyAttempts": {
-        "description": "Rate limit error for phone verification."
-    },
-    "phoneSmsUnavailable": "Sms-verifiering är inte tillgänglig just nu. Försök igen senare eller kontakta supporten.",
-    "@phoneSmsUnavailable": {
-        "description": "SMS provider unavailable error."
-    },
-    "phoneNotEligible": "Telefonverifiering är inte tillgänglig för det här kontot. Använd en annan metod eller kontakta support.",
-    "@phoneNotEligible": {
-        "description": "Account not eligible for phone verification."
-    },
-    "phoneSomethingWentWrong": "Något gick fel. Försök igen.",
-    "@phoneSomethingWentWrong": {
-        "description": "Generic phone verification error."
-    },
-    "phoneInboundExpensiveDescription": "Att skicka ett SMS till det här numret är för dyrt, så vi behöver att du skickar ett SMS till oss istället. Du kan också kontakta support för att få kravet borttaget från ditt konto.",
-    "@phoneInboundExpensiveDescription": {
-        "description": "Inbound challenge reason for expensive destinations."
-    },
-    "phoneInboundDefaultDescription": "Vi behöver att du skickar ett SMS till oss för att verifiera ditt telefonnummer.",
-    "@phoneInboundDefaultDescription": {
-        "description": "Default inbound challenge description."
-    },
-    "phoneInboundOurNumberLabel": "Skicka till",
-    "@phoneInboundOurNumberLabel": {
-        "description": "Label for inbound destination number."
-    },
-    "requiredActionTitle": "Kontoverifiering krävs",
-    "@requiredActionTitle": {
-        "description": "Title for required action blocking modal."
-    },
-    "requiredActionChooseMethodTitle": "Välj en verifieringsmetod",
-    "@requiredActionChooseMethodTitle": {
-        "description": "Title when user can pick email or phone."
-    },
-    "requiredActionUseEmail": "Använd e-post",
-    "@requiredActionUseEmail": {
-        "description": "Button to choose email verification."
-    },
-    "requiredActionUsePhone": "Använd telefon",
-    "@requiredActionUsePhone": {
-        "description": "Button to choose phone verification."
-    },
-    "requiredActionCheckEmailTitle": "Kolla din e-post",
-    "@requiredActionCheckEmailTitle": {
-        "description": "Title for email verification instructions."
-    },
-    "requiredActionCheckEmailDescription": "Vi skickade en verifieringslänk till din e-postadress. Öppna den för att fortsätta.",
-    "@requiredActionCheckEmailDescription": {
-        "description": "Description for email verification instructions."
-    },
-    "requiredActionResendVerificationEmail": "Skicka verifieringsmejl igen",
-    "@requiredActionResendVerificationEmail": {
-        "description": "Button to resend verification email."
-    },
-    "requiredActionVerificationEmailSent": "Verifieringsmejl skickat. Kolla din inkorg.",
-    "@requiredActionVerificationEmailSent": {
-        "description": "Toast after resending verification email."
-    },
-    "requiredActionSignOut": "Logga ut",
-    "@requiredActionSignOut": {
-        "description": "Sign out button in required action modal."
-    },
     "guildSettingsRolesResetHoistFailedTitle": "Kunde inte återställa visningsordningen",
     "@guildSettingsRolesResetHoistFailedTitle": {
         "description": "Error modal title when hoist reset fails."
@@ -12171,10 +11401,6 @@
     "permissionCategoryCommunityWide": "Hela communityn",
     "@permissionCategoryCommunityWide": {
         "description": "Permission category label."
-    },
-    "permissionUnknown": "Okänd behörighet",
-    "@permissionUnknown": {
-        "description": "Fallback permission label."
     },
     "permissionManageCommunityDescription": "Redigera globala inställningar som namn, beskrivning och ikon.",
     "@permissionManageCommunityDescription": {
@@ -12238,18 +11464,6 @@
     "@channelSettingsVoiceRegion": {
         "description": "Label for voice region picker."
     },
-    "channelSettingsResetSlider": "Återställ reglaget till standardvärdet",
-    "@channelSettingsResetSlider": {
-        "description": "Tooltip for reset buttons on channel settings sliders."
-    },
-    "channelSettingsAdvanced": "Avancerat",
-    "@channelSettingsAdvanced": {
-        "description": "Collapsible advanced section title in channel overview."
-    },
-    "channelSettingsMatureContentOverride": "Åsidosätt inställningen för vuxet innehåll",
-    "@channelSettingsMatureContentOverride": {
-        "description": "Accessibility label for mature content override control."
-    },
     "channelSettingsMatureContentSectionDescription": "Åsidosätt inställningen för {scopeLevel}-nivå för den här kanalen. Mogen innehåll visas bakom en spärr före inträde.",
     "@channelSettingsMatureContentSectionDescription": {
         "description": "Section description for mature content settings in channel overview.",
@@ -12276,14 +11490,6 @@
             }
         }
     },
-    "channelSettingsMatureContentCategorySource": "kategori",
-    "@channelSettingsMatureContentCategorySource": {
-        "description": "Lowercase source label for inherited mature content from category."
-    },
-    "channelSettingsMatureContentCommunitySource": "community",
-    "@channelSettingsMatureContentCommunitySource": {
-        "description": "Lowercase source label for inherited mature content from community."
-    },
     "channelSettingsMatureContentCategoryScope": "Kategori",
     "@channelSettingsMatureContentCategoryScope": {
         "description": "Capitalized scope label when mature content inherits from a category."
@@ -12295,15 +11501,6 @@
     "channelSettingsContentWarningToggle": "Visa en innehållsvarning i den här kanalen",
     "@channelSettingsContentWarningToggle": {
         "description": "Toggle for showing content warning in channel."
-    },
-    "channelSettingsPermissionsNeedManageRoles": "Du behöver behörigheten \"{manageRolesPermissionLabel}\" för att redigera dessa behörigheter.",
-    "@channelSettingsPermissionsNeedManageRoles": {
-        "description": "Error when user lacks manage roles permission for channel permissions tab.",
-        "placeholders": {
-            "manageRolesPermissionLabel": {
-                "type": "String"
-            }
-        }
     },
     "channelSettingsUnknownRole": "Okänd roll",
     "@channelSettingsUnknownRole": {
@@ -12455,10 +11652,6 @@
     "notificationsEnableDesktopNotificationsDescription": "Använder operativsystemets aviseringscenter. För inställningar per kanal eller community, högerklicka på en communityikon och öppna aviseringsinställningarna.",
     "@notificationsEnableDesktopNotificationsDescription": {
         "description": "Description for the enable desktop notifications toggle."
-    },
-    "notificationsEnableBrowserNotificationsDescription": "Få aviseringar när du får meddelanden. Du kan behöva tillåta aviseringar i webbläsarens inställningar. För aviseringar per kanal/community, högerklicka på en community-ikon och öppna aviseringsinställningarna.",
-    "@notificationsEnableBrowserNotificationsDescription": {
-        "description": "Description for the enable browser notifications toggle."
     },
     "notificationsPushInactiveTimeoutDescription": "{productName} undviker att skicka pushaviseringar till dina mobila enheter när du använder datorn. Välj hur länge du behöver vara inaktiv på datorn innan du får pushaviseringar.",
     "@notificationsPushInactiveTimeoutDescription": {
@@ -12642,10 +11835,6 @@
     "channelSettingsPermissionsSearchRolesOrMembers": "Sök roller eller medlemmar…",
     "@channelSettingsPermissionsSearchRolesOrMembers": {
         "description": "Placeholder for the add override search field."
-    },
-    "channelSettingsPermissionsRolesAndMembers": "Roller och medlemmar",
-    "@channelSettingsPermissionsRolesAndMembers": {
-        "description": "Section title in the add override picker."
     },
     "channelSettingsDeleteInvite": "Ta bort inbjudan",
     "@channelSettingsDeleteInvite": {
@@ -13058,42 +12247,6 @@
     "gifPickerFavoritesEmptyDescription": "Föredra en GIF för att se den här.",
     "@gifPickerFavoritesEmptyDescription": {
         "description": "Empty state description for the GIF picker favorites view."
-    },
-    "requiredActionIntroGeneric": "Slutför den obligatoriska verifieringen för att fortsätta använda {productName}.",
-    "@requiredActionIntroGeneric": {
-        "description": "Generic required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailOrPhone": "Verifiera din e-postadress eller ditt telefonnummer för att fortsätta använda {productName}.",
-    "@requiredActionIntroEmailOrPhone": {
-        "description": "Email or phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailAndPhone": "Slutför de obligatoriska stegen för e-post- och telefonverifiering nedan för att fortsätta använda {productName}.",
-    "@requiredActionIntroEmailAndPhone": {
-        "description": "Email and phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionChooseMethodDescription": "Slutför verifieringen med en av metoderna nedan för att fortsätta använda {productName}.",
-    "@requiredActionChooseMethodDescription": {
-        "description": "Description when user can pick email or phone.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
     },
     "networkErrorMessage": "Något gick fel. Försök igen.",
     "@networkErrorMessage": {
@@ -13728,10 +12881,6 @@
     "@accessibilityPausedGifByReducedMotion": {
         "description": "Description for GIF toggle while reduced motion is active."
     },
-    "accessibilityGifDefaultsOffOnMobile": "Standardinställningen är av på mobila enheter för att spara batteri och data.",
-    "@accessibilityGifDefaultsOffOnMobile": {
-        "description": "Helper text for GIF autoplay default on mobile."
-    },
     "accessibilityStickerAnimationsTitle": "Animeringar för klistermärken",
     "@accessibilityStickerAnimationsTitle": {
         "description": "Subsection title for sticker animation preference."
@@ -14187,25 +13336,13 @@
     "@privacyDashboardFriendRequestsEveryone": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsEveryoneDesc": "Tillåt vem som helst att skicka vänförfrågningar till dig",
-    "@privacyDashboardFriendRequestsEveryoneDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsFriendsOfFriends": "Vänner till vänner",
     "@privacyDashboardFriendRequestsFriendsOfFriends": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsFriendsOfFriendsDesc": "Tillåt vänner till dina vänner att skicka dig förfrågningar",
-    "@privacyDashboardFriendRequestsFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsCommunityMembers": "Communitymedlemmar",
     "@privacyDashboardFriendRequestsCommunityMembers": {
         "description": "Privacy dashboard friend request toggle label."
-    },
-    "privacyDashboardFriendRequestsCommunityMembersDesc": "Tillåt medlemmar från communities du är med i att skicka dig förfrågningar",
-    "@privacyDashboardFriendRequestsCommunityMembersDesc": {
-        "description": "Privacy dashboard friend request toggle description."
     },
     "privacyDashboardDirectMessagesTitle": "Direktmeddelanden",
     "@privacyDashboardDirectMessagesTitle": {
@@ -14215,65 +13352,29 @@
     "@privacyDashboardDirectMessagesMembers": {
         "description": "Privacy dashboard DM toggle label."
     },
-    "privacyDashboardDirectMessagesMembersDesc": "Tillåt medlemmar från grupper du är med i att skicka direktmeddelanden till dig",
-    "@privacyDashboardDirectMessagesMembersDesc": {
-        "description": "Privacy dashboard DM toggle description."
-    },
     "privacyDashboardDirectMessagesBots": "Tillåt direktmeddelanden från community-botar",
     "@privacyDashboardDirectMessagesBots": {
         "description": "Privacy dashboard bot DM toggle label."
-    },
-    "privacyDashboardDirectMessagesBotsDesc": "Tillåt botar från communities du är med i att skicka direktmeddelanden till dig",
-    "@privacyDashboardDirectMessagesBotsDesc": {
-        "description": "Privacy dashboard bot DM toggle description."
-    },
-    "privacyDashboardConnectionsSectionDesc": "Kontrollera vem som kan skicka vänförfrågningar och direktmeddelanden till dig",
-    "@privacyDashboardConnectionsSectionDesc": {
-        "description": "Privacy dashboard connections section description."
-    },
-    "privacyDashboardCommunicationSectionDesc": "Styr vem som kan ringa dig och lägga till dig i gruppchattar",
-    "@privacyDashboardCommunicationSectionDesc": {
-        "description": "Privacy dashboard communication section description."
     },
     "privacyDashboardIncomingCallsTitle": "Inkommande samtal",
     "@privacyDashboardIncomingCallsTitle": {
         "description": "Privacy dashboard incoming calls subsection title."
     },
-    "privacyDashboardIncomingCallsDesc": "Bestäm vem som kan ringa dig",
-    "@privacyDashboardIncomingCallsDesc": {
-        "description": "Privacy dashboard incoming calls subsection description."
-    },
     "privacyDashboardAllowedCallers": "Personer som får ringa",
     "@privacyDashboardAllowedCallers": {
         "description": "Privacy > Communication: select label."
-    },
-    "privacyDashboardIncomingCallNobody": "Ingen",
-    "@privacyDashboardIncomingCallNobody": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallNobodyDesc": "Blockera alla inkommande samtal",
     "@privacyDashboardIncomingCallNobodyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallFriendsOnly": "Endast vänner",
-    "@privacyDashboardIncomingCallFriendsOnly": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallFriendsOnlyDesc": "Tillåt endast vänner att ringa dig (rekommenderas)",
     "@privacyDashboardIncomingCallFriendsOnlyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallCustom": "Vänner + Anpassad",
-    "@privacyDashboardIncomingCallCustom": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallCustomDesc": "Tillåt vänner plus ytterligare grupper du väljer",
     "@privacyDashboardIncomingCallCustomDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardIncomingCallEveryone": "Alla",
-    "@privacyDashboardIncomingCallEveryone": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallEveryoneDesc": "Tillåt vem som helst att ringa dig, även främlingar",
     "@privacyDashboardIncomingCallEveryoneDesc": {
@@ -14283,14 +13384,6 @@
     "@privacyDashboardAdditionalGroups": {
         "description": "Privacy dashboard label for custom permission groups."
     },
-    "privacyDashboardCallFriendsOfFriendsDesc": "Personer som är vänner med dina vänner kan ringa dig",
-    "@privacyDashboardCallFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
-    "privacyDashboardCallGuildMembersDesc": "Personer från gemenskaper som ni båda är med i kan ringa dig",
-    "@privacyDashboardCallGuildMembersDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
     "privacyDashboardRingBehavior": "Samtalsbeteende",
     "@privacyDashboardRingBehavior": {
         "description": "Privacy dashboard ring behavior subsection label."
@@ -14299,17 +13392,9 @@
     "@privacyDashboardSilentCalls": {
         "description": "Privacy dashboard silent calls toggle label."
     },
-    "privacyDashboardSilentCallsDesc": "Alla samtal meddelar tyst istället för att ringa. Som standard är samtal från icke-vänner alltid tysta.",
-    "@privacyDashboardSilentCallsDesc": {
-        "description": "Privacy dashboard silent calls toggle description."
-    },
     "privacyDashboardGroupDmTitle": "Vem kan lägga till dig i gruppchattar",
     "@privacyDashboardGroupDmTitle": {
         "description": "Privacy dashboard group DM subsection title."
-    },
-    "privacyDashboardGroupDmDesc": "Bestäm vem som kan lägga till dig i gruppchattar utan att fråga. Vem som helst kan fortfarande skicka inbjudningslänkar till dig.",
-    "@privacyDashboardGroupDmDesc": {
-        "description": "Privacy dashboard group DM subsection description."
     },
     "privacyDashboardAllowedInvites": "Tillåtna inbjudningar",
     "@privacyDashboardAllowedInvites": {
@@ -14330,14 +13415,6 @@
     "privacyDashboardGroupDmEveryoneDesc": "Tillåt vem som helst att lägga till dig i gruppchattar utan att fråga",
     "@privacyDashboardGroupDmEveryoneDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardGroupDmFriendsOfFriendsDesc": "Personer som är vänner med dina vänner kan lägga till dig i gruppchattar",
-    "@privacyDashboardGroupDmFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
-    },
-    "privacyDashboardGroupDmGuildMembersDesc": "Personer från gemenskaper ni båda är med i kan lägga till dig i gruppchattar",
-    "@privacyDashboardGroupDmGuildMembersDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
     },
     "privacyDashboardVoiceActivityTitle": "Röstaktivitet i Aktiva nu",
     "@privacyDashboardVoiceActivityTitle": {
@@ -14870,26 +13947,6 @@
     "@composerAutocompleteOptionalArgumentsHeading": {
         "description": "Section heading in composer autocomplete for adding optional slash-command arguments."
     },
-    "composerAutocompleteChannelsHeading": "Kanaler",
-    "@composerAutocompleteChannelsHeading": {
-        "description": "Section heading in composer autocomplete for channel suggestions."
-    },
-    "composerAutocompleteMembersHeading": "Medlemmar",
-    "@composerAutocompleteMembersHeading": {
-        "description": "Section heading in composer autocomplete for member suggestions."
-    },
-    "composerAutocompleteUsersHeading": "Användare",
-    "@composerAutocompleteUsersHeading": {
-        "description": "Section heading in composer autocomplete for user suggestions."
-    },
-    "composerAutocompleteMentionsHeading": "Omnämnanden",
-    "@composerAutocompleteMentionsHeading": {
-        "description": "Section heading in composer autocomplete for mixed mention suggestions."
-    },
-    "composerAutocompleteRolesHeading": "Roller",
-    "@composerAutocompleteRolesHeading": {
-        "description": "Section heading in composer autocomplete for role suggestions."
-    },
     "composerAutocompleteMediaHeading": "Medier",
     "@composerAutocompleteMediaHeading": {
         "description": "Section heading in composer autocomplete for saved media."
@@ -15106,10 +14163,6 @@
     "memberListUnavailableBody": "Medlemslistor är tillfälligt otillgängliga i den här communityn",
     "@memberListUnavailableBody": {
         "description": "Body when member list updates are disabled for the community."
-    },
-    "channelHeaderOpenDetails": "Öppna kanaldetaljer",
-    "@channelHeaderOpenDetails": {
-        "description": "Accessibility label for the channel header title area."
     },
     "channelHeaderPinnedMessages": "Fästa meddelanden",
     "@channelHeaderPinnedMessages": {
@@ -15472,10 +14525,6 @@
     "@userSettingsSearchPlaceholder": {
         "description": "Placeholder for the user settings search field."
     },
-    "userSettingsSearchFieldLabel": "Sök inställningar",
-    "@userSettingsSearchFieldLabel": {
-        "description": "Accessibility label for the user settings search field."
-    },
     "userSettingsSearchClear": "Rensa sökning",
     "@userSettingsSearchClear": {
         "description": "Accessibility label for clearing the user settings search field."
@@ -15502,8 +14551,6 @@
     "giftSettingsGiftUrl": "Presentlänk",
     "giftSettingsCopy": "Kopiera",
     "giftSettingsCopied": "Kopierat",
-    "giftSettingsGiftUrlCopied": "Presentlänk kopierad till urklipp!",
-    "giftSettingsGiftUrlCopyFailed": "Kunde inte kopiera presentlänk",
     "giftSettingsPurchasedDate": "Köpt {date}",
     "@giftSettingsPurchasedDate": {
         "placeholders": {
@@ -15545,7 +14592,6 @@
     "premiumBuyGift": "Köp present",
     "premiumOneYearGift": "1 års present",
     "premiumOneMonthGift": "1 månads gåva",
-    "premiumMostPopular": "Mest populär",
     "premiumScrollPrompt": "Skrolla ner för att se alla förmåner som ingår i Plutonium",
     "premiumFreeVsPlutonium": "Gratis jämfört med Plutonium",
     "premiumFreeColumn": "Gratis",
@@ -15563,50 +14609,15 @@
     "premiumViewGifts": "Visa presenter",
     "premiumReadyToUpgrade": "Redo att uppgradera?",
     "premiumReadyToBuyGift": "Redo att köpa en present?",
-    "premiumMonthlyPrice": "Månadsvis {price}",
-    "@premiumMonthlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumYearlyPrice": "Årligen {price}",
-    "@premiumYearlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneYearPrice": "1 år {price}",
-    "@premiumOneYearPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneMonthPrice": "1 månad {price}",
-    "@premiumOneMonthPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
     "premiumManageSubscription": "Hantera abonnemang",
     "premiumRedeemGiftCode": "Lös in presentkod",
     "premiumGiftBadge": "Present",
     "premiumCancelSubscriptionTitle": "Säga upp abonnemanget?",
     "premiumCancelSubscriptionBody": "Du behåller dina förmåner till nästa förnyelsedatum och har sedan en respitperiod på 3 dagar för att teckna abonnemang igen och behålla din abonnemangshistorik.",
     "premiumCancelSubscriptionConfirm": "Säg upp abonnemanget",
-    "premiumKeepSubscription": "Behåll abonnemanget",
     "premiumPurchaseHistoryTitle": "Köphistorik",
     "premiumPurchaseHistoryDescription": "Dina senaste fakturor. För att ändra betalningsmetod för din prenumeration, lägg till eller välj en i faktureringsportalen och gör den till standard.",
     "premiumManagePaymentMethods": "Hantera betalningsmetoder",
-    "premiumBillingHistory": "Faktureringshistorik",
-    "premiumSelfServeRefundTitle": "Självbetjäningsåterbetalning",
     "premiumSelfServeRefundButton": "Återbetala senaste köpet",
     "premiumDisclaimerAgreementPrefix": "Genom att köpa godkänner du våra ",
     "premiumDisclaimerAgreementPastPrefix": "Genom att köpa godkände du våra ",
@@ -15646,17 +14657,6 @@
         "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
     },
     "premiumComparisonFeatureColumn": "Funktion",
-    "premiumDisclaimerPurchased": "Genom ditt köp godkände du våra {terms} och vår {privacy}.",
-    "@premiumDisclaimerPurchased": {
-        "placeholders": {
-            "terms": {
-                "type": "String"
-            },
-            "privacy": {
-                "type": "String"
-            }
-        }
-    },
     "premiumDisclaimerRefund": "Du kan själv begära återbetalning inom 3 dagar efter betalning, en gång var 30:e dag. Återbetalning av ett abonnemang avslutar det. Köpare inom EU/EES avstår från ångerrätten på 14 dagar i kassan för att få tillgång till innehållet direkt. Använd återbetalningsknappen i appen i stället för att bestrida betalningen via banken. Kortreklamationer kan leda till permanenta begränsningar av ditt konto. Stripe hanterar betalningar säkert. Vi ser aldrig ditt fullständiga kortnummer.",
     "premiumTermsOfService": "Användarvillkor",
     "premiumPrivacyPolicy": "Integritetspolicy",
@@ -15697,24 +14697,14 @@
     },
     "premiumClaimAccountToPurchase": "Hämta ditt konto för att köpa Fluxer Plutonium.",
     "premiumVerifyEmailToPurchase": "Du behöver verifiera din e-postadress innan du kan köpa Fluxer Plutonium.",
-    "premiumPerkCustomUsernameTag": "Anpassad användartagg",
-    "premiumPerkPerCommunityProfiles": "Profiler per community",
-    "premiumPerkMessageScheduling": "Schemalägg meddelande",
-    "premiumPerkProfileBadge": "Profilmärke",
-    "premiumPerkCustomVideoBackgrounds": "Anpassade videobakgrunder",
-    "premiumPerkEntranceSounds": "Anslutningsljud",
     "premiumPerkCommunities": "Communities",
     "premiumPerkMessageCharacterLimit": "Teckengräns för meddelanden",
     "premiumPerkBookmarkedMessages": "Bokmärkta meddelanden",
     "premiumPerkFileUploadSize": "Filstorlek för uppladdning",
-    "premiumPerkEmojiStickerPacks": "Emoji- och paketklistermärken",
-    "premiumPerkSavedMedia": "Sparade medier",
     "premiumPerkUseAnimatedEmojis": "Använd animerade emojier",
-    "premiumPerkGlobalEmojiStickerAccess": "Global åtkomst till emojier och klistermärken",
     "premiumPerkVideoQuality": "Videokvalitet",
     "premiumPerkAnimatedAvatarsBanners": "Animerade avatarer och profilbanners",
     "premiumPerkEarlyAccess": "Tidig tillgång till nya funktioner",
-    "premiumPerkCustomThemes": "Anpassade teman",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "Upp till 4K/60 fps",
     "storePlutoniumPriceLine": "{monthly} eller {yearly}",
@@ -15930,7 +14920,6 @@
     "advancedSettingStripTrackingLabel": "Ta bort spårningsparametrar från webbadresser",
     "advancedSettingStripTrackingDescription": "Ta automatiskt bort spårningsparametrar från webbadresser i meddelanden du skickar",
     "advancedSettingTrustAllLinksLabel": "Lita på alla externa länkar",
-    "advancedSettingTrustAllLinksDescription": "Hoppa över varningen för externa länkar för alla domäner",
     "advancedSettingSearchEnginesLabel": "Sökmotorer",
     "advancedSettingSearchEnginesDescription": "Konfigurera sökmotorer för markerad text",
     "advancedSettingTranslatorsLabel": "Översättare",
@@ -15986,13 +14975,6 @@
     "advancedSettingHideStreamPreviewLabel": "Dölj förhandsvisningsbilden för min sändning",
     "advancedSettingDeveloperModeLabel": "Aktivera utvecklarläge",
     "advancedSettingDeveloperModeDescription": "Aktivera utvecklarläge",
-    "advancedSettingSearchEngineGoogle": "Google",
-    "advancedSettingSearchEngineDuckDuckGo": "DuckDuckGo",
-    "advancedSettingSearchEngineBing": "Bing",
-    "advancedSettingSearchEngineGoogleLens": "Google Lens",
-    "advancedSettingSearchEngineTinEye": "TinEye",
-    "advancedSettingTranslatorGoogle": "Google Translate",
-    "advancedSettingTranslatorDeepL": "DeepL",
     "advancedSettingDefaultSearchEngineLabel": "Standardsökmotor",
     "advancedSettingDefaultSearchEngineDescription": "Välj vilken sökmotor som ska användas som standard när du söker efter markerad text.",
     "advancedSettingBuiltInSearchEnginesLabel": "Inbyggda sökmotorer",
@@ -16546,10 +15528,6 @@
     "@guildMembersColumnRoles": {
         "description": "Table column header on the community members page."
     },
-    "guildMembersColumnActions": "Åtgärder",
-    "@guildMembersColumnActions": {
-        "description": "Table column header on the community members page."
-    },
     "guildMembersFilterMemberSince": "Filtrera efter när medlemmen gick med",
     "@guildMembersFilterMemberSince": {
         "description": "Filter menu label on the community members page."
@@ -16634,23 +15612,6 @@
     "@guildMembersIndexing": {
         "description": "Banner shown while guild members are being indexed."
     },
-    "guildMembersGoToPage": "Gå till sida",
-    "@guildMembersGoToPage": {
-        "description": "Pagination jump label on the community members page."
-    },
-    "guildMembersGoToPageItem": "Gå till sida {page}",
-    "@guildMembersGoToPageItem": {
-        "description": "Accessibility label for a pagination page button.",
-        "placeholders": {
-            "page": {
-                "type": "int"
-            }
-        }
-    },
-    "guildMembersJumpToPage": "Gå till sida",
-    "@guildMembersJumpToPage": {
-        "description": "Label for pagination jump input on the community members page."
-    },
     "guildMembersJoinSourceCreator": "Skapare av communityn",
     "@guildMembersJoinSourceCreator": {
         "description": "Join method label on the community members page."
@@ -16727,28 +15688,14 @@
             }
         }
     },
-    "guildMembersJoinedDaysAgo": "{count, plural, one {1 dag sedan} other {{count} dagar sedan}}",
-    "@guildMembersJoinedDaysAgo": {
-        "description": "Relative join time on the community members page.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
     "guildMembersChannelListLabel": "Medlemmar",
     "@guildMembersChannelListLabel": {
         "description": "Label for the Members item at the top of the guild channel list."
-    },
-    "guildMembersChannelListSelected": "Medlemmar, valda",
-    "@guildMembersChannelListSelected": {
-        "description": "Accessibility label when the Members channel list item is selected."
     },
     "guildSettingsEmojiSlotsTitle": "Emojiplatser",
     "guildSettingsEmojiDropZone": "Dra och släpp emoji-filer här",
     "guildSettingsEmojiLoadFailed": "Det gick inte att läsa in emojier. Försök igen senare.",
     "guildSettingsEmojiSearchEmpty": "Inga emojier matchar din sökning.",
-    "guildSettingsEmojiNoSlots": "Inga emojiplatser är tillgängliga",
     "guildSettingsEmojiSlotsFull": "Du har nått det maximala antalet emojier. Ta bort några befintliga emojier för att göra plats.",
     "guildSettingsEmojiUploadRequirements": "Emojinamn måste innehålla minst 2 tecken och får innehålla bokstäver, siffror och understreck. Emojier måste vara mindre än {maxSize}. Statiska bilder skalas till 128x128 pixlar och komprimeras automatiskt. Animerade emojier och SVG-filer måste redan vara inom gränsen.",
     "@guildSettingsEmojiUploadRequirements": {
@@ -16758,24 +15705,11 @@
             }
         }
     },
-    "guildSettingsEmojiUploadingTitle": "Laddar upp emojier",
-    "guildSettingsEmojiUploadingBody": "Laddar upp {count, plural, one {# emoji} other {# emojis}}. Det kan ta en liten stund.",
-    "@guildSettingsEmojiUploadingBody": {
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsEmojiUploadFailed": "Det gick inte att ladda upp emojier. Försök igen.",
     "guildSettingsEmojiSomeFailedTitle": "Vissa emojier kunde inte läggas till",
-    "guildSettingsEmojiSomeFailedBody": "Granska filerna och försök igen med mindre eller enklare bilder.",
     "guildSettingsEmojiRenameTitle": "Byt namn på emoji",
     "guildSettingsEmojiRenameHint": "2–32 tecken, bokstäver, siffror, understreck.",
-    "guildSettingsEmojiColumnEmoji": "Emoji",
     "guildSettingsEmojiColumnName": "Namn",
     "guildSettingsEmojiColumnUploader": "Uppladdad av",
-    "guildSettingsEmojiUnknownUploader": "Okänt",
     "guildSettingsEmojiDeleteTitle": "Ta bort emoji",
     "guildSettingsEmojiDeleteBody": "Ta bort :{name}:? Kan inte ångras.",
     "@guildSettingsEmojiDeleteBody": {
@@ -16790,15 +15724,7 @@
     "guildSettingsEmojiNameTooLong": "Emojinamnet får vara högst 32 tecken långt",
     "guildSettingsEmojiInvalidNameTitle": "Ogiltigt emojinamn",
     "guildSettingsEmojiRenameFailedTitle": "Kunde inte byta namn på den här emojin",
-    "guildSettingsEmojiRenameFailedBody": "Namnet återställdes till det tidigare. Försök igen om en liten stund.",
-    "guildSettingsEmojiGoneTitle": "Den här emojin finns inte längre",
-    "guildSettingsEmojiGoneBody": "Den kan ha raderats. Namnet återställdes till vad det var tidigare.",
-    "guildSettingsEmojiNoPermissionRenameTitle": "Du kan inte byta namn på den här emojin",
-    "guildSettingsEmojiNoPermissionRenameBody": "Du har inte behörighet att byta namn på den här emojin. Namnet återställdes till det tidigare.",
-    "guildSettingsEmojiRateLimitedTitle": "Du går för snabbt",
-    "guildSettingsEmojiRateLimitedBody": "Vänta en stund och försök byta namn igen.",
     "guildSettingsEmojiDeleteFailedTitle": "Kunde inte ta bort den här emojin",
-    "guildSettingsEmojiDeleteNoPermissionTitle": "Du kan inte ta bort den här emojin",
     "guildSettingsCloneEmojiTitle": "Tillåt andra att klona dina emojier",
     "guildSettingsCloneEmojiDescription": "När den är aktiverad kan medlemmar i andra communityn använda genvägen \"Klona\" med ett klick i appen för dina anpassade emojier. Detta hindrar dem inte från att spara bilden och ladda upp den själva.",
     "guildSettingsCloneStickerTitle": "Tillåt andra att klona dina dekaler",
@@ -16822,8 +15748,6 @@
     "guildSettingsStickersLoadFailedTitle": "Kunde inte läsa in klistermärken",
     "guildSettingsStickersLoadFailedBody": "Ett fel uppstod vid inläsning av klistermärkena. Försök igen.",
     "guildSettingsStickersSearchEmpty": "Inga klistermärken matchar din sökning.",
-    "guildSettingsStickersEmptySearch": "Inga klistermärken hittades",
-    "guildSettingsStickerNoSlots": "Inga klistermärkesplatser är tillgängliga",
     "guildSettingsStickerSlotsFull": "Du har nått det maximala antalet klistermärken. Ta bort några befintliga klistermärken för att göra plats.",
     "guildSettingsStickerUploadRequirements": "Klistermärken sparas i 320x320 pixlar och måste vara mindre än {maxSize}. Statiska bilder skalas och komprimeras automatiskt. Animerade klistermärken och SVG-filer måste redan vara inom gränsen.",
     "@guildSettingsStickerUploadRequirements": {
@@ -16833,7 +15757,6 @@
             }
         }
     },
-    "guildSettingsStickerUnsupportedTitle": "Klistermärkesfilen stöds inte",
     "guildSettingsStickerAddTitle": "Lägg till klistermärke",
     "guildSettingsStickerEditTitle": "Redigera klistermärke",
     "guildSettingsStickerNameLabel": "Namn",
@@ -16858,8 +15781,6 @@
     "guildSettingsStickerNameTooLong": "Namnet får vara max 30 tecken",
     "guildSettingsStickerDescriptionTooLong": "Beskrivningen får vara max 500 tecken",
     "guildSettingsStickerCreateFailedTitle": "Kunde inte skapa det här klistermärket",
-    "guildSettingsStickerTooLargeTitle": "Klistermärket är för stort",
-    "guildSettingsStickerCompressFailedTitle": "Klistermärket kunde inte komprimeras tillräckligt",
     "guildSettingsStickerDeleteTitle": "Ta bort klistermärke",
     "guildSettingsStickerDeleteBody": "Ta bort \"{name}\"? Kan inte ångras.",
     "@guildSettingsStickerDeleteBody": {
@@ -16871,7 +15792,6 @@
     },
     "guildSettingsStickerPurgeLabel": "Rensa bort det här klistermärket från lagring och CDN",
     "guildSettingsStickerDeleteFailedTitle": "Kunde inte ta bort den här etiketten",
-    "guildSettingsStickerDeleteNoPermissionTitle": "Du kan inte ta bort den här etiketten",
     "keybindsSearchShortcuts": "Sök genvägar",
     "@keybindsSearchShortcuts": {
         "description": "Placeholder for the shortcuts settings search field."

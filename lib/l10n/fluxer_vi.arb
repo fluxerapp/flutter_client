@@ -32,10 +32,6 @@
     "@retry": {
         "description": "Generic label for retry actions (splash, errors, network, etc.)."
     },
-    "connectingCaps": "CONNECTING",
-    "@connectingCaps": {
-        "description": "Connecting text on the splash screen"
-    },
     "splashConnectionLost": "Mất kết nối",
     "@splashConnectionLost": {
         "description": "Fallback headline on splash when gateway is unavailable (web parity)."
@@ -301,10 +297,6 @@
             }
         }
     },
-    "ssoRequired": "Bạn cần đăng nhập một lần để truy cập phiên bản này.",
-    "@ssoRequired": {
-        "description": "Short sign-in note shown when the instance requires single sign-on."
-    },
     "organizationSsoProvider": "Đăng nhập bằng nhà cung cấp đăng nhập một lần của tổ chức bạn.",
     "@organizationSsoProvider": {
         "description": "Description shown when sign-in is restricted to the configured SSO provider."
@@ -325,10 +317,6 @@
                 "type": "String"
             }
         }
-    },
-    "logInViaBrowser": "Đăng nhập qua trình duyệt",
-    "@logInViaBrowser": {
-        "description": "Secondary login that opens or uses the system browser."
     },
     "needAccountPrompt": "Chưa có tài khoản? ",
     "@needAccountPrompt": {
@@ -444,26 +432,9 @@
     "@accountAdd": {
         "description": "Button to add a new account."
     },
-    "accountRemove": "Xóa",
-    "@accountRemove": {
-        "description": "Context menu option to remove a stored account."
-    },
-    "accountRemoveTitle": "Xóa {username}",
-    "@accountRemoveTitle": {
-        "description": "Title for the remove account confirmation modal.",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
     "accountRemoveDescription": "Thao tác này sẽ xóa phiên đã lưu cho tài khoản này.",
     "@accountRemoveDescription": {
         "description": "Description for the remove account confirmation modal."
-    },
-    "accountRemoveOnlyDescription": "Thao tác này sẽ xóa tài khoản duy nhất đã lưu trên thiết bị này.",
-    "@accountRemoveOnlyDescription": {
-        "description": "Description when removing the last stored account."
     },
     "accountExpired": "Đã hết hạn",
     "@accountExpired": {
@@ -995,10 +966,6 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsent": "Tôi đồng ý với Điều khoản dịch vụ và Chính sách quyền riêng tư",
-    "@registerConsent": {
-        "description": "Consent checkbox label for registration (plain text fallback)."
-    },
     "registerConsentPrefix": "Tôi đồng ý với ",
     "@registerConsentPrefix": {
         "description": "Text before the Terms of Service link in the consent checkbox."
@@ -1050,10 +1017,6 @@
     "passkeyTimeout": "Xác thực khóa truy cập đã hết thời gian. Vui lòng thử lại.",
     "@passkeyTimeout": {
         "description": "Error when passkey authentication times out."
-    },
-    "passkeyNotAvailable": "Tạo khóa không khả dụng cho ứng dụng này. Thay vào đó, hãy đăng nhập bằng email và mật khẩu.",
-    "@passkeyNotAvailable": {
-        "description": "Error for unknown passkey provider errors (e.g. TYPE_UNKNOWN)."
     },
     "passkeyFailed": "Xác thực khóa truy cập thất bại. Vui lòng thử lại.",
     "@passkeyFailed": {
@@ -1215,26 +1178,6 @@
     "inviteAcceptSomeone": "ai đó",
     "@inviteAcceptSomeone": {
         "description": "Fallback inviter name when the inviter is unknown."
-    },
-    "inviteAcceptEmojiPack": "Gói biểu tượng cảm xúc",
-    "@inviteAcceptEmojiPack": {
-        "description": "Label for an emoji pack invite."
-    },
-    "inviteAcceptStickerPack": "Gói nhãn dán",
-    "@inviteAcceptStickerPack": {
-        "description": "Label for a sticker pack invite."
-    },
-    "inviteAcceptInstallEmojiPack": "Cài đặt gói biểu tượng cảm xúc",
-    "@inviteAcceptInstallEmojiPack": {
-        "description": "Primary action to install an emoji pack from an invite."
-    },
-    "inviteAcceptInstallStickerPack": "Cài đặt bộ sticker",
-    "@inviteAcceptInstallStickerPack": {
-        "description": "Primary action to install a sticker pack from an invite."
-    },
-    "inviteAcceptPackInstallNote": "Chấp nhận lời mời này sẽ tự động cài đặt gói.",
-    "@inviteAcceptPackInstallNote": {
-        "description": "Note shown on expression pack invites before accepting."
     },
     "mentionUnknownChannel": "unknown-channel",
     "@mentionUnknownChannel": {
@@ -2250,10 +2193,6 @@
             }
         }
     },
-    "emojiPlutoniumUpsellButton": "Nhận Plutonium",
-    "@emojiPlutoniumUpsellButton": {
-        "description": "Button label on the Plutonium upsell banner."
-    },
     "emojiPlutoniumUpsellDismiss": "Không hiển thị lại",
     "@emojiPlutoniumUpsellDismiss": {
         "description": "Dismiss link on the Plutonium upsell banner."
@@ -2426,10 +2365,6 @@
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
     },
-    "fluxerTagInputLabel": "Tên người dùng",
-    "@fluxerTagInputLabel": {
-        "description": "Label above the username and discriminator input fields."
-    },
     "fluxerTagDescriptionBase": "Tên người dùng chỉ có thể chứa chữ cái (a-z, A-Z), số (0-9) và dấu gạch dưới. Tên người dùng không phân biệt chữ hoa, chữ thường.",
     "@fluxerTagDescriptionBase": {
         "description": "Base description text on the username change sheet."
@@ -2457,10 +2392,6 @@
     "validationAllowedChars": "Chỉ dùng chữ cái (a-z, A-Z), số (0-9) và dấu gạch dưới (_)",
     "@validationAllowedChars": {
         "description": "Validation rule for allowed username characters."
-    },
-    "discriminatorPremiumTooltip": "Nhận Plutonium để tùy chỉnh thẻ của bạn hoặc giữ nguyên khi đổi tên người dùng",
-    "@discriminatorPremiumTooltip": {
-        "description": "Tooltip on disabled discriminator field for non-premium users."
     },
     "fluxerTagAlreadyTaken": "Tên người dùng đã được sử dụng",
     "@fluxerTagAlreadyTaken": {
@@ -2515,19 +2446,6 @@
     "premiumUpsellCustomizeTag": "Tùy chỉnh thẻ 4 chữ số của bạn hoặc giữ nguyên khi đổi tên người dùng",
     "@premiumUpsellCustomizeTag": {
         "description": "Upsell text encouraging non-premium users to get Plutonium for tag customization."
-    },
-    "premiumTrialExpiresOn": "Gói Plutonium dùng thử của bạn sẽ hết hạn vào ngày {date}. Nâng cấp để giữ thẻ tùy chỉnh của bạn và nhận huy hiệu trên hồ sơ.",
-    "@premiumTrialExpiresOn": {
-        "description": "Trial upsell with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActive": "Bạn đang dùng thử Plutonium. Nâng cấp để giữ thẻ tùy chỉnh và nhận huy hiệu trên hồ sơ của bạn.",
-    "@premiumTrialActive": {
-        "description": "Trial upsell without specific expiry date."
     },
     "fluxerTagUpdated": "Đã cập nhật tên người dùng",
     "@fluxerTagUpdated": {
@@ -2701,32 +2619,6 @@
     "@hideVisionaryIdDescription": {
         "description": "Description for the toggle to hide the Visionary ID badge."
     },
-    "premiumTrialSubscriptionStarts": "Bạn đang dùng thử Plutonium — gói đăng ký của bạn sẽ bắt đầu vào ngày {date}",
-    "@premiumTrialSubscriptionStarts": {
-        "description": "Trial banner title when user has an active subscription pending after trial.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialSubscriptionStartsDescription": "Đăng ký của bạn sẽ tự động bắt đầu khi bản dùng thử kết thúc. Bạn không cần thực hiện hành động nào.",
-    "@premiumTrialSubscriptionStartsDescription": {
-        "description": "Trial banner description when user has an active subscription pending after trial."
-    },
-    "premiumTrialExpiresOnProfile": "Bạn đang dùng thử Plutonium, sẽ hết hạn vào ngày {date}",
-    "@premiumTrialExpiresOnProfile": {
-        "description": "Trial banner title with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActiveProfile": "Bạn đang dùng thử Plutonium",
-    "@premiumTrialActiveProfile": {
-        "description": "Trial banner title without specific expiry date."
-    },
     "avatarDescriptionNonPremium": "JPEG, PNG, WebP. Tối đa 10MB. Khuyến nghị: 512×512px. Ảnh đại diện động (GIF) yêu cầu Plutonium.",
     "@avatarDescriptionNonPremium": {
         "description": "Avatar helper text for non-premium users, mentioning Plutonium requirement for animated avatars."
@@ -2811,22 +2703,6 @@
     "profileSavedToast": "Đã cập nhật hồ sơ",
     "@profileSavedToast": {
         "description": "Toast message shown after successfully saving profile changes."
-    },
-    "profileEditButton": "Chỉnh sửa hồ sơ",
-    "@profileEditButton": {
-        "description": "Button label to open profile editing from the profile content card."
-    },
-    "profileNoteLabel": "Ghi chú",
-    "@profileNoteLabel": {
-        "description": "Label for the personal note section on a user profile."
-    },
-    "profileNoteVisibility": "(chỉ mình bạn thấy)",
-    "@profileNoteVisibility": {
-        "description": "Hint that the note is private and only visible to the current user."
-    },
-    "profileNoteEmpty": "Chưa có ghi chú.",
-    "@profileNoteEmpty": {
-        "description": "Placeholder shown when no personal note has been set for a user."
     },
     "sudoTitle": "Xác minh danh tính của bạn",
     "@sudoTitle": {
@@ -3199,42 +3075,6 @@
     "@securityPasskeyNameHint": {
         "description": "Hint for passkey name input."
     },
-    "securityPhoneSectionTitle": "Số điện thoại",
-    "@securityPhoneSectionTitle": {
-        "description": "Title for phone number section."
-    },
-    "securityPhoneSectionDescription": "Quản lý số điện thoại của bạn.",
-    "@securityPhoneSectionDescription": {
-        "description": "Description for phone number section."
-    },
-    "securityPhoneLabel": "Số điện thoại",
-    "@securityPhoneLabel": {
-        "description": "Label for phone number row."
-    },
-    "securityPhoneNone": "Chưa thêm số điện thoại.",
-    "@securityPhoneNone": {
-        "description": "Shown when no phone number is set."
-    },
-    "securityPhoneAdd": "Thêm số điện thoại",
-    "@securityPhoneAdd": {
-        "description": "Button to add phone number."
-    },
-    "securityPhoneRemove": "Xóa",
-    "@securityPhoneRemove": {
-        "description": "Button to remove phone number."
-    },
-    "securityPhoneRemoveTitle": "Xóa số điện thoại",
-    "@securityPhoneRemoveTitle": {
-        "description": "Title for phone remove confirmation."
-    },
-    "securityPhoneRemoveDescription": "Bạn có chắc chắn muốn xóa số điện thoại của mình không?",
-    "@securityPhoneRemoveDescription": {
-        "description": "Description for phone remove confirmation."
-    },
-    "securityPhoneRemoved": "Số điện thoại đã bị xóa",
-    "@securityPhoneRemoved": {
-        "description": "Toast after phone removed."
-    },
     "securityClaimTitle": "Tính năng bảo mật",
     "@securityClaimTitle": {
         "description": "Title when user needs to claim account for security."
@@ -3287,10 +3127,6 @@
     "@backupCodesWarning": {
         "description": "Warning about backup codes."
     },
-    "backupCodesDownload": "Tải xuống",
-    "@backupCodesDownload": {
-        "description": "Button to download backup codes."
-    },
     "backupCodesCopy": "Sao chép",
     "@backupCodesCopy": {
         "description": "Button to copy backup codes."
@@ -3306,206 +3142,6 @@
     "backupCodesDone": "Xong",
     "@backupCodesDone": {
         "description": "Button to close backup codes sheet."
-    },
-    "backupCodesViewTitle": "Xem mã dự phòng",
-    "@backupCodesViewTitle": {
-        "description": "Title for viewing existing backup codes."
-    },
-    "backupCodesViewDescription": "Bạn có thể cần xác minh danh tính trước khi xem mã sao lưu.",
-    "@backupCodesViewDescription": {
-        "description": "Description for view backup codes."
-    },
-    "phoneAddTitle": "Thêm số điện thoại",
-    "@phoneAddTitle": {
-        "description": "Title for phone add sheet."
-    },
-    "phoneAddLabel": "Số điện thoại",
-    "@phoneAddLabel": {
-        "description": "Label for phone input."
-    },
-    "phoneAddHint": "Nhập số điện thoại của bạn",
-    "@phoneAddHint": {
-        "description": "Hint for phone input."
-    },
-    "phoneAddFooter": "Chúng tôi sẽ gửi mã SMS khi có sẵn. Số của bạn không được liên kết với tài khoản của bạn. Chúng tôi chỉ giữ một mã đánh dấu được mã hóa, không có ID người dùng, để cho phép tối đa 2 lần xác minh trong khoảng 30 ngày.",
-    "@phoneAddFooter": {
-        "description": "Footer text for phone input."
-    },
-    "phoneAddSendCode": "Gửi mã",
-    "@phoneAddSendCode": {
-        "description": "Button to send phone verification code."
-    },
-    "phoneVerifyTitle": "Xác minh số điện thoại",
-    "@phoneVerifyTitle": {
-        "description": "Title for phone verify step."
-    },
-    "phoneVerifyDescription": "Nhập mã xác minh đã gửi đến số điện thoại của bạn.",
-    "@phoneVerifyDescription": {
-        "description": "Description for phone verify step."
-    },
-    "phoneAddSuccess": "Đã xác minh số điện thoại",
-    "@phoneAddSuccess": {
-        "description": "Toast after phone verified."
-    },
-    "phoneCountryLabel": "Quốc gia",
-    "@phoneCountryLabel": {
-        "description": "Label for country selector in phone verification."
-    },
-    "phoneSearchCountries": "Tìm kiếm quốc gia...",
-    "@phoneSearchCountries": {
-        "description": "Search hint for country selector."
-    },
-    "phoneNumberRequired": "Cần có số điện thoại",
-    "@phoneNumberRequired": {
-        "description": "Validation error when phone number is empty."
-    },
-    "phoneEnterValidNumber": "Nhập số điện thoại di động hợp lệ.",
-    "@phoneEnterValidNumber": {
-        "description": "Validation error for invalid phone format."
-    },
-    "phoneCannotBeUsed": "Không thể sử dụng số điện thoại này. Hãy thử số di động khác hoặc liên hệ bộ phận hỗ trợ.",
-    "@phoneCannotBeUsed": {
-        "description": "API error when phone number is rejected."
-    },
-    "phoneAlreadyUsed": "Số điện thoại này đã được sử dụng. Hãy thử số khác hoặc liên hệ bộ phận hỗ trợ.",
-    "@phoneAlreadyUsed": {
-        "description": "API error when phone number was reused."
-    },
-    "phoneCodeDidNotWork": "Mã đó không đúng. Hãy kiểm tra lại và thử lại.",
-    "@phoneCodeDidNotWork": {
-        "description": "API error for invalid verification code."
-    },
-    "phoneTooManyAttempts": "Đã thử quá nhiều lần. Vui lòng đợi một lát rồi thử lại.",
-    "@phoneTooManyAttempts": {
-        "description": "Rate limit error for phone verification."
-    },
-    "phoneSmsUnavailable": "Xác minh SMS hiện không khả dụng. Vui lòng thử lại sau hoặc liên hệ với bộ phận hỗ trợ.",
-    "@phoneSmsUnavailable": {
-        "description": "SMS provider unavailable error."
-    },
-    "phoneNotEligible": "Xác minh số điện thoại không khả dụng cho tài khoản này. Hãy dùng phương thức khác hoặc liên hệ bộ phận hỗ trợ.",
-    "@phoneNotEligible": {
-        "description": "Account not eligible for phone verification."
-    },
-    "phoneSomethingWentWrong": "Đã xảy ra lỗi. Vui lòng thử lại.",
-    "@phoneSomethingWentWrong": {
-        "description": "Generic phone verification error."
-    },
-    "phoneInboundExpensiveDescription": "Gửi SMS đến số điện thoại này quá đắt, vì vậy chúng tôi cần bạn gửi SMS cho chúng tôi thay thế. Bạn cũng có thể liên hệ bộ phận hỗ trợ để chúng tôi gỡ bỏ yêu cầu này khỏi tài khoản của bạn.",
-    "@phoneInboundExpensiveDescription": {
-        "description": "Inbound challenge reason for expensive destinations."
-    },
-    "phoneInboundDefaultDescription": "Chúng tôi cần bạn gửi SMS để xác minh số điện thoại của mình.",
-    "@phoneInboundDefaultDescription": {
-        "description": "Default inbound challenge description."
-    },
-    "phoneInboundStepOpenMessaging": "Mở ứng dụng nhắn tin trên điện thoại của bạn và tạo tin nhắn văn bản mới.",
-    "@phoneInboundStepOpenMessaging": {
-        "description": "Inbound verification step 1."
-    },
-    "phoneInboundStepSendCode": "Gửi mã {code} đến {number}.",
-    "@phoneInboundStepSendCode": {
-        "description": "Inbound verification step 2.",
-        "placeholders": {
-            "code": {
-                "type": "String"
-            },
-            "number": {
-                "type": "String"
-            }
-        }
-    },
-    "phoneInboundStepWait": "Chờ chúng tôi nhận được tin nhắn của bạn. Việc này có thể mất một phút.",
-    "@phoneInboundStepWait": {
-        "description": "Inbound verification step 3."
-    },
-    "phoneInboundGetNewCode": "Lấy mã mới",
-    "@phoneInboundGetNewCode": {
-        "description": "Button to refresh inbound challenge."
-    },
-    "phoneInboundChallengeCodeLabel": "Mã để gửi",
-    "@phoneInboundChallengeCodeLabel": {
-        "description": "Label for inbound challenge code."
-    },
-    "phoneInboundOurNumberLabel": "Gửi đến",
-    "@phoneInboundOurNumberLabel": {
-        "description": "Label for inbound destination number."
-    },
-    "requiredActionTitle": "Cần xác minh tài khoản",
-    "@requiredActionTitle": {
-        "description": "Title for required action blocking modal."
-    },
-    "requiredActionIntroGeneric": "Hoàn tất xác minh bắt buộc để tiếp tục sử dụng {productName}.",
-    "@requiredActionIntroGeneric": {
-        "description": "Generic required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroPhone": "Đăng ký của bạn cần một bước kiểm tra chống spam bổ sung trước khi tiếp tục.",
-    "@requiredActionIntroPhone": {
-        "description": "Phone-only required action intro."
-    },
-    "requiredActionIntroEmailOrPhone": "Xác minh email hoặc số điện thoại của bạn để tiếp tục sử dụng {productName}.",
-    "@requiredActionIntroEmailOrPhone": {
-        "description": "Email or phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailAndPhone": "Hoàn tất các bước xác minh email và điện thoại bắt buộc bên dưới để tiếp tục sử dụng {productName}.",
-    "@requiredActionIntroEmailAndPhone": {
-        "description": "Email and phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionChooseMethodTitle": "Chọn phương thức xác minh",
-    "@requiredActionChooseMethodTitle": {
-        "description": "Title when user can pick email or phone."
-    },
-    "requiredActionChooseMethodDescription": "Hoàn tất một trong các phương thức xác minh dưới đây để tiếp tục sử dụng {productName}.",
-    "@requiredActionChooseMethodDescription": {
-        "description": "Description when user can pick email or phone.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionUseEmail": "Dùng email",
-    "@requiredActionUseEmail": {
-        "description": "Button to choose email verification."
-    },
-    "requiredActionUsePhone": "Dùng số điện thoại",
-    "@requiredActionUsePhone": {
-        "description": "Button to choose phone verification."
-    },
-    "requiredActionCheckEmailTitle": "Kiểm tra email của bạn",
-    "@requiredActionCheckEmailTitle": {
-        "description": "Title for email verification instructions."
-    },
-    "requiredActionCheckEmailDescription": "Chúng tôi đã gửi một liên kết xác minh đến địa chỉ email của bạn. Hãy mở nó để tiếp tục.",
-    "@requiredActionCheckEmailDescription": {
-        "description": "Description for email verification instructions."
-    },
-    "requiredActionResendVerificationEmail": "Gửi lại email xác minh",
-    "@requiredActionResendVerificationEmail": {
-        "description": "Button to resend verification email."
-    },
-    "requiredActionVerificationEmailSent": "Đã gửi email xác minh. Kiểm tra hộp thư đến của bạn.",
-    "@requiredActionVerificationEmailSent": {
-        "description": "Toast after resending verification email."
-    },
-    "requiredActionSignOut": "Đăng xuất",
-    "@requiredActionSignOut": {
-        "description": "Sign out button in required action modal."
     },
     "dangerZoneSectionTitle": "Khu vực nguy hiểm",
     "@dangerZoneSectionTitle": {
@@ -3824,10 +3460,6 @@
     "@authorizedAppsScopeAdmin": {
         "description": "OAuth2 scope description: admin."
     },
-    "privacyPendingDeletionTitle": "Đang chờ xóa",
-    "@privacyPendingDeletionTitle": {
-        "description": "Title of the warning alert shown when a bulk message deletion is pending."
-    },
     "blockedUsersTitle": "Người dùng bị chặn",
     "@blockedUsersTitle": {
         "description": "Header title of the Blocked Users settings page."
@@ -4067,10 +3699,6 @@
     "userProfileNoteDelete": "Xóa",
     "@userProfileNoteDelete": {
         "description": "Delete button in the note editor sheet."
-    },
-    "userProfileNoteEmpty": "Nhấn để thêm ghi chú",
-    "@userProfileNoteEmpty": {
-        "description": "Hint text when no note has been written yet."
     },
     "userProfileMemberSince": "Thành viên từ",
     "@userProfileMemberSince": {
@@ -5071,17 +4699,9 @@
     "@channelComposerBarrierNotMemberLongEnough": {
         "description": "Composer barrier when the user's guild membership is too recent."
     },
-    "channelComposerBarrierNoPhoneNumber": "Bạn cần xác minh số điện thoại để gửi tin nhắn trong cộng đồng này.",
-    "@channelComposerBarrierNoPhoneNumber": {
-        "description": "Composer barrier when the user must verify a phone number before messaging."
-    },
     "channelComposerBarrierVerifyEmail": "Xác minh email",
     "@channelComposerBarrierVerifyEmail": {
         "description": "Action button on the composer barrier for unverified email."
-    },
-    "channelComposerBarrierVerifyPhone": "Xác minh số điện thoại",
-    "@channelComposerBarrierVerifyPhone": {
-        "description": "Action button on the composer barrier for missing phone verification."
     },
     "chatAttachmentTooMany": "Quá nhiều tệp đính kèm (tối đa {max})",
     "@chatAttachmentTooMany": {
@@ -5116,10 +4736,6 @@
     "@chatAttachmentDropToSend": {
         "description": "Overlay hint when dragging files over chat with Shift held."
     },
-    "chatAttachmentSendVoiceMessage": "Gửi tin nhắn thoại",
-    "@chatAttachmentSendVoiceMessage": {
-        "description": "Menu item to open the voice message recorder."
-    },
     "voiceMessageTitle": "Tin nhắn thoại",
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
@@ -5140,10 +4756,6 @@
     "@voiceMessageMicPermissionDenied": {
         "description": "Shown when microphone permission is denied for voice messages."
     },
-    "voiceMessageRecordingNotSupported": "Thiết bị này không hỗ trợ ghi âm giọng nói.",
-    "@voiceMessageRecordingNotSupported": {
-        "description": "Shown when the device cannot record voice messages."
-    },
     "voiceMessageMicInUse": "Rời khỏi cuộc gọi thoại để ghi âm tin nhắn thoại.",
     "@voiceMessageMicInUse": {
         "description": "Shown when the microphone is already used by an active voice call."
@@ -5155,26 +4767,6 @@
     "voiceMessageSendFailed": "Không gửi được tin nhắn thoại. Vui lòng thử lại.",
     "@voiceMessageSendFailed": {
         "description": "Shown when sending a voice message fails."
-    },
-    "voiceMessageRecordingHint": "Bắt đầu nói. Nhấn Dừng khi bạn hoàn tất — bạn có thể cắt sau.",
-    "@voiceMessageRecordingHint": {
-        "description": "Help text while recording a voice message on desktop."
-    },
-    "voiceMessageReviewHint": "Kéo các điểm điều khiển để cắt, sau đó nhấn Gửi.",
-    "@voiceMessageReviewHint": {
-        "description": "Help text while reviewing a voice message before send."
-    },
-    "voiceMessageStop": "Dừng",
-    "@voiceMessageStop": {
-        "description": "Stop recording button in voice message composer."
-    },
-    "voiceMessageStartRecording": "Bắt đầu ghi âm",
-    "@voiceMessageStartRecording": {
-        "description": "Button to retry voice recording after permission error."
-    },
-    "voiceMessageRerecord": "Ghi âm lại",
-    "@voiceMessageRerecord": {
-        "description": "Button to discard review and record again."
     },
     "voiceMessagePlay": "Phát",
     "@voiceMessagePlay": {
@@ -5191,16 +4783,6 @@
     "voiceMessageSeekBackward": "Lùi lại",
     "@voiceMessageSeekBackward": {
         "description": "Accessibility hint when decreasing voice message seek position."
-    },
-    "voiceMessageSelectionTooShort": "Đoạn đã chọn phải dài ít nhất {seconds} giây.",
-    "@voiceMessageSelectionTooShort": {
-        "description": "Error when trimmed voice message is too short.",
-        "placeholders": {
-            "seconds": {
-                "type": "num",
-                "format": "compact"
-            }
-        }
     },
     "chatAttachmentEditTitle": "Chỉnh sửa tệp đính kèm",
     "@chatAttachmentEditTitle": {
@@ -5357,10 +4939,6 @@
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
     },
-    "chatAttachmentPasteTooltip": "Dán tệp từ khay nhớ tạm",
-    "@chatAttachmentPasteTooltip": {
-        "description": "Tooltip for pasting a file attachment from the clipboard."
-    },
     "chatAttachmentSpoiler": "Nội dung ẩn",
     "@chatAttachmentSpoiler": {
         "description": "Badge text for spoiler attachments."
@@ -5457,14 +5035,6 @@
     "@matureContentOpenLinkButton": {
         "description": "Primary action on mature link channel gates."
     },
-    "sensitiveContentSectionTitle": "Nội dung nhạy cảm",
-    "@sensitiveContentSectionTitle": {
-        "description": "Privacy settings section title for sensitive content filters."
-    },
-    "sensitiveContentSectionDescription": "Kiểm soát mức độ lọc nội dung đa phương tiện nhạy cảm hoặc trưởng thành trong các ngữ cảnh khác nhau",
-    "@sensitiveContentSectionDescription": {
-        "description": "Privacy settings section description for sensitive content filters."
-    },
     "sensitiveContentFriendDmLabel": "Tin nhắn trực tiếp từ bạn bè",
     "@sensitiveContentFriendDmLabel": {
         "description": "Label for friend DM sensitive content filter."
@@ -5489,18 +5059,6 @@
     "@sensitiveContentFilterBlock": {
         "description": "Sensitive content filter option to block media."
     },
-    "sensitiveContentBlurUnscannedLabel": "Che ảnh phương tiện cho đến khi quét an toàn hoàn tất",
-    "@sensitiveContentBlurUnscannedLabel": {
-        "description": "Toggle label for blurring unscanned media."
-    },
-    "sensitiveContentBlurUnscannedDescriptionAdult": "Khi bật, ảnh và video sẽ bị làm mờ cho đến khi quá trình quét an toàn nội dung hoàn tất.",
-    "@sensitiveContentBlurUnscannedDescriptionAdult": {
-        "description": "Description for blur-unscanned toggle for adult accounts."
-    },
-    "sensitiveContentBlurUnscannedDescriptionMinor": "Cài đặt này luôn bật cho tài khoản của bạn.",
-    "@sensitiveContentBlurUnscannedDescriptionMinor": {
-        "description": "Description for blur-unscanned toggle for minor accounts."
-    },
     "sensitiveContentResetButton": "Đặt lại",
     "@sensitiveContentResetButton": {
         "description": "Reset button for sensitive content settings."
@@ -5517,10 +5075,6 @@
                 "type": "int"
             }
         }
-    },
-    "chatCancelUpload": "Hủy tải lên",
-    "@chatCancelUpload": {
-        "description": "Button or menu action label for canceling an in-flight message attachment upload."
     },
     "chatAttachmentExpiresOn": "Hết hạn vào {date}",
     "@chatAttachmentExpiresOn": {
@@ -5790,10 +5344,6 @@
     "@connectionEnterDomain": {
         "description": "Inline error shown when the domain input is empty."
     },
-    "lookAndFeelTitle": "Giao diện",
-    "@lookAndFeelTitle": {
-        "description": "Title of the Look & Feel (Appearance) settings page."
-    },
     "lookAndFeelThemeSectionTitle": "Giao diện",
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
@@ -5861,14 +5411,6 @@
     "lookAndFeelThemeSyncFailed": "Không thể đồng bộ giao diện với tài khoản của bạn. Vui lòng thử lại.",
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
-    },
-    "lookAndFeelChatFontScalingTitle": "Tỷ lệ cỡ chữ trò chuyện",
-    "@lookAndFeelChatFontScalingTitle": {
-        "description": "Search label for chat font size within the Messages section."
-    },
-    "lookAndFeelChatFontScalingDescription": "Điều chỉnh cỡ chữ trong cuộc trò chuyện.",
-    "@lookAndFeelChatFontScalingDescription": {
-        "description": "Search description for chat font size."
     },
     "lookAndFeelChatFontSizeLabel": "Cỡ chữ trò chuyện",
     "@lookAndFeelChatFontSizeLabel": {
@@ -5994,42 +5536,6 @@
     "lookAndFeelHideKeyboardHintsDescription": "Khi bật, các huy hiệu phím tắt sẽ bị ẩn trong các cửa sổ bật lên gợi ý.",
     "@lookAndFeelHideKeyboardHintsDescription": {
         "description": "Toggle description for the hide-keyboard-hints switch."
-    },
-    "lookAndFeelNekoTitle": "Khác",
-    "@lookAndFeelNekoTitle": {
-        "description": "Subsection title under Interface for Neko appearance settings."
-    },
-    "lookAndFeelNekoDescription": "Các tùy chọn giao diện khác.",
-    "@lookAndFeelNekoDescription": {
-        "description": "Subsection description for Neko appearance settings."
-    },
-    "lookAndFeelShowNekoLabel": "Hiện Neko",
-    "@lookAndFeelShowNekoLabel": {
-        "description": "Toggle label for showing Neko in the chat footer."
-    },
-    "lookAndFeelShowNekoDescription": "Khi bật, Neko sẽ xuất hiện gần thanh nhập tin nhắn.",
-    "@lookAndFeelShowNekoDescription": {
-        "description": "Toggle description for showing Neko in chat."
-    },
-    "lookAndFeelVoiceChannelJoinTitle": "Hành vi khi tham gia kênh thoại",
-    "@lookAndFeelVoiceChannelJoinTitle": {
-        "description": "Subsection title under Interface — voice channel join behavior."
-    },
-    "lookAndFeelVoiceChannelJoinDescription": "Kiểm soát cách bạn tham gia các kênh thoại trong cộng đồng.",
-    "@lookAndFeelVoiceChannelJoinDescription": {
-        "description": "Subsection description for voice channel join behavior."
-    },
-    "lookAndFeelRequireDoubleClickJoinLabel": "Yêu cầu nhấp đúp để vào kênh thoại",
-    "@lookAndFeelRequireDoubleClickJoinLabel": {
-        "description": "Toggle label — require double-click to join voice channels."
-    },
-    "lookAndFeelRequireDoubleClickJoinDescription": "Khi bật, bạn sẽ cần nhấp đúp vào kênh thoại để tham gia. Khi tắt (mặc định), nhấp một lần sẽ tham gia kênh ngay lập tức.",
-    "@lookAndFeelRequireDoubleClickJoinDescription": {
-        "description": "Toggle description for the require-double-click voice channel join switch."
-    },
-    "lookAndFeelChatFontPreviewSample": "Con cáo nâu nhanh nhẹn nhảy qua con chó lười.",
-    "@lookAndFeelChatFontPreviewSample": {
-        "description": "Sample text rendered at the selected chat font size to preview scaling."
     },
     "lookAndFeelGuildSidebarTitle": "Thanh bên máy chủ",
     "@lookAndFeelGuildSidebarTitle": {
@@ -6562,25 +6068,9 @@
     "@messagesMediaAutocompleteSavedMediaLabel": {
         "description": "Toggle label for saved media in expression autocomplete."
     },
-    "messagesMediaEditingSectionTitle": "Chỉnh sửa tin nhắn",
-    "@messagesMediaEditingSectionTitle": {
-        "description": "Section title for message editing settings."
-    },
-    "messagesMediaEditingSectionDescription": "Kiểm soát những gì xảy ra với bản nháp chỉnh sửa của bạn khi bạn hủy.",
-    "@messagesMediaEditingSectionDescription": {
-        "description": "Section description for message editing settings."
-    },
-    "messagesMediaEditingPreserveDraftLabel": "Lưu bản nháp chỉnh sửa khi hủy",
-    "@messagesMediaEditingPreserveDraftLabel": {
-        "description": "Toggle label for preserving edit drafts on cancel."
-    },
     "accessibilitySaturationTitle": "Độ bão hòa",
     "@accessibilitySaturationTitle": {
         "description": "Section title for the theme saturation slider on the accessibility settings page."
-    },
-    "accessibilitySaturationDescription": "Điều chỉnh mức độ rực rỡ của màu sắc chủ đề trên toàn bộ ứng dụng.",
-    "@accessibilitySaturationDescription": {
-        "description": "Section description for the theme saturation slider on the accessibility settings page."
     },
     "accessibilityVisualGroupTitle": "Hiển thị",
     "@accessibilityVisualGroupTitle": {
@@ -6605,10 +6095,6 @@
     "accessibilityDmMessagePreviewGroupTitle": "Xem trước tin nhắn DM",
     "@accessibilityDmMessagePreviewGroupTitle": {
         "description": "Section title for DM message preview accessibility settings."
-    },
-    "accessibilityDmMessagePreviewGroupDescription": "Kiểm soát thời điểm xem trước tin nhắn được hiển thị trong danh sách DM.",
-    "@accessibilityDmMessagePreviewGroupDescription": {
-        "description": "Section description for DM message preview accessibility settings."
     },
     "accessibilityDmMessagePreviewModeLabel": "Chế độ xem trước tin nhắn DM",
     "@accessibilityDmMessagePreviewModeLabel": {
@@ -6752,10 +6238,6 @@
     "accessibilityPausedGifByReducedMotion": "Đã tạm dừng do giảm chuyển động. Bật để tiếp tục phát ảnh GIF.",
     "@accessibilityPausedGifByReducedMotion": {
         "description": "Description for GIF toggle while reduced motion is active."
-    },
-    "accessibilityGifDefaultsOffOnMobile": "Mặc định tắt trên di động để tiết kiệm pin và dữ liệu.",
-    "@accessibilityGifDefaultsOffOnMobile": {
-        "description": "Helper text for GIF autoplay default on mobile."
     },
     "accessibilityStickerAnimationsTitle": "Ảnh động nhãn dán",
     "@accessibilityStickerAnimationsTitle": {
@@ -7235,10 +6717,6 @@
     "@voiceMultiDeviceDisconnectFailed": {
         "description": "Shown when switch-to-this-device times out waiting for other sessions to leave."
     },
-    "voiceChannelEmptyDescription": "Đây là một kênh thoại. Kết nối để bắt đầu trò chuyện!",
-    "@voiceChannelEmptyDescription": {
-        "description": "Empty state body when viewing a guild voice channel while not in the call."
-    },
     "voiceChannelJoin": "Tham gia kênh thoại",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
@@ -7282,14 +6760,6 @@
     "voiceChannelStatusConnecting": "Đang kết nối…",
     "@voiceChannelStatusConnecting": {
         "description": "Status in the in-page voice view while LiveKit is connecting."
-    },
-    "voiceChannelStatusConnected": "Đã kết nối",
-    "@voiceChannelStatusConnected": {
-        "description": "Status in the in-page voice view when the voice session is active."
-    },
-    "voiceChannelStatusError": "Lỗi",
-    "@voiceChannelStatusError": {
-        "description": "Short label in the channel header when the voice session reports an error."
     },
     "voiceParticipantTooltipMobileDevice": "Thiết bị di động",
     "@voiceParticipantTooltipMobileDevice": {
@@ -7368,10 +6838,6 @@
     "voiceScreenShareNotificationText": "Đang chia sẻ màn hình của bạn.",
     "@voiceScreenShareNotificationText": {
         "description": "Body text for the Android foreground notification shown while screen sharing."
-    },
-    "voiceControlMore": "Thêm",
-    "@voiceControlMore": {
-        "description": "Tooltip: more voice actions in the voice call control bar."
     },
     "voiceControlDisconnect": "Ngắt kết nối",
     "@voiceControlDisconnect": {
@@ -7924,25 +7390,13 @@
     "@privacyDashboardFriendRequestsEveryone": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsEveryoneDesc": "Cho phép mọi người gửi cho bạn lời mời kết bạn",
-    "@privacyDashboardFriendRequestsEveryoneDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsFriendsOfFriends": "Bạn của bạn bè",
     "@privacyDashboardFriendRequestsFriendsOfFriends": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsFriendsOfFriendsDesc": "Cho phép bạn bè của bạn bè gửi yêu cầu cho bạn",
-    "@privacyDashboardFriendRequestsFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsCommunityMembers": "Thành viên cộng đồng",
     "@privacyDashboardFriendRequestsCommunityMembers": {
         "description": "Privacy dashboard friend request toggle label."
-    },
-    "privacyDashboardFriendRequestsCommunityMembersDesc": "Cho phép thành viên từ các cộng đồng bạn tham gia gửi yêu cầu cho bạn",
-    "@privacyDashboardFriendRequestsCommunityMembersDesc": {
-        "description": "Privacy dashboard friend request toggle description."
     },
     "privacyDashboardDirectMessagesTitle": "Tin nhắn trực tiếp",
     "@privacyDashboardDirectMessagesTitle": {
@@ -7952,65 +7406,29 @@
     "@privacyDashboardDirectMessagesMembers": {
         "description": "Privacy dashboard DM toggle label."
     },
-    "privacyDashboardDirectMessagesMembersDesc": "Cho phép thành viên từ các cộng đồng bạn tham gia gửi tin nhắn trực tiếp cho bạn",
-    "@privacyDashboardDirectMessagesMembersDesc": {
-        "description": "Privacy dashboard DM toggle description."
-    },
     "privacyDashboardDirectMessagesBots": "Cho phép bot cộng đồng nhắn tin trực tiếp",
     "@privacyDashboardDirectMessagesBots": {
         "description": "Privacy dashboard bot DM toggle label."
-    },
-    "privacyDashboardDirectMessagesBotsDesc": "Cho phép bot từ các cộng đồng bạn tham gia gửi tin nhắn trực tiếp cho bạn",
-    "@privacyDashboardDirectMessagesBotsDesc": {
-        "description": "Privacy dashboard bot DM toggle description."
-    },
-    "privacyDashboardConnectionsSectionDesc": "Kiểm soát những ai có thể gửi cho bạn yêu cầu kết bạn và tin nhắn trực tiếp",
-    "@privacyDashboardConnectionsSectionDesc": {
-        "description": "Privacy dashboard connections section description."
-    },
-    "privacyDashboardCommunicationSectionDesc": "Kiểm soát ai có thể gọi cho bạn và thêm bạn vào các cuộc trò chuyện nhóm",
-    "@privacyDashboardCommunicationSectionDesc": {
-        "description": "Privacy dashboard communication section description."
     },
     "privacyDashboardIncomingCallsTitle": "Cuộc gọi đến",
     "@privacyDashboardIncomingCallsTitle": {
         "description": "Privacy dashboard incoming calls subsection title."
     },
-    "privacyDashboardIncomingCallsDesc": "Kiểm soát người có thể gọi cho bạn",
-    "@privacyDashboardIncomingCallsDesc": {
-        "description": "Privacy dashboard incoming calls subsection description."
-    },
     "privacyDashboardAllowedCallers": "Người gọi được phép",
     "@privacyDashboardAllowedCallers": {
         "description": "Privacy > Communication: select label."
-    },
-    "privacyDashboardIncomingCallNobody": "Không ai",
-    "@privacyDashboardIncomingCallNobody": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallNobodyDesc": "Chặn tất cả cuộc gọi đến",
     "@privacyDashboardIncomingCallNobodyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallFriendsOnly": "Chỉ bạn bè",
-    "@privacyDashboardIncomingCallFriendsOnly": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallFriendsOnlyDesc": "Chỉ cho phép bạn bè gọi cho bạn (được khuyến nghị)",
     "@privacyDashboardIncomingCallFriendsOnlyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallCustom": "Bạn bè + Tùy chỉnh",
-    "@privacyDashboardIncomingCallCustom": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallCustomDesc": "Cho phép bạn bè và các nhóm khác bạn chọn",
     "@privacyDashboardIncomingCallCustomDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardIncomingCallEveryone": "Mọi người",
-    "@privacyDashboardIncomingCallEveryone": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallEveryoneDesc": "Cho phép mọi người gọi cho bạn, kể cả người lạ",
     "@privacyDashboardIncomingCallEveryoneDesc": {
@@ -8020,14 +7438,6 @@
     "@privacyDashboardAdditionalGroups": {
         "description": "Privacy dashboard label for custom permission groups."
     },
-    "privacyDashboardCallFriendsOfFriendsDesc": "Những người là bạn bè của bạn bè có thể gọi cho bạn",
-    "@privacyDashboardCallFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
-    "privacyDashboardCallGuildMembersDesc": "Những người từ các cộng đồng mà cả hai bạn cùng tham gia có thể gọi cho bạn",
-    "@privacyDashboardCallGuildMembersDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
     "privacyDashboardRingBehavior": "Hành vi đổ chuông",
     "@privacyDashboardRingBehavior": {
         "description": "Privacy dashboard ring behavior subsection label."
@@ -8036,17 +7446,9 @@
     "@privacyDashboardSilentCalls": {
         "description": "Privacy dashboard silent calls toggle label."
     },
-    "privacyDashboardSilentCallsDesc": "Tất cả các cuộc gọi sẽ thông báo im lặng thay vì đổ chuông. Theo mặc định, các cuộc gọi từ người lạ luôn im lặng.",
-    "@privacyDashboardSilentCallsDesc": {
-        "description": "Privacy dashboard silent calls toggle description."
-    },
     "privacyDashboardGroupDmTitle": "Ai có thể thêm bạn vào nhóm trò chuyện",
     "@privacyDashboardGroupDmTitle": {
         "description": "Privacy dashboard group DM subsection title."
-    },
-    "privacyDashboardGroupDmDesc": "Kiểm soát những ai có thể thêm bạn vào nhóm mà không cần hỏi. Mọi người vẫn có thể gửi cho bạn liên kết mời tham gia.",
-    "@privacyDashboardGroupDmDesc": {
-        "description": "Privacy dashboard group DM subsection description."
     },
     "privacyDashboardAllowedInvites": "Lời mời được phép",
     "@privacyDashboardAllowedInvites": {
@@ -8067,14 +7469,6 @@
     "privacyDashboardGroupDmEveryoneDesc": "Cho phép mọi người thêm bạn vào nhóm mà không cần hỏi",
     "@privacyDashboardGroupDmEveryoneDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardGroupDmFriendsOfFriendsDesc": "Những người là bạn bè của bạn bè có thể thêm bạn vào các cuộc trò chuyện nhóm",
-    "@privacyDashboardGroupDmFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
-    },
-    "privacyDashboardGroupDmGuildMembersDesc": "Người từ các cộng đồng mà cả hai bạn cùng tham gia có thể thêm bạn vào các nhóm chat",
-    "@privacyDashboardGroupDmGuildMembersDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
     },
     "privacyDashboardVoiceActivityTitle": "Hoạt động thoại trong mục Đang hoạt động",
     "@privacyDashboardVoiceActivityTitle": {
@@ -9227,26 +8621,6 @@
     "@composerAutocompleteOptionalArgumentsHeading": {
         "description": "Section heading in composer autocomplete for adding optional slash-command arguments."
     },
-    "composerAutocompleteChannelsHeading": "Kênh",
-    "@composerAutocompleteChannelsHeading": {
-        "description": "Section heading in composer autocomplete for channel suggestions."
-    },
-    "composerAutocompleteMembersHeading": "Thành viên",
-    "@composerAutocompleteMembersHeading": {
-        "description": "Section heading in composer autocomplete for member suggestions."
-    },
-    "composerAutocompleteUsersHeading": "Người dùng",
-    "@composerAutocompleteUsersHeading": {
-        "description": "Section heading in composer autocomplete for user suggestions."
-    },
-    "composerAutocompleteMentionsHeading": "Lượt nhắc đến",
-    "@composerAutocompleteMentionsHeading": {
-        "description": "Section heading in composer autocomplete for mixed mention suggestions."
-    },
-    "composerAutocompleteRolesHeading": "Vai trò",
-    "@composerAutocompleteRolesHeading": {
-        "description": "Section heading in composer autocomplete for role suggestions."
-    },
     "composerAutocompleteMediaHeading": "Phương tiện",
     "@composerAutocompleteMediaHeading": {
         "description": "Section heading in composer autocomplete for saved media."
@@ -9561,10 +8935,6 @@
     "@addGuildImportTemplateInvalid": {
         "description": "API error when Fluxer rejects the imported community template payload."
     },
-    "addGuildPackInstalled": "Đã cài đặt gói thành công.",
-    "@addGuildPackInstalled": {
-        "description": "Toast shown after accepting an emoji or sticker pack invite."
-    },
     "chatMessageRemoveAllReactionsConfirmTitle": "Xóa tất cả cảm xúc",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
         "description": "Title for the remove-all-reactions confirmation sheet."
@@ -9686,10 +9056,6 @@
     "channelDetailsDeleteChannel": "Xóa kênh",
     "@channelDetailsDeleteChannel": {
         "description": "Channel details menu action to delete a guild channel."
-    },
-    "channelSettingsCategorySettingsTitle": "Cài đặt danh mục",
-    "@channelSettingsCategorySettingsTitle": {
-        "description": "Title for category settings modal."
     },
     "channelSettingsEditCategory": "Chỉnh sửa danh mục",
     "@channelSettingsEditCategory": {
@@ -9950,18 +9316,6 @@
     "@channelSettingsVoiceRegionsLoadFailedDescription": {
         "description": "Error modal body when voice regions fail to load in channel settings."
     },
-    "channelSettingsResetSlider": "Đặt lại thanh trượt về giá trị mặc định",
-    "@channelSettingsResetSlider": {
-        "description": "Tooltip for reset buttons on channel settings sliders."
-    },
-    "channelSettingsAdvanced": "Nâng cao",
-    "@channelSettingsAdvanced": {
-        "description": "Collapsible advanced section title in channel overview."
-    },
-    "channelSettingsMatureContentOverride": "Ghi đè nội dung người lớn",
-    "@channelSettingsMatureContentOverride": {
-        "description": "Accessibility label for mature content override control."
-    },
     "channelSettingsMatureContentSectionDescription": "Ghi đè cài đặt cấp độ {scopeLevel} cho kênh này. Nội dung nhạy cảm sẽ được hiển thị sau một lớp cổng trước khi vào.",
     "@channelSettingsMatureContentSectionDescription": {
         "description": "Section description for mature content settings in channel overview.",
@@ -10009,14 +9363,6 @@
             }
         }
     },
-    "channelSettingsMatureContentCategorySource": "danh mục",
-    "@channelSettingsMatureContentCategorySource": {
-        "description": "Lowercase source label for inherited mature content from category."
-    },
-    "channelSettingsMatureContentCommunitySource": "cộng đồng",
-    "@channelSettingsMatureContentCommunitySource": {
-        "description": "Lowercase source label for inherited mature content from community."
-    },
     "channelSettingsMatureContentCategoryScope": "Danh mục",
     "@channelSettingsMatureContentCategoryScope": {
         "description": "Capitalized scope label when mature content inherits from a category."
@@ -10040,24 +9386,6 @@
     "channelSettingsContentWarningDefault": "Phần này có chứa nội dung nhạy cảm.",
     "@channelSettingsContentWarningDefault": {
         "description": "Default content warning text placeholder."
-    },
-    "channelSettingsPermissionsNeedManageChannels": "Bạn cần quyền \"{manageChannelsPermissionLabel}\" để chỉnh sửa các quyền này.",
-    "@channelSettingsPermissionsNeedManageChannels": {
-        "description": "Error when user lacks manage channels permission for channel permissions tab.",
-        "placeholders": {
-            "manageChannelsPermissionLabel": {
-                "type": "String"
-            }
-        }
-    },
-    "channelSettingsPermissionsNeedManageRoles": "Bạn cần quyền \"{manageRolesPermissionLabel}\" để chỉnh sửa các quyền này.",
-    "@channelSettingsPermissionsNeedManageRoles": {
-        "description": "Error when user lacks manage roles permission for channel permissions tab.",
-        "placeholders": {
-            "manageRolesPermissionLabel": {
-                "type": "String"
-            }
-        }
     },
     "channelSettingsUnknownRole": "Vai trò không xác định",
     "@channelSettingsUnknownRole": {
@@ -10143,10 +9471,6 @@
     "channelSettingsPermissionsSearchRolesOrMembers": "Tìm kiếm vai trò hoặc thành viên…",
     "@channelSettingsPermissionsSearchRolesOrMembers": {
         "description": "Placeholder for the add override search field."
-    },
-    "channelSettingsPermissionsRolesAndMembers": "Vai trò và thành viên",
-    "@channelSettingsPermissionsRolesAndMembers": {
-        "description": "Section title in the add override picker."
     },
     "channelSettingsDeleteInvite": "Xóa lời mời",
     "@channelSettingsDeleteInvite": {
@@ -10240,10 +9564,6 @@
                 "type": "String"
             }
         }
-    },
-    "channelSettingsWebhooksUnknownUser": "Người dùng không xác định",
-    "@channelSettingsWebhooksUnknownUser": {
-        "description": "Fallback label when webhook creator is unavailable."
     },
     "channelSettingsWebhooksAvatar": "Ảnh đại diện",
     "@channelSettingsWebhooksAvatar": {
@@ -10432,10 +9752,6 @@
     "channelDetailsPinsEndReached": "Bạn đã xem hết",
     "@channelDetailsPinsEndReached": {
         "description": "Footer label when the user has scrolled through all pinned messages."
-    },
-    "channelHeaderOpenDetails": "Mở chi tiết kênh",
-    "@channelHeaderOpenDetails": {
-        "description": "Accessibility label for the channel header title area."
     },
     "channelHeaderPinnedMessages": "Tin nhắn đã ghim",
     "@channelHeaderPinnedMessages": {
@@ -10999,10 +10315,6 @@
     "@groupDmEditTitle": {
         "description": "Title for the edit group DM modal or sheet."
     },
-    "groupDmEditDetailsTooltip": "Chỉnh sửa chi tiết nhóm",
-    "@groupDmEditDetailsTooltip": {
-        "description": "Tooltip on the desktop group DM header edit action."
-    },
     "groupDmGroupName": "Tên nhóm",
     "@groupDmGroupName": {
         "description": "Label for the group name field in edit group."
@@ -11068,14 +10380,6 @@
     "@groupDmUnsupportedIconFormatBody": {
         "description": "Body when the selected group icon format is unsupported."
     },
-    "groupDmCouldntProcessImage": "Không xử lý được hình ảnh",
-    "@groupDmCouldntProcessImage": {
-        "description": "Title when a cropped group icon cannot be processed."
-    },
-    "groupDmFailedToProcessCroppedImage": "Không xử lý được hình ảnh đã cắt. Vui lòng thử lại.",
-    "@groupDmFailedToProcessCroppedImage": {
-        "description": "Body when a cropped group icon cannot be processed."
-    },
     "groupDmInvalidImage": "Hình ảnh không hợp lệ",
     "@groupDmInvalidImage": {
         "description": "Title when the selected group icon image cannot be used."
@@ -11108,10 +10412,6 @@
     "@groupDmAddFriendFailed": {
         "description": "Error when adding a single friend to a group DM fails."
     },
-    "groupDmAddFailed": "Không thể thêm vào nhóm",
-    "@groupDmAddFailed": {
-        "description": "Title when adding friends to a group DM fails."
-    },
     "groupDmGroupFull": "Nhóm này đã đầy. Hãy xóa bớt một người trước khi thêm người khác.",
     "@groupDmGroupFull": {
         "description": "Error when the group DM has no remaining member slots."
@@ -11119,10 +10419,6 @@
     "groupDmRateLimited": "Bạn đang thao tác quá nhanh. Vui lòng đợi một lát rồi thử lại.",
     "@groupDmRateLimited": {
         "description": "Error when add-friends requests are rate limited."
-    },
-    "groupDmCreateInviteFailed": "Không thể tạo liên kết mời",
-    "@groupDmCreateInviteFailed": {
-        "description": "Title when invite link generation fails."
     },
     "groupDmCreateInviteFailedBody": "Không thể tạo liên kết mời. Vui lòng thử lại.",
     "@groupDmCreateInviteFailedBody": {
@@ -11405,10 +10701,6 @@
     "@userSettingsSearchPlaceholder": {
         "description": "Placeholder for the user settings search field."
     },
-    "userSettingsSearchFieldLabel": "Tìm kiếm cài đặt",
-    "@userSettingsSearchFieldLabel": {
-        "description": "Accessibility label for the user settings search field."
-    },
     "userSettingsSearchClear": "Xóa tìm kiếm",
     "@userSettingsSearchClear": {
         "description": "Accessibility label for clearing the user settings search field."
@@ -11451,8 +10743,6 @@
     "giftSettingsGiftUrl": "URL quà tặng",
     "giftSettingsCopy": "Sao chép",
     "giftSettingsCopied": "Đã sao chép",
-    "giftSettingsGiftUrlCopied": "Đã sao chép URL quà tặng!",
-    "giftSettingsGiftUrlCopyFailed": "Không thể sao chép URL quà tặng",
     "giftSettingsPurchasedDate": "Đã mua {date}",
     "@giftSettingsPurchasedDate": {
         "placeholders": {
@@ -11494,7 +10784,6 @@
     "premiumBuyGift": "Mua quà tặng",
     "premiumOneYearGift": "Gói quà 1 năm",
     "premiumOneMonthGift": "Gói quà 1 tháng",
-    "premiumMostPopular": "Phổ biến nhất",
     "premiumScrollPrompt": "Cuộn xuống để xem tất cả các đặc quyền đi kèm với Plutonium",
     "premiumFreeVsPlutonium": "Miễn phí và Plutonium",
     "premiumFreeColumn": "Miễn phí",
@@ -11512,50 +10801,15 @@
     "premiumViewGifts": "Xem quà",
     "premiumReadyToUpgrade": "Sẵn sàng nâng cấp?",
     "premiumReadyToBuyGift": "Sẵn sàng mua quà chưa?",
-    "premiumMonthlyPrice": "Hàng tháng {price}",
-    "@premiumMonthlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumYearlyPrice": "Hàng năm {price}",
-    "@premiumYearlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneYearPrice": "1 năm {price}",
-    "@premiumOneYearPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneMonthPrice": "1 tháng {price}",
-    "@premiumOneMonthPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
     "premiumManageSubscription": "Quản lý gói đăng ký",
     "premiumRedeemGiftCode": "Đổi mã quà tặng",
     "premiumGiftBadge": "Quà tặng",
     "premiumCancelSubscriptionTitle": "Hủy gói đăng ký?",
     "premiumCancelSubscriptionBody": "Bạn giữ các đặc quyền của mình cho đến ngày gia hạn tiếp theo, sau đó có thời gian ân hạn 3 ngày để đăng ký lại và giữ lịch sử đăng ký của mình.",
     "premiumCancelSubscriptionConfirm": "Hủy gói đăng ký",
-    "premiumKeepSubscription": "Giữ gói đăng ký",
     "premiumPurchaseHistoryTitle": "Lịch sử mua hàng",
     "premiumPurchaseHistoryDescription": "Các hóa đơn gần đây của bạn. Để thay đổi phương thức thanh toán cho gói đăng ký của bạn, hãy thêm hoặc chọn một phương thức trong cổng thanh toán và đặt nó làm mặc định.",
     "premiumManagePaymentMethods": "Quản lý phương thức thanh toán",
-    "premiumBillingHistory": "Lịch sử thanh toán",
-    "premiumSelfServeRefundTitle": "Hoàn tiền tự phục vụ",
     "premiumSelfServeRefundButton": "Hoàn tiền giao dịch gần nhất",
     "premiumDisclaimerAgreementPrefix": "Khi mua, bạn đồng ý với ",
     "premiumDisclaimerAgreementPastPrefix": "Bằng việc mua hàng, bạn đã đồng ý với ",
@@ -11595,17 +10849,6 @@
         "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
     },
     "premiumComparisonFeatureColumn": "Tính năng",
-    "premiumDisclaimerPurchased": "Bằng cách mua, bạn đã đồng ý với {terms} và {privacy} của chúng tôi.",
-    "@premiumDisclaimerPurchased": {
-        "placeholders": {
-            "terms": {
-                "type": "String"
-            },
-            "privacy": {
-                "type": "String"
-            }
-        }
-    },
     "premiumDisclaimerRefund": "Bạn có thể tự hoàn tiền trong vòng 3 ngày kể từ khi thanh toán, mỗi 30 ngày một lần. Hoàn tiền gói đăng ký sẽ hủy gói đó. Người mua ở EU/EEA từ bỏ quyền hủy hợp đồng trong 14 ngày khi thanh toán để truy cập nội dung ngay lập tức. Hãy dùng nút hoàn tiền trong ứng dụng thay vì yêu cầu bồi hoàn. Yêu cầu bồi hoàn có thể hạn chế vĩnh viễn tài khoản của bạn. Stripe xử lý thanh toán an toàn. Chúng tôi không bao giờ thấy toàn bộ số thẻ của bạn.",
     "premiumTermsOfService": "Điều khoản dịch vụ",
     "premiumPrivacyPolicy": "Chính sách quyền riêng tư",
@@ -11646,24 +10889,14 @@
     },
     "premiumClaimAccountToPurchase": "Xác nhận tài khoản của bạn để mua Fluxer Plutonium.",
     "premiumVerifyEmailToPurchase": "Bạn cần xác minh email trước khi có thể mua Fluxer Plutonium.",
-    "premiumPerkCustomUsernameTag": "Thẻ tên người dùng tùy chỉnh",
-    "premiumPerkPerCommunityProfiles": "Hồ sơ riêng cho từng cộng đồng",
-    "premiumPerkMessageScheduling": "Lên lịch tin nhắn",
-    "premiumPerkProfileBadge": "Huy hiệu hồ sơ",
-    "premiumPerkCustomVideoBackgrounds": "Hình nền video tùy chỉnh",
-    "premiumPerkEntranceSounds": "Âm thanh vào phòng",
     "premiumPerkCommunities": "Cộng đồng",
     "premiumPerkMessageCharacterLimit": "Giới hạn ký tự tin nhắn",
     "premiumPerkBookmarkedMessages": "Tin nhắn đã lưu",
     "premiumPerkFileUploadSize": "Kích thước tệp tải lên",
-    "premiumPerkEmojiStickerPacks": "Gói biểu tượng cảm xúc & nhãn dán",
-    "premiumPerkSavedMedia": "Media đã lưu",
     "premiumPerkUseAnimatedEmojis": "Dùng biểu tượng cảm xúc động",
-    "premiumPerkGlobalEmojiStickerAccess": "Truy cập biểu tượng cảm xúc và nhãn dán ở mọi cộng đồng",
     "premiumPerkVideoQuality": "Chất lượng video",
     "premiumPerkAnimatedAvatarsBanners": "Ảnh đại diện & ảnh bìa động",
     "premiumPerkEarlyAccess": "Truy cập sớm các tính năng mới",
-    "premiumPerkCustomThemes": "Giao diện tùy chỉnh",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "Lên đến 4K/60fps",
     "storePlutoniumPriceLine": "{monthly} hoặc {yearly}",
@@ -11892,16 +11125,6 @@
     "@audioAndVideoMicTestStopLabel": {
         "description": "Button label to stop the microphone test."
     },
-    "audioAndVideoMicTestPermissionRequired": "{productName} cần quyền truy cập micrô để kiểm tra đầu vào của bạn.",
-    "@audioAndVideoMicTestPermissionRequired": {
-        "description": "Shown when microphone permission is required for the mic test.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
     "audioAndVideoCameraLabel": "Camera",
     "@audioAndVideoCameraLabel": {
         "description": "Label for camera device selection."
@@ -11946,39 +11169,9 @@
     "@audioAndVideoFrameRate60Label": {
         "description": "Screen share frame rate option for 60 FPS."
     },
-    "audioAndVideoHigherQualityRequiresPremium": "Chất lượng 1080p và 60 FPS yêu cầu {premiumProductName}.",
-    "@audioAndVideoHigherQualityRequiresPremium": {
-        "description": "Note shown when higher video quality options require premium.",
-        "placeholders": {
-            "premiumProductName": {
-                "type": "String",
-                "example": "Plutonium"
-            }
-        }
-    },
     "audioAndVideoInstanceVideoQualityLimit": "Máy chủ này hiện cho phép chia sẻ màn hình lên tới 720p ở 30 FPS.",
     "@audioAndVideoInstanceVideoQualityLimit": {
         "description": "Note shown when instance limits block higher screen share quality."
-    },
-    "audioAndVideoMicrophonePermissionRequired": "{productName} cần quyền truy cập micrô để liệt kê thiết bị của bạn.",
-    "@audioAndVideoMicrophonePermissionRequired": {
-        "description": "Shown when microphone permission is required to enumerate audio input devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
-    "audioAndVideoCameraPermissionRequired": "{productName} cần quyền truy cập camera để liệt kê thiết bị của bạn.",
-    "@audioAndVideoCameraPermissionRequired": {
-        "description": "Shown when camera permission is required to enumerate video devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
     },
     "audioAndVideoSkipHideOwnCameraConfirmLabel": "Không hỏi khi ẩn camera của tôi",
     "@audioAndVideoSkipHideOwnCameraConfirmLabel": {
@@ -12017,14 +11210,6 @@
     "notificationsEnableDesktopNotificationsDescription": "Sử dụng trung tâm thông báo của hệ điều hành. Để kiểm soát thông báo cho từng kênh/cộng đồng, nhấp chuột phải vào biểu tượng cộng đồng và mở cài đặt thông báo.",
     "@notificationsEnableDesktopNotificationsDescription": {
         "description": "Description for the enable desktop notifications toggle."
-    },
-    "notificationsEnableBrowserNotificationsLabel": "Bật thông báo trên trình duyệt",
-    "@notificationsEnableBrowserNotificationsLabel": {
-        "description": "Toggle label for enabling browser notifications."
-    },
-    "notificationsEnableBrowserNotificationsDescription": "Nhận thông báo khi có tin nhắn mới. Bạn có thể cần bật thông báo trong cài đặt trình duyệt. Để cài đặt thông báo cho từng kênh/cộng đồng, nhấp chuột phải vào biểu tượng cộng đồng và mở cài đặt thông báo.",
-    "@notificationsEnableBrowserNotificationsDescription": {
-        "description": "Description for the enable browser notifications toggle."
     },
     "notificationsPushInactiveTimeoutLabel": "Thời gian không hoạt động trước khi nhận thông báo đẩy",
     "@notificationsPushInactiveTimeoutLabel": {
@@ -12404,10 +11589,6 @@
     "@languageAndTimeLanguageSectionDescription": {
         "description": "Settings section description for interface language preference."
     },
-    "languageAndTimeOpenLanguageSettings": "Mở cài đặt ngôn ngữ",
-    "@languageAndTimeOpenLanguageSettings": {
-        "description": "Button that opens the system per-app language settings."
-    },
     "languageAndTimeTimeFormatSectionTitle": "Định dạng thời gian",
     "@languageAndTimeTimeFormatSectionTitle": {
         "description": "Settings section title for time format preference."
@@ -12571,7 +11752,6 @@
     "advancedSettingStripTrackingLabel": "Xóa tham số theo dõi khỏi URL",
     "advancedSettingStripTrackingDescription": "Tự động xóa tham số theo dõi khỏi URL trong tin nhắn bạn gửi",
     "advancedSettingTrustAllLinksLabel": "Tin cậy tất cả liên kết bên ngoài",
-    "advancedSettingTrustAllLinksDescription": "Bỏ qua cảnh báo liên kết ngoài cho tất cả các miền",
     "advancedSettingSearchEnginesLabel": "Công cụ tìm kiếm",
     "advancedSettingSearchEnginesDescription": "Cấu hình các công cụ tìm kiếm được sử dụng khi chọn văn bản",
     "advancedSettingTranslatorsLabel": "Công cụ dịch",
@@ -12627,13 +11807,6 @@
     "advancedSettingHideStreamPreviewLabel": "Ẩn hình thu nhỏ xem trước luồng của tôi",
     "advancedSettingDeveloperModeLabel": "Bật chế độ nhà phát triển",
     "advancedSettingDeveloperModeDescription": "Bật chế độ nhà phát triển",
-    "advancedSettingSearchEngineGoogle": "Google",
-    "advancedSettingSearchEngineDuckDuckGo": "DuckDuckGo",
-    "advancedSettingSearchEngineBing": "Bing",
-    "advancedSettingSearchEngineGoogleLens": "Google Lens",
-    "advancedSettingSearchEngineTinEye": "TinEye",
-    "advancedSettingTranslatorGoogle": "Dịch bởi Google",
-    "advancedSettingTranslatorDeepL": "DeepL",
     "advancedSettingDefaultSearchEngineLabel": "Công cụ tìm kiếm mặc định",
     "advancedSettingDefaultSearchEngineDescription": "Chọn công cụ tìm kiếm mặc định khi bạn tìm kiếm văn bản đã chọn.",
     "advancedSettingBuiltInSearchEnginesLabel": "Công cụ tìm kiếm tích hợp",
@@ -13812,10 +12985,6 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsCustomInviteUrl": "URL mời tùy chỉnh",
-    "@guildMenuSettingsCustomInviteUrl": {
-        "description": "Community settings tab for custom invite URLs."
-    },
     "guildMenuSettingsDiscovery": "Khám phá",
     "@guildMenuSettingsDiscovery": {
         "description": "Community settings tab for discovery settings."
@@ -13844,17 +13013,9 @@
     "@guildSettingsOverviewIconTitle": {
         "description": "Title for the guild icon section in overview settings."
     },
-    "guildSettingsUploadImage": "Tải ảnh lên",
-    "@guildSettingsUploadImage": {
-        "description": "Button label to upload an image in guild settings."
-    },
     "guildSettingsOverviewBannerTitle": "Ảnh bìa",
     "@guildSettingsOverviewBannerTitle": {
         "description": "Title for the guild banner section."
-    },
-    "guildSettingsOverviewBannerHint": "Tải lên ảnh bìa cho máy chủ của bạn.",
-    "@guildSettingsOverviewBannerHint": {
-        "description": "Hint text for guild banner upload."
     },
     "guildSettingsOverviewNameTitle": "Tên",
     "@guildSettingsOverviewNameTitle": {
@@ -13863,22 +13024,6 @@
     "guildSettingsOverviewNameHint": "Cộng đồng tuyệt vời của tôi",
     "@guildSettingsOverviewNameHint": {
         "description": "Hint for the guild name field."
-    },
-    "guildSettingsOverviewStatsTitle": "Thống kê",
-    "@guildSettingsOverviewStatsTitle": {
-        "description": "Title for guild statistics section."
-    },
-    "guildSettingsOverviewMembers": "Thành viên",
-    "@guildSettingsOverviewMembers": {
-        "description": "Label for member count in overview."
-    },
-    "guildSettingsOverviewOnline": "Trực tuyến",
-    "@guildSettingsOverviewOnline": {
-        "description": "Label for online count in overview."
-    },
-    "guildSettingsRolesDescription": "Sử dụng vai trò để nhóm thành viên và cấp quyền.",
-    "@guildSettingsRolesDescription": {
-        "description": "Description for the roles settings tab."
     },
     "guildSettingsCreateRole": "Tạo vai trò",
     "@guildSettingsCreateRole": {
@@ -13978,14 +13123,6 @@
     "@guildSettingsRolesComfyLayout": {
         "description": "Tooltip when permission list is in dense layout."
     },
-    "guildSettingsRolesSwitchToDenseLayout": "Chuyển sang bố cục dày đặc",
-    "@guildSettingsRolesSwitchToDenseLayout": {
-        "description": "Aria label for switching to dense layout."
-    },
-    "guildSettingsRolesSwitchToComfyLayout": "Chuyển sang bố cục thoải mái",
-    "@guildSettingsRolesSwitchToComfyLayout": {
-        "description": "Aria label for switching to comfy layout."
-    },
     "guildSettingsRolesSingleColumn": "Một cột",
     "@guildSettingsRolesSingleColumn": {
         "description": "Tooltip when permission list is in two-column layout."
@@ -13994,21 +13131,9 @@
     "@guildSettingsRolesTwoColumns": {
         "description": "Tooltip when permission list is in single-column layout."
     },
-    "guildSettingsRolesSwitchToSingleColumn": "Chuyển sang chế độ một cột",
-    "@guildSettingsRolesSwitchToSingleColumn": {
-        "description": "Aria label for switching to single column."
-    },
-    "guildSettingsRolesSwitchToTwoColumns": "Chuyển sang chế độ hai cột",
-    "@guildSettingsRolesSwitchToTwoColumns": {
-        "description": "Aria label for switching to two columns."
-    },
     "guildSettingsRolesNoPermissionsFound": "Không tìm thấy quyền nào",
     "@guildSettingsRolesNoPermissionsFound": {
         "description": "Empty state when permission search has no matches."
-    },
-    "guildSettingsRolesCustomHoistOrder": "Thứ tự hiển thị tùy chỉnh",
-    "@guildSettingsRolesCustomHoistOrder": {
-        "description": "Button to enter custom hoist order mode."
     },
     "guildSettingsRolesHoistOrder": "Thứ tự hiển thị",
     "@guildSettingsRolesHoistOrder": {
@@ -14025,10 +13150,6 @@
     "guildSettingsRolesNoHoistedRoles": "Không có vai trò nổi bật. Bật \"Hiển thị vai trò này riêng biệt\" cho một vai trò để xem ở đây.",
     "@guildSettingsRolesNoHoistedRoles": {
         "description": "Empty state when no roles are hoisted."
-    },
-    "guildSettingsRolesLockedTooltip": "Bạn không thể chỉnh sửa vai trò này vì đây là vai trò cao nhất của bạn hoặc cao hơn vai trò của bạn",
-    "@guildSettingsRolesLockedTooltip": {
-        "description": "Tooltip on locked role rows."
     },
     "guildSettingsRolesNeedManageRolesPermission": "Bạn cần quyền \"{permission}\" để chỉnh sửa các quyền này",
     "@guildSettingsRolesNeedManageRolesPermission": {
@@ -14136,10 +13257,6 @@
     "permissionCategoryAudioVideo": "Âm thanh & video",
     "@permissionCategoryAudioVideo": {
         "description": "Permission category label."
-    },
-    "permissionUnknown": "Quyền không xác định",
-    "@permissionUnknown": {
-        "description": "Fallback permission label."
     },
     "permissionAdministrator": "Quản trị viên",
     "@permissionAdministrator": {
@@ -14409,30 +13526,9 @@
     "@permissionSetVoiceRegion": {
         "description": "Permission name."
     },
-    "guildSettingsEmojiSlotInfo": "{staticCount} biểu tượng cảm xúc tĩnh, {animatedCount} biểu tượng cảm xúc động đã sử dụng",
-    "@guildSettingsEmojiSlotInfo": {
-        "description": "Emoji slot usage summary.",
-        "placeholders": {
-            "staticCount": {
-                "type": "int"
-            },
-            "animatedCount": {
-                "type": "int"
-            }
-        }
-    },
     "guildSettingsEmojiEmpty": "Chưa có biểu tượng cảm xúc tùy chỉnh nào.",
     "@guildSettingsEmojiEmpty": {
         "description": "Empty state for emoji settings."
-    },
-    "guildSettingsStickersSlotInfo": "{count} sticker đã tải lên",
-    "@guildSettingsStickersSlotInfo": {
-        "description": "Sticker slot usage summary.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsStickersEmpty": "Chưa có nhãn dán tùy chỉnh nào.",
     "@guildSettingsStickersEmpty": {
@@ -14478,8 +13574,6 @@
     "guildSettingsVerificationMediumDescription": "Yêu cầu địa chỉ email đã xác minh và tài khoản đã tạo ít nhất 5 phút.",
     "guildSettingsVerificationHigh": "Cao",
     "guildSettingsVerificationHighDescription": "Yêu cầu mọi điều kiện của mức trung bình và phải là thành viên của cộng đồng ít nhất 10 phút.",
-    "guildSettingsVerificationHighest": "Rất cao",
-    "guildSettingsVerificationHighestDescription": "Yêu cầu số điện thoại đã được xác minh.",
     "guildSettingsAuditLogDescription": "Theo dõi hành động của người kiểm duyệt trong cộng đồng.",
     "@guildSettingsAuditLogDescription": {
         "description": "Subtitle under the activity-log page title."
@@ -14507,14 +13601,6 @@
     "guildSettingsAuditLogUnknownUser": "Người dùng không xác định",
     "@guildSettingsAuditLogUnknownUser": {
         "description": "Fallback avatar label when the acting user is unavailable."
-    },
-    "guildSettingsAuditLogLoadError": "Đã xảy ra lỗi khi tải nhật ký hoạt động.",
-    "@guildSettingsAuditLogLoadError": {
-        "description": "Generic error shown when fetching log entries fails."
-    },
-    "guildSettingsAuditLogLoadErrorTitle": "Không thể tải nhật ký hoạt động",
-    "@guildSettingsAuditLogLoadErrorTitle": {
-        "description": "Error-state title when fetching log entries failed."
     },
     "guildSettingsAuditLogReason": "Lý do",
     "@guildSettingsAuditLogReason": {
@@ -15486,14 +14572,6 @@
     "@auditLogOptionPermanentMembership": {
         "description": "Audit log option detail sentence."
     },
-    "guildSettingsLoadMore": "Tải thêm",
-    "@guildSettingsLoadMore": {
-        "description": "Button to load more audit log entries."
-    },
-    "guildSettingsLoadingMore": "Đang tải...",
-    "@guildSettingsLoadingMore": {
-        "description": "Loading state for pagination."
-    },
     "guildSettingsWebhooksDescription": "Xem và quản lý mọi webhook được cấu hình trong cộng đồng của bạn.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
@@ -15540,42 +14618,9 @@
     "@guildSettingsUnknownChannel": {
         "description": "Fallback label when a webhook channel name is unavailable."
     },
-    "guildSettingsCopyUrl": "Sao chép URL",
-    "@guildSettingsCopyUrl": {
-        "description": "Tooltip to copy a URL."
-    },
     "guildSettingsCopiedUrl": "Đã sao chép URL vào bảng nhớ tạm",
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
-    },
-    "guildSettingsDeleteWebhook": "Xóa webhook",
-    "@guildSettingsDeleteWebhook": {
-        "description": "Tooltip to delete a webhook."
-    },
-    "guildSettingsVanityUrlDescription": "Đặt một liên kết mời tùy chỉnh cho máy chủ của bạn.",
-    "@guildSettingsVanityUrlDescription": {
-        "description": "Description for vanity URL tab."
-    },
-    "guildSettingsVanityUrlHint": "my-server",
-    "@guildSettingsVanityUrlHint": {
-        "description": "Hint for vanity URL input."
-    },
-    "guildSettingsSave": "Lưu",
-    "@guildSettingsSave": {
-        "description": "Generic save button label."
-    },
-    "guildSettingsVanityUrlUsageTitle": "Cách sử dụng",
-    "@guildSettingsVanityUrlUsageTitle": {
-        "description": "Title for vanity URL usage section."
-    },
-    "guildSettingsVanityUrlUses": "{count} lượt sử dụng",
-    "@guildSettingsVanityUrlUses": {
-        "description": "Vanity URL usage count.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsDiscoveryDescription": "Đưa cộng đồng của bạn vào Khám phá để người khác có thể tìm thấy và tham gia.",
     "@guildSettingsDiscoveryDescription": {
@@ -15761,10 +14806,6 @@
     "@guildSettingsDiscoveryWithdrawErrorDescription": {
         "description": "Error modal body when withdrawing a discovery application fails."
     },
-    "guildSettingsMembersDescription": "Tìm kiếm và quản lý thành viên máy chủ.",
-    "@guildSettingsMembersDescription": {
-        "description": "Description for members tab."
-    },
     "guildSettingsMembersSearchHint": "Tìm theo tên người dùng hoặc ID",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field on the community members page."
@@ -15829,10 +14870,6 @@
     },
     "guildMembersColumnRoles": "Vai trò",
     "@guildMembersColumnRoles": {
-        "description": "Table column header on the community members page."
-    },
-    "guildMembersColumnActions": "Thao tác",
-    "@guildMembersColumnActions": {
         "description": "Table column header on the community members page."
     },
     "guildMembersFilterMemberSince": "Lọc theo ngày tham gia",
@@ -15919,23 +14956,6 @@
     "@guildMembersIndexing": {
         "description": "Banner shown while guild members are being indexed."
     },
-    "guildMembersGoToPage": "Đi đến trang",
-    "@guildMembersGoToPage": {
-        "description": "Pagination jump label on the community members page."
-    },
-    "guildMembersGoToPageItem": "Đi đến trang {page}",
-    "@guildMembersGoToPageItem": {
-        "description": "Accessibility label for a pagination page button.",
-        "placeholders": {
-            "page": {
-                "type": "int"
-            }
-        }
-    },
-    "guildMembersJumpToPage": "Chuyển đến trang",
-    "@guildMembersJumpToPage": {
-        "description": "Label for pagination jump input on the community members page."
-    },
     "guildMembersJoinSourceCreator": "Người tạo cộng đồng",
     "@guildMembersJoinSourceCreator": {
         "description": "Join method label on the community members page."
@@ -16012,22 +15032,9 @@
             }
         }
     },
-    "guildMembersJoinedDaysAgo": "{count, plural, one {1 ngày trước} other {{count} ngày trước}}",
-    "@guildMembersJoinedDaysAgo": {
-        "description": "Relative join time on the community members page.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
     "guildMembersChannelListLabel": "Thành viên",
     "@guildMembersChannelListLabel": {
         "description": "Label for the Members item at the top of the guild channel list."
-    },
-    "guildMembersChannelListSelected": "Thành viên, đã chọn",
-    "@guildMembersChannelListSelected": {
-        "description": "Accessibility label when the Members channel list item is selected."
     },
     "guildSettingsInvitesTitle": "Lời mời",
     "@guildSettingsInvitesTitle": {
@@ -16158,27 +15165,6 @@
     "@guildSettingsInvitesRevokeFailedDescription": {
         "description": "Error description when revoking an invite fails."
     },
-    "guildSettingsInviteUses": "{uses} / {maxUses} lượt sử dụng",
-    "@guildSettingsInviteUses": {
-        "description": "Invite usage count.",
-        "placeholders": {
-            "uses": {
-                "type": "int"
-            },
-            "maxUses": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsInviteExpires": "Hết hạn {date}",
-    "@guildSettingsInviteExpires": {
-        "description": "Invite expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBansDescription": "Xem và quản lý người dùng bị cấm.",
     "@guildSettingsBansDescription": {
         "description": "Description for bans tab."
@@ -16191,30 +15177,9 @@
     "@guildSettingsBansEmpty": {
         "description": "Empty state for bans."
     },
-    "guildSettingsBanPermanent": "Cấm vĩnh viễn",
-    "@guildSettingsBanPermanent": {
-        "description": "Label for permanent ban."
-    },
-    "guildSettingsBanExpires": "Hết hạn vào {date}",
-    "@guildSettingsBanExpires": {
-        "description": "Ban expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBanExpiresLabel": "Hết hạn",
     "@guildSettingsBanExpiresLabel": {
         "description": "Label for ban expiration row."
-    },
-    "guildSettingsUnban": "Bỏ cấm",
-    "@guildSettingsUnban": {
-        "description": "Button to unban a user."
-    },
-    "guildSettingsBansLoading": "Đang tải người dùng bị cấm",
-    "@guildSettingsBansLoading": {
-        "description": "Loading state for the guild bans list."
     },
     "guildSettingsBansNoSearchResults": "Không tìm thấy lệnh cấm nào khớp với tìm kiếm của bạn.",
     "@guildSettingsBansNoSearchResults": {
@@ -16258,10 +15223,6 @@
             }
         }
     },
-    "guildSettingsBansLoadError": "Không tải được lệnh cấm. Thử lại.",
-    "@guildSettingsBansLoadError": {
-        "description": "Error when loading the guild bans list fails."
-    },
     "guildSettingsRevokeBanError": "Không thể gỡ bỏ lệnh cấm. Vui lòng thử lại.",
     "@guildSettingsRevokeBanError": {
         "description": "Error when revoking a ban fails."
@@ -16286,7 +15247,6 @@
     "@guildSettingsCategoryPeople": {
         "description": "Sidebar category for members, invites, and bans."
     },
-    "guildSettingsOverviewDescription": "Quản lý hồ sơ, kênh và cài đặt mặc định của cộng đồng của bạn.",
     "guildSettingsOverviewBrandingTitle": "Thương hiệu",
     "guildSettingsOverviewBrandingDescription": "Cập nhật biểu tượng, tên, biểu ngữ và ảnh nền lời mời của bạn",
     "@guildSettingsOverviewBrandingDescription": {
@@ -16305,7 +15265,6 @@
     },
     "guildSettingsOverviewNotificationsTitle": "Thông báo mặc định",
     "guildSettingsOverviewNotificationsLargeGuild": "Các cộng đồng có hơn 250 người sẽ tự động chuyển sang chế độ \"chỉ nhắc đến\". Cài đặt ban đầu của bạn sẽ được giữ nguyên và khôi phục nếu số thành viên cộng đồng giảm xuống dưới 250 người.",
-    "guildSettingsOverviewAdvancedTitle": "Nâng cao",
     "guildSettingsOverviewFlexibleNames": "Cho phép đặt tên kênh văn bản linh hoạt",
     "guildSettingsOverviewHideOwnerCrown": "Ẩn vương miện chủ sở hữu cộng đồng",
     "guildSettingsOverviewDetachedBanner": "Ảnh bìa tách riêng",
@@ -16331,10 +15290,6 @@
     "guildSettingsOverviewEmbedSplashTitle": "Ảnh nền nhúng trò chuyện",
     "@guildSettingsOverviewEmbedSplashTitle": {
         "description": "Title for embed splash upload section."
-    },
-    "guildSettingsOverviewEmbedSplashHint": "Hiển thị trong nội dung nhúng lời mời ở cuộc trò chuyện.",
-    "@guildSettingsOverviewEmbedSplashHint": {
-        "description": "Note shown when uploading chat embed background."
     },
     "guildSettingsOverviewUploadBackground": "Tải ảnh nền lên",
     "@guildSettingsOverviewUploadBackground": {
@@ -16501,8 +15456,6 @@
     "@guildSettingsOverviewEmbedSplashUploadHint": {
         "description": "Upload requirements for chat embed background images."
     },
-    "guildSettingsModerationDescription": "Cấu hình cài đặt xác minh, lọc nội dung và nội dung nhạy cảm.",
-    "guildSettingsModerationDiscoveryNotice": "Cộng đồng được liệt kê trong Khám phá có các tùy chọn kiểm duyệt bị hạn chế.",
     "guildSettingsModerationContentFilterTitle": "Lọc nội dung",
     "guildSettingsModerationContentFilterDescription": "Tự động sàng lọc tin nhắn có nội dung nhạy cảm trong các kênh không được đánh dấu là nội dung người lớn.",
     "guildSettingsModerationContentFilterDiscoveryNote": "Các cộng đồng được liệt kê trong Khám phá phải quét tất cả thành viên. Bạn không thể thay đổi cài đặt này khi Khám phá được bật.",
@@ -16512,8 +15465,6 @@
     "guildSettingsContentFilterNoRoleDescription": "Được đề xuất cho hầu hết các cộng đồng",
     "guildSettingsContentFilterAll": "Lọc tất cả",
     "guildSettingsContentFilterAllDescription": "Bảo vệ tối đa cho không gian thân thiện với gia đình",
-    "guildSettingsModerationMatureOff": "Tắt",
-    "guildSettingsModerationMatureOn": "Bật",
     "guildSettingsContentWarningToggle": "Hiển thị cảnh báo nội dung",
     "@guildSettingsContentWarningToggle": {
         "description": "Switch label for the community content warning setting."
@@ -16533,7 +15484,6 @@
     "guildSettingsModeration2faTitle": "Yêu cầu 2FA",
     "guildSettingsModeration2faDescription": "Yêu cầu xác thực hai yếu tố cho người kiểm duyệt trước khi họ có thể cấm, đuổi, tạm dừng hoặc xóa tin nhắn.",
     "guildSettingsModeration2faSwitchLabel": "Yêu cầu 2FA cho hành động kiểm duyệt",
-    "guildSettingsModeration2faOwnerOnlyTooltip": "Chỉ chủ sở hữu cộng đồng mới có thể thay đổi cài đặt này",
     "guildSettingsModeration2faEnableFirstTooltip": "Bật 2FA cho tài khoản của bạn để thay đổi cài đặt này",
     "guildSettingsEmojiSearchHint": "Tìm biểu tượng cảm xúc",
     "guildSettingsEmojiUploadTitle": "Tải biểu tượng cảm xúc lên",
@@ -16541,7 +15491,6 @@
     "guildSettingsEmojiDropZone": "Kéo và thả tệp biểu tượng cảm xúc vào đây",
     "guildSettingsEmojiLoadFailed": "Không tải được biểu tượng cảm xúc. Vui lòng thử lại sau.",
     "guildSettingsEmojiSearchEmpty": "Không tìm thấy biểu tượng cảm xúc nào khớp với tìm kiếm của bạn.",
-    "guildSettingsEmojiNoSlots": "Không còn ô trống cho biểu tượng cảm xúc",
     "guildSettingsEmojiSlotsFull": "Bạn đã đạt đến số lượng biểu tượng cảm xúc tối đa. Hãy xóa bớt một số biểu tượng cảm xúc hiện có để tạo chỗ trống.",
     "guildSettingsEmojiUploadRequirements": "Tên biểu tượng cảm xúc cần có ít nhất 2 ký tự và có thể dùng chữ cái, số và dấu gạch dưới. Biểu tượng cảm xúc phải nhỏ hơn {maxSize}. Ảnh tĩnh sẽ tự động được đổi kích thước thành 128x128 pixel và nén lại. Biểu tượng cảm xúc động và SVG phải nằm sẵn trong giới hạn này.",
     "@guildSettingsEmojiUploadRequirements": {
@@ -16551,24 +15500,11 @@
             }
         }
     },
-    "guildSettingsEmojiUploadingTitle": "Đang tải biểu tượng cảm xúc lên",
-    "guildSettingsEmojiUploadingBody": "Đang tải lên {count, plural, one {# biểu tượng cảm xúc} other {# biểu tượng cảm xúc}}. Việc này có thể mất một chút thời gian.",
-    "@guildSettingsEmojiUploadingBody": {
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsEmojiUploadFailed": "Không thể tải biểu tượng cảm xúc lên. Vui lòng thử lại.",
     "guildSettingsEmojiSomeFailedTitle": "Không thể thêm một số biểu tượng cảm xúc",
-    "guildSettingsEmojiSomeFailedBody": "Xem lại các tệp này và thử lại với hình ảnh nhỏ hơn hoặc đơn giản hơn.",
     "guildSettingsEmojiRenameTitle": "Đổi tên biểu tượng cảm xúc",
     "guildSettingsEmojiRenameHint": "2-32 ký tự, chữ cái, số, dấu gạch dưới.",
-    "guildSettingsEmojiColumnEmoji": "Biểu tượng cảm xúc",
     "guildSettingsEmojiColumnName": "Tên",
     "guildSettingsEmojiColumnUploader": "Đã tải lên bởi",
-    "guildSettingsEmojiUnknownUploader": "Không rõ",
     "guildSettingsEmojiDeleteTitle": "Xóa biểu tượng cảm xúc",
     "guildSettingsEmojiDeleteBody": "Xóa :{name}:? Thao tác này không thể hoàn tác.",
     "@guildSettingsEmojiDeleteBody": {
@@ -16583,15 +15519,7 @@
     "guildSettingsEmojiNameTooLong": "Tên biểu tượng cảm xúc không được dài quá 32 ký tự",
     "guildSettingsEmojiInvalidNameTitle": "Tên biểu tượng cảm xúc không hợp lệ",
     "guildSettingsEmojiRenameFailedTitle": "Không thể đổi tên biểu tượng cảm xúc này",
-    "guildSettingsEmojiRenameFailedBody": "Tên đã được khôi phục về trạng thái trước đó. Vui lòng thử lại sau giây lát.",
-    "guildSettingsEmojiGoneTitle": "Biểu tượng cảm xúc này không còn tồn tại",
-    "guildSettingsEmojiGoneBody": "Biểu tượng cảm xúc có thể đã bị xóa. Tên đã được khôi phục về trạng thái ban đầu.",
-    "guildSettingsEmojiNoPermissionRenameTitle": "Bạn không thể đổi tên biểu tượng cảm xúc này",
-    "guildSettingsEmojiNoPermissionRenameBody": "Bạn không có quyền đổi tên biểu tượng cảm xúc này. Tên đã được khôi phục về trạng thái trước đó.",
-    "guildSettingsEmojiRateLimitedTitle": "Bạn đang thao tác quá nhanh",
-    "guildSettingsEmojiRateLimitedBody": "Vui lòng đợi một lát rồi thử đổi tên lại.",
     "guildSettingsEmojiDeleteFailedTitle": "Không thể xóa biểu tượng cảm xúc này",
-    "guildSettingsEmojiDeleteNoPermissionTitle": "Bạn không thể xóa biểu tượng cảm xúc này",
     "guildSettingsCloneEmojiTitle": "Cho phép người khác sao chép biểu tượng cảm xúc của bạn",
     "guildSettingsCloneEmojiDescription": "Khi bật, thành viên của các cộng đồng khác có thể dùng lối tắt \"Nhân bản\" một chạm trong ứng dụng cho các biểu tượng cảm xúc tùy chỉnh của bạn. Việc này không ngăn họ lưu hình ảnh và tự tải lên.",
     "guildSettingsCloneStickerTitle": "Cho phép người khác sao chép sticker của bạn",
@@ -16632,8 +15560,6 @@
     "guildSettingsStickersLoadFailedTitle": "Không tải được nhãn dán",
     "guildSettingsStickersLoadFailedBody": "Đã xảy ra lỗi khi tải nhãn dán. Vui lòng thử lại.",
     "guildSettingsStickersSearchEmpty": "Không tìm thấy nhãn dán nào khớp với tìm kiếm của bạn.",
-    "guildSettingsStickersEmptySearch": "Không tìm thấy nhãn dán nào",
-    "guildSettingsStickerNoSlots": "Không có ô nhãn dán nào khả dụng",
     "guildSettingsStickerSlotsFull": "Bạn đã đạt đến số lượng nhãn dán tối đa. Xóa một số nhãn dán hiện có để tạo thêm chỗ trống.",
     "guildSettingsStickerUploadRequirements": "Nhãn dán được lưu ở kích thước 320x320 pixel và không được vượt quá {maxSize}. Ảnh tĩnh sẽ được tự động thay đổi kích thước và nén. Nhãn dán động và SVG phải đã phù hợp với giới hạn này.",
     "@guildSettingsStickerUploadRequirements": {
@@ -16643,7 +15569,6 @@
             }
         }
     },
-    "guildSettingsStickerUnsupportedTitle": "Tệp nhãn dán không được hỗ trợ",
     "guildSettingsStickerAddTitle": "Thêm nhãn dán",
     "guildSettingsStickerEditTitle": "Chỉnh sửa nhãn dán",
     "guildSettingsStickerNameLabel": "Tên",
@@ -16668,8 +15593,6 @@
     "guildSettingsStickerNameTooLong": "Tên phải có tối đa 30 ký tự",
     "guildSettingsStickerDescriptionTooLong": "Mô tả phải dưới 500 ký tự",
     "guildSettingsStickerCreateFailedTitle": "Không thể tạo nhãn dán này",
-    "guildSettingsStickerTooLargeTitle": "Nhãn dán quá lớn",
-    "guildSettingsStickerCompressFailedTitle": "Không thể nén nhãn dán đủ nhỏ",
     "guildSettingsStickerDeleteTitle": "Xóa nhãn dán",
     "guildSettingsStickerDeleteBody": "Xóa \"{name}\"? Thao tác này không thể hoàn tác.",
     "@guildSettingsStickerDeleteBody": {
@@ -16681,7 +15604,6 @@
     },
     "guildSettingsStickerPurgeLabel": "Xóa nhãn dán này khỏi bộ nhớ và CDN",
     "guildSettingsStickerDeleteFailedTitle": "Không thể xóa sticker này",
-    "guildSettingsStickerDeleteNoPermissionTitle": "Bạn không thể xóa nhãn dán này",
     "guildSettingsWebhooksInfo": "Để tạo webhook, hãy mở {channelSettingsPath}. Bạn vẫn có thể chỉnh sửa và sắp xếp tất cả các webhook hiện có tại đây.",
     "@guildSettingsWebhooksInfo": {
         "description": "Info box on the guild webhooks tab.",
@@ -16691,8 +15613,6 @@
             }
         }
     },
-    "guildSettingsVanityUrlWarning": "URL tùy chỉnh của bạn sẽ không hoạt động trừ khi có ít nhất một kênh hiển thị cho mọi người.",
-    "guildSettingsVanityUrlRemove": "Xóa",
     "guildSettingsBannedUsersTitle": "Người dùng bị cấm",
     "guildSettingsInvitesTableInviter": "Người mời",
     "guildSettingsInvitesTableChannel": "Kênh",

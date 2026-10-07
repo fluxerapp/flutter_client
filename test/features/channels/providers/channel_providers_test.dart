@@ -71,8 +71,18 @@ void main() {
 
     test('a differing field breaks equality', () {
       const Channel a = Channel(id: '1', guildId: 'g', name: 'general');
-      expect(a, isNot(a.copyWith(rateLimitPerUser: 5)));
-      expect(a, isNot(a.copyWith(name: 'renamed')));
+      expect(
+        a,
+        isNot(
+          const Channel(
+            id: '1',
+            guildId: 'g',
+            name: 'general',
+            rateLimitPerUser: 5,
+          ),
+        ),
+      );
+      expect(a, isNot(const Channel(id: '1', guildId: 'g', name: 'renamed')));
     });
   });
 }

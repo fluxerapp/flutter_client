@@ -30,12 +30,7 @@ class RouteState {
     required this.channelId,
   });
 
-  String? get shellLocation => activeBranchLocation;
-
   String get effectiveShellLocation => activeBranchLocation ?? location;
-
-  bool get hasRootOverlay =>
-      activeBranchLocation != null && activeBranchLocation != location;
 
   factory RouteState.fromRouter(GoRouter router) {
     final RouteMatchList config = router.routerDelegate.currentConfiguration;
@@ -213,10 +208,6 @@ class ChannelJumpTargetLedger extends _$ChannelJumpTargetLedger {
       latestIntentByChannel: state.latestIntentByChannel,
     );
   }
-
-  bool shouldHonour({required String channelId, required String messageId}) =>
-      !state.isConsumed(channelId: channelId, messageId: messageId) &&
-      !state.isSuperseded(channelId: channelId, messageId: messageId);
 }
 
 @Riverpod(keepAlive: true)

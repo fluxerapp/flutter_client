@@ -10,13 +10,11 @@ void main() {
       final PushTrayRegistry registry = PushTrayRegistry()
         ..markChannelRead(channelId, newer)
         ..markChannelRead(channelId, older);
-      expect(registry.isEmpty, isFalse);
-
       final List<MapEntry<String, String>> drained = registry.drain();
       expect(drained, hasLength(1));
       expect(drained.single.key, channelId);
       expect(drained.single.value, newer);
-      expect(registry.isEmpty, isTrue);
+      expect(registry.drain(), isEmpty);
     });
 
     test('drain clears entries', () {
@@ -44,7 +42,6 @@ void main() {
         registry.markChannelRead('c$i', '${i + 1}');
       }
       registry.markChannelRead('overflow', '9999');
-      expect(registry.isEmpty, isFalse);
       final List<MapEntry<String, String>> drained = registry.drain();
       expect(drained, hasLength(kPushTrayRegistryMaxEntries));
       expect(drained.any((e) => e.key == 'c0'), isFalse);

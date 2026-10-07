@@ -10,14 +10,12 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
 final class UserSettingsSearchHit {
   const UserSettingsSearchHit({
-    required this.id,
     required this.section,
     required this.label,
     required this.score,
     this.fieldId,
   });
 
-  final String id;
   final UserSettingsSection section;
   final String? fieldId;
   final String label;
@@ -180,7 +178,6 @@ List<UserSettingsSearchHit> searchUserSettings({
     }
     hits.add(
       UserSettingsSearchHit(
-        id: descriptor.id,
         section: descriptor.section,
         fieldId: fieldId,
         label: label,

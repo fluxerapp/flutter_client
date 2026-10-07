@@ -12,7 +12,7 @@ const String kSystemMessageNewNamePlaceholder = '{newName}';
 const String kSystemMessageSourcePlaceholder = '{source}';
 const String kSystemMessageMessageLinkPlaceholder = '{messageLink}';
 const String kSystemMessageAllPinsLinkPlaceholder = '{allPinsLink}';
-const String kSystemMessageDurationPlaceholder = '{duration}';
+
 const String kFluxerProductName = InstanceConstants.defaultProductName;
 
 typedef GuildJoinMessageBuilder = String Function(String username);

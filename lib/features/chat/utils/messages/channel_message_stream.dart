@@ -309,28 +309,6 @@ int? findChannelStreamDataIndex(
   return index == -1 ? null : index;
 }
 
-int? findChannelStreamRenderIndex(
-  List<ChannelStreamItem> stream,
-  String messageId,
-) {
-  final int? dataIndex = findChannelStreamDataIndex(stream, messageId);
-  if (dataIndex == null) {
-    return null;
-  }
-  return stream.length - 1 - dataIndex;
-}
-
-int findChannelStreamSplitIndex(
-  List<ChannelStreamItem> stream,
-  String anchorMessageId,
-) {
-  final int? dataIndex = findChannelStreamDataIndex(stream, anchorMessageId);
-  if (dataIndex == null) {
-    return stream.length;
-  }
-  return dataIndex;
-}
-
 ChannelStreamItem? previousRenderableStreamItem(
   List<ChannelStreamItem> stream,
   int index,

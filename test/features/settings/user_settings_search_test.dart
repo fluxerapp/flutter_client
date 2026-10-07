@@ -105,7 +105,7 @@ void main() {
       expect(
         hits.any(
           (hit) =>
-              hit.id == 'notifications:enable' &&
+              hit.label == l10n.notificationsEnableNotificationsLabel &&
               hit.fieldId == 'notifications',
         ),
         isTrue,
@@ -119,7 +119,12 @@ void main() {
         visibleSections: {UserSettingsSection.lookAndFeel},
         isTouchPrimary: true,
       );
-      expect(hits.any((hit) => hit.id == 'look-and-feel:sync-theme'), isTrue);
+      expect(
+        hits.any(
+          (hit) => hit.label == l10n.lookAndFeelSyncThemeAcrossDevicesLabel,
+        ),
+        isTrue,
+      );
     });
 
     test('hides keyboard field on touch-primary', () {
@@ -194,7 +199,6 @@ void main() {
 
     test('inserts a section separator for field hits', () {
       const UserSettingsSearchHit themeHit = UserSettingsSearchHit(
-        id: 'appearance:theme',
         section: UserSettingsSection.lookAndFeel,
         fieldId: 'theme',
         label: 'Theme',
@@ -214,7 +218,6 @@ void main() {
 
     test('skips separator when the only hit is the section itself', () {
       const UserSettingsSearchHit sectionHit = UserSettingsSearchHit(
-        id: 'section:lookAndFeel',
         section: UserSettingsSection.lookAndFeel,
         label: 'Look & feel',
         score: 80,

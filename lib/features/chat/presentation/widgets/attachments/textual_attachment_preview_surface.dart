@@ -19,7 +19,6 @@ class TextualAttachmentPreviewSurface extends StatelessWidget {
     required this.status,
     required this.visibleLineCount,
     required this.child,
-    this.previewError,
     this.copyTextContent,
     this.fillAvailableSpace = false,
     this.scrollController,
@@ -30,7 +29,6 @@ class TextualAttachmentPreviewSurface extends StatelessWidget {
   final TextualAttachmentPreviewStatus status;
   final int visibleLineCount;
   final Widget child;
-  final TextualAttachmentPreviewError? previewError;
   final String? copyTextContent;
   final bool fillAvailableSpace;
   final ScrollController? scrollController;

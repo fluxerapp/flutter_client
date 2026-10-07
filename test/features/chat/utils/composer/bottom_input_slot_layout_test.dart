@@ -225,57 +225,6 @@ void main() {
     });
   });
 
-  group('resolveNextAnchoredKeyboardHeight', () {
-    test('tracks session max while keyboard is visible', () {
-      expect(
-        resolveNextAnchoredKeyboardHeight(
-          currentAnchored: 336,
-          nextHeight: 280,
-          nextVisible: true,
-        ),
-        336,
-      );
-      expect(
-        resolveNextAnchoredKeyboardHeight(
-          currentAnchored: 280,
-          nextHeight: 336,
-          nextVisible: true,
-        ),
-        336,
-      );
-    });
-
-    test('keeps stored max when keyboard dismisses', () {
-      expect(
-        resolveNextAnchoredKeyboardHeight(
-          currentAnchored: 336,
-          nextHeight: 0,
-          nextVisible: false,
-        ),
-        336,
-      );
-    });
-
-    test('ignores hardware-keyboard shortcut bar height', () {
-      expect(
-        resolveNextAnchoredKeyboardHeight(
-          currentAnchored: null,
-          nextHeight: 55,
-          nextVisible: true,
-        ),
-        0,
-      );
-      expect(
-        resolveNextAnchoredKeyboardHeight(
-          currentAnchored: 336,
-          nextHeight: 55,
-          nextVisible: true,
-        ),
-        336,
-      );
-    });
-  });
-
   group('inlineExpressionPanelAnchorHeight', () {
     test('uses a captured IME height', () {
       expect(
@@ -442,13 +391,6 @@ void main() {
       );
       expect(
         resolveTransitionLockHeight(liveKeyboardHeight: 200, anchorHeight: 336),
-        336,
-      );
-    });
-
-    test('gross height restores safe area for panel to keyboard swap', () {
-      expect(
-        bottomInputSlotGrossHeight(netHeight: 302, safeAreaBottom: 34),
         336,
       );
     });

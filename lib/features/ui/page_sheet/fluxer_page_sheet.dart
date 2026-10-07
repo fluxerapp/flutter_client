@@ -26,7 +26,7 @@ class FluxerPageSheet {
   FluxerPageSheet._();
 
   static bool get _useCupertinoPageSheet =>
-      !kIsWeb && defaultTargetPlatform == TargetPlatform.iOS;
+      defaultTargetPlatform == TargetPlatform.iOS;
 
   static Future<T?> _showWithOverlayTracking<T>(
     BuildContext context,

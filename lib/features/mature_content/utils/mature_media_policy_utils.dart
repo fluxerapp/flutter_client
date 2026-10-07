@@ -19,7 +19,6 @@ MatureMediaPolicy resolveMatureMediaPolicy({
     shouldBlur: shouldBlur,
     shouldBlock: isFilterBlock,
     canReveal: canReveal,
-    gateReason: mediaGateReason,
   );
 }
 

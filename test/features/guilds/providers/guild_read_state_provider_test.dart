@@ -246,7 +246,7 @@ void main() {
     final beforeA = container.read(guildReadStateProvider)['guild-A']!;
     final beforeB = container.read(guildReadStateProvider)['guild-B']!;
 
-    await db.readStateDao.incrementMentionCount('c-A1');
+    await _bumpMentionCount(db, 'c-A1');
     await _waitFor(
       () =>
           (container.read(guildReadStateProvider)['guild-A']?.mentionCount ??
@@ -705,7 +705,7 @@ void main() {
       await _waitForGuildState(container1, 'g');
       final before = container1.read(guildReadStateProvider)['g']!;
 
-      await db1.readStateDao.incrementMentionCount('c2');
+      await _bumpMentionCount(db1, 'c2');
       await _waitFor(
         () =>
             (container1.read(guildReadStateProvider)['g']?.mentionCount ?? 0) ==
@@ -1462,4 +1462,18 @@ void main() {
       );
     });
   });
+}
+
+Future<void> _bumpMentionCount(FluxerDatabase db, String channelId) async {
+  final ReadState? existing = await db.readStateDao.getReadState(channelId);
+  await db.readStateDao.upsertReadState(
+    ReadStatesCompanion(
+      channelId: Value(channelId),
+      lastMessageId: Value(existing?.lastMessageId),
+      mentionCount: Value((existing?.mentionCount ?? 0) + 1),
+      lastPinTimestamp: Value(existing?.lastPinTimestamp),
+      manual: Value(existing?.manual ?? false),
+      stickyUnreadMessageId: Value(existing?.stickyUnreadMessageId),
+    ),
+  );
 }

@@ -48,6 +48,4 @@ enum SyncedPreferenceField {
     }
     return null;
   }
-
-  static const List<SyncedPreferenceField> all = SyncedPreferenceField.values;
 }

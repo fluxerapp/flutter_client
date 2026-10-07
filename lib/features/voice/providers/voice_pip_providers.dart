@@ -245,7 +245,3 @@ final voicePipOverlayPhaseProvider =
     NotifierProvider<VoicePipOverlayPhaseController, VoicePipOverlayPhase>(
       VoicePipOverlayPhaseController.new,
     );
-
-final voicePipHostsFeaturedProvider = Provider<bool>((Ref ref) {
-  return voicePipHostsFeatured(ref.watch(voicePipOverlayPhaseProvider));
-});

@@ -147,7 +147,6 @@ void _emitCreated(ProviderContainer container, {required String id}) {
           snapshot: const MessagePersistSnapshot(
             mentionsCurrentUser: false,
             isDm: false,
-            guildStorageId: null,
             acknowledgedByGateway: true,
           ),
         ),
@@ -5915,9 +5914,6 @@ Future<void> _flushAsync() async {
 
 /// A single held `getMessage`.
 class _GatedRead {
-  _GatedRead(this.messageId);
-
-  final String messageId;
   final Completer<void> completer = Completer<void>();
 }
 
@@ -5944,7 +5940,7 @@ class _MessageDaoGate {
     if (!_parked.contains(messageId)) {
       return null;
     }
-    final _GatedRead read = _GatedRead(messageId);
+    final _GatedRead read = _GatedRead();
     _reads.add(read);
     return read;
   }

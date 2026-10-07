@@ -50,10 +50,3 @@ String _deepestMatchedLocation(List<RouteMatchBase> matches) {
   }
   return '/';
 }
-
-bool isRootOverlayLocation(String topLocation, {String? shellLocation}) {
-  if (shellLocation == null) {
-    return false;
-  }
-  return topLocation != shellLocation;
-}

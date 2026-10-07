@@ -13,12 +13,9 @@ import 'package:fluxer_app/features/guilds/utils/invite_link_parser.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/export.dart';
 
-enum JoinCommunityFailureKind { invalidInvite, apiError }
-
 class JoinCommunityException implements Exception {
-  const JoinCommunityException({required this.kind, required this.message});
+  const JoinCommunityException({required this.message});
 
-  final JoinCommunityFailureKind kind;
   final String message;
 
   @override
@@ -38,10 +35,7 @@ Future<void> joinCommunityViaInvite({
     inviteUrlBases: <String>[inviteBase],
   );
   if (parsedCode == null || parsedCode.isEmpty) {
-    throw JoinCommunityException(
-      kind: JoinCommunityFailureKind.invalidInvite,
-      message: l10n.addGuildInviteInvalid,
-    );
+    throw JoinCommunityException(message: l10n.addGuildInviteInvalid);
   }
   try {
     final InviteResponseSchema schema = await client.invites.getInvite(
@@ -65,9 +59,6 @@ Future<void> joinCommunityViaInvite({
     rethrow;
   } on DioException catch (e) {
     throw JoinCommunityException(
-      kind: e.response?.statusCode == 404
-          ? JoinCommunityFailureKind.invalidInvite
-          : JoinCommunityFailureKind.apiError,
       message: userFacingErrorMessage(e, l10n.addGuildJoinFailed),
     );
   }

@@ -48,12 +48,11 @@ class _NoopIncidentRead extends ServiceStatusIncidentRead {
 class _AccountsPresent extends AccountManager {
   @override
   AccountManagerState build() {
-    return AccountManagerState(
+    return const AccountManagerState(
       accounts: <StoredAccount>[
         StoredAccount(
           userId: 'u-selfhost',
           isValid: true,
-          lastActive: DateTime.utc(2026, 1, 2),
           username: 'alice',
           displayDomain: 'chat.example.com',
         ),

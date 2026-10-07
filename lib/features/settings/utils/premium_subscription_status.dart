@@ -4,20 +4,17 @@ class PremiumGracePeriodInfo {
   const PremiumGracePeriodInfo({
     required this.isInGracePeriod,
     required this.isExpired,
-    required this.graceEndDate,
     required this.showExpiredState,
   });
 
   final bool isInGracePeriod;
   final bool isExpired;
-  final DateTime? graceEndDate;
   final bool showExpiredState;
 }
 
 class PremiumSubscriptionStatus {
   const PremiumSubscriptionStatus({
     required this.isPremium,
-    required this.perksDisabled,
     required this.isVisionary,
     required this.hasEverPurchased,
     required this.premiumWillCancel,
@@ -28,7 +25,6 @@ class PremiumSubscriptionStatus {
     required this.shouldShowPremiumCard,
     required this.shouldUseCancelQuickAction,
     required this.shouldUseReactivateQuickAction,
-    required this.shouldUseChangePlanQuickAction,
     this.isGiftGrace = false,
     this.canStartSubscription = false,
     this.subscriptionProvider,
@@ -37,7 +33,6 @@ class PremiumSubscriptionStatus {
   });
 
   final bool isPremium;
-  final bool perksDisabled;
   final bool isVisionary;
   final bool hasEverPurchased;
   final bool premiumWillCancel;
@@ -48,7 +43,6 @@ class PremiumSubscriptionStatus {
   final bool shouldShowPremiumCard;
   final bool shouldUseCancelQuickAction;
   final bool shouldUseReactivateQuickAction;
-  final bool shouldUseChangePlanQuickAction;
   final bool isGiftGrace;
   final bool canStartSubscription;
   final PremiumSubscriptionProvider? subscriptionProvider;
@@ -89,10 +83,6 @@ PremiumSubscriptionStatus computePremiumSubscriptionStatus({
   final DateTime? premiumGraceEndsAt = _parseOptionalDate(
     actual?.premiumGraceEndsAt ?? userPrivate?.premiumGraceEndsAt,
   );
-  final bool perksDisabled =
-      effective?.premiumPerksDisabled ??
-      userPrivate?.premiumPerksDisabled ??
-      false;
   final bool hasPaidPremium =
       premiumType != null && premiumType != UserPremiumTypes.none;
   final bool isVisionary =
@@ -127,7 +117,6 @@ PremiumSubscriptionStatus computePremiumSubscriptionStatus({
     gracePeriodInfo = const PremiumGracePeriodInfo(
       isInGracePeriod: false,
       isExpired: false,
-      graceEndDate: null,
       showExpiredState: false,
     );
   } else {
@@ -138,7 +127,6 @@ PremiumSubscriptionStatus computePremiumSubscriptionStatus({
       gracePeriodInfo = const PremiumGracePeriodInfo(
         isInGracePeriod: false,
         isExpired: false,
-        graceEndDate: null,
         showExpiredState: false,
       );
     } else {
@@ -156,7 +144,6 @@ PremiumSubscriptionStatus computePremiumSubscriptionStatus({
       gracePeriodInfo = PremiumGracePeriodInfo(
         isInGracePeriod: isInGracePeriod,
         isExpired: isExpired,
-        graceEndDate: graceEndDate,
         showExpiredState: showExpiredState,
       );
     }
@@ -213,19 +200,9 @@ PremiumSubscriptionStatus computePremiumSubscriptionStatus({
       !isInGracePeriod &&
       !isFullyExpired &&
       !isGiftSubscription;
-  final bool shouldUseChangePlanQuickAction =
-      allowsStripeBilling &&
-      hasPaidPremium &&
-      !isVisionary &&
-      !isInGracePeriod &&
-      !isFullyExpired &&
-      !premiumWillCancel &&
-      !isGiftSubscription &&
-      (billingCycle == 'monthly' || billingCycle == 'yearly');
 
   return PremiumSubscriptionStatus(
     isPremium: isPremium,
-    perksDisabled: perksDisabled,
     isVisionary: isVisionary,
     hasEverPurchased: hasEverPurchased,
     premiumWillCancel: premiumWillCancel,
@@ -236,7 +213,6 @@ PremiumSubscriptionStatus computePremiumSubscriptionStatus({
     shouldShowPremiumCard: shouldShowPremiumCard,
     shouldUseCancelQuickAction: shouldUseCancelQuickAction,
     shouldUseReactivateQuickAction: shouldUseReactivateQuickAction,
-    shouldUseChangePlanQuickAction: shouldUseChangePlanQuickAction,
     isGiftGrace: isGiftGrace,
     canStartSubscription: canStartSubscription,
     subscriptionProvider: subscriptionProvider,

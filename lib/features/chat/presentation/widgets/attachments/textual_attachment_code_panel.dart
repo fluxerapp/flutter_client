@@ -71,7 +71,6 @@ class TextualAttachmentCodePanel extends StatelessWidget {
       child: TextualAttachmentPreviewSurface(
         status: status,
         visibleLineCount: visibleLineCount,
-        previewError: previewError,
         copyTextContent: copyTextContent,
         fillAvailableSpace: fillAvailableSpace,
         scrollController: scrollController,

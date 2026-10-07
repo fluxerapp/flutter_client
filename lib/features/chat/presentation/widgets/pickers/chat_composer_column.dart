@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/channel_textarea.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
@@ -17,13 +16,11 @@ class ChatComposerColumn extends ConsumerStatefulWidget {
   const ChatComposerColumn({
     required this.autocompletePanelHost,
     required this.autocompletePanelScrollController,
-    required this.showInlineEmojiPicker,
     super.key,
   });
 
   final ComposerAutocompletePanelHost autocompletePanelHost;
   final ScrollController autocompletePanelScrollController;
-  final bool showInlineEmojiPicker;
 
   @override
   ConsumerState<ChatComposerColumn> createState() => _ChatComposerColumnState();
@@ -125,7 +122,7 @@ class _ChatComposerColumnState extends ConsumerState<ChatComposerColumn>
       ..updateLayout(
         screenHeight: mediaQuery.size.height,
         isPortrait: mediaQuery.size.height >= mediaQuery.size.width,
-        isIos: !kIsWeb && Platform.isIOS,
+        isIos: Platform.isIOS,
       )
       ..syncViewInsets(
         resolvedKeyboardInsetBottomFrom(

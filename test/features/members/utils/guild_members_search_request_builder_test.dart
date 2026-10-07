@@ -80,8 +80,9 @@ void main() {
           );
 
       expect(member.userId, 'u1');
-      expect(member.displayName, 'Ally');
-      expect(member.tag, 'alice#0001');
+      expect(member.nickname, 'Ally');
+      expect(member.username, 'alice');
+      expect(member.discriminator, '0001');
       expect(member.roleIds, <String>['r1']);
       expect(member.joinSourceType, JoinSourceType.instantInvite);
       expect(member.sourceInviteCode, 'welcome');

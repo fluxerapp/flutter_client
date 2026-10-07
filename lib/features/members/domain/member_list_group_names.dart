@@ -6,13 +6,8 @@ import 'package:fluxer_app/shared/utils/role_color_utils.dart';
 import 'package:fluxer_dart/gateway.dart';
 
 class MemberListGroupHeaderData {
-  const MemberListGroupHeaderData({
-    required this.groupId,
-    required this.count,
-    required this.name,
-  });
+  const MemberListGroupHeaderData({required this.count, required this.name});
 
-  final String groupId;
   final int count;
   final String name;
 }
@@ -117,7 +112,6 @@ MemberListGroupHeaderData? resolveMemberListGroupHeader({
     return null;
   }
   return MemberListGroupHeaderData(
-    groupId: groupId,
     count: count,
     name: resolveMemberListGroupName(
       groupId: groupId,

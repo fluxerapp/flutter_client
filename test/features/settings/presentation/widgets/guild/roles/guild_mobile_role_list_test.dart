@@ -63,7 +63,6 @@ void main() {
       isCreatingRole: false,
       onCreateRole: () {},
       onSelectRole: (_) {},
-      onEnterHoistOrderMode: () {},
       onExitHoistOrderMode: () {},
       onResetHoistOrder: () {},
       onReorder: (_, _) {},

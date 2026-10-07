@@ -1,5 +1,3 @@
-import 'package:fluxer_app/features/chat/utils/media/chat_video_hdr_native_set_property_stub.dart'
-    if (dart.library.io) 'package:fluxer_app/features/chat/utils/media/chat_video_hdr_native_set_property_io.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:media_kit/media_kit.dart';
 
@@ -31,6 +29,6 @@ Future<void> applyChatVideoHdrProperties(
   for (final MapEntry<String, String> entry in chatVideoHdrMpvProperties(
     mode,
   ).entries) {
-    await setNativePlayerProperty(platform, entry.key, entry.value);
+    await platform.setProperty(entry.key, entry.value);
   }
 }

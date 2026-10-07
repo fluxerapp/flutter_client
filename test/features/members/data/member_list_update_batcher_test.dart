@@ -49,9 +49,9 @@ void main() {
     container.read(memberListUpdateBatcherProvider).clearAll();
   }
 
-  void flushAll(ProviderContainer container) {
-    container.read(memberListUpdateBatcherProvider).flushAll();
-  }
+  Future<void> waitForBatchWindow() => Future<void>.delayed(
+    const Duration(milliseconds: kMemberListUpdateBatchMs + 20),
+  );
 
   test('applies the first payload immediately', () async {
     final container = buildContainer();
@@ -65,20 +65,23 @@ void main() {
     await pumpEventQueue();
   });
 
-  test('defers updates after the first payload until flushed', () async {
-    final container = buildContainer();
+  test(
+    'defers updates after the first payload until the batch window ends',
+    () async {
+      final container = buildContainer();
 
-    enqueue(container, event(memberCount: 5));
-    expect(listState(container)!.memberCount, 5);
+      enqueue(container, event(memberCount: 5));
+      expect(listState(container)!.memberCount, 5);
 
-    enqueue(container, event(memberCount: 9));
-    // Still the first value: the second event is queued, not applied.
-    expect(listState(container)!.memberCount, 5);
+      enqueue(container, event(memberCount: 9));
+      // Still the first value: the second event is queued, not applied.
+      expect(listState(container)!.memberCount, 5);
 
-    flushAll(container);
-    expect(listState(container)!.memberCount, 9);
-    await pumpEventQueue();
-  });
+      await waitForBatchWindow();
+      expect(listState(container)!.memberCount, 9);
+      await pumpEventQueue();
+    },
+  );
 
   test('clearAll drops pending updates without applying them', () async {
     final container = buildContainer();
@@ -86,7 +89,7 @@ void main() {
     enqueue(container, event(memberCount: 5));
     enqueue(container, event(memberCount: 9));
     clearAll(container);
-    flushAll(container);
+    await waitForBatchWindow();
 
     expect(listState(container)!.memberCount, 5);
     await pumpEventQueue();
@@ -121,7 +124,7 @@ void main() {
         ],
       ),
     );
-    flushAll(container);
+    await waitForBatchWindow();
 
     // Both ops survived the merge: dropping the earlier op would leave one row.
     expect(listState(container)!.rows.length, 2);

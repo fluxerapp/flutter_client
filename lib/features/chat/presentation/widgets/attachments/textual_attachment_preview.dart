@@ -196,9 +196,8 @@ class _TextualAttachmentPreviewState
       }
       setState(() {
         _status = TextualAttachmentPreviewStatus.error;
-        _previewError = TextualAttachmentPreviewError(
+        _previewError = const TextualAttachmentPreviewError(
           type: TextualAttachmentPreviewErrorType.network,
-          message: error.message,
         );
       });
       _publishFullscreenSnapshot();

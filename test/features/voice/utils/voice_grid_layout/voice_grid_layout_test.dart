@@ -5,6 +5,21 @@ import 'package:fluxer_app/features/voice/utils/voice_grid_layout/voice_grid_lay
 
 const double _epsilon = 0.001;
 
+double _usedWidth(VoiceGridPackedLayoutMetrics packed) {
+  final VoiceGridLayoutMetrics metrics = packed.metrics;
+  return metrics.sidePadding * 2 +
+      metrics.tileWidth * metrics.columns +
+      metrics.gap * (metrics.columns - 1);
+}
+
+double _usedHeight(VoiceGridPackedLayoutMetrics packed) {
+  final VoiceGridLayoutMetrics metrics = packed.metrics;
+  final int rows = voiceGridRowCount(packed.visibleTileCount, metrics.columns);
+  return metrics.verticalPadding * 2 +
+      metrics.tileHeight * rows +
+      metrics.gap * (rows - 1);
+}
+
 void main() {
   group('voiceGridRowCount', () {
     test('emits stable row counts for every selectable column count', () {
@@ -99,145 +114,6 @@ void main() {
     });
   });
 
-  group('resolveVoiceGridLayoutMetrics', () {
-    test('keeps all feasible layouts inside their viewport', () {
-      const List<double> widths = <double>[
-        240,
-        320,
-        419,
-        420,
-        519,
-        520,
-        759,
-        760,
-        859,
-        860,
-        1179,
-        1180,
-        1440,
-        1920,
-      ];
-      const List<double> heights = <double>[
-        180,
-        240,
-        259,
-        260,
-        359,
-        360,
-        459,
-        460,
-        519,
-        520,
-        720,
-        1080,
-      ];
-      const List<int> tileCounts = <int>[
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        8,
-        10,
-        12,
-        16,
-        24,
-        32,
-        40,
-        64,
-      ];
-      for (final int tileCount in tileCounts) {
-        for (final double width in widths) {
-          for (final double height in heights) {
-            for (final bool compact in <bool>[false, true]) {
-              for (final bool edgeToEdge in <bool>[false, true]) {
-                final VoiceGridLayoutMetrics metrics =
-                    resolveVoiceGridLayoutMetrics(
-                      tileCount: tileCount,
-                      containerWidth: width,
-                      containerHeight: height,
-                      compact: compact,
-                      edgeToEdge: edgeToEdge,
-                    );
-                final double gap = voiceGridGap(
-                  tileCount: tileCount,
-                  compact: compact,
-                  containerHeight: height,
-                );
-                expect(gap, greaterThanOrEqualTo(0));
-                expect(metrics.tileWidth, greaterThanOrEqualTo(0));
-                expect(metrics.tileHeight, greaterThanOrEqualTo(0));
-                if (metrics.tileWidth > 0) {
-                  expect(
-                    metrics.tileWidth,
-                    lessThanOrEqualTo(metrics.availableWidth + _epsilon),
-                  );
-                  expect(
-                    metrics.tileHeight,
-                    lessThanOrEqualTo(metrics.availableHeight + _epsilon),
-                  );
-                }
-                expect(
-                  metrics.contentWidth,
-                  lessThanOrEqualTo(width + _epsilon),
-                );
-                expect(
-                  metrics.contentHeight,
-                  lessThanOrEqualTo(height + _epsilon),
-                );
-              }
-            }
-          }
-        }
-      }
-    });
-
-    test('keeps a wide stage on the column breakpoints', () {
-      final VoiceGridLayoutMetrics metrics = resolveVoiceGridLayoutMetrics(
-        tileCount: 10,
-        containerWidth: 1920,
-        containerHeight: 1080,
-      );
-      expect(metrics.columns, 4);
-    });
-
-    test('squares a lone avatar tile', () {
-      final ({double width, double height}) size = voiceGridPlacedTileSize(
-        cellWidth: 350,
-        cellHeight: 700,
-        tileCount: 1,
-        squareTile: true,
-      );
-      expect(size.width, closeTo(350, _epsilon));
-      expect(size.height, closeTo(350, _epsilon));
-    });
-
-    test('keeps filled cells when the lone tile is not a square avatar', () {
-      final ({double width, double height}) size = voiceGridPlacedTileSize(
-        cellWidth: 350,
-        cellHeight: 700,
-        tileCount: 1,
-        squareTile: false,
-      );
-      expect(size.width, closeTo(350, _epsilon));
-      expect(size.height, closeTo(700, _epsilon));
-    });
-
-    test('contains a compact single tile inside the frame', () {
-      final VoiceGridLayoutMetrics metrics = resolveVoiceGridLayoutMetrics(
-        tileCount: 1,
-        containerWidth: 1600,
-        containerHeight: 500,
-        compact: true,
-      );
-      expect(metrics.tileWidth, closeTo(metrics.availableWidth, _epsilon));
-      expect(metrics.tileHeight, closeTo(metrics.availableHeight, _epsilon));
-      expect(metrics.contentWidth, closeTo(1600, _epsilon));
-      expect(metrics.contentHeight, closeTo(500, _epsilon));
-    });
-  });
-
   group('resolveVoiceGridPackedLayoutMetrics', () {
     test('stacks two portrait tiles instead of side-by-side strips', () {
       final VoiceGridPackedLayoutMetrics packed =
@@ -249,15 +125,18 @@ void main() {
           );
       expect(packed.visibleTileCount, 2);
       expect(packed.metrics.columns, 1);
-      expect(packed.metrics.rows, 2);
+      expect(
+        voiceGridRowCount(packed.visibleTileCount, packed.metrics.columns),
+        2,
+      );
     });
 
     test('limits visible tiles before they fall below the minimum size', () {
-      final int capacity = voiceGridVisibleTileCapacity(
+      final int capacity = resolveVoiceGridPackedLayoutMetrics(
         tileCount: 64,
         containerWidth: 800,
         containerHeight: 450,
-      );
+      ).visibleTileCount;
       final VoiceGridMinTileSize minSize = voiceGridMinTileSize();
       final VoiceGridPackedLayoutMetrics packed =
           resolveVoiceGridPackedLayoutMetrics(
@@ -290,11 +169,11 @@ void main() {
       );
 
       expect(
-        voiceGridVisibleTileCapacity(
+        resolveVoiceGridPackedLayoutMetrics(
           tileCount: 10,
           containerWidth: voiceGridMinTileWidthPx / 2,
           containerHeight: 90,
-        ),
+        ).visibleTileCount,
         0,
       );
     });
@@ -322,13 +201,16 @@ void main() {
           );
       expect(packed.visibleTileCount, greaterThan(8));
       expect(packed.metrics.columns, packed.visibleTileCount);
-      expect(packed.metrics.rows, 1);
+      expect(
+        voiceGridRowCount(packed.visibleTileCount, packed.metrics.columns),
+        1,
+      );
       expect(
         packed.metrics.tileWidth,
         greaterThanOrEqualTo(voiceGridCompactMinTileWidthPx - _epsilon),
       );
-      expect(packed.metrics.contentWidth, lessThanOrEqualTo(1920 + _epsilon));
-      expect(packed.metrics.contentHeight, lessThanOrEqualTo(120 + _epsilon));
+      expect(_usedWidth(packed), lessThanOrEqualTo(1920 + _epsilon));
+      expect(_usedHeight(packed), lessThanOrEqualTo(120 + _epsilon));
     });
 
     test('packs compact tiles down a tall narrow viewport', () {
@@ -341,13 +223,16 @@ void main() {
           );
       expect(packed.visibleTileCount, greaterThan(8));
       expect(packed.metrics.columns, 1);
-      expect(packed.metrics.rows, packed.visibleTileCount);
+      expect(
+        voiceGridRowCount(packed.visibleTileCount, packed.metrics.columns),
+        packed.visibleTileCount,
+      );
       expect(
         packed.metrics.tileWidth,
         greaterThanOrEqualTo(voiceGridCompactMinTileWidthPx - _epsilon),
       );
-      expect(packed.metrics.contentWidth, lessThanOrEqualTo(180 + _epsilon));
-      expect(packed.metrics.contentHeight, lessThanOrEqualTo(1200 + _epsilon));
+      expect(_usedWidth(packed), lessThanOrEqualTo(180 + _epsilon));
+      expect(_usedHeight(packed), lessThanOrEqualTo(1200 + _epsilon));
     });
   });
 

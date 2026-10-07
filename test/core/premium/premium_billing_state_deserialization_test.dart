@@ -77,8 +77,8 @@ void main() {
     });
 
     test('fills a default list_price_switch when absent or null', () {
-      final PremiumStateResponse state = decodePremiumStateResponse(
-        premiumStateJson(billingJson()),
+      final PremiumStateResponse state = PremiumStateResponse.fromJson(
+        normalizePremiumStateResponseJson(premiumStateJson(billingJson())),
       );
 
       expect(state.billing.listPriceSwitch.available, isFalse);

@@ -32,10 +32,6 @@
     "@retry": {
         "description": "Generic label for retry actions (splash, errors, network, etc.)."
     },
-    "connectingCaps": "CONNECTING",
-    "@connectingCaps": {
-        "description": "Connecting text on the splash screen"
-    },
     "splashConnectionLost": "Conexiune pierdută",
     "@splashConnectionLost": {
         "description": "Fallback headline on splash when gateway is unavailable (web parity)."
@@ -301,10 +297,6 @@
             }
         }
     },
-    "ssoRequired": "Este necesar SSO pentru a accesa această instanță.",
-    "@ssoRequired": {
-        "description": "Short sign-in note shown when the instance requires single sign-on."
-    },
     "organizationSsoProvider": "Conectează-te cu furnizorul de autentificare unică al organizației tale.",
     "@organizationSsoProvider": {
         "description": "Description shown when sign-in is restricted to the configured SSO provider."
@@ -325,10 +317,6 @@
                 "type": "String"
             }
         }
-    },
-    "logInViaBrowser": "Autentificare prin browser",
-    "@logInViaBrowser": {
-        "description": "Secondary login that opens or uses the system browser."
     },
     "needAccountPrompt": "Ai nevoie de un cont? ",
     "@needAccountPrompt": {
@@ -444,26 +432,9 @@
     "@accountAdd": {
         "description": "Button to add a new account."
     },
-    "accountRemove": "Elimină",
-    "@accountRemove": {
-        "description": "Context menu option to remove a stored account."
-    },
-    "accountRemoveTitle": "Elimină {username}",
-    "@accountRemoveTitle": {
-        "description": "Title for the remove account confirmation modal.",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
     "accountRemoveDescription": "Aceasta va elimina sesiunea salvată pentru acest cont.",
     "@accountRemoveDescription": {
         "description": "Description for the remove account confirmation modal."
-    },
-    "accountRemoveOnlyDescription": "Aceasta va elimina singurul cont salvat pe acest dispozitiv.",
-    "@accountRemoveOnlyDescription": {
-        "description": "Description when removing the last stored account."
     },
     "accountExpired": "Expirat",
     "@accountExpired": {
@@ -995,10 +966,6 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsent": "Sunt de acord cu Termenii de Serviciu și Politica de Confidențialitate",
-    "@registerConsent": {
-        "description": "Consent checkbox label for registration (plain text fallback)."
-    },
     "registerConsentPrefix": "Sunt de acord cu ",
     "@registerConsentPrefix": {
         "description": "Text before the Terms of Service link in the consent checkbox."
@@ -1050,10 +1017,6 @@
     "passkeyTimeout": "Autentificarea cu cheia de acces a expirat. Te rugăm să încerci din nou.",
     "@passkeyTimeout": {
         "description": "Error when passkey authentication times out."
-    },
-    "passkeyNotAvailable": "Passkey-urile nu sunt disponibile pentru această aplicație. Conectează-te în schimb cu e-mail și parolă.",
-    "@passkeyNotAvailable": {
-        "description": "Error for unknown passkey provider errors (e.g. TYPE_UNKNOWN)."
     },
     "passkeyFailed": "Autentificarea cu cheia de acces a eșuat. Te rugăm să încerci din nou.",
     "@passkeyFailed": {
@@ -1215,26 +1178,6 @@
     "inviteAcceptSomeone": "cineva",
     "@inviteAcceptSomeone": {
         "description": "Fallback inviter name when the inviter is unknown."
-    },
-    "inviteAcceptEmojiPack": "Pachet de emojiuri",
-    "@inviteAcceptEmojiPack": {
-        "description": "Label for an emoji pack invite."
-    },
-    "inviteAcceptStickerPack": "Pachet de stickere",
-    "@inviteAcceptStickerPack": {
-        "description": "Label for a sticker pack invite."
-    },
-    "inviteAcceptInstallEmojiPack": "Instalează pachetul de emoji",
-    "@inviteAcceptInstallEmojiPack": {
-        "description": "Primary action to install an emoji pack from an invite."
-    },
-    "inviteAcceptInstallStickerPack": "Instalează pachetul de stickere",
-    "@inviteAcceptInstallStickerPack": {
-        "description": "Primary action to install a sticker pack from an invite."
-    },
-    "inviteAcceptPackInstallNote": "Acceptarea acestei invitații va instala pachetul automat.",
-    "@inviteAcceptPackInstallNote": {
-        "description": "Note shown on expression pack invites before accepting."
     },
     "mentionUnknownChannel": "unknown-channel",
     "@mentionUnknownChannel": {
@@ -2250,10 +2193,6 @@
             }
         }
     },
-    "emojiPlutoniumUpsellButton": "Obține Plutonium",
-    "@emojiPlutoniumUpsellButton": {
-        "description": "Button label on the Plutonium upsell banner."
-    },
     "emojiPlutoniumUpsellDismiss": "Nu mai afișa asta",
     "@emojiPlutoniumUpsellDismiss": {
         "description": "Dismiss link on the Plutonium upsell banner."
@@ -2426,10 +2365,6 @@
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
     },
-    "fluxerTagInputLabel": "Nume de utilizator",
-    "@fluxerTagInputLabel": {
-        "description": "Label above the username and discriminator input fields."
-    },
     "fluxerTagDescriptionBase": "Numele de utilizator pot conține doar litere (a-z, A-Z), cifre (0-9) și liniuțe de subliniere. Numele de utilizator nu țin cont de majuscule/minuscule.",
     "@fluxerTagDescriptionBase": {
         "description": "Base description text on the username change sheet."
@@ -2457,10 +2392,6 @@
     "validationAllowedChars": "Doar litere (a-z, A-Z), cifre (0-9) și liniuțe de subliniere (_)",
     "@validationAllowedChars": {
         "description": "Validation rule for allowed username characters."
-    },
-    "discriminatorPremiumTooltip": "Obține Plutonium pentru a-ți personaliza eticheta sau păstreaz-o când schimbi numele de utilizator",
-    "@discriminatorPremiumTooltip": {
-        "description": "Tooltip on disabled discriminator field for non-premium users."
     },
     "fluxerTagAlreadyTaken": "Nume de utilizator deja folosit",
     "@fluxerTagAlreadyTaken": {
@@ -2515,19 +2446,6 @@
     "premiumUpsellCustomizeTag": "Personalizează-ți eticheta de 4 cifre sau păstreaz-o când îți schimbi numele de utilizator",
     "@premiumUpsellCustomizeTag": {
         "description": "Upsell text encouraging non-premium users to get Plutonium for tag customization."
-    },
-    "premiumTrialExpiresOn": "Încercarea ta Plutonium expiră pe {date}. Fă upgrade pentru a păstra eticheta personalizată și pentru a câștiga o insignă pe profilul tău.",
-    "@premiumTrialExpiresOn": {
-        "description": "Trial upsell with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActive": "Ești la un trial Plutonium. Fă upgrade pentru a păstra eticheta personalizată și a câștiga o insignă pe profilul tău.",
-    "@premiumTrialActive": {
-        "description": "Trial upsell without specific expiry date."
     },
     "fluxerTagUpdated": "Nume de utilizator actualizat",
     "@fluxerTagUpdated": {
@@ -2701,32 +2619,6 @@
     "@hideVisionaryIdDescription": {
         "description": "Description for the toggle to hide the Visionary ID badge."
     },
-    "premiumTrialSubscriptionStarts": "Ești la un trial Plutonium — abonamentul tău începe pe {date}",
-    "@premiumTrialSubscriptionStarts": {
-        "description": "Trial banner title when user has an active subscription pending after trial.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialSubscriptionStartsDescription": "Abonamentul tău va începe automat când se va termina perioada de probă. Nu este necesară nicio acțiune.",
-    "@premiumTrialSubscriptionStartsDescription": {
-        "description": "Trial banner description when user has an active subscription pending after trial."
-    },
-    "premiumTrialExpiresOnProfile": "Ești la un trial Plutonium care expiră pe {date}",
-    "@premiumTrialExpiresOnProfile": {
-        "description": "Trial banner title with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActiveProfile": "Ești în perioada de probă Plutonium",
-    "@premiumTrialActiveProfile": {
-        "description": "Trial banner title without specific expiry date."
-    },
     "avatarDescriptionNonPremium": "JPEG, PNG, WebP. Maxim 10 MB. Recomandat: 512×512 px. Avatarele animate (GIF) necesită Plutonium.",
     "@avatarDescriptionNonPremium": {
         "description": "Avatar helper text for non-premium users, mentioning Plutonium requirement for animated avatars."
@@ -2811,22 +2703,6 @@
     "profileSavedToast": "Profil actualizat",
     "@profileSavedToast": {
         "description": "Toast message shown after successfully saving profile changes."
-    },
-    "profileEditButton": "Editează profilul",
-    "@profileEditButton": {
-        "description": "Button label to open profile editing from the profile content card."
-    },
-    "profileNoteLabel": "Notă",
-    "@profileNoteLabel": {
-        "description": "Label for the personal note section on a user profile."
-    },
-    "profileNoteVisibility": "(vizibil doar pentru tine)",
-    "@profileNoteVisibility": {
-        "description": "Hint that the note is private and only visible to the current user."
-    },
-    "profileNoteEmpty": "Nicio notă încă.",
-    "@profileNoteEmpty": {
-        "description": "Placeholder shown when no personal note has been set for a user."
     },
     "sudoTitle": "Verifică-ți identitatea",
     "@sudoTitle": {
@@ -3199,42 +3075,6 @@
     "@securityPasskeyNameHint": {
         "description": "Hint for passkey name input."
     },
-    "securityPhoneSectionTitle": "Număr de telefon",
-    "@securityPhoneSectionTitle": {
-        "description": "Title for phone number section."
-    },
-    "securityPhoneSectionDescription": "Gestionează-ți numărul de telefon.",
-    "@securityPhoneSectionDescription": {
-        "description": "Description for phone number section."
-    },
-    "securityPhoneLabel": "Număr de telefon",
-    "@securityPhoneLabel": {
-        "description": "Label for phone number row."
-    },
-    "securityPhoneNone": "Nu este adăugat niciun număr de telefon.",
-    "@securityPhoneNone": {
-        "description": "Shown when no phone number is set."
-    },
-    "securityPhoneAdd": "Adaugă număr de telefon",
-    "@securityPhoneAdd": {
-        "description": "Button to add phone number."
-    },
-    "securityPhoneRemove": "Elimină",
-    "@securityPhoneRemove": {
-        "description": "Button to remove phone number."
-    },
-    "securityPhoneRemoveTitle": "Elimină numărul de telefon",
-    "@securityPhoneRemoveTitle": {
-        "description": "Title for phone remove confirmation."
-    },
-    "securityPhoneRemoveDescription": "Ești sigur că vrei să-ți ștergi numărul de telefon?",
-    "@securityPhoneRemoveDescription": {
-        "description": "Description for phone remove confirmation."
-    },
-    "securityPhoneRemoved": "Număr de telefon eliminat",
-    "@securityPhoneRemoved": {
-        "description": "Toast after phone removed."
-    },
     "securityClaimTitle": "Funcții de securitate",
     "@securityClaimTitle": {
         "description": "Title when user needs to claim account for security."
@@ -3287,10 +3127,6 @@
     "@backupCodesWarning": {
         "description": "Warning about backup codes."
     },
-    "backupCodesDownload": "Descarcă",
-    "@backupCodesDownload": {
-        "description": "Button to download backup codes."
-    },
     "backupCodesCopy": "Copiază",
     "@backupCodesCopy": {
         "description": "Button to copy backup codes."
@@ -3306,206 +3142,6 @@
     "backupCodesDone": "Gata",
     "@backupCodesDone": {
         "description": "Button to close backup codes sheet."
-    },
-    "backupCodesViewTitle": "Vezi codurile de rezervă",
-    "@backupCodesViewTitle": {
-        "description": "Title for viewing existing backup codes."
-    },
-    "backupCodesViewDescription": "Este posibil să fie necesară verificarea înainte de a vizualiza codurile de rezervă.",
-    "@backupCodesViewDescription": {
-        "description": "Description for view backup codes."
-    },
-    "phoneAddTitle": "Adaugă număr de telefon",
-    "@phoneAddTitle": {
-        "description": "Title for phone add sheet."
-    },
-    "phoneAddLabel": "Număr de telefon",
-    "@phoneAddLabel": {
-        "description": "Label for phone input."
-    },
-    "phoneAddHint": "Introdu numărul de telefon",
-    "@phoneAddHint": {
-        "description": "Hint for phone input."
-    },
-    "phoneAddFooter": "Vom trimite un cod SMS când va fi disponibil. Numărul tău nu este legat de contul tău. Păstrăm doar un marcator criptat, fără ID de utilizator, pentru a permite maximum 2 verificări în aproximativ 30 de zile.",
-    "@phoneAddFooter": {
-        "description": "Footer text for phone input."
-    },
-    "phoneAddSendCode": "Trimite codul",
-    "@phoneAddSendCode": {
-        "description": "Button to send phone verification code."
-    },
-    "phoneVerifyTitle": "Verifică numărul de telefon",
-    "@phoneVerifyTitle": {
-        "description": "Title for phone verify step."
-    },
-    "phoneVerifyDescription": "Introdu codul de verificare trimis la numărul tău de telefon.",
-    "@phoneVerifyDescription": {
-        "description": "Description for phone verify step."
-    },
-    "phoneAddSuccess": "Număr de telefon verificat",
-    "@phoneAddSuccess": {
-        "description": "Toast after phone verified."
-    },
-    "phoneCountryLabel": "Țara",
-    "@phoneCountryLabel": {
-        "description": "Label for country selector in phone verification."
-    },
-    "phoneSearchCountries": "Caută țări...",
-    "@phoneSearchCountries": {
-        "description": "Search hint for country selector."
-    },
-    "phoneNumberRequired": "Numărul de telefon este obligatoriu",
-    "@phoneNumberRequired": {
-        "description": "Validation error when phone number is empty."
-    },
-    "phoneEnterValidNumber": "Introdu un număr de telefon mobil valid.",
-    "@phoneEnterValidNumber": {
-        "description": "Validation error for invalid phone format."
-    },
-    "phoneCannotBeUsed": "Acest număr de telefon nu poate fi utilizat. Încearcă un alt număr de mobil sau contactează asistența.",
-    "@phoneCannotBeUsed": {
-        "description": "API error when phone number is rejected."
-    },
-    "phoneAlreadyUsed": "Acest număr de telefon a fost deja utilizat. Încearcă un alt număr sau contactează asistența.",
-    "@phoneAlreadyUsed": {
-        "description": "API error when phone number was reused."
-    },
-    "phoneCodeDidNotWork": "Codul nu a funcționat. Verifică-l și încearcă din nou.",
-    "@phoneCodeDidNotWork": {
-        "description": "API error for invalid verification code."
-    },
-    "phoneTooManyAttempts": "Prea multe încercări. Așteaptă puțin, apoi încearcă din nou.",
-    "@phoneTooManyAttempts": {
-        "description": "Rate limit error for phone verification."
-    },
-    "phoneSmsUnavailable": "Verificarea prin SMS nu este disponibilă momentan. Încearcă din nou mai târziu sau contactează asistența.",
-    "@phoneSmsUnavailable": {
-        "description": "SMS provider unavailable error."
-    },
-    "phoneNotEligible": "Verificarea numărului de telefon nu este disponibilă pentru acest cont. Folosește o altă metodă sau contactează asistența.",
-    "@phoneNotEligible": {
-        "description": "Account not eligible for phone verification."
-    },
-    "phoneSomethingWentWrong": "Ceva nu a mers bine. Încearcă din nou.",
-    "@phoneSomethingWentWrong": {
-        "description": "Generic phone verification error."
-    },
-    "phoneInboundExpensiveDescription": "Trimiterea unui SMS la acest număr de telefon este prea scumpă, așa că trebuie să ne trimiți un SMS în schimb. Poți contacta, de asemenea, suportul pentru a elimina această cerință din contul tău.",
-    "@phoneInboundExpensiveDescription": {
-        "description": "Inbound challenge reason for expensive destinations."
-    },
-    "phoneInboundDefaultDescription": "Trebuie să ne trimiți un SMS pentru a-ți verifica numărul de telefon.",
-    "@phoneInboundDefaultDescription": {
-        "description": "Default inbound challenge description."
-    },
-    "phoneInboundStepOpenMessaging": "Deschide aplicația de mesagerie a telefonului și creează un mesaj text nou.",
-    "@phoneInboundStepOpenMessaging": {
-        "description": "Inbound verification step 1."
-    },
-    "phoneInboundStepSendCode": "Trimite codul {code} la {number}.",
-    "@phoneInboundStepSendCode": {
-        "description": "Inbound verification step 2.",
-        "placeholders": {
-            "code": {
-                "type": "String"
-            },
-            "number": {
-                "type": "String"
-            }
-        }
-    },
-    "phoneInboundStepWait": "Așteaptă să primim mesajul tău. Poate dura un minut.",
-    "@phoneInboundStepWait": {
-        "description": "Inbound verification step 3."
-    },
-    "phoneInboundGetNewCode": "Cere cod nou",
-    "@phoneInboundGetNewCode": {
-        "description": "Button to refresh inbound challenge."
-    },
-    "phoneInboundChallengeCodeLabel": "Cod de trimis",
-    "@phoneInboundChallengeCodeLabel": {
-        "description": "Label for inbound challenge code."
-    },
-    "phoneInboundOurNumberLabel": "Trimite la",
-    "@phoneInboundOurNumberLabel": {
-        "description": "Label for inbound destination number."
-    },
-    "requiredActionTitle": "Verificarea contului este necesară",
-    "@requiredActionTitle": {
-        "description": "Title for required action blocking modal."
-    },
-    "requiredActionIntroGeneric": "Finalizează verificarea necesară pentru a continua să utilizezi {productName}.",
-    "@requiredActionIntroGeneric": {
-        "description": "Generic required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroPhone": "Înregistrarea ta necesită o verificare anti-spam suplimentară înainte de a putea continua.",
-    "@requiredActionIntroPhone": {
-        "description": "Phone-only required action intro."
-    },
-    "requiredActionIntroEmailOrPhone": "Verifică-ți adresa de e-mail sau numărul de telefon pentru a continua să folosești {productName}.",
-    "@requiredActionIntroEmailOrPhone": {
-        "description": "Email or phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailAndPhone": "Finalizează pașii necesari de verificare a adresei de e-mail și a numărului de telefon de mai jos pentru a continua să utilizezi {productName}.",
-    "@requiredActionIntroEmailAndPhone": {
-        "description": "Email and phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionChooseMethodTitle": "Alege o metodă de verificare",
-    "@requiredActionChooseMethodTitle": {
-        "description": "Title when user can pick email or phone."
-    },
-    "requiredActionChooseMethodDescription": "Finalizează una dintre căile de verificare de mai jos pentru a continua să utilizezi {productName}.",
-    "@requiredActionChooseMethodDescription": {
-        "description": "Description when user can pick email or phone.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionUseEmail": "Folosește e-mailul",
-    "@requiredActionUseEmail": {
-        "description": "Button to choose email verification."
-    },
-    "requiredActionUsePhone": "Folosește telefonul",
-    "@requiredActionUsePhone": {
-        "description": "Button to choose phone verification."
-    },
-    "requiredActionCheckEmailTitle": "Verifică-ți e-mailul",
-    "@requiredActionCheckEmailTitle": {
-        "description": "Title for email verification instructions."
-    },
-    "requiredActionCheckEmailDescription": "Am trimis un link de verificare la adresa ta de e-mail. Deschide-l pentru a continua.",
-    "@requiredActionCheckEmailDescription": {
-        "description": "Description for email verification instructions."
-    },
-    "requiredActionResendVerificationEmail": "Retrimite emailul de verificare",
-    "@requiredActionResendVerificationEmail": {
-        "description": "Button to resend verification email."
-    },
-    "requiredActionVerificationEmailSent": "E-mailul de verificare a fost trimis. Verifică-ți căsuța de e-mail.",
-    "@requiredActionVerificationEmailSent": {
-        "description": "Toast after resending verification email."
-    },
-    "requiredActionSignOut": "Deconectare",
-    "@requiredActionSignOut": {
-        "description": "Sign out button in required action modal."
     },
     "dangerZoneSectionTitle": "Zonă de risc",
     "@dangerZoneSectionTitle": {
@@ -3824,10 +3460,6 @@
     "@authorizedAppsScopeAdmin": {
         "description": "OAuth2 scope description: admin."
     },
-    "privacyPendingDeletionTitle": "Ștergere în așteptare",
-    "@privacyPendingDeletionTitle": {
-        "description": "Title of the warning alert shown when a bulk message deletion is pending."
-    },
     "blockedUsersTitle": "Utilizatori blocați",
     "@blockedUsersTitle": {
         "description": "Header title of the Blocked Users settings page."
@@ -4067,10 +3699,6 @@
     "userProfileNoteDelete": "Șterge",
     "@userProfileNoteDelete": {
         "description": "Delete button in the note editor sheet."
-    },
-    "userProfileNoteEmpty": "Dă clic pentru a adăuga o notă",
-    "@userProfileNoteEmpty": {
-        "description": "Hint text when no note has been written yet."
     },
     "userProfileMemberSince": "Membru din",
     "@userProfileMemberSince": {
@@ -5071,17 +4699,9 @@
     "@channelComposerBarrierNotMemberLongEnough": {
         "description": "Composer barrier when the user's guild membership is too recent."
     },
-    "channelComposerBarrierNoPhoneNumber": "Trebuie să-ți verifici numărul de telefon pentru a trimite mesaje în această comunitate.",
-    "@channelComposerBarrierNoPhoneNumber": {
-        "description": "Composer barrier when the user must verify a phone number before messaging."
-    },
     "channelComposerBarrierVerifyEmail": "Verifică adresa de e-mail",
     "@channelComposerBarrierVerifyEmail": {
         "description": "Action button on the composer barrier for unverified email."
-    },
-    "channelComposerBarrierVerifyPhone": "Verifică numărul de telefon",
-    "@channelComposerBarrierVerifyPhone": {
-        "description": "Action button on the composer barrier for missing phone verification."
     },
     "chatAttachmentTooMany": "Prea multe atașamente (maxim {max})",
     "@chatAttachmentTooMany": {
@@ -5116,10 +4736,6 @@
     "@chatAttachmentDropToSend": {
         "description": "Overlay hint when dragging files over chat with Shift held."
     },
-    "chatAttachmentSendVoiceMessage": "Trimite mesaj vocal",
-    "@chatAttachmentSendVoiceMessage": {
-        "description": "Menu item to open the voice message recorder."
-    },
     "voiceMessageTitle": "Mesaj vocal",
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
@@ -5140,10 +4756,6 @@
     "@voiceMessageMicPermissionDenied": {
         "description": "Shown when microphone permission is denied for voice messages."
     },
-    "voiceMessageRecordingNotSupported": "Înregistrarea vocală nu este acceptată pe acest dispozitiv.",
-    "@voiceMessageRecordingNotSupported": {
-        "description": "Shown when the device cannot record voice messages."
-    },
     "voiceMessageMicInUse": "Părăsește apelul vocal pentru a înregistra un mesaj vocal.",
     "@voiceMessageMicInUse": {
         "description": "Shown when the microphone is already used by an active voice call."
@@ -5155,26 +4767,6 @@
     "voiceMessageSendFailed": "Nu s-a putut trimite mesajul vocal. Încearcă din nou.",
     "@voiceMessageSendFailed": {
         "description": "Shown when sending a voice message fails."
-    },
-    "voiceMessageRecordingHint": "Vorbește acum. Apasă Oprește când ai terminat — poți decupa ulterior.",
-    "@voiceMessageRecordingHint": {
-        "description": "Help text while recording a voice message on desktop."
-    },
-    "voiceMessageReviewHint": "Trage de mânere pentru a decupa, apoi apasă Trimite.",
-    "@voiceMessageReviewHint": {
-        "description": "Help text while reviewing a voice message before send."
-    },
-    "voiceMessageStop": "Oprește",
-    "@voiceMessageStop": {
-        "description": "Stop recording button in voice message composer."
-    },
-    "voiceMessageStartRecording": "Începe înregistrarea",
-    "@voiceMessageStartRecording": {
-        "description": "Button to retry voice recording after permission error."
-    },
-    "voiceMessageRerecord": "Reînregistrează",
-    "@voiceMessageRerecord": {
-        "description": "Button to discard review and record again."
     },
     "voiceMessagePlay": "Redă",
     "@voiceMessagePlay": {
@@ -5191,16 +4783,6 @@
     "voiceMessageSeekBackward": "Derulează înapoi",
     "@voiceMessageSeekBackward": {
         "description": "Accessibility hint when decreasing voice message seek position."
-    },
-    "voiceMessageSelectionTooShort": "Selecția trebuie să aibă cel puțin {seconds}s.",
-    "@voiceMessageSelectionTooShort": {
-        "description": "Error when trimmed voice message is too short.",
-        "placeholders": {
-            "seconds": {
-                "type": "num",
-                "format": "compact"
-            }
-        }
     },
     "chatAttachmentEditTitle": "Editează atașamentul",
     "@chatAttachmentEditTitle": {
@@ -5357,10 +4939,6 @@
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
     },
-    "chatAttachmentPasteTooltip": "Lipește fișierul din clipboard",
-    "@chatAttachmentPasteTooltip": {
-        "description": "Tooltip for pasting a file attachment from the clipboard."
-    },
     "chatAttachmentSpoiler": "Spoiler",
     "@chatAttachmentSpoiler": {
         "description": "Badge text for spoiler attachments."
@@ -5457,14 +5035,6 @@
     "@matureContentOpenLinkButton": {
         "description": "Primary action on mature link channel gates."
     },
-    "sensitiveContentSectionTitle": "Conținut sensibil",
-    "@sensitiveContentSectionTitle": {
-        "description": "Privacy settings section title for sensitive content filters."
-    },
-    "sensitiveContentSectionDescription": "Controlează cum sunt filtrate mediile mature sau sensibile în diferite contexte",
-    "@sensitiveContentSectionDescription": {
-        "description": "Privacy settings section description for sensitive content filters."
-    },
     "sensitiveContentFriendDmLabel": "Mesaje directe de la prieteni",
     "@sensitiveContentFriendDmLabel": {
         "description": "Label for friend DM sensitive content filter."
@@ -5489,18 +5059,6 @@
     "@sensitiveContentFilterBlock": {
         "description": "Sensitive content filter option to block media."
     },
-    "sensitiveContentBlurUnscannedLabel": "Estompează media până la finalizarea scanării de siguranță",
-    "@sensitiveContentBlurUnscannedLabel": {
-        "description": "Toggle label for blurring unscanned media."
-    },
-    "sensitiveContentBlurUnscannedDescriptionAdult": "Când este activată, imaginile și videoclipurile vor fi estompate până la finalizarea scanării de siguranță a conținutului.",
-    "@sensitiveContentBlurUnscannedDescriptionAdult": {
-        "description": "Description for blur-unscanned toggle for adult accounts."
-    },
-    "sensitiveContentBlurUnscannedDescriptionMinor": "Această setare este mereu activată pentru contul tău.",
-    "@sensitiveContentBlurUnscannedDescriptionMinor": {
-        "description": "Description for blur-unscanned toggle for minor accounts."
-    },
     "sensitiveContentResetButton": "Resetare",
     "@sensitiveContentResetButton": {
         "description": "Reset button for sensitive content settings."
@@ -5517,10 +5075,6 @@
                 "type": "int"
             }
         }
-    },
-    "chatCancelUpload": "Anulează încărcarea",
-    "@chatCancelUpload": {
-        "description": "Button or menu action label for canceling an in-flight message attachment upload."
     },
     "chatAttachmentExpiresOn": "Expiră la {date}",
     "@chatAttachmentExpiresOn": {
@@ -5790,10 +5344,6 @@
     "@connectionEnterDomain": {
         "description": "Inline error shown when the domain input is empty."
     },
-    "lookAndFeelTitle": "Aspect și aspect",
-    "@lookAndFeelTitle": {
-        "description": "Title of the Look & Feel (Appearance) settings page."
-    },
     "lookAndFeelThemeSectionTitle": "Temă",
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
@@ -5861,14 +5411,6 @@
     "lookAndFeelThemeSyncFailed": "Nu am putut sincroniza tema în contul tău. Te rugăm să încerci din nou.",
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
-    },
-    "lookAndFeelChatFontScalingTitle": "Scalare font chat",
-    "@lookAndFeelChatFontScalingTitle": {
-        "description": "Search label for chat font size within the Messages section."
-    },
-    "lookAndFeelChatFontScalingDescription": "Ajustează dimensiunea fontului în zona de chat.",
-    "@lookAndFeelChatFontScalingDescription": {
-        "description": "Search description for chat font size."
     },
     "lookAndFeelChatFontSizeLabel": "Dimensiune font chat",
     "@lookAndFeelChatFontSizeLabel": {
@@ -5994,42 +5536,6 @@
     "lookAndFeelHideKeyboardHintsDescription": "Când este activată, insignele de scurtătură sunt ascunse în ferestrele pop-up de ajutor.",
     "@lookAndFeelHideKeyboardHintsDescription": {
         "description": "Toggle description for the hide-keyboard-hints switch."
-    },
-    "lookAndFeelNekoTitle": "Diverse",
-    "@lookAndFeelNekoTitle": {
-        "description": "Subsection title under Interface for Neko appearance settings."
-    },
-    "lookAndFeelNekoDescription": "Opțiuni diverse de interfață.",
-    "@lookAndFeelNekoDescription": {
-        "description": "Subsection description for Neko appearance settings."
-    },
-    "lookAndFeelShowNekoLabel": "Afișează Neko",
-    "@lookAndFeelShowNekoLabel": {
-        "description": "Toggle label for showing Neko in the chat footer."
-    },
-    "lookAndFeelShowNekoDescription": "Când este activat, Neko apare lângă bara de introducere a mesajului.",
-    "@lookAndFeelShowNekoDescription": {
-        "description": "Toggle description for showing Neko in chat."
-    },
-    "lookAndFeelVoiceChannelJoinTitle": "Comportamentul la intrarea în canalul vocal",
-    "@lookAndFeelVoiceChannelJoinTitle": {
-        "description": "Subsection title under Interface — voice channel join behavior."
-    },
-    "lookAndFeelVoiceChannelJoinDescription": "Controlează cum te alături canalelor vocale în comunități.",
-    "@lookAndFeelVoiceChannelJoinDescription": {
-        "description": "Subsection description for voice channel join behavior."
-    },
-    "lookAndFeelRequireDoubleClickJoinLabel": "Solicită dublu clic pentru a te alătura canalelor vocale",
-    "@lookAndFeelRequireDoubleClickJoinLabel": {
-        "description": "Toggle label — require double-click to join voice channels."
-    },
-    "lookAndFeelRequireDoubleClickJoinDescription": "Când este activată, va trebui să dai dublu clic pe canalele vocale pentru a te alătura. Când este dezactivată (implicit), un singur clic te va alătura imediat canalului.",
-    "@lookAndFeelRequireDoubleClickJoinDescription": {
-        "description": "Toggle description for the require-double-click voice channel join switch."
-    },
-    "lookAndFeelChatFontPreviewSample": "Vulpea rapidă maro sare peste câinele leneș.",
-    "@lookAndFeelChatFontPreviewSample": {
-        "description": "Sample text rendered at the selected chat font size to preview scaling."
     },
     "lookAndFeelGuildSidebarTitle": "Bară laterală a comunității",
     "@lookAndFeelGuildSidebarTitle": {
@@ -6562,25 +6068,9 @@
     "@messagesMediaAutocompleteSavedMediaLabel": {
         "description": "Toggle label for saved media in expression autocomplete."
     },
-    "messagesMediaEditingSectionTitle": "Editare mesaj",
-    "@messagesMediaEditingSectionTitle": {
-        "description": "Section title for message editing settings."
-    },
-    "messagesMediaEditingSectionDescription": "Controlează ce se întâmplă cu schița ta de editare când anulezi.",
-    "@messagesMediaEditingSectionDescription": {
-        "description": "Section description for message editing settings."
-    },
-    "messagesMediaEditingPreserveDraftLabel": "Păstrează schița modificărilor la anulare",
-    "@messagesMediaEditingPreserveDraftLabel": {
-        "description": "Toggle label for preserving edit drafts on cancel."
-    },
     "accessibilitySaturationTitle": "Saturație",
     "@accessibilitySaturationTitle": {
         "description": "Section title for the theme saturation slider on the accessibility settings page."
-    },
-    "accessibilitySaturationDescription": "Ajustează cât de vii apar culorile temei în aplicație.",
-    "@accessibilitySaturationDescription": {
-        "description": "Section description for the theme saturation slider on the accessibility settings page."
     },
     "accessibilityVisualGroupTitle": "Vizual",
     "@accessibilityVisualGroupTitle": {
@@ -6605,10 +6095,6 @@
     "accessibilityDmMessagePreviewGroupTitle": "Previzualizări mesaje DM",
     "@accessibilityDmMessagePreviewGroupTitle": {
         "description": "Section title for DM message preview accessibility settings."
-    },
-    "accessibilityDmMessagePreviewGroupDescription": "Controlează când sunt afișate previzualizări ale mesajelor în lista de mesaje directe.",
-    "@accessibilityDmMessagePreviewGroupDescription": {
-        "description": "Section description for DM message preview accessibility settings."
     },
     "accessibilityDmMessagePreviewModeLabel": "Mod de previzualizare mesaje DM",
     "@accessibilityDmMessagePreviewModeLabel": {
@@ -6752,10 +6238,6 @@
     "accessibilityPausedGifByReducedMotion": "Întrerupt din cauza mișcării reduse. Activează pentru a menține GIF-urile în redare.",
     "@accessibilityPausedGifByReducedMotion": {
         "description": "Description for GIF toggle while reduced motion is active."
-    },
-    "accessibilityGifDefaultsOffOnMobile": "Dezactivat implicit pe mobil pentru a economisi bateria și datele mobile.",
-    "@accessibilityGifDefaultsOffOnMobile": {
-        "description": "Helper text for GIF autoplay default on mobile."
     },
     "accessibilityStickerAnimationsTitle": "Animații pentru stickere",
     "@accessibilityStickerAnimationsTitle": {
@@ -7235,10 +6717,6 @@
     "@voiceMultiDeviceDisconnectFailed": {
         "description": "Shown when switch-to-this-device times out waiting for other sessions to leave."
     },
-    "voiceChannelEmptyDescription": "Acesta este un canal vocal. Conectează-te pentru a începe să vorbești!",
-    "@voiceChannelEmptyDescription": {
-        "description": "Empty state body when viewing a guild voice channel while not in the call."
-    },
     "voiceChannelJoin": "Alătură-te canalului vocal",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
@@ -7282,14 +6760,6 @@
     "voiceChannelStatusConnecting": "Se conectează…",
     "@voiceChannelStatusConnecting": {
         "description": "Status in the in-page voice view while LiveKit is connecting."
-    },
-    "voiceChannelStatusConnected": "Conectat",
-    "@voiceChannelStatusConnected": {
-        "description": "Status in the in-page voice view when the voice session is active."
-    },
-    "voiceChannelStatusError": "Eroare",
-    "@voiceChannelStatusError": {
-        "description": "Short label in the channel header when the voice session reports an error."
     },
     "voiceParticipantTooltipMobileDevice": "Dispozitiv mobil",
     "@voiceParticipantTooltipMobileDevice": {
@@ -7368,10 +6838,6 @@
     "voiceScreenShareNotificationText": "Se partajează ecranul.",
     "@voiceScreenShareNotificationText": {
         "description": "Body text for the Android foreground notification shown while screen sharing."
-    },
-    "voiceControlMore": "Mai multe",
-    "@voiceControlMore": {
-        "description": "Tooltip: more voice actions in the voice call control bar."
     },
     "voiceControlDisconnect": "Deconectare",
     "@voiceControlDisconnect": {
@@ -7924,25 +7390,13 @@
     "@privacyDashboardFriendRequestsEveryone": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsEveryoneDesc": "Permite oricui să-ți trimită cereri de prietenie",
-    "@privacyDashboardFriendRequestsEveryoneDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsFriendsOfFriends": "Prieteni ai prietenilor",
     "@privacyDashboardFriendRequestsFriendsOfFriends": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsFriendsOfFriendsDesc": "Permite prietenilor prietenilor tăi să-ți trimită cereri",
-    "@privacyDashboardFriendRequestsFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsCommunityMembers": "Membrii comunității",
     "@privacyDashboardFriendRequestsCommunityMembers": {
         "description": "Privacy dashboard friend request toggle label."
-    },
-    "privacyDashboardFriendRequestsCommunityMembersDesc": "Permite membrilor din comunitățile tale să-ți trimită cereri",
-    "@privacyDashboardFriendRequestsCommunityMembersDesc": {
-        "description": "Privacy dashboard friend request toggle description."
     },
     "privacyDashboardDirectMessagesTitle": "Mesaje directe",
     "@privacyDashboardDirectMessagesTitle": {
@@ -7952,65 +7406,29 @@
     "@privacyDashboardDirectMessagesMembers": {
         "description": "Privacy dashboard DM toggle label."
     },
-    "privacyDashboardDirectMessagesMembersDesc": "Permite membrilor din comunitățile tale să-ți trimită mesaje directe",
-    "@privacyDashboardDirectMessagesMembersDesc": {
-        "description": "Privacy dashboard DM toggle description."
-    },
     "privacyDashboardDirectMessagesBots": "Permite mesaje directe de la boții comunității",
     "@privacyDashboardDirectMessagesBots": {
         "description": "Privacy dashboard bot DM toggle label."
-    },
-    "privacyDashboardDirectMessagesBotsDesc": "Permite roboților din comunitățile tale să-ți trimită mesaje directe",
-    "@privacyDashboardDirectMessagesBotsDesc": {
-        "description": "Privacy dashboard bot DM toggle description."
-    },
-    "privacyDashboardConnectionsSectionDesc": "Controlează cine îți poate trimite cereri de prietenie și mesaje directe",
-    "@privacyDashboardConnectionsSectionDesc": {
-        "description": "Privacy dashboard connections section description."
-    },
-    "privacyDashboardCommunicationSectionDesc": "Controlează cine te poate suna și cine te poate adăuga în conversații de grup",
-    "@privacyDashboardCommunicationSectionDesc": {
-        "description": "Privacy dashboard communication section description."
     },
     "privacyDashboardIncomingCallsTitle": "Apeluri primite",
     "@privacyDashboardIncomingCallsTitle": {
         "description": "Privacy dashboard incoming calls subsection title."
     },
-    "privacyDashboardIncomingCallsDesc": "Controlează cine te poate suna",
-    "@privacyDashboardIncomingCallsDesc": {
-        "description": "Privacy dashboard incoming calls subsection description."
-    },
     "privacyDashboardAllowedCallers": "Apelanți permiși",
     "@privacyDashboardAllowedCallers": {
         "description": "Privacy > Communication: select label."
-    },
-    "privacyDashboardIncomingCallNobody": "Nimeni",
-    "@privacyDashboardIncomingCallNobody": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallNobodyDesc": "Blochează toate apelurile primite",
     "@privacyDashboardIncomingCallNobodyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallFriendsOnly": "Doar prietenii",
-    "@privacyDashboardIncomingCallFriendsOnly": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallFriendsOnlyDesc": "Permite doar prietenilor să te sune (recomandat)",
     "@privacyDashboardIncomingCallFriendsOnlyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallCustom": "Prietenii + Personalizat",
-    "@privacyDashboardIncomingCallCustom": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallCustomDesc": "Permite prietenilor plus grupuri suplimentare pe care le alegi",
     "@privacyDashboardIncomingCallCustomDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardIncomingCallEveryone": "Toată lumea",
-    "@privacyDashboardIncomingCallEveryone": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallEveryoneDesc": "Permite oricui să te sune, chiar și străinilor",
     "@privacyDashboardIncomingCallEveryoneDesc": {
@@ -8020,14 +7438,6 @@
     "@privacyDashboardAdditionalGroups": {
         "description": "Privacy dashboard label for custom permission groups."
     },
-    "privacyDashboardCallFriendsOfFriendsDesc": "Persoanele care sunt prietene cu prietenii tăi te pot suna",
-    "@privacyDashboardCallFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
-    "privacyDashboardCallGuildMembersDesc": "Persoanele din comunitățile în care vă aflați amândoi vă pot suna",
-    "@privacyDashboardCallGuildMembersDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
     "privacyDashboardRingBehavior": "Comportament sonerie",
     "@privacyDashboardRingBehavior": {
         "description": "Privacy dashboard ring behavior subsection label."
@@ -8036,17 +7446,9 @@
     "@privacyDashboardSilentCalls": {
         "description": "Privacy dashboard silent calls toggle label."
     },
-    "privacyDashboardSilentCallsDesc": "Toate apelurile vor notifica silențios în loc să sune. Implicit, apelurile de la persoane necunoscute sunt întotdeauna silențioase.",
-    "@privacyDashboardSilentCallsDesc": {
-        "description": "Privacy dashboard silent calls toggle description."
-    },
     "privacyDashboardGroupDmTitle": "Cine te poate adăuga la conversații de grup",
     "@privacyDashboardGroupDmTitle": {
         "description": "Privacy dashboard group DM subsection title."
-    },
-    "privacyDashboardGroupDmDesc": "Controlează cine te poate adăuga în conversații de grup fără să ceară permisiunea. Oricine îți poate trimite în continuare linkuri de invitație pentru a te alătura.",
-    "@privacyDashboardGroupDmDesc": {
-        "description": "Privacy dashboard group DM subsection description."
     },
     "privacyDashboardAllowedInvites": "Invitații permise",
     "@privacyDashboardAllowedInvites": {
@@ -8067,14 +7469,6 @@
     "privacyDashboardGroupDmEveryoneDesc": "Permite oricui să te adauge în conversații de grup fără să ceară permisiunea",
     "@privacyDashboardGroupDmEveryoneDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardGroupDmFriendsOfFriendsDesc": "Persoanele care sunt prietene cu prietenii tăi te pot adăuga în conversații de grup",
-    "@privacyDashboardGroupDmFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
-    },
-    "privacyDashboardGroupDmGuildMembersDesc": "Persoanele din comunitățile în care vă aflați amândoi vă pot adăuga în conversații de grup",
-    "@privacyDashboardGroupDmGuildMembersDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
     },
     "privacyDashboardVoiceActivityTitle": "Activitate vocală în „Activ acum”",
     "@privacyDashboardVoiceActivityTitle": {
@@ -9227,26 +8621,6 @@
     "@composerAutocompleteOptionalArgumentsHeading": {
         "description": "Section heading in composer autocomplete for adding optional slash-command arguments."
     },
-    "composerAutocompleteChannelsHeading": "Canale",
-    "@composerAutocompleteChannelsHeading": {
-        "description": "Section heading in composer autocomplete for channel suggestions."
-    },
-    "composerAutocompleteMembersHeading": "Membri",
-    "@composerAutocompleteMembersHeading": {
-        "description": "Section heading in composer autocomplete for member suggestions."
-    },
-    "composerAutocompleteUsersHeading": "Utilizatori",
-    "@composerAutocompleteUsersHeading": {
-        "description": "Section heading in composer autocomplete for user suggestions."
-    },
-    "composerAutocompleteMentionsHeading": "Mențiuni",
-    "@composerAutocompleteMentionsHeading": {
-        "description": "Section heading in composer autocomplete for mixed mention suggestions."
-    },
-    "composerAutocompleteRolesHeading": "Roluri",
-    "@composerAutocompleteRolesHeading": {
-        "description": "Section heading in composer autocomplete for role suggestions."
-    },
     "composerAutocompleteMediaHeading": "Media",
     "@composerAutocompleteMediaHeading": {
         "description": "Section heading in composer autocomplete for saved media."
@@ -9561,10 +8935,6 @@
     "@addGuildImportTemplateInvalid": {
         "description": "API error when Fluxer rejects the imported community template payload."
     },
-    "addGuildPackInstalled": "Pachetul a fost instalat cu succes.",
-    "@addGuildPackInstalled": {
-        "description": "Toast shown after accepting an emoji or sticker pack invite."
-    },
     "chatMessageRemoveAllReactionsConfirmTitle": "Elimină toate reacțiile",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
         "description": "Title for the remove-all-reactions confirmation sheet."
@@ -9686,10 +9056,6 @@
     "channelDetailsDeleteChannel": "Șterge canalul",
     "@channelDetailsDeleteChannel": {
         "description": "Channel details menu action to delete a guild channel."
-    },
-    "channelSettingsCategorySettingsTitle": "Setări categorie",
-    "@channelSettingsCategorySettingsTitle": {
-        "description": "Title for category settings modal."
     },
     "channelSettingsEditCategory": "Editează categoria",
     "@channelSettingsEditCategory": {
@@ -9950,18 +9316,6 @@
     "@channelSettingsVoiceRegionsLoadFailedDescription": {
         "description": "Error modal body when voice regions fail to load in channel settings."
     },
-    "channelSettingsResetSlider": "Resetează glisorul la valoarea implicită",
-    "@channelSettingsResetSlider": {
-        "description": "Tooltip for reset buttons on channel settings sliders."
-    },
-    "channelSettingsAdvanced": "Avansat",
-    "@channelSettingsAdvanced": {
-        "description": "Collapsible advanced section title in channel overview."
-    },
-    "channelSettingsMatureContentOverride": "Suprascriere conținut matur",
-    "@channelSettingsMatureContentOverride": {
-        "description": "Accessibility label for mature content override control."
-    },
     "channelSettingsMatureContentSectionDescription": "Înlocuiește setarea de nivel {scopeLevel} pentru acest canal. Conținutul matur este afișat în spatele unui filtru înainte de intrare.",
     "@channelSettingsMatureContentSectionDescription": {
         "description": "Section description for mature content settings in channel overview.",
@@ -10009,14 +9363,6 @@
             }
         }
     },
-    "channelSettingsMatureContentCategorySource": "categorie",
-    "@channelSettingsMatureContentCategorySource": {
-        "description": "Lowercase source label for inherited mature content from category."
-    },
-    "channelSettingsMatureContentCommunitySource": "comunitate",
-    "@channelSettingsMatureContentCommunitySource": {
-        "description": "Lowercase source label for inherited mature content from community."
-    },
     "channelSettingsMatureContentCategoryScope": "Categorie",
     "@channelSettingsMatureContentCategoryScope": {
         "description": "Capitalized scope label when mature content inherits from a category."
@@ -10040,24 +9386,6 @@
     "channelSettingsContentWarningDefault": "Acest conținut este sensibil.",
     "@channelSettingsContentWarningDefault": {
         "description": "Default content warning text placeholder."
-    },
-    "channelSettingsPermissionsNeedManageChannels": "Ai nevoie de permisiunea „{manageChannelsPermissionLabel}” pentru a edita aceste permisiuni.",
-    "@channelSettingsPermissionsNeedManageChannels": {
-        "description": "Error when user lacks manage channels permission for channel permissions tab.",
-        "placeholders": {
-            "manageChannelsPermissionLabel": {
-                "type": "String"
-            }
-        }
-    },
-    "channelSettingsPermissionsNeedManageRoles": "Ai nevoie de permisiunea „{manageRolesPermissionLabel}” pentru a edita aceste permisiuni.",
-    "@channelSettingsPermissionsNeedManageRoles": {
-        "description": "Error when user lacks manage roles permission for channel permissions tab.",
-        "placeholders": {
-            "manageRolesPermissionLabel": {
-                "type": "String"
-            }
-        }
     },
     "channelSettingsUnknownRole": "Rol necunoscut",
     "@channelSettingsUnknownRole": {
@@ -10143,10 +9471,6 @@
     "channelSettingsPermissionsSearchRolesOrMembers": "Caută roluri sau membri…",
     "@channelSettingsPermissionsSearchRolesOrMembers": {
         "description": "Placeholder for the add override search field."
-    },
-    "channelSettingsPermissionsRolesAndMembers": "Roluri și membri",
-    "@channelSettingsPermissionsRolesAndMembers": {
-        "description": "Section title in the add override picker."
     },
     "channelSettingsDeleteInvite": "Șterge invitația",
     "@channelSettingsDeleteInvite": {
@@ -10240,10 +9564,6 @@
                 "type": "String"
             }
         }
-    },
-    "channelSettingsWebhooksUnknownUser": "Utilizator necunoscut",
-    "@channelSettingsWebhooksUnknownUser": {
-        "description": "Fallback label when webhook creator is unavailable."
     },
     "channelSettingsWebhooksAvatar": "Avatar",
     "@channelSettingsWebhooksAvatar": {
@@ -10432,10 +9752,6 @@
     "channelDetailsPinsEndReached": "Ai ajuns la final",
     "@channelDetailsPinsEndReached": {
         "description": "Footer label when the user has scrolled through all pinned messages."
-    },
-    "channelHeaderOpenDetails": "Deschide detaliile canalului",
-    "@channelHeaderOpenDetails": {
-        "description": "Accessibility label for the channel header title area."
     },
     "channelHeaderPinnedMessages": "Mesaje fixate",
     "@channelHeaderPinnedMessages": {
@@ -10999,10 +10315,6 @@
     "@groupDmEditTitle": {
         "description": "Title for the edit group DM modal or sheet."
     },
-    "groupDmEditDetailsTooltip": "Editează detaliile grupului",
-    "@groupDmEditDetailsTooltip": {
-        "description": "Tooltip on the desktop group DM header edit action."
-    },
     "groupDmGroupName": "Numele grupului",
     "@groupDmGroupName": {
         "description": "Label for the group name field in edit group."
@@ -11068,14 +10380,6 @@
     "@groupDmUnsupportedIconFormatBody": {
         "description": "Body when the selected group icon format is unsupported."
     },
-    "groupDmCouldntProcessImage": "Nu s-a putut procesa imaginea",
-    "@groupDmCouldntProcessImage": {
-        "description": "Title when a cropped group icon cannot be processed."
-    },
-    "groupDmFailedToProcessCroppedImage": "Procesarea imaginii decupate a eșuat. Încearcă din nou.",
-    "@groupDmFailedToProcessCroppedImage": {
-        "description": "Body when a cropped group icon cannot be processed."
-    },
     "groupDmInvalidImage": "Imagine nevalidă",
     "@groupDmInvalidImage": {
         "description": "Title when the selected group icon image cannot be used."
@@ -11108,10 +10412,6 @@
     "@groupDmAddFriendFailed": {
         "description": "Error when adding a single friend to a group DM fails."
     },
-    "groupDmAddFailed": "Nu s-a putut adăuga în grup",
-    "@groupDmAddFailed": {
-        "description": "Title when adding friends to a group DM fails."
-    },
     "groupDmGroupFull": "Acest grup este plin. Elimină pe cineva înainte de a adăuga mai multe persoane.",
     "@groupDmGroupFull": {
         "description": "Error when the group DM has no remaining member slots."
@@ -11119,10 +10419,6 @@
     "groupDmRateLimited": "Mergi prea repede. Așteaptă un moment și încearcă din nou.",
     "@groupDmRateLimited": {
         "description": "Error when add-friends requests are rate limited."
-    },
-    "groupDmCreateInviteFailed": "Nu s-a putut crea linkul de invitație",
-    "@groupDmCreateInviteFailed": {
-        "description": "Title when invite link generation fails."
     },
     "groupDmCreateInviteFailedBody": "Nu s-a putut genera un link de invitație. Te rugăm să încerci din nou.",
     "@groupDmCreateInviteFailedBody": {
@@ -11405,10 +10701,6 @@
     "@userSettingsSearchPlaceholder": {
         "description": "Placeholder for the user settings search field."
     },
-    "userSettingsSearchFieldLabel": "Caută în setări",
-    "@userSettingsSearchFieldLabel": {
-        "description": "Accessibility label for the user settings search field."
-    },
     "userSettingsSearchClear": "Șterge căutarea",
     "@userSettingsSearchClear": {
         "description": "Accessibility label for clearing the user settings search field."
@@ -11451,8 +10743,6 @@
     "giftSettingsGiftUrl": "URL cadou",
     "giftSettingsCopy": "Copiază",
     "giftSettingsCopied": "Copiat",
-    "giftSettingsGiftUrlCopied": "Adresa URL a cadoului a fost copiată în clipboard!",
-    "giftSettingsGiftUrlCopyFailed": "Nu s-a putut copia URL-ul cadoului",
     "giftSettingsPurchasedDate": "Cumpărat {date}",
     "@giftSettingsPurchasedDate": {
         "placeholders": {
@@ -11494,7 +10784,6 @@
     "premiumBuyGift": "Cumpără cadou",
     "premiumOneYearGift": "Cadou 1 an",
     "premiumOneMonthGift": "Cadou 1 lună",
-    "premiumMostPopular": "Cel mai popular",
     "premiumScrollPrompt": "Derulează în jos pentru a vedea toate beneficiile incluse cu Plutonium",
     "premiumFreeVsPlutonium": "Gratuit vs Plutonium",
     "premiumFreeColumn": "Gratuit",
@@ -11512,50 +10801,15 @@
     "premiumViewGifts": "Vezi cadourile",
     "premiumReadyToUpgrade": "Ești gata să faci upgrade?",
     "premiumReadyToBuyGift": "Ești gata să cumperi un cadou?",
-    "premiumMonthlyPrice": "Lunar {price}",
-    "@premiumMonthlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumYearlyPrice": "Anual {price}",
-    "@premiumYearlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneYearPrice": "1 an {price}",
-    "@premiumOneYearPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneMonthPrice": "1 lună {price}",
-    "@premiumOneMonthPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
     "premiumManageSubscription": "Gestionează abonamentul",
     "premiumRedeemGiftCode": "Valorifică codul cadou",
     "premiumGiftBadge": "Cadou",
     "premiumCancelSubscriptionTitle": "Anulezi abonamentul?",
     "premiumCancelSubscriptionBody": "Îți păstrezi beneficiile până la următoarea dată de reînnoire, apoi ai o perioadă de grație de 3 zile pentru a te reabona și a-ți păstra istoricul de abonat.",
     "premiumCancelSubscriptionConfirm": "Anulează abonamentul",
-    "premiumKeepSubscription": "Păstrează abonamentul",
     "premiumPurchaseHistoryTitle": "Istoric achiziții",
     "premiumPurchaseHistoryDescription": "Facturile tale recente. Pentru a schimba metoda de plată pentru abonamentul tău, adaugă sau alege una în portalul de facturare și seteaz-o ca implicită.",
     "premiumManagePaymentMethods": "Gestionează metodele de plată",
-    "premiumBillingHistory": "Istoricul plăților",
-    "premiumSelfServeRefundTitle": "Rambursare automată",
     "premiumSelfServeRefundButton": "Restituie ultima achiziție",
     "premiumDisclaimerAgreementPrefix": "Prin achiziționare, ești de acord cu termenii noștri ",
     "premiumDisclaimerAgreementPastPrefix": "Prin achiziționare, ați fost de acord cu ",
@@ -11595,17 +10849,6 @@
         "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
     },
     "premiumComparisonFeatureColumn": "Funcție",
-    "premiumDisclaimerPurchased": "Prin achiziție, ai acceptat {terms} și {privacy}.",
-    "@premiumDisclaimerPurchased": {
-        "placeholders": {
-            "terms": {
-                "type": "String"
-            },
-            "privacy": {
-                "type": "String"
-            }
-        }
-    },
     "premiumDisclaimerRefund": "Rambursări self-service disponibile în termen de 3 zile de la plată, o dată la 30 de zile. Rambursarea unui abonament îl anulează. Cumpărătorii din UE/SEE renunță la dreptul de retragere de 14 zile la finalizarea comenzii pentru a accesa conținutul imediat. Folosește butonul de rambursare din aplicație în loc de o anulare a plății. Anulările plăților pot restricționa permanent contul tău. Stripe gestionează plățile în siguranță. Nu vedem niciodată numărul complet al cardului tău.",
     "premiumTermsOfService": "Termeni și condiții",
     "premiumPrivacyPolicy": "Politica de confidențialitate",
@@ -11646,24 +10889,14 @@
     },
     "premiumClaimAccountToPurchase": "Revendică-ți contul pentru a cumpăra Fluxer Plutonium.",
     "premiumVerifyEmailToPurchase": "Trebuie să îți verifici emailul înainte de a putea achiziționa Fluxer Plutonium.",
-    "premiumPerkCustomUsernameTag": "Tag de utilizator personalizat",
-    "premiumPerkPerCommunityProfiles": "Profiluri pentru fiecare comunitate",
-    "premiumPerkMessageScheduling": "Programare mesaje",
-    "premiumPerkProfileBadge": "Insignă de profil",
-    "premiumPerkCustomVideoBackgrounds": "Fundaluri video personalizate",
-    "premiumPerkEntranceSounds": "Sunete de intrare",
     "premiumPerkCommunities": "Comunități",
     "premiumPerkMessageCharacterLimit": "Limită de caractere mesaj",
     "premiumPerkBookmarkedMessages": "Mesaje salvate",
     "premiumPerkFileUploadSize": "Dimensiune fișier încărcat",
-    "premiumPerkEmojiStickerPacks": "Pachete de emoji și stickere",
-    "premiumPerkSavedMedia": "Elemente media salvate",
     "premiumPerkUseAnimatedEmojis": "Folosește emoji animate",
-    "premiumPerkGlobalEmojiStickerAccess": "Acces global la emoji și stickere",
     "premiumPerkVideoQuality": "Calitatea video",
     "premiumPerkAnimatedAvatarsBanners": "Avatare animate și bannere de profil",
     "premiumPerkEarlyAccess": "Acces timpuriu la funcții noi",
-    "premiumPerkCustomThemes": "Teme personalizate",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "Până la 4K/60fps",
     "storePlutoniumPriceLine": "{monthly} sau {yearly}",
@@ -11892,16 +11125,6 @@
     "@audioAndVideoMicTestStopLabel": {
         "description": "Button label to stop the microphone test."
     },
-    "audioAndVideoMicTestPermissionRequired": "{productName} are nevoie de acces la microfon pentru a testa intrarea audio.",
-    "@audioAndVideoMicTestPermissionRequired": {
-        "description": "Shown when microphone permission is required for the mic test.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
     "audioAndVideoCameraLabel": "Cameră",
     "@audioAndVideoCameraLabel": {
         "description": "Label for camera device selection."
@@ -11946,39 +11169,9 @@
     "@audioAndVideoFrameRate60Label": {
         "description": "Screen share frame rate option for 60 FPS."
     },
-    "audioAndVideoHigherQualityRequiresPremium": "1080p și 60 FPS necesită {premiumProductName}.",
-    "@audioAndVideoHigherQualityRequiresPremium": {
-        "description": "Note shown when higher video quality options require premium.",
-        "placeholders": {
-            "premiumProductName": {
-                "type": "String",
-                "example": "Plutonium"
-            }
-        }
-    },
     "audioAndVideoInstanceVideoQualityLimit": "Instanța curentă permite partajarea ecranului până la 720p la 30 FPS.",
     "@audioAndVideoInstanceVideoQualityLimit": {
         "description": "Note shown when instance limits block higher screen share quality."
-    },
-    "audioAndVideoMicrophonePermissionRequired": "{productName} are nevoie de acces la microfon pentru a-ți afișa dispozitivele.",
-    "@audioAndVideoMicrophonePermissionRequired": {
-        "description": "Shown when microphone permission is required to enumerate audio input devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
-    "audioAndVideoCameraPermissionRequired": "{productName} are nevoie de acces la cameră pentru a-ți afișa dispozitivele.",
-    "@audioAndVideoCameraPermissionRequired": {
-        "description": "Shown when camera permission is required to enumerate video devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
     },
     "audioAndVideoSkipHideOwnCameraConfirmLabel": "Nu mă mai întreba când îmi ascund camera",
     "@audioAndVideoSkipHideOwnCameraConfirmLabel": {
@@ -12017,14 +11210,6 @@
     "notificationsEnableDesktopNotificationsDescription": "Folosește centrul de notificări al sistemului de operare. Pentru control la nivel de canal/comunitate, dă clic dreapta pe o pictogramă de comunitate și deschide setările de notificare.",
     "@notificationsEnableDesktopNotificationsDescription": {
         "description": "Description for the enable desktop notifications toggle."
-    },
-    "notificationsEnableBrowserNotificationsLabel": "Activează notificările în browser",
-    "@notificationsEnableBrowserNotificationsLabel": {
-        "description": "Toggle label for enabling browser notifications."
-    },
-    "notificationsEnableBrowserNotificationsDescription": "Primești notificări când îți sosesc mesaje. S-ar putea să fie nevoie să permiți notificările în setările browserului. Pentru controlul pe canal sau pe comunitate, dă clic dreapta pe pictograma unei comunități și deschide setările de notificare.",
-    "@notificationsEnableBrowserNotificationsDescription": {
-        "description": "Description for the enable browser notifications toggle."
     },
     "notificationsPushInactiveTimeoutLabel": "Timp de inactivitate pentru notificările push",
     "@notificationsPushInactiveTimeoutLabel": {
@@ -12404,10 +11589,6 @@
     "@languageAndTimeLanguageSectionDescription": {
         "description": "Settings section description for interface language preference."
     },
-    "languageAndTimeOpenLanguageSettings": "Deschide setările de limbă",
-    "@languageAndTimeOpenLanguageSettings": {
-        "description": "Button that opens the system per-app language settings."
-    },
     "languageAndTimeTimeFormatSectionTitle": "Format oră",
     "@languageAndTimeTimeFormatSectionTitle": {
         "description": "Settings section title for time format preference."
@@ -12571,7 +11752,6 @@
     "advancedSettingStripTrackingLabel": "Elimină parametrii de urmărire din URL-uri",
     "advancedSettingStripTrackingDescription": "Elimină automat parametrii de urmărire din URL-urile mesajelor pe care le trimiți",
     "advancedSettingTrustAllLinksLabel": "Acordă încredere tuturor linkurilor externe",
-    "advancedSettingTrustAllLinksDescription": "Omite avertismentul de link extern pentru toate domeniile",
     "advancedSettingSearchEnginesLabel": "Motoare de căutare",
     "advancedSettingSearchEnginesDescription": "Configurează motoarele de căutare utilizate pentru textul selectat",
     "advancedSettingTranslatorsLabel": "Traducători",
@@ -12627,13 +11807,6 @@
     "advancedSettingHideStreamPreviewLabel": "Ascunde miniatura de previzualizare a streamului meu",
     "advancedSettingDeveloperModeLabel": "Activează modul dezvoltator",
     "advancedSettingDeveloperModeDescription": "Activează modul dezvoltator",
-    "advancedSettingSearchEngineGoogle": "Google",
-    "advancedSettingSearchEngineDuckDuckGo": "DuckDuckGo",
-    "advancedSettingSearchEngineBing": "Bing",
-    "advancedSettingSearchEngineGoogleLens": "Google Lens",
-    "advancedSettingSearchEngineTinEye": "TinEye",
-    "advancedSettingTranslatorGoogle": "Traducere Google",
-    "advancedSettingTranslatorDeepL": "DeepL",
     "advancedSettingDefaultSearchEngineLabel": "Motor de căutare implicit",
     "advancedSettingDefaultSearchEngineDescription": "Alege motorul de căutare folosit implicit la căutarea textului selectat.",
     "advancedSettingBuiltInSearchEnginesLabel": "Motoare de căutare încorporate",
@@ -13812,10 +12985,6 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsCustomInviteUrl": "URL de invitație personalizată",
-    "@guildMenuSettingsCustomInviteUrl": {
-        "description": "Community settings tab for custom invite URLs."
-    },
     "guildMenuSettingsDiscovery": "Discovery",
     "@guildMenuSettingsDiscovery": {
         "description": "Community settings tab for discovery settings."
@@ -13844,17 +13013,9 @@
     "@guildSettingsOverviewIconTitle": {
         "description": "Title for the guild icon section in overview settings."
     },
-    "guildSettingsUploadImage": "Încarcă imaginea",
-    "@guildSettingsUploadImage": {
-        "description": "Button label to upload an image in guild settings."
-    },
     "guildSettingsOverviewBannerTitle": "Banner",
     "@guildSettingsOverviewBannerTitle": {
         "description": "Title for the guild banner section."
-    },
-    "guildSettingsOverviewBannerHint": "Încarcă un banner pentru serverul tău.",
-    "@guildSettingsOverviewBannerHint": {
-        "description": "Hint text for guild banner upload."
     },
     "guildSettingsOverviewNameTitle": "Nume",
     "@guildSettingsOverviewNameTitle": {
@@ -13863,22 +13024,6 @@
     "guildSettingsOverviewNameHint": "Comunitatea mea minunată",
     "@guildSettingsOverviewNameHint": {
         "description": "Hint for the guild name field."
-    },
-    "guildSettingsOverviewStatsTitle": "Statistici",
-    "@guildSettingsOverviewStatsTitle": {
-        "description": "Title for guild statistics section."
-    },
-    "guildSettingsOverviewMembers": "Membri",
-    "@guildSettingsOverviewMembers": {
-        "description": "Label for member count in overview."
-    },
-    "guildSettingsOverviewOnline": "Conectat",
-    "@guildSettingsOverviewOnline": {
-        "description": "Label for online count in overview."
-    },
-    "guildSettingsRolesDescription": "Folosește roluri pentru a grupa membrii și a le atribui permisiuni.",
-    "@guildSettingsRolesDescription": {
-        "description": "Description for the roles settings tab."
     },
     "guildSettingsCreateRole": "Creează rol",
     "@guildSettingsCreateRole": {
@@ -13978,14 +13123,6 @@
     "@guildSettingsRolesComfyLayout": {
         "description": "Tooltip when permission list is in dense layout."
     },
-    "guildSettingsRolesSwitchToDenseLayout": "Treci la aspectul compact",
-    "@guildSettingsRolesSwitchToDenseLayout": {
-        "description": "Aria label for switching to dense layout."
-    },
-    "guildSettingsRolesSwitchToComfyLayout": "Treci la aspectul confortabil",
-    "@guildSettingsRolesSwitchToComfyLayout": {
-        "description": "Aria label for switching to comfy layout."
-    },
     "guildSettingsRolesSingleColumn": "O singură coloană",
     "@guildSettingsRolesSingleColumn": {
         "description": "Tooltip when permission list is in two-column layout."
@@ -13994,21 +13131,9 @@
     "@guildSettingsRolesTwoColumns": {
         "description": "Tooltip when permission list is in single-column layout."
     },
-    "guildSettingsRolesSwitchToSingleColumn": "Treci la o singură coloană",
-    "@guildSettingsRolesSwitchToSingleColumn": {
-        "description": "Aria label for switching to single column."
-    },
-    "guildSettingsRolesSwitchToTwoColumns": "Treci la două coloane",
-    "@guildSettingsRolesSwitchToTwoColumns": {
-        "description": "Aria label for switching to two columns."
-    },
     "guildSettingsRolesNoPermissionsFound": "Nu s-au găsit permisiuni",
     "@guildSettingsRolesNoPermissionsFound": {
         "description": "Empty state when permission search has no matches."
-    },
-    "guildSettingsRolesCustomHoistOrder": "Ordine personalizată de afișare",
-    "@guildSettingsRolesCustomHoistOrder": {
-        "description": "Button to enter custom hoist order mode."
     },
     "guildSettingsRolesHoistOrder": "Ordine de afișare",
     "@guildSettingsRolesHoistOrder": {
@@ -14025,10 +13150,6 @@
     "guildSettingsRolesNoHoistedRoles": "Nu există roluri afișate separat. Activează „Afișează acest rol separat” pentru un rol ca să-l vezi aici.",
     "@guildSettingsRolesNoHoistedRoles": {
         "description": "Empty state when no roles are hoisted."
-    },
-    "guildSettingsRolesLockedTooltip": "Nu poți edita acest rol, deoarece este rolul tău cel mai înalt sau este deasupra ta",
-    "@guildSettingsRolesLockedTooltip": {
-        "description": "Tooltip on locked role rows."
     },
     "guildSettingsRolesNeedManageRolesPermission": "Ai nevoie de permisiunea „{permission}” pentru a edita aceste permisiuni",
     "@guildSettingsRolesNeedManageRolesPermission": {
@@ -14136,10 +13257,6 @@
     "permissionCategoryAudioVideo": "Audio și video",
     "@permissionCategoryAudioVideo": {
         "description": "Permission category label."
-    },
-    "permissionUnknown": "Permisiune necunoscută",
-    "@permissionUnknown": {
-        "description": "Fallback permission label."
     },
     "permissionAdministrator": "Administrator",
     "@permissionAdministrator": {
@@ -14409,30 +13526,9 @@
     "@permissionSetVoiceRegion": {
         "description": "Permission name."
     },
-    "guildSettingsEmojiSlotInfo": "{staticCount} emoji statice, {animatedCount} emoji animate folosite",
-    "@guildSettingsEmojiSlotInfo": {
-        "description": "Emoji slot usage summary.",
-        "placeholders": {
-            "staticCount": {
-                "type": "int"
-            },
-            "animatedCount": {
-                "type": "int"
-            }
-        }
-    },
     "guildSettingsEmojiEmpty": "Încă nu există emoji personalizate.",
     "@guildSettingsEmojiEmpty": {
         "description": "Empty state for emoji settings."
-    },
-    "guildSettingsStickersSlotInfo": "{count} stickere încărcate",
-    "@guildSettingsStickersSlotInfo": {
-        "description": "Sticker slot usage summary.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsStickersEmpty": "Încă nu există stickere personalizate.",
     "@guildSettingsStickersEmpty": {
@@ -14478,8 +13574,6 @@
     "guildSettingsVerificationMediumDescription": "Necesită o adresă de e-mail verificată și un cont vechi de cel puțin 5 minute.",
     "guildSettingsVerificationHigh": "Ridicat",
     "guildSettingsVerificationHighDescription": "Necesită totul la nivel mediu, plus să fii membru al comunității de cel puțin 10 minute.",
-    "guildSettingsVerificationHighest": "Foarte ridicat",
-    "guildSettingsVerificationHighestDescription": "Necesită un număr de telefon verificat.",
     "guildSettingsAuditLogDescription": "Urmărește acțiunile moderatorilor în comunitate.",
     "@guildSettingsAuditLogDescription": {
         "description": "Subtitle under the activity-log page title."
@@ -14507,14 +13601,6 @@
     "guildSettingsAuditLogUnknownUser": "Utilizator necunoscut",
     "@guildSettingsAuditLogUnknownUser": {
         "description": "Fallback avatar label when the acting user is unavailable."
-    },
-    "guildSettingsAuditLogLoadError": "A apărut o eroare la încărcarea jurnalului de activitate.",
-    "@guildSettingsAuditLogLoadError": {
-        "description": "Generic error shown when fetching log entries fails."
-    },
-    "guildSettingsAuditLogLoadErrorTitle": "Nu se pot încărca jurnalele de activitate",
-    "@guildSettingsAuditLogLoadErrorTitle": {
-        "description": "Error-state title when fetching log entries failed."
     },
     "guildSettingsAuditLogReason": "Motiv",
     "@guildSettingsAuditLogReason": {
@@ -15486,14 +14572,6 @@
     "@auditLogOptionPermanentMembership": {
         "description": "Audit log option detail sentence."
     },
-    "guildSettingsLoadMore": "Încarcă mai multe",
-    "@guildSettingsLoadMore": {
-        "description": "Button to load more audit log entries."
-    },
-    "guildSettingsLoadingMore": "Se încarcă...",
-    "@guildSettingsLoadingMore": {
-        "description": "Loading state for pagination."
-    },
     "guildSettingsWebhooksDescription": "Vezi și gestionează fiecare webhook configurat în comunitatea ta.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
@@ -15540,42 +14618,9 @@
     "@guildSettingsUnknownChannel": {
         "description": "Fallback label when a webhook channel name is unavailable."
     },
-    "guildSettingsCopyUrl": "Copiază URL",
-    "@guildSettingsCopyUrl": {
-        "description": "Tooltip to copy a URL."
-    },
     "guildSettingsCopiedUrl": "URL copiat în clipboard",
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
-    },
-    "guildSettingsDeleteWebhook": "Șterge webhook-ul",
-    "@guildSettingsDeleteWebhook": {
-        "description": "Tooltip to delete a webhook."
-    },
-    "guildSettingsVanityUrlDescription": "Setează un link de invitație personalizat pentru serverul tău.",
-    "@guildSettingsVanityUrlDescription": {
-        "description": "Description for vanity URL tab."
-    },
-    "guildSettingsVanityUrlHint": "my-server",
-    "@guildSettingsVanityUrlHint": {
-        "description": "Hint for vanity URL input."
-    },
-    "guildSettingsSave": "Salvează",
-    "@guildSettingsSave": {
-        "description": "Generic save button label."
-    },
-    "guildSettingsVanityUrlUsageTitle": "Utilizare",
-    "@guildSettingsVanityUrlUsageTitle": {
-        "description": "Title for vanity URL usage section."
-    },
-    "guildSettingsVanityUrlUses": "{count} utilizări",
-    "@guildSettingsVanityUrlUses": {
-        "description": "Vanity URL usage count.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsDiscoveryDescription": "Listează-ți comunitatea în Discovery, ca alții să o poată găsi și să i se alăture.",
     "@guildSettingsDiscoveryDescription": {
@@ -15761,10 +14806,6 @@
     "@guildSettingsDiscoveryWithdrawErrorDescription": {
         "description": "Error modal body when withdrawing a discovery application fails."
     },
-    "guildSettingsMembersDescription": "Caută și gestionează membrii serverului.",
-    "@guildSettingsMembersDescription": {
-        "description": "Description for members tab."
-    },
     "guildSettingsMembersSearchHint": "Caută după nume de utilizator sau ID",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field on the community members page."
@@ -15829,10 +14870,6 @@
     },
     "guildMembersColumnRoles": "Roluri",
     "@guildMembersColumnRoles": {
-        "description": "Table column header on the community members page."
-    },
-    "guildMembersColumnActions": "Acțiuni",
-    "@guildMembersColumnActions": {
         "description": "Table column header on the community members page."
     },
     "guildMembersFilterMemberSince": "Filtrează după data alăturării",
@@ -15919,23 +14956,6 @@
     "@guildMembersIndexing": {
         "description": "Banner shown while guild members are being indexed."
     },
-    "guildMembersGoToPage": "Mergi la pagină",
-    "@guildMembersGoToPage": {
-        "description": "Pagination jump label on the community members page."
-    },
-    "guildMembersGoToPageItem": "Mergi la pagina {page}",
-    "@guildMembersGoToPageItem": {
-        "description": "Accessibility label for a pagination page button.",
-        "placeholders": {
-            "page": {
-                "type": "int"
-            }
-        }
-    },
-    "guildMembersJumpToPage": "Salt la pagină",
-    "@guildMembersJumpToPage": {
-        "description": "Label for pagination jump input on the community members page."
-    },
     "guildMembersJoinSourceCreator": "Creatorul comunității",
     "@guildMembersJoinSourceCreator": {
         "description": "Join method label on the community members page."
@@ -16012,22 +15032,9 @@
             }
         }
     },
-    "guildMembersJoinedDaysAgo": "{count, plural, one {acum 1 zi} other {acum # zile}}",
-    "@guildMembersJoinedDaysAgo": {
-        "description": "Relative join time on the community members page.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
     "guildMembersChannelListLabel": "Membri",
     "@guildMembersChannelListLabel": {
         "description": "Label for the Members item at the top of the guild channel list."
-    },
-    "guildMembersChannelListSelected": "Membri, selectați",
-    "@guildMembersChannelListSelected": {
-        "description": "Accessibility label when the Members channel list item is selected."
     },
     "guildSettingsInvitesTitle": "Invitații",
     "@guildSettingsInvitesTitle": {
@@ -16158,27 +15165,6 @@
     "@guildSettingsInvitesRevokeFailedDescription": {
         "description": "Error description when revoking an invite fails."
     },
-    "guildSettingsInviteUses": "{uses} / {maxUses} utilizări",
-    "@guildSettingsInviteUses": {
-        "description": "Invite usage count.",
-        "placeholders": {
-            "uses": {
-                "type": "int"
-            },
-            "maxUses": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsInviteExpires": "Expiră {date}",
-    "@guildSettingsInviteExpires": {
-        "description": "Invite expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBansDescription": "Vizualizează și gestionează utilizatorii banați.",
     "@guildSettingsBansDescription": {
         "description": "Description for bans tab."
@@ -16191,30 +15177,9 @@
     "@guildSettingsBansEmpty": {
         "description": "Empty state for bans."
     },
-    "guildSettingsBanPermanent": "Interdicție permanentă",
-    "@guildSettingsBanPermanent": {
-        "description": "Label for permanent ban."
-    },
-    "guildSettingsBanExpires": "Expiră la {date}",
-    "@guildSettingsBanExpires": {
-        "description": "Ban expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBanExpiresLabel": "Expiră",
     "@guildSettingsBanExpiresLabel": {
         "description": "Label for ban expiration row."
-    },
-    "guildSettingsUnban": "Eliminare interdicție",
-    "@guildSettingsUnban": {
-        "description": "Button to unban a user."
-    },
-    "guildSettingsBansLoading": "Se încarcă utilizatorii banați",
-    "@guildSettingsBansLoading": {
-        "description": "Loading state for the guild bans list."
     },
     "guildSettingsBansNoSearchResults": "Nu s-au găsit interdicții care să corespundă căutării tale.",
     "@guildSettingsBansNoSearchResults": {
@@ -16258,10 +15223,6 @@
             }
         }
     },
-    "guildSettingsBansLoadError": "Nu am putut încărca interdicțiile. Încearcă din nou.",
-    "@guildSettingsBansLoadError": {
-        "description": "Error when loading the guild bans list fails."
-    },
     "guildSettingsRevokeBanError": "Nu am putut revoca interdicția. Încearcă din nou.",
     "@guildSettingsRevokeBanError": {
         "description": "Error when revoking a ban fails."
@@ -16286,7 +15247,6 @@
     "@guildSettingsCategoryPeople": {
         "description": "Sidebar category for members, invites, and bans."
     },
-    "guildSettingsOverviewDescription": "Gestionează profilul, canalele și setările implicite ale comunității tale.",
     "guildSettingsOverviewBrandingTitle": "Branding",
     "guildSettingsOverviewBrandingDescription": "Actualizează-ți pictograma, numele, bannerul și fundalul invitației",
     "@guildSettingsOverviewBrandingDescription": {
@@ -16305,7 +15265,6 @@
     },
     "guildSettingsOverviewNotificationsTitle": "Notificări implicite",
     "guildSettingsOverviewNotificationsLargeGuild": "Comunitățile cu peste 250 de persoane sunt forțate să utilizeze setarea „doar mențiuni”. Setarea ta inițială este păstrată și va fi restabilită dacă numărul membrilor comunității scade sub 250.",
-    "guildSettingsOverviewAdvancedTitle": "Avansat",
     "guildSettingsOverviewFlexibleNames": "Permite nume flexibile pentru canalele text",
     "guildSettingsOverviewHideOwnerCrown": "Ascunde coroana proprietarului comunității",
     "guildSettingsOverviewDetachedBanner": "Banner detașat",
@@ -16331,10 +15290,6 @@
     "guildSettingsOverviewEmbedSplashTitle": "Fundalul încorporării din chat",
     "@guildSettingsOverviewEmbedSplashTitle": {
         "description": "Title for embed splash upload section."
-    },
-    "guildSettingsOverviewEmbedSplashHint": "Afișat în încorporările de invitație din chat.",
-    "@guildSettingsOverviewEmbedSplashHint": {
-        "description": "Note shown when uploading chat embed background."
     },
     "guildSettingsOverviewUploadBackground": "Încarcă imaginea de fundal",
     "@guildSettingsOverviewUploadBackground": {
@@ -16501,8 +15456,6 @@
     "@guildSettingsOverviewEmbedSplashUploadHint": {
         "description": "Upload requirements for chat embed background images."
     },
-    "guildSettingsModerationDescription": "Configure verificarea, filtrarea conținutului și setările pentru conținut explicit.",
-    "guildSettingsModerationDiscoveryNotice": "Comunitățile listate la Descoperire au opțiuni de moderare restricționate.",
     "guildSettingsModerationContentFilterTitle": "Filtrarea conținutului",
     "guildSettingsModerationContentFilterDescription": "Filtrează automat mesajele cu conținut explicit în canalele care nu sunt marcate pentru conținut matur.",
     "guildSettingsModerationContentFilterDiscoveryNote": "Comunitățile listate în Descoperire trebuie să scaneze toți membrii. Această setare nu poate fi modificată cât timp Descoperirea este activată.",
@@ -16512,8 +15465,6 @@
     "guildSettingsContentFilterNoRoleDescription": "Sugerat pentru majoritatea comunităților",
     "guildSettingsContentFilterAll": "Filtrează pe toată lumea",
     "guildSettingsContentFilterAllDescription": "Protecție maximă pentru spații potrivite familiilor",
-    "guildSettingsModerationMatureOff": "Dezactivat",
-    "guildSettingsModerationMatureOn": "Activat",
     "guildSettingsContentWarningToggle": "Afișează un avertisment de conținut",
     "@guildSettingsContentWarningToggle": {
         "description": "Switch label for the community content warning setting."
@@ -16533,7 +15484,6 @@
     "guildSettingsModeration2faTitle": "Cerință 2FA",
     "guildSettingsModeration2faDescription": "Solicită autentificarea în doi pași pentru moderatori înainte ca aceștia să poată bana, elimina, suspenda sau șterge mesaje.",
     "guildSettingsModeration2faSwitchLabel": "Solicită 2FA pentru acțiunile de moderare",
-    "guildSettingsModeration2faOwnerOnlyTooltip": "Doar proprietarul comunității poate schimba această setare",
     "guildSettingsModeration2faEnableFirstTooltip": "Activează autentificarea în doi pași pentru a schimba această setare",
     "guildSettingsEmojiSearchHint": "Caută emoji",
     "guildSettingsEmojiUploadTitle": "Încarcă emoji",
@@ -16541,7 +15491,6 @@
     "guildSettingsEmojiDropZone": "Trage și plasează fișierele emoji aici",
     "guildSettingsEmojiLoadFailed": "Nu s-au putut încărca emoji-urile. Încearcă din nou mai târziu.",
     "guildSettingsEmojiSearchEmpty": "Nu s-au găsit emoji-uri care să corespundă căutării tale.",
-    "guildSettingsEmojiNoSlots": "Nu sunt sloturi disponibile pentru emoji-uri",
     "guildSettingsEmojiSlotsFull": "Ai atins numărul maxim de emoji-uri. Șterge câteva emoji-uri existente pentru a face loc.",
     "guildSettingsEmojiUploadRequirements": "Numele emoji-urilor trebuie să aibă cel puțin 2 caractere și pot conține litere, numere și liniuțe de subliniere. Emoji-urile trebuie să aibă mai puțin de {maxSize}. Imaginile statice sunt redimensionate automat la 128x128 pixeli și sunt comprimate. Emoji-urile animate și SVG-urile trebuie să respecte deja limita.",
     "@guildSettingsEmojiUploadRequirements": {
@@ -16551,24 +15500,11 @@
             }
         }
     },
-    "guildSettingsEmojiUploadingTitle": "Se încarcă emoji",
-    "guildSettingsEmojiUploadingBody": "Se încarcă {count, plural, one {# emoji} other {# emojiuri}}. Acest proces poate dura puțin.",
-    "@guildSettingsEmojiUploadingBody": {
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsEmojiUploadFailed": "Nu s-au putut încărca emoji-urile. Încearcă din nou.",
     "guildSettingsEmojiSomeFailedTitle": "Unele emoji-uri nu au putut fi adăugate",
-    "guildSettingsEmojiSomeFailedBody": "Revizuiește aceste fișiere și încearcă din nou cu imagini mai mici sau mai simple.",
     "guildSettingsEmojiRenameTitle": "Redenumește emoji-ul",
     "guildSettingsEmojiRenameHint": "2-32 caractere, litere, cifre, cratime de subliniere.",
-    "guildSettingsEmojiColumnEmoji": "Emoji",
     "guildSettingsEmojiColumnName": "Nume",
     "guildSettingsEmojiColumnUploader": "Încărcat de",
-    "guildSettingsEmojiUnknownUploader": "Necunoscut",
     "guildSettingsEmojiDeleteTitle": "Șterge emoji",
     "guildSettingsEmojiDeleteBody": "Ștergi :{name}:? Nu poate fi anulat.",
     "@guildSettingsEmojiDeleteBody": {
@@ -16583,15 +15519,7 @@
     "guildSettingsEmojiNameTooLong": "Numele emojiului trebuie să aibă maximum 32 de caractere",
     "guildSettingsEmojiInvalidNameTitle": "Nume emoji nevalid",
     "guildSettingsEmojiRenameFailedTitle": "Nu s-a putut redenumi acest emoji",
-    "guildSettingsEmojiRenameFailedBody": "Numele a revenit la cel anterior. Încearcă din nou mai târziu.",
-    "guildSettingsEmojiGoneTitle": "Acest emoji nu mai există",
-    "guildSettingsEmojiGoneBody": "Este posibil să fi fost șters. Numele a revenit la cel inițial.",
-    "guildSettingsEmojiNoPermissionRenameTitle": "Nu poți redenumi acest emoji",
-    "guildSettingsEmojiNoPermissionRenameBody": "Nu ai permisiunea de a redenumi acest emoji. Numele a revenit la cel anterior.",
-    "guildSettingsEmojiRateLimitedTitle": "Mergi prea repede",
-    "guildSettingsEmojiRateLimitedBody": "Te rugăm să aștepți un moment și să încerci să redenumești din nou.",
     "guildSettingsEmojiDeleteFailedTitle": "Nu s-a putut șterge acest emoji",
-    "guildSettingsEmojiDeleteNoPermissionTitle": "Nu poți șterge acest emoji",
     "guildSettingsCloneEmojiTitle": "Permite altora să-ți cloneze emoji-urile",
     "guildSettingsCloneEmojiDescription": "Când este activată, membrii altor comunități pot folosi scurtătura \"Clonare\" cu un singur clic din aplicație pentru emoji-urile tale personalizate. Acest lucru nu îi împiedică să salveze imaginea și să o încarce ei înșiși.",
     "guildSettingsCloneStickerTitle": "Permite altora să-ți cloneze stickerele",
@@ -16632,8 +15560,6 @@
     "guildSettingsStickersLoadFailedTitle": "Nu s-au putut încărca stickerele",
     "guildSettingsStickersLoadFailedBody": "A apărut o eroare la încărcarea stickerelor. Încearcă din nou.",
     "guildSettingsStickersSearchEmpty": "Nu s-au găsit stickere care să se potrivească căutării tale.",
-    "guildSettingsStickersEmptySearch": "Nu s-au găsit stickere",
-    "guildSettingsStickerNoSlots": "Nu sunt sloturi disponibile pentru stickere",
     "guildSettingsStickerSlotsFull": "Ai atins numărul maxim de stickere. Șterge câteva stickere existente pentru a face loc.",
     "guildSettingsStickerUploadRequirements": "Stickerele sunt salvate la 320x320 pixeli și trebuie să aibă mai puțin de {maxSize}. Imaginile statice sunt redimensionate și comprimate automat. Stickerele animate și SVG-urile trebuie să respecte deja limita.",
     "@guildSettingsStickerUploadRequirements": {
@@ -16643,7 +15569,6 @@
             }
         }
     },
-    "guildSettingsStickerUnsupportedTitle": "Fișier sticker neacceptat",
     "guildSettingsStickerAddTitle": "Adaugă sticker",
     "guildSettingsStickerEditTitle": "Editează stickerul",
     "guildSettingsStickerNameLabel": "Nume",
@@ -16668,8 +15593,6 @@
     "guildSettingsStickerNameTooLong": "Numele trebuie să aibă maximum 30 de caractere",
     "guildSettingsStickerDescriptionTooLong": "Descrierea trebuie să aibă maximum 500 de caractere",
     "guildSettingsStickerCreateFailedTitle": "Nu s-a putut crea acest sticker",
-    "guildSettingsStickerTooLargeTitle": "Stickerul este prea mare",
-    "guildSettingsStickerCompressFailedTitle": "Stickerul nu a putut fi comprimat suficient",
     "guildSettingsStickerDeleteTitle": "Șterge stickerul",
     "guildSettingsStickerDeleteBody": "Ștergi „{name}”? Nu poate fi anulat.",
     "@guildSettingsStickerDeleteBody": {
@@ -16681,7 +15604,6 @@
     },
     "guildSettingsStickerPurgeLabel": "Șterge acest sticker din stocare și CDN",
     "guildSettingsStickerDeleteFailedTitle": "Nu s-a putut șterge acest sticker",
-    "guildSettingsStickerDeleteNoPermissionTitle": "Nu poți șterge acest sticker",
     "guildSettingsWebhooksInfo": "Pentru a crea un webhook, deschide {channelSettingsPath}. Poți edita și organiza în continuare toți webhook-urile existente aici.",
     "@guildSettingsWebhooksInfo": {
         "description": "Info box on the guild webhooks tab.",
@@ -16691,8 +15613,6 @@
             }
         }
     },
-    "guildSettingsVanityUrlWarning": "URL-ul tău personalizat nu va funcționa decât dacă cel puțin un canal este vizibil pentru toată lumea.",
-    "guildSettingsVanityUrlRemove": "Elimină",
     "guildSettingsBannedUsersTitle": "Utilizatori banați",
     "guildSettingsInvitesTableInviter": "Invitat de",
     "guildSettingsInvitesTableChannel": "Canal",

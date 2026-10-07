@@ -113,7 +113,6 @@ class AttachmentRenderer extends ConsumerWidget {
         attachment: attachment,
         messageId: messageId!,
         messageNonce: messageNonce!,
-        channelId: channelId!,
       );
     }
     if (renderState.shouldRenderAsFile) {

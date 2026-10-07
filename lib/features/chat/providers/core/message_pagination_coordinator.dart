@@ -97,7 +97,6 @@ final class _EdgePump {
   /// addition to the VM's isLoadingMore/isLoadingNewer.
   bool requestInFlight = false;
 
-  String? cursorAtPark;
   int? gestureIdAtPark;
 
   /// The last retry gesture this pump consumed; a park binds to it so the
@@ -168,7 +167,6 @@ class MessagePaginationCoordinator implements PaginationDemandPort {
       ..revisionAtYield = -1
       ..yieldedAt = null
       ..requestsInPump = 0
-      ..cursorAtPark = null
       ..gestureIdAtPark = null
       ..consumedRetryGestureId = null;
     // requestInFlight is deliberately NOT cleared: the future still resolves,
@@ -348,7 +346,7 @@ class MessagePaginationCoordinator implements PaginationDemandPort {
       talker.handle(error, stack, '[ChatPagination] pump request threw');
       pump.requestInFlight = false;
       if (!_disposed && pump.phase == _PumpPhase.pumping) {
-        _park(pump, cursor: null);
+        _park(pump);
       }
       return;
     }
@@ -388,21 +386,21 @@ class MessagePaginationCoordinator implements PaginationDemandPort {
       case PageLoadStatus.superseded:
         // Token unchanged (checked above): boundary supersession without a
         // wholesale replacement. The next evaluation carries a fresh cursor.
-        _park(pump, cursor: result.requestCursor);
+        _park(pump);
       case PageLoadStatus.skipped:
         // Defensive: should not occur while this coordinator holds the only
         // in-flight request. Treated as non-advance.
-        _park(pump, cursor: result.requestCursor);
+        _park(pump);
       case PageLoadStatus.empty:
       case PageLoadStatus.failed:
-        _park(pump, cursor: result.requestCursor);
+        _park(pump);
       case PageLoadStatus.applied:
         final bool advanced = cursorAdvanced(
           requestCursor: result.requestCursor,
           newBoundary: result.installedBoundary,
         );
         if (!advanced || !result.hasMoreAtEdge) {
-          _park(pump, cursor: result.requestCursor);
+          _park(pump);
           return;
         }
         if (pump.requestsInPump >= PumpBudget.maxRequestsPerPump) {
@@ -445,11 +443,10 @@ class MessagePaginationCoordinator implements PaginationDemandPort {
       ..demandActive = false;
   }
 
-  void _park(_EdgePump pump, {required String? cursor}) {
+  void _park(_EdgePump pump) {
     pump
       ..cancelBackstop()
       ..phase = _PumpPhase.parked
-      ..cursorAtPark = cursor
       ..gestureIdAtPark = pump.consumedRetryGestureId;
   }
 }

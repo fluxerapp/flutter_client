@@ -1,16 +1,10 @@
-import 'dart:convert';
-
-import 'package:drift/drift.dart' show Value;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/services/message_notification_sfx_gate.dart';
 import 'package:fluxer_app/features/settings/providers/sound_preferences_provider.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
-
-import '../../../helpers/open_test_database.dart';
 
 UserPartialResponse _user(String id) => UserPartialResponse(
   id: id,
@@ -45,106 +39,32 @@ MessageResponseSchema _message({
   mentionRoles: mentionRoles,
 );
 
-Future<FluxerDatabase> _guildDb({
-  UserNotificationSettings guildLevel = UserNotificationSettings.onlyMentions,
-  int defaultMessageNotifications = 0,
-  bool suppressRoles = false,
-  List<String> memberRoles = const ['role-1'],
-}) async {
-  final FluxerDatabase db = openTestDatabase();
-  await db.guildDao.upsertServer(
-    ServersCompanion.insert(
-      id: 'guild-1',
-      name: 'Guild',
-      defaultMessageNotifications: Value(defaultMessageNotifications),
-    ),
-  );
-  await db.channelDao.upsertChannel(
-    ChannelsCompanion.insert(
-      id: 'channel-1',
-      guildId: 'guild-1',
-      name: 'general',
-    ),
-  );
-  await db.memberDao.upsertMember(
-    MembersCompanion.insert(
-      userId: 'me',
-      guildId: 'guild-1',
-      roleIdsJson: Value(jsonEncode(memberRoles)),
-    ),
-  );
-  await db.userGuildSettingsDao.upsert(
-    UserGuildSettingsTableCompanion.insert(
-      guildId: 'guild-1',
-      data: jsonEncode(
-        UserGuildSettingsResponse(
-          guildId: 'guild-1',
-          messageNotifications: guildLevel,
-          muted: false,
-          muteConfig: null,
-          mobilePush: true,
-          suppressEveryone: false,
-          suppressRoles: suppressRoles,
-          hideMutedChannels: false,
-          channelOverrides: const {},
-          version: 1,
-        ).toJson(),
-      ),
-    ),
-  );
-  return db;
-}
+const MessagePersistSnapshot _guildAllMessages = MessagePersistSnapshot(
+  mentionsCurrentUser: false,
+  isDm: false,
+  acknowledgedByGateway: false,
+  notificationLevel: UserNotificationSettings.allMessages,
+);
 
-Future<FluxerDatabase> _dmDb({
-  UserNotificationSettings dmLevel = UserNotificationSettings.onlyMentions,
-  bool muted = false,
-}) async {
-  final FluxerDatabase db = openTestDatabase();
-  await db.dmChannelDao.upsertDmChannels([
-    DmChannelsCompanion.insert(id: 'dm-1', recipientId: 'other'),
-  ]);
-  await db.userGuildSettingsDao.upsert(
-    UserGuildSettingsTableCompanion.insert(
-      guildId: '@me',
-      data: jsonEncode(
-        UserGuildSettingsResponse(
-          guildId: null,
-          messageNotifications: dmLevel,
-          muted: false,
-          muteConfig: null,
-          mobilePush: true,
-          suppressEveryone: false,
-          suppressRoles: false,
-          hideMutedChannels: false,
-          channelOverrides: muted
-              ? {
-                  'dm-1': const ChannelOverrides(
-                    collapsed: false,
-                    muted: true,
-                    messageNotifications: UserNotificationSettingsInput.inherit,
-                  ),
-                }
-              : null,
-          version: 1,
-        ).toJson(),
-      ),
-    ),
-  );
-  return db;
-}
+const MessagePersistSnapshot _guildOnlyMentions = MessagePersistSnapshot(
+  mentionsCurrentUser: false,
+  isDm: false,
+  acknowledgedByGateway: false,
+  notificationLevel: UserNotificationSettings.onlyMentions,
+);
 
 Future<MessageNotificationSfxPlayRequest?> _evaluate({
-  required FluxerDatabase db,
   required MessageResponseSchema message,
+  MessagePersistSnapshot snapshot = _guildAllMessages,
   MessageNotificationSfxDeduper? deduper,
   bool selfIsDnd = false,
   bool foreground = false,
   bool viewingChannel = false,
   bool hasObscuringOverlay = false,
 }) {
-  return FluxerMessageNotificationSfxEvaluator.evaluate(
-    database: db,
+  return FluxerMessageNotificationSfxEvaluator.evaluateFromSnapshot(
     message: message,
+    snapshot: snapshot,
     currentUserId: 'me',
     blockedUserIds: const {},
     selfIsDnd: selfIsDnd,
@@ -158,9 +78,8 @@ Future<MessageNotificationSfxPlayRequest?> _evaluate({
 void main() {
   group('FluxerMessageNotificationSfxEvaluator', () {
     test('only mentions + plain guild message is silent', () async {
-      final FluxerDatabase db = await _guildDb();
       final MessageNotificationSfxPlayRequest? request = await _evaluate(
-        db: db,
+        snapshot: _guildOnlyMentions,
         message: _message(
           id: '1000000000000000001',
           channelId: 'channel-1',
@@ -170,26 +89,8 @@ void main() {
       expect(request, isNull);
     });
 
-    test('only mentions + role mention plays guild message clip', () async {
-      final FluxerDatabase db = await _guildDb();
-      final MessageNotificationSfxPlayRequest? request = await _evaluate(
-        db: db,
-        message: _message(
-          id: '1000000000000000002',
-          channelId: 'channel-1',
-          authorId: 'other',
-          mentionRoles: const ['role-1'],
-        ),
-      );
-      expect(request?.clipKind, MessageNotificationSfxClipKind.message);
-    });
-
     test('all messages + plain guild message plays', () async {
-      final FluxerDatabase db = await _guildDb(
-        guildLevel: UserNotificationSettings.allMessages,
-      );
       final MessageNotificationSfxPlayRequest? request = await _evaluate(
-        db: db,
         message: _message(
           id: '1000000000000000003',
           channelId: 'channel-1',
@@ -199,49 +100,14 @@ void main() {
       expect(request?.clipKind, MessageNotificationSfxClipKind.message);
     });
 
-    test(
-      'inherited all messages community default + plain guild message plays',
-      () async {
-        final FluxerDatabase db = await _guildDb(
-          guildLevel: UserNotificationSettings.inherit,
-        );
-        final MessageNotificationSfxPlayRequest? request = await _evaluate(
-          db: db,
-          message: _message(
-            id: '1000000000000000011',
-            channelId: 'channel-1',
-            authorId: 'other',
-          ),
-        );
-        expect(request?.clipKind, MessageNotificationSfxClipKind.message);
-      },
-    );
-
-    test(
-      'inherited mentions community default + plain guild message is silent',
-      () async {
-        final FluxerDatabase db = await _guildDb(
-          guildLevel: UserNotificationSettings.inherit,
-          defaultMessageNotifications: 1,
-        );
-        final MessageNotificationSfxPlayRequest? request = await _evaluate(
-          db: db,
-          message: _message(
-            id: '1000000000000000012',
-            channelId: 'channel-1',
-            authorId: 'other',
-          ),
-        );
-        expect(request, isNull);
-      },
-    );
-
     test('no messages guild level is silent', () async {
-      final FluxerDatabase db = await _guildDb(
-        guildLevel: UserNotificationSettings.noMessages,
-      );
       final MessageNotificationSfxPlayRequest? request = await _evaluate(
-        db: db,
+        snapshot: const MessagePersistSnapshot(
+          mentionsCurrentUser: true,
+          isDm: false,
+          acknowledgedByGateway: false,
+          notificationLevel: UserNotificationSettings.noMessages,
+        ),
         message: _message(
           id: '1000000000000000004',
           channelId: 'channel-1',
@@ -255,9 +121,13 @@ void main() {
     test(
       'only mentions + unmuted DM without mention plays direct clip',
       () async {
-        final FluxerDatabase db = await _dmDb();
         final MessageNotificationSfxPlayRequest? request = await _evaluate(
-          db: db,
+          snapshot: const MessagePersistSnapshot(
+            mentionsCurrentUser: false,
+            isDm: true,
+            acknowledgedByGateway: false,
+            notificationLevel: UserNotificationSettings.onlyMentions,
+          ),
           message: _message(
             id: '1000000000000000005',
             channelId: 'dm-1',
@@ -268,25 +138,8 @@ void main() {
       },
     );
 
-    test('muted DM is silent', () async {
-      final FluxerDatabase db = await _dmDb(muted: true);
-      final MessageNotificationSfxPlayRequest? request = await _evaluate(
-        db: db,
-        message: _message(
-          id: '1000000000000000006',
-          channelId: 'dm-1',
-          authorId: 'other',
-        ),
-      );
-      expect(request, isNull);
-    });
-
     test('suppress notifications flag is silent', () async {
-      final FluxerDatabase db = await _guildDb(
-        guildLevel: UserNotificationSettings.allMessages,
-      );
       final MessageNotificationSfxPlayRequest? request = await _evaluate(
-        db: db,
         message: _message(
           id: '1000000000000000007',
           channelId: 'channel-1',
@@ -298,11 +151,7 @@ void main() {
     });
 
     test('own message is silent', () async {
-      final FluxerDatabase db = await _guildDb(
-        guildLevel: UserNotificationSettings.allMessages,
-      );
       final MessageNotificationSfxPlayRequest? request = await _evaluate(
-        db: db,
         message: _message(
           id: '1000000000000000008',
           channelId: 'channel-1',
@@ -313,11 +162,7 @@ void main() {
     });
 
     test('dnd is silent for background notifications', () async {
-      final FluxerDatabase db = await _guildDb(
-        guildLevel: UserNotificationSettings.allMessages,
-      );
       final MessageNotificationSfxPlayRequest? request = await _evaluate(
-        db: db,
         selfIsDnd: true,
         message: _message(
           id: '1000000000000000009',
@@ -329,9 +174,8 @@ void main() {
     });
 
     test('dnd still allows same-channel clip while viewing channel', () async {
-      final FluxerDatabase db = await _guildDb();
       final MessageNotificationSfxPlayRequest? request = await _evaluate(
-        db: db,
+        snapshot: _guildOnlyMentions,
         selfIsDnd: true,
         foreground: true,
         viewingChannel: true,
@@ -350,9 +194,8 @@ void main() {
     test(
       'foreground viewing channel without overlay uses same-channel clip',
       () async {
-        final FluxerDatabase db = await _guildDb();
         final MessageNotificationSfxPlayRequest? request = await _evaluate(
-          db: db,
+          snapshot: _guildOnlyMentions,
           foreground: true,
           viewingChannel: true,
           message: _message(
@@ -371,9 +214,8 @@ void main() {
     test(
       'foreground viewing channel with overlay still validates settings',
       () async {
-        final FluxerDatabase db = await _guildDb();
         final MessageNotificationSfxPlayRequest? request = await _evaluate(
-          db: db,
+          snapshot: _guildOnlyMentions,
           foreground: true,
           viewingChannel: true,
           hasObscuringOverlay: true,
@@ -388,9 +230,6 @@ void main() {
     );
 
     test('deduper prevents duplicate playback', () async {
-      final FluxerDatabase db = await _guildDb(
-        guildLevel: UserNotificationSettings.allMessages,
-      );
       final MessageNotificationSfxDeduper deduper =
           MessageNotificationSfxDeduper(capacity: 50);
       final MessageResponseSchema message = _message(
@@ -398,14 +237,8 @@ void main() {
         channelId: 'channel-1',
         authorId: 'other',
       );
-      expect(
-        await _evaluate(db: db, message: message, deduper: deduper),
-        isNotNull,
-      );
-      expect(
-        await _evaluate(db: db, message: message, deduper: deduper),
-        isNull,
-      );
+      expect(await _evaluate(message: message, deduper: deduper), isNotNull);
+      expect(await _evaluate(message: message, deduper: deduper), isNull);
     });
   });
 
@@ -419,7 +252,6 @@ void main() {
       const MessagePersistSnapshot snapshot = MessagePersistSnapshot(
         mentionsCurrentUser: false,
         isDm: true,
-        guildStorageId: '@me',
         acknowledgedByGateway: false,
         notificationLevel: UserNotificationSettings.allMessages,
         isChannelMuted: true,
@@ -451,7 +283,6 @@ void main() {
       const MessagePersistSnapshot snapshot = MessagePersistSnapshot(
         mentionsCurrentUser: true,
         isDm: false,
-        guildStorageId: 'guild-1',
         acknowledgedByGateway: false,
         notificationLevel: UserNotificationSettings.onlyMentions,
       );

@@ -12,8 +12,6 @@ class ResolvedVoiceProcessing {
   final bool echoCancellation;
   final bool noiseSuppression;
   final bool autoGainControl;
-
-  bool get bypassNoiseFilter => !useNoiseFilter;
 }
 
 ResolvedVoiceProcessing resolveVoiceProcessing({

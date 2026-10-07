@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
-
 class SyncedPreferencesWireEncodeException implements Exception {
   SyncedPreferencesWireEncodeException(this.message);
 
@@ -142,12 +140,6 @@ class SyncedPreferencesWireCodec {
     return _extractFieldChunks(bytes, fieldNumber);
   }
 
-  static List<int> parseFieldNumbers(Uint8List bytes) {
-    return parseTopLevelFieldChunks(
-      bytes,
-    ).map((chunk) => chunk.fieldNumber).toSet().toList()..sort();
-  }
-
   static List<SyncedPreferenceWireChunk> parseTopLevelFieldChunks(
     Uint8List bytes,
   ) {
@@ -280,10 +272,6 @@ class SyncedPreferencesWireCodec {
     }
     return out;
   }
-}
-
-int syncedPreferenceFieldNumber(SyncedPreferenceField field) {
-  return field.fieldNumber;
 }
 
 class SyncedPreferenceWireChunk {

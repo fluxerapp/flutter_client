@@ -1568,14 +1568,6 @@ class FluxerDatabase extends _$FluxerDatabase {
       await threadDao.clearAll();
     });
   }
-
-  /// Clears everything including auth sessions (full logout).
-  Future<void> clearAll() async {
-    await transaction(() async {
-      await authSessionDao.clearSession();
-      await clearUserData();
-    });
-  }
 }
 
 Future<bool> _tableHasColumn(

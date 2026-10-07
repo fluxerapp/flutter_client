@@ -34,11 +34,4 @@ bool emojiPickerShouldBuildUpsell({
   required bool isFirstFrameSettled,
 }) => !isPremium && !hasSearchQuery && isFirstFrameSettled;
 
-bool emojiPickerAnimateCustomEmojiInGrid({
-  required bool isMobile,
-  required bool emojiAnimated,
-  required bool isInView,
-  required bool scrollSettled,
-}) => isMobile && emojiAnimated && isInView && scrollSettled;
-
 bool emojiPickerPrefetchAnimatedUrls({required bool isMobile}) => isMobile;

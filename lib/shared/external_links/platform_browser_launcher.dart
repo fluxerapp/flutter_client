@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/features/settings/domain/default_web_browser.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -48,7 +47,7 @@ String? androidBrowserPackageName(DefaultWebBrowser browser) {
 }
 
 Future<void> dismissAndroidInAppBrowserTasks() async {
-  if (kIsWeb || !Platform.isAndroid) {
+  if (!Platform.isAndroid) {
     return;
   }
   try {
@@ -59,9 +58,6 @@ Future<void> dismissAndroidInAppBrowserTasks() async {
 }
 
 Future<bool> launchInSpecificBrowser(Uri uri, DefaultWebBrowser browser) async {
-  if (kIsWeb) {
-    return false;
-  }
   if (Platform.isIOS) {
     final String? launchUrlString = browserLaunchUrlForIos(browser, uri);
     if (launchUrlString == null) {

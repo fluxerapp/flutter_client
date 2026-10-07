@@ -18,13 +18,6 @@ const int kMaxFrecentEmojis = 42;
 
 const int kMaxTrackedEmojiUsageKeys = 200;
 
-const List<String> kDefaultQuickEmojis = [
-  'thumbsup',
-  'ok_hand',
-  'tada',
-  'heart',
-];
-
 class GuildEmojiEntry {
   GuildEmojiEntry({
     required this.id,

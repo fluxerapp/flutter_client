@@ -1,7 +1,6 @@
 import 'dart:io' show Platform;
 
 import 'package:drift/drift.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
@@ -30,9 +29,6 @@ HdrDisplayMode hdrDisplayModeFromName(String? name) {
 }
 
 DmMessagePreviewMode defaultDmMessagePreviewMode() {
-  if (kIsWeb) {
-    return DmMessagePreviewMode.none;
-  }
   switch (Platform.operatingSystem) {
     case 'android':
     case 'ios':

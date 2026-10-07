@@ -328,7 +328,7 @@ class _GuildEmojiSettingsWidgetState
     if (!mounted) {
       return;
     }
-    if (result.failures.isNotEmpty) {
+    if (result.failureCount > 0) {
       ref
           .read(toastProvider.notifier)
           .show(FluxerToast(message: l10n.guildSettingsEmojiSomeFailedTitle));

@@ -37,7 +37,6 @@ void main() {
       expect(spoilerSyncKeysForEmbed(googleEmbed, spoilered), <String>[
         'https://google.com',
       ]);
-      expect(isEmbedSpoilered(googleEmbed, spoilered), isTrue);
     });
 
     test('matches youtube watch url to youtu.be spoiler', () {

@@ -81,26 +81,6 @@ void main() {
     expect(channel2.position, 0);
   });
 
-  test(
-    'removeCategory moves child channels back to root and compacts',
-    () async {
-      await repository.addCategory(id: 'category-1', name: 'Important');
-      await repository.addChannel(channelId: 'channel-1');
-      await repository.addChannel(
-        channelId: 'channel-2',
-        parentId: 'category-1',
-      );
-
-      expect(await repository.removeCategory('category-1'), isTrue);
-
-      final favorites = await database.favoriteChannelsDao
-          .watchChannels()
-          .first;
-      expect(favorites.map((favorite) => favorite.parentId), [null, null]);
-      expect(favorites.map((favorite) => favorite.position), [0, 1]);
-    },
-  );
-
   test('settings persist collapsed categories and mute flags', () async {
     await repository.setCollapsedCategoryIds([
       'category-1',

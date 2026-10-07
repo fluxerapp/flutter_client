@@ -7,8 +7,6 @@ void main() {
       id: 'cat-1',
       kind: ChannelReorderDragKind.category,
       channelType: 4,
-      parentId: null,
-      guildId: 'guild-1',
     );
     expect(
       canChannelDropOnTarget(
@@ -17,7 +15,6 @@ void main() {
           id: 'cat-2',
           channelType: 4,
           parentId: null,
-          guildId: 'guild-1',
         ),
       ),
       isTrue,
@@ -29,7 +26,6 @@ void main() {
           id: 'text-1',
           channelType: 0,
           parentId: null,
-          guildId: 'guild-1',
         ),
       ),
       isFalse,
@@ -41,7 +37,6 @@ void main() {
           id: 'text-2',
           channelType: 0,
           parentId: 'cat-2',
-          guildId: 'guild-1',
         ),
       ),
       isFalse,
@@ -53,14 +48,11 @@ void main() {
       id: 'text-1',
       kind: ChannelReorderDragKind.channel,
       channelType: 0,
-      parentId: null,
-      guildId: 'guild-1',
     );
     const ChannelReorderTarget target = ChannelReorderTarget(
       id: 'text-2',
       channelType: 0,
       parentId: null,
-      guildId: 'guild-1',
     );
 
     test('top half positions before', () {
@@ -95,7 +87,6 @@ void main() {
         id: 'cat-1',
         channelType: 4,
         parentId: null,
-        guildId: 'guild-1',
       );
       final ChannelReorderIntent? intent = resolveChannelReorderHover(
         item: textItem,

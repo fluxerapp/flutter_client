@@ -31,7 +31,6 @@ class FluxerClientProperties {
     this.browserVersion,
     this.architecture,
     this.buildTimestamp,
-    this.buildSha,
     this.buildNumber,
     this.desktopAppVersion,
     this.desktopAppChannel,
@@ -54,38 +53,11 @@ class FluxerClientProperties {
   final String systemLocale;
   final String userAgent;
   final String? buildTimestamp;
-  final String? buildSha;
   final int? buildNumber;
   final String? desktopAppVersion;
   final String? desktopAppChannel;
   final String? desktopArch;
   final String? desktopOs;
-
-  Map<String, dynamic> toFullJson() {
-    return <String, dynamic>{
-      'schema_version': schemaVersion,
-      'client_platform': clientPlatform,
-      'client_runtime': clientRuntime,
-      'client_version': clientVersion,
-      'release_channel': releaseChannel,
-      'os': os,
-      'os_version': osVersion,
-      'browser': browser,
-      'browser_version': browserVersion,
-      'device': device,
-      'architecture': architecture,
-      'locale': locale,
-      'system_locale': systemLocale,
-      'user_agent': userAgent,
-      'build_timestamp': buildTimestamp,
-      'build_sha': buildSha,
-      'build_number': buildNumber,
-      'desktop_app_version': desktopAppVersion,
-      'desktop_app_channel': desktopAppChannel,
-      'desktop_arch': desktopArch,
-      'desktop_os': desktopOs,
-    };
-  }
 }
 
 String mapAppBuildEnvironmentToReleaseChannel(AppBuildEnvironment environment) {

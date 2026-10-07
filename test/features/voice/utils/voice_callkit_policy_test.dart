@@ -668,38 +668,6 @@ void main() {
     });
   });
 
-  group('hasActiveVoiceCallKitSession', () {
-    test('true when an activeVoice session exists', () {
-      expect(
-        hasActiveVoiceCallKitSession(<VoiceCallKitSession>[
-          const VoiceCallKitSession(
-            callKitId: 'a',
-            channelId: 'c1',
-            kind: VoiceCallKitSessionKind.incomingRing,
-          ),
-          const VoiceCallKitSession(
-            callKitId: 'b',
-            channelId: 'c2',
-            kind: VoiceCallKitSessionKind.activeVoice,
-          ),
-        ]),
-        isTrue,
-      );
-    });
-    test('false when only ring sessions exist', () {
-      expect(
-        hasActiveVoiceCallKitSession(<VoiceCallKitSession>[
-          const VoiceCallKitSession(
-            callKitId: 'a',
-            channelId: 'c1',
-            kind: VoiceCallKitSessionKind.incomingRing,
-          ),
-        ]),
-        isFalse,
-      );
-    });
-  });
-
   group('shouldScheduleCallKitAudioSessionRecovery', () {
     test('schedules recovery on deactivate while active voice remains', () {
       expect(

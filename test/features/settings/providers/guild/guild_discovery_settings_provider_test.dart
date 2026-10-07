@@ -15,7 +15,6 @@ void main() {
         primaryLanguage: DiscoveryConstants.defaultLanguage,
         customTags: <String>[],
         application: GuildDiscoveryApplication(
-          guildId: '1',
           status: DiscoveryApplicationStatus.pending,
           description: 'desc',
           categoryType: 0,
@@ -33,7 +32,6 @@ void main() {
         primaryLanguage: DiscoveryConstants.defaultLanguage,
         customTags: <String>[],
         application: GuildDiscoveryApplication(
-          guildId: '1',
           status: DiscoveryApplicationStatus.rejected,
           description: 'desc',
           categoryType: 0,
@@ -69,7 +67,6 @@ void main() {
             primaryLanguage: DiscoveryConstants.defaultLanguage,
             customTags: <String>[],
             application: GuildDiscoveryApplication(
-              guildId: '1',
               status: DiscoveryApplicationStatus.pending,
               description: 'listed',
               categoryType: 0,
@@ -89,7 +86,6 @@ void main() {
               eligible: true,
               minMemberCount: 10,
               application: GuildDiscoveryApplication(
-                guildId: '1',
                 status: DiscoveryApplicationStatus.approved,
                 description: 'Listed community',
                 categoryType: 4,

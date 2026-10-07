@@ -5,7 +5,6 @@ class MessagePersistSnapshot {
   const MessagePersistSnapshot({
     required this.mentionsCurrentUser,
     required this.isDm,
-    required this.guildStorageId,
     required this.acknowledgedByGateway,
     this.notificationLevel,
     this.isChannelMuted = false,
@@ -13,7 +12,6 @@ class MessagePersistSnapshot {
 
   final bool mentionsCurrentUser;
   final bool isDm;
-  final String? guildStorageId;
   final bool acknowledgedByGateway;
   final UserNotificationSettings? notificationLevel;
   final bool isChannelMuted;

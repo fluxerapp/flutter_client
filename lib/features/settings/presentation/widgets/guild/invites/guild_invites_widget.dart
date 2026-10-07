@@ -258,7 +258,6 @@ class _GuildInvitesWidgetState extends ConsumerState<GuildInvitesWidget> {
     return GuildInvitesListItem(
       entry: entry,
       l10n: l10n,
-      inviteUrl: inviteUrl,
       showCreatedDate: _showCreatedDate,
       isMobile: isMobile,
       categoryName: _resolveCategoryName(entry, channelsById),

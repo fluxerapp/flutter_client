@@ -87,7 +87,7 @@ class AccountManager extends _$AccountManager {
         await db.authSessionDao.markInvalid(userId);
         await loadAccounts();
         state = state.copyWith(isSwitching: false);
-        throw SessionExpiredFailure(userId);
+        throw const SessionExpiredFailure();
       }
 
       await db.authSessionDao.touchSession(userId);

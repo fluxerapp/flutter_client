@@ -6,24 +6,31 @@ abstract final class GuildVerificationLevel {
   static const int low = 1;
   static const int medium = 2;
   static const int high = 3;
-  static const int veryHigh = 4;
 }
 
 const Duration kGuildVerificationAccountMinAge = Duration(minutes: 5);
 const Duration kGuildVerificationMembershipMinAge = Duration(minutes: 10);
+
+int supportedGuildVerificationLevel(int verificationLevel) {
+  if (verificationLevel > GuildVerificationLevel.high) {
+    return GuildVerificationLevel.high;
+  }
+  return verificationLevel;
+}
 
 int effectiveGuildVerificationLevel(
   int verificationLevel,
   // ignore: avoid_positional_boolean_parameters, small public helper keeps existing positional call sites compact.
   bool isDiscoverable,
 ) {
+  final int level = supportedGuildVerificationLevel(verificationLevel);
   if (!isDiscoverable) {
-    return verificationLevel;
+    return level;
   }
-  if (verificationLevel < GuildVerificationLevel.low) {
+  if (level < GuildVerificationLevel.low) {
     return GuildVerificationLevel.low;
   }
-  return verificationLevel;
+  return level;
 }
 
 enum GuildComposerBlockReason {
@@ -63,7 +70,6 @@ class GuildVerificationInput {
   final bool hasVerifiedEmail;
   final bool isEmailVerified;
   final DateTime accountCreatedAt;
-  final bool hasVerifiedPhone;
   final DateTime now;
 
   const GuildVerificationInput({
@@ -78,7 +84,6 @@ class GuildVerificationInput {
     required this.hasVerifiedEmail,
     required this.isEmailVerified,
     required this.accountCreatedAt,
-    required this.hasVerifiedPhone,
     required this.now,
   });
 }

@@ -1,24 +1,8 @@
-enum SlashSlotValidationError {
-  requiredValue,
-  unknownUser,
-  unknownRole,
-  unknownChannel,
-  notAnInteger,
-  notANumber,
-  notABoolean,
-  invalidChoice,
-}
-
 class SlashSlotValidationResult {
-  const SlashSlotValidationResult({
-    required this.valid,
-    this.resolvedWire,
-    this.error,
-  });
+  const SlashSlotValidationResult({required this.valid, this.resolvedWire});
 
   final bool valid;
   final String? resolvedWire;
-  final SlashSlotValidationError? error;
 }
 
 final RegExp _userWireRe = RegExp(r'^<@!?(\d+)>$');
@@ -44,10 +28,7 @@ SlashSlotValidationResult validateSlashSlot({
   final String text = rawText.trim();
   if (text.isEmpty) {
     if (required) {
-      return const SlashSlotValidationResult(
-        valid: false,
-        error: SlashSlotValidationError.requiredValue,
-      );
+      return const SlashSlotValidationResult(valid: false);
     }
     return const SlashSlotValidationResult(valid: true);
   }
@@ -71,10 +52,7 @@ SlashSlotValidationResult validateSlashSlot({
           resolvedWire: '<@$resolved>',
         );
       }
-      return const SlashSlotValidationResult(
-        valid: false,
-        error: SlashSlotValidationError.unknownUser,
-      );
+      return const SlashSlotValidationResult(valid: false);
     case 'role':
       final RegExpMatch? wireMatch = _roleWireRe.firstMatch(text);
       if (wireMatch != null) {
@@ -96,10 +74,7 @@ SlashSlotValidationResult validateSlashSlot({
           resolvedWire: '<@&$resolved>',
         );
       }
-      return const SlashSlotValidationResult(
-        valid: false,
-        error: SlashSlotValidationError.unknownRole,
-      );
+      return const SlashSlotValidationResult(valid: false);
     case 'channel':
       final RegExpMatch? wireMatch = _channelWireRe.firstMatch(text);
       if (wireMatch != null) {
@@ -120,33 +95,21 @@ SlashSlotValidationResult validateSlashSlot({
           resolvedWire: '<#$resolved>',
         );
       }
-      return const SlashSlotValidationResult(
-        valid: false,
-        error: SlashSlotValidationError.unknownChannel,
-      );
+      return const SlashSlotValidationResult(valid: false);
     case 'integer':
       if (!_integerRe.hasMatch(text)) {
-        return const SlashSlotValidationResult(
-          valid: false,
-          error: SlashSlotValidationError.notAnInteger,
-        );
+        return const SlashSlotValidationResult(valid: false);
       }
       return SlashSlotValidationResult(valid: true, resolvedWire: text);
     case 'number':
       if (!_numberRe.hasMatch(text)) {
-        return const SlashSlotValidationResult(
-          valid: false,
-          error: SlashSlotValidationError.notANumber,
-        );
+        return const SlashSlotValidationResult(valid: false);
       }
       return SlashSlotValidationResult(valid: true, resolvedWire: text);
     case 'boolean':
       final String lower = text.toLowerCase();
       if (lower != 'true' && lower != 'false') {
-        return const SlashSlotValidationResult(
-          valid: false,
-          error: SlashSlotValidationError.notABoolean,
-        );
+        return const SlashSlotValidationResult(valid: false);
       }
       return SlashSlotValidationResult(valid: true, resolvedWire: lower);
     case 'choice':
@@ -159,10 +122,7 @@ SlashSlotValidationResult validateSlashSlot({
           );
         }
       }
-      return const SlashSlotValidationResult(
-        valid: false,
-        error: SlashSlotValidationError.invalidChoice,
-      );
+      return const SlashSlotValidationResult(valid: false);
     default:
       return SlashSlotValidationResult(valid: true, resolvedWire: text);
   }

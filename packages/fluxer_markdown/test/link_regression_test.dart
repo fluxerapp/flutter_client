@@ -8,8 +8,6 @@ import 'package:material_ui/material_ui.dart';
 
 import 'support/native_test_parser.dart';
 
-String? _noopEmojiShortcode(String name) => null;
-
 String? _noopUnicodeEmojiUrl(String unicode) => null;
 
 String _noopCustomEmojiUrl({
@@ -19,7 +17,6 @@ String _noopCustomEmojiUrl({
 }) => '';
 
 const FluxerMarkdownConfig _config = FluxerMarkdownConfig(
-  resolveEmojiShortcode: _noopEmojiShortcode,
   unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
   customEmojiUrlBuilder: _noopCustomEmojiUrl,
 );
@@ -141,7 +138,6 @@ void main() {
     testWidgets('angle email links render as tappable mailto', (tester) async {
       String? tappedHref;
       final FluxerMarkdownConfig config = FluxerMarkdownConfig(
-        resolveEmojiShortcode: _noopEmojiShortcode,
         unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
         customEmojiUrlBuilder: _noopCustomEmojiUrl,
         onTapLink: (_, href) async {
@@ -174,7 +170,6 @@ void main() {
     testWidgets('angle https links render as tappable links', (tester) async {
       String? tappedHref;
       final FluxerMarkdownConfig config = FluxerMarkdownConfig(
-        resolveEmojiShortcode: _noopEmojiShortcode,
         unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
         customEmojiUrlBuilder: _noopCustomEmojiUrl,
         onTapLink: (_, href) async {

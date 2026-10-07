@@ -711,8 +711,7 @@ class _MessageListState extends ConsumerState<MessageList>
     final String? oldestUnreadId = unreadSummary.oldestUnreadMessageId;
     final String? visualUnreadId = resolveVisualUnreadId(
       messages: messages.map(
-        (Message message) =>
-            ChatUnreadMessageRef(id: message.id, authorId: message.authorId),
+        (Message message) => ChatUnreadMessageRef(id: message.id),
       ),
       stickyUnreadId: stickyUnreadId,
       oldestUnreadId: oldestUnreadId,
@@ -3045,8 +3044,7 @@ class _MessageListState extends ConsumerState<MessageList>
     }
     final ChatUnreadSummary summary = computeChatUnreadSummary(
       messages: messages.map(
-        (Message message) =>
-            ChatUnreadMessageRef(id: message.id, authorId: message.authorId),
+        (Message message) => ChatUnreadMessageRef(id: message.id),
       ),
       ackLastMessageId: ackLastMessageId,
       mentionCount: mentionCount,

@@ -85,11 +85,6 @@ class GuildBans extends _$GuildBans {
     }
   }
 
-  Future<void> reload() async {
-    state = const AsyncLoading<GuildBansState>();
-    state = AsyncData<GuildBansState>(await _loadState());
-  }
-
   Future<void> unban(String userId) async {
     final GuildBansState? current = state.value;
     if (current == null || current.isUnbanningUserId != null) {

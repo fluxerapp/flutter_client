@@ -1,4 +1,3 @@
-import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
@@ -22,14 +21,6 @@ class EmojiInfoData {
       name: entry.name,
       animated: entry.animated,
       guildId: entry.guildId,
-    );
-  }
-
-  factory EmojiInfoData.fromReaction(Reaction reaction) {
-    return EmojiInfoData(
-      id: reaction.emojiId,
-      name: reaction.emoji,
-      animated: reaction.animated,
     );
   }
 

@@ -1,12 +1,21 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/favorite_gifs_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/pickers.pb.dart'
     as pickers_pb;
 import 'package:fluxer_app/features/chat/domain/favorite_gif_entry.dart';
 
+FavoriteGifsSyncedField _field() {
+  final container = ProviderContainer();
+  addTearDown(container.dispose);
+  return container.read(
+    Provider<FavoriteGifsSyncedField>(FavoriteGifsSyncedField.new),
+  );
+}
+
 void main() {
   group('FavoriteGifsSyncedField', () {
-    test('toProtoForPush roundtrips entries including media map', () {
+    test('toProtoMessageForPush roundtrips entries including media map', () {
       const local = FavoriteGifsSyncedLocalState(
         entries: [
           FavoriteGifEntry(
@@ -30,7 +39,9 @@ void main() {
         seenFirstTimePrompt: true,
       );
 
-      final proto = FavoriteGifsSyncedField.toProtoForPush(local: local);
+      final proto =
+          _field().toProtoMessageForPush(local)
+              as pickers_pb.FavoriteGifSettings;
       final restored = FavoriteGifsSyncedField.decodeSettings(proto);
 
       expect(restored, local);
@@ -44,7 +55,7 @@ void main() {
       expect(empty.seenFirstTimePrompt, isFalse);
     });
 
-    test('toProtoForPush preserves unknown media formats from wire', () {
+    test('toProtoMessageForPush preserves unknown media formats from wire', () {
       const local = FavoriteGifsSyncedLocalState(
         entries: [
           FavoriteGifEntry(
@@ -71,10 +82,9 @@ void main() {
             );
       final wireBase = pickers_pb.FavoriteGifSettings(entries: [wireEntry]);
 
-      final pushed = FavoriteGifsSyncedField.toProtoForPush(
-        local: local,
-        wireBase: wireBase,
-      );
+      final pushed =
+          _field().toProtoMessageForPush(local, wireSubMessage: wireBase)
+              as pickers_pb.FavoriteGifSettings;
 
       expect(pushed.entries.single.media['large'], isNotNull);
       expect(pushed.entries.single.media['large']!.width, 640);

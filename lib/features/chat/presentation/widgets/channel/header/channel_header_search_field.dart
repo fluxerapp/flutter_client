@@ -1160,7 +1160,6 @@ class _ChannelHeaderSearchFieldState
       discriminators = _userDiscriminators;
     }
     return ChannelSearchParseContext(
-      guildId: widget.guildId,
       currentUserId: ref.read(currentUserIdProvider),
       resolveChannelByName: _resolveChannelName,
       resolveUserByTag: (String tag) => _resolveUserFromLoaded(
@@ -1342,7 +1341,6 @@ class _ChannelHeaderSearchFieldState
         channelsByName: _channelIdsByName,
       ),
       context: ChannelSearchParseContext(
-        guildId: widget.guildId,
         currentUserId: ref.read(currentUserIdProvider),
         resolveChannelByName: _resolveChannelName,
         resolveUserByTag: (String tag) => resolveUserIdByTag(

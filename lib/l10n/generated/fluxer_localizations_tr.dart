@@ -34,9 +34,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get retry => 'Tekrar Dene';
 
   @override
-  String get connectingCaps => 'CONNECTING';
-
-  @override
   String get splashConnectionLost => 'Bağlantı kesildi';
 
   @override
@@ -210,9 +207,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   }
 
   @override
-  String get ssoRequired => 'Bu örneğe erişmek için SSO gereklidir.';
-
-  @override
   String get organizationSsoProvider =>
       'Kuruluşunuzun tek oturum açma sağlayıcısıyla oturum açın.';
 
@@ -226,9 +220,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String preferSso(String provider) {
     return '$provider ile devam ederek SSO\'yu mu tercih ediyorsunuz?';
   }
-
-  @override
-  String get logInViaBrowser => 'Tarayıcı ile giriş yap';
 
   @override
   String get needAccountPrompt => 'Hesabınız yok mu? ';
@@ -318,20 +309,8 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get accountAdd => 'Hesap ekle';
 
   @override
-  String get accountRemove => 'Kaldır';
-
-  @override
-  String accountRemoveTitle(String username) {
-    return '$username kaldırılıyor';
-  }
-
-  @override
   String get accountRemoveDescription =>
       'Bu işlem, bu hesap için kayıtlı oturumu kaldıracaktır.';
-
-  @override
-  String get accountRemoveOnlyDescription =>
-      'Bu işlem, bu cihazdaki tek kayıtlı hesabı kaldıracak.';
 
   @override
   String get accountExpired => 'Süresi doldu';
@@ -752,10 +731,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get registerYear => 'Yıl';
 
   @override
-  String get registerConsent =>
-      'Hizmet Şartları ve Gizlilik Politikasını kabul ediyorum';
-
-  @override
   String get registerConsentPrefix => 'Kabul ediyorum';
 
   @override
@@ -799,10 +774,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   @override
   String get passkeyTimeout =>
       'Parola anahtarı kimlik doğrulaması zaman aşımına uğradı. Lütfen tekrar deneyin.';
-
-  @override
-  String get passkeyNotAvailable =>
-      'Bu uygulama için parola anahtarları mevcut değil. Bunun yerine e-posta ve şifre ile giriş yapın.';
 
   @override
   String get passkeyFailed =>
@@ -925,22 +896,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get inviteAcceptSomeone => 'biri';
-
-  @override
-  String get inviteAcceptEmojiPack => 'Emoji paketi';
-
-  @override
-  String get inviteAcceptStickerPack => 'Çıkartma paketi';
-
-  @override
-  String get inviteAcceptInstallEmojiPack => 'Emoji paketini yükle';
-
-  @override
-  String get inviteAcceptInstallStickerPack => 'Çıkartma paketini yükle';
-
-  @override
-  String get inviteAcceptPackInstallNote =>
-      'Bu davetiyeyi kabul etmek paketi otomatik olarak yükler.';
 
   @override
   String get mentionUnknownChannel => 'unknown-channel';
@@ -1712,9 +1667,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   }
 
   @override
-  String get emojiPlutoniumUpsellButton => 'Plutonium Al';
-
-  @override
   String get emojiPlutoniumUpsellDismiss => 'Bunu bir daha gösterme';
 
   @override
@@ -1865,9 +1817,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get changeYourFluxerTag => 'Kullanıcı adınızı değiştirin';
 
   @override
-  String get fluxerTagInputLabel => 'Kullanıcı adı';
-
-  @override
   String get fluxerTagDescriptionBase =>
       'Kullanıcı adları yalnızca harf (a-z, A-Z), rakam (0-9) ve alt çizgi içerebilir. Kullanıcı adlarında büyük/küçük harf duyarlılığı yoktur.';
 
@@ -1887,10 +1836,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   @override
   String get validationAllowedChars =>
       'Yalnızca harfler (a-z, A-Z), rakamlar (0-9) ve alt çizgi (_)';
-
-  @override
-  String get discriminatorPremiumTooltip =>
-      'Etiketinizi özelleştirmek veya kullanıcı adınızı değiştirirken onu korumak için Plutonium edinin';
 
   @override
   String get fluxerTagAlreadyTaken => 'Kullanıcı adı zaten alınmış';
@@ -1927,15 +1872,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   @override
   String get premiumUpsellCustomizeTag =>
       '4 haneli etiketini özelleştir veya kullanıcı adını değiştirirken onu koru';
-
-  @override
-  String premiumTrialExpiresOn(String date) {
-    return 'Plutonium denemeniz $date tarihinde sona eriyor. Özel etiketini korumak ve profilinde bir rozet kazanmak için yükseltme yap.';
-  }
-
-  @override
-  String get premiumTrialActive =>
-      'Plutonium denemesindesiniz. Özel etiketini korumak ve profilinde bir rozet kazanmak için yükseltme yap.';
 
   @override
   String get fluxerTagUpdated => 'Kullanıcı adı güncellendi';
@@ -2074,23 +2010,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Visionary kimlik rozetinizi kaldırın';
 
   @override
-  String premiumTrialSubscriptionStarts(String date) {
-    return 'Plutonium deneme sürümündesin — aboneliğin $date tarihinde başlıyor';
-  }
-
-  @override
-  String get premiumTrialSubscriptionStartsDescription =>
-      'Deneme sürümün sona erdiğinde aboneliğin otomatik olarak başlayacaktır. İşlem yapmana gerek yok.';
-
-  @override
-  String premiumTrialExpiresOnProfile(String date) {
-    return 'Plutonium deneme sürümündesin ve $date tarihinde sona eriyor';
-  }
-
-  @override
-  String get premiumTrialActiveProfile => 'Plutonium deneme sürümündesin';
-
-  @override
   String get avatarDescriptionNonPremium =>
       'JPEG, PNG, WebP. Maksimum 10MB. Önerilen: 512×512px. Animasyonlu avatarlar (GIF) Plutonium gerektirir.';
 
@@ -2157,18 +2076,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get profileSavedToast => 'Profil güncellendi';
-
-  @override
-  String get profileEditButton => 'Profili düzenle';
-
-  @override
-  String get profileNoteLabel => 'Not';
-
-  @override
-  String get profileNoteVisibility => '(yalnızca siz görebilirsiniz)';
-
-  @override
-  String get profileNoteEmpty => 'Henüz not yok.';
 
   @override
   String get sudoTitle => 'Kimliğini Doğrula';
@@ -2461,34 +2368,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get securityPasskeyNameHint => 'örn. YubiKey, iPhone, iş bilgisayarı';
 
   @override
-  String get securityPhoneSectionTitle => 'Telefon numarası';
-
-  @override
-  String get securityPhoneSectionDescription => 'Telefon numaranızı yönetin.';
-
-  @override
-  String get securityPhoneLabel => 'Telefon numarası';
-
-  @override
-  String get securityPhoneNone => 'Telefon numarası eklenmemiş.';
-
-  @override
-  String get securityPhoneAdd => 'Telefon Ekle';
-
-  @override
-  String get securityPhoneRemove => 'Kaldır';
-
-  @override
-  String get securityPhoneRemoveTitle => 'Telefon Numarasını Kaldır';
-
-  @override
-  String get securityPhoneRemoveDescription =>
-      'Telefon numaranızı kaldırmak istediğinizden emin misiniz?';
-
-  @override
-  String get securityPhoneRemoved => 'Telefon numarası kaldırıldı';
-
-  @override
   String get securityClaimTitle => 'Güvenlik özellikleri';
 
   @override
@@ -2536,9 +2415,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Kimlik doğrulama uygulamanıza erişimi kaybederseniz ve bu kodlara sahip değilseniz, hesabınızdan kalıcı olarak engellenirsiniz. Şimdi indirin veya kopyalayın ve güvenli bir yere saklayın.';
 
   @override
-  String get backupCodesDownload => 'İndir';
-
-  @override
   String get backupCodesCopy => 'Kopyala';
 
   @override
@@ -2550,164 +2426,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get backupCodesDone => 'Bitti';
-
-  @override
-  String get backupCodesViewTitle => 'Yedek kodları görüntüle';
-
-  @override
-  String get backupCodesViewDescription =>
-      'Yedek kodlarınızı görüntülemeden önce doğrulama gerekebilir.';
-
-  @override
-  String get phoneAddTitle => 'Telefon Numarası Ekle';
-
-  @override
-  String get phoneAddLabel => 'Telefon numarası';
-
-  @override
-  String get phoneAddHint => 'Telefon numaranızı girin';
-
-  @override
-  String get phoneAddFooter =>
-      'SMS kodu mevcut olduğunda gönderilecektir. Numaranız hesabınıza bağlı değildir. Yaklaşık 30 gün içinde en fazla 2 doğrulamaya izin vermek için şifrelenmiş bir işaretleyici saklıyoruz, kullanıcı kimliği olmadan.';
-
-  @override
-  String get phoneAddSendCode => 'Kod gönder';
-
-  @override
-  String get phoneVerifyTitle => 'Telefon numarasını doğrula';
-
-  @override
-  String get phoneVerifyDescription =>
-      'Telefon numaranıza gönderilen doğrulama kodunu girin.';
-
-  @override
-  String get phoneAddSuccess => 'Telefon numarası doğrulandı';
-
-  @override
-  String get phoneCountryLabel => 'Ülke';
-
-  @override
-  String get phoneSearchCountries => 'Ülkeleri ara...';
-
-  @override
-  String get phoneNumberRequired => 'Telefon numarası gerekli';
-
-  @override
-  String get phoneEnterValidNumber =>
-      'Geçerli bir cep telefonu numarası girin.';
-
-  @override
-  String get phoneCannotBeUsed =>
-      'Bu telefon numarası kullanılamıyor. Başka bir mobil numara deneyin veya destekle iletişime geçin.';
-
-  @override
-  String get phoneAlreadyUsed =>
-      'Bu telefon numarası zaten kullanılmış. Başka bir numara deneyin veya destekle iletişime geçin.';
-
-  @override
-  String get phoneCodeDidNotWork =>
-      'Bu kod çalışmadı. Kontrol edip tekrar deneyin.';
-
-  @override
-  String get phoneTooManyAttempts =>
-      'Çok fazla deneme yaptınız. Biraz bekleyip tekrar deneyin.';
-
-  @override
-  String get phoneSmsUnavailable =>
-      'SMS doğrulaması şu anda kullanılamıyor. Daha sonra tekrar deneyin veya destekle iletişime geçin.';
-
-  @override
-  String get phoneNotEligible =>
-      'Bu hesap için telefon doğrulaması kullanılamıyor. Başka bir yöntem kullanın veya destek ekibiyle iletişime geçin.';
-
-  @override
-  String get phoneSomethingWentWrong =>
-      'Bir şeyler ters gitti. Tekrar deneyin.';
-
-  @override
-  String get phoneInboundExpensiveDescription =>
-      'Bu telefon numarasına SMS göndermek çok pahalı, bu yüzden bunun yerine bize bir SMS göndermeniz gerekiyor. Bu gereksinimi hesabınızdan kaldırmamız için destek ekibiyle de iletişime geçebilirsiniz.';
-
-  @override
-  String get phoneInboundDefaultDescription =>
-      'Telefon numaranızı doğrulamak için bize bir SMS göndermeniz gerekiyor.';
-
-  @override
-  String get phoneInboundStepOpenMessaging =>
-      'Telefonunuzun mesajlaşma uygulamasını açın ve yeni bir kısa mesaj oluşturun.';
-
-  @override
-  String phoneInboundStepSendCode(String code, String number) {
-    return '$code kodunu $number numarasına gönder.';
-  }
-
-  @override
-  String get phoneInboundStepWait =>
-      'Mesajınızın bize ulaşmasını bekleyin. Bu bir dakika sürebilir.';
-
-  @override
-  String get phoneInboundGetNewCode => 'Yeni kod al';
-
-  @override
-  String get phoneInboundChallengeCodeLabel => 'Gönderilecek kod';
-
-  @override
-  String get phoneInboundOurNumberLabel => 'Gönderilecek numara';
-
-  @override
-  String get requiredActionTitle => 'Hesap doğrulaması gerekli';
-
-  @override
-  String requiredActionIntroGeneric(String productName) {
-    return '$productName uygulamasını kullanmaya devam etmek için gerekli doğrulamayı tamamlayın.';
-  }
-
-  @override
-  String get requiredActionIntroPhone =>
-      'Devam etmeden önce kaydınızın ek bir anti-spam kontrolünden geçmesi gerekiyor.';
-
-  @override
-  String requiredActionIntroEmailOrPhone(String productName) {
-    return '$productName uygulamasını kullanmaya devam etmek için e-postanızı veya telefonunuzu doğrulayın.';
-  }
-
-  @override
-  String requiredActionIntroEmailAndPhone(String productName) {
-    return '$productName uygulamasını kullanmaya devam etmek için aşağıdaki gerekli e-posta ve telefon doğrulama adımlarını tamamlayın.';
-  }
-
-  @override
-  String get requiredActionChooseMethodTitle => 'Doğrulama yöntemi seçin';
-
-  @override
-  String requiredActionChooseMethodDescription(String productName) {
-    return '$productName uygulamasını kullanmaya devam etmek için aşağıdaki doğrulama yollarından birini tamamlayın.';
-  }
-
-  @override
-  String get requiredActionUseEmail => 'E-posta kullan';
-
-  @override
-  String get requiredActionUsePhone => 'Telefon kullan';
-
-  @override
-  String get requiredActionCheckEmailTitle => 'E-postanızı kontrol edin';
-
-  @override
-  String get requiredActionCheckEmailDescription =>
-      'E-posta adresinize bir doğrulama bağlantısı gönderdik. Devam etmek için açın.';
-
-  @override
-  String get requiredActionResendVerificationEmail =>
-      'Doğrulama e-postasını yeniden gönder';
-
-  @override
-  String get requiredActionVerificationEmailSent =>
-      'Doğrulama e-postası gönderildi. Gelen kutunuzu kontrol edin.';
-
-  @override
-  String get requiredActionSignOut => 'Çıkış yap';
 
   @override
   String get dangerZoneSectionTitle => 'Tehlike bölgesi';
@@ -3293,9 +3011,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get applicationsSearchDocumentation => 'Belgeler';
 
   @override
-  String get privacyPendingDeletionTitle => 'Silme Bekliyor';
-
-  @override
   String get blockedUsersTitle => 'Engellenen kullanıcılar';
 
   @override
@@ -3452,9 +3167,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get userProfileNoteDelete => 'Sil';
-
-  @override
-  String get userProfileNoteEmpty => 'Not eklemek için tıklayın';
 
   @override
   String get userProfileMemberSince => 'Üye olma tarihi';
@@ -4215,14 +3927,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Mesaj gönderebilmek için bu topluluğa yeterince uzun süredir üye değilsiniz.';
 
   @override
-  String get channelComposerBarrierNoPhoneNumber =>
-      'Bu toplulukta mesaj göndermek için bir telefon numarası doğrulamanız gerekiyor.';
-
-  @override
   String get channelComposerBarrierVerifyEmail => 'E-postayı doğrula';
-
-  @override
-  String get channelComposerBarrierVerifyPhone => 'Telefonu doğrula';
 
   @override
   String chatAttachmentTooMany(int max) {
@@ -4247,9 +3952,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Şimdi göndermek için dosyaları buraya sürükle';
 
   @override
-  String get chatAttachmentSendVoiceMessage => 'Sesli mesaj gönder';
-
-  @override
   String get voiceMessageTitle => 'Sesli mesaj';
 
   @override
@@ -4267,10 +3969,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Kayıt başlatılamıyor. Mikrofon erişimine izin verin.';
 
   @override
-  String get voiceMessageRecordingNotSupported =>
-      'Bu cihazda sesli kayıt desteklenmiyor.';
-
-  @override
   String get voiceMessageMicInUse =>
       'Sesli mesaj kaydetmek için sesli aramadan ayrıl.';
 
@@ -4283,23 +3981,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Sesli mesaj gönderilemedi. Tekrar deneyin.';
 
   @override
-  String get voiceMessageRecordingHint =>
-      'Şimdi konuşun. Bitirdiğinizde Durdur\'a basın. Daha sonra kırpabilirsiniz.';
-
-  @override
-  String get voiceMessageReviewHint =>
-      'Kırpmak için tutamaçları sürükleyin, ardından Gönder\'e basın.';
-
-  @override
-  String get voiceMessageStop => 'Durdur';
-
-  @override
-  String get voiceMessageStartRecording => 'Kaydı başlat';
-
-  @override
-  String get voiceMessageRerecord => 'Yeniden kaydet';
-
-  @override
   String get voiceMessagePlay => 'Oynat';
 
   @override
@@ -4310,16 +3991,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get voiceMessageSeekBackward => 'Geri sar';
-
-  @override
-  String voiceMessageSelectionTooShort(num seconds) {
-    final intl.NumberFormat secondsNumberFormat = intl.NumberFormat.compact(
-      locale: localeName,
-    );
-    final String secondsString = secondsNumberFormat.format(seconds);
-
-    return 'Seçim en az $secondsString saniye olmalı.';
-  }
 
   @override
   String get chatAttachmentEditTitle => 'Eki düzenle';
@@ -4462,9 +4133,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get chatAttachmentSourceBrowse => 'Dosyalara göz at';
 
   @override
-  String get chatAttachmentPasteTooltip => 'Panodan dosya yapıştır';
-
-  @override
   String get chatAttachmentSpoiler => 'Spoiler';
 
   @override
@@ -4545,13 +4213,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get matureContentOpenLinkButton => 'Bağlantıyı aç';
 
   @override
-  String get sensitiveContentSectionTitle => 'Hassas içerik';
-
-  @override
-  String get sensitiveContentSectionDescription =>
-      'Hassas veya yetişkinlere yönelik medyanın farklı bağlamlarda nasıl filtreleneceğini kontrol edin';
-
-  @override
   String get sensitiveContentFriendDmLabel =>
       'Arkadaşlardan gelen doğrudan mesajlar';
 
@@ -4572,18 +4233,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get sensitiveContentFilterBlock => 'Engelle';
 
   @override
-  String get sensitiveContentBlurUnscannedLabel =>
-      'Güvenlik taraması tamamlanana kadar medyayı bulanıklaştır';
-
-  @override
-  String get sensitiveContentBlurUnscannedDescriptionAdult =>
-      'Etkinleştirildiğinde, içerik güvenlik taraması bitene kadar resimler ve videolar bulanıklaştırılır.';
-
-  @override
-  String get sensitiveContentBlurUnscannedDescriptionMinor =>
-      'Bu ayar hesabınız için her zaman açıktır.';
-
-  @override
   String get sensitiveContentResetButton => 'Sıfırla';
 
   @override
@@ -4599,9 +4248,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
     );
     return '$_temp0';
   }
-
-  @override
-  String get chatCancelUpload => 'Yüklemeyi iptal et';
 
   @override
   String chatAttachmentExpiresOn(String date) {
@@ -4808,9 +4454,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get connectionEnterDomain => 'Bir alan adı girin.';
 
   @override
-  String get lookAndFeelTitle => 'Görünüm';
-
-  @override
   String get lookAndFeelThemeSectionTitle => 'Tema';
 
   @override
@@ -4872,14 +4515,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   @override
   String get lookAndFeelThemeSyncFailed =>
       'Tema hesabınıza eşitlenemedi. Lütfen tekrar deneyin.';
-
-  @override
-  String get lookAndFeelChatFontScalingTitle =>
-      'Sohbet yazı tipi ölçeklendirmesi';
-
-  @override
-  String get lookAndFeelChatFontScalingDescription =>
-      'Sohbet alanındaki yazı tipi boyutunu ayarlayın.';
 
   @override
   String get lookAndFeelChatFontSizeLabel => 'Sohbet yazı tipi boyutu';
@@ -5031,39 +4666,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   @override
   String get lookAndFeelHideKeyboardHintsDescription =>
       'Etkinleştirildiğinde, kısayol rozetleri araç ipucu açılır pencerelerinde gizlenir.';
-
-  @override
-  String get lookAndFeelNekoTitle => 'Çeşitli';
-
-  @override
-  String get lookAndFeelNekoDescription => 'Çeşitli arayüz seçenekleri.';
-
-  @override
-  String get lookAndFeelShowNekoLabel => 'Neko\'yu göster';
-
-  @override
-  String get lookAndFeelShowNekoDescription =>
-      'Etkinleştirildiğinde, Neko sohbet giriş çubuğunun yakınında görünür.';
-
-  @override
-  String get lookAndFeelVoiceChannelJoinTitle =>
-      'Sesli kanala katılma davranışı';
-
-  @override
-  String get lookAndFeelVoiceChannelJoinDescription =>
-      'Topluluklardaki sesli kanallara nasıl katılacağınızı kontrol edin.';
-
-  @override
-  String get lookAndFeelRequireDoubleClickJoinLabel =>
-      'Sesli kanallara katılmak için çift tıklama gerektir';
-
-  @override
-  String get lookAndFeelRequireDoubleClickJoinDescription =>
-      'Etkinleştirildiğinde, sesli kanallara katılmak için çift tıklamanız gerekir. Devre dışı bırakıldığında (varsayılan), tek tıklama kanala hemen katılacaktır.';
-
-  @override
-  String get lookAndFeelChatFontPreviewSample =>
-      'Hızlı kahverengi tilki tembel köpeğin üzerinden atlar.';
 
   @override
   String get lookAndFeelGuildSidebarTitle => 'Sunucu kenar çubuğu';
@@ -5524,22 +5126,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Kayıtlı medyayı ifade otomatik tamamlamada göster';
 
   @override
-  String get messagesMediaEditingSectionTitle => 'Mesaj düzenleme';
-
-  @override
-  String get messagesMediaEditingSectionDescription =>
-      'İptal ettiğinizde düzenleme taslağınıza ne olacağını kontrol edin.';
-
-  @override
-  String get messagesMediaEditingPreserveDraftLabel =>
-      'İptal edildiğinde düzenleme taslağını koru';
-
-  @override
   String get accessibilitySaturationTitle => 'Doygunluk';
-
-  @override
-  String get accessibilitySaturationDescription =>
-      'Uygulama genelindeki tema renklerinin canlılığını ayarlayın.';
 
   @override
   String get accessibilityVisualGroupTitle => 'Görsel';
@@ -5562,10 +5149,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get accessibilityDmMessagePreviewGroupTitle => 'DM mesaj önizlemeleri';
-
-  @override
-  String get accessibilityDmMessagePreviewGroupDescription =>
-      'DM listesinde mesaj önizlemelerinin ne zaman gösterileceğini kontrol edin.';
 
   @override
   String get accessibilityDmMessagePreviewModeLabel => 'DM mesaj önizleme modu';
@@ -5684,10 +5267,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   @override
   String get accessibilityPausedGifByReducedMotion =>
       'Azaltılmış hareket nedeniyle duraklatıldı. GIF\'lerin oynatılmaya devam etmesi için açın.';
-
-  @override
-  String get accessibilityGifDefaultsOffOnMobile =>
-      'Pil ömrünü ve veri kullanımını korumak için mobil cihazlarda varsayılan olarak kapalıdır.';
 
   @override
   String get accessibilityStickerAnimationsTitle => 'Çıkartma animasyonları';
@@ -6011,10 +5590,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Diğer cihazlarınızla bağlantı kurulamadı. Bir süre sonra tekrar deneyin.';
 
   @override
-  String get voiceChannelEmptyDescription =>
-      'Bu bir sesli kanal. Konuşmaya başlamak için bağlanın!';
-
-  @override
   String get voiceChannelJoin => 'Sesli kanala katıl';
 
   @override
@@ -6053,12 +5628,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get voiceChannelStatusConnecting => 'Bağlanıyor…';
-
-  @override
-  String get voiceChannelStatusConnected => 'Bağlandı';
-
-  @override
-  String get voiceChannelStatusError => 'Hata';
 
   @override
   String get voiceParticipantTooltipMobileDevice => 'Mobil cihaz';
@@ -6122,9 +5691,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get voiceScreenShareNotificationText => 'Ekranınızı paylaşıyorsunuz.';
-
-  @override
-  String get voiceControlMore => 'Daha fazla';
 
   @override
   String get voiceControlDisconnect => 'Bağlantıyı kes';
@@ -6561,24 +6127,12 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get privacyDashboardFriendRequestsEveryone => 'Herkes';
 
   @override
-  String get privacyDashboardFriendRequestsEveryoneDesc =>
-      'Herkesin sana arkadaşlık isteği göndermesine izin ver';
-
-  @override
   String get privacyDashboardFriendRequestsFriendsOfFriends =>
       'Arkadaşların arkadaşları';
 
   @override
-  String get privacyDashboardFriendRequestsFriendsOfFriendsDesc =>
-      'Arkadaşlarınızın arkadaşları size istek göndermesine izin ver';
-
-  @override
   String get privacyDashboardFriendRequestsCommunityMembers =>
       'Topluluk üyeleri';
-
-  @override
-  String get privacyDashboardFriendRequestsCommunityMembersDesc =>
-      'Dahil olduğunuz topluluklardaki üyelerin size istek göndermesine izin ver';
 
   @override
   String get privacyDashboardDirectMessagesTitle => 'Doğrudan mesajlar';
@@ -6588,58 +6142,26 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Topluluk üyelerinden doğrudan mesajlara izin ver';
 
   @override
-  String get privacyDashboardDirectMessagesMembersDesc =>
-      'Dahil olduğunuz topluluklardaki üyelerin size doğrudan mesaj göndermesine izin ver';
-
-  @override
   String get privacyDashboardDirectMessagesBots =>
       'Topluluk botlarından doğrudan mesajlara izin ver';
-
-  @override
-  String get privacyDashboardDirectMessagesBotsDesc =>
-      'Dahil olduğunuz topluluklardaki botların size özel mesaj göndermesine izin ver';
-
-  @override
-  String get privacyDashboardConnectionsSectionDesc =>
-      'Arkadaşlık istekleri ve özel mesajlar gönderebilen kişileri kontrol edin';
-
-  @override
-  String get privacyDashboardCommunicationSectionDesc =>
-      'Kimlerin sizi arayabileceğini ve grup sohbetlerine ekleyebileceğini kontrol edin';
 
   @override
   String get privacyDashboardIncomingCallsTitle => 'Gelen aramalar';
 
   @override
-  String get privacyDashboardIncomingCallsDesc =>
-      'Kimlerin seni arayabileceğini kontrol et';
-
-  @override
   String get privacyDashboardAllowedCallers => 'İzin verilen arayanlar';
-
-  @override
-  String get privacyDashboardIncomingCallNobody => 'Kimse';
 
   @override
   String get privacyDashboardIncomingCallNobodyDesc =>
       'Tüm gelen aramaları engelle';
 
   @override
-  String get privacyDashboardIncomingCallFriendsOnly => 'Sadece arkadaşlar';
-
-  @override
   String get privacyDashboardIncomingCallFriendsOnlyDesc =>
       'Yalnızca arkadaşlarınızın sizi arama yapmasına izin verin (önerilen)';
 
   @override
-  String get privacyDashboardIncomingCallCustom => 'Arkadaşlar + Özel';
-
-  @override
   String get privacyDashboardIncomingCallCustomDesc =>
       'Arkadaşlara ve seçtiğiniz ek gruplara izin ver';
-
-  @override
-  String get privacyDashboardIncomingCallEveryone => 'Herkes';
 
   @override
   String get privacyDashboardIncomingCallEveryoneDesc =>
@@ -6649,30 +6171,14 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get privacyDashboardAdditionalGroups => 'Ek Gruplar';
 
   @override
-  String get privacyDashboardCallFriendsOfFriendsDesc =>
-      'Arkadaşlarınızın arkadaşları size arama yapabilir';
-
-  @override
-  String get privacyDashboardCallGuildMembersDesc =>
-      'Hem sizin hem de diğer kişilerin bulunduğu topluluklardaki kişiler size arama yapabilir';
-
-  @override
   String get privacyDashboardRingBehavior => 'Zil davranışı';
 
   @override
   String get privacyDashboardSilentCalls => 'Herkesten sessiz aramalar';
 
   @override
-  String get privacyDashboardSilentCallsDesc =>
-      'Tüm aramalar çalmak yerine sessizce bildirim gönderecek. Varsayılan olarak, arkadaşı olmayanlardan gelen aramalar her zaman sessizdir.';
-
-  @override
   String get privacyDashboardGroupDmTitle =>
       'Sizi grup sohbetlerine kimler ekleyebilir';
-
-  @override
-  String get privacyDashboardGroupDmDesc =>
-      'İzin istemeden sizi grup sohbetlerine kimlerin ekleyebileceğini kontrol edin. Herkes yine de size katılma davet bağlantıları gönderebilir.';
 
   @override
   String get privacyDashboardAllowedInvites => 'İzin verilen davetler';
@@ -6692,14 +6198,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   @override
   String get privacyDashboardGroupDmEveryoneDesc =>
       'Herkesin sizi sormadan grup sohbetlerine eklemesine izin verin';
-
-  @override
-  String get privacyDashboardGroupDmFriendsOfFriendsDesc =>
-      'Arkadaşlarınızın arkadaşları sizi grup sohbetlerine ekleyebilir';
-
-  @override
-  String get privacyDashboardGroupDmGuildMembersDesc =>
-      'Hem üyesi olduğunuz topluluklardaki kişiler sizi grup sohbetlerine ekleyebilir';
 
   @override
   String get privacyDashboardVoiceActivityTitle =>
@@ -7651,21 +7149,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'İsteğe bağlı argümanlar';
 
   @override
-  String get composerAutocompleteChannelsHeading => 'Kanallar';
-
-  @override
-  String get composerAutocompleteMembersHeading => 'Üyeler';
-
-  @override
-  String get composerAutocompleteUsersHeading => 'Kullanıcılar';
-
-  @override
-  String get composerAutocompleteMentionsHeading => 'Bahsetmeler';
-
-  @override
-  String get composerAutocompleteRolesHeading => 'Roller';
-
-  @override
   String get composerAutocompleteMediaHeading => 'Medya';
 
   @override
@@ -7917,9 +7400,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Topluluk şablonu verileri geçersiz veya bozuk.';
 
   @override
-  String get addGuildPackInstalled => 'Paket başarıyla yüklendi.';
-
-  @override
   String get chatMessageRemoveAllReactionsConfirmTitle =>
       'Tüm tepkileri kaldır';
 
@@ -8013,9 +7493,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get channelDetailsDeleteChannel => 'Kanalı sil';
-
-  @override
-  String get channelSettingsCategorySettingsTitle => 'Kategori ayarları';
 
   @override
   String get channelSettingsEditCategory => 'Kategoriyi düzenle';
@@ -8215,17 +7692,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Birazdan tekrar deneyin.';
 
   @override
-  String get channelSettingsResetSlider =>
-      'Kaydırıcıyı varsayılan değere sıfırla';
-
-  @override
-  String get channelSettingsAdvanced => 'Gelişmiş';
-
-  @override
-  String get channelSettingsMatureContentOverride =>
-      'Yetişkin içeriği geçersiz kılma';
-
-  @override
   String channelSettingsMatureContentSectionDescription(String scopeLevel) {
     return 'Bu kanal için $scopeLevel düzeyindeki ayarı geçersiz kıl. Olgun içerik, giriş yapmadan önce bir kapının arkasında gösterilir.';
   }
@@ -8258,12 +7724,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   }
 
   @override
-  String get channelSettingsMatureContentCategorySource => 'kategori';
-
-  @override
-  String get channelSettingsMatureContentCommunitySource => 'topluluk';
-
-  @override
   String get channelSettingsMatureContentCategoryScope => 'Kategori';
 
   @override
@@ -8283,20 +7743,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   @override
   String get channelSettingsContentWarningDefault =>
       'Bu hassas içerik barındırıyor.';
-
-  @override
-  String channelSettingsPermissionsNeedManageChannels(
-    String manageChannelsPermissionLabel,
-  ) {
-    return 'Bu izinleri düzenlemek için \"$manageChannelsPermissionLabel\" iznine sahip olmanız gerekir.';
-  }
-
-  @override
-  String channelSettingsPermissionsNeedManageRoles(
-    String manageRolesPermissionLabel,
-  ) {
-    return 'Bu izinleri düzenlemek için \"$manageRolesPermissionLabel\" iznine sahip olmanız gerekir.';
-  }
 
   @override
   String get channelSettingsUnknownRole => 'Bilinmeyen rol';
@@ -8372,9 +7818,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Rol veya üye ara…';
 
   @override
-  String get channelSettingsPermissionsRolesAndMembers => 'Roller ve üyeler';
-
-  @override
   String get channelSettingsDeleteInvite => 'Daveti sil';
 
   @override
@@ -8446,9 +7889,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String channelSettingsWebhooksCreatedBy(String creator, String date) {
     return '$creator tarafından $date tarihinde oluşturuldu';
   }
-
-  @override
-  String get channelSettingsWebhooksUnknownUser => 'Bilinmeyen kullanıcı';
 
   @override
   String get channelSettingsWebhooksAvatar => 'Avatar';
@@ -8602,9 +8042,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get channelDetailsPinsEndReached => 'Sonuna ulaştınız';
-
-  @override
-  String get channelHeaderOpenDetails => 'Kanal ayrıntılarını aç';
 
   @override
   String get channelHeaderPinnedMessages => 'Sabitlenmiş mesajlar';
@@ -9072,9 +8509,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get groupDmEditTitle => 'Grubu düzenle';
 
   @override
-  String get groupDmEditDetailsTooltip => 'Grup ayrıntılarını düzenle';
-
-  @override
   String get groupDmGroupName => 'Grup adı';
 
   @override
@@ -9125,13 +8559,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get groupDmUnsupportedIconFormatBody => 'Desteklenmeyen dosya türü.';
 
   @override
-  String get groupDmCouldntProcessImage => 'Görsel işlenemedi';
-
-  @override
-  String get groupDmFailedToProcessCroppedImage =>
-      'Kırpılan görsel işlenemedi. Tekrar deneyin.';
-
-  @override
   String get groupDmInvalidImage => 'Geçersiz görsel';
 
   @override
@@ -9159,18 +8586,12 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Bu arkadaş gruba eklenemedi. Lütfen tekrar deneyin.';
 
   @override
-  String get groupDmAddFailed => 'Gruba eklenemedi';
-
-  @override
   String get groupDmGroupFull =>
       'Bu grup dolu. Daha fazla kişi eklemeden önce birini çıkarın.';
 
   @override
   String get groupDmRateLimited =>
       'Çok hızlı gidiyorsunuz. Biraz bekleyip tekrar deneyin.';
-
-  @override
-  String get groupDmCreateInviteFailed => 'Davet bağlantısı oluşturulamadı';
 
   @override
   String get groupDmCreateInviteFailedBody =>
@@ -9371,9 +8792,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get userSettingsSearchPlaceholder => 'Ayarlar arasında ara...';
 
   @override
-  String get userSettingsSearchFieldLabel => 'Ayarları ara';
-
-  @override
   String get userSettingsSearchClear => 'Aramayı temizle';
 
   @override
@@ -9451,12 +8869,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get giftSettingsCopied => 'Kopyalandı';
 
   @override
-  String get giftSettingsGiftUrlCopied => 'Hediye URL\'si panoya kopyalandı!';
-
-  @override
-  String get giftSettingsGiftUrlCopyFailed => 'Hediye URL\'si kopyalanamadı';
-
-  @override
   String giftSettingsPurchasedDate(String date) {
     return '$date tarihinde satın alındı';
   }
@@ -9524,9 +8936,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get premiumOneMonthGift => '1 aylık hediye';
 
   @override
-  String get premiumMostPopular => 'En popüler';
-
-  @override
   String get premiumScrollPrompt =>
       'Plutonium\'un sunduğu tüm avantajları görmek için aşağı kaydırın';
 
@@ -9561,26 +8970,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get premiumReadyToBuyGift => 'Hediye almaya hazır mısınız?';
 
   @override
-  String premiumMonthlyPrice(String price) {
-    return 'Aylık $price';
-  }
-
-  @override
-  String premiumYearlyPrice(String price) {
-    return 'Yıllık $price';
-  }
-
-  @override
-  String premiumOneYearPrice(String price) {
-    return '1 yıl $price';
-  }
-
-  @override
-  String premiumOneMonthPrice(String price) {
-    return '1 ay $price';
-  }
-
-  @override
   String get premiumManageSubscription => 'Aboneliği yönet';
 
   @override
@@ -9600,9 +8989,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get premiumCancelSubscriptionConfirm => 'Aboneliği iptal et';
 
   @override
-  String get premiumKeepSubscription => 'Aboneliği sürdür';
-
-  @override
   String get premiumPurchaseHistoryTitle => 'Satın alma geçmişi';
 
   @override
@@ -9611,12 +8997,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get premiumManagePaymentMethods => 'Ödeme yöntemlerini yönet';
-
-  @override
-  String get premiumBillingHistory => 'Fatura geçmişi';
-
-  @override
-  String get premiumSelfServeRefundTitle => 'Kendi kendine iade';
 
   @override
   String get premiumSelfServeRefundButton => 'Son satın almayı iade et';
@@ -9663,11 +9043,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get premiumComparisonFeatureColumn => 'Özellik';
-
-  @override
-  String premiumDisclaimerPurchased(String terms, String privacy) {
-    return 'Satın alarak $terms ve $privacy belgelerini kabul etmiş oldunuz.';
-  }
 
   @override
   String get premiumDisclaimerRefund =>
@@ -9764,24 +9139,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Fluxer Plutonium satın almadan önce e-postanı doğrulaman gerekiyor.';
 
   @override
-  String get premiumPerkCustomUsernameTag => 'Özel kullanıcı adı etiketi';
-
-  @override
-  String get premiumPerkPerCommunityProfiles => 'Topluluğa özel profiller';
-
-  @override
-  String get premiumPerkMessageScheduling => 'Mesaj zamanlama';
-
-  @override
-  String get premiumPerkProfileBadge => 'Profil rozeti';
-
-  @override
-  String get premiumPerkCustomVideoBackgrounds => 'Özel video arka planları';
-
-  @override
-  String get premiumPerkEntranceSounds => 'Giriş sesleri';
-
-  @override
   String get premiumPerkCommunities => 'Topluluklar';
 
   @override
@@ -9794,17 +9151,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get premiumPerkFileUploadSize => 'Dosya yükleme boyutu';
 
   @override
-  String get premiumPerkEmojiStickerPacks => 'Emoji ve çıkartma paketleri';
-
-  @override
-  String get premiumPerkSavedMedia => 'Kayıtlı medya';
-
-  @override
   String get premiumPerkUseAnimatedEmojis => 'Hareketli emoji kullanımı';
-
-  @override
-  String get premiumPerkGlobalEmojiStickerAccess =>
-      'Her yerde emoji ve çıkartma erişimi';
 
   @override
   String get premiumPerkVideoQuality => 'Video kalitesi';
@@ -9815,9 +9162,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get premiumPerkEarlyAccess => 'Yeni özelliklere erken erişim';
-
-  @override
-  String get premiumPerkCustomThemes => 'Özel temalar';
 
   @override
   String get premiumPerkVideoQualityRestricted => '720p/30fps';
@@ -10136,11 +9480,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get audioAndVideoMicTestStopLabel => 'Mikrofon testini durdur';
 
   @override
-  String audioAndVideoMicTestPermissionRequired(String productName) {
-    return '$productName mikrofon erişimine ihtiyaç duyuyor.';
-  }
-
-  @override
   String get audioAndVideoCameraLabel => 'Kamera';
 
   @override
@@ -10175,23 +9514,8 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get audioAndVideoFrameRate60Label => '60 FPS';
 
   @override
-  String audioAndVideoHigherQualityRequiresPremium(String premiumProductName) {
-    return '1080p ve 60 FPS için $premiumProductName gerekir.';
-  }
-
-  @override
   String get audioAndVideoInstanceVideoQualityLimit =>
       'Bu kurulum şu anda ekran paylaşımını 30 FPS\'de 720p\'ye kadar desteklemektedir.';
-
-  @override
-  String audioAndVideoMicrophonePermissionRequired(String productName) {
-    return '$productName uygulamasının cihazlarınızı listelemek için mikrofon erişimine ihtiyacı var.';
-  }
-
-  @override
-  String audioAndVideoCameraPermissionRequired(String productName) {
-    return '$productName uygulamasının cihazlarınızı listelemek için kamera erişimine ihtiyacı var.';
-  }
 
   @override
   String get audioAndVideoSkipHideOwnCameraConfirmLabel =>
@@ -10223,14 +9547,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   @override
   String get notificationsEnableDesktopNotificationsDescription =>
       'İşletim sistemi bildirim merkezini kullanır. Kanal/topluluk bazında denetimler için bir topluluk simgesine sağ tıklayın ve bildirim ayarlarını açın.';
-
-  @override
-  String get notificationsEnableBrowserNotificationsLabel =>
-      'Tarayıcı bildirimlerini etkinleştir';
-
-  @override
-  String get notificationsEnableBrowserNotificationsDescription =>
-      'Mesaj aldığınızda bildirim alın. Tarayıcı ayarlarınızda bildirimlere izin vermeniz gerekebilir. Kanal/topluluk bazında kontrol için bir topluluk simgesine sağ tıklayın ve bildirim ayarlarını açın.';
 
   @override
   String get notificationsPushInactiveTimeoutLabel =>
@@ -10523,9 +9839,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Uygulama genelinde kullanılacak dili seçin';
 
   @override
-  String get languageAndTimeOpenLanguageSettings => 'Dil ayarlarını aç';
-
-  @override
   String get languageAndTimeTimeFormatSectionTitle => 'Saat biçimi';
 
   @override
@@ -10765,10 +10078,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Tüm harici bağlantılara güven';
 
   @override
-  String get advancedSettingTrustAllLinksDescription =>
-      'Tüm alan adları için harici bağlantı uyarısını atla';
-
-  @override
   String get advancedSettingSearchEnginesLabel => 'Arama motorları';
 
   @override
@@ -10967,27 +10276,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   @override
   String get advancedSettingDeveloperModeDescription =>
       'Geliştirici modunu etkinleştir';
-
-  @override
-  String get advancedSettingSearchEngineGoogle => 'Google';
-
-  @override
-  String get advancedSettingSearchEngineDuckDuckGo => 'DuckDuckGo';
-
-  @override
-  String get advancedSettingSearchEngineBing => 'Bing';
-
-  @override
-  String get advancedSettingSearchEngineGoogleLens => 'Google Lens';
-
-  @override
-  String get advancedSettingSearchEngineTinEye => 'TinEye';
-
-  @override
-  String get advancedSettingTranslatorGoogle => 'Google Çeviri';
-
-  @override
-  String get advancedSettingTranslatorDeepL => 'DeepL';
 
   @override
   String get advancedSettingDefaultSearchEngineLabel =>
@@ -12078,9 +11366,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get guildMenuSettingsWebhooks => 'Webhook\'lar';
 
   @override
-  String get guildMenuSettingsCustomInviteUrl => 'Özel Davet URL\'si';
-
-  @override
   String get guildMenuSettingsDiscovery => 'Keşfet';
 
   @override
@@ -12103,33 +11388,13 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get guildSettingsOverviewIconTitle => 'Simge';
 
   @override
-  String get guildSettingsUploadImage => 'Görsel yükle';
-
-  @override
   String get guildSettingsOverviewBannerTitle => 'Banner';
-
-  @override
-  String get guildSettingsOverviewBannerHint =>
-      'Sunucunuz için bir banner yükleyin.';
 
   @override
   String get guildSettingsOverviewNameTitle => 'Ad';
 
   @override
   String get guildSettingsOverviewNameHint => 'Harika topluluğum';
-
-  @override
-  String get guildSettingsOverviewStatsTitle => 'İstatistikler';
-
-  @override
-  String get guildSettingsOverviewMembers => 'Üyeler';
-
-  @override
-  String get guildSettingsOverviewOnline => 'Çevrimiçi';
-
-  @override
-  String get guildSettingsRolesDescription =>
-      'Üyeleri gruplamak ve izinler atamak için rolleri kullanın.';
 
   @override
   String get guildSettingsCreateRole => 'Rol oluştur';
@@ -12207,28 +11472,13 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get guildSettingsRolesComfyLayout => 'Rahat düzen';
 
   @override
-  String get guildSettingsRolesSwitchToDenseLayout => 'Yoğun düzene geç';
-
-  @override
-  String get guildSettingsRolesSwitchToComfyLayout => 'Rahat düzene geç';
-
-  @override
   String get guildSettingsRolesSingleColumn => 'Tek sütun';
 
   @override
   String get guildSettingsRolesTwoColumns => 'İki sütun';
 
   @override
-  String get guildSettingsRolesSwitchToSingleColumn => 'Tek sütuna geç';
-
-  @override
-  String get guildSettingsRolesSwitchToTwoColumns => 'İki sütuna geç';
-
-  @override
   String get guildSettingsRolesNoPermissionsFound => 'İzin bulunamadı';
-
-  @override
-  String get guildSettingsRolesCustomHoistOrder => 'Özel yükseltme sırası';
 
   @override
   String get guildSettingsRolesHoistOrder => 'Yükseltme sırası';
@@ -12243,10 +11493,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   @override
   String get guildSettingsRolesNoHoistedRoles =>
       'Yükseltilmiş rol yok. Bir rolü burada görmek için \"Bu rolü ayrı göster\" seçeneğini etkinleştirin.';
-
-  @override
-  String get guildSettingsRolesLockedTooltip =>
-      'Bu rolü düzenleyemezsiniz çünkü bu, sizin en yüksek rolünüz veya sizin üstünüzde bir roldür';
 
   @override
   String guildSettingsRolesNeedManageRolesPermission(String permission) {
@@ -12328,9 +11574,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get permissionCategoryAudioVideo => 'Ses ve görüntü';
-
-  @override
-  String get permissionUnknown => 'Bilinmeyen izin';
 
   @override
   String get permissionAdministrator => 'Yönetici';
@@ -12909,17 +12152,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   }
 
   @override
-  String guildSettingsEmojiSlotInfo(int staticCount, int animatedCount) {
-    return '$staticCount statik, $animatedCount animasyonlu emoji yuvası kullanıldı';
-  }
-
-  @override
   String get guildSettingsEmojiEmpty => 'Henüz özel emoji yok.';
-
-  @override
-  String guildSettingsStickersSlotInfo(int count) {
-    return '$count çıkartma yüklendi';
-  }
 
   @override
   String get guildSettingsStickersEmpty => 'Henüz özel çıkartma yok.';
@@ -12983,13 +12216,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Orta seviyedeki her şeye ek olarak, topluluğun en az 10 dakikadır üyesi olmayı gerektirir.';
 
   @override
-  String get guildSettingsVerificationHighest => 'Çok yüksek';
-
-  @override
-  String get guildSettingsVerificationHighestDescription =>
-      'Doğrulanmış bir telefon numarası gerektirir.';
-
-  @override
   String get guildSettingsAuditLogDescription =>
       'Topluluk genelindeki moderatör eylemlerini takip edin.';
 
@@ -13012,14 +12238,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get guildSettingsAuditLogUnknownUser => 'Bilinmeyen kullanıcı';
-
-  @override
-  String get guildSettingsAuditLogLoadError =>
-      'Etkinlik günlüğü yüklenirken bir sorun oluştu.';
-
-  @override
-  String get guildSettingsAuditLogLoadErrorTitle =>
-      'Etkinlik günlükleri yüklenemedi';
 
   @override
   String get guildSettingsAuditLogReason => 'Neden';
@@ -13590,12 +12808,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get auditLogOptionPermanentMembership => 'Kalıcı üyelik verir.';
 
   @override
-  String get guildSettingsLoadMore => 'Daha fazla yükle';
-
-  @override
-  String get guildSettingsLoadingMore => 'Yükleniyor...';
-
-  @override
   String get guildSettingsWebhooksDescription =>
       'Topluluğunuzda yapılandırılmış tüm webhook\'ları görüntüleyin ve yönetin.';
 
@@ -13629,31 +12841,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get guildSettingsUnknownChannel => 'Bilinmeyen kanal';
 
   @override
-  String get guildSettingsCopyUrl => 'URL\'yi kopyala';
-
-  @override
   String get guildSettingsCopiedUrl => 'URL panoya kopyalandı';
-
-  @override
-  String get guildSettingsDeleteWebhook => 'Webhook\'u sil';
-
-  @override
-  String get guildSettingsVanityUrlDescription =>
-      'Sunucunuz için özel bir davet bağlantısı ayarlayın.';
-
-  @override
-  String get guildSettingsVanityUrlHint => 'my-server';
-
-  @override
-  String get guildSettingsSave => 'Kaydet';
-
-  @override
-  String get guildSettingsVanityUrlUsageTitle => 'Kullanım';
-
-  @override
-  String guildSettingsVanityUrlUses(int count) {
-    return '$count kullanım';
-  }
 
   @override
   String get guildSettingsDiscoveryDescription =>
@@ -13791,10 +12979,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Birazdan tekrar deneyin.';
 
   @override
-  String get guildSettingsMembersDescription =>
-      'Sunucu üyelerini ara ve yönet.';
-
-  @override
   String get guildSettingsMembersSearchHint =>
       'Kullanıcı adına veya kimliğe göre ara';
 
@@ -13836,9 +13020,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get guildMembersColumnRoles => 'Roller';
-
-  @override
-  String get guildMembersColumnActions => 'İşlemler';
 
   @override
   String get guildMembersFilterMemberSince => 'Üyelik tarihine göre filtrele';
@@ -13906,17 +13087,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get guildMembersIndexing => 'Üyeler yükleniyor…';
 
   @override
-  String get guildMembersGoToPage => 'Sayfaya git';
-
-  @override
-  String guildMembersGoToPageItem(int page) {
-    return '$page sayfasına git';
-  }
-
-  @override
-  String get guildMembersJumpToPage => 'Sayfaya atla';
-
-  @override
   String get guildMembersJoinSourceCreator => 'Topluluk kurucusu';
 
   @override
@@ -13979,21 +13149,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   }
 
   @override
-  String guildMembersJoinedDaysAgo(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count gün önce',
-      one: '1 gün önce',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String get guildMembersChannelListLabel => 'Üyeler';
-
-  @override
-  String get guildMembersChannelListSelected => 'Üyeler, seçili';
 
   @override
   String get guildSettingsInvitesTitle => 'Davetler';
@@ -14101,16 +13257,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Bağlantı hâlâ çalışıyor olabilir. Birazdan tekrar deneyin.';
 
   @override
-  String guildSettingsInviteUses(int uses, int maxUses) {
-    return '$uses / $maxUses kullanım';
-  }
-
-  @override
-  String guildSettingsInviteExpires(String date) {
-    return '$date tarihinde sona eriyor';
-  }
-
-  @override
   String get guildSettingsBansDescription =>
       'Yasaklı kullanıcıları görüntüle ve yönet.';
 
@@ -14121,21 +13267,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get guildSettingsBansEmpty => 'Yasaklanmış kullanıcı yok.';
 
   @override
-  String get guildSettingsBanPermanent => 'Kalıcı yasaklama';
-
-  @override
-  String guildSettingsBanExpires(String date) {
-    return '$date tarihinde sona eriyor';
-  }
-
-  @override
   String get guildSettingsBanExpiresLabel => 'Sona eriyor';
-
-  @override
-  String get guildSettingsUnban => 'Yasağı Kaldır';
-
-  @override
-  String get guildSettingsBansLoading => 'Yasaklı kullanıcılar yükleniyor';
 
   @override
   String get guildSettingsBansNoSearchResults =>
@@ -14165,10 +13297,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String guildSettingsRevokeBanSuccess(String displayName) {
     return '$displayName için yasak kaldırıldı';
   }
-
-  @override
-  String get guildSettingsBansLoadError =>
-      'Yasaklamalar yüklenemedi. Tekrar deneyin.';
 
   @override
   String get guildSettingsRevokeBanError =>
@@ -14203,10 +13331,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get guildSettingsCategoryPeople => 'PEOPLE';
 
   @override
-  String get guildSettingsOverviewDescription =>
-      'Topluluğunuzun profilini, kanallarını ve varsayılan ayarlarını yönetin.';
-
-  @override
   String get guildSettingsOverviewBrandingTitle => 'Marka';
 
   @override
@@ -14239,9 +13363,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       '250\'den fazla kişiye sahip topluluklar \"yalnızca bahsetmeler\" ayarına zorlanır. Orijinal ayarınız korunur ve topluluk 250 üyenin altına düşerse geri yüklenir.';
 
   @override
-  String get guildSettingsOverviewAdvancedTitle => 'Gelişmiş';
-
-  @override
   String get guildSettingsOverviewFlexibleNames =>
       'Esnek metin kanalı adlarına izin ver';
 
@@ -14268,10 +13389,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   @override
   String get guildSettingsOverviewEmbedSplashTitle =>
       'Sohbet gömülü içerik arka planı';
-
-  @override
-  String get guildSettingsOverviewEmbedSplashHint =>
-      'Sohbetteki davet gömülü içeriklerinde gösterilir.';
 
   @override
   String get guildSettingsOverviewUploadBackground => 'Arka plan yükle';
@@ -14444,14 +13561,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'JPEG, PNG, WebP, AVIF. Maksimum 10MB. Minimum: 960×540 piksel (16:9). Sohbet davet gömmelerinde gösterilir.';
 
   @override
-  String get guildSettingsModerationDescription =>
-      'Doğrulama, içerik filtreleme ve yetişkinlere yönelik içerik ayarlarını yapılandırın.';
-
-  @override
-  String get guildSettingsModerationDiscoveryNotice =>
-      'Keşfedilen toplulukların sınırlı moderasyon seçenekleri vardır.';
-
-  @override
   String get guildSettingsModerationContentFilterTitle => 'İçerik filtreleme';
 
   @override
@@ -14485,12 +13594,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Aile dostu alanlar için maksimum koruma';
 
   @override
-  String get guildSettingsModerationMatureOff => 'Kapalı';
-
-  @override
-  String get guildSettingsModerationMatureOn => 'Açık';
-
-  @override
   String get guildSettingsContentWarningToggle => 'İçerik uyarısı göster';
 
   @override
@@ -14514,10 +13617,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   @override
   String get guildSettingsModeration2faSwitchLabel =>
       'Moderasyon işlemleri için 2FA zorunlu kıl';
-
-  @override
-  String get guildSettingsModeration2faOwnerOnlyTooltip =>
-      'Bu ayarı yalnızca topluluk sahibi değiştirebilir';
 
   @override
   String get guildSettingsModeration2faEnableFirstTooltip =>
@@ -14545,9 +13644,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Aramanızla eşleşen emoji bulunamadı.';
 
   @override
-  String get guildSettingsEmojiNoSlots => 'Kullanılabilir emoji alanı yok';
-
-  @override
   String get guildSettingsEmojiSlotsFull =>
       'Maksimum emoji sayısına ulaştınız. Yer açmak için mevcut emojilerden bazılarını silin.';
 
@@ -14557,29 +13653,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsEmojiUploadingTitle => 'Emojiler yükleniyor';
-
-  @override
-  String guildSettingsEmojiUploadingBody(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '# emoji yükleniyor',
-      one: '# emoji yükleniyor',
-    );
-    return '$_temp0. Bu biraz zaman alabilir.';
-  }
-
-  @override
-  String get guildSettingsEmojiUploadFailed =>
-      'Emojiler yüklenemedi. Tekrar deneyin.';
-
-  @override
   String get guildSettingsEmojiSomeFailedTitle => 'Bazı emojiler eklenemedi';
-
-  @override
-  String get guildSettingsEmojiSomeFailedBody =>
-      'Bu dosyaları inceleyin ve daha küçük veya daha basit görsellerle tekrar deneyin.';
 
   @override
   String get guildSettingsEmojiRenameTitle => 'Emojiyi yeniden adlandır';
@@ -14589,16 +13663,10 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       '2-32 karakter, harf, sayı, alt çizgi.';
 
   @override
-  String get guildSettingsEmojiColumnEmoji => 'Emoji';
-
-  @override
   String get guildSettingsEmojiColumnName => 'Ad';
 
   @override
   String get guildSettingsEmojiColumnUploader => 'Yükleyen';
-
-  @override
-  String get guildSettingsEmojiUnknownUploader => 'Bilinmiyor';
 
   @override
   String get guildSettingsEmojiDeleteTitle => 'Emojiyi sil';
@@ -14628,37 +13696,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Bu emojinin adı değiştirilemedi';
 
   @override
-  String get guildSettingsEmojiRenameFailedBody =>
-      'Ad eski haline döndürüldü. Lütfen birazdan tekrar deneyin.';
-
-  @override
-  String get guildSettingsEmojiGoneTitle => 'Bu emoji artık mevcut değil';
-
-  @override
-  String get guildSettingsEmojiGoneBody =>
-      'Silinmiş olabilir. Adı önceki haline döndürüldü.';
-
-  @override
-  String get guildSettingsEmojiNoPermissionRenameTitle =>
-      'Bu emojiyi yeniden adlandıramazsınız';
-
-  @override
-  String get guildSettingsEmojiNoPermissionRenameBody =>
-      'Bu emojiyi yeniden adlandırma izniniz yok. Ad önceki haline döndürüldü.';
-
-  @override
-  String get guildSettingsEmojiRateLimitedTitle => 'Çok hızlı gidiyorsunuz';
-
-  @override
-  String get guildSettingsEmojiRateLimitedBody =>
-      'Lütfen bir süre bekleyip yeniden adlandırmayı tekrar deneyin.';
-
-  @override
   String get guildSettingsEmojiDeleteFailedTitle => 'Bu emoji silinemedi';
-
-  @override
-  String get guildSettingsEmojiDeleteNoPermissionTitle =>
-      'Bu emojiyi silemezsiniz';
 
   @override
   String get guildSettingsCloneEmojiTitle =>
@@ -14733,12 +13771,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Aramanızla eşleşen çıkartma bulunamadı.';
 
   @override
-  String get guildSettingsStickersEmptySearch => 'Çıkartma bulunamadı';
-
-  @override
-  String get guildSettingsStickerNoSlots => 'Kullanılabilir çıkartma alanı yok';
-
-  @override
   String get guildSettingsStickerSlotsFull =>
       'Çıkartma sınırına ulaştınız. Yer açmak için mevcut çıkartmalardan bazılarını silin.';
 
@@ -14746,10 +13778,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String guildSettingsStickerUploadRequirements(String maxSize) {
     return 'Çıkartmalar 320x320 piksel boyutunda kaydedilir ve $maxSize boyutundan küçük olmalıdır. Statik görseller otomatik olarak yeniden boyutlandırılır ve sıkıştırılır. Animasyonlu çıkartmaların ve SVG\'lerin zaten bu sınıra uyması gerekir.';
   }
-
-  @override
-  String get guildSettingsStickerUnsupportedTitle =>
-      'Desteklenmeyen çıkartma dosyası';
 
   @override
   String get guildSettingsStickerAddTitle => 'Çıkartma ekle';
@@ -14799,13 +13827,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Bu çıkartma oluşturulamadı';
 
   @override
-  String get guildSettingsStickerTooLargeTitle => 'Çıkartma çok büyük';
-
-  @override
-  String get guildSettingsStickerCompressFailedTitle =>
-      'Çıkartma yeterince sıkıştırılamadı';
-
-  @override
   String get guildSettingsStickerDeleteTitle => 'Çıkartmayı sil';
 
   @override
@@ -14821,20 +13842,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get guildSettingsStickerDeleteFailedTitle => 'Bu çıkartma silinemedi';
 
   @override
-  String get guildSettingsStickerDeleteNoPermissionTitle =>
-      'Bu etiketi silemezsin';
-
-  @override
   String guildSettingsWebhooksInfo(String channelSettingsPath) {
     return 'Webhook oluşturmak için $channelSettingsPath bölümünü açın. Mevcut tüm webhook\'ları buradan düzenleyebilir ve organize edebilirsiniz.';
   }
-
-  @override
-  String get guildSettingsVanityUrlWarning =>
-      'Vanity URL\'niz, en az bir kanal herkese açık olmadıkça çalışmaz.';
-
-  @override
-  String get guildSettingsVanityUrlRemove => 'Kaldır';
 
   @override
   String get guildSettingsBannedUsersTitle => 'Yasaklı kullanıcılar';
@@ -15315,12 +14325,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get channelFollowChannel => 'Kanal';
 
   @override
-  String get channelFollowSelectCommunity => 'Select a community';
-
-  @override
-  String get channelFollowSelectChannel => 'Select a channel';
-
-  @override
   String get channelFollowAgeWarning =>
       'Bu, yaş kısıtlamalı bir kanaldır. Güncellemeler yalnızca yaş kısıtlamalı kanallara gidebilir.';
 
@@ -15483,15 +14487,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get channelSettingsUnfollow => 'Takibi bırak';
 
   @override
-  String get channelSettingsUnfollowFailed =>
-      'Couldn\'t unfollow this channel.';
-
-  @override
-  String channelSettingsDeliveredTo(String channelName) {
-    return 'Delivered to #$channelName';
-  }
-
-  @override
   String get crosspostCommunityTitle => 'Topluluk';
 
   @override
@@ -15503,10 +14498,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   @override
   String get crosspostSourceFailed =>
       'Bu topluluk yüklenemedi. Bir süre sonra tekrar deneyin.';
-
-  @override
-  String get crosspostSourceUnavailable =>
-      'This community is no longer available';
 
   @override
   String crosspostMembers(int count) {

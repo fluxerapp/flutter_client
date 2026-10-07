@@ -35,7 +35,6 @@ class ProfileTabMenuSheet {
         return FluxerBottomSheetContent(
           scrollable: false,
           child: ProfileTabMenuSheetBody(
-            onClose: close,
             onOpenStatus: () {
               close();
               unawaited(StatusChangeSheet.show(sheetContext));
@@ -53,13 +52,11 @@ class ProfileTabMenuSheet {
 
 class ProfileTabMenuSheetBody extends ConsumerWidget {
   const ProfileTabMenuSheetBody({
-    required this.onClose,
     required this.onOpenStatus,
     required this.onOpenAccounts,
     super.key,
   });
 
-  final VoidCallback onClose;
   final VoidCallback onOpenStatus;
   final VoidCallback onOpenAccounts;
 

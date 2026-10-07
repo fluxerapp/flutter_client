@@ -2,8 +2,7 @@ const double voiceGridTileAspectRatio = 16 / 9;
 
 const double voiceGridDefaultGapPx = 12;
 const double voiceGridEdgePaddingPx = 20;
-const double voiceGridDefaultSidePaddingPx = voiceGridEdgePaddingPx;
-const double voiceGridDefaultVerticalPaddingPx = voiceGridEdgePaddingPx;
+
 const double voiceGridMinTileWidthPx = 220;
 const double voiceGridMinTileHeightPx =
     voiceGridMinTileWidthPx / voiceGridTileAspectRatio;

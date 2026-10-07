@@ -28,10 +28,6 @@
     "@retry": {
         "description": "Generic label for retry actions (splash, errors, network, etc.)."
     },
-    "connectingCaps": "CONNECTING",
-    "@connectingCaps": {
-        "description": "Connecting text on the splash screen"
-    },
     "splashConnectionLost": "فُقد الاتصال",
     "@splashConnectionLost": {
         "description": "Fallback headline on splash when gateway is unavailable (web parity)."
@@ -93,10 +89,6 @@
             }
         }
     },
-    "ssoRequired": "تسجيل الدخول الموحد مطلوب للوصول إلى هذه النسخة.",
-    "@ssoRequired": {
-        "description": "Short sign-in note shown when the instance requires single sign-on."
-    },
     "organizationSsoProvider": "تسجيل الدخول باستخدام موفر تسجيل الدخول الموحّد لمؤسستك.",
     "@organizationSsoProvider": {
         "description": "Description shown when sign-in is restricted to the configured SSO provider."
@@ -117,10 +109,6 @@
                 "type": "String"
             }
         }
-    },
-    "logInViaBrowser": "تسجيل الدخول عبر المتصفح",
-    "@logInViaBrowser": {
-        "description": "Secondary login that opens or uses the system browser."
     },
     "needAccountPrompt": "هل تحتاج إلى حساب؟ ",
     "@needAccountPrompt": {
@@ -232,26 +220,9 @@
     "@accountAdd": {
         "description": "Button to add a new account."
     },
-    "accountRemove": "إزالة",
-    "@accountRemove": {
-        "description": "Context menu option to remove a stored account."
-    },
-    "accountRemoveTitle": "إزالة {username}",
-    "@accountRemoveTitle": {
-        "description": "Title for the remove account confirmation modal.",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
     "accountRemoveDescription": "سيؤدي هذا إلى إزالة الجلسة المحفوظة لهذا الحساب.",
     "@accountRemoveDescription": {
         "description": "Description for the remove account confirmation modal."
-    },
-    "accountRemoveOnlyDescription": "سيؤدي هذا إلى إزالة الحساب الوحيد المحفوظ على هذا الجهاز.",
-    "@accountRemoveOnlyDescription": {
-        "description": "Description when removing the last stored account."
     },
     "accountExpired": "انتهت الصلاحية",
     "@accountExpired": {
@@ -783,10 +754,6 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsent": "أوافق على شروط الخدمة وسياسة الخصوصية",
-    "@registerConsent": {
-        "description": "Consent checkbox label for registration (plain text fallback)."
-    },
     "registerConsentPrefix": "أوافق على ",
     "@registerConsentPrefix": {
         "description": "Text before the Terms of Service link in the consent checkbox."
@@ -830,10 +797,6 @@
     "passkeyTimeout": "انتهت مهلة مصادقة مفتاح المرور. يرجى المحاولة مرة أخرى.",
     "@passkeyTimeout": {
         "description": "Error when passkey authentication times out."
-    },
-    "passkeyNotAvailable": "مفاتيح المرور غير متاحة لهذا التطبيق. قم بتسجيل الدخول باستخدام البريد الإلكتروني وكلمة المرور بدلاً من ذلك.",
-    "@passkeyNotAvailable": {
-        "description": "Error for unknown passkey provider errors (e.g. TYPE_UNKNOWN)."
     },
     "passkeyFailed": "فشل المصادقة باستخدام المفتاح السري. يرجى المحاولة مرة أخرى.",
     "@passkeyFailed": {
@@ -941,26 +904,6 @@
     "inviteAcceptSomeone": "شخص ما",
     "@inviteAcceptSomeone": {
         "description": "Fallback inviter name when the inviter is unknown."
-    },
-    "inviteAcceptEmojiPack": "حزمة رموز تعبيرية",
-    "@inviteAcceptEmojiPack": {
-        "description": "Label for an emoji pack invite."
-    },
-    "inviteAcceptStickerPack": "حزمة ملصقات",
-    "@inviteAcceptStickerPack": {
-        "description": "Label for a sticker pack invite."
-    },
-    "inviteAcceptInstallEmojiPack": "تثبيت حزمة الرموز التعبيرية",
-    "@inviteAcceptInstallEmojiPack": {
-        "description": "Primary action to install an emoji pack from an invite."
-    },
-    "inviteAcceptInstallStickerPack": "تثبيت حزمة الملصقات",
-    "@inviteAcceptInstallStickerPack": {
-        "description": "Primary action to install a sticker pack from an invite."
-    },
-    "inviteAcceptPackInstallNote": "قبول هذه الدعوة سيقوم بتثبيت الحزمة تلقائيًا.",
-    "@inviteAcceptPackInstallNote": {
-        "description": "Note shown on expression pack invites before accepting."
     },
     "mentionUnknownChannel": "unknown-channel",
     "@mentionUnknownChannel": {
@@ -1708,10 +1651,6 @@
             }
         }
     },
-    "emojiPlutoniumUpsellButton": "احصل على Plutonium",
-    "@emojiPlutoniumUpsellButton": {
-        "description": "Button label on the Plutonium upsell banner."
-    },
     "emojiPlutoniumUpsellDismiss": "عدم الإظهار مرة أخرى",
     "@emojiPlutoniumUpsellDismiss": {
         "description": "Dismiss link on the Plutonium upsell banner."
@@ -1878,10 +1817,6 @@
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
     },
-    "fluxerTagInputLabel": "اسم المستخدم",
-    "@fluxerTagInputLabel": {
-        "description": "Label above the username and discriminator input fields."
-    },
     "fluxerTagDescriptionBase": "يمكن أن تتضمن أسماء المستخدمين أحرفًا (a-z, A-Z) وأرقامًا (0-9) وشرطات سفلية فقط. لا تميّز أسماء المستخدمين بين الأحرف الكبيرة والصغيرة.",
     "@fluxerTagDescriptionBase": {
         "description": "Base description text on the username change sheet."
@@ -1909,10 +1844,6 @@
     "validationAllowedChars": "الأحرف (a-z وA-Z) والأرقام (0-9) والشرطات السفلية (_) فقط",
     "@validationAllowedChars": {
         "description": "Validation rule for allowed username characters."
-    },
-    "discriminatorPremiumTooltip": "احصل على Plutonium لتخصيص علامتك أو الاحتفاظ بها عند تغيير اسم المستخدم الخاص بك",
-    "@discriminatorPremiumTooltip": {
-        "description": "Tooltip on disabled discriminator field for non-premium users."
     },
     "fluxerTagAlreadyTaken": "اسم المستخدم هذا مُستخدَم بالفعل",
     "@fluxerTagAlreadyTaken": {
@@ -1967,19 +1898,6 @@
     "premiumUpsellCustomizeTag": "خصص علامتك المكونة من 4 أرقام أو احتفظ بها عند تغيير اسم المستخدم الخاص بك",
     "@premiumUpsellCustomizeTag": {
         "description": "Upsell text encouraging non-premium users to get Plutonium for tag customization."
-    },
-    "premiumTrialExpiresOn": "تنتهي فترة تجريبية لـ Plutonium الخاصة بك في {date}. قم بالترقية للاحتفاظ بعلامتك المخصصة واكسب شارة على ملفك الشخصي.",
-    "@premiumTrialExpiresOn": {
-        "description": "Trial upsell with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActive": "أنت في فترة تجريبية لـ Plutonium. قم بالترقية للاحتفاظ بعلامتك المخصصة واكسب شارة على ملفك الشخصي.",
-    "@premiumTrialActive": {
-        "description": "Trial upsell without specific expiry date."
     },
     "fluxerTagUpdated": "تم تحديث اسم المستخدم",
     "@fluxerTagUpdated": {
@@ -2153,32 +2071,6 @@
     "@hideVisionaryIdDescription": {
         "description": "Description for the toggle to hide the Visionary ID badge."
     },
-    "premiumTrialSubscriptionStarts": "أنت في فترة تجريبية لـ Plutonium — يبدأ اشتراكك في {date}",
-    "@premiumTrialSubscriptionStarts": {
-        "description": "Trial banner title when user has an active subscription pending after trial.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialSubscriptionStartsDescription": "سيبدأ اشتراكك تلقائيًا عند انتهاء الفترة التجريبية. لا يلزم اتخاذ أي إجراء.",
-    "@premiumTrialSubscriptionStartsDescription": {
-        "description": "Trial banner description when user has an active subscription pending after trial."
-    },
-    "premiumTrialExpiresOnProfile": "أنت في فترة تجريبية لـ Plutonium تنتهي في {date}",
-    "@premiumTrialExpiresOnProfile": {
-        "description": "Trial banner title with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActiveProfile": "أنت في فترة تجريبية لـ Plutonium",
-    "@premiumTrialActiveProfile": {
-        "description": "Trial banner title without specific expiry date."
-    },
     "avatarDescriptionNonPremium": "JPEG، PNG، WebP. بحد أقصى 10 ميجابايت. موصى به: 512×512 بكسل. تتطلب الصور الرمزية المتحركة (GIF) Plutonium.",
     "@avatarDescriptionNonPremium": {
         "description": "Avatar helper text for non-premium users, mentioning Plutonium requirement for animated avatars."
@@ -2263,22 +2155,6 @@
     "profileSavedToast": "تم تحديث الملف الشخصي",
     "@profileSavedToast": {
         "description": "Toast message shown after successfully saving profile changes."
-    },
-    "profileEditButton": "تعديل الملف الشخصي",
-    "@profileEditButton": {
-        "description": "Button label to open profile editing from the profile content card."
-    },
-    "profileNoteLabel": "ملاحظة",
-    "@profileNoteLabel": {
-        "description": "Label for the personal note section on a user profile."
-    },
-    "profileNoteVisibility": "(مرئية لك فقط)",
-    "@profileNoteVisibility": {
-        "description": "Hint that the note is private and only visible to the current user."
-    },
-    "profileNoteEmpty": "لا توجد ملاحظة بعد.",
-    "@profileNoteEmpty": {
-        "description": "Placeholder shown when no personal note has been set for a user."
     },
     "sudoTitle": "تحقق من هويتك",
     "@sudoTitle": {
@@ -2651,42 +2527,6 @@
     "@securityPasskeyNameHint": {
         "description": "Hint for passkey name input."
     },
-    "securityPhoneSectionTitle": "رقم الهاتف",
-    "@securityPhoneSectionTitle": {
-        "description": "Title for phone number section."
-    },
-    "securityPhoneSectionDescription": "إدارة رقم هاتفك.",
-    "@securityPhoneSectionDescription": {
-        "description": "Description for phone number section."
-    },
-    "securityPhoneLabel": "رقم الهاتف",
-    "@securityPhoneLabel": {
-        "description": "Label for phone number row."
-    },
-    "securityPhoneNone": "لم يتم إضافة رقم هاتف.",
-    "@securityPhoneNone": {
-        "description": "Shown when no phone number is set."
-    },
-    "securityPhoneAdd": "إضافة هاتف",
-    "@securityPhoneAdd": {
-        "description": "Button to add phone number."
-    },
-    "securityPhoneRemove": "إزالة",
-    "@securityPhoneRemove": {
-        "description": "Button to remove phone number."
-    },
-    "securityPhoneRemoveTitle": "إزالة رقم الهاتف",
-    "@securityPhoneRemoveTitle": {
-        "description": "Title for phone remove confirmation."
-    },
-    "securityPhoneRemoveDescription": "هل أنت متأكد أنك تريد إزالة رقم هاتفك؟",
-    "@securityPhoneRemoveDescription": {
-        "description": "Description for phone remove confirmation."
-    },
-    "securityPhoneRemoved": "تمت إزالة رقم الهاتف",
-    "@securityPhoneRemoved": {
-        "description": "Toast after phone removed."
-    },
     "securityClaimTitle": "ميزات الأمان",
     "@securityClaimTitle": {
         "description": "Title when user needs to claim account for security."
@@ -2739,10 +2579,6 @@
     "@backupCodesWarning": {
         "description": "Warning about backup codes."
     },
-    "backupCodesDownload": "تنزيل",
-    "@backupCodesDownload": {
-        "description": "Button to download backup codes."
-    },
     "backupCodesCopy": "نسخ",
     "@backupCodesCopy": {
         "description": "Button to copy backup codes."
@@ -2758,46 +2594,6 @@
     "backupCodesDone": "تم",
     "@backupCodesDone": {
         "description": "Button to close backup codes sheet."
-    },
-    "backupCodesViewTitle": "عرض الرموز الاحتياطية",
-    "@backupCodesViewTitle": {
-        "description": "Title for viewing existing backup codes."
-    },
-    "backupCodesViewDescription": "قد يكون التحقق مطلوبًا قبل عرض رموز النسخ الاحتياطي الخاصة بك.",
-    "@backupCodesViewDescription": {
-        "description": "Description for view backup codes."
-    },
-    "phoneAddTitle": "إضافة رقم هاتف",
-    "@phoneAddTitle": {
-        "description": "Title for phone add sheet."
-    },
-    "phoneAddLabel": "رقم الهاتف",
-    "@phoneAddLabel": {
-        "description": "Label for phone input."
-    },
-    "phoneAddHint": "أدخل رقم هاتفك",
-    "@phoneAddHint": {
-        "description": "Hint for phone input."
-    },
-    "phoneAddFooter": "سنرسل رمز SMS عند توفره. رقمك غير مرتبط بحسابك. نحتفظ بمعرّف مشفر فقط، بدون معرف مستخدم، للسماح بـ 2 تحقق كحد أقصى خلال حوالي 30 يومًا.",
-    "@phoneAddFooter": {
-        "description": "Footer text for phone input."
-    },
-    "phoneAddSendCode": "إرسال الرمز",
-    "@phoneAddSendCode": {
-        "description": "Button to send phone verification code."
-    },
-    "phoneVerifyTitle": "التحقق من رقم الهاتف",
-    "@phoneVerifyTitle": {
-        "description": "Title for phone verify step."
-    },
-    "phoneVerifyDescription": "أدخل رمز التحقق المرسل إلى رقم هاتفك.",
-    "@phoneVerifyDescription": {
-        "description": "Description for phone verify step."
-    },
-    "phoneAddSuccess": "تم التحقق من رقم الهاتف",
-    "@phoneAddSuccess": {
-        "description": "Toast after phone added."
     },
     "dangerZoneSectionTitle": "منطقة الخطر",
     "@dangerZoneSectionTitle": {
@@ -3049,10 +2845,6 @@
     "@authorizedAppsScopeAdmin": {
         "description": "OAuth2 scope description: admin."
     },
-    "privacyPendingDeletionTitle": "قيد الحذف",
-    "@privacyPendingDeletionTitle": {
-        "description": "Title of the warning alert shown when a bulk message deletion is pending."
-    },
     "blockedUsersTitle": "المستخدمون المحظورون",
     "@blockedUsersTitle": {
         "description": "Header title of the Blocked Users settings page."
@@ -3288,10 +3080,6 @@
     "userProfileNoteDelete": "حذف",
     "@userProfileNoteDelete": {
         "description": "Delete button in the note editor sheet."
-    },
-    "userProfileNoteEmpty": "انقر لإضافة ملاحظة",
-    "@userProfileNoteEmpty": {
-        "description": "Hint text when no note has been written yet."
     },
     "userProfileMemberSince": "عضو منذ",
     "@userProfileMemberSince": {
@@ -4063,17 +3851,9 @@
     "@channelComposerBarrierNotMemberLongEnough": {
         "description": "Composer barrier when the user's guild membership is too recent."
     },
-    "channelComposerBarrierNoPhoneNumber": "يجب عليك التحقق من رقم الهاتف لإرسال الرسائل في هذا المجتمع.",
-    "@channelComposerBarrierNoPhoneNumber": {
-        "description": "Composer barrier when the user must verify a phone number before messaging."
-    },
     "channelComposerBarrierVerifyEmail": "التحقق من البريد الإلكتروني",
     "@channelComposerBarrierVerifyEmail": {
         "description": "Action button on the composer barrier for unverified email."
-    },
-    "channelComposerBarrierVerifyPhone": "التحقق من الهاتف",
-    "@channelComposerBarrierVerifyPhone": {
-        "description": "Action button on the composer barrier for missing phone verification."
     },
     "chatAttachmentTooMany": "ملفات مرفقة كثيرة جدًا (الحد الأقصى {max})",
     "@chatAttachmentTooMany": {
@@ -4100,10 +3880,6 @@
     "@chatAttachmentDropToSend": {
         "description": "Overlay hint when dragging files over chat with Shift held."
     },
-    "chatAttachmentSendVoiceMessage": "إرسال رسالة صوتية",
-    "@chatAttachmentSendVoiceMessage": {
-        "description": "Menu item to open the voice message recorder."
-    },
     "voiceMessageTitle": "رسالة صوتية",
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
@@ -4124,10 +3900,6 @@
     "@voiceMessageMicPermissionDenied": {
         "description": "Shown when microphone permission is denied for voice messages."
     },
-    "voiceMessageRecordingNotSupported": "التسجيل الصوتي غير مدعوم على هذا الجهاز.",
-    "@voiceMessageRecordingNotSupported": {
-        "description": "Shown when the device cannot record voice messages."
-    },
     "voiceMessageMicInUse": "غادر المكالمة الصوتية لتسجيل رسالة صوتية.",
     "@voiceMessageMicInUse": {
         "description": "Shown when the microphone is already used by an active voice call."
@@ -4140,26 +3912,6 @@
     "@voiceMessageSendFailed": {
         "description": "Shown when sending a voice message fails."
     },
-    "voiceMessageRecordingHint": "تحدث الآن. اضغط على إيقاف عند الانتهاء، ويمكنك قص التسجيل بعد ذلك.",
-    "@voiceMessageRecordingHint": {
-        "description": "Help text while recording a voice message on desktop."
-    },
-    "voiceMessageReviewHint": "اسحب المقبضين للقص، ثم اضغط على إرسال.",
-    "@voiceMessageReviewHint": {
-        "description": "Help text while reviewing a voice message before send."
-    },
-    "voiceMessageStop": "إيقاف",
-    "@voiceMessageStop": {
-        "description": "Stop recording button in voice message composer."
-    },
-    "voiceMessageStartRecording": "بدء التسجيل",
-    "@voiceMessageStartRecording": {
-        "description": "Button to retry voice recording after permission error."
-    },
-    "voiceMessageRerecord": "إعادة التسجيل",
-    "@voiceMessageRerecord": {
-        "description": "Button to discard review and record again."
-    },
     "voiceMessagePlay": "تشغيل",
     "@voiceMessagePlay": {
         "description": "Play voice message preview."
@@ -4167,16 +3919,6 @@
     "voiceMessagePause": "إيقاف مؤقت",
     "@voiceMessagePause": {
         "description": "Pause voice message preview."
-    },
-    "voiceMessageSelectionTooShort": "يجب ألا تقل مدة التحديد عن {seconds} ث.",
-    "@voiceMessageSelectionTooShort": {
-        "description": "Error when trimmed voice message is too short.",
-        "placeholders": {
-            "seconds": {
-                "type": "num",
-                "format": "compact"
-            }
-        }
     },
     "chatAttachmentEditTitle": "تعديل المرفق",
     "@chatAttachmentEditTitle": {
@@ -4221,10 +3963,6 @@
     "chatAttachmentSourceBrowse": "تصفح الملفات",
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
-    },
-    "chatAttachmentPasteTooltip": "لصق ملف من الحافظة",
-    "@chatAttachmentPasteTooltip": {
-        "description": "Tooltip for pasting an image attachment from the clipboard."
     },
     "chatAttachmentSpoiler": "محتوى مخفي",
     "@chatAttachmentSpoiler": {
@@ -4322,14 +4060,6 @@
     "@matureContentOpenLinkButton": {
         "description": "Primary action on mature link channel gates."
     },
-    "sensitiveContentSectionTitle": "محتوى حساس",
-    "@sensitiveContentSectionTitle": {
-        "description": "Privacy settings section title for sensitive content filters."
-    },
-    "sensitiveContentSectionDescription": "تحكم في كيفية تصفية الوسائط الخاصة بالبالغين أو الحساسة في سياقات مختلفة",
-    "@sensitiveContentSectionDescription": {
-        "description": "Privacy settings section description for sensitive content filters."
-    },
     "sensitiveContentFriendDmLabel": "الرسائل المباشرة من الأصدقاء",
     "@sensitiveContentFriendDmLabel": {
         "description": "Label for friend DM sensitive content filter."
@@ -4354,18 +4084,6 @@
     "@sensitiveContentFilterBlock": {
         "description": "Sensitive content filter option to block media."
     },
-    "sensitiveContentBlurUnscannedLabel": "تمويه الوسائط حتى اكتمال فحص الأمان",
-    "@sensitiveContentBlurUnscannedLabel": {
-        "description": "Toggle label for blurring unscanned media."
-    },
-    "sensitiveContentBlurUnscannedDescriptionAdult": "عند التمكين، يتم تمويه الصور ومقاطع الفيديو حتى تنتهي عملية فحص سلامة المحتوى.",
-    "@sensitiveContentBlurUnscannedDescriptionAdult": {
-        "description": "Description for blur-unscanned toggle for adult accounts."
-    },
-    "sensitiveContentBlurUnscannedDescriptionMinor": "هذا الإعداد قيد التشغيل دائمًا لحسابك.",
-    "@sensitiveContentBlurUnscannedDescriptionMinor": {
-        "description": "Description for blur-unscanned toggle for minor accounts."
-    },
     "sensitiveContentResetButton": "إعادة تعيين",
     "@sensitiveContentResetButton": {
         "description": "Reset button for sensitive content settings."
@@ -4382,10 +4100,6 @@
                 "type": "int"
             }
         }
-    },
-    "chatCancelUpload": "إلغاء التحميل",
-    "@chatCancelUpload": {
-        "description": "Button or menu action label for canceling an in-flight message attachment upload."
     },
     "chatAttachmentExpiresOn": "تنتهي صلاحيته في {date}",
     "@chatAttachmentExpiresOn": {
@@ -4655,10 +4369,6 @@
     "@connectionEnterDomain": {
         "description": "Inline error shown when the domain input is empty."
     },
-    "lookAndFeelTitle": "المظهر والإحساس",
-    "@lookAndFeelTitle": {
-        "description": "Title of the Look & Feel (Appearance) settings page."
-    },
     "lookAndFeelThemeSectionTitle": "السمة",
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
@@ -4698,14 +4408,6 @@
     "lookAndFeelThemeSyncFailed": "لم نتمكن من مزامنة السمة إلى حسابك. يرجى المحاولة مرة أخرى.",
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
-    },
-    "lookAndFeelChatFontScalingTitle": "حجم خط الدردشة",
-    "@lookAndFeelChatFontScalingTitle": {
-        "description": "Section title for the chat font size slider."
-    },
-    "lookAndFeelChatFontScalingDescription": "اضبط حجم الخط في منطقة الدردشة.",
-    "@lookAndFeelChatFontScalingDescription": {
-        "description": "Section description for the chat font size slider."
     },
     "lookAndFeelInterfaceTitle": "الواجهة",
     "@lookAndFeelInterfaceTitle": {
@@ -4774,42 +4476,6 @@
     "lookAndFeelHideKeyboardHintsDescription": "عند التمكين، يتم إخفاء شارات الاختصارات في نوافذ التلميحات المنبثقة.",
     "@lookAndFeelHideKeyboardHintsDescription": {
         "description": "Toggle description for the hide-keyboard-hints switch."
-    },
-    "lookAndFeelNekoTitle": "متفرقات",
-    "@lookAndFeelNekoTitle": {
-        "description": "Subsection title under Interface for Neko appearance settings."
-    },
-    "lookAndFeelNekoDescription": "خيارات واجهة متفرقة.",
-    "@lookAndFeelNekoDescription": {
-        "description": "Subsection description for Neko appearance settings."
-    },
-    "lookAndFeelShowNekoLabel": "إظهار Neko",
-    "@lookAndFeelShowNekoLabel": {
-        "description": "Toggle label for showing Neko in the chat footer."
-    },
-    "lookAndFeelShowNekoDescription": "عند التمكين، يظهر Neko بالقرب من شريط إدخال الدردشة.",
-    "@lookAndFeelShowNekoDescription": {
-        "description": "Toggle description for showing Neko in chat."
-    },
-    "lookAndFeelVoiceChannelJoinTitle": "سلوك الانضمام إلى القناة الصوتية",
-    "@lookAndFeelVoiceChannelJoinTitle": {
-        "description": "Subsection title under Interface — voice channel join behavior."
-    },
-    "lookAndFeelVoiceChannelJoinDescription": "تحكم في كيفية الانضمام إلى قنوات الصوت في المجتمعات.",
-    "@lookAndFeelVoiceChannelJoinDescription": {
-        "description": "Subsection description for voice channel join behavior."
-    },
-    "lookAndFeelRequireDoubleClickJoinLabel": "اشتراط النقر المزدوج للانضمام إلى القنوات الصوتية",
-    "@lookAndFeelRequireDoubleClickJoinLabel": {
-        "description": "Toggle label — require double-click to join voice channels."
-    },
-    "lookAndFeelRequireDoubleClickJoinDescription": "عند التمكين، ستحتاج إلى النقر المزدوج على قنوات الصوت للانضمام إليها. عند التعطيل (افتراضي)، سيؤدي النقر الفردي إلى الانضمام إلى القناة فورًا.",
-    "@lookAndFeelRequireDoubleClickJoinDescription": {
-        "description": "Toggle description for the require-double-click voice channel join switch."
-    },
-    "lookAndFeelChatFontPreviewSample": "الثعلب البني السريع يقفز فوق الكلب الكسول.",
-    "@lookAndFeelChatFontPreviewSample": {
-        "description": "Sample text rendered at the selected chat font size to preview scaling."
     },
     "lookAndFeelGuildSidebarTitle": "الشريط الجانبي للمجتمع",
     "@lookAndFeelGuildSidebarTitle": {
@@ -5218,25 +4884,9 @@
     "@messagesMediaAutocompleteSavedMediaLabel": {
         "description": "Toggle label for saved media in expression autocomplete."
     },
-    "messagesMediaEditingSectionTitle": "تعديل الرسالة",
-    "@messagesMediaEditingSectionTitle": {
-        "description": "Section title for message editing settings."
-    },
-    "messagesMediaEditingSectionDescription": "تحكم في ما يحدث لمسودة التعديل عند الإلغاء.",
-    "@messagesMediaEditingSectionDescription": {
-        "description": "Section description for message editing settings."
-    },
-    "messagesMediaEditingPreserveDraftLabel": "الاحتفاظ بمسودة التعديل عند الإلغاء",
-    "@messagesMediaEditingPreserveDraftLabel": {
-        "description": "Toggle label for preserving edit drafts on cancel."
-    },
     "accessibilityDmMessagePreviewGroupTitle": "معاينات الرسائل المباشرة",
     "@accessibilityDmMessagePreviewGroupTitle": {
         "description": "Section title for DM message preview accessibility settings."
-    },
-    "accessibilityDmMessagePreviewGroupDescription": "تحكم في وقت عرض معاينات الرسائل في قائمة الدردشة المباشرة.",
-    "@accessibilityDmMessagePreviewGroupDescription": {
-        "description": "Section description for DM message preview accessibility settings."
     },
     "accessibilityDmMessagePreviewModeLabel": "وضع معاينة الرسائل المباشرة",
     "@accessibilityDmMessagePreviewModeLabel": {
@@ -5394,10 +5044,6 @@
     "@voiceConnectionConfirmDoNothing": {
         "description": "Dismiss the dialog without joining voice."
     },
-    "voiceChannelEmptyDescription": "هذه قناة صوتية. اتصل لبدء التحدث!",
-    "@voiceChannelEmptyDescription": {
-        "description": "Empty state body when viewing a guild voice channel while not in the call."
-    },
     "voiceChannelJoin": "الانضمام إلى القناة الصوتية",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
@@ -5437,14 +5083,6 @@
     "voiceChannelStatusConnecting": "جارٍ الاتصال…",
     "@voiceChannelStatusConnecting": {
         "description": "Status in the in-page voice view while LiveKit is connecting."
-    },
-    "voiceChannelStatusConnected": "متصل",
-    "@voiceChannelStatusConnected": {
-        "description": "Status in the in-page voice view when the voice session is active."
-    },
-    "voiceChannelStatusError": "خطأ",
-    "@voiceChannelStatusError": {
-        "description": "Short label in the channel header when the voice session reports an error."
     },
     "voiceParticipantTooltipMobileDevice": "جهاز جوال",
     "@voiceParticipantTooltipMobileDevice": {
@@ -5519,10 +5157,6 @@
     "voiceScreenShareNotificationText": "جارٍ مشاركة شاشتك.",
     "@voiceScreenShareNotificationText": {
         "description": "Body text for the Android foreground notification shown while screen sharing."
-    },
-    "voiceControlMore": "المزيد",
-    "@voiceControlMore": {
-        "description": "Tooltip: more voice actions in the voice call control bar."
     },
     "voiceControlDisconnect": "قطع الاتصال",
     "@voiceControlDisconnect": {
@@ -6378,10 +6012,6 @@
     "addGuildJoinFailed": "تعذر الانضمام إلى المجتمع. يرجى المحاولة مرة أخرى.",
     "@addGuildJoinFailed": {
         "description": "Generic error when joining a community via invite fails."
-    },
-    "addGuildPackInstalled": "تم تثبيت الحزمة بنجاح.",
-    "@addGuildPackInstalled": {
-        "description": "Toast shown after accepting an emoji or sticker pack invite."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "إزالة جميع التفاعلات",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -7461,10 +7091,6 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsCustomInviteUrl": "رابط دعوة مخصص",
-    "@guildMenuSettingsCustomInviteUrl": {
-        "description": "Community settings tab for custom invite URLs."
-    },
     "guildMenuSettingsDiscovery": "الاكتشاف",
     "@guildMenuSettingsDiscovery": {
         "description": "Community settings tab for discovery settings."
@@ -7489,17 +7115,9 @@
     "@guildSettingsOverviewIconTitle": {
         "description": "Title for the guild icon section in overview settings."
     },
-    "guildSettingsUploadImage": "تحميل صورة",
-    "@guildSettingsUploadImage": {
-        "description": "Button label to upload an image in guild settings."
-    },
     "guildSettingsOverviewBannerTitle": "لافتة",
     "@guildSettingsOverviewBannerTitle": {
         "description": "Title for the guild banner section."
-    },
-    "guildSettingsOverviewBannerHint": "قم بتحميل لافتة لخادمك.",
-    "@guildSettingsOverviewBannerHint": {
-        "description": "Hint text for guild banner upload."
     },
     "guildSettingsOverviewNameTitle": "الاسم",
     "@guildSettingsOverviewNameTitle": {
@@ -7509,22 +7127,6 @@
     "@guildSettingsOverviewNameHint": {
         "description": "Hint for the guild name field."
     },
-    "guildSettingsOverviewStatsTitle": "الإحصائيات",
-    "@guildSettingsOverviewStatsTitle": {
-        "description": "Title for guild statistics section."
-    },
-    "guildSettingsOverviewMembers": "الأعضاء",
-    "@guildSettingsOverviewMembers": {
-        "description": "Label for member count in overview."
-    },
-    "guildSettingsOverviewOnline": "متصل",
-    "@guildSettingsOverviewOnline": {
-        "description": "Label for online count in overview."
-    },
-    "guildSettingsRolesDescription": "استخدم الأدوار لتجميع الأعضاء وتعيين الصلاحيات.",
-    "@guildSettingsRolesDescription": {
-        "description": "Description for the roles settings tab."
-    },
     "guildSettingsCreateRole": "إنشاء دور",
     "@guildSettingsCreateRole": {
         "description": "Button to create a new role."
@@ -7533,30 +7135,9 @@
     "@guildSettingsRolesListTitle": {
         "description": "Title for the roles list section."
     },
-    "guildSettingsEmojiSlotInfo": "تم استخدام {staticCount} رمز تعبيري ثابت، و {animatedCount} رمز تعبيري متحرك",
-    "@guildSettingsEmojiSlotInfo": {
-        "description": "Emoji slot usage summary.",
-        "placeholders": {
-            "staticCount": {
-                "type": "int"
-            },
-            "animatedCount": {
-                "type": "int"
-            }
-        }
-    },
     "guildSettingsEmojiEmpty": "لا توجد رموز تعبيرية مخصصة بعد.",
     "@guildSettingsEmojiEmpty": {
         "description": "Empty state for emoji settings."
-    },
-    "guildSettingsStickersSlotInfo": "تم تحميل {count} ملصق",
-    "@guildSettingsStickersSlotInfo": {
-        "description": "Sticker slot usage summary.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsStickersEmpty": "لا توجد ملصقات مخصصة بعد.",
     "@guildSettingsStickersEmpty": {
@@ -7602,8 +7183,6 @@
     "guildSettingsVerificationMediumDescription": "يتطلب عنوان بريد إلكتروني تم التحقق منه، وحسابًا عمره 5 دقائق على الأقل.",
     "guildSettingsVerificationHigh": "مرتفع",
     "guildSettingsVerificationHighDescription": "يتطلب كل ما في المستوى المتوسط، بالإضافة إلى كونك عضوًا في المجتمع لمدة 10 دقائق على الأقل.",
-    "guildSettingsVerificationHighest": "مرتفع جدًا",
-    "guildSettingsVerificationHighestDescription": "يتطلب رقم هاتف تم التحقق منه.",
     "guildSettingsAuditLogDescription": "تتبع إجراءات المشرفين في جميع أنحاء المجتمع.",
     "@guildSettingsAuditLogDescription": {
         "description": "Subtitle under the activity-log page title."
@@ -7631,14 +7210,6 @@
     "guildSettingsAuditLogUnknownUser": "مستخدم غير معروف",
     "@guildSettingsAuditLogUnknownUser": {
         "description": "Fallback avatar label when the acting user is unavailable."
-    },
-    "guildSettingsAuditLogLoadError": "حدث خطأ أثناء تحميل سجل النشاط.",
-    "@guildSettingsAuditLogLoadError": {
-        "description": "Generic error shown when fetching log entries fails."
-    },
-    "guildSettingsAuditLogLoadErrorTitle": "تعذر تحميل سجل النشاط",
-    "@guildSettingsAuditLogLoadErrorTitle": {
-        "description": "Error-state title when fetching log entries failed."
     },
     "guildSettingsAuditLogReason": "السبب",
     "@guildSettingsAuditLogReason": {
@@ -8610,14 +8181,6 @@
     "@auditLogOptionPermanentMembership": {
         "description": "Audit log option detail sentence."
     },
-    "guildSettingsLoadMore": "Load more",
-    "@guildSettingsLoadMore": {
-        "description": "Button to load more audit log entries."
-    },
-    "guildSettingsLoadingMore": "جارٍ التحميل...",
-    "@guildSettingsLoadingMore": {
-        "description": "Loading state for pagination."
-    },
     "guildSettingsWebhooksDescription": "عرض كل الويب هوك المُعدّة في مجتمعك وإدارتها.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
@@ -8626,42 +8189,9 @@
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
-    "guildSettingsCopyUrl": "Copy URL",
-    "@guildSettingsCopyUrl": {
-        "description": "Tooltip to copy a URL."
-    },
     "guildSettingsCopiedUrl": "تم نسخ الرابط إلى الحافظة",
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
-    },
-    "guildSettingsDeleteWebhook": "حذف الويب هوك",
-    "@guildSettingsDeleteWebhook": {
-        "description": "Tooltip to delete a webhook."
-    },
-    "guildSettingsVanityUrlDescription": "قم بتعيين رابط دعوة مخصص لخادمك.",
-    "@guildSettingsVanityUrlDescription": {
-        "description": "Description for vanity URL tab."
-    },
-    "guildSettingsVanityUrlHint": "my-server",
-    "@guildSettingsVanityUrlHint": {
-        "description": "Hint for vanity URL input."
-    },
-    "guildSettingsSave": "حفظ",
-    "@guildSettingsSave": {
-        "description": "Generic save button label."
-    },
-    "guildSettingsVanityUrlUsageTitle": "الاستخدام",
-    "@guildSettingsVanityUrlUsageTitle": {
-        "description": "Title for vanity URL usage section."
-    },
-    "guildSettingsVanityUrlUses": "{count} استخدامًا",
-    "@guildSettingsVanityUrlUses": {
-        "description": "Vanity URL usage count.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsDiscoveryDescription": "أدرج مجتمعك في \"الاكتشاف\" ليتمكن الآخرون من العثور عليه والانضمام إليه.",
     "@guildSettingsDiscoveryDescription": {
@@ -8700,10 +8230,6 @@
     "@guildSettingsDiscoveryWithdraw": {
         "description": "Button to withdraw discovery application."
     },
-    "guildSettingsMembersDescription": "البحث عن أعضاء الخادم وإدارتهم.",
-    "@guildSettingsMembersDescription": {
-        "description": "Description for members tab."
-    },
     "guildSettingsMembersSearchHint": "البحث باسم المستخدم أو المعرف",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
@@ -8725,27 +8251,6 @@
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
-    "guildSettingsInviteUses": "{uses} / {maxUses} استخدامًا",
-    "@guildSettingsInviteUses": {
-        "description": "Invite usage count.",
-        "placeholders": {
-            "uses": {
-                "type": "int"
-            },
-            "maxUses": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsInviteExpires": "تنتهي صلاحية {date}",
-    "@guildSettingsInviteExpires": {
-        "description": "Invite expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBansDescription": "عرض المستخدمين المحظورين وإدارتهم.",
     "@guildSettingsBansDescription": {
         "description": "Description for bans tab."
@@ -8758,30 +8263,9 @@
     "@guildSettingsBansEmpty": {
         "description": "Empty state for bans."
     },
-    "guildSettingsBanPermanent": "حظر دائم",
-    "@guildSettingsBanPermanent": {
-        "description": "Label for permanent ban."
-    },
-    "guildSettingsBanExpires": "تنتهي صلاحية {date}",
-    "@guildSettingsBanExpires": {
-        "description": "Ban expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBanExpiresLabel": "تاريخ الانتهاء",
     "@guildSettingsBanExpiresLabel": {
         "description": "Label for ban expiration row."
-    },
-    "guildSettingsUnban": "إلغاء الحظر",
-    "@guildSettingsUnban": {
-        "description": "Button to unban a user."
-    },
-    "guildSettingsBansLoading": "جارٍ تحميل المستخدمين المحظورين",
-    "@guildSettingsBansLoading": {
-        "description": "Loading state for the guild bans list."
     },
     "guildSettingsBansNoSearchResults": "لم يتم العثور على عمليات حظر مطابقة لبحثك.",
     "@guildSettingsBansNoSearchResults": {
@@ -8825,10 +8309,6 @@
             }
         }
     },
-    "guildSettingsBansLoadError": "تعذر تحميل الحظر. حاول مرة أخرى.",
-    "@guildSettingsBansLoadError": {
-        "description": "Error when loading the guild bans list fails."
-    },
     "guildSettingsRevokeBanError": "تعذر إلغاء الحظر. حاول مرة أخرى.",
     "@guildSettingsRevokeBanError": {
         "description": "Error when revoking a ban fails."
@@ -8853,7 +8333,6 @@
     "@guildSettingsCategoryPeople": {
         "description": "Sidebar category for members, invites, and bans."
     },
-    "guildSettingsOverviewDescription": "إدارة ملف تعريف مجتمعك وقنواته والإعدادات الافتراضية.",
     "guildSettingsOverviewBrandingTitle": "العلامة التجارية",
     "guildSettingsOverviewBrandingDescription": "تحديث الأيقونة والاسم والشعار وخلفية الدعوة",
     "@guildSettingsOverviewBrandingDescription": {
@@ -8872,7 +8351,6 @@
     },
     "guildSettingsOverviewNotificationsTitle": "الإشعارات الافتراضية",
     "guildSettingsOverviewNotificationsLargeGuild": "يُفرض إعداد \"الإشارات فقط\" على المجتمعات التي يزيد عدد أعضائها على 250 شخصًا. نحتفظ بإعدادك الأصلي وسنعيده إذا انخفض عدد أعضاء المجتمع إلى أقل من 250.",
-    "guildSettingsOverviewAdvancedTitle": "خيارات متقدمة",
     "guildSettingsOverviewFlexibleNames": "السماح بأسماء قنوات نصية مرنة",
     "guildSettingsOverviewHideOwnerCrown": "إخفاء تاج مالك المجتمع",
     "guildSettingsOverviewDetachedBanner": "لافتة منفصلة",
@@ -8898,10 +8376,6 @@
     "guildSettingsOverviewEmbedSplashTitle": "خلفية التضمين في الدردشة",
     "@guildSettingsOverviewEmbedSplashTitle": {
         "description": "Title for embed splash upload section."
-    },
-    "guildSettingsOverviewEmbedSplashHint": "يظهر في بطاقات الدعوة المضمّنة في الدردشة.",
-    "@guildSettingsOverviewEmbedSplashHint": {
-        "description": "Note shown when uploading chat embed background."
     },
     "guildSettingsOverviewUploadBackground": "تحميل الخلفية",
     "@guildSettingsOverviewUploadBackground": {
@@ -9068,8 +8542,6 @@
     "@guildSettingsOverviewEmbedSplashUploadHint": {
         "description": "Upload requirements for chat embed background images."
     },
-    "guildSettingsModerationDescription": "تكوين إعدادات التحقق وتصفية المحتوى والمحتوى المخصص للبالغين.",
-    "guildSettingsModerationDiscoveryNotice": "المجتمعات المدرجة في الاكتشاف لديها خيارات إشراف مقيدة.",
     "guildSettingsModerationContentFilterTitle": "فلترة المحتوى",
     "guildSettingsModerationContentFilterDescription": "فحص الرسائل تلقائيًا بحثًا عن المحتوى الصريح في القنوات غير المصنفة للبالغين.",
     "guildSettingsModerationContentFilterDiscoveryNote": "يُطلب من المجتمعات المدرجة في الاكتشاف فحص جميع الأعضاء. لا يمكن تغيير هذا الإعداد أثناء تمكين الاكتشاف.",
@@ -9079,8 +8551,6 @@
     "guildSettingsContentFilterNoRoleDescription": "مقترح لمعظم المجتمعات",
     "guildSettingsContentFilterAll": "تصفية رسائل الجميع",
     "guildSettingsContentFilterAllDescription": "أقصى حماية للمساحات الملائمة للعائلة",
-    "guildSettingsModerationMatureOff": "إيقاف",
-    "guildSettingsModerationMatureOn": "تشغيل",
     "guildSettingsContentWarningToggle": "إظهار تحذير محتوى",
     "@guildSettingsContentWarningToggle": {
         "description": "Switch label for the community content warning setting."
@@ -9100,7 +8570,6 @@
     "guildSettingsModeration2faTitle": "اشتراط المصادقة الثنائية",
     "guildSettingsModeration2faDescription": "طلب المصادقة الثنائية للمشرفين قبل أن يتمكنوا من حظر أو طرد أو تقييد الوقت أو إزالة الرسائل.",
     "guildSettingsModeration2faSwitchLabel": "اشتراط المصادقة الثنائية لإجراءات الإشراف",
-    "guildSettingsModeration2faOwnerOnlyTooltip": "يمكن لمالك المجتمع فقط تغيير هذا الإعداد",
     "guildSettingsModeration2faEnableFirstTooltip": "فعّل المصادقة الثنائية (2FA) على حسابك لتغيير هذا الإعداد",
     "guildSettingsEmojiSearchHint": "البحث عن الرموز التعبيرية",
     "guildSettingsEmojiUploadTitle": "تحميل رمز تعبيري",
@@ -9122,8 +8591,6 @@
     },
     "guildSettingsStickersSearchHint": "البحث عن الملصقات",
     "guildSettingsWebhooksInfo": "لإنشاء خطاف ويب، افتح {channelSettingsPath}. لا يزال بإمكانك تعديل وتنظيم جميع خطافات الويب الموجودة هنا.",
-    "guildSettingsVanityUrlWarning": "لن يعمل عنوان URL المخصص الخاص بك ما لم تكن هناك قناة واحدة على الأقل مرئية للجميع.",
-    "guildSettingsVanityUrlRemove": "إزالة",
     "guildSettingsBannedUsersTitle": "المستخدمون المحظورون",
     "guildSettingsInvitesTableInviter": "الداعي",
     "guildSettingsInvitesTableChannel": "القناة",
@@ -9239,10 +8706,6 @@
             }
         }
     },
-    "channelSettingsMatureContentOverride": "تجاوز المحتوى للبالغين",
-    "@channelSettingsMatureContentOverride": {
-        "description": "Accessibility label for mature content override control."
-    },
     "channelSettingsMatureContentOffDescription": "اترك هذه القناة متاحة للمحتوى غير اللائق.",
     "@channelSettingsMatureContentOffDescription": {
         "description": "Description for the mature content off override option."
@@ -9255,14 +8718,6 @@
                 "type": "String"
             }
         }
-    },
-    "channelSettingsMatureContentCategorySource": "الفئة",
-    "@channelSettingsMatureContentCategorySource": {
-        "description": "Lowercase source label for inherited mature content from category."
-    },
-    "channelSettingsMatureContentCommunitySource": "المجتمع",
-    "@channelSettingsMatureContentCommunitySource": {
-        "description": "Lowercase source label for inherited mature content from community."
     },
     "channelSettingsCopyInviteCode": "نسخ رمز الدعوة",
     "@channelSettingsCopyInviteCode": {
@@ -9460,10 +8915,6 @@
     "@notificationsEnableDesktopNotificationsDescription": {
         "description": "Description for the enable desktop notifications toggle."
     },
-    "notificationsEnableBrowserNotificationsLabel": "تفعيل إشعارات المتصفح",
-    "@notificationsEnableBrowserNotificationsLabel": {
-        "description": "Toggle label for enabling browser notifications."
-    },
     "notificationsPushInactiveTimeoutDescription": "يتجنب {productName} إرسال إشعارات الدفع إلى أجهزتك المحمولة عندما تكون أمام الكمبيوتر. اختر مدة عدم النشاط على سطح المكتب قبل أن تبدأ إشعارات الدفع بالوصول إليك.",
     "@notificationsPushInactiveTimeoutDescription": {
         "description": "Description for push notification inactive timeout setting.",
@@ -9607,10 +9058,6 @@
     "channelSettingsConnectionLimitDescription": "الحد الأقصى للاتصالات النشطة التي يمكن لعضو واحد الاحتفاظ بها في هذه القناة.",
     "@channelSettingsConnectionLimitDescription": {
         "description": "Helper text for voice channel connection limit."
-    },
-    "channelSettingsResetSlider": "إعادة تعيين شريط التمرير إلى القيمة الافتراضية",
-    "@channelSettingsResetSlider": {
-        "description": "Tooltip for reset buttons on channel settings sliders."
     },
     "channelDetailsSearchEmptyBody": "أدخل نصًا أو مؤلفًا أو فلتر محتوى للعثور على الرسائل.",
     "@channelDetailsSearchEmptyBody": {
@@ -9804,16 +9251,6 @@
     "@audioAndVideoMicTestStopLabel": {
         "description": "Button label to stop the microphone test."
     },
-    "audioAndVideoMicTestPermissionRequired": "يحتاج {productName} إلى الوصول إلى الميكروفون لاختبار إدخالك.",
-    "@audioAndVideoMicTestPermissionRequired": {
-        "description": "Shown when microphone permission is required for the mic test.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
     "audioAndVideoCameraLabel": "الكاميرا",
     "@audioAndVideoCameraLabel": {
         "description": "Label for camera device selection."
@@ -9890,10 +9327,6 @@
     "guildSettingsRolesTwoColumns": "عمودان",
     "@guildSettingsRolesTwoColumns": {
         "description": "Tooltip when permission list is in single-column layout."
-    },
-    "guildSettingsRolesSwitchToTwoColumns": "التبديل إلى عمودين",
-    "@guildSettingsRolesSwitchToTwoColumns": {
-        "description": "Aria label for switching to two columns."
     },
     "guildSettingsRolesHoistOrder": "ترتيب الظهور",
     "@guildSettingsRolesHoistOrder": {
@@ -10021,10 +9454,6 @@
     "@categoryCopyCategoryId": {
         "description": "Context menu action to copy a category ID to the clipboard."
     },
-    "channelSettingsAdvanced": "خيارات متقدمة",
-    "@channelSettingsAdvanced": {
-        "description": "Collapsible advanced section title in channel overview."
-    },
     "channelSettingsUnknownRole": "دور غير معروف",
     "@channelSettingsUnknownRole": {
         "description": "Fallback label for unknown role in permission overwrites."
@@ -10053,10 +9482,6 @@
     "@guildSettingsRolesAllowMentions": {
         "description": "Switch label for the mentionable toggle."
     },
-    "guildSettingsRolesCustomHoistOrder": "ترتيب الظهور المخصص",
-    "@guildSettingsRolesCustomHoistOrder": {
-        "description": "Button to enter custom hoist order mode."
-    },
     "guildSettingsRolesHoistOrderHelp": "اسحب الأدوار لتخصيص ترتيب ظهورها في قائمة الأعضاء.",
     "@guildSettingsRolesHoistOrderHelp": {
         "description": "Help text in hoist order mode."
@@ -10080,24 +9505,6 @@
     "channelSettingsMatureContentCategoryScope": "الفئة",
     "@channelSettingsMatureContentCategoryScope": {
         "description": "Capitalized scope label when mature content inherits from a category."
-    },
-    "channelSettingsPermissionsNeedManageChannels": "أنت بحاجة إلى إذن \"{manageChannelsPermissionLabel}\" لتعديل هذه الأذونات.",
-    "@channelSettingsPermissionsNeedManageChannels": {
-        "description": "Error when user lacks manage channels permission for channel permissions tab.",
-        "placeholders": {
-            "manageChannelsPermissionLabel": {
-                "type": "String"
-            }
-        }
-    },
-    "channelSettingsPermissionsNeedManageRoles": "أنت بحاجة إلى إذن \"{manageRolesPermissionLabel}\" لتعديل هذه الأذونات.",
-    "@channelSettingsPermissionsNeedManageRoles": {
-        "description": "Error when user lacks manage roles permission for channel permissions tab.",
-        "placeholders": {
-            "manageRolesPermissionLabel": {
-                "type": "String"
-            }
-        }
     },
     "channelSettingsPermissionsChannelAccessUpdated": "تم تحديث الوصول إلى القناة",
     "@channelSettingsPermissionsChannelAccessUpdated": {
@@ -10126,10 +9533,6 @@
     "channelSettingsPermissionsSearchRolesOrMembers": "البحث عن الأدوار أو الأعضاء…",
     "@channelSettingsPermissionsSearchRolesOrMembers": {
         "description": "Placeholder for the add override search field."
-    },
-    "channelSettingsPermissionsRolesAndMembers": "الأدوار والأعضاء",
-    "@channelSettingsPermissionsRolesAndMembers": {
-        "description": "Section title in the add override picker."
     },
     "channelSettingsDeleteInvite": "حذف الدعوة",
     "@channelSettingsDeleteInvite": {
@@ -10174,10 +9577,6 @@
                 "type": "String"
             }
         }
-    },
-    "channelSettingsWebhooksUnknownUser": "مستخدم غير معروف",
-    "@channelSettingsWebhooksUnknownUser": {
-        "description": "Fallback label when webhook creator is unavailable."
     },
     "channelDetailsVoiceChannel": "قناة صوتية",
     "@channelDetailsVoiceChannel": {
@@ -10328,14 +9727,6 @@
     "@guildSettingsRolesComfyLayout": {
         "description": "Tooltip when permission list is in dense layout."
     },
-    "guildSettingsRolesSwitchToDenseLayout": "التبديل إلى التخطيط المضغوط",
-    "@guildSettingsRolesSwitchToDenseLayout": {
-        "description": "Aria label for switching to dense layout."
-    },
-    "guildSettingsRolesSwitchToSingleColumn": "التبديل إلى عمود واحد",
-    "@guildSettingsRolesSwitchToSingleColumn": {
-        "description": "Aria label for switching to single column."
-    },
     "guildSettingsRolesCannotGrantPermission": "لا يمكنك منح إذن لا تملكه",
     "@guildSettingsRolesCannotGrantPermission": {
         "description": "Tooltip when user cannot grant a permission."
@@ -10364,10 +9755,6 @@
                 "type": "String"
             }
         }
-    },
-    "permissionUnknown": "إذن غير معروف",
-    "@permissionUnknown": {
-        "description": "Fallback permission label."
     },
     "permissionAdministratorDescription": "يمنح جميع الأذونات ويتجاوز قيود القنوات. إذن حساس للغاية.",
     "@permissionAdministratorDescription": {
@@ -10663,10 +10050,6 @@
     "@audioAndVideoDirectInputDescription": {
         "description": "Description for the direct input voice processing profile."
     },
-    "languageAndTimeOpenLanguageSettings": "فتح إعدادات اللغة",
-    "@languageAndTimeOpenLanguageSettings": {
-        "description": "Button that opens the system per-app language settings."
-    },
     "languageAndTimeTimeFormatSelectionLabel": "اختيار تنسيق الوقت",
     "@languageAndTimeTimeFormatSelectionLabel": {
         "description": "Accessibility label for the time format radio group."
@@ -10833,29 +10216,9 @@
     "@audioAndVideoCameraQuality1080pLabel": {
         "description": "Camera quality option for 1080p resolution."
     },
-    "audioAndVideoHigherQualityRequiresPremium": "يتطلب خيار 1080p و 60 إطارًا في الثانية {premiumProductName}.",
-    "@audioAndVideoHigherQualityRequiresPremium": {
-        "description": "Note shown when higher video quality options require premium.",
-        "placeholders": {
-            "premiumProductName": {
-                "type": "String",
-                "example": "Plutonium"
-            }
-        }
-    },
     "audioAndVideoInstanceVideoQualityLimit": "تسمح هذه النسخة حاليًا بمشاركة الشاشة بدقة تصل إلى 720 بكسل بمعدل 30 إطارًا في الثانية.",
     "@audioAndVideoInstanceVideoQualityLimit": {
         "description": "Note shown when instance limits block higher screen share quality."
-    },
-    "audioAndVideoCameraPermissionRequired": "يحتاج {productName} إلى الوصول إلى الكاميرا لعرض أجهزتك.",
-    "@audioAndVideoCameraPermissionRequired": {
-        "description": "Shown when camera permission is required to enumerate video devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
     },
     "notificationsMentionNoPreferenceName": "بلا تفضيل",
     "@notificationsMentionNoPreferenceName": {
@@ -11092,10 +10455,6 @@
     "@groupDmEditTitle": {
         "description": "Title for the edit group DM modal or sheet."
     },
-    "groupDmEditDetailsTooltip": "تعديل تفاصيل المجموعة",
-    "@groupDmEditDetailsTooltip": {
-        "description": "Tooltip on the desktop group DM header edit action."
-    },
     "groupDmGroupName": "اسم المجموعة",
     "@groupDmGroupName": {
         "description": "Label for the group name field in edit group."
@@ -11103,10 +10462,6 @@
     "groupDmMyGroup": "مجموعتي",
     "@groupDmMyGroup": {
         "description": "Placeholder for the group name field in edit group."
-    },
-    "groupDmFailedToProcessCroppedImage": "تعذّر معالجة الصورة المقصوصة. حاول مرة أخرى.",
-    "@groupDmFailedToProcessCroppedImage": {
-        "description": "Body when a cropped group icon cannot be processed."
     },
     "groupDmInvalidImage": "صورة غير صالحة",
     "@groupDmInvalidImage": {
@@ -11123,10 +10478,6 @@
     "groupDmRateLimited": "أنت تفعل ذلك بسرعة كبيرة. انتظر لحظة وحاول مرة أخرى.",
     "@groupDmRateLimited": {
         "description": "Error when add-friends requests are rate limited."
-    },
-    "groupDmCreateInviteFailed": "تعذّر إنشاء رابط الدعوة",
-    "@groupDmCreateInviteFailed": {
-        "description": "Title when invite link generation fails."
     },
     "groupDmCreateInviteFailedBody": "تعذر إنشاء رابط دعوة. يرجى المحاولة مرة أخرى.",
     "@groupDmCreateInviteFailedBody": {
@@ -11171,16 +10522,6 @@
     "audioAndVideoFrameRate30Label": "30 إطارًا في الثانية",
     "@audioAndVideoFrameRate30Label": {
         "description": "Screen share frame rate option for 30 FPS."
-    },
-    "audioAndVideoMicrophonePermissionRequired": "يحتاج {productName} إلى الوصول إلى الميكروفون لعرض أجهزتك.",
-    "@audioAndVideoMicrophonePermissionRequired": {
-        "description": "Shown when microphone permission is required to enumerate audio input devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
     },
     "languageAndTimeTimeFormatSyncFailed": "فشل تحديث تنسيق الوقت",
     "@languageAndTimeTimeFormatSyncFailed": {
@@ -11267,10 +10608,6 @@
     "groupDmUnsupportedIconFormat": "تنسيق الأيقونة غير مدعوم",
     "@groupDmUnsupportedIconFormat": {
         "description": "Title when the selected group icon format is unsupported."
-    },
-    "groupDmCouldntProcessImage": "تعذر معالجة الصورة",
-    "@groupDmCouldntProcessImage": {
-        "description": "Title when a cropped group icon cannot be processed."
     },
     "groupDmCreateInvite": "إنشاء",
     "@groupDmCreateInvite": {
@@ -11600,26 +10937,6 @@
     "@nagbarPushNotification": {
         "description": "Push notification permission nagbar body."
     },
-    "phoneCountryLabel": "البلد",
-    "@phoneCountryLabel": {
-        "description": "Label for country selector in phone verification."
-    },
-    "phoneSearchCountries": "البحث عن البلدان...",
-    "@phoneSearchCountries": {
-        "description": "Search hint for country selector."
-    },
-    "phoneNumberRequired": "رقم الهاتف مطلوب",
-    "@phoneNumberRequired": {
-        "description": "Validation error when phone number is empty."
-    },
-    "phoneEnterValidNumber": "أدخل رقم هاتف جوال صالحًا.",
-    "@phoneEnterValidNumber": {
-        "description": "Validation error for invalid phone format."
-    },
-    "requiredActionTitle": "يلزم التحقق من الحساب",
-    "@requiredActionTitle": {
-        "description": "Title for required action blocking modal."
-    },
     "systemCallJoinTheCall": "الانضمام إلى المكالمة",
     "@systemCallJoinTheCall": {
         "description": "Call-to-action button label on an in-progress call system message."
@@ -11781,10 +11098,6 @@
     "@groupDmGenerateInviteLink": {
         "description": "Placeholder for the invite link field before generation."
     },
-    "groupDmAddFailed": "تعذّر الإضافة إلى المجموعة",
-    "@groupDmAddFailed": {
-        "description": "Title when adding friends to a group DM fails."
-    },
     "groupDmGroupFull": "هذه المجموعة ممتلئة. أزل شخصًا قبل إضافة المزيد من الأشخاص.",
     "@groupDmGroupFull": {
         "description": "Error when the group DM has no remaining member slots."
@@ -11804,10 +11117,6 @@
     "audioAndVideoScreenShareQualitySectionTitle": "جودة مشاركة الشاشة",
     "@audioAndVideoScreenShareQualitySectionTitle": {
         "description": "Subsection title for screen share resolution selection."
-    },
-    "guildSettingsRolesLockedTooltip": "لا يمكنك تعديل هذا الدور لأنه دورك الأعلى أو أعلى منك",
-    "@guildSettingsRolesLockedTooltip": {
-        "description": "Tooltip on locked role rows."
     },
     "guildSettingsRolesNeedManageRolesPermission": "تحتاج إلى صلاحية \"{permission}\" لتعديل هذه الصلاحيات",
     "@guildSettingsRolesNeedManageRolesPermission": {
@@ -11991,10 +11300,6 @@
     "@accessibilitySaturationTitle": {
         "description": "Section title for the theme saturation slider on the accessibility settings page."
     },
-    "accessibilitySaturationDescription": "اضبط مدى ظهور ألوان السمة عبر التطبيق.",
-    "@accessibilitySaturationDescription": {
-        "description": "Section description for the theme saturation slider on the accessibility settings page."
-    },
     "sessionExpiredToast": "انتهت صلاحية جلستك. يرجى تسجيل الدخول مرة أخرى.",
     "@sessionExpiredToast": {
         "description": "Toast shown when the stored session is rejected by the server and the user is signed out to the login screen."
@@ -12007,110 +11312,6 @@
     "@guildMenuSettingsChannels": {
         "description": "Guild settings menu item for channel management."
     },
-    "phoneCannotBeUsed": "لا يمكن استخدام رقم الهاتف هذا. جرّب رقم هاتف محمول آخر أو اتصل بالدعم.",
-    "@phoneCannotBeUsed": {
-        "description": "API error when phone number is rejected."
-    },
-    "phoneAlreadyUsed": "لقد تم استخدام رقم الهاتف هذا بالفعل. جرّب رقمًا آخر أو اتصل بالدعم.",
-    "@phoneAlreadyUsed": {
-        "description": "API error when phone number was reused."
-    },
-    "phoneCodeDidNotWork": "هذا الرمز غير صحيح. تحقق منه وحاول مرة أخرى.",
-    "@phoneCodeDidNotWork": {
-        "description": "API error for invalid verification code."
-    },
-    "phoneTooManyAttempts": "محاولات كثيرة جدًا. انتظر قليلًا، ثم حاول مرة أخرى.",
-    "@phoneTooManyAttempts": {
-        "description": "Rate limit error for phone verification."
-    },
-    "phoneSmsUnavailable": "التحقق عبر الرسائل النصية غير متاح حاليًا. حاول مرة أخرى لاحقًا أو تواصل مع فريق الدعم.",
-    "@phoneSmsUnavailable": {
-        "description": "SMS provider unavailable error."
-    },
-    "phoneNotEligible": "التحقق من الهاتف غير متاح لهذا الحساب. استخدم طريقة أخرى أو اتصل بالدعم.",
-    "@phoneNotEligible": {
-        "description": "Account not eligible for phone verification."
-    },
-    "phoneInboundGetNewCode": "الحصول على رمز جديد",
-    "@phoneInboundGetNewCode": {
-        "description": "Button to refresh inbound challenge."
-    },
-    "phoneInboundChallengeCodeLabel": "رمز للإرسال",
-    "@phoneInboundChallengeCodeLabel": {
-        "description": "Label for inbound challenge code."
-    },
-    "phoneInboundOurNumberLabel": "إرسال إلى",
-    "@phoneInboundOurNumberLabel": {
-        "description": "Label for inbound destination number."
-    },
-    "requiredActionIntroPhone": "يتطلب تسجيلك فحصًا إضافيًا لمكافحة الرسائل المزعجة قبل أن تتمكن من المتابعة.",
-    "@requiredActionIntroPhone": {
-        "description": "Phone-only required action intro."
-    },
-    "requiredActionUsePhone": "استخدام الهاتف",
-    "@requiredActionUsePhone": {
-        "description": "Button to choose phone verification."
-    },
-    "requiredActionCheckEmailTitle": "تحقق من بريدك الإلكتروني",
-    "@requiredActionCheckEmailTitle": {
-        "description": "Title for email verification instructions."
-    },
-    "requiredActionCheckEmailDescription": "لقد أرسلنا رابط تحقق إلى عنوان بريدك الإلكتروني. افتحه للمتابعة.",
-    "@requiredActionCheckEmailDescription": {
-        "description": "Description for email verification instructions."
-    },
-    "requiredActionResendVerificationEmail": "إعادة إرسال البريد الإلكتروني للتحقق",
-    "@requiredActionResendVerificationEmail": {
-        "description": "Button to resend verification email."
-    },
-    "phoneSomethingWentWrong": "حدث خطأ ما. يُرجى المحاولة مرة أخرى.",
-    "@phoneSomethingWentWrong": {
-        "description": "Generic phone verification error."
-    },
-    "phoneInboundExpensiveDescription": "إرسال رسالة نصية قصيرة إلى رقم الهاتف هذا مُكلف للغاية، لذا نحتاج منك إرسال رسالة نصية قصيرة إلينا بدلاً من ذلك. يمكنك أيضًا الاتصال بالدعم لطلب إزالة هذا المتطلب من حسابك.",
-    "@phoneInboundExpensiveDescription": {
-        "description": "Inbound challenge reason for expensive destinations."
-    },
-    "phoneInboundDefaultDescription": "نحتاج منك إرسال رسالة نصية قصيرة إلينا للتحقق من رقم هاتفك.",
-    "@phoneInboundDefaultDescription": {
-        "description": "Default inbound challenge description."
-    },
-    "phoneInboundStepOpenMessaging": "افتح تطبيق الرسائل على هاتفك وأنشئ رسالة نصية جديدة.",
-    "@phoneInboundStepOpenMessaging": {
-        "description": "Inbound verification step 1."
-    },
-    "phoneInboundStepSendCode": "أرسل الرمز {code} إلى {number}.",
-    "@phoneInboundStepSendCode": {
-        "description": "Inbound verification step 2.",
-        "placeholders": {
-            "code": {
-                "type": "String"
-            },
-            "number": {
-                "type": "String"
-            }
-        }
-    },
-    "phoneInboundStepWait": "انتظر حتى نستلم رسالتك. قد يستغرق هذا دقيقة واحدة.",
-    "@phoneInboundStepWait": {
-        "description": "Inbound verification step 3."
-    },
-    "requiredActionChooseMethodTitle": "اختر طريقة التحقق",
-    "@requiredActionChooseMethodTitle": {
-        "description": "Title when user can pick email or phone."
-    },
-    "requiredActionUseEmail": "استخدام البريد الإلكتروني",
-    "@requiredActionUseEmail": {
-        "description": "Button to choose email verification."
-    },
-    "requiredActionVerificationEmailSent": "تم إرسال رسالة تحقق إلى بريدك الإلكتروني. تحقق من صندوق الوارد.",
-    "@requiredActionVerificationEmailSent": {
-        "description": "Toast after resending verification email."
-    },
-    "requiredActionSignOut": "تسجيل الخروج",
-    "@requiredActionSignOut": {
-        "description": "Sign out button in required action modal."
-    },
     "notificationsEnableNotificationsDescription": "تلقَّ إشعارات عند استلام الرسائل. قد تحتاج إلى السماح بالإشعارات لتطبيق {productName} في إعدادات جهازك. للتحكم في الإشعارات لكل قناة/مجتمع، افتح إعدادات الإشعارات من قائمة المجتمع.",
     "@notificationsEnableNotificationsDescription": {
         "description": "Description for the enable notifications toggle on mobile.",
@@ -12120,10 +11321,6 @@
                 "example": "Fluxer"
             }
         }
-    },
-    "notificationsEnableBrowserNotificationsDescription": "تلقَّ إشعارات عند استلامك رسائل. قد تحتاج إلى السماح بالإشعارات في إعدادات المتصفح. للتحكم في الإشعارات لكل قناة/مجتمع، انقر بزر الفأرة الأيمن على أيقونة المجتمع وافتح إعدادات الإشعارات.",
-    "@notificationsEnableBrowserNotificationsDescription": {
-        "description": "Description for the enable browser notifications toggle."
     },
     "notificationsPushInactiveTimeoutLabel": "مهلة عدم النشاط لإشعارات الدفع",
     "@notificationsPushInactiveTimeoutLabel": {
@@ -12363,10 +11560,6 @@
     "@guildSettingsRolesDenseLayout": {
         "description": "Tooltip when permission list is in comfy layout."
     },
-    "guildSettingsRolesSwitchToComfyLayout": "التبديل إلى التخطيط المريح",
-    "@guildSettingsRolesSwitchToComfyLayout": {
-        "description": "Aria label for switching to comfy layout."
-    },
     "permissionKickMembers": "طرد الأعضاء",
     "@permissionKickMembers": {
         "description": "Permission name."
@@ -12445,10 +11638,6 @@
     "channelDetailsDeleteChannel": "حذف القناة",
     "@channelDetailsDeleteChannel": {
         "description": "Channel details menu action to delete a guild channel."
-    },
-    "channelSettingsCategorySettingsTitle": "إعدادات الفئة",
-    "@channelSettingsCategorySettingsTitle": {
-        "description": "Title for category settings modal."
     },
     "channelSettingsEditCategory": "تعديل الفئة",
     "@channelSettingsEditCategory": {
@@ -13058,42 +12247,6 @@
     "gifPickerFavoritesEmptyDescription": "ضع علامة نجمة على صورة GIF لرؤيتها هنا.",
     "@gifPickerFavoritesEmptyDescription": {
         "description": "Empty state description for the GIF picker favorites view."
-    },
-    "requiredActionIntroGeneric": "أكمل عملية التحقق المطلوبة لمتابعة استخدام {productName}.",
-    "@requiredActionIntroGeneric": {
-        "description": "Generic required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailOrPhone": "تحقق من بريدك الإلكتروني أو هاتفك لمتابعة استخدام {productName}.",
-    "@requiredActionIntroEmailOrPhone": {
-        "description": "Email or phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailAndPhone": "أكمل خطوات التحقق المطلوبة من البريد الإلكتروني والهاتف أدناه لمتابعة استخدام {productName}.",
-    "@requiredActionIntroEmailAndPhone": {
-        "description": "Email and phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionChooseMethodDescription": "أكمل أحد مسارات التحقق أدناه لمتابعة استخدام {productName}.",
-    "@requiredActionChooseMethodDescription": {
-        "description": "Description when user can pick email or phone.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
     },
     "networkErrorMessage": "حدث خطأ ما. يُرجى المحاولة مرة أخرى.",
     "@networkErrorMessage": {
@@ -13728,10 +12881,6 @@
     "@accessibilityPausedGifByReducedMotion": {
         "description": "Description for GIF toggle while reduced motion is active."
     },
-    "accessibilityGifDefaultsOffOnMobile": "يتم إيقاف تشغيله افتراضيًا على الهاتف المحمول للحفاظ على عمر البطارية واستخدام البيانات.",
-    "@accessibilityGifDefaultsOffOnMobile": {
-        "description": "Helper text for GIF autoplay default on mobile."
-    },
     "accessibilityStickerAnimationsTitle": "رسوم الملصقات المتحركة",
     "@accessibilityStickerAnimationsTitle": {
         "description": "Subsection title for sticker animation preference."
@@ -14187,25 +13336,13 @@
     "@privacyDashboardFriendRequestsEveryone": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsEveryoneDesc": "السماح لأي شخص بإرسال طلبات صداقة إليك",
-    "@privacyDashboardFriendRequestsEveryoneDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsFriendsOfFriends": "أصدقاء الأصدقاء",
     "@privacyDashboardFriendRequestsFriendsOfFriends": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsFriendsOfFriendsDesc": "السماح لأصدقاء أصدقائك بإرسال طلبات إليك",
-    "@privacyDashboardFriendRequestsFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsCommunityMembers": "أعضاء المجتمع",
     "@privacyDashboardFriendRequestsCommunityMembers": {
         "description": "Privacy dashboard friend request toggle label."
-    },
-    "privacyDashboardFriendRequestsCommunityMembersDesc": "السماح للأعضاء من المجتمعات التي تنتمي إليها بإرسال طلبات إليك",
-    "@privacyDashboardFriendRequestsCommunityMembersDesc": {
-        "description": "Privacy dashboard friend request toggle description."
     },
     "privacyDashboardDirectMessagesTitle": "الرسائل المباشرة",
     "@privacyDashboardDirectMessagesTitle": {
@@ -14215,65 +13352,29 @@
     "@privacyDashboardDirectMessagesMembers": {
         "description": "Privacy dashboard DM toggle label."
     },
-    "privacyDashboardDirectMessagesMembersDesc": "السماح للأعضاء من المجتمعات التي تنتمي إليها بإرسال رسائل مباشرة إليك",
-    "@privacyDashboardDirectMessagesMembersDesc": {
-        "description": "Privacy dashboard DM toggle description."
-    },
     "privacyDashboardDirectMessagesBots": "السماح بالرسائل المباشرة من بوتات المجتمع",
     "@privacyDashboardDirectMessagesBots": {
         "description": "Privacy dashboard bot DM toggle label."
-    },
-    "privacyDashboardDirectMessagesBotsDesc": "السماح للبوتات من المجتمعات التي تنتمي إليها بإرسال رسائل مباشرة إليك",
-    "@privacyDashboardDirectMessagesBotsDesc": {
-        "description": "Privacy dashboard bot DM toggle description."
-    },
-    "privacyDashboardConnectionsSectionDesc": "تحكم في من يمكنه إرسال طلبات صداقة ورسائل مباشرة إليك",
-    "@privacyDashboardConnectionsSectionDesc": {
-        "description": "Privacy dashboard connections section description."
-    },
-    "privacyDashboardCommunicationSectionDesc": "تحكم فيمن يمكنه الاتصال بك وإضافتك إلى المحادثات الجماعية",
-    "@privacyDashboardCommunicationSectionDesc": {
-        "description": "Privacy dashboard communication section description."
     },
     "privacyDashboardIncomingCallsTitle": "المكالمات الواردة",
     "@privacyDashboardIncomingCallsTitle": {
         "description": "Privacy dashboard incoming calls subsection title."
     },
-    "privacyDashboardIncomingCallsDesc": "تحكم فيمن يمكنه الاتصال بك",
-    "@privacyDashboardIncomingCallsDesc": {
-        "description": "Privacy dashboard incoming calls subsection description."
-    },
     "privacyDashboardAllowedCallers": "المتصلون المسموح لهم",
     "@privacyDashboardAllowedCallers": {
         "description": "Privacy > Communication: select label."
-    },
-    "privacyDashboardIncomingCallNobody": "لا أحد",
-    "@privacyDashboardIncomingCallNobody": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallNobodyDesc": "حظر جميع المكالمات الواردة",
     "@privacyDashboardIncomingCallNobodyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallFriendsOnly": "الأصدقاء فقط",
-    "@privacyDashboardIncomingCallFriendsOnly": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallFriendsOnlyDesc": "السماح للأصدقاء فقط بالاتصال بك (موصى به)",
     "@privacyDashboardIncomingCallFriendsOnlyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallCustom": "الأصدقاء + مخصص",
-    "@privacyDashboardIncomingCallCustom": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallCustomDesc": "السماح للأصدقاء بالإضافة إلى المجموعات الإضافية التي تختارها",
     "@privacyDashboardIncomingCallCustomDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardIncomingCallEveryone": "الجميع",
-    "@privacyDashboardIncomingCallEveryone": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallEveryoneDesc": "السماح لأي شخص بالاتصال بك، حتى الغرباء",
     "@privacyDashboardIncomingCallEveryoneDesc": {
@@ -14283,14 +13384,6 @@
     "@privacyDashboardAdditionalGroups": {
         "description": "Privacy dashboard label for custom permission groups."
     },
-    "privacyDashboardCallFriendsOfFriendsDesc": "يمكن للأشخاص الذين تربطهم صداقة بأصدقائك الاتصال بك",
-    "@privacyDashboardCallFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
-    "privacyDashboardCallGuildMembersDesc": "يمكن للأشخاص من المجتمعات المشتركة بينكما الاتصال بك",
-    "@privacyDashboardCallGuildMembersDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
     "privacyDashboardRingBehavior": "سلوك الرنين",
     "@privacyDashboardRingBehavior": {
         "description": "Privacy dashboard ring behavior subsection label."
@@ -14299,17 +13392,9 @@
     "@privacyDashboardSilentCalls": {
         "description": "Privacy dashboard silent calls toggle label."
     },
-    "privacyDashboardSilentCallsDesc": "سيتم إخطار جميع المكالمات بصمت بدلاً من الرنين. بشكل افتراضي، تكون المكالمات من غير الأصدقاء صامتة دائمًا.",
-    "@privacyDashboardSilentCallsDesc": {
-        "description": "Privacy dashboard silent calls toggle description."
-    },
     "privacyDashboardGroupDmTitle": "من يمكنه إضافتك إلى المحادثات الجماعية",
     "@privacyDashboardGroupDmTitle": {
         "description": "Privacy dashboard group DM subsection title."
-    },
-    "privacyDashboardGroupDmDesc": "تحكم في من يمكنه إضافتك إلى الدردشات الجماعية دون طلب إذن. لا يزال بإمكان أي شخص إرسال روابط دعوة للانضمام إليك.",
-    "@privacyDashboardGroupDmDesc": {
-        "description": "Privacy dashboard group DM subsection description."
     },
     "privacyDashboardAllowedInvites": "الدعوات المسموح بها",
     "@privacyDashboardAllowedInvites": {
@@ -14330,14 +13415,6 @@
     "privacyDashboardGroupDmEveryoneDesc": "السماح لأي شخص بإضافتك إلى الدردشات الجماعية دون طلب",
     "@privacyDashboardGroupDmEveryoneDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardGroupDmFriendsOfFriendsDesc": "يمكن للأشخاص الذين تربطك بهم صداقة أن يضيفوك إلى الدردشات الجماعية",
-    "@privacyDashboardGroupDmFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
-    },
-    "privacyDashboardGroupDmGuildMembersDesc": "يمكن للأشخاص من المجتمعات المشتركة إضافتك إلى الدردشات الجماعية",
-    "@privacyDashboardGroupDmGuildMembersDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
     },
     "privacyDashboardVoiceActivityTitle": "النشاط الصوتي في \"نشط الآن\"",
     "@privacyDashboardVoiceActivityTitle": {
@@ -14870,26 +13947,6 @@
     "@composerAutocompleteOptionalArgumentsHeading": {
         "description": "Section heading in composer autocomplete for adding optional slash-command arguments."
     },
-    "composerAutocompleteChannelsHeading": "القنوات",
-    "@composerAutocompleteChannelsHeading": {
-        "description": "Section heading in composer autocomplete for channel suggestions."
-    },
-    "composerAutocompleteMembersHeading": "الأعضاء",
-    "@composerAutocompleteMembersHeading": {
-        "description": "Section heading in composer autocomplete for member suggestions."
-    },
-    "composerAutocompleteUsersHeading": "المستخدمون",
-    "@composerAutocompleteUsersHeading": {
-        "description": "Section heading in composer autocomplete for user suggestions."
-    },
-    "composerAutocompleteMentionsHeading": "الإشارات",
-    "@composerAutocompleteMentionsHeading": {
-        "description": "Section heading in composer autocomplete for mixed mention suggestions."
-    },
-    "composerAutocompleteRolesHeading": "الأدوار",
-    "@composerAutocompleteRolesHeading": {
-        "description": "Section heading in composer autocomplete for role suggestions."
-    },
     "composerAutocompleteMediaHeading": "الوسائط",
     "@composerAutocompleteMediaHeading": {
         "description": "Section heading in composer autocomplete for saved media."
@@ -15106,10 +14163,6 @@
     "memberListUnavailableBody": "قوائم الأعضاء غير متاحة مؤقتًا في هذا المجتمع",
     "@memberListUnavailableBody": {
         "description": "Body when member list updates are disabled for the community."
-    },
-    "channelHeaderOpenDetails": "فتح تفاصيل القناة",
-    "@channelHeaderOpenDetails": {
-        "description": "Accessibility label for the channel header title area."
     },
     "channelHeaderPinnedMessages": "الرسائل المثبتة",
     "@channelHeaderPinnedMessages": {
@@ -15472,10 +14525,6 @@
     "@userSettingsSearchPlaceholder": {
         "description": "Placeholder for the user settings search field."
     },
-    "userSettingsSearchFieldLabel": "البحث في الإعدادات",
-    "@userSettingsSearchFieldLabel": {
-        "description": "Accessibility label for the user settings search field."
-    },
     "userSettingsSearchClear": "مسح البحث",
     "@userSettingsSearchClear": {
         "description": "Accessibility label for clearing the user settings search field."
@@ -15502,8 +14551,6 @@
     "giftSettingsGiftUrl": "رابط الهدية",
     "giftSettingsCopy": "نسخ",
     "giftSettingsCopied": "تم النسخ",
-    "giftSettingsGiftUrlCopied": "تم نسخ رابط الهدية إلى الحافظة!",
-    "giftSettingsGiftUrlCopyFailed": "تعذر نسخ رابط الهدية",
     "giftSettingsPurchasedDate": "تم الشراء في {date}",
     "@giftSettingsPurchasedDate": {
         "placeholders": {
@@ -15545,7 +14592,6 @@
     "premiumBuyGift": "شراء هدية",
     "premiumOneYearGift": "هدية لمدة عام واحد",
     "premiumOneMonthGift": "هدية شهر واحد",
-    "premiumMostPopular": "الأكثر شيوعًا",
     "premiumScrollPrompt": "مرر لأسفل لرؤية جميع المزايا المضمنة مع Plutonium",
     "premiumFreeVsPlutonium": "مجاني مقابل Plutonium",
     "premiumFreeColumn": "مجاني",
@@ -15563,50 +14609,15 @@
     "premiumViewGifts": "عرض الهدايا",
     "premiumReadyToUpgrade": "هل أنت مستعد للترقية؟",
     "premiumReadyToBuyGift": "هل أنت مستعد لشراء هدية؟",
-    "premiumMonthlyPrice": "شهريًا {price}",
-    "@premiumMonthlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumYearlyPrice": "سنويًا {price}",
-    "@premiumYearlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneYearPrice": "سنة واحدة {price}",
-    "@premiumOneYearPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneMonthPrice": "شهر واحد {price}",
-    "@premiumOneMonthPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
     "premiumManageSubscription": "إدارة الاشتراك",
     "premiumRedeemGiftCode": "استرداد رمز الهدية",
     "premiumGiftBadge": "هدية",
     "premiumCancelSubscriptionTitle": "هل تريد إلغاء الاشتراك؟",
     "premiumCancelSubscriptionBody": "ستحتفظ بمزاياك حتى تاريخ التجديد التالي، ثم تحصل على فترة سماح مدتها 3 أيام لإعادة الاشتراك والاحتفاظ بسجل اشتراكك.",
     "premiumCancelSubscriptionConfirm": "إلغاء الاشتراك",
-    "premiumKeepSubscription": "الاحتفاظ بالاشتراك",
     "premiumPurchaseHistoryTitle": "سجل الشراء",
     "premiumPurchaseHistoryDescription": "فواتيرك الأخيرة. لتغيير طريقة الدفع لاشتراكك، أضف واحدة أو اخترها في بوابة الفوترة واجعلها الافتراضية.",
     "premiumManagePaymentMethods": "إدارة طرق الدفع",
-    "premiumBillingHistory": "سجل الفواتير",
-    "premiumSelfServeRefundTitle": "استرداد ذاتي",
     "premiumSelfServeRefundButton": "استرداد آخر عملية شراء",
     "premiumDisclaimerAgreementPrefix": "بإتمام عملية الشراء، أنت توافق على ",
     "premiumDisclaimerAgreementPastPrefix": "بشرائك، تكون قد وافقت على ",
@@ -15646,17 +14657,6 @@
         "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
     },
     "premiumComparisonFeatureColumn": "الميزة",
-    "premiumDisclaimerPurchased": "بإتمامك الشراء، تكون قد وافقت على {terms} و{privacy}.",
-    "@premiumDisclaimerPurchased": {
-        "placeholders": {
-            "terms": {
-                "type": "String"
-            },
-            "privacy": {
-                "type": "String"
-            }
-        }
-    },
     "premiumDisclaimerRefund": "يمكنك استرداد أموالك بنفسك خلال 3 أيام من الدفع، مرة واحدة كل 30 يومًا. استرداد قيمة الاشتراك يلغيه. يتنازل المشترون في الاتحاد الأوروبي/المنطقة الاقتصادية الأوروبية عن حق الانسحاب خلال 14 يومًا عند إتمام الشراء، للوصول إلى المحتوى فورًا. استخدم زر الاسترداد داخل التطبيق بدلًا من طلب رد المبلغ عبر البنك. قد تؤدي طلبات رد المبالغ عبر البنك إلى تقييد حسابك نهائيًا. تتولى Stripe معالجة الدفع بأمان. لا نرى رقم بطاقتك كاملًا أبدًا.",
     "premiumTermsOfService": "شروط الخدمة",
     "premiumPrivacyPolicy": "سياسة الخصوصية",
@@ -15697,24 +14697,14 @@
     },
     "premiumClaimAccountToPurchase": "احصل على حسابك لشراء Fluxer Plutonium.",
     "premiumVerifyEmailToPurchase": "تحتاج إلى التحقق من بريدك الإلكتروني قبل أن تتمكن من شراء Fluxer Plutonium.",
-    "premiumPerkCustomUsernameTag": "علامة اسم المستخدم المخصصة",
-    "premiumPerkPerCommunityProfiles": "ملفات شخصية لكل مجتمع",
-    "premiumPerkMessageScheduling": "جدولة الرسائل",
-    "premiumPerkProfileBadge": "شارة الملف الشخصي",
-    "premiumPerkCustomVideoBackgrounds": "خلفيات فيديو مخصصة",
-    "premiumPerkEntranceSounds": "أصوات الدخول",
     "premiumPerkCommunities": "المجتمعات",
     "premiumPerkMessageCharacterLimit": "الحد الأقصى لأحرف الرسالة",
     "premiumPerkBookmarkedMessages": "الرسائل ذات الإشارات المرجعية",
     "premiumPerkFileUploadSize": "حجم تحميل الملف",
-    "premiumPerkEmojiStickerPacks": "حزم الرموز التعبيرية والملصقات",
-    "premiumPerkSavedMedia": "الوسائط المحفوظة",
     "premiumPerkUseAnimatedEmojis": "استخدام الرموز التعبيرية المتحركة",
-    "premiumPerkGlobalEmojiStickerAccess": "الوصول الشامل إلى الرموز التعبيرية والملصقات",
     "premiumPerkVideoQuality": "جودة الفيديو",
     "premiumPerkAnimatedAvatarsBanners": "صور رمزية ولافتات ملف شخصي متحركة",
     "premiumPerkEarlyAccess": "وصول مبكر للميزات الجديدة",
-    "premiumPerkCustomThemes": "سمات مخصصة",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "حتى 4K/60 إطارًا في الثانية",
     "storePlutoniumPriceLine": "{monthly} أو {yearly}",
@@ -15930,7 +14920,6 @@
     "advancedSettingStripTrackingLabel": "إزالة معلمات التتبع من الروابط",
     "advancedSettingStripTrackingDescription": "إزالة معلمات التتبع تلقائيًا من الروابط في الرسائل التي ترسلها",
     "advancedSettingTrustAllLinksLabel": "الوثوق بجميع الروابط الخارجية",
-    "advancedSettingTrustAllLinksDescription": "تخطي تحذير الروابط الخارجية لجميع النطاقات",
     "advancedSettingSearchEnginesLabel": "محركات البحث",
     "advancedSettingSearchEnginesDescription": "تكوين محركات البحث المستخدمة من النص المحدد",
     "advancedSettingTranslatorsLabel": "المترجمون",
@@ -15986,13 +14975,6 @@
     "advancedSettingHideStreamPreviewLabel": "إخفاء الصورة المصغرة لمعاينة البث الخاص بي",
     "advancedSettingDeveloperModeLabel": "تفعيل وضع المطور",
     "advancedSettingDeveloperModeDescription": "تفعيل وضع المطور",
-    "advancedSettingSearchEngineGoogle": "جوجل",
-    "advancedSettingSearchEngineDuckDuckGo": "DuckDuckGo",
-    "advancedSettingSearchEngineBing": "Bing",
-    "advancedSettingSearchEngineGoogleLens": "عدسة Google",
-    "advancedSettingSearchEngineTinEye": "TinEye",
-    "advancedSettingTranslatorGoogle": "ترجمة Google",
-    "advancedSettingTranslatorDeepL": "DeepL",
     "advancedSettingDefaultSearchEngineLabel": "محرك البحث الافتراضي",
     "advancedSettingDefaultSearchEngineDescription": "اختر محرك البحث الذي سيتم استخدامه افتراضيًا عند البحث عن النص المحدد.",
     "advancedSettingBuiltInSearchEnginesLabel": "محركات البحث المضمّنة",
@@ -16546,10 +15528,6 @@
     "@guildMembersColumnRoles": {
         "description": "Table column header on the community members page."
     },
-    "guildMembersColumnActions": "إجراءات",
-    "@guildMembersColumnActions": {
-        "description": "Table column header on the community members page."
-    },
     "guildMembersFilterMemberSince": "تصفية حسب تاريخ الانضمام",
     "@guildMembersFilterMemberSince": {
         "description": "Filter menu label on the community members page."
@@ -16634,23 +15612,6 @@
     "@guildMembersIndexing": {
         "description": "Banner shown while guild members are being indexed."
     },
-    "guildMembersGoToPage": "الانتقال إلى الصفحة",
-    "@guildMembersGoToPage": {
-        "description": "Pagination jump label on the community members page."
-    },
-    "guildMembersGoToPageItem": "الانتقال إلى الصفحة {page}",
-    "@guildMembersGoToPageItem": {
-        "description": "Accessibility label for a pagination page button.",
-        "placeholders": {
-            "page": {
-                "type": "int"
-            }
-        }
-    },
-    "guildMembersJumpToPage": "الانتقال إلى الصفحة",
-    "@guildMembersJumpToPage": {
-        "description": "Label for pagination jump input on the community members page."
-    },
     "guildMembersJoinSourceCreator": "منشئ المجتمع",
     "@guildMembersJoinSourceCreator": {
         "description": "Join method label on the community members page."
@@ -16727,28 +15688,14 @@
             }
         }
     },
-    "guildMembersJoinedDaysAgo": "{count, plural, one {منذ يوم واحد} other {منذ # أيام}}",
-    "@guildMembersJoinedDaysAgo": {
-        "description": "Relative join time on the community members page.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
     "guildMembersChannelListLabel": "الأعضاء",
     "@guildMembersChannelListLabel": {
         "description": "Label for the Members item at the top of the guild channel list."
-    },
-    "guildMembersChannelListSelected": "الأعضاء، محدد",
-    "@guildMembersChannelListSelected": {
-        "description": "Accessibility label when the Members channel list item is selected."
     },
     "guildSettingsEmojiSlotsTitle": "خانات الرموز التعبيرية",
     "guildSettingsEmojiDropZone": "اسحب ملفات الرموز التعبيرية وأفلتها هنا",
     "guildSettingsEmojiLoadFailed": "تعذّر تحميل الرموز التعبيرية. حاول مرة أخرى لاحقًا.",
     "guildSettingsEmojiSearchEmpty": "لم يتم العثور على أي رموز تعبيرية مطابقة لبحثك.",
-    "guildSettingsEmojiNoSlots": "لا توجد خانات رموز تعبيرية متاحة",
     "guildSettingsEmojiSlotsFull": "لقد وصلت إلى الحد الأقصى لعدد الرموز التعبيرية. احذف بعض الرموز التعبيرية الموجودة لإفساح المجال.",
     "guildSettingsEmojiUploadRequirements": "يجب أن تتكون أسماء الرموز التعبيرية من حرفين على الأقل، ويمكن أن تحتوي على أحرف وأرقام وشرطات سفلية. يجب ألا يتجاوز حجم الرمز التعبيري {maxSize}. يُغيَّر حجم الصور الثابتة إلى 128 × 128 بكسل وتُضغط تلقائيًا. يجب أن تكون الرموز التعبيرية المتحركة وملفات SVG ضمن الحد مسبقًا.",
     "@guildSettingsEmojiUploadRequirements": {
@@ -16758,24 +15705,11 @@
             }
         }
     },
-    "guildSettingsEmojiUploadingTitle": "جارٍ تحميل الرموز التعبيرية",
-    "guildSettingsEmojiUploadingBody": "جارٍ تحميل {count, plural, one {# رمز تعبيري} other {# رموز تعبيرية}}. قد يستغرق هذا بعض الوقت.",
-    "@guildSettingsEmojiUploadingBody": {
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsEmojiUploadFailed": "تعذّر تحميل الرموز التعبيرية. حاول مرة أخرى.",
     "guildSettingsEmojiSomeFailedTitle": "تعذر إضافة بعض الرموز التعبيرية",
-    "guildSettingsEmojiSomeFailedBody": "راجع هذه الملفات وحاول مرة أخرى باستخدام صور أصغر أو أبسط.",
     "guildSettingsEmojiRenameTitle": "إعادة تسمية الرمز التعبيري",
     "guildSettingsEmojiRenameHint": "2-32 حرفًا أو رقمًا أو شرطة سفلية.",
-    "guildSettingsEmojiColumnEmoji": "رموز تعبيرية",
     "guildSettingsEmojiColumnName": "الاسم",
     "guildSettingsEmojiColumnUploader": "تم التحميل بواسطة",
-    "guildSettingsEmojiUnknownUploader": "غير معروف",
     "guildSettingsEmojiDeleteTitle": "حذف الرمز التعبيري",
     "guildSettingsEmojiDeleteBody": "هل تريد حذف :{name}:؟ لا يمكن التراجع عن هذا الإجراء.",
     "@guildSettingsEmojiDeleteBody": {
@@ -16790,15 +15724,7 @@
     "guildSettingsEmojiNameTooLong": "يجب ألا يتجاوز اسم الرمز التعبيري 32 حرفًا",
     "guildSettingsEmojiInvalidNameTitle": "اسم الرمز التعبيري غير صالح",
     "guildSettingsEmojiRenameFailedTitle": "تعذّر تغيير اسم هذا الرمز التعبيري",
-    "guildSettingsEmojiRenameFailedBody": "تمت إعادة الاسم إلى ما كان عليه سابقًا. يرجى المحاولة مرة أخرى بعد قليل.",
-    "guildSettingsEmojiGoneTitle": "لم يعد هذا الرمز التعبيري موجودًا",
-    "guildSettingsEmojiGoneBody": "ربما تم حذفه. تمت إعادة الاسم إلى ما كان عليه من قبل.",
-    "guildSettingsEmojiNoPermissionRenameTitle": "لا يمكنك إعادة تسمية هذا الرمز التعبيري",
-    "guildSettingsEmojiNoPermissionRenameBody": "ليس لديك إذن لإعادة تسمية هذا الرمز التعبيري. أُعيد الاسم إلى ما كان عليه.",
-    "guildSettingsEmojiRateLimitedTitle": "أنت تفعل ذلك بسرعة كبيرة",
-    "guildSettingsEmojiRateLimitedBody": "الرجاء الانتظار لحظة ثم حاول إعادة التسمية مرة أخرى.",
     "guildSettingsEmojiDeleteFailedTitle": "تعذّر حذف هذا الرمز التعبيري",
-    "guildSettingsEmojiDeleteNoPermissionTitle": "لا يمكنك حذف هذا الرمز التعبيري",
     "guildSettingsCloneEmojiTitle": "السماح للآخرين بنسخ رموزك التعبيرية",
     "guildSettingsCloneEmojiDescription": "عند التمكين، يمكن لأعضاء المجتمعات الأخرى استخدام اختصار \"الاستنساخ\" بنقرة واحدة داخل التطبيق على الرموز التعبيرية المخصصة لديك. هذا لا يمنعهم من حفظ الصورة وتحميلها بأنفسهم.",
     "guildSettingsCloneStickerTitle": "السماح للآخرين بنسخ ملصقاتك",
@@ -16822,8 +15748,6 @@
     "guildSettingsStickersLoadFailedTitle": "تعذّر تحميل الملصقات",
     "guildSettingsStickersLoadFailedBody": "حدث خطأ أثناء تحميل الملصقات. حاول مرة أخرى.",
     "guildSettingsStickersSearchEmpty": "لم يتم العثور على ملصقات مطابقة لبحثك.",
-    "guildSettingsStickersEmptySearch": "لم يتم العثور على ملصقات",
-    "guildSettingsStickerNoSlots": "لا توجد خانات ملصقات متاحة",
     "guildSettingsStickerSlotsFull": "لقد وصلت إلى الحد الأقصى لعدد الملصقات. احذف بعض الملصقات الموجودة لإفساح المجال.",
     "guildSettingsStickerUploadRequirements": "تُحفظ الملصقات بدقة 320×320 بكسل ويجب أن يكون حجمها أقل من {maxSize}. يُغيَّر حجم الصور الثابتة وتُضغط تلقائيًا. أما الملصقات المتحركة وملفات SVG فيجب أن تكون ضمن الحد مسبقًا.",
     "@guildSettingsStickerUploadRequirements": {
@@ -16833,7 +15757,6 @@
             }
         }
     },
-    "guildSettingsStickerUnsupportedTitle": "ملف الملصق غير مدعوم",
     "guildSettingsStickerAddTitle": "إضافة ملصق",
     "guildSettingsStickerEditTitle": "تعديل الملصق",
     "guildSettingsStickerNameLabel": "الاسم",
@@ -16858,8 +15781,6 @@
     "guildSettingsStickerNameTooLong": "يجب أن يكون الاسم 30 حرفًا أو أقل",
     "guildSettingsStickerDescriptionTooLong": "يجب أن يكون الوصف 500 حرف أو أقل",
     "guildSettingsStickerCreateFailedTitle": "تعذّر إنشاء هذا الملصق",
-    "guildSettingsStickerTooLargeTitle": "الملصق كبير جدًا",
-    "guildSettingsStickerCompressFailedTitle": "تعذر ضغط الملصق بالقدر الكافي",
     "guildSettingsStickerDeleteTitle": "حذف الملصق",
     "guildSettingsStickerDeleteBody": "هل تريد حذف \"{name}\"؟ لا يمكن التراجع عن هذا الإجراء.",
     "@guildSettingsStickerDeleteBody": {
@@ -16871,7 +15792,6 @@
     },
     "guildSettingsStickerPurgeLabel": "حذف هذا الملصق نهائيًا من التخزين وشبكة CDN",
     "guildSettingsStickerDeleteFailedTitle": "تعذر حذف هذا الملصق",
-    "guildSettingsStickerDeleteNoPermissionTitle": "لا يمكنك حذف هذا الملصق",
     "keybindsSearchShortcuts": "البحث عن الاختصارات",
     "@keybindsSearchShortcuts": {
         "description": "Placeholder for the shortcuts settings search field."

@@ -166,7 +166,7 @@ double messageListOldestRowOffset(WidgetTester tester) {
     find.byType(MessageListViewport),
   );
   return messageListScrollPosition(tester).minScrollExtent +
-      viewport.leadingFillerExtent;
+      (viewport.leadingFiller?.specs.totalHeight ?? 0);
 }
 
 /// Scroll offset at which the newest LOADED row's trailing edge meets the
@@ -176,7 +176,7 @@ double messageListNewestRowOffset(WidgetTester tester) {
     find.byType(MessageListViewport),
   );
   return messageListScrollPosition(tester).maxScrollExtent -
-      viewport.trailingFillerExtent;
+      (viewport.trailingFiller?.specs.totalHeight ?? 0);
 }
 
 class AroundAckMessageListHarness {
@@ -617,7 +617,6 @@ class InstrumentedChatViewModel extends ChatViewModel {
     String? installedBoundary,
     bool? hasMoreAtEdge,
   }) => PageLoadResult(
-    edge: edge,
     channelId: state.channelId,
     windowEpoch: state.windowEpoch,
     requestCursor: requestCursor,

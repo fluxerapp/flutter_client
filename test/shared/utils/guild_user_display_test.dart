@@ -617,28 +617,6 @@ void main() {
     });
   });
 
-  group('messageAuthorAvatarDiffers', () {
-    test('treats animated prefix hashes as the same avatar', () {
-      expect(
-        messageAuthorAvatarDiffers(
-          messageAvatarHash: 'a_bot_avatar',
-          guildAvatarHash: 'bot_avatar',
-        ),
-        isFalse,
-      );
-    });
-
-    test('detects different avatar hashes', () {
-      expect(
-        messageAuthorAvatarDiffers(
-          messageAvatarHash: 'proxy_avatar',
-          guildAvatarHash: 'bot_avatar',
-        ),
-        isTrue,
-      );
-    });
-  });
-
   group('GuildUserDisplay equality', () {
     GuildUserDisplay make({
       String displayName = 'Alice',

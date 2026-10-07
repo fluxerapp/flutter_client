@@ -4,8 +4,6 @@ class EffectiveAudioState {
   const EffectiveAudioState({
     required this.selfMute,
     required this.selfDeaf,
-    required this.serverMute,
-    required this.serverDeaf,
     required this.effectiveMute,
     required this.effectiveDeaf,
     required this.micShouldPublish,
@@ -13,8 +11,6 @@ class EffectiveAudioState {
 
   final bool selfMute;
   final bool selfDeaf;
-  final bool serverMute;
-  final bool serverDeaf;
   final bool effectiveMute;
   final bool effectiveDeaf;
   final bool micShouldPublish;
@@ -34,8 +30,6 @@ EffectiveAudioState computeEffectiveAudioState({
   return EffectiveAudioState(
     selfMute: selfMute,
     selfDeaf: selfDeaf,
-    serverMute: resolvedServerMute,
-    serverDeaf: resolvedServerDeaf,
     effectiveMute: effectiveMute,
     effectiveDeaf: effectiveDeaf,
     micShouldPublish: !effectiveMute,

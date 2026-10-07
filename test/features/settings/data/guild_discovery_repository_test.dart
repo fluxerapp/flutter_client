@@ -18,7 +18,6 @@ void main() {
             'removed_at': null,
             'removal_reason': null,
           });
-      expect(application.guildId, '123');
       expect(application.status, 'approved');
       expect(application.primaryLanguage, 'en-US');
       expect(application.customTags, <String>['gaming', 'fps']);

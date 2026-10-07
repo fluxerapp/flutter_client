@@ -1,10 +1,8 @@
 import 'dart:async';
 
-import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/features/guilds/presentation/modals/invite_accept_modal.dart';
 import 'package:fluxer_app/features/guilds/utils/invite_link_parser.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:go_router/go_router.dart';
 
 bool isInviteLink(String url) {
   return parseInviteCode(url) != null;
@@ -16,11 +14,4 @@ Future<void> handleInviteLinkTap(BuildContext context, String url) async {
     return;
   }
   await showInviteAcceptModal(context, code: code);
-}
-
-Future<void> navigateToInviteLink({
-  required BuildContext context,
-  required String code,
-}) async {
-  await context.push(RoutePaths.inviteLink(code));
 }

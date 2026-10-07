@@ -8,15 +8,12 @@ import 'package:material_ui/material_ui.dart';
 import 'support/native_test_parser.dart';
 
 const FluxerMarkdownConfig _testMarkdownConfig = FluxerMarkdownConfig(
-  resolveEmojiShortcode: _noopEmojiShortcode,
   unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
   customEmojiUrlBuilder: _noopCustomEmojiUrl,
 );
 final RegExp _internalFluxerLinkPattern = RegExp(
   r'https://web\.fluxer\.app/channels/\d+/\d+/\d+',
 );
-
-String? _noopEmojiShortcode(String name) => null;
 
 String? _noopUnicodeEmojiUrl(String unicode) => null;
 
@@ -75,7 +72,6 @@ void main() {
       const String url = 'https://example.com/image.png';
       String? tappedHref;
       final FluxerMarkdownConfig config = FluxerMarkdownConfig(
-        resolveEmojiShortcode: _noopEmojiShortcode,
         unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
         customEmojiUrlBuilder: _noopCustomEmojiUrl,
         onTapLink: (_, href) async {
@@ -107,7 +103,6 @@ void main() {
       const String url = 'https://example.com/path%20with%20spaces';
       String? tappedHref;
       final FluxerMarkdownConfig config = FluxerMarkdownConfig(
-        resolveEmojiShortcode: _noopEmojiShortcode,
         unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
         customEmojiUrlBuilder: _noopCustomEmojiUrl,
         onTapLink: (_, href) async {
@@ -139,7 +134,6 @@ void main() {
       const String input = '[]($url)';
       String? tappedHref;
       final FluxerMarkdownConfig config = FluxerMarkdownConfig(
-        resolveEmojiShortcode: _noopEmojiShortcode,
         unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
         customEmojiUrlBuilder: _noopCustomEmojiUrl,
         onTapLink: (_, href) async {
@@ -173,7 +167,6 @@ void main() {
       const String input = '[     ]($url)';
       String? tappedHref;
       final FluxerMarkdownConfig config = FluxerMarkdownConfig(
-        resolveEmojiShortcode: _noopEmojiShortcode,
         unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
         customEmojiUrlBuilder: _noopCustomEmojiUrl,
         onTapLink: (_, href) async {
@@ -206,7 +199,6 @@ void main() {
       const String url = 'https://fluxer.app';
       String? tappedHref;
       final FluxerMarkdownConfig config = FluxerMarkdownConfig(
-        resolveEmojiShortcode: _noopEmojiShortcode,
         unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
         customEmojiUrlBuilder: _noopCustomEmojiUrl,
         onTapLink: (_, href) async {
@@ -361,7 +353,6 @@ void main() {
     ) async {
       const String url = 'https://fluxer.app';
       const FluxerMarkdownConfig config = FluxerMarkdownConfig(
-        resolveEmojiShortcode: _noopEmojiShortcode,
         unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
         customEmojiUrlBuilder: _noopCustomEmojiUrl,
         alwaysUnderlineLinks: true,
@@ -458,7 +449,6 @@ void main() {
       const String url = 'https://fluxer.app';
       String? tappedHref;
       final FluxerMarkdownConfig config = FluxerMarkdownConfig(
-        resolveEmojiShortcode: _noopEmojiShortcode,
         unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
         customEmojiUrlBuilder: _noopCustomEmojiUrl,
         onTapLink: (_, href) async {
@@ -511,7 +501,6 @@ void main() {
           '987654321098765432/111111111111111111';
       String? tappedHref;
       final FluxerMarkdownConfig config = FluxerMarkdownConfig(
-        resolveEmojiShortcode: _noopEmojiShortcode,
         unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
         customEmojiUrlBuilder: _noopCustomEmojiUrl,
         internalLinkPattern: _internalFluxerLinkPattern,
@@ -549,7 +538,6 @@ void main() {
           '1500176315272364202';
       String? tappedHref;
       final FluxerMarkdownConfig config = FluxerMarkdownConfig(
-        resolveEmojiShortcode: _noopEmojiShortcode,
         unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
         customEmojiUrlBuilder: _noopCustomEmojiUrl,
         internalLinkPattern: RegExp(
@@ -588,7 +576,6 @@ void main() {
           'https://web.fluxer.app/channels/123456789012345678/'
           '987654321098765432/111111111111111111';
       final FluxerMarkdownConfig config = FluxerMarkdownConfig(
-        resolveEmojiShortcode: _noopEmojiShortcode,
         unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
         customEmojiUrlBuilder: _noopCustomEmojiUrl,
         internalLinkPattern: _internalFluxerLinkPattern,
@@ -617,7 +604,6 @@ void main() {
           'https://web.fluxer.app/channels/123456789012345678/'
           '987654321098765432/111111111111111111';
       final FluxerMarkdownConfig config = FluxerMarkdownConfig(
-        resolveEmojiShortcode: _noopEmojiShortcode,
         unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
         customEmojiUrlBuilder: _noopCustomEmojiUrl,
         internalLinkPattern: _internalFluxerLinkPattern,
@@ -646,7 +632,6 @@ void main() {
       const Color blockquoteBorderColor = Color(0xFF123456);
       const Color blockquoteTextColor = Color(0xFFABCDEF);
       const FluxerMarkdownConfig blockquoteConfig = FluxerMarkdownConfig(
-        resolveEmojiShortcode: _noopEmojiShortcode,
         unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
         customEmojiUrlBuilder: _noopCustomEmojiUrl,
         blockquoteBorderColor: blockquoteBorderColor,
@@ -691,7 +676,6 @@ void main() {
       const Color blockquoteBorderColor = Color(0xFF123456);
       const Color blockquoteTextColor = Color(0xFFABCDEF);
       const FluxerMarkdownConfig blockquoteConfig = FluxerMarkdownConfig(
-        resolveEmojiShortcode: _noopEmojiShortcode,
         unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
         customEmojiUrlBuilder: _noopCustomEmojiUrl,
         blockquoteBorderColor: blockquoteBorderColor,

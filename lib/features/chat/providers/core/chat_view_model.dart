@@ -294,8 +294,6 @@ class ChatViewState {
     return auth.origin;
   }
 
-  bool get canSend => hasVisibleContent(messageText);
-
   /// The `write` parameter is the ONLY way to change [messages], and it is
   /// indivisible from its [MessagesOrigin]: an untagged messages write is
   /// unrepresentable, so an authorization can never outlive the write that
@@ -3299,7 +3297,6 @@ class ChatViewModel extends _$ChatViewModel {
       String? requestCursor,
       String? installedBoundary,
     }) => PageLoadResult(
-      edge: PaginationEdge.older,
       channelId: channelId,
       windowEpoch: entryEpoch,
       requestCursor: requestCursor,
@@ -3520,7 +3517,6 @@ class ChatViewModel extends _$ChatViewModel {
       String? requestCursor,
       String? installedBoundary,
     }) => PageLoadResult(
-      edge: PaginationEdge.newer,
       channelId: channelId,
       windowEpoch: entryEpoch,
       requestCursor: requestCursor,

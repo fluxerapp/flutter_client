@@ -39,13 +39,6 @@ bool shellNavigatorsHavePopupOverlay() {
   return navigatorShowsPopupOverlay(rootNavigatorKey.currentState);
 }
 
-/// Rereads navigator stacks and updates [shellHasPopupOverlayProvider]
-void reconcileShellPopupOverlay(Ref ref) {
-  reconcileShellPopupOverlayForContainer(ref.container);
-}
-
-/// Same as [reconcileShellPopupOverlay] for call sites that only have a
-/// [ProviderContainer] (e.g. after a modal future completes).
 void reconcileShellPopupOverlayForContainer(ProviderContainer container) {
   container
       .read(shellHasPopupOverlayProvider.notifier)

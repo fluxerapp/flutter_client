@@ -182,13 +182,12 @@ class RichText extends material.StatelessWidget {
 
 class SelectableText extends material.StatelessWidget {
   const SelectableText(
-    String this.data, {
+    this.data, {
     super.key,
     this.style,
     this.strutStyle,
     this.textAlign,
     this.textDirection,
-    this.locale,
     this.textScaler,
     this.maxLines,
     this.semanticsLabel,
@@ -210,46 +209,13 @@ class SelectableText extends material.StatelessWidget {
     this.selectionHeightStyle = BoxHeightStyle.tight,
     this.selectionWidthStyle = BoxWidthStyle.tight,
     this.onTap,
-  }) : textSpan = null;
+  });
 
-  const SelectableText.rich(
-    material.TextSpan this.textSpan, {
-    super.key,
-    this.style,
-    this.strutStyle,
-    this.textAlign,
-    this.textDirection,
-    this.locale,
-    this.textScaler,
-    this.maxLines,
-    this.semanticsLabel,
-    this.textWidthBasis,
-    this.textHeightBehavior,
-    this.selectionColor,
-    this.showCursor = true,
-    this.autofocus = false,
-    this.contextMenuBuilder = _defaultContextMenuBuilder,
-    this.magnifierConfiguration,
-    this.onSelectionChanged,
-    this.selectionControls,
-    this.focusNode,
-    this.scrollPhysics,
-    this.cursorColor,
-    this.cursorWidth = 2.0,
-    this.cursorRadius,
-    this.cursorHeight,
-    this.selectionHeightStyle = BoxHeightStyle.tight,
-    this.selectionWidthStyle = BoxWidthStyle.tight,
-    this.onTap,
-  }) : data = null;
-
-  final String? data;
-  final material.TextSpan? textSpan;
+  final String data;
   final material.TextStyle? style;
   final material.StrutStyle? strutStyle;
   final material.TextAlign? textAlign;
   final material.TextDirection? textDirection;
-  final material.Locale? locale;
   final material.TextScaler? textScaler;
   final int? maxLines;
   final String? semanticsLabel;
@@ -301,63 +267,34 @@ class SelectableText extends material.StatelessWidget {
     final material.StrutStyle? effectiveStrut =
         strutStyle ?? (bounded ? boundedStrutFor(effectiveStyle) : null);
 
-    final material.Widget text = data != null
-        ? material.SelectableText(
-            data!,
-            style: style,
-            strutStyle: effectiveStrut,
-            textAlign: textAlign,
-            textDirection: textDirection,
-            textScaler: textScaler,
-            maxLines: maxLines,
-            semanticsLabel: semanticsLabel,
-            textWidthBasis: textWidthBasis,
-            textHeightBehavior: effectiveHeightBehavior,
-            selectionColor: selectionColor,
-            showCursor: showCursor,
-            autofocus: autofocus,
-            contextMenuBuilder: contextMenuBuilder,
-            magnifierConfiguration: magnifierConfiguration,
-            onSelectionChanged: onSelectionChanged,
-            selectionControls: selectionControls,
-            focusNode: focusNode,
-            scrollPhysics: scrollPhysics,
-            cursorColor: cursorColor,
-            cursorWidth: cursorWidth,
-            cursorRadius: cursorRadius,
-            cursorHeight: cursorHeight,
-            selectionHeightStyle: selectionHeightStyle,
-            selectionWidthStyle: selectionWidthStyle,
-            onTap: onTap,
-          )
-        : material.SelectableText.rich(
-            textSpan!,
-            style: style,
-            strutStyle: effectiveStrut,
-            textAlign: textAlign,
-            textDirection: textDirection,
-            textScaler: textScaler,
-            maxLines: maxLines,
-            semanticsLabel: semanticsLabel,
-            textWidthBasis: textWidthBasis,
-            textHeightBehavior: effectiveHeightBehavior,
-            selectionColor: selectionColor,
-            showCursor: showCursor,
-            autofocus: autofocus,
-            contextMenuBuilder: contextMenuBuilder,
-            magnifierConfiguration: magnifierConfiguration,
-            onSelectionChanged: onSelectionChanged,
-            selectionControls: selectionControls,
-            focusNode: focusNode,
-            scrollPhysics: scrollPhysics,
-            cursorColor: cursorColor,
-            cursorWidth: cursorWidth,
-            cursorRadius: cursorRadius,
-            cursorHeight: cursorHeight,
-            selectionHeightStyle: selectionHeightStyle,
-            selectionWidthStyle: selectionWidthStyle,
-            onTap: onTap,
-          );
+    final material.Widget text = material.SelectableText(
+      data,
+      style: style,
+      strutStyle: effectiveStrut,
+      textAlign: textAlign,
+      textDirection: textDirection,
+      textScaler: textScaler,
+      maxLines: maxLines,
+      semanticsLabel: semanticsLabel,
+      textWidthBasis: textWidthBasis,
+      textHeightBehavior: effectiveHeightBehavior,
+      selectionColor: selectionColor,
+      showCursor: showCursor,
+      autofocus: autofocus,
+      contextMenuBuilder: contextMenuBuilder,
+      magnifierConfiguration: magnifierConfiguration,
+      onSelectionChanged: onSelectionChanged,
+      selectionControls: selectionControls,
+      focusNode: focusNode,
+      scrollPhysics: scrollPhysics,
+      cursorColor: cursorColor,
+      cursorWidth: cursorWidth,
+      cursorRadius: cursorRadius,
+      cursorHeight: cursorHeight,
+      selectionHeightStyle: selectionHeightStyle,
+      selectionWidthStyle: selectionWidthStyle,
+      onTap: onTap,
+    );
 
     return wrapBoundedTextClip(child: text, maxLines: maxLines);
   }

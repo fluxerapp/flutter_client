@@ -30,7 +30,6 @@ GuildVerificationInput _input({
     isEmailVerified: isEmailVerified,
     accountCreatedAt:
         accountCreatedAt ?? resolvedNow.subtract(const Duration(days: 30)),
-    hasVerifiedPhone: hasVerifiedPhone,
     now: resolvedNow,
   );
 }
@@ -62,7 +61,7 @@ void main() {
       final GuildComposerAccess access = evaluateGuildComposerAccess(
         _input(
           currentUserId: 'owner-1',
-          verificationLevel: GuildVerificationLevel.veryHigh,
+          verificationLevel: 4,
           hasVerifiedPhone: false,
         ),
       );
@@ -96,12 +95,34 @@ void main() {
     test('allows members with assigned roles', () {
       final GuildComposerAccess access = evaluateGuildComposerAccess(
         _input(
-          verificationLevel: GuildVerificationLevel.veryHigh,
+          verificationLevel: 4,
           hasVerifiedPhone: false,
           memberRoleIdsJson: '["role-1"]',
         ),
       );
       expect(access.canAccess, isTrue);
+    });
+
+    test('a retired level above high applies the high requirements', () {
+      final DateTime now = DateTime(2026, 6, 8, 12);
+      final GuildComposerAccess recent = evaluateGuildComposerAccess(
+        _input(
+          verificationLevel: 4,
+          memberJoinedAt: now.subtract(const Duration(minutes: 4)),
+          now: now,
+        ),
+      );
+      expect(recent.canAccess, isFalse);
+      expect(recent.reason, GuildComposerBlockReason.notMemberLongEnough);
+      expect(recent.timeRemaining, const Duration(minutes: 6));
+      final GuildComposerAccess established = evaluateGuildComposerAccess(
+        _input(
+          verificationLevel: 4,
+          memberJoinedAt: now.subtract(const Duration(minutes: 11)),
+          now: now,
+        ),
+      );
+      expect(established.canAccess, isTrue);
     });
 
     test('discoverable guilds enforce at least low verification', () {
@@ -118,6 +139,28 @@ void main() {
       expect(
         effectiveGuildVerificationLevel(GuildVerificationLevel.none, true),
         GuildVerificationLevel.low,
+      );
+    });
+
+    test('keeps supported levels unchanged', () {
+      for (final int level in <int>[
+        GuildVerificationLevel.none,
+        GuildVerificationLevel.low,
+        GuildVerificationLevel.medium,
+        GuildVerificationLevel.high,
+      ]) {
+        expect(effectiveGuildVerificationLevel(level, false), level);
+      }
+    });
+
+    test('caps a retired level above high at high', () {
+      expect(
+        effectiveGuildVerificationLevel(4, false),
+        GuildVerificationLevel.high,
+      );
+      expect(
+        effectiveGuildVerificationLevel(4, true),
+        GuildVerificationLevel.high,
       );
     });
   });

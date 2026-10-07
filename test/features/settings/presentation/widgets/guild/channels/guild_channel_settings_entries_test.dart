@@ -12,7 +12,6 @@ void main() {
             name: 'A',
             channels: <Channel>[],
           ),
-          guildId: 'guild-1',
         );
     const ChannelReorderIntent intent = ChannelReorderIntent(
       indicator: ChannelReorderIndicator(

@@ -49,7 +49,6 @@ class QuickSwitcherChannelResolver {
         userId: conversation.recipientId,
         dmChannelId: conversation.id,
         avatar: conversation.recipientAvatar,
-        status: conversation.recipientStatus,
         searchValues: <String>[
           conversation.displayName,
           conversation.recipientName,
@@ -82,8 +81,6 @@ class QuickSwitcherChannelResolver {
         subtitle: guildName,
         channelId: channel.id,
         guildId: channel.guildId,
-        guildName: guildName,
-        guildIcon: guild?.icon,
         isVoice: isVoice,
         channelType: channel.type,
         searchValues: <String>[channel.name, guildName, channel.id],

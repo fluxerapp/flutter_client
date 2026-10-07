@@ -32,9 +32,6 @@ class GuildInviteCountdownTextState extends State<GuildInviteCountdownText> {
     isMonospace: false,
   );
 
-  @visibleForTesting
-  bool get hasActiveTimer => _timer != null;
-
   @override
   void initState() {
     super.initState();

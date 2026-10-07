@@ -136,13 +136,6 @@ int getNearestBitrateKbps(int value) {
   );
 }
 
-int getNearestSlowmodeSeconds(int value) {
-  return kSlowmodeOptionsSeconds.reduce(
-    (int closest, int option) =>
-        (option - value).abs() < (closest - value).abs() ? option : closest,
-  );
-}
-
 bool isChannelTopicTooLong(String topic) {
   return topic.length > kMaxChannelTopicLength;
 }

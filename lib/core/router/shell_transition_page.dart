@@ -1,5 +1,5 @@
 import 'package:cupertino_ui/cupertino_ui.dart';
-import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
+import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/features/shell/navigation/shell_transition_policy.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
@@ -206,7 +206,7 @@ CustomTransitionPage<void> shellMobileRootPushTransitionPage({
   required LocalKey key,
   required Widget child,
 }) {
-  if (defaultTargetPlatform == TargetPlatform.iOS && !kIsWeb) {
+  if (defaultTargetPlatform == TargetPlatform.iOS) {
     return shellCupertinoSlideTransitionPage(
       context: context,
       key: key,
@@ -221,7 +221,7 @@ Page<void> shellMobileRootPushPage({
   required LocalKey key,
   required Widget child,
 }) {
-  if (defaultTargetPlatform == TargetPlatform.iOS && !kIsWeb) {
+  if (defaultTargetPlatform == TargetPlatform.iOS) {
     return CupertinoPage<void>(key: key, child: child);
   }
   return shellSlideTransitionPage(context: context, key: key, child: child);

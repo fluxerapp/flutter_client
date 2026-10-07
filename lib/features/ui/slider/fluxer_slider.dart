@@ -5,7 +5,7 @@ import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-enum FluxerSliderMarkerPosition { above, below }
+enum FluxerSliderMarkerPosition { above }
 
 class FluxerSlider extends StatefulWidget {
   const FluxerSlider({

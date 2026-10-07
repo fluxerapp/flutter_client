@@ -7,9 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class InvalidDeepLinkScreen extends StatelessWidget {
-  const InvalidDeepLinkScreen({this.uri, super.key});
-
-  final Uri? uri;
+  const InvalidDeepLinkScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -166,15 +166,9 @@ class TextMention extends StatelessWidget {
 }
 
 class CommandMention extends StatelessWidget {
-  const CommandMention({
-    required this.command,
-    required this.applicationId,
-    this.baseStyle,
-    super.key,
-  });
+  const CommandMention({required this.command, this.baseStyle, super.key});
 
   final String command;
-  final String applicationId;
   final TextStyle? baseStyle;
 
   @override
@@ -451,15 +445,9 @@ class SettingsJumpLinkMention extends ConsumerWidget {
 }
 
 class ChannelJumpLinkMention extends ConsumerWidget {
-  const ChannelJumpLinkMention({
-    required this.link,
-    required this.url,
-    this.baseStyle,
-    super.key,
-  });
+  const ChannelJumpLinkMention({required this.link, this.baseStyle, super.key});
 
   final ChannelJumpLink link;
-  final String url;
   final TextStyle? baseStyle;
 
   @override

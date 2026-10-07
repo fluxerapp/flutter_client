@@ -1,8 +1,19 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/favorite_gifs_synced_field.dart';
+import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/pickers.pb.dart'
+    as pickers_pb;
 import 'package:fluxer_app/features/chat/domain/favorite_gif_entry.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
 import 'package:fluxer_dart/export.dart' as sdk;
+
+FavoriteGifsSyncedField _field() {
+  final container = ProviderContainer();
+  addTearDown(container.dispose);
+  return container.read(
+    Provider<FavoriteGifsSyncedField>(FavoriteGifsSyncedField.new),
+  );
+}
 
 void main() {
   group('FavoriteGifsSyncedField', () {
@@ -19,7 +30,9 @@ void main() {
         saveAsSavedMedia: false,
       );
 
-      final proto = FavoriteGifsSyncedField.toProtoForPush(local: local);
+      final proto =
+          _field().toProtoMessageForPush(local)
+              as pickers_pb.FavoriteGifSettings;
 
       expect(proto.entries, hasLength(1));
       expect(proto.entries.first.url, local.entries.first.url);
@@ -34,7 +47,9 @@ void main() {
         seenFirstTimePrompt: true,
       );
 
-      final proto = FavoriteGifsSyncedField.toProtoForPush(local: local);
+      final proto =
+          _field().toProtoMessageForPush(local)
+              as pickers_pb.FavoriteGifSettings;
 
       expect(proto.seenFirstTimePrompt, isTrue);
     });

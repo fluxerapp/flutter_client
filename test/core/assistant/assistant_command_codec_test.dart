@@ -20,20 +20,20 @@ void main() {
         SendDmCommand(text: 'hey', friendId: 'u-1'),
       ];
       for (final AssistantCommand command in commands) {
-        final Map<String, Object?> encoded = encodeAssistantCommand(command);
+        final Map<String, Object?> encoded = _encode(command);
         final AssistantCommand? decoded = decodeAssistantCommand(encoded);
         expect(
           decoded.runtimeType,
           command.runtimeType,
           reason: '${encoded['type']}',
         );
-        expect(encodeAssistantCommand(decoded!), encoded);
+        expect(_encode(decoded!), encoded);
       }
     });
 
     test('decodes iOS NSNumber mute flags', () {
       expect(
-        encodeAssistantCommand(
+        _encode(
           decodeAssistantCommand(<String, Object?>{
             'type': assistantCommandTypeVoiceSetMute,
             'muted': 1,
@@ -45,7 +45,7 @@ void main() {
         },
       );
       expect(
-        encodeAssistantCommand(
+        _encode(
           decodeAssistantCommand(<String, Object?>{
             'type': assistantCommandTypeVoiceSetMute,
             'muted': 0,
@@ -64,4 +64,51 @@ void main() {
       expect(decodeAssistantCommand(<String, Object?>{}), isNull);
     });
   });
+}
+
+Map<String, Object?> _encode(AssistantCommand command) {
+  return switch (command) {
+    VoiceSetMuteCommand(:final bool? muted) => <String, Object?>{
+      'type': assistantCommandTypeVoiceSetMute,
+      'muted': ?muted,
+    },
+    VoiceLeaveCommand() => <String, Object?>{
+      'type': assistantCommandTypeVoiceLeave,
+    },
+    VoiceJoinCommand(:final String channelId, :final String? guildId) =>
+      <String, Object?>{
+        'type': assistantCommandTypeVoiceJoin,
+        'channelId': channelId,
+        'guildId': ?guildId,
+      },
+    VoiceStartDmCallCommand(
+      :final String? friendId,
+      :final String? channelId,
+    ) =>
+      <String, Object?>{
+        'type': assistantCommandTypeVoiceStartDmCall,
+        'friendId': ?friendId,
+        'channelId': ?channelId,
+      },
+    PresenceSetStatusCommand(:final String status) => <String, Object?>{
+      'type': assistantCommandTypePresenceSetStatus,
+      'status': status,
+    },
+    PresenceSetCustomStatusCommand(:final String text) => <String, Object?>{
+      'type': assistantCommandTypePresenceSetCustomStatus,
+      'text': text,
+    },
+    OpenDmsCommand() => <String, Object?>{'type': assistantCommandTypeOpenDms},
+    SendDmCommand(
+      :final String text,
+      :final String? friendId,
+      :final String? channelId,
+    ) =>
+      <String, Object?>{
+        'type': assistantCommandTypeSendDm,
+        'text': text,
+        'friendId': ?friendId,
+        'channelId': ?channelId,
+      },
+  };
 }

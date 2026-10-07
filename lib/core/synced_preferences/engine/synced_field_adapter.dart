@@ -54,10 +54,3 @@ abstract class SyncedFieldAdapter<T> {
 
   bool mergeAckedInbound(T local, T remote) => false;
 }
-
-bool verifyAdapterRoundtrip<T>({
-  required SyncedFieldAdapter<T> adapter,
-  required T candidate,
-}) {
-  return adapter.verifyRoundtrip(candidate);
-}

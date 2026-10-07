@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:ui' show BoxWidthStyle;
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
@@ -810,8 +809,6 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   }
 
   bool get _enterSends => composerEnterSends(
-    isWeb: kIsWeb,
-    isWideLayout: isWideLayout(context),
     isNativeMobileOs: isFluxerNativeMobileOs,
     physicalKeyboardConnected:
         ref.read(physicalKeyboardConnectedProvider).value ?? false,
@@ -1942,19 +1939,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       panelScrollController: widget.autocompletePanelScrollController,
       slashSession: _slashSession,
       onSelectGif: (GifPickerGif gif) {
-        _handleGifSelection(
-          FluxerSelectedGif(
-            provider: gif.provider,
-            id: gif.id,
-            title: gif.title,
-            url: gif.url,
-            src: gif.src,
-            proxySrc: gif.proxySrc,
-            width: gif.width,
-            height: gif.height,
-            autoSend: true,
-          ),
-        );
+        _handleGifSelection(FluxerSelectedGif(url: gif.url, autoSend: true));
       },
       onSelectSticker: _handleStickerSelection,
       onSelectMeme: (FavoriteMeme meme) {

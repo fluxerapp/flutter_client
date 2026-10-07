@@ -48,7 +48,4 @@ class GuildSettingsDetails {
 
   bool get hasHideOwnerCrown =>
       hasGuildFeature(features, GuildFeatures.hideOwnerCrown);
-
-  bool get hasInviteSplash =>
-      hasGuildFeature(features, GuildFeatures.inviteSplash);
 }

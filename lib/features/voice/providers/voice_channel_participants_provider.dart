@@ -169,26 +169,12 @@ class VoiceSidebarParticipant {
     required this.userId,
     required this.displayName,
     required this.avatarUrl,
-    required this.avatarColor,
-    required this.selfMute,
-    required this.selfDeaf,
-    required this.selfVideo,
-    required this.selfStream,
-    required this.guildMute,
-    required this.guildDeaf,
     required this.primaryVoice,
   });
 
   final String userId;
   final String displayName;
   final String? avatarUrl;
-  final int? avatarColor;
-  final bool selfMute;
-  final bool selfDeaf;
-  final bool selfVideo;
-  final bool selfStream;
-  final bool guildMute;
-  final bool guildDeaf;
   final VoiceState primaryVoice;
 }
 
@@ -364,20 +350,6 @@ class _VoiceSidebarAgg {
   bool guildDeaf = false;
 }
 
-Map<String, _VoiceSidebarAgg> _aggregateVoiceByUserId(List<VoiceState> states) {
-  final Map<String, _VoiceSidebarAgg> byUser = <String, _VoiceSidebarAgg>{};
-  for (final VoiceState vs in states) {
-    byUser.putIfAbsent(vs.userId, _VoiceSidebarAgg.new)
-      ..selfMute |= vs.selfMute
-      ..selfDeaf |= vs.selfDeaf
-      ..selfVideo |= vs.selfVideo
-      ..selfStream |= vs.selfStream
-      ..guildMute |= vs.mute || vs.suppress
-      ..guildDeaf |= vs.deaf;
-  }
-  return byUser;
-}
-
 _VoiceSidebarAgg _aggregateVoiceForUser(
   List<VoiceState> states,
   String userId,
@@ -446,14 +418,11 @@ List<VoiceSidebarParticipant> voiceChannelSidebarParticipants(
   if (inChannel.isEmpty) {
     return const <VoiceSidebarParticipant>[];
   }
-  final Map<String, _VoiceSidebarAgg> byUser = _aggregateVoiceByUserId(
-    inChannel,
-  );
   final Map<String, VoiceState> primaryVoiceByUserId = <String, VoiceState>{};
   for (final VoiceState voiceState in inChannel) {
     primaryVoiceByUserId.putIfAbsent(voiceState.userId, () => voiceState);
   }
-  final Set<String> userIds = byUser.keys.toSet();
+  final Set<String> userIds = primaryVoiceByUserId.keys.toSet();
   final String userIdsKey = voiceParticipantUserIdsKey(userIds);
   final String guildMembersKey = voiceGuildMembersKey(guildId, userIds);
   ref
@@ -475,7 +444,6 @@ List<VoiceSidebarParticipant> voiceChannelSidebarParticipants(
     if (user == null) {
       continue;
     }
-    final _VoiceSidebarAgg agg = byUser[userId]!;
     final database.Member? member = membersByUserId[userId];
     final GuildUserDisplay display = resolveGuildUserDisplayFromRows(
       user: user,
@@ -488,13 +456,6 @@ List<VoiceSidebarParticipant> voiceChannelSidebarParticipants(
         userId: userId,
         displayName: display.displayName,
         avatarUrl: display.avatarUrl,
-        avatarColor: display.avatarColor,
-        selfMute: agg.selfMute,
-        selfDeaf: agg.selfDeaf,
-        selfVideo: agg.selfVideo,
-        selfStream: agg.selfStream,
-        guildMute: agg.guildMute,
-        guildDeaf: agg.guildDeaf,
         primaryVoice: primaryVoiceByUserId[userId]!,
       ),
     );

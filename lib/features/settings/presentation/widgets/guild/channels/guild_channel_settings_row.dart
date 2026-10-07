@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/domain/channel_reorder_drop.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/channel_settings_flow.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
@@ -28,7 +27,6 @@ typedef GuildChannelDropCallback =
 class GuildChannelSettingsRow extends ConsumerStatefulWidget {
   const GuildChannelSettingsRow({
     required this.entry,
-    required this.channels,
     required this.hoverNotifier,
     required this.onDropHover,
     required this.onDropLeave,
@@ -43,7 +41,6 @@ class GuildChannelSettingsRow extends ConsumerStatefulWidget {
   });
 
   final GuildChannelSettingsEntry entry;
-  final List<Channel> channels;
   final ValueNotifier<GuildChannelSettingsDropHover?> hoverNotifier;
   final GuildChannelDropHoverCallback onDropHover;
   final GuildChannelDropLeaveCallback onDropLeave;
@@ -80,8 +77,6 @@ class _GuildChannelSettingsRowState
         id: entry.id,
         kind: ChannelReorderDragKind.category,
         channelType: entry.channelType,
-        parentId: entry.parentId,
-        guildId: entry.guildId,
       ),
       GuildChannelSettingsEntryKind.channel =>
         ChannelReorderDragItem.fromChannel(entry.channel!),
@@ -106,7 +101,6 @@ class _GuildChannelSettingsRowState
                 id: entry.id,
                 channelType: entry.channelType,
                 parentId: entry.parentId,
-                guildId: entry.guildId,
               ),
             );
           },
@@ -228,7 +222,6 @@ class _GuildChannelSettingsRowState
         id: entry.id,
         channelType: entry.channelType,
         parentId: entry.parentId,
-        guildId: entry.guildId,
       ),
       localY: resolvedY,
       height: height,

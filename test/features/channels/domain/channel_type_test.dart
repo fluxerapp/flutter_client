@@ -16,7 +16,7 @@ void main() {
   });
 
   group('Channel type wire', () {
-    test('preserves an unrecognized wire value across copy', () {
+    test('persists an unrecognized wire value', () {
       const Channel channel = Channel(
         id: '1',
         guildId: '2',
@@ -24,23 +24,8 @@ void main() {
         type: ChannelType.unknown,
         storedTypeWire: 6,
       );
-      final Channel renamed = channel.copyWith(name: 'renamed');
-      expect(renamed.type, ChannelType.unknown);
-      expect(renamed.typeWire, 6);
-      expect(renamed.toCompanion().type.value, 6);
-    });
-
-    test('updates the stored wire when the type changes', () {
-      const Channel channel = Channel(
-        id: '1',
-        guildId: '2',
-        name: 'general',
-        storedTypeWire: 6,
-      );
-      final Channel converted = channel.copyWith(
-        type: ChannelType.guildAnnouncement,
-      );
-      expect(converted.typeWire, ChannelType.guildAnnouncement.wireValue);
+      expect(channel.typeWire, 6);
+      expect(channel.toCompanion().type.value, 6);
     });
   });
 

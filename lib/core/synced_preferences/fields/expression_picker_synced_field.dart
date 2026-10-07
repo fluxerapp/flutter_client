@@ -292,19 +292,6 @@ class EmojiPickerSyncedField extends _ExpressionPickerSyncedField {
         persistence: _emojiPersistence,
         wireCodec: _emojiWireCodec,
       );
-
-  static pickers_pb.EmojiPickerState toProtoForPush({
-    required ExpressionPickerSyncedLocalState local,
-    pickers_pb.EmojiPickerState? wireBase,
-  }) {
-    return _toEmojiProtoForPush(
-      local: normalizeExpressionPickerSyncedState(
-        local,
-        favoriteKeyNormalizer: normalizeExpressionPickerStringList,
-      ),
-      wireBase: wireBase,
-    );
-  }
 }
 
 class StickerPickerSyncedField extends _ExpressionPickerSyncedField {
@@ -315,19 +302,6 @@ class StickerPickerSyncedField extends _ExpressionPickerSyncedField {
         persistence: _stickerPersistence,
         wireCodec: _stickerWireCodec,
       );
-}
-
-ExpressionPickerSyncedLocalState normalizeExpressionPickerSyncedState(
-  ExpressionPickerSyncedLocalState state, {
-  required ExpressionPickerFavoriteKeyNormalizer favoriteKeyNormalizer,
-}) {
-  return ExpressionPickerSyncedLocalState(
-    favoriteKeys: favoriteKeyNormalizer(state.favoriteKeys),
-    collapsedCategoryIds: normalizeExpressionPickerStringList(
-      state.collapsedCategoryIds,
-      maxItems: kMaxSyncedCollapsedPickerCategories,
-    ),
-  );
 }
 
 final _emojiPersistence = _ExpressionPickerPersistence(

@@ -99,7 +99,6 @@ void main() {
     expect(status.allowsStripeBilling, isFalse);
     expect(status.shouldUseCancelQuickAction, isFalse);
     expect(status.shouldUseReactivateQuickAction, isFalse);
-    expect(status.shouldUseChangePlanQuickAction, isFalse);
     expect(status.premiumWillCancel, isFalse);
   });
 
@@ -305,52 +304,54 @@ PremiumStateResponse _premiumState({
   String? premiumGraceEndsAt,
   Map<String, Object?>? subscription,
 }) {
-  return decodePremiumStateResponse(<String, dynamic>{
-    'actual': <String, Object?>{
-      'premium_type': premiumType,
-      'premium_since': '2025-01-01T00:00:00.000Z',
-      'premium_until': premiumUntil,
-      'premium_will_cancel': willCancel,
-      'premium_billing_cycle': billingCycle,
-      'premium_lifetime_sequence': null,
-      'premium_grace_ends_at': premiumGraceEndsAt,
-      'has_active_paid_premium': true,
-      'is_visionary': premiumType == 2,
-      'has_ever_purchased': true,
-    },
-    'effective': <String, Object?>{
-      'is_premium': true,
-      'premium_type': premiumType,
-      'premium_since': '2025-01-01T00:00:00.000Z',
-      'premium_until': premiumUntil,
-      'premium_will_cancel': willCancel,
-      'premium_billing_cycle': billingCycle,
-      'premium_lifetime_sequence': null,
-      'premium_grace_ends_at': premiumGraceEndsAt,
-      'premium_enabled_override': false,
-      'premium_purchase_disabled': false,
-      'premium_perks_disabled': false,
-      'self_hosted': false,
-      'bot': false,
-    },
-    'billing': <String, Object?>{
-      'stripe_customer_id': null,
-      'current_subscription_price': null,
-      'pending_subscription_change': null,
-      'list_price_switch': null,
-      'subscription': subscription,
-      'invoices': <Object?>[],
-      'invoices_has_more': false,
-      'payment_methods': <Object?>[],
-      'refund_eligibility': <String, Object?>{
-        'eligible': false,
-        'cancels_subscription': false,
+  return PremiumStateResponse.fromJson(
+    normalizePremiumStateResponseJson(<String, dynamic>{
+      'actual': <String, Object?>{
+        'premium_type': premiumType,
+        'premium_since': '2025-01-01T00:00:00.000Z',
+        'premium_until': premiumUntil,
+        'premium_will_cancel': willCancel,
+        'premium_billing_cycle': billingCycle,
+        'premium_lifetime_sequence': null,
+        'premium_grace_ends_at': premiumGraceEndsAt,
+        'has_active_paid_premium': true,
+        'is_visionary': premiumType == 2,
+        'has_ever_purchased': true,
       },
-    },
-    'pricing': <String, Object?>{},
-    'subscription_provider': subscriptionProvider,
-    'store': ?store,
-  });
+      'effective': <String, Object?>{
+        'is_premium': true,
+        'premium_type': premiumType,
+        'premium_since': '2025-01-01T00:00:00.000Z',
+        'premium_until': premiumUntil,
+        'premium_will_cancel': willCancel,
+        'premium_billing_cycle': billingCycle,
+        'premium_lifetime_sequence': null,
+        'premium_grace_ends_at': premiumGraceEndsAt,
+        'premium_enabled_override': false,
+        'premium_purchase_disabled': false,
+        'premium_perks_disabled': false,
+        'self_hosted': false,
+        'bot': false,
+      },
+      'billing': <String, Object?>{
+        'stripe_customer_id': null,
+        'current_subscription_price': null,
+        'pending_subscription_change': null,
+        'list_price_switch': null,
+        'subscription': subscription,
+        'invoices': <Object?>[],
+        'invoices_has_more': false,
+        'payment_methods': <Object?>[],
+        'refund_eligibility': <String, Object?>{
+          'eligible': false,
+          'cancels_subscription': false,
+        },
+      },
+      'pricing': <String, Object?>{},
+      'subscription_provider': subscriptionProvider,
+      'store': ?store,
+    }),
+  );
 }
 
 Map<String, Object?> _stripeSubscription({

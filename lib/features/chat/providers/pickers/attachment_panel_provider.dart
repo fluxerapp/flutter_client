@@ -10,6 +10,4 @@ class AttachmentPanel extends _$AttachmentPanel {
   void open() => state = true;
 
   void close() => state = false;
-
-  void toggle() => state = !state;
 }

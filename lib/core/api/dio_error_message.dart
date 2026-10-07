@@ -37,19 +37,6 @@ String? apiMessageFromDioException(DioException error) {
   return null;
 }
 
-/// Returns [apiMessageFromDioException], then the transport message, then [fallback].
-String dioExceptionMessage(DioException error, String fallback) {
-  final String? apiMessage = apiMessageFromDioException(error);
-  if (apiMessage != null) {
-    return apiMessage;
-  }
-  final String? transportMessage = error.message;
-  if (transportMessage != null && transportMessage.isNotEmpty) {
-    return transportMessage;
-  }
-  return fallback;
-}
-
 /// Returns a user facing message for [error].
 ///
 /// For [DioException], the Fluxer API `message` field is preferred. Otherwise

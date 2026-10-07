@@ -293,7 +293,7 @@ void main() {
   });
 
   group('stream index helpers', () {
-    test('findChannelStreamRenderIndex maps to reverse list index', () {
+    test('findChannelStreamDataIndex locates a message in the stream', () {
       final List<Message> messages = <Message>[
         _message(id: '1', authorId: 'a'),
         _message(id: '2', authorId: 'b'),
@@ -308,7 +308,6 @@ void main() {
           isUserMarkedAsSpammer: _neverSpammer,
         ),
       );
-      expect(findChannelStreamRenderIndex(stream, '2'), 0);
       expect(findChannelStreamDataIndex(stream, '1'), 1);
     });
 

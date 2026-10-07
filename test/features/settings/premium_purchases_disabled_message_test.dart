@@ -46,7 +46,6 @@ const InstanceRuntimeConfig _selfHostedConfig = InstanceRuntimeConfig(
 
 const PremiumSubscriptionStatus _status = PremiumSubscriptionStatus(
   isPremium: false,
-  perksDisabled: false,
   isVisionary: false,
   hasEverPurchased: false,
   premiumWillCancel: false,
@@ -56,13 +55,11 @@ const PremiumSubscriptionStatus _status = PremiumSubscriptionStatus(
   gracePeriodInfo: PremiumGracePeriodInfo(
     isInGracePeriod: false,
     isExpired: false,
-    graceEndDate: null,
     showExpiredState: false,
   ),
   shouldShowPremiumCard: false,
   shouldUseCancelQuickAction: false,
   shouldUseReactivateQuickAction: false,
-  shouldUseChangePlanQuickAction: false,
 );
 
 class _PurchaseDisabledBillingApi implements BillingApi {

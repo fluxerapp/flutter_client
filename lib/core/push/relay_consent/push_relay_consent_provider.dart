@@ -11,9 +11,6 @@ part 'push_relay_consent_provider.g.dart';
 const String _kPushRelayConsentGrantedKey = 'push_relay_consent_granted';
 
 bool pushRelayConsentIsAvailable() {
-  if (kIsWeb) {
-    return false;
-  }
   if (!PushProviderGuard.isApple && !PushProviderGuard.isFirebaseMessaging) {
     return false;
   }

@@ -203,12 +203,6 @@ abstract class FluxerLocalizations {
   /// **'Retry'**
   String get retry;
 
-  /// Connecting text on the splash screen
-  ///
-  /// In en, this message translates to:
-  /// **'CONNECTING'**
-  String get connectingCaps;
-
   /// Fallback headline on splash when gateway is unavailable (web parity).
   ///
   /// In en, this message translates to:
@@ -476,12 +470,6 @@ abstract class FluxerLocalizations {
   /// **'Continue with {provider}'**
   String continueWithSso(String provider);
 
-  /// Short sign-in note shown when the instance requires single sign-on.
-  ///
-  /// In en, this message translates to:
-  /// **'SSO is required to access this instance.'**
-  String get ssoRequired;
-
   /// Description shown when sign-in is restricted to the configured SSO provider.
   ///
   /// In en, this message translates to:
@@ -505,12 +493,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Prefer using SSO? Continue with {provider}.'**
   String preferSso(String provider);
-
-  /// Secondary login that opens or uses the system browser.
-  ///
-  /// In en, this message translates to:
-  /// **'Log in via browser'**
-  String get logInViaBrowser;
 
   /// Lead text before a register link; trailing space keeps spacing before the link.
   ///
@@ -668,29 +650,11 @@ abstract class FluxerLocalizations {
   /// **'Add an account'**
   String get accountAdd;
 
-  /// Context menu option to remove a stored account.
-  ///
-  /// In en, this message translates to:
-  /// **'Remove'**
-  String get accountRemove;
-
-  /// Title for the remove account confirmation modal.
-  ///
-  /// In en, this message translates to:
-  /// **'Remove {username}'**
-  String accountRemoveTitle(String username);
-
   /// Description for the remove account confirmation modal.
   ///
   /// In en, this message translates to:
   /// **'This will remove the saved session for this account.'**
   String get accountRemoveDescription;
-
-  /// Description when removing the last stored account.
-  ///
-  /// In en, this message translates to:
-  /// **'This will remove the only saved account on this device.'**
-  String get accountRemoveOnlyDescription;
 
   /// Label shown on accounts with expired sessions.
   ///
@@ -1442,12 +1406,6 @@ abstract class FluxerLocalizations {
   /// **'Year'**
   String get registerYear;
 
-  /// Consent checkbox label for registration (plain text fallback).
-  ///
-  /// In en, this message translates to:
-  /// **'I agree to the terms of service and privacy policy'**
-  String get registerConsent;
-
   /// Text before the Terms of Service link in the consent checkbox.
   ///
   /// In en, this message translates to:
@@ -1525,12 +1483,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Passkey authentication timed out. Please try again.'**
   String get passkeyTimeout;
-
-  /// Error for unknown passkey provider errors (e.g. TYPE_UNKNOWN).
-  ///
-  /// In en, this message translates to:
-  /// **'Passkeys are not available for this app. Log in with email and password instead.'**
-  String get passkeyNotAvailable;
 
   /// Generic fallback error for passkey authentication.
   ///
@@ -1735,36 +1687,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'someone'**
   String get inviteAcceptSomeone;
-
-  /// Label for an emoji pack invite.
-  ///
-  /// In en, this message translates to:
-  /// **'Emoji pack'**
-  String get inviteAcceptEmojiPack;
-
-  /// Label for a sticker pack invite.
-  ///
-  /// In en, this message translates to:
-  /// **'Sticker pack'**
-  String get inviteAcceptStickerPack;
-
-  /// Primary action to install an emoji pack from an invite.
-  ///
-  /// In en, this message translates to:
-  /// **'Install emoji pack'**
-  String get inviteAcceptInstallEmojiPack;
-
-  /// Primary action to install a sticker pack from an invite.
-  ///
-  /// In en, this message translates to:
-  /// **'Install sticker pack'**
-  String get inviteAcceptInstallStickerPack;
-
-  /// Note shown on expression pack invites before accepting.
-  ///
-  /// In en, this message translates to:
-  /// **'Accepting this invite installs the pack automatically.'**
-  String get inviteAcceptPackInstallNote;
 
   /// Fallback name shown in a channel mention pill when the channel is not found.
   ///
@@ -3104,12 +3026,6 @@ abstract class FluxerLocalizations {
   /// **'Unlock {emojiCount} from {communityCount} with Plutonium.'**
   String emojiPlutoniumUpsellText(String emojiCount, String communityCount);
 
-  /// Button label on the Plutonium upsell banner.
-  ///
-  /// In en, this message translates to:
-  /// **'Get Plutonium'**
-  String get emojiPlutoniumUpsellButton;
-
   /// Dismiss link on the Plutonium upsell banner.
   ///
   /// In en, this message translates to:
@@ -3338,12 +3254,6 @@ abstract class FluxerLocalizations {
   /// **'Change your username'**
   String get changeYourFluxerTag;
 
-  /// Label above the username and discriminator input fields.
-  ///
-  /// In en, this message translates to:
-  /// **'Username'**
-  String get fluxerTagInputLabel;
-
   /// Base description text on the username change sheet.
   ///
   /// In en, this message translates to:
@@ -3373,12 +3283,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Letters (a-z, A-Z), numbers (0-9), and underscores (_) only'**
   String get validationAllowedChars;
-
-  /// Tooltip on disabled discriminator field for non-premium users.
-  ///
-  /// In en, this message translates to:
-  /// **'Get Plutonium to customize your tag or keep it when changing your username'**
-  String get discriminatorPremiumTooltip;
 
   /// Title for the tag-taken confirmation sheet.
   ///
@@ -3433,18 +3337,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Customize your 4-digit tag or keep it when changing your username'**
   String get premiumUpsellCustomizeTag;
-
-  /// Trial upsell with expiry date.
-  ///
-  /// In en, this message translates to:
-  /// **'Your Plutonium trial expires on {date}. Upgrade to keep your custom tag and earn a badge on your profile.'**
-  String premiumTrialExpiresOn(String date);
-
-  /// Trial upsell without specific expiry date.
-  ///
-  /// In en, this message translates to:
-  /// **'You\'re on a Plutonium trial. Upgrade to keep your custom tag and earn a badge on your profile.'**
-  String get premiumTrialActive;
 
   /// Success toast after username change.
   ///
@@ -3674,30 +3566,6 @@ abstract class FluxerLocalizations {
   /// **'Remove your Visionary ID badge'**
   String get hideVisionaryIdDescription;
 
-  /// Trial banner title when user has an active subscription pending after trial.
-  ///
-  /// In en, this message translates to:
-  /// **'You\'re on a Plutonium trial — your subscription starts on {date}'**
-  String premiumTrialSubscriptionStarts(String date);
-
-  /// Trial banner description when user has an active subscription pending after trial.
-  ///
-  /// In en, this message translates to:
-  /// **'Your subscription will automatically begin when your trial ends. No action needed.'**
-  String get premiumTrialSubscriptionStartsDescription;
-
-  /// Trial banner title with expiry date.
-  ///
-  /// In en, this message translates to:
-  /// **'You\'re on a Plutonium trial that expires on {date}'**
-  String premiumTrialExpiresOnProfile(String date);
-
-  /// Trial banner title without specific expiry date.
-  ///
-  /// In en, this message translates to:
-  /// **'You\'re on a Plutonium trial'**
-  String get premiumTrialActiveProfile;
-
   /// Avatar helper text for non-premium users, mentioning Plutonium requirement for animated avatars.
   ///
   /// In en, this message translates to:
@@ -3817,30 +3685,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Profile updated'**
   String get profileSavedToast;
-
-  /// Button label to open profile editing from the profile content card.
-  ///
-  /// In en, this message translates to:
-  /// **'Edit profile'**
-  String get profileEditButton;
-
-  /// Label for the personal note section on a user profile.
-  ///
-  /// In en, this message translates to:
-  /// **'Note'**
-  String get profileNoteLabel;
-
-  /// Hint that the note is private and only visible to the current user.
-  ///
-  /// In en, this message translates to:
-  /// **'(only visible to you)'**
-  String get profileNoteVisibility;
-
-  /// Placeholder shown when no personal note has been set for a user.
-  ///
-  /// In en, this message translates to:
-  /// **'No note yet.'**
-  String get profileNoteEmpty;
 
   /// Title for the sudo verification bottom sheet shown for sensitive operations.
   ///
@@ -4346,60 +4190,6 @@ abstract class FluxerLocalizations {
   /// **'e.g., YubiKey, iPhone, work computer'**
   String get securityPasskeyNameHint;
 
-  /// Title for phone number section.
-  ///
-  /// In en, this message translates to:
-  /// **'Phone number'**
-  String get securityPhoneSectionTitle;
-
-  /// Description for phone number section.
-  ///
-  /// In en, this message translates to:
-  /// **'Manage your phone number.'**
-  String get securityPhoneSectionDescription;
-
-  /// Label for phone number row.
-  ///
-  /// In en, this message translates to:
-  /// **'Phone number'**
-  String get securityPhoneLabel;
-
-  /// Shown when no phone number is set.
-  ///
-  /// In en, this message translates to:
-  /// **'No phone number added.'**
-  String get securityPhoneNone;
-
-  /// Button to add phone number.
-  ///
-  /// In en, this message translates to:
-  /// **'Add phone'**
-  String get securityPhoneAdd;
-
-  /// Button to remove phone number.
-  ///
-  /// In en, this message translates to:
-  /// **'Remove'**
-  String get securityPhoneRemove;
-
-  /// Title for phone remove confirmation.
-  ///
-  /// In en, this message translates to:
-  /// **'Remove phone number'**
-  String get securityPhoneRemoveTitle;
-
-  /// Description for phone remove confirmation.
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure you want to remove your phone number?'**
-  String get securityPhoneRemoveDescription;
-
-  /// Toast after phone removed.
-  ///
-  /// In en, this message translates to:
-  /// **'Phone number removed'**
-  String get securityPhoneRemoved;
-
   /// Title when user needs to claim account for security.
   ///
   /// In en, this message translates to:
@@ -4478,12 +4268,6 @@ abstract class FluxerLocalizations {
   /// **'If you lose access to your authenticator app and don\'t have these codes, you will be permanently locked out of your account. Download or copy them now and store them somewhere safe.'**
   String get backupCodesWarning;
 
-  /// Button to download backup codes.
-  ///
-  /// In en, this message translates to:
-  /// **'Download'**
-  String get backupCodesDownload;
-
   /// Button to copy backup codes.
   ///
   /// In en, this message translates to:
@@ -4507,264 +4291,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Done'**
   String get backupCodesDone;
-
-  /// Title for viewing existing backup codes.
-  ///
-  /// In en, this message translates to:
-  /// **'View backup codes'**
-  String get backupCodesViewTitle;
-
-  /// Description for view backup codes.
-  ///
-  /// In en, this message translates to:
-  /// **'Verification may be required before viewing your backup codes.'**
-  String get backupCodesViewDescription;
-
-  /// Title for phone add sheet.
-  ///
-  /// In en, this message translates to:
-  /// **'Add phone number'**
-  String get phoneAddTitle;
-
-  /// Label for phone input.
-  ///
-  /// In en, this message translates to:
-  /// **'Phone number'**
-  String get phoneAddLabel;
-
-  /// Hint for phone input.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter your phone number'**
-  String get phoneAddHint;
-
-  /// Footer text for phone input.
-  ///
-  /// In en, this message translates to:
-  /// **'We\'ll send an SMS code when available. Your number is not linked to your account. We keep only an encrypted marker, with no user ID, to allow at most 2 verifications in about 30 days.'**
-  String get phoneAddFooter;
-
-  /// Button to send phone verification code.
-  ///
-  /// In en, this message translates to:
-  /// **'Send code'**
-  String get phoneAddSendCode;
-
-  /// Title for phone verify step.
-  ///
-  /// In en, this message translates to:
-  /// **'Verify phone number'**
-  String get phoneVerifyTitle;
-
-  /// Description for phone verify step.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter the verification code sent to your phone number.'**
-  String get phoneVerifyDescription;
-
-  /// Toast after phone verified.
-  ///
-  /// In en, this message translates to:
-  /// **'Phone number verified'**
-  String get phoneAddSuccess;
-
-  /// Label for country selector in phone verification.
-  ///
-  /// In en, this message translates to:
-  /// **'Country'**
-  String get phoneCountryLabel;
-
-  /// Search hint for country selector.
-  ///
-  /// In en, this message translates to:
-  /// **'Search countries...'**
-  String get phoneSearchCountries;
-
-  /// Validation error when phone number is empty.
-  ///
-  /// In en, this message translates to:
-  /// **'Phone number is required'**
-  String get phoneNumberRequired;
-
-  /// Validation error for invalid phone format.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter a valid mobile phone number.'**
-  String get phoneEnterValidNumber;
-
-  /// API error when phone number is rejected.
-  ///
-  /// In en, this message translates to:
-  /// **'This phone number cannot be used. Try another mobile number or contact support.'**
-  String get phoneCannotBeUsed;
-
-  /// API error when phone number was reused.
-  ///
-  /// In en, this message translates to:
-  /// **'This phone number has already been used. Try another number or contact support.'**
-  String get phoneAlreadyUsed;
-
-  /// API error for invalid verification code.
-  ///
-  /// In en, this message translates to:
-  /// **'That code didn\'t work. Check it and try again.'**
-  String get phoneCodeDidNotWork;
-
-  /// Rate limit error for phone verification.
-  ///
-  /// In en, this message translates to:
-  /// **'Too many attempts. Wait a bit, then try again.'**
-  String get phoneTooManyAttempts;
-
-  /// SMS provider unavailable error.
-  ///
-  /// In en, this message translates to:
-  /// **'SMS verification is unavailable right now. Try again later or contact support.'**
-  String get phoneSmsUnavailable;
-
-  /// Account not eligible for phone verification.
-  ///
-  /// In en, this message translates to:
-  /// **'Phone verification is not available for this account. Use another method or contact support.'**
-  String get phoneNotEligible;
-
-  /// Generic phone verification error.
-  ///
-  /// In en, this message translates to:
-  /// **'Something went wrong. Try again.'**
-  String get phoneSomethingWentWrong;
-
-  /// Inbound challenge reason for expensive destinations.
-  ///
-  /// In en, this message translates to:
-  /// **'Sending an SMS to this phone number is too expensive, so we need you to send us an SMS instead. You can also contact support to have us lift this requirement from your account.'**
-  String get phoneInboundExpensiveDescription;
-
-  /// Default inbound challenge description.
-  ///
-  /// In en, this message translates to:
-  /// **'We need you to send us an SMS to verify your phone number.'**
-  String get phoneInboundDefaultDescription;
-
-  /// Inbound verification step 1.
-  ///
-  /// In en, this message translates to:
-  /// **'Open your phone\'s messaging app and create a new text message.'**
-  String get phoneInboundStepOpenMessaging;
-
-  /// Inbound verification step 2.
-  ///
-  /// In en, this message translates to:
-  /// **'Send the code {code} to {number}.'**
-  String phoneInboundStepSendCode(String code, String number);
-
-  /// Inbound verification step 3.
-  ///
-  /// In en, this message translates to:
-  /// **'Wait for us to receive your message. This can take a minute.'**
-  String get phoneInboundStepWait;
-
-  /// Button to refresh inbound challenge.
-  ///
-  /// In en, this message translates to:
-  /// **'Get new code'**
-  String get phoneInboundGetNewCode;
-
-  /// Label for inbound challenge code.
-  ///
-  /// In en, this message translates to:
-  /// **'Code to send'**
-  String get phoneInboundChallengeCodeLabel;
-
-  /// Label for inbound destination number.
-  ///
-  /// In en, this message translates to:
-  /// **'Send to'**
-  String get phoneInboundOurNumberLabel;
-
-  /// Title for required action blocking modal.
-  ///
-  /// In en, this message translates to:
-  /// **'Account verification required'**
-  String get requiredActionTitle;
-
-  /// Generic required action intro.
-  ///
-  /// In en, this message translates to:
-  /// **'Complete the required verification to continue using {productName}.'**
-  String requiredActionIntroGeneric(String productName);
-
-  /// Phone-only required action intro.
-  ///
-  /// In en, this message translates to:
-  /// **'Your registration needs an extra anti-spam check before you can continue.'**
-  String get requiredActionIntroPhone;
-
-  /// Email or phone required action intro.
-  ///
-  /// In en, this message translates to:
-  /// **'Verify your email or phone to continue using {productName}.'**
-  String requiredActionIntroEmailOrPhone(String productName);
-
-  /// Email and phone required action intro.
-  ///
-  /// In en, this message translates to:
-  /// **'Complete the required email and phone verification steps below to continue using {productName}.'**
-  String requiredActionIntroEmailAndPhone(String productName);
-
-  /// Title when user can pick email or phone.
-  ///
-  /// In en, this message translates to:
-  /// **'Choose a verification method'**
-  String get requiredActionChooseMethodTitle;
-
-  /// Description when user can pick email or phone.
-  ///
-  /// In en, this message translates to:
-  /// **'Complete one of the verification paths below to continue using {productName}.'**
-  String requiredActionChooseMethodDescription(String productName);
-
-  /// Button to choose email verification.
-  ///
-  /// In en, this message translates to:
-  /// **'Use email'**
-  String get requiredActionUseEmail;
-
-  /// Button to choose phone verification.
-  ///
-  /// In en, this message translates to:
-  /// **'Use phone'**
-  String get requiredActionUsePhone;
-
-  /// Title for email verification instructions.
-  ///
-  /// In en, this message translates to:
-  /// **'Check your email'**
-  String get requiredActionCheckEmailTitle;
-
-  /// Description for email verification instructions.
-  ///
-  /// In en, this message translates to:
-  /// **'We sent a verification link to your email address. Open it to continue.'**
-  String get requiredActionCheckEmailDescription;
-
-  /// Button to resend verification email.
-  ///
-  /// In en, this message translates to:
-  /// **'Resend verification email'**
-  String get requiredActionResendVerificationEmail;
-
-  /// Toast after resending verification email.
-  ///
-  /// In en, this message translates to:
-  /// **'Verification email sent. Check your inbox.'**
-  String get requiredActionVerificationEmailSent;
-
-  /// Sign out button in required action modal.
-  ///
-  /// In en, this message translates to:
-  /// **'Sign out'**
-  String get requiredActionSignOut;
 
   /// Title for danger zone section.
   ///
@@ -5606,12 +5132,6 @@ abstract class FluxerLocalizations {
   /// **'Documentation'**
   String get applicationsSearchDocumentation;
 
-  /// Title of the warning alert shown when a bulk message deletion is pending.
-  ///
-  /// In en, this message translates to:
-  /// **'Pending deletion'**
-  String get privacyPendingDeletionTitle;
-
   /// Header title of the Blocked Users settings page.
   ///
   /// In en, this message translates to:
@@ -5860,12 +5380,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get userProfileNoteDelete;
-
-  /// Hint text when no note has been written yet.
-  ///
-  /// In en, this message translates to:
-  /// **'Click to add a note'**
-  String get userProfileNoteEmpty;
 
   /// Header of the member-since section in the bio card.
   ///
@@ -6938,23 +6452,11 @@ abstract class FluxerLocalizations {
   /// **'You haven\'t been a member of this community long enough to send messages.'**
   String get channelComposerBarrierNotMemberLongEnough;
 
-  /// Composer barrier when the user must verify a phone number before messaging.
-  ///
-  /// In en, this message translates to:
-  /// **'You need to verify a phone number to send messages in this community.'**
-  String get channelComposerBarrierNoPhoneNumber;
-
   /// Action button on the composer barrier for unverified email.
   ///
   /// In en, this message translates to:
   /// **'Verify email'**
   String get channelComposerBarrierVerifyEmail;
-
-  /// Action button on the composer barrier for missing phone verification.
-  ///
-  /// In en, this message translates to:
-  /// **'Verify phone'**
-  String get channelComposerBarrierVerifyPhone;
 
   /// Shown when adding files would exceed the per-message attachment limit.
   ///
@@ -6986,12 +6488,6 @@ abstract class FluxerLocalizations {
   /// **'Drop files to send now'**
   String get chatAttachmentDropToSend;
 
-  /// Menu item to open the voice message recorder.
-  ///
-  /// In en, this message translates to:
-  /// **'Send voice message'**
-  String get chatAttachmentSendVoiceMessage;
-
   /// Title for voice message recording UI.
   ///
   /// In en, this message translates to:
@@ -7022,12 +6518,6 @@ abstract class FluxerLocalizations {
   /// **'Unable to start recording. Allow microphone access.'**
   String get voiceMessageMicPermissionDenied;
 
-  /// Shown when the device cannot record voice messages.
-  ///
-  /// In en, this message translates to:
-  /// **'Voice recording is not supported on this device.'**
-  String get voiceMessageRecordingNotSupported;
-
   /// Shown when the microphone is already used by an active voice call.
   ///
   /// In en, this message translates to:
@@ -7045,36 +6535,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Unable to send voice message. Try again.'**
   String get voiceMessageSendFailed;
-
-  /// Help text while recording a voice message on desktop.
-  ///
-  /// In en, this message translates to:
-  /// **'Speak now. Press Stop when you are done — you can trim afterwards.'**
-  String get voiceMessageRecordingHint;
-
-  /// Help text while reviewing a voice message before send.
-  ///
-  /// In en, this message translates to:
-  /// **'Drag the handles to trim, then press Send.'**
-  String get voiceMessageReviewHint;
-
-  /// Stop recording button in voice message composer.
-  ///
-  /// In en, this message translates to:
-  /// **'Stop'**
-  String get voiceMessageStop;
-
-  /// Button to retry voice recording after permission error.
-  ///
-  /// In en, this message translates to:
-  /// **'Start recording'**
-  String get voiceMessageStartRecording;
-
-  /// Button to discard review and record again.
-  ///
-  /// In en, this message translates to:
-  /// **'Re-record'**
-  String get voiceMessageRerecord;
 
   /// Play voice message preview.
   ///
@@ -7099,12 +6559,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Seek backward'**
   String get voiceMessageSeekBackward;
-
-  /// Error when trimmed voice message is too short.
-  ///
-  /// In en, this message translates to:
-  /// **'Selection must be at least {seconds}s.'**
-  String voiceMessageSelectionTooShort(num seconds);
 
   /// Title for the attachment edit sheet.
   ///
@@ -7286,12 +6740,6 @@ abstract class FluxerLocalizations {
   /// **'Browse files'**
   String get chatAttachmentSourceBrowse;
 
-  /// Tooltip for pasting a file attachment from the clipboard.
-  ///
-  /// In en, this message translates to:
-  /// **'Paste file from clipboard'**
-  String get chatAttachmentPasteTooltip;
-
   /// Badge text for spoiler attachments.
   ///
   /// In en, this message translates to:
@@ -7436,18 +6884,6 @@ abstract class FluxerLocalizations {
   /// **'Open link'**
   String get matureContentOpenLinkButton;
 
-  /// Privacy settings section title for sensitive content filters.
-  ///
-  /// In en, this message translates to:
-  /// **'Sensitive content'**
-  String get sensitiveContentSectionTitle;
-
-  /// Privacy settings section description for sensitive content filters.
-  ///
-  /// In en, this message translates to:
-  /// **'Control how mature or sensitive media is filtered in different contexts'**
-  String get sensitiveContentSectionDescription;
-
   /// Label for friend DM sensitive content filter.
   ///
   /// In en, this message translates to:
@@ -7484,24 +6920,6 @@ abstract class FluxerLocalizations {
   /// **'Block'**
   String get sensitiveContentFilterBlock;
 
-  /// Toggle label for blurring unscanned media.
-  ///
-  /// In en, this message translates to:
-  /// **'Blur media until safety scan completes'**
-  String get sensitiveContentBlurUnscannedLabel;
-
-  /// Description for blur-unscanned toggle for adult accounts.
-  ///
-  /// In en, this message translates to:
-  /// **'When enabled, images and videos are blurred until the content safety scan finishes.'**
-  String get sensitiveContentBlurUnscannedDescriptionAdult;
-
-  /// Description for blur-unscanned toggle for minor accounts.
-  ///
-  /// In en, this message translates to:
-  /// **'This setting is always on for your account.'**
-  String get sensitiveContentBlurUnscannedDescriptionMinor;
-
   /// Reset button for sensitive content settings.
   ///
   /// In en, this message translates to:
@@ -7519,12 +6937,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Uploading {count, plural, =1{1 file} other{{count} files}}'**
   String chatUploadingAttachmentsSummary(int count);
-
-  /// Button or menu action label for canceling an in-flight message attachment upload.
-  ///
-  /// In en, this message translates to:
-  /// **'Cancel upload'**
-  String get chatCancelUpload;
 
   /// Footnote when attachment(s) share one expiry date. {date} is already formatted for the locale.
   ///
@@ -7892,12 +7304,6 @@ abstract class FluxerLocalizations {
   /// **'Enter a domain.'**
   String get connectionEnterDomain;
 
-  /// Title of the Look & Feel (Appearance) settings page.
-  ///
-  /// In en, this message translates to:
-  /// **'Look & feel'**
-  String get lookAndFeelTitle;
-
   /// Section title for theme selection.
   ///
   /// In en, this message translates to:
@@ -8005,18 +7411,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t sync theme to your account. Please try again.'**
   String get lookAndFeelThemeSyncFailed;
-
-  /// Search label for chat font size within the Messages section.
-  ///
-  /// In en, this message translates to:
-  /// **'Chat font scaling'**
-  String get lookAndFeelChatFontScalingTitle;
-
-  /// Search description for chat font size.
-  ///
-  /// In en, this message translates to:
-  /// **'Adjust the font size in the chat area.'**
-  String get lookAndFeelChatFontScalingDescription;
 
   /// Label for the chat font size select in Look & Feel.
   ///
@@ -8263,60 +7657,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'When enabled, shortcut badges are hidden in tooltip popups.'**
   String get lookAndFeelHideKeyboardHintsDescription;
-
-  /// Subsection title under Interface for Neko appearance settings.
-  ///
-  /// In en, this message translates to:
-  /// **'Miscellaneous'**
-  String get lookAndFeelNekoTitle;
-
-  /// Subsection description for Neko appearance settings.
-  ///
-  /// In en, this message translates to:
-  /// **'Miscellaneous interface options.'**
-  String get lookAndFeelNekoDescription;
-
-  /// Toggle label for showing Neko in the chat footer.
-  ///
-  /// In en, this message translates to:
-  /// **'Show Neko'**
-  String get lookAndFeelShowNekoLabel;
-
-  /// Toggle description for showing Neko in chat.
-  ///
-  /// In en, this message translates to:
-  /// **'When enabled, Neko appears near the chat input bar.'**
-  String get lookAndFeelShowNekoDescription;
-
-  /// Subsection title under Interface — voice channel join behavior.
-  ///
-  /// In en, this message translates to:
-  /// **'Voice channel join behavior'**
-  String get lookAndFeelVoiceChannelJoinTitle;
-
-  /// Subsection description for voice channel join behavior.
-  ///
-  /// In en, this message translates to:
-  /// **'Control how you join voice channels in communities.'**
-  String get lookAndFeelVoiceChannelJoinDescription;
-
-  /// Toggle label — require double-click to join voice channels.
-  ///
-  /// In en, this message translates to:
-  /// **'Require double-click to join voice channels'**
-  String get lookAndFeelRequireDoubleClickJoinLabel;
-
-  /// Toggle description for the require-double-click voice channel join switch.
-  ///
-  /// In en, this message translates to:
-  /// **'When enabled, you\'ll need to double-click on voice channels to join them. When disabled (default), single-clicking will join the channel immediately.'**
-  String get lookAndFeelRequireDoubleClickJoinDescription;
-
-  /// Sample text rendered at the selected chat font size to preview scaling.
-  ///
-  /// In en, this message translates to:
-  /// **'The quick brown fox jumps over the lazy dog.'**
-  String get lookAndFeelChatFontPreviewSample;
 
   /// Subsection title under Interface — guild sidebar config.
   ///
@@ -9083,35 +8423,11 @@ abstract class FluxerLocalizations {
   /// **'Show saved media in expression autocomplete'**
   String get messagesMediaAutocompleteSavedMediaLabel;
 
-  /// Section title for message editing settings.
-  ///
-  /// In en, this message translates to:
-  /// **'Message editing'**
-  String get messagesMediaEditingSectionTitle;
-
-  /// Section description for message editing settings.
-  ///
-  /// In en, this message translates to:
-  /// **'Control what happens to your edit draft when you cancel.'**
-  String get messagesMediaEditingSectionDescription;
-
-  /// Toggle label for preserving edit drafts on cancel.
-  ///
-  /// In en, this message translates to:
-  /// **'Preserve edit draft on cancel'**
-  String get messagesMediaEditingPreserveDraftLabel;
-
   /// Section title for the theme saturation slider on the accessibility settings page.
   ///
   /// In en, this message translates to:
   /// **'Saturation'**
   String get accessibilitySaturationTitle;
-
-  /// Section description for the theme saturation slider on the accessibility settings page.
-  ///
-  /// In en, this message translates to:
-  /// **'Adjust how vivid theme colors appear across the app.'**
-  String get accessibilitySaturationDescription;
 
   /// Section title for visual accessibility settings.
   ///
@@ -9148,12 +8464,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'DM message previews'**
   String get accessibilityDmMessagePreviewGroupTitle;
-
-  /// Section description for DM message preview accessibility settings.
-  ///
-  /// In en, this message translates to:
-  /// **'Control when message previews are shown in the DM list.'**
-  String get accessibilityDmMessagePreviewGroupDescription;
 
   /// Accessibility label for the DM message preview mode radio group.
   ///
@@ -9346,12 +8656,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Paused by reduced motion. Turn on to keep GIFs playing.'**
   String get accessibilityPausedGifByReducedMotion;
-
-  /// Helper text for GIF autoplay default on mobile.
-  ///
-  /// In en, this message translates to:
-  /// **'Defaults to off on mobile to preserve battery life and data usage.'**
-  String get accessibilityGifDefaultsOffOnMobile;
 
   /// Subsection title for sticker animation preference.
   ///
@@ -9819,12 +9123,6 @@ abstract class FluxerLocalizations {
   /// **'Couldn\'t disconnect your other devices. Try again in a moment.'**
   String get voiceMultiDeviceDisconnectFailed;
 
-  /// Empty state body when viewing a guild voice channel while not in the call.
-  ///
-  /// In en, this message translates to:
-  /// **'This is a voice channel. Connect to start talking!'**
-  String get voiceChannelEmptyDescription;
-
   /// Primary action to connect to a voice channel from the empty state.
   ///
   /// In en, this message translates to:
@@ -9890,18 +9188,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Connecting…'**
   String get voiceChannelStatusConnecting;
-
-  /// Status in the in-page voice view when the voice session is active.
-  ///
-  /// In en, this message translates to:
-  /// **'Connected'**
-  String get voiceChannelStatusConnected;
-
-  /// Short label in the channel header when the voice session reports an error.
-  ///
-  /// In en, this message translates to:
-  /// **'Error'**
-  String get voiceChannelStatusError;
 
   /// Tooltip on the device icon in the voice participant nameplate when the connection is mobile.
   ///
@@ -10004,12 +9290,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Sharing your screen.'**
   String get voiceScreenShareNotificationText;
-
-  /// Tooltip: more voice actions in the voice call control bar.
-  ///
-  /// In en, this message translates to:
-  /// **'More'**
-  String get voiceControlMore;
 
   /// Tooltip: leave the voice call in the voice call control bar.
   ///
@@ -10771,35 +10051,17 @@ abstract class FluxerLocalizations {
   /// **'Everyone'**
   String get privacyDashboardFriendRequestsEveryone;
 
-  /// Privacy dashboard friend request toggle description.
-  ///
-  /// In en, this message translates to:
-  /// **'Allow anyone to send you friend requests'**
-  String get privacyDashboardFriendRequestsEveryoneDesc;
-
   /// Privacy dashboard friend request toggle label.
   ///
   /// In en, this message translates to:
   /// **'Friends of friends'**
   String get privacyDashboardFriendRequestsFriendsOfFriends;
 
-  /// Privacy dashboard friend request toggle description.
-  ///
-  /// In en, this message translates to:
-  /// **'Allow friends of your friends to send you requests'**
-  String get privacyDashboardFriendRequestsFriendsOfFriendsDesc;
-
   /// Privacy dashboard friend request toggle label.
   ///
   /// In en, this message translates to:
   /// **'Community members'**
   String get privacyDashboardFriendRequestsCommunityMembers;
-
-  /// Privacy dashboard friend request toggle description.
-  ///
-  /// In en, this message translates to:
-  /// **'Allow members from communities you\'re in to send you requests'**
-  String get privacyDashboardFriendRequestsCommunityMembersDesc;
 
   /// Privacy dashboard direct messages subsection title.
   ///
@@ -10813,35 +10075,11 @@ abstract class FluxerLocalizations {
   /// **'Allow direct messages from community members'**
   String get privacyDashboardDirectMessagesMembers;
 
-  /// Privacy dashboard DM toggle description.
-  ///
-  /// In en, this message translates to:
-  /// **'Allow members from communities you\'re in to send you direct messages'**
-  String get privacyDashboardDirectMessagesMembersDesc;
-
   /// Privacy dashboard bot DM toggle label.
   ///
   /// In en, this message translates to:
   /// **'Allow direct messages from community bots'**
   String get privacyDashboardDirectMessagesBots;
-
-  /// Privacy dashboard bot DM toggle description.
-  ///
-  /// In en, this message translates to:
-  /// **'Allow bots from communities you\'re in to send you direct messages'**
-  String get privacyDashboardDirectMessagesBotsDesc;
-
-  /// Privacy dashboard connections section description.
-  ///
-  /// In en, this message translates to:
-  /// **'Control who can send you friend requests and direct messages'**
-  String get privacyDashboardConnectionsSectionDesc;
-
-  /// Privacy dashboard communication section description.
-  ///
-  /// In en, this message translates to:
-  /// **'Control who can call you and add you to group chats'**
-  String get privacyDashboardCommunicationSectionDesc;
 
   /// Privacy dashboard incoming calls subsection title.
   ///
@@ -10849,23 +10087,11 @@ abstract class FluxerLocalizations {
   /// **'Incoming calls'**
   String get privacyDashboardIncomingCallsTitle;
 
-  /// Privacy dashboard incoming calls subsection description.
-  ///
-  /// In en, this message translates to:
-  /// **'Control who can call you'**
-  String get privacyDashboardIncomingCallsDesc;
-
   /// Privacy > Communication: select label.
   ///
   /// In en, this message translates to:
   /// **'Allowed callers'**
   String get privacyDashboardAllowedCallers;
-
-  /// Privacy > Communication: radio option label.
-  ///
-  /// In en, this message translates to:
-  /// **'Nobody'**
-  String get privacyDashboardIncomingCallNobody;
 
   /// Privacy > Communication: select option description.
   ///
@@ -10873,35 +10099,17 @@ abstract class FluxerLocalizations {
   /// **'Block all incoming calls'**
   String get privacyDashboardIncomingCallNobodyDesc;
 
-  /// Privacy > Communication: radio option label.
-  ///
-  /// In en, this message translates to:
-  /// **'Friends only'**
-  String get privacyDashboardIncomingCallFriendsOnly;
-
   /// Privacy > Communication: select option description.
   ///
   /// In en, this message translates to:
   /// **'Only allow friends to call you (recommended)'**
   String get privacyDashboardIncomingCallFriendsOnlyDesc;
 
-  /// Privacy > Communication: radio option label.
-  ///
-  /// In en, this message translates to:
-  /// **'Friends + custom'**
-  String get privacyDashboardIncomingCallCustom;
-
   /// Privacy > Communication: select option description.
   ///
   /// In en, this message translates to:
   /// **'Allow friends plus additional groups you choose'**
   String get privacyDashboardIncomingCallCustomDesc;
-
-  /// Privacy > Communication: radio option label.
-  ///
-  /// In en, this message translates to:
-  /// **'Everyone'**
-  String get privacyDashboardIncomingCallEveryone;
 
   /// Privacy > Communication: select option description.
   ///
@@ -10915,18 +10123,6 @@ abstract class FluxerLocalizations {
   /// **'Additional groups'**
   String get privacyDashboardAdditionalGroups;
 
-  /// Privacy dashboard incoming call custom toggle description.
-  ///
-  /// In en, this message translates to:
-  /// **'People who are friends with your friends can call you'**
-  String get privacyDashboardCallFriendsOfFriendsDesc;
-
-  /// Privacy dashboard incoming call custom toggle description.
-  ///
-  /// In en, this message translates to:
-  /// **'People from communities you\'re both in can call you'**
-  String get privacyDashboardCallGuildMembersDesc;
-
   /// Privacy dashboard ring behavior subsection label.
   ///
   /// In en, this message translates to:
@@ -10939,23 +10135,11 @@ abstract class FluxerLocalizations {
   /// **'Silent calls from everyone'**
   String get privacyDashboardSilentCalls;
 
-  /// Privacy dashboard silent calls toggle description.
-  ///
-  /// In en, this message translates to:
-  /// **'All calls will notify silently instead of ringing. By default, calls from non-friends are always silent.'**
-  String get privacyDashboardSilentCallsDesc;
-
   /// Privacy dashboard group DM subsection title.
   ///
   /// In en, this message translates to:
   /// **'Who can add you to group chats'**
   String get privacyDashboardGroupDmTitle;
-
-  /// Privacy dashboard group DM subsection description.
-  ///
-  /// In en, this message translates to:
-  /// **'Control who can add you to group chats without asking. Anyone can still send you invite links to join.'**
-  String get privacyDashboardGroupDmDesc;
 
   /// Privacy > Communication: select label.
   ///
@@ -10986,18 +10170,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Allow anyone to add you to group chats without asking'**
   String get privacyDashboardGroupDmEveryoneDesc;
-
-  /// Privacy dashboard group DM custom toggle description.
-  ///
-  /// In en, this message translates to:
-  /// **'People who are friends with your friends can add you to group chats'**
-  String get privacyDashboardGroupDmFriendsOfFriendsDesc;
-
-  /// Privacy dashboard group DM custom toggle description.
-  ///
-  /// In en, this message translates to:
-  /// **'People from communities you\'re both in can add you to group chats'**
-  String get privacyDashboardGroupDmGuildMembersDesc;
 
   /// Privacy > Active now: settings subsection title.
   ///
@@ -12529,36 +11701,6 @@ abstract class FluxerLocalizations {
   /// **'Optional arguments'**
   String get composerAutocompleteOptionalArgumentsHeading;
 
-  /// Section heading in composer autocomplete for channel suggestions.
-  ///
-  /// In en, this message translates to:
-  /// **'Channels'**
-  String get composerAutocompleteChannelsHeading;
-
-  /// Section heading in composer autocomplete for member suggestions.
-  ///
-  /// In en, this message translates to:
-  /// **'Members'**
-  String get composerAutocompleteMembersHeading;
-
-  /// Section heading in composer autocomplete for user suggestions.
-  ///
-  /// In en, this message translates to:
-  /// **'Users'**
-  String get composerAutocompleteUsersHeading;
-
-  /// Section heading in composer autocomplete for mixed mention suggestions.
-  ///
-  /// In en, this message translates to:
-  /// **'Mentions'**
-  String get composerAutocompleteMentionsHeading;
-
-  /// Section heading in composer autocomplete for role suggestions.
-  ///
-  /// In en, this message translates to:
-  /// **'Roles'**
-  String get composerAutocompleteRolesHeading;
-
   /// Section heading in composer autocomplete for saved media.
   ///
   /// In en, this message translates to:
@@ -12975,12 +12117,6 @@ abstract class FluxerLocalizations {
   /// **'The community template data is invalid or malformed.'**
   String get addGuildImportTemplateInvalid;
 
-  /// Toast shown after accepting an emoji or sticker pack invite.
-  ///
-  /// In en, this message translates to:
-  /// **'Pack installed successfully.'**
-  String get addGuildPackInstalled;
-
   /// Title for the remove-all-reactions confirmation sheet.
   ///
   /// In en, this message translates to:
@@ -13140,12 +12276,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Delete channel'**
   String get channelDetailsDeleteChannel;
-
-  /// Title for category settings modal.
-  ///
-  /// In en, this message translates to:
-  /// **'Category settings'**
-  String get channelSettingsCategorySettingsTitle;
 
   /// Context menu action to edit a category.
   ///
@@ -13455,24 +12585,6 @@ abstract class FluxerLocalizations {
   /// **'Try again in a moment.'**
   String get channelSettingsVoiceRegionsLoadFailedDescription;
 
-  /// Tooltip for reset buttons on channel settings sliders.
-  ///
-  /// In en, this message translates to:
-  /// **'Reset slider to default value'**
-  String get channelSettingsResetSlider;
-
-  /// Collapsible advanced section title in channel overview.
-  ///
-  /// In en, this message translates to:
-  /// **'Advanced'**
-  String get channelSettingsAdvanced;
-
-  /// Accessibility label for mature content override control.
-  ///
-  /// In en, this message translates to:
-  /// **'Mature content override'**
-  String get channelSettingsMatureContentOverride;
-
   /// Section description for mature content settings in channel overview.
   ///
   /// In en, this message translates to:
@@ -13521,18 +12633,6 @@ abstract class FluxerLocalizations {
   /// **'Inherited from {inheritedSourceLabel}: off'**
   String channelSettingsMatureContentInheritsOff(String inheritedSourceLabel);
 
-  /// Lowercase source label for inherited mature content from category.
-  ///
-  /// In en, this message translates to:
-  /// **'category'**
-  String get channelSettingsMatureContentCategorySource;
-
-  /// Lowercase source label for inherited mature content from community.
-  ///
-  /// In en, this message translates to:
-  /// **'community'**
-  String get channelSettingsMatureContentCommunitySource;
-
   /// Capitalized scope label when mature content inherits from a category.
   ///
   /// In en, this message translates to:
@@ -13568,22 +12668,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'This contains sensitive content.'**
   String get channelSettingsContentWarningDefault;
-
-  /// Error when user lacks manage channels permission for channel permissions tab.
-  ///
-  /// In en, this message translates to:
-  /// **'You need the \"{manageChannelsPermissionLabel}\" permission to edit these permissions.'**
-  String channelSettingsPermissionsNeedManageChannels(
-    String manageChannelsPermissionLabel,
-  );
-
-  /// Error when user lacks manage roles permission for channel permissions tab.
-  ///
-  /// In en, this message translates to:
-  /// **'You need the \"{manageRolesPermissionLabel}\" permission to edit these permissions.'**
-  String channelSettingsPermissionsNeedManageRoles(
-    String manageRolesPermissionLabel,
-  );
 
   /// Fallback label for unknown role in permission overwrites.
   ///
@@ -13705,12 +12789,6 @@ abstract class FluxerLocalizations {
   /// **'Search roles or members…'**
   String get channelSettingsPermissionsSearchRolesOrMembers;
 
-  /// Section title in the add override picker.
-  ///
-  /// In en, this message translates to:
-  /// **'Roles and members'**
-  String get channelSettingsPermissionsRolesAndMembers;
-
   /// Action to delete a channel invite.
   ///
   /// In en, this message translates to:
@@ -13830,12 +12908,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Created by {creator} on {date}'**
   String channelSettingsWebhooksCreatedBy(String creator, String date);
-
-  /// Fallback label when webhook creator is unavailable.
-  ///
-  /// In en, this message translates to:
-  /// **'Unknown user'**
-  String get channelSettingsWebhooksUnknownUser;
 
   /// Label for webhook avatar field.
   ///
@@ -14118,12 +13190,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'You\'ve reached the end'**
   String get channelDetailsPinsEndReached;
-
-  /// Accessibility label for the channel header title area.
-  ///
-  /// In en, this message translates to:
-  /// **'Open channel details'**
-  String get channelHeaderOpenDetails;
 
   /// Toolbar button label for pinned messages.
   ///
@@ -14929,12 +13995,6 @@ abstract class FluxerLocalizations {
   /// **'Edit group'**
   String get groupDmEditTitle;
 
-  /// Tooltip on the desktop group DM header edit action.
-  ///
-  /// In en, this message translates to:
-  /// **'Edit group details'**
-  String get groupDmEditDetailsTooltip;
-
   /// Label for the group name field in edit group.
   ///
   /// In en, this message translates to:
@@ -15025,18 +14085,6 @@ abstract class FluxerLocalizations {
   /// **'Unsupported file type.'**
   String get groupDmUnsupportedIconFormatBody;
 
-  /// Title when a cropped group icon cannot be processed.
-  ///
-  /// In en, this message translates to:
-  /// **'Couldn\'t process image'**
-  String get groupDmCouldntProcessImage;
-
-  /// Body when a cropped group icon cannot be processed.
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to process the cropped image. Try again.'**
-  String get groupDmFailedToProcessCroppedImage;
-
   /// Title when the selected group icon image cannot be used.
   ///
   /// In en, this message translates to:
@@ -15085,12 +14133,6 @@ abstract class FluxerLocalizations {
   /// **'Couldn\'t add this friend to the group. Please try again.'**
   String get groupDmAddFriendFailed;
 
-  /// Title when adding friends to a group DM fails.
-  ///
-  /// In en, this message translates to:
-  /// **'Couldn\'t add to group'**
-  String get groupDmAddFailed;
-
   /// Error when the group DM has no remaining member slots.
   ///
   /// In en, this message translates to:
@@ -15102,12 +14144,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'You\'re going too fast. Wait a moment and try again.'**
   String get groupDmRateLimited;
-
-  /// Title when invite link generation fails.
-  ///
-  /// In en, this message translates to:
-  /// **'Couldn\'t create invite link'**
-  String get groupDmCreateInviteFailed;
 
   /// Body when invite link generation fails.
   ///
@@ -15439,12 +14475,6 @@ abstract class FluxerLocalizations {
   /// **'Search settings...'**
   String get userSettingsSearchPlaceholder;
 
-  /// Accessibility label for the user settings search field.
-  ///
-  /// In en, this message translates to:
-  /// **'Search settings'**
-  String get userSettingsSearchFieldLabel;
-
   /// Accessibility label for clearing the user settings search field.
   ///
   /// In en, this message translates to:
@@ -15589,18 +14619,6 @@ abstract class FluxerLocalizations {
   /// **'Copied'**
   String get giftSettingsCopied;
 
-  /// No description provided for @giftSettingsGiftUrlCopied.
-  ///
-  /// In en, this message translates to:
-  /// **'Gift URL copied to clipboard!'**
-  String get giftSettingsGiftUrlCopied;
-
-  /// No description provided for @giftSettingsGiftUrlCopyFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Couldn\'t copy gift URL'**
-  String get giftSettingsGiftUrlCopyFailed;
-
   /// No description provided for @giftSettingsPurchasedDate.
   ///
   /// In en, this message translates to:
@@ -15721,12 +14739,6 @@ abstract class FluxerLocalizations {
   /// **'1 month gift'**
   String get premiumOneMonthGift;
 
-  /// No description provided for @premiumMostPopular.
-  ///
-  /// In en, this message translates to:
-  /// **'Most popular'**
-  String get premiumMostPopular;
-
   /// No description provided for @premiumScrollPrompt.
   ///
   /// In en, this message translates to:
@@ -15787,30 +14799,6 @@ abstract class FluxerLocalizations {
   /// **'Ready to buy a gift?'**
   String get premiumReadyToBuyGift;
 
-  /// No description provided for @premiumMonthlyPrice.
-  ///
-  /// In en, this message translates to:
-  /// **'Monthly {price}'**
-  String premiumMonthlyPrice(String price);
-
-  /// No description provided for @premiumYearlyPrice.
-  ///
-  /// In en, this message translates to:
-  /// **'Yearly {price}'**
-  String premiumYearlyPrice(String price);
-
-  /// No description provided for @premiumOneYearPrice.
-  ///
-  /// In en, this message translates to:
-  /// **'1 year {price}'**
-  String premiumOneYearPrice(String price);
-
-  /// No description provided for @premiumOneMonthPrice.
-  ///
-  /// In en, this message translates to:
-  /// **'1 month {price}'**
-  String premiumOneMonthPrice(String price);
-
   /// No description provided for @premiumManageSubscription.
   ///
   /// In en, this message translates to:
@@ -15847,12 +14835,6 @@ abstract class FluxerLocalizations {
   /// **'Cancel subscription'**
   String get premiumCancelSubscriptionConfirm;
 
-  /// No description provided for @premiumKeepSubscription.
-  ///
-  /// In en, this message translates to:
-  /// **'Keep subscription'**
-  String get premiumKeepSubscription;
-
   /// No description provided for @premiumPurchaseHistoryTitle.
   ///
   /// In en, this message translates to:
@@ -15870,18 +14852,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Manage payment methods'**
   String get premiumManagePaymentMethods;
-
-  /// No description provided for @premiumBillingHistory.
-  ///
-  /// In en, this message translates to:
-  /// **'Billing history'**
-  String get premiumBillingHistory;
-
-  /// No description provided for @premiumSelfServeRefundTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Self-serve refund'**
-  String get premiumSelfServeRefundTitle;
 
   /// No description provided for @premiumSelfServeRefundButton.
   ///
@@ -15954,12 +14924,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Feature'**
   String get premiumComparisonFeatureColumn;
-
-  /// No description provided for @premiumDisclaimerPurchased.
-  ///
-  /// In en, this message translates to:
-  /// **'By purchasing, you agreed to our {terms} and {privacy}.'**
-  String premiumDisclaimerPurchased(String terms, String privacy);
 
   /// No description provided for @premiumDisclaimerRefund.
   ///
@@ -16117,42 +15081,6 @@ abstract class FluxerLocalizations {
   /// **'You need to verify your email before you can purchase Fluxer Plutonium.'**
   String get premiumVerifyEmailToPurchase;
 
-  /// No description provided for @premiumPerkCustomUsernameTag.
-  ///
-  /// In en, this message translates to:
-  /// **'Custom username tag'**
-  String get premiumPerkCustomUsernameTag;
-
-  /// No description provided for @premiumPerkPerCommunityProfiles.
-  ///
-  /// In en, this message translates to:
-  /// **'Per-community profiles'**
-  String get premiumPerkPerCommunityProfiles;
-
-  /// No description provided for @premiumPerkMessageScheduling.
-  ///
-  /// In en, this message translates to:
-  /// **'Message scheduling'**
-  String get premiumPerkMessageScheduling;
-
-  /// No description provided for @premiumPerkProfileBadge.
-  ///
-  /// In en, this message translates to:
-  /// **'Profile badge'**
-  String get premiumPerkProfileBadge;
-
-  /// No description provided for @premiumPerkCustomVideoBackgrounds.
-  ///
-  /// In en, this message translates to:
-  /// **'Custom video backgrounds'**
-  String get premiumPerkCustomVideoBackgrounds;
-
-  /// No description provided for @premiumPerkEntranceSounds.
-  ///
-  /// In en, this message translates to:
-  /// **'Entrance sounds'**
-  String get premiumPerkEntranceSounds;
-
   /// No description provided for @premiumPerkCommunities.
   ///
   /// In en, this message translates to:
@@ -16177,29 +15105,11 @@ abstract class FluxerLocalizations {
   /// **'File upload size'**
   String get premiumPerkFileUploadSize;
 
-  /// No description provided for @premiumPerkEmojiStickerPacks.
-  ///
-  /// In en, this message translates to:
-  /// **'Emoji & sticker packs'**
-  String get premiumPerkEmojiStickerPacks;
-
-  /// No description provided for @premiumPerkSavedMedia.
-  ///
-  /// In en, this message translates to:
-  /// **'Saved media'**
-  String get premiumPerkSavedMedia;
-
   /// No description provided for @premiumPerkUseAnimatedEmojis.
   ///
   /// In en, this message translates to:
   /// **'Use animated emojis'**
   String get premiumPerkUseAnimatedEmojis;
-
-  /// No description provided for @premiumPerkGlobalEmojiStickerAccess.
-  ///
-  /// In en, this message translates to:
-  /// **'Global emoji & sticker access'**
-  String get premiumPerkGlobalEmojiStickerAccess;
 
   /// No description provided for @premiumPerkVideoQuality.
   ///
@@ -16218,12 +15128,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Early access to new features'**
   String get premiumPerkEarlyAccess;
-
-  /// No description provided for @premiumPerkCustomThemes.
-  ///
-  /// In en, this message translates to:
-  /// **'Custom themes'**
-  String get premiumPerkCustomThemes;
 
   /// No description provided for @premiumPerkVideoQualityRestricted.
   ///
@@ -16771,12 +15675,6 @@ abstract class FluxerLocalizations {
   /// **'Stop mic test'**
   String get audioAndVideoMicTestStopLabel;
 
-  /// Shown when microphone permission is required for the mic test.
-  ///
-  /// In en, this message translates to:
-  /// **'{productName} needs microphone access to test your input.'**
-  String audioAndVideoMicTestPermissionRequired(String productName);
-
   /// Label for camera device selection.
   ///
   /// In en, this message translates to:
@@ -16843,29 +15741,11 @@ abstract class FluxerLocalizations {
   /// **'60 FPS'**
   String get audioAndVideoFrameRate60Label;
 
-  /// Note shown when higher video quality options require premium.
-  ///
-  /// In en, this message translates to:
-  /// **'1080p and 60 FPS require {premiumProductName}.'**
-  String audioAndVideoHigherQualityRequiresPremium(String premiumProductName);
-
   /// Note shown when instance limits block higher screen share quality.
   ///
   /// In en, this message translates to:
   /// **'This instance currently allows screen share up to 720p at 30 FPS.'**
   String get audioAndVideoInstanceVideoQualityLimit;
-
-  /// Shown when microphone permission is required to enumerate audio input devices.
-  ///
-  /// In en, this message translates to:
-  /// **'{productName} needs microphone access to list your devices.'**
-  String audioAndVideoMicrophonePermissionRequired(String productName);
-
-  /// Shown when camera permission is required to enumerate video devices.
-  ///
-  /// In en, this message translates to:
-  /// **'{productName} needs camera access to list your devices.'**
-  String audioAndVideoCameraPermissionRequired(String productName);
 
   /// Toggle to skip confirmation when hiding own camera during a call.
   ///
@@ -16914,18 +15794,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Uses the OS notification center. For per-channel/per-community controls, right-click a community icon and open notification settings.'**
   String get notificationsEnableDesktopNotificationsDescription;
-
-  /// Toggle label for enabling browser notifications.
-  ///
-  /// In en, this message translates to:
-  /// **'Enable browser notifications'**
-  String get notificationsEnableBrowserNotificationsLabel;
-
-  /// Description for the enable browser notifications toggle.
-  ///
-  /// In en, this message translates to:
-  /// **'Get notified when you receive messages. You may need to allow notifications in your browser settings. For per-channel/per-community controls, right-click a community icon and open notification settings.'**
-  String get notificationsEnableBrowserNotificationsDescription;
 
   /// Label for push notification inactive timeout setting.
   ///
@@ -17407,12 +16275,6 @@ abstract class FluxerLocalizations {
   /// **'Choose the language used throughout the app'**
   String get languageAndTimeLanguageSectionDescription;
 
-  /// Button that opens the system per-app language settings.
-  ///
-  /// In en, this message translates to:
-  /// **'Open language settings'**
-  String get languageAndTimeOpenLanguageSettings;
-
   /// Settings section title for time format preference.
   ///
   /// In en, this message translates to:
@@ -17809,12 +16671,6 @@ abstract class FluxerLocalizations {
   /// **'Trust all external links'**
   String get advancedSettingTrustAllLinksLabel;
 
-  /// No description provided for @advancedSettingTrustAllLinksDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Skip the external link warning for all domains'**
-  String get advancedSettingTrustAllLinksDescription;
-
   /// No description provided for @advancedSettingSearchEnginesLabel.
   ///
   /// In en, this message translates to:
@@ -18144,48 +17000,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Enable developer mode'**
   String get advancedSettingDeveloperModeDescription;
-
-  /// No description provided for @advancedSettingSearchEngineGoogle.
-  ///
-  /// In en, this message translates to:
-  /// **'Google'**
-  String get advancedSettingSearchEngineGoogle;
-
-  /// No description provided for @advancedSettingSearchEngineDuckDuckGo.
-  ///
-  /// In en, this message translates to:
-  /// **'DuckDuckGo'**
-  String get advancedSettingSearchEngineDuckDuckGo;
-
-  /// No description provided for @advancedSettingSearchEngineBing.
-  ///
-  /// In en, this message translates to:
-  /// **'Bing'**
-  String get advancedSettingSearchEngineBing;
-
-  /// No description provided for @advancedSettingSearchEngineGoogleLens.
-  ///
-  /// In en, this message translates to:
-  /// **'Google Lens'**
-  String get advancedSettingSearchEngineGoogleLens;
-
-  /// No description provided for @advancedSettingSearchEngineTinEye.
-  ///
-  /// In en, this message translates to:
-  /// **'TinEye'**
-  String get advancedSettingSearchEngineTinEye;
-
-  /// No description provided for @advancedSettingTranslatorGoogle.
-  ///
-  /// In en, this message translates to:
-  /// **'Google Translate'**
-  String get advancedSettingTranslatorGoogle;
-
-  /// No description provided for @advancedSettingTranslatorDeepL.
-  ///
-  /// In en, this message translates to:
-  /// **'DeepL'**
-  String get advancedSettingTranslatorDeepL;
 
   /// No description provided for @advancedSettingDefaultSearchEngineLabel.
   ///
@@ -20091,12 +18905,6 @@ abstract class FluxerLocalizations {
   /// **'Webhooks'**
   String get guildMenuSettingsWebhooks;
 
-  /// Community settings tab for custom invite URLs.
-  ///
-  /// In en, this message translates to:
-  /// **'Custom invite URL'**
-  String get guildMenuSettingsCustomInviteUrl;
-
   /// Community settings tab for discovery settings.
   ///
   /// In en, this message translates to:
@@ -20139,23 +18947,11 @@ abstract class FluxerLocalizations {
   /// **'Icon'**
   String get guildSettingsOverviewIconTitle;
 
-  /// Button label to upload an image in guild settings.
-  ///
-  /// In en, this message translates to:
-  /// **'Upload image'**
-  String get guildSettingsUploadImage;
-
   /// Title for the guild banner section.
   ///
   /// In en, this message translates to:
   /// **'Banner'**
   String get guildSettingsOverviewBannerTitle;
-
-  /// Hint text for guild banner upload.
-  ///
-  /// In en, this message translates to:
-  /// **'Upload a banner for your server.'**
-  String get guildSettingsOverviewBannerHint;
 
   /// Title for the guild name field.
   ///
@@ -20168,30 +18964,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'My awesome community'**
   String get guildSettingsOverviewNameHint;
-
-  /// Title for guild statistics section.
-  ///
-  /// In en, this message translates to:
-  /// **'Statistics'**
-  String get guildSettingsOverviewStatsTitle;
-
-  /// Label for member count in overview.
-  ///
-  /// In en, this message translates to:
-  /// **'Members'**
-  String get guildSettingsOverviewMembers;
-
-  /// Label for online count in overview.
-  ///
-  /// In en, this message translates to:
-  /// **'Online'**
-  String get guildSettingsOverviewOnline;
-
-  /// Description for the roles settings tab.
-  ///
-  /// In en, this message translates to:
-  /// **'Use roles to group members and assign permissions.'**
-  String get guildSettingsRolesDescription;
 
   /// Button to create a new role.
   ///
@@ -20325,18 +19097,6 @@ abstract class FluxerLocalizations {
   /// **'Comfy layout'**
   String get guildSettingsRolesComfyLayout;
 
-  /// Aria label for switching to dense layout.
-  ///
-  /// In en, this message translates to:
-  /// **'Switch to dense layout'**
-  String get guildSettingsRolesSwitchToDenseLayout;
-
-  /// Aria label for switching to comfy layout.
-  ///
-  /// In en, this message translates to:
-  /// **'Switch to comfy layout'**
-  String get guildSettingsRolesSwitchToComfyLayout;
-
   /// Tooltip when permission list is in two-column layout.
   ///
   /// In en, this message translates to:
@@ -20349,29 +19109,11 @@ abstract class FluxerLocalizations {
   /// **'Two columns'**
   String get guildSettingsRolesTwoColumns;
 
-  /// Aria label for switching to single column.
-  ///
-  /// In en, this message translates to:
-  /// **'Switch to single column'**
-  String get guildSettingsRolesSwitchToSingleColumn;
-
-  /// Aria label for switching to two columns.
-  ///
-  /// In en, this message translates to:
-  /// **'Switch to two columns'**
-  String get guildSettingsRolesSwitchToTwoColumns;
-
   /// Empty state when permission search has no matches.
   ///
   /// In en, this message translates to:
   /// **'No permissions found'**
   String get guildSettingsRolesNoPermissionsFound;
-
-  /// Button to enter custom hoist order mode.
-  ///
-  /// In en, this message translates to:
-  /// **'Custom hoist order'**
-  String get guildSettingsRolesCustomHoistOrder;
 
   /// Header for hoist order sub-mode.
   ///
@@ -20396,12 +19138,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'No hoisted roles. Enable \"Show this role separately\" on a role to see it here.'**
   String get guildSettingsRolesNoHoistedRoles;
-
-  /// Tooltip on locked role rows.
-  ///
-  /// In en, this message translates to:
-  /// **'You cannot edit this role because it is your highest role or above you'**
-  String get guildSettingsRolesLockedTooltip;
 
   /// Tooltip when user lacks manage roles permission.
   ///
@@ -20540,12 +19276,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Audio & video'**
   String get permissionCategoryAudioVideo;
-
-  /// Fallback permission label.
-  ///
-  /// In en, this message translates to:
-  /// **'Unknown permission'**
-  String get permissionUnknown;
 
   /// Permission name.
   ///
@@ -21517,23 +20247,11 @@ abstract class FluxerLocalizations {
   /// **'{username} started a thread.'**
   String systemPreviewThreadCreated(String username);
 
-  /// Emoji slot usage summary.
-  ///
-  /// In en, this message translates to:
-  /// **'{staticCount} static, {animatedCount} animated emoji slots used'**
-  String guildSettingsEmojiSlotInfo(int staticCount, int animatedCount);
-
   /// Empty state for emoji settings.
   ///
   /// In en, this message translates to:
   /// **'No custom emoji yet.'**
   String get guildSettingsEmojiEmpty;
-
-  /// Sticker slot usage summary.
-  ///
-  /// In en, this message translates to:
-  /// **'{count} stickers uploaded'**
-  String guildSettingsStickersSlotInfo(int count);
 
   /// Empty state for sticker settings.
   ///
@@ -21637,18 +20355,6 @@ abstract class FluxerLocalizations {
   /// **'Requires everything in medium, plus being a member of the community for at least 10 minutes.'**
   String get guildSettingsVerificationHighDescription;
 
-  /// No description provided for @guildSettingsVerificationHighest.
-  ///
-  /// In en, this message translates to:
-  /// **'Very high'**
-  String get guildSettingsVerificationHighest;
-
-  /// No description provided for @guildSettingsVerificationHighestDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Requires a verified phone number.'**
-  String get guildSettingsVerificationHighestDescription;
-
   /// Subtitle under the activity-log page title.
   ///
   /// In en, this message translates to:
@@ -21690,18 +20396,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Unknown user'**
   String get guildSettingsAuditLogUnknownUser;
-
-  /// Generic error shown when fetching log entries fails.
-  ///
-  /// In en, this message translates to:
-  /// **'Something went wrong while loading the activity log.'**
-  String get guildSettingsAuditLogLoadError;
-
-  /// Error-state title when fetching log entries failed.
-  ///
-  /// In en, this message translates to:
-  /// **'Unable to load activity logs'**
-  String get guildSettingsAuditLogLoadErrorTitle;
 
   /// Label for the reason field in an expanded activity log entry.
   ///
@@ -22486,18 +21180,6 @@ abstract class FluxerLocalizations {
   /// **'Grants permanent membership.'**
   String get auditLogOptionPermanentMembership;
 
-  /// Button to load more audit log entries.
-  ///
-  /// In en, this message translates to:
-  /// **'Load more'**
-  String get guildSettingsLoadMore;
-
-  /// Loading state for pagination.
-  ///
-  /// In en, this message translates to:
-  /// **'Loading...'**
-  String get guildSettingsLoadingMore;
-
   /// Description for webhooks tab.
   ///
   /// In en, this message translates to:
@@ -22552,53 +21234,11 @@ abstract class FluxerLocalizations {
   /// **'Unknown channel'**
   String get guildSettingsUnknownChannel;
 
-  /// Tooltip to copy a URL.
-  ///
-  /// In en, this message translates to:
-  /// **'Copy URL'**
-  String get guildSettingsCopyUrl;
-
   /// Snackbar after copying a URL.
   ///
   /// In en, this message translates to:
   /// **'URL copied to clipboard'**
   String get guildSettingsCopiedUrl;
-
-  /// Tooltip to delete a webhook.
-  ///
-  /// In en, this message translates to:
-  /// **'Delete webhook'**
-  String get guildSettingsDeleteWebhook;
-
-  /// Description for vanity URL tab.
-  ///
-  /// In en, this message translates to:
-  /// **'Set a custom invite link for your server.'**
-  String get guildSettingsVanityUrlDescription;
-
-  /// Hint for vanity URL input.
-  ///
-  /// In en, this message translates to:
-  /// **'my-server'**
-  String get guildSettingsVanityUrlHint;
-
-  /// Generic save button label.
-  ///
-  /// In en, this message translates to:
-  /// **'Save'**
-  String get guildSettingsSave;
-
-  /// Title for vanity URL usage section.
-  ///
-  /// In en, this message translates to:
-  /// **'Usage'**
-  String get guildSettingsVanityUrlUsageTitle;
-
-  /// Vanity URL usage count.
-  ///
-  /// In en, this message translates to:
-  /// **'{count} uses'**
-  String guildSettingsVanityUrlUses(int count);
 
   /// Subtitle for the community Discovery settings tab.
   ///
@@ -22816,12 +21456,6 @@ abstract class FluxerLocalizations {
   /// **'Try again in a moment.'**
   String get guildSettingsDiscoveryWithdrawErrorDescription;
 
-  /// Description for members tab.
-  ///
-  /// In en, this message translates to:
-  /// **'Search and manage server members.'**
-  String get guildSettingsMembersDescription;
-
   /// Hint for member search field on the community members page.
   ///
   /// In en, this message translates to:
@@ -22893,12 +21527,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Roles'**
   String get guildMembersColumnRoles;
-
-  /// Table column header on the community members page.
-  ///
-  /// In en, this message translates to:
-  /// **'Actions'**
-  String get guildMembersColumnActions;
 
   /// Filter menu label on the community members page.
   ///
@@ -23026,24 +21654,6 @@ abstract class FluxerLocalizations {
   /// **'Indexing members…'**
   String get guildMembersIndexing;
 
-  /// Pagination jump label on the community members page.
-  ///
-  /// In en, this message translates to:
-  /// **'Go to page'**
-  String get guildMembersGoToPage;
-
-  /// Accessibility label for a pagination page button.
-  ///
-  /// In en, this message translates to:
-  /// **'Go to page {page}'**
-  String guildMembersGoToPageItem(int page);
-
-  /// Label for pagination jump input on the community members page.
-  ///
-  /// In en, this message translates to:
-  /// **'Jump to page'**
-  String get guildMembersJumpToPage;
-
   /// Join method label on the community members page.
   ///
   /// In en, this message translates to:
@@ -23128,23 +21738,11 @@ abstract class FluxerLocalizations {
   /// **'{count, plural, one {1 hour ago} other {{count} hours ago}}'**
   String guildMembersJoinedHoursAgo(int count);
 
-  /// Relative join time on the community members page.
-  ///
-  /// In en, this message translates to:
-  /// **'{count, plural, one {1 day ago} other {{count} days ago}}'**
-  String guildMembersJoinedDaysAgo(int count);
-
   /// Label for the Members item at the top of the guild channel list.
   ///
   /// In en, this message translates to:
   /// **'Members'**
   String get guildMembersChannelListLabel;
-
-  /// Accessibility label when the Members channel list item is selected.
-  ///
-  /// In en, this message translates to:
-  /// **'Members, selected'**
-  String get guildMembersChannelListSelected;
 
   /// Title for the invites settings tab.
   ///
@@ -23332,18 +21930,6 @@ abstract class FluxerLocalizations {
   /// **'The link may still work. Try again in a moment.'**
   String get guildSettingsInvitesRevokeFailedDescription;
 
-  /// Invite usage count.
-  ///
-  /// In en, this message translates to:
-  /// **'{uses} / {maxUses} uses'**
-  String guildSettingsInviteUses(int uses, int maxUses);
-
-  /// Invite expiration date.
-  ///
-  /// In en, this message translates to:
-  /// **'Expires {date}'**
-  String guildSettingsInviteExpires(String date);
-
   /// Description for bans tab.
   ///
   /// In en, this message translates to:
@@ -23362,35 +21948,11 @@ abstract class FluxerLocalizations {
   /// **'No banned users.'**
   String get guildSettingsBansEmpty;
 
-  /// Label for permanent ban.
-  ///
-  /// In en, this message translates to:
-  /// **'Permanent ban'**
-  String get guildSettingsBanPermanent;
-
-  /// Ban expiration date.
-  ///
-  /// In en, this message translates to:
-  /// **'Expires {date}'**
-  String guildSettingsBanExpires(String date);
-
   /// Label for ban expiration row.
   ///
   /// In en, this message translates to:
   /// **'Expires'**
   String get guildSettingsBanExpiresLabel;
-
-  /// Button to unban a user.
-  ///
-  /// In en, this message translates to:
-  /// **'Unban'**
-  String get guildSettingsUnban;
-
-  /// Loading state for the guild bans list.
-  ///
-  /// In en, this message translates to:
-  /// **'Loading banned users'**
-  String get guildSettingsBansLoading;
 
   /// Empty state when ban search has no matches.
   ///
@@ -23439,12 +22001,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Revoked ban for {displayName}'**
   String guildSettingsRevokeBanSuccess(String displayName);
-
-  /// Error when loading the guild bans list fails.
-  ///
-  /// In en, this message translates to:
-  /// **'Couldn\'t load bans. Try again.'**
-  String get guildSettingsBansLoadError;
 
   /// Error when revoking a ban fails.
   ///
@@ -23506,12 +22062,6 @@ abstract class FluxerLocalizations {
   /// **'PEOPLE'**
   String get guildSettingsCategoryPeople;
 
-  /// No description provided for @guildSettingsOverviewDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Manage your community\'s profile, channels, and default settings.'**
-  String get guildSettingsOverviewDescription;
-
   /// No description provided for @guildSettingsOverviewBrandingTitle.
   ///
   /// In en, this message translates to:
@@ -23566,12 +22116,6 @@ abstract class FluxerLocalizations {
   /// **'Communities with over 250 people are forced onto the \"mentions only\" setting. Your original setting is preserved and will be restored if the community drops below 250 members.'**
   String get guildSettingsOverviewNotificationsLargeGuild;
 
-  /// No description provided for @guildSettingsOverviewAdvancedTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Advanced'**
-  String get guildSettingsOverviewAdvancedTitle;
-
   /// No description provided for @guildSettingsOverviewFlexibleNames.
   ///
   /// In en, this message translates to:
@@ -23619,12 +22163,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Chat embed background'**
   String get guildSettingsOverviewEmbedSplashTitle;
-
-  /// Note shown when uploading chat embed background.
-  ///
-  /// In en, this message translates to:
-  /// **'Shown in invite embeds in chat.'**
-  String get guildSettingsOverviewEmbedSplashHint;
 
   /// Button to upload invite or embed background image.
   ///
@@ -23914,18 +22452,6 @@ abstract class FluxerLocalizations {
   /// **'JPEG, PNG, WebP, AVIF. Max 10MB. Minimum: 960×540px (16:9). Shown in invite embeds in chat.'**
   String get guildSettingsOverviewEmbedSplashUploadHint;
 
-  /// No description provided for @guildSettingsModerationDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Configure verification, content filtering, and mature content settings.'**
-  String get guildSettingsModerationDescription;
-
-  /// No description provided for @guildSettingsModerationDiscoveryNotice.
-  ///
-  /// In en, this message translates to:
-  /// **'Discovery-listed communities have restricted moderation options.'**
-  String get guildSettingsModerationDiscoveryNotice;
-
   /// No description provided for @guildSettingsModerationContentFilterTitle.
   ///
   /// In en, this message translates to:
@@ -23980,18 +22506,6 @@ abstract class FluxerLocalizations {
   /// **'Maximum protection for family-friendly spaces'**
   String get guildSettingsContentFilterAllDescription;
 
-  /// No description provided for @guildSettingsModerationMatureOff.
-  ///
-  /// In en, this message translates to:
-  /// **'Off'**
-  String get guildSettingsModerationMatureOff;
-
-  /// No description provided for @guildSettingsModerationMatureOn.
-  ///
-  /// In en, this message translates to:
-  /// **'On'**
-  String get guildSettingsModerationMatureOn;
-
   /// Switch label for the community content warning setting.
   ///
   /// In en, this message translates to:
@@ -24033,12 +22547,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Require 2FA for moderation actions'**
   String get guildSettingsModeration2faSwitchLabel;
-
-  /// No description provided for @guildSettingsModeration2faOwnerOnlyTooltip.
-  ///
-  /// In en, this message translates to:
-  /// **'Only the community owner can change this setting'**
-  String get guildSettingsModeration2faOwnerOnlyTooltip;
 
   /// No description provided for @guildSettingsModeration2faEnableFirstTooltip.
   ///
@@ -24082,12 +22590,6 @@ abstract class FluxerLocalizations {
   /// **'No emojis found matching your search.'**
   String get guildSettingsEmojiSearchEmpty;
 
-  /// No description provided for @guildSettingsEmojiNoSlots.
-  ///
-  /// In en, this message translates to:
-  /// **'No emoji slots available'**
-  String get guildSettingsEmojiNoSlots;
-
   /// No description provided for @guildSettingsEmojiSlotsFull.
   ///
   /// In en, this message translates to:
@@ -24100,35 +22602,11 @@ abstract class FluxerLocalizations {
   /// **'Emoji names need at least 2 characters and can use letters, numbers, and underscores. Emojis must be under {maxSize}. Static images are resized to 128x128 pixels and compressed automatically. Animated emojis and SVGs must already fit the limit.'**
   String guildSettingsEmojiUploadRequirements(String maxSize);
 
-  /// No description provided for @guildSettingsEmojiUploadingTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Uploading emojis'**
-  String get guildSettingsEmojiUploadingTitle;
-
-  /// No description provided for @guildSettingsEmojiUploadingBody.
-  ///
-  /// In en, this message translates to:
-  /// **'Uploading {count, plural, one {# emoji} other {# emojis}}. This may take a little while.'**
-  String guildSettingsEmojiUploadingBody(int count);
-
-  /// No description provided for @guildSettingsEmojiUploadFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to upload emojis. Try again.'**
-  String get guildSettingsEmojiUploadFailed;
-
   /// No description provided for @guildSettingsEmojiSomeFailedTitle.
   ///
   /// In en, this message translates to:
   /// **'Some emojis couldn\'t be added'**
   String get guildSettingsEmojiSomeFailedTitle;
-
-  /// No description provided for @guildSettingsEmojiSomeFailedBody.
-  ///
-  /// In en, this message translates to:
-  /// **'Review these files and try again with smaller or simpler images.'**
-  String get guildSettingsEmojiSomeFailedBody;
 
   /// No description provided for @guildSettingsEmojiRenameTitle.
   ///
@@ -24142,12 +22620,6 @@ abstract class FluxerLocalizations {
   /// **'2-32 characters, letters, numbers, underscores.'**
   String get guildSettingsEmojiRenameHint;
 
-  /// No description provided for @guildSettingsEmojiColumnEmoji.
-  ///
-  /// In en, this message translates to:
-  /// **'Emoji'**
-  String get guildSettingsEmojiColumnEmoji;
-
   /// No description provided for @guildSettingsEmojiColumnName.
   ///
   /// In en, this message translates to:
@@ -24159,12 +22631,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Uploaded by'**
   String get guildSettingsEmojiColumnUploader;
-
-  /// No description provided for @guildSettingsEmojiUnknownUploader.
-  ///
-  /// In en, this message translates to:
-  /// **'Unknown'**
-  String get guildSettingsEmojiUnknownUploader;
 
   /// No description provided for @guildSettingsEmojiDeleteTitle.
   ///
@@ -24208,59 +22674,11 @@ abstract class FluxerLocalizations {
   /// **'Couldn\'t rename this emoji'**
   String get guildSettingsEmojiRenameFailedTitle;
 
-  /// No description provided for @guildSettingsEmojiRenameFailedBody.
-  ///
-  /// In en, this message translates to:
-  /// **'The name was reverted to what it was before. Please try again in a moment.'**
-  String get guildSettingsEmojiRenameFailedBody;
-
-  /// No description provided for @guildSettingsEmojiGoneTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'This emoji no longer exists'**
-  String get guildSettingsEmojiGoneTitle;
-
-  /// No description provided for @guildSettingsEmojiGoneBody.
-  ///
-  /// In en, this message translates to:
-  /// **'It may have been deleted. The name was reverted to what it was before.'**
-  String get guildSettingsEmojiGoneBody;
-
-  /// No description provided for @guildSettingsEmojiNoPermissionRenameTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'You can\'t rename this emoji'**
-  String get guildSettingsEmojiNoPermissionRenameTitle;
-
-  /// No description provided for @guildSettingsEmojiNoPermissionRenameBody.
-  ///
-  /// In en, this message translates to:
-  /// **'You don\'t have permission to rename this emoji. The name was reverted to what it was before.'**
-  String get guildSettingsEmojiNoPermissionRenameBody;
-
-  /// No description provided for @guildSettingsEmojiRateLimitedTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'You\'re going too fast'**
-  String get guildSettingsEmojiRateLimitedTitle;
-
-  /// No description provided for @guildSettingsEmojiRateLimitedBody.
-  ///
-  /// In en, this message translates to:
-  /// **'Please wait a moment and try renaming again.'**
-  String get guildSettingsEmojiRateLimitedBody;
-
   /// No description provided for @guildSettingsEmojiDeleteFailedTitle.
   ///
   /// In en, this message translates to:
   /// **'Couldn\'t delete this emoji'**
   String get guildSettingsEmojiDeleteFailedTitle;
-
-  /// No description provided for @guildSettingsEmojiDeleteNoPermissionTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'You can\'t delete this emoji'**
-  String get guildSettingsEmojiDeleteNoPermissionTitle;
 
   /// No description provided for @guildSettingsCloneEmojiTitle.
   ///
@@ -24376,18 +22794,6 @@ abstract class FluxerLocalizations {
   /// **'No stickers found matching your search.'**
   String get guildSettingsStickersSearchEmpty;
 
-  /// No description provided for @guildSettingsStickersEmptySearch.
-  ///
-  /// In en, this message translates to:
-  /// **'No stickers found'**
-  String get guildSettingsStickersEmptySearch;
-
-  /// No description provided for @guildSettingsStickerNoSlots.
-  ///
-  /// In en, this message translates to:
-  /// **'No sticker slots available'**
-  String get guildSettingsStickerNoSlots;
-
   /// No description provided for @guildSettingsStickerSlotsFull.
   ///
   /// In en, this message translates to:
@@ -24399,12 +22805,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Stickers are saved at 320x320 pixels and must be under {maxSize}. Static images are resized and compressed automatically. Animated stickers and SVGs must already fit the limit.'**
   String guildSettingsStickerUploadRequirements(String maxSize);
-
-  /// No description provided for @guildSettingsStickerUnsupportedTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Unsupported sticker file'**
-  String get guildSettingsStickerUnsupportedTitle;
 
   /// No description provided for @guildSettingsStickerAddTitle.
   ///
@@ -24490,18 +22890,6 @@ abstract class FluxerLocalizations {
   /// **'Couldn\'t create this sticker'**
   String get guildSettingsStickerCreateFailedTitle;
 
-  /// No description provided for @guildSettingsStickerTooLargeTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Sticker is too large'**
-  String get guildSettingsStickerTooLargeTitle;
-
-  /// No description provided for @guildSettingsStickerCompressFailedTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Sticker couldn\'t be compressed enough'**
-  String get guildSettingsStickerCompressFailedTitle;
-
   /// No description provided for @guildSettingsStickerDeleteTitle.
   ///
   /// In en, this message translates to:
@@ -24526,29 +22914,11 @@ abstract class FluxerLocalizations {
   /// **'Couldn\'t delete this sticker'**
   String get guildSettingsStickerDeleteFailedTitle;
 
-  /// No description provided for @guildSettingsStickerDeleteNoPermissionTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'You can\'t delete this sticker'**
-  String get guildSettingsStickerDeleteNoPermissionTitle;
-
   /// Info box on the guild webhooks tab.
   ///
   /// In en, this message translates to:
   /// **'To create a webhook, open {channelSettingsPath}. You can still edit and organize all existing webhooks here.'**
   String guildSettingsWebhooksInfo(String channelSettingsPath);
-
-  /// No description provided for @guildSettingsVanityUrlWarning.
-  ///
-  /// In en, this message translates to:
-  /// **'Your vanity URL won\'t work unless at least one channel is visible to everyone.'**
-  String get guildSettingsVanityUrlWarning;
-
-  /// No description provided for @guildSettingsVanityUrlRemove.
-  ///
-  /// In en, this message translates to:
-  /// **'Remove'**
-  String get guildSettingsVanityUrlRemove;
 
   /// No description provided for @guildSettingsBannedUsersTitle.
   ///
@@ -25408,18 +23778,6 @@ abstract class FluxerLocalizations {
   /// **'Channel'**
   String get channelFollowChannel;
 
-  /// No description provided for @channelFollowSelectCommunity.
-  ///
-  /// In en, this message translates to:
-  /// **'Select a community'**
-  String get channelFollowSelectCommunity;
-
-  /// No description provided for @channelFollowSelectChannel.
-  ///
-  /// In en, this message translates to:
-  /// **'Select a channel'**
-  String get channelFollowSelectChannel;
-
   /// No description provided for @channelFollowAgeWarning.
   ///
   /// In en, this message translates to:
@@ -25684,18 +24042,6 @@ abstract class FluxerLocalizations {
   /// **'Unfollow'**
   String get channelSettingsUnfollow;
 
-  /// No description provided for @channelSettingsUnfollowFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Couldn\'t unfollow this channel.'**
-  String get channelSettingsUnfollowFailed;
-
-  /// No description provided for @channelSettingsDeliveredTo.
-  ///
-  /// In en, this message translates to:
-  /// **'Delivered to #{channelName}'**
-  String channelSettingsDeliveredTo(String channelName);
-
   /// No description provided for @crosspostCommunityTitle.
   ///
   /// In en, this message translates to:
@@ -25719,12 +24065,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t load this community. Try again in a moment.'**
   String get crosspostSourceFailed;
-
-  /// No description provided for @crosspostSourceUnavailable.
-  ///
-  /// In en, this message translates to:
-  /// **'This community is no longer available'**
-  String get crosspostSourceUnavailable;
 
   /// No description provided for @crosspostMembers.
   ///

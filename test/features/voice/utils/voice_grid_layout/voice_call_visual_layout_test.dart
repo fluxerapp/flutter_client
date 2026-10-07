@@ -102,32 +102,6 @@ void main() {
     });
   });
 
-  group('resolveVoiceCallMainTileId', () {
-    test('prefers a valid pin', () {
-      expect(
-        resolveVoiceCallMainTileId<String>(
-          pinnedTileId: 'b',
-          tiles: <String>['a', 'b', 'c'],
-          tileId: (String tile) => tile,
-          isScreenShare: (String tile) => tile == 'c',
-        ),
-        'b',
-      );
-    });
-
-    test('falls back to the first non-screen-share tile', () {
-      expect(
-        resolveVoiceCallMainTileId<String>(
-          pinnedTileId: 'gone',
-          tiles: <String>['share', 'cam'],
-          tileId: (String tile) => tile,
-          isScreenShare: (String tile) => tile == 'share',
-        ),
-        'cam',
-      );
-    });
-  });
-
   group('voiceCallTileIsFocused', () {
     test('matches the pinned tile', () {
       expect(

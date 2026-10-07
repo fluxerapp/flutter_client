@@ -47,12 +47,6 @@ Future<FileUploadValidationResult?> tryPasteClipboardAttachments({
       .addFiles(composerUploadFiles(files));
 }
 
-Future<void> pastePlainTextIntoComposer(
-  TextEditingController controller,
-) async {
-  await pasteIntoTextController(controller);
-}
-
 Future<bool> pasteIntoComposer({
   required ComposerMentionController controller,
   required int maxLength,

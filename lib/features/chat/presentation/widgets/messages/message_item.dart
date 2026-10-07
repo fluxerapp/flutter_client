@@ -2049,7 +2049,6 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         embed: embed,
         dimensionSize: dimensionSize,
         channelId: channelId,
-        messageId: messageId,
         embedIndex: embedIndex,
         videoActionScope: _videoActionScope,
       ),

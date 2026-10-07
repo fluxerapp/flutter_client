@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:audio_session/audio_session.dart' as audio_session;
 import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/talker.dart';
 
 final AudioContext kAppMediaAudioContext = AudioContext(
@@ -33,7 +32,7 @@ const audio_session.AudioSessionConfiguration kMixableIdleAudioSessionConfig =
     );
 
 Future<void> prepareAppMediaAudioSession() async {
-  if (kIsWeb || !(Platform.isAndroid || Platform.isIOS)) {
+  if (!(Platform.isAndroid || Platform.isIOS)) {
     return;
   }
   try {
@@ -50,26 +49,8 @@ Future<void> prepareAppMediaAudioSession() async {
   await session.configure(kAppMediaAudioSessionConfig);
 }
 
-Future<void> activateAppMediaAudioSession() async {
-  if (kIsWeb || !(Platform.isAndroid || Platform.isIOS)) {
-    return;
-  }
-  await prepareAppMediaAudioSession();
-  try {
-    final audio_session.AudioSession session =
-        await audio_session.AudioSession.instance;
-    await session.setActive(true);
-  } on Object catch (error, stackTrace) {
-    talker.warning(
-      '[AudioSession] Failed to activate the media audio session',
-      error,
-      stackTrace,
-    );
-  }
-}
-
 Future<void> releaseAppAudioSessionForMixing() async {
-  if (kIsWeb || !(Platform.isAndroid || Platform.isIOS)) {
+  if (!(Platform.isAndroid || Platform.isIOS)) {
     return;
   }
   try {
@@ -88,5 +69,3 @@ Future<void> releaseAppAudioSessionForMixing() async {
     await session.configure(kMixableIdleAudioSessionConfig);
   }
 }
-
-Future<void> restoreAppMediaAudioSession() => activateAppMediaAudioSession();

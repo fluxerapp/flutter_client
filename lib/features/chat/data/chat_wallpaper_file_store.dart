@@ -122,9 +122,6 @@ class ChatWallpaperFileStore {
   const ChatWallpaperFileStore();
 
   Future<String?> pathForUser(String userId) async {
-    if (kIsWeb) {
-      return null;
-    }
     try {
       final Directory dir = await getApplicationDocumentsDirectory();
       return path_lib.join(dir.path, 'chat_wallpaper', '$userId.jpg');

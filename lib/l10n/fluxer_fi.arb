@@ -28,10 +28,6 @@
     "@retry": {
         "description": "Generic label for retry actions (splash, errors, network, etc.)."
     },
-    "connectingCaps": "CONNECTING",
-    "@connectingCaps": {
-        "description": "Connecting text on the splash screen"
-    },
     "splashConnectionLost": "Yhteys katkesi",
     "@splashConnectionLost": {
         "description": "Fallback headline on splash when gateway is unavailable (web parity)."
@@ -93,10 +89,6 @@
             }
         }
     },
-    "ssoRequired": "Tähän instanssiin pääsy vaatii SSO:n.",
-    "@ssoRequired": {
-        "description": "Short sign-in note shown when the instance requires single sign-on."
-    },
     "organizationSsoProvider": "Kirjaudu sisään organisaatiosi kertakirjautumispalvelun kautta.",
     "@organizationSsoProvider": {
         "description": "Description shown when sign-in is restricted to the configured SSO provider."
@@ -117,10 +109,6 @@
                 "type": "String"
             }
         }
-    },
-    "logInViaBrowser": "Kirjaudu sisään selaimella",
-    "@logInViaBrowser": {
-        "description": "Secondary login that opens or uses the system browser."
     },
     "needAccountPrompt": "Tarvitsetko tilin? ",
     "@needAccountPrompt": {
@@ -232,26 +220,9 @@
     "@accountAdd": {
         "description": "Button to add a new account."
     },
-    "accountRemove": "Poista",
-    "@accountRemove": {
-        "description": "Context menu option to remove a stored account."
-    },
-    "accountRemoveTitle": "Poista {username}",
-    "@accountRemoveTitle": {
-        "description": "Title for the remove account confirmation modal.",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
     "accountRemoveDescription": "Tämä poistaa tallennetun istunnon tältä tililtä.",
     "@accountRemoveDescription": {
         "description": "Description for the remove account confirmation modal."
-    },
-    "accountRemoveOnlyDescription": "Tämä poistaa ainoan tälle laitteelle tallennetun tilin.",
-    "@accountRemoveOnlyDescription": {
-        "description": "Description when removing the last stored account."
     },
     "accountExpired": "Vanhentunut",
     "@accountExpired": {
@@ -783,10 +754,6 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsent": "Hyväksyn käyttöehdot ja tietosuojakäytännön",
-    "@registerConsent": {
-        "description": "Consent checkbox label for registration (plain text fallback)."
-    },
     "registerConsentPrefix": "Hyväksyn ",
     "@registerConsentPrefix": {
         "description": "Text before the Terms of Service link in the consent checkbox."
@@ -830,10 +797,6 @@
     "passkeyTimeout": "Passkey-tunnistautuminen aikakatkaistiin. Yritä uudelleen.",
     "@passkeyTimeout": {
         "description": "Error when passkey authentication times out."
-    },
-    "passkeyNotAvailable": "Passkey-tunnukset eivät ole saatavilla tälle sovellukselle. Kirjaudu sisään sähköpostilla ja salasanalla.",
-    "@passkeyNotAvailable": {
-        "description": "Error for unknown passkey provider errors (e.g. TYPE_UNKNOWN)."
     },
     "passkeyFailed": "Salasanatunnuksen tunnistautuminen epäonnistui. Yritä uudelleen.",
     "@passkeyFailed": {
@@ -941,26 +904,6 @@
     "inviteAcceptSomeone": "joku",
     "@inviteAcceptSomeone": {
         "description": "Fallback inviter name when the inviter is unknown."
-    },
-    "inviteAcceptEmojiPack": "Emojipaketti",
-    "@inviteAcceptEmojiPack": {
-        "description": "Label for an emoji pack invite."
-    },
-    "inviteAcceptStickerPack": "Tarrat",
-    "@inviteAcceptStickerPack": {
-        "description": "Label for a sticker pack invite."
-    },
-    "inviteAcceptInstallEmojiPack": "Asenna emojipaketti",
-    "@inviteAcceptInstallEmojiPack": {
-        "description": "Primary action to install an emoji pack from an invite."
-    },
-    "inviteAcceptInstallStickerPack": "Asenna tarrat",
-    "@inviteAcceptInstallStickerPack": {
-        "description": "Primary action to install a sticker pack from an invite."
-    },
-    "inviteAcceptPackInstallNote": "Tämän kutsun hyväksyminen asentaa paketin automaattisesti.",
-    "@inviteAcceptPackInstallNote": {
-        "description": "Note shown on expression pack invites before accepting."
     },
     "mentionUnknownChannel": "unknown-channel",
     "@mentionUnknownChannel": {
@@ -1708,10 +1651,6 @@
             }
         }
     },
-    "emojiPlutoniumUpsellButton": "Hanki Plutonium",
-    "@emojiPlutoniumUpsellButton": {
-        "description": "Button label on the Plutonium upsell banner."
-    },
     "emojiPlutoniumUpsellDismiss": "Älä näytä tätä uudelleen",
     "@emojiPlutoniumUpsellDismiss": {
         "description": "Dismiss link on the Plutonium upsell banner."
@@ -1878,10 +1817,6 @@
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
     },
-    "fluxerTagInputLabel": "Käyttäjänimi",
-    "@fluxerTagInputLabel": {
-        "description": "Label above the username and discriminator input fields."
-    },
     "fluxerTagDescriptionBase": "Käyttäjänimet voivat sisältää vain kirjaimia (a-z, A-Z), numeroita (0-9) ja alaviivoja. Käyttäjänimissä ei huomioida kirjainkokoa.",
     "@fluxerTagDescriptionBase": {
         "description": "Base description text on the username change sheet."
@@ -1909,10 +1844,6 @@
     "validationAllowedChars": "Vain kirjaimet (a-z, A-Z), numerot (0-9) ja alaviivat (_)",
     "@validationAllowedChars": {
         "description": "Validation rule for allowed username characters."
-    },
-    "discriminatorPremiumTooltip": "Hanki Plutonium räätäljätäksesi tunnisteesi tai säilyttääksesi sen muuttaessasi käyttäjänimeäsi",
-    "@discriminatorPremiumTooltip": {
-        "description": "Tooltip on disabled discriminator field for non-premium users."
     },
     "fluxerTagAlreadyTaken": "Käyttäjänimi on jo varattu",
     "@fluxerTagAlreadyTaken": {
@@ -1967,19 +1898,6 @@
     "premiumUpsellCustomizeTag": "Mukauta 4-numeroista tunnisteesi tai säilytä se muuttaessasi käyttäjänimeäsi",
     "@premiumUpsellCustomizeTag": {
         "description": "Upsell text encouraging non-premium users to get Plutonium for tag customization."
-    },
-    "premiumTrialExpiresOn": "Plutonium-kokeilujaksosi päättyy {date}. Päivitä säilyttääksesi mukautetun tunnisteesi ja ansaitaksesi merkin profiiliisi.",
-    "@premiumTrialExpiresOn": {
-        "description": "Trial upsell with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActive": "Olet Plutonium-kokeilujaksolla. Päivitä säilyttääksesi mukautetun tunnisteesi ja ansaitaksesi merkin profiiliisi.",
-    "@premiumTrialActive": {
-        "description": "Trial upsell without specific expiry date."
     },
     "fluxerTagUpdated": "Käyttäjänimi päivitetty",
     "@fluxerTagUpdated": {
@@ -2153,32 +2071,6 @@
     "@hideVisionaryIdDescription": {
         "description": "Description for the toggle to hide the Visionary ID badge."
     },
-    "premiumTrialSubscriptionStarts": "Olet Plutonium-kokeilujaksolla – tilauksesi alkaa {date}",
-    "@premiumTrialSubscriptionStarts": {
-        "description": "Trial banner title when user has an active subscription pending after trial.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialSubscriptionStartsDescription": "Tilauksesi alkaa automaattisesti, kun kokeilujaksosi päättyy. Ei vaadi toimenpiteitä.",
-    "@premiumTrialSubscriptionStartsDescription": {
-        "description": "Trial banner description when user has an active subscription pending after trial."
-    },
-    "premiumTrialExpiresOnProfile": "Olet Plutonium-kokeilujaksolla, joka päättyy {date}",
-    "@premiumTrialExpiresOnProfile": {
-        "description": "Trial banner title with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActiveProfile": "Olet Plutonium-kokeilujaksolla",
-    "@premiumTrialActiveProfile": {
-        "description": "Trial banner title without specific expiry date."
-    },
     "avatarDescriptionNonPremium": "JPEG, PNG, WebP. Max 10MB. Suositus: 512×512px. Animoitu avatar (GIF) vaatii Plutoniumin.",
     "@avatarDescriptionNonPremium": {
         "description": "Avatar helper text for non-premium users, mentioning Plutonium requirement for animated avatars."
@@ -2263,22 +2155,6 @@
     "profileSavedToast": "Profiili päivitetty",
     "@profileSavedToast": {
         "description": "Toast message shown after successfully saving profile changes."
-    },
-    "profileEditButton": "Muokkaa profiilia",
-    "@profileEditButton": {
-        "description": "Button label to open profile editing from the profile content card."
-    },
-    "profileNoteLabel": "Huomautus",
-    "@profileNoteLabel": {
-        "description": "Label for the personal note section on a user profile."
-    },
-    "profileNoteVisibility": "(näkyy vain sinulle)",
-    "@profileNoteVisibility": {
-        "description": "Hint that the note is private and only visible to the current user."
-    },
-    "profileNoteEmpty": "Ei vielä huomautusta.",
-    "@profileNoteEmpty": {
-        "description": "Placeholder shown when no personal note has been set for a user."
     },
     "sudoTitle": "Vahvista henkilöllisyytesi",
     "@sudoTitle": {
@@ -2651,42 +2527,6 @@
     "@securityPasskeyNameHint": {
         "description": "Hint for passkey name input."
     },
-    "securityPhoneSectionTitle": "Puhelinnumero",
-    "@securityPhoneSectionTitle": {
-        "description": "Title for phone number section."
-    },
-    "securityPhoneSectionDescription": "Hallitse puhelinnumeroasi",
-    "@securityPhoneSectionDescription": {
-        "description": "Description for phone number section."
-    },
-    "securityPhoneLabel": "Puhelinnumero",
-    "@securityPhoneLabel": {
-        "description": "Label for phone number row."
-    },
-    "securityPhoneNone": "Puhelinnumeroa ei ole lisätty.",
-    "@securityPhoneNone": {
-        "description": "Shown when no phone number is set."
-    },
-    "securityPhoneAdd": "Lisää puhelinnumero",
-    "@securityPhoneAdd": {
-        "description": "Button to add phone number."
-    },
-    "securityPhoneRemove": "Poista",
-    "@securityPhoneRemove": {
-        "description": "Button to remove phone number."
-    },
-    "securityPhoneRemoveTitle": "Poista puhelinnumero",
-    "@securityPhoneRemoveTitle": {
-        "description": "Title for phone remove confirmation."
-    },
-    "securityPhoneRemoveDescription": "Haluatko varmasti poistaa puhelinnumerosi?",
-    "@securityPhoneRemoveDescription": {
-        "description": "Description for phone remove confirmation."
-    },
-    "securityPhoneRemoved": "Puhelinnumero poistettu",
-    "@securityPhoneRemoved": {
-        "description": "Toast after phone removed."
-    },
     "securityClaimTitle": "Turvallisuusominaisuudet",
     "@securityClaimTitle": {
         "description": "Title when user needs to claim account for security."
@@ -2739,10 +2579,6 @@
     "@backupCodesWarning": {
         "description": "Warning about backup codes."
     },
-    "backupCodesDownload": "Lataa",
-    "@backupCodesDownload": {
-        "description": "Button to download backup codes."
-    },
     "backupCodesCopy": "Kopioi",
     "@backupCodesCopy": {
         "description": "Button to copy backup codes."
@@ -2758,46 +2594,6 @@
     "backupCodesDone": "Valmis",
     "@backupCodesDone": {
         "description": "Button to close backup codes sheet."
-    },
-    "backupCodesViewTitle": "Näytä varakoodit",
-    "@backupCodesViewTitle": {
-        "description": "Title for viewing existing backup codes."
-    },
-    "backupCodesViewDescription": "Vahvistus saattaa olla tarpeen ennen varmuuskoodien näyttämistä.",
-    "@backupCodesViewDescription": {
-        "description": "Description for view backup codes."
-    },
-    "phoneAddTitle": "Lisää puhelinnumero",
-    "@phoneAddTitle": {
-        "description": "Title for phone add sheet."
-    },
-    "phoneAddLabel": "Puhelinnumero",
-    "@phoneAddLabel": {
-        "description": "Label for phone input."
-    },
-    "phoneAddHint": "Anna puhelinnumerosi",
-    "@phoneAddHint": {
-        "description": "Hint for phone input."
-    },
-    "phoneAddFooter": "Lähetämme tekstiviestikoodin, kun se on saatavilla. Numerosi ei ole linkitetty tiliisi. Säilytämme vain salatun merkinnän ilman käyttäjätunnusta, jotta voimme tehdä enintään 2 vahvistusta noin 30 päivän aikana.",
-    "@phoneAddFooter": {
-        "description": "Footer text for phone input."
-    },
-    "phoneAddSendCode": "Lähetä koodi",
-    "@phoneAddSendCode": {
-        "description": "Button to send phone verification code."
-    },
-    "phoneVerifyTitle": "Vahvista puhelinnumero",
-    "@phoneVerifyTitle": {
-        "description": "Title for phone verify step."
-    },
-    "phoneVerifyDescription": "Syötä puhelinnumeroosi lähetetty vahvistuskoodi.",
-    "@phoneVerifyDescription": {
-        "description": "Description for phone verify step."
-    },
-    "phoneAddSuccess": "Puhelinnumero vahvistettu",
-    "@phoneAddSuccess": {
-        "description": "Toast after phone added."
     },
     "dangerZoneSectionTitle": "Vaaravyöhyke",
     "@dangerZoneSectionTitle": {
@@ -3049,10 +2845,6 @@
     "@authorizedAppsScopeAdmin": {
         "description": "OAuth2 scope description: admin."
     },
-    "privacyPendingDeletionTitle": "Poisto odottaa",
-    "@privacyPendingDeletionTitle": {
-        "description": "Title of the warning alert shown when a bulk message deletion is pending."
-    },
     "blockedUsersTitle": "Estetyt käyttäjät",
     "@blockedUsersTitle": {
         "description": "Header title of the Blocked Users settings page."
@@ -3288,10 +3080,6 @@
     "userProfileNoteDelete": "Poista",
     "@userProfileNoteDelete": {
         "description": "Delete button in the note editor sheet."
-    },
-    "userProfileNoteEmpty": "Lisää muistiinpano napsauttamalla",
-    "@userProfileNoteEmpty": {
-        "description": "Hint text when no note has been written yet."
     },
     "userProfileMemberSince": "Jäsenenä alkaen",
     "@userProfileMemberSince": {
@@ -4063,17 +3851,9 @@
     "@channelComposerBarrierNotMemberLongEnough": {
         "description": "Composer barrier when the user's guild membership is too recent."
     },
-    "channelComposerBarrierNoPhoneNumber": "Sinun on vahvistettava puhelinnumero lähettääksesi viestejä tässä yhteisössä.",
-    "@channelComposerBarrierNoPhoneNumber": {
-        "description": "Composer barrier when the user must verify a phone number before messaging."
-    },
     "channelComposerBarrierVerifyEmail": "Vahvista sähköposti",
     "@channelComposerBarrierVerifyEmail": {
         "description": "Action button on the composer barrier for unverified email."
-    },
-    "channelComposerBarrierVerifyPhone": "Vahvista puhelinnumero",
-    "@channelComposerBarrierVerifyPhone": {
-        "description": "Action button on the composer barrier for missing phone verification."
     },
     "chatAttachmentTooMany": "Liian monta liitettä (max {max})",
     "@chatAttachmentTooMany": {
@@ -4100,10 +3880,6 @@
     "@chatAttachmentDropToSend": {
         "description": "Overlay hint when dragging files over chat with Shift held."
     },
-    "chatAttachmentSendVoiceMessage": "Lähetä ääniviesti",
-    "@chatAttachmentSendVoiceMessage": {
-        "description": "Menu item to open the voice message recorder."
-    },
     "voiceMessageTitle": "Ääniviesti",
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
@@ -4124,10 +3900,6 @@
     "@voiceMessageMicPermissionDenied": {
         "description": "Shown when microphone permission is denied for voice messages."
     },
-    "voiceMessageRecordingNotSupported": "Äänitallennus ei ole tuettu tässä laitteessa.",
-    "@voiceMessageRecordingNotSupported": {
-        "description": "Shown when the device cannot record voice messages."
-    },
     "voiceMessageMicInUse": "Poistu äänipuhelusta tallentaaksesi ääniviestin.",
     "@voiceMessageMicInUse": {
         "description": "Shown when the microphone is already used by an active voice call."
@@ -4140,26 +3912,6 @@
     "@voiceMessageSendFailed": {
         "description": "Shown when sending a voice message fails."
     },
-    "voiceMessageRecordingHint": "Puhu nyt. Paina Pysäytä, kun olet valmis – voit rajata myöhemmin.",
-    "@voiceMessageRecordingHint": {
-        "description": "Help text while recording a voice message on desktop."
-    },
-    "voiceMessageReviewHint": "Rajaa vetämällä kahvoja ja paina sitten Lähetä.",
-    "@voiceMessageReviewHint": {
-        "description": "Help text while reviewing a voice message before send."
-    },
-    "voiceMessageStop": "Pysäytä",
-    "@voiceMessageStop": {
-        "description": "Stop recording button in voice message composer."
-    },
-    "voiceMessageStartRecording": "Aloita nauhoitus",
-    "@voiceMessageStartRecording": {
-        "description": "Button to retry voice recording after permission error."
-    },
-    "voiceMessageRerecord": "Nauhoita uudelleen",
-    "@voiceMessageRerecord": {
-        "description": "Button to discard review and record again."
-    },
     "voiceMessagePlay": "Toista",
     "@voiceMessagePlay": {
         "description": "Play voice message preview."
@@ -4167,16 +3919,6 @@
     "voiceMessagePause": "Keskeytä",
     "@voiceMessagePause": {
         "description": "Pause voice message preview."
-    },
-    "voiceMessageSelectionTooShort": "Valinnan on oltava vähintään {seconds} sekuntia.",
-    "@voiceMessageSelectionTooShort": {
-        "description": "Error when trimmed voice message is too short.",
-        "placeholders": {
-            "seconds": {
-                "type": "num",
-                "format": "compact"
-            }
-        }
     },
     "chatAttachmentEditTitle": "Muokkaa liitettä",
     "@chatAttachmentEditTitle": {
@@ -4221,10 +3963,6 @@
     "chatAttachmentSourceBrowse": "Selaa tiedostoja",
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
-    },
-    "chatAttachmentPasteTooltip": "Liitä tiedosto leikepöydältä",
-    "@chatAttachmentPasteTooltip": {
-        "description": "Tooltip for pasting an image attachment from the clipboard."
     },
     "chatAttachmentSpoiler": "Spoileri",
     "@chatAttachmentSpoiler": {
@@ -4322,14 +4060,6 @@
     "@matureContentOpenLinkButton": {
         "description": "Primary action on mature link channel gates."
     },
-    "sensitiveContentSectionTitle": "Arkaluonteinen sisältö",
-    "@sensitiveContentSectionTitle": {
-        "description": "Privacy settings section title for sensitive content filters."
-    },
-    "sensitiveContentSectionDescription": "Hallitse, miten kypsää tai arkaluontoista mediaa suodatetaan eri yhteyksissä",
-    "@sensitiveContentSectionDescription": {
-        "description": "Privacy settings section description for sensitive content filters."
-    },
     "sensitiveContentFriendDmLabel": "Yksityisviestit kavereilta",
     "@sensitiveContentFriendDmLabel": {
         "description": "Label for friend DM sensitive content filter."
@@ -4354,18 +4084,6 @@
     "@sensitiveContentFilterBlock": {
         "description": "Sensitive content filter option to block media."
     },
-    "sensitiveContentBlurUnscannedLabel": "Sumenna media turvatarkistuksen valmistumiseen asti",
-    "@sensitiveContentBlurUnscannedLabel": {
-        "description": "Toggle label for blurring unscanned media."
-    },
-    "sensitiveContentBlurUnscannedDescriptionAdult": "Kun tämä on käytössä, kuvat ja videot sumennetaan, kunnes sisältötarkistus valmistuu.",
-    "@sensitiveContentBlurUnscannedDescriptionAdult": {
-        "description": "Description for blur-unscanned toggle for adult accounts."
-    },
-    "sensitiveContentBlurUnscannedDescriptionMinor": "Tämä asetus on aina käytössä tililläsi.",
-    "@sensitiveContentBlurUnscannedDescriptionMinor": {
-        "description": "Description for blur-unscanned toggle for minor accounts."
-    },
     "sensitiveContentResetButton": "Palauta",
     "@sensitiveContentResetButton": {
         "description": "Reset button for sensitive content settings."
@@ -4382,10 +4100,6 @@
                 "type": "int"
             }
         }
-    },
-    "chatCancelUpload": "Peruuta lähetys",
-    "@chatCancelUpload": {
-        "description": "Button or menu action label for canceling an in-flight message attachment upload."
     },
     "chatAttachmentExpiresOn": "Vanhenee {date}",
     "@chatAttachmentExpiresOn": {
@@ -4655,10 +4369,6 @@
     "@connectionEnterDomain": {
         "description": "Inline error shown when the domain input is empty."
     },
-    "lookAndFeelTitle": "Ulkoasu",
-    "@lookAndFeelTitle": {
-        "description": "Title of the Look & Feel (Appearance) settings page."
-    },
     "lookAndFeelThemeSectionTitle": "Teema",
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
@@ -4698,14 +4408,6 @@
     "lookAndFeelThemeSyncFailed": "Teeman synkronointi tiliisi epäonnistui. Yritä uudelleen.",
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
-    },
-    "lookAndFeelChatFontScalingTitle": "Keskustelun fonttikoko",
-    "@lookAndFeelChatFontScalingTitle": {
-        "description": "Section title for the chat font size slider."
-    },
-    "lookAndFeelChatFontScalingDescription": "Säädä fonttikokoa keskustelualueella.",
-    "@lookAndFeelChatFontScalingDescription": {
-        "description": "Section description for the chat font size slider."
     },
     "lookAndFeelInterfaceTitle": "Käyttöliittymä",
     "@lookAndFeelInterfaceTitle": {
@@ -4774,42 +4476,6 @@
     "lookAndFeelHideKeyboardHintsDescription": "Kun käytössä, pikakuvakeilmaisimet piilotetaan työkaluvihjeiden ponnahdusikkunoissa.",
     "@lookAndFeelHideKeyboardHintsDescription": {
         "description": "Toggle description for the hide-keyboard-hints switch."
-    },
-    "lookAndFeelNekoTitle": "Muut",
-    "@lookAndFeelNekoTitle": {
-        "description": "Subsection title under Interface for Neko appearance settings."
-    },
-    "lookAndFeelNekoDescription": "Muut käyttöliittymävaihtoehdot.",
-    "@lookAndFeelNekoDescription": {
-        "description": "Subsection description for Neko appearance settings."
-    },
-    "lookAndFeelShowNekoLabel": "Näytä Neko",
-    "@lookAndFeelShowNekoLabel": {
-        "description": "Toggle label for showing Neko in the chat footer."
-    },
-    "lookAndFeelShowNekoDescription": "Kun käytössä, Neko ilmestyy keskustelun syöttökentän lähelle.",
-    "@lookAndFeelShowNekoDescription": {
-        "description": "Toggle description for showing Neko in chat."
-    },
-    "lookAndFeelVoiceChannelJoinTitle": "Äänikanavalle liittymisen toiminta",
-    "@lookAndFeelVoiceChannelJoinTitle": {
-        "description": "Subsection title under Interface — voice channel join behavior."
-    },
-    "lookAndFeelVoiceChannelJoinDescription": "Hallitse, miten liityt äänikanaville yhteisöissä.",
-    "@lookAndFeelVoiceChannelJoinDescription": {
-        "description": "Subsection description for voice channel join behavior."
-    },
-    "lookAndFeelRequireDoubleClickJoinLabel": "Vaadi kaksoisnapsautus äänikanaville liittymiseen",
-    "@lookAndFeelRequireDoubleClickJoinLabel": {
-        "description": "Toggle label — require double-click to join voice channels."
-    },
-    "lookAndFeelRequireDoubleClickJoinDescription": "Kun käytössä, sinun on kaksoisnapsautettava äänikanavia liittyäksesi niihin. Kun poissa käytöstä (oletus), yksittäinen napsautus liittää kanavalle välittömästi.",
-    "@lookAndFeelRequireDoubleClickJoinDescription": {
-        "description": "Toggle description for the require-double-click voice channel join switch."
-    },
-    "lookAndFeelChatFontPreviewSample": "Nopea ruskea kettu hyppää laiskan koiran yli.",
-    "@lookAndFeelChatFontPreviewSample": {
-        "description": "Sample text rendered at the selected chat font size to preview scaling."
     },
     "lookAndFeelGuildSidebarTitle": "Palvelinvalikko",
     "@lookAndFeelGuildSidebarTitle": {
@@ -5218,25 +4884,9 @@
     "@messagesMediaAutocompleteSavedMediaLabel": {
         "description": "Toggle label for saved media in expression autocomplete."
     },
-    "messagesMediaEditingSectionTitle": "Viestin muokkaus",
-    "@messagesMediaEditingSectionTitle": {
-        "description": "Section title for message editing settings."
-    },
-    "messagesMediaEditingSectionDescription": "Hallitse, mitä tapahtuu muokkausluonnokselle, kun peruutat.",
-    "@messagesMediaEditingSectionDescription": {
-        "description": "Section description for message editing settings."
-    },
-    "messagesMediaEditingPreserveDraftLabel": "Säilytä muokkausluonnos peruutettaessa",
-    "@messagesMediaEditingPreserveDraftLabel": {
-        "description": "Toggle label for preserving edit drafts on cancel."
-    },
     "accessibilityDmMessagePreviewGroupTitle": "Yksityisviestien esikatselut",
     "@accessibilityDmMessagePreviewGroupTitle": {
         "description": "Section title for DM message preview accessibility settings."
-    },
-    "accessibilityDmMessagePreviewGroupDescription": "Hallitse, milloin viestien esikatselut näytetään suorien viestien luettelossa.",
-    "@accessibilityDmMessagePreviewGroupDescription": {
-        "description": "Section description for DM message preview accessibility settings."
     },
     "accessibilityDmMessagePreviewModeLabel": "Yksityisviestien esikatselutila",
     "@accessibilityDmMessagePreviewModeLabel": {
@@ -5394,10 +5044,6 @@
     "@voiceConnectionConfirmDoNothing": {
         "description": "Dismiss the dialog without joining voice."
     },
-    "voiceChannelEmptyDescription": "Tämä on äänikanava. Yhdistä aloittaaksesi puhumisen!",
-    "@voiceChannelEmptyDescription": {
-        "description": "Empty state body when viewing a guild voice channel while not in the call."
-    },
     "voiceChannelJoin": "Liity äänikanavalle",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
@@ -5437,14 +5083,6 @@
     "voiceChannelStatusConnecting": "Yhdistetään…",
     "@voiceChannelStatusConnecting": {
         "description": "Status in the in-page voice view while LiveKit is connecting."
-    },
-    "voiceChannelStatusConnected": "Yhdistetty",
-    "@voiceChannelStatusConnected": {
-        "description": "Status in the in-page voice view when the voice session is active."
-    },
-    "voiceChannelStatusError": "Virhe",
-    "@voiceChannelStatusError": {
-        "description": "Short label in the channel header when the voice session reports an error."
     },
     "voiceParticipantTooltipMobileDevice": "Mobiililaite",
     "@voiceParticipantTooltipMobileDevice": {
@@ -5519,10 +5157,6 @@
     "voiceScreenShareNotificationText": "Näyttösi jaetaan.",
     "@voiceScreenShareNotificationText": {
         "description": "Body text for the Android foreground notification shown while screen sharing."
-    },
-    "voiceControlMore": "Lisää",
-    "@voiceControlMore": {
-        "description": "Tooltip: more voice actions in the voice call control bar."
     },
     "voiceControlDisconnect": "Katkaise yhteys",
     "@voiceControlDisconnect": {
@@ -6378,10 +6012,6 @@
     "addGuildJoinFailed": "Yhteisöön liittyminen epäonnistui. Yritä uudelleen.",
     "@addGuildJoinFailed": {
         "description": "Generic error when joining a community via invite fails."
-    },
-    "addGuildPackInstalled": "Paketti asennettu onnistuneesti.",
-    "@addGuildPackInstalled": {
-        "description": "Toast shown after accepting an emoji or sticker pack invite."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "Poista kaikki reaktiot",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -7461,10 +7091,6 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsCustomInviteUrl": "Mukautettu kutsulinkki",
-    "@guildMenuSettingsCustomInviteUrl": {
-        "description": "Community settings tab for custom invite URLs."
-    },
     "guildMenuSettingsDiscovery": "Löydettävyys",
     "@guildMenuSettingsDiscovery": {
         "description": "Community settings tab for discovery settings."
@@ -7489,17 +7115,9 @@
     "@guildSettingsOverviewIconTitle": {
         "description": "Title for the guild icon section in overview settings."
     },
-    "guildSettingsUploadImage": "Lataa kuva",
-    "@guildSettingsUploadImage": {
-        "description": "Button label to upload an image in guild settings."
-    },
     "guildSettingsOverviewBannerTitle": "Banneri",
     "@guildSettingsOverviewBannerTitle": {
         "description": "Title for the guild banner section."
-    },
-    "guildSettingsOverviewBannerHint": "Lataa banneri palvelimellesi.",
-    "@guildSettingsOverviewBannerHint": {
-        "description": "Hint text for guild banner upload."
     },
     "guildSettingsOverviewNameTitle": "Nimi",
     "@guildSettingsOverviewNameTitle": {
@@ -7509,22 +7127,6 @@
     "@guildSettingsOverviewNameHint": {
         "description": "Hint for the guild name field."
     },
-    "guildSettingsOverviewStatsTitle": "Tilastot",
-    "@guildSettingsOverviewStatsTitle": {
-        "description": "Title for guild statistics section."
-    },
-    "guildSettingsOverviewMembers": "Jäsenet",
-    "@guildSettingsOverviewMembers": {
-        "description": "Label for member count in overview."
-    },
-    "guildSettingsOverviewOnline": "Paikalla",
-    "@guildSettingsOverviewOnline": {
-        "description": "Label for online count in overview."
-    },
-    "guildSettingsRolesDescription": "Käytä rooleja jäsenten ryhmittelyyn ja käyttöoikeuksien määrittämiseen.",
-    "@guildSettingsRolesDescription": {
-        "description": "Description for the roles settings tab."
-    },
     "guildSettingsCreateRole": "Luo rooli",
     "@guildSettingsCreateRole": {
         "description": "Button to create a new role."
@@ -7533,30 +7135,9 @@
     "@guildSettingsRolesListTitle": {
         "description": "Title for the roles list section."
     },
-    "guildSettingsEmojiSlotInfo": "{staticCount} staattista, {animatedCount} animoitua emojipaikkaa käytetty",
-    "@guildSettingsEmojiSlotInfo": {
-        "description": "Emoji slot usage summary.",
-        "placeholders": {
-            "staticCount": {
-                "type": "int"
-            },
-            "animatedCount": {
-                "type": "int"
-            }
-        }
-    },
     "guildSettingsEmojiEmpty": "Ei mukautettuja emojeja vielä.",
     "@guildSettingsEmojiEmpty": {
         "description": "Empty state for emoji settings."
-    },
-    "guildSettingsStickersSlotInfo": "{count} tarraa ladattu",
-    "@guildSettingsStickersSlotInfo": {
-        "description": "Sticker slot usage summary.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsStickersEmpty": "Ei mukautettuja tarroja vielä.",
     "@guildSettingsStickersEmpty": {
@@ -7602,8 +7183,6 @@
     "guildSettingsVerificationMediumDescription": "Vaatii vahvistetun sähköpostiosoitteen ja vähintään 5 minuuttia vanhan tilin.",
     "guildSettingsVerificationHigh": "Korkea",
     "guildSettingsVerificationHighDescription": "Edellyttää kaiken saman kuin keskitaso ja lisäksi vähintään 10 minuutin jäsenyyttä yhteisössä.",
-    "guildSettingsVerificationHighest": "Erittäin korkea",
-    "guildSettingsVerificationHighestDescription": "Edellyttää vahvistettua puhelinnumeroa.",
     "guildSettingsAuditLogDescription": "Seuraa moderaattorien toimia yhteisössä.",
     "@guildSettingsAuditLogDescription": {
         "description": "Subtitle under the activity-log page title."
@@ -7631,14 +7210,6 @@
     "guildSettingsAuditLogUnknownUser": "Tuntematon käyttäjä",
     "@guildSettingsAuditLogUnknownUser": {
         "description": "Fallback avatar label when the acting user is unavailable."
-    },
-    "guildSettingsAuditLogLoadError": "Jokin meni pieleen aktiviteettilokia ladattaessa.",
-    "@guildSettingsAuditLogLoadError": {
-        "description": "Generic error shown when fetching log entries fails."
-    },
-    "guildSettingsAuditLogLoadErrorTitle": "Aktiviteettilokin tietojen lataaminen epäonnistui",
-    "@guildSettingsAuditLogLoadErrorTitle": {
-        "description": "Error-state title when fetching log entries failed."
     },
     "guildSettingsAuditLogReason": "Syy",
     "@guildSettingsAuditLogReason": {
@@ -8610,14 +8181,6 @@
     "@auditLogOptionPermanentMembership": {
         "description": "Audit log option detail sentence."
     },
-    "guildSettingsLoadMore": "Lataa lisää",
-    "@guildSettingsLoadMore": {
-        "description": "Button to load more audit log entries."
-    },
-    "guildSettingsLoadingMore": "Ladataan...",
-    "@guildSettingsLoadingMore": {
-        "description": "Loading state for pagination."
-    },
     "guildSettingsWebhooksDescription": "Tarkastele ja hallinnoi kaikkia yhteisöösi määritettyjä webhookeja.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
@@ -8626,42 +8189,9 @@
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
-    "guildSettingsCopyUrl": "Kopioi URL",
-    "@guildSettingsCopyUrl": {
-        "description": "Tooltip to copy a URL."
-    },
     "guildSettingsCopiedUrl": "URL kopioitu leikepöydälle",
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
-    },
-    "guildSettingsDeleteWebhook": "Poista webhook",
-    "@guildSettingsDeleteWebhook": {
-        "description": "Tooltip to delete a webhook."
-    },
-    "guildSettingsVanityUrlDescription": "Aseta mukautettu kutsulinkki palvelimellesi.",
-    "@guildSettingsVanityUrlDescription": {
-        "description": "Description for vanity URL tab."
-    },
-    "guildSettingsVanityUrlHint": "my-server",
-    "@guildSettingsVanityUrlHint": {
-        "description": "Hint for vanity URL input."
-    },
-    "guildSettingsSave": "Tallenna",
-    "@guildSettingsSave": {
-        "description": "Generic save button label."
-    },
-    "guildSettingsVanityUrlUsageTitle": "Käyttö",
-    "@guildSettingsVanityUrlUsageTitle": {
-        "description": "Title for vanity URL usage section."
-    },
-    "guildSettingsVanityUrlUses": "{count} käyttöä",
-    "@guildSettingsVanityUrlUses": {
-        "description": "Vanity URL usage count.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsDiscoveryDescription": "Listaa yhteisösi Löydä-osiossa, jotta muut voivat löytää sen ja liittyä siihen.",
     "@guildSettingsDiscoveryDescription": {
@@ -8700,10 +8230,6 @@
     "@guildSettingsDiscoveryWithdraw": {
         "description": "Button to withdraw discovery application."
     },
-    "guildSettingsMembersDescription": "Etsi ja hallitse palvelimen jäseniä.",
-    "@guildSettingsMembersDescription": {
-        "description": "Description for members tab."
-    },
     "guildSettingsMembersSearchHint": "Hae käyttäjänimellä tai tunnuksella",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
@@ -8725,27 +8251,6 @@
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
-    "guildSettingsInviteUses": "{uses} / {maxUses} käyttöä",
-    "@guildSettingsInviteUses": {
-        "description": "Invite usage count.",
-        "placeholders": {
-            "uses": {
-                "type": "int"
-            },
-            "maxUses": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsInviteExpires": "Vanhenee {date}",
-    "@guildSettingsInviteExpires": {
-        "description": "Invite expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBansDescription": "Näytä ja hallinnoi porttikiellettyjä käyttäjiä.",
     "@guildSettingsBansDescription": {
         "description": "Description for bans tab."
@@ -8758,30 +8263,9 @@
     "@guildSettingsBansEmpty": {
         "description": "Empty state for bans."
     },
-    "guildSettingsBanPermanent": "Pysyvä esto",
-    "@guildSettingsBanPermanent": {
-        "description": "Label for permanent ban."
-    },
-    "guildSettingsBanExpires": "Päättyy {date}",
-    "@guildSettingsBanExpires": {
-        "description": "Ban expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBanExpiresLabel": "Vanhenee",
     "@guildSettingsBanExpiresLabel": {
         "description": "Label for ban expiration row."
-    },
-    "guildSettingsUnban": "Poista esto",
-    "@guildSettingsUnban": {
-        "description": "Button to unban a user."
-    },
-    "guildSettingsBansLoading": "Ladataan porttikiellettyjä käyttäjiä",
-    "@guildSettingsBansLoading": {
-        "description": "Loading state for the guild bans list."
     },
     "guildSettingsBansNoSearchResults": "Hakua vastaavia porttikieltoja ei löytynyt.",
     "@guildSettingsBansNoSearchResults": {
@@ -8825,10 +8309,6 @@
             }
         }
     },
-    "guildSettingsBansLoadError": "Estojen lataus epäonnistui. Yritä uudelleen.",
-    "@guildSettingsBansLoadError": {
-        "description": "Error when loading the guild bans list fails."
-    },
     "guildSettingsRevokeBanError": "Eston peruutus epäonnistui. Yritä uudelleen.",
     "@guildSettingsRevokeBanError": {
         "description": "Error when revoking a ban fails."
@@ -8853,7 +8333,6 @@
     "@guildSettingsCategoryPeople": {
         "description": "Sidebar category for members, invites, and bans."
     },
-    "guildSettingsOverviewDescription": "Hallitse yhteisösi profiilia, kanavia ja oletusasetuksia.",
     "guildSettingsOverviewBrandingTitle": "Brändi",
     "guildSettingsOverviewBrandingDescription": "Päivitä kuvake, nimi, banneri ja kutsutausta",
     "@guildSettingsOverviewBrandingDescription": {
@@ -8872,7 +8351,6 @@
     },
     "guildSettingsOverviewNotificationsTitle": "Oletusilmoitukset",
     "guildSettingsOverviewNotificationsLargeGuild": "Yli 250 hengen yhteisöissä ilmoitusasetukseksi pakotetaan \"vain maininnat\". Alkuperäinen asetuksesi säilytetään ja palautetaan, jos yhteisön jäsenmäärä laskee alle 250:n.",
-    "guildSettingsOverviewAdvancedTitle": "Lisäasetukset",
     "guildSettingsOverviewFlexibleNames": "Salli joustavat tekstikanavien nimet",
     "guildSettingsOverviewHideOwnerCrown": "Piilota yhteisön omistajan kruunu",
     "guildSettingsOverviewDetachedBanner": "Irrotettu banneri",
@@ -8898,10 +8376,6 @@
     "guildSettingsOverviewEmbedSplashTitle": "Chatin upotuksen tausta",
     "@guildSettingsOverviewEmbedSplashTitle": {
         "description": "Title for embed splash upload section."
-    },
-    "guildSettingsOverviewEmbedSplashHint": "Näkyy kutsujen upotuksissa chatissa.",
-    "@guildSettingsOverviewEmbedSplashHint": {
-        "description": "Note shown when uploading chat embed background."
     },
     "guildSettingsOverviewUploadBackground": "Lataa taustakuva",
     "@guildSettingsOverviewUploadBackground": {
@@ -9068,8 +8542,6 @@
     "@guildSettingsOverviewEmbedSplashUploadHint": {
         "description": "Upload requirements for chat embed background images."
     },
-    "guildSettingsModerationDescription": "Määritä vahvistus-, sisältösuodatus- ja kypsää sisältöä koskevat asetukset.",
-    "guildSettingsModerationDiscoveryNotice": "Discoveryyn listatuilla yhteisöillä on rajoitetut moderointivaihtoehdot.",
     "guildSettingsModerationContentFilterTitle": "Sisällön suodatus",
     "guildSettingsModerationContentFilterDescription": "Tarkista viestit automaattisesti sopimattoman sisällön varalta kanavilla, joita ei ole merkitty aikuisille tarkoitetuksi sisällöksi.",
     "guildSettingsModerationContentFilterDiscoveryNote": "Discoveryyn listattujen yhteisöjen on skannattava kaikki jäsenet. Tätä asetusta ei voi muuttaa, kun Discovery on käytössä.",
@@ -9079,8 +8551,6 @@
     "guildSettingsContentFilterNoRoleDescription": "Suositellaan useimmille yhteisöille",
     "guildSettingsContentFilterAll": "Suodata kaikki",
     "guildSettingsContentFilterAllDescription": "Paras suoja perheystävällisille tiloille",
-    "guildSettingsModerationMatureOff": "Pois päältä",
-    "guildSettingsModerationMatureOn": "Päällä",
     "guildSettingsContentWarningToggle": "Näytä sisältövaroitus",
     "@guildSettingsContentWarningToggle": {
         "description": "Switch label for the community content warning setting."
@@ -9100,7 +8570,6 @@
     "guildSettingsModeration2faTitle": "2FA-vaatimus",
     "guildSettingsModeration2faDescription": "Vaadi kaksivaiheinen todennus moderaattoreilta ennen kuin he voivat estää, poistaa, aikakatkaista tai poistaa viestejä.",
     "guildSettingsModeration2faSwitchLabel": "Vaadi 2FA moderointitoimiin",
-    "guildSettingsModeration2faOwnerOnlyTooltip": "Vain yhteisön omistaja voi muuttaa tätä asetusta",
     "guildSettingsModeration2faEnableFirstTooltip": "Ota kaksivaiheinen todennus käyttöön tililläsi muuttaaksesi tätä asetusta",
     "guildSettingsEmojiSearchHint": "Hae emojeita",
     "guildSettingsEmojiUploadTitle": "Lataa emoji",
@@ -9122,8 +8591,6 @@
     },
     "guildSettingsStickersSearchHint": "Hae tarroja",
     "guildSettingsWebhooksInfo": "Luo webhook avaamalla {channelSettingsPath}. Voit edelleen muokata ja järjestää kaikki olemassa olevat webhookit täällä.",
-    "guildSettingsVanityUrlWarning": "Mukautettu URL-osoitteesi ei toimi, ellei vähintään yksi kanava ole kaikkien nähtävissä.",
-    "guildSettingsVanityUrlRemove": "Poista",
     "guildSettingsBannedUsersTitle": "Porttikielletyt käyttäjät",
     "guildSettingsInvitesTableInviter": "Kutsuja",
     "guildSettingsInvitesTableChannel": "Kanava",
@@ -9364,18 +8831,6 @@
     "@channelSettingsConnectionLimitDescription": {
         "description": "Helper text for voice channel connection limit."
     },
-    "channelSettingsResetSlider": "Palauta liukusäädin oletusarvoon",
-    "@channelSettingsResetSlider": {
-        "description": "Tooltip for reset buttons on channel settings sliders."
-    },
-    "channelSettingsAdvanced": "Lisäasetukset",
-    "@channelSettingsAdvanced": {
-        "description": "Collapsible advanced section title in channel overview."
-    },
-    "channelSettingsMatureContentOverride": "Aikuisille tarkoitetun sisällön ohitus",
-    "@channelSettingsMatureContentOverride": {
-        "description": "Accessibility label for mature content override control."
-    },
     "channelSettingsMatureContentInherit": "Peritty",
     "@channelSettingsMatureContentInherit": {
         "description": "Mature content option that uses parent or community setting."
@@ -9397,23 +8852,9 @@
     "@channelSettingsWebhooksLoadFailedTitle": {
         "description": "Error title when channel webhooks fail to load."
     },
-    "groupDmCreateInviteFailed": "Kutsulinkin luominen epäonnistui",
-    "@groupDmCreateInviteFailed": {
-        "description": "Title when invite link generation fails."
-    },
     "audioAndVideoOutputDeviceLabel": "Äänentoistolaite",
     "@audioAndVideoOutputDeviceLabel": {
         "description": "Label for speaker output device selection."
-    },
-    "audioAndVideoCameraPermissionRequired": "{productName} tarvitsee kameran käyttöoikeuden, jotta se voi näyttää laitteesi.",
-    "@audioAndVideoCameraPermissionRequired": {
-        "description": "Shown when camera permission is required to enumerate video devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
     },
     "audioAndVideoSkipHideOwnScreenshareConfirmLabel": "Älä kysy, kun piilotan näytönjaon",
     "@audioAndVideoSkipHideOwnScreenshareConfirmLabel": {
@@ -9480,10 +8921,6 @@
     "notificationsEnableDesktopNotificationsLabel": "Ota työpöytäilmoitukset käyttöön",
     "@notificationsEnableDesktopNotificationsLabel": {
         "description": "Toggle label for enabling desktop notifications."
-    },
-    "notificationsEnableBrowserNotificationsDescription": "Saat ilmoituksia, kun vastaanotat viestejä. Sinun on ehkä sallittava ilmoitukset selaimesi asetuksista. Kanava- ja yhteisökohtaiset asetukset löydät napsauttamalla yhteisön kuvaketta hiiren kakkospainikkeella ja avaamalla ilmoitusasetukset.",
-    "@notificationsEnableBrowserNotificationsDescription": {
-        "description": "Description for the enable browser notifications toggle."
     },
     "notificationsMentionPreferMentionName": "Mieluummin @maininnalla",
     "@notificationsMentionPreferMentionName": {
@@ -9586,16 +9023,6 @@
     "audioAndVideoInstanceVideoQualityLimit": "Tämä instanssi sallii tällä hetkellä näytönjaon enintään 720p-laadulla ja 30 FPS:llä.",
     "@audioAndVideoInstanceVideoQualityLimit": {
         "description": "Note shown when instance limits block higher screen share quality."
-    },
-    "audioAndVideoMicrophonePermissionRequired": "{productName} tarvitsee mikrofonin käyttöoikeuden, jotta se voi näyttää laitteesi.",
-    "@audioAndVideoMicrophonePermissionRequired": {
-        "description": "Shown when microphone permission is required to enumerate audio input devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
     },
     "guildSettingsInvitesLoadFailedTitle": "Kutsujen lataus epäonnistui",
     "@guildSettingsInvitesLoadFailedTitle": {
@@ -9824,24 +9251,6 @@
     "channelSettingsContentWarningText": "Mukautettu varoitusteksti",
     "@channelSettingsContentWarningText": {
         "description": "Label for custom content warning text field."
-    },
-    "channelSettingsPermissionsNeedManageChannels": "Tarvitset \"{manageChannelsPermissionLabel}\" -käyttöoikeuden muokataksesi näitä käyttöoikeuksia.",
-    "@channelSettingsPermissionsNeedManageChannels": {
-        "description": "Error when user lacks manage channels permission for channel permissions tab.",
-        "placeholders": {
-            "manageChannelsPermissionLabel": {
-                "type": "String"
-            }
-        }
-    },
-    "channelSettingsPermissionsNeedManageRoles": "Tarvitset \"{manageRolesPermissionLabel}\" -käyttöoikeuden muokataksesi näitä käyttöoikeuksia.",
-    "@channelSettingsPermissionsNeedManageRoles": {
-        "description": "Error when user lacks manage roles permission for channel permissions tab.",
-        "placeholders": {
-            "manageRolesPermissionLabel": {
-                "type": "String"
-            }
-        }
     },
     "channelSettingsUnknownRole": "Tuntematon rooli",
     "@channelSettingsUnknownRole": {
@@ -10086,14 +9495,6 @@
     "@guildSettingsRolesTwoColumns": {
         "description": "Tooltip when permission list is in single-column layout."
     },
-    "guildSettingsRolesSwitchToSingleColumn": "Vaihda yksipalstaiseen näkymään",
-    "@guildSettingsRolesSwitchToSingleColumn": {
-        "description": "Aria label for switching to single column."
-    },
-    "guildSettingsRolesLockedTooltip": "Et voi muokata tätä roolia, koska se on korkein roolisi tai yläpuolellasi",
-    "@guildSettingsRolesLockedTooltip": {
-        "description": "Tooltip on locked role rows."
-    },
     "guildSettingsRolesNeedManageRolesPermission": "Tarvitset \"{permission}\"-oikeuden muokataksesi näitä oikeuksia",
     "@guildSettingsRolesNeedManageRolesPermission": {
         "description": "Tooltip when user lacks manage roles permission.",
@@ -10110,10 +9511,6 @@
     "permissionCategoryCommunityWide": "Koko yhteisö",
     "@permissionCategoryCommunityWide": {
         "description": "Permission category label."
-    },
-    "permissionUnknown": "Tuntematon käyttöoikeus",
-    "@permissionUnknown": {
-        "description": "Fallback permission label."
     },
     "permissionAdministrator": "Ylläpitäjä",
     "@permissionAdministrator": {
@@ -10433,16 +9830,6 @@
     "@audioAndVideoMicTestStopLabel": {
         "description": "Button label to stop the microphone test."
     },
-    "audioAndVideoMicTestPermissionRequired": "{productName} tarvitsee mikrofonin käyttöoikeuden syötteesi testaamiseen.",
-    "@audioAndVideoMicTestPermissionRequired": {
-        "description": "Shown when microphone permission is required for the mic test.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
     "systemCallDurationFewSeconds": "muutama sekunti",
     "@systemCallDurationFewSeconds": {
         "description": "Duration label for a very short elapsed call."
@@ -10468,10 +9855,6 @@
                 "type": "String"
             }
         }
-    },
-    "channelSettingsPermissionsRolesAndMembers": "Roolit ja jäsenet",
-    "@channelSettingsPermissionsRolesAndMembers": {
-        "description": "Section title in the add override picker."
     },
     "createDmConfirmNewGroup": "Vahvista uusi ryhmä",
     "@createDmConfirmNewGroup": {
@@ -10509,21 +9892,9 @@
     "@guildSettingsRolesClearPermissions": {
         "description": "Button to clear all role permissions."
     },
-    "guildSettingsRolesCustomHoistOrder": "Mukautettu nostojärjestys",
-    "@guildSettingsRolesCustomHoistOrder": {
-        "description": "Button to enter custom hoist order mode."
-    },
     "guildSettingsRolesHoistOrder": "Erillisten roolien järjestys",
     "@guildSettingsRolesHoistOrder": {
         "description": "Header for hoist order sub-mode."
-    },
-    "guildSettingsRolesSwitchToDenseLayout": "Vaihda tiiviiseen asetteluun",
-    "@guildSettingsRolesSwitchToDenseLayout": {
-        "description": "Aria label for switching to dense layout."
-    },
-    "guildSettingsRolesSwitchToComfyLayout": "Vaihda väljään asetteluun",
-    "@guildSettingsRolesSwitchToComfyLayout": {
-        "description": "Aria label for switching to comfy layout."
     },
     "guildSettingsRolesCannotRemoveOwnPermission": "Et voi poistaa tätä oikeutta, koska poistaisit sen itseltäsi",
     "@guildSettingsRolesCannotRemoveOwnPermission": {
@@ -10690,10 +10061,6 @@
     "guildSettingsRolesComfyLayout": "Väljä asettelu",
     "@guildSettingsRolesComfyLayout": {
         "description": "Tooltip when permission list is in dense layout."
-    },
-    "guildSettingsRolesSwitchToTwoColumns": "Vaihda kaksipalstaiseen näkymään",
-    "@guildSettingsRolesSwitchToTwoColumns": {
-        "description": "Aria label for switching to two columns."
     },
     "guildSettingsRolesNoPermissionsFound": "Käyttöoikeuksia ei löytynyt",
     "@guildSettingsRolesNoPermissionsFound": {
@@ -10935,16 +10302,6 @@
     "@audioAndVideoScreenShareQualitySectionTitle": {
         "description": "Subsection title for screen share resolution selection."
     },
-    "audioAndVideoHigherQualityRequiresPremium": "1080p ja 60 FPS vaativat {premiumProductName}.",
-    "@audioAndVideoHigherQualityRequiresPremium": {
-        "description": "Note shown when higher video quality options require premium.",
-        "placeholders": {
-            "premiumProductName": {
-                "type": "String",
-                "example": "Plutonium"
-            }
-        }
-    },
     "languageAndTimeTimeFormatSectionTitle": "Ajan esitysmuoto",
     "@languageAndTimeTimeFormatSectionTitle": {
         "description": "Settings section title for time format preference."
@@ -11164,10 +10521,6 @@
     "@languageAndTimeLanguageSectionDescription": {
         "description": "Settings section description for interface language preference."
     },
-    "languageAndTimeOpenLanguageSettings": "Avaa kieliasetukset",
-    "@languageAndTimeOpenLanguageSettings": {
-        "description": "Button that opens the system per-app language settings."
-    },
     "guildSettingsRolesResetHoistOrder": "Palauta oletusasetukset",
     "@guildSettingsRolesResetHoistOrder": {
         "description": "Button to reset custom hoist order."
@@ -11340,38 +10693,6 @@
             }
         }
     },
-    "phoneCannotBeUsed": "Tätä puhelinnumeroa ei voi käyttää. Kokeile toista matkapuhelinnumeroa tai ota yhteyttä tukeen.",
-    "@phoneCannotBeUsed": {
-        "description": "API error when phone number is rejected."
-    },
-    "phoneAlreadyUsed": "Tätä puhelinnumeroa on jo käytetty. Kokeile toista numeroa tai ota yhteyttä tukeen.",
-    "@phoneAlreadyUsed": {
-        "description": "API error when phone number was reused."
-    },
-    "phoneCodeDidNotWork": "Koodi ei toiminut. Tarkista se ja yritä uudelleen.",
-    "@phoneCodeDidNotWork": {
-        "description": "API error for invalid verification code."
-    },
-    "phoneInboundGetNewCode": "Pyydä uusi koodi",
-    "@phoneInboundGetNewCode": {
-        "description": "Button to refresh inbound challenge."
-    },
-    "requiredActionIntroPhone": "Rekisteröitymisesi vaatii ylimääräisen roskapostitarkistuksen, ennen kuin voit jatkaa.",
-    "@requiredActionIntroPhone": {
-        "description": "Phone-only required action intro."
-    },
-    "requiredActionChooseMethodTitle": "Valitse vahvistustapa",
-    "@requiredActionChooseMethodTitle": {
-        "description": "Title when user can pick email or phone."
-    },
-    "requiredActionUseEmail": "Käytä sähköpostia",
-    "@requiredActionUseEmail": {
-        "description": "Button to choose email verification."
-    },
-    "requiredActionUsePhone": "Käytä puhelinta",
-    "@requiredActionUsePhone": {
-        "description": "Button to choose phone verification."
-    },
     "systemCallJoinTheCall": "Liity puheluun",
     "@systemCallJoinTheCall": {
         "description": "Call-to-action button label on an in-progress call system message."
@@ -11478,10 +10799,6 @@
     "@shareMediaFailedToast": {
         "description": "Toast shown when sharing media to all destinations fails."
     },
-    "accessibilitySaturationDescription": "Säädä teeman värien eloisuutta koko sovelluksessa.",
-    "@accessibilitySaturationDescription": {
-        "description": "Section description for the theme saturation slider on the accessibility settings page."
-    },
     "addGuildCreateAnimatedIconUnsupported": "Uutta yhteisöä luotaessa ei tueta animoituja kuvakkeita. Käytä staattista kuvaa.",
     "@addGuildCreateAnimatedIconUnsupported": {
         "description": "Error when the user picks an animated image for a new community icon."
@@ -11493,10 +10810,6 @@
     "groupDmEditTitle": "Muokkaa ryhmää",
     "@groupDmEditTitle": {
         "description": "Title for the edit group DM modal or sheet."
-    },
-    "groupDmEditDetailsTooltip": "Muokkaa ryhmän tietoja",
-    "@groupDmEditDetailsTooltip": {
-        "description": "Tooltip on the desktop group DM header edit action."
     },
     "groupDmGroupName": "Ryhmän nimi",
     "@groupDmGroupName": {
@@ -11539,10 +10852,6 @@
             }
         }
     },
-    "groupDmFailedToProcessCroppedImage": "Rajattua kuvaa ei voitu käsitellä. Yritä uudelleen.",
-    "@groupDmFailedToProcessCroppedImage": {
-        "description": "Body when a cropped group icon cannot be processed."
-    },
     "groupDmInvalidImageBody": "Kuva on virheellinen. Kokeile toista.",
     "@groupDmInvalidImageBody": {
         "description": "Body when the selected group icon image cannot be used."
@@ -11562,10 +10871,6 @@
     "groupDmAddFriendFailed": "Kaveria ei voitu lisätä ryhmään. Yritä uudelleen.",
     "@groupDmAddFriendFailed": {
         "description": "Error when adding a single friend to a group DM fails."
-    },
-    "groupDmAddFailed": "Lisääminen ryhmään epäonnistui",
-    "@groupDmAddFailed": {
-        "description": "Title when adding friends to a group DM fails."
     },
     "groupDmGroupFull": "Tämä ryhmä on täynnä. Poista joku ennen kuin lisäät lisää ihmisiä.",
     "@groupDmGroupFull": {
@@ -11880,10 +11185,6 @@
     "@groupDmUpdated": {
         "description": "Success toast after saving group changes."
     },
-    "groupDmCouldntProcessImage": "Kuvan käsittely epäonnistui",
-    "@groupDmCouldntProcessImage": {
-        "description": "Title when a cropped group icon cannot be processed."
-    },
     "groupDmAddFriends": "Lisää",
     "@groupDmAddFriends": {
         "description": "Button to add selected friends to a group DM."
@@ -12180,98 +11481,6 @@
     "@audioAndVideoCustomProfileLabel": {
         "description": "Voice processing profile with manual controls."
     },
-    "phoneSearchCountries": "Hae maita...",
-    "@phoneSearchCountries": {
-        "description": "Search hint for country selector."
-    },
-    "phoneNumberRequired": "Puhelinnumero vaaditaan",
-    "@phoneNumberRequired": {
-        "description": "Validation error when phone number is empty."
-    },
-    "phoneEnterValidNumber": "Anna kelvollinen matkapuhelinnumero.",
-    "@phoneEnterValidNumber": {
-        "description": "Validation error for invalid phone format."
-    },
-    "phoneTooManyAttempts": "Liian monta yritystä. Odota hetki ja yritä sitten uudelleen.",
-    "@phoneTooManyAttempts": {
-        "description": "Rate limit error for phone verification."
-    },
-    "phoneSmsUnavailable": "Tekstiviestivahvistus ei ole käytettävissä juuri nyt. Yritä myöhemmin uudelleen tai ota yhteyttä tukeen.",
-    "@phoneSmsUnavailable": {
-        "description": "SMS provider unavailable error."
-    },
-    "phoneNotEligible": "Puhelinnumeron vahvistus ei ole käytettävissä tällä tilillä. Käytä toista menetelmää tai ota yhteyttä tukeen.",
-    "@phoneNotEligible": {
-        "description": "Account not eligible for phone verification."
-    },
-    "phoneInboundStepSendCode": "Lähetä koodi {code} numeroon {number}.",
-    "@phoneInboundStepSendCode": {
-        "description": "Inbound verification step 2.",
-        "placeholders": {
-            "code": {
-                "type": "String"
-            },
-            "number": {
-                "type": "String"
-            }
-        }
-    },
-    "phoneInboundStepWait": "Odota, että vastaanotamme viestisi. Tämä voi kestää minuutin.",
-    "@phoneInboundStepWait": {
-        "description": "Inbound verification step 3."
-    },
-    "phoneInboundChallengeCodeLabel": "Koodi lähetettäväksi",
-    "@phoneInboundChallengeCodeLabel": {
-        "description": "Label for inbound challenge code."
-    },
-    "phoneInboundOurNumberLabel": "Lähetä numeroon",
-    "@phoneInboundOurNumberLabel": {
-        "description": "Label for inbound destination number."
-    },
-    "phoneCountryLabel": "Maa",
-    "@phoneCountryLabel": {
-        "description": "Label for country selector in phone verification."
-    },
-    "phoneSomethingWentWrong": "Jokin meni pieleen. Yritä uudelleen.",
-    "@phoneSomethingWentWrong": {
-        "description": "Generic phone verification error."
-    },
-    "phoneInboundExpensiveDescription": "SMS-viestin lähettäminen tähän numeroon on liian kallista, joten pyydämme sinua lähettämään meille tekstiviestin sen sijaan. Voit myös ottaa yhteyttä tukeen, jotta voimme poistaa tämän vaatimuksen tililtäsi.",
-    "@phoneInboundExpensiveDescription": {
-        "description": "Inbound challenge reason for expensive destinations."
-    },
-    "phoneInboundDefaultDescription": "Sinun täytyy lähettää meille tekstiviesti puhelinnumerosi vahvistamiseksi.",
-    "@phoneInboundDefaultDescription": {
-        "description": "Default inbound challenge description."
-    },
-    "phoneInboundStepOpenMessaging": "Avaa puhelimen viestisovellus ja luo uusi tekstiviesti.",
-    "@phoneInboundStepOpenMessaging": {
-        "description": "Inbound verification step 1."
-    },
-    "requiredActionTitle": "Tili vaatii vahvistuksen",
-    "@requiredActionTitle": {
-        "description": "Title for required action blocking modal."
-    },
-    "requiredActionCheckEmailTitle": "Tarkista sähköpostisi",
-    "@requiredActionCheckEmailTitle": {
-        "description": "Title for email verification instructions."
-    },
-    "requiredActionCheckEmailDescription": "Lähetimme vahvistuslinkin sähköpostiisi. Avaa se jatkaaksesi.",
-    "@requiredActionCheckEmailDescription": {
-        "description": "Description for email verification instructions."
-    },
-    "requiredActionResendVerificationEmail": "Lähetä vahvistussähköposti uudelleen",
-    "@requiredActionResendVerificationEmail": {
-        "description": "Button to resend verification email."
-    },
-    "requiredActionVerificationEmailSent": "Vahvistussähköposti lähetetty. Tarkista saapuneet-kansiosi.",
-    "@requiredActionVerificationEmailSent": {
-        "description": "Toast after resending verification email."
-    },
-    "requiredActionSignOut": "Kirjaudu ulos",
-    "@requiredActionSignOut": {
-        "description": "Sign out button in required action modal."
-    },
     "channelSettingsMatureContentOffDescription": "Jätä tämä kanava avoimeksi aikuisille suunnatulle sisällölle.",
     "@channelSettingsMatureContentOffDescription": {
         "description": "Description for the mature content off override option."
@@ -12392,10 +11601,6 @@
     "notificationsEnableDesktopNotificationsDescription": "Käyttää käyttöjärjestelmän ilmoituskeskusta. Kanava- tai yhteisökohtaiset säädöt saat esiin napsauttamalla yhteisön kuvaketta hiiren kakkospainikkeella ja avaamalla ilmoitusasetukset.",
     "@notificationsEnableDesktopNotificationsDescription": {
         "description": "Description for the enable desktop notifications toggle."
-    },
-    "notificationsEnableBrowserNotificationsLabel": "Ota selainilmoitukset käyttöön",
-    "@notificationsEnableBrowserNotificationsLabel": {
-        "description": "Toggle label for enabling browser notifications."
     },
     "notificationsPushInactiveTimeoutLabel": "Ilmoitusten passiivisuuden aikakatkaisu",
     "@notificationsPushInactiveTimeoutLabel": {
@@ -12539,10 +11744,6 @@
     "@channelDetailsDeleteChannel": {
         "description": "Channel details menu action to delete a guild channel."
     },
-    "channelSettingsCategorySettingsTitle": "Kategorian asetukset",
-    "@channelSettingsCategorySettingsTitle": {
-        "description": "Title for category settings modal."
-    },
     "channelSettingsEditCategory": "Muokkaa kategoriaa",
     "@channelSettingsEditCategory": {
         "description": "Context menu action to edit a category."
@@ -12643,21 +11844,9 @@
             }
         }
     },
-    "channelSettingsMatureContentCategorySource": "kategoria",
-    "@channelSettingsMatureContentCategorySource": {
-        "description": "Lowercase source label for inherited mature content from category."
-    },
-    "channelSettingsMatureContentCommunitySource": "yhteisö",
-    "@channelSettingsMatureContentCommunitySource": {
-        "description": "Lowercase source label for inherited mature content from community."
-    },
     "channelSettingsContentWarningDefault": "Sisältää arkaluonteista sisältöä.",
     "@channelSettingsContentWarningDefault": {
         "description": "Default content warning text placeholder."
-    },
-    "channelSettingsWebhooksUnknownUser": "Tuntematon käyttäjä",
-    "@channelSettingsWebhooksUnknownUser": {
-        "description": "Fallback label when webhook creator is unavailable."
     },
     "channelSettingsWebhooksAvatar": "Profiilikuva",
     "@channelSettingsWebhooksAvatar": {
@@ -13058,42 +12247,6 @@
     "gifPickerFavoritesEmptyDescription": "Tähtää GIF-tiedosto nähdäksesi sen täällä.",
     "@gifPickerFavoritesEmptyDescription": {
         "description": "Empty state description for the GIF picker favorites view."
-    },
-    "requiredActionIntroGeneric": "Suorita vaadittu vahvistus, jotta voit jatkaa {productName}-palvelun käyttöä.",
-    "@requiredActionIntroGeneric": {
-        "description": "Generic required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailOrPhone": "Vahvista sähköpostiosoitteesi tai puhelinnumerosi jatkaaksesi {productName}-palvelun käyttöä.",
-    "@requiredActionIntroEmailOrPhone": {
-        "description": "Email or phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailAndPhone": "Suorita alla olevat sähköpostin ja puhelimen vahvistusvaiheet, jotta voit jatkaa {productName}-palvelun käyttöä.",
-    "@requiredActionIntroEmailAndPhone": {
-        "description": "Email and phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionChooseMethodDescription": "Tee jokin alla olevista vahvistuksista, jotta voit jatkaa {productName}-palvelun käyttöä.",
-    "@requiredActionChooseMethodDescription": {
-        "description": "Description when user can pick email or phone.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
     },
     "networkErrorMessage": "Tapahtui virhe. Yritä uudelleen.",
     "@networkErrorMessage": {
@@ -13728,10 +12881,6 @@
     "@accessibilityPausedGifByReducedMotion": {
         "description": "Description for GIF toggle while reduced motion is active."
     },
-    "accessibilityGifDefaultsOffOnMobile": "Oletuksena pois päältä mobiililaitteilla akun keston ja datan säästämiseksi.",
-    "@accessibilityGifDefaultsOffOnMobile": {
-        "description": "Helper text for GIF autoplay default on mobile."
-    },
     "accessibilityStickerAnimationsTitle": "Tarra-animaatiot",
     "@accessibilityStickerAnimationsTitle": {
         "description": "Subsection title for sticker animation preference."
@@ -14187,25 +13336,13 @@
     "@privacyDashboardFriendRequestsEveryone": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsEveryoneDesc": "Salli kenen tahansa lähettää sinulle kaveripyyntöjä",
-    "@privacyDashboardFriendRequestsEveryoneDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsFriendsOfFriends": "Kaverien kaverit",
     "@privacyDashboardFriendRequestsFriendsOfFriends": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsFriendsOfFriendsDesc": "Salli ystävien ystävien lähettää sinulle pyyntöjä",
-    "@privacyDashboardFriendRequestsFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsCommunityMembers": "Yhteisön jäsenet",
     "@privacyDashboardFriendRequestsCommunityMembers": {
         "description": "Privacy dashboard friend request toggle label."
-    },
-    "privacyDashboardFriendRequestsCommunityMembersDesc": "Salli yhteisöjesi jäsenten lähettää sinulle pyyntöjä",
-    "@privacyDashboardFriendRequestsCommunityMembersDesc": {
-        "description": "Privacy dashboard friend request toggle description."
     },
     "privacyDashboardDirectMessagesTitle": "Yksityisviestit",
     "@privacyDashboardDirectMessagesTitle": {
@@ -14215,65 +13352,29 @@
     "@privacyDashboardDirectMessagesMembers": {
         "description": "Privacy dashboard DM toggle label."
     },
-    "privacyDashboardDirectMessagesMembersDesc": "Salli yhteisöjesi jäsenten lähettää sinulle yksityisviestejä",
-    "@privacyDashboardDirectMessagesMembersDesc": {
-        "description": "Privacy dashboard DM toggle description."
-    },
     "privacyDashboardDirectMessagesBots": "Salli yhteisöbottien lähettämät yksityisviestit",
     "@privacyDashboardDirectMessagesBots": {
         "description": "Privacy dashboard bot DM toggle label."
-    },
-    "privacyDashboardDirectMessagesBotsDesc": "Salli yhteisöistäsi tulevien bottien lähettää sinulle yksityisviestejä",
-    "@privacyDashboardDirectMessagesBotsDesc": {
-        "description": "Privacy dashboard bot DM toggle description."
-    },
-    "privacyDashboardConnectionsSectionDesc": "Hallitse, kuka voi lähettää sinulle kaveripyyntöjä ja yksityisviestejä",
-    "@privacyDashboardConnectionsSectionDesc": {
-        "description": "Privacy dashboard connections section description."
-    },
-    "privacyDashboardCommunicationSectionDesc": "Hallitse, kuka voi soittaa sinulle ja lisätä sinut ryhmäkeskusteluihin",
-    "@privacyDashboardCommunicationSectionDesc": {
-        "description": "Privacy dashboard communication section description."
     },
     "privacyDashboardIncomingCallsTitle": "Saapuvat puhelut",
     "@privacyDashboardIncomingCallsTitle": {
         "description": "Privacy dashboard incoming calls subsection title."
     },
-    "privacyDashboardIncomingCallsDesc": "Hallitse, kuka voi soittaa sinulle",
-    "@privacyDashboardIncomingCallsDesc": {
-        "description": "Privacy dashboard incoming calls subsection description."
-    },
     "privacyDashboardAllowedCallers": "Sallitut soittajat",
     "@privacyDashboardAllowedCallers": {
         "description": "Privacy > Communication: select label."
-    },
-    "privacyDashboardIncomingCallNobody": "Ei kukaan",
-    "@privacyDashboardIncomingCallNobody": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallNobodyDesc": "Estä kaikki saapuvat puhelut",
     "@privacyDashboardIncomingCallNobodyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallFriendsOnly": "Vain kaverit",
-    "@privacyDashboardIncomingCallFriendsOnly": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallFriendsOnlyDesc": "Salli vain ystävien soittaa sinulle (suositus)",
     "@privacyDashboardIncomingCallFriendsOnlyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallCustom": "Ystävät + Mukautettu",
-    "@privacyDashboardIncomingCallCustom": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallCustomDesc": "Salli ystävät sekä lisäryhmät, jotka valitset",
     "@privacyDashboardIncomingCallCustomDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardIncomingCallEveryone": "Kaikki",
-    "@privacyDashboardIncomingCallEveryone": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallEveryoneDesc": "Salli kenen tahansa soittaa sinulle, myös tuntemattomien",
     "@privacyDashboardIncomingCallEveryoneDesc": {
@@ -14283,14 +13384,6 @@
     "@privacyDashboardAdditionalGroups": {
         "description": "Privacy dashboard label for custom permission groups."
     },
-    "privacyDashboardCallFriendsOfFriendsDesc": "Ystävien ystävät voivat soittaa sinulle",
-    "@privacyDashboardCallFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
-    "privacyDashboardCallGuildMembersDesc": "Ihmiset yhteisöistä, joissa olette molemmat jäseninä, voivat soittaa sinulle",
-    "@privacyDashboardCallGuildMembersDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
     "privacyDashboardRingBehavior": "Soittoasetukset",
     "@privacyDashboardRingBehavior": {
         "description": "Privacy dashboard ring behavior subsection label."
@@ -14299,17 +13392,9 @@
     "@privacyDashboardSilentCalls": {
         "description": "Privacy dashboard silent calls toggle label."
     },
-    "privacyDashboardSilentCallsDesc": "Kaikki puhelut ilmoittavat hiljaa soiton sijaan. Oletuksena ei-ystäviltä tulevat puhelut ovat aina hiljaisia.",
-    "@privacyDashboardSilentCallsDesc": {
-        "description": "Privacy dashboard silent calls toggle description."
-    },
     "privacyDashboardGroupDmTitle": "Ketkä voivat lisätä sinut ryhmäkeskusteluihin",
     "@privacyDashboardGroupDmTitle": {
         "description": "Privacy dashboard group DM subsection title."
-    },
-    "privacyDashboardGroupDmDesc": "Hallitse, kuka voi lisätä sinut ryhmäkeskusteluihin pyytämättä. Kuka tahansa voi silti lähettää sinulle kutsulinkkejä liittyäksesi.",
-    "@privacyDashboardGroupDmDesc": {
-        "description": "Privacy dashboard group DM subsection description."
     },
     "privacyDashboardAllowedInvites": "Sallitut kutsut",
     "@privacyDashboardAllowedInvites": {
@@ -14330,14 +13415,6 @@
     "privacyDashboardGroupDmEveryoneDesc": "Salli kenen tahansa lisätä sinut ryhmäkeskusteluihin kysymättä",
     "@privacyDashboardGroupDmEveryoneDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardGroupDmFriendsOfFriendsDesc": "Ystävien ystävät voivat lisätä sinut ryhmäkeskusteluihin",
-    "@privacyDashboardGroupDmFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
-    },
-    "privacyDashboardGroupDmGuildMembersDesc": "Ihmiset yhteisöistä, joissa olette molemmat jäseninä, voivat lisätä sinut ryhmäkeskusteluihin",
-    "@privacyDashboardGroupDmGuildMembersDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
     },
     "privacyDashboardVoiceActivityTitle": "Puheaktiivisuus Aktiiviset nyt -osiossa",
     "@privacyDashboardVoiceActivityTitle": {
@@ -14870,26 +13947,6 @@
     "@composerAutocompleteOptionalArgumentsHeading": {
         "description": "Section heading in composer autocomplete for adding optional slash-command arguments."
     },
-    "composerAutocompleteChannelsHeading": "Kanavat",
-    "@composerAutocompleteChannelsHeading": {
-        "description": "Section heading in composer autocomplete for channel suggestions."
-    },
-    "composerAutocompleteMembersHeading": "Jäsenet",
-    "@composerAutocompleteMembersHeading": {
-        "description": "Section heading in composer autocomplete for member suggestions."
-    },
-    "composerAutocompleteUsersHeading": "Käyttäjät",
-    "@composerAutocompleteUsersHeading": {
-        "description": "Section heading in composer autocomplete for user suggestions."
-    },
-    "composerAutocompleteMentionsHeading": "Maininnat",
-    "@composerAutocompleteMentionsHeading": {
-        "description": "Section heading in composer autocomplete for mixed mention suggestions."
-    },
-    "composerAutocompleteRolesHeading": "Roolit",
-    "@composerAutocompleteRolesHeading": {
-        "description": "Section heading in composer autocomplete for role suggestions."
-    },
     "composerAutocompleteMediaHeading": "Media",
     "@composerAutocompleteMediaHeading": {
         "description": "Section heading in composer autocomplete for saved media."
@@ -15106,10 +14163,6 @@
     "memberListUnavailableBody": "Jäsenluettelot ovat tilapäisesti poissa käytöstä tässä yhteisössä",
     "@memberListUnavailableBody": {
         "description": "Body when member list updates are disabled for the community."
-    },
-    "channelHeaderOpenDetails": "Avaa kanavan tiedot",
-    "@channelHeaderOpenDetails": {
-        "description": "Accessibility label for the channel header title area."
     },
     "channelHeaderPinnedMessages": "Kiinnitetyt viestit",
     "@channelHeaderPinnedMessages": {
@@ -15472,10 +14525,6 @@
     "@userSettingsSearchPlaceholder": {
         "description": "Placeholder for the user settings search field."
     },
-    "userSettingsSearchFieldLabel": "Hae asetuksista",
-    "@userSettingsSearchFieldLabel": {
-        "description": "Accessibility label for the user settings search field."
-    },
     "userSettingsSearchClear": "Tyhjennä haku",
     "@userSettingsSearchClear": {
         "description": "Accessibility label for clearing the user settings search field."
@@ -15502,8 +14551,6 @@
     "giftSettingsGiftUrl": "Lahjan URL-osoite",
     "giftSettingsCopy": "Kopioi",
     "giftSettingsCopied": "Kopioitu",
-    "giftSettingsGiftUrlCopied": "Lahjan URL-osoite kopioitu leikepöydälle!",
-    "giftSettingsGiftUrlCopyFailed": "Lahjan URL-osoitetta ei voitu kopioida",
     "giftSettingsPurchasedDate": "Ostettu {date}",
     "@giftSettingsPurchasedDate": {
         "placeholders": {
@@ -15545,7 +14592,6 @@
     "premiumBuyGift": "Osta lahjaksi",
     "premiumOneYearGift": "1 vuoden lahja",
     "premiumOneMonthGift": "1 kuukauden lahja",
-    "premiumMostPopular": "Suosituin",
     "premiumScrollPrompt": "Selaa alas nähdäksesi kaikki Plutoniumiin sisältyvät edut",
     "premiumFreeVsPlutonium": "Ilmainen vs. Plutonium",
     "premiumFreeColumn": "Ilmainen",
@@ -15563,50 +14609,15 @@
     "premiumViewGifts": "Näytä lahjat",
     "premiumReadyToUpgrade": "Valmiina päivitykseen?",
     "premiumReadyToBuyGift": "Haluatko ostaa lahjan?",
-    "premiumMonthlyPrice": "Kuukausittain {price}",
-    "@premiumMonthlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumYearlyPrice": "Vuosittain {price}",
-    "@premiumYearlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneYearPrice": "1 vuosi {price}",
-    "@premiumOneYearPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneMonthPrice": "1 kuukausi {price}",
-    "@premiumOneMonthPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
     "premiumManageSubscription": "Hallinnoi tilausta",
     "premiumRedeemGiftCode": "Lunasta lahjakoodi",
     "premiumGiftBadge": "Lahja",
     "premiumCancelSubscriptionTitle": "Peruuta tilaus?",
     "premiumCancelSubscriptionBody": "Pidät etusi seuraavaan uusimispäivään asti, minkä jälkeen sinulla on kolmen päivän lisäaika tilata uudelleen ja säilyttää tilaushistoriasi.",
     "premiumCancelSubscriptionConfirm": "Peruuta tilaus",
-    "premiumKeepSubscription": "Säilytä tilaus",
     "premiumPurchaseHistoryTitle": "Ostohistoria",
     "premiumPurchaseHistoryDescription": "Viimeisimmät laskusi. Jos haluat muuttaa tilauksesi maksutapaa, lisää tai valitse sellainen laskutusportaalissa ja aseta se oletukseksi.",
     "premiumManagePaymentMethods": "Hallinnoi maksutapoja",
-    "premiumBillingHistory": "Laskutushistoria",
-    "premiumSelfServeRefundTitle": "Itsepalvelupalautus",
     "premiumSelfServeRefundButton": "Palauta viimeisin ostos",
     "premiumDisclaimerAgreementPrefix": "Ostamalla hyväksyt meidän ",
     "premiumDisclaimerAgreementPastPrefix": "Ostamalla hyväksyit meidän ",
@@ -15646,17 +14657,6 @@
         "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
     },
     "premiumComparisonFeatureColumn": "Ominaisuus",
-    "premiumDisclaimerPurchased": "Ostamalla hyväksyit {terms} ja {privacy}.",
-    "@premiumDisclaimerPurchased": {
-        "placeholders": {
-            "terms": {
-                "type": "String"
-            },
-            "privacy": {
-                "type": "String"
-            }
-        }
-    },
     "premiumDisclaimerRefund": "Itsepalveluhyvitykset ovat saatavilla 3 päivän kuluessa maksusta, kerran 30 päivässä. Tilauksen hyvittäminen peruuttaa sen. EU-/ETA-alueen ostajat luopuvat 14 päivän peruuttamisoikeudesta kassalla saadakseen sisällön käyttöönsä välittömästi. Käytä sovelluksen sisäistä hyvityspainiketta takaisinperinnän sijaan. Takaisinperinnät voivat rajoittaa tiliäsi pysyvästi. Stripe käsittelee maksut turvallisesti. Emme koskaan näe koko korttinumeroasi.",
     "premiumTermsOfService": "Käyttöehdot",
     "premiumPrivacyPolicy": "Tietosuojakäytäntö",
@@ -15697,24 +14697,14 @@
     },
     "premiumClaimAccountToPurchase": "Lunasta tilisi ostaaksesi Fluxer Plutoniumia.",
     "premiumVerifyEmailToPurchase": "Sinun täytyy vahvistaa sähköpostisi ennen kuin voit ostaa Fluxer Plutoniumia.",
-    "premiumPerkCustomUsernameTag": "Mukautettu käyttäjätunniste",
-    "premiumPerkPerCommunityProfiles": "Yhteisökohtaiset profiilit",
-    "premiumPerkMessageScheduling": "Viestien ajoitus",
-    "premiumPerkProfileBadge": "Profiilimerkki",
-    "premiumPerkCustomVideoBackgrounds": "Mukautetut videotaustat",
-    "premiumPerkEntranceSounds": "Sisääntuloäänet",
     "premiumPerkCommunities": "Yhteisöt",
     "premiumPerkMessageCharacterLimit": "Viestin merkkirajoitus",
     "premiumPerkBookmarkedMessages": "Kirjanmerkityt viestit",
     "premiumPerkFileUploadSize": "Tiedoston enimmäiskoko",
-    "premiumPerkEmojiStickerPacks": "Emojit ja tarrapaketit",
-    "premiumPerkSavedMedia": "Tallennettu media",
     "premiumPerkUseAnimatedEmojis": "Käytä animoituja emojeita",
-    "premiumPerkGlobalEmojiStickerAccess": "Emojien ja tarrojen käyttö kaikkialla",
     "premiumPerkVideoQuality": "Videon laatu",
     "premiumPerkAnimatedAvatarsBanners": "Animoidut avatarit ja profiilibannerit",
     "premiumPerkEarlyAccess": "Ennakkokäyttöoikeus uusiin ominaisuuksiin",
-    "premiumPerkCustomThemes": "Mukautetut teemat",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "Jopa 4K/60fps",
     "storePlutoniumPriceLine": "{monthly} tai {yearly}",
@@ -15930,7 +14920,6 @@
     "advancedSettingStripTrackingLabel": "Poista seurantaparametrit URL-osoitteista",
     "advancedSettingStripTrackingDescription": "Poista seurantaparametrit automaattisesti lähettämiesi viestien URL-osoitteista",
     "advancedSettingTrustAllLinksLabel": "Luota kaikkiin ulkoisiin linkkeihin",
-    "advancedSettingTrustAllLinksDescription": "Ohita ulkoisen linkin varoitus kaikille verkkotunnuksille",
     "advancedSettingSearchEnginesLabel": "Hakukoneet",
     "advancedSettingSearchEnginesDescription": "Määritä valitusta tekstistä käytettävät hakukoneet",
     "advancedSettingTranslatorsLabel": "Kääntäjät",
@@ -15986,13 +14975,6 @@
     "advancedSettingHideStreamPreviewLabel": "Piilota oman striimini esikatselukuva",
     "advancedSettingDeveloperModeLabel": "Ota kehittäjätila käyttöön",
     "advancedSettingDeveloperModeDescription": "Ota kehittäjätila käyttöön",
-    "advancedSettingSearchEngineGoogle": "Google",
-    "advancedSettingSearchEngineDuckDuckGo": "DuckDuckGo",
-    "advancedSettingSearchEngineBing": "Bing",
-    "advancedSettingSearchEngineGoogleLens": "Google Lens",
-    "advancedSettingSearchEngineTinEye": "TinEye",
-    "advancedSettingTranslatorGoogle": "Google-käännös",
-    "advancedSettingTranslatorDeepL": "DeepL",
     "advancedSettingDefaultSearchEngineLabel": "Oletushakukone",
     "advancedSettingDefaultSearchEngineDescription": "Valitse oletushakukone valitun tekstin hakuun.",
     "advancedSettingBuiltInSearchEnginesLabel": "Sisäänrakennetut hakukoneet",
@@ -16546,10 +15528,6 @@
     "@guildMembersColumnRoles": {
         "description": "Table column header on the community members page."
     },
-    "guildMembersColumnActions": "Toiminnot",
-    "@guildMembersColumnActions": {
-        "description": "Table column header on the community members page."
-    },
     "guildMembersFilterMemberSince": "Suodata jäsenyyden alkamisajan mukaan",
     "@guildMembersFilterMemberSince": {
         "description": "Filter menu label on the community members page."
@@ -16634,23 +15612,6 @@
     "@guildMembersIndexing": {
         "description": "Banner shown while guild members are being indexed."
     },
-    "guildMembersGoToPage": "Siirry sivulle",
-    "@guildMembersGoToPage": {
-        "description": "Pagination jump label on the community members page."
-    },
-    "guildMembersGoToPageItem": "Siirry sivulle {page}",
-    "@guildMembersGoToPageItem": {
-        "description": "Accessibility label for a pagination page button.",
-        "placeholders": {
-            "page": {
-                "type": "int"
-            }
-        }
-    },
-    "guildMembersJumpToPage": "Siirry sivulle",
-    "@guildMembersJumpToPage": {
-        "description": "Label for pagination jump input on the community members page."
-    },
     "guildMembersJoinSourceCreator": "Yhteisön luoja",
     "@guildMembersJoinSourceCreator": {
         "description": "Join method label on the community members page."
@@ -16727,28 +15688,14 @@
             }
         }
     },
-    "guildMembersJoinedDaysAgo": "{count, plural, one {1 päivä sitten} other {{count} päivää sitten}}",
-    "@guildMembersJoinedDaysAgo": {
-        "description": "Relative join time on the community members page.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
     "guildMembersChannelListLabel": "Jäsenet",
     "@guildMembersChannelListLabel": {
         "description": "Label for the Members item at the top of the guild channel list."
-    },
-    "guildMembersChannelListSelected": "Jäsenet, valittu",
-    "@guildMembersChannelListSelected": {
-        "description": "Accessibility label when the Members channel list item is selected."
     },
     "guildSettingsEmojiSlotsTitle": "Emojipaikat",
     "guildSettingsEmojiDropZone": "Vedä ja pudota emojitiedostot tähän",
     "guildSettingsEmojiLoadFailed": "Emojien lataus epäonnistui. Yritä uudelleen myöhemmin.",
     "guildSettingsEmojiSearchEmpty": "Hakua vastaavia emojeita ei löytynyt.",
-    "guildSettingsEmojiNoSlots": "Ei emojipaikkoja vapaana",
     "guildSettingsEmojiSlotsFull": "Olet saavuttanut emojien enimmäismäärän. Poista joitakin olemassa olevia emojeita tehdäksesi tilaa.",
     "guildSettingsEmojiUploadRequirements": "Emojien nimissä on oltava vähintään 2 merkkiä, ja niissä voi käyttää kirjaimia, numeroita ja alaviivoja. Emojien koon on oltava alle {maxSize}. Staattiset kuvat skaalataan automaattisesti kokoon 128x128 pikseliä ja pakataan. Animoitujen emojien ja SVG-kuvien on mahduttava kokorajaan sellaisenaan.",
     "@guildSettingsEmojiUploadRequirements": {
@@ -16758,24 +15705,11 @@
             }
         }
     },
-    "guildSettingsEmojiUploadingTitle": "Ladataan emojeita",
-    "guildSettingsEmojiUploadingBody": "Ladataan {count, plural, one {# emoji} other {# emojia}}. Tämä voi kestää hetken.",
-    "@guildSettingsEmojiUploadingBody": {
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsEmojiUploadFailed": "Emojien lataaminen epäonnistui. Yritä uudelleen.",
     "guildSettingsEmojiSomeFailedTitle": "Joitakin emojeita ei voitu lisätä",
-    "guildSettingsEmojiSomeFailedBody": "Tarkista nämä tiedostot ja yritä uudelleen pienemmillä tai yksinkertaisemmilla kuvilla.",
     "guildSettingsEmojiRenameTitle": "Nimeä emoji uudelleen",
     "guildSettingsEmojiRenameHint": "2–32 merkkiä, kirjaimia, numeroita, alaviivoja.",
-    "guildSettingsEmojiColumnEmoji": "Emoji",
     "guildSettingsEmojiColumnName": "Nimi",
     "guildSettingsEmojiColumnUploader": "Lataaja",
-    "guildSettingsEmojiUnknownUploader": "Tuntematon",
     "guildSettingsEmojiDeleteTitle": "Poista emoji",
     "guildSettingsEmojiDeleteBody": "Poistetaanko :{name}:? Tätä ei voi peruuttaa.",
     "@guildSettingsEmojiDeleteBody": {
@@ -16790,15 +15724,7 @@
     "guildSettingsEmojiNameTooLong": "Emojin nimen pituus saa olla enintään 32 merkkiä",
     "guildSettingsEmojiInvalidNameTitle": "Virheellinen emojin nimi",
     "guildSettingsEmojiRenameFailedTitle": "Emojin uudelleennimeäminen epäonnistui",
-    "guildSettingsEmojiRenameFailedBody": "Nimi palautettiin entiselleen. Yritä uudelleen hetken kuluttua.",
-    "guildSettingsEmojiGoneTitle": "Tätä emojia ei enää ole olemassa",
-    "guildSettingsEmojiGoneBody": "Se on ehkä poistettu. Nimi palautettiin entiselleen.",
-    "guildSettingsEmojiNoPermissionRenameTitle": "Et voi nimetä tätä emojia uudelleen",
-    "guildSettingsEmojiNoPermissionRenameBody": "Sinulla ei ole oikeutta nimetä tätä emojia uudelleen. Nimi palautettiin entiselleen.",
-    "guildSettingsEmojiRateLimitedTitle": "Toimit liian nopeasti",
-    "guildSettingsEmojiRateLimitedBody": "Odota hetki ja yritä nimeämistä uudelleen.",
     "guildSettingsEmojiDeleteFailedTitle": "Emojin poistaminen epäonnistui",
-    "guildSettingsEmojiDeleteNoPermissionTitle": "Et voi poistaa tätä emojia",
     "guildSettingsCloneEmojiTitle": "Salli muiden kloonata emojisi",
     "guildSettingsCloneEmojiDescription": "Kun tämä on käytössä, muiden yhteisöjen jäsenet voivat käyttää sovelluksen sisäistä yhden napsautuksen \"Kloonaa\"-pikakuvaketta mukautetuille emojeillesi. Tämä ei estä heitä tallentamasta kuvaa ja lataamasta sitä itse.",
     "guildSettingsCloneStickerTitle": "Salli muiden kloonata tarrojasi",
@@ -16822,8 +15748,6 @@
     "guildSettingsStickersLoadFailedTitle": "Tarrojen lataus epäonnistui",
     "guildSettingsStickersLoadFailedBody": "Tarrojen lataamisessa tapahtui virhe. Yritä uudelleen.",
     "guildSettingsStickersSearchEmpty": "Hakua vastaavia tarroja ei löytynyt.",
-    "guildSettingsStickersEmptySearch": "Tarroja ei löytynyt",
-    "guildSettingsStickerNoSlots": "Ei tarrapaikkoja vapaana",
     "guildSettingsStickerSlotsFull": "Olet saavuttanut tarrojen enimmäismäärän. Poista joitakin olemassa olevia tarroja tehdäksesi tilaa.",
     "guildSettingsStickerUploadRequirements": "Tarrat tallennetaan kokoon 320x320 pikseliä, ja niiden koon on oltava alle {maxSize}. Staattiset kuvat skaalataan ja pakataan automaattisesti. Animoitujen tarrojen ja SVG-kuvien on mahduttava kokorajaan sellaisenaan.",
     "@guildSettingsStickerUploadRequirements": {
@@ -16833,7 +15757,6 @@
             }
         }
     },
-    "guildSettingsStickerUnsupportedTitle": "Tarratiedostoa ei tueta",
     "guildSettingsStickerAddTitle": "Lisää tarra",
     "guildSettingsStickerEditTitle": "Muokkaa tarraa",
     "guildSettingsStickerNameLabel": "Nimi",
@@ -16858,8 +15781,6 @@
     "guildSettingsStickerNameTooLong": "Nimen on oltava enintään 30 merkkiä pitkä",
     "guildSettingsStickerDescriptionTooLong": "Kuvauksen on oltava enintään 500 merkkiä pitkä",
     "guildSettingsStickerCreateFailedTitle": "Tarraa ei voitu luoda",
-    "guildSettingsStickerTooLargeTitle": "Tarra on liian suuri",
-    "guildSettingsStickerCompressFailedTitle": "Tarraa ei voitu pakata riittävästi",
     "guildSettingsStickerDeleteTitle": "Poista tarra",
     "guildSettingsStickerDeleteBody": "Poistetaanko \"{name}\"? Tätä ei voi peruuttaa.",
     "@guildSettingsStickerDeleteBody": {
@@ -16871,7 +15792,6 @@
     },
     "guildSettingsStickerPurgeLabel": "Poista tämä tarra tallennustilasta ja CDN:stä",
     "guildSettingsStickerDeleteFailedTitle": "Tämän tarran poistaminen epäonnistui",
-    "guildSettingsStickerDeleteNoPermissionTitle": "Et voi poistaa tätä tarraa",
     "keybindsSearchShortcuts": "Hae pikanäppäimiä",
     "@keybindsSearchShortcuts": {
         "description": "Placeholder for the shortcuts settings search field."

@@ -8,8 +8,6 @@ final class PushTrayRegistry {
   final Map<String, String> _readThroughByChannel = <String, String>{};
   final List<String> _insertionOrder = <String>[];
 
-  bool get isEmpty => _readThroughByChannel.isEmpty;
-
   void markChannelRead(String channelId, String upToMessageId) {
     if (channelId.isEmpty || upToMessageId.isEmpty) {
       return;

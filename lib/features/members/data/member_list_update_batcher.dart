@@ -82,13 +82,6 @@ class MemberListUpdateBatcher {
       ..count += 1;
   }
 
-  /// Applies every pending batch immediately.
-  void flushAll() {
-    for (final String key in _pending.keys.toList()) {
-      _flush(key);
-    }
-  }
-
   /// Drops every pending batch without applying it. Called when the session is
   /// reset so updates queued against a stale socket never land.
   void clearAll() {

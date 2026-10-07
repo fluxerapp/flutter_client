@@ -11,7 +11,6 @@ class GuildInviteEntry {
     required this.channelType,
     required this.uses,
     required this.maxUses,
-    this.channelParentId,
     this.createdAt,
     this.expiresAt,
     this.inviterId,
@@ -25,7 +24,6 @@ class GuildInviteEntry {
   final String channelId;
   final String channelName;
   final int channelType;
-  final String? channelParentId;
   final int uses;
   final int maxUses;
   final DateTime? createdAt;

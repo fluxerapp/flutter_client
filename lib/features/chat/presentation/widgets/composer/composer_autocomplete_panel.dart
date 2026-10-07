@@ -63,13 +63,11 @@ typedef ComposerAutocompletePanelHost =
 
 class ComposerAutocompleteGifTile {
   const ComposerAutocompleteGifTile({
-    required this.id,
     required this.title,
     required this.imageUrl,
     required this.onTap,
   });
 
-  final String id;
   final String title;
   final String imageUrl;
   final VoidCallback onTap;
@@ -86,7 +84,6 @@ class ComposerAutocompletePanelRow {
     this.userAvatarImageUrl,
     this.userAvatarFallbackText,
     this.userAvatarColor,
-    this.userAvatarStatus,
     this.emojiSurrogates,
     this.emojiImageUrl,
     this.emojiCacheKey,
@@ -105,7 +102,6 @@ class ComposerAutocompletePanelRow {
   final String? userAvatarImageUrl;
   final String? userAvatarFallbackText;
   final int? userAvatarColor;
-  final String? userAvatarStatus;
   final String? emojiSurrogates;
   final String? emojiImageUrl;
   final String? emojiCacheKey;
@@ -331,7 +327,6 @@ class ComposerAutocompletePanelBody extends StatelessWidget {
                             userAvatarImageUrl: row.userAvatarImageUrl,
                             userAvatarFallbackText: row.userAvatarFallbackText,
                             userAvatarColor: row.userAvatarColor,
-                            userAvatarStatus: row.userAvatarStatus,
                             emojiSurrogates: row.emojiSurrogates,
                             emojiImageUrl: row.emojiImageUrl,
                             emojiCacheKey: row.emojiCacheKey,
@@ -375,7 +370,6 @@ class ComposerAutocompletePanelListTile extends StatelessWidget {
     this.userAvatarImageUrl,
     this.userAvatarFallbackText,
     this.userAvatarColor,
-    this.userAvatarStatus,
     this.emojiSurrogates,
     this.emojiImageUrl,
     this.emojiCacheKey,
@@ -394,7 +388,6 @@ class ComposerAutocompletePanelListTile extends StatelessWidget {
   final String? userAvatarImageUrl;
   final String? userAvatarFallbackText;
   final int? userAvatarColor;
-  final String? userAvatarStatus;
   final String? emojiSurrogates;
   final String? emojiImageUrl;
   final String? emojiCacheKey;

@@ -155,8 +155,7 @@ void main() {
 
   group('line helpers', () {
     test('counts and truncates expanded preview lines', () {
-      expect(getLineCount(null), 0);
-      expect(getLineCount('a\nb\nc'), 3);
+      expect(splitPreviewLines('a\nb\nc'), hasLength(3));
       expect(getVisibleLineCount(20, isExpanded: false), kDefaultPreviewLines);
       expect(getVisibleLineCount(20, isExpanded: true), 20);
       expect(
@@ -168,9 +167,12 @@ void main() {
         105,
         (i) => 'line$i',
       ).join('\n');
-      expect(remainingPreviewLines(long), 5);
+      expect(remainingPreviewLinesFromCount(splitPreviewLines(long).length), 5);
       expect(
-        truncatePreviewTextForInlineExpand(long).split('\n').length,
+        joinPreviewLines(
+          splitPreviewLines(long),
+          maxLines: kMaxExpandedPreviewLines,
+        ).split('\n').length,
         kMaxExpandedPreviewLines,
       );
     });

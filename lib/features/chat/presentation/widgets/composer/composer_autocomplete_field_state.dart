@@ -1558,7 +1558,6 @@ class ComposerAutocompleteFieldState
         .where((_ComposerRow r) => r.gif != null)
         .map(
           (_ComposerRow r) => ComposerAutocompleteGifTile(
-            id: r.gif!.id,
             title: r.title,
             imageUrl: r.gif!.proxySrc.isNotEmpty ? r.gif!.proxySrc : r.gif!.src,
             onTap: r.onApply,
@@ -1568,9 +1567,6 @@ class ComposerAutocompleteFieldState
     return ComposerAutocompletePanelSnapshot(
       rows: _rows.map((_ComposerRow r) {
         final Member? m = r.mentionMember;
-        final String? status = m == null
-            ? null
-            : ref.read(userPresenceProvider(m.id)).value?.status ?? m.status;
         return ComposerAutocompletePanelRow(
           title: r.title,
           subtitle: r.subtitle,
@@ -1584,7 +1580,6 @@ class ComposerAutocompleteFieldState
                     FluxerMediaUrl.userAvatar(userId: m.id, hash: m.avatar),
           userAvatarFallbackText: m != null ? r.title : null,
           userAvatarColor: m?.avatarColor,
-          userAvatarStatus: status,
           emojiSurrogates: r.emojiSurrogates,
           emojiImageUrl: r.emojiImageUrl,
           emojiCacheKey: r.emojiCacheKey,

@@ -234,7 +234,6 @@ void main() {
               snapshot: const MessagePersistSnapshot(
                 mentionsCurrentUser: false,
                 isDm: false,
-                guildStorageId: null,
                 acknowledgedByGateway: true,
               ),
             ),

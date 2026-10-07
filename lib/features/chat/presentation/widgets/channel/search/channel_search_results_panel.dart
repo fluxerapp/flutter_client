@@ -88,7 +88,6 @@ class ChannelSearchResultsPanel extends ConsumerWidget {
                 l10n: l10n,
                 state: state,
                 showGuildMeta: showGuildMeta,
-                contextChannelId: channelId,
                 onRetry: () => unawaited(_retrySearch(ref)),
                 onJump: (Message message, {String? guildId}) => unawaited(
                   _jumpToMessage(
@@ -523,7 +522,6 @@ class _SearchResultsBody extends StatelessWidget {
     required this.l10n,
     required this.state,
     required this.showGuildMeta,
-    required this.contextChannelId,
     required this.onRetry,
     required this.onJump,
     required this.onNavigateToChannel,
@@ -533,7 +531,6 @@ class _SearchResultsBody extends StatelessWidget {
   final FluxerLocalizations l10n;
   final ChannelSearchState state;
   final bool showGuildMeta;
-  final String contextChannelId;
   final VoidCallback onRetry;
   final void Function(Message message, {String? guildId}) onJump;
   final void Function(String channelId, String? guildId) onNavigateToChannel;

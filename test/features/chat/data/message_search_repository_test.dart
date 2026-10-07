@@ -79,7 +79,6 @@ void main() {
             usersByTag: <String, String>{'alice': 'user-1'},
           ),
           context: ChannelSearchParseContext(
-            guildId: 'guild-1',
             resolveChannelByName: (String name) =>
                 name == 'general' ? 'channel-9' : null,
           ),
@@ -111,7 +110,6 @@ void main() {
             usersByTag: <String, String>{'bob': 'user-2', 'eve': 'user-3'},
           ),
           context: ChannelSearchParseContext(
-            guildId: 'guild-1',
             resolveChannelByName: (String name) =>
                 name == 'offtopic' ? 'channel-8' : null,
           ),

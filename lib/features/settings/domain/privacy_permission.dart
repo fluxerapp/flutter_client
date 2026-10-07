@@ -11,9 +11,6 @@ abstract final class IncomingCallFlag {
   static const int friendsOnly = 1 << 3;
   static const int nobody = 1 << 4;
   static const int silentEveryone = 1 << 5;
-
-  static const int baseMask =
-      friendsOfFriends | guildMembers | friendsOnly | everyone | nobody;
 }
 
 abstract final class GroupDmAddPermissionFlag {
@@ -22,9 +19,6 @@ abstract final class GroupDmAddPermissionFlag {
   static const int everyone = 1 << 2;
   static const int friendsOnly = 1 << 3;
   static const int nobody = 1 << 4;
-
-  static const int baseMask =
-      friendsOfFriends | guildMembers | friendsOnly | everyone | nobody;
 }
 
 enum PermissionMode { nobody, friendsOnly, custom, everyone }

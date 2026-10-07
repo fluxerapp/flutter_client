@@ -28,10 +28,6 @@
     "@retry": {
         "description": "Generic label for retry actions (splash, errors, network, etc.)."
     },
-    "connectingCaps": "CONNECTING",
-    "@connectingCaps": {
-        "description": "Connecting text on the splash screen"
-    },
     "splashConnectionLost": "Соединение потеряно",
     "@splashConnectionLost": {
         "description": "Fallback headline on splash when gateway is unavailable (web parity)."
@@ -93,10 +89,6 @@
             }
         }
     },
-    "ssoRequired": "Для доступа к этому экземпляру требуется SSO.",
-    "@ssoRequired": {
-        "description": "Short sign-in note shown when the instance requires single sign-on."
-    },
     "organizationSsoProvider": "Войти через систему единого входа вашей организации.",
     "@organizationSsoProvider": {
         "description": "Description shown when sign-in is restricted to the configured SSO provider."
@@ -117,10 +109,6 @@
                 "type": "String"
             }
         }
-    },
-    "logInViaBrowser": "Войти через браузер",
-    "@logInViaBrowser": {
-        "description": "Secondary login that opens or uses the system browser."
     },
     "needAccountPrompt": "Нужен аккаунт? ",
     "@needAccountPrompt": {
@@ -232,26 +220,9 @@
     "@accountAdd": {
         "description": "Button to add a new account."
     },
-    "accountRemove": "Удалить",
-    "@accountRemove": {
-        "description": "Context menu option to remove a stored account."
-    },
-    "accountRemoveTitle": "Удалить {username}",
-    "@accountRemoveTitle": {
-        "description": "Title for the remove account confirmation modal.",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
     "accountRemoveDescription": "Это удалит сохраненную сессию для этого аккаунта.",
     "@accountRemoveDescription": {
         "description": "Description for the remove account confirmation modal."
-    },
-    "accountRemoveOnlyDescription": "Будет удален единственный сохраненный аккаунт на этом устройстве.",
-    "@accountRemoveOnlyDescription": {
-        "description": "Description when removing the last stored account."
     },
     "accountExpired": "Истек срок действия",
     "@accountExpired": {
@@ -783,10 +754,6 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsent": "Я согласен с Условиями обслуживания и Политикой конфиденциальности",
-    "@registerConsent": {
-        "description": "Consent checkbox label for registration (plain text fallback)."
-    },
     "registerConsentPrefix": "Я согласен с ",
     "@registerConsentPrefix": {
         "description": "Text before the Terms of Service link in the consent checkbox."
@@ -830,10 +797,6 @@
     "passkeyTimeout": "Время ожидания аутентификации ключа доступа истекло. Пожалуйста, попробуйте еще раз.",
     "@passkeyTimeout": {
         "description": "Error when passkey authentication times out."
-    },
-    "passkeyNotAvailable": "Ключи доступа недоступны для этого приложения. Вместо этого войдите с помощью электронной почты и пароля.",
-    "@passkeyNotAvailable": {
-        "description": "Error for unknown passkey provider errors (e.g. TYPE_UNKNOWN)."
     },
     "passkeyFailed": "Не удалось выполнить аутентификацию с помощью ключа доступа. Попробуйте еще раз.",
     "@passkeyFailed": {
@@ -941,26 +904,6 @@
     "inviteAcceptSomeone": "кто-то",
     "@inviteAcceptSomeone": {
         "description": "Fallback inviter name when the inviter is unknown."
-    },
-    "inviteAcceptEmojiPack": "Набор эмодзи",
-    "@inviteAcceptEmojiPack": {
-        "description": "Label for an emoji pack invite."
-    },
-    "inviteAcceptStickerPack": "Набор стикеров",
-    "@inviteAcceptStickerPack": {
-        "description": "Label for a sticker pack invite."
-    },
-    "inviteAcceptInstallEmojiPack": "Установить набор эмодзи",
-    "@inviteAcceptInstallEmojiPack": {
-        "description": "Primary action to install an emoji pack from an invite."
-    },
-    "inviteAcceptInstallStickerPack": "Установить набор стикеров",
-    "@inviteAcceptInstallStickerPack": {
-        "description": "Primary action to install a sticker pack from an invite."
-    },
-    "inviteAcceptPackInstallNote": "Принятие этого приглашения автоматически установит набор.",
-    "@inviteAcceptPackInstallNote": {
-        "description": "Note shown on expression pack invites before accepting."
     },
     "mentionUnknownChannel": "unknown-channel",
     "@mentionUnknownChannel": {
@@ -1708,10 +1651,6 @@
             }
         }
     },
-    "emojiPlutoniumUpsellButton": "Получить Plutonium",
-    "@emojiPlutoniumUpsellButton": {
-        "description": "Button label on the Plutonium upsell banner."
-    },
     "emojiPlutoniumUpsellDismiss": "Больше не показывать",
     "@emojiPlutoniumUpsellDismiss": {
         "description": "Dismiss link on the Plutonium upsell banner."
@@ -1878,10 +1817,6 @@
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
     },
-    "fluxerTagInputLabel": "Имя пользователя",
-    "@fluxerTagInputLabel": {
-        "description": "Label above the username and discriminator input fields."
-    },
     "fluxerTagDescriptionBase": "Имена пользователей могут содержать только буквы (a-z, A-Z), цифры (0-9) и символы подчеркивания. Имена пользователей не чувствительны к регистру.",
     "@fluxerTagDescriptionBase": {
         "description": "Base description text on the username change sheet."
@@ -1909,10 +1844,6 @@
     "validationAllowedChars": "Только буквы (a-z, A-Z), цифры (0-9) и знаки подчеркивания (_)",
     "@validationAllowedChars": {
         "description": "Validation rule for allowed username characters."
-    },
-    "discriminatorPremiumTooltip": "Получите Plutonium, чтобы настроить свой тег или сохранить его при изменении имени пользователя",
-    "@discriminatorPremiumTooltip": {
-        "description": "Tooltip on disabled discriminator field for non-premium users."
     },
     "fluxerTagAlreadyTaken": "Имя пользователя уже занято",
     "@fluxerTagAlreadyTaken": {
@@ -1967,19 +1898,6 @@
     "premiumUpsellCustomizeTag": "Настройте свой 4-значный тег или сохраните его при изменении имени пользователя",
     "@premiumUpsellCustomizeTag": {
         "description": "Upsell text encouraging non-premium users to get Plutonium for tag customization."
-    },
-    "premiumTrialExpiresOn": "Ваша пробная версия Plutonium истекает {date}. Обновитесь, чтобы сохранить свой пользовательский тег и получить значок в профиле.",
-    "@premiumTrialExpiresOn": {
-        "description": "Trial upsell with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActive": "Вы используете пробную версию Plutonium. Обновитесь, чтобы сохранить свой пользовательский тег и получить значок в профиле.",
-    "@premiumTrialActive": {
-        "description": "Trial upsell without specific expiry date."
     },
     "fluxerTagUpdated": "Имя пользователя обновлено",
     "@fluxerTagUpdated": {
@@ -2153,32 +2071,6 @@
     "@hideVisionaryIdDescription": {
         "description": "Description for the toggle to hide the Visionary ID badge."
     },
-    "premiumTrialSubscriptionStarts": "У вас пробная версия Plutonium — ваша подписка начнется {date}",
-    "@premiumTrialSubscriptionStarts": {
-        "description": "Trial banner title when user has an active subscription pending after trial.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialSubscriptionStartsDescription": "Ваша подписка начнется автоматически по окончании пробного периода. Никаких действий не требуется.",
-    "@premiumTrialSubscriptionStartsDescription": {
-        "description": "Trial banner description when user has an active subscription pending after trial."
-    },
-    "premiumTrialExpiresOnProfile": "У вас пробная версия Plutonium, которая истекает {date}",
-    "@premiumTrialExpiresOnProfile": {
-        "description": "Trial banner title with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActiveProfile": "У вас пробная версия Plutonium",
-    "@premiumTrialActiveProfile": {
-        "description": "Trial banner title without specific expiry date."
-    },
     "avatarDescriptionNonPremium": "JPEG, PNG, WebP. Макс. 10 МБ. Рекомендуется: 512×512px. Анимированные аватары (GIF) требуют Plutonium.",
     "@avatarDescriptionNonPremium": {
         "description": "Avatar helper text for non-premium users, mentioning Plutonium requirement for animated avatars."
@@ -2263,22 +2155,6 @@
     "profileSavedToast": "Профиль обновлен",
     "@profileSavedToast": {
         "description": "Toast message shown after successfully saving profile changes."
-    },
-    "profileEditButton": "Изменить профиль",
-    "@profileEditButton": {
-        "description": "Button label to open profile editing from the profile content card."
-    },
-    "profileNoteLabel": "Примечание",
-    "@profileNoteLabel": {
-        "description": "Label for the personal note section on a user profile."
-    },
-    "profileNoteVisibility": "(видно только вам)",
-    "@profileNoteVisibility": {
-        "description": "Hint that the note is private and only visible to the current user."
-    },
-    "profileNoteEmpty": "Заметки пока нет.",
-    "@profileNoteEmpty": {
-        "description": "Placeholder shown when no personal note has been set for a user."
     },
     "sudoTitle": "Подтвердите свою личность",
     "@sudoTitle": {
@@ -2651,42 +2527,6 @@
     "@securityPasskeyNameHint": {
         "description": "Hint for passkey name input."
     },
-    "securityPhoneSectionTitle": "Номер телефона",
-    "@securityPhoneSectionTitle": {
-        "description": "Title for phone number section."
-    },
-    "securityPhoneSectionDescription": "Управление вашим номером телефона.",
-    "@securityPhoneSectionDescription": {
-        "description": "Description for phone number section."
-    },
-    "securityPhoneLabel": "Номер телефона",
-    "@securityPhoneLabel": {
-        "description": "Label for phone number row."
-    },
-    "securityPhoneNone": "Номер телефона не добавлен.",
-    "@securityPhoneNone": {
-        "description": "Shown when no phone number is set."
-    },
-    "securityPhoneAdd": "Добавить телефон",
-    "@securityPhoneAdd": {
-        "description": "Button to add phone number."
-    },
-    "securityPhoneRemove": "Удалить",
-    "@securityPhoneRemove": {
-        "description": "Button to remove phone number."
-    },
-    "securityPhoneRemoveTitle": "Удалить номер телефона",
-    "@securityPhoneRemoveTitle": {
-        "description": "Title for phone remove confirmation."
-    },
-    "securityPhoneRemoveDescription": "Вы уверены, что хотите удалить номер телефона?",
-    "@securityPhoneRemoveDescription": {
-        "description": "Description for phone remove confirmation."
-    },
-    "securityPhoneRemoved": "Номер телефона удален",
-    "@securityPhoneRemoved": {
-        "description": "Toast after phone removed."
-    },
     "securityClaimTitle": "Функции безопасности",
     "@securityClaimTitle": {
         "description": "Title when user needs to claim account for security."
@@ -2739,10 +2579,6 @@
     "@backupCodesWarning": {
         "description": "Warning about backup codes."
     },
-    "backupCodesDownload": "Скачать",
-    "@backupCodesDownload": {
-        "description": "Button to download backup codes."
-    },
     "backupCodesCopy": "Скопировать",
     "@backupCodesCopy": {
         "description": "Button to copy backup codes."
@@ -2758,46 +2594,6 @@
     "backupCodesDone": "Готово",
     "@backupCodesDone": {
         "description": "Button to close backup codes sheet."
-    },
-    "backupCodesViewTitle": "Посмотреть резервные коды",
-    "@backupCodesViewTitle": {
-        "description": "Title for viewing existing backup codes."
-    },
-    "backupCodesViewDescription": "Для просмотра резервных кодов может потребоваться подтверждение.",
-    "@backupCodesViewDescription": {
-        "description": "Description for view backup codes."
-    },
-    "phoneAddTitle": "Добавить номер телефона",
-    "@phoneAddTitle": {
-        "description": "Title for phone add sheet."
-    },
-    "phoneAddLabel": "Номер телефона",
-    "@phoneAddLabel": {
-        "description": "Label for phone input."
-    },
-    "phoneAddHint": "Введите номер телефона",
-    "@phoneAddHint": {
-        "description": "Hint for phone input."
-    },
-    "phoneAddFooter": "Мы отправим код по SMS, когда он будет доступен. Ваш номер не будет привязан к вашей учетной записи. Мы сохраним только зашифрованный маркер без идентификатора пользователя, чтобы разрешить не более 2 проверок в течение примерно 30 дней.",
-    "@phoneAddFooter": {
-        "description": "Footer text for phone input."
-    },
-    "phoneAddSendCode": "Отправить код",
-    "@phoneAddSendCode": {
-        "description": "Button to send phone verification code."
-    },
-    "phoneVerifyTitle": "Подтвердить номер телефона",
-    "@phoneVerifyTitle": {
-        "description": "Title for phone verify step."
-    },
-    "phoneVerifyDescription": "Введите код подтверждения, отправленный на ваш номер телефона.",
-    "@phoneVerifyDescription": {
-        "description": "Description for phone verify step."
-    },
-    "phoneAddSuccess": "Номер телефона подтвержден",
-    "@phoneAddSuccess": {
-        "description": "Toast after phone added."
     },
     "dangerZoneSectionTitle": "Опасная зона",
     "@dangerZoneSectionTitle": {
@@ -3049,10 +2845,6 @@
     "@authorizedAppsScopeAdmin": {
         "description": "OAuth2 scope description: admin."
     },
-    "privacyPendingDeletionTitle": "Ожидает удаления",
-    "@privacyPendingDeletionTitle": {
-        "description": "Title of the warning alert shown when a bulk message deletion is pending."
-    },
     "blockedUsersTitle": "Заблокированные пользователи",
     "@blockedUsersTitle": {
         "description": "Header title of the Blocked Users settings page."
@@ -3288,10 +3080,6 @@
     "userProfileNoteDelete": "Удалить",
     "@userProfileNoteDelete": {
         "description": "Delete button in the note editor sheet."
-    },
-    "userProfileNoteEmpty": "Нажмите, чтобы добавить заметку",
-    "@userProfileNoteEmpty": {
-        "description": "Hint text when no note has been written yet."
     },
     "userProfileMemberSince": "Участник с",
     "@userProfileMemberSince": {
@@ -4063,17 +3851,9 @@
     "@channelComposerBarrierNotMemberLongEnough": {
         "description": "Composer barrier when the user's guild membership is too recent."
     },
-    "channelComposerBarrierNoPhoneNumber": "Чтобы отправлять сообщения в этом сообществе, подтвердите номер телефона.",
-    "@channelComposerBarrierNoPhoneNumber": {
-        "description": "Composer barrier when the user must verify a phone number before messaging."
-    },
     "channelComposerBarrierVerifyEmail": "Подтвердить почту",
     "@channelComposerBarrierVerifyEmail": {
         "description": "Action button on the composer barrier for unverified email."
-    },
-    "channelComposerBarrierVerifyPhone": "Подтвердить телефон",
-    "@channelComposerBarrierVerifyPhone": {
-        "description": "Action button on the composer barrier for missing phone verification."
     },
     "chatAttachmentTooMany": "Слишком много вложений (макс. {max})",
     "@chatAttachmentTooMany": {
@@ -4100,10 +3880,6 @@
     "@chatAttachmentDropToSend": {
         "description": "Overlay hint when dragging files over chat with Shift held."
     },
-    "chatAttachmentSendVoiceMessage": "Отправить голосовое сообщение",
-    "@chatAttachmentSendVoiceMessage": {
-        "description": "Menu item to open the voice message recorder."
-    },
     "voiceMessageTitle": "Голосовое сообщение",
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
@@ -4124,10 +3900,6 @@
     "@voiceMessageMicPermissionDenied": {
         "description": "Shown when microphone permission is denied for voice messages."
     },
-    "voiceMessageRecordingNotSupported": "Запись голоса не поддерживается на этом устройстве.",
-    "@voiceMessageRecordingNotSupported": {
-        "description": "Shown when the device cannot record voice messages."
-    },
     "voiceMessageMicInUse": "Покиньте голосовой вызов, чтобы записать голосовое сообщение.",
     "@voiceMessageMicInUse": {
         "description": "Shown when the microphone is already used by an active voice call."
@@ -4140,26 +3912,6 @@
     "@voiceMessageSendFailed": {
         "description": "Shown when sending a voice message fails."
     },
-    "voiceMessageRecordingHint": "Говорите. Нажмите «Остановить», когда закончите, — обрезать можно будет позже.",
-    "@voiceMessageRecordingHint": {
-        "description": "Help text while recording a voice message on desktop."
-    },
-    "voiceMessageReviewHint": "Перетащите маркеры, чтобы обрезать, затем нажмите «Отправить».",
-    "@voiceMessageReviewHint": {
-        "description": "Help text while reviewing a voice message before send."
-    },
-    "voiceMessageStop": "Стоп",
-    "@voiceMessageStop": {
-        "description": "Stop recording button in voice message composer."
-    },
-    "voiceMessageStartRecording": "Начать запись",
-    "@voiceMessageStartRecording": {
-        "description": "Button to retry voice recording after permission error."
-    },
-    "voiceMessageRerecord": "Записать заново",
-    "@voiceMessageRerecord": {
-        "description": "Button to discard review and record again."
-    },
     "voiceMessagePlay": "Воспроизвести",
     "@voiceMessagePlay": {
         "description": "Play voice message preview."
@@ -4167,16 +3919,6 @@
     "voiceMessagePause": "Пауза",
     "@voiceMessagePause": {
         "description": "Pause voice message preview."
-    },
-    "voiceMessageSelectionTooShort": "Выбранный фрагмент должен быть не менее {seconds} с.",
-    "@voiceMessageSelectionTooShort": {
-        "description": "Error when trimmed voice message is too short.",
-        "placeholders": {
-            "seconds": {
-                "type": "num",
-                "format": "compact"
-            }
-        }
     },
     "chatAttachmentEditTitle": "Изменить вложение",
     "@chatAttachmentEditTitle": {
@@ -4221,10 +3963,6 @@
     "chatAttachmentSourceBrowse": "Обзор файлов",
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
-    },
-    "chatAttachmentPasteTooltip": "Вставить файл из буфера обмена",
-    "@chatAttachmentPasteTooltip": {
-        "description": "Tooltip for pasting an image attachment from the clipboard."
     },
     "chatAttachmentSpoiler": "Спойлер",
     "@chatAttachmentSpoiler": {
@@ -4322,14 +4060,6 @@
     "@matureContentOpenLinkButton": {
         "description": "Primary action on mature link channel gates."
     },
-    "sensitiveContentSectionTitle": "Деликатный контент",
-    "@sensitiveContentSectionTitle": {
-        "description": "Privacy settings section title for sensitive content filters."
-    },
-    "sensitiveContentSectionDescription": "Управляйте тем, как медиаматериалы для взрослых или конфиденциальные медиаматериалы фильтруются в различных контекстах.",
-    "@sensitiveContentSectionDescription": {
-        "description": "Privacy settings section description for sensitive content filters."
-    },
     "sensitiveContentFriendDmLabel": "Личные сообщения от друзей",
     "@sensitiveContentFriendDmLabel": {
         "description": "Label for friend DM sensitive content filter."
@@ -4354,18 +4084,6 @@
     "@sensitiveContentFilterBlock": {
         "description": "Sensitive content filter option to block media."
     },
-    "sensitiveContentBlurUnscannedLabel": "Размывать медиа до завершения сканирования безопасности",
-    "@sensitiveContentBlurUnscannedLabel": {
-        "description": "Toggle label for blurring unscanned media."
-    },
-    "sensitiveContentBlurUnscannedDescriptionAdult": "При включении изображения и видео будут размыты до завершения сканирования безопасности контента.",
-    "@sensitiveContentBlurUnscannedDescriptionAdult": {
-        "description": "Description for blur-unscanned toggle for adult accounts."
-    },
-    "sensitiveContentBlurUnscannedDescriptionMinor": "Эта настройка всегда включена для вашей учетной записи.",
-    "@sensitiveContentBlurUnscannedDescriptionMinor": {
-        "description": "Description for blur-unscanned toggle for minor accounts."
-    },
     "sensitiveContentResetButton": "Сбросить",
     "@sensitiveContentResetButton": {
         "description": "Reset button for sensitive content settings."
@@ -4382,10 +4100,6 @@
                 "type": "int"
             }
         }
-    },
-    "chatCancelUpload": "Отменить загрузку",
-    "@chatCancelUpload": {
-        "description": "Button or menu action label for canceling an in-flight message attachment upload."
     },
     "chatAttachmentExpiresOn": "Истекает {date}",
     "@chatAttachmentExpiresOn": {
@@ -4655,10 +4369,6 @@
     "@connectionEnterDomain": {
         "description": "Inline error shown when the domain input is empty."
     },
-    "lookAndFeelTitle": "Внешний вид",
-    "@lookAndFeelTitle": {
-        "description": "Title of the Look & Feel (Appearance) settings page."
-    },
     "lookAndFeelThemeSectionTitle": "Тема",
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
@@ -4698,14 +4408,6 @@
     "lookAndFeelThemeSyncFailed": "Не удалось синхронизировать тему с вашей учетной записью. Пожалуйста, попробуйте еще раз.",
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
-    },
-    "lookAndFeelChatFontScalingTitle": "Масштаб шрифта чата",
-    "@lookAndFeelChatFontScalingTitle": {
-        "description": "Section title for the chat font size slider."
-    },
-    "lookAndFeelChatFontScalingDescription": "Настройте размер шрифта в чате.",
-    "@lookAndFeelChatFontScalingDescription": {
-        "description": "Section description for the chat font size slider."
     },
     "lookAndFeelInterfaceTitle": "Интерфейс",
     "@lookAndFeelInterfaceTitle": {
@@ -4774,42 +4476,6 @@
     "lookAndFeelHideKeyboardHintsDescription": "Когда включено, значки сочетаний клавиш скрываются во всплывающих подсказках.",
     "@lookAndFeelHideKeyboardHintsDescription": {
         "description": "Toggle description for the hide-keyboard-hints switch."
-    },
-    "lookAndFeelNekoTitle": "Разное",
-    "@lookAndFeelNekoTitle": {
-        "description": "Subsection title under Interface for Neko appearance settings."
-    },
-    "lookAndFeelNekoDescription": "Различные параметры интерфейса.",
-    "@lookAndFeelNekoDescription": {
-        "description": "Subsection description for Neko appearance settings."
-    },
-    "lookAndFeelShowNekoLabel": "Показывать Неко",
-    "@lookAndFeelShowNekoLabel": {
-        "description": "Toggle label for showing Neko in the chat footer."
-    },
-    "lookAndFeelShowNekoDescription": "Когда включено, Неко появляется рядом с полем ввода чата.",
-    "@lookAndFeelShowNekoDescription": {
-        "description": "Toggle description for showing Neko in chat."
-    },
-    "lookAndFeelVoiceChannelJoinTitle": "Как присоединяться к голосовым каналам",
-    "@lookAndFeelVoiceChannelJoinTitle": {
-        "description": "Subsection title under Interface — voice channel join behavior."
-    },
-    "lookAndFeelVoiceChannelJoinDescription": "Управляйте тем, как вы присоединяетесь к голосовым каналам в сообществах.",
-    "@lookAndFeelVoiceChannelJoinDescription": {
-        "description": "Subsection description for voice channel join behavior."
-    },
-    "lookAndFeelRequireDoubleClickJoinLabel": "Требовать двойной щелчок для входа в голосовые каналы",
-    "@lookAndFeelRequireDoubleClickJoinLabel": {
-        "description": "Toggle label — require double-click to join voice channels."
-    },
-    "lookAndFeelRequireDoubleClickJoinDescription": "Когда включено, вам потребуется дважды щелкнуть голосовые каналы, чтобы присоединиться к ним. Когда выключено (по умолчанию), одиночный клик немедленно присоединит к каналу.",
-    "@lookAndFeelRequireDoubleClickJoinDescription": {
-        "description": "Toggle description for the require-double-click voice channel join switch."
-    },
-    "lookAndFeelChatFontPreviewSample": "Съешь же ещё этих мягких французских булок, да выпей чаю.",
-    "@lookAndFeelChatFontPreviewSample": {
-        "description": "Sample text rendered at the selected chat font size to preview scaling."
     },
     "lookAndFeelGuildSidebarTitle": "Боковая панель сервера",
     "@lookAndFeelGuildSidebarTitle": {
@@ -5218,25 +4884,9 @@
     "@messagesMediaAutocompleteSavedMediaLabel": {
         "description": "Toggle label for saved media in expression autocomplete."
     },
-    "messagesMediaEditingSectionTitle": "Редактирование сообщений",
-    "@messagesMediaEditingSectionTitle": {
-        "description": "Section title for message editing settings."
-    },
-    "messagesMediaEditingSectionDescription": "Управляйте тем, что происходит с черновиком вашего редактирования при отмене.",
-    "@messagesMediaEditingSectionDescription": {
-        "description": "Section description for message editing settings."
-    },
-    "messagesMediaEditingPreserveDraftLabel": "Сохранять черновик редактирования при отмене",
-    "@messagesMediaEditingPreserveDraftLabel": {
-        "description": "Toggle label for preserving edit drafts on cancel."
-    },
     "accessibilityDmMessagePreviewGroupTitle": "Предпросмотр сообщений в личных чатах",
     "@accessibilityDmMessagePreviewGroupTitle": {
         "description": "Section title for DM message preview accessibility settings."
-    },
-    "accessibilityDmMessagePreviewGroupDescription": "Управляйте тем, когда превью сообщений отображаются в списке ЛС.",
-    "@accessibilityDmMessagePreviewGroupDescription": {
-        "description": "Section description for DM message preview accessibility settings."
     },
     "accessibilityDmMessagePreviewModeLabel": "Режим предпросмотра личных сообщений",
     "@accessibilityDmMessagePreviewModeLabel": {
@@ -5394,10 +5044,6 @@
     "@voiceConnectionConfirmDoNothing": {
         "description": "Dismiss the dialog without joining voice."
     },
-    "voiceChannelEmptyDescription": "Это голосовой канал. Подключитесь, чтобы начать говорить!",
-    "@voiceChannelEmptyDescription": {
-        "description": "Empty state body when viewing a guild voice channel while not in the call."
-    },
     "voiceChannelJoin": "Присоединиться к голосовому каналу",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
@@ -5437,14 +5083,6 @@
     "voiceChannelStatusConnecting": "Подключение…",
     "@voiceChannelStatusConnecting": {
         "description": "Status in the in-page voice view while LiveKit is connecting."
-    },
-    "voiceChannelStatusConnected": "Подключено",
-    "@voiceChannelStatusConnected": {
-        "description": "Status in the in-page voice view when the voice session is active."
-    },
-    "voiceChannelStatusError": "Ошибка",
-    "@voiceChannelStatusError": {
-        "description": "Short label in the channel header when the voice session reports an error."
     },
     "voiceParticipantTooltipMobileDevice": "Мобильное устройство",
     "@voiceParticipantTooltipMobileDevice": {
@@ -5519,10 +5157,6 @@
     "voiceScreenShareNotificationText": "Демонстрация вашего экрана.",
     "@voiceScreenShareNotificationText": {
         "description": "Body text for the Android foreground notification shown while screen sharing."
-    },
-    "voiceControlMore": "Ещё",
-    "@voiceControlMore": {
-        "description": "Tooltip: more voice actions in the voice call control bar."
     },
     "voiceControlDisconnect": "Отключиться",
     "@voiceControlDisconnect": {
@@ -6378,10 +6012,6 @@
     "addGuildJoinFailed": "Не удалось присоединиться к сообществу. Пожалуйста, попробуйте еще раз.",
     "@addGuildJoinFailed": {
         "description": "Generic error when joining a community via invite fails."
-    },
-    "addGuildPackInstalled": "Пакет успешно установлен.",
-    "@addGuildPackInstalled": {
-        "description": "Toast shown after accepting an emoji or sticker pack invite."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "Удалить все реакции",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -7461,10 +7091,6 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsCustomInviteUrl": "Пользовательская ссылка-приглашение",
-    "@guildMenuSettingsCustomInviteUrl": {
-        "description": "Community settings tab for custom invite URLs."
-    },
     "guildMenuSettingsDiscovery": "Каталог",
     "@guildMenuSettingsDiscovery": {
         "description": "Community settings tab for discovery settings."
@@ -7489,17 +7115,9 @@
     "@guildSettingsOverviewIconTitle": {
         "description": "Title for the guild icon section in overview settings."
     },
-    "guildSettingsUploadImage": "Загрузить изображение",
-    "@guildSettingsUploadImage": {
-        "description": "Button label to upload an image in guild settings."
-    },
     "guildSettingsOverviewBannerTitle": "Баннер",
     "@guildSettingsOverviewBannerTitle": {
         "description": "Title for the guild banner section."
-    },
-    "guildSettingsOverviewBannerHint": "Загрузите баннер для вашего сервера.",
-    "@guildSettingsOverviewBannerHint": {
-        "description": "Hint text for guild banner upload."
     },
     "guildSettingsOverviewNameTitle": "Название",
     "@guildSettingsOverviewNameTitle": {
@@ -7509,22 +7127,6 @@
     "@guildSettingsOverviewNameHint": {
         "description": "Hint for the guild name field."
     },
-    "guildSettingsOverviewStatsTitle": "Статистика",
-    "@guildSettingsOverviewStatsTitle": {
-        "description": "Title for guild statistics section."
-    },
-    "guildSettingsOverviewMembers": "Участники",
-    "@guildSettingsOverviewMembers": {
-        "description": "Label for member count in overview."
-    },
-    "guildSettingsOverviewOnline": "В сети",
-    "@guildSettingsOverviewOnline": {
-        "description": "Label for online count in overview."
-    },
-    "guildSettingsRolesDescription": "Используйте роли для группировки участников и назначения разрешений.",
-    "@guildSettingsRolesDescription": {
-        "description": "Description for the roles settings tab."
-    },
     "guildSettingsCreateRole": "Создать роль",
     "@guildSettingsCreateRole": {
         "description": "Button to create a new role."
@@ -7533,30 +7135,9 @@
     "@guildSettingsRolesListTitle": {
         "description": "Title for the roles list section."
     },
-    "guildSettingsEmojiSlotInfo": "{staticCount} статических, {animatedCount} анимированных слотов эмодзи использовано",
-    "@guildSettingsEmojiSlotInfo": {
-        "description": "Emoji slot usage summary.",
-        "placeholders": {
-            "staticCount": {
-                "type": "int"
-            },
-            "animatedCount": {
-                "type": "int"
-            }
-        }
-    },
     "guildSettingsEmojiEmpty": "Пока нет пользовательских эмодзи.",
     "@guildSettingsEmojiEmpty": {
         "description": "Empty state for emoji settings."
-    },
-    "guildSettingsStickersSlotInfo": "{count} стикеров загружено",
-    "@guildSettingsStickersSlotInfo": {
-        "description": "Sticker slot usage summary.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsStickersEmpty": "Пока нет пользовательских стикеров.",
     "@guildSettingsStickersEmpty": {
@@ -7602,8 +7183,6 @@
     "guildSettingsVerificationMediumDescription": "Требуется подтвержденный адрес электронной почты и учетная запись возрастом не менее 5 минут.",
     "guildSettingsVerificationHigh": "Высокий",
     "guildSettingsVerificationHighDescription": "Всё то же, что и на среднем уровне, плюс членство в сообществе не менее 10 минут.",
-    "guildSettingsVerificationHighest": "Очень высокий",
-    "guildSettingsVerificationHighestDescription": "Требуется подтвержденный номер телефона.",
     "guildSettingsAuditLogDescription": "Отслеживайте действия модераторов в сообществе.",
     "@guildSettingsAuditLogDescription": {
         "description": "Subtitle under the activity-log page title."
@@ -7631,14 +7210,6 @@
     "guildSettingsAuditLogUnknownUser": "Неизвестный пользователь",
     "@guildSettingsAuditLogUnknownUser": {
         "description": "Fallback avatar label when the acting user is unavailable."
-    },
-    "guildSettingsAuditLogLoadError": "Что-то пошло не так при загрузке журнала действий.",
-    "@guildSettingsAuditLogLoadError": {
-        "description": "Generic error shown when fetching log entries fails."
-    },
-    "guildSettingsAuditLogLoadErrorTitle": "Не удалось загрузить журнал действий",
-    "@guildSettingsAuditLogLoadErrorTitle": {
-        "description": "Error-state title when fetching log entries failed."
     },
     "guildSettingsAuditLogReason": "Причина",
     "@guildSettingsAuditLogReason": {
@@ -8610,14 +8181,6 @@
     "@auditLogOptionPermanentMembership": {
         "description": "Audit log option detail sentence."
     },
-    "guildSettingsLoadMore": "Загрузить еще",
-    "@guildSettingsLoadMore": {
-        "description": "Button to load more audit log entries."
-    },
-    "guildSettingsLoadingMore": "Загрузка...",
-    "@guildSettingsLoadingMore": {
-        "description": "Loading state for pagination."
-    },
     "guildSettingsWebhooksDescription": "Просматривайте вебхуки, настроенные для вашего сообщества, и управляйте ими.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
@@ -8626,42 +8189,9 @@
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
-    "guildSettingsCopyUrl": "Копировать URL",
-    "@guildSettingsCopyUrl": {
-        "description": "Tooltip to copy a URL."
-    },
     "guildSettingsCopiedUrl": "Ссылка скопирована в буфер обмена",
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
-    },
-    "guildSettingsDeleteWebhook": "Удалить вебхук",
-    "@guildSettingsDeleteWebhook": {
-        "description": "Tooltip to delete a webhook."
-    },
-    "guildSettingsVanityUrlDescription": "Задайте пользовательскую ссылку для приглашения на ваш сервер.",
-    "@guildSettingsVanityUrlDescription": {
-        "description": "Description for vanity URL tab."
-    },
-    "guildSettingsVanityUrlHint": "my-server",
-    "@guildSettingsVanityUrlHint": {
-        "description": "Hint for vanity URL input."
-    },
-    "guildSettingsSave": "Сохранить",
-    "@guildSettingsSave": {
-        "description": "Generic save button label."
-    },
-    "guildSettingsVanityUrlUsageTitle": "Использование",
-    "@guildSettingsVanityUrlUsageTitle": {
-        "description": "Title for vanity URL usage section."
-    },
-    "guildSettingsVanityUrlUses": "{count} использований",
-    "@guildSettingsVanityUrlUses": {
-        "description": "Vanity URL usage count.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsDiscoveryDescription": "Разместите сообщество в каталоге, чтобы другие могли его найти и присоединиться.",
     "@guildSettingsDiscoveryDescription": {
@@ -8700,10 +8230,6 @@
     "@guildSettingsDiscoveryWithdraw": {
         "description": "Button to withdraw discovery application."
     },
-    "guildSettingsMembersDescription": "Ищите и управляйте участниками сервера.",
-    "@guildSettingsMembersDescription": {
-        "description": "Description for members tab."
-    },
     "guildSettingsMembersSearchHint": "Поиск по имени пользователя или ID",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
@@ -8725,27 +8251,6 @@
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
-    "guildSettingsInviteUses": "{uses} / {maxUses} использований",
-    "@guildSettingsInviteUses": {
-        "description": "Invite usage count.",
-        "placeholders": {
-            "uses": {
-                "type": "int"
-            },
-            "maxUses": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsInviteExpires": "Истекает {date}",
-    "@guildSettingsInviteExpires": {
-        "description": "Invite expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBansDescription": "Просматривайте забаненных пользователей и управляйте ими.",
     "@guildSettingsBansDescription": {
         "description": "Description for bans tab."
@@ -8758,30 +8263,9 @@
     "@guildSettingsBansEmpty": {
         "description": "Empty state for bans."
     },
-    "guildSettingsBanPermanent": "Постоянная блокировка",
-    "@guildSettingsBanPermanent": {
-        "description": "Label for permanent ban."
-    },
-    "guildSettingsBanExpires": "Истекает {date}",
-    "@guildSettingsBanExpires": {
-        "description": "Ban expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBanExpiresLabel": "Истекает",
     "@guildSettingsBanExpiresLabel": {
         "description": "Label for ban expiration row."
-    },
-    "guildSettingsUnban": "Разблокировать",
-    "@guildSettingsUnban": {
-        "description": "Button to unban a user."
-    },
-    "guildSettingsBansLoading": "Загрузка забаненных пользователей",
-    "@guildSettingsBansLoading": {
-        "description": "Loading state for the guild bans list."
     },
     "guildSettingsBansNoSearchResults": "Не найдено ни одного бана по вашему запросу.",
     "@guildSettingsBansNoSearchResults": {
@@ -8825,10 +8309,6 @@
             }
         }
     },
-    "guildSettingsBansLoadError": "Не удалось загрузить блокировки. Попробуйте еще раз.",
-    "@guildSettingsBansLoadError": {
-        "description": "Error when loading the guild bans list fails."
-    },
     "guildSettingsRevokeBanError": "Не удалось отменить блокировку. Попробуйте еще раз.",
     "@guildSettingsRevokeBanError": {
         "description": "Error when revoking a ban fails."
@@ -8853,7 +8333,6 @@
     "@guildSettingsCategoryPeople": {
         "description": "Sidebar category for members, invites, and bans."
     },
-    "guildSettingsOverviewDescription": "Управляйте профилем, каналами и настройками по умолчанию вашего сообщества.",
     "guildSettingsOverviewBrandingTitle": "Оформление",
     "guildSettingsOverviewBrandingDescription": "Обновите значок, название, баннер и фон приглашения",
     "@guildSettingsOverviewBrandingDescription": {
@@ -8872,7 +8351,6 @@
     },
     "guildSettingsOverviewNotificationsTitle": "Уведомления по умолчанию",
     "guildSettingsOverviewNotificationsLargeGuild": "В сообществах, где более 250 участников, автоматически устанавливается режим уведомлений «Только упоминания». Ваши исходные настройки сохранятся и будут восстановлены, если число участников сообщества станет меньше 250.",
-    "guildSettingsOverviewAdvancedTitle": "Дополнительно",
     "guildSettingsOverviewFlexibleNames": "Разрешить гибкие названия текстовых каналов",
     "guildSettingsOverviewHideOwnerCrown": "Скрыть корону владельца сообщества",
     "guildSettingsOverviewDetachedBanner": "Откреплённый баннер",
@@ -8898,10 +8376,6 @@
     "guildSettingsOverviewEmbedSplashTitle": "Фон чата",
     "@guildSettingsOverviewEmbedSplashTitle": {
         "description": "Title for embed splash upload section."
-    },
-    "guildSettingsOverviewEmbedSplashHint": "Отображается в карточке приглашения в чате.",
-    "@guildSettingsOverviewEmbedSplashHint": {
-        "description": "Note shown when uploading chat embed background."
     },
     "guildSettingsOverviewUploadBackground": "Загрузить фон",
     "@guildSettingsOverviewUploadBackground": {
@@ -9068,8 +8542,6 @@
     "@guildSettingsOverviewEmbedSplashUploadHint": {
         "description": "Upload requirements for chat embed background images."
     },
-    "guildSettingsModerationDescription": "Настройте параметры проверки, фильтрации контента и контента для взрослых.",
-    "guildSettingsModerationDiscoveryNotice": "Сообщества, перечисленные в Discovery, имеют ограниченные возможности модерации.",
     "guildSettingsModerationContentFilterTitle": "Фильтрация контента",
     "guildSettingsModerationContentFilterDescription": "Автоматически проверять сообщения на наличие откровенного контента в каналах без отметки «контент для взрослых».",
     "guildSettingsModerationContentFilterDiscoveryNote": "Сообщества, перечисленные в Discovery, обязаны сканировать всех участников. Этот параметр нельзя изменить, пока включен Discovery.",
@@ -9079,8 +8551,6 @@
     "guildSettingsContentFilterNoRoleDescription": "Рекомендуется для большинства сообществ",
     "guildSettingsContentFilterAll": "Фильтровать всех",
     "guildSettingsContentFilterAllDescription": "Максимальная защита для семейных чатов",
-    "guildSettingsModerationMatureOff": "Выкл",
-    "guildSettingsModerationMatureOn": "Вкл",
     "guildSettingsContentWarningToggle": "Показывать предупреждение о контенте",
     "@guildSettingsContentWarningToggle": {
         "description": "Switch label for the community content warning setting."
@@ -9100,7 +8570,6 @@
     "guildSettingsModeration2faTitle": "Требование 2FA",
     "guildSettingsModeration2faDescription": "Требовать двухфакторную аутентификацию для модераторов, прежде чем они смогут банить, исключать, временно блокировать или удалять сообщения.",
     "guildSettingsModeration2faSwitchLabel": "Требовать 2FA для действий модерации",
-    "guildSettingsModeration2faOwnerOnlyTooltip": "Изменить эту настройку может только владелец сообщества",
     "guildSettingsModeration2faEnableFirstTooltip": "Включите двухфакторную аутентификацию, чтобы изменить эту настройку",
     "guildSettingsEmojiSearchHint": "Поиск эмодзи",
     "guildSettingsEmojiUploadTitle": "Загрузить эмодзи",
@@ -9122,8 +8591,6 @@
     },
     "guildSettingsStickersSearchHint": "Поиск стикеров",
     "guildSettingsWebhooksInfo": "Чтобы создать вебхук, откройте {channelSettingsPath}. Вы можете редактировать и упорядочивать все существующие вебхуки здесь.",
-    "guildSettingsVanityUrlWarning": "Ваш пользовательский URL не будет работать, если хотя бы один канал не будет виден всем.",
-    "guildSettingsVanityUrlRemove": "Удалить",
     "guildSettingsBannedUsersTitle": "Забаненные пользователи",
     "guildSettingsInvitesTableInviter": "Пригласивший",
     "guildSettingsInvitesTableChannel": "Канал",
@@ -9490,22 +8957,6 @@
             }
         }
     },
-    "phoneNumberRequired": "Требуется номер телефона",
-    "@phoneNumberRequired": {
-        "description": "Validation error when phone number is empty."
-    },
-    "phoneNotEligible": "Подтверждение по телефону недоступно для этого аккаунта. Используйте другой способ или обратитесь в поддержку.",
-    "@phoneNotEligible": {
-        "description": "Account not eligible for phone verification."
-    },
-    "requiredActionUsePhone": "Использовать телефон",
-    "@requiredActionUsePhone": {
-        "description": "Button to choose phone verification."
-    },
-    "requiredActionSignOut": "Выйти",
-    "@requiredActionSignOut": {
-        "description": "Sign out button in required action modal."
-    },
     "systemCallMissed": "Вы пропустили звонок от {username}.",
     "@systemCallMissed": {
         "description": "System message when the viewer missed a call.",
@@ -9573,18 +9024,6 @@
     "@channelSettingsVoiceRegionsLoadFailedDescription": {
         "description": "Error modal body when voice regions fail to load in channel settings."
     },
-    "channelSettingsResetSlider": "Сбросить ползунок до значения по умолчанию",
-    "@channelSettingsResetSlider": {
-        "description": "Tooltip for reset buttons on channel settings sliders."
-    },
-    "channelSettingsAdvanced": "Дополнительно",
-    "@channelSettingsAdvanced": {
-        "description": "Collapsible advanced section title in channel overview."
-    },
-    "channelSettingsMatureContentOverride": "Переопределение возрастного ограничения",
-    "@channelSettingsMatureContentOverride": {
-        "description": "Accessibility label for mature content override control."
-    },
     "channelSettingsMatureContentInheritsOn": "Унаследовано от {inheritedSourceLabel}: включено",
     "@channelSettingsMatureContentInheritsOn": {
         "description": "Mature content summary when inherited setting is enabled.",
@@ -9599,32 +9038,6 @@
         "description": "Mature content summary when inherited setting is disabled.",
         "placeholders": {
             "inheritedSourceLabel": {
-                "type": "String"
-            }
-        }
-    },
-    "channelSettingsMatureContentCategorySource": "категория",
-    "@channelSettingsMatureContentCategorySource": {
-        "description": "Lowercase source label for inherited mature content from category."
-    },
-    "channelSettingsMatureContentCommunitySource": "сообщество",
-    "@channelSettingsMatureContentCommunitySource": {
-        "description": "Lowercase source label for inherited mature content from community."
-    },
-    "channelSettingsPermissionsNeedManageChannels": "Чтобы изменить эти разрешения, вам нужно разрешение «{manageChannelsPermissionLabel}».",
-    "@channelSettingsPermissionsNeedManageChannels": {
-        "description": "Error when user lacks manage channels permission for channel permissions tab.",
-        "placeholders": {
-            "manageChannelsPermissionLabel": {
-                "type": "String"
-            }
-        }
-    },
-    "channelSettingsPermissionsNeedManageRoles": "Вам нужно разрешение «{manageRolesPermissionLabel}», чтобы редактировать эти разрешения.",
-    "@channelSettingsPermissionsNeedManageRoles": {
-        "description": "Error when user lacks manage roles permission for channel permissions tab.",
-        "placeholders": {
-            "manageRolesPermissionLabel": {
                 "type": "String"
             }
         }
@@ -9680,10 +9093,6 @@
                 "type": "String"
             }
         }
-    },
-    "channelSettingsWebhooksUnknownUser": "Неизвестный пользователь",
-    "@channelSettingsWebhooksUnknownUser": {
-        "description": "Fallback label when webhook creator is unavailable."
     },
     "channelSettingsWebhooksAvatar": "Аватар",
     "@channelSettingsWebhooksAvatar": {
@@ -9753,10 +9162,6 @@
     "@groupDmRemoveIcon": {
         "description": "Button to remove the group icon."
     },
-    "groupDmFailedToProcessCroppedImage": "Не удалось обработать обрезанное изображение. Повторите попытку.",
-    "@groupDmFailedToProcessCroppedImage": {
-        "description": "Body when a cropped group icon cannot be processed."
-    },
     "groupDmInvalidImage": "Недопустимое изображение",
     "@groupDmInvalidImage": {
         "description": "Title when the selected group icon image cannot be used."
@@ -9772,10 +9177,6 @@
     "groupDmAddFriendFailed": "Не удалось добавить этого друга в группу. Повторите попытку.",
     "@groupDmAddFriendFailed": {
         "description": "Error when adding a single friend to a group DM fails."
-    },
-    "groupDmAddFailed": "Не удалось добавить в группу",
-    "@groupDmAddFailed": {
-        "description": "Title when adding friends to a group DM fails."
     },
     "groupDmGroupFull": "Эта группа заполнена. Удалите кого-нибудь, прежде чем добавлять новых участников.",
     "@groupDmGroupFull": {
@@ -9793,16 +9194,6 @@
     "@audioAndVideoFrameRate15Label": {
         "description": "Screen share frame rate option for 15 FPS."
     },
-    "audioAndVideoMicrophonePermissionRequired": "{productName} требуется доступ к микрофону, чтобы показать список ваших устройств.",
-    "@audioAndVideoMicrophonePermissionRequired": {
-        "description": "Shown when microphone permission is required to enumerate audio input devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
     "guildSettingsRolesRoleColorHelper": "Введите цвет (hex, rgb(), hsl() или название) или используйте палитру.",
     "@guildSettingsRolesRoleColorHelper": {
         "description": "Helper text under the role color input."
@@ -9814,14 +9205,6 @@
     "guildSettingsRolesComfyLayout": "Просторный вид",
     "@guildSettingsRolesComfyLayout": {
         "description": "Tooltip when permission list is in dense layout."
-    },
-    "guildSettingsRolesSwitchToTwoColumns": "Переключиться на две колонки",
-    "@guildSettingsRolesSwitchToTwoColumns": {
-        "description": "Aria label for switching to two columns."
-    },
-    "guildSettingsRolesCustomHoistOrder": "Пользовательский порядок отображения",
-    "@guildSettingsRolesCustomHoistOrder": {
-        "description": "Button to enter custom hoist order mode."
     },
     "guildSettingsRolesHoistResetSuccess": "Порядок отображения сброшен до стандартного",
     "@guildSettingsRolesHoistResetSuccess": {
@@ -9981,10 +9364,6 @@
     "guildSettingsRolesDisplaySection": "Отображение",
     "@guildSettingsRolesDisplaySection": {
         "description": "Section title for role display settings."
-    },
-    "guildSettingsRolesLockedTooltip": "Вы не можете редактировать эту роль, так как она является вашей наивысшей ролью или находится выше вашей",
-    "@guildSettingsRolesLockedTooltip": {
-        "description": "Tooltip on locked role rows."
     },
     "permissionUseExternalStickers": "Использовать внешние стикеры",
     "@permissionUseExternalStickers": {
@@ -10351,10 +9730,6 @@
     "@groupDmEditTitle": {
         "description": "Title for the edit group DM modal or sheet."
     },
-    "groupDmEditDetailsTooltip": "Изменить данные группы",
-    "@groupDmEditDetailsTooltip": {
-        "description": "Tooltip on the desktop group DM header edit action."
-    },
     "groupDmRateLimited": "Вы слишком торопитесь. Подождите немного и попробуйте снова.",
     "@groupDmRateLimited": {
         "description": "Error when add-friends requests are rate limited."
@@ -10471,18 +9846,6 @@
     "@guildSettingsRolesDenseLayout": {
         "description": "Tooltip when permission list is in comfy layout."
     },
-    "guildSettingsRolesSwitchToDenseLayout": "Переключиться на компактный вид",
-    "@guildSettingsRolesSwitchToDenseLayout": {
-        "description": "Aria label for switching to dense layout."
-    },
-    "guildSettingsRolesSwitchToComfyLayout": "Переключиться на просторный вид",
-    "@guildSettingsRolesSwitchToComfyLayout": {
-        "description": "Aria label for switching to comfy layout."
-    },
-    "guildSettingsRolesSwitchToSingleColumn": "Переключиться на одну колонку",
-    "@guildSettingsRolesSwitchToSingleColumn": {
-        "description": "Aria label for switching to single column."
-    },
     "permissionManageEmojiStickersDescription": "Изменять или удалять эмодзи и стикеры, созданные другими участниками.",
     "@permissionManageEmojiStickersDescription": {
         "description": "Permission description."
@@ -10522,16 +9885,6 @@
     "audioAndVideoVoiceProcessingSectionTitle": "Обработка голоса",
     "@audioAndVideoVoiceProcessingSectionTitle": {
         "description": "Subsection title for voice processing profile selection."
-    },
-    "audioAndVideoHigherQualityRequiresPremium": "1080p и 60 FPS требуют {premiumProductName}.",
-    "@audioAndVideoHigherQualityRequiresPremium": {
-        "description": "Note shown when higher video quality options require premium.",
-        "placeholders": {
-            "premiumProductName": {
-                "type": "String",
-                "example": "Plutonium"
-            }
-        }
     },
     "voicePanelUseEarpieceLabel": "Использовать динамик телефона",
     "@voicePanelUseEarpieceLabel": {
@@ -10792,10 +10145,6 @@
     "@channelSettingsPermissionsSyncedWithParentToast": {
         "description": "Success toast after syncing channel permissions with the parent category."
     },
-    "channelSettingsPermissionsRolesAndMembers": "Роли и участники",
-    "@channelSettingsPermissionsRolesAndMembers": {
-        "description": "Section title in the add override picker."
-    },
     "channelSettingsDeleteInvite": "Удалить приглашение",
     "@channelSettingsDeleteInvite": {
         "description": "Action to delete a channel invite."
@@ -10859,10 +10208,6 @@
     "groupDmUnsupportedIconFormatBody": "Неподдерживаемый тип файла.",
     "@groupDmUnsupportedIconFormatBody": {
         "description": "Body when the selected group icon format is unsupported."
-    },
-    "groupDmCouldntProcessImage": "Не удалось обработать изображение",
-    "@groupDmCouldntProcessImage": {
-        "description": "Title when a cropped group icon cannot be processed."
     },
     "groupDmCopyInviteFailed": "Не удалось скопировать ссылку-приглашение",
     "@groupDmCopyInviteFailed": {
@@ -11098,16 +10443,6 @@
     "@audioAndVideoInstanceVideoQualityLimit": {
         "description": "Note shown when instance limits block higher screen share quality."
     },
-    "audioAndVideoCameraPermissionRequired": "{productName} требуется доступ к камере, чтобы показать список ваших устройств.",
-    "@audioAndVideoCameraPermissionRequired": {
-        "description": "Shown when camera permission is required to enumerate video devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
     "languageAndTimeTimeFormat24Hour": "24-часовой",
     "@languageAndTimeTimeFormat24Hour": {
         "description": "Time format option for 24-hour display."
@@ -11137,10 +10472,6 @@
     "permissionCategoryMessagesMedia": "Сообщения и медиа",
     "@permissionCategoryMessagesMedia": {
         "description": "Permission category label."
-    },
-    "permissionUnknown": "Неизвестное разрешение",
-    "@permissionUnknown": {
-        "description": "Fallback permission label."
     },
     "guildSettingsInvitesEmptyDescription": "В этом сообществе пока нет ссылок-приглашений. Перейдите в канал и создайте приглашение, чтобы пригласить людей.",
     "@guildSettingsInvitesEmptyDescription": {
@@ -11539,16 +10870,6 @@
     "@audioAndVideoMicTestStopLabel": {
         "description": "Button label to stop the microphone test."
     },
-    "audioAndVideoMicTestPermissionRequired": "{productName} нужен доступ к микрофону для проверки вашего ввода.",
-    "@audioAndVideoMicTestPermissionRequired": {
-        "description": "Shown when microphone permission is required for the mic test.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
     "audioAndVideoCameraQuality480pLabel": "480p",
     "@audioAndVideoCameraQuality480pLabel": {
         "description": "Camera quality option for 480p resolution."
@@ -11568,10 +10889,6 @@
     "languageAndTimeLanguageSectionDescription": "Выберите язык, который будет использоваться во всем приложении",
     "@languageAndTimeLanguageSectionDescription": {
         "description": "Settings section description for interface language preference."
-    },
-    "languageAndTimeOpenLanguageSettings": "Открыть настройки языка",
-    "@languageAndTimeOpenLanguageSettings": {
-        "description": "Button that opens the system per-app language settings."
     },
     "languageAndTimeTimeFormatSectionDescription": "Выберите формат времени в приложении",
     "@languageAndTimeTimeFormatSectionDescription": {
@@ -11836,10 +11153,6 @@
     "@groupDmGenerateInviteLink": {
         "description": "Placeholder for the invite link field before generation."
     },
-    "groupDmCreateInviteFailed": "Не удалось создать ссылку-приглашение",
-    "@groupDmCreateInviteFailed": {
-        "description": "Title when invite link generation fails."
-    },
     "groupDmCreateInviteFailedBody": "Не удалось создать ссылку-приглашение. Повторите попытку.",
     "@groupDmCreateInviteFailedBody": {
         "description": "Body when invite link generation fails."
@@ -11998,10 +11311,6 @@
     "@accessibilitySaturationTitle": {
         "description": "Section title for the theme saturation slider on the accessibility settings page."
     },
-    "accessibilitySaturationDescription": "Настройте яркость цветов темы во всём приложении.",
-    "@accessibilitySaturationDescription": {
-        "description": "Section description for the theme saturation slider on the accessibility settings page."
-    },
     "devIgnoreSpamFlag": "Игнорировать пометку спама",
     "@devIgnoreSpamFlag": {
         "description": "Developer menu option to ignore the server spammer flag for a user."
@@ -12137,26 +11446,6 @@
     "@nagbarEnableNotifications": {
         "description": "Push notification permission nagbar CTA."
     },
-    "phoneInboundExpensiveDescription": "Отправка СМС на этот номер слишком дорога, поэтому нам нужно, чтобы вы отправили СМС нам. Вы также можете связаться с поддержкой, чтобы мы сняли это требование с вашей учетной записи.",
-    "@phoneInboundExpensiveDescription": {
-        "description": "Inbound challenge reason for expensive destinations."
-    },
-    "phoneInboundDefaultDescription": "Нам нужно, чтобы вы отправили SMS для подтверждения вашего номера телефона.",
-    "@phoneInboundDefaultDescription": {
-        "description": "Default inbound challenge description."
-    },
-    "requiredActionCheckEmailDescription": "Мы отправили ссылку для подтверждения на вашу электронную почту. Откройте её, чтобы продолжить.",
-    "@requiredActionCheckEmailDescription": {
-        "description": "Description for email verification instructions."
-    },
-    "requiredActionResendVerificationEmail": "Повторно отправить письмо для подтверждения",
-    "@requiredActionResendVerificationEmail": {
-        "description": "Button to resend verification email."
-    },
-    "requiredActionVerificationEmailSent": "Письмо для подтверждения отправлено. Проверьте входящие.",
-    "@requiredActionVerificationEmailSent": {
-        "description": "Toast after resending verification email."
-    },
     "userProfileTimeBehindYou": "На {duration} позади вас",
     "@userProfileTimeBehindYou": {
         "description": "Profile timezone difference when the target is behind the viewer.",
@@ -12269,94 +11558,6 @@
     "@guildSettingsRolesNoPermissionsFound": {
         "description": "Empty state when permission search has no matches."
     },
-    "phoneEnterValidNumber": "Введите действительный номер мобильного телефона.",
-    "@phoneEnterValidNumber": {
-        "description": "Validation error for invalid phone format."
-    },
-    "phoneCannotBeUsed": "Этот номер телефона нельзя использовать. Попробуйте другой номер или обратитесь в службу поддержки.",
-    "@phoneCannotBeUsed": {
-        "description": "API error when phone number is rejected."
-    },
-    "phoneAlreadyUsed": "Этот номер телефона уже использовался. Попробуйте другой номер или обратитесь в службу поддержки.",
-    "@phoneAlreadyUsed": {
-        "description": "API error when phone number was reused."
-    },
-    "phoneCodeDidNotWork": "Этот код не подошёл. Проверьте его и попробуйте ещё раз.",
-    "@phoneCodeDidNotWork": {
-        "description": "API error for invalid verification code."
-    },
-    "phoneInboundStepOpenMessaging": "Откройте приложение для обмена сообщениями на телефоне и создайте новое текстовое сообщение.",
-    "@phoneInboundStepOpenMessaging": {
-        "description": "Inbound verification step 1."
-    },
-    "phoneInboundStepSendCode": "Отправьте код {code} на номер {number}.",
-    "@phoneInboundStepSendCode": {
-        "description": "Inbound verification step 2.",
-        "placeholders": {
-            "code": {
-                "type": "String"
-            },
-            "number": {
-                "type": "String"
-            }
-        }
-    },
-    "phoneInboundStepWait": "Подождите, пока мы получим ваше сообщение. Это может занять минуту.",
-    "@phoneInboundStepWait": {
-        "description": "Inbound verification step 3."
-    },
-    "phoneInboundGetNewCode": "Получить новый код",
-    "@phoneInboundGetNewCode": {
-        "description": "Button to refresh inbound challenge."
-    },
-    "phoneInboundChallengeCodeLabel": "Код для отправки",
-    "@phoneInboundChallengeCodeLabel": {
-        "description": "Label for inbound challenge code."
-    },
-    "phoneInboundOurNumberLabel": "Отправить на",
-    "@phoneInboundOurNumberLabel": {
-        "description": "Label for inbound destination number."
-    },
-    "requiredActionTitle": "Требуется подтверждение аккаунта",
-    "@requiredActionTitle": {
-        "description": "Title for required action blocking modal."
-    },
-    "requiredActionChooseMethodTitle": "Выберите способ подтверждения",
-    "@requiredActionChooseMethodTitle": {
-        "description": "Title when user can pick email or phone."
-    },
-    "requiredActionUseEmail": "Использовать эл. почту",
-    "@requiredActionUseEmail": {
-        "description": "Button to choose email verification."
-    },
-    "phoneCountryLabel": "Страна",
-    "@phoneCountryLabel": {
-        "description": "Label for country selector in phone verification."
-    },
-    "phoneSearchCountries": "Поиск стран...",
-    "@phoneSearchCountries": {
-        "description": "Search hint for country selector."
-    },
-    "phoneTooManyAttempts": "Слишком много попыток. Подождите немного и повторите попытку.",
-    "@phoneTooManyAttempts": {
-        "description": "Rate limit error for phone verification."
-    },
-    "phoneSmsUnavailable": "Подтверждение по SMS сейчас недоступно. Повторите попытку позже или обратитесь в службу поддержки.",
-    "@phoneSmsUnavailable": {
-        "description": "SMS provider unavailable error."
-    },
-    "phoneSomethingWentWrong": "Что-то пошло не так. Повторите попытку.",
-    "@phoneSomethingWentWrong": {
-        "description": "Generic phone verification error."
-    },
-    "requiredActionIntroPhone": "Чтобы продолжить, нужно пройти дополнительную антиспам-проверку.",
-    "@requiredActionIntroPhone": {
-        "description": "Phone-only required action intro."
-    },
-    "requiredActionCheckEmailTitle": "Проверьте почту",
-    "@requiredActionCheckEmailTitle": {
-        "description": "Title for email verification instructions."
-    },
     "languageAndTimeLanguageSectionTitle": "Язык интерфейса",
     "@languageAndTimeLanguageSectionTitle": {
         "description": "Settings section title for interface language preference."
@@ -12378,14 +11579,6 @@
     "notificationsEnableDesktopNotificationsDescription": "Использует центр уведомлений ОС. Чтобы настроить уведомления для отдельного канала или сообщества, нажмите правой кнопкой мыши на значок сообщества и откройте настройки уведомлений.",
     "@notificationsEnableDesktopNotificationsDescription": {
         "description": "Description for the enable desktop notifications toggle."
-    },
-    "notificationsEnableBrowserNotificationsLabel": "Включить уведомления в браузере",
-    "@notificationsEnableBrowserNotificationsLabel": {
-        "description": "Toggle label for enabling browser notifications."
-    },
-    "notificationsEnableBrowserNotificationsDescription": "Получайте уведомления о новых сообщениях. Возможно, вам потребуется разрешить уведомления в настройках браузера. Чтобы настроить уведомления для отдельных каналов/сообществ, нажмите правой кнопкой мыши на значок сообщества и откройте настройки уведомлений.",
-    "@notificationsEnableBrowserNotificationsDescription": {
-        "description": "Description for the enable browser notifications toggle."
     },
     "notificationsPushInactiveTimeoutLabel": "Время ожидания неактивности для push-уведомлений",
     "@notificationsPushInactiveTimeoutLabel": {
@@ -12588,10 +11781,6 @@
     "pushRelayConsentDecline": "Не сейчас",
     "@pushRelayConsentDecline": {
         "description": "Button that declines the push relay privacy notice and leaves push notifications off."
-    },
-    "channelSettingsCategorySettingsTitle": "Настройки категории",
-    "@channelSettingsCategorySettingsTitle": {
-        "description": "Title for category settings modal."
     },
     "channelSettingsEditCategory": "Изменить категорию",
     "@channelSettingsEditCategory": {
@@ -13058,42 +12247,6 @@
     "gifPickerFavoritesEmptyDescription": "Добавьте GIF в избранное, чтобы увидеть его здесь.",
     "@gifPickerFavoritesEmptyDescription": {
         "description": "Empty state description for the GIF picker favorites view."
-    },
-    "requiredActionIntroGeneric": "Пройдите необходимую проверку, чтобы продолжить пользоваться {productName}.",
-    "@requiredActionIntroGeneric": {
-        "description": "Generic required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailOrPhone": "Подтвердите почту или телефон, чтобы продолжить пользоваться {productName}.",
-    "@requiredActionIntroEmailOrPhone": {
-        "description": "Email or phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailAndPhone": "Чтобы продолжить пользоваться {productName}, выполните указанные ниже шаги по подтверждению электронной почты и номера телефона.",
-    "@requiredActionIntroEmailAndPhone": {
-        "description": "Email and phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionChooseMethodDescription": "Чтобы продолжить пользоваться {productName}, пройдите одну из проверок ниже.",
-    "@requiredActionChooseMethodDescription": {
-        "description": "Description when user can pick email or phone.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
     },
     "networkErrorMessage": "Что-то пошло не так. Попробуйте ещё раз.",
     "@networkErrorMessage": {
@@ -13728,10 +12881,6 @@
     "@accessibilityPausedGifByReducedMotion": {
         "description": "Description for GIF toggle while reduced motion is active."
     },
-    "accessibilityGifDefaultsOffOnMobile": "По умолчанию отключено на мобильных устройствах для экономии заряда батареи и трафика.",
-    "@accessibilityGifDefaultsOffOnMobile": {
-        "description": "Helper text for GIF autoplay default on mobile."
-    },
     "accessibilityStickerAnimationsTitle": "Анимация стикеров",
     "@accessibilityStickerAnimationsTitle": {
         "description": "Subsection title for sticker animation preference."
@@ -14187,25 +13336,13 @@
     "@privacyDashboardFriendRequestsEveryone": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsEveryoneDesc": "Разрешить всем отправлять вам запросы в друзья",
-    "@privacyDashboardFriendRequestsEveryoneDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsFriendsOfFriends": "Друзья друзей",
     "@privacyDashboardFriendRequestsFriendsOfFriends": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsFriendsOfFriendsDesc": "Разрешить друзьям ваших друзей отправлять вам запросы",
-    "@privacyDashboardFriendRequestsFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsCommunityMembers": "Участники сообщества",
     "@privacyDashboardFriendRequestsCommunityMembers": {
         "description": "Privacy dashboard friend request toggle label."
-    },
-    "privacyDashboardFriendRequestsCommunityMembersDesc": "Разрешить участникам сообществ, в которых вы состоите, отправлять вам запросы",
-    "@privacyDashboardFriendRequestsCommunityMembersDesc": {
-        "description": "Privacy dashboard friend request toggle description."
     },
     "privacyDashboardDirectMessagesTitle": "Личные сообщения",
     "@privacyDashboardDirectMessagesTitle": {
@@ -14215,65 +13352,29 @@
     "@privacyDashboardDirectMessagesMembers": {
         "description": "Privacy dashboard DM toggle label."
     },
-    "privacyDashboardDirectMessagesMembersDesc": "Разрешить участникам сообществ, в которых вы состоите, отправлять вам личные сообщения",
-    "@privacyDashboardDirectMessagesMembersDesc": {
-        "description": "Privacy dashboard DM toggle description."
-    },
     "privacyDashboardDirectMessagesBots": "Разрешить личные сообщения от ботов сообществ",
     "@privacyDashboardDirectMessagesBots": {
         "description": "Privacy dashboard bot DM toggle label."
-    },
-    "privacyDashboardDirectMessagesBotsDesc": "Разрешить ботам из ваших сообществ отправлять вам личные сообщения",
-    "@privacyDashboardDirectMessagesBotsDesc": {
-        "description": "Privacy dashboard bot DM toggle description."
-    },
-    "privacyDashboardConnectionsSectionDesc": "Управляйте тем, кто может отправлять вам запросы в друзья и личные сообщения",
-    "@privacyDashboardConnectionsSectionDesc": {
-        "description": "Privacy dashboard connections section description."
-    },
-    "privacyDashboardCommunicationSectionDesc": "Управляйте тем, кто может вам звонить и добавлять вас в групповые чаты",
-    "@privacyDashboardCommunicationSectionDesc": {
-        "description": "Privacy dashboard communication section description."
     },
     "privacyDashboardIncomingCallsTitle": "Входящие звонки",
     "@privacyDashboardIncomingCallsTitle": {
         "description": "Privacy dashboard incoming calls subsection title."
     },
-    "privacyDashboardIncomingCallsDesc": "Управляйте тем, кто может вам звонить",
-    "@privacyDashboardIncomingCallsDesc": {
-        "description": "Privacy dashboard incoming calls subsection description."
-    },
     "privacyDashboardAllowedCallers": "Разрешенные звонки",
     "@privacyDashboardAllowedCallers": {
         "description": "Privacy > Communication: select label."
-    },
-    "privacyDashboardIncomingCallNobody": "Никто",
-    "@privacyDashboardIncomingCallNobody": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallNobodyDesc": "Блокировать все входящие звонки",
     "@privacyDashboardIncomingCallNobodyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallFriendsOnly": "Только друзья",
-    "@privacyDashboardIncomingCallFriendsOnly": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallFriendsOnlyDesc": "Разрешить звонки только друзьям (рекомендуется)",
     "@privacyDashboardIncomingCallFriendsOnlyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallCustom": "Друзья + Пользовательский",
-    "@privacyDashboardIncomingCallCustom": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallCustomDesc": "Разрешить друзьям и выбранным дополнительным группам",
     "@privacyDashboardIncomingCallCustomDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardIncomingCallEveryone": "Все",
-    "@privacyDashboardIncomingCallEveryone": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallEveryoneDesc": "Разрешить всем звонить вам, даже незнакомцам",
     "@privacyDashboardIncomingCallEveryoneDesc": {
@@ -14283,14 +13384,6 @@
     "@privacyDashboardAdditionalGroups": {
         "description": "Privacy dashboard label for custom permission groups."
     },
-    "privacyDashboardCallFriendsOfFriendsDesc": "Ваши друзья смогут звонить вашим друзьям",
-    "@privacyDashboardCallFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
-    "privacyDashboardCallGuildMembersDesc": "Люди из общих сообществ смогут вам звонить",
-    "@privacyDashboardCallGuildMembersDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
     "privacyDashboardRingBehavior": "Поведение звонка",
     "@privacyDashboardRingBehavior": {
         "description": "Privacy dashboard ring behavior subsection label."
@@ -14299,17 +13392,9 @@
     "@privacyDashboardSilentCalls": {
         "description": "Privacy dashboard silent calls toggle label."
     },
-    "privacyDashboardSilentCallsDesc": "Все вызовы будут уведомлять без звука вместо звонка. По умолчанию вызовы от незнакомцев всегда беззвучны.",
-    "@privacyDashboardSilentCallsDesc": {
-        "description": "Privacy dashboard silent calls toggle description."
-    },
     "privacyDashboardGroupDmTitle": "Кто может добавлять вас в групповые чаты",
     "@privacyDashboardGroupDmTitle": {
         "description": "Privacy dashboard group DM subsection title."
-    },
-    "privacyDashboardGroupDmDesc": "Управляйте тем, кто может добавлять вас в групповые чаты без подтверждения. Любой по-прежнему сможет отправлять вам ссылки-приглашения для вступления.",
-    "@privacyDashboardGroupDmDesc": {
-        "description": "Privacy dashboard group DM subsection description."
     },
     "privacyDashboardAllowedInvites": "Разрешенные приглашения",
     "@privacyDashboardAllowedInvites": {
@@ -14330,14 +13415,6 @@
     "privacyDashboardGroupDmEveryoneDesc": "Разрешить всем добавлять вас в групповые чаты без подтверждения",
     "@privacyDashboardGroupDmEveryoneDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardGroupDmFriendsOfFriendsDesc": "Люди, которые являются друзьями ваших друзей, могут добавлять вас в групповые чаты",
-    "@privacyDashboardGroupDmFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
-    },
-    "privacyDashboardGroupDmGuildMembersDesc": "Люди из общих сообществ могут добавлять вас в групповые чаты",
-    "@privacyDashboardGroupDmGuildMembersDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
     },
     "privacyDashboardVoiceActivityTitle": "Голосовая активность в сети",
     "@privacyDashboardVoiceActivityTitle": {
@@ -14870,26 +13947,6 @@
     "@composerAutocompleteOptionalArgumentsHeading": {
         "description": "Section heading in composer autocomplete for adding optional slash-command arguments."
     },
-    "composerAutocompleteChannelsHeading": "Каналы",
-    "@composerAutocompleteChannelsHeading": {
-        "description": "Section heading in composer autocomplete for channel suggestions."
-    },
-    "composerAutocompleteMembersHeading": "Участники",
-    "@composerAutocompleteMembersHeading": {
-        "description": "Section heading in composer autocomplete for member suggestions."
-    },
-    "composerAutocompleteUsersHeading": "Пользователи",
-    "@composerAutocompleteUsersHeading": {
-        "description": "Section heading in composer autocomplete for user suggestions."
-    },
-    "composerAutocompleteMentionsHeading": "Упоминания",
-    "@composerAutocompleteMentionsHeading": {
-        "description": "Section heading in composer autocomplete for mixed mention suggestions."
-    },
-    "composerAutocompleteRolesHeading": "Роли",
-    "@composerAutocompleteRolesHeading": {
-        "description": "Section heading in composer autocomplete for role suggestions."
-    },
     "composerAutocompleteMediaHeading": "Медиа",
     "@composerAutocompleteMediaHeading": {
         "description": "Section heading in composer autocomplete for saved media."
@@ -15106,10 +14163,6 @@
     "memberListUnavailableBody": "Списки участников временно недоступны в этом сообществе",
     "@memberListUnavailableBody": {
         "description": "Body when member list updates are disabled for the community."
-    },
-    "channelHeaderOpenDetails": "Открыть сведения о канале",
-    "@channelHeaderOpenDetails": {
-        "description": "Accessibility label for the channel header title area."
     },
     "channelHeaderPinnedMessages": "Закрепленные сообщения",
     "@channelHeaderPinnedMessages": {
@@ -15472,10 +14525,6 @@
     "@userSettingsSearchPlaceholder": {
         "description": "Placeholder for the user settings search field."
     },
-    "userSettingsSearchFieldLabel": "Поиск по настройкам",
-    "@userSettingsSearchFieldLabel": {
-        "description": "Accessibility label for the user settings search field."
-    },
     "userSettingsSearchClear": "Очистить поиск",
     "@userSettingsSearchClear": {
         "description": "Accessibility label for clearing the user settings search field."
@@ -15502,8 +14551,6 @@
     "giftSettingsGiftUrl": "Ссылка на подарок",
     "giftSettingsCopy": "Скопировать",
     "giftSettingsCopied": "Скопировано",
-    "giftSettingsGiftUrlCopied": "Ссылка на подарок скопирована!",
-    "giftSettingsGiftUrlCopyFailed": "Не удалось скопировать ссылку на подарок",
     "giftSettingsPurchasedDate": "Куплено {date}",
     "@giftSettingsPurchasedDate": {
         "placeholders": {
@@ -15545,7 +14592,6 @@
     "premiumBuyGift": "Купить подарок",
     "premiumOneYearGift": "Подарок на 1 год",
     "premiumOneMonthGift": "Подарок на 1 месяц",
-    "premiumMostPopular": "Самый популярный",
     "premiumScrollPrompt": "Прокрутите вниз, чтобы увидеть все преимущества Plutonium",
     "premiumFreeVsPlutonium": "Бесплатно или Plutonium",
     "premiumFreeColumn": "Бесплатно",
@@ -15563,50 +14609,15 @@
     "premiumViewGifts": "Посмотреть подарки",
     "premiumReadyToUpgrade": "Готовы оформить подписку?",
     "premiumReadyToBuyGift": "Готовы купить подарок?",
-    "premiumMonthlyPrice": "Ежемесячно {price}",
-    "@premiumMonthlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumYearlyPrice": "Годовая подписка за {price}",
-    "@premiumYearlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneYearPrice": "1 год {price}",
-    "@premiumOneYearPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneMonthPrice": "1 месяц {price}",
-    "@premiumOneMonthPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
     "premiumManageSubscription": "Управлять подпиской",
     "premiumRedeemGiftCode": "Активировать подарочный код",
     "premiumGiftBadge": "Подарок",
     "premiumCancelSubscriptionTitle": "Отменить подписку?",
     "premiumCancelSubscriptionBody": "Вы сохраните свои преимущества до следующей даты продления, а затем у вас будет 3 дня льготного периода, чтобы повторно подписаться и сохранить историю подписок.",
     "premiumCancelSubscriptionConfirm": "Отменить подписку",
-    "premiumKeepSubscription": "Оставить подписку",
     "premiumPurchaseHistoryTitle": "История покупок",
     "premiumPurchaseHistoryDescription": "Ваши последние счета. Чтобы изменить способ оплаты подписки, добавьте или выберите его на портале оплаты и сделайте его основным.",
     "premiumManagePaymentMethods": "Управление способами оплаты",
-    "premiumBillingHistory": "История платежей",
-    "premiumSelfServeRefundTitle": "Возврат средств через самообслуживание",
     "premiumSelfServeRefundButton": "Вернуть последний платёж",
     "premiumDisclaimerAgreementPrefix": "Приобретая, вы соглашаетесь с нашими ",
     "premiumDisclaimerAgreementPastPrefix": "Приобретая, вы согласились с нашими ",
@@ -15646,17 +14657,6 @@
         "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
     },
     "premiumComparisonFeatureColumn": "Функция",
-    "premiumDisclaimerPurchased": "Совершив покупку, вы согласились с нашими {terms} и {privacy}.",
-    "@premiumDisclaimerPurchased": {
-        "placeholders": {
-            "terms": {
-                "type": "String"
-            },
-            "privacy": {
-                "type": "String"
-            }
-        }
-    },
     "premiumDisclaimerRefund": "Возврат средств можно оформить самостоятельно в течение 3 дней после оплаты, но не чаще одного раза в 30 дней. Возврат средств за подписку отменяет ее. Покупатели из ЕС/ЕЭЗ отказываются от 14-дневного права на отказ при оформлении заказа, чтобы получить немедленный доступ к контенту. Используйте кнопку возврата средств в приложении вместо оспаривания платежа. Оспаривание платежа может привести к безвозвратному ограничению вашего аккаунта. Stripe безопасно обрабатывает платежи. Мы никогда не видим полный номер вашей карты.",
     "premiumTermsOfService": "Условия использования",
     "premiumPrivacyPolicy": "Политика конфиденциальности",
@@ -15697,24 +14697,14 @@
     },
     "premiumClaimAccountToPurchase": "Зарегистрируйте аккаунт, чтобы купить Fluxer Plutonium.",
     "premiumVerifyEmailToPurchase": "Чтобы купить Fluxer Plutonium, вам нужно подтвердить свою электронную почту.",
-    "premiumPerkCustomUsernameTag": "Пользовательский тег в имени пользователя",
-    "premiumPerkPerCommunityProfiles": "Профили для каждого сообщества",
-    "premiumPerkMessageScheduling": "Планирование сообщений",
-    "premiumPerkProfileBadge": "Значок профиля",
-    "premiumPerkCustomVideoBackgrounds": "Пользовательские фоны для видео",
-    "premiumPerkEntranceSounds": "Звуки входа",
     "premiumPerkCommunities": "Сообщества",
     "premiumPerkMessageCharacterLimit": "Лимит символов в сообщении",
     "premiumPerkBookmarkedMessages": "Сообщения в закладках",
     "premiumPerkFileUploadSize": "Размер загружаемого файла",
-    "premiumPerkEmojiStickerPacks": "Наборы эмодзи и стикеров",
-    "premiumPerkSavedMedia": "Сохраненные медиа",
     "premiumPerkUseAnimatedEmojis": "Использовать анимированные эмодзи",
-    "premiumPerkGlobalEmojiStickerAccess": "Доступ ко всем эмодзи и стикерам",
     "premiumPerkVideoQuality": "Качество видео",
     "premiumPerkAnimatedAvatarsBanners": "Анимированные аватары и баннеры профиля",
     "premiumPerkEarlyAccess": "Ранний доступ к новым функциям",
-    "premiumPerkCustomThemes": "Пользовательские темы",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "До 4K/60fps",
     "storePlutoniumPriceLine": "{monthly} или {yearly}",
@@ -15930,7 +14920,6 @@
     "advancedSettingStripTrackingLabel": "Удалять параметры отслеживания из ссылок",
     "advancedSettingStripTrackingDescription": "Автоматически удалять параметры отслеживания из URL в отправляемых сообщениях",
     "advancedSettingTrustAllLinksLabel": "Доверять всем внешним ссылкам",
-    "advancedSettingTrustAllLinksDescription": "Пропускать предупреждение о внешних ссылках для всех доменов",
     "advancedSettingSearchEnginesLabel": "Поисковые системы",
     "advancedSettingSearchEnginesDescription": "Настроить поисковые системы для поиска по выделенному тексту",
     "advancedSettingTranslatorsLabel": "Переводчики",
@@ -15986,13 +14975,6 @@
     "advancedSettingHideStreamPreviewLabel": "Скрыть миниатюру предпросмотра моей трансляции",
     "advancedSettingDeveloperModeLabel": "Включить режим разработчика",
     "advancedSettingDeveloperModeDescription": "Включить режим разработчика",
-    "advancedSettingSearchEngineGoogle": "Google",
-    "advancedSettingSearchEngineDuckDuckGo": "DuckDuckGo",
-    "advancedSettingSearchEngineBing": "Bing",
-    "advancedSettingSearchEngineGoogleLens": "Google Объектив",
-    "advancedSettingSearchEngineTinEye": "TinEye",
-    "advancedSettingTranslatorGoogle": "Перевод Google",
-    "advancedSettingTranslatorDeepL": "DeepL",
     "advancedSettingDefaultSearchEngineLabel": "Поисковая система по умолчанию",
     "advancedSettingDefaultSearchEngineDescription": "Выберите поисковую систему, которая будет использоваться по умолчанию при поиске выделенного текста.",
     "advancedSettingBuiltInSearchEnginesLabel": "Встроенные поисковые системы",
@@ -16546,10 +15528,6 @@
     "@guildMembersColumnRoles": {
         "description": "Table column header on the community members page."
     },
-    "guildMembersColumnActions": "Действия",
-    "@guildMembersColumnActions": {
-        "description": "Table column header on the community members page."
-    },
     "guildMembersFilterMemberSince": "Фильтровать по дате вступления",
     "@guildMembersFilterMemberSince": {
         "description": "Filter menu label on the community members page."
@@ -16634,23 +15612,6 @@
     "@guildMembersIndexing": {
         "description": "Banner shown while guild members are being indexed."
     },
-    "guildMembersGoToPage": "Перейти на страницу",
-    "@guildMembersGoToPage": {
-        "description": "Pagination jump label on the community members page."
-    },
-    "guildMembersGoToPageItem": "Перейти на страницу {page}",
-    "@guildMembersGoToPageItem": {
-        "description": "Accessibility label for a pagination page button.",
-        "placeholders": {
-            "page": {
-                "type": "int"
-            }
-        }
-    },
-    "guildMembersJumpToPage": "Перейти на страницу",
-    "@guildMembersJumpToPage": {
-        "description": "Label for pagination jump input on the community members page."
-    },
     "guildMembersJoinSourceCreator": "Создатель сообщества",
     "@guildMembersJoinSourceCreator": {
         "description": "Join method label on the community members page."
@@ -16727,28 +15688,14 @@
             }
         }
     },
-    "guildMembersJoinedDaysAgo": "{count, plural, one {1 день назад} other {{count} дней назад}}",
-    "@guildMembersJoinedDaysAgo": {
-        "description": "Relative join time on the community members page.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
     "guildMembersChannelListLabel": "Участники",
     "@guildMembersChannelListLabel": {
         "description": "Label for the Members item at the top of the guild channel list."
-    },
-    "guildMembersChannelListSelected": "Участники, выбрано",
-    "@guildMembersChannelListSelected": {
-        "description": "Accessibility label when the Members channel list item is selected."
     },
     "guildSettingsEmojiSlotsTitle": "Слоты для эмодзи",
     "guildSettingsEmojiDropZone": "Перетащите файлы эмодзи сюда",
     "guildSettingsEmojiLoadFailed": "Не удалось загрузить эмодзи. Повторите попытку позже.",
     "guildSettingsEmojiSearchEmpty": "Не найдено эмодзи по вашему запросу.",
-    "guildSettingsEmojiNoSlots": "Нет свободных слотов для эмодзи",
     "guildSettingsEmojiSlotsFull": "Вы достигли максимального количества эмодзи. Удалите некоторые из существующих эмодзи, чтобы освободить место.",
     "guildSettingsEmojiUploadRequirements": "Названия эмодзи должны содержать как минимум 2 символа и могут использовать буквы, цифры и знаки подчеркивания. Размер эмодзи должен быть менее {maxSize}. Статические изображения автоматически изменяются до размера 128x128 пикселей и сжимаются. Анимированные эмодзи и SVG должны уже соответствовать этим требованиям.",
     "@guildSettingsEmojiUploadRequirements": {
@@ -16758,24 +15705,11 @@
             }
         }
     },
-    "guildSettingsEmojiUploadingTitle": "Загрузка эмодзи",
-    "guildSettingsEmojiUploadingBody": "Загрузка {count, plural, one {# эмодзи} other {# эмодзи}}. Это может занять некоторое время.",
-    "@guildSettingsEmojiUploadingBody": {
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsEmojiUploadFailed": "Не удалось загрузить эмодзи. Повторите попытку.",
     "guildSettingsEmojiSomeFailedTitle": "Некоторые эмодзи не удалось добавить",
-    "guildSettingsEmojiSomeFailedBody": "Проверьте эти файлы и повторите попытку с меньшими или более простыми изображениями.",
     "guildSettingsEmojiRenameTitle": "Переименовать эмодзи",
     "guildSettingsEmojiRenameHint": "От 2 до 32 символов, буквы, цифры, нижнее подчеркивание.",
-    "guildSettingsEmojiColumnEmoji": "Эмодзи",
     "guildSettingsEmojiColumnName": "Название",
     "guildSettingsEmojiColumnUploader": "Кем загружено",
-    "guildSettingsEmojiUnknownUploader": "Неизвестно",
     "guildSettingsEmojiDeleteTitle": "Удалить эмодзи",
     "guildSettingsEmojiDeleteBody": "Удалить эмодзи :{name}:? Это действие нельзя будет отменить.",
     "@guildSettingsEmojiDeleteBody": {
@@ -16790,15 +15724,7 @@
     "guildSettingsEmojiNameTooLong": "Название эмодзи не может быть длиннее 32 символов",
     "guildSettingsEmojiInvalidNameTitle": "Недопустимое имя эмодзи",
     "guildSettingsEmojiRenameFailedTitle": "Не удалось переименовать эмодзи",
-    "guildSettingsEmojiRenameFailedBody": "Имя вернулось к прежнему. Попробуйте ещё раз чуть позже.",
-    "guildSettingsEmojiGoneTitle": "Этого эмодзи больше нет",
-    "guildSettingsEmojiGoneBody": "Возможно, оно было удалено. Название вернулось к прежнему.",
-    "guildSettingsEmojiNoPermissionRenameTitle": "Вы не можете переименовать этот эмодзи",
-    "guildSettingsEmojiNoPermissionRenameBody": "У вас нет разрешения на переименование этого эмодзи. Имя было возвращено к предыдущему.",
-    "guildSettingsEmojiRateLimitedTitle": "Слишком быстро",
-    "guildSettingsEmojiRateLimitedBody": "Пожалуйста, подождите немного и попробуйте переименовать ещё раз.",
     "guildSettingsEmojiDeleteFailedTitle": "Не удалось удалить эмодзи",
-    "guildSettingsEmojiDeleteNoPermissionTitle": "Вы не можете удалить этот эмодзи",
     "guildSettingsCloneEmojiTitle": "Разрешить другим копировать ваши эмодзи",
     "guildSettingsCloneEmojiDescription": "Если включено, участники других сообществ смогут использовать ярлык \"Клонировать\" в приложении для ваших эмодзи. Это не помешает им сохранить изображение и загрузить его самостоятельно.",
     "guildSettingsCloneStickerTitle": "Разрешить другим клонировать ваши стикеры",
@@ -16822,8 +15748,6 @@
     "guildSettingsStickersLoadFailedTitle": "Не удалось загрузить стикеры",
     "guildSettingsStickersLoadFailedBody": "Произошла ошибка при загрузке стикеров. Попробуйте ещё раз.",
     "guildSettingsStickersSearchEmpty": "Стикеры по вашему запросу не найдены.",
-    "guildSettingsStickersEmptySearch": "Стикеры не найдены",
-    "guildSettingsStickerNoSlots": "Нет доступных слотов для стикеров",
     "guildSettingsStickerSlotsFull": "Вы достигли максимального количества стикеров. Удалите некоторые из существующих стикеров, чтобы освободить место.",
     "guildSettingsStickerUploadRequirements": "Стикеры сохраняются в размере 320x320 пикселей и должны быть меньше {maxSize}. Статические изображения автоматически масштабируются и сжимаются. Анимированные стикеры и SVG должны сразу укладываться в этот лимит.",
     "@guildSettingsStickerUploadRequirements": {
@@ -16833,7 +15757,6 @@
             }
         }
     },
-    "guildSettingsStickerUnsupportedTitle": "Неподдерживаемый файл стикера",
     "guildSettingsStickerAddTitle": "Добавить стикер",
     "guildSettingsStickerEditTitle": "Изменить стикер",
     "guildSettingsStickerNameLabel": "Название",
@@ -16858,8 +15781,6 @@
     "guildSettingsStickerNameTooLong": "Имя должно быть не длиннее 30 символов",
     "guildSettingsStickerDescriptionTooLong": "Описание должно быть не более 500 символов",
     "guildSettingsStickerCreateFailedTitle": "Не удалось создать стикер",
-    "guildSettingsStickerTooLargeTitle": "Стикер слишком большой",
-    "guildSettingsStickerCompressFailedTitle": "Не удалось достаточно сжать стикер",
     "guildSettingsStickerDeleteTitle": "Удалить стикер",
     "guildSettingsStickerDeleteBody": "Удалить «{name}»? Это действие нельзя отменить.",
     "@guildSettingsStickerDeleteBody": {
@@ -16871,7 +15792,6 @@
     },
     "guildSettingsStickerPurgeLabel": "Удалить этот стикер из хранилища и CDN",
     "guildSettingsStickerDeleteFailedTitle": "Не удалось удалить стикер",
-    "guildSettingsStickerDeleteNoPermissionTitle": "Вы не можете удалить эту стикер",
     "keybindsSearchShortcuts": "Поиск сочетаний клавиш",
     "@keybindsSearchShortcuts": {
         "description": "Placeholder for the shortcuts settings search field."

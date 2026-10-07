@@ -18,17 +18,23 @@ void main() {
     });
 
     test('status dot size scales with avatar size', () {
-      expect(avatarStatusDotSize(32), 10);
-      expect(avatarStatusDotSize(40), 12);
-      expect(avatarStatusDotSize(48), 14);
+      expect(AvatarStatusLayout.forAvatarSize(32).statusDotSize, 10);
+      expect(AvatarStatusLayout.forAvatarSize(40).statusDotSize, 12);
+      expect(AvatarStatusLayout.forAvatarSize(48).statusDotSize, 14);
     });
 
     test('mobile phone height uses web aspect ratio', () {
       final AvatarStatusLayout layout = AvatarStatusLayout.forAvatarSize(40);
+      final double phoneWidth = mobilePhoneWidth(layout.statusDotSize);
+      final double borderWidth = mobileStatusBorderWidth(
+        statusDotSize: layout.statusDotSize,
+        cutoutRadius: layout.cutoutRadius,
+      );
       expect(
-        layout.phoneHeight,
-        (layout.phoneWidth / kMobileAspectRatio).roundToDouble() +
-            kMobilePhoneExtraHeight,
+        layout.phoneCutoutRect.height,
+        (phoneWidth / kMobileAspectRatio).roundToDouble() +
+            kMobilePhoneExtraHeight +
+            borderWidth * 2,
       );
     });
 
@@ -37,16 +43,7 @@ void main() {
       final AvatarStatusLayout layout = AvatarStatusLayout.forAvatarSize(
         avatarSize,
       );
-      final double cutoutCenter = avatarStatusCutoutCenter(avatarSize);
-      expect(layout.statusCutoutCenter, Offset(cutoutCenter, cutoutCenter));
-      expect(
-        layout.mobileStatusRight,
-        avatarSize - cutoutCenter - layout.phoneWidth / 2,
-      );
-      expect(
-        layout.mobileStatusBottom,
-        avatarSize - cutoutCenter - layout.phoneHeight / 2,
-      );
+      expect(layout.phoneCutoutRect.center, layout.statusCutoutCenter);
     });
 
     test('phone cutout includes status border padding', () {
@@ -58,10 +55,11 @@ void main() {
         statusDotSize: layout.statusDotSize,
         cutoutRadius: layout.cutoutRadius,
       );
-      expect(layout.phoneCutoutRect.width, layout.phoneWidth + borderWidth * 2);
+      final double phoneWidth = mobilePhoneWidth(layout.statusDotSize);
+      expect(layout.phoneCutoutRect.width, phoneWidth + borderWidth * 2);
       expect(
         layout.phoneCutoutRect.height,
-        layout.phoneHeight + borderWidth * 2,
+        mobilePhoneHeight(phoneWidth) + borderWidth * 2,
       );
     });
 
@@ -70,7 +68,7 @@ void main() {
         final AvatarStatusLayout layout = AvatarStatusLayout.forAvatarSize(
           avatarSize,
         );
-        final double cutoutCenter = avatarStatusCutoutCenter(avatarSize);
+        final double cutoutCenter = layout.statusCutoutCenter.dx;
         expect(
           layout.statusRight,
           avatarSize - cutoutCenter - layout.statusDotSize / 2,

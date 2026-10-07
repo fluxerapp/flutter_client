@@ -39,43 +39,7 @@ class ChannelSearchChipFilters {
       (fileName == null || fileName!.trim().isEmpty) &&
       (fileExtension == null || fileExtension!.trim().isEmpty) &&
       (dateFilterKey == null || dateValue == null || dateValue!.trim().isEmpty);
-
-  ChannelSearchChipFilters copyWith({
-    List<String>? authorIds,
-    List<String>? mentionIds,
-    List<String>? channelIds,
-    Set<MessageSearchContentFilter>? contentTypes,
-    Object? pinned = _unset,
-    List<String>? authorTypes,
-    Object? linkHostname = _unset,
-    Object? fileName = _unset,
-    Object? fileExtension = _unset,
-    Object? dateFilterKey = _unset,
-    Object? dateValue = _unset,
-  }) {
-    return ChannelSearchChipFilters(
-      authorIds: authorIds ?? this.authorIds,
-      mentionIds: mentionIds ?? this.mentionIds,
-      channelIds: channelIds ?? this.channelIds,
-      contentTypes: contentTypes ?? this.contentTypes,
-      pinned: pinned == _unset ? this.pinned : pinned as bool?,
-      authorTypes: authorTypes ?? this.authorTypes,
-      linkHostname: linkHostname == _unset
-          ? this.linkHostname
-          : linkHostname as String?,
-      fileName: fileName == _unset ? this.fileName : fileName as String?,
-      fileExtension: fileExtension == _unset
-          ? this.fileExtension
-          : fileExtension as String?,
-      dateFilterKey: dateFilterKey == _unset
-          ? this.dateFilterKey
-          : dateFilterKey as String?,
-      dateValue: dateValue == _unset ? this.dateValue : dateValue as String?,
-    );
-  }
 }
-
-const Object _unset = Object();
 
 extension ChannelSearchChipFiltersMerge on ParsedChannelSearchParams {
   ParsedChannelSearchParams mergeChipFilters({

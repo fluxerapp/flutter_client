@@ -336,12 +336,6 @@ String _settingsTabLabel(GuildAction action, FluxerLocalizations l10n) {
   };
 }
 
-bool canAccessAnyGuildSettings(int permissions) {
-  return _settingsTabDefs.any(
-    (tab) => tab.perms.any((p) => hasPermission(permissions, p)),
-  );
-}
-
 bool canAccessGuildSettingsTab(GuildAction action, int permissions) {
   for (final _SettingsTabDef tab in _settingsTabDefs) {
     if (tab.action == action) {

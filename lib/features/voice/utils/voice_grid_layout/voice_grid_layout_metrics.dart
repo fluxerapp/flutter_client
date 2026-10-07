@@ -1,7 +1,6 @@
 class VoiceGridLayoutMetrics {
   const VoiceGridLayoutMetrics({
     required this.columns,
-    required this.rows,
     required this.gap,
     required this.sidePadding,
     required this.verticalPadding,
@@ -9,12 +8,9 @@ class VoiceGridLayoutMetrics {
     required this.availableHeight,
     required this.tileWidth,
     required this.tileHeight,
-    required this.contentWidth,
-    required this.contentHeight,
   });
 
   final int columns;
-  final int rows;
   final double gap;
   final double sidePadding;
   final double verticalPadding;
@@ -22,8 +18,6 @@ class VoiceGridLayoutMetrics {
   final double availableHeight;
   final double tileWidth;
   final double tileHeight;
-  final double contentWidth;
-  final double contentHeight;
 }
 
 class VoiceGridPackedLayoutMetrics {

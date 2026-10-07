@@ -137,9 +137,7 @@ jobs:
         run: dart run build_runner build
 
       - name: Run tests
-        run: |
-          mapfile -t tests < <(git ls-files 'test/**/*_test.dart' | grep -v 'test/build/oss_configure_build_test.dart')
-          flutter test "${tests[@]}"
+        run: flutter test
 
   package-tests:
     needs: analyze

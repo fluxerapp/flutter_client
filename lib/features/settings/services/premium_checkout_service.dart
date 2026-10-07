@@ -193,32 +193,6 @@ Future<void> reactivatePremiumSubscription(WidgetRef ref) async {
   await _refreshPremiumBillingState(ref);
 }
 
-Future<void> changePremiumBillingCycle(
-  WidgetRef ref, {
-  required ChangeSubscriptionRequestBillingCycleBillingCycle billingCycle,
-}) async {
-  await ref
-      .read(fluxerClientProvider)
-      .premium
-      .changeSubscriptionBillingCycle(
-        body: ChangeSubscriptionRequest(billingCycle: billingCycle),
-      );
-  await ref.read(premiumSettingsStateProvider.notifier).refresh();
-}
-
-Future<void> cancelPendingPremiumChange(WidgetRef ref) async {
-  await ref
-      .read(fluxerClientProvider)
-      .premium
-      .cancelPendingSubscriptionChange();
-  await ref.read(premiumSettingsStateProvider.notifier).refresh();
-}
-
-Future<void> endPremiumGracePeriod(WidgetRef ref) async {
-  await ref.read(fluxerClientProvider).premium.endPremiumGracePeriod();
-  await ref.read(premiumSettingsStateProvider.notifier).refresh();
-}
-
 Future<void> selfServeRefundLatest(WidgetRef ref) async {
   await ref.read(fluxerClientProvider).billing.selfServeRefundLatestPurchase();
   await ref.read(premiumSettingsStateProvider.notifier).refresh();

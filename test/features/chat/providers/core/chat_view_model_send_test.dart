@@ -1124,8 +1124,6 @@ class _ImmediateUploadClient extends AttachmentUploadClient {
     CancelToken? cancelToken,
   }) async {
     return SingleAttachmentUploadPlan(
-      id: attachmentId,
-      filename: filename,
       uploadFilename: 'stored-$filename',
       fileSize: fileSize,
       contentType: contentType,
@@ -1134,15 +1132,8 @@ class _ImmediateUploadClient extends AttachmentUploadClient {
   }
 
   @override
-  Future<AttachmentUploadRemoteState> uploadAttachmentPlan(
-    UploadAttachmentPlanParams params,
-  ) async {
+  Future<void> uploadAttachmentPlan(UploadAttachmentPlanParams params) async {
     params.onPlanReady?.call(
-      uploadFilename: params.plan.uploadFilename,
-      fileSize: params.plan.fileSize,
-      contentType: params.plan.contentType,
-    );
-    return AttachmentUploadRemoteState(
       uploadFilename: params.plan.uploadFilename,
       fileSize: params.plan.fileSize,
       contentType: params.plan.contentType,

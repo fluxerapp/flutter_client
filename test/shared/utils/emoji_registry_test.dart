@@ -13,8 +13,7 @@ void main() {
   test('parses keywords from the asset', () {
     final EmojiEntry? grinning = EmojiRegistry.entryByName('grinning');
     expect(grinning, isNotNull);
-    expect(grinning!.keywords, contains('happy'));
-    expect(grinning.keywordsLower, contains('happy'));
+    expect(grinning!.keywordsLower, contains('happy'));
   });
 
   test('ranks an exact name match first', () {

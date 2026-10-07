@@ -8,7 +8,6 @@ class KeybindDispatchContext {
     required this.fullscreenMediaOpen,
     required this.hasIncomingCall,
     required this.channelHasUnread,
-    required this.quickSwitcherOpen,
   });
 
   final bool keyboardModeEnabled;
@@ -19,5 +18,4 @@ class KeybindDispatchContext {
   final bool fullscreenMediaOpen;
   final bool hasIncomingCall;
   final bool channelHasUnread;
-  final bool quickSwitcherOpen;
 }

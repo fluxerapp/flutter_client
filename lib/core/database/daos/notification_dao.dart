@@ -25,12 +25,6 @@ class NotificationDao extends DatabaseAccessor<FluxerDatabase>
   Future<List<NotificationUnreadCollapsedData>> getUnreadCollapsedRows() =>
       select(notificationUnreadCollapsed).get();
 
-  Future<bool?> isChannelCollapsed(String channelId) =>
-      (select(notificationUnreadCollapsed)
-            ..where((t) => t.channelId.equals(channelId)))
-          .getSingleOrNull()
-          .then((r) => r?.isCollapsed);
-
   Future<void> upsertUnreadCollapsed({
     required String channelId,
     required bool isCollapsed,
@@ -42,10 +36,6 @@ class NotificationDao extends DatabaseAccessor<FluxerDatabase>
       ),
     );
   }
-
-  Future<void> deleteUnreadCollapsed(String channelId) => (delete(
-    notificationUnreadCollapsed,
-  )..where((t) => t.channelId.equals(channelId))).go();
 
   Stream<List<NotificationMentionFeedData>> watchMentionFeedOrdered() =>
       (select(notificationMentionFeed)
@@ -125,10 +115,6 @@ class NotificationDao extends DatabaseAccessor<FluxerDatabase>
             .getSingleOrNull();
     return q?.ordinal;
   }
-
-  Stream<NotificationMentionPref?> watchMentionPrefs() => select(
-    notificationMentionPrefs,
-  ).watchSingleOrNull().suppressDriftCancellation;
 
   Future<NotificationMentionPref?> getMentionPrefs() => (select(
     notificationMentionPrefs,

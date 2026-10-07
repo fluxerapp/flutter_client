@@ -23,23 +23,3 @@ double guildSidebarBannerHeight({
     math.min(idealHeight, viewportCap),
   );
 }
-
-double guildSidebarBannerCollapseRatio({
-  required double scrollOffset,
-  required double fullBannerHeight,
-}) {
-  final double collapseDistance =
-      fullBannerHeight - kGuildSidebarHeaderMinHeight;
-  if (collapseDistance <= 0) {
-    return 1;
-  }
-  return (scrollOffset / collapseDistance).clamp(0.0, 1.0);
-}
-
-double guildSidebarBannerHeightForCollapse({
-  required double fullBannerHeight,
-  required double collapseRatio,
-}) {
-  return fullBannerHeight -
-      (fullBannerHeight - kGuildSidebarHeaderMinHeight) * collapseRatio;
-}

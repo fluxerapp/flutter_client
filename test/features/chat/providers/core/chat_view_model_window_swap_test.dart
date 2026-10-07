@@ -100,7 +100,6 @@ void _emitCreatedMessage(ProviderContainer container, {required String id}) {
           snapshot: const MessagePersistSnapshot(
             mentionsCurrentUser: false,
             isDm: false,
-            guildStorageId: null,
             acknowledgedByGateway: true,
           ),
         ),

@@ -43,11 +43,6 @@ class VoiceSettings extends _$VoiceSettings {
     }
   }
 
-  Future<void> update(VoiceSettingsState value) async {
-    state = value;
-    _schedulePersist();
-  }
-
   Future<void> setInputDeviceId(String value) async {
     state = state.copyWith(inputDeviceId: value);
     _schedulePersist();
@@ -85,11 +80,6 @@ class VoiceSettings extends _$VoiceSettings {
 
   Future<void> setEchoCancellation({required bool value}) async {
     state = state.copyWith(echoCancellation: value);
-    _schedulePersist();
-  }
-
-  Future<void> setNoiseSuppression({required bool value}) async {
-    state = state.copyWith(noiseSuppression: value);
     _schedulePersist();
   }
 
@@ -167,10 +157,6 @@ class VoiceSettings extends _$VoiceSettings {
     _schedulePersist();
   }
 
-  int participantVolumeFor(String userId) {
-    return state.participantVolumes[userId] ?? kDefaultVoiceVolumePercent;
-  }
-
   Future<void> setParticipantVolume(String userId, int value) async {
     final int clamped = clampVoiceVolumePercent(value);
     final Map<String, int> nextVolumes = Map<String, int>.from(
@@ -179,10 +165,6 @@ class VoiceSettings extends _$VoiceSettings {
     nextVolumes[userId] = clamped;
     state = state.copyWith(participantVolumes: nextVolumes);
     _schedulePersist();
-  }
-
-  bool isParticipantLocallyMuted(String userId) {
-    return state.participantLocalMutes[userId] ?? false;
   }
 
   Future<void> setParticipantLocalMuted(

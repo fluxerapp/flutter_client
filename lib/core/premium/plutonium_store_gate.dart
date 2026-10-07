@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/push_provider_kind.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
@@ -33,7 +32,7 @@ bool resolvePremiumStorePurchasesEnabled({
 }
 
 bool isPremiumStorePurchasesEnabled() {
-  if (kIsWeb || !Platform.isAndroid) {
+  if (!Platform.isAndroid) {
     return false;
   }
   return resolvePremiumStorePurchasesEnabled(

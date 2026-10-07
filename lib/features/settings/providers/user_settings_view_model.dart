@@ -73,7 +73,6 @@ class UserSettingsViewState {
   final bool usernameSignIn;
   final String? passwordLastChangedAt;
   final bool mfaEnabled;
-  final bool hasVerifiedPhone;
   final List<String> requiredActions;
   final List<int> authenticatorTypes;
   final bool premiumWillCancel;
@@ -168,7 +167,6 @@ class UserSettingsViewState {
     this.usernameSignIn = false,
     this.passwordLastChangedAt,
     this.mfaEnabled = false,
-    this.hasVerifiedPhone = false,
     this.requiredActions = const <String>[],
     this.authenticatorTypes = const [],
     this.premiumWillCancel = false,
@@ -316,7 +314,6 @@ class UserSettingsViewState {
       !usernameSignIn && isProfileLoaded && hasVerifiedEmail && !verified;
 
   bool get hasTotpMfa => authenticatorTypes.contains(0);
-  bool get hasWebauthnMfa => authenticatorTypes.contains(2);
 
   bool get hasActiveSubscription =>
       premiumType == UserPremiumTypes.subscription.json && !premiumWillCancel;
@@ -612,7 +609,6 @@ class UserSettingsViewState {
     bool? usernameSignIn,
     Object? passwordLastChangedAt = _unset,
     bool? mfaEnabled,
-    bool? hasVerifiedPhone,
     List<String>? requiredActions,
     List<int>? authenticatorTypes,
     bool? premiumWillCancel,
@@ -712,7 +708,6 @@ class UserSettingsViewState {
           ? this.passwordLastChangedAt
           : passwordLastChangedAt as String?,
       mfaEnabled: mfaEnabled ?? this.mfaEnabled,
-      hasVerifiedPhone: hasVerifiedPhone ?? this.hasVerifiedPhone,
       requiredActions: requiredActions ?? this.requiredActions,
       authenticatorTypes: authenticatorTypes ?? this.authenticatorTypes,
       premiumWillCancel: premiumWillCancel ?? this.premiumWillCancel,
@@ -1058,7 +1053,6 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
       verified: profile.verified,
       passwordLastChangedAt: profile.passwordLastChangedAt,
       mfaEnabled: profile.mfaEnabled,
-      hasVerifiedPhone: profile.hasVerifiedPhone,
       requiredActions: List<String>.from(profile.requiredActions),
       authenticatorTypes:
           profile.authenticatorTypes
@@ -1445,10 +1439,6 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
       isSaving: false,
       error: null,
     );
-  }
-
-  void toggleCompact() {
-    state = state.copyWith(messageDisplayCompact: !state.messageDisplayCompact);
   }
 
   Future<void> setMessageDisplayCompact({required bool value}) async {

@@ -368,17 +368,6 @@ Brightness? resolveChatWallpaperTone(ChatWallpaperState resolved) {
   }
 }
 
-bool shouldOverlayChatWallpaperText({
-  required ChatWallpaperState resolved,
-  required Brightness themeBrightness,
-}) {
-  final Brightness? tone = resolveChatWallpaperTone(resolved);
-  if (tone == null) {
-    return false;
-  }
-  return tone != themeBrightness;
-}
-
 Color chatWallpaperDimColor(double dim) {
   return Colors.black.withValues(alpha: dim);
 }
@@ -465,9 +454,6 @@ ImageProvider? chatWallpaperCustomImageProvider(
   final Uint8List? bytes = snapshot.customImageBytes;
   if (bytes != null && bytes.isNotEmpty) {
     return MemoryImage(bytes);
-  }
-  if (kIsWeb) {
-    return null;
   }
   final String? path = snapshot.customImagePath;
   if (path == null || path.isEmpty) {

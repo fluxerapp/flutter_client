@@ -95,7 +95,7 @@ void main() {
       'altcha_challenge': challenge.toJson(),
     });
 
-    final Map<String, dynamic>? raw = readAltchaChallenge(body);
+    final Map<String, dynamic>? raw = parseAltchaChallenge(body).challenge;
     expect(raw, isNotNull);
 
     final String? token = await solveAltchaChallenge(raw!);
@@ -130,23 +130,23 @@ void main() {
   });
 
   test('ignores bodies without an altcha challenge', () {
-    expect(readAltchaChallenge(null), isNull);
-    expect(readAltchaChallenge('not json'), isNull);
+    expect(parseAltchaChallenge(null).challenge, isNull);
+    expect(parseAltchaChallenge('not json').challenge, isNull);
     expect(
-      readAltchaChallenge(<String, dynamic>{
+      parseAltchaChallenge(<String, dynamic>{
         'code': 'CAPTCHA_REQUIRED',
         'message': 'Verification required. Try again.',
-      }),
+      }).challenge,
       isNull,
     );
     expect(
-      readAltchaChallenge(<String, dynamic>{
+      parseAltchaChallenge(<String, dynamic>{
         'captcha_provider': 'none',
         'altcha_challenge': <String, dynamic>{
           'parameters': <String, dynamic>{},
           'signature': 'abc',
         },
-      }),
+      }).challenge,
       isNull,
     );
   });
@@ -162,15 +162,26 @@ void main() {
       };
     }
 
-    expect(readAltchaChallenge(body(<String, dynamic>{})), isNotNull);
     expect(
-      readAltchaChallenge(body(<String, dynamic>{'nonce': 'abc'})),
+      parseAltchaChallenge(body(<String, dynamic>{})).challenge,
+      isNotNull,
+    );
+    expect(
+      parseAltchaChallenge(body(<String, dynamic>{'nonce': 'abc'})).challenge,
       isNull,
     );
-    expect(readAltchaChallenge(body(<String, dynamic>{'salt': 'zz'})), isNull);
-    expect(readAltchaChallenge(body(<String, dynamic>{'nonce': null})), isNull);
     expect(
-      readAltchaChallenge(body(<String, dynamic>{'keyPrefix': 'g0'})),
+      parseAltchaChallenge(body(<String, dynamic>{'salt': 'zz'})).challenge,
+      isNull,
+    );
+    expect(
+      parseAltchaChallenge(body(<String, dynamic>{'nonce': null})).challenge,
+      isNull,
+    );
+    expect(
+      parseAltchaChallenge(
+        body(<String, dynamic>{'keyPrefix': 'g0'}),
+      ).challenge,
       isNull,
     );
   });
@@ -205,9 +216,9 @@ void main() {
       'challenge keyLength is out of range',
     );
     expect(
-      readAltchaChallenge(
+      parseAltchaChallenge(
         body(<String, dynamic>{'cost': 1000.0, 'keyLength': 32.0}),
-      ),
+      ).challenge,
       isNotNull,
     );
   });

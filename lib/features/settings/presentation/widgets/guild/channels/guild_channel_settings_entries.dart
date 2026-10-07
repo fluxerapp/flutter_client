@@ -4,22 +4,17 @@ import 'package:fluxer_app/features/channels/domain/channel_reorder_drop.dart';
 enum GuildChannelSettingsEntryKind { category, channel }
 
 class GuildChannelSettingsEntry {
-  const GuildChannelSettingsEntry.category({
-    required this.category,
-    required this.guildId,
-  }) : kind = GuildChannelSettingsEntryKind.category,
-       channel = null;
+  const GuildChannelSettingsEntry.category({required this.category})
+    : kind = GuildChannelSettingsEntryKind.category,
+      channel = null;
 
-  const GuildChannelSettingsEntry.channel({
-    required this.channel,
-    required this.guildId,
-  }) : kind = GuildChannelSettingsEntryKind.channel,
-       category = null;
+  const GuildChannelSettingsEntry.channel({required this.channel})
+    : kind = GuildChannelSettingsEntryKind.channel,
+      category = null;
 
   final GuildChannelSettingsEntryKind kind;
   final ChannelCategory? category;
   final Channel? channel;
-  final String guildId;
 
   String get id => switch (kind) {
     GuildChannelSettingsEntryKind.category => category!.id,
@@ -50,17 +45,10 @@ List<GuildChannelSettingsEntry> flattenGuildChannelSettingsEntries({
   final List<GuildChannelSettingsEntry> entries = <GuildChannelSettingsEntry>[];
   for (final ChannelCategory category in categories) {
     if (!category.isUncategorized) {
-      entries.add(
-        GuildChannelSettingsEntry.category(
-          category: category,
-          guildId: guildId,
-        ),
-      );
+      entries.add(GuildChannelSettingsEntry.category(category: category));
     }
     for (final Channel channel in category.channels) {
-      entries.add(
-        GuildChannelSettingsEntry.channel(channel: channel, guildId: guildId),
-      );
+      entries.add(GuildChannelSettingsEntry.channel(channel: channel));
     }
   }
   return entries;

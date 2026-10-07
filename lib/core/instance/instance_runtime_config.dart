@@ -125,8 +125,6 @@ class InstanceRuntimeConfig {
     );
   }
 
-  Color? get themeColor => parseCssHexColor(themeColorHex);
-
   String? get compactMarkUrl =>
       _nonEmpty(symbolUrl) ?? _nonEmpty(iconUrl) ?? _nonEmpty(logoUrl);
 

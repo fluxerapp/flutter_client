@@ -211,7 +211,6 @@ void main() {
       expect(resolution, isA<ChannelJumpOpenLink>());
       final ChannelJumpOpenLink openLink = resolution as ChannelJumpOpenLink;
       expect(openLink.channelId, channelId);
-      expect(openLink.guildId, guildId);
     });
 
     test(

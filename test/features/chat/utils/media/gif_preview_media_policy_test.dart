@@ -18,31 +18,4 @@ void main() {
       isFalse,
     );
   });
-
-  test('gates animated image previews behind animated image allowance', () {
-    expect(
-      gifPreviewShouldLoadImage(
-        previewUrl: 'https://media.tenor.com/a.webp',
-        sourceUrl: 'https://media.tenor.com/a.webp',
-        isAnimatedImagePlaybackAllowed: false,
-      ),
-      isFalse,
-    );
-    expect(
-      gifPreviewShouldLoadImage(
-        previewUrl: 'https://media.tenor.com/a.gif',
-        sourceUrl: 'https://media.tenor.com/a.gif',
-        isAnimatedImagePlaybackAllowed: false,
-      ),
-      isFalse,
-    );
-    expect(
-      gifPreviewShouldLoadImage(
-        previewUrl: 'https://media.tenor.com/a.png',
-        sourceUrl: 'https://media.tenor.com/a.png',
-        isAnimatedImagePlaybackAllowed: false,
-      ),
-      isTrue,
-    );
-  });
 }

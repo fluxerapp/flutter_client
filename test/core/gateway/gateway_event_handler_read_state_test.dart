@@ -1399,8 +1399,7 @@ void main() {
       expect(index.lastMessageIdFor('channel-1'), remainingId);
       final ChatUnreadSummary summary = computeChatUnreadSummary(
         messages: [
-          for (final id in [ackId, remainingId])
-            ChatUnreadMessageRef(id: id, authorId: 'other'),
+          for (final id in [ackId, remainingId]) ChatUnreadMessageRef(id: id),
         ],
         ackLastMessageId: ackId,
         mentionCount: 0,

@@ -381,7 +381,6 @@ void main() {
                     return ChatExpressionExpandableSheet(
                       collapsedHeight: _kDockedContentHeight,
                       dragHandleHeight: _kDragHandleHeight,
-                      parentHeight: _kMobileViewport.height,
                       contentBuilder:
                           (
                             BuildContext context,
@@ -479,7 +478,6 @@ Future<void> _pumpSheet(
                   child: ChatExpressionExpandableSheet(
                     collapsedHeight: collapsedHeight,
                     dragHandleHeight: _kDragHandleHeight,
-                    parentHeight: _kMobileViewport.height,
                     contentBuilder:
                         (
                           BuildContext context,

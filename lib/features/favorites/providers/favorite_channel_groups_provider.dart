@@ -3,8 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
-import 'package:fluxer_app/features/channels/domain/hide_muted_channels_filter.dart';
-import 'package:fluxer_app/features/channels/providers/channel_mute_provider.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/favorites/domain/favorite_guild_id.dart';
@@ -65,9 +63,6 @@ List<ResolvedFavoriteEntry> resolveFavoriteEntries({
           channel: channelById[favorite.channelId],
           dm: dmById[favorite.channelId],
           guildId: _resolveFavoriteGuildId(favorite.guildId),
-          guildName: isFavoriteDmGuildId(favorite.guildId)
-              ? null
-              : guildById[favorite.guildId]?.name,
           guild: isFavoriteDmGuildId(favorite.guildId)
               ? null
               : guildById[favorite.guildId],
@@ -125,40 +120,6 @@ final Provider<List<FavoriteChannelGroup>> favoriteChannelGroupsProvider =
           )
           .toList();
     });
-
-final Provider<String?> firstAccessibleFavoriteChannelIdProvider =
-    Provider.autoDispose<String?>((ref) {
-      final settings = ref.watch(favoriteSettingsProvider).value;
-      final hideMuted = settings?.hideMuted ?? false;
-      final resolved = ref.watch(favoriteResolvedEntriesProvider);
-      for (final entry in resolved) {
-        if (!_isAccessible(ref, entry, hideMuted: hideMuted)) {
-          continue;
-        }
-        return entry.channelId;
-      }
-      return null;
-    });
-
-bool _isAccessible(
-  Ref ref,
-  ResolvedFavoriteEntry entry, {
-  required bool hideMuted,
-}) {
-  if (!hideMuted) {
-    return true;
-  }
-  final String? guildId = entry.guildId;
-  if (guildId == null || isFavoriteDmGuildId(guildId)) {
-    return true;
-  }
-  final mutedSet =
-      ref.watch(mutedChannelIdsProvider(guildId)).value ?? const {};
-  return shouldShowChannelWhenHidingMuted(
-    channelId: entry.channelId,
-    mutedChannelIds: mutedSet,
-  );
-}
 
 String? _resolveFavoriteGuildId(String? guildId) {
   if (isFavoriteDmGuildId(guildId)) {

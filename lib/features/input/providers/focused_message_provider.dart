@@ -2,10 +2,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 
 class FocusedMessageState {
-  const FocusedMessageState({this.messageId, this.channelId});
+  const FocusedMessageState({this.messageId});
 
   final String? messageId;
-  final String? channelId;
 
   bool get hasFocus => messageId != null && messageId!.isNotEmpty;
 }
@@ -15,7 +14,7 @@ class FocusedMessageNotifier extends Notifier<FocusedMessageState> {
   FocusedMessageState build() => const FocusedMessageState();
 
   void focus({required String messageId, required String channelId}) {
-    state = FocusedMessageState(messageId: messageId, channelId: channelId);
+    state = FocusedMessageState(messageId: messageId);
   }
 
   void clear() {
@@ -23,12 +22,6 @@ class FocusedMessageNotifier extends Notifier<FocusedMessageState> {
       return;
     }
     state = const FocusedMessageState();
-  }
-
-  void clearIfChannel(String channelId) {
-    if (state.channelId == channelId) {
-      clear();
-    }
   }
 }
 

@@ -12,8 +12,6 @@ class MessageUploadSessions extends _$MessageUploadSessions {
     return <String, MessageUploadSession>{};
   }
 
-  MessageUploadSession? sessionFor(String nonce) => state[nonce];
-
   void createSession({
     required String nonce,
     required String channelId,

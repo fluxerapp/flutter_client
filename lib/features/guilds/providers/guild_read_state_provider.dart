@@ -39,15 +39,6 @@ class GuildReadStateEntry {
     required this.sentinel,
   });
 
-  static const GuildReadStateEntry empty = GuildReadStateEntry(
-    hasUnread: false,
-    hasPlainUnread: false,
-    mentionCount: 0,
-    mentionChannels: <String>{},
-    unreadChannelId: null,
-    sentinel: 0,
-  );
-
   final bool hasUnread;
   final bool hasPlainUnread;
   final int mentionCount;
@@ -272,9 +263,6 @@ class GuildReadState extends _$GuildReadState {
 
     return <String, GuildReadStateEntry>{};
   }
-
-  GuildReadStateEntry entryFor(String guildId) =>
-      state[guildId] ?? GuildReadStateEntry.empty;
 
   void _requestSeed(FluxerDatabase db, String? currentUserId) {
     if (_seedInFlight != null) {

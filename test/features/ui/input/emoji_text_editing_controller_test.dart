@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/features/ui/input/emoji_inline_token.dart';
 import 'package:fluxer_app/features/ui/input/emoji_text_editing_controller.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -168,14 +169,21 @@ void main() {
       });
     });
 
-    group('replaceRangeWithEmoji', () {
+    group('replaceRangeWithToken with emoji', () {
       test('replaces colon-prefixed query with emoji', () {
         controller
           ..value = const TextEditingValue(
             text: ':wave',
             selection: TextSelection.collapsed(offset: 5),
           )
-          ..replaceRangeWithEmoji(0, 5, 'wave', '\u{1F44B}');
+          ..replaceRangeWithToken(
+            0,
+            5,
+            EmojiInlineToken(
+              displayName: 'wave',
+              wireText: buildEmojiWireToken('wave', '\u{1F44B}'),
+            ),
+          );
 
         expect(controller.actualText, ':wave:');
         expect(controller.text.length, 1);
@@ -193,11 +201,13 @@ void main() {
             text: '$sentinelText:wave',
             selection: TextSelection.collapsed(offset: sentinelText.length + 5),
           )
-          ..replaceRangeWithEmoji(
+          ..replaceRangeWithToken(
             sentinelText.length,
             sentinelText.length + 5,
-            'wave',
-            '\u{1F44B}',
+            EmojiInlineToken(
+              displayName: 'wave',
+              wireText: buildEmojiWireToken('wave', '\u{1F44B}'),
+            ),
           );
 
         expect(controller.actualText, ':smile::wave:');
@@ -213,11 +223,13 @@ void main() {
             text: '$sentinelText :wave',
             selection: TextSelection.collapsed(offset: sentinelText.length + 6),
           )
-          ..replaceRangeWithEmoji(
+          ..replaceRangeWithToken(
             sentinelText.length + 1,
             sentinelText.length + 6,
-            'wave',
-            '\u{1F44B}',
+            EmojiInlineToken(
+              displayName: 'wave',
+              wireText: buildEmojiWireToken('wave', '\u{1F44B}'),
+            ),
           );
 
         expect(controller.actualText, ':smile: :wave:');
@@ -229,7 +241,14 @@ void main() {
             text: ':wave hello',
             selection: TextSelection.collapsed(offset: 5),
           )
-          ..replaceRangeWithEmoji(0, 5, 'wave', '\u{1F44B}');
+          ..replaceRangeWithToken(
+            0,
+            5,
+            EmojiInlineToken(
+              displayName: 'wave',
+              wireText: buildEmojiWireToken('wave', '\u{1F44B}'),
+            ),
+          );
 
         expect(controller.actualText, ':wave: hello');
       });
@@ -240,7 +259,14 @@ void main() {
             text: ':wave  hello',
             selection: TextSelection.collapsed(offset: 5),
           )
-          ..replaceRangeWithEmoji(0, 5, 'wave', '\u{1F44B}');
+          ..replaceRangeWithToken(
+            0,
+            5,
+            EmojiInlineToken(
+              displayName: 'wave',
+              wireText: buildEmojiWireToken('wave', '\u{1F44B}'),
+            ),
+          );
 
         // Existing double space is preserved (no extra space added)
         expect(controller.actualText, ':wave:  hello');
@@ -252,7 +278,14 @@ void main() {
             text: ':wave',
             selection: TextSelection.collapsed(offset: 5),
           )
-          ..replaceRangeWithEmoji(0, 5, 'wave', '\u{1F44B}');
+          ..replaceRangeWithToken(
+            0,
+            5,
+            EmojiInlineToken(
+              displayName: 'wave',
+              wireText: buildEmojiWireToken('wave', '\u{1F44B}'),
+            ),
+          );
 
         expect(controller.actualText, ':wave:');
       });
@@ -267,12 +300,14 @@ void main() {
           // removedLength = 5 (":wave")
           // token = ":wave:" = 6
           // new = 15 - 5 + 6 = 16 → if maxActualLength = 15, should block
-          ..replaceRangeWithEmoji(
+          ..replaceRangeWithToken(
             10,
             15,
-            'wave',
-            '\u{1F44B}',
-            maxActualLength: 15,
+            EmojiInlineToken(
+              displayName: 'wave',
+              wireText: buildEmojiWireToken('wave', '\u{1F44B}'),
+            ),
+            maxWireLength: 15,
           );
 
         expect(controller.actualText, 'aaaaaaaaaa:wave');
@@ -284,12 +319,14 @@ void main() {
             text: ':wave',
             selection: TextSelection.collapsed(offset: 5),
           )
-          ..replaceRangeWithEmoji(
+          ..replaceRangeWithToken(
             0,
             5,
-            'wave',
-            '\u{1F44B}',
-            maxActualLength: 320,
+            EmojiInlineToken(
+              displayName: 'wave',
+              wireText: buildEmojiWireToken('wave', '\u{1F44B}'),
+            ),
+            maxWireLength: 320,
           );
 
         expect(controller.actualText, ':wave:');
@@ -301,7 +338,14 @@ void main() {
             text: ':cool',
             selection: TextSelection.collapsed(offset: 5),
           )
-          ..replaceRangeWithEmoji(0, 5, 'cool', '<:cool:12345>');
+          ..replaceRangeWithToken(
+            0,
+            5,
+            EmojiInlineToken(
+              displayName: 'cool',
+              wireText: buildEmojiWireToken('cool', '<:cool:12345>'),
+            ),
+          );
 
         expect(controller.actualText, '<:cool:12345>');
       });
@@ -312,7 +356,14 @@ void main() {
             text: ':wave rest',
             selection: TextSelection.collapsed(offset: 5),
           )
-          ..replaceRangeWithEmoji(0, 5, 'wave', '\u{1F44B}');
+          ..replaceRangeWithToken(
+            0,
+            5,
+            EmojiInlineToken(
+              displayName: 'wave',
+              wireText: buildEmojiWireToken('wave', '\u{1F44B}'),
+            ),
+          );
 
         // No trailing space added since after starts with ' '
         expect(controller.selection.baseOffset, 1);
@@ -753,21 +804,6 @@ void main() {
         expect(display.length, 1);
         expect(controller.toWireText(), ':wave:');
       });
-
-      test('replaceSelectionWithDisplayFragment splices at caret', () {
-        controller
-          ..loadWithTokens('hello world')
-          ..selection = const TextSelection.collapsed(offset: 5);
-        final String fragment = controller.wireToDisplayFragment(' :wave:');
-
-        controller.replaceSelectionWithDisplayFragment(fragment);
-
-        expect(controller.actualText, 'hello :wave: world');
-        expect(
-          controller.selection,
-          TextSelection.collapsed(offset: 5 + fragment.length),
-        );
-      });
     });
 
     group('sentinel allocation', () {
@@ -821,7 +857,14 @@ void main() {
             text: 'start :wav middle',
             selection: TextSelection.collapsed(offset: 10),
           )
-          ..replaceRangeWithEmoji(6, 10, 'wave', '\u{1F44B}');
+          ..replaceRangeWithToken(
+            6,
+            10,
+            EmojiInlineToken(
+              displayName: 'wave',
+              wireText: buildEmojiWireToken('wave', '\u{1F44B}'),
+            ),
+          );
 
         expect(controller.actualText, 'start :wave: middle');
       });

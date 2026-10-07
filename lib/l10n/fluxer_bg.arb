@@ -32,10 +32,6 @@
     "@retry": {
         "description": "Generic label for retry actions (splash, errors, network, etc.)."
     },
-    "connectingCaps": "CONNECTING",
-    "@connectingCaps": {
-        "description": "Connecting text on the splash screen"
-    },
     "splashConnectionLost": "Връзката е изгубена",
     "@splashConnectionLost": {
         "description": "Fallback headline on splash when gateway is unavailable (web parity)."
@@ -301,10 +297,6 @@
             }
         }
     },
-    "ssoRequired": "За достъп до този инстанс се изисква SSO.",
-    "@ssoRequired": {
-        "description": "Short sign-in note shown when the instance requires single sign-on."
-    },
     "organizationSsoProvider": "Влез с доставчика на единен вход (SSO) на организацията ти.",
     "@organizationSsoProvider": {
         "description": "Description shown when sign-in is restricted to the configured SSO provider."
@@ -325,10 +317,6 @@
                 "type": "String"
             }
         }
-    },
-    "logInViaBrowser": "Влезте през браузъра",
-    "@logInViaBrowser": {
-        "description": "Secondary login that opens or uses the system browser."
     },
     "needAccountPrompt": "Нямаш акаунт? ",
     "@needAccountPrompt": {
@@ -444,26 +432,9 @@
     "@accountAdd": {
         "description": "Button to add a new account."
     },
-    "accountRemove": "Премахване",
-    "@accountRemove": {
-        "description": "Context menu option to remove a stored account."
-    },
-    "accountRemoveTitle": "Премахни {username}",
-    "@accountRemoveTitle": {
-        "description": "Title for the remove account confirmation modal.",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
     "accountRemoveDescription": "Това ще премахне запазената сесия за този акаунт.",
     "@accountRemoveDescription": {
         "description": "Description for the remove account confirmation modal."
-    },
-    "accountRemoveOnlyDescription": "Това ще премахне единствения запазен акаунт на това устройство.",
-    "@accountRemoveOnlyDescription": {
-        "description": "Description when removing the last stored account."
     },
     "accountExpired": "Изтекло",
     "@accountExpired": {
@@ -995,10 +966,6 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsent": "Съгласен съм с Общите условия и Политиката за поверителност",
-    "@registerConsent": {
-        "description": "Consent checkbox label for registration (plain text fallback)."
-    },
     "registerConsentPrefix": "Съгласен съм с ",
     "@registerConsentPrefix": {
         "description": "Text before the Terms of Service link in the consent checkbox."
@@ -1050,10 +1017,6 @@
     "passkeyTimeout": "Изтече времето за удостоверяване с ключ за достъп. Моля, опитайте отново.",
     "@passkeyTimeout": {
         "description": "Error when passkey authentication times out."
-    },
-    "passkeyNotAvailable": "Пас-ключовете не са налични за това приложение. Вместо това влезте с имейл и парола.",
-    "@passkeyNotAvailable": {
-        "description": "Error for unknown passkey provider errors (e.g. TYPE_UNKNOWN)."
     },
     "passkeyFailed": "Неуспешна автентикация с пропуск. Моля, опитайте отново.",
     "@passkeyFailed": {
@@ -1215,26 +1178,6 @@
     "inviteAcceptSomeone": "някой",
     "@inviteAcceptSomeone": {
         "description": "Fallback inviter name when the inviter is unknown."
-    },
-    "inviteAcceptEmojiPack": "Емотикон пакет",
-    "@inviteAcceptEmojiPack": {
-        "description": "Label for an emoji pack invite."
-    },
-    "inviteAcceptStickerPack": "Стикер пакет",
-    "@inviteAcceptStickerPack": {
-        "description": "Label for a sticker pack invite."
-    },
-    "inviteAcceptInstallEmojiPack": "Инсталирай пакет емотикони",
-    "@inviteAcceptInstallEmojiPack": {
-        "description": "Primary action to install an emoji pack from an invite."
-    },
-    "inviteAcceptInstallStickerPack": "Инсталирай стикер пакет",
-    "@inviteAcceptInstallStickerPack": {
-        "description": "Primary action to install a sticker pack from an invite."
-    },
-    "inviteAcceptPackInstallNote": "Приемането на тази покана автоматично ще инсталира пакета.",
-    "@inviteAcceptPackInstallNote": {
-        "description": "Note shown on expression pack invites before accepting."
     },
     "mentionUnknownChannel": "unknown-channel",
     "@mentionUnknownChannel": {
@@ -2250,10 +2193,6 @@
             }
         }
     },
-    "emojiPlutoniumUpsellButton": "Вземи Plutonium",
-    "@emojiPlutoniumUpsellButton": {
-        "description": "Button label on the Plutonium upsell banner."
-    },
     "emojiPlutoniumUpsellDismiss": "Не показвай отново",
     "@emojiPlutoniumUpsellDismiss": {
         "description": "Dismiss link on the Plutonium upsell banner."
@@ -2426,10 +2365,6 @@
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
     },
-    "fluxerTagInputLabel": "Потребителско име",
-    "@fluxerTagInputLabel": {
-        "description": "Label above the username and discriminator input fields."
-    },
     "fluxerTagDescriptionBase": "Потребителските имена могат да съдържат само букви (a-z, A-Z), цифри (0-9) и долни черти. В потребителските имена не се прави разлика между главни и малки букви.",
     "@fluxerTagDescriptionBase": {
         "description": "Base description text on the username change sheet."
@@ -2457,10 +2392,6 @@
     "validationAllowedChars": "Само букви (a-z, A-Z), цифри (0-9) и долни черти (_)",
     "@validationAllowedChars": {
         "description": "Validation rule for allowed username characters."
-    },
-    "discriminatorPremiumTooltip": "Вземете Plutonium, за да персонализирате своя таг или да го запазите при смяна на потребителското си име",
-    "@discriminatorPremiumTooltip": {
-        "description": "Tooltip on disabled discriminator field for non-premium users."
     },
     "fluxerTagAlreadyTaken": "Потребителското име е заето",
     "@fluxerTagAlreadyTaken": {
@@ -2515,19 +2446,6 @@
     "premiumUpsellCustomizeTag": "Персонализирайте своя 4-цифрен таг или го запазете при смяна на потребителското си име",
     "@premiumUpsellCustomizeTag": {
         "description": "Upsell text encouraging non-premium users to get Plutonium for tag customization."
-    },
-    "premiumTrialExpiresOn": "Вашият Plutonium пробен период изтича на {date}. Надстройте, за да запазите своя персонализиран етикет и да спечелите значка в профила си.",
-    "@premiumTrialExpiresOn": {
-        "description": "Trial upsell with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActive": "Изпробвате Plutonium. Надстройте, за да запазите персонализирания си етикет и да спечелите значка в профила си.",
-    "@premiumTrialActive": {
-        "description": "Trial upsell without specific expiry date."
     },
     "fluxerTagUpdated": "Потребителското име е актуализирано",
     "@fluxerTagUpdated": {
@@ -2701,32 +2619,6 @@
     "@hideVisionaryIdDescription": {
         "description": "Description for the toggle to hide the Visionary ID badge."
     },
-    "premiumTrialSubscriptionStarts": "Вие сте на Plutonium пробен период — абонаментът ви започва на {date}",
-    "@premiumTrialSubscriptionStarts": {
-        "description": "Trial banner title when user has an active subscription pending after trial.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialSubscriptionStartsDescription": "Абонаментът ви ще започне автоматично, когато приключи безплатният ви пробен период. Не е необходимо да предприемате действия.",
-    "@premiumTrialSubscriptionStartsDescription": {
-        "description": "Trial banner description when user has an active subscription pending after trial."
-    },
-    "premiumTrialExpiresOnProfile": "Вашият Plutonium пробен период изтича на {date}",
-    "@premiumTrialExpiresOnProfile": {
-        "description": "Trial banner title with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActiveProfile": "Пробен период на Plutonium",
-    "@premiumTrialActiveProfile": {
-        "description": "Trial banner title without specific expiry date."
-    },
     "avatarDescriptionNonPremium": "JPEG, PNG, WebP. Максимум 10 MB. Препоръчително: 512×512 px. Анимирани аватари (GIF) изискват Plutonium.",
     "@avatarDescriptionNonPremium": {
         "description": "Avatar helper text for non-premium users, mentioning Plutonium requirement for animated avatars."
@@ -2811,22 +2703,6 @@
     "profileSavedToast": "Профилът е актуализиран",
     "@profileSavedToast": {
         "description": "Toast message shown after successfully saving profile changes."
-    },
-    "profileEditButton": "Редактиране на профил",
-    "@profileEditButton": {
-        "description": "Button label to open profile editing from the profile content card."
-    },
-    "profileNoteLabel": "Бележка",
-    "@profileNoteLabel": {
-        "description": "Label for the personal note section on a user profile."
-    },
-    "profileNoteVisibility": "(видимо само за теб)",
-    "@profileNoteVisibility": {
-        "description": "Hint that the note is private and only visible to the current user."
-    },
-    "profileNoteEmpty": "Все още няма бележка.",
-    "@profileNoteEmpty": {
-        "description": "Placeholder shown when no personal note has been set for a user."
     },
     "sudoTitle": "Потвърдете самоличността си",
     "@sudoTitle": {
@@ -3199,42 +3075,6 @@
     "@securityPasskeyNameHint": {
         "description": "Hint for passkey name input."
     },
-    "securityPhoneSectionTitle": "Телефонен номер",
-    "@securityPhoneSectionTitle": {
-        "description": "Title for phone number section."
-    },
-    "securityPhoneSectionDescription": "Управлявайте телефонния си номер.",
-    "@securityPhoneSectionDescription": {
-        "description": "Description for phone number section."
-    },
-    "securityPhoneLabel": "Телефонен номер",
-    "@securityPhoneLabel": {
-        "description": "Label for phone number row."
-    },
-    "securityPhoneNone": "Не е добавен телефонен номер.",
-    "@securityPhoneNone": {
-        "description": "Shown when no phone number is set."
-    },
-    "securityPhoneAdd": "Добавяне на телефон",
-    "@securityPhoneAdd": {
-        "description": "Button to add phone number."
-    },
-    "securityPhoneRemove": "Премахване",
-    "@securityPhoneRemove": {
-        "description": "Button to remove phone number."
-    },
-    "securityPhoneRemoveTitle": "Премахване на телефонен номер",
-    "@securityPhoneRemoveTitle": {
-        "description": "Title for phone remove confirmation."
-    },
-    "securityPhoneRemoveDescription": "Сигурни ли сте, че искате да премахнете телефонния си номер?",
-    "@securityPhoneRemoveDescription": {
-        "description": "Description for phone remove confirmation."
-    },
-    "securityPhoneRemoved": "Телефонният номер е премахнат",
-    "@securityPhoneRemoved": {
-        "description": "Toast after phone removed."
-    },
     "securityClaimTitle": "Функции за сигурност",
     "@securityClaimTitle": {
         "description": "Title when user needs to claim account for security."
@@ -3287,10 +3127,6 @@
     "@backupCodesWarning": {
         "description": "Warning about backup codes."
     },
-    "backupCodesDownload": "Изтегляне",
-    "@backupCodesDownload": {
-        "description": "Button to download backup codes."
-    },
     "backupCodesCopy": "Копирай",
     "@backupCodesCopy": {
         "description": "Button to copy backup codes."
@@ -3306,206 +3142,6 @@
     "backupCodesDone": "Готово",
     "@backupCodesDone": {
         "description": "Button to close backup codes sheet."
-    },
-    "backupCodesViewTitle": "Преглед на кодовете за възстановяване",
-    "@backupCodesViewTitle": {
-        "description": "Title for viewing existing backup codes."
-    },
-    "backupCodesViewDescription": "Може да се наложи потвърждение, преди да видите резервните си кодове.",
-    "@backupCodesViewDescription": {
-        "description": "Description for view backup codes."
-    },
-    "phoneAddTitle": "Добавяне на телефонен номер",
-    "@phoneAddTitle": {
-        "description": "Title for phone add sheet."
-    },
-    "phoneAddLabel": "Телефонен номер",
-    "@phoneAddLabel": {
-        "description": "Label for phone input."
-    },
-    "phoneAddHint": "Въведи телефонния си номер",
-    "@phoneAddHint": {
-        "description": "Hint for phone input."
-    },
-    "phoneAddFooter": "Ще изпратим SMS код, когато е наличен. Вашият номер не е свързан с акаунта ви. Запазваме само криптиран маркер, без потребителско ID, за да позволим максимум 2 проверки за около 30 дни.",
-    "@phoneAddFooter": {
-        "description": "Footer text for phone input."
-    },
-    "phoneAddSendCode": "Изпращане на код",
-    "@phoneAddSendCode": {
-        "description": "Button to send phone verification code."
-    },
-    "phoneVerifyTitle": "Потвърди телефонния номер",
-    "@phoneVerifyTitle": {
-        "description": "Title for phone verify step."
-    },
-    "phoneVerifyDescription": "Въведете кода за потвърждение, изпратен на вашия телефонен номер.",
-    "@phoneVerifyDescription": {
-        "description": "Description for phone verify step."
-    },
-    "phoneAddSuccess": "Телефонният номер е потвърден",
-    "@phoneAddSuccess": {
-        "description": "Toast after phone verified."
-    },
-    "phoneCountryLabel": "Държава",
-    "@phoneCountryLabel": {
-        "description": "Label for country selector in phone verification."
-    },
-    "phoneSearchCountries": "Търсене на държави...",
-    "@phoneSearchCountries": {
-        "description": "Search hint for country selector."
-    },
-    "phoneNumberRequired": "Изисква се телефонен номер",
-    "@phoneNumberRequired": {
-        "description": "Validation error when phone number is empty."
-    },
-    "phoneEnterValidNumber": "Въведи валиден мобилен телефонен номер.",
-    "@phoneEnterValidNumber": {
-        "description": "Validation error for invalid phone format."
-    },
-    "phoneCannotBeUsed": "Този телефонен номер не може да бъде използван. Опитай друг мобилен номер или се свържи с поддръжката.",
-    "@phoneCannotBeUsed": {
-        "description": "API error when phone number is rejected."
-    },
-    "phoneAlreadyUsed": "Този телефонен номер вече е използван. Опитай друг номер или се свържи с поддръжката.",
-    "@phoneAlreadyUsed": {
-        "description": "API error when phone number was reused."
-    },
-    "phoneCodeDidNotWork": "Този код не проработи. Провери го и опитай отново.",
-    "@phoneCodeDidNotWork": {
-        "description": "API error for invalid verification code."
-    },
-    "phoneTooManyAttempts": "Твърде много опити. Изчакай малко и опитай отново.",
-    "@phoneTooManyAttempts": {
-        "description": "Rate limit error for phone verification."
-    },
-    "phoneSmsUnavailable": "Потвърждението по SMS не е достъпно в момента. Опитай отново по-късно или се свържи с поддръжката.",
-    "@phoneSmsUnavailable": {
-        "description": "SMS provider unavailable error."
-    },
-    "phoneNotEligible": "Потвърждаването по телефон не е налично за този акаунт. Използвай друг метод или се свържи с поддръжката.",
-    "@phoneNotEligible": {
-        "description": "Account not eligible for phone verification."
-    },
-    "phoneSomethingWentWrong": "Нещо се обърка. Опитай отново.",
-    "@phoneSomethingWentWrong": {
-        "description": "Generic phone verification error."
-    },
-    "phoneInboundExpensiveDescription": "Изпращането на SMS до този телефонен номер е твърде скъпо, затова искаме вие да ни изпратите SMS. Можете също да се свържете с поддръжката, за да премахнем това изискване от профила ви.",
-    "@phoneInboundExpensiveDescription": {
-        "description": "Inbound challenge reason for expensive destinations."
-    },
-    "phoneInboundDefaultDescription": "Трябва да ни изпратите SMS, за да потвърдим телефонния си номер.",
-    "@phoneInboundDefaultDescription": {
-        "description": "Default inbound challenge description."
-    },
-    "phoneInboundStepOpenMessaging": "Отвори приложението за съобщения на телефона си и създай ново текстово съобщение.",
-    "@phoneInboundStepOpenMessaging": {
-        "description": "Inbound verification step 1."
-    },
-    "phoneInboundStepSendCode": "Изпратете кода {code} на {number}.",
-    "@phoneInboundStepSendCode": {
-        "description": "Inbound verification step 2.",
-        "placeholders": {
-            "code": {
-                "type": "String"
-            },
-            "number": {
-                "type": "String"
-            }
-        }
-    },
-    "phoneInboundStepWait": "Изчакайте да получим вашето съобщение. Това може да отнеме минута.",
-    "@phoneInboundStepWait": {
-        "description": "Inbound verification step 3."
-    },
-    "phoneInboundGetNewCode": "Получаване на нов код",
-    "@phoneInboundGetNewCode": {
-        "description": "Button to refresh inbound challenge."
-    },
-    "phoneInboundChallengeCodeLabel": "Код за изпращане",
-    "@phoneInboundChallengeCodeLabel": {
-        "description": "Label for inbound challenge code."
-    },
-    "phoneInboundOurNumberLabel": "Изпращане до",
-    "@phoneInboundOurNumberLabel": {
-        "description": "Label for inbound destination number."
-    },
-    "requiredActionTitle": "Изисква се потвърждение на акаунта",
-    "@requiredActionTitle": {
-        "description": "Title for required action blocking modal."
-    },
-    "requiredActionIntroGeneric": "Завърши необходимото потвърждение, за да продължиш да използваш {productName}.",
-    "@requiredActionIntroGeneric": {
-        "description": "Generic required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroPhone": "Регистрацията ти изисква допълнителна проверка срещу спам, преди да продължиш.",
-    "@requiredActionIntroPhone": {
-        "description": "Phone-only required action intro."
-    },
-    "requiredActionIntroEmailOrPhone": "Потвърди имейла или телефона си, за да продължиш да използваш {productName}.",
-    "@requiredActionIntroEmailOrPhone": {
-        "description": "Email or phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailAndPhone": "Изпълни задължителните стъпки за потвърждение на имейл и телефон по-долу, за да продължиш да използваш {productName}.",
-    "@requiredActionIntroEmailAndPhone": {
-        "description": "Email and phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionChooseMethodTitle": "Изберете метод за потвърждение",
-    "@requiredActionChooseMethodTitle": {
-        "description": "Title when user can pick email or phone."
-    },
-    "requiredActionChooseMethodDescription": "Завърши един от начините за потвърждение по-долу, за да продължиш да използваш {productName}.",
-    "@requiredActionChooseMethodDescription": {
-        "description": "Description when user can pick email or phone.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionUseEmail": "Използвай имейл",
-    "@requiredActionUseEmail": {
-        "description": "Button to choose email verification."
-    },
-    "requiredActionUsePhone": "Използвай телефон",
-    "@requiredActionUsePhone": {
-        "description": "Button to choose phone verification."
-    },
-    "requiredActionCheckEmailTitle": "Провери имейла си",
-    "@requiredActionCheckEmailTitle": {
-        "description": "Title for email verification instructions."
-    },
-    "requiredActionCheckEmailDescription": "Изпратихме връзка за потвърждение на имейл адреса ви. Отворете я, за да продължите.",
-    "@requiredActionCheckEmailDescription": {
-        "description": "Description for email verification instructions."
-    },
-    "requiredActionResendVerificationEmail": "Изпрати отново имейл за потвърждение",
-    "@requiredActionResendVerificationEmail": {
-        "description": "Button to resend verification email."
-    },
-    "requiredActionVerificationEmailSent": "Изпратен е имейл за потвърждение. Провери входящата си поща.",
-    "@requiredActionVerificationEmailSent": {
-        "description": "Toast after resending verification email."
-    },
-    "requiredActionSignOut": "Изход",
-    "@requiredActionSignOut": {
-        "description": "Sign out button in required action modal."
     },
     "dangerZoneSectionTitle": "Опасна зона",
     "@dangerZoneSectionTitle": {
@@ -3824,10 +3460,6 @@
     "@authorizedAppsScopeAdmin": {
         "description": "OAuth2 scope description: admin."
     },
-    "privacyPendingDeletionTitle": "Чакащо изтриване",
-    "@privacyPendingDeletionTitle": {
-        "description": "Title of the warning alert shown when a bulk message deletion is pending."
-    },
     "blockedUsersTitle": "Блокирани потребители",
     "@blockedUsersTitle": {
         "description": "Header title of the Blocked Users settings page."
@@ -4067,10 +3699,6 @@
     "userProfileNoteDelete": "Изтриване",
     "@userProfileNoteDelete": {
         "description": "Delete button in the note editor sheet."
-    },
-    "userProfileNoteEmpty": "Кликни, за да добавиш бележка",
-    "@userProfileNoteEmpty": {
-        "description": "Hint text when no note has been written yet."
     },
     "userProfileMemberSince": "Член от",
     "@userProfileMemberSince": {
@@ -5071,17 +4699,9 @@
     "@channelComposerBarrierNotMemberLongEnough": {
         "description": "Composer barrier when the user's guild membership is too recent."
     },
-    "channelComposerBarrierNoPhoneNumber": "Трябва да потвърдиш телефонен номер, за да изпращаш съобщения в тази общност.",
-    "@channelComposerBarrierNoPhoneNumber": {
-        "description": "Composer barrier when the user must verify a phone number before messaging."
-    },
     "channelComposerBarrierVerifyEmail": "Потвърди имейла",
     "@channelComposerBarrierVerifyEmail": {
         "description": "Action button on the composer barrier for unverified email."
-    },
-    "channelComposerBarrierVerifyPhone": "Потвърди телефона",
-    "@channelComposerBarrierVerifyPhone": {
-        "description": "Action button on the composer barrier for missing phone verification."
     },
     "chatAttachmentTooMany": "Твърде много прикачени файлове (макс. {max})",
     "@chatAttachmentTooMany": {
@@ -5116,10 +4736,6 @@
     "@chatAttachmentDropToSend": {
         "description": "Overlay hint when dragging files over chat with Shift held."
     },
-    "chatAttachmentSendVoiceMessage": "Изпращане на гласово съобщение",
-    "@chatAttachmentSendVoiceMessage": {
-        "description": "Menu item to open the voice message recorder."
-    },
     "voiceMessageTitle": "Гласово съобщение",
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
@@ -5140,10 +4756,6 @@
     "@voiceMessageMicPermissionDenied": {
         "description": "Shown when microphone permission is denied for voice messages."
     },
-    "voiceMessageRecordingNotSupported": "Записът на глас не се поддържа на това устройство.",
-    "@voiceMessageRecordingNotSupported": {
-        "description": "Shown when the device cannot record voice messages."
-    },
     "voiceMessageMicInUse": "Напуснете гласовото повикване, за да запишете гласово съобщение.",
     "@voiceMessageMicInUse": {
         "description": "Shown when the microphone is already used by an active voice call."
@@ -5155,26 +4767,6 @@
     "voiceMessageSendFailed": "Гласовото съобщение не може да бъде изпратено. Опитай отново.",
     "@voiceMessageSendFailed": {
         "description": "Shown when sending a voice message fails."
-    },
-    "voiceMessageRecordingHint": "Говори сега. Натисни „Спиране“, когато приключиш — после можеш да изрежеш.",
-    "@voiceMessageRecordingHint": {
-        "description": "Help text while recording a voice message on desktop."
-    },
-    "voiceMessageReviewHint": "Плъзни дръжките, за да изрежеш, след което натисни Изпрати.",
-    "@voiceMessageReviewHint": {
-        "description": "Help text while reviewing a voice message before send."
-    },
-    "voiceMessageStop": "Спиране",
-    "@voiceMessageStop": {
-        "description": "Stop recording button in voice message composer."
-    },
-    "voiceMessageStartRecording": "Започване на запис",
-    "@voiceMessageStartRecording": {
-        "description": "Button to retry voice recording after permission error."
-    },
-    "voiceMessageRerecord": "Запис отново",
-    "@voiceMessageRerecord": {
-        "description": "Button to discard review and record again."
     },
     "voiceMessagePlay": "Пусни",
     "@voiceMessagePlay": {
@@ -5191,16 +4783,6 @@
     "voiceMessageSeekBackward": "Пренавиване назад",
     "@voiceMessageSeekBackward": {
         "description": "Accessibility hint when decreasing voice message seek position."
-    },
-    "voiceMessageSelectionTooShort": "Избраната част трябва да е поне {seconds} сек.",
-    "@voiceMessageSelectionTooShort": {
-        "description": "Error when trimmed voice message is too short.",
-        "placeholders": {
-            "seconds": {
-                "type": "num",
-                "format": "compact"
-            }
-        }
     },
     "chatAttachmentEditTitle": "Редактиране на прикачен файл",
     "@chatAttachmentEditTitle": {
@@ -5357,10 +4939,6 @@
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
     },
-    "chatAttachmentPasteTooltip": "Постави файл от клипборда",
-    "@chatAttachmentPasteTooltip": {
-        "description": "Tooltip for pasting a file attachment from the clipboard."
-    },
     "chatAttachmentSpoiler": "Спойлер",
     "@chatAttachmentSpoiler": {
         "description": "Badge text for spoiler attachments."
@@ -5457,14 +5035,6 @@
     "@matureContentOpenLinkButton": {
         "description": "Primary action on mature link channel gates."
     },
-    "sensitiveContentSectionTitle": "Чувствително съдържание",
-    "@sensitiveContentSectionTitle": {
-        "description": "Privacy settings section title for sensitive content filters."
-    },
-    "sensitiveContentSectionDescription": "Контролирайте как се филтрира неподходящо или чувствително съдържание в различни контексти",
-    "@sensitiveContentSectionDescription": {
-        "description": "Privacy settings section description for sensitive content filters."
-    },
     "sensitiveContentFriendDmLabel": "Директни съобщения от приятели",
     "@sensitiveContentFriendDmLabel": {
         "description": "Label for friend DM sensitive content filter."
@@ -5489,18 +5059,6 @@
     "@sensitiveContentFilterBlock": {
         "description": "Sensitive content filter option to block media."
     },
-    "sensitiveContentBlurUnscannedLabel": "Замъгляване на медиите до завършване на сканирането за безопасност",
-    "@sensitiveContentBlurUnscannedLabel": {
-        "description": "Toggle label for blurring unscanned media."
-    },
-    "sensitiveContentBlurUnscannedDescriptionAdult": "Когато е включено, изображенията и видеоклиповете ще бъдат замъглени, докато сканирането за безопасност на съдържанието завърши.",
-    "@sensitiveContentBlurUnscannedDescriptionAdult": {
-        "description": "Description for blur-unscanned toggle for adult accounts."
-    },
-    "sensitiveContentBlurUnscannedDescriptionMinor": "Тази настройка винаги е включена за вашия акаунт.",
-    "@sensitiveContentBlurUnscannedDescriptionMinor": {
-        "description": "Description for blur-unscanned toggle for minor accounts."
-    },
     "sensitiveContentResetButton": "Нулиране",
     "@sensitiveContentResetButton": {
         "description": "Reset button for sensitive content settings."
@@ -5517,10 +5075,6 @@
                 "type": "int"
             }
         }
-    },
-    "chatCancelUpload": "Отказ на качването",
-    "@chatCancelUpload": {
-        "description": "Button or menu action label for canceling an in-flight message attachment upload."
     },
     "chatAttachmentExpiresOn": "Изтича на {date}",
     "@chatAttachmentExpiresOn": {
@@ -5790,10 +5344,6 @@
     "@connectionEnterDomain": {
         "description": "Inline error shown when the domain input is empty."
     },
-    "lookAndFeelTitle": "Визия и усещане",
-    "@lookAndFeelTitle": {
-        "description": "Title of the Look & Feel (Appearance) settings page."
-    },
     "lookAndFeelThemeSectionTitle": "Тема",
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
@@ -5861,14 +5411,6 @@
     "lookAndFeelThemeSyncFailed": "Не успяхме да синхронизираме темата с вашия акаунт. Моля, опитайте отново.",
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
-    },
-    "lookAndFeelChatFontScalingTitle": "Мащабиране на шрифта в чата",
-    "@lookAndFeelChatFontScalingTitle": {
-        "description": "Search label for chat font size within the Messages section."
-    },
-    "lookAndFeelChatFontScalingDescription": "Настрой размера на шрифта в чата.",
-    "@lookAndFeelChatFontScalingDescription": {
-        "description": "Search description for chat font size."
     },
     "lookAndFeelChatFontSizeLabel": "Размер на шрифта в чата",
     "@lookAndFeelChatFontSizeLabel": {
@@ -5994,42 +5536,6 @@
     "lookAndFeelHideKeyboardHintsDescription": "Когато е включено, значките за преки пътища се скриват в изскачащи подсказки.",
     "@lookAndFeelHideKeyboardHintsDescription": {
         "description": "Toggle description for the hide-keyboard-hints switch."
-    },
-    "lookAndFeelNekoTitle": "Разни",
-    "@lookAndFeelNekoTitle": {
-        "description": "Subsection title under Interface for Neko appearance settings."
-    },
-    "lookAndFeelNekoDescription": "Разни опции за интерфейса.",
-    "@lookAndFeelNekoDescription": {
-        "description": "Subsection description for Neko appearance settings."
-    },
-    "lookAndFeelShowNekoLabel": "Показване на Неко",
-    "@lookAndFeelShowNekoLabel": {
-        "description": "Toggle label for showing Neko in the chat footer."
-    },
-    "lookAndFeelShowNekoDescription": "Когато е активирано, Neko се появява близо до полето за въвеждане на съобщения.",
-    "@lookAndFeelShowNekoDescription": {
-        "description": "Toggle description for showing Neko in chat."
-    },
-    "lookAndFeelVoiceChannelJoinTitle": "Поведение при присъединяване към гласов канал",
-    "@lookAndFeelVoiceChannelJoinTitle": {
-        "description": "Subsection title under Interface — voice channel join behavior."
-    },
-    "lookAndFeelVoiceChannelJoinDescription": "Контролирайте как се присъединявате към гласови канали в общности.",
-    "@lookAndFeelVoiceChannelJoinDescription": {
-        "description": "Subsection description for voice channel join behavior."
-    },
-    "lookAndFeelRequireDoubleClickJoinLabel": "Изискване на двойно щракване за присъединяване към гласови канали",
-    "@lookAndFeelRequireDoubleClickJoinLabel": {
-        "description": "Toggle label — require double-click to join voice channels."
-    },
-    "lookAndFeelRequireDoubleClickJoinDescription": "Когато е включено, ще трябва да щракнете два пъти върху гласови канали, за да се присъедините към тях. Когато е изключено (по подразбиране), едно щракване ще ви присъедини незабавно към канала.",
-    "@lookAndFeelRequireDoubleClickJoinDescription": {
-        "description": "Toggle description for the require-double-click voice channel join switch."
-    },
-    "lookAndFeelChatFontPreviewSample": "Бързата кафява лисица прескача мързеливото куче.",
-    "@lookAndFeelChatFontPreviewSample": {
-        "description": "Sample text rendered at the selected chat font size to preview scaling."
     },
     "lookAndFeelGuildSidebarTitle": "Лента на сървъра",
     "@lookAndFeelGuildSidebarTitle": {
@@ -6562,25 +6068,9 @@
     "@messagesMediaAutocompleteSavedMediaLabel": {
         "description": "Toggle label for saved media in expression autocomplete."
     },
-    "messagesMediaEditingSectionTitle": "Редактиране на съобщения",
-    "@messagesMediaEditingSectionTitle": {
-        "description": "Section title for message editing settings."
-    },
-    "messagesMediaEditingSectionDescription": "Контролирайте какво се случва с черновата на вашата редакция, когато я отмените.",
-    "@messagesMediaEditingSectionDescription": {
-        "description": "Section description for message editing settings."
-    },
-    "messagesMediaEditingPreserveDraftLabel": "Запази черновата при отказ",
-    "@messagesMediaEditingPreserveDraftLabel": {
-        "description": "Toggle label for preserving edit drafts on cancel."
-    },
     "accessibilitySaturationTitle": "Наситеност",
     "@accessibilitySaturationTitle": {
         "description": "Section title for the theme saturation slider on the accessibility settings page."
-    },
-    "accessibilitySaturationDescription": "Регулирайте колко наситени да изглеждат цветовете на темата в цялото приложение.",
-    "@accessibilitySaturationDescription": {
-        "description": "Section description for the theme saturation slider on the accessibility settings page."
     },
     "accessibilityVisualGroupTitle": "Визуални настройки",
     "@accessibilityVisualGroupTitle": {
@@ -6605,10 +6095,6 @@
     "accessibilityDmMessagePreviewGroupTitle": "Визуализации на съобщения в DM",
     "@accessibilityDmMessagePreviewGroupTitle": {
         "description": "Section title for DM message preview accessibility settings."
-    },
-    "accessibilityDmMessagePreviewGroupDescription": "Контролирайте кога се показват прегледи на съобщения в списъка с лични съобщения.",
-    "@accessibilityDmMessagePreviewGroupDescription": {
-        "description": "Section description for DM message preview accessibility settings."
     },
     "accessibilityDmMessagePreviewModeLabel": "Режим на визуализация на съобщения в DM",
     "@accessibilityDmMessagePreviewModeLabel": {
@@ -6752,10 +6238,6 @@
     "accessibilityPausedGifByReducedMotion": "Поставено на пауза заради намаленото движение. Включи, за да продължат да се възпроизвеждат GIF файловете.",
     "@accessibilityPausedGifByReducedMotion": {
         "description": "Description for GIF toggle while reduced motion is active."
-    },
-    "accessibilityGifDefaultsOffOnMobile": "По подразбиране е изключено на мобилни устройства за пестене на батерия и данни.",
-    "@accessibilityGifDefaultsOffOnMobile": {
-        "description": "Helper text for GIF autoplay default on mobile."
     },
     "accessibilityStickerAnimationsTitle": "Анимации на стикери",
     "@accessibilityStickerAnimationsTitle": {
@@ -7235,10 +6717,6 @@
     "@voiceMultiDeviceDisconnectFailed": {
         "description": "Shown when switch-to-this-device times out waiting for other sessions to leave."
     },
-    "voiceChannelEmptyDescription": "Това е гласов канал. Свържете се, за да започнете да говорите!",
-    "@voiceChannelEmptyDescription": {
-        "description": "Empty state body when viewing a guild voice channel while not in the call."
-    },
     "voiceChannelJoin": "Присъединяване към гласов канал",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
@@ -7282,14 +6760,6 @@
     "voiceChannelStatusConnecting": "Свързване…",
     "@voiceChannelStatusConnecting": {
         "description": "Status in the in-page voice view while LiveKit is connecting."
-    },
-    "voiceChannelStatusConnected": "Свързан",
-    "@voiceChannelStatusConnected": {
-        "description": "Status in the in-page voice view when the voice session is active."
-    },
-    "voiceChannelStatusError": "Грешка",
-    "@voiceChannelStatusError": {
-        "description": "Short label in the channel header when the voice session reports an error."
     },
     "voiceParticipantTooltipMobileDevice": "Мобилно устройство",
     "@voiceParticipantTooltipMobileDevice": {
@@ -7368,10 +6838,6 @@
     "voiceScreenShareNotificationText": "Споделяне на екрана ви.",
     "@voiceScreenShareNotificationText": {
         "description": "Body text for the Android foreground notification shown while screen sharing."
-    },
-    "voiceControlMore": "Още",
-    "@voiceControlMore": {
-        "description": "Tooltip: more voice actions in the voice call control bar."
     },
     "voiceControlDisconnect": "Прекъсване",
     "@voiceControlDisconnect": {
@@ -7924,25 +7390,13 @@
     "@privacyDashboardFriendRequestsEveryone": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsEveryoneDesc": "Позволи на всеки да ти изпраща заявки за приятелство",
-    "@privacyDashboardFriendRequestsEveryoneDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsFriendsOfFriends": "Приятели на приятели",
     "@privacyDashboardFriendRequestsFriendsOfFriends": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsFriendsOfFriendsDesc": "Позволи на приятели на твоите приятели да ти изпращат покани",
-    "@privacyDashboardFriendRequestsFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsCommunityMembers": "Членове на общността",
     "@privacyDashboardFriendRequestsCommunityMembers": {
         "description": "Privacy dashboard friend request toggle label."
-    },
-    "privacyDashboardFriendRequestsCommunityMembersDesc": "Позволи на членове от общности, в които участваш, да ти изпращат заявки",
-    "@privacyDashboardFriendRequestsCommunityMembersDesc": {
-        "description": "Privacy dashboard friend request toggle description."
     },
     "privacyDashboardDirectMessagesTitle": "Директни съобщения",
     "@privacyDashboardDirectMessagesTitle": {
@@ -7952,65 +7406,29 @@
     "@privacyDashboardDirectMessagesMembers": {
         "description": "Privacy dashboard DM toggle label."
     },
-    "privacyDashboardDirectMessagesMembersDesc": "Позволи на членове от общности, в които си, да ти изпращат лични съобщения",
-    "@privacyDashboardDirectMessagesMembersDesc": {
-        "description": "Privacy dashboard DM toggle description."
-    },
     "privacyDashboardDirectMessagesBots": "Разрешаване на директни съобщения от ботове на общността",
     "@privacyDashboardDirectMessagesBots": {
         "description": "Privacy dashboard bot DM toggle label."
-    },
-    "privacyDashboardDirectMessagesBotsDesc": "Позволи на ботове от общности, в които членуваш, да ти изпращат лични съобщения",
-    "@privacyDashboardDirectMessagesBotsDesc": {
-        "description": "Privacy dashboard bot DM toggle description."
-    },
-    "privacyDashboardConnectionsSectionDesc": "Контролирайте кой може да ви изпраща заявки за приятелство и директни съобщения",
-    "@privacyDashboardConnectionsSectionDesc": {
-        "description": "Privacy dashboard connections section description."
-    },
-    "privacyDashboardCommunicationSectionDesc": "Контролирайте кой може да ви се обажда и да ви добавя в групови чатове",
-    "@privacyDashboardCommunicationSectionDesc": {
-        "description": "Privacy dashboard communication section description."
     },
     "privacyDashboardIncomingCallsTitle": "Входящи повиквания",
     "@privacyDashboardIncomingCallsTitle": {
         "description": "Privacy dashboard incoming calls subsection title."
     },
-    "privacyDashboardIncomingCallsDesc": "Контролирайте кой може да ви се обажда",
-    "@privacyDashboardIncomingCallsDesc": {
-        "description": "Privacy dashboard incoming calls subsection description."
-    },
     "privacyDashboardAllowedCallers": "Кой може да се обажда",
     "@privacyDashboardAllowedCallers": {
         "description": "Privacy > Communication: select label."
-    },
-    "privacyDashboardIncomingCallNobody": "Никой",
-    "@privacyDashboardIncomingCallNobody": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallNobodyDesc": "Блокиране на всички входящи повиквания",
     "@privacyDashboardIncomingCallNobodyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallFriendsOnly": "Само приятели",
-    "@privacyDashboardIncomingCallFriendsOnly": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallFriendsOnlyDesc": "Позволи само на приятели да ти се обаждат (препоръчително)",
     "@privacyDashboardIncomingCallFriendsOnlyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallCustom": "Приятели + Персонализирано",
-    "@privacyDashboardIncomingCallCustom": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallCustomDesc": "Позволи на приятели плюс допълнителни групи, които избереш",
     "@privacyDashboardIncomingCallCustomDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardIncomingCallEveryone": "Всеки",
-    "@privacyDashboardIncomingCallEveryone": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallEveryoneDesc": "Позволете на всеки да ви се обажда, дори непознати",
     "@privacyDashboardIncomingCallEveryoneDesc": {
@@ -8020,14 +7438,6 @@
     "@privacyDashboardAdditionalGroups": {
         "description": "Privacy dashboard label for custom permission groups."
     },
-    "privacyDashboardCallFriendsOfFriendsDesc": "Хора, които са приятели с вашите приятели, могат да ви се обадят",
-    "@privacyDashboardCallFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
-    "privacyDashboardCallGuildMembersDesc": "Хора от общности, в които и двамата членувате, могат да ви се обадят",
-    "@privacyDashboardCallGuildMembersDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
     "privacyDashboardRingBehavior": "Поведение при звънене",
     "@privacyDashboardRingBehavior": {
         "description": "Privacy dashboard ring behavior subsection label."
@@ -8036,17 +7446,9 @@
     "@privacyDashboardSilentCalls": {
         "description": "Privacy dashboard silent calls toggle label."
     },
-    "privacyDashboardSilentCallsDesc": "Всички обаждания ще уведомяват безшумно, вместо да звънят. По подразбиране обажданията от хора извън приятелите ви винаги са безшумни.",
-    "@privacyDashboardSilentCallsDesc": {
-        "description": "Privacy dashboard silent calls toggle description."
-    },
     "privacyDashboardGroupDmTitle": "Кой може да те добавя в групови чатове",
     "@privacyDashboardGroupDmTitle": {
         "description": "Privacy dashboard group DM subsection title."
-    },
-    "privacyDashboardGroupDmDesc": "Контролирайте кой може да ви добавя в групови чатове без вашето разрешение. Всеки все още може да ви изпраща покани за присъединяване.",
-    "@privacyDashboardGroupDmDesc": {
-        "description": "Privacy dashboard group DM subsection description."
     },
     "privacyDashboardAllowedInvites": "Разрешени покани",
     "@privacyDashboardAllowedInvites": {
@@ -8067,14 +7469,6 @@
     "privacyDashboardGroupDmEveryoneDesc": "Позволете на всеки да ви добавя в групови чатове без запитване",
     "@privacyDashboardGroupDmEveryoneDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardGroupDmFriendsOfFriendsDesc": "Хора, които са приятели с вашите приятели, могат да ви добавят в групови чатове",
-    "@privacyDashboardGroupDmFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
-    },
-    "privacyDashboardGroupDmGuildMembersDesc": "Хора от общности, в които и двамата членувате, могат да ви добавят в групови чатове",
-    "@privacyDashboardGroupDmGuildMembersDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
     },
     "privacyDashboardVoiceActivityTitle": "Гласова активност в „Активни сега“",
     "@privacyDashboardVoiceActivityTitle": {
@@ -9227,26 +8621,6 @@
     "@composerAutocompleteOptionalArgumentsHeading": {
         "description": "Section heading in composer autocomplete for adding optional slash-command arguments."
     },
-    "composerAutocompleteChannelsHeading": "Канали",
-    "@composerAutocompleteChannelsHeading": {
-        "description": "Section heading in composer autocomplete for channel suggestions."
-    },
-    "composerAutocompleteMembersHeading": "Членове",
-    "@composerAutocompleteMembersHeading": {
-        "description": "Section heading in composer autocomplete for member suggestions."
-    },
-    "composerAutocompleteUsersHeading": "Потребители",
-    "@composerAutocompleteUsersHeading": {
-        "description": "Section heading in composer autocomplete for user suggestions."
-    },
-    "composerAutocompleteMentionsHeading": "Споменавания",
-    "@composerAutocompleteMentionsHeading": {
-        "description": "Section heading in composer autocomplete for mixed mention suggestions."
-    },
-    "composerAutocompleteRolesHeading": "Роли",
-    "@composerAutocompleteRolesHeading": {
-        "description": "Section heading in composer autocomplete for role suggestions."
-    },
     "composerAutocompleteMediaHeading": "Медия",
     "@composerAutocompleteMediaHeading": {
         "description": "Section heading in composer autocomplete for saved media."
@@ -9561,10 +8935,6 @@
     "@addGuildImportTemplateInvalid": {
         "description": "API error when Fluxer rejects the imported community template payload."
     },
-    "addGuildPackInstalled": "Пакетът беше инсталиран успешно.",
-    "@addGuildPackInstalled": {
-        "description": "Toast shown after accepting an emoji or sticker pack invite."
-    },
     "chatMessageRemoveAllReactionsConfirmTitle": "Премахване на всички реакции",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
         "description": "Title for the remove-all-reactions confirmation sheet."
@@ -9686,10 +9056,6 @@
     "channelDetailsDeleteChannel": "Изтриване на канала",
     "@channelDetailsDeleteChannel": {
         "description": "Channel details menu action to delete a guild channel."
-    },
-    "channelSettingsCategorySettingsTitle": "Настройки на категорията",
-    "@channelSettingsCategorySettingsTitle": {
-        "description": "Title for category settings modal."
     },
     "channelSettingsEditCategory": "Редактиране на категория",
     "@channelSettingsEditCategory": {
@@ -9950,18 +9316,6 @@
     "@channelSettingsVoiceRegionsLoadFailedDescription": {
         "description": "Error modal body when voice regions fail to load in channel settings."
     },
-    "channelSettingsResetSlider": "Възстановяване на плъзгача до стойността по подразбиране",
-    "@channelSettingsResetSlider": {
-        "description": "Tooltip for reset buttons on channel settings sliders."
-    },
-    "channelSettingsAdvanced": "Разширени",
-    "@channelSettingsAdvanced": {
-        "description": "Collapsible advanced section title in channel overview."
-    },
-    "channelSettingsMatureContentOverride": "Изключение за съдържание за възрастни",
-    "@channelSettingsMatureContentOverride": {
-        "description": "Accessibility label for mature content override control."
-    },
     "channelSettingsMatureContentSectionDescription": "Задай нивото {scopeLevel} за този канал. Съдържание за възрастни се показва зад предпазна мярка преди влизане.",
     "@channelSettingsMatureContentSectionDescription": {
         "description": "Section description for mature content settings in channel overview.",
@@ -10009,14 +9363,6 @@
             }
         }
     },
-    "channelSettingsMatureContentCategorySource": "категория",
-    "@channelSettingsMatureContentCategorySource": {
-        "description": "Lowercase source label for inherited mature content from category."
-    },
-    "channelSettingsMatureContentCommunitySource": "общност",
-    "@channelSettingsMatureContentCommunitySource": {
-        "description": "Lowercase source label for inherited mature content from community."
-    },
     "channelSettingsMatureContentCategoryScope": "Категория",
     "@channelSettingsMatureContentCategoryScope": {
         "description": "Capitalized scope label when mature content inherits from a category."
@@ -10040,24 +9386,6 @@
     "channelSettingsContentWarningDefault": "Тук има чувствително съдържание.",
     "@channelSettingsContentWarningDefault": {
         "description": "Default content warning text placeholder."
-    },
-    "channelSettingsPermissionsNeedManageChannels": "Нужно е разрешението „{manageChannelsPermissionLabel}“, за да редактираш тези разрешения.",
-    "@channelSettingsPermissionsNeedManageChannels": {
-        "description": "Error when user lacks manage channels permission for channel permissions tab.",
-        "placeholders": {
-            "manageChannelsPermissionLabel": {
-                "type": "String"
-            }
-        }
-    },
-    "channelSettingsPermissionsNeedManageRoles": "Нужно е разрешението „{manageRolesPermissionLabel}“, за да редактираш тези разрешения.",
-    "@channelSettingsPermissionsNeedManageRoles": {
-        "description": "Error when user lacks manage roles permission for channel permissions tab.",
-        "placeholders": {
-            "manageRolesPermissionLabel": {
-                "type": "String"
-            }
-        }
     },
     "channelSettingsUnknownRole": "Неизвестна роля",
     "@channelSettingsUnknownRole": {
@@ -10143,10 +9471,6 @@
     "channelSettingsPermissionsSearchRolesOrMembers": "Търсене на роли или членове…",
     "@channelSettingsPermissionsSearchRolesOrMembers": {
         "description": "Placeholder for the add override search field."
-    },
-    "channelSettingsPermissionsRolesAndMembers": "Роли и членове",
-    "@channelSettingsPermissionsRolesAndMembers": {
-        "description": "Section title in the add override picker."
     },
     "channelSettingsDeleteInvite": "Изтриване на покана",
     "@channelSettingsDeleteInvite": {
@@ -10240,10 +9564,6 @@
                 "type": "String"
             }
         }
-    },
-    "channelSettingsWebhooksUnknownUser": "Неизвестен потребител",
-    "@channelSettingsWebhooksUnknownUser": {
-        "description": "Fallback label when webhook creator is unavailable."
     },
     "channelSettingsWebhooksAvatar": "Аватар",
     "@channelSettingsWebhooksAvatar": {
@@ -10432,10 +9752,6 @@
     "channelDetailsPinsEndReached": "Достигна края",
     "@channelDetailsPinsEndReached": {
         "description": "Footer label when the user has scrolled through all pinned messages."
-    },
-    "channelHeaderOpenDetails": "Отвори подробности за канала",
-    "@channelHeaderOpenDetails": {
-        "description": "Accessibility label for the channel header title area."
     },
     "channelHeaderPinnedMessages": "Закачени съобщения",
     "@channelHeaderPinnedMessages": {
@@ -10999,10 +10315,6 @@
     "@groupDmEditTitle": {
         "description": "Title for the edit group DM modal or sheet."
     },
-    "groupDmEditDetailsTooltip": "Редактиране на данните за групата",
-    "@groupDmEditDetailsTooltip": {
-        "description": "Tooltip on the desktop group DM header edit action."
-    },
     "groupDmGroupName": "Име на групата",
     "@groupDmGroupName": {
         "description": "Label for the group name field in edit group."
@@ -11068,14 +10380,6 @@
     "@groupDmUnsupportedIconFormatBody": {
         "description": "Body when the selected group icon format is unsupported."
     },
-    "groupDmCouldntProcessImage": "Неуспешна обработка на изображението",
-    "@groupDmCouldntProcessImage": {
-        "description": "Title when a cropped group icon cannot be processed."
-    },
-    "groupDmFailedToProcessCroppedImage": "Неуспешна обработка на изрязаното изображение. Опитай отново.",
-    "@groupDmFailedToProcessCroppedImage": {
-        "description": "Body when a cropped group icon cannot be processed."
-    },
     "groupDmInvalidImage": "Невалидно изображение",
     "@groupDmInvalidImage": {
         "description": "Title when the selected group icon image cannot be used."
@@ -11108,10 +10412,6 @@
     "@groupDmAddFriendFailed": {
         "description": "Error when adding a single friend to a group DM fails."
     },
-    "groupDmAddFailed": "Неуспешно добавяне към групата",
-    "@groupDmAddFailed": {
-        "description": "Title when adding friends to a group DM fails."
-    },
     "groupDmGroupFull": "Тази група е пълна. Премахни някого, преди да добавиш още хора.",
     "@groupDmGroupFull": {
         "description": "Error when the group DM has no remaining member slots."
@@ -11119,10 +10419,6 @@
     "groupDmRateLimited": "Действаш твърде бързо. Изчакай малко и опитай отново.",
     "@groupDmRateLimited": {
         "description": "Error when add-friends requests are rate limited."
-    },
-    "groupDmCreateInviteFailed": "Неуспешно създаване на линк за покана",
-    "@groupDmCreateInviteFailed": {
-        "description": "Title when invite link generation fails."
     },
     "groupDmCreateInviteFailedBody": "Не успяхме да генерираме линк за покана. Опитай отново.",
     "@groupDmCreateInviteFailedBody": {
@@ -11405,10 +10701,6 @@
     "@userSettingsSearchPlaceholder": {
         "description": "Placeholder for the user settings search field."
     },
-    "userSettingsSearchFieldLabel": "Търсене в настройките",
-    "@userSettingsSearchFieldLabel": {
-        "description": "Accessibility label for the user settings search field."
-    },
     "userSettingsSearchClear": "Изчистване на търсенето",
     "@userSettingsSearchClear": {
         "description": "Accessibility label for clearing the user settings search field."
@@ -11451,8 +10743,6 @@
     "giftSettingsGiftUrl": "URL адрес на подаръка",
     "giftSettingsCopy": "Копирай",
     "giftSettingsCopied": "Копирано",
-    "giftSettingsGiftUrlCopied": "URL адресът на подаръка е копиран в клипборда!",
-    "giftSettingsGiftUrlCopyFailed": "Неуспешно копиране на URL адреса на подаръка",
     "giftSettingsPurchasedDate": "Закупен {date}",
     "@giftSettingsPurchasedDate": {
         "placeholders": {
@@ -11494,7 +10784,6 @@
     "premiumBuyGift": "Купи подарък",
     "premiumOneYearGift": "Подарък за 1 година",
     "premiumOneMonthGift": "Подарък за 1 месец",
-    "premiumMostPopular": "Най-популярно",
     "premiumScrollPrompt": "Превъртете надолу, за да видите всички предимства на Plutonium",
     "premiumFreeVsPlutonium": "Безплатно срещу Plutonium",
     "premiumFreeColumn": "Безплатно",
@@ -11512,50 +10801,15 @@
     "premiumViewGifts": "Преглед на подаръците",
     "premiumReadyToUpgrade": "Готов ли си за надграждане?",
     "premiumReadyToBuyGift": "Готов ли си да купиш подарък?",
-    "premiumMonthlyPrice": "Месечно {price}",
-    "@premiumMonthlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumYearlyPrice": "Годишно {price}",
-    "@premiumYearlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneYearPrice": "1 година {price}",
-    "@premiumOneYearPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneMonthPrice": "1 месец {price}",
-    "@premiumOneMonthPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
     "premiumManageSubscription": "Управление на абонамента",
     "premiumRedeemGiftCode": "Осребряване на код за подарък",
     "premiumGiftBadge": "Подарък",
     "premiumCancelSubscriptionTitle": "Да откажеш ли абонамента?",
     "premiumCancelSubscriptionBody": "Запазваш предимствата си до следващата дата на подновяване, след което имаш 3-дневен гратисен период, за да се абонираш отново и да запазиш историята си като абонат.",
     "premiumCancelSubscriptionConfirm": "Отказ от абонамент",
-    "premiumKeepSubscription": "Запазване на абонамента",
     "premiumPurchaseHistoryTitle": "История на покупките",
     "premiumPurchaseHistoryDescription": "Вашите скорошни фактури. За да промените начина на плащане на абонамента си, добавете или изберете такъв в портала за фактуриране и го направете основен.",
     "premiumManagePaymentMethods": "Управление на методите за плащане",
-    "premiumBillingHistory": "История на плащанията",
-    "premiumSelfServeRefundTitle": "Възстановяване на средства от самообслужване",
     "premiumSelfServeRefundButton": "Възстановяване на последната покупка",
     "premiumDisclaimerAgreementPrefix": "С покупката се съгласявате с нашите ",
     "premiumDisclaimerAgreementPastPrefix": "С покупката се съгласихте с нашите ",
@@ -11595,17 +10849,6 @@
         "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
     },
     "premiumComparisonFeatureColumn": "Функция",
-    "premiumDisclaimerPurchased": "С покупката прие нашите {terms} и {privacy}.",
-    "@premiumDisclaimerPurchased": {
-        "placeholders": {
-            "terms": {
-                "type": "String"
-            },
-            "privacy": {
-                "type": "String"
-            }
-        }
-    },
     "premiumDisclaimerRefund": "Възстановяване на суми със самообслужване до 3 дни след плащането, веднъж на всеки 30 дни. Възстановяването на сумата за абонамент го анулира. Купувачите от ЕС/ЕИП се отказват от 14-дневното право на отказ при плащането, за да получат незабавен достъп до съдържанието. Използвай бутона за възстановяване в приложението вместо оспорване на трансакция. Оспорванията могат трайно да ограничат акаунта ти. Stripe обработва плащането сигурно. Никога не виждаме пълния номер на картата ти.",
     "premiumTermsOfService": "Общи условия",
     "premiumPrivacyPolicy": "Политика за поверителност",
@@ -11646,24 +10889,14 @@
     },
     "premiumClaimAccountToPurchase": "Поискай акаунта си, за да закупиш Fluxer Plutonium.",
     "premiumVerifyEmailToPurchase": "Трябва да потвърдите имейла си, преди да можете да закупите Fluxer Plutonium.",
-    "premiumPerkCustomUsernameTag": "Персонализиран таг за потребителско име",
-    "premiumPerkPerCommunityProfiles": "Профили за всяка общност",
-    "premiumPerkMessageScheduling": "Планиране на съобщения",
-    "premiumPerkProfileBadge": "Значка на профил",
-    "premiumPerkCustomVideoBackgrounds": "Персонализирани фонове за видео",
-    "premiumPerkEntranceSounds": "Звуци при влизане",
     "premiumPerkCommunities": "Общности",
     "premiumPerkMessageCharacterLimit": "Лимит на знаците в съобщението",
     "premiumPerkBookmarkedMessages": "Съобщения в отметки",
     "premiumPerkFileUploadSize": "Размер на качваните файлове",
-    "premiumPerkEmojiStickerPacks": "Емотикони и пакети стикери",
-    "premiumPerkSavedMedia": "Запазени медии",
     "premiumPerkUseAnimatedEmojis": "Използване на анимирани емоджита",
-    "premiumPerkGlobalEmojiStickerAccess": "Достъп до глобални емоджита и стикери",
     "premiumPerkVideoQuality": "Качество на видеото",
     "premiumPerkAnimatedAvatarsBanners": "Анимирани аватари и банери на профили",
     "premiumPerkEarlyAccess": "Ранен достъп до нови функции",
-    "premiumPerkCustomThemes": "Персонализирани теми",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "До 4K/60fps",
     "storePlutoniumPriceLine": "{monthly} или {yearly}",
@@ -11892,16 +11125,6 @@
     "@audioAndVideoMicTestStopLabel": {
         "description": "Button label to stop the microphone test."
     },
-    "audioAndVideoMicTestPermissionRequired": "{productName} се нуждае от достъп до микрофона, за да тества вашия вход.",
-    "@audioAndVideoMicTestPermissionRequired": {
-        "description": "Shown when microphone permission is required for the mic test.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
     "audioAndVideoCameraLabel": "Камера",
     "@audioAndVideoCameraLabel": {
         "description": "Label for camera device selection."
@@ -11946,39 +11169,9 @@
     "@audioAndVideoFrameRate60Label": {
         "description": "Screen share frame rate option for 60 FPS."
     },
-    "audioAndVideoHigherQualityRequiresPremium": "1080p и 60 FPS изискват {premiumProductName}.",
-    "@audioAndVideoHigherQualityRequiresPremium": {
-        "description": "Note shown when higher video quality options require premium.",
-        "placeholders": {
-            "premiumProductName": {
-                "type": "String",
-                "example": "Plutonium"
-            }
-        }
-    },
     "audioAndVideoInstanceVideoQualityLimit": "Тази инстанция в момента позволява споделяне на екран до 720p при 30 FPS.",
     "@audioAndVideoInstanceVideoQualityLimit": {
         "description": "Note shown when instance limits block higher screen share quality."
-    },
-    "audioAndVideoMicrophonePermissionRequired": "{productName} се нуждае от достъп до микрофона, за да покаже списък с устройствата ти.",
-    "@audioAndVideoMicrophonePermissionRequired": {
-        "description": "Shown when microphone permission is required to enumerate audio input devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
-    "audioAndVideoCameraPermissionRequired": "{productName} се нуждае от достъп до камерата, за да покаже списък с устройствата ти.",
-    "@audioAndVideoCameraPermissionRequired": {
-        "description": "Shown when camera permission is required to enumerate video devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
     },
     "audioAndVideoSkipHideOwnCameraConfirmLabel": "Не питай, когато скривам камерата си",
     "@audioAndVideoSkipHideOwnCameraConfirmLabel": {
@@ -12017,14 +11210,6 @@
     "notificationsEnableDesktopNotificationsDescription": "Използва центъра за известия на операционната система. За настройки за отделен канал или общност щракни с десния бутон върху иконата на общността и отвори настройките за известия.",
     "@notificationsEnableDesktopNotificationsDescription": {
         "description": "Description for the enable desktop notifications toggle."
-    },
-    "notificationsEnableBrowserNotificationsLabel": "Включване на известия в браузъра",
-    "@notificationsEnableBrowserNotificationsLabel": {
-        "description": "Toggle label for enabling browser notifications."
-    },
-    "notificationsEnableBrowserNotificationsDescription": "Получавай известия, когато получаваш съобщения. Може да се наложи да разрешиш известията в настройките на браузъра си. За настройки за отделен канал или общност щракни с десния бутон върху иконата на общността и отвори настройките за известия.",
-    "@notificationsEnableBrowserNotificationsDescription": {
-        "description": "Description for the enable browser notifications toggle."
     },
     "notificationsPushInactiveTimeoutLabel": "Време на неактивност преди push известия",
     "@notificationsPushInactiveTimeoutLabel": {
@@ -12404,10 +11589,6 @@
     "@languageAndTimeLanguageSectionDescription": {
         "description": "Settings section description for interface language preference."
     },
-    "languageAndTimeOpenLanguageSettings": "Отвори настройките за език",
-    "@languageAndTimeOpenLanguageSettings": {
-        "description": "Button that opens the system per-app language settings."
-    },
     "languageAndTimeTimeFormatSectionTitle": "Формат на часа",
     "@languageAndTimeTimeFormatSectionTitle": {
         "description": "Settings section title for time format preference."
@@ -12571,7 +11752,6 @@
     "advancedSettingStripTrackingLabel": "Премахване на параметри за проследяване от URL адреси",
     "advancedSettingStripTrackingDescription": "Автоматично премахване на параметри за проследяване от URL адресите в съобщенията, които изпращаш",
     "advancedSettingTrustAllLinksLabel": "Доверяване на всички външни линкове",
-    "advancedSettingTrustAllLinksDescription": "Пропускане на предупреждението за външни линкове за всички домейни",
     "advancedSettingSearchEnginesLabel": "Търсачки",
     "advancedSettingSearchEnginesDescription": "Конфигуриране на търсачките, които се използват за избрания текст",
     "advancedSettingTranslatorsLabel": "Преводачи",
@@ -12627,13 +11807,6 @@
     "advancedSettingHideStreamPreviewLabel": "Скрий миниатюрата за предварителен преглед на моя поток",
     "advancedSettingDeveloperModeLabel": "Включване на режим за разработчици",
     "advancedSettingDeveloperModeDescription": "Включване на режим за разработчици",
-    "advancedSettingSearchEngineGoogle": "Google",
-    "advancedSettingSearchEngineDuckDuckGo": "DuckDuckGo",
-    "advancedSettingSearchEngineBing": "Bing",
-    "advancedSettingSearchEngineGoogleLens": "Google Lens",
-    "advancedSettingSearchEngineTinEye": "TinEye",
-    "advancedSettingTranslatorGoogle": "Превод от Google",
-    "advancedSettingTranslatorDeepL": "DeepL",
     "advancedSettingDefaultSearchEngineLabel": "Търсачка по подразбиране",
     "advancedSettingDefaultSearchEngineDescription": "Избери коя търсачка да се използва по подразбиране при търсене на избран текст.",
     "advancedSettingBuiltInSearchEnginesLabel": "Вградени търсачки",
@@ -13812,10 +12985,6 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsCustomInviteUrl": "Персонализиран URL за покана",
-    "@guildMenuSettingsCustomInviteUrl": {
-        "description": "Community settings tab for custom invite URLs."
-    },
     "guildMenuSettingsDiscovery": "Откриване",
     "@guildMenuSettingsDiscovery": {
         "description": "Community settings tab for discovery settings."
@@ -13844,17 +13013,9 @@
     "@guildSettingsOverviewIconTitle": {
         "description": "Title for the guild icon section in overview settings."
     },
-    "guildSettingsUploadImage": "Качване на изображение",
-    "@guildSettingsUploadImage": {
-        "description": "Button label to upload an image in guild settings."
-    },
     "guildSettingsOverviewBannerTitle": "Банер",
     "@guildSettingsOverviewBannerTitle": {
         "description": "Title for the guild banner section."
-    },
-    "guildSettingsOverviewBannerHint": "Качете банер за вашия сървър.",
-    "@guildSettingsOverviewBannerHint": {
-        "description": "Hint text for guild banner upload."
     },
     "guildSettingsOverviewNameTitle": "Име",
     "@guildSettingsOverviewNameTitle": {
@@ -13863,22 +13024,6 @@
     "guildSettingsOverviewNameHint": "Моята страхотна общност",
     "@guildSettingsOverviewNameHint": {
         "description": "Hint for the guild name field."
-    },
-    "guildSettingsOverviewStatsTitle": "Статистики",
-    "@guildSettingsOverviewStatsTitle": {
-        "description": "Title for guild statistics section."
-    },
-    "guildSettingsOverviewMembers": "Членове",
-    "@guildSettingsOverviewMembers": {
-        "description": "Label for member count in overview."
-    },
-    "guildSettingsOverviewOnline": "Онлайн",
-    "@guildSettingsOverviewOnline": {
-        "description": "Label for online count in overview."
-    },
-    "guildSettingsRolesDescription": "Използвайте роли, за да групирате членове и да им присвоявате разрешения.",
-    "@guildSettingsRolesDescription": {
-        "description": "Description for the roles settings tab."
     },
     "guildSettingsCreateRole": "Създаване на роля",
     "@guildSettingsCreateRole": {
@@ -13978,14 +13123,6 @@
     "@guildSettingsRolesComfyLayout": {
         "description": "Tooltip when permission list is in dense layout."
     },
-    "guildSettingsRolesSwitchToDenseLayout": "Превключване към сбит изглед",
-    "@guildSettingsRolesSwitchToDenseLayout": {
-        "description": "Aria label for switching to dense layout."
-    },
-    "guildSettingsRolesSwitchToComfyLayout": "Превключване към удобен изглед",
-    "@guildSettingsRolesSwitchToComfyLayout": {
-        "description": "Aria label for switching to comfy layout."
-    },
     "guildSettingsRolesSingleColumn": "Една колона",
     "@guildSettingsRolesSingleColumn": {
         "description": "Tooltip when permission list is in two-column layout."
@@ -13994,21 +13131,9 @@
     "@guildSettingsRolesTwoColumns": {
         "description": "Tooltip when permission list is in single-column layout."
     },
-    "guildSettingsRolesSwitchToSingleColumn": "Превключване към една колона",
-    "@guildSettingsRolesSwitchToSingleColumn": {
-        "description": "Aria label for switching to single column."
-    },
-    "guildSettingsRolesSwitchToTwoColumns": "Превключване към две колони",
-    "@guildSettingsRolesSwitchToTwoColumns": {
-        "description": "Aria label for switching to two columns."
-    },
     "guildSettingsRolesNoPermissionsFound": "Няма намерени разрешения",
     "@guildSettingsRolesNoPermissionsFound": {
         "description": "Empty state when permission search has no matches."
-    },
-    "guildSettingsRolesCustomHoistOrder": "Персонализиран ред на показване",
-    "@guildSettingsRolesCustomHoistOrder": {
-        "description": "Button to enter custom hoist order mode."
     },
     "guildSettingsRolesHoistOrder": "Подредба на показване",
     "@guildSettingsRolesHoistOrder": {
@@ -14025,10 +13150,6 @@
     "guildSettingsRolesNoHoistedRoles": "Няма роли, показвани отделно. Включи „Показвай тази роля отделно“ за дадена роля, за да я видиш тук.",
     "@guildSettingsRolesNoHoistedRoles": {
         "description": "Empty state when no roles are hoisted."
-    },
-    "guildSettingsRolesLockedTooltip": "Не можеш да редактираш тази роля, защото е най-високата ти роля или е над теб",
-    "@guildSettingsRolesLockedTooltip": {
-        "description": "Tooltip on locked role rows."
     },
     "guildSettingsRolesNeedManageRolesPermission": "Нужно е да имате разрешението „{permission}“, за да редактирате тези разрешения",
     "@guildSettingsRolesNeedManageRolesPermission": {
@@ -14136,10 +13257,6 @@
     "permissionCategoryAudioVideo": "Аудио и видео",
     "@permissionCategoryAudioVideo": {
         "description": "Permission category label."
-    },
-    "permissionUnknown": "Неизвестно разрешение",
-    "@permissionUnknown": {
-        "description": "Fallback permission label."
     },
     "permissionAdministrator": "Администратор",
     "@permissionAdministrator": {
@@ -14409,30 +13526,9 @@
     "@permissionSetVoiceRegion": {
         "description": "Permission name."
     },
-    "guildSettingsEmojiSlotInfo": "Използвани са {staticCount} статични, {animatedCount} анимирани емотикони",
-    "@guildSettingsEmojiSlotInfo": {
-        "description": "Emoji slot usage summary.",
-        "placeholders": {
-            "staticCount": {
-                "type": "int"
-            },
-            "animatedCount": {
-                "type": "int"
-            }
-        }
-    },
     "guildSettingsEmojiEmpty": "Все още няма персонализирани емотикони.",
     "@guildSettingsEmojiEmpty": {
         "description": "Empty state for emoji settings."
-    },
-    "guildSettingsStickersSlotInfo": "{count} стикера качени",
-    "@guildSettingsStickersSlotInfo": {
-        "description": "Sticker slot usage summary.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsStickersEmpty": "Все още няма персонализирани стикери.",
     "@guildSettingsStickersEmpty": {
@@ -14478,8 +13574,6 @@
     "guildSettingsVerificationMediumDescription": "Изисква потвърден имейл адрес и акаунт, създаден преди поне 5 минути.",
     "guildSettingsVerificationHigh": "Високо",
     "guildSettingsVerificationHighDescription": "Изисква всичко от средно ниво, плюс членство в общността от поне 10 минути.",
-    "guildSettingsVerificationHighest": "Много високо",
-    "guildSettingsVerificationHighestDescription": "Изисква потвърден телефонен номер.",
     "guildSettingsAuditLogDescription": "Проследяване на действията на модераторите в общността.",
     "@guildSettingsAuditLogDescription": {
         "description": "Subtitle under the activity-log page title."
@@ -14507,14 +13601,6 @@
     "guildSettingsAuditLogUnknownUser": "Неизвестен потребител",
     "@guildSettingsAuditLogUnknownUser": {
         "description": "Fallback avatar label when the acting user is unavailable."
-    },
-    "guildSettingsAuditLogLoadError": "Възникна проблем при зареждането на дневника на активността.",
-    "@guildSettingsAuditLogLoadError": {
-        "description": "Generic error shown when fetching log entries fails."
-    },
-    "guildSettingsAuditLogLoadErrorTitle": "Дневникът на активността не може да бъде зареден",
-    "@guildSettingsAuditLogLoadErrorTitle": {
-        "description": "Error-state title when fetching log entries failed."
     },
     "guildSettingsAuditLogReason": "Причина",
     "@guildSettingsAuditLogReason": {
@@ -15486,14 +14572,6 @@
     "@auditLogOptionPermanentMembership": {
         "description": "Audit log option detail sentence."
     },
-    "guildSettingsLoadMore": "Зареди още",
-    "@guildSettingsLoadMore": {
-        "description": "Button to load more audit log entries."
-    },
-    "guildSettingsLoadingMore": "Зареждане...",
-    "@guildSettingsLoadingMore": {
-        "description": "Loading state for pagination."
-    },
     "guildSettingsWebhooksDescription": "Преглеждай и управлявай всички уебхукове, конфигурирани в общността ти.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
@@ -15540,42 +14618,9 @@
     "@guildSettingsUnknownChannel": {
         "description": "Fallback label when a webhook channel name is unavailable."
     },
-    "guildSettingsCopyUrl": "Копирай URL",
-    "@guildSettingsCopyUrl": {
-        "description": "Tooltip to copy a URL."
-    },
     "guildSettingsCopiedUrl": "URL адресът е копиран в клипборда",
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
-    },
-    "guildSettingsDeleteWebhook": "Изтриване на уебхук",
-    "@guildSettingsDeleteWebhook": {
-        "description": "Tooltip to delete a webhook."
-    },
-    "guildSettingsVanityUrlDescription": "Задай персонализиран линк за покана за твоя сървър.",
-    "@guildSettingsVanityUrlDescription": {
-        "description": "Description for vanity URL tab."
-    },
-    "guildSettingsVanityUrlHint": "my-server",
-    "@guildSettingsVanityUrlHint": {
-        "description": "Hint for vanity URL input."
-    },
-    "guildSettingsSave": "Запазване",
-    "@guildSettingsSave": {
-        "description": "Generic save button label."
-    },
-    "guildSettingsVanityUrlUsageTitle": "Употреба",
-    "@guildSettingsVanityUrlUsageTitle": {
-        "description": "Title for vanity URL usage section."
-    },
-    "guildSettingsVanityUrlUses": "{count} използвания",
-    "@guildSettingsVanityUrlUses": {
-        "description": "Vanity URL usage count.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsDiscoveryDescription": "Включи общността си в Откриване, за да могат другите да я намират и да се присъединяват към нея.",
     "@guildSettingsDiscoveryDescription": {
@@ -15761,10 +14806,6 @@
     "@guildSettingsDiscoveryWithdrawErrorDescription": {
         "description": "Error modal body when withdrawing a discovery application fails."
     },
-    "guildSettingsMembersDescription": "Търсене и управление на членовете на сървъра.",
-    "@guildSettingsMembersDescription": {
-        "description": "Description for members tab."
-    },
     "guildSettingsMembersSearchHint": "Търсене по потребителско име или ID",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field on the community members page."
@@ -15829,10 +14870,6 @@
     },
     "guildMembersColumnRoles": "Роли",
     "@guildMembersColumnRoles": {
-        "description": "Table column header on the community members page."
-    },
-    "guildMembersColumnActions": "Действия",
-    "@guildMembersColumnActions": {
         "description": "Table column header on the community members page."
     },
     "guildMembersFilterMemberSince": "Филтриране по дата на присъединяване",
@@ -15919,23 +14956,6 @@
     "@guildMembersIndexing": {
         "description": "Banner shown while guild members are being indexed."
     },
-    "guildMembersGoToPage": "Отиване на страница",
-    "@guildMembersGoToPage": {
-        "description": "Pagination jump label on the community members page."
-    },
-    "guildMembersGoToPageItem": "Отиване на страница {page}",
-    "@guildMembersGoToPageItem": {
-        "description": "Accessibility label for a pagination page button.",
-        "placeholders": {
-            "page": {
-                "type": "int"
-            }
-        }
-    },
-    "guildMembersJumpToPage": "Отиване на страница",
-    "@guildMembersJumpToPage": {
-        "description": "Label for pagination jump input on the community members page."
-    },
     "guildMembersJoinSourceCreator": "Създател на общността",
     "@guildMembersJoinSourceCreator": {
         "description": "Join method label on the community members page."
@@ -16012,22 +15032,9 @@
             }
         }
     },
-    "guildMembersJoinedDaysAgo": "{count, plural, one {преди 1 ден} other {преди {count} дни}}",
-    "@guildMembersJoinedDaysAgo": {
-        "description": "Relative join time on the community members page.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
     "guildMembersChannelListLabel": "Членове",
     "@guildMembersChannelListLabel": {
         "description": "Label for the Members item at the top of the guild channel list."
-    },
-    "guildMembersChannelListSelected": "Членове, избрано",
-    "@guildMembersChannelListSelected": {
-        "description": "Accessibility label when the Members channel list item is selected."
     },
     "guildSettingsInvitesTitle": "Покани",
     "@guildSettingsInvitesTitle": {
@@ -16158,27 +15165,6 @@
     "@guildSettingsInvitesRevokeFailedDescription": {
         "description": "Error description when revoking an invite fails."
     },
-    "guildSettingsInviteUses": "{uses} / {maxUses} пъти",
-    "@guildSettingsInviteUses": {
-        "description": "Invite usage count.",
-        "placeholders": {
-            "uses": {
-                "type": "int"
-            },
-            "maxUses": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsInviteExpires": "Изтича на {date}",
-    "@guildSettingsInviteExpires": {
-        "description": "Invite expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBansDescription": "Преглед и управление на забранените потребители.",
     "@guildSettingsBansDescription": {
         "description": "Description for bans tab."
@@ -16191,30 +15177,9 @@
     "@guildSettingsBansEmpty": {
         "description": "Empty state for bans."
     },
-    "guildSettingsBanPermanent": "Постоянно блокиране",
-    "@guildSettingsBanPermanent": {
-        "description": "Label for permanent ban."
-    },
-    "guildSettingsBanExpires": "Изтича на {date}",
-    "@guildSettingsBanExpires": {
-        "description": "Ban expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBanExpiresLabel": "Изтича",
     "@guildSettingsBanExpiresLabel": {
         "description": "Label for ban expiration row."
-    },
-    "guildSettingsUnban": "Редактиране на забрана",
-    "@guildSettingsUnban": {
-        "description": "Button to unban a user."
-    },
-    "guildSettingsBansLoading": "Зареждане на забранените потребители",
-    "@guildSettingsBansLoading": {
-        "description": "Loading state for the guild bans list."
     },
     "guildSettingsBansNoSearchResults": "Няма забрани, отговарящи на търсенето ти.",
     "@guildSettingsBansNoSearchResults": {
@@ -16258,10 +15223,6 @@
             }
         }
     },
-    "guildSettingsBansLoadError": "Не успяхме да заредим забраните. Опитайте отново.",
-    "@guildSettingsBansLoadError": {
-        "description": "Error when loading the guild bans list fails."
-    },
     "guildSettingsRevokeBanError": "Не успях да отменя забраната. Опитайте отново.",
     "@guildSettingsRevokeBanError": {
         "description": "Error when revoking a ban fails."
@@ -16286,7 +15247,6 @@
     "@guildSettingsCategoryPeople": {
         "description": "Sidebar category for members, invites, and bans."
     },
-    "guildSettingsOverviewDescription": "Управлявайте профила, каналите и настройките по подразбиране на вашата общност.",
     "guildSettingsOverviewBrandingTitle": "Брандиране",
     "guildSettingsOverviewBrandingDescription": "Актуализирайте иконата, името, банера и фоновото изображение за покани",
     "@guildSettingsOverviewBrandingDescription": {
@@ -16305,7 +15265,6 @@
     },
     "guildSettingsOverviewNotificationsTitle": "Известия по подразбиране",
     "guildSettingsOverviewNotificationsLargeGuild": "Общности с над 250 души се превключват на настройката „само споменавания“. Първоначалната ти настройка се запазва и ще бъде възстановена, ако общността спадне под 250 членове.",
-    "guildSettingsOverviewAdvancedTitle": "Разширени",
     "guildSettingsOverviewFlexibleNames": "Разрешаване на гъвкави имена на текстови канали",
     "guildSettingsOverviewHideOwnerCrown": "Скрий короната на собственика на общността",
     "guildSettingsOverviewDetachedBanner": "Разкачен банер",
@@ -16331,10 +15290,6 @@
     "guildSettingsOverviewEmbedSplashTitle": "Фон на вградения елемент в чата",
     "@guildSettingsOverviewEmbedSplashTitle": {
         "description": "Title for embed splash upload section."
-    },
-    "guildSettingsOverviewEmbedSplashHint": "Показва се във вградените покани в чата.",
-    "@guildSettingsOverviewEmbedSplashHint": {
-        "description": "Note shown when uploading chat embed background."
     },
     "guildSettingsOverviewUploadBackground": "Качване на фон",
     "@guildSettingsOverviewUploadBackground": {
@@ -16501,8 +15456,6 @@
     "@guildSettingsOverviewEmbedSplashUploadHint": {
         "description": "Upload requirements for chat embed background images."
     },
-    "guildSettingsModerationDescription": "Настройте настройките за верификация, филтриране на съдържание и съдържание за възрастни.",
-    "guildSettingsModerationDiscoveryNotice": "Общностите, включени в търсенето, имат ограничени опции за модериране.",
     "guildSettingsModerationContentFilterTitle": "Филтриране на съдържание",
     "guildSettingsModerationContentFilterDescription": "Автоматично проверяване на съобщенията за изрично съдържание в канали, които не са маркирани за съдържание за възрастни.",
     "guildSettingsModerationContentFilterDiscoveryNote": "Общностите, включени в Откриване, трябва да сканират всички членове. Тази настройка не може да бъде променяна, докато Откриване е активирано.",
@@ -16512,8 +15465,6 @@
     "guildSettingsContentFilterNoRoleDescription": "Препоръчително за повечето общности",
     "guildSettingsContentFilterAll": "Филтриране на всички",
     "guildSettingsContentFilterAllDescription": "Максимална защита за пространства, подходящи за семейството",
-    "guildSettingsModerationMatureOff": "Изкл",
-    "guildSettingsModerationMatureOn": "Вкл",
     "guildSettingsContentWarningToggle": "Показване на предупреждение за съдържание",
     "@guildSettingsContentWarningToggle": {
         "description": "Switch label for the community content warning setting."
@@ -16533,7 +15484,6 @@
     "guildSettingsModeration2faTitle": "Изискване за двуфакторно удостоверяване",
     "guildSettingsModeration2faDescription": "Изискване на двуфакторно удостоверяване за модераторите, преди да могат да забраняват, изключват, временно ограничават или изтриват съобщения.",
     "guildSettingsModeration2faSwitchLabel": "Изискване на двуфакторно удостоверяване за модераторски действия",
-    "guildSettingsModeration2faOwnerOnlyTooltip": "Само собственикът на общността може да променя тази настройка",
     "guildSettingsModeration2faEnableFirstTooltip": "Включи двуфакторното удостоверяване в акаунта си, за да промениш тази настройка",
     "guildSettingsEmojiSearchHint": "Търсене на емоджита",
     "guildSettingsEmojiUploadTitle": "Качване на емоджи",
@@ -16541,7 +15491,6 @@
     "guildSettingsEmojiDropZone": "Плъзни и пусни файлове с емоджита тук",
     "guildSettingsEmojiLoadFailed": "Неуспешно зареждане на емоджита. Опитай отново по-късно.",
     "guildSettingsEmojiSearchEmpty": "Няма емоджита, отговарящи на търсенето ти.",
-    "guildSettingsEmojiNoSlots": "Няма свободни слотове за емоджита",
     "guildSettingsEmojiSlotsFull": "Достигна максималния брой емоджита. Изтрий някои от съществуващите, за да освободиш място.",
     "guildSettingsEmojiUploadRequirements": "Имената на емоджитата трябва да съдържат поне 2 знака и могат да използват букви, цифри и долни черти. Емоджитата трябва да са под {maxSize}. Статичните изображения се преоразмеряват до 128x128 пиксела и автоматично се компресират. Анимираните емоджита и SVG файловете вече трябва да отговарят на изискванията за размер.",
     "@guildSettingsEmojiUploadRequirements": {
@@ -16551,24 +15500,11 @@
             }
         }
     },
-    "guildSettingsEmojiUploadingTitle": "Качване на емоджита",
-    "guildSettingsEmojiUploadingBody": "Качване на {count, plural, one {# емотикон} other {# емотикона}}. Това може да отнеме известно време.",
-    "@guildSettingsEmojiUploadingBody": {
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsEmojiUploadFailed": "Неуспешно качване на емоджита. Опитай отново.",
     "guildSettingsEmojiSomeFailedTitle": "Някои емоджита не можаха да бъдат добавени",
-    "guildSettingsEmojiSomeFailedBody": "Прегледай тези файлове и опитай отново с по-малки или по-прости изображения.",
     "guildSettingsEmojiRenameTitle": "Преименуване на емоджи",
     "guildSettingsEmojiRenameHint": "2-32 знака, букви, цифри, долни черти.",
-    "guildSettingsEmojiColumnEmoji": "Емотикон",
     "guildSettingsEmojiColumnName": "Име",
     "guildSettingsEmojiColumnUploader": "Качено от",
-    "guildSettingsEmojiUnknownUploader": "Неизвестен",
     "guildSettingsEmojiDeleteTitle": "Изтриване на емоджи",
     "guildSettingsEmojiDeleteBody": "Изтрий :{name}:? Това не може да бъде отменено.",
     "@guildSettingsEmojiDeleteBody": {
@@ -16583,15 +15519,7 @@
     "guildSettingsEmojiNameTooLong": "Името на емоджито трябва да е най-много 32 знака",
     "guildSettingsEmojiInvalidNameTitle": "Невалидно име на емоджи",
     "guildSettingsEmojiRenameFailedTitle": "Неуспешно преименуване на това емоджи",
-    "guildSettingsEmojiRenameFailedBody": "Името беше върнато към предишното. Опитай отново след малко.",
-    "guildSettingsEmojiGoneTitle": "Това емоджи вече не съществува",
-    "guildSettingsEmojiGoneBody": "Възможно е да е било изтрито. Името беше върнато към предишното.",
-    "guildSettingsEmojiNoPermissionRenameTitle": "Не можеш да преименуваш това емоджи",
-    "guildSettingsEmojiNoPermissionRenameBody": "Нямаш разрешение да преименуваш това емоджи. Името беше върнато към предишното.",
-    "guildSettingsEmojiRateLimitedTitle": "Действаш твърде бързо",
-    "guildSettingsEmojiRateLimitedBody": "Изчакай малко и опитай да преименуваш отново.",
     "guildSettingsEmojiDeleteFailedTitle": "Неуспешно изтриване на емоджито",
-    "guildSettingsEmojiDeleteNoPermissionTitle": "Не можеш да изтриеш това емоджи",
     "guildSettingsCloneEmojiTitle": "Позволяване на други да клонират емоджитата ви",
     "guildSettingsCloneEmojiDescription": "Когато е активирано, членове на други общности могат да използват пряката \"Клониране\" с едно докосване в приложението за вашите персонализирани емотикони. Това не им пречи да запазят изображението и да го качат сами.",
     "guildSettingsCloneStickerTitle": "Позволяване на други да клонират стикерите ви",
@@ -16632,8 +15560,6 @@
     "guildSettingsStickersLoadFailedTitle": "Неуспешно зареждане на стикери",
     "guildSettingsStickersLoadFailedBody": "Възникна грешка при зареждането на стикерите. Опитай отново.",
     "guildSettingsStickersSearchEmpty": "Няма стикери, отговарящи на търсенето ти.",
-    "guildSettingsStickersEmptySearch": "Няма намерени стикери",
-    "guildSettingsStickerNoSlots": "Няма свободни слотове за стикери",
     "guildSettingsStickerSlotsFull": "Достигна максималния брой стикери. Изтрий някои от съществуващите, за да освободиш място.",
     "guildSettingsStickerUploadRequirements": "Стикерите се запазват в размер 320x320 пиксела и трябва да са под {maxSize}. Статичните изображения се преоразмеряват и компресират автоматично. Анимираните стикери и SVG файловете трябва да се вместват в ограничението още при качването.",
     "@guildSettingsStickerUploadRequirements": {
@@ -16643,7 +15569,6 @@
             }
         }
     },
-    "guildSettingsStickerUnsupportedTitle": "Неподдържан файл за стикер",
     "guildSettingsStickerAddTitle": "Добавяне на стикер",
     "guildSettingsStickerEditTitle": "Редактиране на стикер",
     "guildSettingsStickerNameLabel": "Име",
@@ -16668,8 +15593,6 @@
     "guildSettingsStickerNameTooLong": "Името трябва да е до 30 знака",
     "guildSettingsStickerDescriptionTooLong": "Описанието трябва да е до 500 знака",
     "guildSettingsStickerCreateFailedTitle": "Стикерът не можа да бъде създаден",
-    "guildSettingsStickerTooLargeTitle": "Стикерът е твърде голям",
-    "guildSettingsStickerCompressFailedTitle": "Стикерът не можа да бъде компресиран достатъчно",
     "guildSettingsStickerDeleteTitle": "Изтриване на стикер",
     "guildSettingsStickerDeleteBody": "Изтрий \"{name}\"? Това действие не може да бъде отменено.",
     "@guildSettingsStickerDeleteBody": {
@@ -16681,7 +15604,6 @@
     },
     "guildSettingsStickerPurgeLabel": "Изтриване на този стикер от хранилището и CDN",
     "guildSettingsStickerDeleteFailedTitle": "Не успях да изтрия този стикер",
-    "guildSettingsStickerDeleteNoPermissionTitle": "Не можете да изтриете този стикер",
     "guildSettingsWebhooksInfo": "За да създадете уебкука, отворете {channelSettingsPath}. Все още можете да редактирате и организирате всички съществуващи уебкуки тук.",
     "@guildSettingsWebhooksInfo": {
         "description": "Info box on the guild webhooks tab.",
@@ -16691,8 +15613,6 @@
             }
         }
     },
-    "guildSettingsVanityUrlWarning": "Вашият персонализиран URL адрес няма да работи, освен ако поне един канал не е видим за всички.",
-    "guildSettingsVanityUrlRemove": "Премахване",
     "guildSettingsBannedUsersTitle": "Забранени потребители",
     "guildSettingsInvitesTableInviter": "Поканил",
     "guildSettingsInvitesTableChannel": "Канал",

@@ -249,12 +249,6 @@ class ChatAttachmentAudioController extends ChangeNotifier {
     await _player?.setVolume(_isMuted ? 0 : clamped);
   }
 
-  Future<void> toggleMute() async {
-    _isMuted = !_isMuted;
-    _notify();
-    await _player?.setVolume(_isMuted ? 0 : _volume);
-  }
-
   Future<void> cyclePlaybackRate() async {
     final int index = _kPlaybackRates.indexOf(_playbackRate);
     final int nextIndex = index < 0 || index == _kPlaybackRates.length - 1

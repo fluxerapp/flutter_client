@@ -28,10 +28,6 @@
     "@retry": {
         "description": "Generic label for retry actions (splash, errors, network, etc.)."
     },
-    "connectingCaps": "CONNECTING",
-    "@connectingCaps": {
-        "description": "Connecting text on the splash screen"
-    },
     "splashConnectionLost": "연결 끊김",
     "@splashConnectionLost": {
         "description": "Fallback headline on splash when gateway is unavailable (web parity)."
@@ -93,10 +89,6 @@
             }
         }
     },
-    "ssoRequired": "이 인스턴스에 액세스하려면 SSO가 필요합니다.",
-    "@ssoRequired": {
-        "description": "Short sign-in note shown when the instance requires single sign-on."
-    },
     "organizationSsoProvider": "소속 기관의 SSO 공급자로 로그인하세요.",
     "@organizationSsoProvider": {
         "description": "Description shown when sign-in is restricted to the configured SSO provider."
@@ -117,10 +109,6 @@
                 "type": "String"
             }
         }
-    },
-    "logInViaBrowser": "브라우저로 로그인",
-    "@logInViaBrowser": {
-        "description": "Secondary login that opens or uses the system browser."
     },
     "needAccountPrompt": "계정이 없으신가요? ",
     "@needAccountPrompt": {
@@ -232,26 +220,9 @@
     "@accountAdd": {
         "description": "Button to add a new account."
     },
-    "accountRemove": "제거",
-    "@accountRemove": {
-        "description": "Context menu option to remove a stored account."
-    },
-    "accountRemoveTitle": "{username} 삭제",
-    "@accountRemoveTitle": {
-        "description": "Title for the remove account confirmation modal.",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
     "accountRemoveDescription": "이 계정의 저장된 세션이 제거됩니다.",
     "@accountRemoveDescription": {
         "description": "Description for the remove account confirmation modal."
-    },
-    "accountRemoveOnlyDescription": "기기에 저장된 유일한 계정이 삭제됩니다.",
-    "@accountRemoveOnlyDescription": {
-        "description": "Description when removing the last stored account."
     },
     "accountExpired": "만료됨",
     "@accountExpired": {
@@ -783,10 +754,6 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsent": "이용약관 및 개인정보처리방침에 동의합니다",
-    "@registerConsent": {
-        "description": "Consent checkbox label for registration (plain text fallback)."
-    },
     "registerConsentPrefix": "동의합니다",
     "@registerConsentPrefix": {
         "description": "Text before the Terms of Service link in the consent checkbox."
@@ -830,10 +797,6 @@
     "passkeyTimeout": "패스키 인증 시간이 초과되었습니다. 다시 시도해주세요.",
     "@passkeyTimeout": {
         "description": "Error when passkey authentication times out."
-    },
-    "passkeyNotAvailable": "이 앱에서는 패스키를 사용할 수 없습니다. 대신 이메일과 비밀번호로 로그인하세요.",
-    "@passkeyNotAvailable": {
-        "description": "Error for unknown passkey provider errors (e.g. TYPE_UNKNOWN)."
     },
     "passkeyFailed": "Passkey 인증에 실패했습니다. 다시 시도해 주세요.",
     "@passkeyFailed": {
@@ -941,26 +904,6 @@
     "inviteAcceptSomeone": "누군가",
     "@inviteAcceptSomeone": {
         "description": "Fallback inviter name when the inviter is unknown."
-    },
-    "inviteAcceptEmojiPack": "이모티콘 팩",
-    "@inviteAcceptEmojiPack": {
-        "description": "Label for an emoji pack invite."
-    },
-    "inviteAcceptStickerPack": "스티커 팩",
-    "@inviteAcceptStickerPack": {
-        "description": "Label for a sticker pack invite."
-    },
-    "inviteAcceptInstallEmojiPack": "이모티콘 팩 설치",
-    "@inviteAcceptInstallEmojiPack": {
-        "description": "Primary action to install an emoji pack from an invite."
-    },
-    "inviteAcceptInstallStickerPack": "스티커 팩 설치",
-    "@inviteAcceptInstallStickerPack": {
-        "description": "Primary action to install a sticker pack from an invite."
-    },
-    "inviteAcceptPackInstallNote": "이 초대를 수락하면 팩이 자동으로 설치됩니다.",
-    "@inviteAcceptPackInstallNote": {
-        "description": "Note shown on expression pack invites before accepting."
     },
     "mentionUnknownChannel": "unknown-channel",
     "@mentionUnknownChannel": {
@@ -1708,10 +1651,6 @@
             }
         }
     },
-    "emojiPlutoniumUpsellButton": "Plutonium 받기",
-    "@emojiPlutoniumUpsellButton": {
-        "description": "Button label on the Plutonium upsell banner."
-    },
     "emojiPlutoniumUpsellDismiss": "다시 보지 않기",
     "@emojiPlutoniumUpsellDismiss": {
         "description": "Dismiss link on the Plutonium upsell banner."
@@ -1878,10 +1817,6 @@
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
     },
-    "fluxerTagInputLabel": "사용자 이름",
-    "@fluxerTagInputLabel": {
-        "description": "Label above the username and discriminator input fields."
-    },
     "fluxerTagDescriptionBase": "사용자 이름은 문자(a-z, A-Z), 숫자(0-9), 밑줄만 포함할 수 있습니다. 사용자 이름은 대소문자를 구분하지 않습니다.",
     "@fluxerTagDescriptionBase": {
         "description": "Base description text on the username change sheet."
@@ -1909,10 +1844,6 @@
     "validationAllowedChars": "문자(a-z, A-Z), 숫자(0-9), 밑줄(_)만 사용 가능",
     "@validationAllowedChars": {
         "description": "Validation rule for allowed username characters."
-    },
-    "discriminatorPremiumTooltip": "Plutonium을 사용하여 태그를 사용자 지정하거나 사용자 이름을 변경할 때 유지하세요.",
-    "@discriminatorPremiumTooltip": {
-        "description": "Tooltip on disabled discriminator field for non-premium users."
     },
     "fluxerTagAlreadyTaken": "이미 사용 중인 사용자 이름입니다",
     "@fluxerTagAlreadyTaken": {
@@ -1967,19 +1898,6 @@
     "premiumUpsellCustomizeTag": "사용자 지정 4자리 태그를 사용자 지정하거나 사용자 이름을 변경할 때 유지하세요.",
     "@premiumUpsellCustomizeTag": {
         "description": "Upsell text encouraging non-premium users to get Plutonium for tag customization."
-    },
-    "premiumTrialExpiresOn": "Plutonium 평가판이 {date}에 만료됩니다. 사용자 지정 태그를 유지하고 프로필에 배지를 얻으려면 업그레이드하세요.",
-    "@premiumTrialExpiresOn": {
-        "description": "Trial upsell with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActive": "Plutonium 평가판을 사용 중입니다. 사용자 지정 태그를 유지하고 프로필에 배지를 얻으려면 업그레이드하세요.",
-    "@premiumTrialActive": {
-        "description": "Trial upsell without specific expiry date."
     },
     "fluxerTagUpdated": "사용자 이름 업데이트됨",
     "@fluxerTagUpdated": {
@@ -2153,32 +2071,6 @@
     "@hideVisionaryIdDescription": {
         "description": "Description for the toggle to hide the Visionary ID badge."
     },
-    "premiumTrialSubscriptionStarts": "Plutonium 체험판을 사용 중입니다. 구독은 {date}에 시작됩니다.",
-    "@premiumTrialSubscriptionStarts": {
-        "description": "Trial banner title when user has an active subscription pending after trial.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialSubscriptionStartsDescription": "체험 기간이 끝나면 구독이 자동으로 시작됩니다. 별도의 조치가 필요하지 않습니다.",
-    "@premiumTrialSubscriptionStartsDescription": {
-        "description": "Trial banner description when user has an active subscription pending after trial."
-    },
-    "premiumTrialExpiresOnProfile": "Plutonium 체험판이 {date}에 만료됩니다.",
-    "@premiumTrialExpiresOnProfile": {
-        "description": "Trial banner title with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActiveProfile": "Plutonium 체험판을 사용 중입니다.",
-    "@premiumTrialActiveProfile": {
-        "description": "Trial banner title without specific expiry date."
-    },
     "avatarDescriptionNonPremium": "JPEG, PNG, WebP. 최대 10MB. 권장: 512×512px. 애니메이션 아바타(GIF)에는 Plutonium이 필요합니다.",
     "@avatarDescriptionNonPremium": {
         "description": "Avatar helper text for non-premium users, mentioning Plutonium requirement for animated avatars."
@@ -2263,22 +2155,6 @@
     "profileSavedToast": "프로필 업데이트 완료",
     "@profileSavedToast": {
         "description": "Toast message shown after successfully saving profile changes."
-    },
-    "profileEditButton": "프로필 편집",
-    "@profileEditButton": {
-        "description": "Button label to open profile editing from the profile content card."
-    },
-    "profileNoteLabel": "메모",
-    "@profileNoteLabel": {
-        "description": "Label for the personal note section on a user profile."
-    },
-    "profileNoteVisibility": "(나에게만 보임)",
-    "@profileNoteVisibility": {
-        "description": "Hint that the note is private and only visible to the current user."
-    },
-    "profileNoteEmpty": "아직 메모가 없습니다.",
-    "@profileNoteEmpty": {
-        "description": "Placeholder shown when no personal note has been set for a user."
     },
     "sudoTitle": "본인 인증",
     "@sudoTitle": {
@@ -2651,42 +2527,6 @@
     "@securityPasskeyNameHint": {
         "description": "Hint for passkey name input."
     },
-    "securityPhoneSectionTitle": "전화번호",
-    "@securityPhoneSectionTitle": {
-        "description": "Title for phone number section."
-    },
-    "securityPhoneSectionDescription": "전화번호를 관리하세요.",
-    "@securityPhoneSectionDescription": {
-        "description": "Description for phone number section."
-    },
-    "securityPhoneLabel": "전화번호",
-    "@securityPhoneLabel": {
-        "description": "Label for phone number row."
-    },
-    "securityPhoneNone": "전화번호가 추가되지 않았습니다.",
-    "@securityPhoneNone": {
-        "description": "Shown when no phone number is set."
-    },
-    "securityPhoneAdd": "전화번호 추가",
-    "@securityPhoneAdd": {
-        "description": "Button to add phone number."
-    },
-    "securityPhoneRemove": "제거",
-    "@securityPhoneRemove": {
-        "description": "Button to remove phone number."
-    },
-    "securityPhoneRemoveTitle": "전화번호 삭제",
-    "@securityPhoneRemoveTitle": {
-        "description": "Title for phone remove confirmation."
-    },
-    "securityPhoneRemoveDescription": "전화번호를 삭제하시겠습니까?",
-    "@securityPhoneRemoveDescription": {
-        "description": "Description for phone remove confirmation."
-    },
-    "securityPhoneRemoved": "전화번호가 삭제되었습니다.",
-    "@securityPhoneRemoved": {
-        "description": "Toast after phone removed."
-    },
     "securityClaimTitle": "보안 기능",
     "@securityClaimTitle": {
         "description": "Title when user needs to claim account for security."
@@ -2739,10 +2579,6 @@
     "@backupCodesWarning": {
         "description": "Warning about backup codes."
     },
-    "backupCodesDownload": "다운로드",
-    "@backupCodesDownload": {
-        "description": "Button to download backup codes."
-    },
     "backupCodesCopy": "복사",
     "@backupCodesCopy": {
         "description": "Button to copy backup codes."
@@ -2758,46 +2594,6 @@
     "backupCodesDone": "완료",
     "@backupCodesDone": {
         "description": "Button to close backup codes sheet."
-    },
-    "backupCodesViewTitle": "백업 코드 보기",
-    "@backupCodesViewTitle": {
-        "description": "Title for viewing existing backup codes."
-    },
-    "backupCodesViewDescription": "백업 코드를 보기 전에 인증이 필요할 수 있습니다.",
-    "@backupCodesViewDescription": {
-        "description": "Description for view backup codes."
-    },
-    "phoneAddTitle": "전화번호 추가",
-    "@phoneAddTitle": {
-        "description": "Title for phone add sheet."
-    },
-    "phoneAddLabel": "전화번호",
-    "@phoneAddLabel": {
-        "description": "Label for phone input."
-    },
-    "phoneAddHint": "전화번호를 입력하세요",
-    "@phoneAddHint": {
-        "description": "Hint for phone input."
-    },
-    "phoneAddFooter": "코드가 준비되면 SMS로 보내드립니다. 전화번호는 계정에 연결되지 않습니다. 사용자 ID 없이 암호화된 마커만 보관하며, 약 30일 동안 최대 2회 인증할 수 있습니다.",
-    "@phoneAddFooter": {
-        "description": "Footer text for phone input."
-    },
-    "phoneAddSendCode": "코드 전송",
-    "@phoneAddSendCode": {
-        "description": "Button to send phone verification code."
-    },
-    "phoneVerifyTitle": "전화번호 인증",
-    "@phoneVerifyTitle": {
-        "description": "Title for phone verify step."
-    },
-    "phoneVerifyDescription": "전화번호로 전송된 인증 코드를 입력하세요.",
-    "@phoneVerifyDescription": {
-        "description": "Description for phone verify step."
-    },
-    "phoneAddSuccess": "전화번호 인증 완료",
-    "@phoneAddSuccess": {
-        "description": "Toast after phone added."
     },
     "dangerZoneSectionTitle": "위험 구역",
     "@dangerZoneSectionTitle": {
@@ -3049,10 +2845,6 @@
     "@authorizedAppsScopeAdmin": {
         "description": "OAuth2 scope description: admin."
     },
-    "privacyPendingDeletionTitle": "삭제 대기 중",
-    "@privacyPendingDeletionTitle": {
-        "description": "Title of the warning alert shown when a bulk message deletion is pending."
-    },
     "blockedUsersTitle": "차단된 사용자",
     "@blockedUsersTitle": {
         "description": "Header title of the Blocked Users settings page."
@@ -3288,10 +3080,6 @@
     "userProfileNoteDelete": "삭제",
     "@userProfileNoteDelete": {
         "description": "Delete button in the note editor sheet."
-    },
-    "userProfileNoteEmpty": "메모를 추가하려면 클릭하세요",
-    "@userProfileNoteEmpty": {
-        "description": "Hint text when no note has been written yet."
     },
     "userProfileMemberSince": "멤버 가입일",
     "@userProfileMemberSince": {
@@ -4063,17 +3851,9 @@
     "@channelComposerBarrierNotMemberLongEnough": {
         "description": "Composer barrier when the user's guild membership is too recent."
     },
-    "channelComposerBarrierNoPhoneNumber": "이 커뮤니티에서 메시지를 보내려면 전화번호 인증이 필요합니다.",
-    "@channelComposerBarrierNoPhoneNumber": {
-        "description": "Composer barrier when the user must verify a phone number before messaging."
-    },
     "channelComposerBarrierVerifyEmail": "이메일 인증",
     "@channelComposerBarrierVerifyEmail": {
         "description": "Action button on the composer barrier for unverified email."
-    },
-    "channelComposerBarrierVerifyPhone": "전화번호 인증",
-    "@channelComposerBarrierVerifyPhone": {
-        "description": "Action button on the composer barrier for missing phone verification."
     },
     "chatAttachmentTooMany": "첨부 파일이 너무 많습니다(최대 {max}개)",
     "@chatAttachmentTooMany": {
@@ -4100,10 +3880,6 @@
     "@chatAttachmentDropToSend": {
         "description": "Overlay hint when dragging files over chat with Shift held."
     },
-    "chatAttachmentSendVoiceMessage": "음성 메시지 보내기",
-    "@chatAttachmentSendVoiceMessage": {
-        "description": "Menu item to open the voice message recorder."
-    },
     "voiceMessageTitle": "음성 메시지",
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
@@ -4124,10 +3900,6 @@
     "@voiceMessageMicPermissionDenied": {
         "description": "Shown when microphone permission is denied for voice messages."
     },
-    "voiceMessageRecordingNotSupported": "이 기기에서는 음성 녹음을 지원하지 않습니다.",
-    "@voiceMessageRecordingNotSupported": {
-        "description": "Shown when the device cannot record voice messages."
-    },
     "voiceMessageMicInUse": "음성 메시지를 녹음하려면 음성 통화를 종료하세요.",
     "@voiceMessageMicInUse": {
         "description": "Shown when the microphone is already used by an active voice call."
@@ -4140,26 +3912,6 @@
     "@voiceMessageSendFailed": {
         "description": "Shown when sending a voice message fails."
     },
-    "voiceMessageRecordingHint": "지금 말하세요. 완료되면 중지를 누르세요. 나중에 다듬을 수 있습니다.",
-    "@voiceMessageRecordingHint": {
-        "description": "Help text while recording a voice message on desktop."
-    },
-    "voiceMessageReviewHint": "핸들을 드래그하여 구간을 자른 다음 보내기를 누르세요.",
-    "@voiceMessageReviewHint": {
-        "description": "Help text while reviewing a voice message before send."
-    },
-    "voiceMessageStop": "중지",
-    "@voiceMessageStop": {
-        "description": "Stop recording button in voice message composer."
-    },
-    "voiceMessageStartRecording": "녹음 시작",
-    "@voiceMessageStartRecording": {
-        "description": "Button to retry voice recording after permission error."
-    },
-    "voiceMessageRerecord": "다시 녹음",
-    "@voiceMessageRerecord": {
-        "description": "Button to discard review and record again."
-    },
     "voiceMessagePlay": "재생",
     "@voiceMessagePlay": {
         "description": "Play voice message preview."
@@ -4167,16 +3919,6 @@
     "voiceMessagePause": "일시 정지",
     "@voiceMessagePause": {
         "description": "Pause voice message preview."
-    },
-    "voiceMessageSelectionTooShort": "선택 범위는 최소 {seconds}초 이상이어야 합니다.",
-    "@voiceMessageSelectionTooShort": {
-        "description": "Error when trimmed voice message is too short.",
-        "placeholders": {
-            "seconds": {
-                "type": "num",
-                "format": "compact"
-            }
-        }
     },
     "chatAttachmentEditTitle": "첨부 파일 편집",
     "@chatAttachmentEditTitle": {
@@ -4221,10 +3963,6 @@
     "chatAttachmentSourceBrowse": "파일 찾아보기",
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
-    },
-    "chatAttachmentPasteTooltip": "클립보드에서 파일 붙여넣기",
-    "@chatAttachmentPasteTooltip": {
-        "description": "Tooltip for pasting an image attachment from the clipboard."
     },
     "chatAttachmentSpoiler": "스포일러",
     "@chatAttachmentSpoiler": {
@@ -4322,14 +4060,6 @@
     "@matureContentOpenLinkButton": {
         "description": "Primary action on mature link channel gates."
     },
-    "sensitiveContentSectionTitle": "민감한 콘텐츠",
-    "@sensitiveContentSectionTitle": {
-        "description": "Privacy settings section title for sensitive content filters."
-    },
-    "sensitiveContentSectionDescription": "다양한 상황에서 성인용 또는 민감한 미디어가 필터링되는 방식을 제어하세요.",
-    "@sensitiveContentSectionDescription": {
-        "description": "Privacy settings section description for sensitive content filters."
-    },
     "sensitiveContentFriendDmLabel": "친구에게 받은 DM",
     "@sensitiveContentFriendDmLabel": {
         "description": "Label for friend DM sensitive content filter."
@@ -4354,18 +4084,6 @@
     "@sensitiveContentFilterBlock": {
         "description": "Sensitive content filter option to block media."
     },
-    "sensitiveContentBlurUnscannedLabel": "안전 검사 완료 시까지 미디어 흐리게 하기",
-    "@sensitiveContentBlurUnscannedLabel": {
-        "description": "Toggle label for blurring unscanned media."
-    },
-    "sensitiveContentBlurUnscannedDescriptionAdult": "사용 설정하면, 콘텐츠 안전 검사가 완료될 때까지 이미지와 동영상이 흐리게 처리됩니다.",
-    "@sensitiveContentBlurUnscannedDescriptionAdult": {
-        "description": "Description for blur-unscanned toggle for adult accounts."
-    },
-    "sensitiveContentBlurUnscannedDescriptionMinor": "이 설정은 계정에 항상 사용 설정되어 있습니다.",
-    "@sensitiveContentBlurUnscannedDescriptionMinor": {
-        "description": "Description for blur-unscanned toggle for minor accounts."
-    },
     "sensitiveContentResetButton": "초기화",
     "@sensitiveContentResetButton": {
         "description": "Reset button for sensitive content settings."
@@ -4382,10 +4100,6 @@
                 "type": "int"
             }
         }
-    },
-    "chatCancelUpload": "업로드 취소",
-    "@chatCancelUpload": {
-        "description": "Button or menu action label for canceling an in-flight message attachment upload."
     },
     "chatAttachmentExpiresOn": "{date} 만료",
     "@chatAttachmentExpiresOn": {
@@ -4655,10 +4369,6 @@
     "@connectionEnterDomain": {
         "description": "Inline error shown when the domain input is empty."
     },
-    "lookAndFeelTitle": "모양 및 느낌",
-    "@lookAndFeelTitle": {
-        "description": "Title of the Look & Feel (Appearance) settings page."
-    },
     "lookAndFeelThemeSectionTitle": "테마",
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
@@ -4698,14 +4408,6 @@
     "lookAndFeelThemeSyncFailed": "테마를 계정으로 동기화할 수 없습니다. 다시 시도해 주세요.",
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
-    },
-    "lookAndFeelChatFontScalingTitle": "채팅 글자 크기",
-    "@lookAndFeelChatFontScalingTitle": {
-        "description": "Section title for the chat font size slider."
-    },
-    "lookAndFeelChatFontScalingDescription": "채팅 영역의 글자 크기를 조절합니다.",
-    "@lookAndFeelChatFontScalingDescription": {
-        "description": "Section description for the chat font size slider."
     },
     "lookAndFeelInterfaceTitle": "인터페이스",
     "@lookAndFeelInterfaceTitle": {
@@ -4774,42 +4476,6 @@
     "lookAndFeelHideKeyboardHintsDescription": "활성화하면 툴팁 팝업에서 단축키 배지가 숨겨집니다.",
     "@lookAndFeelHideKeyboardHintsDescription": {
         "description": "Toggle description for the hide-keyboard-hints switch."
-    },
-    "lookAndFeelNekoTitle": "기타",
-    "@lookAndFeelNekoTitle": {
-        "description": "Subsection title under Interface for Neko appearance settings."
-    },
-    "lookAndFeelNekoDescription": "기타 인터페이스 옵션입니다.",
-    "@lookAndFeelNekoDescription": {
-        "description": "Subsection description for Neko appearance settings."
-    },
-    "lookAndFeelShowNekoLabel": "네코 표시",
-    "@lookAndFeelShowNekoLabel": {
-        "description": "Toggle label for showing Neko in the chat footer."
-    },
-    "lookAndFeelShowNekoDescription": "활성화하면 Neko가 채팅 입력창 근처에 나타납니다.",
-    "@lookAndFeelShowNekoDescription": {
-        "description": "Toggle description for showing Neko in chat."
-    },
-    "lookAndFeelVoiceChannelJoinTitle": "음성 채널 참여 방식",
-    "@lookAndFeelVoiceChannelJoinTitle": {
-        "description": "Subsection title under Interface — voice channel join behavior."
-    },
-    "lookAndFeelVoiceChannelJoinDescription": "커뮤니티에서 음성 채널에 참여하는 방식을 제어합니다.",
-    "@lookAndFeelVoiceChannelJoinDescription": {
-        "description": "Subsection description for voice channel join behavior."
-    },
-    "lookAndFeelRequireDoubleClickJoinLabel": "음성 채널 참가 시 두 번 클릭 필요",
-    "@lookAndFeelRequireDoubleClickJoinLabel": {
-        "description": "Toggle label — require double-click to join voice channels."
-    },
-    "lookAndFeelRequireDoubleClickJoinDescription": "활성화하면 음성 채널에 참여하려면 두 번 클릭해야 합니다. 비활성화(기본값)하면 한 번 클릭하면 즉시 채널에 참여합니다.",
-    "@lookAndFeelRequireDoubleClickJoinDescription": {
-        "description": "Toggle description for the require-double-click voice channel join switch."
-    },
-    "lookAndFeelChatFontPreviewSample": "빠른 갈색 여우가 게으른 개를 뛰어넘습니다.",
-    "@lookAndFeelChatFontPreviewSample": {
-        "description": "Sample text rendered at the selected chat font size to preview scaling."
     },
     "lookAndFeelGuildSidebarTitle": "서버 사이드바",
     "@lookAndFeelGuildSidebarTitle": {
@@ -5218,25 +4884,9 @@
     "@messagesMediaAutocompleteSavedMediaLabel": {
         "description": "Toggle label for saved media in expression autocomplete."
     },
-    "messagesMediaEditingSectionTitle": "메시지 수정",
-    "@messagesMediaEditingSectionTitle": {
-        "description": "Section title for message editing settings."
-    },
-    "messagesMediaEditingSectionDescription": "취소 시 편집 초안에 대한 작업 제어",
-    "@messagesMediaEditingSectionDescription": {
-        "description": "Section description for message editing settings."
-    },
-    "messagesMediaEditingPreserveDraftLabel": "취소 시 편집 초안 유지",
-    "@messagesMediaEditingPreserveDraftLabel": {
-        "description": "Toggle label for preserving edit drafts on cancel."
-    },
     "accessibilityDmMessagePreviewGroupTitle": "DM 메시지 미리보기",
     "@accessibilityDmMessagePreviewGroupTitle": {
         "description": "Section title for DM message preview accessibility settings."
-    },
-    "accessibilityDmMessagePreviewGroupDescription": "DM 목록에서 메시지 미리보기가 표시되는 시점 제어",
-    "@accessibilityDmMessagePreviewGroupDescription": {
-        "description": "Section description for DM message preview accessibility settings."
     },
     "accessibilityDmMessagePreviewModeLabel": "DM 메시지 미리보기 모드",
     "@accessibilityDmMessagePreviewModeLabel": {
@@ -5394,10 +5044,6 @@
     "@voiceConnectionConfirmDoNothing": {
         "description": "Dismiss the dialog without joining voice."
     },
-    "voiceChannelEmptyDescription": "음성 채널입니다. 대화를 시작하려면 연결하세요!",
-    "@voiceChannelEmptyDescription": {
-        "description": "Empty state body when viewing a guild voice channel while not in the call."
-    },
     "voiceChannelJoin": "음성 채널 참여",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
@@ -5437,14 +5083,6 @@
     "voiceChannelStatusConnecting": "연결 중…",
     "@voiceChannelStatusConnecting": {
         "description": "Status in the in-page voice view while LiveKit is connecting."
-    },
-    "voiceChannelStatusConnected": "연결됨",
-    "@voiceChannelStatusConnected": {
-        "description": "Status in the in-page voice view when the voice session is active."
-    },
-    "voiceChannelStatusError": "오류",
-    "@voiceChannelStatusError": {
-        "description": "Short label in the channel header when the voice session reports an error."
     },
     "voiceParticipantTooltipMobileDevice": "모바일 기기",
     "@voiceParticipantTooltipMobileDevice": {
@@ -5519,10 +5157,6 @@
     "voiceScreenShareNotificationText": "화면을 공유 중입니다.",
     "@voiceScreenShareNotificationText": {
         "description": "Body text for the Android foreground notification shown while screen sharing."
-    },
-    "voiceControlMore": "더 보기",
-    "@voiceControlMore": {
-        "description": "Tooltip: more voice actions in the voice call control bar."
     },
     "voiceControlDisconnect": "연결 끊기",
     "@voiceControlDisconnect": {
@@ -6378,10 +6012,6 @@
     "addGuildJoinFailed": "커뮤니티에 참여할 수 없습니다. 다시 시도하세요.",
     "@addGuildJoinFailed": {
         "description": "Generic error when joining a community via invite fails."
-    },
-    "addGuildPackInstalled": "팩이 성공적으로 설치되었습니다.",
-    "@addGuildPackInstalled": {
-        "description": "Toast shown after accepting an emoji or sticker pack invite."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "모든 반응 삭제",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -7461,10 +7091,6 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsCustomInviteUrl": "커스텀 초대 URL",
-    "@guildMenuSettingsCustomInviteUrl": {
-        "description": "Community settings tab for custom invite URLs."
-    },
     "guildMenuSettingsDiscovery": "디스커버리",
     "@guildMenuSettingsDiscovery": {
         "description": "Community settings tab for discovery settings."
@@ -7489,17 +7115,9 @@
     "@guildSettingsOverviewIconTitle": {
         "description": "Title for the guild icon section in overview settings."
     },
-    "guildSettingsUploadImage": "이미지 업로드",
-    "@guildSettingsUploadImage": {
-        "description": "Button label to upload an image in guild settings."
-    },
     "guildSettingsOverviewBannerTitle": "배너",
     "@guildSettingsOverviewBannerTitle": {
         "description": "Title for the guild banner section."
-    },
-    "guildSettingsOverviewBannerHint": "서버 배너를 업로드하세요.",
-    "@guildSettingsOverviewBannerHint": {
-        "description": "Hint text for guild banner upload."
     },
     "guildSettingsOverviewNameTitle": "이름",
     "@guildSettingsOverviewNameTitle": {
@@ -7509,22 +7127,6 @@
     "@guildSettingsOverviewNameHint": {
         "description": "Hint for the guild name field."
     },
-    "guildSettingsOverviewStatsTitle": "통계",
-    "@guildSettingsOverviewStatsTitle": {
-        "description": "Title for guild statistics section."
-    },
-    "guildSettingsOverviewMembers": "멤버",
-    "@guildSettingsOverviewMembers": {
-        "description": "Label for member count in overview."
-    },
-    "guildSettingsOverviewOnline": "온라인",
-    "@guildSettingsOverviewOnline": {
-        "description": "Label for online count in overview."
-    },
-    "guildSettingsRolesDescription": "역할을 사용하여 멤버를 그룹화하고 권한을 할당하세요.",
-    "@guildSettingsRolesDescription": {
-        "description": "Description for the roles settings tab."
-    },
     "guildSettingsCreateRole": "역할 만들기",
     "@guildSettingsCreateRole": {
         "description": "Button to create a new role."
@@ -7533,30 +7135,9 @@
     "@guildSettingsRolesListTitle": {
         "description": "Title for the roles list section."
     },
-    "guildSettingsEmojiSlotInfo": "{staticCount}개 고정, {animatedCount}개 애니메이션 이모지 슬롯 사용됨",
-    "@guildSettingsEmojiSlotInfo": {
-        "description": "Emoji slot usage summary.",
-        "placeholders": {
-            "staticCount": {
-                "type": "int"
-            },
-            "animatedCount": {
-                "type": "int"
-            }
-        }
-    },
     "guildSettingsEmojiEmpty": "아직 커스텀 이모지가 없습니다.",
     "@guildSettingsEmojiEmpty": {
         "description": "Empty state for emoji settings."
-    },
-    "guildSettingsStickersSlotInfo": "{count}개의 스티커 업로드됨",
-    "@guildSettingsStickersSlotInfo": {
-        "description": "Sticker slot usage summary.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsStickersEmpty": "아직 커스텀 스티커가 없습니다.",
     "@guildSettingsStickersEmpty": {
@@ -7602,8 +7183,6 @@
     "guildSettingsVerificationMediumDescription": "확인된 이메일 주소와 계정 생성 후 5분 이상 경과해야 합니다.",
     "guildSettingsVerificationHigh": "높음",
     "guildSettingsVerificationHighDescription": "보통 수준의 모든 조건에 더해, 커뮤니티에 가입한 지 10분이 지나야 합니다.",
-    "guildSettingsVerificationHighest": "매우 높음",
-    "guildSettingsVerificationHighestDescription": "전화번호 인증이 필요합니다.",
     "guildSettingsAuditLogDescription": "커뮤니티 전체의 모더레이터 활동을 추적합니다.",
     "@guildSettingsAuditLogDescription": {
         "description": "Subtitle under the activity-log page title."
@@ -7631,14 +7210,6 @@
     "guildSettingsAuditLogUnknownUser": "알 수 없는 사용자",
     "@guildSettingsAuditLogUnknownUser": {
         "description": "Fallback avatar label when the acting user is unavailable."
-    },
-    "guildSettingsAuditLogLoadError": "활동 로그를 로드하는 동안 문제가 발생했습니다.",
-    "@guildSettingsAuditLogLoadError": {
-        "description": "Generic error shown when fetching log entries fails."
-    },
-    "guildSettingsAuditLogLoadErrorTitle": "활동 로그를 불러올 수 없습니다",
-    "@guildSettingsAuditLogLoadErrorTitle": {
-        "description": "Error-state title when fetching log entries failed."
     },
     "guildSettingsAuditLogReason": "사유",
     "@guildSettingsAuditLogReason": {
@@ -8610,14 +8181,6 @@
     "@auditLogOptionPermanentMembership": {
         "description": "Audit log option detail sentence."
     },
-    "guildSettingsLoadMore": "더 불러오기",
-    "@guildSettingsLoadMore": {
-        "description": "Button to load more audit log entries."
-    },
-    "guildSettingsLoadingMore": "불러오는 중...",
-    "@guildSettingsLoadingMore": {
-        "description": "Loading state for pagination."
-    },
     "guildSettingsWebhooksDescription": "커뮤니티에 설정된 모든 웹훅을 확인하고 관리합니다.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
@@ -8626,42 +8189,9 @@
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
-    "guildSettingsCopyUrl": "URL 복사",
-    "@guildSettingsCopyUrl": {
-        "description": "Tooltip to copy a URL."
-    },
     "guildSettingsCopiedUrl": "URL이 클립보드에 복사되었습니다",
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
-    },
-    "guildSettingsDeleteWebhook": "웹훅 삭제",
-    "@guildSettingsDeleteWebhook": {
-        "description": "Tooltip to delete a webhook."
-    },
-    "guildSettingsVanityUrlDescription": "서버에 맞춤 초대 링크를 설정하세요.",
-    "@guildSettingsVanityUrlDescription": {
-        "description": "Description for vanity URL tab."
-    },
-    "guildSettingsVanityUrlHint": "my-server",
-    "@guildSettingsVanityUrlHint": {
-        "description": "Hint for vanity URL input."
-    },
-    "guildSettingsSave": "저장",
-    "@guildSettingsSave": {
-        "description": "Generic save button label."
-    },
-    "guildSettingsVanityUrlUsageTitle": "사용량",
-    "@guildSettingsVanityUrlUsageTitle": {
-        "description": "Title for vanity URL usage section."
-    },
-    "guildSettingsVanityUrlUses": "{count}회 사용",
-    "@guildSettingsVanityUrlUses": {
-        "description": "Vanity URL usage count.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsDiscoveryDescription": "다른 사람들이 찾아서 참여할 수 있도록 커뮤니티를 디스커버리에 등록하세요.",
     "@guildSettingsDiscoveryDescription": {
@@ -8700,10 +8230,6 @@
     "@guildSettingsDiscoveryWithdraw": {
         "description": "Button to withdraw discovery application."
     },
-    "guildSettingsMembersDescription": "서버 멤버를 검색하고 관리하세요.",
-    "@guildSettingsMembersDescription": {
-        "description": "Description for members tab."
-    },
     "guildSettingsMembersSearchHint": "사용자 이름 또는 ID로 검색",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
@@ -8725,27 +8251,6 @@
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
-    "guildSettingsInviteUses": "{uses} / {maxUses}회 사용",
-    "@guildSettingsInviteUses": {
-        "description": "Invite usage count.",
-        "placeholders": {
-            "uses": {
-                "type": "int"
-            },
-            "maxUses": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsInviteExpires": "{date} 만료",
-    "@guildSettingsInviteExpires": {
-        "description": "Invite expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBansDescription": "차단된 사용자를 확인하고 관리합니다.",
     "@guildSettingsBansDescription": {
         "description": "Description for bans tab."
@@ -8758,30 +8263,9 @@
     "@guildSettingsBansEmpty": {
         "description": "Empty state for bans."
     },
-    "guildSettingsBanPermanent": "영구 차단",
-    "@guildSettingsBanPermanent": {
-        "description": "Label for permanent ban."
-    },
-    "guildSettingsBanExpires": "{date} 만료",
-    "@guildSettingsBanExpires": {
-        "description": "Ban expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBanExpiresLabel": "만료",
     "@guildSettingsBanExpiresLabel": {
         "description": "Label for ban expiration row."
-    },
-    "guildSettingsUnban": "차단 해제",
-    "@guildSettingsUnban": {
-        "description": "Button to unban a user."
-    },
-    "guildSettingsBansLoading": "차단된 사용자 불러오는 중",
-    "@guildSettingsBansLoading": {
-        "description": "Loading state for the guild bans list."
     },
     "guildSettingsBansNoSearchResults": "검색 결과와 일치하는 차단 내역이 없습니다.",
     "@guildSettingsBansNoSearchResults": {
@@ -8825,10 +8309,6 @@
             }
         }
     },
-    "guildSettingsBansLoadError": "차단 목록을 불러올 수 없습니다. 다시 시도하세요.",
-    "@guildSettingsBansLoadError": {
-        "description": "Error when loading the guild bans list fails."
-    },
     "guildSettingsRevokeBanError": "차단을 해제할 수 없습니다. 다시 시도하세요.",
     "@guildSettingsRevokeBanError": {
         "description": "Error when revoking a ban fails."
@@ -8853,7 +8333,6 @@
     "@guildSettingsCategoryPeople": {
         "description": "Sidebar category for members, invites, and bans."
     },
-    "guildSettingsOverviewDescription": "커뮤니티 프로필, 채널 및 기본 설정을 관리하세요.",
     "guildSettingsOverviewBrandingTitle": "브랜딩",
     "guildSettingsOverviewBrandingDescription": "아이콘, 이름, 배너 및 초대 배경 업데이트",
     "@guildSettingsOverviewBrandingDescription": {
@@ -8872,7 +8351,6 @@
     },
     "guildSettingsOverviewNotificationsTitle": "기본 알림",
     "guildSettingsOverviewNotificationsLargeGuild": "250명이 넘는 커뮤니티는 \"멘션만\" 설정으로 자동 전환됩니다. 원래 설정은 그대로 유지되며, 멤버 수가 250명 미만으로 줄어들면 복원됩니다.",
-    "guildSettingsOverviewAdvancedTitle": "고급",
     "guildSettingsOverviewFlexibleNames": "텍스트 채널 이름 자유롭게 설정 허용",
     "guildSettingsOverviewHideOwnerCrown": "커뮤니티 소유자 크라운 숨기기",
     "guildSettingsOverviewDetachedBanner": "분리형 배너",
@@ -8898,10 +8376,6 @@
     "guildSettingsOverviewEmbedSplashTitle": "채팅 임베드 배경",
     "@guildSettingsOverviewEmbedSplashTitle": {
         "description": "Title for embed splash upload section."
-    },
-    "guildSettingsOverviewEmbedSplashHint": "채팅 초대 임베드에 표시됩니다.",
-    "@guildSettingsOverviewEmbedSplashHint": {
-        "description": "Note shown when uploading chat embed background."
     },
     "guildSettingsOverviewUploadBackground": "배경 업로드",
     "@guildSettingsOverviewUploadBackground": {
@@ -9068,8 +8542,6 @@
     "@guildSettingsOverviewEmbedSplashUploadHint": {
         "description": "Upload requirements for chat embed background images."
     },
-    "guildSettingsModerationDescription": "인증, 콘텐츠 필터링 및 성인 콘텐츠 설정을 구성합니다.",
-    "guildSettingsModerationDiscoveryNotice": "Discovery에 등록된 커뮤니티는 제한된 관리 옵션을 제공합니다.",
     "guildSettingsModerationContentFilterTitle": "콘텐츠 필터링",
     "guildSettingsModerationContentFilterDescription": "성인용으로 표시되지 않은 채널에서 노골적인 콘텐츠가 포함된 메시지를 자동으로 검사합니다.",
     "guildSettingsModerationContentFilterDiscoveryNote": "Discovery에 등록된 커뮤니티는 모든 멤버를 스캔해야 합니다. Discovery가 활성화된 동안에는 이 설정을 변경할 수 없습니다.",
@@ -9079,8 +8551,6 @@
     "guildSettingsContentFilterNoRoleDescription": "대부분의 커뮤니티에 권장",
     "guildSettingsContentFilterAll": "모두 필터링",
     "guildSettingsContentFilterAllDescription": "가족 친화적인 공간을 위한 최고의 보호",
-    "guildSettingsModerationMatureOff": "꺼짐",
-    "guildSettingsModerationMatureOn": "켜짐",
     "guildSettingsContentWarningToggle": "콘텐츠 경고 표시",
     "@guildSettingsContentWarningToggle": {
         "description": "Switch label for the community content warning setting."
@@ -9100,7 +8570,6 @@
     "guildSettingsModeration2faTitle": "2단계 인증 필수",
     "guildSettingsModeration2faDescription": "밴, 추방, 타임아웃 또는 메시지 삭제 전에 관리자에게 2단계 인증을 요구합니다.",
     "guildSettingsModeration2faSwitchLabel": "모더레이션 작업에 2단계 인증 필수",
-    "guildSettingsModeration2faOwnerOnlyTooltip": "커뮤니티 소유자만 이 설정을 변경할 수 있습니다",
     "guildSettingsModeration2faEnableFirstTooltip": "이 설정을 변경하려면 계정에 2단계 인증을 사용 설정하세요",
     "guildSettingsEmojiSearchHint": "이모티콘 검색",
     "guildSettingsEmojiUploadTitle": "이모티콘 업로드",
@@ -9122,8 +8591,6 @@
     },
     "guildSettingsStickersSearchHint": "스티커 검색",
     "guildSettingsWebhooksInfo": "웹훅을 만들려면 {channelSettingsPath}을(를) 여세요. 여기에 있는 모든 기존 웹훅을 편집하고 정리할 수 있습니다.",
-    "guildSettingsVanityUrlWarning": "최소한 하나의 채널이 모든 사용자에게 공개되지 않으면 맞춤 URL이 작동하지 않습니다.",
-    "guildSettingsVanityUrlRemove": "제거",
     "guildSettingsBannedUsersTitle": "차단된 사용자",
     "guildSettingsInvitesTableInviter": "초대자",
     "guildSettingsInvitesTableChannel": "채널",
@@ -9685,26 +9152,6 @@
     "@createDmCreateWithoutThem": {
         "description": "Confirm button to create group DM excluding unaddable users."
     },
-    "phoneInboundStepOpenMessaging": "휴대폰 메시지 앱을 열고 새 문자 메시지를 작성해 주세요.",
-    "@phoneInboundStepOpenMessaging": {
-        "description": "Inbound verification step 1."
-    },
-    "phoneInboundStepSendCode": "{code} 코드를 {number}로 보내세요.",
-    "@phoneInboundStepSendCode": {
-        "description": "Inbound verification step 2.",
-        "placeholders": {
-            "code": {
-                "type": "String"
-            },
-            "number": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionUseEmail": "이메일 사용",
-    "@requiredActionUseEmail": {
-        "description": "Button to choose email verification."
-    },
     "userProfileTimeBehindYou": "회원님보다 {duration} 느림",
     "@userProfileTimeBehindYou": {
         "description": "Profile timezone difference when the target is behind the viewer.",
@@ -9774,24 +9221,6 @@
     "@channelSettingsVoiceRegion": {
         "description": "Label for voice region picker."
     },
-    "channelSettingsPermissionsNeedManageChannels": "이 권한을 수정하려면 \"{manageChannelsPermissionLabel}\" 권한이 필요합니다.",
-    "@channelSettingsPermissionsNeedManageChannels": {
-        "description": "Error when user lacks manage channels permission for channel permissions tab.",
-        "placeholders": {
-            "manageChannelsPermissionLabel": {
-                "type": "String"
-            }
-        }
-    },
-    "channelSettingsPermissionsNeedManageRoles": "이 권한을 수정하려면 \"{manageRolesPermissionLabel}\" 권한이 필요합니다.",
-    "@channelSettingsPermissionsNeedManageRoles": {
-        "description": "Error when user lacks manage roles permission for channel permissions tab.",
-        "placeholders": {
-            "manageRolesPermissionLabel": {
-                "type": "String"
-            }
-        }
-    },
     "channelSettingsPermissionsTitle": "접근 제어",
     "@channelSettingsPermissionsTitle": {
         "description": "Page title for the channel permissions settings tab."
@@ -9799,10 +9228,6 @@
     "channelSettingsPermissionsSearchRolesOrMembers": "역할 또는 멤버 검색…",
     "@channelSettingsPermissionsSearchRolesOrMembers": {
         "description": "Placeholder for the add override search field."
-    },
-    "channelSettingsPermissionsRolesAndMembers": "역할 및 멤버",
-    "@channelSettingsPermissionsRolesAndMembers": {
-        "description": "Section title in the add override picker."
     },
     "channelSettingsDeleteInvite": "초대 삭제",
     "@channelSettingsDeleteInvite": {
@@ -9823,10 +9248,6 @@
     "channelSettingsInvitesLoadFailedDescription": "이 채널의 초대 링크를 불러오는 중 오류가 발생했습니다. 다시 시도해 주세요.",
     "@channelSettingsInvitesLoadFailedDescription": {
         "description": "Error description when channel invites fail to load."
-    },
-    "groupDmFailedToProcessCroppedImage": "자른 이미지를 처리하지 못했습니다. 다시 시도해 주세요.",
-    "@groupDmFailedToProcessCroppedImage": {
-        "description": "Body when a cropped group icon cannot be processed."
     },
     "languageAndTimeLanguageSectionDescription": "앱 전체에서 사용할 언어를 선택하세요",
     "@languageAndTimeLanguageSectionDescription": {
@@ -9966,14 +9387,6 @@
     "@guildSettingsRolesPermissionsSection": {
         "description": "Section title for role permissions."
     },
-    "guildSettingsRolesSwitchToDenseLayout": "간결한 레이아웃으로 전환",
-    "@guildSettingsRolesSwitchToDenseLayout": {
-        "description": "Aria label for switching to dense layout."
-    },
-    "guildSettingsRolesSwitchToComfyLayout": "편안한 레이아웃으로 전환",
-    "@guildSettingsRolesSwitchToComfyLayout": {
-        "description": "Aria label for switching to comfy layout."
-    },
     "guildSettingsRolesSingleColumn": "1열",
     "@guildSettingsRolesSingleColumn": {
         "description": "Tooltip when permission list is in two-column layout."
@@ -9981,14 +9394,6 @@
     "guildSettingsRolesTwoColumns": "2열",
     "@guildSettingsRolesTwoColumns": {
         "description": "Tooltip when permission list is in single-column layout."
-    },
-    "guildSettingsRolesSwitchToSingleColumn": "1열로 전환",
-    "@guildSettingsRolesSwitchToSingleColumn": {
-        "description": "Aria label for switching to single column."
-    },
-    "guildSettingsRolesSwitchToTwoColumns": "2열로 전환",
-    "@guildSettingsRolesSwitchToTwoColumns": {
-        "description": "Aria label for switching to two columns."
     },
     "guildSettingsRolesUpdatedSuccess": "역할이 업데이트되었습니다",
     "@guildSettingsRolesUpdatedSuccess": {
@@ -10258,10 +9663,6 @@
     "@guildSettingsRolesNoPermissionsFound": {
         "description": "Empty state when permission search has no matches."
     },
-    "guildSettingsRolesCustomHoistOrder": "호이스팅 순서 직접 지정",
-    "@guildSettingsRolesCustomHoistOrder": {
-        "description": "Button to enter custom hoist order mode."
-    },
     "guildSettingsRolesDeleteFailedTitle": "역할을 삭제할 수 없습니다",
     "@guildSettingsRolesDeleteFailedTitle": {
         "description": "Error modal title when role deletion fails."
@@ -10326,10 +9727,6 @@
     "permissionCategoryAudioVideo": "오디오 및 비디오",
     "@permissionCategoryAudioVideo": {
         "description": "Permission category label."
-    },
-    "permissionUnknown": "알 수 없는 권한",
-    "@permissionUnknown": {
-        "description": "Fallback permission label."
     },
     "permissionAdministrator": "관리자",
     "@permissionAdministrator": {
@@ -10743,16 +10140,6 @@
     "@audioAndVideoInstanceVideoQualityLimit": {
         "description": "Note shown when instance limits block higher screen share quality."
     },
-    "audioAndVideoMicrophonePermissionRequired": "{productName}에서 기기 목록을 보려면 마이크 접근 권한이 필요합니다.",
-    "@audioAndVideoMicrophonePermissionRequired": {
-        "description": "Shown when microphone permission is required to enumerate audio input devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
     "audioAndVideoSkipHideOwnScreenshareConfirmLabel": "내 화면 공유 숨길 때 묻지 않기",
     "@audioAndVideoSkipHideOwnScreenshareConfirmLabel": {
         "description": "Toggle to skip confirmation when hiding own screen share during a call."
@@ -11014,10 +10401,6 @@
     "@channelSettingsVoiceRegionsLoadFailedDescription": {
         "description": "Error modal body when voice regions fail to load in channel settings."
     },
-    "channelSettingsResetSlider": "슬라이더를 기본값으로 초기화",
-    "@channelSettingsResetSlider": {
-        "description": "Tooltip for reset buttons on channel settings sliders."
-    },
     "channelSettingsMatureContentOffDescription": "이 채널의 성인 콘텐츠를 제한하지 않고 허용합니다.",
     "@channelSettingsMatureContentOffDescription": {
         "description": "Description for the mature content off override option."
@@ -11071,10 +10454,6 @@
                 "type": "String"
             }
         }
-    },
-    "channelSettingsWebhooksUnknownUser": "알 수 없는 사용자",
-    "@channelSettingsWebhooksUnknownUser": {
-        "description": "Fallback label when webhook creator is unavailable."
     },
     "channelSettingsWebhooksAvatar": "아바타",
     "@channelSettingsWebhooksAvatar": {
@@ -11214,10 +10593,6 @@
     "@groupDmAddFriendFailed": {
         "description": "Error when adding a single friend to a group DM fails."
     },
-    "groupDmAddFailed": "그룹에 추가할 수 없습니다",
-    "@groupDmAddFailed": {
-        "description": "Title when adding friends to a group DM fails."
-    },
     "audioAndVideoInCallBehaviorSectionTitle": "통화 중 동작",
     "@audioAndVideoInCallBehaviorSectionTitle": {
         "description": "Settings section title for in-call behavior prompts."
@@ -11256,10 +10631,6 @@
     "@languageAndTimeLanguageSectionTitle": {
         "description": "Settings section title for interface language preference."
     },
-    "languageAndTimeOpenLanguageSettings": "언어 설정 열기",
-    "@languageAndTimeOpenLanguageSettings": {
-        "description": "Button that opens the system per-app language settings."
-    },
     "languageAndTimeUseSystemLocaleForTimeFormat": "시간 형식에 시스템 로캘 사용",
     "@languageAndTimeUseSystemLocaleForTimeFormat": {
         "description": "Toggle to use device system locale when auto-detecting time format."
@@ -11279,10 +10650,6 @@
     "guildSettingsRolesNoHoistedRoles": "따로 표시되는 역할이 없습니다. 역할에서 \"이 역할을 따로 표시\"를 켜면 여기에 나타납니다.",
     "@guildSettingsRolesNoHoistedRoles": {
         "description": "Empty state when no roles are hoisted."
-    },
-    "guildSettingsRolesLockedTooltip": "회원님의 최고 역할이거나 회원님보다 높은 역할이므로 이 역할을 수정할 수 없습니다",
-    "@guildSettingsRolesLockedTooltip": {
-        "description": "Tooltip on locked role rows."
     },
     "permissionSendTtsMessagesDescription": "음성으로 메시지 보내기",
     "@permissionSendTtsMessagesDescription": {
@@ -11515,10 +10882,6 @@
     "groupDmEditTitle": "그룹 편집",
     "@groupDmEditTitle": {
         "description": "Title for the edit group DM modal or sheet."
-    },
-    "groupDmEditDetailsTooltip": "그룹 정보 편집",
-    "@groupDmEditDetailsTooltip": {
-        "description": "Tooltip on the desktop group DM header edit action."
     },
     "groupDmGroupName": "그룹 이름",
     "@groupDmGroupName": {
@@ -11872,14 +11235,6 @@
     "@groupDmUnsupportedIconFormatBody": {
         "description": "Body when the selected group icon format is unsupported."
     },
-    "groupDmCouldntProcessImage": "이미지를 처리할 수 없습니다",
-    "@groupDmCouldntProcessImage": {
-        "description": "Title when a cropped group icon cannot be processed."
-    },
-    "groupDmCreateInviteFailed": "초대 링크를 만들 수 없습니다",
-    "@groupDmCreateInviteFailed": {
-        "description": "Title when invite link generation fails."
-    },
     "groupDmInvitesLoadFailed": "초대를 불러오지 못했습니다. 다시 시도해 주세요.",
     "@groupDmInvitesLoadFailed": {
         "description": "Inline error when group DM invites fail to load."
@@ -11960,23 +11315,9 @@
     "@channelDetailsSearchScopeCurrentCommunity": {
         "description": "Search scope label for the current community."
     },
-    "audioAndVideoHigherQualityRequiresPremium": "1080p 및 60 FPS를 사용하려면 {premiumProductName}이(가) 필요합니다.",
-    "@audioAndVideoHigherQualityRequiresPremium": {
-        "description": "Note shown when higher video quality options require premium.",
-        "placeholders": {
-            "premiumProductName": {
-                "type": "String",
-                "example": "Plutonium"
-            }
-        }
-    },
     "accessibilitySaturationTitle": "채도",
     "@accessibilitySaturationTitle": {
         "description": "Section title for the theme saturation slider on the accessibility settings page."
-    },
-    "accessibilitySaturationDescription": "앱 전체에서 테마 색상의 생생함을 조절합니다.",
-    "@accessibilitySaturationDescription": {
-        "description": "Section description for the theme saturation slider on the accessibility settings page."
     },
     "sessionExpiredToast": "세션이 만료되었습니다. 다시 로그인해 주세요.",
     "@sessionExpiredToast": {
@@ -12023,26 +11364,6 @@
     "nagbarBillingPortalFailed": "결제 포털을 열 수 없습니다. 잠시 후 다시 시도해 주세요.",
     "@nagbarBillingPortalFailed": {
         "description": "Toast when opening the billing portal from a nagbar fails."
-    },
-    "phoneNumberRequired": "전화번호를 입력해 주세요",
-    "@phoneNumberRequired": {
-        "description": "Validation error when phone number is empty."
-    },
-    "phoneEnterValidNumber": "유효한 휴대폰 번호를 입력하세요.",
-    "@phoneEnterValidNumber": {
-        "description": "Validation error for invalid phone format."
-    },
-    "phoneInboundGetNewCode": "새 코드 받기",
-    "@phoneInboundGetNewCode": {
-        "description": "Button to refresh inbound challenge."
-    },
-    "phoneInboundChallengeCodeLabel": "보낼 코드",
-    "@phoneInboundChallengeCodeLabel": {
-        "description": "Label for inbound challenge code."
-    },
-    "phoneInboundOurNumberLabel": "다음으로 전송",
-    "@phoneInboundOurNumberLabel": {
-        "description": "Label for inbound destination number."
     },
     "addGuildCreateVerifyDescription": "커뮤니티를 만들려면 먼저 이메일 주소를 인증해야 합니다.",
     "@addGuildCreateVerifyDescription": {
@@ -12130,90 +11451,6 @@
     "@guildNavbarChannelTypeSelection": {
         "description": "Accessibility label for channel type radio group in create channel modal."
     },
-    "phoneCannotBeUsed": "이 전화번호는 사용할 수 없습니다. 다른 휴대폰 번호를 사용해 보거나 고객지원팀에 문의하세요.",
-    "@phoneCannotBeUsed": {
-        "description": "API error when phone number is rejected."
-    },
-    "phoneAlreadyUsed": "이 전화번호는 이미 사용 중입니다. 다른 번호를 사용해 보거나 고객지원팀에 문의하세요.",
-    "@phoneAlreadyUsed": {
-        "description": "API error when phone number was reused."
-    },
-    "phoneCodeDidNotWork": "코드가 올바르지 않습니다. 다시 확인하고 시도해 주세요.",
-    "@phoneCodeDidNotWork": {
-        "description": "API error for invalid verification code."
-    },
-    "phoneTooManyAttempts": "시도 횟수가 너무 많습니다. 잠시 기다린 후 다시 시도해 주세요.",
-    "@phoneTooManyAttempts": {
-        "description": "Rate limit error for phone verification."
-    },
-    "phoneSmsUnavailable": "지금은 SMS 인증을 이용할 수 없습니다. 나중에 다시 시도하거나 고객지원팀에 문의하세요.",
-    "@phoneSmsUnavailable": {
-        "description": "SMS provider unavailable error."
-    },
-    "phoneNotEligible": "이 계정에서는 전화 인증을 사용할 수 없습니다. 다른 방법을 사용하거나 고객지원팀에 문의하세요.",
-    "@phoneNotEligible": {
-        "description": "Account not eligible for phone verification."
-    },
-    "phoneInboundStepWait": "메시지를 받을 때까지 기다려 주세요. 1분 정도 소요될 수 있습니다.",
-    "@phoneInboundStepWait": {
-        "description": "Inbound verification step 3."
-    },
-    "requiredActionTitle": "계정 인증 필요",
-    "@requiredActionTitle": {
-        "description": "Title for required action blocking modal."
-    },
-    "requiredActionIntroPhone": "가입을 계속하려면 추가 스팸 방지 확인이 필요합니다.",
-    "@requiredActionIntroPhone": {
-        "description": "Phone-only required action intro."
-    },
-    "requiredActionCheckEmailTitle": "이메일을 확인해 주세요",
-    "@requiredActionCheckEmailTitle": {
-        "description": "Title for email verification instructions."
-    },
-    "requiredActionCheckEmailDescription": "이메일 주소로 인증 링크를 보냈습니다. 계속하려면 링크를 여세요.",
-    "@requiredActionCheckEmailDescription": {
-        "description": "Description for email verification instructions."
-    },
-    "requiredActionResendVerificationEmail": "인증 이메일 다시 보내기",
-    "@requiredActionResendVerificationEmail": {
-        "description": "Button to resend verification email."
-    },
-    "requiredActionVerificationEmailSent": "인증 이메일을 보냈습니다. 받은편지함을 확인해 주세요.",
-    "@requiredActionVerificationEmailSent": {
-        "description": "Toast after resending verification email."
-    },
-    "requiredActionSignOut": "로그아웃",
-    "@requiredActionSignOut": {
-        "description": "Sign out button in required action modal."
-    },
-    "phoneCountryLabel": "국가",
-    "@phoneCountryLabel": {
-        "description": "Label for country selector in phone verification."
-    },
-    "phoneSearchCountries": "국가 검색...",
-    "@phoneSearchCountries": {
-        "description": "Search hint for country selector."
-    },
-    "phoneSomethingWentWrong": "문제가 발생했습니다. 다시 시도해 주세요.",
-    "@phoneSomethingWentWrong": {
-        "description": "Generic phone verification error."
-    },
-    "phoneInboundExpensiveDescription": "이 전화번호로 SMS를 보내는 것은 비용이 많이 들기 때문에, 대신 저희에게 SMS를 보내주셔야 합니다. 지원팀에 문의하여 계정에서 이 요구사항을 해제할 수도 있습니다.",
-    "@phoneInboundExpensiveDescription": {
-        "description": "Inbound challenge reason for expensive destinations."
-    },
-    "phoneInboundDefaultDescription": "전화번호를 인증하려면 SMS를 보내주세요.",
-    "@phoneInboundDefaultDescription": {
-        "description": "Default inbound challenge description."
-    },
-    "requiredActionChooseMethodTitle": "인증 방법 선택",
-    "@requiredActionChooseMethodTitle": {
-        "description": "Title when user can pick email or phone."
-    },
-    "requiredActionUsePhone": "휴대폰 사용",
-    "@requiredActionUsePhone": {
-        "description": "Button to choose phone verification."
-    },
     "channelSettingsSlowmodeHours": "{hours}시간",
     "@channelSettingsSlowmodeHours": {
         "description": "Slowmode option label in hours.",
@@ -12259,29 +11496,9 @@
     "@audioAndVideoMicTestStopLabel": {
         "description": "Button label to stop the microphone test."
     },
-    "audioAndVideoMicTestPermissionRequired": "{productName}에서 마이크 테스트를 하려면 마이크 액세스가 필요합니다.",
-    "@audioAndVideoMicTestPermissionRequired": {
-        "description": "Shown when microphone permission is required for the mic test.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
     "audioAndVideoCameraQuality720pLabel": "720p",
     "@audioAndVideoCameraQuality720pLabel": {
         "description": "Camera quality option for 720p resolution."
-    },
-    "audioAndVideoCameraPermissionRequired": "{productName}에서 기기 목록을 보려면 카메라 접근 권한이 필요합니다.",
-    "@audioAndVideoCameraPermissionRequired": {
-        "description": "Shown when camera permission is required to enumerate video devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
     },
     "guildSettingsRolesDeleteFailedBody": "\"{name}\"을(를) 삭제할 수 없습니다. 다시 시도해 주세요.",
     "@guildSettingsRolesDeleteFailedBody": {
@@ -12307,10 +11524,6 @@
     "channelDetailsDeleteChannel": "채널 삭제",
     "@channelDetailsDeleteChannel": {
         "description": "Channel details menu action to delete a guild channel."
-    },
-    "channelSettingsCategorySettingsTitle": "카테고리 설정",
-    "@channelSettingsCategorySettingsTitle": {
-        "description": "Title for category settings modal."
     },
     "channelSettingsEditCategory": "카테고리 편집",
     "@channelSettingsEditCategory": {
@@ -12416,14 +11629,6 @@
     "@channelSettingsConnectionLimitDescription": {
         "description": "Helper text for voice channel connection limit."
     },
-    "channelSettingsAdvanced": "고급",
-    "@channelSettingsAdvanced": {
-        "description": "Collapsible advanced section title in channel overview."
-    },
-    "channelSettingsMatureContentOverride": "성인 콘텐츠 재정의",
-    "@channelSettingsMatureContentOverride": {
-        "description": "Accessibility label for mature content override control."
-    },
     "channelSettingsMatureContentSectionDescription": "이 채널에 대한 {scopeLevel} 수준 설정을 재정의합니다. 미성년자 이용 불가 콘텐츠는 진입 전에 게이트 뒤에 표시됩니다.",
     "@channelSettingsMatureContentSectionDescription": {
         "description": "Section description for mature content settings in channel overview.",
@@ -12444,14 +11649,6 @@
     "channelSettingsMatureContentOnDescription": "이 채널을 성인용 콘텐츠로 표시합니다.",
     "@channelSettingsMatureContentOnDescription": {
         "description": "Description for the mature content on override option."
-    },
-    "channelSettingsMatureContentCategorySource": "카테고리",
-    "@channelSettingsMatureContentCategorySource": {
-        "description": "Lowercase source label for inherited mature content from category."
-    },
-    "channelSettingsMatureContentCommunitySource": "커뮤니티",
-    "@channelSettingsMatureContentCommunitySource": {
-        "description": "Lowercase source label for inherited mature content from community."
     },
     "channelSettingsMatureContentCategoryScope": "카테고리",
     "@channelSettingsMatureContentCategoryScope": {
@@ -12630,14 +11827,6 @@
     "notificationsEnableDesktopNotificationsLabel": "데스크톱 알림 켜기",
     "@notificationsEnableDesktopNotificationsLabel": {
         "description": "Toggle label for enabling desktop notifications."
-    },
-    "notificationsEnableBrowserNotificationsLabel": "브라우저 알림 켜기",
-    "@notificationsEnableBrowserNotificationsLabel": {
-        "description": "Toggle label for enabling browser notifications."
-    },
-    "notificationsEnableBrowserNotificationsDescription": "메시지가 오면 알림을 받습니다. 브라우저 설정에서 알림을 허용해야 할 수도 있습니다. 채널/커뮤니티별로 설정하려면 커뮤니티 아이콘을 마우스 오른쪽 버튼으로 클릭한 뒤 알림 설정을 여세요.",
-    "@notificationsEnableBrowserNotificationsDescription": {
-        "description": "Description for the enable browser notifications toggle."
     },
     "notificationsPushInactiveTimeoutLabel": "푸시 알림 비활성 대기 시간",
     "@notificationsPushInactiveTimeoutLabel": {
@@ -13058,42 +12247,6 @@
     "gifPickerFavoritesEmptyDescription": "GIF에 별표를 표시하면 여기에 표시됩니다.",
     "@gifPickerFavoritesEmptyDescription": {
         "description": "Empty state description for the GIF picker favorites view."
-    },
-    "requiredActionIntroGeneric": "{productName}을(를) 계속 사용하려면 필요한 인증을 완료하세요.",
-    "@requiredActionIntroGeneric": {
-        "description": "Generic required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailOrPhone": "{productName}을(를) 계속 사용하려면 이메일 또는 전화번호를 인증하세요.",
-    "@requiredActionIntroEmailOrPhone": {
-        "description": "Email or phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailAndPhone": "{productName}을(를) 계속 사용하려면 아래에서 이메일 및 전화번호 인증을 완료하세요.",
-    "@requiredActionIntroEmailAndPhone": {
-        "description": "Email and phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionChooseMethodDescription": "{productName}을(를) 계속 사용하려면 아래 인증 경로 중 하나를 완료하세요.",
-    "@requiredActionChooseMethodDescription": {
-        "description": "Description when user can pick email or phone.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
     },
     "networkErrorMessage": "문제가 발생했습니다. 다시 시도해 주세요.",
     "@networkErrorMessage": {
@@ -13728,10 +12881,6 @@
     "@accessibilityPausedGifByReducedMotion": {
         "description": "Description for GIF toggle while reduced motion is active."
     },
-    "accessibilityGifDefaultsOffOnMobile": "배터리 수명 및 데이터 사용량 보존을 위해 모바일에서는 기본적으로 꺼져 있습니다.",
-    "@accessibilityGifDefaultsOffOnMobile": {
-        "description": "Helper text for GIF autoplay default on mobile."
-    },
     "accessibilityStickerAnimationsTitle": "스티커 애니메이션",
     "@accessibilityStickerAnimationsTitle": {
         "description": "Subsection title for sticker animation preference."
@@ -14187,25 +13336,13 @@
     "@privacyDashboardFriendRequestsEveryone": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsEveryoneDesc": "모든 사람이 친구 요청을 보낼 수 있도록 허용",
-    "@privacyDashboardFriendRequestsEveryoneDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsFriendsOfFriends": "친구의 친구",
     "@privacyDashboardFriendRequestsFriendsOfFriends": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsFriendsOfFriendsDesc": "친구의 친구가 친구 요청을 보낼 수 있도록 허용",
-    "@privacyDashboardFriendRequestsFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsCommunityMembers": "커뮤니티 멤버",
     "@privacyDashboardFriendRequestsCommunityMembers": {
         "description": "Privacy dashboard friend request toggle label."
-    },
-    "privacyDashboardFriendRequestsCommunityMembersDesc": "내가 속한 커뮤니티의 멤버가 친구 요청을 보낼 수 있도록 허용",
-    "@privacyDashboardFriendRequestsCommunityMembersDesc": {
-        "description": "Privacy dashboard friend request toggle description."
     },
     "privacyDashboardDirectMessagesTitle": "DM",
     "@privacyDashboardDirectMessagesTitle": {
@@ -14215,65 +13352,29 @@
     "@privacyDashboardDirectMessagesMembers": {
         "description": "Privacy dashboard DM toggle label."
     },
-    "privacyDashboardDirectMessagesMembersDesc": "커뮤니티의 멤버가 나에게 다이렉트 메시지를 보낼 수 있도록 허용",
-    "@privacyDashboardDirectMessagesMembersDesc": {
-        "description": "Privacy dashboard DM toggle description."
-    },
     "privacyDashboardDirectMessagesBots": "커뮤니티 봇의 DM 허용",
     "@privacyDashboardDirectMessagesBots": {
         "description": "Privacy dashboard bot DM toggle label."
-    },
-    "privacyDashboardDirectMessagesBotsDesc": "참여 중인 커뮤니티의 봇이 다이렉트 메시지를 보낼 수 있도록 허용",
-    "@privacyDashboardDirectMessagesBotsDesc": {
-        "description": "Privacy dashboard bot DM toggle description."
-    },
-    "privacyDashboardConnectionsSectionDesc": "친구 요청 및 다이렉트 메시지를 보낼 수 있는 사람을 관리하세요",
-    "@privacyDashboardConnectionsSectionDesc": {
-        "description": "Privacy dashboard connections section description."
-    },
-    "privacyDashboardCommunicationSectionDesc": "누가 전화를 걸고 그룹 채팅에 추가할 수 있는지 제어하세요",
-    "@privacyDashboardCommunicationSectionDesc": {
-        "description": "Privacy dashboard communication section description."
     },
     "privacyDashboardIncomingCallsTitle": "수신 전화",
     "@privacyDashboardIncomingCallsTitle": {
         "description": "Privacy dashboard incoming calls subsection title."
     },
-    "privacyDashboardIncomingCallsDesc": "누가 나에게 전화할 수 있는지 제어하세요",
-    "@privacyDashboardIncomingCallsDesc": {
-        "description": "Privacy dashboard incoming calls subsection description."
-    },
     "privacyDashboardAllowedCallers": "허용된 발신자",
     "@privacyDashboardAllowedCallers": {
         "description": "Privacy > Communication: select label."
-    },
-    "privacyDashboardIncomingCallNobody": "아무도",
-    "@privacyDashboardIncomingCallNobody": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallNobodyDesc": "모든 수신 통화 차단",
     "@privacyDashboardIncomingCallNobodyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallFriendsOnly": "친구에게만 공개",
-    "@privacyDashboardIncomingCallFriendsOnly": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallFriendsOnlyDesc": "친구만 나에게 전화하도록 허용 (권장)",
     "@privacyDashboardIncomingCallFriendsOnlyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallCustom": "친구 + 맞춤",
-    "@privacyDashboardIncomingCallCustom": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallCustomDesc": "친구 및 선택한 추가 그룹 허용",
     "@privacyDashboardIncomingCallCustomDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardIncomingCallEveryone": "모든 사람",
-    "@privacyDashboardIncomingCallEveryone": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallEveryoneDesc": "모르는 사람을 포함한 모든 사람이 나에게 전화하도록 허용",
     "@privacyDashboardIncomingCallEveryoneDesc": {
@@ -14283,14 +13384,6 @@
     "@privacyDashboardAdditionalGroups": {
         "description": "Privacy dashboard label for custom permission groups."
     },
-    "privacyDashboardCallFriendsOfFriendsDesc": "친구의 친구가 당신에게 전화할 수 있습니다",
-    "@privacyDashboardCallFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
-    "privacyDashboardCallGuildMembersDesc": "두 커뮤니티에 속한 사람들이 나에게 전화할 수 있습니다",
-    "@privacyDashboardCallGuildMembersDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
     "privacyDashboardRingBehavior": "벨소리 설정",
     "@privacyDashboardRingBehavior": {
         "description": "Privacy dashboard ring behavior subsection label."
@@ -14299,17 +13392,9 @@
     "@privacyDashboardSilentCalls": {
         "description": "Privacy dashboard silent calls toggle label."
     },
-    "privacyDashboardSilentCallsDesc": "모든 통화는 벨이 울리는 대신 조용히 알림이 울립니다. 기본적으로 친구가 아닌 사람으로부터 오는 전화는 항상 조용히 울립니다.",
-    "@privacyDashboardSilentCallsDesc": {
-        "description": "Privacy dashboard silent calls toggle description."
-    },
     "privacyDashboardGroupDmTitle": "나를 그룹 채팅에 추가할 수 있는 사람",
     "@privacyDashboardGroupDmTitle": {
         "description": "Privacy dashboard group DM subsection title."
-    },
-    "privacyDashboardGroupDmDesc": "초대 없이 그룹 채팅에 추가할 수 있는 사람을 제어하세요. 누구나 여전히 참여 초대 링크를 보낼 수 있습니다.",
-    "@privacyDashboardGroupDmDesc": {
-        "description": "Privacy dashboard group DM subsection description."
     },
     "privacyDashboardAllowedInvites": "허용된 초대",
     "@privacyDashboardAllowedInvites": {
@@ -14330,14 +13415,6 @@
     "privacyDashboardGroupDmEveryoneDesc": "모든 사람이 요청 없이 나를 그룹 채팅에 추가하도록 허용",
     "@privacyDashboardGroupDmEveryoneDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardGroupDmFriendsOfFriendsDesc": "친구의 친구도 그룹 채팅에 추가할 수 있습니다.",
-    "@privacyDashboardGroupDmFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
-    },
-    "privacyDashboardGroupDmGuildMembersDesc": "두 커뮤니티에 속한 사람들이 나를 그룹 채팅에 추가할 수 있습니다.",
-    "@privacyDashboardGroupDmGuildMembersDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
     },
     "privacyDashboardVoiceActivityTitle": "활동 중에 음성 활동 표시",
     "@privacyDashboardVoiceActivityTitle": {
@@ -14870,26 +13947,6 @@
     "@composerAutocompleteOptionalArgumentsHeading": {
         "description": "Section heading in composer autocomplete for adding optional slash-command arguments."
     },
-    "composerAutocompleteChannelsHeading": "채널",
-    "@composerAutocompleteChannelsHeading": {
-        "description": "Section heading in composer autocomplete for channel suggestions."
-    },
-    "composerAutocompleteMembersHeading": "멤버",
-    "@composerAutocompleteMembersHeading": {
-        "description": "Section heading in composer autocomplete for member suggestions."
-    },
-    "composerAutocompleteUsersHeading": "사용자",
-    "@composerAutocompleteUsersHeading": {
-        "description": "Section heading in composer autocomplete for user suggestions."
-    },
-    "composerAutocompleteMentionsHeading": "멘션",
-    "@composerAutocompleteMentionsHeading": {
-        "description": "Section heading in composer autocomplete for mixed mention suggestions."
-    },
-    "composerAutocompleteRolesHeading": "역할",
-    "@composerAutocompleteRolesHeading": {
-        "description": "Section heading in composer autocomplete for role suggestions."
-    },
     "composerAutocompleteMediaHeading": "미디어",
     "@composerAutocompleteMediaHeading": {
         "description": "Section heading in composer autocomplete for saved media."
@@ -15106,10 +14163,6 @@
     "memberListUnavailableBody": "현재 이 커뮤니티의 멤버 목록을 불러올 수 없습니다",
     "@memberListUnavailableBody": {
         "description": "Body when member list updates are disabled for the community."
-    },
-    "channelHeaderOpenDetails": "채널 세부 정보 열기",
-    "@channelHeaderOpenDetails": {
-        "description": "Accessibility label for the channel header title area."
     },
     "channelHeaderPinnedMessages": "고정된 메시지",
     "@channelHeaderPinnedMessages": {
@@ -15472,10 +14525,6 @@
     "@userSettingsSearchPlaceholder": {
         "description": "Placeholder for the user settings search field."
     },
-    "userSettingsSearchFieldLabel": "설정 검색",
-    "@userSettingsSearchFieldLabel": {
-        "description": "Accessibility label for the user settings search field."
-    },
     "userSettingsSearchClear": "검색 지우기",
     "@userSettingsSearchClear": {
         "description": "Accessibility label for clearing the user settings search field."
@@ -15502,8 +14551,6 @@
     "giftSettingsGiftUrl": "선물 URL",
     "giftSettingsCopy": "복사",
     "giftSettingsCopied": "복사됨",
-    "giftSettingsGiftUrlCopied": "선물 URL이 클립보드에 복사되었습니다!",
-    "giftSettingsGiftUrlCopyFailed": "선물 URL을 복사할 수 없습니다",
     "giftSettingsPurchasedDate": "{date}에 구매함",
     "@giftSettingsPurchasedDate": {
         "placeholders": {
@@ -15545,7 +14592,6 @@
     "premiumBuyGift": "선물 구매",
     "premiumOneYearGift": "1년 선물",
     "premiumOneMonthGift": "1개월 선물",
-    "premiumMostPopular": "가장 인기",
     "premiumScrollPrompt": "Plutonium의 모든 혜택을 보려면 아래로 스크롤하세요.",
     "premiumFreeVsPlutonium": "무료 vs Plutonium",
     "premiumFreeColumn": "무료",
@@ -15563,50 +14609,15 @@
     "premiumViewGifts": "선물 보기",
     "premiumReadyToUpgrade": "업그레이드할 준비가 되셨나요?",
     "premiumReadyToBuyGift": "선물할 준비가 되셨나요?",
-    "premiumMonthlyPrice": "월간 {price}",
-    "@premiumMonthlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumYearlyPrice": "연간 {price}",
-    "@premiumYearlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneYearPrice": "1년 {price}",
-    "@premiumOneYearPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneMonthPrice": "1개월 {price}",
-    "@premiumOneMonthPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
     "premiumManageSubscription": "구독 관리",
     "premiumRedeemGiftCode": "선물 코드 사용",
     "premiumGiftBadge": "선물",
     "premiumCancelSubscriptionTitle": "구독을 취소하시겠어요?",
     "premiumCancelSubscriptionBody": "다음 갱신일까지 혜택이 유지되며, 3일의 유예 기간 동안 재구독하여 구독 기록을 유지할 수 있습니다.",
     "premiumCancelSubscriptionConfirm": "구독 취소",
-    "premiumKeepSubscription": "구독 유지",
     "premiumPurchaseHistoryTitle": "구매 내역",
     "premiumPurchaseHistoryDescription": "최근 청구서입니다. 구독 결제 방법을 변경하려면, 결제 포털에서 추가하거나 선택한 후 기본으로 설정하세요.",
     "premiumManagePaymentMethods": "결제 수단 관리",
-    "premiumBillingHistory": "결제 내역",
-    "premiumSelfServeRefundTitle": "환불 요청",
     "premiumSelfServeRefundButton": "최근 구매 환불",
     "premiumDisclaimerAgreementPrefix": "구매함으로써 다음 사항에 동의합니다. ",
     "premiumDisclaimerAgreementPastPrefix": "구매함으로써 귀하는 당사의 ",
@@ -15646,17 +14657,6 @@
         "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
     },
     "premiumComparisonFeatureColumn": "기능",
-    "premiumDisclaimerPurchased": "구매함으로써 {terms} 및 {privacy}에 동의했습니다.",
-    "@premiumDisclaimerPurchased": {
-        "placeholders": {
-            "terms": {
-                "type": "String"
-            },
-            "privacy": {
-                "type": "String"
-            }
-        }
-    },
     "premiumDisclaimerRefund": "결제 후 3일 이내, 30일마다 한 번씩 직접 환불할 수 있습니다. 구독을 환불하면 구독이 취소됩니다. EU/EEA 구매자는 콘텐츠에 즉시 액세스하기 위해 결제 시 14일 철회 권리를 포기합니다. 차지백 대신 앱 내 환불 버튼을 사용하세요. 차지백은 계정을 영구적으로 제한할 수 있습니다. Stripe가 결제를 안전하게 처리하며, Fluxer는 고객님의 전체 카드 번호를 볼 수 없습니다.",
     "premiumTermsOfService": "이용약관",
     "premiumPrivacyPolicy": "개인정보처리방침",
@@ -15697,24 +14697,14 @@
     },
     "premiumClaimAccountToPurchase": "Fluxer Plutonium을 구매하려면 계정을 등록하세요.",
     "premiumVerifyEmailToPurchase": "Fluxer Plutonium을 구매하려면 먼저 이메일을 인증해야 합니다.",
-    "premiumPerkCustomUsernameTag": "맞춤 사용자 이름 태그",
-    "premiumPerkPerCommunityProfiles": "커뮤니티별 프로필",
-    "premiumPerkMessageScheduling": "메시지 예약",
-    "premiumPerkProfileBadge": "프로필 배지",
-    "premiumPerkCustomVideoBackgrounds": "맞춤 동영상 배경",
-    "premiumPerkEntranceSounds": "입장음",
     "premiumPerkCommunities": "커뮤니티",
     "premiumPerkMessageCharacterLimit": "메시지 글자 수 제한",
     "premiumPerkBookmarkedMessages": "북마크한 메시지",
     "premiumPerkFileUploadSize": "파일 업로드 크기",
-    "premiumPerkEmojiStickerPacks": "이모티콘 및 스티커 팩",
-    "premiumPerkSavedMedia": "저장된 미디어",
     "premiumPerkUseAnimatedEmojis": "움직이는 이모티콘 사용",
-    "premiumPerkGlobalEmojiStickerAccess": "모든 커뮤니티 이모티콘 및 스티커 사용",
     "premiumPerkVideoQuality": "동영상 화질",
     "premiumPerkAnimatedAvatarsBanners": "움직이는 아바타 및 프로필 배너",
     "premiumPerkEarlyAccess": "새로운 기능 미리 이용하기",
-    "premiumPerkCustomThemes": "맞춤 테마",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "최대 4K/60fps",
     "storePlutoniumPriceLine": "{monthly} 또는 {yearly}",
@@ -15930,7 +14920,6 @@
     "advancedSettingStripTrackingLabel": "URL에서 추적 매개변수 제거",
     "advancedSettingStripTrackingDescription": "보내는 메시지의 URL에서 추적 매개변수를 자동으로 제거",
     "advancedSettingTrustAllLinksLabel": "모든 외부 링크 신뢰하기",
-    "advancedSettingTrustAllLinksDescription": "모든 도메인에서 외부 링크 경고 건너뛰기",
     "advancedSettingSearchEnginesLabel": "검색 엔진",
     "advancedSettingSearchEnginesDescription": "선택한 텍스트에서 사용되는 검색 엔진을 구성합니다",
     "advancedSettingTranslatorsLabel": "번역 서비스",
@@ -15986,13 +14975,6 @@
     "advancedSettingHideStreamPreviewLabel": "내 스트림 미리보기 썸네일 숨기기",
     "advancedSettingDeveloperModeLabel": "개발자 모드 활성화",
     "advancedSettingDeveloperModeDescription": "개발자 모드 활성화",
-    "advancedSettingSearchEngineGoogle": "Google",
-    "advancedSettingSearchEngineDuckDuckGo": "DuckDuckGo",
-    "advancedSettingSearchEngineBing": "Bing",
-    "advancedSettingSearchEngineGoogleLens": "Google 렌즈",
-    "advancedSettingSearchEngineTinEye": "TinEye",
-    "advancedSettingTranslatorGoogle": "Google 번역",
-    "advancedSettingTranslatorDeepL": "DeepL",
     "advancedSettingDefaultSearchEngineLabel": "기본 검색 엔진",
     "advancedSettingDefaultSearchEngineDescription": "선택한 텍스트를 검색할 때 기본으로 사용할 검색 엔진을 선택하세요.",
     "advancedSettingBuiltInSearchEnginesLabel": "내장 검색 엔진",
@@ -16546,10 +15528,6 @@
     "@guildMembersColumnRoles": {
         "description": "Table column header on the community members page."
     },
-    "guildMembersColumnActions": "작업",
-    "@guildMembersColumnActions": {
-        "description": "Table column header on the community members page."
-    },
     "guildMembersFilterMemberSince": "멤버 가입일로 필터링",
     "@guildMembersFilterMemberSince": {
         "description": "Filter menu label on the community members page."
@@ -16634,23 +15612,6 @@
     "@guildMembersIndexing": {
         "description": "Banner shown while guild members are being indexed."
     },
-    "guildMembersGoToPage": "페이지로 이동",
-    "@guildMembersGoToPage": {
-        "description": "Pagination jump label on the community members page."
-    },
-    "guildMembersGoToPageItem": "{page}페이지로 이동",
-    "@guildMembersGoToPageItem": {
-        "description": "Accessibility label for a pagination page button.",
-        "placeholders": {
-            "page": {
-                "type": "int"
-            }
-        }
-    },
-    "guildMembersJumpToPage": "페이지로 이동",
-    "@guildMembersJumpToPage": {
-        "description": "Label for pagination jump input on the community members page."
-    },
     "guildMembersJoinSourceCreator": "커뮤니티 개설자",
     "@guildMembersJoinSourceCreator": {
         "description": "Join method label on the community members page."
@@ -16727,28 +15688,14 @@
             }
         }
     },
-    "guildMembersJoinedDaysAgo": "{count, plural, one {1일 전} other {{count}일 전}}",
-    "@guildMembersJoinedDaysAgo": {
-        "description": "Relative join time on the community members page.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
     "guildMembersChannelListLabel": "멤버",
     "@guildMembersChannelListLabel": {
         "description": "Label for the Members item at the top of the guild channel list."
-    },
-    "guildMembersChannelListSelected": "멤버 선택됨",
-    "@guildMembersChannelListSelected": {
-        "description": "Accessibility label when the Members channel list item is selected."
     },
     "guildSettingsEmojiSlotsTitle": "이모티콘 슬롯",
     "guildSettingsEmojiDropZone": "이모티콘 파일을 여기로 드래그 앤 드롭하세요",
     "guildSettingsEmojiLoadFailed": "이모티콘을 불러오지 못했습니다. 나중에 다시 시도해 주세요.",
     "guildSettingsEmojiSearchEmpty": "검색 결과와 일치하는 이모티콘이 없습니다.",
-    "guildSettingsEmojiNoSlots": "사용 가능한 이모티콘 슬롯 없음",
     "guildSettingsEmojiSlotsFull": "이모티콘 최대 개수에 도달했습니다. 공간을 확보하려면 기존 이모티콘을 일부 삭제하세요.",
     "guildSettingsEmojiUploadRequirements": "이모티콘 이름은 2자 이상이어야 하며 문자, 숫자, 밑줄을 사용할 수 있습니다. 이모티콘 크기는 {maxSize} 이하여야 합니다. 정지 이미지는 자동으로 128x128픽셀로 조정되고 압축됩니다. 애니메이션 이모티콘과 SVG는 업로드 전에 이미 제한을 충족해야 합니다.",
     "@guildSettingsEmojiUploadRequirements": {
@@ -16758,24 +15705,11 @@
             }
         }
     },
-    "guildSettingsEmojiUploadingTitle": "이모티콘 업로드 중",
-    "guildSettingsEmojiUploadingBody": "{count, plural, one {#개의 이모지를 업로드 중입니다} other {#개의 이모지를 업로드 중입니다}}. 시간이 조금 걸릴 수 있습니다.",
-    "@guildSettingsEmojiUploadingBody": {
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsEmojiUploadFailed": "이모티콘 업로드에 실패했습니다. 다시 시도해 주세요.",
     "guildSettingsEmojiSomeFailedTitle": "일부 이모티콘을 추가할 수 없습니다",
-    "guildSettingsEmojiSomeFailedBody": "이 파일을 검토하고 더 작거나 간단한 이미지로 다시 시도해 주세요.",
     "guildSettingsEmojiRenameTitle": "이모티콘 이름 변경",
     "guildSettingsEmojiRenameHint": "2~32자, 문자, 숫자, 밑줄.",
-    "guildSettingsEmojiColumnEmoji": "이모티콘",
     "guildSettingsEmojiColumnName": "이름",
     "guildSettingsEmojiColumnUploader": "업로드한 사람",
-    "guildSettingsEmojiUnknownUploader": "알 수 없음",
     "guildSettingsEmojiDeleteTitle": "이모티콘 삭제",
     "guildSettingsEmojiDeleteBody": ":{name}: 삭제하시겠어요? 실행 취소할 수 없습니다.",
     "@guildSettingsEmojiDeleteBody": {
@@ -16790,15 +15724,7 @@
     "guildSettingsEmojiNameTooLong": "이모티콘 이름은 32자 이하여야 합니다",
     "guildSettingsEmojiInvalidNameTitle": "이모티콘 이름이 유효하지 않습니다",
     "guildSettingsEmojiRenameFailedTitle": "이 이모티콘의 이름을 변경할 수 없습니다",
-    "guildSettingsEmojiRenameFailedBody": "이름이 이전으로 되돌려졌습니다. 잠시 후에 다시 시도해 주세요.",
-    "guildSettingsEmojiGoneTitle": "이 이모티콘은 더 이상 존재하지 않습니다",
-    "guildSettingsEmojiGoneBody": "삭제되었을 수 있습니다. 이름이 이전 상태로 되돌려졌습니다.",
-    "guildSettingsEmojiNoPermissionRenameTitle": "이 이모티콘의 이름을 변경할 수 없습니다",
-    "guildSettingsEmojiNoPermissionRenameBody": "이 이모티콘의 이름을 변경할 권한이 없습니다. 이름은 이전 상태로 되돌아갔습니다.",
-    "guildSettingsEmojiRateLimitedTitle": "너무 빠르시네요",
-    "guildSettingsEmojiRateLimitedBody": "잠시 후 다시 이름을 변경해 주세요.",
     "guildSettingsEmojiDeleteFailedTitle": "이 이모티콘을 삭제할 수 없습니다",
-    "guildSettingsEmojiDeleteNoPermissionTitle": "이 이모티콘을 삭제할 수 없습니다",
     "guildSettingsCloneEmojiTitle": "다른 사람이 내 이모티콘을 복제하도록 허용",
     "guildSettingsCloneEmojiDescription": "활성화하면 다른 커뮤니티 멤버가 인앱 원클릭 \"복제\" 단축키를 사용하여 내 맞춤 이모티콘을 복제할 수 있습니다. 이 기능은 다른 멤버가 이미지를 저장하여 직접 업로드하는 것을 막지는 않습니다.",
     "guildSettingsCloneStickerTitle": "다른 사람이 내 스티커를 복제하도록 허용",
@@ -16822,8 +15748,6 @@
     "guildSettingsStickersLoadFailedTitle": "스티커 불러오기 실패",
     "guildSettingsStickersLoadFailedBody": "스티커를 불러오는 중 오류가 발생했습니다. 다시 시도해 주세요.",
     "guildSettingsStickersSearchEmpty": "검색 결과와 일치하는 스티커가 없습니다.",
-    "guildSettingsStickersEmptySearch": "스티커를 찾을 수 없습니다",
-    "guildSettingsStickerNoSlots": "사용 가능한 스티커 슬롯 없음",
     "guildSettingsStickerSlotsFull": "스티커 최대 개수에 도달했습니다. 공간을 확보하려면 기존 스티커를 일부 삭제하세요.",
     "guildSettingsStickerUploadRequirements": "스티커는 320x320픽셀로 저장되며 {maxSize} 이하여야 합니다. 정지된 이미지는 자동으로 크기가 조정되고 압축됩니다. 애니메이션 스티커와 SVG는 제한 내에 있어야 합니다.",
     "@guildSettingsStickerUploadRequirements": {
@@ -16833,7 +15757,6 @@
             }
         }
     },
-    "guildSettingsStickerUnsupportedTitle": "지원되지 않는 스티커 파일",
     "guildSettingsStickerAddTitle": "스티커 추가",
     "guildSettingsStickerEditTitle": "스티커 편집",
     "guildSettingsStickerNameLabel": "이름",
@@ -16858,8 +15781,6 @@
     "guildSettingsStickerNameTooLong": "이름은 30자 이하여야 합니다",
     "guildSettingsStickerDescriptionTooLong": "설명은 500자 이하여야 합니다",
     "guildSettingsStickerCreateFailedTitle": "스티커를 만들 수 없습니다",
-    "guildSettingsStickerTooLargeTitle": "스티커 파일이 너무 큽니다",
-    "guildSettingsStickerCompressFailedTitle": "스티커를 충분히 압축할 수 없습니다",
     "guildSettingsStickerDeleteTitle": "스티커 삭제",
     "guildSettingsStickerDeleteBody": "\"{name}\"을(를) 삭제하시겠어요? 실행 취소할 수 없습니다.",
     "@guildSettingsStickerDeleteBody": {
@@ -16871,7 +15792,6 @@
     },
     "guildSettingsStickerPurgeLabel": "이 스티커를 저장소 및 CDN에서 삭제",
     "guildSettingsStickerDeleteFailedTitle": "이 스티커를 삭제할 수 없습니다",
-    "guildSettingsStickerDeleteNoPermissionTitle": "이 스티커를 삭제할 수 없습니다",
     "keybindsSearchShortcuts": "단축키 검색",
     "@keybindsSearchShortcuts": {
         "description": "Placeholder for the shortcuts settings search field."

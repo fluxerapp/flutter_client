@@ -35,7 +35,7 @@ final class PushNotificationClear {
     String channelId, {
     String? upToMessageId,
   }) async {
-    if (kIsWeb || channelId.isEmpty) {
+    if (channelId.isEmpty) {
       return;
     }
     final String? readThrough = _nonEmpty(upToMessageId);
@@ -58,9 +58,6 @@ final class PushNotificationClear {
   }
 
   static Future<void> clearAllDelivered() async {
-    if (kIsWeb) {
-      return;
-    }
     await LocalPushNotifications().cancelAll();
     if (Platform.isAndroid) {
       await _cancelAllAndroidSystemNotifications();

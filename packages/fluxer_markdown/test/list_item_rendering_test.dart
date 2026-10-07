@@ -10,7 +10,6 @@ import 'package:material_ui/material_ui.dart';
 import 'support/native_test_parser.dart';
 
 const FluxerMarkdownConfig _testMarkdownConfig = FluxerMarkdownConfig(
-  resolveEmojiShortcode: _noopEmojiShortcode,
   unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
   customEmojiUrlBuilder: _noopCustomEmojiUrl,
 );
@@ -18,8 +17,6 @@ const TextStyle _baseStyle = TextStyle(fontSize: 16, height: 1.375);
 final RegExp _internalFluxerLinkPattern = RegExp(
   r'https://web\.fluxer\.app/channels/\d+/\d+/\d+',
 );
-
-String? _noopEmojiShortcode(String name) => null;
 
 String? _noopUnicodeEmojiUrl(String unicode) => null;
 
@@ -132,7 +129,6 @@ void main() {
           '987654321098765432/111111111111111111';
       const String input = '1. before $url after';
       final FluxerMarkdownConfig config = FluxerMarkdownConfig(
-        resolveEmojiShortcode: _noopEmojiShortcode,
         unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
         customEmojiUrlBuilder: _noopCustomEmojiUrl,
         internalLinkPattern: _internalFluxerLinkPattern,

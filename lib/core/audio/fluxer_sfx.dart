@@ -51,11 +51,6 @@ AudioContext audioContextForSfxClip(
   return kNotificationSfxContext;
 }
 
-bool usesAmbientSfxContext(AudioContext context) {
-  return context == kNotificationSfxContext ||
-      context == kIncomingRingLoopContext;
-}
-
 bool shouldRestorePreferredAudioAfterOneShot(AudioContext context) {
   return context == kIncomingRingLoopContext;
 }

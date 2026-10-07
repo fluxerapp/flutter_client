@@ -194,10 +194,8 @@ ResolvedMatureGateContext resolveMatureGateContext({
     categoryId: categoryId,
     guildId: guildId,
     effectiveMatureContent: effectiveMatureContent,
-    matureContentSource: matureContentSource,
     effectiveWarningLevel: effectiveWarningLevel,
     effectiveWarningText: effectiveWarningText,
-    warningSource: warningSource,
     scope: scope,
     scopeId: scopeId,
   );

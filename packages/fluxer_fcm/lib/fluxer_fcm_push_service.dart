@@ -4,7 +4,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_fcm/fcm_message_mapper.dart';
-import 'package:fluxer_fcm/fcm_push_message.dart';
 
 class FluxerFcmPushService {
   factory FluxerFcmPushService() => instance;
@@ -13,8 +12,6 @@ class FluxerFcmPushService {
 
   static final FluxerFcmPushService instance = FluxerFcmPushService._();
 
-  final StreamController<FcmPushMessage> _messages =
-      StreamController<FcmPushMessage>.broadcast();
   final StreamController<String> _ciphertext =
       StreamController<String>.broadcast();
   final StreamController<String> _tokenRefresh =
@@ -27,29 +24,7 @@ class FluxerFcmPushService {
   StreamSubscription<RemoteMessage>? _onMessageOpenedAppSubscription;
   StreamSubscription<String>? _onTokenRefreshSubscription;
 
-  bool Function(FcmPushMessage message)? _foregroundMessageFilter;
-
   Stream<String> get tokenRefreshStream => _tokenRefresh.stream;
-
-  void setForegroundMessageFilter(
-    bool Function(FcmPushMessage message)? filter,
-  ) {
-    _foregroundMessageFilter = filter;
-  }
-
-  @visibleForTesting
-  bool Function(FcmPushMessage message)?
-  get foregroundMessageFilterForTesting => _foregroundMessageFilter;
-
-  @visibleForTesting
-  bool shouldProcessForegroundMessage(FcmPushMessage message) {
-    final bool Function(FcmPushMessage message)? filter =
-        _foregroundMessageFilter;
-    if (filter == null) {
-      return true;
-    }
-    return filter(message);
-  }
 
   void setNotificationTapCallback(
     void Function(Map<String, String> payload)? callback,
@@ -64,16 +39,6 @@ class FluxerFcmPushService {
     }
     _pendingNotificationTapPayload = null;
     callback(pendingPayload);
-  }
-
-  Future<void> requestPermissions() async {
-    final NotificationSettings settings = await FirebaseMessaging.instance
-        .requestPermission();
-    if (kDebugMode) {
-      debugPrint(
-        '[FluxerFcmPushService] permission: ${settings.authorizationStatus}',
-      );
-    }
   }
 
   Future<void> initialize({FirebaseOptions? firebaseOptions}) async {
@@ -120,8 +85,6 @@ class FluxerFcmPushService {
   Future<String?> getToken() async {
     return FirebaseMessaging.instance.getToken();
   }
-
-  Stream<FcmPushMessage> watchMessages() => _messages.stream;
 
   Stream<String> watchCiphertext() => _ciphertext.stream;
 
@@ -185,6 +148,5 @@ class FluxerFcmPushService {
     _onMessageSubscription = null;
     _onMessageOpenedAppSubscription = null;
     _onTokenRefreshSubscription = null;
-    _foregroundMessageFilter = null;
   }
 }

@@ -44,10 +44,6 @@ class AltchaChallengeParseResult {
   final String? rejectionReason;
 }
 
-Map<String, dynamic>? readAltchaChallenge(Object? body) {
-  return parseAltchaChallenge(body).challenge;
-}
-
 AltchaChallengeParseResult parseAltchaChallenge(Object? body) {
   Object? data = body;
   if (data is String) {

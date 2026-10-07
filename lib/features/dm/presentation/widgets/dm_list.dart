@@ -129,13 +129,6 @@ class _DMListState extends ConsumerState<DMList> {
     });
   }
 
-  void personalNote() {
-    final userId = ref.read(currentUserIdProvider);
-    if (userId != null) {
-      unawaited(_navigateToDmChannel(userId));
-    }
-  }
-
   Future<void> _navigateToDmChannel(String channelId) async {
     final String? userId = ref.read(currentUserIdProvider);
     if (userId != null && channelId == userId) {
@@ -272,9 +265,6 @@ class _DMListState extends ConsumerState<DMList> {
                 _buildMobileHeader(context),
                 Divider(color: context.colors.borderColor, height: 1),
               ] else ...[
-                // TODO(deuss): fully setup quick switcher
-                // _buildQuickSwitcher(context),
-                // Divider(color: context.colors.borderColor, height: 1),
                 Builder(
                   builder: (context) {
                     final location = ref.watch(currentLocationProvider);
@@ -314,12 +304,6 @@ class _DMListState extends ConsumerState<DMList> {
                                   )
                                 : null,
                           ),
-                          // _buildNavButton(
-                          //   context,
-                          //   icon: PhosphorIconsFill.skull,
-                          //   label: 'Plutonium',
-                          //   onTap: () {},
-                          // ),
                         ],
                       ),
                     );
@@ -357,47 +341,6 @@ class _DMListState extends ConsumerState<DMList> {
       onTap: () => unawaited(CreateDmFlow.show(context)),
     );
   }
-
-  // Reserved for planned quick-switcher UI.
-  // ignore: unused_element
-  Widget _buildQuickSwitcher(BuildContext context) => Material(
-    color: Colors.transparent,
-    child: InkWell(
-      onTap: () {},
-      child: Container(
-        height: 56,
-        padding: EdgeInsets.symmetric(horizontal: context.layout.s2),
-        child: Row(
-          children: [
-            Expanded(
-              child: Text(
-                'Quick Switcher',
-                style: context.textStyles.bodySmall.copyWith(fontSize: 13),
-              ),
-            ),
-            _buildKbdBadge(context, 'CTRL'),
-            const SizedBox(width: 3),
-            _buildKbdBadge(context, 'K'),
-          ],
-        ),
-      ),
-    ),
-  );
-
-  Widget _buildKbdBadge(BuildContext context, String label) => Container(
-    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
-    decoration: BoxDecoration(
-      color: context.colors.backgroundModifierSelected,
-      borderRadius: BorderRadius.circular(3),
-    ),
-    child: Text(
-      label,
-      style: context.textStyles.smallText.copyWith(
-        color: context.colors.textPrimaryMuted,
-        fontSize: 10,
-      ),
-    ),
-  );
 
   Widget _selectableRow(
     BuildContext context, {

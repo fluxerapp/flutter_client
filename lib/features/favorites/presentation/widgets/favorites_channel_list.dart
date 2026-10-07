@@ -108,7 +108,6 @@ class FavoritesChannelList extends ConsumerWidget {
                 '__other__' => l10n.favoritesOtherCategory,
                 _ => group.title,
               },
-              categoryId: group.categoryId,
               isCollapsed:
                   group.categoryId != null &&
                   collapsedIds.contains(group.categoryId),
@@ -285,13 +284,11 @@ class _FavoriteGroupEntries extends ConsumerWidget {
 class _FavoriteCategoryHeader extends StatelessWidget {
   const _FavoriteCategoryHeader({
     required this.title,
-    required this.categoryId,
     required this.isCollapsed,
     required this.onToggle,
   });
 
   final String title;
-  final String? categoryId;
   final bool isCollapsed;
   final VoidCallback? onToggle;
 

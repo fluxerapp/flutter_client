@@ -1,7 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
-import 'package:fluxer_app/core/router/navigate_to_content.dart';
-import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/features/guilds/utils/invite_code.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -41,15 +39,4 @@ Future<InviteEmbedState> inviteEmbed(Ref ref, String code) async {
     }
     rethrow;
   }
-}
-
-Future<void> acceptInvite({
-  required String code,
-  required String guildId,
-  required String channelId,
-  required Ref ref,
-}) async {
-  final client = ref.read(fluxerClientProvider);
-  await client.invites.acceptInvite(inviteCode: code);
-  navigateToContentViaRef(ref, RoutePaths.guildChannel(guildId, channelId));
 }

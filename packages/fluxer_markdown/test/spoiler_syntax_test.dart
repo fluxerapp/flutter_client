@@ -20,19 +20,15 @@ const String _longSpoiledLink =
 const TextStyle _baseStyle = TextStyle(fontSize: 16, height: 1.375);
 
 const FluxerMarkdownConfig _testMarkdownConfig = FluxerMarkdownConfig(
-  resolveEmojiShortcode: _resolveEmojiShortcode,
   unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
   customEmojiUrlBuilder: _noopCustomEmojiUrl,
 );
 
 const FluxerMarkdownConfig _revealedMarkdownConfig = FluxerMarkdownConfig(
-  resolveEmojiShortcode: _resolveEmojiShortcode,
   unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
   customEmojiUrlBuilder: _noopCustomEmojiUrl,
   spoilersInitiallyRevealed: true,
 );
-
-String? _resolveEmojiShortcode(String name) => null;
 
 String? _noopUnicodeEmojiUrl(String unicode) => null;
 
@@ -44,7 +40,6 @@ String _noopCustomEmojiUrl({
 
 FluxerMarkdownConfig _syncConfig(FluxerSpoilerSyncController controller) {
   return FluxerMarkdownConfig(
-    resolveEmojiShortcode: _resolveEmojiShortcode,
     unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
     customEmojiUrlBuilder: _noopCustomEmojiUrl,
     spoilerSyncController: controller,
@@ -280,7 +275,6 @@ void main() {
         tester,
         '||secret||',
         config: const FluxerMarkdownConfig(
-          resolveEmojiShortcode: _resolveEmojiShortcode,
           unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
           customEmojiUrlBuilder: _noopCustomEmojiUrl,
           spoilerBackgroundColor: Color(0x33000000),

@@ -28,10 +28,6 @@
     "@retry": {
         "description": "Generic label for retry actions (splash, errors, network, etc.)."
     },
-    "connectingCaps": "CONNECTING",
-    "@connectingCaps": {
-        "description": "Connecting text on the splash screen"
-    },
     "splashConnectionLost": "З'єднання втрачено",
     "@splashConnectionLost": {
         "description": "Fallback headline on splash when gateway is unavailable (web parity)."
@@ -93,10 +89,6 @@
             }
         }
     },
-    "ssoRequired": "Для доступу до цього екземпляра потрібен SSO.",
-    "@ssoRequired": {
-        "description": "Short sign-in note shown when the instance requires single sign-on."
-    },
     "organizationSsoProvider": "Увійдіть за допомогою єдиного входу вашої організації.",
     "@organizationSsoProvider": {
         "description": "Description shown when sign-in is restricted to the configured SSO provider."
@@ -117,10 +109,6 @@
                 "type": "String"
             }
         }
-    },
-    "logInViaBrowser": "Увійти через браузер",
-    "@logInViaBrowser": {
-        "description": "Secondary login that opens or uses the system browser."
     },
     "needAccountPrompt": "Потрібен обліковий запис? ",
     "@needAccountPrompt": {
@@ -232,26 +220,9 @@
     "@accountAdd": {
         "description": "Button to add a new account."
     },
-    "accountRemove": "Видалити",
-    "@accountRemove": {
-        "description": "Context menu option to remove a stored account."
-    },
-    "accountRemoveTitle": "Видалити {username}",
-    "@accountRemoveTitle": {
-        "description": "Title for the remove account confirmation modal.",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
     "accountRemoveDescription": "Це видалить збережений сеанс для цього облікового запису.",
     "@accountRemoveDescription": {
         "description": "Description for the remove account confirmation modal."
-    },
-    "accountRemoveOnlyDescription": "Це видалить єдиний збережений обліковий запис на цьому пристрої.",
-    "@accountRemoveOnlyDescription": {
-        "description": "Description when removing the last stored account."
     },
     "accountExpired": "Термін дії закінчився",
     "@accountExpired": {
@@ -783,10 +754,6 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsent": "Я погоджуюся з Умовами надання послуг та Політикою конфіденційності",
-    "@registerConsent": {
-        "description": "Consent checkbox label for registration (plain text fallback)."
-    },
     "registerConsentPrefix": "Я погоджуюся з ",
     "@registerConsentPrefix": {
         "description": "Text before the Terms of Service link in the consent checkbox."
@@ -830,10 +797,6 @@
     "passkeyTimeout": "Час автентифікації ключа доступу вичерпано. Спробуйте ще раз.",
     "@passkeyTimeout": {
         "description": "Error when passkey authentication times out."
-    },
-    "passkeyNotAvailable": "Ключі доступу недоступні для цієї програми. Увійдіть за допомогою електронної пошти та пароля.",
-    "@passkeyNotAvailable": {
-        "description": "Error for unknown passkey provider errors (e.g. TYPE_UNKNOWN)."
     },
     "passkeyFailed": "Не вдалося автентифікувати за допомогою ключа доступу. Спробуйте ще раз.",
     "@passkeyFailed": {
@@ -941,26 +904,6 @@
     "inviteAcceptSomeone": "хтось",
     "@inviteAcceptSomeone": {
         "description": "Fallback inviter name when the inviter is unknown."
-    },
-    "inviteAcceptEmojiPack": "Набір емоджі",
-    "@inviteAcceptEmojiPack": {
-        "description": "Label for an emoji pack invite."
-    },
-    "inviteAcceptStickerPack": "Набір стікерів",
-    "@inviteAcceptStickerPack": {
-        "description": "Label for a sticker pack invite."
-    },
-    "inviteAcceptInstallEmojiPack": "Встановити набір емоджі",
-    "@inviteAcceptInstallEmojiPack": {
-        "description": "Primary action to install an emoji pack from an invite."
-    },
-    "inviteAcceptInstallStickerPack": "Встановити набір стікерів",
-    "@inviteAcceptInstallStickerPack": {
-        "description": "Primary action to install a sticker pack from an invite."
-    },
-    "inviteAcceptPackInstallNote": "Прийняття цього запрошення автоматично встановить пакет.",
-    "@inviteAcceptPackInstallNote": {
-        "description": "Note shown on expression pack invites before accepting."
     },
     "mentionUnknownChannel": "unknown-channel",
     "@mentionUnknownChannel": {
@@ -1708,10 +1651,6 @@
             }
         }
     },
-    "emojiPlutoniumUpsellButton": "Отримати Plutonium",
-    "@emojiPlutoniumUpsellButton": {
-        "description": "Button label on the Plutonium upsell banner."
-    },
     "emojiPlutoniumUpsellDismiss": "Більше не показувати",
     "@emojiPlutoniumUpsellDismiss": {
         "description": "Dismiss link on the Plutonium upsell banner."
@@ -1878,10 +1817,6 @@
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
     },
-    "fluxerTagInputLabel": "Ім'я користувача",
-    "@fluxerTagInputLabel": {
-        "description": "Label above the username and discriminator input fields."
-    },
     "fluxerTagDescriptionBase": "Імена користувачів можуть містити лише літери (a-z, A-Z), цифри (0-9) та символи підкреслення. Імена користувачів не чутливі до регістру.",
     "@fluxerTagDescriptionBase": {
         "description": "Base description text on the username change sheet."
@@ -1909,10 +1844,6 @@
     "validationAllowedChars": "Лише літери (a-z, A-Z), цифри (0-9) та символи підкреслення (_)",
     "@validationAllowedChars": {
         "description": "Validation rule for allowed username characters."
-    },
-    "discriminatorPremiumTooltip": "Отримайте Plutonium, щоб налаштувати свій тег або зберегти його під час зміни імені користувача",
-    "@discriminatorPremiumTooltip": {
-        "description": "Tooltip on disabled discriminator field for non-premium users."
     },
     "fluxerTagAlreadyTaken": "Ім'я користувача вже зайняте",
     "@fluxerTagAlreadyTaken": {
@@ -1967,19 +1898,6 @@
     "premiumUpsellCustomizeTag": "Налаштуйте свій 4-значний тег або збережіть його під час зміни імені користувача",
     "@premiumUpsellCustomizeTag": {
         "description": "Upsell text encouraging non-premium users to get Plutonium for tag customization."
-    },
-    "premiumTrialExpiresOn": "Ваш пробний період Plutonium закінчується {date}. Оновіть, щоб зберегти свій власний тег і отримати значок у профілі.",
-    "@premiumTrialExpiresOn": {
-        "description": "Trial upsell with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActive": "Ви використовуєте пробну версію Plutonium. Оновіть, щоб зберегти свій власний тег і отримати значок у профілі.",
-    "@premiumTrialActive": {
-        "description": "Trial upsell without specific expiry date."
     },
     "fluxerTagUpdated": "Ім'я користувача оновлено",
     "@fluxerTagUpdated": {
@@ -2153,32 +2071,6 @@
     "@hideVisionaryIdDescription": {
         "description": "Description for the toggle to hide the Visionary ID badge."
     },
-    "premiumTrialSubscriptionStarts": "Ви на безкоштовному пробному періоді Plutonium — ваша підписка розпочнеться {date}",
-    "@premiumTrialSubscriptionStarts": {
-        "description": "Trial banner title when user has an active subscription pending after trial.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialSubscriptionStartsDescription": "Ваша підписка автоматично розпочнеться після закінчення пробного періоду. Жодних дій не потрібно.",
-    "@premiumTrialSubscriptionStartsDescription": {
-        "description": "Trial banner description when user has an active subscription pending after trial."
-    },
-    "premiumTrialExpiresOnProfile": "Ваш пробний період Plutonium закінчується {date}",
-    "@premiumTrialExpiresOnProfile": {
-        "description": "Trial banner title with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActiveProfile": "Ви на безкоштовному пробному періоді Plutonium",
-    "@premiumTrialActiveProfile": {
-        "description": "Trial banner title without specific expiry date."
-    },
     "avatarDescriptionNonPremium": "JPEG, PNG, WebP. Макс. 10 МБ. Рекомендовано: 512×512px. Анімовані аватари (GIF) потребують Plutonium.",
     "@avatarDescriptionNonPremium": {
         "description": "Avatar helper text for non-premium users, mentioning Plutonium requirement for animated avatars."
@@ -2263,22 +2155,6 @@
     "profileSavedToast": "Профіль оновлено",
     "@profileSavedToast": {
         "description": "Toast message shown after successfully saving profile changes."
-    },
-    "profileEditButton": "Редагувати профіль",
-    "@profileEditButton": {
-        "description": "Button label to open profile editing from the profile content card."
-    },
-    "profileNoteLabel": "Примітка",
-    "@profileNoteLabel": {
-        "description": "Label for the personal note section on a user profile."
-    },
-    "profileNoteVisibility": "(видно лише вам)",
-    "@profileNoteVisibility": {
-        "description": "Hint that the note is private and only visible to the current user."
-    },
-    "profileNoteEmpty": "Приміток ще немає.",
-    "@profileNoteEmpty": {
-        "description": "Placeholder shown when no personal note has been set for a user."
     },
     "sudoTitle": "Підтвердьте свою особу",
     "@sudoTitle": {
@@ -2651,42 +2527,6 @@
     "@securityPasskeyNameHint": {
         "description": "Hint for passkey name input."
     },
-    "securityPhoneSectionTitle": "Номер телефону",
-    "@securityPhoneSectionTitle": {
-        "description": "Title for phone number section."
-    },
-    "securityPhoneSectionDescription": "Керуйте своїм номером телефону.",
-    "@securityPhoneSectionDescription": {
-        "description": "Description for phone number section."
-    },
-    "securityPhoneLabel": "Номер телефону",
-    "@securityPhoneLabel": {
-        "description": "Label for phone number row."
-    },
-    "securityPhoneNone": "Номер телефону не додано.",
-    "@securityPhoneNone": {
-        "description": "Shown when no phone number is set."
-    },
-    "securityPhoneAdd": "Додати телефон",
-    "@securityPhoneAdd": {
-        "description": "Button to add phone number."
-    },
-    "securityPhoneRemove": "Видалити",
-    "@securityPhoneRemove": {
-        "description": "Button to remove phone number."
-    },
-    "securityPhoneRemoveTitle": "Видалити номер телефону",
-    "@securityPhoneRemoveTitle": {
-        "description": "Title for phone remove confirmation."
-    },
-    "securityPhoneRemoveDescription": "Ви впевнені, що хочете видалити свій номер телефону?",
-    "@securityPhoneRemoveDescription": {
-        "description": "Description for phone remove confirmation."
-    },
-    "securityPhoneRemoved": "Номер телефону видалено",
-    "@securityPhoneRemoved": {
-        "description": "Toast after phone removed."
-    },
     "securityClaimTitle": "Функції безпеки",
     "@securityClaimTitle": {
         "description": "Title when user needs to claim account for security."
@@ -2739,10 +2579,6 @@
     "@backupCodesWarning": {
         "description": "Warning about backup codes."
     },
-    "backupCodesDownload": "Завантажити",
-    "@backupCodesDownload": {
-        "description": "Button to download backup codes."
-    },
     "backupCodesCopy": "Копіювати",
     "@backupCodesCopy": {
         "description": "Button to copy backup codes."
@@ -2758,46 +2594,6 @@
     "backupCodesDone": "Готово",
     "@backupCodesDone": {
         "description": "Button to close backup codes sheet."
-    },
-    "backupCodesViewTitle": "Переглянути резервні коди",
-    "@backupCodesViewTitle": {
-        "description": "Title for viewing existing backup codes."
-    },
-    "backupCodesViewDescription": "Може знадобитися перевірка перед переглядом резервних кодів.",
-    "@backupCodesViewDescription": {
-        "description": "Description for view backup codes."
-    },
-    "phoneAddTitle": "Додати номер телефону",
-    "@phoneAddTitle": {
-        "description": "Title for phone add sheet."
-    },
-    "phoneAddLabel": "Номер телефону",
-    "@phoneAddLabel": {
-        "description": "Label for phone input."
-    },
-    "phoneAddHint": "Введіть свій номер телефону",
-    "@phoneAddHint": {
-        "description": "Hint for phone input."
-    },
-    "phoneAddFooter": "Ми надішлемо SMS-код, коли він буде доступний. Ваш номер не буде пов’язано з вашим обліковим записом. Ми зберігаємо лише зашифрований маркер без ідентифікатора користувача, щоб дозволити максимум 2 перевірки приблизно за 30 днів.",
-    "@phoneAddFooter": {
-        "description": "Footer text for phone input."
-    },
-    "phoneAddSendCode": "Надіслати код",
-    "@phoneAddSendCode": {
-        "description": "Button to send phone verification code."
-    },
-    "phoneVerifyTitle": "Підтвердити номер телефону",
-    "@phoneVerifyTitle": {
-        "description": "Title for phone verify step."
-    },
-    "phoneVerifyDescription": "Введіть код підтвердження, надісланий на ваш номер телефону.",
-    "@phoneVerifyDescription": {
-        "description": "Description for phone verify step."
-    },
-    "phoneAddSuccess": "Номер телефону підтверджено",
-    "@phoneAddSuccess": {
-        "description": "Toast after phone added."
     },
     "dangerZoneSectionTitle": "Небезпечна зона",
     "@dangerZoneSectionTitle": {
@@ -3049,10 +2845,6 @@
     "@authorizedAppsScopeAdmin": {
         "description": "OAuth2 scope description: admin."
     },
-    "privacyPendingDeletionTitle": "Очікує видалення",
-    "@privacyPendingDeletionTitle": {
-        "description": "Title of the warning alert shown when a bulk message deletion is pending."
-    },
     "blockedUsersTitle": "Заблоковані користувачі",
     "@blockedUsersTitle": {
         "description": "Header title of the Blocked Users settings page."
@@ -3288,10 +3080,6 @@
     "userProfileNoteDelete": "Видалити",
     "@userProfileNoteDelete": {
         "description": "Delete button in the note editor sheet."
-    },
-    "userProfileNoteEmpty": "Натисніть, щоб додати примітку",
-    "@userProfileNoteEmpty": {
-        "description": "Hint text when no note has been written yet."
     },
     "userProfileMemberSince": "Учасник з",
     "@userProfileMemberSince": {
@@ -4063,17 +3851,9 @@
     "@channelComposerBarrierNotMemberLongEnough": {
         "description": "Composer barrier when the user's guild membership is too recent."
     },
-    "channelComposerBarrierNoPhoneNumber": "Щоб надсилати повідомлення в цій спільноті, потрібно підтвердити номер телефону.",
-    "@channelComposerBarrierNoPhoneNumber": {
-        "description": "Composer barrier when the user must verify a phone number before messaging."
-    },
     "channelComposerBarrierVerifyEmail": "Підтвердити електронну пошту",
     "@channelComposerBarrierVerifyEmail": {
         "description": "Action button on the composer barrier for unverified email."
-    },
-    "channelComposerBarrierVerifyPhone": "Підтвердити номер телефону",
-    "@channelComposerBarrierVerifyPhone": {
-        "description": "Action button on the composer barrier for missing phone verification."
     },
     "chatAttachmentTooMany": "Занадто багато вкладень (макс. {max})",
     "@chatAttachmentTooMany": {
@@ -4100,10 +3880,6 @@
     "@chatAttachmentDropToSend": {
         "description": "Overlay hint when dragging files over chat with Shift held."
     },
-    "chatAttachmentSendVoiceMessage": "Надіслати голосове повідомлення",
-    "@chatAttachmentSendVoiceMessage": {
-        "description": "Menu item to open the voice message recorder."
-    },
     "voiceMessageTitle": "Голосове повідомлення",
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
@@ -4124,10 +3900,6 @@
     "@voiceMessageMicPermissionDenied": {
         "description": "Shown when microphone permission is denied for voice messages."
     },
-    "voiceMessageRecordingNotSupported": "Запис голосу не підтримується на цьому пристрої.",
-    "@voiceMessageRecordingNotSupported": {
-        "description": "Shown when the device cannot record voice messages."
-    },
     "voiceMessageMicInUse": "Залиште голосовий виклик, щоб записати голосове повідомлення.",
     "@voiceMessageMicInUse": {
         "description": "Shown when the microphone is already used by an active voice call."
@@ -4140,26 +3912,6 @@
     "@voiceMessageSendFailed": {
         "description": "Shown when sending a voice message fails."
     },
-    "voiceMessageRecordingHint": "Говоріть. Натисніть «Зупинити», коли закінчите — потім можна буде обрізати.",
-    "@voiceMessageRecordingHint": {
-        "description": "Help text while recording a voice message on desktop."
-    },
-    "voiceMessageReviewHint": "Перетягніть маркери, щоб обрізати, а потім натисніть «Надіслати».",
-    "@voiceMessageReviewHint": {
-        "description": "Help text while reviewing a voice message before send."
-    },
-    "voiceMessageStop": "Зупинити",
-    "@voiceMessageStop": {
-        "description": "Stop recording button in voice message composer."
-    },
-    "voiceMessageStartRecording": "Почати запис",
-    "@voiceMessageStartRecording": {
-        "description": "Button to retry voice recording after permission error."
-    },
-    "voiceMessageRerecord": "Записати знову",
-    "@voiceMessageRerecord": {
-        "description": "Button to discard review and record again."
-    },
     "voiceMessagePlay": "Відтворити",
     "@voiceMessagePlay": {
         "description": "Play voice message preview."
@@ -4167,16 +3919,6 @@
     "voiceMessagePause": "Пауза",
     "@voiceMessagePause": {
         "description": "Pause voice message preview."
-    },
-    "voiceMessageSelectionTooShort": "Виділення має бути щонайменше {seconds} с.",
-    "@voiceMessageSelectionTooShort": {
-        "description": "Error when trimmed voice message is too short.",
-        "placeholders": {
-            "seconds": {
-                "type": "num",
-                "format": "compact"
-            }
-        }
     },
     "chatAttachmentEditTitle": "Редагувати вкладення",
     "@chatAttachmentEditTitle": {
@@ -4221,10 +3963,6 @@
     "chatAttachmentSourceBrowse": "Переглянути файли",
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
-    },
-    "chatAttachmentPasteTooltip": "Вставити файл із буфера обміну",
-    "@chatAttachmentPasteTooltip": {
-        "description": "Tooltip for pasting an image attachment from the clipboard."
     },
     "chatAttachmentSpoiler": "Спойлер",
     "@chatAttachmentSpoiler": {
@@ -4322,14 +4060,6 @@
     "@matureContentOpenLinkButton": {
         "description": "Primary action on mature link channel gates."
     },
-    "sensitiveContentSectionTitle": "Чутливий вміст",
-    "@sensitiveContentSectionTitle": {
-        "description": "Privacy settings section title for sensitive content filters."
-    },
-    "sensitiveContentSectionDescription": "Керуйте тим, як медіа для дорослих або чутливий медіа фільтрується в різних контекстах",
-    "@sensitiveContentSectionDescription": {
-        "description": "Privacy settings section description for sensitive content filters."
-    },
     "sensitiveContentFriendDmLabel": "Особисті повідомлення від друзів",
     "@sensitiveContentFriendDmLabel": {
         "description": "Label for friend DM sensitive content filter."
@@ -4354,18 +4084,6 @@
     "@sensitiveContentFilterBlock": {
         "description": "Sensitive content filter option to block media."
     },
-    "sensitiveContentBlurUnscannedLabel": "Розмивати медіа до завершення сканування безпеки",
-    "@sensitiveContentBlurUnscannedLabel": {
-        "description": "Toggle label for blurring unscanned media."
-    },
-    "sensitiveContentBlurUnscannedDescriptionAdult": "Якщо ввімкнено, зображення та відео розмиваються до завершення сканування безпеки вмісту.",
-    "@sensitiveContentBlurUnscannedDescriptionAdult": {
-        "description": "Description for blur-unscanned toggle for adult accounts."
-    },
-    "sensitiveContentBlurUnscannedDescriptionMinor": "Цей параметр завжди ввімкнено для вашого облікового запису.",
-    "@sensitiveContentBlurUnscannedDescriptionMinor": {
-        "description": "Description for blur-unscanned toggle for minor accounts."
-    },
     "sensitiveContentResetButton": "Скинути",
     "@sensitiveContentResetButton": {
         "description": "Reset button for sensitive content settings."
@@ -4382,10 +4100,6 @@
                 "type": "int"
             }
         }
-    },
-    "chatCancelUpload": "Скасувати завантаження",
-    "@chatCancelUpload": {
-        "description": "Button or menu action label for canceling an in-flight message attachment upload."
     },
     "chatAttachmentExpiresOn": "Термін дії закінчується {date}",
     "@chatAttachmentExpiresOn": {
@@ -4655,10 +4369,6 @@
     "@connectionEnterDomain": {
         "description": "Inline error shown when the domain input is empty."
     },
-    "lookAndFeelTitle": "Вигляд і відчуття",
-    "@lookAndFeelTitle": {
-        "description": "Title of the Look & Feel (Appearance) settings page."
-    },
     "lookAndFeelThemeSectionTitle": "Тема",
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
@@ -4698,14 +4408,6 @@
     "lookAndFeelThemeSyncFailed": "Не вдалося синхронізувати тему з вашим обліковим записом. Спробуйте ще раз.",
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
-    },
-    "lookAndFeelChatFontScalingTitle": "Масштабування шрифту чату",
-    "@lookAndFeelChatFontScalingTitle": {
-        "description": "Section title for the chat font size slider."
-    },
-    "lookAndFeelChatFontScalingDescription": "Налаштуйте розмір шрифту в області чату.",
-    "@lookAndFeelChatFontScalingDescription": {
-        "description": "Section description for the chat font size slider."
     },
     "lookAndFeelInterfaceTitle": "Інтерфейс",
     "@lookAndFeelInterfaceTitle": {
@@ -4774,42 +4476,6 @@
     "lookAndFeelHideKeyboardHintsDescription": "Якщо ввімкнено, ярлики комбінацій клавіш приховуються у спливаючих підказках.",
     "@lookAndFeelHideKeyboardHintsDescription": {
         "description": "Toggle description for the hide-keyboard-hints switch."
-    },
-    "lookAndFeelNekoTitle": "Різне",
-    "@lookAndFeelNekoTitle": {
-        "description": "Subsection title under Interface for Neko appearance settings."
-    },
-    "lookAndFeelNekoDescription": "Різні параметри інтерфейсу.",
-    "@lookAndFeelNekoDescription": {
-        "description": "Subsection description for Neko appearance settings."
-    },
-    "lookAndFeelShowNekoLabel": "Показувати Неко",
-    "@lookAndFeelShowNekoLabel": {
-        "description": "Toggle label for showing Neko in the chat footer."
-    },
-    "lookAndFeelShowNekoDescription": "Якщо ввімкнено, Неко з'являється біля поля введення чату.",
-    "@lookAndFeelShowNekoDescription": {
-        "description": "Toggle description for showing Neko in chat."
-    },
-    "lookAndFeelVoiceChannelJoinTitle": "Поведінка під час приєднання до голосового каналу",
-    "@lookAndFeelVoiceChannelJoinTitle": {
-        "description": "Subsection title under Interface — voice channel join behavior."
-    },
-    "lookAndFeelVoiceChannelJoinDescription": "Керуйте тим, як ви приєднуєтеся до голосових каналів у спільнотах.",
-    "@lookAndFeelVoiceChannelJoinDescription": {
-        "description": "Subsection description for voice channel join behavior."
-    },
-    "lookAndFeelRequireDoubleClickJoinLabel": "Вимагати подвійне натискання для приєднання до голосових каналів",
-    "@lookAndFeelRequireDoubleClickJoinLabel": {
-        "description": "Toggle label — require double-click to join voice channels."
-    },
-    "lookAndFeelRequireDoubleClickJoinDescription": "Якщо ввімкнено, вам потрібно буде двічі клацнути на голосові канали, щоб приєднатися до них. Якщо вимкнено (за замовчуванням), одинарне клацання негайно приєднає до каналу.",
-    "@lookAndFeelRequireDoubleClickJoinDescription": {
-        "description": "Toggle description for the require-double-click voice channel join switch."
-    },
-    "lookAndFeelChatFontPreviewSample": "Швидка бура лисиця стрибає через ледачого собаку.",
-    "@lookAndFeelChatFontPreviewSample": {
-        "description": "Sample text rendered at the selected chat font size to preview scaling."
     },
     "lookAndFeelGuildSidebarTitle": "Бічна панель спільноти",
     "@lookAndFeelGuildSidebarTitle": {
@@ -5218,25 +4884,9 @@
     "@messagesMediaAutocompleteSavedMediaLabel": {
         "description": "Toggle label for saved media in expression autocomplete."
     },
-    "messagesMediaEditingSectionTitle": "Редагування повідомлень",
-    "@messagesMediaEditingSectionTitle": {
-        "description": "Section title for message editing settings."
-    },
-    "messagesMediaEditingSectionDescription": "Керуйте тим, що відбувається з чернеткою редагування під час скасування.",
-    "@messagesMediaEditingSectionDescription": {
-        "description": "Section description for message editing settings."
-    },
-    "messagesMediaEditingPreserveDraftLabel": "Зберігати чернетку редагування під час скасування",
-    "@messagesMediaEditingPreserveDraftLabel": {
-        "description": "Toggle label for preserving edit drafts on cancel."
-    },
     "accessibilityDmMessagePreviewGroupTitle": "Попередній перегляд повідомлень у приватних чатах",
     "@accessibilityDmMessagePreviewGroupTitle": {
         "description": "Section title for DM message preview accessibility settings."
-    },
-    "accessibilityDmMessagePreviewGroupDescription": "Керуйте тим, коли показувати попередній перегляд повідомлень у списку прямих повідомлень.",
-    "@accessibilityDmMessagePreviewGroupDescription": {
-        "description": "Section description for DM message preview accessibility settings."
     },
     "accessibilityDmMessagePreviewModeLabel": "Режим попереднього перегляду повідомлень у приватних чатах",
     "@accessibilityDmMessagePreviewModeLabel": {
@@ -5394,10 +5044,6 @@
     "@voiceConnectionConfirmDoNothing": {
         "description": "Dismiss the dialog without joining voice."
     },
-    "voiceChannelEmptyDescription": "Це голосовий канал. Підключіться, щоб почати розмову!",
-    "@voiceChannelEmptyDescription": {
-        "description": "Empty state body when viewing a guild voice channel while not in the call."
-    },
     "voiceChannelJoin": "Приєднатися до голосового каналу",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
@@ -5437,14 +5083,6 @@
     "voiceChannelStatusConnecting": "Підключення…",
     "@voiceChannelStatusConnecting": {
         "description": "Status in the in-page voice view while LiveKit is connecting."
-    },
-    "voiceChannelStatusConnected": "Підключено",
-    "@voiceChannelStatusConnected": {
-        "description": "Status in the in-page voice view when the voice session is active."
-    },
-    "voiceChannelStatusError": "Помилка",
-    "@voiceChannelStatusError": {
-        "description": "Short label in the channel header when the voice session reports an error."
     },
     "voiceParticipantTooltipMobileDevice": "Мобільний пристрій",
     "@voiceParticipantTooltipMobileDevice": {
@@ -5519,10 +5157,6 @@
     "voiceScreenShareNotificationText": "Демонструється ваш екран.",
     "@voiceScreenShareNotificationText": {
         "description": "Body text for the Android foreground notification shown while screen sharing."
-    },
-    "voiceControlMore": "Більше",
-    "@voiceControlMore": {
-        "description": "Tooltip: more voice actions in the voice call control bar."
     },
     "voiceControlDisconnect": "Від'єднатися",
     "@voiceControlDisconnect": {
@@ -6378,10 +6012,6 @@
     "addGuildJoinFailed": "Не вдалося приєднатися до спільноти. Спробуйте ще раз.",
     "@addGuildJoinFailed": {
         "description": "Generic error when joining a community via invite fails."
-    },
-    "addGuildPackInstalled": "Пакет успішно встановлено.",
-    "@addGuildPackInstalled": {
-        "description": "Toast shown after accepting an emoji or sticker pack invite."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "Видалити всі реакції",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -7461,10 +7091,6 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsCustomInviteUrl": "Власне посилання-запрошення",
-    "@guildMenuSettingsCustomInviteUrl": {
-        "description": "Community settings tab for custom invite URLs."
-    },
     "guildMenuSettingsDiscovery": "Discovery",
     "@guildMenuSettingsDiscovery": {
         "description": "Community settings tab for discovery settings."
@@ -7489,17 +7115,9 @@
     "@guildSettingsOverviewIconTitle": {
         "description": "Title for the guild icon section in overview settings."
     },
-    "guildSettingsUploadImage": "Завантажити зображення",
-    "@guildSettingsUploadImage": {
-        "description": "Button label to upload an image in guild settings."
-    },
     "guildSettingsOverviewBannerTitle": "Банер",
     "@guildSettingsOverviewBannerTitle": {
         "description": "Title for the guild banner section."
-    },
-    "guildSettingsOverviewBannerHint": "Завантажте банер для вашого сервера.",
-    "@guildSettingsOverviewBannerHint": {
-        "description": "Hint text for guild banner upload."
     },
     "guildSettingsOverviewNameTitle": "Назва",
     "@guildSettingsOverviewNameTitle": {
@@ -7509,22 +7127,6 @@
     "@guildSettingsOverviewNameHint": {
         "description": "Hint for the guild name field."
     },
-    "guildSettingsOverviewStatsTitle": "Статистика",
-    "@guildSettingsOverviewStatsTitle": {
-        "description": "Title for guild statistics section."
-    },
-    "guildSettingsOverviewMembers": "Учасники",
-    "@guildSettingsOverviewMembers": {
-        "description": "Label for member count in overview."
-    },
-    "guildSettingsOverviewOnline": "Онлайн",
-    "@guildSettingsOverviewOnline": {
-        "description": "Label for online count in overview."
-    },
-    "guildSettingsRolesDescription": "Використовуйте ролі для групування учасників та надання дозволів.",
-    "@guildSettingsRolesDescription": {
-        "description": "Description for the roles settings tab."
-    },
     "guildSettingsCreateRole": "Створити роль",
     "@guildSettingsCreateRole": {
         "description": "Button to create a new role."
@@ -7533,30 +7135,9 @@
     "@guildSettingsRolesListTitle": {
         "description": "Title for the roles list section."
     },
-    "guildSettingsEmojiSlotInfo": "{staticCount} статичних, {animatedCount} анімованих слотів для емоджі використано",
-    "@guildSettingsEmojiSlotInfo": {
-        "description": "Emoji slot usage summary.",
-        "placeholders": {
-            "staticCount": {
-                "type": "int"
-            },
-            "animatedCount": {
-                "type": "int"
-            }
-        }
-    },
     "guildSettingsEmojiEmpty": "Ще немає власних емоджі.",
     "@guildSettingsEmojiEmpty": {
         "description": "Empty state for emoji settings."
-    },
-    "guildSettingsStickersSlotInfo": "{count} стікерів завантажено",
-    "@guildSettingsStickersSlotInfo": {
-        "description": "Sticker slot usage summary.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsStickersEmpty": "Ще немає власних стікерів.",
     "@guildSettingsStickersEmpty": {
@@ -7602,8 +7183,6 @@
     "guildSettingsVerificationMediumDescription": "Вимагає підтвердженої адреси електронної пошти та облікового запису, створеного щонайменше 5 хвилин тому.",
     "guildSettingsVerificationHigh": "Високий",
     "guildSettingsVerificationHighDescription": "Потрібні всі вимоги рівня «Середній», а також членство в спільноті щонайменше 10 хвилин.",
-    "guildSettingsVerificationHighest": "Дуже високий",
-    "guildSettingsVerificationHighestDescription": "Потрібен підтверджений номер телефону.",
     "guildSettingsAuditLogDescription": "Відстежуйте дії модераторів у спільноті.",
     "@guildSettingsAuditLogDescription": {
         "description": "Subtitle under the activity-log page title."
@@ -7631,14 +7210,6 @@
     "guildSettingsAuditLogUnknownUser": "Невідомий користувач",
     "@guildSettingsAuditLogUnknownUser": {
         "description": "Fallback avatar label when the acting user is unavailable."
-    },
-    "guildSettingsAuditLogLoadError": "Під час завантаження журналу дій сталася помилка.",
-    "@guildSettingsAuditLogLoadError": {
-        "description": "Generic error shown when fetching log entries fails."
-    },
-    "guildSettingsAuditLogLoadErrorTitle": "Не вдалося завантажити журнали активності",
-    "@guildSettingsAuditLogLoadErrorTitle": {
-        "description": "Error-state title when fetching log entries failed."
     },
     "guildSettingsAuditLogReason": "Причина",
     "@guildSettingsAuditLogReason": {
@@ -8610,14 +8181,6 @@
     "@auditLogOptionPermanentMembership": {
         "description": "Audit log option detail sentence."
     },
-    "guildSettingsLoadMore": "Завантажити ще",
-    "@guildSettingsLoadMore": {
-        "description": "Button to load more audit log entries."
-    },
-    "guildSettingsLoadingMore": "Завантаження...",
-    "@guildSettingsLoadingMore": {
-        "description": "Loading state for pagination."
-    },
     "guildSettingsWebhooksDescription": "Переглядайте всі вебхуки, налаштовані у вашій спільноті, та керуйте ними.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
@@ -8626,42 +8189,9 @@
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
-    "guildSettingsCopyUrl": "Копіювати URL",
-    "@guildSettingsCopyUrl": {
-        "description": "Tooltip to copy a URL."
-    },
     "guildSettingsCopiedUrl": "URL скопійовано в буфер обміну",
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
-    },
-    "guildSettingsDeleteWebhook": "Видалити вебхук",
-    "@guildSettingsDeleteWebhook": {
-        "description": "Tooltip to delete a webhook."
-    },
-    "guildSettingsVanityUrlDescription": "Налаштуйте власне посилання для запрошення на ваш сервер.",
-    "@guildSettingsVanityUrlDescription": {
-        "description": "Description for vanity URL tab."
-    },
-    "guildSettingsVanityUrlHint": "my-server",
-    "@guildSettingsVanityUrlHint": {
-        "description": "Hint for vanity URL input."
-    },
-    "guildSettingsSave": "Зберегти",
-    "@guildSettingsSave": {
-        "description": "Generic save button label."
-    },
-    "guildSettingsVanityUrlUsageTitle": "Використання",
-    "@guildSettingsVanityUrlUsageTitle": {
-        "description": "Title for vanity URL usage section."
-    },
-    "guildSettingsVanityUrlUses": "{count} використань",
-    "@guildSettingsVanityUrlUses": {
-        "description": "Vanity URL usage count.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsDiscoveryDescription": "Додайте свою спільноту до Discovery, щоб інші могли знайти її та приєднатися.",
     "@guildSettingsDiscoveryDescription": {
@@ -8700,10 +8230,6 @@
     "@guildSettingsDiscoveryWithdraw": {
         "description": "Button to withdraw discovery application."
     },
-    "guildSettingsMembersDescription": "Шукайте учасників сервера та керуйте ними.",
-    "@guildSettingsMembersDescription": {
-        "description": "Description for members tab."
-    },
     "guildSettingsMembersSearchHint": "Пошук за іменем користувача або ID",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
@@ -8725,27 +8251,6 @@
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
-    "guildSettingsInviteUses": "{uses} / {maxUses} використань",
-    "@guildSettingsInviteUses": {
-        "description": "Invite usage count.",
-        "placeholders": {
-            "uses": {
-                "type": "int"
-            },
-            "maxUses": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsInviteExpires": "Термін дії до {date}",
-    "@guildSettingsInviteExpires": {
-        "description": "Invite expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBansDescription": "Переглядайте заблокованих користувачів та керуйте ними.",
     "@guildSettingsBansDescription": {
         "description": "Description for bans tab."
@@ -8758,30 +8263,9 @@
     "@guildSettingsBansEmpty": {
         "description": "Empty state for bans."
     },
-    "guildSettingsBanPermanent": "Постійне блокування",
-    "@guildSettingsBanPermanent": {
-        "description": "Label for permanent ban."
-    },
-    "guildSettingsBanExpires": "Термін дії до {date}",
-    "@guildSettingsBanExpires": {
-        "description": "Ban expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBanExpiresLabel": "Закінчується",
     "@guildSettingsBanExpiresLabel": {
         "description": "Label for ban expiration row."
-    },
-    "guildSettingsUnban": "Розблокувати",
-    "@guildSettingsUnban": {
-        "description": "Button to unban a user."
-    },
-    "guildSettingsBansLoading": "Завантаження заблокованих користувачів",
-    "@guildSettingsBansLoading": {
-        "description": "Loading state for the guild bans list."
     },
     "guildSettingsBansNoSearchResults": "Не знайдено блокувань, які відповідають вашому пошуку.",
     "@guildSettingsBansNoSearchResults": {
@@ -8825,10 +8309,6 @@
             }
         }
     },
-    "guildSettingsBansLoadError": "Не вдалося завантажити блокування. Спробуйте ще раз.",
-    "@guildSettingsBansLoadError": {
-        "description": "Error when loading the guild bans list fails."
-    },
     "guildSettingsRevokeBanError": "Не вдалося скасувати блокування. Спробуйте ще раз.",
     "@guildSettingsRevokeBanError": {
         "description": "Error when revoking a ban fails."
@@ -8853,7 +8333,6 @@
     "@guildSettingsCategoryPeople": {
         "description": "Sidebar category for members, invites, and bans."
     },
-    "guildSettingsOverviewDescription": "Керуйте профілем, каналами та налаштуваннями за замовчуванням вашої спільноти.",
     "guildSettingsOverviewBrandingTitle": "Брендування",
     "guildSettingsOverviewBrandingDescription": "Оновіть іконку, назву, банер та фон запрошення",
     "@guildSettingsOverviewBrandingDescription": {
@@ -8872,7 +8351,6 @@
     },
     "guildSettingsOverviewNotificationsTitle": "Сповіщення за замовчуванням",
     "guildSettingsOverviewNotificationsLargeGuild": "Спільноти з понад 250 учасниками автоматично переходять на налаштування «Лише згадки». Ваші початкові налаштування зберігаються та будуть відновлені, якщо кількість учасників спільноти стане меншою за 250.",
-    "guildSettingsOverviewAdvancedTitle": "Додатково",
     "guildSettingsOverviewFlexibleNames": "Дозволити гнучкі назви текстових каналів",
     "guildSettingsOverviewHideOwnerCrown": "Сховати корону власника спільноти",
     "guildSettingsOverviewDetachedBanner": "Окремий банер",
@@ -8898,10 +8376,6 @@
     "guildSettingsOverviewEmbedSplashTitle": "Фон вбудованого чату",
     "@guildSettingsOverviewEmbedSplashTitle": {
         "description": "Title for embed splash upload section."
-    },
-    "guildSettingsOverviewEmbedSplashHint": "Відображається у вбудованих запрошеннях у чаті.",
-    "@guildSettingsOverviewEmbedSplashHint": {
-        "description": "Note shown when uploading chat embed background."
     },
     "guildSettingsOverviewUploadBackground": "Завантажити фон",
     "@guildSettingsOverviewUploadBackground": {
@@ -9068,8 +8542,6 @@
     "@guildSettingsOverviewEmbedSplashUploadHint": {
         "description": "Upload requirements for chat embed background images."
     },
-    "guildSettingsModerationDescription": "Налаштуйте параметри верифікації, фільтрації контенту та контенту для дорослих.",
-    "guildSettingsModerationDiscoveryNotice": "Спільноти, перелічені в Discovery, мають обмежені можливості модерації.",
     "guildSettingsModerationContentFilterTitle": "Фільтрування вмісту",
     "guildSettingsModerationContentFilterDescription": "Автоматично перевіряти повідомлення на наявність відвертого вмісту в каналах, не позначених як вміст для дорослих.",
     "guildSettingsModerationContentFilterDiscoveryNote": "Спільноти, перелічені в Discovery, зобов'язані сканувати всіх учасників. Цей параметр не можна змінити, доки увімкнено Discovery.",
@@ -9079,8 +8551,6 @@
     "guildSettingsContentFilterNoRoleDescription": "Рекомендовано для більшості спільнот",
     "guildSettingsContentFilterAll": "Фільтрувати всіх",
     "guildSettingsContentFilterAllDescription": "Максимальний захист для сімейних спільнот",
-    "guildSettingsModerationMatureOff": "Вимкнено",
-    "guildSettingsModerationMatureOn": "Увімкнено",
     "guildSettingsContentWarningToggle": "Показувати попередження про вміст",
     "@guildSettingsContentWarningToggle": {
         "description": "Switch label for the community content warning setting."
@@ -9100,7 +8570,6 @@
     "guildSettingsModeration2faTitle": "Вимога 2FA",
     "guildSettingsModeration2faDescription": "Вимагати двофакторну автентифікацію для модераторів, перш ніж вони зможуть забороняти, виганяти, тимчасово блокувати або видаляти повідомлення.",
     "guildSettingsModeration2faSwitchLabel": "Вимагати 2FA для дій модерації",
-    "guildSettingsModeration2faOwnerOnlyTooltip": "Змінити цей параметр може лише власник спільноти",
     "guildSettingsModeration2faEnableFirstTooltip": "Увімкніть двофакторну автентифікацію в обліковому записі, щоб змінити цей параметр",
     "guildSettingsEmojiSearchHint": "Пошук емоджі",
     "guildSettingsEmojiUploadTitle": "Завантажити емоджі",
@@ -9122,8 +8591,6 @@
     },
     "guildSettingsStickersSearchHint": "Пошук стікерів",
     "guildSettingsWebhooksInfo": "Щоб створити вебхук, відкрийте {channelSettingsPath}. Тут ви все ще можете редагувати та впорядковувати всі наявні вебхуки.",
-    "guildSettingsVanityUrlWarning": "Ваша спеціальна URL-адреса не працюватиме, якщо принаймні один канал не буде видимим для всіх.",
-    "guildSettingsVanityUrlRemove": "Видалити",
     "guildSettingsBannedUsersTitle": "Заблоковані користувачі",
     "guildSettingsInvitesTableInviter": "Хто запросив",
     "guildSettingsInvitesTableChannel": "Канал",
@@ -9358,26 +8825,6 @@
     "@audioAndVideoFrameRateSectionTitle": {
         "description": "Subsection title for screen share frame rate selection."
     },
-    "audioAndVideoMicrophonePermissionRequired": "Щоб переглянути список пристроїв, застосунку {productName} потрібен доступ до мікрофона.",
-    "@audioAndVideoMicrophonePermissionRequired": {
-        "description": "Shown when microphone permission is required to enumerate audio input devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
-    "audioAndVideoCameraPermissionRequired": "Щоб відобразити ваші пристрої, застосунку {productName} потрібен доступ до камери.",
-    "@audioAndVideoCameraPermissionRequired": {
-        "description": "Shown when camera permission is required to enumerate video devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
     "notificationsEnableNotificationsDescription": "Отримуйте сповіщення про нові повідомлення. Можливо, вам доведеться дозволити сповіщення для {productName} у налаштуваннях пристрою. Щоб керувати сповіщеннями для окремих каналів/спільнот, відкрийте налаштування сповіщень у меню спільноти.",
     "@notificationsEnableNotificationsDescription": {
         "description": "Description for the enable notifications toggle on mobile.",
@@ -9449,10 +8896,6 @@
     "notificationsEnableNotificationsLabel": "Увімкнути сповіщення",
     "@notificationsEnableNotificationsLabel": {
         "description": "Toggle label for enabling push or system notifications."
-    },
-    "notificationsEnableBrowserNotificationsLabel": "Увімкнути сповіщення в браузері",
-    "@notificationsEnableBrowserNotificationsLabel": {
-        "description": "Toggle label for enabling browser notifications."
     },
     "notificationsPushInactiveTimeoutLabel": "Час неактивності для push-сповіщень",
     "@notificationsPushInactiveTimeoutLabel": {
@@ -9698,10 +9141,6 @@
     "permissionCategoryAudioVideo": "Аудіо та відео",
     "@permissionCategoryAudioVideo": {
         "description": "Permission category label."
-    },
-    "permissionUnknown": "Невідомий дозвіл",
-    "@permissionUnknown": {
-        "description": "Fallback permission label."
     },
     "permissionAdministrator": "Адміністратор",
     "@permissionAdministrator": {
@@ -10039,15 +9478,6 @@
     "@channelSettingsContentWarningDefault": {
         "description": "Default content warning text placeholder."
     },
-    "channelSettingsPermissionsNeedManageChannels": "Щоб редагувати ці дозволи, вам потрібен дозвіл «{manageChannelsPermissionLabel}».",
-    "@channelSettingsPermissionsNeedManageChannels": {
-        "description": "Error when user lacks manage channels permission for channel permissions tab.",
-        "placeholders": {
-            "manageChannelsPermissionLabel": {
-                "type": "String"
-            }
-        }
-    },
     "channelSettingsPermissionsBackToOverrides": "Назад до перевизначень",
     "@channelSettingsPermissionsBackToOverrides": {
         "description": "Mobile back button label on channel permission editor."
@@ -10095,10 +9525,6 @@
     "channelSettingsInvitesCreate": "Створити запрошення",
     "@channelSettingsInvitesCreate": {
         "description": "Button to create a new invite in channel settings."
-    },
-    "channelSettingsWebhooksUnknownUser": "Невідомий користувач",
-    "@channelSettingsWebhooksUnknownUser": {
-        "description": "Fallback label when webhook creator is unavailable."
     },
     "channelSettingsWebhooksDelete": "Видалити вебхук",
     "@channelSettingsWebhooksDelete": {
@@ -10386,10 +9812,6 @@
     "@guildSettingsRolesComfyLayout": {
         "description": "Tooltip when permission list is in dense layout."
     },
-    "guildSettingsRolesSwitchToComfyLayout": "Перейти до зручного вигляду",
-    "@guildSettingsRolesSwitchToComfyLayout": {
-        "description": "Aria label for switching to comfy layout."
-    },
     "guildSettingsRolesSingleColumn": "Один стовпець",
     "@guildSettingsRolesSingleColumn": {
         "description": "Tooltip when permission list is in two-column layout."
@@ -10401,10 +9823,6 @@
     "guildSettingsRolesNoHoistedRoles": "Немає піднятих ролей. Увімкніть «Показувати цю роль окремо» для ролі, щоб побачити її тут.",
     "@guildSettingsRolesNoHoistedRoles": {
         "description": "Empty state when no roles are hoisted."
-    },
-    "guildSettingsRolesLockedTooltip": "Ви не можете редагувати цю роль, оскільки вона є вашою найвищою роллю або вищою за вас",
-    "@guildSettingsRolesLockedTooltip": {
-        "description": "Tooltip on locked role rows."
     },
     "guildSettingsRolesNeedManageRolesPermission": "Щоб редагувати ці дозволи, вам потрібен дозвіл \"{permission}\".",
     "@guildSettingsRolesNeedManageRolesPermission": {
@@ -10671,10 +10089,6 @@
     "@groupDmGenerateInviteLink": {
         "description": "Placeholder for the invite link field before generation."
     },
-    "groupDmCreateInviteFailed": "Не вдалося створити посилання-запрошення",
-    "@groupDmCreateInviteFailed": {
-        "description": "Title when invite link generation fails."
-    },
     "groupDmCreateInviteFailedBody": "Не вдалося створити посилання-запрошення. Спробуйте ще раз.",
     "@groupDmCreateInviteFailedBody": {
         "description": "Body when invite link generation fails."
@@ -10698,14 +10112,6 @@
     "guildSettingsRolesDenseLayout": "Щільний макет",
     "@guildSettingsRolesDenseLayout": {
         "description": "Tooltip when permission list is in comfy layout."
-    },
-    "guildSettingsRolesSwitchToSingleColumn": "Перейти до одного стовпця",
-    "@guildSettingsRolesSwitchToSingleColumn": {
-        "description": "Aria label for switching to single column."
-    },
-    "guildSettingsRolesSwitchToTwoColumns": "Перейти до двох стовпців",
-    "@guildSettingsRolesSwitchToTwoColumns": {
-        "description": "Aria label for switching to two columns."
     },
     "permissionManageNicknamesDescription": "Змінювати псевдоніми інших учасників.",
     "@permissionManageNicknamesDescription": {
@@ -10833,16 +10239,6 @@
     "audioAndVideoFrameRate60Label": "60 кадрів/с",
     "@audioAndVideoFrameRate60Label": {
         "description": "Screen share frame rate option for 60 FPS."
-    },
-    "audioAndVideoHigherQualityRequiresPremium": "Якість 1080p та 60 FPS вимагає {premiumProductName}.",
-    "@audioAndVideoHigherQualityRequiresPremium": {
-        "description": "Note shown when higher video quality options require premium.",
-        "placeholders": {
-            "premiumProductName": {
-                "type": "String",
-                "example": "Plutonium"
-            }
-        }
     },
     "audioAndVideoInstanceVideoQualityLimit": "На цьому сервері зараз дозволено демонстрацію екрана з роздільною здатністю до 720p при 30 FPS.",
     "@audioAndVideoInstanceVideoQualityLimit": {
@@ -11071,16 +10467,6 @@
             }
         }
     },
-    "audioAndVideoMicTestPermissionRequired": "{productName} потрібен доступ до мікрофона для перевірки вашого введення.",
-    "@audioAndVideoMicTestPermissionRequired": {
-        "description": "Shown when microphone permission is required for the mic test.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
     "audioAndVideoCameraQualitySectionTitle": "Якість камери",
     "@audioAndVideoCameraQualitySectionTitle": {
         "description": "Subsection title for camera resolution selection."
@@ -11108,10 +10494,6 @@
     "notificationsReplyMentionPreferenceAriaLabel": "Налаштування згадок у відповідях",
     "@notificationsReplyMentionPreferenceAriaLabel": {
         "description": "Accessibility label for the reply mention preference radio group."
-    },
-    "languageAndTimeOpenLanguageSettings": "Відкрити налаштування мови",
-    "@languageAndTimeOpenLanguageSettings": {
-        "description": "Button that opens the system per-app language settings."
     },
     "languageAndTimeTimeFormatSectionDescription": "Виберіть, як відображатиметься час у застосунку",
     "@languageAndTimeTimeFormatSectionDescription": {
@@ -11149,10 +10531,6 @@
     "guildSettingsRolesNameRequiredBody": "Назвіть роль, перш ніж зберігати.",
     "@guildSettingsRolesNameRequiredBody": {
         "description": "Modal body when role name is blank on save."
-    },
-    "guildSettingsRolesCustomHoistOrder": "Власний порядок відображення",
-    "@guildSettingsRolesCustomHoistOrder": {
-        "description": "Button to enter custom hoist order mode."
     },
     "guildSettingsRolesHoistOrder": "Порядок відображення",
     "@guildSettingsRolesHoistOrder": {
@@ -11446,10 +10824,6 @@
     "@guildSettingsRolesClearPermissionsHelp": {
         "description": "Help text above the clear permissions button."
     },
-    "guildSettingsRolesSwitchToDenseLayout": "Перейти до щільного вигляду",
-    "@guildSettingsRolesSwitchToDenseLayout": {
-        "description": "Aria label for switching to dense layout."
-    },
     "guildSettingsInvitesLabelUses": "Кількість використань:",
     "@guildSettingsInvitesLabelUses": {
         "description": "Mobile invite row label for uses count."
@@ -11567,14 +10941,6 @@
     "@channelMenuCouldNotDeleteYourMessages": {
         "description": "Error toast when deleting messages in a channel fails."
     },
-    "groupDmCouldntProcessImage": "Не вдалося обробити зображення",
-    "@groupDmCouldntProcessImage": {
-        "description": "Title when a cropped group icon cannot be processed."
-    },
-    "groupDmAddFailed": "Не вдалося додати до групи",
-    "@groupDmAddFailed": {
-        "description": "Title when adding friends to a group DM fails."
-    },
     "groupDmInviteRevoked": "Запрошення скасовано",
     "@groupDmInviteRevoked": {
         "description": "Success toast after revoking a group DM invite."
@@ -11624,10 +10990,6 @@
     "@groupDmEditTitle": {
         "description": "Title for the edit group DM modal or sheet."
     },
-    "groupDmEditDetailsTooltip": "Редагувати дані групи",
-    "@groupDmEditDetailsTooltip": {
-        "description": "Tooltip on the desktop group DM header edit action."
-    },
     "groupDmGroupName": "Назва групи",
     "@groupDmGroupName": {
         "description": "Label for the group name field in edit group."
@@ -11651,10 +11013,6 @@
     "groupDmAnimatedIconNotSupported": "Анімовані іконки не підтримуються. Використовуйте статичне зображення.",
     "@groupDmAnimatedIconNotSupported": {
         "description": "Error when user selects an animated group icon."
-    },
-    "groupDmFailedToProcessCroppedImage": "Не вдалося обробити обрізане зображення. Спробуйте ще раз.",
-    "@groupDmFailedToProcessCroppedImage": {
-        "description": "Body when a cropped group icon cannot be processed."
     },
     "groupDmUnsupportedIconFormat": "Непідтримуваний формат значка",
     "@groupDmUnsupportedIconFormat": {
@@ -11973,10 +11331,6 @@
     "@accessibilitySaturationTitle": {
         "description": "Section title for the theme saturation slider on the accessibility settings page."
     },
-    "accessibilitySaturationDescription": "Налаштуйте яскравість кольорів теми в усій програмі.",
-    "@accessibilitySaturationDescription": {
-        "description": "Section description for the theme saturation slider on the accessibility settings page."
-    },
     "channelDetailsChannelSettingsTitle": "Налаштування каналу",
     "@channelDetailsChannelSettingsTitle": {
         "description": "Title for the channel details overflow menu on guild channels."
@@ -12069,26 +11423,6 @@
     "@nagbarPushNotification": {
         "description": "Push notification permission nagbar body."
     },
-    "phoneCountryLabel": "Країна",
-    "@phoneCountryLabel": {
-        "description": "Label for country selector in phone verification."
-    },
-    "phoneSearchCountries": "Пошук країн...",
-    "@phoneSearchCountries": {
-        "description": "Search hint for country selector."
-    },
-    "phoneInboundChallengeCodeLabel": "Код для надсилання",
-    "@phoneInboundChallengeCodeLabel": {
-        "description": "Label for inbound challenge code."
-    },
-    "phoneInboundOurNumberLabel": "Надіслати на",
-    "@phoneInboundOurNumberLabel": {
-        "description": "Label for inbound destination number."
-    },
-    "requiredActionTitle": "Потрібна перевірка облікового запису",
-    "@requiredActionTitle": {
-        "description": "Title for required action blocking modal."
-    },
     "channelDetailsFallbackTitle": "Деталі",
     "@channelDetailsFallbackTitle": {
         "description": "Fallback title in channel details when no channel or DM name is available."
@@ -12096,110 +11430,6 @@
     "groupDmOrSendInvite": "або надішліть запрошення другові:",
     "@groupDmOrSendInvite": {
         "description": "Label above the invite link field in add friends to group."
-    },
-    "phoneCannotBeUsed": "Цей номер телефону не можна використовувати. Спробуйте інший мобільний номер або зверніться до служби підтримки.",
-    "@phoneCannotBeUsed": {
-        "description": "API error when phone number is rejected."
-    },
-    "phoneAlreadyUsed": "Цей номер телефону вже використовувався. Спробуйте інший номер або зверніться до служби підтримки.",
-    "@phoneAlreadyUsed": {
-        "description": "API error when phone number was reused."
-    },
-    "phoneNotEligible": "Підтвердження номера телефону недоступне для цього облікового запису. Скористайтеся іншим способом або зверніться до служби підтримки.",
-    "@phoneNotEligible": {
-        "description": "Account not eligible for phone verification."
-    },
-    "phoneInboundStepOpenMessaging": "Відкрийте застосунок для обміну повідомленнями на телефоні та створіть нове текстове повідомлення.",
-    "@phoneInboundStepOpenMessaging": {
-        "description": "Inbound verification step 1."
-    },
-    "phoneInboundGetNewCode": "Отримати новий код",
-    "@phoneInboundGetNewCode": {
-        "description": "Button to refresh inbound challenge."
-    },
-    "requiredActionCheckEmailDescription": "Ми надіслали посилання для підтвердження на вашу електронну адресу. Відкрийте його, щоб продовжити.",
-    "@requiredActionCheckEmailDescription": {
-        "description": "Description for email verification instructions."
-    },
-    "requiredActionSignOut": "Вийти",
-    "@requiredActionSignOut": {
-        "description": "Sign out button in required action modal."
-    },
-    "phoneNumberRequired": "Потрібен номер телефону",
-    "@phoneNumberRequired": {
-        "description": "Validation error when phone number is empty."
-    },
-    "phoneEnterValidNumber": "Введіть дійсний номер мобільного телефону.",
-    "@phoneEnterValidNumber": {
-        "description": "Validation error for invalid phone format."
-    },
-    "phoneCodeDidNotWork": "Цей код не спрацював. Перевірте його та спробуйте ще раз.",
-    "@phoneCodeDidNotWork": {
-        "description": "API error for invalid verification code."
-    },
-    "phoneTooManyAttempts": "Забагато спроб. Зачекайте трохи, потім спробуйте ще раз.",
-    "@phoneTooManyAttempts": {
-        "description": "Rate limit error for phone verification."
-    },
-    "phoneSmsUnavailable": "Підтвердження через SMS наразі недоступне. Спробуйте пізніше або зверніться до служби підтримки.",
-    "@phoneSmsUnavailable": {
-        "description": "SMS provider unavailable error."
-    },
-    "phoneSomethingWentWrong": "Щось пішло не так. Спробуйте ще раз.",
-    "@phoneSomethingWentWrong": {
-        "description": "Generic phone verification error."
-    },
-    "phoneInboundExpensiveDescription": "Надсилання SMS на цей номер телефону є надто дорогим, тому нам потрібно, щоб ви надіслали SMS нам. Ви також можете звернутися до служби підтримки, щоб ми зняли цю вимогу з вашого облікового запису.",
-    "@phoneInboundExpensiveDescription": {
-        "description": "Inbound challenge reason for expensive destinations."
-    },
-    "phoneInboundDefaultDescription": "Нам потрібно, щоб ви надіслали нам SMS для підтвердження вашого номера телефону.",
-    "@phoneInboundDefaultDescription": {
-        "description": "Default inbound challenge description."
-    },
-    "phoneInboundStepSendCode": "Надішліть код {code} на номер {number}.",
-    "@phoneInboundStepSendCode": {
-        "description": "Inbound verification step 2.",
-        "placeholders": {
-            "code": {
-                "type": "String"
-            },
-            "number": {
-                "type": "String"
-            }
-        }
-    },
-    "phoneInboundStepWait": "Зачекайте, поки ми отримаємо ваше повідомлення. Це може зайняти хвилину.",
-    "@phoneInboundStepWait": {
-        "description": "Inbound verification step 3."
-    },
-    "requiredActionIntroPhone": "Щоб продовжити, потрібно пройти додаткову перевірку на спам.",
-    "@requiredActionIntroPhone": {
-        "description": "Phone-only required action intro."
-    },
-    "requiredActionChooseMethodTitle": "Виберіть спосіб підтвердження",
-    "@requiredActionChooseMethodTitle": {
-        "description": "Title when user can pick email or phone."
-    },
-    "requiredActionUseEmail": "Використати електронну пошту",
-    "@requiredActionUseEmail": {
-        "description": "Button to choose email verification."
-    },
-    "requiredActionUsePhone": "Використати телефон",
-    "@requiredActionUsePhone": {
-        "description": "Button to choose phone verification."
-    },
-    "requiredActionCheckEmailTitle": "Перевірте свою електронну пошту",
-    "@requiredActionCheckEmailTitle": {
-        "description": "Title for email verification instructions."
-    },
-    "requiredActionResendVerificationEmail": "Надіслати лист для підтвердження ще раз",
-    "@requiredActionResendVerificationEmail": {
-        "description": "Button to resend verification email."
-    },
-    "requiredActionVerificationEmailSent": "Лист із підтвердженням надіслано. Перевірте свою поштову скриньку.",
-    "@requiredActionVerificationEmailSent": {
-        "description": "Toast after resending verification email."
     },
     "channelDetailsNotificationSettingsUpdated": "Налаштування сповіщень оновлено",
     "@channelDetailsNotificationSettingsUpdated": {
@@ -12268,10 +11498,6 @@
     "guildSettingsRolesAllowMentions": "Дозволити згадки для цієї ролі",
     "@guildSettingsRolesAllowMentions": {
         "description": "Switch label for the mentionable toggle."
-    },
-    "channelSettingsCategorySettingsTitle": "Налаштування категорії",
-    "@channelSettingsCategorySettingsTitle": {
-        "description": "Title for category settings modal."
     },
     "channelSettingsEditCategory": "Редагувати категорію",
     "@channelSettingsEditCategory": {
@@ -12403,18 +11629,6 @@
     "@channelSettingsVoiceRegion": {
         "description": "Label for voice region picker."
     },
-    "channelSettingsResetSlider": "Скинути повзунок до значення за замовчуванням",
-    "@channelSettingsResetSlider": {
-        "description": "Tooltip for reset buttons on channel settings sliders."
-    },
-    "channelSettingsAdvanced": "Додатково",
-    "@channelSettingsAdvanced": {
-        "description": "Collapsible advanced section title in channel overview."
-    },
-    "channelSettingsMatureContentOverride": "Перевизначення контенту для дорослих",
-    "@channelSettingsMatureContentOverride": {
-        "description": "Accessibility label for mature content override control."
-    },
     "channelSettingsMatureContentSectionDescription": "Заборонити налаштування рівня {scopeLevel} для цього каналу. Контент для дорослих буде показуватися за захисним екраном перед входом.",
     "@channelSettingsMatureContentSectionDescription": {
         "description": "Section description for mature content settings in channel overview.",
@@ -12441,14 +11655,6 @@
             }
         }
     },
-    "channelSettingsMatureContentCategorySource": "категорія",
-    "@channelSettingsMatureContentCategorySource": {
-        "description": "Lowercase source label for inherited mature content from category."
-    },
-    "channelSettingsMatureContentCommunitySource": "спільноти",
-    "@channelSettingsMatureContentCommunitySource": {
-        "description": "Lowercase source label for inherited mature content from community."
-    },
     "channelSettingsMatureContentCategoryScope": "Категорія",
     "@channelSettingsMatureContentCategoryScope": {
         "description": "Capitalized scope label when mature content inherits from a category."
@@ -12460,15 +11666,6 @@
     "channelSettingsContentWarningToggle": "Показувати попередження про вміст у цьому каналі",
     "@channelSettingsContentWarningToggle": {
         "description": "Toggle for showing content warning in channel."
-    },
-    "channelSettingsPermissionsNeedManageRoles": "Щоб редагувати ці дозволи, вам потрібен дозвіл «{manageRolesPermissionLabel}».",
-    "@channelSettingsPermissionsNeedManageRoles": {
-        "description": "Error when user lacks manage roles permission for channel permissions tab.",
-        "placeholders": {
-            "manageRolesPermissionLabel": {
-                "type": "String"
-            }
-        }
     },
     "channelSettingsUnknownRole": "Невідома роль",
     "@channelSettingsUnknownRole": {
@@ -12518,10 +11715,6 @@
     "channelSettingsPermissionsNotSyncedWithParentSuffix": ".",
     "@channelSettingsPermissionsNotSyncedWithParentSuffix": {
         "description": "Suffix for the not-synced-with-parent banner in channel permissions."
-    },
-    "channelSettingsPermissionsRolesAndMembers": "Ролі та учасники",
-    "@channelSettingsPermissionsRolesAndMembers": {
-        "description": "Section title in the add override picker."
     },
     "channelSettingsDeleteInvite": "Видалити запрошення",
     "@channelSettingsDeleteInvite": {
@@ -12634,10 +11827,6 @@
     "notificationsEnableDesktopNotificationsDescription": "Використовує центр сповіщень ОС. Щоб налаштувати сповіщення для окремих каналів/спільнот, клацніть правою кнопкою миші на іконці спільноти та відкрийте налаштування сповіщень.",
     "@notificationsEnableDesktopNotificationsDescription": {
         "description": "Description for the enable desktop notifications toggle."
-    },
-    "notificationsEnableBrowserNotificationsDescription": "Отримуйте сповіщення про нові повідомлення. Можливо, вам потрібно буде дозволити сповіщення в налаштуваннях браузера. Щоб налаштувати сповіщення для окремих каналів/спільнот, клацніть правою кнопкою миші на значку спільноти та відкрийте налаштування сповіщень.",
-    "@notificationsEnableBrowserNotificationsDescription": {
-        "description": "Description for the enable browser notifications toggle."
     },
     "notificationsPushInactiveTimeoutMinutes": "{minutes} хв",
     "@notificationsPushInactiveTimeoutMinutes": {
@@ -13058,42 +12247,6 @@
     "gifPickerFavoritesEmptyDescription": "Додайте GIF до вибраного, щоб побачити його тут.",
     "@gifPickerFavoritesEmptyDescription": {
         "description": "Empty state description for the GIF picker favorites view."
-    },
-    "requiredActionIntroGeneric": "Пройдіть необхідну перевірку, щоб продовжити користуватися {productName}.",
-    "@requiredActionIntroGeneric": {
-        "description": "Generic required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailOrPhone": "Підтвердьте свою електронну пошту або номер телефону, щоб продовжити користуватися {productName}.",
-    "@requiredActionIntroEmailOrPhone": {
-        "description": "Email or phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailAndPhone": "Щоб продовжити користуватися {productName}, виконайте наведені нижче обов'язкові кроки з підтвердження електронної пошти та номера телефону.",
-    "@requiredActionIntroEmailAndPhone": {
-        "description": "Email and phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionChooseMethodDescription": "Щоб продовжити користуватися {productName}, скористайтеся одним із наведених нижче способів перевірки.",
-    "@requiredActionChooseMethodDescription": {
-        "description": "Description when user can pick email or phone.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
     },
     "networkErrorMessage": "Виникла помилка. Будь ласка, спробуйте ще раз.",
     "@networkErrorMessage": {
@@ -13728,10 +12881,6 @@
     "@accessibilityPausedGifByReducedMotion": {
         "description": "Description for GIF toggle while reduced motion is active."
     },
-    "accessibilityGifDefaultsOffOnMobile": "За замовчуванням вимкнено на мобільних пристроях для збереження заряду батареї та економії трафіку.",
-    "@accessibilityGifDefaultsOffOnMobile": {
-        "description": "Helper text for GIF autoplay default on mobile."
-    },
     "accessibilityStickerAnimationsTitle": "Анімація стікерів",
     "@accessibilityStickerAnimationsTitle": {
         "description": "Subsection title for sticker animation preference."
@@ -14187,25 +13336,13 @@
     "@privacyDashboardFriendRequestsEveryone": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsEveryoneDesc": "Дозволити будь-кому надсилати вам запити на додавання в друзі",
-    "@privacyDashboardFriendRequestsEveryoneDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsFriendsOfFriends": "Друзі друзів",
     "@privacyDashboardFriendRequestsFriendsOfFriends": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsFriendsOfFriendsDesc": "Дозволити друзям ваших друзів надсилати вам запити",
-    "@privacyDashboardFriendRequestsFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsCommunityMembers": "Учасники спільноти",
     "@privacyDashboardFriendRequestsCommunityMembers": {
         "description": "Privacy dashboard friend request toggle label."
-    },
-    "privacyDashboardFriendRequestsCommunityMembersDesc": "Дозволити учасникам спільнот, до яких ви належите, надсилати вам запити",
-    "@privacyDashboardFriendRequestsCommunityMembersDesc": {
-        "description": "Privacy dashboard friend request toggle description."
     },
     "privacyDashboardDirectMessagesTitle": "Особисті повідомлення",
     "@privacyDashboardDirectMessagesTitle": {
@@ -14215,65 +13352,29 @@
     "@privacyDashboardDirectMessagesMembers": {
         "description": "Privacy dashboard DM toggle label."
     },
-    "privacyDashboardDirectMessagesMembersDesc": "Дозволити учасникам спільнот, у яких ви перебуваєте, надсилати вам прямі повідомлення",
-    "@privacyDashboardDirectMessagesMembersDesc": {
-        "description": "Privacy dashboard DM toggle description."
-    },
     "privacyDashboardDirectMessagesBots": "Дозволити особисті повідомлення від ботів спільноти",
     "@privacyDashboardDirectMessagesBots": {
         "description": "Privacy dashboard bot DM toggle label."
-    },
-    "privacyDashboardDirectMessagesBotsDesc": "Дозволити ботам із спільнот, у яких ви перебуваєте, надсилати вам прямі повідомлення",
-    "@privacyDashboardDirectMessagesBotsDesc": {
-        "description": "Privacy dashboard bot DM toggle description."
-    },
-    "privacyDashboardConnectionsSectionDesc": "Керуйте тим, хто може надсилати вам запити на додавання в друзі та прямі повідомлення",
-    "@privacyDashboardConnectionsSectionDesc": {
-        "description": "Privacy dashboard connections section description."
-    },
-    "privacyDashboardCommunicationSectionDesc": "Керуйте тим, хто може вам телефонувати та додавати вас до групових чатів",
-    "@privacyDashboardCommunicationSectionDesc": {
-        "description": "Privacy dashboard communication section description."
     },
     "privacyDashboardIncomingCallsTitle": "Вхідні дзвінки",
     "@privacyDashboardIncomingCallsTitle": {
         "description": "Privacy dashboard incoming calls subsection title."
     },
-    "privacyDashboardIncomingCallsDesc": "Керуйте тим, хто може вам телефонувати",
-    "@privacyDashboardIncomingCallsDesc": {
-        "description": "Privacy dashboard incoming calls subsection description."
-    },
     "privacyDashboardAllowedCallers": "Кому дозволено дзвонити",
     "@privacyDashboardAllowedCallers": {
         "description": "Privacy > Communication: select label."
-    },
-    "privacyDashboardIncomingCallNobody": "Нікого",
-    "@privacyDashboardIncomingCallNobody": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallNobodyDesc": "Блокувати всі вхідні дзвінки",
     "@privacyDashboardIncomingCallNobodyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallFriendsOnly": "Лише друзі",
-    "@privacyDashboardIncomingCallFriendsOnly": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallFriendsOnlyDesc": "Дозволяти дзвонити вам лише друзям (рекомендовано)",
     "@privacyDashboardIncomingCallFriendsOnlyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallCustom": "Друзі + Інше",
-    "@privacyDashboardIncomingCallCustom": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallCustomDesc": "Дозволити друзям та додатковим групам, які ви оберете",
     "@privacyDashboardIncomingCallCustomDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardIncomingCallEveryone": "Усі",
-    "@privacyDashboardIncomingCallEveryone": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallEveryoneDesc": "Дозволити будь-кому телефонувати вам, навіть незнайомцям",
     "@privacyDashboardIncomingCallEveryoneDesc": {
@@ -14283,14 +13384,6 @@
     "@privacyDashboardAdditionalGroups": {
         "description": "Privacy dashboard label for custom permission groups."
     },
-    "privacyDashboardCallFriendsOfFriendsDesc": "Люди, які є друзями ваших друзів, можуть вам телефонувати",
-    "@privacyDashboardCallFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
-    "privacyDashboardCallGuildMembersDesc": "Люди зі спільнот, у яких ви обоє перебуваєте, зможуть вам телефонувати",
-    "@privacyDashboardCallGuildMembersDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
     "privacyDashboardRingBehavior": "Поведінка дзвінка",
     "@privacyDashboardRingBehavior": {
         "description": "Privacy dashboard ring behavior subsection label."
@@ -14299,17 +13392,9 @@
     "@privacyDashboardSilentCalls": {
         "description": "Privacy dashboard silent calls toggle label."
     },
-    "privacyDashboardSilentCallsDesc": "Усі дзвінки сповіщатимуть тихо замість дзвінка. За замовчуванням дзвінки від незнайомих людей завжди тихі.",
-    "@privacyDashboardSilentCallsDesc": {
-        "description": "Privacy dashboard silent calls toggle description."
-    },
     "privacyDashboardGroupDmTitle": "Хто може додавати вас у групові чати",
     "@privacyDashboardGroupDmTitle": {
         "description": "Privacy dashboard group DM subsection title."
-    },
-    "privacyDashboardGroupDmDesc": "Керуйте тим, хто може додавати вас до групових чатів без дозволу. Будь-хто все ще може надсилати вам посилання-запрошення для приєднання.",
-    "@privacyDashboardGroupDmDesc": {
-        "description": "Privacy dashboard group DM subsection description."
     },
     "privacyDashboardAllowedInvites": "Кому дозволено запрошувати",
     "@privacyDashboardAllowedInvites": {
@@ -14330,14 +13415,6 @@
     "privacyDashboardGroupDmEveryoneDesc": "Дозволити будь-кому додавати вас до групових чатів без запиту",
     "@privacyDashboardGroupDmEveryoneDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardGroupDmFriendsOfFriendsDesc": "Люди, які є друзями ваших друзів, можуть додавати вас до групових чатів",
-    "@privacyDashboardGroupDmFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
-    },
-    "privacyDashboardGroupDmGuildMembersDesc": "Люди з ваших спільних спільнот можуть додавати вас до групових чатів",
-    "@privacyDashboardGroupDmGuildMembersDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
     },
     "privacyDashboardVoiceActivityTitle": "Голосова активність у «Зараз активні»",
     "@privacyDashboardVoiceActivityTitle": {
@@ -14870,26 +13947,6 @@
     "@composerAutocompleteOptionalArgumentsHeading": {
         "description": "Section heading in composer autocomplete for adding optional slash-command arguments."
     },
-    "composerAutocompleteChannelsHeading": "Канали",
-    "@composerAutocompleteChannelsHeading": {
-        "description": "Section heading in composer autocomplete for channel suggestions."
-    },
-    "composerAutocompleteMembersHeading": "Учасники",
-    "@composerAutocompleteMembersHeading": {
-        "description": "Section heading in composer autocomplete for member suggestions."
-    },
-    "composerAutocompleteUsersHeading": "Користувачі",
-    "@composerAutocompleteUsersHeading": {
-        "description": "Section heading in composer autocomplete for user suggestions."
-    },
-    "composerAutocompleteMentionsHeading": "Згадки",
-    "@composerAutocompleteMentionsHeading": {
-        "description": "Section heading in composer autocomplete for mixed mention suggestions."
-    },
-    "composerAutocompleteRolesHeading": "Ролі",
-    "@composerAutocompleteRolesHeading": {
-        "description": "Section heading in composer autocomplete for role suggestions."
-    },
     "composerAutocompleteMediaHeading": "Медіа",
     "@composerAutocompleteMediaHeading": {
         "description": "Section heading in composer autocomplete for saved media."
@@ -15106,10 +14163,6 @@
     "memberListUnavailableBody": "Списки учасників тимчасово недоступні в цій спільноті",
     "@memberListUnavailableBody": {
         "description": "Body when member list updates are disabled for the community."
-    },
-    "channelHeaderOpenDetails": "Відкрити деталі каналу",
-    "@channelHeaderOpenDetails": {
-        "description": "Accessibility label for the channel header title area."
     },
     "channelHeaderPinnedMessages": "Закріплені повідомлення",
     "@channelHeaderPinnedMessages": {
@@ -15472,10 +14525,6 @@
     "@userSettingsSearchPlaceholder": {
         "description": "Placeholder for the user settings search field."
     },
-    "userSettingsSearchFieldLabel": "Пошук налаштувань",
-    "@userSettingsSearchFieldLabel": {
-        "description": "Accessibility label for the user settings search field."
-    },
     "userSettingsSearchClear": "Очистити пошук",
     "@userSettingsSearchClear": {
         "description": "Accessibility label for clearing the user settings search field."
@@ -15502,8 +14551,6 @@
     "giftSettingsGiftUrl": "Посилання на подарунок",
     "giftSettingsCopy": "Копіювати",
     "giftSettingsCopied": "Скопійовано",
-    "giftSettingsGiftUrlCopied": "Посилання на подарунок скопійовано в буфер обміну!",
-    "giftSettingsGiftUrlCopyFailed": "Не вдалося скопіювати посилання на подарунок",
     "giftSettingsPurchasedDate": "Придбано {date}",
     "@giftSettingsPurchasedDate": {
         "placeholders": {
@@ -15545,7 +14592,6 @@
     "premiumBuyGift": "Купити подарунок",
     "premiumOneYearGift": "Подарунок на 1 рік",
     "premiumOneMonthGift": "Подарунок на 1 місяць",
-    "premiumMostPopular": "Найпопулярніше",
     "premiumScrollPrompt": "Прокрутіть униз, щоб переглянути всі переваги Plutonium",
     "premiumFreeVsPlutonium": "Безкоштовно чи Plutonium",
     "premiumFreeColumn": "Безкоштовно",
@@ -15563,50 +14609,15 @@
     "premiumViewGifts": "Переглянути подарунки",
     "premiumReadyToUpgrade": "Готові оновити?",
     "premiumReadyToBuyGift": "Готові купити подарунок?",
-    "premiumMonthlyPrice": "Щомісяця {price}",
-    "@premiumMonthlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumYearlyPrice": "Річна ціна {price}",
-    "@premiumYearlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneYearPrice": "1 рік {price}",
-    "@premiumOneYearPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneMonthPrice": "1 місяць {price}",
-    "@premiumOneMonthPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
     "premiumManageSubscription": "Керувати підпискою",
     "premiumRedeemGiftCode": "Активувати подарунковий код",
     "premiumGiftBadge": "Подарунок",
     "premiumCancelSubscriptionTitle": "Скасувати підписку?",
     "premiumCancelSubscriptionBody": "Ви зберігаєте свої переваги до наступної дати поновлення, а потім маєте 3-денний пільговий період, щоб повторно підписатися та зберегти історію підписок.",
     "premiumCancelSubscriptionConfirm": "Скасувати підписку",
-    "premiumKeepSubscription": "Залишити підписку",
     "premiumPurchaseHistoryTitle": "Історія покупок",
     "premiumPurchaseHistoryDescription": "Ваші останні рахунки-фактури. Щоб змінити спосіб оплати підписки, додайте або виберіть його в платіжному порталі та встановіть як основний.",
     "premiumManagePaymentMethods": "Керувати способами оплати",
-    "premiumBillingHistory": "Історія платежів",
-    "premiumSelfServeRefundTitle": "Повернення коштів через самообслуговування",
     "premiumSelfServeRefundButton": "Повернути останню покупку",
     "premiumDisclaimerAgreementPrefix": "Купуючи, ви погоджуєтеся з нашими ",
     "premiumDisclaimerAgreementPastPrefix": "Купуючи, ви погодилися з нашими ",
@@ -15646,17 +14657,6 @@
         "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
     },
     "premiumComparisonFeatureColumn": "Функція",
-    "premiumDisclaimerPurchased": "Здійснивши покупку, ви погодилися з нашими {terms} та {privacy}.",
-    "@premiumDisclaimerPurchased": {
-        "placeholders": {
-            "terms": {
-                "type": "String"
-            },
-            "privacy": {
-                "type": "String"
-            }
-        }
-    },
     "premiumDisclaimerRefund": "Самостійне повернення коштів доступне протягом 3 днів після оплати, раз на 30 днів. Повернення коштів за підписку скасовує її. Покупці з ЄС/ЄЕЗ відмовляються від 14-денного права на відмову під час оформлення замовлення, щоб отримати негайний доступ до контенту. Використовуйте кнопку повернення коштів у застосунку замість відкликання платежу. Відкликання платежу може назавжди обмежити ваш обліковий запис. Stripe безпечно обробляє платежі. Ми ніколи не бачимо повного номера вашої картки.",
     "premiumTermsOfService": "Умови використання",
     "premiumPrivacyPolicy": "Політика конфіденційності",
@@ -15697,24 +14697,14 @@
     },
     "premiumClaimAccountToPurchase": "Активуйте свій обліковий запис, щоб придбати Fluxer Plutonium.",
     "premiumVerifyEmailToPurchase": "Щоб придбати Fluxer Plutonium, вам потрібно підтвердити свою електронну пошту.",
-    "premiumPerkCustomUsernameTag": "Власний тег користувача",
-    "premiumPerkPerCommunityProfiles": "Профілі для кожної спільноти",
-    "premiumPerkMessageScheduling": "Планування повідомлень",
-    "premiumPerkProfileBadge": "Значок профілю",
-    "premiumPerkCustomVideoBackgrounds": "Власні фони для відео",
-    "premiumPerkEntranceSounds": "Звуки входу",
     "premiumPerkCommunities": "Спільноти",
     "premiumPerkMessageCharacterLimit": "Обмеження на кількість символів у повідомленні",
     "premiumPerkBookmarkedMessages": "Збережені повідомлення",
     "premiumPerkFileUploadSize": "Розмір файлу для завантаження",
-    "premiumPerkEmojiStickerPacks": "Набори емоджі та стікерів",
-    "premiumPerkSavedMedia": "Збережені медіа",
     "premiumPerkUseAnimatedEmojis": "Використовувати анімовані емоджі",
-    "premiumPerkGlobalEmojiStickerAccess": "Доступ до глобальних емоджі та стікерів",
     "premiumPerkVideoQuality": "Якість відео",
     "premiumPerkAnimatedAvatarsBanners": "Анімовані аватари та банери профілю",
     "premiumPerkEarlyAccess": "Ранній доступ до нових функцій",
-    "premiumPerkCustomThemes": "Власні теми",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "До 4K/60 кадр/с",
     "storePlutoniumPriceLine": "{monthly} або {yearly}",
@@ -15938,7 +14928,6 @@
     "advancedSettingStripTrackingLabel": "Видаляти параметри відстеження з посилань",
     "advancedSettingStripTrackingDescription": "Автоматично видаляти параметри відстеження з URL-адрес у повідомленнях, які ви надсилаєте",
     "advancedSettingTrustAllLinksLabel": "Довіряти всім зовнішнім посиланням",
-    "advancedSettingTrustAllLinksDescription": "Пропускати попередження про зовнішні посилання для всіх доменів",
     "advancedSettingSearchEnginesLabel": "Пошукові системи",
     "advancedSettingSearchEnginesDescription": "Налаштуйте пошукові системи, які використовуються для пошуку виділеного тексту",
     "advancedSettingTranslatorsLabel": "Перекладачі",
@@ -15994,13 +14983,6 @@
     "advancedSettingHideStreamPreviewLabel": "Приховати мініатюру попереднього перегляду моєї трансляції",
     "advancedSettingDeveloperModeLabel": "Увімкнути режим розробника",
     "advancedSettingDeveloperModeDescription": "Увімкнути режим розробника",
-    "advancedSettingSearchEngineGoogle": "Google",
-    "advancedSettingSearchEngineDuckDuckGo": "DuckDuckGo",
-    "advancedSettingSearchEngineBing": "Bing",
-    "advancedSettingSearchEngineGoogleLens": "Google Lens",
-    "advancedSettingSearchEngineTinEye": "TinEye",
-    "advancedSettingTranslatorGoogle": "Переклад Google",
-    "advancedSettingTranslatorDeepL": "DeepL",
     "advancedSettingDefaultSearchEngineLabel": "Пошукова система за замовчуванням",
     "advancedSettingDefaultSearchEngineDescription": "Виберіть пошукову систему, яка використовуватиметься за замовчуванням під час пошуку виділеного тексту.",
     "advancedSettingBuiltInSearchEnginesLabel": "Вбудовані пошукові системи",
@@ -16554,10 +15536,6 @@
     "@guildMembersColumnRoles": {
         "description": "Table column header on the community members page."
     },
-    "guildMembersColumnActions": "Дії",
-    "@guildMembersColumnActions": {
-        "description": "Table column header on the community members page."
-    },
     "guildMembersFilterMemberSince": "Фільтрувати за датою приєднання",
     "@guildMembersFilterMemberSince": {
         "description": "Filter menu label on the community members page."
@@ -16642,23 +15620,6 @@
     "@guildMembersIndexing": {
         "description": "Banner shown while guild members are being indexed."
     },
-    "guildMembersGoToPage": "Перейти на сторінку",
-    "@guildMembersGoToPage": {
-        "description": "Pagination jump label on the community members page."
-    },
-    "guildMembersGoToPageItem": "Перейти на сторінку {page}",
-    "@guildMembersGoToPageItem": {
-        "description": "Accessibility label for a pagination page button.",
-        "placeholders": {
-            "page": {
-                "type": "int"
-            }
-        }
-    },
-    "guildMembersJumpToPage": "Перейти на сторінку",
-    "@guildMembersJumpToPage": {
-        "description": "Label for pagination jump input on the community members page."
-    },
     "guildMembersJoinSourceCreator": "Творець спільноти",
     "@guildMembersJoinSourceCreator": {
         "description": "Join method label on the community members page."
@@ -16735,28 +15696,14 @@
             }
         }
     },
-    "guildMembersJoinedDaysAgo": "{count, plural, one {1 день тому} other {{count} днів тому}}",
-    "@guildMembersJoinedDaysAgo": {
-        "description": "Relative join time on the community members page.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
     "guildMembersChannelListLabel": "Учасники",
     "@guildMembersChannelListLabel": {
         "description": "Label for the Members item at the top of the guild channel list."
-    },
-    "guildMembersChannelListSelected": "Учасники, вибрано",
-    "@guildMembersChannelListSelected": {
-        "description": "Accessibility label when the Members channel list item is selected."
     },
     "guildSettingsEmojiSlotsTitle": "Слоти для емоджі",
     "guildSettingsEmojiDropZone": "Перетягніть файли емоджі сюди",
     "guildSettingsEmojiLoadFailed": "Не вдалося завантажити емоджі. Спробуйте пізніше.",
     "guildSettingsEmojiSearchEmpty": "Не знайдено емоджі, що відповідають вашому пошуку.",
-    "guildSettingsEmojiNoSlots": "Немає вільних слотів для емоджі",
     "guildSettingsEmojiSlotsFull": "Ви досягли максимальної кількості емоджі. Видаліть деякі наявні емоджі, щоб звільнити місце.",
     "guildSettingsEmojiUploadRequirements": "Назви емодзі мають містити щонайменше 2 символи та можуть складатися з літер, цифр і підкреслень. Розмір емодзі має бути меншим за {maxSize}. Статичні зображення автоматично змінюються до розміру 128x128 пікселів і стискаються. Анімовані емодзі та SVG мають одразу відповідати обмеженню.",
     "@guildSettingsEmojiUploadRequirements": {
@@ -16766,24 +15713,11 @@
             }
         }
     },
-    "guildSettingsEmojiUploadingTitle": "Завантаження емоджі",
-    "guildSettingsEmojiUploadingBody": "Завантаження {count, plural, one {# емоджі} other {# емоджі}}. Це може зайняти деякий час.",
-    "@guildSettingsEmojiUploadingBody": {
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsEmojiUploadFailed": "Не вдалося завантажити емоджі. Спробуйте ще раз.",
     "guildSettingsEmojiSomeFailedTitle": "Деякі емоджі не вдалося додати",
-    "guildSettingsEmojiSomeFailedBody": "Перегляньте ці файли та спробуйте ще раз із меншими або простішими зображеннями.",
     "guildSettingsEmojiRenameTitle": "Перейменувати емоджі",
     "guildSettingsEmojiRenameHint": "2–32 символи: літери, цифри, підкреслення.",
-    "guildSettingsEmojiColumnEmoji": "Емоджі",
     "guildSettingsEmojiColumnName": "Назва",
     "guildSettingsEmojiColumnUploader": "Ким завантажено",
-    "guildSettingsEmojiUnknownUploader": "Невідомо",
     "guildSettingsEmojiDeleteTitle": "Видалити емоджі",
     "guildSettingsEmojiDeleteBody": "Видалити :{name}:? Це неможливо скасувати.",
     "@guildSettingsEmojiDeleteBody": {
@@ -16798,15 +15732,7 @@
     "guildSettingsEmojiNameTooLong": "Назва емоджі має бути не довшою ніж 32 символи",
     "guildSettingsEmojiInvalidNameTitle": "Недійсна назва емоджі",
     "guildSettingsEmojiRenameFailedTitle": "Не вдалося перейменувати цей емоджі",
-    "guildSettingsEmojiRenameFailedBody": "Назву було повернено до попередньої. Спробуйте ще раз за мить.",
-    "guildSettingsEmojiGoneTitle": "Цього емоджі більше не існує",
-    "guildSettingsEmojiGoneBody": "Можливо, його було видалено. Назву повернуто до попередньої.",
-    "guildSettingsEmojiNoPermissionRenameTitle": "Ви не можете перейменувати цей емоджі",
-    "guildSettingsEmojiNoPermissionRenameBody": "У вас немає дозволу перейменовувати цей емоджі. Назву було повернено до попередньої.",
-    "guildSettingsEmojiRateLimitedTitle": "Ви надто поспішаєте",
-    "guildSettingsEmojiRateLimitedBody": "Зачекайте трохи й спробуйте перейменувати ще раз.",
     "guildSettingsEmojiDeleteFailedTitle": "Не вдалося видалити цей емоджі",
-    "guildSettingsEmojiDeleteNoPermissionTitle": "Ви не можете видалити цей емоджі",
     "guildSettingsCloneEmojiTitle": "Дозволити іншим клонувати ваші емоджі",
     "guildSettingsCloneEmojiDescription": "Якщо ввімкнено, учасники інших спільнот можуть використовувати ярлик \"Клонувати\" в програмі в один клік для ваших власних емоджі. Це не заважає їм зберігати зображення та завантажувати його самостійно.",
     "guildSettingsCloneStickerTitle": "Дозволити іншим клонувати ваші стікери",
@@ -16830,8 +15756,6 @@
     "guildSettingsStickersLoadFailedTitle": "Не вдалося завантажити стікери",
     "guildSettingsStickersLoadFailedBody": "Під час завантаження стікерів сталася помилка. Спробуйте ще раз.",
     "guildSettingsStickersSearchEmpty": "Не знайдено стікерів за вашим запитом.",
-    "guildSettingsStickersEmptySearch": "Стікерів не знайдено",
-    "guildSettingsStickerNoSlots": "Немає доступних слотів для стікерів",
     "guildSettingsStickerSlotsFull": "Ви досягли максимальної кількості стікерів. Видаліть деякі наявні стікери, щоб звільнити місце.",
     "guildSettingsStickerUploadRequirements": "Стікери зберігаються у розмірі 320x320 пікселів і повинні бути меншими за {maxSize}. Статичні зображення автоматично масштабуються та стискаються. Анімовані стікери та SVG мають одразу відповідати обмеженню.",
     "@guildSettingsStickerUploadRequirements": {
@@ -16841,7 +15765,6 @@
             }
         }
     },
-    "guildSettingsStickerUnsupportedTitle": "Непідтримуваний файл стікера",
     "guildSettingsStickerAddTitle": "Додати стікер",
     "guildSettingsStickerEditTitle": "Редагувати стікер",
     "guildSettingsStickerNameLabel": "Назва",
@@ -16866,8 +15789,6 @@
     "guildSettingsStickerNameTooLong": "Ім'я має містити не більше 30 символів",
     "guildSettingsStickerDescriptionTooLong": "Опис має містити не більше 500 символів",
     "guildSettingsStickerCreateFailedTitle": "Не вдалося створити цей стікер",
-    "guildSettingsStickerTooLargeTitle": "Стікер завеликий",
-    "guildSettingsStickerCompressFailedTitle": "Не вдалося достатньо стиснути стікер",
     "guildSettingsStickerDeleteTitle": "Видалити стікер",
     "guildSettingsStickerDeleteBody": "Видалити \"{name}\"? Це не можна буде скасувати.",
     "@guildSettingsStickerDeleteBody": {
@@ -16879,7 +15800,6 @@
     },
     "guildSettingsStickerPurgeLabel": "Видалити цей стікер зі сховища та CDN",
     "guildSettingsStickerDeleteFailedTitle": "Не вдалося видалити цей стікер",
-    "guildSettingsStickerDeleteNoPermissionTitle": "Ви не можете видалити цю наліпку",
     "keybindsSearchShortcuts": "Пошук комбінацій клавіш",
     "@keybindsSearchShortcuts": {
         "description": "Placeholder for the shortcuts settings search field."

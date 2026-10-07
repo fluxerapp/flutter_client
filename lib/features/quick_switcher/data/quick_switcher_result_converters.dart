@@ -9,27 +9,22 @@ QuickSwitcherResult candidateToQuickSwitcherResult(
 }) {
   return switch (candidate) {
     QuickSwitcherUserCandidate(
-      :final id,
       :final title,
       :final subtitle,
       :final userId,
       :final dmChannelId,
       :final avatar,
       :final avatarColor,
-      :final status,
     ) =>
       QuickSwitcherUserResult(
-        id: id,
         title: title,
         subtitle: subtitle,
         userId: userId,
         dmChannelId: dmChannelId,
         avatar: avatar,
         avatarColor: avatarColor,
-        status: status,
       ),
     QuickSwitcherGroupDmCandidate(
-      :final id,
       :final title,
       :final subtitle,
       :final channelId,
@@ -38,7 +33,6 @@ QuickSwitcherResult candidateToQuickSwitcherResult(
       :final groupMembers,
     ) =>
       QuickSwitcherGroupDmResult(
-        id: id,
         title: title,
         subtitle: subtitle,
         channelId: channelId,
@@ -47,77 +41,51 @@ QuickSwitcherResult candidateToQuickSwitcherResult(
         groupMembers: groupMembers,
       ),
     QuickSwitcherChannelCandidate(
-      :final id,
       :final title,
       :final subtitle,
       :final channelId,
       :final guildId,
-      :final guildName,
-      :final guildIcon,
       isVoice: true,
     ) =>
       QuickSwitcherVoiceChannelResult(
-        id: id,
         title: title,
         subtitle: _resolveChannelSubtitle(subtitle, l10n, viewContext),
         channelId: channelId,
         guildId: guildId,
-        guildName: guildName,
-        guildIcon: guildIcon,
       ),
     QuickSwitcherChannelCandidate(
-      :final id,
       :final title,
       :final subtitle,
       :final channelId,
       :final guildId,
-      :final guildName,
-      :final guildIcon,
       :final channelType,
       isVoice: false,
     ) =>
       QuickSwitcherTextChannelResult(
-        id: id,
         title: title,
         subtitle: _resolveChannelSubtitle(subtitle, l10n, viewContext),
         channelId: channelId,
         guildId: guildId,
-        guildName: guildName,
-        guildIcon: guildIcon,
         channelType: channelType,
       ),
-    QuickSwitcherGuildCandidate(
-      :final id,
-      :final title,
-      :final subtitle,
-      :final guild,
-    ) =>
-      QuickSwitcherGuildResult(
-        id: id,
-        title: title,
-        subtitle: subtitle,
-        guild: guild,
-      ),
+    QuickSwitcherGuildCandidate(:final title, :final subtitle, :final guild) =>
+      QuickSwitcherGuildResult(title: title, subtitle: subtitle, guild: guild),
     QuickSwitcherVirtualGuildCandidate(
-      :final id,
       :final title,
       :final subtitle,
       :final virtualGuildType,
     ) =>
       QuickSwitcherVirtualGuildResult(
-        id: id,
         title: title,
         subtitle: subtitle,
         virtualGuildType: virtualGuildType,
       ),
     QuickSwitcherSettingsCandidate(
-      :final id,
       :final title,
       :final subtitle,
       :final target,
     ) =>
       QuickSwitcherSettingsResult(
-        id: id,
         title: title,
         subtitle: subtitle,
         target: target,
@@ -130,10 +98,7 @@ QuickSwitcherHeaderResult createQuickSwitcherHeader(
   QuickSwitcherResultType type,
   FluxerLocalizations l10n,
 ) {
-  return QuickSwitcherHeaderResult(
-    id: id,
-    title: quickSwitcherHeaderTitle(type, l10n),
-  );
+  return QuickSwitcherHeaderResult(title: quickSwitcherHeaderTitle(type, l10n));
 }
 
 String quickSwitcherHeaderTitle(
@@ -149,7 +114,6 @@ String quickSwitcherHeaderTitle(
   QuickSwitcherResultType.guild ||
   QuickSwitcherResultType.virtualGuild => l10n.quickSwitcherSectionCommunities,
   QuickSwitcherResultType.settings => l10n.quickSwitcherSectionSettings,
-  _ => '',
 };
 
 String? _resolveChannelSubtitle(
@@ -171,29 +135,4 @@ int getFirstSelectableQuickSwitcherIndex(List<QuickSwitcherResult> results) {
     }
   }
   return -1;
-}
-
-int findNextSelectableQuickSwitcherIndex({
-  required List<QuickSwitcherResult> results,
-  required int startIndex,
-  required bool down,
-}) {
-  if (results.isEmpty) {
-    return -1;
-  }
-  int index = startIndex;
-  final int step = down ? 1 : -1;
-  for (int i = 0; i < results.length; i++) {
-    index += step;
-    if (index < 0) {
-      index = results.length - 1;
-    }
-    if (index >= results.length) {
-      index = 0;
-    }
-    if (isQuickSwitcherExecutable(results[index])) {
-      return index;
-    }
-  }
-  return startIndex;
 }

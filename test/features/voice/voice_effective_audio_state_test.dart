@@ -37,7 +37,6 @@ void main() {
         fallbackSelfMute: false,
         fallbackSelfDeaf: false,
       );
-      expect(state.serverMute, isTrue);
       expect(state.micShouldPublish, isFalse);
     });
 

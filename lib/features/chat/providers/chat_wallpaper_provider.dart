@@ -1,5 +1,4 @@
 import 'package:drift/drift.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/chat/data/chat_wallpaper_file_store.dart';
@@ -24,10 +23,7 @@ class ChatWallpaper extends _$ChatWallpaper {
     final ChatWallpaperState selection = chatWallpaperFromJson(
       prefs?.chatWallpaperJson,
     );
-    String? customPath;
-    if (!kIsWeb) {
-      customPath = await _files.existingPathForUser(userId);
-    }
+    final String? customPath = await _files.existingPathForUser(userId);
     ChatWallpaperState next = selection;
     if (selection.kind == ChatWallpaperKind.custom &&
         selection.luminance == null) {
@@ -73,7 +69,7 @@ class ChatWallpaper extends _$ChatWallpaper {
       final String? userId = _userId;
       if (userId != null) {
         path = await _files.saveForUser(userId: userId, bytes: encoded.bytes);
-        if (path == null && !kIsWeb) {
+        if (path == null) {
           return false;
         }
       }

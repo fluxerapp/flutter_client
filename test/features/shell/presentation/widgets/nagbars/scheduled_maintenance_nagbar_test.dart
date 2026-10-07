@@ -26,7 +26,6 @@ void main() {
   group('ScheduledMaintenanceNagbar', () {
     final ServiceStatusMaintenance maintenance = ServiceStatusMaintenance(
       id: 'maint-1',
-      name: 'Maintenance',
       status: ServiceStatusMaintenanceStatus.scheduled,
       start: DateTime.utc(2026, 7, 11, 18),
       durationMinutes: 60,

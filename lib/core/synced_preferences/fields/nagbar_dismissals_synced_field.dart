@@ -77,18 +77,4 @@ class NagbarDismissalsSyncedField
         a.guildMembershipCtaDismissed == b.guildMembershipCtaDismissed &&
         a.visionaryMfaDismissed == b.visionaryMfaDismissed;
   }
-
-  static pb.NagbarDismissals toProtoForPush({
-    required NagbarDismissalsState local,
-    pb.NagbarDismissals? wireBase,
-  }) {
-    return mergeOrCreate(wireBase, pb.NagbarDismissals.new)
-      ..pushNotification = local.pushNotificationDismissed
-      ..premiumGracePeriod = local.premiumGracePeriodDismissed
-      ..premiumExpired = local.premiumExpiredDismissed
-      ..premiumOnboarding = local.premiumOnboardingDismissed
-      ..giftInventory = local.giftInventoryDismissed
-      ..guildMembershipCta = local.guildMembershipCtaDismissed
-      ..visionaryMfa = local.visionaryMfaDismissed;
-  }
 }

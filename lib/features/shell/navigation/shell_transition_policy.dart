@@ -3,8 +3,6 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 
 abstract final class ShellTransitionPolicy {
   const ShellTransitionPolicy._();
-  static Duration shellEntryDuration(BuildContext context) =>
-      context.motion.normal;
 
   static Duration channelSlideDuration(BuildContext context) =>
       context.motion.panel;

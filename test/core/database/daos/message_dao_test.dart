@@ -110,10 +110,7 @@ void main() {
     expect(await db.messageDao.getMessage(idC), isNull);
     expect(await db.messageDao.getMessage(idD), isNotNull);
     expect(await db.messageDao.getMessage(pendingId), isNotNull);
-    expect(
-      await db.messageDao.getAllMessagesForChannel('other-ch'),
-      hasLength(1),
-    );
+    expect(await db.messageDao.getMessages('other-ch'), hasLength(1));
   });
 
   test('deleteServerMessagesBetween orders ids numerically', () async {

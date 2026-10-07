@@ -30,32 +30,21 @@ class BanViewInfo {
 }
 
 class BanAppeal {
-  final String id;
   final BanAppealStatus status;
   final String appealRationale;
   final String? adminRationale;
-  final DateTime? reviewedAt;
-  final DateTime createdAt;
 
   const BanAppeal({
-    required this.id,
     required this.status,
     required this.appealRationale,
-    required this.createdAt,
     this.adminRationale,
-    this.reviewedAt,
   });
 
   factory BanAppeal.fromJson(Map<String, dynamic> json) {
     return BanAppeal(
-      id: json['id'] as String,
       status: BanAppealStatus.fromString(json['status'] as String),
       appealRationale: json['appeal_rationale'] as String,
       adminRationale: json['admin_rationale'] as String?,
-      reviewedAt: json['reviewed_at'] != null
-          ? DateTime.parse(json['reviewed_at'] as String)
-          : null,
-      createdAt: DateTime.parse(json['created_at'] as String),
     );
   }
 }
@@ -103,25 +92,6 @@ class BanStatus {
           : null,
       appeal: json['appeal'] != null
           ? BanAppeal.fromJson(json['appeal'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-}
-
-/// Recheck response — tells us if the ban status changed.
-class BanRecheckResult {
-  final String status;
-  final BanType? banType;
-
-  const BanRecheckResult({required this.status, this.banType});
-
-  bool get isUnbanned => status == 'unbanned' || status == 'appeal_accepted';
-
-  factory BanRecheckResult.fromJson(Map<String, dynamic> json) {
-    return BanRecheckResult(
-      status: json['status'] as String,
-      banType: json['ban_type'] != null
-          ? BanType.fromString(json['ban_type'] as String)
           : null,
     );
   }

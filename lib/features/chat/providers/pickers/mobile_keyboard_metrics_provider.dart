@@ -162,7 +162,7 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
   }
 
   void _attachMetricsListener() {
-    if (kIsWeb || !(Platform.isIOS || Platform.isAndroid)) {
+    if (!(Platform.isIOS || Platform.isAndroid)) {
       return;
     }
     unawaited(_metricsSubscription?.cancel());

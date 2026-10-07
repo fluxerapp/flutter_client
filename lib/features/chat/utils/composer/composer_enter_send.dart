@@ -5,17 +5,12 @@ bool isComposerSubmitKey(LogicalKeyboardKey key) {
       key == LogicalKeyboardKey.numpadEnter;
 }
 
-/// Enter sends on desktop and wide web. On Android and iOS it only sends when
-/// a physical keyboard is connected, so on-screen Enter stays a newline.
+/// Enter sends on desktop. On Android and iOS it only sends when a physical
+/// keyboard is connected, so on-screen Enter stays a newline.
 bool composerEnterSends({
-  required bool isWeb,
-  required bool isWideLayout,
   required bool isNativeMobileOs,
   required bool physicalKeyboardConnected,
 }) {
-  if (isWeb) {
-    return isWideLayout;
-  }
   if (isNativeMobileOs) {
     return physicalKeyboardConnected;
   }

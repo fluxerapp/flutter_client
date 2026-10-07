@@ -9,14 +9,6 @@ Future<bool> hasMicrophonePermissionForVoice() async {
   return status.isGranted;
 }
 
-/// Requests microphone access for voice channels and calls.
-Future<bool> requestMicrophonePermissionForVoice() async {
-  final SystemPermissionOutcome outcome = await requestSystemPermission(
-    SystemPermissionKind.microphone,
-  );
-  return outcome == SystemPermissionOutcome.granted;
-}
-
 Future<SystemPermissionOutcome> requestMicrophonePermissionOutcome() {
   return requestSystemPermission(SystemPermissionKind.microphone);
 }

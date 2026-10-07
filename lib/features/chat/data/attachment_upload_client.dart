@@ -9,15 +9,11 @@ import 'package:fluxer_dart/export.dart';
 
 sealed class AttachmentUploadPlan {
   const AttachmentUploadPlan({
-    required this.id,
-    required this.filename,
     required this.uploadFilename,
     required this.fileSize,
     required this.contentType,
   });
 
-  final int id;
-  final String filename;
   final String uploadFilename;
   final int fileSize;
   final String contentType;
@@ -25,8 +21,6 @@ sealed class AttachmentUploadPlan {
 
 class SingleAttachmentUploadPlan extends AttachmentUploadPlan {
   const SingleAttachmentUploadPlan({
-    required super.id,
-    required super.filename,
     required super.uploadFilename,
     required super.fileSize,
     required super.contentType,
@@ -48,8 +42,6 @@ class MultipartAttachmentUploadPartPlan {
 
 class MultipartAttachmentUploadPlan extends AttachmentUploadPlan {
   const MultipartAttachmentUploadPlan({
-    required super.id,
-    required super.filename,
     required super.uploadFilename,
     required super.fileSize,
     required super.contentType,
@@ -85,20 +77,6 @@ class UploadAttachmentPlanParams {
   })?
   onPlanReady;
   final void Function(int uploadedBytes, int totalBytes)? onProgress;
-}
-
-class AttachmentUploadRemoteState {
-  const AttachmentUploadRemoteState({
-    required this.uploadFilename,
-    required this.fileSize,
-    required this.contentType,
-    this.uploadId,
-  });
-
-  final String uploadFilename;
-  final int fileSize;
-  final String contentType;
-  final String? uploadId;
 }
 
 class AttachmentUploadClient {
@@ -146,8 +124,6 @@ class AttachmentUploadClient {
     if (raw.toJson()['upload_mode'] == 'multipart') {
       final m = raw.toMultipartPresignedAttachmentUploadResponseItem();
       return MultipartAttachmentUploadPlan(
-        id: m.id,
-        filename: m.filename,
         uploadFilename: m.uploadFilename,
         fileSize: m.fileSize,
         contentType: m.contentType,
@@ -166,8 +142,6 @@ class AttachmentUploadClient {
     }
     final s = raw.toSinglepartPresignedAttachmentUploadResponseItem();
     return SingleAttachmentUploadPlan(
-      id: s.id,
-      filename: s.filename,
       uploadFilename: s.uploadFilename,
       fileSize: s.fileSize,
       contentType: s.contentType,
@@ -175,21 +149,13 @@ class AttachmentUploadClient {
     );
   }
 
-  Future<AttachmentUploadRemoteState> uploadAttachmentPlan(
-    UploadAttachmentPlanParams params,
-  ) async {
+  Future<void> uploadAttachmentPlan(UploadAttachmentPlanParams params) async {
     final AttachmentUploadPlan plan = params.plan;
     if (plan is MultipartAttachmentUploadPlan) {
       await _uploadMultipartAttachmentPlan(params, plan);
     } else if (plan is SingleAttachmentUploadPlan) {
       await _uploadSingleAttachmentPlan(params, plan);
     }
-    return AttachmentUploadRemoteState(
-      uploadFilename: plan.uploadFilename,
-      fileSize: plan.fileSize,
-      contentType: plan.contentType,
-      uploadId: plan is MultipartAttachmentUploadPlan ? plan.uploadId : null,
-    );
   }
 
   Future<void> _uploadSingleAttachmentPlan(

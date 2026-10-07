@@ -86,10 +86,6 @@ class ChannelHeaderSearchNotifier extends Notifier<ChannelHeaderSearchState> {
     );
   }
 
-  void deactivateSearch() {
-    state = const ChannelHeaderSearchState();
-  }
-
   void closeSearch() {
     state = ChannelHeaderSearchState(
       channelId: state.channelId,

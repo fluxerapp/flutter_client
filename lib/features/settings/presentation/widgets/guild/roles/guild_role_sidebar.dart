@@ -22,7 +22,6 @@ class GuildRoleSidebar extends StatelessWidget {
     required this.onSelectRole,
     required this.onCreateRole,
     required this.isCreatingRole,
-    required this.onEnterHoistOrderMode,
     required this.onExitHoistOrderMode,
     required this.onResetHoistOrder,
     required this.onReorder,
@@ -40,7 +39,6 @@ class GuildRoleSidebar extends StatelessWidget {
   final ValueChanged<String> onSelectRole;
   final VoidCallback onCreateRole;
   final bool isCreatingRole;
-  final VoidCallback onEnterHoistOrderMode;
   final VoidCallback onExitHoistOrderMode;
   final VoidCallback onResetHoistOrder;
   final void Function(int oldIndex, int newIndex) onReorder;

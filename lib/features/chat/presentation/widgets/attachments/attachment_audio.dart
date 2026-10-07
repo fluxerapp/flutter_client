@@ -234,7 +234,6 @@ class _AttachmentAudioBody extends StatelessWidget {
                   volume: controller.volume,
                   isMuted: controller.isMuted,
                   onVolumeChanged: controller.setVolume,
-                  onToggleMute: controller.toggleMute,
                 ),
                 const Spacer(),
                 TextButton(

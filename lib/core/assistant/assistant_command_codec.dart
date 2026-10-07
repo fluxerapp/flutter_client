@@ -10,53 +10,6 @@ const String assistantCommandTypePresenceSetCustomStatus =
 const String assistantCommandTypeOpenDms = 'openDms';
 const String assistantCommandTypeSendDm = 'sendDm';
 
-Map<String, Object?> encodeAssistantCommand(AssistantCommand command) {
-  return switch (command) {
-    VoiceSetMuteCommand(:final bool? muted) => <String, Object?>{
-      'type': assistantCommandTypeVoiceSetMute,
-      'muted': ?muted,
-    },
-    VoiceLeaveCommand() => <String, Object?>{
-      'type': assistantCommandTypeVoiceLeave,
-    },
-    VoiceJoinCommand(:final String channelId, :final String? guildId) =>
-      <String, Object?>{
-        'type': assistantCommandTypeVoiceJoin,
-        'channelId': channelId,
-        'guildId': ?guildId,
-      },
-    VoiceStartDmCallCommand(
-      :final String? friendId,
-      :final String? channelId,
-    ) =>
-      <String, Object?>{
-        'type': assistantCommandTypeVoiceStartDmCall,
-        'friendId': ?friendId,
-        'channelId': ?channelId,
-      },
-    PresenceSetStatusCommand(:final String status) => <String, Object?>{
-      'type': assistantCommandTypePresenceSetStatus,
-      'status': status,
-    },
-    PresenceSetCustomStatusCommand(:final String text) => <String, Object?>{
-      'type': assistantCommandTypePresenceSetCustomStatus,
-      'text': text,
-    },
-    OpenDmsCommand() => <String, Object?>{'type': assistantCommandTypeOpenDms},
-    SendDmCommand(
-      :final String text,
-      :final String? friendId,
-      :final String? channelId,
-    ) =>
-      <String, Object?>{
-        'type': assistantCommandTypeSendDm,
-        'text': text,
-        'friendId': ?friendId,
-        'channelId': ?channelId,
-      },
-  };
-}
-
 AssistantCommand? decodeAssistantCommand(Object? raw) {
   final Map<String, Object?>? map = _asStringKeyedMap(raw);
   if (map == null) {

@@ -4,8 +4,6 @@ import 'package:flutter/widgets.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet_drag.dart';
 import 'package:fluxer_app/shared/gestures/expandable_sheet_gestures.dart';
 
-enum BottomInputMode { none, keyboard, panelAnchored, panelExpanded }
-
 enum BottomInputTransition { idle, lockingToPanel, lockingToKeyboard }
 
 enum InlineExpressionPanelSnapTarget { close, anchor, expanded }
@@ -69,31 +67,6 @@ double bottomInputSlotContentHeight({
   }
   final double netHeight = rawHeight - safeAreaBottom;
   return netHeight > 0 ? netHeight : rawHeight;
-}
-
-double bottomInputSlotAnchorHeight({
-  required double? anchoredKeyboardHeight,
-  required double fallbackHeight,
-  required double safeAreaBottom,
-}) {
-  final double rawAnchor = inlineExpressionPanelAnchorHeight(
-    anchoredKeyboardHeight: anchoredKeyboardHeight,
-    fallbackHeight: fallbackHeight,
-  );
-  return bottomInputSlotContentHeight(
-    rawHeight: rawAnchor,
-    safeAreaBottom: safeAreaBottom,
-  );
-}
-
-double bottomInputSlotGrossHeight({
-  required double netHeight,
-  required double safeAreaBottom,
-}) {
-  if (netHeight <= 0) {
-    return 0;
-  }
-  return netHeight + safeAreaBottom;
 }
 
 double resolveBottomInputSlotHeight({
@@ -256,17 +229,6 @@ bool shouldPersistKeyboardAnchor({
   required double nextHeight,
 }) {
   return (nextHeight - storedHeight).abs() >= kKeyboardAnchorPersistThreshold;
-}
-
-double resolveNextAnchoredKeyboardHeight({
-  required double? currentAnchored,
-  required double nextHeight,
-  required bool nextVisible,
-}) {
-  if (!nextVisible || !isImeKeyboardHeight(nextHeight)) {
-    return currentAnchored ?? 0;
-  }
-  return math.max(currentAnchored ?? 0, nextHeight);
 }
 
 double resolveTransitionLockHeight({

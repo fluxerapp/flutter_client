@@ -19,10 +19,8 @@ void main() {
     categoryId: null,
     guildId: 'guild-1',
     effectiveMatureContent: true,
-    matureContentSource: EffectiveMatureSource.channel,
     effectiveWarningLevel: contentWarningLevelInherit,
     effectiveWarningText: null,
-    warningSource: EffectiveMatureSource.none,
     scope: MatureContentAgreementScope.channel,
     scopeId: 'channel-1',
   );
@@ -32,10 +30,8 @@ void main() {
     categoryId: null,
     guildId: 'guild-1',
     effectiveMatureContent: false,
-    matureContentSource: EffectiveMatureSource.none,
     effectiveWarningLevel: contentWarningLevelContentWarning,
     effectiveWarningText: 'This contains sensitive content.',
-    warningSource: EffectiveMatureSource.channel,
     scope: MatureContentAgreementScope.channel,
     scopeId: 'channel-2',
   );

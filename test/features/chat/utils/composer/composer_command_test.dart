@@ -81,10 +81,10 @@ void main() {
     });
 
     test('/gif without picking a result is a media search command', () {
-      final cmd =
-          parseComposerCommand('/gif cats') as ComposerMediaSearchCommand;
-      expect(cmd.kind, 'gif');
-      expect(cmd.query, 'cats');
+      expect(
+        parseComposerCommand('/gif cats'),
+        isA<ComposerMediaSearchCommand>(),
+      );
     });
 
     test('@everyone text is plain content', () {

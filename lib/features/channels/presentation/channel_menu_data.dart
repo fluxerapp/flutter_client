@@ -452,33 +452,3 @@ List<Widget> channelMenuGroupsToWidgets({
   }
   return widgets;
 }
-
-List<ChannelMenuAction> flattenChannelMenuActions(
-  List<ChannelMenuGroup> groups,
-) {
-  return <ChannelMenuAction>[
-    for (final ChannelMenuGroup group in groups)
-      for (final ChannelMenuEntry entry in group) entry.action,
-  ];
-}
-
-List<String> flattenChannelMenuLabels(List<ChannelMenuGroup> groups) {
-  return <String>[
-    for (final ChannelMenuGroup group in groups)
-      for (final ChannelMenuEntry entry in group) entry.label,
-  ];
-}
-
-bool channelMenuEntryIsDanger(
-  List<ChannelMenuGroup> groups,
-  ChannelMenuAction action,
-) {
-  for (final ChannelMenuGroup group in groups) {
-    for (final ChannelMenuEntry entry in group) {
-      if (entry.action == action) {
-        return entry.isDanger;
-      }
-    }
-  }
-  return false;
-}

@@ -1,4 +1,5 @@
 import 'package:fixnum/fixnum.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/expression_picker_sync_helpers.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/expression_picker_synced_field.dart';
@@ -6,9 +7,17 @@ import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/prefere
     as pickers_pb;
 import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
 
+EmojiPickerSyncedField _field() {
+  final container = ProviderContainer();
+  addTearDown(container.dispose);
+  return container.read(
+    Provider<EmojiPickerSyncedField>(EmojiPickerSyncedField.new),
+  );
+}
+
 void main() {
   group('ExpressionPickerSyncedField', () {
-    test('toProtoForPush preserves usage stats from wire', () {
+    test('toProtoMessageForPush preserves usage stats from wire', () {
       const local = ExpressionPickerSyncedLocalState(
         favoriteKeys: ['unicode:heart'],
         collapsedCategoryIds: ['people'],
@@ -18,10 +27,9 @@ void main() {
         count: 3,
         lastUsedMs: Int64(1_700_000_000_000),
       );
-      final pushed = EmojiPickerSyncedField.toProtoForPush(
-        local: local,
-        wireBase: wireBase,
-      );
+      final pushed =
+          _field().toProtoMessageForPush(local, wireSubMessage: wireBase)
+              as pickers_pb.EmojiPickerState;
       expect(pushed.favoriteEmojiIds, ['unicode:heart']);
       expect(pushed.collapsedCategoryIds, ['people']);
       expect(pushed.usage.length, 1);

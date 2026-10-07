@@ -160,23 +160,6 @@ class FavoriteChannelsDao extends DatabaseAccessor<FluxerDatabase>
     return true;
   }
 
-  Future<bool> removeCategory(String id) {
-    return transaction(() async {
-      final existing = await (select(
-        favoriteCategories,
-      )..where((t) => t.id.equals(id))).getSingleOrNull();
-      if (existing == null) {
-        return false;
-      }
-      await (delete(favoriteCategories)..where((t) => t.id.equals(id))).go();
-      await (update(favoriteChannels)..where((t) => t.parentId.equals(id)))
-          .write(const FavoriteChannelsCompanion(parentId: Value(null)));
-      await _normalizeCategoryPositions();
-      await _normalizeChannelPositions(null);
-      return true;
-    });
-  }
-
   Stream<FavoriteSetting> watchSettings() async* {
     await _ensureSettings();
     yield* (select(
@@ -210,41 +193,6 @@ class FavoriteChannelsDao extends DatabaseAccessor<FluxerDatabase>
     await (update(favoriteSettings)..where((t) => t.id.equals(1))).write(
       FavoriteSettingsCompanion(muted: Value(value)),
     );
-  }
-
-  Future<bool> renameCategory({
-    required String id,
-    required String name,
-  }) async {
-    final trimmed = name.trim();
-    if (trimmed.isEmpty) {
-      return false;
-    }
-    final updated =
-        await (update(favoriteCategories)..where((t) => t.id.equals(id))).write(
-          FavoriteCategoriesCompanion(name: Value(trimmed)),
-        );
-    return updated > 0;
-  }
-
-  Future<void> moveCategory({required String id, required int position}) async {
-    await transaction(() async {
-      final existing = await (select(
-        favoriteCategories,
-      )..where((t) => t.id.equals(id))).getSingleOrNull();
-      if (existing == null) {
-        return;
-      }
-      final categories = await getCategories();
-      final reordered = categories.where((cat) => cat.id != id).toList();
-      final nextIndex = position.clamp(0, reordered.length);
-      reordered.insert(nextIndex, existing);
-      for (var i = 0; i < reordered.length; i++) {
-        await (update(favoriteCategories)
-              ..where((t) => t.id.equals(reordered[i].id)))
-            .write(FavoriteCategoriesCompanion(position: Value(i)));
-      }
-    });
   }
 
   Future<bool> setChannelNickname({
@@ -346,17 +294,6 @@ class FavoriteChannelsDao extends DatabaseAccessor<FluxerDatabase>
       return 0;
     }
     return rows.map((row) => row.position).reduce((a, b) => a > b ? a : b) + 1;
-  }
-
-  Future<void> _normalizeCategoryPositions() async {
-    final rows = await getCategories();
-    for (var i = 0; i < rows.length; i++) {
-      if (rows[i].position == i) {
-        continue;
-      }
-      await (update(favoriteCategories)..where((t) => t.id.equals(rows[i].id)))
-          .write(FavoriteCategoriesCompanion(position: Value(i)));
-    }
   }
 
   Future<void> _ensureSettings() async {

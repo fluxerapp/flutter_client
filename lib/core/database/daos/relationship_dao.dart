@@ -64,17 +64,6 @@ class RelationshipDao extends DatabaseAccessor<FluxerDatabase>
 
   Future<void> clearAll() => delete(relationships).go();
 
-  Future<bool> isBlocked(String userId) async {
-    final row =
-        await (select(relationships)..where(
-              (r) =>
-                  r.userId.equals(userId) &
-                  r.type.equals(_blockedRelationshipType),
-            ))
-            .getSingleOrNull();
-    return row != null;
-  }
-
   Future<Set<String>> getBlockedUserIds() async {
     final rows = await (select(
       relationships,

@@ -28,10 +28,6 @@
     "@retry": {
         "description": "Generic label for retry actions (splash, errors, network, etc.)."
     },
-    "connectingCaps": "CONNECTING",
-    "@connectingCaps": {
-        "description": "Connecting text on the splash screen"
-    },
     "splashConnectionLost": "连接已断开",
     "@splashConnectionLost": {
         "description": "Fallback headline on splash when gateway is unavailable (web parity)."
@@ -93,10 +89,6 @@
             }
         }
     },
-    "ssoRequired": "需要 SSO 才能访问此实例。",
-    "@ssoRequired": {
-        "description": "Short sign-in note shown when the instance requires single sign-on."
-    },
     "organizationSsoProvider": "使用你所在组织的单点登录服务商登录。",
     "@organizationSsoProvider": {
         "description": "Description shown when sign-in is restricted to the configured SSO provider."
@@ -117,10 +109,6 @@
                 "type": "String"
             }
         }
-    },
-    "logInViaBrowser": "通过浏览器登录",
-    "@logInViaBrowser": {
-        "description": "Secondary login that opens or uses the system browser."
     },
     "needAccountPrompt": "还没有账号？ ",
     "@needAccountPrompt": {
@@ -232,26 +220,9 @@
     "@accountAdd": {
         "description": "Button to add a new account."
     },
-    "accountRemove": "移除",
-    "@accountRemove": {
-        "description": "Context menu option to remove a stored account."
-    },
-    "accountRemoveTitle": "移除 {username}",
-    "@accountRemoveTitle": {
-        "description": "Title for the remove account confirmation modal.",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
     "accountRemoveDescription": "这会移除此账号的已保存会话。",
     "@accountRemoveDescription": {
         "description": "Description for the remove account confirmation modal."
-    },
-    "accountRemoveOnlyDescription": "这将移除此设备上保存的唯一账号。",
-    "@accountRemoveOnlyDescription": {
-        "description": "Description when removing the last stored account."
     },
     "accountExpired": "已过期",
     "@accountExpired": {
@@ -783,10 +754,6 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsent": "我同意服务条款和隐私政策",
-    "@registerConsent": {
-        "description": "Consent checkbox label for registration (plain text fallback)."
-    },
     "registerConsentPrefix": "我同意",
     "@registerConsentPrefix": {
         "description": "Text before the Terms of Service link in the consent checkbox."
@@ -830,10 +797,6 @@
     "passkeyTimeout": "通行密钥认证超时。请重试。",
     "@passkeyTimeout": {
         "description": "Error when passkey authentication times out."
-    },
-    "passkeyNotAvailable": "此应用无法使用通行密钥。请改用电子邮件和密码登录。",
-    "@passkeyNotAvailable": {
-        "description": "Error for unknown passkey provider errors (e.g. TYPE_UNKNOWN)."
     },
     "passkeyFailed": "密匙认证失败。请重试。",
     "@passkeyFailed": {
@@ -941,26 +904,6 @@
     "inviteAcceptSomeone": "某人",
     "@inviteAcceptSomeone": {
         "description": "Fallback inviter name when the inviter is unknown."
-    },
-    "inviteAcceptEmojiPack": "表情包",
-    "@inviteAcceptEmojiPack": {
-        "description": "Label for an emoji pack invite."
-    },
-    "inviteAcceptStickerPack": "贴纸包",
-    "@inviteAcceptStickerPack": {
-        "description": "Label for a sticker pack invite."
-    },
-    "inviteAcceptInstallEmojiPack": "安装表情包",
-    "@inviteAcceptInstallEmojiPack": {
-        "description": "Primary action to install an emoji pack from an invite."
-    },
-    "inviteAcceptInstallStickerPack": "安装贴纸包",
-    "@inviteAcceptInstallStickerPack": {
-        "description": "Primary action to install a sticker pack from an invite."
-    },
-    "inviteAcceptPackInstallNote": "接受此邀请将自动安装表情包。",
-    "@inviteAcceptPackInstallNote": {
-        "description": "Note shown on expression pack invites before accepting."
     },
     "mentionUnknownChannel": "unknown-channel",
     "@mentionUnknownChannel": {
@@ -1708,10 +1651,6 @@
             }
         }
     },
-    "emojiPlutoniumUpsellButton": "获取 Plutonium",
-    "@emojiPlutoniumUpsellButton": {
-        "description": "Button label on the Plutonium upsell banner."
-    },
     "emojiPlutoniumUpsellDismiss": "不再显示",
     "@emojiPlutoniumUpsellDismiss": {
         "description": "Dismiss link on the Plutonium upsell banner."
@@ -1878,10 +1817,6 @@
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
     },
-    "fluxerTagInputLabel": "用户名",
-    "@fluxerTagInputLabel": {
-        "description": "Label above the username and discriminator input fields."
-    },
     "fluxerTagDescriptionBase": "用户名只能包含字母（a-z、A-Z）、数字（0-9）和下划线。用户名不区分大小写。",
     "@fluxerTagDescriptionBase": {
         "description": "Base description text on the username change sheet."
@@ -1909,10 +1844,6 @@
     "validationAllowedChars": "仅限字母（a-z, A-Z）、数字（0-9）和下划线（_）",
     "@validationAllowedChars": {
         "description": "Validation rule for allowed username characters."
-    },
-    "discriminatorPremiumTooltip": "获取 Plutonium 以自定义您的标签或在更改用户名时保留它",
-    "@discriminatorPremiumTooltip": {
-        "description": "Tooltip on disabled discriminator field for non-premium users."
     },
     "fluxerTagAlreadyTaken": "用户名已被占用",
     "@fluxerTagAlreadyTaken": {
@@ -1967,19 +1898,6 @@
     "premiumUpsellCustomizeTag": "自定义您的 4 位数字标签或在更改用户名时保留它",
     "@premiumUpsellCustomizeTag": {
         "description": "Upsell text encouraging non-premium users to get Plutonium for tag customization."
-    },
-    "premiumTrialExpiresOn": "您的 Plutonium 试用版将于 {date} 到期。升级以保留您的自定义标签并在您的个人资料上获得徽章。",
-    "@premiumTrialExpiresOn": {
-        "description": "Trial upsell with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActive": "您正在使用 Plutonium 试用版。升级以保留您的自定义标签并在您的个人资料上获得徽章。",
-    "@premiumTrialActive": {
-        "description": "Trial upsell without specific expiry date."
     },
     "fluxerTagUpdated": "用户名已更新",
     "@fluxerTagUpdated": {
@@ -2153,32 +2071,6 @@
     "@hideVisionaryIdDescription": {
         "description": "Description for the toggle to hide the Visionary ID badge."
     },
-    "premiumTrialSubscriptionStarts": "你正在试用 Plutonium — 你的订阅将于 {date} 开始",
-    "@premiumTrialSubscriptionStarts": {
-        "description": "Trial banner title when user has an active subscription pending after trial.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialSubscriptionStartsDescription": "试用期结束后，你的订阅将自动开始。无需操作。",
-    "@premiumTrialSubscriptionStartsDescription": {
-        "description": "Trial banner description when user has an active subscription pending after trial."
-    },
-    "premiumTrialExpiresOnProfile": "你正在试用 Plutonium，将于 {date} 到期",
-    "@premiumTrialExpiresOnProfile": {
-        "description": "Trial banner title with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActiveProfile": "你正在试用 Plutonium",
-    "@premiumTrialActiveProfile": {
-        "description": "Trial banner title without specific expiry date."
-    },
     "avatarDescriptionNonPremium": "JPEG、PNG、WebP。最大 10MB。推荐：512×512px。动态头像 (GIF) 需要 Plutonium。",
     "@avatarDescriptionNonPremium": {
         "description": "Avatar helper text for non-premium users, mentioning Plutonium requirement for animated avatars."
@@ -2263,22 +2155,6 @@
     "profileSavedToast": "个人资料已更新",
     "@profileSavedToast": {
         "description": "Toast message shown after successfully saving profile changes."
-    },
-    "profileEditButton": "编辑个人资料",
-    "@profileEditButton": {
-        "description": "Button label to open profile editing from the profile content card."
-    },
-    "profileNoteLabel": "备注",
-    "@profileNoteLabel": {
-        "description": "Label for the personal note section on a user profile."
-    },
-    "profileNoteVisibility": "（仅自己可见）",
-    "@profileNoteVisibility": {
-        "description": "Hint that the note is private and only visible to the current user."
-    },
-    "profileNoteEmpty": "暂无备注。",
-    "@profileNoteEmpty": {
-        "description": "Placeholder shown when no personal note has been set for a user."
     },
     "sudoTitle": "验证你的身份",
     "@sudoTitle": {
@@ -2651,42 +2527,6 @@
     "@securityPasskeyNameHint": {
         "description": "Hint for passkey name input."
     },
-    "securityPhoneSectionTitle": "手机号",
-    "@securityPhoneSectionTitle": {
-        "description": "Title for phone number section."
-    },
-    "securityPhoneSectionDescription": "管理您的手机号码",
-    "@securityPhoneSectionDescription": {
-        "description": "Description for phone number section."
-    },
-    "securityPhoneLabel": "手机号",
-    "@securityPhoneLabel": {
-        "description": "Label for phone number row."
-    },
-    "securityPhoneNone": "未添加手机号码。",
-    "@securityPhoneNone": {
-        "description": "Shown when no phone number is set."
-    },
-    "securityPhoneAdd": "添加手机号码",
-    "@securityPhoneAdd": {
-        "description": "Button to add phone number."
-    },
-    "securityPhoneRemove": "移除",
-    "@securityPhoneRemove": {
-        "description": "Button to remove phone number."
-    },
-    "securityPhoneRemoveTitle": "移除手机号码",
-    "@securityPhoneRemoveTitle": {
-        "description": "Title for phone remove confirmation."
-    },
-    "securityPhoneRemoveDescription": "确定要移除您的手机号码吗？",
-    "@securityPhoneRemoveDescription": {
-        "description": "Description for phone remove confirmation."
-    },
-    "securityPhoneRemoved": "手机号码已移除",
-    "@securityPhoneRemoved": {
-        "description": "Toast after phone removed."
-    },
     "securityClaimTitle": "安全功能",
     "@securityClaimTitle": {
         "description": "Title when user needs to claim account for security."
@@ -2739,10 +2579,6 @@
     "@backupCodesWarning": {
         "description": "Warning about backup codes."
     },
-    "backupCodesDownload": "下载",
-    "@backupCodesDownload": {
-        "description": "Button to download backup codes."
-    },
     "backupCodesCopy": "复制",
     "@backupCodesCopy": {
         "description": "Button to copy backup codes."
@@ -2758,46 +2594,6 @@
     "backupCodesDone": "完成",
     "@backupCodesDone": {
         "description": "Button to close backup codes sheet."
-    },
-    "backupCodesViewTitle": "查看备用码",
-    "@backupCodesViewTitle": {
-        "description": "Title for viewing existing backup codes."
-    },
-    "backupCodesViewDescription": "查看备用验证码前可能需要进行验证。",
-    "@backupCodesViewDescription": {
-        "description": "Description for view backup codes."
-    },
-    "phoneAddTitle": "添加手机号码",
-    "@phoneAddTitle": {
-        "description": "Title for phone add sheet."
-    },
-    "phoneAddLabel": "手机号",
-    "@phoneAddLabel": {
-        "description": "Label for phone input."
-    },
-    "phoneAddHint": "输入你的电话号码",
-    "@phoneAddHint": {
-        "description": "Hint for phone input."
-    },
-    "phoneAddFooter": "我们将发送短信验证码（如果可用）。您的号码不会与您的帐户关联。我们仅保留一个加密标记，不含用户 ID，以便在约 30 天内最多进行 2 次验证。",
-    "@phoneAddFooter": {
-        "description": "Footer text for phone input."
-    },
-    "phoneAddSendCode": "发送验证码",
-    "@phoneAddSendCode": {
-        "description": "Button to send phone verification code."
-    },
-    "phoneVerifyTitle": "验证手机号",
-    "@phoneVerifyTitle": {
-        "description": "Title for phone verify step."
-    },
-    "phoneVerifyDescription": "输入发送到您手机号码的验证码。",
-    "@phoneVerifyDescription": {
-        "description": "Description for phone verify step."
-    },
-    "phoneAddSuccess": "手机号已验证",
-    "@phoneAddSuccess": {
-        "description": "Toast after phone added."
     },
     "dangerZoneSectionTitle": "危险区域",
     "@dangerZoneSectionTitle": {
@@ -3049,10 +2845,6 @@
     "@authorizedAppsScopeAdmin": {
         "description": "OAuth2 scope description: admin."
     },
-    "privacyPendingDeletionTitle": "待删除",
-    "@privacyPendingDeletionTitle": {
-        "description": "Title of the warning alert shown when a bulk message deletion is pending."
-    },
     "blockedUsersTitle": "已屏蔽用户",
     "@blockedUsersTitle": {
         "description": "Header title of the Blocked Users settings page."
@@ -3288,10 +3080,6 @@
     "userProfileNoteDelete": "删除",
     "@userProfileNoteDelete": {
         "description": "Delete button in the note editor sheet."
-    },
-    "userProfileNoteEmpty": "点击添加备注",
-    "@userProfileNoteEmpty": {
-        "description": "Hint text when no note has been written yet."
     },
     "userProfileMemberSince": "加入时间",
     "@userProfileMemberSince": {
@@ -4063,17 +3851,9 @@
     "@channelComposerBarrierNotMemberLongEnough": {
         "description": "Composer barrier when the user's guild membership is too recent."
     },
-    "channelComposerBarrierNoPhoneNumber": "你需要验证手机号才能在此社区中发送消息。",
-    "@channelComposerBarrierNoPhoneNumber": {
-        "description": "Composer barrier when the user must verify a phone number before messaging."
-    },
     "channelComposerBarrierVerifyEmail": "验证邮箱",
     "@channelComposerBarrierVerifyEmail": {
         "description": "Action button on the composer barrier for unverified email."
-    },
-    "channelComposerBarrierVerifyPhone": "验证手机号",
-    "@channelComposerBarrierVerifyPhone": {
-        "description": "Action button on the composer barrier for missing phone verification."
     },
     "chatAttachmentTooMany": "附件过多（最多 {max} 个）",
     "@chatAttachmentTooMany": {
@@ -4100,10 +3880,6 @@
     "@chatAttachmentDropToSend": {
         "description": "Overlay hint when dragging files over chat with Shift held."
     },
-    "chatAttachmentSendVoiceMessage": "发送语音消息",
-    "@chatAttachmentSendVoiceMessage": {
-        "description": "Menu item to open the voice message recorder."
-    },
     "voiceMessageTitle": "语音消息",
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
@@ -4124,10 +3900,6 @@
     "@voiceMessageMicPermissionDenied": {
         "description": "Shown when microphone permission is denied for voice messages."
     },
-    "voiceMessageRecordingNotSupported": "此设备不支持语音录制。",
-    "@voiceMessageRecordingNotSupported": {
-        "description": "Shown when the device cannot record voice messages."
-    },
     "voiceMessageMicInUse": "请离开语音通话以录制语音消息。",
     "@voiceMessageMicInUse": {
         "description": "Shown when the microphone is already used by an active voice call."
@@ -4140,26 +3912,6 @@
     "@voiceMessageSendFailed": {
         "description": "Shown when sending a voice message fails."
     },
-    "voiceMessageRecordingHint": "现在开始说话。完成后点击停止，之后可以修剪。",
-    "@voiceMessageRecordingHint": {
-        "description": "Help text while recording a voice message on desktop."
-    },
-    "voiceMessageReviewHint": "拖动滑块修剪，然后点击发送。",
-    "@voiceMessageReviewHint": {
-        "description": "Help text while reviewing a voice message before send."
-    },
-    "voiceMessageStop": "停止",
-    "@voiceMessageStop": {
-        "description": "Stop recording button in voice message composer."
-    },
-    "voiceMessageStartRecording": "开始录音",
-    "@voiceMessageStartRecording": {
-        "description": "Button to retry voice recording after permission error."
-    },
-    "voiceMessageRerecord": "重新录音",
-    "@voiceMessageRerecord": {
-        "description": "Button to discard review and record again."
-    },
     "voiceMessagePlay": "播放",
     "@voiceMessagePlay": {
         "description": "Play voice message preview."
@@ -4167,16 +3919,6 @@
     "voiceMessagePause": "暂停",
     "@voiceMessagePause": {
         "description": "Pause voice message preview."
-    },
-    "voiceMessageSelectionTooShort": "所选内容时长必须至少为 {seconds} 秒。",
-    "@voiceMessageSelectionTooShort": {
-        "description": "Error when trimmed voice message is too short.",
-        "placeholders": {
-            "seconds": {
-                "type": "num",
-                "format": "compact"
-            }
-        }
     },
     "chatAttachmentEditTitle": "编辑附件",
     "@chatAttachmentEditTitle": {
@@ -4221,10 +3963,6 @@
     "chatAttachmentSourceBrowse": "浏览文件",
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
-    },
-    "chatAttachmentPasteTooltip": "从剪贴板粘贴文件",
-    "@chatAttachmentPasteTooltip": {
-        "description": "Tooltip for pasting an image attachment from the clipboard."
     },
     "chatAttachmentSpoiler": "剧透",
     "@chatAttachmentSpoiler": {
@@ -4322,14 +4060,6 @@
     "@matureContentOpenLinkButton": {
         "description": "Primary action on mature link channel gates."
     },
-    "sensitiveContentSectionTitle": "敏感内容",
-    "@sensitiveContentSectionTitle": {
-        "description": "Privacy settings section title for sensitive content filters."
-    },
-    "sensitiveContentSectionDescription": "控制在不同情境下如何过滤成人或敏感媒体",
-    "@sensitiveContentSectionDescription": {
-        "description": "Privacy settings section description for sensitive content filters."
-    },
     "sensitiveContentFriendDmLabel": "好友发来的私信",
     "@sensitiveContentFriendDmLabel": {
         "description": "Label for friend DM sensitive content filter."
@@ -4354,18 +4084,6 @@
     "@sensitiveContentFilterBlock": {
         "description": "Sensitive content filter option to block media."
     },
-    "sensitiveContentBlurUnscannedLabel": "安全扫描完成前模糊媒体",
-    "@sensitiveContentBlurUnscannedLabel": {
-        "description": "Toggle label for blurring unscanned media."
-    },
-    "sensitiveContentBlurUnscannedDescriptionAdult": "启用后，图片和视频在内容安全扫描完成前将保持模糊状态。",
-    "@sensitiveContentBlurUnscannedDescriptionAdult": {
-        "description": "Description for blur-unscanned toggle for adult accounts."
-    },
-    "sensitiveContentBlurUnscannedDescriptionMinor": "此设置对您的账号始终处于开启状态。",
-    "@sensitiveContentBlurUnscannedDescriptionMinor": {
-        "description": "Description for blur-unscanned toggle for minor accounts."
-    },
     "sensitiveContentResetButton": "重置",
     "@sensitiveContentResetButton": {
         "description": "Reset button for sensitive content settings."
@@ -4382,10 +4100,6 @@
                 "type": "int"
             }
         }
-    },
-    "chatCancelUpload": "取消上传",
-    "@chatCancelUpload": {
-        "description": "Button or menu action label for canceling an in-flight message attachment upload."
     },
     "chatAttachmentExpiresOn": "{date} 到期",
     "@chatAttachmentExpiresOn": {
@@ -4655,10 +4369,6 @@
     "@connectionEnterDomain": {
         "description": "Inline error shown when the domain input is empty."
     },
-    "lookAndFeelTitle": "外观",
-    "@lookAndFeelTitle": {
-        "description": "Title of the Look & Feel (Appearance) settings page."
-    },
     "lookAndFeelThemeSectionTitle": "主题",
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
@@ -4698,14 +4408,6 @@
     "lookAndFeelThemeSyncFailed": "无法将主题同步到您的帐户。请重试。",
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
-    },
-    "lookAndFeelChatFontScalingTitle": "聊天字体缩放",
-    "@lookAndFeelChatFontScalingTitle": {
-        "description": "Section title for the chat font size slider."
-    },
-    "lookAndFeelChatFontScalingDescription": "调整聊天区域的字体大小。",
-    "@lookAndFeelChatFontScalingDescription": {
-        "description": "Section description for the chat font size slider."
     },
     "lookAndFeelInterfaceTitle": "界面",
     "@lookAndFeelInterfaceTitle": {
@@ -4774,42 +4476,6 @@
     "lookAndFeelHideKeyboardHintsDescription": "启用后，工具提示中的快捷键徽章将被隐藏。",
     "@lookAndFeelHideKeyboardHintsDescription": {
         "description": "Toggle description for the hide-keyboard-hints switch."
-    },
-    "lookAndFeelNekoTitle": "其他",
-    "@lookAndFeelNekoTitle": {
-        "description": "Subsection title under Interface for Neko appearance settings."
-    },
-    "lookAndFeelNekoDescription": "杂项界面选项。",
-    "@lookAndFeelNekoDescription": {
-        "description": "Subsection description for Neko appearance settings."
-    },
-    "lookAndFeelShowNekoLabel": "显示 Neko",
-    "@lookAndFeelShowNekoLabel": {
-        "description": "Toggle label for showing Neko in the chat footer."
-    },
-    "lookAndFeelShowNekoDescription": "启用后，Neko 会出现在聊天输入栏附近。",
-    "@lookAndFeelShowNekoDescription": {
-        "description": "Toggle description for showing Neko in chat."
-    },
-    "lookAndFeelVoiceChannelJoinTitle": "语音频道加入行为",
-    "@lookAndFeelVoiceChannelJoinTitle": {
-        "description": "Subsection title under Interface — voice channel join behavior."
-    },
-    "lookAndFeelVoiceChannelJoinDescription": "控制您在社区中加入语音频道的方式。",
-    "@lookAndFeelVoiceChannelJoinDescription": {
-        "description": "Subsection description for voice channel join behavior."
-    },
-    "lookAndFeelRequireDoubleClickJoinLabel": "加入语音频道需双击",
-    "@lookAndFeelRequireDoubleClickJoinLabel": {
-        "description": "Toggle label — require double-click to join voice channels."
-    },
-    "lookAndFeelRequireDoubleClickJoinDescription": "启用后，您需要双击语音频道才能加入。禁用时（默认），单击即可立即加入频道。",
-    "@lookAndFeelRequireDoubleClickJoinDescription": {
-        "description": "Toggle description for the require-double-click voice channel join switch."
-    },
-    "lookAndFeelChatFontPreviewSample": "敏捷的棕色狐狸跳过懒惰的狗。",
-    "@lookAndFeelChatFontPreviewSample": {
-        "description": "Sample text rendered at the selected chat font size to preview scaling."
     },
     "lookAndFeelGuildSidebarTitle": "服务器边栏",
     "@lookAndFeelGuildSidebarTitle": {
@@ -5218,25 +4884,9 @@
     "@messagesMediaAutocompleteSavedMediaLabel": {
         "description": "Toggle label for saved media in expression autocomplete."
     },
-    "messagesMediaEditingSectionTitle": "编辑消息",
-    "@messagesMediaEditingSectionTitle": {
-        "description": "Section title for message editing settings."
-    },
-    "messagesMediaEditingSectionDescription": "控制取消时对编辑草稿的处理方式。",
-    "@messagesMediaEditingSectionDescription": {
-        "description": "Section description for message editing settings."
-    },
-    "messagesMediaEditingPreserveDraftLabel": "取消时保留编辑草稿",
-    "@messagesMediaEditingPreserveDraftLabel": {
-        "description": "Toggle label for preserving edit drafts on cancel."
-    },
     "accessibilityDmMessagePreviewGroupTitle": "私信预览",
     "@accessibilityDmMessagePreviewGroupTitle": {
         "description": "Section title for DM message preview accessibility settings."
-    },
-    "accessibilityDmMessagePreviewGroupDescription": "控制私信列表中显示消息预览的时间。",
-    "@accessibilityDmMessagePreviewGroupDescription": {
-        "description": "Section description for DM message preview accessibility settings."
     },
     "accessibilityDmMessagePreviewModeLabel": "私信预览模式",
     "@accessibilityDmMessagePreviewModeLabel": {
@@ -5394,10 +5044,6 @@
     "@voiceConnectionConfirmDoNothing": {
         "description": "Dismiss the dialog without joining voice."
     },
-    "voiceChannelEmptyDescription": "这是一个语音频道。连接后即可开始交谈！",
-    "@voiceChannelEmptyDescription": {
-        "description": "Empty state body when viewing a guild voice channel while not in the call."
-    },
     "voiceChannelJoin": "加入语音频道",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
@@ -5437,14 +5083,6 @@
     "voiceChannelStatusConnecting": "连接中…",
     "@voiceChannelStatusConnecting": {
         "description": "Status in the in-page voice view while LiveKit is connecting."
-    },
-    "voiceChannelStatusConnected": "已连接",
-    "@voiceChannelStatusConnected": {
-        "description": "Status in the in-page voice view when the voice session is active."
-    },
-    "voiceChannelStatusError": "错误",
-    "@voiceChannelStatusError": {
-        "description": "Short label in the channel header when the voice session reports an error."
     },
     "voiceParticipantTooltipMobileDevice": "移动设备",
     "@voiceParticipantTooltipMobileDevice": {
@@ -5519,10 +5157,6 @@
     "voiceScreenShareNotificationText": "正在共享您的屏幕。",
     "@voiceScreenShareNotificationText": {
         "description": "Body text for the Android foreground notification shown while screen sharing."
-    },
-    "voiceControlMore": "更多",
-    "@voiceControlMore": {
-        "description": "Tooltip: more voice actions in the voice call control bar."
     },
     "voiceControlDisconnect": "断开连接",
     "@voiceControlDisconnect": {
@@ -6378,10 +6012,6 @@
     "addGuildJoinFailed": "无法加入社区。请重试。",
     "@addGuildJoinFailed": {
         "description": "Generic error when joining a community via invite fails."
-    },
-    "addGuildPackInstalled": "表情包已成功安装。",
-    "@addGuildPackInstalled": {
-        "description": "Toast shown after accepting an emoji or sticker pack invite."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "移除所有反应",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -7461,10 +7091,6 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsCustomInviteUrl": "自定义邀请链接",
-    "@guildMenuSettingsCustomInviteUrl": {
-        "description": "Community settings tab for custom invite URLs."
-    },
     "guildMenuSettingsDiscovery": "社区发现",
     "@guildMenuSettingsDiscovery": {
         "description": "Community settings tab for discovery settings."
@@ -7489,17 +7115,9 @@
     "@guildSettingsOverviewIconTitle": {
         "description": "Title for the guild icon section in overview settings."
     },
-    "guildSettingsUploadImage": "上传图片",
-    "@guildSettingsUploadImage": {
-        "description": "Button label to upload an image in guild settings."
-    },
     "guildSettingsOverviewBannerTitle": "横幅",
     "@guildSettingsOverviewBannerTitle": {
         "description": "Title for the guild banner section."
-    },
-    "guildSettingsOverviewBannerHint": "为您的服务器上传一张横幅。",
-    "@guildSettingsOverviewBannerHint": {
-        "description": "Hint text for guild banner upload."
     },
     "guildSettingsOverviewNameTitle": "名称",
     "@guildSettingsOverviewNameTitle": {
@@ -7509,22 +7127,6 @@
     "@guildSettingsOverviewNameHint": {
         "description": "Hint for the guild name field."
     },
-    "guildSettingsOverviewStatsTitle": "统计",
-    "@guildSettingsOverviewStatsTitle": {
-        "description": "Title for guild statistics section."
-    },
-    "guildSettingsOverviewMembers": "成员",
-    "@guildSettingsOverviewMembers": {
-        "description": "Label for member count in overview."
-    },
-    "guildSettingsOverviewOnline": "在线",
-    "@guildSettingsOverviewOnline": {
-        "description": "Label for online count in overview."
-    },
-    "guildSettingsRolesDescription": "使用角色对成员进行分组并分配权限。",
-    "@guildSettingsRolesDescription": {
-        "description": "Description for the roles settings tab."
-    },
     "guildSettingsCreateRole": "创建身份组",
     "@guildSettingsCreateRole": {
         "description": "Button to create a new role."
@@ -7533,30 +7135,9 @@
     "@guildSettingsRolesListTitle": {
         "description": "Title for the roles list section."
     },
-    "guildSettingsEmojiSlotInfo": "已用 {staticCount} 个静态表情，{animatedCount} 个动态表情",
-    "@guildSettingsEmojiSlotInfo": {
-        "description": "Emoji slot usage summary.",
-        "placeholders": {
-            "staticCount": {
-                "type": "int"
-            },
-            "animatedCount": {
-                "type": "int"
-            }
-        }
-    },
     "guildSettingsEmojiEmpty": "暂无自定义表情。",
     "@guildSettingsEmojiEmpty": {
         "description": "Empty state for emoji settings."
-    },
-    "guildSettingsStickersSlotInfo": "已上传 {count} 个贴纸",
-    "@guildSettingsStickersSlotInfo": {
-        "description": "Sticker slot usage summary.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsStickersEmpty": "暂无自定义贴纸。",
     "@guildSettingsStickersEmpty": {
@@ -7602,8 +7183,6 @@
     "guildSettingsVerificationMediumDescription": "需要已验证的电子邮件地址，并且账户已创建至少 5 分钟。",
     "guildSettingsVerificationHigh": "高",
     "guildSettingsVerificationHighDescription": "需满足中等安全等级的所有要求，并且加入社区至少 10 分钟。",
-    "guildSettingsVerificationHighest": "非常高",
-    "guildSettingsVerificationHighestDescription": "需要已验证的电话号码。",
     "guildSettingsAuditLogDescription": "追踪社区内的管理员操作。",
     "@guildSettingsAuditLogDescription": {
         "description": "Subtitle under the activity-log page title."
@@ -7631,14 +7210,6 @@
     "guildSettingsAuditLogUnknownUser": "未知用户",
     "@guildSettingsAuditLogUnknownUser": {
         "description": "Fallback avatar label when the acting user is unavailable."
-    },
-    "guildSettingsAuditLogLoadError": "加载活动日志时出错了。",
-    "@guildSettingsAuditLogLoadError": {
-        "description": "Generic error shown when fetching log entries fails."
-    },
-    "guildSettingsAuditLogLoadErrorTitle": "无法加载活动日志",
-    "@guildSettingsAuditLogLoadErrorTitle": {
-        "description": "Error-state title when fetching log entries failed."
     },
     "guildSettingsAuditLogReason": "原因",
     "@guildSettingsAuditLogReason": {
@@ -8610,14 +8181,6 @@
     "@auditLogOptionPermanentMembership": {
         "description": "Audit log option detail sentence."
     },
-    "guildSettingsLoadMore": "加载更多",
-    "@guildSettingsLoadMore": {
-        "description": "Button to load more audit log entries."
-    },
-    "guildSettingsLoadingMore": "正在加载…",
-    "@guildSettingsLoadingMore": {
-        "description": "Loading state for pagination."
-    },
     "guildSettingsWebhooksDescription": "查看和管理社区中配置的所有 Webhook。",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
@@ -8626,42 +8189,9 @@
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
-    "guildSettingsCopyUrl": "复制 URL",
-    "@guildSettingsCopyUrl": {
-        "description": "Tooltip to copy a URL."
-    },
     "guildSettingsCopiedUrl": "网址已复制到剪贴板",
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
-    },
-    "guildSettingsDeleteWebhook": "删除 Webhook",
-    "@guildSettingsDeleteWebhook": {
-        "description": "Tooltip to delete a webhook."
-    },
-    "guildSettingsVanityUrlDescription": "设置服务器的自定义邀请链接。",
-    "@guildSettingsVanityUrlDescription": {
-        "description": "Description for vanity URL tab."
-    },
-    "guildSettingsVanityUrlHint": "my-server",
-    "@guildSettingsVanityUrlHint": {
-        "description": "Hint for vanity URL input."
-    },
-    "guildSettingsSave": "保存",
-    "@guildSettingsSave": {
-        "description": "Generic save button label."
-    },
-    "guildSettingsVanityUrlUsageTitle": "使用情况",
-    "@guildSettingsVanityUrlUsageTitle": {
-        "description": "Title for vanity URL usage section."
-    },
-    "guildSettingsVanityUrlUses": "{count} 次使用",
-    "@guildSettingsVanityUrlUses": {
-        "description": "Vanity URL usage count.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsDiscoveryDescription": "将你的社区列入社区发现，以便其他人找到并加入。",
     "@guildSettingsDiscoveryDescription": {
@@ -8700,10 +8230,6 @@
     "@guildSettingsDiscoveryWithdraw": {
         "description": "Button to withdraw discovery application."
     },
-    "guildSettingsMembersDescription": "搜索和管理服务器成员。",
-    "@guildSettingsMembersDescription": {
-        "description": "Description for members tab."
-    },
     "guildSettingsMembersSearchHint": "按用户名或 ID 搜索",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
@@ -8725,27 +8251,6 @@
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
-    "guildSettingsInviteUses": "{uses} / {maxUses} 次使用",
-    "@guildSettingsInviteUses": {
-        "description": "Invite usage count.",
-        "placeholders": {
-            "uses": {
-                "type": "int"
-            },
-            "maxUses": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsInviteExpires": "将于 {date} 过期",
-    "@guildSettingsInviteExpires": {
-        "description": "Invite expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBansDescription": "查看和管理被封禁的用户。",
     "@guildSettingsBansDescription": {
         "description": "Description for bans tab."
@@ -8758,30 +8263,9 @@
     "@guildSettingsBansEmpty": {
         "description": "Empty state for bans."
     },
-    "guildSettingsBanPermanent": "永久封禁",
-    "@guildSettingsBanPermanent": {
-        "description": "Label for permanent ban."
-    },
-    "guildSettingsBanExpires": "将于 {date} 过期",
-    "@guildSettingsBanExpires": {
-        "description": "Ban expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBanExpiresLabel": "有效期",
     "@guildSettingsBanExpiresLabel": {
         "description": "Label for ban expiration row."
-    },
-    "guildSettingsUnban": "解除封禁",
-    "@guildSettingsUnban": {
-        "description": "Button to unban a user."
-    },
-    "guildSettingsBansLoading": "正在加载被封禁用户",
-    "@guildSettingsBansLoading": {
-        "description": "Loading state for the guild bans list."
     },
     "guildSettingsBansNoSearchResults": "未找到符合搜索条件的封禁用户。",
     "@guildSettingsBansNoSearchResults": {
@@ -8825,10 +8309,6 @@
             }
         }
     },
-    "guildSettingsBansLoadError": "无法加载封禁。请重试。",
-    "@guildSettingsBansLoadError": {
-        "description": "Error when loading the guild bans list fails."
-    },
     "guildSettingsRevokeBanError": "无法撤销封禁。请重试。",
     "@guildSettingsRevokeBanError": {
         "description": "Error when revoking a ban fails."
@@ -8853,7 +8333,6 @@
     "@guildSettingsCategoryPeople": {
         "description": "Sidebar category for members, invites, and bans."
     },
-    "guildSettingsOverviewDescription": "管理您的社区资料、频道和默认设置。",
     "guildSettingsOverviewBrandingTitle": "品牌",
     "guildSettingsOverviewBrandingDescription": "更新您的图标、名称、横幅和邀请背景",
     "@guildSettingsOverviewBrandingDescription": {
@@ -8872,7 +8351,6 @@
     },
     "guildSettingsOverviewNotificationsTitle": "默认通知",
     "guildSettingsOverviewNotificationsLargeGuild": "成员超过 250 人的社区会被强制设为“仅提及我的消息”。你原来的设置会保留，当社区成员降到 250 人以下时会自动恢复。",
-    "guildSettingsOverviewAdvancedTitle": "高级",
     "guildSettingsOverviewFlexibleNames": "允许灵活的文字频道名称",
     "guildSettingsOverviewHideOwnerCrown": "隐藏社区拥有者皇冠",
     "guildSettingsOverviewDetachedBanner": "独立横幅",
@@ -8898,10 +8376,6 @@
     "guildSettingsOverviewEmbedSplashTitle": "聊天嵌入背景",
     "@guildSettingsOverviewEmbedSplashTitle": {
         "description": "Title for embed splash upload section."
-    },
-    "guildSettingsOverviewEmbedSplashHint": "会显示在聊天里的邀请嵌入内容中。",
-    "@guildSettingsOverviewEmbedSplashHint": {
-        "description": "Note shown when uploading chat embed background."
     },
     "guildSettingsOverviewUploadBackground": "上传背景",
     "@guildSettingsOverviewUploadBackground": {
@@ -9068,8 +8542,6 @@
     "@guildSettingsOverviewEmbedSplashUploadHint": {
         "description": "Upload requirements for chat embed background images."
     },
-    "guildSettingsModerationDescription": "配置验证、内容过滤和不适宜内容设置。",
-    "guildSettingsModerationDiscoveryNotice": "已在发现中列出的社群具有受限的审核选项。",
     "guildSettingsModerationContentFilterTitle": "内容过滤",
     "guildSettingsModerationContentFilterDescription": "在未标记为成人内容的频道中，自动筛查消息中的露骨内容。",
     "guildSettingsModerationContentFilterDiscoveryNote": "已在发现中列出的社群必须扫描所有成员。启用发现功能时，此设置无法更改。",
@@ -9079,8 +8551,6 @@
     "guildSettingsContentFilterNoRoleDescription": "推荐给大多数社区",
     "guildSettingsContentFilterAll": "过滤所有人",
     "guildSettingsContentFilterAllDescription": "为家庭友好空间提供最高等级保护",
-    "guildSettingsModerationMatureOff": "关",
-    "guildSettingsModerationMatureOn": "开",
     "guildSettingsContentWarningToggle": "显示内容警告",
     "@guildSettingsContentWarningToggle": {
         "description": "Switch label for the community content warning setting."
@@ -9100,7 +8570,6 @@
     "guildSettingsModeration2faTitle": "双重认证要求",
     "guildSettingsModeration2faDescription": "要求版主在能够禁言、踢出、暂时禁言或删除消息前进行双重验证。",
     "guildSettingsModeration2faSwitchLabel": "要求双重认证才能执行管理操作",
-    "guildSettingsModeration2faOwnerOnlyTooltip": "只有社区所有者才能更改此设置",
     "guildSettingsModeration2faEnableFirstTooltip": "请先在你的账号上启用双重认证，才能更改此设置",
     "guildSettingsEmojiSearchHint": "搜索表情",
     "guildSettingsEmojiUploadTitle": "上传表情",
@@ -9122,8 +8591,6 @@
     },
     "guildSettingsStickersSearchHint": "搜索贴纸",
     "guildSettingsWebhooksInfo": "要创建 webhook，请打开 {channelSettingsPath}。您仍可在此处编辑和整理所有现有 webhook。",
-    "guildSettingsVanityUrlWarning": "除非至少有一个频道对所有人可见，否则您的自定义 URL 将无法正常工作。",
-    "guildSettingsVanityUrlRemove": "移除",
     "guildSettingsBannedUsersTitle": "已封禁用户",
     "guildSettingsInvitesTableInviter": "邀请人",
     "guildSettingsInvitesTableChannel": "频道",
@@ -9389,10 +8856,6 @@
     "@voiceParticipantMenuUnfocus": {
         "description": "Voice participant context menu item to return to grid layout."
     },
-    "notificationsEnableBrowserNotificationsDescription": "收到消息时通知你。你可能需要在浏览器设置中允许通知。如需按频道或按社区单独设置，请右键点击社区图标并打开通知设置。",
-    "@notificationsEnableBrowserNotificationsDescription": {
-        "description": "Description for the enable browser notifications toggle."
-    },
     "notificationsPushInactiveTimeoutOneMinute": "{oneMinute} 分钟",
     "@notificationsPushInactiveTimeoutOneMinute": {
         "description": "Push notification inactive timeout option for one minute.",
@@ -9655,16 +9118,6 @@
     "@voiceControlFlipCamera": {
         "description": "Tooltip: switch between front and back camera while video is on."
     },
-    "audioAndVideoMicTestPermissionRequired": "{productName} 需要麦克风访问权限才能测试您的输入。",
-    "@audioAndVideoMicTestPermissionRequired": {
-        "description": "Shown when microphone permission is required for the mic test.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
     "audioAndVideoCameraLabel": "摄像头",
     "@audioAndVideoCameraLabel": {
         "description": "Label for camera device selection."
@@ -9680,16 +9133,6 @@
     "audioAndVideoFrameRate60Label": "60 帧/秒",
     "@audioAndVideoFrameRate60Label": {
         "description": "Screen share frame rate option for 60 FPS."
-    },
-    "audioAndVideoHigherQualityRequiresPremium": "1080p 和 60 FPS 需要 {premiumProductName}。",
-    "@audioAndVideoHigherQualityRequiresPremium": {
-        "description": "Note shown when higher video quality options require premium.",
-        "placeholders": {
-            "premiumProductName": {
-                "type": "String",
-                "example": "Plutonium"
-            }
-        }
     },
     "systemPermissionSettingsTitle": "启用权限",
     "@systemPermissionSettingsTitle": {
@@ -9731,10 +9174,6 @@
     "@guildSettingsRolesTwoColumns": {
         "description": "Tooltip when permission list is in single-column layout."
     },
-    "guildSettingsRolesSwitchToTwoColumns": "切换为双列",
-    "@guildSettingsRolesSwitchToTwoColumns": {
-        "description": "Aria label for switching to two columns."
-    },
     "guildSettingsRolesHoistOrder": "显示顺序",
     "@guildSettingsRolesHoistOrder": {
         "description": "Header for hoist order sub-mode."
@@ -9754,10 +9193,6 @@
     "permissionCategoryCommunityWide": "社区范围",
     "@permissionCategoryCommunityWide": {
         "description": "Permission category label."
-    },
-    "permissionUnknown": "未知权限",
-    "@permissionUnknown": {
-        "description": "Fallback permission label."
     },
     "systemCallDurationMinute": "1 分钟",
     "@systemCallDurationMinute": {
@@ -9820,10 +9255,6 @@
     "@channelSettingsMatureContentInherit": {
         "description": "Mature content option that uses parent or community setting."
     },
-    "channelSettingsMatureContentOverride": "成人内容覆盖",
-    "@channelSettingsMatureContentOverride": {
-        "description": "Accessibility label for mature content override control."
-    },
     "channelSettingsMatureContentSectionDescription": "覆盖此频道的 {scopeLevel} 设置。不适宜内容将在进入前进行屏蔽。",
     "@channelSettingsMatureContentSectionDescription": {
         "description": "Section description for mature content settings in channel overview.",
@@ -9860,10 +9291,6 @@
     "channelSettingsCopyInviteUrl": "复制邀请链接",
     "@channelSettingsCopyInviteUrl": {
         "description": "Action to copy invite URL."
-    },
-    "channelSettingsWebhooksUnknownUser": "未知用户",
-    "@channelSettingsWebhooksUnknownUser": {
-        "description": "Fallback label when webhook creator is unavailable."
     },
     "channelSettingsWebhooksEmptyDescription": "此频道未配置任何 Webhook。请创建一个 Webhook，以允许外部应用发布消息。",
     "@channelSettingsWebhooksEmptyDescription": {
@@ -9966,10 +9393,6 @@
             }
         }
     },
-    "groupDmCouldntProcessImage": "无法处理图片",
-    "@groupDmCouldntProcessImage": {
-        "description": "Title when a cropped group icon cannot be processed."
-    },
     "groupDmInvalidImageBody": "图片无效。请尝试其他图片。",
     "@groupDmInvalidImageBody": {
         "description": "Body when the selected group icon image cannot be used."
@@ -9985,10 +9408,6 @@
     "groupDmAddFriendFailed": "无法将该好友添加到群聊。请重试。",
     "@groupDmAddFriendFailed": {
         "description": "Error when adding a single friend to a group DM fails."
-    },
-    "groupDmAddFailed": "无法添加到群聊",
-    "@groupDmAddFailed": {
-        "description": "Title when adding friends to a group DM fails."
     },
     "groupDmInvitesOwnerOnly": "只有群主可以管理邀请。",
     "@groupDmInvitesOwnerOnly": {
@@ -10245,10 +9664,6 @@
             }
         }
     },
-    "channelSettingsAdvanced": "高级",
-    "@channelSettingsAdvanced": {
-        "description": "Collapsible advanced section title in channel overview."
-    },
     "channelSettingsContentWarningToggle": "在此频道中显示内容警告",
     "@channelSettingsContentWarningToggle": {
         "description": "Toggle for showing content warning in channel."
@@ -10353,26 +9768,6 @@
     "@audioAndVideoInstanceVideoQualityLimit": {
         "description": "Note shown when instance limits block higher screen share quality."
     },
-    "audioAndVideoMicrophonePermissionRequired": "{productName} 需要麦克风权限才能列出你的设备。",
-    "@audioAndVideoMicrophonePermissionRequired": {
-        "description": "Shown when microphone permission is required to enumerate audio input devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
-    "audioAndVideoCameraPermissionRequired": "{productName} 需要摄像头权限才能列出你的设备。",
-    "@audioAndVideoCameraPermissionRequired": {
-        "description": "Shown when camera permission is required to enumerate video devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
     "audioAndVideoSkipHideOwnCameraConfirmLabel": "隐藏我的摄像头时不再询问",
     "@audioAndVideoSkipHideOwnCameraConfirmLabel": {
         "description": "Toggle to skip confirmation when hiding own camera during a call."
@@ -10430,10 +9825,6 @@
     "guildSettingsRolesPermissionsSection": "权限",
     "@guildSettingsRolesPermissionsSection": {
         "description": "Section title for role permissions."
-    },
-    "guildSettingsRolesSwitchToComfyLayout": "切换为舒适布局",
-    "@guildSettingsRolesSwitchToComfyLayout": {
-        "description": "Aria label for switching to comfy layout."
     },
     "guildSettingsRolesNoPermissionsFound": "未找到权限",
     "@guildSettingsRolesNoPermissionsFound": {
@@ -10585,22 +9976,6 @@
     "@guildSettingsRolesComfyLayout": {
         "description": "Tooltip when permission list is in dense layout."
     },
-    "guildSettingsRolesSwitchToDenseLayout": "切换为紧凑布局",
-    "@guildSettingsRolesSwitchToDenseLayout": {
-        "description": "Aria label for switching to dense layout."
-    },
-    "guildSettingsRolesSwitchToSingleColumn": "切换为单列",
-    "@guildSettingsRolesSwitchToSingleColumn": {
-        "description": "Aria label for switching to single column."
-    },
-    "guildSettingsRolesCustomHoistOrder": "自定义置顶顺序",
-    "@guildSettingsRolesCustomHoistOrder": {
-        "description": "Button to enter custom hoist order mode."
-    },
-    "guildSettingsRolesLockedTooltip": "你无法编辑此角色，因为它高于或等同于你的最高角色",
-    "@guildSettingsRolesLockedTooltip": {
-        "description": "Tooltip on locked role rows."
-    },
     "guildSettingsRolesUpdatedSuccess": "身份组更新成功",
     "@guildSettingsRolesUpdatedSuccess": {
         "description": "Toast after saving role changes."
@@ -10697,10 +10072,6 @@
     "audioAndVideoMicTestSectionTitle": "麦克风测试",
     "@audioAndVideoMicTestSectionTitle": {
         "description": "Subsection title for microphone test controls."
-    },
-    "languageAndTimeOpenLanguageSettings": "打开语言设置",
-    "@languageAndTimeOpenLanguageSettings": {
-        "description": "Button that opens the system per-app language settings."
     },
     "guildSettingsRolesDeleteFailedTitle": "无法删除身份组",
     "@guildSettingsRolesDeleteFailedTitle": {
@@ -11112,10 +10483,6 @@
     "@channelSettingsMatureContentOn": {
         "description": "Mature content option that marks channel for mature content."
     },
-    "channelSettingsMatureContentCommunitySource": "社区",
-    "@channelSettingsMatureContentCommunitySource": {
-        "description": "Lowercase source label for inherited mature content from community."
-    },
     "channelSettingsPermissionsAccessOverrides": "访问权限覆盖",
     "@channelSettingsPermissionsAccessOverrides": {
         "description": "Sidebar title for channel permission overwrite list."
@@ -11139,10 +10506,6 @@
     "channelSettingsPermissionsSearchRolesOrMembers": "搜索身份组或成员…",
     "@channelSettingsPermissionsSearchRolesOrMembers": {
         "description": "Placeholder for the add override search field."
-    },
-    "channelSettingsPermissionsRolesAndMembers": "身份组与成员",
-    "@channelSettingsPermissionsRolesAndMembers": {
-        "description": "Section title in the add override picker."
     },
     "channelSettingsInvitesLoadFailedDescription": "加载此频道的邀请链接时出错。请重试。",
     "@channelSettingsInvitesLoadFailedDescription": {
@@ -11239,10 +10602,6 @@
     "notificationsEnableDesktopNotificationsDescription": "使用系统通知中心。如需按频道或按社区设置，请右键点击社区图标，然后打开通知设置。",
     "@notificationsEnableDesktopNotificationsDescription": {
         "description": "Description for the enable desktop notifications toggle."
-    },
-    "notificationsEnableBrowserNotificationsLabel": "开启浏览器通知",
-    "@notificationsEnableBrowserNotificationsLabel": {
-        "description": "Toggle label for enabling browser notifications."
     },
     "notificationsPushInactiveTimeoutLabel": "推送通知不活跃超时",
     "@notificationsPushInactiveTimeoutLabel": {
@@ -11512,10 +10871,6 @@
     "@groupDmEditTitle": {
         "description": "Title for the edit group DM modal or sheet."
     },
-    "groupDmEditDetailsTooltip": "编辑群聊详情",
-    "@groupDmEditDetailsTooltip": {
-        "description": "Tooltip on the desktop group DM header edit action."
-    },
     "groupDmGroupName": "群名称",
     "@groupDmGroupName": {
         "description": "Label for the group name field in edit group."
@@ -11549,10 +10904,6 @@
                 "type": "int"
             }
         }
-    },
-    "groupDmCreateInviteFailed": "无法创建邀请链接",
-    "@groupDmCreateInviteFailed": {
-        "description": "Title when invite link generation fails."
     },
     "addGuildCreateVerifyTitle": "验证邮箱",
     "@addGuildCreateVerifyTitle": {
@@ -11879,10 +11230,6 @@
     "@accessibilitySaturationTitle": {
         "description": "Section title for the theme saturation slider on the accessibility settings page."
     },
-    "accessibilitySaturationDescription": "调整应用主题颜色的鲜艳程度。",
-    "@accessibilitySaturationDescription": {
-        "description": "Section description for the theme saturation slider on the accessibility settings page."
-    },
     "channelDetailsCloseDmDescription": "关闭与 {name} 的对话？",
     "@channelDetailsCloseDmDescription": {
         "description": "Confirmation body when closing a 1:1 DM from channel details.",
@@ -12067,10 +11414,6 @@
     "@groupDmUnsupportedIconFormatBody": {
         "description": "Body when the selected group icon format is unsupported."
     },
-    "groupDmFailedToProcessCroppedImage": "处理裁剪后的图片失败。请重试。",
-    "@groupDmFailedToProcessCroppedImage": {
-        "description": "Body when a cropped group icon cannot be processed."
-    },
     "audioAndVideoUseSpeakerDescription": "关闭时，音频将通过听筒或已连接的耳机播放。",
     "@audioAndVideoUseSpeakerDescription": {
         "description": "Description for the speaker output toggle on mobile."
@@ -12092,130 +11435,6 @@
     "@createDmNoActivityYet": {
         "description": "Fallback label for duplicate group list items with no recent activity."
     },
-    "phoneCountryLabel": "国家/地区",
-    "@phoneCountryLabel": {
-        "description": "Label for country selector in phone verification."
-    },
-    "phoneSearchCountries": "搜索国家/地区…",
-    "@phoneSearchCountries": {
-        "description": "Search hint for country selector."
-    },
-    "phoneCodeDidNotWork": "验证码无效。请检查后重试。",
-    "@phoneCodeDidNotWork": {
-        "description": "API error for invalid verification code."
-    },
-    "phoneTooManyAttempts": "尝试次数过多。请稍等片刻，然后重试。",
-    "@phoneTooManyAttempts": {
-        "description": "Rate limit error for phone verification."
-    },
-    "phoneInboundStepSendCode": "发送验证码 {code} 到 {number}。",
-    "@phoneInboundStepSendCode": {
-        "description": "Inbound verification step 2.",
-        "placeholders": {
-            "code": {
-                "type": "String"
-            },
-            "number": {
-                "type": "String"
-            }
-        }
-    },
-    "phoneInboundStepWait": "请等待我们收到您的消息。这可能需要一分钟。",
-    "@phoneInboundStepWait": {
-        "description": "Inbound verification step 3."
-    },
-    "phoneInboundGetNewCode": "获取新验证码",
-    "@phoneInboundGetNewCode": {
-        "description": "Button to refresh inbound challenge."
-    },
-    "phoneInboundChallengeCodeLabel": "发送代码",
-    "@phoneInboundChallengeCodeLabel": {
-        "description": "Label for inbound challenge code."
-    },
-    "phoneInboundOurNumberLabel": "发送至",
-    "@phoneInboundOurNumberLabel": {
-        "description": "Label for inbound destination number."
-    },
-    "requiredActionTitle": "需要验证账号",
-    "@requiredActionTitle": {
-        "description": "Title for required action blocking modal."
-    },
-    "requiredActionChooseMethodTitle": "选择验证方式",
-    "@requiredActionChooseMethodTitle": {
-        "description": "Title when user can pick email or phone."
-    },
-    "requiredActionUseEmail": "使用邮箱",
-    "@requiredActionUseEmail": {
-        "description": "Button to choose email verification."
-    },
-    "phoneNumberRequired": "需要手机号",
-    "@phoneNumberRequired": {
-        "description": "Validation error when phone number is empty."
-    },
-    "phoneEnterValidNumber": "请输入有效的手机号码。",
-    "@phoneEnterValidNumber": {
-        "description": "Validation error for invalid phone format."
-    },
-    "phoneCannotBeUsed": "此电话号码无法使用。请尝试其他手机号码或联系支持团队。",
-    "@phoneCannotBeUsed": {
-        "description": "API error when phone number is rejected."
-    },
-    "phoneAlreadyUsed": "此电话号码已被使用。请尝试其他号码或联系支持团队。",
-    "@phoneAlreadyUsed": {
-        "description": "API error when phone number was reused."
-    },
-    "phoneSmsUnavailable": "短信验证暂时不可用。请稍后重试或联系支持团队。",
-    "@phoneSmsUnavailable": {
-        "description": "SMS provider unavailable error."
-    },
-    "phoneNotEligible": "此账号无法进行手机验证。请使用其他方式或联系支持团队。",
-    "@phoneNotEligible": {
-        "description": "Account not eligible for phone verification."
-    },
-    "phoneSomethingWentWrong": "出错了。请重试。",
-    "@phoneSomethingWentWrong": {
-        "description": "Generic phone verification error."
-    },
-    "phoneInboundExpensiveDescription": "发送短信到此号码费用过高，因此我们需要您改用短信联系我们。您也可以联系客服，要求我们为您解除此项要求。",
-    "@phoneInboundExpensiveDescription": {
-        "description": "Inbound challenge reason for expensive destinations."
-    },
-    "phoneInboundDefaultDescription": "我们需要您发送一条短信来验证您的手机号码。",
-    "@phoneInboundDefaultDescription": {
-        "description": "Default inbound challenge description."
-    },
-    "phoneInboundStepOpenMessaging": "打开手机短信应用，创建一条新短信。",
-    "@phoneInboundStepOpenMessaging": {
-        "description": "Inbound verification step 1."
-    },
-    "requiredActionIntroPhone": "你的注册需要先完成一项额外的反垃圾信息检查，然后才能继续。",
-    "@requiredActionIntroPhone": {
-        "description": "Phone-only required action intro."
-    },
-    "requiredActionUsePhone": "使用手机号",
-    "@requiredActionUsePhone": {
-        "description": "Button to choose phone verification."
-    },
-    "requiredActionCheckEmailTitle": "检查你的邮箱",
-    "@requiredActionCheckEmailTitle": {
-        "description": "Title for email verification instructions."
-    },
-    "requiredActionCheckEmailDescription": "我们已向您的邮箱发送了验证链接。请打开它以继续。",
-    "@requiredActionCheckEmailDescription": {
-        "description": "Description for email verification instructions."
-    },
-    "requiredActionResendVerificationEmail": "重新发送验证邮件",
-    "@requiredActionResendVerificationEmail": {
-        "description": "Button to resend verification email."
-    },
-    "requiredActionVerificationEmailSent": "验证邮件已发送。请检查你的收件箱。",
-    "@requiredActionVerificationEmailSent": {
-        "description": "Toast after resending verification email."
-    },
-    "requiredActionSignOut": "退出登录",
-    "@requiredActionSignOut": {
-        "description": "Sign out button in required action modal."
-    },
     "channelMenuOpenChat": "打开聊天",
     "@channelMenuOpenChat": {
         "description": "Guild channel menu action that opens a voice channel chat without joining voice."
@@ -12231,10 +11450,6 @@
     "channelDetailsDeleteChannel": "删除频道",
     "@channelDetailsDeleteChannel": {
         "description": "Channel details menu action to delete a guild channel."
-    },
-    "channelSettingsCategorySettingsTitle": "类别设置",
-    "@channelSettingsCategorySettingsTitle": {
-        "description": "Title for category settings modal."
     },
     "channelSettingsEditCategory": "编辑类别",
     "@channelSettingsEditCategory": {
@@ -12369,10 +11584,6 @@
     "@channelSettingsVoiceRegionsLoadFailedDescription": {
         "description": "Error modal body when voice regions fail to load in channel settings."
     },
-    "channelSettingsResetSlider": "将滑块重置为默认值",
-    "@channelSettingsResetSlider": {
-        "description": "Tooltip for reset buttons on channel settings sliders."
-    },
     "channelSettingsMatureContentOff": "关",
     "@channelSettingsMatureContentOff": {
         "description": "Mature content option that leaves channel ungated."
@@ -12403,10 +11614,6 @@
             }
         }
     },
-    "channelSettingsMatureContentCategorySource": "类别",
-    "@channelSettingsMatureContentCategorySource": {
-        "description": "Lowercase source label for inherited mature content from category."
-    },
     "channelSettingsContentWarningToggleDescription": "开启频道前会显示一个同意提示。",
     "@channelSettingsContentWarningToggleDescription": {
         "description": "Description for the channel content warning toggle."
@@ -12418,24 +11625,6 @@
     "channelSettingsContentWarningDefault": "此处包含敏感内容。",
     "@channelSettingsContentWarningDefault": {
         "description": "Default content warning text placeholder."
-    },
-    "channelSettingsPermissionsNeedManageChannels": "你需要“{manageChannelsPermissionLabel}”权限才能编辑这些权限。",
-    "@channelSettingsPermissionsNeedManageChannels": {
-        "description": "Error when user lacks manage channels permission for channel permissions tab.",
-        "placeholders": {
-            "manageChannelsPermissionLabel": {
-                "type": "String"
-            }
-        }
-    },
-    "channelSettingsPermissionsNeedManageRoles": "你需要“{manageRolesPermissionLabel}”权限才能编辑这些权限。",
-    "@channelSettingsPermissionsNeedManageRoles": {
-        "description": "Error when user lacks manage roles permission for channel permissions tab.",
-        "placeholders": {
-            "manageRolesPermissionLabel": {
-                "type": "String"
-            }
-        }
     },
     "channelSettingsPermissionsEditAccessFor": "编辑 {name} 的访问权限",
     "@channelSettingsPermissionsEditAccessFor": {
@@ -13058,42 +12247,6 @@
     "gifPickerFavoritesEmptyDescription": "收藏 GIF 即可在此处查看。",
     "@gifPickerFavoritesEmptyDescription": {
         "description": "Empty state description for the GIF picker favorites view."
-    },
-    "requiredActionIntroGeneric": "请完成必要的验证，以继续使用 {productName}。",
-    "@requiredActionIntroGeneric": {
-        "description": "Generic required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailOrPhone": "请验证你的邮箱或手机号，以继续使用 {productName}。",
-    "@requiredActionIntroEmailOrPhone": {
-        "description": "Email or phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailAndPhone": "请完成以下所需的邮箱和手机验证步骤，以继续使用 {productName}。",
-    "@requiredActionIntroEmailAndPhone": {
-        "description": "Email and phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionChooseMethodDescription": "请完成以下任一验证路径，以继续使用 {productName}。",
-    "@requiredActionChooseMethodDescription": {
-        "description": "Description when user can pick email or phone.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
     },
     "networkErrorMessage": "出错了。请重试。",
     "@networkErrorMessage": {
@@ -13728,10 +12881,6 @@
     "@accessibilityPausedGifByReducedMotion": {
         "description": "Description for GIF toggle while reduced motion is active."
     },
-    "accessibilityGifDefaultsOffOnMobile": "移动设备上默认关闭，以节省电量和流量。",
-    "@accessibilityGifDefaultsOffOnMobile": {
-        "description": "Helper text for GIF autoplay default on mobile."
-    },
     "accessibilityStickerAnimationsTitle": "贴纸动画",
     "@accessibilityStickerAnimationsTitle": {
         "description": "Subsection title for sticker animation preference."
@@ -14187,25 +13336,13 @@
     "@privacyDashboardFriendRequestsEveryone": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsEveryoneDesc": "允许任何人向你发送好友请求",
-    "@privacyDashboardFriendRequestsEveryoneDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsFriendsOfFriends": "好友的好友",
     "@privacyDashboardFriendRequestsFriendsOfFriends": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsFriendsOfFriendsDesc": "允许你朋友的朋友向你发送请求",
-    "@privacyDashboardFriendRequestsFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsCommunityMembers": "社区成员",
     "@privacyDashboardFriendRequestsCommunityMembers": {
         "description": "Privacy dashboard friend request toggle label."
-    },
-    "privacyDashboardFriendRequestsCommunityMembersDesc": "允许你所在社群的成员向你发送请求",
-    "@privacyDashboardFriendRequestsCommunityMembersDesc": {
-        "description": "Privacy dashboard friend request toggle description."
     },
     "privacyDashboardDirectMessagesTitle": "私信",
     "@privacyDashboardDirectMessagesTitle": {
@@ -14215,65 +13352,29 @@
     "@privacyDashboardDirectMessagesMembers": {
         "description": "Privacy dashboard DM toggle label."
     },
-    "privacyDashboardDirectMessagesMembersDesc": "允许你所在社群的成员向你发送私信",
-    "@privacyDashboardDirectMessagesMembersDesc": {
-        "description": "Privacy dashboard DM toggle description."
-    },
     "privacyDashboardDirectMessagesBots": "允许社区机器人发送私信",
     "@privacyDashboardDirectMessagesBots": {
         "description": "Privacy dashboard bot DM toggle label."
-    },
-    "privacyDashboardDirectMessagesBotsDesc": "允许你所在社群的机器人向你发送私信",
-    "@privacyDashboardDirectMessagesBotsDesc": {
-        "description": "Privacy dashboard bot DM toggle description."
-    },
-    "privacyDashboardConnectionsSectionDesc": "控制谁可以向你发送好友请求和私信",
-    "@privacyDashboardConnectionsSectionDesc": {
-        "description": "Privacy dashboard connections section description."
-    },
-    "privacyDashboardCommunicationSectionDesc": "控制谁可以给你打电话以及将你添加到群聊",
-    "@privacyDashboardCommunicationSectionDesc": {
-        "description": "Privacy dashboard communication section description."
     },
     "privacyDashboardIncomingCallsTitle": "来电",
     "@privacyDashboardIncomingCallsTitle": {
         "description": "Privacy dashboard incoming calls subsection title."
     },
-    "privacyDashboardIncomingCallsDesc": "控制谁可以给你打电话",
-    "@privacyDashboardIncomingCallsDesc": {
-        "description": "Privacy dashboard incoming calls subsection description."
-    },
     "privacyDashboardAllowedCallers": "允许的来电者",
     "@privacyDashboardAllowedCallers": {
         "description": "Privacy > Communication: select label."
-    },
-    "privacyDashboardIncomingCallNobody": "无人",
-    "@privacyDashboardIncomingCallNobody": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallNobodyDesc": "阻止所有来电",
     "@privacyDashboardIncomingCallNobodyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallFriendsOnly": "仅限好友",
-    "@privacyDashboardIncomingCallFriendsOnly": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallFriendsOnlyDesc": "仅允许好友给你打电话（推荐）",
     "@privacyDashboardIncomingCallFriendsOnlyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallCustom": "好友 + 自定义",
-    "@privacyDashboardIncomingCallCustom": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallCustomDesc": "允许好友以及您选择的其他群组",
     "@privacyDashboardIncomingCallCustomDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardIncomingCallEveryone": "所有人",
-    "@privacyDashboardIncomingCallEveryone": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallEveryoneDesc": "允许任何人给你打电话，包括陌生人",
     "@privacyDashboardIncomingCallEveryoneDesc": {
@@ -14283,14 +13384,6 @@
     "@privacyDashboardAdditionalGroups": {
         "description": "Privacy dashboard label for custom permission groups."
     },
-    "privacyDashboardCallFriendsOfFriendsDesc": "你朋友的朋友可以给你打电话",
-    "@privacyDashboardCallFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
-    "privacyDashboardCallGuildMembersDesc": "你来自双方都加入的社群的人可以给你打电话",
-    "@privacyDashboardCallGuildMembersDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
     "privacyDashboardRingBehavior": "来电行为",
     "@privacyDashboardRingBehavior": {
         "description": "Privacy dashboard ring behavior subsection label."
@@ -14299,17 +13392,9 @@
     "@privacyDashboardSilentCalls": {
         "description": "Privacy dashboard silent calls toggle label."
     },
-    "privacyDashboardSilentCallsDesc": "所有来电将静默通知，而非响铃。默认情况下，非好友的来电始终静默。",
-    "@privacyDashboardSilentCallsDesc": {
-        "description": "Privacy dashboard silent calls toggle description."
-    },
     "privacyDashboardGroupDmTitle": "谁可以将你加入群聊",
     "@privacyDashboardGroupDmTitle": {
         "description": "Privacy dashboard group DM subsection title."
-    },
-    "privacyDashboardGroupDmDesc": "控制谁可以在不询问的情况下将你添加到群聊。任何人仍然可以向你发送邀请链接加入。",
-    "@privacyDashboardGroupDmDesc": {
-        "description": "Privacy dashboard group DM subsection description."
     },
     "privacyDashboardAllowedInvites": "允许的邀请者",
     "@privacyDashboardAllowedInvites": {
@@ -14330,14 +13415,6 @@
     "privacyDashboardGroupDmEveryoneDesc": "允许任何人将你添加到群聊，无需询问",
     "@privacyDashboardGroupDmEveryoneDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardGroupDmFriendsOfFriendsDesc": "你朋友的朋友可以把你拉进群聊",
-    "@privacyDashboardGroupDmFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
-    },
-    "privacyDashboardGroupDmGuildMembersDesc": "你来自的社群中的成员可以拉你进群聊",
-    "@privacyDashboardGroupDmGuildMembersDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
     },
     "privacyDashboardVoiceActivityTitle": "“当前活跃”中的语音活动",
     "@privacyDashboardVoiceActivityTitle": {
@@ -14870,26 +13947,6 @@
     "@composerAutocompleteOptionalArgumentsHeading": {
         "description": "Section heading in composer autocomplete for adding optional slash-command arguments."
     },
-    "composerAutocompleteChannelsHeading": "频道",
-    "@composerAutocompleteChannelsHeading": {
-        "description": "Section heading in composer autocomplete for channel suggestions."
-    },
-    "composerAutocompleteMembersHeading": "成员",
-    "@composerAutocompleteMembersHeading": {
-        "description": "Section heading in composer autocomplete for member suggestions."
-    },
-    "composerAutocompleteUsersHeading": "用户",
-    "@composerAutocompleteUsersHeading": {
-        "description": "Section heading in composer autocomplete for user suggestions."
-    },
-    "composerAutocompleteMentionsHeading": "提及",
-    "@composerAutocompleteMentionsHeading": {
-        "description": "Section heading in composer autocomplete for mixed mention suggestions."
-    },
-    "composerAutocompleteRolesHeading": "身份组",
-    "@composerAutocompleteRolesHeading": {
-        "description": "Section heading in composer autocomplete for role suggestions."
-    },
     "composerAutocompleteMediaHeading": "媒体",
     "@composerAutocompleteMediaHeading": {
         "description": "Section heading in composer autocomplete for saved media."
@@ -15106,10 +14163,6 @@
     "memberListUnavailableBody": "此社区的成员列表暂时不可用",
     "@memberListUnavailableBody": {
         "description": "Body when member list updates are disabled for the community."
-    },
-    "channelHeaderOpenDetails": "打开频道详情",
-    "@channelHeaderOpenDetails": {
-        "description": "Accessibility label for the channel header title area."
     },
     "channelHeaderPinnedMessages": "已置顶消息",
     "@channelHeaderPinnedMessages": {
@@ -15472,10 +14525,6 @@
     "@userSettingsSearchPlaceholder": {
         "description": "Placeholder for the user settings search field."
     },
-    "userSettingsSearchFieldLabel": "搜索设置",
-    "@userSettingsSearchFieldLabel": {
-        "description": "Accessibility label for the user settings search field."
-    },
     "userSettingsSearchClear": "清除搜索",
     "@userSettingsSearchClear": {
         "description": "Accessibility label for clearing the user settings search field."
@@ -15502,8 +14551,6 @@
     "giftSettingsGiftUrl": "礼物链接",
     "giftSettingsCopy": "复制",
     "giftSettingsCopied": "已复制",
-    "giftSettingsGiftUrlCopied": "礼物链接已复制到剪贴板！",
-    "giftSettingsGiftUrlCopyFailed": "无法复制礼物链接",
     "giftSettingsPurchasedDate": "购买于 {date}",
     "@giftSettingsPurchasedDate": {
         "placeholders": {
@@ -15545,7 +14592,6 @@
     "premiumBuyGift": "购买礼物",
     "premiumOneYearGift": "1 年赠礼",
     "premiumOneMonthGift": "1个月赠礼",
-    "premiumMostPopular": "最受欢迎",
     "premiumScrollPrompt": "向下滚动，查看 Plutonium 包含的所有特权",
     "premiumFreeVsPlutonium": "免费版与 Plutonium 版",
     "premiumFreeColumn": "免费",
@@ -15563,50 +14609,15 @@
     "premiumViewGifts": "查看礼物",
     "premiumReadyToUpgrade": "准备好升级了吗？",
     "premiumReadyToBuyGift": "准备好购买礼物了吗？",
-    "premiumMonthlyPrice": "每月 {price}",
-    "@premiumMonthlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumYearlyPrice": "每年 {price}",
-    "@premiumYearlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneYearPrice": "1 年 {price}",
-    "@premiumOneYearPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneMonthPrice": "1 个月 {price}",
-    "@premiumOneMonthPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
     "premiumManageSubscription": "管理订阅",
     "premiumRedeemGiftCode": "兑换礼品码",
     "premiumGiftBadge": "赠送",
     "premiumCancelSubscriptionTitle": "取消订阅？",
     "premiumCancelSubscriptionBody": "你可以保留福利直到下一个续订日期，之后有 3 天的宽限期来重新订阅并保留你的订阅历史记录。",
     "premiumCancelSubscriptionConfirm": "取消订阅",
-    "premiumKeepSubscription": "保留订阅",
     "premiumPurchaseHistoryTitle": "购买记录",
     "premiumPurchaseHistoryDescription": "您最近的账单。要更改订阅的付款方式，请在账单门户中添加或选择一种并将其设为默认。",
     "premiumManagePaymentMethods": "管理付款方式",
-    "premiumBillingHistory": "账单历史",
-    "premiumSelfServeRefundTitle": "自助退款",
     "premiumSelfServeRefundButton": "退款最近一次购买",
     "premiumDisclaimerAgreementPrefix": "购买即表示您同意我们的 ",
     "premiumDisclaimerAgreementPastPrefix": "购买即表示您同意我们的 ",
@@ -15646,17 +14657,6 @@
         "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
     },
     "premiumComparisonFeatureColumn": "功能",
-    "premiumDisclaimerPurchased": "购买即表示你已同意我们的{terms}和{privacy}。",
-    "@premiumDisclaimerPurchased": {
-        "placeholders": {
-            "terms": {
-                "type": "String"
-            },
-            "privacy": {
-                "type": "String"
-            }
-        }
-    },
     "premiumDisclaimerRefund": "付款后 3 天内可自助退款，每 30 天限一次。为订阅退款会同时取消该订阅。欧盟/欧洲经济区买家在结账时放弃 14 天撤回权，以便立即使用内容。请使用应用内的退款按钮，不要申请拒付。拒付可能会永久限制你的账号。Stripe 会安全处理付款。我们绝不会看到你的完整卡号。",
     "premiumTermsOfService": "服务条款",
     "premiumPrivacyPolicy": "隐私政策",
@@ -15697,24 +14697,14 @@
     },
     "premiumClaimAccountToPurchase": "认领您的账号以购买 Fluxer Plutonium。",
     "premiumVerifyEmailToPurchase": "您需要先验证您的电子邮件，然后才能购买 Fluxer Plutonium。",
-    "premiumPerkCustomUsernameTag": "自定义用户名标签",
-    "premiumPerkPerCommunityProfiles": "社区专属个人资料",
-    "premiumPerkMessageScheduling": "消息定时发送",
-    "premiumPerkProfileBadge": "个人资料徽章",
-    "premiumPerkCustomVideoBackgrounds": "自定义视频背景",
-    "premiumPerkEntranceSounds": "入场音效",
     "premiumPerkCommunities": "社区",
     "premiumPerkMessageCharacterLimit": "消息字数限制",
     "premiumPerkBookmarkedMessages": "已添加书签的消息",
     "premiumPerkFileUploadSize": "文件上传大小",
-    "premiumPerkEmojiStickerPacks": "表情符号和贴纸包",
-    "premiumPerkSavedMedia": "已保存媒体",
     "premiumPerkUseAnimatedEmojis": "使用动态表情",
-    "premiumPerkGlobalEmojiStickerAccess": "跨社区使用表情和贴纸",
     "premiumPerkVideoQuality": "视频画质",
     "premiumPerkAnimatedAvatarsBanners": "动态头像和个人资料横幅",
     "premiumPerkEarlyAccess": "抢先体验新功能",
-    "premiumPerkCustomThemes": "自定义主题",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "高达 4K/60fps",
     "storePlutoniumPriceLine": "{monthly} 或 {yearly}",
@@ -15930,7 +14920,6 @@
     "advancedSettingStripTrackingLabel": "移除链接跟踪参数",
     "advancedSettingStripTrackingDescription": "自动移除你发送的消息中网址里的跟踪参数",
     "advancedSettingTrustAllLinksLabel": "信任所有外部链接",
-    "advancedSettingTrustAllLinksDescription": "跳过所有域名的外部链接警告",
     "advancedSettingSearchEnginesLabel": "搜索引擎",
     "advancedSettingSearchEnginesDescription": "配置对选中文本使用的搜索引擎",
     "advancedSettingTranslatorsLabel": "翻译服务",
@@ -15986,13 +14975,6 @@
     "advancedSettingHideStreamPreviewLabel": "隐藏我的直播预览缩略图",
     "advancedSettingDeveloperModeLabel": "启用开发者模式",
     "advancedSettingDeveloperModeDescription": "启用开发者模式",
-    "advancedSettingSearchEngineGoogle": "Google",
-    "advancedSettingSearchEngineDuckDuckGo": "DuckDuckGo",
-    "advancedSettingSearchEngineBing": "必应",
-    "advancedSettingSearchEngineGoogleLens": "Google 智能镜头",
-    "advancedSettingSearchEngineTinEye": "TinEye",
-    "advancedSettingTranslatorGoogle": "谷歌翻译",
-    "advancedSettingTranslatorDeepL": "DeepL",
     "advancedSettingDefaultSearchEngineLabel": "默认搜索引擎",
     "advancedSettingDefaultSearchEngineDescription": "选择在搜索选中文字时默认使用的搜索引擎。",
     "advancedSettingBuiltInSearchEnginesLabel": "内置搜索引擎",
@@ -16546,10 +15528,6 @@
     "@guildMembersColumnRoles": {
         "description": "Table column header on the community members page."
     },
-    "guildMembersColumnActions": "操作",
-    "@guildMembersColumnActions": {
-        "description": "Table column header on the community members page."
-    },
     "guildMembersFilterMemberSince": "按加入时间筛选",
     "@guildMembersFilterMemberSince": {
         "description": "Filter menu label on the community members page."
@@ -16634,23 +15612,6 @@
     "@guildMembersIndexing": {
         "description": "Banner shown while guild members are being indexed."
     },
-    "guildMembersGoToPage": "前往页面",
-    "@guildMembersGoToPage": {
-        "description": "Pagination jump label on the community members page."
-    },
-    "guildMembersGoToPageItem": "前往第 {page} 页",
-    "@guildMembersGoToPageItem": {
-        "description": "Accessibility label for a pagination page button.",
-        "placeholders": {
-            "page": {
-                "type": "int"
-            }
-        }
-    },
-    "guildMembersJumpToPage": "跳转到指定页",
-    "@guildMembersJumpToPage": {
-        "description": "Label for pagination jump input on the community members page."
-    },
     "guildMembersJoinSourceCreator": "社区创建者",
     "@guildMembersJoinSourceCreator": {
         "description": "Join method label on the community members page."
@@ -16727,28 +15688,14 @@
             }
         }
     },
-    "guildMembersJoinedDaysAgo": "{count, plural, one {1 天前} other {{count} 天前}}",
-    "@guildMembersJoinedDaysAgo": {
-        "description": "Relative join time on the community members page.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
     "guildMembersChannelListLabel": "成员",
     "@guildMembersChannelListLabel": {
         "description": "Label for the Members item at the top of the guild channel list."
-    },
-    "guildMembersChannelListSelected": "成员（已选）",
-    "@guildMembersChannelListSelected": {
-        "description": "Accessibility label when the Members channel list item is selected."
     },
     "guildSettingsEmojiSlotsTitle": "表情槽位",
     "guildSettingsEmojiDropZone": "将表情文件拖放到此处",
     "guildSettingsEmojiLoadFailed": "表情加载失败。请稍后重试。",
     "guildSettingsEmojiSearchEmpty": "没有找到符合搜索条件的表情。",
-    "guildSettingsEmojiNoSlots": "没有可用的表情槽位",
     "guildSettingsEmojiSlotsFull": "你已达到表情数量上限。请删除一些现有表情以腾出空间。",
     "guildSettingsEmojiUploadRequirements": "表情名称至少需要 2 个字符，可以使用字母、数字和下划线。表情大小必须小于 {maxSize}。静态图片会自动调整为 128x128 像素并压缩。动态表情和 SVG 必须本身就符合大小限制。",
     "@guildSettingsEmojiUploadRequirements": {
@@ -16758,24 +15705,11 @@
             }
         }
     },
-    "guildSettingsEmojiUploadingTitle": "正在上传表情",
-    "guildSettingsEmojiUploadingBody": "正在上传 {count, plural, one {# 个表情符号} other {# 个表情符号}}。这可能需要一点时间。",
-    "@guildSettingsEmojiUploadingBody": {
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsEmojiUploadFailed": "表情上传失败。请重试。",
     "guildSettingsEmojiSomeFailedTitle": "部分表情无法添加",
-    "guildSettingsEmojiSomeFailedBody": "请检查这些文件，然后尝试使用更小或更简单的图片。",
     "guildSettingsEmojiRenameTitle": "重命名表情",
     "guildSettingsEmojiRenameHint": "2-32个字符，可包含字母、数字、下划线。",
-    "guildSettingsEmojiColumnEmoji": "表情",
     "guildSettingsEmojiColumnName": "名称",
     "guildSettingsEmojiColumnUploader": "上传者",
-    "guildSettingsEmojiUnknownUploader": "未知",
     "guildSettingsEmojiDeleteTitle": "删除表情",
     "guildSettingsEmojiDeleteBody": "删除 :{name}:？此操作无法撤销。",
     "@guildSettingsEmojiDeleteBody": {
@@ -16790,15 +15724,7 @@
     "guildSettingsEmojiNameTooLong": "表情名称最多 32 个字符",
     "guildSettingsEmojiInvalidNameTitle": "表情名称无效",
     "guildSettingsEmojiRenameFailedTitle": "无法重命名此表情",
-    "guildSettingsEmojiRenameFailedBody": "名称已恢复到之前的状态。请稍后重试。",
-    "guildSettingsEmojiGoneTitle": "此表情已不存在",
-    "guildSettingsEmojiGoneBody": "表情可能已被删除。名称已恢复到之前的状态。",
-    "guildSettingsEmojiNoPermissionRenameTitle": "你无法重命名此表情",
-    "guildSettingsEmojiNoPermissionRenameBody": "你没有重命名此表情的权限。名称已恢复为之前的名称。",
-    "guildSettingsEmojiRateLimitedTitle": "你的操作过于频繁",
-    "guildSettingsEmojiRateLimitedBody": "请稍候片刻，然后再次尝试重命名。",
     "guildSettingsEmojiDeleteFailedTitle": "无法删除此表情",
-    "guildSettingsEmojiDeleteNoPermissionTitle": "你无法删除此表情",
     "guildSettingsCloneEmojiTitle": "允许他人克隆你的表情",
     "guildSettingsCloneEmojiDescription": "启用后，其他社群的成员可以使用应用内的一键\"克隆\"快捷方式复制你的自定义表情。但这并不能阻止他们保存图片并自行上传。",
     "guildSettingsCloneStickerTitle": "允许他人克隆你的贴纸",
@@ -16822,8 +15748,6 @@
     "guildSettingsStickersLoadFailedTitle": "贴纸加载失败",
     "guildSettingsStickersLoadFailedBody": "加载贴纸时出错。请重试。",
     "guildSettingsStickersSearchEmpty": "没有找到符合搜索条件的贴纸。",
-    "guildSettingsStickersEmptySearch": "未找到贴纸",
-    "guildSettingsStickerNoSlots": "没有可用的贴纸槽位",
     "guildSettingsStickerSlotsFull": "你已达到贴纸数量上限。请删除一些现有贴纸以腾出空间。",
     "guildSettingsStickerUploadRequirements": "贴纸以 320x320 像素保存，并且大小必须小于 {maxSize}。静态图像将自动调整大小并进行压缩。动画贴纸和 SVG 必须已经符合大小限制。",
     "@guildSettingsStickerUploadRequirements": {
@@ -16833,7 +15757,6 @@
             }
         }
     },
-    "guildSettingsStickerUnsupportedTitle": "不支持的贴纸文件",
     "guildSettingsStickerAddTitle": "添加贴纸",
     "guildSettingsStickerEditTitle": "编辑贴纸",
     "guildSettingsStickerNameLabel": "名称",
@@ -16858,8 +15781,6 @@
     "guildSettingsStickerNameTooLong": "名称不能超过30个字符",
     "guildSettingsStickerDescriptionTooLong": "描述不能超过500个字符",
     "guildSettingsStickerCreateFailedTitle": "无法创建此贴纸",
-    "guildSettingsStickerTooLargeTitle": "贴纸过大",
-    "guildSettingsStickerCompressFailedTitle": "贴纸压缩后仍然过大",
     "guildSettingsStickerDeleteTitle": "删除贴纸",
     "guildSettingsStickerDeleteBody": "删除“{name}”？此操作无法撤销。",
     "@guildSettingsStickerDeleteBody": {
@@ -16871,7 +15792,6 @@
     },
     "guildSettingsStickerPurgeLabel": "从存储和 CDN 中清除此贴纸",
     "guildSettingsStickerDeleteFailedTitle": "无法删除此表情包",
-    "guildSettingsStickerDeleteNoPermissionTitle": "你无法删除此表情包",
     "keybindsSearchShortcuts": "搜索快捷键",
     "@keybindsSearchShortcuts": {
         "description": "Placeholder for the shortcuts settings search field."

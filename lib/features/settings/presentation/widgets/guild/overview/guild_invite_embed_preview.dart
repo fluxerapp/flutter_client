@@ -109,7 +109,7 @@ class GuildInviteEmbedPreview extends StatelessWidget {
   Widget _buildStats(BuildContext context) {
     return Row(
       children: <Widget>[
-        _StatDot(online: true, color: context.colors.statusOnline),
+        _StatDot(color: context.colors.statusOnline),
         const SizedBox(width: 4),
         Text(
           l10n.embedInviteOnline(_formatCount(onlineCount)),
@@ -118,7 +118,7 @@ class GuildInviteEmbedPreview extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 10),
-        _StatDot(online: false, color: context.colors.textTertiaryMuted),
+        _StatDot(color: context.colors.textTertiaryMuted),
         const SizedBox(width: 4),
         Text(
           l10n.embedInviteMembers(_formatCount(memberCount)),
@@ -243,9 +243,8 @@ class GuildInviteEmbedPreview extends StatelessWidget {
 }
 
 class _StatDot extends StatelessWidget {
-  const _StatDot({required this.online, required this.color});
+  const _StatDot({required this.color});
 
-  final bool online;
   final Color color;
 
   @override

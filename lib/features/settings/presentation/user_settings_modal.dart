@@ -691,7 +691,6 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
         builder: (sheetContext, scrollController, close) =>
             _MobileSettingsContentBody(
               section: section,
-              onClose: close,
               scrollController: scrollController,
               canDismissNotifier: canDismiss,
               initialFieldId: initialFieldId,
@@ -760,14 +759,12 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
 class _MobileSettingsContentBody extends ConsumerStatefulWidget {
   const _MobileSettingsContentBody({
     required this.section,
-    required this.onClose,
     required this.scrollController,
     this.canDismissNotifier,
     this.initialFieldId,
   });
 
   final UserSettingsSection section;
-  final VoidCallback onClose;
   final ScrollController scrollController;
   final ValueNotifier<bool>? canDismissNotifier;
   final String? initialFieldId;

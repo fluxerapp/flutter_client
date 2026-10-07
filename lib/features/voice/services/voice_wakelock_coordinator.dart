@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
@@ -31,10 +30,6 @@ final voiceWakelockEnabledProvider = Provider<bool>((Ref ref) {
 
 @Riverpod(keepAlive: true)
 void voiceWakelockCoordinator(Ref ref) {
-  if (kIsWeb) {
-    return;
-  }
-
   var enabled = false;
 
   Future<void> apply({required bool shouldEnable}) async {

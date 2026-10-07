@@ -46,10 +46,3 @@ bool hasVisibleContent(String value) {
   }
   return false;
 }
-
-bool isAutolinkBoundaryCodePoint(int codePoint) {
-  if (_isIgnorableCodePoint(codePoint)) {
-    return true;
-  }
-  return '*_~(>'.contains(String.fromCharCode(codePoint));
-}

@@ -131,12 +131,6 @@ class MessageRepository {
     this._mentionContextCache,
   });
 
-  Stream<List<Message>> watchMessages(String channelId) {
-    return _db.messageDao
-        .watchMessages(channelId)
-        .asyncMap(Message.fromRowsAsync);
-  }
-
   Future<List<Message>> getCachedMessages(
     String channelId, {
     int limit = 30,

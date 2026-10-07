@@ -50,10 +50,12 @@ void main() {
     addTearDown(container.dispose);
 
     final KnownGuildBans bans = container.read(knownGuildBansProvider.notifier);
-    expect(bans.isKnownBanned('g1', 'u1'), isFalse);
+    bool isKnownBanned() =>
+        container.read(knownGuildBansProvider)['g1']?.contains('u1') ?? false;
+    expect(isKnownBanned(), isFalse);
     bans.noteBan('g1', 'u1');
-    expect(bans.isKnownBanned('g1', 'u1'), isTrue);
+    expect(isKnownBanned(), isTrue);
     bans.noteUnban('g1', 'u1');
-    expect(bans.isKnownBanned('g1', 'u1'), isFalse);
+    expect(isKnownBanned(), isFalse);
   });
 }

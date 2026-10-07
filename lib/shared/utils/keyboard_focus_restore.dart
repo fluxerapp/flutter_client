@@ -17,7 +17,7 @@ bool _canSafelyRequestFocus([AppLifecycleState? state]) {
 bool _useReadOnlyImeReconnect(
   void Function({required bool readOnly})? toggleReadOnly,
 ) {
-  if (toggleReadOnly == null || kIsWeb) {
+  if (toggleReadOnly == null) {
     return false;
   }
   return defaultTargetPlatform == TargetPlatform.iOS ||

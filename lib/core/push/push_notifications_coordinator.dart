@@ -22,7 +22,6 @@ import 'package:fluxer_app/core/push/push_notification_tap_handler.dart';
 import 'package:fluxer_app/core/push/push_service.dart';
 import 'package:fluxer_app/core/push/push_tray_registry_provider.dart';
 import 'package:fluxer_app/core/push/services/apple_push_service.dart';
-import 'package:fluxer_app/core/push/services/firebase_messaging_push_service.dart';
 import 'package:fluxer_app/core/push/services/unified_push_service.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_distributor_setup.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_mobile_device_registration.dart';
@@ -45,9 +44,6 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
     ref
       ..read(applePushNotificationTapBindingProvider)
       ..read(fcmNotificationTapBindingProvider)
-      ..listen<bool>(appUiForegroundProvider, (_, bool next) {
-        _syncForegroundState(isAppForeground: next);
-      }, fireImmediately: true)
       ..listen<String?>(currentUserIdProvider, (String? _, String? next) {
         unawaited(ApplePushService.syncActiveUserId(next));
       }, fireImmediately: true);
@@ -64,22 +60,7 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
     return false;
   }
 
-  void _syncForegroundState({required bool isAppForeground}) {
-    FirebaseMessagingPushService.configureForegroundMessageFilter((
-      Map<String, String> payload,
-    ) {
-      return ForegroundPushNotificationPolicy.shouldProcessPush(
-        isAppForeground: isAppForeground,
-        payload: payload,
-        activeUserId: ref.read(currentUserIdProvider),
-      );
-    });
-  }
-
   Future<void> _runBootstrap() async {
-    if (kIsWeb) {
-      return;
-    }
     try {
       ref.read(fcmNotificationTapBindingProvider);
       final bool granted = await requestPushNotificationPermission();
@@ -130,7 +111,6 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
               .syncFromCurrentEndpoint(),
         );
       }
-      _syncForegroundState(isAppForeground: ref.read(appUiForegroundProvider));
     } on Object catch (e, st) {
       if (kDebugMode) {
         debugPrint('[PushNotificationsCoordinator] bootstrap failed: $e\n$st');

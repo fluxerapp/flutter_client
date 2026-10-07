@@ -3,15 +3,10 @@ bool isMemberPresenceOnline(String status) {
 }
 
 class GroupDmMemberGroup<T> {
-  final String id;
   final String displayName;
   final List<T> members;
 
-  const GroupDmMemberGroup({
-    required this.id,
-    required this.displayName,
-    required this.members,
-  });
+  const GroupDmMemberGroup({required this.displayName, required this.members});
 }
 
 List<GroupDmMemberGroup<T>> groupDmMembersByPresence<T>({
@@ -41,7 +36,6 @@ List<GroupDmMemberGroup<T>> groupDmMembersByPresence<T>({
   if (onlineMembers.isNotEmpty) {
     groups.add(
       GroupDmMemberGroup<T>(
-        id: 'online',
         displayName: '$onlineHeader — ${onlineMembers.length}',
         members: onlineMembers,
       ),
@@ -50,7 +44,6 @@ List<GroupDmMemberGroup<T>> groupDmMembersByPresence<T>({
   if (offlineMembers.isNotEmpty) {
     groups.add(
       GroupDmMemberGroup<T>(
-        id: 'offline',
         displayName: '$offlineHeader — ${offlineMembers.length}',
         members: offlineMembers,
       ),

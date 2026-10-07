@@ -1,7 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_api_features.dart';
-import 'package:fluxer_app/core/push/push_notification_ids.dart';
-import 'package:fluxer_app/core/push/push_notification_payload.dart';
 import 'package:fluxer_app/core/push/push_notification_reply.dart';
 import 'package:fluxer_app/features/auth/data/auth_token_storage.dart';
 
@@ -62,49 +60,6 @@ void main() {
           'channel_id': 'c',
           'message_id': 'm',
         }),
-        isNull,
-      );
-    });
-  });
-
-  group('pushReplyDismissal', () {
-    test('uses the posted id and display tag', () {
-      final PushReplyDismissal? dismissal = pushReplyDismissal(
-        notificationId: 42,
-        payload: <String, String>{
-          'channel_id': 'c',
-          'message_id': 'm',
-          'tag': 'channel:c:m',
-        },
-      );
-      expect(dismissal?.id, 42);
-      expect(dismissal?.tag, 'channel:c:m');
-    });
-
-    test('falls back to the message id when the response id is missing', () {
-      final PushReplyDismissal? dismissal = pushReplyDismissal(
-        notificationId: 0,
-        payload: <String, String>{
-          kLocalNotificationMessageIdKey: 'local-1',
-          'channel_id': 'c',
-        },
-      );
-      expect(dismissal?.id, pushMessageNotificationId('local-1'));
-      expect(
-        dismissal?.tag,
-        resolvePushDisplayTag(<String, String>{
-          kLocalNotificationMessageIdKey: 'local-1',
-          'channel_id': 'c',
-        }),
-      );
-    });
-
-    test('returns null when there is nothing to dismiss', () {
-      expect(
-        pushReplyDismissal(
-          notificationId: null,
-          payload: const <String, String>{},
-        ),
         isNull,
       );
     });

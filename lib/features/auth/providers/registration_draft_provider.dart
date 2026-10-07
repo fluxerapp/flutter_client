@@ -35,30 +35,6 @@ class RegistrationDraft {
       birthDay == null &&
       birthYear == null &&
       !consent;
-
-  RegistrationDraft copyWith({
-    String? email,
-    String? displayName,
-    String? username,
-    String? password,
-    String? confirmPassword,
-    int? Function()? birthMonth,
-    int? Function()? birthDay,
-    int? Function()? birthYear,
-    bool? consent,
-  }) {
-    return RegistrationDraft(
-      email: email ?? this.email,
-      displayName: displayName ?? this.displayName,
-      username: username ?? this.username,
-      password: password ?? this.password,
-      confirmPassword: confirmPassword ?? this.confirmPassword,
-      birthMonth: birthMonth != null ? birthMonth() : this.birthMonth,
-      birthDay: birthDay != null ? birthDay() : this.birthDay,
-      birthYear: birthYear != null ? birthYear() : this.birthYear,
-      consent: consent ?? this.consent,
-    );
-  }
 }
 
 @Riverpod(keepAlive: true)

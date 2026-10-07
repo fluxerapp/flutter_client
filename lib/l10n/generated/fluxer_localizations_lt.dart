@@ -34,9 +34,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get retry => 'Bandykite dar kartą';
 
   @override
-  String get connectingCaps => 'CONNECTING';
-
-  @override
   String get splashConnectionLost => 'Ryšys nutrūko';
 
   @override
@@ -209,9 +206,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
-  String get ssoRequired => 'Norint pasiekti šią instanciją, būtinas SSO.';
-
-  @override
   String get organizationSsoProvider =>
       'Prisijunkite naudodami savo organizacijos vieningo prisijungimo (SSO) teikėją.';
 
@@ -225,9 +219,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String preferSso(String provider) {
     return 'Pageidaujate naudoti SSO? Tęskite su $provider.';
   }
-
-  @override
-  String get logInViaBrowser => 'Prisijungti per naršyklę';
 
   @override
   String get needAccountPrompt => 'Neturite paskyros? ';
@@ -317,20 +308,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get accountAdd => 'Pridėti paskyrą';
 
   @override
-  String get accountRemove => 'Pašalinti';
-
-  @override
-  String accountRemoveTitle(String username) {
-    return 'Pašalinti $username';
-  }
-
-  @override
   String get accountRemoveDescription =>
       'Tai pašalins išsaugotą šios paskyros seansą.';
-
-  @override
-  String get accountRemoveOnlyDescription =>
-      'Tai pašalins vienintelę išsaugotą paskyrą šiame įrenginyje.';
 
   @override
   String get accountExpired => 'Baigėsi';
@@ -753,10 +732,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get registerYear => 'Metai';
 
   @override
-  String get registerConsent =>
-      'Sutinku su Paslaugų teikimo sąlygomis ir Privatumo politika';
-
-  @override
   String get registerConsentPrefix => 'Sutinku su ';
 
   @override
@@ -799,10 +774,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get passkeyTimeout =>
       '„Passkey“ autentifikavimas baigėsi. Prašome bandyti dar kartą.';
-
-  @override
-  String get passkeyNotAvailable =>
-      '„Passkey“ šiai programai neprieinami. Vietoj to prisijunkite el. paštu ir slaptažodžiu.';
 
   @override
   String get passkeyFailed =>
@@ -927,22 +898,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get inviteAcceptSomeone => 'kažkas';
-
-  @override
-  String get inviteAcceptEmojiPack => 'Emocijų rinkinys';
-
-  @override
-  String get inviteAcceptStickerPack => 'Lipdukų rinkinys';
-
-  @override
-  String get inviteAcceptInstallEmojiPack => 'Įdiegti emocijų rinkinį';
-
-  @override
-  String get inviteAcceptInstallStickerPack => 'Įdiegti lipdukų rinkinį';
-
-  @override
-  String get inviteAcceptPackInstallNote =>
-      'Priėmus šį kvietimą rinkinys bus įdiegtas automatiškai.';
 
   @override
   String get mentionUnknownChannel => 'unknown-channel';
@@ -1722,9 +1677,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
-  String get emojiPlutoniumUpsellButton => 'Gauti Plutonium';
-
-  @override
   String get emojiPlutoniumUpsellDismiss => 'Daugiau nerodyti';
 
   @override
@@ -1877,9 +1829,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get changeYourFluxerTag => 'Pakeisti naudotojo vardą';
 
   @override
-  String get fluxerTagInputLabel => 'Naudotojo vardas';
-
-  @override
   String get fluxerTagDescriptionBase =>
       'Naudotojo vardą gali sudaryti tik raidės (a-z, A-Z), skaičiai (0-9) ir apatiniai brūkšniai. Naudotojų varduose didžiosios ir mažosios raidės neskiriamos.';
 
@@ -1899,10 +1848,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get validationAllowedChars =>
       'Tik raidės (a-z, A-Z), skaitmenys (0-9) ir apatiniai brūkšniai (_)';
-
-  @override
-  String get discriminatorPremiumTooltip =>
-      'Gaukite Plutonium, kad pritaikytumėte savo žymą arba išlaikytumėte ją keisdami vartotojo vardą';
 
   @override
   String get fluxerTagAlreadyTaken => 'Naudotojo vardas jau užimtas';
@@ -1939,15 +1884,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get premiumUpsellCustomizeTag =>
       'Pritaikykite savo 4 skaitmenų žymą arba išlaikykite ją keisdami vartotojo vardą';
-
-  @override
-  String premiumTrialExpiresOn(String date) {
-    return 'Jūsų Plutonium bandomasis laikotarpis baigiasi $date. Atnaujinkite, kad išlaikytumėte savo pasirinktinę žymą ir gautumėte ženklelį savo profilyje.';
-  }
-
-  @override
-  String get premiumTrialActive =>
-      'Jūs naudojate Plutonium bandomąją versiją. Atnaujinkite, kad išlaikytumėte savo pasirinktinę žymą ir gautumėte ženklelį savo profilyje.';
 
   @override
   String get fluxerTagUpdated => 'Naudotojo vardas atnaujintas';
@@ -2085,24 +2021,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get hideVisionaryIdDescription => 'Pašalinti Visionary ID ženklelį';
 
   @override
-  String premiumTrialSubscriptionStarts(String date) {
-    return 'Jūs naudojate Plutonium bandomąją versiją – jūsų prenumerata prasidės $date';
-  }
-
-  @override
-  String get premiumTrialSubscriptionStartsDescription =>
-      'Jūsų prenumerata automatiškai prasidės pasibaigus bandomajai versijai. Jokių veiksmų nereikia.';
-
-  @override
-  String premiumTrialExpiresOnProfile(String date) {
-    return 'Jūs naudojate Plutonium bandomąją versiją, kuri baigiasi $date';
-  }
-
-  @override
-  String get premiumTrialActiveProfile =>
-      'Jūs naudojate Plutonium bandomąją versiją';
-
-  @override
   String get avatarDescriptionNonPremium =>
       'JPEG, PNG, WebP. Daugiausiai 10MB. Rekomenduojama: 512×512px. Animaciniams avatarams (GIF) reikia Plutonium.';
 
@@ -2169,18 +2087,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get profileSavedToast => 'Profilis atnaujintas';
-
-  @override
-  String get profileEditButton => 'Redaguoti profilį';
-
-  @override
-  String get profileNoteLabel => 'Pastaba';
-
-  @override
-  String get profileNoteVisibility => '(matoma tik jums)';
-
-  @override
-  String get profileNoteEmpty => 'Dar nėra pastabos.';
 
   @override
   String get sudoTitle => 'Patvirtinkite savo tapatybę';
@@ -2475,35 +2381,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'pvz., YubiKey, iPhone, darbinis kompiuteris';
 
   @override
-  String get securityPhoneSectionTitle => 'Telefono numeris';
-
-  @override
-  String get securityPhoneSectionDescription =>
-      'Tvarkykite savo telefono numerį.';
-
-  @override
-  String get securityPhoneLabel => 'Telefono numeris';
-
-  @override
-  String get securityPhoneNone => 'Nėra pridėto telefono numerio.';
-
-  @override
-  String get securityPhoneAdd => 'Pridėti telefoną';
-
-  @override
-  String get securityPhoneRemove => 'Pašalinti';
-
-  @override
-  String get securityPhoneRemoveTitle => 'Panaikinti telefono numerį';
-
-  @override
-  String get securityPhoneRemoveDescription =>
-      'Ar tikrai norite pašalinti savo telefono numerį?';
-
-  @override
-  String get securityPhoneRemoved => 'Telefono numeris pašalintas';
-
-  @override
   String get securityClaimTitle => 'Saugos funkcijos';
 
   @override
@@ -2549,9 +2426,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Jei prarasite prieigą prie savo autentifikavimo programėlės ir neturėsite šių kodų, jūsų paskyra bus visam laikui užblokuota. Atsisiųskite arba nukopijuokite juos dabar ir saugiai laikykite.';
 
   @override
-  String get backupCodesDownload => 'Atsisiųsti';
-
-  @override
   String get backupCodesCopy => 'Kopijuoti';
 
   @override
@@ -2563,164 +2437,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get backupCodesDone => 'Atlikta';
-
-  @override
-  String get backupCodesViewTitle => 'Peržiūrėti atsarginius kodus';
-
-  @override
-  String get backupCodesViewDescription =>
-      'Norint peržiūrėti atsarginius kodus, gali prireikti patvirtinimo.';
-
-  @override
-  String get phoneAddTitle => 'Pridėti telefono numerį';
-
-  @override
-  String get phoneAddLabel => 'Telefono numeris';
-
-  @override
-  String get phoneAddHint => 'Įveskite savo telefono numerį';
-
-  @override
-  String get phoneAddFooter =>
-      'Atsiųsime SMS kodą, kai jis bus pasiekiamas. Jūsų numeris nėra susietas su paskyra. Mes saugome tik užšifruotą žymę be vartotojo ID, kad leistume ne daugiau kaip 2 patvirtinimus maždaug per 30 dienų.';
-
-  @override
-  String get phoneAddSendCode => 'Siųsti kodą';
-
-  @override
-  String get phoneVerifyTitle => 'Patvirtinti telefono numerį';
-
-  @override
-  String get phoneVerifyDescription =>
-      'Įveskite patvirtinimo kodą, išsiųstą jūsų telefono numeriu.';
-
-  @override
-  String get phoneAddSuccess => 'Telefono numeris patvirtintas';
-
-  @override
-  String get phoneCountryLabel => 'Šalis';
-
-  @override
-  String get phoneSearchCountries => 'Ieškoti šalių...';
-
-  @override
-  String get phoneNumberRequired => 'Reikalingas telefono numeris';
-
-  @override
-  String get phoneEnterValidNumber =>
-      'Įveskite galiojantį mobiliojo telefono numerį.';
-
-  @override
-  String get phoneCannotBeUsed =>
-      'Šio telefono numerio negalima naudoti. Bandykite kitą mobiliojo telefono numerį arba susisiekite su palaikymo komanda.';
-
-  @override
-  String get phoneAlreadyUsed =>
-      'Šis telefono numeris jau buvo naudotas. Bandykite kitą numerį arba susisiekite su palaikymo komanda.';
-
-  @override
-  String get phoneCodeDidNotWork =>
-      'Šis kodas netiko. Patikrinkite jį ir bandykite dar kartą.';
-
-  @override
-  String get phoneTooManyAttempts =>
-      'Per daug bandymų. Šiek tiek palaukite ir bandykite dar kartą.';
-
-  @override
-  String get phoneSmsUnavailable =>
-      'Šiuo metu SMS patvirtinimas nepasiekiamas. Bandykite dar kartą vėliau arba susisiekite su palaikymo komanda.';
-
-  @override
-  String get phoneNotEligible =>
-      'Telefono numerio patvirtinimas šiai paskyrai negalimas. Naudokite kitą metodą arba susisiekite su palaikymo komanda.';
-
-  @override
-  String get phoneSomethingWentWrong => 'Kažkas nepavyko. Bandykite dar kartą.';
-
-  @override
-  String get phoneInboundExpensiveDescription =>
-      'Siųsti SMS į šį telefono numerį yra per brangu, todėl prašome, kad Jūs atsiųstumėte mums SMS. Taip pat galite susisiekti su palaikymo tarnyba, kad šis reikalavimas būtų panaikintas Jūsų paskyroje.';
-
-  @override
-  String get phoneInboundDefaultDescription =>
-      'Turime gauti jūsų SMS žinutę, kad patvirtintume jūsų telefono numerį.';
-
-  @override
-  String get phoneInboundStepOpenMessaging =>
-      'Atidarykite telefono žinučių programėlę ir sukurkite naują tekstinę žinutę.';
-
-  @override
-  String phoneInboundStepSendCode(String code, String number) {
-    return 'Siųskite kodą $code numeriu $number.';
-  }
-
-  @override
-  String get phoneInboundStepWait =>
-      'Palaukite, kol gausime jūsų žinutę. Tai gali užtrukti minutę.';
-
-  @override
-  String get phoneInboundGetNewCode => 'Gauti naują kodą';
-
-  @override
-  String get phoneInboundChallengeCodeLabel => 'Kodas, kurį reikia išsiųsti';
-
-  @override
-  String get phoneInboundOurNumberLabel => 'Siųsti į';
-
-  @override
-  String get requiredActionTitle => 'Reikalingas paskyros patvirtinimas';
-
-  @override
-  String requiredActionIntroGeneric(String productName) {
-    return 'Norėdami toliau naudotis „$productName“, atlikite reikiamą patvirtinimą.';
-  }
-
-  @override
-  String get requiredActionIntroPhone =>
-      'Prieš tęsiant, jūsų registracijai reikalingas papildomas apsaugos nuo brukalų patikrinimas.';
-
-  @override
-  String requiredActionIntroEmailOrPhone(String productName) {
-    return 'Norėdami toliau naudotis $productName, patvirtinkite savo el. paštą arba telefono numerį.';
-  }
-
-  @override
-  String requiredActionIntroEmailAndPhone(String productName) {
-    return 'Kad galėtumėte toliau naudotis „$productName“, atlikite toliau nurodytus el. pašto ir telefono patvirtinimo veiksmus.';
-  }
-
-  @override
-  String get requiredActionChooseMethodTitle =>
-      'Pasirinkite patvirtinimo metodą';
-
-  @override
-  String requiredActionChooseMethodDescription(String productName) {
-    return 'Norėdami toliau naudotis „$productName“, atlikite vieną iš toliau nurodytų patvirtinimo veiksmų.';
-  }
-
-  @override
-  String get requiredActionUseEmail => 'Naudoti el. paštą';
-
-  @override
-  String get requiredActionUsePhone => 'Naudoti telefoną';
-
-  @override
-  String get requiredActionCheckEmailTitle => 'Patikrinkite savo el. paštą';
-
-  @override
-  String get requiredActionCheckEmailDescription =>
-      'Atsidarykite savo el. paštą ir spustelėkite gautą patvirtinimo nuorodą, kad tęstumėte.';
-
-  @override
-  String get requiredActionResendVerificationEmail =>
-      'Siųsti patvirtinimo el. laišką iš naujo';
-
-  @override
-  String get requiredActionVerificationEmailSent =>
-      'Patvirtinimo el. laiškas išsiųstas. Patikrinkite gautuosius.';
-
-  @override
-  String get requiredActionSignOut => 'Atsijungti';
 
   @override
   String get dangerZoneSectionTitle => 'Pavojinga zona';
@@ -3311,9 +3027,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get applicationsSearchDocumentation => 'Dokumentacija';
 
   @override
-  String get privacyPendingDeletionTitle => 'Laukiama ištrynimo';
-
-  @override
   String get blockedUsersTitle => 'Užblokuoti naudotojai';
 
   @override
@@ -3470,9 +3183,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get userProfileNoteDelete => 'Ištrinti';
-
-  @override
-  String get userProfileNoteEmpty => 'Spustelėkite, kad pridėtumėte pastabą';
 
   @override
   String get userProfileMemberSince => 'Narys nuo';
@@ -4238,14 +3948,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Dar nepakankamai ilgai esate šios bendruomenės narys, kad galėtumėte siųsti žinutes.';
 
   @override
-  String get channelComposerBarrierNoPhoneNumber =>
-      'Norėdami siųsti žinutes šioje bendruomenėje, turite patvirtinti telefono numerį.';
-
-  @override
   String get channelComposerBarrierVerifyEmail => 'Patvirtinti el. paštą';
-
-  @override
-  String get channelComposerBarrierVerifyPhone => 'Patvirtinti telefono numerį';
 
   @override
   String chatAttachmentTooMany(int max) {
@@ -4269,9 +3972,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Nukreipkite failus, kad išsiųstumėte dabar';
 
   @override
-  String get chatAttachmentSendVoiceMessage => 'Siųsti balso žinutę';
-
-  @override
   String get voiceMessageTitle => 'Balso žinutė';
 
   @override
@@ -4289,10 +3989,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Nepavyko pradėti įrašymo. Leiskite prieigą prie mikrofono.';
 
   @override
-  String get voiceMessageRecordingNotSupported =>
-      'Balso įrašymas nepalaikomas šiame įrenginyje.';
-
-  @override
   String get voiceMessageMicInUse =>
       'Išeikite iš balso skambučio, kad įrašytumėte balso pranešimą.';
 
@@ -4305,23 +4001,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Nepavyko išsiųsti balso žinutės. Bandykite dar kartą.';
 
   @override
-  String get voiceMessageRecordingHint =>
-      'Kalbėkite dabar. Baigę paspauskite „Stabdyti“ – vėliau galėsite apkarpyti.';
-
-  @override
-  String get voiceMessageReviewHint =>
-      'Vilkite rankenėles, kad apkarpytumėte, tada paspauskite „Siųsti“.';
-
-  @override
-  String get voiceMessageStop => 'Stabdyti';
-
-  @override
-  String get voiceMessageStartRecording => 'Pradėti įrašymą';
-
-  @override
-  String get voiceMessageRerecord => 'Įrašyti iš naujo';
-
-  @override
   String get voiceMessagePlay => 'Leisti';
 
   @override
@@ -4332,16 +4011,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get voiceMessageSeekBackward => 'Atšaukti';
-
-  @override
-  String voiceMessageSelectionTooShort(num seconds) {
-    final intl.NumberFormat secondsNumberFormat = intl.NumberFormat.compact(
-      locale: localeName,
-    );
-    final String secondsString = secondsNumberFormat.format(seconds);
-
-    return 'Pasirinkimas turi būti bent $secondsString s.';
-  }
 
   @override
   String get chatAttachmentEditTitle => 'Redaguoti priedą';
@@ -4485,9 +4154,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get chatAttachmentSourceBrowse => 'Naršyti failus';
 
   @override
-  String get chatAttachmentPasteTooltip => 'Įklijuoti failą iš mainų srities';
-
-  @override
   String get chatAttachmentSpoiler => 'Spoileris';
 
   @override
@@ -4568,13 +4234,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get matureContentOpenLinkButton => 'Atidaryti nuorodą';
 
   @override
-  String get sensitiveContentSectionTitle => 'Jautrus turinys';
-
-  @override
-  String get sensitiveContentSectionDescription =>
-      'Valdykite, kaip neskelbtini ar suaugusiems skirti medijos failai filtruojami skirtinguose kontekstuose';
-
-  @override
   String get sensitiveContentFriendDmLabel => 'Tiesioginės žinutės iš draugų';
 
   @override
@@ -4593,18 +4252,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get sensitiveContentFilterBlock => 'Blokuoti';
 
   @override
-  String get sensitiveContentBlurUnscannedLabel =>
-      'Užtušuoti mediją iki saugos patikrinimo pabaigos';
-
-  @override
-  String get sensitiveContentBlurUnscannedDescriptionAdult =>
-      'Kai įjungta, vaizdai ir vaizdo įrašai bus užtušuoti, kol baigsis turinio saugos patikrinimas.';
-
-  @override
-  String get sensitiveContentBlurUnscannedDescriptionMinor =>
-      'Šis nustatymas visada įjungtas jūsų paskyrai.';
-
-  @override
   String get sensitiveContentResetButton => 'Atkurti';
 
   @override
@@ -4620,9 +4267,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     );
     return 'Įkeliama $_temp0';
   }
-
-  @override
-  String get chatCancelUpload => 'Atšaukti įkėlimą';
 
   @override
   String chatAttachmentExpiresOn(String date) {
@@ -4828,9 +4472,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get connectionEnterDomain => 'Įveskite domeną.';
 
   @override
-  String get lookAndFeelTitle => 'Išvaizda';
-
-  @override
   String get lookAndFeelThemeSectionTitle => 'Tema';
 
   @override
@@ -4892,13 +4533,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get lookAndFeelThemeSyncFailed =>
       'Nepavyko sinchronizuoti temos su jūsų paskyra. Pabandykite dar kartą.';
-
-  @override
-  String get lookAndFeelChatFontScalingTitle => 'Pokalbių šrifto dydis';
-
-  @override
-  String get lookAndFeelChatFontScalingDescription =>
-      'Koreguoti šrifto dydį pokalbių srityje.';
 
   @override
   String get lookAndFeelChatFontSizeLabel => 'Pokalbių šrifto dydis';
@@ -5050,39 +4684,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get lookAndFeelHideKeyboardHintsDescription =>
       'Kai įjungta, sparčiųjų klavišų ženkleliai paslėpti įrankių patarimų iššokančiuose languose.';
-
-  @override
-  String get lookAndFeelNekoTitle => 'Įvairūs';
-
-  @override
-  String get lookAndFeelNekoDescription => 'Įvairūs sąsajos nustatymai.';
-
-  @override
-  String get lookAndFeelShowNekoLabel => 'Rodyti Neko';
-
-  @override
-  String get lookAndFeelShowNekoDescription =>
-      'Kai įjungta, Neko pasirodo šalia pokalbių įvesties laukelio.';
-
-  @override
-  String get lookAndFeelVoiceChannelJoinTitle =>
-      'Prisijungimo prie balso kanalo veiksena';
-
-  @override
-  String get lookAndFeelVoiceChannelJoinDescription =>
-      'Valdykite, kaip prisijungiate prie balso kanalų bendruomenėse.';
-
-  @override
-  String get lookAndFeelRequireDoubleClickJoinLabel =>
-      'Reikalauti dukart spustelėti norint prisijungti prie balso kanalų';
-
-  @override
-  String get lookAndFeelRequireDoubleClickJoinDescription =>
-      'Kai įjungta, turėsite dukart spustelėti balso kanalus, kad prisijungtumėte prie jų. Kai išjungta (numatyta), vienas spustelėjimas iškart prisijungs prie kanalo.';
-
-  @override
-  String get lookAndFeelChatFontPreviewSample =>
-      'Gudrusis lapinas peršoko tingų šunį.';
 
   @override
   String get lookAndFeelGuildSidebarTitle => 'Bendruomenės šoninė juosta';
@@ -5543,22 +5144,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Rodyti išsaugotą mediją išraiškų automatiniame pildyme';
 
   @override
-  String get messagesMediaEditingSectionTitle => 'Redaguoti žinutę';
-
-  @override
-  String get messagesMediaEditingSectionDescription =>
-      'Valdykite, kas nutinka jūsų redagavimo juodraščiui, kai atšaukiate.';
-
-  @override
-  String get messagesMediaEditingPreserveDraftLabel =>
-      'Išsaugoti redagavimo juodraštį atšaukus';
-
-  @override
   String get accessibilitySaturationTitle => 'Sodrumas';
-
-  @override
-  String get accessibilitySaturationDescription =>
-      'Reguliuokite programėlės temos spalvų sodrumą.';
 
   @override
   String get accessibilityVisualGroupTitle => 'Vaizdas';
@@ -5581,10 +5167,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get accessibilityDmMessagePreviewGroupTitle => 'DM žinučių peržiūros';
-
-  @override
-  String get accessibilityDmMessagePreviewGroupDescription =>
-      'Valdykite, kada tiesioginių žinučių sąraše rodomos žinučių peržiūros.';
 
   @override
   String get accessibilityDmMessagePreviewModeLabel =>
@@ -5704,10 +5286,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get accessibilityPausedGifByReducedMotion =>
       'Pristabdyta dėl sumažinto judesio. Įjunkite, kad GIF failai būtų leidžiami.';
-
-  @override
-  String get accessibilityGifDefaultsOffOnMobile =>
-      'Numatytoji reikšmė mobiliajame įrenginyje yra išjungta, siekiant taupyti baterijos energiją ir duomenų naudojimą.';
 
   @override
   String get accessibilityStickerAnimationsTitle => 'Lipdukų animacijos';
@@ -6073,10 +5651,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Nepavyko atjungti kitų jūsų įrenginių. Pabandykite dar kartą po akimirkos.';
 
   @override
-  String get voiceChannelEmptyDescription =>
-      'Tai balso kanalas. Prisijunkite, kad pradėtumėte kalbėti!';
-
-  @override
   String get voiceChannelJoin => 'Prisijungti prie balso kanalo';
 
   @override
@@ -6115,12 +5689,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get voiceChannelStatusConnecting => 'Jungiamasi…';
-
-  @override
-  String get voiceChannelStatusConnected => 'Prisijungta';
-
-  @override
-  String get voiceChannelStatusError => 'Klaida';
 
   @override
   String get voiceParticipantTooltipMobileDevice => 'Mobilusis įrenginys';
@@ -6183,9 +5751,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get voiceScreenShareNotificationText => 'Bendrinamas jūsų ekranas.';
-
-  @override
-  String get voiceControlMore => 'Daugiau';
 
   @override
   String get voiceControlDisconnect => 'Atjungti';
@@ -6622,23 +6187,11 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get privacyDashboardFriendRequestsEveryone => 'Visi';
 
   @override
-  String get privacyDashboardFriendRequestsEveryoneDesc =>
-      'Leisti visiems siųsti jums draugų užklausas';
-
-  @override
   String get privacyDashboardFriendRequestsFriendsOfFriends => 'Draugų draugai';
-
-  @override
-  String get privacyDashboardFriendRequestsFriendsOfFriendsDesc =>
-      'Leisti draugų draugams siųsti jums užklausas';
 
   @override
   String get privacyDashboardFriendRequestsCommunityMembers =>
       'Bendruomenės nariai';
-
-  @override
-  String get privacyDashboardFriendRequestsCommunityMembersDesc =>
-      'Leisti bendruomenių nariams siųsti jums užklausas';
 
   @override
   String get privacyDashboardDirectMessagesTitle => 'Tiesioginės žinutės';
@@ -6648,58 +6201,26 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Leisti tiesiogines žinutes iš bendruomenės narių';
 
   @override
-  String get privacyDashboardDirectMessagesMembersDesc =>
-      'Leisti bendruomenių, kuriose esate, nariams siųsti jums tiesiogines žinutes';
-
-  @override
   String get privacyDashboardDirectMessagesBots =>
       'Leisti tiesiogines žinutes iš bendruomenės botų';
-
-  @override
-  String get privacyDashboardDirectMessagesBotsDesc =>
-      'Leisti botams iš bendruomenių, kuriose esate, siųsti jums tiesioginius pranešimus';
-
-  @override
-  String get privacyDashboardConnectionsSectionDesc =>
-      'Valdykite, kas gali siųsti jums draugų užklausas ir tiesiogines žinutes';
-
-  @override
-  String get privacyDashboardCommunicationSectionDesc =>
-      'Valdykite, kas gali jums skambinti ir pridėti jus į grupės pokalbius';
 
   @override
   String get privacyDashboardIncomingCallsTitle => 'Gaunamieji skambučiai';
 
   @override
-  String get privacyDashboardIncomingCallsDesc =>
-      'Valdykite, kas gali jums skambinti';
-
-  @override
   String get privacyDashboardAllowedCallers => 'Leidžiami skambintojai';
-
-  @override
-  String get privacyDashboardIncomingCallNobody => 'Niekas';
 
   @override
   String get privacyDashboardIncomingCallNobodyDesc =>
       'Blokuoti visus gaunamus skambučius';
 
   @override
-  String get privacyDashboardIncomingCallFriendsOnly => 'Tik draugai';
-
-  @override
   String get privacyDashboardIncomingCallFriendsOnlyDesc =>
       'Leiskite skambinti tik draugams (rekomenduojama)';
 
   @override
-  String get privacyDashboardIncomingCallCustom => 'Draugai + Pasirinktinai';
-
-  @override
   String get privacyDashboardIncomingCallCustomDesc =>
       'Leisti draugams ir papildomoms grupėms, kurias pasirenkate';
-
-  @override
-  String get privacyDashboardIncomingCallEveryone => 'Visi';
 
   @override
   String get privacyDashboardIncomingCallEveryoneDesc =>
@@ -6709,30 +6230,14 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get privacyDashboardAdditionalGroups => 'Papildomos grupės';
 
   @override
-  String get privacyDashboardCallFriendsOfFriendsDesc =>
-      'Žmonės, kurie yra jūsų draugų draugai, gali jums skambinti';
-
-  @override
-  String get privacyDashboardCallGuildMembersDesc =>
-      'Žmonės iš bendruomenių, kuriose esate abu, gali jums skambinti';
-
-  @override
   String get privacyDashboardRingBehavior => 'Skambučio elgsena';
 
   @override
   String get privacyDashboardSilentCalls => 'Tylūs skambučiai iš visų';
 
   @override
-  String get privacyDashboardSilentCallsDesc =>
-      'Visi skambučiai bus tylūs, o ne skambės. Numatoma, kad skambučiai iš nepažįstamų žmonių visada bus tylūs.';
-
-  @override
   String get privacyDashboardGroupDmTitle =>
       'Kas gali jus pridėti prie grupinių pokalbių';
-
-  @override
-  String get privacyDashboardGroupDmDesc =>
-      'Valdykite, kas gali pridėti jus į grupės pokalbius neprašydamas. Kiekvienas vis tiek galės atsiųsti jums kvietimo nuorodas, kad prisijungtumėte.';
 
   @override
   String get privacyDashboardAllowedInvites => 'Leidžiami kvietimai';
@@ -6752,14 +6257,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get privacyDashboardGroupDmEveryoneDesc =>
       'Leisti bet kam pridėti jus į grupės pokalbius be prašymo';
-
-  @override
-  String get privacyDashboardGroupDmFriendsOfFriendsDesc =>
-      'Žmonės, kurie yra jūsų draugų draugai, gali pridėti jus prie grupės pokalbių';
-
-  @override
-  String get privacyDashboardGroupDmGuildMembersDesc =>
-      'Žmonės iš bendruomenių, kuriose esate abu, gali pridėti jus prie grupinių pokalbių';
 
   @override
   String get privacyDashboardVoiceActivityTitle =>
@@ -7725,21 +7222,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Pasirenkami argumentai';
 
   @override
-  String get composerAutocompleteChannelsHeading => 'Kanalai';
-
-  @override
-  String get composerAutocompleteMembersHeading => 'Nariai';
-
-  @override
-  String get composerAutocompleteUsersHeading => 'Naudotojai';
-
-  @override
-  String get composerAutocompleteMentionsHeading => 'Paminėjimai';
-
-  @override
-  String get composerAutocompleteRolesHeading => 'Vaidmenys';
-
-  @override
   String get composerAutocompleteMediaHeading => 'Medija';
 
   @override
@@ -7994,9 +7476,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Bendruomenės šablono duomenys neteisingi arba sugadinti.';
 
   @override
-  String get addGuildPackInstalled => 'Pakuotė sėkmingai įdiegta.';
-
-  @override
   String get chatMessageRemoveAllReactionsConfirmTitle =>
       'Pašalinti visas reakcijas';
 
@@ -8089,9 +7568,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get channelDetailsDeleteChannel => 'Ištrinti kanalą';
-
-  @override
-  String get channelSettingsCategorySettingsTitle => 'Kategorijos nustatymai';
 
   @override
   String get channelSettingsEditCategory => 'Redaguoti kategoriją';
@@ -8291,17 +7767,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Bandyti dar kartą po akimirkos.';
 
   @override
-  String get channelSettingsResetSlider =>
-      'Grąžinti slankiklį į numatytąją reikšmę';
-
-  @override
-  String get channelSettingsAdvanced => 'Išplėstiniai';
-
-  @override
-  String get channelSettingsMatureContentOverride =>
-      'Brandaus turinio nepaisymas';
-
-  @override
   String channelSettingsMatureContentSectionDescription(String scopeLevel) {
     return 'Perrašyti šiam kanalui nustatytą $scopeLevel lygio parametrą. Brandus turinys bus rodomas už užtvaros prieš įeinant.';
   }
@@ -8334,12 +7799,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
-  String get channelSettingsMatureContentCategorySource => 'kategorija';
-
-  @override
-  String get channelSettingsMatureContentCommunitySource => 'bendruomenės';
-
-  @override
   String get channelSettingsMatureContentCategoryScope => 'Kategorija';
 
   @override
@@ -8360,20 +7819,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get channelSettingsContentWarningDefault =>
       'Čia yra jautraus turinio.';
-
-  @override
-  String channelSettingsPermissionsNeedManageChannels(
-    String manageChannelsPermissionLabel,
-  ) {
-    return 'Norėdami redaguoti šiuos leidimus, turite turėti leidimą „$manageChannelsPermissionLabel“.';
-  }
-
-  @override
-  String channelSettingsPermissionsNeedManageRoles(
-    String manageRolesPermissionLabel,
-  ) {
-    return 'Norėdami redaguoti šiuos leidimus, turite turėti leidimą „$manageRolesPermissionLabel“.';
-  }
 
   @override
   String get channelSettingsUnknownRole => 'Nežinomas vaidmuo';
@@ -8448,9 +7893,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Ieškoti vaidmenų ar narių…';
 
   @override
-  String get channelSettingsPermissionsRolesAndMembers => 'Vaidmenys ir nariai';
-
-  @override
   String get channelSettingsDeleteInvite => 'Ištrinti kvietimą';
 
   @override
@@ -8522,9 +7964,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String channelSettingsWebhooksCreatedBy(String creator, String date) {
     return 'Sukurta $creator $date';
   }
-
-  @override
-  String get channelSettingsWebhooksUnknownUser => 'Nežinomas naudotojas';
 
   @override
   String get channelSettingsWebhooksAvatar => 'Avataras';
@@ -8681,9 +8120,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get channelDetailsPinsEndReached => 'Pasiekėte pabaigą';
-
-  @override
-  String get channelHeaderOpenDetails => 'Atidaryti kanalo informaciją';
 
   @override
   String get channelHeaderPinnedMessages => 'Prisegtos žinutės';
@@ -9145,9 +8581,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get groupDmEditTitle => 'Redaguoti grupę';
 
   @override
-  String get groupDmEditDetailsTooltip => 'Redaguoti grupės informaciją';
-
-  @override
   String get groupDmGroupName => 'Grupės pavadinimas';
 
   @override
@@ -9200,13 +8633,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get groupDmUnsupportedIconFormatBody => 'Nepalaikomas failo tipas.';
 
   @override
-  String get groupDmCouldntProcessImage => 'Nepavyko apdoroti paveikslėlio';
-
-  @override
-  String get groupDmFailedToProcessCroppedImage =>
-      'Nepavyko apdoroti apkarpyto vaizdo. Bandykite dar kartą.';
-
-  @override
   String get groupDmInvalidImage => 'Netinkamas paveikslėlis';
 
   @override
@@ -9234,18 +8660,12 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Nepavyko pridėti šio draugo į grupę. Bandykite dar kartą.';
 
   @override
-  String get groupDmAddFailed => 'Nepavyko pridėti prie grupės';
-
-  @override
   String get groupDmGroupFull =>
       'Ši grupė pilna. Pašalinkite ką nors prieš pridėdami daugiau žmonių.';
 
   @override
   String get groupDmRateLimited =>
       'Veikiate per greitai. Truputį palaukite ir bandykite dar kartą.';
-
-  @override
-  String get groupDmCreateInviteFailed => 'Nepavyko sukurti kvietimo nuorodos';
 
   @override
   String get groupDmCreateInviteFailedBody =>
@@ -9450,9 +8870,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get userSettingsSearchPlaceholder => 'Ieškoti nustatymų...';
 
   @override
-  String get userSettingsSearchFieldLabel => 'Ieškoti nustatymų';
-
-  @override
   String get userSettingsSearchClear => 'Išvalyti paiešką';
 
   @override
@@ -9531,14 +8948,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get giftSettingsCopied => 'Nukopijuota';
 
   @override
-  String get giftSettingsGiftUrlCopied =>
-      'Dovanos URL nukopijuotas į iškarpinę!';
-
-  @override
-  String get giftSettingsGiftUrlCopyFailed =>
-      'Nepavyko nukopijuoti dovanos URL';
-
-  @override
   String giftSettingsPurchasedDate(String date) {
     return 'Įsigyta $date';
   }
@@ -9606,9 +9015,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get premiumOneMonthGift => '1 mėnesio dovana';
 
   @override
-  String get premiumMostPopular => 'Populiariausias';
-
-  @override
   String get premiumScrollPrompt =>
       'Slinkite žemyn, kad pamatytumėte visas „Plutonium“ teikiamas privilegijas';
 
@@ -9643,26 +9049,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get premiumReadyToBuyGift => 'Pasiruošę pirkti dovaną?';
 
   @override
-  String premiumMonthlyPrice(String price) {
-    return 'Mėnesinis $price';
-  }
-
-  @override
-  String premiumYearlyPrice(String price) {
-    return 'Metinis $price';
-  }
-
-  @override
-  String premiumOneYearPrice(String price) {
-    return '1 metai $price';
-  }
-
-  @override
-  String premiumOneMonthPrice(String price) {
-    return '1 mėn. $price';
-  }
-
-  @override
   String get premiumManageSubscription => 'Tvarkyti prenumeratą';
 
   @override
@@ -9682,9 +9068,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get premiumCancelSubscriptionConfirm => 'Atšaukti prenumeratą';
 
   @override
-  String get premiumKeepSubscription => 'Palikti prenumeratą';
-
-  @override
   String get premiumPurchaseHistoryTitle => 'Pirkimų istorija';
 
   @override
@@ -9693,12 +9076,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get premiumManagePaymentMethods => 'Tvarkyti mokėjimo būdus';
-
-  @override
-  String get premiumBillingHistory => 'Atsiskaitymų istorija';
-
-  @override
-  String get premiumSelfServeRefundTitle => 'Grąžinimas savitarnos būdu';
 
   @override
   String get premiumSelfServeRefundButton => 'Grąžinti naujausią pirkinį';
@@ -9744,11 +9121,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get premiumComparisonFeatureColumn => 'Funkcija';
-
-  @override
-  String premiumDisclaimerPurchased(String terms, String privacy) {
-    return 'Pirkdami sutikote su mūsų $terms ir $privacy.';
-  }
 
   @override
   String get premiumDisclaimerRefund =>
@@ -9845,26 +9217,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Norėdami įsigyti „Fluxer Plutonium“, turite patvirtinti savo el. paštą.';
 
   @override
-  String get premiumPerkCustomUsernameTag =>
-      'Pasirinktinė naudotojo vardo žyma';
-
-  @override
-  String get premiumPerkPerCommunityProfiles =>
-      'Profiliai kiekvienai bendruomenei';
-
-  @override
-  String get premiumPerkMessageScheduling => 'Pranešimų planavimas';
-
-  @override
-  String get premiumPerkProfileBadge => 'Profilio ženklelis';
-
-  @override
-  String get premiumPerkCustomVideoBackgrounds => 'Pasirinktiniai vaizdo fonai';
-
-  @override
-  String get premiumPerkEntranceSounds => 'Įėjimo garsai';
-
-  @override
   String get premiumPerkCommunities => 'Bendruomenės';
 
   @override
@@ -9877,17 +9229,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get premiumPerkFileUploadSize => 'Įkeliamo failo dydis';
 
   @override
-  String get premiumPerkEmojiStickerPacks => 'Emotikonių ir lipdukų rinkiniai';
-
-  @override
-  String get premiumPerkSavedMedia => 'Išsaugota medija';
-
-  @override
   String get premiumPerkUseAnimatedEmojis => 'Naudoti animuotus jaustukus';
-
-  @override
-  String get premiumPerkGlobalEmojiStickerAccess =>
-      'Visuotinė prieiga prie jaustukų ir lipdukų';
 
   @override
   String get premiumPerkVideoQuality => 'Vaizdo kokybė';
@@ -9898,9 +9240,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get premiumPerkEarlyAccess => 'Ankstyvoji prieiga prie naujų funkcijų';
-
-  @override
-  String get premiumPerkCustomThemes => 'Pasirinktinės temos';
 
   @override
   String get premiumPerkVideoQualityRestricted => '720p/30fps';
@@ -10224,11 +9563,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get audioAndVideoMicTestStopLabel => 'Sustabdyti mikrofono testą';
 
   @override
-  String audioAndVideoMicTestPermissionRequired(String productName) {
-    return '„$productName“ reikalinga prieiga prie mikrofono, kad būtų galima patikrinti jūsų garsą.';
-  }
-
-  @override
   String get audioAndVideoCameraLabel => 'Kamera';
 
   @override
@@ -10263,23 +9597,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get audioAndVideoFrameRate60Label => '60 FPS';
 
   @override
-  String audioAndVideoHigherQualityRequiresPremium(String premiumProductName) {
-    return '1080p ir 60 FPS reikalauja $premiumProductName.';
-  }
-
-  @override
   String get audioAndVideoInstanceVideoQualityLimit =>
       'Šis serveris šiuo metu leidžia bendrinti ekraną iki 720p raiška ir 30 kadrų per sekundę.';
-
-  @override
-  String audioAndVideoMicrophonePermissionRequired(String productName) {
-    return '$productName reikia prieigos prie mikrofono, kad būtų galima parodyti jūsų įrenginius.';
-  }
-
-  @override
-  String audioAndVideoCameraPermissionRequired(String productName) {
-    return '$productName reikia prieigos prie kameros, kad būtų galima parodyti jūsų įrenginius.';
-  }
 
   @override
   String get audioAndVideoSkipHideOwnCameraConfirmLabel =>
@@ -10310,14 +9629,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get notificationsEnableDesktopNotificationsDescription =>
       'Naudoja OS pranešimų centrą. Norėdami valdyti pranešimus pagal kanalą / bendruomenę, dešiniuoju pelės mygtuku spustelėkite bendruomenės piktogramą ir atidarykite pranešimų nustatymus.';
-
-  @override
-  String get notificationsEnableBrowserNotificationsLabel =>
-      'Įjungti naršyklės pranešimus';
-
-  @override
-  String get notificationsEnableBrowserNotificationsDescription =>
-      'Gaukite pranešimus, kai gaunate žinučių. Gali reikėti leisti pranešimus naršyklės nustatymuose. Norėdami valdyti pranešimus pagal kanalą / bendruomenę, dešiniuoju pelės mygtuku spustelėkite bendruomenės piktogramą ir atidarykite pranešimų nustatymus.';
 
   @override
   String get notificationsPushInactiveTimeoutLabel =>
@@ -10611,10 +9922,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Pasirinkite kalbą, naudojamą visoje programėlėje';
 
   @override
-  String get languageAndTimeOpenLanguageSettings =>
-      'Atidaryti kalbos nustatymus';
-
-  @override
   String get languageAndTimeTimeFormatSectionTitle => 'Laiko formatas';
 
   @override
@@ -10856,10 +10163,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Pasitikėti visomis išorinėmis nuorodomis';
 
   @override
-  String get advancedSettingTrustAllLinksDescription =>
-      'Praleisti išorinių nuorodų įspėjimą visiems domenams';
-
-  @override
   String get advancedSettingSearchEnginesLabel => 'Paieškos sistemos';
 
   @override
@@ -11060,27 +10363,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get advancedSettingDeveloperModeDescription => 'Įjungti kūrėjo režimą';
-
-  @override
-  String get advancedSettingSearchEngineGoogle => 'Google';
-
-  @override
-  String get advancedSettingSearchEngineDuckDuckGo => 'DuckDuckGo';
-
-  @override
-  String get advancedSettingSearchEngineBing => 'Bing';
-
-  @override
-  String get advancedSettingSearchEngineGoogleLens => 'Google Lens';
-
-  @override
-  String get advancedSettingSearchEngineTinEye => 'TinEye';
-
-  @override
-  String get advancedSettingTranslatorGoogle => '„Google“ vertimas';
-
-  @override
-  String get advancedSettingTranslatorDeepL => '„DeepL“';
 
   @override
   String get advancedSettingDefaultSearchEngineLabel =>
@@ -12182,10 +11464,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get guildMenuSettingsWebhooks => 'Webhookai';
 
   @override
-  String get guildMenuSettingsCustomInviteUrl =>
-      'Pasirinktinė kvietimo nuoroda';
-
-  @override
   String get guildMenuSettingsDiscovery => 'Atradimas';
 
   @override
@@ -12208,33 +11486,13 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get guildSettingsOverviewIconTitle => 'Piktograma';
 
   @override
-  String get guildSettingsUploadImage => 'Įkelti paveikslėlį';
-
-  @override
   String get guildSettingsOverviewBannerTitle => 'Reklamjuostė';
-
-  @override
-  String get guildSettingsOverviewBannerHint =>
-      'Įkelkite banerį savo serveriui.';
 
   @override
   String get guildSettingsOverviewNameTitle => 'Pavadinimas';
 
   @override
   String get guildSettingsOverviewNameHint => 'Mano nuostabi bendruomenė';
-
-  @override
-  String get guildSettingsOverviewStatsTitle => 'Statistika';
-
-  @override
-  String get guildSettingsOverviewMembers => 'Nariai';
-
-  @override
-  String get guildSettingsOverviewOnline => 'Prisijungęs';
-
-  @override
-  String get guildSettingsRolesDescription =>
-      'Naudokite vaidmenis nariams grupuoti ir priskirti leidimus.';
 
   @override
   String get guildSettingsCreateRole => 'Kurti vaidmenį';
@@ -12311,33 +11569,13 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get guildSettingsRolesComfyLayout => 'Patogus išdėstymas';
 
   @override
-  String get guildSettingsRolesSwitchToDenseLayout =>
-      'Perjungti į tankų išdėstymą';
-
-  @override
-  String get guildSettingsRolesSwitchToComfyLayout =>
-      'Perjungti į patogų išdėstymą';
-
-  @override
   String get guildSettingsRolesSingleColumn => 'Vienas stulpelis';
 
   @override
   String get guildSettingsRolesTwoColumns => 'Du stulpeliai';
 
   @override
-  String get guildSettingsRolesSwitchToSingleColumn =>
-      'Perjungti į vieną stulpelį';
-
-  @override
-  String get guildSettingsRolesSwitchToTwoColumns =>
-      'Perjungti į du stulpelius';
-
-  @override
   String get guildSettingsRolesNoPermissionsFound => 'Leidimų nerasta';
-
-  @override
-  String get guildSettingsRolesCustomHoistOrder =>
-      'Pasirinktinė iškėlimo tvarka';
 
   @override
   String get guildSettingsRolesHoistOrder => 'Iškėlimo tvarka';
@@ -12352,10 +11590,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get guildSettingsRolesNoHoistedRoles =>
       'Nėra iškeltų vaidmenų. Vaidmens nustatymuose įjunkite „Rodyti šį vaidmenį atskirai“, kad jis būtų rodomas čia.';
-
-  @override
-  String get guildSettingsRolesLockedTooltip =>
-      'Negalite redaguoti šio vaidmens, nes tai yra jūsų aukščiausias vaidmuo arba jis yra aukščiau už jus';
 
   @override
   String guildSettingsRolesNeedManageRolesPermission(String permission) {
@@ -12442,9 +11676,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get permissionCategoryAudioVideo => 'Garsas ir vaizdas';
-
-  @override
-  String get permissionUnknown => 'Nežinomas leidimas';
 
   @override
   String get permissionAdministrator => 'Administratorius';
@@ -13023,17 +12254,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
-  String guildSettingsEmojiSlotInfo(int staticCount, int animatedCount) {
-    return 'Naudoti $staticCount statinių, $animatedCount animuotų jaustukų lizdai';
-  }
-
-  @override
   String get guildSettingsEmojiEmpty => 'Dar nėra pasirinktinių jaustukų.';
-
-  @override
-  String guildSettingsStickersSlotInfo(int count) {
-    return 'Įkelta $count lipdukės';
-  }
 
   @override
   String get guildSettingsStickersEmpty => 'Dar nėra pasirinktinių lipdukų.';
@@ -13097,13 +12318,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Reikalingi visi vidutinio lygio reikalavimai ir narystė bendruomenėje bent 10 minučių.';
 
   @override
-  String get guildSettingsVerificationHighest => 'Labai aukštas';
-
-  @override
-  String get guildSettingsVerificationHighestDescription =>
-      'Reikalingas patvirtintas telefono numeris.';
-
-  @override
   String get guildSettingsAuditLogDescription =>
       'Stebėkite moderatorių veiksmus visoje bendruomenėje.';
 
@@ -13125,14 +12339,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get guildSettingsAuditLogUnknownUser => 'Nežinomas naudotojas';
-
-  @override
-  String get guildSettingsAuditLogLoadError =>
-      'Nepavyko įkelti veiklos žurnalo.';
-
-  @override
-  String get guildSettingsAuditLogLoadErrorTitle =>
-      'Nepavyko įkelti veiklos žurnalo';
 
   @override
   String get guildSettingsAuditLogReason => 'Priežastis';
@@ -13705,12 +12911,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Suteikia nuolatinius narystės teises.';
 
   @override
-  String get guildSettingsLoadMore => 'Įkelti daugiau';
-
-  @override
-  String get guildSettingsLoadingMore => 'Įkeliama...';
-
-  @override
   String get guildSettingsWebhooksDescription =>
       'Peržiūrėkite ir tvarkykite visus savo bendruomenėje sukonfigūruotus webhookus.';
 
@@ -13745,31 +12945,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get guildSettingsUnknownChannel => 'Nežinomas kanalas';
 
   @override
-  String get guildSettingsCopyUrl => 'Kopijuoti URL';
-
-  @override
   String get guildSettingsCopiedUrl => 'URL nukopijuotas į iškarpinę';
-
-  @override
-  String get guildSettingsDeleteWebhook => 'Ištrinti webhooką';
-
-  @override
-  String get guildSettingsVanityUrlDescription =>
-      'Nustatykite pasirinktinę kvietimo nuorodą savo serveriui.';
-
-  @override
-  String get guildSettingsVanityUrlHint => 'my-server';
-
-  @override
-  String get guildSettingsSave => 'Išsaugoti';
-
-  @override
-  String get guildSettingsVanityUrlUsageTitle => 'Naudojimas';
-
-  @override
-  String guildSettingsVanityUrlUses(int count) {
-    return '$count naudojimo kartų';
-  }
 
   @override
   String get guildSettingsDiscoveryDescription =>
@@ -13909,10 +13085,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Bandyti dar kartą po akimirkos.';
 
   @override
-  String get guildSettingsMembersDescription =>
-      'Ieškokite ir tvarkykite serverio narius.';
-
-  @override
   String get guildSettingsMembersSearchHint =>
       'Ieškoti pagal naudotojo vardą arba ID';
 
@@ -13954,9 +13126,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get guildMembersColumnRoles => 'Vaidmenys';
-
-  @override
-  String get guildMembersColumnActions => 'Veiksmai';
 
   @override
   String get guildMembersFilterMemberSince => 'Filtruoti pagal narystės datą';
@@ -14025,17 +13194,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get guildMembersIndexing => 'Narių indeksavimas…';
 
   @override
-  String get guildMembersGoToPage => 'Eiti į puslapį';
-
-  @override
-  String guildMembersGoToPageItem(int page) {
-    return 'Eiti į puslapį $page';
-  }
-
-  @override
-  String get guildMembersJumpToPage => 'Pereiti į puslapį';
-
-  @override
   String get guildMembersJoinSourceCreator => 'Bendruomenės kūrėjas';
 
   @override
@@ -14099,21 +13257,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
-  String guildMembersJoinedDaysAgo(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'prieš # dienų',
-      one: 'prieš 1 dieną',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String get guildMembersChannelListLabel => 'Nariai';
-
-  @override
-  String get guildMembersChannelListSelected => 'Nariai, pasirinkta';
 
   @override
   String get guildSettingsInvitesTitle => 'Kvietimai';
@@ -14222,16 +13366,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Nuoroda gali vis dar veikti. Bandykite dar kartą po kurio laiko.';
 
   @override
-  String guildSettingsInviteUses(int uses, int maxUses) {
-    return '$uses / $maxUses naudojimo kartų';
-  }
-
-  @override
-  String guildSettingsInviteExpires(String date) {
-    return 'Baigiasi $date';
-  }
-
-  @override
   String get guildSettingsBansDescription =>
       'Peržiūrėkite ir tvarkykite užblokuotus narius.';
 
@@ -14242,21 +13376,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get guildSettingsBansEmpty => 'Nėra užblokuotų vartotojų.';
 
   @override
-  String get guildSettingsBanPermanent => 'Nuolatinis banas';
-
-  @override
-  String guildSettingsBanExpires(String date) {
-    return 'Baigiasi $date';
-  }
-
-  @override
   String get guildSettingsBanExpiresLabel => 'Baigiasi';
-
-  @override
-  String get guildSettingsUnban => 'Atblokuoti';
-
-  @override
-  String get guildSettingsBansLoading => 'Įkeliami užblokuoti nariai';
 
   @override
   String get guildSettingsBansNoSearchResults =>
@@ -14286,10 +13406,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String guildSettingsRevokeBanSuccess(String displayName) {
     return 'Atšauktas $displayName banas';
   }
-
-  @override
-  String get guildSettingsBansLoadError =>
-      'Nepavyko įkelti banų. Pabandykite dar kartą.';
 
   @override
   String get guildSettingsRevokeBanError =>
@@ -14325,10 +13441,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get guildSettingsCategoryPeople => 'PEOPLE';
 
   @override
-  String get guildSettingsOverviewDescription =>
-      'Tvarkykite savo bendruomenės profilį, kanalus ir numatytuosius nustatymus.';
-
-  @override
   String get guildSettingsOverviewBrandingTitle => 'Prekės ženklas';
 
   @override
@@ -14361,9 +13473,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Bendruomenėms, turinčioms daugiau nei 250 narių, priverstinai nustatomas „tik paminėjimai“ režimas. Jūsų originalus nustatymas išsaugomas ir bus atkurtas, jei bendruomenės narių skaičius nukris žemiau 250.';
 
   @override
-  String get guildSettingsOverviewAdvancedTitle => 'Išplėstiniai';
-
-  @override
   String get guildSettingsOverviewFlexibleNames =>
       'Leisti lanksčius teksto kanalo pavadinimus';
 
@@ -14390,10 +13499,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get guildSettingsOverviewEmbedSplashTitle =>
       'Pokalbio įterpties fonas';
-
-  @override
-  String get guildSettingsOverviewEmbedSplashHint =>
-      'Rodoma kvietimų įterptuosiuose elementuose pokalbiuose.';
 
   @override
   String get guildSettingsOverviewUploadBackground => 'Įkelti foną';
@@ -14569,14 +13674,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'JPEG, PNG, WebP, AVIF. Maks. 10 MB. Minimalus: 960×540px (16:9). Rodyti kvietimų įterpimuose pokalbiuose.';
 
   @override
-  String get guildSettingsModerationDescription =>
-      'Konfigūruokite patvirtinimo, turinio filtravimo ir suaugusiųjų turinio nustatymus.';
-
-  @override
-  String get guildSettingsModerationDiscoveryNotice =>
-      'Bendruomenėms, įtrauktoms į „Discovery“, taikomi apriboti moderavimo nustatymai.';
-
-  @override
   String get guildSettingsModerationContentFilterTitle => 'Turinio filtravimas';
 
   @override
@@ -14609,12 +13706,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Didžiausia apsauga šeimai tinkamoms erdvėms';
 
   @override
-  String get guildSettingsModerationMatureOff => 'Išjungta';
-
-  @override
-  String get guildSettingsModerationMatureOn => 'Įjungta';
-
-  @override
   String get guildSettingsContentWarningToggle => 'Rodyti įspėjimą apie turinį';
 
   @override
@@ -14641,10 +13732,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Reikalauti 2FA moderavimo veiksmams';
 
   @override
-  String get guildSettingsModeration2faOwnerOnlyTooltip =>
-      'Šį nustatymą gali keisti tik bendruomenės savininkas';
-
-  @override
   String get guildSettingsModeration2faEnableFirstTooltip =>
       'Norėdami pakeisti šį nustatymą, įjunkite dviejų veiksnių autentifikavimą savo paskyroje';
 
@@ -14669,9 +13756,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Nerasta jaustukų, atitinkančių jūsų paiešką.';
 
   @override
-  String get guildSettingsEmojiNoSlots => 'Nėra laisvų jaustukų vietų';
-
-  @override
   String get guildSettingsEmojiSlotsFull =>
       'Pasiekėte didžiausią jaustukų skaičių. Ištrinkite kai kuriuos esamus jaustukus, kad atlaisvintumėte vietos.';
 
@@ -14681,30 +13765,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsEmojiUploadingTitle => 'Įkeliami jaustukai';
-
-  @override
-  String guildSettingsEmojiUploadingBody(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '# jaustukai',
-      one: '# jaustukas',
-    );
-    return 'Įkeliama $_temp0. Tai gali užtrukti.';
-  }
-
-  @override
-  String get guildSettingsEmojiUploadFailed =>
-      'Nepavyko įkelti jaustukų. Bandykite dar kartą.';
-
-  @override
   String get guildSettingsEmojiSomeFailedTitle =>
       'Kai kurių jaustukų nepavyko pridėti';
-
-  @override
-  String get guildSettingsEmojiSomeFailedBody =>
-      'Peržiūrėkite šiuos failus ir bandykite dar kartą su mažesniais ar paprastesniais vaizdais.';
 
   @override
   String get guildSettingsEmojiRenameTitle => 'Pervadinti jaustuką';
@@ -14714,16 +13776,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       '2–32 simboliai, raidės, skaičiai, pabraukimai.';
 
   @override
-  String get guildSettingsEmojiColumnEmoji => 'Jaustukai';
-
-  @override
   String get guildSettingsEmojiColumnName => 'Pavadinimas';
 
   @override
   String get guildSettingsEmojiColumnUploader => 'Įkėlė';
-
-  @override
-  String get guildSettingsEmojiUnknownUploader => 'Nežinoma';
 
   @override
   String get guildSettingsEmojiDeleteTitle => 'Ištrinti jaustuką';
@@ -14754,38 +13810,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Nepavyko pervadinti šio jaustuko';
 
   @override
-  String get guildSettingsEmojiRenameFailedBody =>
-      'Pavadinimas grąžintas į buvusį. Bandykite dar kartą po akimirkos.';
-
-  @override
-  String get guildSettingsEmojiGoneTitle => 'Šis jaustukas nebeegzistuoja';
-
-  @override
-  String get guildSettingsEmojiGoneBody =>
-      'Gali būti, kad jis buvo ištrintas. Pavadinimas grąžintas į buvusį.';
-
-  @override
-  String get guildSettingsEmojiNoPermissionRenameTitle =>
-      'Negalite pervadinti šio jaustuko';
-
-  @override
-  String get guildSettingsEmojiNoPermissionRenameBody =>
-      'Neturite leidimo pervadinti šio jaustuko. Pavadinimas buvo grąžintas į ankstesnį.';
-
-  @override
-  String get guildSettingsEmojiRateLimitedTitle => 'Per greitai';
-
-  @override
-  String get guildSettingsEmojiRateLimitedBody =>
-      'Palaukite ir bandykite pervadinti dar kartą.';
-
-  @override
   String get guildSettingsEmojiDeleteFailedTitle =>
       'Nepavyko ištrinti šio jaustuko';
-
-  @override
-  String get guildSettingsEmojiDeleteNoPermissionTitle =>
-      'Negalite ištrinti šio jaustuko';
 
   @override
   String get guildSettingsCloneEmojiTitle =>
@@ -14860,12 +13886,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Nerasta lipdukų, atitinkančių jūsų paiešką.';
 
   @override
-  String get guildSettingsStickersEmptySearch => 'Lipdukų nerasta';
-
-  @override
-  String get guildSettingsStickerNoSlots => 'Nėra laisvų lipdukų vietų';
-
-  @override
   String get guildSettingsStickerSlotsFull =>
       'Pasiekėte didžiausią lipdukų skaičių. Ištrinkite esamus lipdukus, kad atlaisvintumėte vietos.';
 
@@ -14873,10 +13893,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String guildSettingsStickerUploadRequirements(String maxSize) {
     return 'Lipdukai išsaugomi 320x320 pikselių dydžiu ir turi būti ne didesni nei $maxSize. Statiniai vaizdai automatiškai keičiami į reikiamą dydį ir suspaudžiami. Animuoti lipdukai ir SVG jau turi atitikti nurodytą dydį.';
   }
-
-  @override
-  String get guildSettingsStickerUnsupportedTitle =>
-      'Nepalaikomas lipduko failas';
 
   @override
   String get guildSettingsStickerAddTitle => 'Pridėti lipduką';
@@ -14927,13 +13943,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Nepavyko sukurti šio lipduko';
 
   @override
-  String get guildSettingsStickerTooLargeTitle => 'Lipdukas per didelis';
-
-  @override
-  String get guildSettingsStickerCompressFailedTitle =>
-      'Lipduko nepavyko pakankamai suglaudinti';
-
-  @override
   String get guildSettingsStickerDeleteTitle => 'Ištrinti lipduką';
 
   @override
@@ -14950,20 +13959,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Nepavyko ištrinti šios etiketės';
 
   @override
-  String get guildSettingsStickerDeleteNoPermissionTitle =>
-      'Jūs negalite ištrinti šios etiketės';
-
-  @override
   String guildSettingsWebhooksInfo(String channelSettingsPath) {
     return 'Norėdami sukurti webhook, atidarykite $channelSettingsPath. Čia vis tiek galėsite redaguoti ir tvarkyti visus esamus webhook.';
   }
-
-  @override
-  String get guildSettingsVanityUrlWarning =>
-      'Jūsų pasirinktinis URL neveiks, nebent bent vienas kanalas bus matomas visiems.';
-
-  @override
-  String get guildSettingsVanityUrlRemove => 'Pašalinti';
 
   @override
   String get guildSettingsBannedUsersTitle => 'Užblokuoti nariai';
@@ -15458,12 +14456,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get channelFollowChannel => 'Kanalas';
 
   @override
-  String get channelFollowSelectCommunity => 'Select a community';
-
-  @override
-  String get channelFollowSelectChannel => 'Select a channel';
-
-  @override
   String get channelFollowAgeWarning =>
       'Tai amžiaus apribojimų kanalas. Naujienos gali būti siunčiamos tik į amžiaus apribojimų kanalus.';
 
@@ -15625,15 +14617,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get channelSettingsUnfollow => 'Nustoti sekti';
 
   @override
-  String get channelSettingsUnfollowFailed =>
-      'Couldn\'t unfollow this channel.';
-
-  @override
-  String channelSettingsDeliveredTo(String channelName) {
-    return 'Delivered to #$channelName';
-  }
-
-  @override
   String get crosspostCommunityTitle => 'Bendruomenė';
 
   @override
@@ -15645,10 +14628,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get crosspostSourceFailed =>
       'Nepavyko įkelti šios bendruomenės. Pabandykite dar kartą po akimirkos.';
-
-  @override
-  String get crosspostSourceUnavailable =>
-      'This community is no longer available';
 
   @override
   String crosspostMembers(int count) {

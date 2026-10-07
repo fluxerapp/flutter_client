@@ -51,7 +51,7 @@ GoRouter _buildRouter({required String initialLocation}) {
   return GoRouter(
     initialLocation: initialLocation,
     errorBuilder: (BuildContext context, GoRouterState state) {
-      return InvalidDeepLinkScreen(uri: state.uri);
+      return const InvalidDeepLinkScreen();
     },
     routes: <RouteBase>[
       GoRoute(

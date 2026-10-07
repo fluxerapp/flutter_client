@@ -52,7 +52,6 @@ import 'package:fluxer_app/features/members/data/member_repository.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/features/members/providers/guild_roles_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
-import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/profile/utils/profile_menu_capabilities.dart';
 import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/features/ui/input/emoji_inline_token.dart';
@@ -175,12 +174,8 @@ class ComposerAutocompleteField extends ConsumerStatefulWidget {
 }
 
 /// True on native desktop platforms, where the composer supports hardware
-/// keyboard navigation of the autocomplete menu. Mirrors the chat composer's
-/// historical `!kIsWeb && (linux|macOS|windows)` gate.
+/// keyboard navigation of the autocomplete menu.
 bool get _composerAutocompleteKeyboardEnabled {
-  if (kIsWeb) {
-    return false;
-  }
   return defaultTargetPlatform == TargetPlatform.linux ||
       defaultTargetPlatform == TargetPlatform.macOS ||
       defaultTargetPlatform == TargetPlatform.windows;

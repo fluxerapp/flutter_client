@@ -20,16 +20,6 @@ bool isMatureSearchChannel({
   );
 }
 
-bool shouldIncludeNsfwInMessageSearch({
-  required bool guildIsAgeRestricted,
-  required bool contextChannelIsMature,
-  required Iterable<bool> filterChannelsAreMature,
-}) {
-  return guildIsAgeRestricted ||
-      contextChannelIsMature ||
-      filterChannelsAreMature.any((bool mature) => mature);
-}
-
 MessageSearchQuery applyMatureContentToSearchQuery(
   MessageSearchQuery query, {
   required bool includeNsfw,

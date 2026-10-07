@@ -122,26 +122,18 @@ class _EmojiPickerData {
 
 sealed class _FavoriteEmojiItem {
   const _FavoriteEmojiItem();
-
-  String get favoriteKey;
 }
 
 class _FavoriteUnicodeEmojiItem extends _FavoriteEmojiItem {
   const _FavoriteUnicodeEmojiItem(this.emoji);
 
   final EmojiEntry emoji;
-
-  @override
-  String get favoriteKey => unicodeEmojiFavoriteKey(emoji);
 }
 
 class _FavoriteCustomEmojiItem extends _FavoriteEmojiItem {
   const _FavoriteCustomEmojiItem(this.emoji);
 
   final GuildEmojiEntry emoji;
-
-  @override
-  String get favoriteKey => emoji.favoriteKey;
 }
 
 @immutable

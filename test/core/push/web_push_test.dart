@@ -59,7 +59,7 @@ void main() {
       recipientPublicKey: second.publicKey,
       authSecret: second.authSecret,
     );
-    final DecryptedWebPush? decrypted = await decryptWebPushForAccounts(
+    final PushMessage? decrypted = await decryptWebPushForAccounts(
       record: record,
       fallbackId: 'fallback',
       keys: <WebPushAccountKeys>[
@@ -77,9 +77,8 @@ void main() {
         ),
       ],
     );
-    expect(decrypted?.userId, 'user-b');
-    expect(decrypted?.message.payload['channel_id'], 'c');
-    expect(decrypted?.message.payload['target_user_id'], 'user-b');
+    expect(decrypted?.payload['channel_id'], 'c');
+    expect(decrypted?.payload['target_user_id'], 'user-b');
   });
 
   test('keeps trying after a corrupt account key', () async {
@@ -89,7 +88,7 @@ void main() {
       recipientPublicKey: keys.publicKey,
       authSecret: keys.authSecret,
     );
-    final DecryptedWebPush? decrypted = await decryptWebPushForAccounts(
+    final PushMessage? decrypted = await decryptWebPushForAccounts(
       record: record,
       fallbackId: 'fallback',
       keys: <WebPushAccountKeys>[
@@ -107,8 +106,8 @@ void main() {
         ),
       ],
     );
-    expect(decrypted?.userId, 'ok');
-    expect(decrypted?.message.title, 'ok');
+    expect(decrypted?.payload['target_user_id'], 'ok');
+    expect(decrypted?.title, 'ok');
   });
 
   test('fills target_user_id from the account that decrypted', () async {
@@ -118,7 +117,7 @@ void main() {
       recipientPublicKey: keys.publicKey,
       authSecret: keys.authSecret,
     );
-    final DecryptedWebPush? decrypted = await decryptWebPushForAccounts(
+    final PushMessage? decrypted = await decryptWebPushForAccounts(
       record: record,
       fallbackId: 'fallback',
       keys: <WebPushAccountKeys>[
@@ -130,7 +129,7 @@ void main() {
         ),
       ],
     );
-    expect(decrypted?.message.payload['target_user_id'], 'user-a');
+    expect(decrypted?.payload['target_user_id'], 'user-a');
   });
 
   test('fills target_user_id when the payload leaves it blank', () async {
@@ -140,7 +139,7 @@ void main() {
       recipientPublicKey: keys.publicKey,
       authSecret: keys.authSecret,
     );
-    final DecryptedWebPush? decrypted = await decryptWebPushForAccounts(
+    final PushMessage? decrypted = await decryptWebPushForAccounts(
       record: record,
       fallbackId: 'fallback',
       keys: <WebPushAccountKeys>[
@@ -152,7 +151,7 @@ void main() {
         ),
       ],
     );
-    expect(decrypted?.message.payload['target_user_id'], 'user-a');
+    expect(decrypted?.payload['target_user_id'], 'user-a');
   });
 
   test('skips accounts that have no private key', () async {
@@ -162,7 +161,7 @@ void main() {
       recipientPublicKey: keys.publicKey,
       authSecret: keys.authSecret,
     );
-    final DecryptedWebPush? decrypted = await decryptWebPushForAccounts(
+    final PushMessage? decrypted = await decryptWebPushForAccounts(
       record: record,
       fallbackId: 'fallback',
       keys: <WebPushAccountKeys>[

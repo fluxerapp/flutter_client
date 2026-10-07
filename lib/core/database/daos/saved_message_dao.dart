@@ -11,16 +11,6 @@ class SavedMessageDao extends DatabaseAccessor<FluxerDatabase>
     with _$SavedMessageDaoMixin {
   SavedMessageDao(super.attachedDatabase);
 
-  Stream<List<SavedMessage>> watchAll() =>
-      (select(savedMessages)..orderBy([
-            (_) => OrderingTerm(
-              expression: const CustomExpression<int>('rowid'),
-              mode: OrderingMode.desc,
-            ),
-          ]))
-          .watch()
-          .suppressDriftCancellation;
-
   Stream<bool> watchIsSaved(String messageId) =>
       (select(savedMessages)..where((s) => s.messageId.equals(messageId)))
           .watch()

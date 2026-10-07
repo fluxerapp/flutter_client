@@ -18,7 +18,6 @@ final FutureProvider<AppRuntimeInfo> appRuntimeInfoProvider =
         resolveOsVersionLabel(),
       ).wait;
       return AppRuntimeInfo(
-        appName: packageInfo.appName,
         packageName: packageInfo.packageName,
         version: packageInfo.version,
         buildNumber: packageInfo.buildNumber,

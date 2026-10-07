@@ -176,16 +176,6 @@ ChannelSettingsTab channelSettingsTabFromQuery(String? tabQuery) {
   };
 }
 
-String channelSettingsModalTitle(
-  FluxerLocalizations l10n, {
-  required Channel channel,
-}) {
-  if (channel.isCategory) {
-    return l10n.channelSettingsCategorySettingsTitle;
-  }
-  return l10n.channelDetailsChannelSettingsTitle;
-}
-
 String channelSettingsDeleteLabel(
   FluxerLocalizations l10n, {
   required Channel channel,

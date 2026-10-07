@@ -32,13 +32,11 @@ void main() {
 
   test('setMode grid clears pin and keeps expanded users', () {
     notifier().toggleExpandedUser('user-1');
-    notifier().setFilmstripCollapsed(value: true);
     notifier().pin('tile-1');
     notifier().setMode(VoiceCallLayoutMode.grid);
     expect(state().mode, VoiceCallLayoutMode.grid);
     expect(state().pinnedTileId, isNull);
     expect(state().expandedUserIds, <String>{'user-1'});
-    expect(state().isFilmstripCollapsed, isTrue);
   });
 
   test('unpin from focus leaves focus without wiping expanded users', () {

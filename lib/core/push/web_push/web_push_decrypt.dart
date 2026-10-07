@@ -6,14 +6,7 @@ import 'package:fluxer_app/core/push/web_push/web_push_crypto.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_envelope.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_key_store.dart';
 
-class DecryptedWebPush {
-  const DecryptedWebPush({required this.userId, required this.message});
-
-  final String userId;
-  final PushMessage message;
-}
-
-Future<DecryptedWebPush?> decryptWebPushForAccounts({
+Future<PushMessage?> decryptWebPushForAccounts({
   required Uint8List record,
   required List<WebPushAccountKeys> keys,
   required String fallbackId,
@@ -47,7 +40,7 @@ Future<DecryptedWebPush?> decryptWebPushForAccounts({
     if (targetUserId == null || targetUserId.isEmpty) {
       message.payload['target_user_id'] = account.userId;
     }
-    return DecryptedWebPush(userId: account.userId, message: message);
+    return message;
   }
   return null;
 }

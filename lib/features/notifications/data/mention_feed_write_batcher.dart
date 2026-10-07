@@ -46,12 +46,6 @@ class MentionFeedWriteBatcher {
 
   Future<void> flushAll() => flush();
 
-  void clearAll() {
-    _timer?.cancel();
-    _timer = null;
-    _pending.clear();
-  }
-
   Future<void> dispose() => flush();
 
   Future<void> _applyFlush(List<_MentionFeedIntent> batch) async {

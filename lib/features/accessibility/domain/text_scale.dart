@@ -8,7 +8,6 @@ const double kAppTextScaleMax = 2;
 /// Caps chrome and composer actions at chat font max (24 / 16).
 const double kConstrainedUiTextScaleMax = 1.5;
 
-const double kBadgeTextScaleMax = 1;
 const double kChatMessageTextScaleMax = 2;
 
 const List<int> kChatFontSizeMarkers = <int>[12, 14, 15, 16, 18, 20, 24];
@@ -66,13 +65,6 @@ TextScaler clampConstrainedUiTextScaler(TextScaler scaler) {
   return scaler.clamp(
     minScaleFactor: kAppTextScaleMin,
     maxScaleFactor: kConstrainedUiTextScaleMax,
-  );
-}
-
-TextScaler clampBadgeTextScaler(TextScaler scaler) {
-  return scaler.clamp(
-    minScaleFactor: kAppTextScaleMin,
-    maxScaleFactor: kBadgeTextScaleMax,
   );
 }
 

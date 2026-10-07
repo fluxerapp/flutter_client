@@ -33,11 +33,6 @@ class GuildEmojiDao extends DatabaseAccessor<FluxerDatabase>
           .watch()
           .suppressDriftCancellation;
 
-  Future<List<GuildEmoji>> getAll() => select(guildEmojis).get();
-
-  Future<List<GuildEmoji>> getByGuild(String guildId) =>
-      (select(guildEmojis)..where((e) => e.guildId.equals(guildId))).get();
-
   Future<GuildEmoji?> getById(String id) =>
       (select(guildEmojis)..where((e) => e.id.equals(id))).getSingleOrNull();
 

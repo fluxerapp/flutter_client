@@ -101,10 +101,6 @@ class WebPushKeyStore {
     return keys;
   }
 
-  Future<void> delete(String userId) {
-    return _storage.delete(key: _storageKey(userId));
-  }
-
   Future<bool> isLegacyRawCleared({
     required String platform,
     required String userId,

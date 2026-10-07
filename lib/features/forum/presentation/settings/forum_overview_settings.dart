@@ -412,7 +412,6 @@ class _ForumOverviewSettingsState extends ConsumerState<ForumOverviewSettings> {
             guild: ref.watch(guildByIdProvider(forum.guildId)).value,
             nsfwOverride: _current.nsfwOverride,
             contentWarningLevel: _current.contentWarningLevel,
-            contentWarningText: _current.contentWarningText,
             warningTextController: _warningTextController,
             onNsfwOverrideChanged: (bool? value) =>
                 _update(_current.copyWith(nsfwOverride: value)),

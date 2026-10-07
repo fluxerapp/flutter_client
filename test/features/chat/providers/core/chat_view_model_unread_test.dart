@@ -83,7 +83,6 @@ const MessagePersistSnapshot _acknowledgedGatewaySnapshot =
     MessagePersistSnapshot(
       mentionsCurrentUser: false,
       isDm: false,
-      guildStorageId: null,
       acknowledgedByGateway: true,
     );
 

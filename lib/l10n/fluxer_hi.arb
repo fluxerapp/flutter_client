@@ -32,10 +32,6 @@
     "@retry": {
         "description": "Generic label for retry actions (splash, errors, network, etc.)."
     },
-    "connectingCaps": "CONNECTING",
-    "@connectingCaps": {
-        "description": "Connecting text on the splash screen"
-    },
     "splashConnectionLost": "कनेक्शन टूट गया",
     "@splashConnectionLost": {
         "description": "Fallback headline on splash when gateway is unavailable (web parity)."
@@ -301,10 +297,6 @@
             }
         }
     },
-    "ssoRequired": "इस इंस्टेंस तक पहुँचने के लिए SSO आवश्यक है।",
-    "@ssoRequired": {
-        "description": "Short sign-in note shown when the instance requires single sign-on."
-    },
     "organizationSsoProvider": "अपने संगठन के सिंगल साइन-ऑन प्रोवाइडर से साइन इन करें।",
     "@organizationSsoProvider": {
         "description": "Description shown when sign-in is restricted to the configured SSO provider."
@@ -325,10 +317,6 @@
                 "type": "String"
             }
         }
-    },
-    "logInViaBrowser": "ब्राउज़र के ज़रिए लॉग इन करें",
-    "@logInViaBrowser": {
-        "description": "Secondary login that opens or uses the system browser."
     },
     "needAccountPrompt": "अकाउंट चाहिए? ",
     "@needAccountPrompt": {
@@ -444,26 +432,9 @@
     "@accountAdd": {
         "description": "Button to add a new account."
     },
-    "accountRemove": "हटाएँ",
-    "@accountRemove": {
-        "description": "Context menu option to remove a stored account."
-    },
-    "accountRemoveTitle": "{username} हटाएं",
-    "@accountRemoveTitle": {
-        "description": "Title for the remove account confirmation modal.",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
     "accountRemoveDescription": "इससे इस अकाउंट का सेव किया गया सेशन हट जाएगा।",
     "@accountRemoveDescription": {
         "description": "Description for the remove account confirmation modal."
-    },
-    "accountRemoveOnlyDescription": "इससे इस डिवाइस पर मौजूद एकमात्र सेव किया गया अकाउंट हट जाएगा।",
-    "@accountRemoveOnlyDescription": {
-        "description": "Description when removing the last stored account."
     },
     "accountExpired": "समय-सीमा समाप्त",
     "@accountExpired": {
@@ -995,10 +966,6 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsent": "मैं सेवा की शर्तों और गोपनीयता नीति से सहमत हूँ",
-    "@registerConsent": {
-        "description": "Consent checkbox label for registration (plain text fallback)."
-    },
     "registerConsentPrefix": "मैं सहमत हूँ ",
     "@registerConsentPrefix": {
         "description": "Text before the Terms of Service link in the consent checkbox."
@@ -1050,10 +1017,6 @@
     "passkeyTimeout": "पासकी प्रमाणीकरण का समय समाप्त हो गया। कृपया पुनः प्रयास करें।",
     "@passkeyTimeout": {
         "description": "Error when passkey authentication times out."
-    },
-    "passkeyNotAvailable": "इस ऐप के लिए पासकी उपलब्ध नहीं हैं। इसके बजाय ईमेल और पासवर्ड से लॉग इन करें।",
-    "@passkeyNotAvailable": {
-        "description": "Error for unknown passkey provider errors (e.g. TYPE_UNKNOWN)."
     },
     "passkeyFailed": "पासकी प्रमाणीकरण विफल रहा। कृपया पुनः प्रयास करें।",
     "@passkeyFailed": {
@@ -1215,26 +1178,6 @@
     "inviteAcceptSomeone": "कोई",
     "@inviteAcceptSomeone": {
         "description": "Fallback inviter name when the inviter is unknown."
-    },
-    "inviteAcceptEmojiPack": "इमोजी पैक",
-    "@inviteAcceptEmojiPack": {
-        "description": "Label for an emoji pack invite."
-    },
-    "inviteAcceptStickerPack": "स्टिकर पैक",
-    "@inviteAcceptStickerPack": {
-        "description": "Label for a sticker pack invite."
-    },
-    "inviteAcceptInstallEmojiPack": "इमोजी पैक इंस्टॉल करें",
-    "@inviteAcceptInstallEmojiPack": {
-        "description": "Primary action to install an emoji pack from an invite."
-    },
-    "inviteAcceptInstallStickerPack": "स्टिकर पैक इंस्टॉल करें",
-    "@inviteAcceptInstallStickerPack": {
-        "description": "Primary action to install a sticker pack from an invite."
-    },
-    "inviteAcceptPackInstallNote": "इस आमंत्रण को स्वीकार करने पर पैक अपने आप इंस्टॉल हो जाएगा।",
-    "@inviteAcceptPackInstallNote": {
-        "description": "Note shown on expression pack invites before accepting."
     },
     "mentionUnknownChannel": "unknown-channel",
     "@mentionUnknownChannel": {
@@ -2250,10 +2193,6 @@
             }
         }
     },
-    "emojiPlutoniumUpsellButton": "Plutonium पाएं",
-    "@emojiPlutoniumUpsellButton": {
-        "description": "Button label on the Plutonium upsell banner."
-    },
     "emojiPlutoniumUpsellDismiss": "दोबारा न दिखाएँ",
     "@emojiPlutoniumUpsellDismiss": {
         "description": "Dismiss link on the Plutonium upsell banner."
@@ -2426,10 +2365,6 @@
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
     },
-    "fluxerTagInputLabel": "यूज़रनेम",
-    "@fluxerTagInputLabel": {
-        "description": "Label above the username and discriminator input fields."
-    },
     "fluxerTagDescriptionBase": "यूज़रनेम में सिर्फ़ अक्षर (a-z, A-Z), नंबर (0-9) और अंडरस्कोर हो सकते हैं। यूज़रनेम केस-इनसेंसिटिव होते हैं।",
     "@fluxerTagDescriptionBase": {
         "description": "Base description text on the username change sheet."
@@ -2457,10 +2392,6 @@
     "validationAllowedChars": "केवल अक्षर (a-z, A-Z), संख्याएँ (0-9) और अंडरस्कोर (_)",
     "@validationAllowedChars": {
         "description": "Validation rule for allowed username characters."
-    },
-    "discriminatorPremiumTooltip": "अपना टैग कस्टमाइज़ करने या अपना यूज़रनेम बदलते समय उसे रखने के लिए Plutonium प्राप्त करें",
-    "@discriminatorPremiumTooltip": {
-        "description": "Tooltip on disabled discriminator field for non-premium users."
     },
     "fluxerTagAlreadyTaken": "यूज़रनेम पहले से मौजूद है",
     "@fluxerTagAlreadyTaken": {
@@ -2515,19 +2446,6 @@
     "premiumUpsellCustomizeTag": "अपने 4-अंकीय टैग को कस्टमाइज़ करें या उपयोगकर्ता नाम बदलते समय इसे रखें",
     "@premiumUpsellCustomizeTag": {
         "description": "Upsell text encouraging non-premium users to get Plutonium for tag customization."
-    },
-    "premiumTrialExpiresOn": "आपका Plutonium ट्रायल {date} को समाप्त हो रहा है। अपना कस्टम टैग रखने और अपनी प्रोफ़ाइल पर बैज अर्जित करने के लिए अपग्रेड करें।",
-    "@premiumTrialExpiresOn": {
-        "description": "Trial upsell with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActive": "आप Plutonium ट्रायल पर हैं। अपना कस्टम टैग रखने और अपनी प्रोफ़ाइल पर बैज अर्जित करने के लिए अपग्रेड करें।",
-    "@premiumTrialActive": {
-        "description": "Trial upsell without specific expiry date."
     },
     "fluxerTagUpdated": "यूज़रनेम अपडेट किया गया",
     "@fluxerTagUpdated": {
@@ -2701,32 +2619,6 @@
     "@hideVisionaryIdDescription": {
         "description": "Description for the toggle to hide the Visionary ID badge."
     },
-    "premiumTrialSubscriptionStarts": "आप Plutonium ट्रायल पर हैं — आपकी सदस्यता {date} को शुरू होगी",
-    "@premiumTrialSubscriptionStarts": {
-        "description": "Trial banner title when user has an active subscription pending after trial.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialSubscriptionStartsDescription": "आपकी सदस्यता परीक्षण समाप्त होने पर स्वतः शुरू हो जाएगी। किसी कार्रवाई की आवश्यकता नहीं है।",
-    "@premiumTrialSubscriptionStartsDescription": {
-        "description": "Trial banner description when user has an active subscription pending after trial."
-    },
-    "premiumTrialExpiresOnProfile": "आप Plutonium के ट्रायल पर हैं, जो {date} को खत्म हो जाएगा",
-    "@premiumTrialExpiresOnProfile": {
-        "description": "Trial banner title with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActiveProfile": "आप Plutonium के ट्रायल पर हैं",
-    "@premiumTrialActiveProfile": {
-        "description": "Trial banner title without specific expiry date."
-    },
     "avatarDescriptionNonPremium": "JPEG, PNG, WebP. अधिकतम 10MB. अनुशंसित: 512×512px. एनिमेटेड अवतार (GIF) के लिए Plutonium की आवश्यकता होती है।",
     "@avatarDescriptionNonPremium": {
         "description": "Avatar helper text for non-premium users, mentioning Plutonium requirement for animated avatars."
@@ -2811,22 +2703,6 @@
     "profileSavedToast": "प्रोफ़ाइल अपडेट की गई",
     "@profileSavedToast": {
         "description": "Toast message shown after successfully saving profile changes."
-    },
-    "profileEditButton": "प्रोफ़ाइल एडिट करें",
-    "@profileEditButton": {
-        "description": "Button label to open profile editing from the profile content card."
-    },
-    "profileNoteLabel": "नोट",
-    "@profileNoteLabel": {
-        "description": "Label for the personal note section on a user profile."
-    },
-    "profileNoteVisibility": "(सिर्फ आपको दिखेगा)",
-    "@profileNoteVisibility": {
-        "description": "Hint that the note is private and only visible to the current user."
-    },
-    "profileNoteEmpty": "अभी तक कोई नोट नहीं।",
-    "@profileNoteEmpty": {
-        "description": "Placeholder shown when no personal note has been set for a user."
     },
     "sudoTitle": "अपनी पहचान सत्यापित करें",
     "@sudoTitle": {
@@ -3199,42 +3075,6 @@
     "@securityPasskeyNameHint": {
         "description": "Hint for passkey name input."
     },
-    "securityPhoneSectionTitle": "फ़ोन नंबर",
-    "@securityPhoneSectionTitle": {
-        "description": "Title for phone number section."
-    },
-    "securityPhoneSectionDescription": "अपना फ़ोन नंबर प्रबंधित करें।",
-    "@securityPhoneSectionDescription": {
-        "description": "Description for phone number section."
-    },
-    "securityPhoneLabel": "फ़ोन नंबर",
-    "@securityPhoneLabel": {
-        "description": "Label for phone number row."
-    },
-    "securityPhoneNone": "कोई फ़ोन नंबर नहीं जोड़ा गया।",
-    "@securityPhoneNone": {
-        "description": "Shown when no phone number is set."
-    },
-    "securityPhoneAdd": "फ़ोन जोड़ें",
-    "@securityPhoneAdd": {
-        "description": "Button to add phone number."
-    },
-    "securityPhoneRemove": "हटाएँ",
-    "@securityPhoneRemove": {
-        "description": "Button to remove phone number."
-    },
-    "securityPhoneRemoveTitle": "फ़ोन नंबर हटाएँ",
-    "@securityPhoneRemoveTitle": {
-        "description": "Title for phone remove confirmation."
-    },
-    "securityPhoneRemoveDescription": "क्या आप वाकई अपना फ़ोन नंबर हटाना चाहते हैं?",
-    "@securityPhoneRemoveDescription": {
-        "description": "Description for phone remove confirmation."
-    },
-    "securityPhoneRemoved": "फ़ोन नंबर हटा दिया गया",
-    "@securityPhoneRemoved": {
-        "description": "Toast after phone removed."
-    },
     "securityClaimTitle": "सुरक्षा सुविधाएं",
     "@securityClaimTitle": {
         "description": "Title when user needs to claim account for security."
@@ -3287,10 +3127,6 @@
     "@backupCodesWarning": {
         "description": "Warning about backup codes."
     },
-    "backupCodesDownload": "डाउनलोड करें",
-    "@backupCodesDownload": {
-        "description": "Button to download backup codes."
-    },
     "backupCodesCopy": "कॉपी करें",
     "@backupCodesCopy": {
         "description": "Button to copy backup codes."
@@ -3306,206 +3142,6 @@
     "backupCodesDone": "हो गया",
     "@backupCodesDone": {
         "description": "Button to close backup codes sheet."
-    },
-    "backupCodesViewTitle": "बैकअप कोड देखें",
-    "@backupCodesViewTitle": {
-        "description": "Title for viewing existing backup codes."
-    },
-    "backupCodesViewDescription": "अपने बैकअप कोड देखने से पहले सत्यापन की आवश्यकता हो सकती है।",
-    "@backupCodesViewDescription": {
-        "description": "Description for view backup codes."
-    },
-    "phoneAddTitle": "फ़ोन नंबर जोड़ें",
-    "@phoneAddTitle": {
-        "description": "Title for phone add sheet."
-    },
-    "phoneAddLabel": "फ़ोन नंबर",
-    "@phoneAddLabel": {
-        "description": "Label for phone input."
-    },
-    "phoneAddHint": "अपना फ़ोन नंबर डालें",
-    "@phoneAddHint": {
-        "description": "Hint for phone input."
-    },
-    "phoneAddFooter": "हम उपलब्ध होने पर एक SMS कोड भेजेंगे। आपका नंबर आपके खाते से लिंक नहीं है। हम केवल एक एन्क्रिप्टेड मार्कर रखते हैं, जिसमें कोई उपयोगकर्ता आईडी नहीं होती है, ताकि लगभग 30 दिनों में अधिकतम 2 सत्यापन की अनुमति मिल सके।",
-    "@phoneAddFooter": {
-        "description": "Footer text for phone input."
-    },
-    "phoneAddSendCode": "कोड भेजें",
-    "@phoneAddSendCode": {
-        "description": "Button to send phone verification code."
-    },
-    "phoneVerifyTitle": "फ़ोन नंबर वेरिफ़ाई करें",
-    "@phoneVerifyTitle": {
-        "description": "Title for phone verify step."
-    },
-    "phoneVerifyDescription": "अपने फ़ोन नंबर पर भेजा गया सत्यापन कोड दर्ज करें।",
-    "@phoneVerifyDescription": {
-        "description": "Description for phone verify step."
-    },
-    "phoneAddSuccess": "फ़ोन नंबर वेरिफ़ाई हो गया",
-    "@phoneAddSuccess": {
-        "description": "Toast after phone verified."
-    },
-    "phoneCountryLabel": "देश",
-    "@phoneCountryLabel": {
-        "description": "Label for country selector in phone verification."
-    },
-    "phoneSearchCountries": "देश खोजें…",
-    "@phoneSearchCountries": {
-        "description": "Search hint for country selector."
-    },
-    "phoneNumberRequired": "फ़ोन नंबर ज़रूरी है",
-    "@phoneNumberRequired": {
-        "description": "Validation error when phone number is empty."
-    },
-    "phoneEnterValidNumber": "एक मान्य मोबाइल फ़ोन नंबर डालें।",
-    "@phoneEnterValidNumber": {
-        "description": "Validation error for invalid phone format."
-    },
-    "phoneCannotBeUsed": "इस फ़ोन नंबर का उपयोग नहीं किया जा सकता है। कोई दूसरा मोबाइल नंबर आज़माएँ या सहायता से संपर्क करें।",
-    "@phoneCannotBeUsed": {
-        "description": "API error when phone number is rejected."
-    },
-    "phoneAlreadyUsed": "यह फ़ोन नंबर पहले ही इस्तेमाल किया जा चुका है। कोई दूसरा नंबर आज़माएँ या सहायता से संपर्क करें।",
-    "@phoneAlreadyUsed": {
-        "description": "API error when phone number was reused."
-    },
-    "phoneCodeDidNotWork": "वह कोड काम नहीं आया। इसे जांचें और फिर से कोशिश करें।",
-    "@phoneCodeDidNotWork": {
-        "description": "API error for invalid verification code."
-    },
-    "phoneTooManyAttempts": "बहुत ज़्यादा कोशिशें की गई हैं। थोड़ी देर इंतज़ार करें, फिर से कोशिश करें।",
-    "@phoneTooManyAttempts": {
-        "description": "Rate limit error for phone verification."
-    },
-    "phoneSmsUnavailable": "SMS वेरिफ़िकेशन अभी उपलब्ध नहीं है। बाद में फिर से कोशिश करें या सहायता से संपर्क करें।",
-    "@phoneSmsUnavailable": {
-        "description": "SMS provider unavailable error."
-    },
-    "phoneNotEligible": "इस अकाउंट के लिए फ़ोन वेरिफ़िकेशन उपलब्ध नहीं है। कोई दूसरा तरीका इस्तेमाल करें या सहायता से संपर्क करें।",
-    "@phoneNotEligible": {
-        "description": "Account not eligible for phone verification."
-    },
-    "phoneSomethingWentWrong": "कुछ गड़बड़ हो गई। फिर से कोशिश करें।",
-    "@phoneSomethingWentWrong": {
-        "description": "Generic phone verification error."
-    },
-    "phoneInboundExpensiveDescription": "इस फ़ोन नंबर पर SMS भेजना बहुत महंगा है, इसलिए हमें आपसे SMS भेजने की आवश्यकता है। आप हमसे संपर्क करके अपने खाते से इस आवश्यकता को हटवा भी सकते हैं।",
-    "@phoneInboundExpensiveDescription": {
-        "description": "Inbound challenge reason for expensive destinations."
-    },
-    "phoneInboundDefaultDescription": "हमें आपके फ़ोन नंबर को सत्यापित करने के लिए एक SMS भेजने की आवश्यकता है।",
-    "@phoneInboundDefaultDescription": {
-        "description": "Default inbound challenge description."
-    },
-    "phoneInboundStepOpenMessaging": "अपने फ़ोन का मैसेजिंग ऐप खोलें और एक नया टेक्स्ट मैसेज बनाएँ।",
-    "@phoneInboundStepOpenMessaging": {
-        "description": "Inbound verification step 1."
-    },
-    "phoneInboundStepSendCode": "{code} को {number} पर भेजें।",
-    "@phoneInboundStepSendCode": {
-        "description": "Inbound verification step 2.",
-        "placeholders": {
-            "code": {
-                "type": "String"
-            },
-            "number": {
-                "type": "String"
-            }
-        }
-    },
-    "phoneInboundStepWait": "आपके संदेश के प्राप्त होने की प्रतीक्षा करें। इसमें एक मिनट लग सकता है।",
-    "@phoneInboundStepWait": {
-        "description": "Inbound verification step 3."
-    },
-    "phoneInboundGetNewCode": "नया कोड पाएँ",
-    "@phoneInboundGetNewCode": {
-        "description": "Button to refresh inbound challenge."
-    },
-    "phoneInboundChallengeCodeLabel": "भेजने के लिए कोड",
-    "@phoneInboundChallengeCodeLabel": {
-        "description": "Label for inbound challenge code."
-    },
-    "phoneInboundOurNumberLabel": "इस नंबर पर भेजें",
-    "@phoneInboundOurNumberLabel": {
-        "description": "Label for inbound destination number."
-    },
-    "requiredActionTitle": "अकाउंट वेरिफ़िकेशन ज़रूरी है",
-    "@requiredActionTitle": {
-        "description": "Title for required action blocking modal."
-    },
-    "requiredActionIntroGeneric": "{productName} का उपयोग जारी रखने के लिए ज़रूरी वेरिफ़िकेशन पूरा करें।",
-    "@requiredActionIntroGeneric": {
-        "description": "Generic required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroPhone": "जारी रखने से पहले आपके रजिस्ट्रेशन के लिए एक अतिरिक्त एंटी-स्पैम जाँच की ज़रूरत है।",
-    "@requiredActionIntroPhone": {
-        "description": "Phone-only required action intro."
-    },
-    "requiredActionIntroEmailOrPhone": "{productName} का उपयोग जारी रखने के लिए अपना ईमेल या फ़ोन वेरिफ़ाई करें।",
-    "@requiredActionIntroEmailOrPhone": {
-        "description": "Email or phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailAndPhone": "{productName} का उपयोग जारी रखने के लिए नीचे दिए गए ज़रूरी ईमेल और फ़ोन वेरिफ़िकेशन चरण पूरे करें।",
-    "@requiredActionIntroEmailAndPhone": {
-        "description": "Email and phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionChooseMethodTitle": "सत्यापन विधि चुनें",
-    "@requiredActionChooseMethodTitle": {
-        "description": "Title when user can pick email or phone."
-    },
-    "requiredActionChooseMethodDescription": "{productName} का उपयोग जारी रखने के लिए नीचे दिए गए वेरिफ़िकेशन तरीकों में से कोई एक पूरा करें।",
-    "@requiredActionChooseMethodDescription": {
-        "description": "Description when user can pick email or phone.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionUseEmail": "ईमेल इस्तेमाल करें",
-    "@requiredActionUseEmail": {
-        "description": "Button to choose email verification."
-    },
-    "requiredActionUsePhone": "फ़ोन का इस्तेमाल करें",
-    "@requiredActionUsePhone": {
-        "description": "Button to choose phone verification."
-    },
-    "requiredActionCheckEmailTitle": "अपना ईमेल देखें",
-    "@requiredActionCheckEmailTitle": {
-        "description": "Title for email verification instructions."
-    },
-    "requiredActionCheckEmailDescription": "हमने आपके ईमेल पते पर एक सत्यापन लिंक भेजा है। जारी रखने के लिए उसे खोलें।",
-    "@requiredActionCheckEmailDescription": {
-        "description": "Description for email verification instructions."
-    },
-    "requiredActionResendVerificationEmail": "सत्यापन ईमेल फिर से भेजें",
-    "@requiredActionResendVerificationEmail": {
-        "description": "Button to resend verification email."
-    },
-    "requiredActionVerificationEmailSent": "वेरिफ़िकेशन ईमेल भेजा गया है। अपना इनबॉक्स देखें।",
-    "@requiredActionVerificationEmailSent": {
-        "description": "Toast after resending verification email."
-    },
-    "requiredActionSignOut": "साइन आउट करें",
-    "@requiredActionSignOut": {
-        "description": "Sign out button in required action modal."
     },
     "dangerZoneSectionTitle": "खतरे का क्षेत्र",
     "@dangerZoneSectionTitle": {
@@ -3824,10 +3460,6 @@
     "@authorizedAppsScopeAdmin": {
         "description": "OAuth2 scope description: admin."
     },
-    "privacyPendingDeletionTitle": "हटाया जाना बाकी है",
-    "@privacyPendingDeletionTitle": {
-        "description": "Title of the warning alert shown when a bulk message deletion is pending."
-    },
     "blockedUsersTitle": "ब्लॉक किए गए यूज़र",
     "@blockedUsersTitle": {
         "description": "Header title of the Blocked Users settings page."
@@ -4067,10 +3699,6 @@
     "userProfileNoteDelete": "मिटाएँ",
     "@userProfileNoteDelete": {
         "description": "Delete button in the note editor sheet."
-    },
-    "userProfileNoteEmpty": "नोट जोड़ने के लिए क्लिक करें",
-    "@userProfileNoteEmpty": {
-        "description": "Hint text when no note has been written yet."
     },
     "userProfileMemberSince": "सदस्य बने",
     "@userProfileMemberSince": {
@@ -5071,17 +4699,9 @@
     "@channelComposerBarrierNotMemberLongEnough": {
         "description": "Composer barrier when the user's guild membership is too recent."
     },
-    "channelComposerBarrierNoPhoneNumber": "इस कम्युनिटी में मैसेज भेजने के लिए आपको फ़ोन नंबर वेरिफ़ाई करना होगा।",
-    "@channelComposerBarrierNoPhoneNumber": {
-        "description": "Composer barrier when the user must verify a phone number before messaging."
-    },
     "channelComposerBarrierVerifyEmail": "ईमेल वेरिफ़ाई करें",
     "@channelComposerBarrierVerifyEmail": {
         "description": "Action button on the composer barrier for unverified email."
-    },
-    "channelComposerBarrierVerifyPhone": "फ़ोन वेरिफ़ाई करें",
-    "@channelComposerBarrierVerifyPhone": {
-        "description": "Action button on the composer barrier for missing phone verification."
     },
     "chatAttachmentTooMany": "बहुत ज़्यादा अटैचमेंट ({max})",
     "@chatAttachmentTooMany": {
@@ -5116,10 +4736,6 @@
     "@chatAttachmentDropToSend": {
         "description": "Overlay hint when dragging files over chat with Shift held."
     },
-    "chatAttachmentSendVoiceMessage": "वॉइस मैसेज भेजें",
-    "@chatAttachmentSendVoiceMessage": {
-        "description": "Menu item to open the voice message recorder."
-    },
     "voiceMessageTitle": "वॉइस मैसेज",
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
@@ -5140,10 +4756,6 @@
     "@voiceMessageMicPermissionDenied": {
         "description": "Shown when microphone permission is denied for voice messages."
     },
-    "voiceMessageRecordingNotSupported": "इस डिवाइस पर वॉयस रिकॉर्डिंग समर्थित नहीं है।",
-    "@voiceMessageRecordingNotSupported": {
-        "description": "Shown when the device cannot record voice messages."
-    },
     "voiceMessageMicInUse": "वॉयस मैसेज रिकॉर्ड करने के लिए वॉयस कॉल छोड़ें।",
     "@voiceMessageMicInUse": {
         "description": "Shown when the microphone is already used by an active voice call."
@@ -5155,26 +4767,6 @@
     "voiceMessageSendFailed": "वॉइस मैसेज भेजा नहीं जा सका। फिर से कोशिश करें।",
     "@voiceMessageSendFailed": {
         "description": "Shown when sending a voice message fails."
-    },
-    "voiceMessageRecordingHint": "अभी बोलें। पूरा होने पर रोकें दबाएँ — आप बाद में ट्रिम कर सकते हैं।",
-    "@voiceMessageRecordingHint": {
-        "description": "Help text while recording a voice message on desktop."
-    },
-    "voiceMessageReviewHint": "ट्रिम करने के लिए हैंडल को खींचें, फिर भेजें दबाएँ।",
-    "@voiceMessageReviewHint": {
-        "description": "Help text while reviewing a voice message before send."
-    },
-    "voiceMessageStop": "रोकें",
-    "@voiceMessageStop": {
-        "description": "Stop recording button in voice message composer."
-    },
-    "voiceMessageStartRecording": "रिकॉर्डिंग शुरू करें",
-    "@voiceMessageStartRecording": {
-        "description": "Button to retry voice recording after permission error."
-    },
-    "voiceMessageRerecord": "फिर से रिकॉर्ड करें",
-    "@voiceMessageRerecord": {
-        "description": "Button to discard review and record again."
     },
     "voiceMessagePlay": "चलाएँ",
     "@voiceMessagePlay": {
@@ -5191,16 +4783,6 @@
     "voiceMessageSeekBackward": "पीछे जाएं",
     "@voiceMessageSeekBackward": {
         "description": "Accessibility hint when decreasing voice message seek position."
-    },
-    "voiceMessageSelectionTooShort": "चयन कम से कम {seconds} सेकंड का होना चाहिए।",
-    "@voiceMessageSelectionTooShort": {
-        "description": "Error when trimmed voice message is too short.",
-        "placeholders": {
-            "seconds": {
-                "type": "num",
-                "format": "compact"
-            }
-        }
     },
     "chatAttachmentEditTitle": "अटैचमेंट एडिट करें",
     "@chatAttachmentEditTitle": {
@@ -5357,10 +4939,6 @@
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
     },
-    "chatAttachmentPasteTooltip": "क्लिपबोर्ड से फ़ाइल पेस्ट करें",
-    "@chatAttachmentPasteTooltip": {
-        "description": "Tooltip for pasting a file attachment from the clipboard."
-    },
     "chatAttachmentSpoiler": "स्पॉइलर",
     "@chatAttachmentSpoiler": {
         "description": "Badge text for spoiler attachments."
@@ -5457,14 +5035,6 @@
     "@matureContentOpenLinkButton": {
         "description": "Primary action on mature link channel gates."
     },
-    "sensitiveContentSectionTitle": "संवेदनशील सामग्री",
-    "@sensitiveContentSectionTitle": {
-        "description": "Privacy settings section title for sensitive content filters."
-    },
-    "sensitiveContentSectionDescription": "यह नियंत्रित करें कि विभिन्न संदर्भों में परिपक्व या संवेदनशील मीडिया को कैसे फ़िल्टर किया जाए",
-    "@sensitiveContentSectionDescription": {
-        "description": "Privacy settings section description for sensitive content filters."
-    },
     "sensitiveContentFriendDmLabel": "दोस्तों के डायरेक्ट मैसेज",
     "@sensitiveContentFriendDmLabel": {
         "description": "Label for friend DM sensitive content filter."
@@ -5489,18 +5059,6 @@
     "@sensitiveContentFilterBlock": {
         "description": "Sensitive content filter option to block media."
     },
-    "sensitiveContentBlurUnscannedLabel": "सुरक्षा स्कैन पूरा होने तक मीडिया को धुंधला करें",
-    "@sensitiveContentBlurUnscannedLabel": {
-        "description": "Toggle label for blurring unscanned media."
-    },
-    "sensitiveContentBlurUnscannedDescriptionAdult": "सक्षम होने पर, सामग्री सुरक्षा स्कैन समाप्त होने तक चित्र और वीडियो धुंधले हो जाएंगे।",
-    "@sensitiveContentBlurUnscannedDescriptionAdult": {
-        "description": "Description for blur-unscanned toggle for adult accounts."
-    },
-    "sensitiveContentBlurUnscannedDescriptionMinor": "यह सेटिंग आपके खाते के लिए हमेशा चालू रहती है।",
-    "@sensitiveContentBlurUnscannedDescriptionMinor": {
-        "description": "Description for blur-unscanned toggle for minor accounts."
-    },
     "sensitiveContentResetButton": "रीसेट करें",
     "@sensitiveContentResetButton": {
         "description": "Reset button for sensitive content settings."
@@ -5517,10 +5075,6 @@
                 "type": "int"
             }
         }
-    },
-    "chatCancelUpload": "अपलोड रद्द करें",
-    "@chatCancelUpload": {
-        "description": "Button or menu action label for canceling an in-flight message attachment upload."
     },
     "chatAttachmentExpiresOn": "{date} को समाप्त होगा",
     "@chatAttachmentExpiresOn": {
@@ -5790,10 +5344,6 @@
     "@connectionEnterDomain": {
         "description": "Inline error shown when the domain input is empty."
     },
-    "lookAndFeelTitle": "रूप और अनुभव",
-    "@lookAndFeelTitle": {
-        "description": "Title of the Look & Feel (Appearance) settings page."
-    },
     "lookAndFeelThemeSectionTitle": "थीम",
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
@@ -5861,14 +5411,6 @@
     "lookAndFeelThemeSyncFailed": "आपके खाते में थीम सिंक नहीं हो सकी। कृपया पुनः प्रयास करें।",
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
-    },
-    "lookAndFeelChatFontScalingTitle": "चैट फ़ॉन्ट स्केलिंग",
-    "@lookAndFeelChatFontScalingTitle": {
-        "description": "Search label for chat font size within the Messages section."
-    },
-    "lookAndFeelChatFontScalingDescription": "चैट एरिया में फ़ॉन्ट का साइज़ एडजस्ट करें।",
-    "@lookAndFeelChatFontScalingDescription": {
-        "description": "Search description for chat font size."
     },
     "lookAndFeelChatFontSizeLabel": "चैट फ़ॉन्ट का आकार",
     "@lookAndFeelChatFontSizeLabel": {
@@ -5994,42 +5536,6 @@
     "lookAndFeelHideKeyboardHintsDescription": "सक्षम होने पर, शॉर्टकट बैज टूलटिप पॉपअप में छिपे रहेंगे।",
     "@lookAndFeelHideKeyboardHintsDescription": {
         "description": "Toggle description for the hide-keyboard-hints switch."
-    },
-    "lookAndFeelNekoTitle": "अन्य",
-    "@lookAndFeelNekoTitle": {
-        "description": "Subsection title under Interface for Neko appearance settings."
-    },
-    "lookAndFeelNekoDescription": "विविध इंटरफ़ेस विकल्प।",
-    "@lookAndFeelNekoDescription": {
-        "description": "Subsection description for Neko appearance settings."
-    },
-    "lookAndFeelShowNekoLabel": "नेको दिखाएं",
-    "@lookAndFeelShowNekoLabel": {
-        "description": "Toggle label for showing Neko in the chat footer."
-    },
-    "lookAndFeelShowNekoDescription": "सक्षम होने पर, नेको चैट इनपुट बार के पास दिखाई देता है।",
-    "@lookAndFeelShowNekoDescription": {
-        "description": "Toggle description for showing Neko in chat."
-    },
-    "lookAndFeelVoiceChannelJoinTitle": "वॉइस चैनल में शामिल होने का तरीका",
-    "@lookAndFeelVoiceChannelJoinTitle": {
-        "description": "Subsection title under Interface — voice channel join behavior."
-    },
-    "lookAndFeelVoiceChannelJoinDescription": "समुदायों में वॉयस चैनल में कैसे शामिल हों, इसे नियंत्रित करें।",
-    "@lookAndFeelVoiceChannelJoinDescription": {
-        "description": "Subsection description for voice channel join behavior."
-    },
-    "lookAndFeelRequireDoubleClickJoinLabel": "वॉइस चैनल से जुड़ने के लिए डबल-क्लिक ज़रूरी है",
-    "@lookAndFeelRequireDoubleClickJoinLabel": {
-        "description": "Toggle label — require double-click to join voice channels."
-    },
-    "lookAndFeelRequireDoubleClickJoinDescription": "सक्षम होने पर, आपको वॉयस चैनलों से जुड़ने के लिए उन पर डबल-क्लिक करना होगा। अक्षम होने पर (डिफ़ॉल्ट), चैनल में तुरंत शामिल होने के लिए सिंगल-क्लिक करें।",
-    "@lookAndFeelRequireDoubleClickJoinDescription": {
-        "description": "Toggle description for the require-double-click voice channel join switch."
-    },
-    "lookAndFeelChatFontPreviewSample": "तेज़ भूरी लोमड़ी आलसी कुत्ते के ऊपर से कूद जाती है।",
-    "@lookAndFeelChatFontPreviewSample": {
-        "description": "Sample text rendered at the selected chat font size to preview scaling."
     },
     "lookAndFeelGuildSidebarTitle": "गिल्ड साइडबार",
     "@lookAndFeelGuildSidebarTitle": {
@@ -6562,25 +6068,9 @@
     "@messagesMediaAutocompleteSavedMediaLabel": {
         "description": "Toggle label for saved media in expression autocomplete."
     },
-    "messagesMediaEditingSectionTitle": "मैसेज एडिट करना",
-    "@messagesMediaEditingSectionTitle": {
-        "description": "Section title for message editing settings."
-    },
-    "messagesMediaEditingSectionDescription": "जब आप रद्द करते हैं तो आपकी संपादन ड्राफ़्ट के साथ क्या होता है, इसे नियंत्रित करें।",
-    "@messagesMediaEditingSectionDescription": {
-        "description": "Section description for message editing settings."
-    },
-    "messagesMediaEditingPreserveDraftLabel": "संपादित ड्राफ़्ट को रद्द करने पर सहेजें",
-    "@messagesMediaEditingPreserveDraftLabel": {
-        "description": "Toggle label for preserving edit drafts on cancel."
-    },
     "accessibilitySaturationTitle": "सैचुरेशन",
     "@accessibilitySaturationTitle": {
         "description": "Section title for the theme saturation slider on the accessibility settings page."
-    },
-    "accessibilitySaturationDescription": "ऐप में थीम के रंग कितने जीवंत दिखें, इसे समायोजित करें।",
-    "@accessibilitySaturationDescription": {
-        "description": "Section description for the theme saturation slider on the accessibility settings page."
     },
     "accessibilityVisualGroupTitle": "विज़ुअल",
     "@accessibilityVisualGroupTitle": {
@@ -6605,10 +6095,6 @@
     "accessibilityDmMessagePreviewGroupTitle": "DM मैसेज प्रीव्यू",
     "@accessibilityDmMessagePreviewGroupTitle": {
         "description": "Section title for DM message preview accessibility settings."
-    },
-    "accessibilityDmMessagePreviewGroupDescription": "DM सूची में संदेश पूर्वावलोकन कब दिखाए जाते हैं, इसे नियंत्रित करें।",
-    "@accessibilityDmMessagePreviewGroupDescription": {
-        "description": "Section description for DM message preview accessibility settings."
     },
     "accessibilityDmMessagePreviewModeLabel": "DM मैसेज प्रीव्यू मोड",
     "@accessibilityDmMessagePreviewModeLabel": {
@@ -6752,10 +6238,6 @@
     "accessibilityPausedGifByReducedMotion": "कम गति के कारण रोका गया। GIF चलाने के लिए चालू करें।",
     "@accessibilityPausedGifByReducedMotion": {
         "description": "Description for GIF toggle while reduced motion is active."
-    },
-    "accessibilityGifDefaultsOffOnMobile": "बैटरी लाइफ़ और डेटा बचाने के लिए मोबाइल पर डिफ़ॉल्ट रूप से बंद रहता है।",
-    "@accessibilityGifDefaultsOffOnMobile": {
-        "description": "Helper text for GIF autoplay default on mobile."
     },
     "accessibilityStickerAnimationsTitle": "स्टिकर एनिमेशन",
     "@accessibilityStickerAnimationsTitle": {
@@ -7235,10 +6717,6 @@
     "@voiceMultiDeviceDisconnectFailed": {
         "description": "Shown when switch-to-this-device times out waiting for other sessions to leave."
     },
-    "voiceChannelEmptyDescription": "यह एक वॉयस चैनल है। बात करना शुरू करने के लिए कनेक्ट करें!",
-    "@voiceChannelEmptyDescription": {
-        "description": "Empty state body when viewing a guild voice channel while not in the call."
-    },
     "voiceChannelJoin": "वॉइस चैनल में शामिल हों",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
@@ -7282,14 +6760,6 @@
     "voiceChannelStatusConnecting": "कनेक्ट हो रहा है…",
     "@voiceChannelStatusConnecting": {
         "description": "Status in the in-page voice view while LiveKit is connecting."
-    },
-    "voiceChannelStatusConnected": "कनेक्टेड",
-    "@voiceChannelStatusConnected": {
-        "description": "Status in the in-page voice view when the voice session is active."
-    },
-    "voiceChannelStatusError": "गड़बड़ी",
-    "@voiceChannelStatusError": {
-        "description": "Short label in the channel header when the voice session reports an error."
     },
     "voiceParticipantTooltipMobileDevice": "मोबाइल डिवाइस",
     "@voiceParticipantTooltipMobileDevice": {
@@ -7368,10 +6838,6 @@
     "voiceScreenShareNotificationText": "आपकी स्क्रीन शेयर हो रही है।",
     "@voiceScreenShareNotificationText": {
         "description": "Body text for the Android foreground notification shown while screen sharing."
-    },
-    "voiceControlMore": "ज़्यादा",
-    "@voiceControlMore": {
-        "description": "Tooltip: more voice actions in the voice call control bar."
     },
     "voiceControlDisconnect": "डिस्कनेक्ट करें",
     "@voiceControlDisconnect": {
@@ -7924,25 +7390,13 @@
     "@privacyDashboardFriendRequestsEveryone": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsEveryoneDesc": "सभी को आपको फ्रेंड रिक्वेस्ट भेजने की अनुमति दें",
-    "@privacyDashboardFriendRequestsEveryoneDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsFriendsOfFriends": "दोस्तों के दोस्त",
     "@privacyDashboardFriendRequestsFriendsOfFriends": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsFriendsOfFriendsDesc": "आपके दोस्तों के दोस्तों को आपको अनुरोध भेजने की अनुमति दें",
-    "@privacyDashboardFriendRequestsFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsCommunityMembers": "कम्युनिटी सदस्य",
     "@privacyDashboardFriendRequestsCommunityMembers": {
         "description": "Privacy dashboard friend request toggle label."
-    },
-    "privacyDashboardFriendRequestsCommunityMembersDesc": "आप जिन समुदायों में हैं, उनके सदस्य आपको अनुरोध भेज सकते हैं",
-    "@privacyDashboardFriendRequestsCommunityMembersDesc": {
-        "description": "Privacy dashboard friend request toggle description."
     },
     "privacyDashboardDirectMessagesTitle": "डायरेक्ट मैसेज",
     "@privacyDashboardDirectMessagesTitle": {
@@ -7952,65 +7406,29 @@
     "@privacyDashboardDirectMessagesMembers": {
         "description": "Privacy dashboard DM toggle label."
     },
-    "privacyDashboardDirectMessagesMembersDesc": "आप जिन समुदायों में हैं, उनके सदस्यों को आपको सीधे संदेश भेजने की अनुमति दें",
-    "@privacyDashboardDirectMessagesMembersDesc": {
-        "description": "Privacy dashboard DM toggle description."
-    },
     "privacyDashboardDirectMessagesBots": "कम्युनिटी बॉट से डायरेक्ट मैसेज की अनुमति दें",
     "@privacyDashboardDirectMessagesBots": {
         "description": "Privacy dashboard bot DM toggle label."
-    },
-    "privacyDashboardDirectMessagesBotsDesc": "आप जिन समुदायों में हैं, वहां के बॉट आपको सीधे संदेश भेज सकते हैं",
-    "@privacyDashboardDirectMessagesBotsDesc": {
-        "description": "Privacy dashboard bot DM toggle description."
-    },
-    "privacyDashboardConnectionsSectionDesc": "नियंत्रित करें कि कौन आपको मित्र अनुरोध और सीधे संदेश भेज सकता है",
-    "@privacyDashboardConnectionsSectionDesc": {
-        "description": "Privacy dashboard connections section description."
-    },
-    "privacyDashboardCommunicationSectionDesc": "कॉल करने और आपको ग्रुप चैट में जोड़ने के लिए नियंत्रित करें",
-    "@privacyDashboardCommunicationSectionDesc": {
-        "description": "Privacy dashboard communication section description."
     },
     "privacyDashboardIncomingCallsTitle": "इनकमिंग कॉल",
     "@privacyDashboardIncomingCallsTitle": {
         "description": "Privacy dashboard incoming calls subsection title."
     },
-    "privacyDashboardIncomingCallsDesc": "यह नियंत्रित करें कि कौन आपको कॉल कर सकता है",
-    "@privacyDashboardIncomingCallsDesc": {
-        "description": "Privacy dashboard incoming calls subsection description."
-    },
     "privacyDashboardAllowedCallers": "अनुमत कॉलर",
     "@privacyDashboardAllowedCallers": {
         "description": "Privacy > Communication: select label."
-    },
-    "privacyDashboardIncomingCallNobody": "कोई नहीं",
-    "@privacyDashboardIncomingCallNobody": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallNobodyDesc": "सभी आने वाली कॉल ब्लॉक करें",
     "@privacyDashboardIncomingCallNobodyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallFriendsOnly": "सिर्फ़ दोस्त",
-    "@privacyDashboardIncomingCallFriendsOnly": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallFriendsOnlyDesc": "केवल दोस्तों को आपको कॉल करने की अनुमति दें (अनुशंसित)",
     "@privacyDashboardIncomingCallFriendsOnlyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallCustom": "मित्र + कस्टम",
-    "@privacyDashboardIncomingCallCustom": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallCustomDesc": "दोस्तों को अनुमति दें और अतिरिक्त समूह जिन्हें आप चुनते हैं",
     "@privacyDashboardIncomingCallCustomDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardIncomingCallEveryone": "हर कोई",
-    "@privacyDashboardIncomingCallEveryone": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallEveryoneDesc": "किसी को भी आपको कॉल करने दें, अजनबी भी",
     "@privacyDashboardIncomingCallEveryoneDesc": {
@@ -8020,14 +7438,6 @@
     "@privacyDashboardAdditionalGroups": {
         "description": "Privacy dashboard label for custom permission groups."
     },
-    "privacyDashboardCallFriendsOfFriendsDesc": "आपके दोस्तों के दोस्त आपको कॉल कर सकते हैं",
-    "@privacyDashboardCallFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
-    "privacyDashboardCallGuildMembersDesc": "आपके द्वारा जुड़े हुए समुदायों के लोग आपको कॉल कर सकते हैं",
-    "@privacyDashboardCallGuildMembersDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
     "privacyDashboardRingBehavior": "रिंग करने का तरीका",
     "@privacyDashboardRingBehavior": {
         "description": "Privacy dashboard ring behavior subsection label."
@@ -8036,17 +7446,9 @@
     "@privacyDashboardSilentCalls": {
         "description": "Privacy dashboard silent calls toggle label."
     },
-    "privacyDashboardSilentCallsDesc": "सभी कॉल बजने के बजाय चुपचाप सूचित करेंगी। डिफ़ॉल्ट रूप से, गैर-दोस्तों से आने वाली कॉल हमेशा म्यूट रहती हैं।",
-    "@privacyDashboardSilentCallsDesc": {
-        "description": "Privacy dashboard silent calls toggle description."
-    },
     "privacyDashboardGroupDmTitle": "आपको ग्रुप चैट में कौन जोड़ सकता है",
     "@privacyDashboardGroupDmTitle": {
         "description": "Privacy dashboard group DM subsection title."
-    },
-    "privacyDashboardGroupDmDesc": "नियंत्रित करें कि कौन आपको पूछे बिना ग्रुप चैट में जोड़ सकता है। कोई भी अभी भी आपको शामिल होने के लिए आमंत्रण लिंक भेज सकता है।",
-    "@privacyDashboardGroupDmDesc": {
-        "description": "Privacy dashboard group DM subsection description."
     },
     "privacyDashboardAllowedInvites": "अनुमत इनवाइट",
     "@privacyDashboardAllowedInvites": {
@@ -8067,14 +7469,6 @@
     "privacyDashboardGroupDmEveryoneDesc": "सभी को आपको बिना पूछे ग्रुप चैट में जोड़ने की अनुमति दें",
     "@privacyDashboardGroupDmEveryoneDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardGroupDmFriendsOfFriendsDesc": "आपके दोस्तों के दोस्त आपको ग्रुप चैट में जोड़ सकते हैं",
-    "@privacyDashboardGroupDmFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
-    },
-    "privacyDashboardGroupDmGuildMembersDesc": "जिन समुदायों में आप दोनों हैं, वहां के लोग आपको ग्रुप चैट में जोड़ सकते हैं",
-    "@privacyDashboardGroupDmGuildMembersDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
     },
     "privacyDashboardVoiceActivityTitle": "'अभी सक्रिय' में वॉइस गतिविधि",
     "@privacyDashboardVoiceActivityTitle": {
@@ -9227,26 +8621,6 @@
     "@composerAutocompleteOptionalArgumentsHeading": {
         "description": "Section heading in composer autocomplete for adding optional slash-command arguments."
     },
-    "composerAutocompleteChannelsHeading": "चैनल",
-    "@composerAutocompleteChannelsHeading": {
-        "description": "Section heading in composer autocomplete for channel suggestions."
-    },
-    "composerAutocompleteMembersHeading": "सदस्य",
-    "@composerAutocompleteMembersHeading": {
-        "description": "Section heading in composer autocomplete for member suggestions."
-    },
-    "composerAutocompleteUsersHeading": "यूज़र",
-    "@composerAutocompleteUsersHeading": {
-        "description": "Section heading in composer autocomplete for user suggestions."
-    },
-    "composerAutocompleteMentionsHeading": "मेंशन",
-    "@composerAutocompleteMentionsHeading": {
-        "description": "Section heading in composer autocomplete for mixed mention suggestions."
-    },
-    "composerAutocompleteRolesHeading": "रोल",
-    "@composerAutocompleteRolesHeading": {
-        "description": "Section heading in composer autocomplete for role suggestions."
-    },
     "composerAutocompleteMediaHeading": "मीडिया",
     "@composerAutocompleteMediaHeading": {
         "description": "Section heading in composer autocomplete for saved media."
@@ -9561,10 +8935,6 @@
     "@addGuildImportTemplateInvalid": {
         "description": "API error when Fluxer rejects the imported community template payload."
     },
-    "addGuildPackInstalled": "पैक सफलतापूर्वक इंस्टॉल हो गया।",
-    "@addGuildPackInstalled": {
-        "description": "Toast shown after accepting an emoji or sticker pack invite."
-    },
     "chatMessageRemoveAllReactionsConfirmTitle": "सभी रिएक्शन हटाएँ",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
         "description": "Title for the remove-all-reactions confirmation sheet."
@@ -9686,10 +9056,6 @@
     "channelDetailsDeleteChannel": "चैनल मिटाएँ",
     "@channelDetailsDeleteChannel": {
         "description": "Channel details menu action to delete a guild channel."
-    },
-    "channelSettingsCategorySettingsTitle": "श्रेणी सेटिंग्स",
-    "@channelSettingsCategorySettingsTitle": {
-        "description": "Title for category settings modal."
     },
     "channelSettingsEditCategory": "श्रेणी एडिट करें",
     "@channelSettingsEditCategory": {
@@ -9950,18 +9316,6 @@
     "@channelSettingsVoiceRegionsLoadFailedDescription": {
         "description": "Error modal body when voice regions fail to load in channel settings."
     },
-    "channelSettingsResetSlider": "स्लाइडर को डिफ़ॉल्ट मान पर रीसेट करें",
-    "@channelSettingsResetSlider": {
-        "description": "Tooltip for reset buttons on channel settings sliders."
-    },
-    "channelSettingsAdvanced": "एडवांस",
-    "@channelSettingsAdvanced": {
-        "description": "Collapsible advanced section title in channel overview."
-    },
-    "channelSettingsMatureContentOverride": "वयस्क सामग्री ओवरराइड",
-    "@channelSettingsMatureContentOverride": {
-        "description": "Accessibility label for mature content override control."
-    },
     "channelSettingsMatureContentSectionDescription": "इस चैनल के लिए {scopeLevel}-स्तरीय सेटिंग को ओवरराइड करें। परिपक्व सामग्री प्रवेश से पहले एक गेट के पीछे दिखाई जाती है।",
     "@channelSettingsMatureContentSectionDescription": {
         "description": "Section description for mature content settings in channel overview.",
@@ -10009,14 +9363,6 @@
             }
         }
     },
-    "channelSettingsMatureContentCategorySource": "श्रेणी",
-    "@channelSettingsMatureContentCategorySource": {
-        "description": "Lowercase source label for inherited mature content from category."
-    },
-    "channelSettingsMatureContentCommunitySource": "समुदाय",
-    "@channelSettingsMatureContentCommunitySource": {
-        "description": "Lowercase source label for inherited mature content from community."
-    },
     "channelSettingsMatureContentCategoryScope": "श्रेणी",
     "@channelSettingsMatureContentCategoryScope": {
         "description": "Capitalized scope label when mature content inherits from a category."
@@ -10040,24 +9386,6 @@
     "channelSettingsContentWarningDefault": "इसमें संवेदनशील सामग्री है।",
     "@channelSettingsContentWarningDefault": {
         "description": "Default content warning text placeholder."
-    },
-    "channelSettingsPermissionsNeedManageChannels": "इन अनुमतियों को एडिट करने के लिए आपको \"{manageChannelsPermissionLabel}\" अनुमति चाहिए।",
-    "@channelSettingsPermissionsNeedManageChannels": {
-        "description": "Error when user lacks manage channels permission for channel permissions tab.",
-        "placeholders": {
-            "manageChannelsPermissionLabel": {
-                "type": "String"
-            }
-        }
-    },
-    "channelSettingsPermissionsNeedManageRoles": "इन अनुमतियों को एडिट करने के लिए आपको \"{manageRolesPermissionLabel}\" अनुमति चाहिए।",
-    "@channelSettingsPermissionsNeedManageRoles": {
-        "description": "Error when user lacks manage roles permission for channel permissions tab.",
-        "placeholders": {
-            "manageRolesPermissionLabel": {
-                "type": "String"
-            }
-        }
     },
     "channelSettingsUnknownRole": "अज्ञात रोल",
     "@channelSettingsUnknownRole": {
@@ -10143,10 +9471,6 @@
     "channelSettingsPermissionsSearchRolesOrMembers": "रोल या सदस्य खोजें…",
     "@channelSettingsPermissionsSearchRolesOrMembers": {
         "description": "Placeholder for the add override search field."
-    },
-    "channelSettingsPermissionsRolesAndMembers": "रोल और सदस्य",
-    "@channelSettingsPermissionsRolesAndMembers": {
-        "description": "Section title in the add override picker."
     },
     "channelSettingsDeleteInvite": "इनवाइट मिटाएँ",
     "@channelSettingsDeleteInvite": {
@@ -10240,10 +9564,6 @@
                 "type": "String"
             }
         }
-    },
-    "channelSettingsWebhooksUnknownUser": "अज्ञात यूज़र",
-    "@channelSettingsWebhooksUnknownUser": {
-        "description": "Fallback label when webhook creator is unavailable."
     },
     "channelSettingsWebhooksAvatar": "अवतार",
     "@channelSettingsWebhooksAvatar": {
@@ -10432,10 +9752,6 @@
     "channelDetailsPinsEndReached": "आप अंत तक पहुँच गए हैं",
     "@channelDetailsPinsEndReached": {
         "description": "Footer label when the user has scrolled through all pinned messages."
-    },
-    "channelHeaderOpenDetails": "चैनल विवरण खोलें",
-    "@channelHeaderOpenDetails": {
-        "description": "Accessibility label for the channel header title area."
     },
     "channelHeaderPinnedMessages": "पिन किए गए मैसेज",
     "@channelHeaderPinnedMessages": {
@@ -10999,10 +10315,6 @@
     "@groupDmEditTitle": {
         "description": "Title for the edit group DM modal or sheet."
     },
-    "groupDmEditDetailsTooltip": "ग्रुप का विवरण एडिट करें",
-    "@groupDmEditDetailsTooltip": {
-        "description": "Tooltip on the desktop group DM header edit action."
-    },
     "groupDmGroupName": "ग्रुप का नाम",
     "@groupDmGroupName": {
         "description": "Label for the group name field in edit group."
@@ -11068,14 +10380,6 @@
     "@groupDmUnsupportedIconFormatBody": {
         "description": "Body when the selected group icon format is unsupported."
     },
-    "groupDmCouldntProcessImage": "इमेज प्रोसेस नहीं की जा सकी",
-    "@groupDmCouldntProcessImage": {
-        "description": "Title when a cropped group icon cannot be processed."
-    },
-    "groupDmFailedToProcessCroppedImage": "क्रॉप की गई इमेज प्रोसेस नहीं हो पाई। फिर से कोशिश करें।",
-    "@groupDmFailedToProcessCroppedImage": {
-        "description": "Body when a cropped group icon cannot be processed."
-    },
     "groupDmInvalidImage": "अमान्य इमेज",
     "@groupDmInvalidImage": {
         "description": "Title when the selected group icon image cannot be used."
@@ -11108,10 +10412,6 @@
     "@groupDmAddFriendFailed": {
         "description": "Error when adding a single friend to a group DM fails."
     },
-    "groupDmAddFailed": "ग्रुप में जोड़ा नहीं जा सका",
-    "@groupDmAddFailed": {
-        "description": "Title when adding friends to a group DM fails."
-    },
     "groupDmGroupFull": "यह ग्रुप भरा हुआ है। और लोगों को जोड़ने से पहले किसी को हटाएँ।",
     "@groupDmGroupFull": {
         "description": "Error when the group DM has no remaining member slots."
@@ -11119,10 +10419,6 @@
     "groupDmRateLimited": "आप बहुत तेज़ी से आगे बढ़ रहे हैं। कुछ देर इंतज़ार करें और फिर से कोशिश करें।",
     "@groupDmRateLimited": {
         "description": "Error when add-friends requests are rate limited."
-    },
-    "groupDmCreateInviteFailed": "इनवाइट लिंक नहीं बनाया जा सका",
-    "@groupDmCreateInviteFailed": {
-        "description": "Title when invite link generation fails."
     },
     "groupDmCreateInviteFailedBody": "इनवाइट लिंक जनरेट नहीं किया जा सका। कृपया फिर से कोशिश करें।",
     "@groupDmCreateInviteFailedBody": {
@@ -11405,10 +10701,6 @@
     "@userSettingsSearchPlaceholder": {
         "description": "Placeholder for the user settings search field."
     },
-    "userSettingsSearchFieldLabel": "सेटिंग्स खोजें",
-    "@userSettingsSearchFieldLabel": {
-        "description": "Accessibility label for the user settings search field."
-    },
     "userSettingsSearchClear": "खोज साफ़ करें",
     "@userSettingsSearchClear": {
         "description": "Accessibility label for clearing the user settings search field."
@@ -11451,8 +10743,6 @@
     "giftSettingsGiftUrl": "उपहार यूआरएल",
     "giftSettingsCopy": "कॉपी करें",
     "giftSettingsCopied": "कॉपी किया गया",
-    "giftSettingsGiftUrlCopied": "उपहार यूआरएल क्लिपबोर्ड पर कॉपी हो गया!",
-    "giftSettingsGiftUrlCopyFailed": "उपहार यूआरएल कॉपी नहीं किया जा सका",
     "giftSettingsPurchasedDate": "{date} को खरीदा गया",
     "@giftSettingsPurchasedDate": {
         "placeholders": {
@@ -11494,7 +10784,6 @@
     "premiumBuyGift": "उपहार खरीदें",
     "premiumOneYearGift": "1 साल का उपहार",
     "premiumOneMonthGift": "1 महीने का उपहार",
-    "premiumMostPopular": "सबसे लोकप्रिय",
     "premiumScrollPrompt": "Plutonium के साथ शामिल सभी सुविधाओं को देखने के लिए नीचे स्क्रॉल करें",
     "premiumFreeVsPlutonium": "मुफ़्त बनाम Plutonium",
     "premiumFreeColumn": "मुफ़्त",
@@ -11512,50 +10801,15 @@
     "premiumViewGifts": "उपहार देखें",
     "premiumReadyToUpgrade": "अपग्रेड करने के लिए तैयार हैं?",
     "premiumReadyToBuyGift": "उपहार खरीदने के लिए तैयार हैं?",
-    "premiumMonthlyPrice": "मासिक {price}",
-    "@premiumMonthlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumYearlyPrice": "सालाना {price}",
-    "@premiumYearlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneYearPrice": "1 वर्ष {price}",
-    "@premiumOneYearPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneMonthPrice": "1 महीना {price}",
-    "@premiumOneMonthPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
     "premiumManageSubscription": "सदस्यता प्रबंधित करें",
     "premiumRedeemGiftCode": "उपहार कोड रिडीम करें",
     "premiumGiftBadge": "उपहार",
     "premiumCancelSubscriptionTitle": "सदस्यता रद्द करें?",
     "premiumCancelSubscriptionBody": "आपके पर्क आपकी अगली रिन्यूअल तारीख तक बने रहेंगे, फिर दोबारा सदस्यता लेने और अपनी सब्सक्राइबर हिस्ट्री बनाए रखने के लिए 3 दिन का ग्रेस पीरियड मिलेगा।",
     "premiumCancelSubscriptionConfirm": "सदस्यता रद्द करें",
-    "premiumKeepSubscription": "सदस्यता रखें",
     "premiumPurchaseHistoryTitle": "खरीद इतिहास",
     "premiumPurchaseHistoryDescription": "आपकी हाल की इनवॉइस। अपने सब्सक्रिप्शन के लिए भुगतान विधि बदलने के लिए, बिलिंग पोर्टल में एक जोड़ें या चुनें और उसे डिफ़ॉल्ट बनाएं।",
     "premiumManagePaymentMethods": "भुगतान के तरीके प्रबंधित करें",
-    "premiumBillingHistory": "बिलिंग इतिहास",
-    "premiumSelfServeRefundTitle": "सेल्फ-सर्विस रिफंड",
     "premiumSelfServeRefundButton": "पिछली खरीदारी का रिफ़ंड",
     "premiumDisclaimerAgreementPrefix": "खरीदकर, आप हमारी ",
     "premiumDisclaimerAgreementPastPrefix": "खरीदकर, आपने हमारी ",
@@ -11595,17 +10849,6 @@
         "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
     },
     "premiumComparisonFeatureColumn": "सुविधा",
-    "premiumDisclaimerPurchased": "खरीदकर, आप हमारे {terms} और {privacy} से सहमत हुए।",
-    "@premiumDisclaimerPurchased": {
-        "placeholders": {
-            "terms": {
-                "type": "String"
-            },
-            "privacy": {
-                "type": "String"
-            }
-        }
-    },
     "premiumDisclaimerRefund": "भुगतान के 3 दिनों के भीतर, हर 30 दिनों में एक बार, सेल्फ़-सर्व रिफंड उपलब्ध है। सदस्यता वापस करने से वह रद्द हो जाती है। EU/EEA खरीदार तुरंत सामग्री एक्सेस करने के लिए चेकआउट पर 14-दिन के निकासी के अधिकार को छोड़ देते हैं। चार्जबैक के बजाय इन-ऐप रिफंड बटन का उपयोग करें। चार्जबैक आपके अकाउंट को स्थायी रूप से प्रतिबंधित कर सकते हैं। Stripe भुगतान को सुरक्षित रूप से संभालता है। हम आपका पूरा कार्ड नंबर कभी नहीं देखते हैं।",
     "premiumTermsOfService": "सेवा की शर्तें",
     "premiumPrivacyPolicy": "गोपनीयता नीति",
@@ -11646,24 +10889,14 @@
     },
     "premiumClaimAccountToPurchase": "Fluxer Plutonium खरीदने के लिए अपना खाता क्लेम करें।",
     "premiumVerifyEmailToPurchase": "Fluxer Plutonium खरीदने से पहले आपको अपना ईमेल वेरिफाई करना होगा।",
-    "premiumPerkCustomUsernameTag": "कस्टम यूज़रनेम टैग",
-    "premiumPerkPerCommunityProfiles": "हर कम्युनिटी के लिए प्रोफ़ाइल",
-    "premiumPerkMessageScheduling": "संदेश शेड्यूलिंग",
-    "premiumPerkProfileBadge": "प्रोफ़ाइल बैज",
-    "premiumPerkCustomVideoBackgrounds": "कस्टम वीडियो बैकग्राउंड",
-    "premiumPerkEntranceSounds": "एंट्रेंस साउंड",
     "premiumPerkCommunities": "कम्युनिटी",
     "premiumPerkMessageCharacterLimit": "मैसेज वर्ण सीमा",
     "premiumPerkBookmarkedMessages": "बुकमार्क किए गए मैसेज",
     "premiumPerkFileUploadSize": "फ़ाइल अपलोड का साइज़",
-    "premiumPerkEmojiStickerPacks": "इमोजी और स्टिकर पैक",
-    "premiumPerkSavedMedia": "सेव किया गया मीडिया",
     "premiumPerkUseAnimatedEmojis": "एनिमेटेड इमोजी इस्तेमाल करें",
-    "premiumPerkGlobalEmojiStickerAccess": "ग्लोबल इमोजी और स्टिकर एक्सेस",
     "premiumPerkVideoQuality": "वीडियो क्वालिटी",
     "premiumPerkAnimatedAvatarsBanners": "एनिमेटेड अवतार और प्रोफ़ाइल बैनर",
     "premiumPerkEarlyAccess": "नई सुविधाओं का अर्ली एक्सेस",
-    "premiumPerkCustomThemes": "कस्टम थीम",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "4K/60fps तक",
     "storePlutoniumPriceLine": "{monthly} या {yearly}",
@@ -11892,16 +11125,6 @@
     "@audioAndVideoMicTestStopLabel": {
         "description": "Button label to stop the microphone test."
     },
-    "audioAndVideoMicTestPermissionRequired": "{productName} को आपके इनपुट का परीक्षण करने के लिए माइक्रोफ़ोन एक्सेस की आवश्यकता है।",
-    "@audioAndVideoMicTestPermissionRequired": {
-        "description": "Shown when microphone permission is required for the mic test.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
     "audioAndVideoCameraLabel": "कैमरा",
     "@audioAndVideoCameraLabel": {
         "description": "Label for camera device selection."
@@ -11946,39 +11169,9 @@
     "@audioAndVideoFrameRate60Label": {
         "description": "Screen share frame rate option for 60 FPS."
     },
-    "audioAndVideoHigherQualityRequiresPremium": "1080p और 60 FPS के लिए {premiumProductName} की आवश्यकता है।",
-    "@audioAndVideoHigherQualityRequiresPremium": {
-        "description": "Note shown when higher video quality options require premium.",
-        "placeholders": {
-            "premiumProductName": {
-                "type": "String",
-                "example": "Plutonium"
-            }
-        }
-    },
     "audioAndVideoInstanceVideoQualityLimit": "यह इंस्टेंस वर्तमान में 30 FPS पर 720p तक स्क्रीन शेयर की अनुमति देता है।",
     "@audioAndVideoInstanceVideoQualityLimit": {
         "description": "Note shown when instance limits block higher screen share quality."
-    },
-    "audioAndVideoMicrophonePermissionRequired": "{productName} को आपके डिवाइस दिखाने के लिए माइक्रोफ़ोन का एक्सेस चाहिए।",
-    "@audioAndVideoMicrophonePermissionRequired": {
-        "description": "Shown when microphone permission is required to enumerate audio input devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
-    "audioAndVideoCameraPermissionRequired": "{productName} को आपके डिवाइस दिखाने के लिए कैमरे का एक्सेस चाहिए।",
-    "@audioAndVideoCameraPermissionRequired": {
-        "description": "Shown when camera permission is required to enumerate video devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
     },
     "audioAndVideoSkipHideOwnCameraConfirmLabel": "कैमरा छिपाने पर न पूछें",
     "@audioAndVideoSkipHideOwnCameraConfirmLabel": {
@@ -12017,14 +11210,6 @@
     "notificationsEnableDesktopNotificationsDescription": "OS के सूचना केंद्र का उपयोग करता है। चैनल या कम्युनिटी के हिसाब से कंट्रोल के लिए, किसी कम्युनिटी आइकन पर राइट-क्लिक करें और सूचना सेटिंग्स खोलें।",
     "@notificationsEnableDesktopNotificationsDescription": {
         "description": "Description for the enable desktop notifications toggle."
-    },
-    "notificationsEnableBrowserNotificationsLabel": "ब्राउज़र नोटिफ़िकेशन चालू करें",
-    "@notificationsEnableBrowserNotificationsLabel": {
-        "description": "Toggle label for enabling browser notifications."
-    },
-    "notificationsEnableBrowserNotificationsDescription": "जब आपको मैसेज मिलें, तब नोटिफ़िकेशन पाएँ। आपको अपनी ब्राउज़र सेटिंग्स में नोटिफ़िकेशन की अनुमति देनी पड़ सकती है। हर चैनल/हर कम्युनिटी के कंट्रोल के लिए, कम्युनिटी आइकॉन पर राइट-क्लिक करें और नोटिफ़िकेशन सेटिंग्स खोलें।",
-    "@notificationsEnableBrowserNotificationsDescription": {
-        "description": "Description for the enable browser notifications toggle."
     },
     "notificationsPushInactiveTimeoutLabel": "पुश नोटिफ़िकेशन निष्क्रिय टाइमआउट",
     "@notificationsPushInactiveTimeoutLabel": {
@@ -12404,10 +11589,6 @@
     "@languageAndTimeLanguageSectionDescription": {
         "description": "Settings section description for interface language preference."
     },
-    "languageAndTimeOpenLanguageSettings": "भाषा सेटिंग खोलें",
-    "@languageAndTimeOpenLanguageSettings": {
-        "description": "Button that opens the system per-app language settings."
-    },
     "languageAndTimeTimeFormatSectionTitle": "समय फ़ॉर्मैट",
     "@languageAndTimeTimeFormatSectionTitle": {
         "description": "Settings section title for time format preference."
@@ -12571,7 +11752,6 @@
     "advancedSettingStripTrackingLabel": "यूआरएल से ट्रैकिंग पैरामीटर हटाएँ",
     "advancedSettingStripTrackingDescription": "आपके भेजे गए मैसेज में यूआरएल से ट्रैकिंग पैरामीटर अपने-आप हटाएँ",
     "advancedSettingTrustAllLinksLabel": "सभी बाहरी लिंक पर भरोसा करें",
-    "advancedSettingTrustAllLinksDescription": "सभी डोमेन के लिए बाहरी लिंक चेतावनी को छोड़ें",
     "advancedSettingSearchEnginesLabel": "सर्च इंजन",
     "advancedSettingSearchEnginesDescription": "चयनित टेक्स्ट से उपयोग किए जाने वाले खोज इंजन को कॉन्फ़िगर करें",
     "advancedSettingTranslatorsLabel": "अनुवादक",
@@ -12627,13 +11807,6 @@
     "advancedSettingHideStreamPreviewLabel": "मेरे स्ट्रीम पूर्वावलोकन थंबनेल को छिपाएँ",
     "advancedSettingDeveloperModeLabel": "डेवलपर मोड चालू करें",
     "advancedSettingDeveloperModeDescription": "डेवलपर मोड चालू करें",
-    "advancedSettingSearchEngineGoogle": "Google",
-    "advancedSettingSearchEngineDuckDuckGo": "DuckDuckGo",
-    "advancedSettingSearchEngineBing": "बिंग",
-    "advancedSettingSearchEngineGoogleLens": "Google Lens",
-    "advancedSettingSearchEngineTinEye": "टिनआई",
-    "advancedSettingTranslatorGoogle": "Google Translate",
-    "advancedSettingTranslatorDeepL": "डीपएल",
     "advancedSettingDefaultSearchEngineLabel": "डिफ़ॉल्ट सर्च इंजन",
     "advancedSettingDefaultSearchEngineDescription": "चुने गए टेक्स्ट को सर्च करते समय डिफ़ॉल्ट रूप से किस सर्च इंजन का उपयोग किया जाता है, उसे चुनें।",
     "advancedSettingBuiltInSearchEnginesLabel": "बिल्ट-इन सर्च इंजन",
@@ -13812,10 +12985,6 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsCustomInviteUrl": "कस्टम आमंत्रण यूआरएल",
-    "@guildMenuSettingsCustomInviteUrl": {
-        "description": "Community settings tab for custom invite URLs."
-    },
     "guildMenuSettingsDiscovery": "डिस्कवरी",
     "@guildMenuSettingsDiscovery": {
         "description": "Community settings tab for discovery settings."
@@ -13844,17 +13013,9 @@
     "@guildSettingsOverviewIconTitle": {
         "description": "Title for the guild icon section in overview settings."
     },
-    "guildSettingsUploadImage": "इमेज अपलोड करें",
-    "@guildSettingsUploadImage": {
-        "description": "Button label to upload an image in guild settings."
-    },
     "guildSettingsOverviewBannerTitle": "बैनर",
     "@guildSettingsOverviewBannerTitle": {
         "description": "Title for the guild banner section."
-    },
-    "guildSettingsOverviewBannerHint": "अपने सर्वर के लिए एक बैनर अपलोड करें।",
-    "@guildSettingsOverviewBannerHint": {
-        "description": "Hint text for guild banner upload."
     },
     "guildSettingsOverviewNameTitle": "नाम",
     "@guildSettingsOverviewNameTitle": {
@@ -13863,22 +13024,6 @@
     "guildSettingsOverviewNameHint": "मेरी शानदार कम्युनिटी",
     "@guildSettingsOverviewNameHint": {
         "description": "Hint for the guild name field."
-    },
-    "guildSettingsOverviewStatsTitle": "आँकड़े",
-    "@guildSettingsOverviewStatsTitle": {
-        "description": "Title for guild statistics section."
-    },
-    "guildSettingsOverviewMembers": "सदस्य",
-    "@guildSettingsOverviewMembers": {
-        "description": "Label for member count in overview."
-    },
-    "guildSettingsOverviewOnline": "ऑनलाइन",
-    "@guildSettingsOverviewOnline": {
-        "description": "Label for online count in overview."
-    },
-    "guildSettingsRolesDescription": "सदस्यों को समूहित करने और अनुमतियाँ असाइन करने के लिए भूमिकाओं का उपयोग करें।",
-    "@guildSettingsRolesDescription": {
-        "description": "Description for the roles settings tab."
     },
     "guildSettingsCreateRole": "रोल बनाएँ",
     "@guildSettingsCreateRole": {
@@ -13978,14 +13123,6 @@
     "@guildSettingsRolesComfyLayout": {
         "description": "Tooltip when permission list is in dense layout."
     },
-    "guildSettingsRolesSwitchToDenseLayout": "सघन लेआउट पर स्विच करें",
-    "@guildSettingsRolesSwitchToDenseLayout": {
-        "description": "Aria label for switching to dense layout."
-    },
-    "guildSettingsRolesSwitchToComfyLayout": "आरामदायक लेआउट पर स्विच करें",
-    "@guildSettingsRolesSwitchToComfyLayout": {
-        "description": "Aria label for switching to comfy layout."
-    },
     "guildSettingsRolesSingleColumn": "एक कॉलम",
     "@guildSettingsRolesSingleColumn": {
         "description": "Tooltip when permission list is in two-column layout."
@@ -13994,21 +13131,9 @@
     "@guildSettingsRolesTwoColumns": {
         "description": "Tooltip when permission list is in single-column layout."
     },
-    "guildSettingsRolesSwitchToSingleColumn": "एक कॉलम पर स्विच करें",
-    "@guildSettingsRolesSwitchToSingleColumn": {
-        "description": "Aria label for switching to single column."
-    },
-    "guildSettingsRolesSwitchToTwoColumns": "दो कॉलम पर स्विच करें",
-    "@guildSettingsRolesSwitchToTwoColumns": {
-        "description": "Aria label for switching to two columns."
-    },
     "guildSettingsRolesNoPermissionsFound": "कोई अनुमति नहीं मिली",
     "@guildSettingsRolesNoPermissionsFound": {
         "description": "Empty state when permission search has no matches."
-    },
-    "guildSettingsRolesCustomHoistOrder": "कस्टम होइस्ट क्रम",
-    "@guildSettingsRolesCustomHoistOrder": {
-        "description": "Button to enter custom hoist order mode."
     },
     "guildSettingsRolesHoistOrder": "होइस्ट क्रम",
     "@guildSettingsRolesHoistOrder": {
@@ -14025,10 +13150,6 @@
     "guildSettingsRolesNoHoistedRoles": "कोई होइस्टेड रोल नहीं। किसी रोल को यहाँ देखने के लिए उस पर \"यह रोल अलग से दिखाएं\" चालू करें।",
     "@guildSettingsRolesNoHoistedRoles": {
         "description": "Empty state when no roles are hoisted."
-    },
-    "guildSettingsRolesLockedTooltip": "आप इस भूमिका को संपादित नहीं कर सकते क्योंकि यह आपकी सबसे ऊँची भूमिका है या आपसे ऊपर है",
-    "@guildSettingsRolesLockedTooltip": {
-        "description": "Tooltip on locked role rows."
     },
     "guildSettingsRolesNeedManageRolesPermission": "आपको इन अनुमतियों को संपादित करने के लिए \"{permission}\" अनुमति की आवश्यकता है",
     "@guildSettingsRolesNeedManageRolesPermission": {
@@ -14136,10 +13257,6 @@
     "permissionCategoryAudioVideo": "ऑडियो और वीडियो",
     "@permissionCategoryAudioVideo": {
         "description": "Permission category label."
-    },
-    "permissionUnknown": "अज्ञात अनुमति",
-    "@permissionUnknown": {
-        "description": "Fallback permission label."
     },
     "permissionAdministrator": "एडमिनिस्ट्रेटर",
     "@permissionAdministrator": {
@@ -14409,30 +13526,9 @@
     "@permissionSetVoiceRegion": {
         "description": "Permission name."
     },
-    "guildSettingsEmojiSlotInfo": "{staticCount} स्टैटिक, {animatedCount} एनिमेटेड इमोजी स्लॉट उपयोग में",
-    "@guildSettingsEmojiSlotInfo": {
-        "description": "Emoji slot usage summary.",
-        "placeholders": {
-            "staticCount": {
-                "type": "int"
-            },
-            "animatedCount": {
-                "type": "int"
-            }
-        }
-    },
     "guildSettingsEmojiEmpty": "अभी तक कोई कस्टम इमोजी नहीं है।",
     "@guildSettingsEmojiEmpty": {
         "description": "Empty state for emoji settings."
-    },
-    "guildSettingsStickersSlotInfo": "{count} स्टिकर अपलोड किए गए",
-    "@guildSettingsStickersSlotInfo": {
-        "description": "Sticker slot usage summary.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsStickersEmpty": "अभी तक कोई कस्टम स्टिकर नहीं है।",
     "@guildSettingsStickersEmpty": {
@@ -14478,8 +13574,6 @@
     "guildSettingsVerificationMediumDescription": "एक सत्यापित ईमेल पते और कम से कम 5 मिनट पुराने खाते की आवश्यकता है।",
     "guildSettingsVerificationHigh": "उच्च",
     "guildSettingsVerificationHighDescription": "मध्यम की सभी शर्तें, साथ ही कम से कम 10 मिनट से कम्युनिटी का सदस्य होना ज़रूरी है।",
-    "guildSettingsVerificationHighest": "बहुत ज़्यादा",
-    "guildSettingsVerificationHighestDescription": "वेरिफ़ाइड फ़ोन नंबर ज़रूरी है।",
     "guildSettingsAuditLogDescription": "कम्युनिटी में मॉडरेटर की कार्रवाइयों को ट्रैक करें।",
     "@guildSettingsAuditLogDescription": {
         "description": "Subtitle under the activity-log page title."
@@ -14507,14 +13601,6 @@
     "guildSettingsAuditLogUnknownUser": "अज्ञात यूज़र",
     "@guildSettingsAuditLogUnknownUser": {
         "description": "Fallback avatar label when the acting user is unavailable."
-    },
-    "guildSettingsAuditLogLoadError": "गतिविधि लॉग लोड करते समय कुछ गड़बड़ हो गई।",
-    "@guildSettingsAuditLogLoadError": {
-        "description": "Generic error shown when fetching log entries fails."
-    },
-    "guildSettingsAuditLogLoadErrorTitle": "गतिविधि लॉग लोड नहीं हो पाए",
-    "@guildSettingsAuditLogLoadErrorTitle": {
-        "description": "Error-state title when fetching log entries failed."
     },
     "guildSettingsAuditLogReason": "वजह",
     "@guildSettingsAuditLogReason": {
@@ -15486,14 +14572,6 @@
     "@auditLogOptionPermanentMembership": {
         "description": "Audit log option detail sentence."
     },
-    "guildSettingsLoadMore": "और लोड करें",
-    "@guildSettingsLoadMore": {
-        "description": "Button to load more audit log entries."
-    },
-    "guildSettingsLoadingMore": "लोड हो रहा है…",
-    "@guildSettingsLoadingMore": {
-        "description": "Loading state for pagination."
-    },
     "guildSettingsWebhooksDescription": "अपनी कम्युनिटी में कॉन्फ़िगर किए गए सभी वेबहुक देखें और प्रबंधित करें।",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
@@ -15540,42 +14618,9 @@
     "@guildSettingsUnknownChannel": {
         "description": "Fallback label when a webhook channel name is unavailable."
     },
-    "guildSettingsCopyUrl": "URL कॉपी करें",
-    "@guildSettingsCopyUrl": {
-        "description": "Tooltip to copy a URL."
-    },
     "guildSettingsCopiedUrl": "यूआरएल क्लिपबोर्ड पर कॉपी हो गया",
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
-    },
-    "guildSettingsDeleteWebhook": "वेबहुक मिटाएँ",
-    "@guildSettingsDeleteWebhook": {
-        "description": "Tooltip to delete a webhook."
-    },
-    "guildSettingsVanityUrlDescription": "अपने सर्वर के लिए एक कस्टम इनवाइट लिंक सेट करें।",
-    "@guildSettingsVanityUrlDescription": {
-        "description": "Description for vanity URL tab."
-    },
-    "guildSettingsVanityUrlHint": "my-server",
-    "@guildSettingsVanityUrlHint": {
-        "description": "Hint for vanity URL input."
-    },
-    "guildSettingsSave": "सेव करें",
-    "@guildSettingsSave": {
-        "description": "Generic save button label."
-    },
-    "guildSettingsVanityUrlUsageTitle": "उपयोग",
-    "@guildSettingsVanityUrlUsageTitle": {
-        "description": "Title for vanity URL usage section."
-    },
-    "guildSettingsVanityUrlUses": "{count} उपयोग",
-    "@guildSettingsVanityUrlUses": {
-        "description": "Vanity URL usage count.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsDiscoveryDescription": "अपनी कम्युनिटी को डिस्कवरी में लिस्ट करें ताकि दूसरे उसे ढूंढकर जॉइन कर सकें।",
     "@guildSettingsDiscoveryDescription": {
@@ -15761,10 +14806,6 @@
     "@guildSettingsDiscoveryWithdrawErrorDescription": {
         "description": "Error modal body when withdrawing a discovery application fails."
     },
-    "guildSettingsMembersDescription": "सर्वर के सदस्यों को खोजें और प्रबंधित करें।",
-    "@guildSettingsMembersDescription": {
-        "description": "Description for members tab."
-    },
     "guildSettingsMembersSearchHint": "यूज़रनेम या आईडी से खोजें",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field on the community members page."
@@ -15829,10 +14870,6 @@
     },
     "guildMembersColumnRoles": "रोल",
     "@guildMembersColumnRoles": {
-        "description": "Table column header on the community members page."
-    },
-    "guildMembersColumnActions": "कार्रवाइयाँ",
-    "@guildMembersColumnActions": {
         "description": "Table column header on the community members page."
     },
     "guildMembersFilterMemberSince": "सदस्य बनने की तारीख के अनुसार फ़िल्टर करें",
@@ -15919,23 +14956,6 @@
     "@guildMembersIndexing": {
         "description": "Banner shown while guild members are being indexed."
     },
-    "guildMembersGoToPage": "पेज पर जाएं",
-    "@guildMembersGoToPage": {
-        "description": "Pagination jump label on the community members page."
-    },
-    "guildMembersGoToPageItem": "पेज {page} पर जाएं",
-    "@guildMembersGoToPageItem": {
-        "description": "Accessibility label for a pagination page button.",
-        "placeholders": {
-            "page": {
-                "type": "int"
-            }
-        }
-    },
-    "guildMembersJumpToPage": "पेज पर जाएं",
-    "@guildMembersJumpToPage": {
-        "description": "Label for pagination jump input on the community members page."
-    },
     "guildMembersJoinSourceCreator": "कम्युनिटी बनाने वाला",
     "@guildMembersJoinSourceCreator": {
         "description": "Join method label on the community members page."
@@ -16012,22 +15032,9 @@
             }
         }
     },
-    "guildMembersJoinedDaysAgo": "{count, plural, one {1 दिन पहले} other {{count} दिन पहले}}",
-    "@guildMembersJoinedDaysAgo": {
-        "description": "Relative join time on the community members page.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
     "guildMembersChannelListLabel": "सदस्य",
     "@guildMembersChannelListLabel": {
         "description": "Label for the Members item at the top of the guild channel list."
-    },
-    "guildMembersChannelListSelected": "सदस्य, चुने गए",
-    "@guildMembersChannelListSelected": {
-        "description": "Accessibility label when the Members channel list item is selected."
     },
     "guildSettingsInvitesTitle": "इनवाइट",
     "@guildSettingsInvitesTitle": {
@@ -16158,27 +15165,6 @@
     "@guildSettingsInvitesRevokeFailedDescription": {
         "description": "Error description when revoking an invite fails."
     },
-    "guildSettingsInviteUses": "{uses} / {maxUses} उपयोग",
-    "@guildSettingsInviteUses": {
-        "description": "Invite usage count.",
-        "placeholders": {
-            "uses": {
-                "type": "int"
-            },
-            "maxUses": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsInviteExpires": "{date} को समाप्त हो रहा है",
-    "@guildSettingsInviteExpires": {
-        "description": "Invite expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBansDescription": "बैन किए गए यूज़र देखें और प्रबंधित करें।",
     "@guildSettingsBansDescription": {
         "description": "Description for bans tab."
@@ -16191,30 +15177,9 @@
     "@guildSettingsBansEmpty": {
         "description": "Empty state for bans."
     },
-    "guildSettingsBanPermanent": "स्थायी प्रतिबंध",
-    "@guildSettingsBanPermanent": {
-        "description": "Label for permanent ban."
-    },
-    "guildSettingsBanExpires": "{date} को समाप्त हो रहा है",
-    "@guildSettingsBanExpires": {
-        "description": "Ban expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBanExpiresLabel": "समाप्त होगा",
     "@guildSettingsBanExpiresLabel": {
         "description": "Label for ban expiration row."
-    },
-    "guildSettingsUnban": "अनबैन",
-    "@guildSettingsUnban": {
-        "description": "Button to unban a user."
-    },
-    "guildSettingsBansLoading": "बैन किए गए यूज़र लोड हो रहे हैं",
-    "@guildSettingsBansLoading": {
-        "description": "Loading state for the guild bans list."
     },
     "guildSettingsBansNoSearchResults": "आपकी खोज से मेल खाने वाला कोई बैन नहीं मिला।",
     "@guildSettingsBansNoSearchResults": {
@@ -16258,10 +15223,6 @@
             }
         }
     },
-    "guildSettingsBansLoadError": "बैन लोड नहीं हो सके। दोबारा कोशिश करें।",
-    "@guildSettingsBansLoadError": {
-        "description": "Error when loading the guild bans list fails."
-    },
     "guildSettingsRevokeBanError": "प्रतिबंध हटाने में असमर्थ। पुनः प्रयास करें।",
     "@guildSettingsRevokeBanError": {
         "description": "Error when revoking a ban fails."
@@ -16286,7 +15247,6 @@
     "@guildSettingsCategoryPeople": {
         "description": "Sidebar category for members, invites, and bans."
     },
-    "guildSettingsOverviewDescription": "अपने समुदाय की प्रोफ़ाइल, चैनल और डिफ़ॉल्ट सेटिंग प्रबंधित करें।",
     "guildSettingsOverviewBrandingTitle": "ब्रांडिंग",
     "guildSettingsOverviewBrandingDescription": "अपना आइकॉन, नाम, बैनर और इनवाइट बैकग्राउंड अपडेट करें",
     "@guildSettingsOverviewBrandingDescription": {
@@ -16305,7 +15265,6 @@
     },
     "guildSettingsOverviewNotificationsTitle": "डिफ़ॉल्ट नोटिफ़िकेशन",
     "guildSettingsOverviewNotificationsLargeGuild": "250 से ज़्यादा लोगों वाली कम्युनिटी पर \"सिर्फ़ मेंशन\" सेटिंग लागू कर दी जाती है। आपकी मूल सेटिंग सुरक्षित रहती है और कम्युनिटी के सदस्य 250 से कम होने पर वह वापस लागू कर दी जाएगी।",
-    "guildSettingsOverviewAdvancedTitle": "एडवांस",
     "guildSettingsOverviewFlexibleNames": "टेक्स्ट चैनल के नामों को लचीला रखें",
     "guildSettingsOverviewHideOwnerCrown": "कम्युनिटी मालिक का क्राउन छिपाएं",
     "guildSettingsOverviewDetachedBanner": "अलग बैनर",
@@ -16331,10 +15290,6 @@
     "guildSettingsOverviewEmbedSplashTitle": "चैट एम्बेड बैकग्राउंड",
     "@guildSettingsOverviewEmbedSplashTitle": {
         "description": "Title for embed splash upload section."
-    },
-    "guildSettingsOverviewEmbedSplashHint": "चैट के इनवाइट एम्बेड में दिखता है।",
-    "@guildSettingsOverviewEmbedSplashHint": {
-        "description": "Note shown when uploading chat embed background."
     },
     "guildSettingsOverviewUploadBackground": "बैकग्राउंड अपलोड करें",
     "@guildSettingsOverviewUploadBackground": {
@@ -16501,8 +15456,6 @@
     "@guildSettingsOverviewEmbedSplashUploadHint": {
         "description": "Upload requirements for chat embed background images."
     },
-    "guildSettingsModerationDescription": "सत्यापन, सामग्री फ़िल्टरिंग और परिपक्व सामग्री सेटिंग्स कॉन्फ़िगर करें।",
-    "guildSettingsModerationDiscoveryNotice": "डिस्कवरी में सूचीबद्ध समुदायों के लिए मॉडरेशन के विकल्प सीमित हैं।",
     "guildSettingsModerationContentFilterTitle": "कंटेंट फ़िल्टरिंग",
     "guildSettingsModerationContentFilterDescription": "परिपक्व सामग्री के लिए चिह्नित न किए गए चैनलों में मैसेज में अश्लील सामग्री की अपने आप जाँच करें।",
     "guildSettingsModerationContentFilterDiscoveryNote": "डिस्कवरी में लिस्ट की गई कम्युनिटी के लिए सभी सदस्यों को स्कैन करना ज़रूरी है. डिस्कवरी चालू होने पर यह सेटिंग बदली नहीं जा सकती।",
@@ -16512,8 +15465,6 @@
     "guildSettingsContentFilterNoRoleDescription": "ज़्यादातर कम्युनिटी के लिए सुझाया गया",
     "guildSettingsContentFilterAll": "सभी को फ़िल्टर करें",
     "guildSettingsContentFilterAllDescription": "परिवार के अनुकूल जगहों के लिए अधिकतम सुरक्षा",
-    "guildSettingsModerationMatureOff": "बंद",
-    "guildSettingsModerationMatureOn": "चालू",
     "guildSettingsContentWarningToggle": "सामग्री चेतावनी दिखाएं",
     "@guildSettingsContentWarningToggle": {
         "description": "Switch label for the community content warning setting."
@@ -16533,7 +15484,6 @@
     "guildSettingsModeration2faTitle": "2FA ज़रूरी",
     "guildSettingsModeration2faDescription": "मॉडरेटर के बैन करने, किक करने, टाइम आउट करने या मैसेज हटाने से पहले उनके लिए दो-फ़ैक्टर ऑथेंटिकेशन ज़रूरी करें।",
     "guildSettingsModeration2faSwitchLabel": "मॉडरेशन ऐक्शन के लिए 2FA ज़रूरी करें",
-    "guildSettingsModeration2faOwnerOnlyTooltip": "यह सेटिंग सिर्फ़ कम्युनिटी का मालिक बदल सकता है",
     "guildSettingsModeration2faEnableFirstTooltip": "यह सेटिंग बदलने के लिए अपने अकाउंट पर 2FA चालू करें",
     "guildSettingsEmojiSearchHint": "इमोजी खोजें",
     "guildSettingsEmojiUploadTitle": "इमोजी अपलोड करें",
@@ -16541,7 +15491,6 @@
     "guildSettingsEmojiDropZone": "इमोजी फ़ाइलों को यहां खींचें और छोड़ें",
     "guildSettingsEmojiLoadFailed": "इमोजी लोड नहीं हो पाए। बाद में फिर से कोशिश करें।",
     "guildSettingsEmojiSearchEmpty": "आपकी खोज से मेल खाने वाले कोई इमोजी नहीं मिले।",
-    "guildSettingsEmojiNoSlots": "कोई इमोजी स्लॉट उपलब्ध नहीं",
     "guildSettingsEmojiSlotsFull": "आप इमोजी की अधिकतम संख्या तक पहुँच गए हैं। जगह बनाने के लिए कुछ मौजूदा इमोजी हटाएँ।",
     "guildSettingsEmojiUploadRequirements": "इमोजी के नाम में कम से कम 2 वर्ण होने चाहिए और इनमें अक्षर, अंक और अंडरस्कोर इस्तेमाल हो सकते हैं। इमोजी {maxSize} से छोटे होने चाहिए। स्टैटिक इमेज अपने आप 128x128 पिक्सल के कर दिए जाते हैं और कंप्रेस हो जाते हैं। एनिमेटेड इमोजी और SVG पहले से ही सीमा के भीतर होने चाहिए।",
     "@guildSettingsEmojiUploadRequirements": {
@@ -16551,24 +15500,11 @@
             }
         }
     },
-    "guildSettingsEmojiUploadingTitle": "इमोजी अपलोड हो रहे हैं",
-    "guildSettingsEmojiUploadingBody": "{count, plural, one {# इमोजी} other {# इमोजी}} अपलोड हो रहे हैं। इसमें थोड़ा समय लग सकता है।",
-    "@guildSettingsEmojiUploadingBody": {
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsEmojiUploadFailed": "इमोजी अपलोड नहीं हो पाए। फिर से कोशिश करें।",
     "guildSettingsEmojiSomeFailedTitle": "कुछ इमोजी जोड़े नहीं जा सके",
-    "guildSettingsEmojiSomeFailedBody": "इन फ़ाइलों की समीक्षा करें और छोटी या सरल इमेज के साथ फिर से कोशिश करें।",
     "guildSettingsEmojiRenameTitle": "इमोजी का नाम बदलें",
     "guildSettingsEmojiRenameHint": "2-32 अक्षर, संख्याएं, अंडरस्कोर।",
-    "guildSettingsEmojiColumnEmoji": "इमोजी",
     "guildSettingsEmojiColumnName": "नाम",
     "guildSettingsEmojiColumnUploader": "अपलोड करने वाला",
-    "guildSettingsEmojiUnknownUploader": "अज्ञात",
     "guildSettingsEmojiDeleteTitle": "इमोजी मिटाएँ",
     "guildSettingsEmojiDeleteBody": "क्या आप :{name}: हटाना चाहते हैं? इसे वापस नहीं लाया जा सकता।",
     "@guildSettingsEmojiDeleteBody": {
@@ -16583,15 +15519,7 @@
     "guildSettingsEmojiNameTooLong": "इमोजी का नाम ज़्यादा से ज़्यादा 32 वर्णों का होना चाहिए",
     "guildSettingsEmojiInvalidNameTitle": "अमान्य इमोजी नाम",
     "guildSettingsEmojiRenameFailedTitle": "इस इमोजी का नाम नहीं बदला जा सका",
-    "guildSettingsEmojiRenameFailedBody": "नाम पहले जैसा हो गया है। कृपया कुछ देर बाद फिर से कोशिश करें।",
-    "guildSettingsEmojiGoneTitle": "यह इमोजी अब मौजूद नहीं है",
-    "guildSettingsEmojiGoneBody": "हो सकता है इसे हटा दिया गया हो। नाम को पहले जैसा कर दिया गया है।",
-    "guildSettingsEmojiNoPermissionRenameTitle": "आप इस इमोजी का नाम नहीं बदल सकते",
-    "guildSettingsEmojiNoPermissionRenameBody": "आपके पास इस इमोजी का नाम बदलने की अनुमति नहीं है। नाम को पहले जैसा कर दिया गया है।",
-    "guildSettingsEmojiRateLimitedTitle": "आप बहुत तेज़ जा रहे हैं",
-    "guildSettingsEmojiRateLimitedBody": "कृपया कुछ देर प्रतीक्षा करें और फिर से नाम बदलने का प्रयास करें।",
     "guildSettingsEmojiDeleteFailedTitle": "यह इमोजी मिटाया नहीं जा सका",
-    "guildSettingsEmojiDeleteNoPermissionTitle": "आप इस इमोजी को हटा नहीं सकते",
     "guildSettingsCloneEmojiTitle": "दूसरों को अपने इमोजी क्लोन करने दें",
     "guildSettingsCloneEmojiDescription": "चालू होने पर, दूसरे समुदायों के सदस्य आपके कस्टम इमोजी पर इन-ऐप वन-क्लिक \"क्लोन\" शॉर्टकट का इस्तेमाल कर सकते हैं। इससे उन्हें इमेज सेव करने और उसे खुद अपलोड करने से नहीं रोका जा सकता।",
     "guildSettingsCloneStickerTitle": "दूसरों को अपने स्टिकर क्लोन करने दें",
@@ -16632,8 +15560,6 @@
     "guildSettingsStickersLoadFailedTitle": "स्टिकर लोड नहीं हो पाए",
     "guildSettingsStickersLoadFailedBody": "स्टिकर लोड करने में समस्या हुई। फिर से कोशिश करें।",
     "guildSettingsStickersSearchEmpty": "आपकी खोज से मेल खाने वाले कोई स्टिकर नहीं मिले।",
-    "guildSettingsStickersEmptySearch": "कोई स्टिकर नहीं मिला",
-    "guildSettingsStickerNoSlots": "कोई स्टिकर स्लॉट उपलब्ध नहीं",
     "guildSettingsStickerSlotsFull": "आप स्टिकर की अधिकतम संख्या तक पहुँच गए हैं। जगह बनाने के लिए कुछ मौजूदा स्टिकर हटाएँ।",
     "guildSettingsStickerUploadRequirements": "स्टिकर 320x320 पिक्सल पर सेव होते हैं और {maxSize} से कम के होने चाहिए। स्टैटिक इमेज का आकार अपने आप बदला और कंप्रेस किया जाता है। एनिमेटेड स्टिकर और SVG पहले से ही सीमा के भीतर होने चाहिए।",
     "@guildSettingsStickerUploadRequirements": {
@@ -16643,7 +15569,6 @@
             }
         }
     },
-    "guildSettingsStickerUnsupportedTitle": "स्टिकर फ़ाइल समर्थित नहीं है",
     "guildSettingsStickerAddTitle": "स्टिकर जोड़ें",
     "guildSettingsStickerEditTitle": "स्टिकर एडिट करें",
     "guildSettingsStickerNameLabel": "नाम",
@@ -16668,8 +15593,6 @@
     "guildSettingsStickerNameTooLong": "नाम 30 अक्षरों या उससे कम का होना चाहिए",
     "guildSettingsStickerDescriptionTooLong": "विवरण 500 वर्णों या उससे कम का होना चाहिए",
     "guildSettingsStickerCreateFailedTitle": "यह स्टिकर नहीं बनाया जा सका",
-    "guildSettingsStickerTooLargeTitle": "स्टिकर बहुत बड़ा है",
-    "guildSettingsStickerCompressFailedTitle": "स्टिकर को पर्याप्त कंप्रेस नहीं किया जा सका",
     "guildSettingsStickerDeleteTitle": "स्टिकर मिटाएँ",
     "guildSettingsStickerDeleteBody": "\"{name}\" को हटा दें? इसे वापस नहीं लाया जा सकता।",
     "@guildSettingsStickerDeleteBody": {
@@ -16681,7 +15604,6 @@
     },
     "guildSettingsStickerPurgeLabel": "इस स्टिकर को स्टोरेज और CDN से हटाएँ",
     "guildSettingsStickerDeleteFailedTitle": "इस स्टिकर को डिलीट नहीं किया जा सका",
-    "guildSettingsStickerDeleteNoPermissionTitle": "आप यह स्टिकर डिलीट नहीं कर सकते",
     "guildSettingsWebhooksInfo": "वेबहुक बनाने के लिए, {channelSettingsPath} खोलें। आप यहां सभी मौजूदा वेबहुक को संपादित और व्यवस्थित कर सकते हैं।",
     "@guildSettingsWebhooksInfo": {
         "description": "Info box on the guild webhooks tab.",
@@ -16691,8 +15613,6 @@
             }
         }
     },
-    "guildSettingsVanityUrlWarning": "जब तक कम से कम एक चैनल सभी के लिए दिखाई न दे, तब तक आपका वैनिटी यूआरएल काम नहीं करेगा।",
-    "guildSettingsVanityUrlRemove": "हटाएँ",
     "guildSettingsBannedUsersTitle": "बैन किए गए यूज़र",
     "guildSettingsInvitesTableInviter": "आमंत्रित करने वाला",
     "guildSettingsInvitesTableChannel": "चैनल",

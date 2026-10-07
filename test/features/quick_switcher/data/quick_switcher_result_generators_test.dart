@@ -162,7 +162,6 @@ void main() {
             subtitle: 'Guild',
             channelId: '10',
             guildId: 'g1',
-            guildName: 'Guild',
             isVoice: false,
             searchValues: <String>['general', 'Guild'],
             sortWeight: 1,
@@ -213,7 +212,7 @@ void main() {
                 ],
               ),
               recentVisits: <RecentChannelVisit>[
-                RecentChannelVisit(channelId: '100', visitedAt: recent),
+                const RecentChannelVisit(channelId: '100'),
               ],
               unreadChannels: const [],
               excludedChannelIds: const <String>{},
@@ -227,8 +226,6 @@ void main() {
 
     test('includes recent guild text and voice channels from visits', () {
       final FluxerLocalizations l10n = testL10n;
-      final DateTime visitedAt = DateTime(2026, 4, 2, 12);
-
       final List<QuickSwitcherResult> results =
           generateQuickSwitcherDefaultResults(
             QuickSwitcherDefaultInput(
@@ -246,16 +243,8 @@ void main() {
                 guilds: const <Guild>[Guild(id: 'g1', name: 'Guild')],
               ),
               recentVisits: <RecentChannelVisit>[
-                RecentChannelVisit(
-                  channelId: '10',
-                  guildId: 'g1',
-                  visitedAt: visitedAt,
-                ),
-                RecentChannelVisit(
-                  channelId: '20',
-                  guildId: 'g1',
-                  visitedAt: visitedAt.subtract(const Duration(minutes: 1)),
-                ),
+                const RecentChannelVisit(channelId: '10', guildId: 'g1'),
+                const RecentChannelVisit(channelId: '20', guildId: 'g1'),
               ],
               unreadChannels: const [],
               excludedChannelIds: const <String>{},
@@ -296,11 +285,7 @@ void main() {
                 guilds: const <Guild>[Guild(id: 'g1', name: 'Guild')],
               ),
               recentVisits: <RecentChannelVisit>[
-                RecentChannelVisit(
-                  channelId: '10',
-                  guildId: 'g1',
-                  visitedAt: DateTime(2026, 4, 2, 12),
-                ),
+                const RecentChannelVisit(channelId: '10', guildId: 'g1'),
               ],
               unreadChannels: const <QuickSwitcherUnreadChannel>[
                 QuickSwitcherUnreadChannel(channelId: '100', mentionCount: 2),

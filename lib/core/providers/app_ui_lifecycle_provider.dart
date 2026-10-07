@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/audio/app_media_audio_session.dart';
@@ -110,8 +109,7 @@ class _AppUiLifecycleObserverState extends ConsumerState<AppUiLifecycleObserver>
     if (!wasForeground && isForeground) {
       unawaited(ref.read(wellKnownProvider.notifier).refresh());
     }
-    if (!kIsWeb &&
-        (Platform.isIOS || Platform.isAndroid) &&
+    if ((Platform.isIOS || Platform.isAndroid) &&
         isForeground &&
         !wasForeground) {
       unawaited(prepareAppMediaAudioSession());

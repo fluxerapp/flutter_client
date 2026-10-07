@@ -77,10 +77,9 @@ final class ChannelJumpInPlace extends ChannelJumpResolution {
 }
 
 final class ChannelJumpOpenLink extends ChannelJumpResolution {
-  const ChannelJumpOpenLink({required this.channelId, required this.guildId});
+  const ChannelJumpOpenLink({required this.channelId});
 
   final String channelId;
-  final String guildId;
 }
 
 final class ChannelJumpRedirectGuild extends ChannelJumpResolution {
@@ -131,10 +130,7 @@ Future<ChannelJumpResolution> resolveChannelJumpLink({
       return const ChannelJumpAccessDenied();
     }
     if (ChannelType.fromWire(channel.type) == ChannelType.guildLink) {
-      return ChannelJumpOpenLink(
-        channelId: link.channelId,
-        guildId: channel.guildId,
-      );
+      return ChannelJumpOpenLink(channelId: link.channelId);
     }
     if (ChannelType.fromWire(channel.type) == ChannelType.guildCategory) {
       return ChannelJumpRedirectGuild(guildId: channel.guildId);

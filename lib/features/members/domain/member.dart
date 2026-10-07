@@ -57,18 +57,6 @@ List<MemberRole> sortRolesByPosition(List<MemberRole> roles) {
   });
 }
 
-class RoleGroup {
-  final MemberRole? role;
-  final String displayName;
-  final List<Member> members;
-
-  const RoleGroup({
-    required this.displayName,
-    required this.members,
-    this.role,
-  });
-}
-
 class Member {
   final String id;
   final String username;
@@ -78,11 +66,6 @@ class Member {
   final int? avatarColor;
   final String? nickname;
   final List<MemberRole> roles;
-  final String status;
-  final bool isOwner;
-  final bool isBot;
-  final String? customStatus;
-  final DateTime? communicationDisabledUntil;
 
   const Member({
     required this.id,
@@ -93,11 +76,6 @@ class Member {
     this.avatarColor,
     this.nickname,
     this.roles = const [],
-    this.status = 'offline',
-    this.isOwner = false,
-    this.isBot = false,
-    this.customStatus,
-    this.communicationDisabledUntil,
   });
 
   factory Member.fromRow(db.Member row, db.User? user, List<db.Role> allRoles) {
@@ -128,10 +106,6 @@ class Member {
       avatarColor: user?.avatarColor,
       nickname: row.nick,
       roles: memberRoles,
-      status: user?.status ?? 'offline',
-      isBot: user?.bot ?? false,
-      customStatus: user?.customStatus,
-      communicationDisabledUntil: row.communicationDisabledUntil,
     );
   }
 
@@ -140,20 +114,6 @@ class Member {
     globalName: globalName,
     username: username,
   );
-
-  /// Whether the member is currently timed out (communication disabled).
-  bool get isTimedOut =>
-      communicationDisabledUntil != null &&
-      communicationDisabledUntil!.isAfter(DateTime.now());
-
-  /// Color of the highest-positioned role, or null.
-  int? get roleColor {
-    if (roles.isEmpty) {
-      return null;
-    }
-    final sorted = [...roles]..sort((a, b) => b.position.compareTo(a.position));
-    return sorted.first.color;
-  }
 
   static List<String> _parseRoleIds(String json) {
     try {
@@ -166,36 +126,4 @@ class Member {
     }
     return [];
   }
-}
-
-/// Groups members by their highest hoisted role.
-List<RoleGroup> groupMembersIntoRoles(List<Member> members) {
-  final grouped = <String, List<Member>>{};
-  final roleForGroup = <String, MemberRole>{};
-
-  for (final member in members) {
-    final hoisted = member.roles.where((r) => r.hoist).toList()
-      ..sort((a, b) => b.position.compareTo(a.position));
-
-    final groupKey = hoisted.isNotEmpty ? hoisted.first.name : 'Online';
-
-    if (hoisted.isNotEmpty) {
-      roleForGroup[groupKey] = hoisted.first;
-    }
-
-    grouped.putIfAbsent(groupKey, () => <Member>[]).add(member);
-  }
-
-  final groups = <RoleGroup>[];
-  for (final entry in grouped.entries) {
-    groups.add(
-      RoleGroup(
-        role: roleForGroup[entry.key],
-        displayName: '${entry.key} \u2014 ${entry.value.length}',
-        members: entry.value,
-      ),
-    );
-  }
-
-  return groups;
 }

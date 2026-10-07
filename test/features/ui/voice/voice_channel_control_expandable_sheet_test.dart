@@ -234,7 +234,6 @@ Future<void> _pumpExpandableSheet(
                 children: <Widget>[
                   VoiceChannelControlExpandableSheet(
                     channelId: 'voice-1',
-                    guildId: 'g1',
                     isConnected: true,
                     connectionId: 'conn-1',
                     parentHeight: constraints.maxHeight,
