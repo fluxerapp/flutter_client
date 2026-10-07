@@ -965,11 +965,36 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get embedThemeTitle => 'Споделена тема';
 
   @override
-  String get embedThemeSubtitle =>
-      'Този клиент не поддържа персонализирани теми.';
+  String get embedThemeHelp => 'Имаш CSS!';
 
   @override
-  String get embedThemeUnavailableButton => 'Темите не са налични';
+  String get embedThemeImport => 'Импортиране на тема';
+
+  @override
+  String get embedThemeUnavailableTitle => 'Темата не е налична';
+
+  @override
+  String get embedThemeUnavailableDescription => 'Тази тема вече не е налична.';
+
+  @override
+  String get embedThemeImportUnavailable => 'Импортирането е недостъпно';
+
+  @override
+  String get themeImportTitle => 'Импортиране на тема';
+
+  @override
+  String get themeImportDescription =>
+      'Това ще замени текущата ти персонализирана тема.';
+
+  @override
+  String get themeImportReadFailed =>
+      'Не успяхме да прочетем тази тема. Може да е повредена или невалидна.';
+
+  @override
+  String get themeImportApply => 'Приложи';
+
+  @override
+  String get themeImportApplied => 'Темата е приложена успешно.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1297,7 +1322,13 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get dmLeaveGroup => 'Напускане на групата';
 
   @override
-  String get dmNoCommunitiesAvailable => 'Няма налични общности';
+  String dmInviteSentFor(String communityName) {
+    return 'Изпратена покана за $communityName';
+  }
+
+  @override
+  String get dmInviteSendFailed =>
+      'Поканата не можа да бъде изпратена. Опитай отново.';
 
   @override
   String dmGroupMemberCount(int count) {
@@ -2479,7 +2510,7 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get securityVerifyEmailRequired =>
-      'Трябва да потвърдите имейл адреса си, преди да можете да настроите двуфакторна автентикация, пропуск ключове или SMS проверка.';
+      'Трябва да потвърдите имейл адреса си, преди да можете да настроите двуфакторна автентикация или пропуск ключове.';
 
   @override
   String get totpEnableTitle => 'Настройване на приложение за удостоверяване';

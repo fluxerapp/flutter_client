@@ -175,8 +175,15 @@ double _listMarkerColumnWidth({
     }
   }
   painter.dispose();
+  return maxWidth + _listMarkerGap(style: style, textScaler: textScaler);
+}
+
+double _listMarkerGap({
+  required TextStyle style,
+  required TextScaler textScaler,
+}) {
   final double fontSize = style.fontSize ?? FluxerMarkupSpacing.rootFontSize;
-  return maxWidth + textScaler.scale(fontSize) * 0.25;
+  return textScaler.scale(fontSize) * 0.25;
 }
 
 double _textLineHeight(TextStyle style, TextScaler textScaler) {
@@ -1022,14 +1029,19 @@ class _MarkdownBlockRenderer {
       children: [
         SizedBox(
           width: markerColumnWidth,
-          child: buildFluxerBoundedRichText(
-            text: TextSpan(text: marker, style: baseStyle),
-            baseStyle: baseStyle,
-            textAlign: markerTextAlign,
-            textScaler: textScaler,
-            maxLines: 1,
-            overflow: TextOverflow.clip,
-            softWrap: false,
+          child: Padding(
+            padding: EdgeInsetsDirectional.only(
+              end: _listMarkerGap(style: baseStyle, textScaler: textScaler),
+            ),
+            child: buildFluxerBoundedRichText(
+              text: TextSpan(text: marker, style: baseStyle),
+              baseStyle: baseStyle,
+              textAlign: markerTextAlign,
+              textScaler: textScaler,
+              maxLines: 1,
+              overflow: TextOverflow.clip,
+              softWrap: false,
+            ),
           ),
         ),
         Expanded(child: body),

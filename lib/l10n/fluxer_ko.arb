@@ -636,7 +636,7 @@
     },
     "recoveryKitBackupCodesFailed": "백업 코드를 불러올 수 없습니다.",
     "@recoveryKitBackupCodesFailed": {
-        "description": "Toast shown when the two-factor backup codes for the recovery kit cannot be loaded."
+        "description": "Toast shown when the two-factor backup codes cannot be loaded, in the recovery kit sheet or from View codes in security settings."
     },
     "recoveryKitIncludeBackupCodes": "저장되는 이미지에 2단계 인증 백업 코드 포함",
     "@recoveryKitIncludeBackupCodes": {
@@ -986,13 +986,45 @@
     "@embedThemeTitle": {
         "description": "Title on the theme embed card in chat."
     },
-    "embedThemeSubtitle": "이 클라이언트에서는 사용자 지정 테마를 지원하지 않습니다.",
-    "@embedThemeSubtitle": {
-        "description": "Subtitle on the theme embed card."
+    "embedThemeHelp": "CSS가 도착했습니다!",
+    "@embedThemeHelp": {
+        "description": "Subtitle on a shared theme link embed in chat."
     },
-    "embedThemeUnavailableButton": "테마 사용 불가",
-    "@embedThemeUnavailableButton": {
-        "description": "Button on the theme embed card - themes aren't supported in the client."
+    "embedThemeImport": "테마 가져오기",
+    "@embedThemeImport": {
+        "description": "Button on a shared theme link embed that opens the import sheet."
+    },
+    "embedThemeUnavailableTitle": "테마를 사용할 수 없습니다",
+    "@embedThemeUnavailableTitle": {
+        "description": "Title on a shared theme link embed when the theme cannot be loaded."
+    },
+    "embedThemeUnavailableDescription": "더 이상 사용할 수 없는 테마입니다.",
+    "@embedThemeUnavailableDescription": {
+        "description": "Subtitle on a shared theme link embed when the theme cannot be loaded."
+    },
+    "embedThemeImportUnavailable": "가져올 수 없음",
+    "@embedThemeImportUnavailable": {
+        "description": "Disabled button on a shared theme link embed when the theme cannot be loaded."
+    },
+    "themeImportTitle": "테마 가져오기",
+    "@themeImportTitle": {
+        "description": "Title of the sheet that previews a shared theme before importing it."
+    },
+    "themeImportDescription": "현재 사용 중인 테마를 대체합니다.",
+    "@themeImportDescription": {
+        "description": "Warning at the top of the theme import sheet."
+    },
+    "themeImportReadFailed": "테마를 읽을 수 없습니다. 파일이 손상되었거나 유효하지 않을 수 있습니다.",
+    "@themeImportReadFailed": {
+        "description": "Error shown in the theme import sheet when the theme CSS cannot be loaded."
+    },
+    "themeImportApply": "적용",
+    "@themeImportApply": {
+        "description": "Button in the theme import sheet that applies the shared theme."
+    },
+    "themeImportApplied": "테마가 적용되었습니다.",
+    "@themeImportApplied": {
+        "description": "Toast shown after a shared theme was applied."
     },
     "privacySettings": "개인 정보 보호 설정",
     "@privacySettings": {
@@ -1220,9 +1252,18 @@
     "@dmLeaveGroup": {
         "description": "DM context menu action to leave a group DM."
     },
-    "dmNoCommunitiesAvailable": "사용 가능한 커뮤니티 없음",
-    "@dmNoCommunitiesAvailable": {
-        "description": "Shown when no communities are available to invite to."
+    "dmInviteSentFor": "{communityName} 참여 초대를 보냈습니다",
+    "@dmInviteSentFor": {
+        "description": "Toast confirming a community invite was sent to a DM recipient.",
+        "placeholders": {
+            "communityName": {
+                "type": "String"
+            }
+        }
+    },
+    "dmInviteSendFailed": "초대를 보낼 수 없습니다. 다시 시도해 주세요.",
+    "@dmInviteSendFailed": {
+        "description": "Toast shown when sending a community invite from the DM menu fails."
     },
     "dmGroupMemberCount": "{count}명",
     "@dmGroupMemberCount": {
@@ -2654,7 +2695,7 @@
     "@securityClaimDescription": {
         "description": "Description prompting user to claim account."
     },
-    "securityVerifyEmailRequired": "2단계 인증, 비밀번호 키 또는 SMS 인증을 설정하기 전에 이메일 주소를 인증해야 합니다.",
+    "securityVerifyEmailRequired": "2단계 인증 또는 비밀번호 키를 설정하기 전에 이메일 주소를 인증해야 합니다.",
     "@securityVerifyEmailRequired": {
         "description": "Warning when email is not verified."
     },
@@ -6428,7 +6469,7 @@
             }
         }
     },
-    "dmComposerHint": "Message @{recipientName}",
+    "dmComposerHint": "@{recipientName}님에게 메시지 보내기",
     "@dmComposerHint": {
         "description": "Placeholder in the message composer for a one-to-one DM.",
         "placeholders": {

@@ -39,7 +39,7 @@ const List<String> kIgnoredDeepLinkPathExamples = [
   '/age-verification-callback',
   '/connection-callback',
   '/theme-studio',
-  '/theme/my-theme',
+  '/theme',
   '/bookmarks',
   '/mentions',
   '/settings/guild/123',
@@ -159,6 +159,9 @@ bool isAllowedDeepLinkPath(Uri uri) {
     return true;
   }
   if (normalized.startsWith('/gift/')) {
+    return true;
+  }
+  if (normalized.startsWith('/theme/')) {
     return true;
   }
   if (normalized.startsWith('/users/')) {

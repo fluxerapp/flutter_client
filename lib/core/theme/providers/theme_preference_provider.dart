@@ -476,6 +476,12 @@ class ThemePreference extends _$ThemePreference {
     _markAccessibilityDirty();
   }
 
+  Future<void> setCustomThemeCss(String css) async {
+    state = state.copyWith(customThemeCss: css);
+    await _persist();
+    _markAccessibilityDirty();
+  }
+
   Future<void> applySyncedThemeCustomization({
     double? saturationFactor,
     String? customThemeCss,

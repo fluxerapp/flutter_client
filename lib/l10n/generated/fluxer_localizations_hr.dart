@@ -967,10 +967,36 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get embedThemeTitle => 'Dijeljena tema';
 
   @override
-  String get embedThemeSubtitle => 'Ovaj klijent ne podržava prilagođene teme.';
+  String get embedThemeHelp => 'Imate CSS!';
 
   @override
-  String get embedThemeUnavailableButton => 'Teme nedostupne';
+  String get embedThemeImport => 'Uvezi temu';
+
+  @override
+  String get embedThemeUnavailableTitle => 'Tema nije dostupna';
+
+  @override
+  String get embedThemeUnavailableDescription => 'Ova tema više nije dostupna.';
+
+  @override
+  String get embedThemeImportUnavailable => 'Uvoz nedostupan';
+
+  @override
+  String get themeImportTitle => 'Uvezi temu';
+
+  @override
+  String get themeImportDescription =>
+      'Ovo će zamijeniti vašu trenutačnu prilagođenu temu.';
+
+  @override
+  String get themeImportReadFailed =>
+      'Nismo mogli učitati ovu temu. Možda je oštećena ili nevažeća.';
+
+  @override
+  String get themeImportApply => 'Primijeni';
+
+  @override
+  String get themeImportApplied => 'Tema je uspješno primijenjena.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1295,7 +1321,13 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get dmLeaveGroup => 'Napusti grupu';
 
   @override
-  String get dmNoCommunitiesAvailable => 'Nema dostupnih zajednica';
+  String dmInviteSentFor(String communityName) {
+    return 'Pozivnica za $communityName poslana';
+  }
+
+  @override
+  String get dmInviteSendFailed =>
+      'Nije moguće poslati pozivnicu. Pokušajte ponovno.';
 
   @override
   String dmGroupMemberCount(int count) {
@@ -2475,7 +2507,7 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get securityVerifyEmailRequired =>
-      'Morate potvrditi svoju e-adresu prije nego što možete postaviti dvofaktorsku provjeru autentičnosti, pristupne ključeve ili SMS provjeru.';
+      'Morate potvrditi svoju e-adresu prije nego što možete postaviti dvofaktorsku provjeru autentičnosti ili pristupne ključeve.';
 
   @override
   String get totpEnableTitle =>

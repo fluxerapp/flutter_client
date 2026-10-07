@@ -3,7 +3,7 @@
     "@reconnectingTitle": {
         "description": "Title on the reconnecting / instance error screen."
     },
-    "reconnectingBody": "Có lỗi xảy ra với phiên bản này.\nSẽ được khắc phục trong giây lát!",
+    "reconnectingBody": "Có lỗi xảy ra với máy chủ này.\nSẽ được khắc phục trong giây lát!",
     "@reconnectingBody": {
         "description": "Subtitle on the reconnecting screen explaining a temporary instance outage."
     },
@@ -764,7 +764,7 @@
     "@recoverAccountDescription": {
         "description": "Description on the account recovery screen."
     },
-    "recoverAccountNoKit": "Không có bộ phục hồi? Hãy yêu cầu quản trị viên của phiên bản này cung cấp liên kết đặt lại mật khẩu.",
+    "recoverAccountNoKit": "Không có bộ phục hồi? Hãy yêu cầu quản trị viên của máy chủ này cung cấp liên kết đặt lại mật khẩu.",
     "@recoverAccountNoKit": {
         "description": "Hint under the account recovery form for people without a recovery kit."
     },
@@ -805,7 +805,7 @@
     "@recoveryKitDocumentIntro": {
         "description": "Introduction on the saved recovery kit image."
     },
-    "recoveryKitInstanceLabel": "Phiên bản",
+    "recoveryKitInstanceLabel": "Máy chủ",
     "@recoveryKitInstanceLabel": {
         "description": "Label for the server address on the saved recovery kit."
     },
@@ -848,7 +848,7 @@
     },
     "recoveryKitBackupCodesFailed": "Không thể tải mã dự phòng của bạn.",
     "@recoveryKitBackupCodesFailed": {
-        "description": "Toast shown when the two-factor backup codes for the recovery kit cannot be loaded."
+        "description": "Toast shown when the two-factor backup codes cannot be loaded, in the recovery kit sheet or from View codes in security settings."
     },
     "recoveryKitIncludeBackupCodes": "Bao gồm mã dự phòng xác thực hai yếu tố của tôi trong hình ảnh đã lưu",
     "@recoveryKitIncludeBackupCodes": {
@@ -1067,7 +1067,7 @@
     "@errorUnableToSignIn": {
         "description": "Generic fallback error when login fails unexpectedly."
     },
-    "errorServiceUnavailable": "Phiên bản này tạm thời không khả dụng. Vui lòng thử lại sau.",
+    "errorServiceUnavailable": "Máy chủ này tạm thời không khả dụng. Vui lòng thử lại sau.",
     "@errorServiceUnavailable": {
         "description": "Login error when the API returns 502, 503, or 504."
     },
@@ -1260,13 +1260,45 @@
     "@embedThemeTitle": {
         "description": "Title on the theme embed card in chat."
     },
-    "embedThemeSubtitle": "Ứng dụng này không hỗ trợ tùy chỉnh giao diện.",
-    "@embedThemeSubtitle": {
-        "description": "Subtitle on the theme embed card."
+    "embedThemeHelp": "Bạn đã có CSS!",
+    "@embedThemeHelp": {
+        "description": "Subtitle on a shared theme link embed in chat."
     },
-    "embedThemeUnavailableButton": "Chủ đề không khả dụng",
-    "@embedThemeUnavailableButton": {
-        "description": "Button on the theme embed card - themes aren't supported in the client."
+    "embedThemeImport": "Nhập chủ đề",
+    "@embedThemeImport": {
+        "description": "Button on a shared theme link embed that opens the import sheet."
+    },
+    "embedThemeUnavailableTitle": "Chủ đề không khả dụng",
+    "@embedThemeUnavailableTitle": {
+        "description": "Title on a shared theme link embed when the theme cannot be loaded."
+    },
+    "embedThemeUnavailableDescription": "Chủ đề này không còn khả dụng nữa.",
+    "@embedThemeUnavailableDescription": {
+        "description": "Subtitle on a shared theme link embed when the theme cannot be loaded."
+    },
+    "embedThemeImportUnavailable": "Không thể nhập",
+    "@embedThemeImportUnavailable": {
+        "description": "Disabled button on a shared theme link embed when the theme cannot be loaded."
+    },
+    "themeImportTitle": "Nhập chủ đề",
+    "@themeImportTitle": {
+        "description": "Title of the sheet that previews a shared theme before importing it."
+    },
+    "themeImportDescription": "Thao tác này sẽ thay thế chủ đề tùy chỉnh hiện tại của bạn.",
+    "@themeImportDescription": {
+        "description": "Warning at the top of the theme import sheet."
+    },
+    "themeImportReadFailed": "Không đọc được chủ đề này. Có thể chủ đề bị lỗi hoặc không hợp lệ.",
+    "@themeImportReadFailed": {
+        "description": "Error shown in the theme import sheet when the theme CSS cannot be loaded."
+    },
+    "themeImportApply": "Áp dụng",
+    "@themeImportApply": {
+        "description": "Button in the theme import sheet that applies the shared theme."
+    },
+    "themeImportApplied": "Đã áp dụng chủ đề.",
+    "@themeImportApplied": {
+        "description": "Toast shown after a shared theme was applied."
     },
     "embedGiftVisionaryLifetime": "Visionary (trọn đời {productName})",
     "@embedGiftVisionaryLifetime": {
@@ -1683,9 +1715,18 @@
     "@dmLeaveGroup": {
         "description": "DM context menu action to leave a group DM."
     },
-    "dmNoCommunitiesAvailable": "Không có cộng đồng nào khả dụng",
-    "@dmNoCommunitiesAvailable": {
-        "description": "Shown when no communities are available to invite to."
+    "dmInviteSentFor": "Đã gửi lời mời tham gia {communityName}",
+    "@dmInviteSentFor": {
+        "description": "Toast confirming a community invite was sent to a DM recipient.",
+        "placeholders": {
+            "communityName": {
+                "type": "String"
+            }
+        }
+    },
+    "dmInviteSendFailed": "Không gửi được lời mời. Vui lòng thử lại.",
+    "@dmInviteSendFailed": {
+        "description": "Toast shown when sending a community invite from the DM menu fails."
     },
     "dmGroupMemberCount": "{count} thành viên",
     "@dmGroupMemberCount": {
@@ -3202,7 +3243,7 @@
     "@securityClaimDescription": {
         "description": "Description prompting user to claim account."
     },
-    "securityVerifyEmailRequired": "Bạn phải xác minh địa chỉ email của mình trước khi có thể thiết lập xác thực hai yếu tố, khóa truy cập hoặc xác minh qua SMS.",
+    "securityVerifyEmailRequired": "Bạn phải xác minh địa chỉ email của mình trước khi có thể thiết lập xác thực hai yếu tố hoặc khóa truy cập.",
     "@securityVerifyEmailRequired": {
         "description": "Warning when email is not verified."
     },
@@ -11915,7 +11956,7 @@
             }
         }
     },
-    "audioAndVideoInstanceVideoQualityLimit": "Phiên bản này hiện cho phép chia sẻ màn hình lên tới 720p ở 30 FPS.",
+    "audioAndVideoInstanceVideoQualityLimit": "Máy chủ này hiện cho phép chia sẻ màn hình lên tới 720p ở 30 FPS.",
     "@audioAndVideoInstanceVideoQualityLimit": {
         "description": "Note shown when instance limits block higher screen share quality."
     },
@@ -12965,11 +13006,11 @@
     "@composerEmojiUnavailable": {
         "description": "Toast shown when a message contains a custom emoji the user cannot use in this channel."
     },
-    "instanceUrlLabel": "URL của phiên bản",
+    "instanceUrlLabel": "URL của máy chủ",
     "@instanceUrlLabel": {
         "description": "Label for the self-hosted instance URL input on the login screen."
     },
-    "instanceUrlPlaceholder": "Nhập URL của phiên bản (ví dụ: fluxer.app)",
+    "instanceUrlPlaceholder": "Nhập URL của máy chủ (ví dụ: fluxer.app)",
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
     },
@@ -12989,15 +13030,15 @@
     "@instanceConnecting": {
         "description": "Status text while discovering a custom Fluxer instance."
     },
-    "instanceConnectFailed": "Không thể kết nối tới phiên bản",
+    "instanceConnectFailed": "Không thể kết nối tới máy chủ",
     "@instanceConnectFailed": {
         "description": "Fallback error when instance discovery fails."
     },
-    "recentInstances": "Các phiên bản gần đây",
+    "recentInstances": "Các máy chủ gần đây",
     "@recentInstances": {
         "description": "Label for the recent self-hosted instances list."
     },
-    "removeRecentInstance": "Xóa {domain} khỏi các phiên gần đây",
+    "removeRecentInstance": "Xóa {domain} khỏi các máy chủ gần đây",
     "@removeRecentInstance": {
         "description": "Accessibility label for removing a recent instance.",
         "placeholders": {
@@ -13014,7 +13055,7 @@
     "@changeInstance": {
         "description": "Link to change the connected Fluxer instance."
     },
-    "instanceConnectionRequired": "Kết nối với phiên bản để đăng nhập",
+    "instanceConnectionRequired": "Kết nối với máy chủ để đăng nhập",
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },

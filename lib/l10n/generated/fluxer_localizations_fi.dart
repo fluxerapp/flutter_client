@@ -963,11 +963,37 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get embedThemeTitle => 'Jaettu teema';
 
   @override
-  String get embedThemeSubtitle =>
-      'Tämä asiakasohjelma ei tue mukautettuja teemoja.';
+  String get embedThemeHelp => 'Sinulle on CSS:ää!';
 
   @override
-  String get embedThemeUnavailableButton => 'Teemat eivät saatavilla';
+  String get embedThemeImport => 'Tuo teema';
+
+  @override
+  String get embedThemeUnavailableTitle => 'Teema ei ole saatavilla';
+
+  @override
+  String get embedThemeUnavailableDescription =>
+      'Tämä teema ei ole enää saatavilla.';
+
+  @override
+  String get embedThemeImportUnavailable => 'Tuonti ei ole käytettävissä';
+
+  @override
+  String get themeImportTitle => 'Tuo teema';
+
+  @override
+  String get themeImportDescription =>
+      'Tämä korvaa nykyisen mukautetun teemasi.';
+
+  @override
+  String get themeImportReadFailed =>
+      'Teemaa ei voitu lukea. Se voi olla vioittunut tai virheellinen.';
+
+  @override
+  String get themeImportApply => 'Käytä';
+
+  @override
+  String get themeImportApplied => 'Teema otettu käyttöön.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1295,7 +1321,12 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get dmLeaveGroup => 'Poistu ryhmästä';
 
   @override
-  String get dmNoCommunitiesAvailable => 'Yhteisöjä ei ole saatavilla';
+  String dmInviteSentFor(String communityName) {
+    return 'Kutsu yhteisöön $communityName lähetetty';
+  }
+
+  @override
+  String get dmInviteSendFailed => 'Kutsua ei voitu lähettää. Yritä uudelleen.';
 
   @override
   String dmGroupMemberCount(int count) {
@@ -2472,7 +2503,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get securityVerifyEmailRequired =>
-      'Sinun on vahvistettava sähköpostiosoitteesi ennen kuin voit ottaa käyttöön kaksivaiheisen tunnistautumisen, passkey-avaimet tai tekstiviestivahvistuksen.';
+      'Sinun on vahvistettava sähköpostiosoitteesi ennen kuin voit ottaa käyttöön kaksivaiheisen tunnistautumisen tai passkey-avaimet.';
 
   @override
   String get totpEnableTitle => 'Ota käyttöön todennussovellus';
@@ -9219,7 +9250,7 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String dmComposerHint(String recipientName) {
-    return 'Message @$recipientName';
+    return 'Viesti käyttäjälle @$recipientName';
   }
 
   @override

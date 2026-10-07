@@ -636,7 +636,7 @@
     },
     "recoveryKitBackupCodesFailed": "无法加载您的备用代码。",
     "@recoveryKitBackupCodesFailed": {
-        "description": "Toast shown when the two-factor backup codes for the recovery kit cannot be loaded."
+        "description": "Toast shown when the two-factor backup codes cannot be loaded, in the recovery kit sheet or from View codes in security settings."
     },
     "recoveryKitIncludeBackupCodes": "在保存的图片中包含我的双重验证备用码",
     "@recoveryKitIncludeBackupCodes": {
@@ -986,13 +986,45 @@
     "@embedThemeTitle": {
         "description": "Title on the theme embed card in chat."
     },
-    "embedThemeSubtitle": "此客户端不支持自定义主题。",
-    "@embedThemeSubtitle": {
-        "description": "Subtitle on the theme embed card."
+    "embedThemeHelp": "你收到了 CSS！",
+    "@embedThemeHelp": {
+        "description": "Subtitle on a shared theme link embed in chat."
     },
-    "embedThemeUnavailableButton": "主题不可用",
-    "@embedThemeUnavailableButton": {
-        "description": "Button on the theme embed card - themes aren't supported in the client."
+    "embedThemeImport": "导入主题",
+    "@embedThemeImport": {
+        "description": "Button on a shared theme link embed that opens the import sheet."
+    },
+    "embedThemeUnavailableTitle": "主题不可用",
+    "@embedThemeUnavailableTitle": {
+        "description": "Title on a shared theme link embed when the theme cannot be loaded."
+    },
+    "embedThemeUnavailableDescription": "此主题不再可用。",
+    "@embedThemeUnavailableDescription": {
+        "description": "Subtitle on a shared theme link embed when the theme cannot be loaded."
+    },
+    "embedThemeImportUnavailable": "无法导入",
+    "@embedThemeImportUnavailable": {
+        "description": "Disabled button on a shared theme link embed when the theme cannot be loaded."
+    },
+    "themeImportTitle": "导入主题",
+    "@themeImportTitle": {
+        "description": "Title of the sheet that previews a shared theme before importing it."
+    },
+    "themeImportDescription": "这会替换你当前的自定义主题。",
+    "@themeImportDescription": {
+        "description": "Warning at the top of the theme import sheet."
+    },
+    "themeImportReadFailed": "无法读取此主题。它可能已损坏或无效。",
+    "@themeImportReadFailed": {
+        "description": "Error shown in the theme import sheet when the theme CSS cannot be loaded."
+    },
+    "themeImportApply": "应用",
+    "@themeImportApply": {
+        "description": "Button in the theme import sheet that applies the shared theme."
+    },
+    "themeImportApplied": "主题已成功应用。",
+    "@themeImportApplied": {
+        "description": "Toast shown after a shared theme was applied."
     },
     "privacySettings": "隐私设置",
     "@privacySettings": {
@@ -1220,9 +1252,18 @@
     "@dmLeaveGroup": {
         "description": "DM context menu action to leave a group DM."
     },
-    "dmNoCommunitiesAvailable": "没有可用的社群",
-    "@dmNoCommunitiesAvailable": {
-        "description": "Shown when no communities are available to invite to."
+    "dmInviteSentFor": "已发送加入 {communityName} 的邀请",
+    "@dmInviteSentFor": {
+        "description": "Toast confirming a community invite was sent to a DM recipient.",
+        "placeholders": {
+            "communityName": {
+                "type": "String"
+            }
+        }
+    },
+    "dmInviteSendFailed": "无法发送邀请。请重试。",
+    "@dmInviteSendFailed": {
+        "description": "Toast shown when sending a community invite from the DM menu fails."
     },
     "dmGroupMemberCount": "{count} 位成员",
     "@dmGroupMemberCount": {
@@ -2654,7 +2695,7 @@
     "@securityClaimDescription": {
         "description": "Description prompting user to claim account."
     },
-    "securityVerifyEmailRequired": "您必须先验证您的电子邮件地址，才能设置双重验证、通行密钥或短信验证。",
+    "securityVerifyEmailRequired": "您必须先验证您的电子邮件地址，才能设置双重验证或通行密钥。",
     "@securityVerifyEmailRequired": {
         "description": "Warning when email is not verified."
     },
@@ -6428,7 +6469,7 @@
             }
         }
     },
-    "dmComposerHint": "Message @{recipientName}",
+    "dmComposerHint": "给 @{recipientName} 发消息",
     "@dmComposerHint": {
         "description": "Placeholder in the message composer for a one-to-one DM.",
         "placeholders": {

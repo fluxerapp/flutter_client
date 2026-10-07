@@ -1,3 +1,4 @@
+import 'package:flutter/rendering.dart' show RenderParagraph;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
@@ -337,6 +338,31 @@ void main() {
       expect(body.height, greaterThan(16 * 1.375 + 1));
     });
 
+    testWidgets('ordered list markers keep a gap before the item text', (
+      tester,
+    ) async {
+      const String input = '9. Bring snacks\n10. Tenth item';
+      await _pumpMarkdown(tester, data: input, width: 300);
+
+      for (final String marker in <String>['9.', '10.']) {
+        final Rect markerColumn = tester.getRect(
+          _listMarkerSizedBoxFinder(marker),
+        );
+        final RenderParagraph paragraph = tester.renderObject<RenderParagraph>(
+          _markerFinder(marker),
+        );
+        final double glyphRight =
+            tester.getTopLeft(_markerFinder(marker)).dx +
+            paragraph
+                .getBoxesForSelection(
+                  TextSelection(baseOffset: 0, extentOffset: marker.length),
+                )
+                .last
+                .right;
+        expect(markerColumn.right - glyphRight, closeTo(16 * 0.25, 0.5));
+      }
+    });
+
     testWidgets('nested ordered list uses an independent alpha marker column', (
       tester,
     ) async {
@@ -390,6 +416,9 @@ Finder _markerFinder(String marker) {
 }
 
 bool _isListMarkerSizedBoxChild(Widget? child, String marker) {
+  if (child is Padding) {
+    return _isListMarkerSizedBoxChild(child.child, marker);
+  }
   if (child is RichText && child.text.toPlainText() == marker) {
     return true;
   }

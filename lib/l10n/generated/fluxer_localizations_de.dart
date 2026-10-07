@@ -971,11 +971,37 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get embedThemeTitle => 'Geteiltes Design';
 
   @override
-  String get embedThemeSubtitle =>
-      'Dieser Client unterstützt keine benutzerdefinierten Designs.';
+  String get embedThemeHelp => 'Du hast CSS!';
 
   @override
-  String get embedThemeUnavailableButton => 'Designs nicht verfügbar';
+  String get embedThemeImport => 'Design importieren';
+
+  @override
+  String get embedThemeUnavailableTitle => 'Design nicht verfügbar';
+
+  @override
+  String get embedThemeUnavailableDescription =>
+      'Dieses Design ist nicht mehr verfügbar.';
+
+  @override
+  String get embedThemeImportUnavailable => 'Import nicht verfügbar';
+
+  @override
+  String get themeImportTitle => 'Design importieren';
+
+  @override
+  String get themeImportDescription =>
+      'Dadurch wird dein aktuelles benutzerdefiniertes Design ersetzt.';
+
+  @override
+  String get themeImportReadFailed =>
+      'Dieses Design konnte nicht gelesen werden. Es ist möglicherweise beschädigt oder ungültig.';
+
+  @override
+  String get themeImportApply => 'Anwenden';
+
+  @override
+  String get themeImportApplied => 'Design erfolgreich angewendet.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1305,7 +1331,13 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get dmLeaveGroup => 'Gruppe verlassen';
 
   @override
-  String get dmNoCommunitiesAvailable => 'Keine Communitys verfügbar';
+  String dmInviteSentFor(String communityName) {
+    return 'Einladung für $communityName gesendet';
+  }
+
+  @override
+  String get dmInviteSendFailed =>
+      'Einladung konnte nicht gesendet werden. Bitte versuche es erneut.';
 
   @override
   String dmGroupMemberCount(int count) {
@@ -2488,7 +2520,7 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
 
   @override
   String get securityVerifyEmailRequired =>
-      'Du musst deine E-Mail-Adresse verifizieren, bevor du Zwei-Faktor-Authentifizierung, Passkeys oder SMS-Verifizierung einrichten kannst.';
+      'Du musst deine E-Mail-Adresse verifizieren, bevor du Zwei-Faktor-Authentifizierung oder Passkeys einrichten kannst.';
 
   @override
   String get totpEnableTitle => 'Authenticator-App einrichten';
@@ -9306,7 +9338,7 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
 
   @override
   String dmComposerHint(String recipientName) {
-    return 'Message @$recipientName';
+    return 'Nachricht an @$recipientName';
   }
 
   @override

@@ -972,11 +972,37 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get embedThemeTitle => 'Κοινοποιημένο θέμα';
 
   @override
-  String get embedThemeSubtitle =>
-      'Αυτός ο client δεν υποστηρίζει προσαρμοσμένα θέματα.';
+  String get embedThemeHelp => 'Έχετε CSS!';
 
   @override
-  String get embedThemeUnavailableButton => 'Θέματα μη διαθέσιμα';
+  String get embedThemeImport => 'Εισαγωγή θέματος';
+
+  @override
+  String get embedThemeUnavailableTitle => 'Το θέμα δεν είναι διαθέσιμο';
+
+  @override
+  String get embedThemeUnavailableDescription =>
+      'Αυτό το θέμα δεν είναι πλέον διαθέσιμο.';
+
+  @override
+  String get embedThemeImportUnavailable => 'Η εισαγωγή δεν είναι διαθέσιμη';
+
+  @override
+  String get themeImportTitle => 'Εισαγωγή θέματος';
+
+  @override
+  String get themeImportDescription =>
+      'Αυτό θα αντικαταστήσει το τρέχον προσαρμοσμένο θέμα σας.';
+
+  @override
+  String get themeImportReadFailed =>
+      'Δεν μπορέσαμε να διαβάσουμε αυτό το θέμα. Ενδέχεται να είναι κατεστραμμένο ή μη έγκυρο.';
+
+  @override
+  String get themeImportApply => 'Εφαρμογή';
+
+  @override
+  String get themeImportApplied => 'Το θέμα εφαρμόστηκε επιτυχώς.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1297,13 +1323,19 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get dmInviteToCommunity => 'Πρόσκληση στην κοινότητα';
 
   @override
-  String get dmBlock => 'Αποκλεισμός';
+  String get dmBlock => 'Μπλοκάρισμα';
 
   @override
   String get dmLeaveGroup => 'Αποχώρηση από την ομάδα';
 
   @override
-  String get dmNoCommunitiesAvailable => 'Δεν υπάρχουν διαθέσιμες κοινότητες';
+  String dmInviteSentFor(String communityName) {
+    return 'Στάλθηκε πρόσκληση συμμετοχής στην κοινότητα $communityName';
+  }
+
+  @override
+  String get dmInviteSendFailed =>
+      'Δεν ήταν δυνατή η αποστολή της πρόσκλησης. Δοκιμάστε ξανά.';
 
   @override
   String dmGroupMemberCount(int count) {
@@ -2488,7 +2520,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get securityVerifyEmailRequired =>
-      'Πρέπει να επαληθεύσετε τη διεύθυνση email σας πριν μπορέσετε να ρυθμίσετε τον έλεγχο ταυτότητας δύο παραγόντων, τα κλειδιά πρόσβασης ή την επαλήθευση μέσω SMS.';
+      'Πρέπει να επαληθεύσετε τη διεύθυνση email σας πριν μπορέσετε να ρυθμίσετε τον έλεγχο ταυτότητας δύο παραγόντων ή τα κλειδιά πρόσβασης.';
 
   @override
   String get totpEnableTitle => 'Ρύθμιση Εφαρμογής Επαλήθευσης';
@@ -3313,7 +3345,8 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Δεν έχετε μπλοκάρει κανέναν ακόμα.';
 
   @override
-  String get blockedUsersLoadError => 'Αδυναμία Φόρτωσης Αποκλεισμένων Χρηστών';
+  String get blockedUsersLoadError =>
+      'Αδυναμία φόρτωσης μπλοκαρισμένων χρηστών';
 
   @override
   String get blockedUsersUnblock => 'Ξεμπλοκάρισμα';
@@ -3323,7 +3356,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String blockedUsersUnblockDescription(String username) {
-    return 'Είστε σίγουροι ότι θέλετε να αποκλείσετε τον $username;';
+    return 'Είστε σίγουροι ότι θέλετε να ξεμπλοκάρετε τον/την $username;';
   }
 
   @override
@@ -9313,7 +9346,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String dmComposerHint(String recipientName) {
-    return 'Message @$recipientName';
+    return 'Μήνυμα προς @$recipientName';
   }
 
   @override

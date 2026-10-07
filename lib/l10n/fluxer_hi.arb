@@ -848,7 +848,7 @@
     },
     "recoveryKitBackupCodesFailed": "आपके बैकअप कोड लोड नहीं हो सके।",
     "@recoveryKitBackupCodesFailed": {
-        "description": "Toast shown when the two-factor backup codes for the recovery kit cannot be loaded."
+        "description": "Toast shown when the two-factor backup codes cannot be loaded, in the recovery kit sheet or from View codes in security settings."
     },
     "recoveryKitIncludeBackupCodes": "सहेजी गई छवि में मेरे टू-फ़ैक्टर बैकअप कोड शामिल करें",
     "@recoveryKitIncludeBackupCodes": {
@@ -1260,13 +1260,45 @@
     "@embedThemeTitle": {
         "description": "Title on the theme embed card in chat."
     },
-    "embedThemeSubtitle": "यह क्लाइंट कस्टम थीम का समर्थन नहीं करता है।",
-    "@embedThemeSubtitle": {
-        "description": "Subtitle on the theme embed card."
+    "embedThemeHelp": "आपको CSS मिल गया!",
+    "@embedThemeHelp": {
+        "description": "Subtitle on a shared theme link embed in chat."
     },
-    "embedThemeUnavailableButton": "थीम अनुपलब्ध",
-    "@embedThemeUnavailableButton": {
-        "description": "Button on the theme embed card - themes aren't supported in the client."
+    "embedThemeImport": "थीम इंपोर्ट करें",
+    "@embedThemeImport": {
+        "description": "Button on a shared theme link embed that opens the import sheet."
+    },
+    "embedThemeUnavailableTitle": "थीम उपलब्ध नहीं है",
+    "@embedThemeUnavailableTitle": {
+        "description": "Title on a shared theme link embed when the theme cannot be loaded."
+    },
+    "embedThemeUnavailableDescription": "यह थीम अब उपलब्ध नहीं है।",
+    "@embedThemeUnavailableDescription": {
+        "description": "Subtitle on a shared theme link embed when the theme cannot be loaded."
+    },
+    "embedThemeImportUnavailable": "इंपोर्ट उपलब्ध नहीं है",
+    "@embedThemeImportUnavailable": {
+        "description": "Disabled button on a shared theme link embed when the theme cannot be loaded."
+    },
+    "themeImportTitle": "थीम इंपोर्ट करें",
+    "@themeImportTitle": {
+        "description": "Title of the sheet that previews a shared theme before importing it."
+    },
+    "themeImportDescription": "इससे आपकी मौजूदा कस्टम थीम बदल जाएगी।",
+    "@themeImportDescription": {
+        "description": "Warning at the top of the theme import sheet."
+    },
+    "themeImportReadFailed": "हम इस थीम को पढ़ नहीं पाए। हो सकता है यह खराब हो या अमान्य हो।",
+    "@themeImportReadFailed": {
+        "description": "Error shown in the theme import sheet when the theme CSS cannot be loaded."
+    },
+    "themeImportApply": "लागू करें",
+    "@themeImportApply": {
+        "description": "Button in the theme import sheet that applies the shared theme."
+    },
+    "themeImportApplied": "थीम सफलतापूर्वक लागू हो गई।",
+    "@themeImportApplied": {
+        "description": "Toast shown after a shared theme was applied."
     },
     "embedGiftVisionaryLifetime": "विज़नरी (लाइफटाइम {productName})",
     "@embedGiftVisionaryLifetime": {
@@ -1683,9 +1715,18 @@
     "@dmLeaveGroup": {
         "description": "DM context menu action to leave a group DM."
     },
-    "dmNoCommunitiesAvailable": "कोई समुदाय उपलब्ध नहीं है",
-    "@dmNoCommunitiesAvailable": {
-        "description": "Shown when no communities are available to invite to."
+    "dmInviteSentFor": "{communityName} का इनवाइट भेजा गया",
+    "@dmInviteSentFor": {
+        "description": "Toast confirming a community invite was sent to a DM recipient.",
+        "placeholders": {
+            "communityName": {
+                "type": "String"
+            }
+        }
+    },
+    "dmInviteSendFailed": "इनवाइट भेजा नहीं जा सका। फिर से कोशिश करें।",
+    "@dmInviteSendFailed": {
+        "description": "Toast shown when sending a community invite from the DM menu fails."
     },
     "dmGroupMemberCount": "{count} सदस्य",
     "@dmGroupMemberCount": {
@@ -3202,7 +3243,7 @@
     "@securityClaimDescription": {
         "description": "Description prompting user to claim account."
     },
-    "securityVerifyEmailRequired": "दो-कारक प्रमाणीकरण, पासकी या SMS सत्यापन सेट करने से पहले आपको अपना ईमेल पता सत्यापित करना होगा।",
+    "securityVerifyEmailRequired": "दो-कारक प्रमाणीकरण या पासकी सेट करने से पहले आपको अपना ईमेल पता सत्यापित करना होगा।",
     "@securityVerifyEmailRequired": {
         "description": "Warning when email is not verified."
     },

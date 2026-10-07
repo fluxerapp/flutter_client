@@ -848,7 +848,7 @@
     },
     "recoveryKitBackupCodesFailed": "Nu am putut încărca codurile de rezervă.",
     "@recoveryKitBackupCodesFailed": {
-        "description": "Toast shown when the two-factor backup codes for the recovery kit cannot be loaded."
+        "description": "Toast shown when the two-factor backup codes cannot be loaded, in the recovery kit sheet or from View codes in security settings."
     },
     "recoveryKitIncludeBackupCodes": "Include codurile mele de rezervă pentru autentificarea în doi pași în imaginea salvată",
     "@recoveryKitIncludeBackupCodes": {
@@ -1260,13 +1260,45 @@
     "@embedThemeTitle": {
         "description": "Title on the theme embed card in chat."
     },
-    "embedThemeSubtitle": "Acest client nu acceptă teme personalizate.",
-    "@embedThemeSubtitle": {
-        "description": "Subtitle on the theme embed card."
+    "embedThemeHelp": "Ai primit CSS!",
+    "@embedThemeHelp": {
+        "description": "Subtitle on a shared theme link embed in chat."
     },
-    "embedThemeUnavailableButton": "Teme indisponibile",
-    "@embedThemeUnavailableButton": {
-        "description": "Button on the theme embed card - themes aren't supported in the client."
+    "embedThemeImport": "Importă temă",
+    "@embedThemeImport": {
+        "description": "Button on a shared theme link embed that opens the import sheet."
+    },
+    "embedThemeUnavailableTitle": "Temă indisponibilă",
+    "@embedThemeUnavailableTitle": {
+        "description": "Title on a shared theme link embed when the theme cannot be loaded."
+    },
+    "embedThemeUnavailableDescription": "Această temă nu mai este disponibilă.",
+    "@embedThemeUnavailableDescription": {
+        "description": "Subtitle on a shared theme link embed when the theme cannot be loaded."
+    },
+    "embedThemeImportUnavailable": "Import indisponibil",
+    "@embedThemeImportUnavailable": {
+        "description": "Disabled button on a shared theme link embed when the theme cannot be loaded."
+    },
+    "themeImportTitle": "Importă temă",
+    "@themeImportTitle": {
+        "description": "Title of the sheet that previews a shared theme before importing it."
+    },
+    "themeImportDescription": "Aceasta va înlocui tema ta personalizată actuală.",
+    "@themeImportDescription": {
+        "description": "Warning at the top of the theme import sheet."
+    },
+    "themeImportReadFailed": "Nu am putut citi această temă. Poate fi coruptă sau nevalidă.",
+    "@themeImportReadFailed": {
+        "description": "Error shown in the theme import sheet when the theme CSS cannot be loaded."
+    },
+    "themeImportApply": "Aplică",
+    "@themeImportApply": {
+        "description": "Button in the theme import sheet that applies the shared theme."
+    },
+    "themeImportApplied": "Temă aplicată cu succes.",
+    "@themeImportApplied": {
+        "description": "Toast shown after a shared theme was applied."
     },
     "embedGiftVisionaryLifetime": "Vizionar (pe viață {productName})",
     "@embedGiftVisionaryLifetime": {
@@ -1683,9 +1715,18 @@
     "@dmLeaveGroup": {
         "description": "DM context menu action to leave a group DM."
     },
-    "dmNoCommunitiesAvailable": "Nicio comunitate disponibilă",
-    "@dmNoCommunitiesAvailable": {
-        "description": "Shown when no communities are available to invite to."
+    "dmInviteSentFor": "Invitație trimisă pentru {communityName}",
+    "@dmInviteSentFor": {
+        "description": "Toast confirming a community invite was sent to a DM recipient.",
+        "placeholders": {
+            "communityName": {
+                "type": "String"
+            }
+        }
+    },
+    "dmInviteSendFailed": "Nu s-a putut trimite invitația. Încearcă din nou.",
+    "@dmInviteSendFailed": {
+        "description": "Toast shown when sending a community invite from the DM menu fails."
     },
     "dmGroupMemberCount": "{count} membri",
     "@dmGroupMemberCount": {
@@ -3202,7 +3243,7 @@
     "@securityClaimDescription": {
         "description": "Description prompting user to claim account."
     },
-    "securityVerifyEmailRequired": "Trebuie să îți verifici adresa de e-mail înainte de a putea configura autentificarea în doi pași, cheile de acces sau verificarea prin SMS.",
+    "securityVerifyEmailRequired": "Trebuie să îți verifici adresa de e-mail înainte de a putea configura autentificarea în doi pași sau cheile de acces.",
     "@securityVerifyEmailRequired": {
         "description": "Warning when email is not verified."
     },

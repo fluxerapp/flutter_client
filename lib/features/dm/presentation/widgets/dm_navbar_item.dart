@@ -15,7 +15,7 @@ import 'package:fluxer_app/features/dm/providers/dm_mute_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/dm/providers/unread_dm_provider.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -80,7 +80,7 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
             ?.contains(widget.channelId) ??
         false;
     final showFadedOnMuted = ref.watch(
-      userSettingsViewModelProvider.select(
+      appearancePreferencesProvider.select(
         (s) => s.showFadedUnreadOnMutedChannels,
       ),
     );

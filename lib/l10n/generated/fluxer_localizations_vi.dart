@@ -13,7 +13,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get reconnectingBody =>
-      'Có lỗi xảy ra với phiên bản này.\nSẽ được khắc phục trong giây lát!';
+      'Có lỗi xảy ra với máy chủ này.\nSẽ được khắc phục trong giây lát!';
 
   @override
   String get gatewayReconnectingToast => 'Đang kết nối lại…';
@@ -564,7 +564,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get recoverAccountNoKit =>
-      'Không có bộ phục hồi? Hãy yêu cầu quản trị viên của phiên bản này cung cấp liên kết đặt lại mật khẩu.';
+      'Không có bộ phục hồi? Hãy yêu cầu quản trị viên của máy chủ này cung cấp liên kết đặt lại mật khẩu.';
 
   @override
   String get recoveryKitTitle => 'Bộ dụng cụ khôi phục của bạn';
@@ -598,7 +598,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Hãy giữ trang này ở nơi an toàn. Nếu bạn quên mật khẩu, bạn có thể sử dụng nó để truy cập lại vào tài khoản của mình. Bất kỳ ai có khóa khôi phục này đều có thể đặt lại mật khẩu của bạn, vì vậy đừng bao giờ chia sẻ nó.';
 
   @override
-  String get recoveryKitInstanceLabel => 'Phiên bản';
+  String get recoveryKitInstanceLabel => 'Máy chủ';
 
   @override
   String get recoveryKitCreatedAtLabel => 'Đã tạo';
@@ -820,7 +820,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get errorServiceUnavailable =>
-      'Phiên bản này tạm thời không khả dụng. Vui lòng thử lại sau.';
+      'Máy chủ này tạm thời không khả dụng. Vui lòng thử lại sau.';
 
   @override
   String get errorInvalidEmailOrPassword => 'Email hoặc mật khẩu không hợp lệ.';
@@ -964,11 +964,37 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get embedThemeTitle => 'Chủ đề được chia sẻ';
 
   @override
-  String get embedThemeSubtitle =>
-      'Ứng dụng này không hỗ trợ tùy chỉnh giao diện.';
+  String get embedThemeHelp => 'Bạn đã có CSS!';
 
   @override
-  String get embedThemeUnavailableButton => 'Chủ đề không khả dụng';
+  String get embedThemeImport => 'Nhập chủ đề';
+
+  @override
+  String get embedThemeUnavailableTitle => 'Chủ đề không khả dụng';
+
+  @override
+  String get embedThemeUnavailableDescription =>
+      'Chủ đề này không còn khả dụng nữa.';
+
+  @override
+  String get embedThemeImportUnavailable => 'Không thể nhập';
+
+  @override
+  String get themeImportTitle => 'Nhập chủ đề';
+
+  @override
+  String get themeImportDescription =>
+      'Thao tác này sẽ thay thế chủ đề tùy chỉnh hiện tại của bạn.';
+
+  @override
+  String get themeImportReadFailed =>
+      'Không đọc được chủ đề này. Có thể chủ đề bị lỗi hoặc không hợp lệ.';
+
+  @override
+  String get themeImportApply => 'Áp dụng';
+
+  @override
+  String get themeImportApplied => 'Đã áp dụng chủ đề.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1293,7 +1319,12 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get dmLeaveGroup => 'Rời nhóm';
 
   @override
-  String get dmNoCommunitiesAvailable => 'Không có cộng đồng nào khả dụng';
+  String dmInviteSentFor(String communityName) {
+    return 'Đã gửi lời mời tham gia $communityName';
+  }
+
+  @override
+  String get dmInviteSendFailed => 'Không gửi được lời mời. Vui lòng thử lại.';
 
   @override
   String dmGroupMemberCount(int count) {
@@ -2463,7 +2494,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get securityVerifyEmailRequired =>
-      'Bạn phải xác minh địa chỉ email của mình trước khi có thể thiết lập xác thực hai yếu tố, khóa truy cập hoặc xác minh qua SMS.';
+      'Bạn phải xác minh địa chỉ email của mình trước khi có thể thiết lập xác thực hai yếu tố hoặc khóa truy cập.';
 
   @override
   String get totpEnableTitle => 'Thiết lập ứng dụng xác thực';
@@ -10151,7 +10182,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get audioAndVideoInstanceVideoQualityLimit =>
-      'Phiên bản này hiện cho phép chia sẻ màn hình lên tới 720p ở 30 FPS.';
+      'Máy chủ này hiện cho phép chia sẻ màn hình lên tới 720p ở 30 FPS.';
 
   @override
   String audioAndVideoMicrophonePermissionRequired(String productName) {
@@ -11410,11 +11441,11 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Bạn không thể dùng biểu tượng cảm xúc đó ở đây.';
 
   @override
-  String get instanceUrlLabel => 'URL của phiên bản';
+  String get instanceUrlLabel => 'URL của máy chủ';
 
   @override
   String get instanceUrlPlaceholder =>
-      'Nhập URL của phiên bản (ví dụ: fluxer.app)';
+      'Nhập URL của máy chủ (ví dụ: fluxer.app)';
 
   @override
   String get instanceUrlHelper =>
@@ -11430,14 +11461,14 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get instanceConnecting => 'Đang kết nối…';
 
   @override
-  String get instanceConnectFailed => 'Không thể kết nối tới phiên bản';
+  String get instanceConnectFailed => 'Không thể kết nối tới máy chủ';
 
   @override
-  String get recentInstances => 'Các phiên bản gần đây';
+  String get recentInstances => 'Các máy chủ gần đây';
 
   @override
   String removeRecentInstance(String domain) {
-    return 'Xóa $domain khỏi các phiên gần đây';
+    return 'Xóa $domain khỏi các máy chủ gần đây';
   }
 
   @override
@@ -11447,7 +11478,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get changeInstance => 'Thay đổi';
 
   @override
-  String get instanceConnectionRequired => 'Kết nối với phiên bản để đăng nhập';
+  String get instanceConnectionRequired => 'Kết nối với máy chủ để đăng nhập';
 
   @override
   String get comingSoon => 'Sắp ra mắt';

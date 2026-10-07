@@ -12,7 +12,8 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get reconnectingTitle => 'Bir şeyler ters gitti!';
 
   @override
-  String get reconnectingBody => 'Sunucuda bir sorun var.\nBirazdan düzelecek!';
+  String get reconnectingBody =>
+      'Kurulumda bir sorun var.\nBirazdan düzelecek!';
 
   @override
   String get gatewayReconnectingToast => 'Yeniden bağlanılıyor…';
@@ -561,7 +562,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get recoverAccountNoKit =>
-      'Kurtarma kiti yok mu? Parola sıfırlama bağlantısı için bu örneğin yöneticisinden yardım isteyin.';
+      'Kurtarma kiti yok mu? Parola sıfırlama bağlantısı için bu kurulumun yöneticisinden yardım isteyin.';
 
   @override
   String get recoveryKitTitle => 'Kurtarma kitiniz';
@@ -595,7 +596,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Bu sayfayı güvenli bir yerde saklayın. Parolanızı unutursanız, hesabınıza geri dönmek için kullanabilirsiniz. Bu kurtarma anahtarına sahip herkes parolanızı sıfırlayabilir, bu yüzden asla paylaşmayın.';
 
   @override
-  String get recoveryKitInstanceLabel => 'Sunucu Adresi';
+  String get recoveryKitInstanceLabel => 'Kurulum';
 
   @override
   String get recoveryKitCreatedAtLabel => 'Oluşturuldu';
@@ -817,7 +818,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get errorServiceUnavailable =>
-      'Bu örnek geçici olarak kullanılamıyor. Bir süre sonra tekrar deneyin.';
+      'Bu kurulum geçici olarak kullanılamıyor. Bir süre sonra tekrar deneyin.';
 
   @override
   String get errorInvalidEmailOrPassword => 'Geçersiz e-posta veya parola.';
@@ -961,10 +962,37 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get embedThemeTitle => 'Paylaşılan tema';
 
   @override
-  String get embedThemeSubtitle => 'Bu istemci özel temaları desteklemiyor.';
+  String get embedThemeHelp => 'CSS\'in var!';
 
   @override
-  String get embedThemeUnavailableButton => 'Temalar kullanılamıyor';
+  String get embedThemeImport => 'Temayı içe aktar';
+
+  @override
+  String get embedThemeUnavailableTitle => 'Tema kullanılamıyor';
+
+  @override
+  String get embedThemeUnavailableDescription =>
+      'Bu tema artık kullanılamıyor.';
+
+  @override
+  String get embedThemeImportUnavailable => 'İçe aktarılamıyor';
+
+  @override
+  String get themeImportTitle => 'Temayı içe aktar';
+
+  @override
+  String get themeImportDescription =>
+      'Bu işlem mevcut özel temanızın yerini alacaktır.';
+
+  @override
+  String get themeImportReadFailed =>
+      'Bu temayı okuyamadık. Bozuk veya geçersiz olabilir.';
+
+  @override
+  String get themeImportApply => 'Uygula';
+
+  @override
+  String get themeImportApplied => 'Tema başarıyla uygulandı.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1289,7 +1317,12 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get dmLeaveGroup => 'Gruptan ayrıl';
 
   @override
-  String get dmNoCommunitiesAvailable => 'Topluluk mevcut değil';
+  String dmInviteSentFor(String communityName) {
+    return '$communityName için davet gönderildi';
+  }
+
+  @override
+  String get dmInviteSendFailed => 'Davet gönderilemedi. Tekrar deneyin.';
 
   @override
   String dmGroupMemberCount(int count) {
@@ -2464,7 +2497,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get securityVerifyEmailRequired =>
-      'İki faktörlü kimlik doğrulama, parolalar veya SMS doğrulaması ayarlamadan önce e-posta adresinizi doğrulamanız gerekir.';
+      'İki faktörlü kimlik doğrulamayı veya parolaları ayarlamadan önce e-posta adresinizi doğrulamanız gerekir.';
 
   @override
   String get totpEnableTitle => 'Kimlik Doğrulama Uygulaması Kurulumu';
@@ -7832,7 +7865,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get addGuildCreateSingleCommunityBlocked =>
-      'Bu sunucu tek bir toplulukla sınırlıdır, bu nedenle başka topluluklar oluşturulamaz.';
+      'Bu kurulum tek bir toplulukla sınırlıdır, bu nedenle başka topluluklar oluşturulamaz.';
 
   @override
   String get addGuildCreateChangeIcon => 'Simgeyi değiştir';
@@ -9208,7 +9241,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String dmComposerHint(String recipientName) {
-    return 'Message @$recipientName';
+    return '@$recipientName kişisine mesaj gönder';
   }
 
   @override
@@ -10148,7 +10181,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get audioAndVideoInstanceVideoQualityLimit =>
-      'Bu örneklem şu anda ekran paylaşımını 30 FPS\'de 720p\'ye kadar desteklemektedir.';
+      'Bu kurulum şu anda ekran paylaşımını 30 FPS\'de 720p\'ye kadar desteklemektedir.';
 
   @override
   String audioAndVideoMicrophonePermissionRequired(String productName) {
@@ -11406,11 +11439,11 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get composerEmojiUnavailable => 'Bu emojiyi burada kullanamazsın.';
 
   @override
-  String get instanceUrlLabel => 'Sunucu URL\'si';
+  String get instanceUrlLabel => 'Kurulum URL\'si';
 
   @override
   String get instanceUrlPlaceholder =>
-      'Sunucu URL\'sini girin (ör. fluxer.app)';
+      'Kurulum URL\'sini girin (ör. fluxer.app)';
 
   @override
   String get instanceUrlHelper =>
@@ -11426,25 +11459,25 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get instanceConnecting => 'Bağlanıyor…';
 
   @override
-  String get instanceConnectFailed => 'Sunucuya bağlanılamadı';
+  String get instanceConnectFailed => 'Kuruluma bağlanılamadı';
 
   @override
-  String get recentInstances => 'Son sunucular';
+  String get recentInstances => 'Son kurulumlar';
 
   @override
   String removeRecentInstance(String domain) {
-    return '$domain sunucusunu son sunuculardan kaldır';
+    return '$domain kurulumunu son kurulumlardan kaldır';
   }
 
   @override
-  String get instanceSheetTitle => 'Sunucuya bağlan';
+  String get instanceSheetTitle => 'Kuruluma bağlan';
 
   @override
   String get changeInstance => 'Değiştir';
 
   @override
   String get instanceConnectionRequired =>
-      'Giriş yapmak için sunucuya bağlanın';
+      'Giriş yapmak için kuruluma bağlanın';
 
   @override
   String get comingSoon => 'Çok yakında';

@@ -969,11 +969,35 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get embedThemeTitle => 'Megosztott téma';
 
   @override
-  String get embedThemeSubtitle =>
-      'Ez az ügyfél nem támogatja az egyéni témákat.';
+  String get embedThemeHelp => 'Megvan a CSS!';
 
   @override
-  String get embedThemeUnavailableButton => 'Témák nem elérhetők';
+  String get embedThemeImport => 'Téma importálása';
+
+  @override
+  String get embedThemeUnavailableTitle => 'Téma nem elérhető';
+
+  @override
+  String get embedThemeUnavailableDescription => 'Ez a téma már nem elérhető.';
+
+  @override
+  String get embedThemeImportUnavailable => 'Az importálás nem érhető el';
+
+  @override
+  String get themeImportTitle => 'Téma importálása';
+
+  @override
+  String get themeImportDescription => 'Ez felülírja az aktuális egyéni témát.';
+
+  @override
+  String get themeImportReadFailed =>
+      'Nem tudtuk beolvasni ezt a témát. Lehet, hogy sérült vagy érvénytelen.';
+
+  @override
+  String get themeImportApply => 'Alkalmazás';
+
+  @override
+  String get themeImportApplied => 'A téma sikeresen alkalmazva.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1301,7 +1325,13 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get dmLeaveGroup => 'Csoport elhagyása';
 
   @override
-  String get dmNoCommunitiesAvailable => 'Nincsenek elérhető közösségek';
+  String dmInviteSentFor(String communityName) {
+    return 'A(z) $communityName közösségbe szóló meghívó elküldve';
+  }
+
+  @override
+  String get dmInviteSendFailed =>
+      'Nem sikerült elküldeni a meghívót. Próbáld újra.';
 
   @override
   String dmGroupMemberCount(int count) {
@@ -2490,7 +2520,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get securityVerifyEmailRequired =>
-      'E-mail címedet igazolnod kell, mielőtt beállíthatod a kétfaktoros hitelesítést, a jelszómentes belépést vagy az SMS-ellenőrzést.';
+      'E-mail címedet igazolnod kell, mielőtt beállíthatod a kétfaktoros hitelesítést vagy a jelszómentes belépést.';
 
   @override
   String get totpEnableTitle => 'Hitelesítő alkalmazás beállítása';
@@ -9279,7 +9309,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String dmComposerHint(String recipientName) {
-    return 'Message @$recipientName';
+    return 'Üzenet ide: @$recipientName';
   }
 
   @override

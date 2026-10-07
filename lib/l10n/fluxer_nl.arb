@@ -848,7 +848,7 @@
     },
     "recoveryKitBackupCodesFailed": "Kon uw back-upcodes niet laden.",
     "@recoveryKitBackupCodesFailed": {
-        "description": "Toast shown when the two-factor backup codes for the recovery kit cannot be loaded."
+        "description": "Toast shown when the two-factor backup codes cannot be loaded, in the recovery kit sheet or from View codes in security settings."
     },
     "recoveryKitIncludeBackupCodes": "Mijn back-upcodes voor tweestapsverificatie opnemen in de opgeslagen afbeelding",
     "@recoveryKitIncludeBackupCodes": {
@@ -1260,13 +1260,45 @@
     "@embedThemeTitle": {
         "description": "Title on the theme embed card in chat."
     },
-    "embedThemeSubtitle": "Dit clientprogramma ondersteunt geen aangepaste thema's.",
-    "@embedThemeSubtitle": {
-        "description": "Subtitle on the theme embed card."
+    "embedThemeHelp": "Je hebt CSS!",
+    "@embedThemeHelp": {
+        "description": "Subtitle on a shared theme link embed in chat."
     },
-    "embedThemeUnavailableButton": "Thema's niet beschikbaar",
-    "@embedThemeUnavailableButton": {
-        "description": "Button on the theme embed card - themes aren't supported in the client."
+    "embedThemeImport": "Thema importeren",
+    "@embedThemeImport": {
+        "description": "Button on a shared theme link embed that opens the import sheet."
+    },
+    "embedThemeUnavailableTitle": "Thema niet beschikbaar",
+    "@embedThemeUnavailableTitle": {
+        "description": "Title on a shared theme link embed when the theme cannot be loaded."
+    },
+    "embedThemeUnavailableDescription": "Dit thema is niet meer beschikbaar.",
+    "@embedThemeUnavailableDescription": {
+        "description": "Subtitle on a shared theme link embed when the theme cannot be loaded."
+    },
+    "embedThemeImportUnavailable": "Importeren niet beschikbaar",
+    "@embedThemeImportUnavailable": {
+        "description": "Disabled button on a shared theme link embed when the theme cannot be loaded."
+    },
+    "themeImportTitle": "Thema importeren",
+    "@themeImportTitle": {
+        "description": "Title of the sheet that previews a shared theme before importing it."
+    },
+    "themeImportDescription": "Dit vervangt je huidige aangepaste thema.",
+    "@themeImportDescription": {
+        "description": "Warning at the top of the theme import sheet."
+    },
+    "themeImportReadFailed": "We konden dit thema niet lezen. Het is mogelijk beschadigd of ongeldig.",
+    "@themeImportReadFailed": {
+        "description": "Error shown in the theme import sheet when the theme CSS cannot be loaded."
+    },
+    "themeImportApply": "Toepassen",
+    "@themeImportApply": {
+        "description": "Button in the theme import sheet that applies the shared theme."
+    },
+    "themeImportApplied": "Thema succesvol toegepast.",
+    "@themeImportApplied": {
+        "description": "Toast shown after a shared theme was applied."
     },
     "embedGiftVisionaryLifetime": "Visionair (lifetime {productName})",
     "@embedGiftVisionaryLifetime": {
@@ -1683,9 +1715,18 @@
     "@dmLeaveGroup": {
         "description": "DM context menu action to leave a group DM."
     },
-    "dmNoCommunitiesAvailable": "Geen communities beschikbaar",
-    "@dmNoCommunitiesAvailable": {
-        "description": "Shown when no communities are available to invite to."
+    "dmInviteSentFor": "Uitnodiging voor {communityName} verzonden",
+    "@dmInviteSentFor": {
+        "description": "Toast confirming a community invite was sent to a DM recipient.",
+        "placeholders": {
+            "communityName": {
+                "type": "String"
+            }
+        }
+    },
+    "dmInviteSendFailed": "Kon uitnodiging niet versturen. Probeer opnieuw.",
+    "@dmInviteSendFailed": {
+        "description": "Toast shown when sending a community invite from the DM menu fails."
     },
     "dmGroupMemberCount": "{count} leden",
     "@dmGroupMemberCount": {
@@ -3202,7 +3243,7 @@
     "@securityClaimDescription": {
         "description": "Description prompting user to claim account."
     },
-    "securityVerifyEmailRequired": "Je moet je e-mailadres verifiëren voordat je tweefactorauthenticatie, wachtwoorden of sms-verificatie kunt instellen.",
+    "securityVerifyEmailRequired": "Je moet je e-mailadres verifiëren voordat je tweefactorauthenticatie of wachtwoorden kunt instellen.",
     "@securityVerifyEmailRequired": {
         "description": "Warning when email is not verified."
     },

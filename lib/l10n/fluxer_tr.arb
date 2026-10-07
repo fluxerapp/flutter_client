@@ -3,7 +3,7 @@
     "@reconnectingTitle": {
         "description": "Title on the reconnecting / server error screen."
     },
-    "reconnectingBody": "Sunucuda bir sorun var.\nBirazdan düzelecek!",
+    "reconnectingBody": "Kurulumda bir sorun var.\nBirazdan düzelecek!",
     "@reconnectingBody": {
         "description": "Subtitle on the reconnecting screen explaining temporary server issues."
     },
@@ -552,7 +552,7 @@
     "@recoverAccountDescription": {
         "description": "Description on the account recovery screen."
     },
-    "recoverAccountNoKit": "Kurtarma kiti yok mu? Parola sıfırlama bağlantısı için bu örneğin yöneticisinden yardım isteyin.",
+    "recoverAccountNoKit": "Kurtarma kiti yok mu? Parola sıfırlama bağlantısı için bu kurulumun yöneticisinden yardım isteyin.",
     "@recoverAccountNoKit": {
         "description": "Hint under the account recovery form for people without a recovery kit."
     },
@@ -593,7 +593,7 @@
     "@recoveryKitDocumentIntro": {
         "description": "Introduction on the saved recovery kit image."
     },
-    "recoveryKitInstanceLabel": "Sunucu Adresi",
+    "recoveryKitInstanceLabel": "Kurulum",
     "@recoveryKitInstanceLabel": {
         "description": "Label for the server address on the saved recovery kit."
     },
@@ -636,7 +636,7 @@
     },
     "recoveryKitBackupCodesFailed": "Yedek kodlarınız yüklenemedi.",
     "@recoveryKitBackupCodesFailed": {
-        "description": "Toast shown when the two-factor backup codes for the recovery kit cannot be loaded."
+        "description": "Toast shown when the two-factor backup codes cannot be loaded, in the recovery kit sheet or from View codes in security settings."
     },
     "recoveryKitIncludeBackupCodes": "İki faktörlü kimlik doğrulama yedek kodlarımı kaydedilen görsele ekle",
     "@recoveryKitIncludeBackupCodes": {
@@ -986,13 +986,45 @@
     "@embedThemeTitle": {
         "description": "Title on the theme embed card in chat."
     },
-    "embedThemeSubtitle": "Bu istemci özel temaları desteklemiyor.",
-    "@embedThemeSubtitle": {
-        "description": "Subtitle on the theme embed card."
+    "embedThemeHelp": "CSS'in var!",
+    "@embedThemeHelp": {
+        "description": "Subtitle on a shared theme link embed in chat."
     },
-    "embedThemeUnavailableButton": "Temalar kullanılamıyor",
-    "@embedThemeUnavailableButton": {
-        "description": "Button on the theme embed card - themes aren't supported in the client."
+    "embedThemeImport": "Temayı içe aktar",
+    "@embedThemeImport": {
+        "description": "Button on a shared theme link embed that opens the import sheet."
+    },
+    "embedThemeUnavailableTitle": "Tema kullanılamıyor",
+    "@embedThemeUnavailableTitle": {
+        "description": "Title on a shared theme link embed when the theme cannot be loaded."
+    },
+    "embedThemeUnavailableDescription": "Bu tema artık kullanılamıyor.",
+    "@embedThemeUnavailableDescription": {
+        "description": "Subtitle on a shared theme link embed when the theme cannot be loaded."
+    },
+    "embedThemeImportUnavailable": "İçe aktarılamıyor",
+    "@embedThemeImportUnavailable": {
+        "description": "Disabled button on a shared theme link embed when the theme cannot be loaded."
+    },
+    "themeImportTitle": "Temayı içe aktar",
+    "@themeImportTitle": {
+        "description": "Title of the sheet that previews a shared theme before importing it."
+    },
+    "themeImportDescription": "Bu işlem mevcut özel temanızın yerini alacaktır.",
+    "@themeImportDescription": {
+        "description": "Warning at the top of the theme import sheet."
+    },
+    "themeImportReadFailed": "Bu temayı okuyamadık. Bozuk veya geçersiz olabilir.",
+    "@themeImportReadFailed": {
+        "description": "Error shown in the theme import sheet when the theme CSS cannot be loaded."
+    },
+    "themeImportApply": "Uygula",
+    "@themeImportApply": {
+        "description": "Button in the theme import sheet that applies the shared theme."
+    },
+    "themeImportApplied": "Tema başarıyla uygulandı.",
+    "@themeImportApplied": {
+        "description": "Toast shown after a shared theme was applied."
     },
     "privacySettings": "Gizlilik ayarları",
     "@privacySettings": {
@@ -1220,9 +1252,18 @@
     "@dmLeaveGroup": {
         "description": "DM context menu action to leave a group DM."
     },
-    "dmNoCommunitiesAvailable": "Topluluk mevcut değil",
-    "@dmNoCommunitiesAvailable": {
-        "description": "Shown when no communities are available to invite to."
+    "dmInviteSentFor": "{communityName} için davet gönderildi",
+    "@dmInviteSentFor": {
+        "description": "Toast confirming a community invite was sent to a DM recipient.",
+        "placeholders": {
+            "communityName": {
+                "type": "String"
+            }
+        }
+    },
+    "dmInviteSendFailed": "Davet gönderilemedi. Tekrar deneyin.",
+    "@dmInviteSendFailed": {
+        "description": "Toast shown when sending a community invite from the DM menu fails."
     },
     "dmGroupMemberCount": "{count} Üye",
     "@dmGroupMemberCount": {
@@ -2654,7 +2695,7 @@
     "@securityClaimDescription": {
         "description": "Description prompting user to claim account."
     },
-    "securityVerifyEmailRequired": "İki faktörlü kimlik doğrulama, parolalar veya SMS doğrulaması ayarlamadan önce e-posta adresinizi doğrulamanız gerekir.",
+    "securityVerifyEmailRequired": "İki faktörlü kimlik doğrulamayı veya parolaları ayarlamadan önce e-posta adresinizi doğrulamanız gerekir.",
     "@securityVerifyEmailRequired": {
         "description": "Warning when email is not verified."
     },
@@ -6428,7 +6469,7 @@
             }
         }
     },
-    "dmComposerHint": "Message @{recipientName}",
+    "dmComposerHint": "@{recipientName} kişisine mesaj gönder",
     "@dmComposerHint": {
         "description": "Placeholder in the message composer for a one-to-one DM.",
         "placeholders": {
@@ -6823,11 +6864,11 @@
     "@composerEmojiUnavailable": {
         "description": "Toast shown when a message contains a custom emoji the user cannot use in this channel."
     },
-    "instanceUrlLabel": "Sunucu URL'si",
+    "instanceUrlLabel": "Kurulum URL'si",
     "@instanceUrlLabel": {
         "description": "Label for the self-hosted instance URL input on the login screen."
     },
-    "instanceUrlPlaceholder": "Sunucu URL'sini girin (ör. fluxer.app)",
+    "instanceUrlPlaceholder": "Kurulum URL'sini girin (ör. fluxer.app)",
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
     },
@@ -6847,15 +6888,15 @@
     "@instanceConnecting": {
         "description": "Status text while discovering a custom Fluxer instance."
     },
-    "instanceConnectFailed": "Sunucuya bağlanılamadı",
+    "instanceConnectFailed": "Kuruluma bağlanılamadı",
     "@instanceConnectFailed": {
         "description": "Fallback error when instance discovery fails."
     },
-    "recentInstances": "Son sunucular",
+    "recentInstances": "Son kurulumlar",
     "@recentInstances": {
         "description": "Label for the recent self-hosted instances list."
     },
-    "removeRecentInstance": "{domain} sunucusunu son sunuculardan kaldır",
+    "removeRecentInstance": "{domain} kurulumunu son kurulumlardan kaldır",
     "@removeRecentInstance": {
         "description": "Accessibility label for removing a recent instance.",
         "placeholders": {
@@ -6864,7 +6905,7 @@
             }
         }
     },
-    "instanceSheetTitle": "Sunucuya bağlan",
+    "instanceSheetTitle": "Kuruluma bağlan",
     "@instanceSheetTitle": {
         "description": "Title for the self-hosted instance connection bottom sheet."
     },
@@ -6872,7 +6913,7 @@
     "@changeInstance": {
         "description": "Link to change the connected Fluxer instance."
     },
-    "instanceConnectionRequired": "Giriş yapmak için sunucuya bağlanın",
+    "instanceConnectionRequired": "Giriş yapmak için kuruluma bağlanın",
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
@@ -9321,7 +9362,7 @@
             }
         }
     },
-    "addGuildCreateSingleCommunityBlocked": "Bu sunucu tek bir toplulukla sınırlıdır, bu nedenle başka topluluklar oluşturulamaz.",
+    "addGuildCreateSingleCommunityBlocked": "Bu kurulum tek bir toplulukla sınırlıdır, bu nedenle başka topluluklar oluşturulamaz.",
     "@addGuildCreateSingleCommunityBlocked": {
         "description": "Error when creation is blocked because the instance only allows one community."
     },
@@ -11392,7 +11433,7 @@
     "@audioAndVideoVoiceProcessingSectionTitle": {
         "description": "Subsection title for voice processing profile selection."
     },
-    "audioAndVideoInstanceVideoQualityLimit": "Bu örneklem şu anda ekran paylaşımını 30 FPS'de 720p'ye kadar desteklemektedir.",
+    "audioAndVideoInstanceVideoQualityLimit": "Bu kurulum şu anda ekran paylaşımını 30 FPS'de 720p'ye kadar desteklemektedir.",
     "@audioAndVideoInstanceVideoQualityLimit": {
         "description": "Note shown when instance limits block higher screen share quality."
     },
@@ -12726,7 +12767,7 @@
     "@registerClosed": {
         "description": "Notice shown on the register screen when the instance has registration closed."
     },
-    "errorServiceUnavailable": "Bu örnek geçici olarak kullanılamıyor. Bir süre sonra tekrar deneyin.",
+    "errorServiceUnavailable": "Bu kurulum geçici olarak kullanılamıyor. Bir süre sonra tekrar deneyin.",
     "@errorServiceUnavailable": {
         "description": "Login error when the API returns 502, 503, or 504."
     },

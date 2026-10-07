@@ -1226,7 +1226,7 @@ abstract class FluxerLocalizations {
   /// **'Each code works once in place of your authenticator app.'**
   String get recoveryKitBackupCodesNote;
 
-  /// Toast shown when the two-factor backup codes for the recovery kit cannot be loaded.
+  /// Toast shown when the two-factor backup codes cannot be loaded, in the recovery kit sheet or from View codes in security settings.
   ///
   /// In en, this message translates to:
   /// **'Couldn\'t load your backup codes.'**
@@ -1802,17 +1802,65 @@ abstract class FluxerLocalizations {
   /// **'Shared theme'**
   String get embedThemeTitle;
 
-  /// Subtitle on the theme embed card.
+  /// Subtitle on a shared theme link embed in chat.
   ///
   /// In en, this message translates to:
-  /// **'This client doesn\'t support custom themes.'**
-  String get embedThemeSubtitle;
+  /// **'You\'ve got CSS!'**
+  String get embedThemeHelp;
 
-  /// Button on the theme embed card - themes aren't supported in the client.
+  /// Button on a shared theme link embed that opens the import sheet.
   ///
   /// In en, this message translates to:
-  /// **'Themes unavailable'**
-  String get embedThemeUnavailableButton;
+  /// **'Import theme'**
+  String get embedThemeImport;
+
+  /// Title on a shared theme link embed when the theme cannot be loaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme unavailable'**
+  String get embedThemeUnavailableTitle;
+
+  /// Subtitle on a shared theme link embed when the theme cannot be loaded.
+  ///
+  /// In en, this message translates to:
+  /// **'This theme is no longer available.'**
+  String get embedThemeUnavailableDescription;
+
+  /// Disabled button on a shared theme link embed when the theme cannot be loaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Import unavailable'**
+  String get embedThemeImportUnavailable;
+
+  /// Title of the sheet that previews a shared theme before importing it.
+  ///
+  /// In en, this message translates to:
+  /// **'Import theme'**
+  String get themeImportTitle;
+
+  /// Warning at the top of the theme import sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'This will replace your current custom theme.'**
+  String get themeImportDescription;
+
+  /// Error shown in the theme import sheet when the theme CSS cannot be loaded.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t read this theme. It may be corrupted or invalid.'**
+  String get themeImportReadFailed;
+
+  /// Button in the theme import sheet that applies the shared theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get themeImportApply;
+
+  /// Toast shown after a shared theme was applied.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme applied successfully.'**
+  String get themeImportApplied;
 
   /// Gift duration title for a lifetime Visionary entitlement.
   ///
@@ -2342,11 +2390,17 @@ abstract class FluxerLocalizations {
   /// **'Leave group'**
   String get dmLeaveGroup;
 
-  /// Shown when no communities are available to invite to.
+  /// Toast confirming a community invite was sent to a DM recipient.
   ///
   /// In en, this message translates to:
-  /// **'No communities available'**
-  String get dmNoCommunitiesAvailable;
+  /// **'Invite sent for {communityName}'**
+  String dmInviteSentFor(String communityName);
+
+  /// Toast shown when sending a community invite from the DM menu fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t send invite. Try again.'**
+  String get dmInviteSendFailed;
 
   /// Member count label for group DMs.
   ///
@@ -4361,7 +4415,7 @@ abstract class FluxerLocalizations {
   /// Warning when email is not verified.
   ///
   /// In en, this message translates to:
-  /// **'You must verify your email address before you can set up two-factor authentication, passkeys, or SMS verification.'**
+  /// **'You must verify your email address before you can set up two-factor authentication or passkeys.'**
   String get securityVerifyEmailRequired;
 
   /// Title for TOTP enable sheet.

@@ -920,10 +920,35 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get embedThemeTitle => '共有テーマ';
 
   @override
-  String get embedThemeSubtitle => 'このクライアントではカスタムテーマはサポートされていません。';
+  String get embedThemeHelp => 'CSSが届きました！';
 
   @override
-  String get embedThemeUnavailableButton => 'テーマは利用できません';
+  String get embedThemeImport => 'テーマをインポート';
+
+  @override
+  String get embedThemeUnavailableTitle => 'テーマを利用できません';
+
+  @override
+  String get embedThemeUnavailableDescription => 'このテーマは利用できなくなりました。';
+
+  @override
+  String get embedThemeImportUnavailable => 'インポートできません';
+
+  @override
+  String get themeImportTitle => 'テーマをインポート';
+
+  @override
+  String get themeImportDescription => '現在のカスタムテーマが上書きされます。';
+
+  @override
+  String get themeImportReadFailed =>
+      'このテーマは読み込めませんでした。破損しているか、無効なファイル形式の可能性があります。';
+
+  @override
+  String get themeImportApply => '適用';
+
+  @override
+  String get themeImportApplied => 'テーマを適用しました。';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1241,7 +1266,12 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get dmLeaveGroup => 'グループを退出';
 
   @override
-  String get dmNoCommunitiesAvailable => 'コミュニティがありません';
+  String dmInviteSentFor(String communityName) {
+    return '$communityNameへの招待を送信しました';
+  }
+
+  @override
+  String get dmInviteSendFailed => '招待を送信できませんでした。もう一度お試しください。';
 
   @override
   String dmGroupMemberCount(int count) {
@@ -2367,7 +2397,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get securityVerifyEmailRequired =>
-      '2段階認証、パスキー、またはSMS認証を設定する前に、メールアドレスを確認する必要があります。';
+      '2段階認証またはパスキーを設定する前に、メールアドレスを確認する必要があります。';
 
   @override
   String get totpEnableTitle => '認証アプリを設定';
@@ -8826,7 +8856,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String dmComposerHint(String recipientName) {
-    return 'Message @$recipientName';
+    return '@$recipientNameにメッセージを送信';
   }
 
   @override

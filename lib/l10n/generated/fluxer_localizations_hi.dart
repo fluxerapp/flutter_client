@@ -960,11 +960,35 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get embedThemeTitle => 'शेयर की गई थीम';
 
   @override
-  String get embedThemeSubtitle =>
-      'यह क्लाइंट कस्टम थीम का समर्थन नहीं करता है।';
+  String get embedThemeHelp => 'आपको CSS मिल गया!';
 
   @override
-  String get embedThemeUnavailableButton => 'थीम अनुपलब्ध';
+  String get embedThemeImport => 'थीम इंपोर्ट करें';
+
+  @override
+  String get embedThemeUnavailableTitle => 'थीम उपलब्ध नहीं है';
+
+  @override
+  String get embedThemeUnavailableDescription => 'यह थीम अब उपलब्ध नहीं है।';
+
+  @override
+  String get embedThemeImportUnavailable => 'इंपोर्ट उपलब्ध नहीं है';
+
+  @override
+  String get themeImportTitle => 'थीम इंपोर्ट करें';
+
+  @override
+  String get themeImportDescription => 'इससे आपकी मौजूदा कस्टम थीम बदल जाएगी।';
+
+  @override
+  String get themeImportReadFailed =>
+      'हम इस थीम को पढ़ नहीं पाए। हो सकता है यह खराब हो या अमान्य हो।';
+
+  @override
+  String get themeImportApply => 'लागू करें';
+
+  @override
+  String get themeImportApplied => 'थीम सफलतापूर्वक लागू हो गई।';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1291,7 +1315,13 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get dmLeaveGroup => 'ग्रुप छोड़ें';
 
   @override
-  String get dmNoCommunitiesAvailable => 'कोई समुदाय उपलब्ध नहीं है';
+  String dmInviteSentFor(String communityName) {
+    return '$communityName का इनवाइट भेजा गया';
+  }
+
+  @override
+  String get dmInviteSendFailed =>
+      'इनवाइट भेजा नहीं जा सका। फिर से कोशिश करें।';
 
   @override
   String dmGroupMemberCount(int count) {
@@ -2468,7 +2498,7 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
 
   @override
   String get securityVerifyEmailRequired =>
-      'दो-कारक प्रमाणीकरण, पासकी या SMS सत्यापन सेट करने से पहले आपको अपना ईमेल पता सत्यापित करना होगा।';
+      'दो-कारक प्रमाणीकरण या पासकी सेट करने से पहले आपको अपना ईमेल पता सत्यापित करना होगा।';
 
   @override
   String get totpEnableTitle => 'ऑथेंटिकेटर ऐप सेट अप करें';

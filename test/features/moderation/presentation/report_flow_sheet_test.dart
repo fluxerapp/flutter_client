@@ -725,10 +725,13 @@ void main() {
 
   group('UI locale', () {
     const Map<String, (Locale, String)> cases = <String, (Locale, String)>{
+      'Norwegian': (Locale('nb'), 'no'),
+      'Simplified Chinese': (Locale('zh'), 'zh-CN'),
       'Traditional Chinese': (
         Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
         'zh-TW',
       ),
+      'Spain Spanish': (Locale('es'), 'es-ES'),
       'Latin American Spanish': (Locale('es', '419'), 'es-419'),
     };
     for (final MapEntry<String, (Locale, String)> entry in cases.entries) {

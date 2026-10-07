@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_ut
 import 'package:fluxer_app/features/chat/utils/attachments/voice_message_constants.dart';
 import 'package:fluxer_app/features/chat/utils/messages/url_sanitization_utils.dart';
 import 'package:fluxer_app/features/gifts/utils/gift_code_utils.dart';
+import 'package:fluxer_app/features/themes/utils/shared_theme_links.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_dart/export.dart';
@@ -1729,27 +1730,7 @@ class Message {
     return result;
   }
 
-  static final RegExp _themesRegExp = RegExp(
-    r'https?://web\.fluxer\.app/theme/([a-zA-Z0-9\-]{2,32})(?![a-zA-Z0-9\-])',
-  );
-
-  List<String> get themes {
-    final seen = <String>{};
-    final result = <String>[];
-    for (final m in _themesRegExp.allMatches(content)) {
-      if (matchOverlapsMarkdownCodeSpan(content, m)) {
-        continue;
-      }
-      final id = m.group(1);
-      if (id != null && seen.add(id)) {
-        result.add(id);
-        if (result.length == 10) {
-          break;
-        }
-      }
-    }
-    return result;
-  }
+  List<String> get themes => findSharedThemeIds(content);
 
   List<String> get gifts => findGiftCodes(content);
 

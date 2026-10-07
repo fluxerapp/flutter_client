@@ -959,11 +959,37 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get embedThemeTitle => 'Shared theme';
 
   @override
-  String get embedThemeSubtitle =>
-      'This client doesn\'t support custom themes.';
+  String get embedThemeHelp => 'You\'ve got CSS!';
 
   @override
-  String get embedThemeUnavailableButton => 'Themes unavailable';
+  String get embedThemeImport => 'Import theme';
+
+  @override
+  String get embedThemeUnavailableTitle => 'Theme unavailable';
+
+  @override
+  String get embedThemeUnavailableDescription =>
+      'This theme is no longer available.';
+
+  @override
+  String get embedThemeImportUnavailable => 'Import unavailable';
+
+  @override
+  String get themeImportTitle => 'Import theme';
+
+  @override
+  String get themeImportDescription =>
+      'This will replace your current custom theme.';
+
+  @override
+  String get themeImportReadFailed =>
+      'We couldn\'t read this theme. It may be corrupted or invalid.';
+
+  @override
+  String get themeImportApply => 'Apply';
+
+  @override
+  String get themeImportApplied => 'Theme applied successfully.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1288,7 +1314,12 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get dmLeaveGroup => 'Leave group';
 
   @override
-  String get dmNoCommunitiesAvailable => 'No communities available';
+  String dmInviteSentFor(String communityName) {
+    return 'Invite sent for $communityName';
+  }
+
+  @override
+  String get dmInviteSendFailed => 'Couldn\'t send invite. Try again.';
 
   @override
   String dmGroupMemberCount(int count) {
@@ -2452,7 +2483,7 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get securityVerifyEmailRequired =>
-      'You must verify your email address before you can set up two-factor authentication, passkeys, or SMS verification.';
+      'You must verify your email address before you can set up two-factor authentication or passkeys.';
 
   @override
   String get totpEnableTitle => 'Setup authenticator app';
@@ -16684,11 +16715,37 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get embedThemeTitle => 'Shared theme';
 
   @override
-  String get embedThemeSubtitle =>
-      'This client doesn\'t support custom themes.';
+  String get embedThemeHelp => 'You\'ve got CSS!';
 
   @override
-  String get embedThemeUnavailableButton => 'Themes unavailable';
+  String get embedThemeImport => 'Import theme';
+
+  @override
+  String get embedThemeUnavailableTitle => 'Theme unavailable';
+
+  @override
+  String get embedThemeUnavailableDescription =>
+      'This theme is no longer available.';
+
+  @override
+  String get embedThemeImportUnavailable => 'Import unavailable';
+
+  @override
+  String get themeImportTitle => 'Import theme';
+
+  @override
+  String get themeImportDescription =>
+      'This will replace your current custom theme.';
+
+  @override
+  String get themeImportReadFailed =>
+      'We couldn\'t read this theme. It may be corrupted or invalid.';
+
+  @override
+  String get themeImportApply => 'Apply';
+
+  @override
+  String get themeImportApplied => 'Theme applied successfully.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -17013,7 +17070,12 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get dmLeaveGroup => 'Leave group';
 
   @override
-  String get dmNoCommunitiesAvailable => 'No communities available';
+  String dmInviteSentFor(String communityName) {
+    return 'Invite sent for $communityName';
+  }
+
+  @override
+  String get dmInviteSendFailed => 'Couldn\'t send invite. Try again.';
 
   @override
   String dmGroupMemberCount(int count) {
@@ -18177,7 +18239,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get securityVerifyEmailRequired =>
-      'You must verify your email address before you can set up two-factor authentication, passkeys, or SMS verification.';
+      'You must verify your email address before you can set up two-factor authentication or passkeys.';
 
   @override
   String get totpEnableTitle => 'Setup authenticator app';
@@ -31694,11 +31756,37 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get embedThemeTitle => 'Shared theme';
 
   @override
-  String get embedThemeSubtitle =>
-      'This client doesn\'t support custom themes.';
+  String get embedThemeHelp => 'You\'ve got CSS!';
 
   @override
-  String get embedThemeUnavailableButton => 'Themes unavailable';
+  String get embedThemeImport => 'Import theme';
+
+  @override
+  String get embedThemeUnavailableTitle => 'Theme unavailable';
+
+  @override
+  String get embedThemeUnavailableDescription =>
+      'This theme is no longer available.';
+
+  @override
+  String get embedThemeImportUnavailable => 'Import unavailable';
+
+  @override
+  String get themeImportTitle => 'Import theme';
+
+  @override
+  String get themeImportDescription =>
+      'This will replace your current custom theme.';
+
+  @override
+  String get themeImportReadFailed =>
+      'We couldn\'t read this theme. It may be corrupted or invalid.';
+
+  @override
+  String get themeImportApply => 'Apply';
+
+  @override
+  String get themeImportApplied => 'Theme applied successfully.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -32023,7 +32111,12 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get dmLeaveGroup => 'Leave group';
 
   @override
-  String get dmNoCommunitiesAvailable => 'No communities available';
+  String dmInviteSentFor(String communityName) {
+    return 'Invite sent for $communityName';
+  }
+
+  @override
+  String get dmInviteSendFailed => 'Couldn\'t send invite. Try again.';
 
   @override
   String dmGroupMemberCount(int count) {
@@ -33187,7 +33280,7 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get securityVerifyEmailRequired =>
-      'You must verify your email address before you can set up two-factor authentication, passkeys, or SMS verification.';
+      'You must verify your email address before you can set up two-factor authentication or passkeys.';
 
   @override
   String get totpEnableTitle => 'Setup authenticator app';

@@ -1171,8 +1171,11 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         ),
       ),
       ...msg.themes.map(
-        (_) => wrapPart(
-          const Padding(padding: EdgeInsets.only(top: 4), child: EmbedTheme()),
+        (themeId) => wrapPart(
+          Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: EmbedTheme(themeId: themeId),
+          ),
         ),
       ),
       if (msg.attachments.isNotEmpty)

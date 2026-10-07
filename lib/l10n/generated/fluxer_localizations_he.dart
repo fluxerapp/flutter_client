@@ -950,11 +950,36 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get embedThemeTitle => 'ערכת נושא משותפת';
 
   @override
-  String get embedThemeSubtitle =>
-      'לקוח זה אינו תומך ערכות נושא מותאמות אישית.';
+  String get embedThemeHelp => 'יש לך CSS!';
 
   @override
-  String get embedThemeUnavailableButton => 'ערכות נושא אינן זמינות';
+  String get embedThemeImport => 'ייבוא ערכת נושא';
+
+  @override
+  String get embedThemeUnavailableTitle => 'ערכת נושא לא זמינה';
+
+  @override
+  String get embedThemeUnavailableDescription => 'העיצוב הזה כבר לא זמין.';
+
+  @override
+  String get embedThemeImportUnavailable => 'ייבוא לא זמין';
+
+  @override
+  String get themeImportTitle => 'ייבוא ערכת נושא';
+
+  @override
+  String get themeImportDescription =>
+      'פעולה זו תחליף את העיצוב המותאם אישית הנוכחי שלך.';
+
+  @override
+  String get themeImportReadFailed =>
+      'לא הצלחנו לקרוא את העיצוב הזה. ייתכן שהוא פגום או לא תקין.';
+
+  @override
+  String get themeImportApply => 'החל';
+
+  @override
+  String get themeImportApplied => 'ערכת הנושא הוחלה בהצלחה.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1276,7 +1301,12 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get dmLeaveGroup => 'יציאה מהקבוצה';
 
   @override
-  String get dmNoCommunitiesAvailable => 'לא נמצאו קהילות זמינות';
+  String dmInviteSentFor(String communityName) {
+    return 'נשלחה הזמנה להצטרף אל $communityName';
+  }
+
+  @override
+  String get dmInviteSendFailed => 'לא ניתן לשלוח הזמנה. יש לנסות שוב.';
 
   @override
   String dmGroupMemberCount(int count) {
@@ -2435,7 +2465,7 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String get securityVerifyEmailRequired =>
-      'עליך לאמת את כתובת הדוא\"ל שלך לפני שתוכל להגדיר אימות דו-שלבי, מפתחות גישה או אימות SMS.';
+      'עליך לאמת את כתובת הדוא\"ל שלך לפני שתוכל להגדיר אימות דו-שלבי או מפתחות גישה.';
 
   @override
   String get totpEnableTitle => 'הגדרת אפליקציית אימות';

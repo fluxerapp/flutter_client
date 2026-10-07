@@ -52,7 +52,7 @@ class ChannelCollapseContext {
   final IsUserMarkedAsSpammer isUserMarkedAsSpammer;
 
   ChannelStreamType? collapsedTypeFor(Message message) {
-    if (blockedUserIds.contains(message.authorId)) {
+    if (message.isUserMessage && blockedUserIds.contains(message.authorId)) {
       return ChannelStreamType.messageGroupBlocked;
     }
     final String? userId = currentUserId;

@@ -920,10 +920,35 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get embedThemeTitle => '공유된 테마';
 
   @override
-  String get embedThemeSubtitle => '이 클라이언트에서는 사용자 지정 테마를 지원하지 않습니다.';
+  String get embedThemeHelp => 'CSS가 도착했습니다!';
 
   @override
-  String get embedThemeUnavailableButton => '테마 사용 불가';
+  String get embedThemeImport => '테마 가져오기';
+
+  @override
+  String get embedThemeUnavailableTitle => '테마를 사용할 수 없습니다';
+
+  @override
+  String get embedThemeUnavailableDescription => '더 이상 사용할 수 없는 테마입니다.';
+
+  @override
+  String get embedThemeImportUnavailable => '가져올 수 없음';
+
+  @override
+  String get themeImportTitle => '테마 가져오기';
+
+  @override
+  String get themeImportDescription => '현재 사용 중인 테마를 대체합니다.';
+
+  @override
+  String get themeImportReadFailed =>
+      '테마를 읽을 수 없습니다. 파일이 손상되었거나 유효하지 않을 수 있습니다.';
+
+  @override
+  String get themeImportApply => '적용';
+
+  @override
+  String get themeImportApplied => '테마가 적용되었습니다.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1241,7 +1266,12 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get dmLeaveGroup => '그룹 나가기';
 
   @override
-  String get dmNoCommunitiesAvailable => '사용 가능한 커뮤니티 없음';
+  String dmInviteSentFor(String communityName) {
+    return '$communityName 참여 초대를 보냈습니다';
+  }
+
+  @override
+  String get dmInviteSendFailed => '초대를 보낼 수 없습니다. 다시 시도해 주세요.';
 
   @override
   String dmGroupMemberCount(int count) {
@@ -2368,7 +2398,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get securityVerifyEmailRequired =>
-      '2단계 인증, 비밀번호 키 또는 SMS 인증을 설정하기 전에 이메일 주소를 인증해야 합니다.';
+      '2단계 인증 또는 비밀번호 키를 설정하기 전에 이메일 주소를 인증해야 합니다.';
 
   @override
   String get totpEnableTitle => '인증 앱 설정';
@@ -8815,7 +8845,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String dmComposerHint(String recipientName) {
-    return 'Message @$recipientName';
+    return '@$recipientName님에게 메시지 보내기';
   }
 
   @override

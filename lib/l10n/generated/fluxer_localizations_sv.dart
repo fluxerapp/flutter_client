@@ -963,11 +963,37 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get embedThemeTitle => 'Delat tema';
 
   @override
-  String get embedThemeSubtitle =>
-      'Den här klienten stöder inte anpassade teman.';
+  String get embedThemeHelp => 'Du har CSS!';
 
   @override
-  String get embedThemeUnavailableButton => 'Teman ej tillgängliga';
+  String get embedThemeImport => 'Importera tema';
+
+  @override
+  String get embedThemeUnavailableTitle => 'Tema ej tillgängligt';
+
+  @override
+  String get embedThemeUnavailableDescription =>
+      'Det här temat är inte längre tillgängligt.';
+
+  @override
+  String get embedThemeImportUnavailable => 'Import ej tillgänglig';
+
+  @override
+  String get themeImportTitle => 'Importera tema';
+
+  @override
+  String get themeImportDescription =>
+      'Detta kommer att ersätta ditt nuvarande anpassade tema.';
+
+  @override
+  String get themeImportReadFailed =>
+      'Vi kunde inte läsa det här temat. Det kan vara skadat eller ogiltigt.';
+
+  @override
+  String get themeImportApply => 'Tillämpa';
+
+  @override
+  String get themeImportApplied => 'Temat har tillämpats.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1295,7 +1321,12 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get dmLeaveGroup => 'Lämna grupp';
 
   @override
-  String get dmNoCommunitiesAvailable => 'Inga communities tillgängliga';
+  String dmInviteSentFor(String communityName) {
+    return 'Inbjudan till $communityName skickad';
+  }
+
+  @override
+  String get dmInviteSendFailed => 'Kunde inte skicka inbjudan. Försök igen.';
 
   @override
   String dmGroupMemberCount(int count) {
@@ -2467,7 +2498,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get securityVerifyEmailRequired =>
-      'Du måste verifiera din e-postadress innan du kan ställa in tvåfaktorsautentisering, passkeys eller SMS-verifiering.';
+      'Du måste verifiera din e-postadress innan du kan ställa in tvåfaktorsautentisering eller passkeys.';
 
   @override
   String get totpEnableTitle => 'Ställ in autentiseringsapp';
@@ -9225,7 +9256,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String dmComposerHint(String recipientName) {
-    return 'Message @$recipientName';
+    return 'Skicka meddelande till @$recipientName';
   }
 
   @override

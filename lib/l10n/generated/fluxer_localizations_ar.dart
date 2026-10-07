@@ -961,10 +961,36 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get embedThemeTitle => 'سمة مشتركة';
 
   @override
-  String get embedThemeSubtitle => 'هذا العميل لا يدعم السمات المخصصة.';
+  String get embedThemeHelp => 'لقد حصلت على CSS!';
 
   @override
-  String get embedThemeUnavailableButton => 'السمات غير متاحة';
+  String get embedThemeImport => 'استيراد السمة';
+
+  @override
+  String get embedThemeUnavailableTitle => 'السمة غير متاحة';
+
+  @override
+  String get embedThemeUnavailableDescription => 'هذه السمة لم تعد متوفرة.';
+
+  @override
+  String get embedThemeImportUnavailable => 'الاستيراد غير متاح';
+
+  @override
+  String get themeImportTitle => 'استيراد السمة';
+
+  @override
+  String get themeImportDescription =>
+      'سيؤدي هذا إلى استبدال سمتك المخصصة الحالية.';
+
+  @override
+  String get themeImportReadFailed =>
+      'تعذّر علينا قراءة هذه السمة. قد تكون تالفة أو غير صالحة.';
+
+  @override
+  String get themeImportApply => 'تطبيق';
+
+  @override
+  String get themeImportApplied => 'تم تطبيق السمة بنجاح.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1287,7 +1313,12 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get dmLeaveGroup => 'مغادرة المجموعة';
 
   @override
-  String get dmNoCommunitiesAvailable => 'لا توجد مجتمعات متاحة';
+  String dmInviteSentFor(String communityName) {
+    return 'تم إرسال دعوة للانضمام إلى $communityName';
+  }
+
+  @override
+  String get dmInviteSendFailed => 'تعذّر إرسال الدعوة. حاول مرة أخرى.';
 
   @override
   String dmGroupMemberCount(int count) {
@@ -2452,7 +2483,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String get securityVerifyEmailRequired =>
-      'يجب عليك التحقق من عنوان بريدك الإلكتروني قبل إعداد المصادقة الثنائية أو المفاتيح السرية أو التحقق عبر الرسائل القصيرة.';
+      'يجب عليك التحقق من عنوان بريدك الإلكتروني قبل إعداد المصادقة الثنائية أو المفاتيح السرية.';
 
   @override
   String get totpEnableTitle => 'إعداد تطبيق المصادقة';
@@ -9128,7 +9159,7 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
 
   @override
   String dmComposerHint(String recipientName) {
-    return 'Message @$recipientName';
+    return 'أرسل رسالة إلى @$recipientName';
   }
 
   @override

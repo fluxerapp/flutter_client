@@ -58,7 +58,10 @@ class _EmailChangeSheetState extends ConsumerState<EmailChangeSheet>
   }
 
   String _extractErrorMessage(DioException e) {
-    return userFacingErrorMessage(e, 'An error occurred');
+    return userFacingErrorMessage(
+      e,
+      FluxerLocalizations.of(context).genericError,
+    );
   }
 
   Future<void> _handleStart() async {

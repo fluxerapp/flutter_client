@@ -961,11 +961,37 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get embedThemeTitle => 'Delt tema';
 
   @override
-  String get embedThemeSubtitle =>
-      'Denne klienten støtter ikke egendefinerte temaer.';
+  String get embedThemeHelp => 'Du har CSS!';
 
   @override
-  String get embedThemeUnavailableButton => 'Temaer utilgjengelig';
+  String get embedThemeImport => 'Importer tema';
+
+  @override
+  String get embedThemeUnavailableTitle => 'Tema ikke tilgjengelig';
+
+  @override
+  String get embedThemeUnavailableDescription =>
+      'Dette temaet er ikke lenger tilgjengelig.';
+
+  @override
+  String get embedThemeImportUnavailable => 'Import er ikke tilgjengelig';
+
+  @override
+  String get themeImportTitle => 'Importer tema';
+
+  @override
+  String get themeImportDescription =>
+      'Dette erstatter det nåværende egendefinerte temaet ditt.';
+
+  @override
+  String get themeImportReadFailed =>
+      'Vi kunne ikke lese dette temaet. Det kan være skadet eller ugyldig.';
+
+  @override
+  String get themeImportApply => 'Bruk';
+
+  @override
+  String get themeImportApplied => 'Tema er brukt.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1292,7 +1318,12 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get dmLeaveGroup => 'Forlat gruppe';
 
   @override
-  String get dmNoCommunitiesAvailable => 'Ingen fellesskap tilgjengelig';
+  String dmInviteSentFor(String communityName) {
+    return 'Invitasjon til $communityName sendt';
+  }
+
+  @override
+  String get dmInviteSendFailed => 'Kunne ikke sende invitasjon. Prøv igjen.';
 
   @override
   String dmGroupMemberCount(int count) {
@@ -2464,7 +2495,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String get securityVerifyEmailRequired =>
-      'Du må bekrefte e-postadressen din før du kan sette opp totrinnsbekreftelse, passnøkler eller SMS-bekreftelse.';
+      'Du må bekrefte e-postadressen din før du kan sette opp totrinnsbekreftelse eller passnøkler.';
 
   @override
   String get totpEnableTitle => 'Sett opp autentiseringsapp';
@@ -9220,7 +9251,7 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
 
   @override
   String dmComposerHint(String recipientName) {
-    return 'Message @$recipientName';
+    return 'Send melding til @$recipientName';
   }
 
   @override

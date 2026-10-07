@@ -963,10 +963,37 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get embedThemeTitle => 'Sdílený motiv';
 
   @override
-  String get embedThemeSubtitle => 'Tento klient nepodporuje vlastní témata.';
+  String get embedThemeHelp => 'Máte CSS!';
 
   @override
-  String get embedThemeUnavailableButton => 'Témata nejsou k dispozici';
+  String get embedThemeImport => 'Importovat motiv';
+
+  @override
+  String get embedThemeUnavailableTitle => 'Motiv není k dispozici';
+
+  @override
+  String get embedThemeUnavailableDescription =>
+      'Tento motiv již není k dispozici.';
+
+  @override
+  String get embedThemeImportUnavailable => 'Import není k dispozici';
+
+  @override
+  String get themeImportTitle => 'Importovat motiv';
+
+  @override
+  String get themeImportDescription =>
+      'Tím se nahradí váš aktuální vlastní motiv.';
+
+  @override
+  String get themeImportReadFailed =>
+      'Tento motiv se nepodařilo načíst. Může být poškozený nebo neplatný.';
+
+  @override
+  String get themeImportApply => 'Použít';
+
+  @override
+  String get themeImportApplied => 'Motiv úspěšně použit.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1291,7 +1318,13 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get dmLeaveGroup => 'Opustit skupinu';
 
   @override
-  String get dmNoCommunitiesAvailable => 'Žádné dostupné komunity';
+  String dmInviteSentFor(String communityName) {
+    return 'Pozvánka do komunity $communityName odeslána';
+  }
+
+  @override
+  String get dmInviteSendFailed =>
+      'Nepodařilo se odeslat pozvánku. Zkuste to znovu.';
 
   @override
   String dmGroupMemberCount(int count) {
@@ -2470,7 +2503,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get securityVerifyEmailRequired =>
-      'Před nastavením dvoufaktorového ověřování, hesel nebo ověření přes SMS musíte ověřit svou e-mailovou adresu.';
+      'Před nastavením dvoufaktorového ověřování nebo hesel musíte ověřit svou e-mailovou adresu.';
 
   @override
   String get totpEnableTitle => 'Nastavit aplikaci pro ověřování';
@@ -9238,7 +9271,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String dmComposerHint(String recipientName) {
-    return 'Message @$recipientName';
+    return 'Napsat @$recipientName';
   }
 
   @override

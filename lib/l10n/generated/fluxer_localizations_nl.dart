@@ -963,11 +963,37 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get embedThemeTitle => 'Gedeeld thema';
 
   @override
-  String get embedThemeSubtitle =>
-      'Dit clientprogramma ondersteunt geen aangepaste thema\'s.';
+  String get embedThemeHelp => 'Je hebt CSS!';
 
   @override
-  String get embedThemeUnavailableButton => 'Thema\'s niet beschikbaar';
+  String get embedThemeImport => 'Thema importeren';
+
+  @override
+  String get embedThemeUnavailableTitle => 'Thema niet beschikbaar';
+
+  @override
+  String get embedThemeUnavailableDescription =>
+      'Dit thema is niet meer beschikbaar.';
+
+  @override
+  String get embedThemeImportUnavailable => 'Importeren niet beschikbaar';
+
+  @override
+  String get themeImportTitle => 'Thema importeren';
+
+  @override
+  String get themeImportDescription =>
+      'Dit vervangt je huidige aangepaste thema.';
+
+  @override
+  String get themeImportReadFailed =>
+      'We konden dit thema niet lezen. Het is mogelijk beschadigd of ongeldig.';
+
+  @override
+  String get themeImportApply => 'Toepassen';
+
+  @override
+  String get themeImportApplied => 'Thema succesvol toegepast.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1294,7 +1320,13 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get dmLeaveGroup => 'Groep verlaten';
 
   @override
-  String get dmNoCommunitiesAvailable => 'Geen communities beschikbaar';
+  String dmInviteSentFor(String communityName) {
+    return 'Uitnodiging voor $communityName verzonden';
+  }
+
+  @override
+  String get dmInviteSendFailed =>
+      'Kon uitnodiging niet versturen. Probeer opnieuw.';
 
   @override
   String dmGroupMemberCount(int count) {
@@ -2472,7 +2504,7 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get securityVerifyEmailRequired =>
-      'Je moet je e-mailadres verifiëren voordat je tweefactorauthenticatie, wachtwoorden of sms-verificatie kunt instellen.';
+      'Je moet je e-mailadres verifiëren voordat je tweefactorauthenticatie of wachtwoorden kunt instellen.';
 
   @override
   String get totpEnableTitle => 'Authenticator-app instellen';

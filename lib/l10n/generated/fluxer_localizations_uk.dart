@@ -967,10 +967,35 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get embedThemeTitle => 'Тема, якою поділилися';
 
   @override
-  String get embedThemeSubtitle => 'Цей клієнт не підтримує власні теми.';
+  String get embedThemeHelp => 'У вас є CSS!';
 
   @override
-  String get embedThemeUnavailableButton => 'Теми недоступні';
+  String get embedThemeImport => 'Імпортувати тему';
+
+  @override
+  String get embedThemeUnavailableTitle => 'Тема недоступна';
+
+  @override
+  String get embedThemeUnavailableDescription => 'Ця тема більше недоступна.';
+
+  @override
+  String get embedThemeImportUnavailable => 'Імпорт недоступний';
+
+  @override
+  String get themeImportTitle => 'Імпортувати тему';
+
+  @override
+  String get themeImportDescription => 'Це замінить вашу поточну власну тему.';
+
+  @override
+  String get themeImportReadFailed =>
+      'Не вдалося прочитати цю тему. Можливо, вона пошкоджена або недійсна.';
+
+  @override
+  String get themeImportApply => 'Застосувати';
+
+  @override
+  String get themeImportApplied => 'Тему успішно застосовано.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1299,7 +1324,13 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get dmLeaveGroup => 'Вийти з групи';
 
   @override
-  String get dmNoCommunitiesAvailable => 'Спільноти недоступні';
+  String dmInviteSentFor(String communityName) {
+    return 'Запрошення до спільноти «$communityName» надіслано';
+  }
+
+  @override
+  String get dmInviteSendFailed =>
+      'Не вдалося надіслати запрошення. Спробуйте ще раз.';
 
   @override
   String dmGroupMemberCount(int count) {
@@ -2477,7 +2508,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String get securityVerifyEmailRequired =>
-      'Ви повинні підтвердити свою електронну адресу, перш ніж зможете налаштувати двофакторну автентифікацію, ключі доступу або SMS-перевірку.';
+      'Ви повинні підтвердити свою електронну адресу, перш ніж зможете налаштувати двофакторну автентифікацію або ключі доступу.';
 
   @override
   String get totpEnableTitle => 'Налаштування програми автентифікації';
@@ -9278,7 +9309,7 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
 
   @override
   String dmComposerHint(String recipientName) {
-    return 'Message @$recipientName';
+    return 'Написати @$recipientName';
   }
 
   @override

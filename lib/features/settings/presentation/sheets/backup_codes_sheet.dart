@@ -1,14 +1,18 @@
 import 'dart:async';
 
-import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/recovery_kit/presentation/recovery_kit_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/checkbox/fluxer_checkbox.dart';
+import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
+import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/features/ui/warning_alert/fluxer_warning_alert.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -44,8 +48,25 @@ class BackupCodesSheet extends ConsumerStatefulWidget {
       if (context.mounted) {
         await showWithCodes(context, ref, codes: response.backupCodes);
       }
-    } on DioException {
-      // TODO(M0n7y5): Show error toast.
+    } on Exception catch (e) {
+      if (isSudoCancellation(e)) {
+        return;
+      }
+      talker.warning('[BackupCodesSheet] Loading backup codes failed: $e');
+      if (!context.mounted) {
+        return;
+      }
+      ref
+          .read(toastProvider.notifier)
+          .show(
+            FluxerToast(
+              message: userFacingErrorMessage(
+                e,
+                FluxerLocalizations.of(context).recoveryKitBackupCodesFailed,
+              ),
+              variant: FluxerToastVariant.danger,
+            ),
+          );
     }
   }
 

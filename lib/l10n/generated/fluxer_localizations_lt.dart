@@ -964,10 +964,36 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get embedThemeTitle => 'Bendrinama tema';
 
   @override
-  String get embedThemeSubtitle => 'Šis klientas nepalaiko pasirinktinių temų.';
+  String get embedThemeHelp => 'Turite CSS!';
 
   @override
-  String get embedThemeUnavailableButton => 'Temos neprieinamos';
+  String get embedThemeImport => 'Importuoti temą';
+
+  @override
+  String get embedThemeUnavailableTitle => 'Tema nepasiekiama';
+
+  @override
+  String get embedThemeUnavailableDescription => 'Ši tema nebepasiekiama.';
+
+  @override
+  String get embedThemeImportUnavailable => 'Importavimas nepasiekiamas';
+
+  @override
+  String get themeImportTitle => 'Importuoti temą';
+
+  @override
+  String get themeImportDescription =>
+      'Tai pakeis jūsų dabartinę pasirinktinę temą.';
+
+  @override
+  String get themeImportReadFailed =>
+      'Nepavyko nuskaityti šios temos. Ji gali būti sugadinta arba netinkama.';
+
+  @override
+  String get themeImportApply => 'Taikyti';
+
+  @override
+  String get themeImportApplied => 'Tema sėkmingai pritaikyta.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1299,7 +1325,13 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get dmLeaveGroup => 'Palikti grupę';
 
   @override
-  String get dmNoCommunitiesAvailable => 'Nėra bendruomenių';
+  String dmInviteSentFor(String communityName) {
+    return 'Išsiųstas kvietimas prisijungti prie bendruomenės „$communityName“';
+  }
+
+  @override
+  String get dmInviteSendFailed =>
+      'Nepavyko išsiųsti kvietimo. Bandykite dar kartą.';
 
   @override
   String dmGroupMemberCount(int count) {
@@ -2480,7 +2512,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get securityVerifyEmailRequired =>
-      'Turite patvirtinti savo el. pašto adresą, kad galėtumėte nustatyti dviejų veiksnių autentifikavimą, slaptažodžių raktus arba SMS patvirtinimą.';
+      'Turite patvirtinti savo el. pašto adresą, kad galėtumėte nustatyti dviejų veiksnių autentifikavimą arba slaptažodžių raktus.';
 
   @override
   String get totpEnableTitle => 'Nustatyti autentifikavimo programėlę';
@@ -9285,7 +9317,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String dmComposerHint(String recipientName) {
-    return 'Message @$recipientName';
+    return 'Rašyti @$recipientName';
   }
 
   @override

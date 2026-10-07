@@ -969,11 +969,37 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get embedThemeTitle => 'Temă partajată';
 
   @override
-  String get embedThemeSubtitle =>
-      'Acest client nu acceptă teme personalizate.';
+  String get embedThemeHelp => 'Ai primit CSS!';
 
   @override
-  String get embedThemeUnavailableButton => 'Teme indisponibile';
+  String get embedThemeImport => 'Importă temă';
+
+  @override
+  String get embedThemeUnavailableTitle => 'Temă indisponibilă';
+
+  @override
+  String get embedThemeUnavailableDescription =>
+      'Această temă nu mai este disponibilă.';
+
+  @override
+  String get embedThemeImportUnavailable => 'Import indisponibil';
+
+  @override
+  String get themeImportTitle => 'Importă temă';
+
+  @override
+  String get themeImportDescription =>
+      'Aceasta va înlocui tema ta personalizată actuală.';
+
+  @override
+  String get themeImportReadFailed =>
+      'Nu am putut citi această temă. Poate fi coruptă sau nevalidă.';
+
+  @override
+  String get themeImportApply => 'Aplică';
+
+  @override
+  String get themeImportApplied => 'Temă aplicată cu succes.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1299,7 +1325,13 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get dmLeaveGroup => 'Părăsește grupul';
 
   @override
-  String get dmNoCommunitiesAvailable => 'Nicio comunitate disponibilă';
+  String dmInviteSentFor(String communityName) {
+    return 'Invitație trimisă pentru $communityName';
+  }
+
+  @override
+  String get dmInviteSendFailed =>
+      'Nu s-a putut trimite invitația. Încearcă din nou.';
 
   @override
   String dmGroupMemberCount(int count) {
@@ -2483,7 +2515,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get securityVerifyEmailRequired =>
-      'Trebuie să îți verifici adresa de e-mail înainte de a putea configura autentificarea în doi pași, cheile de acces sau verificarea prin SMS.';
+      'Trebuie să îți verifici adresa de e-mail înainte de a putea configura autentificarea în doi pași sau cheile de acces.';
 
   @override
   String get totpEnableTitle => 'Configurare aplicație de autentificare';

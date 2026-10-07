@@ -595,7 +595,7 @@ class FluxerLocalizationsId extends FluxerLocalizations {
       'Simpan halaman ini di tempat yang aman. Jika Anda lupa kata sandi, Anda dapat menggunakannya untuk kembali ke akun Anda. Siapa pun yang memiliki kunci pemulihan ini dapat mengatur ulang kata sandi Anda, jadi jangan pernah membagikannya.';
 
   @override
-  String get recoveryKitInstanceLabel => 'Instans';
+  String get recoveryKitInstanceLabel => 'Instance';
 
   @override
   String get recoveryKitCreatedAtLabel => 'Dibuat';
@@ -814,7 +814,7 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get errorServiceUnavailable =>
-      'Instans ini sementara tidak tersedia. Coba lagi sebentar lagi.';
+      'Instance ini sementara tidak tersedia. Coba lagi sebentar lagi.';
 
   @override
   String get errorInvalidEmailOrPassword => 'Email atau kata sandi salah.';
@@ -958,10 +958,37 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get embedThemeTitle => 'Tema dibagikan';
 
   @override
-  String get embedThemeSubtitle => 'Klien ini tidak mendukung tema kustom.';
+  String get embedThemeHelp => 'Kamu punya CSS!';
 
   @override
-  String get embedThemeUnavailableButton => 'Tema tidak tersedia';
+  String get embedThemeImport => 'Impor tema';
+
+  @override
+  String get embedThemeUnavailableTitle => 'Tema tidak tersedia';
+
+  @override
+  String get embedThemeUnavailableDescription =>
+      'Tema ini tidak tersedia lagi.';
+
+  @override
+  String get embedThemeImportUnavailable => 'Impor tidak tersedia';
+
+  @override
+  String get themeImportTitle => 'Impor tema';
+
+  @override
+  String get themeImportDescription =>
+      'Ini akan mengganti tema kustommu saat ini.';
+
+  @override
+  String get themeImportReadFailed =>
+      'Kami tidak dapat membaca tema ini. Mungkin rusak atau tidak valid.';
+
+  @override
+  String get themeImportApply => 'Terapkan';
+
+  @override
+  String get themeImportApplied => 'Tema berhasil diterapkan.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1285,7 +1312,12 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get dmLeaveGroup => 'Keluar dari grup';
 
   @override
-  String get dmNoCommunitiesAvailable => 'Tidak ada komunitas yang tersedia';
+  String dmInviteSentFor(String communityName) {
+    return 'Undangan untuk $communityName telah terkirim';
+  }
+
+  @override
+  String get dmInviteSendFailed => 'Tidak dapat mengirim undangan. Coba lagi.';
 
   @override
   String dmGroupMemberCount(int count) {
@@ -2466,7 +2498,7 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get securityVerifyEmailRequired =>
-      'Anda harus memverifikasi alamat email Anda sebelum dapat menyiapkan otentikasi dua faktor, kunci sandi, atau verifikasi SMS.';
+      'Anda harus memverifikasi alamat email Anda sebelum dapat menyiapkan otentikasi dua faktor atau kunci sandi.';
 
   @override
   String get totpEnableTitle => 'Siapkan Aplikasi Authenticator';
@@ -10146,7 +10178,7 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get audioAndVideoInstanceVideoQualityLimit =>
-      'Instans ini saat ini mengizinkan berbagi layar hingga 720p pada 30 FPS.';
+      'Instance ini saat ini mengizinkan berbagi layar hingga 720p pada 30 FPS.';
 
   @override
   String audioAndVideoMicrophonePermissionRequired(String productName) {
@@ -11400,7 +11432,7 @@ class FluxerLocalizationsId extends FluxerLocalizations {
       'Anda tidak dapat menggunakan emoji itu di sini.';
 
   @override
-  String get instanceUrlLabel => 'URL Instans';
+  String get instanceUrlLabel => 'URL Instance';
 
   @override
   String get instanceUrlPlaceholder =>

@@ -61,6 +61,7 @@ import 'package:fluxer_app/features/shell/presentation/reconnecting_screen.dart'
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/splash_screen.dart';
 import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider.dart';
+import 'package:fluxer_app/features/themes/presentation/theme_accept_page.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_route_gate.dart';
 import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
@@ -365,8 +366,14 @@ GoRouter fluxerRouter(Ref ref) {
       GoRoute(
         path: '/theme/:themeId',
         name: RouteNames.themePreview,
-        // TODO(M0n7y5): show theme preview.
-        redirect: (context, state) => RoutePaths.me,
+        pageBuilder: (context, state) {
+          final String themeId = state.pathParameters['themeId'] ?? '';
+          return shellFadeTransitionPage(
+            context: context,
+            key: state.pageKey,
+            child: ThemeAcceptPage(themeId: themeId),
+          );
+        },
       ),
 
       // Guild settings (pushed on root navigator)

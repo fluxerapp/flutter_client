@@ -975,11 +975,37 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get embedThemeTitle => 'Thème partagé';
 
   @override
-  String get embedThemeSubtitle =>
-      'Ce client ne prend pas en charge les thèmes personnalisés.';
+  String get embedThemeHelp => 'Vous avez du CSS !';
 
   @override
-  String get embedThemeUnavailableButton => 'Thèmes indisponibles';
+  String get embedThemeImport => 'Importer le thème';
+
+  @override
+  String get embedThemeUnavailableTitle => 'Thème non disponible';
+
+  @override
+  String get embedThemeUnavailableDescription =>
+      'Ce thème n\'est plus disponible.';
+
+  @override
+  String get embedThemeImportUnavailable => 'Importation non disponible';
+
+  @override
+  String get themeImportTitle => 'Importer le thème';
+
+  @override
+  String get themeImportDescription =>
+      'Ceci remplacera votre thème personnalisé actuel.';
+
+  @override
+  String get themeImportReadFailed =>
+      'Nous n\'avons pas pu lire ce thème. Il est peut-être corrompu ou invalide.';
+
+  @override
+  String get themeImportApply => 'Appliquer';
+
+  @override
+  String get themeImportApplied => 'Thème appliqué.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1314,7 +1340,13 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get dmLeaveGroup => 'Quitter le groupe';
 
   @override
-  String get dmNoCommunitiesAvailable => 'Aucune communauté disponible';
+  String dmInviteSentFor(String communityName) {
+    return 'Invitation envoyée pour $communityName';
+  }
+
+  @override
+  String get dmInviteSendFailed =>
+      'Impossible d\'envoyer l\'invitation. Veuillez réessayer.';
 
   @override
   String dmGroupMemberCount(int count) {
@@ -2504,7 +2536,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get securityVerifyEmailRequired =>
-      'Vous devez vérifier votre adresse e-mail avant de pouvoir configurer l\'authentification à deux facteurs, les passkeys ou la vérification par SMS.';
+      'Vous devez vérifier votre adresse e-mail avant de pouvoir configurer l\'authentification à deux facteurs ou les passkeys.';
 
   @override
   String get totpEnableTitle => 'Configurer l\'application d\'authentification';
@@ -9334,7 +9366,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String dmComposerHint(String recipientName) {
-    return 'Message @$recipientName';
+    return 'Envoyer un message à @$recipientName';
   }
 
   @override

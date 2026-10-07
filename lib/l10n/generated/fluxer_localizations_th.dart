@@ -955,10 +955,36 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get embedThemeTitle => 'ธีมที่แชร์';
 
   @override
-  String get embedThemeSubtitle => 'ไคลเอ็นต์นี้ไม่รองรับธีมที่กำหนดเอง';
+  String get embedThemeHelp => 'คุณมี CSS แล้ว!';
 
   @override
-  String get embedThemeUnavailableButton => 'ธีมไม่พร้อมใช้งาน';
+  String get embedThemeImport => 'นำเข้าธีม';
+
+  @override
+  String get embedThemeUnavailableTitle => 'ไม่มีธีมให้ใช้งาน';
+
+  @override
+  String get embedThemeUnavailableDescription => 'ธีมนี้ไม่พร้อมใช้งานแล้ว';
+
+  @override
+  String get embedThemeImportUnavailable => 'ไม่สามารถนำเข้าได้';
+
+  @override
+  String get themeImportTitle => 'นำเข้าธีม';
+
+  @override
+  String get themeImportDescription =>
+      'การดำเนินการนี้จะแทนที่ธีมที่คุณกำหนดเองในปัจจุบัน';
+
+  @override
+  String get themeImportReadFailed =>
+      'เราอ่านธีมนี้ไม่ได้ ธีมอาจเสียหายหรือไม่ถูกต้อง';
+
+  @override
+  String get themeImportApply => 'ใช้';
+
+  @override
+  String get themeImportApplied => 'ใช้ธีมสำเร็จแล้ว';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1280,7 +1306,12 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get dmLeaveGroup => 'ออกจากกลุ่ม';
 
   @override
-  String get dmNoCommunitiesAvailable => 'ไม่มีชุมชนให้เข้าร่วม';
+  String dmInviteSentFor(String communityName) {
+    return 'ส่งคำเชิญเข้าร่วม $communityName แล้ว';
+  }
+
+  @override
+  String get dmInviteSendFailed => 'ส่งคำเชิญไม่ได้ ลองอีกครั้ง';
 
   @override
   String dmGroupMemberCount(int count) {
@@ -2447,7 +2478,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get securityVerifyEmailRequired =>
-      'คุณต้องยืนยันที่อยู่อีเมลของคุณก่อนจึงจะสามารถตั้งค่าการยืนยันตัวตนสองชั้น รหัสผ่าน หรือการยืนยันทาง SMS ได้';
+      'คุณต้องยืนยันที่อยู่อีเมลของคุณก่อนจึงจะสามารถตั้งค่าการยืนยันตัวตนสองชั้นหรือรหัสผ่านได้';
 
   @override
   String get totpEnableTitle => 'ตั้งค่าแอปยืนยันตัวตน';
@@ -9129,7 +9160,7 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String dmComposerHint(String recipientName) {
-    return 'Message @$recipientName';
+    return 'ส่งข้อความไปยัง @$recipientName';
   }
 
   @override
