@@ -24,6 +24,9 @@ class VoicePipPlacement extends Notifier<Offset?> {
   Offset? build() => null;
 
   void setOffset(Offset offset) {
+    if (state == offset) {
+      return;
+    }
     state = offset;
   }
 }

@@ -90,7 +90,6 @@ class _GuildListItem extends StatefulWidget {
   final bool hideMutedChannels;
   final VoiceActivityType voiceActivity;
   final IconData? icon;
-  final String? svgAsset;
   final VoidCallback onTap;
   final VoidCallback? onMenuOpened;
   final String? iconUrl;
@@ -205,7 +204,7 @@ class _GuildListItem extends StatefulWidget {
     this.opaqueHitTarget = false,
     this.resolveMenuPermissions,
     this.resolveCanInvite,
-  }) : svgAsset = null;
+  });
 
   @override
   State<_GuildListItem> createState() => _GuildListItemState();

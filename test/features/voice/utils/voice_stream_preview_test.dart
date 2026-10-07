@@ -86,11 +86,11 @@ void main() {
 
   group('fetchStreamPreviewBytes', () {
     test('returns jpeg bytes on 200', () async {
-      final Dio dio = Dio();
-      dio.httpClientAdapter = _BytesAdapter(
-        statusCode: 200,
-        bytes: const <int>[1, 2, 3],
-      );
+      final Dio dio = Dio()
+        ..httpClientAdapter = _BytesAdapter(
+          statusCode: 200,
+          bytes: const <int>[1, 2, 3],
+        );
       final Uint8List? bytes = await fetchStreamPreviewBytes(
         dio: dio,
         previewUrl: 'https://api.example/v1/streams/g1:c1:conn1/preview',
@@ -99,8 +99,7 @@ void main() {
     });
 
     test('returns null on 404', () async {
-      final Dio dio = Dio();
-      dio.httpClientAdapter = _BytesAdapter(statusCode: 404);
+      final Dio dio = Dio()..httpClientAdapter = _BytesAdapter(statusCode: 404);
       final Uint8List? bytes = await fetchStreamPreviewBytes(
         dio: dio,
         previewUrl: 'https://api.example/v1/streams/g1:c1:conn1/preview',

@@ -37,13 +37,11 @@ void main() {
     });
 
     test('clearedRemoteValue is an empty GIF list', () {
-      expect(
-        FavoriteGifsSyncedLocalState.empty,
-        const FavoriteGifsSyncedLocalState(
-          entries: [],
-          saveAsSavedMedia: false,
-        ),
-      );
+      const FavoriteGifsSyncedLocalState empty =
+          FavoriteGifsSyncedLocalState.empty;
+      expect(empty.entries, isEmpty);
+      expect(empty.saveAsSavedMedia, isFalse);
+      expect(empty.seenFirstTimePrompt, isFalse);
     });
 
     test('toProtoForPush preserves unknown media formats from wire', () {

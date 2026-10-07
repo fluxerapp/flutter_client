@@ -14,14 +14,14 @@ class HapticsPreferences extends _$HapticsPreferences {
   Future<void> load() async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     final bool enabled = preferences.getBool(_kHapticsEnabledKey) ?? true;
-    FluxerHaptics.setEnabled(enabled);
+    FluxerHaptics.enabled = enabled;
     state = enabled;
   }
 
   Future<void> setEnabled({required bool value}) async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setBool(_kHapticsEnabledKey, value);
-    FluxerHaptics.setEnabled(value);
+    FluxerHaptics.enabled = value;
     state = value;
   }
 }

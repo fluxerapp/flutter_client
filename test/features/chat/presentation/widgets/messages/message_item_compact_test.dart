@@ -4,6 +4,9 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart'
+    show FluxerDatabase;
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -20,6 +23,7 @@ import 'package:fluxer_dart/export.dart';
 
 import '../../../../../helpers/instance_runtime_config_override.dart';
 import '../../../../../helpers/message_item_test_overrides.dart';
+import '../../../../../helpers/open_test_database.dart';
 import '../../../../../helpers/rendered_text_test_helpers.dart';
 import '../../../../../helpers/test_l10n.dart';
 
@@ -59,13 +63,14 @@ Widget _app(Widget child, {bool use12Hour = false, Size? viewportSize}) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
     overrides: [
+      fluxerDatabaseProvider.overrideWithValue(_database),
       instanceRuntimeConfigOverride(),
       ...messageItemTestProviderOverrides(),
       use12HourTimeFormatProvider.overrideWithValue(use12Hour),
     ],
     child: MaterialApp(
       locale: kTestLocale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,
@@ -83,7 +88,13 @@ Widget _app(Widget child, {bool use12Hour = false, Size? viewportSize}) {
   );
 }
 
+late FluxerDatabase _database;
+
 void main() {
+  setUp(() {
+    _database = openTestDatabase();
+  });
+
   group('MessageItem compact layout', () {
     messageItemTestWidgets(
       'dense mode shows inline author prefix and timestamp',

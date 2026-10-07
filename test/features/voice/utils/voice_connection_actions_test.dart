@@ -17,6 +17,7 @@ import 'package:fluxer_app/features/mature_content/providers/mature_content_agre
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_connection_actions.dart';
+import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/gateway.dart';
@@ -416,7 +417,7 @@ Future<void> _pumpJoinHarness(
       ],
       child: MaterialApp(
         navigatorKey: rootNavigatorKey,
-        localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+        localizationsDelegates: fluxerLocalizationsDelegates,
         supportedLocales: FluxerLocalizations.supportedLocales,
         theme: buildFluxerTheme(
           colorTheme: colorTheme,
@@ -485,7 +486,9 @@ class _RecordingVoiceSession extends VoiceSession {
   _RecordingVoiceSession() : _initialState = const VoiceSessionState();
 
   final VoiceSessionState _initialState;
+  @visibleForTesting
   int connectCallCount = 0;
+  @visibleForTesting
   bool? lastForceJoin;
 
   @override

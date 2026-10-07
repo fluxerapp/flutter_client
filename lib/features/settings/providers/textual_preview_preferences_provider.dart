@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_dirty.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'textual_preview_preferences_provider.g.dart';
 
+@immutable
 class TextualPreviewPreferencesState {
   const TextualPreviewPreferencesState({this.wrapText = false});
 

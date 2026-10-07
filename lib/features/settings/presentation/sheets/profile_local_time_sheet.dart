@@ -106,13 +106,12 @@ class _ProfileLocalTimeEditorBody extends ConsumerWidget {
     final String? timezone = state.effectiveTimezone;
     final int privacyFlags = state.effectiveTimezonePrivacyFlags;
     final bool hasTimezone = timezone != null && timezone.isNotEmpty;
-    final bool everyoneEnabled = ProfileTimezonePrivacyFlags.hasFlag(
+    final bool everyoneEnabled = hasProfileTimezonePrivacyFlag(
       privacyFlags,
       ProfileTimezonePrivacyFlags.everyone,
     );
 
-    bool hasFlag(int flag) =>
-        ProfileTimezonePrivacyFlags.hasFlag(privacyFlags, flag);
+    bool hasFlag(int flag) => hasProfileTimezonePrivacyFlag(privacyFlags, flag);
 
     void togglePrivacy(int flag, {required bool enabled}) {
       final int next = enabled ? privacyFlags | flag : privacyFlags & ~flag;

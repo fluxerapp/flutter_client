@@ -10,9 +10,7 @@ class ChatAttachmentAudioPosition {
 
   Duration get value => notifier.value;
 
-  void update(Duration position) {
-    notifier.value = position;
-  }
+  set value(Duration position) => notifier.value = position;
 
   void dispose() {
     notifier.dispose();

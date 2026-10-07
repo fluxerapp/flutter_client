@@ -4,8 +4,11 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart'
+    show FluxerDatabase;
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
@@ -20,6 +23,7 @@ import 'package:fluxer_app/features/ui/emoji_picker/fluxer_emoji_picker_sheet.da
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 
+import '../../../helpers/open_test_database.dart';
 import '../../../helpers/test_l10n.dart';
 
 class _FakeDmViewModel extends DmViewModel {
@@ -52,6 +56,7 @@ Widget _buildTestApp() {
 
   return ProviderScope(
     overrides: [
+      fluxerDatabaseProvider.overrideWithValue(_database),
       organizedGuildListProvider.overrideWith(_FakeOrganizedGuildList.new),
       activeGuildIdProvider.overrideWithValue(null),
       dmViewModelProvider.overrideWith(_FakeDmViewModel.new),
@@ -71,7 +76,7 @@ Widget _buildTestApp() {
     ],
     child: MaterialApp(
       locale: kTestLocale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,
@@ -97,7 +102,13 @@ Widget _buildTestApp() {
   );
 }
 
+late FluxerDatabase _database;
+
 void main() {
+  setUp(() {
+    _database = openTestDatabase();
+  });
+
   setUpAll(() async {
     TestWidgetsFlutterBinding.ensureInitialized();
     await EmojiRegistry.preload();

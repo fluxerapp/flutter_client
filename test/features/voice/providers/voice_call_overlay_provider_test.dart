@@ -46,11 +46,9 @@ void main() {
 
     test('keeps chrome visible while the participant menu is pinned', () {
       final ProviderContainer container = _overlayContainer();
-      final VoiceCallOverlay overlay = container.read(
-        voiceCallOverlayProvider.notifier,
-      );
-      overlay.setMenuPinned(value: true);
-      overlay.hide();
+      container.read(voiceCallOverlayProvider.notifier)
+        ..setMenuPinned(value: true)
+        ..hide();
       expect(container.read(voiceCallOverlayProvider).showsOverlay, isTrue);
       expect(container.read(voiceCallOverlayProvider).isMenuPinned, isTrue);
     });
@@ -59,8 +57,7 @@ void main() {
       final ProviderContainer container = _overlayContainer();
       final VoiceCallOverlay overlay = container.read(
         voiceCallOverlayProvider.notifier,
-      );
-      overlay.hide();
+      )..hide();
       expect(container.read(voiceCallOverlayProvider).showsOverlay, isFalse);
       overlay.notePointerActivity(kind: PointerDeviceKind.touch);
       expect(container.read(voiceCallOverlayProvider).showsOverlay, isFalse);

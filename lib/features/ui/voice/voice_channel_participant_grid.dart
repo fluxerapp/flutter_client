@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/gestures.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as database;
@@ -1255,7 +1256,7 @@ class _VoiceChannelParticipantGridState
               child: SizedBox(
                 width: filmstripCrossAxis,
                 child: ListView.separated(
-                  cacheExtent: 0,
+                  scrollCacheExtent: const ScrollCacheExtent.pixels(0),
                   addAutomaticKeepAlives: false,
                   padding: const EdgeInsets.symmetric(
                     vertical: voiceGridEdgePaddingPx,
@@ -1295,7 +1296,7 @@ class _VoiceChannelParticipantGridState
                 : SizedBox(
                     height: filmstripCrossAxis,
                     child: ListView.separated(
-                      cacheExtent: 0,
+                      scrollCacheExtent: const ScrollCacheExtent.pixels(0),
                       addAutomaticKeepAlives: false,
                       scrollDirection: Axis.horizontal,
                       padding: const EdgeInsets.symmetric(
@@ -1326,7 +1327,7 @@ class _VoiceChannelParticipantGridState
     final int columns = voiceFocusMiniGridColumnCount(maxWidth);
     return GridView.builder(
       shrinkWrap: true,
-      cacheExtent: 0,
+      scrollCacheExtent: const ScrollCacheExtent.pixels(0),
       addAutomaticKeepAlives: false,
       physics: const ClampingScrollPhysics(),
       padding: const EdgeInsets.symmetric(horizontal: voiceGridEdgePaddingPx),
@@ -1590,7 +1591,7 @@ class _TilePresenceState extends State<_TilePresence>
   }
 
   void _reverseOut() {
-    _controller.reverse().whenComplete(_notifyDeparted);
+    unawaited(_controller.reverse().whenComplete(_notifyDeparted));
   }
 
   void _scheduleDeparted() {
@@ -2178,19 +2179,17 @@ class _StopWatchingButton extends StatelessWidget {
 }
 
 class _TileHudVisibility extends ConsumerWidget {
-  const _TileHudVisibility({required this.child}) : visible = true;
+  const _TileHudVisibility({required this.child});
 
-  final bool visible;
   final Widget child;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bool overlayVisible = ref.watch(
+    final bool show = ref.watch(
       voiceCallOverlayProvider.select(
         (VoiceCallOverlayState state) => state.showsOverlay,
       ),
     );
-    final bool show = visible && overlayVisible;
     final Duration duration = MediaQuery.disableAnimationsOf(context)
         ? Duration.zero
         : context.motion.panel;

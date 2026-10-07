@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:audio_session/audio_session.dart' as audio_session;
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
+import 'package:fluxer_app/core/talker.dart';
 
 final AudioContext kAppMediaAudioContext = AudioContext(
   android: const AudioContextAndroid(audioFocus: AndroidAudioFocus.none),
@@ -37,7 +38,13 @@ Future<void> prepareAppMediaAudioSession() async {
   }
   try {
     await AudioPlayer.global.setAudioContext(kAppMediaAudioContext);
-  } on Object {}
+  } on Object catch (error, stackTrace) {
+    talker.warning(
+      '[AudioSession] Failed to set the media audio context',
+      error,
+      stackTrace,
+    );
+  }
   final audio_session.AudioSession session =
       await audio_session.AudioSession.instance;
   await session.configure(kAppMediaAudioSessionConfig);
@@ -52,7 +59,13 @@ Future<void> activateAppMediaAudioSession() async {
     final audio_session.AudioSession session =
         await audio_session.AudioSession.instance;
     await session.setActive(true);
-  } on Object {}
+  } on Object catch (error, stackTrace) {
+    talker.warning(
+      '[AudioSession] Failed to activate the media audio session',
+      error,
+      stackTrace,
+    );
+  }
 }
 
 Future<void> releaseAppAudioSessionForMixing() async {
@@ -61,7 +74,13 @@ Future<void> releaseAppAudioSessionForMixing() async {
   }
   try {
     await AudioPlayer.global.setAudioContext(kAppMediaAudioContext);
-  } on Object {}
+  } on Object catch (error, stackTrace) {
+    talker.warning(
+      '[AudioSession] Failed to set the media audio context',
+      error,
+      stackTrace,
+    );
+  }
   final audio_session.AudioSession session =
       await audio_session.AudioSession.instance;
   await session.setActive(false);

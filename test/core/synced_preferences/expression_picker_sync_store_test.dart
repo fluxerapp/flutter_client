@@ -114,10 +114,7 @@ void main() {
     setUp(() {
       database = openTestDatabase();
       container = _createContainer(database: database);
-    });
-
-    tearDown(() {
-      container.dispose();
+      addTearDown(container.dispose);
     });
 
     test('hydrate applies remote favorite emoji ids', () async {

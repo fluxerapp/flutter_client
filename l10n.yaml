@@ -6,3 +6,4 @@ template-arb-file: fluxer_en.arb
 preferred-supported-locales: ["en"]
 nullable-getter: false
 format: true
+untranslated-messages-file: build/l10n_untranslated.json

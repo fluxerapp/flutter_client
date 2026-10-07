@@ -15,16 +15,10 @@ abstract final class FluxerHaptics {
   static final Map<String, Future<String>> _ahapLoads =
       <String, Future<String>>{};
   static final FluxerHapticPurrGate _purrGate = FluxerHapticPurrGate();
-  static bool _enabled = true;
+  static bool enabled = true;
 
   static bool get supportsExpressive =>
       !kIsWeb && (Platform.isIOS || Platform.isAndroid);
-
-  static bool get enabled => _enabled;
-
-  static void setEnabled(bool value) {
-    _enabled = value;
-  }
 
   static void selection() => _run(Gaimon.selection);
 
@@ -105,28 +99,28 @@ abstract final class FluxerHaptics {
 
   /// Play a custom AHAP JSON pattern
   static void pattern(String ahapJson) {
-    if (!_enabled || !supportsExpressive) {
+    if (!enabled || !supportsExpressive) {
       return;
     }
     Gaimon.patternFromData(ahapJson);
   }
 
   static void stop() {
-    if (!_enabled || !supportsExpressive) {
+    if (!enabled || !supportsExpressive) {
       return;
     }
     Gaimon.stop();
   }
 
   static void _run(void Function() action) {
-    if (!_enabled) {
+    if (!enabled) {
       return;
     }
     action();
   }
 
   static void _playAhap(String asset, {void Function()? onUnavailable}) {
-    if (!_enabled) {
+    if (!enabled) {
       return;
     }
     if (!supportsExpressive) {
@@ -158,7 +152,7 @@ abstract final class FluxerHaptics {
   }
 
   static Future<void> _warmAhap(String asset) {
-    if (!_enabled || !supportsExpressive) {
+    if (!enabled || !supportsExpressive) {
       return Future<void>.value();
     }
     return _loadAhap(asset);

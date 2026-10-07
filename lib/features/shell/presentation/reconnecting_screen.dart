@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/offline_account_switcher_link.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/service_status_connection_footer.dart';
@@ -53,15 +54,17 @@ class _ReconnectingScreenState extends ConsumerState<ReconnectingScreen> {
   }
 
   Future<void> _nudgeConnection() async {
-    if (_nudgeInFlight || !ref.read(authStateProvider)) {
+    if (_nudgeInFlight ||
+        !ref.read(authStateProvider) ||
+        !ref.read(gatewayHasAuthTokenProvider)) {
       return;
     }
     _nudgeInFlight = true;
     try {
       final GatewayConnection connection = ref.read(gatewayConnectionProvider);
       await nudgeGatewayConnectionReconnect(connection, forceReconnect: true);
-    } on StateError {
-      return;
+    } on Exception catch (error, stackTrace) {
+      talker.warning('[Gateway] Reconnect nudge failed', error, stackTrace);
     } finally {
       _nudgeInFlight = false;
     }

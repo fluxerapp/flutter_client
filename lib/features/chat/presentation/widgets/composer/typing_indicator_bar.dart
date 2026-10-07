@@ -267,7 +267,10 @@ class _TypingPill extends ConsumerWidget {
     String? text,
     InlineSpan? textSpan,
   }) {
-    assert(text != null || textSpan != null);
+    assert(
+      text != null || textSpan != null,
+      'Either text or textSpan must be provided.',
+    );
     if (textSpan != null) {
       return material.Text.rich(
         textSpan,

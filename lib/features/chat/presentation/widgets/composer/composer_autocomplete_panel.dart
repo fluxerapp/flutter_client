@@ -280,29 +280,24 @@ class ComposerAutocompletePanelBody extends StatelessWidget {
                           }
                           return const SizedBox(height: _kAutocompleteRowGap);
                         },
-                        itemBuilder: (BuildContext _, int i) {
-                          if (snap.heading != null) {
-                            if (i == 0) {
-                              return Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                  12,
-                                  4,
-                                  12,
-                                  4,
+                        itemBuilder: (BuildContext _, int index) {
+                          if (snap.heading != null && index == 0) {
+                            return Padding(
+                              padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
+                              child: Text(
+                                snap.heading!.toUpperCase(),
+                                style: context.textStyles.timestamp.copyWith(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  color: context.colors.textPrimaryMuted,
+                                  letterSpacing: 0,
                                 ),
-                                child: Text(
-                                  snap.heading!.toUpperCase(),
-                                  style: context.textStyles.timestamp.copyWith(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                    color: context.colors.textPrimaryMuted,
-                                    letterSpacing: 0,
-                                  ),
-                                ),
-                              );
-                            }
-                            i -= 1;
+                              ),
+                            );
                           }
+                          final int i = snap.heading != null
+                              ? index - 1
+                              : index;
                           final ComposerAutocompletePanelRow row = snap.rows[i];
                           if (row.isDivider) {
                             return Divider(

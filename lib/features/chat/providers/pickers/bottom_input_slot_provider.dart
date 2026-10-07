@@ -63,7 +63,7 @@ class BottomInputSlot extends _$BottomInputSlot {
         mobileKeyboardMetricsProvider,
       );
       final double anchorHeight = metrics.resolveAnchorHeight();
-      ref.read(expressionPanelHeightProvider.notifier).height = anchorHeight;
+      ref.read(expressionPanelHeightProvider.notifier).setHeight(anchorHeight);
       state = _resolveState(
         mode: BottomInputMode.panelAnchored,
         panelHeight: anchorHeight,
@@ -143,7 +143,7 @@ class BottomInputSlot extends _$BottomInputSlot {
     ref
         .read(mobileKeyboardMetricsProvider.notifier)
         .captureKeyboardAnchor(grossLock);
-    ref.read(expressionPanelHeightProvider.notifier).height = grossLock;
+    ref.read(expressionPanelHeightProvider.notifier).setHeight(grossLock);
     state = _resolveState(
       transition: BottomInputTransition.lockingToPanel,
       lockedHeight: grossLock,
@@ -190,7 +190,7 @@ class BottomInputSlot extends _$BottomInputSlot {
     final double anchorHeight = metrics.resolveAnchorHeight();
     final bool isExpanded = height > anchorHeight + 1;
     if (!isExpanded) {
-      ref.read(expressionPanelHeightProvider.notifier).height = height;
+      ref.read(expressionPanelHeightProvider.notifier).setHeight(height);
     }
     final BottomInputMode mode = isExpanded
         ? BottomInputMode.panelExpanded

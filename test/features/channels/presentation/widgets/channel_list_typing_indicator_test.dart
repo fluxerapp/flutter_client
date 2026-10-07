@@ -1,6 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart'
+    show FluxerDatabase;
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
@@ -16,12 +19,19 @@ import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import '../../../../helpers/open_test_database.dart';
 import '../../../../helpers/test_l10n.dart';
 
 const String _kTyperUserId = '123456789012345678';
 const String _kBlockedUserId = '123456789012345679';
 
+late FluxerDatabase _database;
+
 void main() {
+  setUp(() {
+    _database = openTestDatabase();
+  });
+
   group('ChannelListTypingIndicator', () {
     setUp(() {
       VisibilityDetectorController.instance.updateInterval = Duration.zero;
@@ -151,6 +161,7 @@ Future<void> _pumpIndicator(
 }) async {
   container = ProviderContainer(
     overrides: [
+      fluxerDatabaseProvider.overrideWithValue(_database),
       currentUserIdProvider.overrideWithValue('me'),
       appearancePreferencesProvider.overrideWith(
         () => _TestAppearancePreferences(
@@ -185,7 +196,7 @@ Future<void> _pumpIndicator(
       container: container,
       child: MaterialApp(
         locale: kTestLocale,
-        localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+        localizationsDelegates: fluxerLocalizationsDelegates,
         supportedLocales: FluxerLocalizations.supportedLocales,
         theme: buildFluxerTheme(
           colorTheme: colorTheme,

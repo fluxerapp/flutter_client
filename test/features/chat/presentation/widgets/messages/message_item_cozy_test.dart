@@ -4,6 +4,9 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart'
+    show FluxerDatabase;
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -19,6 +22,7 @@ import 'package:fluxer_dart/export.dart';
 
 import '../../../../../helpers/instance_runtime_config_override.dart';
 import '../../../../../helpers/message_item_test_overrides.dart';
+import '../../../../../helpers/open_test_database.dart';
 import '../../../../../helpers/test_l10n.dart';
 
 Message _message() {
@@ -60,13 +64,14 @@ Widget _app(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
     overrides: [
+      fluxerDatabaseProvider.overrideWithValue(_database),
       instanceRuntimeConfigOverride(),
       ...messageItemTestProviderOverrides(),
       use12HourTimeFormatProvider.overrideWithValue(false),
     ],
     child: MaterialApp(
       locale: kTestLocale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,
@@ -78,7 +83,13 @@ Widget _app(Widget child) {
   );
 }
 
+late FluxerDatabase _database;
+
 void main() {
+  setUp(() {
+    _database = openTestDatabase();
+  });
+
   group('MessageItem cozy layout', () {
     messageItemTestWidgets(
       'group-start rows use the full-size avatar and author header',

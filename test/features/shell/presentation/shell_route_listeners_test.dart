@@ -2,8 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/badge/app_icon_badge_coordinator.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart'
+    show FluxerDatabase;
 import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
 import 'package:fluxer_app/core/providers/active_instance_provider.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/push/push_notifications_coordinator.dart';
@@ -25,9 +28,16 @@ import 'package:fluxer_app/features/shell/presentation/shell_route_listeners.dar
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/gateway.dart';
 
+import '../../../helpers/open_test_database.dart';
 import '../../../helpers/test_l10n.dart';
 
+late FluxerDatabase _database;
+
 void main() {
+  setUp(() {
+    _database = openTestDatabase();
+  });
+
   testWidgets('restored guild route loads channels on first shell mount', (
     WidgetTester tester,
   ) async {
@@ -44,6 +54,7 @@ void main() {
 
     final ProviderContainer container = ProviderContainer(
       overrides: [
+        fluxerDatabaseProvider.overrideWithValue(_database),
         routeStateProvider.overrideWith(
           () => _TestRouteStateNotifier(routeStateSource),
         ),
@@ -94,6 +105,7 @@ void main() {
 
     final ProviderContainer container = ProviderContainer(
       overrides: [
+        fluxerDatabaseProvider.overrideWithValue(_database),
         routeStateProvider.overrideWith(
           () => _TestRouteStateNotifier(routeStateSource),
         ),
@@ -146,6 +158,7 @@ void main() {
 
     final ProviderContainer container = ProviderContainer(
       overrides: [
+        fluxerDatabaseProvider.overrideWithValue(_database),
         routeStateProvider.overrideWith(
           () => _TestRouteStateNotifier(_RouteStateSource()),
         ),
@@ -175,7 +188,7 @@ void main() {
         child: MaterialApp(
           navigatorKey: rootNavigatorKey,
           locale: kTestLocale,
-          localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+          localizationsDelegates: fluxerLocalizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           theme: buildFluxerTheme(
             colorTheme: colorTheme,
@@ -192,12 +205,9 @@ void main() {
     expect(tester.takeException(), isNull);
     expect(find.text(testL10n.pushRelayConsentTitle), findsOneWidget);
     expect(container.read(pushRelayConsentPromptProvider), isFalse);
-    expect(
-      container
-          .read(pushRelayConsentPromptProvider.notifier)
-          .presentationInFlight,
-      isTrue,
-    );
+
+    container.read(pushRelayConsentPromptProvider.notifier).requestPrompt();
+    expect(container.read(pushRelayConsentPromptProvider), isFalse);
   });
 }
 

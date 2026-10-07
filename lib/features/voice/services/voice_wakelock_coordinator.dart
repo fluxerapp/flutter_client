@@ -37,7 +37,7 @@ void voiceWakelockCoordinator(Ref ref) {
 
   var enabled = false;
 
-  Future<void> apply(bool shouldEnable) async {
+  Future<void> apply({required bool shouldEnable}) async {
     if (shouldEnable == enabled) {
       return;
     }
@@ -52,8 +52,8 @@ void voiceWakelockCoordinator(Ref ref) {
   ref
     ..listen<bool>(
       voiceWakelockEnabledProvider,
-      (_, bool shouldEnable) => unawaited(apply(shouldEnable)),
+      (_, bool shouldEnable) => unawaited(apply(shouldEnable: shouldEnable)),
       fireImmediately: true,
     )
-    ..onDispose(() => unawaited(WakelockPlus.disable()));
+    ..onDispose(() => unawaited(apply(shouldEnable: false)));
 }

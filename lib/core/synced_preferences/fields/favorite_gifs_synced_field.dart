@@ -167,8 +167,9 @@ class FavoriteGifsSyncedField
               _entryToProto(entry, wireEntry: wireEntriesByUrl[entry.url]),
         ),
       );
-    proto.saveAsSavedMedia = local.saveAsSavedMedia;
-    proto.seenFirstTimePrompt = local.seenFirstTimePrompt;
+    proto
+      ..saveAsSavedMedia = local.saveAsSavedMedia
+      ..seenFirstTimePrompt = local.seenFirstTimePrompt;
   }
 
   static FavoriteGifEntry _entryFromProto(pickers_pb.FavoriteGifEntry entry) {

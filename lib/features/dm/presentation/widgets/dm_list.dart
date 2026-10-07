@@ -1634,22 +1634,23 @@ class _DmBottomSheet extends ConsumerWidget {
             ),
         ]);
       }
-      children.add(
-        FluxerBottomSheetMenuItem(
-          icon: PhosphorIconsFill.trash,
-          label: l10n.channelMenuDeleteMyMessagesConfirm,
-          isDanger: true,
-          onTap: () => pop(_DmAction.deleteMyMessages),
-        ),
-      );
-      children.add(
-        FluxerBottomSheetMenuItem(
-          icon: PhosphorIconsFill.xCircle,
-          label: convo.isGroup ? l10n.dmLeaveGroup : l10n.dmCloseDm,
-          isDanger: true,
-          onTap: () => pop(_DmAction.closeDm),
-        ),
-      );
+      children
+        ..add(
+          FluxerBottomSheetMenuItem(
+            icon: PhosphorIconsFill.trash,
+            label: l10n.channelMenuDeleteMyMessagesConfirm,
+            isDanger: true,
+            onTap: () => pop(_DmAction.deleteMyMessages),
+          ),
+        )
+        ..add(
+          FluxerBottomSheetMenuItem(
+            icon: PhosphorIconsFill.xCircle,
+            label: convo.isGroup ? l10n.dmLeaveGroup : l10n.dmCloseDm,
+            isDanger: true,
+            onTap: () => pop(_DmAction.closeDm),
+          ),
+        );
       groups.add(FluxerMenuGroup(children: children));
     }
 

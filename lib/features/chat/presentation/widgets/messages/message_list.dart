@@ -319,6 +319,7 @@ class _MessageListState extends ConsumerState<MessageList>
   // cannot re-arm follow.
   bool _followDisarmed = false;
   bool _pinnedTailGlueScheduled = false;
+  String? _tailGlueRowId;
   bool _pinnedTailGlueIgnorePin = false;
   final Set<String> _liveTailEntranceMessageIds = <String>{};
   AnimationController? _liveTailEntranceController;
@@ -482,6 +483,9 @@ class _MessageListState extends ConsumerState<MessageList>
               setState(() {});
             }
           }
+          if (next.isEmpty || next.last.id != _tailGlueRowId) {
+            _tailGlueRowId = null;
+          }
           if (origin == MessagesOrigin.windowSwap) {
             // EVERY wholesale replacement - jump landings AND network-refresh
             // reinstalls - invalidates deferred scroll effects scheduled
@@ -586,7 +590,7 @@ class _MessageListState extends ConsumerState<MessageList>
     final String? expectedChannelId = widget.expectedChannelId;
     final String spoilerChannelId = expectedChannelId ?? channelId;
     if (spoilerChannelId.isNotEmpty) {
-      ref.watch(channelSpoilerSyncProvider(spoilerChannelId).notifier);
+      ref.watch(channelSpoilerSyncProvider(spoilerChannelId));
     }
     if (expectedChannelId != null &&
         chatWindowMismatchesChannel(
@@ -2104,7 +2108,10 @@ class _MessageListState extends ConsumerState<MessageList>
       return;
     }
     _refreshLiveTailFollowAnimated(context);
-    if (_followDisarmed || _isUserDrivenScroll || _unreadOpenLayout) {
+    if (_followDisarmed ||
+        _isUserDrivenScroll ||
+        !_parkedAtLiveTail ||
+        _isJumpOwningViewport()) {
       return;
     }
     if (ref.read(chatViewModelProvider).hasMoreNewerMessages) {
@@ -2781,7 +2788,7 @@ class _MessageListState extends ConsumerState<MessageList>
       if (extentGrew || extentShrank) {
         if (_suppressPinnedTailReconcileExtentChanges > 0) {
           _suppressPinnedTailReconcileExtentChanges -= 1;
-        } else {
+        } else if (_tailGlueRowId != null) {
           _reconcilePinnedLiveTailScroll();
         }
       }
@@ -3155,6 +3162,8 @@ class _MessageListState extends ConsumerState<MessageList>
         if (!scheduledIgnorePin && (_followDisarmed || _isUserDrivenScroll)) {
           return;
         }
+        final List<Message> messages = ref.read(chatViewModelProvider).messages;
+        _tailGlueRowId = messages.isEmpty ? null : messages.last.id;
         _jumpToLiveTailExtent(
           _scrollController.position,
           instantGlue: scheduledIgnorePin,

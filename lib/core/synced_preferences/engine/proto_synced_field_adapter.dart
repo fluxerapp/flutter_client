@@ -10,9 +10,7 @@ P mergeOrCreate<P extends $pb.GeneratedMessage>(
   if (wireBase == null) {
     return create();
   }
-  final proto = create();
-  proto.mergeFromMessage(wireBase);
-  return proto;
+  return create()..mergeFromMessage(wireBase);
 }
 
 abstract class ProtoSyncedFieldAdapter<T, P extends $pb.GeneratedMessage>

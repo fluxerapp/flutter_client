@@ -430,8 +430,8 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    final ScrollPosition position = _parentVerticalPosition(tester);
-    position.jumpTo(300);
+    final ScrollPosition position = _parentVerticalPosition(tester)
+      ..jumpTo(300);
     await tester.pump();
     final double before = position.pixels;
     final Offset start = _swipeBodyStart(tester);
@@ -456,8 +456,8 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    final ScrollPosition position = _parentVerticalPosition(tester);
-    position.jumpTo(300);
+    final ScrollPosition position = _parentVerticalPosition(tester)
+      ..jumpTo(300);
     await tester.pump();
     final double before = position.pixels;
     final TestGesture gesture = await tester.startGesture(
@@ -485,8 +485,8 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    final ScrollPosition position = _parentVerticalPosition(tester);
-    position.jumpTo(300);
+    final ScrollPosition position = _parentVerticalPosition(tester)
+      ..jumpTo(300);
     await tester.pump();
     final double before = position.pixels;
     final TestGesture gesture = await tester.startGesture(
@@ -513,8 +513,8 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    final ScrollPosition position = _parentVerticalPosition(tester);
-    position.jumpTo(300);
+    final ScrollPosition position = _parentVerticalPosition(tester)
+      ..jumpTo(300);
     await tester.pump();
     final double before = position.pixels;
     final TestGesture gesture = await tester.startGesture(
@@ -541,8 +541,8 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    final ScrollPosition position = _parentVerticalPosition(tester);
-    position.jumpTo(300);
+    final ScrollPosition position = _parentVerticalPosition(tester)
+      ..jumpTo(300);
     await tester.pump();
     final double before = position.pixels;
     final TestGesture gesture = await tester.startGesture(
@@ -569,8 +569,8 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    final ScrollPosition position = _parentVerticalPosition(tester);
-    position.jumpTo(300);
+    final ScrollPosition position = _parentVerticalPosition(tester)
+      ..jumpTo(300);
     await tester.pump();
     final double before = position.pixels;
     final TestGesture gesture = await tester.startGesture(
@@ -597,8 +597,8 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    final ScrollPosition position = _parentVerticalPosition(tester);
-    position.jumpTo(300);
+    final ScrollPosition position = _parentVerticalPosition(tester)
+      ..jumpTo(300);
     await tester.pump();
     final double before = position.pixels;
     final TestGesture gesture = await tester.startGesture(
@@ -672,8 +672,8 @@ void main() {
     await tester.pumpAndSettle();
     expect(replyCount, 1);
 
-    final ScrollPosition position = _parentVerticalPosition(tester);
-    position.jumpTo(300);
+    final ScrollPosition position = _parentVerticalPosition(tester)
+      ..jumpTo(300);
     await tester.pump();
     final double before = position.pixels;
     await _slowDrag(tester, start, const Offset(0, 180));

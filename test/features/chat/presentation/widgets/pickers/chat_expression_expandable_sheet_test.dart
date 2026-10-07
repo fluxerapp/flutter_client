@@ -244,10 +244,10 @@ void main() {
         await tester.pump();
         final Finder sheet = find.byKey(kChatExpressionSheetKey);
         final double dockedHeight = tester.getSize(sheet).height;
-        final ChatExpressionExpandableSheetState sheetState = tester.state(
-          find.byType(ChatExpressionExpandableSheet),
-        );
-        sheetState.onSearchActivatedForTest();
+        final ChatExpressionExpandableSheetState sheetState =
+            tester.state<ChatExpressionExpandableSheetState>(
+              find.byType(ChatExpressionExpandableSheet),
+            )..onSearchActivatedForTest();
         await tester.pumpAndSettle();
         expect(sheetState.searchFocusNodeForTest.hasFocus, isTrue);
         expect(tester.getSize(sheet).height, greaterThan(dockedHeight + 40));
@@ -367,8 +367,7 @@ void main() {
           ProviderScope(
             child: MaterialApp(
               locale: kTestLocale,
-              localizationsDelegates:
-                  FluxerLocalizations.localizationsDelegates,
+              localizationsDelegates: fluxerLocalizationsDelegates,
               supportedLocales: FluxerLocalizations.supportedLocales,
               theme: buildFluxerTheme(
                 colorTheme: colorTheme,
@@ -450,7 +449,7 @@ Future<void> _pumpSheet(
       container: scopeContainer,
       child: MaterialApp(
         locale: kTestLocale,
-        localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+        localizationsDelegates: fluxerLocalizationsDelegates,
         supportedLocales: FluxerLocalizations.supportedLocales,
         theme: buildFluxerTheme(
           colorTheme: colorTheme,

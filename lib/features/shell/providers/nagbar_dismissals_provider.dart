@@ -12,9 +12,10 @@ class NagbarDismissals extends _$NagbarDismissals {
     return const NagbarDismissalsState();
   }
 
-  NagbarDismissalsState get syncedState => state;
-
-  set syncedState(NagbarDismissalsState value) {
+  void applySynced(NagbarDismissalsState value) {
+    if (state == value) {
+      return;
+    }
     state = value;
   }
 

@@ -28,5 +28,10 @@ class CurrentAuthSessionIdHash extends _$CurrentAuthSessionIdHash {
     return null;
   }
 
-  void update(String? idHash) => state = idHash;
+  void update(String? idHash) {
+    if (state == idHash) {
+      return;
+    }
+    state = idHash;
+  }
 }

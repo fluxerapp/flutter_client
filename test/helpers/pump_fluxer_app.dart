@@ -13,6 +13,7 @@ import 'test_l10n.dart';
 Widget pumpFluxerApp({
   required Widget child,
   List<Override> overrides = const [],
+  Locale locale = kTestLocale,
   ThemeData? theme,
   Duration? Function(int retryCount, Object error)? retry,
 }) {
@@ -21,8 +22,8 @@ Widget pumpFluxerApp({
     retry: retry,
     overrides: <Override>[instanceRuntimeConfigOverride(), ...overrides],
     child: MaterialApp(
-      locale: kTestLocale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      locale: locale,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme:
           theme ??

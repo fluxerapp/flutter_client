@@ -13,6 +13,7 @@ analyzer:
     - "dart_sdk/**"
     - "lib/core/push/**/*.fcm.dart"
     - "lib/core/push/services/firebase_messaging_push_service.fcm.dart"
+    - "lib/features/settings/services/premium_store_purchase_client.billing.dart"
     - "packages/fluxer_fcm/**"
     - "**/*.pbjson.dart"
     - "**/*.pb.dart"

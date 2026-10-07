@@ -10,6 +10,8 @@ import 'package:fluxer_app/core/push/fcm/fcm_mobile_device_registration.dart';
 import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_provider.dart';
 import 'package:fluxer_app/core/push/relay_consent/push_relay_consent_sheet.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_relay.dart';
+import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
+import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_notifications_permission_banner.dart';
@@ -20,6 +22,7 @@ import 'package:fluxer_app/features/settings/providers/mention_preference_provid
 import 'package:fluxer_app/features/settings/providers/notification_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_sync_service.dart';
 import 'package:fluxer_app/features/settings/utils/platform_desktop_utils.dart';
+import 'package:fluxer_app/features/ui/system_permissions/system_permission_settings_prompt.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -284,8 +287,20 @@ Future<void> _handleNotificationsEnabledChanged({
   required FluxerLocalizations l10n,
   required bool value,
 }) async {
+  final BuildContext? modalContext = value
+      ? resolveSystemPermissionContext(context)
+      : null;
   final NotificationEnableResult result = await notificationNotifier
-      .setNotificationsEnabled(context: context, value: value);
+      .setNotificationsEnabled(value: value);
+  if (result == NotificationEnableResult.requiresSystemSettings) {
+    if (modalContext != null && modalContext.mounted) {
+      await SystemPermissionSettingsPrompt.show(
+        modalContext,
+        kind: SystemPermissionKind.notifications,
+      );
+    }
+    return;
+  }
   if (!context.mounted) {
     return;
   }

@@ -898,8 +898,7 @@ void main() {
             container: container,
             child: MaterialApp(
               locale: kTestLocale,
-              localizationsDelegates:
-                  FluxerLocalizations.localizationsDelegates,
+              localizationsDelegates: fluxerLocalizationsDelegates,
               supportedLocales: FluxerLocalizations.supportedLocales,
               theme: buildFluxerTheme(
                 colorTheme: colorTheme,
@@ -1021,8 +1020,7 @@ void main() {
             container: container,
             child: MaterialApp(
               locale: kTestLocale,
-              localizationsDelegates:
-                  FluxerLocalizations.localizationsDelegates,
+              localizationsDelegates: fluxerLocalizationsDelegates,
               supportedLocales: FluxerLocalizations.supportedLocales,
               theme: buildFluxerTheme(
                 colorTheme: colorTheme,
@@ -1280,7 +1278,7 @@ Widget _buildTestApp({required List<Override> overrides}) {
   return ProviderScope(
     overrides: overrides,
     child: MaterialApp.router(
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,

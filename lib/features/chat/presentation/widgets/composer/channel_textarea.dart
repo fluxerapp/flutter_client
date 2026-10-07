@@ -2320,8 +2320,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       );
       if (slowmodeRemaining != null) {
         ref.read(slowmodeIndicatorShakeProvider.notifier).requestShake();
-        ref.read(slowmodeRateLimitedAlertProvider.notifier).remaining =
-            slowmodeRemaining;
+        ref
+            .read(slowmodeRateLimitedAlertProvider.notifier)
+            .show(slowmodeRemaining);
         return;
       }
     }

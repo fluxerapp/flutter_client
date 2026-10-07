@@ -56,7 +56,7 @@ class PublishNudgeController extends Notifier<PublishNudgeState> {
   Future<void> _load() async {
     try {
       final File file = await _file();
-      if (!await file.exists()) {
+      if (!file.existsSync()) {
         return;
       }
       final Object? decoded = jsonDecode(await file.readAsString());

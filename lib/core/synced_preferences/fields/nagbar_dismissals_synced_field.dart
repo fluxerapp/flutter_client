@@ -23,7 +23,7 @@ class NagbarDismissalsSyncedField
 
   @override
   Future<void> applyRemote(NagbarDismissalsState value) async {
-    _ref.read(nagbarDismissalsProvider.notifier).syncedState = value;
+    _ref.read(nagbarDismissalsProvider.notifier).applySynced(value);
   }
 
   @override
@@ -82,8 +82,7 @@ class NagbarDismissalsSyncedField
     required NagbarDismissalsState local,
     pb.NagbarDismissals? wireBase,
   }) {
-    final proto = mergeOrCreate(wireBase, pb.NagbarDismissals.new);
-    proto
+    return mergeOrCreate(wireBase, pb.NagbarDismissals.new)
       ..pushNotification = local.pushNotificationDismissed
       ..premiumGracePeriod = local.premiumGracePeriodDismissed
       ..premiumExpired = local.premiumExpiredDismissed
@@ -91,6 +90,5 @@ class NagbarDismissalsSyncedField
       ..giftInventory = local.giftInventoryDismissed
       ..guildMembershipCta = local.guildMembershipCtaDismissed
       ..visionaryMfa = local.visionaryMfaDismissed;
-    return proto;
   }
 }

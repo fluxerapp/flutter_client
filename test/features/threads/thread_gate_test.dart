@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:drift/drift.dart' show driftRuntimeOptions;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_api_features.dart';
@@ -226,6 +227,10 @@ void main() {
   });
 
   test('a fetch stores only threads of the route guild', () async {
+    driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
+    addTearDown(
+      () => driftRuntimeOptions.dontWarnAboutMultipleDatabases = false,
+    );
     final ThreadsGate gate = ThreadsGate()..apply('g1', active: true);
     Future<FluxerDatabase> fetchWith(Map<String, Object?> channel) async {
       final Dio dio = Dio(BaseOptions(baseUrl: 'https://api.test'))

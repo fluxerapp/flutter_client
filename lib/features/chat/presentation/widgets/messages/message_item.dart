@@ -268,9 +268,8 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   bool _semanticLabelFailed = false;
   String? _semanticLabel;
 
-  FluxerSpoilerSyncController get _spoilerSyncController => ref
-      .watch(channelSpoilerSyncProvider(widget.message.channelId).notifier)
-      .controller;
+  FluxerSpoilerSyncController get _spoilerSyncController =>
+      ref.watch(channelSpoilerSyncProvider(widget.message.channelId));
 
   late final Listenable _actionBarVisibility = Listenable.merge([
     _hovered,
@@ -1010,12 +1009,14 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         Padding(padding: padding, child: child),
       ],
     );
-    if ((!_animateJumpHighlight && !widget.isJumpHighlighted) ||
+    final Duration duration = context.motion.slow;
+    if (duration == Duration.zero ||
+        (!_animateJumpHighlight && !widget.isJumpHighlighted) ||
         MediaQuery.disableAnimationsOf(context)) {
       return DecoratedBox(decoration: decoration, child: stacked);
     }
     return AnimatedContainer(
-      duration: context.motion.slow,
+      duration: duration,
       curve: _kJumpHighlightFadeCurve,
       decoration: decoration,
       onEnd: () {

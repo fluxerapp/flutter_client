@@ -1368,8 +1368,9 @@ void main() {
       <String>[parentId],
     );
 
-    adapter.holdDelete = true;
-    adapter.holdLatestFetch = true;
+    adapter
+      ..holdDelete = true
+      ..holdLatestFetch = true;
     final Future<void> parentDelete = notifier.deleteMessage(parentId);
     await _flushAsync();
     expect(

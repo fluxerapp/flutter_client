@@ -8,6 +8,7 @@
 import 'dart:async';
 
 import 'package:fake_async/fake_async.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -562,12 +563,15 @@ class _ScriptedChatViewModel extends ChatViewModel {
   final List<Future<PageLoadResult>> _olderResults = <Future<PageLoadResult>>[];
   final List<Future<PageLoadResult>> _newerResults = <Future<PageLoadResult>>[];
 
+  @visibleForTesting
   int loadMoreCalls = 0;
+  @visibleForTesting
   int loadNewerCalls = 0;
 
   /// Requests that arrived with nothing scripted - always a test bug; the
   /// harness asserts zero on dispose. Their futures never complete so a
   /// stray request cannot cascade into further transitions.
+  @visibleForTesting
   int unscriptedCalls = 0;
 
   @override

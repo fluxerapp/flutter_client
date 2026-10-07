@@ -1,6 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart'
+    show FluxerDatabase;
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
@@ -20,6 +23,7 @@ import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import '../../../../../helpers/open_test_database.dart';
 import '../../../../../helpers/test_l10n.dart';
 
 const String _kTyperUserId = 'user-1';
@@ -32,6 +36,7 @@ Future<void> _pumpTypingIndicatorBar(
 }) async {
   container = ProviderContainer(
     overrides: [
+      fluxerDatabaseProvider.overrideWithValue(_database),
       chatViewModelProvider.overrideWithValue(_chatState()),
       currentUserIdProvider.overrideWithValue('me'),
       contextualGuildIdProvider.overrideWithValue('guild-1'),
@@ -56,7 +61,7 @@ Future<void> _pumpTypingIndicatorBar(
       container: container,
       child: MaterialApp(
         locale: kTestLocale,
-        localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+        localizationsDelegates: fluxerLocalizationsDelegates,
         supportedLocales: FluxerLocalizations.supportedLocales,
         theme: buildFluxerTheme(
           colorTheme: colorTheme,
@@ -95,7 +100,13 @@ ChatViewState _chatState() {
   );
 }
 
+late FluxerDatabase _database;
+
 void main() {
+  setUp(() {
+    _database = openTestDatabase();
+  });
+
   setUp(() {
     VisibilityDetectorController.instance.updateInterval = Duration.zero;
   });

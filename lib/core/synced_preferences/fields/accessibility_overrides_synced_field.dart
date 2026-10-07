@@ -123,14 +123,9 @@ class AccessibilityOverridesSyncedField
     required AccessibilityOverridesLocalState local,
     accessibility_pb.AccessibilityOverrides? wireBase,
   }) {
-    final proto = mergeOrCreate(
-      wireBase,
-      accessibility_pb.AccessibilityOverrides.new,
-    );
-    proto
+    return mergeOrCreate(wireBase, accessibility_pb.AccessibilityOverrides.new)
       ..gifAutoplayDirty = local.keepGifAutoPlayUnderReducedMotion
       ..animateEmojiDirty = local.keepAnimatedEmojiUnderReducedMotion
       ..animateStickersDirty = local.keepStickerAnimationUnderReducedMotion;
-    return proto;
   }
 }

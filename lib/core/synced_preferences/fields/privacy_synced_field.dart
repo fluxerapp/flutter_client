@@ -105,11 +105,9 @@ class PrivacySyncedField
     required PrivacyLocalState local,
     pb.PrivacyPreferences? wireBase,
   }) {
-    final proto = mergeOrCreate(wireBase, pb.PrivacyPreferences.new);
-    proto
+    return mergeOrCreate(wireBase, pb.PrivacyPreferences.new)
       ..showActiveNow = local.showActiveNow
       ..preuploadMessageAttachments = local.advanced.preuploadMessageAttachments
       ..disableStreamPreviews = local.advanced.disableStreamPreviews;
-    return proto;
   }
 }

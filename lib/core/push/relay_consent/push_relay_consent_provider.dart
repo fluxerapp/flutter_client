@@ -30,10 +30,6 @@ class PushRelayConsent extends _$PushRelayConsent {
   @override
   bool build() => false;
 
-  bool get isLoaded => _isLoaded;
-
-  bool get hasDecision => _hasDecision;
-
   Future<void> load() {
     _loadInFlight = _load();
     return _loadInFlight!;
@@ -81,7 +77,7 @@ Future<bool> ensurePushRelayConsent(Ref ref, String relayUrl) async {
   if (shouldPromptForPushRelayConsent(
     relayUrl: relayUrl,
     isConsentGranted: isConsentGranted,
-    hasDecision: consent.hasDecision,
+    hasDecision: consent._hasDecision,
     isOfficialInstance: isOfficialInstance,
   )) {
     ref.read(pushRelayConsentPromptProvider.notifier).requestPrompt();

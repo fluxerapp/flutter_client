@@ -5,7 +5,7 @@ class VoiceCallKitEngineGate extends Notifier<bool> {
   @override
   bool build() => false;
 
-  void setSuppressed(bool suppressed) {
+  void setSuppressed({required bool suppressed}) {
     if (state == suppressed) {
       return;
     }

@@ -116,8 +116,9 @@ class AssistantBinding {
       if (!_ref.mounted) {
         return;
       }
-      _ref.read(assistantEntityIndexProvider.notifier).index =
-          AssistantEntityIndex.fromDonation(donation);
+      _ref
+          .read(assistantEntityIndexProvider.notifier)
+          .replace(AssistantEntityIndex.fromDonation(donation));
       await _bridge?.donateEntities(donation);
       await _flushPending();
     } on Object catch (error, stackTrace) {
@@ -131,8 +132,9 @@ class AssistantBinding {
     if (!_ref.mounted) {
       return;
     }
-    _ref.read(assistantEntityIndexProvider.notifier).index =
-        const AssistantEntityIndex();
+    _ref
+        .read(assistantEntityIndexProvider.notifier)
+        .replace(const AssistantEntityIndex());
     await _bridge?.donateEntities(
       const AssistantEntityDonation(
         friends: <AssistantFriendEntity>[],

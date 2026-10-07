@@ -252,7 +252,7 @@ class VoiceCallKitCoordinatorLogic {
       );
       _ref
           .read(voiceCallKitEngineSuppressedProvider.notifier)
-          .setSuppressed(false);
+          .setSuppressed(suppressed: false);
     } on Object catch (error) {
       talker.warning(
         '[VoiceCallKit] audio session recovery setEngineAvailability failed: $error',
@@ -293,7 +293,7 @@ class VoiceCallKitCoordinatorLogic {
       );
       _ref
           .read(voiceCallKitEngineSuppressedProvider.notifier)
-          .setSuppressed(false);
+          .setSuppressed(suppressed: false);
       await AudioManager.instance.setAudioSessionManagementMode(
         AudioSessionManagementMode.automatic,
       );
@@ -343,7 +343,7 @@ class VoiceCallKitCoordinatorLogic {
       );
       _ref
           .read(voiceCallKitEngineSuppressedProvider.notifier)
-          .setSuppressed(!enableEngine);
+          .setSuppressed(suppressed: !enableEngine);
     } on Object catch (error) {
       talker.warning('[VoiceCallKit] setEngineAvailability failed: $error');
       return;

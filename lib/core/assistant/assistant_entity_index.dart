@@ -31,9 +31,10 @@ class AssistantEntityIndexController extends Notifier<AssistantEntityIndex> {
   @override
   AssistantEntityIndex build() => const AssistantEntityIndex();
 
-  AssistantEntityIndex get index => state;
-
-  set index(AssistantEntityIndex next) {
+  void replace(AssistantEntityIndex next) {
+    if (state == next) {
+      return;
+    }
     state = next;
   }
 }

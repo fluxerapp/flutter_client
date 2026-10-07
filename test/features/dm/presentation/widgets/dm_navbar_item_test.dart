@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart'
+    show FluxerDatabase;
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
@@ -18,12 +21,21 @@ import 'package:fluxer_app/features/mature_content/providers/mature_content_agre
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar_cluster.dart';
+import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
+import '../../../../helpers/open_test_database.dart';
+
+late FluxerDatabase _database;
+
 void main() {
+  setUp(() {
+    _database = openTestDatabase();
+  });
+
   group('DmNavbarItem', () {
     testWidgets('tap on avatar navigates to the DM channel route', (
       tester,
@@ -45,6 +57,8 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(router.state.uri.path, '/channels/@me/1000000000000000001');
+
+      await releaseTestWidgetTree(tester);
     });
 
     testWidgets('tap on unread pill navigates to the DM channel route', (
@@ -68,6 +82,8 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(router.state.uri.path, '/channels/@me/1000000000000000003');
+
+      await releaseTestWidgetTree(tester);
     });
 
     testWidgets('each item navigates to its own channel after reorder', (
@@ -109,6 +125,8 @@ void main() {
       await tester.tap(find.byKey(const ValueKey('dm-first')));
       await tester.pumpAndSettle();
       expect(router.state.uri.path, '/channels/@me/1000000000000000005');
+
+      await releaseTestWidgetTree(tester);
     });
 
     testWidgets('group DM without uploaded icon renders member cluster', (
@@ -188,6 +206,7 @@ GoRouter _buildRouter({required Widget home}) {
 Widget _buildTestApp({required GoRouter router, DmViewState? dmViewState}) {
   final colorTheme = buildDarkColorTheme();
   final overrides = <Override>[
+    fluxerDatabaseProvider.overrideWithValue(_database),
     fluxerRouterProvider.overrideWithValue(router),
     currentUserIdProvider.overrideWithValue('1'),
     mutedDmChannelIdsProvider.overrideWith(
@@ -248,7 +267,7 @@ Widget _buildTestApp({required GoRouter router, DmViewState? dmViewState}) {
   return ProviderScope(
     overrides: overrides,
     child: MaterialApp.router(
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,

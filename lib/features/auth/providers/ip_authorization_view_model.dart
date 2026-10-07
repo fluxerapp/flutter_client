@@ -126,19 +126,19 @@ class IpAuthorizationViewModel extends _$IpAuthorizationViewModel {
       }
     } finally {
       _pollInFlight = false;
-      if (!_pollQueued) {
-        return;
-      }
-      _pollQueued = false;
-      if (!ref.mounted) {
-        return;
-      }
-      if (state.pollingState != IpAuthPollingState.polling ||
-          state.completedSession != null) {
-        return;
-      }
-      unawaited(_poll());
     }
+    if (!_pollQueued) {
+      return;
+    }
+    _pollQueued = false;
+    if (!ref.mounted) {
+      return;
+    }
+    if (state.pollingState != IpAuthPollingState.polling ||
+        state.completedSession != null) {
+      return;
+    }
+    unawaited(_poll());
   }
 
   void _startCountdown(int seconds) {

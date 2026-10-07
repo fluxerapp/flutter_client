@@ -5,8 +5,6 @@ import 'package:fluxer_app/core/system_permissions/system_permission_result.dart
 import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
 import 'package:fluxer_app/features/settings/domain/tts_notification_mode.dart';
 import 'package:fluxer_app/features/shell/providers/push_notification_permission_status_provider.dart';
-import 'package:fluxer_app/features/ui/system_permissions/system_permission_settings_prompt.dart';
-import 'package:fluxer_app/material_ui.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -69,13 +67,9 @@ class NotificationPreferences extends _$NotificationPreferences {
   }
 
   Future<NotificationEnableResult> setNotificationsEnabled({
-    required BuildContext context,
     required bool value,
   }) async {
     if (value) {
-      final BuildContext? modalContext = resolveSystemPermissionContext(
-        context,
-      );
       final SystemPermissionOutcome outcome = await requestSystemPermission(
         SystemPermissionKind.notifications,
       );
@@ -84,12 +78,6 @@ class NotificationPreferences extends _$NotificationPreferences {
         ..invalidate(pushNotificationRequiresSystemSettingsProvider);
       if (outcome != SystemPermissionOutcome.granted) {
         if (outcome == SystemPermissionOutcome.requiresSettings) {
-          if (modalContext != null && modalContext.mounted) {
-            await SystemPermissionSettingsPrompt.show(
-              modalContext,
-              kind: SystemPermissionKind.notifications,
-            );
-          }
           return NotificationEnableResult.requiresSystemSettings;
         }
         return NotificationEnableResult.permissionDenied;

@@ -281,7 +281,7 @@ void main() {
 
   test('refuses a plaintext that does not fit in the record', () async {
     final WebPushKeyPair keys = generateWebPushKeyPair();
-    expect(
+    await expectLater(
       () => encryptWebPushRecord(
         plaintext: Uint8List(kWebPushRecordSize),
         recipientPublicKey: keys.publicKey,

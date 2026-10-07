@@ -35,6 +35,7 @@ import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_emoji_picker_popout.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -212,7 +213,7 @@ Widget _app(
     ],
     child: MaterialApp(
       locale: kTestLocale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,
@@ -702,6 +703,7 @@ void main() {
           extraOverrides: <Override>[
             messageRepositoryProvider.overrideWithValue(repository),
             fluxerRouterProvider.overrideWithValue(router),
+            currentRevealSideProvider.overrideWith(_MainRevealSide.new),
             chatViewModelProvider.overrideWith(_FakeChatViewModel.new),
             shouldShowMatureContentGateProvider(
               'general',
@@ -743,6 +745,11 @@ class _FakeMessageRepository extends Fake implements MessageRepository {
   }) async {
     calls += 1;
   }
+}
+
+class _MainRevealSide extends CurrentRevealSide {
+  @override
+  RevealSide build() => RevealSide.main;
 }
 
 class _RecordingRouter extends Fake implements GoRouter {

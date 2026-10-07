@@ -100,8 +100,9 @@ void main() {
         return SizedBox(width: builds.toDouble());
       }
 
-      cache.resolve('msg-1', (1,), build, message: _message(content: 'a'));
-      cache.resolve('msg-1', (1,), build, message: _message(content: 'b'));
+      cache
+        ..resolve('msg-1', (1,), build, message: _message(content: 'a'))
+        ..resolve('msg-1', (1,), build, message: _message(content: 'b'));
 
       expect(builds, 2);
     });

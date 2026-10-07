@@ -28,8 +28,9 @@ class DoubleTapReactionSyncedField
     DoubleTapReactionLocalState local,
   ) {
     if (!local.isSet) {
-      proto.clearName();
-      proto.clearId();
+      proto
+        ..clearName()
+        ..clearId();
       return;
     }
     proto.name = local.name;

@@ -38,6 +38,9 @@ class GatewayResumeReconnectInFlight extends _$GatewayResumeReconnectInFlight {
 
   // Resume reconnect state is toggled by gateway lifecycle callbacks.
   void setInFlight({required bool value}) {
+    if (state == value) {
+      return;
+    }
     state = value;
   }
 }
@@ -216,6 +219,9 @@ class GatewayConnectionFailed extends _$GatewayConnectionFailed {
 
   // Failure state is toggled by gateway lifecycle callbacks.
   void setFailed({required bool value}) {
+    if (state == value) {
+      return;
+    }
     state = value;
   }
 

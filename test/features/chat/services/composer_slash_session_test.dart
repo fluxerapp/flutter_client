@@ -30,8 +30,9 @@ void main() {
     session.applySlotPayload(index: 0, display: 'Alice', wire: '<@1>');
     expect(session.toWireText(), '/kick <@1>');
     expect(session.isSubmitValid, isTrue);
-    session.addOptionalOption('reason');
-    session.setSlotText(1, 'spam');
+    session
+      ..addOptionalOption('reason')
+      ..setSlotText(1, 'spam');
     expect(session.toWireText(), '/kick <@1> spam');
   });
 
@@ -82,9 +83,10 @@ void main() {
     expect(session.slots.first.invalid, isTrue);
     expect(session.showRequiredError, isTrue);
 
-    session.start(command);
-    session.addOptionalOption('reason');
-    session.focusSlot(1);
+    session
+      ..start(command)
+      ..addOptionalOption('reason')
+      ..focusSlot(1);
     expect(session.slots.first.invalid, isTrue);
   });
 }

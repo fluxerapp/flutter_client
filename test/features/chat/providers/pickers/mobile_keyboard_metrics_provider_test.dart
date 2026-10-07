@@ -166,17 +166,15 @@ void main() {
       );
       await Future<void>.value();
 
-      final MobileKeyboardMetrics notifier = container.read(
-        mobileKeyboardMetricsProvider.notifier,
-      );
-      notifier
-        ..debugApplyNativeMetrics(
-          keyboardHeight: 336,
-          isKeyboardVisible: true,
-          nativeSafeAreaBottom: 34,
-        )
-        ..syncViewInsets(302, safeAreaBottom: 0)
-        ..syncViewInsets(0, safeAreaBottom: 0);
+      final MobileKeyboardMetrics notifier =
+          container.read(mobileKeyboardMetricsProvider.notifier)
+            ..debugApplyNativeMetrics(
+              keyboardHeight: 336,
+              isKeyboardVisible: true,
+              nativeSafeAreaBottom: 34,
+            )
+            ..syncViewInsets(302, safeAreaBottom: 0)
+            ..syncViewInsets(0, safeAreaBottom: 0);
       expect(
         container.read(mobileKeyboardMetricsProvider).liveKeyboardHeight,
         336,
@@ -286,11 +284,9 @@ void main() {
       );
       await Future<void>.value();
 
-      final MobileKeyboardMetrics notifier = container.read(
-        mobileKeyboardMetricsProvider.notifier,
-      );
-      notifier.reserveUnmeasuredKeyboard();
-      notifier.syncViewInsets(302, safeAreaBottom: 0);
+      container.read(mobileKeyboardMetricsProvider.notifier)
+        ..reserveUnmeasuredKeyboard()
+        ..syncViewInsets(302, safeAreaBottom: 0);
 
       expect(
         container
@@ -337,11 +333,9 @@ void main() {
       container.listen(mobileKeyboardMetricsProvider, (_, _) {});
       await Future<void>.value();
 
-      final MobileKeyboardMetrics notifier = container.read(
-        mobileKeyboardMetricsProvider.notifier,
-      );
-      notifier.reserveUnmeasuredKeyboard();
-      notifier.clearUnmeasuredKeyboardReservation();
+      container.read(mobileKeyboardMetricsProvider.notifier)
+        ..reserveUnmeasuredKeyboard()
+        ..clearUnmeasuredKeyboardReservation();
 
       expect(
         container
@@ -363,12 +357,10 @@ void main() {
         );
         await Future<void>.value();
 
-        final MobileKeyboardMetrics notifier = container.read(
-          mobileKeyboardMetricsProvider.notifier,
-        );
-        notifier.reserveUnmeasuredKeyboard();
-        notifier.syncViewInsets(180, safeAreaBottom: 0);
-        notifier.syncViewInsets(0, safeAreaBottom: 0);
+        container.read(mobileKeyboardMetricsProvider.notifier)
+          ..reserveUnmeasuredKeyboard()
+          ..syncViewInsets(180, safeAreaBottom: 0)
+          ..syncViewInsets(0, safeAreaBottom: 0);
 
         expect(
           container
@@ -386,13 +378,10 @@ void main() {
       container.listen(mobileKeyboardMetricsProvider, (_, _) {});
       await Future<void>.value();
 
-      final MobileKeyboardMetrics notifier = container.read(
-        mobileKeyboardMetricsProvider.notifier,
-      );
-      notifier
+      container.read(mobileKeyboardMetricsProvider.notifier)
         ..syncViewInsets(302, safeAreaBottom: 0)
-        ..reserveUnmeasuredKeyboard();
-      notifier.syncViewInsets(0, safeAreaBottom: 0);
+        ..reserveUnmeasuredKeyboard()
+        ..syncViewInsets(0, safeAreaBottom: 0);
 
       expect(
         container
@@ -418,26 +407,23 @@ void main() {
         ..listen(bottomInputSlotProvider, (_, _) {}, fireImmediately: true);
       await Future<void>.value();
 
-      final MobileKeyboardMetrics notifier = container.read(
-        mobileKeyboardMetricsProvider.notifier,
-      );
-      notifier
-        ..updateLayout(screenHeight: 800, isPortrait: true, isIos: true)
-        ..debugApplyNativeMetrics(
-          keyboardHeight: 336,
-          isKeyboardVisible: true,
-          nativeSafeAreaBottom: 34,
-        )
-        ..syncViewInsets(0, safeAreaBottom: 0);
-      notifier.clearUnmeasuredKeyboardReservation();
-      notifier.syncViewInsets(0, safeAreaBottom: 0);
-      notifier.debugApplyNativeMetrics(
-        keyboardHeight: 0,
-        isKeyboardVisible: false,
-        nativeSafeAreaBottom: 34,
-      );
-
-      notifier.reserveUnmeasuredKeyboard();
+      final MobileKeyboardMetrics notifier =
+          container.read(mobileKeyboardMetricsProvider.notifier)
+            ..updateLayout(screenHeight: 800, isPortrait: true, isIos: true)
+            ..debugApplyNativeMetrics(
+              keyboardHeight: 336,
+              isKeyboardVisible: true,
+              nativeSafeAreaBottom: 34,
+            )
+            ..syncViewInsets(0, safeAreaBottom: 0)
+            ..clearUnmeasuredKeyboardReservation()
+            ..syncViewInsets(0, safeAreaBottom: 0)
+            ..debugApplyNativeMetrics(
+              keyboardHeight: 0,
+              isKeyboardVisible: false,
+              nativeSafeAreaBottom: 34,
+            )
+            ..reserveUnmeasuredKeyboard();
       expect(
         container.read(bottomInputSlotProvider).slotHeight,
         container.read(mobileKeyboardMetricsProvider).resolveAnchorHeight(),
@@ -463,11 +449,10 @@ void main() {
       420,
     );
 
-    final MobileKeyboardMetrics notifier = container.read(
-      mobileKeyboardMetricsProvider.notifier,
-    );
-    notifier.updateLayout(screenHeight: 800, isPortrait: true, isIos: true);
-    notifier.syncViewInsets(180, safeAreaBottom: 0);
+    final MobileKeyboardMetrics notifier =
+        container.read(mobileKeyboardMetricsProvider.notifier)
+          ..updateLayout(screenHeight: 800, isPortrait: true, isIos: true)
+          ..syncViewInsets(180, safeAreaBottom: 0);
     expect(
       container.read(mobileKeyboardMetricsProvider).anchoredKeyboardHeight,
       420,
@@ -499,10 +484,7 @@ void main() {
     container.listen(mobileKeyboardMetricsProvider, (_, _) {});
     await Future<void>.value();
 
-    final MobileKeyboardMetrics notifier = container.read(
-      mobileKeyboardMetricsProvider.notifier,
-    );
-    notifier
+    container.read(mobileKeyboardMetricsProvider.notifier)
       ..debugApplyNativeMetrics(
         keyboardHeight: 336,
         isKeyboardVisible: true,

@@ -221,20 +221,23 @@ void registerKeybindHandlers({
       return true;
     })
     ..register(KeybindAction.chatToggleEmoji, () async {
-      ref.read(expressionPanelTabProvider.notifier).tab =
-          ExpressionPickerTab.emojis;
+      ref
+          .read(expressionPanelTabProvider.notifier)
+          .setTab(ExpressionPickerTab.emojis);
       ref.read(expressionPanelProvider.notifier).open();
       return true;
     })
     ..register(KeybindAction.chatToggleGif, () async {
-      ref.read(expressionPanelTabProvider.notifier).tab =
-          ExpressionPickerTab.gifs;
+      ref
+          .read(expressionPanelTabProvider.notifier)
+          .setTab(ExpressionPickerTab.gifs);
       ref.read(expressionPanelProvider.notifier).open();
       return true;
     })
     ..register(KeybindAction.chatToggleSticker, () async {
-      ref.read(expressionPanelTabProvider.notifier).tab =
-          ExpressionPickerTab.stickers;
+      ref
+          .read(expressionPanelTabProvider.notifier)
+          .setTab(ExpressionPickerTab.stickers);
       ref.read(expressionPanelProvider.notifier).open();
       return true;
     })

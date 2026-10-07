@@ -9,7 +9,7 @@ List<AppIconChoice> iosAppIconChoiceCatalog() {
   return [
     AppIconChoice(
       alternateIconName: null,
-      previewAssetPath: AppIconPreviewAssets.iosDefault(),
+      previewAssetPath: appIconPreviewIosDefault(),
       label: (FluxerLocalizations l10n) => l10n.appIconOptionDefault,
     ),
     AppIconChoice(

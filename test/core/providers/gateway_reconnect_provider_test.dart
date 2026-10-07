@@ -578,8 +578,7 @@ void main() {
     test('suspends the gateway after background grace', () {
       fakeAsync((FakeAsync async) {
         final _SuspendTrackingGatewayConnection connection =
-            _SuspendTrackingGatewayConnection();
-        connection.emit(GatewayState.connected);
+            _SuspendTrackingGatewayConnection()..emit(GatewayState.connected);
         final ProviderContainer container = ProviderContainer(
           overrides: <Override>[
             gatewayConnectionProvider.overrideWithValue(connection),
@@ -602,8 +601,7 @@ void main() {
     test('cancels background suspend when returning to foreground', () {
       fakeAsync((FakeAsync async) {
         final _SuspendTrackingGatewayConnection connection =
-            _SuspendTrackingGatewayConnection();
-        connection.emit(GatewayState.connected);
+            _SuspendTrackingGatewayConnection()..emit(GatewayState.connected);
         final ProviderContainer container = ProviderContainer(
           overrides: <Override>[
             gatewayConnectionProvider.overrideWithValue(connection),

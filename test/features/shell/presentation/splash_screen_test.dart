@@ -3,7 +3,10 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/service_unavailable.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart'
+    show FluxerDatabase;
 import 'package:fluxer_app/core/providers/app_startup_provider.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/splash_exit_allowed_provider.dart';
 import 'package:fluxer_app/features/auth/domain/stored_account.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
@@ -14,6 +17,7 @@ import 'package:fluxer_app/features/ui/icons/instance_branding_image.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
+import '../../../helpers/open_test_database.dart';
 import '../../../helpers/pump_fluxer_app.dart';
 import '../../../helpers/test_l10n.dart';
 
@@ -24,16 +28,13 @@ class _PendingAppStartup extends AppStartup {
 
 class _UnavailableAppStartup extends AppStartup {
   @override
-  Future<void> build() async {
-    throw const ServiceUnavailableException(statusCode: 503);
-  }
+  Future<void> build() =>
+      Future<void>.error(const ServiceUnavailableException(statusCode: 503));
 }
 
 class _GenericFailAppStartup extends AppStartup {
   @override
-  Future<void> build() async {
-    throw Exception('boot failure');
-  }
+  Future<void> build() => Future<void>.error(Exception('boot failure'));
 }
 
 class _NoopIncidentRead extends ServiceStatusIncidentRead {
@@ -65,11 +66,18 @@ class _AccountsPresent extends AccountManager {
   Future<void> loadAccounts() async {}
 }
 
+late FluxerDatabase _database;
+
 void main() {
+  setUp(() {
+    _database = openTestDatabase();
+  });
+
   testWidgets('unmounting before the reveal releases the gateway gate', (
     tester,
   ) async {
     final List<Override> overrides = <Override>[
+      fluxerDatabaseProvider.overrideWithValue(_database),
       appStartupProvider.overrideWith(_PendingAppStartup.new),
     ];
     await tester.pumpWidget(
@@ -96,6 +104,7 @@ void main() {
       pumpFluxerApp(
         retry: (int retryCount, Object error) => null,
         overrides: <Override>[
+          fluxerDatabaseProvider.overrideWithValue(_database),
           appStartupProvider.overrideWith(_UnavailableAppStartup.new),
           serviceStatusIncidentReadProvider.overrideWith(_NoopIncidentRead.new),
         ],
@@ -119,6 +128,7 @@ void main() {
       pumpFluxerApp(
         retry: (int retryCount, Object error) => null,
         overrides: <Override>[
+          fluxerDatabaseProvider.overrideWithValue(_database),
           appStartupProvider.overrideWith(_UnavailableAppStartup.new),
           serviceStatusIncidentReadProvider.overrideWith(_NoopIncidentRead.new),
           accountManagerProvider.overrideWith(_AccountsPresent.new),
@@ -140,6 +150,7 @@ void main() {
         pumpFluxerApp(
           retry: (int retryCount, Object error) => null,
           overrides: <Override>[
+            fluxerDatabaseProvider.overrideWithValue(_database),
             appStartupProvider.overrideWith(_GenericFailAppStartup.new),
             serviceStatusIncidentReadProvider.overrideWith(
               _NoopIncidentRead.new,
@@ -164,6 +175,7 @@ void main() {
         pumpFluxerApp(
           retry: (int retryCount, Object error) => null,
           overrides: <Override>[
+            fluxerDatabaseProvider.overrideWithValue(_database),
             appStartupProvider.overrideWith(_GenericFailAppStartup.new),
             serviceStatusIncidentReadProvider.overrideWith(
               _NoopIncidentRead.new,
@@ -188,6 +200,7 @@ void main() {
     await tester.pumpWidget(
       pumpFluxerApp(
         overrides: <Override>[
+          fluxerDatabaseProvider.overrideWithValue(_database),
           appStartupProvider.overrideWith(_PendingAppStartup.new),
         ],
         child: const SplashScreen(),

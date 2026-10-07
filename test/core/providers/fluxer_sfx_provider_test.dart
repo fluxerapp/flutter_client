@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/settings/providers/notification_preferences_
 import 'package:fluxer_app/features/settings/providers/sound_preferences_provider.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../helpers/message_realtime_test_helpers.dart';
 
@@ -53,6 +54,10 @@ MessageCreateEvent _createEvent(String id) {
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+
+  setUp(() {
+    SharedPreferences.setMockInitialValues(<String, Object>{});
+  });
 
   test(
     'message sfx binding survives a database cancellation mid-event',

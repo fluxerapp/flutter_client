@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/services/composer_mention_controller.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_clipboard_paste.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
+import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -24,7 +25,7 @@ Future<ComposerMentionController> _pumpMentionController(
           textTheme: FluxerTextTheme.fromColors(colorTheme),
           layoutTheme: FluxerLayoutTheme.scaled(),
         ),
-        localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+        localizationsDelegates: fluxerLocalizationsDelegates,
         supportedLocales: FluxerLocalizations.supportedLocales,
         home: Scaffold(
           body: Consumer(

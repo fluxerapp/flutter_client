@@ -280,7 +280,7 @@ void main() {
     expect(readState?.lastPinTimestamp, latestPin);
   });
 
-  test('cleanupStaleReadStates deletes remote and local stale rows', () async {
+  test('cleanupStaleReadStates deletes stale rows locally only', () async {
     final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
       ..httpClientAdapter = _RecordingAdapter();
     final db = openTestDatabase();
@@ -307,9 +307,7 @@ void main() {
     await ReadStateRepository(FluxerClient(dio), db).cleanupStaleReadStates();
 
     final adapter = dio.httpClientAdapter as _RecordingAdapter;
-    expect(adapter.requests, [
-      ('DELETE', '/v1/channels/missing-1/messages/ack'),
-    ]);
+    expect(adapter.requests, isEmpty);
     expect(await db.readStateDao.getReadState('missing-1'), null);
     expect(await db.readStateDao.getReadState('channel-1'), isA<ReadState>());
     expect(await db.readStateDao.getReadState('dm-1'), isA<ReadState>());
@@ -354,9 +352,7 @@ void main() {
       ).cleanupStaleReadStates(now: now);
 
       final adapter = dio.httpClientAdapter as _RecordingAdapter;
-      expect(adapter.requests, [
-        ('DELETE', '/v1/channels/missing-1/messages/ack'),
-      ]);
+      expect(adapter.requests, isEmpty);
       expect(
         (await db.readStateDao.getReadState(
           'thread-new',

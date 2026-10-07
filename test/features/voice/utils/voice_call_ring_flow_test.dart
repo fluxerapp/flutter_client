@@ -32,8 +32,7 @@ void main() {
     expect(resolved, channelId);
     expect(params.isAccepted, isFalse);
 
-    final VoiceCallKitSessionStore store = VoiceCallKitSessionStore();
-    store
+    final VoiceCallKitSessionStore store = VoiceCallKitSessionStore()
       ..registerSession(
         channelId: resolved!,
         callKitId: params.id,

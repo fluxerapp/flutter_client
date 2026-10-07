@@ -77,8 +77,7 @@ class SidebarSyncedField
     required SidebarLocalState local,
     pb.SidebarPreferences? wireBase,
   }) {
-    final proto = mergeOrCreate(wireBase, pb.SidebarPreferences.new);
-    proto.inlineDmsCollapsed = local.inlineDmsCollapsed;
-    return proto;
+    return mergeOrCreate(wireBase, pb.SidebarPreferences.new)
+      ..inlineDmsCollapsed = local.inlineDmsCollapsed;
   }
 }

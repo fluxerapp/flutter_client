@@ -1,5 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart'
+    show FluxerDatabase;
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -13,6 +16,7 @@ import 'package:fluxer_dart/export.dart';
 
 import '../../../../../helpers/instance_runtime_config_override.dart';
 import '../../../../../helpers/message_item_test_overrides.dart';
+import '../../../../../helpers/open_test_database.dart';
 import '../../../../../helpers/test_l10n.dart';
 
 Message _message({String content = 'hello world'}) => Message(
@@ -36,33 +40,43 @@ const MessageRenderSettings _settings = MessageRenderSettings(
   messageGroupSpacing: 16,
 );
 
-Widget _app(Widget child) {
+Future<void> _pumpApp(WidgetTester tester, Widget child) {
   final colorTheme = buildDarkColorTheme();
-  return ProviderScope(
-    overrides: [
-      instanceRuntimeConfigOverride(),
-      ...messageItemTestProviderOverrides(),
-    ],
-    child: MaterialApp(
-      locale: kTestLocale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
-      supportedLocales: FluxerLocalizations.supportedLocales,
-      theme: buildFluxerTheme(
-        colorTheme: colorTheme,
-        textTheme: FluxerTextTheme.fromColors(colorTheme),
-        layoutTheme: FluxerLayoutTheme.scaled(),
+  return tester.pumpWidget(
+    ProviderScope(
+      overrides: [
+        fluxerDatabaseProvider.overrideWithValue(_database),
+        instanceRuntimeConfigOverride(),
+        ...messageItemTestProviderOverrides(),
+      ],
+      child: MaterialApp(
+        locale: kTestLocale,
+        localizationsDelegates: fluxerLocalizationsDelegates,
+        supportedLocales: FluxerLocalizations.supportedLocales,
+        theme: buildFluxerTheme(
+          colorTheme: colorTheme,
+          textTheme: FluxerTextTheme.fromColors(colorTheme),
+          layoutTheme: FluxerLayoutTheme.scaled(),
+        ),
+        home: Scaffold(body: child),
       ),
-      home: Scaffold(body: child),
     ),
   );
 }
 
+late FluxerDatabase _database;
+
 void main() {
+  setUp(() {
+    _database = openTestDatabase();
+  });
+
   messageItemTestWidgets('exposes author and content in semantics label', (
     tester,
   ) async {
-    await tester.pumpWidget(
-      _app(MessageItem(message: _message(), renderSettings: _settings)),
+    await _pumpApp(
+      tester,
+      MessageItem(message: _message(), renderSettings: _settings),
     );
     await tester.pump();
     await tester.pumpAndSettle();
@@ -76,17 +90,17 @@ void main() {
   messageItemTestWidgets(
     'the semantics label follows an edit of the same message',
     (tester) async {
-      await tester.pumpWidget(
-        _app(MessageItem(message: _message(), renderSettings: _settings)),
+      await _pumpApp(
+        tester,
+        MessageItem(message: _message(), renderSettings: _settings),
       );
       await tester.pumpAndSettle();
 
-      await tester.pumpWidget(
-        _app(
-          MessageItem(
-            message: _message(content: 'edited words'),
-            renderSettings: _settings,
-          ),
+      await _pumpApp(
+        tester,
+        MessageItem(
+          message: _message(content: 'edited words'),
+          renderSettings: _settings,
         ),
       );
       await tester.pumpAndSettle();
@@ -104,16 +118,15 @@ void main() {
   ) async {
     final SemanticsHandle handle = tester.ensureSemantics();
 
-    await tester.pumpWidget(
-      _app(
-        MessageReactionsBar(
-          reactions: const <Reaction>[
-            Reaction(emoji: '👍', count: 3, hasReacted: true),
-          ],
-          channelId: 'c1',
-          onReactionTap: (_, {emojiId, animated = false}) {},
-          isMobile: true,
-        ),
+    await _pumpApp(
+      tester,
+      MessageReactionsBar(
+        reactions: const <Reaction>[
+          Reaction(emoji: '👍', count: 3, hasReacted: true),
+        ],
+        channelId: 'c1',
+        onReactionTap: (_, {emojiId, animated = false}) {},
+        isMobile: true,
       ),
     );
 

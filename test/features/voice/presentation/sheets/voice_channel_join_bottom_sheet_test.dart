@@ -51,7 +51,7 @@ Widget _buildTestApp({required Widget child}) {
     overrides: _sheetOverrides(),
     child: MaterialApp(
       locale: kTestLocale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,
@@ -90,8 +90,7 @@ _pumpSheetHost(WidgetTester tester) async {
   );
   final ProviderContainer container = ProviderScope.containerOf(
     tester.element(find.byType(ElevatedButton)),
-  );
-  container.read(localVoiceStateProvider);
+  )..read(localVoiceStateProvider);
   await tester.pump();
   return (container, result);
 }

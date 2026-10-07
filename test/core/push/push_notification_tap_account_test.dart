@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
@@ -17,6 +18,7 @@ import '../../helpers/open_test_database.dart';
 
 class _RecordingAccountManager extends AccountManager {
   final List<String> switched = <String>[];
+  @visibleForTesting
   int loads = 0;
 
   @override

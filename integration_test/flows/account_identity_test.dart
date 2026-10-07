@@ -1,4 +1,4 @@
-// ignore_for_file: do_not_use_environment
+// ignore_for_file: do_not_use_environment -- integration runs are configured through --dart-define
 
 import 'dart:async';
 

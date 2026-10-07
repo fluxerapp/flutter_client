@@ -17,7 +17,7 @@ Widget _buildTestApp(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
     child: MaterialApp(
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       locale: kTestLocale,
       theme: buildFluxerTheme(

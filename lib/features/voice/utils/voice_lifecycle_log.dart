@@ -11,8 +11,8 @@ void logVoiceLifecycle(
   String? reason,
   String? connectionState,
 }) {
-  final StringBuffer buffer = StringBuffer('[Voice][lifecycle] $event');
-  buffer.write(' gen=$connectGeneration');
+  final StringBuffer buffer = StringBuffer('[Voice][lifecycle] $event')
+    ..write(' gen=$connectGeneration');
   if (channelId != null) {
     buffer.write(' channelId=$channelId');
   }

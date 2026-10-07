@@ -41,9 +41,9 @@ void main() {
     now = DateTime.utc(2026, 9, 5, 18);
     pacer = RateLimitPacer(now: () => now);
     adapter = _CountingAdapter();
-    dio = Dio(BaseOptions(baseUrl: 'https://api.example.com'));
-    dio.httpClientAdapter = adapter;
-    dio.interceptors.add(RateLimitInterceptor(pacer: pacer));
+    dio = Dio(BaseOptions(baseUrl: 'https://api.example.com'))
+      ..httpClientAdapter = adapter
+      ..interceptors.add(RateLimitInterceptor(pacer: pacer));
   });
 
   Future<void> getPath(String path) => dio.get<dynamic>(path);

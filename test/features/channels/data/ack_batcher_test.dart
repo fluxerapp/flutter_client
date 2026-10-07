@@ -198,13 +198,14 @@ void main() {
     final batcher = AckBatcher(client: _client(adapter));
     addTearDown(batcher.dispose);
 
-    batcher.setForegroundBatching(foreground: true);
-    batcher.queue(
-      channelId: 'c-1',
-      messageId: 'm-1',
-      immediate: false,
-      hadMentions: false,
-    );
+    batcher
+      ..setForegroundBatching(foreground: true)
+      ..queue(
+        channelId: 'c-1',
+        messageId: 'm-1',
+        immediate: false,
+        hadMentions: false,
+      );
 
     await Future<void>.delayed(const Duration(milliseconds: 400));
     expect(adapter.recordedBatches, isEmpty);

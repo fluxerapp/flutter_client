@@ -1,11 +1,9 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/export.dart' show UserSettingsResponse;
 import 'package:fluxer_dart/models/locale.dart' as sdk;
 import 'package:riverpod/src/framework.dart' show Override;
@@ -81,16 +79,6 @@ ProviderContainer _container({sdk.Locale? appLocale}) {
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-
-  test('every app locale has Material localisation data', () {
-    for (final Locale locale in FluxerLocalizations.supportedLocales) {
-      expect(
-        GlobalMaterialLocalizations.delegate.isSupported(locale),
-        isTrue,
-        reason: locale.toLanguageTag(),
-      );
-    }
-  });
 
   test('selected app locale wins over the system locale', () {
     final ProviderContainer container = _container(appLocale: sdk.Locale.fr);

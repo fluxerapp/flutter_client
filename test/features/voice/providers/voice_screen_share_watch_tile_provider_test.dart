@@ -21,7 +21,7 @@ void main() {
     notifier().watch('a|screen');
     notifier().watch('b|screen');
     expect(state(), <String>{'a|screen', 'b|screen'});
-    expect(notifier().primaryTileId, 'a|screen');
+    expect(state().first, 'a|screen');
   });
 
   test('watch is a no-op at the stream cap', () {

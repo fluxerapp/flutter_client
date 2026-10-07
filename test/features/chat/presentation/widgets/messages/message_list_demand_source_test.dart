@@ -155,8 +155,9 @@ void main() {
       sample(older: 2000, newer: 2000);
       for (int i = 0; i < 10; i += 1) {
         fakeElapsed += const Duration(milliseconds: 16);
-        source.onScrollDelta(48);
-        source.resetApproachVelocity();
+        source
+          ..onScrollDelta(48)
+          ..resetApproachVelocity();
         sample(older: 2000 - i.toDouble(), newer: 2000 + i.toDouble());
       }
       expect(

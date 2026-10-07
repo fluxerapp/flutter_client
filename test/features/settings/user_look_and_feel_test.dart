@@ -18,6 +18,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/user_look_and_
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_sync_service.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
+import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
@@ -149,7 +150,7 @@ Widget _wrap(Widget child, {required FluxerDatabase db}) {
         textTheme: FluxerTextTheme.fromColors(colorTheme),
         layoutTheme: FluxerLayoutTheme.scaled(),
       ),
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       home: Scaffold(body: child),
     ),
@@ -235,7 +236,7 @@ void main() {
             textTheme: FluxerTextTheme.fromColors(buildDarkColorTheme()),
             layoutTheme: FluxerLayoutTheme.scaled(),
           ),
-          localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+          localizationsDelegates: fluxerLocalizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           home: Scaffold(
             body: UserLookAndFeel(scrollController: ScrollController()),
@@ -287,7 +288,7 @@ void main() {
             textTheme: FluxerTextTheme.fromColors(buildDarkColorTheme()),
             layoutTheme: FluxerLayoutTheme.scaled(),
           ),
-          localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+          localizationsDelegates: fluxerLocalizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           home: Scaffold(
             body: UserLookAndFeel(scrollController: ScrollController()),
@@ -338,7 +339,7 @@ void main() {
             textTheme: FluxerTextTheme.fromColors(buildDarkColorTheme()),
             layoutTheme: FluxerLayoutTheme.scaled(),
           ),
-          localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+          localizationsDelegates: fluxerLocalizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           home: Scaffold(
             body: UserLookAndFeel(scrollController: ScrollController()),

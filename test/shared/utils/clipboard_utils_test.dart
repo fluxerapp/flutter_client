@@ -34,7 +34,7 @@ void main() {
       ProviderScope(
         child: MaterialApp(
           locale: kTestLocale,
-          localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+          localizationsDelegates: fluxerLocalizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           home: Scaffold(
             body: Consumer(
@@ -81,7 +81,7 @@ void main() {
       ProviderScope(
         child: MaterialApp(
           locale: kTestLocale,
-          localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+          localizationsDelegates: fluxerLocalizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           home: Scaffold(
             body: Consumer(

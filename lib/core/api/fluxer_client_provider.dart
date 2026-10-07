@@ -150,6 +150,9 @@ class FluxerAuthToken extends _$FluxerAuthToken {
   // Auth state is updated from repository flows; Riverpod state remains the
   // source of truth for consumers.
   void setToken(String? token) {
+    if (state == token) {
+      return;
+    }
     state = token;
   }
 }

@@ -1427,15 +1427,7 @@ final $typed_data.Uint8List chatInputSettingsDescriptor = $convert.base64Decode(
 const ReactionEmoji$json = {
   '1': 'ReactionEmoji',
   '2': [
-    {
-      '1': 'id',
-      '3': 1,
-      '4': 1,
-      '5': 9,
-      '9': 0,
-      '10': 'id',
-      '17': true
-    },
+    {'1': 'id', '3': 1, '4': 1, '5': 9, '9': 0, '10': 'id', '17': true},
     {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
   ],
   '8': [

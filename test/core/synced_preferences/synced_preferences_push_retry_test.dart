@@ -12,7 +12,7 @@ import '../../helpers/synced_preferences_test_helpers.dart';
 
 class _FakeUsersApi implements UsersApi {
   int pushCount = 0;
-  Object? pushError;
+  DioException? pushError;
 
   @override
   Future<UserSettingsResponse> updateCurrentUserSettings({
@@ -20,7 +20,6 @@ class _FakeUsersApi implements UsersApi {
   }) async {
     pushCount++;
     if (pushError != null) {
-      // ignore: only_throw_errors
       throw pushError!;
     }
     return UserSettingsResponse.fromJson(<String, Object?>{

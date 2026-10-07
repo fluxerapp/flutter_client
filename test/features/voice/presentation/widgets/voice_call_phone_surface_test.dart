@@ -28,7 +28,7 @@ void main() {
         overrides: [voiceSessionProvider.overrideWith(_IdleVoiceSession.new)],
         child: MaterialApp(
           locale: kTestLocale,
-          localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+          localizationsDelegates: fluxerLocalizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           theme: buildFluxerTheme(
             colorTheme: buildDarkColorTheme(),
@@ -87,7 +87,7 @@ void main() {
         overrides: [voiceSessionProvider.overrideWith(_IdleVoiceSession.new)],
         child: MaterialApp(
           locale: kTestLocale,
-          localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+          localizationsDelegates: fluxerLocalizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           theme: buildFluxerTheme(
             colorTheme: buildDarkColorTheme(),

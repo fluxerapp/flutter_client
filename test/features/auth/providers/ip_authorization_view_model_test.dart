@@ -10,10 +10,16 @@ import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/auth/providers/ip_authorization_view_model.dart';
 
 class _FakeAuthRepository implements AuthRepository {
-  _FakeAuthRepository({this.pollResult, this.pollError, this.pollPending});
+  _FakeAuthRepository({
+    this.pollResult,
+    this.pollError,
+    this.pollFailure,
+    this.pollPending,
+  });
 
   final IpAuthPollResult? pollResult;
   final Exception? pollError;
+  final Error? pollFailure;
   final Completer<IpAuthPollResult>? pollPending;
   int pollCount = 0;
 
@@ -25,6 +31,9 @@ class _FakeAuthRepository implements AuthRepository {
     }
     if (pollError != null) {
       throw pollError!;
+    }
+    if (pollFailure != null) {
+      throw pollFailure!;
     }
     return pollResult ?? const IpAuthPending();
   }
@@ -125,5 +134,43 @@ void main() {
     pending.complete(const IpAuthPending());
     await _pump();
     expect(repo.pollCount, 2);
+  });
+
+  test('reissues a poll queued during a flight exactly once', () async {
+    final Completer<IpAuthPollResult> pending = Completer<IpAuthPollResult>();
+    final repo = _FakeAuthRepository(pollPending: pending);
+    final container = _container(repo);
+    await _pump();
+    expect(repo.pollCount, 1);
+
+    final AppUiForeground foreground = container.read(
+      appUiForegroundProvider.notifier,
+    );
+    for (int i = 0; i < 3; i++) {
+      foreground
+        ..setResumed(false)
+        ..setResumed(true);
+      await _pump();
+    }
+    expect(repo.pollCount, 1);
+
+    pending.complete(const IpAuthPending());
+    await _pump();
+    await _pump();
+    expect(repo.pollCount, 2);
+  });
+
+  test('an Error thrown while polling reaches the zone', () async {
+    final List<Object> uncaught = <Object>[];
+    final repo = _FakeAuthRepository(pollFailure: StateError('poll failed'));
+    runZonedGuarded(
+      () => _container(repo),
+      (Object error, StackTrace _) => uncaught.add(error),
+    );
+    await _pump();
+    await _pump();
+
+    expect(repo.pollCount, 1);
+    expect(uncaught, <Matcher>[isA<StateError>()]);
   });
 }

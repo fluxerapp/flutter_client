@@ -64,7 +64,7 @@ void main() {
         ),
         child: MaterialApp(
           locale: kTestLocale,
-          localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+          localizationsDelegates: fluxerLocalizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           theme: buildFluxerTheme(
             colorTheme: colorTheme,
@@ -102,7 +102,7 @@ void main() {
           ),
           child: MaterialApp(
             locale: kTestLocale,
-            localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+            localizationsDelegates: fluxerLocalizationsDelegates,
             supportedLocales: FluxerLocalizations.supportedLocales,
             theme: buildFluxerTheme(
               colorTheme: colorTheme,
@@ -140,7 +140,7 @@ void main() {
         ),
         child: MaterialApp(
           locale: kTestLocale,
-          localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+          localizationsDelegates: fluxerLocalizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           theme: buildFluxerTheme(
             colorTheme: colorTheme,
@@ -174,7 +174,7 @@ void main() {
         ),
         child: MaterialApp(
           locale: kTestLocale,
-          localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+          localizationsDelegates: fluxerLocalizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           theme: buildFluxerTheme(
             colorTheme: colorTheme,
@@ -219,7 +219,7 @@ void main() {
         ),
         child: MaterialApp(
           locale: kTestLocale,
-          localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+          localizationsDelegates: fluxerLocalizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           theme: buildFluxerTheme(
             colorTheme: colorTheme,
@@ -255,7 +255,7 @@ void main() {
         ),
         child: MaterialApp(
           locale: kTestLocale,
-          localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+          localizationsDelegates: fluxerLocalizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           theme: buildFluxerTheme(
             colorTheme: colorTheme,
@@ -308,6 +308,7 @@ class _MutedLocalVoiceState extends LocalVoiceState {
 }
 
 class _SpyLocalVoiceState extends LocalVoiceState {
+  @visibleForTesting
   int toggleMuteCount = 0;
 
   @override
@@ -321,6 +322,7 @@ class _SpyLocalVoiceState extends LocalVoiceState {
 }
 
 class _SpyVoiceSession extends VoiceSession {
+  @visibleForTesting
   int muteToggleCount = 0;
 
   @override

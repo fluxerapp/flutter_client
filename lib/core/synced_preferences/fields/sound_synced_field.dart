@@ -86,8 +86,7 @@ class SoundSyncedField
     required SoundLocalState local,
     pickers.SoundSettings? wireBase,
   }) {
-    final settings = mergeOrCreate(wireBase, pickers.SoundSettings.new);
-    settings
+    final settings = mergeOrCreate(wireBase, pickers.SoundSettings.new)
       ..allSoundsDisabled = local.allSoundsDisabled
       ..masterVolume = local.masterVolume;
     settings.disabledSounds

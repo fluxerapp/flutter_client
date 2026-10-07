@@ -30,13 +30,6 @@ class ActiveInstance extends _$ActiveInstance {
     return InstanceConfigSnapshot.officialDefault();
   }
 
-  String get apiBaseUrl => state.apiBaseUrl;
-
-  String? get gatewayUrl {
-    final String gateway = state.gatewayUrl.trim();
-    return gateway.isEmpty ? null : gateway;
-  }
-
   String describeApiEndpoint() {
     return _normalizer.describeApiEndpoint(state.apiBaseUrl);
   }

@@ -14,12 +14,6 @@ class Text extends material.StatelessWidget {
     this.locale,
     this.softWrap,
     this.overflow,
-    @Deprecated(
-      'Use textScaler instead. '
-      'Use of textScaleFactor was deprecated in preparation for the upcoming nonlinear text scaling support. '
-      'This feature was deprecated after v3.12.0-2.0.pre.',
-    )
-    this.textScaleFactor,
     this.textScaler,
     this.maxLines,
     this.semanticsLabel,
@@ -27,11 +21,7 @@ class Text extends material.StatelessWidget {
     this.textWidthBasis,
     this.textHeightBehavior,
     this.selectionColor,
-  }) : textSpan = null,
-       assert(
-         textScaler == null || textScaleFactor == null,
-         'textScaleFactor is deprecated and cannot be specified when textScaler is specified.',
-       );
+  }) : textSpan = null;
 
   const Text.rich(
     material.InlineSpan this.textSpan, {
@@ -43,12 +33,6 @@ class Text extends material.StatelessWidget {
     this.locale,
     this.softWrap,
     this.overflow,
-    @Deprecated(
-      'Use textScaler instead. '
-      'Use of textScaleFactor was deprecated in preparation for the upcoming nonlinear text scaling support. '
-      'This feature was deprecated after v3.12.0-2.0.pre.',
-    )
-    this.textScaleFactor,
     this.textScaler,
     this.maxLines,
     this.semanticsLabel,
@@ -56,11 +40,7 @@ class Text extends material.StatelessWidget {
     this.textWidthBasis,
     this.textHeightBehavior,
     this.selectionColor,
-  }) : data = null,
-       assert(
-         textScaler == null || textScaleFactor == null,
-         'textScaleFactor is deprecated and cannot be specified when textScaler is specified.',
-       );
+  }) : data = null;
 
   final String? data;
   final material.InlineSpan? textSpan;
@@ -71,7 +51,6 @@ class Text extends material.StatelessWidget {
   final material.Locale? locale;
   final bool? softWrap;
   final material.TextOverflow? overflow;
-  final double? textScaleFactor;
   final material.TextScaler? textScaler;
   final int? maxLines;
   final String? semanticsLabel;
@@ -105,7 +84,6 @@ class Text extends material.StatelessWidget {
             locale: locale,
             softWrap: softWrap,
             overflow: overflow,
-            textScaleFactor: textScaleFactor,
             textScaler: textScaler,
             maxLines: maxLines,
             semanticsLabel: semanticsLabel,
@@ -123,7 +101,6 @@ class Text extends material.StatelessWidget {
             locale: locale,
             softWrap: softWrap,
             overflow: overflow,
-            textScaleFactor: textScaleFactor,
             textScaler: textScaler,
             maxLines: maxLines,
             semanticsLabel: semanticsLabel,
@@ -148,12 +125,6 @@ class RichText extends material.StatelessWidget {
     this.locale,
     this.softWrap = true,
     this.overflow = material.TextOverflow.clip,
-    @Deprecated(
-      'Use textScaler instead. '
-      'Use of textScaleFactor was deprecated in preparation for the upcoming nonlinear text scaling support. '
-      'This feature was deprecated after v3.12.0-2.0.pre.',
-    )
-    this.textScaleFactor,
     this.textScaler,
     this.maxLines,
     this.textWidthBasis = material.TextWidthBasis.parent,
@@ -169,7 +140,6 @@ class RichText extends material.StatelessWidget {
   final material.Locale? locale;
   final bool softWrap;
   final material.TextOverflow overflow;
-  final double? textScaleFactor;
   final material.TextScaler? textScaler;
   final int? maxLines;
   final material.TextWidthBasis textWidthBasis;
@@ -199,8 +169,7 @@ class RichText extends material.StatelessWidget {
       locale: locale,
       softWrap: softWrap,
       overflow: overflow,
-      textScaler:
-          textScaler ?? material.TextScaler.linear(textScaleFactor ?? 1.0),
+      textScaler: textScaler ?? material.TextScaler.noScaling,
       maxLines: maxLines,
       textWidthBasis: textWidthBasis,
       textHeightBehavior: effectiveHeightBehavior,
@@ -220,12 +189,6 @@ class SelectableText extends material.StatelessWidget {
     this.textAlign,
     this.textDirection,
     this.locale,
-    @Deprecated(
-      'Use textScaler instead. '
-      'Use of textScaleFactor was deprecated in preparation for the upcoming nonlinear text scaling support. '
-      'This feature was deprecated after v3.12.0-2.0.pre.',
-    )
-    this.textScaleFactor,
     this.textScaler,
     this.maxLines,
     this.semanticsLabel,
@@ -257,12 +220,6 @@ class SelectableText extends material.StatelessWidget {
     this.textAlign,
     this.textDirection,
     this.locale,
-    @Deprecated(
-      'Use textScaler instead. '
-      'Use of textScaleFactor was deprecated in preparation for the upcoming nonlinear text scaling support. '
-      'This feature was deprecated after v3.12.0-2.0.pre.',
-    )
-    this.textScaleFactor,
     this.textScaler,
     this.maxLines,
     this.semanticsLabel,
@@ -293,7 +250,6 @@ class SelectableText extends material.StatelessWidget {
   final material.TextAlign? textAlign;
   final material.TextDirection? textDirection;
   final material.Locale? locale;
-  final double? textScaleFactor;
   final material.TextScaler? textScaler;
   final int? maxLines;
   final String? semanticsLabel;
@@ -352,7 +308,6 @@ class SelectableText extends material.StatelessWidget {
             strutStyle: effectiveStrut,
             textAlign: textAlign,
             textDirection: textDirection,
-            textScaleFactor: textScaleFactor,
             textScaler: textScaler,
             maxLines: maxLines,
             semanticsLabel: semanticsLabel,
@@ -381,7 +336,6 @@ class SelectableText extends material.StatelessWidget {
             strutStyle: effectiveStrut,
             textAlign: textAlign,
             textDirection: textDirection,
-            textScaleFactor: textScaleFactor,
             textScaler: textScaler,
             maxLines: maxLines,
             semanticsLabel: semanticsLabel,

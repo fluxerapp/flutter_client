@@ -396,6 +396,7 @@ Widget messageListApp({
   Widget body = const MessageList(expectedChannelId: messageListChannelId),
   List<Override> overrides = const <Override>[],
   bool disableMessageListAnimations = true,
+  bool messageDisplayCompact = false,
 }) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
@@ -404,12 +405,13 @@ Widget messageListApp({
         database: database,
         chatViewModel: chatViewModel,
         blockedUserIds: blockedUserIds,
+        messageDisplayCompact: messageDisplayCompact,
       ),
       ...overrides,
     ],
     child: MaterialApp(
       locale: kTestLocale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,
@@ -498,6 +500,7 @@ List<Override> messageListOverrides({
   required db.FluxerDatabase database,
   required InstrumentedChatViewModel chatViewModel,
   required Set<String> blockedUserIds,
+  bool messageDisplayCompact = false,
 }) {
   return <Override>[
     fluxerDatabaseProvider.overrideWithValue(database),
@@ -525,7 +528,7 @@ List<Override> messageListOverrides({
     ).overrideWith((ref) => ChannelMessagePermissions.all),
     themePreferenceProvider.overrideWithValue(ThemePreferenceState()),
     userSettingsViewModelProvider.overrideWithValue(
-      const UserSettingsViewState(
+      UserSettingsViewState(
         userId: messageListCurrentUserId,
         username: 'tester',
         displayName: 'Tester',
@@ -534,9 +537,9 @@ List<Override> messageListOverrides({
         avatarColor: null,
         memberSince: null,
         status: 'online',
-        messageDisplayCompact: false,
+        messageDisplayCompact: messageDisplayCompact,
         developerMode: false,
-        trustedDomains: <String>[],
+        trustedDomains: const <String>[],
         renderEmbeds: false,
         renderReactions: false,
         inlineAttachmentMedia: false,
@@ -557,8 +560,11 @@ class InstrumentedChatViewModel extends ChatViewModel {
 
   final ChatViewState _initialState;
   final bool enableTrimToNewestWindow;
+  @visibleForTesting
   int loadNewerCallCount = 0;
+  @visibleForTesting
   int loadMoreCallCount = 0;
+  @visibleForTesting
   int detachedTrimCallCount = 0;
   final List<bool> userScrollActiveLog = <bool>[];
   String? _latestReplacementNewestId;
@@ -571,12 +577,14 @@ class InstrumentedChatViewModel extends ChatViewModel {
     return _initialState;
   }
 
+  @visibleForTesting
   ChatViewState get testState => state;
 
   set testState(ChatViewState nextState) {
     state = nextState;
   }
 
+  @visibleForTesting
   String get latestReplacementNewestIdValue {
     final String? id = _latestReplacementNewestId;
     if (id == null) {

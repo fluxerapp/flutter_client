@@ -159,13 +159,14 @@ class _AttachmentChip extends ConsumerWidget {
                     children: [
                       ColoredBox(color: colors.backgroundTertiary),
                       if (hasImagePreview && !isSpoiler)
-                        isSvgImageMedia(
-                              url: path,
-                              filename: attachment.filename,
-                              contentType: attachment.contentType,
-                            )
-                            ? SvgPicture.file(File(path), fit: BoxFit.cover)
-                            : Image.file(File(path), fit: BoxFit.cover)
+                        if (isSvgImageMedia(
+                          url: path,
+                          filename: attachment.filename,
+                          contentType: attachment.contentType,
+                        ))
+                          SvgPicture.file(File(path), fit: BoxFit.cover)
+                        else
+                          Image.file(File(path), fit: BoxFit.cover)
                       else
                         Center(
                           child: Icon(

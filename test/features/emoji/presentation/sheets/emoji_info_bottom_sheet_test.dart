@@ -46,17 +46,17 @@ Widget _buildTestApp({
       guildListViewModelProvider.overrideWith(_FakeGuildListViewModel.new),
       contextualGuildIdProvider.overrideWithValue(currentGuildId),
       guildByIdProvider('guild-1').overrideWith(
-        (ref) async => const Guild(
+        (ref) => const Guild(
           id: 'guild-1',
           name: 'Test Community',
           ownerId: 'owner',
         ),
       ),
-      guildByIdProvider('guild-3').overrideWith((ref) async => null),
+      guildByIdProvider('guild-3').overrideWith((ref) => null),
     ],
     child: MaterialApp(
       locale: kTestLocale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,

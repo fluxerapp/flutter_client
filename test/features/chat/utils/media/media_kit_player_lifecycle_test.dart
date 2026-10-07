@@ -14,22 +14,23 @@ void main() {
           MediaKitForegroundResumeController();
       var resumeCount = 0;
 
-      controller.handleAppForegroundChanged(
-        isForeground: false,
-        isPlaying: true,
-        canResume: true,
-        onResume: () async {
-          resumeCount++;
-        },
-      );
-      controller.handleAppForegroundChanged(
-        isForeground: true,
-        isPlaying: false,
-        canResume: true,
-        onResume: () async {
-          resumeCount++;
-        },
-      );
+      controller
+        ..handleAppForegroundChanged(
+          isForeground: false,
+          isPlaying: true,
+          canResume: true,
+          onResume: () async {
+            resumeCount++;
+          },
+        )
+        ..handleAppForegroundChanged(
+          isForeground: true,
+          isPlaying: false,
+          canResume: true,
+          onResume: () async {
+            resumeCount++;
+          },
+        );
 
       await pumpEventQueue();
       expect(resumeCount, 1);
@@ -40,22 +41,23 @@ void main() {
           MediaKitForegroundResumeController();
       var resumeCount = 0;
 
-      controller.handleAppForegroundChanged(
-        isForeground: false,
-        isPlaying: false,
-        canResume: true,
-        onResume: () async {
-          resumeCount++;
-        },
-      );
-      controller.handleAppForegroundChanged(
-        isForeground: true,
-        isPlaying: false,
-        canResume: true,
-        onResume: () async {
-          resumeCount++;
-        },
-      );
+      controller
+        ..handleAppForegroundChanged(
+          isForeground: false,
+          isPlaying: false,
+          canResume: true,
+          onResume: () async {
+            resumeCount++;
+          },
+        )
+        ..handleAppForegroundChanged(
+          isForeground: true,
+          isPlaying: false,
+          canResume: true,
+          onResume: () async {
+            resumeCount++;
+          },
+        );
 
       await pumpEventQueue();
       expect(resumeCount, 0);

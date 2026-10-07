@@ -23,8 +23,9 @@ void main() {
     });
 
     test('select updates the active tab', () {
-      container.read(expressionPanelTabProvider.notifier).tab =
-          ExpressionPickerTab.gifs;
+      container
+          .read(expressionPanelTabProvider.notifier)
+          .setTab(ExpressionPickerTab.gifs);
 
       expect(
         container.read(expressionPanelTabProvider),
@@ -33,8 +34,9 @@ void main() {
     });
 
     test('reset returns to emojis', () {
-      container.read(expressionPanelTabProvider.notifier).tab =
-          ExpressionPickerTab.stickers;
+      container
+          .read(expressionPanelTabProvider.notifier)
+          .setTab(ExpressionPickerTab.stickers);
       container.read(expressionPanelTabProvider.notifier).reset();
 
       expect(
@@ -57,8 +59,9 @@ void main() {
 
     test('resets tab to emojis', () {
       container.read(expressionPanelProvider.notifier).open();
-      container.read(expressionPanelTabProvider.notifier).tab =
-          ExpressionPickerTab.gifs;
+      container
+          .read(expressionPanelTabProvider.notifier)
+          .setTab(ExpressionPickerTab.gifs);
 
       container.read(expressionPanelProvider.notifier).close();
 

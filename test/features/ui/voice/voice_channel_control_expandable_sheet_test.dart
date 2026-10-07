@@ -70,6 +70,7 @@ void main() {
       await tester.drag(
         find.byKey(kVoiceControlSheetDragHandleKey),
         const Offset(0, -280),
+        warnIfMissed: false,
       );
       await tester.pumpAndSettle();
       final double endHeight = tester.getSize(bar).height;
@@ -156,8 +157,7 @@ void main() {
             overrides: _voiceTestOverrides(),
             child: MaterialApp(
               locale: kTestLocale,
-              localizationsDelegates:
-                  FluxerLocalizations.localizationsDelegates,
+              localizationsDelegates: fluxerLocalizationsDelegates,
               supportedLocales: FluxerLocalizations.supportedLocales,
               theme: buildFluxerTheme(
                 colorTheme: colorTheme,
@@ -187,6 +187,7 @@ void main() {
         await tester.drag(
           find.byKey(kVoiceControlSheetDragHandleKey),
           const Offset(0, -280),
+          warnIfMissed: false,
         );
         await tester.pumpAndSettle();
         final double gridHeightExpanded = tester
@@ -219,7 +220,7 @@ Future<void> _pumpExpandableSheet(
       overrides: _voiceTestOverrides(textChatSupported: textChatSupported),
       child: MaterialApp(
         locale: kTestLocale,
-        localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+        localizationsDelegates: fluxerLocalizationsDelegates,
         supportedLocales: FluxerLocalizations.supportedLocales,
         theme: buildFluxerTheme(
           colorTheme: colorTheme,

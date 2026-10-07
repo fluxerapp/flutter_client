@@ -201,7 +201,7 @@ class ChatAttachmentAudioController extends ChangeNotifier {
     _playbackFinished = false;
     _hasPreparedSource = false;
     _hasStarted = false;
-    position.update(Duration.zero);
+    position.value = Duration.zero;
     _notify();
     if (!hasListeners) {
       _removeFromRegistry();
@@ -233,7 +233,7 @@ class ChatAttachmentAudioController extends ChangeNotifier {
     if (_disposed) {
       return;
     }
-    position.update(target);
+    position.value = target;
     _playbackFinished = false;
     _sessionReporter.sync(playing: _isPlaying);
     _notify();
@@ -290,7 +290,7 @@ class ChatAttachmentAudioController extends ChangeNotifier {
       }
     }
     if (!_disposed) {
-      position.update(Duration.zero);
+      position.value = Duration.zero;
     }
   }
 
@@ -338,7 +338,7 @@ class ChatAttachmentAudioController extends ChangeNotifier {
       _isPlaying = false;
       _playbackFinished = true;
       if (endPosition > Duration.zero) {
-        position.update(endPosition);
+        position.value = endPosition;
       }
       _sessionReporter.sync(playing: false, completed: true);
       _notify();
@@ -353,7 +353,7 @@ class ChatAttachmentAudioController extends ChangeNotifier {
       if (_disposed) {
         return;
       }
-      position.update(nextPosition);
+      position.value = nextPosition;
       if (_isPlaying) {
         _sessionReporter.syncPositionIfDue(playing: true);
       }

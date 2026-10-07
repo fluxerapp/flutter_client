@@ -50,7 +50,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           locale: kTestLocale,
-          localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+          localizationsDelegates: fluxerLocalizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           theme: buildFluxerTheme(
             colorTheme: colorTheme,
@@ -123,7 +123,7 @@ void main() {
           ],
           child: MaterialApp(
             locale: kTestLocale,
-            localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+            localizationsDelegates: fluxerLocalizationsDelegates,
             supportedLocales: FluxerLocalizations.supportedLocales,
             theme: buildFluxerTheme(
               colorTheme: colorTheme,
@@ -289,7 +289,7 @@ Future<void> _pumpCollapsedPip(
       ],
       child: MaterialApp(
         locale: kTestLocale,
-        localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+        localizationsDelegates: fluxerLocalizationsDelegates,
         supportedLocales: FluxerLocalizations.supportedLocales,
         theme: buildFluxerTheme(
           colorTheme: colorTheme,
@@ -314,7 +314,7 @@ Widget _heroHarness({required _MutableRoute route}) {
     ],
     child: MaterialApp(
       locale: kTestLocale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,

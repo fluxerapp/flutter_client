@@ -101,14 +101,7 @@ class _GuildListItemState extends State<_GuildListItem>
     final initials = abbreviateGuildName(widget.label);
     final initialsLength = guildNameInitialsLength(widget.label);
     return Center(
-      child: widget.svgAsset != null
-          ? SvgPicture.asset(
-              widget.svgAsset!,
-              width: GuildNavbarIconShape.size,
-              height: GuildNavbarIconShape.size,
-              colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
-            )
-          : widget.icon != null
+      child: widget.icon != null
           ? PhosphorIcon(widget.icon!, color: iconColor, size: 32)
           : Text(
               initials,

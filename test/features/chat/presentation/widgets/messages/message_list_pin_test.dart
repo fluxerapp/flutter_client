@@ -47,20 +47,20 @@ Future<void> _pumpFrames(WidgetTester tester) async {
 void main() {
   group('MessageListPin', () {
     test('engages within 8px of the live tail', () {
-      final MessageListPin pin = MessageListPin();
-      pin.onUserScrollEnd(distanceFromLiveTail: 8, hasMoreNewer: false);
+      final MessageListPin pin = MessageListPin()
+        ..onUserScrollEnd(distanceFromLiveTail: 8, hasMoreNewer: false);
       expect(pin.pinned, isTrue);
     });
 
     test('does not engage beyond 8px when previously detached', () {
-      final MessageListPin pin = MessageListPin();
-      pin.onUserScrollEnd(distanceFromLiveTail: 9, hasMoreNewer: false);
+      final MessageListPin pin = MessageListPin()
+        ..onUserScrollEnd(distanceFromLiveTail: 9, hasMoreNewer: false);
       expect(pin.pinned, isFalse);
     });
 
     test('holds engagement until 64px away', () {
-      final MessageListPin pin = MessageListPin();
-      pin.onUserScrollEnd(distanceFromLiveTail: 4, hasMoreNewer: false);
+      final MessageListPin pin = MessageListPin()
+        ..onUserScrollEnd(distanceFromLiveTail: 4, hasMoreNewer: false);
       expect(pin.pinned, isTrue);
 
       pin.onUserScrollEnd(distanceFromLiveTail: 32, hasMoreNewer: false);
@@ -71,28 +71,28 @@ void main() {
     });
 
     test('never pins while newer history is unloaded', () {
-      final MessageListPin pin = MessageListPin();
-      pin.onUserScrollEnd(distanceFromLiveTail: 0, hasMoreNewer: true);
+      final MessageListPin pin = MessageListPin()
+        ..onUserScrollEnd(distanceFromLiveTail: 0, hasMoreNewer: true);
       expect(pin.pinned, isFalse);
     });
 
     test('jump-to-present and own send re-engage the tail', () {
-      final MessageListPin pin = MessageListPin();
-      pin.onDetached();
+      final MessageListPin pin = MessageListPin()..onDetached();
       expect(pin.pinned, isFalse);
 
       pin.onJumpToPresentLanded();
       expect(pin.pinned, isTrue);
 
-      pin.onDetached();
-      pin.onOwnSend();
+      pin
+        ..onDetached()
+        ..onOwnSend();
       expect(pin.pinned, isTrue);
     });
 
     test('detached clears the latch', () {
-      final MessageListPin pin = MessageListPin();
-      pin.onJumpToPresentLanded();
-      pin.onDetached();
+      final MessageListPin pin = MessageListPin()
+        ..onJumpToPresentLanded()
+        ..onDetached();
       expect(pin.pinned, isFalse);
     });
   });

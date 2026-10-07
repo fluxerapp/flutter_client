@@ -12,7 +12,7 @@ import '../../../../../helpers/pump_fluxer_app.dart';
 import 'message_list_test_harness.dart';
 
 class _CountingCoordinator extends MessagePaginationCoordinator {
-  _CountingCoordinator(super.ref);
+  _CountingCoordinator(super._ref);
 
   int demandEvents = 0;
 

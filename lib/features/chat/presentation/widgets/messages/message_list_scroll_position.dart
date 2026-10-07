@@ -255,7 +255,7 @@ class MessageListScrollPosition extends ScrollPositionWithSingleContext {
 }
 
 class _PointerSignalScrollActivity extends ScrollActivity {
-  _PointerSignalScrollActivity(super.delegate);
+  _PointerSignalScrollActivity(super._delegate);
 
   @override
   bool get shouldIgnorePointer => true;
