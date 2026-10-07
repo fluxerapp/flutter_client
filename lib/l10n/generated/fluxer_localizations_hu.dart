@@ -3681,10 +3681,10 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get userProfileTransferOwnership => 'Tulajdonjog átruházása';
 
   @override
-  String get userProfileReportUser => 'Felhasználó bejelentése';
+  String get userProfileReportMessage => 'Üzenet bejelentése';
 
   @override
-  String get userProfileReportMessage => 'Üzenet bejelentése';
+  String get userProfileReportUserProfile => 'Profil bejelentése';
 
   @override
   String userProfileKickConfirmTitle(String username) {
@@ -3834,94 +3834,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get durationCustom => 'Egyéni…';
-
-  @override
-  String get iarReportUserTitle => 'Felhasználó bejelentése';
-
-  @override
-  String get iarReportGuildTitle => 'Közösség bejelentése';
-
-  @override
-  String get iarReportGuildPreconfirmBody =>
-      'Ha a bejelentés a közösség egy konkrét üzenetére vonatkozik, inkább azt az üzenetet jelentsd be. Az üzenet bejelentése mutatja meg legjobban a körülményeket a biztonsági csapatunknak, a megjegyzésekben megadott részletek pedig gyorsíthatják az elbírálást. Csak akkor jelentsd be az egész közösséget, ha egy üzenet bejelentése nem mutatná meg a probléma teljes körét.';
-
-  @override
-  String get iarContinueToReportCommunity => 'Tovább a közösség bejelentéséhez';
-
-  @override
-  String get iarPreviewCommunitySubtitle => 'Közösség';
-
-  @override
-  String get iarReasonHarassmentGuildLabel =>
-      'Zaklatás vagy célzott visszaélés';
-
-  @override
-  String get iarReasonHarassmentGuildDescription =>
-      'A közösség megkönnyíti a tömeges támadásokat vagy a célzott zaklatást.';
-
-  @override
-  String get iarReasonHateGuildDescription =>
-      'Gyűlöletet szít védett csoportok ellen.';
-
-  @override
-  String get iarReasonTerrorismLabel =>
-      'Terrorizmus vagy erőszakos szélsőségesség';
-
-  @override
-  String get iarReasonTerrorismDescription =>
-      'Erőszakos szélsőséges tevékenységet népszerűsít vagy szervez, illetve arra toboroz.';
-
-  @override
-  String get iarReasonMatureContentGuildLabel =>
-      'Felnőtt tartalom vagy nem megfelelő hozzáférési korlátozás';
-
-  @override
-  String get iarReasonMatureContentGuildDescription =>
-      'Felnőtt tartalom megfelelő hozzáférési korlátozás nélkül.';
-
-  @override
-  String get iarReasonChildSafetyGuildDescription =>
-      'Kiskorúakat veszélyeztet, vagy gyermekek kizsákmányolásával kapcsolatos tartalmat tartalmaz.';
-
-  @override
-  String get iarReasonRaidLabel => 'Összehangolt támadás szervezése';
-
-  @override
-  String get iarReasonRaidDescription =>
-      'Személyek vagy közösségek ellen szervez összehangolt támadásokat, tömeges fellépést vagy zaklatást.';
-
-  @override
-  String get iarReasonSpamGuildDescription =>
-      'A közösség spamküldésre, átverésre vagy a platformmal való visszaélésre jött létre.';
-
-  @override
-  String get iarReasonMalwareGuildLabel => 'Kártevő terjesztése';
-
-  @override
-  String get iarReasonMalwareGuildDescription =>
-      'Kártevőket, hitelesítőadat-lopást vagy káros fájlokat terjeszt.';
-
-  @override
-  String get iarReasonPrivacyGuildLabel =>
-      'Adatvédelmi szabálysértés vagy doxxing';
-
-  @override
-  String get iarReasonPrivacyGuildDescription =>
-      'Személyes adatokat oszt meg, felhasználókat zaklat, vagy a magánélet megsértését koordinálja.';
-
-  @override
-  String get iarReasonSelfHarmGuildLabel => 'Önsértésre buzdít';
-
-  @override
-  String get iarReasonSelfHarmGuildDescription =>
-      'Öngyilkosságra, önkárosításra vagy étkezési zavarokra buzdít.';
-
-  @override
-  String get iarReasonInappropriateProfile => 'Nem megfelelő profil';
-
-  @override
-  String get iarReasonInappropriateProfileDescription =>
-      'Ez a felhasználó profilja nem megfelelő tartalmat tartalmaz';
 
   @override
   String typingIndicatorOne(String name) {
@@ -7413,354 +7325,121 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get chatMessageReport => 'Üzenet bejelentése';
 
   @override
-  String get iarReportMessageTitle => 'Üzenet bejelentése';
+  String get reportFlowTitleMessage => 'Üzenet bejelentése';
 
   @override
-  String get iarThisUserFallback => 'ez a felhasználó';
+  String get reportFlowTitleUserProfile => 'Profil bejelentése';
 
   @override
-  String get iarModalDescription =>
-      'Szabálysértés bejelentése, vagy eszközök keresése a kapcsolatok és beállítások kezeléséhez.';
+  String get reportFlowSummaryTitle => 'A bejelentésed ellenőrzése';
 
   @override
-  String get iarPathStepAriaLabel => 'Mire van szükséged?';
+  String get reportFlowSummarySubtitle =>
+      'Ellenőrizd, hogy minden rendben van-e, mielőtt elküldöd.';
 
   @override
-  String get iarCategoryStepTitle => 'Milyen szabályt sértettek meg?';
-
-  @override
-  String get iarReasonStepTitle => 'Melyik szabályt szegték meg?';
-
-  @override
-  String get iarReasonSelectHint => 'Válassz okot';
-
-  @override
-  String get iarPickAnOptionToast => 'Válassz egy lehetőséget a folytatáshoz.';
-
-  @override
-  String get iarPickARuleToast => 'Válaszd ki a megsértett szabályt.';
-
-  @override
-  String get iarPathPlatform => 'Platformszabály-sértés jelentése';
-
-  @override
-  String get iarPathCommunity =>
-      'Jelentés ennek a közösségnek a moderátorainak';
-
-  @override
-  String get iarPathPreferenceMessage => 'Nem kedvelem ezt a tartalmat';
-
-  @override
-  String get iarCategoryTargetedHarmLabel =>
-      'Fenyegetés, zaklatás vagy bántalmazás';
-
-  @override
-  String get iarCategoryTargetedHarmDescription =>
-      'Zaklatás, fenyegetés, gyűlölet, erőszak, összehangolt támadások vagy önkárosításra ösztönző tartalom.';
-
-  @override
-  String get iarCategorySafetyMinorsLabel =>
-      'Gyermekbiztonság vagy felnőtt tartalom';
-
-  @override
-  String get iarCategorySafetyMinorsDescription =>
-      'Kiskorúak veszélyeztetése, nem megfelelő helyen megjelenő felnőtt tartalom vagy nem kívánt viselkedés.';
-
-  @override
-  String get iarCategoryPrivacyIdentityLabel =>
-      'Adatvédelem vagy személyiséglopás';
-
-  @override
-  String get iarCategoryPrivacyIdentityDescription =>
-      'Doxxing, követéses zaklatás, személyazonossággal való visszaélés vagy nem megfelelő profil.';
-
-  @override
-  String get iarCategoryDeceptionLabel =>
-      'Csalások, rosszindulatú programok vagy félretájékoztatás';
-
-  @override
-  String get iarCategoryDeceptionDescription =>
-      'Adathalászat, csalás, rosszindulatú hivatkozások vagy valós károkat okozó hamis állítások.';
-
-  @override
-  String get iarCategoryIllegalOtherLabel => 'Illegális tevékenység vagy egyéb';
-
-  @override
-  String get iarCategoryIllegalOtherDescription =>
-      'Illegális értékesítés, bűncselekmény elősegítése vagy egyértelmű szabálysértés, ami nem illik a fenti kategóriákba.';
-
-  @override
-  String get iarReasonHarassmentLabel => 'Zaklatás vagy fenyegetés';
-
-  @override
-  String get iarReasonHarassmentMessageDescription =>
-      'Megfélemlítés, ismételt kéretlen kapcsolatfelvétel, követéses zaklatás vagy célzott bántalmazás.';
-
-  @override
-  String get iarReasonHateLabel => 'Gyűlöletbeszéd';
-
-  @override
-  String get iarReasonHateMessageDescription =>
-      'Gyalázkodás, dehumanizáló nyelvezet vagy védett csoportok elleni támadások.';
-
-  @override
-  String get iarReasonViolenceLabel => 'Erőszak vagy erőszakos fenyegetés';
-
-  @override
-  String get iarReasonViolenceDescription =>
-      'Hiteles fenyegetések, explicit erőszak vagy az erőszak dicsőítése.';
-
-  @override
-  String get iarReasonMatureContentLabel => 'Felnőtt tartalom vagy zaklatás';
-
-  @override
-  String get iarReasonMatureContentMessageDescription =>
-      'Nem kívánt viselkedés vagy felnőtt tartalom nem megfelelő helyen.';
-
-  @override
-  String get iarReasonChildSafetyLabel =>
-      'Gyermekbiztonság vagy kiskorúak kizsákmányolása';
-
-  @override
-  String get iarReasonChildSafetyMessageDescription =>
-      'Gyermekek szexuális célú behálózása vagy kizsákmányolásukhoz kapcsolódó tartalom.';
-
-  @override
-  String get iarReasonHarmfulMisinfoLabel => 'Káros félretájékoztatás';
-
-  @override
-  String get iarReasonHarmfulMisinfoDescription =>
-      'Valótlan állítások, amelyek valós károkat okozhatnak.';
-
-  @override
-  String get iarReasonSpamLabel => 'Spam, átverés vagy adathalászat';
-
-  @override
-  String get iarReasonSpamMessageDescription =>
-      'Tömeges spam, csalás, hamis nyereményjátékok vagy fiókokkal való visszaélés.';
-
-  @override
-  String get iarReasonMalwareLabel => 'Kártevő vagy veszélyes linkek';
-
-  @override
-  String get iarReasonMalwareDescription =>
-      'Kártevő, hitelesítő adatok lopása vagy káros fájlok.';
-
-  @override
-  String get iarReasonPrivacyLabel => 'Adatvédelmi szabálysértés';
-
-  @override
-  String get iarReasonPrivacyDescription =>
-      'Doxxing, személyes adatok közzététele vagy zaklatás.';
-
-  @override
-  String get iarReasonImpersonationLabel =>
-      'Megszemélyesítés vagy megtévesztő média';
-
-  @override
-  String get iarReasonImpersonationMessageDescription =>
-      'Más személynek adja ki magát, akár megtévesztő, mesterséges intelligenciával létrehozott tartalommal.';
-
-  @override
-  String get iarReasonIllegalLabel => 'Illegális tevékenység';
-
-  @override
-  String get iarReasonIllegalDescription =>
-      'Illegális értékesítés, bűncselekmény elősegítése vagy jogellenes tevékenység.';
-
-  @override
-  String get iarReasonSelfHarmLabel => 'Önsértés vagy öngyilkosság';
-
-  @override
-  String get iarReasonSelfHarmMessageDescription =>
-      'Önsértésre vagy étkezési zavarokra ösztönző tartalom vagy útmutatás.';
-
-  @override
-  String get iarReasonOtherLabel => 'Egy másik egyértelmű szabálysértés';
-
-  @override
-  String iarReasonOtherDescription(String productName) {
-    return 'Csak akkor használd, ha egyértelműen sérti a(z) $productName szabályait, és nem illik a fentiekbe.';
+  String reportFlowDisclaimer(String guidelines) {
+    return 'Csak olyat jelents be, amiről őszintén úgy gondolod, hogy megszegi a szabályokat. A bejelentésekkel való visszaélés ellentétes a $guidelines.';
   }
 
   @override
-  String iarUseChildSafetyInstead(String childSafetyReason) {
-    return 'Ha kiskorú érintett, használd ehelyett a(z) „$childSafetyReason” opciót.';
+  String get reportFlowCommunityGuidelinesLink => 'közösségi irányelvek';
+
+  @override
+  String get reportFlowDisclaimerNoLink =>
+      'Csak olyat jelents be, amiről őszintén úgy gondolod, hogy megszegi a szabályokat, és kérjük, ne küldd el ugyanazt a bejelentést kétszer.';
+
+  @override
+  String get reportFlowSelectedMessage => 'Az általad bejelentett üzenet';
+
+  @override
+  String get reportFlowSelectedUser => 'Az általad bejelentett profil';
+
+  @override
+  String get reportFlowReportCategory => 'A válaszaid';
+
+  @override
+  String get reportFlowSubmit => 'Bejelentés küldése';
+
+  @override
+  String get reportFlowBack => 'Vissza';
+
+  @override
+  String get reportFlowNext => 'Tovább';
+
+  @override
+  String get reportFlowDone => 'Kész';
+
+  @override
+  String get reportFlowThankYouTitle => 'Bejelentés elküldve';
+
+  @override
+  String get reportFlowThankYouNoReportTitle => 'Köszönjük, hogy jelezted';
+
+  @override
+  String reportFlowThankYouBody(String productName) {
+    return 'A(z) $productName biztonsági csapata áttekinti a bejelentésedet. Nem fogjuk felfedni, hogy tőled érkezett.';
   }
 
   @override
-  String get iarSafetyNoteChildSafety =>
-      'Ha ez kiskorúak sérelmére elkövetett szexuális bűncselekményt (CSAM) vagy kizsákmányolást érint, küldd el azonnal, és ne oszd meg újra az anyagot.';
+  String get reportFlowThankYouNoReportBody =>
+      'Köszönjük, hogy szóltál. Ez önmagában nem sérti a szabályainkat, ezért nem küldtünk bejelentést. Ha valakit célba vesz, vagy gyalázkodó szavakat használ, jelentsd be újra, és válaszd a „Bántalmazó vagy káros tartalom” lehetőséget.';
 
   @override
-  String get iarSafetyNoteSelfHarm =>
-      'Ha valakit közvetlen veszély fenyegethet, értesítsd a helyi segélyszolgálatokat, amennyiben ezt biztonságosan megteheted.';
+  String get reportFlowThankYouNoReportBodyShort =>
+      'Köszönjük, hogy szóltál. Ez önmagában nem sérti a szabályainkat, ezért nem küldtünk bejelentést.';
 
   @override
-  String get iarSafetyNoteViolence =>
-      'Ha valós, közvetlen fenyegetésről van szó, értesítsd a helyi segélyszolgálatokat is.';
+  String get reportFlowMoreYouCanDo => 'A lehetőségeid';
 
   @override
-  String get iarSafetyNoteTerrorism =>
-      'Ha közvetlen terrorfenyegetésről van szó, értesítsd a helyi segélyszolgálatokat is.';
-
-  @override
-  String get iarActionBlockUserTitle => 'Felhasználó letiltása';
-
-  @override
-  String get iarActionBlockUserDescription =>
-      'Üzenetek és ismerősjelölések leállítása.';
-
-  @override
-  String get iarActionBlockUserButton => 'Letiltás';
-
-  @override
-  String get iarActionCopyMessageLinkTitle => 'Üzenetlink másolása';
-
-  @override
-  String get iarActionCopyMessageLinkDescription =>
-      'Megosztás a közösségi moderátorokkal.';
-
-  @override
-  String get iarActionCopyMessageLinkButton => 'Másolás';
-
-  @override
-  String get iarActionCloseDmTitle => 'Közvetlen beszélgetés bezárása';
-
-  @override
-  String get iarActionCloseDmDescription =>
-      'Nem tiltja le. Később újra megnyithatod.';
-
-  @override
-  String get iarActionCloseDmButton => 'Közvetlen beszélgetés bezárása';
-
-  @override
-  String get iarActionLeaveCommunityTitle => 'Közösség elhagyása';
-
-  @override
-  String get iarActionLeaveCommunityDescription =>
-      'Ne lásd többé a tartalmát és a tagjait.';
-
-  @override
-  String get iarActionLeaveCommunityButton => 'Kilépés';
-
-  @override
-  String get iarActionDmSettingsTitle => 'DM- és ismerősjelölési beállítások';
-
-  @override
-  String get iarActionDmSettingsDescription =>
-      'Állítsd be, hogy ki léphet kapcsolatba veled.';
-
-  @override
-  String get iarActionCallSettingsTitle =>
-      'Hívások és csoportos beszélgetések beállításai';
-
-  @override
-  String get iarActionCallSettingsDescription =>
-      'Módosítsd, hogy ki hívhat fel vagy adhat hozzá csoportos beszélgetésekhez.';
-
-  @override
-  String get iarActionOpenButton => 'Megnyitás';
-
-  @override
-  String get iarActionDeleteMessageTitle => 'Üzenet törlése';
-
-  @override
-  String get iarActionDeleteMessageDescription =>
-      'Eltávolítás a csatornából mindenki számára.';
-
-  @override
-  String get iarActionDeleteMessageButton => 'Törlés';
-
-  @override
-  String get iarActionDeleteMessageDeletedButton => 'Törölve';
-
-  @override
-  String get iarActionDeleteMessageDeletedTooltip =>
-      'Ezt az üzenetet már törölték.';
-
-  @override
-  String get iarActionBanUserTitle => 'Felhasználó kitiltása';
-
-  @override
-  String get iarActionBanUserDescription =>
-      'A közösség kitiltási párbeszédablakának megnyitása.';
-
-  @override
-  String get iarActionBanUserButton => 'Kitiltás';
-
-  @override
-  String get iarActionBanUserBannedButton => 'Kitiltva';
-
-  @override
-  String get iarActionBanUserBannedTooltip =>
-      'Ez a felhasználó már ki van tiltva a közösségből.';
-
-  @override
-  String get iarCloseDmConfirmTitle => 'Közvetlen beszélgetés bezárása';
-
-  @override
-  String iarCloseDmConfirmDescription(String name) {
-    return 'Zárd be a jelenlegi DM-edet $name felhasználóval. Ez nem blokkolja őket; később újra megnyithatod.';
+  String reportFlowBlockName(String name) {
+    return '$name letiltása';
   }
 
   @override
-  String get iarSuccessTitle => 'Bejelentés elküldve';
+  String get reportFlowBlockDescription =>
+      'Elrejti az üzeneteit, és megakadályozza, hogy üzenetet küldjön neked';
 
   @override
-  String get iarSuccessBody =>
-      'Biztonsági csapatunk felülvizsgálja a bejelentést. DM-et és e-mailt küldünk, amint megszületett a döntés.';
+  String get reportFlowBlockButton => 'Letiltás';
 
   @override
-  String get iarAlreadyReportedTitle => 'Már jelentetted';
+  String get reportFlowBlockedButton => 'Letiltva';
 
   @override
-  String get iarAlreadyReportedBody =>
-      'Már jelentetted ezt az üzenetet. Biztonsági csapatunk áttekinti.';
+  String get reportFlowUrgentBanner =>
+      'Ha valaki azonnali veszélyben van, először vedd fel a kapcsolatot a helyi segélyhívóval.';
 
   @override
-  String get iarBackButton => 'Vissza';
+  String get reportFlowLoadFailed =>
+      'Nem sikerült betölteni a bejelentési űrlapot.';
 
   @override
-  String get iarContinueButton => 'Folytatás';
+  String get reportFlowTryAgain => 'Újra';
 
   @override
-  String get iarSendReportButton => 'Bejelentés küldése';
+  String get reportFlowOutdated =>
+      'A bejelentési űrlap megváltozott. Kérjük, kezdd újra.';
 
   @override
-  String get iarDoneButton => 'Kész';
+  String get reportFlowAlreadyReported => 'Már bejelentetted ezt az üzenetet.';
 
   @override
-  String get iarCouldntSendToast =>
-      'Nem sikerült elküldeni a jelentést. Kérlek, próbáld újra.';
+  String get reportFlowAlreadyReportedProfile =>
+      'Ezt a profilt ma már bejelentetted.';
 
   @override
-  String get iarRateLimitedToast =>
-      'Túl gyorsan jelentesz. Kérlek, várj egy pillanatot, és próbáld újra.';
+  String get reportFlowRateLimited =>
+      'Túl gyorsan küldöd a bejelentéseket. Próbáld újra később.';
 
   @override
-  String get iarReportSentToast =>
-      'Jelentés elküldve. Biztonsági csapatunk áttekinti.';
+  String get reportFlowSubmitFailed =>
+      'A bejelentésedet nem sikerült elküldeni. Próbáld újra.';
 
   @override
-  String iarBlockUserConfirmDescription(String name) {
-    return 'Blokkolod $name felhasználót? Nem tud majd üzenetet küldeni neked, vagy ismerősnek jelölni. Később feloldhatod a blokkot.';
-  }
-
-  @override
-  String get iarBlockUserFailedToast =>
-      'Nem sikerült blokkolni ezt a felhasználót. Kérlek, próbáld újra.';
-
-  @override
-  String get iarCloseDmSuccessToast => 'DM bezárva.';
-
-  @override
-  String get iarCloseDmFailedToast =>
-      'Nem sikerült bezárni ezt a DM-et. Kérlek, próbáld újra.';
-
-  @override
-  String get iarLeaveCommunityFailedToast =>
-      'Nem sikerült elhagyni ezt a közösséget. Kérlek, próbáld újra.';
+  String get reportFlowAccountSetupRequired =>
+      'A bejelentések küldéséhez fejezd be a fiókod regisztrációját, és erősítsd meg az e-mail-címedet.';
 
   @override
   String get chatMessageSuppressEmbeds => 'Beágyazott tartalmak elrejtése';
@@ -12427,9 +12106,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get guildMenuHideMutedChannels => 'Némított csatornák elrejtése';
-
-  @override
-  String get guildMenuReportCommunity => 'Közösség bejelentése';
 
   @override
   String get guildMenuDebugCommunity => 'Közösség hibakeresése';

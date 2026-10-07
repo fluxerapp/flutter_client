@@ -472,16 +472,9 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     );
   }
 
-  bool get _canReportThisMessage {
-    if (widget.message.hasFailed) {
-      return false;
-    }
-    if (widget.message.authorId == widget.currentUserId) {
-      return false;
-    }
-    return widget.message.type == messageTypeDefault ||
-        widget.message.type == messageTypeReply;
-  }
+  bool get _canReportThisMessage =>
+      widget.message.isReportable &&
+      widget.message.authorId != widget.currentUserId;
 
   String? _guildIdForMessageActions() {
     return widget.previewRoleGuildId ??

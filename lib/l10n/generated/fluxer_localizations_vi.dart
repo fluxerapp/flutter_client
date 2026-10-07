@@ -3643,10 +3643,10 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get userProfileTransferOwnership => 'Chuyển quyền sở hữu';
 
   @override
-  String get userProfileReportUser => 'Báo cáo người dùng';
+  String get userProfileReportMessage => 'Báo cáo tin nhắn';
 
   @override
-  String get userProfileReportMessage => 'Báo cáo tin nhắn';
+  String get userProfileReportUserProfile => 'Báo cáo hồ sơ';
 
   @override
   String userProfileKickConfirmTitle(String username) {
@@ -3795,94 +3795,6 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get durationCustom => 'Tùy chỉnh…';
-
-  @override
-  String get iarReportUserTitle => 'Báo cáo người dùng';
-
-  @override
-  String get iarReportGuildTitle => 'Báo cáo cộng đồng';
-
-  @override
-  String get iarReportGuildPreconfirmBody =>
-      'Nếu báo cáo này liên quan đến một tin nhắn cụ thể trong cộng đồng này, hãy báo cáo tin nhắn đó thay vì báo cáo cộng đồng. Báo cáo tin nhắn cung cấp cho đội ngũ an toàn của chúng tôi ngữ cảnh rõ ràng nhất và việc thêm chi tiết vào phần bình luận có thể giúp chúng tôi xem xét nhanh hơn. Chỉ tiếp tục báo cáo toàn bộ cộng đồng nếu việc báo cáo một tin nhắn không phản ánh được vấn đề lớn hơn.';
-
-  @override
-  String get iarContinueToReportCommunity => 'Tiếp tục báo cáo cộng đồng';
-
-  @override
-  String get iarPreviewCommunitySubtitle => 'Cộng đồng';
-
-  @override
-  String get iarReasonHarassmentGuildLabel =>
-      'Quấy rối hoặc lạm dụng có chủ đích';
-
-  @override
-  String get iarReasonHarassmentGuildDescription =>
-      'Cộng đồng tạo điều kiện cho hành vi công kích tập thể hoặc lạm dụng có chủ đích.';
-
-  @override
-  String get iarReasonHateGuildDescription =>
-      'Cổ súy thù ghét các nhóm được bảo vệ.';
-
-  @override
-  String get iarReasonTerrorismLabel =>
-      'Khủng bố hoặc chủ nghĩa cực đoan bạo lực';
-
-  @override
-  String get iarReasonTerrorismDescription =>
-      'Quảng bá, tuyển mộ hoặc điều phối hoạt động cực đoan bạo lực.';
-
-  @override
-  String get iarReasonMatureContentGuildLabel =>
-      'Nội dung người lớn hoặc kiểm duyệt không an toàn';
-
-  @override
-  String get iarReasonMatureContentGuildDescription =>
-      'Nội dung người lớn không được kiểm soát đúng cách.';
-
-  @override
-  String get iarReasonChildSafetyGuildDescription =>
-      'Gây nguy hiểm cho trẻ vị thành niên hoặc chứa nội dung bóc lột trẻ em.';
-
-  @override
-  String get iarReasonRaidLabel => 'Phối hợp tấn công';
-
-  @override
-  String get iarReasonRaidDescription =>
-      'Điều phối các cuộc tấn công, quấy rối hoặc gây rối có tổ chức nhắm vào người hoặc cộng đồng.';
-
-  @override
-  String get iarReasonSpamGuildDescription =>
-      'Cộng đồng tồn tại để spam, lừa đảo hoặc lạm dụng nền tảng.';
-
-  @override
-  String get iarReasonMalwareGuildLabel => 'Phân phối phần mềm độc hại';
-
-  @override
-  String get iarReasonMalwareGuildDescription =>
-      'Phân phối phần mềm độc hại, đánh cắp thông tin đăng nhập hoặc các tệp độc hại.';
-
-  @override
-  String get iarReasonPrivacyGuildLabel =>
-      'Vi phạm quyền riêng tư hoặc doxxing';
-
-  @override
-  String get iarReasonPrivacyGuildDescription =>
-      'Chia sẻ thông tin cá nhân, theo dõi người dùng hoặc phối hợp lạm dụng quyền riêng tư.';
-
-  @override
-  String get iarReasonSelfHarmGuildLabel => 'Khuyến khích tự làm hại bản thân';
-
-  @override
-  String get iarReasonSelfHarmGuildDescription =>
-      'Khuyến khích tự tử, tự làm hại bản thân hoặc rối loạn ăn uống.';
-
-  @override
-  String get iarReasonInappropriateProfile => 'Hồ sơ không phù hợp';
-
-  @override
-  String get iarReasonInappropriateProfileDescription =>
-      'Hồ sơ người dùng này chứa nội dung không phù hợp';
 
   @override
   String typingIndicatorOne(String name) {
@@ -7359,351 +7271,120 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get chatMessageReport => 'Báo cáo tin nhắn';
 
   @override
-  String get iarReportMessageTitle => 'Báo cáo tin nhắn';
+  String get reportFlowTitleMessage => 'Báo cáo tin nhắn';
 
   @override
-  String get iarThisUserFallback => 'người dùng này';
+  String get reportFlowTitleUserProfile => 'Báo cáo hồ sơ';
 
   @override
-  String get iarModalDescription =>
-      'Báo cáo vi phạm quy tắc hoặc tìm công cụ để quản lý liên hệ và tùy chọn.';
+  String get reportFlowSummaryTitle => 'Kiểm tra báo cáo của bạn';
 
   @override
-  String get iarPathStepAriaLabel => 'Bạn cần gì?';
+  String get reportFlowSummarySubtitle =>
+      'Hãy đảm bảo mọi thứ trông ổn trước khi bạn gửi.';
 
   @override
-  String get iarCategoryStepTitle => 'Loại quy tắc nào đã bị vi phạm?';
-
-  @override
-  String get iarReasonStepTitle => 'Quy tắc nào đã bị vi phạm?';
-
-  @override
-  String get iarReasonSelectHint => 'Chọn một lý do';
-
-  @override
-  String get iarPickAnOptionToast => 'Chọn một tùy chọn để tiếp tục.';
-
-  @override
-  String get iarPickARuleToast => 'Chọn quy tắc đã vi phạm.';
-
-  @override
-  String get iarPathPlatform => 'Báo cáo vi phạm quy tắc nền tảng';
-
-  @override
-  String get iarPathCommunity =>
-      'Báo cáo cho người kiểm duyệt của cộng đồng này';
-
-  @override
-  String get iarPathPreferenceMessage => 'Tôi không thích nội dung này';
-
-  @override
-  String get iarCategoryTargetedHarmLabel => 'Đe dọa, quấy rối hoặc gây hại';
-
-  @override
-  String get iarCategoryTargetedHarmDescription =>
-      'Bắt nạt, đe dọa, thù ghét, bạo lực, tấn công hoặc nội dung khuyến khích tự làm hại bản thân.';
-
-  @override
-  String get iarCategorySafetyMinorsLabel =>
-      'An toàn cho trẻ em hoặc nội dung người lớn';
-
-  @override
-  String get iarCategorySafetyMinorsDescription =>
-      'Trẻ vị thành niên gặp rủi ro, nội dung người lớn không phù hợp hoặc hành vi không mong muốn.';
-
-  @override
-  String get iarCategoryPrivacyIdentityLabel => 'Quyền riêng tư hoặc mạo danh';
-
-  @override
-  String get iarCategoryPrivacyIdentityDescription =>
-      'Doxxing, rình rập, mạo danh hoặc hồ sơ không phù hợp.';
-
-  @override
-  String get iarCategoryDeceptionLabel =>
-      'Lừa đảo, phần mềm độc hại hoặc thông tin sai lệch';
-
-  @override
-  String get iarCategoryDeceptionDescription =>
-      'Lừa đảo, gian lận, liên kết độc hại hoặc thông tin sai lệch có khả năng gây hại trong thế giới thực.';
-
-  @override
-  String get iarCategoryIllegalOtherLabel =>
-      'Hoạt động trái phép hoặc nội dung khác';
-
-  @override
-  String get iarCategoryIllegalOtherDescription =>
-      'Mua bán trái phép, tiếp tay cho tội phạm hoặc vi phạm quy tắc rõ ràng không thuộc các mục trên.';
-
-  @override
-  String get iarReasonHarassmentLabel => 'Quấy rối hoặc đe dọa';
-
-  @override
-  String get iarReasonHarassmentMessageDescription =>
-      'Bắt nạt, liên hệ không mong muốn lặp đi lặp lại, rình rập hoặc lạm dụng có chủ đích.';
-
-  @override
-  String get iarReasonHateLabel => 'Ngôn từ gây thù ghét';
-
-  @override
-  String get iarReasonHateMessageDescription =>
-      'Lời lẽ xúc phạm, phi nhân tính hoặc công kích các nhóm được bảo vệ.';
-
-  @override
-  String get iarReasonViolenceLabel => 'Bạo lực hoặc đe dọa bạo lực';
-
-  @override
-  String get iarReasonViolenceDescription =>
-      'Các mối đe dọa có cơ sở, bạo lực ghê rợn hoặc cổ súy bạo lực.';
-
-  @override
-  String get iarReasonMatureContentLabel => 'Nội dung người lớn hoặc quấy rối';
-
-  @override
-  String get iarReasonMatureContentMessageDescription =>
-      'Hành vi không mong muốn hoặc nội dung người lớn không đúng chỗ.';
-
-  @override
-  String get iarReasonChildSafetyLabel =>
-      'An toàn cho trẻ em hoặc bóc lột trẻ vị thành niên';
-
-  @override
-  String get iarReasonChildSafetyMessageDescription =>
-      'Nội dung có hành vi dụ dỗ hoặc bóc lột trẻ em.';
-
-  @override
-  String get iarReasonHarmfulMisinfoLabel => 'Thông tin sai lệch có hại';
-
-  @override
-  String get iarReasonHarmfulMisinfoDescription =>
-      'Tuyên bố sai sự thật có khả năng gây hại trong thế giới thực.';
-
-  @override
-  String get iarReasonSpamLabel => 'Spam, lừa đảo hoặc đánh cắp thông tin';
-
-  @override
-  String get iarReasonSpamMessageDescription =>
-      'Spam hàng loạt, lừa đảo, tặng quà giả mạo hoặc lạm dụng tài khoản.';
-
-  @override
-  String get iarReasonMalwareLabel =>
-      'Phần mềm độc hại hoặc liên kết nguy hiểm';
-
-  @override
-  String get iarReasonMalwareDescription =>
-      'Phần mềm độc hại, đánh cắp thông tin đăng nhập hoặc các tệp độc hại.';
-
-  @override
-  String get iarReasonPrivacyLabel => 'Vi phạm quyền riêng tư';
-
-  @override
-  String get iarReasonPrivacyDescription =>
-      'Doxxing, lộ thông tin cá nhân hoặc rình rập.';
-
-  @override
-  String get iarReasonImpersonationLabel =>
-      'Mạo danh hoặc nội dung gây hiểu lầm';
-
-  @override
-  String get iarReasonImpersonationMessageDescription =>
-      'Mạo danh người khác, bao gồm cả nội dung do AI tạo ra nhằm mục đích lừa đảo.';
-
-  @override
-  String get iarReasonIllegalLabel => 'Hoạt động trái phép';
-
-  @override
-  String get iarReasonIllegalDescription =>
-      'Hoạt động mua bán trái phép, tiếp tay cho tội phạm hoặc các hành vi phi pháp khác.';
-
-  @override
-  String get iarReasonSelfHarmLabel => 'Tự làm hại bản thân hoặc tự tử';
-
-  @override
-  String get iarReasonSelfHarmMessageDescription =>
-      'Quảng bá hoặc hướng dẫn khuyến khích tự làm hại bản thân hoặc rối loạn ăn uống.';
-
-  @override
-  String get iarReasonOtherLabel => 'Một vi phạm quy tắc rõ ràng khác';
-
-  @override
-  String iarReasonOtherDescription(String productName) {
-    return 'Chỉ sử dụng tùy chọn này nếu nội dung vi phạm rõ ràng các quy tắc của $productName và không thuộc các danh mục trên.';
+  String reportFlowDisclaimer(String guidelines) {
+    return 'Chỉ báo cáo những nội dung bạn thực sự tin là vi phạm quy tắc. Lạm dụng tính năng báo cáo là đi ngược lại $guidelines của chúng tôi.';
   }
 
   @override
-  String iarUseChildSafetyInstead(String childSafetyReason) {
-    return 'Nếu có trẻ vị thành niên liên quan, hãy sử dụng \"$childSafetyReason\" thay thế.';
+  String get reportFlowCommunityGuidelinesLink => 'nguyên tắc cộng đồng';
+
+  @override
+  String get reportFlowDisclaimerNoLink =>
+      'Chỉ báo cáo những gì bạn thực sự tin là vi phạm quy tắc và vui lòng không gửi cùng một báo cáo hai lần.';
+
+  @override
+  String get reportFlowSelectedMessage => 'Tin nhắn bạn đang báo cáo';
+
+  @override
+  String get reportFlowSelectedUser => 'Hồ sơ bạn đang báo cáo';
+
+  @override
+  String get reportFlowReportCategory => 'Câu trả lời của bạn';
+
+  @override
+  String get reportFlowSubmit => 'Gửi báo cáo';
+
+  @override
+  String get reportFlowBack => 'Quay lại';
+
+  @override
+  String get reportFlowNext => 'Tiếp';
+
+  @override
+  String get reportFlowDone => 'Xong';
+
+  @override
+  String get reportFlowThankYouTitle => 'Đã gửi báo cáo';
+
+  @override
+  String get reportFlowThankYouNoReportTitle => 'Cảm ơn bạn đã báo cáo';
+
+  @override
+  String reportFlowThankYouBody(String productName) {
+    return 'Đội ngũ an toàn của $productName sẽ xem xét báo cáo của bạn. Chúng tôi sẽ không tiết lộ báo cáo này đến từ bạn.';
   }
 
   @override
-  String get iarSafetyNoteChildSafety =>
-      'Nếu báo cáo này liên quan đến CSAM hoặc hành vi bóc lột trẻ vị thành niên, hãy gửi ngay và không chia sẻ lại tài liệu này.';
+  String get reportFlowThankYouNoReportBody =>
+      'Cảm ơn bạn đã cho chúng tôi biết. Bản thân điều này không vi phạm quy tắc của chúng tôi, vì vậy chúng tôi đã không gửi báo cáo. Nếu nội dung này nhắm vào ai đó hoặc sử dụng lời lẽ miệt thị, hãy báo cáo lại và chọn “Nội dung lạm dụng hoặc có hại”.';
 
   @override
-  String get iarSafetyNoteSelfHarm =>
-      'Nếu có ai đó đang gặp nguy hiểm tức thì, hãy liên hệ với dịch vụ khẩn cấp địa phương nếu bạn có thể làm điều đó một cách an toàn.';
+  String get reportFlowThankYouNoReportBodyShort =>
+      'Cảm ơn bạn đã cho chúng tôi biết. Bản thân điều này không vi phạm quy tắc của chúng tôi, vì vậy chúng tôi đã không gửi báo cáo.';
 
   @override
-  String get iarSafetyNoteViolence =>
-      'Nếu đây là mối đe dọa đáng tin cậy và sắp xảy ra, hãy đồng thời liên hệ với dịch vụ khẩn cấp địa phương.';
+  String get reportFlowMoreYouCanDo => 'Các tùy chọn của bạn';
 
   @override
-  String get iarSafetyNoteTerrorism =>
-      'Nếu đây là mối đe dọa khủng bố sắp xảy ra, hãy đồng thời liên hệ với dịch vụ khẩn cấp địa phương.';
-
-  @override
-  String get iarActionBlockUserTitle => 'Chặn người dùng này';
-
-  @override
-  String get iarActionBlockUserDescription =>
-      'Ngăn tin nhắn và lời mời kết bạn.';
-
-  @override
-  String get iarActionBlockUserButton => 'Chặn';
-
-  @override
-  String get iarActionCopyMessageLinkTitle => 'Sao chép liên kết tin nhắn';
-
-  @override
-  String get iarActionCopyMessageLinkDescription =>
-      'Chia sẻ với người kiểm duyệt cộng đồng.';
-
-  @override
-  String get iarActionCopyMessageLinkButton => 'Sao chép';
-
-  @override
-  String get iarActionCloseDmTitle => 'Đóng tin nhắn trực tiếp này';
-
-  @override
-  String get iarActionCloseDmDescription =>
-      'Không chặn. Bạn có thể mở lại sau.';
-
-  @override
-  String get iarActionCloseDmButton => 'Đóng tin nhắn trực tiếp';
-
-  @override
-  String get iarActionLeaveCommunityTitle => 'Rời khỏi cộng đồng';
-
-  @override
-  String get iarActionLeaveCommunityDescription =>
-      'Ngừng xem nội dung và thành viên của cộng đồng này.';
-
-  @override
-  String get iarActionLeaveCommunityButton => 'Rời đi';
-
-  @override
-  String get iarActionDmSettingsTitle => 'Cài đặt DM & lời mời kết bạn';
-
-  @override
-  String get iarActionDmSettingsDescription =>
-      'Thay đổi người có thể liên hệ với bạn.';
-
-  @override
-  String get iarActionCallSettingsTitle => 'Cài đặt cuộc gọi & nhóm trò chuyện';
-
-  @override
-  String get iarActionCallSettingsDescription =>
-      'Thay đổi người có thể gọi hoặc thêm bạn.';
-
-  @override
-  String get iarActionOpenButton => 'Mở';
-
-  @override
-  String get iarActionDeleteMessageTitle => 'Xóa tin nhắn này';
-
-  @override
-  String get iarActionDeleteMessageDescription =>
-      'Xóa tin nhắn này khỏi kênh đối với mọi người.';
-
-  @override
-  String get iarActionDeleteMessageButton => 'Xóa';
-
-  @override
-  String get iarActionDeleteMessageDeletedButton => 'Đã xóa';
-
-  @override
-  String get iarActionDeleteMessageDeletedTooltip => 'Tin nhắn này đã bị xóa.';
-
-  @override
-  String get iarActionBanUserTitle => 'Cấm người dùng này';
-
-  @override
-  String get iarActionBanUserDescription =>
-      'Mở hộp thoại cấm cho cộng đồng này.';
-
-  @override
-  String get iarActionBanUserButton => 'Cấm';
-
-  @override
-  String get iarActionBanUserBannedButton => 'Đã cấm';
-
-  @override
-  String get iarActionBanUserBannedTooltip =>
-      'Người dùng này đã bị cấm khỏi cộng đồng.';
-
-  @override
-  String get iarCloseDmConfirmTitle => 'Đóng tin nhắn trực tiếp';
-
-  @override
-  String iarCloseDmConfirmDescription(String name) {
-    return 'Đóng cuộc trò chuyện trực tiếp hiện tại của bạn với $name. Thao tác này không chặn họ; bạn có thể mở lại sau.';
+  String reportFlowBlockName(String name) {
+    return 'Chặn $name';
   }
 
   @override
-  String get iarSuccessTitle => 'Đã gửi báo cáo';
+  String get reportFlowBlockDescription =>
+      'Ẩn tin nhắn của họ và chặn họ gửi tin nhắn cho bạn';
 
   @override
-  String get iarSuccessBody =>
-      'Đội ngũ an toàn của chúng tôi đang xem xét báo cáo. Chúng tôi sẽ gửi cho bạn tin nhắn trực tiếp và email sau khi có kết quả.';
+  String get reportFlowBlockButton => 'Chặn';
 
   @override
-  String get iarAlreadyReportedTitle => 'Đã báo cáo';
+  String get reportFlowBlockedButton => 'Đã chặn';
 
   @override
-  String get iarAlreadyReportedBody =>
-      'Bạn đã báo cáo tin nhắn này rồi. Đội ngũ an toàn của chúng tôi đang xem xét.';
+  String get reportFlowUrgentBanner =>
+      'Nếu có người đang gặp nguy hiểm cấp bách, trước tiên hãy liên hệ dịch vụ khẩn cấp tại địa phương.';
 
   @override
-  String get iarBackButton => 'Quay lại';
+  String get reportFlowLoadFailed => 'Không thể tải biểu mẫu báo cáo.';
 
   @override
-  String get iarContinueButton => 'Tiếp tục';
+  String get reportFlowTryAgain => 'Thử lại';
 
   @override
-  String get iarSendReportButton => 'Gửi báo cáo';
+  String get reportFlowOutdated =>
+      'Biểu mẫu báo cáo đã thay đổi. Vui lòng bắt đầu lại.';
 
   @override
-  String get iarDoneButton => 'Xong';
+  String get reportFlowAlreadyReported => 'Bạn đã báo cáo tin nhắn này rồi.';
 
   @override
-  String get iarCouldntSendToast => 'Không thể gửi báo cáo. Vui lòng thử lại.';
+  String get reportFlowAlreadyReportedProfile =>
+      'Bạn đã báo cáo hồ sơ này hôm nay.';
 
   @override
-  String get iarRateLimitedToast =>
-      'Bạn đang báo cáo quá nhanh. Vui lòng đợi một lát rồi thử lại.';
+  String get reportFlowRateLimited =>
+      'Bạn đang gửi báo cáo quá nhanh. Vui lòng thử lại sau.';
 
   @override
-  String get iarReportSentToast =>
-      'Đã gửi báo cáo. Đội ngũ an toàn của chúng tôi sẽ xem xét.';
+  String get reportFlowSubmitFailed =>
+      'Không gửi được báo cáo của bạn. Vui lòng thử lại.';
 
   @override
-  String iarBlockUserConfirmDescription(String name) {
-    return 'Chặn $name chứ? Họ sẽ không thể nhắn tin hoặc gửi lời mời kết bạn cho bạn. Bạn có thể bỏ chặn họ sau.';
-  }
-
-  @override
-  String get iarBlockUserFailedToast =>
-      'Không thể chặn người dùng này. Vui lòng thử lại.';
-
-  @override
-  String get iarCloseDmSuccessToast => 'Đã đóng DM.';
-
-  @override
-  String get iarCloseDmFailedToast =>
-      'Không thể đóng DM này. Vui lòng thử lại.';
-
-  @override
-  String get iarLeaveCommunityFailedToast =>
-      'Không thể rời khỏi cộng đồng này. Vui lòng thử lại.';
+  String get reportFlowAccountSetupRequired =>
+      'Xác nhận tài khoản và xác minh email của bạn để gửi báo cáo.';
 
   @override
   String get chatMessageSuppressEmbeds => 'Ẩn nội dung nhúng';
@@ -12325,9 +12006,6 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get guildMenuHideMutedChannels => 'Ẩn các kênh đã tắt tiếng';
-
-  @override
-  String get guildMenuReportCommunity => 'Báo cáo cộng đồng';
 
   @override
   String get guildMenuDebugCommunity => 'Gỡ lỗi cộng đồng';

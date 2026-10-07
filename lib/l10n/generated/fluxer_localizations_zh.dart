@@ -3446,10 +3446,10 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get userProfileTransferOwnership => '转让所有权';
 
   @override
-  String get userProfileReportUser => '举报用户';
+  String get userProfileReportMessage => '举报消息';
 
   @override
-  String get userProfileReportMessage => '举报消息';
+  String get userProfileReportUserProfile => '举报个人资料';
 
   @override
   String userProfileKickConfirmTitle(String username) {
@@ -3598,79 +3598,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get durationCustom => '自定义…';
-
-  @override
-  String get iarReportUserTitle => '举报用户';
-
-  @override
-  String get iarReportGuildTitle => '举报社区';
-
-  @override
-  String get iarReportGuildPreconfirmBody =>
-      '如果举报内容是此社区中的某条消息，请改为举报该消息。举报消息能为我们的安全团队提供最清晰的上下文，在评论中添加详细信息有助于我们更快地审核。仅当举报消息无法涵盖更广泛的问题时，才继续举报整个社区。';
-
-  @override
-  String get iarContinueToReportCommunity => '继续举报社区';
-
-  @override
-  String get iarPreviewCommunitySubtitle => '社区';
-
-  @override
-  String get iarReasonHarassmentGuildLabel => '骚扰或恶意辱骂';
-
-  @override
-  String get iarReasonHarassmentGuildDescription => '该社区助长群起攻击或针对性骚扰。';
-
-  @override
-  String get iarReasonHateGuildDescription => '宣扬对受保护群体的仇恨。';
-
-  @override
-  String get iarReasonTerrorismLabel => '恐怖主义或暴力极端主义';
-
-  @override
-  String get iarReasonTerrorismDescription => '宣扬、招募或协调暴力极端主义活动。';
-
-  @override
-  String get iarReasonMatureContentGuildLabel => '成人内容或分级设置不当';
-
-  @override
-  String get iarReasonMatureContentGuildDescription => '未正确分级的成人内容。';
-
-  @override
-  String get iarReasonChildSafetyGuildDescription => '危害未成年人或存在儿童性剥削内容。';
-
-  @override
-  String get iarReasonRaidLabel => '组织突袭';
-
-  @override
-  String get iarReasonRaidDescription => '协调针对个人或社区的突袭、围攻或骚扰行为。';
-
-  @override
-  String get iarReasonSpamGuildDescription => '该社区专门用于发送垃圾信息、诈骗或滥用平台。';
-
-  @override
-  String get iarReasonMalwareGuildLabel => '传播恶意软件';
-
-  @override
-  String get iarReasonMalwareGuildDescription => '传播恶意软件、窃取凭据或有害文件。';
-
-  @override
-  String get iarReasonPrivacyGuildLabel => '侵犯隐私或人肉搜索';
-
-  @override
-  String get iarReasonPrivacyGuildDescription => '泄露他人个人信息、跟踪骚扰用户或组织侵犯隐私的行为。';
-
-  @override
-  String get iarReasonSelfHarmGuildLabel => '宣扬自残';
-
-  @override
-  String get iarReasonSelfHarmGuildDescription => '宣扬自杀、自残或饮食失调。';
-
-  @override
-  String get iarReasonInappropriateProfile => '不当的个人资料';
-
-  @override
-  String get iarReasonInappropriateProfileDescription => '该用户的个人资料包含不当内容';
 
   @override
   String typingIndicatorOne(String name) {
@@ -6891,310 +6818,111 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get chatMessageReport => '举报消息';
 
   @override
-  String get iarReportMessageTitle => '举报消息';
+  String get reportFlowTitleMessage => '举报消息';
 
   @override
-  String get iarThisUserFallback => '该用户';
+  String get reportFlowTitleUserProfile => '举报个人资料';
 
   @override
-  String get iarModalDescription => '举报违规行为，或查找管理联系人和偏好设置的工具。';
+  String get reportFlowSummaryTitle => '检查你的举报';
 
   @override
-  String get iarPathStepAriaLabel => '您需要什么？';
+  String get reportFlowSummarySubtitle => '发送前请仔细检查。';
 
   @override
-  String get iarCategoryStepTitle => '违反了哪类规则？';
-
-  @override
-  String get iarReasonStepTitle => '违反了哪条规则？';
-
-  @override
-  String get iarReasonSelectHint => '选择一个原因';
-
-  @override
-  String get iarPickAnOptionToast => '请选择一个选项以继续。';
-
-  @override
-  String get iarPickARuleToast => '请选择被违反的规则。';
-
-  @override
-  String get iarPathPlatform => '举报平台规则违规';
-
-  @override
-  String get iarPathCommunity => '举报给此社区版主';
-
-  @override
-  String get iarPathPreferenceMessage => '我おこのコンテンツは好きではありません';
-
-  @override
-  String get iarCategoryTargetedHarmLabel => '威胁、骚扰或伤害';
-
-  @override
-  String get iarCategoryTargetedHarmDescription => '欺凌、威胁、仇恨、暴力、突袭或宣扬自残的内容。';
-
-  @override
-  String get iarCategorySafetyMinorsLabel => '儿童安全或成人内容';
-
-  @override
-  String get iarCategorySafetyMinorsDescription =>
-      '未成年人面临风险、成人内容出现在不当位置，或不受欢迎的行为。';
-
-  @override
-  String get iarCategoryPrivacyIdentityLabel => '隐私或冒充';
-
-  @override
-  String get iarCategoryPrivacyIdentityDescription => '人肉搜索、跟踪、冒充他人或使用不当的个人资料。';
-
-  @override
-  String get iarCategoryDeceptionLabel => '诈骗、恶意软件或虚假信息';
-
-  @override
-  String get iarCategoryDeceptionDescription => '网络钓鱼、欺诈、恶意链接或可能造成实际危害的虚假信息。';
-
-  @override
-  String get iarCategoryIllegalOtherLabel => '违法活动或其他';
-
-  @override
-  String get iarCategoryIllegalOtherDescription => '非法销售、协助犯罪或不属于上述类别的明显违规行为。';
-
-  @override
-  String get iarReasonHarassmentLabel => '骚扰或威胁';
-
-  @override
-  String get iarReasonHarassmentMessageDescription => '欺凌、反复骚扰、跟踪骚扰或针对性攻击。';
-
-  @override
-  String get iarReasonHateLabel => '仇恨言论';
-
-  @override
-  String get iarReasonHateMessageDescription => '蔑称、非人化言论或针对受保护群体的攻击。';
-
-  @override
-  String get iarReasonViolenceLabel => '暴力或暴力威胁';
-
-  @override
-  String get iarReasonViolenceDescription => '可信的威胁、露骨的暴力或美化暴力。';
-
-  @override
-  String get iarReasonMatureContentLabel => '成人内容或骚扰';
-
-  @override
-  String get iarReasonMatureContentMessageDescription =>
-      '不受欢迎的行为，或出现在不当位置的成人内容。';
-
-  @override
-  String get iarReasonChildSafetyLabel => '儿童安全或未成年人剥削';
-
-  @override
-  String get iarReasonChildSafetyMessageDescription => '诱骗或儿童剥削内容。';
-
-  @override
-  String get iarReasonHarmfulMisinfoLabel => '有害虚假信息';
-
-  @override
-  String get iarReasonHarmfulMisinfoDescription => '可能在现实中造成伤害的不实信息。';
-
-  @override
-  String get iarReasonSpamLabel => '垃圾信息、诈骗或钓鱼';
-
-  @override
-  String get iarReasonSpamMessageDescription => '大量垃圾信息、欺诈、虚假赠品或账号滥用。';
-
-  @override
-  String get iarReasonMalwareLabel => '恶意软件或危险链接';
-
-  @override
-  String get iarReasonMalwareDescription => '恶意软件、窃取凭据或有害文件。';
-
-  @override
-  String get iarReasonPrivacyLabel => '侵犯隐私';
-
-  @override
-  String get iarReasonPrivacyDescription => '人肉搜索、泄露隐私或跟踪骚扰。';
-
-  @override
-  String get iarReasonImpersonationLabel => '冒充或欺骗性媒体内容';
-
-  @override
-  String get iarReasonImpersonationMessageDescription =>
-      '冒充他人，包括使用 AI 生成的欺骗性内容。';
-
-  @override
-  String get iarReasonIllegalLabel => '违法活动';
-
-  @override
-  String get iarReasonIllegalDescription => '非法销售、协助犯罪或非法活动。';
-
-  @override
-  String get iarReasonSelfHarmLabel => '自残或自杀';
-
-  @override
-  String get iarReasonSelfHarmMessageDescription => '宣扬或教唆自残或饮食失调。';
-
-  @override
-  String get iarReasonOtherLabel => '其他明显违规行为';
-
-  @override
-  String iarReasonOtherDescription(String productName) {
-    return '仅当它明确违反 $productName 规则且不符合上述任何选项时使用。';
+  String reportFlowDisclaimer(String guidelines) {
+    return '仅举报你真心认为违反规则的内容。滥用举报功能将违反我们的$guidelines。';
   }
 
   @override
-  String iarUseChildSafetyInstead(String childSafetyReason) {
-    return '未成年者が関与している場合は、「$childSafetyReason」を使用してください。';
+  String get reportFlowCommunityGuidelinesLink => '社区准则';
+
+  @override
+  String get reportFlowDisclaimerNoLink => '仅举报你真心认为违反规则的内容，请勿重复发送相同的举报。';
+
+  @override
+  String get reportFlowSelectedMessage => '你要举报的消息';
+
+  @override
+  String get reportFlowSelectedUser => '你正在举报的个人资料';
+
+  @override
+  String get reportFlowReportCategory => '你的回答';
+
+  @override
+  String get reportFlowSubmit => '发送举报';
+
+  @override
+  String get reportFlowBack => '返回';
+
+  @override
+  String get reportFlowNext => '下一步';
+
+  @override
+  String get reportFlowDone => '完成';
+
+  @override
+  String get reportFlowThankYouTitle => '举报已发送';
+
+  @override
+  String get reportFlowThankYouNoReportTitle => '感谢你的提醒';
+
+  @override
+  String reportFlowThankYouBody(String productName) {
+    return '$productName 安全团队将审核你的举报。我们不会透露举报人是你。';
   }
 
   @override
-  String get iarSafetyNoteChildSafety =>
-      'CSAMまたは未成年者の搾取が関与している場合は、すぐに送信してください。素材の再共有はしないでください。';
+  String get reportFlowThankYouNoReportBody =>
+      '感谢你告知我们。此内容本身并未违反我们的规则，因此我们没有发送举报。如果内容针对某人或包含侮辱性言辞，请再次举报并选择“辱骂性或有害的内容”。';
 
   @override
-  String get iarSafetyNoteSelfHarm => '如果有人可能处于紧急危险中，请在安全的情况下联系当地紧急服务。';
+  String get reportFlowThankYouNoReportBodyShort =>
+      '感谢你告知我们。此内容本身并未违反我们的规则，因此我们没有发送举报。';
 
   @override
-  String get iarSafetyNoteViolence => '如果这是可信的紧急威胁，请同时联系当地紧急服务部门。';
+  String get reportFlowMoreYouCanDo => '你的选项';
 
   @override
-  String get iarSafetyNoteTerrorism => '如果这是迫在眉睫的恐怖威胁，请同时联系当地紧急服务部门。';
-
-  @override
-  String get iarActionBlockUserTitle => '屏蔽此用户';
-
-  @override
-  String get iarActionBlockUserDescription => '停止接收消息和好友请求。';
-
-  @override
-  String get iarActionBlockUserButton => '屏蔽';
-
-  @override
-  String get iarActionCopyMessageLinkTitle => '复制消息链接';
-
-  @override
-  String get iarActionCopyMessageLinkDescription => '分享给社区管理员。';
-
-  @override
-  String get iarActionCopyMessageLinkButton => '复制';
-
-  @override
-  String get iarActionCloseDmTitle => '关闭此私信';
-
-  @override
-  String get iarActionCloseDmDescription => '不会屏蔽对方。你可以稍后重新打开。';
-
-  @override
-  String get iarActionCloseDmButton => '关闭私信';
-
-  @override
-  String get iarActionLeaveCommunityTitle => '退出社区';
-
-  @override
-  String get iarActionLeaveCommunityDescription => '不再看到该社区的内容和成员。';
-
-  @override
-  String get iarActionLeaveCommunityButton => '退出';
-
-  @override
-  String get iarActionDmSettingsTitle => '私信和好友请求设置';
-
-  @override
-  String get iarActionDmSettingsDescription => '更改谁可以联系你。';
-
-  @override
-  String get iarActionCallSettingsTitle => '通话与群聊设置';
-
-  @override
-  String get iarActionCallSettingsDescription => '更改谁可以呼叫你或添加你为好友。';
-
-  @override
-  String get iarActionOpenButton => '打开';
-
-  @override
-  String get iarActionDeleteMessageTitle => '删除此消息';
-
-  @override
-  String get iarActionDeleteMessageDescription => '为频道中的所有人移除该消息。';
-
-  @override
-  String get iarActionDeleteMessageButton => '删除';
-
-  @override
-  String get iarActionDeleteMessageDeletedButton => '已删除';
-
-  @override
-  String get iarActionDeleteMessageDeletedTooltip => '此消息已删除。';
-
-  @override
-  String get iarActionBanUserTitle => '封禁此用户';
-
-  @override
-  String get iarActionBanUserDescription => '打开此社区的封禁对话框。';
-
-  @override
-  String get iarActionBanUserButton => '封禁';
-
-  @override
-  String get iarActionBanUserBannedButton => '已封禁';
-
-  @override
-  String get iarActionBanUserBannedTooltip => '该用户已被此社区封禁。';
-
-  @override
-  String get iarCloseDmConfirmTitle => '关闭私信';
-
-  @override
-  String iarCloseDmConfirmDescription(String name) {
-    return '关闭你与 $name 的当前私信。这不会拉黑对方；你之后可以重新开启。';
+  String reportFlowBlockName(String name) {
+    return '屏蔽 $name';
   }
 
   @override
-  String get iarSuccessTitle => '举报已发送';
+  String get reportFlowBlockDescription => '隐藏对方的消息，并阻止对方给你发私信';
 
   @override
-  String get iarSuccessBody => '我们的安全团队正在审核。有结果后，我们会通过私信和电子邮件通知你。';
+  String get reportFlowBlockButton => '屏蔽';
 
   @override
-  String get iarAlreadyReportedTitle => '已举报';
+  String get reportFlowBlockedButton => '已屏蔽';
 
   @override
-  String get iarAlreadyReportedBody => '你已举报此消息。我们的安全团队正在审核。';
+  String get reportFlowUrgentBanner => '如果有人正处于紧急危险中，请先联系当地紧急服务机构。';
 
   @override
-  String get iarBackButton => '返回';
+  String get reportFlowLoadFailed => '无法加载举报表单。';
 
   @override
-  String get iarContinueButton => '继续';
+  String get reportFlowTryAgain => '重试';
 
   @override
-  String get iarSendReportButton => '发送举报';
+  String get reportFlowOutdated => '举报表单已更改。请重新开始。';
 
   @override
-  String get iarDoneButton => '完成';
+  String get reportFlowAlreadyReported => '你已举报过此消息。';
 
   @override
-  String get iarCouldntSendToast => '无法发送举报。请重试。';
+  String get reportFlowAlreadyReportedProfile => '你今天已经举报过此个人资料了。';
 
   @override
-  String get iarRateLimitedToast => '你举报得太快了。请稍等片刻再试。';
+  String get reportFlowRateLimited => '你发送举报的速度过快。请稍后再试。';
 
   @override
-  String get iarReportSentToast => '举报已发送。我们的安全团队将进行审核。';
+  String get reportFlowSubmitFailed => '你的举报未能发送。请重试。';
 
   @override
-  String iarBlockUserConfirmDescription(String name) {
-    return '封禁 $name？他们将无法给你发消息或发送好友请求。之后你可以取消封禁。';
-  }
-
-  @override
-  String get iarBlockUserFailedToast => '无法封禁此用户。请重试。';
-
-  @override
-  String get iarCloseDmSuccessToast => '私信已关闭。';
-
-  @override
-  String get iarCloseDmFailedToast => '无法关闭此私信。请重试。';
-
-  @override
-  String get iarLeaveCommunityFailedToast => '无法退出此社群。请重试。';
+  String get reportFlowAccountSetupRequired => '请先认领账号并验证邮箱，然后才能提交举报。';
 
   @override
   String get chatMessageSuppressEmbeds => '隐藏嵌入内容';
@@ -11501,9 +11229,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get guildMenuHideMutedChannels => '隐藏已静音频道';
-
-  @override
-  String get guildMenuReportCommunity => '举报社区';
 
   @override
   String get guildMenuDebugCommunity => '调试社区';
@@ -18570,10 +18295,10 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get userProfileTransferOwnership => '轉移擁有權';
 
   @override
-  String get userProfileReportUser => '檢舉使用者';
+  String get userProfileReportMessage => '檢舉訊息';
 
   @override
-  String get userProfileReportMessage => '檢舉訊息';
+  String get userProfileReportUserProfile => '檢舉個人檔案';
 
   @override
   String userProfileKickConfirmTitle(String username) {
@@ -18722,79 +18447,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get durationCustom => '自訂…';
-
-  @override
-  String get iarReportUserTitle => '檢舉使用者';
-
-  @override
-  String get iarReportGuildTitle => '檢舉社群';
-
-  @override
-  String get iarReportGuildPreconfirmBody =>
-      '如果這份檢舉是關於此社群中的特定訊息，請改為檢舉該訊息。訊息檢舉能讓我們的安全團隊掌握最清楚的脈絡，在意見中新增詳細資訊也能幫助我們更快審查。只有在檢舉訊息無法涵蓋更廣泛的問題時，才繼續檢舉整個社群。';
-
-  @override
-  String get iarContinueToReportCommunity => '繼續檢舉社群';
-
-  @override
-  String get iarPreviewCommunitySubtitle => '社群';
-
-  @override
-  String get iarReasonHarassmentGuildLabel => '騷擾或針對性攻擊';
-
-  @override
-  String get iarReasonHarassmentGuildDescription => '社群助長群體圍攻或針對性騷擾。';
-
-  @override
-  String get iarReasonHateGuildDescription => '宣揚對受保護族群的仇恨。';
-
-  @override
-  String get iarReasonTerrorismLabel => '恐怖主義或暴力極端主義';
-
-  @override
-  String get iarReasonTerrorismDescription => '宣傳、招募或協調暴力極端主義活動。';
-
-  @override
-  String get iarReasonMatureContentGuildLabel => '成人內容或把關不當';
-
-  @override
-  String get iarReasonMatureContentGuildDescription => '未經適當把關的成人內容。';
-
-  @override
-  String get iarReasonChildSafetyGuildDescription => '危害未成年人或含有兒童剝削內容。';
-
-  @override
-  String get iarReasonRaidLabel => '協調突襲';
-
-  @override
-  String get iarReasonRaidDescription => '協調對個人或社群發動突襲、集體圍攻或騷擾。';
-
-  @override
-  String get iarReasonSpamGuildDescription => '社群的存在是為了濫發訊息、詐騙或濫用平台。';
-
-  @override
-  String get iarReasonMalwareGuildLabel => '散佈惡意軟體';
-
-  @override
-  String get iarReasonMalwareGuildDescription => '散佈惡意軟體、竊取憑證或有害檔案。';
-
-  @override
-  String get iarReasonPrivacyGuildLabel => '侵犯隱私或人肉搜索';
-
-  @override
-  String get iarReasonPrivacyGuildDescription => '分享個人資訊、跟蹤騷擾使用者或串連侵犯隱私的行為。';
-
-  @override
-  String get iarReasonSelfHarmGuildLabel => '鼓勵自殘';
-
-  @override
-  String get iarReasonSelfHarmGuildDescription => '鼓勵自殺、自殘或飲食失調。';
-
-  @override
-  String get iarReasonInappropriateProfile => '不當的個人檔案';
-
-  @override
-  String get iarReasonInappropriateProfileDescription => '此使用者的個人檔案包含不當內容';
 
   @override
   String typingIndicatorOne(String name) {
@@ -22021,310 +21673,111 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get chatMessageReport => '檢舉訊息';
 
   @override
-  String get iarReportMessageTitle => '檢舉訊息';
+  String get reportFlowTitleMessage => '檢舉訊息';
 
   @override
-  String get iarThisUserFallback => '這位使用者';
+  String get reportFlowTitleUserProfile => '檢舉個人檔案';
 
   @override
-  String get iarModalDescription => '檢舉違規行為，或尋找工具來管理聯絡人和偏好設定。';
+  String get reportFlowSummaryTitle => '檢查您的檢舉';
 
   @override
-  String get iarPathStepAriaLabel => '您需要什麼？';
+  String get reportFlowSummarySubtitle => '送出前請再次確認內容是否正確。';
 
   @override
-  String get iarCategoryStepTitle => '違反了哪一類規則？';
-
-  @override
-  String get iarReasonStepTitle => '違反了哪一條規則？';
-
-  @override
-  String get iarReasonSelectHint => '選擇原因';
-
-  @override
-  String get iarPickAnOptionToast => '請選擇一個選項以繼續。';
-
-  @override
-  String get iarPickARuleToast => '請選擇違反的規則。';
-
-  @override
-  String get iarPathPlatform => '檢舉平台規則違規';
-
-  @override
-  String get iarPathCommunity => '向此社群管理員檢舉';
-
-  @override
-  String get iarPathPreferenceMessage => '我不喜歡這個內容';
-
-  @override
-  String get iarCategoryTargetedHarmLabel => '威脅、騷擾或傷害';
-
-  @override
-  String get iarCategoryTargetedHarmDescription => '霸凌、威脅、仇恨、暴力、突襲，或助長自殘的內容。';
-
-  @override
-  String get iarCategorySafetyMinorsLabel => '兒童安全或成人內容';
-
-  @override
-  String get iarCategorySafetyMinorsDescription =>
-      '未成年人面臨風險、成人內容出現在不當的地方，或不受歡迎的行為。';
-
-  @override
-  String get iarCategoryPrivacyIdentityLabel => '隱私或冒充';
-
-  @override
-  String get iarCategoryPrivacyIdentityDescription => '人肉搜索、跟蹤、冒充他人或不當的個人檔案。';
-
-  @override
-  String get iarCategoryDeceptionLabel => '詐騙、惡意軟體或不實資訊';
-
-  @override
-  String get iarCategoryDeceptionDescription => '網路釣魚、詐騙、惡意連結或可能造成實際危害的虛假聲明。';
-
-  @override
-  String get iarCategoryIllegalOtherLabel => '非法活動或其他';
-
-  @override
-  String get iarCategoryIllegalOtherDescription => '非法銷售、協助犯罪，或上述未涵蓋的明顯違規行為。';
-
-  @override
-  String get iarReasonHarassmentLabel => '騷擾或威脅';
-
-  @override
-  String get iarReasonHarassmentMessageDescription =>
-      '霸凌、反覆的不受歡迎聯繫、跟蹤騷擾或針對性攻擊。';
-
-  @override
-  String get iarReasonHateLabel => '仇恨言論';
-
-  @override
-  String get iarReasonHateMessageDescription => '歧視性字眼、貶低人格的言論或針對受保護群體的攻擊。';
-
-  @override
-  String get iarReasonViolenceLabel => '暴力或暴力威脅';
-
-  @override
-  String get iarReasonViolenceDescription => '可信的威脅、露骨的暴力內容或美化暴力。';
-
-  @override
-  String get iarReasonMatureContentLabel => '成人內容或騷擾';
-
-  @override
-  String get iarReasonMatureContentMessageDescription =>
-      '不受歡迎的行為，或出現在不當場合的成人內容。';
-
-  @override
-  String get iarReasonChildSafetyLabel => '兒童安全或未成年人剝削';
-
-  @override
-  String get iarReasonChildSafetyMessageDescription => '誘騙或兒童剝削內容。';
-
-  @override
-  String get iarReasonHarmfulMisinfoLabel => '有害不實資訊';
-
-  @override
-  String get iarReasonHarmfulMisinfoDescription => '可能對現實世界造成傷害的不實說法。';
-
-  @override
-  String get iarReasonSpamLabel => '垃圾訊息、詐騙或網路釣魚';
-
-  @override
-  String get iarReasonSpamMessageDescription => '大量垃圾訊息、詐騙、假贈品或濫用帳號。';
-
-  @override
-  String get iarReasonMalwareLabel => '惡意軟體或危險連結';
-
-  @override
-  String get iarReasonMalwareDescription => '惡意軟體、竊取帳號密碼或有害檔案。';
-
-  @override
-  String get iarReasonPrivacyLabel => '侵犯隱私';
-
-  @override
-  String get iarReasonPrivacyDescription => '人肉搜索、洩漏個人資訊或跟蹤騷擾。';
-
-  @override
-  String get iarReasonImpersonationLabel => '冒充或欺騙性媒體內容';
-
-  @override
-  String get iarReasonImpersonationMessageDescription => '假冒他人，包括欺騙性 AI 生成內容。';
-
-  @override
-  String get iarReasonIllegalLabel => '非法活動';
-
-  @override
-  String get iarReasonIllegalDescription => '非法銷售、協助犯罪或非法活動。';
-
-  @override
-  String get iarReasonSelfHarmLabel => '自殘或自殺';
-
-  @override
-  String get iarReasonSelfHarmMessageDescription => '鼓勵自殘或飲食失調的宣傳或教學內容。';
-
-  @override
-  String get iarReasonOtherLabel => '另一個明顯違反規定的行為';
-
-  @override
-  String iarReasonOtherDescription(String productName) {
-    return '僅在內容明確違反 $productName 規則且不符合上述任何選項時使用。';
+  String reportFlowDisclaimer(String guidelines) {
+    return '僅檢舉您真心認為違反規則的內容。濫用檢舉功能將違反我們的$guidelines。';
   }
 
   @override
-  String iarUseChildSafetyInstead(String childSafetyReason) {
-    return '若涉及未成年人，請改用「$childSafetyReason」。';
+  String get reportFlowCommunityGuidelinesLink => '社群準則';
+
+  @override
+  String get reportFlowDisclaimerNoLink => '請僅檢舉您真心認為違反規則的內容，且請勿重複送出相同的檢舉。';
+
+  @override
+  String get reportFlowSelectedMessage => '您要檢舉的訊息';
+
+  @override
+  String get reportFlowSelectedUser => '您要檢舉的個人檔案';
+
+  @override
+  String get reportFlowReportCategory => '您的回答';
+
+  @override
+  String get reportFlowSubmit => '送出檢舉';
+
+  @override
+  String get reportFlowBack => '返回';
+
+  @override
+  String get reportFlowNext => '下一步';
+
+  @override
+  String get reportFlowDone => '完成';
+
+  @override
+  String get reportFlowThankYouTitle => '已送出檢舉';
+
+  @override
+  String get reportFlowThankYouNoReportTitle => '感謝您告知我們';
+
+  @override
+  String reportFlowThankYouBody(String productName) {
+    return '$productName 安全團隊會審核您的檢舉。我們不會透露是您檢舉的。';
   }
 
   @override
-  String get iarSafetyNoteChildSafety =>
-      '若涉及兒童性犯罪圖像 (CSAM) 或剝削未成年人，請立即檢舉，請勿再次分享相關內容。';
+  String get reportFlowThankYouNoReportBody =>
+      '感謝您告訴我們。這本身並不違反我們的規定，所以我們沒有送出檢舉。如果內容針對特定對象或使用侮辱性字眼，請再次檢舉並選擇「辱罵性或有害的內容」。';
 
   @override
-  String get iarSafetyNoteSelfHarm => '如果有人可能處於立即危險中，請在安全的情況下聯絡當地緊急服務。';
+  String get reportFlowThankYouNoReportBodyShort =>
+      '感謝您告訴我們。這本身並不違反我們的規定，所以我們沒有送出檢舉。';
 
   @override
-  String get iarSafetyNoteViolence => '如果這是可信的緊急威脅，請同時聯絡當地緊急服務單位。';
+  String get reportFlowMoreYouCanDo => '您的選項';
 
   @override
-  String get iarSafetyNoteTerrorism => '如果這是迫在眉睫的恐怖威脅，請同時聯絡當地緊急服務單位。';
-
-  @override
-  String get iarActionBlockUserTitle => '封鎖此使用者';
-
-  @override
-  String get iarActionBlockUserDescription => '不再收到訊息和好友邀請。';
-
-  @override
-  String get iarActionBlockUserButton => '封鎖';
-
-  @override
-  String get iarActionCopyMessageLinkTitle => '複製訊息連結';
-
-  @override
-  String get iarActionCopyMessageLinkDescription => '分享給社群管理員。';
-
-  @override
-  String get iarActionCopyMessageLinkButton => '複製';
-
-  @override
-  String get iarActionCloseDmTitle => '關閉此私訊';
-
-  @override
-  String get iarActionCloseDmDescription => '不會封鎖。您可以稍後再重新開啟。';
-
-  @override
-  String get iarActionCloseDmButton => '關閉私訊';
-
-  @override
-  String get iarActionLeaveCommunityTitle => '離開社群';
-
-  @override
-  String get iarActionLeaveCommunityDescription => '不再看到社群的內容和成員。';
-
-  @override
-  String get iarActionLeaveCommunityButton => '離開';
-
-  @override
-  String get iarActionDmSettingsTitle => '私訊和好友邀請設定';
-
-  @override
-  String get iarActionDmSettingsDescription => '變更誰可以聯絡您。';
-
-  @override
-  String get iarActionCallSettingsTitle => '通話與群組聊天設定';
-
-  @override
-  String get iarActionCallSettingsDescription => '變更誰可以與您通話或加您為好友。';
-
-  @override
-  String get iarActionOpenButton => '開啟';
-
-  @override
-  String get iarActionDeleteMessageTitle => '刪除此訊息';
-
-  @override
-  String get iarActionDeleteMessageDescription => '為所有人從頻道中移除這則訊息。';
-
-  @override
-  String get iarActionDeleteMessageButton => '刪除';
-
-  @override
-  String get iarActionDeleteMessageDeletedButton => '已刪除';
-
-  @override
-  String get iarActionDeleteMessageDeletedTooltip => '此訊息已被刪除。';
-
-  @override
-  String get iarActionBanUserTitle => '將此使用者停權';
-
-  @override
-  String get iarActionBanUserDescription => '開啟此社群的停權對話框。';
-
-  @override
-  String get iarActionBanUserButton => '停權';
-
-  @override
-  String get iarActionBanUserBannedButton => '已停權';
-
-  @override
-  String get iarActionBanUserBannedTooltip => '此使用者已被社群停權。';
-
-  @override
-  String get iarCloseDmConfirmTitle => '關閉私訊';
-
-  @override
-  String iarCloseDmConfirmDescription(String name) {
-    return '關閉你與 $name 的目前私訊。這不會封鎖對方；你之後可以重新開啟。';
+  String reportFlowBlockName(String name) {
+    return '封鎖 $name';
   }
 
   @override
-  String get iarSuccessTitle => '已送出檢舉';
+  String get reportFlowBlockDescription => '隱藏對方的訊息，並使對方無法傳送私訊給您';
 
   @override
-  String get iarSuccessBody => '我們的安全團隊正在審核。一旦有結果，我們會透過私訊和電子郵件通知您。';
+  String get reportFlowBlockButton => '封鎖';
 
   @override
-  String get iarAlreadyReportedTitle => '已檢舉';
+  String get reportFlowBlockedButton => '已封鎖';
 
   @override
-  String get iarAlreadyReportedBody => '你已檢舉此訊息。我們的安全團隊正在審查。';
+  String get reportFlowUrgentBanner => '如果有人面臨立即危險，請先聯絡當地緊急救援單位。';
 
   @override
-  String get iarBackButton => '返回';
+  String get reportFlowLoadFailed => '無法載入檢舉表單。';
 
   @override
-  String get iarContinueButton => '繼續';
+  String get reportFlowTryAgain => '再試一次';
 
   @override
-  String get iarSendReportButton => '送出檢舉';
+  String get reportFlowOutdated => '檢舉表單已變更。請重新開始。';
 
   @override
-  String get iarDoneButton => '完成';
+  String get reportFlowAlreadyReported => '您已經檢舉過這則訊息了。';
 
   @override
-  String get iarCouldntSendToast => '無法送出檢舉。請再試一次。';
+  String get reportFlowAlreadyReportedProfile => '您今天已經檢舉過這個個人檔案了。';
 
   @override
-  String get iarRateLimitedToast => '你檢舉的頻率太快。請稍候再試。';
+  String get reportFlowRateLimited => '您傳送檢舉的速度太快了。請稍後再試。';
 
   @override
-  String get iarReportSentToast => '已送出檢舉。我們的安全團隊會進行審查。';
+  String get reportFlowSubmitFailed => '您的檢舉未成功送出。請再試一次。';
 
   @override
-  String iarBlockUserConfirmDescription(String name) {
-    return '要封鎖 $name 嗎？對方將無法傳送訊息給你或傳送交友邀請。你之後可以解除封鎖。';
-  }
-
-  @override
-  String get iarBlockUserFailedToast => '無法封鎖此使用者。請再試一次。';
-
-  @override
-  String get iarCloseDmSuccessToast => '已關閉私訊。';
-
-  @override
-  String get iarCloseDmFailedToast => '無法關閉此私訊。請再試一次。';
-
-  @override
-  String get iarLeaveCommunityFailedToast => '無法離開此社群。請再試一次。';
+  String get reportFlowAccountSetupRequired => '請先認領帳號並驗證電子郵件，才能傳送檢舉。';
 
   @override
   String get chatMessageSuppressEmbeds => '隱藏嵌入內容';
@@ -26613,9 +26066,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get guildMenuHideMutedChannels => '隱藏已靜音的頻道';
-
-  @override
-  String get guildMenuReportCommunity => '檢舉社群';
 
   @override
   String get guildMenuDebugCommunity => '偵錯社群';

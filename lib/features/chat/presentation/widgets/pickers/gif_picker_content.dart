@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
+import 'package:fluxer_app/core/l10n/api_locale.dart';
 import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/data/favorite_media_repository.dart';
@@ -255,7 +256,7 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
 
   @override
   Widget build(BuildContext context) {
-    final locale = gifLocaleFromFlutterLocale(Localizations.localeOf(context));
+    final locale = apiLocaleFromFlutterLocale(Localizations.localeOf(context));
     final provider = ref.watch(activeGifProviderProvider).value;
 
     return ColoredBox(

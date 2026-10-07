@@ -1064,14 +1064,6 @@ class _GuildListItemState extends State<_GuildListItem>
             guildId: guildId,
           ),
         );
-      case GuildAction.reportCommunity:
-        unawaited(
-          showReportGuildFlow(
-            context,
-            guildId: guildId,
-            guildName: widget.guild!.name,
-          ),
-        );
       case GuildAction.privacySettings:
         unawaited(_showPrivacySettingsSheet(context));
       case GuildAction.debugCommunity:

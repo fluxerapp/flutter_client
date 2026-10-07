@@ -3670,10 +3670,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get userProfileTransferOwnership => 'Perduoti nuosavybę';
 
   @override
-  String get userProfileReportUser => 'Pranešti apie naudotoją';
+  String get userProfileReportMessage => 'Pranešti apie žinutę';
 
   @override
-  String get userProfileReportMessage => 'Pranešti apie žinutę';
+  String get userProfileReportUserProfile => 'Pranešti apie profilį';
 
   @override
   String userProfileKickConfirmTitle(String username) {
@@ -3824,96 +3824,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get durationCustom => 'Pasirinktinis…';
-
-  @override
-  String get iarReportUserTitle => 'Pranešti apie naudotoją';
-
-  @override
-  String get iarReportGuildTitle => 'Pranešti apie bendruomenę';
-
-  @override
-  String get iarReportGuildPreconfirmBody =>
-      'Jei šis pranešimas yra apie konkrečią žinutę šioje bendruomenėje, geriau praneškite apie tą žinutę. Pranešimai apie žinutes mūsų saugos komandai suteikia aiškiausią kontekstą, o išsamesnė informacija komentaruose padeda peržiūrėti greičiau. Apie visą bendruomenę praneškite tik tuo atveju, jei pranešimas apie žinutę neapimtų platesnės problemos.';
-
-  @override
-  String get iarContinueToReportCommunity =>
-      'Tęsti ir pranešti apie bendruomenę';
-
-  @override
-  String get iarPreviewCommunitySubtitle => 'Bendruomenė';
-
-  @override
-  String get iarReasonHarassmentGuildLabel =>
-      'Priekabiavimas ar tikslinis piktnaudžiavimas';
-
-  @override
-  String get iarReasonHarassmentGuildDescription =>
-      'Bendruomenė sudaro sąlygas masiniam užsipuldinėjimui arba tiksliniam priekabiavimui.';
-
-  @override
-  String get iarReasonHateGuildDescription =>
-      'Skatina neapykantą saugomoms grupėms.';
-
-  @override
-  String get iarReasonTerrorismLabel =>
-      'Terorizmas arba smurtinis ekstremizmas';
-
-  @override
-  String get iarReasonTerrorismDescription =>
-      'Propaguoja, verbuoja ar koordinuoja smurtinę ekstremistinę veiklą.';
-
-  @override
-  String get iarReasonMatureContentGuildLabel =>
-      'Brandus turinys arba nesaugus filtravimas';
-
-  @override
-  String get iarReasonMatureContentGuildDescription =>
-      'Brandus turinys be tinkamo filtravimo.';
-
-  @override
-  String get iarReasonChildSafetyGuildDescription =>
-      'Kelia pavojų nepilnamečiams arba talpina vaikų išnaudojimo turinį.';
-
-  @override
-  String get iarReasonRaidLabel => 'Reidų koordinavimas';
-
-  @override
-  String get iarReasonRaidDescription =>
-      'Koordinuoja reidus, masinius puolimus ar priekabiavimą prieš asmenis ar bendruomenes.';
-
-  @override
-  String get iarReasonSpamGuildDescription =>
-      'Bendruomenė skirta šlamštui, sukčiavimui arba piktnaudžiavimui platforma.';
-
-  @override
-  String get iarReasonMalwareGuildLabel =>
-      'Kenkėjiškos programinės įrangos platinimas';
-
-  @override
-  String get iarReasonMalwareGuildDescription =>
-      'Platina kenkėjiškas programas, kredencialų vagystes ar žalingus failus.';
-
-  @override
-  String get iarReasonPrivacyGuildLabel =>
-      'Privatumo pažeidimas arba asmens duomenų atskleidimas';
-
-  @override
-  String get iarReasonPrivacyGuildDescription =>
-      'Bendrina asmeninę informaciją, persekioja naudotojus arba koordinuoja privatumo pažeidimus.';
-
-  @override
-  String get iarReasonSelfHarmGuildLabel => 'Skatina žalotis';
-
-  @override
-  String get iarReasonSelfHarmGuildDescription =>
-      'Skatina savižudybę, žalojimąsi ar valgymo sutrikimus.';
-
-  @override
-  String get iarReasonInappropriateProfile => 'Netinkamas profilis';
-
-  @override
-  String get iarReasonInappropriateProfileDescription =>
-      'Šio vartotojo profilyje yra netinkamo turinio';
 
   @override
   String typingIndicatorOne(String name) {
@@ -7432,357 +7342,121 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get chatMessageReport => 'Pranešti apie žinutę';
 
   @override
-  String get iarReportMessageTitle => 'Pranešti apie žinutę';
+  String get reportFlowTitleMessage => 'Pranešti apie žinutę';
 
   @override
-  String get iarThisUserFallback => 'šis naudotojas';
+  String get reportFlowTitleUserProfile => 'Pranešti apie profilį';
 
   @override
-  String get iarModalDescription =>
-      'Praneškite apie taisyklių pažeidimą arba raskite įrankius kontaktams ir nuostatoms tvarkyti.';
+  String get reportFlowSummaryTitle => 'Peržiūrėkite savo pranešimą';
 
   @override
-  String get iarPathStepAriaLabel => 'Ko jums reikia?';
+  String get reportFlowSummarySubtitle =>
+      'Įsitikinkite, kad viskas atrodo gerai, prieš siųsdami.';
 
   @override
-  String get iarCategoryStepTitle => 'Kokia taisyklė buvo pažeista?';
-
-  @override
-  String get iarReasonStepTitle => 'Kokia taisyklė buvo pažeista?';
-
-  @override
-  String get iarReasonSelectHint => 'Pasirinkite priežastį';
-
-  @override
-  String get iarPickAnOptionToast => 'Pasirinkite parinktį, kad tęstumėte.';
-
-  @override
-  String get iarPickARuleToast => 'Pasirinkite pažeistą taisyklę.';
-
-  @override
-  String get iarPathPlatform => 'Pranešti apie platformos taisyklių pažeidimą';
-
-  @override
-  String get iarPathCommunity => 'Pranešti šios bendruomenės moderatoriems';
-
-  @override
-  String get iarPathPreferenceMessage => 'Nepatinka šis turinys';
-
-  @override
-  String get iarCategoryTargetedHarmLabel =>
-      'Grasinimai, priekabiavimas ar žala';
-
-  @override
-  String get iarCategoryTargetedHarmDescription =>
-      'Patyčios, grasinimai, neapykanta, smurtas, reidai ar turinys, skatinantis žaloti save.';
-
-  @override
-  String get iarCategorySafetyMinorsLabel =>
-      'Vaikų saugumas arba suaugusiesiems skirtas turinys';
-
-  @override
-  String get iarCategorySafetyMinorsDescription =>
-      'Rizika nepilnamečiams, netinkamoje vietoje esantis suaugusiesiems skirtas turinys arba nepageidaujamas elgesys.';
-
-  @override
-  String get iarCategoryPrivacyIdentityLabel =>
-      'Privatumas arba apsimetinėjimas kitu asmeniu';
-
-  @override
-  String get iarCategoryPrivacyIdentityDescription =>
-      'Doksingas, persekiojimas, apsimetinėjimas kitu asmeniu ar netinkamas profilis.';
-
-  @override
-  String get iarCategoryDeceptionLabel =>
-      'Sukčiavimas, kenkėjiškos programos ar dezinformacija';
-
-  @override
-  String get iarCategoryDeceptionDescription =>
-      'Sukčiavimas, apgaulė, kenkėjiškos nuorodos ar melagingi teiginiai, galintys sukelti realią žalą.';
-
-  @override
-  String get iarCategoryIllegalOtherLabel =>
-      'Neteisėta veikla ar kas nors kita';
-
-  @override
-  String get iarCategoryIllegalOtherDescription =>
-      'Neteisėta prekyba, nusikalstamos veikos palengvinimas arba aiškus taisyklių pažeidimas, kuris netelpa į aukščiau nurodytas kategorijas.';
-
-  @override
-  String get iarReasonHarassmentLabel => 'Priekabiavimas ar grasinimai';
-
-  @override
-  String get iarReasonHarassmentMessageDescription =>
-      'Patyčios, pasikartojantis nepageidaujamas bendravimas, persekiojimas ar tikslingas piktnaudžiavimas.';
-
-  @override
-  String get iarReasonHateLabel => 'Neapykantos kalba';
-
-  @override
-  String get iarReasonHateMessageDescription =>
-      'Įžeidūs epitetai, nužmoginanti kalba ar išpuoliai prieš saugomas grupes.';
-
-  @override
-  String get iarReasonViolenceLabel => 'Smurtas ar smurtiniai grasinimai';
-
-  @override
-  String get iarReasonViolenceDescription =>
-      'Patikimi grasinimai, smurtinis turinys ar smurto šlovinimas.';
-
-  @override
-  String get iarReasonMatureContentLabel =>
-      'Brandus turinys arba priekabiavimas';
-
-  @override
-  String get iarReasonMatureContentMessageDescription =>
-      'Nepageidaujamas elgesys arba brandus turinys netinkamoje vietoje.';
-
-  @override
-  String get iarReasonChildSafetyLabel =>
-      'Vaikų saugumas arba nepilnamečių išnaudojimas';
-
-  @override
-  String get iarReasonChildSafetyMessageDescription =>
-      'Vaikų viliojimo arba išnaudojimo turinys.';
-
-  @override
-  String get iarReasonHarmfulMisinfoLabel => 'Žalinga dezinformacija';
-
-  @override
-  String get iarReasonHarmfulMisinfoDescription =>
-      'Melagingi teiginiai, galintys sukelti realią žalą.';
-
-  @override
-  String get iarReasonSpamLabel =>
-      'Šlamštas, sukčiavimas ar duomenų viliojimas';
-
-  @override
-  String get iarReasonSpamMessageDescription =>
-      'Masinis šlamštas, sukčiavimas, netikri dovanų žaidimai arba piktnaudžiavimas paskyra.';
-
-  @override
-  String get iarReasonMalwareLabel =>
-      'Kenkėjiškos programos arba pavojingos nuorodos';
-
-  @override
-  String get iarReasonMalwareDescription =>
-      'Kenkėjiškos programos, prisijungimo duomenų vagystė arba žalingi failai.';
-
-  @override
-  String get iarReasonPrivacyLabel => 'Privatumo pažeidimas';
-
-  @override
-  String get iarReasonPrivacyDescription =>
-      'Doksingas, paviešinta privati informacija arba persekiojimas.';
-
-  @override
-  String get iarReasonImpersonationLabel =>
-      'Apsimetinėjimas ar apgaulinga medija';
-
-  @override
-  String get iarReasonImpersonationMessageDescription =>
-      'Apsimetinėjimas kitu asmeniu, įskaitant apgaulingą dirbtinio intelekto sukurtą turinį.';
-
-  @override
-  String get iarReasonIllegalLabel => 'Neteisėta veikla';
-
-  @override
-  String get iarReasonIllegalDescription =>
-      'Neteisėta prekyba, nusikalstamos veikos palengvinimas arba neteisėta veikla.';
-
-  @override
-  String get iarReasonSelfHarmLabel => 'Savižala ar savižudybė';
-
-  @override
-  String get iarReasonSelfHarmMessageDescription =>
-      'Savižalos ar valgymo sutrikimų skatinimas arba nurodymai, kaip tai daryti.';
-
-  @override
-  String get iarReasonOtherLabel =>
-      'Dar vienas akivaizdus taisyklių pažeidimas';
-
-  @override
-  String iarReasonOtherDescription(String productName) {
-    return 'Naudokite tik tuo atveju, jei tai aiškiai pažeidžia $productName taisykles ir netinka aukščiau nurodytiems atvejams.';
+  String reportFlowDisclaimer(String guidelines) {
+    return 'Praneškite tik tai, ką sąžiningai laikote taisyklių pažeidimu. Piktnaudžiavimas pranešimais prieštarauja mūsų $guidelines.';
   }
 
   @override
-  String iarUseChildSafetyInstead(String childSafetyReason) {
-    return 'Jei įtrauktas nepilnametis, vietoj to naudokite „$childSafetyReason“.';
+  String get reportFlowCommunityGuidelinesLink => 'bendruomenės gairių';
+
+  @override
+  String get reportFlowDisclaimerNoLink =>
+      'Praneškite tik tai, ką sąžiningai laikote taisyklių pažeidimu, ir prašome nesiųsti to paties pranešimo du kartus.';
+
+  @override
+  String get reportFlowSelectedMessage => 'Žinutė, apie kurią pranešate';
+
+  @override
+  String get reportFlowSelectedUser => 'Profilis, apie kurį pranešate';
+
+  @override
+  String get reportFlowReportCategory => 'Jūsų atsakymai';
+
+  @override
+  String get reportFlowSubmit => 'Siųsti pranešimą';
+
+  @override
+  String get reportFlowBack => 'Atgal';
+
+  @override
+  String get reportFlowNext => 'Kitas';
+
+  @override
+  String get reportFlowDone => 'Atlikta';
+
+  @override
+  String get reportFlowThankYouTitle => 'Pranešimas išsiųstas';
+
+  @override
+  String get reportFlowThankYouNoReportTitle =>
+      'Ačiū, kad atkreipėte į tai dėmesį';
+
+  @override
+  String reportFlowThankYouBody(String productName) {
+    return '„$productName“ saugos komanda peržiūrės jūsų pranešimą. Mes neatskleisime, kad jį pateikėte jūs.';
   }
 
   @override
-  String get iarSafetyNoteChildSafety =>
-      'Jei tai susiję su CSAM arba nepilnamečio išnaudojimu, nedelsdami nusiųskite ir neatkurkite medžiagos.';
+  String get reportFlowThankYouNoReportBody =>
+      'Dėkojame, kad mums pranešėte. Tai savaime nepažeidžia mūsų taisyklių, todėl pranešimo nesiuntėme. Jei tai nukreipta prieš kokį nors asmenį arba vartojami įžeidžiantys epitetai, praneškite apie tai dar kartą ir pasirinkite „Įžeidžiantis ar žalingas turinys“.';
 
   @override
-  String get iarSafetyNoteSelfHarm =>
-      'Jei kam nors gresia tiesioginis pavojus ir galite tai padaryti saugiai, susisiekite su vietos pagalbos tarnybomis.';
+  String get reportFlowThankYouNoReportBodyShort =>
+      'Dėkojame, kad mums pranešėte. Tai savaime nepažeidžia mūsų taisyklių, todėl pranešimo nesiuntėme.';
 
   @override
-  String get iarSafetyNoteViolence =>
-      'Jei grėsmė reali ir neišvengiama, susisiekite ir su vietos pagalbos tarnybomis.';
+  String get reportFlowMoreYouCanDo => 'Jūsų galimybės';
 
   @override
-  String get iarSafetyNoteTerrorism =>
-      'Jei tai yra neišvengiama teroristinė grėsmė, susisiekite ir su vietos pagalbos tarnybomis.';
-
-  @override
-  String get iarActionBlockUserTitle => 'Blokuoti šį naudotoją';
-
-  @override
-  String get iarActionBlockUserDescription =>
-      'Nebegausite žinučių ir draugystės užklausų.';
-
-  @override
-  String get iarActionBlockUserButton => 'Blokuoti';
-
-  @override
-  String get iarActionCopyMessageLinkTitle => 'Kopijuoti žinutės nuorodą';
-
-  @override
-  String get iarActionCopyMessageLinkDescription =>
-      'Bendrinti su bendruomenės moderatoriais.';
-
-  @override
-  String get iarActionCopyMessageLinkButton => 'Kopijuoti';
-
-  @override
-  String get iarActionCloseDmTitle => 'Uždaryti šį tiesioginį pokalbį';
-
-  @override
-  String get iarActionCloseDmDescription =>
-      'Neužblokuoja. Vėliau galėsite jį vėl atidaryti.';
-
-  @override
-  String get iarActionCloseDmButton => 'Uždaryti tiesioginį pokalbį';
-
-  @override
-  String get iarActionLeaveCommunityTitle => 'Palikti bendruomenę';
-
-  @override
-  String get iarActionLeaveCommunityDescription =>
-      'Nebematysite jo turinio ir narių.';
-
-  @override
-  String get iarActionLeaveCommunityButton => 'Palikti';
-
-  @override
-  String get iarActionDmSettingsTitle => 'DM ir draugystės užklausų nustatymai';
-
-  @override
-  String get iarActionDmSettingsDescription =>
-      'Pakeiskite, kas gali su jumis susisiekti.';
-
-  @override
-  String get iarActionCallSettingsTitle =>
-      'Skambučių ir grupinių pokalbių nustatymai';
-
-  @override
-  String get iarActionCallSettingsDescription =>
-      'Pakeiskite, kas gali jums skambinti ar jus pridėti.';
-
-  @override
-  String get iarActionOpenButton => 'Atidaryti';
-
-  @override
-  String get iarActionDeleteMessageTitle => 'Ištrinti šią žinutę';
-
-  @override
-  String get iarActionDeleteMessageDescription =>
-      'Pašalinti ją iš kanalo visiems.';
-
-  @override
-  String get iarActionDeleteMessageButton => 'Ištrinti';
-
-  @override
-  String get iarActionDeleteMessageDeletedButton => 'Ištrinta';
-
-  @override
-  String get iarActionDeleteMessageDeletedTooltip => 'Ši žinutė jau ištrinta.';
-
-  @override
-  String get iarActionBanUserTitle => 'Užblokuoti šį naudotoją';
-
-  @override
-  String get iarActionBanUserDescription =>
-      'Atidaryti užblokavimo dialogo langą šioje bendruomenėje.';
-
-  @override
-  String get iarActionBanUserButton => 'Užblokuoti';
-
-  @override
-  String get iarActionBanUserBannedButton => 'Užblokuotas';
-
-  @override
-  String get iarActionBanUserBannedTooltip =>
-      'Šis naudotojas jau užblokuotas bendruomenėje.';
-
-  @override
-  String get iarCloseDmConfirmTitle => 'Uždaryti tiesioginį pokalbį';
-
-  @override
-  String iarCloseDmConfirmDescription(String name) {
-    return 'Uždarykite dabartinį DM su $name. Tai neužblokuos jo; galėsite atidaryti vėliau.';
+  String reportFlowBlockName(String name) {
+    return 'Blokuoti $name';
   }
 
   @override
-  String get iarSuccessTitle => 'Pranešimas išsiųstas';
+  String get reportFlowBlockDescription =>
+      'Paslepia šio naudotojo žinutes ir neleidžia rašyti jums';
 
   @override
-  String get iarSuccessBody =>
-      'Mūsų saugos komanda peržiūri pranešimą. Kai priimsime sprendimą, atsiųsime jums tiesioginę žinutę ir el. laišką.';
+  String get reportFlowBlockButton => 'Blokuoti';
 
   @override
-  String get iarAlreadyReportedTitle => 'Jau pranešta';
+  String get reportFlowBlockedButton => 'Užblokuota';
 
   @override
-  String get iarAlreadyReportedBody =>
-      'Jūs jau pranešėte apie šią žinutę. Mūsų saugos komanda ją peržiūri.';
+  String get reportFlowUrgentBanner =>
+      'Jei kam nors gresia tiesioginis pavojus, pirmiausia kreipkitės į vietines pagalbos tarnybas.';
 
   @override
-  String get iarBackButton => 'Atgal';
+  String get reportFlowLoadFailed => 'Nepavyko įkelti pranešimo formos.';
 
   @override
-  String get iarContinueButton => 'Tęsti';
+  String get reportFlowTryAgain => 'Bandyti dar kartą';
 
   @override
-  String get iarSendReportButton => 'Siųsti pranešimą';
+  String get reportFlowOutdated =>
+      'Pranešimo forma pasikeitė. Pradėkite iš naujo.';
 
   @override
-  String get iarDoneButton => 'Atlikta';
+  String get reportFlowAlreadyReported => 'Jau pranešėte apie šią žinutę.';
 
   @override
-  String get iarCouldntSendToast =>
-      'Nepavyko išsiųsti pranešimo. Pabandykite dar kartą.';
+  String get reportFlowAlreadyReportedProfile =>
+      'Jau šiandien pranešėte apie šį profilį.';
 
   @override
-  String get iarRateLimitedToast =>
-      'Siunčiate pranešimus per greitai. Palaukite akimirką ir pabandykite dar kartą.';
+  String get reportFlowRateLimited =>
+      'Siunčiate pranešimus per greitai. Bandykite vėliau.';
 
   @override
-  String get iarReportSentToast =>
-      'Pranešimas išsiųstas. Mūsų saugos komanda jį peržiūrės.';
+  String get reportFlowSubmitFailed =>
+      'Nepavyko išsiųsti jūsų pranešimo. Bandykite dar kartą.';
 
   @override
-  String iarBlockUserConfirmDescription(String name) {
-    return 'Užblokuoti $name? Jis negalės jums rašyti žinučių ar siųsti draugų prašymų. Vėliau galėsite jį atblokuoti.';
-  }
-
-  @override
-  String get iarBlockUserFailedToast =>
-      'Nepavyko užblokuoti šio vartotojo. Pabandykite dar kartą.';
-
-  @override
-  String get iarCloseDmSuccessToast => 'DM uždarytas.';
-
-  @override
-  String get iarCloseDmFailedToast =>
-      'Nepavyko uždaryti šio DM. Pabandykite dar kartą.';
-
-  @override
-  String get iarLeaveCommunityFailedToast =>
-      'Nepavyko palikti šios bendruomenės. Pabandykite dar kartą.';
+  String get reportFlowAccountSetupRequired =>
+      'Norėdami siųsti pranešimus, užregistruokite paskyrą ir patvirtinkite el. pašto adresą.';
 
   @override
   String get chatMessageSuppressEmbeds => 'Slėpti įterptuosius elementus';
@@ -12429,9 +12103,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get guildMenuHideMutedChannels => 'Slėpti nutildytus kanalus';
-
-  @override
-  String get guildMenuReportCommunity => 'Pranešti apie bendruomenę';
 
   @override
   String get guildMenuDebugCommunity => 'Derinti bendruomenę';

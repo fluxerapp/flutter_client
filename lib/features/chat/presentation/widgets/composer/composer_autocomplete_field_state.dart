@@ -1178,7 +1178,7 @@ class ComposerAutocompleteFieldState
       _setRows(const <_ComposerRow>[], gifEmpty: true);
       return;
     }
-    final locale = gifLocaleFromFlutterLocale(Localizations.localeOf(context));
+    final locale = apiLocaleFromFlutterLocale(Localizations.localeOf(context));
     final List<GifPickerGif> results = await ref.read(
       gifSearchProvider((query: query, locale: locale)).future,
     );

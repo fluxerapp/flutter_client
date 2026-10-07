@@ -3664,10 +3664,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get userProfileTransferOwnership => 'Prijenos vlasništva';
 
   @override
-  String get userProfileReportUser => 'Prijavi korisnika';
+  String get userProfileReportMessage => 'Prijavi poruku';
 
   @override
-  String get userProfileReportMessage => 'Prijavi poruku';
+  String get userProfileReportUserProfile => 'Prijavi profil';
 
   @override
   String userProfileKickConfirmTitle(String username) {
@@ -3819,92 +3819,6 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get durationCustom => 'Prilagođeno…';
-
-  @override
-  String get iarReportUserTitle => 'Prijavi korisnika';
-
-  @override
-  String get iarReportGuildTitle => 'Prijavi zajednicu';
-
-  @override
-  String get iarReportGuildPreconfirmBody =>
-      'Ako se ova prijava odnosi na određenu poruku u ovoj zajednici, umjesto toga prijavite tu poruku. Prijave poruka našem sigurnosnom timu daju najjasniji kontekst, a dodavanje detalja u komentarima može nam pomoći da je brže pregledamo. Nastavite s prijavom cijele zajednice samo ako prijava poruke ne bi obuhvatila širi problem.';
-
-  @override
-  String get iarContinueToReportCommunity => 'Nastavi s prijavom zajednice';
-
-  @override
-  String get iarPreviewCommunitySubtitle => 'Zajednica';
-
-  @override
-  String get iarReasonHarassmentGuildLabel =>
-      'Uznemiravanje ili ciljano zlostavljanje';
-
-  @override
-  String get iarReasonHarassmentGuildDescription =>
-      'Zajednica olakšava grupne napade ili ciljano zlostavljanje.';
-
-  @override
-  String get iarReasonHateGuildDescription =>
-      'Promiče mržnju prema zaštićenim skupinama.';
-
-  @override
-  String get iarReasonTerrorismLabel => 'Terorizam ili nasilni ekstremizam';
-
-  @override
-  String get iarReasonTerrorismDescription =>
-      'Promovira, regrutira ili koordinira nasilne ekstremističke aktivnosti.';
-
-  @override
-  String get iarReasonMatureContentGuildLabel =>
-      'Sadržaj za odrasle ili nesigurno ograničavanje';
-
-  @override
-  String get iarReasonMatureContentGuildDescription =>
-      'Sadržaj za odrasle bez odgovarajuće zaštite.';
-
-  @override
-  String get iarReasonChildSafetyGuildDescription =>
-      'Ugrožava maloljetnike ili sadrži materijal iskorištavanja djece.';
-
-  @override
-  String get iarReasonRaidLabel => 'Koordinacija napada';
-
-  @override
-  String get iarReasonRaidDescription =>
-      'Koordinira napade, hajke ili uznemiravanje ljudi ili zajednica.';
-
-  @override
-  String get iarReasonSpamGuildDescription =>
-      'Zajednica postoji radi slanja neželjene pošte, prijevara ili zlouporabe platforme.';
-
-  @override
-  String get iarReasonMalwareGuildLabel => 'Distribucija zlonamjernog softvera';
-
-  @override
-  String get iarReasonMalwareGuildDescription =>
-      'Distribuira zlonamjerni softver, krade vjerodajnice ili štetne datoteke.';
-
-  @override
-  String get iarReasonPrivacyGuildLabel => 'Kršenje privatnosti ili doxxing';
-
-  @override
-  String get iarReasonPrivacyGuildDescription =>
-      'Dijeli osobne podatke, uhodi korisnike ili koordinira zlouporabu privatnosti.';
-
-  @override
-  String get iarReasonSelfHarmGuildLabel => 'Potiče samoozljeđivanje';
-
-  @override
-  String get iarReasonSelfHarmGuildDescription =>
-      'Potiče samoubojstvo, samoozljeđivanje ili poremećaje prehrane.';
-
-  @override
-  String get iarReasonInappropriateProfile => 'Neprikladan profil';
-
-  @override
-  String get iarReasonInappropriateProfileDescription =>
-      'Korisnikov profil sadrži neprikladan sadržaj';
 
   @override
   String typingIndicatorOne(String name) {
@@ -7376,357 +7290,121 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get chatMessageReport => 'Prijavi poruku';
 
   @override
-  String get iarReportMessageTitle => 'Prijavi poruku';
+  String get reportFlowTitleMessage => 'Prijavi poruku';
 
   @override
-  String get iarThisUserFallback => 'ovaj korisnik';
+  String get reportFlowTitleUserProfile => 'Prijavi profil';
 
   @override
-  String get iarModalDescription =>
-      'Prijavite kršenje pravila ili pronađite alate za upravljanje kontaktima i postavkama.';
+  String get reportFlowSummaryTitle => 'Provjerite svoju prijavu';
 
   @override
-  String get iarPathStepAriaLabel => 'Što vam treba?';
+  String get reportFlowSummarySubtitle =>
+      'Provjerite je li sve u redu prije slanja.';
 
   @override
-  String get iarCategoryStepTitle => 'Koja je vrsta pravila prekršena?';
-
-  @override
-  String get iarReasonStepTitle => 'Koje je pravilo prekršeno?';
-
-  @override
-  String get iarReasonSelectHint => 'Odaberi razlog';
-
-  @override
-  String get iarPickAnOptionToast => 'Odaberite opciju za nastavak.';
-
-  @override
-  String get iarPickARuleToast => 'Odaberite pravilo koje je prekršeno.';
-
-  @override
-  String get iarPathPlatform => 'Prijavi kršenje pravila platforme';
-
-  @override
-  String get iarPathCommunity => 'Prijavi moderatorima ove zajednice';
-
-  @override
-  String get iarPathPreferenceMessage => 'Ne sviđa mi se ovaj sadržaj';
-
-  @override
-  String get iarCategoryTargetedHarmLabel =>
-      'Prijetnje, uznemiravanje ili nanošenje štete';
-
-  @override
-  String get iarCategoryTargetedHarmDescription =>
-      'Zlostavljanje, prijetnje, mržnja, nasilje, napadi ili sadržaj koji potiče samoozljeđivanje.';
-
-  @override
-  String get iarCategorySafetyMinorsLabel =>
-      'Sigurnost djece ili sadržaj za odrasle';
-
-  @override
-  String get iarCategorySafetyMinorsDescription =>
-      'Maloljetnici u opasnosti, sadržaj za odrasle na pogrešnom mjestu ili neželjeno ponašanje.';
-
-  @override
-  String get iarCategoryPrivacyIdentityLabel =>
-      'Privatnost ili lažno predstavljanje';
-
-  @override
-  String get iarCategoryPrivacyIdentityDescription =>
-      'Doxxing, uhođenje, lažno predstavljanje ili neprikladan profil.';
-
-  @override
-  String get iarCategoryDeceptionLabel =>
-      'Prijevare, zlonamjerni softver ili dezinformacije';
-
-  @override
-  String get iarCategoryDeceptionDescription =>
-      'Phishing, prijevare, zlonamjerne poveznice ili lažne tvrdnje koje bi mogle uzrokovati stvarnu štetu.';
-
-  @override
-  String get iarCategoryIllegalOtherLabel =>
-      'Nezakonita aktivnost ili nešto drugo';
-
-  @override
-  String get iarCategoryIllegalOtherDescription =>
-      'Nezakonita prodaja, omogućavanje kaznenih djela ili jasno kršenje pravila koje se ne uklapa u gornje kategorije.';
-
-  @override
-  String get iarReasonHarassmentLabel => 'Uznemiravanje ili prijetnje';
-
-  @override
-  String get iarReasonHarassmentMessageDescription =>
-      'Zlostavljanje, ponavljani neželjeni kontakt, uhođenje ili ciljano zlostavljanje.';
-
-  @override
-  String get iarReasonHateLabel => 'Govor mržnje';
-
-  @override
-  String get iarReasonHateMessageDescription =>
-      'Uvrede, dehumanizirajući jezik ili napadi na zaštićene skupine.';
-
-  @override
-  String get iarReasonViolenceLabel => 'Nasilje ili prijetnje nasiljem';
-
-  @override
-  String get iarReasonViolenceDescription =>
-      'Vjerodostojne prijetnje, eksplicitno nasilje ili veličanje nasilja.';
-
-  @override
-  String get iarReasonMatureContentLabel =>
-      'Sadržaj za odrasle ili uznemiravanje';
-
-  @override
-  String get iarReasonMatureContentMessageDescription =>
-      'Neželjeno ponašanje ili sadržaj za odrasle na pogrešnom mjestu.';
-
-  @override
-  String get iarReasonChildSafetyLabel =>
-      'Sigurnost djece ili iskorištavanje maloljetnika';
-
-  @override
-  String get iarReasonChildSafetyMessageDescription =>
-      'Sadržaj s vrbovanjem ili iskorištavanjem djece.';
-
-  @override
-  String get iarReasonHarmfulMisinfoLabel => 'Štetne dezinformacije';
-
-  @override
-  String get iarReasonHarmfulMisinfoDescription =>
-      'Lažne tvrdnje koje bi mogle prouzročiti stvarnu štetu.';
-
-  @override
-  String get iarReasonSpamLabel =>
-      'Neželjena pošta, prijevare ili krađa identiteta';
-
-  @override
-  String get iarReasonSpamMessageDescription =>
-      'Masovna neželjena pošta, prijevare, lažna darivanja ili zlouporaba računa.';
-
-  @override
-  String get iarReasonMalwareLabel =>
-      'Zlonamjerni softver ili opasne poveznice';
-
-  @override
-  String get iarReasonMalwareDescription =>
-      'Zlonamjerni softver, krađa vjerodajnica ili štetne datoteke.';
-
-  @override
-  String get iarReasonPrivacyLabel => 'Kršenje privatnosti';
-
-  @override
-  String get iarReasonPrivacyDescription =>
-      'Doxxing, otkrivanje privatnih podataka ili uhođenje.';
-
-  @override
-  String get iarReasonImpersonationLabel =>
-      'Lažno predstavljanje ili obmanjujući medijski sadržaj';
-
-  @override
-  String get iarReasonImpersonationMessageDescription =>
-      'Pretvaranje da ste netko drugi, uključujući obmanjujući sadržaj generiran umjetnom inteligencijom.';
-
-  @override
-  String get iarReasonIllegalLabel => 'Nezakonita aktivnost';
-
-  @override
-  String get iarReasonIllegalDescription =>
-      'Nezakonita prodaja, omogućavanje kaznenih djela ili nezakonite aktivnosti.';
-
-  @override
-  String get iarReasonSelfHarmLabel => 'Samoozljeđivanje ili samoubojstvo';
-
-  @override
-  String get iarReasonSelfHarmMessageDescription =>
-      'Promicanje ili upute koje potiču samoozljeđivanje ili poremećaje prehrane.';
-
-  @override
-  String get iarReasonOtherLabel => 'Još jedno jasno kršenje pravila';
-
-  @override
-  String iarReasonOtherDescription(String productName) {
-    return 'Koristite samo ako jasno krši pravila $productName i ne uklapa se u navedeno.';
+  String reportFlowDisclaimer(String guidelines) {
+    return 'Prijavite samo ono za što iskreno vjerujete da krši pravila. Zlouporaba prijava protivi se našim $guidelines.';
   }
 
   @override
-  String iarUseChildSafetyInstead(String childSafetyReason) {
-    return 'Ako je uključen maloljetnik, umjesto toga upotrijebite \"$childSafetyReason\".';
+  String get reportFlowCommunityGuidelinesLink => 'smjernice zajednice';
+
+  @override
+  String get reportFlowDisclaimerNoLink =>
+      'Prijavite samo ono za što iskreno vjerujete da krši pravila i, molimo vas, ne šaljite istu prijavu dvaput.';
+
+  @override
+  String get reportFlowSelectedMessage => 'Poruka koju prijavljujete';
+
+  @override
+  String get reportFlowSelectedUser => 'Profil koji prijavljujete';
+
+  @override
+  String get reportFlowReportCategory => 'Vaši odgovori';
+
+  @override
+  String get reportFlowSubmit => 'Pošalji prijavu';
+
+  @override
+  String get reportFlowBack => 'Natrag';
+
+  @override
+  String get reportFlowNext => 'Dalje';
+
+  @override
+  String get reportFlowDone => 'Gotovo';
+
+  @override
+  String get reportFlowThankYouTitle => 'Prijava poslana';
+
+  @override
+  String get reportFlowThankYouNoReportTitle =>
+      'Hvala što ste nas upozorili na ovo';
+
+  @override
+  String reportFlowThankYouBody(String productName) {
+    return 'Sigurnosni tim $productName pregledat će vašu prijavu. Nećemo otkriti da je došla od vas.';
   }
 
   @override
-  String get iarSafetyNoteChildSafety =>
-      'Ako se radi o CSAM-u ili iskorištavanju maloljetnika, pošaljite odmah i nemojte ponovno dijeliti materijal.';
+  String get reportFlowThankYouNoReportBody =>
+      'Hvala što ste nam javili. Ovo samo po sebi ne krši naša pravila, stoga nismo poslali prijavu. Ako je usmjereno na nekoga ili koristi pogrdne izraze, prijavite to ponovno i odaberite „Zlostavljajući ili štetan sadržaj“.';
 
   @override
-  String get iarSafetyNoteSelfHarm =>
-      'Ako je netko u neposrednoj opasnosti, obratite se lokalnim hitnim službama ako to možete učiniti sigurno.';
+  String get reportFlowThankYouNoReportBodyShort =>
+      'Hvala što ste nam javili. Ovo samo po sebi ne krši naša pravila, stoga nismo poslali prijavu.';
 
   @override
-  String get iarSafetyNoteViolence =>
-      'Ako je ovo vjerodostojna neposredna prijetnja, obratite se i lokalnim hitnim službama.';
+  String get reportFlowMoreYouCanDo => 'Vaše mogućnosti';
 
   @override
-  String get iarSafetyNoteTerrorism =>
-      'Ako je ovo neposredna teroristička prijetnja, obratite se i lokalnim hitnim službama.';
-
-  @override
-  String get iarActionBlockUserTitle => 'Blokiraj ovog korisnika';
-
-  @override
-  String get iarActionBlockUserDescription =>
-      'Zaustavite poruke i zahtjeve za prijateljstvo.';
-
-  @override
-  String get iarActionBlockUserButton => 'Blokiraj';
-
-  @override
-  String get iarActionCopyMessageLinkTitle => 'Kopiraj poveznicu poruke';
-
-  @override
-  String get iarActionCopyMessageLinkDescription =>
-      'Podijeli s moderatorima zajednice.';
-
-  @override
-  String get iarActionCopyMessageLinkButton => 'Kopiraj';
-
-  @override
-  String get iarActionCloseDmTitle => 'Zatvori ovu izravnu poruku';
-
-  @override
-  String get iarActionCloseDmDescription =>
-      'Ne blokira. Možete ga kasnije ponovno otvoriti.';
-
-  @override
-  String get iarActionCloseDmButton => 'Zatvori izravnu poruku';
-
-  @override
-  String get iarActionLeaveCommunityTitle => 'Napusti zajednicu';
-
-  @override
-  String get iarActionLeaveCommunityDescription =>
-      'Prestanite vidjeti njezin sadržaj i članove.';
-
-  @override
-  String get iarActionLeaveCommunityButton => 'Napusti';
-
-  @override
-  String get iarActionDmSettingsTitle =>
-      'Postavke izravnih poruka i zahtjeva za prijateljstvo';
-
-  @override
-  String get iarActionDmSettingsDescription =>
-      'Promijenite tko vas može kontaktirati.';
-
-  @override
-  String get iarActionCallSettingsTitle =>
-      'Postavke poziva i grupnog razgovora';
-
-  @override
-  String get iarActionCallSettingsDescription =>
-      'Promijenite tko vas može zvati ili dodati.';
-
-  @override
-  String get iarActionOpenButton => 'Otvori';
-
-  @override
-  String get iarActionDeleteMessageTitle => 'Izbriši ovu poruku';
-
-  @override
-  String get iarActionDeleteMessageDescription => 'Ukloni je iz kanala za sve.';
-
-  @override
-  String get iarActionDeleteMessageButton => 'Izbriši';
-
-  @override
-  String get iarActionDeleteMessageDeletedButton => 'Izbrisano';
-
-  @override
-  String get iarActionDeleteMessageDeletedTooltip =>
-      'Ova je poruka već izbrisana.';
-
-  @override
-  String get iarActionBanUserTitle => 'Zabrani ovog korisnika';
-
-  @override
-  String get iarActionBanUserDescription =>
-      'Otvorite dijaloški okvir za zabranu u ovoj zajednici.';
-
-  @override
-  String get iarActionBanUserButton => 'Zabrani';
-
-  @override
-  String get iarActionBanUserBannedButton => 'Zabranjen pristup';
-
-  @override
-  String get iarActionBanUserBannedTooltip =>
-      'Ovom je korisniku već zabranjen pristup zajednici.';
-
-  @override
-  String get iarCloseDmConfirmTitle => 'Zatvori izravnu poruku';
-
-  @override
-  String iarCloseDmConfirmDescription(String name) {
-    return 'Zatvori ovaj izravni razgovor s $name. Ovo ih neće blokirati; možeš ga ponovno otvoriti kasnije.';
+  String reportFlowBlockName(String name) {
+    return 'Blokiraj korisnika $name';
   }
 
   @override
-  String get iarSuccessTitle => 'Prijava poslana';
+  String get reportFlowBlockDescription =>
+      'Skriva poruke te osobe i onemogućuje joj da vam šalje poruke';
 
   @override
-  String get iarSuccessBody =>
-      'Naš sigurnosni tim pregledava prijavu. Poslat ćemo vam izravnu poruku i e-poštu kada donesemo odluku.';
+  String get reportFlowBlockButton => 'Blokiraj';
 
   @override
-  String get iarAlreadyReportedTitle => 'Već prijavljeno';
+  String get reportFlowBlockedButton => 'Blokirano';
 
   @override
-  String get iarAlreadyReportedBody =>
-      'Već ste prijavili ovu poruku. Naš tim za sigurnost je pregledava.';
+  String get reportFlowUrgentBanner =>
+      'Ako je netko u neposrednoj opasnosti, prvo kontaktirajte lokalne hitne službe.';
 
   @override
-  String get iarBackButton => 'Natrag';
+  String get reportFlowLoadFailed => 'Nismo mogli učitati obrazac za prijavu.';
 
   @override
-  String get iarContinueButton => 'Nastavi';
+  String get reportFlowTryAgain => 'Pokušaj ponovno';
 
   @override
-  String get iarSendReportButton => 'Pošalji prijavu';
+  String get reportFlowOutdated =>
+      'Obrazac prijave se promijenio. Molimo započnite ponovno.';
 
   @override
-  String get iarDoneButton => 'Gotovo';
+  String get reportFlowAlreadyReported => 'Već ste prijavili ovu poruku.';
 
   @override
-  String get iarCouldntSendToast =>
-      'Nismo mogli poslati izvješće. Molimo pokušajte ponovno.';
+  String get reportFlowAlreadyReportedProfile =>
+      'Već ste prijavili ovaj profil danas.';
 
   @override
-  String get iarRateLimitedToast =>
-      'Prebrzo šaljete prijave. Pričekajte trenutak i pokušajte ponovno.';
+  String get reportFlowRateLimited =>
+      'Prebrzo šaljete prijave. Pokušajte ponovno kasnije.';
 
   @override
-  String get iarReportSentToast =>
-      'Poslano. Naš tim za sigurnost će ga pregledati.';
+  String get reportFlowSubmitFailed =>
+      'Vaša prijava nije prošla. Pokušajte ponovno.';
 
   @override
-  String iarBlockUserConfirmDescription(String name) {
-    return 'Blokiraj $name? Neće ti moći slati poruke niti slati zahtjeve za prijateljstvo. Možeš ih deblokirati kasnije.';
-  }
-
-  @override
-  String get iarBlockUserFailedToast =>
-      'Nije moguće blokirati ovog korisnika. Molimo pokušajte ponovno.';
-
-  @override
-  String get iarCloseDmSuccessToast => 'DM zatvoren.';
-
-  @override
-  String get iarCloseDmFailedToast =>
-      'Nije moguće zatvoriti ovaj izravni razgovor. Molimo pokušajte ponovno.';
-
-  @override
-  String get iarLeaveCommunityFailedToast =>
-      'Nismo mogli napustiti ovu zajednicu. Molimo pokušajte ponovno.';
+  String get reportFlowAccountSetupRequired =>
+      'Preuzmite svoj račun i potvrdite e-poštu kako biste mogli slati prijave.';
 
   @override
   String get chatMessageSuppressEmbeds => 'Sakrij ugrađeni sadržaj';
@@ -12356,9 +12034,6 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
 
   @override
   String get guildMenuHideMutedChannels => 'Sakrij utišane kanale';
-
-  @override
-  String get guildMenuReportCommunity => 'Prijavi zajednicu';
 
   @override
   String get guildMenuDebugCommunity => 'Otklanjanje pogrešaka zajednice';

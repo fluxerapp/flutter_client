@@ -1780,6 +1780,12 @@ class Message {
   bool get isPin => type == messageTypeChannelPinnedMessage;
   bool get isSending => deliveryState == MessageDeliveryState.sending;
   bool get hasFailed => deliveryState == MessageDeliveryState.failed;
+  bool get isReportable =>
+      !isSending &&
+      !hasFailed &&
+      !authorIsSystem &&
+      !isCrosspostSourceDeleted &&
+      (type == messageTypeDefault || type == messageTypeReply);
 
   String get speakableContent {
     if (content.trim().isNotEmpty) {

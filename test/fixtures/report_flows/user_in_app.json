@@ -1,0 +1,964 @@
+{
+  "target_type": "user",
+  "surface": "in_app",
+  "revision_hash": "3af2c70ce802aa42",
+  "locale": "en-US",
+  "start_screen_id": "profile_intro",
+  "guidelines_url": "http://localhost:8088/marketing/guidelines",
+  "screens": [
+    {
+      "id": "profile_intro",
+      "title": "Report profile",
+      "subtitle": "Tell us what's wrong with this profile. They won't be told who reported them.",
+      "urgent": false,
+      "options": [
+        {
+          "id": "learn_more",
+          "label": "Read the Fluxer Community Guidelines",
+          "outcome": {
+            "type": "link",
+            "screen_id": null,
+            "reason": null,
+            "notice_id": null,
+            "url": "http://localhost:8088/marketing/guidelines"
+          }
+        }
+      ],
+      "options_heading": "Learn more",
+      "checklist": null,
+      "next_screen_id": "profile_parts"
+    },
+    {
+      "id": "profile_parts",
+      "title": "Which parts of their profile are a problem?",
+      "subtitle": "Pick as many as you need.",
+      "urgent": false,
+      "options": [],
+      "options_heading": null,
+      "checklist": {
+        "items": [
+          {
+            "id": "photo",
+            "label": "Pictures",
+            "description": "What they use as avatar and banner"
+          },
+          {
+            "id": "name",
+            "label": "Names",
+            "description": "Username, display name or community nickname"
+          },
+          {
+            "id": "profile_text",
+            "label": "Profile text",
+            "description": "Bio, custom status or pronouns"
+          }
+        ],
+        "min_checked": 1,
+        "outcome": {
+          "type": "screen",
+          "screen_id": "root_user",
+          "reason": null,
+          "notice_id": null,
+          "url": null
+        }
+      },
+      "next_screen_id": null
+    },
+    {
+      "id": "root_user",
+      "title": "What's wrong with their profile?",
+      "subtitle": "Pick the closest match for what is in their profile.",
+      "urgent": false,
+      "options": [
+        {
+          "id": "abuse",
+          "label": "Abusive or harmful content",
+          "outcome": {
+            "type": "screen",
+            "screen_id": "profile_abuse",
+            "reason": null,
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "hate_violence",
+          "label": "Hate, violence or extremism",
+          "outcome": {
+            "type": "screen",
+            "screen_id": "profile_hate_violence",
+            "reason": null,
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "impersonation",
+          "label": "Pretending to be someone, or scamming people",
+          "outcome": {
+            "type": "screen",
+            "screen_id": "impersonation",
+            "reason": null,
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "spam",
+          "label": "Spam or unwanted ads",
+          "outcome": {
+            "type": "screen",
+            "screen_id": "spam_profile",
+            "reason": null,
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "something_else",
+          "label": "Something else",
+          "outcome": {
+            "type": "screen",
+            "screen_id": "something_else_user",
+            "reason": null,
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "dsa",
+          "label": "Content that's illegal in the EU (Digital Services Act)",
+          "outcome": {
+            "type": "link",
+            "screen_id": null,
+            "reason": null,
+            "notice_id": null,
+            "url": "http://localhost:8088/report"
+          }
+        }
+      ],
+      "options_heading": null,
+      "checklist": null,
+      "next_screen_id": null
+    },
+    {
+      "id": "profile_abuse",
+      "title": "What's harmful about their profile?",
+      "subtitle": null,
+      "urgent": false,
+      "options": [
+        {
+          "id": "harassment",
+          "label": "Their profile harasses or targets me or someone else",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "harassment",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "hate",
+          "label": "Hate or discrimination against people for who they are",
+          "outcome": {
+            "type": "screen",
+            "screen_id": "hate",
+            "reason": null,
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "sexual",
+          "label": "Sexual content",
+          "outcome": {
+            "type": "screen",
+            "screen_id": "profile_sexual",
+            "reason": null,
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "threat",
+          "label": "Threats or calls for violence",
+          "outcome": {
+            "type": "screen",
+            "screen_id": "profile_threat",
+            "reason": null,
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "minor_sexual",
+          "label": "Sexualizing a minor",
+          "outcome": {
+            "type": "screen",
+            "screen_id": "profile_minor_sexual",
+            "reason": null,
+            "notice_id": null,
+            "url": null
+          }
+        }
+      ],
+      "options_heading": null,
+      "checklist": null,
+      "next_screen_id": null
+    },
+    {
+      "id": "profile_hate_violence",
+      "title": "What does their profile show or promote?",
+      "subtitle": null,
+      "urgent": false,
+      "options": [
+        {
+          "id": "hate",
+          "label": "Hate or discrimination against people for who they are",
+          "outcome": {
+            "type": "screen",
+            "screen_id": "hate",
+            "reason": null,
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "violence_glorification",
+          "label": "Glorifying real-world violence",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "violence_glorification",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "graphic_violence",
+          "label": "Real violence shown to shock, like gore or animal cruelty",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "graphic_violence",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "terrorism",
+          "label": "Terrorism or violent extremism",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "terrorism_extremism",
+            "notice_id": null,
+            "url": null
+          }
+        }
+      ],
+      "options_heading": null,
+      "checklist": null,
+      "next_screen_id": null
+    },
+    {
+      "id": "impersonation",
+      "title": "Who's being impersonated, or is it a scam?",
+      "subtitle": "Clearly labeled parody or roleplay is allowed.",
+      "urgent": false,
+      "options": [
+        {
+          "id": "fraud",
+          "label": "They are trying to con people out of money or accounts",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "fraud",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "impersonation_staff",
+          "label": "Fluxer staff or support",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "impersonation_staff",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "impersonation_person",
+          "label": "Me or someone close to me",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "impersonation_person",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "impersonation_public_figure",
+          "label": "A well-known person, like a creator or politician",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "impersonation_public_figure",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "impersonation_organization",
+          "label": "A company, brand or group",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "impersonation_organization",
+            "notice_id": null,
+            "url": null
+          }
+        }
+      ],
+      "options_heading": null,
+      "checklist": null,
+      "next_screen_id": null
+    },
+    {
+      "id": "spam_profile",
+      "title": "How is the account being misused?",
+      "subtitle": null,
+      "urgent": false,
+      "options": [
+        {
+          "id": "spam_profile",
+          "label": "Their profile is used for spam or advertising",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "spam",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "fake_account",
+          "label": "A fake or deceptive account",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "fake_account",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "account_trading",
+          "label": "Buying or selling accounts or communities",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "account_trading",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "platform_abuse",
+          "label": "Scraping, automation or other platform abuse",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "platform_abuse",
+            "notice_id": null,
+            "url": null
+          }
+        }
+      ],
+      "options_heading": null,
+      "checklist": null,
+      "next_screen_id": null
+    },
+    {
+      "id": "something_else_user",
+      "title": "What else is wrong with this profile?",
+      "subtitle": null,
+      "urgent": false,
+      "options": [
+        {
+          "id": "too_young",
+          "label": "They're under the minimum age to use Fluxer",
+          "outcome": {
+            "type": "screen",
+            "screen_id": "age_stated_profile",
+            "reason": null,
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "private_info",
+          "label": "Their profile shares someone's private details",
+          "outcome": {
+            "type": "screen",
+            "screen_id": "profile_private_info",
+            "reason": null,
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "self_harm",
+          "label": "Their profile suggests self-harm or encourages it",
+          "outcome": {
+            "type": "screen",
+            "screen_id": "crisis_support",
+            "reason": null,
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "malware_phishing",
+          "label": "Phishing, malware or hacking attempts",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "malware_phishing",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "account_trading",
+          "label": "Selling accounts, or stolen logins or card details",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "account_trading",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "ban_evasion",
+          "label": "Getting around a ban with another account",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "ban_evasion",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "illegal_goods",
+          "label": "Drug, weapon or other illegal sales",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "illegal_goods",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "illegal_activity",
+          "label": "Other illegal activity",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "illegal_activity",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "copyright",
+          "label": "Copyright or trademark complaint",
+          "outcome": {
+            "type": "link",
+            "screen_id": null,
+            "reason": null,
+            "notice_id": null,
+            "url": "http://localhost:8088/report?option=copyright_notice"
+          }
+        },
+        {
+          "id": "other",
+          "label": "Something not listed here",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "other",
+            "notice_id": null,
+            "url": null
+          }
+        }
+      ],
+      "options_heading": null,
+      "checklist": null,
+      "next_screen_id": null
+    },
+    {
+      "id": "hate",
+      "title": "How does it attack people for who they are?",
+      "subtitle": null,
+      "urgent": false,
+      "options": [
+        {
+          "id": "hate_slurs",
+          "label": "Slurs, hateful symbols or demeaning stereotypes",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "hate_slurs",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "hate_dehumanizing",
+          "label": "Comparing people to animals, disease or filth, or calling them less than human",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "hate_dehumanizing",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "hate_incitement",
+          "label": "Calls for violence or exclusion against a group",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "hate_incitement",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "atrocity_denial",
+          "label": "Denying or celebrating the Holocaust or other genocides",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "atrocity_denial",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "lgbtq_targeting",
+          "label": "Deliberately misgendering, deadnaming or outing someone, or denying their identity",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "lgbtq_targeting",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "conversion_therapy",
+          "label": "Promoting conversion therapy",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "conversion_therapy",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "hate_other",
+          "label": "Other attacks on people for who they are",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "hate_other",
+            "notice_id": null,
+            "url": null
+          }
+        }
+      ],
+      "options_heading": null,
+      "checklist": null,
+      "next_screen_id": null
+    },
+    {
+      "id": "profile_sexual",
+      "title": "Tell us about the sexual content in their profile",
+      "subtitle": "If anyone shown or involved is under 18, choose Sexualizing a minor.",
+      "urgent": true,
+      "options": [
+        {
+          "id": "minor_sexual",
+          "label": "Sexualizing a minor",
+          "outcome": {
+            "type": "screen",
+            "screen_id": "profile_minor_sexual",
+            "reason": null,
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "adult_content_profile",
+          "label": "Explicit adult content in their profile",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "adult_content_unmarked",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "intimate_image_abuse",
+          "label": "Intimate images of someone shared without consent, including deepfakes",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "intimate_image_abuse",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "sexual_exploitation",
+          "label": "Sexual exploitation, coercion or trafficking",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "sexual_exploitation",
+            "notice_id": null,
+            "url": null
+          }
+        }
+      ],
+      "options_heading": null,
+      "checklist": null,
+      "next_screen_id": null
+    },
+    {
+      "id": "profile_threat",
+      "title": "How does their profile involve violence?",
+      "subtitle": null,
+      "urgent": true,
+      "options": [
+        {
+          "id": "violent_threat",
+          "label": "Saying they will hurt someone",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "violent_threat",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "violence_incitement",
+          "label": "Encouraging violence or explaining how to hurt people",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "violence_incitement",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "violence_glorification",
+          "label": "Glorifying real-world violence",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "violence_glorification",
+            "notice_id": null,
+            "url": null
+          }
+        }
+      ],
+      "options_heading": null,
+      "checklist": null,
+      "next_screen_id": null
+    },
+    {
+      "id": "profile_minor_sexual",
+      "title": "What in their profile involves a minor?",
+      "subtitle": "Drawn, written or AI content counts when a character is described as a minor or is clearly prepubescent, including lolicon, shotacon and cub.",
+      "urgent": true,
+      "options": [
+        {
+          "id": "csam",
+          "label": "Real or AI-generated images or videos of child sexual abuse",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "csam",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "minor_sexual_content",
+          "label": "A minor's profile with sexual content",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "minor_sexual_content",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "minor_sexualization",
+          "label": "Sexual comments about minors in their profile",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "minor_sexualization",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "minor_fictional",
+          "label": "Drawn, written or AI-generated sexual content of a fictional child",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "minor_fictional_sexualization",
+            "notice_id": null,
+            "url": null
+          }
+        }
+      ],
+      "options_heading": null,
+      "checklist": null,
+      "next_screen_id": null
+    },
+    {
+      "id": "age_stated_profile",
+      "title": "Does their profile say how old they are?",
+      "subtitle": null,
+      "urgent": false,
+      "options": [
+        {
+          "id": "age_yes",
+          "label": "Yes, their profile mentions their age",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "underage",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "age_no",
+          "label": "No, it doesn't mention it",
+          "outcome": {
+            "type": "end",
+            "screen_id": null,
+            "reason": null,
+            "notice_id": "need_more_info_profile",
+            "url": null
+          }
+        }
+      ],
+      "options_heading": null,
+      "checklist": null,
+      "next_screen_id": null
+    },
+    {
+      "id": "profile_private_info",
+      "title": "Which private details are in their profile?",
+      "subtitle": "Pick as many as you need. If an intimate photo shows someone under 18, go back and report it under Sexualizing a minor.",
+      "urgent": false,
+      "options": [],
+      "options_heading": null,
+      "checklist": {
+        "items": [
+          {
+            "id": "email",
+            "label": "Email address",
+            "description": null
+          },
+          {
+            "id": "phone",
+            "label": "Phone number",
+            "description": null
+          },
+          {
+            "id": "address",
+            "label": "Home address or workplace",
+            "description": null
+          },
+          {
+            "id": "legal_name",
+            "label": "Real or legal name",
+            "description": null
+          },
+          {
+            "id": "government_id",
+            "label": "ID document or ID number",
+            "description": null
+          },
+          {
+            "id": "face_photo",
+            "label": "Photo of their face",
+            "description": null
+          },
+          {
+            "id": "identity",
+            "label": "Sexual orientation, gender identity or intersex status",
+            "description": null
+          },
+          {
+            "id": "financial",
+            "label": "Card, bank or other financial details",
+            "description": null
+          },
+          {
+            "id": "ip_address",
+            "label": "IP address",
+            "description": null
+          },
+          {
+            "id": "intimate_photo",
+            "label": "Intimate or nude photo",
+            "description": null
+          },
+          {
+            "id": "private_conversation",
+            "label": "Private messages, screenshots or call recordings",
+            "description": null
+          },
+          {
+            "id": "other_identifying",
+            "label": "Other information that could identify or locate someone",
+            "description": null
+          },
+          {
+            "id": "threat_to_share",
+            "label": "They are threatening to share it",
+            "description": null
+          }
+        ],
+        "min_checked": 1,
+        "outcome": {
+          "type": "submit",
+          "screen_id": null,
+          "reason": "doxxing",
+          "notice_id": null,
+          "url": null
+        }
+      },
+      "next_screen_id": null
+    },
+    {
+      "id": "crisis_support",
+      "title": "Someone can help right now",
+      "subtitle": "Crisis lines offer free, confidential support.",
+      "urgent": true,
+      "options": [
+        {
+          "id": "crisis_lines",
+          "label": "Crisis lines in your country",
+          "outcome": {
+            "type": "link",
+            "screen_id": null,
+            "reason": null,
+            "notice_id": null,
+            "url": "https://befrienders.org"
+          }
+        }
+      ],
+      "options_heading": null,
+      "checklist": null,
+      "next_screen_id": "self_harm_profile"
+    },
+    {
+      "id": "self_harm_profile",
+      "title": "What does their profile say or show?",
+      "subtitle": "Nobody is punished for saying they are struggling. Telling us you are worried helps us offer support.",
+      "urgent": true,
+      "options": [
+        {
+          "id": "worried",
+          "label": "I'm worried about their safety",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "wellbeing_concern",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "self_harm_promotion",
+          "label": "Their profile encourages self-harm",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "self_harm_promotion",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "suicide_promotion",
+          "label": "Their profile encourages suicide",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "suicide_promotion",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "eating_disorder_promotion",
+          "label": "Their profile promotes eating disorders",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "eating_disorder_promotion",
+            "notice_id": null,
+            "url": null
+          }
+        },
+        {
+          "id": "self_harm_graphic",
+          "label": "Graphic images of self-harm",
+          "outcome": {
+            "type": "submit",
+            "screen_id": null,
+            "reason": "self_harm_graphic",
+            "notice_id": null,
+            "url": null
+          }
+        }
+      ],
+      "options_heading": null,
+      "checklist": null,
+      "next_screen_id": null
+    }
+  ],
+  "notices": [
+    {
+      "id": "need_more_info_profile",
+      "title": "We can't act on this yet",
+      "body": "To review this, we need to see where they say how old they are or make it clear they're under Fluxer's minimum age. Report that message or profile instead."
+    }
+  ]
+}

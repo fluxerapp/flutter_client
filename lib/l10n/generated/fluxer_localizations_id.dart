@@ -3649,10 +3649,10 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get userProfileTransferOwnership => 'Transfer kepemilikan';
 
   @override
-  String get userProfileReportUser => 'Laporkan pengguna';
+  String get userProfileReportMessage => 'Laporkan pesan';
 
   @override
-  String get userProfileReportMessage => 'Laporkan pesan';
+  String get userProfileReportUserProfile => 'Laporkan profil';
 
   @override
   String userProfileKickConfirmTitle(String username) {
@@ -3801,93 +3801,6 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get durationCustom => 'Kustom…';
-
-  @override
-  String get iarReportUserTitle => 'Laporkan pengguna';
-
-  @override
-  String get iarReportGuildTitle => 'Laporkan komunitas';
-
-  @override
-  String get iarReportGuildPreconfirmBody =>
-      'Jika laporan ini tentang pesan tertentu di komunitas ini, laporkan pesan itu saja. Laporan pesan memberikan konteks yang paling jelas kepada tim keamanan kami, dan menambahkan detail di komentar dapat membantu kami meninjaunya lebih cepat. Lanjutkan melaporkan komunitas secara keseluruhan hanya jika melaporkan pesan tidak akan mencakup masalah yang lebih luas.';
-
-  @override
-  String get iarContinueToReportCommunity => 'Lanjutkan melaporkan komunitas';
-
-  @override
-  String get iarPreviewCommunitySubtitle => 'Komunitas';
-
-  @override
-  String get iarReasonHarassmentGuildLabel =>
-      'Pelecehan atau penyalahgunaan yang ditargetkan';
-
-  @override
-  String get iarReasonHarassmentGuildDescription =>
-      'Komunitas ini memfasilitasi perundungan beramai-ramai atau pelecehan yang ditargetkan.';
-
-  @override
-  String get iarReasonHateGuildDescription =>
-      'Mendorong kebencian terhadap kelompok yang dilindungi.';
-
-  @override
-  String get iarReasonTerrorismLabel => 'Terorisme atau ekstremisme kekerasan';
-
-  @override
-  String get iarReasonTerrorismDescription =>
-      'Mempromosikan, merekrut, atau mengoordinasikan aktivitas ekstremisme kekerasan.';
-
-  @override
-  String get iarReasonMatureContentGuildLabel =>
-      'Konten dewasa atau pembatasan yang tidak aman';
-
-  @override
-  String get iarReasonMatureContentGuildDescription =>
-      'Konten dewasa tanpa pembatasan yang sesuai.';
-
-  @override
-  String get iarReasonChildSafetyGuildDescription =>
-      'Membahayakan anak di bawah umur atau berisi konten eksploitasi anak.';
-
-  @override
-  String get iarReasonRaidLabel => 'Koordinasi penyerangan';
-
-  @override
-  String get iarReasonRaidDescription =>
-      'Mengoordinasikan penyerangan, pengeroyokan, atau pelecehan terhadap orang atau komunitas.';
-
-  @override
-  String get iarReasonSpamGuildDescription =>
-      'Komunitas ini ada untuk mengirim spam, menipu, atau menyalahgunakan platform.';
-
-  @override
-  String get iarReasonMalwareGuildLabel => 'Penyebaran malware';
-
-  @override
-  String get iarReasonMalwareGuildDescription =>
-      'Mendistribusikan malware, pencurian kredensial, atau file berbahaya.';
-
-  @override
-  String get iarReasonPrivacyGuildLabel => 'Pelanggaran privasi atau doxing';
-
-  @override
-  String get iarReasonPrivacyGuildDescription =>
-      'Membagikan info pribadi, menguntit pengguna, atau mengoordinasikan penyalahgunaan privasi.';
-
-  @override
-  String get iarReasonSelfHarmGuildLabel =>
-      'Mendorong tindakan menyakiti diri sendiri';
-
-  @override
-  String get iarReasonSelfHarmGuildDescription =>
-      'Mendorong bunuh diri, menyakiti diri sendiri, atau gangguan makan.';
-
-  @override
-  String get iarReasonInappropriateProfile => 'Profil tidak pantas';
-
-  @override
-  String get iarReasonInappropriateProfileDescription =>
-      'Profil pengguna ini berisi konten yang tidak pantas';
 
   @override
   String typingIndicatorOne(String name) {
@@ -7353,350 +7266,119 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get chatMessageReport => 'Laporkan pesan';
 
   @override
-  String get iarReportMessageTitle => 'Laporkan pesan';
+  String get reportFlowTitleMessage => 'Laporkan pesan';
 
   @override
-  String get iarThisUserFallback => 'pengguna ini';
+  String get reportFlowTitleUserProfile => 'Laporkan profil';
 
   @override
-  String get iarModalDescription =>
-      'Laporkan pelanggaran aturan, atau temukan alat untuk mengelola kontak dan preferensi.';
+  String get reportFlowSummaryTitle => 'Periksa laporanmu';
 
   @override
-  String get iarPathStepAriaLabel => 'Apa yang Anda butuhkan?';
+  String get reportFlowSummarySubtitle =>
+      'Pastikan ini sudah benar sebelum kamu mengirimnya.';
 
   @override
-  String get iarCategoryStepTitle => 'Jenis aturan apa yang dilanggar?';
-
-  @override
-  String get iarReasonStepTitle => 'Aturan mana yang dilanggar?';
-
-  @override
-  String get iarReasonSelectHint => 'Pilih alasan';
-
-  @override
-  String get iarPickAnOptionToast => 'Pilih salah satu opsi untuk melanjutkan.';
-
-  @override
-  String get iarPickARuleToast => 'Pilih aturan yang dilanggar.';
-
-  @override
-  String get iarPathPlatform => 'Laporkan pelanggaran aturan platform';
-
-  @override
-  String get iarPathCommunity => 'Laporkan ke moderator komunitas ini';
-
-  @override
-  String get iarPathPreferenceMessage => 'Saya tidak suka konten ini';
-
-  @override
-  String get iarCategoryTargetedHarmLabel => 'Ancaman, pelecehan, atau bahaya';
-
-  @override
-  String get iarCategoryTargetedHarmDescription =>
-      'Penindasan, ancaman, kebencian, kekerasan, serangan, atau konten yang mendorong tindakan menyakiti diri sendiri.';
-
-  @override
-  String get iarCategorySafetyMinorsLabel => 'Keamanan anak atau konten dewasa';
-
-  @override
-  String get iarCategorySafetyMinorsDescription =>
-      'Anak di bawah umur berisiko, konten dewasa di tempat yang salah, atau perilaku yang tidak diinginkan.';
-
-  @override
-  String get iarCategoryPrivacyIdentityLabel =>
-      'Privasi atau peniruan identitas';
-
-  @override
-  String get iarCategoryPrivacyIdentityDescription =>
-      'Doxing, menguntit, menyamar sebagai orang lain, atau profil yang tidak pantas.';
-
-  @override
-  String get iarCategoryDeceptionLabel =>
-      'Penipuan, malware, atau misinformasi';
-
-  @override
-  String get iarCategoryDeceptionDescription =>
-      'Phishing, penipuan, tautan berbahaya, atau klaim palsu yang berpotensi menimbulkan kerugian di dunia nyata.';
-
-  @override
-  String get iarCategoryIllegalOtherLabel => 'Aktivitas ilegal atau lainnya';
-
-  @override
-  String get iarCategoryIllegalOtherDescription =>
-      'Penjualan ilegal, fasilitasi kriminal, atau pelanggaran aturan yang jelas yang tidak termasuk dalam kategori di atas.';
-
-  @override
-  String get iarReasonHarassmentLabel => 'Pelecehan atau ancaman';
-
-  @override
-  String get iarReasonHarassmentMessageDescription =>
-      'Penindasan, kontak yang tidak diinginkan berulang kali, penguntitan, atau pelecehan yang ditargetkan.';
-
-  @override
-  String get iarReasonHateLabel => 'Ujaran kebencian';
-
-  @override
-  String get iarReasonHateMessageDescription =>
-      'Kata-kata hinaan, bahasa yang merendahkan martabat, atau serangan terhadap kelompok yang dilindungi.';
-
-  @override
-  String get iarReasonViolenceLabel => 'Kekerasan atau ancaman kekerasan';
-
-  @override
-  String get iarReasonViolenceDescription =>
-      'Ancaman yang kredibel, kekerasan grafis, atau glorifikasi kekerasan.';
-
-  @override
-  String get iarReasonMatureContentLabel => 'Konten dewasa atau pelecehan';
-
-  @override
-  String get iarReasonMatureContentMessageDescription =>
-      'Perilaku yang tidak diinginkan atau konten dewasa di tempat yang salah.';
-
-  @override
-  String get iarReasonChildSafetyLabel =>
-      'Keamanan anak atau eksploitasi anak di bawah umur';
-
-  @override
-  String get iarReasonChildSafetyMessageDescription =>
-      'Konten grooming atau eksploitasi anak.';
-
-  @override
-  String get iarReasonHarmfulMisinfoLabel => 'Misinformasi berbahaya';
-
-  @override
-  String get iarReasonHarmfulMisinfoDescription =>
-      'Klaim palsu yang kemungkinan menyebabkan kerugian di dunia nyata.';
-
-  @override
-  String get iarReasonSpamLabel => 'Spam, penipuan, atau phishing';
-
-  @override
-  String get iarReasonSpamMessageDescription =>
-      'Spam massal, penipuan, giveaway palsu, atau penyalahgunaan akun.';
-
-  @override
-  String get iarReasonMalwareLabel => 'Malware atau tautan berbahaya';
-
-  @override
-  String get iarReasonMalwareDescription =>
-      'Malware, pencurian kredensial, atau file berbahaya.';
-
-  @override
-  String get iarReasonPrivacyLabel => 'Pelanggaran privasi';
-
-  @override
-  String get iarReasonPrivacyDescription =>
-      'Doxing, informasi pribadi yang terekspos, atau penguntitan.';
-
-  @override
-  String get iarReasonImpersonationLabel =>
-      'Peniruan identitas atau media yang menipu';
-
-  @override
-  String get iarReasonImpersonationMessageDescription =>
-      'Berpura-pura menjadi orang lain, termasuk konten hasil AI yang menipu.';
-
-  @override
-  String get iarReasonIllegalLabel => 'Aktivitas ilegal';
-
-  @override
-  String get iarReasonIllegalDescription =>
-      'Penjualan ilegal, fasilitasi kriminal, atau aktivitas melanggar hukum.';
-
-  @override
-  String get iarReasonSelfHarmLabel => 'Melukai diri sendiri atau bunuh diri';
-
-  @override
-  String get iarReasonSelfHarmMessageDescription =>
-      'Promosi atau instruksi yang mendorong tindakan menyakiti diri sendiri atau gangguan makan.';
-
-  @override
-  String get iarReasonOtherLabel => 'Pelanggaran aturan yang jelas lainnya';
-
-  @override
-  String iarReasonOtherDescription(String productName) {
-    return 'Gunakan hanya jika jelas melanggar aturan $productName dan tidak sesuai dengan pilihan di atas.';
+  String reportFlowDisclaimer(String guidelines) {
+    return 'Laporkan hanya hal yang kamu yakini dengan jujur melanggar aturan. Penyalahgunaan laporan bertentangan dengan $guidelines kami.';
   }
 
   @override
-  String iarUseChildSafetyInstead(String childSafetyReason) {
-    return 'Jika melibatkan anak di bawah umur, gunakan \"$childSafetyReason\" sebagai gantinya.';
+  String get reportFlowCommunityGuidelinesLink => 'panduan komunitas';
+
+  @override
+  String get reportFlowDisclaimerNoLink =>
+      'Laporkan hanya hal yang kamu yakini dengan jujur melanggar aturan, dan mohon jangan mengirim laporan yang sama dua kali.';
+
+  @override
+  String get reportFlowSelectedMessage => 'Pesan yang kamu laporkan';
+
+  @override
+  String get reportFlowSelectedUser => 'Profil yang kamu laporkan';
+
+  @override
+  String get reportFlowReportCategory => 'Jawabanmu';
+
+  @override
+  String get reportFlowSubmit => 'Kirim laporan';
+
+  @override
+  String get reportFlowBack => 'Kembali';
+
+  @override
+  String get reportFlowNext => 'Berikutnya';
+
+  @override
+  String get reportFlowDone => 'Selesai';
+
+  @override
+  String get reportFlowThankYouTitle => 'Laporan terkirim';
+
+  @override
+  String get reportFlowThankYouNoReportTitle =>
+      'Terima kasih telah menandainya';
+
+  @override
+  String reportFlowThankYouBody(String productName) {
+    return 'Tim Keamanan $productName akan meninjau laporanmu. Kami tidak akan mengungkapkan bahwa laporan itu berasal darimu.';
   }
 
   @override
-  String get iarSafetyNoteChildSafety =>
-      'Jika ini melibatkan CSAM atau eksploitasi anak di bawah umur, kirim sekarang dan jangan bagikan materi tersebut lagi.';
+  String get reportFlowThankYouNoReportBody =>
+      'Terima kasih sudah memberi tahu kami. Hal ini saja tidak melanggar aturan kami, jadi kami tidak mengirim laporan. Jika ini menargetkan seseorang atau menggunakan hinaan, laporkan lagi dan pilih “Konten yang kasar atau berbahaya”.';
 
   @override
-  String get iarSafetyNoteSelfHarm =>
-      'Jika ada orang yang berada dalam bahaya mendesak, hubungi layanan darurat setempat jika kamu bisa melakukannya dengan aman.';
+  String get reportFlowThankYouNoReportBodyShort =>
+      'Terima kasih sudah memberi tahu kami. Hal ini saja tidak melanggar aturan kami, jadi kami tidak mengirim laporan.';
 
   @override
-  String get iarSafetyNoteViolence =>
-      'Jika ini adalah ancaman nyata yang akan segera terjadi, hubungi juga layanan darurat setempat.';
+  String get reportFlowMoreYouCanDo => 'Pilihanmu';
 
   @override
-  String get iarSafetyNoteTerrorism =>
-      'Jika ini adalah ancaman teroris yang akan segera terjadi, hubungi juga layanan darurat setempat.';
-
-  @override
-  String get iarActionBlockUserTitle => 'Blokir pengguna ini';
-
-  @override
-  String get iarActionBlockUserDescription =>
-      'Hentikan pesan dan permintaan pertemanan.';
-
-  @override
-  String get iarActionBlockUserButton => 'Blokir';
-
-  @override
-  String get iarActionCopyMessageLinkTitle => 'Salin tautan pesan';
-
-  @override
-  String get iarActionCopyMessageLinkDescription =>
-      'Bagikan ke moderator komunitas.';
-
-  @override
-  String get iarActionCopyMessageLinkButton => 'Salin';
-
-  @override
-  String get iarActionCloseDmTitle => 'Tutup DM ini';
-
-  @override
-  String get iarActionCloseDmDescription =>
-      'Tidak memblokir. Kamu bisa membukanya lagi nanti.';
-
-  @override
-  String get iarActionCloseDmButton => 'Tutup DM';
-
-  @override
-  String get iarActionLeaveCommunityTitle => 'Keluar dari komunitas';
-
-  @override
-  String get iarActionLeaveCommunityDescription =>
-      'Berhenti melihat konten dan anggotanya.';
-
-  @override
-  String get iarActionLeaveCommunityButton => 'Keluar';
-
-  @override
-  String get iarActionDmSettingsTitle =>
-      'Pengaturan DM & permintaan pertemanan';
-
-  @override
-  String get iarActionDmSettingsDescription =>
-      'Ubah siapa yang bisa menghubungimu.';
-
-  @override
-  String get iarActionCallSettingsTitle =>
-      'Pengaturan panggilan & obrolan grup';
-
-  @override
-  String get iarActionCallSettingsDescription =>
-      'Ubah siapa yang bisa menelepon atau menambahkanmu.';
-
-  @override
-  String get iarActionOpenButton => 'Buka';
-
-  @override
-  String get iarActionDeleteMessageTitle => 'Hapus pesan ini';
-
-  @override
-  String get iarActionDeleteMessageDescription =>
-      'Hapus dari saluran untuk semua orang.';
-
-  @override
-  String get iarActionDeleteMessageButton => 'Hapus';
-
-  @override
-  String get iarActionDeleteMessageDeletedButton => 'Dihapus';
-
-  @override
-  String get iarActionDeleteMessageDeletedTooltip => 'Pesan ini sudah dihapus.';
-
-  @override
-  String get iarActionBanUserTitle => 'Blokir pengguna ini';
-
-  @override
-  String get iarActionBanUserDescription =>
-      'Buka dialog blokir untuk komunitas ini.';
-
-  @override
-  String get iarActionBanUserButton => 'Blokir';
-
-  @override
-  String get iarActionBanUserBannedButton => 'Diblokir';
-
-  @override
-  String get iarActionBanUserBannedTooltip =>
-      'Pengguna ini sudah diblokir dari komunitas.';
-
-  @override
-  String get iarCloseDmConfirmTitle => 'Tutup DM';
-
-  @override
-  String iarCloseDmConfirmDescription(String name) {
-    return 'Tutup DM Anda saat ini dengan $name. Ini tidak akan memblokir mereka; Anda dapat membukanya kembali nanti.';
+  String reportFlowBlockName(String name) {
+    return 'Blokir $name';
   }
 
   @override
-  String get iarSuccessTitle => 'Laporan terkirim';
+  String get reportFlowBlockDescription =>
+      'Menyembunyikan pesan mereka dan mencegah mereka mengirim pesan kepadamu';
 
   @override
-  String get iarSuccessBody =>
-      'Tim keamanan kami sedang meninjaunya. Kami akan mengirimimu DM dan email setelah ada keputusan.';
+  String get reportFlowBlockButton => 'Blokir';
 
   @override
-  String get iarAlreadyReportedTitle => 'Sudah dilaporkan';
+  String get reportFlowBlockedButton => 'Diblokir';
 
   @override
-  String get iarAlreadyReportedBody =>
-      'Anda sudah melaporkan pesan ini. Tim keamanan kami sedang meninjaunya.';
+  String get reportFlowUrgentBanner =>
+      'Jika seseorang berada dalam bahaya mendesak, hubungi layanan darurat setempat terlebih dahulu.';
 
   @override
-  String get iarBackButton => 'Kembali';
+  String get reportFlowLoadFailed => 'Tidak dapat memuat formulir laporan.';
 
   @override
-  String get iarContinueButton => 'Lanjutkan';
+  String get reportFlowTryAgain => 'Coba lagi';
 
   @override
-  String get iarSendReportButton => 'Kirim laporan';
+  String get reportFlowOutdated => 'Formulir laporan berubah. Mulai lagi.';
 
   @override
-  String get iarDoneButton => 'Selesai';
+  String get reportFlowAlreadyReported => 'Kamu sudah melaporkan pesan ini.';
 
   @override
-  String get iarCouldntSendToast =>
-      'Laporan tidak dapat dikirim. Coba lagi nanti.';
+  String get reportFlowAlreadyReportedProfile =>
+      'Kamu sudah melaporkan profil ini hari ini.';
 
   @override
-  String get iarRateLimitedToast =>
-      'Anda terlalu cepat melaporkan. Harap tunggu sebentar dan coba lagi.';
+  String get reportFlowRateLimited =>
+      'Kamu mengirim laporan terlalu cepat. Coba lagi nanti.';
 
   @override
-  String get iarReportSentToast =>
-      'Laporan terkirim. Tim keselamatan kami akan meninjaunya.';
+  String get reportFlowSubmitFailed => 'Laporanmu tidak terkirim. Coba lagi.';
 
   @override
-  String iarBlockUserConfirmDescription(String name) {
-    return 'Blokir $name? Mereka tidak akan bisa mengirim pesan atau permintaan pertemanan kepada Anda. Anda bisa membuka blokir mereka nanti.';
-  }
-
-  @override
-  String get iarBlockUserFailedToast =>
-      'Tidak dapat memblokir pengguna ini. Silakan coba lagi.';
-
-  @override
-  String get iarCloseDmSuccessToast => 'DM ditutup.';
-
-  @override
-  String get iarCloseDmFailedToast => 'Tidak dapat menutup DM ini. Coba lagi.';
-
-  @override
-  String get iarLeaveCommunityFailedToast =>
-      'Gagal meninggalkan komunitas ini. Coba lagi.';
+  String get reportFlowAccountSetupRequired =>
+      'Klaim akunmu dan verifikasi emailmu untuk mengirim laporan.';
 
   @override
   String get chatMessageSuppressEmbeds => 'Sembunyikan sematan';
@@ -12314,9 +11996,6 @@ class FluxerLocalizationsId extends FluxerLocalizations {
 
   @override
   String get guildMenuHideMutedChannels => 'Sembunyikan saluran yang dibisukan';
-
-  @override
-  String get guildMenuReportCommunity => 'Laporkan komunitas';
 
   @override
   String get guildMenuDebugCommunity => 'Debug komunitas';

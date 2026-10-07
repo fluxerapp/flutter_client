@@ -4327,13 +4327,13 @@
     "@userProfileTransferOwnership": {
         "description": "Three-dot menu item to transfer community ownership to the member."
     },
-    "userProfileReportUser": "यूज़र को रिपोर्ट करें",
-    "@userProfileReportUser": {
-        "description": "Three-dot menu item to report the user."
-    },
     "userProfileReportMessage": "मैसेज की रिपोर्ट करें",
     "@userProfileReportMessage": {
         "description": "Three-dot menu item to report the message that opened this profile."
+    },
+    "userProfileReportUserProfile": "प्रोफ़ाइल की रिपोर्ट करें",
+    "@userProfileReportUserProfile": {
+        "description": "Three-dot menu item on the full profile to report this user's profile (avatar, banner, name, bio and other profile parts). Message behavior is reported from the message instead."
     },
     "userProfileKickConfirmTitle": "क्या {username} को किक करें?",
     "@userProfileKickConfirmTitle": {
@@ -4560,102 +4560,6 @@
     "durationCustom": "कस्टम…",
     "@durationCustom": {
         "description": "Duration option label for a user-specified custom duration."
-    },
-    "iarReportUserTitle": "यूज़र को रिपोर्ट करें",
-    "@iarReportUserTitle": {
-        "description": "Title of the simple user-report sheet."
-    },
-    "iarReportGuildTitle": "कम्युनिटी की रिपोर्ट करें",
-    "@iarReportGuildTitle": {
-        "description": "Title of the simple community-report sheet."
-    },
-    "iarReportGuildPreconfirmBody": "अगर यह रिपोर्ट इस कम्युनिटी के किसी खास मैसेज के बारे में है, तो उस मैसेज की रिपोर्ट करें। मैसेज रिपोर्ट से हमारी सुरक्षा टीम को सबसे साफ़ जानकारी मिलती है, और कमेंट में जानकारी जोड़ने से हमें इसकी तेज़ी से समीक्षा करने में मदद मिल सकती है। पूरी कम्युनिटी की रिपोर्ट तभी करें, जब मैसेज की रिपोर्ट करने से बड़ी समस्या का पता न चल पाए।",
-    "@iarReportGuildPreconfirmBody": {
-        "description": "Body shown in the pre-confirm dialog before opening the community report sheet."
-    },
-    "iarContinueToReportCommunity": "कम्युनिटी की रिपोर्ट करना जारी रखें",
-    "@iarContinueToReportCommunity": {
-        "description": "Primary button in the community report pre-confirm dialog."
-    },
-    "iarPreviewCommunitySubtitle": "कम्युनिटी",
-    "@iarPreviewCommunitySubtitle": {
-        "description": "Subtitle shown under the community name in the IAR preview card."
-    },
-    "iarReasonHarassmentGuildLabel": "उत्पीड़न या लक्षित दुर्व्यवहार",
-    "@iarReasonHarassmentGuildLabel": {
-        "description": "Community-report reason label for harassment or targeted abuse."
-    },
-    "iarReasonHarassmentGuildDescription": "कम्युनिटी से लोगों का एक साथ हमला करना या जानबूझकर परेशान करना आसान हो जाता है।",
-    "@iarReasonHarassmentGuildDescription": {
-        "description": "Community-report reason description for harassment or targeted abuse."
-    },
-    "iarReasonHateGuildDescription": "सुरक्षित समूहों के ख़िलाफ़ नफ़रत को बढ़ावा देता है।",
-    "@iarReasonHateGuildDescription": {
-        "description": "Community-report reason description for hate speech."
-    },
-    "iarReasonTerrorismLabel": "आतंकवाद या हिंसक चरमपंथ",
-    "@iarReasonTerrorismLabel": {
-        "description": "Community-report reason label for terrorism or violent extremism."
-    },
-    "iarReasonTerrorismDescription": "हिंसक चरमपंथी गतिविधि को बढ़ावा देता है, उसके लिए भर्ती करता है या उसे समन्वित करता है।",
-    "@iarReasonTerrorismDescription": {
-        "description": "Community-report reason description for terrorism or violent extremism."
-    },
-    "iarReasonMatureContentGuildLabel": "वयस्क सामग्री या असुरक्षित गेटिंग",
-    "@iarReasonMatureContentGuildLabel": {
-        "description": "Community-report reason label for mature content or unsafe gating."
-    },
-    "iarReasonMatureContentGuildDescription": "बिना उचित गेटिंग के वयस्क सामग्री।",
-    "@iarReasonMatureContentGuildDescription": {
-        "description": "Community-report reason description for mature content or unsafe gating."
-    },
-    "iarReasonChildSafetyGuildDescription": "नाबालिगों को खतरे में डालता है या बाल-शोषण वाली सामग्री होस्ट करता है।",
-    "@iarReasonChildSafetyGuildDescription": {
-        "description": "Community-report reason description for child safety."
-    },
-    "iarReasonRaidLabel": "रेड कोऑर्डिनेशन",
-    "@iarReasonRaidLabel": {
-        "description": "Community-report reason label for raid coordination."
-    },
-    "iarReasonRaidDescription": "लोगों या कम्युनिटी के ख़िलाफ़ रेड, ब्रिगेडिंग या उत्पीड़न का समन्वय करता है।",
-    "@iarReasonRaidDescription": {
-        "description": "Community-report reason description for raid coordination."
-    },
-    "iarReasonSpamGuildDescription": "कम्युनिटी स्पैम, स्कैम या प्लेटफ़ॉर्म के दुरुपयोग के लिए ही मौजूद है।",
-    "@iarReasonSpamGuildDescription": {
-        "description": "Community-report reason description for spam, scams, or phishing."
-    },
-    "iarReasonMalwareGuildLabel": "मैलवेयर वितरण",
-    "@iarReasonMalwareGuildLabel": {
-        "description": "Community-report reason label for malware distribution."
-    },
-    "iarReasonMalwareGuildDescription": "मैलवेयर, क्रेडेंशियल चोरी या नुकसान पहुँचाने वाली फ़ाइलें वितरित करता है।",
-    "@iarReasonMalwareGuildDescription": {
-        "description": "Community-report reason description for malware distribution."
-    },
-    "iarReasonPrivacyGuildLabel": "गोपनीयता का उल्लंघन या डॉक्सिंग",
-    "@iarReasonPrivacyGuildLabel": {
-        "description": "Community-report reason label for privacy violation or doxxing."
-    },
-    "iarReasonPrivacyGuildDescription": "व्यक्तिगत जानकारी शेयर करता है, यूज़र का पीछा करता है या मिलकर निजता का उल्लंघन करता है।",
-    "@iarReasonPrivacyGuildDescription": {
-        "description": "Community-report reason description for privacy violation or doxxing."
-    },
-    "iarReasonSelfHarmGuildLabel": "खुद को नुकसान पहुँचाने के लिए उकसाता है",
-    "@iarReasonSelfHarmGuildLabel": {
-        "description": "Community-report reason label for self-harm encouragement."
-    },
-    "iarReasonSelfHarmGuildDescription": "आत्महत्या, खुद को नुकसान पहुँचाने या ईटिंग डिसऑर्डर को बढ़ावा देता है।",
-    "@iarReasonSelfHarmGuildDescription": {
-        "description": "Community-report reason description for self-harm encouragement."
-    },
-    "iarReasonInappropriateProfile": "अनुपयुक्त प्रोफ़ाइल",
-    "@iarReasonInappropriateProfile": {
-        "description": "User-report reason: the user's profile contains inappropriate content."
-    },
-    "iarReasonInappropriateProfileDescription": "इस उपयोगकर्ता की प्रोफ़ाइल में अनुचित सामग्री है",
-    "@iarReasonInappropriateProfileDescription": {
-        "description": "Description for the inappropriate-profile user-report reason."
     },
     "typingIndicatorOne": "{name} टाइप कर रहा है…",
     "@typingIndicatorOne": {
@@ -8835,420 +8739,155 @@
     "@chatMessageReport": {
         "description": "Action label that opens the report-message sheet so the user can flag the message to moderators."
     },
-    "iarReportMessageTitle": "मैसेज की रिपोर्ट करें",
-    "@iarReportMessageTitle": {
-        "description": "Title shown at the top of the In-App Reporting (IAR) sheet when the user is reporting a specific message."
+    "reportFlowTitleMessage": "मैसेज की रिपोर्ट करें",
+    "@reportFlowTitleMessage": {
+        "description": "Report flow: sheet title while the message report form loads or fails to load."
     },
-    "iarThisUserFallback": "इस यूज़र",
-    "@iarThisUserFallback": {
-        "description": "Lowercase phrase used mid-sentence in IAR copy when referring to the reported user without a name (e.g. inside the close-DM confirmation)."
+    "reportFlowTitleUserProfile": "प्रोफ़ाइल की रिपोर्ट करें",
+    "@reportFlowTitleUserProfile": {
+        "description": "Report flow: sheet title while the user profile report form loads or fails to load."
     },
-    "iarModalDescription": "नियम उल्लंघन की रिपोर्ट करें या संपर्क और प्राथमिकताओं को प्रबंधित करने के लिए टूल ढूंढें।",
-    "@iarModalDescription": {
-        "description": "Screen-reader description for the IAR sheet announcing what the flow is for."
+    "reportFlowSummaryTitle": "अपनी रिपोर्ट जाँचें",
+    "@reportFlowSummaryTitle": {
+        "description": "Report flow: title of the last screen, where the reporter reviews the report before sending it."
     },
-    "iarPathStepAriaLabel": "आपको क्या चाहिए?",
-    "@iarPathStepAriaLabel": {
-        "description": "Accessible label for the primary-path radio group on the first step of the IAR sheet. Not shown visually; the radios are labelled inline."
+    "reportFlowSummarySubtitle": "भेजने से पहले सुनिश्चित करें कि यह सही दिख रहा है।",
+    "@reportFlowSummarySubtitle": {
+        "description": "Report flow: subtitle of the report summary screen."
     },
-    "iarCategoryStepTitle": "किस तरह के नियम का उल्लंघन किया गया था?",
-    "@iarCategoryStepTitle": {
-        "description": "Title shown on the category step of the IAR sheet (platform-report path)."
+    "reportFlowDisclaimer": "केवल वही रिपोर्ट करें जो आपको ईमानदारी से लगता है कि नियमों को तोड़ता है। रिपोर्ट का दुरुपयोग हमारे {guidelines} के विरुद्ध है।",
+    "@reportFlowDisclaimer": {
+        "description": "Report flow: disclaimer on the report summary screen. {guidelines} is a link whose text is reportFlowCommunityGuidelinesLink.",
+        "placeholders": {
+            "guidelines": {
+                "type": "String",
+                "example": "Community Guidelines"
+            }
+        }
     },
-    "iarReasonStepTitle": "कौन सा नियम तोड़ा गया?",
-    "@iarReasonStepTitle": {
-        "description": "Title shown on the reason step of the IAR sheet after the user has picked a rule category."
+    "reportFlowCommunityGuidelinesLink": "कम्युनिटी दिशानिर्देशों",
+    "@reportFlowCommunityGuidelinesLink": {
+        "description": "Report flow: link text inside reportFlowDisclaimer. Opens the community guidelines page."
     },
-    "iarReasonSelectHint": "एक कारण चुनें",
-    "@iarReasonSelectHint": {
-        "description": "Placeholder shown in the message-report reason dropdown before the user picks a rule."
+    "reportFlowDisclaimerNoLink": "केवल वही रिपोर्ट करें जो आपको ईमानदारी से लगता है कि नियमों को तोड़ता है, और कृपया एक ही रिपोर्ट दो बार न भेजें।",
+    "@reportFlowDisclaimerNoLink": {
+        "description": "Report flow: disclaimer on the report summary screen when the instance has no community guidelines page."
     },
-    "iarPickAnOptionToast": "जारी रखने के लिए एक विकल्प चुनें।",
-    "@iarPickAnOptionToast": {
-        "description": "Toast shown when the user taps Continue on a step without selecting any radio option."
+    "reportFlowSelectedMessage": "आप जिस मैसेज की रिपोर्ट कर रहे हैं",
+    "@reportFlowSelectedMessage": {
+        "description": "Report flow: heading above the preview of the reported message on the report summary screen."
     },
-    "iarPickARuleToast": "नियम चुनें कि किसका उल्लंघन हुआ है।",
-    "@iarPickARuleToast": {
-        "description": "Toast shown when the user taps Send report without selecting a rule reason."
+    "reportFlowSelectedUser": "आप जिस प्रोफ़ाइल की रिपोर्ट कर रहे हैं",
+    "@reportFlowSelectedUser": {
+        "description": "Report flow: heading above the card of the reported user on the first screen and the report summary screen."
     },
-    "iarPathPlatform": "प्लेटफ़ॉर्म नियम का उल्लंघन रिपोर्ट करें",
-    "@iarPathPlatform": {
-        "description": "Primary-path radio label: file a real DSA / platform-level report."
+    "reportFlowReportCategory": "आपके जवाब",
+    "@reportFlowReportCategory": {
+        "description": "Report flow: heading above the list of answers the reporter picked, on the report summary screen."
     },
-    "iarPathCommunity": "इस समुदाय के मॉडरेटर को रिपोर्ट करें",
-    "@iarPathCommunity": {
-        "description": "Primary-path radio label: surface this to community moderators rather than platform safety."
+    "reportFlowSubmit": "रिपोर्ट भेजें",
+    "@reportFlowSubmit": {
+        "description": "Report flow: button on the report summary screen that sends the report."
     },
-    "iarPathPreferenceMessage": "मुझे यह सामग्री पसंद नहीं है",
-    "@iarPathPreferenceMessage": {
-        "description": "Primary-path radio label: the user doesn't want platform action, they want self-service tools (block, leave, settings)."
+    "reportFlowBack": "वापस",
+    "@reportFlowBack": {
+        "description": "Report flow: button that returns to the previous screen of the report form."
     },
-    "iarCategoryTargetedHarmLabel": "धमकी, उत्पीड़न या नुकसान",
-    "@iarCategoryTargetedHarmLabel": {
-        "description": "Rule-category label grouping harassment, hate, violence, terrorism, raids, and self-harm content."
+    "reportFlowNext": "आगे",
+    "@reportFlowNext": {
+        "description": "Report flow: button that goes to the next screen of the report form."
     },
-    "iarCategoryTargetedHarmDescription": "धमकाना, धमकियाँ देना, नफ़रत फैलाना, हिंसा, रेड करना या खुद को नुकसान पहुँचाने वाली सामग्री।",
-    "@iarCategoryTargetedHarmDescription": {
-        "description": "One-line description for the targeted-harm rule category."
+    "reportFlowDone": "हो गया",
+    "@reportFlowDone": {
+        "description": "Report flow: button that closes the report form when it is finished."
     },
-    "iarCategorySafetyMinorsLabel": "बच्चों की सुरक्षा या वयस्क सामग्री",
-    "@iarCategorySafetyMinorsLabel": {
-        "description": "Rule-category label grouping child-safety and mature-content reports."
+    "reportFlowThankYouTitle": "रिपोर्ट भेजी गई",
+    "@reportFlowThankYouTitle": {
+        "description": "Report flow: title of the screen shown after a report was sent."
     },
-    "iarCategorySafetyMinorsDescription": "नाबालिगों के लिए जोखिम, गलत जगह पर वयस्क सामग्री या अवांछित आचरण।",
-    "@iarCategorySafetyMinorsDescription": {
-        "description": "One-line description for the child-safety / mature-content rule category."
+    "reportFlowThankYouNoReportTitle": "इसे फ़्लैग करने के लिए धन्यवाद",
+    "@reportFlowThankYouNoReportTitle": {
+        "description": "Report flow: title of the screen shown when the chosen answer does not send a report."
     },
-    "iarCategoryPrivacyIdentityLabel": "गोपनीयता या प्रतिरूपण",
-    "@iarCategoryPrivacyIdentityLabel": {
-        "description": "Rule-category label grouping privacy violations and impersonation."
-    },
-    "iarCategoryPrivacyIdentityDescription": "डॉक्सिंग, पीछा करना, किसी और बनकर पेश आना या अनुचित प्रोफ़ाइल।",
-    "@iarCategoryPrivacyIdentityDescription": {
-        "description": "One-line description for the privacy / impersonation rule category."
-    },
-    "iarCategoryDeceptionLabel": "घोटाले, मैलवेयर या गलत जानकारी",
-    "@iarCategoryDeceptionLabel": {
-        "description": "Rule-category label grouping spam/scams, malware, and harmful misinformation."
-    },
-    "iarCategoryDeceptionDescription": "फ़िशिंग, धोखाधड़ी, दुर्भावनापूर्ण लिंक या ऐसे गलत दावे जिनसे असल दुनिया में नुकसान हो सकता है।",
-    "@iarCategoryDeceptionDescription": {
-        "description": "One-line description for the scams / malware / misinformation rule category."
-    },
-    "iarCategoryIllegalOtherLabel": "अवैध गतिविधि या कुछ और",
-    "@iarCategoryIllegalOtherLabel": {
-        "description": "Rule-category label grouping illegal activity and the catch-all Other reason."
-    },
-    "iarCategoryIllegalOtherDescription": "अवैध बिक्री, अपराध में मदद, या ऐसा साफ़ नियम उल्लंघन जो ऊपर के विकल्पों में फिट न हो।",
-    "@iarCategoryIllegalOtherDescription": {
-        "description": "One-line description for the illegal / other rule category."
-    },
-    "iarReasonHarassmentLabel": "उत्पीड़न या धमकियाँ",
-    "@iarReasonHarassmentLabel": {
-        "description": "Rule-reason label for harassment in the IAR message flow."
-    },
-    "iarReasonHarassmentMessageDescription": "धमकाना, बार-बार अवांछित संपर्क, पीछा करना या लक्षित दुर्व्यवहार।",
-    "@iarReasonHarassmentMessageDescription": {
-        "description": "Rule-reason description for harassment in the IAR message flow."
-    },
-    "iarReasonHateLabel": "नफ़रत फैलाने वाला भाषण",
-    "@iarReasonHateLabel": {
-        "description": "Rule-reason label for hate speech in the IAR message flow."
-    },
-    "iarReasonHateMessageDescription": "अपमानजनक शब्द, अमानवीय भाषा या संरक्षित समूहों पर हमले।",
-    "@iarReasonHateMessageDescription": {
-        "description": "Rule-reason description for hate speech in the IAR message flow."
-    },
-    "iarReasonViolenceLabel": "हिंसा या हिंसक धमकियाँ",
-    "@iarReasonViolenceLabel": {
-        "description": "Rule-reason label for violence in the IAR message flow."
-    },
-    "iarReasonViolenceDescription": "विश्वसनीय धमकियाँ, ग्राफिक हिंसा या हिंसा का महिमामंडन।",
-    "@iarReasonViolenceDescription": {
-        "description": "Rule-reason description for violence in the IAR message flow."
-    },
-    "iarReasonMatureContentLabel": "वयस्क सामग्री या उत्पीड़न",
-    "@iarReasonMatureContentLabel": {
-        "description": "Rule-reason label for mature content / unwanted conduct in the IAR message flow."
-    },
-    "iarReasonMatureContentMessageDescription": "गलत जगह पर अवांछित आचरण या वयस्क सामग्री।",
-    "@iarReasonMatureContentMessageDescription": {
-        "description": "Rule-reason description for mature content in the IAR message flow."
-    },
-    "iarReasonChildSafetyLabel": "बच्चों की सुरक्षा या नाबालिगों का शोषण",
-    "@iarReasonChildSafetyLabel": {
-        "description": "Rule-reason label for child-safety reports in the IAR message flow. Also used as the {childSafetyReason} placeholder in iarUseChildSafetyInstead."
-    },
-    "iarReasonChildSafetyMessageDescription": "ग्रूमिंग या बाल-शोषण से जुड़ी सामग्री।",
-    "@iarReasonChildSafetyMessageDescription": {
-        "description": "Rule-reason description for child-safety reports in the IAR message flow."
-    },
-    "iarReasonHarmfulMisinfoLabel": "हानिकारक गलत जानकारी",
-    "@iarReasonHarmfulMisinfoLabel": {
-        "description": "Rule-reason label for harmful misinformation in the IAR message flow."
-    },
-    "iarReasonHarmfulMisinfoDescription": "झूठे दावे जिनसे वास्तविक दुनिया में नुकसान होने की संभावना है।",
-    "@iarReasonHarmfulMisinfoDescription": {
-        "description": "Rule-reason description for harmful misinformation."
-    },
-    "iarReasonSpamLabel": "स्पैम, स्कैम या फ़िशिंग",
-    "@iarReasonSpamLabel": {
-        "description": "Rule-reason label for spam/scams/phishing in the IAR message flow."
-    },
-    "iarReasonSpamMessageDescription": "बड़े पैमाने पर स्पैम, धोखाधड़ी, फ़र्ज़ी गिवअवे या अकाउंट का गलत इस्तेमाल।",
-    "@iarReasonSpamMessageDescription": {
-        "description": "Rule-reason description for spam/scams in the IAR message flow."
-    },
-    "iarReasonMalwareLabel": "मैलवेयर या खतरनाक लिंक",
-    "@iarReasonMalwareLabel": {
-        "description": "Rule-reason label for malware / dangerous links in the IAR message flow."
-    },
-    "iarReasonMalwareDescription": "मैलवेयर, क्रेडेंशियल चोरी या नुकसान पहुँचाने वाली फ़ाइलें।",
-    "@iarReasonMalwareDescription": {
-        "description": "Rule-reason description for malware."
-    },
-    "iarReasonPrivacyLabel": "गोपनीयता का उल्लंघन",
-    "@iarReasonPrivacyLabel": {
-        "description": "Rule-reason label for privacy violations in the IAR message flow."
-    },
-    "iarReasonPrivacyDescription": "डॉक्सिंग, निजी जानकारी उजागर करना या पीछा करना।",
-    "@iarReasonPrivacyDescription": {
-        "description": "Rule-reason description for privacy violations."
-    },
-    "iarReasonImpersonationLabel": "फ़र्ज़ी पहचान या भ्रामक मीडिया",
-    "@iarReasonImpersonationLabel": {
-        "description": "Rule-reason label for impersonation in the IAR message flow."
-    },
-    "iarReasonImpersonationMessageDescription": "कोई और होने का दिखावा करना, जिसमें धोखा देने वाली AI-जनरेटेड सामग्री भी शामिल है।",
-    "@iarReasonImpersonationMessageDescription": {
-        "description": "Rule-reason description for impersonation in the IAR message flow."
-    },
-    "iarReasonIllegalLabel": "अवैध गतिविधि",
-    "@iarReasonIllegalLabel": {
-        "description": "Rule-reason label for illegal activity in the IAR message flow."
-    },
-    "iarReasonIllegalDescription": "अवैध बिक्री, अपराध में मदद या गैरकानूनी गतिविधि।",
-    "@iarReasonIllegalDescription": {
-        "description": "Rule-reason description for illegal activity."
-    },
-    "iarReasonSelfHarmLabel": "खुद को नुकसान पहुँचाना या आत्महत्या",
-    "@iarReasonSelfHarmLabel": {
-        "description": "Rule-reason label for self-harm content in the IAR message flow."
-    },
-    "iarReasonSelfHarmMessageDescription": "खुद को नुकसान पहुँचाने या ईटिंग डिसऑर्डर के लिए उकसाने वाला प्रचार या निर्देश।",
-    "@iarReasonSelfHarmMessageDescription": {
-        "description": "Rule-reason description for self-harm content in the IAR message flow."
-    },
-    "iarReasonOtherLabel": "नियम का एक और स्पष्ट उल्लंघन",
-    "@iarReasonOtherLabel": {
-        "description": "Rule-reason label for the catch-all option in the IAR message flow."
-    },
-    "iarReasonOtherDescription": "इसका उपयोग तभी करें जब यह स्पष्ट रूप से {productName} के नियमों का उल्लंघन करता हो और ऊपर दिए गए विकल्पों में फिट न होता हो।",
-    "@iarReasonOtherDescription": {
-        "description": "Rule-reason description for the catch-all option.",
+    "reportFlowThankYouBody": "{productName} की सुरक्षा टीम आपकी रिपोर्ट की समीक्षा करेगी। हम यह नहीं बताएंगे कि यह आपसे आई है।",
+    "@reportFlowThankYouBody": {
+        "description": "Report flow: body of the thank-you screen after a report was sent. {productName} is the name of the app.",
         "placeholders": {
             "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "iarUseChildSafetyInstead": "अगर कोई नाबालिग शामिल है, तो इसके बजाय \"{childSafetyReason}\" का उपयोग करें।",
-    "@iarUseChildSafetyInstead": {
-        "description": "Inline routing nudge shown under reasons (e.g. mature content) that overlap with child safety.",
-        "placeholders": {
-            "childSafetyReason": {
                 "type": "String",
-                "example": "Child safety or exploitation of minors"
+                "example": "Fluxer"
             }
         }
     },
-    "iarSafetyNoteChildSafety": "अगर इसमें CSAM या किसी नाबालिग का शोषण शामिल है, तो इसे अभी भेजें और सामग्री को दोबारा शेयर न करें।",
-    "@iarSafetyNoteChildSafety": {
-        "description": "Inline safety note shown for child-safety reports on the reason step."
+    "reportFlowThankYouNoReportBody": "हमें बताने के लिए धन्यवाद। यह अपने आप में हमारे नियमों का उल्लंघन नहीं करता है, इसलिए हमने कोई रिपोर्ट नहीं भेजी। यदि यह किसी को लक्षित करता है या अपशब्दों का प्रयोग करता है, तो इसे फिर से रिपोर्ट करें और “अपमानजनक या हानिकारक सामग्री” चुनें।",
+    "@reportFlowThankYouNoReportBody": {
+        "description": "Report flow: body of the thank-you screen when the chosen answer does not send a report. \"Abusive or harmful content\" is the name of an option on the first screen of the message report form."
     },
-    "iarSafetyNoteSelfHarm": "अगर कोई तुरंत खतरे में है और आप सुरक्षित रूप से ऐसा कर सकते हैं, तो स्थानीय आपातकालीन सेवाओं से संपर्क करें।",
-    "@iarSafetyNoteSelfHarm": {
-        "description": "Inline safety note shown for self-harm reports on the reason step."
+    "reportFlowThankYouNoReportBodyShort": "हमें बताने के लिए धन्यवाद। यह अपने आप में हमारे नियमों का उल्लंघन नहीं करता है, इसलिए हमने कोई रिपोर्ट नहीं भेजी।",
+    "@reportFlowThankYouNoReportBodyShort": {
+        "description": "Report flow: body of the thank-you screen when the chosen answer does not send a report and the reporter is already past the first screen of the form."
     },
-    "iarSafetyNoteViolence": "अगर यह एक विश्वसनीय आसन्न ख़तरा है, तो स्थानीय आपातकालीन सेवाओं से भी संपर्क करें।",
-    "@iarSafetyNoteViolence": {
-        "description": "Inline safety note shown for violence reports on the reason step."
+    "reportFlowMoreYouCanDo": "आपके विकल्प",
+    "@reportFlowMoreYouCanDo": {
+        "description": "Report flow: heading above the extra actions (such as blocking the user) on the thank-you screen."
     },
-    "iarSafetyNoteTerrorism": "अगर यह एक आसन्न आतंकवादी खतरा है, तो स्थानीय आपातकालीन सेवाओं से भी संपर्क करें।",
-    "@iarSafetyNoteTerrorism": {
-        "description": "Inline safety note shown for terrorism reports on the reason step."
-    },
-    "iarActionBlockUserTitle": "इस यूज़र को ब्लॉक करें",
-    "@iarActionBlockUserTitle": {
-        "description": "Action card title for blocking the reported user."
-    },
-    "iarActionBlockUserDescription": "मैसेज और फ्रेंड रिक्वेस्ट रोकें।",
-    "@iarActionBlockUserDescription": {
-        "description": "Action card description for blocking the reported user."
-    },
-    "iarActionBlockUserButton": "ब्लॉक करें",
-    "@iarActionBlockUserButton": {
-        "description": "Trailing button label on the block-user action card."
-    },
-    "iarActionCopyMessageLinkTitle": "मैसेज लिंक कॉपी करें",
-    "@iarActionCopyMessageLinkTitle": {
-        "description": "Action card title for copying a link to the reported message so the user can share it with community moderators."
-    },
-    "iarActionCopyMessageLinkDescription": "कम्युनिटी मॉडरेटर के साथ शेयर करें।",
-    "@iarActionCopyMessageLinkDescription": {
-        "description": "Action card description for copying a message link."
-    },
-    "iarActionCopyMessageLinkButton": "कॉपी करें",
-    "@iarActionCopyMessageLinkButton": {
-        "description": "Trailing button label on the copy-message-link action card."
-    },
-    "iarActionCloseDmTitle": "यह DM बंद करें",
-    "@iarActionCloseDmTitle": {
-        "description": "Action card title for closing the DM with the reported user."
-    },
-    "iarActionCloseDmDescription": "ब्लॉक नहीं होगा। आप बाद में फिर से खोल सकते हैं।",
-    "@iarActionCloseDmDescription": {
-        "description": "Action card description for closing the DM."
-    },
-    "iarActionCloseDmButton": "DM बंद करें",
-    "@iarActionCloseDmButton": {
-        "description": "Trailing button label on the close-DM action card."
-    },
-    "iarActionLeaveCommunityTitle": "कम्युनिटी छोड़ें",
-    "@iarActionLeaveCommunityTitle": {
-        "description": "Action card title for leaving the guild the reported message was sent in."
-    },
-    "iarActionLeaveCommunityDescription": "इसकी सामग्री और सदस्यों को देखना बंद करें।",
-    "@iarActionLeaveCommunityDescription": {
-        "description": "Action card description for leaving the community."
-    },
-    "iarActionLeaveCommunityButton": "छोड़ें",
-    "@iarActionLeaveCommunityButton": {
-        "description": "Trailing button label on the leave-community action card."
-    },
-    "iarActionDmSettingsTitle": "DM और फ्रेंड रिक्वेस्ट सेटिंग्स",
-    "@iarActionDmSettingsTitle": {
-        "description": "Action card title for opening the DM / friend-request privacy settings."
-    },
-    "iarActionDmSettingsDescription": "बदलें कि कौन आप तक पहुँच सकता है।",
-    "@iarActionDmSettingsDescription": {
-        "description": "Action card description for DM / friend-request privacy settings."
-    },
-    "iarActionCallSettingsTitle": "कॉल और ग्रुप चैट सेटिंग्स",
-    "@iarActionCallSettingsTitle": {
-        "description": "Action card title for opening the call / group-chat privacy settings."
-    },
-    "iarActionCallSettingsDescription": "बदलें कि आपको कौन कॉल या ऐड कर सकता है।",
-    "@iarActionCallSettingsDescription": {
-        "description": "Action card description for call / group-chat privacy settings."
-    },
-    "iarActionOpenButton": "खोलें",
-    "@iarActionOpenButton": {
-        "description": "Trailing button label for action cards that navigate the user into a settings section."
-    },
-    "iarActionDeleteMessageTitle": "यह मैसेज मिटाएँ",
-    "@iarActionDeleteMessageTitle": {
-        "description": "Action card title (moderator-only) for deleting the reported message."
-    },
-    "iarActionDeleteMessageDescription": "इसे चैनल से सभी के लिए हटा दें।",
-    "@iarActionDeleteMessageDescription": {
-        "description": "Action card description (moderator-only) for deleting the reported message."
-    },
-    "iarActionDeleteMessageButton": "मिटाएँ",
-    "@iarActionDeleteMessageButton": {
-        "description": "Trailing button label on the delete-message action card."
-    },
-    "iarActionDeleteMessageDeletedButton": "मिटाया गया",
-    "@iarActionDeleteMessageDeletedButton": {
-        "description": "Disabled-state trailing button label on the delete-message action card after the message is already gone."
-    },
-    "iarActionDeleteMessageDeletedTooltip": "यह मैसेज पहले ही डिलीट हो चुका है।",
-    "@iarActionDeleteMessageDeletedTooltip": {
-        "description": "Tooltip on the disabled delete-message action card."
-    },
-    "iarActionBanUserTitle": "इस यूज़र को बैन करें",
-    "@iarActionBanUserTitle": {
-        "description": "Action card title (moderator-only) for opening the ban dialog against the reported user."
-    },
-    "iarActionBanUserDescription": "इस कम्युनिटी के लिए बैन डायलॉग खोलें।",
-    "@iarActionBanUserDescription": {
-        "description": "Action card description (moderator-only) for banning the reported user."
-    },
-    "iarActionBanUserButton": "बैन करें",
-    "@iarActionBanUserButton": {
-        "description": "Trailing button label on the ban-user action card."
-    },
-    "iarActionBanUserBannedButton": "बैन किया गया",
-    "@iarActionBanUserBannedButton": {
-        "description": "Disabled-state trailing button label on the ban-user action card after the target is already banned."
-    },
-    "iarActionBanUserBannedTooltip": "यह यूज़र पहले से ही कम्युनिटी से बैन है।",
-    "@iarActionBanUserBannedTooltip": {
-        "description": "Tooltip on the disabled ban-user action card."
-    },
-    "iarCloseDmConfirmTitle": "DM बंद करें",
-    "@iarCloseDmConfirmTitle": {
-        "description": "Title of the confirm-close-DM bottom sheet shown after the user taps Close DM on the action card."
-    },
-    "iarCloseDmConfirmDescription": "{name} के साथ अपनी वर्तमान DM बंद करें। इससे वे ब्लॉक नहीं होंगे; आप बाद में इसे फिर से खोल सकते हैं।",
-    "@iarCloseDmConfirmDescription": {
-        "description": "Body of the confirm-close-DM bottom sheet.",
+    "reportFlowBlockName": "{name} को ब्लॉक करें",
+    "@reportFlowBlockName": {
+        "description": "Report flow: title of the row on the thank-you screen that blocks the reported user. {name} is the display name of that user.",
         "placeholders": {
             "name": {
                 "type": "String",
-                "example": "ada"
+                "example": "Alice"
             }
         }
     },
-    "iarSuccessTitle": "रिपोर्ट भेजी गई",
-    "@iarSuccessTitle": {
-        "description": "Title shown on the success step after a platform report is submitted."
+    "reportFlowBlockDescription": "उनके मैसेज छिपाए जाते हैं और वे आपको मैसेज नहीं भेज पाते",
+    "@reportFlowBlockDescription": {
+        "description": "Report flow: description under reportFlowBlockName on the thank-you screen."
     },
-    "iarSuccessBody": "हमारी सुरक्षा टीम इसकी समीक्षा कर रही है। फैसला आने के बाद हम आपको एक DM और ईमेल भेजेंगे।",
-    "@iarSuccessBody": {
-        "description": "Body shown on the success step after a platform report is submitted."
+    "reportFlowBlockButton": "ब्लॉक करें",
+    "@reportFlowBlockButton": {
+        "description": "Report flow: button on the thank-you screen that blocks the reported user."
     },
-    "iarAlreadyReportedTitle": "पहले से रिपोर्ट किया गया",
-    "@iarAlreadyReportedTitle": {
-        "description": "Title shown on the IAR success step when the message had already been reported by this user (HTTP 409); the existing report is under review."
+    "reportFlowBlockedButton": "ब्लॉक किया गया",
+    "@reportFlowBlockedButton": {
+        "description": "Report flow: disabled button on the thank-you screen after the reported user was blocked."
     },
-    "iarAlreadyReportedBody": "आपने इस संदेश की पहले ही रिपोर्ट कर दी है। हमारी सुरक्षा टीम इसकी समीक्षा कर रही है।",
-    "@iarAlreadyReportedBody": {
-        "description": "Body shown on the IAR success step when the message had already been reported by this user (HTTP 409)."
+    "reportFlowUrgentBanner": "अगर कोई तत्काल खतरे में है, तो पहले स्थानीय आपातकालीन सेवाओं से संपर्क करें।",
+    "@reportFlowUrgentBanner": {
+        "description": "Report flow: banner on screens about urgent harm, such as threats, self-harm or the safety of minors."
     },
-    "iarBackButton": "वापस",
-    "@iarBackButton": {
-        "description": "Footer button label that returns the user to the previous IAR step."
+    "reportFlowLoadFailed": "रिपोर्ट फ़ॉर्म लोड नहीं हो सका।",
+    "@reportFlowLoadFailed": {
+        "description": "Report flow: error shown when the report form could not be loaded."
     },
-    "iarContinueButton": "जारी रखें",
-    "@iarContinueButton": {
-        "description": "Footer button label that advances the user to the next IAR step."
+    "reportFlowTryAgain": "फिर से कोशिश करें",
+    "@reportFlowTryAgain": {
+        "description": "Report flow: button that loads the report form again after an error."
     },
-    "iarSendReportButton": "रिपोर्ट भेजें",
-    "@iarSendReportButton": {
-        "description": "Footer button label that submits the IAR report."
+    "reportFlowOutdated": "रिपोर्ट फ़ॉर्म बदल गया है। कृपया फिर से शुरू करें।",
+    "@reportFlowOutdated": {
+        "description": "Report flow: toast shown when the report form changed on the server while the reporter was filling it in. The form restarts from the first screen."
     },
-    "iarDoneButton": "हो गया",
-    "@iarDoneButton": {
-        "description": "Footer button label that closes the IAR sheet from the success or guidance step."
+    "reportFlowAlreadyReported": "आपने इस मैसेज की पहले ही रिपोर्ट कर दी है।",
+    "@reportFlowAlreadyReported": {
+        "description": "Report flow: note on the report summary screen when the reporter already reported this message."
     },
-    "iarCouldntSendToast": "रिपोर्ट नहीं भेजी जा सकी। कृपया पुनः प्रयास करें।",
-    "@iarCouldntSendToast": {
-        "description": "Toast shown when the IAR report submission fails."
+    "reportFlowAlreadyReportedProfile": "आपने आज इस प्रोफ़ाइल की पहले ही रिपोर्ट कर दी है।",
+    "@reportFlowAlreadyReportedProfile": {
+        "description": "Report flow: note on the report summary screen when the reporter already reported this user profile in the last 24 hours."
     },
-    "iarRateLimitedToast": "आप बहुत तेज़ी से रिपोर्ट कर रहे हैं। कृपया कुछ देर प्रतीक्षा करें और पुनः प्रयास करें।",
-    "@iarRateLimitedToast": {
-        "description": "Toast shown when an IAR report submission is rejected for rate limiting (HTTP 429)."
+    "reportFlowRateLimited": "आप बहुत तेज़ी से रिपोर्ट भेज रहे हैं। बाद में फिर से कोशिश करें।",
+    "@reportFlowRateLimited": {
+        "description": "Report flow: note on the report summary screen when the reporter sent too many reports."
     },
-    "iarReportSentToast": "रिपोर्ट भेजी गई। हमारी सुरक्षा टीम इसकी समीक्षा करेगी।",
-    "@iarReportSentToast": {
-        "description": "Toast shown after a message report is submitted successfully from the simple mobile report sheet."
+    "reportFlowSubmitFailed": "आपकी रिपोर्ट नहीं भेजी जा सकी। फिर से कोशिश करें।",
+    "@reportFlowSubmitFailed": {
+        "description": "Report flow: note on the report summary screen when the report could not be sent."
     },
-    "iarBlockUserConfirmDescription": "क्या आप {name} को ब्लॉक करना चाहते हैं? वे आपको मैसेज या फ्रेंड रिक्वेस्ट नहीं भेज पाएंगे। आप उन्हें बाद में अनब्लॉक कर सकते हैं।",
-    "@iarBlockUserConfirmDescription": {
-        "description": "Body of the confirm-block-user bottom sheet shown after the user taps Block on the IAR action card.",
-        "placeholders": {
-            "name": {
-                "type": "String",
-                "example": "ada"
-            }
-        }
-    },
-    "iarBlockUserFailedToast": "इस उपयोगकर्ता को ब्लॉक नहीं किया जा सका। कृपया पुनः प्रयास करें।",
-    "@iarBlockUserFailedToast": {
-        "description": "Toast shown when blocking the reported user from the IAR action card fails."
-    },
-    "iarCloseDmSuccessToast": "डीएम बंद हो गया।",
-    "@iarCloseDmSuccessToast": {
-        "description": "Toast shown after the DM with the reported user is closed from the IAR action card."
-    },
-    "iarCloseDmFailedToast": "इस DM को बंद नहीं किया जा सका। कृपया पुनः प्रयास करें।",
-    "@iarCloseDmFailedToast": {
-        "description": "Toast shown when closing the DM from the IAR action card fails."
-    },
-    "iarLeaveCommunityFailedToast": "इस समुदाय को छोड़ना संभव नहीं हो सका। कृपया पुनः प्रयास करें।",
-    "@iarLeaveCommunityFailedToast": {
-        "description": "Toast shown when leaving the community from the IAR action card fails."
+    "reportFlowAccountSetupRequired": "रिपोर्ट भेजने के लिए अपना अकाउंट क्लेम करें और अपना ईमेल वेरिफ़ाई करें।",
+    "@reportFlowAccountSetupRequired": {
+        "description": "Report flow: notice on the report summary screen when the account must be claimed and its email verified before it can send reports."
     },
     "chatMessageSuppressEmbeds": "एम्बेड छिपाएँ",
     "@chatMessageSuppressEmbeds": {
@@ -14066,10 +13705,6 @@
     "guildMenuHideMutedChannels": "म्यूट किए गए चैनल छिपाएं",
     "@guildMenuHideMutedChannels": {
         "description": "Guild menu checkbox to hide muted channels."
-    },
-    "guildMenuReportCommunity": "कम्युनिटी की रिपोर्ट करें",
-    "@guildMenuReportCommunity": {
-        "description": "Guild menu action to report the community."
     },
     "guildMenuDebugCommunity": "कम्युनिटी डीबग करें",
     "@guildMenuDebugCommunity": {

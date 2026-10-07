@@ -3649,10 +3649,10 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get userProfileTransferOwnership => 'Sahipliği devret';
 
   @override
-  String get userProfileReportUser => 'Kullanıcıyı bildir';
+  String get userProfileReportMessage => 'Mesajı bildir';
 
   @override
-  String get userProfileReportMessage => 'Mesajı bildir';
+  String get userProfileReportUserProfile => 'Profili bildir';
 
   @override
   String userProfileKickConfirmTitle(String username) {
@@ -3802,94 +3802,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get durationCustom => 'Özel…';
-
-  @override
-  String get iarReportUserTitle => 'Kullanıcıyı bildir';
-
-  @override
-  String get iarReportGuildTitle => 'Topluluğu bildir';
-
-  @override
-  String get iarReportGuildPreconfirmBody =>
-      'Bu rapor bu topluluktaki belirli bir mesajla ilgiliyse, bunun yerine o mesajı bildirin. Mesaj raporları, güvenlik ekibimize en net bağlamı sağlar ve yorumlara ayrıntı eklemek, incelememizi hızlandırmamıza yardımcı olabilir. Yalnızca bir mesajı bildirmenin daha geniş sorunu kapsamayacağı durumlarda topluluğun tamamını bildirmeye devam edin.';
-
-  @override
-  String get iarContinueToReportCommunity => 'Topluluğu bildirmeye devam et';
-
-  @override
-  String get iarPreviewCommunitySubtitle => 'Topluluk';
-
-  @override
-  String get iarReasonHarassmentGuildLabel =>
-      'Taciz veya hedefli kötüye kullanım';
-
-  @override
-  String get iarReasonHarassmentGuildDescription =>
-      'Topluluk, toplu saldırıları veya hedefli kötüye kullanımı kolaylaştırır.';
-
-  @override
-  String get iarReasonHateGuildDescription =>
-      'Korumalı gruplara karşı nefreti teşvik eder.';
-
-  @override
-  String get iarReasonTerrorismLabel =>
-      'Terörizm veya şiddet içeren aşırıcılık';
-
-  @override
-  String get iarReasonTerrorismDescription =>
-      'Şiddet içeren aşırılık yanlısı faaliyetleri teşvik eder, bu faaliyetler için eleman toplar veya koordine eder.';
-
-  @override
-  String get iarReasonMatureContentGuildLabel =>
-      'Yetişkinlere yönelik içerik veya güvenli olmayan kısıtlama';
-
-  @override
-  String get iarReasonMatureContentGuildDescription =>
-      'Uygun kısıtlama olmadan yetişkinlere yönelik içerik.';
-
-  @override
-  String get iarReasonChildSafetyGuildDescription =>
-      'Küçüklere zarar veriyor veya çocuk istismarı içeriği barındırıyor.';
-
-  @override
-  String get iarReasonRaidLabel => 'Saldırı koordinasyonu';
-
-  @override
-  String get iarReasonRaidDescription =>
-      'Kişilere veya topluluklara karşı baskın, toplu saldırı veya taciz koordine eder.';
-
-  @override
-  String get iarReasonSpamGuildDescription =>
-      'Topluluk, platformda spam yapmak, dolandırıcılık yapmak veya platformu kötüye kullanmak için var.';
-
-  @override
-  String get iarReasonMalwareGuildLabel => 'Kötü amaçlı yazılım dağıtımı';
-
-  @override
-  String get iarReasonMalwareGuildDescription =>
-      'Kötü amaçlı yazılım, kimlik bilgisi hırsızlığı veya zararlı dosyalar dağıtır.';
-
-  @override
-  String get iarReasonPrivacyGuildLabel => 'Gizlilik ihlali veya doxxing';
-
-  @override
-  String get iarReasonPrivacyGuildDescription =>
-      'Kişisel bilgi paylaşıyor, kullanıcıları ısrarla takip ediyor veya gizlilik ihlallerini koordine ediyor.';
-
-  @override
-  String get iarReasonSelfHarmGuildLabel =>
-      'Kendine zarar vermeyi teşvik ediyor';
-
-  @override
-  String get iarReasonSelfHarmGuildDescription =>
-      'İntiharı, kendine zarar vermeyi veya yeme bozukluklarını teşvik ediyor.';
-
-  @override
-  String get iarReasonInappropriateProfile => 'Uygunsuz profil';
-
-  @override
-  String get iarReasonInappropriateProfileDescription =>
-      'Bu kullanıcının profilinde uygunsuz içerik var';
 
   @override
   String typingIndicatorOne(String name) {
@@ -7357,352 +7269,121 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get chatMessageReport => 'Mesajı bildir';
 
   @override
-  String get iarReportMessageTitle => 'Mesajı bildir';
+  String get reportFlowTitleMessage => 'Mesajı bildir';
 
   @override
-  String get iarThisUserFallback => 'bu kullanıcı';
+  String get reportFlowTitleUserProfile => 'Profili bildir';
 
   @override
-  String get iarModalDescription =>
-      'Kural ihlali bildirin veya kişi ve tercihleri yönetme araçlarını bulun.';
+  String get reportFlowSummaryTitle => 'Raporunuzu kontrol edin';
 
   @override
-  String get iarPathStepAriaLabel => 'Neye ihtiyacın var?';
+  String get reportFlowSummarySubtitle =>
+      'Göndermeden önce doğru göründüğünden emin olun.';
 
   @override
-  String get iarCategoryStepTitle => 'Ne tür bir kural ihlal edildi?';
-
-  @override
-  String get iarReasonStepTitle => 'Hangi kural ihlal edildi?';
-
-  @override
-  String get iarReasonSelectHint => 'Bir neden seç';
-
-  @override
-  String get iarPickAnOptionToast => 'Devam etmek için bir seçenek belirleyin.';
-
-  @override
-  String get iarPickARuleToast => 'İhlal edilen kuralı seçin.';
-
-  @override
-  String get iarPathPlatform => 'Platform kuralı ihlalini bildir';
-
-  @override
-  String get iarPathCommunity => 'Bu topluluğun moderatörlerine bildir';
-
-  @override
-  String get iarPathPreferenceMessage => 'Bu içeriği beğenmedim';
-
-  @override
-  String get iarCategoryTargetedHarmLabel => 'Tehdit, taciz veya zarar verme';
-
-  @override
-  String get iarCategoryTargetedHarmDescription =>
-      'Zorbalık, tehditler, nefret, şiddet, baskınlar veya kendine zarar vermeyi teşvik eden içerik.';
-
-  @override
-  String get iarCategorySafetyMinorsLabel =>
-      'Çocuk güvenliği veya yetişkinlere yönelik içerik';
-
-  @override
-  String get iarCategorySafetyMinorsDescription =>
-      'Risk altındaki küçükler, yanlış yerdeki yetişkin içeriği veya istenmeyen davranışlar.';
-
-  @override
-  String get iarCategoryPrivacyIdentityLabel => 'Gizlilik veya kimliğe bürünme';
-
-  @override
-  String get iarCategoryPrivacyIdentityDescription =>
-      'Doxxing, takip, başkası gibi davranma veya uygunsuz profil.';
-
-  @override
-  String get iarCategoryDeceptionLabel =>
-      'Dolandırıcılık, kötü amaçlı yazılım veya yanlış bilgi';
-
-  @override
-  String get iarCategoryDeceptionDescription =>
-      'Kimlik avı, dolandırıcılık, kötü amaçlı bağlantılar veya gerçek dünyada zarara yol açabilecek yanlış iddialar.';
-
-  @override
-  String get iarCategoryIllegalOtherLabel =>
-      'Yasa dışı etkinlik veya başka bir şey';
-
-  @override
-  String get iarCategoryIllegalOtherDescription =>
-      'Yasa dışı satışlar, suç teşkil eden eylemlere aracılık veya yukarıdakilere uymayan açık bir kural ihlali.';
-
-  @override
-  String get iarReasonHarassmentLabel => 'Taciz veya tehdit';
-
-  @override
-  String get iarReasonHarassmentMessageDescription =>
-      'Zorbalık, tekrarlanan istenmeyen iletişim, takip veya hedefli taciz.';
-
-  @override
-  String get iarReasonHateLabel => 'Nefret söylemi';
-
-  @override
-  String get iarReasonHateMessageDescription =>
-      'Aşağılayıcı ifadeler, insanlık dışı dil veya korunan gruplara yönelik saldırılar.';
-
-  @override
-  String get iarReasonViolenceLabel => 'Şiddet veya şiddet tehditleri';
-
-  @override
-  String get iarReasonViolenceDescription =>
-      'Güvenilir tehditler, açık şiddet veya şiddetin yüceltilmesi.';
-
-  @override
-  String get iarReasonMatureContentLabel =>
-      'Yetişkinlere yönelik içerik veya taciz';
-
-  @override
-  String get iarReasonMatureContentMessageDescription =>
-      'Yanlış yerde istenmeyen davranış veya yetişkinlere yönelik içerik.';
-
-  @override
-  String get iarReasonChildSafetyLabel =>
-      'Çocuk güvenliği veya reşit olmayanların istismarı';
-
-  @override
-  String get iarReasonChildSafetyMessageDescription =>
-      'Çocukları istismara hazırlama (grooming) veya çocuk istismarı içeriği.';
-
-  @override
-  String get iarReasonHarmfulMisinfoLabel => 'Zararlı yanlış bilgi';
-
-  @override
-  String get iarReasonHarmfulMisinfoDescription =>
-      'Gerçek dünyada zarara yol açabilecek yanlış iddialar.';
-
-  @override
-  String get iarReasonSpamLabel => 'Spam, dolandırıcılık veya kimlik avı';
-
-  @override
-  String get iarReasonSpamMessageDescription =>
-      'Toplu spam, dolandırıcılık, sahte çekilişler veya hesap suistimali.';
-
-  @override
-  String get iarReasonMalwareLabel =>
-      'Kötü amaçlı yazılım veya tehlikeli bağlantılar';
-
-  @override
-  String get iarReasonMalwareDescription =>
-      'Kötü amaçlı yazılım, kimlik bilgisi hırsızlığı veya zararlı dosyalar.';
-
-  @override
-  String get iarReasonPrivacyLabel => 'Gizlilik ihlali';
-
-  @override
-  String get iarReasonPrivacyDescription =>
-      'Doxxing, ifşa edilmiş özel bilgiler veya takip.';
-
-  @override
-  String get iarReasonImpersonationLabel =>
-      'Kimliğe bürünme veya aldatıcı medya';
-
-  @override
-  String get iarReasonImpersonationMessageDescription =>
-      'Yanıltıcı yapay zeka içeriği de dahil olmak üzere başka biri gibi davranmak.';
-
-  @override
-  String get iarReasonIllegalLabel => 'Yasa dışı etkinlik';
-
-  @override
-  String get iarReasonIllegalDescription =>
-      'Yasa dışı satışlar, suç işlemeye yardım etme veya yasa dışı faaliyetler.';
-
-  @override
-  String get iarReasonSelfHarmLabel => 'Kendine zarar verme veya intihar';
-
-  @override
-  String get iarReasonSelfHarmMessageDescription =>
-      'Kendine zarar vermeyi veya yeme bozukluklarını teşvik eden tanıtım veya talimatlar.';
-
-  @override
-  String get iarReasonOtherLabel => 'Başka bir açık kural ihlali';
-
-  @override
-  String iarReasonOtherDescription(String productName) {
-    return 'Yalnızca $productName kurallarını açıkça ihlal ediyorsa ve yukarıdakilere uymuyorsa kullanın.';
+  String reportFlowDisclaimer(String guidelines) {
+    return 'Yalnızca kuralları ihlal ettiğine dürüstçe inandığınız şeyleri bildirin. Raporları kötüye kullanmak $guidelines aykırıdır.';
   }
 
   @override
-  String iarUseChildSafetyInstead(String childSafetyReason) {
-    return 'Eğer bir reşit olmayan dahilse, bunun yerine \"$childSafetyReason\" kullanın.';
+  String get reportFlowCommunityGuidelinesLink => 'Topluluk Kurallarımıza';
+
+  @override
+  String get reportFlowDisclaimerNoLink =>
+      'Yalnızca kuralları ihlal ettiğine dürüstçe inandığınız şeyleri bildirin ve lütfen aynı raporu iki kez göndermeyin.';
+
+  @override
+  String get reportFlowSelectedMessage => 'Bildirdiğiniz mesaj';
+
+  @override
+  String get reportFlowSelectedUser => 'Bildirdiğiniz profil';
+
+  @override
+  String get reportFlowReportCategory => 'Yanıtlarınız';
+
+  @override
+  String get reportFlowSubmit => 'Rapor gönder';
+
+  @override
+  String get reportFlowBack => 'Geri';
+
+  @override
+  String get reportFlowNext => 'İleri';
+
+  @override
+  String get reportFlowDone => 'Bitti';
+
+  @override
+  String get reportFlowThankYouTitle => 'Rapor gönderildi';
+
+  @override
+  String get reportFlowThankYouNoReportTitle =>
+      'Bunu bildirdiğiniz için teşekkürler';
+
+  @override
+  String reportFlowThankYouBody(String productName) {
+    return '$productName güvenlik ekibi raporunuzu inceleyecek. Raporun sizden geldiğini belli etmeyeceğiz.';
   }
 
   @override
-  String get iarSafetyNoteChildSafety =>
-      'Bu, CSAM veya bir reşit olmayanın istismarını içeriyorsa, bunu hemen gönderin ve materyali yeniden paylaşmayın.';
+  String get reportFlowThankYouNoReportBody =>
+      'Bize bildirdiğiniz için teşekkür ederiz. Bu tek başına kurallarımızı ihlal etmiyor, bu yüzden rapor göndermedik. Birini hedef alıyorsa veya aşağılayıcı ifadeler içeriyorsa, tekrar bildirin ve “Saldırgan veya zararlı içerik” seçeneğini seçin.';
 
   @override
-  String get iarSafetyNoteSelfHarm =>
-      'Biri acil tehlikede olabilecekse, güvenli bir şekilde yapabiliyorsanız yerel acil servislerle iletişime geçin.';
+  String get reportFlowThankYouNoReportBodyShort =>
+      'Bize bildirdiğiniz için teşekkür ederiz. Bu tek başına kurallarımızı ihlal etmiyor, bu yüzden rapor göndermedik.';
 
   @override
-  String get iarSafetyNoteViolence =>
-      'Bu, gerçek ve yakın bir tehditse yerel acil servislerle de iletişime geçin.';
+  String get reportFlowMoreYouCanDo => 'Seçenekleriniz';
 
   @override
-  String get iarSafetyNoteTerrorism =>
-      'Bu, yakın bir terör tehdidiyse yerel acil servislerle de iletişime geçin.';
-
-  @override
-  String get iarActionBlockUserTitle => 'Bu kullanıcıyı engelle';
-
-  @override
-  String get iarActionBlockUserDescription =>
-      'Mesajları ve arkadaşlık isteklerini durdurur.';
-
-  @override
-  String get iarActionBlockUserButton => 'Engelle';
-
-  @override
-  String get iarActionCopyMessageLinkTitle => 'Mesaj bağlantısını kopyala';
-
-  @override
-  String get iarActionCopyMessageLinkDescription =>
-      'Topluluk moderatörleriyle paylaşın.';
-
-  @override
-  String get iarActionCopyMessageLinkButton => 'Kopyala';
-
-  @override
-  String get iarActionCloseDmTitle => 'Bu DM\'i kapat';
-
-  @override
-  String get iarActionCloseDmDescription =>
-      'Engellemez. Daha sonra tekrar açabilirsiniz.';
-
-  @override
-  String get iarActionCloseDmButton => 'DM\'i kapat';
-
-  @override
-  String get iarActionLeaveCommunityTitle => 'Topluluktan ayrıl';
-
-  @override
-  String get iarActionLeaveCommunityDescription =>
-      'İçeriğini ve üyelerini görmeyi durdurur.';
-
-  @override
-  String get iarActionLeaveCommunityButton => 'Ayrıl';
-
-  @override
-  String get iarActionDmSettingsTitle => 'DM ve arkadaşlık isteği ayarları';
-
-  @override
-  String get iarActionDmSettingsDescription =>
-      'Size kimlerin ulaşabileceğini değiştirin.';
-
-  @override
-  String get iarActionCallSettingsTitle => 'Arama ve grup sohbeti ayarları';
-
-  @override
-  String get iarActionCallSettingsDescription =>
-      'Sizi kimlerin arayabileceğini veya ekleyebileceğini değiştirin.';
-
-  @override
-  String get iarActionOpenButton => 'Aç';
-
-  @override
-  String get iarActionDeleteMessageTitle => 'Bu mesajı sil';
-
-  @override
-  String get iarActionDeleteMessageDescription =>
-      'Mesajı herkes için kanaldan kaldırın.';
-
-  @override
-  String get iarActionDeleteMessageButton => 'Sil';
-
-  @override
-  String get iarActionDeleteMessageDeletedButton => 'Silindi';
-
-  @override
-  String get iarActionDeleteMessageDeletedTooltip => 'Bu mesaj zaten silinmiş.';
-
-  @override
-  String get iarActionBanUserTitle => 'Bu kullanıcıyı yasakla';
-
-  @override
-  String get iarActionBanUserDescription =>
-      'Bu topluluk için yasaklama iletişim kutusunu açın.';
-
-  @override
-  String get iarActionBanUserButton => 'Yasakla';
-
-  @override
-  String get iarActionBanUserBannedButton => 'Yasaklandı';
-
-  @override
-  String get iarActionBanUserBannedTooltip =>
-      'Bu kullanıcı topluluktan zaten yasaklanmış.';
-
-  @override
-  String get iarCloseDmConfirmTitle => 'DM\'i kapat';
-
-  @override
-  String iarCloseDmConfirmDescription(String name) {
-    return '$name ile mevcut DM\'ni kapat. Bu onları engellemez; daha sonra yeniden açabilirsin.';
+  String reportFlowBlockName(String name) {
+    return '$name adlı kullanıcıyı engelle';
   }
 
   @override
-  String get iarSuccessTitle => 'Rapor gönderildi';
+  String get reportFlowBlockDescription =>
+      'Mesajlarını gizler ve size mesaj göndermesini engeller';
 
   @override
-  String get iarSuccessBody =>
-      'Güvenlik ekibimiz inceliyor. Bir karara vardığımızda size bir DM ve e-posta göndereceğiz.';
+  String get reportFlowBlockButton => 'Engelle';
 
   @override
-  String get iarAlreadyReportedTitle => 'Zaten Raporlandı';
+  String get reportFlowBlockedButton => 'Engellendi';
 
   @override
-  String get iarAlreadyReportedBody =>
-      'Bu mesajı zaten bildirdin. Güvenlik ekibimiz inceliyor.';
+  String get reportFlowUrgentBanner =>
+      'Biri acil tehlikedeyse önce yerel acil durum servisleriyle iletişime geçin.';
 
   @override
-  String get iarBackButton => 'Geri';
+  String get reportFlowLoadFailed => 'Rapor formu yüklenemedi.';
 
   @override
-  String get iarContinueButton => 'Devam et';
+  String get reportFlowTryAgain => 'Tekrar dene';
 
   @override
-  String get iarSendReportButton => 'Rapor gönder';
+  String get reportFlowOutdated =>
+      'Rapor formu değişti. Lütfen yeniden başlayın.';
 
   @override
-  String get iarDoneButton => 'Bitti';
+  String get reportFlowAlreadyReported => 'Bu mesajı zaten bildirdiniz.';
 
   @override
-  String get iarCouldntSendToast =>
-      'Rapor gönderilemedi. Lütfen tekrar deneyin.';
+  String get reportFlowAlreadyReportedProfile =>
+      'Bu profili bugün zaten bildirdiniz.';
 
   @override
-  String get iarRateLimitedToast =>
-      'Çok hızlı raporlama yapıyorsun. Lütfen biraz bekle ve tekrar dene.';
+  String get reportFlowRateLimited =>
+      'Çok hızlı rapor gönderiyorsunuz. Daha sonra tekrar deneyin.';
 
   @override
-  String get iarReportSentToast =>
-      'Rapor gönderildi. Güvenlik ekibimiz inceleyecek.';
+  String get reportFlowSubmitFailed =>
+      'Raporunuz gönderilemedi. Tekrar deneyin.';
 
   @override
-  String iarBlockUserConfirmDescription(String name) {
-    return '$name engellensin mi? Sana mesaj gönderemeyecek veya arkadaşlık isteği yollayamayacak. Daha sonra engelini kaldırabilirsin.';
-  }
-
-  @override
-  String get iarBlockUserFailedToast =>
-      'Bu kullanıcı engellenemedi. Lütfen tekrar deneyin.';
-
-  @override
-  String get iarCloseDmSuccessToast => 'DM kapatıldı.';
-
-  @override
-  String get iarCloseDmFailedToast =>
-      'Bu DM kapatılamadı. Lütfen tekrar deneyin.';
-
-  @override
-  String get iarLeaveCommunityFailedToast =>
-      'Bu topluluktan ayrılamadı. Lütfen tekrar deneyin.';
+  String get reportFlowAccountSetupRequired =>
+      'Hesabınızı sahiplenin ve rapor göndermek için e-postanızı doğrulayın.';
 
   @override
   String get chatMessageSuppressEmbeds => 'Gömülü içerikleri gizle';
@@ -12317,9 +11998,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get guildMenuHideMutedChannels => 'Sessize alınmış kanalları gizle';
-
-  @override
-  String get guildMenuReportCommunity => 'Topluluğu bildir';
 
   @override
   String get guildMenuDebugCommunity => 'Toplulukta hata ayıkla';

@@ -30,7 +30,6 @@ enum GuildAction {
   hideMutedChannels,
   leaveGuild,
   deleteMyMessages,
-  reportCommunity,
   debugCommunity,
   copyGuildId,
   mute15Min,
@@ -230,12 +229,6 @@ List<GuildMenuGroup> buildGuildMenuGroups({
             action: GuildAction.leaveGuild,
             isDanger: true,
           ),
-        GuildMenuAction(
-          label: l10n.guildMenuReportCommunity,
-          icon: PhosphorIconsFill.flag,
-          action: GuildAction.reportCommunity,
-          isDanger: true,
-        ),
       ],
     if (developerMode)
       [

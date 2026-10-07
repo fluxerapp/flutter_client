@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:fluxer_app/features/moderation/presentation/iar_report_guild.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -8,16 +7,15 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-enum InviteEmbedContextMenuAction { copyGuildId, copyChannelId, report }
+enum InviteEmbedContextMenuAction { copyGuildId, copyChannelId }
 
 Future<InviteEmbedContextMenuAction?> showInviteEmbedContextMenu(
   BuildContext context, {
   required Offset position,
   required bool canCopyGuildId,
   required bool canCopyChannelId,
-  required bool canReport,
 }) async {
-  if (!canCopyGuildId && !canCopyChannelId && !canReport) {
+  if (!canCopyGuildId && !canCopyChannelId) {
     return null;
   }
   final RenderBox? overlay =
@@ -34,7 +32,6 @@ Future<InviteEmbedContextMenuAction?> showInviteEmbedContextMenu(
       l10n: l10n,
       canCopyGuildId: canCopyGuildId,
       canCopyChannelId: canCopyChannelId,
-      canReport: canReport,
     ),
   );
 }
@@ -47,7 +44,6 @@ class _InviteEmbedContextMenuRoute
     required this.l10n,
     required this.canCopyGuildId,
     required this.canCopyChannelId,
-    required this.canReport,
   });
 
   final Offset position;
@@ -55,7 +51,6 @@ class _InviteEmbedContextMenuRoute
   final FluxerLocalizations l10n;
   final bool canCopyGuildId;
   final bool canCopyChannelId;
-  final bool canReport;
 
   @override
   Duration get transitionDuration => const Duration(milliseconds: 120);
@@ -87,10 +82,7 @@ class _InviteEmbedContextMenuRoute
   ) {
     const double menuWidth = kContextMenuWidth;
     const double itemHeight = 40;
-    final int itemCount =
-        (canCopyGuildId ? 1 : 0) +
-        (canCopyChannelId ? 1 : 0) +
-        (canReport ? 1 : 0);
+    final int itemCount = (canCopyGuildId ? 1 : 0) + (canCopyChannelId ? 1 : 0);
     final double menuHeight = itemCount * itemHeight + 16;
     double left = position.dx;
     double top = position.dy;
@@ -123,17 +115,6 @@ class _InviteEmbedContextMenuRoute
         ),
       );
     }
-    if (canReport) {
-      items.add(
-        ContextMenuItem(
-          label: l10n.guildMenuReportCommunity,
-          icon: PhosphorIconsBold.flag,
-          isDanger: true,
-          onTap: () =>
-              Navigator.of(context).pop(InviteEmbedContextMenuAction.report),
-        ),
-      );
-    }
     return Stack(
       children: <Widget>[
         Positioned.fill(
@@ -156,8 +137,6 @@ Future<void> handleInviteEmbedContextMenuAction({
   required BuildContext context,
   required InviteEmbedContextMenuAction action,
   required String guildId,
-  required String guildName,
-  required String inviteCode,
   required String channelId,
 }) async {
   switch (action) {
@@ -165,12 +144,5 @@ Future<void> handleInviteEmbedContextMenuAction({
       await copyToClipboard(context: context, value: guildId);
     case InviteEmbedContextMenuAction.copyChannelId:
       await copyToClipboard(context: context, value: channelId);
-    case InviteEmbedContextMenuAction.report:
-      await showReportGuildFlow(
-        context,
-        guildId: guildId,
-        guildName: guildName,
-        inviteCode: inviteCode,
-      );
   }
 }

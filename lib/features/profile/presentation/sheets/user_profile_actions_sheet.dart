@@ -11,8 +11,8 @@ import 'package:fluxer_app/features/friends/presentation/change_friend_nickname.
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/features/members/presentation/widgets/manage_member_roles_picker.dart';
-import 'package:fluxer_app/features/moderation/domain/iar_flow.dart';
-import 'package:fluxer_app/features/moderation/presentation/iar_simple_report_sheet.dart';
+import 'package:fluxer_app/features/moderation/domain/iar_context.dart';
+import 'package:fluxer_app/features/moderation/presentation/report_flow/open_report_flow.dart';
 import 'package:fluxer_app/features/moderation/providers/local_user_spam_override_provider.dart';
 import 'package:fluxer_app/features/profile/presentation/menus/guild_member_moderation_menu_items.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/user_profile_confirmation_sheet.dart';
@@ -54,6 +54,7 @@ class UserProfileActionsSheet {
     bool canManageRoles = false,
     bool isGuildOwner = false,
     MemberRole? viewerHighestRole,
+    bool canReportUserProfile = false,
   }) {
     return FluxerActionMenu.show(
       context,
@@ -263,10 +264,7 @@ class UserProfileActionsSheet {
 
           final reportBlockItems = <Widget>[];
           final reportableMessage = message;
-          if (reportableMessage != null &&
-              !reportableMessage.hasFailed &&
-              (reportableMessage.type == messageTypeDefault ||
-                  reportableMessage.type == messageTypeReply)) {
+          if (reportableMessage != null && reportableMessage.isReportable) {
             reportBlockItems.add(
               FluxerMenuItem(
                 label: l10n.userProfileReportMessage,
@@ -274,7 +272,7 @@ class UserProfileActionsSheet {
                 isDanger: true,
                 onPressed: () async {
                   close();
-                  await showSimpleIarReportSheet(
+                  await openReportFlow(
                     context,
                     iarContext: IarMessageContext(
                       message: reportableMessage,
@@ -285,27 +283,29 @@ class UserProfileActionsSheet {
               ),
             );
           }
-          reportBlockItems.add(
-            FluxerMenuItem(
-              label: l10n.userProfileReportUser,
-              icon: PhosphorIconsFill.flag,
-              isDanger: true,
-              onPressed: () async {
-                close();
-                await showSimpleIarReportSheet(
-                  context,
-                  iarContext: IarUserContext(
-                    userId: user.id,
-                    username: user.username,
-                    displayName: displayName,
-                    avatarUrl: avatarUrl,
-                    avatarColor: avatarColor,
-                    guildId: guildId,
-                  ),
-                );
-              },
-            ),
-          );
+          if (canReportUserProfile) {
+            reportBlockItems.add(
+              FluxerMenuItem(
+                label: l10n.userProfileReportUserProfile,
+                icon: PhosphorIconsFill.flag,
+                isDanger: true,
+                onPressed: () async {
+                  close();
+                  await openReportFlow(
+                    context,
+                    iarContext: IarUserContext(
+                      userId: user.id,
+                      username: tag,
+                      displayName: displayName,
+                      avatarUrl: avatarUrl,
+                      avatarColor: avatarColor,
+                      guildId: guildId,
+                    ),
+                  );
+                },
+              ),
+            );
+          }
           if (!isSystem) {
             if (status == FriendStatus.blocked) {
               reportBlockItems.add(

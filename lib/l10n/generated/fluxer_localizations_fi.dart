@@ -3659,10 +3659,10 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get userProfileTransferOwnership => 'Siirrä omistajuus';
 
   @override
-  String get userProfileReportUser => 'Ilmoita käyttäjästä';
+  String get userProfileReportMessage => 'Ilmoita viestistä';
 
   @override
-  String get userProfileReportMessage => 'Ilmoita viestistä';
+  String get userProfileReportUserProfile => 'Ilmoita profiilista';
 
   @override
   String userProfileKickConfirmTitle(String username) {
@@ -3812,94 +3812,6 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get durationCustom => 'Mukautettu…';
-
-  @override
-  String get iarReportUserTitle => 'Ilmoita käyttäjästä';
-
-  @override
-  String get iarReportGuildTitle => 'Ilmoita yhteisöstä';
-
-  @override
-  String get iarReportGuildPreconfirmBody =>
-      'Jos tämä ilmoitus koskee tiettyä viestiä tässä yhteisössä, ilmoita siitä viestistä. Viesti-ilmoitukset antavat turvallisuustiimillemme selkeimmän kontekstin, ja lisätietojen lisääminen kommentteihin voi auttaa meitä käsittelemään sen nopeammin. Jatka yhteisöstä kokonaisuutena ilmoittamista vain, jos viestistä ilmoittaminen ei kattaisi laajempaa ongelmaa.';
-
-  @override
-  String get iarContinueToReportCommunity => 'Jatka yhteisön ilmoittamiseen';
-
-  @override
-  String get iarPreviewCommunitySubtitle => 'Yhteisö';
-
-  @override
-  String get iarReasonHarassmentGuildLabel =>
-      'Häirintä tai kohdennettu kiusaaminen';
-
-  @override
-  String get iarReasonHarassmentGuildDescription =>
-      'Yhteisö mahdollistaa joukkoahdistelun tai kohdistetun häirinnän.';
-
-  @override
-  String get iarReasonHateGuildDescription =>
-      'Edistää vihaa suojeltuja ryhmiä kohtaan.';
-
-  @override
-  String get iarReasonTerrorismLabel =>
-      'Terrorismi tai väkivaltainen ekstremismi';
-
-  @override
-  String get iarReasonTerrorismDescription =>
-      'Edistää, rekrytoi tai koordinoi väkivaltaista ekstremistitoimintaa.';
-
-  @override
-  String get iarReasonMatureContentGuildLabel =>
-      'Aikuisille tarkoitettu sisältö tai puutteellinen ikärajoitus';
-
-  @override
-  String get iarReasonMatureContentGuildDescription =>
-      'Aikuisille tarkoitettua sisältöä ilman asianmukaista ikärajoitusta.';
-
-  @override
-  String get iarReasonChildSafetyGuildDescription =>
-      'Vaarantaa alaikäisiä tai sisältää lasten hyväksikäyttöön liittyvää sisältöä.';
-
-  @override
-  String get iarReasonRaidLabel => 'Hyökkäyksen koordinointi';
-
-  @override
-  String get iarReasonRaidDescription =>
-      'Koordinoi hyökkäyksiä, joukkohäirintää tai ahdistelua ihmisiä tai yhteisöjä vastaan.';
-
-  @override
-  String get iarReasonSpamGuildDescription =>
-      'Yhteisön tarkoitus on roskapostittaa, huijata tai väärinkäyttää alustaa.';
-
-  @override
-  String get iarReasonMalwareGuildLabel => 'Haittaohjelmien levitys';
-
-  @override
-  String get iarReasonMalwareGuildDescription =>
-      'Jakaa haittaohjelmia, kalastelee tunnuksia tai levittää haitallisia tiedostoja.';
-
-  @override
-  String get iarReasonPrivacyGuildLabel => 'Yksityisyyden loukkaus tai doksaus';
-
-  @override
-  String get iarReasonPrivacyGuildDescription =>
-      'Jakaa henkilökohtaisia tietoja, vainoaa käyttäjiä tai koordinoi yksityisyyden loukkauksia.';
-
-  @override
-  String get iarReasonSelfHarmGuildLabel =>
-      'Kannustaa itsensä vahingoittamiseen';
-
-  @override
-  String get iarReasonSelfHarmGuildDescription =>
-      'Kannustaa itsemurhaan, itsensä vahingoittamiseen tai syömishäiriöihin.';
-
-  @override
-  String get iarReasonInappropriateProfile => 'Sopimaton profiili';
-
-  @override
-  String get iarReasonInappropriateProfileDescription =>
-      'Tämän käyttäjän profiili sisältää sopimatonta sisältöä';
 
   @override
   String typingIndicatorOne(String name) {
@@ -7368,355 +7280,121 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get chatMessageReport => 'Ilmoita viestistä';
 
   @override
-  String get iarReportMessageTitle => 'Ilmoita viestistä';
+  String get reportFlowTitleMessage => 'Ilmoita viestistä';
 
   @override
-  String get iarThisUserFallback => 'tämä käyttäjä';
+  String get reportFlowTitleUserProfile => 'Ilmoita profiilista';
 
   @override
-  String get iarModalDescription =>
-      'Ilmoita sääntörikkomuksesta tai etsi työkaluja yhteystietojen ja asetusten hallintaan.';
+  String get reportFlowSummaryTitle => 'Tarkista ilmoituksesi';
 
   @override
-  String get iarPathStepAriaLabel => 'Mitä tarvitset?';
+  String get reportFlowSummarySubtitle =>
+      'Tarkista, että tämä näyttää oikealta ennen lähettämistä.';
 
   @override
-  String get iarCategoryStepTitle => 'Minkälaista sääntöä rikottiin?';
-
-  @override
-  String get iarReasonStepTitle => 'Mitä sääntöä rikottiin?';
-
-  @override
-  String get iarReasonSelectHint => 'Valitse syy';
-
-  @override
-  String get iarPickAnOptionToast => 'Valitse vaihtoehto jatkaaksesi.';
-
-  @override
-  String get iarPickARuleToast => 'Valitse rikkoutunut sääntö.';
-
-  @override
-  String get iarPathPlatform => 'Ilmoita alustan sääntörikkomuksesta';
-
-  @override
-  String get iarPathCommunity => 'Ilmoita tämän yhteisön moderaattoreille';
-
-  @override
-  String get iarPathPreferenceMessage => 'En halua tätä sisältöä';
-
-  @override
-  String get iarCategoryTargetedHarmLabel =>
-      'Uhkaukset, häirintä tai vahingoittaminen';
-
-  @override
-  String get iarCategoryTargetedHarmDescription =>
-      'Kiusaaminen, uhkailu, viha, väkivalta, hyökkäykset tai itsensä vahingoittamiseen yllyttävä sisältö.';
-
-  @override
-  String get iarCategorySafetyMinorsLabel =>
-      'Lasten turvallisuus tai aikuisille tarkoitettu sisältö';
-
-  @override
-  String get iarCategorySafetyMinorsDescription =>
-      'Alaikäiset vaarassa, aikuisille tarkoitettu sisältö väärässä paikassa tai ei-toivottu käytös.';
-
-  @override
-  String get iarCategoryPrivacyIdentityLabel =>
-      'Yksityisyys tai toisena esiintyminen';
-
-  @override
-  String get iarCategoryPrivacyIdentityDescription =>
-      'Doksaus, vainoaminen, toisena esiintyminen tai sopimaton profiili.';
-
-  @override
-  String get iarCategoryDeceptionLabel =>
-      'Huijaukset, haittaohjelmat tai virheellinen tieto';
-
-  @override
-  String get iarCategoryDeceptionDescription =>
-      'Tietojenkalastelu, petokset, haitalliset linkit tai väärät väittämät, jotka todennäköisesti aiheuttavat todellista haittaa.';
-
-  @override
-  String get iarCategoryIllegalOtherLabel => 'Laiton toiminta tai jokin muu';
-
-  @override
-  String get iarCategoryIllegalOtherDescription =>
-      'Laiton myynti, rikollisen toiminnan edistäminen tai selkeä sääntörikkomus, joka ei sovi yllä oleviin luokkiin.';
-
-  @override
-  String get iarReasonHarassmentLabel => 'Häirintä tai uhkailu';
-
-  @override
-  String get iarReasonHarassmentMessageDescription =>
-      'Kiusaaminen, toistuva ei-toivottu yhteydenotto, vainoaminen tai kohdennettu häirintä.';
-
-  @override
-  String get iarReasonHateLabel => 'Vihapuhe';
-
-  @override
-  String get iarReasonHateMessageDescription =>
-      'Solvaukset, epäinhimillistävä kieli tai suojeltuihin ryhmiin kohdistuvat hyökkäykset.';
-
-  @override
-  String get iarReasonViolenceLabel => 'Väkivalta tai väkivaltaiset uhkaukset';
-
-  @override
-  String get iarReasonViolenceDescription =>
-      'Uskottavat uhkaukset, raaka väkivalta tai väkivallan ihannointi.';
-
-  @override
-  String get iarReasonMatureContentLabel =>
-      'Aikuisille tarkoitettu sisältö tai häirintä';
-
-  @override
-  String get iarReasonMatureContentMessageDescription =>
-      'Ei-toivottu käytös tai aikuisille tarkoitettu sisältö väärässä paikassa.';
-
-  @override
-  String get iarReasonChildSafetyLabel =>
-      'Lasten turvallisuus tai alaikäisten hyväksikäyttö';
-
-  @override
-  String get iarReasonChildSafetyMessageDescription =>
-      'Lasten houkuttelu tai lasten seksuaalista hyväksikäyttöä esittävä sisältö.';
-
-  @override
-  String get iarReasonHarmfulMisinfoLabel => 'Haitallinen väärä tieto';
-
-  @override
-  String get iarReasonHarmfulMisinfoDescription =>
-      'Vääriä väitteitä, jotka aiheuttavat todennäköisesti todellista haittaa.';
-
-  @override
-  String get iarReasonSpamLabel =>
-      'Roskaposti, huijaukset tai tietojenkalastelu';
-
-  @override
-  String get iarReasonSpamMessageDescription =>
-      'Massaroskaposti, petokset, valearvonnat tai tilin väärinkäyttö.';
-
-  @override
-  String get iarReasonMalwareLabel => 'Haittaohjelmat tai vaaralliset linkit';
-
-  @override
-  String get iarReasonMalwareDescription =>
-      'Haittaohjelmat, tunnusten varastaminen tai haitalliset tiedostot.';
-
-  @override
-  String get iarReasonPrivacyLabel => 'Yksityisyyden loukkaus';
-
-  @override
-  String get iarReasonPrivacyDescription =>
-      'Doksaus, yksityisten tietojen paljastaminen tai vainoaminen.';
-
-  @override
-  String get iarReasonImpersonationLabel =>
-      'Toisena esiintyminen tai harhaanjohtava media';
-
-  @override
-  String get iarReasonImpersonationMessageDescription =>
-      'Esiintyminen toisena henkilönä, mukaan lukien harhaanjohtava tekoälyllä luotu sisältö.';
-
-  @override
-  String get iarReasonIllegalLabel => 'Laiton toiminta';
-
-  @override
-  String get iarReasonIllegalDescription =>
-      'Laiton myynti, rikollisen toiminnan edistäminen tai muu lainvastainen toiminta.';
-
-  @override
-  String get iarReasonSelfHarmLabel => 'Itsensä vahingoittaminen tai itsemurha';
-
-  @override
-  String get iarReasonSelfHarmMessageDescription =>
-      'Itsensä vahingoittamiseen tai syömishäiriöihin yllyttävä tai ohjeistava sisältö.';
-
-  @override
-  String get iarReasonOtherLabel => 'Toinen selkeä sääntörikkomus';
-
-  @override
-  String iarReasonOtherDescription(String productName) {
-    return 'Käytä vain, jos se rikkoo selkeästi $productName-palvelun sääntöjä eikä sovi yllä oleviin kohtiin.';
+  String reportFlowDisclaimer(String guidelines) {
+    return 'Ilmoita vain se, minkä uskot vilpittömästi rikkovan sääntöjä. Ilmoitusten väärinkäyttö on vastoin $guidelines.';
   }
 
   @override
-  String iarUseChildSafetyInstead(String childSafetyReason) {
-    return 'Jos alaikäinen on osallisena, käytä sen sijaan \"$childSafetyReason\".';
+  String get reportFlowCommunityGuidelinesLink => 'yhteisön sääntöjä';
+
+  @override
+  String get reportFlowDisclaimerNoLink =>
+      'Ilmoita vain se, minkä uskot vilpittömästi rikkovan sääntöjä, äläkä lähetä samaa ilmoitusta kahdesti.';
+
+  @override
+  String get reportFlowSelectedMessage => 'Viesti, josta ilmoitat';
+
+  @override
+  String get reportFlowSelectedUser => 'Profiili, josta ilmoitat';
+
+  @override
+  String get reportFlowReportCategory => 'Vastauksesi';
+
+  @override
+  String get reportFlowSubmit => 'Lähetä ilmoitus';
+
+  @override
+  String get reportFlowBack => 'Takaisin';
+
+  @override
+  String get reportFlowNext => 'Seuraava';
+
+  @override
+  String get reportFlowDone => 'Valmis';
+
+  @override
+  String get reportFlowThankYouTitle => 'Ilmoitus lähetetty';
+
+  @override
+  String get reportFlowThankYouNoReportTitle => 'Kiitos ilmoituksesta';
+
+  @override
+  String reportFlowThankYouBody(String productName) {
+    return '$productName-turvatiimi tarkistaa ilmoituksesi. Emme paljasta, että se tuli sinulta.';
   }
 
   @override
-  String get iarSafetyNoteChildSafety =>
-      'Jos tämä liittyy CSAM:iin tai alaikäisen hyväksikäyttöön, lähetä se nyt äläkä jaa materiaalia uudelleen.';
+  String get reportFlowThankYouNoReportBody =>
+      'Kiitos, että kerroit meille. Tämä ei itsessään riko sääntöjämme, joten emme lähettäneet ilmoitusta. Jos se kohdistuu johonkuhun tai sisältää herjasanoja, ilmoita siitä uudelleen ja valitse ”Haitallinen tai loukkaava sisältö”.';
 
   @override
-  String get iarSafetyNoteSelfHarm =>
-      'Jos joku on välittömässä vaarassa, ota yhteyttä paikallisiin hätäpalveluihin, jos voit tehdä sen turvallisesti.';
+  String get reportFlowThankYouNoReportBodyShort =>
+      'Kiitos, että kerroit meille. Tämä ei itsessään riko sääntöjämme, joten emme lähettäneet ilmoitusta.';
 
   @override
-  String get iarSafetyNoteViolence =>
-      'Jos kyseessä on uskottava ja välitön uhka, ota yhteyttä myös paikallisiin hätäpalveluihin.';
+  String get reportFlowMoreYouCanDo => 'Vaihtoehtosi';
 
   @override
-  String get iarSafetyNoteTerrorism =>
-      'Jos kyseessä on välitön terroriuhka, ota yhteyttä myös paikallisiin hätäpalveluihin.';
-
-  @override
-  String get iarActionBlockUserTitle => 'Estä tämä käyttäjä';
-
-  @override
-  String get iarActionBlockUserDescription => 'Estä viestit ja kaveripyynnöt.';
-
-  @override
-  String get iarActionBlockUserButton => 'Estä';
-
-  @override
-  String get iarActionCopyMessageLinkTitle => 'Kopioi viestin linkki';
-
-  @override
-  String get iarActionCopyMessageLinkDescription =>
-      'Jaa yhteisön moderaattoreille.';
-
-  @override
-  String get iarActionCopyMessageLinkButton => 'Kopioi';
-
-  @override
-  String get iarActionCloseDmTitle => 'Sulje tämä yksityisviesti';
-
-  @override
-  String get iarActionCloseDmDescription =>
-      'Ei estä. Voit avata keskustelun myöhemmin uudelleen.';
-
-  @override
-  String get iarActionCloseDmButton => 'Sulje yksityisviesti';
-
-  @override
-  String get iarActionLeaveCommunityTitle => 'Poistu yhteisöstä';
-
-  @override
-  String get iarActionLeaveCommunityDescription =>
-      'Et enää näe sen sisältöä etkä jäseniä.';
-
-  @override
-  String get iarActionLeaveCommunityButton => 'Poistu';
-
-  @override
-  String get iarActionDmSettingsTitle =>
-      'Yksityisviesti- ja kaveripyyntöasetukset';
-
-  @override
-  String get iarActionDmSettingsDescription =>
-      'Muuta, ketkä voivat tavoittaa sinut.';
-
-  @override
-  String get iarActionCallSettingsTitle =>
-      'Puhelu- ja ryhmäkeskusteluasetukset';
-
-  @override
-  String get iarActionCallSettingsDescription =>
-      'Muuta, kuka voi soittaa tai lisätä sinut.';
-
-  @override
-  String get iarActionOpenButton => 'Avaa';
-
-  @override
-  String get iarActionDeleteMessageTitle => 'Poista tämä viesti';
-
-  @override
-  String get iarActionDeleteMessageDescription =>
-      'Poista se kanavalta kaikilta.';
-
-  @override
-  String get iarActionDeleteMessageButton => 'Poista';
-
-  @override
-  String get iarActionDeleteMessageDeletedButton => 'Poistettu';
-
-  @override
-  String get iarActionDeleteMessageDeletedTooltip =>
-      'Tämä viesti on jo poistettu.';
-
-  @override
-  String get iarActionBanUserTitle => 'Anna porttikielto tälle käyttäjälle';
-
-  @override
-  String get iarActionBanUserDescription =>
-      'Avaa tämän yhteisön porttikieltoikkuna.';
-
-  @override
-  String get iarActionBanUserButton => 'Anna porttikielto';
-
-  @override
-  String get iarActionBanUserBannedButton => 'Porttikielletty';
-
-  @override
-  String get iarActionBanUserBannedTooltip =>
-      'Tämä käyttäjä on jo porttikiellossa tässä yhteisössä.';
-
-  @override
-  String get iarCloseDmConfirmTitle => 'Sulje yksityisviesti';
-
-  @override
-  String iarCloseDmConfirmDescription(String name) {
-    return 'Sulje nykyinen yksityisviestisi käyttäjän $name kanssa. Tämä ei estä heitä; voit avata sen uudelleen myöhemmin.';
+  String reportFlowBlockName(String name) {
+    return 'Estä $name';
   }
 
   @override
-  String get iarSuccessTitle => 'Ilmoitus lähetetty';
+  String get reportFlowBlockDescription =>
+      'Piilottaa hänen viestinsä ja estää häntä lähettämästä sinulle viestejä';
 
   @override
-  String get iarSuccessBody =>
-      'Turvatiimimme tarkistaa ilmoituksen. Lähetämme sinulle yksityisviestin ja sähköpostin, kun olemme tehneet päätöksen.';
+  String get reportFlowBlockButton => 'Estä';
 
   @override
-  String get iarAlreadyReportedTitle => 'Ilmoitettu jo';
+  String get reportFlowBlockedButton => 'Estetty';
 
   @override
-  String get iarAlreadyReportedBody =>
-      'Olet jo ilmoittanut tästä viestistä. Turvallisuustiimimme tarkistaa sen.';
+  String get reportFlowUrgentBanner =>
+      'Jos joku on välittömässä vaarassa, ota ensin yhteyttä paikallisiin hätäpalveluihin.';
 
   @override
-  String get iarBackButton => 'Takaisin';
+  String get reportFlowLoadFailed =>
+      'Ilmoituslomakkeen lataaminen epäonnistui.';
 
   @override
-  String get iarContinueButton => 'Jatka';
+  String get reportFlowTryAgain => 'Yritä uudelleen';
 
   @override
-  String get iarSendReportButton => 'Lähetä ilmoitus';
+  String get reportFlowOutdated => 'Ilmoituslomake muuttui. Aloita alusta.';
 
   @override
-  String get iarDoneButton => 'Valmis';
+  String get reportFlowAlreadyReported =>
+      'Olet jo ilmoittanut tästä viestistä.';
 
   @override
-  String get iarCouldntSendToast =>
-      'Raporttia ei voitu lähettää. Yritä uudelleen.';
+  String get reportFlowAlreadyReportedProfile =>
+      'Olet jo ilmoittanut tästä profiilista tänään.';
 
   @override
-  String get iarRateLimitedToast =>
-      'Ilmoitat liian nopeasti. Odota hetki ja yritä uudelleen.';
+  String get reportFlowRateLimited =>
+      'Lähetät ilmoituksia liian nopeasti. Yritä uudelleen myöhemmin.';
 
   @override
-  String get iarReportSentToast =>
-      'Ilmoitus lähetetty. Turvallisuustiimimme tarkistaa sen.';
+  String get reportFlowSubmitFailed =>
+      'Ilmoituksesi ei mennyt perille. Yritä uudelleen.';
 
   @override
-  String iarBlockUserConfirmDescription(String name) {
-    return 'Estetäänkö $name? He eivät voi lähettää sinulle viestejä tai kaveripyyntöjä. Voit poistaa eston myöhemmin.';
-  }
-
-  @override
-  String get iarBlockUserFailedToast =>
-      'Tämän käyttäjän estäminen epäonnistui. Yritä uudelleen.';
-
-  @override
-  String get iarCloseDmSuccessToast => 'Yksityisviesti suljettu.';
-
-  @override
-  String get iarCloseDmFailedToast =>
-      'Tämän yksityisviestin sulkeminen epäonnistui. Yritä uudelleen.';
-
-  @override
-  String get iarLeaveCommunityFailedToast =>
-      'Tästä yhteisöstä poistuminen epäonnistui. Yritä uudelleen.';
+  String get reportFlowAccountSetupRequired =>
+      'Viimeistele tilisi rekisteröinti ja vahvista sähköpostiosoitteesi, niin voit lähettää ilmoituksia.';
 
   @override
   String get chatMessageSuppressEmbeds => 'Piilota upotukset';
@@ -12334,9 +12012,6 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
 
   @override
   String get guildMenuHideMutedChannels => 'Piilota mykistetyt kanavat';
-
-  @override
-  String get guildMenuReportCommunity => 'Ilmoita yhteisöstä';
 
   @override
   String get guildMenuDebugCommunity => 'Yhteisön virheenkorjaus';

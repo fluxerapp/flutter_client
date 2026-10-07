@@ -3363,13 +3363,13 @@
     "@userProfileTransferOwnership": {
         "description": "Three-dot menu item to transfer community ownership to the member."
     },
-    "userProfileReportUser": "Αναφορά χρήστη",
-    "@userProfileReportUser": {
-        "description": "Three-dot menu item to report the user."
-    },
     "userProfileReportMessage": "Αναφορά μηνύματος",
     "@userProfileReportMessage": {
         "description": "Three-dot menu item to report the message that opened this profile."
+    },
+    "userProfileReportUserProfile": "Αναφορά προφίλ",
+    "@userProfileReportUserProfile": {
+        "description": "Three-dot menu item on the full profile to report this user's profile (avatar, banner, name, bio and other profile parts). Message behavior is reported from the message instead."
     },
     "userProfileKickConfirmTitle": "Αποβολή του {username};",
     "@userProfileKickConfirmTitle": {
@@ -3596,18 +3596,6 @@
     "durationCustom": "Προσαρμοσμένο…",
     "@durationCustom": {
         "description": "Duration option label for a user-specified custom duration."
-    },
-    "iarReportUserTitle": "Αναφορά χρήστη",
-    "@iarReportUserTitle": {
-        "description": "Title of the simple user-report sheet."
-    },
-    "iarReasonInappropriateProfile": "Ακατάλληλο προφίλ",
-    "@iarReasonInappropriateProfile": {
-        "description": "User-report reason: the user's profile contains inappropriate content."
-    },
-    "iarReasonInappropriateProfileDescription": "Αυτό το προφίλ χρήστη περιέχει ακατάλληλο περιεχόμενο",
-    "@iarReasonInappropriateProfileDescription": {
-        "description": "Description for the inappropriate-profile user-report reason."
     },
     "typingIndicatorOne": "Ο/Η {name} γράφει...",
     "@typingIndicatorOne": {
@@ -5938,420 +5926,155 @@
     "@chatMessageReport": {
         "description": "Action label that opens the report-message sheet so the user can flag the message to moderators."
     },
-    "iarReportMessageTitle": "Αναφορά μηνύματος",
-    "@iarReportMessageTitle": {
-        "description": "Title shown at the top of the In-App Reporting (IAR) sheet when the user is reporting a specific message."
+    "reportFlowTitleMessage": "Αναφορά μηνύματος",
+    "@reportFlowTitleMessage": {
+        "description": "Report flow: sheet title while the message report form loads or fails to load."
     },
-    "iarThisUserFallback": "αυτός ο χρήστης",
-    "@iarThisUserFallback": {
-        "description": "Lowercase phrase used mid-sentence in IAR copy when referring to the reported user without a name (e.g. inside the close-DM confirmation)."
+    "reportFlowTitleUserProfile": "Αναφορά προφίλ",
+    "@reportFlowTitleUserProfile": {
+        "description": "Report flow: sheet title while the user profile report form loads or fails to load."
     },
-    "iarModalDescription": "Αναφέρετε μια παραβίαση κανόνων ή βρείτε εργαλεία για τη διαχείριση επαφών και προτιμήσεων.",
-    "@iarModalDescription": {
-        "description": "Screen-reader description for the IAR sheet announcing what the flow is for."
+    "reportFlowSummaryTitle": "Έλεγχος αναφοράς",
+    "@reportFlowSummaryTitle": {
+        "description": "Report flow: title of the last screen, where the reporter reviews the report before sending it."
     },
-    "iarPathStepAriaLabel": "Τι χρειάζεστε;",
-    "@iarPathStepAriaLabel": {
-        "description": "Accessible label for the primary-path radio group on the first step of the IAR sheet. Not shown visually; the radios are labelled inline."
+    "reportFlowSummarySubtitle": "Βεβαιωθείτε ότι όλα φαίνονται σωστά πριν την αποστολή.",
+    "@reportFlowSummarySubtitle": {
+        "description": "Report flow: subtitle of the report summary screen."
     },
-    "iarCategoryStepTitle": "Τι είδους κανόνας παραβιάστηκε;",
-    "@iarCategoryStepTitle": {
-        "description": "Title shown on the category step of the IAR sheet (platform-report path)."
+    "reportFlowDisclaimer": "Αναφέρετε μόνο ό,τι πιστεύετε ειλικρινά ότι παραβιάζει τους κανόνες. Η κατάχρηση των αναφορών αντίκειται στις {guidelines} μας.",
+    "@reportFlowDisclaimer": {
+        "description": "Report flow: disclaimer on the report summary screen. {guidelines} is a link whose text is reportFlowCommunityGuidelinesLink.",
+        "placeholders": {
+            "guidelines": {
+                "type": "String",
+                "example": "Community Guidelines"
+            }
+        }
     },
-    "iarReasonStepTitle": "Ποιος κανόνας παραβιάστηκε;",
-    "@iarReasonStepTitle": {
-        "description": "Title shown on the reason step of the IAR sheet after the user has picked a rule category."
+    "reportFlowCommunityGuidelinesLink": "οδηγίες κοινότητας",
+    "@reportFlowCommunityGuidelinesLink": {
+        "description": "Report flow: link text inside reportFlowDisclaimer. Opens the community guidelines page."
     },
-    "iarReasonSelectHint": "Επιλέξτε έναν λόγο",
-    "@iarReasonSelectHint": {
-        "description": "Placeholder shown in the message-report reason dropdown before the user picks a rule."
+    "reportFlowDisclaimerNoLink": "Αναφέρετε μόνο ό,τι πιστεύετε ειλικρινά ότι παραβιάζει τους κανόνες και παρακαλούμε μην στέλνετε την ίδια αναφορά δύο φορές.",
+    "@reportFlowDisclaimerNoLink": {
+        "description": "Report flow: disclaimer on the report summary screen when the instance has no community guidelines page."
     },
-    "iarPickAnOptionToast": "Κάντε μια επιλογή για να συνεχίσετε.",
-    "@iarPickAnOptionToast": {
-        "description": "Toast shown when the user taps Continue on a step without selecting any radio option."
+    "reportFlowSelectedMessage": "Μήνυμα που αναφέρετε",
+    "@reportFlowSelectedMessage": {
+        "description": "Report flow: heading above the preview of the reported message on the report summary screen."
     },
-    "iarPickARuleToast": "Επιλέξτε τον κανόνα που παραβιάστηκε.",
-    "@iarPickARuleToast": {
-        "description": "Toast shown when the user taps Send report without selecting a rule reason."
+    "reportFlowSelectedUser": "Προφίλ που αναφέρετε",
+    "@reportFlowSelectedUser": {
+        "description": "Report flow: heading above the card of the reported user on the first screen and the report summary screen."
     },
-    "iarPathPlatform": "Αναφορά παραβίασης κανόνα πλατφόρμας",
-    "@iarPathPlatform": {
-        "description": "Primary-path radio label: file a real DSA / platform-level report."
+    "reportFlowReportCategory": "Οι απαντήσεις σας",
+    "@reportFlowReportCategory": {
+        "description": "Report flow: heading above the list of answers the reporter picked, on the report summary screen."
     },
-    "iarPathCommunity": "Αναφορά στους διαχειριστές αυτής της κοινότητας",
-    "@iarPathCommunity": {
-        "description": "Primary-path radio label: surface this to community moderators rather than platform safety."
+    "reportFlowSubmit": "Αποστολή αναφοράς",
+    "@reportFlowSubmit": {
+        "description": "Report flow: button on the report summary screen that sends the report."
     },
-    "iarPathPreferenceMessage": "Δεν μου αρέσει αυτό το περιεχόμενο",
-    "@iarPathPreferenceMessage": {
-        "description": "Primary-path radio label: the user doesn't want platform action, they want self-service tools (block, leave, settings)."
+    "reportFlowBack": "Πίσω",
+    "@reportFlowBack": {
+        "description": "Report flow: button that returns to the previous screen of the report form."
     },
-    "iarCategoryTargetedHarmLabel": "Απειλές, παρενόχληση ή βλάβη",
-    "@iarCategoryTargetedHarmLabel": {
-        "description": "Rule-category label grouping harassment, hate, violence, terrorism, raids, and self-harm content."
+    "reportFlowNext": "Επόμενο",
+    "@reportFlowNext": {
+        "description": "Report flow: button that goes to the next screen of the report form."
     },
-    "iarCategoryTargetedHarmDescription": "Εκφοβισμός, απειλές, μίσος, βία, επιδρομές ή περιεχόμενο που προωθεί τον αυτοτραυματισμό.",
-    "@iarCategoryTargetedHarmDescription": {
-        "description": "One-line description for the targeted-harm rule category."
+    "reportFlowDone": "Τέλος",
+    "@reportFlowDone": {
+        "description": "Report flow: button that closes the report form when it is finished."
     },
-    "iarCategorySafetyMinorsLabel": "Ασφάλεια παιδιών ή ακατάλληλο περιεχόμενο",
-    "@iarCategorySafetyMinorsLabel": {
-        "description": "Rule-category label grouping child-safety and mature-content reports."
+    "reportFlowThankYouTitle": "Η αναφορά στάλθηκε",
+    "@reportFlowThankYouTitle": {
+        "description": "Report flow: title of the screen shown after a report was sent."
     },
-    "iarCategorySafetyMinorsDescription": "Ανήλικοι σε κίνδυνο, περιεχόμενο ενηλίκων σε λάθος μέρος ή ανεπιθύμητη συμπεριφορά.",
-    "@iarCategorySafetyMinorsDescription": {
-        "description": "One-line description for the child-safety / mature-content rule category."
+    "reportFlowThankYouNoReportTitle": "Ευχαριστούμε που το επισημάνατε",
+    "@reportFlowThankYouNoReportTitle": {
+        "description": "Report flow: title of the screen shown when the chosen answer does not send a report."
     },
-    "iarCategoryPrivacyIdentityLabel": "Απόρρητο ή πλαστοπροσωπία",
-    "@iarCategoryPrivacyIdentityLabel": {
-        "description": "Rule-category label grouping privacy violations and impersonation."
-    },
-    "iarCategoryPrivacyIdentityDescription": "Doxxing, καταδίωξη, προσποίηση ταυτότητας ή ακατάλληλο προφίλ.",
-    "@iarCategoryPrivacyIdentityDescription": {
-        "description": "One-line description for the privacy / impersonation rule category."
-    },
-    "iarCategoryDeceptionLabel": "Απάτες, κακόβουλο λογισμικό ή παραπληροφόρηση",
-    "@iarCategoryDeceptionLabel": {
-        "description": "Rule-category label grouping spam/scams, malware, and harmful misinformation."
-    },
-    "iarCategoryDeceptionDescription": "Phishing, απάτη, κακόβουλοι σύνδεσμοι ή ψευδείς ισχυρισμοί που ενδέχεται να προκαλέσουν πραγματική βλάβη.",
-    "@iarCategoryDeceptionDescription": {
-        "description": "One-line description for the scams / malware / misinformation rule category."
-    },
-    "iarCategoryIllegalOtherLabel": "Παράνομη δραστηριότητα ή κάτι άλλο",
-    "@iarCategoryIllegalOtherLabel": {
-        "description": "Rule-category label grouping illegal activity and the catch-all Other reason."
-    },
-    "iarCategoryIllegalOtherDescription": "Παράνομες πωλήσεις, διευκόλυνση εγκληματικών πράξεων ή σαφής παραβίαση κανόνων που δεν εμπίπτει στις παραπάνω κατηγορίες.",
-    "@iarCategoryIllegalOtherDescription": {
-        "description": "One-line description for the illegal / other rule category."
-    },
-    "iarReasonHarassmentLabel": "Παρενόχληση ή απειλές",
-    "@iarReasonHarassmentLabel": {
-        "description": "Rule-reason label for harassment in the IAR message flow."
-    },
-    "iarReasonHarassmentMessageDescription": "Εκφοβισμός, επανειλημμένη ανεπιθύμητη επικοινωνία, παρακολούθηση ή στοχευμένη κακοποίηση.",
-    "@iarReasonHarassmentMessageDescription": {
-        "description": "Rule-reason description for harassment in the IAR message flow."
-    },
-    "iarReasonHateLabel": "Ρητορική μίσους",
-    "@iarReasonHateLabel": {
-        "description": "Rule-reason label for hate speech in the IAR message flow."
-    },
-    "iarReasonHateMessageDescription": "Υβριστικοί χαρακτηρισμοί, απανθρωποποιητική γλώσσα ή επιθέσεις σε προστατευόμενες ομάδες.",
-    "@iarReasonHateMessageDescription": {
-        "description": "Rule-reason description for hate speech in the IAR message flow."
-    },
-    "iarReasonViolenceLabel": "Βία ή απειλές βίας",
-    "@iarReasonViolenceLabel": {
-        "description": "Rule-reason label for violence in the IAR message flow."
-    },
-    "iarReasonViolenceDescription": "Αξιόπιστες απειλές, σοκαριστική βία ή εξύμνηση της βίας.",
-    "@iarReasonViolenceDescription": {
-        "description": "Rule-reason description for violence in the IAR message flow."
-    },
-    "iarReasonMatureContentLabel": "Περιεχόμενο για ενήλικες ή παρενόχληση",
-    "@iarReasonMatureContentLabel": {
-        "description": "Rule-reason label for mature content / unwanted conduct in the IAR message flow."
-    },
-    "iarReasonMatureContentMessageDescription": "Ανεπιθύμητη συμπεριφορά ή περιεχόμενο για ενήλικες σε λάθος μέρος.",
-    "@iarReasonMatureContentMessageDescription": {
-        "description": "Rule-reason description for mature content in the IAR message flow."
-    },
-    "iarReasonChildSafetyLabel": "Ασφάλεια παιδιών ή εκμετάλλευση ανηλίκων",
-    "@iarReasonChildSafetyLabel": {
-        "description": "Rule-reason label for child-safety reports in the IAR message flow. Also used as the {childSafetyReason} placeholder in iarUseChildSafetyInstead."
-    },
-    "iarReasonChildSafetyMessageDescription": "Αποπλάνηση ανηλίκων ή περιεχόμενο εκμετάλλευσης παιδιών.",
-    "@iarReasonChildSafetyMessageDescription": {
-        "description": "Rule-reason description for child-safety reports in the IAR message flow."
-    },
-    "iarReasonHarmfulMisinfoLabel": "Επιβλαβής παραπληροφόρηση",
-    "@iarReasonHarmfulMisinfoLabel": {
-        "description": "Rule-reason label for harmful misinformation in the IAR message flow."
-    },
-    "iarReasonHarmfulMisinfoDescription": "Ψευδείς ισχυρισμοί που ενδέχεται να προκαλέσουν πραγματική βλάβη.",
-    "@iarReasonHarmfulMisinfoDescription": {
-        "description": "Rule-reason description for harmful misinformation."
-    },
-    "iarReasonSpamLabel": "Ανεπιθύμητα, απάτες ή phishing",
-    "@iarReasonSpamLabel": {
-        "description": "Rule-reason label for spam/scams/phishing in the IAR message flow."
-    },
-    "iarReasonSpamMessageDescription": "Μαζικά ανεπιθύμητα μηνύματα, απάτη, ψεύτικες κληρώσεις ή κατάχρηση λογαριασμού.",
-    "@iarReasonSpamMessageDescription": {
-        "description": "Rule-reason description for spam/scams in the IAR message flow."
-    },
-    "iarReasonMalwareLabel": "Κακόβουλο λογισμικό ή επικίνδυνοι σύνδεσμοι",
-    "@iarReasonMalwareLabel": {
-        "description": "Rule-reason label for malware / dangerous links in the IAR message flow."
-    },
-    "iarReasonMalwareDescription": "Κακόβουλο λογισμικό, κλοπή διαπιστευτηρίων ή επιβλαβή αρχεία.",
-    "@iarReasonMalwareDescription": {
-        "description": "Rule-reason description for malware."
-    },
-    "iarReasonPrivacyLabel": "Παραβίαση απορρήτου",
-    "@iarReasonPrivacyLabel": {
-        "description": "Rule-reason label for privacy violations in the IAR message flow."
-    },
-    "iarReasonPrivacyDescription": "Doxxing, έκθεση προσωπικών δεδομένων ή καταδίωξη.",
-    "@iarReasonPrivacyDescription": {
-        "description": "Rule-reason description for privacy violations."
-    },
-    "iarReasonImpersonationLabel": "Πλαστοπροσωπία ή παραπλανητικό περιεχόμενο",
-    "@iarReasonImpersonationLabel": {
-        "description": "Rule-reason label for impersonation in the IAR message flow."
-    },
-    "iarReasonImpersonationMessageDescription": "Προσποίηση ότι είστε κάποιος άλλος, συμπεριλαμβανομένου περιεχομένου που δημιουργείται από AI με σκοπό την εξαπάτηση.",
-    "@iarReasonImpersonationMessageDescription": {
-        "description": "Rule-reason description for impersonation in the IAR message flow."
-    },
-    "iarReasonIllegalLabel": "Παράνομη δραστηριότητα",
-    "@iarReasonIllegalLabel": {
-        "description": "Rule-reason label for illegal activity in the IAR message flow."
-    },
-    "iarReasonIllegalDescription": "Παράνομες πωλήσεις, διευκόλυνση εγκληματικών πράξεων ή παράνομη δραστηριότητα.",
-    "@iarReasonIllegalDescription": {
-        "description": "Rule-reason description for illegal activity."
-    },
-    "iarReasonSelfHarmLabel": "Αυτοτραυματισμός ή αυτοκτονία",
-    "@iarReasonSelfHarmLabel": {
-        "description": "Rule-reason label for self-harm content in the IAR message flow."
-    },
-    "iarReasonSelfHarmMessageDescription": "Προώθηση ή οδηγίες που ενθαρρύνουν τον αυτοτραυματισμό ή τις διατροφικές διαταραχές.",
-    "@iarReasonSelfHarmMessageDescription": {
-        "description": "Rule-reason description for self-harm content in the IAR message flow."
-    },
-    "iarReasonOtherLabel": "Άλλη μια σαφής παραβίαση κανόνων",
-    "@iarReasonOtherLabel": {
-        "description": "Rule-reason label for the catch-all option in the IAR message flow."
-    },
-    "iarReasonOtherDescription": "Χρησιμοποιήστε το μόνο αν παραβιάζει σαφώς τους κανόνες του {productName} και δεν ταιριάζει με τα παραπάνω.",
-    "@iarReasonOtherDescription": {
-        "description": "Rule-reason description for the catch-all option.",
+    "reportFlowThankYouBody": "Η ομάδα ασφαλείας του {productName} θα ελέγξει την αναφορά σας. Δεν θα αποκαλύψουμε ότι προήλθε από εσάς.",
+    "@reportFlowThankYouBody": {
+        "description": "Report flow: body of the thank-you screen after a report was sent. {productName} is the name of the app.",
         "placeholders": {
             "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "iarUseChildSafetyInstead": "Εάν εμπλέκεται ανήλικος, χρησιμοποιήστε \"{childSafetyReason}\" αντ' αυτού.",
-    "@iarUseChildSafetyInstead": {
-        "description": "Inline routing nudge shown under reasons (e.g. mature content) that overlap with child safety.",
-        "placeholders": {
-            "childSafetyReason": {
                 "type": "String",
-                "example": "Child safety or exploitation of minors"
+                "example": "Fluxer"
             }
         }
     },
-    "iarSafetyNoteChildSafety": "Εάν αυτό αφορά CSAM ή εκμετάλλευση ανηλίκου, στείλτε το τώρα και μην κοινοποιήσετε ξανά το υλικό.",
-    "@iarSafetyNoteChildSafety": {
-        "description": "Inline safety note shown for child-safety reports on the reason step."
+    "reportFlowThankYouNoReportBody": "Σας ευχαριστούμε που μας ενημερώσατε. Αυτό από μόνο του δεν παραβιάζει τους κανόνες μας, οπότε δεν στείλαμε αναφορά. Αν στοχεύει κάποιον ή χρησιμοποιεί ύβρεις, κάντε ξανά αναφορά και επιλέξτε «Κακοποιητικό ή επιβλαβές περιεχόμενο».",
+    "@reportFlowThankYouNoReportBody": {
+        "description": "Report flow: body of the thank-you screen when the chosen answer does not send a report. \"Abusive or harmful content\" is the name of an option on the first screen of the message report form."
     },
-    "iarSafetyNoteSelfHarm": "Αν κάποιος βρίσκεται σε άμεσο κίνδυνο, επικοινωνήστε με τις τοπικές υπηρεσίες έκτακτης ανάγκης, εφόσον μπορείτε να το κάνετε με ασφάλεια.",
-    "@iarSafetyNoteSelfHarm": {
-        "description": "Inline safety note shown for self-harm reports on the reason step."
+    "reportFlowThankYouNoReportBodyShort": "Σας ευχαριστούμε που μας ενημερώσατε. Αυτό από μόνο του δεν παραβιάζει τους κανόνες μας, οπότε δεν στείλαμε αναφορά.",
+    "@reportFlowThankYouNoReportBodyShort": {
+        "description": "Report flow: body of the thank-you screen when the chosen answer does not send a report and the reporter is already past the first screen of the form."
     },
-    "iarSafetyNoteViolence": "Αν πρόκειται για μια αξιόπιστη επικείμενη απειλή, επικοινωνήστε και με τις τοπικές υπηρεσίες έκτακτης ανάγκης.",
-    "@iarSafetyNoteViolence": {
-        "description": "Inline safety note shown for violence reports on the reason step."
+    "reportFlowMoreYouCanDo": "Οι επιλογές σας",
+    "@reportFlowMoreYouCanDo": {
+        "description": "Report flow: heading above the extra actions (such as blocking the user) on the thank-you screen."
     },
-    "iarSafetyNoteTerrorism": "Αν πρόκειται για επικείμενη τρομοκρατική απειλή, επικοινωνήστε και με τις τοπικές υπηρεσίες έκτακτης ανάγκης.",
-    "@iarSafetyNoteTerrorism": {
-        "description": "Inline safety note shown for terrorism reports on the reason step."
-    },
-    "iarActionBlockUserTitle": "Μπλοκάρισμα αυτού του χρήστη",
-    "@iarActionBlockUserTitle": {
-        "description": "Action card title for blocking the reported user."
-    },
-    "iarActionBlockUserDescription": "Διακοπή μηνυμάτων και αιτημάτων φιλίας.",
-    "@iarActionBlockUserDescription": {
-        "description": "Action card description for blocking the reported user."
-    },
-    "iarActionBlockUserButton": "Αποκλεισμός",
-    "@iarActionBlockUserButton": {
-        "description": "Trailing button label on the block-user action card."
-    },
-    "iarActionCopyMessageLinkTitle": "Αντιγραφή συνδέσμου μηνύματος",
-    "@iarActionCopyMessageLinkTitle": {
-        "description": "Action card title for copying a link to the reported message so the user can share it with community moderators."
-    },
-    "iarActionCopyMessageLinkDescription": "Κοινοποίηση στους συντονιστές της κοινότητας.",
-    "@iarActionCopyMessageLinkDescription": {
-        "description": "Action card description for copying a message link."
-    },
-    "iarActionCopyMessageLinkButton": "Αντιγραφή",
-    "@iarActionCopyMessageLinkButton": {
-        "description": "Trailing button label on the copy-message-link action card."
-    },
-    "iarActionCloseDmTitle": "Κλείσιμο αυτού του DM",
-    "@iarActionCloseDmTitle": {
-        "description": "Action card title for closing the DM with the reported user."
-    },
-    "iarActionCloseDmDescription": "Δεν μπλοκάρει. Μπορείτε να το ξανανοίξετε αργότερα.",
-    "@iarActionCloseDmDescription": {
-        "description": "Action card description for closing the DM."
-    },
-    "iarActionCloseDmButton": "Κλείσιμο DM",
-    "@iarActionCloseDmButton": {
-        "description": "Trailing button label on the close-DM action card."
-    },
-    "iarActionLeaveCommunityTitle": "Αποχώρηση από την κοινότητα",
-    "@iarActionLeaveCommunityTitle": {
-        "description": "Action card title for leaving the guild the reported message was sent in."
-    },
-    "iarActionLeaveCommunityDescription": "Διακοπή προβολής του περιεχομένου και των μελών της.",
-    "@iarActionLeaveCommunityDescription": {
-        "description": "Action card description for leaving the community."
-    },
-    "iarActionLeaveCommunityButton": "Αποχώρηση",
-    "@iarActionLeaveCommunityButton": {
-        "description": "Trailing button label on the leave-community action card."
-    },
-    "iarActionDmSettingsTitle": "Ρυθμίσεις DM και αιτημάτων φιλίας",
-    "@iarActionDmSettingsTitle": {
-        "description": "Action card title for opening the DM / friend-request privacy settings."
-    },
-    "iarActionDmSettingsDescription": "Αλλάξτε ποιος μπορεί να επικοινωνήσει μαζί σας.",
-    "@iarActionDmSettingsDescription": {
-        "description": "Action card description for DM / friend-request privacy settings."
-    },
-    "iarActionCallSettingsTitle": "Ρυθμίσεις κλήσεων και ομαδικών συνομιλιών",
-    "@iarActionCallSettingsTitle": {
-        "description": "Action card title for opening the call / group-chat privacy settings."
-    },
-    "iarActionCallSettingsDescription": "Αλλάξτε ποιος μπορεί να σας καλέσει ή να σας προσθέσει.",
-    "@iarActionCallSettingsDescription": {
-        "description": "Action card description for call / group-chat privacy settings."
-    },
-    "iarActionOpenButton": "Άνοιγμα",
-    "@iarActionOpenButton": {
-        "description": "Trailing button label for action cards that navigate the user into a settings section."
-    },
-    "iarActionDeleteMessageTitle": "Διαγραφή αυτού του μηνύματος",
-    "@iarActionDeleteMessageTitle": {
-        "description": "Action card title (moderator-only) for deleting the reported message."
-    },
-    "iarActionDeleteMessageDescription": "Κατάργησή του από το κανάλι για όλους.",
-    "@iarActionDeleteMessageDescription": {
-        "description": "Action card description (moderator-only) for deleting the reported message."
-    },
-    "iarActionDeleteMessageButton": "Διαγραφή",
-    "@iarActionDeleteMessageButton": {
-        "description": "Trailing button label on the delete-message action card."
-    },
-    "iarActionDeleteMessageDeletedButton": "Διαγράφηκε",
-    "@iarActionDeleteMessageDeletedButton": {
-        "description": "Disabled-state trailing button label on the delete-message action card after the message is already gone."
-    },
-    "iarActionDeleteMessageDeletedTooltip": "Αυτό το μήνυμα έχει ήδη διαγραφεί.",
-    "@iarActionDeleteMessageDeletedTooltip": {
-        "description": "Tooltip on the disabled delete-message action card."
-    },
-    "iarActionBanUserTitle": "Αποκλεισμός αυτού του χρήστη",
-    "@iarActionBanUserTitle": {
-        "description": "Action card title (moderator-only) for opening the ban dialog against the reported user."
-    },
-    "iarActionBanUserDescription": "Άνοιγμα του παραθύρου διαλόγου αποκλεισμού για αυτήν την κοινότητα.",
-    "@iarActionBanUserDescription": {
-        "description": "Action card description (moderator-only) for banning the reported user."
-    },
-    "iarActionBanUserButton": "Αποκλεισμός",
-    "@iarActionBanUserButton": {
-        "description": "Trailing button label on the ban-user action card."
-    },
-    "iarActionBanUserBannedButton": "Έχει αποκλειστεί",
-    "@iarActionBanUserBannedButton": {
-        "description": "Disabled-state trailing button label on the ban-user action card after the target is already banned."
-    },
-    "iarActionBanUserBannedTooltip": "Αυτός ο χρήστης έχει ήδη αποκλειστεί από την κοινότητα.",
-    "@iarActionBanUserBannedTooltip": {
-        "description": "Tooltip on the disabled ban-user action card."
-    },
-    "iarCloseDmConfirmTitle": "Κλείσιμο DM",
-    "@iarCloseDmConfirmTitle": {
-        "description": "Title of the confirm-close-DM bottom sheet shown after the user taps Close DM on the action card."
-    },
-    "iarCloseDmConfirmDescription": "Κλείσε την τρέχουσα απευθείας συνομιλία σου με τον/την {name}. Αυτό δεν τον/την μπλοκάρει· μπορείς να την ανοίξεις ξανά αργότερα.",
-    "@iarCloseDmConfirmDescription": {
-        "description": "Body of the confirm-close-DM bottom sheet.",
+    "reportFlowBlockName": "Μπλοκάρισμα {name}",
+    "@reportFlowBlockName": {
+        "description": "Report flow: title of the row on the thank-you screen that blocks the reported user. {name} is the display name of that user.",
         "placeholders": {
             "name": {
                 "type": "String",
-                "example": "ada"
+                "example": "Alice"
             }
         }
     },
-    "iarSuccessTitle": "Η αναφορά στάλθηκε",
-    "@iarSuccessTitle": {
-        "description": "Title shown on the success step after a platform report is submitted."
+    "reportFlowBlockDescription": "Αποκρύπτει τα μηνύματά τους και τους εμποδίζει να σας στέλνουν μηνύματα",
+    "@reportFlowBlockDescription": {
+        "description": "Report flow: description under reportFlowBlockName on the thank-you screen."
     },
-    "iarSuccessBody": "Η ομάδα ασφαλείας μας το εξετάζει. Θα σας στείλουμε ένα DM και ένα email μόλις καταλήξουμε σε απόφαση.",
-    "@iarSuccessBody": {
-        "description": "Body shown on the success step after a platform report is submitted."
+    "reportFlowBlockButton": "Μπλοκάρισμα",
+    "@reportFlowBlockButton": {
+        "description": "Report flow: button on the thank-you screen that blocks the reported user."
     },
-    "iarAlreadyReportedTitle": "Έχει ήδη γίνει αναφορά",
-    "@iarAlreadyReportedTitle": {
-        "description": "Title shown on the IAR success step when the message had already been reported by this user (HTTP 409); the existing report is under review."
+    "reportFlowBlockedButton": "Μπλοκαρίστηκε",
+    "@reportFlowBlockedButton": {
+        "description": "Report flow: disabled button on the thank-you screen after the reported user was blocked."
     },
-    "iarAlreadyReportedBody": "Έχεις ήδη αναφέρει αυτό το μήνυμα. Η ομάδα ασφαλείας μας το ελέγχει.",
-    "@iarAlreadyReportedBody": {
-        "description": "Body shown on the IAR success step when the message had already been reported by this user (HTTP 409)."
+    "reportFlowUrgentBanner": "Αν κάποιος κινδυνεύει άμεσα, επικοινωνήστε πρώτα με τις τοπικές υπηρεσίες έκτακτης ανάγκης.",
+    "@reportFlowUrgentBanner": {
+        "description": "Report flow: banner on screens about urgent harm, such as threats, self-harm or the safety of minors."
     },
-    "iarBackButton": "Πίσω",
-    "@iarBackButton": {
-        "description": "Footer button label that returns the user to the previous IAR step."
+    "reportFlowLoadFailed": "Δεν ήταν δυνατή η φόρτωση της φόρμας αναφοράς.",
+    "@reportFlowLoadFailed": {
+        "description": "Report flow: error shown when the report form could not be loaded."
     },
-    "iarContinueButton": "Συνέχεια",
-    "@iarContinueButton": {
-        "description": "Footer button label that advances the user to the next IAR step."
+    "reportFlowTryAgain": "Δοκιμάστε ξανά",
+    "@reportFlowTryAgain": {
+        "description": "Report flow: button that loads the report form again after an error."
     },
-    "iarSendReportButton": "Αποστολή αναφοράς",
-    "@iarSendReportButton": {
-        "description": "Footer button label that submits the IAR report."
+    "reportFlowOutdated": "Η φόρμα αναφοράς άλλαξε. Παρακαλώ ξεκινήστε ξανά.",
+    "@reportFlowOutdated": {
+        "description": "Report flow: toast shown when the report form changed on the server while the reporter was filling it in. The form restarts from the first screen."
     },
-    "iarDoneButton": "Τέλος",
-    "@iarDoneButton": {
-        "description": "Footer button label that closes the IAR sheet from the success or guidance step."
+    "reportFlowAlreadyReported": "Έχετε ήδη αναφέρει αυτό το μήνυμα.",
+    "@reportFlowAlreadyReported": {
+        "description": "Report flow: note on the report summary screen when the reporter already reported this message."
     },
-    "iarCouldntSendToast": "Δεν ήταν δυνατή η αποστολή της αναφοράς. Δοκίμασε ξανά.",
-    "@iarCouldntSendToast": {
-        "description": "Toast shown when the IAR report submission fails."
+    "reportFlowAlreadyReportedProfile": "Έχετε ήδη αναφέρει αυτό το προφίλ σήμερα.",
+    "@reportFlowAlreadyReportedProfile": {
+        "description": "Report flow: note on the report summary screen when the reporter already reported this user profile in the last 24 hours."
     },
-    "iarRateLimitedToast": "Υποβάλλεις αναφορές πολύ γρήγορα. Παρακαλώ περίμενε λίγο και δοκίμασε ξανά.",
-    "@iarRateLimitedToast": {
-        "description": "Toast shown when an IAR report submission is rejected for rate limiting (HTTP 429)."
+    "reportFlowRateLimited": "Στέλνετε αναφορές πολύ γρήγορα. Δοκιμάστε ξανά αργότερα.",
+    "@reportFlowRateLimited": {
+        "description": "Report flow: note on the report summary screen when the reporter sent too many reports."
     },
-    "iarReportSentToast": "Αναφορά στάλθηκε. Η ομάδα ασφαλείας μας θα την ελέγξει.",
-    "@iarReportSentToast": {
-        "description": "Toast shown after a message report is submitted successfully from the simple mobile report sheet."
+    "reportFlowSubmitFailed": "Η αναφορά σας δεν στάλθηκε. Δοκιμάστε ξανά.",
+    "@reportFlowSubmitFailed": {
+        "description": "Report flow: note on the report summary screen when the report could not be sent."
     },
-    "iarBlockUserConfirmDescription": "Να γίνει αποκλεισμός του/της {name}; Δεν θα μπορεί να σου στείλει μηνύματα ή αιτήματα φιλίας. Μπορείς να τον/την ξεμπλοκάρεις αργότερα.",
-    "@iarBlockUserConfirmDescription": {
-        "description": "Body of the confirm-block-user bottom sheet shown after the user taps Block on the IAR action card.",
-        "placeholders": {
-            "name": {
-                "type": "String",
-                "example": "ada"
-            }
-        }
-    },
-    "iarBlockUserFailedToast": "Δεν ήταν δυνατός ο αποκλεισμός αυτού του χρήστη. Δοκίμασε ξανά.",
-    "@iarBlockUserFailedToast": {
-        "description": "Toast shown when blocking the reported user from the IAR action card fails."
-    },
-    "iarCloseDmSuccessToast": "Το απευθείας μήνυμα έκλεισε.",
-    "@iarCloseDmSuccessToast": {
-        "description": "Toast shown after the DM with the reported user is closed from the IAR action card."
-    },
-    "iarCloseDmFailedToast": "Δεν ήταν δυνατή η κλείσιμο αυτού του απευθείας μηνύματος. Δοκίμασε ξανά.",
-    "@iarCloseDmFailedToast": {
-        "description": "Toast shown when closing the DM from the IAR action card fails."
-    },
-    "iarLeaveCommunityFailedToast": "Δεν ήταν δυνατή η αποχώρηση από αυτήν την κοινότητα. Δοκίμασε ξανά.",
-    "@iarLeaveCommunityFailedToast": {
-        "description": "Toast shown when leaving the community from the IAR action card fails."
+    "reportFlowAccountSetupRequired": "Διεκδικήστε τον λογαριασμό σας και επαληθεύστε το email σας για να στείλετε αναφορές.",
+    "@reportFlowAccountSetupRequired": {
+        "description": "Report flow: notice on the report summary screen when the account must be claimed and its email verified before it can send reports."
     },
     "chatMessageSuppressEmbeds": "Απόκρυψη ενσωματώσεων",
     "@chatMessageSuppressEmbeds": {
@@ -7647,10 +7370,6 @@
     "guildMenuHideMutedChannels": "Απόκρυψη καναλιών σε σίγαση",
     "@guildMenuHideMutedChannels": {
         "description": "Guild menu checkbox to hide muted channels."
-    },
-    "guildMenuReportCommunity": "Αναφορά κοινότητας",
-    "@guildMenuReportCommunity": {
-        "description": "Guild menu action to report the community."
     },
     "guildMenuDebugCommunity": "Εντοπισμός σφαλμάτων κοινότητας",
     "@guildMenuDebugCommunity": {
@@ -9465,42 +9184,6 @@
     "@guildSettingsRolesBackToRoles": {
         "description": "Button to return to the role list from the editor."
     },
-    "iarReportGuildPreconfirmBody": "Αν αυτή η αναφορά αφορά ένα συγκεκριμένο μήνυμα σε αυτήν την κοινότητα, αναφέρετε αυτό το μήνυμα αντ' αυτού. Οι αναφορές μηνυμάτων δίνουν στην ομάδα ασφαλείας μας το σαφέστερο πλαίσιο και η προσθήκη λεπτομερειών στα σχόλια μπορεί να μας βοηθήσει να το εξετάσουμε πιο γρήγορα. Συνεχίστε με την αναφορά ολόκληρης της κοινότητας μόνο αν η αναφορά ενός μηνύματος δεν θα κάλυπτε το ευρύτερο ζήτημα.",
-    "@iarReportGuildPreconfirmBody": {
-        "description": "Body shown in the pre-confirm dialog before opening the community report sheet."
-    },
-    "iarReasonHateGuildDescription": "Προωθεί το μίσος κατά προστατευμένων ομάδων.",
-    "@iarReasonHateGuildDescription": {
-        "description": "Community-report reason description for hate speech."
-    },
-    "iarReasonTerrorismLabel": "Τρομοκρατία ή βίαιος εξτρεμισμός",
-    "@iarReasonTerrorismLabel": {
-        "description": "Community-report reason label for terrorism or violent extremism."
-    },
-    "iarReasonMatureContentGuildLabel": "Περιεχόμενο για ενήλικες ή μη ασφαλής έλεγχος πρόσβασης",
-    "@iarReasonMatureContentGuildLabel": {
-        "description": "Community-report reason label for mature content or unsafe gating."
-    },
-    "iarReasonMatureContentGuildDescription": "Περιεχόμενο ενηλίκων χωρίς κατάλληλο έλεγχο πρόσβασης.",
-    "@iarReasonMatureContentGuildDescription": {
-        "description": "Community-report reason description for mature content or unsafe gating."
-    },
-    "iarReasonChildSafetyGuildDescription": "Θέτει σε κίνδυνο ανηλίκους ή φιλοξενεί περιεχόμενο παιδικής εκμετάλλευσης.",
-    "@iarReasonChildSafetyGuildDescription": {
-        "description": "Community-report reason description for child safety."
-    },
-    "iarReasonRaidLabel": "Συντονισμός επιδρομής",
-    "@iarReasonRaidLabel": {
-        "description": "Community-report reason label for raid coordination."
-    },
-    "iarReasonRaidDescription": "Συντονίζει επιδρομές, οργανωμένες επιθέσεις ή παρενόχληση εναντίον ατόμων ή κοινοτήτων.",
-    "@iarReasonRaidDescription": {
-        "description": "Community-report reason description for raid coordination."
-    },
-    "iarReasonPrivacyGuildLabel": "Παραβίαση απορρήτου ή doxxing",
-    "@iarReasonPrivacyGuildLabel": {
-        "description": "Community-report reason label for privacy violation or doxxing."
-    },
     "systemCallStartedThatLasted": "Ο/Η {username} ξεκίνησε μια κλήση που διήρκεσε {duration}.",
     "@systemCallStartedThatLasted": {
         "description": "System message when a call has ended and the viewer participated.",
@@ -9788,29 +9471,9 @@
     "@notificationsPermissionDeniedTitle": {
         "description": "Banner title when OS notification permission is denied."
     },
-    "iarPreviewCommunitySubtitle": "Κοινότητα",
-    "@iarPreviewCommunitySubtitle": {
-        "description": "Subtitle shown under the community name in the IAR preview card."
-    },
-    "iarReasonHarassmentGuildLabel": "Παρενόχληση ή στοχευμένη κακοποίηση",
-    "@iarReasonHarassmentGuildLabel": {
-        "description": "Community-report reason label for harassment or targeted abuse."
-    },
     "invalidDeepLinkTitle": "Ο σύνδεσμος δεν άνοιξε",
     "@invalidDeepLinkTitle": {
         "description": "Title when a deep link or route cannot be opened in the app."
-    },
-    "iarReportGuildTitle": "Αναφορά κοινότητας",
-    "@iarReportGuildTitle": {
-        "description": "Title of the simple community-report sheet."
-    },
-    "iarContinueToReportCommunity": "Συνέχεια αναφοράς κοινότητας",
-    "@iarContinueToReportCommunity": {
-        "description": "Primary button in the community report pre-confirm dialog."
-    },
-    "iarReasonTerrorismDescription": "Προωθεί, στρατολογεί ή συντονίζει βίαιες εξτρεμιστικές δραστηριότητες.",
-    "@iarReasonTerrorismDescription": {
-        "description": "Community-report reason description for terrorism or violent extremism."
     },
     "guildSettingsRolesShowSeparately": "Εμφάνιση αυτού του ρόλου ξεχωριστά",
     "@guildSettingsRolesShowSeparately": {
@@ -9913,18 +9576,6 @@
                 "type": "String"
             }
         }
-    },
-    "iarReasonSpamGuildDescription": "Η κοινότητα υπάρχει για να στέλνει spam, να εξαπατά ή να κάνει κατάχρηση της πλατφόρμας.",
-    "@iarReasonSpamGuildDescription": {
-        "description": "Community-report reason description for spam, scams, or phishing."
-    },
-    "iarReasonMalwareGuildLabel": "Διανομή κακόβουλου λογισμικού",
-    "@iarReasonMalwareGuildLabel": {
-        "description": "Community-report reason label for malware distribution."
-    },
-    "iarReasonMalwareGuildDescription": "Διανέμει κακόβουλο λογισμικό, κλεμμένα διαπιστευτήρια ή επιβλαβή αρχεία.",
-    "@iarReasonMalwareGuildDescription": {
-        "description": "Community-report reason description for malware distribution."
     },
     "systemCallDurationOneWeek": "1 εβδομάδα",
     "@systemCallDurationOneWeek": {
@@ -12340,22 +11991,6 @@
     "requiredActionSignOut": "Αποσύνδεση",
     "@requiredActionSignOut": {
         "description": "Sign out button in required action modal."
-    },
-    "iarReasonHarassmentGuildDescription": "Η κοινότητα διευκολύνει τις ομαδικές επιθέσεις ή τη στοχευμένη κακοποίηση.",
-    "@iarReasonHarassmentGuildDescription": {
-        "description": "Community-report reason description for harassment or targeted abuse."
-    },
-    "iarReasonPrivacyGuildDescription": "Κοινοποιεί προσωπικά δεδομένα, παρακολουθεί χρήστες ή συντονίζει την κατάχρηση απορρήτου.",
-    "@iarReasonPrivacyGuildDescription": {
-        "description": "Community-report reason description for privacy violation or doxxing."
-    },
-    "iarReasonSelfHarmGuildLabel": "Ενθαρρύνει τον αυτοτραυματισμό",
-    "@iarReasonSelfHarmGuildLabel": {
-        "description": "Community-report reason label for self-harm encouragement."
-    },
-    "iarReasonSelfHarmGuildDescription": "Ενθαρρύνει την αυτοκτονία, τον αυτοτραυματισμό ή τις διατροφικές διαταραχές.",
-    "@iarReasonSelfHarmGuildDescription": {
-        "description": "Community-report reason description for self-harm encouragement."
     },
     "systemCallMissed": "Χάσατε μια κλήση από τον/την {username}.",
     "@systemCallMissed": {

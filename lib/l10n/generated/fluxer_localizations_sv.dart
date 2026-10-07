@@ -3652,10 +3652,10 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get userProfileTransferOwnership => 'Överför ägarskap';
 
   @override
-  String get userProfileReportUser => 'Anmäl användare';
+  String get userProfileReportMessage => 'Anmäl meddelande';
 
   @override
-  String get userProfileReportMessage => 'Anmäl meddelande';
+  String get userProfileReportUserProfile => 'Anmäl profil';
 
   @override
   String userProfileKickConfirmTitle(String username) {
@@ -3804,96 +3804,6 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get durationCustom => 'Anpassad…';
-
-  @override
-  String get iarReportUserTitle => 'Anmäl användare';
-
-  @override
-  String get iarReportGuildTitle => 'Anmäl community';
-
-  @override
-  String get iarReportGuildPreconfirmBody =>
-      'Om anmälan gäller ett specifikt meddelande i den här communityn, anmäl det meddelandet i stället. Meddelandeanmälningar ger vårt säkerhetsteam tydligast sammanhang. Detaljer i kommentarerna kan hjälpa oss att granska anmälan snabbare. Fortsätt bara med att anmäla hela communityn om en meddelandeanmälan inte skulle täcka det större problemet.';
-
-  @override
-  String get iarContinueToReportCommunity =>
-      'Fortsätt för att anmäla communityn';
-
-  @override
-  String get iarPreviewCommunitySubtitle => 'Community';
-
-  @override
-  String get iarReasonHarassmentGuildLabel =>
-      'Trakasserier eller riktade övergrepp';
-
-  @override
-  String get iarReasonHarassmentGuildDescription =>
-      'Communityn underlättar påhopp eller riktade trakasserier.';
-
-  @override
-  String get iarReasonHateGuildDescription =>
-      'Främjar hat mot skyddade grupper.';
-
-  @override
-  String get iarReasonTerrorismLabel =>
-      'Terrorism eller våldsbejakande extremism';
-
-  @override
-  String get iarReasonTerrorismDescription =>
-      'Främjar, rekryterar för eller samordnar våldsbejakande extremistisk verksamhet.';
-
-  @override
-  String get iarReasonMatureContentGuildLabel =>
-      'Vuxet innehåll eller osäker åtkomstkontroll';
-
-  @override
-  String get iarReasonMatureContentGuildDescription =>
-      'Vuxet innehåll utan tillräcklig åtkomstkontroll.';
-
-  @override
-  String get iarReasonChildSafetyGuildDescription =>
-      'Utsätter minderåriga för fara eller tillhandahåller innehåll som utnyttjar barn.';
-
-  @override
-  String get iarReasonRaidLabel => 'Samordning av räder';
-
-  @override
-  String get iarReasonRaidDescription =>
-      'Samordnar räder, samlade påhopp eller trakasserier mot personer eller communities.';
-
-  @override
-  String get iarReasonSpamGuildDescription =>
-      'Communityn finns för att spamma, lura eller missbruka plattformen.';
-
-  @override
-  String get iarReasonMalwareGuildLabel =>
-      'Distribution av skadlig programvara';
-
-  @override
-  String get iarReasonMalwareGuildDescription =>
-      'Sprider skadlig programvara, stjäl inloggningsuppgifter eller skadliga filer.';
-
-  @override
-  String get iarReasonPrivacyGuildLabel => 'Integritetskränkning eller doxning';
-
-  @override
-  String get iarReasonPrivacyGuildDescription =>
-      'Delar personlig information, förföljer användare eller samordnar integritetsbrott.';
-
-  @override
-  String get iarReasonSelfHarmGuildLabel =>
-      'Uppmuntrar till självskadebeteende';
-
-  @override
-  String get iarReasonSelfHarmGuildDescription =>
-      'Uppmuntrar till självmord, självskadebeteende eller ätstörningar.';
-
-  @override
-  String get iarReasonInappropriateProfile => 'Olämplig profil';
-
-  @override
-  String get iarReasonInappropriateProfileDescription =>
-      'Den här användarens profil innehåller olämpligt innehåll';
 
   @override
   String typingIndicatorOne(String name) {
@@ -7367,353 +7277,122 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get chatMessageReport => 'Anmäl meddelande';
 
   @override
-  String get iarReportMessageTitle => 'Anmäl meddelande';
+  String get reportFlowTitleMessage => 'Anmäl meddelande';
 
   @override
-  String get iarThisUserFallback => 'den här användaren';
+  String get reportFlowTitleUserProfile => 'Anmäl profil';
 
   @override
-  String get iarModalDescription =>
-      'Anmäl en regelöverträdelse eller hitta verktyg för att hantera kontakt och inställningar.';
+  String get reportFlowSummaryTitle => 'Granska din anmälan';
 
   @override
-  String get iarPathStepAriaLabel => 'Vad behöver du?';
+  String get reportFlowSummarySubtitle =>
+      'Kontrollera att allt ser rätt ut innan du skickar.';
 
   @override
-  String get iarCategoryStepTitle => 'Vilken typ av regel bröts?';
-
-  @override
-  String get iarReasonStepTitle => 'Vilken regel bröts?';
-
-  @override
-  String get iarReasonSelectHint => 'Välj en anledning';
-
-  @override
-  String get iarPickAnOptionToast => 'Välj ett alternativ för att fortsätta.';
-
-  @override
-  String get iarPickARuleToast => 'Välj den regel som bröts.';
-
-  @override
-  String get iarPathPlatform => 'Anmäl ett brott mot plattformsregler';
-
-  @override
-  String get iarPathCommunity => 'Anmäl till moderatorerna i denna community';
-
-  @override
-  String get iarPathPreferenceMessage => 'Jag gillar inte det här innehållet';
-
-  @override
-  String get iarCategoryTargetedHarmLabel => 'Hot, trakasserier eller skada';
-
-  @override
-  String get iarCategoryTargetedHarmDescription =>
-      'Mobbning, hot, hat, våld, raider eller innehåll som uppmuntrar till självskadebeteende.';
-
-  @override
-  String get iarCategorySafetyMinorsLabel =>
-      'Barns säkerhet eller vuxet innehåll';
-
-  @override
-  String get iarCategorySafetyMinorsDescription =>
-      'Minderåriga i riskzonen, vuxet innehåll på fel plats eller oönskat beteende.';
-
-  @override
-  String get iarCategoryPrivacyIdentityLabel =>
-      'Integritet eller att utge sig för att vara någon annan';
-
-  @override
-  String get iarCategoryPrivacyIdentityDescription =>
-      'Doxning, förföljelse, att utge sig för att vara någon annan eller en olämplig profil.';
-
-  @override
-  String get iarCategoryDeceptionLabel =>
-      'Bedrägerier, skadlig programvara eller felaktig information';
-
-  @override
-  String get iarCategoryDeceptionDescription =>
-      'Nätfiske, bedrägeri, skadliga länkar eller falska påståenden som sannolikt orsakar verklig skada.';
-
-  @override
-  String get iarCategoryIllegalOtherLabel =>
-      'Olaglig aktivitet eller något annat';
-
-  @override
-  String get iarCategoryIllegalOtherDescription =>
-      'Olaga försäljning, medhjälp till brott eller en tydlig regelöverträdelse som inte passar in ovan.';
-
-  @override
-  String get iarReasonHarassmentLabel => 'Trakasserier eller hot';
-
-  @override
-  String get iarReasonHarassmentMessageDescription =>
-      'Mobbning, upprepad oönskad kontakt, förföljelse eller riktade trakasserier.';
-
-  @override
-  String get iarReasonHateLabel => 'Hatiska uttalanden';
-
-  @override
-  String get iarReasonHateMessageDescription =>
-      'Nedsättande språk, avhumaniserande språk eller attacker mot skyddade grupper.';
-
-  @override
-  String get iarReasonViolenceLabel => 'Våld eller våldsamma hot';
-
-  @override
-  String get iarReasonViolenceDescription =>
-      'Trovärdiga hot, grovt våld eller förhärligande av våld.';
-
-  @override
-  String get iarReasonMatureContentLabel => 'Vuxet innehåll eller trakasserier';
-
-  @override
-  String get iarReasonMatureContentMessageDescription =>
-      'Oönskat beteende eller vuxet innehåll på fel plats.';
-
-  @override
-  String get iarReasonChildSafetyLabel =>
-      'Barns säkerhet eller utnyttjande av minderåriga';
-
-  @override
-  String get iarReasonChildSafetyMessageDescription =>
-      'Grooming eller innehåll som utnyttjar barn.';
-
-  @override
-  String get iarReasonHarmfulMisinfoLabel => 'Skadlig felaktig information';
-
-  @override
-  String get iarReasonHarmfulMisinfoDescription =>
-      'Falska påståenden som sannolikt orsakar verklig skada.';
-
-  @override
-  String get iarReasonSpamLabel => 'Skräppost, bedrägerier eller nätfiske';
-
-  @override
-  String get iarReasonSpamMessageDescription =>
-      'Massutskick av spam, bedrägerier, falska utlottningar eller missbruk av konton.';
-
-  @override
-  String get iarReasonMalwareLabel =>
-      'Skadlig programvara eller farliga länkar';
-
-  @override
-  String get iarReasonMalwareDescription =>
-      'Skadlig programvara, stöld av inloggningsuppgifter eller skadliga filer.';
-
-  @override
-  String get iarReasonPrivacyLabel => 'Integritetskränkning';
-
-  @override
-  String get iarReasonPrivacyDescription =>
-      'Doxning, utlämnad privat information eller förföljelse.';
-
-  @override
-  String get iarReasonImpersonationLabel =>
-      'Utger sig för att vara någon annan eller använder vilseledande medier';
-
-  @override
-  String get iarReasonImpersonationMessageDescription =>
-      'Utger sig för att vara någon annan, inklusive vilseledande AI-genererat innehåll.';
-
-  @override
-  String get iarReasonIllegalLabel => 'Olaglig aktivitet';
-
-  @override
-  String get iarReasonIllegalDescription =>
-      'Olaga försäljning, medhjälp till brott eller olaglig verksamhet.';
-
-  @override
-  String get iarReasonSelfHarmLabel => 'Självskadebeteende eller självmord';
-
-  @override
-  String get iarReasonSelfHarmMessageDescription =>
-      'Uppmaningar eller instruktioner som uppmuntrar till självskadebeteende eller ätstörningar.';
-
-  @override
-  String get iarReasonOtherLabel => 'Ännu en tydlig regelöverträdelse';
-
-  @override
-  String iarReasonOtherDescription(String productName) {
-    return 'Använd endast om det tydligt bryter mot ${productName}s regler och inte passar in ovan.';
+  String reportFlowDisclaimer(String guidelines) {
+    return 'Anmäl bara det du ärligt tror bryter mot reglerna. Att missbruka anmälningar går emot våra $guidelines.';
   }
 
   @override
-  String iarUseChildSafetyInstead(String childSafetyReason) {
-    return 'Om en minderårig är inblandad, använd \"$childSafetyReason\" istället.';
+  String get reportFlowCommunityGuidelinesLink => 'communityriktlinjer';
+
+  @override
+  String get reportFlowDisclaimerNoLink =>
+      'Anmäl bara det du ärligt tror bryter mot reglerna, och skicka inte samma anmälan två gånger.';
+
+  @override
+  String get reportFlowSelectedMessage => 'Meddelandet du anmäler';
+
+  @override
+  String get reportFlowSelectedUser => 'Profilen du anmäler';
+
+  @override
+  String get reportFlowReportCategory => 'Dina svar';
+
+  @override
+  String get reportFlowSubmit => 'Skicka anmälan';
+
+  @override
+  String get reportFlowBack => 'Tillbaka';
+
+  @override
+  String get reportFlowNext => 'Nästa';
+
+  @override
+  String get reportFlowDone => 'Klar';
+
+  @override
+  String get reportFlowThankYouTitle => 'Anmälan skickad';
+
+  @override
+  String get reportFlowThankYouNoReportTitle =>
+      'Tack för att du flaggade detta';
+
+  @override
+  String reportFlowThankYouBody(String productName) {
+    return 'Säkerhetsteamet på $productName granskar din anmälan. Vi avslöjar inte att den kommer från dig.';
   }
 
   @override
-  String get iarSafetyNoteChildSafety =>
-      'Om detta involverar CSAM eller utnyttjande av en minderårig, skicka det nu och dela inte materialet igen.';
+  String get reportFlowThankYouNoReportBody =>
+      'Tack för att du berättade. Det här bryter inte mot våra regler i sig, så vi skickade ingen anmälan. Om det riktar sig mot någon eller använder nedsättande ord, anmäl det igen och välj ”Kränkande eller skadligt innehåll”.';
 
   @override
-  String get iarSafetyNoteSelfHarm =>
-      'Om någon kan vara i omedelbar fara, kontakta lokala räddningstjänster om du kan göra det på ett säkert sätt.';
+  String get reportFlowThankYouNoReportBodyShort =>
+      'Tack för att du berättade. Det här bryter inte mot våra regler i sig, så vi skickade ingen anmälan.';
 
   @override
-  String get iarSafetyNoteViolence =>
-      'Om detta är ett trovärdigt omedelbart hot, kontakta även lokal räddningstjänst.';
+  String get reportFlowMoreYouCanDo => 'Dina alternativ';
 
   @override
-  String get iarSafetyNoteTerrorism =>
-      'Om det här är ett överhängande terrorhot, kontakta även lokala räddningstjänster.';
-
-  @override
-  String get iarActionBlockUserTitle => 'Blockera den här användaren';
-
-  @override
-  String get iarActionBlockUserDescription =>
-      'Stoppa meddelanden och vänförfrågningar.';
-
-  @override
-  String get iarActionBlockUserButton => 'Blockera';
-
-  @override
-  String get iarActionCopyMessageLinkTitle => 'Kopiera meddelandelänk';
-
-  @override
-  String get iarActionCopyMessageLinkDescription =>
-      'Dela med community-moderatorer.';
-
-  @override
-  String get iarActionCopyMessageLinkButton => 'Kopiera';
-
-  @override
-  String get iarActionCloseDmTitle => 'Stäng den här DM-konversationen';
-
-  @override
-  String get iarActionCloseDmDescription =>
-      'Blockerar inte. Du kan öppna igen senare.';
-
-  @override
-  String get iarActionCloseDmButton => 'Stäng DM';
-
-  @override
-  String get iarActionLeaveCommunityTitle => 'Lämna communityn';
-
-  @override
-  String get iarActionLeaveCommunityDescription =>
-      'Sluta se dess innehåll och medlemmar.';
-
-  @override
-  String get iarActionLeaveCommunityButton => 'Lämna';
-
-  @override
-  String get iarActionDmSettingsTitle =>
-      'Inställningar för DM och vänförfrågningar';
-
-  @override
-  String get iarActionDmSettingsDescription => 'Ändra vem som kan nå dig.';
-
-  @override
-  String get iarActionCallSettingsTitle =>
-      'Samtals- och gruppchattinställningar';
-
-  @override
-  String get iarActionCallSettingsDescription =>
-      'Ändra vem som kan ringa eller lägga till dig.';
-
-  @override
-  String get iarActionOpenButton => 'Öppna';
-
-  @override
-  String get iarActionDeleteMessageTitle => 'Ta bort det här meddelandet';
-
-  @override
-  String get iarActionDeleteMessageDescription =>
-      'Ta bort det från kanalen för alla.';
-
-  @override
-  String get iarActionDeleteMessageButton => 'Ta bort';
-
-  @override
-  String get iarActionDeleteMessageDeletedButton => 'Borttagen';
-
-  @override
-  String get iarActionDeleteMessageDeletedTooltip =>
-      'Det här meddelandet har redan raderats.';
-
-  @override
-  String get iarActionBanUserTitle => 'Bannlys den här användaren';
-
-  @override
-  String get iarActionBanUserDescription =>
-      'Öppna bannlysningsdialogen för den här communityn.';
-
-  @override
-  String get iarActionBanUserButton => 'Bannlys';
-
-  @override
-  String get iarActionBanUserBannedButton => 'Bannlyst';
-
-  @override
-  String get iarActionBanUserBannedTooltip =>
-      'Användaren är redan bannlyst från communityn.';
-
-  @override
-  String get iarCloseDmConfirmTitle => 'Stäng DM';
-
-  @override
-  String iarCloseDmConfirmDescription(String name) {
-    return 'Stäng din nuvarande DM med $name. Detta blockerar dem inte; du kan öppna igen senare.';
+  String reportFlowBlockName(String name) {
+    return 'Blockera $name';
   }
 
   @override
-  String get iarSuccessTitle => 'Anmälan skickad';
+  String get reportFlowBlockDescription =>
+      'Döljer deras meddelanden och stoppar dem från att skicka meddelanden till dig';
 
   @override
-  String get iarSuccessBody =>
-      'Vårt säkerhetsteam granskar det. Vi skickar ett DM och ett e-postmeddelande när vi har fattat ett beslut.';
+  String get reportFlowBlockButton => 'Blockera';
 
   @override
-  String get iarAlreadyReportedTitle => 'Redan rapporterad';
+  String get reportFlowBlockedButton => 'Blockerad';
 
   @override
-  String get iarAlreadyReportedBody =>
-      'Du har redan rapporterat det här meddelandet. Vårt säkerhetsteam granskar det.';
+  String get reportFlowUrgentBanner =>
+      'Om någon är i omedelbar fara, kontakta först de lokala nödtjänsterna.';
 
   @override
-  String get iarBackButton => 'Tillbaka';
+  String get reportFlowLoadFailed => 'Kunde inte ladda formuläret för anmälan.';
 
   @override
-  String get iarContinueButton => 'Fortsätt';
+  String get reportFlowTryAgain => 'Försök igen';
 
   @override
-  String get iarSendReportButton => 'Skicka anmälan';
+  String get reportFlowOutdated =>
+      'Formuläret för anmälan har ändrats. Börja om.';
 
   @override
-  String get iarDoneButton => 'Klar';
+  String get reportFlowAlreadyReported =>
+      'Du har redan anmält det här meddelandet.';
 
   @override
-  String get iarCouldntSendToast => 'Kunde inte skicka rapporten. Försök igen.';
+  String get reportFlowAlreadyReportedProfile =>
+      'Du har redan anmält den här profilen idag.';
 
   @override
-  String get iarRateLimitedToast =>
-      'Du rapporterar för snabbt. Vänligen vänta en stund och försök igen.';
+  String get reportFlowRateLimited =>
+      'Du skickar anmälningar för snabbt. Försök igen senare.';
 
   @override
-  String get iarReportSentToast =>
-      'Rapport skickad. Vårt säkerhetsteam kommer att granska den.';
+  String get reportFlowSubmitFailed =>
+      'Din anmälan gick inte igenom. Försök igen.';
 
   @override
-  String iarBlockUserConfirmDescription(String name) {
-    return 'Blockera $name? De kommer inte att kunna skicka meddelanden till dig eller skicka vänförfrågningar. Du kan avblockera dem senare.';
-  }
-
-  @override
-  String get iarBlockUserFailedToast =>
-      'Kunde inte blockera den här användaren. Försök igen.';
-
-  @override
-  String get iarCloseDmSuccessToast => 'DM stängd.';
-
-  @override
-  String get iarCloseDmFailedToast =>
-      'Kunde inte stänga den här DM:en. Försök igen.';
-
-  @override
-  String get iarLeaveCommunityFailedToast =>
-      'Kunde inte lämna den här communityn. Försök igen.';
+  String get reportFlowAccountSetupRequired =>
+      'Säkra ditt konto och verifiera din e-postadress för att skicka anmälningar.';
 
   @override
   String get chatMessageSuppressEmbeds => 'Dölj inbäddningar';
@@ -12337,9 +12016,6 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get guildMenuHideMutedChannels => 'Dölj tystade kanaler';
-
-  @override
-  String get guildMenuReportCommunity => 'Anmäl community';
 
   @override
   String get guildMenuDebugCommunity => 'Felsök community';

@@ -3657,10 +3657,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get userProfileTransferOwnership => 'Převést vlastnictví';
 
   @override
-  String get userProfileReportUser => 'Nahlásit uživatele';
+  String get userProfileReportMessage => 'Nahlásit zprávu';
 
   @override
-  String get userProfileReportMessage => 'Nahlásit zprávu';
+  String get userProfileReportUserProfile => 'Nahlásit profil';
 
   @override
   String userProfileKickConfirmTitle(String username) {
@@ -3809,91 +3809,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get durationCustom => 'Vlastní…';
-
-  @override
-  String get iarReportUserTitle => 'Nahlásit uživatele';
-
-  @override
-  String get iarReportGuildTitle => 'Nahlásit komunitu';
-
-  @override
-  String get iarReportGuildPreconfirmBody =>
-      'Pokud se toto nahlášení týká konkrétní zprávy v této komunitě, nahlaste místo toho tuto zprávu. Nahlášení zpráv poskytuje našemu bezpečnostnímu týmu nejjasnější kontext a přidání podrobností do komentářů nám může pomoci s rychlejším posouzením. Pokračujte v nahlášení komunity jako celku pouze v případě, že nahlášení zprávy by nevystihovalo širší problém.';
-
-  @override
-  String get iarContinueToReportCommunity => 'Pokračovat v nahlášení komunity';
-
-  @override
-  String get iarPreviewCommunitySubtitle => 'Komunita';
-
-  @override
-  String get iarReasonHarassmentGuildLabel => 'Obtěžování nebo cílené útoky';
-
-  @override
-  String get iarReasonHarassmentGuildDescription =>
-      'Komunita umožňuje hromadné útoky nebo cílené obtěžování.';
-
-  @override
-  String get iarReasonHateGuildDescription =>
-      'Podněcuje nenávist vůči chráněným skupinám.';
-
-  @override
-  String get iarReasonTerrorismLabel => 'Terorismus nebo násilný extremismus';
-
-  @override
-  String get iarReasonTerrorismDescription =>
-      'Propaguje násilné extremistické aktivity, získává pro ně nové členy nebo je koordinuje.';
-
-  @override
-  String get iarReasonMatureContentGuildLabel =>
-      'Obsah pro dospělé nebo nedostatečné omezení přístupu';
-
-  @override
-  String get iarReasonMatureContentGuildDescription =>
-      'Obsah pro dospělé bez řádného omezení přístupu.';
-
-  @override
-  String get iarReasonChildSafetyGuildDescription =>
-      'Ohrožuje nezletilé nebo hostuje obsah zobrazující zneužívání dětí.';
-
-  @override
-  String get iarReasonRaidLabel => 'Koordinace nájezdu';
-
-  @override
-  String get iarReasonRaidDescription =>
-      'Koordinuje nájezdy, hromadné útoky nebo obtěžování lidí či komunit.';
-
-  @override
-  String get iarReasonSpamGuildDescription =>
-      'Komunita existuje za účelem spamování, podvodů nebo zneužívání platformy.';
-
-  @override
-  String get iarReasonMalwareGuildLabel => 'Šíření malwaru';
-
-  @override
-  String get iarReasonMalwareGuildDescription =>
-      'Šíří malware, krade přihlašovací údaje nebo škodlivé soubory.';
-
-  @override
-  String get iarReasonPrivacyGuildLabel => 'Porušení soukromí nebo doxxing';
-
-  @override
-  String get iarReasonPrivacyGuildDescription =>
-      'Sdílí osobní údaje, pronásleduje uživatele nebo koordinuje narušování soukromí.';
-
-  @override
-  String get iarReasonSelfHarmGuildLabel => 'Podněcuje sebepoškozování';
-
-  @override
-  String get iarReasonSelfHarmGuildDescription =>
-      'Podněcuje k sebevraždě, sebepoškozování nebo poruchám příjmu potravy.';
-
-  @override
-  String get iarReasonInappropriateProfile => 'Nevhodný profil';
-
-  @override
-  String get iarReasonInappropriateProfileDescription =>
-      'Profil tohoto uživatele obsahuje nevhodný obsah';
 
   @override
   String typingIndicatorOne(String name) {
@@ -7379,354 +7294,121 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get chatMessageReport => 'Nahlásit zprávu';
 
   @override
-  String get iarReportMessageTitle => 'Nahlásit zprávu';
+  String get reportFlowTitleMessage => 'Nahlásit zprávu';
 
   @override
-  String get iarThisUserFallback => 'tento uživatel';
+  String get reportFlowTitleUserProfile => 'Nahlásit profil';
 
   @override
-  String get iarModalDescription =>
-      'Nahlaste porušení pravidel nebo najděte nástroje pro správu kontaktů a předvoleb.';
+  String get reportFlowSummaryTitle => 'Zkontrolujte své nahlášení';
 
   @override
-  String get iarPathStepAriaLabel => 'Co potřebujete?';
+  String get reportFlowSummarySubtitle =>
+      'Ujistěte se, že to před odesláním vypadá správně.';
 
   @override
-  String get iarCategoryStepTitle => 'Jaký typ pravidla byl porušen?';
-
-  @override
-  String get iarReasonStepTitle => 'Které pravidlo bylo porušeno?';
-
-  @override
-  String get iarReasonSelectHint => 'Vyberte důvod';
-
-  @override
-  String get iarPickAnOptionToast => 'Vyberte možnost pro pokračování.';
-
-  @override
-  String get iarPickARuleToast => 'Vyberte pravidlo, které bylo porušeno.';
-
-  @override
-  String get iarPathPlatform => 'Nahlásit porušení pravidel platformy';
-
-  @override
-  String get iarPathCommunity => 'Nahlásit moderátorům této komunity';
-
-  @override
-  String get iarPathPreferenceMessage => 'Nelíbí se mi tento obsah';
-
-  @override
-  String get iarCategoryTargetedHarmLabel =>
-      'Vyhrožování, obtěžování nebo újma';
-
-  @override
-  String get iarCategoryTargetedHarmDescription =>
-      'Šikana, výhrůžky, nenávist, násilí, nájezdy nebo obsah nabádající k sebepoškozování.';
-
-  @override
-  String get iarCategorySafetyMinorsLabel =>
-      'Bezpečnost dětí nebo obsah pro dospělé';
-
-  @override
-  String get iarCategorySafetyMinorsDescription =>
-      'Ohrožení nezletilých, obsah pro dospělé na nevhodném místě nebo nežádoucí chování.';
-
-  @override
-  String get iarCategoryPrivacyIdentityLabel =>
-      'Soukromí nebo vydávání se za někoho jiného';
-
-  @override
-  String get iarCategoryPrivacyIdentityDescription =>
-      'Doxxing, stalking, vydávání se za někoho nebo nevhodný profil.';
-
-  @override
-  String get iarCategoryDeceptionLabel => 'Podvody, malware nebo dezinformace';
-
-  @override
-  String get iarCategoryDeceptionDescription =>
-      'Phishing, podvody, škodlivé odkazy nebo falešná tvrzení, která pravděpodobně způsobí skutečnou škodu.';
-
-  @override
-  String get iarCategoryIllegalOtherLabel =>
-      'Nezákonná činnost nebo něco jiného';
-
-  @override
-  String get iarCategoryIllegalOtherDescription =>
-      'Nezákonný prodej, napomáhání trestné činnosti nebo jasné porušení pravidel, které nespadá do výše uvedených kategorií.';
-
-  @override
-  String get iarReasonHarassmentLabel => 'Obtěžování nebo hrozby';
-
-  @override
-  String get iarReasonHarassmentMessageDescription =>
-      'Šikana, opakovaný nevyžádaný kontakt, pronásledování nebo cílené obtěžování.';
-
-  @override
-  String get iarReasonHateLabel => 'Nenávistné projevy';
-
-  @override
-  String get iarReasonHateMessageDescription =>
-      'Nadávky, dehumanizující jazyk nebo útoky na chráněné skupiny.';
-
-  @override
-  String get iarReasonViolenceLabel => 'Násilí nebo násilné hrozby';
-
-  @override
-  String get iarReasonViolenceDescription =>
-      'Věrohodné hrozby, explicitní násilí nebo oslavování násilí.';
-
-  @override
-  String get iarReasonMatureContentLabel => 'Obsah pro dospělé nebo obtěžování';
-
-  @override
-  String get iarReasonMatureContentMessageDescription =>
-      'Nevhodné chování nebo obsah pro dospělé na nesprávném místě.';
-
-  @override
-  String get iarReasonChildSafetyLabel =>
-      'Bezpečnost dětí nebo zneužívání nezletilých';
-
-  @override
-  String get iarReasonChildSafetyMessageDescription =>
-      'Navazování kontaktu s dětmi za účelem zneužití nebo obsah zobrazující zneužívání dětí.';
-
-  @override
-  String get iarReasonHarmfulMisinfoLabel => 'Škodlivé dezinformace';
-
-  @override
-  String get iarReasonHarmfulMisinfoDescription =>
-      'Nepravdivá tvrzení, která pravděpodobně způsobí skutečnou újmu.';
-
-  @override
-  String get iarReasonSpamLabel => 'Spam, podvody nebo phishing';
-
-  @override
-  String get iarReasonSpamMessageDescription =>
-      'Hromadný spam, podvody, falešné soutěže nebo zneužití účtu.';
-
-  @override
-  String get iarReasonMalwareLabel => 'Malware nebo nebezpečné odkazy';
-
-  @override
-  String get iarReasonMalwareDescription =>
-      'Malware, krádež přihlašovacích údajů nebo škodlivé soubory.';
-
-  @override
-  String get iarReasonPrivacyLabel => 'Porušení soukromí';
-
-  @override
-  String get iarReasonPrivacyDescription =>
-      'Doxxing, zveřejnění soukromých informací nebo stalking.';
-
-  @override
-  String get iarReasonImpersonationLabel =>
-      'Vydávání se za někoho jiného nebo klamavá média';
-
-  @override
-  String get iarReasonImpersonationMessageDescription =>
-      'Vydávání se za někoho jiného, včetně klamavého obsahu vytvořeného umělou inteligencí.';
-
-  @override
-  String get iarReasonIllegalLabel => 'Nezákonná aktivita';
-
-  @override
-  String get iarReasonIllegalDescription =>
-      'Nezákonný prodej, napomáhání trestné činnosti nebo nezákonná činnost.';
-
-  @override
-  String get iarReasonSelfHarmLabel => 'Sebepoškozování nebo sebevražda';
-
-  @override
-  String get iarReasonSelfHarmMessageDescription =>
-      'Propagace nebo návod k sebepoškozování či poruchám příjmu potravy.';
-
-  @override
-  String get iarReasonOtherLabel => 'Jiné zjevné porušení pravidel';
-
-  @override
-  String iarReasonOtherDescription(String productName) {
-    return 'Použijte pouze v případě, že jasně porušuje pravidla $productName a nespadá do výše uvedených kategorií.';
+  String reportFlowDisclaimer(String guidelines) {
+    return 'Nahlašujte jen to, o čem jste upřímně přesvědčeni, že porušuje pravidla. Zneužití nahlášení porušuje naše $guidelines.';
   }
 
   @override
-  String iarUseChildSafetyInstead(String childSafetyReason) {
-    return 'Pokud se jedná o nezletilou osobu, použijte místo toho „$childSafetyReason“.';
+  String get reportFlowCommunityGuidelinesLink => 'pravidla komunity';
+
+  @override
+  String get reportFlowDisclaimerNoLink =>
+      'Nahlašujte jen to, o čem jste upřímně přesvědčeni, že porušuje pravidla, a prosím, neodesílejte stejné nahlášení dvakrát.';
+
+  @override
+  String get reportFlowSelectedMessage => 'Zpráva, kterou nahlašujete';
+
+  @override
+  String get reportFlowSelectedUser => 'Profil, který nahlašujete';
+
+  @override
+  String get reportFlowReportCategory => 'Vaše odpovědi';
+
+  @override
+  String get reportFlowSubmit => 'Odeslat nahlášení';
+
+  @override
+  String get reportFlowBack => 'Zpět';
+
+  @override
+  String get reportFlowNext => 'Další';
+
+  @override
+  String get reportFlowDone => 'Hotovo';
+
+  @override
+  String get reportFlowThankYouTitle => 'Nahlášení odesláno';
+
+  @override
+  String get reportFlowThankYouNoReportTitle =>
+      'Děkujeme, že jste na to upozornili';
+
+  @override
+  String reportFlowThankYouBody(String productName) {
+    return 'Tým bezpečnosti $productName vaše nahlášení posoudí. Neprozradíme, že pochází od vás.';
   }
 
   @override
-  String get iarSafetyNoteChildSafety =>
-      'Pokud se jedná o CSAM nebo zneužívání nezletilé osoby, odešlete to nyní a znovu nesdílejte materiál.';
+  String get reportFlowThankYouNoReportBody =>
+      'Děkujeme, že jste nám to oznámili. Samo o sobě to naše pravidla neporušuje, proto jsme neodeslali žádné nahlášení. Pokud to míří na někoho nebo obsahuje urážky, nahlaste to znovu a vyberte „Zneužívající nebo škodlivý obsah“.';
 
   @override
-  String get iarSafetyNoteSelfHarm =>
-      'Pokud někomu může hrozit bezprostřední nebezpečí, kontaktujte místní záchranné složky, pokud to můžete udělat bezpečně.';
+  String get reportFlowThankYouNoReportBodyShort =>
+      'Děkujeme, že jste nám to oznámili. Samo o sobě to naše pravidla neporušuje, proto jsme neodeslali žádné nahlášení.';
 
   @override
-  String get iarSafetyNoteViolence =>
-      'Pokud jde o věrohodnou bezprostřední hrozbu, kontaktujte také místní záchranné složky.';
+  String get reportFlowMoreYouCanDo => 'Vaše možnosti';
 
   @override
-  String get iarSafetyNoteTerrorism =>
-      'Pokud se jedná o bezprostřední teroristickou hrozbu, kontaktujte také místní záchranné složky.';
-
-  @override
-  String get iarActionBlockUserTitle => 'Blokovat tohoto uživatele';
-
-  @override
-  String get iarActionBlockUserDescription =>
-      'Zastavit zprávy a žádosti o přátelství.';
-
-  @override
-  String get iarActionBlockUserButton => 'Blokovat';
-
-  @override
-  String get iarActionCopyMessageLinkTitle => 'Kopírovat odkaz na zprávu';
-
-  @override
-  String get iarActionCopyMessageLinkDescription =>
-      'Sdílet s moderátory komunity.';
-
-  @override
-  String get iarActionCopyMessageLinkButton => 'Kopírovat';
-
-  @override
-  String get iarActionCloseDmTitle => 'Zavřít tuto soukromou konverzaci';
-
-  @override
-  String get iarActionCloseDmDescription =>
-      'Neblokuje. Můžete znovu otevřít později.';
-
-  @override
-  String get iarActionCloseDmButton => 'Zavřít soukromou konverzaci';
-
-  @override
-  String get iarActionLeaveCommunityTitle => 'Opustit komunitu';
-
-  @override
-  String get iarActionLeaveCommunityDescription =>
-      'Přestanete vídat její obsah a členy.';
-
-  @override
-  String get iarActionLeaveCommunityButton => 'Opustit';
-
-  @override
-  String get iarActionDmSettingsTitle =>
-      'Nastavení přímých zpráv a žádostí o přátelství';
-
-  @override
-  String get iarActionDmSettingsDescription =>
-      'Změňte, kdo vás může kontaktovat.';
-
-  @override
-  String get iarActionCallSettingsTitle =>
-      'Nastavení hovorů a skupinových konverzací';
-
-  @override
-  String get iarActionCallSettingsDescription =>
-      'Změňte, kdo vám může volat nebo vás přidat.';
-
-  @override
-  String get iarActionOpenButton => 'Otevřít';
-
-  @override
-  String get iarActionDeleteMessageTitle => 'Smazat tuto zprávu';
-
-  @override
-  String get iarActionDeleteMessageDescription =>
-      'Odstranit z kanálu pro všechny.';
-
-  @override
-  String get iarActionDeleteMessageButton => 'Smazat';
-
-  @override
-  String get iarActionDeleteMessageDeletedButton => 'Smazáno';
-
-  @override
-  String get iarActionDeleteMessageDeletedTooltip =>
-      'Tato zpráva již byla smazána.';
-
-  @override
-  String get iarActionBanUserTitle => 'Zabanovat tohoto uživatele';
-
-  @override
-  String get iarActionBanUserDescription =>
-      'Otevřít dialog pro zabanování v této komunitě.';
-
-  @override
-  String get iarActionBanUserButton => 'Zabanovat';
-
-  @override
-  String get iarActionBanUserBannedButton => 'Zabanováno';
-
-  @override
-  String get iarActionBanUserBannedTooltip =>
-      'Tento uživatel už má v komunitě ban.';
-
-  @override
-  String get iarCloseDmConfirmTitle => 'Zavřít soukromou konverzaci';
-
-  @override
-  String iarCloseDmConfirmDescription(String name) {
-    return 'Zavřete svůj aktuální soukromý chat s $name. Tím je neblokujete; můžete je znovu otevřít později.';
+  String reportFlowBlockName(String name) {
+    return 'Blokovat uživatele $name';
   }
 
   @override
-  String get iarSuccessTitle => 'Nahlášení odesláno';
+  String get reportFlowBlockDescription =>
+      'Skryje zprávy od této osoby a zabrání jí posílat vám zprávy';
 
   @override
-  String get iarSuccessBody =>
-      'Náš bezpečnostní tým nahlášení prověřuje. Jakmile rozhodneme, pošleme vám přímou zprávu a e-mail.';
+  String get reportFlowBlockButton => 'Blokovat';
 
   @override
-  String get iarAlreadyReportedTitle => 'Již nahlášeno';
+  String get reportFlowBlockedButton => 'Blokováno';
 
   @override
-  String get iarAlreadyReportedBody =>
-      'Tuto zprávu jste již nahlásili. Náš bezpečnostní tým ji prověřuje.';
+  String get reportFlowUrgentBanner =>
+      'Pokud je někdo v bezprostředním nebezpečí, nejprve kontaktujte místní záchranné složky.';
 
   @override
-  String get iarBackButton => 'Zpět';
+  String get reportFlowLoadFailed => 'Nepodařilo se načíst formulář nahlášení.';
 
   @override
-  String get iarContinueButton => 'Pokračovat';
+  String get reportFlowTryAgain => 'Zkusit znovu';
 
   @override
-  String get iarSendReportButton => 'Odeslat nahlášení';
+  String get reportFlowOutdated =>
+      'Formulář nahlášení se změnil. Začněte prosím znovu.';
 
   @override
-  String get iarDoneButton => 'Hotovo';
+  String get reportFlowAlreadyReported => 'Tuto zprávu jste již nahlásili.';
 
   @override
-  String get iarCouldntSendToast =>
-      'Nahlášení se nepodařilo odeslat. Zkuste to prosím znovu.';
+  String get reportFlowAlreadyReportedProfile =>
+      'Tento profil jste dnes již nahlásili.';
 
   @override
-  String get iarRateLimitedToast =>
-      'Nahlásili jste příliš rychle. Počkejte prosím chvíli a zkuste to znovu.';
+  String get reportFlowRateLimited =>
+      'Odesíláte nahlášení příliš rychle. Zkuste to později.';
 
   @override
-  String get iarReportSentToast =>
-      'Nahlášení odesláno. Náš bezpečnostní tým ho prověří.';
+  String get reportFlowSubmitFailed =>
+      'Nahlášení se nepodařilo odeslat. Zkuste to znovu.';
 
   @override
-  String iarBlockUserConfirmDescription(String name) {
-    return 'Zablokovat $name? Nebude vám moci posílat zprávy ani vám posílat žádosti o přátelství. Můžete je později odblokovat.';
-  }
-
-  @override
-  String get iarBlockUserFailedToast =>
-      'Nepodařilo se zablokovat tohoto uživatele. Zkuste to prosím znovu.';
-
-  @override
-  String get iarCloseDmSuccessToast => 'Soukromý chat zavřen.';
-
-  @override
-  String get iarCloseDmFailedToast =>
-      'Nepodařilo se zavřít tento soukromý chat. Zkuste to prosím znovu.';
-
-  @override
-  String get iarLeaveCommunityFailedToast =>
-      'Nepodařilo se opustit tuto komunitu. Zkuste to prosím znovu.';
+  String get reportFlowAccountSetupRequired =>
+      'Dokončete registraci účtu a ověřte svůj e-mail, abyste mohli odesílat nahlášení.';
 
   @override
   String get chatMessageSuppressEmbeds => 'Skrýt vložený obsah';
@@ -12352,9 +12034,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get guildMenuHideMutedChannels => 'Skrýt ztlumené kanály';
-
-  @override
-  String get guildMenuReportCommunity => 'Nahlásit komunitu';
 
   @override
   String get guildMenuDebugCommunity => 'Ladit komunitu';
