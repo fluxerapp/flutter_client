@@ -25,6 +25,7 @@ import 'package:fluxer_app/features/chat/utils/messages/message_action_permissio
 import 'package:fluxer_app/features/chat/utils/messages/message_link.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/threads/presentation/create_thread_sheet.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
@@ -61,6 +62,7 @@ enum MessageAction {
   debugMessage,
   speak,
   translate,
+  createThread,
 }
 
 Future<MessageAction?> showMessageBottomSheet(
@@ -244,6 +246,13 @@ Future<void> dispatchMessageAction({
       unawaited(
         _translateMessage(ref: ref, context: context, message: message),
       );
+    case MessageAction.createThread:
+      _runAfterModalSettles(
+        context,
+        () => unawaited(
+          showCreateThreadSheetForMessage(context, ref, message: message),
+        ),
+      );
   }
 }
 
@@ -417,6 +426,13 @@ List<Widget> buildMessageActionMenuGroups({
         icon: PhosphorIconsFill.shareFat,
         label: l10n.chatMessageForward,
         onTap: () => onAction(MessageAction.forward),
+      ),
+    if (supportsInteractiveActions &&
+        watchCanCreateThreadFromMessage(ref, message))
+      FluxerBottomSheetMenuItem(
+        icon: PhosphorIconsFill.chatsCircle,
+        label: l10n.threadCreate,
+        onTap: () => onAction(MessageAction.createThread),
       ),
     if (canShowEdit)
       FluxerBottomSheetMenuItem(

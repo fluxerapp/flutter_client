@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/chat/providers/messages/message_translation_
 import 'package:fluxer_app/features/chat/utils/messages/message_action_permissions.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/threads/presentation/create_thread_sheet.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -270,6 +271,12 @@ class _ContextMenuPage extends ConsumerWidget {
         icon: PhosphorIconsBold.shareFat,
         onTap: () => pop(MessageAction.forward),
       ),
+      if (watchCanCreateThreadFromMessage(ref, message))
+        _MenuItem(
+          label: l10n.threadCreate,
+          icon: PhosphorIconsBold.chatsCircle,
+          onTap: () => pop(MessageAction.createThread),
+        ),
       const _MenuDivider(),
       if (message.content.isNotEmpty)
         _MenuItem(

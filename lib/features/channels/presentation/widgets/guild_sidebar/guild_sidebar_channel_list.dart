@@ -341,6 +341,20 @@ class _GuildSidebarChannelListState
                           guild: widget.guild,
                         ),
                       );
+                    case GuildSidebarEntryKind.thread:
+                      final String threadId = entry.channel!.id;
+                      return RepaintBoundary(
+                        child: ThreadSidebarTile(
+                          key: ValueKey<String>('thread:$threadId'),
+                          tileKey: _channelKeys.putIfAbsent(
+                            threadId,
+                            GlobalKey.new,
+                          ),
+                          thread: entry.channel!,
+                          guildId: widget.guildId,
+                          isLast: entry.isLastThread,
+                        ),
+                      );
                     case GuildSidebarEntryKind.voiceParticipants:
                       return VoiceChannelParticipantsList(
                         key: ValueKey<String>('vp:${entry.channel!.id}'),

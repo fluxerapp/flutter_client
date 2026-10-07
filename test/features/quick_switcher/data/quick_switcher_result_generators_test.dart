@@ -336,5 +336,73 @@ void main() {
       expect(sets.guilds, hasLength(1));
       expect(sets.guilds.first.title, 'Test Guild');
     });
+
+    test('groups threads and forum posts under a threads header', () {
+      final FluxerLocalizations l10n = testL10n;
+      final QuickSwitcherCandidateSets sets = buildQuickSwitcherCandidateSets(
+        QuickSwitcherBuildInput(
+          l10n: l10n,
+          currentUserId: '1',
+          conversations: const [],
+          friends: const [],
+          guildChannels: const <Channel>[
+            Channel(id: '10', guildId: 'g1', name: 'launch-chat'),
+            Channel(
+              id: '11',
+              guildId: 'g1',
+              name: 'launch-forum',
+              type: ChannelType.guildForum,
+            ),
+            Channel(
+              id: '12',
+              guildId: 'g1',
+              name: 'Launch checklist',
+              type: ChannelType.publicThread,
+              parentId: '10',
+            ),
+            Channel(
+              id: '13',
+              guildId: 'g1',
+              name: 'Launch post',
+              type: ChannelType.publicThread,
+              parentId: '11',
+            ),
+          ],
+          guilds: const <Guild>[Guild(id: 'g1', name: 'Test Guild')],
+          guildMembers: const [],
+          hasFavorites: false,
+        ),
+      );
+
+      final List<QuickSwitcherResult> results =
+          generateQuickSwitcherGeneralResults(
+            search: 'launch',
+            sets: sets,
+            l10n: l10n,
+          );
+
+      final List<String> headers = <String>[
+        for (final QuickSwitcherResult result in results)
+          if (result is QuickSwitcherHeaderResult) result.title,
+      ];
+      expect(headers, <String>[
+        l10n.quickSwitcherSectionTextChannels,
+        l10n.quickSwitcherSectionThreads,
+      ]);
+      final Map<String, QuickSwitcherTextChannelResult> byId =
+          <String, QuickSwitcherTextChannelResult>{
+            for (final QuickSwitcherResult result in results)
+              if (result is QuickSwitcherTextChannelResult)
+                result.channelId: result,
+          };
+      expect(byId['11']!.channelType, ChannelType.guildForum);
+      expect(byId['12']!.channelType, ChannelType.publicThread);
+      expect(byId['12']!.subtitle, 'launch-chat · Test Guild');
+      expect(byId['13']!.subtitle, 'launch-forum · Test Guild');
+      expect(
+        sets.threads.map((QuickSwitcherChannelCandidate c) => c.channelId),
+        <String>['12', '13'],
+      );
+    });
   });
 }

@@ -42,6 +42,7 @@ class Messages extends Table {
   TextColumn get clientNonce => text().nullable()();
   TextColumn get sendError => text().nullable()();
   TextColumn get callJson => text().nullable()();
+  TextColumn get threadJson => text().nullable()();
   TextColumn get translatedContent => text().nullable()();
   TextColumn get translationSourceLanguage => text().nullable()();
   TextColumn get translatedSourceContent => text().nullable()();

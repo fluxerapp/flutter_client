@@ -440,6 +440,9 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
                   guild.id,
                   ref.read(fluxerDatabaseProvider),
                   ref.read(fluxerClientProvider),
+                  threadsActive: ref
+                      .read(threadsGateProvider)
+                      .isActive(guild.id),
                 ),
               );
             },
@@ -578,6 +581,7 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
             onGetGuildChannels: () => getGuildChannelsForSettings(
               db: ref.read(fluxerDatabaseProvider),
               guildId: guild.id,
+              threadsActive: ref.read(threadsGateProvider).isActive(guild.id),
             ),
             onUpdateChannelOverride:
                 (channelId, messageNotifications, {required muted}) {
@@ -650,6 +654,7 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
       db: ref.read(fluxerDatabaseProvider),
       client: ref.read(fluxerClientProvider),
       userId: userId,
+      threadGuildIds: ref.read(threadsGateProvider).activeGuildIds,
     );
   }
 
@@ -795,6 +800,7 @@ Widget _buildGuildMenuActionItem({
           guild.id,
           ref.read(fluxerDatabaseProvider),
           ref.read(fluxerClientProvider),
+          threadsActive: ref.read(threadsGateProvider).isActive(guild.id),
         ),
       );
     },
@@ -927,6 +933,7 @@ Widget _buildGuildMenuActionItem({
     onGetGuildChannels: () => getGuildChannelsForSettings(
       db: ref.read(fluxerDatabaseProvider),
       guildId: guild.id,
+      threadsActive: ref.read(threadsGateProvider).isActive(guild.id),
     ),
     onUpdateChannelOverride:
         (String channelId, int messageNotifications, {required bool muted}) {

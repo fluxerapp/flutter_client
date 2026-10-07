@@ -72,6 +72,33 @@ void main() {
       );
     });
 
+    test('routes a thread push to the thread', () {
+      final String? path = resolvePushNotificationPath(<String, String>{
+        'guild_id': 'guild-1',
+        'channel_id': 'thread-1',
+        'parent_id': 'chan-1',
+        'message_id': 'msg-1',
+      });
+      expect(
+        path,
+        RoutePaths.guildChannelMessage('guild-1', 'thread-1', 'msg-1'),
+      );
+    });
+
+    test('falls back to the parent when a thread id is unknown', () {
+      expect(
+        resolvePushNotificationPath(<String, String>{
+          'guild_id': 'guild-1',
+          'parent_id': 'chan-1',
+        }),
+        RoutePaths.guildChannel('guild-1', 'chan-1'),
+      );
+      expect(
+        resolvePushNotificationPath(<String, String>{'guild_id': 'guild-1'}),
+        isNull,
+      );
+    });
+
     test('returns null when channel_id is missing', () {
       final String? path = resolvePushNotificationPath(<String, String>{
         'message_id': 'msg-1',

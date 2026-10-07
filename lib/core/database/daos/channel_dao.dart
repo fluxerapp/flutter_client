@@ -7,20 +7,30 @@ import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 
 part 'channel_dao.g.dart';
 
+const List<int> _threadTypes = <int>[10, 11, 12];
+
 @DriftAccessor(tables: [Channels])
 class ChannelDao extends DatabaseAccessor<FluxerDatabase>
     with _$ChannelDaoMixin {
   ChannelDao(super.attachedDatabase);
 
-  Stream<List<Channel>> watchChannels(String guildId) =>
+  Stream<List<Channel>> watchChannels(
+    String guildId, {
+    bool includeThreads = false,
+  }) =>
       (select(channels)
-            ..where((c) => c.guildId.equals(guildId))
+            ..where(
+              (c) =>
+                  c.guildId.equals(guildId) & _threadFilter(c, includeThreads),
+            )
             ..orderBy([(c) => OrderingTerm.asc(c.position)]))
           .watch()
           .suppressDriftCancellation;
 
-  Stream<List<Channel>> watchAllChannels() =>
-      select(channels).watch().suppressDriftCancellation;
+  Stream<List<Channel>> watchAllChannels({bool includeThreads = false}) =>
+      (select(channels)..where((c) => _threadFilter(c, includeThreads)))
+          .watch()
+          .suppressDriftCancellation;
 
   Stream<List<Channel>> watchChannelsByIds(Iterable<String> ids) =>
       (select(channels)
@@ -29,13 +39,23 @@ class ChannelDao extends DatabaseAccessor<FluxerDatabase>
           .watch()
           .suppressDriftCancellation;
 
-  Future<List<Channel>> getAllChannels() => select(channels).get();
+  Future<List<Channel>> getAllChannels({bool includeThreads = false}) =>
+      (select(channels)..where((c) => _threadFilter(c, includeThreads))).get();
 
-  Future<List<Channel>> getChannels(String guildId) =>
+  Future<List<Channel>> getChannels(
+    String guildId, {
+    bool includeThreads = false,
+  }) =>
       (select(channels)
-            ..where((c) => c.guildId.equals(guildId))
+            ..where(
+              (c) =>
+                  c.guildId.equals(guildId) & _threadFilter(c, includeThreads),
+            )
             ..orderBy([(c) => OrderingTerm.asc(c.position)]))
           .get();
+
+  Expression<bool> _threadFilter($ChannelsTable c, bool includeThreads) =>
+      includeThreads ? const Constant(true) : c.type.isNotIn(_threadTypes);
 
   Future<Channel?> getChannelById(String id) =>
       (select(channels)..where((c) => c.id.equals(id))).getSingleOrNull();

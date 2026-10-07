@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/chat/utils/attachments/attachment_download_s
 import 'package:fluxer_app/features/chat/utils/media/favorite_media_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_favorite_state.dart';
 import 'package:fluxer_app/features/chat/utils/media/save_message_media_favorite.dart';
+import 'package:fluxer_app/features/forum/providers/media_download_policy_provider.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -72,9 +73,14 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final String linkUrl = launchContext.fallbackUrl.trim();
-    final String? downloadUrl = _downloadUrl();
     final MessageMediaActionScope? actionScope = launchContext.actionScope;
+    final bool downloadsHidden =
+        actionScope != null &&
+        ref.watch(mediaDownloadHiddenProvider(actionScope.message.channelId));
+    final String linkUrl = downloadsHidden
+        ? ''
+        : launchContext.fallbackUrl.trim();
+    final String? downloadUrl = downloadsHidden ? null : _downloadUrl();
     final Attachment? attachment = actionScope == null
         ? null
         : resolveMessageAttachment(

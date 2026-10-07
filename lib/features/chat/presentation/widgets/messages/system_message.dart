@@ -405,6 +405,8 @@ class SystemMessage extends ConsumerWidget {
         );
       case messageTypeChannelPinnedMessage:
         return (PhosphorIconsFill.pushPin, mutedColor, false);
+      case messageTypeThreadCreated:
+        return (PhosphorIconsBold.chatsCircle, mutedColor, false);
       case messageTypeRecipientAdd:
         return (
           PhosphorIconsBold.userPlus,

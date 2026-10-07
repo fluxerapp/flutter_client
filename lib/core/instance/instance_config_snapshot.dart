@@ -68,10 +68,34 @@ class InstanceConfigSnapshot {
       return null;
     }
     try {
-      return parseWellKnownFluxer(Map<String, dynamic>.from(value));
+      return parseWellKnown(Map<String, dynamic>.from(value));
     } on Object {
       return null;
     }
+  }
+
+  static WellKnownFluxerResponse parseWellKnown(Map<String, dynamic> json) {
+    final Object? features = json['features'];
+    final Object? appPublic = json['app_public'];
+    final Object? branding = appPublic is Map ? appPublic['branding'] : null;
+    return parseWellKnownFluxer(<String, dynamic>{
+      ...json,
+      if (features is Map)
+        'features': <String, dynamic>{
+          'premium_enabled': false,
+          'stripe_serviceable': false,
+          'phone_verification_enabled': false,
+          ...Map<String, dynamic>.from(features),
+        },
+      if (appPublic is Map && branding is Map)
+        'app_public': <String, dynamic>{
+          ...Map<String, dynamic>.from(appPublic),
+          'branding': <String, dynamic>{
+            'premium_product_name': 'Plutonium',
+            ...Map<String, dynamic>.from(branding),
+          },
+        },
+    });
   }
 
   String toJson() {

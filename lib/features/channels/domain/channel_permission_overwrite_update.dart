@@ -298,6 +298,8 @@ ChannelUpdateRequestBodyVariant1 buildChannelPermissionOverwritesUpdate({
     ChannelType.guildAnnouncement ||
     ChannelType.guildVoice ||
     ChannelType.guildCategory ||
+    ChannelType.guildForum ||
+    ChannelType.guildMedia ||
     ChannelType.guildLink => ChannelUpdateRequestBodyVariant1(
       permissionOverwrites: patch,
     ),

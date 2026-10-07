@@ -4,6 +4,7 @@ import 'package:fluxer_app/features/channels/presentation/channel_settings/tabs/
 import 'package:fluxer_app/features/channels/presentation/channel_settings/tabs/channel_overview_widget.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/tabs/channel_permissions_settings_widget.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/tabs/channel_webhooks_widget.dart';
+import 'package:fluxer_app/features/forum/presentation/settings/forum_overview_settings.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class ChannelSettingsTabBody extends StatelessWidget {
@@ -23,6 +24,12 @@ class ChannelSettingsTabBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return switch (tab) {
+      ChannelSettingsTab.overview when channel.isThreadOnly =>
+        ForumOverviewSettings(
+          forum: channel,
+          permissions: permissions,
+          scrollController: scrollController,
+        ),
       ChannelSettingsTab.overview => ChannelOverviewWidget(
         channel: channel,
         permissions: permissions,

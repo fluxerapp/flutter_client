@@ -11,6 +11,17 @@ String? resolvePushNotificationPath(Map<String, String> payload) {
   return _pathFromIds(payload);
 }
 
+({String guildId, String parentId})? resolvePushNotificationThreadParent(
+  Map<String, String> payload,
+) {
+  final String? parentId = _nonEmpty(payload['parent_id']);
+  final String? guildId = _nonEmpty(payload['guild_id']);
+  if (parentId == null || guildId == null || isDmPushPayload(payload)) {
+    return null;
+  }
+  return (guildId: guildId, parentId: parentId);
+}
+
 String? _pathFromUrl(String? rawUrl) {
   if (rawUrl == null || rawUrl.isEmpty) {
     return null;
@@ -35,7 +46,7 @@ String? _pathFromUrl(String? rawUrl) {
 String? _pathFromIds(Map<String, String> payload) {
   final String? channelId = _nonEmpty(payload['channel_id']);
   if (channelId == null) {
-    return null;
+    return _parentFallbackPath(payload);
   }
   final String? messageId = _nonEmpty(payload['message_id']);
   final bool isDm = isDmPushPayload(payload);
@@ -53,6 +64,14 @@ String? _pathFromIds(Map<String, String> payload) {
     );
   }
   return RoutePaths.guildChannel(_nonEmpty(payload['guild_id'])!, channelId);
+}
+
+String? _parentFallbackPath(Map<String, String> payload) {
+  final String? parentId = _nonEmpty(payload['parent_id']);
+  if (parentId == null || isDmPushPayload(payload)) {
+    return null;
+  }
+  return RoutePaths.guildChannel(_nonEmpty(payload['guild_id'])!, parentId);
 }
 
 bool _isNavigableChannelPath(String path) {

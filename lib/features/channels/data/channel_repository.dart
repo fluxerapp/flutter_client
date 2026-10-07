@@ -6,6 +6,7 @@ import 'package:fluxer_app/features/channels/domain/channel_move_operation.dart'
 import 'package:fluxer_app/features/channels/domain/channel_move_payload.dart';
 import 'package:fluxer_app/features/channels/domain/channel_overview_update.dart';
 import 'package:fluxer_app/features/channels/domain/channel_permission_overwrite_update.dart';
+import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 
@@ -13,8 +14,18 @@ class ChannelRepository {
   final FluxerClient _client;
   final Dio _dio;
   final db.FluxerDatabase _db;
+  final ThreadsGate? _threadsGate;
 
-  const ChannelRepository(this._client, this._dio, this._db);
+  const ChannelRepository(
+    this._client,
+    this._dio,
+    this._db, {
+    this._threadsGate,
+  });
+
+  bool _admits(ChannelResponse channel, String guildId) =>
+      !isThreadFeatureChannelType(channel.type.json ?? -1) ||
+      (_threadsGate?.isActive(guildId) ?? false);
 
   /// Emits only when the domain channels change, not on tail-pointer writes.
   Stream<List<Channel>> watchChannels(String guildId) {
@@ -29,6 +40,7 @@ class ChannelRepository {
       final channels = await _client.guilds.listGuildChannels(guildId: guildId);
 
       final companions = channels
+          .where((ch) => _admits(ch, guildId))
           .map((ch) => channelFromSdk(ch, guildId))
           .toList();
       await _db.channelDao.upsertChannels(companions);
@@ -118,11 +130,11 @@ class ChannelRepository {
         throw Exception('Failed to update channel');
       }
       final ChannelResponse channelResponse = ChannelResponse.fromJson(data);
-      final db.ChannelsCompanion companion = channelFromSdk(
-        channelResponse,
-        guildId,
-      );
-      await _db.channelDao.upsertChannels(<db.ChannelsCompanion>[companion]);
+      if (_admits(channelResponse, guildId)) {
+        await _db.channelDao.upsertChannels(<db.ChannelsCompanion>[
+          channelFromSdk(channelResponse, guildId),
+        ]);
+      }
       final db.Channel? row = await _db.channelDao.getChannelById(channelId);
       if (row == null) {
         throw Exception('Failed to load updated channel');

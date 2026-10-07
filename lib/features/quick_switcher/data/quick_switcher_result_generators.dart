@@ -96,7 +96,10 @@ List<QuickSwitcherResult> generateQuickSwitcherQueryModeResults({
         friendNicknameById: friendNicknameById,
       );
     case QuickSwitcherQueryMode.textChannel:
-      candidates = sets.textChannels;
+      candidates = <QuickSwitcherCandidate>[
+        ...sets.textChannels,
+        ...sets.threads,
+      ];
     case QuickSwitcherQueryMode.voiceChannel:
       candidates = sets.voiceChannels;
     case QuickSwitcherQueryMode.guild:
@@ -166,6 +169,11 @@ List<QuickSwitcherResult> generateQuickSwitcherGeneralResults({
           type: QuickSwitcherResultType.textChannel,
           headerId: 'text-channels',
           candidates: sets.textChannels,
+        ),
+        (
+          type: QuickSwitcherResultType.thread,
+          headerId: 'threads',
+          candidates: sets.threads,
         ),
         (
           type: QuickSwitcherResultType.voiceChannel,

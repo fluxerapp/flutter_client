@@ -1,3 +1,5 @@
+import 'package:fluxer_app/features/channels/domain/channel.dart'
+    show ChannelType;
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 
@@ -6,6 +8,7 @@ enum QuickSwitcherResultType {
   user,
   groupDm,
   textChannel,
+  thread,
   voiceChannel,
   guild,
   virtualGuild,
@@ -99,6 +102,7 @@ class QuickSwitcherTextChannelResult extends QuickSwitcherResult {
     this.subtitle,
     this.guildName,
     this.guildIcon,
+    this.channelType = ChannelType.guildText,
   });
 
   final String id;
@@ -108,6 +112,7 @@ class QuickSwitcherTextChannelResult extends QuickSwitcherResult {
   final String guildId;
   final String? guildName;
   final String? guildIcon;
+  final ChannelType channelType;
 
   QuickSwitcherResultType get type => QuickSwitcherResultType.textChannel;
 }

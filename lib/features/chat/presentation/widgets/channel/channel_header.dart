@@ -34,6 +34,8 @@ import 'package:fluxer_app/features/shell/navigation/shell_back_handler.dart';
 import 'package:fluxer_app/features/shell/navigation/shell_back_resolver.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
+import 'package:fluxer_app/features/threads/presentation/thread_header_buttons.dart';
+import 'package:fluxer_app/features/threads/presentation/thread_menu_sheet.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
@@ -329,7 +331,9 @@ class ChannelHeader extends ConsumerWidget {
                 if (showMessageActions &&
                     showFavorites &&
                     !isPersonalNotes &&
-                    targetChannelId != null)
+                    targetChannelId != null &&
+                    !(channel != null &&
+                        isThreadFeatureChannelType(channel.type.wireValue)))
                   FluxerGestureDetector(
                     onLongPress: () => _showFavoriteActions(context, ref),
                     child: FluxerButton.circle(
@@ -396,6 +400,10 @@ class ChannelHeader extends ConsumerWidget {
                       ),
                     ),
                   ),
+                if (showMessageActions &&
+                    channel != null &&
+                    showsThreadHeaderActions(ref, channel))
+                  ThreadHeaderMobileButton(channel: channel),
                 if (channel != null &&
                     channel.type == ChannelType.guildVoice) ...[
                   ChatButton(
@@ -526,6 +534,10 @@ class ChannelHeader extends ConsumerWidget {
     required DmConversation? dm,
   }) {
     if (channel == null && dm == null) {
+      return;
+    }
+    if (channel != null && channel.isThread) {
+      unawaited(showThreadMenuSheet(context, ref, channel));
       return;
     }
     unawaited(

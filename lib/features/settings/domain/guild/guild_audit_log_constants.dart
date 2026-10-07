@@ -68,6 +68,9 @@ class GuildAuditLogConstants {
         l10n.auditLogActionMessageBulkDelete,
       AuditLogActionType.messagePin => l10n.auditLogActionMessagePin,
       AuditLogActionType.messageUnpin => l10n.auditLogActionMessageUnpin,
+      AuditLogActionType.threadCreate => l10n.auditLogActionThreadCreate,
+      AuditLogActionType.threadUpdate => l10n.auditLogActionThreadUpdate,
+      AuditLogActionType.threadDelete => l10n.auditLogActionThreadDelete,
       AuditLogActionType.$unknown => l10n.guildSettingsAuditLogUnknownTarget,
     };
   }
@@ -91,7 +94,10 @@ class GuildAuditLogConstants {
       AuditLogActionType.messageDelete ||
       AuditLogActionType.messageBulkDelete ||
       AuditLogActionType.messagePin ||
-      AuditLogActionType.messageUnpin => AuditLogTargetType.channel,
+      AuditLogActionType.messageUnpin ||
+      AuditLogActionType.threadCreate ||
+      AuditLogActionType.threadUpdate ||
+      AuditLogActionType.threadDelete => AuditLogTargetType.channel,
       AuditLogActionType.memberKick ||
       AuditLogActionType.memberPrune ||
       AuditLogActionType.memberBanAdd ||
@@ -130,6 +136,7 @@ class GuildAuditLogConstants {
       AuditLogActionType.emojiCreate ||
       AuditLogActionType.stickerCreate ||
       AuditLogActionType.botAdd ||
+      AuditLogActionType.threadCreate ||
       AuditLogActionType.memberBanRemove => AuditLogActionKind.create,
       AuditLogActionType.channelDelete ||
       AuditLogActionType.channelOverwriteDelete ||
@@ -141,6 +148,7 @@ class GuildAuditLogConstants {
       AuditLogActionType.memberKick ||
       AuditLogActionType.memberBanAdd ||
       AuditLogActionType.messageDelete ||
+      AuditLogActionType.threadDelete ||
       AuditLogActionType.messageBulkDelete => AuditLogActionKind.delete,
       AuditLogActionType.guildUpdate ||
       AuditLogActionType.channelUpdate ||
@@ -155,14 +163,23 @@ class GuildAuditLogConstants {
       AuditLogActionType.emojiUpdate ||
       AuditLogActionType.stickerUpdate ||
       AuditLogActionType.messagePin ||
+      AuditLogActionType.threadUpdate ||
       AuditLogActionType.messageUnpin => AuditLogActionKind.update,
       AuditLogActionType.memberPrune ||
       AuditLogActionType.$unknown => AuditLogActionKind.other,
     };
   }
 
-  static List<AuditLogActionType> get filterableActions =>
-      AuditLogActionType.$valuesDefined;
+  static List<AuditLogActionType> filterableActions({
+    required bool includeThreads,
+  }) => <AuditLogActionType>[
+    for (final AuditLogActionType action in AuditLogActionType.$valuesDefined)
+      if (includeThreads ||
+          (action != AuditLogActionType.threadCreate &&
+              action != AuditLogActionType.threadUpdate &&
+              action != AuditLogActionType.threadDelete))
+        action,
+  ];
 
   static const Map<AuditLogActionType, IconData> _actionIconMap =
       <AuditLogActionType, IconData>{

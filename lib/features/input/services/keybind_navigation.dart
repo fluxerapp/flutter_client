@@ -94,7 +94,8 @@ class KeybindNavigation {
     );
     final List<Channel> channels = <Channel>[];
     for (final GuildSidebarEntry entry in entries) {
-      if (entry.kind == GuildSidebarEntryKind.channel &&
+      if ((entry.kind == GuildSidebarEntryKind.channel ||
+              entry.kind == GuildSidebarEntryKind.thread) &&
           entry.channel != null) {
         channels.add(entry.channel!);
       }

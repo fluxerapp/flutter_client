@@ -27,6 +27,8 @@ QuickSwitcherCandidateSets buildQuickSwitcherCandidateSets(
       <QuickSwitcherGroupDmCandidate>[];
   final List<QuickSwitcherChannelCandidate> textChannels =
       <QuickSwitcherChannelCandidate>[];
+  final List<QuickSwitcherChannelCandidate> threads =
+      <QuickSwitcherChannelCandidate>[];
   final List<QuickSwitcherChannelCandidate> voiceChannels =
       <QuickSwitcherChannelCandidate>[];
   if (!input.directMessagesDisabled) {
@@ -111,9 +113,13 @@ QuickSwitcherCandidateSets buildQuickSwitcherCandidateSets(
       ),
     );
   }
+  final Map<String, String> channelNamesById = <String, String>{
+    for (final Channel channel in input.guildChannels) channel.id: channel.name,
+  };
   for (final Channel channel in input.guildChannels) {
     if (!isGuildTextBasedChannelType(channel.type) &&
-        channel.type != ChannelType.unknown) {
+        channel.type != ChannelType.unknown &&
+        !isThreadFeatureChannelType(channel.type.wireValue)) {
       continue;
     }
     final Guild? guild = guildsById[channel.guildId];
@@ -122,21 +128,33 @@ QuickSwitcherCandidateSets buildQuickSwitcherCandidateSets(
     }
     final String guildName = guild.name;
     final int sortWeight = _channelSortWeight(channel);
+    final bool isThread = isThreadChannelType(channel.type.wireValue);
+    final String? parentName = isThread
+        ? channelNamesById[channel.parentId]
+        : null;
     final QuickSwitcherChannelCandidate candidate =
         QuickSwitcherChannelCandidate(
           id: channel.id,
           title: channel.name,
-          subtitle: guildName,
+          subtitle: parentName == null ? guildName : '$parentName · $guildName',
           channelId: channel.id,
           guildId: channel.guildId,
           guildName: guildName,
           guildIcon: guild.icon,
           isVoice: channel.type == ChannelType.guildVoice,
-          searchValues: <String>[channel.name, guildName, channel.id],
+          channelType: channel.type,
+          searchValues: <String>[
+            channel.name,
+            ?parentName,
+            guildName,
+            channel.id,
+          ],
           sortWeight: sortWeight,
         );
     if (channel.type == ChannelType.guildVoice) {
       voiceChannels.add(candidate);
+    } else if (isThread) {
+      threads.add(candidate);
     } else {
       textChannels.add(candidate);
     }
@@ -207,6 +225,7 @@ QuickSwitcherCandidateSets buildQuickSwitcherCandidateSets(
     users: users.values.toList(),
     groupDms: groupDms,
     textChannels: textChannels,
+    threads: threads,
     voiceChannels: voiceChannels,
     guilds: guildCandidates,
     virtualGuilds: virtualGuilds,

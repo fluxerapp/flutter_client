@@ -174,6 +174,7 @@ class GuildUserSettingsRepository {
     int? durationSeconds,
     UserNotificationSettings? messageNotifications,
     bool? collapsed,
+    int? flags,
     GuildUserSettingsPersistenceOptions options =
         const GuildUserSettingsPersistenceOptions(),
   }) {
@@ -188,6 +189,7 @@ class GuildUserSettingsRepository {
           durationSeconds: durationSeconds,
           messageNotifications: messageNotifications,
           collapsed: collapsed,
+          flags: flags,
         );
         overrides[channelId] = override;
         await _persistChannelOverridesLocally(
@@ -416,6 +418,7 @@ ChannelOverrides _mergeChannelOverride({
   int? durationSeconds,
   UserNotificationSettings? messageNotifications,
   bool? collapsed,
+  int? flags,
 }) {
   final bool? resolvedMuted = muted ?? previous?.muted;
   final bool isExplicitUnmute = muted == false;
@@ -444,5 +447,6 @@ ChannelOverrides _mergeChannelOverride({
     muted: resolvedMuted ?? false,
     muteConfig: muteConfig,
     unreadBadges: previous?.unreadBadges,
+    flags: flags ?? previous?.flags,
   );
 }

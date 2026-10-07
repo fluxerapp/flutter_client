@@ -99,6 +99,8 @@ import 'package:fluxer_app/features/settings/providers/chat_preferences_provider
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/threads/presentation/thread_browser_sheet.dart';
+import 'package:fluxer_app/features/threads/presentation/thread_messages.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -3062,6 +3064,20 @@ class _MessageListState extends ConsumerState<MessageList> {
       renderSettings.messageDisplayCompact,
     );
     return _tileCache.resolve(message.id, layoutSignature, () {
+      if (message.type == messageTypeThreadStarterMessage) {
+        return _withMessageSeparators(
+          context,
+          message: message,
+          isNewDay: isNewDay,
+          visualUnreadId: prependUnreadSeparator ? null : visualUnreadId,
+          leadingGroupSpacing: leading,
+          child: ThreadStarterMessage(
+            key: ValueKey<String>(message.id),
+            message: message,
+            guildId: guildId,
+          ),
+        );
+      }
       if (message.isSystemMessage) {
         final bool canDelete = canDeleteMessage(
           message: message,
@@ -3074,26 +3090,51 @@ class _MessageListState extends ConsumerState<MessageList> {
         final bool useTouchMessageActions = isMobile || touchPrimary;
         final bool isPinSystemMessage =
             message.type == messageTypeChannelPinnedMessage;
-        return _withMessageSeparators(
-          context,
+        final bool isThreadCreated = message.type == messageTypeThreadCreated;
+        final Widget systemMessage = SystemMessage(
+          key: ValueKey(message.id),
           message: message,
-          isNewDay: isNewDay,
-          visualUnreadId: prependUnreadSeparator ? null : visualUnreadId,
-          leadingGroupSpacing: leading,
-          child: SystemMessage(
-            key: ValueKey(message.id),
-            message: message,
-            guildId: guildId,
-            onJumpToPinnedMessage: isPinSystemMessage
-                ? () => unawaited(
-                    jumpToPinnedSystemMessage(ref, message: message),
-                  )
-                : null,
-            onViewAllPins: isPinSystemMessage
-                ? () => requestOpenChannelPins(ref)
-                : null,
-            onLongPress: useTouchMessageActions
-                ? () => showSystemMessageActionsSheet(
+          guildId: guildId,
+          onJumpToPinnedMessage: isPinSystemMessage
+              ? () =>
+                    unawaited(jumpToPinnedSystemMessage(ref, message: message))
+              : isThreadCreated && guildId != null
+              ? () => unawaited(
+                  openThreadById(
+                    this.context,
+                    ref,
+                    guildId: guildId,
+                    threadId: message.messageReference?.channelId ?? '',
+                  ),
+                )
+              : null,
+          onViewAllPins: isPinSystemMessage
+              ? () => requestOpenChannelPins(ref)
+              : isThreadCreated
+              ? () => unawaited(
+                  showThreadBrowserForChannel(
+                    this.context,
+                    ref,
+                    message.channelId,
+                  ),
+                )
+              : null,
+          onLongPress: useTouchMessageActions
+              ? () => showSystemMessageActionsSheet(
+                  this.context,
+                  ref,
+                  message: message,
+                  guildId: guildId,
+                  isDmChannel: isDmChannel,
+                  canDelete: canDelete,
+                  canAddReactions: canAddReactionsForMessage,
+                  canManageMessages: channelCanManageMessages,
+                  currentUserId: currentUserId,
+                )
+              : null,
+          onSecondaryTapUp: !useTouchMessageActions
+              ? (_) => unawaited(
+                  showSystemMessageActionsSheet(
                     this.context,
                     ref,
                     message: message,
@@ -3103,34 +3144,29 @@ class _MessageListState extends ConsumerState<MessageList> {
                     canAddReactions: canAddReactionsForMessage,
                     canManageMessages: channelCanManageMessages,
                     currentUserId: currentUserId,
-                  )
-                : null,
-            onSecondaryTapUp: !useTouchMessageActions
-                ? (_) => unawaited(
-                    showSystemMessageActionsSheet(
-                      this.context,
-                      ref,
-                      message: message,
-                      guildId: guildId,
-                      isDmChannel: isDmChannel,
-                      canDelete: canDelete,
-                      canAddReactions: canAddReactionsForMessage,
-                      canManageMessages: channelCanManageMessages,
-                      currentUserId: currentUserId,
-                    ),
-                  )
-                : null,
-            canAddReactions: canAddReactionsForMessage,
-            onReaction:
-                (String emoji, {String? emojiId, bool animated = false}) => ref
-                    .read(chatViewModelProvider.notifier)
-                    .toggleReaction(
-                      message.id,
-                      emoji,
-                      emojiId: emojiId,
-                      animated: animated,
-                    ),
-          ),
+                  ),
+                )
+              : null,
+          canAddReactions: canAddReactionsForMessage,
+          onReaction:
+              (String emoji, {String? emojiId, bool animated = false}) => ref
+                  .read(chatViewModelProvider.notifier)
+                  .toggleReaction(
+                    message.id,
+                    emoji,
+                    emojiId: emojiId,
+                    animated: animated,
+                  ),
+        );
+        return _withMessageSeparators(
+          context,
+          message: message,
+          isNewDay: isNewDay,
+          visualUnreadId: prependUnreadSeparator ? null : visualUnreadId,
+          leadingGroupSpacing: leading,
+          child: isThreadCreated
+              ? ThreadMessageGate(guildId: guildId, child: systemMessage)
+              : systemMessage,
         );
       }
       final bool canDelete = canDeleteMessage(

@@ -9,8 +9,9 @@ const Set<ChannelType> clickableChannelMentionTypes = <ChannelType>{
   ChannelType.unknown,
 };
 
-bool isClickableChannelMention(Channel channel) {
-  return clickableChannelMentionTypes.contains(channel.type);
+bool isClickableChannelMention(Channel channel, {bool threadsActive = false}) {
+  return clickableChannelMentionTypes.contains(channel.type) ||
+      (threadsActive && (channel.isThread || channel.isThreadOnly));
 }
 
 MessageChannelMention? findChannelMentionFallback(

@@ -13,6 +13,7 @@ internal class HttpNotificationReplyPoster : NotificationReplyPoster {
             connection.doOutput = true
             connection.setRequestProperty("Authorization", request.authorization)
             connection.setRequestProperty("Content-Type", "application/json")
+            request.features?.let { connection.setRequestProperty(FEATURES_HEADER, it) }
             connection.outputStream.use { output ->
                 output.write(request.body.toByteArray(Charsets.UTF_8))
             }

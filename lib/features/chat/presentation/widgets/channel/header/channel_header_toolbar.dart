@@ -27,6 +27,7 @@ import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.
 import 'package:fluxer_app/features/notifications/presentation/inbox_popout.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/threads/presentation/thread_header_buttons.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/utils/call_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -86,8 +87,10 @@ class ChannelHeaderToolbar extends ConsumerWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (channel != null && !isPersonalNotes)
+        if (channel != null && !isPersonalNotes && !channel!.isThread)
           buildChannelNotificationButton(channel: channel!),
+        if (channel != null && showsThreadHeaderActions(ref, channel))
+          ThreadHeaderToolbarButtons(channel: channel!),
         ..._buildCallButtons(context, ref),
         if (canOfferAnnouncementFollow(
           channel,
@@ -229,6 +232,11 @@ class ChannelHeaderToolbar extends ConsumerWidget {
       return false;
     }
     if (isPersonalNotes) {
+      return false;
+    }
+    final Channel? guildChannel = channel;
+    if (guildChannel != null &&
+        isThreadFeatureChannelType(guildChannel.type.wireValue)) {
       return false;
     }
     return channel != null || dm != null;

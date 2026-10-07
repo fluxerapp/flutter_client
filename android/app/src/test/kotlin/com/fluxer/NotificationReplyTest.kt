@@ -31,6 +31,32 @@ class NotificationReplyTest {
     }
 
     @Test
+    fun carriesTheFeaturesHeaderValue() {
+        val request = buildNotificationReplyRequest(
+            account = NotificationReplyAccount("token", "https://api.example/v1"),
+            channelId = "c",
+            messageId = "m",
+            content = "hi",
+            features = "view_channel_members_permission, channel_threads",
+        )
+
+        assertEquals("view_channel_members_permission, channel_threads", request?.features)
+    }
+
+    @Test
+    fun omitsAnEmptyFeaturesValue() {
+        val request = buildNotificationReplyRequest(
+            account = NotificationReplyAccount("token", "https://api.example/v1"),
+            channelId = "c",
+            messageId = "m",
+            content = "hi",
+            features = " ",
+        )
+
+        assertNull(request?.features)
+    }
+
+    @Test
     fun leavesARawTokenAlone() {
         assertEquals("session-token", replyAuthorizationHeader(" session-token "))
     }

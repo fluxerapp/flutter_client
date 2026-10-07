@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/chat/utils/media/favorite_media_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/gif_preview_media_policy.dart';
 import 'package:fluxer_app/features/chat/utils/media/hdr_aware_image_url.dart';
 import 'package:fluxer_app/features/chat/utils/media/save_message_media_favorite.dart';
+import 'package:fluxer_app/features/forum/providers/media_download_policy_provider.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -352,6 +353,10 @@ class _AttachmentMediaViewerShellState
     required bool showOptionsButton,
     MessageMediaFavoriteTarget? favoriteTarget,
   }) {
+    final MessageMediaActionScope? actionScope = widget.actionScope;
+    final bool downloadsHidden =
+        actionScope != null &&
+        ref.watch(mediaDownloadHiddenProvider(actionScope.message.channelId));
     return Opacity(
       opacity: useTouchGestures ? dismissChromeOpacity : 1,
       child: Padding(
@@ -391,15 +396,17 @@ class _AttachmentMediaViewerShellState
               const SizedBox(width: 8),
             ],
             if (!isMobile) ...[
-              Tooltip(
-                message: l10n.mediaViewerOpenInBrowser,
-                child: FluxerButton.mediaOverlay(
-                  onPressed: _executeOpenInBrowser,
-                  icon: PhosphorIconsBold.arrowSquareOut,
-                  isSquare: true,
+              if (!downloadsHidden) ...[
+                Tooltip(
+                  message: l10n.mediaViewerOpenInBrowser,
+                  child: FluxerButton.mediaOverlay(
+                    onPressed: _executeOpenInBrowser,
+                    icon: PhosphorIconsBold.arrowSquareOut,
+                    isSquare: true,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 8),
+                const SizedBox(width: 8),
+              ],
               if (!useTouchGestures) ...[
                 Tooltip(
                   message: _isDesktopZoomed

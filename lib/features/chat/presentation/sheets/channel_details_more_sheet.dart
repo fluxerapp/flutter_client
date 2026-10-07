@@ -517,6 +517,11 @@ String? _detailsSubtitle({
       ChannelType.guildCategory => l10n.channelDetailsCategory,
       ChannelType.guildLink => l10n.channelDetailsLinkChannel,
       ChannelType.unknown => l10n.channelDetailsUnsupportedChannel,
+      ChannelType.announcementThread ||
+      ChannelType.publicThread ||
+      ChannelType.privateThread ||
+      ChannelType.guildForum ||
+      ChannelType.guildMedia ||
       ChannelType.dm ||
       ChannelType.groupDm ||
       ChannelType.dmPersonalNotes => l10n.channelDetailsGenericChannel,

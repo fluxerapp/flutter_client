@@ -1,6 +1,8 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
@@ -46,6 +48,20 @@ class CreateChannelSheet {
         parentId: parentId,
         contentWarningLevel: ContentWarningLevelInput.inherit,
       ),
+      15 => ChannelCreateRequest15(
+        name: name,
+        type: GuildForumChannelCreateRequestTypeType.guildForum,
+        parentId: parentId,
+        permissionOverwrites: [],
+        contentWarningLevel: ContentWarningLevelInput.inherit,
+      ),
+      16 => ChannelCreateRequest16(
+        name: name,
+        type: GuildMediaChannelCreateRequestTypeType.guildMedia,
+        parentId: parentId,
+        permissionOverwrites: [],
+        contentWarningLevel: ContentWarningLevelInput.inherit,
+      ),
       998 => ChannelCreateRequest998(
         name: name,
         type: GuildLinkChannelCreateRequestTypeType.guildLink,
@@ -67,9 +83,15 @@ class CreateChannelSheet {
   static Future<ChannelCreateRequest?> show(
     BuildContext context, {
     String? parentId,
+    String? guildId,
   }) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final _ChannelDraft draft = _ChannelDraft();
+    final _ChannelDraft draft = _ChannelDraft(
+      threadChannelsActive: ProviderScope.containerOf(
+        context,
+        listen: false,
+      ).read(threadsGateProvider).isActive(guildId),
+    );
     final Future<ChannelCreateRequest?> result;
     if (isMobileLayout(context)) {
       result = FluxerBottomSheet.show<ChannelCreateRequest>(
@@ -104,6 +126,9 @@ class CreateChannelSheet {
 }
 
 class _ChannelDraft {
+  _ChannelDraft({required this.threadChannelsActive});
+
+  final bool threadChannelsActive;
   String name = '';
   String url = '';
   int type = ChannelType.guildText.wireValue;
@@ -230,6 +255,18 @@ class _CreateChannelFields extends StatelessWidget {
                 label: l10n.guildNavbarLinkChannel,
                 description: l10n.guildNavbarLinkChannelDescription,
               ),
+              if (draft.threadChannelsActive) ...<FluxerRadioItem<int>>[
+                FluxerRadioItem<int>(
+                  value: ChannelType.guildForum.wireValue,
+                  label: l10n.forumChannelTypeForum,
+                  description: l10n.forumChannelTypeForumDescription,
+                ),
+                FluxerRadioItem<int>(
+                  value: ChannelType.guildMedia.wireValue,
+                  label: l10n.forumChannelTypeMedia,
+                  description: l10n.forumChannelTypeMediaDescription,
+                ),
+              ],
             ],
           ),
           SizedBox(height: layout.s4),

@@ -5,6 +5,7 @@ import 'package:fluxer_app/features/mature_content/domain/mature_content_types.d
 import 'package:fluxer_app/features/mature_content/utils/content_warning_utils.dart';
 
 const String kChannelHasFollowedChannels = 'CHANNEL_HAS_FOLLOWED_CHANNELS';
+const String kChannelHasThreads = 'CHANNEL_HAS_THREADS';
 const String kMessageAlreadyCrossposted = 'MESSAGE_ALREADY_CROSSPOSTED';
 const String kMessageCrosspostRateLimited = 'MESSAGE_CROSSPOST_RATE_LIMITED';
 const String kPublishedMessageEditRateLimited =

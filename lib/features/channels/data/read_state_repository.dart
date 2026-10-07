@@ -9,6 +9,12 @@ import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
 import 'package:fluxer_dart/export.dart';
 
+const int readStateFlagIsThread = 1 << 1;
+const Duration threadReadStateRetention = Duration(days: 30);
+
+bool isThreadReadState(int? flags) =>
+    flags != null && (flags & readStateFlagIsThread) != 0;
+
 class ReadStateRepository {
   const ReadStateRepository(
     this._client,
@@ -63,6 +69,7 @@ class ReadStateRepository {
           lastMessageId: Value(rs.lastMessageId),
           mentionCount: Value(rs.mentionCount),
           version: Value(rs.version),
+          flags: rs.flags == null ? const Value.absent() : Value(rs.flags),
         ),
       );
       final dm = await _db.dmChannelDao.getDmChannelById(rs.id);
@@ -226,6 +233,7 @@ class ReadStateRepository {
   Future<void> cleanupStaleReadStates({
     int maxConcurrentHttp = 3,
     int maxConsecutiveFailures = 5,
+    DateTime? now,
   }) async {
     final readStates = await _db.readStateDao.getReadStates();
     if (readStates.isEmpty) {
@@ -233,13 +241,45 @@ class ReadStateRepository {
     }
     // Per-row point reads here starve the first channel switch after READY.
     final knownChannelIds = <String>{
-      for (final channel in await _db.channelDao.getAllChannels()) channel.id,
+      for (final channel in await _db.channelDao.getAllChannels(
+        includeThreads: true,
+      ))
+        channel.id,
       for (final dm in await _db.dmChannelDao.getDmChannels()) dm.id,
     };
-    final staleChannelIds = <String>[
-      for (final readState in readStates)
-        if (!knownChannelIds.contains(readState.channelId)) readState.channelId,
-    ];
+    final DateTime clock = now ?? DateTime.now();
+    final staleChannelIds = <String>[];
+    final missingThreadIds = <String>[];
+    final expiredThreadIds = <String>[];
+    final foundThreadIds = <String>[];
+    for (final readState in readStates) {
+      final bool known = knownChannelIds.contains(readState.channelId);
+      if (!isThreadReadState(readState.flags)) {
+        if (!known) {
+          staleChannelIds.add(readState.channelId);
+        }
+        continue;
+      }
+      final DateTime? missingSince = readState.missingSince;
+      if (known) {
+        if (missingSince != null) {
+          foundThreadIds.add(readState.channelId);
+        }
+      } else if (missingSince == null) {
+        missingThreadIds.add(readState.channelId);
+      } else if (clock.difference(missingSince) >= threadReadStateRetention) {
+        expiredThreadIds.add(readState.channelId);
+      }
+    }
+    if (missingThreadIds.isNotEmpty ||
+        expiredThreadIds.isNotEmpty ||
+        foundThreadIds.isNotEmpty) {
+      await _db.transaction(() async {
+        await _db.readStateDao.setMissingSince(missingThreadIds, clock);
+        await _db.readStateDao.setMissingSince(foundThreadIds, null);
+        await _db.readStateDao.deleteReadStatesForChannels(expiredThreadIds);
+      });
+    }
     if (staleChannelIds.isEmpty) {
       return;
     }

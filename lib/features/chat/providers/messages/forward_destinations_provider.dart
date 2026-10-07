@@ -1,3 +1,4 @@
+import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
@@ -9,6 +10,7 @@ import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
+import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'forward_destinations_provider.g.dart';
@@ -148,22 +150,39 @@ Future<List<ForwardDestination>> forwardDestinations(
     );
   }
 
+  final ThreadsGate threadsGate = ref.watch(threadsGateProvider);
+  final List<Channel> threadDestinations = <Channel>[];
+  if (threadsGate.anyActive) {
+    final Set<String> joined = await database.threadDao.getJoinedThreadIds();
+    for (final String guildId in threadsGate.activeGuildIds) {
+      for (final db.Channel row in await database.threadDao.getThreadsForGuild(
+        guildId,
+      )) {
+        final Channel thread = Channel.fromRow(row);
+        if (isForwardableThread(thread, joined: joined.contains(thread.id))) {
+          threadDestinations.add(thread);
+        }
+      }
+    }
+  }
   final List<Channel> guildChannels =
-      allChannels
-          .where((Channel c) => isGuildTextBasedChannelType(c.type))
-          .toList()
-        ..sort((Channel a, Channel b) {
-          final String an = (guildsById[a.guildId]?.name ?? '').toLowerCase();
-          final String bn = (guildsById[b.guildId]?.name ?? '').toLowerCase();
-          final int byGuild = an.compareTo(bn);
-          if (byGuild != 0) {
-            return byGuild;
-          }
-          if (a.position != b.position) {
-            return a.position.compareTo(b.position);
-          }
-          return a.name.toLowerCase().compareTo(b.name.toLowerCase());
-        });
+      <Channel>[
+        ...allChannels.where(
+          (Channel c) => isGuildTextBasedChannelType(c.type),
+        ),
+        ...threadDestinations,
+      ]..sort((Channel a, Channel b) {
+        final String an = (guildsById[a.guildId]?.name ?? '').toLowerCase();
+        final String bn = (guildsById[b.guildId]?.name ?? '').toLowerCase();
+        final int byGuild = an.compareTo(bn);
+        if (byGuild != 0) {
+          return byGuild;
+        }
+        if (a.position != b.position) {
+          return a.position.compareTo(b.position);
+        }
+        return a.name.toLowerCase().compareTo(b.name.toLowerCase());
+      });
 
   // Guild-wide gates precede per-channel permission bits (web parity).
   final Map<String, ForwardDestinationDisable> guildLevelDisable =
@@ -243,6 +262,15 @@ Future<List<ForwardDestination>> forwardDestinations(
   }
 
   return destinations;
+}
+
+bool isForwardableThread(Channel thread, {required bool joined}) {
+  final bool archived = thread.threadArchived ?? false;
+  final bool locked = thread.threadLocked ?? false;
+  if (archived && locked) {
+    return false;
+  }
+  return joined || isPublicThreadChannelType(thread.type);
 }
 
 ForwardDestinationDisable _resolveDisable({

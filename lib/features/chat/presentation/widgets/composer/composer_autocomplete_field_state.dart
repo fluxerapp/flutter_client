@@ -582,15 +582,39 @@ class ComposerAutocompleteFieldState
       if (generation != _syncGeneration || !mounted) {
         return;
       }
+      final bool threads = ref.read(threadsGateProvider).isActive(guildId);
       fallback = <Channel>[
-        for (final db.Channel row in rows) Channel.fromRow(row),
+        for (final db.Channel row in rows)
+          if (threads || !isThreadOnlyChannelType(row.type))
+            Channel.fromRow(row),
       ];
     }
-    final List<Channel> mentionable = mentionableChannelsForGuild(
+    List<Channel> mentionable = mentionableChannelsForGuild(
       guildId: guildId,
       currentList: list,
       fallbackChannels: fallback,
     );
+    if (ref.read(threadsGateProvider).isActive(guildId)) {
+      final Set<String> joined = await ref
+          .read(fluxerDatabaseProvider)
+          .threadDao
+          .getJoinedThreadIds();
+      final List<db.Channel> threadRows = await ref
+          .read(fluxerDatabaseProvider)
+          .threadDao
+          .getThreadsForGuild(guildId);
+      if (generation != _syncGeneration || !mounted) {
+        return;
+      }
+      mentionable = <Channel>[
+        ...mentionable,
+        for (final db.Channel row in threadRows)
+          if (row.threadArchived != true &&
+              (joined.contains(row.id) ||
+                  row.type != ChannelType.privateThread.wireValue))
+            Channel.fromRow(row),
+      ];
+    }
     final String q = trigger.matchedText.toLowerCase();
     List<Channel> filtered = mentionable;
     if (q.isNotEmpty) {

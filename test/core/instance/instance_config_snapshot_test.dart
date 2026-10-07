@@ -127,6 +127,40 @@ void main() {
       expect(InstanceEndpoints.staticCdn, 'https://chat.example/static');
     });
 
+    test('restores well_known cached before the premium fields existed', () {
+      final Map<String, dynamic> wellKnown =
+          jsonDecode(
+                jsonEncode(
+                  wellKnownFixture(
+                    media: 'https://chat.example/media',
+                    staticCdn: 'https://chat.example/static',
+                  ).toJson(),
+                ),
+              )
+              as Map<String, dynamic>;
+      (wellKnown['features'] as Map<String, dynamic>)
+        ..remove('premium_enabled')
+        ..remove('stripe_serviceable')
+        ..remove('phone_verification_enabled');
+      ((wellKnown['app_public'] as Map<String, dynamic>)['branding']
+              as Map<String, dynamic>)
+          .remove('premium_product_name');
+
+      final InstanceConfigSnapshot restored = InstanceConfigSnapshot.fromJson(
+        jsonEncode(<String, dynamic>{
+          'api_base_url': 'https://chat.example/api',
+          'gateway_url': 'wss://chat.example/gateway',
+          'display_domain': 'chat.example',
+          'well_known': wellKnown,
+        }),
+      );
+
+      expect(restored.wellKnown?.features.premiumEnabled, isFalse);
+      expect(restored.wellKnown?.features.stripeServiceable, isFalse);
+      expect(restored.wellKnown?.features.phoneVerificationEnabled, isFalse);
+      expect(restored.wellKnown?.endpoints.media, 'https://chat.example/media');
+    });
+
     test('drops unreadable well_known without losing the instance URL', () {
       final InstanceConfigSnapshot restored = InstanceConfigSnapshot.fromJson(
         jsonEncode(<String, dynamic>{

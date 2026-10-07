@@ -192,6 +192,7 @@ class _GuildAuditLogWidgetState extends ConsumerState<GuildAuditLogWidget> {
     );
     final List<Channel> channels = channelsAsync.value ?? const <Channel>[];
     return <String, Channel>{
+      ...widget.state.threads,
       for (final Channel channel in channels) channel.id: channel,
     };
   }

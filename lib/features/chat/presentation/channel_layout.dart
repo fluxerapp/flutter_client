@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/chat/providers/channel/channel_details_provi
 import 'package:fluxer_app/features/chat/providers/channel/channel_header_search_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
 import 'package:fluxer_app/features/chat/utils/composer/bottom_input_slot_layout.dart';
+import 'package:fluxer_app/features/forum/presentation/forum_channel_view.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_unavailable_screen.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/staff_only_guild_nagbar.dart';
@@ -28,6 +29,7 @@ import 'package:fluxer_app/features/mature_content/utils/channel_gate_navigator.
 import 'package:fluxer_app/features/members/presentation/widgets/channel_members.dart';
 import 'package:fluxer_app/features/shell/presentation/mobile_chat_back_scope.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/threads/presentation/thread_members_sheet.dart';
 import 'package:fluxer_app/features/voice/presentation/voice_channel_page_view.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_overlay_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
@@ -196,6 +198,8 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
             channel: channel,
             child: const SizedBox.shrink(),
           )
+        : channel != null && channel.isThreadOnly
+        ? ForumChannelView(guildId: widget.guildId, channelId: widget.channelId)
         : isVoiceChannel
         ? VoiceChannelPageView(
             guildId: widget.guildId,
@@ -277,7 +281,14 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
                                         )
                                         .closeSearch(),
                                   ),
-                                if (showMemberList)
+                                if (showMemberList &&
+                                    channel != null &&
+                                    channel.isThread)
+                                  ThreadMembersPanel(
+                                    key: ValueKey<String>(widget.channelId),
+                                    thread: channel,
+                                  )
+                                else if (showMemberList)
                                   ChannelMembers(
                                     key: ValueKey<String>(widget.channelId),
                                     guildId: widget.guildId,

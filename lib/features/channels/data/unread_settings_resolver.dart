@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/features/guilds/utils/guild_notification_resolution.dart';
+import 'package:fluxer_app/features/threads/domain/thread_channel.dart';
 import 'package:fluxer_dart/export.dart';
 
 class ResolvedUnreadSettings {
@@ -156,6 +157,79 @@ bool isGuildOrCategoryOrChannelMuted({
     return true;
   }
   return _isChannelMuted(overrides[channel.id], now);
+}
+
+bool isThreadMemberMuted(db.ThreadMember? member, DateTime now) {
+  if (member == null || !member.muted) {
+    return false;
+  }
+  final String? raw = member.muteConfigJson;
+  if (raw == null || raw.isEmpty) {
+    return true;
+  }
+  final Object? decoded = jsonDecode(raw);
+  return _isMuteActive(
+    _muteEndTime(decoded is Map<String, dynamic> ? decoded['end_time'] : null),
+    now,
+  );
+}
+
+bool isThreadMuted({
+  required String threadId,
+  required db.Channel? parent,
+  required db.ThreadMember? member,
+  required UserGuildSettingsResponse? guildSettings,
+  required DateTime now,
+}) {
+  if (_isGuildMuted(guildSettings, now) ||
+      isThreadMemberMuted(member, now) ||
+      _isChannelMuted(guildSettings?.channelOverrides?[threadId], now)) {
+    return true;
+  }
+  return parent != null &&
+      isGuildOrCategoryOrChannelMuted(
+        channel: parent,
+        guildSettings: guildSettings,
+        now: now,
+      );
+}
+
+UserNotificationSettings resolveThreadMessageNotifications({
+  required String threadId,
+  required db.Channel? parent,
+  required db.ThreadMember? member,
+  required UserGuildSettingsResponse? guildSettings,
+  GuildNotificationContext? guildContext,
+}) {
+  final UserNotificationSettings level = switch (threadNotificationSettingOf(
+    member?.flags ?? 0,
+  )) {
+    ThreadNotificationSetting.allMessages =>
+      UserNotificationSettings.allMessages,
+    ThreadNotificationSetting.onlyMentions =>
+      UserNotificationSettings.onlyMentions,
+    ThreadNotificationSetting.none => UserNotificationSettings.noMessages,
+    ThreadNotificationSetting.parentDefault =>
+      _explicitLevel(
+            guildSettings?.channelOverrides?[threadId]?.messageNotifications,
+          ) ??
+          (parent == null
+              ? resolveGuildMessageNotificationsFromContext(
+                  stored:
+                      guildSettings?.messageNotifications ??
+                      UserNotificationSettings.inherit,
+                  guildContext: guildContext,
+                )
+              : resolveMessageNotifications(
+                  channel: parent,
+                  guildSettings: guildSettings,
+                  guildContext: guildContext,
+                )),
+  };
+  if (member == null && level == UserNotificationSettings.allMessages) {
+    return UserNotificationSettings.onlyMentions;
+  }
+  return level;
 }
 
 bool isChannelDirectlyMuted({

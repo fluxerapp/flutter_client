@@ -1,3 +1,4 @@
+import 'package:fluxer_app/features/channels/domain/channel.dart' show Channel;
 import 'package:fluxer_dart/export.dart';
 
 class GuildAuditLogChange {
@@ -92,12 +93,14 @@ class GuildAuditLogPage {
   final List<GuildAuditLogEntry> entries;
   final Map<String, String> userNames;
   final Map<String, GuildAuditLogUser> users;
+  final Map<String, Channel> threads;
   final String? nextBefore;
 
   const GuildAuditLogPage({
     required this.entries,
     required this.userNames,
     required this.users,
+    this.threads = const <String, Channel>{},
     this.nextBefore,
   });
 }

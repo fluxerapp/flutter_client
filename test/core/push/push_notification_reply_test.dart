@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/api/fluxer_api_features.dart';
 import 'package:fluxer_app/core/push/push_notification_ids.dart';
 import 'package:fluxer_app/core/push/push_notification_payload.dart';
 import 'package:fluxer_app/core/push/push_notification_reply.dart';
@@ -246,5 +247,10 @@ void main() {
         isNull,
       );
     });
+  });
+
+  test('reply requests carry the client features header', () {
+    final Map<String, String> headers = pushReplyHeaders('token');
+    expect(headers[fluxerApiFeaturesHeaderName], contains('channel_threads'));
   });
 }

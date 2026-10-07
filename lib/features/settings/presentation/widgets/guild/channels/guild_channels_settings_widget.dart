@@ -635,6 +635,7 @@ class _GuildChannelsSettingsWidgetState
         child: FloatingActionButton(
           onPressed: () => CreateChannelCategoryPickerSheet.show(
             context,
+            guildId: widget.guildId,
             onCreateChannel: (request) => ref
                 .read(
                   guildChannelSettingsActionsProvider(widget.guildId).notifier,

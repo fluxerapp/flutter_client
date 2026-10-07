@@ -196,7 +196,7 @@
     "@mfaChooseMethod": {
         "description": "Description text when multiple MFA methods are available."
     },
-    "mfaMethodTotp": "Authenticator App",
+    "mfaMethodTotp": "Authenticator app",
     "@mfaMethodTotp": {
         "description": "Label for the TOTP authenticator method."
     },
@@ -2337,7 +2337,7 @@
             }
         }
     },
-    "securityLoginPasswordNeverChanged": "Last changed: Never",
+    "securityLoginPasswordNeverChanged": "Last changed: never",
     "@securityLoginPasswordNeverChanged": {
         "description": "Shown when the password has never been changed."
     },
@@ -2510,7 +2510,7 @@
     "@securityTfaSectionDescription": {
         "description": "Description for 2FA section."
     },
-    "securityTfaAuthenticatorApp": "Authenticator App",
+    "securityTfaAuthenticatorApp": "Authenticator app",
     "@securityTfaAuthenticatorApp": {
         "description": "Label for authenticator app row."
     },
@@ -7854,7 +7854,7 @@
     "@guildMenuSettingsSafetyModeration": {
         "description": "Community settings tab for safety and moderation."
     },
-    "guildMenuSettingsActivityLog": "Activity Log",
+    "guildMenuSettingsActivityLog": "Activity log",
     "@guildMenuSettingsActivityLog": {
         "description": "Community settings tab for the activity log."
     },
@@ -10055,7 +10055,7 @@
     "@pushRelayConsentNoticePrefix": {
         "description": "Text before the push relay privacy notice link in the consent sheet."
     },
-    "pushRelayConsentNoticeLink": "Push Relay Privacy Notice",
+    "pushRelayConsentNoticeLink": "Push relay privacy notice",
     "@pushRelayConsentNoticeLink": {
         "description": "Link text for the supplemental push relay privacy notice."
     },

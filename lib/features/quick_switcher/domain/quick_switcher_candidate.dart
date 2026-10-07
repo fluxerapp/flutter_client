@@ -1,3 +1,5 @@
+import 'package:fluxer_app/features/channels/domain/channel.dart'
+    show ChannelType;
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
@@ -92,6 +94,7 @@ class QuickSwitcherChannelCandidate extends QuickSwitcherCandidate {
     super.subtitle,
     this.guildName,
     this.guildIcon,
+    this.channelType = ChannelType.guildText,
   });
 
   final String channelId;
@@ -99,6 +102,7 @@ class QuickSwitcherChannelCandidate extends QuickSwitcherCandidate {
   final String? guildName;
   final String? guildIcon;
   final bool isVoice;
+  final ChannelType channelType;
 
   @override
   QuickSwitcherCandidateType get candidateType => isVoice
@@ -188,6 +192,7 @@ class QuickSwitcherCandidateSets {
     required this.guilds,
     required this.virtualGuilds,
     required this.settings,
+    this.threads = const <QuickSwitcherChannelCandidate>[],
     QuickSwitcherChannelLookup? lookup,
   }) : lookup =
            lookup ??
@@ -198,7 +203,11 @@ class QuickSwitcherCandidateSets {
                  groupDm.channelId: groupDm,
              },
              textChannelById: {
-               for (final QuickSwitcherChannelCandidate channel in textChannels)
+               for (final QuickSwitcherChannelCandidate channel
+                   in <QuickSwitcherChannelCandidate>[
+                     ...textChannels,
+                     ...threads,
+                   ])
                  channel.channelId: channel,
              },
              voiceChannelById: {
@@ -211,6 +220,7 @@ class QuickSwitcherCandidateSets {
   final List<QuickSwitcherUserCandidate> users;
   final List<QuickSwitcherGroupDmCandidate> groupDms;
   final List<QuickSwitcherChannelCandidate> textChannels;
+  final List<QuickSwitcherChannelCandidate> threads;
   final List<QuickSwitcherChannelCandidate> voiceChannels;
   final List<QuickSwitcherGuildCandidate> guilds;
   final List<QuickSwitcherVirtualGuildCandidate> virtualGuilds;

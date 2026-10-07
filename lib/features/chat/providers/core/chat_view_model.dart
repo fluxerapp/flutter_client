@@ -11,6 +11,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/permissions/thread_permissions.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
@@ -24,6 +25,8 @@ import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
 import 'package:fluxer_app/features/channels/domain/announcement_follow.dart';
+import 'package:fluxer_app/features/channels/domain/channel.dart'
+    show isThreadChannelType;
 import 'package:fluxer_app/features/channels/providers/ack_batcher_provider.dart';
 import 'package:fluxer_app/features/channels/providers/read_state_repository_provider.dart';
 import 'package:fluxer_app/features/chat/data/message_repository.dart';
@@ -5039,7 +5042,16 @@ class ChatViewModel extends _$ChatViewModel {
         permissionOutcome.value,
         Permission.sendMessages,
       );
-      if (!canSendMessages) {
+      final bool lockedThread =
+          channelRow != null &&
+          isThreadChannelType(channelRow.type) &&
+          (channelRow.threadLocked ?? false) &&
+          !isThreadModerator(
+            withImplicitThreadBits(permissionOutcome.value),
+            isOwner: false,
+            timedOut: false,
+          );
+      if (!canSendMessages || lockedThread) {
         talker.debug(
           '[ChatViewModel] send blocked: no_permission channelId=$channelId',
         );

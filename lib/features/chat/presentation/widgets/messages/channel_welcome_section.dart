@@ -2,6 +2,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
+import 'package:fluxer_app/features/threads/presentation/thread_welcome_section.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -20,6 +21,9 @@ class ChannelWelcomeSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (channel.isThread) {
+      return ThreadWelcomeSection(thread: channel);
+    }
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final String displayName = '#${channel.name}';
     return Padding(

@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/guilds/data/guild_repository.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
+import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_dart/export.dart' show FluxerClient;
 import 'package:riverpod/src/framework.dart' show Override;
 
@@ -94,6 +95,76 @@ void main() {
           .name,
       'general',
     );
+  });
+
+  test('hides forum and media channels while the thread gate is off', () async {
+    final Map<String, StreamController<List<Channel>>> controllers =
+        <String, StreamController<List<Channel>>>{};
+    final Map<String, StreamController<Guild?>> guildControllers =
+        <String, StreamController<Guild?>>{};
+    final ThreadsGate gate = ThreadsGate();
+    final ProviderContainer container = ProviderContainer(
+      overrides: <Override>[
+        channelRepositoryProvider.overrideWithValue(
+          _FakeChannelRepository(controllers),
+        ),
+        guildRepositoryProvider.overrideWithValue(
+          _FakeGuildRepository(guildControllers),
+        ),
+        channelPermissionCacheProvider.overrideWithValue(
+          ChannelPermissionCaches(
+            effective: <String, int>{
+              'c1': Permission.viewChannel.value,
+              'f1': Permission.viewChannel.value,
+              'm1': Permission.viewChannel.value,
+            },
+          ),
+        ),
+        threadsGateProvider.overrideWithValue(gate),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    final StreamController<List<Channel>> controller =
+        StreamController<List<Channel>>.broadcast();
+    addTearDown(controller.close);
+    controllers['guild-a'] = controller;
+    container
+        .read(channelListViewModelProvider.notifier)
+        .loadChannels(
+          'guild-a',
+          guild: const Guild(id: 'guild-a', name: 'A'),
+        );
+    controller.add(const <Channel>[
+      Channel(id: 'c1', guildId: 'guild-a', name: 'general'),
+      Channel(
+        id: 'f1',
+        guildId: 'guild-a',
+        name: 'forum',
+        type: ChannelType.guildForum,
+      ),
+      Channel(
+        id: 'm1',
+        guildId: 'guild-a',
+        name: 'media',
+        type: ChannelType.guildMedia,
+      ),
+    ]);
+    await Future<void>.delayed(Duration.zero);
+
+    List<String> visibleIds() => <String>[
+      for (final ChannelCategory category
+          in container.read(channelListViewModelProvider).categories)
+        for (final Channel channel in category.channels) channel.id,
+    ];
+
+    expect(visibleIds(), <String>['c1']);
+
+    gate.apply('guild-a', active: true);
+    expect(visibleIds(), unorderedEquals(<String>['c1', 'f1', 'm1']));
+
+    gate.resetConnection();
+    expect(visibleIds(), <String>['c1']);
   });
 
   test('updates guild when watched server changes', () async {

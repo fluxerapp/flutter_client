@@ -198,7 +198,16 @@ Future<ResolvedMatureGateContext?> _resolveGateContextForChannel(
   Ref ref,
   String channelId,
 ) async {
-  final Channel? channel = await _resolveChannel(ref, channelId);
+  Channel? channel = await _resolveChannel(ref, channelId);
+  final String? threadParentId = channel != null && channel.isThread
+      ? channel.parentId
+      : null;
+  if (threadParentId != null) {
+    channel = await _resolveChannel(ref, threadParentId);
+    if (!ref.mounted) {
+      return null;
+    }
+  }
   if (channel == null) {
     return null;
   }

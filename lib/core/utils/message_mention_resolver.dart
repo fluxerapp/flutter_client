@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
+import 'package:fluxer_app/features/channels/domain/channel.dart'
+    show isThreadChannelType;
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_dart/export.dart';
 
@@ -16,6 +18,7 @@ class MessageMentionContext {
     required this.suppressEveryone,
     required this.suppressRoles,
     required this.currentUserRoleIds,
+    this.threadNonMember = false,
   });
 
   final String? currentUserId;
@@ -24,7 +27,23 @@ class MessageMentionContext {
   final bool suppressEveryone;
   final bool suppressRoles;
   final Set<String> currentUserRoleIds;
+  final bool threadNonMember;
 }
+
+Future<bool> isThreadNonMember(FluxerDatabase db, Channel channel) async =>
+    isThreadChannelType(channel.type) &&
+    await db.threadDao.getMember(channel.id) == null;
+
+MessageMentionContext unknownThreadMentionContext(MessageMentionContext ctx) =>
+    MessageMentionContext(
+      currentUserId: ctx.currentUserId,
+      blockedUserIds: ctx.blockedUserIds,
+      channelExists: true,
+      suppressEveryone: true,
+      suppressRoles: true,
+      currentUserRoleIds: const <String>{},
+      threadNonMember: true,
+    );
 
 /// Builds the per-channel context once so a caller can resolve many messages
 /// without repeating database reads.
@@ -69,6 +88,7 @@ Future<MessageMentionContext> buildMessageMentionContext(
     suppressEveryone: settings?.suppressEveryone ?? false,
     suppressRoles: settings?.suppressRoles ?? false,
     currentUserRoleIds: currentUserRoleIds,
+    threadNonMember: await isThreadNonMember(db, channel),
   );
 }
 
@@ -92,10 +112,11 @@ bool messageMentionsUser(
   if (!ctx.channelExists) {
     return mentionEveryone;
   }
-  if (!mentionEveryone && mentionRoleIds.isEmpty) {
+  final bool everyone = mentionEveryone && !ctx.threadNonMember;
+  if (!everyone && mentionRoleIds.isEmpty) {
     return false;
   }
-  if (mentionEveryone) {
+  if (everyone) {
     return !ctx.suppressEveryone;
   }
   if (mentionRoleIds.isEmpty || ctx.suppressRoles) {

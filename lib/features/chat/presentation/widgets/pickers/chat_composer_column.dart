@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/pickers/chat_botto
 import 'package:fluxer_app/features/chat/providers/pickers/mobile_keyboard_metrics_provider.dart';
 import 'package:fluxer_app/features/chat/utils/composer/bottom_input_slot_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/threads/presentation/thread_composer_gate.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 const int _kResumeInsetSyncFrames = 4;
@@ -151,10 +152,12 @@ class _ChatComposerColumnState extends ConsumerState<ChatComposerColumn>
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         RepaintBoundary(
-          child: ChannelTextarea(
-            autocompletePanelHost: widget.autocompletePanelHost,
-            autocompletePanelScrollController:
-                widget.autocompletePanelScrollController,
+          child: ThreadComposerGate(
+            child: ChannelTextarea(
+              autocompletePanelHost: widget.autocompletePanelHost,
+              autocompletePanelScrollController:
+                  widget.autocompletePanelScrollController,
+            ),
           ),
         ),
         if (isMobileLayout(context)) const BottomInputSpacer(),

@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
+
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/instance/instance_endpoints.dart';
@@ -20,10 +22,9 @@ class WellKnown extends _$WellKnown {
       InstanceEndpoints.apply(cached);
       return cached;
     }
-    final WellKnownFluxerResponse response = await ref
-        .watch(fluxerClientProvider)
-        .instance
-        .getWellKnownFluxer();
+    final WellKnownFluxerResponse response = await _fetch(
+      ref.watch(fluxerDioProvider),
+    );
     if (!_applyIfMounted(response)) {
       return response;
     }
@@ -36,10 +37,9 @@ class WellKnown extends _$WellKnown {
       state = const AsyncLoading<WellKnownFluxerResponse>();
     }
     try {
-      final WellKnownFluxerResponse response = await ref
-          .read(fluxerClientProvider)
-          .instance
-          .getWellKnownFluxer();
+      final WellKnownFluxerResponse response = await _fetch(
+        ref.read(fluxerDioProvider),
+      );
       if (!_applyIfMounted(response)) {
         return;
       }
@@ -51,6 +51,12 @@ class WellKnown extends _$WellKnown {
       }
       state = AsyncError<WellKnownFluxerResponse>(error, stackTrace);
     }
+  }
+
+  Future<WellKnownFluxerResponse> _fetch(Dio dio) async {
+    final Response<Map<String, dynamic>> result = await dio
+        .get<Map<String, dynamic>>('/.well-known/fluxer');
+    return InstanceConfigSnapshot.parseWellKnown(result.data!);
   }
 
   bool _applyIfMounted(WellKnownFluxerResponse response) {

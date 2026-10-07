@@ -22,6 +22,8 @@ const int messageFlagIsCrosspost = 1 << 1;
 const int messageFlagSuppressEmbeds = 1 << 2;
 const int messageFlagSourceMessageDeleted = 1 << 3;
 const int messageFlagSuppressNotifications = 1 << 12;
+const int messageFlagHasThread = 1 << 5;
+const int messageFlagFailedToMentionSomeRolesInThread = 1 << 8;
 const int messageFlagCompactAttachments = 1 << 17;
 const int attachmentFlagIsSpoiler = 1 << 3;
 const int attachmentFlagContainsExplicitMedia = 1 << 4;
@@ -38,7 +40,9 @@ const int messageTypeChannelIconChange = 5;
 const int messageTypeChannelPinnedMessage = 6;
 const int messageTypeUserJoin = 7;
 const int messageTypeChannelFollowAdd = 12;
+const int messageTypeThreadCreated = 18;
 const int messageTypeReply = 19;
+const int messageTypeThreadStarterMessage = 21;
 const int messageTypeClientSystem = 99;
 
 class EmbedAuthor {
@@ -623,7 +627,7 @@ class MessageReference {
   factory MessageReference.fromSdk(MessageResponseSchemaMessageReference sdk) {
     return MessageReference(
       channelId: sdk.channelId,
-      messageId: sdk.messageId,
+      messageId: sdk.messageId ?? '',
       guildId: sdk.guildId,
       type: sdk.type,
     );
@@ -634,7 +638,7 @@ class MessageReference {
   ) {
     return MessageReference(
       channelId: sdk.channelId,
-      messageId: sdk.messageId,
+      messageId: sdk.messageId ?? '',
       guildId: sdk.guildId,
       type: sdk.type,
     );
@@ -645,7 +649,7 @@ class MessageReference {
   ) {
     return MessageReference(
       channelId: sdk.channelId,
-      messageId: sdk.messageId,
+      messageId: sdk.messageId ?? '',
       guildId: sdk.guildId,
       type: sdk.type,
     );
@@ -912,6 +916,9 @@ MessageCall? messageCallFromSearchSdk(
   );
 }
 
+String? _encodeThread(ThreadChannelResponse? thread) =>
+    thread == null ? null : jsonEncode(thread.toJson());
+
 bool isKnownSystemMessageType(int type) {
   return switch (type) {
     messageTypeRecipientAdd ||
@@ -961,6 +968,7 @@ class Message {
   final String? clientNonce;
   final String? sendError;
   final MessageCall? call;
+  final String? threadJson;
   final bool tts;
   final MessageTranslation? translation;
 
@@ -999,6 +1007,7 @@ class Message {
     this.clientNonce,
     this.sendError,
     this.call,
+    this.threadJson,
     this.tts = false,
     this.translation,
   });
@@ -1056,6 +1065,7 @@ class Message {
       flags: sdk.flags,
       clientNonce: sdk.nonce,
       call: messageCallFromSdk(sdk.call),
+      threadJson: _encodeThread(sdk.thread),
       tts: sdk.tts,
     );
   }
@@ -1108,6 +1118,7 @@ class Message {
       type: sdk.type.json ?? 0,
       flags: sdk.flags,
       call: messageCallFromReferencedSdk(sdk.call),
+      threadJson: _encodeThread(sdk.thread),
     );
   }
 
@@ -1166,6 +1177,7 @@ class Message {
       flags: sdk.flags,
       clientNonce: sdk.nonce,
       call: messageCallFromPinSdk(sdk.call),
+      threadJson: _encodeThread(sdk.thread),
     );
   }
 
@@ -1225,6 +1237,7 @@ class Message {
       flags: sdk.flags,
       clientNonce: sdk.nonce,
       call: messageCallFromSearchSdk(sdk.call),
+      threadJson: _encodeThread(sdk.thread),
     );
   }
 
@@ -1275,6 +1288,7 @@ class Message {
           : MessageCall.fromJson(
               jsonDecode(row.callJson!) as Map<String, dynamic>,
             ),
+      threadJson: row.threadJson,
       translation: translationFromRow(row),
     );
   }
@@ -1339,6 +1353,7 @@ class Message {
         clientNonce == other.clientNonce &&
         sendError == other.sendError &&
         _callEquals(call, other.call) &&
+        threadJson == other.threadJson &&
         _encodedListEquals<Embed>(embeds, other.embeds, (e) => e.toJson()) &&
         _encodedListEquals<Attachment>(
           attachments,
@@ -1483,6 +1498,7 @@ class Message {
       clientNonce: Value(clientNonce),
       sendError: Value(sendError),
       callJson: Value(call == null ? null : jsonEncode(call!.toJson())),
+      threadJson: Value(threadJson),
     );
   }
 
@@ -1521,6 +1537,7 @@ class Message {
     Object? clientNonce = _unset,
     Object? sendError = _unset,
     Object? call = _unset,
+    Object? threadJson = _unset,
     bool? tts,
     Object? translation = _unset,
   }) {
@@ -1561,6 +1578,9 @@ class Message {
           : clientNonce as String?,
       sendError: sendError == _unset ? this.sendError : sendError as String?,
       call: call == _unset ? this.call : call as MessageCall?,
+      threadJson: threadJson == _unset
+          ? this.threadJson
+          : threadJson as String?,
       tts: tts ?? this.tts,
       translation: translation == _unset
           ? this.translation
@@ -1611,6 +1631,7 @@ class Message {
       type: incoming.type,
       flags: incoming.flags,
       call: incoming.call ?? call,
+      threadJson: incoming.threadJson ?? threadJson,
       translation: contentChanged ? null : _unset,
     );
   }

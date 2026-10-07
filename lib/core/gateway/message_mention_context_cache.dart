@@ -69,6 +69,10 @@ class MessageMentionContextCache {
         suppressEveryone: entry.suppressEveryone,
         suppressRoles: entry.suppressRoles,
         currentUserRoleIds: entry.roleIds,
+        threadNonMember: await isThreadNonMember(
+          _database,
+          resolution.guildChannel!,
+        ),
       );
     }
     return MessageMentionContext(
@@ -81,11 +85,17 @@ class MessageMentionContextCache {
     );
   }
 
-  Future<ChannelResolution> resolveChannel(String channelId) {
-    return _resolveChannel(channelId);
+  Future<ChannelResolution> resolveChannel(
+    String channelId, {
+    String? unknownGuildId,
+  }) {
+    return _resolveChannel(channelId, unknownGuildId: unknownGuildId);
   }
 
-  Future<ChannelResolution> _resolveChannel(String channelId) async {
+  Future<ChannelResolution> _resolveChannel(
+    String channelId, {
+    String? unknownGuildId,
+  }) async {
     if (_guildChannels.containsKey(channelId)) {
       final Channel? channel = _guildChannels[channelId];
       if (channel != null) {
@@ -128,6 +138,12 @@ class MessageMentionContextCache {
       );
     }
     _guildChannels[channelId] = null;
+    if (unknownGuildId != null) {
+      return ChannelResolution.unknownGuildChannel(
+        channelId: channelId,
+        guildStorageId: unknownGuildId,
+      );
+    }
     return ChannelResolution.private(
       channelId: channelId,
       guildStorageId: '@me',
@@ -200,6 +216,19 @@ class ChannelResolution {
       guildStorageId: guildStorageId,
       isGuild: true,
       guildChannel: guildChannel,
+      dmChannel: null,
+    );
+  }
+
+  factory ChannelResolution.unknownGuildChannel({
+    required String channelId,
+    required String guildStorageId,
+  }) {
+    return ChannelResolution._(
+      channelId: channelId,
+      guildStorageId: guildStorageId,
+      isGuild: true,
+      guildChannel: null,
       dmChannel: null,
     );
   }

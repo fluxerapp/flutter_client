@@ -39,6 +39,38 @@ void main() {
     });
   });
 
+  group('thread feature channel mentions', () {
+    const List<ChannelType> threadFeatureTypes = <ChannelType>[
+      ChannelType.announcementThread,
+      ChannelType.publicThread,
+      ChannelType.privateThread,
+      ChannelType.guildForum,
+      ChannelType.guildMedia,
+    ];
+
+    test('stay unknown while threads are inactive for the guild', () {
+      for (final ChannelType type in threadFeatureTypes) {
+        expect(isClickableChannelMention(_channel(type)), isFalse);
+      }
+    });
+
+    test('become clickable once threads are active for the guild', () {
+      for (final ChannelType type in threadFeatureTypes) {
+        expect(
+          isClickableChannelMention(_channel(type), threadsActive: true),
+          isTrue,
+        );
+      }
+      expect(
+        isClickableChannelMention(
+          _channel(ChannelType.guildCategory),
+          threadsActive: true,
+        ),
+        isFalse,
+      );
+    });
+  });
+
   group('findChannelMentionFallback', () {
     const List<MessageChannelMention> mentions = <MessageChannelMention>[
       MessageChannelMention(id: '100', name: 'rules', type: 0),

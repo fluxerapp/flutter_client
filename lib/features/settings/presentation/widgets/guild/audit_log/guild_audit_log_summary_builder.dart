@@ -203,6 +203,18 @@ class GuildAuditLogSummaryBuilder {
         hasChannel
             ? l10n.auditLogSummaryMessageUnpinInChannel(actor, channel)
             : l10n.auditLogSummaryMessageUnpin(actor),
+      AuditLogActionType.threadCreate => l10n.auditLogSummaryThreadCreate(
+        actor,
+        target,
+      ),
+      AuditLogActionType.threadUpdate => l10n.auditLogSummaryThreadUpdate(
+        actor,
+        target,
+      ),
+      AuditLogActionType.threadDelete => l10n.auditLogSummaryThreadDelete(
+        actor,
+        target,
+      ),
       AuditLogActionType.$unknown => l10n.auditLogSummaryDefault(actor, target),
     };
   }

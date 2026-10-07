@@ -85,7 +85,7 @@ class GuildSettingsRepository {
                 ? null
                 : AuditLogActionTypeInput.fromJson(actionType.json ?? 0),
           );
-      return guildAuditLogPageFromSdk(response);
+      return guildAuditLogPageFromSdk(response, guildId: guildId);
     } on DioException catch (error) {
       throw Exception(_messageFromDio(error, 'Failed to load audit log'));
     }

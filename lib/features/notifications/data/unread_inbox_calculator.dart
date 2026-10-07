@@ -3,7 +3,14 @@ import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/data/unread_permission_utils.dart';
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart'
-    show isGuildCategoryChannelType, isGuildVoiceChannelType;
+    show
+        isGuildCategoryChannelType,
+        isGuildVoiceChannelType,
+        isThreadChannelType,
+        isThreadFeatureChannelType,
+        isThreadOnlyChannelType;
+import 'package:fluxer_app/features/forum/domain/forum_channel.dart'
+    show forumNewPostsUnreadEnabled;
 import 'package:fluxer_app/features/notifications/domain/unread_inbox_entry.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
@@ -52,11 +59,21 @@ class UnreadInboxCalculator {
     required Map<String, bool> collapsedByChannelId,
     String? currentUserId,
     bool unreadBadgeCustomizationEnabled = false,
+    Set<String> threadGuildIds = const <String>{},
   }) async {
     final int nowMs = DateTime.now().millisecondsSinceEpoch;
     final List<UnreadInboxEntry> entries = <UnreadInboxEntry>[];
 
-    final List<Channel> allChannels = await db.channelDao.getAllChannels();
+    final List<Channel> allChannels = await db.channelDao.getAllChannels(
+      includeThreads: true,
+    );
+    final Map<String, Channel> channelsById = <String, Channel>{
+      for (final Channel c in allChannels) c.id: c,
+    };
+    final Map<String, ThreadMember> joinedThreads = <String, ThreadMember>{
+      for (final ThreadMember row in await db.threadDao.getJoinedMembers())
+        row.threadId: row,
+    };
     final List<ReadState> readStatesList = await db.readStateDao
         .watchReadStates()
         .first;
@@ -105,6 +122,10 @@ class UnreadInboxCalculator {
       if (isGuildCategoryChannelType(channel.type)) {
         continue;
       }
+      if (isThreadFeatureChannelType(channel.type) &&
+          !threadGuildIds.contains(channel.guildId)) {
+        continue;
+      }
       if (!await canReadChannelForUnread(
         database: db,
         channel: channel,
@@ -117,6 +138,7 @@ class UnreadInboxCalculator {
       final ReadState? readState = readStateMap[channel.id];
       final int mentions = readState?.mentionCount ?? 0;
       final bool isVoice = isGuildVoiceChannelType(channel.type);
+      final bool isThread = isThreadChannelType(channel.type);
       final unreadSettings = resolveUnreadSettings(
         channel: channel,
         guildSettings: guildSettingsByGuild[guildId],
@@ -128,7 +150,15 @@ class UnreadInboxCalculator {
         continue;
       }
 
-      if (unreadSettings.isMuted) {
+      if (unreadSettings.isMuted ||
+          (isThread &&
+              isThreadMuted(
+                threadId: channel.id,
+                parent: channelsById[channel.parentId],
+                member: joinedThreads[channel.id],
+                guildSettings: guildSettingsByGuild[guildId],
+                now: DateTime.fromMillisecondsSinceEpoch(nowMs),
+              ))) {
         continue;
       }
 
@@ -150,12 +180,22 @@ class UnreadInboxCalculator {
 
       final int tsLast = _snowflakeRecencyMs(channelLastMsg);
       final int fallbackAckMs = await resolveFallbackAckMs(guildId, channel.id);
-      final bool hasUnreadMessage = _hasGuildUnreadByWebRules(
-        channelLastMessageId: channelLastMsg,
-        ackLastMessageId: ackId,
-        fallbackAckMs: fallbackAckMs,
-        mentionCount: 0,
-      );
+      final bool unreadTracked =
+          (!isThread || joinedThreads.containsKey(channel.id)) &&
+          (!isThreadOnlyChannelType(channel.type) ||
+              forumNewPostsUnreadEnabled(
+                guildSettingsByGuild[guildId]
+                    ?.channelOverrides?[channel.id]
+                    ?.flags,
+              ));
+      final bool hasUnreadMessage =
+          unreadTracked &&
+          _hasGuildUnreadByWebRules(
+            channelLastMessageId: channelLastMsg,
+            ackLastMessageId: ackId,
+            fallbackAckMs: fallbackAckMs,
+            mentionCount: 0,
+          );
       final UserNotificationSettings inboxVisibilityLevel =
           unreadBadgeCustomizationEnabled
           ? (resolveGuildUnreadBadgesLevel(

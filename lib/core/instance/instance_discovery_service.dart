@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
-import 'package:fluxer_app/core/instance/well_known_compat.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_dart/export.dart';
 
@@ -65,7 +64,7 @@ class InstanceDiscoveryService {
       final Map<String, dynamic> payload = Map<String, dynamic>.from(data);
       final WellKnownFluxerResponse wellKnown;
       try {
-        wellKnown = parseWellKnownFluxer(payload);
+        wellKnown = InstanceConfigSnapshot.parseWellKnown(payload);
       } on Object catch (error, stackTrace) {
         talker.error(
           '[InstanceDiscovery] Failed to parse well-known response from '

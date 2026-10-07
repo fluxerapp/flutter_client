@@ -3,6 +3,7 @@ import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/database/tables/read_states.dart';
+import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 
 part 'read_state_dao.g.dart';
 
@@ -16,6 +17,9 @@ class ReadStateDao extends DatabaseAccessor<FluxerDatabase>
   )..where((r) => r.channelId.equals(channelId))).getSingleOrNull();
 
   Future<List<ReadState>> getReadStates() => select(readStates).get();
+
+  Future<List<ReadState>> getReadStatesFor(List<String> channelIds) =>
+      (select(readStates)..where((r) => r.channelId.isIn(channelIds))).get();
 
   Stream<List<ReadState>> watchReadStates() =>
       select(readStates).watch().suppressDriftCancellation;
@@ -104,6 +108,29 @@ class ReadStateDao extends DatabaseAccessor<FluxerDatabase>
     return (delete(
       readStates,
     )..where((r) => r.channelId.isIn(channelIds))).go();
+  }
+
+  Future<void> setMissingSince(List<String> channelIds, DateTime? since) {
+    if (channelIds.isEmpty) {
+      return Future.value();
+    }
+    return (update(readStates)..where((r) => r.channelId.isIn(channelIds)))
+        .write(ReadStatesCompanion(missingSince: Value(since)));
+  }
+
+  Future<void> markThreadReadStates(List<String> channelIds) {
+    if (channelIds.isEmpty) {
+      return Future.value();
+    }
+    return customUpdate(
+      'UPDATE read_states SET flags = COALESCE(flags, 0) | ? '
+      'WHERE channel_id IN (${List<String>.filled(channelIds.length, '?').join(', ')})',
+      variables: <Variable<Object>>[
+        const Variable<int>(readStateFlagIsThread),
+        for (final String channelId in channelIds) Variable<String>(channelId),
+      ],
+      updates: <TableInfo<Table, dynamic>>{readStates},
+    );
   }
 
   Stream<List<ReadState>> watchReadStatesForChannels(List<String> channelIds) =>

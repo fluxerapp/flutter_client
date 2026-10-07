@@ -59,6 +59,7 @@ import 'package:fluxer_app/features/settings/providers/chat_preferences_provider
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/threads/presentation/thread_messages.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -1262,6 +1263,24 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                   !widget.inboxPreviewMode,
               isMobile: isMobile,
             ),
+          ),
+        ),
+      if (!widget.inboxPreviewMode && messageMayCarryThread(msg))
+        wrapPart(
+          MessageThreadChip(
+            message: msg,
+            guildId:
+                widget.previewRoleGuildId ??
+                widget.renderSettings?.activeGuildId,
+          ),
+        ),
+      if (msg.flags & messageFlagFailedToMentionSomeRolesInThread != 0)
+        wrapPart(
+          ThreadFailedToMentionRolesNote(
+            message: msg,
+            guildId:
+                widget.previewRoleGuildId ??
+                widget.renderSettings?.activeGuildId,
           ),
         ),
       if (msg.hasFailed) wrapPart(_buildDeliveryStatus(context, msg)),
