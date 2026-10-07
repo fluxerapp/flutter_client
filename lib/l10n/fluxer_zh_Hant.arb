@@ -5769,6 +5769,10 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "輕觸兩下訊息即可回應",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
     "chatMessageEdit": "編輯訊息",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -5776,6 +5780,14 @@
     "chatMessageReply": "回覆",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
+    },
+    "notificationReplyPlaceholder": "訊息",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "無法傳送回覆",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
     },
     "chatMessageForward": "轉傳",
     "@chatMessageForward": {
@@ -6547,6 +6559,10 @@
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
     },
+    "chatImageCouldNotLoad": "無法載入此圖片。",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
+    },
     "composerAutocompleteRoleMentionDescription": "通知擁有此身分組且有權限查看此頻道的使用者。",
     "@composerAutocompleteRoleMentionDescription": {
         "description": "Secondary line in the @ mention autocomplete when the row is a mentionable guild role."
@@ -7087,6 +7103,10 @@
     "instanceUrlPlaceholder": "輸入伺服器網址 (例如 fluxer.app)",
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
+    },
+    "instanceUrlHelper": "官方伺服器請使用 fluxer.app，自架伺服器請使用確切的網址。",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
     },
     "resetToDefaultInstance": "重設為 Fluxer",
     "@resetToDefaultInstance": {
@@ -9379,6 +9399,10 @@
     "@lookAndFeelChatWallpaperCustomLabel": {
         "description": "Chat wallpaper option that picks an image from the gallery."
     },
+    "lookAndFeelChatWallpaperStarfieldLabel": "星空",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
+    },
     "lookAndFeelChatWallpaperColorLabel": "顏色 {id}",
     "@lookAndFeelChatWallpaperColorLabel": {
         "description": "Accessibility label for a solid color wallpaper preset.",
@@ -11402,6 +11426,80 @@
     "userProfileLocalTime": "當地時間",
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
+    },
+    "profileLocalTimeSettingsTitle": "個人檔案當地時間",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "設定您的時區，以便 {productName} 在日光節約時間變更時，可以保持您的 UTC 偏移量為最新狀態。其他人只能看到您的 UTC 偏移量，而不能看到您確切的時區識別碼。",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "編輯個人檔案當地時間",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "時區",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "選擇時區，{productName} 將使用該時區來計算您的 UTC 偏移量，以顯示個人檔案中的當地時間。",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "搜尋時區",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "未設定",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "當您選擇分享個人檔案中的當地時間時，其他人只能看到您目前的 UTC 時區偏移量。他們不會看到您的確切時區識別碼，例如 {timezoneIdentifierExample}。{productName} 會儲存該識別碼，以便在日光節約時間變更時自動更新偏移量。",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "所有人",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "允許所有能檢視您完整個人檔案的人查看您的當地時間",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "好友",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "允許好友查看您的當地時間",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "社群成員",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "允許您所屬社群的成員查看您的當地時間",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
     },
     "userProfileSameTimeAsYou": "與您的時區相同",
     "@userProfileSameTimeAsYou": {
@@ -13823,6 +13921,14 @@
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
     },
+    "accessibilityShowAltTextOnImagesLabel": "在圖片上顯示替代文字",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "當圖片有替代文字時，顯示在圖片下方。",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
     "accessibilityDimStrikethroughTextLabel": "調暗刪除線文字",
     "@accessibilityDimStrikethroughTextLabel": {
         "description": "Toggle label for dimming strikethrough text in messages."
@@ -15915,6 +16021,72 @@
     "premiumPerkCustomThemes": "自訂主題",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "最高 4K/60fps",
+    "storePlutoniumPriceLine": "{monthly} 或 {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/月",
+    "storePlutoniumYearSuffix": "/年",
+    "storePlutoniumPriceOr": "或",
+    "storePlutoniumEmojiTitle": "您的表情符號，隨處可用",
+    "storePlutoniumEmojiBody": "將您社群中的自訂表情符號和貼圖，帶到您加入的每個聊天和社群中。",
+    "storePlutoniumProfileTitle": "一個脫穎而出的個人檔案",
+    "storePlutoniumProfileBody": "取得動態大頭貼和橫幅、訂閱者徽章、使用者名稱後方您想要的四位數標籤*，以及每個社群的獨立個人檔案。",
+    "storePlutoniumFilesTitle": "傳送最大 500 MB 的檔案",
+    "storePlutoniumFilesBody": "分享完整長度的影片和大型檔案，無需先壓縮。免費帳戶最多可傳送 25 MB。",
+    "storePlutoniumCompareTitle": "比較免費版與 Plutonium",
+    "storePlutoniumCompareMobileNote": "這些功能並非全部都可在行動應用程式中使用。部分功能僅限於桌面版。",
+    "storePlutoniumNotAvailable": "不可用",
+    "storePlutoniumAvailable": "可用",
+    "storePlutoniumCompareTag": "選擇使用者名稱後的 4 位數數字*",
+    "storePlutoniumCompareProfile": "每個社群的獨立個人檔案",
+    "storePlutoniumCompareBadge": "個人檔案上的訂閱者徽章",
+    "storePlutoniumCompareBackgrounds": "可儲存的視訊通話背景",
+    "storePlutoniumCompareCommunities": "您可以加入的社群",
+    "storePlutoniumCompareCharacters": "單則訊息中的字元數",
+    "storePlutoniumCompareBookmarks": "可收藏的訊息",
+    "storePlutoniumCompareUpload": "您可上傳的最大檔案",
+    "storePlutoniumCompareSavedMedia": "可儲存的媒體項目",
+    "storePlutoniumCompareAnimatedEmoji": "在訊息中使用動態表情符號",
+    "storePlutoniumCompareCustomEmoji": "在任何社群中使用自訂表情符號和貼圖",
+    "storePlutoniumCompareVideo": "視訊通話與畫面分享品質",
+    "storePlutoniumCompareAvatar": "動畫頭像與個人檔案橫幅",
+    "storePlutoniumCompareEarlyAccess": "搶先體驗新功能",
+    "storePlutoniumCompareThemes": "應用程式的自訂佈景主題",
+    "storePlutoniumVideoFree": "最高 720p，30 FPS",
+    "storePlutoniumVideoPlutonium": "最高 4K，60 FPS",
+    "storePlutoniumTagFootnote": "您只能選擇沒有其他使用者名稱相同的人使用的標籤。使用者名稱不區分大小寫，因此 Mina#4821 和 mina#4821 視為相同。#0000 標籤保留給 Fluxer Visionary 會員。",
+    "storePlutoniumLearnVisionary": "深入了解 Visionary。",
+    "storePlutoniumDonatePrompt": "只想支持 Fluxer 的開源開發嗎？ ",
+    "storePlutoniumDonateLink": "改為捐款。",
+    "storePlutoniumHighlightsLead": "訂閱可資助 Fluxer 並解鎖",
+    "storePlutoniumHighlightEmoji": "在任何聊天室中使用自訂表情符號和貼圖",
+    "storePlutoniumHighlightProfile": "動態個人檔案、徽章和自訂 4 位數號碼",
+    "storePlutoniumHighlightFiles": "上傳檔案大小上限 500 MB",
+    "storePlutoniumHighlightMessages": "傳送最長 4,000 個字元的訊息",
+    "storePlutoniumHighlightCommunityProfile": "每個社群的獨立個人檔案",
+    "storePlutoniumHighlightsMore": "還有更多",
+    "storePlutoniumRenewsThroughPlay": "透過 Google Play 自動續訂，直到您取消為止。",
+    "storePlutoniumRenewsThroughAppStore": "透過 App Store 自動續訂，直到您取消為止。",
+    "storePlutoniumAlreadySubscribed": "您已經有 Fluxer Plutonium 訂閱了。",
+    "storePlutoniumSavePercent": "節省 {percent}%",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "已收到購買。Plutonium 啟用後將會顯示於此。",
+    "storePlutoniumUnavailable": "此裝置尚不支援應用程式內訂閱。",
+    "storePlutoniumVisionaryStatus": "Visionary 已包含永久存取權，因此不需要定期訂閱。",
     "userSettingsNavShortcuts": "快速鍵",
     "@userSettingsNavShortcuts": {
         "description": "User settings navigation item for keyboard shortcuts."
@@ -16002,6 +16174,18 @@
     "defaultAppsWebBrowserExternal": "外部瀏覽器",
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
+    },
+    "userSettingsNavAppIcon": "應用程式圖示",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "應用程式圖示",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "選擇要在主畫面顯示的圖示。",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
     },
     "advancedSettingsConfigure": "設定",
     "@advancedSettingsConfigure": {
@@ -16251,6 +16435,14 @@
     "authHidePassword": "隱藏密碼",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "仍在處理中…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
+    },
+    "authVerificationFailed": "無法完成驗證。請再試一次。",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
     },
     "chatLoadingMessages": "正在載入訊息",
     "@chatLoadingMessages": {
@@ -17066,6 +17258,40 @@
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
+    "assistantNeedsLogin": "請先開啟 Fluxer 並登入。",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "您沒有在通話中。",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "Fluxer 找不到該項目。",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "此伺服器已停用私訊功能。",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "Fluxer 無法完成該操作。",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "已將麥克風靜音。",
+    "assistantOkUnmuted": "已取消麥克風靜音。",
+    "assistantOkLeftVoice": "已離開語音頻道。",
+    "assistantOkJoinedVoice": "正在加入語音頻道。",
+    "assistantOkStartedCall": "正在開始通話。",
+    "assistantOkStatusSet": "狀態已設為「{status}」。",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "正在開啟 Fluxer。",
     "applicationsTitle": "應用程式",
     "@applicationsTitle": {
         "description": "Title for the developer Applications settings tab."
@@ -17108,6 +17334,15 @@
         "description": "Empty-state body. apiName is the product API display name.",
         "placeholders": {
             "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "建立於 {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
                 "type": "String"
             }
         }
@@ -17292,6 +17527,10 @@
     "@applicationsOauthBuilderTitle": {
         "description": "Section title for the authorize URL builder."
     },
+    "applicationsOauthBuilderDescription": "使用範圍和權限建構授權 URL。",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
     "applicationsScopes": "權限",
     "@applicationsScopes": {
         "description": "Label for OAuth2 scope checkboxes."
@@ -17324,6 +17563,10 @@
     "@applicationsAuthorizeUrlPlaceholder": {
         "description": "Placeholder when the authorize URL cannot be built yet."
     },
+    "applicationsCopyAuthorizeUrl": "複製授權 URL",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
     "applicationsCopiedUrl": "已將網址複製到剪貼簿",
     "@applicationsCopiedUrl": {
         "description": "Toast after copying the authorize URL."
@@ -17343,6 +17586,15 @@
     "applicationsDelete": "刪除應用程式",
     "@applicationsDelete": {
         "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "您確定要刪除 {name} 嗎？此動作無法復原。所有相關資料，包括機器人使用者，都將永久刪除。",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     },
     "applicationsDeleteFailed": "無法刪除應用程式",
     "@applicationsDeleteFailed": {
@@ -17432,6 +17684,10 @@
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
     },
+    "voiceOutputRouteEarpiece": "聽筒",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
     "voiceOutputRouteHeadset": "耳機",
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
@@ -17439,6 +17695,14 @@
     "doubleTapReactionEdit": "編輯",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "編輯預設",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "選擇雙擊表情符號",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
     },
     "chatMessagePinConfirm": "釘選",
     "@chatMessagePinConfirm": {
@@ -17452,9 +17716,17 @@
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."
     },
+    "appIconOptionStarfield": "星空",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
     "appIconOptionSweden": "瑞典",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "此裝置無法變更應用程式圖示。",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     },
     "userSettingsLogOutConfirmTitle": "要登出嗎？",
     "@userSettingsLogOutConfirmTitle": {
@@ -17484,5 +17756,178 @@
     "@guildSettingsCommunityDeleted": {
         "description": "Success toast after a community is deleted."
     },
-    "assistantOkMessageSent": "訊息已傳送。"
+    "guildSettingsDeleteCommunityFailed": "無法刪除此社群",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantOkMessageSent": "訊息已傳送。",
+    "assistantOkCustomStatusSet": "自訂狀態已更新。",
+    "assistantOkCustomStatusCleared": "自訂狀態已清除。",
+    "guildNavbarAnnouncementChannel": "公告頻道",
+    "guildNavbarAnnouncementChannelDescription": "發布更新，讓其他社群可以追蹤到自己的頻道中",
+    "channelDetailsAnnouncementChannel": "公告頻道",
+    "channelSettingsAnnouncementChannel": "公告頻道",
+    "channelSettingsAnnouncementChannelDescription": "讓其他社群追蹤此頻道，並取得您發布內容的副本。",
+    "channelSettingsStopAnnouncementTitle": "停止作為公告頻道？",
+    "channelSettingsStopAnnouncementBody": "{count, plural, =1{有 1 個頻道正在追蹤此頻道。將其轉換為文字頻道會移除該追蹤。} other{有 {count} 個頻道正在追蹤此頻道。將其轉換為文字頻道會移除這些追蹤。}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "將此頻道轉換為文字頻道後，所有頻道都會取消追蹤它。",
+    "channelSettingsConvertChannel": "轉換",
+    "channelSettingsConvertFailed": "無法轉換此頻道",
+    "channelSettingsChannelHasFollowers": "仍有其他頻道追蹤此頻道。請先移除這些追蹤，再轉換此頻道。",
+    "channelMenuFollow": "追蹤頻道",
+    "channelFollowTitle": "追蹤此頻道",
+    "channelFollowBody": "選擇要發布訊息的目的地。您隨時可以在「社群設定」→「Webhook」中取消追蹤。",
+    "channelFollowCommunity": "社群",
+    "channelFollowChannel": "頻道",
+    "channelFollowAgeWarning": "這是年齡限制頻道。更新只能發送到年齡限制頻道。",
+    "channelFollowContentWarning": "這個頻道有內容警告。更新只能傳送到設有內容警告或年齡限制的頻道。",
+    "channelFollowHiddenHint": "您無法管理 Webhook 的社群和頻道已隱藏。",
+    "channelFollowEmpty": "您無法在任何社群中管理 Webhook。請要求管理員追蹤此頻道。",
+    "channelFollowSubmit": "追蹤",
+    "channelFollowFailed": "無法追蹤此頻道。",
+    "channelFollowSuccessTitle": "更新訊息即將送達！",
+    "channelFollowSuccessBody": "在 {sourceName} 發布的訊息將會顯示在 #{targetName}。",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "知道了！",
+    "channelFollowBarrier": "追蹤此頻道，即可在您選擇的頻道中接收這些公告。",
+    "channelHeaderFollow": "追蹤頻道",
+    "chatMessagePublish": "發布",
+    "chatMessagePublished": "已發布",
+    "chatMessagePublishConfirmTitle": "發布訊息？",
+    "chatMessagePublishConfirmBody": "這會將副本傳送至所有追蹤此頻道的頻道。",
+    "chatMessagePublishedToast": "訊息已發布",
+    "chatMessageAlreadyPublished": "此訊息已發布。",
+    "chatMessagePublishFailedTitle": "無法發布此訊息",
+    "chatMessagePublishFailedBody": "發生錯誤。請稍後再試。",
+    "chatMessagePublishLimitTitle": "慢一點",
+    "chatMessagePublishLimitBody": "您可以在 {duration} 後再次發布。",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "您發布訊息的速度太快了。請稍後再試。",
+    "chatMessageDeletePublished": "這也會移除傳送至追蹤此頻道的其他頻道的訊息副本。",
+    "chatMessageEditPublishedTitle": "編輯已發布的訊息？",
+    "chatMessageEditPublishedBody": "這會更新已傳送至追蹤此頻道的其他頻道的訊息副本。",
+    "chatMessageEditPublishedSave": "儲存",
+    "chatMessageEditLimitTitle": "慢一點",
+    "chatMessageEditLimitBody": "您可以在 {duration} 後再次編輯這則已發布的訊息。",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "您編輯這則已發布訊息的速度太快了。請稍後再試。",
+    "chatMessageOriginalDeleted": "[原始訊息已刪除]",
+    "userTagCommunity": "社群",
+    "systemFollowAdd": "{username} 讓此頻道追蹤了 {source}。在那裡發布的訊息將會顯示在這裡。",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username} 讓此頻道追蹤了 {source}。",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "尚未發送給追蹤者。",
+    "publishNudgeHideForever": "不再顯示",
+    "publishNudgeDismiss": "關閉",
+    "channelSettingsFollowedChannels": "已追蹤的頻道",
+    "channelSettingsFollowedChannelsDescription": "此頻道追蹤的公告頻道。停止追蹤以停止接收副本。",
+    "guildSettingsFollowedChannelsDescription": "此社群中的頻道所追蹤的公告頻道。",
+    "channelSettingsFollowedFrom": "來自 {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "由於來源頻道已不再可用，更新已暫停。",
+    "channelSettingsUnfollowTitle": "取消追蹤 {name}？",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "此頻道將停止接收來自該公告頻道的副本。",
+    "channelSettingsUnfollow": "停止追蹤",
+    "crosspostCommunityTitle": "社群",
+    "crosspostGoToCommunity": "前往社群",
+    "crosspostJoinCommunity": "加入社群",
+    "crosspostSourceFailed": "無法載入這個社群。請稍後再試。",
+    "crosspostMembers": "{count} 位成員",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "{count} 人在線上",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, =1{1 分鐘} other{{count} 分鐘}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, =1{1 秒} other{{count} 秒}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "不支援的頻道類型",
+    "channelUnsupportedBody": "此應用程式版本不支援此頻道類型。",
+    "channelDetailsUnsupportedChannel": "不支援的頻道"
 }

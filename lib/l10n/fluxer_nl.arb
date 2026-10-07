@@ -4098,6 +4098,80 @@
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
     },
+    "profileLocalTimeSettingsTitle": "Lokale tijd in profiel",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "Stel je tijdzone één keer in zodat {productName} je tijdsverschil met UTC kan bijwerken bij het ingaan of eindigen van de zomertijd. Anderen kunnen alleen je tijdsverschil met UTC zien, niet de exacte identificatiecode van je tijdzone.",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "Lokale tijd profiel bewerken",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "Tijdzone",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "Kies de tijdzone die {productName} gebruikt om je UTC-offset te berekenen voor de lokale tijd in je profiel.",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "Tijdzones zoeken",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "Niet ingesteld",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "Anderen kunnen alleen je huidige tijdsverschil met UTC zien als je ervoor kiest je lokale tijd op je profiel te delen. Ze zien niet de exacte identificatiecode van je tijdzone, zoals {timezoneIdentifierExample}. {productName} slaat die code alleen op om het tijdsverschil automatisch te kunnen bijwerken bij het ingaan of eindigen van de zomertijd.",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "Iedereen",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "Sta iedereen die je volledige profiel kan bekijken toe om je lokale tijd te zien",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "Vrienden",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "Sta je vrienden toe om je lokale tijd te zien",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "Communityleden",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "Sta leden van communities waar je lid van bent toe om je lokale tijd te zien",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
+    },
     "userProfileSameTimeAsYou": "Zelfde lokale tijd als jij",
     "@userProfileSameTimeAsYou": {
         "description": "Profile timezone difference when the target matches the viewer."
@@ -6571,6 +6645,14 @@
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
     },
+    "accessibilityShowAltTextOnImagesLabel": "Alternatieve tekst op afbeeldingen weergeven",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "Toon alternatieve tekst onder afbeeldingen wanneer deze beschikbaar is.",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
     "accessibilityDimStrikethroughTextLabel": "Doorgestreepte tekst dimmen",
     "@accessibilityDimStrikethroughTextLabel": {
         "description": "Toggle label for dimming strikethrough text in messages."
@@ -8473,6 +8555,10 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "Dubbeltik op een bericht om",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
     "chatMessageEdit": "Bericht bewerken",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -8480,6 +8566,14 @@
     "chatMessageReply": "Antwoorden",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
+    },
+    "notificationReplyPlaceholder": "Bericht",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "Antwoord kon niet worden verzonden",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
     },
     "chatMessageForward": "Doorsturen",
     "@chatMessageForward": {
@@ -9424,6 +9518,10 @@
     "chatVideoPlaybackFailed": "Deze video kon niet worden afgespeeld.",
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
+    },
+    "chatImageCouldNotLoad": "Deze afbeelding kon niet worden geladen.",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
     },
     "composerAutocompleteRoleMentionDescription": "Breng gebruikers met deze rol die toestemming hebben om dit kanaal te bekijken op de hoogte.",
     "@composerAutocompleteRoleMentionDescription": {
@@ -11868,6 +11966,72 @@
     "premiumPerkCustomThemes": "Aangepaste thema's",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "Tot 4K/60 FPS",
+    "storePlutoniumPriceLine": "{monthly} of {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/mnd",
+    "storePlutoniumYearSuffix": "/jr",
+    "storePlutoniumPriceOr": "of",
+    "storePlutoniumEmojiTitle": "Jouw emoji's, overal",
+    "storePlutoniumEmojiBody": "Gebruik aangepaste emoji's en stickers van al je communities in elke chat en community waar je lid van bent.",
+    "storePlutoniumProfileTitle": "Een profiel dat opvalt",
+    "storePlutoniumProfileBody": "Krijg een geanimeerde avatar en banner, een abonneebadge, de viercijferige tag die je wilt achter je gebruikersnaam*, en een apart profiel voor elke community.",
+    "storePlutoniumFilesTitle": "Verstuur bestanden tot 500 MB",
+    "storePlutoniumFilesBody": "Deel video's van volledige lengte en grote bestanden zonder ze eerst te verkleinen. Gratis accounts kunnen tot 25 MB verzenden.",
+    "storePlutoniumCompareTitle": "Vergelijk Gratis en Plutonium",
+    "storePlutoniumCompareMobileNote": "Niet al deze functies zijn beschikbaar in de mobiele app. Sommige zijn alleen beschikbaar op desktop.",
+    "storePlutoniumNotAvailable": "Niet beschikbaar",
+    "storePlutoniumAvailable": "Beschikbaar",
+    "storePlutoniumCompareTag": "Kies het 4-cijferige nummer na je gebruikersnaam*",
+    "storePlutoniumCompareProfile": "Een apart profiel voor elke community",
+    "storePlutoniumCompareBadge": "Abonnee-badge op je profiel",
+    "storePlutoniumCompareBackgrounds": "Achtergronden voor videogesprekken die je kunt opslaan",
+    "storePlutoniumCompareCommunities": "Communities waar je lid van kunt worden",
+    "storePlutoniumCompareCharacters": "Tekens in één bericht",
+    "storePlutoniumCompareBookmarks": "Berichten die je kunt opslaan",
+    "storePlutoniumCompareUpload": "Grootste bestand dat je kunt uploaden",
+    "storePlutoniumCompareSavedMedia": "Media die je kunt bewaren voor later",
+    "storePlutoniumCompareAnimatedEmoji": "Gebruik geanimeerde emoji's in berichten",
+    "storePlutoniumCompareCustomEmoji": "Gebruik aangepaste emoji's en stickers in elke community",
+    "storePlutoniumCompareVideo": "Kwaliteit videogesprek en scherm delen",
+    "storePlutoniumCompareAvatar": "Geanimeerde avatar en profielbanner",
+    "storePlutoniumCompareEarlyAccess": "Vroege toegang tot nieuwe functies",
+    "storePlutoniumCompareThemes": "Aangepaste thema's voor de app",
+    "storePlutoniumVideoFree": "Tot 720p bij 30 FPS",
+    "storePlutoniumVideoPlutonium": "Tot 4K bij 60 FPS",
+    "storePlutoniumTagFootnote": "Je kunt alleen een tag kiezen die niemand anders met dezelfde gebruikersnaam al heeft. Gebruikersnamen zijn niet hoofdlettergevoelig, dus Mina#4821 en mina#4821 tellen als hetzelfde. De #0000-tag is gereserveerd voor Fluxer Visionary-leden.",
+    "storePlutoniumLearnVisionary": "Meer informatie over Visionary.",
+    "storePlutoniumDonatePrompt": "Wil je de open-sourceontwikkeling van Fluxer gewoon steunen? ",
+    "storePlutoniumDonateLink": "Doneer in plaats daarvan.",
+    "storePlutoniumHighlightsLead": "Een abonnement financiert Fluxer en ontgrendelt",
+    "storePlutoniumHighlightEmoji": "Aangepaste emoji en stickers in elke chat",
+    "storePlutoniumHighlightProfile": "Geanimeerd profiel, badge en aangepast 4-cijferig nummer",
+    "storePlutoniumHighlightFiles": "Uploads tot 500 MB",
+    "storePlutoniumHighlightMessages": "Verzend berichten tot 4.000 tekens",
+    "storePlutoniumHighlightCommunityProfile": "Een apart profiel voor elke community",
+    "storePlutoniumHighlightsMore": "En meer",
+    "storePlutoniumRenewsThroughPlay": "Wordt automatisch verlengd via Google Play totdat je opzegt.",
+    "storePlutoniumRenewsThroughAppStore": "Wordt automatisch verlengd via de App Store totdat je opzegt.",
+    "storePlutoniumAlreadySubscribed": "Je hebt al een Fluxer Plutonium-abonnement.",
+    "storePlutoniumSavePercent": "Bespaar {percent}%",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "Aankoop ontvangen. Plutonium verschijnt hier zodra het is geactiveerd.",
+    "storePlutoniumUnavailable": "Abonnementen in de app zijn nog niet beschikbaar op dit apparaat.",
+    "storePlutoniumVisionaryStatus": "Visionary omvat al permanente toegang, dus een terugkerend abonnement is niet nodig.",
     "userSettingsNavPrivacyDashboard": "Privacy Dashboard",
     "@userSettingsNavPrivacyDashboard": {
         "description": "User settings navigation item for the privacy dashboard."
@@ -12618,6 +12782,18 @@
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
     },
+    "userSettingsNavAppIcon": "App-pictogram",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "App-pictogram",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "Kies welk pictogram op je beginscherm verschijnt.",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
+    },
     "userSettingsNavAdvanced": "Geavanceerd",
     "@userSettingsNavAdvanced": {
         "description": "User settings navigation item for advanced settings."
@@ -13138,6 +13314,10 @@
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
     },
+    "instanceUrlHelper": "Gebruik fluxer.app voor de officiële instantie, of de exacte URL van een zelf-gehoste instantie.",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
+    },
     "resetToDefaultInstance": "Terugzetten naar Fluxer",
     "@resetToDefaultInstance": {
         "description": "Tooltip for the button that resets the instance URL to the official Fluxer instance."
@@ -13399,6 +13579,14 @@
     "authHidePassword": "Wachtwoord verbergen",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "Nog bezig…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
+    },
+    "authVerificationFailed": "Verificatie mislukt. Probeer het opnieuw.",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
     },
     "chatLoadingMessages": "Berichten laden",
     "@chatLoadingMessages": {
@@ -17041,6 +17229,40 @@
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
+    "assistantNeedsLogin": "Open Fluxer en log eerst in.",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "Je zit niet in een gesprek.",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "Fluxer kan dat niet vinden.",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "Directe berichten zijn uitgeschakeld op deze instance.",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "Fluxer kon dat niet voltooien.",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "Microfoon gedempt.",
+    "assistantOkUnmuted": "Microfoon niet meer gedempt.",
+    "assistantOkLeftVoice": "Spraakkanaal verlaten.",
+    "assistantOkJoinedVoice": "Spraakkanaal wordt betreden.",
+    "assistantOkStartedCall": "Gesprek wordt gestart.",
+    "assistantOkStatusSet": "Status ingesteld op {status}.",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "Fluxer wordt geopend.",
     "lookAndFeelChatWallpaperTitle": "Chatachtergrond",
     "@lookAndFeelChatWallpaperTitle": {
         "description": "Look and Feel section title for chat wallpaper presets."
@@ -17064,6 +17286,10 @@
     "lookAndFeelChatWallpaperCustomLabel": "Aangepaste afbeelding",
     "@lookAndFeelChatWallpaperCustomLabel": {
         "description": "Chat wallpaper option that picks an image from the gallery."
+    },
+    "lookAndFeelChatWallpaperStarfieldLabel": "Sterrenveld",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
     },
     "lookAndFeelChatWallpaperColorLabel": "Kleur {id}",
     "@lookAndFeelChatWallpaperColorLabel": {
@@ -17133,6 +17359,15 @@
         "description": "Empty-state body. apiName is the product API display name.",
         "placeholders": {
             "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "Gemaakt op {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
                 "type": "String"
             }
         }
@@ -17317,6 +17552,10 @@
     "@applicationsOauthBuilderTitle": {
         "description": "Section title for the authorize URL builder."
     },
+    "applicationsOauthBuilderDescription": "Stel een autorisatie-URL samen met scopes en machtigingen.",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
     "applicationsScopes": "Machtigingsbereiken",
     "@applicationsScopes": {
         "description": "Label for OAuth2 scope checkboxes."
@@ -17349,6 +17588,10 @@
     "@applicationsAuthorizeUrlPlaceholder": {
         "description": "Placeholder when the authorize URL cannot be built yet."
     },
+    "applicationsCopyAuthorizeUrl": "Autorisatie-URL kopiëren",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
     "applicationsCopiedUrl": "URL gekopieerd naar klembord",
     "@applicationsCopiedUrl": {
         "description": "Toast after copying the authorize URL."
@@ -17368,6 +17611,15 @@
     "applicationsDelete": "App verwijderen",
     "@applicationsDelete": {
         "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "Weet je zeker dat je {name} wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt. Alle bijbehorende gegevens, inclusief de botgebruiker, worden permanent verwijderd.",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     },
     "applicationsDeleteFailed": "Applicatie kon niet worden verwijderd",
     "@applicationsDeleteFailed": {
@@ -17457,6 +17709,10 @@
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
     },
+    "voiceOutputRouteEarpiece": "Oortelefoon",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
     "voiceOutputRouteHeadset": "Koptelefoon",
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
@@ -17464,6 +17720,14 @@
     "doubleTapReactionEdit": "Bewerken",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "Standaard bewerken",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "Kies dubbeltik-emoji",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
     },
     "chatMessagePinConfirm": "Vastzetten",
     "@chatMessagePinConfirm": {
@@ -17477,9 +17741,17 @@
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."
     },
+    "appIconOptionStarfield": "Sterrenveld",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
     "appIconOptionSweden": "Zweden",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "Het wijzigen van het app-icoon is niet beschikbaar op dit apparaat.",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     },
     "userSettingsLogOutConfirmTitle": "Uitloggen?",
     "@userSettingsLogOutConfirmTitle": {
@@ -17509,5 +17781,178 @@
     "@guildSettingsCommunityDeleted": {
         "description": "Success toast after a community is deleted."
     },
-    "assistantOkMessageSent": "Bericht verzonden."
+    "guildSettingsDeleteCommunityFailed": "Deze community kon niet worden verwijderd",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantOkMessageSent": "Bericht verzonden.",
+    "assistantOkCustomStatusSet": "Aangepaste status bijgewerkt.",
+    "assistantOkCustomStatusCleared": "Aangepaste status gewist.",
+    "guildNavbarAnnouncementChannel": "Aankondigingskanaal",
+    "guildNavbarAnnouncementChannelDescription": "Plaats updates die andere communities in hun eigen kanalen kunnen volgen",
+    "channelDetailsAnnouncementChannel": "Aankondigingskanaal",
+    "channelSettingsAnnouncementChannel": "Aankondigingskanaal",
+    "channelSettingsAnnouncementChannelDescription": "Laat andere communities dit kanaal volgen en kopieën ontvangen van wat je publiceert.",
+    "channelSettingsStopAnnouncementTitle": "Stoppen als aankondigingskanaal?",
+    "channelSettingsStopAnnouncementBody": "{count, plural, =1{1 kanaal volgt dit kanaal. Als je het omzet naar een tekstkanaal, volgt dat kanaal het niet meer.} other{{count} kanalen volgen dit kanaal. Als je het omzet naar een tekstkanaal, volgen die kanalen het niet meer.}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "Als je dit kanaal omzet naar een tekstkanaal, volgt geen enkel kanaal het nog.",
+    "channelSettingsConvertChannel": "Omzetten",
+    "channelSettingsConvertFailed": "Dit kanaal kon niet worden omgezet",
+    "channelSettingsChannelHasFollowers": "Andere kanalen volgen dit kanaal nog. Verwijder die eerst voordat je het omzet.",
+    "channelMenuFollow": "Kanaal volgen",
+    "channelFollowTitle": "Volg dit kanaal",
+    "channelFollowBody": "Kies waar de gepubliceerde berichten naartoe moeten. Je kunt op elk moment stoppen met volgen via Community-instellingen → Webhooks.",
+    "channelFollowCommunity": "Community",
+    "channelFollowChannel": "Kanaal",
+    "channelFollowAgeWarning": "Dit is een kanaal met leeftijdsbeperking. Updates kunnen alleen naar kanalen met leeftijdsbeperking gaan.",
+    "channelFollowContentWarning": "Dit kanaal heeft een inhoudswaarschuwing. Updates kunnen alleen naar kanalen met een inhoudswaarschuwing of leeftijdsbeperking gaan.",
+    "channelFollowHiddenHint": "Communities en kanalen waar je geen webhooks kunt beheren, worden verborgen.",
+    "channelFollowEmpty": "Je kunt in geen enkele community webhooks beheren. Vraag een beheerder om dit kanaal te volgen.",
+    "channelFollowSubmit": "Volgen",
+    "channelFollowFailed": "Dit kanaal kon niet worden gevolgd.",
+    "channelFollowSuccessTitle": "Updates zijn onderweg!",
+    "channelFollowSuccessBody": "Berichten die zijn gepubliceerd in {sourceName} worden weergegeven in #{targetName}.",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "Oké!",
+    "channelFollowBarrier": "Volg dit kanaal om deze aankondigingen in een kanaal naar keuze te ontvangen.",
+    "channelHeaderFollow": "Kanaal volgen",
+    "chatMessagePublish": "Publiceren",
+    "chatMessagePublished": "Gepubliceerd",
+    "chatMessagePublishConfirmTitle": "Bericht publiceren?",
+    "chatMessagePublishConfirmBody": "Dit stuurt een kopie naar elk kanaal dat dit kanaal volgt.",
+    "chatMessagePublishedToast": "Bericht gepubliceerd",
+    "chatMessageAlreadyPublished": "Dit bericht is al gepubliceerd.",
+    "chatMessagePublishFailedTitle": "Dit bericht kon niet worden gepubliceerd",
+    "chatMessagePublishFailedBody": "Er is iets misgegaan. Probeer het over een ogenblik opnieuw.",
+    "chatMessagePublishLimitTitle": "Rustig aan",
+    "chatMessagePublishLimitBody": "Je kunt weer publiceren over {duration}.",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "Je publiceert te snel. Probeer het over een ogenblik opnieuw.",
+    "chatMessageDeletePublished": "Dit verwijdert ook de kopieën die zijn verzonden naar kanalen die dit kanaal volgen.",
+    "chatMessageEditPublishedTitle": "Gepubliceerd bericht bewerken?",
+    "chatMessageEditPublishedBody": "Dit werkt de kopieën bij die naar de kanalen zijn verzonden die dit kanaal volgen.",
+    "chatMessageEditPublishedSave": "Opslaan",
+    "chatMessageEditLimitTitle": "Rustig aan",
+    "chatMessageEditLimitBody": "Je kunt dit gepubliceerde bericht over {duration} opnieuw bewerken.",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "Je bewerkt dit gepubliceerde bericht te snel. Probeer het over een ogenblik opnieuw.",
+    "chatMessageOriginalDeleted": "[Origineel bericht verwijderd]",
+    "userTagCommunity": "Community",
+    "systemFollowAdd": "{username} laat dit kanaal nu {source} volgen. Berichten die daar worden gepubliceerd, verschijnen hier.",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username} laat dit kanaal nu {source} volgen.",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "Nog niet naar volgers verzonden.",
+    "publishNudgeHideForever": "Niet meer weergeven",
+    "publishNudgeDismiss": "Sluiten",
+    "channelSettingsFollowedChannels": "Gevolgde kanalen",
+    "channelSettingsFollowedChannelsDescription": "Aankondigingskanalen die dit kanaal volgt. Ontvolg ze om geen kopieën meer te ontvangen.",
+    "guildSettingsFollowedChannelsDescription": "Aankondigingskanalen die door kanalen in deze community worden gevolgd.",
+    "channelSettingsFollowedFrom": "Van {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "Updates zijn gepauzeerd omdat het bronkanaal niet langer beschikbaar is.",
+    "channelSettingsUnfollowTitle": "{name} niet meer volgen?",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "Dit kanaal ontvangt dan geen kopieën meer van dat aankondigingskanaal.",
+    "channelSettingsUnfollow": "Ontvolgen",
+    "crosspostCommunityTitle": "Community",
+    "crosspostGoToCommunity": "Ga naar community",
+    "crosspostJoinCommunity": "Lid worden van community",
+    "crosspostSourceFailed": "Kon deze community niet laden. Probeer het later opnieuw.",
+    "crosspostMembers": "{count} leden",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "{count} online",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, =1{1 minuut} other{{count} minuten}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, =1{1 seconde} other{{count} seconden}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "Niet-ondersteund kanaaltype",
+    "channelUnsupportedBody": "Deze versie van de app ondersteunt dit kanaaltype niet.",
+    "channelDetailsUnsupportedChannel": "Niet-ondersteund kanaal"
 }

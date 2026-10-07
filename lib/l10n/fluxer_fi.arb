@@ -5769,6 +5769,10 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "Kaksoisnapauta viestiä reagoidaksesi",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
     "chatMessageEdit": "Muokkaa viestiä",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -5776,6 +5780,14 @@
     "chatMessageReply": "Vastaa",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
+    },
+    "notificationReplyPlaceholder": "Viesti",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "Vastauksen lähettäminen epäonnistui",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
     },
     "chatMessageForward": "Välitä",
     "@chatMessageForward": {
@@ -6547,6 +6559,10 @@
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
     },
+    "chatImageCouldNotLoad": "Kuvan lataaminen epäonnistui.",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
+    },
     "composerAutocompleteRoleMentionDescription": "Ilmoita tämän roolin käyttäjille, joilla on oikeus nähdä tämä kanava.",
     "@composerAutocompleteRoleMentionDescription": {
         "description": "Secondary line in the @ mention autocomplete when the row is a mentionable guild role."
@@ -7087,6 +7103,10 @@
     "instanceUrlPlaceholder": "Syötä instanssin URL (esim. fluxer.app)",
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
+    },
+    "instanceUrlHelper": "Käytä virallisen instanssin osoitetta fluxer.app tai itse ylläpidetyn instanssin tarkkaa URL-osoitetta.",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
     },
     "resetToDefaultInstance": "Nollaa Fluxeriin",
     "@resetToDefaultInstance": {
@@ -9379,6 +9399,10 @@
     "@lookAndFeelChatWallpaperCustomLabel": {
         "description": "Chat wallpaper option that picks an image from the gallery."
     },
+    "lookAndFeelChatWallpaperStarfieldLabel": "Tähtikenttä",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
+    },
     "lookAndFeelChatWallpaperColorLabel": "Väri {id}",
     "@lookAndFeelChatWallpaperColorLabel": {
         "description": "Accessibility label for a solid color wallpaper preset.",
@@ -11066,6 +11090,80 @@
     "userProfileLocalTime": "Paikallinen aika",
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
+    },
+    "profileLocalTimeSettingsTitle": "Profiilin paikallinen aika",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "Aseta aikavyöhykkeesi kerran, niin {productName} pitää UTC-siirtymäsi ajan tasalla kesäajan vaihtuessa. Muut näkevät vain UTC-siirtymäsi, eivät tarkkaa aikavyöhyketunnustasi.",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "Muokkaa profiilin paikallista aikaa",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "Aikavyöhyke",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "Valitse aikavyöhyke, jota {productName} käyttää laskiessaan UTC-ajan siirtymää profiilisi paikallista aikaa varten.",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "Hae aikavyöhykkeitä",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "Ei asetettu",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "Muut näkevät vain nykyisen UTC-siirtymäsi, kun valitset jakavasi profiilisi paikallisen ajan. He eivät näe tarkkaa aikavyöhyketunnustasi, kuten {timezoneIdentifierExample}. {productName} tallentaa tunnuksen vain siksi, että siirtymä voidaan päivittää automaattisesti kesäajan vaihtuessa.",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "Kaikki",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "Salli paikallisen aikasi näyttäminen kaikille, jotka näkevät koko profiilisi",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "Kaverit",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "Salli kavereidesi nähdä paikallinen aikasi",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "Yhteisön jäsenet",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "Salli yhteisöjesi jäsenten nähdä paikallinen aikasi",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
     },
     "userProfileTimezoneDurationHoursMinutes": "{hours, plural, =1{1 tunti} other{{hours} tuntia}} {minutes, plural, =1{1 minuutti} other{{minutes} minuuttia}}",
     "@userProfileTimezoneDurationHoursMinutes": {
@@ -13823,6 +13921,14 @@
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
     },
+    "accessibilityShowAltTextOnImagesLabel": "Näytä kuvien vaihtoehtoinen teksti",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "Näytä kuvien alla vaihtoehtoinen teksti, jos se on saatavilla.",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
     "accessibilityDimStrikethroughTextLabel": "Himmennä yliviivattua tekstiä",
     "@accessibilityDimStrikethroughTextLabel": {
         "description": "Toggle label for dimming strikethrough text in messages."
@@ -15915,6 +16021,72 @@
     "premiumPerkCustomThemes": "Mukautetut teemat",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "Jopa 4K/60fps",
+    "storePlutoniumPriceLine": "{monthly} tai {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/kk",
+    "storePlutoniumYearSuffix": "/v",
+    "storePlutoniumPriceOr": "tai",
+    "storePlutoniumEmojiTitle": "Omat emojisi kaikkialla",
+    "storePlutoniumEmojiBody": "Tuo mukautetut emojit ja tarrat mistä tahansa yhteisöstäsi jokaiseen keskusteluun ja yhteisöön, jossa olet.",
+    "storePlutoniumProfileTitle": "Profiili, joka erottuu joukosta",
+    "storePlutoniumProfileBody": "Hanki animoitu profiilikuva ja banneri, tilaajamerkki, haluamasi nelinumeroinen tunniste käyttäjänimesi perään* sekä erillinen profiili jokaiselle yhteisölle.",
+    "storePlutoniumFilesTitle": "Lähetä jopa 500 Mt:n tiedostoja",
+    "storePlutoniumFilesBody": "Jaa täyspitkiä videoita ja suuria tiedostoja pienentämättä niitä ensin. Ilmaisilla tileillä voi lähettää enintään 25 Mt.",
+    "storePlutoniumCompareTitle": "Vertaa ilmaista ja Plutoniumia",
+    "storePlutoniumCompareMobileNote": "Kaikki nämä ominaisuudet eivät ole saatavilla mobiilisovelluksessa. Jotkin ovat saatavilla vain työpöytäversiossa.",
+    "storePlutoniumNotAvailable": "Ei saatavilla",
+    "storePlutoniumAvailable": "Saatavilla",
+    "storePlutoniumCompareTag": "Valitse 4-numeroinen luku käyttäjänimesi jälkeen*",
+    "storePlutoniumCompareProfile": "Erillinen profiili jokaiselle yhteisölle",
+    "storePlutoniumCompareBadge": "Tilaajan merkki profiilissasi",
+    "storePlutoniumCompareBackgrounds": "Tallennettavat videopuhelun taustat",
+    "storePlutoniumCompareCommunities": "Yhteisöt, joihin voit liittyä",
+    "storePlutoniumCompareCharacters": "Merkkejä yhdessä viestissä",
+    "storePlutoniumCompareBookmarks": "Viestit, joihin voit lisätä kirjanmerkin",
+    "storePlutoniumCompareUpload": "Suurin tiedosto, jonka voit ladata",
+    "storePlutoniumCompareSavedMedia": "Tallennettavat mediat",
+    "storePlutoniumCompareAnimatedEmoji": "Käytä animoituja emojeja viesteissä",
+    "storePlutoniumCompareCustomEmoji": "Käytä mukautettuja emojeita ja tarroja missä tahansa yhteisössä",
+    "storePlutoniumCompareVideo": "Videopuhelun ja näytön jaon laatu",
+    "storePlutoniumCompareAvatar": "Animoitu profiilikuva ja profiilibanneri",
+    "storePlutoniumCompareEarlyAccess": "Ennakkokäyttöoikeus uusiin ominaisuuksiin",
+    "storePlutoniumCompareThemes": "Mukautetut teemat sovellukselle",
+    "storePlutoniumVideoFree": "Jopa 720p 30 FPS",
+    "storePlutoniumVideoPlutonium": "Jopa 4K 60 FPS",
+    "storePlutoniumTagFootnote": "Voit valita vain tunnisteen, jota kenelläkään muulla samalla käyttäjänimellä ei vielä ole. Käyttäjänimissä isoilla ja pienillä kirjaimilla ei ole eroa, joten Mina#4821 ja mina#4821 lasketaan samaksi. Tunniste #0000 on varattu Fluxer Visionary -jäsenille.",
+    "storePlutoniumLearnVisionary": "Lue lisää Visionarysta.",
+    "storePlutoniumDonatePrompt": "Haluatko vain tukea Fluxerin avoimen lähdekoodin kehitystä? ",
+    "storePlutoniumDonateLink": "Lahjoita sen sijaan.",
+    "storePlutoniumHighlightsLead": "Tilaamalla tuet Fluxeria ja saat käyttöösi",
+    "storePlutoniumHighlightEmoji": "Mukautetut emojit ja tarrat missä tahansa chatissa",
+    "storePlutoniumHighlightProfile": "Animoitu profiili, merkki ja valitsemasi 4-numeroinen tunniste",
+    "storePlutoniumHighlightFiles": "Lähetykset enintään 500 Mt",
+    "storePlutoniumHighlightMessages": "Lähetä viestejä, joiden pituus on enintään 4 000 merkkiä",
+    "storePlutoniumHighlightCommunityProfile": "Erillinen profiili jokaiselle yhteisölle",
+    "storePlutoniumHighlightsMore": "Ja paljon muuta",
+    "storePlutoniumRenewsThroughPlay": "Uusiutuu automaattisesti Google Playn kautta, kunnes peruutat tilauksen.",
+    "storePlutoniumRenewsThroughAppStore": "Uusiutuu automaattisesti App Storen kautta, kunnes peruutat tilauksen.",
+    "storePlutoniumAlreadySubscribed": "Sinulla on jo Fluxer Plutonium -tilaus.",
+    "storePlutoniumSavePercent": "Säästä {percent}%",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "Ostos vastaanotettu. Plutonium näkyy tässä, kun se aktivoituu.",
+    "storePlutoniumUnavailable": "Sovelluksen sisäiset tilaukset eivät ole vielä saatavilla tällä laitteella.",
+    "storePlutoniumVisionaryStatus": "Visionary sisältää jo pysyvän käyttöoikeuden, joten toistuvaa tilausta ei tarvita.",
     "userSettingsNavShortcuts": "Pikanäppäimet",
     "@userSettingsNavShortcuts": {
         "description": "User settings navigation item for keyboard shortcuts."
@@ -16002,6 +16174,18 @@
     "defaultAppsWebBrowserExternal": "Ulkoinen selain",
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
+    },
+    "userSettingsNavAppIcon": "Sovelluskuvake",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "Sovelluskuvake",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "Valitse, mikä kuvake näkyy aloitusnäytölläsi.",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
     },
     "advancedSettingsConfigure": "Määritä",
     "@advancedSettingsConfigure": {
@@ -16251,6 +16435,14 @@
     "authHidePassword": "Piilota salasana",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "Vielä työstetään…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
+    },
+    "authVerificationFailed": "Vahvistusta ei voitu suorittaa. Yritä uudelleen.",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
     },
     "chatLoadingMessages": "Ladataan viestejä",
     "@chatLoadingMessages": {
@@ -17066,6 +17258,40 @@
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
+    "assistantNeedsLogin": "Avaa Fluxer ja kirjaudu ensin sisään.",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "Et ole puhelussa.",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "Fluxer ei löytänyt sitä.",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "Yksityisviestit on poistettu käytöstä tässä instanssissa.",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "Fluxer ei voinut suorittaa sitä.",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "Mikrofoni mykistetty.",
+    "assistantOkUnmuted": "Mikrofonin mykistys poistettu.",
+    "assistantOkLeftVoice": "Poistuit äänikanavalta.",
+    "assistantOkJoinedVoice": "Liitytään äänikanavalle.",
+    "assistantOkStartedCall": "Aloitetaan puhelu.",
+    "assistantOkStatusSet": "Tilaksi asetettu {status}.",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "Avataan Fluxer.",
     "applicationsTitle": "Sovellukset",
     "@applicationsTitle": {
         "description": "Title for the developer Applications settings tab."
@@ -17108,6 +17334,15 @@
         "description": "Empty-state body. apiName is the product API display name.",
         "placeholders": {
             "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "Luotu {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
                 "type": "String"
             }
         }
@@ -17292,6 +17527,10 @@
     "@applicationsOauthBuilderTitle": {
         "description": "Section title for the authorize URL builder."
     },
+    "applicationsOauthBuilderDescription": "Muodosta valtuutus-URL, jossa on scopet ja käyttöoikeudet.",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
     "applicationsScopes": "Käyttöoikeudet",
     "@applicationsScopes": {
         "description": "Label for OAuth2 scope checkboxes."
@@ -17324,6 +17563,10 @@
     "@applicationsAuthorizeUrlPlaceholder": {
         "description": "Placeholder when the authorize URL cannot be built yet."
     },
+    "applicationsCopyAuthorizeUrl": "Kopioi valtuutus-URL",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
     "applicationsCopiedUrl": "URL-osoite kopioitu leikepöydälle",
     "@applicationsCopiedUrl": {
         "description": "Toast after copying the authorize URL."
@@ -17343,6 +17586,15 @@
     "applicationsDelete": "Poista sovellus",
     "@applicationsDelete": {
         "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "Haluatko varmasti poistaa sovelluksen {name}? Tätä toimintoa ei voi kumota. Kaikki siihen liittyvät tiedot, mukaan lukien bottikäyttäjä, poistetaan pysyvästi.",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     },
     "applicationsDeleteFailed": "Sovelluksen poistaminen epäonnistui",
     "@applicationsDeleteFailed": {
@@ -17432,6 +17684,10 @@
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
     },
+    "voiceOutputRouteEarpiece": "Kuuloke",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
     "voiceOutputRouteHeadset": "Kuulokkeet",
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
@@ -17439,6 +17695,14 @@
     "doubleTapReactionEdit": "Muokkaa",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "Muokkaa oletusta",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "Valitse kaksoisnapautuksen emoji",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
     },
     "chatMessagePinConfirm": "Kiinnitä",
     "@chatMessagePinConfirm": {
@@ -17452,9 +17716,17 @@
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."
     },
+    "appIconOptionStarfield": "Tähtikenttä",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
     "appIconOptionSweden": "Ruotsi",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "Sovelluskuvakkeen vaihtaminen ei ole käytettävissä tällä laitteella.",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     },
     "userSettingsLogOutConfirmTitle": "Kirjaudutaanko ulos?",
     "@userSettingsLogOutConfirmTitle": {
@@ -17484,5 +17756,178 @@
     "@guildSettingsCommunityDeleted": {
         "description": "Success toast after a community is deleted."
     },
-    "assistantOkMessageSent": "Viesti lähetetty."
+    "guildSettingsDeleteCommunityFailed": "Yhteisön poistaminen epäonnistui",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantOkMessageSent": "Viesti lähetetty.",
+    "assistantOkCustomStatusSet": "Mukautettu tila päivitetty.",
+    "assistantOkCustomStatusCleared": "Mukautettu tila tyhjennetty.",
+    "guildNavbarAnnouncementChannel": "Ilmoituskanava",
+    "guildNavbarAnnouncementChannelDescription": "Julkaise päivityksiä, joita muut yhteisöt voivat seurata omille kanavilleen",
+    "channelDetailsAnnouncementChannel": "Ilmoituskanava",
+    "channelSettingsAnnouncementChannel": "Ilmoituskanava",
+    "channelSettingsAnnouncementChannelDescription": "Sallii muiden yhteisöjen seurata tätä kanavaa ja saada kopioita julkaisemistasi viesteistä.",
+    "channelSettingsStopAnnouncementTitle": "Lopetetaanko ilmoituskanavana toimiminen?",
+    "channelSettingsStopAnnouncementBody": "{count, plural, =1{1 kanava seuraa tätä kanavaa. Jos muunnat sen tekstikanavaksi, seuranta poistuu.} other{{count} kanavaa seuraa tätä kanavaa. Jos muunnat sen tekstikanavaksi, seurannat poistuvat.}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "Jos muunnat tämän kanavan tekstikanavaksi, kaikki sitä seuraavat kanavat lopettavat sen seuraamisen.",
+    "channelSettingsConvertChannel": "Muunna",
+    "channelSettingsConvertFailed": "Kanavan muuntaminen epäonnistui",
+    "channelSettingsChannelHasFollowers": "Muut kanavat seuraavat edelleen tätä kanavaa. Poista seurannat ennen kanavan muuntamista.",
+    "channelMenuFollow": "Seuraa kanavaa",
+    "channelFollowTitle": "Seuraa tätä kanavaa",
+    "channelFollowBody": "Valitse, minne sen julkaisemat viestit lähetetään. Voit lopettaa seuraamisen milloin tahansa kohdassa Yhteisön asetukset → Webhookit.",
+    "channelFollowCommunity": "Yhteisö",
+    "channelFollowChannel": "Kanava",
+    "channelFollowAgeWarning": "Tämä on ikärajoitettu kanava. Päivitykset voivat mennä vain ikärajoitettuihin kanaviin.",
+    "channelFollowContentWarning": "Tällä kanavalla on sisältövaroitus. Päivitykset voidaan lähettää vain kanaville, joilla on sisältövaroitus tai ikärajoitus.",
+    "channelFollowHiddenHint": "Yhteisöt ja kanavat, joissa et voi hallita webhookeja, on piilotettu.",
+    "channelFollowEmpty": "Et voi hallinnoida webhookeja missään yhteisössä. Pyydä ylläpitäjää seuraamaan tätä kanavaa.",
+    "channelFollowSubmit": "Seuraa",
+    "channelFollowFailed": "Kanavan seuraaminen epäonnistui.",
+    "channelFollowSuccessTitle": "Päivitykset ovat matkalla!",
+    "channelFollowSuccessBody": "Kanavalla {sourceName} julkaistut viestit näkyvät kanavalla #{targetName}.",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "Selvä!",
+    "channelFollowBarrier": "Seuraa tätä kanavaa, niin saat nämä ilmoitukset valitsemallesi kanavalle.",
+    "channelHeaderFollow": "Seuraa kanavaa",
+    "chatMessagePublish": "Julkaise",
+    "chatMessagePublished": "Julkaistu",
+    "chatMessagePublishConfirmTitle": "Julkaistaanko viesti?",
+    "chatMessagePublishConfirmBody": "Tämä lähettää kopion jokaiselle kanavalle, joka seuraa tätä kanavaa.",
+    "chatMessagePublishedToast": "Viesti julkaistu",
+    "chatMessageAlreadyPublished": "Tämä viesti on jo julkaistu.",
+    "chatMessagePublishFailedTitle": "Tämän viestin julkaiseminen epäonnistui",
+    "chatMessagePublishFailedBody": "Jotain meni pieleen. Yritä hetken kuluttua uudelleen.",
+    "chatMessagePublishLimitTitle": "Hidasta vähän",
+    "chatMessagePublishLimitBody": "Voit julkaista uudelleen {duration} kuluttua.",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "Julkaiset liian nopeasti. Yritä uudelleen hetken kuluttua.",
+    "chatMessageDeletePublished": "Tämä poistaa myös kopiot, jotka lähetettiin tätä kanavaa seuraaville kanaville.",
+    "chatMessageEditPublishedTitle": "Muokataanko julkaistua viestiä?",
+    "chatMessageEditPublishedBody": "Tämä päivittää kopiot, jotka lähetettiin tätä kanavaa seuraaville kanaville.",
+    "chatMessageEditPublishedSave": "Tallenna",
+    "chatMessageEditLimitTitle": "Hidasta vähän",
+    "chatMessageEditLimitBody": "Voit muokata tätä julkaistua viestiä uudelleen {duration} kuluttua.",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "Muokkaat tätä julkaistua viestiä liian nopeasti. Yritä uudelleen hetken kuluttua.",
+    "chatMessageOriginalDeleted": "[Alkuperäinen viesti poistettu]",
+    "userTagCommunity": "Yhteisö",
+    "systemFollowAdd": "{username} asetti tämän kanavan seuraamaan kanavaa {source}. Siellä julkaistut viestit näkyvät täällä.",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username} asetti tämän kanavan seuraamaan kanavaa {source}.",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "Ei vielä lähetetty seuraajille.",
+    "publishNudgeHideForever": "Älä näytä uudelleen",
+    "publishNudgeDismiss": "Sulje",
+    "channelSettingsFollowedChannels": "Seuratut kanavat",
+    "channelSettingsFollowedChannelsDescription": "Ilmoituskanavat, joita tämä kanava seuraa. Lopeta seuraaminen, jos et halua enää vastaanottaa kopioita.",
+    "guildSettingsFollowedChannelsDescription": "Ilmoituskanavat, joita tämän yhteisön kanavat seuraavat.",
+    "channelSettingsFollowedFrom": "Lähde: {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "Päivitykset on keskeytetty, koska lähdekanava ei ole enää saatavilla.",
+    "channelSettingsUnfollowTitle": "Lopetetaanko {name}-kanavan seuraaminen?",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "Tämä kanava lakkaa vastaanottamasta kopioita kyseiseltä ilmoituskanavalta.",
+    "channelSettingsUnfollow": "Lopeta seuraaminen",
+    "crosspostCommunityTitle": "Yhteisö",
+    "crosspostGoToCommunity": "Siirry yhteisöön",
+    "crosspostJoinCommunity": "Liity yhteisöön",
+    "crosspostSourceFailed": "Yhteisöä ei voitu ladata. Yritä hetken kuluttua uudelleen.",
+    "crosspostMembers": "{count} jäsentä",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "{count} paikalla",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, =1{1 minuutti} other{{count} minuuttia}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, =1{1 sekunti} other{{count} sekuntia}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "Kanavatyyppiä ei tueta",
+    "channelUnsupportedBody": "Tämä sovellusversio ei tue tätä kanavatyyppiä.",
+    "channelDetailsUnsupportedChannel": "Kanavaa ei tueta"
 }

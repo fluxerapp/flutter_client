@@ -5769,6 +5769,10 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "Koppints duplán egy üzenetre, hogy reagálj ezzel:",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
     "chatMessageEdit": "Üzenet szerkesztése",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -5776,6 +5780,14 @@
     "chatMessageReply": "Válasz",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
+    },
+    "notificationReplyPlaceholder": "Üzenet",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "Nem sikerült elküldeni a választ",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
     },
     "chatMessageForward": "Továbbítás",
     "@chatMessageForward": {
@@ -6547,6 +6559,10 @@
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
     },
+    "chatImageCouldNotLoad": "Nem sikerült betölteni a képet.",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
+    },
     "composerAutocompleteRoleMentionDescription": "Az ezzel a szerepkörrel rendelkező, a csatorna megtekintésére jogosult felhasználók értesítése.",
     "@composerAutocompleteRoleMentionDescription": {
         "description": "Secondary line in the @ mention autocomplete when the row is a mentionable guild role."
@@ -7087,6 +7103,10 @@
     "instanceUrlPlaceholder": "Add meg a példány URL-jét (pl. fluxer.app)",
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
+    },
+    "instanceUrlHelper": "Használd a fluxer.app címet a hivatalos példányhoz, vagy egy saját üzemeltetésű példány pontos URL-jét.",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
     },
     "resetToDefaultInstance": "Visszaállítás Fluxer-re",
     "@resetToDefaultInstance": {
@@ -9363,6 +9383,80 @@
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
     },
+    "profileLocalTimeSettingsTitle": "Profil helyi ideje",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "Állítsd be egyszer az időzónádat, hogy a(z) {productName} a nyári időszámítás változásakor is naprakészen tarthassa az UTC-eltolódásodat. Mások csak az UTC-eltolódásodat látják, a pontos időzóna-azonosítódat nem.",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "Helyi idő szerkesztése",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "Időzóna",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "Válaszd ki, melyik időzóna alapján számolja ki a(z) {productName} a profilodon megjelenő helyi idő UTC-eltolását.",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "Időzónák keresése",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "Nincs beállítva",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "Ha megosztod a helyi időt a profilodon, mások csak az aktuális UTC-eltolódásodat látják. A pontos időzóna-azonosítót, például ezt: {timezoneIdentifierExample}, nem látják. A(z) {productName} csak azért tárolja ezt az azonosítót, hogy az eltolódás a nyári időszámítás változásakor automatikusan frissülhessen.",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "Mindenki",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "Bárki láthatja a helyi idődet, aki megtekintheti a teljes profilodat",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "Ismerősök",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "Az ismerőseid láthatják a helyi idődet",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "Közösségi tagok",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "A közösségeid tagjai láthatják a helyi idődet",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
+    },
     "userProfileTimeAheadOfYou": "Időeltérés hozzád képest: +{duration}",
     "@userProfileTimeAheadOfYou": {
         "description": "Profile timezone difference when the target is ahead of the viewer.",
@@ -9705,6 +9799,10 @@
     "lookAndFeelChatWallpaperCustomLabel": "Egyéni kép",
     "@lookAndFeelChatWallpaperCustomLabel": {
         "description": "Chat wallpaper option that picks an image from the gallery."
+    },
+    "lookAndFeelChatWallpaperStarfieldLabel": "Csillagmező",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
     },
     "lookAndFeelChatWallpaperColorLabel": "Szín {id}",
     "@lookAndFeelChatWallpaperColorLabel": {
@@ -13823,6 +13921,14 @@
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
     },
+    "accessibilityShowAltTextOnImagesLabel": "Alternatív szöveg megjelenítése a képeken",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "Alternatív szöveg megjelenítése a képek alatt, ha elérhető.",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
     "accessibilityDimStrikethroughTextLabel": "Áthúzott szöveg halványítása",
     "@accessibilityDimStrikethroughTextLabel": {
         "description": "Toggle label for dimming strikethrough text in messages."
@@ -15915,6 +16021,72 @@
     "premiumPerkCustomThemes": "Egyéni témák",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "Akár 4K/60fps felbontásig",
+    "storePlutoniumPriceLine": "{monthly} vagy {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/hó",
+    "storePlutoniumYearSuffix": "/év",
+    "storePlutoniumPriceOr": "vagy",
+    "storePlutoniumEmojiTitle": "Emojijaid mindenhol",
+    "storePlutoniumEmojiBody": "Hozd el a közösségeid egyedi emojijait és matricáit minden csevegésbe és közösségbe, ahol éppen vagy.",
+    "storePlutoniumProfileTitle": "Egy profil, ami kitűnik",
+    "storePlutoniumProfileBody": "Szerezz animált profilképet és borítóképet, előfizetői jelvényt, a kívánt négyjegyű címkét a felhasználóneved után*, és külön profilt minden közösséghez.",
+    "storePlutoniumFilesTitle": "Fájlok küldése akár 500 MB-ig",
+    "storePlutoniumFilesBody": "Ossz meg teljes hosszúságú videókat és nagy fájlokat anélkül, hogy előbb lekicsinyítenéd őket. Az ingyenes fiókok legfeljebb 25 MB-ot küldhetnek.",
+    "storePlutoniumCompareTitle": "Ingyenes és Plutonium összehasonlítása",
+    "storePlutoniumCompareMobileNote": "Nem mindegyik funkció érhető el a mobilalkalmazásban. Néhány csak asztali gépen használható.",
+    "storePlutoniumNotAvailable": "Nem elérhető",
+    "storePlutoniumAvailable": "Elérhető",
+    "storePlutoniumCompareTag": "Válaszd ki a felhasználóneved utáni 4 jegyű számot*",
+    "storePlutoniumCompareProfile": "Külön profil minden közösséghez",
+    "storePlutoniumCompareBadge": "Előfizetői jelvény a profilodon",
+    "storePlutoniumCompareBackgrounds": "Elmenthető videohívási háttérképek",
+    "storePlutoniumCompareCommunities": "Csatlakozható közösségek",
+    "storePlutoniumCompareCharacters": "Karakterek egyetlen üzenetben",
+    "storePlutoniumCompareBookmarks": "Üzenetek, amelyeket megjelölhetsz",
+    "storePlutoniumCompareUpload": "Legnagyobb feltölthető fájl",
+    "storePlutoniumCompareSavedMedia": "Médiaelemek, amelyeket elmenthetsz későbbre",
+    "storePlutoniumCompareAnimatedEmoji": "Animált emojik használata az üzenetekben",
+    "storePlutoniumCompareCustomEmoji": "Használj egyéni emojikat és matricákat bármelyik közösségben",
+    "storePlutoniumCompareVideo": "Videohívás és képernyőmegosztás minősége",
+    "storePlutoniumCompareAvatar": "Animált avatár és profilbanner",
+    "storePlutoniumCompareEarlyAccess": "Korai hozzáférés az új funkciókhoz",
+    "storePlutoniumCompareThemes": "Egyéni témák az alkalmazáshoz",
+    "storePlutoniumVideoFree": "Akár 720p felbontás 30 FPS sebességgel",
+    "storePlutoniumVideoPlutonium": "Akár 4K felbontás 60 FPS sebességgel",
+    "storePlutoniumTagFootnote": "Csak olyan címkét választhatsz, amellyel még senki más nem rendelkezik ugyanazzal a felhasználónévvel. A felhasználónevek nem különböztetik meg a kis- és nagybetűket, így a Mina#4821 és a mina#4821 ugyanannak számít. A #0000 címke a Fluxer Visionary tagok számára van fenntartva.",
+    "storePlutoniumLearnVisionary": "Tudj meg többet a Visionaryról.",
+    "storePlutoniumDonatePrompt": "Csak a Fluxer nyílt forráskódú fejlesztését szeretnéd támogatni? ",
+    "storePlutoniumDonateLink": "Adományozz inkább.",
+    "storePlutoniumHighlightsLead": "Az előfizetéssel támogatod a Fluxert, és feloldod a következőket",
+    "storePlutoniumHighlightEmoji": "Egyéni emojik és matricák bármely csevegésben",
+    "storePlutoniumHighlightProfile": "Animált profil, jelvény és egyedi 4 számjegyű szám",
+    "storePlutoniumHighlightFiles": "Feltöltések akár 500 MB-ig",
+    "storePlutoniumHighlightMessages": "Akár 4000 karakteres üzenetek küldése",
+    "storePlutoniumHighlightCommunityProfile": "Külön profil minden közösséghez",
+    "storePlutoniumHighlightsMore": "És még sok más",
+    "storePlutoniumRenewsThroughPlay": "A lemondásig automatikusan megújul a Google Playen keresztül.",
+    "storePlutoniumRenewsThroughAppStore": "Az App Store-on keresztül automatikusan megújul, amíg le nem mondod.",
+    "storePlutoniumAlreadySubscribed": "Már van Fluxer Plutonium előfizetésed.",
+    "storePlutoniumSavePercent": "Spórolj {percent}%-ot",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "Vásárlás megérkezett. A Plutonium itt jelenik meg, amint aktiválódik.",
+    "storePlutoniumUnavailable": "Az alkalmazáson belüli előfizetések még nem érhetők el ezen az eszközön.",
+    "storePlutoniumVisionaryStatus": "A Visionary már tartalmazza az állandó hozzáférést, így nincs szükség ismétlődő előfizetésre.",
     "userSettingsNavShortcuts": "Billentyűparancsok",
     "@userSettingsNavShortcuts": {
         "description": "User settings navigation item for keyboard shortcuts."
@@ -16002,6 +16174,18 @@
     "defaultAppsWebBrowserExternal": "Külső böngésző",
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
+    },
+    "userSettingsNavAppIcon": "Alkalmazásikon",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "Alkalmazásikon",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "Válaszd ki, melyik ikon jelenjen meg a kezdőképernyődön.",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
     },
     "advancedSettingsConfigure": "Beállítás",
     "@advancedSettingsConfigure": {
@@ -16251,6 +16435,14 @@
     "authHidePassword": "Jelszó elrejtése",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "Még dolgozunk rajta…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
+    },
+    "authVerificationFailed": "Nem sikerült befejezni az ellenőrzést. Próbáld újra.",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
     },
     "chatLoadingMessages": "Üzenetek betöltése",
     "@chatLoadingMessages": {
@@ -17066,6 +17258,40 @@
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
+    "assistantNeedsLogin": "Először nyisd meg a Fluxert, és jelentkezz be.",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "Nem vagy hívásban.",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "A Fluxer nem találta.",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "A közvetlen üzenetek le vannak tiltva ezen a példányon.",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "A Fluxer nem tudta befejezni.",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "Mikrofon némítva.",
+    "assistantOkUnmuted": "Mikrofon némítása feloldva.",
+    "assistantOkLeftVoice": "Elhagytad a hangcsatornát.",
+    "assistantOkJoinedVoice": "Csatlakozás a hangcsatornához.",
+    "assistantOkStartedCall": "Hívás indítása.",
+    "assistantOkStatusSet": "Állapot beállítva: {status}.",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "Fluxer megnyitása.",
     "applicationsTitle": "Alkalmazások",
     "@applicationsTitle": {
         "description": "Title for the developer Applications settings tab."
@@ -17108,6 +17334,15 @@
         "description": "Empty-state body. apiName is the product API display name.",
         "placeholders": {
             "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "Létrehozva: {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
                 "type": "String"
             }
         }
@@ -17292,6 +17527,10 @@
     "@applicationsOauthBuilderTitle": {
         "description": "Section title for the authorize URL builder."
     },
+    "applicationsOauthBuilderDescription": "Hozz létre egy engedélyezési URL-t hatókörökkel és jogosultságokkal.",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
     "applicationsScopes": "Hatókörök",
     "@applicationsScopes": {
         "description": "Label for OAuth2 scope checkboxes."
@@ -17324,6 +17563,10 @@
     "@applicationsAuthorizeUrlPlaceholder": {
         "description": "Placeholder when the authorize URL cannot be built yet."
     },
+    "applicationsCopyAuthorizeUrl": "Engedélyezési URL másolása",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
     "applicationsCopiedUrl": "URL kimásolva a vágólapra",
     "@applicationsCopiedUrl": {
         "description": "Toast after copying the authorize URL."
@@ -17343,6 +17586,15 @@
     "applicationsDelete": "Alkalmazás törlése",
     "@applicationsDelete": {
         "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "Biztosan törölni szeretnéd a(z) {name} alkalmazást? Ez a művelet nem vonható vissza. Minden kapcsolódó adat, beleértve a botfelhasználót is, véglegesen törlődik.",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     },
     "applicationsDeleteFailed": "Nem sikerült törölni az alkalmazást",
     "@applicationsDeleteFailed": {
@@ -17432,6 +17684,10 @@
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
     },
+    "voiceOutputRouteEarpiece": "Beszédhangszóró",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
     "voiceOutputRouteHeadset": "Fejhallgató",
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
@@ -17439,6 +17695,14 @@
     "doubleTapReactionEdit": "Szerkesztés",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "Alapértelmezett szerkesztése",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "Válassz dupla koppintásos emojit",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
     },
     "chatMessagePinConfirm": "Rögzítés",
     "@chatMessagePinConfirm": {
@@ -17452,9 +17716,17 @@
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."
     },
+    "appIconOptionStarfield": "Csillagmező",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
     "appIconOptionSweden": "Svédország",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "Az alkalmazásikon megváltoztatása nem érhető el ezen az eszközön.",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     },
     "userSettingsLogOutConfirmTitle": "Kijelentkezés?",
     "@userSettingsLogOutConfirmTitle": {
@@ -17484,5 +17756,178 @@
     "@guildSettingsCommunityDeleted": {
         "description": "Success toast after a community is deleted."
     },
-    "assistantOkMessageSent": "Üzenet elküldve."
+    "guildSettingsDeleteCommunityFailed": "Nem sikerült törölni ezt a közösséget",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantOkMessageSent": "Üzenet elküldve.",
+    "assistantOkCustomStatusSet": "Egyéni állapot frissítve.",
+    "assistantOkCustomStatusCleared": "Egyéni állapot törölve.",
+    "guildNavbarAnnouncementChannel": "Bejelentési csatorna",
+    "guildNavbarAnnouncementChannelDescription": "Tegyél közzé frissítéseket, amelyeket más közösségek is követhetnek a saját csatornáikon",
+    "channelDetailsAnnouncementChannel": "Bejelentési csatorna",
+    "channelSettingsAnnouncementChannel": "Bejelentési csatorna",
+    "channelSettingsAnnouncementChannelDescription": "Más közösségek is követhetik ezt a csatornát, és másolatot kaphatnak a közzétett tartalmakról.",
+    "channelSettingsStopAnnouncementTitle": "Ne legyen többé bejelentési csatorna?",
+    "channelSettingsStopAnnouncementBody": "{count, plural, =1{1 csatorna követi ezt a csatornát. Szöveges csatornává alakítva megszűnik ez a követés.} other{{count} csatorna követi ezt a csatornát. Szöveges csatornává alakítva megszűnnek ezek a követések.}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "Ha szöveges csatornává alakítod ezt a csatornát, egyetlen csatorna sem fogja tovább követni.",
+    "channelSettingsConvertChannel": "Átalakítás",
+    "channelSettingsConvertFailed": "Nem sikerült átalakítani ezt a csatornát",
+    "channelSettingsChannelHasFollowers": "Ezt a csatornát még más csatornák követik. Az átalakítás előtt szüntesd meg ezeket a követéseket.",
+    "channelMenuFollow": "Csatorna követése",
+    "channelFollowTitle": "Kövesd ezt a csatornát",
+    "channelFollowBody": "Válaszd ki, hová kerüljenek a közzétett üzenetei. A követést bármikor megszüntetheted a Közösségi beállítások → Webhookok menüpontban.",
+    "channelFollowCommunity": "Közösség",
+    "channelFollowChannel": "Csatorna",
+    "channelFollowAgeWarning": "Ez egy korhatáros csatorna. Frissítések csak korhatáros csatornákra küldhetők.",
+    "channelFollowContentWarning": "Ez a csatorna tartalmaz egy tartalomra vonatkozó figyelmeztetést. Frissítések csak tartalomra vonatkozó figyelmeztetéssel vagy korhatáros besorolással rendelkező csatornákra küldhetők.",
+    "channelFollowHiddenHint": "A közösségek és csatornák, ahol nem tudsz webhookokat kezelni, el vannak rejtve.",
+    "channelFollowEmpty": "Nem tudsz webhookokat kezelni egyetlen közösségben sem. Kérj meg egy rendszergazdát, hogy kövesse ezt a csatornát.",
+    "channelFollowSubmit": "Követés",
+    "channelFollowFailed": "Nem sikerült követni ezt a csatornát.",
+    "channelFollowSuccessTitle": "A frissítések úton vannak!",
+    "channelFollowSuccessBody": "A(z) {sourceName} csatornán közzétett üzenetek megjelennek a(z) #{targetName} csatornán.",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "Értettem!",
+    "channelFollowBarrier": "Kövesd ezt a csatornát, hogy ezeket a bejelentéseket egy általad választott csatornán kapd meg.",
+    "channelHeaderFollow": "Csatorna követése",
+    "chatMessagePublish": "Közzététel",
+    "chatMessagePublished": "Közzétéve",
+    "chatMessagePublishConfirmTitle": "Üzenet közzététele?",
+    "chatMessagePublishConfirmBody": "Ez másolatot küld minden csatornára, amely ezt a csatornát követi.",
+    "chatMessagePublishedToast": "Üzenet közzétéve",
+    "chatMessageAlreadyPublished": "Ez az üzenet már közzé van téve.",
+    "chatMessagePublishFailedTitle": "Nem sikerült közzétenni ezt az üzenetet",
+    "chatMessagePublishFailedBody": "Valami hiba történt. Próbáld újra egy pillanat múlva.",
+    "chatMessagePublishLimitTitle": "Lassíts",
+    "chatMessagePublishLimitBody": "Újra közzéteheted {duration} múlva.",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "Túl gyorsan teszel közzé. Próbáld újra egy pillanat múlva.",
+    "chatMessageDeletePublished": "Ez azokat a másolatokat is eltávolítja, amelyeket az ezt a csatornát követő csatornákra küldtünk.",
+    "chatMessageEditPublishedTitle": "Közzétett üzenet szerkesztése?",
+    "chatMessageEditPublishedBody": "Ez frissíti azokat a másolatokat, amelyeket az ezt a csatornát követő csatornákra küldtünk.",
+    "chatMessageEditPublishedSave": "Mentés",
+    "chatMessageEditLimitTitle": "Lassíts",
+    "chatMessageEditLimitBody": "Ezt a közzétett üzenetet újra szerkesztheted {duration} múlva.",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "Túl gyorsan szerkeszted ezt a közzétett üzenetet. Próbáld újra egy pillanat múlva.",
+    "chatMessageOriginalDeleted": "[Eredeti üzenet törölve]",
+    "userTagCommunity": "Közösség",
+    "systemFollowAdd": "{username} beállította, hogy ez a csatorna kövesse ezt: {source}. Az ott közzétett üzenetek itt jelennek meg.",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username} beállította, hogy ez a csatorna kövesse ezt: {source}.",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "Még nem lett elküldve a követőknek.",
+    "publishNudgeHideForever": "Ne mutasd újra",
+    "publishNudgeDismiss": "Elvetés",
+    "channelSettingsFollowedChannels": "Követett csatornák",
+    "channelSettingsFollowedChannelsDescription": "Bejelentési csatornák, amelyeket ez a csatorna követ. Szüntesd meg a követést, ha nem szeretnél több másolatot kapni.",
+    "guildSettingsFollowedChannelsDescription": "A közösség csatornái által követett bejelentési csatornák.",
+    "channelSettingsFollowedFrom": "Forrás: {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "A frissítések szünetelnek, mert a forráscsatorna már nem elérhető.",
+    "channelSettingsUnfollowTitle": "Megszünteted a(z) {name} követését?",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "Ez a csatorna többé nem kap másolatokat attól a bejelentési csatornától.",
+    "channelSettingsUnfollow": "Követés megszüntetése",
+    "crosspostCommunityTitle": "Közösség",
+    "crosspostGoToCommunity": "Ugrás a közösséghez",
+    "crosspostJoinCommunity": "Csatlakozás a közösséghez",
+    "crosspostSourceFailed": "Nem sikerült betölteni ezt a közösséget. Próbáld meg később újra.",
+    "crosspostMembers": "{count} tag",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "{count} online",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, =1{1 perc} other{{count} perc}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, =1{1 másodperc} other{{count} másodperc}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "Nem támogatott csatornatípus",
+    "channelUnsupportedBody": "Az alkalmazás ezen verziója nem támogatja ezt a csatornatípust.",
+    "channelDetailsUnsupportedChannel": "Nem támogatott csatorna"
 }

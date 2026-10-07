@@ -4098,6 +4098,80 @@
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
     },
+    "profileLocalTimeSettingsTitle": "Lokalno vrijeme profila",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "Postavite svoju vremensku zonu jednom kako bi {productName} mogao ažurno pratiti vaš UTC pomak kada se mijenja ljetno računanje vremena. Ostali korisnici mogu vidjeti samo vaš UTC pomak, a ne točan identifikator vaše vremenske zone.",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "Uredi lokalno vrijeme profila",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "Vremenska zona",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "Odaberite vremensku zonu koju {productName} koristi za izračun vaše UTC razlike kako bi se prikazalo lokalno vrijeme u vašem profilu.",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "Pretražite vremenske zone",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "Nije postavljeno",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "Ostali korisnici mogu vidjeti samo vaš trenutni UTC pomak kada odaberete da dijelite lokalno vrijeme profila. Oni ne vide vaš točan identifikator vremenske zone, kao što je {timezoneIdentifierExample}. {productName} pohranjuje taj identifikator samo kako bi se pomak automatski ažurirao kada dođe do promjene ljetnog vremena.",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "Svi",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "Dopusti svima koji mogu vidjeti vaš cijeli profil da vide vaše lokalno vrijeme",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "Prijatelji",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "Dopusti prijateljima da vide vaše lokalno vrijeme",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "Članovi zajednice",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "Dopusti članovima zajednica u kojima ste da vide vaše lokalno vrijeme",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
+    },
     "userProfileSameTimeAsYou": "Isto vrijeme kao i vi",
     "@userProfileSameTimeAsYou": {
         "description": "Profile timezone difference when the target matches the viewer."
@@ -6571,6 +6645,14 @@
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
     },
+    "accessibilityShowAltTextOnImagesLabel": "Prikaži zamjenski tekst na slikama",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "Prikaži zamjenski tekst ispod slika kada je dostupan.",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
     "accessibilityDimStrikethroughTextLabel": "Priguši precrtani tekst",
     "@accessibilityDimStrikethroughTextLabel": {
         "description": "Toggle label for dimming strikethrough text in messages."
@@ -8473,6 +8555,10 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "Dvaput dodirnite poruku za reakciju",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
     "chatMessageEdit": "Uredi poruku",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -8480,6 +8566,14 @@
     "chatMessageReply": "Odgovori",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
+    },
+    "notificationReplyPlaceholder": "Poruka",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "Nije moguće poslati odgovor",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
     },
     "chatMessageForward": "Proslijedi",
     "@chatMessageForward": {
@@ -9424,6 +9518,10 @@
     "chatVideoPlaybackFailed": "Ne možemo reproducirati ovaj videozapis.",
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
+    },
+    "chatImageCouldNotLoad": "Nije moguće učitati ovu sliku.",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
     },
     "composerAutocompleteRoleMentionDescription": "Obavijesti korisnike s ovom ulogom koji imaju dopuštenje za pregled ovog kanala.",
     "@composerAutocompleteRoleMentionDescription": {
@@ -11868,6 +11966,72 @@
     "premiumPerkCustomThemes": "Prilagođene teme",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "Do 4K/60fps",
+    "storePlutoniumPriceLine": "{monthly} ili {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/mj.",
+    "storePlutoniumYearSuffix": "/god.",
+    "storePlutoniumPriceOr": "ili",
+    "storePlutoniumEmojiTitle": "Vaši emojiji posvuda",
+    "storePlutoniumEmojiBody": "Koristite prilagođene emojije i naljepnice iz bilo koje svoje zajednice u svakom chatu i zajednici u kojoj se nalazite.",
+    "storePlutoniumProfileTitle": "Profil koji se ističe",
+    "storePlutoniumProfileBody": "Nabavite animirani avatar i naslovnu sliku, značku pretplatnika, željenu četveroznamenkastu oznaku nakon korisničkog imena* i zaseban profil za svaku zajednicu.",
+    "storePlutoniumFilesTitle": "Šaljite datoteke do 500 MB",
+    "storePlutoniumFilesBody": "Dijelite videozapise pune duljine i velike datoteke bez prethodnog smanjivanja. Besplatni računi mogu slati do 25 MB.",
+    "storePlutoniumCompareTitle": "Usporedite besplatni plan i Plutonium",
+    "storePlutoniumCompareMobileNote": "Nisu sve ove značajke dostupne u mobilnoj aplikaciji. Neke su dostupne samo na stolnom računalu.",
+    "storePlutoniumNotAvailable": "Nije dostupno",
+    "storePlutoniumAvailable": "Dostupno",
+    "storePlutoniumCompareTag": "Odaberite četveroznamenkasti broj nakon vašeg korisničkog imena*",
+    "storePlutoniumCompareProfile": "Zaseban profil za svaku zajednicu",
+    "storePlutoniumCompareBadge": "Značka pretplatnika na vašem profilu",
+    "storePlutoniumCompareBackgrounds": "Pozadine videopoziva koje možete spremiti",
+    "storePlutoniumCompareCommunities": "Zajednice kojima se možete pridružiti",
+    "storePlutoniumCompareCharacters": "Znakova u jednoj poruci",
+    "storePlutoniumCompareBookmarks": "Poruke koje možete označiti",
+    "storePlutoniumCompareUpload": "Najveća datoteka koju možete prenijeti",
+    "storePlutoniumCompareSavedMedia": "Medijske stavke koje možete spremiti za kasnije",
+    "storePlutoniumCompareAnimatedEmoji": "Koristite animirane emojije u porukama",
+    "storePlutoniumCompareCustomEmoji": "Koristite prilagođene emojije i naljepnice u bilo kojoj zajednici",
+    "storePlutoniumCompareVideo": "Kvaliteta videopoziva i dijeljenja zaslona",
+    "storePlutoniumCompareAvatar": "Animirani avatar i naslovna slika profila",
+    "storePlutoniumCompareEarlyAccess": "Rani pristup novim značajkama",
+    "storePlutoniumCompareThemes": "Prilagođene teme za aplikaciju",
+    "storePlutoniumVideoFree": "Do 720p pri 30 FPS",
+    "storePlutoniumVideoPlutonium": "Do 4K pri 60 FPS",
+    "storePlutoniumTagFootnote": "Možete odabrati samo oznaku koju nitko drugi s istim korisničkim imenom već nema. Korisnička imena ne razlikuju velika i mala slova, tako da se Mina#4821 i mina#4821 smatraju istima. Oznaka #0000 rezervirana je za članove Fluxer Visionary.",
+    "storePlutoniumLearnVisionary": "Saznajte više o programu Visionary.",
+    "storePlutoniumDonatePrompt": "Želite li samo podržati razvoj Fluxera otvorenog koda? ",
+    "storePlutoniumDonateLink": "Donirajte umjesto toga.",
+    "storePlutoniumHighlightsLead": "Pretplatom financirate Fluxer i otključavate",
+    "storePlutoniumHighlightEmoji": "Prilagođeni emojiji i naljepnice u bilo kojem chatu",
+    "storePlutoniumHighlightProfile": "Animirani profil, značka i odabrani četveroznamenkasti broj",
+    "storePlutoniumHighlightFiles": "Prijenosi do 500 MB",
+    "storePlutoniumHighlightMessages": "Šaljite poruke do 4000 znakova",
+    "storePlutoniumHighlightCommunityProfile": "Zaseban profil za svaku zajednicu",
+    "storePlutoniumHighlightsMore": "I više",
+    "storePlutoniumRenewsThroughPlay": "Automatski se obnavlja putem Google Playa dok ne otkažete.",
+    "storePlutoniumRenewsThroughAppStore": "Automatski se obnavlja putem App Storea dok ne otkažete.",
+    "storePlutoniumAlreadySubscribed": "Već imate pretplatu na Fluxer Plutonium.",
+    "storePlutoniumSavePercent": "Uštedite {percent}%",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "Primili smo kupnju. Plutonium će se prikazati ovdje nakon aktivacije.",
+    "storePlutoniumUnavailable": "Pretplate u aplikaciji još nisu dostupne na ovom uređaju.",
+    "storePlutoniumVisionaryStatus": "Visionary već uključuje trajni pristup, tako da ponavljajuća pretplata nije potrebna.",
     "userSettingsNavPrivacyDashboard": "Nadzorna ploča privatnosti",
     "@userSettingsNavPrivacyDashboard": {
         "description": "User settings navigation item for the privacy dashboard."
@@ -12618,6 +12782,18 @@
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
     },
+    "userSettingsNavAppIcon": "Ikona aplikacije",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "Ikona aplikacije",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "Odaberite ikonu koja će se prikazati na početnom zaslonu.",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
+    },
     "userSettingsNavAdvanced": "Napredno",
     "@userSettingsNavAdvanced": {
         "description": "User settings navigation item for advanced settings."
@@ -13138,6 +13314,10 @@
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
     },
+    "instanceUrlHelper": "Koristite fluxer.app za službenu instancu ili točan URL samostalno hostirane instance.",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
+    },
     "resetToDefaultInstance": "Vrati na Fluxer",
     "@resetToDefaultInstance": {
         "description": "Tooltip for the button that resets the instance URL to the official Fluxer instance."
@@ -13399,6 +13579,14 @@
     "authHidePassword": "Sakrij lozinku",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "Još radimo na tome…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
+    },
+    "authVerificationFailed": "Nije moguće dovršiti provjeru. Pokušajte ponovno.",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
     },
     "chatLoadingMessages": "Učitavanje poruka",
     "@chatLoadingMessages": {
@@ -17041,6 +17229,40 @@
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
+    "assistantNeedsLogin": "Prvo otvorite Fluxer i prijavite se.",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "Niste u pozivu.",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "Fluxer to nije mogao pronaći.",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "Izravne poruke su onemogućene na ovoj instanci.",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "Fluxer to nije mogao dovršiti.",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "Mikrofon utišan.",
+    "assistantOkUnmuted": "Mikrofon uključen.",
+    "assistantOkLeftVoice": "Napustili ste glasovni kanal.",
+    "assistantOkJoinedVoice": "Pridružujem se glasovnom kanalu.",
+    "assistantOkStartedCall": "Pokrećem poziv.",
+    "assistantOkStatusSet": "Status postavljen na {status}.",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "Otvaram Fluxer.",
     "lookAndFeelChatWallpaperTitle": "Pozadina chata",
     "@lookAndFeelChatWallpaperTitle": {
         "description": "Look and Feel section title for chat wallpaper presets."
@@ -17064,6 +17286,10 @@
     "lookAndFeelChatWallpaperCustomLabel": "Prilagođena slika",
     "@lookAndFeelChatWallpaperCustomLabel": {
         "description": "Chat wallpaper option that picks an image from the gallery."
+    },
+    "lookAndFeelChatWallpaperStarfieldLabel": "Zvjezdano polje",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
     },
     "lookAndFeelChatWallpaperColorLabel": "Boja {id}",
     "@lookAndFeelChatWallpaperColorLabel": {
@@ -17133,6 +17359,15 @@
         "description": "Empty-state body. apiName is the product API display name.",
         "placeholders": {
             "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "Stvoreno {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
                 "type": "String"
             }
         }
@@ -17317,6 +17552,10 @@
     "@applicationsOauthBuilderTitle": {
         "description": "Section title for the authorize URL builder."
     },
+    "applicationsOauthBuilderDescription": "Izradite URL za autorizaciju s opsezima i dopuštenjima.",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
     "applicationsScopes": "Opsezi",
     "@applicationsScopes": {
         "description": "Label for OAuth2 scope checkboxes."
@@ -17349,6 +17588,10 @@
     "@applicationsAuthorizeUrlPlaceholder": {
         "description": "Placeholder when the authorize URL cannot be built yet."
     },
+    "applicationsCopyAuthorizeUrl": "Kopiraj URL za autorizaciju",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
     "applicationsCopiedUrl": "URL kopiran u međuspremnik",
     "@applicationsCopiedUrl": {
         "description": "Toast after copying the authorize URL."
@@ -17368,6 +17611,15 @@
     "applicationsDelete": "Izbriši aplikaciju",
     "@applicationsDelete": {
         "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "Jeste li sigurni da želite izbrisati {name}? Ova se radnja ne može poništiti. Svi povezani podaci, uključujući korisnika bota, bit će trajno izbrisani.",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     },
     "applicationsDeleteFailed": "Nije moguće izbrisati aplikaciju",
     "@applicationsDeleteFailed": {
@@ -17457,6 +17709,10 @@
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
     },
+    "voiceOutputRouteEarpiece": "Slušalica",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
     "voiceOutputRouteHeadset": "Slušalice",
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
@@ -17464,6 +17720,14 @@
     "doubleTapReactionEdit": "Uredi",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "Uredi zadano",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "Odaberite emoji za dvostruki dodir",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
     },
     "chatMessagePinConfirm": "Prikvači",
     "@chatMessagePinConfirm": {
@@ -17477,9 +17741,17 @@
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."
     },
+    "appIconOptionStarfield": "Zvjezdano polje",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
     "appIconOptionSweden": "Švedska",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "Promjena ikone aplikacije nije dostupna na ovom uređaju.",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     },
     "userSettingsLogOutConfirmTitle": "Želite li se odjaviti?",
     "@userSettingsLogOutConfirmTitle": {
@@ -17509,5 +17781,178 @@
     "@guildSettingsCommunityDeleted": {
         "description": "Success toast after a community is deleted."
     },
-    "assistantOkMessageSent": "Poruka poslana."
+    "guildSettingsDeleteCommunityFailed": "Nije bilo moguće izbrisati ovu zajednicu",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantOkMessageSent": "Poruka poslana.",
+    "assistantOkCustomStatusSet": "Prilagođeni status ažuriran.",
+    "assistantOkCustomStatusCleared": "Prilagođeni status obrisan.",
+    "guildNavbarAnnouncementChannel": "Kanal s obavijestima",
+    "guildNavbarAnnouncementChannelDescription": "Objavljujte ažuriranja koja druge zajednice mogu pratiti na svojim kanalima",
+    "channelDetailsAnnouncementChannel": "Kanal s obavijestima",
+    "channelSettingsAnnouncementChannel": "Kanal s obavijestima",
+    "channelSettingsAnnouncementChannelDescription": "Omogućuje drugim zajednicama da prate ovaj kanal i primaju kopije onoga što objavite.",
+    "channelSettingsStopAnnouncementTitle": "Prestati biti kanal s obavijestima?",
+    "channelSettingsStopAnnouncementBody": "{count, plural, one{{count} kanal prati ovaj kanal. Pretvaranjem u tekstualni kanal to se praćenje uklanja.} few{{count} kanala prate ovaj kanal. Pretvaranjem u tekstualni kanal ta se praćenja uklanjaju.} other{{count} kanala prati ovaj kanal. Pretvaranjem u tekstualni kanal ta se praćenja uklanjaju.}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "Pretvaranjem ovog kanala u tekstualni kanal uklanjaju se praćenja svih kanala koji ga prate.",
+    "channelSettingsConvertChannel": "Pretvori",
+    "channelSettingsConvertFailed": "Nije moguće pretvoriti ovaj kanal",
+    "channelSettingsChannelHasFollowers": "Ovaj kanal i dalje prate drugi kanali. Uklonite ta praćenja prije pretvaranja.",
+    "channelMenuFollow": "Prati kanal",
+    "channelFollowTitle": "Prati ovaj kanal",
+    "channelFollowBody": "Odaberite gdje će se objavljivati poruke. Praćenje možete prekinuti bilo kada u Postavkama zajednice → Webhookovi.",
+    "channelFollowCommunity": "Zajednica",
+    "channelFollowChannel": "Kanal",
+    "channelFollowAgeWarning": "Ovo je kanal s dobnim ograničenjem. Ažuriranja mogu ići samo na kanale s dobnim ograničenjem.",
+    "channelFollowContentWarning": "Ovaj kanal ima upozorenje o sadržaju. Ažuriranja mogu ići samo na kanale s upozorenjem o sadržaju ili dobnim ograničenjem.",
+    "channelFollowHiddenHint": "Zajednice i kanali kojima ne možete upravljati webhookovima skriveni su.",
+    "channelFollowEmpty": "Ne možete upravljati webhookovima ni u jednoj zajednici. Zamolite administratora da prati ovaj kanal.",
+    "channelFollowSubmit": "Prati",
+    "channelFollowFailed": "Nije moguće pratiti ovaj kanal.",
+    "channelFollowSuccessTitle": "Stižu ažuriranja!",
+    "channelFollowSuccessBody": "Poruke objavljene u {sourceName} prikazivat će se u #{targetName}.",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "U redu!",
+    "channelFollowBarrier": "Pratite ovaj kanal kako biste primali ove objave na kanalu po svom izboru.",
+    "channelHeaderFollow": "Prati kanal",
+    "chatMessagePublish": "Objavi",
+    "chatMessagePublished": "Objavljeno",
+    "chatMessagePublishConfirmTitle": "Objaviti poruku?",
+    "chatMessagePublishConfirmBody": "Ovo šalje kopiju svakom kanalu koji prati ovaj.",
+    "chatMessagePublishedToast": "Poruka objavljena",
+    "chatMessageAlreadyPublished": "Ova je poruka već objavljena.",
+    "chatMessagePublishFailedTitle": "Nije moguće objaviti ovu poruku",
+    "chatMessagePublishFailedBody": "Nešto je pošlo po zlu. Pokušajte ponovno za trenutak.",
+    "chatMessagePublishLimitTitle": "Usporite",
+    "chatMessagePublishLimitBody": "Možete ponovno objaviti za {duration}.",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "Prebrzo objavljujete. Pokušajte ponovno za trenutak.",
+    "chatMessageDeletePublished": "Ovo također uklanja kopije koje su poslane kanalima koji prate ovaj.",
+    "chatMessageEditPublishedTitle": "Uredi objavljenu poruku?",
+    "chatMessageEditPublishedBody": "Ovo ažurira kopije koje su poslane kanalima koji prate ovaj kanal.",
+    "chatMessageEditPublishedSave": "Spremi",
+    "chatMessageEditLimitTitle": "Usporite",
+    "chatMessageEditLimitBody": "Ovu objavljenu poruku možete ponovno urediti za {duration}.",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "Prebrzo uređujete ovu objavljenu poruku. Pokušajte ponovno za trenutak.",
+    "chatMessageOriginalDeleted": "[Izvorna poruka izbrisana]",
+    "userTagCommunity": "Zajednica",
+    "systemFollowAdd": "{username} je postavio/la ovaj kanal da prati {source}. Poruke objavljene tamo pojavit će se ovdje.",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username} je postavio/la ovaj kanal da prati {source}.",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "Još nije poslano pratiteljima.",
+    "publishNudgeHideForever": "Ne prikazuj ponovno",
+    "publishNudgeDismiss": "Odbaci",
+    "channelSettingsFollowedChannels": "Praćeni kanali",
+    "channelSettingsFollowedChannelsDescription": "Kanali s obavijestima koje ovaj kanal prati. Prekinite praćenje kako biste prestali primati kopije.",
+    "guildSettingsFollowedChannelsDescription": "Kanali s obavijestima koje prate kanali u ovoj zajednici.",
+    "channelSettingsFollowedFrom": "Iz {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "Ažuriranja su pauzirana jer izvorni kanal više nije dostupan.",
+    "channelSettingsUnfollowTitle": "Prekinuti praćenje {name}?",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "Ovaj kanal prestat će primati kopije s tog kanala s obavijestima.",
+    "channelSettingsUnfollow": "Prekini praćenje",
+    "crosspostCommunityTitle": "Zajednica",
+    "crosspostGoToCommunity": "Idi na zajednicu",
+    "crosspostJoinCommunity": "Pridruži se zajednici",
+    "crosspostSourceFailed": "Nismo mogli učitati ovu zajednicu. Pokušajte ponovno za trenutak.",
+    "crosspostMembers": "{count} članova",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "{count} na mreži",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, one{{count} minuta} few{{count} minute} other{{count} minuta}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, one{{count} sekunda} few{{count} sekunde} other{{count} sekundi}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "Nepodržana vrsta kanala",
+    "channelUnsupportedBody": "Ova verzija aplikacije ne podržava ovu vrstu kanala.",
+    "channelDetailsUnsupportedChannel": "Nepodržani kanal"
 }

@@ -4098,6 +4098,80 @@
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
     },
+    "profileLocalTimeSettingsTitle": "Waktu lokal profil",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "Atur zona waktumu sekali agar {productName} dapat menjaga selisih UTC kamu tetap akurat saat waktu musim panas berubah. Orang lain hanya dapat melihat selisih UTC kamu, bukan pengenal zona waktu kamu yang persis.",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "Edit waktu lokal profil",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "Zona waktu",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "Pilih zona waktu yang digunakan {productName} untuk menghitung selisih UTC-mu guna menampilkan waktu lokal di profilmu.",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "Cari zona waktu",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "Belum diatur",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "Orang lain hanya bisa melihat selisih UTC-mu saat ini ketika kamu memilih untuk membagikan waktu lokal profil. Mereka tidak melihat pengidentifikasi zona waktu yang tepat, seperti {timezoneIdentifierExample}. {productName} menyimpan pengidentifikasi itu hanya agar selisihnya bisa diperbarui otomatis ketika waktu musim panas berubah.",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "Semua orang",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "Izinkan siapa pun yang dapat melihat profil lengkapmu untuk melihat waktu lokalmu",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "Teman",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "Izinkan temanmu melihat waktu lokalmu",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "Anggota komunitas",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "Izinkan anggota dari komunitas yang kamu ikuti melihat waktu lokalmu",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
+    },
     "userProfileSameTimeAsYou": "Sama dengan zona waktumu",
     "@userProfileSameTimeAsYou": {
         "description": "Profile timezone difference when the target matches the viewer."
@@ -6571,6 +6645,14 @@
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
     },
+    "accessibilityShowAltTextOnImagesLabel": "Tampilkan teks alternatif pada gambar",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "Tampilkan teks alternatif di bawah gambar jika tersedia.",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
     "accessibilityDimStrikethroughTextLabel": "Redupkan teks coret",
     "@accessibilityDimStrikethroughTextLabel": {
         "description": "Toggle label for dimming strikethrough text in messages."
@@ -8473,6 +8555,10 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "Ketuk dua kali pesan untuk bereaksi dengan",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
     "chatMessageEdit": "Edit pesan",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -8480,6 +8566,14 @@
     "chatMessageReply": "Balas",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
+    },
+    "notificationReplyPlaceholder": "Pesan",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "Tidak dapat mengirim balasan",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
     },
     "chatMessageForward": "Teruskan",
     "@chatMessageForward": {
@@ -9424,6 +9518,10 @@
     "chatVideoPlaybackFailed": "Tidak dapat memutar video ini.",
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
+    },
+    "chatImageCouldNotLoad": "Tidak dapat memuat gambar ini.",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
     },
     "composerAutocompleteRoleMentionDescription": "Beri tahu pengguna dengan peran ini yang memiliki izin untuk melihat saluran ini.",
     "@composerAutocompleteRoleMentionDescription": {
@@ -11868,6 +11966,72 @@
     "premiumPerkCustomThemes": "Tema kustom",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "Hingga 4K/60fps",
+    "storePlutoniumPriceLine": "{monthly} atau {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/bln",
+    "storePlutoniumYearSuffix": "/thn",
+    "storePlutoniumPriceOr": "atau",
+    "storePlutoniumEmojiTitle": "Emoji Anda, di mana saja",
+    "storePlutoniumEmojiBody": "Bawa emoji dan stiker kustom dari komunitas mana pun ke setiap chat dan komunitas tempat Anda berada.",
+    "storePlutoniumProfileTitle": "Profil yang menonjol",
+    "storePlutoniumProfileBody": "Dapatkan avatar dan banner animasi, lencana pelanggan, tag empat digit yang Anda inginkan setelah nama pengguna Anda*, dan profil terpisah untuk setiap komunitas.",
+    "storePlutoniumFilesTitle": "Kirim file hingga 500 MB",
+    "storePlutoniumFilesBody": "Bagikan video berdurasi penuh dan file besar tanpa mengecilkannya terlebih dahulu. Akun gratis dapat mengirim hingga 25 MB.",
+    "storePlutoniumCompareTitle": "Bandingkan Gratis dan Plutonium",
+    "storePlutoniumCompareMobileNote": "Tidak semua fitur ini ada di aplikasi seluler. Beberapa hanya tersedia di desktop.",
+    "storePlutoniumNotAvailable": "Tidak tersedia",
+    "storePlutoniumAvailable": "Tersedia",
+    "storePlutoniumCompareTag": "Pilih 4 digit angka setelah nama pengguna Anda*",
+    "storePlutoniumCompareProfile": "Profil terpisah untuk setiap komunitas",
+    "storePlutoniumCompareBadge": "Lencana pelanggan di profil Anda",
+    "storePlutoniumCompareBackgrounds": "Latar belakang panggilan video yang bisa Anda simpan",
+    "storePlutoniumCompareCommunities": "Komunitas yang bisa Anda ikuti",
+    "storePlutoniumCompareCharacters": "Karakter dalam satu pesan",
+    "storePlutoniumCompareBookmarks": "Pesan yang dapat Anda tandai",
+    "storePlutoniumCompareUpload": "File terbesar yang dapat Anda unggah",
+    "storePlutoniumCompareSavedMedia": "Item media yang bisa Anda simpan nanti",
+    "storePlutoniumCompareAnimatedEmoji": "Gunakan emoji animasi dalam pesan",
+    "storePlutoniumCompareCustomEmoji": "Gunakan emoji dan stiker kustom di komunitas mana pun",
+    "storePlutoniumCompareVideo": "Kualitas panggilan video dan berbagi layar",
+    "storePlutoniumCompareAvatar": "Avatar dan banner profil animasi",
+    "storePlutoniumCompareEarlyAccess": "Akses awal ke fitur baru",
+    "storePlutoniumCompareThemes": "Tema kustom untuk aplikasi",
+    "storePlutoniumVideoFree": "Hingga 720p pada 30 FPS",
+    "storePlutoniumVideoPlutonium": "Hingga 4K pada 60 FPS",
+    "storePlutoniumTagFootnote": "Anda hanya dapat memilih tag yang belum dimiliki oleh orang lain dengan nama pengguna yang sama. Nama pengguna tidak peka huruf besar/kecil, jadi Mina#4821 dan mina#4821 dianggap sama. Tag #0000 dicadangkan untuk anggota Fluxer Visionary.",
+    "storePlutoniumLearnVisionary": "Pelajari lebih lanjut tentang Visionary.",
+    "storePlutoniumDonatePrompt": "Hanya ingin mendukung pengembangan sumber terbuka Fluxer? ",
+    "storePlutoniumDonateLink": "Donasi saja.",
+    "storePlutoniumHighlightsLead": "Berlangganan mendanai Fluxer dan membuka kunci",
+    "storePlutoniumHighlightEmoji": "Emoji dan stiker kustom di chat mana pun",
+    "storePlutoniumHighlightProfile": "Profil animasi, lencana, dan nomor 4 digit kustom",
+    "storePlutoniumHighlightFiles": "Unggah hingga 500 MB",
+    "storePlutoniumHighlightMessages": "Kirim pesan hingga 4.000 karakter",
+    "storePlutoniumHighlightCommunityProfile": "Profil terpisah untuk setiap komunitas",
+    "storePlutoniumHighlightsMore": "Dan lainnya",
+    "storePlutoniumRenewsThroughPlay": "Diperbarui secara otomatis melalui Google Play sampai Anda membatalkan.",
+    "storePlutoniumRenewsThroughAppStore": "Diperbarui secara otomatis melalui App Store sampai Anda membatalkan.",
+    "storePlutoniumAlreadySubscribed": "Anda sudah memiliki langganan Fluxer Plutonium.",
+    "storePlutoniumSavePercent": "Hemat {percent}%",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "Pembelian diterima. Plutonium akan muncul di sini setelah aktif.",
+    "storePlutoniumUnavailable": "Langganan dalam aplikasi belum tersedia di perangkat ini.",
+    "storePlutoniumVisionaryStatus": "Visionary sudah termasuk akses permanen, jadi langganan berulang tidak diperlukan.",
     "userSettingsNavPrivacyDashboard": "Dasbor Privasi",
     "@userSettingsNavPrivacyDashboard": {
         "description": "User settings navigation item for the privacy dashboard."
@@ -12618,6 +12782,18 @@
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
     },
+    "userSettingsNavAppIcon": "Ikon aplikasi",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "Ikon aplikasi",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "Pilih ikon yang muncul di layar utama Anda.",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
+    },
     "userSettingsNavAdvanced": "Lanjutan",
     "@userSettingsNavAdvanced": {
         "description": "User settings navigation item for advanced settings."
@@ -13138,6 +13314,9 @@
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
     },
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
+    },
     "resetToDefaultInstance": "Atur ulang ke Fluxer",
     "@resetToDefaultInstance": {
         "description": "Tooltip for the button that resets the instance URL to the official Fluxer instance."
@@ -13399,6 +13578,14 @@
     "authHidePassword": "Sembunyikan kata sandi",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "Masih dikerjakan…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
+    },
+    "authVerificationFailed": "Verifikasi tidak dapat diselesaikan. Coba lagi.",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
     },
     "chatLoadingMessages": "Memuat pesan",
     "@chatLoadingMessages": {
@@ -17041,6 +17228,39 @@
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
+    "assistantNeedsLogin": "Buka Fluxer dan masuk terlebih dahulu.",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "Anda tidak sedang dalam panggilan.",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "Fluxer tidak dapat menemukan itu.",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "Fluxer tidak dapat menyelesaikan itu.",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "Mikrofon dibisukan.",
+    "assistantOkUnmuted": "Mikrofon diaktifkan.",
+    "assistantOkLeftVoice": "Keluar dari saluran suara.",
+    "assistantOkJoinedVoice": "Bergabung ke saluran suara.",
+    "assistantOkStartedCall": "Memulai panggilan.",
+    "assistantOkStatusSet": "Status diatur ke {status}.",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "Membuka Fluxer.",
     "lookAndFeelChatWallpaperTitle": "Wallpaper Obrolan",
     "@lookAndFeelChatWallpaperTitle": {
         "description": "Look and Feel section title for chat wallpaper presets."
@@ -17064,6 +17284,10 @@
     "lookAndFeelChatWallpaperCustomLabel": "Gambar kustom",
     "@lookAndFeelChatWallpaperCustomLabel": {
         "description": "Chat wallpaper option that picks an image from the gallery."
+    },
+    "lookAndFeelChatWallpaperStarfieldLabel": "Bidang bintang",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
     },
     "lookAndFeelChatWallpaperColorLabel": "Warna {id}",
     "@lookAndFeelChatWallpaperColorLabel": {
@@ -17133,6 +17357,15 @@
         "description": "Empty-state body. apiName is the product API display name.",
         "placeholders": {
             "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "Dibuat {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
                 "type": "String"
             }
         }
@@ -17317,6 +17550,10 @@
     "@applicationsOauthBuilderTitle": {
         "description": "Section title for the authorize URL builder."
     },
+    "applicationsOauthBuilderDescription": "Buat URL otorisasi dengan cakupan dan izin.",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
     "applicationsScopes": "Cakupan",
     "@applicationsScopes": {
         "description": "Label for OAuth2 scope checkboxes."
@@ -17349,6 +17586,10 @@
     "@applicationsAuthorizeUrlPlaceholder": {
         "description": "Placeholder when the authorize URL cannot be built yet."
     },
+    "applicationsCopyAuthorizeUrl": "Salin URL otorisasi",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
     "applicationsCopiedUrl": "URL disalin ke papan klip",
     "@applicationsCopiedUrl": {
         "description": "Toast after copying the authorize URL."
@@ -17368,6 +17609,15 @@
     "applicationsDelete": "Hapus aplikasi",
     "@applicationsDelete": {
         "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "Apakah Anda yakin ingin menghapus {name}? Tindakan ini tidak dapat dibatalkan. Semua data terkait, termasuk pengguna bot, akan dihapus secara permanen.",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     },
     "applicationsDeleteFailed": "Tidak dapat menghapus aplikasi",
     "@applicationsDeleteFailed": {
@@ -17457,6 +17707,10 @@
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
     },
+    "voiceOutputRouteEarpiece": "Gagang telepon",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
     "voiceOutputRouteHeadset": "Headphone",
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
@@ -17464,6 +17718,14 @@
     "doubleTapReactionEdit": "Edit",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "Ubah default",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "Pilih emoji ketuk dua kali",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
     },
     "chatMessagePinConfirm": "Sematkan",
     "@chatMessagePinConfirm": {
@@ -17477,9 +17739,17 @@
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."
     },
+    "appIconOptionStarfield": "Bidang bintang",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
     "appIconOptionSweden": "Swedia",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "Mengganti ikon aplikasi tidak tersedia di perangkat ini.",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     },
     "userSettingsLogOutConfirmTitle": "Keluar?",
     "@userSettingsLogOutConfirmTitle": {
@@ -17509,5 +17779,178 @@
     "@guildSettingsCommunityDeleted": {
         "description": "Success toast after a community is deleted."
     },
-    "assistantOkMessageSent": "Pesan terkirim."
+    "guildSettingsDeleteCommunityFailed": "Tidak dapat menghapus komunitas ini",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantOkMessageSent": "Pesan terkirim.",
+    "assistantOkCustomStatusSet": "Status kustom diperbarui.",
+    "assistantOkCustomStatusCleared": "Status kustom dihapus.",
+    "guildNavbarAnnouncementChannel": "Saluran pengumuman",
+    "guildNavbarAnnouncementChannelDescription": "Posting pembaruan yang dapat diikuti komunitas lain ke saluran mereka sendiri",
+    "channelDetailsAnnouncementChannel": "Saluran pengumuman",
+    "channelSettingsAnnouncementChannel": "Saluran pengumuman",
+    "channelSettingsAnnouncementChannelDescription": "Izinkan komunitas lain mengikuti saluran ini dan mendapatkan salinan dari apa yang Anda publikasikan.",
+    "channelSettingsStopAnnouncementTitle": "Berhenti menjadi saluran pengumuman?",
+    "channelSettingsStopAnnouncementBody": "{count, plural, =1{1 saluran mengikuti saluran ini. Mengubahnya menjadi saluran teks akan menghapus pengikut tersebut.} other{{count} saluran mengikuti saluran ini. Mengubahnya menjadi saluran teks akan menghapus pengikut tersebut.}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "Mengubah saluran ini menjadi saluran teks akan membuat semua saluran yang mengikutinya berhenti mengikuti.",
+    "channelSettingsConvertChannel": "Konversi",
+    "channelSettingsConvertFailed": "Tidak dapat mengonversi saluran ini",
+    "channelSettingsChannelHasFollowers": "Saluran ini masih memiliki pengikut. Hapus pengikut tersebut sebelum mengonversinya.",
+    "channelMenuFollow": "Ikuti saluran",
+    "channelFollowTitle": "Ikuti saluran ini",
+    "channelFollowBody": "Pilih tempat pesan yang dipublikasikan akan dikirim. Anda dapat berhenti mengikuti kapan saja di pengaturan Komunitas → Webhook.",
+    "channelFollowCommunity": "Komunitas",
+    "channelFollowChannel": "Saluran",
+    "channelFollowAgeWarning": "Saluran ini dibatasi usia. Pembaruan hanya dapat dikirim ke saluran yang dibatasi usia.",
+    "channelFollowContentWarning": "Saluran ini memiliki peringatan konten. Pembaruan hanya dapat dikirim ke saluran dengan peringatan konten atau batasan usia.",
+    "channelFollowHiddenHint": "Komunitas dan saluran tempat Anda tidak dapat mengelola webhook disembunyikan.",
+    "channelFollowEmpty": "Anda tidak dapat mengelola webhook di komunitas mana pun. Minta admin untuk mengikuti saluran ini.",
+    "channelFollowSubmit": "Ikuti",
+    "channelFollowFailed": "Tidak dapat mengikuti saluran ini.",
+    "channelFollowSuccessTitle": "Pembaruan sedang dikirim!",
+    "channelFollowSuccessBody": "Pesan yang dipublikasikan di {sourceName} akan muncul di #{targetName}.",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "Oke!",
+    "channelFollowBarrier": "Ikuti saluran ini untuk mendapatkan pengumuman ini di saluran pilihan Anda.",
+    "channelHeaderFollow": "Ikuti saluran",
+    "chatMessagePublish": "Terbitkan",
+    "chatMessagePublished": "Dipublikasikan",
+    "chatMessagePublishConfirmTitle": "Terbitkan pesan?",
+    "chatMessagePublishConfirmBody": "Ini akan mengirimkan salinan ke setiap saluran yang mengikuti saluran ini.",
+    "chatMessagePublishedToast": "Pesan dipublikasikan",
+    "chatMessageAlreadyPublished": "Pesan ini sudah dipublikasikan.",
+    "chatMessagePublishFailedTitle": "Tidak dapat menerbitkan pesan ini",
+    "chatMessagePublishFailedBody": "Terjadi kesalahan. Coba lagi sebentar lagi.",
+    "chatMessagePublishLimitTitle": "Pelan-pelan",
+    "chatMessagePublishLimitBody": "Anda dapat menerbitkan lagi dalam {duration}.",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "Anda memublikasikan terlalu cepat. Coba lagi sebentar lagi.",
+    "chatMessageDeletePublished": "Ini juga menghapus salinan yang dikirim ke saluran yang mengikuti saluran ini.",
+    "chatMessageEditPublishedTitle": "Edit pesan yang dipublikasikan?",
+    "chatMessageEditPublishedBody": "Ini akan memperbarui salinan yang dikirim ke saluran-saluran yang mengikuti saluran ini.",
+    "chatMessageEditPublishedSave": "Simpan",
+    "chatMessageEditLimitTitle": "Pelan-pelan",
+    "chatMessageEditLimitBody": "Anda dapat mengedit pesan terbitan ini lagi dalam {duration}.",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "Anda mengedit pesan terbitan ini terlalu cepat. Coba lagi sebentar lagi.",
+    "chatMessageOriginalDeleted": "[Pesan asli dihapus]",
+    "userTagCommunity": "Komunitas",
+    "systemFollowAdd": "{username} mengatur saluran ini untuk mengikuti {source}. Pesan yang dipublikasikan di sana akan muncul di sini.",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username} mengatur saluran ini untuk mengikuti {source}.",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "Belum dikirim ke pengikut.",
+    "publishNudgeHideForever": "Jangan tampilkan lagi",
+    "publishNudgeDismiss": "Tutup",
+    "channelSettingsFollowedChannels": "Saluran yang diikuti",
+    "channelSettingsFollowedChannelsDescription": "Saluran pengumuman yang diikuti saluran ini. Berhenti mengikuti untuk berhenti menerima salinan.",
+    "guildSettingsFollowedChannelsDescription": "Saluran pengumuman yang diikuti oleh saluran di komunitas ini.",
+    "channelSettingsFollowedFrom": "Dari {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "Pembaruan dijeda karena saluran sumber tidak lagi tersedia.",
+    "channelSettingsUnfollowTitle": "Berhenti mengikuti {name}?",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "Saluran ini akan berhenti menerima salinan dari saluran pengumuman tersebut.",
+    "channelSettingsUnfollow": "Berhenti mengikuti",
+    "crosspostCommunityTitle": "Komunitas",
+    "crosspostGoToCommunity": "Buka komunitas",
+    "crosspostJoinCommunity": "Gabung komunitas",
+    "crosspostSourceFailed": "Tidak dapat memuat komunitas ini. Coba lagi sebentar lagi.",
+    "crosspostMembers": "{count} anggota",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "{count} online",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, =1{1 menit} other{{count} menit}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, =1{1 detik} other{{count} detik}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "Jenis saluran tidak didukung",
+    "channelUnsupportedBody": "Versi aplikasi ini tidak mendukung jenis saluran ini.",
+    "channelDetailsUnsupportedChannel": "Saluran tidak didukung"
 }

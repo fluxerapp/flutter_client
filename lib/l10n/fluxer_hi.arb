@@ -4098,6 +4098,80 @@
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
     },
+    "profileLocalTimeSettingsTitle": "प्रोफ़ाइल का स्थानीय समय",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "अपना समय क्षेत्र एक बार सेट कर दें ताकि डेलाइट सेविंग समय बदलने पर {productName} आपका UTC ऑफ़सेट सही रख सके। दूसरे लोग सिर्फ़ आपका UTC ऑफ़सेट देख सकते हैं, आपका सटीक समय क्षेत्र पहचानकर्ता नहीं।",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "प्रोफ़ाइल का स्थानीय समय बदलें",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "समय क्षेत्र",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "वह समय क्षेत्र चुनें जिससे {productName} आपकी प्रोफ़ाइल के स्थानीय समय के लिए UTC ऑफ़सेट निकालता है।",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "समय क्षेत्र खोजें",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "सेट नहीं है",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "जब आप प्रोफ़ाइल पर लोकल समय शेयर करना चुनते हैं, तभी दूसरे लोग आपका मौजूदा UTC ऑफ़सेट देख पाते हैं। उन्हें आपका सटीक टाइमज़ोन आईडी नहीं दिखता, जैसे {timezoneIdentifierExample}। {productName} वह आईडी सिर्फ़ इसलिए सेव रखता है ताकि डेलाइट सेविंग टाइम बदलने पर ऑफ़सेट अपने आप अपडेट हो सके।",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "हर कोई",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "जो कोई भी आपकी पूरी प्रोफ़ाइल देख सकता है, उसे आपका स्थानीय समय देखने की अनुमति दें",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "दोस्त",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "अपने दोस्तों को अपना स्थानीय समय देखने दें",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "कम्युनिटी सदस्य",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "आप जिन कम्युनिटी में हैं, उनके सदस्यों को अपना स्थानीय समय देखने दें",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
+    },
     "userProfileSameTimeAsYou": "आपके जैसा ही समय",
     "@userProfileSameTimeAsYou": {
         "description": "Profile timezone difference when the target matches the viewer."
@@ -6571,6 +6645,14 @@
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
     },
+    "accessibilityShowAltTextOnImagesLabel": "छवियों पर वैकल्पिक टेक्स्ट दिखाएँ",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "जब उपलब्ध हो, तो छवियों के नीचे वैकल्पिक टेक्स्ट दिखाएँ।",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
     "accessibilityDimStrikethroughTextLabel": "स्ट्राइकथ्रू टेक्स्ट को हल्का करें",
     "@accessibilityDimStrikethroughTextLabel": {
         "description": "Toggle label for dimming strikethrough text in messages."
@@ -8473,6 +8555,10 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "किसी मैसेज पर डबल टैप करके रिएक्ट करें:",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
     "chatMessageEdit": "मैसेज एडिट करें",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -8480,6 +8566,14 @@
     "chatMessageReply": "रिप्लाई करें",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
+    },
+    "notificationReplyPlaceholder": "मैसेज",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "जवाब नहीं भेजा जा सका",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
     },
     "chatMessageForward": "फ़ॉरवर्ड करें",
     "@chatMessageForward": {
@@ -9424,6 +9518,10 @@
     "chatVideoPlaybackFailed": "यह वीडियो नहीं चलाया जा सका।",
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
+    },
+    "chatImageCouldNotLoad": "यह इमेज लोड नहीं हो सकी।",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
     },
     "composerAutocompleteRoleMentionDescription": "इस रोल वाले उन यूज़र को नोटिफ़ाई करें जिनके पास इस चैनल को देखने की अनुमति है।",
     "@composerAutocompleteRoleMentionDescription": {
@@ -11868,6 +11966,72 @@
     "premiumPerkCustomThemes": "कस्टम थीम",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "4K/60fps तक",
+    "storePlutoniumPriceLine": "{monthly} या {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/माह",
+    "storePlutoniumYearSuffix": "/वर्ष",
+    "storePlutoniumPriceOr": "या",
+    "storePlutoniumEmojiTitle": "आपके इमोजी, हर जगह",
+    "storePlutoniumEmojiBody": "अपने किसी भी कम्युनिटी के कस्टम इमोजी और स्टिकर को अपने हर चैट और कम्युनिटी में लाएं।",
+    "storePlutoniumProfileTitle": "एक प्रोफ़ाइल जो सबसे अलग दिखे",
+    "storePlutoniumProfileBody": "एक एनिमेटेड अवतार और बैनर, एक सब्सक्राइबर बैज, अपने यूज़रनेम* के बाद अपनी पसंद का चार अंकों वाला टैग और हर कम्युनिटी के लिए एक अलग प्रोफ़ाइल पाएँ।",
+    "storePlutoniumFilesTitle": "500 MB तक की फ़ाइलें भेजें",
+    "storePlutoniumFilesBody": "बिना छोटा किए पूरे वीडियो और बड़ी फ़ाइलें शेयर करें। मुफ़्त अकाउंट 25 MB तक भेज सकते हैं।",
+    "storePlutoniumCompareTitle": "फ़्री और Plutonium की तुलना करें",
+    "storePlutoniumCompareMobileNote": "इनमें से सभी सुविधाएं मोबाइल ऐप में नहीं हैं। कुछ केवल डेस्कटॉप पर उपलब्ध हैं।",
+    "storePlutoniumNotAvailable": "उपलब्ध नहीं है",
+    "storePlutoniumAvailable": "उपलब्ध",
+    "storePlutoniumCompareTag": "अपने यूज़रनेम के बाद 4 अंकों का नंबर चुनें*",
+    "storePlutoniumCompareProfile": "हर कम्युनिटी के लिए एक अलग प्रोफ़ाइल",
+    "storePlutoniumCompareBadge": "आपकी प्रोफ़ाइल पर सब्सक्राइबर बैज",
+    "storePlutoniumCompareBackgrounds": "सहेजे जा सकने वाले वीडियो कॉल बैकग्राउंड",
+    "storePlutoniumCompareCommunities": "आप जिन कम्युनिटी से जुड़ सकते हैं",
+    "storePlutoniumCompareCharacters": "एक संदेश में अक्षर",
+    "storePlutoniumCompareBookmarks": "बुकमार्क करने लायक संदेश",
+    "storePlutoniumCompareUpload": "अपलोड करने के लिए सबसे बड़ी फ़ाइल",
+    "storePlutoniumCompareSavedMedia": "बाद में सहेजने के लिए मीडिया आइटम",
+    "storePlutoniumCompareAnimatedEmoji": "संदेशों में एनिमेटेड इमोजी का उपयोग करें",
+    "storePlutoniumCompareCustomEmoji": "किसी भी कम्युनिटी में कस्टम इमोजी और स्टिकर का उपयोग करें",
+    "storePlutoniumCompareVideo": "वीडियो कॉल और स्क्रीन शेयर की क्वालिटी",
+    "storePlutoniumCompareAvatar": "एनिमेटेड अवतार और प्रोफ़ाइल बैनर",
+    "storePlutoniumCompareEarlyAccess": "नई सुविधाओं का अर्ली एक्सेस",
+    "storePlutoniumCompareThemes": "ऐप के लिए कस्टम थीम",
+    "storePlutoniumVideoFree": "30 FPS पर 720p तक",
+    "storePlutoniumVideoPlutonium": "60 FPS पर 4K तक",
+    "storePlutoniumTagFootnote": "आप केवल एक ऐसा टैग चुन सकते हैं जो उसी यूज़रनेम वाले किसी और के पास पहले से न हो। यूज़रनेम केस-सेंसिटिव नहीं होते हैं, इसलिए Mina#4821 और mina#4821 एक ही माने जाते हैं। #0000 टैग Fluxer Visionary सदस्यों के लिए आरक्षित है।",
+    "storePlutoniumLearnVisionary": "Visionary के बारे में और जानें।",
+    "storePlutoniumDonatePrompt": "क्या आप केवल Fluxer के ओपन सोर्स डेवलपमेंट का समर्थन करना चाहते हैं? ",
+    "storePlutoniumDonateLink": "इसके बजाय दान करें।",
+    "storePlutoniumHighlightsLead": "सदस्यता Fluxer को फंड करती है और अनलॉक करती है",
+    "storePlutoniumHighlightEmoji": "किसी भी चैट में कस्टम इमोजी और स्टिकर",
+    "storePlutoniumHighlightProfile": "एनिमेटेड प्रोफ़ाइल, बैज और कस्टम 4-अंकीय संख्या",
+    "storePlutoniumHighlightFiles": "500 MB तक अपलोड करें",
+    "storePlutoniumHighlightMessages": "4,000 वर्णों तक के मैसेज भेजें",
+    "storePlutoniumHighlightCommunityProfile": "हर कम्युनिटी के लिए एक अलग प्रोफ़ाइल",
+    "storePlutoniumHighlightsMore": "और भी बहुत कुछ",
+    "storePlutoniumRenewsThroughPlay": "जब तक आप रद्द नहीं करते, Google Play के माध्यम से अपने आप नवीनीकृत हो जाता है।",
+    "storePlutoniumRenewsThroughAppStore": "जब तक आप रद्द नहीं करते, तब तक App Store के माध्यम से अपने आप नवीनीकृत होता रहता है।",
+    "storePlutoniumAlreadySubscribed": "आपके पास पहले से ही Fluxer Plutonium की सदस्यता है।",
+    "storePlutoniumSavePercent": "{percent}% बचाएं",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "खरीद प्राप्त हुई। Plutonium सक्रिय होने के बाद यहां दिखाई देगा।",
+    "storePlutoniumUnavailable": "इस डिवाइस पर अभी ऐप में सदस्यताएँ उपलब्ध नहीं हैं।",
+    "storePlutoniumVisionaryStatus": "Visionary में पहले से ही स्थायी एक्सेस शामिल है, इसलिए बार-बार सदस्यता लेने की आवश्यकता नहीं है।",
     "userSettingsNavPrivacyDashboard": "निजता डैशबोर्ड",
     "@userSettingsNavPrivacyDashboard": {
         "description": "User settings navigation item for the privacy dashboard."
@@ -12618,6 +12782,18 @@
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
     },
+    "userSettingsNavAppIcon": "ऐप आइकॉन",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "ऐप आइकॉन",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "चुनें कि आपकी होम स्क्रीन पर कौन सा आइकॉन दिखाई देता है।",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
+    },
     "userSettingsNavAdvanced": "एडवांस",
     "@userSettingsNavAdvanced": {
         "description": "User settings navigation item for advanced settings."
@@ -13138,6 +13314,10 @@
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
     },
+    "instanceUrlHelper": "आधिकारिक इंस्टेंस के लिए fluxer.app का उपयोग करें, या स्वयं-होस्ट किए गए इंस्टेंस का सटीक URL उपयोग करें।",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
+    },
     "resetToDefaultInstance": "Fluxer पर रीसेट करें",
     "@resetToDefaultInstance": {
         "description": "Tooltip for the button that resets the instance URL to the official Fluxer instance."
@@ -13399,6 +13579,14 @@
     "authHidePassword": "पासवर्ड छिपाएं",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "अभी भी काम कर रहा है…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
+    },
+    "authVerificationFailed": "सत्यापन पूरा नहीं हो सका। फिर से कोशिश करें।",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
     },
     "chatLoadingMessages": "संदेश लोड हो रहे हैं",
     "@chatLoadingMessages": {
@@ -17041,6 +17229,40 @@
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
+    "assistantNeedsLogin": "पहले Fluxer खोलें और साइन इन करें।",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "आप किसी कॉल में नहीं हैं।",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "Fluxer उसे ढूंढ नहीं पाया।",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "इस इंस्टेंस पर डायरेक्ट मैसेज अक्षम हैं।",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "Fluxer उसे पूरा नहीं कर सका।",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "माइक म्यूट किया गया।",
+    "assistantOkUnmuted": "माइक अनम्यूट किया गया।",
+    "assistantOkLeftVoice": "वॉइस चैनल छोड़ दिया।",
+    "assistantOkJoinedVoice": "वॉइस चैनल से जुड़ रहे हैं।",
+    "assistantOkStartedCall": "कॉल शुरू हो रही है।",
+    "assistantOkStatusSet": "स्टेटस {status} पर सेट किया गया।",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "Fluxer खुल रहा है।",
     "lookAndFeelChatWallpaperTitle": "चैट वॉलपेपर",
     "@lookAndFeelChatWallpaperTitle": {
         "description": "Look and Feel section title for chat wallpaper presets."
@@ -17064,6 +17286,10 @@
     "lookAndFeelChatWallpaperCustomLabel": "कस्टम इमेज",
     "@lookAndFeelChatWallpaperCustomLabel": {
         "description": "Chat wallpaper option that picks an image from the gallery."
+    },
+    "lookAndFeelChatWallpaperStarfieldLabel": "स्टारफ़ील्ड",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
     },
     "lookAndFeelChatWallpaperColorLabel": "रंग {id}",
     "@lookAndFeelChatWallpaperColorLabel": {
@@ -17133,6 +17359,15 @@
         "description": "Empty-state body. apiName is the product API display name.",
         "placeholders": {
             "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "बनाया गया {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
                 "type": "String"
             }
         }
@@ -17317,6 +17552,10 @@
     "@applicationsOauthBuilderTitle": {
         "description": "Section title for the authorize URL builder."
     },
+    "applicationsOauthBuilderDescription": "स्कोप और अनुमतियों के साथ एक ऑथोराइज़ URL बनाएँ।",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
     "applicationsScopes": "अनुमतियाँ",
     "@applicationsScopes": {
         "description": "Label for OAuth2 scope checkboxes."
@@ -17349,6 +17588,10 @@
     "@applicationsAuthorizeUrlPlaceholder": {
         "description": "Placeholder when the authorize URL cannot be built yet."
     },
+    "applicationsCopyAuthorizeUrl": "ऑथराइज़ URL कॉपी करें",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
     "applicationsCopiedUrl": "यूआरएल क्लिपबोर्ड पर कॉपी किया गया",
     "@applicationsCopiedUrl": {
         "description": "Toast after copying the authorize URL."
@@ -17368,6 +17611,15 @@
     "applicationsDelete": "ऐप्लिकेशन मिटाएँ",
     "@applicationsDelete": {
         "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "क्या आप वाकई {name} को हटाना चाहते हैं? इस कार्रवाई को पूर्ववत नहीं किया जा सकता है। बॉट उपयोगकर्ता सहित सभी संबंधित डेटा स्थायी रूप से हटा दिया जाएगा।",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     },
     "applicationsDeleteFailed": "ऐप्लिकेशन को हटाया नहीं जा सका",
     "@applicationsDeleteFailed": {
@@ -17457,6 +17709,10 @@
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
     },
+    "voiceOutputRouteEarpiece": "ईयरपीस",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
     "voiceOutputRouteHeadset": "हेडफ़ोन",
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
@@ -17464,6 +17720,14 @@
     "doubleTapReactionEdit": "एडिट करें",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "डिफ़ॉल्ट संपादित करें",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "डबल टैप इमोजी चुनें",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
     },
     "chatMessagePinConfirm": "पिन करें",
     "@chatMessagePinConfirm": {
@@ -17477,9 +17741,17 @@
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."
     },
+    "appIconOptionStarfield": "स्टारफ़ील्ड",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
     "appIconOptionSweden": "स्वीडन",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "इस डिवाइस पर ऐप आइकन बदलना उपलब्ध नहीं है।",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     },
     "userSettingsLogOutConfirmTitle": "साइन आउट करें?",
     "@userSettingsLogOutConfirmTitle": {
@@ -17509,5 +17781,178 @@
     "@guildSettingsCommunityDeleted": {
         "description": "Success toast after a community is deleted."
     },
-    "assistantOkMessageSent": "मैसेज भेजा गया।"
+    "guildSettingsDeleteCommunityFailed": "इस कम्युनिटी को हटाया नहीं जा सका",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantOkMessageSent": "मैसेज भेजा गया।",
+    "assistantOkCustomStatusSet": "कस्टम स्टेटस अपडेट किया गया।",
+    "assistantOkCustomStatusCleared": "कस्टम स्टेटस हटा दिया गया।",
+    "guildNavbarAnnouncementChannel": "घोषणा चैनल",
+    "guildNavbarAnnouncementChannelDescription": "अपडेट पोस्ट करें जिन्हें अन्य कम्युनिटी अपने चैनलों में फ़ॉलो कर सकते हैं",
+    "channelDetailsAnnouncementChannel": "घोषणा चैनल",
+    "channelSettingsAnnouncementChannel": "घोषणा चैनल",
+    "channelSettingsAnnouncementChannelDescription": "अन्य कम्युनिटी को इस चैनल को फ़ॉलो करने और आपके द्वारा प्रकाशित की गई सामग्री की प्रतियां प्राप्त करने की अनुमति देता है।",
+    "channelSettingsStopAnnouncementTitle": "घोषणा चैनल बनना बंद करें?",
+    "channelSettingsStopAnnouncementBody": "{count, plural, =1{1 चैनल इस चैनल को फ़ॉलो करता है। इसे टेक्स्ट चैनल में बदलने से वह फ़ॉलो हट जाएगा।} other{{count} चैनल इस चैनल को फ़ॉलो करते हैं। इसे टेक्स्ट चैनल में बदलने से वे फ़ॉलो हट जाएँगे।}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "इस चैनल को टेक्स्ट चैनल में बदलने पर इसे फ़ॉलो करने वाले सभी चैनलों का फ़ॉलो हट जाएगा।",
+    "channelSettingsConvertChannel": "बदलें",
+    "channelSettingsConvertFailed": "इस चैनल को बदला नहीं जा सका",
+    "channelSettingsChannelHasFollowers": "दूसरे चैनल अभी भी इस चैनल को फ़ॉलो कर रहे हैं। इसे बदलने से पहले उन फ़ॉलो को हटा दें।",
+    "channelMenuFollow": "चैनल फ़ॉलो करें",
+    "channelFollowTitle": "इस चैनल को फ़ॉलो करें",
+    "channelFollowBody": "चुनें कि इसके प्रकाशित संदेश कहाँ जाने चाहिए। आप किसी भी समय कम्युनिटी सेटिंग → वेबहुक में अनफ़ॉलो कर सकते हैं।",
+    "channelFollowCommunity": "कम्युनिटी",
+    "channelFollowChannel": "चैनल",
+    "channelFollowAgeWarning": "यह एक आयु-प्रतिबंधित चैनल है। अपडेट केवल आयु-प्रतिबंधित चैनलों पर ही जा सकते हैं।",
+    "channelFollowContentWarning": "इस चैनल पर सामग्री चेतावनी है। अपडेट केवल सामग्री चेतावनी या आयु प्रतिबंध वाले चैनलों पर ही जा सकते हैं।",
+    "channelFollowHiddenHint": "जिन कम्युनिटी और चैनलों में आप वेबहुक प्रबंधित नहीं कर सकते, वे छिपे हुए हैं।",
+    "channelFollowEmpty": "आप किसी भी कम्युनिटी में वेबहुक प्रबंधित नहीं कर सकते। इस चैनल को फ़ॉलो करने के लिए किसी एडमिन से पूछें।",
+    "channelFollowSubmit": "फ़ॉलो करें",
+    "channelFollowFailed": "इस चैनल को फ़ॉलो नहीं कर पाए।",
+    "channelFollowSuccessTitle": "अपडेट आ रहे हैं!",
+    "channelFollowSuccessBody": "{sourceName} में प्रकाशित संदेश #{targetName} में दिखाई देंगे।",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "ठीक है!",
+    "channelFollowBarrier": "अपनी पसंद के चैनल में ये घोषणाएँ पाने के लिए इस चैनल को फ़ॉलो करें।",
+    "channelHeaderFollow": "चैनल फ़ॉलो करें",
+    "chatMessagePublish": "प्रकाशित करें",
+    "chatMessagePublished": "प्रकाशित",
+    "chatMessagePublishConfirmTitle": "संदेश प्रकाशित करें?",
+    "chatMessagePublishConfirmBody": "यह इस चैनल को फ़ॉलो करने वाले हर चैनल को एक कॉपी भेजता है।",
+    "chatMessagePublishedToast": "संदेश प्रकाशित",
+    "chatMessageAlreadyPublished": "यह मैसेज पहले ही प्रकाशित हो चुका है।",
+    "chatMessagePublishFailedTitle": "यह संदेश प्रकाशित नहीं हो सका",
+    "chatMessagePublishFailedBody": "कुछ गलत हो गया। थोड़ी देर में फिर से कोशिश करें।",
+    "chatMessagePublishLimitTitle": "ज़रा धीरे चलें",
+    "chatMessagePublishLimitBody": "आप {duration} में फिर से प्रकाशित कर सकते हैं।",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "आप बहुत तेज़ी से प्रकाशित कर रहे हैं। कुछ देर में फिर से कोशिश करें।",
+    "chatMessageDeletePublished": "यह उन चैनलों को भेजी गई कॉपियों को भी हटा देता है जो इस चैनल को फ़ॉलो कर रहे थे।",
+    "chatMessageEditPublishedTitle": "प्रकाशित संदेश संपादित करें?",
+    "chatMessageEditPublishedBody": "यह उन कॉपी को अपडेट करता है जो इस चैनल को फ़ॉलो करने वाले चैनलों को भेजी गई थीं।",
+    "chatMessageEditPublishedSave": "सेव करें",
+    "chatMessageEditLimitTitle": "ज़रा धीरे चलें",
+    "chatMessageEditLimitBody": "आप इस प्रकाशित मैसेज को {duration} में फिर से एडिट कर सकते हैं।",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "आप इस प्रकाशित संदेश को बहुत तेज़ी से संपादित कर रहे हैं। कुछ देर में फिर से प्रयास करें।",
+    "chatMessageOriginalDeleted": "[मूल संदेश हटा दिया गया]",
+    "userTagCommunity": "कम्युनिटी",
+    "systemFollowAdd": "{username} ने इस चैनल को {source} फ़ॉलो करने के लिए सेट किया। वहाँ प्रकाशित मैसेज यहाँ दिखाई देंगे।",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username} ने इस चैनल को {source} फ़ॉलो करने के लिए सेट किया।",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "अभी तक फ़ॉलोअर्स को नहीं भेजा गया।",
+    "publishNudgeHideForever": "दोबारा न दिखाएँ",
+    "publishNudgeDismiss": "खारिज करें",
+    "channelSettingsFollowedChannels": "फ़ॉलो किए गए चैनल",
+    "channelSettingsFollowedChannelsDescription": "घोषणा चैनल जिन्हें यह चैनल फ़ॉलो करता है। कॉपी प्राप्त करना बंद करने के लिए अनफ़ॉलो करें।",
+    "guildSettingsFollowedChannelsDescription": "इस कम्युनिटी के चैनलों द्वारा फ़ॉलो किए गए घोषणा चैनल।",
+    "channelSettingsFollowedFrom": "{guildName} से #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "अपडेट रोक दिए गए हैं क्योंकि स्रोत चैनल अब उपलब्ध नहीं है।",
+    "channelSettingsUnfollowTitle": "क्या आप {name} को अनफ़ॉलो करना चाहते हैं?",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "यह चैनल उस घोषणा चैनल से कॉपी प्राप्त करना बंद कर देगा।",
+    "channelSettingsUnfollow": "अनफ़ॉलो",
+    "crosspostCommunityTitle": "कम्युनिटी",
+    "crosspostGoToCommunity": "कम्युनिटी पर जाएं",
+    "crosspostJoinCommunity": "कम्युनिटी में शामिल हों",
+    "crosspostSourceFailed": "इस कम्युनिटी को लोड नहीं किया जा सका। थोड़ी देर में फिर से प्रयास करें।",
+    "crosspostMembers": "{count} सदस्य",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "{count} ऑनलाइन",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, =1{1 मिनट} other{{count} मिनट}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, =1{1 सेकंड} other{{count} सेकंड}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "असमर्थित चैनल प्रकार",
+    "channelUnsupportedBody": "ऐप का यह वर्शन इस चैनल प्रकार का समर्थन नहीं करता है।",
+    "channelDetailsUnsupportedChannel": "असमर्थित चैनल"
 }

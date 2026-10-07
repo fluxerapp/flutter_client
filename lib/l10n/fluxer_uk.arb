@@ -5769,6 +5769,10 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "Двічі торкніться повідомлення, щоб",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
     "chatMessageEdit": "Редагувати повідомлення",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -5776,6 +5780,14 @@
     "chatMessageReply": "Відповісти",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
+    },
+    "notificationReplyPlaceholder": "Повідомлення",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "Не вдалося надіслати відповідь",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
     },
     "chatMessageForward": "Переслати",
     "@chatMessageForward": {
@@ -6547,6 +6559,10 @@
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
     },
+    "chatImageCouldNotLoad": "Не вдалося завантажити це зображення.",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
+    },
     "composerAutocompleteRoleMentionDescription": "Сповістити користувачів із цією роллю, які мають дозвіл на перегляд цього каналу.",
     "@composerAutocompleteRoleMentionDescription": {
         "description": "Secondary line in the @ mention autocomplete when the row is a mentionable guild role."
@@ -7087,6 +7103,10 @@
     "instanceUrlPlaceholder": "Введіть URL екземпляра (наприклад, fluxer.app)",
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
+    },
+    "instanceUrlHelper": "Використовуйте fluxer.app для офіційного екземпляра або точну URL-адресу самостійно розміщеного екземпляра.",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
     },
     "resetToDefaultInstance": "Скинути до Fluxer",
     "@resetToDefaultInstance": {
@@ -9379,6 +9399,10 @@
     "@lookAndFeelChatWallpaperCustomLabel": {
         "description": "Chat wallpaper option that picks an image from the gallery."
     },
+    "lookAndFeelChatWallpaperStarfieldLabel": "Зоряне поле",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
+    },
     "lookAndFeelChatWallpaperColorLabel": "Колір {id}",
     "@lookAndFeelChatWallpaperColorLabel": {
         "description": "Accessibility label for a solid color wallpaper preset.",
@@ -11191,6 +11215,80 @@
     "userProfileLocalTime": "Місцевий час",
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
+    },
+    "profileLocalTimeSettingsTitle": "Місцевий час у профілі",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "Встановіть часовий пояс один раз, щоб {productName} тримав актуальним ваше зміщення від UTC під час переходу на літній час і назад. Інші користувачі бачать лише ваше зміщення від UTC, а не точний ідентифікатор часового поясу.",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "Змінити місцевий час профілю",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "Часовий пояс",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "Оберіть часовий пояс, який {productName} використовує для обчислення вашого зміщення від UTC для відображення місцевого часу у профілі.",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "Пошук часових поясів",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "Не встановлено",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "Інші користувачі бачитимуть лише ваш поточний часовий зсув UTC, коли ви вирішите ділитися локальним часом у своєму профілі. Вони не бачать точну назву вашого часового поясу, наприклад {timezoneIdentifierExample}. {productName} зберігає цю назву лише для того, щоб зсув автоматично оновлювався під час переходу на літній і зимовий час.",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "Усі",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "Дозволити будь-кому, хто може переглядати ваш повний профіль, бачити ваш місцевий час",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "Друзі",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "Дозволити друзям бачити ваш місцевий час у профілі",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "Учасники спільноти",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "Дозволити учасникам спільнот, у яких ви перебуваєте, бачити ваш місцевий час у профілі",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
     },
     "userProfileTimezoneDurationHoursMinutes": "{hours, plural, =1{1 година} other{{hours} годин}} {minutes, plural, =1{1 хвилина} other{{minutes} хвилин}}",
     "@userProfileTimezoneDurationHoursMinutes": {
@@ -13823,6 +13921,14 @@
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
     },
+    "accessibilityShowAltTextOnImagesLabel": "Показувати альтернативний текст на зображеннях",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "Відображати альтернативний текст під зображеннями, якщо він доступний.",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
     "accessibilityDimStrikethroughTextLabel": "Приглушити закреслений текст",
     "@accessibilityDimStrikethroughTextLabel": {
         "description": "Toggle label for dimming strikethrough text in messages."
@@ -15915,6 +16021,72 @@
     "premiumPerkCustomThemes": "Власні теми",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "До 4K/60 кадр/с",
+    "storePlutoniumPriceLine": "{monthly} або {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/міс.",
+    "storePlutoniumYearSuffix": "/рік",
+    "storePlutoniumPriceOr": "або",
+    "storePlutoniumEmojiTitle": "Ваші емодзі всюди",
+    "storePlutoniumEmojiBody": "Додавайте власні емодзі та стікери з будь-яких спільнот до кожного чату та спільноти, в яких ви перебуваєте.",
+    "storePlutoniumProfileTitle": "Профіль, що виділяється",
+    "storePlutoniumProfileBody": "Отримайте анімований аватар і банер, значок підписника, бажаний чотиризначний тег після імені користувача*, а також окремий профіль для кожної спільноти.",
+    "storePlutoniumFilesTitle": "Надсилайте файли розміром до 500 МБ",
+    "storePlutoniumFilesBody": "Діліться повнометражними відео та великими файлами без попереднього стиснення. Безкоштовні облікові записи можуть надсилати до 25 МБ.",
+    "storePlutoniumCompareTitle": "Порівняйте безкоштовний план і Plutonium",
+    "storePlutoniumCompareMobileNote": "Не всі ці функції доступні в мобільному застосунку. Деякі з них доступні лише на комп’ютері.",
+    "storePlutoniumNotAvailable": "Недоступно",
+    "storePlutoniumAvailable": "Доступно",
+    "storePlutoniumCompareTag": "Виберіть 4-значне число після вашого імені користувача*",
+    "storePlutoniumCompareProfile": "Окремий профіль для кожної спільноти",
+    "storePlutoniumCompareBadge": "Значок підписника у вашому профілі",
+    "storePlutoniumCompareBackgrounds": "Фони відеодзвінків, які можна зберегти",
+    "storePlutoniumCompareCommunities": "Спільноти, до яких ви можете приєднатися",
+    "storePlutoniumCompareCharacters": "Символи в одному повідомленні",
+    "storePlutoniumCompareBookmarks": "Повідомлення, які можна додати до закладок",
+    "storePlutoniumCompareUpload": "Найбільший файл, який ви можете завантажити",
+    "storePlutoniumCompareSavedMedia": "Медіафайли, які можна зберегти на потім",
+    "storePlutoniumCompareAnimatedEmoji": "Використовуйте анімовані емодзі в повідомленнях",
+    "storePlutoniumCompareCustomEmoji": "Використовуйте власні емодзі та стікери в будь-якій спільноті",
+    "storePlutoniumCompareVideo": "Якість відеодзвінків і демонстрації екрана",
+    "storePlutoniumCompareAvatar": "Анімований аватар і банер профілю",
+    "storePlutoniumCompareEarlyAccess": "Ранній доступ до нових функцій",
+    "storePlutoniumCompareThemes": "Власні теми для програми",
+    "storePlutoniumVideoFree": "До 720p зі швидкістю 30 кадрів/сек",
+    "storePlutoniumVideoPlutonium": "До 4K зі швидкістю 60 кадрів/сек",
+    "storePlutoniumTagFootnote": "Ви можете вибрати лише той тег, якого ще не має інший користувач із таким самим ім'ям. Імена користувачів не чутливі до регістру, тому Mina#4821 і mina#4821 вважаються однаковими. Тег #0000 зарезервовано для учасників Fluxer Visionary.",
+    "storePlutoniumLearnVisionary": "Дізнайтеся більше про Visionary.",
+    "storePlutoniumDonatePrompt": "Хочете просто підтримати розробку Fluxer з відкритим кодом? ",
+    "storePlutoniumDonateLink": "Зробити пожертву.",
+    "storePlutoniumHighlightsLead": "Підписка фінансує Fluxer і розблоковує",
+    "storePlutoniumHighlightEmoji": "Власні емодзі та стікери в будь-якому чаті",
+    "storePlutoniumHighlightProfile": "Анімований профіль, значок і вибраний 4-значний номер",
+    "storePlutoniumHighlightFiles": "Завантаження до 500 МБ",
+    "storePlutoniumHighlightMessages": "Надсилайте повідомлення до 4000 символів",
+    "storePlutoniumHighlightCommunityProfile": "Окремий профіль для кожної спільноти",
+    "storePlutoniumHighlightsMore": "І багато іншого",
+    "storePlutoniumRenewsThroughPlay": "Автоматично поновлюється через Google Play, доки ви не скасуєте підписку.",
+    "storePlutoniumRenewsThroughAppStore": "Автоматично поновлюється через App Store, доки ви не скасуєте підписку.",
+    "storePlutoniumAlreadySubscribed": "У вас уже є підписка Fluxer Plutonium.",
+    "storePlutoniumSavePercent": "Заощадьте {percent}%",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "Покупку отримано. Plutonium з’явиться тут, щойно його буде активовано.",
+    "storePlutoniumUnavailable": "Підписки в застосунку поки що недоступні на цьому пристрої.",
+    "storePlutoniumVisionaryStatus": "Visionary вже включає постійний доступ, тому регулярна підписка не потрібна.",
     "userSettingsNavShortcuts": "Комбінації клавіш",
     "@userSettingsNavShortcuts": {
         "description": "User settings navigation item for keyboard shortcuts."
@@ -16002,6 +16174,26 @@
     "defaultAppsWebBrowserExternal": "Зовнішній браузер",
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
+    },
+    "userSettingsNavAppIcon": "Іконка програми",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "Іконка програми",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "Виберіть, яка іконка відображатиметься на вашому головному екрані.",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
+    },
+    "appIconOptionDefault": "За замовчуванням",
+    "@appIconOptionDefault": {
+        "description": "App icon option for the build default icon (release or canary)."
+    },
+    "appIconOptionStarfield": "Зоряне поле",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
     },
     "advancedSettingsConfigure": "Налаштувати",
     "@advancedSettingsConfigure": {
@@ -16251,6 +16443,14 @@
     "authHidePassword": "Сховати пароль",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "Триває обробка…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
+    },
+    "authVerificationFailed": "Не вдалося завершити перевірку. Спробуйте ще раз.",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
     },
     "chatLoadingMessages": "Завантаження повідомлень",
     "@chatLoadingMessages": {
@@ -17066,6 +17266,40 @@
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
+    "assistantNeedsLogin": "Спершу відкрийте Fluxer і ввійдіть.",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "Ви не в розмові.",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "Fluxer не вдалося знайти це.",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "Особисті повідомлення вимкнено в цьому екземплярі.",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "Fluxer не зміг цього зробити.",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "Мікрофон вимкнено.",
+    "assistantOkUnmuted": "Мікрофон увімкнено.",
+    "assistantOkLeftVoice": "Ви вийшли з голосового каналу.",
+    "assistantOkJoinedVoice": "Підключаюся до голосового каналу.",
+    "assistantOkStartedCall": "Починаю дзвінок.",
+    "assistantOkStatusSet": "Статус змінено на «{status}».",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "Відкриваю Fluxer.",
     "applicationsTitle": "Застосунки",
     "@applicationsTitle": {
         "description": "Title for the developer Applications settings tab."
@@ -17108,6 +17342,15 @@
         "description": "Empty-state body. apiName is the product API display name.",
         "placeholders": {
             "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "Створено {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
                 "type": "String"
             }
         }
@@ -17292,6 +17535,10 @@
     "@applicationsOauthBuilderTitle": {
         "description": "Section title for the authorize URL builder."
     },
+    "applicationsOauthBuilderDescription": "Створіть URL-адресу авторизації з областями та дозволами.",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
     "applicationsScopes": "Області дії",
     "@applicationsScopes": {
         "description": "Label for OAuth2 scope checkboxes."
@@ -17324,6 +17571,10 @@
     "@applicationsAuthorizeUrlPlaceholder": {
         "description": "Placeholder when the authorize URL cannot be built yet."
     },
+    "applicationsCopyAuthorizeUrl": "Копіювати URL-адресу авторизації",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
     "applicationsCopiedUrl": "URL скопійовано в буфер обміну",
     "@applicationsCopiedUrl": {
         "description": "Toast after copying the authorize URL."
@@ -17343,6 +17594,15 @@
     "applicationsDelete": "Видалити застосунок",
     "@applicationsDelete": {
         "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "Ви впевнені, що хочете видалити {name}? Цю дію не можна скасувати. Усі пов’язані дані, включно з користувачем бота, буде безповоротно видалено.",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     },
     "applicationsDeleteFailed": "Не вдалося видалити застосунок",
     "@applicationsDeleteFailed": {
@@ -17432,6 +17692,10 @@
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
     },
+    "voiceOutputRouteEarpiece": "Слухавка",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
     "voiceOutputRouteHeadset": "Навушники",
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
@@ -17439,6 +17703,14 @@
     "doubleTapReactionEdit": "Редагувати",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "Редагувати за замовчуванням",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "Виберіть емодзі для подвійного дотику",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
     },
     "chatMessagePinConfirm": "Закріпити",
     "@chatMessagePinConfirm": {
@@ -17451,6 +17723,10 @@
     "appIconOptionSweden": "Швеція",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "Зміна іконки програми недоступна на цьому пристрої.",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     },
     "userSettingsLogOutConfirmTitle": "Вийти?",
     "@userSettingsLogOutConfirmTitle": {
@@ -17480,5 +17756,178 @@
     "@guildSettingsCommunityDeleted": {
         "description": "Success toast after a community is deleted."
     },
-    "assistantOkMessageSent": "Повідомлення надіслано."
+    "guildSettingsDeleteCommunityFailed": "Не вдалося видалити цю спільноту",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantOkMessageSent": "Повідомлення надіслано.",
+    "assistantOkCustomStatusSet": "Власний статус оновлено.",
+    "assistantOkCustomStatusCleared": "Власний статус очищено.",
+    "guildNavbarAnnouncementChannel": "Канал оголошень",
+    "guildNavbarAnnouncementChannelDescription": "Публікуйте оновлення, на які інші спільноти можуть підписуватися у своїх каналах",
+    "channelDetailsAnnouncementChannel": "Канал оголошень",
+    "channelSettingsAnnouncementChannel": "Канал оголошень",
+    "channelSettingsAnnouncementChannelDescription": "Дозволяє іншим спільнотам підписуватися на цей канал і отримувати копії ваших публікацій.",
+    "channelSettingsStopAnnouncementTitle": "Більше не бути каналом оголошень?",
+    "channelSettingsStopAnnouncementBody": "{count, plural, one{{count} канал підписаний на цей канал. Якщо перетворити його на текстовий канал, цю підписку буде скасовано.} few{{count} канали підписані на цей канал. Якщо перетворити його на текстовий канал, ці підписки буде скасовано.} many{{count} каналів підписані на цей канал. Якщо перетворити його на текстовий канал, ці підписки буде скасовано.} other{{count} каналу підписані на цей канал. Якщо перетворити його на текстовий канал, ці підписки буде скасовано.}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "Якщо перетворити цей канал на текстовий, усі підписки інших каналів на нього буде скасовано.",
+    "channelSettingsConvertChannel": "Перетворити",
+    "channelSettingsConvertFailed": "Не вдалося перетворити цей канал",
+    "channelSettingsChannelHasFollowers": "На цей канал досі підписані інші канали. Скасуйте ці підписки, перш ніж перетворювати канал.",
+    "channelMenuFollow": "Підписатися на канал",
+    "channelFollowTitle": "Підписатися на цей канал",
+    "channelFollowBody": "Виберіть, куди надсилатимуться опубліковані повідомлення. Ви можете будь-коли скасувати підписку в налаштуваннях спільноти → Вебхуки.",
+    "channelFollowCommunity": "Спільнота",
+    "channelFollowChannel": "Канал",
+    "channelFollowAgeWarning": "Це канал з обмеженим доступом за віком. Оновлення можуть надходити лише до каналів з обмеженим доступом за віком.",
+    "channelFollowContentWarning": "Цей канал має попередження про вміст. Оновлення можна надсилати лише до каналів із попередженням про вміст або обмеженням за віком.",
+    "channelFollowHiddenHint": "Спільноти та канали, де ви не можете керувати вебхуками, приховані.",
+    "channelFollowEmpty": "Ви не можете керувати веб-хуками в жодній спільноті. Попросіть адміністратора підписатися на цей канал.",
+    "channelFollowSubmit": "Підписатися",
+    "channelFollowFailed": "Не вдалося підписатися на цей канал.",
+    "channelFollowSuccessTitle": "Оновлення вже в дорозі!",
+    "channelFollowSuccessBody": "Повідомлення, опубліковані в {sourceName}, відображатимуться в #{targetName}.",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "Зрозуміло!",
+    "channelFollowBarrier": "Підпишіться, щоб отримувати ці оголошення в обраному вами каналі.",
+    "channelHeaderFollow": "Підписатися на канал",
+    "chatMessagePublish": "Опублікувати",
+    "chatMessagePublished": "Опубліковано",
+    "chatMessagePublishConfirmTitle": "Опублікувати повідомлення?",
+    "chatMessagePublishConfirmBody": "Це надішле копію до кожного каналу, який підписаний на цей.",
+    "chatMessagePublishedToast": "Повідомлення опубліковано",
+    "chatMessageAlreadyPublished": "Це повідомлення вже опубліковано.",
+    "chatMessagePublishFailedTitle": "Не вдалося опублікувати це повідомлення",
+    "chatMessagePublishFailedBody": "Щось пішло не так. Спробуйте ще раз за мить.",
+    "chatMessagePublishLimitTitle": "Пригальмуйте",
+    "chatMessagePublishLimitBody": "Ви зможете опублікувати знову через {duration}.",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "Ви надто швидко публікуєте повідомлення. Спробуйте ще раз за мить.",
+    "chatMessageDeletePublished": "Це також видалить копії, надіслані в канали, підписані на цей канал.",
+    "chatMessageEditPublishedTitle": "Редагувати опубліковане повідомлення?",
+    "chatMessageEditPublishedBody": "Це оновить копії, надіслані в канали, підписані на цей канал.",
+    "chatMessageEditPublishedSave": "Зберегти",
+    "chatMessageEditLimitTitle": "Пригальмуйте",
+    "chatMessageEditLimitBody": "Ви зможете знову редагувати це опубліковане повідомлення через {duration}.",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "Ви редагуєте це опубліковане повідомлення надто швидко. Спробуйте ще раз за мить.",
+    "chatMessageOriginalDeleted": "[Оригінальне повідомлення видалено]",
+    "userTagCommunity": "Спільнота",
+    "systemFollowAdd": "{username} підписав(-ла) цей канал на {source}. Повідомлення, опубліковані там, з’являтимуться тут.",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username} підписав(-ла) цей канал на {source}.",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "Ще не надіслано підписникам.",
+    "publishNudgeHideForever": "Більше не показувати",
+    "publishNudgeDismiss": "Закрити",
+    "channelSettingsFollowedChannels": "Канали, на які підписано",
+    "channelSettingsFollowedChannelsDescription": "Канали оголошень, на які підписаний цей канал. Скасуйте підписку, щоб припинити отримувати копії.",
+    "guildSettingsFollowedChannelsDescription": "Канали оголошень, на які підписано канали цієї спільноти.",
+    "channelSettingsFollowedFrom": "З {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "Оновлення призупинено, оскільки вихідний канал більше недоступний.",
+    "channelSettingsUnfollowTitle": "Скасувати підписку на {name}?",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "Цей канал перестане отримувати копії з того каналу оголошень.",
+    "channelSettingsUnfollow": "Скасувати підписку",
+    "crosspostCommunityTitle": "Спільнота",
+    "crosspostGoToCommunity": "Перейти до спільноти",
+    "crosspostJoinCommunity": "Приєднатися до спільноти",
+    "crosspostSourceFailed": "Не вдалося завантажити цю спільноту. Спробуйте ще раз за мить.",
+    "crosspostMembers": "Учасників: {count}",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "Онлайн: {count}",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, one{{count} хвилина} few{{count} хвилини} many{{count} хвилин} other{{count} хвилини}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, one{{count} секунда} few{{count} секунди} many{{count} секунд} other{{count} секунди}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "Непідтримуваний тип каналу",
+    "channelUnsupportedBody": "Ця версія програми не підтримує цей тип каналу.",
+    "channelDetailsUnsupportedChannel": "Непідтримуваний канал"
 }

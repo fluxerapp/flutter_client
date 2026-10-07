@@ -5769,6 +5769,10 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "Dukart bakstelėkite žinutę, kad sureaguotumėte",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
     "chatMessageEdit": "Redaguoti žinutę",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -5776,6 +5780,14 @@
     "chatMessageReply": "Atsakyti",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
+    },
+    "notificationReplyPlaceholder": "Žinutė",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "Nepavyko išsiųsti atsakymo",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
     },
     "chatMessageForward": "Persiųsti",
     "@chatMessageForward": {
@@ -6547,6 +6559,10 @@
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
     },
+    "chatImageCouldNotLoad": "Nepavyko įkelti šio paveikslėlio.",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
+    },
     "composerAutocompleteRoleMentionDescription": "Pranešti naudotojams, turintiems šį vaidmenį ir leidimą matyti šį kanalą.",
     "@composerAutocompleteRoleMentionDescription": {
         "description": "Secondary line in the @ mention autocomplete when the row is a mentionable guild role."
@@ -7087,6 +7103,10 @@
     "instanceUrlPlaceholder": "Įveskite instance URL (pvz., fluxer.app)",
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
+    },
+    "instanceUrlHelper": "Naudokite fluxer.app oficialiam egzemplioriui arba tikslų savarankiškai priglobto egzemplioriaus URL.",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
     },
     "resetToDefaultInstance": "Atstatyti į Fluxer",
     "@resetToDefaultInstance": {
@@ -9363,6 +9383,80 @@
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
     },
+    "profileLocalTimeSettingsTitle": "Profilio vietinis laikas",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "Nustatykite laiko juostą vieną kartą, kad {productName} galėtų atnaujinti jūsų UTC poslinkį pasikeitus vasaros laikui. Kiti žmonės mato tik jūsų UTC poslinkį, o ne tikslų laiko juostos identifikatorių.",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "Redaguoti profilio vietinį laiką",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "Laiko juosta",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "Pasirinkite laiko zoną, kurią {productName} naudoja apskaičiuodama jūsų UTC poslinkį, kad būtų rodomas vietinis profilio laikas.",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "Ieškoti laiko juostų",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "Nenustatyta",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "Kiti žmonės mato tik jūsų dabartinį UTC poslinkį, kai nusprendžiate dalytis profilio vietiniu laiku. Jie nemato tikslaus jūsų laiko juostos identifikatoriaus, pavyzdžiui, {timezoneIdentifierExample}. {productName} šį identifikatorių saugo tik tam, kad poslinkis būtų automatiškai atnaujintas pasikeitus vasaros laikui.",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "Visi",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "Leisti visiems, kurie gali matyti visą jūsų profilį, matyti jūsų vietos laiką",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "Draugai",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "Leisti draugams matyti jūsų profilio vietinį laiką",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "Bendruomenės nariai",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "Leisti bendruomenių, kuriose esate, nariams matyti jūsų profilio vietinį laiką",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
+    },
     "userProfileSameTimeAsYou": "Toks pat laikas kaip ir jūsų",
     "@userProfileSameTimeAsYou": {
         "description": "Profile timezone difference when the target matches the viewer."
@@ -9595,6 +9689,10 @@
     "lookAndFeelChatWallpaperCustomLabel": "Pasirinktinis vaizdas",
     "@lookAndFeelChatWallpaperCustomLabel": {
         "description": "Chat wallpaper option that picks an image from the gallery."
+    },
+    "lookAndFeelChatWallpaperStarfieldLabel": "Žvaigždžių laukas",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
     },
     "lookAndFeelChatWallpaperColorLabel": "Spalva {id}",
     "@lookAndFeelChatWallpaperColorLabel": {
@@ -13823,6 +13921,14 @@
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
     },
+    "accessibilityShowAltTextOnImagesLabel": "Rodyti alternatyvųjį tekstą prie paveikslėlių",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "Rodyti alternatyvųjį tekstą po paveikslėliais, kai jis pasiekiamas.",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
     "accessibilityDimStrikethroughTextLabel": "Pritemdyti perbrauktą tekstą",
     "@accessibilityDimStrikethroughTextLabel": {
         "description": "Toggle label for dimming strikethrough text in messages."
@@ -15915,6 +16021,72 @@
     "premiumPerkCustomThemes": "Pasirinktinės temos",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "Iki 4K/60 kadr./s",
+    "storePlutoniumPriceLine": "{monthly} arba {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/mėn.",
+    "storePlutoniumYearSuffix": "/m.",
+    "storePlutoniumPriceOr": "arba",
+    "storePlutoniumEmojiTitle": "Jūsų jaustukai visur",
+    "storePlutoniumEmojiBody": "Įkelkite pasirinktinius jaustukus ir lipdukus iš bet kurios bendruomenės į kiekvieną pokalbį ir bendruomenę, kurioje esate.",
+    "storePlutoniumProfileTitle": "Profilis, kuris išsiskiria",
+    "storePlutoniumProfileBody": "Gaukite animuotą avatarą ir reklamjuostę, prenumeratoriaus ženklelį, norimą keturių skaitmenų žymę po naudotojo vardo* ir atskirą profilį kiekvienai bendruomenei.",
+    "storePlutoniumFilesTitle": "Siųskite iki 500 MB failus",
+    "storePlutoniumFilesBody": "Bendrinkite viso ilgio vaizdo įrašus ir didelius failus jų nesumažinę. Nemokamos paskyros gali siųsti iki 25 MB.",
+    "storePlutoniumCompareTitle": "Palyginkite nemokamą planą ir Plutonium",
+    "storePlutoniumCompareMobileNote": "Ne visos šios funkcijos yra mobiliojoje programėlėje. Kai kurios pasiekiamos tik kompiuteryje.",
+    "storePlutoniumNotAvailable": "Nepasiekiama",
+    "storePlutoniumAvailable": "Pasiekiama",
+    "storePlutoniumCompareTag": "Pasirinkite 4 skaitmenų numerį po savo naudotojo vardo*",
+    "storePlutoniumCompareProfile": "Atskiras profilis kiekvienai bendruomenei",
+    "storePlutoniumCompareBadge": "Prenumeratoriaus ženklelis jūsų profilyje",
+    "storePlutoniumCompareBackgrounds": "Vaizdo skambučių fonai, kuriuos galite išsaugoti",
+    "storePlutoniumCompareCommunities": "Bendruomenės, prie kurių galite prisijungti",
+    "storePlutoniumCompareCharacters": "Simbolių vienoje žinutėje",
+    "storePlutoniumCompareBookmarks": "Žinutės, kurias galite pažymėti",
+    "storePlutoniumCompareUpload": "Didžiausias failas, kurį galite įkelti",
+    "storePlutoniumCompareSavedMedia": "Medijos elementai, kuriuos galite išsaugoti vėliau",
+    "storePlutoniumCompareAnimatedEmoji": "Naudokite animuotus jaustukus žinutėse",
+    "storePlutoniumCompareCustomEmoji": "Naudokite pasirinktinius jaustukus ir lipdukus bet kurioje bendruomenėje",
+    "storePlutoniumCompareVideo": "Vaizdo skambučių ir ekrano bendrinimo kokybė",
+    "storePlutoniumCompareAvatar": "Animuotas avataras ir profilio reklamjuostė",
+    "storePlutoniumCompareEarlyAccess": "Ankstyvoji prieiga prie naujų funkcijų",
+    "storePlutoniumCompareThemes": "Pasirinktinės temos programai",
+    "storePlutoniumVideoFree": "Iki 720p esant 30 kadrų per sekundę",
+    "storePlutoniumVideoPlutonium": "Iki 4K esant 60 kadrų per sekundę",
+    "storePlutoniumTagFootnote": "Galite pasirinkti tik tokį žymeklį, kurio dar neturi joks kitas naudotojas su tokiu pat naudotojo vardu. Naudotojo vardai nėra jautrūs didžiosioms ir mažosioms raidėms, todėl Mina#4821 ir mina#4821 laikomi tokiais pačiais. Žymeklis #0000 yra skirtas Fluxer Visionary nariams.",
+    "storePlutoniumLearnVisionary": "Sužinokite daugiau apie Visionary.",
+    "storePlutoniumDonatePrompt": "Tiesiog norite paremti atvirojo kodo Fluxer kūrimą? ",
+    "storePlutoniumDonateLink": "Verčiau paaukoti.",
+    "storePlutoniumHighlightsLead": "Prenumeruodami finansuojate Fluxer ir atrakinate",
+    "storePlutoniumHighlightEmoji": "Pasirinktiniai jaustukai ir lipdukai bet kuriame pokalbyje",
+    "storePlutoniumHighlightProfile": "Animuotas profilis, ženklelis ir pasirinktas 4 skaitmenų numeris",
+    "storePlutoniumHighlightFiles": "Įkėlimai iki 500 MB",
+    "storePlutoniumHighlightMessages": "Siųskite iki 4 000 simbolių ilgio žinutes",
+    "storePlutoniumHighlightCommunityProfile": "Atskiras profilis kiekvienai bendruomenei",
+    "storePlutoniumHighlightsMore": "Ir dar daugiau",
+    "storePlutoniumRenewsThroughPlay": "Automatiškai atnaujinama per Google Play, kol neatšauksite.",
+    "storePlutoniumRenewsThroughAppStore": "Automatiškai atnaujinama per App Store, kol neatšauksite.",
+    "storePlutoniumAlreadySubscribed": "Jau turite Fluxer Plutonium prenumeratą.",
+    "storePlutoniumSavePercent": "Sutaupykite {percent}%",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "Pirkinys gautas. Plutonium čia atsiras, kai tik bus aktyvuotas.",
+    "storePlutoniumUnavailable": "Prenumeratos programėlėje kol kas nepasiekiamos šiame įrenginyje.",
+    "storePlutoniumVisionaryStatus": "Visionary jau apima nuolatinę prieigą, todėl pasikartojanti prenumerata nereikalinga.",
     "userSettingsNavShortcuts": "Spartieji klavišai",
     "@userSettingsNavShortcuts": {
         "description": "User settings navigation item for keyboard shortcuts."
@@ -16002,6 +16174,18 @@
     "defaultAppsWebBrowserExternal": "Išorinė naršyklė",
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
+    },
+    "userSettingsNavAppIcon": "Programėlės piktograma",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "Programėlės piktograma",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "Pasirinkite, kuri piktograma bus rodoma pagrindiniame ekrane.",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
     },
     "advancedSettingsConfigure": "Konfigūruoti",
     "@advancedSettingsConfigure": {
@@ -16251,6 +16435,14 @@
     "authHidePassword": "Slėpti slaptažodį",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "Vis dar dirbama…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
+    },
+    "authVerificationFailed": "Nepavyko užbaigti patvirtinimo. Bandykite dar kartą.",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
     },
     "chatLoadingMessages": "Įkeliamos žinutės",
     "@chatLoadingMessages": {
@@ -17066,6 +17258,40 @@
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
+    "assistantNeedsLogin": "Pirmiausia atidarykite Fluxer ir prisijunkite.",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "Jūs nedalyvaujate skambutyje.",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "Fluxer to nerado.",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "Tiesioginės žinutės šiame egzemplioriuje išjungtos.",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "Fluxer negalėjo to atlikti.",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "Mikrofonas nutildytas.",
+    "assistantOkUnmuted": "Mikrofonas įjungtas.",
+    "assistantOkLeftVoice": "Palikote balso kanalą.",
+    "assistantOkJoinedVoice": "Jungiamasi prie balso kanalo.",
+    "assistantOkStartedCall": "Pradedamas skambutis.",
+    "assistantOkStatusSet": "Būsena nustatyta į „{status}“.",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "Atidaromas Fluxer.",
     "applicationsTitle": "Programos",
     "@applicationsTitle": {
         "description": "Title for the developer Applications settings tab."
@@ -17108,6 +17334,15 @@
         "description": "Empty-state body. apiName is the product API display name.",
         "placeholders": {
             "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "Sukurta {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
                 "type": "String"
             }
         }
@@ -17292,6 +17527,10 @@
     "@applicationsOauthBuilderTitle": {
         "description": "Section title for the authorize URL builder."
     },
+    "applicationsOauthBuilderDescription": "Sukurkite autorizavimo URL su sritimis ir leidimais.",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
     "applicationsScopes": "Leidimų sritys",
     "@applicationsScopes": {
         "description": "Label for OAuth2 scope checkboxes."
@@ -17324,6 +17563,10 @@
     "@applicationsAuthorizeUrlPlaceholder": {
         "description": "Placeholder when the authorize URL cannot be built yet."
     },
+    "applicationsCopyAuthorizeUrl": "Kopijuoti autorizavimo URL",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
     "applicationsCopiedUrl": "URL nukopijuotas į iškarpinę",
     "@applicationsCopiedUrl": {
         "description": "Toast after copying the authorize URL."
@@ -17343,6 +17586,15 @@
     "applicationsDelete": "Ištrinti programą",
     "@applicationsDelete": {
         "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "Ar tikrai norite ištrinti {name}? Šio veiksmo anuliuoti negalima. Visi susiję duomenys, įskaitant boto naudotoją, bus ištrinti visam laikui.",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     },
     "applicationsDeleteFailed": "Nepavyko ištrinti programos",
     "@applicationsDeleteFailed": {
@@ -17432,6 +17684,10 @@
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
     },
+    "voiceOutputRouteEarpiece": "Ausinė",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
     "voiceOutputRouteHeadset": "Ausinės",
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
@@ -17439,6 +17695,14 @@
     "doubleTapReactionEdit": "Redaguoti",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "Redaguoti numatytąjį",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "Pasirinkite dukart palietus siunčiamą jaustuką",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
     },
     "chatMessagePinConfirm": "Prisegti",
     "@chatMessagePinConfirm": {
@@ -17452,9 +17716,17 @@
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."
     },
+    "appIconOptionStarfield": "Žvaigždžių laukas",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
     "appIconOptionSweden": "Švedija",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "Programėlės piktogramos keitimas šiame įrenginyje negalimas.",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     },
     "userSettingsLogOutConfirmTitle": "Atsijungti?",
     "@userSettingsLogOutConfirmTitle": {
@@ -17484,5 +17756,178 @@
     "@guildSettingsCommunityDeleted": {
         "description": "Success toast after a community is deleted."
     },
-    "assistantOkMessageSent": "Žinutė išsiųsta."
+    "guildSettingsDeleteCommunityFailed": "Nepavyko ištrinti šios bendruomenės",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantOkMessageSent": "Žinutė išsiųsta.",
+    "assistantOkCustomStatusSet": "Pasirinktinė būsena atnaujinta.",
+    "assistantOkCustomStatusCleared": "Pasirinktinė būsena išvalyta.",
+    "guildNavbarAnnouncementChannel": "Skelbimų kanalas",
+    "guildNavbarAnnouncementChannelDescription": "Skelbkite naujienas, kurias kitos bendruomenės gali sekti savo kanaluose",
+    "channelDetailsAnnouncementChannel": "Skelbimų kanalas",
+    "channelSettingsAnnouncementChannel": "Skelbimų kanalas",
+    "channelSettingsAnnouncementChannelDescription": "Leidžia kitoms bendruomenėms sekti šį kanalą ir gauti jūsų skelbiamų įrašų kopijas.",
+    "channelSettingsStopAnnouncementTitle": "Nebebūti skelbimų kanalu?",
+    "channelSettingsStopAnnouncementBody": "{count, plural, one{{count} kanalas seka šį kanalą. Pavertus jį teksto kanalu, šis sekimas bus pašalintas.} few{{count} kanalai seka šį kanalą. Pavertus jį teksto kanalu, šie sekimai bus pašalinti.} many{{count} kanalo seka šį kanalą. Pavertus jį teksto kanalu, šie sekimai bus pašalinti.} other{{count} kanalų seka šį kanalą. Pavertus jį teksto kanalu, šie sekimai bus pašalinti.}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "Pavertus šį kanalą teksto kanalu, visi jį sekantys kanalai nustos jį sekti.",
+    "channelSettingsConvertChannel": "Konvertuoti",
+    "channelSettingsConvertFailed": "Nepavyko konvertuoti šio kanalo",
+    "channelSettingsChannelHasFollowers": "Šį kanalą vis dar seka kiti kanalai. Prieš konvertuodami pašalinkite šiuos sekimus.",
+    "channelMenuFollow": "Sekti kanalą",
+    "channelFollowTitle": "Sekti šį kanalą",
+    "channelFollowBody": "Pasirinkite, kur bus siunčiamos jo paskelbtos žinutės. Bet kada galite nustoti sekti skiltyje Bendruomenės nustatymai → Webhookai.",
+    "channelFollowCommunity": "Bendruomenė",
+    "channelFollowChannel": "Kanalas",
+    "channelFollowAgeWarning": "Tai amžiaus apribojimų kanalas. Naujienos gali būti siunčiamos tik į amžiaus apribojimų kanalus.",
+    "channelFollowContentWarning": "Šiame kanale yra turinio įspėjimas. Naujienos gali būti siunčiamos tik į kanalus su turinio įspėjimu arba amžiaus apribojimu.",
+    "channelFollowHiddenHint": "Bendruomenės ir kanalai, kuriuose negalite tvarkyti webhookų, yra paslėpti.",
+    "channelFollowEmpty": "Jokioje bendruomenėje negalite tvarkyti webhookų. Paprašykite administratoriaus sekti šį kanalą.",
+    "channelFollowSubmit": "Sekti",
+    "channelFollowFailed": "Nepavyko sekti šio kanalo.",
+    "channelFollowSuccessTitle": "Atnaujinimai jau pakeliui!",
+    "channelFollowSuccessBody": "Žinutės, paskelbtos {sourceName}, bus rodomos kanale #{targetName}.",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "Supratau!",
+    "channelFollowBarrier": "Sekite šį kanalą, kad gautumėte šiuos skelbimus pasirinktame kanale.",
+    "channelHeaderFollow": "Sekti kanalą",
+    "chatMessagePublish": "Paskelbti",
+    "chatMessagePublished": "Paskelbta",
+    "chatMessagePublishConfirmTitle": "Paskelbti žinutę?",
+    "chatMessagePublishConfirmBody": "Tai nusiųs kopiją į kiekvieną kanalą, kuris seka šį.",
+    "chatMessagePublishedToast": "Žinutė paskelbta",
+    "chatMessageAlreadyPublished": "Ši žinutė jau paskelbta.",
+    "chatMessagePublishFailedTitle": "Nepavyko paskelbti šios žinutės",
+    "chatMessagePublishFailedBody": "Kažkas nepavyko. Bandykite dar kartą po akimirkos.",
+    "chatMessagePublishLimitTitle": "Neskubėkite",
+    "chatMessagePublishLimitBody": "Vėl galėsite paskelbti po {duration}.",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "Per greitai skelbiate. Bandykite dar kartą po akimirkos.",
+    "chatMessageDeletePublished": "Taip pat bus pašalintos kopijos, kurios buvo išsiųstos šį kanalą sekantiems kanalams.",
+    "chatMessageEditPublishedTitle": "Redaguoti paskelbtą žinutę?",
+    "chatMessageEditPublishedBody": "Tai atnaujins kopijas, kurios buvo išsiųstos šį kanalą sekantiems kanalams.",
+    "chatMessageEditPublishedSave": "Išsaugoti",
+    "chatMessageEditLimitTitle": "Neskubėkite",
+    "chatMessageEditLimitBody": "Šią paskelbtą žinutę vėl galėsite redaguoti po {duration}.",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "Per greitai redaguojate šią paskelbtą žinutę. Bandykite dar kartą po akimirkos.",
+    "chatMessageOriginalDeleted": "[Originali žinutė ištrinta]",
+    "userTagCommunity": "Bendruomenė",
+    "systemFollowAdd": "{username} nustatė, kad šis kanalas sektų {source}. Ten paskelbtos žinutės bus rodomos čia.",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username} nustatė, kad šis kanalas sektų {source}.",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "Dar neišsiųsta sekėjams.",
+    "publishNudgeHideForever": "Daugiau nerodyti",
+    "publishNudgeDismiss": "Atmesti",
+    "channelSettingsFollowedChannels": "Sekami kanalai",
+    "channelSettingsFollowedChannelsDescription": "Skelbimų kanalai, kuriuos seka šis kanalas. Nustokite sekti, kad nebegautumėte kopijų.",
+    "guildSettingsFollowedChannelsDescription": "Skelbimų kanalai, kuriuos seka šios bendruomenės kanalai.",
+    "channelSettingsFollowedFrom": "Iš {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "Naujinimai pristabdyti, nes šaltinio kanalas nebepasiekiamas.",
+    "channelSettingsUnfollowTitle": "Nustoti sekti {name}?",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "Šis kanalas nebegaus kopijų iš to skelbimų kanalo.",
+    "channelSettingsUnfollow": "Nustoti sekti",
+    "crosspostCommunityTitle": "Bendruomenė",
+    "crosspostGoToCommunity": "Eiti į bendruomenę",
+    "crosspostJoinCommunity": "Prisijungti prie bendruomenės",
+    "crosspostSourceFailed": "Nepavyko įkelti šios bendruomenės. Pabandykite dar kartą po akimirkos.",
+    "crosspostMembers": "Narių: {count}",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "Prisijungę: {count}",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, one{{count} minutė} few{{count} minutės} many{{count} minutės} other{{count} minučių}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, one{{count} sekundė} few{{count} sekundės} many{{count} sekundės} other{{count} sekundžių}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "Nepalaikomas kanalo tipas",
+    "channelUnsupportedBody": "Ši programos versija nepalaiko šio kanalo tipo.",
+    "channelDetailsUnsupportedChannel": "Nepalaikomas kanalas"
 }

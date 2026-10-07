@@ -5769,6 +5769,10 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "Дважды нажмите на сообщение, чтобы",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
     "chatMessageEdit": "Изменить сообщение",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -5776,6 +5780,14 @@
     "chatMessageReply": "Ответить",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
+    },
+    "notificationReplyPlaceholder": "Сообщение",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "Не удалось отправить ответ",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
     },
     "chatMessageForward": "Переслать",
     "@chatMessageForward": {
@@ -6547,6 +6559,10 @@
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
     },
+    "chatImageCouldNotLoad": "Не удалось загрузить это изображение.",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
+    },
     "composerAutocompleteRoleMentionDescription": "Уведомить пользователей с этой ролью, у которых есть разрешение на просмотр этого канала.",
     "@composerAutocompleteRoleMentionDescription": {
         "description": "Secondary line in the @ mention autocomplete when the row is a mentionable guild role."
@@ -7087,6 +7103,10 @@
     "instanceUrlPlaceholder": "Введите URL экземпляра (например, fluxer.app)",
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
+    },
+    "instanceUrlHelper": "Используйте fluxer.app для официального экземпляра или точный URL самостоятельно размещённого экземпляра.",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
     },
     "resetToDefaultInstance": "Сбросить до Fluxer",
     "@resetToDefaultInstance": {
@@ -9379,6 +9399,10 @@
     "@lookAndFeelChatWallpaperCustomLabel": {
         "description": "Chat wallpaper option that picks an image from the gallery."
     },
+    "lookAndFeelChatWallpaperStarfieldLabel": "Звездное поле",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
+    },
     "lookAndFeelChatWallpaperColorLabel": "Цвет {id}",
     "@lookAndFeelChatWallpaperColorLabel": {
         "description": "Accessibility label for a solid color wallpaper preset.",
@@ -10824,6 +10848,80 @@
     "userProfileLocalTime": "Местное время",
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
+    },
+    "profileLocalTimeSettingsTitle": "Местное время в профиле",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "Укажите часовой пояс один раз, чтобы {productName} обновлял ваше смещение UTC при переходе на летнее время и обратно. Другие пользователи видят только смещение UTC, а не точный идентификатор вашего часового пояса.",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "Изменить местное время в профиле",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "Часовой пояс",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "Выберите часовой пояс, по которому {productName} вычисляет ваше смещение UTC для местного времени в профиле.",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "Поиск часовых поясов",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "Не задано",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "Другие пользователи видят только ваше текущее смещение относительно UTC, если вы включили показ местного времени в профиле. Точный идентификатор часового пояса, например {timezoneIdentifierExample}, им не виден. {productName} хранит этот идентификатор только для того, чтобы смещение автоматически обновлялось при переходе на летнее время.",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "Все",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "Разрешить всем, кто может просматривать ваш полный профиль, видеть ваше местное время",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "Друзья",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "Разрешить друзьям видеть ваше местное время",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "Участники сообщества",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "Разрешить участникам сообществ, в которых вы состоите, видеть ваше местное время",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
     },
     "userProfileSameTimeAsYou": "Время совпадает с вашим",
     "@userProfileSameTimeAsYou": {
@@ -13823,6 +13921,14 @@
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
     },
+    "accessibilityShowAltTextOnImagesLabel": "Показывать альтернативный текст на изображениях",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "Отображать альтернативный текст под изображениями, если он доступен.",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
     "accessibilityDimStrikethroughTextLabel": "Приглушить зачеркнутый текст",
     "@accessibilityDimStrikethroughTextLabel": {
         "description": "Toggle label for dimming strikethrough text in messages."
@@ -15915,6 +16021,72 @@
     "premiumPerkCustomThemes": "Пользовательские темы",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "До 4K/60fps",
+    "storePlutoniumPriceLine": "{monthly} или {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/мес.",
+    "storePlutoniumYearSuffix": "/год",
+    "storePlutoniumPriceOr": "или",
+    "storePlutoniumEmojiTitle": "Ваши эмодзи повсюду",
+    "storePlutoniumEmojiBody": "Добавляйте пользовательские эмодзи и стикеры из любого вашего сообщества в каждый чат и сообщество, где вы состоите.",
+    "storePlutoniumProfileTitle": "Профиль, который выделяется",
+    "storePlutoniumProfileBody": "Получите анимированный аватар и баннер, значок подписчика, желаемый четырехзначный тег после имени пользователя*, а также отдельный профиль для каждого сообщества.",
+    "storePlutoniumFilesTitle": "Отправляйте файлы размером до 500 МБ",
+    "storePlutoniumFilesBody": "Делитесь полноразмерными видео и большими файлами без предварительного сжатия. Бесплатные аккаунты могут отправлять до 25 МБ.",
+    "storePlutoniumCompareTitle": "Сравнение бесплатной версии и Plutonium",
+    "storePlutoniumCompareMobileNote": "Не все эти функции доступны в мобильном приложении. Некоторые из них доступны только на компьютере.",
+    "storePlutoniumNotAvailable": "Недоступно",
+    "storePlutoniumAvailable": "Доступно",
+    "storePlutoniumCompareTag": "Выберите 4-значное число после имени пользователя*",
+    "storePlutoniumCompareProfile": "Отдельный профиль для каждого сообщества",
+    "storePlutoniumCompareBadge": "Значок подписчика в вашем профиле",
+    "storePlutoniumCompareBackgrounds": "Фоны для видеозвонков, которые можно сохранить",
+    "storePlutoniumCompareCommunities": "Сообщества, к которым вы можете присоединиться",
+    "storePlutoniumCompareCharacters": "Символов в одном сообщении",
+    "storePlutoniumCompareBookmarks": "Сообщения, которые можно добавить в закладки",
+    "storePlutoniumCompareUpload": "Максимальный размер загружаемого файла",
+    "storePlutoniumCompareSavedMedia": "Медиафайлы, которые можно сохранить на потом",
+    "storePlutoniumCompareAnimatedEmoji": "Использование анимированных эмодзи в сообщениях",
+    "storePlutoniumCompareCustomEmoji": "Используйте пользовательские эмодзи и стикеры в любом сообществе",
+    "storePlutoniumCompareVideo": "Качество видеозвонков и демонстрации экрана",
+    "storePlutoniumCompareAvatar": "Анимированный аватар и баннер профиля",
+    "storePlutoniumCompareEarlyAccess": "Ранний доступ к новым функциям",
+    "storePlutoniumCompareThemes": "Пользовательские темы для приложения",
+    "storePlutoniumVideoFree": "До 720p при 30 FPS",
+    "storePlutoniumVideoPlutonium": "До 4K при 60 FPS",
+    "storePlutoniumTagFootnote": "Вы можете выбрать только тот тег, которого нет у другого пользователя с таким же именем. Имена пользователей не чувствительны к регистру, поэтому Mina#4821 и mina#4821 считаются одинаковыми. Тег #0000 зарезервирован для участников Fluxer Visionary.",
+    "storePlutoniumLearnVisionary": "Подробнее о Visionary.",
+    "storePlutoniumDonatePrompt": "Просто хотите поддержать разработку Fluxer с открытым исходным кодом? ",
+    "storePlutoniumDonateLink": "Пожертвовать вместо этого.",
+    "storePlutoniumHighlightsLead": "Подписка финансирует Fluxer и открывает",
+    "storePlutoniumHighlightEmoji": "Пользовательские эмодзи и стикеры в любом чате",
+    "storePlutoniumHighlightProfile": "Анимированный профиль, значок и выбранный 4-значный номер",
+    "storePlutoniumHighlightFiles": "Загрузки до 500 МБ",
+    "storePlutoniumHighlightMessages": "Отправляйте сообщения длиной до 4000 символов",
+    "storePlutoniumHighlightCommunityProfile": "Отдельный профиль для каждого сообщества",
+    "storePlutoniumHighlightsMore": "И многое другое",
+    "storePlutoniumRenewsThroughPlay": "Автоматически продлевается через Google Play, пока вы не отмените подписку.",
+    "storePlutoniumRenewsThroughAppStore": "Автоматически продлевается через App Store, пока вы не отмените подписку.",
+    "storePlutoniumAlreadySubscribed": "У вас уже есть подписка Fluxer Plutonium.",
+    "storePlutoniumSavePercent": "Сэкономьте {percent}%",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "Покупка получена. Plutonium появится здесь после активации.",
+    "storePlutoniumUnavailable": "Подписки в приложении пока недоступны на этом устройстве.",
+    "storePlutoniumVisionaryStatus": "Visionary уже включает постоянный доступ, поэтому регулярная подписка не требуется.",
     "userSettingsNavShortcuts": "Быстрые клавиши",
     "@userSettingsNavShortcuts": {
         "description": "User settings navigation item for keyboard shortcuts."
@@ -16002,6 +16174,18 @@
     "defaultAppsWebBrowserExternal": "Внешний браузер",
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
+    },
+    "userSettingsNavAppIcon": "Значок приложения",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "Значок приложения",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "Выберите значок, который будет отображаться на главном экране.",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
     },
     "advancedSettingsConfigure": "Настроить",
     "@advancedSettingsConfigure": {
@@ -16251,6 +16435,14 @@
     "authHidePassword": "Скрыть пароль",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "Обрабатываем…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
+    },
+    "authVerificationFailed": "Не удалось завершить проверку. Повторите попытку.",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
     },
     "chatLoadingMessages": "Загрузка сообщений",
     "@chatLoadingMessages": {
@@ -17066,6 +17258,40 @@
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
+    "assistantNeedsLogin": "Сначала откройте Fluxer и войдите в систему.",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "Вы не участвуете в звонке.",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "Fluxer не удалось найти это.",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "Личные сообщения отключены в этом экземпляре.",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "Fluxer не смог выполнить это.",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "Микрофон выключен.",
+    "assistantOkUnmuted": "Микрофон включён.",
+    "assistantOkLeftVoice": "Вы покинули голосовой канал.",
+    "assistantOkJoinedVoice": "Подключаюсь к голосовому каналу.",
+    "assistantOkStartedCall": "Начинаю звонок.",
+    "assistantOkStatusSet": "Статус изменён на «{status}».",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "Открываю Fluxer.",
     "applicationsTitle": "Приложения",
     "@applicationsTitle": {
         "description": "Title for the developer Applications settings tab."
@@ -17108,6 +17334,15 @@
         "description": "Empty-state body. apiName is the product API display name.",
         "placeholders": {
             "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "Создано {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
                 "type": "String"
             }
         }
@@ -17292,6 +17527,10 @@
     "@applicationsOauthBuilderTitle": {
         "description": "Section title for the authorize URL builder."
     },
+    "applicationsOauthBuilderDescription": "Создайте URL авторизации с областями действия и разрешениями.",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
     "applicationsScopes": "Разрешения",
     "@applicationsScopes": {
         "description": "Label for OAuth2 scope checkboxes."
@@ -17324,6 +17563,10 @@
     "@applicationsAuthorizeUrlPlaceholder": {
         "description": "Placeholder when the authorize URL cannot be built yet."
     },
+    "applicationsCopyAuthorizeUrl": "Копировать URL авторизации",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
     "applicationsCopiedUrl": "Ссылка скопирована в буфер обмена",
     "@applicationsCopiedUrl": {
         "description": "Toast after copying the authorize URL."
@@ -17343,6 +17586,15 @@
     "applicationsDelete": "Удалить приложение",
     "@applicationsDelete": {
         "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "Вы уверены, что хотите удалить {name}? Это действие необратимо. Все связанные данные, включая пользователя-бота, будут безвозвратно удалены.",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     },
     "applicationsDeleteFailed": "Не удалось удалить приложение",
     "@applicationsDeleteFailed": {
@@ -17432,6 +17684,10 @@
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
     },
+    "voiceOutputRouteEarpiece": "Динамик телефона",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
     "voiceOutputRouteHeadset": "Наушники",
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
@@ -17439,6 +17695,14 @@
     "doubleTapReactionEdit": "Изменить",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "Изменить по умолчанию",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "Выберите эмодзи для двойного касания",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
     },
     "chatMessagePinConfirm": "Закрепить",
     "@chatMessagePinConfirm": {
@@ -17452,9 +17716,17 @@
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."
     },
+    "appIconOptionStarfield": "Звездное поле",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
     "appIconOptionSweden": "Швеция",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "Изменение значка приложения недоступно на этом устройстве.",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     },
     "userSettingsLogOutConfirmTitle": "Выйти?",
     "@userSettingsLogOutConfirmTitle": {
@@ -17484,5 +17756,178 @@
     "@guildSettingsCommunityDeleted": {
         "description": "Success toast after a community is deleted."
     },
-    "assistantOkMessageSent": "Сообщение отправлено."
+    "guildSettingsDeleteCommunityFailed": "Не удалось удалить это сообщество",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantOkMessageSent": "Сообщение отправлено.",
+    "assistantOkCustomStatusSet": "Свой статус обновлен.",
+    "assistantOkCustomStatusCleared": "Свой статус очищен.",
+    "guildNavbarAnnouncementChannel": "Канал объявлений",
+    "guildNavbarAnnouncementChannelDescription": "Публикуйте обновления, на которые другие сообщества могут подписаться в своих каналах",
+    "channelDetailsAnnouncementChannel": "Канал объявлений",
+    "channelSettingsAnnouncementChannel": "Канал объявлений",
+    "channelSettingsAnnouncementChannelDescription": "Позволяет другим сообществам подписаться на этот канал и получать копии ваших публикаций.",
+    "channelSettingsStopAnnouncementTitle": "Перестать быть каналом объявлений?",
+    "channelSettingsStopAnnouncementBody": "{count, plural, one{{count} канал подписан на этот канал. Если преобразовать его в текстовый канал, эта подписка будет отменена.} few{{count} канала подписаны на этот канал. Если преобразовать его в текстовый канал, эти подписки будут отменены.} many{{count} каналов подписаны на этот канал. Если преобразовать его в текстовый канал, эти подписки будут отменены.} other{{count} канала подписаны на этот канал. Если преобразовать его в текстовый канал, эти подписки будут отменены.}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "Если преобразовать этот канал в текстовый, все подписки других каналов на него будут отменены.",
+    "channelSettingsConvertChannel": "Преобразовать",
+    "channelSettingsConvertFailed": "Не удалось преобразовать этот канал",
+    "channelSettingsChannelHasFollowers": "На этот канал всё ещё подписаны другие каналы. Удалите эти подписки, прежде чем преобразовывать канал.",
+    "channelMenuFollow": "Подписаться на канал",
+    "channelFollowTitle": "Подписаться на этот канал",
+    "channelFollowBody": "Выберите, куда будут публиковаться сообщения. Вы можете отписаться в любое время в разделе «Настройки сообщества» → «Вебхуки».",
+    "channelFollowCommunity": "Сообщество",
+    "channelFollowChannel": "Канал",
+    "channelFollowAgeWarning": "Это канал с возрастными ограничениями. Обновления могут отправляться только в каналы с возрастными ограничениями.",
+    "channelFollowContentWarning": "Этот канал содержит предупреждение о контенте. Обновления могут отправляться только в каналы с предупреждением о контенте или возрастным ограничением.",
+    "channelFollowHiddenHint": "Сообщества и каналы, где вы не можете управлять вебхуками, скрыты.",
+    "channelFollowEmpty": "Вы не можете управлять вебхуками ни в одном сообществе. Попросите администратора подписаться на этот канал.",
+    "channelFollowSubmit": "Подписаться",
+    "channelFollowFailed": "Не удалось подписаться на этот канал.",
+    "channelFollowSuccessTitle": "Обновления уже в пути!",
+    "channelFollowSuccessBody": "Сообщения, опубликованные в {sourceName}, будут отображаться в #{targetName}.",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "Понятно!",
+    "channelFollowBarrier": "Подпишитесь, чтобы получать эти объявления в выбранном вами канале.",
+    "channelHeaderFollow": "Подписаться на канал",
+    "chatMessagePublish": "Опубликовать",
+    "chatMessagePublished": "Опубликовано",
+    "chatMessagePublishConfirmTitle": "Опубликовать сообщение?",
+    "chatMessagePublishConfirmBody": "Это отправит копию в каждый канал, который подписан на этот.",
+    "chatMessagePublishedToast": "Сообщение опубликовано",
+    "chatMessageAlreadyPublished": "Это сообщение уже опубликовано.",
+    "chatMessagePublishFailedTitle": "Не удалось опубликовать это сообщение",
+    "chatMessagePublishFailedBody": "Что-то пошло не так. Повторите попытку через несколько секунд.",
+    "chatMessagePublishLimitTitle": "Притормозите",
+    "chatMessagePublishLimitBody": "Вы сможете опубликовать сообщение снова через {duration}.",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "Вы публикуете слишком быстро. Повторите попытку через мгновение.",
+    "chatMessageDeletePublished": "Это также удалит копии, отправленные в каналы, подписанные на этот канал.",
+    "chatMessageEditPublishedTitle": "Изменить опубликованное сообщение?",
+    "chatMessageEditPublishedBody": "Это обновит копии, отправленные в каналы, подписанные на этот канал.",
+    "chatMessageEditPublishedSave": "Сохранить",
+    "chatMessageEditLimitTitle": "Притормозите",
+    "chatMessageEditLimitBody": "Вы сможете снова изменить это опубликованное сообщение через {duration}.",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "Вы редактируете это опубликованное сообщение слишком быстро. Повторите попытку через некоторое время.",
+    "chatMessageOriginalDeleted": "[Исходное сообщение удалено]",
+    "userTagCommunity": "Сообщество",
+    "systemFollowAdd": "{username} подписал(а) этот канал на {source}. Сообщения, опубликованные там, будут появляться здесь.",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username} подписал(а) этот канал на {source}.",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "Еще не отправлено подписчикам.",
+    "publishNudgeHideForever": "Больше не показывать",
+    "publishNudgeDismiss": "Закрыть",
+    "channelSettingsFollowedChannels": "Отслеживаемые каналы",
+    "channelSettingsFollowedChannelsDescription": "Каналы объявлений, на которые подписан этот канал. Отпишитесь, чтобы перестать получать копии.",
+    "guildSettingsFollowedChannelsDescription": "Каналы объявлений, на которые подписаны каналы этого сообщества.",
+    "channelSettingsFollowedFrom": "Из {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "Обновления приостановлены, так как исходный канал больше недоступен.",
+    "channelSettingsUnfollowTitle": "Отписаться от {name}?",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "Этот канал перестанет получать копии из указанного канала объявлений.",
+    "channelSettingsUnfollow": "Отписаться",
+    "crosspostCommunityTitle": "Сообщество",
+    "crosspostGoToCommunity": "Перейти в сообщество",
+    "crosspostJoinCommunity": "Присоединиться к сообществу",
+    "crosspostSourceFailed": "Не удалось загрузить это сообщество. Попробуйте еще раз через мгновение.",
+    "crosspostMembers": "Участников: {count}",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "В сети: {count}",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, one{{count} минута} few{{count} минуты} many{{count} минут} other{{count} минуты}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, one{{count} секунда} few{{count} секунды} many{{count} секунд} other{{count} секунды}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "Неподдерживаемый тип канала",
+    "channelUnsupportedBody": "Эта версия приложения не поддерживает данный тип канала.",
+    "channelDetailsUnsupportedChannel": "Неподдерживаемый канал"
 }

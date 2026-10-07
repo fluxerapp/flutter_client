@@ -4098,6 +4098,80 @@
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
     },
+    "profileLocalTimeSettingsTitle": "Местно време в профила",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "Задай часовата си зона веднъж, за да може {productName} да поддържа разликата ти от UTC актуална при смяна на лятното часово време. Другите хора виждат само разликата ти от UTC, а не точния идентификатор на часовата ти зона.",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "Редактиране на местно време в профила",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "Часова зона",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "Избери часовата зона, която {productName} използва, за да изчисли отместването ти от UTC за локалното време в профила.",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "Търсене на часови зони",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "Не е зададено",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "Другите потребители могат да виждат само текущото ти UTC отместване, когато избереш да споделяш локалното време в профила си. Те не виждат точния идентификатор на часовата ти зона, като например {timezoneIdentifierExample}. {productName} съхранява този идентификатор само за да може отместването автоматично да се актуализира при промяна на лятното часово време.",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "Всеки",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "Позволява на всеки, който може да вижда пълния ти профил, да вижда местното ти време",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "Приятели",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "Позволява на приятелите ти да виждат местното ти време",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "Членове на общността",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "Позволява на членовете на общностите, в които си, да виждат местното ти време",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
+    },
     "userProfileSameTimeAsYou": "В същия часови пояс като теб",
     "@userProfileSameTimeAsYou": {
         "description": "Profile timezone difference when the target matches the viewer."
@@ -6571,6 +6645,14 @@
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
     },
+    "accessibilityShowAltTextOnImagesLabel": "Показване на алтернативен текст на изображенията",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "Показване на алтернативен текст под изображенията, когато е наличен.",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
     "accessibilityDimStrikethroughTextLabel": "Приглушаване на зачеркнатия текст",
     "@accessibilityDimStrikethroughTextLabel": {
         "description": "Toggle label for dimming strikethrough text in messages."
@@ -8473,6 +8555,10 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "Докоснете двукратно съобщение, за да",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
     "chatMessageEdit": "Редактиране на съобщението",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -8480,6 +8566,14 @@
     "chatMessageReply": "Отговор",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
+    },
+    "notificationReplyPlaceholder": "Съобщение",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "Неуспешно изпращане на отговор",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
     },
     "chatMessageForward": "Препращане",
     "@chatMessageForward": {
@@ -9424,6 +9518,10 @@
     "chatVideoPlaybackFailed": "Не може да се възпроизведе това видео.",
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
+    },
+    "chatImageCouldNotLoad": "Изображението не можа да бъде заредено.",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
     },
     "composerAutocompleteRoleMentionDescription": "Известява потребителите с тази роля, които имат разрешение да виждат този канал.",
     "@composerAutocompleteRoleMentionDescription": {
@@ -11868,6 +11966,72 @@
     "premiumPerkCustomThemes": "Персонализирани теми",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "До 4K/60fps",
+    "storePlutoniumPriceLine": "{monthly} или {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/мес.",
+    "storePlutoniumYearSuffix": "/год.",
+    "storePlutoniumPriceOr": "или",
+    "storePlutoniumEmojiTitle": "Вашите емоджита, навсякъде",
+    "storePlutoniumEmojiBody": "Използвайте персонализирани емоджита и стикери от всяка ваша общност във всеки чат и общност, в която членувате.",
+    "storePlutoniumProfileTitle": "Профил, който се откроява",
+    "storePlutoniumProfileBody": "Вземете анимиран аватар и банер, значка за абонат, желания от вас четирицифрен таг след потребителското си име* и отделен профил за всяка общност.",
+    "storePlutoniumFilesTitle": "Изпращайте файлове до 500 MB",
+    "storePlutoniumFilesBody": "Споделяйте пълнометражни видеоклипове и големи файлове, без да ги свивате предварително. Безплатните акаунти могат да изпращат до 25 MB.",
+    "storePlutoniumCompareTitle": "Сравнете безплатния и Plutonium",
+    "storePlutoniumCompareMobileNote": "Не всички от тези функции са налични в мобилното приложение. Някои са достъпни само на компютър.",
+    "storePlutoniumNotAvailable": "Не е налично",
+    "storePlutoniumAvailable": "Налична",
+    "storePlutoniumCompareTag": "Изберете 4-цифреното число след потребителското си име*",
+    "storePlutoniumCompareProfile": "Отделен профил за всяка общност",
+    "storePlutoniumCompareBadge": "Значка на абонат в профила ви",
+    "storePlutoniumCompareBackgrounds": "Фонове за видеообаждания, които можете да запазвате",
+    "storePlutoniumCompareCommunities": "Общности, към които можете да се присъедините",
+    "storePlutoniumCompareCharacters": "Символи в едно съобщение",
+    "storePlutoniumCompareBookmarks": "Съобщения, които можете да запазите",
+    "storePlutoniumCompareUpload": "Най-големият файл, който можете да качите",
+    "storePlutoniumCompareSavedMedia": "Медийни елементи, които можете да запазите за по-късно",
+    "storePlutoniumCompareAnimatedEmoji": "Използвайте анимирани емоджита в съобщенията",
+    "storePlutoniumCompareCustomEmoji": "Използвайте персонализирани емоджита и стикери във всяка общност",
+    "storePlutoniumCompareVideo": "Качество на видео разговори и споделяне на екран",
+    "storePlutoniumCompareAvatar": "Анимиран аватар и банер на профила",
+    "storePlutoniumCompareEarlyAccess": "Ранен достъп до нови функции",
+    "storePlutoniumCompareThemes": "Персонализирани теми за приложението",
+    "storePlutoniumVideoFree": "До 720p при 30 FPS",
+    "storePlutoniumVideoPlutonium": "До 4K при 60 FPS",
+    "storePlutoniumTagFootnote": "Можете да изберете само таг, който никой друг със същото потребителско име вече няма. Потребителските имена не правят разлика между малки и главни букви, така че Mina#4821 и mina#4821 се броят за едно и също. Тагът #0000 е запазен за членове на Fluxer Visionary.",
+    "storePlutoniumLearnVisionary": "Научете повече за Visionary.",
+    "storePlutoniumDonatePrompt": "Искате само да подкрепите разработката на Fluxer с отворен код? ",
+    "storePlutoniumDonateLink": "Дарете вместо това.",
+    "storePlutoniumHighlightsLead": "Абонаментът финансира Fluxer и отключва",
+    "storePlutoniumHighlightEmoji": "Персонализирани емоджита и стикери във всеки чат",
+    "storePlutoniumHighlightProfile": "Анимиран профил, значка и избран 4-цифрен номер",
+    "storePlutoniumHighlightFiles": "Качвания до 500 MB",
+    "storePlutoniumHighlightMessages": "Изпращайте съобщения до 4000 знака",
+    "storePlutoniumHighlightCommunityProfile": "Отделен профил за всяка общност",
+    "storePlutoniumHighlightsMore": "И още",
+    "storePlutoniumRenewsThroughPlay": "Автоматично се подновява през Google Play, докато не го анулирате.",
+    "storePlutoniumRenewsThroughAppStore": "Автоматично се подновява през App Store, докато не го анулирате.",
+    "storePlutoniumAlreadySubscribed": "Вече имате абонамент за Fluxer Plutonium.",
+    "storePlutoniumSavePercent": "Спести {percent}%",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "Покупката е получена. Plutonium ще се покаже тук, след като се активира.",
+    "storePlutoniumUnavailable": "Абонаментите в приложението все още не са налични на това устройство.",
+    "storePlutoniumVisionaryStatus": "Visionary вече включва постоянен достъп, така че не е необходим повтарящ се абонамент.",
     "userSettingsNavPrivacyDashboard": "Табло за поверителност",
     "@userSettingsNavPrivacyDashboard": {
         "description": "User settings navigation item for the privacy dashboard."
@@ -12618,6 +12782,18 @@
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
     },
+    "userSettingsNavAppIcon": "Икона на приложението",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "Икона на приложението",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "Изберете коя икона да се показва на началния ви екран.",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
+    },
     "userSettingsNavAdvanced": "Разширени",
     "@userSettingsNavAdvanced": {
         "description": "User settings navigation item for advanced settings."
@@ -13138,6 +13314,10 @@
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
     },
+    "instanceUrlHelper": "Използвайте fluxer.app за официалния инстанс или точния URL адрес на самохостван инстанс.",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
+    },
     "resetToDefaultInstance": "Възстановяване до Fluxer",
     "@resetToDefaultInstance": {
         "description": "Tooltip for the button that resets the instance URL to the official Fluxer instance."
@@ -13399,6 +13579,14 @@
     "authHidePassword": "Скрий паролата",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "Все още работим по въпроса…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
+    },
+    "authVerificationFailed": "Неуспешно завършване на проверката. Опитайте отново.",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
     },
     "chatLoadingMessages": "Зареждане на съобщения",
     "@chatLoadingMessages": {
@@ -17041,6 +17229,40 @@
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
+    "assistantNeedsLogin": "Първо отворете Fluxer и влезте в профила си.",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "Не сте в разговор.",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "Fluxer не можа да намери това.",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "Директните съобщения са деактивирани в този екземпляр.",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "Fluxer не можа да изпълни това.",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "Микрофонът е изключен.",
+    "assistantOkUnmuted": "Микрофонът е включен.",
+    "assistantOkLeftVoice": "Напуснахте гласовия канал.",
+    "assistantOkJoinedVoice": "Присъединяване към гласовия канал.",
+    "assistantOkStartedCall": "Започвам разговора.",
+    "assistantOkStatusSet": "Статусът е зададен на {status}.",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "Отварям Fluxer.",
     "lookAndFeelChatWallpaperTitle": "Тапет на чата",
     "@lookAndFeelChatWallpaperTitle": {
         "description": "Look and Feel section title for chat wallpaper presets."
@@ -17064,6 +17286,10 @@
     "lookAndFeelChatWallpaperCustomLabel": "Персонализирано изображение",
     "@lookAndFeelChatWallpaperCustomLabel": {
         "description": "Chat wallpaper option that picks an image from the gallery."
+    },
+    "lookAndFeelChatWallpaperStarfieldLabel": "Звездно поле",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
     },
     "lookAndFeelChatWallpaperColorLabel": "Цвят {id}",
     "@lookAndFeelChatWallpaperColorLabel": {
@@ -17133,6 +17359,15 @@
         "description": "Empty-state body. apiName is the product API display name.",
         "placeholders": {
             "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "Създадено на {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
                 "type": "String"
             }
         }
@@ -17317,6 +17552,10 @@
     "@applicationsOauthBuilderTitle": {
         "description": "Section title for the authorize URL builder."
     },
+    "applicationsOauthBuilderDescription": "Създайте URL адрес за оторизация с обхвати и разрешения.",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
     "applicationsScopes": "Обхвати",
     "@applicationsScopes": {
         "description": "Label for OAuth2 scope checkboxes."
@@ -17349,6 +17588,10 @@
     "@applicationsAuthorizeUrlPlaceholder": {
         "description": "Placeholder when the authorize URL cannot be built yet."
     },
+    "applicationsCopyAuthorizeUrl": "Копирай URL адреса за оторизация",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
     "applicationsCopiedUrl": "URL адресът е копиран в клипборда",
     "@applicationsCopiedUrl": {
         "description": "Toast after copying the authorize URL."
@@ -17368,6 +17611,15 @@
     "applicationsDelete": "Изтриване на приложението",
     "@applicationsDelete": {
         "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "Наистина ли искате да изтриете {name}? Това действие не може да бъде отменено. Всички свързани данни, включително потребителят на бота, ще бъдат изтрити завинаги.",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     },
     "applicationsDeleteFailed": "Приложението не можа да бъде изтрито",
     "@applicationsDeleteFailed": {
@@ -17457,6 +17709,10 @@
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
     },
+    "voiceOutputRouteEarpiece": "Слушалка",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
     "voiceOutputRouteHeadset": "Слушалки",
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
@@ -17464,6 +17720,14 @@
     "doubleTapReactionEdit": "Редактиране",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "Редактиране на подразбиране",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "Изберете емоджи за двойно докосване",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
     },
     "chatMessagePinConfirm": "Закачи",
     "@chatMessagePinConfirm": {
@@ -17477,9 +17741,17 @@
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."
     },
+    "appIconOptionStarfield": "Звездно поле",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
     "appIconOptionSweden": "Швеция",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "Смяната на иконата на приложението не е налична на това устройство.",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     },
     "userSettingsLogOutConfirmTitle": "Да излезеш ли?",
     "@userSettingsLogOutConfirmTitle": {
@@ -17509,5 +17781,178 @@
     "@guildSettingsCommunityDeleted": {
         "description": "Success toast after a community is deleted."
     },
-    "assistantOkMessageSent": "Съобщението е изпратено."
+    "guildSettingsDeleteCommunityFailed": "Неуспешно изтриване на тази общност",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantOkMessageSent": "Съобщението е изпратено.",
+    "assistantOkCustomStatusSet": "Персонализираният статус е актуализиран.",
+    "assistantOkCustomStatusCleared": "Персонализираният статус е изчистен.",
+    "guildNavbarAnnouncementChannel": "Канал за обявления",
+    "guildNavbarAnnouncementChannelDescription": "Публикувайте актуализации, които други общности могат да следват в собствените си канали",
+    "channelDetailsAnnouncementChannel": "Канал за обявления",
+    "channelSettingsAnnouncementChannel": "Канал за обявления",
+    "channelSettingsAnnouncementChannelDescription": "Позволява на други общности да следват този канал и да получават копия на това, което публикувате.",
+    "channelSettingsStopAnnouncementTitle": "Да спре ли да бъде канал за обявления?",
+    "channelSettingsStopAnnouncementBody": "{count, plural, =1{1 канал следва този канал. Ако го преобразувате в текстов канал, това следване ще бъде премахнато.} other{{count} канала следват този канал. Ако го преобразувате в текстов канал, тези следвания ще бъдат премахнати.}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "Ако преобразувате този канал в текстов канал, никой канал вече няма да го следва.",
+    "channelSettingsConvertChannel": "Преобразуване",
+    "channelSettingsConvertFailed": "Не успяхме да преобразуваме този канал",
+    "channelSettingsChannelHasFollowers": "Други канали все още следват този канал. Премахнете тези следвания, преди да го преобразувате.",
+    "channelMenuFollow": "Следвай канала",
+    "channelFollowTitle": "Следвай този канал",
+    "channelFollowBody": "Изберете къде да отиват публикуваните съобщения. Можете да прекратите проследяването по всяко време в Настройки на общността → Уебхукове.",
+    "channelFollowCommunity": "Общност",
+    "channelFollowChannel": "Канал",
+    "channelFollowAgeWarning": "Това е канал с възрастово ограничение. Актуализациите могат да отиват само в канали с възрастово ограничение.",
+    "channelFollowContentWarning": "Този канал има предупреждение за съдържание. Актуализациите могат да отиват само в канали с предупреждение за съдържание или възрастово ограничение.",
+    "channelFollowHiddenHint": "Общностите и каналите, където не можете да управлявате уебхукове, са скрити.",
+    "channelFollowEmpty": "Не можете да управлявате уебхукове в никоя общност. Помолете администратор да следва този канал.",
+    "channelFollowSubmit": "Следвай",
+    "channelFollowFailed": "Неуспешно следване на този канал.",
+    "channelFollowSuccessTitle": "Актуализациите са на път!",
+    "channelFollowSuccessBody": "Съобщенията, публикувани в {sourceName}, ще се показват в #{targetName}.",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "Разбрано!",
+    "channelFollowBarrier": "Следвайте този канал, за да получавате тези обявления в канал по ваш избор.",
+    "channelHeaderFollow": "Следвай канала",
+    "chatMessagePublish": "Публикувай",
+    "chatMessagePublished": "Публикувано",
+    "chatMessagePublishConfirmTitle": "Публикуване на съобщение?",
+    "chatMessagePublishConfirmBody": "Това ще изпрати копие до всеки канал, който следва този.",
+    "chatMessagePublishedToast": "Съобщението е публикувано",
+    "chatMessageAlreadyPublished": "Това съобщение вече е публикувано.",
+    "chatMessagePublishFailedTitle": "Неуспешно публикуване на това съобщение",
+    "chatMessagePublishFailedBody": "Нещо се обърка. Опитайте отново след малко.",
+    "chatMessagePublishLimitTitle": "По-бавно",
+    "chatMessagePublishLimitBody": "Можете да публикувате отново след {duration}.",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "Публикувате твърде бързо. Опитайте отново след малко.",
+    "chatMessageDeletePublished": "Това също премахва копията, които са били изпратени до канали, следващи този.",
+    "chatMessageEditPublishedTitle": "Редактиране на публикувано съобщение?",
+    "chatMessageEditPublishedBody": "Това актуализира копията, които бяха изпратени до каналите, следващи този.",
+    "chatMessageEditPublishedSave": "Запазване",
+    "chatMessageEditLimitTitle": "По-бавно",
+    "chatMessageEditLimitBody": "Можете да редактирате това публикувано съобщение отново след {duration}.",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "Редактирате това публикувано съобщение твърде бързо. Опитайте отново след малко.",
+    "chatMessageOriginalDeleted": "[Оригиналното съобщение е изтрито]",
+    "userTagCommunity": "Общност",
+    "systemFollowAdd": "{username} настрои този канал да следва {source}. Публикуваните там съобщения ще се показват тук.",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username} настрои този канал да следва {source}.",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "Все още не е изпратено до последователи.",
+    "publishNudgeHideForever": "Не показвай повече",
+    "publishNudgeDismiss": "Скрий",
+    "channelSettingsFollowedChannels": "Следвани канали",
+    "channelSettingsFollowedChannelsDescription": "Канали за обявления, които този канал следва. Прекратете следването, за да спрете да получавате копия.",
+    "guildSettingsFollowedChannelsDescription": "Канали за обявления, следвани от канали в тази общност.",
+    "channelSettingsFollowedFrom": "От {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "Актуализациите са на пауза, защото изходният канал вече не е наличен.",
+    "channelSettingsUnfollowTitle": "Да се прекрати ли следването на {name}?",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "Този канал ще спре да получава копия от онзи канал за обявления.",
+    "channelSettingsUnfollow": "Прекрати следването",
+    "crosspostCommunityTitle": "Общност",
+    "crosspostGoToCommunity": "Към общността",
+    "crosspostJoinCommunity": "Присъединяване към общността",
+    "crosspostSourceFailed": "Не успяхме да заредим тази общност. Опитайте отново след малко.",
+    "crosspostMembers": "{count} членове",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "{count} онлайн",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, =1{1 минута} other{{count} минути}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, =1{1 секунда} other{{count} секунди}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "Неподдържан тип канал",
+    "channelUnsupportedBody": "Тази версия на приложението не поддържа този тип канал.",
+    "channelDetailsUnsupportedChannel": "Неподдържан канал"
 }

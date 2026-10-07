@@ -3010,7 +3010,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String applicationsCreated(String date) {
-    return 'Created $date';
+    return 'Oluşturulma tarihi: $date';
   }
 
   @override
@@ -3167,7 +3167,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get applicationsOauthBuilderDescription =>
-      'Construct an authorize URL with scopes and permissions.';
+      'Kapsamlar ve izinlerle bir yetkilendirme URL\'si oluşturun.';
 
   @override
   String get applicationsScopes => 'Kapsamlar';
@@ -3197,7 +3197,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Kapsamları seçin (ve gerekirse yönlendirme URI\'sini)';
 
   @override
-  String get applicationsCopyAuthorizeUrl => 'Copy authorize URL';
+  String get applicationsCopyAuthorizeUrl => 'Yetkilendirme URL\'sini kopyala';
 
   @override
   String get applicationsCopiedUrl => 'URL panoya kopyalandı';
@@ -3218,7 +3218,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String applicationsDeleteConfirmDescription(String name) {
-    return 'Are you sure you want to delete $name? This action cannot be undone. All associated data, including the bot user, will be permanently deleted.';
+    return '$name uygulamasını silmek istediğinizden emin misiniz? Bu eylem geri alınamaz. Bot kullanıcısı dahil olmak üzere ilgili tüm veriler kalıcı olarak silinecektir.';
   }
 
   @override
@@ -3470,58 +3470,58 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get userProfileLocalTime => 'Yerel saat';
 
   @override
-  String get profileLocalTimeSettingsTitle => 'Profile local time';
+  String get profileLocalTimeSettingsTitle => 'Profil yerel saati';
 
   @override
   String profileLocalTimeSettingsSummary(String productName) {
-    return 'Set your time zone once so $productName can keep your UTC offset current when daylight saving time changes. Other people can only see your UTC offset, not your exact time zone identifier.';
+    return 'Zaman diliminizi bir kez ayarlayın, böylece yaz saati uygulaması değiştiğinde $productName UTC ofsetinizi güncel tutabilsin. Diğer kişiler yalnızca UTC ofsetinizi görebilir, tam zaman dilimi tanımlayıcınızı değil.';
   }
 
   @override
-  String get profileLocalTimeEditButton => 'Edit profile local time';
+  String get profileLocalTimeEditButton => 'Profil yerel saatini düzenle';
 
   @override
-  String get profileLocalTimeTimezoneLabel => 'Time zone';
+  String get profileLocalTimeTimezoneLabel => 'Saat dilimi';
 
   @override
   String profileLocalTimeTimezoneHelp(String productName) {
-    return 'Choose the time zone $productName uses to calculate your UTC offset for profile local time.';
+    return 'Profil yerel saatiniz için UTC ofsetinizi hesaplarken $productName uygulamasının kullanacağı zaman dilimini seçin.';
   }
 
   @override
-  String get profileLocalTimeSearchTimezones => 'Search time zones';
+  String get profileLocalTimeSearchTimezones => 'Saat dilimlerini ara';
 
   @override
-  String get profileLocalTimeNotSet => 'Not set';
+  String get profileLocalTimeNotSet => 'Ayarlanmadı';
 
   @override
   String profileLocalTimePrivacyNote(
     String timezoneIdentifierExample,
     String productName,
   ) {
-    return 'Other people can only see your current UTC offset when you choose to share profile local time. They do not see your exact time zone identifier, such as $timezoneIdentifierExample. $productName stores that identifier only so the offset can update automatically when daylight saving time changes.';
+    return 'Profil yerel saatinizi paylaşmayı seçtiğinizde diğer kişiler yalnızca mevcut UTC ofsetinizi görebilir. $timezoneIdentifierExample gibi tam zaman dilimi tanımlayıcınızı görmezler. $productName, bu tanımlayıcıyı yalnızca yaz saati değiştiğinde ofsetin otomatik olarak güncellenebilmesi için saklar.';
   }
 
   @override
-  String get profileLocalTimePrivacyEveryone => 'Everyone';
+  String get profileLocalTimePrivacyEveryone => 'Herkes';
 
   @override
   String get profileLocalTimePrivacyEveryoneDesc =>
-      'Allow anyone who can view your full profile to see your local time';
+      'Profilinizin tamamını görüntüleyebilen herkesin yerel saatinizi görmesine izin verin';
 
   @override
-  String get profileLocalTimePrivacyFriends => 'Friends';
+  String get profileLocalTimePrivacyFriends => 'Arkadaşlar';
 
   @override
   String get profileLocalTimePrivacyFriendsDesc =>
-      'Allow your friends to see your local time';
+      'Arkadaşlarınızın yerel saatinizi görmesine izin ver';
 
   @override
-  String get profileLocalTimePrivacyCommunityMembers => 'Community members';
+  String get profileLocalTimePrivacyCommunityMembers => 'Topluluk üyeleri';
 
   @override
   String get profileLocalTimePrivacyCommunityMembersDesc =>
-      'Allow members from communities you\'re in to see your local time';
+      'Üyesi olduğunuz topluluklardaki üyelerin yerel saatinizi görmesine izin ver';
 
   @override
   String get userProfileSameTimeAsYou => 'Sizinle aynı saat diliminde';
@@ -4968,7 +4968,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get lookAndFeelChatWallpaperCustomLabel => 'Özel resim';
 
   @override
-  String get lookAndFeelChatWallpaperStarfieldLabel => 'Starfield';
+  String get lookAndFeelChatWallpaperStarfieldLabel => 'Yıldız alanı';
 
   @override
   String lookAndFeelChatWallpaperColorLabel(String id) {
@@ -5605,11 +5605,11 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get accessibilityShowAltTextOnImagesLabel =>
-      'Show alternative text on images';
+      'Görsellerde alternatif metni göster';
 
   @override
   String get accessibilityShowAltTextOnImagesDescription =>
-      'Display alternative text below images when it is available.';
+      'Mevcut olduğunda resimlerin altında alternatif metin göster.';
 
   @override
   String get accessibilityDimStrikethroughTextLabel =>
@@ -6333,7 +6333,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get voiceOutputRouteSpeaker => 'Hoparlör';
 
   @override
-  String get voiceOutputRouteEarpiece => 'Earpiece';
+  String get voiceOutputRouteEarpiece => 'Ahize';
 
   @override
   String get voiceOutputRouteHeadset => 'Kulaklık';
@@ -7140,16 +7140,16 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get chatMessageAddReaction => 'Tepki ekle';
 
   @override
-  String get doubleTapReactionHint => 'Double tap a message to';
+  String get doubleTapReactionHint => 'Bir mesaja çift dokunarak tepki ver:';
 
   @override
   String get doubleTapReactionEdit => 'Düzenle';
 
   @override
-  String get doubleTapReactionEditTitle => 'Edit default';
+  String get doubleTapReactionEditTitle => 'Varsayılanı düzenle';
 
   @override
-  String get doubleTapReactionEditSubtitle => 'Choose double tap emoji';
+  String get doubleTapReactionEditSubtitle => 'Çift dokunma emojisini seçin';
 
   @override
   String get chatMessageEdit => 'Mesajı düzenle';
@@ -7158,10 +7158,10 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get chatMessageReply => 'Yanıtla';
 
   @override
-  String get notificationReplyPlaceholder => 'Message';
+  String get notificationReplyPlaceholder => 'Mesaj';
 
   @override
-  String get notificationReplyFailed => 'Couldn\'t send reply';
+  String get notificationReplyFailed => 'Yanıt gönderilemedi';
 
   @override
   String get chatMessageForward => 'İlet';
@@ -7913,7 +7913,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get chatVideoPlaybackFailed => 'Bu video oynatılamadı.';
 
   @override
-  String get chatImageCouldNotLoad => 'Could not load this image.';
+  String get chatImageCouldNotLoad => 'Bu görsel yüklenemedi.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
@@ -10100,180 +10100,184 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String storePlutoniumPriceLine(String monthly, String yearly) {
-    return '$monthly or $yearly';
+    return '$monthly veya $yearly';
   }
 
   @override
-  String get storePlutoniumMonthSuffix => '/mo';
+  String get storePlutoniumMonthSuffix => '/ay';
 
   @override
-  String get storePlutoniumYearSuffix => '/yr';
+  String get storePlutoniumYearSuffix => '/yıl';
 
   @override
-  String get storePlutoniumPriceOr => 'or';
+  String get storePlutoniumPriceOr => 'veya';
 
   @override
-  String get storePlutoniumEmojiTitle => 'Your emojis, everywhere';
+  String get storePlutoniumEmojiTitle => 'Emojileriniz her yerde';
 
   @override
   String get storePlutoniumEmojiBody =>
-      'Bring custom emojis and stickers from any of your communities into every chat and community you\'re in.';
+      'Topluluklarınızdaki özel emojileri ve çıkartmaları bulunduğunuz her sohbete ve topluluğa getirin.';
 
   @override
-  String get storePlutoniumProfileTitle => 'A profile that stands out';
+  String get storePlutoniumProfileTitle => 'Öne çıkan bir profil';
 
   @override
   String get storePlutoniumProfileBody =>
-      'Get an animated avatar and banner, a subscriber badge, the four-digit tag you want after your username*, and a separate profile for each community.';
+      'Hareketli bir avatar ve başlık, abone rozeti, kullanıcı adınızdan sonra istediğiniz dört haneli etiket* ve her topluluk için ayrı bir profil edinin.';
 
   @override
-  String get storePlutoniumFilesTitle => 'Send files up to 500 MB';
+  String get storePlutoniumFilesTitle => '500 MB\'a kadar dosya gönderin';
 
   @override
   String get storePlutoniumFilesBody =>
-      'Share full-length videos and big files without shrinking them first. Free accounts can send up to 25 MB.';
+      'Videoların ve büyük dosyaların tamamını küçültmeden paylaşın. Ücretsiz hesaplar 25 MB\'a kadar gönderebilir.';
 
   @override
-  String get storePlutoniumCompareTitle => 'Compare Free and Plutonium';
+  String get storePlutoniumCompareTitle =>
+      'Ücretsiz ve Plutonium karşılaştırması';
 
   @override
   String get storePlutoniumCompareMobileNote =>
-      'Not all of these features are in the mobile app. Some are only available on desktop.';
+      'Bu özelliklerin tümü mobil uygulamada bulunmamaktadır. Bazıları yalnızca masaüstünde mevcuttur.';
 
   @override
-  String get storePlutoniumNotAvailable => 'Not available';
+  String get storePlutoniumNotAvailable => 'Mevcut değil';
 
   @override
-  String get storePlutoniumAvailable => 'Available';
+  String get storePlutoniumAvailable => 'Mevcut';
 
   @override
   String get storePlutoniumCompareTag =>
-      'Pick the 4-digit number after your username*';
+      'Kullanıcı adınızdan sonraki 4 haneli sayıyı seçin*';
 
   @override
   String get storePlutoniumCompareProfile =>
-      'A separate profile for each community';
+      'Her topluluk için ayrı bir profil';
 
   @override
-  String get storePlutoniumCompareBadge => 'Subscriber badge on your profile';
+  String get storePlutoniumCompareBadge => 'Profilinizdeki abone rozeti';
 
   @override
   String get storePlutoniumCompareBackgrounds =>
-      'Video call backgrounds you can save';
+      'Kaydedebileceğiniz görüntülü arama arka planları';
 
   @override
-  String get storePlutoniumCompareCommunities => 'Communities you can join';
+  String get storePlutoniumCompareCommunities =>
+      'Katılabileceğiniz topluluklar';
 
   @override
-  String get storePlutoniumCompareCharacters =>
-      'Characters in a single message';
+  String get storePlutoniumCompareCharacters => 'Tek bir mesajdaki karakterler';
 
   @override
-  String get storePlutoniumCompareBookmarks => 'Messages you can bookmark';
+  String get storePlutoniumCompareBookmarks =>
+      'Yer işaretlerine ekleyebileceğiniz mesajlar';
 
   @override
-  String get storePlutoniumCompareUpload => 'Largest file you can upload';
+  String get storePlutoniumCompareUpload => 'Yükleyebileceğiniz en büyük dosya';
 
   @override
   String get storePlutoniumCompareSavedMedia =>
-      'Media items you can save for later';
+      'Daha sonrası için kaydedebileceğiniz medya öğeleri';
 
   @override
   String get storePlutoniumCompareAnimatedEmoji =>
-      'Use animated emojis in messages';
+      'Mesajlarda hareketli emojiler kullanın';
 
   @override
   String get storePlutoniumCompareCustomEmoji =>
-      'Use custom emojis and stickers in any community';
+      'Herhangi bir toplulukta özel emojiler ve çıkartmalar kullanın';
 
   @override
   String get storePlutoniumCompareVideo =>
-      'Video call and screen share quality';
+      'Görüntülü arama ve ekran paylaşımı kalitesi';
 
   @override
   String get storePlutoniumCompareAvatar =>
-      'Animated avatar and profile banner';
+      'Animasyonlu avatar ve profil banner\'ı';
 
   @override
-  String get storePlutoniumCompareEarlyAccess => 'Early access to new features';
+  String get storePlutoniumCompareEarlyAccess =>
+      'Yeni özelliklere erken erişim';
 
   @override
-  String get storePlutoniumCompareThemes => 'Custom themes for the app';
+  String get storePlutoniumCompareThemes => 'Uygulama için özel temalar';
 
   @override
-  String get storePlutoniumVideoFree => 'Up to 720p at 30 FPS';
+  String get storePlutoniumVideoFree => '30 FPS ile 720p\'ye kadar';
 
   @override
-  String get storePlutoniumVideoPlutonium => 'Up to 4K at 60 FPS';
+  String get storePlutoniumVideoPlutonium => '60 FPS ile 4K\'ya kadar';
 
   @override
   String get storePlutoniumTagFootnote =>
-      'You can only pick a tag that nobody else with the same username already has. Usernames aren\'t case sensitive, so Mina#4821 and mina#4821 count as the same. The #0000 tag is reserved for Fluxer Visionary members.';
+      'Aynı kullanıcı adına sahip başka kimsenin kullanmadığı bir etiket seçebilirsiniz. Kullanıcı adları büyük/küçük harfe duyarlı değildir, bu nedenle Mina#4821 ve mina#4821 aynı kabul edilir. #0000 etiketi Fluxer Visionary üyeleri için ayrılmıştır.';
 
   @override
-  String get storePlutoniumLearnVisionary => 'Learn more about Visionary.';
+  String get storePlutoniumLearnVisionary =>
+      'Visionary hakkında daha fazla bilgi edinin.';
 
   @override
   String get storePlutoniumDonatePrompt =>
-      'Just want to support Fluxer\'s open source development? ';
+      'Sadece Fluxer\'ın açık kaynak geliştirmesini mi desteklemek istiyorsunuz? ';
 
   @override
-  String get storePlutoniumDonateLink => 'Donate instead.';
+  String get storePlutoniumDonateLink => 'Bunun yerine bağış yapın.';
 
   @override
   String get storePlutoniumHighlightsLead =>
-      'Subscribing funds Fluxer and unlocks';
+      'Abone olmak Fluxer\'ı finanse eder ve şunların kilidini açar';
 
   @override
   String get storePlutoniumHighlightEmoji =>
-      'Custom emoji and stickers in any chat';
+      'Tüm sohbetlerde özel emojiler ve çıkartmalar';
 
   @override
   String get storePlutoniumHighlightProfile =>
-      'Animated profile, badge, and custom 4-digit number';
+      'Hareketli profil, rozet ve özel 4 haneli numara';
 
   @override
-  String get storePlutoniumHighlightFiles => 'Uploads up to 500 MB';
+  String get storePlutoniumHighlightFiles => '500 MB\'a kadar yükleme';
 
   @override
   String get storePlutoniumHighlightMessages =>
-      'Send messages up to 4,000 characters';
+      '4.000 karaktere kadar mesaj gönderin';
 
   @override
   String get storePlutoniumHighlightCommunityProfile =>
-      'A separate profile for each community';
+      'Her topluluk için ayrı bir profil';
 
   @override
-  String get storePlutoniumHighlightsMore => 'And more';
+  String get storePlutoniumHighlightsMore => 'Ve daha fazlası';
 
   @override
   String get storePlutoniumRenewsThroughPlay =>
-      'Renews automatically through Google Play until you cancel.';
+      'İptal edene kadar Google Play üzerinden otomatik olarak yenilenir.';
 
   @override
   String get storePlutoniumRenewsThroughAppStore =>
-      'Renews automatically through the App Store until you cancel.';
+      'Siz iptal edene kadar App Store üzerinden otomatik olarak yenilenir.';
 
   @override
   String get storePlutoniumAlreadySubscribed =>
-      'You already have a Fluxer Plutonium subscription.';
+      'Zaten bir Fluxer Plutonium aboneliğiniz var.';
 
   @override
   String storePlutoniumSavePercent(int percent) {
-    return 'Save $percent%';
+    return '% $percent tasarruf edin';
   }
 
   @override
   String get storePlutoniumWaiting =>
-      'Purchase received. Plutonium will show here once it activates.';
+      'Satın alma işlemi alındı. Plutonium etkinleştirildiğinde burada görünecektir.';
 
   @override
   String get storePlutoniumUnavailable =>
-      'Subscriptions in the app aren\'t available on this device yet.';
+      'Uygulama içi abonelikler bu cihazda henüz kullanılamıyor.';
 
   @override
   String get storePlutoniumVisionaryStatus =>
-      'Visionary already includes permanent access, so a recurring subscription isn\'t needed.';
+      'Visionary zaten kalıcı erişim içerdiği için yinelenen bir aboneliğe gerek yok.';
 
   @override
   String get userSettingsNavPrivacyDashboard => 'Gizlilik Paneli';
@@ -10852,27 +10856,27 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get defaultAppsWebBrowserExternal => 'Harici tarayıcı';
 
   @override
-  String get userSettingsNavAppIcon => 'App icon';
+  String get userSettingsNavAppIcon => 'Uygulama simgesi';
 
   @override
-  String get appIconSectionTitle => 'App icon';
+  String get appIconSectionTitle => 'Uygulama simgesi';
 
   @override
   String get appIconSectionDescription =>
-      'Choose which icon appears on your home screen.';
+      'Ana ekranınızda hangi simgenin görüneceğini seçin.';
 
   @override
   String get appIconOptionDefault => 'Varsayılan';
 
   @override
-  String get appIconOptionStarfield => 'Starfield';
+  String get appIconOptionStarfield => 'Yıldız alanı';
 
   @override
   String get appIconOptionSweden => 'İsveç';
 
   @override
   String get appIconUnsupported =>
-      'Changing the app icon is not available on this device.';
+      'Uygulama simgesini değiştirme bu cihazda kullanılamıyor.';
 
   @override
   String get userSettingsNavAdvanced => 'Gelişmiş';
@@ -11932,11 +11936,11 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get authHidePassword => 'Parolayı gizle';
 
   @override
-  String get authCheckStillWorking => 'Still working on it…';
+  String get authCheckStillWorking => 'Hâlâ çalışıyor…';
 
   @override
   String get authVerificationFailed =>
-      'Couldn\'t complete verification. Try again.';
+      'Doğrulama tamamlanamadı. Tekrar deneyin.';
 
   @override
   String get chatLoadingMessages => 'Mesajlar yükleniyor';
@@ -14460,8 +14464,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get guildSettingsCommunityDeleted => 'Topluluk silindi';
 
   @override
-  String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+  String get guildSettingsDeleteCommunityFailed => 'Bu topluluk silinemedi';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
@@ -15476,73 +15479,73 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get homeQuickActionDms => 'DM\'ler';
 
   @override
-  String get assistantNeedsLogin => 'Open Fluxer and sign in first.';
+  String get assistantNeedsLogin => 'Önce Fluxer\'ı açın ve oturum açın.';
 
   @override
-  String get assistantNotInVoice => 'You\'re not in a call.';
+  String get assistantNotInVoice => 'Bir aramada değilsiniz.';
 
   @override
-  String get assistantNotFound => 'Fluxer could not find that.';
+  String get assistantNotFound => 'Fluxer bunu bulamadı.';
 
   @override
   String get assistantDmsDisabled =>
       'Direct messages are disabled on this instance.';
 
   @override
-  String get assistantFailed => 'Fluxer could not complete that.';
+  String get assistantFailed => 'Fluxer bunu tamamlayamadı.';
 
   @override
-  String get assistantOkMuted => 'Muted.';
+  String get assistantOkMuted => 'Mikrofon kapatıldı.';
 
   @override
-  String get assistantOkUnmuted => 'Unmuted.';
+  String get assistantOkUnmuted => 'Mikrofon açıldı.';
 
   @override
-  String get assistantOkLeftVoice => 'Left voice.';
+  String get assistantOkLeftVoice => 'Sesli kanaldan ayrıldınız.';
 
   @override
-  String get assistantOkJoinedVoice => 'Joining voice.';
+  String get assistantOkJoinedVoice => 'Sesli kanala katılınıyor.';
 
   @override
-  String get assistantOkStartedCall => 'Starting the call.';
+  String get assistantOkStartedCall => 'Arama başlatılıyor.';
 
   @override
   String assistantOkStatusSet(String status) {
-    return 'Status set to $status.';
+    return 'Durum $status olarak ayarlandı.';
   }
 
   @override
-  String get assistantOkOpened => 'Opening Fluxer.';
+  String get assistantOkOpened => 'Fluxer açılıyor.';
 
   @override
   String get assistantOkMessageSent => 'Mesaj gönderildi.';
 
   @override
-  String get assistantOkCustomStatusSet => 'Custom status updated.';
+  String get assistantOkCustomStatusSet => 'Özel durum güncellendi.';
 
   @override
-  String get assistantOkCustomStatusCleared => 'Custom status cleared.';
+  String get assistantOkCustomStatusCleared => 'Özel durum temizlendi.';
 
   @override
-  String get guildNavbarAnnouncementChannel => 'Announcement';
+  String get guildNavbarAnnouncementChannel => 'Duyuru kanalı';
 
   @override
   String get guildNavbarAnnouncementChannelDescription =>
-      'Post updates other communities can follow';
+      'Diğer toplulukların kendi kanallarında takip edebileceği güncellemeler yayınla';
 
   @override
-  String get channelDetailsAnnouncementChannel => 'Announcement channel';
+  String get channelDetailsAnnouncementChannel => 'Duyuru kanalı';
 
   @override
-  String get channelSettingsAnnouncementChannel => 'Announcement channel';
+  String get channelSettingsAnnouncementChannel => 'Duyuru kanalı';
 
   @override
   String get channelSettingsAnnouncementChannelDescription =>
-      'Lets other communities follow this channel and get copies of what you publish.';
+      'Diğer toplulukların bu kanalı takip etmesini ve yayınladıklarınızın kopyalarını almasını sağlar.';
 
   @override
   String get channelSettingsStopAnnouncementTitle =>
-      'Stop being an announcement channel?';
+      'Duyuru kanalı olmaktan çıkılsın mı?';
 
   @override
   String channelSettingsStopAnnouncementBody(int count) {
@@ -15550,42 +15553,42 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       count,
       locale: localeName,
       other:
-          '$count channels follow this channel. Converting it to a text channel removes those follows.',
+          '$count kanal bu kanalı takip ediyor. Bu kanalı bir metin kanalına dönüştürmek, bu takipleri kaldırır.',
       one:
-          '1 channel follows this channel. Converting it to a text channel removes that follow.',
+          '1 kanal bu kanalı takip ediyor. Bu kanalı bir metin kanalına dönüştürmek, bu takibi kaldırır.',
     );
     return '$_temp0';
   }
 
   @override
   String get channelSettingsStopAnnouncementUnknown =>
-      'Converting this channel to a text channel removes every channel that follows it.';
+      'Bu kanalı bir metin kanalına dönüştürürseniz onu takip eden tüm kanalların takibi kaldırılır.';
 
   @override
-  String get channelSettingsConvertChannel => 'Convert';
+  String get channelSettingsConvertChannel => 'Dönüştür';
 
   @override
-  String get channelSettingsConvertFailed => 'Couldn\'t convert this channel';
+  String get channelSettingsConvertFailed => 'Bu kanal dönüştürülemedi';
 
   @override
   String get channelSettingsChannelHasFollowers =>
-      'This channel still has followers. Remove those follows before converting it.';
+      'Bu kanalı hâlâ başka kanallar takip ediyor. Dönüştürmeden önce bu takipleri kaldırın.';
 
   @override
-  String get channelMenuFollow => 'Follow channel';
+  String get channelMenuFollow => 'Kanalı takip et';
 
   @override
-  String get channelFollowTitle => 'Follow this channel';
+  String get channelFollowTitle => 'Bu kanalı takip et';
 
   @override
   String get channelFollowBody =>
-      'Choose where its published messages should go. You can unfollow any time in Community settings → Webhooks.';
+      'Yayınlanan mesajlarının nereye gideceğini seçin. Topluluk ayarları → Webhook\'lar bölümünden istediğiniz zaman takibi bırakabilirsiniz.';
 
   @override
-  String get channelFollowCommunity => 'Community';
+  String get channelFollowCommunity => 'Topluluk';
 
   @override
-  String get channelFollowChannel => 'Channel';
+  String get channelFollowChannel => 'Kanal';
 
   @override
   String get channelFollowSelectCommunity => 'Select a community';
@@ -15595,165 +15598,165 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get channelFollowAgeWarning =>
-      'This is an age-restricted channel. Updates can only go to age-restricted channels.';
+      'Bu, yaş kısıtlamalı bir kanaldır. Güncellemeler yalnızca yaş kısıtlamalı kanallara gidebilir.';
 
   @override
   String get channelFollowContentWarning =>
-      'This channel has a content warning. Updates can only go to channels with a content warning or an age restriction.';
+      'Bu kanalda içerik uyarısı var. Güncellemeler yalnızca içerik uyarısı veya yaş kısıtlaması olan kanallara gidebilir.';
 
   @override
   String get channelFollowHiddenHint =>
-      'Communities and channels where you can\'t manage webhooks are hidden.';
+      'Webhook\'ları yönetemediğiniz topluluklar ve kanallar gizlenir.';
 
   @override
   String get channelFollowEmpty =>
-      'You can\'t manage webhooks in any community. Ask an admin to follow this channel.';
+      'Hiçbir toplulukta webhook\'ları yönetemiyorsunuz. Bu kanalı takip etmesi için bir yöneticiden yardım isteyin.';
 
   @override
-  String get channelFollowSubmit => 'Follow';
+  String get channelFollowSubmit => 'Takip et';
 
   @override
-  String get channelFollowFailed => 'Couldn\'t follow this channel.';
+  String get channelFollowFailed => 'Bu kanal takip edilemedi.';
 
   @override
-  String get channelFollowSuccessTitle => 'Updates are on their way!';
+  String get channelFollowSuccessTitle => 'Güncellemeler yolda!';
 
   @override
   String channelFollowSuccessBody(String sourceName, String targetName) {
-    return 'Messages published in $sourceName will show up in #$targetName.';
+    return '$sourceName kanalında yayınlanan mesajlar #$targetName kanalında görünecek.';
   }
 
   @override
-  String get channelFollowSuccessDismiss => 'Got it!';
+  String get channelFollowSuccessDismiss => 'Tamamdır!';
 
   @override
   String get channelFollowBarrier =>
-      'Follow to get these announcements in a channel you choose.';
+      'Bu duyuruları seçtiğiniz bir kanalda almak için bu kanalı takip edin.';
 
   @override
-  String get channelHeaderFollow => 'Follow channel';
+  String get channelHeaderFollow => 'Kanalı takip et';
 
   @override
-  String get chatMessagePublish => 'Publish';
+  String get chatMessagePublish => 'Yayınla';
 
   @override
-  String get chatMessagePublished => 'Published';
+  String get chatMessagePublished => 'Yayınlandı';
 
   @override
-  String get chatMessagePublishConfirmTitle => 'Publish message?';
+  String get chatMessagePublishConfirmTitle => 'Mesaj yayınlansın mı?';
 
   @override
   String get chatMessagePublishConfirmBody =>
-      'This sends a copy to every channel that follows this one.';
+      'Bu, bu kanalı takip eden her kanala bir kopya gönderir.';
 
   @override
-  String get chatMessagePublishedToast => 'Message published';
+  String get chatMessagePublishedToast => 'Mesaj yayınlandı';
 
   @override
-  String get chatMessageAlreadyPublished =>
-      'This message is already published.';
+  String get chatMessageAlreadyPublished => 'Bu mesaj zaten yayınlandı.';
 
   @override
-  String get chatMessagePublishFailedTitle => 'Couldn\'t publish this message';
+  String get chatMessagePublishFailedTitle => 'Bu mesaj yayınlanamadı';
 
   @override
   String get chatMessagePublishFailedBody =>
-      'Something went wrong. Try again in a moment.';
+      'Bir sorun oluştu. Lütfen birazdan tekrar deneyin.';
 
   @override
-  String get chatMessagePublishLimitTitle => 'Slow down';
+  String get chatMessagePublishLimitTitle => 'Yavaşlayın';
 
   @override
   String chatMessagePublishLimitBody(String duration) {
-    return 'You can publish again in $duration.';
+    return '$duration sonra tekrar yayınlayabilirsiniz.';
   }
 
   @override
   String get chatMessagePublishLimitUnknown =>
-      'You are publishing too quickly. Try again in a moment.';
+      'Çok hızlı yayın yapıyorsunuz. Birazdan tekrar deneyin.';
 
   @override
   String get chatMessageDeletePublished =>
-      'This also removes the copies that were sent to channels following this one.';
+      'Bu işlem, bu kanalı takip eden kanallara gönderilen kopyaları da kaldırır.';
 
   @override
-  String get chatMessageEditPublishedTitle => 'Edit published message?';
+  String get chatMessageEditPublishedTitle =>
+      'Yayınlanan mesaj düzenlensin mi?';
 
   @override
   String get chatMessageEditPublishedBody =>
-      'This updates the copies that were sent to channels following this one.';
+      'Bu işlem, bu kanalı takip eden kanallara gönderilen kopyaları günceller.';
 
   @override
-  String get chatMessageEditPublishedSave => 'Save';
+  String get chatMessageEditPublishedSave => 'Kaydet';
 
   @override
-  String get chatMessageEditLimitTitle => 'Slow down';
+  String get chatMessageEditLimitTitle => 'Yavaşlayın';
 
   @override
   String chatMessageEditLimitBody(String duration) {
-    return 'You can edit this published message again in $duration.';
+    return 'Bu yayınlanmış mesajı $duration içinde tekrar düzenleyebilirsiniz.';
   }
 
   @override
   String get chatMessageEditLimitUnknown =>
-      'You are editing this published message too quickly. Try again in a moment.';
+      'Bu yayınlanmış mesajı çok hızlı düzenliyorsunuz. Lütfen bir süre sonra tekrar deneyin.';
 
   @override
-  String get chatMessageOriginalDeleted => '[Original message deleted]';
+  String get chatMessageOriginalDeleted => '[Orijinal mesaj silindi]';
 
   @override
-  String get userTagCommunity => 'Community';
+  String get userTagCommunity => 'Topluluk';
 
   @override
   String systemFollowAdd(String username, String source) {
-    return '$username followed $source into this channel. Messages published there will appear here.';
+    return '$username, bu kanalı $source kanalını takip edecek şekilde ayarladı. Orada yayınlanan mesajlar burada görünecek.';
   }
 
   @override
   String systemPreviewFollowAdd(String username, String source) {
-    return '$username followed $source into this channel.';
+    return '$username, bu kanalı $source kanalını takip edecek şekilde ayarladı.';
   }
 
   @override
-  String get publishNudgeNotSent => 'Not sent to followers yet.';
+  String get publishNudgeNotSent => 'Henüz takipçilere gönderilmedi.';
 
   @override
-  String get publishNudgeHideForever => 'Don\'t show again';
+  String get publishNudgeHideForever => 'Bir daha gösterme';
 
   @override
-  String get publishNudgeDismiss => 'Dismiss';
+  String get publishNudgeDismiss => 'Kapat';
 
   @override
-  String get channelSettingsFollowedChannels => 'Followed channels';
+  String get channelSettingsFollowedChannels => 'Takip edilen kanallar';
 
   @override
   String get channelSettingsFollowedChannelsDescription =>
-      'Announcement channels this channel follows. Unfollow to stop receiving copies.';
+      'Bu kanalın takip ettiği duyuru kanalları. Kopya almayı durdurmak için takibi bırakın.';
 
   @override
   String get guildSettingsFollowedChannelsDescription =>
-      'Announcement channels followed by channels in this community.';
+      'Bu topluluktaki kanallar tarafından takip edilen duyuru kanalları.';
 
   @override
   String channelSettingsFollowedFrom(String guildName, String channelName) {
-    return 'From $guildName #$channelName';
+    return 'Kaynak: $guildName #$channelName';
   }
 
   @override
   String get channelSettingsFollowedPaused =>
-      'Updates are paused because the source channel is no longer available.';
+      'Kaynak kanal artık kullanılamadığı için güncellemeler duraklatıldı.';
 
   @override
   String channelSettingsUnfollowTitle(String name) {
-    return 'Unfollow $name?';
+    return '$name takibi bırakılsın mı?';
   }
 
   @override
   String get channelSettingsUnfollowBody =>
-      'This channel will stop receiving copies from that announcement channel.';
+      'Bu kanal, o duyuru kanalından kopya almayı durduracak.';
 
   @override
-  String get channelSettingsUnfollow => 'Unfollow';
+  String get channelSettingsUnfollow => 'Takibi bırak';
 
   @override
   String get channelSettingsUnfollowFailed =>
@@ -15765,17 +15768,17 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   }
 
   @override
-  String get crosspostCommunityTitle => 'Community';
+  String get crosspostCommunityTitle => 'Topluluk';
 
   @override
-  String get crosspostGoToCommunity => 'Go to community';
+  String get crosspostGoToCommunity => 'Topluluğa git';
 
   @override
-  String get crosspostJoinCommunity => 'Join community';
+  String get crosspostJoinCommunity => 'Topluluğa katıl';
 
   @override
   String get crosspostSourceFailed =>
-      'Couldn\'t load this community. Try again in a moment.';
+      'Bu topluluk yüklenemedi. Bir süre sonra tekrar deneyin.';
 
   @override
   String get crosspostSourceUnavailable =>
@@ -15783,12 +15786,12 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String crosspostMembers(int count) {
-    return '$count members';
+    return '$count üye';
   }
 
   @override
   String crosspostOnline(int count) {
-    return '$count online';
+    return '$count çevrimiçi';
   }
 
   @override
@@ -15796,8 +15799,8 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count minutes',
-      one: '1 minute',
+      other: '$count dakika',
+      one: '1 dakika',
     );
     return '$_temp0';
   }
@@ -15807,21 +15810,21 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count seconds',
-      one: '1 second',
+      other: '$count saniye',
+      one: '1 saniye',
     );
     return '$_temp0';
   }
 
   @override
-  String get channelUnsupportedTitle => 'Unsupported channel type';
+  String get channelUnsupportedTitle => 'Desteklenmeyen kanal türü';
 
   @override
   String get channelUnsupportedBody =>
-      'This version of the app doesn\'t support this channel type.';
+      'Uygulamanın bu sürümü bu kanal türünü desteklemiyor.';
 
   @override
-  String get channelDetailsUnsupportedChannel => 'Unsupported channel';
+  String get channelDetailsUnsupportedChannel => 'Desteklenmeyen kanal';
 
   @override
   String get forumChannelTypeForum => 'Forum';

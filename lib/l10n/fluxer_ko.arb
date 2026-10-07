@@ -5769,6 +5769,10 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "메시지를 두 번 탭하여 반응:",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
     "chatMessageEdit": "메시지 수정",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -5776,6 +5780,14 @@
     "chatMessageReply": "답장",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
+    },
+    "notificationReplyPlaceholder": "메시지",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "답장을 보낼 수 없습니다",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
     },
     "chatMessageForward": "전달",
     "@chatMessageForward": {
@@ -6547,6 +6559,10 @@
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
     },
+    "chatImageCouldNotLoad": "이 이미지를 불러올 수 없습니다.",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
+    },
     "composerAutocompleteRoleMentionDescription": "이 채널을 볼 수 있는 이 역할의 사용자에게 알림을 보냅니다.",
     "@composerAutocompleteRoleMentionDescription": {
         "description": "Secondary line in the @ mention autocomplete when the row is a mentionable guild role."
@@ -7087,6 +7103,10 @@
     "instanceUrlPlaceholder": "인스턴스 URL 입력 (예: fluxer.app)",
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
+    },
+    "instanceUrlHelper": "공식 인스턴스에는 fluxer.app을 사용하거나 자체 호스팅 인스턴스의 정확한 URL을 사용하세요.",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
     },
     "resetToDefaultInstance": "Fluxer로 재설정",
     "@resetToDefaultInstance": {
@@ -9379,6 +9399,10 @@
     "@lookAndFeelChatWallpaperCustomLabel": {
         "description": "Chat wallpaper option that picks an image from the gallery."
     },
+    "lookAndFeelChatWallpaperStarfieldLabel": "별무리",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
+    },
     "lookAndFeelChatWallpaperColorLabel": "색상 {id}",
     "@lookAndFeelChatWallpaperColorLabel": {
         "description": "Accessibility label for a solid color wallpaper preset.",
@@ -10856,6 +10880,80 @@
     "userProfileLocalTime": "현지 시간",
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
+    },
+    "profileLocalTimeSettingsTitle": "프로필 현지 시간",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "시간대를 한 번 설정하면 {productName}에서 일광 절약 시간 변경 시 UTC 오프셋을 최신 상태로 유지할 수 있습니다. 다른 사용자는 정확한 시간대 식별자가 아닌 UTC 오프셋만 볼 수 있습니다.",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "프로필 현지 시간 편집",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "시간대",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "{productName}에서 프로필 현지 시간의 UTC 오프셋을 계산하는 데 사용할 시간대를 선택하세요.",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "시간대 검색",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "설정 안 됨",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "프로필의 현지 시간을 공유하도록 선택하면 다른 사용자는 현재 UTC 오프셋만 볼 수 있습니다. 정확한 시간대 식별자(예: {timezoneIdentifierExample})는 표시되지 않습니다. 해당 식별자는 일광 절약 시간이 바뀔 때 오프셋을 자동으로 업데이트하기 위해서만 {productName}에 저장됩니다.",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "모든 사람",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "전체 프로필을 볼 수 있는 모든 사람이 내 프로필 현지 시간을 볼 수 있도록 허용합니다",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "친구",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "친구가 내 현지 시간을 볼 수 있도록 허용합니다",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "커뮤니티 멤버",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "내가 속한 커뮤니티의 멤버가 내 현지 시간을 볼 수 있도록 허용합니다",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
     },
     "channelSettingsUrlPlaceholder": "https://example.com",
     "@channelSettingsUrlPlaceholder": {
@@ -13823,6 +13921,14 @@
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
     },
+    "accessibilityShowAltTextOnImagesLabel": "이미지에 대체 텍스트 표시",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "이미지에 대체 텍스트가 있는 경우 이미지 아래에 표시합니다.",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
     "accessibilityDimStrikethroughTextLabel": "취소선 텍스트 흐리게 표시",
     "@accessibilityDimStrikethroughTextLabel": {
         "description": "Toggle label for dimming strikethrough text in messages."
@@ -15915,6 +16021,72 @@
     "premiumPerkCustomThemes": "맞춤 테마",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "최대 4K/60fps",
+    "storePlutoniumPriceLine": "{monthly} 또는 {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/월",
+    "storePlutoniumYearSuffix": "/년",
+    "storePlutoniumPriceOr": "또는",
+    "storePlutoniumEmojiTitle": "어디서든 사용할 수 있는 이모티콘",
+    "storePlutoniumEmojiBody": "모든 커뮤니티의 맞춤 이모티콘과 스티커를 참여 중인 모든 채팅과 커뮤니티에서 사용해 보세요.",
+    "storePlutoniumProfileTitle": "눈에 띄는 프로필",
+    "storePlutoniumProfileBody": "움직이는 아바타와 배너, 구독자 배지, 사용자 이름* 뒤에 원하는 네 자리 태그, 그리고 각 커뮤니티별 개별 프로필을 받으세요.",
+    "storePlutoniumFilesTitle": "최대 500MB 파일 전송",
+    "storePlutoniumFilesBody": "전체 길이 동영상과 대용량 파일을 축소하지 않고 공유하세요. 무료 계정은 최대 25MB까지 보낼 수 있습니다.",
+    "storePlutoniumCompareTitle": "무료 및 Plutonium 비교",
+    "storePlutoniumCompareMobileNote": "이 기능들이 모두 모바일 앱에서 제공되는 것은 아닙니다. 일부 기능은 데스크톱에서만 사용할 수 있습니다.",
+    "storePlutoniumNotAvailable": "사용 불가",
+    "storePlutoniumAvailable": "사용 가능",
+    "storePlutoniumCompareTag": "사용자 이름 뒤 4자리 숫자 선택*",
+    "storePlutoniumCompareProfile": "커뮤니티별 별도 프로필",
+    "storePlutoniumCompareBadge": "프로필의 구독자 배지",
+    "storePlutoniumCompareBackgrounds": "저장할 수 있는 화상 통화 배경",
+    "storePlutoniumCompareCommunities": "가입할 수 있는 커뮤니티",
+    "storePlutoniumCompareCharacters": "단일 메시지당 글자 수",
+    "storePlutoniumCompareBookmarks": "북마크할 수 있는 메시지",
+    "storePlutoniumCompareUpload": "업로드할 수 있는 가장 큰 파일",
+    "storePlutoniumCompareSavedMedia": "나중에 저장할 수 있는 미디어 항목",
+    "storePlutoniumCompareAnimatedEmoji": "메시지에서 애니메이션 이모티콘 사용",
+    "storePlutoniumCompareCustomEmoji": "어떤 커뮤니티에서든 맞춤 이모티콘 및 스티커 사용",
+    "storePlutoniumCompareVideo": "영상 통화 및 화면 공유 품질",
+    "storePlutoniumCompareAvatar": "애니메이션 아바타 및 프로필 배너",
+    "storePlutoniumCompareEarlyAccess": "새로운 기능 미리 이용하기",
+    "storePlutoniumCompareThemes": "앱의 맞춤 테마",
+    "storePlutoniumVideoFree": "최대 720p, 30 FPS",
+    "storePlutoniumVideoPlutonium": "최대 4K, 60 FPS",
+    "storePlutoniumTagFootnote": "동일한 사용자 이름을 가진 다른 사람이 사용하지 않는 태그만 선택할 수 있습니다. 사용자 이름은 대소문자를 구분하지 않으므로 Mina#4821과 mina#4821은 동일하게 간주됩니다. #0000 태그는 Fluxer Visionary 멤버를 위해 예약되어 있습니다.",
+    "storePlutoniumLearnVisionary": "Visionary에 대해 자세히 알아보기.",
+    "storePlutoniumDonatePrompt": "Fluxer의 오픈 소스 개발만 후원하고 싶으신가요? ",
+    "storePlutoniumDonateLink": "대신 기부하기",
+    "storePlutoniumHighlightsLead": "구독하시면 Fluxer를 후원하고 다음 기능을 이용하실 수 있습니다",
+    "storePlutoniumHighlightEmoji": "모든 채팅에서 사용자 지정 이모티콘 및 스티커",
+    "storePlutoniumHighlightProfile": "애니메이션 프로필, 배지, 맞춤 4자리 숫자",
+    "storePlutoniumHighlightFiles": "최대 500MB 업로드",
+    "storePlutoniumHighlightMessages": "최대 4,000자 메시지 전송",
+    "storePlutoniumHighlightCommunityProfile": "커뮤니티별 별도 프로필",
+    "storePlutoniumHighlightsMore": "그 외 더 많은 혜택",
+    "storePlutoniumRenewsThroughPlay": "취소할 때까지 Google Play를 통해 자동 갱신됩니다.",
+    "storePlutoniumRenewsThroughAppStore": "취소할 때까지 App Store를 통해 자동 갱신됩니다.",
+    "storePlutoniumAlreadySubscribed": "이미 Fluxer Plutonium을 구독 중입니다.",
+    "storePlutoniumSavePercent": "{percent}% 절약",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "구매가 완료되었습니다. Plutonium이 활성화되면 여기에 표시됩니다.",
+    "storePlutoniumUnavailable": "이 기기에서는 아직 앱 내 구독을 이용할 수 없습니다.",
+    "storePlutoniumVisionaryStatus": "Visionary에는 영구 액세스가 포함되어 있으므로 정기 구독은 필요하지 않습니다.",
     "userSettingsNavShortcuts": "단축키",
     "@userSettingsNavShortcuts": {
         "description": "User settings navigation item for keyboard shortcuts."
@@ -16002,6 +16174,18 @@
     "defaultAppsWebBrowserExternal": "외부 브라우저",
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
+    },
+    "userSettingsNavAppIcon": "앱 아이콘",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "앱 아이콘",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "홈 화면에 표시될 아이콘을 선택하세요.",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
     },
     "advancedSettingsConfigure": "구성",
     "@advancedSettingsConfigure": {
@@ -16251,6 +16435,14 @@
     "authHidePassword": "비밀번호 숨기기",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "계속 작업 중입니다…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
+    },
+    "authVerificationFailed": "인증을 완료할 수 없습니다. 다시 시도해 주세요.",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
     },
     "chatLoadingMessages": "메시지 불러오는 중",
     "@chatLoadingMessages": {
@@ -17066,6 +17258,40 @@
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
+    "assistantNeedsLogin": "Fluxer를 열고 먼저 로그인하세요.",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "통화 중이 아닙니다.",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "Fluxer에서 찾을 수 없습니다.",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "이 인스턴스에서는 DM이 비활성화되어 있습니다.",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "Fluxer가 작업을 완료할 수 없습니다.",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "마이크를 음소거했습니다.",
+    "assistantOkUnmuted": "마이크 음소거를 해제했습니다.",
+    "assistantOkLeftVoice": "음성 채널을 나갔습니다.",
+    "assistantOkJoinedVoice": "음성 채널에 참여 중입니다.",
+    "assistantOkStartedCall": "통화 시작 중입니다.",
+    "assistantOkStatusSet": "상태가 {status}로 설정되었습니다.",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "Fluxer를 엽니다.",
     "applicationsTitle": "앱",
     "@applicationsTitle": {
         "description": "Title for the developer Applications settings tab."
@@ -17108,6 +17334,15 @@
         "description": "Empty-state body. apiName is the product API display name.",
         "placeholders": {
             "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "생성일: {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
                 "type": "String"
             }
         }
@@ -17292,6 +17527,10 @@
     "@applicationsOauthBuilderTitle": {
         "description": "Section title for the authorize URL builder."
     },
+    "applicationsOauthBuilderDescription": "범위 및 권한으로 승인 URL을 구성합니다.",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
     "applicationsScopes": "범위",
     "@applicationsScopes": {
         "description": "Label for OAuth2 scope checkboxes."
@@ -17324,6 +17563,10 @@
     "@applicationsAuthorizeUrlPlaceholder": {
         "description": "Placeholder when the authorize URL cannot be built yet."
     },
+    "applicationsCopyAuthorizeUrl": "승인 URL 복사",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
     "applicationsCopiedUrl": "URL이 클립보드에 복사되었습니다",
     "@applicationsCopiedUrl": {
         "description": "Toast after copying the authorize URL."
@@ -17343,6 +17586,15 @@
     "applicationsDelete": "애플리케이션 삭제",
     "@applicationsDelete": {
         "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "{name}을(를) 정말 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다. 봇 사용자를 포함한 모든 관련 데이터가 영구적으로 삭제됩니다.",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     },
     "applicationsDeleteFailed": "애플리케이션을 삭제할 수 없습니다",
     "@applicationsDeleteFailed": {
@@ -17432,6 +17684,10 @@
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
     },
+    "voiceOutputRouteEarpiece": "수화기",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
     "voiceOutputRouteHeadset": "헤드폰",
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
@@ -17439,6 +17695,14 @@
     "doubleTapReactionEdit": "편집",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "기본값 편집",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "두 번 탭하여 이모티콘 선택",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
     },
     "chatMessagePinConfirm": "고정",
     "@chatMessagePinConfirm": {
@@ -17452,9 +17716,17 @@
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."
     },
+    "appIconOptionStarfield": "별무리",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
     "appIconOptionSweden": "스웨덴",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "이 기기에서는 앱 아이콘을 변경할 수 없습니다.",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     },
     "userSettingsLogOutConfirmTitle": "로그아웃하시겠어요?",
     "@userSettingsLogOutConfirmTitle": {
@@ -17484,5 +17756,178 @@
     "@guildSettingsCommunityDeleted": {
         "description": "Success toast after a community is deleted."
     },
-    "assistantOkMessageSent": "메시지 전송 완료."
+    "guildSettingsDeleteCommunityFailed": "이 커뮤니티를 삭제할 수 없습니다",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantOkMessageSent": "메시지 전송 완료.",
+    "assistantOkCustomStatusSet": "상태 메시지가 업데이트되었습니다.",
+    "assistantOkCustomStatusCleared": "상태 메시지 설정이 지워졌습니다.",
+    "guildNavbarAnnouncementChannel": "공지 채널",
+    "guildNavbarAnnouncementChannelDescription": "다른 커뮤니티에서 자신의 채널로 팔로우할 수 있는 업데이트를 게시하세요",
+    "channelDetailsAnnouncementChannel": "공지 채널",
+    "channelSettingsAnnouncementChannel": "공지 채널",
+    "channelSettingsAnnouncementChannelDescription": "다른 커뮤니티에서 이 채널을 팔로우하고 게시하는 내용의 복사본을 받을 수 있습니다.",
+    "channelSettingsStopAnnouncementTitle": "공지 채널 사용을 중지하시겠어요?",
+    "channelSettingsStopAnnouncementBody": "{count, plural, =1{1개의 채널이 이 채널을 팔로우하고 있습니다. 이 채널을 텍스트 채널로 전환하면 팔로우가 제거됩니다.} other{{count}개의 채널이 이 채널을 팔로우하고 있습니다. 이 채널을 텍스트 채널로 전환하면 팔로우가 제거됩니다.}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "이 채널을 텍스트 채널로 전환하면 이 채널을 팔로우하는 모든 채널의 팔로우가 해제됩니다.",
+    "channelSettingsConvertChannel": "전환",
+    "channelSettingsConvertFailed": "채널을 변환할 수 없습니다",
+    "channelSettingsChannelHasFollowers": "다른 채널이 아직 이 채널을 팔로우하고 있습니다. 채널을 전환하기 전에 해당 팔로우를 제거하세요.",
+    "channelMenuFollow": "채널 팔로우",
+    "channelFollowTitle": "이 채널 팔로우",
+    "channelFollowBody": "게시된 메시지를 보낼 위치를 선택하세요. 커뮤니티 설정 → 웹훅에서 언제든지 팔로우를 취소할 수 있습니다.",
+    "channelFollowCommunity": "커뮤니티",
+    "channelFollowChannel": "채널",
+    "channelFollowAgeWarning": "이 채널은 연령 제한이 있습니다. 업데이트는 연령 제한 채널로만 전송될 수 있습니다.",
+    "channelFollowContentWarning": "이 채널에는 콘텐츠 경고가 있습니다. 콘텐츠 경고 또는 연령 제한이 있는 채널에만 업데이트를 보낼 수 있습니다.",
+    "channelFollowHiddenHint": "웹훅을 관리할 수 없는 커뮤니티 및 채널은 숨겨집니다.",
+    "channelFollowEmpty": "어떤 커뮤니티에서도 웹훅을 관리할 수 없습니다. 이 채널을 팔로우하도록 관리자에게 요청하세요.",
+    "channelFollowSubmit": "팔로우",
+    "channelFollowFailed": "이 채널을 팔로우할 수 없습니다.",
+    "channelFollowSuccessTitle": "업데이트가 도착했어요!",
+    "channelFollowSuccessBody": "{sourceName}에 게시된 메시지가 #{targetName}에 표시됩니다.",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "알겠습니다!",
+    "channelFollowBarrier": "이 채널을 팔로우하면 선택한 채널에서 이 공지사항을 받아볼 수 있습니다.",
+    "channelHeaderFollow": "채널 팔로우",
+    "chatMessagePublish": "게시",
+    "chatMessagePublished": "게시됨",
+    "chatMessagePublishConfirmTitle": "메시지를 게시하시겠습니까?",
+    "chatMessagePublishConfirmBody": "이 메시지는 이 채널을 팔로우하는 모든 채널에 복사본을 보냅니다.",
+    "chatMessagePublishedToast": "메시지가 게시되었습니다",
+    "chatMessageAlreadyPublished": "이 메시지는 이미 게시되었습니다.",
+    "chatMessagePublishFailedTitle": "메시지를 게시할 수 없습니다",
+    "chatMessagePublishFailedBody": "문제가 발생했습니다. 잠시 후 다시 시도해 주세요.",
+    "chatMessagePublishLimitTitle": "잠시만요",
+    "chatMessagePublishLimitBody": "{duration} 후에 다시 게시할 수 있습니다.",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "너무 빠르게 게시하고 있습니다. 잠시 후에 다시 시도해 주세요.",
+    "chatMessageDeletePublished": "이 채널을 팔로우하는 채널로 전송된 사본도 삭제됩니다.",
+    "chatMessageEditPublishedTitle": "게시된 메시지를 수정하시겠어요?",
+    "chatMessageEditPublishedBody": "이 채널을 팔로우하는 채널로 전송된 사본이 업데이트됩니다.",
+    "chatMessageEditPublishedSave": "저장",
+    "chatMessageEditLimitTitle": "잠시만요",
+    "chatMessageEditLimitBody": "이 게시된 메시지는 {duration} 후에 다시 수정할 수 있습니다.",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "게시된 메시지를 너무 빨리 편집하고 있습니다. 잠시 후에 다시 시도하세요.",
+    "chatMessageOriginalDeleted": "[원본 메시지가 삭제되었습니다]",
+    "userTagCommunity": "커뮤니티",
+    "systemFollowAdd": "{username}님이 이 채널이 {source}을(를) 팔로우하도록 설정했습니다. 그곳에 게시된 메시지가 여기에 표시됩니다.",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username}님이 이 채널이 {source}을(를) 팔로우하도록 설정했습니다.",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "아직 팔로워에게 전송되지 않았습니다.",
+    "publishNudgeHideForever": "다시 표시 안 함",
+    "publishNudgeDismiss": "닫기",
+    "channelSettingsFollowedChannels": "팔로우 중인 채널",
+    "channelSettingsFollowedChannelsDescription": "이 채널이 팔로우하는 공지 채널입니다. 복사본 수신을 중지하려면 팔로우를 취소하세요.",
+    "guildSettingsFollowedChannelsDescription": "이 커뮤니티의 채널이 팔로우하는 공지 채널입니다.",
+    "channelSettingsFollowedFrom": "{guildName} #{channelName}에서",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "소스 채널을 더 이상 사용할 수 없어 업데이트가 일시 중지되었습니다.",
+    "channelSettingsUnfollowTitle": "{name} 팔로우를 취소하시겠어요?",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "이 채널은 해당 공지 채널로부터 더 이상 복사본을 받지 않습니다.",
+    "channelSettingsUnfollow": "팔로우 취소",
+    "crosspostCommunityTitle": "커뮤니티",
+    "crosspostGoToCommunity": "커뮤니티로 이동",
+    "crosspostJoinCommunity": "커뮤니티 가입",
+    "crosspostSourceFailed": "이 커뮤니티를 불러올 수 없습니다. 잠시 후 다시 시도해 주세요.",
+    "crosspostMembers": "멤버 {count}명",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "{count}명 온라인",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, =1{1분} other{{count}분}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, =1{1초} other{{count}초}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "지원되지 않는 채널 유형",
+    "channelUnsupportedBody": "이 앱 버전에서는 이 채널 유형을 지원하지 않습니다.",
+    "channelDetailsUnsupportedChannel": "지원되지 않는 채널"
 }

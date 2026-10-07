@@ -3026,7 +3026,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String applicationsCreated(String date) {
-    return 'Created $date';
+    return 'Sukurta $date';
   }
 
   @override
@@ -3186,7 +3186,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get applicationsOauthBuilderDescription =>
-      'Construct an authorize URL with scopes and permissions.';
+      'Sukurkite autorizavimo URL su sritimis ir leidimais.';
 
   @override
   String get applicationsScopes => 'Leidimų sritys';
@@ -3216,7 +3216,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Pasirinkite leidimų sritis (ir nukreipimo URI, jei reikia)';
 
   @override
-  String get applicationsCopyAuthorizeUrl => 'Copy authorize URL';
+  String get applicationsCopyAuthorizeUrl => 'Kopijuoti autorizavimo URL';
 
   @override
   String get applicationsCopiedUrl => 'URL nukopijuotas į iškarpinę';
@@ -3237,7 +3237,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String applicationsDeleteConfirmDescription(String name) {
-    return 'Are you sure you want to delete $name? This action cannot be undone. All associated data, including the bot user, will be permanently deleted.';
+    return 'Ar tikrai norite ištrinti $name? Šio veiksmo anuliuoti negalima. Visi susiję duomenys, įskaitant boto naudotoją, bus ištrinti visam laikui.';
   }
 
   @override
@@ -3489,58 +3489,58 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get userProfileLocalTime => 'Vietinis laikas';
 
   @override
-  String get profileLocalTimeSettingsTitle => 'Profile local time';
+  String get profileLocalTimeSettingsTitle => 'Profilio vietinis laikas';
 
   @override
   String profileLocalTimeSettingsSummary(String productName) {
-    return 'Set your time zone once so $productName can keep your UTC offset current when daylight saving time changes. Other people can only see your UTC offset, not your exact time zone identifier.';
+    return 'Nustatykite laiko juostą vieną kartą, kad $productName galėtų atnaujinti jūsų UTC poslinkį pasikeitus vasaros laikui. Kiti žmonės mato tik jūsų UTC poslinkį, o ne tikslų laiko juostos identifikatorių.';
   }
 
   @override
-  String get profileLocalTimeEditButton => 'Edit profile local time';
+  String get profileLocalTimeEditButton => 'Redaguoti profilio vietinį laiką';
 
   @override
-  String get profileLocalTimeTimezoneLabel => 'Time zone';
+  String get profileLocalTimeTimezoneLabel => 'Laiko juosta';
 
   @override
   String profileLocalTimeTimezoneHelp(String productName) {
-    return 'Choose the time zone $productName uses to calculate your UTC offset for profile local time.';
+    return 'Pasirinkite laiko zoną, kurią $productName naudoja apskaičiuodama jūsų UTC poslinkį, kad būtų rodomas vietinis profilio laikas.';
   }
 
   @override
-  String get profileLocalTimeSearchTimezones => 'Search time zones';
+  String get profileLocalTimeSearchTimezones => 'Ieškoti laiko juostų';
 
   @override
-  String get profileLocalTimeNotSet => 'Not set';
+  String get profileLocalTimeNotSet => 'Nenustatyta';
 
   @override
   String profileLocalTimePrivacyNote(
     String timezoneIdentifierExample,
     String productName,
   ) {
-    return 'Other people can only see your current UTC offset when you choose to share profile local time. They do not see your exact time zone identifier, such as $timezoneIdentifierExample. $productName stores that identifier only so the offset can update automatically when daylight saving time changes.';
+    return 'Kiti žmonės mato tik jūsų dabartinį UTC poslinkį, kai nusprendžiate dalytis profilio vietiniu laiku. Jie nemato tikslaus jūsų laiko juostos identifikatoriaus, pavyzdžiui, $timezoneIdentifierExample. $productName šį identifikatorių saugo tik tam, kad poslinkis būtų automatiškai atnaujintas pasikeitus vasaros laikui.';
   }
 
   @override
-  String get profileLocalTimePrivacyEveryone => 'Everyone';
+  String get profileLocalTimePrivacyEveryone => 'Visi';
 
   @override
   String get profileLocalTimePrivacyEveryoneDesc =>
-      'Allow anyone who can view your full profile to see your local time';
+      'Leisti visiems, kurie gali matyti visą jūsų profilį, matyti jūsų vietos laiką';
 
   @override
-  String get profileLocalTimePrivacyFriends => 'Friends';
+  String get profileLocalTimePrivacyFriends => 'Draugai';
 
   @override
   String get profileLocalTimePrivacyFriendsDesc =>
-      'Allow your friends to see your local time';
+      'Leisti draugams matyti jūsų profilio vietinį laiką';
 
   @override
-  String get profileLocalTimePrivacyCommunityMembers => 'Community members';
+  String get profileLocalTimePrivacyCommunityMembers => 'Bendruomenės nariai';
 
   @override
   String get profileLocalTimePrivacyCommunityMembersDesc =>
-      'Allow members from communities you\'re in to see your local time';
+      'Leisti bendruomenių, kuriose esate, nariams matyti jūsų profilio vietinį laiką';
 
   @override
   String get userProfileSameTimeAsYou => 'Toks pat laikas kaip ir jūsų';
@@ -4990,7 +4990,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get lookAndFeelChatWallpaperCustomLabel => 'Pasirinktinis vaizdas';
 
   @override
-  String get lookAndFeelChatWallpaperStarfieldLabel => 'Starfield';
+  String get lookAndFeelChatWallpaperStarfieldLabel => 'Žvaigždžių laukas';
 
   @override
   String lookAndFeelChatWallpaperColorLabel(String id) {
@@ -5627,11 +5627,11 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get accessibilityShowAltTextOnImagesLabel =>
-      'Show alternative text on images';
+      'Rodyti alternatyvųjį tekstą prie paveikslėlių';
 
   @override
   String get accessibilityShowAltTextOnImagesDescription =>
-      'Display alternative text below images when it is available.';
+      'Rodyti alternatyvųjį tekstą po paveikslėliais, kai jis pasiekiamas.';
 
   @override
   String get accessibilityDimStrikethroughTextLabel =>
@@ -6398,7 +6398,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get voiceOutputRouteSpeaker => 'Garsiakalbis';
 
   @override
-  String get voiceOutputRouteEarpiece => 'Earpiece';
+  String get voiceOutputRouteEarpiece => 'Ausinė';
 
   @override
   String get voiceOutputRouteHeadset => 'Ausinės';
@@ -7212,16 +7212,18 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get chatMessageAddReaction => 'Pridėti reakciją';
 
   @override
-  String get doubleTapReactionHint => 'Double tap a message to';
+  String get doubleTapReactionHint =>
+      'Dukart bakstelėkite žinutę, kad sureaguotumėte';
 
   @override
   String get doubleTapReactionEdit => 'Redaguoti';
 
   @override
-  String get doubleTapReactionEditTitle => 'Edit default';
+  String get doubleTapReactionEditTitle => 'Redaguoti numatytąjį';
 
   @override
-  String get doubleTapReactionEditSubtitle => 'Choose double tap emoji';
+  String get doubleTapReactionEditSubtitle =>
+      'Pasirinkite dukart palietus siunčiamą jaustuką';
 
   @override
   String get chatMessageEdit => 'Redaguoti žinutę';
@@ -7230,10 +7232,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get chatMessageReply => 'Atsakyti';
 
   @override
-  String get notificationReplyPlaceholder => 'Message';
+  String get notificationReplyPlaceholder => 'Žinutė';
 
   @override
-  String get notificationReplyFailed => 'Couldn\'t send reply';
+  String get notificationReplyFailed => 'Nepavyko išsiųsti atsakymo';
 
   @override
   String get chatMessageForward => 'Persiųsti';
@@ -7993,7 +7995,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get chatVideoPlaybackFailed => 'Nepavyko paleisti šio vaizdo įrašo.';
 
   @override
-  String get chatImageCouldNotLoad => 'Could not load this image.';
+  String get chatImageCouldNotLoad => 'Nepavyko įkelti šio paveikslėlio.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
@@ -10189,180 +10191,187 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String storePlutoniumPriceLine(String monthly, String yearly) {
-    return '$monthly or $yearly';
+    return '$monthly arba $yearly';
   }
 
   @override
-  String get storePlutoniumMonthSuffix => '/mo';
+  String get storePlutoniumMonthSuffix => '/mėn.';
 
   @override
-  String get storePlutoniumYearSuffix => '/yr';
+  String get storePlutoniumYearSuffix => '/m.';
 
   @override
-  String get storePlutoniumPriceOr => 'or';
+  String get storePlutoniumPriceOr => 'arba';
 
   @override
-  String get storePlutoniumEmojiTitle => 'Your emojis, everywhere';
+  String get storePlutoniumEmojiTitle => 'Jūsų jaustukai visur';
 
   @override
   String get storePlutoniumEmojiBody =>
-      'Bring custom emojis and stickers from any of your communities into every chat and community you\'re in.';
+      'Įkelkite pasirinktinius jaustukus ir lipdukus iš bet kurios bendruomenės į kiekvieną pokalbį ir bendruomenę, kurioje esate.';
 
   @override
-  String get storePlutoniumProfileTitle => 'A profile that stands out';
+  String get storePlutoniumProfileTitle => 'Profilis, kuris išsiskiria';
 
   @override
   String get storePlutoniumProfileBody =>
-      'Get an animated avatar and banner, a subscriber badge, the four-digit tag you want after your username*, and a separate profile for each community.';
+      'Gaukite animuotą avatarą ir reklamjuostę, prenumeratoriaus ženklelį, norimą keturių skaitmenų žymę po naudotojo vardo* ir atskirą profilį kiekvienai bendruomenei.';
 
   @override
-  String get storePlutoniumFilesTitle => 'Send files up to 500 MB';
+  String get storePlutoniumFilesTitle => 'Siųskite iki 500 MB failus';
 
   @override
   String get storePlutoniumFilesBody =>
-      'Share full-length videos and big files without shrinking them first. Free accounts can send up to 25 MB.';
+      'Bendrinkite viso ilgio vaizdo įrašus ir didelius failus jų nesumažinę. Nemokamos paskyros gali siųsti iki 25 MB.';
 
   @override
-  String get storePlutoniumCompareTitle => 'Compare Free and Plutonium';
+  String get storePlutoniumCompareTitle =>
+      'Palyginkite nemokamą planą ir Plutonium';
 
   @override
   String get storePlutoniumCompareMobileNote =>
-      'Not all of these features are in the mobile app. Some are only available on desktop.';
+      'Ne visos šios funkcijos yra mobiliojoje programėlėje. Kai kurios pasiekiamos tik kompiuteryje.';
 
   @override
-  String get storePlutoniumNotAvailable => 'Not available';
+  String get storePlutoniumNotAvailable => 'Nepasiekiama';
 
   @override
-  String get storePlutoniumAvailable => 'Available';
+  String get storePlutoniumAvailable => 'Pasiekiama';
 
   @override
   String get storePlutoniumCompareTag =>
-      'Pick the 4-digit number after your username*';
+      'Pasirinkite 4 skaitmenų numerį po savo naudotojo vardo*';
 
   @override
   String get storePlutoniumCompareProfile =>
-      'A separate profile for each community';
+      'Atskiras profilis kiekvienai bendruomenei';
 
   @override
-  String get storePlutoniumCompareBadge => 'Subscriber badge on your profile';
+  String get storePlutoniumCompareBadge =>
+      'Prenumeratoriaus ženklelis jūsų profilyje';
 
   @override
   String get storePlutoniumCompareBackgrounds =>
-      'Video call backgrounds you can save';
+      'Vaizdo skambučių fonai, kuriuos galite išsaugoti';
 
   @override
-  String get storePlutoniumCompareCommunities => 'Communities you can join';
+  String get storePlutoniumCompareCommunities =>
+      'Bendruomenės, prie kurių galite prisijungti';
 
   @override
-  String get storePlutoniumCompareCharacters =>
-      'Characters in a single message';
+  String get storePlutoniumCompareCharacters => 'Simbolių vienoje žinutėje';
 
   @override
-  String get storePlutoniumCompareBookmarks => 'Messages you can bookmark';
+  String get storePlutoniumCompareBookmarks =>
+      'Žinutės, kurias galite pažymėti';
 
   @override
-  String get storePlutoniumCompareUpload => 'Largest file you can upload';
+  String get storePlutoniumCompareUpload =>
+      'Didžiausias failas, kurį galite įkelti';
 
   @override
   String get storePlutoniumCompareSavedMedia =>
-      'Media items you can save for later';
+      'Medijos elementai, kuriuos galite išsaugoti vėliau';
 
   @override
   String get storePlutoniumCompareAnimatedEmoji =>
-      'Use animated emojis in messages';
+      'Naudokite animuotus jaustukus žinutėse';
 
   @override
   String get storePlutoniumCompareCustomEmoji =>
-      'Use custom emojis and stickers in any community';
+      'Naudokite pasirinktinius jaustukus ir lipdukus bet kurioje bendruomenėje';
 
   @override
   String get storePlutoniumCompareVideo =>
-      'Video call and screen share quality';
+      'Vaizdo skambučių ir ekrano bendrinimo kokybė';
 
   @override
   String get storePlutoniumCompareAvatar =>
-      'Animated avatar and profile banner';
+      'Animuotas avataras ir profilio reklamjuostė';
 
   @override
-  String get storePlutoniumCompareEarlyAccess => 'Early access to new features';
+  String get storePlutoniumCompareEarlyAccess =>
+      'Ankstyvoji prieiga prie naujų funkcijų';
 
   @override
-  String get storePlutoniumCompareThemes => 'Custom themes for the app';
+  String get storePlutoniumCompareThemes => 'Pasirinktinės temos programai';
 
   @override
-  String get storePlutoniumVideoFree => 'Up to 720p at 30 FPS';
+  String get storePlutoniumVideoFree => 'Iki 720p esant 30 kadrų per sekundę';
 
   @override
-  String get storePlutoniumVideoPlutonium => 'Up to 4K at 60 FPS';
+  String get storePlutoniumVideoPlutonium =>
+      'Iki 4K esant 60 kadrų per sekundę';
 
   @override
   String get storePlutoniumTagFootnote =>
-      'You can only pick a tag that nobody else with the same username already has. Usernames aren\'t case sensitive, so Mina#4821 and mina#4821 count as the same. The #0000 tag is reserved for Fluxer Visionary members.';
+      'Galite pasirinkti tik tokį žymeklį, kurio dar neturi joks kitas naudotojas su tokiu pat naudotojo vardu. Naudotojo vardai nėra jautrūs didžiosioms ir mažosioms raidėms, todėl Mina#4821 ir mina#4821 laikomi tokiais pačiais. Žymeklis #0000 yra skirtas Fluxer Visionary nariams.';
 
   @override
-  String get storePlutoniumLearnVisionary => 'Learn more about Visionary.';
+  String get storePlutoniumLearnVisionary =>
+      'Sužinokite daugiau apie Visionary.';
 
   @override
   String get storePlutoniumDonatePrompt =>
-      'Just want to support Fluxer\'s open source development? ';
+      'Tiesiog norite paremti atvirojo kodo Fluxer kūrimą? ';
 
   @override
-  String get storePlutoniumDonateLink => 'Donate instead.';
+  String get storePlutoniumDonateLink => 'Verčiau paaukoti.';
 
   @override
   String get storePlutoniumHighlightsLead =>
-      'Subscribing funds Fluxer and unlocks';
+      'Prenumeruodami finansuojate Fluxer ir atrakinate';
 
   @override
   String get storePlutoniumHighlightEmoji =>
-      'Custom emoji and stickers in any chat';
+      'Pasirinktiniai jaustukai ir lipdukai bet kuriame pokalbyje';
 
   @override
   String get storePlutoniumHighlightProfile =>
-      'Animated profile, badge, and custom 4-digit number';
+      'Animuotas profilis, ženklelis ir pasirinktas 4 skaitmenų numeris';
 
   @override
-  String get storePlutoniumHighlightFiles => 'Uploads up to 500 MB';
+  String get storePlutoniumHighlightFiles => 'Įkėlimai iki 500 MB';
 
   @override
   String get storePlutoniumHighlightMessages =>
-      'Send messages up to 4,000 characters';
+      'Siųskite iki 4 000 simbolių ilgio žinutes';
 
   @override
   String get storePlutoniumHighlightCommunityProfile =>
-      'A separate profile for each community';
+      'Atskiras profilis kiekvienai bendruomenei';
 
   @override
-  String get storePlutoniumHighlightsMore => 'And more';
+  String get storePlutoniumHighlightsMore => 'Ir dar daugiau';
 
   @override
   String get storePlutoniumRenewsThroughPlay =>
-      'Renews automatically through Google Play until you cancel.';
+      'Automatiškai atnaujinama per Google Play, kol neatšauksite.';
 
   @override
   String get storePlutoniumRenewsThroughAppStore =>
-      'Renews automatically through the App Store until you cancel.';
+      'Automatiškai atnaujinama per App Store, kol neatšauksite.';
 
   @override
   String get storePlutoniumAlreadySubscribed =>
-      'You already have a Fluxer Plutonium subscription.';
+      'Jau turite Fluxer Plutonium prenumeratą.';
 
   @override
   String storePlutoniumSavePercent(int percent) {
-    return 'Save $percent%';
+    return 'Sutaupykite $percent%';
   }
 
   @override
   String get storePlutoniumWaiting =>
-      'Purchase received. Plutonium will show here once it activates.';
+      'Pirkinys gautas. Plutonium čia atsiras, kai tik bus aktyvuotas.';
 
   @override
   String get storePlutoniumUnavailable =>
-      'Subscriptions in the app aren\'t available on this device yet.';
+      'Prenumeratos programėlėje kol kas nepasiekiamos šiame įrenginyje.';
 
   @override
   String get storePlutoniumVisionaryStatus =>
-      'Visionary already includes permanent access, so a recurring subscription isn\'t needed.';
+      'Visionary jau apima nuolatinę prieigą, todėl pasikartojanti prenumerata nereikalinga.';
 
   @override
   String get userSettingsNavPrivacyDashboard =>
@@ -10945,27 +10954,27 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get defaultAppsWebBrowserExternal => 'Išorinė naršyklė';
 
   @override
-  String get userSettingsNavAppIcon => 'App icon';
+  String get userSettingsNavAppIcon => 'Programėlės piktograma';
 
   @override
-  String get appIconSectionTitle => 'App icon';
+  String get appIconSectionTitle => 'Programėlės piktograma';
 
   @override
   String get appIconSectionDescription =>
-      'Choose which icon appears on your home screen.';
+      'Pasirinkite, kuri piktograma bus rodoma pagrindiniame ekrane.';
 
   @override
   String get appIconOptionDefault => 'Numatytasis';
 
   @override
-  String get appIconOptionStarfield => 'Starfield';
+  String get appIconOptionStarfield => 'Žvaigždžių laukas';
 
   @override
   String get appIconOptionSweden => 'Švedija';
 
   @override
   String get appIconUnsupported =>
-      'Changing the app icon is not available on this device.';
+      'Programėlės piktogramos keitimas šiame įrenginyje negalimas.';
 
   @override
   String get userSettingsNavAdvanced => 'Išplėstiniai';
@@ -11817,7 +11826,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get instanceUrlHelper =>
-      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+      'Naudokite fluxer.app oficialiam egzemplioriui arba tikslų savarankiškai priglobto egzemplioriaus URL.';
 
   @override
   String get resetToDefaultInstance => 'Atstatyti į Fluxer';
@@ -12037,11 +12046,11 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get authHidePassword => 'Slėpti slaptažodį';
 
   @override
-  String get authCheckStillWorking => 'Still working on it…';
+  String get authCheckStillWorking => 'Vis dar dirbama…';
 
   @override
   String get authVerificationFailed =>
-      'Couldn\'t complete verification. Try again.';
+      'Nepavyko užbaigti patvirtinimo. Bandykite dar kartą.';
 
   @override
   String get chatLoadingMessages => 'Įkeliamos žinutės';
@@ -14585,7 +14594,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+      'Nepavyko ištrinti šios bendruomenės';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
@@ -15616,73 +15625,74 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get homeQuickActionDms => 'Tiesioginiai pranešimai';
 
   @override
-  String get assistantNeedsLogin => 'Open Fluxer and sign in first.';
+  String get assistantNeedsLogin =>
+      'Pirmiausia atidarykite Fluxer ir prisijunkite.';
 
   @override
-  String get assistantNotInVoice => 'You\'re not in a call.';
+  String get assistantNotInVoice => 'Jūs nedalyvaujate skambutyje.';
 
   @override
-  String get assistantNotFound => 'Fluxer could not find that.';
+  String get assistantNotFound => 'Fluxer to nerado.';
 
   @override
   String get assistantDmsDisabled =>
-      'Direct messages are disabled on this instance.';
+      'Tiesioginės žinutės šiame egzemplioriuje išjungtos.';
 
   @override
-  String get assistantFailed => 'Fluxer could not complete that.';
+  String get assistantFailed => 'Fluxer negalėjo to atlikti.';
 
   @override
-  String get assistantOkMuted => 'Muted.';
+  String get assistantOkMuted => 'Mikrofonas nutildytas.';
 
   @override
-  String get assistantOkUnmuted => 'Unmuted.';
+  String get assistantOkUnmuted => 'Mikrofonas įjungtas.';
 
   @override
-  String get assistantOkLeftVoice => 'Left voice.';
+  String get assistantOkLeftVoice => 'Palikote balso kanalą.';
 
   @override
-  String get assistantOkJoinedVoice => 'Joining voice.';
+  String get assistantOkJoinedVoice => 'Jungiamasi prie balso kanalo.';
 
   @override
-  String get assistantOkStartedCall => 'Starting the call.';
+  String get assistantOkStartedCall => 'Pradedamas skambutis.';
 
   @override
   String assistantOkStatusSet(String status) {
-    return 'Status set to $status.';
+    return 'Būsena nustatyta į „$status“.';
   }
 
   @override
-  String get assistantOkOpened => 'Opening Fluxer.';
+  String get assistantOkOpened => 'Atidaromas Fluxer.';
 
   @override
   String get assistantOkMessageSent => 'Žinutė išsiųsta.';
 
   @override
-  String get assistantOkCustomStatusSet => 'Custom status updated.';
+  String get assistantOkCustomStatusSet => 'Pasirinktinė būsena atnaujinta.';
 
   @override
-  String get assistantOkCustomStatusCleared => 'Custom status cleared.';
+  String get assistantOkCustomStatusCleared => 'Pasirinktinė būsena išvalyta.';
 
   @override
-  String get guildNavbarAnnouncementChannel => 'Announcement';
+  String get guildNavbarAnnouncementChannel => 'Skelbimų kanalas';
 
   @override
   String get guildNavbarAnnouncementChannelDescription =>
-      'Post updates other communities can follow';
+      'Skelbkite naujienas, kurias kitos bendruomenės gali sekti savo kanaluose';
 
   @override
-  String get channelDetailsAnnouncementChannel => 'Announcement channel';
+  String get channelDetailsAnnouncementChannel => 'Skelbimų kanalas';
 
   @override
-  String get channelSettingsAnnouncementChannel => 'Announcement channel';
+  String get channelSettingsAnnouncementChannel => 'Skelbimų kanalas';
 
   @override
   String get channelSettingsAnnouncementChannelDescription =>
-      'Lets other communities follow this channel and get copies of what you publish.';
+      'Leidžia kitoms bendruomenėms sekti šį kanalą ir gauti jūsų skelbiamų įrašų kopijas.';
 
   @override
   String get channelSettingsStopAnnouncementTitle =>
-      'Stop being an announcement channel?';
+      'Nebebūti skelbimų kanalu?';
 
   @override
   String channelSettingsStopAnnouncementBody(int count) {
@@ -15690,42 +15700,46 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       count,
       locale: localeName,
       other:
-          '$count channels follow this channel. Converting it to a text channel removes those follows.',
+          '$count kanalų seka šį kanalą. Pavertus jį teksto kanalu, šie sekimai bus pašalinti.',
+      many:
+          '$count kanalo seka šį kanalą. Pavertus jį teksto kanalu, šie sekimai bus pašalinti.',
+      few:
+          '$count kanalai seka šį kanalą. Pavertus jį teksto kanalu, šie sekimai bus pašalinti.',
       one:
-          '1 channel follows this channel. Converting it to a text channel removes that follow.',
+          '$count kanalas seka šį kanalą. Pavertus jį teksto kanalu, šis sekimas bus pašalintas.',
     );
     return '$_temp0';
   }
 
   @override
   String get channelSettingsStopAnnouncementUnknown =>
-      'Converting this channel to a text channel removes every channel that follows it.';
+      'Pavertus šį kanalą teksto kanalu, visi jį sekantys kanalai nustos jį sekti.';
 
   @override
-  String get channelSettingsConvertChannel => 'Convert';
+  String get channelSettingsConvertChannel => 'Konvertuoti';
 
   @override
-  String get channelSettingsConvertFailed => 'Couldn\'t convert this channel';
+  String get channelSettingsConvertFailed => 'Nepavyko konvertuoti šio kanalo';
 
   @override
   String get channelSettingsChannelHasFollowers =>
-      'This channel still has followers. Remove those follows before converting it.';
+      'Šį kanalą vis dar seka kiti kanalai. Prieš konvertuodami pašalinkite šiuos sekimus.';
 
   @override
-  String get channelMenuFollow => 'Follow channel';
+  String get channelMenuFollow => 'Sekti kanalą';
 
   @override
-  String get channelFollowTitle => 'Follow this channel';
+  String get channelFollowTitle => 'Sekti šį kanalą';
 
   @override
   String get channelFollowBody =>
-      'Choose where its published messages should go. You can unfollow any time in Community settings → Webhooks.';
+      'Pasirinkite, kur bus siunčiamos jo paskelbtos žinutės. Bet kada galite nustoti sekti skiltyje Bendruomenės nustatymai → Webhookai.';
 
   @override
-  String get channelFollowCommunity => 'Community';
+  String get channelFollowCommunity => 'Bendruomenė';
 
   @override
-  String get channelFollowChannel => 'Channel';
+  String get channelFollowChannel => 'Kanalas';
 
   @override
   String get channelFollowSelectCommunity => 'Select a community';
@@ -15735,165 +15749,164 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get channelFollowAgeWarning =>
-      'This is an age-restricted channel. Updates can only go to age-restricted channels.';
+      'Tai amžiaus apribojimų kanalas. Naujienos gali būti siunčiamos tik į amžiaus apribojimų kanalus.';
 
   @override
   String get channelFollowContentWarning =>
-      'This channel has a content warning. Updates can only go to channels with a content warning or an age restriction.';
+      'Šiame kanale yra turinio įspėjimas. Naujienos gali būti siunčiamos tik į kanalus su turinio įspėjimu arba amžiaus apribojimu.';
 
   @override
   String get channelFollowHiddenHint =>
-      'Communities and channels where you can\'t manage webhooks are hidden.';
+      'Bendruomenės ir kanalai, kuriuose negalite tvarkyti webhookų, yra paslėpti.';
 
   @override
   String get channelFollowEmpty =>
-      'You can\'t manage webhooks in any community. Ask an admin to follow this channel.';
+      'Jokioje bendruomenėje negalite tvarkyti webhookų. Paprašykite administratoriaus sekti šį kanalą.';
 
   @override
-  String get channelFollowSubmit => 'Follow';
+  String get channelFollowSubmit => 'Sekti';
 
   @override
-  String get channelFollowFailed => 'Couldn\'t follow this channel.';
+  String get channelFollowFailed => 'Nepavyko sekti šio kanalo.';
 
   @override
-  String get channelFollowSuccessTitle => 'Updates are on their way!';
+  String get channelFollowSuccessTitle => 'Atnaujinimai jau pakeliui!';
 
   @override
   String channelFollowSuccessBody(String sourceName, String targetName) {
-    return 'Messages published in $sourceName will show up in #$targetName.';
+    return 'Žinutės, paskelbtos $sourceName, bus rodomos kanale #$targetName.';
   }
 
   @override
-  String get channelFollowSuccessDismiss => 'Got it!';
+  String get channelFollowSuccessDismiss => 'Supratau!';
 
   @override
   String get channelFollowBarrier =>
-      'Follow to get these announcements in a channel you choose.';
+      'Sekite šį kanalą, kad gautumėte šiuos skelbimus pasirinktame kanale.';
 
   @override
-  String get channelHeaderFollow => 'Follow channel';
+  String get channelHeaderFollow => 'Sekti kanalą';
 
   @override
-  String get chatMessagePublish => 'Publish';
+  String get chatMessagePublish => 'Paskelbti';
 
   @override
-  String get chatMessagePublished => 'Published';
+  String get chatMessagePublished => 'Paskelbta';
 
   @override
-  String get chatMessagePublishConfirmTitle => 'Publish message?';
+  String get chatMessagePublishConfirmTitle => 'Paskelbti žinutę?';
 
   @override
   String get chatMessagePublishConfirmBody =>
-      'This sends a copy to every channel that follows this one.';
+      'Tai nusiųs kopiją į kiekvieną kanalą, kuris seka šį.';
 
   @override
-  String get chatMessagePublishedToast => 'Message published';
+  String get chatMessagePublishedToast => 'Žinutė paskelbta';
 
   @override
-  String get chatMessageAlreadyPublished =>
-      'This message is already published.';
+  String get chatMessageAlreadyPublished => 'Ši žinutė jau paskelbta.';
 
   @override
-  String get chatMessagePublishFailedTitle => 'Couldn\'t publish this message';
+  String get chatMessagePublishFailedTitle => 'Nepavyko paskelbti šios žinutės';
 
   @override
   String get chatMessagePublishFailedBody =>
-      'Something went wrong. Try again in a moment.';
+      'Kažkas nepavyko. Bandykite dar kartą po akimirkos.';
 
   @override
-  String get chatMessagePublishLimitTitle => 'Slow down';
+  String get chatMessagePublishLimitTitle => 'Neskubėkite';
 
   @override
   String chatMessagePublishLimitBody(String duration) {
-    return 'You can publish again in $duration.';
+    return 'Vėl galėsite paskelbti po $duration.';
   }
 
   @override
   String get chatMessagePublishLimitUnknown =>
-      'You are publishing too quickly. Try again in a moment.';
+      'Per greitai skelbiate. Bandykite dar kartą po akimirkos.';
 
   @override
   String get chatMessageDeletePublished =>
-      'This also removes the copies that were sent to channels following this one.';
+      'Taip pat bus pašalintos kopijos, kurios buvo išsiųstos šį kanalą sekantiems kanalams.';
 
   @override
-  String get chatMessageEditPublishedTitle => 'Edit published message?';
+  String get chatMessageEditPublishedTitle => 'Redaguoti paskelbtą žinutę?';
 
   @override
   String get chatMessageEditPublishedBody =>
-      'This updates the copies that were sent to channels following this one.';
+      'Tai atnaujins kopijas, kurios buvo išsiųstos šį kanalą sekantiems kanalams.';
 
   @override
-  String get chatMessageEditPublishedSave => 'Save';
+  String get chatMessageEditPublishedSave => 'Išsaugoti';
 
   @override
-  String get chatMessageEditLimitTitle => 'Slow down';
+  String get chatMessageEditLimitTitle => 'Neskubėkite';
 
   @override
   String chatMessageEditLimitBody(String duration) {
-    return 'You can edit this published message again in $duration.';
+    return 'Šią paskelbtą žinutę vėl galėsite redaguoti po $duration.';
   }
 
   @override
   String get chatMessageEditLimitUnknown =>
-      'You are editing this published message too quickly. Try again in a moment.';
+      'Per greitai redaguojate šią paskelbtą žinutę. Bandykite dar kartą po akimirkos.';
 
   @override
-  String get chatMessageOriginalDeleted => '[Original message deleted]';
+  String get chatMessageOriginalDeleted => '[Originali žinutė ištrinta]';
 
   @override
-  String get userTagCommunity => 'Community';
+  String get userTagCommunity => 'Bendruomenė';
 
   @override
   String systemFollowAdd(String username, String source) {
-    return '$username followed $source into this channel. Messages published there will appear here.';
+    return '$username nustatė, kad šis kanalas sektų $source. Ten paskelbtos žinutės bus rodomos čia.';
   }
 
   @override
   String systemPreviewFollowAdd(String username, String source) {
-    return '$username followed $source into this channel.';
+    return '$username nustatė, kad šis kanalas sektų $source.';
   }
 
   @override
-  String get publishNudgeNotSent => 'Not sent to followers yet.';
+  String get publishNudgeNotSent => 'Dar neišsiųsta sekėjams.';
 
   @override
-  String get publishNudgeHideForever => 'Don\'t show again';
+  String get publishNudgeHideForever => 'Daugiau nerodyti';
 
   @override
-  String get publishNudgeDismiss => 'Dismiss';
+  String get publishNudgeDismiss => 'Atmesti';
 
   @override
-  String get channelSettingsFollowedChannels => 'Followed channels';
+  String get channelSettingsFollowedChannels => 'Sekami kanalai';
 
   @override
   String get channelSettingsFollowedChannelsDescription =>
-      'Announcement channels this channel follows. Unfollow to stop receiving copies.';
+      'Skelbimų kanalai, kuriuos seka šis kanalas. Nustokite sekti, kad nebegautumėte kopijų.';
 
   @override
   String get guildSettingsFollowedChannelsDescription =>
-      'Announcement channels followed by channels in this community.';
+      'Skelbimų kanalai, kuriuos seka šios bendruomenės kanalai.';
 
   @override
   String channelSettingsFollowedFrom(String guildName, String channelName) {
-    return 'From $guildName #$channelName';
+    return 'Iš $guildName #$channelName';
   }
 
   @override
   String get channelSettingsFollowedPaused =>
-      'Updates are paused because the source channel is no longer available.';
+      'Naujinimai pristabdyti, nes šaltinio kanalas nebepasiekiamas.';
 
   @override
   String channelSettingsUnfollowTitle(String name) {
-    return 'Unfollow $name?';
+    return 'Nustoti sekti $name?';
   }
 
   @override
   String get channelSettingsUnfollowBody =>
-      'This channel will stop receiving copies from that announcement channel.';
+      'Šis kanalas nebegaus kopijų iš to skelbimų kanalo.';
 
   @override
-  String get channelSettingsUnfollow => 'Unfollow';
+  String get channelSettingsUnfollow => 'Nustoti sekti';
 
   @override
   String get channelSettingsUnfollowFailed =>
@@ -15905,17 +15918,17 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
-  String get crosspostCommunityTitle => 'Community';
+  String get crosspostCommunityTitle => 'Bendruomenė';
 
   @override
-  String get crosspostGoToCommunity => 'Go to community';
+  String get crosspostGoToCommunity => 'Eiti į bendruomenę';
 
   @override
-  String get crosspostJoinCommunity => 'Join community';
+  String get crosspostJoinCommunity => 'Prisijungti prie bendruomenės';
 
   @override
   String get crosspostSourceFailed =>
-      'Couldn\'t load this community. Try again in a moment.';
+      'Nepavyko įkelti šios bendruomenės. Pabandykite dar kartą po akimirkos.';
 
   @override
   String get crosspostSourceUnavailable =>
@@ -15923,12 +15936,12 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String crosspostMembers(int count) {
-    return '$count members';
+    return 'Narių: $count';
   }
 
   @override
   String crosspostOnline(int count) {
-    return '$count online';
+    return 'Prisijungę: $count';
   }
 
   @override
@@ -15936,8 +15949,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count minutes',
-      one: '1 minute',
+      other: '$count minučių',
+      many: '$count minutės',
+      few: '$count minutės',
+      one: '$count minutė',
     );
     return '$_temp0';
   }
@@ -15947,21 +15962,23 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count seconds',
-      one: '1 second',
+      other: '$count sekundžių',
+      many: '$count sekundės',
+      few: '$count sekundės',
+      one: '$count sekundė',
     );
     return '$_temp0';
   }
 
   @override
-  String get channelUnsupportedTitle => 'Unsupported channel type';
+  String get channelUnsupportedTitle => 'Nepalaikomas kanalo tipas';
 
   @override
   String get channelUnsupportedBody =>
-      'This version of the app doesn\'t support this channel type.';
+      'Ši programos versija nepalaiko šio kanalo tipo.';
 
   @override
-  String get channelDetailsUnsupportedChannel => 'Unsupported channel';
+  String get channelDetailsUnsupportedChannel => 'Nepalaikomas kanalas';
 
   @override
   String get forumChannelTypeForum => 'Forum';

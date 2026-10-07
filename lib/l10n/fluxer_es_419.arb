@@ -10935,6 +10935,80 @@
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
     },
+    "profileLocalTimeSettingsTitle": "Hora local del perfil",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "Establece tu zona horaria para que {productName} pueda mantener actualizada tu diferencia horaria con respecto a la hora universal coordinada (UTC) cuando cambie el horario de verano. Los demás usuarios solo podrán ver tu diferencia horaria con respecto a UTC, no tu zona horaria exacta.",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "Editar hora local del perfil",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "Zona horaria",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "Elige la zona horaria que {productName} utiliza para calcular tu diferencia con el tiempo universal coordinado (UTC) y mostrar la hora local en tu perfil.",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "Buscar zonas horarias",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "Sin definir",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "Los demás usuarios solo pueden ver tu diferencia horaria UTC actual cuando eliges compartir la hora local de tu perfil. No ven tu identificador de zona horaria exacto, como {timezoneIdentifierExample}. {productName} almacena ese identificador para que la diferencia horaria se actualice automáticamente cuando cambie el horario de verano.",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "Todos",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "Permitir que cualquiera que pueda ver tu perfil completo vea tu hora local",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "Amigos",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "Permitir que tus amigos vean tu hora local",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "Miembros de la comunidad",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "Permitir que los miembros de las comunidades en las que estás vean tu hora local",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
+    },
     "languageAndTimeTimeFormatSectionTitle": "Formato de hora",
     "@languageAndTimeTimeFormatSectionTitle": {
         "description": "Settings section title for time format preference."
@@ -15435,6 +15509,72 @@
     "premiumPerkEarlyAccess": "Acceso anticipado a nuevas funciones",
     "premiumPerkCustomThemes": "Temas personalizados",
     "premiumPerkVideoQualityStock": "Hasta 4K/60 fps",
+    "storePlutoniumPriceLine": "{monthly} o {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/mes",
+    "storePlutoniumYearSuffix": "/año",
+    "storePlutoniumPriceOr": "o",
+    "storePlutoniumEmojiTitle": "Tus emojis, en todas partes",
+    "storePlutoniumEmojiBody": "Lleva emojis y stickers personalizados de cualquiera de tus comunidades a todos los chats y comunidades en los que estés.",
+    "storePlutoniumProfileTitle": "Un perfil que destaque",
+    "storePlutoniumProfileBody": "Obtén un avatar y un banner animados, una insignia de suscriptor, la etiqueta de cuatro dígitos que quieras después de tu nombre de usuario* y un perfil independiente para cada comunidad.",
+    "storePlutoniumFilesTitle": "Envía archivos de hasta 500 MB",
+    "storePlutoniumFilesBody": "Comparte videos completos y archivos grandes sin tener que reducirlos. Las cuentas gratuitas pueden enviar hasta 25 MB.",
+    "storePlutoniumCompareTitle": "Compara Gratis y Plutonium",
+    "storePlutoniumCompareMobileNote": "No todas estas funciones están en la aplicación móvil. Algunas solo están disponibles en la versión de escritorio.",
+    "storePlutoniumNotAvailable": "No disponible",
+    "storePlutoniumAvailable": "Disponible",
+    "storePlutoniumCompareTag": "Elige el número de 4 dígitos después de tu nombre de usuario*",
+    "storePlutoniumCompareProfile": "Un perfil independiente para cada comunidad",
+    "storePlutoniumCompareBadge": "Insignia de suscriptor en tu perfil",
+    "storePlutoniumCompareBackgrounds": "Fondos de videollamada que puedes guardar",
+    "storePlutoniumCompareCommunities": "Comunidades a las que puedes unirte",
+    "storePlutoniumCompareCharacters": "Caracteres en un solo mensaje",
+    "storePlutoniumCompareBookmarks": "Mensajes que puedes guardar",
+    "storePlutoniumCompareUpload": "El archivo más grande que puedes subir",
+    "storePlutoniumCompareSavedMedia": "Elementos multimedia que puedes guardar para después",
+    "storePlutoniumCompareAnimatedEmoji": "Usar emojis animados en mensajes",
+    "storePlutoniumCompareCustomEmoji": "Usa emojis y stickers personalizados en cualquier comunidad",
+    "storePlutoniumCompareVideo": "Calidad de videollamada y uso compartido de pantalla",
+    "storePlutoniumCompareAvatar": "Avatar y banner de perfil animados",
+    "storePlutoniumCompareEarlyAccess": "Acceso anticipado a nuevas funciones",
+    "storePlutoniumCompareThemes": "Temas personalizados para la app",
+    "storePlutoniumVideoFree": "Hasta 720p a 30 FPS",
+    "storePlutoniumVideoPlutonium": "Hasta 4K a 60 FPS",
+    "storePlutoniumTagFootnote": "Solo puedes elegir una etiqueta que nadie más con el mismo nombre de usuario tenga. Los nombres de usuario no distinguen entre mayúsculas y minúsculas, por lo que Mina#4821 y mina#4821 se consideran iguales. La etiqueta #0000 está reservada para los miembros de Fluxer Visionary.",
+    "storePlutoniumLearnVisionary": "Más información sobre Visionary.",
+    "storePlutoniumDonatePrompt": "¿Solo quieres apoyar el desarrollo de código abierto de Fluxer? ",
+    "storePlutoniumDonateLink": "Donar en su lugar.",
+    "storePlutoniumHighlightsLead": "Al suscribirte, financias Fluxer y desbloqueas",
+    "storePlutoniumHighlightEmoji": "Emojis y stickers personalizados en cualquier chat",
+    "storePlutoniumHighlightProfile": "Perfil animado, insignia y número personalizado de 4 dígitos",
+    "storePlutoniumHighlightFiles": "Cargas de hasta 500 MB",
+    "storePlutoniumHighlightMessages": "Envía mensajes de hasta 4000 caracteres",
+    "storePlutoniumHighlightCommunityProfile": "Un perfil independiente para cada comunidad",
+    "storePlutoniumHighlightsMore": "Y más",
+    "storePlutoniumRenewsThroughPlay": "Se renueva automáticamente a través de Google Play hasta que canceles.",
+    "storePlutoniumRenewsThroughAppStore": "Se renueva automáticamente a través de App Store hasta que canceles.",
+    "storePlutoniumAlreadySubscribed": "Ya tienes una suscripción a Fluxer Plutonium.",
+    "storePlutoniumSavePercent": "Ahorra {percent}%",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "Compra recibida. Plutonium aparecerá aquí una vez que se active.",
+    "storePlutoniumUnavailable": "Las suscripciones en la app aún no están disponibles en este dispositivo.",
+    "storePlutoniumVisionaryStatus": "Visionary ya incluye acceso permanente, por lo que no se necesita una suscripción recurrente.",
     "audioAndVideoAudioSectionDescription": "Configura tu micrófono, altavoces y procesamiento de voz.",
     "@audioAndVideoAudioSectionDescription": {
         "description": "Settings section description for audio settings in the voice and video tab."
@@ -15903,6 +16043,18 @@
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
     },
+    "userSettingsNavAppIcon": "Ícono de la app",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "Ícono de la app",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "Elige qué ícono aparece en tu pantalla de inicio.",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
+    },
     "advancedSettingEnableTextSelectionLabel": "Habilitar selección de texto",
     "advancedSettingEnableTextSelectionDescription": "Permitir seleccionar texto en la aplicación",
     "advancedSettingVideoSeekThumbnailsLabel": "Activar miniaturas en la barra de progreso de video",
@@ -16118,6 +16270,14 @@
     "authHidePassword": "Ocultar contraseña",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "Seguimos trabajando…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
+    },
+    "authVerificationFailed": "No se pudo completar la verificación. Intenta de nuevo.",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
     },
     "chatLoadingMessages": "Cargando mensajes",
     "@chatLoadingMessages": {
@@ -17546,6 +17706,173 @@
     "assistantOkMessageSent": "Mensaje enviado.",
     "assistantOkCustomStatusSet": "Estado personalizado actualizado.",
     "assistantOkCustomStatusCleared": "Estado personalizado borrado.",
+    "guildNavbarAnnouncementChannel": "Canal de anuncios",
+    "guildNavbarAnnouncementChannelDescription": "Publica actualizaciones que otras comunidades pueden seguir en sus propios canales",
+    "channelDetailsAnnouncementChannel": "Canal de anuncios",
+    "channelSettingsAnnouncementChannel": "Canal de anuncios",
+    "channelSettingsAnnouncementChannelDescription": "Permite que otras comunidades sigan este canal y reciban copias de lo que publiques.",
+    "channelSettingsStopAnnouncementTitle": "¿Dejar de ser un canal de anuncios?",
+    "channelSettingsStopAnnouncementBody": "{count, plural, =1{1 canal sigue a este canal. Al convertirlo en un canal de texto, se elimina ese seguimiento.} other{{count} canales siguen a este canal. Al convertirlo en un canal de texto, se eliminan esos seguimientos.}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "Al convertir este canal en un canal de texto, todos los canales que lo siguen dejarán de seguirlo.",
+    "channelSettingsConvertChannel": "Convertir",
+    "channelSettingsConvertFailed": "No se pudo convertir este canal",
+    "channelSettingsChannelHasFollowers": "Otros canales todavía siguen a este canal. Elimina esos seguimientos antes de convertirlo.",
+    "channelMenuFollow": "Seguir canal",
+    "channelFollowTitle": "Seguir este canal",
+    "channelFollowBody": "Elige a dónde deben ir los mensajes publicados. Puedes dejar de seguir en cualquier momento en la configuración de la comunidad → Webhooks.",
+    "channelFollowCommunity": "Comunidad",
+    "channelFollowChannel": "Canal",
+    "channelFollowAgeWarning": "Este es un canal con restricciones de edad. Las actualizaciones solo pueden enviarse a canales con restricciones de edad.",
+    "channelFollowContentWarning": "Este canal tiene una advertencia de contenido. Las actualizaciones solo pueden enviarse a canales con advertencia de contenido o restricción de edad.",
+    "channelFollowHiddenHint": "Las comunidades y canales donde no puedes administrar webhooks están ocultos.",
+    "channelFollowEmpty": "No puedes administrar webhooks en ninguna comunidad. Pídele a un administrador que siga este canal.",
+    "channelFollowSubmit": "Seguir",
+    "channelFollowFailed": "No se pudo seguir este canal.",
+    "channelFollowSuccessTitle": "¡Las actualizaciones ya vienen!",
+    "channelFollowSuccessBody": "Los mensajes publicados en {sourceName} aparecerán en #{targetName}.",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "¡Entendido!",
+    "channelFollowBarrier": "Sigue este canal para recibir estos anuncios en el canal que elijas.",
+    "channelHeaderFollow": "Seguir canal",
+    "chatMessagePublish": "Publicar",
+    "chatMessagePublished": "Publicado",
+    "chatMessagePublishConfirmTitle": "¿Publicar mensaje?",
+    "chatMessagePublishConfirmBody": "Esto envía una copia a todos los canales que siguen a este.",
+    "chatMessagePublishedToast": "Mensaje publicado",
+    "chatMessageAlreadyPublished": "Este mensaje ya está publicado.",
+    "chatMessagePublishFailedTitle": "No se pudo publicar este mensaje",
+    "chatMessagePublishFailedBody": "Algo salió mal. Intenta de nuevo en un momento.",
+    "chatMessagePublishLimitTitle": "Más despacio",
+    "chatMessagePublishLimitBody": "Puedes volver a publicar en {duration}.",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "Estás publicando muy rápido. Intenta de nuevo en un momento.",
+    "chatMessageDeletePublished": "Esto también elimina las copias que se enviaron a los canales que siguen a este.",
+    "chatMessageEditPublishedTitle": "¿Editar mensaje publicado?",
+    "chatMessageEditPublishedBody": "Esto actualiza las copias que se enviaron a los canales que siguen a este.",
+    "chatMessageEditPublishedSave": "Guardar",
+    "chatMessageEditLimitTitle": "Más despacio",
+    "chatMessageEditLimitBody": "Puedes volver a editar este mensaje publicado en {duration}.",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "Estás editando este mensaje publicado demasiado rápido. Intenta de nuevo en un momento.",
+    "chatMessageOriginalDeleted": "[Mensaje original eliminado]",
+    "userTagCommunity": "Comunidad",
+    "systemFollowAdd": "{username} hizo que este canal siga a {source}. Los mensajes publicados allí aparecerán aquí.",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username} hizo que este canal siga a {source}.",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "Aún no se ha enviado a los seguidores.",
+    "publishNudgeHideForever": "No volver a mostrar",
+    "publishNudgeDismiss": "Descartar",
+    "channelSettingsFollowedChannels": "Canales seguidos",
+    "channelSettingsFollowedChannelsDescription": "Canales de anuncios que sigue este canal. Deja de seguir para dejar de recibir copias.",
+    "guildSettingsFollowedChannelsDescription": "Canales de anuncios seguidos por canales en esta comunidad.",
+    "channelSettingsFollowedFrom": "De {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "Las actualizaciones están en pausa porque el canal de origen ya no está disponible.",
+    "channelSettingsUnfollowTitle": "¿Dejar de seguir a {name}?",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "Este canal dejará de recibir copias de ese canal de anuncios.",
+    "channelSettingsUnfollow": "Dejar de seguir",
+    "crosspostCommunityTitle": "Comunidad",
+    "crosspostGoToCommunity": "Ir a la comunidad",
+    "crosspostJoinCommunity": "Unirse a la comunidad",
+    "crosspostSourceFailed": "No se pudo cargar esta comunidad. Intenta de nuevo en un momento.",
+    "crosspostMembers": "{count} miembros",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "{count} en línea",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, =1{1 minuto} other{{count} minutos}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, =1{1 segundo} other{{count} segundos}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "Tipo de canal no compatible",
+    "channelUnsupportedBody": "Esta versión de la aplicación no es compatible con este tipo de canal.",
+    "channelDetailsUnsupportedChannel": "Canal no compatible",
     "applicationsEmptyTitle": "Aún no hay aplicaciones",
     "@applicationsEmptyTitle": {
         "description": "Empty-state title when the user has no developer applications."
@@ -17553,6 +17880,10 @@
     "voiceOutputRouteSpeaker": "Altavoz",
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
+    },
+    "voiceOutputRouteEarpiece": "Auricular",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
     },
     "voiceOutputRouteHeadset": "Auriculares",
     "@voiceOutputRouteHeadset": {
@@ -17562,8 +17893,16 @@
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."
     },
+    "appIconOptionStarfield": "Campo estelar",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
     "appIconOptionSweden": "Suecia",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "Cambiar el ícono de la app no está disponible en este dispositivo.",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     }
 }

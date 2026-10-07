@@ -3003,7 +3003,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String applicationsCreated(String date) {
-    return 'Created $date';
+    return 'Đã tạo $date';
   }
 
   @override
@@ -3160,7 +3160,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get applicationsOauthBuilderDescription =>
-      'Construct an authorize URL with scopes and permissions.';
+      'Tạo URL ủy quyền với các phạm vi và quyền.';
 
   @override
   String get applicationsScopes => 'Phạm vi';
@@ -3190,7 +3190,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       'Chọn phạm vi (và URI chuyển hướng nếu cần)';
 
   @override
-  String get applicationsCopyAuthorizeUrl => 'Copy authorize URL';
+  String get applicationsCopyAuthorizeUrl => 'Sao chép URL ủy quyền';
 
   @override
   String get applicationsCopiedUrl => 'Đã sao chép URL vào bảng nhớ tạm';
@@ -3211,7 +3211,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String applicationsDeleteConfirmDescription(String name) {
-    return 'Are you sure you want to delete $name? This action cannot be undone. All associated data, including the bot user, will be permanently deleted.';
+    return 'Bạn có chắc chắn muốn xóa $name không? Hành động này không thể hoàn tác. Tất cả dữ liệu liên quan, bao gồm người dùng bot, sẽ bị xóa vĩnh viễn.';
   }
 
   @override
@@ -3464,58 +3464,59 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get userProfileLocalTime => 'Giờ địa phương';
 
   @override
-  String get profileLocalTimeSettingsTitle => 'Profile local time';
+  String get profileLocalTimeSettingsTitle => 'Giờ địa phương trên hồ sơ';
 
   @override
   String profileLocalTimeSettingsSummary(String productName) {
-    return 'Set your time zone once so $productName can keep your UTC offset current when daylight saving time changes. Other people can only see your UTC offset, not your exact time zone identifier.';
+    return 'Đặt múi giờ một lần để $productName luôn cập nhật độ lệch UTC của bạn khi giờ mùa hè thay đổi. Những người khác chỉ thấy độ lệch UTC của bạn, không thấy mã định danh múi giờ chính xác.';
   }
 
   @override
-  String get profileLocalTimeEditButton => 'Edit profile local time';
+  String get profileLocalTimeEditButton =>
+      'Chỉnh sửa giờ địa phương trên hồ sơ';
 
   @override
-  String get profileLocalTimeTimezoneLabel => 'Time zone';
+  String get profileLocalTimeTimezoneLabel => 'Múi giờ';
 
   @override
   String profileLocalTimeTimezoneHelp(String productName) {
-    return 'Choose the time zone $productName uses to calculate your UTC offset for profile local time.';
+    return 'Chọn múi giờ mà $productName sử dụng để tính toán độ lệch UTC cho thời gian hiển thị trên hồ sơ của bạn.';
   }
 
   @override
-  String get profileLocalTimeSearchTimezones => 'Search time zones';
+  String get profileLocalTimeSearchTimezones => 'Tìm múi giờ';
 
   @override
-  String get profileLocalTimeNotSet => 'Not set';
+  String get profileLocalTimeNotSet => 'Chưa đặt';
 
   @override
   String profileLocalTimePrivacyNote(
     String timezoneIdentifierExample,
     String productName,
   ) {
-    return 'Other people can only see your current UTC offset when you choose to share profile local time. They do not see your exact time zone identifier, such as $timezoneIdentifierExample. $productName stores that identifier only so the offset can update automatically when daylight saving time changes.';
+    return 'Những người khác chỉ thấy được độ lệch UTC hiện tại của bạn khi bạn chọn chia sẻ giờ địa phương trong hồ sơ. Họ không thấy mã định danh múi giờ chính xác của bạn, chẳng hạn như $timezoneIdentifierExample. $productName chỉ lưu mã định danh đó để độ lệch có thể tự động cập nhật khi giờ mùa hè thay đổi.';
   }
 
   @override
-  String get profileLocalTimePrivacyEveryone => 'Everyone';
+  String get profileLocalTimePrivacyEveryone => 'Mọi người';
 
   @override
   String get profileLocalTimePrivacyEveryoneDesc =>
-      'Allow anyone who can view your full profile to see your local time';
+      'Cho phép bất kỳ ai xem được hồ sơ đầy đủ của bạn thấy giờ địa phương của bạn';
 
   @override
-  String get profileLocalTimePrivacyFriends => 'Friends';
+  String get profileLocalTimePrivacyFriends => 'Bạn bè';
 
   @override
   String get profileLocalTimePrivacyFriendsDesc =>
-      'Allow your friends to see your local time';
+      'Cho phép bạn bè xem giờ địa phương của bạn';
 
   @override
-  String get profileLocalTimePrivacyCommunityMembers => 'Community members';
+  String get profileLocalTimePrivacyCommunityMembers => 'Thành viên cộng đồng';
 
   @override
   String get profileLocalTimePrivacyCommunityMembersDesc =>
-      'Allow members from communities you\'re in to see your local time';
+      'Cho phép thành viên từ các cộng đồng bạn tham gia xem giờ địa phương của bạn';
 
   @override
   String get userProfileSameTimeAsYou => 'Cùng múi giờ với bạn';
@@ -4957,7 +4958,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get lookAndFeelChatWallpaperCustomLabel => 'Ảnh tùy chỉnh';
 
   @override
-  String get lookAndFeelChatWallpaperStarfieldLabel => 'Starfield';
+  String get lookAndFeelChatWallpaperStarfieldLabel => 'Bầu trời sao';
 
   @override
   String lookAndFeelChatWallpaperColorLabel(String id) {
@@ -5592,11 +5593,11 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get accessibilityShowAltTextOnImagesLabel =>
-      'Show alternative text on images';
+      'Hiển thị văn bản thay thế trên hình ảnh';
 
   @override
   String get accessibilityShowAltTextOnImagesDescription =>
-      'Display alternative text below images when it is available.';
+      'Hiển thị văn bản thay thế bên dưới hình ảnh khi có sẵn.';
 
   @override
   String get accessibilityDimStrikethroughTextLabel =>
@@ -6325,7 +6326,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get voiceOutputRouteSpeaker => 'Loa';
 
   @override
-  String get voiceOutputRouteEarpiece => 'Earpiece';
+  String get voiceOutputRouteEarpiece => 'Tai nghe';
 
   @override
   String get voiceOutputRouteHeadset => 'Tai nghe';
@@ -7137,16 +7138,18 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get chatMessageAddReaction => 'Thêm cảm xúc';
 
   @override
-  String get doubleTapReactionHint => 'Double tap a message to';
+  String get doubleTapReactionHint =>
+      'Chạm hai lần vào tin nhắn để bày tỏ cảm xúc';
 
   @override
   String get doubleTapReactionEdit => 'Chỉnh sửa';
 
   @override
-  String get doubleTapReactionEditTitle => 'Edit default';
+  String get doubleTapReactionEditTitle => 'Chỉnh sửa mặc định';
 
   @override
-  String get doubleTapReactionEditSubtitle => 'Choose double tap emoji';
+  String get doubleTapReactionEditSubtitle =>
+      'Chọn biểu tượng cảm xúc nhấn đúp';
 
   @override
   String get chatMessageEdit => 'Chỉnh sửa tin nhắn';
@@ -7155,10 +7158,10 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get chatMessageReply => 'Trả lời';
 
   @override
-  String get notificationReplyPlaceholder => 'Message';
+  String get notificationReplyPlaceholder => 'Tin nhắn';
 
   @override
-  String get notificationReplyFailed => 'Couldn\'t send reply';
+  String get notificationReplyFailed => 'Không thể gửi trả lời';
 
   @override
   String get chatMessageForward => 'Chuyển tiếp';
@@ -7911,7 +7914,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get chatVideoPlaybackFailed => 'Không thể phát video này.';
 
   @override
-  String get chatImageCouldNotLoad => 'Could not load this image.';
+  String get chatImageCouldNotLoad => 'Không thể tải hình ảnh này.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
@@ -10101,180 +10104,182 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String storePlutoniumPriceLine(String monthly, String yearly) {
-    return '$monthly or $yearly';
+    return '$monthly hoặc $yearly';
   }
 
   @override
-  String get storePlutoniumMonthSuffix => '/mo';
+  String get storePlutoniumMonthSuffix => '/tháng';
 
   @override
-  String get storePlutoniumYearSuffix => '/yr';
+  String get storePlutoniumYearSuffix => '/năm';
 
   @override
-  String get storePlutoniumPriceOr => 'or';
+  String get storePlutoniumPriceOr => 'hoặc';
 
   @override
-  String get storePlutoniumEmojiTitle => 'Your emojis, everywhere';
+  String get storePlutoniumEmojiTitle =>
+      'Biểu tượng cảm xúc của bạn, ở mọi nơi';
 
   @override
   String get storePlutoniumEmojiBody =>
-      'Bring custom emojis and stickers from any of your communities into every chat and community you\'re in.';
+      'Mang biểu tượng cảm xúc và nhãn dán tùy chỉnh từ bất kỳ cộng đồng nào của bạn vào mọi cuộc trò chuyện và cộng đồng bạn tham gia.';
 
   @override
-  String get storePlutoniumProfileTitle => 'A profile that stands out';
+  String get storePlutoniumProfileTitle => 'Một hồ sơ nổi bật';
 
   @override
   String get storePlutoniumProfileBody =>
-      'Get an animated avatar and banner, a subscriber badge, the four-digit tag you want after your username*, and a separate profile for each community.';
+      'Nhận ảnh đại diện và ảnh bìa động, huy hiệu người đăng ký, thẻ bốn chữ số bạn muốn sau tên người dùng*, và một hồ sơ riêng cho mỗi cộng đồng.';
 
   @override
-  String get storePlutoniumFilesTitle => 'Send files up to 500 MB';
+  String get storePlutoniumFilesTitle => 'Gửi tệp lên đến 500 MB';
 
   @override
   String get storePlutoniumFilesBody =>
-      'Share full-length videos and big files without shrinking them first. Free accounts can send up to 25 MB.';
+      'Chia sẻ video dài và tệp lớn mà không cần nén trước. Tài khoản miễn phí có thể gửi tối đa 25 MB.';
 
   @override
-  String get storePlutoniumCompareTitle => 'Compare Free and Plutonium';
+  String get storePlutoniumCompareTitle => 'So sánh gói Miễn phí và Plutonium';
 
   @override
   String get storePlutoniumCompareMobileNote =>
-      'Not all of these features are in the mobile app. Some are only available on desktop.';
+      'Không phải tất cả các tính năng này đều có trong ứng dụng di động. Một số chỉ có trên máy tính để bàn.';
 
   @override
-  String get storePlutoniumNotAvailable => 'Not available';
+  String get storePlutoniumNotAvailable => 'Không có sẵn';
 
   @override
-  String get storePlutoniumAvailable => 'Available';
+  String get storePlutoniumAvailable => 'Khả dụng';
 
   @override
   String get storePlutoniumCompareTag =>
-      'Pick the 4-digit number after your username*';
+      'Chọn số có 4 chữ số sau tên người dùng của bạn*';
 
   @override
   String get storePlutoniumCompareProfile =>
-      'A separate profile for each community';
+      'Một hồ sơ riêng cho mỗi cộng đồng';
 
   @override
-  String get storePlutoniumCompareBadge => 'Subscriber badge on your profile';
+  String get storePlutoniumCompareBadge =>
+      'Huy hiệu người đăng ký trên hồ sơ của bạn';
 
   @override
   String get storePlutoniumCompareBackgrounds =>
-      'Video call backgrounds you can save';
+      'Hình nền cuộc gọi video bạn có thể lưu';
 
   @override
-  String get storePlutoniumCompareCommunities => 'Communities you can join';
+  String get storePlutoniumCompareCommunities =>
+      'Cộng đồng bạn có thể tham gia';
 
   @override
-  String get storePlutoniumCompareCharacters =>
-      'Characters in a single message';
+  String get storePlutoniumCompareCharacters => 'Ký tự trong một tin nhắn';
 
   @override
-  String get storePlutoniumCompareBookmarks => 'Messages you can bookmark';
+  String get storePlutoniumCompareBookmarks => 'Tin nhắn bạn có thể đánh dấu';
 
   @override
-  String get storePlutoniumCompareUpload => 'Largest file you can upload';
+  String get storePlutoniumCompareUpload => 'Tệp lớn nhất bạn có thể tải lên';
 
   @override
   String get storePlutoniumCompareSavedMedia =>
-      'Media items you can save for later';
+      'Phương tiện bạn có thể lưu lại để xem sau';
 
   @override
   String get storePlutoniumCompareAnimatedEmoji =>
-      'Use animated emojis in messages';
+      'Sử dụng biểu tượng cảm xúc động trong tin nhắn';
 
   @override
   String get storePlutoniumCompareCustomEmoji =>
-      'Use custom emojis and stickers in any community';
+      'Sử dụng biểu tượng cảm xúc và nhãn dán tùy chỉnh trong mọi cộng đồng';
 
   @override
   String get storePlutoniumCompareVideo =>
-      'Video call and screen share quality';
+      'Chất lượng cuộc gọi video và chia sẻ màn hình';
 
   @override
-  String get storePlutoniumCompareAvatar =>
-      'Animated avatar and profile banner';
+  String get storePlutoniumCompareAvatar => 'Ảnh đại diện và banner hồ sơ động';
 
   @override
-  String get storePlutoniumCompareEarlyAccess => 'Early access to new features';
+  String get storePlutoniumCompareEarlyAccess =>
+      'Truy cập sớm các tính năng mới';
 
   @override
-  String get storePlutoniumCompareThemes => 'Custom themes for the app';
+  String get storePlutoniumCompareThemes => 'Chủ đề tùy chỉnh cho ứng dụng';
 
   @override
-  String get storePlutoniumVideoFree => 'Up to 720p at 30 FPS';
+  String get storePlutoniumVideoFree => 'Lên đến 720p ở 30 FPS';
 
   @override
-  String get storePlutoniumVideoPlutonium => 'Up to 4K at 60 FPS';
+  String get storePlutoniumVideoPlutonium => 'Lên đến 4K ở 60 FPS';
 
   @override
   String get storePlutoniumTagFootnote =>
-      'You can only pick a tag that nobody else with the same username already has. Usernames aren\'t case sensitive, so Mina#4821 and mina#4821 count as the same. The #0000 tag is reserved for Fluxer Visionary members.';
+      'Bạn chỉ có thể chọn một thẻ mà chưa có ai khác có cùng tên người dùng. Tên người dùng không phân biệt chữ hoa chữ thường, vì vậy Mina#4821 và mina#4821 được tính là giống nhau. Thẻ #0000 được dành riêng cho thành viên Fluxer Visionary.';
 
   @override
-  String get storePlutoniumLearnVisionary => 'Learn more about Visionary.';
+  String get storePlutoniumLearnVisionary => 'Tìm hiểu thêm về Visionary.';
 
   @override
   String get storePlutoniumDonatePrompt =>
-      'Just want to support Fluxer\'s open source development? ';
+      'Chỉ muốn ủng hộ việc phát triển mã nguồn mở của Fluxer? ';
 
   @override
-  String get storePlutoniumDonateLink => 'Donate instead.';
+  String get storePlutoniumDonateLink => 'Hoặc quyên góp.';
 
   @override
   String get storePlutoniumHighlightsLead =>
-      'Subscribing funds Fluxer and unlocks';
+      'Đăng ký tài trợ cho Fluxer và mở khóa';
 
   @override
   String get storePlutoniumHighlightEmoji =>
-      'Custom emoji and stickers in any chat';
+      'Biểu tượng cảm xúc và nhãn dán tùy chỉnh trong mọi cuộc trò chuyện';
 
   @override
   String get storePlutoniumHighlightProfile =>
-      'Animated profile, badge, and custom 4-digit number';
+      'Hồ sơ động, huy hiệu và số tùy chỉnh gồm 4 chữ số';
 
   @override
-  String get storePlutoniumHighlightFiles => 'Uploads up to 500 MB';
+  String get storePlutoniumHighlightFiles => 'Tải lên tối đa 500 MB';
 
   @override
   String get storePlutoniumHighlightMessages =>
-      'Send messages up to 4,000 characters';
+      'Gửi tin nhắn tối đa 4.000 ký tự';
 
   @override
   String get storePlutoniumHighlightCommunityProfile =>
-      'A separate profile for each community';
+      'Một hồ sơ riêng cho mỗi cộng đồng';
 
   @override
-  String get storePlutoniumHighlightsMore => 'And more';
+  String get storePlutoniumHighlightsMore => 'Và nhiều hơn nữa';
 
   @override
   String get storePlutoniumRenewsThroughPlay =>
-      'Renews automatically through Google Play until you cancel.';
+      'Tự động gia hạn qua Google Play cho đến khi bạn hủy.';
 
   @override
   String get storePlutoniumRenewsThroughAppStore =>
-      'Renews automatically through the App Store until you cancel.';
+      'Tự động gia hạn qua App Store cho đến khi bạn hủy.';
 
   @override
   String get storePlutoniumAlreadySubscribed =>
-      'You already have a Fluxer Plutonium subscription.';
+      'Bạn đã có gói đăng ký Fluxer Plutonium.';
 
   @override
   String storePlutoniumSavePercent(int percent) {
-    return 'Save $percent%';
+    return 'Tiết kiệm $percent%';
   }
 
   @override
   String get storePlutoniumWaiting =>
-      'Purchase received. Plutonium will show here once it activates.';
+      'Đã nhận giao dịch mua. Plutonium sẽ hiển thị ở đây sau khi được kích hoạt.';
 
   @override
   String get storePlutoniumUnavailable =>
-      'Subscriptions in the app aren\'t available on this device yet.';
+      'Tính năng đăng ký trong ứng dụng chưa khả dụng trên thiết bị này.';
 
   @override
   String get storePlutoniumVisionaryStatus =>
-      'Visionary already includes permanent access, so a recurring subscription isn\'t needed.';
+      'Visionary đã bao gồm quyền truy cập vĩnh viễn, vì vậy không cần gói đăng ký định kỳ.';
 
   @override
   String get userSettingsNavPrivacyDashboard =>
@@ -10858,27 +10863,27 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get defaultAppsWebBrowserExternal => 'Trình duyệt ngoài';
 
   @override
-  String get userSettingsNavAppIcon => 'App icon';
+  String get userSettingsNavAppIcon => 'Biểu tượng ứng dụng';
 
   @override
-  String get appIconSectionTitle => 'App icon';
+  String get appIconSectionTitle => 'Biểu tượng ứng dụng';
 
   @override
   String get appIconSectionDescription =>
-      'Choose which icon appears on your home screen.';
+      'Chọn biểu tượng xuất hiện trên màn hình chính của bạn.';
 
   @override
   String get appIconOptionDefault => 'Mặc định';
 
   @override
-  String get appIconOptionStarfield => 'Starfield';
+  String get appIconOptionStarfield => 'Bầu trời sao';
 
   @override
   String get appIconOptionSweden => 'Thụy Điển';
 
   @override
   String get appIconUnsupported =>
-      'Changing the app icon is not available on this device.';
+      'Thay đổi biểu tượng ứng dụng không khả dụng trên thiết bị này.';
 
   @override
   String get userSettingsNavAdvanced => 'Nâng cao';
@@ -11938,11 +11943,11 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get authHidePassword => 'Ẩn mật khẩu';
 
   @override
-  String get authCheckStillWorking => 'Still working on it…';
+  String get authCheckStillWorking => 'Vẫn đang xử lý…';
 
   @override
   String get authVerificationFailed =>
-      'Couldn\'t complete verification. Try again.';
+      'Không thể hoàn tất xác minh. Vui lòng thử lại.';
 
   @override
   String get chatLoadingMessages => 'Đang tải tin nhắn';
@@ -14478,7 +14483,7 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+      'Không thể xóa cộng đồng này';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
@@ -15503,73 +15508,72 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get homeQuickActionDms => 'Tin nhắn trực tiếp';
 
   @override
-  String get assistantNeedsLogin => 'Open Fluxer and sign in first.';
+  String get assistantNeedsLogin => 'Mở Fluxer và đăng nhập trước.';
 
   @override
-  String get assistantNotInVoice => 'You\'re not in a call.';
+  String get assistantNotInVoice => 'Bạn không có trong cuộc gọi.';
 
   @override
-  String get assistantNotFound => 'Fluxer could not find that.';
+  String get assistantNotFound => 'Fluxer không thể tìm thấy mục đó.';
 
   @override
   String get assistantDmsDisabled =>
       'Direct messages are disabled on this instance.';
 
   @override
-  String get assistantFailed => 'Fluxer could not complete that.';
+  String get assistantFailed => 'Fluxer không thể hoàn thành tác vụ đó.';
 
   @override
-  String get assistantOkMuted => 'Muted.';
+  String get assistantOkMuted => 'Đã tắt micrô.';
 
   @override
-  String get assistantOkUnmuted => 'Unmuted.';
+  String get assistantOkUnmuted => 'Đã bật micrô.';
 
   @override
-  String get assistantOkLeftVoice => 'Left voice.';
+  String get assistantOkLeftVoice => 'Đã rời kênh thoại.';
 
   @override
-  String get assistantOkJoinedVoice => 'Joining voice.';
+  String get assistantOkJoinedVoice => 'Đang tham gia kênh thoại.';
 
   @override
-  String get assistantOkStartedCall => 'Starting the call.';
+  String get assistantOkStartedCall => 'Đang bắt đầu cuộc gọi.';
 
   @override
   String assistantOkStatusSet(String status) {
-    return 'Status set to $status.';
+    return 'Đã đặt trạng thái thành $status.';
   }
 
   @override
-  String get assistantOkOpened => 'Opening Fluxer.';
+  String get assistantOkOpened => 'Đang mở Fluxer.';
 
   @override
   String get assistantOkMessageSent => 'Đã gửi tin nhắn.';
 
   @override
-  String get assistantOkCustomStatusSet => 'Custom status updated.';
+  String get assistantOkCustomStatusSet => 'Đã cập nhật trạng thái tùy chỉnh.';
 
   @override
-  String get assistantOkCustomStatusCleared => 'Custom status cleared.';
+  String get assistantOkCustomStatusCleared => 'Đã xóa trạng thái tùy chỉnh.';
 
   @override
-  String get guildNavbarAnnouncementChannel => 'Announcement';
+  String get guildNavbarAnnouncementChannel => 'Kênh thông báo';
 
   @override
   String get guildNavbarAnnouncementChannelDescription =>
-      'Post updates other communities can follow';
+      'Đăng các bản cập nhật mà các cộng đồng khác có thể theo dõi vào kênh của họ';
 
   @override
-  String get channelDetailsAnnouncementChannel => 'Announcement channel';
+  String get channelDetailsAnnouncementChannel => 'Kênh thông báo';
 
   @override
-  String get channelSettingsAnnouncementChannel => 'Announcement channel';
+  String get channelSettingsAnnouncementChannel => 'Kênh thông báo';
 
   @override
   String get channelSettingsAnnouncementChannelDescription =>
-      'Lets other communities follow this channel and get copies of what you publish.';
+      'Cho phép các cộng đồng khác theo dõi kênh này và nhận bản sao những gì bạn đăng.';
 
   @override
-  String get channelSettingsStopAnnouncementTitle =>
-      'Stop being an announcement channel?';
+  String get channelSettingsStopAnnouncementTitle => 'Dừng làm kênh thông báo?';
 
   @override
   String channelSettingsStopAnnouncementBody(int count) {
@@ -15577,42 +15581,42 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
       count,
       locale: localeName,
       other:
-          '$count channels follow this channel. Converting it to a text channel removes those follows.',
+          '$count kênh đang theo dõi kênh này. Việc chuyển đổi kênh này thành kênh văn bản sẽ xóa các lượt theo dõi đó.',
       one:
-          '1 channel follows this channel. Converting it to a text channel removes that follow.',
+          '1 kênh đang theo dõi kênh này. Việc chuyển đổi kênh này thành kênh văn bản sẽ xóa lượt theo dõi đó.',
     );
     return '$_temp0';
   }
 
   @override
   String get channelSettingsStopAnnouncementUnknown =>
-      'Converting this channel to a text channel removes every channel that follows it.';
+      'Chuyển kênh này thành kênh văn bản sẽ khiến mọi kênh đang theo dõi nó ngừng theo dõi.';
 
   @override
-  String get channelSettingsConvertChannel => 'Convert';
+  String get channelSettingsConvertChannel => 'Chuyển đổi';
 
   @override
-  String get channelSettingsConvertFailed => 'Couldn\'t convert this channel';
+  String get channelSettingsConvertFailed => 'Không thể chuyển đổi kênh này';
 
   @override
   String get channelSettingsChannelHasFollowers =>
-      'This channel still has followers. Remove those follows before converting it.';
+      'Vẫn còn kênh khác đang theo dõi kênh này. Hãy xóa các lượt theo dõi đó trước khi chuyển đổi.';
 
   @override
-  String get channelMenuFollow => 'Follow channel';
+  String get channelMenuFollow => 'Theo dõi kênh';
 
   @override
-  String get channelFollowTitle => 'Follow this channel';
+  String get channelFollowTitle => 'Theo dõi kênh này';
 
   @override
   String get channelFollowBody =>
-      'Choose where its published messages should go. You can unfollow any time in Community settings → Webhooks.';
+      'Chọn nơi các tin nhắn đã xuất bản của kênh sẽ hiển thị. Bạn có thể bỏ theo dõi bất cứ lúc nào trong Cài đặt cộng đồng → Webhook.';
 
   @override
-  String get channelFollowCommunity => 'Community';
+  String get channelFollowCommunity => 'Cộng đồng';
 
   @override
-  String get channelFollowChannel => 'Channel';
+  String get channelFollowChannel => 'Kênh';
 
   @override
   String get channelFollowSelectCommunity => 'Select a community';
@@ -15622,165 +15626,164 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String get channelFollowAgeWarning =>
-      'This is an age-restricted channel. Updates can only go to age-restricted channels.';
+      'Đây là kênh giới hạn độ tuổi. Các cập nhật chỉ có thể được gửi đến các kênh giới hạn độ tuổi.';
 
   @override
   String get channelFollowContentWarning =>
-      'This channel has a content warning. Updates can only go to channels with a content warning or an age restriction.';
+      'Kênh này có cảnh báo nội dung. Các cập nhật chỉ có thể được gửi đến các kênh có cảnh báo nội dung hoặc giới hạn độ tuổi.';
 
   @override
   String get channelFollowHiddenHint =>
-      'Communities and channels where you can\'t manage webhooks are hidden.';
+      'Cộng đồng và kênh mà bạn không thể quản lý webhook sẽ bị ẩn.';
 
   @override
   String get channelFollowEmpty =>
-      'You can\'t manage webhooks in any community. Ask an admin to follow this channel.';
+      'Bạn không thể quản lý webhook ở bất kỳ cộng đồng nào. Hãy yêu cầu quản trị viên theo dõi kênh này.';
 
   @override
-  String get channelFollowSubmit => 'Follow';
+  String get channelFollowSubmit => 'Theo dõi';
 
   @override
-  String get channelFollowFailed => 'Couldn\'t follow this channel.';
+  String get channelFollowFailed => 'Không thể theo dõi kênh này.';
 
   @override
-  String get channelFollowSuccessTitle => 'Updates are on their way!';
+  String get channelFollowSuccessTitle => 'Các bản cập nhật đang được gửi đến!';
 
   @override
   String channelFollowSuccessBody(String sourceName, String targetName) {
-    return 'Messages published in $sourceName will show up in #$targetName.';
+    return 'Các tin nhắn được đăng trong $sourceName sẽ hiển thị trong #$targetName.';
   }
 
   @override
-  String get channelFollowSuccessDismiss => 'Got it!';
+  String get channelFollowSuccessDismiss => 'Đã hiểu!';
 
   @override
   String get channelFollowBarrier =>
-      'Follow to get these announcements in a channel you choose.';
+      'Theo dõi kênh này để nhận các thông báo này trong kênh bạn chọn.';
 
   @override
-  String get channelHeaderFollow => 'Follow channel';
+  String get channelHeaderFollow => 'Theo dõi kênh';
 
   @override
-  String get chatMessagePublish => 'Publish';
+  String get chatMessagePublish => 'Đăng';
 
   @override
-  String get chatMessagePublished => 'Published';
+  String get chatMessagePublished => 'Đã đăng';
 
   @override
-  String get chatMessagePublishConfirmTitle => 'Publish message?';
+  String get chatMessagePublishConfirmTitle => 'Đăng tin nhắn?';
 
   @override
   String get chatMessagePublishConfirmBody =>
-      'This sends a copy to every channel that follows this one.';
+      'Thao tác này sẽ gửi một bản sao đến mọi kênh theo dõi kênh này.';
 
   @override
-  String get chatMessagePublishedToast => 'Message published';
+  String get chatMessagePublishedToast => 'Tin nhắn đã được đăng';
 
   @override
-  String get chatMessageAlreadyPublished =>
-      'This message is already published.';
+  String get chatMessageAlreadyPublished => 'Tin nhắn này đã được đăng.';
 
   @override
-  String get chatMessagePublishFailedTitle => 'Couldn\'t publish this message';
+  String get chatMessagePublishFailedTitle => 'Không thể đăng tin nhắn này';
 
   @override
   String get chatMessagePublishFailedBody =>
-      'Something went wrong. Try again in a moment.';
+      'Đã xảy ra lỗi. Vui lòng thử lại sau.';
 
   @override
-  String get chatMessagePublishLimitTitle => 'Slow down';
+  String get chatMessagePublishLimitTitle => 'Chậm lại chút';
 
   @override
   String chatMessagePublishLimitBody(String duration) {
-    return 'You can publish again in $duration.';
+    return 'Bạn có thể đăng lại sau $duration.';
   }
 
   @override
   String get chatMessagePublishLimitUnknown =>
-      'You are publishing too quickly. Try again in a moment.';
+      'Bạn đang đăng quá nhanh. Vui lòng thử lại sau.';
 
   @override
   String get chatMessageDeletePublished =>
-      'This also removes the copies that were sent to channels following this one.';
+      'Thao tác này cũng xóa các bản sao đã được gửi đến các kênh theo dõi kênh này.';
 
   @override
-  String get chatMessageEditPublishedTitle => 'Edit published message?';
+  String get chatMessageEditPublishedTitle => 'Chỉnh sửa tin nhắn đã đăng?';
 
   @override
   String get chatMessageEditPublishedBody =>
-      'This updates the copies that were sent to channels following this one.';
+      'Thao tác này cập nhật các bản sao đã được gửi đến các kênh theo dõi kênh này.';
 
   @override
-  String get chatMessageEditPublishedSave => 'Save';
+  String get chatMessageEditPublishedSave => 'Lưu';
 
   @override
-  String get chatMessageEditLimitTitle => 'Slow down';
+  String get chatMessageEditLimitTitle => 'Chậm lại chút';
 
   @override
   String chatMessageEditLimitBody(String duration) {
-    return 'You can edit this published message again in $duration.';
+    return 'Bạn có thể chỉnh sửa lại tin nhắn đã đăng này sau $duration.';
   }
 
   @override
   String get chatMessageEditLimitUnknown =>
-      'You are editing this published message too quickly. Try again in a moment.';
+      'Bạn đang chỉnh sửa tin nhắn đã đăng này quá nhanh. Vui lòng thử lại sau.';
 
   @override
-  String get chatMessageOriginalDeleted => '[Original message deleted]';
+  String get chatMessageOriginalDeleted => '[Tin nhắn gốc đã bị xóa]';
 
   @override
-  String get userTagCommunity => 'Community';
+  String get userTagCommunity => 'Cộng đồng';
 
   @override
   String systemFollowAdd(String username, String source) {
-    return '$username followed $source into this channel. Messages published there will appear here.';
+    return '$username đã cho kênh này theo dõi $source. Các tin nhắn được đăng ở đó sẽ xuất hiện tại đây.';
   }
 
   @override
   String systemPreviewFollowAdd(String username, String source) {
-    return '$username followed $source into this channel.';
+    return '$username đã cho kênh này theo dõi $source.';
   }
 
   @override
-  String get publishNudgeNotSent => 'Not sent to followers yet.';
+  String get publishNudgeNotSent => 'Chưa gửi cho người theo dõi.';
 
   @override
-  String get publishNudgeHideForever => 'Don\'t show again';
+  String get publishNudgeHideForever => 'Không hiển thị lại';
 
   @override
-  String get publishNudgeDismiss => 'Dismiss';
+  String get publishNudgeDismiss => 'Bỏ qua';
 
   @override
-  String get channelSettingsFollowedChannels => 'Followed channels';
+  String get channelSettingsFollowedChannels => 'Kênh đang theo dõi';
 
   @override
   String get channelSettingsFollowedChannelsDescription =>
-      'Announcement channels this channel follows. Unfollow to stop receiving copies.';
+      'Các kênh thông báo mà kênh này đang theo dõi. Bỏ theo dõi để ngừng nhận bản sao.';
 
   @override
   String get guildSettingsFollowedChannelsDescription =>
-      'Announcement channels followed by channels in this community.';
+      'Kênh thông báo được theo dõi bởi các kênh trong cộng đồng này.';
 
   @override
   String channelSettingsFollowedFrom(String guildName, String channelName) {
-    return 'From $guildName #$channelName';
+    return 'Từ $guildName #$channelName';
   }
 
   @override
   String get channelSettingsFollowedPaused =>
-      'Updates are paused because the source channel is no longer available.';
+      'Đã tạm dừng cập nhật vì kênh nguồn không còn khả dụng.';
 
   @override
   String channelSettingsUnfollowTitle(String name) {
-    return 'Unfollow $name?';
+    return 'Bỏ theo dõi $name?';
   }
 
   @override
   String get channelSettingsUnfollowBody =>
-      'This channel will stop receiving copies from that announcement channel.';
+      'Kênh này sẽ ngừng nhận bản sao từ kênh thông báo đó.';
 
   @override
-  String get channelSettingsUnfollow => 'Unfollow';
+  String get channelSettingsUnfollow => 'Bỏ theo dõi';
 
   @override
   String get channelSettingsUnfollowFailed =>
@@ -15792,17 +15795,17 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   }
 
   @override
-  String get crosspostCommunityTitle => 'Community';
+  String get crosspostCommunityTitle => 'Cộng đồng';
 
   @override
-  String get crosspostGoToCommunity => 'Go to community';
+  String get crosspostGoToCommunity => 'Đi đến cộng đồng';
 
   @override
-  String get crosspostJoinCommunity => 'Join community';
+  String get crosspostJoinCommunity => 'Tham gia cộng đồng';
 
   @override
   String get crosspostSourceFailed =>
-      'Couldn\'t load this community. Try again in a moment.';
+      'Không thể tải cộng đồng này. Hãy thử lại sau.';
 
   @override
   String get crosspostSourceUnavailable =>
@@ -15810,12 +15813,12 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
 
   @override
   String crosspostMembers(int count) {
-    return '$count members';
+    return '$count thành viên';
   }
 
   @override
   String crosspostOnline(int count) {
-    return '$count online';
+    return '$count trực tuyến';
   }
 
   @override
@@ -15823,8 +15826,8 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count minutes',
-      one: '1 minute',
+      other: '$count phút',
+      one: '1 phút',
     );
     return '$_temp0';
   }
@@ -15834,21 +15837,21 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count seconds',
-      one: '1 second',
+      other: '$count giây',
+      one: '1 giây',
     );
     return '$_temp0';
   }
 
   @override
-  String get channelUnsupportedTitle => 'Unsupported channel type';
+  String get channelUnsupportedTitle => 'Loại kênh không được hỗ trợ';
 
   @override
   String get channelUnsupportedBody =>
-      'This version of the app doesn\'t support this channel type.';
+      'Phiên bản ứng dụng này không hỗ trợ loại kênh này.';
 
   @override
-  String get channelDetailsUnsupportedChannel => 'Unsupported channel';
+  String get channelDetailsUnsupportedChannel => 'Kênh không được hỗ trợ';
 
   @override
   String get forumChannelTypeForum => 'Forum';

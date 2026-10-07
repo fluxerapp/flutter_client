@@ -4098,6 +4098,80 @@
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
     },
+    "profileLocalTimeSettingsTitle": "שעה מקומית בפרופיל",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "הגדר את אזור הזמן שלך פעם אחת כדי ש-{productName} יוכל לעדכן את ההפרש שלך מ-UTC כששעון הקיץ משתנה. אנשים אחרים יכולים לראות רק את ההפרש שלך מ-UTC, ולא את מזהה אזור הזמן המדויק שלך.",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "עריכת השעה המקומית בפרופיל",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "אזור זמן",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "בחר את אזור הזמן שבו משתמש {productName} כדי לחשב את ההפרש שלך מ-UTC עבור השעה המקומית בפרופיל שלך.",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "חיפוש אזורי זמן",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "לא מוגדר",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "אנשים אחרים יכולים לראות רק את ההפרש הנוכחי שלך מ-UTC כאשר תבחר לשתף את השעה המקומית בפרופיל שלך. הם לא יראו את מזהה אזור הזמן המדויק שלך, כגון {timezoneIdentifierExample}. {productName} שומר את המזהה הזה רק כדי שההפרש יוכל להתעדכן באופן אוטומטי כאשר שעון הקיץ משתנה.",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "כולם",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "אפשר לכל מי שיכול לצפות בפרופיל המלא שלך לראות את השעה המקומית שלך",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "חברים",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "אפשר לחברים שלך לראות את השעה המקומית בפרופיל שלך",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "חברי קהילה",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "אפשר לחברים מקהילות שבהן אתה חבר לראות את השעה המקומית בפרופיל שלך",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
+    },
     "userProfileSameTimeAsYou": "אותה שעה כמוך",
     "@userProfileSameTimeAsYou": {
         "description": "Profile timezone difference when the target matches the viewer."
@@ -6571,6 +6645,14 @@
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
     },
+    "accessibilityShowAltTextOnImagesLabel": "הצג טקסט אלטרנטיבי בתמונות",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "הצג טקסט חלופי מתחת לתמונות כאשר הוא זמין.",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
     "accessibilityDimStrikethroughTextLabel": "עמעום טקסט עם קו חוצה",
     "@accessibilityDimStrikethroughTextLabel": {
         "description": "Toggle label for dimming strikethrough text in messages."
@@ -8473,6 +8555,10 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "הקש פעמיים על הודעה כדי",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
     "chatMessageEdit": "עריכת הודעה",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -8480,6 +8566,14 @@
     "chatMessageReply": "השב",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
+    },
+    "notificationReplyPlaceholder": "הודעה",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "לא ניתן היה לשלוח את התשובה",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
     },
     "chatMessageForward": "העברה",
     "@chatMessageForward": {
@@ -9424,6 +9518,10 @@
     "chatVideoPlaybackFailed": "לא ניתן להפעיל את הסרטון הזה.",
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
+    },
+    "chatImageCouldNotLoad": "לא ניתן לטעון תמונה זו.",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
     },
     "composerAutocompleteRoleMentionDescription": "שליחת התראה למשתמשים עם תפקיד זה שיש להם הרשאה לצפות בערוץ זה.",
     "@composerAutocompleteRoleMentionDescription": {
@@ -11868,6 +11966,72 @@
     "premiumPerkCustomThemes": "ערכות נושא מותאמות אישית",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "עד 4K/60fps",
+    "storePlutoniumPriceLine": "{monthly} או {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/חודש",
+    "storePlutoniumYearSuffix": "/שנה",
+    "storePlutoniumPriceOr": "או",
+    "storePlutoniumEmojiTitle": "האימוג'ים שלך, בכל מקום",
+    "storePlutoniumEmojiBody": "הבא אמוג'יז ומדבקות מותאמים אישית מכל אחת מהקהילות שלך לכל צ'אט וקהילה שבהם אתה נמצא.",
+    "storePlutoniumProfileTitle": "פרופיל שיבלוט",
+    "storePlutoniumProfileBody": "קבל תמונת פרופיל ובאנר מונפשים, תג מנוי, תגית בת ארבע ספרות לבחירתך אחרי שם המשתמש שלך*, ופרופיל נפרד לכל קהילה.",
+    "storePlutoniumFilesTitle": "שלח קבצים עד 500 מ״ב",
+    "storePlutoniumFilesBody": "שתף סרטונים באורך מלא וקבצים גדולים מבלי לכווץ אותם קודם. חשבונות חינמיים יכולים לשלוח עד 25 מגה-בייט.",
+    "storePlutoniumCompareTitle": "השווה בין חינם ל-Plutonium",
+    "storePlutoniumCompareMobileNote": "לא כל התכונות האלה זמינות באפליקציה לנייד. חלקן זמינות רק במחשב שולחני.",
+    "storePlutoniumNotAvailable": "לא זמין",
+    "storePlutoniumAvailable": "זמינה",
+    "storePlutoniumCompareTag": "בחר את המספר בן 4 הספרות אחרי שם המשתמש שלך*",
+    "storePlutoniumCompareProfile": "פרופיל נפרד לכל קהילה",
+    "storePlutoniumCompareBadge": "תג מנוי בפרופיל שלך",
+    "storePlutoniumCompareBackgrounds": "רקעים לשיחות וידאו שתוכל לשמור",
+    "storePlutoniumCompareCommunities": "קהילות שתוכל להצטרף אליהן",
+    "storePlutoniumCompareCharacters": "תווים בהודעה בודדת",
+    "storePlutoniumCompareBookmarks": "הודעות שניתן לשמור בסימניות",
+    "storePlutoniumCompareUpload": "הקובץ הגדול ביותר שניתן להעלות",
+    "storePlutoniumCompareSavedMedia": "פריטי מדיה שתוכל לשמור למועד מאוחר יותר",
+    "storePlutoniumCompareAnimatedEmoji": "השתמש באימוג'י מונפשים בהודעות",
+    "storePlutoniumCompareCustomEmoji": "השתמש באימוג'י ומדבקות מותאמים אישית בכל קהילה",
+    "storePlutoniumCompareVideo": "איכות שיחות וידאו ושיתוף מסך",
+    "storePlutoniumCompareAvatar": "תמונת פרופיל וכרזת פרופיל מונפשות",
+    "storePlutoniumCompareEarlyAccess": "גישה מוקדמת לתכונות חדשות",
+    "storePlutoniumCompareThemes": "ערכות נושא מותאמות אישית לאפליקציה",
+    "storePlutoniumVideoFree": "עד 720p ב-30 FPS",
+    "storePlutoniumVideoPlutonium": "עד 4K ב-60 FPS",
+    "storePlutoniumTagFootnote": "ניתן לבחור תגית שאין לאף אחד אחר עם אותו שם משתמש. שמות משתמש אינם תלויי רישיות, כך ש-Mina#4821 ו-mina#4821 נחשבים זהים. התגית #0000 שמורה לחברי Fluxer Visionary.",
+    "storePlutoniumLearnVisionary": "למידע נוסף על Visionary.",
+    "storePlutoniumDonatePrompt": "רק רוצה לתמוך בפיתוח הקוד הפתוח של Fluxer? ",
+    "storePlutoniumDonateLink": "לתרום במקום זאת.",
+    "storePlutoniumHighlightsLead": "המינוי מממן את Fluxer ופותח",
+    "storePlutoniumHighlightEmoji": "אימוג'י ומדבקות מותאמים אישית בכל צ'אט",
+    "storePlutoniumHighlightProfile": "פרופיל מונפש, תג ומספר 4-ספרתי מותאם אישית",
+    "storePlutoniumHighlightFiles": "העלאות עד 500 מגה-בייט",
+    "storePlutoniumHighlightMessages": "שליחת הודעות באורך של עד 4,000 תווים",
+    "storePlutoniumHighlightCommunityProfile": "פרופיל נפרד לכל קהילה",
+    "storePlutoniumHighlightsMore": "ועוד",
+    "storePlutoniumRenewsThroughPlay": "מתחדש אוטומטית דרך Google Play עד שתבטל.",
+    "storePlutoniumRenewsThroughAppStore": "מתחדש אוטומטית דרך App Store עד לביטול.",
+    "storePlutoniumAlreadySubscribed": "כבר יש לך מנוי ל-Fluxer Plutonium.",
+    "storePlutoniumSavePercent": "חסוך {percent}%",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "הרכישה התקבלה. Plutonium יופיע כאן לאחר הפעלתו.",
+    "storePlutoniumUnavailable": "מינויים בתוך האפליקציה עדיין אינם זמינים במכשיר זה.",
+    "storePlutoniumVisionaryStatus": "Visionary כבר כולל גישה קבועה, כך שאין צורך במנוי חוזר.",
     "userSettingsNavPrivacyDashboard": "לוח הבקרה של פרטיות",
     "@userSettingsNavPrivacyDashboard": {
         "description": "User settings navigation item for the privacy dashboard."
@@ -12618,6 +12782,18 @@
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
     },
+    "userSettingsNavAppIcon": "סמל האפליקציה",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "סמל האפליקציה",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "בחר איזה אייקון יופיע במסך הבית שלך.",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
+    },
     "userSettingsNavAdvanced": "מתקדם",
     "@userSettingsNavAdvanced": {
         "description": "User settings navigation item for advanced settings."
@@ -13138,6 +13314,10 @@
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
     },
+    "instanceUrlHelper": "השתמש ב-fluxer.app עבור המופע הרשמי, או בכתובת ה-URL המדויקת של מופע באירוח עצמי.",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
+    },
     "resetToDefaultInstance": "אפס ל-Fluxer",
     "@resetToDefaultInstance": {
         "description": "Tooltip for the button that resets the instance URL to the official Fluxer instance."
@@ -13399,6 +13579,14 @@
     "authHidePassword": "הסתר סיסמה",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "עדיין עובדים על זה…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
+    },
+    "authVerificationFailed": "לא ניתן להשלים את האימות. נסה שוב.",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
     },
     "chatLoadingMessages": "טוען הודעות",
     "@chatLoadingMessages": {
@@ -17041,6 +17229,40 @@
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
+    "assistantNeedsLogin": "פתח את Fluxer והיכנס קודם.",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "אינך בשיחה.",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "Fluxer לא מצא את זה.",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "הודעות פרטיות מושבתות במופע זה.",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "Fluxer לא הצליח להשלים זאת.",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "המיקרופון מושתק.",
+    "assistantOkUnmuted": "השתקת המיקרופון בוטלה.",
+    "assistantOkLeftVoice": "יצאת מהערוץ הקולי.",
+    "assistantOkJoinedVoice": "מצטרף לערוץ הקולי.",
+    "assistantOkStartedCall": "מתחיל את השיחה.",
+    "assistantOkStatusSet": "הסטטוס הוגדר ל-{status}.",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "פותח את Fluxer.",
     "lookAndFeelChatWallpaperTitle": "טפט צ'אט",
     "@lookAndFeelChatWallpaperTitle": {
         "description": "Look and Feel section title for chat wallpaper presets."
@@ -17064,6 +17286,10 @@
     "lookAndFeelChatWallpaperCustomLabel": "תמונה מותאמת אישית",
     "@lookAndFeelChatWallpaperCustomLabel": {
         "description": "Chat wallpaper option that picks an image from the gallery."
+    },
+    "lookAndFeelChatWallpaperStarfieldLabel": "שדה כוכבים",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
     },
     "lookAndFeelChatWallpaperColorLabel": "צבע {id}",
     "@lookAndFeelChatWallpaperColorLabel": {
@@ -17133,6 +17359,15 @@
         "description": "Empty-state body. apiName is the product API display name.",
         "placeholders": {
             "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "נוצר ב-{date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
                 "type": "String"
             }
         }
@@ -17317,6 +17552,10 @@
     "@applicationsOauthBuilderTitle": {
         "description": "Section title for the authorize URL builder."
     },
+    "applicationsOauthBuilderDescription": "בנה כתובת URL לאישור עם הרשאות והיקפים.",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
     "applicationsScopes": "הרשאות",
     "@applicationsScopes": {
         "description": "Label for OAuth2 scope checkboxes."
@@ -17349,6 +17588,10 @@
     "@applicationsAuthorizeUrlPlaceholder": {
         "description": "Placeholder when the authorize URL cannot be built yet."
     },
+    "applicationsCopyAuthorizeUrl": "העתק כתובת אתר לאישור",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
     "applicationsCopiedUrl": "כתובת ה-URL הועתקה ללוח הגזירים",
     "@applicationsCopiedUrl": {
         "description": "Toast after copying the authorize URL."
@@ -17368,6 +17611,15 @@
     "applicationsDelete": "מחיקת אפליקציה",
     "@applicationsDelete": {
         "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "האם אתה בטוח שברצונך למחוק את {name}? לא ניתן לבטל פעולה זו. כל הנתונים המשויכים, כולל משתמש הבוט, יימחקו לצמיתות.",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     },
     "applicationsDeleteFailed": "לא ניתן היה למחוק את האפליקציה",
     "@applicationsDeleteFailed": {
@@ -17457,6 +17709,10 @@
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
     },
+    "voiceOutputRouteEarpiece": "שפופרת",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
     "voiceOutputRouteHeadset": "אוזניות",
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
@@ -17464,6 +17720,14 @@
     "doubleTapReactionEdit": "עריכה",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "עריכת ברירת מחדל",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "בחר אימוג'י להקשה כפולה",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
     },
     "chatMessagePinConfirm": "הצמדה",
     "@chatMessagePinConfirm": {
@@ -17477,9 +17741,17 @@
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."
     },
+    "appIconOptionStarfield": "שדה כוכבים",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
     "appIconOptionSweden": "שוודיה",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "שינוי סמל האפליקציה אינו זמין במכשיר זה.",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     },
     "userSettingsLogOutConfirmTitle": "להתנתק?",
     "@userSettingsLogOutConfirmTitle": {
@@ -17509,5 +17781,178 @@
     "@guildSettingsCommunityDeleted": {
         "description": "Success toast after a community is deleted."
     },
-    "assistantOkMessageSent": "ההודעה נשלחה."
+    "guildSettingsDeleteCommunityFailed": "לא ניתן היה למחוק קהילה זו",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantOkMessageSent": "ההודעה נשלחה.",
+    "assistantOkCustomStatusSet": "הסטטוס המותאם אישית עודכן.",
+    "assistantOkCustomStatusCleared": "הסטטוס המותאם אישית נוקה.",
+    "guildNavbarAnnouncementChannel": "ערוץ הכרזות",
+    "guildNavbarAnnouncementChannelDescription": "פרסם עדכונים שקהילות אחרות יכולות לעקוב אחריהם לערוצים שלהן",
+    "channelDetailsAnnouncementChannel": "ערוץ הכרזות",
+    "channelSettingsAnnouncementChannel": "ערוץ הכרזות",
+    "channelSettingsAnnouncementChannelDescription": "מאפשר לקהילות אחרות לעקוב אחר הערוץ הזה ולקבל עותקים של מה שאתה מפרסם.",
+    "channelSettingsStopAnnouncementTitle": "להפסיק להיות ערוץ הכרזות?",
+    "channelSettingsStopAnnouncementBody": "{count, plural, one{ערוץ אחד עוקב אחר ערוץ זה. המרתו לערוץ טקסט תסיר את המעקב הזה.} two{שני ערוצים עוקבים אחר ערוץ זה. המרתו לערוץ טקסט תסיר את המעקבים האלה.} other{{count} ערוצים עוקבים אחר ערוץ זה. המרתו לערוץ טקסט תסיר את המעקבים האלה.}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "המרת ערוץ זה לערוץ טקסט תבטל את המעקב של כל הערוצים שעוקבים אחריו.",
+    "channelSettingsConvertChannel": "המר",
+    "channelSettingsConvertFailed": "לא ניתן היה להמיר את הערוץ הזה",
+    "channelSettingsChannelHasFollowers": "ערוצים אחרים עדיין עוקבים אחר ערוץ זה. הסר את המעקבים האלה לפני ההמרה.",
+    "channelMenuFollow": "עקוב אחר ערוץ",
+    "channelFollowTitle": "עקוב אחר הערוץ הזה",
+    "channelFollowBody": "בחר לאן יישלחו ההודעות שפורסמו בו. ניתן לבטל את המעקב בכל עת בהגדרות קהילה ← Webhooks.",
+    "channelFollowCommunity": "קהילה",
+    "channelFollowChannel": "ערוץ",
+    "channelFollowAgeWarning": "זה ערוץ עם הגבלת גיל. עדכונים יכולים להישלח רק לערוצים עם הגבלת גיל.",
+    "channelFollowContentWarning": "הערוץ הזה מכיל אזהרת תוכן. עדכונים יכולים להישלח רק לערוצים עם אזהרת תוכן או הגבלת גיל.",
+    "channelFollowHiddenHint": "קהילות וערוצים שבהם אינך יכול לנהל Webhooks מוסתרים.",
+    "channelFollowEmpty": "אינך יכול לנהל Webhooks באף קהילה. בקש ממנהל לעקוב אחר הערוץ הזה.",
+    "channelFollowSubmit": "עקוב",
+    "channelFollowFailed": "לא ניתן היה לעקוב אחר הערוץ הזה.",
+    "channelFollowSuccessTitle": "עדכונים בדרך!",
+    "channelFollowSuccessBody": "הודעות שפורסמו ב-{sourceName} יופיעו ב-#{targetName}.",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "הבנתי!",
+    "channelFollowBarrier": "עקוב אחר הערוץ הזה כדי לקבל את ההכרזות האלה בערוץ שתבחר.",
+    "channelHeaderFollow": "עקוב אחר ערוץ",
+    "chatMessagePublish": "פרסם",
+    "chatMessagePublished": "פורסם",
+    "chatMessagePublishConfirmTitle": "לפרסם הודעה?",
+    "chatMessagePublishConfirmBody": "פעולה זו שולחת עותק לכל ערוץ שעוקב אחרי ערוץ זה.",
+    "chatMessagePublishedToast": "ההודעה פורסמה",
+    "chatMessageAlreadyPublished": "ההודעה הזו כבר פורסמה.",
+    "chatMessagePublishFailedTitle": "לא ניתן לפרסם הודעה זו",
+    "chatMessagePublishFailedBody": "משהו השתבש. נסה שוב בעוד רגע.",
+    "chatMessagePublishLimitTitle": "לאט לאט",
+    "chatMessagePublishLimitBody": "תוכל לפרסם שוב בעוד {duration}.",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "אתה מפרסם מהר מדי. נסה שוב בעוד רגע.",
+    "chatMessageDeletePublished": "פעולה זו תסיר גם את העותקים שנשלחו לערוצים העוקבים אחרי ערוץ זה.",
+    "chatMessageEditPublishedTitle": "עריכת הודעה שפורסמה?",
+    "chatMessageEditPublishedBody": "זה מעדכן את העותקים שנשלחו לערוצים שעוקבים אחרי ערוץ זה.",
+    "chatMessageEditPublishedSave": "שמירה",
+    "chatMessageEditLimitTitle": "לאט לאט",
+    "chatMessageEditLimitBody": "תוכל לערוך את ההודעה שפורסמה שוב בעוד {duration}.",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "אתה עורך את ההודעה שפורסמה מהר מדי. נסה שוב בעוד רגע.",
+    "chatMessageOriginalDeleted": "[ההודעה המקורית נמחקה]",
+    "userTagCommunity": "קהילה",
+    "systemFollowAdd": "{username} הגדיר/ה את הערוץ הזה לעקוב אחר {source}. הודעות שפורסמו שם יופיעו כאן.",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username} הגדיר/ה את הערוץ הזה לעקוב אחר {source}.",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "עדיין לא נשלח לעוקבים.",
+    "publishNudgeHideForever": "אל תציג שוב",
+    "publishNudgeDismiss": "סגירה",
+    "channelSettingsFollowedChannels": "ערוצים במעקב",
+    "channelSettingsFollowedChannelsDescription": "ערוצי הכרזות שערוץ זה עוקב אחריהם. בטל מעקב כדי להפסיק לקבל עותקים.",
+    "guildSettingsFollowedChannelsDescription": "ערוצי הכרזות שאחריהם עוקבים ערוצים בקהילה זו.",
+    "channelSettingsFollowedFrom": "מאת {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "העדכונים מושהים מכיוון שערוץ המקור אינו זמין עוד.",
+    "channelSettingsUnfollowTitle": "להפסיק לעקוב אחר {name}?",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "ערוץ זה יפסיק לקבל עותקים מערוץ ההכרזות ההוא.",
+    "channelSettingsUnfollow": "בטל מעקב",
+    "crosspostCommunityTitle": "קהילה",
+    "crosspostGoToCommunity": "מעבר לקהילה",
+    "crosspostJoinCommunity": "הצטרף לקהילה",
+    "crosspostSourceFailed": "לא ניתן היה לטעון את הקהילה הזו. נסה שוב בעוד רגע.",
+    "crosspostMembers": "{count} חברים",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "{count} מחוברים",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, one{דקה אחת} two{שתי דקות} other{{count} דקות}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, one{שנייה אחת} two{שתי שניות} other{{count} שניות}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "סוג ערוץ לא נתמך",
+    "channelUnsupportedBody": "גרסה זו של האפליקציה אינה תומכת בסוג ערוץ זה.",
+    "channelDetailsUnsupportedChannel": "ערוץ לא נתמך"
 }

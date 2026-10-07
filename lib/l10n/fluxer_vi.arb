@@ -4098,6 +4098,80 @@
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
     },
+    "profileLocalTimeSettingsTitle": "Giờ địa phương trên hồ sơ",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "Đặt múi giờ một lần để {productName} luôn cập nhật độ lệch UTC của bạn khi giờ mùa hè thay đổi. Những người khác chỉ thấy độ lệch UTC của bạn, không thấy mã định danh múi giờ chính xác.",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "Chỉnh sửa giờ địa phương trên hồ sơ",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "Múi giờ",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "Chọn múi giờ mà {productName} sử dụng để tính toán độ lệch UTC cho thời gian hiển thị trên hồ sơ của bạn.",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "Tìm múi giờ",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "Chưa đặt",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "Những người khác chỉ thấy được độ lệch UTC hiện tại của bạn khi bạn chọn chia sẻ giờ địa phương trong hồ sơ. Họ không thấy mã định danh múi giờ chính xác của bạn, chẳng hạn như {timezoneIdentifierExample}. {productName} chỉ lưu mã định danh đó để độ lệch có thể tự động cập nhật khi giờ mùa hè thay đổi.",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "Mọi người",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "Cho phép bất kỳ ai xem được hồ sơ đầy đủ của bạn thấy giờ địa phương của bạn",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "Bạn bè",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "Cho phép bạn bè xem giờ địa phương của bạn",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "Thành viên cộng đồng",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "Cho phép thành viên từ các cộng đồng bạn tham gia xem giờ địa phương của bạn",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
+    },
     "userProfileSameTimeAsYou": "Cùng múi giờ với bạn",
     "@userProfileSameTimeAsYou": {
         "description": "Profile timezone difference when the target matches the viewer."
@@ -6571,6 +6645,14 @@
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
     },
+    "accessibilityShowAltTextOnImagesLabel": "Hiển thị văn bản thay thế trên hình ảnh",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "Hiển thị văn bản thay thế bên dưới hình ảnh khi có sẵn.",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
     "accessibilityDimStrikethroughTextLabel": "Làm mờ văn bản gạch ngang",
     "@accessibilityDimStrikethroughTextLabel": {
         "description": "Toggle label for dimming strikethrough text in messages."
@@ -8473,6 +8555,10 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "Chạm hai lần vào tin nhắn để bày tỏ cảm xúc",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
     "chatMessageEdit": "Chỉnh sửa tin nhắn",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -8480,6 +8566,14 @@
     "chatMessageReply": "Trả lời",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
+    },
+    "notificationReplyPlaceholder": "Tin nhắn",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "Không thể gửi trả lời",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
     },
     "chatMessageForward": "Chuyển tiếp",
     "@chatMessageForward": {
@@ -9424,6 +9518,10 @@
     "chatVideoPlaybackFailed": "Không thể phát video này.",
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
+    },
+    "chatImageCouldNotLoad": "Không thể tải hình ảnh này.",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
     },
     "composerAutocompleteRoleMentionDescription": "Thông báo cho những người dùng có vai trò này và có quyền xem kênh này.",
     "@composerAutocompleteRoleMentionDescription": {
@@ -11868,6 +11966,72 @@
     "premiumPerkCustomThemes": "Giao diện tùy chỉnh",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "Lên đến 4K/60fps",
+    "storePlutoniumPriceLine": "{monthly} hoặc {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/tháng",
+    "storePlutoniumYearSuffix": "/năm",
+    "storePlutoniumPriceOr": "hoặc",
+    "storePlutoniumEmojiTitle": "Biểu tượng cảm xúc của bạn, ở mọi nơi",
+    "storePlutoniumEmojiBody": "Mang biểu tượng cảm xúc và nhãn dán tùy chỉnh từ bất kỳ cộng đồng nào của bạn vào mọi cuộc trò chuyện và cộng đồng bạn tham gia.",
+    "storePlutoniumProfileTitle": "Một hồ sơ nổi bật",
+    "storePlutoniumProfileBody": "Nhận ảnh đại diện và ảnh bìa động, huy hiệu người đăng ký, thẻ bốn chữ số bạn muốn sau tên người dùng*, và một hồ sơ riêng cho mỗi cộng đồng.",
+    "storePlutoniumFilesTitle": "Gửi tệp lên đến 500 MB",
+    "storePlutoniumFilesBody": "Chia sẻ video dài và tệp lớn mà không cần nén trước. Tài khoản miễn phí có thể gửi tối đa 25 MB.",
+    "storePlutoniumCompareTitle": "So sánh gói Miễn phí và Plutonium",
+    "storePlutoniumCompareMobileNote": "Không phải tất cả các tính năng này đều có trong ứng dụng di động. Một số chỉ có trên máy tính để bàn.",
+    "storePlutoniumNotAvailable": "Không có sẵn",
+    "storePlutoniumAvailable": "Khả dụng",
+    "storePlutoniumCompareTag": "Chọn số có 4 chữ số sau tên người dùng của bạn*",
+    "storePlutoniumCompareProfile": "Một hồ sơ riêng cho mỗi cộng đồng",
+    "storePlutoniumCompareBadge": "Huy hiệu người đăng ký trên hồ sơ của bạn",
+    "storePlutoniumCompareBackgrounds": "Hình nền cuộc gọi video bạn có thể lưu",
+    "storePlutoniumCompareCommunities": "Cộng đồng bạn có thể tham gia",
+    "storePlutoniumCompareCharacters": "Ký tự trong một tin nhắn",
+    "storePlutoniumCompareBookmarks": "Tin nhắn bạn có thể đánh dấu",
+    "storePlutoniumCompareUpload": "Tệp lớn nhất bạn có thể tải lên",
+    "storePlutoniumCompareSavedMedia": "Phương tiện bạn có thể lưu lại để xem sau",
+    "storePlutoniumCompareAnimatedEmoji": "Sử dụng biểu tượng cảm xúc động trong tin nhắn",
+    "storePlutoniumCompareCustomEmoji": "Sử dụng biểu tượng cảm xúc và nhãn dán tùy chỉnh trong mọi cộng đồng",
+    "storePlutoniumCompareVideo": "Chất lượng cuộc gọi video và chia sẻ màn hình",
+    "storePlutoniumCompareAvatar": "Ảnh đại diện và banner hồ sơ động",
+    "storePlutoniumCompareEarlyAccess": "Truy cập sớm các tính năng mới",
+    "storePlutoniumCompareThemes": "Chủ đề tùy chỉnh cho ứng dụng",
+    "storePlutoniumVideoFree": "Lên đến 720p ở 30 FPS",
+    "storePlutoniumVideoPlutonium": "Lên đến 4K ở 60 FPS",
+    "storePlutoniumTagFootnote": "Bạn chỉ có thể chọn một thẻ mà chưa có ai khác có cùng tên người dùng. Tên người dùng không phân biệt chữ hoa chữ thường, vì vậy Mina#4821 và mina#4821 được tính là giống nhau. Thẻ #0000 được dành riêng cho thành viên Fluxer Visionary.",
+    "storePlutoniumLearnVisionary": "Tìm hiểu thêm về Visionary.",
+    "storePlutoniumDonatePrompt": "Chỉ muốn ủng hộ việc phát triển mã nguồn mở của Fluxer? ",
+    "storePlutoniumDonateLink": "Hoặc quyên góp.",
+    "storePlutoniumHighlightsLead": "Đăng ký tài trợ cho Fluxer và mở khóa",
+    "storePlutoniumHighlightEmoji": "Biểu tượng cảm xúc và nhãn dán tùy chỉnh trong mọi cuộc trò chuyện",
+    "storePlutoniumHighlightProfile": "Hồ sơ động, huy hiệu và số tùy chỉnh gồm 4 chữ số",
+    "storePlutoniumHighlightFiles": "Tải lên tối đa 500 MB",
+    "storePlutoniumHighlightMessages": "Gửi tin nhắn tối đa 4.000 ký tự",
+    "storePlutoniumHighlightCommunityProfile": "Một hồ sơ riêng cho mỗi cộng đồng",
+    "storePlutoniumHighlightsMore": "Và nhiều hơn nữa",
+    "storePlutoniumRenewsThroughPlay": "Tự động gia hạn qua Google Play cho đến khi bạn hủy.",
+    "storePlutoniumRenewsThroughAppStore": "Tự động gia hạn qua App Store cho đến khi bạn hủy.",
+    "storePlutoniumAlreadySubscribed": "Bạn đã có gói đăng ký Fluxer Plutonium.",
+    "storePlutoniumSavePercent": "Tiết kiệm {percent}%",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "Đã nhận giao dịch mua. Plutonium sẽ hiển thị ở đây sau khi được kích hoạt.",
+    "storePlutoniumUnavailable": "Tính năng đăng ký trong ứng dụng chưa khả dụng trên thiết bị này.",
+    "storePlutoniumVisionaryStatus": "Visionary đã bao gồm quyền truy cập vĩnh viễn, vì vậy không cần gói đăng ký định kỳ.",
     "userSettingsNavPrivacyDashboard": "Bảng điều khiển quyền riêng tư",
     "@userSettingsNavPrivacyDashboard": {
         "description": "User settings navigation item for the privacy dashboard."
@@ -12618,6 +12782,18 @@
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
     },
+    "userSettingsNavAppIcon": "Biểu tượng ứng dụng",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "Biểu tượng ứng dụng",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "Chọn biểu tượng xuất hiện trên màn hình chính của bạn.",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
+    },
     "userSettingsNavAdvanced": "Nâng cao",
     "@userSettingsNavAdvanced": {
         "description": "User settings navigation item for advanced settings."
@@ -13138,6 +13314,9 @@
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
     },
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
+    },
     "resetToDefaultInstance": "Đặt lại về Fluxer",
     "@resetToDefaultInstance": {
         "description": "Tooltip for the button that resets the instance URL to the official Fluxer instance."
@@ -13399,6 +13578,14 @@
     "authHidePassword": "Ẩn mật khẩu",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "Vẫn đang xử lý…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
+    },
+    "authVerificationFailed": "Không thể hoàn tất xác minh. Vui lòng thử lại.",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
     },
     "chatLoadingMessages": "Đang tải tin nhắn",
     "@chatLoadingMessages": {
@@ -17041,6 +17228,39 @@
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
+    "assistantNeedsLogin": "Mở Fluxer và đăng nhập trước.",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "Bạn không có trong cuộc gọi.",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "Fluxer không thể tìm thấy mục đó.",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "Fluxer không thể hoàn thành tác vụ đó.",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "Đã tắt micrô.",
+    "assistantOkUnmuted": "Đã bật micrô.",
+    "assistantOkLeftVoice": "Đã rời kênh thoại.",
+    "assistantOkJoinedVoice": "Đang tham gia kênh thoại.",
+    "assistantOkStartedCall": "Đang bắt đầu cuộc gọi.",
+    "assistantOkStatusSet": "Đã đặt trạng thái thành {status}.",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "Đang mở Fluxer.",
     "lookAndFeelChatWallpaperTitle": "Hình nền trò chuyện",
     "@lookAndFeelChatWallpaperTitle": {
         "description": "Look and Feel section title for chat wallpaper presets."
@@ -17064,6 +17284,10 @@
     "lookAndFeelChatWallpaperCustomLabel": "Ảnh tùy chỉnh",
     "@lookAndFeelChatWallpaperCustomLabel": {
         "description": "Chat wallpaper option that picks an image from the gallery."
+    },
+    "lookAndFeelChatWallpaperStarfieldLabel": "Bầu trời sao",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
     },
     "lookAndFeelChatWallpaperColorLabel": "Màu {id}",
     "@lookAndFeelChatWallpaperColorLabel": {
@@ -17133,6 +17357,15 @@
         "description": "Empty-state body. apiName is the product API display name.",
         "placeholders": {
             "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "Đã tạo {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
                 "type": "String"
             }
         }
@@ -17317,6 +17550,10 @@
     "@applicationsOauthBuilderTitle": {
         "description": "Section title for the authorize URL builder."
     },
+    "applicationsOauthBuilderDescription": "Tạo URL ủy quyền với các phạm vi và quyền.",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
     "applicationsScopes": "Phạm vi",
     "@applicationsScopes": {
         "description": "Label for OAuth2 scope checkboxes."
@@ -17349,6 +17586,10 @@
     "@applicationsAuthorizeUrlPlaceholder": {
         "description": "Placeholder when the authorize URL cannot be built yet."
     },
+    "applicationsCopyAuthorizeUrl": "Sao chép URL ủy quyền",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
     "applicationsCopiedUrl": "Đã sao chép URL vào bảng nhớ tạm",
     "@applicationsCopiedUrl": {
         "description": "Toast after copying the authorize URL."
@@ -17368,6 +17609,15 @@
     "applicationsDelete": "Xóa ứng dụng",
     "@applicationsDelete": {
         "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "Bạn có chắc chắn muốn xóa {name} không? Hành động này không thể hoàn tác. Tất cả dữ liệu liên quan, bao gồm người dùng bot, sẽ bị xóa vĩnh viễn.",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     },
     "applicationsDeleteFailed": "Không thể xóa ứng dụng",
     "@applicationsDeleteFailed": {
@@ -17457,6 +17707,10 @@
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
     },
+    "voiceOutputRouteEarpiece": "Tai nghe",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
     "voiceOutputRouteHeadset": "Tai nghe",
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
@@ -17464,6 +17718,14 @@
     "doubleTapReactionEdit": "Chỉnh sửa",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "Chỉnh sửa mặc định",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "Chọn biểu tượng cảm xúc nhấn đúp",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
     },
     "chatMessagePinConfirm": "Ghim",
     "@chatMessagePinConfirm": {
@@ -17477,9 +17739,17 @@
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."
     },
+    "appIconOptionStarfield": "Bầu trời sao",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
     "appIconOptionSweden": "Thụy Điển",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "Thay đổi biểu tượng ứng dụng không khả dụng trên thiết bị này.",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     },
     "userSettingsLogOutConfirmTitle": "Đăng xuất?",
     "@userSettingsLogOutConfirmTitle": {
@@ -17509,5 +17779,178 @@
     "@guildSettingsCommunityDeleted": {
         "description": "Success toast after a community is deleted."
     },
-    "assistantOkMessageSent": "Đã gửi tin nhắn."
+    "guildSettingsDeleteCommunityFailed": "Không thể xóa cộng đồng này",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantOkMessageSent": "Đã gửi tin nhắn.",
+    "assistantOkCustomStatusSet": "Đã cập nhật trạng thái tùy chỉnh.",
+    "assistantOkCustomStatusCleared": "Đã xóa trạng thái tùy chỉnh.",
+    "guildNavbarAnnouncementChannel": "Kênh thông báo",
+    "guildNavbarAnnouncementChannelDescription": "Đăng các bản cập nhật mà các cộng đồng khác có thể theo dõi vào kênh của họ",
+    "channelDetailsAnnouncementChannel": "Kênh thông báo",
+    "channelSettingsAnnouncementChannel": "Kênh thông báo",
+    "channelSettingsAnnouncementChannelDescription": "Cho phép các cộng đồng khác theo dõi kênh này và nhận bản sao những gì bạn đăng.",
+    "channelSettingsStopAnnouncementTitle": "Dừng làm kênh thông báo?",
+    "channelSettingsStopAnnouncementBody": "{count, plural, =1{1 kênh đang theo dõi kênh này. Việc chuyển đổi kênh này thành kênh văn bản sẽ xóa lượt theo dõi đó.} other{{count} kênh đang theo dõi kênh này. Việc chuyển đổi kênh này thành kênh văn bản sẽ xóa các lượt theo dõi đó.}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "Chuyển kênh này thành kênh văn bản sẽ khiến mọi kênh đang theo dõi nó ngừng theo dõi.",
+    "channelSettingsConvertChannel": "Chuyển đổi",
+    "channelSettingsConvertFailed": "Không thể chuyển đổi kênh này",
+    "channelSettingsChannelHasFollowers": "Vẫn còn kênh khác đang theo dõi kênh này. Hãy xóa các lượt theo dõi đó trước khi chuyển đổi.",
+    "channelMenuFollow": "Theo dõi kênh",
+    "channelFollowTitle": "Theo dõi kênh này",
+    "channelFollowBody": "Chọn nơi các tin nhắn đã xuất bản của kênh sẽ hiển thị. Bạn có thể bỏ theo dõi bất cứ lúc nào trong Cài đặt cộng đồng → Webhook.",
+    "channelFollowCommunity": "Cộng đồng",
+    "channelFollowChannel": "Kênh",
+    "channelFollowAgeWarning": "Đây là kênh giới hạn độ tuổi. Các cập nhật chỉ có thể được gửi đến các kênh giới hạn độ tuổi.",
+    "channelFollowContentWarning": "Kênh này có cảnh báo nội dung. Các cập nhật chỉ có thể được gửi đến các kênh có cảnh báo nội dung hoặc giới hạn độ tuổi.",
+    "channelFollowHiddenHint": "Cộng đồng và kênh mà bạn không thể quản lý webhook sẽ bị ẩn.",
+    "channelFollowEmpty": "Bạn không thể quản lý webhook ở bất kỳ cộng đồng nào. Hãy yêu cầu quản trị viên theo dõi kênh này.",
+    "channelFollowSubmit": "Theo dõi",
+    "channelFollowFailed": "Không thể theo dõi kênh này.",
+    "channelFollowSuccessTitle": "Các bản cập nhật đang được gửi đến!",
+    "channelFollowSuccessBody": "Các tin nhắn được đăng trong {sourceName} sẽ hiển thị trong #{targetName}.",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "Đã hiểu!",
+    "channelFollowBarrier": "Theo dõi kênh này để nhận các thông báo này trong kênh bạn chọn.",
+    "channelHeaderFollow": "Theo dõi kênh",
+    "chatMessagePublish": "Đăng",
+    "chatMessagePublished": "Đã đăng",
+    "chatMessagePublishConfirmTitle": "Đăng tin nhắn?",
+    "chatMessagePublishConfirmBody": "Thao tác này sẽ gửi một bản sao đến mọi kênh theo dõi kênh này.",
+    "chatMessagePublishedToast": "Tin nhắn đã được đăng",
+    "chatMessageAlreadyPublished": "Tin nhắn này đã được đăng.",
+    "chatMessagePublishFailedTitle": "Không thể đăng tin nhắn này",
+    "chatMessagePublishFailedBody": "Đã xảy ra lỗi. Vui lòng thử lại sau.",
+    "chatMessagePublishLimitTitle": "Chậm lại chút",
+    "chatMessagePublishLimitBody": "Bạn có thể đăng lại sau {duration}.",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "Bạn đang đăng quá nhanh. Vui lòng thử lại sau.",
+    "chatMessageDeletePublished": "Thao tác này cũng xóa các bản sao đã được gửi đến các kênh theo dõi kênh này.",
+    "chatMessageEditPublishedTitle": "Chỉnh sửa tin nhắn đã đăng?",
+    "chatMessageEditPublishedBody": "Thao tác này cập nhật các bản sao đã được gửi đến các kênh theo dõi kênh này.",
+    "chatMessageEditPublishedSave": "Lưu",
+    "chatMessageEditLimitTitle": "Chậm lại chút",
+    "chatMessageEditLimitBody": "Bạn có thể chỉnh sửa lại tin nhắn đã đăng này sau {duration}.",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "Bạn đang chỉnh sửa tin nhắn đã đăng này quá nhanh. Vui lòng thử lại sau.",
+    "chatMessageOriginalDeleted": "[Tin nhắn gốc đã bị xóa]",
+    "userTagCommunity": "Cộng đồng",
+    "systemFollowAdd": "{username} đã cho kênh này theo dõi {source}. Các tin nhắn được đăng ở đó sẽ xuất hiện tại đây.",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username} đã cho kênh này theo dõi {source}.",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "Chưa gửi cho người theo dõi.",
+    "publishNudgeHideForever": "Không hiển thị lại",
+    "publishNudgeDismiss": "Bỏ qua",
+    "channelSettingsFollowedChannels": "Kênh đang theo dõi",
+    "channelSettingsFollowedChannelsDescription": "Các kênh thông báo mà kênh này đang theo dõi. Bỏ theo dõi để ngừng nhận bản sao.",
+    "guildSettingsFollowedChannelsDescription": "Kênh thông báo được theo dõi bởi các kênh trong cộng đồng này.",
+    "channelSettingsFollowedFrom": "Từ {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "Đã tạm dừng cập nhật vì kênh nguồn không còn khả dụng.",
+    "channelSettingsUnfollowTitle": "Bỏ theo dõi {name}?",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "Kênh này sẽ ngừng nhận bản sao từ kênh thông báo đó.",
+    "channelSettingsUnfollow": "Bỏ theo dõi",
+    "crosspostCommunityTitle": "Cộng đồng",
+    "crosspostGoToCommunity": "Đi đến cộng đồng",
+    "crosspostJoinCommunity": "Tham gia cộng đồng",
+    "crosspostSourceFailed": "Không thể tải cộng đồng này. Hãy thử lại sau.",
+    "crosspostMembers": "{count} thành viên",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "{count} trực tuyến",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, =1{1 phút} other{{count} phút}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, =1{1 giây} other{{count} giây}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "Loại kênh không được hỗ trợ",
+    "channelUnsupportedBody": "Phiên bản ứng dụng này không hỗ trợ loại kênh này.",
+    "channelDetailsUnsupportedChannel": "Kênh không được hỗ trợ"
 }

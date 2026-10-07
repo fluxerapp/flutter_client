@@ -5773,6 +5773,10 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "Double tap a message to",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
     "chatMessageEdit": "Edit message",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -6551,6 +6555,10 @@
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
     },
+    "chatImageCouldNotLoad": "Could not load this image.",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
+    },
     "composerAutocompleteRoleMentionDescription": "Notify users with this role who have permission to view this channel.",
     "@composerAutocompleteRoleMentionDescription": {
         "description": "Secondary line in the @ mention autocomplete when the row is a mentionable guild role."
@@ -7091,6 +7099,10 @@
     "instanceUrlPlaceholder": "Enter instance URL (e.g. fluxer.app)",
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
+    },
+    "instanceUrlHelper": "Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
     },
     "resetToDefaultInstance": "Reset to Fluxer",
     "@resetToDefaultInstance": {
@@ -9393,6 +9405,80 @@
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
     },
+    "profileLocalTimeSettingsTitle": "Profile local time",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "Set your time zone once so {productName} can keep your UTC offset current when daylight saving time changes. Other people can only see your UTC offset, not your exact time zone identifier.",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "Edit profile local time",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "Time zone",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "Choose the time zone {productName} uses to calculate your UTC offset for profile local time.",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "Search time zones",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "Not set",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "Other people can only see your current UTC offset when you choose to share profile local time. They do not see your exact time zone identifier, such as {timezoneIdentifierExample}. {productName} stores that identifier only so the offset can update automatically when daylight saving time changes.",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "Everyone",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "Allow anyone who can view your full profile to see your local time",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "Friends",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "Allow your friends to see your local time",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "Community members",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "Allow members from communities you're in to see your local time",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
+    },
     "userProfileSameTimeAsYou": "Same time as you",
     "@userProfileSameTimeAsYou": {
         "description": "Profile timezone difference when the target matches the viewer."
@@ -9476,6 +9562,10 @@
     "lookAndFeelChatWallpaperCustomLabel": "Custom image",
     "@lookAndFeelChatWallpaperCustomLabel": {
         "description": "Chat wallpaper option that picks an image from the gallery."
+    },
+    "lookAndFeelChatWallpaperStarfieldLabel": "Starfield",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
     },
     "lookAndFeelChatWallpaperColorLabel": "Colour {id}",
     "@lookAndFeelChatWallpaperColorLabel": {
@@ -13827,6 +13917,14 @@
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
     },
+    "accessibilityShowAltTextOnImagesLabel": "Show alternative text on images",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "Display alternative text below images when it is available.",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
     "accessibilityDimStrikethroughTextLabel": "Dim strikethrough text",
     "@accessibilityDimStrikethroughTextLabel": {
         "description": "Toggle label for dimming strikethrough text in messages."
@@ -15919,6 +16017,72 @@
     "premiumPerkCustomThemes": "Custom themes",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "Up to 4K/60fps",
+    "storePlutoniumPriceLine": "{monthly} or {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/mo",
+    "storePlutoniumYearSuffix": "/yr",
+    "storePlutoniumPriceOr": "or",
+    "storePlutoniumEmojiTitle": "Your emojis, everywhere",
+    "storePlutoniumEmojiBody": "Bring custom emojis and stickers from any of your communities into every chat and community you're in.",
+    "storePlutoniumProfileTitle": "A profile that stands out",
+    "storePlutoniumProfileBody": "Get an animated avatar and banner, a subscriber badge, the four-digit tag you want after your username*, and a separate profile for each community.",
+    "storePlutoniumFilesTitle": "Send files up to 500 MB",
+    "storePlutoniumFilesBody": "Share full-length videos and big files without shrinking them first. Free accounts can send up to 25 MB.",
+    "storePlutoniumCompareTitle": "Compare Free and Plutonium",
+    "storePlutoniumCompareMobileNote": "Not all of these features are in the mobile app. Some are only available on desktop.",
+    "storePlutoniumNotAvailable": "Not available",
+    "storePlutoniumAvailable": "Available",
+    "storePlutoniumCompareTag": "Pick the 4-digit number after your username*",
+    "storePlutoniumCompareProfile": "A separate profile for each community",
+    "storePlutoniumCompareBadge": "Subscriber badge on your profile",
+    "storePlutoniumCompareBackgrounds": "Video call backgrounds you can save",
+    "storePlutoniumCompareCommunities": "Communities you can join",
+    "storePlutoniumCompareCharacters": "Characters in a single message",
+    "storePlutoniumCompareBookmarks": "Messages you can bookmark",
+    "storePlutoniumCompareUpload": "Largest file you can upload",
+    "storePlutoniumCompareSavedMedia": "Media items you can save for later",
+    "storePlutoniumCompareAnimatedEmoji": "Use animated emojis in messages",
+    "storePlutoniumCompareCustomEmoji": "Use custom emojis and stickers in any community",
+    "storePlutoniumCompareVideo": "Video call and screen share quality",
+    "storePlutoniumCompareAvatar": "Animated avatar and profile banner",
+    "storePlutoniumCompareEarlyAccess": "Early access to new features",
+    "storePlutoniumCompareThemes": "Custom themes for the app",
+    "storePlutoniumVideoFree": "Up to 720p at 30 FPS",
+    "storePlutoniumVideoPlutonium": "Up to 4K at 60 FPS",
+    "storePlutoniumTagFootnote": "You can only pick a tag that nobody else with the same username already has. Usernames aren't case sensitive, so Mina#4821 and mina#4821 count as the same. The #0000 tag is reserved for Fluxer Visionary members.",
+    "storePlutoniumLearnVisionary": "Learn more about Visionary.",
+    "storePlutoniumDonatePrompt": "Just want to support Fluxer's open source development? ",
+    "storePlutoniumDonateLink": "Donate instead.",
+    "storePlutoniumHighlightsLead": "Subscribing funds Fluxer and unlocks",
+    "storePlutoniumHighlightEmoji": "Custom emoji and stickers in any chat",
+    "storePlutoniumHighlightProfile": "Animated profile, badge, and custom 4-digit number",
+    "storePlutoniumHighlightFiles": "Uploads up to 500 MB",
+    "storePlutoniumHighlightMessages": "Send messages up to 4,000 characters",
+    "storePlutoniumHighlightCommunityProfile": "A separate profile for each community",
+    "storePlutoniumHighlightsMore": "And more",
+    "storePlutoniumRenewsThroughPlay": "Renews automatically through Google Play until you cancel.",
+    "storePlutoniumRenewsThroughAppStore": "Renews automatically through the App Store until you cancel.",
+    "storePlutoniumAlreadySubscribed": "You already have a Fluxer Plutonium subscription.",
+    "storePlutoniumSavePercent": "Save {percent}%",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "Purchase received. Plutonium will show here once it activates.",
+    "storePlutoniumUnavailable": "Subscriptions in the app aren't available on this device yet.",
+    "storePlutoniumVisionaryStatus": "Visionary already includes permanent access, so a recurring subscription isn't needed.",
     "userSettingsNavShortcuts": "Shortcuts",
     "@userSettingsNavShortcuts": {
         "description": "User settings navigation item for keyboard shortcuts."
@@ -16006,6 +16170,18 @@
     "defaultAppsWebBrowserExternal": "External browser",
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
+    },
+    "userSettingsNavAppIcon": "App icon",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "App icon",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "Choose which icon appears on your home screen.",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
     },
     "advancedSettingsConfigure": "Configure",
     "@advancedSettingsConfigure": {
@@ -17078,6 +17254,40 @@
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
+    "assistantNeedsLogin": "Open Fluxer and sign in first.",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "You're not in a call.",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "Fluxer could not find that.",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "Direct messages are disabled on this instance.",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "Fluxer could not complete that.",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "Muted.",
+    "assistantOkUnmuted": "Unmuted.",
+    "assistantOkLeftVoice": "Left voice.",
+    "assistantOkJoinedVoice": "Joining voice.",
+    "assistantOkStartedCall": "Starting the call.",
+    "assistantOkStatusSet": "Status set to {status}.",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "Opening Fluxer.",
     "applicationsTitle": "Applications",
     "@applicationsTitle": {
         "description": "Title for the developer Applications settings tab."
@@ -17120,6 +17330,15 @@
         "description": "Empty-state body. apiName is the product API display name.",
         "placeholders": {
             "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "Created {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
                 "type": "String"
             }
         }
@@ -17304,6 +17523,10 @@
     "@applicationsOauthBuilderTitle": {
         "description": "Section title for the authorize URL builder."
     },
+    "applicationsOauthBuilderDescription": "Construct an authorise URL with scopes and permissions.",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
     "applicationsScopes": "Scopes",
     "@applicationsScopes": {
         "description": "Label for OAuth2 scope checkboxes."
@@ -17336,6 +17559,10 @@
     "@applicationsAuthorizeUrlPlaceholder": {
         "description": "Placeholder when the authorize URL cannot be built yet."
     },
+    "applicationsCopyAuthorizeUrl": "Copy authorise URL",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
     "applicationsCopiedUrl": "Copied URL to clipboard",
     "@applicationsCopiedUrl": {
         "description": "Toast after copying the authorize URL."
@@ -17355,6 +17582,15 @@
     "applicationsDelete": "Delete application",
     "@applicationsDelete": {
         "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "Are you sure you want to delete {name}? This action cannot be undone. All associated data, including the bot user, will be permanently deleted.",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     },
     "applicationsDeleteFailed": "Couldn't delete application",
     "@applicationsDeleteFailed": {
@@ -17440,6 +17676,10 @@
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
     },
+    "voiceOutputRouteEarpiece": "Earpiece",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
     "voiceOutputRouteHeadset": "Headphones",
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
@@ -17448,9 +17688,21 @@
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
     },
+    "doubleTapReactionEditTitle": "Edit default",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "Choose double tap emoji",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
+    },
     "notificationReplyPlaceholder": "Message",
     "@notificationReplyPlaceholder": {
         "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "Couldn't send reply",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
     },
     "chatMessagePinConfirm": "Pin",
     "@chatMessagePinConfirm": {
@@ -17464,9 +17716,17 @@
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."
     },
+    "appIconOptionStarfield": "Starfield",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
     "appIconOptionSweden": "Sweden",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "Changing the app icon is not available on this device.",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     },
     "userSettingsLogOutConfirmTitle": "Sign out?",
     "@userSettingsLogOutConfirmTitle": {
@@ -17496,5 +17756,178 @@
     "@guildSettingsCommunityDeleted": {
         "description": "Success toast after a community is deleted."
     },
-    "assistantOkMessageSent": "Message sent."
+    "guildSettingsDeleteCommunityFailed": "Couldn't delete this community",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantOkMessageSent": "Message sent.",
+    "assistantOkCustomStatusSet": "Custom status updated.",
+    "assistantOkCustomStatusCleared": "Custom status cleared.",
+    "guildNavbarAnnouncementChannel": "Announcement Channel",
+    "guildNavbarAnnouncementChannelDescription": "Post updates that other communities can follow into their own channels",
+    "channelDetailsAnnouncementChannel": "Announcement Channel",
+    "channelSettingsAnnouncementChannel": "Announcement Channel",
+    "channelSettingsAnnouncementChannelDescription": "Lets other communities follow this channel and get copies of what you publish.",
+    "channelSettingsStopAnnouncementTitle": "Stop being an announcement channel?",
+    "channelSettingsStopAnnouncementBody": "{count, plural, =1{1 channel follows this channel. Converting it to a text channel removes that follow.} other{{count} channels follow this channel. Converting it to a text channel removes those follows.}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "Converting this channel to a text channel removes every channel that follows it.",
+    "channelSettingsConvertChannel": "Convert",
+    "channelSettingsConvertFailed": "Couldn't convert this channel",
+    "channelSettingsChannelHasFollowers": "This channel still has followers. Remove those follows before converting it.",
+    "channelMenuFollow": "Follow Channel",
+    "channelFollowTitle": "Follow this channel",
+    "channelFollowBody": "Choose where its published messages should go. You can unfollow any time in Community settings → Webhooks.",
+    "channelFollowCommunity": "Community",
+    "channelFollowChannel": "Channel",
+    "channelFollowAgeWarning": "This is an age-restricted channel. Updates can only go to age-restricted channels.",
+    "channelFollowContentWarning": "This channel has a content warning. Updates can only go to channels with a content warning or an age restriction.",
+    "channelFollowHiddenHint": "Communities and channels where you can't manage webhooks are hidden.",
+    "channelFollowEmpty": "You can't manage webhooks in any community. Ask an admin to follow this channel.",
+    "channelFollowSubmit": "Follow",
+    "channelFollowFailed": "Couldn't follow this channel.",
+    "channelFollowSuccessTitle": "Updates are on their way!",
+    "channelFollowSuccessBody": "Messages published in {sourceName} will show up in #{targetName}.",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "Got it!",
+    "channelFollowBarrier": "Follow to get these announcements in a channel you choose.",
+    "channelHeaderFollow": "Follow channel",
+    "chatMessagePublish": "Publish",
+    "chatMessagePublished": "Published",
+    "chatMessagePublishConfirmTitle": "Publish message?",
+    "chatMessagePublishConfirmBody": "This sends a copy to every channel that follows this one.",
+    "chatMessagePublishedToast": "Message published",
+    "chatMessageAlreadyPublished": "This message is already published.",
+    "chatMessagePublishFailedTitle": "Couldn't publish this message",
+    "chatMessagePublishFailedBody": "Something went wrong. Try again in a moment.",
+    "chatMessagePublishLimitTitle": "Slow down",
+    "chatMessagePublishLimitBody": "You can publish again in {duration}.",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "You are publishing too quickly. Try again in a moment.",
+    "chatMessageDeletePublished": "This also removes the copies that were sent to channels following this one.",
+    "chatMessageEditPublishedTitle": "Edit published message?",
+    "chatMessageEditPublishedBody": "This updates the copies that were sent to channels following this one.",
+    "chatMessageEditPublishedSave": "Save",
+    "chatMessageEditLimitTitle": "Slow down",
+    "chatMessageEditLimitBody": "You can edit this published message again in {duration}.",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "You are editing this published message too quickly. Try again in a moment.",
+    "chatMessageOriginalDeleted": "[Original message deleted]",
+    "userTagCommunity": "Community",
+    "systemFollowAdd": "{username} followed {source} into this channel. Messages published there will appear here.",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username} followed {source} into this channel.",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "Not sent to followers yet.",
+    "publishNudgeHideForever": "Don't show again",
+    "publishNudgeDismiss": "Dismiss",
+    "channelSettingsFollowedChannels": "Followed channels",
+    "channelSettingsFollowedChannelsDescription": "Announcement channels this channel follows. Unfollow to stop receiving copies.",
+    "guildSettingsFollowedChannelsDescription": "Announcement channels followed by channels in this community.",
+    "channelSettingsFollowedFrom": "From {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "Updates are paused because the source channel is no longer available.",
+    "channelSettingsUnfollowTitle": "Unfollow {name}?",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "This channel will stop receiving copies from that announcement channel.",
+    "channelSettingsUnfollow": "Unfollow",
+    "crosspostCommunityTitle": "Community",
+    "crosspostGoToCommunity": "Go to community",
+    "crosspostJoinCommunity": "Join Community",
+    "crosspostSourceFailed": "Couldn't load this community. Try again in a moment.",
+    "crosspostMembers": "{count} members",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "{count} online",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, =1{1 minute} other{{count} minutes}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, =1{1 second} other{{count} seconds}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "Unsupported channel type",
+    "channelUnsupportedBody": "This version of the app doesn't support this channel type.",
+    "channelDetailsUnsupportedChannel": "Unsupported channel"
 }

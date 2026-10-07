@@ -5769,6 +5769,10 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "Dobbelttryk på en besked for at",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
     "chatMessageEdit": "Rediger besked",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -5776,6 +5780,14 @@
     "chatMessageReply": "Svar",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
+    },
+    "notificationReplyPlaceholder": "Besked",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "Kunne ikke sende svar",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
     },
     "chatMessageForward": "Videresend",
     "@chatMessageForward": {
@@ -6547,6 +6559,10 @@
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
     },
+    "chatImageCouldNotLoad": "Kunne ikke indlæse dette billede.",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
+    },
     "composerAutocompleteRoleMentionDescription": "Giv brugere med denne rolle, der har tilladelse til at se denne kanal, besked.",
     "@composerAutocompleteRoleMentionDescription": {
         "description": "Secondary line in the @ mention autocomplete when the row is a mentionable guild role."
@@ -7087,6 +7103,10 @@
     "instanceUrlPlaceholder": "Indtast instans-URL (f.eks. fluxer.app)",
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
+    },
+    "instanceUrlHelper": "Brug fluxer.app til den officielle instans, eller den nøjagtige URL for en selvhostet instans.",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
     },
     "resetToDefaultInstance": "Nulstil til Fluxer",
     "@resetToDefaultInstance": {
@@ -9379,6 +9399,10 @@
     "@lookAndFeelChatWallpaperCustomLabel": {
         "description": "Chat wallpaper option that picks an image from the gallery."
     },
+    "lookAndFeelChatWallpaperStarfieldLabel": "Stjernefelt",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
+    },
     "lookAndFeelChatWallpaperColorLabel": "Farve {id}",
     "@lookAndFeelChatWallpaperColorLabel": {
         "description": "Accessibility label for a solid color wallpaper preset.",
@@ -11156,6 +11180,80 @@
     "userProfileLocalTime": "Lokaltid",
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
+    },
+    "profileLocalTimeSettingsTitle": "Profilens lokale tid",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "Indstil din tidszone én gang, så {productName} kan holde din UTC-forskel opdateret, når sommertiden ændres. Andre brugere kan kun se din UTC-forskel og ikke din præcise tidszoneidentifikator.",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "Rediger lokal tid for profil",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "Tidszone",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "Vælg den tidszone, som {productName} bruger til at beregne UTC-forskydningen for den lokale tid på din profil.",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "Søg tidszoner",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "Ikke angivet",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "Andre kan kun se din aktuelle UTC-tidsforskel, når du vælger at dele din lokale tid i profilen. De ser ikke dit præcise tidszone-id, som f.eks. {timezoneIdentifierExample}. {productName} gemmer dette id, så tidsforskellen automatisk kan opdateres, når sommertiden ændres.",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "Alle",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "Tillad alle, der kan se din fulde profil, at se din lokale tid på profilen",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "Venner",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "Tillad dine venner at se din lokale tid på profilen",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "Fællesskabsmedlemmer",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "Tillad medlemmer fra fællesskaber, du er med i, at se din lokale tid på profilen",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
     },
     "userProfileSameTimeAsYou": "Samme tid som dig",
     "@userProfileSameTimeAsYou": {
@@ -13823,6 +13921,14 @@
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
     },
+    "accessibilityShowAltTextOnImagesLabel": "Vis alternativ tekst på billeder",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "Vis alternativ tekst under billeder, når den er tilgængelig.",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
     "accessibilityDimStrikethroughTextLabel": "Dæmp gennemstreget tekst",
     "@accessibilityDimStrikethroughTextLabel": {
         "description": "Toggle label for dimming strikethrough text in messages."
@@ -15915,6 +16021,72 @@
     "premiumPerkCustomThemes": "Brugerdefinerede temaer",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "Op til 4K/60 fps",
+    "storePlutoniumPriceLine": "{monthly} eller {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/md.",
+    "storePlutoniumYearSuffix": "/år",
+    "storePlutoniumPriceOr": "eller",
+    "storePlutoniumEmojiTitle": "Dine emojis, overalt",
+    "storePlutoniumEmojiBody": "Brug brugerdefinerede emojis og klistermærker fra alle dine fællesskaber i enhver chat og ethvert fællesskab, du er en del af.",
+    "storePlutoniumProfileTitle": "En profil, der skiller sig ud",
+    "storePlutoniumProfileBody": "Få en animeret avatar og et banner, et abonnentbadge, det firecifrede tag, du ønsker efter dit brugernavn*, og en separat profil for hvert fællesskab.",
+    "storePlutoniumFilesTitle": "Send filer på op til 500 MB",
+    "storePlutoniumFilesBody": "Del videoer i fuld længde og store filer uden at formindske dem først. Gratis konti kan sende op til 25 MB.",
+    "storePlutoniumCompareTitle": "Sammenlign Gratis og Plutonium",
+    "storePlutoniumCompareMobileNote": "Ikke alle disse funktioner er tilgængelige i mobilappen. Nogle er kun tilgængelige på computeren.",
+    "storePlutoniumNotAvailable": "Ikke tilgængelig",
+    "storePlutoniumAvailable": "Tilgængelig",
+    "storePlutoniumCompareTag": "Vælg det 4-cifrede nummer efter dit brugernavn*",
+    "storePlutoniumCompareProfile": "En separat profil for hvert fællesskab",
+    "storePlutoniumCompareBadge": "Abonnent-badge på din profil",
+    "storePlutoniumCompareBackgrounds": "Videoopkaldsbaggrunde, du kan gemme",
+    "storePlutoniumCompareCommunities": "Fællesskaber, du kan deltage i",
+    "storePlutoniumCompareCharacters": "Tegn i en enkelt besked",
+    "storePlutoniumCompareBookmarks": "Beskeder, du kan gemme",
+    "storePlutoniumCompareUpload": "Største fil, du kan uploade",
+    "storePlutoniumCompareSavedMedia": "Medieelementer, du kan gemme til senere",
+    "storePlutoniumCompareAnimatedEmoji": "Brug animerede emojis i beskeder",
+    "storePlutoniumCompareCustomEmoji": "Brug brugerdefinerede emojis og klistermærker i ethvert fællesskab",
+    "storePlutoniumCompareVideo": "Videokvalitet til videoopkald og skærmdeling",
+    "storePlutoniumCompareAvatar": "Animeret avatar og profilbanner",
+    "storePlutoniumCompareEarlyAccess": "Tidlig adgang til nye funktioner",
+    "storePlutoniumCompareThemes": "Brugerdefinerede temaer til appen",
+    "storePlutoniumVideoFree": "Op til 720p ved 30 billeder/sek",
+    "storePlutoniumVideoPlutonium": "Op til 4K ved 60 FPS",
+    "storePlutoniumTagFootnote": "Du kan kun vælge et tag, som ingen andre med det samme brugernavn allerede har. Brugernavne skelner ikke mellem store og små bogstaver, så Mina#4821 og mina#4821 tæller som det samme. Tagget #0000 er reserveret til Fluxer Visionary-medlemmer.",
+    "storePlutoniumLearnVisionary": "Læs mere om Visionary.",
+    "storePlutoniumDonatePrompt": "Vil du bare støtte Fluxers open source-udvikling? ",
+    "storePlutoniumDonateLink": "Donér i stedet.",
+    "storePlutoniumHighlightsLead": "Et abonnement finansierer Fluxer og låser op for",
+    "storePlutoniumHighlightEmoji": "Brugerdefinerede emojis og klistermærker i enhver chat",
+    "storePlutoniumHighlightProfile": "Animeret profil, badge og brugerdefineret 4-cifret nummer",
+    "storePlutoniumHighlightFiles": "Uploads på op til 500 MB",
+    "storePlutoniumHighlightMessages": "Send beskeder på op til 4.000 tegn",
+    "storePlutoniumHighlightCommunityProfile": "En separat profil for hvert fællesskab",
+    "storePlutoniumHighlightsMore": "Og mere",
+    "storePlutoniumRenewsThroughPlay": "Fornyes automatisk via Google Play, indtil du opsiger det.",
+    "storePlutoniumRenewsThroughAppStore": "Fornyes automatisk via App Store, indtil du opsiger det.",
+    "storePlutoniumAlreadySubscribed": "Du har allerede et Fluxer Plutonium-abonnement.",
+    "storePlutoniumSavePercent": "Spar {percent}%",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "Køb modtaget. Plutonium vises her, når det er aktiveret.",
+    "storePlutoniumUnavailable": "Abonnementer i appen er ikke tilgængelige på denne enhed endnu.",
+    "storePlutoniumVisionaryStatus": "Visionary inkluderer allerede permanent adgang, så et tilbagevendende abonnement er ikke nødvendigt.",
     "userSettingsNavShortcuts": "Genveje",
     "@userSettingsNavShortcuts": {
         "description": "User settings navigation item for keyboard shortcuts."
@@ -16002,6 +16174,18 @@
     "defaultAppsWebBrowserExternal": "Ekstern browser",
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
+    },
+    "userSettingsNavAppIcon": "App-ikon",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "App-ikon",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "Vælg, hvilket ikon der vises på din startskærm.",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
     },
     "advancedSettingsConfigure": "Konfigurer",
     "@advancedSettingsConfigure": {
@@ -16251,6 +16435,14 @@
     "authHidePassword": "Skjul adgangskode",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "Stadig i gang…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
+    },
+    "authVerificationFailed": "Kunne ikke gennemføre bekræftelse. Prøv igen.",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
     },
     "chatLoadingMessages": "Indlæser beskeder",
     "@chatLoadingMessages": {
@@ -17066,6 +17258,40 @@
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
+    "assistantNeedsLogin": "Åbn Fluxer, og log ind først.",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "Du er ikke i et opkald.",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "Fluxer kunne ikke finde det.",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "Direkte beskeder er deaktiveret på denne instans.",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "Fluxer kunne ikke udføre det.",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "Mikrofonen er slået fra.",
+    "assistantOkUnmuted": "Mikrofonen er slået til.",
+    "assistantOkLeftVoice": "Forlod stemmekanalen.",
+    "assistantOkJoinedVoice": "Går ind i stemmekanalen.",
+    "assistantOkStartedCall": "Starter opkaldet.",
+    "assistantOkStatusSet": "Status sat til {status}.",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "Åbner Fluxer.",
     "applicationsTitle": "Apps",
     "@applicationsTitle": {
         "description": "Title for the developer Applications settings tab."
@@ -17108,6 +17334,15 @@
         "description": "Empty-state body. apiName is the product API display name.",
         "placeholders": {
             "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "Oprettet {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
                 "type": "String"
             }
         }
@@ -17292,6 +17527,10 @@
     "@applicationsOauthBuilderTitle": {
         "description": "Section title for the authorize URL builder."
     },
+    "applicationsOauthBuilderDescription": "Konstruer en autoriserings-URL med scopes og tilladelser.",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
     "applicationsScopes": "Adgangsområder",
     "@applicationsScopes": {
         "description": "Label for OAuth2 scope checkboxes."
@@ -17324,6 +17563,10 @@
     "@applicationsAuthorizeUrlPlaceholder": {
         "description": "Placeholder when the authorize URL cannot be built yet."
     },
+    "applicationsCopyAuthorizeUrl": "Kopiér autoriserings-URL",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
     "applicationsCopiedUrl": "URL kopieret til udklipsholder",
     "@applicationsCopiedUrl": {
         "description": "Toast after copying the authorize URL."
@@ -17343,6 +17586,15 @@
     "applicationsDelete": "Slet app",
     "@applicationsDelete": {
         "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "Er du sikker på, at du vil slette {name}? Denne handling kan ikke fortrydes. Alle tilknyttede data, inklusive botbrugeren, vil blive permanent slettet.",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     },
     "applicationsDeleteFailed": "Kunne ikke slette appen",
     "@applicationsDeleteFailed": {
@@ -17432,6 +17684,10 @@
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
     },
+    "voiceOutputRouteEarpiece": "Øresnegl",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
     "voiceOutputRouteHeadset": "Hovedtelefoner",
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
@@ -17439,6 +17695,14 @@
     "doubleTapReactionEdit": "Rediger",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "Rediger standard",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "Vælg emoji til dobbelttryk",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
     },
     "chatMessagePinConfirm": "Fastgør",
     "@chatMessagePinConfirm": {
@@ -17452,9 +17716,17 @@
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."
     },
+    "appIconOptionStarfield": "Stjernefelt",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
     "appIconOptionSweden": "Sverige",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "Ændring af appikon er ikke tilgængelig på denne enhed.",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     },
     "userSettingsLogOutConfirmTitle": "Log ud?",
     "@userSettingsLogOutConfirmTitle": {
@@ -17484,5 +17756,178 @@
     "@guildSettingsCommunityDeleted": {
         "description": "Success toast after a community is deleted."
     },
-    "assistantOkMessageSent": "Besked sendt."
+    "guildSettingsDeleteCommunityFailed": "Kunne ikke slette dette fællesskab",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantOkMessageSent": "Besked sendt.",
+    "assistantOkCustomStatusSet": "Tilpasset status opdateret.",
+    "assistantOkCustomStatusCleared": "Tilpasset status ryddet.",
+    "guildNavbarAnnouncementChannel": "Annonceringskanal",
+    "guildNavbarAnnouncementChannelDescription": "Send opdateringer, som andre fællesskaber kan følge i deres egne kanaler",
+    "channelDetailsAnnouncementChannel": "Annonceringskanal",
+    "channelSettingsAnnouncementChannel": "Annonceringskanal",
+    "channelSettingsAnnouncementChannelDescription": "Giver andre fællesskaber mulighed for at følge denne kanal og få kopier af det, du udgiver.",
+    "channelSettingsStopAnnouncementTitle": "Stop med at være en annonceringskanal?",
+    "channelSettingsStopAnnouncementBody": "{count, plural, =1{1 kanal følger denne kanal. Hvis du konverterer den til en tekstkanal, holder den kanal op med at følge den.} other{{count} kanaler følger denne kanal. Hvis du konverterer den til en tekstkanal, holder de kanaler op med at følge den.}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "Hvis du konverterer denne kanal til en tekstkanal, holder alle kanaler, der følger den, op med at følge den.",
+    "channelSettingsConvertChannel": "Konverter",
+    "channelSettingsConvertFailed": "Kunne ikke konvertere denne kanal",
+    "channelSettingsChannelHasFollowers": "Andre kanaler følger stadig denne kanal. Fjern dem, før du konverterer den.",
+    "channelMenuFollow": "Følg kanal",
+    "channelFollowTitle": "Følg denne kanal",
+    "channelFollowBody": "Vælg, hvor de udgivne beskeder skal sendes hen. Du kan til enhver tid stoppe med at følge under Fællesskabsindstillinger → Webhooks.",
+    "channelFollowCommunity": "Fællesskab",
+    "channelFollowChannel": "Kanal",
+    "channelFollowAgeWarning": "Dette er en aldersbegrænset kanal. Opdateringer kan kun sendes til aldersbegrænsede kanaler.",
+    "channelFollowContentWarning": "Denne kanal har en indholdsadvarsel. Opdateringer kan kun sendes til kanaler med en indholdsadvarsel eller en aldersbegrænsning.",
+    "channelFollowHiddenHint": "Fællesskaber og kanaler, hvor du ikke kan administrere webhooks, er skjult.",
+    "channelFollowEmpty": "Du kan ikke administrere webhooks i noget fællesskab. Bed en administrator om at følge denne kanal.",
+    "channelFollowSubmit": "Følg",
+    "channelFollowFailed": "Kunne ikke følge denne kanal.",
+    "channelFollowSuccessTitle": "Opdateringer er på vej!",
+    "channelFollowSuccessBody": "Beskeder, der er udgivet i {sourceName}, vises i #{targetName}.",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "Forstået!",
+    "channelFollowBarrier": "Følg denne kanal for at få disse annonceringer i en kanal, du vælger.",
+    "channelHeaderFollow": "Følg kanal",
+    "chatMessagePublish": "Udgiv",
+    "chatMessagePublished": "Udgivet",
+    "chatMessagePublishConfirmTitle": "Udgiv besked?",
+    "chatMessagePublishConfirmBody": "Dette sender en kopi til alle kanaler, der følger denne.",
+    "chatMessagePublishedToast": "Besked udgivet",
+    "chatMessageAlreadyPublished": "Denne besked er allerede udgivet.",
+    "chatMessagePublishFailedTitle": "Kunne ikke udgive denne besked",
+    "chatMessagePublishFailedBody": "Der opstod en fejl. Prøv igen om et øjeblik.",
+    "chatMessagePublishLimitTitle": "Lidt langsommere",
+    "chatMessagePublishLimitBody": "Du kan udgive igen om {duration}.",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "Du udgiver for hurtigt. Prøv igen om et øjeblik.",
+    "chatMessageDeletePublished": "Dette fjerner også de kopier, der blev sendt til kanaler, der følger denne.",
+    "chatMessageEditPublishedTitle": "Rediger udgivet besked?",
+    "chatMessageEditPublishedBody": "Dette opdaterer de kopier, der blev sendt til kanaler, der følger denne.",
+    "chatMessageEditPublishedSave": "Gem",
+    "chatMessageEditLimitTitle": "Lidt langsommere",
+    "chatMessageEditLimitBody": "Du kan redigere denne udgivne besked igen om {duration}.",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "Du redigerer denne udgivne besked for hurtigt. Prøv igen om et øjeblik.",
+    "chatMessageOriginalDeleted": "[Oprindelig besked slettet]",
+    "userTagCommunity": "Fællesskab",
+    "systemFollowAdd": "{username} fik denne kanal til at følge {source}. Beskeder, der udgives der, vises her.",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username} fik denne kanal til at følge {source}.",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "Ikke sendt til følgere endnu.",
+    "publishNudgeHideForever": "Vis ikke igen",
+    "publishNudgeDismiss": "Luk",
+    "channelSettingsFollowedChannels": "Fulgte kanaler",
+    "channelSettingsFollowedChannelsDescription": "Annonceringskanaler, som denne kanal følger. Stop med at følge for ikke længere at modtage kopier.",
+    "guildSettingsFollowedChannelsDescription": "Annonceringskanaler, der følges af kanaler i dette fællesskab.",
+    "channelSettingsFollowedFrom": "Fra {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "Opdateringer er sat på pause, fordi kildekanalen ikke længere er tilgængelig.",
+    "channelSettingsUnfollowTitle": "Stop med at følge {name}?",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "Denne kanal stopper med at modtage kopier fra den annonceringskanal.",
+    "channelSettingsUnfollow": "Stop med at følge",
+    "crosspostCommunityTitle": "Fællesskab",
+    "crosspostGoToCommunity": "Gå til fællesskab",
+    "crosspostJoinCommunity": "Deltag i fællesskabet",
+    "crosspostSourceFailed": "Kunne ikke indlæse dette fællesskab. Prøv igen om et øjeblik.",
+    "crosspostMembers": "{count} medlemmer",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "{count} online",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, =1{1 minut} other{{count} minutter}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, =1{1 sekund} other{{count} sekunder}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "Kanaltype understøttes ikke",
+    "channelUnsupportedBody": "Denne version af appen understøtter ikke denne kanaltype.",
+    "channelDetailsUnsupportedChannel": "Kanal understøttes ikke"
 }

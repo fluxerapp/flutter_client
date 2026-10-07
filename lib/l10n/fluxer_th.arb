@@ -5769,6 +5769,10 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "แตะสองครั้งที่ข้อความเพื่อ",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
     "chatMessageEdit": "แก้ไขข้อความ",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -5776,6 +5780,14 @@
     "chatMessageReply": "ตอบกลับ",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
+    },
+    "notificationReplyPlaceholder": "ข้อความ",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "ส่งข้อความตอบกลับไม่ได้",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
     },
     "chatMessageForward": "ส่งต่อ",
     "@chatMessageForward": {
@@ -6547,6 +6559,10 @@
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
     },
+    "chatImageCouldNotLoad": "ไม่สามารถโหลดรูปภาพนี้ได้",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
+    },
     "composerAutocompleteRoleMentionDescription": "แจ้งเตือนผู้ใช้ที่มีบทบาทนี้และมีสิทธิ์เข้าถึงช่องนี้",
     "@composerAutocompleteRoleMentionDescription": {
         "description": "Secondary line in the @ mention autocomplete when the row is a mentionable guild role."
@@ -7087,6 +7103,10 @@
     "instanceUrlPlaceholder": "ป้อน URL อินสแตนซ์ (เช่น fluxer.app)",
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
+    },
+    "instanceUrlHelper": "ใช้ fluxer.app สำหรับอินสแตนซ์อย่างเป็นทางการ หรือ URL ที่ถูกต้องของอินสแตนซ์ที่โฮสต์เอง",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
     },
     "resetToDefaultInstance": "รีเซ็ตเป็น Fluxer",
     "@resetToDefaultInstance": {
@@ -9379,6 +9399,10 @@
     "@lookAndFeelChatWallpaperCustomLabel": {
         "description": "Chat wallpaper option that picks an image from the gallery."
     },
+    "lookAndFeelChatWallpaperStarfieldLabel": "ทุ่งดาว",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
+    },
     "lookAndFeelChatWallpaperColorLabel": "สี {id}",
     "@lookAndFeelChatWallpaperColorLabel": {
         "description": "Accessibility label for a solid color wallpaper preset.",
@@ -11007,6 +11031,80 @@
     "userProfileLocalTime": "เวลาท้องถิ่น",
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
+    },
+    "profileLocalTimeSettingsTitle": "เวลาท้องถิ่นในโปรไฟล์",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "ตั้งค่าเขตเวลาของคุณเพียงครั้งเดียว เพื่อให้ {productName} อัปเดตค่าชดเชยเวลา UTC ของคุณได้เมื่อมีการเปลี่ยนแปลงช่วงเวลาฤดูร้อน ผู้ใช้รายอื่นจะเห็นเฉพาะค่าชดเชยเวลา UTC ของคุณเท่านั้น ไม่เห็นตัวระบุเขตเวลาที่แน่นอนของคุณ",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "แก้ไขเวลาท้องถิ่นในโปรไฟล์",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "เขตเวลา",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "เลือกเขตเวลาที่ {productName} ใช้ในการคำนวณค่าชดเชยเวลาสากล (UTC) สำหรับเวลาในโปรไฟล์ของคุณ",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "ค้นหาเขตเวลา",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "ไม่ได้ตั้งค่า",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "ผู้ใช้อื่น ๆ จะเห็นเฉพาะค่าออฟเซ็ต UTC ปัจจุบันของคุณเมื่อคุณเลือกแชร์เวลาท้องถิ่นในโปรไฟล์ พวกเขาจะไม่เห็นตัวระบุเขตเวลาที่แน่นอน เช่น {timezoneIdentifierExample} {productName} จัดเก็บตัวระบุนั้นไว้เพียงเพื่อให้ค่าออฟเซ็ตอัปเดตโดยอัตโนมัติเมื่อมีการเปลี่ยนเวลาออมแสง",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "ทุกคน",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "อนุญาตให้ทุกคนที่ดูโปรไฟล์แบบเต็มของคุณได้ เห็นเวลาท้องถิ่นของคุณ",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "เพื่อน",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "อนุญาตให้เพื่อนเห็นเวลาท้องถิ่นของคุณ",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "สมาชิกคอมมูนิตี้",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "อนุญาตให้สมาชิกจากคอมมูนิตี้ที่คุณอยู่เห็นเวลาท้องถิ่นของคุณ",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
     },
     "userProfileSameTimeAsYou": "เวลาเดียวกับคุณ",
     "@userProfileSameTimeAsYou": {
@@ -13823,6 +13921,14 @@
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
     },
+    "accessibilityShowAltTextOnImagesLabel": "แสดงข้อความอธิบายรูปภาพ",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "แสดงข้อความอธิบายรูปภาพด้านล่างรูปภาพเมื่อมีข้อความดังกล่าว",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
     "accessibilityDimStrikethroughTextLabel": "หรี่ข้อความขีดทับ",
     "@accessibilityDimStrikethroughTextLabel": {
         "description": "Toggle label for dimming strikethrough text in messages."
@@ -15915,6 +16021,72 @@
     "premiumPerkCustomThemes": "ธีมที่กำหนดเอง",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "สูงสุด 4K/60fps",
+    "storePlutoniumPriceLine": "{monthly} หรือ {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/เดือน",
+    "storePlutoniumYearSuffix": "/ปี",
+    "storePlutoniumPriceOr": "หรือ",
+    "storePlutoniumEmojiTitle": "อิโมจิของคุณ ใช้ได้ทุกที่",
+    "storePlutoniumEmojiBody": "นำอิโมจิและสติกเกอร์ที่กำหนดเองจากคอมมูนิตี้ใดก็ได้ของคุณมาใช้ในทุกแชทและทุกคอมมูนิตี้ที่คุณอยู่",
+    "storePlutoniumProfileTitle": "โปรไฟล์ที่โดดเด่น",
+    "storePlutoniumProfileBody": "รับรูปโปรไฟล์และแบนเนอร์แบบเคลื่อนไหว, ป้ายสมาชิก, แท็กสี่หลักที่คุณต้องการต่อท้ายชื่อผู้ใช้ของคุณ* และโปรไฟล์แยกต่างหากสำหรับแต่ละคอมมูนิตี้",
+    "storePlutoniumFilesTitle": "ส่งไฟล์ขนาดสูงสุด 500 MB",
+    "storePlutoniumFilesBody": "แชร์วิดีโอความยาวเต็มและไฟล์ขนาดใหญ่ได้โดยไม่ต้องย่อขนาดก่อน บัญชีฟรีสามารถส่งได้สูงสุด 25 MB",
+    "storePlutoniumCompareTitle": "เปรียบเทียบแบบฟรีและ Plutonium",
+    "storePlutoniumCompareMobileNote": "ฟีเจอร์เหล่านี้บางส่วนไม่มีในแอปมือถือ บางฟีเจอร์ใช้ได้บนเดสก์ท็อปเท่านั้น",
+    "storePlutoniumNotAvailable": "ไม่พร้อมใช้งาน",
+    "storePlutoniumAvailable": "พร้อมใช้งาน",
+    "storePlutoniumCompareTag": "เลือกตัวเลข 4 หลักหลังชื่อผู้ใช้ของคุณ*",
+    "storePlutoniumCompareProfile": "โปรไฟล์แยกสำหรับแต่ละคอมมูนิตี้",
+    "storePlutoniumCompareBadge": "ป้ายสมาชิกบนโปรไฟล์ของคุณ",
+    "storePlutoniumCompareBackgrounds": "พื้นหลังโทรวิดีโอที่คุณบันทึกได้",
+    "storePlutoniumCompareCommunities": "คอมมูนิตี้ที่คุณเข้าร่วมได้",
+    "storePlutoniumCompareCharacters": "อักขระในข้อความเดียว",
+    "storePlutoniumCompareBookmarks": "ข้อความที่คุณสามารถบุ๊กมาร์กได้",
+    "storePlutoniumCompareUpload": "ไฟล์ที่ใหญ่ที่สุดที่คุณสามารถอัปโหลดได้",
+    "storePlutoniumCompareSavedMedia": "รายการสื่อที่คุณสามารถบันทึกไว้ดูภายหลังได้",
+    "storePlutoniumCompareAnimatedEmoji": "ใช้อิโมจิเคลื่อนไหวในข้อความ",
+    "storePlutoniumCompareCustomEmoji": "ใช้อิโมจิและสติกเกอร์ที่กำหนดเองในคอมมูนิตี้ใดก็ได้",
+    "storePlutoniumCompareVideo": "คุณภาพการโทรวิดีโอและการแชร์หน้าจอ",
+    "storePlutoniumCompareAvatar": "รูปโปรไฟล์และแบนเนอร์แบบเคลื่อนไหว",
+    "storePlutoniumCompareEarlyAccess": "เข้าถึงฟีเจอร์ใหม่ก่อนใคร",
+    "storePlutoniumCompareThemes": "ธีมแบบกำหนดเองสำหรับแอป",
+    "storePlutoniumVideoFree": "สูงสุด 720p ที่ 30 FPS",
+    "storePlutoniumVideoPlutonium": "สูงสุด 4K ที่ 60 FPS",
+    "storePlutoniumTagFootnote": "คุณเลือกได้เฉพาะแท็กที่ยังไม่มีผู้อื่นซึ่งใช้ชื่อผู้ใช้เดียวกันใช้อยู่ ชื่อผู้ใช้ไม่คำนึงถึงตัวพิมพ์เล็กและใหญ่ ดังนั้น Mina#4821 และ mina#4821 จึงถือว่าเป็นชื่อเดียวกัน แท็ก #0000 สงวนไว้สำหรับสมาชิก Fluxer Visionary",
+    "storePlutoniumLearnVisionary": "เรียนรู้เพิ่มเติมเกี่ยวกับ Visionary",
+    "storePlutoniumDonatePrompt": "แค่อยากสนับสนุนการพัฒนาโอเพนซอร์สของ Fluxer ใช่ไหม ",
+    "storePlutoniumDonateLink": "บริจาคแทน",
+    "storePlutoniumHighlightsLead": "การสมัครสมาชิกจะช่วยสนับสนุน Fluxer และปลดล็อก",
+    "storePlutoniumHighlightEmoji": "อิโมจิและสติกเกอร์ที่กำหนดเองในทุกแชท",
+    "storePlutoniumHighlightProfile": "โปรไฟล์เคลื่อนไหว ป้าย และตัวเลข 4 หลักที่เลือกเอง",
+    "storePlutoniumHighlightFiles": "อัปโหลดได้สูงสุด 500 MB",
+    "storePlutoniumHighlightMessages": "ส่งข้อความได้สูงสุด 4,000 ตัวอักษร",
+    "storePlutoniumHighlightCommunityProfile": "โปรไฟล์แยกสำหรับแต่ละคอมมูนิตี้",
+    "storePlutoniumHighlightsMore": "และอีกมากมาย",
+    "storePlutoniumRenewsThroughPlay": "ต่ออายุอัตโนมัติผ่าน Google Play จนกว่าคุณจะยกเลิก",
+    "storePlutoniumRenewsThroughAppStore": "ต่ออายุอัตโนมัติผ่าน App Store จนกว่าคุณจะยกเลิก",
+    "storePlutoniumAlreadySubscribed": "คุณมีการสมัครสมาชิก Fluxer Plutonium อยู่แล้ว",
+    "storePlutoniumSavePercent": "ประหยัด {percent}%",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "ได้รับคำสั่งซื้อแล้ว Plutonium จะแสดงที่นี่เมื่อเปิดใช้งาน",
+    "storePlutoniumUnavailable": "การสมัครสมาชิกในแอปยังไม่พร้อมใช้งานบนอุปกรณ์นี้",
+    "storePlutoniumVisionaryStatus": "Visionary มีสิทธิ์เข้าถึงถาวรอยู่แล้ว จึงไม่จำเป็นต้องมีการสมัครสมาชิกแบบประจำ",
     "userSettingsNavShortcuts": "ปุ่มลัด",
     "@userSettingsNavShortcuts": {
         "description": "User settings navigation item for keyboard shortcuts."
@@ -16002,6 +16174,18 @@
     "defaultAppsWebBrowserExternal": "เบราว์เซอร์ภายนอก",
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
+    },
+    "userSettingsNavAppIcon": "ไอคอนแอป",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "ไอคอนแอป",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "เลือกไอคอนที่จะแสดงบนหน้าจอหลักของคุณ",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
     },
     "advancedSettingsConfigure": "กำหนดค่า",
     "@advancedSettingsConfigure": {
@@ -16251,6 +16435,14 @@
     "authHidePassword": "ซ่อนรหัสผ่าน",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "กำลังดำเนินการอยู่…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
+    },
+    "authVerificationFailed": "ยืนยันตัวตนไม่สำเร็จ โปรดลองอีกครั้ง",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
     },
     "chatLoadingMessages": "กำลังโหลดข้อความ",
     "@chatLoadingMessages": {
@@ -17066,6 +17258,40 @@
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
+    "assistantNeedsLogin": "เปิด Fluxer และลงชื่อเข้าใช้ก่อน",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "คุณไม่ได้อยู่ในการโทร",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "Fluxer ไม่พบรายการนั้น",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "ปิดใช้งานข้อความส่วนตัวในอินสแตนซ์นี้",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "Fluxer ทำสิ่งนั้นไม่สำเร็จ",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "ปิดไมค์แล้ว",
+    "assistantOkUnmuted": "เปิดไมค์แล้ว",
+    "assistantOkLeftVoice": "ออกจากช่องเสียงแล้ว",
+    "assistantOkJoinedVoice": "กำลังเข้าร่วมช่องเสียง",
+    "assistantOkStartedCall": "กำลังเริ่มการโทร",
+    "assistantOkStatusSet": "ตั้งสถานะเป็น {status} แล้ว",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "กำลังเปิด Fluxer",
     "applicationsTitle": "แอปพลิเคชัน",
     "@applicationsTitle": {
         "description": "Title for the developer Applications settings tab."
@@ -17108,6 +17334,15 @@
         "description": "Empty-state body. apiName is the product API display name.",
         "placeholders": {
             "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "สร้างเมื่อ {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
                 "type": "String"
             }
         }
@@ -17292,6 +17527,10 @@
     "@applicationsOauthBuilderTitle": {
         "description": "Section title for the authorize URL builder."
     },
+    "applicationsOauthBuilderDescription": "สร้าง URL การอนุญาตด้วยขอบเขตและสิทธิ์",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
     "applicationsScopes": "ขอบเขตการเข้าถึง",
     "@applicationsScopes": {
         "description": "Label for OAuth2 scope checkboxes."
@@ -17324,6 +17563,10 @@
     "@applicationsAuthorizeUrlPlaceholder": {
         "description": "Placeholder when the authorize URL cannot be built yet."
     },
+    "applicationsCopyAuthorizeUrl": "คัดลอก URL การอนุญาต",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
     "applicationsCopiedUrl": "คัดลอก URL ไปยังคลิปบอร์ดแล้ว",
     "@applicationsCopiedUrl": {
         "description": "Toast after copying the authorize URL."
@@ -17343,6 +17586,15 @@
     "applicationsDelete": "ลบแอปพลิเคชัน",
     "@applicationsDelete": {
         "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "คุณแน่ใจหรือไม่ว่าต้องการลบ {name} การดำเนินการนี้ไม่สามารถเลิกทำได้ ข้อมูลที่เกี่ยวข้องทั้งหมด รวมถึงผู้ใช้บอทจะถูกลบอย่างถาวร",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     },
     "applicationsDeleteFailed": "ไม่สามารถลบแอปพลิเคชันได้",
     "@applicationsDeleteFailed": {
@@ -17432,6 +17684,10 @@
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
     },
+    "voiceOutputRouteEarpiece": "ลำโพงหูฟัง",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
     "voiceOutputRouteHeadset": "หูฟัง",
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
@@ -17439,6 +17695,14 @@
     "doubleTapReactionEdit": "แก้ไข",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "แก้ไขค่าเริ่มต้น",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "เลือกอิโมจิแตะสองครั้ง",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
     },
     "chatMessagePinConfirm": "ปักหมุด",
     "@chatMessagePinConfirm": {
@@ -17452,9 +17716,17 @@
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."
     },
+    "appIconOptionStarfield": "ทุ่งดาว",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
     "appIconOptionSweden": "สวีเดน",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "การเปลี่ยนไอคอนแอปไม่สามารถใช้งานได้บนอุปกรณ์นี้",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     },
     "userSettingsLogOutConfirmTitle": "ออกจากระบบหรือไม่",
     "@userSettingsLogOutConfirmTitle": {
@@ -17484,5 +17756,178 @@
     "@guildSettingsCommunityDeleted": {
         "description": "Success toast after a community is deleted."
     },
-    "assistantOkMessageSent": "ส่งข้อความแล้ว"
+    "guildSettingsDeleteCommunityFailed": "ไม่สามารถลบคอมมูนิตี้นี้ได้",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantOkMessageSent": "ส่งข้อความแล้ว",
+    "assistantOkCustomStatusSet": "อัปเดตสถานะกำหนดเองแล้ว",
+    "assistantOkCustomStatusCleared": "ล้างสถานะกำหนดเองแล้ว",
+    "guildNavbarAnnouncementChannel": "ช่องประกาศ",
+    "guildNavbarAnnouncementChannelDescription": "โพสต์อัปเดตที่คอมมูนิตี้อื่นสามารถติดตามไปยังช่องของตนเองได้",
+    "channelDetailsAnnouncementChannel": "ช่องประกาศ",
+    "channelSettingsAnnouncementChannel": "ช่องประกาศ",
+    "channelSettingsAnnouncementChannelDescription": "ให้คอมมูนิตี้อื่นติดตามช่องนี้และรับสำเนาข้อความที่คุณเผยแพร่",
+    "channelSettingsStopAnnouncementTitle": "หยุดเป็นช่องประกาศหรือไม่",
+    "channelSettingsStopAnnouncementBody": "{count, plural, =1{1 ช่องกำลังติดตามช่องนี้ การแปลงเป็นช่องข้อความจะลบการติดตามนั้นออก} other{{count} ช่องกำลังติดตามช่องนี้ การแปลงเป็นช่องข้อความจะลบการติดตามเหล่านั้นออก}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "การแปลงช่องนี้เป็นช่องข้อความจะทำให้ทุกช่องที่ติดตามช่องนี้เลิกติดตาม",
+    "channelSettingsConvertChannel": "แปลง",
+    "channelSettingsConvertFailed": "ไม่สามารถแปลงช่องนี้ได้",
+    "channelSettingsChannelHasFollowers": "ยังมีช่องอื่นติดตามช่องนี้อยู่ โปรดลบการติดตามเหล่านั้นก่อนแปลงช่อง",
+    "channelMenuFollow": "ติดตามช่อง",
+    "channelFollowTitle": "ติดตามช่องนี้",
+    "channelFollowBody": "เลือกตำแหน่งที่ควรเผยแพร่ข้อความ คุณสามารถยกเลิกการติดตามได้ทุกเมื่อในการตั้งค่าคอมมูนิตี้ → Webhook",
+    "channelFollowCommunity": "คอมมูนิตี้",
+    "channelFollowChannel": "ช่อง",
+    "channelFollowAgeWarning": "ช่องนี้จำกัดอายุ สามารถส่งอัปเดตไปยังช่องที่จำกัดอายุเท่านั้น",
+    "channelFollowContentWarning": "ช่องนี้มีคำเตือนเนื้อหา การอัปเดตจะส่งไปยังช่องที่มีคำเตือนเนื้อหาหรือการจำกัดอายุเท่านั้น",
+    "channelFollowHiddenHint": "คอมมูนิตี้และช่องที่คุณไม่สามารถจัดการ Webhook ได้จะถูกซ่อนไว้",
+    "channelFollowEmpty": "คุณไม่สามารถจัดการ Webhook ในคอมมูนิตี้ใดๆ ได้ โปรดขอให้ผู้ดูแลระบบติดตามช่องนี้",
+    "channelFollowSubmit": "ติดตาม",
+    "channelFollowFailed": "ติดตามช่องนี้ไม่ได้",
+    "channelFollowSuccessTitle": "กำลังมีอัปเดตเข้ามา!",
+    "channelFollowSuccessBody": "ข้อความที่เผยแพร่ใน {sourceName} จะแสดงใน #{targetName}",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "เข้าใจแล้ว!",
+    "channelFollowBarrier": "ติดตามช่องนี้เพื่อรับประกาศเหล่านี้ในช่องที่คุณเลือก",
+    "channelHeaderFollow": "ติดตามช่อง",
+    "chatMessagePublish": "เผยแพร่",
+    "chatMessagePublished": "เผยแพร่แล้ว",
+    "chatMessagePublishConfirmTitle": "เผยแพร่ข้อความหรือไม่",
+    "chatMessagePublishConfirmBody": "การดำเนินการนี้จะส่งสำเนาไปยังทุกช่องที่ติดตามช่องนี้",
+    "chatMessagePublishedToast": "ข้อความเผยแพร่แล้ว",
+    "chatMessageAlreadyPublished": "ข้อความนี้เผยแพร่แล้ว",
+    "chatMessagePublishFailedTitle": "ไม่สามารถเผยแพร่ข้อความนี้ได้",
+    "chatMessagePublishFailedBody": "เกิดข้อผิดพลาด ลองอีกครั้งในภายหลัง",
+    "chatMessagePublishLimitTitle": "ช้าลงหน่อย",
+    "chatMessagePublishLimitBody": "คุณจะสามารถเผยแพร่ได้อีกครั้งใน {duration}",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "คุณกำลังเผยแพร่เร็วเกินไป โปรดลองอีกครั้งในอีกสักครู่",
+    "chatMessageDeletePublished": "การดำเนินการนี้จะลบสำเนาที่ส่งไปยังช่องที่ติดตามช่องนี้ด้วย",
+    "chatMessageEditPublishedTitle": "แก้ไขข้อความที่เผยแพร่แล้วหรือไม่?",
+    "chatMessageEditPublishedBody": "การดำเนินการนี้จะอัปเดตสำเนาที่ส่งไปยังช่องที่ติดตามช่องนี้ด้วย",
+    "chatMessageEditPublishedSave": "บันทึก",
+    "chatMessageEditLimitTitle": "ช้าลงหน่อย",
+    "chatMessageEditLimitBody": "คุณสามารถแก้ไขข้อความที่เผยแพร่นี้ได้อีกครั้งใน {duration}",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "คุณกำลังแก้ไขข้อความที่เผยแพร่นี้เร็วเกินไป โปรดลองอีกครั้งในอีกสักครู่",
+    "chatMessageOriginalDeleted": "[ข้อความต้นฉบับถูกลบแล้ว]",
+    "userTagCommunity": "คอมมูนิตี้",
+    "systemFollowAdd": "{username} ตั้งให้ช่องนี้ติดตาม {source} ข้อความที่เผยแพร่ที่นั่นจะปรากฏที่นี่",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username} ตั้งให้ช่องนี้ติดตาม {source}",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "ยังไม่ได้ส่งให้ผู้ติดตาม",
+    "publishNudgeHideForever": "ไม่ต้องแสดงอีก",
+    "publishNudgeDismiss": "ปิด",
+    "channelSettingsFollowedChannels": "ช่องที่ติดตาม",
+    "channelSettingsFollowedChannelsDescription": "ช่องประกาศที่ช่องนี้ติดตาม หากต้องการหยุดรับสำเนา ให้ยกเลิกการติดตาม",
+    "guildSettingsFollowedChannelsDescription": "ช่องประกาศที่ช่องต่างๆ ในคอมมูนิตี้นี้ติดตามอยู่",
+    "channelSettingsFollowedFrom": "จาก {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "หยุดอัปเดตชั่วคราวเนื่องจากช่องต้นทางไม่พร้อมใช้งานแล้ว",
+    "channelSettingsUnfollowTitle": "เลิกติดตาม {name} ไหม",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "ช่องนี้จะหยุดรับสำเนาจากช่องประกาศนั้น",
+    "channelSettingsUnfollow": "ยกเลิกการติดตาม",
+    "crosspostCommunityTitle": "คอมมูนิตี้",
+    "crosspostGoToCommunity": "ไปที่คอมมูนิตี้",
+    "crosspostJoinCommunity": "เข้าร่วมคอมมูนิตี้",
+    "crosspostSourceFailed": "ไม่สามารถโหลดคอมมูนิตี้นี้ได้ ลองอีกครั้งในอีกสักครู่",
+    "crosspostMembers": "สมาชิก {count} คน",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "{count} ออนไลน์",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, =1{1 นาที} other{{count} นาที}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, =1{1 วินาที} other{{count} วินาที}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "ไม่รองรับประเภทช่องนี้",
+    "channelUnsupportedBody": "แอปเวอร์ชันนี้ไม่รองรับช่องประเภทนี้",
+    "channelDetailsUnsupportedChannel": "ช่องที่ไม่รองรับ"
 }

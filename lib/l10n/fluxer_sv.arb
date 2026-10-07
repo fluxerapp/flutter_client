@@ -5769,6 +5769,10 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "Dubbeltryck på ett meddelande för att",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
     "chatMessageEdit": "Redigera meddelande",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -5776,6 +5780,14 @@
     "chatMessageReply": "Svara",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
+    },
+    "notificationReplyPlaceholder": "Meddelande",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "Kunde inte skicka svar",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
     },
     "chatMessageForward": "Vidarebefordra",
     "@chatMessageForward": {
@@ -6547,6 +6559,10 @@
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
     },
+    "chatImageCouldNotLoad": "Kunde inte läsa in den här bilden.",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
+    },
     "composerAutocompleteRoleMentionDescription": "Meddela användare med den här rollen som har behörighet att se den här kanalen.",
     "@composerAutocompleteRoleMentionDescription": {
         "description": "Secondary line in the @ mention autocomplete when the row is a mentionable guild role."
@@ -7087,6 +7103,10 @@
     "instanceUrlPlaceholder": "Ange instans-URL (t.ex. fluxer.app)",
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
+    },
+    "instanceUrlHelper": "Använd fluxer.app för den officiella instansen eller den exakta URL:en till en självhostad instans.",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
     },
     "resetToDefaultInstance": "Återställ till Fluxer",
     "@resetToDefaultInstance": {
@@ -9379,6 +9399,10 @@
     "@lookAndFeelChatWallpaperCustomLabel": {
         "description": "Chat wallpaper option that picks an image from the gallery."
     },
+    "lookAndFeelChatWallpaperStarfieldLabel": "Stjärnfält",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
+    },
     "lookAndFeelChatWallpaperColorLabel": "Färg {id}",
     "@lookAndFeelChatWallpaperColorLabel": {
         "description": "Accessibility label for a solid color wallpaper preset.",
@@ -10888,6 +10912,80 @@
     "userProfileLocalTime": "Lokal tid",
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
+    },
+    "profileLocalTimeSettingsTitle": "Lokal tid på profilen",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "Ställ in din tidszon så att {productName} kan hålla din UTC-förskjutning aktuell när sommartiden ändras. Andra användare kan bara se din UTC-förskjutning, inte din exakta tidszonsidentifierare.",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "Redigera lokal tid för profil",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "Tidszon",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "Välj den tidszon som {productName} använder för att beräkna din UTC-förskjutning och visa rätt tid i din profil.",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "Sök tidszoner",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "Inte inställt",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "När du delar lokal tid i profilen kan andra bara se din aktuella UTC-förskjutning. De ser inte din exakta tidszonsidentifierare, till exempel {timezoneIdentifierExample}. {productName} lagrar identifieraren enbart för att förskjutningen ska kunna uppdateras automatiskt vid övergångar mellan sommar- och normaltid.",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "Alla",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "Tillåt alla som kan se din fullständiga profil att se din lokala tid i profilen",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "Vänner",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "Låt dina vänner se din lokala tid på profilen",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "Communitymedlemmar",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "Låt medlemmar i communities du är med i se din lokala tid",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
     },
     "userProfileSameTimeAsYou": "Samma tid som du",
     "@userProfileSameTimeAsYou": {
@@ -13823,6 +13921,14 @@
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
     },
+    "accessibilityShowAltTextOnImagesLabel": "Visa alternativ text på bilder",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "Visa alternativ text under bilder när den är tillgänglig.",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
     "accessibilityDimStrikethroughTextLabel": "Tona ned genomstruken text",
     "@accessibilityDimStrikethroughTextLabel": {
         "description": "Toggle label for dimming strikethrough text in messages."
@@ -15915,6 +16021,72 @@
     "premiumPerkCustomThemes": "Anpassade teman",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "Upp till 4K/60 fps",
+    "storePlutoniumPriceLine": "{monthly} eller {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/mån",
+    "storePlutoniumYearSuffix": "/år",
+    "storePlutoniumPriceOr": "eller",
+    "storePlutoniumEmojiTitle": "Dina emojis, överallt",
+    "storePlutoniumEmojiBody": "Ta med egna emojis och klistermärken från alla dina communities till varje chatt och community du är med i.",
+    "storePlutoniumProfileTitle": "En profil som sticker ut",
+    "storePlutoniumProfileBody": "Få en animerad avatar och banner, ett prenumerantmärke, den fyrsiffriga tagg du vill ha efter ditt användarnamn* och en separat profil för varje community.",
+    "storePlutoniumFilesTitle": "Skicka filer upp till 500 MB",
+    "storePlutoniumFilesBody": "Dela videor i full längd och stora filer utan att krympa dem först. Gratiskonton kan skicka upp till 25 MB.",
+    "storePlutoniumCompareTitle": "Jämför Gratis och Plutonium",
+    "storePlutoniumCompareMobileNote": "Alla dessa funktioner finns inte i mobilappen. Vissa är bara tillgängliga på datorn.",
+    "storePlutoniumNotAvailable": "Inte tillgänglig",
+    "storePlutoniumAvailable": "Tillgänglig",
+    "storePlutoniumCompareTag": "Välj det fyrsiffriga numret efter ditt användarnamn*",
+    "storePlutoniumCompareProfile": "En separat profil för varje community",
+    "storePlutoniumCompareBadge": "Prenumerantmärke på din profil",
+    "storePlutoniumCompareBackgrounds": "Videobakgrunder du kan spara",
+    "storePlutoniumCompareCommunities": "Communities du kan gå med i",
+    "storePlutoniumCompareCharacters": "Tecken i ett enda meddelande",
+    "storePlutoniumCompareBookmarks": "Meddelanden du kan bokmärka",
+    "storePlutoniumCompareUpload": "Största filen du kan ladda upp",
+    "storePlutoniumCompareSavedMedia": "Medieobjekt du kan spara till senare",
+    "storePlutoniumCompareAnimatedEmoji": "Använd animerade emojis i meddelanden",
+    "storePlutoniumCompareCustomEmoji": "Använd egna emojis och klistermärken i alla communities",
+    "storePlutoniumCompareVideo": "Kvalitet på videosamtal och skärmdelning",
+    "storePlutoniumCompareAvatar": "Animerad avatar och profilbanner",
+    "storePlutoniumCompareEarlyAccess": "Tidig tillgång till nya funktioner",
+    "storePlutoniumCompareThemes": "Anpassade teman för appen",
+    "storePlutoniumVideoFree": "Upp till 720p i 30 FPS",
+    "storePlutoniumVideoPlutonium": "Upp till 4K i 60 FPS",
+    "storePlutoniumTagFootnote": "Du kan bara välja en tagg som ingen annan med samma användarnamn redan har. Användarnamn är inte skiftlägeskänsliga, så Mina#4821 och mina#4821 räknas som samma. Taggen #0000 är reserverad för Fluxer Visionary-medlemmar.",
+    "storePlutoniumLearnVisionary": "Läs mer om Visionary.",
+    "storePlutoniumDonatePrompt": "Vill du bara stödja Fluxers utveckling med öppen källkod? ",
+    "storePlutoniumDonateLink": "Donera istället.",
+    "storePlutoniumHighlightsLead": "Genom att prenumerera finansierar du Fluxer och låser upp",
+    "storePlutoniumHighlightEmoji": "Anpassade emojis och klistermärken i alla chattar",
+    "storePlutoniumHighlightProfile": "Animerad profil, märke och valfritt fyrsiffrigt nummer",
+    "storePlutoniumHighlightFiles": "Uppladdningar upp till 500 MB",
+    "storePlutoniumHighlightMessages": "Skicka meddelanden på upp till 4 000 tecken",
+    "storePlutoniumHighlightCommunityProfile": "En separat profil för varje community",
+    "storePlutoniumHighlightsMore": "Och mer",
+    "storePlutoniumRenewsThroughPlay": "Förnyas automatiskt via Google Play tills du säger upp den.",
+    "storePlutoniumRenewsThroughAppStore": "Förnyas automatiskt via App Store tills du säger upp den.",
+    "storePlutoniumAlreadySubscribed": "Du har redan en Fluxer Plutonium-prenumeration.",
+    "storePlutoniumSavePercent": "Spara {percent} %",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "Köpet har mottagits. Plutonium visas här när det har aktiverats.",
+    "storePlutoniumUnavailable": "Prenumerationer i appen är inte tillgängliga på den här enheten än.",
+    "storePlutoniumVisionaryStatus": "Visionary ger redan permanent åtkomst, så en återkommande prenumeration behövs inte.",
     "userSettingsNavShortcuts": "Genvägar",
     "@userSettingsNavShortcuts": {
         "description": "User settings navigation item for keyboard shortcuts."
@@ -16002,6 +16174,18 @@
     "defaultAppsWebBrowserExternal": "Extern webbläsare",
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
+    },
+    "userSettingsNavAppIcon": "Appikon",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "Appikon",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "Välj vilken ikon som visas på din hemskärm.",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
     },
     "advancedSettingsConfigure": "Konfigurera",
     "@advancedSettingsConfigure": {
@@ -16251,6 +16435,14 @@
     "authHidePassword": "Dölj lösenord",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "Fortfarande på gång…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
+    },
+    "authVerificationFailed": "Kunde inte slutföra verifieringen. Försök igen.",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
     },
     "chatLoadingMessages": "Läser in meddelanden",
     "@chatLoadingMessages": {
@@ -17066,6 +17258,40 @@
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
+    "assistantNeedsLogin": "Öppna Fluxer och logga in först.",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "Du är inte i ett samtal.",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "Fluxer kunde inte hitta det.",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "Direktmeddelanden är inaktiverade på den här instansen.",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "Fluxer kunde inte slutföra det.",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "Mikrofonen är avstängd.",
+    "assistantOkUnmuted": "Mikrofonen är på.",
+    "assistantOkLeftVoice": "Lämnade röstkanalen.",
+    "assistantOkJoinedVoice": "Ansluter till röstkanalen.",
+    "assistantOkStartedCall": "Startar samtalet.",
+    "assistantOkStatusSet": "Status satt till {status}.",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "Öppnar Fluxer.",
     "applicationsTitle": "Appar",
     "@applicationsTitle": {
         "description": "Title for the developer Applications settings tab."
@@ -17108,6 +17334,15 @@
         "description": "Empty-state body. apiName is the product API display name.",
         "placeholders": {
             "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "Skapad {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
                 "type": "String"
             }
         }
@@ -17292,6 +17527,10 @@
     "@applicationsOauthBuilderTitle": {
         "description": "Section title for the authorize URL builder."
     },
+    "applicationsOauthBuilderDescription": "Skapa en auktoriserings-URL med scopes och behörigheter.",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
     "applicationsScopes": "Behörighetsomfång",
     "@applicationsScopes": {
         "description": "Label for OAuth2 scope checkboxes."
@@ -17324,6 +17563,10 @@
     "@applicationsAuthorizeUrlPlaceholder": {
         "description": "Placeholder when the authorize URL cannot be built yet."
     },
+    "applicationsCopyAuthorizeUrl": "Kopiera auktoriserings-URL",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
     "applicationsCopiedUrl": "URL kopierad till urklipp",
     "@applicationsCopiedUrl": {
         "description": "Toast after copying the authorize URL."
@@ -17343,6 +17586,15 @@
     "applicationsDelete": "Ta bort applikation",
     "@applicationsDelete": {
         "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "Är du säker på att du vill ta bort {name}? Det här kan inte ångras. All tillhörande data, inklusive botanvändaren, raderas permanent.",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     },
     "applicationsDeleteFailed": "Kunde inte ta bort applikationen",
     "@applicationsDeleteFailed": {
@@ -17432,6 +17684,10 @@
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
     },
+    "voiceOutputRouteEarpiece": "Hörsnäcka",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
     "voiceOutputRouteHeadset": "Hörlurar",
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
@@ -17439,6 +17695,14 @@
     "doubleTapReactionEdit": "Redigera",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "Redigera standard",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "Välj emoji för dubbeltryck",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
     },
     "chatMessagePinConfirm": "Fäst",
     "@chatMessagePinConfirm": {
@@ -17452,9 +17716,17 @@
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."
     },
+    "appIconOptionStarfield": "Stjärnfält",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
     "appIconOptionSweden": "Sverige",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "Det går inte att ändra appikonen på den här enheten.",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     },
     "userSettingsLogOutConfirmTitle": "Logga ut?",
     "@userSettingsLogOutConfirmTitle": {
@@ -17484,5 +17756,178 @@
     "@guildSettingsCommunityDeleted": {
         "description": "Success toast after a community is deleted."
     },
-    "assistantOkMessageSent": "Meddelande skickat."
+    "guildSettingsDeleteCommunityFailed": "Det gick inte att ta bort den här communityn",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantOkMessageSent": "Meddelande skickat.",
+    "assistantOkCustomStatusSet": "Anpassad status uppdaterad.",
+    "assistantOkCustomStatusCleared": "Anpassad status rensad.",
+    "guildNavbarAnnouncementChannel": "Meddelandekanal",
+    "guildNavbarAnnouncementChannelDescription": "Publicera uppdateringar som andra communities kan följa i sina egna kanaler",
+    "channelDetailsAnnouncementChannel": "Meddelandekanal",
+    "channelSettingsAnnouncementChannel": "Meddelandekanal",
+    "channelSettingsAnnouncementChannelDescription": "Låter andra communityn följa den här kanalen och få kopior av det du publicerar.",
+    "channelSettingsStopAnnouncementTitle": "Sluta vara en meddelandekanal?",
+    "channelSettingsStopAnnouncementBody": "{count, plural, =1{1 kanal följer den här kanalen. Om du konverterar den till en textkanal slutar den kanalen att följa.} other{{count} kanaler följer den här kanalen. Om du konverterar den till en textkanal slutar de kanalerna att följa.}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "Om du konverterar den här kanalen till en textkanal slutar alla kanaler som följer den att följa den.",
+    "channelSettingsConvertChannel": "Konvertera",
+    "channelSettingsConvertFailed": "Kunde inte konvertera den här kanalen",
+    "channelSettingsChannelHasFollowers": "Andra kanaler följer fortfarande den här kanalen. Ta bort dem innan du konverterar den.",
+    "channelMenuFollow": "Följ kanal",
+    "channelFollowTitle": "Följ den här kanalen",
+    "channelFollowBody": "Välj vart dess publicerade meddelanden ska skickas. Du kan sluta följa när som helst i Communityinställningar → Webhooks.",
+    "channelFollowCommunity": "Community",
+    "channelFollowChannel": "Kanal",
+    "channelFollowAgeWarning": "Det här är en åldersbegränsad kanal. Uppdateringar kan bara skickas till åldersbegränsade kanaler.",
+    "channelFollowContentWarning": "Den här kanalen har en innehållsvarning. Uppdateringar kan bara skickas till kanaler med en innehållsvarning eller en åldersbegränsning.",
+    "channelFollowHiddenHint": "Communities och kanaler där du inte kan hantera webhooks är dolda.",
+    "channelFollowEmpty": "Du kan inte hantera webhooks i någon community. Be en administratör att följa den här kanalen.",
+    "channelFollowSubmit": "Följ",
+    "channelFollowFailed": "Kunde inte följa kanalen.",
+    "channelFollowSuccessTitle": "Uppdateringar är på väg!",
+    "channelFollowSuccessBody": "Meddelanden som publiceras i {sourceName} kommer att visas i #{targetName}.",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "Uppfattat!",
+    "channelFollowBarrier": "Följ den här kanalen för att få de här uppdateringarna i en kanal du väljer.",
+    "channelHeaderFollow": "Följ kanal",
+    "chatMessagePublish": "Publicera",
+    "chatMessagePublished": "Publicerad",
+    "chatMessagePublishConfirmTitle": "Publicera meddelande?",
+    "chatMessagePublishConfirmBody": "Detta skickar en kopia till varje kanal som följer den här.",
+    "chatMessagePublishedToast": "Meddelande publicerat",
+    "chatMessageAlreadyPublished": "Det här meddelandet är redan publicerat.",
+    "chatMessagePublishFailedTitle": "Kunde inte publicera det här meddelandet",
+    "chatMessagePublishFailedBody": "Något gick fel. Försök igen om en liten stund.",
+    "chatMessagePublishLimitTitle": "Sakta ner",
+    "chatMessagePublishLimitBody": "Du kan publicera igen om {duration}.",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "Du publicerar för snabbt. Försök igen om en liten stund.",
+    "chatMessageDeletePublished": "Detta tar även bort kopiorna som skickades till kanaler som följer den här.",
+    "chatMessageEditPublishedTitle": "Redigera publicerat meddelande?",
+    "chatMessageEditPublishedBody": "Detta uppdaterar kopiorna som skickades till kanaler som följer den här.",
+    "chatMessageEditPublishedSave": "Spara",
+    "chatMessageEditLimitTitle": "Sakta ner",
+    "chatMessageEditLimitBody": "Du kan redigera det här publicerade meddelandet igen om {duration}.",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "Du redigerar det här publicerade meddelandet för snabbt. Försök igen om en liten stund.",
+    "chatMessageOriginalDeleted": "[Ursprungligt meddelande borttaget]",
+    "userTagCommunity": "Community",
+    "systemFollowAdd": "{username} lät den här kanalen följa {source}. Meddelanden som publiceras där visas här.",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username} lät den här kanalen följa {source}.",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "Inte skickat till följare än.",
+    "publishNudgeHideForever": "Visa inte igen",
+    "publishNudgeDismiss": "Stäng",
+    "channelSettingsFollowedChannels": "Följda kanaler",
+    "channelSettingsFollowedChannelsDescription": "Meddelandekanaler som den här kanalen följer. Sluta följa för att sluta ta emot kopior.",
+    "guildSettingsFollowedChannelsDescription": "Meddelandekanaler som följs av kanaler i den här communityn.",
+    "channelSettingsFollowedFrom": "Från {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "Uppdateringar är pausade eftersom källkanalen inte längre är tillgänglig.",
+    "channelSettingsUnfollowTitle": "Sluta följa {name}?",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "Den här kanalen kommer att sluta ta emot kopior från den meddelandekanalen.",
+    "channelSettingsUnfollow": "Sluta följa",
+    "crosspostCommunityTitle": "Community",
+    "crosspostGoToCommunity": "Gå till communityn",
+    "crosspostJoinCommunity": "Gå med i communityn",
+    "crosspostSourceFailed": "Det gick inte att läsa in den här communityn. Försök igen om en liten stund.",
+    "crosspostMembers": "{count} medlemmar",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "{count} online",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, =1{1 minut} other{{count} minuter}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, =1{1 sekund} other{{count} sekunder}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "Kanaltyp stöds inte",
+    "channelUnsupportedBody": "Den här versionen av appen stöder inte den här kanaltypen.",
+    "channelDetailsUnsupportedChannel": "Kanal som inte stöds"
 }

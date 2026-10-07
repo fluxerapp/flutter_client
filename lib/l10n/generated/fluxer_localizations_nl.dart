@@ -3017,7 +3017,7 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String applicationsCreated(String date) {
-    return 'Created $date';
+    return 'Gemaakt op $date';
   }
 
   @override
@@ -3177,7 +3177,7 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get applicationsOauthBuilderDescription =>
-      'Construct an authorize URL with scopes and permissions.';
+      'Stel een autorisatie-URL samen met scopes en machtigingen.';
 
   @override
   String get applicationsScopes => 'Machtigingsbereiken';
@@ -3207,7 +3207,7 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
       'Selecteer machtigingsbereiken (en een omleidings-URI indien vereist)';
 
   @override
-  String get applicationsCopyAuthorizeUrl => 'Copy authorize URL';
+  String get applicationsCopyAuthorizeUrl => 'Autorisatie-URL kopiëren';
 
   @override
   String get applicationsCopiedUrl => 'URL gekopieerd naar klembord';
@@ -3228,7 +3228,7 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String applicationsDeleteConfirmDescription(String name) {
-    return 'Are you sure you want to delete $name? This action cannot be undone. All associated data, including the bot user, will be permanently deleted.';
+    return 'Weet je zeker dat je $name wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt. Alle bijbehorende gegevens, inclusief de botgebruiker, worden permanent verwijderd.';
   }
 
   @override
@@ -3483,58 +3483,58 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get userProfileLocalTime => 'Lokale tijd';
 
   @override
-  String get profileLocalTimeSettingsTitle => 'Profile local time';
+  String get profileLocalTimeSettingsTitle => 'Lokale tijd in profiel';
 
   @override
   String profileLocalTimeSettingsSummary(String productName) {
-    return 'Set your time zone once so $productName can keep your UTC offset current when daylight saving time changes. Other people can only see your UTC offset, not your exact time zone identifier.';
+    return 'Stel je tijdzone één keer in zodat $productName je tijdsverschil met UTC kan bijwerken bij het ingaan of eindigen van de zomertijd. Anderen kunnen alleen je tijdsverschil met UTC zien, niet de exacte identificatiecode van je tijdzone.';
   }
 
   @override
-  String get profileLocalTimeEditButton => 'Edit profile local time';
+  String get profileLocalTimeEditButton => 'Lokale tijd profiel bewerken';
 
   @override
-  String get profileLocalTimeTimezoneLabel => 'Time zone';
+  String get profileLocalTimeTimezoneLabel => 'Tijdzone';
 
   @override
   String profileLocalTimeTimezoneHelp(String productName) {
-    return 'Choose the time zone $productName uses to calculate your UTC offset for profile local time.';
+    return 'Kies de tijdzone die $productName gebruikt om je UTC-offset te berekenen voor de lokale tijd in je profiel.';
   }
 
   @override
-  String get profileLocalTimeSearchTimezones => 'Search time zones';
+  String get profileLocalTimeSearchTimezones => 'Tijdzones zoeken';
 
   @override
-  String get profileLocalTimeNotSet => 'Not set';
+  String get profileLocalTimeNotSet => 'Niet ingesteld';
 
   @override
   String profileLocalTimePrivacyNote(
     String timezoneIdentifierExample,
     String productName,
   ) {
-    return 'Other people can only see your current UTC offset when you choose to share profile local time. They do not see your exact time zone identifier, such as $timezoneIdentifierExample. $productName stores that identifier only so the offset can update automatically when daylight saving time changes.';
+    return 'Anderen kunnen alleen je huidige tijdsverschil met UTC zien als je ervoor kiest je lokale tijd op je profiel te delen. Ze zien niet de exacte identificatiecode van je tijdzone, zoals $timezoneIdentifierExample. $productName slaat die code alleen op om het tijdsverschil automatisch te kunnen bijwerken bij het ingaan of eindigen van de zomertijd.';
   }
 
   @override
-  String get profileLocalTimePrivacyEveryone => 'Everyone';
+  String get profileLocalTimePrivacyEveryone => 'Iedereen';
 
   @override
   String get profileLocalTimePrivacyEveryoneDesc =>
-      'Allow anyone who can view your full profile to see your local time';
+      'Sta iedereen die je volledige profiel kan bekijken toe om je lokale tijd te zien';
 
   @override
-  String get profileLocalTimePrivacyFriends => 'Friends';
+  String get profileLocalTimePrivacyFriends => 'Vrienden';
 
   @override
   String get profileLocalTimePrivacyFriendsDesc =>
-      'Allow your friends to see your local time';
+      'Sta je vrienden toe om je lokale tijd te zien';
 
   @override
-  String get profileLocalTimePrivacyCommunityMembers => 'Community members';
+  String get profileLocalTimePrivacyCommunityMembers => 'Communityleden';
 
   @override
   String get profileLocalTimePrivacyCommunityMembersDesc =>
-      'Allow members from communities you\'re in to see your local time';
+      'Sta leden van communities waar je lid van bent toe om je lokale tijd te zien';
 
   @override
   String get userProfileSameTimeAsYou => 'Zelfde lokale tijd als jij';
@@ -4978,7 +4978,7 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get lookAndFeelChatWallpaperCustomLabel => 'Aangepaste afbeelding';
 
   @override
-  String get lookAndFeelChatWallpaperStarfieldLabel => 'Starfield';
+  String get lookAndFeelChatWallpaperStarfieldLabel => 'Sterrenveld';
 
   @override
   String lookAndFeelChatWallpaperColorLabel(String id) {
@@ -5615,11 +5615,11 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get accessibilityShowAltTextOnImagesLabel =>
-      'Show alternative text on images';
+      'Alternatieve tekst op afbeeldingen weergeven';
 
   @override
   String get accessibilityShowAltTextOnImagesDescription =>
-      'Display alternative text below images when it is available.';
+      'Toon alternatieve tekst onder afbeeldingen wanneer deze beschikbaar is.';
 
   @override
   String get accessibilityDimStrikethroughTextLabel =>
@@ -6348,7 +6348,7 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get voiceOutputRouteSpeaker => 'Luidspreker';
 
   @override
-  String get voiceOutputRouteEarpiece => 'Earpiece';
+  String get voiceOutputRouteEarpiece => 'Oortelefoon';
 
   @override
   String get voiceOutputRouteHeadset => 'Koptelefoon';
@@ -7160,16 +7160,16 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get chatMessageAddReaction => 'Reactie toevoegen';
 
   @override
-  String get doubleTapReactionHint => 'Double tap a message to';
+  String get doubleTapReactionHint => 'Dubbeltik op een bericht om';
 
   @override
   String get doubleTapReactionEdit => 'Bewerken';
 
   @override
-  String get doubleTapReactionEditTitle => 'Edit default';
+  String get doubleTapReactionEditTitle => 'Standaard bewerken';
 
   @override
-  String get doubleTapReactionEditSubtitle => 'Choose double tap emoji';
+  String get doubleTapReactionEditSubtitle => 'Kies dubbeltik-emoji';
 
   @override
   String get chatMessageEdit => 'Bericht bewerken';
@@ -7178,10 +7178,10 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get chatMessageReply => 'Antwoorden';
 
   @override
-  String get notificationReplyPlaceholder => 'Message';
+  String get notificationReplyPlaceholder => 'Bericht';
 
   @override
-  String get notificationReplyFailed => 'Couldn\'t send reply';
+  String get notificationReplyFailed => 'Antwoord kon niet worden verzonden';
 
   @override
   String get chatMessageForward => 'Doorsturen';
@@ -7941,7 +7941,8 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
       'Deze video kon niet worden afgespeeld.';
 
   @override
-  String get chatImageCouldNotLoad => 'Could not load this image.';
+  String get chatImageCouldNotLoad =>
+      'Deze afbeelding kon niet worden geladen.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
@@ -10148,180 +10149,182 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String storePlutoniumPriceLine(String monthly, String yearly) {
-    return '$monthly or $yearly';
+    return '$monthly of $yearly';
   }
 
   @override
-  String get storePlutoniumMonthSuffix => '/mo';
+  String get storePlutoniumMonthSuffix => '/mnd';
 
   @override
-  String get storePlutoniumYearSuffix => '/yr';
+  String get storePlutoniumYearSuffix => '/jr';
 
   @override
-  String get storePlutoniumPriceOr => 'or';
+  String get storePlutoniumPriceOr => 'of';
 
   @override
-  String get storePlutoniumEmojiTitle => 'Your emojis, everywhere';
+  String get storePlutoniumEmojiTitle => 'Jouw emoji\'s, overal';
 
   @override
   String get storePlutoniumEmojiBody =>
-      'Bring custom emojis and stickers from any of your communities into every chat and community you\'re in.';
+      'Gebruik aangepaste emoji\'s en stickers van al je communities in elke chat en community waar je lid van bent.';
 
   @override
-  String get storePlutoniumProfileTitle => 'A profile that stands out';
+  String get storePlutoniumProfileTitle => 'Een profiel dat opvalt';
 
   @override
   String get storePlutoniumProfileBody =>
-      'Get an animated avatar and banner, a subscriber badge, the four-digit tag you want after your username*, and a separate profile for each community.';
+      'Krijg een geanimeerde avatar en banner, een abonneebadge, de viercijferige tag die je wilt achter je gebruikersnaam*, en een apart profiel voor elke community.';
 
   @override
-  String get storePlutoniumFilesTitle => 'Send files up to 500 MB';
+  String get storePlutoniumFilesTitle => 'Verstuur bestanden tot 500 MB';
 
   @override
   String get storePlutoniumFilesBody =>
-      'Share full-length videos and big files without shrinking them first. Free accounts can send up to 25 MB.';
+      'Deel video\'s van volledige lengte en grote bestanden zonder ze eerst te verkleinen. Gratis accounts kunnen tot 25 MB verzenden.';
 
   @override
-  String get storePlutoniumCompareTitle => 'Compare Free and Plutonium';
+  String get storePlutoniumCompareTitle => 'Vergelijk Gratis en Plutonium';
 
   @override
   String get storePlutoniumCompareMobileNote =>
-      'Not all of these features are in the mobile app. Some are only available on desktop.';
+      'Niet al deze functies zijn beschikbaar in de mobiele app. Sommige zijn alleen beschikbaar op desktop.';
 
   @override
-  String get storePlutoniumNotAvailable => 'Not available';
+  String get storePlutoniumNotAvailable => 'Niet beschikbaar';
 
   @override
-  String get storePlutoniumAvailable => 'Available';
+  String get storePlutoniumAvailable => 'Beschikbaar';
 
   @override
   String get storePlutoniumCompareTag =>
-      'Pick the 4-digit number after your username*';
+      'Kies het 4-cijferige nummer na je gebruikersnaam*';
 
   @override
   String get storePlutoniumCompareProfile =>
-      'A separate profile for each community';
+      'Een apart profiel voor elke community';
 
   @override
-  String get storePlutoniumCompareBadge => 'Subscriber badge on your profile';
+  String get storePlutoniumCompareBadge => 'Abonnee-badge op je profiel';
 
   @override
   String get storePlutoniumCompareBackgrounds =>
-      'Video call backgrounds you can save';
+      'Achtergronden voor videogesprekken die je kunt opslaan';
 
   @override
-  String get storePlutoniumCompareCommunities => 'Communities you can join';
+  String get storePlutoniumCompareCommunities =>
+      'Communities waar je lid van kunt worden';
 
   @override
-  String get storePlutoniumCompareCharacters =>
-      'Characters in a single message';
+  String get storePlutoniumCompareCharacters => 'Tekens in één bericht';
 
   @override
-  String get storePlutoniumCompareBookmarks => 'Messages you can bookmark';
+  String get storePlutoniumCompareBookmarks => 'Berichten die je kunt opslaan';
 
   @override
-  String get storePlutoniumCompareUpload => 'Largest file you can upload';
+  String get storePlutoniumCompareUpload =>
+      'Grootste bestand dat je kunt uploaden';
 
   @override
   String get storePlutoniumCompareSavedMedia =>
-      'Media items you can save for later';
+      'Media die je kunt bewaren voor later';
 
   @override
   String get storePlutoniumCompareAnimatedEmoji =>
-      'Use animated emojis in messages';
+      'Gebruik geanimeerde emoji\'s in berichten';
 
   @override
   String get storePlutoniumCompareCustomEmoji =>
-      'Use custom emojis and stickers in any community';
+      'Gebruik aangepaste emoji\'s en stickers in elke community';
 
   @override
   String get storePlutoniumCompareVideo =>
-      'Video call and screen share quality';
+      'Kwaliteit videogesprek en scherm delen';
 
   @override
   String get storePlutoniumCompareAvatar =>
-      'Animated avatar and profile banner';
+      'Geanimeerde avatar en profielbanner';
 
   @override
-  String get storePlutoniumCompareEarlyAccess => 'Early access to new features';
+  String get storePlutoniumCompareEarlyAccess =>
+      'Vroege toegang tot nieuwe functies';
 
   @override
-  String get storePlutoniumCompareThemes => 'Custom themes for the app';
+  String get storePlutoniumCompareThemes => 'Aangepaste thema\'s voor de app';
 
   @override
-  String get storePlutoniumVideoFree => 'Up to 720p at 30 FPS';
+  String get storePlutoniumVideoFree => 'Tot 720p bij 30 FPS';
 
   @override
-  String get storePlutoniumVideoPlutonium => 'Up to 4K at 60 FPS';
+  String get storePlutoniumVideoPlutonium => 'Tot 4K bij 60 FPS';
 
   @override
   String get storePlutoniumTagFootnote =>
-      'You can only pick a tag that nobody else with the same username already has. Usernames aren\'t case sensitive, so Mina#4821 and mina#4821 count as the same. The #0000 tag is reserved for Fluxer Visionary members.';
+      'Je kunt alleen een tag kiezen die niemand anders met dezelfde gebruikersnaam al heeft. Gebruikersnamen zijn niet hoofdlettergevoelig, dus Mina#4821 en mina#4821 tellen als hetzelfde. De #0000-tag is gereserveerd voor Fluxer Visionary-leden.';
 
   @override
-  String get storePlutoniumLearnVisionary => 'Learn more about Visionary.';
+  String get storePlutoniumLearnVisionary => 'Meer informatie over Visionary.';
 
   @override
   String get storePlutoniumDonatePrompt =>
-      'Just want to support Fluxer\'s open source development? ';
+      'Wil je de open-sourceontwikkeling van Fluxer gewoon steunen? ';
 
   @override
-  String get storePlutoniumDonateLink => 'Donate instead.';
+  String get storePlutoniumDonateLink => 'Doneer in plaats daarvan.';
 
   @override
   String get storePlutoniumHighlightsLead =>
-      'Subscribing funds Fluxer and unlocks';
+      'Een abonnement financiert Fluxer en ontgrendelt';
 
   @override
   String get storePlutoniumHighlightEmoji =>
-      'Custom emoji and stickers in any chat';
+      'Aangepaste emoji en stickers in elke chat';
 
   @override
   String get storePlutoniumHighlightProfile =>
-      'Animated profile, badge, and custom 4-digit number';
+      'Geanimeerd profiel, badge en aangepast 4-cijferig nummer';
 
   @override
-  String get storePlutoniumHighlightFiles => 'Uploads up to 500 MB';
+  String get storePlutoniumHighlightFiles => 'Uploads tot 500 MB';
 
   @override
   String get storePlutoniumHighlightMessages =>
-      'Send messages up to 4,000 characters';
+      'Verzend berichten tot 4.000 tekens';
 
   @override
   String get storePlutoniumHighlightCommunityProfile =>
-      'A separate profile for each community';
+      'Een apart profiel voor elke community';
 
   @override
-  String get storePlutoniumHighlightsMore => 'And more';
+  String get storePlutoniumHighlightsMore => 'En meer';
 
   @override
   String get storePlutoniumRenewsThroughPlay =>
-      'Renews automatically through Google Play until you cancel.';
+      'Wordt automatisch verlengd via Google Play totdat je opzegt.';
 
   @override
   String get storePlutoniumRenewsThroughAppStore =>
-      'Renews automatically through the App Store until you cancel.';
+      'Wordt automatisch verlengd via de App Store totdat je opzegt.';
 
   @override
   String get storePlutoniumAlreadySubscribed =>
-      'You already have a Fluxer Plutonium subscription.';
+      'Je hebt al een Fluxer Plutonium-abonnement.';
 
   @override
   String storePlutoniumSavePercent(int percent) {
-    return 'Save $percent%';
+    return 'Bespaar $percent%';
   }
 
   @override
   String get storePlutoniumWaiting =>
-      'Purchase received. Plutonium will show here once it activates.';
+      'Aankoop ontvangen. Plutonium verschijnt hier zodra het is geactiveerd.';
 
   @override
   String get storePlutoniumUnavailable =>
-      'Subscriptions in the app aren\'t available on this device yet.';
+      'Abonnementen in de app zijn nog niet beschikbaar op dit apparaat.';
 
   @override
   String get storePlutoniumVisionaryStatus =>
-      'Visionary already includes permanent access, so a recurring subscription isn\'t needed.';
+      'Visionary omvat al permanente toegang, dus een terugkerend abonnement is niet nodig.';
 
   @override
   String get userSettingsNavPrivacyDashboard => 'Privacy Dashboard';
@@ -10901,27 +10904,27 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get defaultAppsWebBrowserExternal => 'Externe browser';
 
   @override
-  String get userSettingsNavAppIcon => 'App icon';
+  String get userSettingsNavAppIcon => 'App-pictogram';
 
   @override
-  String get appIconSectionTitle => 'App icon';
+  String get appIconSectionTitle => 'App-pictogram';
 
   @override
   String get appIconSectionDescription =>
-      'Choose which icon appears on your home screen.';
+      'Kies welk pictogram op je beginscherm verschijnt.';
 
   @override
   String get appIconOptionDefault => 'Standaard';
 
   @override
-  String get appIconOptionStarfield => 'Starfield';
+  String get appIconOptionStarfield => 'Sterrenveld';
 
   @override
   String get appIconOptionSweden => 'Zweden';
 
   @override
   String get appIconUnsupported =>
-      'Changing the app icon is not available on this device.';
+      'Het wijzigen van het app-icoon is niet beschikbaar op dit apparaat.';
 
   @override
   String get userSettingsNavAdvanced => 'Geavanceerd';
@@ -11769,7 +11772,7 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get instanceUrlHelper =>
-      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+      'Gebruik fluxer.app voor de officiële instantie, of de exacte URL van een zelf-gehoste instantie.';
 
   @override
   String get resetToDefaultInstance => 'Terugzetten naar Fluxer';
@@ -11989,11 +11992,11 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get authHidePassword => 'Wachtwoord verbergen';
 
   @override
-  String get authCheckStillWorking => 'Still working on it…';
+  String get authCheckStillWorking => 'Nog bezig…';
 
   @override
   String get authVerificationFailed =>
-      'Couldn\'t complete verification. Try again.';
+      'Verificatie mislukt. Probeer het opnieuw.';
 
   @override
   String get chatLoadingMessages => 'Berichten laden';
@@ -14539,7 +14542,7 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+      'Deze community kon niet worden verwijderd';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
@@ -15568,73 +15571,73 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get homeQuickActionDms => 'DM\'s';
 
   @override
-  String get assistantNeedsLogin => 'Open Fluxer and sign in first.';
+  String get assistantNeedsLogin => 'Open Fluxer en log eerst in.';
 
   @override
-  String get assistantNotInVoice => 'You\'re not in a call.';
+  String get assistantNotInVoice => 'Je zit niet in een gesprek.';
 
   @override
-  String get assistantNotFound => 'Fluxer could not find that.';
+  String get assistantNotFound => 'Fluxer kan dat niet vinden.';
 
   @override
   String get assistantDmsDisabled =>
-      'Direct messages are disabled on this instance.';
+      'Directe berichten zijn uitgeschakeld op deze instance.';
 
   @override
-  String get assistantFailed => 'Fluxer could not complete that.';
+  String get assistantFailed => 'Fluxer kon dat niet voltooien.';
 
   @override
-  String get assistantOkMuted => 'Muted.';
+  String get assistantOkMuted => 'Microfoon gedempt.';
 
   @override
-  String get assistantOkUnmuted => 'Unmuted.';
+  String get assistantOkUnmuted => 'Microfoon niet meer gedempt.';
 
   @override
-  String get assistantOkLeftVoice => 'Left voice.';
+  String get assistantOkLeftVoice => 'Spraakkanaal verlaten.';
 
   @override
-  String get assistantOkJoinedVoice => 'Joining voice.';
+  String get assistantOkJoinedVoice => 'Spraakkanaal wordt betreden.';
 
   @override
-  String get assistantOkStartedCall => 'Starting the call.';
+  String get assistantOkStartedCall => 'Gesprek wordt gestart.';
 
   @override
   String assistantOkStatusSet(String status) {
-    return 'Status set to $status.';
+    return 'Status ingesteld op $status.';
   }
 
   @override
-  String get assistantOkOpened => 'Opening Fluxer.';
+  String get assistantOkOpened => 'Fluxer wordt geopend.';
 
   @override
   String get assistantOkMessageSent => 'Bericht verzonden.';
 
   @override
-  String get assistantOkCustomStatusSet => 'Custom status updated.';
+  String get assistantOkCustomStatusSet => 'Aangepaste status bijgewerkt.';
 
   @override
-  String get assistantOkCustomStatusCleared => 'Custom status cleared.';
+  String get assistantOkCustomStatusCleared => 'Aangepaste status gewist.';
 
   @override
-  String get guildNavbarAnnouncementChannel => 'Announcement';
+  String get guildNavbarAnnouncementChannel => 'Aankondigingskanaal';
 
   @override
   String get guildNavbarAnnouncementChannelDescription =>
-      'Post updates other communities can follow';
+      'Plaats updates die andere communities in hun eigen kanalen kunnen volgen';
 
   @override
-  String get channelDetailsAnnouncementChannel => 'Announcement channel';
+  String get channelDetailsAnnouncementChannel => 'Aankondigingskanaal';
 
   @override
-  String get channelSettingsAnnouncementChannel => 'Announcement channel';
+  String get channelSettingsAnnouncementChannel => 'Aankondigingskanaal';
 
   @override
   String get channelSettingsAnnouncementChannelDescription =>
-      'Lets other communities follow this channel and get copies of what you publish.';
+      'Laat andere communities dit kanaal volgen en kopieën ontvangen van wat je publiceert.';
 
   @override
   String get channelSettingsStopAnnouncementTitle =>
-      'Stop being an announcement channel?';
+      'Stoppen als aankondigingskanaal?';
 
   @override
   String channelSettingsStopAnnouncementBody(int count) {
@@ -15642,42 +15645,43 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
       count,
       locale: localeName,
       other:
-          '$count channels follow this channel. Converting it to a text channel removes those follows.',
+          '$count kanalen volgen dit kanaal. Als je het omzet naar een tekstkanaal, volgen die kanalen het niet meer.',
       one:
-          '1 channel follows this channel. Converting it to a text channel removes that follow.',
+          '1 kanaal volgt dit kanaal. Als je het omzet naar een tekstkanaal, volgt dat kanaal het niet meer.',
     );
     return '$_temp0';
   }
 
   @override
   String get channelSettingsStopAnnouncementUnknown =>
-      'Converting this channel to a text channel removes every channel that follows it.';
+      'Als je dit kanaal omzet naar een tekstkanaal, volgt geen enkel kanaal het nog.';
 
   @override
-  String get channelSettingsConvertChannel => 'Convert';
+  String get channelSettingsConvertChannel => 'Omzetten';
 
   @override
-  String get channelSettingsConvertFailed => 'Couldn\'t convert this channel';
+  String get channelSettingsConvertFailed =>
+      'Dit kanaal kon niet worden omgezet';
 
   @override
   String get channelSettingsChannelHasFollowers =>
-      'This channel still has followers. Remove those follows before converting it.';
+      'Andere kanalen volgen dit kanaal nog. Verwijder die eerst voordat je het omzet.';
 
   @override
-  String get channelMenuFollow => 'Follow channel';
+  String get channelMenuFollow => 'Kanaal volgen';
 
   @override
-  String get channelFollowTitle => 'Follow this channel';
+  String get channelFollowTitle => 'Volg dit kanaal';
 
   @override
   String get channelFollowBody =>
-      'Choose where its published messages should go. You can unfollow any time in Community settings → Webhooks.';
+      'Kies waar de gepubliceerde berichten naartoe moeten. Je kunt op elk moment stoppen met volgen via Community-instellingen → Webhooks.';
 
   @override
   String get channelFollowCommunity => 'Community';
 
   @override
-  String get channelFollowChannel => 'Channel';
+  String get channelFollowChannel => 'Kanaal';
 
   @override
   String get channelFollowSelectCommunity => 'Select a community';
@@ -15687,165 +15691,165 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String get channelFollowAgeWarning =>
-      'This is an age-restricted channel. Updates can only go to age-restricted channels.';
+      'Dit is een kanaal met leeftijdsbeperking. Updates kunnen alleen naar kanalen met leeftijdsbeperking gaan.';
 
   @override
   String get channelFollowContentWarning =>
-      'This channel has a content warning. Updates can only go to channels with a content warning or an age restriction.';
+      'Dit kanaal heeft een inhoudswaarschuwing. Updates kunnen alleen naar kanalen met een inhoudswaarschuwing of leeftijdsbeperking gaan.';
 
   @override
   String get channelFollowHiddenHint =>
-      'Communities and channels where you can\'t manage webhooks are hidden.';
+      'Communities en kanalen waar je geen webhooks kunt beheren, worden verborgen.';
 
   @override
   String get channelFollowEmpty =>
-      'You can\'t manage webhooks in any community. Ask an admin to follow this channel.';
+      'Je kunt in geen enkele community webhooks beheren. Vraag een beheerder om dit kanaal te volgen.';
 
   @override
-  String get channelFollowSubmit => 'Follow';
+  String get channelFollowSubmit => 'Volgen';
 
   @override
-  String get channelFollowFailed => 'Couldn\'t follow this channel.';
+  String get channelFollowFailed => 'Dit kanaal kon niet worden gevolgd.';
 
   @override
-  String get channelFollowSuccessTitle => 'Updates are on their way!';
+  String get channelFollowSuccessTitle => 'Updates zijn onderweg!';
 
   @override
   String channelFollowSuccessBody(String sourceName, String targetName) {
-    return 'Messages published in $sourceName will show up in #$targetName.';
+    return 'Berichten die zijn gepubliceerd in $sourceName worden weergegeven in #$targetName.';
   }
 
   @override
-  String get channelFollowSuccessDismiss => 'Got it!';
+  String get channelFollowSuccessDismiss => 'Oké!';
 
   @override
   String get channelFollowBarrier =>
-      'Follow to get these announcements in a channel you choose.';
+      'Volg dit kanaal om deze aankondigingen in een kanaal naar keuze te ontvangen.';
 
   @override
-  String get channelHeaderFollow => 'Follow channel';
+  String get channelHeaderFollow => 'Kanaal volgen';
 
   @override
-  String get chatMessagePublish => 'Publish';
+  String get chatMessagePublish => 'Publiceren';
 
   @override
-  String get chatMessagePublished => 'Published';
+  String get chatMessagePublished => 'Gepubliceerd';
 
   @override
-  String get chatMessagePublishConfirmTitle => 'Publish message?';
+  String get chatMessagePublishConfirmTitle => 'Bericht publiceren?';
 
   @override
   String get chatMessagePublishConfirmBody =>
-      'This sends a copy to every channel that follows this one.';
+      'Dit stuurt een kopie naar elk kanaal dat dit kanaal volgt.';
 
   @override
-  String get chatMessagePublishedToast => 'Message published';
+  String get chatMessagePublishedToast => 'Bericht gepubliceerd';
 
   @override
-  String get chatMessageAlreadyPublished =>
-      'This message is already published.';
+  String get chatMessageAlreadyPublished => 'Dit bericht is al gepubliceerd.';
 
   @override
-  String get chatMessagePublishFailedTitle => 'Couldn\'t publish this message';
+  String get chatMessagePublishFailedTitle =>
+      'Dit bericht kon niet worden gepubliceerd';
 
   @override
   String get chatMessagePublishFailedBody =>
-      'Something went wrong. Try again in a moment.';
+      'Er is iets misgegaan. Probeer het over een ogenblik opnieuw.';
 
   @override
-  String get chatMessagePublishLimitTitle => 'Slow down';
+  String get chatMessagePublishLimitTitle => 'Rustig aan';
 
   @override
   String chatMessagePublishLimitBody(String duration) {
-    return 'You can publish again in $duration.';
+    return 'Je kunt weer publiceren over $duration.';
   }
 
   @override
   String get chatMessagePublishLimitUnknown =>
-      'You are publishing too quickly. Try again in a moment.';
+      'Je publiceert te snel. Probeer het over een ogenblik opnieuw.';
 
   @override
   String get chatMessageDeletePublished =>
-      'This also removes the copies that were sent to channels following this one.';
+      'Dit verwijdert ook de kopieën die zijn verzonden naar kanalen die dit kanaal volgen.';
 
   @override
-  String get chatMessageEditPublishedTitle => 'Edit published message?';
+  String get chatMessageEditPublishedTitle => 'Gepubliceerd bericht bewerken?';
 
   @override
   String get chatMessageEditPublishedBody =>
-      'This updates the copies that were sent to channels following this one.';
+      'Dit werkt de kopieën bij die naar de kanalen zijn verzonden die dit kanaal volgen.';
 
   @override
-  String get chatMessageEditPublishedSave => 'Save';
+  String get chatMessageEditPublishedSave => 'Opslaan';
 
   @override
-  String get chatMessageEditLimitTitle => 'Slow down';
+  String get chatMessageEditLimitTitle => 'Rustig aan';
 
   @override
   String chatMessageEditLimitBody(String duration) {
-    return 'You can edit this published message again in $duration.';
+    return 'Je kunt dit gepubliceerde bericht over $duration opnieuw bewerken.';
   }
 
   @override
   String get chatMessageEditLimitUnknown =>
-      'You are editing this published message too quickly. Try again in a moment.';
+      'Je bewerkt dit gepubliceerde bericht te snel. Probeer het over een ogenblik opnieuw.';
 
   @override
-  String get chatMessageOriginalDeleted => '[Original message deleted]';
+  String get chatMessageOriginalDeleted => '[Origineel bericht verwijderd]';
 
   @override
   String get userTagCommunity => 'Community';
 
   @override
   String systemFollowAdd(String username, String source) {
-    return '$username followed $source into this channel. Messages published there will appear here.';
+    return '$username laat dit kanaal nu $source volgen. Berichten die daar worden gepubliceerd, verschijnen hier.';
   }
 
   @override
   String systemPreviewFollowAdd(String username, String source) {
-    return '$username followed $source into this channel.';
+    return '$username laat dit kanaal nu $source volgen.';
   }
 
   @override
-  String get publishNudgeNotSent => 'Not sent to followers yet.';
+  String get publishNudgeNotSent => 'Nog niet naar volgers verzonden.';
 
   @override
-  String get publishNudgeHideForever => 'Don\'t show again';
+  String get publishNudgeHideForever => 'Niet meer weergeven';
 
   @override
-  String get publishNudgeDismiss => 'Dismiss';
+  String get publishNudgeDismiss => 'Sluiten';
 
   @override
-  String get channelSettingsFollowedChannels => 'Followed channels';
+  String get channelSettingsFollowedChannels => 'Gevolgde kanalen';
 
   @override
   String get channelSettingsFollowedChannelsDescription =>
-      'Announcement channels this channel follows. Unfollow to stop receiving copies.';
+      'Aankondigingskanalen die dit kanaal volgt. Ontvolg ze om geen kopieën meer te ontvangen.';
 
   @override
   String get guildSettingsFollowedChannelsDescription =>
-      'Announcement channels followed by channels in this community.';
+      'Aankondigingskanalen die door kanalen in deze community worden gevolgd.';
 
   @override
   String channelSettingsFollowedFrom(String guildName, String channelName) {
-    return 'From $guildName #$channelName';
+    return 'Van $guildName #$channelName';
   }
 
   @override
   String get channelSettingsFollowedPaused =>
-      'Updates are paused because the source channel is no longer available.';
+      'Updates zijn gepauzeerd omdat het bronkanaal niet langer beschikbaar is.';
 
   @override
   String channelSettingsUnfollowTitle(String name) {
-    return 'Unfollow $name?';
+    return '$name niet meer volgen?';
   }
 
   @override
   String get channelSettingsUnfollowBody =>
-      'This channel will stop receiving copies from that announcement channel.';
+      'Dit kanaal ontvangt dan geen kopieën meer van dat aankondigingskanaal.';
 
   @override
-  String get channelSettingsUnfollow => 'Unfollow';
+  String get channelSettingsUnfollow => 'Ontvolgen';
 
   @override
   String get channelSettingsUnfollowFailed =>
@@ -15860,14 +15864,14 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get crosspostCommunityTitle => 'Community';
 
   @override
-  String get crosspostGoToCommunity => 'Go to community';
+  String get crosspostGoToCommunity => 'Ga naar community';
 
   @override
-  String get crosspostJoinCommunity => 'Join community';
+  String get crosspostJoinCommunity => 'Lid worden van community';
 
   @override
   String get crosspostSourceFailed =>
-      'Couldn\'t load this community. Try again in a moment.';
+      'Kon deze community niet laden. Probeer het later opnieuw.';
 
   @override
   String get crosspostSourceUnavailable =>
@@ -15875,7 +15879,7 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
 
   @override
   String crosspostMembers(int count) {
-    return '$count members';
+    return '$count leden';
   }
 
   @override
@@ -15888,8 +15892,8 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count minutes',
-      one: '1 minute',
+      other: '$count minuten',
+      one: '1 minuut',
     );
     return '$_temp0';
   }
@@ -15899,21 +15903,21 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count seconds',
-      one: '1 second',
+      other: '$count seconden',
+      one: '1 seconde',
     );
     return '$_temp0';
   }
 
   @override
-  String get channelUnsupportedTitle => 'Unsupported channel type';
+  String get channelUnsupportedTitle => 'Niet-ondersteund kanaaltype';
 
   @override
   String get channelUnsupportedBody =>
-      'This version of the app doesn\'t support this channel type.';
+      'Deze versie van de app ondersteunt dit kanaaltype niet.';
 
   @override
-  String get channelDetailsUnsupportedChannel => 'Unsupported channel';
+  String get channelDetailsUnsupportedChannel => 'Niet-ondersteund kanaal';
 
   @override
   String get forumChannelTypeForum => 'Forum';

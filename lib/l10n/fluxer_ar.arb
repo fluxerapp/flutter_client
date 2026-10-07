@@ -5769,6 +5769,10 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "انقر نقرًا مزدوجًا على رسالة للتفاعل بـ",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
     "chatMessageEdit": "تعديل الرسالة",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -5776,6 +5780,14 @@
     "chatMessageReply": "رد",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
+    },
+    "notificationReplyPlaceholder": "رسالة",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "تعذّر إرسال الرد",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
     },
     "chatMessageForward": "إعادة توجيه",
     "@chatMessageForward": {
@@ -6547,6 +6559,10 @@
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
     },
+    "chatImageCouldNotLoad": "تعذر تحميل هذه الصورة.",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
+    },
     "composerAutocompleteRoleMentionDescription": "إشعار أصحاب هذا الدور ممن لديهم إذن عرض هذه القناة.",
     "@composerAutocompleteRoleMentionDescription": {
         "description": "Secondary line in the @ mention autocomplete when the row is a mentionable guild role."
@@ -7087,6 +7103,10 @@
     "instanceUrlPlaceholder": "أدخل عنوان URL للمثيل (مثل fluxer.app)",
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
+    },
+    "instanceUrlHelper": "استخدم fluxer.app للمثيل الرسمي، أو عنوان URL الدقيق لمثيل مستضاف ذاتيًا.",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
     },
     "resetToDefaultInstance": "إعادة الضبط إلى Fluxer",
     "@resetToDefaultInstance": {
@@ -9379,6 +9399,10 @@
     "@lookAndFeelChatWallpaperCustomLabel": {
         "description": "Chat wallpaper option that picks an image from the gallery."
     },
+    "lookAndFeelChatWallpaperStarfieldLabel": "حقل النجوم",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
+    },
     "lookAndFeelChatWallpaperColorLabel": "اللون {id}",
     "@lookAndFeelChatWallpaperColorLabel": {
         "description": "Accessibility label for a solid color wallpaper preset.",
@@ -10800,6 +10824,80 @@
     "userProfileLocalTime": "التوقيت المحلي",
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
+    },
+    "profileLocalTimeSettingsTitle": "الوقت المحلي في الملف الشخصي",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "حدّد منطقتك الزمنية مرة واحدة ليُبقي {productName} فارق توقيتك عن UTC محدّثًا عند تغيّر التوقيت الصيفي. لا يرى الآخرون إلا فارق توقيتك عن UTC، وليس معرف منطقتك الزمنية الدقيق.",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "تعديل التوقيت المحلي للملف الشخصي",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "المنطقة الزمنية",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "اختر المنطقة الزمنية التي يستخدمها {productName} لحساب الإزاحة عن التوقيت العالمي المنسق (UTC) لعرض الوقت المحلي في ملفك الشخصي.",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "البحث عن المناطق الزمنية",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "غير محدد",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "لا يرى الآخرون إزاحتك الحالية عن التوقيت العالمي المنسق (UTC) إلا عندما تختار مشاركة الوقت المحلي في ملفك الشخصي. ولا يرون معرف منطقتك الزمنية الدقيق، مثل {timezoneIdentifierExample}. يخزّن {productName} هذا المعرف فقط لكي تُحدَّث الإزاحة تلقائيًا عند تغيّر التوقيت الصيفي.",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "الجميع",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "السماح لأي شخص يمكنه عرض ملفك الشخصي بالكامل برؤية وقتك المحلي",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "الأصدقاء",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "السماح لأصدقائك برؤية توقيتك المحلي",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "أعضاء المجتمع",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "السماح لأعضاء المجتمعات التي تنتمي إليها برؤية توقيتك المحلي",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
     },
     "userProfileSameTimeAsYou": "نفس توقيتك",
     "@userProfileSameTimeAsYou": {
@@ -13823,6 +13921,14 @@
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
     },
+    "accessibilityShowAltTextOnImagesLabel": "إظهار النص البديل على الصور",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "عرض النص البديل أسفل الصور عند توفره.",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
     "accessibilityDimStrikethroughTextLabel": "تعتيم النص المشطوب",
     "@accessibilityDimStrikethroughTextLabel": {
         "description": "Toggle label for dimming strikethrough text in messages."
@@ -15915,6 +16021,72 @@
     "premiumPerkCustomThemes": "سمات مخصصة",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "حتى 4K/60 إطارًا في الثانية",
+    "storePlutoniumPriceLine": "{monthly} أو {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/شهر",
+    "storePlutoniumYearSuffix": "/سنة",
+    "storePlutoniumPriceOr": "أو",
+    "storePlutoniumEmojiTitle": "رموزك التعبيرية، في كل مكان",
+    "storePlutoniumEmojiBody": "أضف رموزًا تعبيرية وملصقات مخصصة من أي من مجتمعاتك إلى كل محادثة ومجتمع تتواجد فيه.",
+    "storePlutoniumProfileTitle": "ملف شخصي مميز",
+    "storePlutoniumProfileBody": "احصل على صورة رمزية ولافتة متحركتين، وشارة مشترك، والعلامة المكونة من أربعة أرقام التي تريدها بعد اسم المستخدم الخاص بك*، وملف شخصي منفصل لكل مجتمع.",
+    "storePlutoniumFilesTitle": "إرسال ملفات بحجم يصل إلى 500 ميجابايت",
+    "storePlutoniumFilesBody": "شارك مقاطع الفيديو كاملة الطول والملفات الكبيرة دون تصغيرها أولاً. يمكن للحسابات المجانية إرسال ما يصل إلى 25 ميجابايت.",
+    "storePlutoniumCompareTitle": "قارن بين المجاني وPlutonium",
+    "storePlutoniumCompareMobileNote": "ليست كل هذه الميزات متوفرة في تطبيق الجوال. بعضها متوفر فقط على سطح المكتب.",
+    "storePlutoniumNotAvailable": "غير متاح",
+    "storePlutoniumAvailable": "متاح",
+    "storePlutoniumCompareTag": "اختر الرقم المكون من 4 أرقام بعد اسم المستخدم الخاص بك*",
+    "storePlutoniumCompareProfile": "ملف شخصي منفصل لكل مجتمع",
+    "storePlutoniumCompareBadge": "شارة المشترك في ملفك الشخصي",
+    "storePlutoniumCompareBackgrounds": "خلفيات مكالمات الفيديو التي يمكنك حفظها",
+    "storePlutoniumCompareCommunities": "المجتمعات التي يمكنك الانضمام إليها",
+    "storePlutoniumCompareCharacters": "الأحرف في رسالة واحدة",
+    "storePlutoniumCompareBookmarks": "الرسائل التي يمكنك تمييزها",
+    "storePlutoniumCompareUpload": "أكبر ملف يمكنك تحميله",
+    "storePlutoniumCompareSavedMedia": "عناصر الوسائط التي يمكنك حفظها لوقت لاحق",
+    "storePlutoniumCompareAnimatedEmoji": "استخدم الرموز التعبيرية المتحركة في الرسائل",
+    "storePlutoniumCompareCustomEmoji": "استخدم الرموز التعبيرية والملصقات المخصصة في أي مجتمع",
+    "storePlutoniumCompareVideo": "جودة مكالمات الفيديو ومشاركة الشاشة",
+    "storePlutoniumCompareAvatar": "صورة رمزية متحركة ولافتة ملف شخصي",
+    "storePlutoniumCompareEarlyAccess": "وصول مبكر للميزات الجديدة",
+    "storePlutoniumCompareThemes": "سمات مخصصة للتطبيق",
+    "storePlutoniumVideoFree": "حتى 720p بمعدل 30 إطارًا في الثانية",
+    "storePlutoniumVideoPlutonium": "حتى 4K بمعدل 60 إطارًا في الثانية",
+    "storePlutoniumTagFootnote": "يمكنك اختيار علامة لا يمتلكها أي شخص آخر بنفس اسم المستخدم. أسماء المستخدمين لا تميز بين الأحرف الكبيرة والصغيرة، لذا فإن Mina#4821 وmina#4821 يعتبران متطابقين. العلامة #0000 محجوزة لأعضاء Fluxer Visionary.",
+    "storePlutoniumLearnVisionary": "تعرّف على المزيد حول Visionary.",
+    "storePlutoniumDonatePrompt": "هل تريد فقط دعم تطوير Fluxer مفتوح المصدر؟ ",
+    "storePlutoniumDonateLink": "تبرّع بدلاً من ذلك.",
+    "storePlutoniumHighlightsLead": "يساهم الاشتراك في تمويل Fluxer ويفتح لك",
+    "storePlutoniumHighlightEmoji": "رموز تعبيرية وملصقات مخصصة في أي محادثة",
+    "storePlutoniumHighlightProfile": "ملف شخصي متحرك، وشارة، ورقم مخصص مكون من 4 أرقام",
+    "storePlutoniumHighlightFiles": "تحميلات تصل إلى 500 ميجابايت",
+    "storePlutoniumHighlightMessages": "إرسال رسائل يصل عدد أحرفها إلى 4,000 حرف",
+    "storePlutoniumHighlightCommunityProfile": "ملف شخصي منفصل لكل مجتمع",
+    "storePlutoniumHighlightsMore": "والمزيد",
+    "storePlutoniumRenewsThroughPlay": "يُجدّد تلقائيًا عبر Google Play حتى تقوم بالإلغاء.",
+    "storePlutoniumRenewsThroughAppStore": "يتجدد تلقائيًا عبر App Store حتى تقوم بالإلغاء.",
+    "storePlutoniumAlreadySubscribed": "لديك بالفعل اشتراك في Fluxer Plutonium.",
+    "storePlutoniumSavePercent": "وفر {percent}%",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "تم استلام عملية الشراء. سيظهر Plutonium هنا بمجرد تفعيله.",
+    "storePlutoniumUnavailable": "الاشتراكات داخل التطبيق غير متاحة على هذا الجهاز بعد.",
+    "storePlutoniumVisionaryStatus": "يتضمن Visionary بالفعل وصولاً دائمًا، لذا لا يلزم وجود اشتراك متكرر.",
     "userSettingsNavShortcuts": "اختصارات لوحة المفاتيح",
     "@userSettingsNavShortcuts": {
         "description": "User settings navigation item for keyboard shortcuts."
@@ -16002,6 +16174,18 @@
     "defaultAppsWebBrowserExternal": "المتصفح الخارجي",
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
+    },
+    "userSettingsNavAppIcon": "أيقونة التطبيق",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "أيقونة التطبيق",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "اختر الأيقونة التي تظهر على شاشتك الرئيسية.",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
     },
     "advancedSettingsConfigure": "تكوين",
     "@advancedSettingsConfigure": {
@@ -16251,6 +16435,14 @@
     "authHidePassword": "إخفاء كلمة المرور",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "لا يزال قيد المعالجة…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
+    },
+    "authVerificationFailed": "تعذر إكمال التحقق. حاول مرة أخرى.",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
     },
     "chatLoadingMessages": "جارٍ تحميل الرسائل",
     "@chatLoadingMessages": {
@@ -17066,6 +17258,40 @@
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
+    "assistantNeedsLogin": "افتح Fluxer وسجّل الدخول أولاً.",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "أنت لست في مكالمة.",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "لم يتمكن Fluxer من العثور على ذلك.",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "الرسائل المباشرة معطلة في هذا المثيل.",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "تعذر على Fluxer إكمال ذلك.",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "تم كتم الميكروفون.",
+    "assistantOkUnmuted": "تم إلغاء كتم الميكروفون.",
+    "assistantOkLeftVoice": "غادرت القناة الصوتية.",
+    "assistantOkJoinedVoice": "جارٍ الانضمام إلى القناة الصوتية.",
+    "assistantOkStartedCall": "جارٍ بدء المكالمة.",
+    "assistantOkStatusSet": "تم تعيين الحالة إلى {status}.",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "جارٍ فتح Fluxer.",
     "applicationsTitle": "التطبيقات",
     "@applicationsTitle": {
         "description": "Title for the developer Applications settings tab."
@@ -17108,6 +17334,15 @@
         "description": "Empty-state body. apiName is the product API display name.",
         "placeholders": {
             "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "تم الإنشاء {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
                 "type": "String"
             }
         }
@@ -17292,6 +17527,10 @@
     "@applicationsOauthBuilderTitle": {
         "description": "Section title for the authorize URL builder."
     },
+    "applicationsOauthBuilderDescription": "أنشئ عنوان URL للتفويض باستخدام النطاقات والأذونات.",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
     "applicationsScopes": "نطاقات الصلاحيات",
     "@applicationsScopes": {
         "description": "Label for OAuth2 scope checkboxes."
@@ -17324,6 +17563,10 @@
     "@applicationsAuthorizeUrlPlaceholder": {
         "description": "Placeholder when the authorize URL cannot be built yet."
     },
+    "applicationsCopyAuthorizeUrl": "نسخ رابط التفويض",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
     "applicationsCopiedUrl": "تم نسخ الرابط إلى الحافظة",
     "@applicationsCopiedUrl": {
         "description": "Toast after copying the authorize URL."
@@ -17343,6 +17586,15 @@
     "applicationsDelete": "حذف التطبيق",
     "@applicationsDelete": {
         "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "هل أنت متأكد أنك تريد حذف {name}؟ لا يمكن التراجع عن هذا الإجراء. سيتم حذف جميع البيانات المرتبطة، بما في ذلك مستخدم الروبوت، نهائيًا.",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     },
     "applicationsDeleteFailed": "تعذّر حذف التطبيق",
     "@applicationsDeleteFailed": {
@@ -17432,6 +17684,10 @@
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
     },
+    "voiceOutputRouteEarpiece": "سماعة الأذن",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
     "voiceOutputRouteHeadset": "سماعات الرأس",
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
@@ -17439,6 +17695,14 @@
     "doubleTapReactionEdit": "تعديل",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "تعديل الافتراضي",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "اختر رمزًا تعبيريًا للنقر المزدوج",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
     },
     "chatMessagePinConfirm": "تثبيت",
     "@chatMessagePinConfirm": {
@@ -17452,9 +17716,17 @@
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."
     },
+    "appIconOptionStarfield": "حقل النجوم",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
     "appIconOptionSweden": "السويد",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "تغيير أيقونة التطبيق غير متاح على هذا الجهاز.",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     },
     "userSettingsLogOutConfirmTitle": "تسجيل الخروج؟",
     "@userSettingsLogOutConfirmTitle": {
@@ -17484,5 +17756,178 @@
     "@guildSettingsCommunityDeleted": {
         "description": "Success toast after a community is deleted."
     },
-    "assistantOkMessageSent": "تم إرسال الرسالة."
+    "guildSettingsDeleteCommunityFailed": "تعذر حذف هذا المجتمع",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantOkMessageSent": "تم إرسال الرسالة.",
+    "assistantOkCustomStatusSet": "تم تحديث الحالة المخصصة.",
+    "assistantOkCustomStatusCleared": "تم مسح الحالة المخصصة.",
+    "guildNavbarAnnouncementChannel": "قناة إعلانات",
+    "guildNavbarAnnouncementChannelDescription": "انشر التحديثات التي يمكن للمجتمعات الأخرى متابعتها في قنواتها الخاصة",
+    "channelDetailsAnnouncementChannel": "قناة إعلانات",
+    "channelSettingsAnnouncementChannel": "قناة إعلانات",
+    "channelSettingsAnnouncementChannelDescription": "يتيح لمجتمعات أخرى متابعة هذه القناة والحصول على نسخ مما تنشره.",
+    "channelSettingsStopAnnouncementTitle": "هل تريد إيقاف كونها قناة إعلانات؟",
+    "channelSettingsStopAnnouncementBody": "{count, plural, zero{لا توجد قنوات تتابع هذه القناة.} one{قناة واحدة تتابع هذه القناة. تحويلها إلى قناة نصية يزيل هذه المتابعة.} two{قناتان تتابعان هذه القناة. تحويلها إلى قناة نصية يزيل هاتين المتابعتين.} few{{count} قنوات تتابع هذه القناة. تحويلها إلى قناة نصية يزيل هذه المتابعات.} many{{count} قناة تتابع هذه القناة. تحويلها إلى قناة نصية يزيل هذه المتابعات.} other{{count} قناة تتابع هذه القناة. تحويلها إلى قناة نصية يزيل هذه المتابعات.}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "سيؤدي تحويل هذه القناة إلى قناة نصية إلى إلغاء متابعة كل القنوات التي تتابعها.",
+    "channelSettingsConvertChannel": "تحويل",
+    "channelSettingsConvertFailed": "تعذر تحويل هذه القناة",
+    "channelSettingsChannelHasFollowers": "لا تزال قنوات أخرى تتابع هذه القناة. أزل هذه المتابعات قبل تحويلها.",
+    "channelMenuFollow": "متابعة القناة",
+    "channelFollowTitle": "متابعة هذه القناة",
+    "channelFollowBody": "اختر أين تذهب رسائلها المنشورة. يمكنك إلغاء المتابعة في أي وقت من إعدادات المجتمع ← الويب هوك.",
+    "channelFollowCommunity": "المجتمع",
+    "channelFollowChannel": "القناة",
+    "channelFollowAgeWarning": "هذه قناة مقيدة بالعمر. لا يمكن إرسال التحديثات إلا إلى القنوات المقيدة بالعمر.",
+    "channelFollowContentWarning": "هذه القناة لديها تحذير محتوى. يمكن إرسال التحديثات فقط إلى القنوات التي لديها تحذير محتوى أو تقييد عمري.",
+    "channelFollowHiddenHint": "تم إخفاء المجتمعات والقنوات التي لا يمكنك إدارة الويب هوك فيها.",
+    "channelFollowEmpty": "لا يمكنك إدارة الويب هوك في أي مجتمع. اطلب من المسؤول متابعة هذه القناة.",
+    "channelFollowSubmit": "متابعة",
+    "channelFollowFailed": "تعذر متابعة هذه القناة.",
+    "channelFollowSuccessTitle": "التحديثات في طريقها!",
+    "channelFollowSuccessBody": "ستظهر الرسائل المنشورة في {sourceName} في #{targetName}.",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "تمام!",
+    "channelFollowBarrier": "تابع هذه القناة لتلقي هذه الإعلانات في قناة من اختيارك.",
+    "channelHeaderFollow": "متابعة القناة",
+    "chatMessagePublish": "نشر",
+    "chatMessagePublished": "تم النشر",
+    "chatMessagePublishConfirmTitle": "نشر الرسالة؟",
+    "chatMessagePublishConfirmBody": "سيؤدي هذا إلى إرسال نسخة إلى كل قناة تتابع هذه القناة.",
+    "chatMessagePublishedToast": "تم نشر الرسالة",
+    "chatMessageAlreadyPublished": "هذه الرسالة منشورة بالفعل.",
+    "chatMessagePublishFailedTitle": "تعذر نشر هذه الرسالة",
+    "chatMessagePublishFailedBody": "حدث خطأ ما. حاول مرة أخرى بعد قليل.",
+    "chatMessagePublishLimitTitle": "تمهل",
+    "chatMessagePublishLimitBody": "يمكنك النشر مرة أخرى خلال {duration}.",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "أنت تنشر بسرعة كبيرة. حاول مرة أخرى بعد قليل.",
+    "chatMessageDeletePublished": "سيؤدي هذا أيضًا إلى إزالة النسخ التي تم إرسالها إلى القنوات التي تتابع هذه القناة.",
+    "chatMessageEditPublishedTitle": "تعديل الرسالة المنشورة؟",
+    "chatMessageEditPublishedBody": "سيؤدي هذا إلى تحديث النسخ التي تم إرسالها إلى القنوات التي تتابع هذه القناة.",
+    "chatMessageEditPublishedSave": "حفظ",
+    "chatMessageEditLimitTitle": "تمهل",
+    "chatMessageEditLimitBody": "يمكنك تعديل هذه الرسالة المنشورة مرة أخرى في {duration}.",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "أنت تعدّل هذه الرسالة المنشورة بسرعة كبيرة. حاول مرة أخرى بعد قليل.",
+    "chatMessageOriginalDeleted": "[تم حذف الرسالة الأصلية]",
+    "userTagCommunity": "المجتمع",
+    "systemFollowAdd": "جعل {username} هذه القناة تتابع {source}. ستظهر هنا الرسائل المنشورة هناك.",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "جعل {username} هذه القناة تتابع {source}.",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "لم يتم الإرسال إلى المتابعين بعد.",
+    "publishNudgeHideForever": "عدم الإظهار مرة أخرى",
+    "publishNudgeDismiss": "تجاهل",
+    "channelSettingsFollowedChannels": "القنوات المتابَعة",
+    "channelSettingsFollowedChannelsDescription": "قنوات الإعلانات التي تتابعها هذه القناة. ألغِ المتابعة لإيقاف تلقي النسخ.",
+    "guildSettingsFollowedChannelsDescription": "قنوات الإعلانات التي تتابعها القنوات في هذا المجتمع.",
+    "channelSettingsFollowedFrom": "من {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "تم إيقاف التحديثات مؤقتًا لأن القناة المصدر لم تعد متاحة.",
+    "channelSettingsUnfollowTitle": "هل ترغب في إلغاء متابعة {name}؟",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "ستتوقف هذه القناة عن تلقي نسخ من قناة الإعلانات تلك.",
+    "channelSettingsUnfollow": "إلغاء المتابعة",
+    "crosspostCommunityTitle": "المجتمع",
+    "crosspostGoToCommunity": "الانتقال إلى المجتمع",
+    "crosspostJoinCommunity": "انضم إلى المجتمع",
+    "crosspostSourceFailed": "تعذر تحميل هذا المجتمع. حاول مرة أخرى بعد لحظة.",
+    "crosspostMembers": "عدد الأعضاء: {count}",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "المتصلون: {count}",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, zero{{count} دقيقة} one{دقيقة واحدة} two{دقيقتان} few{{count} دقائق} many{{count} دقيقة} other{{count} دقيقة}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, zero{{count} ثانية} one{ثانية واحدة} two{ثانيتان} few{{count} ثوانٍ} many{{count} ثانية} other{{count} ثانية}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "نوع قناة غير مدعوم",
+    "channelUnsupportedBody": "هذا الإصدار من التطبيق لا يدعم نوع القناة هذا.",
+    "channelDetailsUnsupportedChannel": "قناة غير مدعومة"
 }

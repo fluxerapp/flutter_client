@@ -4098,6 +4098,80 @@
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
     },
+    "profileLocalTimeSettingsTitle": "Ora locală a profilului",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "Stabilește-ți fusul orar o singură dată, astfel încât {productName} să poată menține actualizat decalajul UTC atunci când ora de vară se schimbă. Alți utilizatori pot vedea doar decalajul tău UTC, nu și identificatorul exact al fusului orar.",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "Editează ora locală a profilului",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "Fus orar",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "Alege fusul orar pe care {productName} îl folosește pentru a calcula decalajul tău UTC pentru ora locală din profil.",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "Caută fusuri orare",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "Nesetat",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "Când alegi să partajezi ora locală din profil, ceilalți utilizatori vor vedea doar decalajul tău UTC actual. Nu vor vedea identificatorul exact al fusului orar, cum ar fi {timezoneIdentifierExample}. {productName} stochează acest identificator doar pentru ca decalajul să se poată actualiza automat atunci când se schimbă ora de vară.",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "Toată lumea",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "Permite oricui îți poate vedea profilul complet să-ți vadă ora locală",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "Prieteni",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "Permite-le prietenilor să vadă ora ta locală",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "Membrii comunității",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "Permite membrilor din comunitățile în care te afli să vadă ora ta locală",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
+    },
     "userProfileSameTimeAsYou": "Același fus orar ca al tău",
     "@userProfileSameTimeAsYou": {
         "description": "Profile timezone difference when the target matches the viewer."
@@ -6571,6 +6645,14 @@
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
     },
+    "accessibilityShowAltTextOnImagesLabel": "Afișează textul alternativ pe imagini",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "Afișează textul alternativ sub imagini, atunci când este disponibil.",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
     "accessibilityDimStrikethroughTextLabel": "Estompează textul tăiat",
     "@accessibilityDimStrikethroughTextLabel": {
         "description": "Toggle label for dimming strikethrough text in messages."
@@ -8473,6 +8555,10 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "Atinge de două ori un mesaj pentru a",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
     "chatMessageEdit": "Editează mesajul",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -8480,6 +8566,14 @@
     "chatMessageReply": "Răspunde",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
+    },
+    "notificationReplyPlaceholder": "Mesaj",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "Nu s-a putut trimite răspunsul",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
     },
     "chatMessageForward": "Redirecționează",
     "@chatMessageForward": {
@@ -9424,6 +9518,10 @@
     "chatVideoPlaybackFailed": "Nu s-a putut reda acest videoclip.",
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
+    },
+    "chatImageCouldNotLoad": "Nu s-a putut încărca această imagine.",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
     },
     "composerAutocompleteRoleMentionDescription": "Notifică-i pe utilizatorii cu acest rol care au permisiunea de a vedea acest canal.",
     "@composerAutocompleteRoleMentionDescription": {
@@ -11868,6 +11966,72 @@
     "premiumPerkCustomThemes": "Teme personalizate",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "Până la 4K/60fps",
+    "storePlutoniumPriceLine": "{monthly} sau {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/lună",
+    "storePlutoniumYearSuffix": "/an",
+    "storePlutoniumPriceOr": "sau",
+    "storePlutoniumEmojiTitle": "Emoji-urile tale, peste tot",
+    "storePlutoniumEmojiBody": "Adu emojiuri și stickere personalizate din oricare dintre comunitățile tale în fiecare conversație și comunitate în care te afli.",
+    "storePlutoniumProfileTitle": "Un profil care iese în evidență",
+    "storePlutoniumProfileBody": "Obține un avatar și un banner animate, o insignă de abonat, eticheta din patru cifre pe care o vrei după numele de utilizator* și un profil separat pentru fiecare comunitate.",
+    "storePlutoniumFilesTitle": "Trimite fișiere de până la 500 MB",
+    "storePlutoniumFilesBody": "Distribuie videoclipuri integrale și fișiere mari fără să le micșorezi mai întâi. Conturile gratuite pot trimite până la 25 MB.",
+    "storePlutoniumCompareTitle": "Compară planul gratuit cu Plutonium",
+    "storePlutoniumCompareMobileNote": "Nu toate aceste funcții sunt disponibile în aplicația mobilă. Unele sunt disponibile doar pe desktop.",
+    "storePlutoniumNotAvailable": "Indisponibil",
+    "storePlutoniumAvailable": "Disponibil",
+    "storePlutoniumCompareTag": "Alege numărul din 4 cifre de după numele tău de utilizator*",
+    "storePlutoniumCompareProfile": "Un profil separat pentru fiecare comunitate",
+    "storePlutoniumCompareBadge": "Insigna de abonat din profilul tău",
+    "storePlutoniumCompareBackgrounds": "Fundaluri pentru apeluri video pe care le poți salva",
+    "storePlutoniumCompareCommunities": "Comunități la care te poți alătura",
+    "storePlutoniumCompareCharacters": "Caractere într-un singur mesaj",
+    "storePlutoniumCompareBookmarks": "Mesaje pe care le poți salva",
+    "storePlutoniumCompareUpload": "Cel mai mare fișier pe care îl poți încărca",
+    "storePlutoniumCompareSavedMedia": "Elemente media pe care le poți salva pentru mai târziu",
+    "storePlutoniumCompareAnimatedEmoji": "Folosește emoji animate în mesaje",
+    "storePlutoniumCompareCustomEmoji": "Folosește emojiuri și stickere personalizate în orice comunitate",
+    "storePlutoniumCompareVideo": "Calitatea apelurilor video și a partajării ecranului",
+    "storePlutoniumCompareAvatar": "Avatar animat și banner de profil",
+    "storePlutoniumCompareEarlyAccess": "Acces timpuriu la funcții noi",
+    "storePlutoniumCompareThemes": "Teme personalizate pentru aplicație",
+    "storePlutoniumVideoFree": "Până la 720p la 30 FPS",
+    "storePlutoniumVideoPlutonium": "Până la 4K la 60 FPS",
+    "storePlutoniumTagFootnote": "Poți alege doar un tag pe care nimeni altcineva cu același nume de utilizator nu-l are deja. Numele de utilizator nu sunt sensibile la majuscule, așa că Mina#4821 și mina#4821 sunt considerate la fel. Tagul #0000 este rezervat membrilor Fluxer Visionary.",
+    "storePlutoniumLearnVisionary": "Află mai multe despre Visionary.",
+    "storePlutoniumDonatePrompt": "Vrei doar să susții dezvoltarea open source a Fluxer? ",
+    "storePlutoniumDonateLink": "Donează în schimb.",
+    "storePlutoniumHighlightsLead": "Abonarea finanțează Fluxer și deblochează",
+    "storePlutoniumHighlightEmoji": "Emoji și stickere personalizate în orice chat",
+    "storePlutoniumHighlightProfile": "Profil animat, insignă și număr personalizat din 4 cifre",
+    "storePlutoniumHighlightFiles": "Încărcări de până la 500 MB",
+    "storePlutoniumHighlightMessages": "Trimite mesaje de până la 4.000 de caractere",
+    "storePlutoniumHighlightCommunityProfile": "Un profil separat pentru fiecare comunitate",
+    "storePlutoniumHighlightsMore": "Și multe altele",
+    "storePlutoniumRenewsThroughPlay": "Se reînnoiește automat prin Google Play până la anulare.",
+    "storePlutoniumRenewsThroughAppStore": "Se reînnoiește automat prin App Store până la anulare.",
+    "storePlutoniumAlreadySubscribed": "Ai deja un abonament Fluxer Plutonium.",
+    "storePlutoniumSavePercent": "Economisește {percent}%",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "Achiziție primită. Plutonium va apărea aici odată ce se activează.",
+    "storePlutoniumUnavailable": "Abonamentele din aplicație nu sunt încă disponibile pe acest dispozitiv.",
+    "storePlutoniumVisionaryStatus": "Visionary include deja acces permanent, așa că nu este necesar un abonament recurent.",
     "userSettingsNavPrivacyDashboard": "Panou de confidențialitate",
     "@userSettingsNavPrivacyDashboard": {
         "description": "User settings navigation item for the privacy dashboard."
@@ -12618,6 +12782,18 @@
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
     },
+    "userSettingsNavAppIcon": "Pictograma aplicației",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "Pictograma aplicației",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "Alege ce pictogramă apare pe ecranul tău principal.",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
+    },
     "userSettingsNavAdvanced": "Avansat",
     "@userSettingsNavAdvanced": {
         "description": "User settings navigation item for advanced settings."
@@ -13138,6 +13314,10 @@
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
     },
+    "instanceUrlHelper": "Folosește fluxer.app pentru instanța oficială sau URL-ul exact al unei instanțe auto-găzduite.",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
+    },
     "resetToDefaultInstance": "Resetează la Fluxer",
     "@resetToDefaultInstance": {
         "description": "Tooltip for the button that resets the instance URL to the official Fluxer instance."
@@ -13399,6 +13579,14 @@
     "authHidePassword": "Ascunde parola",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "Încă procesăm…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
+    },
+    "authVerificationFailed": "Verificarea nu a putut fi finalizată. Încearcă din nou.",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
     },
     "chatLoadingMessages": "Se încarcă mesajele",
     "@chatLoadingMessages": {
@@ -17041,6 +17229,40 @@
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
+    "assistantNeedsLogin": "Deschide Fluxer și conectează-te mai întâi.",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "Nu ești într-un apel.",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "Fluxer nu a putut găsi asta.",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "Mesajele directe sunt dezactivate pe această instanță.",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "Fluxer nu a putut finaliza asta.",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "Microfon dezactivat.",
+    "assistantOkUnmuted": "Microfon activat.",
+    "assistantOkLeftVoice": "Ai părăsit canalul vocal.",
+    "assistantOkJoinedVoice": "Mă alătur canalului vocal.",
+    "assistantOkStartedCall": "Pornesc apelul.",
+    "assistantOkStatusSet": "Status setat la {status}.",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "Deschid Fluxer.",
     "lookAndFeelChatWallpaperTitle": "Fundal chat",
     "@lookAndFeelChatWallpaperTitle": {
         "description": "Look and Feel section title for chat wallpaper presets."
@@ -17064,6 +17286,10 @@
     "lookAndFeelChatWallpaperCustomLabel": "Imagine personalizată",
     "@lookAndFeelChatWallpaperCustomLabel": {
         "description": "Chat wallpaper option that picks an image from the gallery."
+    },
+    "lookAndFeelChatWallpaperStarfieldLabel": "Câmp stelar",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
     },
     "lookAndFeelChatWallpaperColorLabel": "Culoare {id}",
     "@lookAndFeelChatWallpaperColorLabel": {
@@ -17133,6 +17359,15 @@
         "description": "Empty-state body. apiName is the product API display name.",
         "placeholders": {
             "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "Creat la {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
                 "type": "String"
             }
         }
@@ -17317,6 +17552,10 @@
     "@applicationsOauthBuilderTitle": {
         "description": "Section title for the authorize URL builder."
     },
+    "applicationsOauthBuilderDescription": "Creează un URL de autorizare cu scopuri și permisiuni.",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
     "applicationsScopes": "Domenii",
     "@applicationsScopes": {
         "description": "Label for OAuth2 scope checkboxes."
@@ -17349,6 +17588,10 @@
     "@applicationsAuthorizeUrlPlaceholder": {
         "description": "Placeholder when the authorize URL cannot be built yet."
     },
+    "applicationsCopyAuthorizeUrl": "Copiază URL-ul de autorizare",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
     "applicationsCopiedUrl": "URL copiat în clipboard",
     "@applicationsCopiedUrl": {
         "description": "Toast after copying the authorize URL."
@@ -17368,6 +17611,15 @@
     "applicationsDelete": "Șterge aplicația",
     "@applicationsDelete": {
         "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "Sigur vrei să ștergi {name}? Această acțiune nu poate fi anulată. Toate datele asociate, inclusiv utilizatorul bot, vor fi șterse definitiv.",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     },
     "applicationsDeleteFailed": "Nu s-a putut șterge aplicația",
     "@applicationsDeleteFailed": {
@@ -17457,6 +17709,10 @@
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
     },
+    "voiceOutputRouteEarpiece": "Receptor",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
     "voiceOutputRouteHeadset": "Căști",
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
@@ -17464,6 +17720,14 @@
     "doubleTapReactionEdit": "Editează",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "Editează implicitul",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "Alege emoji-ul pentru atingere dublă",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
     },
     "chatMessagePinConfirm": "Fixare",
     "@chatMessagePinConfirm": {
@@ -17477,9 +17741,17 @@
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."
     },
+    "appIconOptionStarfield": "Câmp stelar",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
     "appIconOptionSweden": "Suedia",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "Schimbarea pictogramei aplicației nu este disponibilă pe acest dispozitiv.",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     },
     "userSettingsLogOutConfirmTitle": "Deconectare?",
     "@userSettingsLogOutConfirmTitle": {
@@ -17509,5 +17781,178 @@
     "@guildSettingsCommunityDeleted": {
         "description": "Success toast after a community is deleted."
     },
-    "assistantOkMessageSent": "Mesaj trimis."
+    "guildSettingsDeleteCommunityFailed": "Nu s-a putut șterge această comunitate",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantOkMessageSent": "Mesaj trimis.",
+    "assistantOkCustomStatusSet": "Stare personalizată actualizată.",
+    "assistantOkCustomStatusCleared": "Stare personalizată ștearsă.",
+    "guildNavbarAnnouncementChannel": "Canal de anunțuri",
+    "guildNavbarAnnouncementChannelDescription": "Postează actualizări pe care alte comunități le pot urmări în propriile lor canale",
+    "channelDetailsAnnouncementChannel": "Canal de anunțuri",
+    "channelSettingsAnnouncementChannel": "Canal de anunțuri",
+    "channelSettingsAnnouncementChannelDescription": "Permite altor comunități să urmărească acest canal și să primească copii ale celor publicate.",
+    "channelSettingsStopAnnouncementTitle": "Renunți la canalul de anunțuri?",
+    "channelSettingsStopAnnouncementBody": "{count, plural, one{{count} canal urmărește acest canal. Dacă îl convertești în canal text, această urmărire va fi eliminată.} few{{count} canale urmăresc acest canal. Dacă îl convertești în canal text, aceste urmăriri vor fi eliminate.} other{{count} de canale urmăresc acest canal. Dacă îl convertești în canal text, aceste urmăriri vor fi eliminate.}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "Dacă convertești acest canal în canal text, niciun canal nu îl va mai urmări.",
+    "channelSettingsConvertChannel": "Convertește",
+    "channelSettingsConvertFailed": "Nu am putut converti acest canal",
+    "channelSettingsChannelHasFollowers": "Alte canale încă urmăresc acest canal. Elimină aceste urmăriri înainte de a-l converti.",
+    "channelMenuFollow": "Urmărește canalul",
+    "channelFollowTitle": "Urmărește acest canal",
+    "channelFollowBody": "Alege unde să apară mesajele publicate. Poți renunța oricând la urmărire din Setări comunitate → Webhook-uri.",
+    "channelFollowCommunity": "Comunitate",
+    "channelFollowChannel": "Canal",
+    "channelFollowAgeWarning": "Acesta este un canal cu restricție de vârstă. Actualizările pot merge doar către canale cu restricție de vârstă.",
+    "channelFollowContentWarning": "Acest canal are un avertisment de conținut. Actualizările pot fi trimise doar către canale cu un avertisment de conținut sau o restricție de vârstă.",
+    "channelFollowHiddenHint": "Comunitățile și canalele unde nu poți gestiona webhook-uri sunt ascunse.",
+    "channelFollowEmpty": "Nu poți gestiona webhook-uri în nicio comunitate. Cere unui administrator să urmărească acest canal.",
+    "channelFollowSubmit": "Urmărește",
+    "channelFollowFailed": "Nu s-a putut urmări acest canal.",
+    "channelFollowSuccessTitle": "Actualizări pe drum!",
+    "channelFollowSuccessBody": "Mesajele publicate în {sourceName} vor apărea în #{targetName}.",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "Am înțeles!",
+    "channelFollowBarrier": "Urmărește acest canal pentru a primi aceste anunțuri într-un canal ales de tine.",
+    "channelHeaderFollow": "Urmărește canalul",
+    "chatMessagePublish": "Publică",
+    "chatMessagePublished": "Publicat",
+    "chatMessagePublishConfirmTitle": "Publici mesajul?",
+    "chatMessagePublishConfirmBody": "Aceasta trimite o copie către fiecare canal care îl urmărește pe acesta.",
+    "chatMessagePublishedToast": "Mesaj publicat",
+    "chatMessageAlreadyPublished": "Acest mesaj este deja publicat.",
+    "chatMessagePublishFailedTitle": "Nu am putut publica acest mesaj",
+    "chatMessagePublishFailedBody": "Ceva nu a mers bine. Încearcă din nou într-un moment.",
+    "chatMessagePublishLimitTitle": "Mai încet",
+    "chatMessagePublishLimitBody": "Poți publica din nou în {duration}.",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "Publici prea repede. Încearcă din nou într-un moment.",
+    "chatMessageDeletePublished": "Aceasta elimină și copiile trimise către canalele care urmăresc acest canal.",
+    "chatMessageEditPublishedTitle": "Editezi mesajul publicat?",
+    "chatMessageEditPublishedBody": "Aceasta actualizează copiile trimise către canalele care urmăresc acest canal.",
+    "chatMessageEditPublishedSave": "Salvează",
+    "chatMessageEditLimitTitle": "Mai încet",
+    "chatMessageEditLimitBody": "Poți edita din nou acest mesaj publicat în {duration}.",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "Editezi acest mesaj publicat prea repede. Încearcă din nou într-o clipă.",
+    "chatMessageOriginalDeleted": "[Mesajul original a fost șters]",
+    "userTagCommunity": "Comunitate",
+    "systemFollowAdd": "{username} a setat acest canal să urmărească {source}. Mesajele publicate acolo vor apărea aici.",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username} a setat acest canal să urmărească {source}.",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "Încă nu a fost trimis urmăritorilor.",
+    "publishNudgeHideForever": "Nu mai afișa",
+    "publishNudgeDismiss": "Închide",
+    "channelSettingsFollowedChannels": "Canale urmărite",
+    "channelSettingsFollowedChannelsDescription": "Canale de anunțuri pe care le urmărește acest canal. Nu mai urmări pentru a nu mai primi copii.",
+    "guildSettingsFollowedChannelsDescription": "Canale de anunțuri urmărite de canalele din această comunitate.",
+    "channelSettingsFollowedFrom": "De la {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "Actualizările sunt întrerupte deoarece canalul sursă nu mai este disponibil.",
+    "channelSettingsUnfollowTitle": "Nu mai urmări {name}?",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "Acest canal nu va mai primi copii de la acel canal de anunțuri.",
+    "channelSettingsUnfollow": "Nu mai urmări",
+    "crosspostCommunityTitle": "Comunitate",
+    "crosspostGoToCommunity": "Mergi la comunitate",
+    "crosspostJoinCommunity": "Alătură-te comunității",
+    "crosspostSourceFailed": "Nu am putut încărca această comunitate. Încearcă din nou peste o clipă.",
+    "crosspostMembers": "{count} membri",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "{count} online",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, one{{count} minut} few{{count} minute} other{{count} de minute}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, one{{count} secundă} few{{count} secunde} other{{count} de secunde}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "Tip de canal neacceptat",
+    "channelUnsupportedBody": "Această versiune a aplicației nu acceptă acest tip de canal.",
+    "channelDetailsUnsupportedChannel": "Canal neacceptat"
 }

@@ -5769,6 +5769,10 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "Dvojitým klepnutím na zprávu reagujete",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
     "chatMessageEdit": "Upravit zprávu",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -5776,6 +5780,14 @@
     "chatMessageReply": "Odpovědět",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
+    },
+    "notificationReplyPlaceholder": "Zpráva",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "Odpověď se nepodařilo odeslat",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
     },
     "chatMessageForward": "Přeposlat",
     "@chatMessageForward": {
@@ -6547,6 +6559,10 @@
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
     },
+    "chatImageCouldNotLoad": "Nepodařilo se načíst tento obrázek.",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
+    },
     "composerAutocompleteRoleMentionDescription": "Upozornit uživatele s touto rolí, kteří mají oprávnění zobrazit tento kanál.",
     "@composerAutocompleteRoleMentionDescription": {
         "description": "Secondary line in the @ mention autocomplete when the row is a mentionable guild role."
@@ -7087,6 +7103,10 @@
     "instanceUrlPlaceholder": "Zadejte URL instance (např. fluxer.app)",
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
+    },
+    "instanceUrlHelper": "Použijte fluxer.app pro oficiální instanci nebo přesnou URL instance hostované na vlastním serveru.",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
     },
     "resetToDefaultInstance": "Obnovit na Fluxer",
     "@resetToDefaultInstance": {
@@ -9379,6 +9399,10 @@
     "@lookAndFeelChatWallpaperCustomLabel": {
         "description": "Chat wallpaper option that picks an image from the gallery."
     },
+    "lookAndFeelChatWallpaperStarfieldLabel": "Hvězdné pole",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
+    },
     "lookAndFeelChatWallpaperColorLabel": "Barva {id}",
     "@lookAndFeelChatWallpaperColorLabel": {
         "description": "Accessibility label for a solid color wallpaper preset.",
@@ -10966,6 +10990,80 @@
     "userProfileLocalTime": "Místní čas",
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
+    },
+    "profileLocalTimeSettingsTitle": "Místní čas v profilu",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "Nastavte si časové pásmo jednou a {productName} bude průběžně aktualizovat váš UTC posun při změnách letního času. Ostatní uživatelé uvidí pouze váš UTC posun, nikoli přesný identifikátor vašeho časového pásma.",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "Upravit místní čas profilu",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "Časové pásmo",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "Vyberte časové pásmo, které aplikace {productName} používá pro výpočet vašeho UTC posunu a zobrazení místního času v profilu.",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "Hledat časová pásma",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "Nenastaveno",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "Ostatní uživatelé vidí pouze váš aktuální UTC posun, pokud se rozhodnete sdílet místní čas ve svém profilu. Neuvidí přesný identifikátor vašeho časového pásma, například {timezoneIdentifierExample}. Aplikace {productName} si tento identifikátor ukládá pouze proto, aby mohl posun automaticky aktualizovat při změnách letního času.",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "Všichni",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "Povolit všem, kdo si mohou zobrazit váš celý profil, zobrazit také váš místní čas",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "Přátelé",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "Povolit přátelům, aby viděli váš místní čas v profilu",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "Členové komunity",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "Povolit členům komunit, ve kterých jste, aby viděli místní čas ve vašem profilu",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
     },
     "userProfileSameTimeAsYou": "Má stejný čas jako vy",
     "@userProfileSameTimeAsYou": {
@@ -13823,6 +13921,14 @@
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
     },
+    "accessibilityShowAltTextOnImagesLabel": "Zobrazit alternativní text u obrázků",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "Zobrazit alternativní text pod obrázky, pokud je k dispozici.",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
     "accessibilityDimStrikethroughTextLabel": "Snížit výraznost přeškrtnutého textu",
     "@accessibilityDimStrikethroughTextLabel": {
         "description": "Toggle label for dimming strikethrough text in messages."
@@ -15915,6 +16021,72 @@
     "premiumPerkCustomThemes": "Vlastní motivy",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "Až 4K/60 sn./s",
+    "storePlutoniumPriceLine": "{monthly} nebo {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/měs.",
+    "storePlutoniumYearSuffix": "/rok",
+    "storePlutoniumPriceOr": "nebo",
+    "storePlutoniumEmojiTitle": "Vaše emoji všude",
+    "storePlutoniumEmojiBody": "Používejte vlastní emoji a samolepky ze všech svých komunit v každém chatu a komunitě, ve které jste.",
+    "storePlutoniumProfileTitle": "Profil, který vynikne",
+    "storePlutoniumProfileBody": "Získejte animovaný avatar a banner, odznak předplatitele, vybraný čtyřmístný tag za uživatelským jménem* a samostatný profil pro každou komunitu.",
+    "storePlutoniumFilesTitle": "Posílejte soubory až do 500 MB",
+    "storePlutoniumFilesBody": "Sdílejte celovečerní videa a velké soubory, aniž byste je museli zmenšovat. Bezplatné účty mohou odesílat až 25 MB.",
+    "storePlutoniumCompareTitle": "Porovnání verze zdarma a Plutonium",
+    "storePlutoniumCompareMobileNote": "Ne všechny tyto funkce jsou v mobilní aplikaci. Některé jsou dostupné pouze na počítači.",
+    "storePlutoniumNotAvailable": "Není k dispozici",
+    "storePlutoniumAvailable": "K dispozici",
+    "storePlutoniumCompareTag": "Vyberte 4místné číslo za svým uživatelským jménem*",
+    "storePlutoniumCompareProfile": "Samostatný profil pro každou komunitu",
+    "storePlutoniumCompareBadge": "Odznak předplatitele na vašem profilu",
+    "storePlutoniumCompareBackgrounds": "Video pozadí, která si můžete uložit",
+    "storePlutoniumCompareCommunities": "Komunity, ke kterým se můžete připojit",
+    "storePlutoniumCompareCharacters": "Znaků v jedné zprávě",
+    "storePlutoniumCompareBookmarks": "Zprávy, které si můžete uložit do záložek",
+    "storePlutoniumCompareUpload": "Největší soubor, který můžete nahrát",
+    "storePlutoniumCompareSavedMedia": "Média, která si můžete uložit na později",
+    "storePlutoniumCompareAnimatedEmoji": "Používat animované emoji ve zprávách",
+    "storePlutoniumCompareCustomEmoji": "Používejte vlastní emoji a samolepky v jakékoli komunitě",
+    "storePlutoniumCompareVideo": "Kvalita videohovoru a sdílení obrazovky",
+    "storePlutoniumCompareAvatar": "Animovaný avatar a profilový banner",
+    "storePlutoniumCompareEarlyAccess": "Předběžný přístup k novým funkcím",
+    "storePlutoniumCompareThemes": "Vlastní motivy pro aplikaci",
+    "storePlutoniumVideoFree": "Až 720p při 30 snímcích za sekundu",
+    "storePlutoniumVideoPlutonium": "Až 4K při 60 snímcích za sekundu",
+    "storePlutoniumTagFootnote": "Můžete si vybrat pouze takový tag, který ještě nikdo jiný se stejným uživatelským jménem nemá. Uživatelská jména nerozlišují velká a malá písmena, takže Mina#4821 a mina#4821 se počítají jako stejná. Tag #0000 je vyhrazen pro členy Fluxer Visionary.",
+    "storePlutoniumLearnVisionary": "Zjistěte více o Visionary.",
+    "storePlutoniumDonatePrompt": "Chcete jen podpořit open source vývoj Fluxeru? ",
+    "storePlutoniumDonateLink": "Místo toho přispějte.",
+    "storePlutoniumHighlightsLead": "Předplacením podpoříte Fluxer a odemknete si",
+    "storePlutoniumHighlightEmoji": "Vlastní emoji a samolepky v jakémkoli chatu",
+    "storePlutoniumHighlightProfile": "Animovaný profil, odznak a vybrané čtyřmístné číslo",
+    "storePlutoniumHighlightFiles": "Nahrávání souborů až do 500 MB",
+    "storePlutoniumHighlightMessages": "Posílejte zprávy o délce až 4 000 znaků",
+    "storePlutoniumHighlightCommunityProfile": "Samostatný profil pro každou komunitu",
+    "storePlutoniumHighlightsMore": "A další",
+    "storePlutoniumRenewsThroughPlay": "Automaticky se obnovuje přes Google Play, dokud předplatné nezrušíte.",
+    "storePlutoniumRenewsThroughAppStore": "Automaticky se obnovuje přes App Store, dokud předplatné nezrušíte.",
+    "storePlutoniumAlreadySubscribed": "Už máte předplatné Fluxer Plutonium.",
+    "storePlutoniumSavePercent": "Ušetřete {percent}%",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "Nákup přijat. Plutonium se zde zobrazí, jakmile se aktivuje.",
+    "storePlutoniumUnavailable": "Předplatné v aplikaci zatím na tomto zařízení není k dispozici.",
+    "storePlutoniumVisionaryStatus": "Visionary již zahrnuje trvalý přístup, takže opakované předplatné není potřeba.",
     "userSettingsNavShortcuts": "Zkratky",
     "@userSettingsNavShortcuts": {
         "description": "User settings navigation item for keyboard shortcuts."
@@ -16002,6 +16174,18 @@
     "defaultAppsWebBrowserExternal": "Externí prohlížeč",
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
+    },
+    "userSettingsNavAppIcon": "Ikona aplikace",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "Ikona aplikace",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "Vyberte, která ikona se zobrazí na vaší domovské obrazovce.",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
     },
     "advancedSettingsConfigure": "Nastavit",
     "@advancedSettingsConfigure": {
@@ -16251,6 +16435,14 @@
     "authHidePassword": "Skrýt heslo",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "Ještě pracujeme…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
+    },
+    "authVerificationFailed": "Ověření se nepodařilo dokončit. Zkuste to znovu.",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
     },
     "chatLoadingMessages": "Načítání zpráv",
     "@chatLoadingMessages": {
@@ -17066,6 +17258,40 @@
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
+    "assistantNeedsLogin": "Nejprve otevřete Fluxer a přihlaste se.",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "Nejste v hovoru.",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "Fluxer to nenašel.",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "Přímé zprávy jsou na této instanci zakázány.",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "Fluxer to nemohl dokončit.",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "Mikrofon ztlumen.",
+    "assistantOkUnmuted": "Ztlumení mikrofonu zrušeno.",
+    "assistantOkLeftVoice": "Opustili jste hlasový kanál.",
+    "assistantOkJoinedVoice": "Připojuji se k hlasovému kanálu.",
+    "assistantOkStartedCall": "Zahajuji hovor.",
+    "assistantOkStatusSet": "Stav nastaven na {status}.",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "Otevírám Fluxer.",
     "applicationsTitle": "Aplikace",
     "@applicationsTitle": {
         "description": "Title for the developer Applications settings tab."
@@ -17108,6 +17334,15 @@
         "description": "Empty-state body. apiName is the product API display name.",
         "placeholders": {
             "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "Vytvořeno {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
                 "type": "String"
             }
         }
@@ -17292,6 +17527,10 @@
     "@applicationsOauthBuilderTitle": {
         "description": "Section title for the authorize URL builder."
     },
+    "applicationsOauthBuilderDescription": "Sestavte autorizační URL s rozsahy a oprávněními.",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
     "applicationsScopes": "Oprávnění",
     "@applicationsScopes": {
         "description": "Label for OAuth2 scope checkboxes."
@@ -17324,6 +17563,10 @@
     "@applicationsAuthorizeUrlPlaceholder": {
         "description": "Placeholder when the authorize URL cannot be built yet."
     },
+    "applicationsCopyAuthorizeUrl": "Kopírovat autorizační URL",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
     "applicationsCopiedUrl": "Adresa URL zkopírována do schránky",
     "@applicationsCopiedUrl": {
         "description": "Toast after copying the authorize URL."
@@ -17343,6 +17586,15 @@
     "applicationsDelete": "Smazat aplikaci",
     "@applicationsDelete": {
         "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "Opravdu chcete smazat {name}? Tuto akci nelze vrátit zpět. Všechna související data, včetně uživatele bota, budou trvale smazána.",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     },
     "applicationsDeleteFailed": "Aplikaci se nepodařilo smazat",
     "@applicationsDeleteFailed": {
@@ -17432,6 +17684,10 @@
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
     },
+    "voiceOutputRouteEarpiece": "Sluchátko",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
     "voiceOutputRouteHeadset": "Sluchátka",
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
@@ -17439,6 +17695,14 @@
     "doubleTapReactionEdit": "Upravit",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "Upravit výchozí",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "Vyberte emoji pro dvojité klepnutí",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
     },
     "chatMessagePinConfirm": "Připnout",
     "@chatMessagePinConfirm": {
@@ -17452,9 +17716,17 @@
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."
     },
+    "appIconOptionStarfield": "Hvězdné pole",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
     "appIconOptionSweden": "Švédsko",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "Změna ikony aplikace není na tomto zařízení k dispozici.",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     },
     "userSettingsLogOutConfirmTitle": "Odhlásit se?",
     "@userSettingsLogOutConfirmTitle": {
@@ -17484,5 +17756,178 @@
     "@guildSettingsCommunityDeleted": {
         "description": "Success toast after a community is deleted."
     },
-    "assistantOkMessageSent": "Zpráva odeslána."
+    "guildSettingsDeleteCommunityFailed": "Nepodařilo se smazat tuto komunitu",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantOkMessageSent": "Zpráva odeslána.",
+    "assistantOkCustomStatusSet": "Vlastní stav aktualizován.",
+    "assistantOkCustomStatusCleared": "Vlastní stav vymazán.",
+    "guildNavbarAnnouncementChannel": "Kanál s oznámeními",
+    "guildNavbarAnnouncementChannelDescription": "Zveřejňujte aktualizace, které mohou ostatní komunity sledovat ve svých vlastních kanálech",
+    "channelDetailsAnnouncementChannel": "Kanál s oznámeními",
+    "channelSettingsAnnouncementChannel": "Kanál s oznámeními",
+    "channelSettingsAnnouncementChannelDescription": "Umožní ostatním komunitám sledovat tento kanál a dostávat kopie toho, co publikujete.",
+    "channelSettingsStopAnnouncementTitle": "Přestat být kanálem s oznámeními?",
+    "channelSettingsStopAnnouncementBody": "{count, plural, one{{count} kanál sleduje tento kanál. Převodem na textový kanál se toto sledování zruší.} few{{count} kanály sledují tento kanál. Převodem na textový kanál se tato sledování zruší.} many{{count} kanálu sleduje tento kanál. Převodem na textový kanál se tato sledování zruší.} other{{count} kanálů sleduje tento kanál. Převodem na textový kanál se tato sledování zruší.}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "Převodem tohoto kanálu na textový kanál se zruší sledování všech kanálů, které ho sledují.",
+    "channelSettingsConvertChannel": "Převést",
+    "channelSettingsConvertFailed": "Nepodařilo se převést tento kanál",
+    "channelSettingsChannelHasFollowers": "Tento kanál stále sledují jiné kanály. Před převodem tato sledování odstraňte.",
+    "channelMenuFollow": "Sledovat kanál",
+    "channelFollowTitle": "Sledovat tento kanál",
+    "channelFollowBody": "Vyberte, kam se mají publikované zprávy odesílat. Kdykoli se můžete odhlásit v nastavení komunity → Webhooky.",
+    "channelFollowCommunity": "Komunita",
+    "channelFollowChannel": "Kanál",
+    "channelFollowAgeWarning": "Toto je kanál s věkovým omezením. Aktualizace mohou jít pouze do kanálů s věkovým omezením.",
+    "channelFollowContentWarning": "Tento kanál má varování o obsahu. Aktualizace lze posílat pouze do kanálů s varováním o obsahu nebo věkovým omezením.",
+    "channelFollowHiddenHint": "Komunity a kanály, kde nemůžete spravovat webhooky, jsou skryté.",
+    "channelFollowEmpty": "Nemůžete spravovat webhooky v žádné komunitě. Požádejte administrátora, aby tento kanál sledoval.",
+    "channelFollowSubmit": "Sledovat",
+    "channelFollowFailed": "Nepodařilo se sledovat tento kanál.",
+    "channelFollowSuccessTitle": "Aktualizace jsou na cestě!",
+    "channelFollowSuccessBody": "Zprávy publikované v {sourceName} se zobrazí v #{targetName}.",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "Rozumím!",
+    "channelFollowBarrier": "Sledujte tento kanál a dostávejte tato oznámení do kanálu, který si vyberete.",
+    "channelHeaderFollow": "Sledovat kanál",
+    "chatMessagePublish": "Publikovat",
+    "chatMessagePublished": "Publikováno",
+    "chatMessagePublishConfirmTitle": "Publikovat zprávu?",
+    "chatMessagePublishConfirmBody": "Tím se odešle kopie do každého kanálu, který sleduje tento kanál.",
+    "chatMessagePublishedToast": "Zpráva publikována",
+    "chatMessageAlreadyPublished": "Tato zpráva je již publikována.",
+    "chatMessagePublishFailedTitle": "Nepodařilo se publikovat tuto zprávu",
+    "chatMessagePublishFailedBody": "Něco se pokazilo. Zkuste to za chvíli znovu.",
+    "chatMessagePublishLimitTitle": "Zpomalte",
+    "chatMessagePublishLimitBody": "Znovu můžete publikovat za {duration}.",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "Publikujete příliš rychle. Zkuste to za chvíli znovu.",
+    "chatMessageDeletePublished": "Tím se také odstraní kopie, které byly odeslány do kanálů, které tento kanál sledují.",
+    "chatMessageEditPublishedTitle": "Upravit publikovanou zprávu?",
+    "chatMessageEditPublishedBody": "Tím se aktualizují kopie, které byly odeslány do kanálů, které tento kanál sledují.",
+    "chatMessageEditPublishedSave": "Uložit",
+    "chatMessageEditLimitTitle": "Zpomalte",
+    "chatMessageEditLimitBody": "Tuto zveřejněnou zprávu můžete znovu upravit za {duration}.",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "Tuto publikovanou zprávu upravujete příliš rychle. Zkuste to znovu za chvíli.",
+    "chatMessageOriginalDeleted": "[Původní zpráva smazána]",
+    "userTagCommunity": "Komunita",
+    "systemFollowAdd": "{username} nastavil(a) tento kanál, aby sledoval {source}. Zprávy publikované tam se zobrazí zde.",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username} nastavil(a) tento kanál, aby sledoval {source}.",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "Ještě neodesláno sledujícím.",
+    "publishNudgeHideForever": "Znovu nezobrazovat",
+    "publishNudgeDismiss": "Zavřít",
+    "channelSettingsFollowedChannels": "Sledované kanály",
+    "channelSettingsFollowedChannelsDescription": "Kanály s oznámeními, které tento kanál sleduje. Přestaňte sledovat, abyste přestali dostávat kopie.",
+    "guildSettingsFollowedChannelsDescription": "Kanály s oznámeními, které sledují kanály v této komunitě.",
+    "channelSettingsFollowedFrom": "Z {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "Aktualizace jsou pozastaveny, protože zdrojový kanál již není k dispozici.",
+    "channelSettingsUnfollowTitle": "Přestat sledovat {name}?",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "Tento kanál přestane přijímat kopie z daného kanálu s oznámeními.",
+    "channelSettingsUnfollow": "Přestat sledovat",
+    "crosspostCommunityTitle": "Komunita",
+    "crosspostGoToCommunity": "Přejít do komunity",
+    "crosspostJoinCommunity": "Připojit se ke komunitě",
+    "crosspostSourceFailed": "Nepodařilo se načíst tuto komunitu. Zkuste to za chvíli znovu.",
+    "crosspostMembers": "{count} členů",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "{count} online",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, one{{count} minuta} few{{count} minuty} many{{count} minuty} other{{count} minut}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, one{{count} sekunda} few{{count} sekundy} many{{count} sekundy} other{{count} sekund}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "Nepodporovaný typ kanálu",
+    "channelUnsupportedBody": "Tato verze aplikace nepodporuje tento typ kanálu.",
+    "channelDetailsUnsupportedChannel": "Nepodporovaný kanál"
 }
