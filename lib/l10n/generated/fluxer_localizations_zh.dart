@@ -862,34 +862,10 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get embedThemeTitle => '共享主题';
 
   @override
-  String get embedThemeHelp => '你收到了 CSS！';
+  String get embedThemeWebOnly => '只能在网页版或桌面版导入主题。';
 
   @override
   String get embedThemeImport => '导入主题';
-
-  @override
-  String get embedThemeUnavailableTitle => '主题不可用';
-
-  @override
-  String get embedThemeUnavailableDescription => '此主题不再可用。';
-
-  @override
-  String get embedThemeImportUnavailable => '无法导入';
-
-  @override
-  String get themeImportTitle => '导入主题';
-
-  @override
-  String get themeImportDescription => '这会替换你当前的自定义主题。';
-
-  @override
-  String get themeImportReadFailed => '无法读取此主题。它可能已损坏或无效。';
-
-  @override
-  String get themeImportApply => '应用';
-
-  @override
-  String get themeImportApplied => '主题已成功应用。';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -14907,34 +14883,10 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get embedThemeTitle => '分享的主題';
 
   @override
-  String get embedThemeHelp => '您收到 CSS 了！';
+  String get embedThemeWebOnly => '只能在網頁版或桌面版匯入主題。';
 
   @override
   String get embedThemeImport => '匯入主題';
-
-  @override
-  String get embedThemeUnavailableTitle => '主題無法使用';
-
-  @override
-  String get embedThemeUnavailableDescription => '此主題已無法使用。';
-
-  @override
-  String get embedThemeImportUnavailable => '無法匯入';
-
-  @override
-  String get themeImportTitle => '匯入主題';
-
-  @override
-  String get themeImportDescription => '這會取代您目前的自訂主題。';
-
-  @override
-  String get themeImportReadFailed => '我們無法讀取此主題。它可能已損壞或無效。';
-
-  @override
-  String get themeImportApply => '套用';
-
-  @override
-  String get themeImportApplied => '主題已成功套用。';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {

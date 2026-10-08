@@ -917,36 +917,11 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get embedThemeTitle => 'سمة مشتركة';
 
   @override
-  String get embedThemeHelp => 'لقد حصلت على CSS!';
+  String get embedThemeWebOnly =>
+      'يمكنك استيراد السمات على الويب أو سطح المكتب فقط.';
 
   @override
   String get embedThemeImport => 'استيراد السمة';
-
-  @override
-  String get embedThemeUnavailableTitle => 'السمة غير متاحة';
-
-  @override
-  String get embedThemeUnavailableDescription => 'هذه السمة لم تعد متوفرة.';
-
-  @override
-  String get embedThemeImportUnavailable => 'الاستيراد غير متاح';
-
-  @override
-  String get themeImportTitle => 'استيراد السمة';
-
-  @override
-  String get themeImportDescription =>
-      'سيؤدي هذا إلى استبدال سمتك المخصصة الحالية.';
-
-  @override
-  String get themeImportReadFailed =>
-      'تعذّر علينا قراءة هذه السمة. قد تكون تالفة أو غير صالحة.';
-
-  @override
-  String get themeImportApply => 'تطبيق';
-
-  @override
-  String get themeImportApplied => 'تم تطبيق السمة بنجاح.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {

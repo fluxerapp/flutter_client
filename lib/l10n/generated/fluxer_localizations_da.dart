@@ -915,37 +915,11 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get embedThemeTitle => 'Delt tema';
 
   @override
-  String get embedThemeHelp => 'Du har CSS!';
+  String get embedThemeWebOnly =>
+      'Du kan kun importere temaer på web eller computer.';
 
   @override
   String get embedThemeImport => 'Importer tema';
-
-  @override
-  String get embedThemeUnavailableTitle => 'Tema ikke tilgængeligt';
-
-  @override
-  String get embedThemeUnavailableDescription =>
-      'Dette tema er ikke længere tilgængeligt.';
-
-  @override
-  String get embedThemeImportUnavailable => 'Import ikke tilgængelig';
-
-  @override
-  String get themeImportTitle => 'Importer tema';
-
-  @override
-  String get themeImportDescription =>
-      'Dette vil erstatte dit nuværende tilpassede tema.';
-
-  @override
-  String get themeImportReadFailed =>
-      'Vi kunne ikke læse dette tema. Det er muligvis beskadiget eller ugyldigt.';
-
-  @override
-  String get themeImportApply => 'Anvend';
-
-  @override
-  String get themeImportApplied => 'Tema anvendt.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {

@@ -131,9 +131,6 @@ bool isAllowedDeepLinkPath(Uri uri) {
   if (normalized.startsWith('/gift/')) {
     return true;
   }
-  if (normalized.startsWith('/theme/')) {
-    return true;
-  }
   if (normalized.startsWith('/users/')) {
     return true;
   }

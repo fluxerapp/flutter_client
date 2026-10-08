@@ -925,37 +925,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get embedThemeTitle => 'Κοινοποιημένο θέμα';
 
   @override
-  String get embedThemeHelp => 'Έχετε CSS!';
+  String get embedThemeWebOnly =>
+      'Μπορείς να εισαγάγεις θέματα μόνο στο web ή στον υπολογιστή.';
 
   @override
   String get embedThemeImport => 'Εισαγωγή θέματος';
-
-  @override
-  String get embedThemeUnavailableTitle => 'Το θέμα δεν είναι διαθέσιμο';
-
-  @override
-  String get embedThemeUnavailableDescription =>
-      'Αυτό το θέμα δεν είναι πλέον διαθέσιμο.';
-
-  @override
-  String get embedThemeImportUnavailable => 'Η εισαγωγή δεν είναι διαθέσιμη';
-
-  @override
-  String get themeImportTitle => 'Εισαγωγή θέματος';
-
-  @override
-  String get themeImportDescription =>
-      'Αυτό θα αντικαταστήσει το τρέχον προσαρμοσμένο θέμα σας.';
-
-  @override
-  String get themeImportReadFailed =>
-      'Δεν μπορέσαμε να διαβάσουμε αυτό το θέμα. Ενδέχεται να είναι κατεστραμμένο ή μη έγκυρο.';
-
-  @override
-  String get themeImportApply => 'Εφαρμογή';
-
-  @override
-  String get themeImportApplied => 'Το θέμα εφαρμόστηκε επιτυχώς.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {

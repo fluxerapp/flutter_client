@@ -915,35 +915,11 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get embedThemeTitle => 'शेयर की गई थीम';
 
   @override
-  String get embedThemeHelp => 'आपको CSS मिल गया!';
+  String get embedThemeWebOnly =>
+      'आप थीम केवल वेब या डेस्कटॉप पर इंपोर्ट कर सकते हैं।';
 
   @override
   String get embedThemeImport => 'थीम इंपोर्ट करें';
-
-  @override
-  String get embedThemeUnavailableTitle => 'थीम उपलब्ध नहीं है';
-
-  @override
-  String get embedThemeUnavailableDescription => 'यह थीम अब उपलब्ध नहीं है।';
-
-  @override
-  String get embedThemeImportUnavailable => 'इंपोर्ट उपलब्ध नहीं है';
-
-  @override
-  String get themeImportTitle => 'थीम इंपोर्ट करें';
-
-  @override
-  String get themeImportDescription => 'इससे आपकी मौजूदा कस्टम थीम बदल जाएगी।';
-
-  @override
-  String get themeImportReadFailed =>
-      'हम इस थीम को पढ़ नहीं पाए। हो सकता है यह खराब हो या अमान्य हो।';
-
-  @override
-  String get themeImportApply => 'लागू करें';
-
-  @override
-  String get themeImportApplied => 'थीम सफलतापूर्वक लागू हो गई।';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {

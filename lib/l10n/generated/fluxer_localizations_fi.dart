@@ -919,37 +919,11 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get embedThemeTitle => 'Jaettu teema';
 
   @override
-  String get embedThemeHelp => 'Sinulle on CSS:ää!';
+  String get embedThemeWebOnly =>
+      'Voit tuoda teemoja vain verkossa tai työpöydällä.';
 
   @override
   String get embedThemeImport => 'Tuo teema';
-
-  @override
-  String get embedThemeUnavailableTitle => 'Teema ei ole saatavilla';
-
-  @override
-  String get embedThemeUnavailableDescription =>
-      'Tämä teema ei ole enää saatavilla.';
-
-  @override
-  String get embedThemeImportUnavailable => 'Tuonti ei ole käytettävissä';
-
-  @override
-  String get themeImportTitle => 'Tuo teema';
-
-  @override
-  String get themeImportDescription =>
-      'Tämä korvaa nykyisen mukautetun teemasi.';
-
-  @override
-  String get themeImportReadFailed =>
-      'Teemaa ei voitu lukea. Se voi olla vioittunut tai virheellinen.';
-
-  @override
-  String get themeImportApply => 'Käytä';
-
-  @override
-  String get themeImportApplied => 'Teema otettu käyttöön.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {

@@ -1203,45 +1203,13 @@
     "@embedThemeTitle": {
         "description": "Title on the theme embed card in chat."
     },
-    "embedThemeHelp": "Je hebt CSS!",
-    "@embedThemeHelp": {
-        "description": "Subtitle on a shared theme link embed in chat."
+    "embedThemeWebOnly": "Je kunt thema's alleen op het web of de desktop importeren.",
+    "@embedThemeWebOnly": {
+        "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
     },
     "embedThemeImport": "Thema importeren",
     "@embedThemeImport": {
-        "description": "Button on a shared theme link embed that opens the import sheet."
-    },
-    "embedThemeUnavailableTitle": "Thema niet beschikbaar",
-    "@embedThemeUnavailableTitle": {
-        "description": "Title on a shared theme link embed when the theme cannot be loaded."
-    },
-    "embedThemeUnavailableDescription": "Dit thema is niet meer beschikbaar.",
-    "@embedThemeUnavailableDescription": {
-        "description": "Subtitle on a shared theme link embed when the theme cannot be loaded."
-    },
-    "embedThemeImportUnavailable": "Importeren niet beschikbaar",
-    "@embedThemeImportUnavailable": {
-        "description": "Disabled button on a shared theme link embed when the theme cannot be loaded."
-    },
-    "themeImportTitle": "Thema importeren",
-    "@themeImportTitle": {
-        "description": "Title of the sheet that previews a shared theme before importing it."
-    },
-    "themeImportDescription": "Dit vervangt je huidige aangepaste thema.",
-    "@themeImportDescription": {
-        "description": "Warning at the top of the theme import sheet."
-    },
-    "themeImportReadFailed": "We konden dit thema niet lezen. Het is mogelijk beschadigd of ongeldig.",
-    "@themeImportReadFailed": {
-        "description": "Error shown in the theme import sheet when the theme CSS cannot be loaded."
-    },
-    "themeImportApply": "Toepassen",
-    "@themeImportApply": {
-        "description": "Button in the theme import sheet that applies the shared theme."
-    },
-    "themeImportApplied": "Thema succesvol toegepast.",
-    "@themeImportApplied": {
-        "description": "Toast shown after a shared theme was applied."
+        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "embedGiftVisionaryLifetime": "Visionair (lifetime {productName})",
     "@embedGiftVisionaryLifetime": {

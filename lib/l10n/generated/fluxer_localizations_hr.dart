@@ -921,36 +921,11 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get embedThemeTitle => 'Dijeljena tema';
 
   @override
-  String get embedThemeHelp => 'Imate CSS!';
+  String get embedThemeWebOnly =>
+      'Teme možeš uvesti samo na webu ili na računalu.';
 
   @override
   String get embedThemeImport => 'Uvezi temu';
-
-  @override
-  String get embedThemeUnavailableTitle => 'Tema nije dostupna';
-
-  @override
-  String get embedThemeUnavailableDescription => 'Ova tema više nije dostupna.';
-
-  @override
-  String get embedThemeImportUnavailable => 'Uvoz nedostupan';
-
-  @override
-  String get themeImportTitle => 'Uvezi temu';
-
-  @override
-  String get themeImportDescription =>
-      'Ovo će zamijeniti vašu trenutačnu prilagođenu temu.';
-
-  @override
-  String get themeImportReadFailed =>
-      'Nismo mogli učitati ovu temu. Možda je oštećena ili nevažeća.';
-
-  @override
-  String get themeImportApply => 'Primijeni';
-
-  @override
-  String get themeImportApplied => 'Tema je uspješno primijenjena.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {

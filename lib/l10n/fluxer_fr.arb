@@ -929,45 +929,13 @@
     "@embedThemeTitle": {
         "description": "Title on the theme embed card in chat."
     },
-    "embedThemeHelp": "Vous avez du CSS !",
-    "@embedThemeHelp": {
-        "description": "Subtitle on a shared theme link embed in chat."
+    "embedThemeWebOnly": "Tu peux importer des thèmes uniquement sur le web ou sur ordinateur.",
+    "@embedThemeWebOnly": {
+        "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
     },
     "embedThemeImport": "Importer le thème",
     "@embedThemeImport": {
-        "description": "Button on a shared theme link embed that opens the import sheet."
-    },
-    "embedThemeUnavailableTitle": "Thème non disponible",
-    "@embedThemeUnavailableTitle": {
-        "description": "Title on a shared theme link embed when the theme cannot be loaded."
-    },
-    "embedThemeUnavailableDescription": "Ce thème n'est plus disponible.",
-    "@embedThemeUnavailableDescription": {
-        "description": "Subtitle on a shared theme link embed when the theme cannot be loaded."
-    },
-    "embedThemeImportUnavailable": "Importation non disponible",
-    "@embedThemeImportUnavailable": {
-        "description": "Disabled button on a shared theme link embed when the theme cannot be loaded."
-    },
-    "themeImportTitle": "Importer le thème",
-    "@themeImportTitle": {
-        "description": "Title of the sheet that previews a shared theme before importing it."
-    },
-    "themeImportDescription": "Ceci remplacera votre thème personnalisé actuel.",
-    "@themeImportDescription": {
-        "description": "Warning at the top of the theme import sheet."
-    },
-    "themeImportReadFailed": "Nous n'avons pas pu lire ce thème. Il est peut-être corrompu ou invalide.",
-    "@themeImportReadFailed": {
-        "description": "Error shown in the theme import sheet when the theme CSS cannot be loaded."
-    },
-    "themeImportApply": "Appliquer",
-    "@themeImportApply": {
-        "description": "Button in the theme import sheet that applies the shared theme."
-    },
-    "themeImportApplied": "Thème appliqué.",
-    "@themeImportApplied": {
-        "description": "Toast shown after a shared theme was applied."
+        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "privacySettings": "Paramètres de confidentialité",
     "@privacySettings": {

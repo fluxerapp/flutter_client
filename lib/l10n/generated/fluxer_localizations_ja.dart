@@ -878,35 +878,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get embedThemeTitle => '共有テーマ';
 
   @override
-  String get embedThemeHelp => 'CSSが届きました！';
+  String get embedThemeWebOnly => 'テーマはウェブ版またはデスクトップ版でのみインポートできます。';
 
   @override
   String get embedThemeImport => 'テーマをインポート';
-
-  @override
-  String get embedThemeUnavailableTitle => 'テーマを利用できません';
-
-  @override
-  String get embedThemeUnavailableDescription => 'このテーマは利用できなくなりました。';
-
-  @override
-  String get embedThemeImportUnavailable => 'インポートできません';
-
-  @override
-  String get themeImportTitle => 'テーマをインポート';
-
-  @override
-  String get themeImportDescription => '現在のカスタムテーマが上書きされます。';
-
-  @override
-  String get themeImportReadFailed =>
-      'このテーマは読み込めませんでした。破損しているか、無効なファイル形式の可能性があります。';
-
-  @override
-  String get themeImportApply => '適用';
-
-  @override
-  String get themeImportApplied => 'テーマを適用しました。';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {

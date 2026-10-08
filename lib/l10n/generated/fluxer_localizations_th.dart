@@ -910,36 +910,11 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get embedThemeTitle => 'ธีมที่แชร์';
 
   @override
-  String get embedThemeHelp => 'คุณมี CSS แล้ว!';
+  String get embedThemeWebOnly =>
+      'นำเข้าธีมได้เฉพาะบนเว็บหรือเดสก์ท็อปเท่านั้น';
 
   @override
   String get embedThemeImport => 'นำเข้าธีม';
-
-  @override
-  String get embedThemeUnavailableTitle => 'ไม่มีธีมให้ใช้งาน';
-
-  @override
-  String get embedThemeUnavailableDescription => 'ธีมนี้ไม่พร้อมใช้งานแล้ว';
-
-  @override
-  String get embedThemeImportUnavailable => 'ไม่สามารถนำเข้าได้';
-
-  @override
-  String get themeImportTitle => 'นำเข้าธีม';
-
-  @override
-  String get themeImportDescription =>
-      'การดำเนินการนี้จะแทนที่ธีมที่คุณกำหนดเองในปัจจุบัน';
-
-  @override
-  String get themeImportReadFailed =>
-      'เราอ่านธีมนี้ไม่ได้ ธีมอาจเสียหายหรือไม่ถูกต้อง';
-
-  @override
-  String get themeImportApply => 'ใช้';
-
-  @override
-  String get themeImportApplied => 'ใช้ธีมสำเร็จแล้ว';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {

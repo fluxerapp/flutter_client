@@ -3,13 +3,12 @@ import 'package:test/test.dart';
 
 void main() {
   group('isAllowedDeepLinkPath', () {
-    test('allows channel, invite, gift, theme, user, and settings paths', () {
+    test('allows channel, invite, gift, user, and settings paths', () {
       const allowedPaths = [
         '/channels/@me',
         '/channels/123456789012345678/987654321098765432',
         '/invite/abc',
         '/gift/xyz',
-        '/theme/my-theme',
         '/users/123456789012345678',
         '/settings/user',
         '/settings/user?tab=appearance',
@@ -50,7 +49,6 @@ void main() {
         'fluxer://channels/123456789012345678/987654321098765432',
         'fluxer://invite/abc',
         'fluxer://gift/xyz',
-        'fluxer://theme/my-theme',
         'fluxer://users/123456789012345678',
         'fluxer://settings/user',
         'fluxer://settings/user?tab=appearance',
@@ -206,7 +204,7 @@ const List<String> _ignoredDeepLinkPaths = [
   '/age-verification-callback',
   '/connection-callback',
   '/theme-studio',
-  '/theme',
+  '/theme/my-theme',
   '/bookmarks',
   '/mentions',
   '/settings/guild/123',

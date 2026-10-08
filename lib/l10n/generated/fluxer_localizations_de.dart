@@ -925,37 +925,11 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get embedThemeTitle => 'Geteiltes Design';
 
   @override
-  String get embedThemeHelp => 'Du hast CSS!';
+  String get embedThemeWebOnly =>
+      'Du kannst Designs nur im Web oder auf dem Desktop importieren.';
 
   @override
   String get embedThemeImport => 'Design importieren';
-
-  @override
-  String get embedThemeUnavailableTitle => 'Design nicht verfügbar';
-
-  @override
-  String get embedThemeUnavailableDescription =>
-      'Dieses Design ist nicht mehr verfügbar.';
-
-  @override
-  String get embedThemeImportUnavailable => 'Import nicht verfügbar';
-
-  @override
-  String get themeImportTitle => 'Design importieren';
-
-  @override
-  String get themeImportDescription =>
-      'Dadurch wird dein aktuelles benutzerdefiniertes Design ersetzt.';
-
-  @override
-  String get themeImportReadFailed =>
-      'Dieses Design konnte nicht gelesen werden. Es ist möglicherweise beschädigt oder ungültig.';
-
-  @override
-  String get themeImportApply => 'Anwenden';
-
-  @override
-  String get themeImportApplied => 'Design erfolgreich angewendet.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {

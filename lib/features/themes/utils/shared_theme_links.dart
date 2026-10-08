@@ -63,11 +63,3 @@ List<String> findSharedThemeIds(String content, {String? webAppBaseUrl}) {
   }
   return result;
 }
-
-String sharedThemeCssUrl(String themeId, {String? mediaBaseUrl}) {
-  final String base = (mediaBaseUrl ?? InstanceEndpoints.media).replaceAll(
-    RegExp(r'/+$'),
-    '',
-  );
-  return '$base/themes/$themeId.css';
-}

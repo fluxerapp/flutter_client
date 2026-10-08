@@ -913,37 +913,11 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get embedThemeTitle => 'Tema dibagikan';
 
   @override
-  String get embedThemeHelp => 'Kamu punya CSS!';
+  String get embedThemeWebOnly =>
+      'Kamu hanya bisa mengimpor tema di web atau desktop.';
 
   @override
   String get embedThemeImport => 'Impor tema';
-
-  @override
-  String get embedThemeUnavailableTitle => 'Tema tidak tersedia';
-
-  @override
-  String get embedThemeUnavailableDescription =>
-      'Tema ini tidak tersedia lagi.';
-
-  @override
-  String get embedThemeImportUnavailable => 'Impor tidak tersedia';
-
-  @override
-  String get themeImportTitle => 'Impor tema';
-
-  @override
-  String get themeImportDescription =>
-      'Ini akan mengganti tema kustommu saat ini.';
-
-  @override
-  String get themeImportReadFailed =>
-      'Kami tidak dapat membaca tema ini. Mungkin rusak atau tidak valid.';
-
-  @override
-  String get themeImportApply => 'Terapkan';
-
-  @override
-  String get themeImportApplied => 'Tema berhasil diterapkan.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {

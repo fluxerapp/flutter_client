@@ -918,37 +918,11 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get embedThemeTitle => 'Gedeeld thema';
 
   @override
-  String get embedThemeHelp => 'Je hebt CSS!';
+  String get embedThemeWebOnly =>
+      'Je kunt thema\'s alleen op het web of de desktop importeren.';
 
   @override
   String get embedThemeImport => 'Thema importeren';
-
-  @override
-  String get embedThemeUnavailableTitle => 'Thema niet beschikbaar';
-
-  @override
-  String get embedThemeUnavailableDescription =>
-      'Dit thema is niet meer beschikbaar.';
-
-  @override
-  String get embedThemeImportUnavailable => 'Importeren niet beschikbaar';
-
-  @override
-  String get themeImportTitle => 'Thema importeren';
-
-  @override
-  String get themeImportDescription =>
-      'Dit vervangt je huidige aangepaste thema.';
-
-  @override
-  String get themeImportReadFailed =>
-      'We konden dit thema niet lezen. Het is mogelijk beschadigd of ongeldig.';
-
-  @override
-  String get themeImportApply => 'Toepassen';
-
-  @override
-  String get themeImportApplied => 'Thema succesvol toegepast.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {

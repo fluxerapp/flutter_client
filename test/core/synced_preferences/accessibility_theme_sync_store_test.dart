@@ -431,32 +431,6 @@ void main() {
       expect(synced.accessibility.saturationFactor, closeTo(0.25, 0.001));
     });
 
-    test('imported theme css applies locally and pushes', () async {
-      const css = ':root { --brand-primary: #ff8800; }';
-      final store = container.read(syncedPreferencesStoreProvider);
-      await container.read(themePreferenceProvider.notifier).load('u1');
-      await container.read(appearancePreferencesProvider.notifier).load('u1');
-      await store.hydrateFromUserSettings(
-        _testUserSettings(syncedPreferences: ''),
-      );
-
-      await container
-          .read(themePreferenceProvider.notifier)
-          .setCustomThemeCss(css);
-      await _waitForDebounce(store);
-
-      expect(
-        container.read(themePreferenceProvider).darkColorTheme.brandPrimary,
-        const Color(0xFFFF8800),
-      );
-      expect(usersApi.pushCount, 1);
-      final bytes = base64Decode(
-        usersApi.lastPushBody!.syncedPreferences.value!,
-      );
-      final synced = pb.SyncedPreferences.fromBuffer(bytes);
-      expect(synced.accessibility.customThemeCss, css);
-    });
-
     test(
       'appearance push preserves show_message_send_button from wire',
       () async {

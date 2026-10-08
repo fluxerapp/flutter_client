@@ -929,45 +929,13 @@
     "@embedThemeTitle": {
         "description": "Title on the theme embed card in chat."
     },
-    "embedThemeHelp": "Turite CSS!",
-    "@embedThemeHelp": {
-        "description": "Subtitle on a shared theme link embed in chat."
+    "embedThemeWebOnly": "Temas galima importuoti tik žiniatinklyje arba kompiuteryje.",
+    "@embedThemeWebOnly": {
+        "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
     },
     "embedThemeImport": "Importuoti temą",
     "@embedThemeImport": {
-        "description": "Button on a shared theme link embed that opens the import sheet."
-    },
-    "embedThemeUnavailableTitle": "Tema nepasiekiama",
-    "@embedThemeUnavailableTitle": {
-        "description": "Title on a shared theme link embed when the theme cannot be loaded."
-    },
-    "embedThemeUnavailableDescription": "Ši tema nebepasiekiama.",
-    "@embedThemeUnavailableDescription": {
-        "description": "Subtitle on a shared theme link embed when the theme cannot be loaded."
-    },
-    "embedThemeImportUnavailable": "Importavimas nepasiekiamas",
-    "@embedThemeImportUnavailable": {
-        "description": "Disabled button on a shared theme link embed when the theme cannot be loaded."
-    },
-    "themeImportTitle": "Importuoti temą",
-    "@themeImportTitle": {
-        "description": "Title of the sheet that previews a shared theme before importing it."
-    },
-    "themeImportDescription": "Tai pakeis jūsų dabartinę pasirinktinę temą.",
-    "@themeImportDescription": {
-        "description": "Warning at the top of the theme import sheet."
-    },
-    "themeImportReadFailed": "Nepavyko nuskaityti šios temos. Ji gali būti sugadinta arba netinkama.",
-    "@themeImportReadFailed": {
-        "description": "Error shown in the theme import sheet when the theme CSS cannot be loaded."
-    },
-    "themeImportApply": "Taikyti",
-    "@themeImportApply": {
-        "description": "Button in the theme import sheet that applies the shared theme."
-    },
-    "themeImportApplied": "Tema sėkmingai pritaikyta.",
-    "@themeImportApplied": {
-        "description": "Toast shown after a shared theme was applied."
+        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "privacySettings": "Privatumo nustatymai",
     "@privacySettings": {

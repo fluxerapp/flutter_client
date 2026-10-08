@@ -1203,45 +1203,13 @@
     "@embedThemeTitle": {
         "description": "Title on the theme embed card in chat."
     },
-    "embedThemeHelp": "Imate CSS!",
-    "@embedThemeHelp": {
-        "description": "Subtitle on a shared theme link embed in chat."
+    "embedThemeWebOnly": "Teme možeš uvesti samo na webu ili na računalu.",
+    "@embedThemeWebOnly": {
+        "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
     },
     "embedThemeImport": "Uvezi temu",
     "@embedThemeImport": {
-        "description": "Button on a shared theme link embed that opens the import sheet."
-    },
-    "embedThemeUnavailableTitle": "Tema nije dostupna",
-    "@embedThemeUnavailableTitle": {
-        "description": "Title on a shared theme link embed when the theme cannot be loaded."
-    },
-    "embedThemeUnavailableDescription": "Ova tema više nije dostupna.",
-    "@embedThemeUnavailableDescription": {
-        "description": "Subtitle on a shared theme link embed when the theme cannot be loaded."
-    },
-    "embedThemeImportUnavailable": "Uvoz nedostupan",
-    "@embedThemeImportUnavailable": {
-        "description": "Disabled button on a shared theme link embed when the theme cannot be loaded."
-    },
-    "themeImportTitle": "Uvezi temu",
-    "@themeImportTitle": {
-        "description": "Title of the sheet that previews a shared theme before importing it."
-    },
-    "themeImportDescription": "Ovo će zamijeniti vašu trenutačnu prilagođenu temu.",
-    "@themeImportDescription": {
-        "description": "Warning at the top of the theme import sheet."
-    },
-    "themeImportReadFailed": "Nismo mogli učitati ovu temu. Možda je oštećena ili nevažeća.",
-    "@themeImportReadFailed": {
-        "description": "Error shown in the theme import sheet when the theme CSS cannot be loaded."
-    },
-    "themeImportApply": "Primijeni",
-    "@themeImportApply": {
-        "description": "Button in the theme import sheet that applies the shared theme."
-    },
-    "themeImportApplied": "Tema je uspješno primijenjena.",
-    "@themeImportApplied": {
-        "description": "Toast shown after a shared theme was applied."
+        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "embedGiftVisionaryLifetime": "Vizionar (doživotni {productName})",
     "@embedGiftVisionaryLifetime": {

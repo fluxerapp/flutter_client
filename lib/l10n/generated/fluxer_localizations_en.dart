@@ -914,37 +914,11 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get embedThemeTitle => 'Shared theme';
 
   @override
-  String get embedThemeHelp => 'You\'ve got CSS!';
+  String get embedThemeWebOnly =>
+      'You can only import themes on web or desktop.';
 
   @override
   String get embedThemeImport => 'Import theme';
-
-  @override
-  String get embedThemeUnavailableTitle => 'Theme unavailable';
-
-  @override
-  String get embedThemeUnavailableDescription =>
-      'This theme is no longer available.';
-
-  @override
-  String get embedThemeImportUnavailable => 'Import unavailable';
-
-  @override
-  String get themeImportTitle => 'Import theme';
-
-  @override
-  String get themeImportDescription =>
-      'This will replace your current custom theme.';
-
-  @override
-  String get themeImportReadFailed =>
-      'We couldn\'t read this theme. It may be corrupted or invalid.';
-
-  @override
-  String get themeImportApply => 'Apply';
-
-  @override
-  String get themeImportApplied => 'Theme applied successfully.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -15758,37 +15732,11 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get embedThemeTitle => 'Shared theme';
 
   @override
-  String get embedThemeHelp => 'You\'ve got CSS!';
+  String get embedThemeWebOnly =>
+      'You can only import themes on web or desktop.';
 
   @override
   String get embedThemeImport => 'Import theme';
-
-  @override
-  String get embedThemeUnavailableTitle => 'Theme unavailable';
-
-  @override
-  String get embedThemeUnavailableDescription =>
-      'This theme is no longer available.';
-
-  @override
-  String get embedThemeImportUnavailable => 'Import unavailable';
-
-  @override
-  String get themeImportTitle => 'Import theme';
-
-  @override
-  String get themeImportDescription =>
-      'This will replace your current custom theme.';
-
-  @override
-  String get themeImportReadFailed =>
-      'We couldn\'t read this theme. It may be corrupted or invalid.';
-
-  @override
-  String get themeImportApply => 'Apply';
-
-  @override
-  String get themeImportApplied => 'Theme applied successfully.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -29817,37 +29765,11 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get embedThemeTitle => 'Shared theme';
 
   @override
-  String get embedThemeHelp => 'You\'ve got CSS!';
+  String get embedThemeWebOnly =>
+      'You can only import themes on web or desktop.';
 
   @override
   String get embedThemeImport => 'Import theme';
-
-  @override
-  String get embedThemeUnavailableTitle => 'Theme unavailable';
-
-  @override
-  String get embedThemeUnavailableDescription =>
-      'This theme is no longer available.';
-
-  @override
-  String get embedThemeImportUnavailable => 'Import unavailable';
-
-  @override
-  String get themeImportTitle => 'Import theme';
-
-  @override
-  String get themeImportDescription =>
-      'This will replace your current custom theme.';
-
-  @override
-  String get themeImportReadFailed =>
-      'We couldn\'t read this theme. It may be corrupted or invalid.';
-
-  @override
-  String get themeImportApply => 'Apply';
-
-  @override
-  String get themeImportApplied => 'Theme applied successfully.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {

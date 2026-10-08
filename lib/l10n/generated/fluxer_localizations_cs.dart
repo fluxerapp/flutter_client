@@ -918,37 +918,11 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get embedThemeTitle => 'Sdílený motiv';
 
   @override
-  String get embedThemeHelp => 'Máte CSS!';
+  String get embedThemeWebOnly =>
+      'Motivy lze importovat pouze na webu nebo v počítači.';
 
   @override
   String get embedThemeImport => 'Importovat motiv';
-
-  @override
-  String get embedThemeUnavailableTitle => 'Motiv není k dispozici';
-
-  @override
-  String get embedThemeUnavailableDescription =>
-      'Tento motiv již není k dispozici.';
-
-  @override
-  String get embedThemeImportUnavailable => 'Import není k dispozici';
-
-  @override
-  String get themeImportTitle => 'Importovat motiv';
-
-  @override
-  String get themeImportDescription =>
-      'Tím se nahradí váš aktuální vlastní motiv.';
-
-  @override
-  String get themeImportReadFailed =>
-      'Tento motiv se nepodařilo načíst. Může být poškozený nebo neplatný.';
-
-  @override
-  String get themeImportApply => 'Použít';
-
-  @override
-  String get themeImportApplied => 'Motiv úspěšně použit.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {

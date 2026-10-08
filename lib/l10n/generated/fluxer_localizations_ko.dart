@@ -878,35 +878,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get embedThemeTitle => '공유된 테마';
 
   @override
-  String get embedThemeHelp => 'CSS가 도착했습니다!';
+  String get embedThemeWebOnly => '테마는 웹 또는 데스크톱에서만 가져올 수 있습니다.';
 
   @override
   String get embedThemeImport => '테마 가져오기';
-
-  @override
-  String get embedThemeUnavailableTitle => '테마를 사용할 수 없습니다';
-
-  @override
-  String get embedThemeUnavailableDescription => '더 이상 사용할 수 없는 테마입니다.';
-
-  @override
-  String get embedThemeImportUnavailable => '가져올 수 없음';
-
-  @override
-  String get themeImportTitle => '테마 가져오기';
-
-  @override
-  String get themeImportDescription => '현재 사용 중인 테마를 대체합니다.';
-
-  @override
-  String get themeImportReadFailed =>
-      '테마를 읽을 수 없습니다. 파일이 손상되었거나 유효하지 않을 수 있습니다.';
-
-  @override
-  String get themeImportApply => '적용';
-
-  @override
-  String get themeImportApplied => '테마가 적용되었습니다.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {

@@ -11,11 +11,4 @@ void main() {
       <String>['neon', 'coal2'],
     );
   });
-
-  test('builds the media proxy CSS URL', () {
-    expect(
-      sharedThemeCssUrl('neon', mediaBaseUrl: 'https://media.example.com/'),
-      'https://media.example.com/themes/neon.css',
-    );
-  });
 }

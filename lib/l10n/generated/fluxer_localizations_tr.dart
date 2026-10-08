@@ -917,37 +917,11 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get embedThemeTitle => 'Paylaşılan tema';
 
   @override
-  String get embedThemeHelp => 'CSS\'in var!';
+  String get embedThemeWebOnly =>
+      'Temaları yalnızca web veya masaüstünde içe aktarabilirsin.';
 
   @override
   String get embedThemeImport => 'Temayı içe aktar';
-
-  @override
-  String get embedThemeUnavailableTitle => 'Tema kullanılamıyor';
-
-  @override
-  String get embedThemeUnavailableDescription =>
-      'Bu tema artık kullanılamıyor.';
-
-  @override
-  String get embedThemeImportUnavailable => 'İçe aktarılamıyor';
-
-  @override
-  String get themeImportTitle => 'Temayı içe aktar';
-
-  @override
-  String get themeImportDescription =>
-      'Bu işlem mevcut özel temanızın yerini alacaktır.';
-
-  @override
-  String get themeImportReadFailed =>
-      'Bu temayı okuyamadık. Bozuk veya geçersiz olabilir.';
-
-  @override
-  String get themeImportApply => 'Uygula';
-
-  @override
-  String get themeImportApplied => 'Tema başarıyla uygulandı.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {

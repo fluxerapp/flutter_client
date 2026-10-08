@@ -928,37 +928,11 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get embedThemeTitle => 'Thème partagé';
 
   @override
-  String get embedThemeHelp => 'Vous avez du CSS !';
+  String get embedThemeWebOnly =>
+      'Tu peux importer des thèmes uniquement sur le web ou sur ordinateur.';
 
   @override
   String get embedThemeImport => 'Importer le thème';
-
-  @override
-  String get embedThemeUnavailableTitle => 'Thème non disponible';
-
-  @override
-  String get embedThemeUnavailableDescription =>
-      'Ce thème n\'est plus disponible.';
-
-  @override
-  String get embedThemeImportUnavailable => 'Importation non disponible';
-
-  @override
-  String get themeImportTitle => 'Importer le thème';
-
-  @override
-  String get themeImportDescription =>
-      'Ceci remplacera votre thème personnalisé actuel.';
-
-  @override
-  String get themeImportReadFailed =>
-      'Nous n\'avons pas pu lire ce thème. Il est peut-être corrompu ou invalide.';
-
-  @override
-  String get themeImportApply => 'Appliquer';
-
-  @override
-  String get themeImportApplied => 'Thème appliqué.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {

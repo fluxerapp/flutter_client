@@ -918,37 +918,11 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get embedThemeTitle => 'Delat tema';
 
   @override
-  String get embedThemeHelp => 'Du har CSS!';
+  String get embedThemeWebOnly =>
+      'Du kan bara importera teman på webben eller datorn.';
 
   @override
   String get embedThemeImport => 'Importera tema';
-
-  @override
-  String get embedThemeUnavailableTitle => 'Tema ej tillgängligt';
-
-  @override
-  String get embedThemeUnavailableDescription =>
-      'Det här temat är inte längre tillgängligt.';
-
-  @override
-  String get embedThemeImportUnavailable => 'Import ej tillgänglig';
-
-  @override
-  String get themeImportTitle => 'Importera tema';
-
-  @override
-  String get themeImportDescription =>
-      'Detta kommer att ersätta ditt nuvarande anpassade tema.';
-
-  @override
-  String get themeImportReadFailed =>
-      'Vi kunde inte läsa det här temat. Det kan vara skadat eller ogiltigt.';
-
-  @override
-  String get themeImportApply => 'Tillämpa';
-
-  @override
-  String get themeImportApplied => 'Temat har tillämpats.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {

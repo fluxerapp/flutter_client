@@ -923,35 +923,11 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get embedThemeTitle => 'Megosztott téma';
 
   @override
-  String get embedThemeHelp => 'Megvan a CSS!';
+  String get embedThemeWebOnly =>
+      'Témákat csak weben vagy asztali gépen importálhatsz.';
 
   @override
   String get embedThemeImport => 'Téma importálása';
-
-  @override
-  String get embedThemeUnavailableTitle => 'Téma nem elérhető';
-
-  @override
-  String get embedThemeUnavailableDescription => 'Ez a téma már nem elérhető.';
-
-  @override
-  String get embedThemeImportUnavailable => 'Az importálás nem érhető el';
-
-  @override
-  String get themeImportTitle => 'Téma importálása';
-
-  @override
-  String get themeImportDescription => 'Ez felülírja az aktuális egyéni témát.';
-
-  @override
-  String get themeImportReadFailed =>
-      'Nem tudtuk beolvasni ezt a témát. Lehet, hogy sérült vagy érvénytelen.';
-
-  @override
-  String get themeImportApply => 'Alkalmazás';
-
-  @override
-  String get themeImportApplied => 'A téma sikeresen alkalmazva.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {

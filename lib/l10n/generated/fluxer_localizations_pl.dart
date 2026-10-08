@@ -925,37 +925,11 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   String get embedThemeTitle => 'Udostępniony motyw';
 
   @override
-  String get embedThemeHelp => 'Masz CSS-a!';
+  String get embedThemeWebOnly =>
+      'Motywy można importować tylko w przeglądarce lub na komputerze.';
 
   @override
   String get embedThemeImport => 'Importuj motyw';
-
-  @override
-  String get embedThemeUnavailableTitle => 'Motyw niedostępny';
-
-  @override
-  String get embedThemeUnavailableDescription =>
-      'Ten motyw jest już niedostępny.';
-
-  @override
-  String get embedThemeImportUnavailable => 'Import niedostępny';
-
-  @override
-  String get themeImportTitle => 'Importuj motyw';
-
-  @override
-  String get themeImportDescription =>
-      'Spowoduje to zastąpienie Twojego obecnego motywu niestandardowego.';
-
-  @override
-  String get themeImportReadFailed =>
-      'Nie udało nam się odczytać tego motywu. Może być uszkodzony lub nieprawidłowy.';
-
-  @override
-  String get themeImportApply => 'Zastosuj';
-
-  @override
-  String get themeImportApplied => 'Motyw zastosowany pomyślnie.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {

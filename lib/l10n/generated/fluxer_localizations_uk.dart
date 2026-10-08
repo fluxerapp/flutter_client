@@ -922,35 +922,11 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get embedThemeTitle => 'Тема, якою поділилися';
 
   @override
-  String get embedThemeHelp => 'У вас є CSS!';
+  String get embedThemeWebOnly =>
+      'Теми можна імпортувати лише у вебверсії або на комп\'ютері.';
 
   @override
   String get embedThemeImport => 'Імпортувати тему';
-
-  @override
-  String get embedThemeUnavailableTitle => 'Тема недоступна';
-
-  @override
-  String get embedThemeUnavailableDescription => 'Ця тема більше недоступна.';
-
-  @override
-  String get embedThemeImportUnavailable => 'Імпорт недоступний';
-
-  @override
-  String get themeImportTitle => 'Імпортувати тему';
-
-  @override
-  String get themeImportDescription => 'Це замінить вашу поточну власну тему.';
-
-  @override
-  String get themeImportReadFailed =>
-      'Не вдалося прочитати цю тему. Можливо, вона пошкоджена або недійсна.';
-
-  @override
-  String get themeImportApply => 'Застосувати';
-
-  @override
-  String get themeImportApplied => 'Тему успішно застосовано.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {

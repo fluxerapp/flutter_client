@@ -922,37 +922,11 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get embedThemeTitle => 'Temă partajată';
 
   @override
-  String get embedThemeHelp => 'Ai primit CSS!';
+  String get embedThemeWebOnly =>
+      'Poți importa teme doar pe web sau pe desktop.';
 
   @override
   String get embedThemeImport => 'Importă temă';
-
-  @override
-  String get embedThemeUnavailableTitle => 'Temă indisponibilă';
-
-  @override
-  String get embedThemeUnavailableDescription =>
-      'Această temă nu mai este disponibilă.';
-
-  @override
-  String get embedThemeImportUnavailable => 'Import indisponibil';
-
-  @override
-  String get themeImportTitle => 'Importă temă';
-
-  @override
-  String get themeImportDescription =>
-      'Aceasta va înlocui tema ta personalizată actuală.';
-
-  @override
-  String get themeImportReadFailed =>
-      'Nu am putut citi această temă. Poate fi coruptă sau nevalidă.';
-
-  @override
-  String get themeImportApply => 'Aplică';
-
-  @override
-  String get themeImportApplied => 'Temă aplicată cu succes.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {

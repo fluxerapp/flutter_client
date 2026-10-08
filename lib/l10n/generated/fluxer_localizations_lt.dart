@@ -919,36 +919,11 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get embedThemeTitle => 'Bendrinama tema';
 
   @override
-  String get embedThemeHelp => 'Turite CSS!';
+  String get embedThemeWebOnly =>
+      'Temas galima importuoti tik žiniatinklyje arba kompiuteryje.';
 
   @override
   String get embedThemeImport => 'Importuoti temą';
-
-  @override
-  String get embedThemeUnavailableTitle => 'Tema nepasiekiama';
-
-  @override
-  String get embedThemeUnavailableDescription => 'Ši tema nebepasiekiama.';
-
-  @override
-  String get embedThemeImportUnavailable => 'Importavimas nepasiekiamas';
-
-  @override
-  String get themeImportTitle => 'Importuoti temą';
-
-  @override
-  String get themeImportDescription =>
-      'Tai pakeis jūsų dabartinę pasirinktinę temą.';
-
-  @override
-  String get themeImportReadFailed =>
-      'Nepavyko nuskaityti šios temos. Ji gali būti sugadinta arba netinkama.';
-
-  @override
-  String get themeImportApply => 'Taikyti';
-
-  @override
-  String get themeImportApplied => 'Tema sėkmingai pritaikyta.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {

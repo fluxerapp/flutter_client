@@ -906,36 +906,10 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get embedThemeTitle => 'ערכת נושא משותפת';
 
   @override
-  String get embedThemeHelp => 'יש לך CSS!';
+  String get embedThemeWebOnly => 'אפשר לייבא ערכות נושא רק באינטרנט או במחשב.';
 
   @override
   String get embedThemeImport => 'ייבוא ערכת נושא';
-
-  @override
-  String get embedThemeUnavailableTitle => 'ערכת נושא לא זמינה';
-
-  @override
-  String get embedThemeUnavailableDescription => 'העיצוב הזה כבר לא זמין.';
-
-  @override
-  String get embedThemeImportUnavailable => 'ייבוא לא זמין';
-
-  @override
-  String get themeImportTitle => 'ייבוא ערכת נושא';
-
-  @override
-  String get themeImportDescription =>
-      'פעולה זו תחליף את העיצוב המותאם אישית הנוכחי שלך.';
-
-  @override
-  String get themeImportReadFailed =>
-      'לא הצלחנו לקרוא את העיצוב הזה. ייתכן שהוא פגום או לא תקין.';
-
-  @override
-  String get themeImportApply => 'החל';
-
-  @override
-  String get themeImportApplied => 'ערכת הנושא הוחלה בהצלחה.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {

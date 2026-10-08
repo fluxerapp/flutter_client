@@ -918,37 +918,11 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get embedThemeTitle => 'Chủ đề được chia sẻ';
 
   @override
-  String get embedThemeHelp => 'Bạn đã có CSS!';
+  String get embedThemeWebOnly =>
+      'Bạn chỉ có thể nhập chủ đề trên web hoặc máy tính.';
 
   @override
   String get embedThemeImport => 'Nhập chủ đề';
-
-  @override
-  String get embedThemeUnavailableTitle => 'Chủ đề không khả dụng';
-
-  @override
-  String get embedThemeUnavailableDescription =>
-      'Chủ đề này không còn khả dụng nữa.';
-
-  @override
-  String get embedThemeImportUnavailable => 'Không thể nhập';
-
-  @override
-  String get themeImportTitle => 'Nhập chủ đề';
-
-  @override
-  String get themeImportDescription =>
-      'Thao tác này sẽ thay thế chủ đề tùy chỉnh hiện tại của bạn.';
-
-  @override
-  String get themeImportReadFailed =>
-      'Không đọc được chủ đề này. Có thể chủ đề bị lỗi hoặc không hợp lệ.';
-
-  @override
-  String get themeImportApply => 'Áp dụng';
-
-  @override
-  String get themeImportApplied => 'Đã áp dụng chủ đề.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {

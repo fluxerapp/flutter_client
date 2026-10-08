@@ -1724,65 +1724,17 @@ abstract class FluxerLocalizations {
   /// **'Shared theme'**
   String get embedThemeTitle;
 
-  /// Subtitle on a shared theme link embed in chat.
+  /// Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client.
   ///
   /// In en, this message translates to:
-  /// **'You\'ve got CSS!'**
-  String get embedThemeHelp;
+  /// **'You can only import themes on web or desktop.'**
+  String get embedThemeWebOnly;
 
-  /// Button on a shared theme link embed that opens the import sheet.
+  /// Disabled button on a shared theme link embed. Themes can only be imported on web or desktop.
   ///
   /// In en, this message translates to:
   /// **'Import theme'**
   String get embedThemeImport;
-
-  /// Title on a shared theme link embed when the theme cannot be loaded.
-  ///
-  /// In en, this message translates to:
-  /// **'Theme unavailable'**
-  String get embedThemeUnavailableTitle;
-
-  /// Subtitle on a shared theme link embed when the theme cannot be loaded.
-  ///
-  /// In en, this message translates to:
-  /// **'This theme is no longer available.'**
-  String get embedThemeUnavailableDescription;
-
-  /// Disabled button on a shared theme link embed when the theme cannot be loaded.
-  ///
-  /// In en, this message translates to:
-  /// **'Import unavailable'**
-  String get embedThemeImportUnavailable;
-
-  /// Title of the sheet that previews a shared theme before importing it.
-  ///
-  /// In en, this message translates to:
-  /// **'Import theme'**
-  String get themeImportTitle;
-
-  /// Warning at the top of the theme import sheet.
-  ///
-  /// In en, this message translates to:
-  /// **'This will replace your current custom theme.'**
-  String get themeImportDescription;
-
-  /// Error shown in the theme import sheet when the theme CSS cannot be loaded.
-  ///
-  /// In en, this message translates to:
-  /// **'We couldn\'t read this theme. It may be corrupted or invalid.'**
-  String get themeImportReadFailed;
-
-  /// Button in the theme import sheet that applies the shared theme.
-  ///
-  /// In en, this message translates to:
-  /// **'Apply'**
-  String get themeImportApply;
-
-  /// Toast shown after a shared theme was applied.
-  ///
-  /// In en, this message translates to:
-  /// **'Theme applied successfully.'**
-  String get themeImportApplied;
 
   /// Gift duration title for a lifetime Visionary entitlement.
   ///

@@ -925,37 +925,11 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get embedThemeTitle => 'Tema compartido';
 
   @override
-  String get embedThemeHelp => '¡Tienes CSS!';
+  String get embedThemeWebOnly =>
+      'Solo puedes importar temas en la web o en el escritorio.';
 
   @override
   String get embedThemeImport => 'Importar tema';
-
-  @override
-  String get embedThemeUnavailableTitle => 'Tema no disponible';
-
-  @override
-  String get embedThemeUnavailableDescription =>
-      'Este tema ya no está disponible.';
-
-  @override
-  String get embedThemeImportUnavailable => 'Importación no disponible';
-
-  @override
-  String get themeImportTitle => 'Importar tema';
-
-  @override
-  String get themeImportDescription =>
-      'Esto reemplazará tu tema personalizado actual.';
-
-  @override
-  String get themeImportReadFailed =>
-      'No hemos podido leer este tema. Puede que esté dañado o no sea válido.';
-
-  @override
-  String get themeImportApply => 'Aplicar';
-
-  @override
-  String get themeImportApplied => 'Tema aplicado correctamente.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -16035,37 +16009,11 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   String get embedThemeTitle => 'Tema compartido';
 
   @override
-  String get embedThemeHelp => '¡Tienes CSS!';
+  String get embedThemeWebOnly =>
+      'Solo puedes importar temas en la web o en el escritorio.';
 
   @override
   String get embedThemeImport => 'Importar tema';
-
-  @override
-  String get embedThemeUnavailableTitle => 'Tema no disponible';
-
-  @override
-  String get embedThemeUnavailableDescription =>
-      'Este tema ya no está disponible.';
-
-  @override
-  String get embedThemeImportUnavailable => 'Importación no disponible';
-
-  @override
-  String get themeImportTitle => 'Importar tema';
-
-  @override
-  String get themeImportDescription =>
-      'Esto reemplazará tu tema personalizado actual.';
-
-  @override
-  String get themeImportReadFailed =>
-      'No pudimos leer este tema. Puede que esté dañado o no sea válido.';
-
-  @override
-  String get themeImportApply => 'Aplicar';
-
-  @override
-  String get themeImportApplied => 'Tema aplicado con éxito.';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
