@@ -67,6 +67,15 @@ class _ForceReconnectGatewayConnection extends _TestGatewayConnection {
   }
 }
 
+class _SuspendTrackingGatewayConnection extends _TestGatewayConnection {
+  int suspendCalls = 0;
+
+  @override
+  Future<void> suspend() async {
+    suspendCalls++;
+  }
+}
+
 class _NudgeGatewayConnection extends GatewayConnection {
   _NudgeGatewayConnection({this.suspended = false, this.likelyStale = false})
     : super(token: 'test', dio: Dio());
@@ -563,6 +572,58 @@ void main() {
         });
       },
     );
+  });
+
+  group('gatewayForegroundListener', () {
+    test('suspends the gateway after background grace', () {
+      fakeAsync((FakeAsync async) {
+        final _SuspendTrackingGatewayConnection connection =
+            _SuspendTrackingGatewayConnection();
+        connection.emit(GatewayState.connected);
+        final ProviderContainer container = ProviderContainer(
+          overrides: <Override>[
+            gatewayConnectionProvider.overrideWithValue(connection),
+            appUiForegroundProvider.overrideWith(AppUiForeground.new),
+          ],
+        );
+        addTearDown(container.dispose);
+
+        container.read(gatewayForegroundListenerProvider);
+        container.read(appUiForegroundProvider.notifier).setResumed(true);
+        container.read(appUiForegroundProvider.notifier).setResumed(false);
+
+        async.elapse(kBackgroundGatewayDisconnectGrace);
+        expect(connection.suspendCalls, 1);
+
+        container.dispose();
+      });
+    });
+
+    test('cancels background suspend when returning to foreground', () {
+      fakeAsync((FakeAsync async) {
+        final _SuspendTrackingGatewayConnection connection =
+            _SuspendTrackingGatewayConnection();
+        connection.emit(GatewayState.connected);
+        final ProviderContainer container = ProviderContainer(
+          overrides: <Override>[
+            gatewayConnectionProvider.overrideWithValue(connection),
+            appUiForegroundProvider.overrideWith(AppUiForeground.new),
+          ],
+        );
+        addTearDown(container.dispose);
+
+        container.read(gatewayForegroundListenerProvider);
+        container.read(appUiForegroundProvider.notifier).setResumed(true);
+        container.read(appUiForegroundProvider.notifier).setResumed(false);
+        async.elapse(const Duration(seconds: 20));
+        container.read(appUiForegroundProvider.notifier).setResumed(true);
+        async.elapse(kBackgroundGatewayDisconnectGrace);
+
+        expect(connection.suspendCalls, 0);
+
+        container.dispose();
+      });
+    });
   });
 
   group('gatewayStateListener failure screen recovery', () {

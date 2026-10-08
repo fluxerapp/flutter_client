@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/gateway/gateway_lifecycle_presence.dart';
 import 'package:fluxer_app/core/gateway/presence_update_batcher.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
+import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
@@ -12,7 +14,12 @@ part 'gateway_presence_coordinator.g.dart';
 
 @Riverpod(keepAlive: true)
 void gatewayPresenceCoordinator(Ref ref) {
-  if (!isFluxerNativeMobileOs) {
+  bindGatewayPresenceCoordinator(ref, mobileOs: isFluxerNativeMobileOs);
+}
+
+@visibleForTesting
+void bindGatewayPresenceCoordinator(Ref ref, {required bool mobileOs}) {
+  if (!mobileOs) {
     return;
   }
 
@@ -35,8 +42,7 @@ void gatewayPresenceCoordinator(Ref ref) {
       return;
     }
     lastSent = presence;
-    final GatewayConnection connection = ref.read(gatewayConnectionProvider);
-    connection.updatePresence(presence);
+    ref.read(gatewayConnectionProvider).updatePresence(presence);
   }
 
   ref
@@ -46,6 +52,10 @@ void gatewayPresenceCoordinator(Ref ref) {
       (_, _) => sync(),
     )
     ..listen<GatewayConnection>(gatewayConnectionProvider, (_, _) {
+      lastSent = null;
+      sync();
+    })
+    ..listen<int>(gatewaySessionRecoveryProvider, (_, _) {
       lastSent = null;
       sync();
     });
