@@ -10023,6 +10023,14 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      'Jūsų dovanos laikas baigėsi. Prenumeruokite, kad išsaugotumėte Plutonium.';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      'Jums bus apmokestinta dabar. Jūsų likęs dovanų laikas bus pridėtas po apmokėto laikotarpio, todėl niekas nebus prarasta.';
+
+  @override
   String get premiumComparisonFeatureColumn => 'Funkcija';
 
   @override
@@ -10046,10 +10054,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   @override
   String get premiumCheckoutStartFailedBody =>
       'Nepavyko pradėti atsiskaitymo. Bandykite dar kartą po akimirkos.';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      'Šiuo metu naudojatės dovanų prenumerata. Ji nebus atnaujinta. Galite išpirkti daugiau dovanų kodų, kad ją pratęstumėte. Pasibaigus dovanų prenumeratos laikotarpiui, galėsite pradėti pasikartojančias prenumeratas.';
 
   @override
   String get premiumPlanUnavailable =>

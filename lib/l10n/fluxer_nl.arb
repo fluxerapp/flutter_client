@@ -11804,6 +11804,14 @@
             }
         }
     },
+    "premiumGiftGraceEnded": "Je cadeautijd is verlopen. Abonneer je om Plutonium te behouden.",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "Je wordt nu gefactureerd. Je resterende cadeautijd wordt toegevoegd na je betaalde periode, zodat je niets verliest.",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
+    },
     "premiumComparisonFeatureColumn": "Functie",
     "premiumDisclaimerPurchased": "Bij je aankoop ben je akkoord gegaan met onze {terms} en ons {privacy}.",
     "@premiumDisclaimerPurchased": {
@@ -11821,7 +11829,6 @@
     "premiumPrivacyPolicy": "Privacybeleid",
     "premiumCheckoutStartFailedTitle": "Afrekenen kon niet worden gestart",
     "premiumCheckoutStartFailedBody": "Er is iets misgegaan bij het starten van de betaling. Probeer het over een ogenblik opnieuw.",
-    "premiumGiftSubscriptionBlocksRecurring": "Je hebt momenteel een cadeau-abonnement. Dit wordt niet automatisch verlengd. Je kunt meer cadeaucodes inwisselen om het te verlengen. Je kunt een doorlopend abonnement afsluiten nadat je cadeauperiode is afgelopen.",
     "premiumPlanUnavailable": "Dit abonnement is niet beschikbaar. Neem contact op met de ondersteuning.",
     "premiumCompletePaymentTitle": "Betaling afronden",
     "premiumCompletePaymentBody": "Je wordt nu doorgestuurd naar Stripe om de betaling te voltooien. Keer terug naar Fluxer zodra je dit hebt gedaan.",

@@ -15851,6 +15851,14 @@
             }
         }
     },
+    "premiumGiftGraceEnded": "Votre temps offert est terminé. Abonnez-vous pour conserver Plutonium.",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "Vous serez facturé maintenant. Votre temps cadeau restant sera ajouté après votre période payante, ainsi rien ne sera perdu.",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
+    },
     "premiumComparisonFeatureColumn": "Fonctionnalité",
     "premiumDisclaimerPurchased": "En effectuant cet achat, vous avez accepté nos {terms} et notre {privacy}.",
     "@premiumDisclaimerPurchased": {
@@ -15868,7 +15876,6 @@
     "premiumPrivacyPolicy": "Politique de confidentialité",
     "premiumCheckoutStartFailedTitle": "Impossible de démarrer le paiement",
     "premiumCheckoutStartFailedBody": "Un problème est survenu lors du démarrage du paiement. Veuillez réessayer dans un instant.",
-    "premiumGiftSubscriptionBlocksRecurring": "Vous avez actuellement un abonnement cadeau. Il ne sera pas renouvelé. Vous pouvez utiliser d'autres codes cadeaux pour le prolonger. Les abonnements récurrents pourront être souscrits une fois votre abonnement cadeau terminé.",
     "premiumPlanUnavailable": "Ce forfait n'est pas disponible. Contactez l'assistance.",
     "premiumCompletePaymentTitle": "Finaliser le paiement",
     "premiumCompletePaymentBody": "Vous êtes maintenant redirigé vers Stripe pour finaliser le paiement. Revenez sur Fluxer une fois que vous aurez terminé.",

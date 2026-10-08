@@ -9959,6 +9959,14 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      'Din gåvotid har tagit slut. Prenumerera för att behålla Plutonium.';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      'Du debiteras nu. Din återstående gåvotid läggs till efter din betalda period, så inget går förlorat.';
+
+  @override
   String get premiumComparisonFeatureColumn => 'Funktion';
 
   @override
@@ -9982,10 +9990,6 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   @override
   String get premiumCheckoutStartFailedBody =>
       'Något gick fel när betalningen skulle startas. Försök igen om en stund.';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      'Du har ett presentabonnemang som inte förnyas automatiskt. Lös in fler presentkoder för att förlänga det. Du kan teckna ett återkommande abonnemang när presentperioden tar slut.';
 
   @override
   String get premiumPlanUnavailable =>

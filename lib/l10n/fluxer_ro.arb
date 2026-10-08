@@ -11804,6 +11804,14 @@
             }
         }
     },
+    "premiumGiftGraceEnded": "Timpul tău cadou s-a încheiat. Abonează-te pentru a păstra Plutonium.",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "Vei fi taxat acum. Timpul tău cadou rămas se adaugă după perioada plătită, astfel încât nimic din el să nu se piardă.",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
+    },
     "premiumComparisonFeatureColumn": "Funcție",
     "premiumDisclaimerPurchased": "Prin achiziție, ai acceptat {terms} și {privacy}.",
     "@premiumDisclaimerPurchased": {
@@ -11821,7 +11829,6 @@
     "premiumPrivacyPolicy": "Politica de confidențialitate",
     "premiumCheckoutStartFailedTitle": "Nu s-a putut iniția plata",
     "premiumCheckoutStartFailedBody": "A apărut o eroare la inițierea plății. Te rugăm să încerci din nou mai târziu.",
-    "premiumGiftSubscriptionBlocksRecurring": "Ai în prezent un abonament cadou. Acesta nu se va reînnoi. Poți valorifica mai multe coduri cadou pentru a-l prelungi. Poți începe un abonament recurent după ce se termină perioada cadou.",
     "premiumPlanUnavailable": "Acest plan nu este disponibil. Contactează asistența.",
     "premiumCompletePaymentTitle": "Finalizează plata",
     "premiumCompletePaymentBody": "Acum vei fi redirecționat către Stripe pentru a finaliza plata. Revino la Fluxer după ce ai terminat.",

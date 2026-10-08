@@ -15851,6 +15851,14 @@
             }
         }
     },
+    "premiumGiftGraceEnded": "Ο χρόνος δώρου σου έληξε. Εγγράψου για να συνεχίσεις με το Plutonium.",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "Θα χρεωθείτε τώρα. Ο υπόλοιπος χρόνος δώρου σας προστίθεται μετά την περίοδο πληρωμής, ώστε να μην χαθεί τίποτα.",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
+    },
     "premiumComparisonFeatureColumn": "Λειτουργία",
     "premiumDisclaimerPurchased": "Με την αγορά, συμφωνήσατε με τους {terms} και την {privacy} μας.",
     "@premiumDisclaimerPurchased": {
@@ -15868,7 +15876,6 @@
     "premiumPrivacyPolicy": "Πολιτική απορρήτου",
     "premiumCheckoutStartFailedTitle": "Δεν ήταν δυνατή η έναρξη της ολοκλήρωσης αγοράς",
     "premiumCheckoutStartFailedBody": "Κάτι πήγε στραβά κατά την έναρξη της ολοκλήρωσης αγοράς. Δοκιμάστε ξανά σε λίγο.",
-    "premiumGiftSubscriptionBlocksRecurring": "Έχετε συνδρομή δώρου. Δεν θα ανανεωθεί αυτόματα. Μπορείτε να εξαργυρώσετε κι άλλους κωδικούς δώρου για να την επεκτείνετε. Οι συνδρομές με αυτόματη ανανέωση μπορούν να ξεκινήσουν αφού λήξει η συνδρομή δώρου.",
     "premiumPlanUnavailable": "Αυτό το πρόγραμμα δεν είναι διαθέσιμο. Επικοινωνήστε με την υποστήριξη.",
     "premiumCompletePaymentTitle": "Ολοκλήρωση πληρωμής",
     "premiumCompletePaymentBody": "Μεταβαίνετε τώρα στο Stripe για να ολοκληρώσετε την πληρωμή. Επιστρέψτε στο Fluxer μόλις την ολοκληρώσετε.",

@@ -11804,6 +11804,14 @@
             }
         }
     },
+    "premiumGiftGraceEnded": "זמן המתנה שלך הסתיים. הירשם כדי להמשיך לקבל את Plutonium.",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "החיוב יתבצע כעת. יתרת זמן המתנה שלך תתווסף לאחר תקופת התשלום, כך שלא תאבד דבר.",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
+    },
     "premiumComparisonFeatureColumn": "תכונה",
     "premiumDisclaimerPurchased": "על ידי הרכישה, הסכמת ל{terms} ול{privacy} שלנו.",
     "@premiumDisclaimerPurchased": {
@@ -11821,7 +11829,6 @@
     "premiumPrivacyPolicy": "מדיניות פרטיות",
     "premiumCheckoutStartFailedTitle": "לא ניתן להתחיל את התשלום",
     "premiumCheckoutStartFailedBody": "משהו השתבש במהלך התחלת התשלום. יש לנסות שוב בעוד רגע.",
-    "premiumGiftSubscriptionBlocksRecurring": "כרגע יש לך מנוי מתנה. הוא לא יתחדש. באפשרותך לממש קודי מתנה נוספים כדי להאריך אותו. ניתן להתחיל מנויים חוזרים לאחר שתקופת המתנה שלך תסתיים.",
     "premiumPlanUnavailable": "התוכנית הזו אינה זמינה. יש ליצור קשר עם התמיכה.",
     "premiumCompletePaymentTitle": "השלם תשלום",
     "premiumCompletePaymentBody": "אתה מועבר כעת ל-Stripe להשלמת התשלום. חזור ל-Fluxer לאחר שתסיים.",

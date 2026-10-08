@@ -9880,6 +9880,14 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      'Your gift time has ended. Subscribe to keep Plutonium.';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      'Subscribing charges you now. Your remaining gift time is added after your paid period.';
+
+  @override
   String get premiumComparisonFeatureColumn => 'Feature';
 
   @override
@@ -9903,10 +9911,6 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   @override
   String get premiumCheckoutStartFailedBody =>
       'Something went wrong while starting checkout. Please try again in a moment.';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      'You\'re currently on a gift subscription. It won\'t renew. You can redeem more gift codes to extend it. Recurring subscriptions can be started after your gift time ends.';
 
   @override
   String get premiumPlanUnavailable =>
@@ -25791,6 +25795,14 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      'Your gift time has ended. Subscribe to keep Plutonium.';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      'You\'ll be charged now. Your remaining gift time is added after your paid period, so none of it is lost.';
+
+  @override
   String get premiumComparisonFeatureColumn => 'Feature';
 
   @override
@@ -25814,10 +25826,6 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   @override
   String get premiumCheckoutStartFailedBody =>
       'Something went wrong while starting checkout. Please try again in a moment.';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      'You\'re currently on a gift subscription. It won\'t renew. You can redeem more gift codes to extend it. Recurring subscriptions can be started after your gift time ends.';
 
   @override
   String get premiumPlanUnavailable =>
@@ -40168,6 +40176,14 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      'Your gift time has ended. Subscribe to keep Plutonium.';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      'You\'ll be charged now. Your remaining gift time is added after your paid period, so none of it is lost.';
+
+  @override
   String get premiumComparisonFeatureColumn => 'Feature';
 
   @override
@@ -40191,10 +40207,6 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   @override
   String get premiumCheckoutStartFailedBody =>
       'Something went wrong while starting checkout. Please try again in a moment.';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      'You\'re currently on a gift subscription. It won\'t renew. You can redeem more gift codes to extend it. Recurring subscriptions can be started after your gift time ends.';
 
   @override
   String get premiumPlanUnavailable =>

@@ -117,6 +117,8 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
       currency: giftCurrency,
       locale: locale,
     );
+    final bool showPurchaseGrid =
+        !status.shouldShowPremiumCard || status.canStartSubscription;
     final PremiumManageAction? manage = _manageAction(status);
     VoidCallback? openManage;
     if (manage != null) {
@@ -199,7 +201,8 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
               ),
             ],
           ],
-          if (!status.shouldShowPremiumCard) ...[
+          if (showPurchaseGrid) ...[
+            if (status.shouldShowPremiumCard) SizedBox(height: layout.s6),
             _PurchaseModeToggle(
               isGiftMode: _isGiftMode,
               onChanged: (bool value) => setState(() => _isGiftMode = value),
@@ -213,7 +216,6 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
                       giftMonthlyPrice: giftMonthlyPrice,
                       giftYearlyPrice: giftYearlyPrice,
                       purchaseDisabled: purchaseDisabled,
-                      isGiftSubscription: status.isGiftSubscription,
                     )
                   : _subscriptionPricingCards(
                       l10n: l10n,
@@ -221,9 +223,18 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
                       monthlyPrice: monthlyPrice,
                       yearlyPrice: yearlyPrice,
                       purchaseDisabled: purchaseDisabled,
-                      isGiftSubscription: status.isGiftSubscription,
                     ),
             ),
+            if (status.isGiftSubscription && !_isGiftMode) ...[
+              SizedBox(height: layout.s2),
+              Text(
+                l10n.premiumGiftTimeAddedAfterSubscription,
+                textAlign: TextAlign.center,
+                style: textStyles.bodySmall.copyWith(
+                  color: colors.textPrimaryMuted,
+                ),
+              ),
+            ],
             if (purchaseDisabled && purchaseDisabledMessage != null) ...[
               SizedBox(height: layout.s2),
               Text(
@@ -252,7 +263,7 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
               ),
             ),
           ],
-          if (status.shouldShowPremiumCard && !_isGiftMode) ...[
+          if (!showPurchaseGrid) ...[
             SizedBox(height: layout.s6),
             Text(
               l10n.premiumGiftSectionTitle,
@@ -273,7 +284,6 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
                 giftMonthlyPrice: giftMonthlyPrice,
                 giftYearlyPrice: giftYearlyPrice,
                 purchaseDisabled: purchaseDisabled,
-                isGiftSubscription: status.isGiftSubscription,
               ),
             ),
           ],
@@ -284,7 +294,7 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
           ),
           SizedBox(height: layout.s4),
           const PremiumFeatureComparisonTable(),
-          if (!status.shouldShowPremiumCard) ...[
+          if (showPurchaseGrid) ...[
             SizedBox(height: layout.s8),
             Text(
               _isGiftMode
@@ -305,7 +315,6 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
     BuildContext context,
     PremiumCheckoutPlan plan,
     PriceIdsResponse priceIds,
-    bool isGiftSubscription,
   ) async {
     setState(() => _loadingPlan = plan);
     await startPremiumCheckout(
@@ -318,7 +327,6 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
           .value
           ?.pricing
           .countryCode,
-      isGiftSubscription: isGiftSubscription,
     );
     if (mounted) {
       setState(() => _loadingPlan = null);
@@ -386,7 +394,6 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
     required String monthlyPrice,
     required String yearlyPrice,
     required bool purchaseDisabled,
-    required bool isGiftSubscription,
   }) {
     return [
       PremiumPricingCard(
@@ -397,12 +404,7 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
         isLoading: _loadingPlan == PremiumCheckoutPlan.monthly,
         disabled: purchaseDisabled,
         onSelect: () => unawaited(
-          _checkout(
-            context,
-            PremiumCheckoutPlan.monthly,
-            priceIds,
-            isGiftSubscription,
-          ),
+          _checkout(context, PremiumCheckoutPlan.monthly, priceIds),
         ),
       ),
       PremiumPricingCard(
@@ -414,14 +416,8 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
         buttonLabel: l10n.premiumUpgradeNow,
         isLoading: _loadingPlan == PremiumCheckoutPlan.yearly,
         disabled: purchaseDisabled,
-        onSelect: () => unawaited(
-          _checkout(
-            context,
-            PremiumCheckoutPlan.yearly,
-            priceIds,
-            isGiftSubscription,
-          ),
-        ),
+        onSelect: () =>
+            unawaited(_checkout(context, PremiumCheckoutPlan.yearly, priceIds)),
       ),
     ];
   }
@@ -432,7 +428,6 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
     required String giftMonthlyPrice,
     required String giftYearlyPrice,
     required bool purchaseDisabled,
-    required bool isGiftSubscription,
   }) {
     return [
       PremiumPricingCard(
@@ -445,12 +440,7 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
         isLoading: _loadingPlan == PremiumCheckoutPlan.gift1Year,
         disabled: purchaseDisabled,
         onSelect: () => unawaited(
-          _checkout(
-            context,
-            PremiumCheckoutPlan.gift1Year,
-            priceIds,
-            isGiftSubscription,
-          ),
+          _checkout(context, PremiumCheckoutPlan.gift1Year, priceIds),
         ),
       ),
       PremiumPricingCard(
@@ -461,12 +451,7 @@ class _UserPlutoniumSettingsState extends ConsumerState<UserPlutoniumSettings> {
         isLoading: _loadingPlan == PremiumCheckoutPlan.gift1Month,
         disabled: purchaseDisabled,
         onSelect: () => unawaited(
-          _checkout(
-            context,
-            PremiumCheckoutPlan.gift1Month,
-            priceIds,
-            isGiftSubscription,
-          ),
+          _checkout(context, PremiumCheckoutPlan.gift1Month, priceIds),
         ),
       ),
     ];
@@ -674,7 +659,7 @@ class _SubscriptionSummary extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (status.isGiftSubscription)
+            if (status.isGiftSubscription || status.isGiftGrace)
               Text(
                 l10n.premiumGiftBadge,
                 style: context.textStyles.bodySmall.copyWith(
@@ -717,7 +702,9 @@ class _SubscriptionSummary extends StatelessWidget {
             if (until != null) ...[
               SizedBox(height: layout.s2),
               Text(
-                status.isGiftSubscription
+                status.isGiftGrace
+                    ? l10n.premiumGiftGraceEnded
+                    : status.isGiftSubscription
                     ? l10n.premiumGiftedUntil(until)
                     : status.premiumWillCancel
                     ? l10n.premiumCancelsOn(until)

@@ -11804,6 +11804,14 @@
             }
         }
     },
+    "premiumGiftGraceEnded": "आपका उपहार समय समाप्त हो गया है। Plutonium जारी रखने के लिए सब्सक्राइब करें।",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "आपको अभी शुल्क लिया जाएगा। आपके उपहार का शेष समय आपके भुगतान की अवधि के बाद जोड़ा जाएगा, इसलिए इसमें से कुछ भी व्यर्थ नहीं जाएगा।",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
+    },
     "premiumComparisonFeatureColumn": "सुविधा",
     "premiumDisclaimerPurchased": "खरीदकर, आप हमारे {terms} और {privacy} से सहमत हुए।",
     "@premiumDisclaimerPurchased": {
@@ -11821,7 +11829,6 @@
     "premiumPrivacyPolicy": "गोपनीयता नीति",
     "premiumCheckoutStartFailedTitle": "चेकआउट शुरू नहीं किया जा सका",
     "premiumCheckoutStartFailedBody": "चेकआउट शुरू करते समय कुछ गड़बड़ हो गई। कृपया कुछ देर बाद फिर से कोशिश करें।",
-    "premiumGiftSubscriptionBlocksRecurring": "आप अभी उपहार सदस्यता पर हैं। यह अपने-आप रिन्यू नहीं होगी। आप इसे बढ़ाने के लिए और उपहार कोड रिडीम कर सकते हैं। उपहार की अवधि खत्म होने के बाद आप रिकरिंग सदस्यता शुरू कर सकते हैं।",
     "premiumPlanUnavailable": "यह प्लान उपलब्ध नहीं है। सहायता से संपर्क करें।",
     "premiumCompletePaymentTitle": "भुगतान पूरा करें",
     "premiumCompletePaymentBody": "आप भुगतान पूरा करने के लिए अब स्ट्राइप पर जा रहे हैं। इसे पूरा करने के बाद Fluxer पर वापस आएं।",

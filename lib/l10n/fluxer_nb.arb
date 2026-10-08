@@ -15851,6 +15851,14 @@
             }
         }
     },
+    "premiumGiftGraceEnded": "Gaven din er utløpt. Abonner for å beholde Plutonium.",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "Du blir belastet nå. Din gjenværende gaveperiode legges til etter betalingsperioden din, slik at ingenting går tapt.",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
+    },
     "premiumComparisonFeatureColumn": "Funksjon",
     "premiumDisclaimerPurchased": "Ved kjøpet godtok du våre {terms} og {privacy}.",
     "@premiumDisclaimerPurchased": {
@@ -15868,7 +15876,6 @@
     "premiumPrivacyPolicy": "Personvernregler",
     "premiumCheckoutStartFailedTitle": "Kunne ikke starte betaling",
     "premiumCheckoutStartFailedBody": "Noe gikk galt da betalingsprosessen skulle startes. Prøv igjen om et øyeblikk.",
-    "premiumGiftSubscriptionBlocksRecurring": "Du har et gaveabonnement. Det fornyes ikke. Du kan løse inn flere gavekoder for å forlenge det. Gjentakende abonnementer kan startes etter at gaveperioden din er over.",
     "premiumPlanUnavailable": "Dette abonnementet er ikke tilgjengelig. Kontakt kundestøtte.",
     "premiumCompletePaymentTitle": "Fullfør betaling",
     "premiumCompletePaymentBody": "Du navigerer nå til Stripe for å fullføre betalingen. Gå tilbake til Fluxer når du er ferdig.",

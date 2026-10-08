@@ -10017,6 +10017,14 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      'Ajándékidőszakod lejárt. Iratkozz fel, hogy megtarthasd a(z) Plutonium előfizetést.';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      'Most terhelünk. A fennmaradó ajándékidő a fizetett időszak után kerül hozzáadásra, így nem vész el.';
+
+  @override
   String get premiumComparisonFeatureColumn => 'Funkció';
 
   @override
@@ -10041,10 +10049,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   @override
   String get premiumCheckoutStartFailedBody =>
       'Hiba történt a fizetés elindításakor. Próbáld újra egy kis idő múlva.';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      'Jelenleg ajándék-előfizetésed van. Ez nem fog megújulni. További ajándékkódokat válthatsz be a meghosszabbításához. Ismétlődő előfizetéseket az ajándékidőszak lejárta után indíthatsz.';
 
   @override
   String get premiumPlanUnavailable =>

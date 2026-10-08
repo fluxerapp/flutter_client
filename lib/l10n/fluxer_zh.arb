@@ -15851,6 +15851,14 @@
             }
         }
     },
+    "premiumGiftGraceEnded": "您的赠送时间已结束。订阅即可继续使用 Plutonium。",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "您将立即付费。剩余的赠送时长将添加到付费期之后，因此不会丢失。",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
+    },
     "premiumComparisonFeatureColumn": "功能",
     "premiumDisclaimerPurchased": "购买即表示你已同意我们的{terms}和{privacy}。",
     "@premiumDisclaimerPurchased": {
@@ -15868,7 +15876,6 @@
     "premiumPrivacyPolicy": "隐私政策",
     "premiumCheckoutStartFailedTitle": "无法开始结账",
     "premiumCheckoutStartFailedBody": "启动结账时出错了。请稍后重试。",
-    "premiumGiftSubscriptionBlocksRecurring": "你目前使用的是赠送订阅，它不会自动续订。你可以兑换更多礼品码来延长订阅时长。赠送时长结束后，你可以开通自动续订的订阅。",
     "premiumPlanUnavailable": "此套餐不可用。请联系支持团队。",
     "premiumCompletePaymentTitle": "完成支付",
     "premiumCompletePaymentBody": "您即将跳转至 Stripe 完成支付。完成后请返回 Fluxer。",

@@ -10072,6 +10072,14 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      'Votre temps offert est terminé. Abonnez-vous pour conserver Plutonium.';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      'Vous serez facturé maintenant. Votre temps cadeau restant sera ajouté après votre période payante, ainsi rien ne sera perdu.';
+
+  @override
   String get premiumComparisonFeatureColumn => 'Fonctionnalité';
 
   @override
@@ -10096,10 +10104,6 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   @override
   String get premiumCheckoutStartFailedBody =>
       'Un problème est survenu lors du démarrage du paiement. Veuillez réessayer dans un instant.';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      'Vous avez actuellement un abonnement cadeau. Il ne sera pas renouvelé. Vous pouvez utiliser d\'autres codes cadeaux pour le prolonger. Les abonnements récurrents pourront être souscrits une fois votre abonnement cadeau terminé.';
 
   @override
   String get premiumPlanUnavailable =>

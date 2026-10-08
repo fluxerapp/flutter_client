@@ -16411,6 +16411,18 @@ abstract class FluxerLocalizations {
   /// **'Gifted until {date}. Does not renew automatically.'**
   String premiumGiftedUntil(String date);
 
+  /// Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out.
+  ///
+  /// In en, this message translates to:
+  /// **'Your gift time has ended. Subscribe to keep Plutonium.'**
+  String get premiumGiftGraceEnded;
+
+  /// Note next to the subscription plans when the user still has gifted Plutonium time left.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribing charges you now. Your remaining gift time is added after your paid period.'**
+  String get premiumGiftTimeAddedAfterSubscription;
+
   /// No description provided for @premiumComparisonFeatureColumn.
   ///
   /// In en, this message translates to:
@@ -16452,12 +16464,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong while starting checkout. Please try again in a moment.'**
   String get premiumCheckoutStartFailedBody;
-
-  /// No description provided for @premiumGiftSubscriptionBlocksRecurring.
-  ///
-  /// In en, this message translates to:
-  /// **'You\'re currently on a gift subscription. It won\'t renew. You can redeem more gift codes to extend it. Recurring subscriptions can be started after your gift time ends.'**
-  String get premiumGiftSubscriptionBlocksRecurring;
 
   /// No description provided for @premiumPlanUnavailable.
   ///

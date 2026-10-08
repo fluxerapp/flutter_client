@@ -15851,6 +15851,14 @@
             }
         }
     },
+    "premiumGiftGraceEnded": "انتهت فترة هديتك. اشترك للاحتفاظ بـ Plutonium.",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "سيتم محاسبتك الآن. تتم إضافة وقت هديتك المتبقي بعد فترة الدفع الخاصة بك، لذلك لن يُفقد أي منها.",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
+    },
     "premiumComparisonFeatureColumn": "الميزة",
     "premiumDisclaimerPurchased": "بإتمامك الشراء، تكون قد وافقت على {terms} و{privacy}.",
     "@premiumDisclaimerPurchased": {
@@ -15868,7 +15876,6 @@
     "premiumPrivacyPolicy": "سياسة الخصوصية",
     "premiumCheckoutStartFailedTitle": "تعذر بدء عملية الدفع",
     "premiumCheckoutStartFailedBody": "حدث خطأ ما أثناء بدء عملية الدفع. يرجى المحاولة مرة أخرى بعد قليل.",
-    "premiumGiftSubscriptionBlocksRecurring": "لديك حاليًا اشتراك مُهدى. لن يتجدد. يمكنك استرداد المزيد من رموز الهدايا لتمديده. يمكنك بدء اشتراك متكرر بعد انتهاء مدة هديتك.",
     "premiumPlanUnavailable": "هذه الخطة غير متاحة. اتصل بالدعم.",
     "premiumCompletePaymentTitle": "إتمام الدفع",
     "premiumCompletePaymentBody": "أنت الآن تنتقل إلى Stripe لإكمال الدفع. عد إلى Fluxer بمجرد الانتهاء منه.",

@@ -15851,6 +15851,14 @@
             }
         }
     },
+    "premiumGiftGraceEnded": "Ваш подарунковий час закінчився. Підпишіться, щоб продовжити Plutonium.",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "З вас буде стягнуто плату зараз. Ваш залишок подарункового часу буде додано після платного періоду, тому він не буде втрачений.",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
+    },
     "premiumComparisonFeatureColumn": "Функція",
     "premiumDisclaimerPurchased": "Здійснивши покупку, ви погодилися з нашими {terms} та {privacy}.",
     "@premiumDisclaimerPurchased": {
@@ -15868,7 +15876,6 @@
     "premiumPrivacyPolicy": "Політика конфіденційності",
     "premiumCheckoutStartFailedTitle": "Не вдалося розпочати оформлення замовлення",
     "premiumCheckoutStartFailedBody": "Під час оформлення замовлення сталася помилка. Спробуйте ще раз за мить.",
-    "premiumGiftSubscriptionBlocksRecurring": "Зараз у вас подарункова підписка. Вона не буде поновлюватися. Ви можете активувати більше подарункових кодів, щоб продовжити її. Регулярні підписки можна оформити після закінчення терміну дії подарунка.",
     "premiumPlanUnavailable": "Цей тарифний план недоступний. Зверніться до служби підтримки.",
     "premiumCompletePaymentTitle": "Завершити оплату",
     "premiumCompletePaymentBody": "Ви переходите до Stripe для завершення оплати. Поверніться до Fluxer після завершення.",

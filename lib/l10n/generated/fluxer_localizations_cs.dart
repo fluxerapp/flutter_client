@@ -9970,6 +9970,14 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      'Čas vašeho dárku vypršel. Přihlaste se k odběru a zachovejte si Plutonium.';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      'Budeme vám účtovat ihned. Zbývající čas z dárku se přidá po placeném období, takže o nic nepřijdete.';
+
+  @override
   String get premiumComparisonFeatureColumn => 'Funkce';
 
   @override
@@ -9993,10 +10001,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   @override
   String get premiumCheckoutStartFailedBody =>
       'Při zahájení platby se něco pokazilo. Zkuste to prosím za chvíli znovu.';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      'Momentálně máte dárkové předplatné. Nebude se automaticky obnovovat. Můžete uplatnit další dárkové kódy a prodloužit ho. Opakující se předplatné lze spustit po skončení vašeho dárkového předplatného.';
 
   @override
   String get premiumPlanUnavailable =>

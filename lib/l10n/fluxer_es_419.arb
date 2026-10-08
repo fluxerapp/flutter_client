@@ -12701,7 +12701,6 @@
     "giftSettingsAlreadyRedeemed": "Este regalo ya fue canjeado",
     "giftSettingsRedeemForYourself": "Canjear para ti",
     "premiumRedeemGiftCode": "Canjear código de regalo",
-    "premiumGiftSubscriptionBlocksRecurring": "Actualmente tienes una suscripción de regalo. No se renovará. Puedes canjear más códigos de regalo para extenderla. Las suscripciones recurrentes se pueden iniciar una vez que termine tu tiempo de regalo.",
     "systemPermissionPhotosMessage": "{productName} no tiene acceso a tu galería de fotos. Puedes habilitarlo en la configuración de privacidad de tu dispositivo.",
     "@systemPermissionPhotosMessage": {
         "description": "Body text when photo library access must be enabled in system settings."
@@ -15387,6 +15386,14 @@
                 "type": "String"
             }
         }
+    },
+    "premiumGiftGraceEnded": "Tu tiempo de regalo terminó. Suscríbete para conservar Plutonium.",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "Se te cobrará ahora. Tu tiempo de regalo restante se agregará después de tu período de pago, para que no se pierda nada.",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
     },
     "premiumDisclaimerPurchased": "Al comprar, aceptaste nuestros {terms} y nuestra {privacy}.",
     "@premiumDisclaimerPurchased": {

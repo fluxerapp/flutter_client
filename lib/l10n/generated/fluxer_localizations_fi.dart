@@ -9952,6 +9952,14 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      'Lahjoitusaikasi on päättynyt. Tilaa jatkaaksesi Plutonium.';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      'Sinulta veloitetaan nyt. Jäljellä oleva lahjoitusaikasi lisätään maksetun jakson jälkeen, joten siitä ei mene mitään hukkaan.';
+
+  @override
   String get premiumComparisonFeatureColumn => 'Ominaisuus';
 
   @override
@@ -9975,10 +9983,6 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   @override
   String get premiumCheckoutStartFailedBody =>
       'Jokin meni pieleen kassaa avattaessa. Yritä uudelleen hetken kuluttua.';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      'Sinulla on lahjatilaus. Se ei uusiudu automaattisesti. Voit pidentää tilausta lunastamalla lisää lahjakoodeja. Toistuvat tilaukset voi aloittaa lahjatilauksen päätyttyä.';
 
   @override
   String get premiumPlanUnavailable =>

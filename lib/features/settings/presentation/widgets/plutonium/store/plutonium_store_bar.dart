@@ -55,7 +55,18 @@ class PremiumStoreBar extends StatelessWidget {
           PremiumStoreBarMode.visionary => _StatusText(
             l10n.storePlutoniumVisionaryStatus,
           ),
-          PremiumStoreBarMode.gift => _StatusText(_giftText(l10n)),
+          PremiumStoreBarMode.gift => _SubscribeActions(
+            l10n: l10n,
+            store: store,
+            purchaseDisabled: purchaseDisabled,
+            purchaseDisabledMessage: purchaseDisabledMessage,
+            otherStoreNotice: otherStoreNotice,
+            onBuy: onBuy,
+            statusLines: [
+              _giftText(l10n),
+              l10n.premiumGiftTimeAddedAfterSubscription,
+            ],
+          ),
           PremiumStoreBarMode.waiting => const _WaitingStatus(),
           PremiumStoreBarMode.manage => _ManageStatus(
             detail: _manageDetail(l10n),
@@ -214,6 +225,7 @@ class _SubscribeActions extends StatelessWidget {
     required this.purchaseDisabledMessage,
     required this.otherStoreNotice,
     required this.onBuy,
+    this.statusLines = const [],
   });
 
   final FluxerLocalizations l10n;
@@ -222,6 +234,7 @@ class _SubscribeActions extends StatelessWidget {
   final String? purchaseDisabledMessage;
   final String? otherStoreNotice;
   final void Function(PremiumStorePlan plan) onBuy;
+  final List<String> statusLines;
 
   @override
   Widget build(BuildContext context) {
@@ -282,6 +295,10 @@ class _SubscribeActions extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        for (final String line in statusLines) ...[
+          _StatusText(line),
+          SizedBox(height: layout.s2),
+        ],
         if (renewsThrough != null &&
             !store.storeUnavailable &&
             !missingProducts &&

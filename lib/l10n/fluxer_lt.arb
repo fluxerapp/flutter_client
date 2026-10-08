@@ -15851,6 +15851,14 @@
             }
         }
     },
+    "premiumGiftGraceEnded": "Jūsų dovanos laikas baigėsi. Prenumeruokite, kad išsaugotumėte Plutonium.",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "Jums bus apmokestinta dabar. Jūsų likęs dovanų laikas bus pridėtas po apmokėto laikotarpio, todėl niekas nebus prarasta.",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
+    },
     "premiumComparisonFeatureColumn": "Funkcija",
     "premiumDisclaimerPurchased": "Pirkdami sutikote su mūsų {terms} ir {privacy}.",
     "@premiumDisclaimerPurchased": {
@@ -15868,7 +15876,6 @@
     "premiumPrivacyPolicy": "Privatumo politika",
     "premiumCheckoutStartFailedTitle": "Nepavyko pradėti atsiskaitymo",
     "premiumCheckoutStartFailedBody": "Nepavyko pradėti atsiskaitymo. Bandykite dar kartą po akimirkos.",
-    "premiumGiftSubscriptionBlocksRecurring": "Šiuo metu naudojatės dovanų prenumerata. Ji nebus atnaujinta. Galite išpirkti daugiau dovanų kodų, kad ją pratęstumėte. Pasibaigus dovanų prenumeratos laikotarpiui, galėsite pradėti pasikartojančias prenumeratas.",
     "premiumPlanUnavailable": "Šis planas nepasiekiamas. Susisiekite su palaikymo komanda.",
     "premiumCompletePaymentTitle": "Užbaigti mokėjimą",
     "premiumCompletePaymentBody": "Dabar būsite nukreipti į „Stripe“, kad užbaigtumėte mokėjimą. Grįžkite į „Fluxer“, kai baigsite.",

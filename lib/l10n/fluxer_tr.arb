@@ -15851,6 +15851,14 @@
             }
         }
     },
+    "premiumGiftGraceEnded": "Hediye süreniz sona erdi. Plutonium almaya devam etmek için abone olun.",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "Şimdi ücretlendirileceksiniz. Hediye sürenizin kalanı, ödeme sürenizin sonuna eklenecek, böylece hiçbiri kaybolmayacak.",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
+    },
     "premiumComparisonFeatureColumn": "Özellik",
     "premiumDisclaimerPurchased": "Satın alarak {terms} ve {privacy} belgelerini kabul etmiş oldunuz.",
     "@premiumDisclaimerPurchased": {
@@ -15868,7 +15876,6 @@
     "premiumPrivacyPolicy": "Gizlilik politikası",
     "premiumCheckoutStartFailedTitle": "Ödeme başlatılamadı",
     "premiumCheckoutStartFailedBody": "Ödeme başlatılırken bir sorun oluştu. Lütfen bir süre sonra tekrar deneyin.",
-    "premiumGiftSubscriptionBlocksRecurring": "Şu anda hediye aboneliğindesiniz. Otomatik olarak yenilenmeyecektir. Süreyi uzatmak için daha fazla hediye kodu kullanabilirsiniz. Hediye süreniz bittikten sonra yinelenen abonelikler başlatılabilir.",
     "premiumPlanUnavailable": "Bu plan kullanılamıyor. Destekle iletişime geçin.",
     "premiumCompletePaymentTitle": "Ödemeyi tamamla",
     "premiumCompletePaymentBody": "Ödemeyi tamamlamak için şimdi Stripe'a yönlendiriliyorsunuz. Tamamladıktan sonra Fluxer'a geri dönün.",

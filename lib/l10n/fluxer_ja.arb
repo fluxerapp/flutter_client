@@ -15851,6 +15851,14 @@
             }
         }
     },
+    "premiumGiftGraceEnded": "ギフト期間が終了しました。Plutoniumを継続するには、サブスクライブしてください。",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "今すぐ課金されます。ギフトの残り時間は有料期間の後に加算されるため、無駄になることはありません。",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
+    },
     "premiumComparisonFeatureColumn": "機能",
     "premiumDisclaimerPurchased": "購入することで、{terms}および{privacy}に同意したことになります。",
     "@premiumDisclaimerPurchased": {
@@ -15868,7 +15876,6 @@
     "premiumPrivacyPolicy": "プライバシーポリシー",
     "premiumCheckoutStartFailedTitle": "チェックアウトを開始できませんでした",
     "premiumCheckoutStartFailedBody": "チェックアウトの開始中に問題が発生しました。しばらくしてからもう一度お試しください。",
-    "premiumGiftSubscriptionBlocksRecurring": "現在、ギフトサブスクリプションをご利用中です。自動更新はされません。ギフトコードを追加して期間を延長できます。ギフト期間終了後、定期購入を開始できます。",
     "premiumPlanUnavailable": "このプランはご利用いただけません。サポートにお問い合わせください。",
     "premiumCompletePaymentTitle": "支払いを完了",
     "premiumCompletePaymentBody": "支払いを完了するためにStripeに移動します。完了したらFluxerに戻ってください。",

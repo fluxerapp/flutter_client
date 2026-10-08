@@ -15851,6 +15851,14 @@
             }
         }
     },
+    "premiumGiftGraceEnded": "Время вашего подарка истекло. Оформите подписку, чтобы сохранить Plutonium.",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "С вас спишутся средства. Оставшееся подарочное время будет добавлено после окончания оплаченного периода, так что оно не пропадет.",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
+    },
     "premiumComparisonFeatureColumn": "Функция",
     "premiumDisclaimerPurchased": "Совершив покупку, вы согласились с нашими {terms} и {privacy}.",
     "@premiumDisclaimerPurchased": {
@@ -15868,7 +15876,6 @@
     "premiumPrivacyPolicy": "Политика конфиденциальности",
     "premiumCheckoutStartFailedTitle": "Не удалось начать оформление заказа",
     "premiumCheckoutStartFailedBody": "Что-то пошло не так при запуске оформления заказа. Повторите попытку через минуту.",
-    "premiumGiftSubscriptionBlocksRecurring": "У вас подарочная подписка. Она не будет продлена автоматически. Вы можете активировать другие подарочные коды, чтобы продлить ее. Обычную подписку можно будет оформить после окончания подарочного периода.",
     "premiumPlanUnavailable": "Этот тариф недоступен. Обратитесь в поддержку.",
     "premiumCompletePaymentTitle": "Завершить оплату",
     "premiumCompletePaymentBody": "Теперь вы перейдете на сайт Stripe для завершения оплаты. Вернитесь в Fluxer после завершения.",

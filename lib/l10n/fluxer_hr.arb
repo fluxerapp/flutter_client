@@ -11804,6 +11804,14 @@
             }
         }
     },
+    "premiumGiftGraceEnded": "Vrijeme poklona je isteklo. Pretplatite se kako biste zadržali Plutonium.",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "Naplatit ćemo vam odmah. Preostalo poklon vrijeme dodaje se nakon plaćenog razdoblja, tako da se ništa neće izgubiti.",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
+    },
     "premiumComparisonFeatureColumn": "Značajka",
     "premiumDisclaimerPurchased": "Kupnjom ste prihvatili naše {terms} i {privacy}.",
     "@premiumDisclaimerPurchased": {
@@ -11821,7 +11829,6 @@
     "premiumPrivacyPolicy": "Pravila privatnosti",
     "premiumCheckoutStartFailedTitle": "Nije moguće pokrenuti naplatu",
     "premiumCheckoutStartFailedBody": "Nešto je pošlo po zlu prilikom pokretanja naplate. Pokušajte ponovno za nekoliko trenutaka.",
-    "premiumGiftSubscriptionBlocksRecurring": "Trenutno ste na poklon pretplati. Neće se automatski obnoviti. Možete iskoristiti više poklon kodova kako biste je produžili. Pretplate s automatskom obnovom mogu se pokrenuti nakon što istekne vaše poklon razdoblje.",
     "premiumPlanUnavailable": "Ovaj plan nije dostupan. Obratite se podršci.",
     "premiumCompletePaymentTitle": "Dovrši plaćanje",
     "premiumCompletePaymentBody": "Sada prelazite na Stripe kako biste dovršili plaćanje. Vratite se u Fluxer nakon što završite.",

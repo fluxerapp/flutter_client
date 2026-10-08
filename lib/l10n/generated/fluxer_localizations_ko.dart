@@ -9509,6 +9509,14 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      '선물 받은 시간이 종료되었습니다. Plutonium을(를) 계속 사용하려면 구독하세요.';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      '지금 결제됩니다. 선물 받은 기간은 유료 기간 이후에 추가되므로 남은 기간이 사라지지 않습니다.';
+
+  @override
   String get premiumComparisonFeatureColumn => '기능';
 
   @override
@@ -9532,10 +9540,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   @override
   String get premiumCheckoutStartFailedBody =>
       '결제를 시작하는 중에 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      '현재 선물 구독 중입니다. 이 구독은 갱신되지 않습니다. 선물 코드를 추가로 사용하여 구독 기간을 연장할 수 있습니다. 선물 구독 기간이 종료된 후에는 정기 구독을 시작할 수 있습니다.';
 
   @override
   String get premiumPlanUnavailable => '이용할 수 없는 플랜입니다. 고객지원팀에 문의하세요.';

@@ -10010,6 +10010,14 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      'Время вашего подарка истекло. Оформите подписку, чтобы сохранить Plutonium.';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      'С вас спишутся средства. Оставшееся подарочное время будет добавлено после окончания оплаченного периода, так что оно не пропадет.';
+
+  @override
   String get premiumComparisonFeatureColumn => 'Функция';
 
   @override
@@ -10034,10 +10042,6 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
   @override
   String get premiumCheckoutStartFailedBody =>
       'Что-то пошло не так при запуске оформления заказа. Повторите попытку через минуту.';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      'У вас подарочная подписка. Она не будет продлена автоматически. Вы можете активировать другие подарочные коды, чтобы продлить ее. Обычную подписку можно будет оформить после окончания подарочного периода.';
 
   @override
   String get premiumPlanUnavailable =>

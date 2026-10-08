@@ -9849,6 +9849,14 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      'انتهت فترة هديتك. اشترك للاحتفاظ بـ Plutonium.';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      'سيتم محاسبتك الآن. تتم إضافة وقت هديتك المتبقي بعد فترة الدفع الخاصة بك، لذلك لن يُفقد أي منها.';
+
+  @override
   String get premiumComparisonFeatureColumn => 'الميزة';
 
   @override
@@ -9872,10 +9880,6 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   @override
   String get premiumCheckoutStartFailedBody =>
       'حدث خطأ ما أثناء بدء عملية الدفع. يرجى المحاولة مرة أخرى بعد قليل.';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      'لديك حاليًا اشتراك مُهدى. لن يتجدد. يمكنك استرداد المزيد من رموز الهدايا لتمديده. يمكنك بدء اشتراك متكرر بعد انتهاء مدة هديتك.';
 
   @override
   String get premiumPlanUnavailable => 'هذه الخطة غير متاحة. اتصل بالدعم.';

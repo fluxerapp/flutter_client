@@ -10038,6 +10038,14 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      'Tu tiempo de regalo ha finalizado. Suscríbete para conservar Plutonium.';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      'Se te cobrará ahora. Tu tiempo de regalo restante se añadirá después de tu periodo de pago, así que no se perderá nada.';
+
+  @override
   String get premiumComparisonFeatureColumn => 'Función';
 
   @override
@@ -10061,10 +10069,6 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   @override
   String get premiumCheckoutStartFailedBody =>
       'Algo salió mal al iniciar el proceso de pago. Inténtalo de nuevo en un momento.';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      'Actualmente tienes una suscripción de regalo. No se renovará. Puedes canjear más códigos de regalo para extenderla. Las suscripciones recurrentes se pueden iniciar una vez que finalice tu período de regalo.';
 
   @override
   String get premiumPlanUnavailable =>
@@ -26277,6 +26281,14 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      'Tu tiempo de regalo terminó. Suscríbete para conservar Plutonium.';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      'Se te cobrará ahora. Tu tiempo de regalo restante se agregará después de tu período de pago, para que no se pierda nada.';
+
+  @override
   String get premiumComparisonFeatureColumn => 'Función';
 
   @override
@@ -26300,10 +26312,6 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
   @override
   String get premiumCheckoutStartFailedBody =>
       'Algo salió mal al iniciar el proceso de pago. Intenta de nuevo en un momento.';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      'Actualmente tienes una suscripción de regalo. No se renovará. Puedes canjear más códigos de regalo para extenderla. Las suscripciones recurrentes se pueden iniciar una vez que termine tu tiempo de regalo.';
 
   @override
   String get premiumPlanUnavailable =>

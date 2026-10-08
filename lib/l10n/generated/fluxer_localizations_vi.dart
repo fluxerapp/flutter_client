@@ -9935,6 +9935,14 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      'Thời gian quà tặng của bạn đã kết thúc. Hãy đăng ký để tiếp tục nhận Plutonium.';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      'Bạn sẽ bị tính phí ngay bây giờ. Thời gian quà tặng còn lại của bạn sẽ được cộng dồn vào sau thời gian đã thanh toán, vì vậy sẽ không bị mất đi.';
+
+  @override
   String get premiumComparisonFeatureColumn => 'Tính năng';
 
   @override
@@ -9958,10 +9966,6 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   @override
   String get premiumCheckoutStartFailedBody =>
       'Đã xảy ra lỗi khi bắt đầu thanh toán. Vui lòng thử lại sau giây lát.';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      'Bạn đang dùng gói quà tặng. Gói này sẽ không tự động gia hạn. Bạn có thể đổi thêm mã quà tặng để gia hạn. Gói tự động gia hạn có thể được bắt đầu sau khi gói quà tặng của bạn kết thúc.';
 
   @override
   String get premiumPlanUnavailable =>

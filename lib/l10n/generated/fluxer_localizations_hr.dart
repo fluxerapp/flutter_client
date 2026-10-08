@@ -9967,6 +9967,14 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      'Vrijeme poklona je isteklo. Pretplatite se kako biste zadržali Plutonium.';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      'Naplatit ćemo vam odmah. Preostalo poklon vrijeme dodaje se nakon plaćenog razdoblja, tako da se ništa neće izgubiti.';
+
+  @override
   String get premiumComparisonFeatureColumn => 'Značajka';
 
   @override
@@ -9990,10 +9998,6 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   @override
   String get premiumCheckoutStartFailedBody =>
       'Nešto je pošlo po zlu prilikom pokretanja naplate. Pokušajte ponovno za nekoliko trenutaka.';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      'Trenutno ste na poklon pretplati. Neće se automatski obnoviti. Možete iskoristiti više poklon kodova kako biste je produžili. Pretplate s automatskom obnovom mogu se pokrenuti nakon što istekne vaše poklon razdoblje.';
 
   @override
   String get premiumPlanUnavailable =>

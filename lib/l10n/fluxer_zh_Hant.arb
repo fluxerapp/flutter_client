@@ -15851,6 +15851,14 @@
             }
         }
     },
+    "premiumGiftGraceEnded": "您的贈送時間已到期。訂閱即可繼續享有 Plutonium。",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "您將立即付費。剩餘的免費使用時間將加在付費方案之後，所以不會浪費。",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
+    },
     "premiumComparisonFeatureColumn": "功能",
     "premiumDisclaimerPurchased": "購買即表示您已同意我們的{terms}和{privacy}。",
     "@premiumDisclaimerPurchased": {
@@ -15868,7 +15876,6 @@
     "premiumPrivacyPolicy": "隱私權政策",
     "premiumCheckoutStartFailedTitle": "無法開始結帳",
     "premiumCheckoutStartFailedBody": "啟動結帳時發生錯誤。請稍後再試一次。",
-    "premiumGiftSubscriptionBlocksRecurring": "您目前使用的是禮物訂閱，不會自動續訂。您可以兌換更多禮物代碼來延長訂閱。禮物時間結束後，即可開始定期訂閱。",
     "premiumPlanUnavailable": "此方案無法使用。請聯絡客服。",
     "premiumCompletePaymentTitle": "完成付款",
     "premiumCompletePaymentBody": "您即將前往 Stripe 完成付款。完成後請返回 Fluxer。",

@@ -10047,6 +10047,14 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      'Ο χρόνος δώρου σου έληξε. Εγγράψου για να συνεχίσεις με το Plutonium.';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      'Θα χρεωθείτε τώρα. Ο υπόλοιπος χρόνος δώρου σας προστίθεται μετά την περίοδο πληρωμής, ώστε να μην χαθεί τίποτα.';
+
+  @override
   String get premiumComparisonFeatureColumn => 'Λειτουργία';
 
   @override
@@ -10071,10 +10079,6 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   @override
   String get premiumCheckoutStartFailedBody =>
       'Κάτι πήγε στραβά κατά την έναρξη της ολοκλήρωσης αγοράς. Δοκιμάστε ξανά σε λίγο.';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      'Έχετε συνδρομή δώρου. Δεν θα ανανεωθεί αυτόματα. Μπορείτε να εξαργυρώσετε κι άλλους κωδικούς δώρου για να την επεκτείνετε. Οι συνδρομές με αυτόματη ανανέωση μπορούν να ξεκινήσουν αφού λήξει η συνδρομή δώρου.';
 
   @override
   String get premiumPlanUnavailable =>

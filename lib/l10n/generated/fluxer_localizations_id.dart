@@ -9933,6 +9933,14 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      'Waktu gratis Anda telah berakhir. Berlangganan untuk melanjutkan Plutonium.';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      'Anda akan dikenakan biaya sekarang. Sisa waktu hadiah Anda ditambahkan setelah periode berbayar Anda, jadi tidak ada yang terbuang.';
+
+  @override
   String get premiumComparisonFeatureColumn => 'Fitur';
 
   @override
@@ -9957,10 +9965,6 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   @override
   String get premiumCheckoutStartFailedBody =>
       'Terjadi kesalahan saat memulai pembayaran. Silakan coba lagi sebentar lagi.';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      'Kamu sedang memakai langganan hadiah. Langganan ini tidak akan diperpanjang otomatis. Kamu bisa menukarkan kode hadiah lain untuk memperpanjangnya. Langganan berulang bisa dimulai setelah masa hadiahmu berakhir.';
 
   @override
   String get premiumPlanUnavailable =>

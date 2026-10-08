@@ -9935,6 +9935,14 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      'Din gaveperiode er udløbet. Abonner for at beholde Plutonium.';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      'Du bliver opkrævet nu. Din resterende gavetid lægges til efter din betalte periode, så intet går tabt.';
+
+  @override
   String get premiumComparisonFeatureColumn => 'Funktion';
 
   @override
@@ -9958,10 +9966,6 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   @override
   String get premiumCheckoutStartFailedBody =>
       'Der opstod en fejl under start af betaling. Prøv venligst igen om et øjeblik.';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      'Du har i øjeblikket et gaveabonnement. Det fornys ikke automatisk. Du kan indløse flere gavekoder for at forlænge det. Du kan starte et abonnement med automatisk fornyelse, når din gaveperiode udløber.';
 
   @override
   String get premiumPlanUnavailable =>

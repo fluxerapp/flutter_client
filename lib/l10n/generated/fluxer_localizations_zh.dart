@@ -9297,6 +9297,13 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   }
 
   @override
+  String get premiumGiftGraceEnded => '您的赠送时间已结束。订阅即可继续使用 Plutonium。';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      '您将立即付费。剩余的赠送时长将添加到付费期之后，因此不会丢失。';
+
+  @override
   String get premiumComparisonFeatureColumn => '功能';
 
   @override
@@ -9319,10 +9326,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String get premiumCheckoutStartFailedBody => '启动结账时出错了。请稍后重试。';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      '你目前使用的是赠送订阅，它不会自动续订。你可以兑换更多礼品码来延长订阅时长。赠送时长结束后，你可以开通自动续订的订阅。';
 
   @override
   String get premiumPlanUnavailable => '此套餐不可用。请联系支持团队。';
@@ -24363,6 +24366,13 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   }
 
   @override
+  String get premiumGiftGraceEnded => '您的贈送時間已到期。訂閱即可繼續享有 Plutonium。';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      '您將立即付費。剩餘的免費使用時間將加在付費方案之後，所以不會浪費。';
+
+  @override
   String get premiumComparisonFeatureColumn => '功能';
 
   @override
@@ -24385,10 +24395,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get premiumCheckoutStartFailedBody => '啟動結帳時發生錯誤。請稍後再試一次。';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      '您目前使用的是禮物訂閱，不會自動續訂。您可以兌換更多禮物代碼來延長訂閱。禮物時間結束後，即可開始定期訂閱。';
 
   @override
   String get premiumPlanUnavailable => '此方案無法使用。請聯絡客服。';

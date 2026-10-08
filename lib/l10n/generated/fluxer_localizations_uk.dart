@@ -10015,6 +10015,14 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      'Ваш подарунковий час закінчився. Підпишіться, щоб продовжити Plutonium.';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      'З вас буде стягнуто плату зараз. Ваш залишок подарункового часу буде додано після платного періоду, тому він не буде втрачений.';
+
+  @override
   String get premiumComparisonFeatureColumn => 'Функція';
 
   @override
@@ -10039,10 +10047,6 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   @override
   String get premiumCheckoutStartFailedBody =>
       'Під час оформлення замовлення сталася помилка. Спробуйте ще раз за мить.';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      'Зараз у вас подарункова підписка. Вона не буде поновлюватися. Ви можете активувати більше подарункових кодів, щоб продовжити її. Регулярні підписки можна оформити після закінчення терміну дії подарунка.';
 
   @override
   String get premiumPlanUnavailable =>

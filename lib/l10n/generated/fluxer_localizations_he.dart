@@ -9789,6 +9789,14 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      'זמן המתנה שלך הסתיים. הירשם כדי להמשיך לקבל את Plutonium.';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      'החיוב יתבצע כעת. יתרת זמן המתנה שלך תתווסף לאחר תקופת התשלום, כך שלא תאבד דבר.';
+
+  @override
   String get premiumComparisonFeatureColumn => 'תכונה';
 
   @override
@@ -9812,10 +9820,6 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   @override
   String get premiumCheckoutStartFailedBody =>
       'משהו השתבש במהלך התחלת התשלום. יש לנסות שוב בעוד רגע.';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      'כרגע יש לך מנוי מתנה. הוא לא יתחדש. באפשרותך לממש קודי מתנה נוספים כדי להאריך אותו. ניתן להתחיל מנויים חוזרים לאחר שתקופת המתנה שלך תסתיים.';
 
   @override
   String get premiumPlanUnavailable =>

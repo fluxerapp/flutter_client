@@ -15851,6 +15851,14 @@
             }
         }
     },
+    "premiumGiftGraceEnded": "Lahjoitusaikasi on päättynyt. Tilaa jatkaaksesi Plutonium.",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "Sinulta veloitetaan nyt. Jäljellä oleva lahjoitusaikasi lisätään maksetun jakson jälkeen, joten siitä ei mene mitään hukkaan.",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
+    },
     "premiumComparisonFeatureColumn": "Ominaisuus",
     "premiumDisclaimerPurchased": "Ostamalla hyväksyit {terms} ja {privacy}.",
     "@premiumDisclaimerPurchased": {
@@ -15868,7 +15876,6 @@
     "premiumPrivacyPolicy": "Tietosuojakäytäntö",
     "premiumCheckoutStartFailedTitle": "Kassan avaaminen epäonnistui",
     "premiumCheckoutStartFailedBody": "Jokin meni pieleen kassaa avattaessa. Yritä uudelleen hetken kuluttua.",
-    "premiumGiftSubscriptionBlocksRecurring": "Sinulla on lahjatilaus. Se ei uusiudu automaattisesti. Voit pidentää tilausta lunastamalla lisää lahjakoodeja. Toistuvat tilaukset voi aloittaa lahjatilauksen päätyttyä.",
     "premiumPlanUnavailable": "Tämä tilaus ei ole saatavilla. Ota yhteyttä tukeen.",
     "premiumCompletePaymentTitle": "Suorita maksu",
     "premiumCompletePaymentBody": "Siirryt nyt Stripeen maksun suorittamiseksi. Palaa Fluxeriin, kun olet suorittanut sen.",

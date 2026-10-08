@@ -81,7 +81,7 @@ void main() {
       );
     });
 
-    test('blocks recurring purchase while a gift is active', () {
+    test('offers the gift buy bar while a gift is active', () {
       expect(
         premiumStoreBarMode(
           status: _status(

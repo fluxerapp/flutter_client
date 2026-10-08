@@ -9936,6 +9936,14 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      'Hediye süreniz sona erdi. Plutonium almaya devam etmek için abone olun.';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      'Şimdi ücretlendirileceksiniz. Hediye sürenizin kalanı, ödeme sürenizin sonuna eklenecek, böylece hiçbiri kaybolmayacak.';
+
+  @override
   String get premiumComparisonFeatureColumn => 'Özellik';
 
   @override
@@ -9959,10 +9967,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   @override
   String get premiumCheckoutStartFailedBody =>
       'Ödeme başlatılırken bir sorun oluştu. Lütfen bir süre sonra tekrar deneyin.';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      'Şu anda hediye aboneliğindesiniz. Otomatik olarak yenilenmeyecektir. Süreyi uzatmak için daha fazla hediye kodu kullanabilirsiniz. Hediye süreniz bittikten sonra yinelenen abonelikler başlatılabilir.';
 
   @override
   String get premiumPlanUnavailable =>

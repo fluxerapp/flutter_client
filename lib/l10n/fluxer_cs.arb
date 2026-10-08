@@ -15851,6 +15851,14 @@
             }
         }
     },
+    "premiumGiftGraceEnded": "Čas vašeho dárku vypršel. Přihlaste se k odběru a zachovejte si Plutonium.",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "Budeme vám účtovat ihned. Zbývající čas z dárku se přidá po placeném období, takže o nic nepřijdete.",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
+    },
     "premiumComparisonFeatureColumn": "Funkce",
     "premiumDisclaimerPurchased": "Nákupem jste přijali naše {terms} a {privacy}.",
     "@premiumDisclaimerPurchased": {
@@ -15868,7 +15876,6 @@
     "premiumPrivacyPolicy": "Zásady ochrany osobních údajů",
     "premiumCheckoutStartFailedTitle": "Nepodařilo se spustit platbu",
     "premiumCheckoutStartFailedBody": "Při zahájení platby se něco pokazilo. Zkuste to prosím za chvíli znovu.",
-    "premiumGiftSubscriptionBlocksRecurring": "Momentálně máte dárkové předplatné. Nebude se automaticky obnovovat. Můžete uplatnit další dárkové kódy a prodloužit ho. Opakující se předplatné lze spustit po skončení vašeho dárkového předplatného.",
     "premiumPlanUnavailable": "Tento tarif není k dispozici. Kontaktujte podporu.",
     "premiumCompletePaymentTitle": "Dokončit platbu",
     "premiumCompletePaymentBody": "Nyní budete přesměrováni na Stripe k dokončení platby. Po dokončení se vraťte do Fluxeru.",

@@ -13,17 +13,17 @@ PremiumStoreBarMode premiumStoreBarMode({
   if (purchasePending && !status.isPremium) {
     return PremiumStoreBarMode.waiting;
   }
+  if (status.isGiftSubscription) {
+    return PremiumStoreBarMode.gift;
+  }
   final bool graceOrExpired =
       status.gracePeriodInfo.isInGracePeriod ||
       status.gracePeriodInfo.isExpired ||
       status.gracePeriodInfo.showExpiredState;
-  if (status.isGiftSubscription && !graceOrExpired) {
-    return PremiumStoreBarMode.gift;
-  }
   if (graceOrExpired && !manageOnDevice) {
     return PremiumStoreBarMode.subscribe;
   }
-  if (status.shouldShowPremiumCard && !status.isGiftSubscription) {
+  if (status.shouldShowPremiumCard) {
     return PremiumStoreBarMode.manage;
   }
   return PremiumStoreBarMode.subscribe;

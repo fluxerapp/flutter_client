@@ -9998,6 +9998,14 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      'Timpul tău cadou s-a încheiat. Abonează-te pentru a păstra Plutonium.';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      'Vei fi taxat acum. Timpul tău cadou rămas se adaugă după perioada plătită, astfel încât nimic din el să nu se piardă.';
+
+  @override
   String get premiumComparisonFeatureColumn => 'Funcție';
 
   @override
@@ -10021,10 +10029,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   @override
   String get premiumCheckoutStartFailedBody =>
       'A apărut o eroare la inițierea plății. Te rugăm să încerci din nou mai târziu.';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      'Ai în prezent un abonament cadou. Acesta nu se va reînnoi. Poți valorifica mai multe coduri cadou pentru a-l prelungi. Poți începe un abonament recurent după ce se termină perioada cadou.';
 
   @override
   String get premiumPlanUnavailable =>

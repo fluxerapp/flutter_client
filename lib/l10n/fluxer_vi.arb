@@ -11804,6 +11804,14 @@
             }
         }
     },
+    "premiumGiftGraceEnded": "Thời gian quà tặng của bạn đã kết thúc. Hãy đăng ký để tiếp tục nhận Plutonium.",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "Bạn sẽ bị tính phí ngay bây giờ. Thời gian quà tặng còn lại của bạn sẽ được cộng dồn vào sau thời gian đã thanh toán, vì vậy sẽ không bị mất đi.",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
+    },
     "premiumComparisonFeatureColumn": "Tính năng",
     "premiumDisclaimerPurchased": "Bằng cách mua, bạn đã đồng ý với {terms} và {privacy} của chúng tôi.",
     "@premiumDisclaimerPurchased": {
@@ -11821,7 +11829,6 @@
     "premiumPrivacyPolicy": "Chính sách quyền riêng tư",
     "premiumCheckoutStartFailedTitle": "Không thể bắt đầu thanh toán",
     "premiumCheckoutStartFailedBody": "Đã xảy ra lỗi khi bắt đầu thanh toán. Vui lòng thử lại sau giây lát.",
-    "premiumGiftSubscriptionBlocksRecurring": "Bạn đang dùng gói quà tặng. Gói này sẽ không tự động gia hạn. Bạn có thể đổi thêm mã quà tặng để gia hạn. Gói tự động gia hạn có thể được bắt đầu sau khi gói quà tặng của bạn kết thúc.",
     "premiumPlanUnavailable": "Gói này không khả dụng. Hãy liên hệ bộ phận hỗ trợ.",
     "premiumCompletePaymentTitle": "Hoàn tất thanh toán",
     "premiumCompletePaymentBody": "Bạn sẽ được chuyển hướng đến Stripe để hoàn tất thanh toán. Quay lại Fluxer sau khi hoàn tất.",

@@ -9923,6 +9923,14 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      'Your gift time has ended. Subscribe to keep Plutonium.';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      'Subscribing charges you now. Your remaining gift time is added after your paid period.';
+
+  @override
   String get premiumComparisonFeatureColumn => 'Feature';
 
   @override
@@ -9946,10 +9954,6 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   @override
   String get premiumCheckoutStartFailedBody =>
       'Something went wrong while starting checkout. Please try again in a moment.';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      'You\'re currently on a gift subscription. It won\'t renew. You can redeem more gift codes to extend it. Recurring subscriptions can be started after your gift time ends.';
 
   @override
   String get premiumPlanUnavailable =>
@@ -25971,6 +25975,14 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      'Seu tempo de presente acabou. Assine para manter o Plutonium.';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      'Você será cobrado agora. Seu tempo de presente restante será adicionado após o período pago, para que nada seja perdido.';
+
+  @override
   String get premiumComparisonFeatureColumn => 'Recurso';
 
   @override
@@ -25995,10 +26007,6 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   @override
   String get premiumCheckoutStartFailedBody =>
       'Algo deu errado ao iniciar a compra. Tente novamente em alguns instantes.';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      'Você está em uma assinatura de presente. Ela não será renovada. Você pode resgatar mais códigos de presente para estendê-la. Assinaturas recorrentes podem ser iniciadas após o término do seu tempo de presente.';
 
   @override
   String get premiumPlanUnavailable =>

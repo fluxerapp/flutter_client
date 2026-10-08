@@ -15851,6 +15851,14 @@
             }
         }
     },
+    "premiumGiftGraceEnded": "Ajándékidőszakod lejárt. Iratkozz fel, hogy megtarthasd a(z) Plutonium előfizetést.",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "Most terhelünk. A fennmaradó ajándékidő a fizetett időszak után kerül hozzáadásra, így nem vész el.",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
+    },
     "premiumComparisonFeatureColumn": "Funkció",
     "premiumDisclaimerPurchased": "A vásárlással elfogadtad a következőket: {terms} és {privacy}.",
     "@premiumDisclaimerPurchased": {
@@ -15868,7 +15876,6 @@
     "premiumPrivacyPolicy": "Adatvédelmi irányelvek",
     "premiumCheckoutStartFailedTitle": "Nem sikerült elindítani a fizetést",
     "premiumCheckoutStartFailedBody": "Hiba történt a fizetés elindításakor. Próbáld újra egy kis idő múlva.",
-    "premiumGiftSubscriptionBlocksRecurring": "Jelenleg ajándék-előfizetésed van. Ez nem fog megújulni. További ajándékkódokat válthatsz be a meghosszabbításához. Ismétlődő előfizetéseket az ajándékidőszak lejárta után indíthatsz.",
     "premiumPlanUnavailable": "Ez a csomag nem elérhető. Vedd fel a kapcsolatot az ügyfélszolgálattal.",
     "premiumCompletePaymentTitle": "Fizetés befejezése",
     "premiumCompletePaymentBody": "Most a rendszer átirányít a Stripe oldalára a fizetés befejezéséhez. Miután befejezted, térj vissza a Fluxerbe.",

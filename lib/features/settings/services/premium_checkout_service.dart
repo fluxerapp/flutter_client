@@ -19,21 +19,9 @@ Future<void> startPremiumCheckout({
   required WidgetRef ref,
   required PremiumCheckoutPlan plan,
   required PriceIdsResponse priceIds,
-  required bool isGiftSubscription,
   String? countryCode,
 }) async {
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-
-  if (isGiftSubscription &&
-      (plan == PremiumCheckoutPlan.monthly ||
-          plan == PremiumCheckoutPlan.yearly)) {
-    await _showCheckoutError(
-      context,
-      title: l10n.premiumCheckoutStartFailedTitle,
-      message: l10n.premiumGiftSubscriptionBlocksRecurring,
-    );
-    return;
-  }
 
   final ({String? priceId, bool isGift}) selected = switch (plan) {
     PremiumCheckoutPlan.monthly => (priceId: priceIds.monthly, isGift: false),

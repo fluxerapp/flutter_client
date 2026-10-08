@@ -9928,6 +9928,14 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      'आपका उपहार समय समाप्त हो गया है। Plutonium जारी रखने के लिए सब्सक्राइब करें।';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      'आपको अभी शुल्क लिया जाएगा। आपके उपहार का शेष समय आपके भुगतान की अवधि के बाद जोड़ा जाएगा, इसलिए इसमें से कुछ भी व्यर्थ नहीं जाएगा।';
+
+  @override
   String get premiumComparisonFeatureColumn => 'सुविधा';
 
   @override
@@ -9951,10 +9959,6 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   @override
   String get premiumCheckoutStartFailedBody =>
       'चेकआउट शुरू करते समय कुछ गड़बड़ हो गई। कृपया कुछ देर बाद फिर से कोशिश करें।';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      'आप अभी उपहार सदस्यता पर हैं। यह अपने-आप रिन्यू नहीं होगी। आप इसे बढ़ाने के लिए और उपहार कोड रिडीम कर सकते हैं। उपहार की अवधि खत्म होने के बाद आप रिकरिंग सदस्यता शुरू कर सकते हैं।';
 
   @override
   String get premiumPlanUnavailable =>
