@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as drift_db;
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/providers/active_instance_provider.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
@@ -27,6 +28,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_app/shared/utils/role_color_utils.dart';
+import 'package:fluxer_app/shared/utils/user_tag.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kTableMinWidth = 870;
@@ -979,7 +981,12 @@ class _MembersDesktopTableRow extends ConsumerWidget {
                         ],
                       ),
                       Text(
-                        member.tag,
+                        formatUserTag(
+                          member.username,
+                          member.discriminator,
+                          uniqueUsernames: ref.watch(uniqueUsernamesProvider),
+                          bot: member.isBot,
+                        ),
                         style: context.textStyles.bodySmall.copyWith(
                           fontSize: 12,
                           color: context.colors.textTertiary,

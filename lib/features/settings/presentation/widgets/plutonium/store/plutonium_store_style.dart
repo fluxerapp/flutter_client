@@ -1,6 +1,6 @@
 import 'package:fluxer_app/material_ui.dart';
 
-abstract final class PlutoniumStoreStyle {
+abstract final class PremiumStoreStyle {
   static const Color spaceTop = Color(0xFF07061A);
   static const Color spaceMid = Color(0xFF0C0A28);
   static const Color spaceBottom = Color(0xFF110D35);

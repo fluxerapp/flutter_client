@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/premium/premium_billing_service.dart';
 import 'package:fluxer_app/features/settings/services/plutonium_store_products.dart';
-import 'package:fluxer_app/features/settings/services/plutonium_store_purchase_client.dart';
+import 'package:fluxer_app/features/settings/services/premium_store_purchase_client.dart';
 import 'package:fluxer_app/features/settings/utils/premium_subscription_manage.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
@@ -14,7 +14,7 @@ PremiumManageAction? premiumNagbarManageAction({
   required PremiumSubscriptionProvider? provider,
   required String? manageUrl,
 }) {
-  final PlutoniumBillingStore? billingStore = currentPlutoniumBillingStore();
+  final PremiumBillingStore? billingStore = currentPremiumBillingStore();
   return premiumManageAction(
     surface: billingStore == null
         ? PremiumManageSurface.billing

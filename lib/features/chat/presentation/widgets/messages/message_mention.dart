@@ -23,6 +23,7 @@ import 'package:fluxer_app/features/guilds/providers/role_providers.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/settings/utils/open_user_settings_deep_link.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_billing_nav.dart';
+import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -65,7 +66,15 @@ class ChannelMention extends ConsumerWidget {
         softWrap: false,
       );
     }
-    if (channel != null && !isClickableChannelMention(channel)) {
+    final bool clickable =
+        channel != null &&
+        isClickableChannelMention(
+          channel,
+          threadsActive:
+              (channel.isThread || channel.isThreadOnly) &&
+              ref.watch(threadChannelsActiveProvider(channel.guildId)),
+        );
+    if (channel != null && !clickable) {
       return _buildUnknownMentionPill(
         context,
         style,
@@ -79,10 +88,8 @@ class ChannelMention extends ConsumerWidget {
         (fallback == null
             ? ChannelType.guildText
             : ChannelType.fromWire(fallback!.type));
-    final bool canNavigate =
-        channel != null && isClickableChannelMention(channel);
     return FluxerGestureDetector(
-      onTap: canNavigate
+      onTap: clickable
           ? () => navigateToGuildChannelContent(
               context: context,
               ref: ref,

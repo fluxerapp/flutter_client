@@ -227,6 +227,11 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
   Future<Message?> getMessage(String id) =>
       (select(messages)..where((m) => m.id.equals(id))).getSingleOrNull();
 
+  Stream<Message?> watchMessage(String id) =>
+      (select(messages)..where((m) => m.id.equals(id)))
+          .watchSingleOrNull()
+          .suppressDriftCancellation;
+
   Future<Map<String, Message>> getMessagesByIds(List<String> ids) async {
     if (ids.isEmpty) {
       return <String, Message>{};
@@ -362,6 +367,16 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
       (update(messages)..where((m) => m.id.equals(messageId))).write(
         MessagesCompanion(reactionsJson: Value(json)),
       );
+
+  Future<void> updateThreadJson({
+    required String messageId,
+    required String channelId,
+    required String? json,
+  }) =>
+      (update(messages)..where(
+            (m) => m.id.equals(messageId) & m.channelId.equals(channelId),
+          ))
+          .write(MessagesCompanion(threadJson: Value(json)));
 
   Future<void> deleteMessage(String id) =>
       (delete(messages)..where((m) => m.id.equals(id))).go();

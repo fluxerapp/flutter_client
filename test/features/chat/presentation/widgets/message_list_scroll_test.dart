@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/blocked_m
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_demand_source.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_live_entrance.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_overlay.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_unread_review.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_viewport.dart';
@@ -5624,6 +5625,149 @@ void main() {
         await disposeMessageList(tester);
       },
     );
+  });
+
+  group('live tail motion', () {
+    testWidgets('smooth follow lands at tail after motion completes', (
+      WidgetTester tester,
+    ) async {
+      final InstrumentedChatViewModel chatViewModel = await pumpBottomList(
+        tester,
+        hasMoreNewer: false,
+        disableMessageListAnimations: false,
+      );
+      final ScrollPosition position = messageListScrollPosition(tester);
+      final double tailBefore = position.maxScrollExtent;
+      expect(position.pixels, moreOrLessEquals(tailBefore, epsilon: 1));
+
+      final List<Message> old = chatViewModel.testState.messages;
+      final List<Message> live = newerRows(old, count: 1, label: 'motion');
+      chatViewModel.testState = chatViewModel.testState.copyWith(
+        write: (
+          messages: <Message>[...old, ...live],
+          origin: MessagesOrigin.liveCreate,
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 16));
+
+      expect(
+        position.pixels,
+        greaterThan(tailBefore),
+        reason: 'mid-follow must advance toward the new tail',
+      );
+      expect(
+        position.pixels,
+        lessThan(position.maxScrollExtent),
+        reason: 'mid-follow must not snap early',
+      );
+
+      await tester.pump(kMessageListLiveTailMotionDuration);
+      await tester.pump();
+
+      expect(messageItemFor(live.single.id), findsOneWidget);
+      expect(
+        position.pixels,
+        moreOrLessEquals(position.maxScrollExtent, epsilon: 1),
+      );
+
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('own send at the tail follows with motion', (
+      WidgetTester tester,
+    ) async {
+      final InstrumentedChatViewModel chatViewModel = await pumpBottomList(
+        tester,
+        hasMoreNewer: false,
+        disableMessageListAnimations: false,
+      );
+      final ScrollPosition position = messageListScrollPosition(tester);
+      final double tailBefore = position.maxScrollExtent;
+
+      final List<Message> old = chatViewModel.testState.messages;
+      final List<Message> sent = newerRows(old, count: 1, label: 'own');
+      chatViewModel.testState = chatViewModel.testState.copyWith(
+        scrollToBottomSignal: chatViewModel.testState.scrollToBottomSignal + 1,
+        write: (
+          messages: <Message>[...old, ...sent],
+          origin: MessagesOrigin.ownSend,
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 16));
+
+      expect(
+        position.pixels,
+        greaterThan(tailBefore),
+        reason: 'own send must smooth-follow at the pinned tail',
+      );
+
+      await tester.pump(kMessageListLiveTailMotionDuration);
+      await tester.pump();
+
+      expect(messageItemFor(sent.single.id), findsOneWidget);
+      expect(
+        position.pixels,
+        moreOrLessEquals(position.maxScrollExtent, epsilon: 1),
+      );
+
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('multi-line live append stays visible after tail follow', (
+      WidgetTester tester,
+    ) async {
+      final InstrumentedChatViewModel chatViewModel = await pumpBottomList(
+        tester,
+        hasMoreNewer: false,
+        disableMessageListAnimations: false,
+      );
+      final ScrollPosition position = messageListScrollPosition(tester);
+      position.jumpTo(position.maxScrollExtent);
+      await tester.pump();
+
+      final List<Message> old = chatViewModel.testState.messages;
+      final DateTime timestamp = old.last.timestamp.add(
+        const Duration(minutes: 1),
+      );
+      final String id = snowflakeForUtc(timestamp);
+      final String content = List<String>.generate(
+        12,
+        (int i) => 'live tail line $i with enough text to wrap in cozy mode',
+      ).join('\n');
+      chatViewModel.testState = chatViewModel.testState.copyWith(
+        write: (
+          messages: <Message>[
+            ...old,
+            harnessMessage(id: id, content: content, timestamp: timestamp),
+          ],
+          origin: MessagesOrigin.liveCreate,
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+      await tester.pump(kMessageListLiveTailMotionDuration);
+      for (int i = 0; i < 4; i += 1) {
+        await tester.pump();
+      }
+
+      final Rect viewport = tester.getRect(messageListScrollable());
+      final Rect newest = tester.getRect(messageItemFor(id));
+      expect(
+        newest.bottom,
+        lessThanOrEqualTo(viewport.bottom + 8),
+        reason: 'multi-line newest must stay fully visible at the pinned tail',
+      );
+      expect(
+        position.pixels,
+        moreOrLessEquals(position.maxScrollExtent, epsilon: 1),
+      );
+
+      await disposeMessageList(tester);
+    });
   });
 }
 

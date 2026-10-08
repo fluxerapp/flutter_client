@@ -617,7 +617,7 @@ abstract class FluxerLocalizations {
   /// Label for the TOTP authenticator method.
   ///
   /// In en, this message translates to:
-  /// **'Authenticator App'**
+  /// **'Authenticator app'**
   String get mfaMethodTotp;
 
   /// Label for the WebAuthn security key method.
@@ -1106,6 +1106,282 @@ abstract class FluxerLocalizations {
   /// **'Passwords do not match.'**
   String get resetPasswordMismatch;
 
+  /// Title of the screen where someone resets their password with a recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'Recover your account'**
+  String get recoverAccountTitle;
+
+  /// Description on the account recovery screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your username and the recovery key from your recovery kit, then choose a new password.'**
+  String get recoverAccountDescription;
+
+  /// Hint under the account recovery form for people without a recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'No recovery kit? Ask an admin of this instance for a password reset link.'**
+  String get recoverAccountNoKit;
+
+  /// Title of the sheet that shows a newly created account recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'Your recovery kit'**
+  String get recoveryKitTitle;
+
+  /// Recovery kit sheet description for a newly created kit.
+  ///
+  /// In en, this message translates to:
+  /// **'If you forget your password, this kit is the only way back into your account. Store it somewhere safe, like a password manager or a printed copy.'**
+  String get recoveryKitCreatedDescription;
+
+  /// Recovery kit sheet description shown after a kit replaces an older one.
+  ///
+  /// In en, this message translates to:
+  /// **'Your old recovery kit no longer works. Store this new one somewhere safe.'**
+  String get recoveryKitReplacedDescription;
+
+  /// Recovery kit sheet description shown after someone recovers their account with a recovery key.
+  ///
+  /// In en, this message translates to:
+  /// **'Your password is reset. Your old recovery kit no longer works. Store this new one somewhere safe.'**
+  String get recoveryKitRecoveredDescription;
+
+  /// Warning under the recovery key in the recovery kit sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Anyone with this key can reset your password. Never share it.'**
+  String get recoveryKitWarning;
+
+  /// Label for the account recovery key.
+  ///
+  /// In en, this message translates to:
+  /// **'Recovery key'**
+  String get recoveryKitKeyLabel;
+
+  /// Title of the saved recovery kit image. productName is the app name.
+  ///
+  /// In en, this message translates to:
+  /// **'{productName} recovery kit'**
+  String recoveryKitDocumentTitle(String productName);
+
+  /// Introduction on the saved recovery kit image.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep this page somewhere safe. If you forget your password, you can use it to get back into your account. Anyone with this recovery key can reset your password, so never share it.'**
+  String get recoveryKitDocumentIntro;
+
+  /// Label for the server address on the saved recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'Instance'**
+  String get recoveryKitInstanceLabel;
+
+  /// Label for the creation date on the saved recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'Created'**
+  String get recoveryKitCreatedAtLabel;
+
+  /// Caption under the QR code on the saved recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan to open the recovery page with your details filled in.'**
+  String get recoveryKitQrCaption;
+
+  /// Heading above the recovery steps on the saved recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'How to recover your account'**
+  String get recoveryKitStepsTitle;
+
+  /// First recovery step on the saved recovery kit. recoverUrl is the address of the recovery page.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to {recoverUrl} or scan the QR code.'**
+  String recoveryKitStepOpen(String recoverUrl);
+
+  /// Second recovery step on the saved recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your username and this recovery key.'**
+  String get recoveryKitStepEnter;
+
+  /// Third recovery step on the saved recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a new password. You get a new recovery kit and this one stops working.'**
+  String get recoveryKitStepPassword;
+
+  /// Heading above the two-factor backup codes on the saved recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'Two-factor backup codes'**
+  String get recoveryKitBackupCodesTitle;
+
+  /// Note under the two-factor backup codes heading on the saved recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'Each code works once in place of your authenticator app.'**
+  String get recoveryKitBackupCodesNote;
+
+  /// Toast shown when the two-factor backup codes for the recovery kit cannot be loaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load your backup codes.'**
+  String get recoveryKitBackupCodesFailed;
+
+  /// Checkbox in the recovery kit sheet that adds the two-factor backup codes to the saved image.
+  ///
+  /// In en, this message translates to:
+  /// **'Include my two-factor backup codes in the saved image'**
+  String get recoveryKitIncludeBackupCodes;
+
+  /// Button that copies the account recovery key.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get recoveryKitCopy;
+
+  /// Toast shown after the recovery key is copied.
+  ///
+  /// In en, this message translates to:
+  /// **'Recovery key copied'**
+  String get recoveryKitCopied;
+
+  /// Button that saves the recovery kit as an image.
+  ///
+  /// In en, this message translates to:
+  /// **'Save image'**
+  String get recoveryKitSaveImage;
+
+  /// Toast shown after the recovery kit image is saved to a file.
+  ///
+  /// In en, this message translates to:
+  /// **'Recovery kit saved'**
+  String get recoveryKitSaved;
+
+  /// Toast shown after the recovery kit image is saved to the photo library.
+  ///
+  /// In en, this message translates to:
+  /// **'Recovery kit saved to Photos'**
+  String get recoveryKitSavedToPhotos;
+
+  /// Toast shown when saving the recovery kit image fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t save the recovery kit. Try again or copy the key instead.'**
+  String get recoveryKitSaveFailed;
+
+  /// Checkbox that confirms the recovery kit is stored before closing the sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'ve stored my recovery kit somewhere safe'**
+  String get recoveryKitAcknowledge;
+
+  /// Toast shown when a recovery kit cannot be created.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t create your recovery kit. You can create one later in your account settings.'**
+  String get recoveryKitCreateFailed;
+
+  /// Title of the recovery kit section in security settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Recovery kit'**
+  String get recoveryKitSectionTitle;
+
+  /// Description of the recovery kit section in security settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Lets you reset your password if you forget it.'**
+  String get recoveryKitSectionDescription;
+
+  /// Shown in security settings when the account has no recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have a recovery kit yet'**
+  String get recoveryKitNone;
+
+  /// When the current recovery kit was created. time is a relative time such as 3 days ago.
+  ///
+  /// In en, this message translates to:
+  /// **'Created {time}'**
+  String recoveryKitCreatedRelative(String time);
+
+  /// Button that creates a recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'Create recovery kit'**
+  String get recoveryKitCreate;
+
+  /// Button that replaces the existing recovery kit with a new one.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a new kit'**
+  String get recoveryKitCreateNew;
+
+  /// Title of the confirmation shown before replacing an existing recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a new recovery kit?'**
+  String get recoveryKitReplaceTitle;
+
+  /// Body of the confirmation shown before replacing an existing recovery kit.
+  ///
+  /// In en, this message translates to:
+  /// **'Your current kit stops working as soon as the new one is created.'**
+  String get recoveryKitReplaceDescription;
+
+  /// Title of the one-time prompt asking a signed-in user without a recovery kit to create one.
+  ///
+  /// In en, this message translates to:
+  /// **'Save a recovery kit'**
+  String get recoveryKitReminderTitle;
+
+  /// Body of the one-time prompt asking a signed-in user without a recovery kit to create one.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account has no email address. If you forget your password, a recovery kit is the only way back in. It only takes a minute.'**
+  String get recoveryKitReminderBody;
+
+  /// Helper text under the required username field when the instance uses usernames to sign in.
+  ///
+  /// In en, this message translates to:
+  /// **'You sign in with this username. Pick one you will remember.'**
+  String get registerUsernameSignInHint;
+
+  /// Registration form message when the chosen username belongs to someone else.
+  ///
+  /// In en, this message translates to:
+  /// **'This username is already taken'**
+  String get registerUsernameTaken;
+
+  /// Registration form message when the chosen username is free to use.
+  ///
+  /// In en, this message translates to:
+  /// **'This username is available'**
+  String get registerUsernameAvailable;
+
+  /// Description in the claim account sheet on instances where people sign in with a username.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim your account by choosing a username and password. You sign in with them, so pick ones you will remember.'**
+  String get claimAccountUsernameDescription;
+
+  /// Description for the unclaimed account warning on instances where people sign in with a username.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account is not yet claimed. Without a username and password, you won\'t be able to sign in from other devices and you could lose access to your account. Claim your account now to secure it.'**
+  String get unclaimedAccountDescriptionUsername;
+
+  /// Placeholder for the add friend field on instances where usernames have no tag.
+  ///
+  /// In en, this message translates to:
+  /// **'Username'**
+  String get addFriendUsernameOnlyHint;
+
   /// Title for the registration screen.
   ///
   /// In en, this message translates to:
@@ -1285,6 +1561,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Invalid email or password.'**
   String get errorInvalidEmailOrPassword;
+
+  /// Sign-in error on instances where people sign in with a username.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid username or password.'**
+  String get errorInvalidUsernameOrPassword;
 
   /// Generic fallback error when forgot password request fails.
   ///
@@ -3641,7 +3923,7 @@ abstract class FluxerLocalizations {
   /// Shown when the password has never been changed.
   ///
   /// In en, this message translates to:
-  /// **'Last changed: Never'**
+  /// **'Last changed: never'**
   String get securityLoginPasswordNeverChanged;
 
   /// Shown when the user has no password set.
@@ -3893,7 +4175,7 @@ abstract class FluxerLocalizations {
   /// Label for authenticator app row.
   ///
   /// In en, this message translates to:
-  /// **'Authenticator App'**
+  /// **'Authenticator app'**
   String get securityTfaAuthenticatorApp;
 
   /// Status when TOTP is enabled.
@@ -12379,6 +12661,12 @@ abstract class FluxerLocalizations {
   /// **'Delete attachment'**
   String get chatMessageDeleteAttachment;
 
+  /// Body text for the delete attachment confirmation dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this attachment?'**
+  String get chatMessageDeleteAttachmentConfirmDescription;
+
   /// Action label for editing the alt text of a message attachment.
   ///
   /// In en, this message translates to:
@@ -16123,6 +16411,18 @@ abstract class FluxerLocalizations {
   /// **'Gifted until {date}. Does not renew automatically.'**
   String premiumGiftedUntil(String date);
 
+  /// Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out.
+  ///
+  /// In en, this message translates to:
+  /// **'Your gift time has ended. Subscribe to keep Plutonium.'**
+  String get premiumGiftGraceEnded;
+
+  /// Note next to the subscription plans when the user still has gifted Plutonium time left.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribing charges you now. Your remaining gift time is added after your paid period.'**
+  String get premiumGiftTimeAddedAfterSubscription;
+
   /// No description provided for @premiumComparisonFeatureColumn.
   ///
   /// In en, this message translates to:
@@ -16164,12 +16464,6 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong while starting checkout. Please try again in a moment.'**
   String get premiumCheckoutStartFailedBody;
-
-  /// No description provided for @premiumGiftSubscriptionBlocksRecurring.
-  ///
-  /// In en, this message translates to:
-  /// **'You\'re currently on a gift subscription. It won\'t renew. You can redeem more gift codes to extend it. Recurring subscriptions can be started after your gift time ends.'**
-  String get premiumGiftSubscriptionBlocksRecurring;
 
   /// No description provided for @premiumPlanUnavailable.
   ///
@@ -18795,6 +19089,12 @@ abstract class FluxerLocalizations {
   /// **'Text channels'**
   String get quickSwitcherSectionTextChannels;
 
+  /// Quick switcher section header for thread and forum post results.
+  ///
+  /// In en, this message translates to:
+  /// **'Threads'**
+  String get quickSwitcherSectionThreads;
+
   /// Quick switcher section header for voice channel results.
   ///
   /// In en, this message translates to:
@@ -19776,37 +20076,37 @@ abstract class FluxerLocalizations {
   /// Label for the text channel type option.
   ///
   /// In en, this message translates to:
-  /// **'Text channel'**
+  /// **'Text'**
   String get guildNavbarTextChannel;
 
   /// Description for the text channel type option.
   ///
   /// In en, this message translates to:
-  /// **'Send messages, images, GIFs, and emoji'**
+  /// **'Send messages, images, GIFs and emoji'**
   String get guildNavbarTextChannelDescription;
 
   /// Label for the voice channel type option.
   ///
   /// In en, this message translates to:
-  /// **'Voice channel'**
+  /// **'Voice'**
   String get guildNavbarVoiceChannel;
 
   /// Description for the voice channel type option.
   ///
   /// In en, this message translates to:
-  /// **'Hang out together with voice, video, and screen share'**
+  /// **'Hang out with voice, video and screen share'**
   String get guildNavbarVoiceChannelDescription;
 
   /// Label for the link channel type option.
   ///
   /// In en, this message translates to:
-  /// **'Link channel'**
+  /// **'Link'**
   String get guildNavbarLinkChannel;
 
   /// Description for the link channel type option.
   ///
   /// In en, this message translates to:
-  /// **'Quick access to an external website or resource'**
+  /// **'Shortcut to an external website'**
   String get guildNavbarLinkChannelDescription;
 
   /// Label for name input fields in guild navbar modals.
@@ -19838,6 +20138,30 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Channel type selection'**
   String get guildNavbarChannelTypeSelection;
+
+  /// Label for the private channel toggle in the create channel modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Private channel'**
+  String get guildNavbarPrivateChannel;
+
+  /// Description for the private channel toggle in the create channel modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Only selected members and roles will be able to view this channel.'**
+  String get guildNavbarPrivateChannelDescription;
+
+  /// Title of the create channel step that picks who can view a private channel.
+  ///
+  /// In en, this message translates to:
+  /// **'Add members or roles'**
+  String get guildNavbarAddMembersOrRoles;
+
+  /// Search hint in the create channel step that picks who can view a private channel.
+  ///
+  /// In en, this message translates to:
+  /// **'Search members or roles'**
+  String get guildNavbarAddMembersOrRolesHint;
 
   /// Title and confirm label for the create category modal.
   ///
@@ -21093,6 +21417,574 @@ abstract class FluxerLocalizations {
   /// **'Set voice region'**
   String get permissionSetVoiceRegion;
 
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage threads'**
+  String get permissionManageThreads;
+
+  /// Permission description.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename, archive, lock and delete threads, set their slowmode, and view private threads.'**
+  String get permissionManageThreadsDescription;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Create public threads'**
+  String get permissionCreatePublicThreads;
+
+  /// Permission description.
+  ///
+  /// In en, this message translates to:
+  /// **'Start threads that everyone who can view the channel can see.'**
+  String get permissionCreatePublicThreadsDescription;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Create private threads'**
+  String get permissionCreatePrivateThreads;
+
+  /// Permission description.
+  ///
+  /// In en, this message translates to:
+  /// **'Start invite-only threads.'**
+  String get permissionCreatePrivateThreadsDescription;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Send messages in threads'**
+  String get permissionSendMessagesInThreads;
+
+  /// Permission description.
+  ///
+  /// In en, this message translates to:
+  /// **'Send messages in threads and forum posts.'**
+  String get permissionSendMessagesInThreadsDescription;
+
+  /// Error shown when a thread or forum request is refused.
+  ///
+  /// In en, this message translates to:
+  /// **'This thread is archived.'**
+  String get threadErrorArchived;
+
+  /// Error shown when a thread or forum request is refused.
+  ///
+  /// In en, this message translates to:
+  /// **'This thread is locked. Only moderators can post or reopen it.'**
+  String get threadErrorLocked;
+
+  /// Error shown when a thread or forum request is refused.
+  ///
+  /// In en, this message translates to:
+  /// **'A thread already exists for this message.'**
+  String get threadErrorAlreadyCreated;
+
+  /// Error shown when a thread or forum request is refused.
+  ///
+  /// In en, this message translates to:
+  /// **'This community has reached its limit of active threads.'**
+  String get threadErrorMaxActiveThreads;
+
+  /// Error shown when a thread or forum request is refused.
+  ///
+  /// In en, this message translates to:
+  /// **'This thread has reached its member limit.'**
+  String get threadErrorMaxMembers;
+
+  /// Error shown when a thread or forum request is refused.
+  ///
+  /// In en, this message translates to:
+  /// **'Only one post can be pinned in this forum.'**
+  String get threadErrorMaxPinnedPosts;
+
+  /// Error shown when a thread or forum request is refused.
+  ///
+  /// In en, this message translates to:
+  /// **'A forum can have at most 20 tags.'**
+  String get threadErrorMaxForumTags;
+
+  /// Error shown when a thread or forum request is refused.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag names must be unique.'**
+  String get threadErrorTagNamesUnique;
+
+  /// Error shown when a thread or forum request is refused.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a tag everyone can use before requiring tags.'**
+  String get threadErrorNoTagsForEveryone;
+
+  /// Error shown when a thread or forum request is refused.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick at least one tag for this post.'**
+  String get threadErrorTagRequired;
+
+  /// Error shown when a thread or forum request is refused.
+  ///
+  /// In en, this message translates to:
+  /// **'One of the selected tags no longer exists.'**
+  String get threadErrorUnknownTag;
+
+  /// Error shown when a thread or forum request is refused.
+  ///
+  /// In en, this message translates to:
+  /// **'Those notification settings are not valid for a thread.'**
+  String get threadErrorInvalidNotificationSettings;
+
+  /// Error shown when a thread or forum request is refused.
+  ///
+  /// In en, this message translates to:
+  /// **'Posts are still being indexed. Try again in a moment.'**
+  String get threadErrorSearchIndexNotReady;
+
+  /// Error shown when a thread or forum request is refused.
+  ///
+  /// In en, this message translates to:
+  /// **'This action is not available in this channel.'**
+  String get threadErrorInvalidChannelType;
+
+  /// Action that opens the new thread form for a channel or a message.
+  ///
+  /// In en, this message translates to:
+  /// **'Create thread'**
+  String get threadCreate;
+
+  /// Label of the thread name input.
+  ///
+  /// In en, this message translates to:
+  /// **'Thread name'**
+  String get threadName;
+
+  /// Error shown when a thread is created or renamed without a name.
+  ///
+  /// In en, this message translates to:
+  /// **'Give the thread a name.'**
+  String get threadNameRequired;
+
+  /// Placeholder of the thread name input when there is no source message.
+  ///
+  /// In en, this message translates to:
+  /// **'New thread'**
+  String get threadNewThreadPlaceholder;
+
+  /// Label of the toggle that makes a new thread private.
+  ///
+  /// In en, this message translates to:
+  /// **'Private thread'**
+  String get threadPrivate;
+
+  /// Help text under the private thread toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Only people you invite and moderators can see this thread.'**
+  String get threadPrivateDescription;
+
+  /// Label of the optional first message input in the new thread form.
+  ///
+  /// In en, this message translates to:
+  /// **'Message'**
+  String get threadStarterMessage;
+
+  /// Placeholder of the first message input in the new thread form.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a message to start the conversation!'**
+  String get threadStarterMessagePlaceholder;
+
+  /// Cooldown notice in the new thread form when the parent channel has slowmode.
+  ///
+  /// In en, this message translates to:
+  /// **'{seconds, plural, =1{You can start another thread in 1 second.} other{You can start another thread in {seconds} seconds.}}'**
+  String threadCreateCooldown(int seconds);
+
+  /// Toast when creating a thread failed. {detail} is the server error message.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not start the thread: {detail}'**
+  String threadCreateFailed(String detail);
+
+  /// Title of the thread browser and label of the threads header button.
+  ///
+  /// In en, this message translates to:
+  /// **'Threads'**
+  String get threadBrowserTitle;
+
+  /// Tab in the thread browser that lists active threads.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get threadBrowserActive;
+
+  /// Tab in the thread browser that lists archived threads.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed'**
+  String get threadBrowserArchived;
+
+  /// Section header in the thread browser for threads the user joined.
+  ///
+  /// In en, this message translates to:
+  /// **'Joined'**
+  String get threadBrowserJoined;
+
+  /// Section header in the thread browser for active threads the user did not join.
+  ///
+  /// In en, this message translates to:
+  /// **'Other active threads'**
+  String get threadBrowserOtherActive;
+
+  /// Option in the closed thread list that shows public threads.
+  ///
+  /// In en, this message translates to:
+  /// **'Public threads'**
+  String get threadBrowserPublic;
+
+  /// Option in the closed thread list that shows private threads.
+  ///
+  /// In en, this message translates to:
+  /// **'Private threads'**
+  String get threadBrowserPrivate;
+
+  /// Empty state of the active threads list.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no threads. Stay focused on a conversation with a thread, a temporary text channel.'**
+  String get threadBrowserEmpty;
+
+  /// Empty state of the closed threads list.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no closed threads.'**
+  String get threadBrowserArchivedEmpty;
+
+  /// Button that loads the next page of closed threads.
+  ///
+  /// In en, this message translates to:
+  /// **'Load more'**
+  String get threadBrowserLoadMore;
+
+  /// Placeholder of the search field at the top of the thread browser.
+  ///
+  /// In en, this message translates to:
+  /// **'Search threads'**
+  String get threadBrowserSearch;
+
+  /// Empty state of the thread browser while searching.
+  ///
+  /// In en, this message translates to:
+  /// **'No threads match'**
+  String get threadBrowserSearchEmpty;
+
+  /// Hint under the empty search state in the thread browser.
+  ///
+  /// In en, this message translates to:
+  /// **'Try a different name or check the other tab.'**
+  String get threadBrowserSearchEmptyHint;
+
+  /// Error state of the thread browser search.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t search threads. Try again later.'**
+  String get threadBrowserSearchFailed;
+
+  /// Shown in the thread browser while the search index is being built.
+  ///
+  /// In en, this message translates to:
+  /// **'Search is getting ready for this community. Trying again shortly...'**
+  String get threadBrowserSearchIndexing;
+
+  /// Message count on a thread chip and in the thread browser.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 message} other{{count} messages}}'**
+  String threadMessageCount(int count);
+
+  /// Note under a thread message when some mentioned roles had too many members to add to the thread.
+  ///
+  /// In en, this message translates to:
+  /// **'Some mentioned roles were not added to this thread.'**
+  String get threadFailedToMentionSomeRoles;
+
+  /// Title of the thread member list.
+  ///
+  /// In en, this message translates to:
+  /// **'Thread members'**
+  String get threadMembers;
+
+  /// Header above the thread member list.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 member} other{{count} members}}'**
+  String threadMembersCount(int count);
+
+  /// Empty state of the thread member list.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody has joined this thread yet.'**
+  String get threadMembersEmpty;
+
+  /// Accessible label of the button that removes a member from a thread.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {name} from thread'**
+  String threadRemoveMember(String name);
+
+  /// Action that adds the current user to a thread.
+  ///
+  /// In en, this message translates to:
+  /// **'Join thread'**
+  String get threadJoin;
+
+  /// Action that removes the current user from a thread.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave thread'**
+  String get threadLeave;
+
+  /// Notice above the composer when the user is not a member of the thread.
+  ///
+  /// In en, this message translates to:
+  /// **'Join this thread to follow it in your channel list and get notifications.'**
+  String get threadJoinNotice;
+
+  /// Notice above the composer of an archived thread.
+  ///
+  /// In en, this message translates to:
+  /// **'This thread is closed. Sending a message will open it again.'**
+  String get threadArchivedNotice;
+
+  /// Barrier shown instead of the composer in a locked thread.
+  ///
+  /// In en, this message translates to:
+  /// **'This thread is locked. Only moderators can send messages.'**
+  String get threadLockedNotice;
+
+  /// Action that archives a thread so it leaves the channel list.
+  ///
+  /// In en, this message translates to:
+  /// **'Close thread'**
+  String get threadArchive;
+
+  /// Action that unarchives an archived thread.
+  ///
+  /// In en, this message translates to:
+  /// **'Open thread again'**
+  String get threadUnarchive;
+
+  /// Moderator action that stops non-moderators from sending messages in a thread.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock thread'**
+  String get threadLock;
+
+  /// Moderator action that lets everyone send messages in a locked thread again.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock thread'**
+  String get threadUnlock;
+
+  /// Destructive moderator action that deletes a thread and all its messages.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete thread'**
+  String get threadDelete;
+
+  /// Confirmation text before deleting a thread.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete {threadName}? This cannot be undone.'**
+  String threadDeleteConfirm(String threadName);
+
+  /// Toast after a thread was deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Thread deleted'**
+  String get threadDeleted;
+
+  /// Action that marks a thread as read.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as read'**
+  String get threadMarkAsRead;
+
+  /// Action that mutes notifications and unread badges for a thread.
+  ///
+  /// In en, this message translates to:
+  /// **'Mute thread'**
+  String get threadMute;
+
+  /// Action that unmutes a thread.
+  ///
+  /// In en, this message translates to:
+  /// **'Unmute thread'**
+  String get threadUnmute;
+
+  /// Toast after a thread was muted.
+  ///
+  /// In en, this message translates to:
+  /// **'Thread muted'**
+  String get threadMuted;
+
+  /// Toast after a thread was unmuted.
+  ///
+  /// In en, this message translates to:
+  /// **'Thread unmuted'**
+  String get threadUnmuted;
+
+  /// Title of the thread notification settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification settings'**
+  String get threadNotificationSettings;
+
+  /// Thread notification option that follows the parent channel setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Use channel default'**
+  String get threadNotificationParentDefault;
+
+  /// Action that copies a link to the thread.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy link'**
+  String get threadCopyLink;
+
+  /// Developer mode action that copies the thread ID.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy thread ID'**
+  String get threadCopyId;
+
+  /// Header button that opens the thread actions.
+  ///
+  /// In en, this message translates to:
+  /// **'More options'**
+  String get threadMoreOptions;
+
+  /// Title of the thread settings form.
+  ///
+  /// In en, this message translates to:
+  /// **'Thread settings'**
+  String get threadSettings;
+
+  /// Toast after thread settings were saved.
+  ///
+  /// In en, this message translates to:
+  /// **'Thread settings saved'**
+  String get threadSettingsSaved;
+
+  /// Label of the thread auto archive duration setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide after inactivity'**
+  String get threadAutoArchive;
+
+  /// Help text of the thread auto archive duration setting.
+  ///
+  /// In en, this message translates to:
+  /// **'The thread stops showing in the channel list after this period of inactivity.'**
+  String get threadAutoArchiveDescription;
+
+  /// Label of the default auto archive duration for new threads in a text channel.
+  ///
+  /// In en, this message translates to:
+  /// **'Default hide after inactivity'**
+  String get threadDefaultAutoArchive;
+
+  /// Help text of the default thread auto archive duration setting.
+  ///
+  /// In en, this message translates to:
+  /// **'New threads stop showing in the channel list after this period of inactivity.'**
+  String get threadDefaultAutoArchiveDescription;
+
+  /// Label of the slowmode copied onto new threads in a text channel.
+  ///
+  /// In en, this message translates to:
+  /// **'Default thread slowmode'**
+  String get threadDefaultSlowmode;
+
+  /// Thread auto archive duration option.
+  ///
+  /// In en, this message translates to:
+  /// **'1 Hour'**
+  String get threadAutoArchiveOneHour;
+
+  /// Thread auto archive duration option.
+  ///
+  /// In en, this message translates to:
+  /// **'24 Hours'**
+  String get threadAutoArchiveOneDay;
+
+  /// Thread auto archive duration option.
+  ///
+  /// In en, this message translates to:
+  /// **'3 Days'**
+  String get threadAutoArchiveThreeDays;
+
+  /// Thread auto archive duration option.
+  ///
+  /// In en, this message translates to:
+  /// **'1 Week'**
+  String get threadAutoArchiveOneWeek;
+
+  /// Private thread setting that lets non-moderators add other members.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow anyone to invite'**
+  String get threadInvitable;
+
+  /// Help text of the private thread invite setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Members of this private thread can add other people.'**
+  String get threadInvitableDescription;
+
+  /// Subtitle at the start of a thread naming its creator.
+  ///
+  /// In en, this message translates to:
+  /// **'Started by {name}'**
+  String threadStartedBy(String name);
+
+  /// Shown at the top of a thread when the message it was started from was deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Original message was deleted.'**
+  String get threadStarterDeleted;
+
+  /// System message when a user starts a thread. Keep {username}, {threadLink}, and {allThreadsLink} in place and translate the surrounding sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'{username} started a thread: {threadLink}. See {allThreadsLink}.'**
+  String systemThreadCreated(
+    String username,
+    String threadLink,
+    String allThreadsLink,
+  );
+
+  /// Link text in the thread started system message that opens the thread browser.
+  ///
+  /// In en, this message translates to:
+  /// **'all threads'**
+  String get systemThreadCreatedAllThreadsLink;
+
+  /// Link text in the thread started system message when the thread name is unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'a thread'**
+  String get systemThreadCreatedThreadFallback;
+
+  /// Plaintext preview for a thread started system message.
+  ///
+  /// In en, this message translates to:
+  /// **'{username} started a thread.'**
+  String systemPreviewThreadCreated(String username);
+
   /// Emoji slot usage summary.
   ///
   /// In en, this message translates to:
@@ -21342,6 +22234,24 @@ abstract class FluxerLocalizations {
   /// Audit log action filter label.
   ///
   /// In en, this message translates to:
+  /// **'Thread created'**
+  String get auditLogActionThreadCreate;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Thread updated'**
+  String get auditLogActionThreadUpdate;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Thread deleted'**
+  String get auditLogActionThreadDelete;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
   /// **'Channel overwrite added'**
   String get auditLogActionChannelOverwriteCreate;
 
@@ -21548,6 +22458,24 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'{actor} deleted the channel {target}.'**
   String auditLogSummaryChannelDelete(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} started the thread {target}.'**
+  String auditLogSummaryThreadCreate(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} updated the thread {target}.'**
+  String auditLogSummaryThreadUpdate(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} deleted the thread {target}.'**
+  String auditLogSummaryThreadDelete(String actor, String target);
 
   /// Activity log entry summary.
   ///
@@ -24855,25 +25783,25 @@ abstract class FluxerLocalizations {
   /// No description provided for @guildNavbarAnnouncementChannel.
   ///
   /// In en, this message translates to:
-  /// **'Announcement Channel'**
+  /// **'Announcement'**
   String get guildNavbarAnnouncementChannel;
 
   /// No description provided for @guildNavbarAnnouncementChannelDescription.
   ///
   /// In en, this message translates to:
-  /// **'Post updates that other communities can follow into their own channels'**
+  /// **'Post updates other communities can follow'**
   String get guildNavbarAnnouncementChannelDescription;
 
   /// No description provided for @channelDetailsAnnouncementChannel.
   ///
   /// In en, this message translates to:
-  /// **'Announcement Channel'**
+  /// **'Announcement channel'**
   String get channelDetailsAnnouncementChannel;
 
   /// No description provided for @channelSettingsAnnouncementChannel.
   ///
   /// In en, this message translates to:
-  /// **'Announcement Channel'**
+  /// **'Announcement channel'**
   String get channelSettingsAnnouncementChannel;
 
   /// No description provided for @channelSettingsAnnouncementChannelDescription.
@@ -24921,7 +25849,7 @@ abstract class FluxerLocalizations {
   /// No description provided for @channelMenuFollow.
   ///
   /// In en, this message translates to:
-  /// **'Follow Channel'**
+  /// **'Follow channel'**
   String get channelMenuFollow;
 
   /// No description provided for @channelFollowTitle.
@@ -25251,7 +26179,7 @@ abstract class FluxerLocalizations {
   /// No description provided for @crosspostJoinCommunity.
   ///
   /// In en, this message translates to:
-  /// **'Join Community'**
+  /// **'Join community'**
   String get crosspostJoinCommunity;
 
   /// No description provided for @crosspostSourceFailed.
@@ -25307,6 +26235,522 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Unsupported channel'**
   String get channelDetailsUnsupportedChannel;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Forum'**
+  String get forumChannelTypeForum;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Posts organized by topic and tags'**
+  String get forumChannelTypeForumDescription;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Media'**
+  String get forumChannelTypeMedia;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Posts built around images and videos'**
+  String get forumChannelTypeMediaDescription;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'New post'**
+  String get forumNewPost;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'New media post'**
+  String get forumNewMediaPost;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Search posts'**
+  String get forumSearchPosts;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort and view'**
+  String get forumViewOptions;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Search is still being prepared for this community. Posts appear here as soon as it is ready.'**
+  String get forumSearchIndexing;
+
+  /// Title of the empty state in a forum channel without posts.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no posts yet'**
+  String get forumNoPosts;
+
+  /// Body of the empty state in a forum channel without posts.
+  ///
+  /// In en, this message translates to:
+  /// **'Be the first to start a conversation here.'**
+  String get forumNoPostsHint;
+
+  /// Title of the empty state in a forum channel when the search or tag filter finds nothing.
+  ///
+  /// In en, this message translates to:
+  /// **'No posts match your search'**
+  String get forumNoSearchResults;
+
+  /// Body of the empty state in a forum channel when the search or tag filter finds nothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Try different words or clear the tag filter.'**
+  String get forumNoSearchResultsHint;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Create the first post'**
+  String get forumCreateFirstPost;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Older posts'**
+  String get forumOlderPosts;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Posts could not be loaded.'**
+  String get forumPostsLoadFailed;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get forumRetry;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Pinned'**
+  String get forumPostPinned;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Locked'**
+  String get forumPostLocked;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Archived'**
+  String get forumPostArchived;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'NEW'**
+  String get forumPostNewBadge;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'The original message was deleted.'**
+  String get forumPostStarterDeleted;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'{author}: {content}'**
+  String forumPostSnippet(String author, String content);
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 new message} other{{count} new messages}}'**
+  String forumPostNewMessages(int count);
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Add the default reaction'**
+  String get forumPostReact;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Open post'**
+  String get forumOpenPost;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit tags'**
+  String get forumEditTags;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Save tags'**
+  String get forumSaveTags;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Pick up to 1 tag.} other{Pick up to {count} tags.}}'**
+  String forumTagsLimitHint(int count);
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Pin post'**
+  String get forumPinPost;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Unpin post'**
+  String get forumUnpinPost;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as read'**
+  String get forumMarkPostRead;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy link'**
+  String get forumCopyPostLink;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Post guidelines'**
+  String get forumPostGuidelines;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell people what to post here and how to post it.'**
+  String get forumGuidelinesPlaceholder;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get forumPostTitle;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Message'**
+  String get forumPostMessage;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Write the first message of your post'**
+  String get forumPostMessagePlaceholder;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a caption'**
+  String get forumPostMediaPlaceholder;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get forumPostTags;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags (required)'**
+  String get forumPostTagsRequired;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Add media'**
+  String get forumPostAddMedia;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Add file'**
+  String get forumPostAddFile;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove attachment'**
+  String get forumPostRemoveAttachment;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Post'**
+  String get forumPostSubmit;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Give your post a title.'**
+  String get forumPostTitleRequired;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Add at least one image or video to post here.'**
+  String get forumPostMediaRequired;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a message or add a file.'**
+  String get forumPostContentRequired;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Recently active'**
+  String get forumSortLatestActivity;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Date posted'**
+  String get forumSortCreationTime;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'List view'**
+  String get forumLayoutList;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Gallery view'**
+  String get forumLayoutGallery;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Show unread for new posts'**
+  String get forumNewPostsUnread;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark this channel unread when someone creates a post.'**
+  String get forumNewPostsUnreadDescription;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Post slowmode'**
+  String get forumPostSlowmode;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Wait between creating posts. \"{bypassSlowmodePermissionLabel}\" can bypass it.'**
+  String forumPostSlowmodeDescription(String bypassSlowmodePermissionLabel);
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Message slowmode in posts'**
+  String get forumMessageSlowmode;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Slowmode applied to messages in new posts.'**
+  String get forumMessageSlowmodeDescription;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide after inactivity'**
+  String get forumDefaultAutoArchive;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'New posts are archived after this long without activity.'**
+  String get forumDefaultAutoArchiveDescription;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Default reaction'**
+  String get forumDefaultReaction;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick an emoji'**
+  String get forumSetDefaultReaction;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get forumChangeDefaultReaction;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get forumRemoveDefaultReaction;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Default sort order'**
+  String get forumDefaultSortOrder;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Default layout'**
+  String get forumDefaultLayout;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag filter'**
+  String get forumTagMatchSetting;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Match any selected tag'**
+  String get forumTagMatchSome;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Match all selected tags'**
+  String get forumTagMatchAll;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Require tags'**
+  String get forumRequireTag;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'People must pick at least one tag when they create a post.'**
+  String get forumRequireTagDescription;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide media download options'**
+  String get forumHideMediaDownloads;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide download, open in browser and copy link for images and videos in posts.'**
+  String get forumHideMediaDownloadsDescription;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags ({count}/{max})'**
+  String forumTagsTitle(int count, int max);
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags help people find and filter posts. Only moderators can apply moderated tags.'**
+  String get forumTagsDescription;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Create tag'**
+  String get forumCreateTag;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit tag'**
+  String get forumEditTag;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Save tag'**
+  String get forumSaveTag;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete tag'**
+  String get forumDeleteTag;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag name'**
+  String get forumTagName;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Emoji'**
+  String get forumTagEmoji;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove emoji'**
+  String get forumTagRemoveEmoji;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Only moderators can apply'**
+  String get forumTagModerated;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Only members who can manage threads can apply or remove this tag.'**
+  String get forumTagModeratedDescription;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Moderated'**
+  String get forumTagModeratedBadge;
+
+  /// Forum and media channel UI.
+  ///
+  /// In en, this message translates to:
+  /// **'{seconds, plural, =1{You can post again in 1 second.} other{You can post again in {seconds} seconds.}}'**
+  String forumPostCooldown(int seconds);
 }
 
 class _FluxerLocalizationsDelegate

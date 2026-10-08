@@ -119,6 +119,9 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
   }
 
   bool _canSyncForRoute() {
+    if (!mounted || !context.mounted) {
+      return false;
+    }
     final String? activeChannelId = ref.read(activeChannelIdProvider);
     final bool hasPopup = ref.read(shellHasPopupOverlayProvider);
     if (hasPopup) {
@@ -253,12 +256,21 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
     }
     ref
       ..listen<String?>(activeChannelIdProvider, (_, _) {
+        if (!mounted || !context.mounted) {
+          return;
+        }
         _scheduleSyncChannelIfNeeded();
       })
       ..listen<bool>(shellHasPopupOverlayProvider, (_, _) {
+        if (!mounted || !context.mounted) {
+          return;
+        }
         _scheduleSyncChannelIfNeeded();
       });
     ref.listen<ChatViewState>(chatViewModelProvider, (previous, next) {
+      if (!mounted || !context.mounted) {
+        return;
+      }
       _maybeResyncChannelMismatch(next);
       _maybeResyncStrandedEmptyChannel(next);
       _maybeConsumeSettledJumpTarget(previous, next);

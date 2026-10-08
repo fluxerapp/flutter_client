@@ -64,6 +64,9 @@ class ChannelAddOverridePickerContent extends ConsumerStatefulWidget {
     this.scrollController,
     this.isBottomSheet = false,
     this.width = 320,
+    this.selectedIds,
+    this.searchHint,
+    this.footer,
     super.key,
   });
 
@@ -75,6 +78,9 @@ class ChannelAddOverridePickerContent extends ConsumerStatefulWidget {
   final ScrollController? scrollController;
   final bool isBottomSheet;
   final double width;
+  final Set<String>? selectedIds;
+  final String? searchHint;
+  final Widget? footer;
 
   @override
   ConsumerState<ChannelAddOverridePickerContent> createState() =>
@@ -90,6 +96,11 @@ class _ChannelAddOverridePickerContentState
   Timer? _searchDebounce;
 
   String get _trimmedSearch => _searchQuery.trim();
+
+  bool get _membersOnly => _trimmedSearch.startsWith('@');
+
+  String get _memberSearch =>
+      _membersOnly ? _trimmedSearch.substring(1).trim() : _trimmedSearch;
 
   @override
   void dispose() {
@@ -167,7 +178,7 @@ class _ChannelAddOverridePickerContentState
   void _onSearchChanged(String value) {
     setState(() => _searchQuery = value);
     _searchDebounce?.cancel();
-    final String trimmed = value.trim();
+    final String trimmed = _memberSearch;
     if (trimmed.isEmpty) {
       unawaited(_fetchMembers(''));
       return;
@@ -178,6 +189,9 @@ class _ChannelAddOverridePickerContentState
   }
 
   List<db.Role> get _visibleRoles {
+    if (_membersOnly) {
+      return const <db.Role>[];
+    }
     final List<db.Role> roles =
         widget.rolesById.values
             .where(
@@ -206,10 +220,10 @@ class _ChannelAddOverridePickerContentState
   List<Member> get _visibleMembers {
     final List<Member> filtered = filterGuildMembersForAutocomplete(
       members: _members,
-      parsed: _rankingQueryFor(_trimmedSearch),
+      parsed: _rankingQueryFor(_memberSearch),
       limit: _kMemberPreviewLimit,
       discriminatorByUserId: const <String, String>{},
-      stableSession: _memberSessionFor(_trimmedSearch),
+      stableSession: _memberSessionFor(_memberSearch),
     );
     return filtered
         .where(
@@ -220,7 +234,9 @@ class _ChannelAddOverridePickerContentState
 
   void _handleSelect(String id, int type, String name) {
     widget.onSelect(id, type, name);
-    widget.onClose();
+    if (widget.selectedIds == null) {
+      widget.onClose();
+    }
   }
 
   List<Widget> _buildListChildren(
@@ -239,6 +255,7 @@ class _ChannelAddOverridePickerContentState
           _OverridePickTile(
             label: role.name,
             roleColor: role.color,
+            selected: widget.selectedIds?.contains(role.id),
             onTap: () => _handleSelect(role.id, 0, role.name),
           ),
         );
@@ -262,6 +279,7 @@ class _ChannelAddOverridePickerContentState
           _OverridePickTile(
             label: member.displayName,
             member: member,
+            selected: widget.selectedIds?.contains(member.id),
             onTap: () => _handleSelect(member.id, 1, member.displayName),
           ),
         );
@@ -300,7 +318,9 @@ class _ChannelAddOverridePickerContentState
     final Widget searchField = Padding(
       padding: searchPadding,
       child: FluxerInput(
-        hint: l10n.channelSettingsPermissionsSearchRolesOrMembers,
+        hint:
+            widget.searchHint ??
+            l10n.channelSettingsPermissionsSearchRolesOrMembers,
         prefixIcon: const PhosphorIcon(
           PhosphorIconsBold.magnifyingGlass,
           size: 16,
@@ -311,16 +331,19 @@ class _ChannelAddOverridePickerContentState
     );
 
     if (isBottomSheet) {
-      return Padding(
-        padding: FluxerBottomSheet.scrollViewPadding(
-          context,
-          padding: EdgeInsets.fromLTRB(
-            context.layout.s4,
-            0,
-            context.layout.s4,
-            context.layout.s4,
-          ),
-        ),
+      final Widget? footer = widget.footer;
+      final Widget picker = Padding(
+        padding: footer != null
+            ? EdgeInsets.symmetric(horizontal: context.layout.s4)
+            : FluxerBottomSheet.scrollViewPadding(
+                context,
+                padding: EdgeInsets.fromLTRB(
+                  context.layout.s4,
+                  0,
+                  context.layout.s4,
+                  context.layout.s4,
+                ),
+              ),
         child: Column(
           children: <Widget>[
             searchField,
@@ -329,15 +352,26 @@ class _ChannelAddOverridePickerContentState
               child: ListView(
                 controller: widget.scrollController,
                 physics: const AlwaysScrollableScrollPhysics(),
-                padding: FluxerBottomSheet.scrollViewPadding(
-                  context,
-                  padding: EdgeInsets.zero,
-                ),
+                padding: footer != null
+                    ? EdgeInsets.zero
+                    : FluxerBottomSheet.scrollViewPadding(
+                        context,
+                        padding: EdgeInsets.zero,
+                      ),
                 children: listChildren,
               ),
             ),
           ],
         ),
+      );
+      if (footer == null) {
+        return picker;
+      }
+      return Column(
+        children: <Widget>[
+          Expanded(child: picker),
+          footer,
+        ],
       );
     }
 
@@ -378,7 +412,7 @@ class _OverrideSectionHeader extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
       child: Text(
-        label.toUpperCase(),
+        label,
         style: context.textStyles.label.copyWith(
           color: context.colors.textTertiary,
           fontWeight: FontWeight.w600,
@@ -394,12 +428,14 @@ class _OverridePickTile extends StatelessWidget {
     required this.onTap,
     this.roleColor,
     this.member,
+    this.selected,
   });
 
   final String label;
   final VoidCallback onTap;
   final int? roleColor;
   final Member? member;
+  final bool? selected;
 
   @override
   Widget build(BuildContext context) {
@@ -446,6 +482,8 @@ class _OverridePickTile extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
+              if (selected case final bool isSelected)
+                FluxerCheckbox(value: isSelected, onChanged: (_) => onTap()),
             ],
           ),
         ),

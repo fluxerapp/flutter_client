@@ -20,7 +20,7 @@ QueryExecutor openFluxerSqliteConnection() {
     await file.parent.create(recursive: true);
     return NativeDatabase.createInBackground(
       file,
-      setup: applyDriftSqlitePragmas,
+      setup: driftSqliteSetup(isMobile: isFluxerNativeMobileOs),
       readPool: kSqliteReadPoolSize,
     );
   });

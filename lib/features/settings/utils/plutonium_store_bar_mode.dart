@@ -1,30 +1,30 @@
 import 'package:fluxer_app/features/settings/utils/premium_subscription_status.dart';
 
-enum PlutoniumStoreBarMode { subscribe, manage, visionary, gift, waiting }
+enum PremiumStoreBarMode { subscribe, manage, visionary, gift, waiting }
 
-PlutoniumStoreBarMode plutoniumStoreBarMode({
+PremiumStoreBarMode premiumStoreBarMode({
   required PremiumSubscriptionStatus status,
   required bool purchasePending,
   bool manageOnDevice = false,
 }) {
   if (status.isVisionary) {
-    return PlutoniumStoreBarMode.visionary;
+    return PremiumStoreBarMode.visionary;
   }
   if (purchasePending && !status.isPremium) {
-    return PlutoniumStoreBarMode.waiting;
+    return PremiumStoreBarMode.waiting;
+  }
+  if (status.isGiftSubscription) {
+    return PremiumStoreBarMode.gift;
   }
   final bool graceOrExpired =
       status.gracePeriodInfo.isInGracePeriod ||
       status.gracePeriodInfo.isExpired ||
       status.gracePeriodInfo.showExpiredState;
-  if (status.isGiftSubscription && !graceOrExpired) {
-    return PlutoniumStoreBarMode.gift;
-  }
   if (graceOrExpired && !manageOnDevice) {
-    return PlutoniumStoreBarMode.subscribe;
+    return PremiumStoreBarMode.subscribe;
   }
-  if (status.shouldShowPremiumCard && !status.isGiftSubscription) {
-    return PlutoniumStoreBarMode.manage;
+  if (status.shouldShowPremiumCard) {
+    return PremiumStoreBarMode.manage;
   }
-  return PlutoniumStoreBarMode.subscribe;
+  return PremiumStoreBarMode.subscribe;
 }

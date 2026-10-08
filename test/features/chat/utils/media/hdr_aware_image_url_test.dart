@@ -87,6 +87,16 @@ void main() {
       expect(Uri.parse(actual).queryParameters['format'], 'webp');
     });
 
+    test('leaves svg urls unchanged in STANDARD mode', () {
+      const String url = 'https://cdn.example.com/a.svg';
+      final String actual = buildHdrAwareImageUrl(
+        url: url,
+        mode: HdrDisplayMode.standard,
+        contentType: 'image/svg+xml',
+      );
+      expect(actual, url);
+    });
+
     test('FULL strips format from native HDR urls', () {
       final String actual = buildHdrAwareImageUrl(
         url: 'https://cdn.example.com/a.avif?format=webp&width=400',

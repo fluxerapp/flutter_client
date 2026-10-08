@@ -27,6 +27,9 @@ import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/favorites/domain/favorite_guild_id.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
+import 'package:fluxer_app/features/forum/presentation/sheets/forum_view_options_sheet.dart';
+import 'package:fluxer_app/features/forum/presentation/widgets/forum_mobile_header_search.dart';
+import 'package:fluxer_app/features/forum/providers/forum_header_search_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
@@ -34,6 +37,8 @@ import 'package:fluxer_app/features/shell/navigation/shell_back_handler.dart';
 import 'package:fluxer_app/features/shell/navigation/shell_back_resolver.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
+import 'package:fluxer_app/features/threads/presentation/thread_header_buttons.dart';
+import 'package:fluxer_app/features/threads/presentation/thread_menu_sheet.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
@@ -167,18 +172,22 @@ class ChannelHeader extends ConsumerWidget {
     required bool isMemberListVisible,
     required bool highContrast,
   }) {
+    final bool forumHandheld =
+        (channel?.isThreadOnly ?? false) && isForumHandheldLayout(context);
     return ResponsiveLayout(
-      builder: (context, mode) => switch (mode) {
-        LayoutMode.mobile => _buildMobileBar(
-          context,
-          ref,
-          channelId: channelId,
-          l10n: l10n,
-          channel: channel,
-          dm: dm,
-          isPersonalNotes: isPersonalNotes,
-        ),
-        _ => _buildWideBar(
+      builder: (context, mode) {
+        if (mode == LayoutMode.mobile || forumHandheld) {
+          return _buildMobileBar(
+            context,
+            ref,
+            channelId: channelId,
+            l10n: l10n,
+            channel: channel,
+            dm: dm,
+            isPersonalNotes: isPersonalNotes,
+          );
+        }
+        return _buildWideBar(
           context,
           ref,
           channelId: channelId,
@@ -187,7 +196,7 @@ class ChannelHeader extends ConsumerWidget {
           isPersonalNotes: isPersonalNotes,
           isMemberListVisible: isMemberListVisible,
           highContrast: highContrast,
-        ),
+        );
       },
     );
   }
@@ -255,6 +264,11 @@ class ChannelHeader extends ConsumerWidget {
     final int backButtonUnreadCount = ref.watch(
       chatBackButtonUnreadCountProvider(channelId),
     );
+    final bool forumHandheldHeader =
+        (channel?.isThreadOnly ?? false) && isForumHandheldLayout(context);
+    final bool forumSearchExpanded =
+        forumHandheldHeader &&
+        ref.watch(forumHeaderSearchProvider(channelId)).expanded;
 
     return FluxerConstrainedUiTextScale(
       child: Container(
@@ -270,142 +284,191 @@ class ChannelHeader extends ConsumerWidget {
               onPressed: () => _handleMobileBack(context, ref),
             ),
             Expanded(
-              child: Semantics(
-                button: true,
-                label: 'Open channel details',
-                child: InkWell(
-                  onTap: () =>
-                      _openDetails(context, ref, channel: channel, dm: dm),
-                  borderRadius: BorderRadius.circular(6),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 2,
-                      vertical: 6,
-                    ),
-                    child: Row(
-                      children: [
-                        _buildMobileLeadingIcon(
+              child: AnimatedSwitcher(
+                duration: context.motion.normal,
+                switchInCurve: Curves.easeOut,
+                switchOutCurve: Curves.easeIn,
+                child: forumSearchExpanded
+                    ? ForumMobileHeaderSearch(
+                        key: const ValueKey<String>('forum-search'),
+                        channelId: channelId,
+                      )
+                    : Semantics(
+                        key: const ValueKey<String>('channel-title'),
+                        button: true,
+                        label: 'Open channel details',
+                        child: InkWell(
+                          onTap: () => _openDetails(
+                            context,
+                            ref,
+                            channel: channel,
+                            dm: dm,
+                          ),
+                          borderRadius: BorderRadius.circular(6),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 2,
+                              vertical: 6,
+                            ),
+                            child: Row(
+                              children: [
+                                _buildMobileLeadingIcon(
+                                  context,
+                                  ref,
+                                  channel: channel,
+                                  dm: dm,
+                                  isPersonalNotes: isPersonalNotes,
+                                ),
+                                const SizedBox(width: 6),
+                                Flexible(
+                                  child: Text(
+                                    resolveChannelHeaderTitle(
+                                      ref,
+                                      channelId: channelId,
+                                      l10n: l10n,
+                                      channel: channel,
+                                      dm: dm,
+                                      isPersonalNotes: isPersonalNotes,
+                                    ),
+                                    style: context.textStyles.channelName,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                if (dm != null &&
+                                    isBotOrSystemDmRecipient(dm)) ...[
+                                  const SizedBox(width: 6),
+                                  FluxerUserTag(isSystem: dm.isSystem),
+                                ],
+                                const SizedBox(width: 4),
+                                PhosphorIcon(
+                                  PhosphorIconsBold.caretRight,
+                                  size: 16,
+                                  color: context.colors.textPrimaryMuted,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+              ),
+            ),
+            if (!forumSearchExpanded)
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                spacing: 8,
+                children: [
+                  if (showMessageActions &&
+                      showFavorites &&
+                      !isPersonalNotes &&
+                      targetChannelId != null &&
+                      !(channel != null &&
+                          isThreadFeatureChannelType(channel.type.wireValue)))
+                    FluxerGestureDetector(
+                      onLongPress: () => _showFavoriteActions(context, ref),
+                      child: FluxerButton.circle(
+                        icon: isFavorite
+                            ? PhosphorIconsFill.star
+                            : PhosphorIconsBold.star,
+                        variant: isFavorite
+                            ? FluxerButtonVariant.primary
+                            : FluxerButtonVariant.secondary,
+                        size: FluxerButtonSize.small,
+                        iconSize: 20,
+                        semanticLabel: isFavorite
+                            ? l10n.favoritesRemoveFromFavorites
+                            : l10n.favoritesAddToFavorites,
+                        onPressedAsync: () => _toggleFavorite(
                           context,
                           ref,
                           channel: channel,
                           dm: dm,
-                          isPersonalNotes: isPersonalNotes,
+                          isFavorite: isFavorite,
                         ),
-                        const SizedBox(width: 6),
-                        Flexible(
-                          child: Text(
-                            resolveChannelHeaderTitle(
-                              ref,
-                              channelId: channelId,
-                              l10n: l10n,
-                              channel: channel,
-                              dm: dm,
-                              isPersonalNotes: isPersonalNotes,
-                            ),
-                            style: context.textStyles.channelName,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        if (dm != null && isBotOrSystemDmRecipient(dm)) ...[
-                          const SizedBox(width: 6),
-                          FluxerUserTag(isSystem: dm.isSystem),
-                        ],
-                        const SizedBox(width: 4),
-                        PhosphorIcon(
-                          PhosphorIconsBold.caretRight,
-                          size: 16,
-                          color: context.colors.textPrimaryMuted,
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-              ),
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              spacing: 8,
-              children: [
-                if (showMessageActions &&
-                    showFavorites &&
-                    !isPersonalNotes &&
-                    targetChannelId != null)
-                  FluxerGestureDetector(
-                    onLongPress: () => _showFavoriteActions(context, ref),
-                    child: FluxerButton.circle(
-                      icon: isFavorite
-                          ? PhosphorIconsFill.star
-                          : PhosphorIconsBold.star,
-                      variant: isFavorite
-                          ? FluxerButtonVariant.primary
-                          : FluxerButtonVariant.secondary,
+                  if (dm != null && canStartDmCall(dm)) ...[
+                    FluxerButton.circle(
+                      icon: PhosphorIconsFill.phone,
+                      variant: FluxerButtonVariant.secondary,
                       size: FluxerButtonSize.small,
                       iconSize: 20,
-                      semanticLabel: isFavorite
-                          ? l10n.favoritesRemoveFromFavorites
-                          : l10n.favoritesAddToFavorites,
-                      onPressedAsync: () => _toggleFavorite(
-                        context,
-                        ref,
-                        channel: channel,
+                      semanticLabel: l10n.uiStartCall,
+                      onPressed: () => _executeOutboundDmCall(
+                        ref: ref,
+                        context: context,
                         dm: dm,
-                        isFavorite: isFavorite,
                       ),
                     ),
-                  ),
-                if (dm != null && canStartDmCall(dm)) ...[
-                  FluxerButton.circle(
-                    icon: PhosphorIconsFill.phone,
-                    variant: FluxerButtonVariant.secondary,
-                    size: FluxerButtonSize.small,
-                    iconSize: 20,
-                    semanticLabel: l10n.uiStartCall,
-                    onPressed: () => _executeOutboundDmCall(
-                      ref: ref,
-                      context: context,
-                      dm: dm,
-                    ),
-                  ),
-                  FluxerButton.circle(
-                    icon: PhosphorIconsFill.videoCamera,
-                    variant: FluxerButtonVariant.secondary,
-                    size: FluxerButtonSize.small,
-                    iconSize: 20,
-                    semanticLabel: l10n.uiStartVideoCall,
-                    onPressed: () => _executeOutboundDmCall(
-                      ref: ref,
-                      context: context,
-                      dm: dm,
-                      startWithVideo: true,
-                    ),
-                  ),
-                ],
-                if (showMessageActions && dm == null && channel != null)
-                  FluxerButton.circle(
-                    icon: PhosphorIconsBold.magnifyingGlass,
-                    variant: FluxerButtonVariant.secondary,
-                    size: FluxerButtonSize.small,
-                    iconSize: 20,
-                    semanticLabel: l10n.uiSearch,
-                    onPressed: () => unawaited(
-                      showChannelSearchPageAndJump(
-                        context,
-                        container: ref.container,
-                        channelId: channel.id,
-                        guildId: channel.guildId,
+                    FluxerButton.circle(
+                      icon: PhosphorIconsFill.videoCamera,
+                      variant: FluxerButtonVariant.secondary,
+                      size: FluxerButtonSize.small,
+                      iconSize: 20,
+                      semanticLabel: l10n.uiStartVideoCall,
+                      onPressed: () => _executeOutboundDmCall(
+                        ref: ref,
+                        context: context,
+                        dm: dm,
+                        startWithVideo: true,
                       ),
                     ),
-                  ),
-                if (channel != null &&
-                    channel.type == ChannelType.guildVoice) ...[
-                  ChatButton(
-                    channelId: channel.id,
-                    channelName: channel.name.isNotEmpty ? channel.name : null,
-                  ),
-                  if (isMobileVoiceCameraPlatform()) const FlipCameraButton(),
+                  ],
+                  if (showMessageActions && dm == null && channel != null)
+                    if (forumHandheldHeader) ...<Widget>[
+                      FluxerButton.circle(
+                        icon: PhosphorIconsBold.slidersHorizontal,
+                        variant: FluxerButtonVariant.secondary,
+                        size: FluxerButtonSize.small,
+                        iconSize: 20,
+                        semanticLabel: l10n.forumViewOptions,
+                        onPressed: () => unawaited(
+                          showForumViewOptionsSheet(context, forum: channel),
+                        ),
+                      ),
+                      FluxerButton.circle(
+                        icon: PhosphorIconsBold.magnifyingGlass,
+                        variant: FluxerButtonVariant.secondary,
+                        size: FluxerButtonSize.small,
+                        iconSize: 20,
+                        semanticLabel: l10n.forumSearchPosts,
+                        onPressed: () => ref
+                            .read(
+                              forumHeaderSearchProvider(channel.id).notifier,
+                            )
+                            .expand(),
+                      ),
+                    ] else
+                      FluxerButton.circle(
+                        icon: PhosphorIconsBold.magnifyingGlass,
+                        variant: FluxerButtonVariant.secondary,
+                        size: FluxerButtonSize.small,
+                        iconSize: 20,
+                        semanticLabel: l10n.uiSearch,
+                        onPressed: () => unawaited(
+                          showChannelSearchPageAndJump(
+                            context,
+                            container: ref.container,
+                            channelId: channel.id,
+                            guildId: channel.guildId,
+                          ),
+                        ),
+                      ),
+                  if (showMessageActions &&
+                      channel != null &&
+                      showsThreadHeaderActions(ref, channel))
+                    ThreadHeaderMobileButton(channel: channel),
+                  if (channel != null &&
+                      channel.type == ChannelType.guildVoice) ...[
+                    ChatButton(
+                      channelId: channel.id,
+                      channelName: channel.name.isNotEmpty
+                          ? channel.name
+                          : null,
+                    ),
+                    if (isMobileVoiceCameraPlatform()) const FlipCameraButton(),
+                  ],
                 ],
-              ],
-            ),
+              ),
           ],
         ),
       ),
@@ -526,6 +589,10 @@ class ChannelHeader extends ConsumerWidget {
     required DmConversation? dm,
   }) {
     if (channel == null && dm == null) {
+      return;
+    }
+    if (channel != null && channel.isThread) {
+      unawaited(showThreadMenuSheet(context, ref, channel));
       return;
     }
     unawaited(

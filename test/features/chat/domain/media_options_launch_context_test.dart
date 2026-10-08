@@ -118,6 +118,20 @@ void main() {
         expect(context.actionScope, actionScope);
         expect(context.hasOptionsMenu, isTrue);
       });
+
+      test('uses shareable URL for embed media viewer items', () {
+        const AttachmentMediaViewerItem item = AttachmentMediaViewerItem(
+          url:
+              'https://fluxerusercontent.com/external/sig/v2/wave?format=webp&animated=true',
+          linkUrl: 'https://tenor.com/view/wave-gif-1',
+          filename: 'wave',
+        );
+
+        final MediaOptionsLaunchContext context =
+            MediaOptionsLaunchContext.fromImageViewerItem(item);
+
+        expect(context.fallbackUrl, 'https://tenor.com/view/wave-gif-1');
+      });
     });
 
     group('hasOptionsMenu', () {

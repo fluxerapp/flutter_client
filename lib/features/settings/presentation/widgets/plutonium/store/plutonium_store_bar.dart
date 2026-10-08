@@ -12,8 +12,8 @@ import 'package:fluxer_app/features/ui/text_link/fluxer_text_link.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-class PlutoniumStoreBar extends StatelessWidget {
-  const PlutoniumStoreBar({
+class PremiumStoreBar extends StatelessWidget {
+  const PremiumStoreBar({
     required this.mode,
     required this.status,
     required this.store,
@@ -25,12 +25,12 @@ class PlutoniumStoreBar extends StatelessWidget {
     super.key,
   });
 
-  final PlutoniumStoreBarMode mode;
+  final PremiumStoreBarMode mode;
   final PremiumSubscriptionStatus status;
-  final PlutoniumStoreState store;
+  final PremiumStoreState store;
   final bool purchaseDisabled;
   final String? purchaseDisabledMessage;
-  final void Function(PlutoniumStorePlan plan) onBuy;
+  final void Function(PremiumStorePlan plan) onBuy;
   final VoidCallback? onManage;
   final String? otherStoreNotice;
 
@@ -42,7 +42,7 @@ class PlutoniumStoreBar extends StatelessWidget {
 
     return DecoratedBox(
       decoration: const BoxDecoration(
-        border: Border(top: BorderSide(color: PlutoniumStoreStyle.line)),
+        border: Border(top: BorderSide(color: PremiumStoreStyle.line)),
       ),
       child: Padding(
         padding: EdgeInsets.fromLTRB(
@@ -52,18 +52,29 @@ class PlutoniumStoreBar extends StatelessWidget {
           layout.s3 + bottom,
         ),
         child: switch (mode) {
-          PlutoniumStoreBarMode.visionary => _StatusText(
+          PremiumStoreBarMode.visionary => _StatusText(
             l10n.storePlutoniumVisionaryStatus,
           ),
-          PlutoniumStoreBarMode.gift => _StatusText(_giftText(l10n)),
-          PlutoniumStoreBarMode.waiting => const _WaitingStatus(),
-          PlutoniumStoreBarMode.manage => _ManageStatus(
+          PremiumStoreBarMode.gift => _SubscribeActions(
+            l10n: l10n,
+            store: store,
+            purchaseDisabled: purchaseDisabled,
+            purchaseDisabledMessage: purchaseDisabledMessage,
+            otherStoreNotice: otherStoreNotice,
+            onBuy: onBuy,
+            statusLines: [
+              _giftText(l10n),
+              l10n.premiumGiftTimeAddedAfterSubscription,
+            ],
+          ),
+          PremiumStoreBarMode.waiting => const _WaitingStatus(),
+          PremiumStoreBarMode.manage => _ManageStatus(
             detail: _manageDetail(l10n),
             cycle: _cycleLabel(l10n),
             onManage: onManage,
             otherStoreNotice: otherStoreNotice,
           ),
-          PlutoniumStoreBarMode.subscribe => _SubscribeActions(
+          PremiumStoreBarMode.subscribe => _SubscribeActions(
             l10n: l10n,
             store: store,
             purchaseDisabled: purchaseDisabled,
@@ -118,7 +129,7 @@ class _StatusText extends StatelessWidget {
       text,
       textAlign: TextAlign.center,
       style: context.textStyles.bodySmall.copyWith(
-        color: PlutoniumStoreStyle.ink,
+        color: PremiumStoreStyle.ink,
       ),
     );
   }
@@ -138,7 +149,7 @@ class _WaitingStatus extends StatelessWidget {
           child: Text(
             FluxerLocalizations.of(context).storePlutoniumWaiting,
             style: context.textStyles.bodySmall.copyWith(
-              color: PlutoniumStoreStyle.ink,
+              color: PremiumStoreStyle.ink,
             ),
           ),
         ),
@@ -172,7 +183,7 @@ class _ManageStatus extends StatelessWidget {
             cycle!,
             textAlign: TextAlign.center,
             style: context.textStyles.bodySmall.copyWith(
-              color: PlutoniumStoreStyle.ink,
+              color: PremiumStoreStyle.ink,
             ),
           ),
         if (detail != null) ...[
@@ -181,7 +192,7 @@ class _ManageStatus extends StatelessWidget {
             detail!,
             textAlign: TextAlign.center,
             style: context.textStyles.bodySmall.copyWith(
-              color: PlutoniumStoreStyle.inkMuted,
+              color: PremiumStoreStyle.inkMuted,
             ),
           ),
         ],
@@ -197,7 +208,7 @@ class _ManageStatus extends StatelessWidget {
             otherStoreNotice!,
             textAlign: TextAlign.center,
             style: context.textStyles.bodySmall.copyWith(
-              color: PlutoniumStoreStyle.inkMuted,
+              color: PremiumStoreStyle.inkMuted,
             ),
           ),
         ],
@@ -214,14 +225,16 @@ class _SubscribeActions extends StatelessWidget {
     required this.purchaseDisabledMessage,
     required this.otherStoreNotice,
     required this.onBuy,
+    this.statusLines = const [],
   });
 
   final FluxerLocalizations l10n;
-  final PlutoniumStoreState store;
+  final PremiumStoreState store;
   final bool purchaseDisabled;
   final String? purchaseDisabledMessage;
   final String? otherStoreNotice;
-  final void Function(PlutoniumStorePlan plan) onBuy;
+  final void Function(PremiumStorePlan plan) onBuy;
+  final List<String> statusLines;
 
   @override
   Widget build(BuildContext context) {
@@ -246,9 +259,8 @@ class _SubscribeActions extends StatelessWidget {
                   ? l10n.premiumPlanUnavailable
                   : null);
     final String? renewsThrough = switch (store.billingStore) {
-      PlutoniumBillingStore.appStore =>
-        l10n.storePlutoniumRenewsThroughAppStore,
-      PlutoniumBillingStore.googlePlay => l10n.storePlutoniumRenewsThroughPlay,
+      PremiumBillingStore.appStore => l10n.storePlutoniumRenewsThroughAppStore,
+      PremiumBillingStore.googlePlay => l10n.storePlutoniumRenewsThroughPlay,
       null => null,
     };
 
@@ -257,32 +269,36 @@ class _SubscribeActions extends StatelessWidget {
       price: _priced(store.yearly?.priceLabel, l10n.storePlutoniumYearSuffix),
       savings: savings == null ? null : l10n.storePlutoniumSavePercent(savings),
       primary: true,
-      isLoading: store.purchasingPlan == PlutoniumStorePlan.yearly,
+      isLoading: store.purchasingPlan == PremiumStorePlan.yearly,
       disabled:
           purchaseDisabled ||
           store.storeUnavailable ||
           store.subscriptionPurchaseBlocked ||
           store.yearly == null ||
           store.purchasingPlan != null,
-      onPressed: () => onBuy(PlutoniumStorePlan.yearly),
+      onPressed: () => onBuy(PremiumStorePlan.yearly),
     );
     final Widget monthly = _PlanButton(
       title: l10n.premiumMonthly,
       price: _priced(store.monthly?.priceLabel, l10n.storePlutoniumMonthSuffix),
       primary: false,
-      isLoading: store.purchasingPlan == PlutoniumStorePlan.monthly,
+      isLoading: store.purchasingPlan == PremiumStorePlan.monthly,
       disabled:
           purchaseDisabled ||
           store.storeUnavailable ||
           store.subscriptionPurchaseBlocked ||
           store.monthly == null ||
           store.purchasingPlan != null,
-      onPressed: () => onBuy(PlutoniumStorePlan.monthly),
+      onPressed: () => onBuy(PremiumStorePlan.monthly),
     );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        for (final String line in statusLines) ...[
+          _StatusText(line),
+          SizedBox(height: layout.s2),
+        ],
         if (renewsThrough != null &&
             !store.storeUnavailable &&
             !missingProducts &&
@@ -291,7 +307,7 @@ class _SubscribeActions extends StatelessWidget {
             renewsThrough,
             textAlign: TextAlign.center,
             style: context.textStyles.timestamp.copyWith(
-              color: PlutoniumStoreStyle.inkMuted,
+              color: PremiumStoreStyle.inkMuted,
             ),
           ),
         if (blockMessage != null) ...[
@@ -300,7 +316,7 @@ class _SubscribeActions extends StatelessWidget {
             blockMessage,
             textAlign: TextAlign.center,
             style: context.textStyles.bodySmall.copyWith(
-              color: PlutoniumStoreStyle.inkMuted,
+              color: PremiumStoreStyle.inkMuted,
             ),
           ),
         ],
@@ -342,7 +358,7 @@ class _PurchaseTerms extends StatelessWidget {
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final TextStyle muted = context.textStyles.timestamp.copyWith(
-      color: PlutoniumStoreStyle.inkMuted,
+      color: PremiumStoreStyle.inkMuted,
     );
     return Text.rich(
       TextSpan(
@@ -355,7 +371,7 @@ class _PurchaseTerms extends StatelessWidget {
             child: FluxerTextLink(
               text: l10n.premiumTermsOfService,
               url: 'https://fluxer.app/terms',
-              style: muted.copyWith(color: PlutoniumStoreStyle.accent),
+              style: muted.copyWith(color: PremiumStoreStyle.accent),
             ),
           ),
           TextSpan(text: l10n.premiumDisclaimerAgreementMiddle),
@@ -365,7 +381,7 @@ class _PurchaseTerms extends StatelessWidget {
             child: FluxerTextLink(
               text: l10n.premiumPrivacyPolicy,
               url: 'https://fluxer.app/privacy',
-              style: muted.copyWith(color: PlutoniumStoreStyle.accent),
+              style: muted.copyWith(color: PremiumStoreStyle.accent),
             ),
           ),
           const TextSpan(text: '.'),

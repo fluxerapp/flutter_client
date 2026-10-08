@@ -112,11 +112,10 @@ int? mapTemplateChannelTypeToFluxer(int channelType) {
 }
 
 bool isTemplateEveryoneRole(TemplateRole role) {
-  if (role.name == '@everyone') {
+  if (role.name.value == '@everyone') {
     return true;
   }
-  final Object id = role.id;
-  return id == 0 || id == '0';
+  return role.id == '0';
 }
 
 DiscordGuildTemplate? parseDiscordGuildTemplate(Object? json) {
@@ -143,14 +142,148 @@ DiscordGuildTemplate? parseDiscordGuildTemplate(Object? json) {
       guildJson['channels'] is! List) {
     return null;
   }
+  final Map<String, Object?>? normalizedGuildJson =
+      _normalizeSerializedSourceGuild(guildJson);
+  if (normalizedGuildJson == null) {
+    return null;
+  }
   try {
     return DiscordGuildTemplate(
       name: name,
-      sourceGuild: TemplateSerializedGuild.fromJson(guildJson),
+      sourceGuild: TemplateSerializedGuild.fromJson(normalizedGuildJson),
     );
   } on Object {
     return null;
   }
+}
+
+Map<String, Object?>? _normalizeSerializedSourceGuild(
+  Map<String, Object?> guildJson,
+) {
+  final Object? rolesRaw = guildJson['roles'];
+  final Object? channelsRaw = guildJson['channels'];
+  if (rolesRaw is! List || channelsRaw is! List) {
+    return null;
+  }
+  final Map<String, Object?> normalized = Map<String, Object?>.from(guildJson);
+  if (normalized.containsKey('system_channel_id')) {
+    normalized['system_channel_id'] = _discordTemplateScalarToString(
+      normalized['system_channel_id'],
+    );
+  }
+  final List<Map<String, Object?>>? roles = _normalizeObjectList(
+    rolesRaw,
+    _normalizeTemplateRole,
+  );
+  final List<Map<String, Object?>>? channels = _normalizeObjectList(
+    channelsRaw,
+    _normalizeTemplateChannel,
+  );
+  if (roles == null || channels == null) {
+    return null;
+  }
+  normalized['roles'] = roles;
+  normalized['channels'] = channels;
+  return normalized;
+}
+
+List<Map<String, Object?>>? _normalizeObjectList(
+  List<dynamic> values,
+  Map<String, Object?>? Function(Map<String, Object?>?) normalize,
+) {
+  final List<Map<String, Object?>> normalized = <Map<String, Object?>>[];
+  for (final Object? value in values) {
+    final Map<String, Object?>? item = normalize(_stringKeyedMap(value));
+    if (item == null) {
+      return null;
+    }
+    normalized.add(item);
+  }
+  return normalized;
+}
+
+Map<String, Object?>? _normalizeTemplateRole(Map<String, Object?>? role) {
+  if (role == null) {
+    return null;
+  }
+  final Map<String, Object?> normalized = Map<String, Object?>.from(role);
+  normalized['id'] = _discordTemplateScalarToString(normalized['id']);
+  if (normalized.containsKey('permissions')) {
+    normalized['permissions'] = _discordTemplateScalarToString(
+      normalized['permissions'],
+    );
+  }
+  if (normalized.containsKey('permissions_new')) {
+    normalized['permissions_new'] = _discordTemplateScalarToString(
+      normalized['permissions_new'],
+    );
+  }
+  return normalized;
+}
+
+Map<String, Object?>? _normalizeTemplateChannel(Map<String, Object?>? channel) {
+  if (channel == null) {
+    return null;
+  }
+  final Map<String, Object?> normalized = Map<String, Object?>.from(channel);
+  normalized['id'] = _discordTemplateScalarToString(normalized['id']);
+  if (normalized.containsKey('parent_id')) {
+    normalized['parent_id'] = _discordTemplateScalarToString(
+      normalized['parent_id'],
+    );
+  }
+  final Object? overwritesRaw = normalized['permission_overwrites'];
+  if (overwritesRaw is List) {
+    final List<Map<String, Object?>>? overwrites = _normalizeObjectList(
+      overwritesRaw,
+      _normalizePermissionOverwrite,
+    );
+    if (overwrites == null) {
+      return null;
+    }
+    normalized['permission_overwrites'] = overwrites;
+  }
+  return normalized;
+}
+
+Map<String, Object?>? _normalizePermissionOverwrite(
+  Map<String, Object?>? overwrite,
+) {
+  if (overwrite == null) {
+    return null;
+  }
+  final Map<String, Object?> normalized = Map<String, Object?>.from(overwrite);
+  normalized['id'] = _discordTemplateScalarToString(normalized['id']);
+  normalized['type'] = _permissionOverwriteTypeToString(normalized['type']);
+  normalized['allow'] = _discordTemplateScalarToString(normalized['allow']);
+  normalized['deny'] = _discordTemplateScalarToString(normalized['deny']);
+  return normalized;
+}
+
+String _discordTemplateScalarToString(Object? value) {
+  if (value is String) {
+    return value;
+  }
+  if (value is num) {
+    return value.toString();
+  }
+  return value?.toString() ?? '0';
+}
+
+String _permissionOverwriteTypeToString(Object? value) {
+  if (value is String) {
+    if (value == 'role') {
+      return '0';
+    }
+    if (value == 'member') {
+      return '1';
+    }
+    return value;
+  }
+  if (value is num) {
+    return value.toInt().toString();
+  }
+  return '0';
 }
 
 Map<String, Object?>? _stringKeyedMap(Object? value) {

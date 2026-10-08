@@ -3,6 +3,8 @@ import 'package:uuid/uuid.dart';
 const String kCallRingType = 'call_ring';
 const String kCallRingFallbackHandle = 'Incoming call';
 const int kCallRingMinimumDurationMs = 1000;
+const int kCallRingDefaultDurationMs = 45000;
+const int kCallRingExpiryDeliveryGraceMs = 10000;
 
 const String kFluxerCallRingNamespace = '8c1a0e4a-6b2d-5f7e-9a10-0b1c2d3e4f50';
 
@@ -36,7 +38,7 @@ int? readCallRingEpochMs(Map<String, String> payload, String key) {
 
 int callRingDurationMs({required int? expiresAtMs, required int nowMs}) {
   if (expiresAtMs == null) {
-    return kCallRingMinimumDurationMs;
+    return kCallRingDefaultDurationMs;
   }
   final int remaining = expiresAtMs - nowMs;
   if (remaining < kCallRingMinimumDurationMs) {
@@ -49,7 +51,7 @@ bool callRingWindowHasClosed({required int? expiresAtMs, required int nowMs}) {
   if (expiresAtMs == null) {
     return false;
   }
-  return expiresAtMs <= nowMs;
+  return expiresAtMs + kCallRingExpiryDeliveryGraceMs <= nowMs;
 }
 
 CallRingDisplay resolveCallRingDisplay({

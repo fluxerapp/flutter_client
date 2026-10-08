@@ -715,7 +715,7 @@ class VoiceCallKitCoordinatorLogic {
     if (!_ref.read(gatewayReadyProvider)) {
       return;
     }
-    await Future<void>.delayed(const Duration(seconds: 3));
+    await Future<void>.delayed(kVoiceCallKitGatewayRingSyncDelay);
     if (!_ref.read(gatewayReadyProvider)) {
       return;
     }

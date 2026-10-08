@@ -176,7 +176,7 @@ Future<void> openGuildChannelContent({
     ref
         .read(recentChannelVisitsProvider.notifier)
         .recordVisit(channelId: channel.id, guildId: guildId);
-    if (isAnnouncementConvertibleChannel(channel.type)) {
+    if (isAnnouncementConvertibleChannel(channel.type) || channel.isThread) {
       unawaited(
         ref
             .read(chatViewModelProvider.notifier)

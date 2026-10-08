@@ -48,6 +48,7 @@ class NotificationReplyBridge(
                             userId = userId,
                             title = title,
                             hint = hint,
+                            features = call.argument<String>(ARG_FEATURES),
                         ),
                     )
                 }
@@ -66,6 +67,7 @@ class NotificationReplyBridge(
         const val ARG_USER_ID = "userId"
         const val ARG_TITLE = "title"
         const val ARG_HINT = "hint"
+        const val ARG_FEATURES = "features"
 
         fun attachReplyAction(
             context: Context,
@@ -76,6 +78,7 @@ class NotificationReplyBridge(
             userId: String,
             title: String,
             hint: String,
+            features: String? = null,
         ): Boolean {
             val manager = context.getSystemService(NotificationManager::class.java) ?: return false
             val status = postedNotification(manager, id, tag) ?: return false
@@ -94,6 +97,7 @@ class NotificationReplyBridge(
                     userId = userId,
                     title = title,
                     hint = hint,
+                    features = features,
                 ),
             )
             publish(manager, id, tag, builder.build())
@@ -145,6 +149,7 @@ class NotificationReplyBridge(
             userId: String,
             title: String,
             hint: String,
+            features: String?,
         ): Notification.Action {
             val intent = Intent(context, FluxerNotificationReplyReceiver::class.java).apply {
                 action = ACTION_REPLY
@@ -154,6 +159,7 @@ class NotificationReplyBridge(
                 putExtra(EXTRA_CHANNEL_ID, channelId)
                 putExtra(EXTRA_MESSAGE_ID, messageId)
                 putExtra(EXTRA_USER_ID, userId)
+                putExtra(EXTRA_FEATURES, features)
             }
             var flags = PendingIntent.FLAG_UPDATE_CURRENT
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {

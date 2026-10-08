@@ -17,7 +17,7 @@ void main() {
           AnimatedImagePlaybackController();
 
       for (int index = 0; index < 8; index += 1) {
-        controller.register('gif-$index', 1, top: index.toDouble());
+        controller.register('gif-$index', 1);
       }
 
       for (int index = 0; index < 8; index += 1) {
@@ -30,15 +30,78 @@ void main() {
           AnimatedImagePlaybackController(maxActiveVideos: 6);
 
       for (int index = 0; index < 8; index += 1) {
-        controller.register('gif-$index', 1, top: index.toDouble());
+        controller.register('gif-$index', 1);
       }
 
-      for (int index = 0; index < 6; index += 1) {
-        controller.expectPlaying('gif-$index', isTrue);
+      final int playing = <int>[
+        for (int index = 0; index < 8; index += 1) index,
+      ].where((int index) => controller.isPlaying('gif-$index')).length;
+      expect(playing, 6);
+    });
+
+    test('chat list plays at most 3 animated images at once', () {
+      final AnimatedImagePlaybackController controller =
+          AnimatedImagePlaybackController(
+            maxActiveVideos: kMaxActiveChatAnimatedImages,
+            suppressWhileScrolling: true,
+          );
+
+      for (int index = 0; index < 4; index += 1) {
+        controller.register('gif-$index', 1);
       }
+
       controller
-        ..expectPlaying('gif-6', isFalse)
-        ..expectPlaying('gif-7', isFalse);
+        ..expectPlaying('gif-1', isTrue)
+        ..expectPlaying('gif-2', isTrue)
+        ..expectPlaying('gif-3', isTrue)
+        ..expectPlaying('gif-0', isFalse)
+        ..unregister('gif-3')
+        ..expectPlaying('gif-0', isTrue);
+    });
+
+    test('over the cap, the most visible animated images play', () {
+      final AnimatedImagePlaybackController controller =
+          AnimatedImagePlaybackController(maxActiveVideos: 3);
+
+      controller
+        ..register('edge', 0.2)
+        ..register('a', 1)
+        ..register('b', 1)
+        ..register('c', 1)
+        ..expectPlaying('a', isTrue)
+        ..expectPlaying('b', isTrue)
+        ..expectPlaying('c', isTrue)
+        ..expectPlaying('edge', isFalse);
+    });
+
+    test('a newly scrolled-in fully visible image wins a tie over the earliest '
+        'mounted one', () {
+      final AnimatedImagePlaybackController controller =
+          AnimatedImagePlaybackController(maxActiveVideos: 3);
+
+      controller
+        ..register('a', 1)
+        ..register('b', 1)
+        ..register('c', 1)
+        ..register('d', 0)
+        ..updateVisibility('d', 1)
+        ..expectPlaying('d', isTrue)
+        ..expectPlaying('c', isTrue)
+        ..expectPlaying('b', isTrue)
+        ..expectPlaying('a', isFalse);
+    });
+
+    test('an image scrolling out of view yields its slot by fraction', () {
+      final AnimatedImagePlaybackController controller =
+          AnimatedImagePlaybackController(maxActiveVideos: 1);
+
+      controller
+        ..register('a', 1)
+        ..register('b', 1)
+        ..expectPlaying('b', isTrue)
+        ..updateVisibility('b', 0.3)
+        ..expectPlaying('a', isTrue)
+        ..expectPlaying('b', isFalse);
     });
 
     test('does not activate images with zero visibility', () {
@@ -139,8 +202,8 @@ void main() {
       controller.addListener(() => notificationCount++);
 
       controller
-        ..register('a', 1, top: 10, left: 2)
-        ..register('a', 1, top: 10, left: 2);
+        ..register('a', 1)
+        ..register('a', 1);
       expect(notificationCount, 1);
     });
 

@@ -51,6 +51,51 @@ void main() {
     });
   });
 
+  group('isImageAttachment', () {
+    test('detects svg by extension and content type', () {
+      expect(isImageAttachment(filename: 'icon.svg'), isTrue);
+      expect(
+        isImageAttachment(filename: 'attachment', contentType: 'image/svg+xml'),
+        isTrue,
+      );
+      expect(
+        isImageAttachment(
+          filename: 'attachment',
+          contentType: 'image/svg+xml; charset=utf-8',
+        ),
+        isTrue,
+      );
+    });
+
+    test('isSvgImageMedia matches mime, filename, and url', () {
+      expect(
+        isSvgImageMedia(
+          url: 'https://cdn.example/attachments/1',
+          contentType: 'image/svg+xml',
+        ),
+        isTrue,
+      );
+      expect(
+        isSvgImageMedia(
+          url: 'https://cdn.example/icon.svg',
+          filename: 'other.png',
+        ),
+        isTrue,
+      );
+      expect(
+        isSvgImageMedia(url: 'https://cdn.example/a', filename: 'diagram.svg'),
+        isTrue,
+      );
+      expect(
+        isSvgImageMedia(
+          url: 'https://cdn.example/a.png',
+          contentType: 'image/png',
+        ),
+        isFalse,
+      );
+    });
+  });
+
   group('isVideoAttachment', () {
     test('detects common video extensions', () {
       expect(isVideoAttachment(filename: 'clip.mp4'), isTrue);

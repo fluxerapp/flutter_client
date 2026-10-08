@@ -544,6 +544,205 @@
     "@resetPasswordMismatch": {
         "description": "Error when password and confirmation don't match."
     },
+    "recoverAccountTitle": "アカウントを復元する",
+    "@recoverAccountTitle": {
+        "description": "Title of the screen where someone resets their password with a recovery kit."
+    },
+    "recoverAccountDescription": "ユーザー名とリカバリーキットのリカバリーキーを入力し、新しいパスワードを選択してください。",
+    "@recoverAccountDescription": {
+        "description": "Description on the account recovery screen."
+    },
+    "recoverAccountNoKit": "復旧キットをお持ちでない場合、このインスタンスの管理者にパスワードリセットリンクを依頼してください。",
+    "@recoverAccountNoKit": {
+        "description": "Hint under the account recovery form for people without a recovery kit."
+    },
+    "recoveryKitTitle": "リカバリーキット",
+    "@recoveryKitTitle": {
+        "description": "Title of the sheet that shows a newly created account recovery kit."
+    },
+    "recoveryKitCreatedDescription": "パスワードを忘れた場合、このキットがアカウントに戻る唯一の方法です。パスワードマネージャーや印刷物など、安全な場所に保管してください。",
+    "@recoveryKitCreatedDescription": {
+        "description": "Recovery kit sheet description for a newly created kit."
+    },
+    "recoveryKitReplacedDescription": "古いリカバリーキットはもう使えません。新しいキットは安全な場所に保管してください。",
+    "@recoveryKitReplacedDescription": {
+        "description": "Recovery kit sheet description shown after a kit replaces an older one."
+    },
+    "recoveryKitRecoveredDescription": "パスワードがリセットされました。以前のリカバリーキットはもう使えません。新しいキットは安全な場所に保管してください。",
+    "@recoveryKitRecoveredDescription": {
+        "description": "Recovery kit sheet description shown after someone recovers their account with a recovery key."
+    },
+    "recoveryKitWarning": "このキーを持つ人は誰でもパスワードをリセットできます。絶対に共有しないでください。",
+    "@recoveryKitWarning": {
+        "description": "Warning under the recovery key in the recovery kit sheet."
+    },
+    "recoveryKitKeyLabel": "リカバリーキー",
+    "@recoveryKitKeyLabel": {
+        "description": "Label for the account recovery key."
+    },
+    "recoveryKitDocumentTitle": "{productName} のリカバリーキット",
+    "@recoveryKitDocumentTitle": {
+        "description": "Title of the saved recovery kit image. productName is the app name.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitDocumentIntro": "このページは安全な場所に保管してください。パスワードを忘れた場合、アカウントに再度アクセスするために使用できます。このリカバリーキーを持つ人は誰でもパスワードをリセットできるため、絶対に共有しないでください。",
+    "@recoveryKitDocumentIntro": {
+        "description": "Introduction on the saved recovery kit image."
+    },
+    "recoveryKitInstanceLabel": "インスタンス",
+    "@recoveryKitInstanceLabel": {
+        "description": "Label for the server address on the saved recovery kit."
+    },
+    "recoveryKitCreatedAtLabel": "作成日",
+    "@recoveryKitCreatedAtLabel": {
+        "description": "Label for the creation date on the saved recovery kit."
+    },
+    "recoveryKitQrCaption": "詳細が入力された復旧ページを開くにはスキャンしてください。",
+    "@recoveryKitQrCaption": {
+        "description": "Caption under the QR code on the saved recovery kit."
+    },
+    "recoveryKitStepsTitle": "アカウントを復元する方法",
+    "@recoveryKitStepsTitle": {
+        "description": "Heading above the recovery steps on the saved recovery kit."
+    },
+    "recoveryKitStepOpen": "{recoverUrl} にアクセスするか、QR コードをスキャンしてください。",
+    "@recoveryKitStepOpen": {
+        "description": "First recovery step on the saved recovery kit. recoverUrl is the address of the recovery page.",
+        "placeholders": {
+            "recoverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitStepEnter": "ユーザー名とこのリカバリーキーを入力してください。",
+    "@recoveryKitStepEnter": {
+        "description": "Second recovery step on the saved recovery kit."
+    },
+    "recoveryKitStepPassword": "新しいパスワードを選択してください。新しいリカバリーキットが発行され、このキットは無効になります。",
+    "@recoveryKitStepPassword": {
+        "description": "Third recovery step on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesTitle": "2段階認証のバックアップコード",
+    "@recoveryKitBackupCodesTitle": {
+        "description": "Heading above the two-factor backup codes on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesNote": "各コードは、認証アプリの代わりとして一度だけ使用できます。",
+    "@recoveryKitBackupCodesNote": {
+        "description": "Note under the two-factor backup codes heading on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesFailed": "バックアップコードを読み込めませんでした。",
+    "@recoveryKitBackupCodesFailed": {
+        "description": "Toast shown when the two-factor backup codes for the recovery kit cannot be loaded."
+    },
+    "recoveryKitIncludeBackupCodes": "保存する画像に二要素認証のバックアップコードを含める",
+    "@recoveryKitIncludeBackupCodes": {
+        "description": "Checkbox in the recovery kit sheet that adds the two-factor backup codes to the saved image."
+    },
+    "recoveryKitCopy": "コピー",
+    "@recoveryKitCopy": {
+        "description": "Button that copies the account recovery key."
+    },
+    "recoveryKitCopied": "リカバリーキーをコピーしました",
+    "@recoveryKitCopied": {
+        "description": "Toast shown after the recovery key is copied."
+    },
+    "recoveryKitSaveImage": "画像を保存",
+    "@recoveryKitSaveImage": {
+        "description": "Button that saves the recovery kit as an image."
+    },
+    "recoveryKitSaved": "リカバリーキットを保存しました",
+    "@recoveryKitSaved": {
+        "description": "Toast shown after the recovery kit image is saved to a file."
+    },
+    "recoveryKitSavedToPhotos": "リカバリーキットを写真に保存しました",
+    "@recoveryKitSavedToPhotos": {
+        "description": "Toast shown after the recovery kit image is saved to the photo library."
+    },
+    "recoveryKitSaveFailed": "リカバリーキットを保存できませんでした。もう一度試すか、代わりにキーをコピーしてください。",
+    "@recoveryKitSaveFailed": {
+        "description": "Toast shown when saving the recovery kit image fails."
+    },
+    "recoveryKitAcknowledge": "リカバリーキットは安全な場所に保管しました",
+    "@recoveryKitAcknowledge": {
+        "description": "Checkbox that confirms the recovery kit is stored before closing the sheet."
+    },
+    "recoveryKitCreateFailed": "リカバリーキットを作成できませんでした。後でアカウント設定から作成できます。",
+    "@recoveryKitCreateFailed": {
+        "description": "Toast shown when a recovery kit cannot be created."
+    },
+    "recoveryKitSectionTitle": "リカバリーキット",
+    "@recoveryKitSectionTitle": {
+        "description": "Title of the recovery kit section in security settings."
+    },
+    "recoveryKitSectionDescription": "パスワードを忘れた場合にリセットできます。",
+    "@recoveryKitSectionDescription": {
+        "description": "Description of the recovery kit section in security settings."
+    },
+    "recoveryKitNone": "リカバリーキットがまだありません",
+    "@recoveryKitNone": {
+        "description": "Shown in security settings when the account has no recovery kit."
+    },
+    "recoveryKitCreatedRelative": "{time}に作成",
+    "@recoveryKitCreatedRelative": {
+        "description": "When the current recovery kit was created. time is a relative time such as 3 days ago.",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitCreate": "リカバリーキットを作成",
+    "@recoveryKitCreate": {
+        "description": "Button that creates a recovery kit."
+    },
+    "recoveryKitCreateNew": "新しいキットを作成",
+    "@recoveryKitCreateNew": {
+        "description": "Button that replaces the existing recovery kit with a new one."
+    },
+    "recoveryKitReplaceTitle": "新しいリカバリーキットを作成しますか？",
+    "@recoveryKitReplaceTitle": {
+        "description": "Title of the confirmation shown before replacing an existing recovery kit."
+    },
+    "recoveryKitReplaceDescription": "新しいキットが作成されると、現在のキットは機能しなくなります。",
+    "@recoveryKitReplaceDescription": {
+        "description": "Body of the confirmation shown before replacing an existing recovery kit."
+    },
+    "recoveryKitReminderTitle": "リカバリーキットを保存",
+    "@recoveryKitReminderTitle": {
+        "description": "Title of the one-time prompt asking a signed-in user without a recovery kit to create one."
+    },
+    "recoveryKitReminderBody": "メールアドレスが登録されていません。パスワードを忘れた場合、リカバリーキットが唯一の復旧手段となります。わずか1分で作成できます。",
+    "@recoveryKitReminderBody": {
+        "description": "Body of the one-time prompt asking a signed-in user without a recovery kit to create one."
+    },
+    "registerUsernameSignInHint": "このユーザー名でサインインします。覚えやすいものを選択してください。",
+    "@registerUsernameSignInHint": {
+        "description": "Helper text under the required username field when the instance uses usernames to sign in."
+    },
+    "registerUsernameTaken": "このユーザー名は既に使用されています",
+    "@registerUsernameTaken": {
+        "description": "Registration form message when the chosen username belongs to someone else."
+    },
+    "registerUsernameAvailable": "このユーザー名は利用可能です",
+    "@registerUsernameAvailable": {
+        "description": "Registration form message when the chosen username is free to use."
+    },
+    "claimAccountUsernameDescription": "ユーザー名とパスワードを選んでアカウントを申請してください。これらでサインインするので、覚えておけるものを選びましょう。",
+    "@claimAccountUsernameDescription": {
+        "description": "Description in the claim account sheet on instances where people sign in with a username."
+    },
+    "unclaimedAccountDescriptionUsername": "アカウントはまだ請求されていません。ユーザー名とパスワードがないと、他のデバイスからサインインできなくなり、アカウントへのアクセスを失う可能性があります。今すぐアカウントを請求して保護してください。",
+    "@unclaimedAccountDescriptionUsername": {
+        "description": "Description for the unclaimed account warning on instances where people sign in with a username."
+    },
+    "addFriendUsernameOnlyHint": "ユーザー名",
+    "@addFriendUsernameOnlyHint": {
+        "description": "Placeholder for the add friend field on instances where usernames have no tag."
+    },
     "registerTitle": "アカウントを作成",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -651,6 +850,10 @@
     "errorInvalidEmailOrPassword": "メールアドレスまたはパスワードが無効です。",
     "@errorInvalidEmailOrPassword": {
         "description": "Error shown on the login screen when the email and password combination is incorrect."
+    },
+    "errorInvalidUsernameOrPassword": "ユーザー名またはパスワードが正しくありません。",
+    "@errorInvalidUsernameOrPassword": {
+        "description": "Sign-in error on instances where people sign in with a username."
     },
     "errorUnableToSendResetLink": "リセットリンクを送信できませんでした。もう一度お試しください。",
     "@errorUnableToSendResetLink": {
@@ -15648,6 +15851,14 @@
             }
         }
     },
+    "premiumGiftGraceEnded": "ギフト期間が終了しました。Plutoniumを継続するには、サブスクライブしてください。",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "今すぐ課金されます。ギフトの残り時間は有料期間の後に加算されるため、無駄になることはありません。",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
+    },
     "premiumComparisonFeatureColumn": "機能",
     "premiumDisclaimerPurchased": "購入することで、{terms}および{privacy}に同意したことになります。",
     "@premiumDisclaimerPurchased": {
@@ -15665,7 +15876,6 @@
     "premiumPrivacyPolicy": "プライバシーポリシー",
     "premiumCheckoutStartFailedTitle": "チェックアウトを開始できませんでした",
     "premiumCheckoutStartFailedBody": "チェックアウトの開始中に問題が発生しました。しばらくしてからもう一度お試しください。",
-    "premiumGiftSubscriptionBlocksRecurring": "現在、ギフトサブスクリプションをご利用中です。自動更新はされません。ギフトコードを追加して期間を延長できます。ギフト期間終了後、定期購入を開始できます。",
     "premiumPlanUnavailable": "このプランはご利用いただけません。サポートにお問い合わせください。",
     "premiumCompletePaymentTitle": "支払いを完了",
     "premiumCompletePaymentBody": "支払いを完了するためにStripeに移動します。完了したらFluxerに戻ってください。",

@@ -123,8 +123,8 @@ class QuickSwitcherResultRow extends StatelessWidget {
               status: groupStatus,
               members: groupDmClusterMembers(groupMembers),
             ),
-          QuickSwitcherTextChannelResult() => ChannelIcon(
-            type: ChannelType.guildText,
+          QuickSwitcherTextChannelResult(:final channelType) => ChannelIcon(
+            type: channelType,
             size: _kChannelIconSize,
             color: iconColor,
           ),

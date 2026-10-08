@@ -287,7 +287,7 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get mfaChooseMethod => 'Choose a verification method';
 
   @override
-  String get mfaMethodTotp => 'Authenticator App';
+  String get mfaMethodTotp => 'Authenticator app';
 
   @override
   String get mfaMethodWebauthn => 'Security key / passkey';
@@ -553,6 +553,172 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get resetPasswordMismatch => 'Passwords do not match.';
 
   @override
+  String get recoverAccountTitle => 'Recover your account';
+
+  @override
+  String get recoverAccountDescription =>
+      'Enter your username and the recovery key from your recovery kit, then choose a new password.';
+
+  @override
+  String get recoverAccountNoKit =>
+      'No recovery kit? Ask an admin of this instance for a password reset link.';
+
+  @override
+  String get recoveryKitTitle => 'Your recovery kit';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'If you forget your password, this kit is the only way back into your account. Store it somewhere safe, like a password manager or a printed copy.';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      'Your old recovery kit no longer works. Store this new one somewhere safe.';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'Your password is reset. Your old recovery kit no longer works. Store this new one somewhere safe.';
+
+  @override
+  String get recoveryKitWarning =>
+      'Anyone with this key can reset your password. Never share it.';
+
+  @override
+  String get recoveryKitKeyLabel => 'Recovery key';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return '$productName recovery kit';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'Keep this page somewhere safe. If you forget your password, you can use it to get back into your account. Anyone with this recovery key can reset your password, so never share it.';
+
+  @override
+  String get recoveryKitInstanceLabel => 'Instance';
+
+  @override
+  String get recoveryKitCreatedAtLabel => 'Created';
+
+  @override
+  String get recoveryKitQrCaption =>
+      'Scan to open the recovery page with your details filled in.';
+
+  @override
+  String get recoveryKitStepsTitle => 'How to recover your account';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return 'Go to $recoverUrl or scan the QR code.';
+  }
+
+  @override
+  String get recoveryKitStepEnter =>
+      'Enter your username and this recovery key.';
+
+  @override
+  String get recoveryKitStepPassword =>
+      'Choose a new password. You get a new recovery kit and this one stops working.';
+
+  @override
+  String get recoveryKitBackupCodesTitle => 'Two-factor backup codes';
+
+  @override
+  String get recoveryKitBackupCodesNote =>
+      'Each code works once in place of your authenticator app.';
+
+  @override
+  String get recoveryKitBackupCodesFailed =>
+      'Couldn\'t load your backup codes.';
+
+  @override
+  String get recoveryKitIncludeBackupCodes =>
+      'Include my two-factor backup codes in the saved image';
+
+  @override
+  String get recoveryKitCopy => 'Copy';
+
+  @override
+  String get recoveryKitCopied => 'Recovery key copied';
+
+  @override
+  String get recoveryKitSaveImage => 'Save image';
+
+  @override
+  String get recoveryKitSaved => 'Recovery kit saved';
+
+  @override
+  String get recoveryKitSavedToPhotos => 'Recovery kit saved to Photos';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'Couldn\'t save the recovery kit. Try again or copy the key instead.';
+
+  @override
+  String get recoveryKitAcknowledge =>
+      'I\'ve stored my recovery kit somewhere safe';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'Couldn\'t create your recovery kit. You can create one later in your account settings.';
+
+  @override
+  String get recoveryKitSectionTitle => 'Recovery kit';
+
+  @override
+  String get recoveryKitSectionDescription =>
+      'Lets you reset your password if you forget it.';
+
+  @override
+  String get recoveryKitNone => 'You don\'t have a recovery kit yet';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return 'Created $time';
+  }
+
+  @override
+  String get recoveryKitCreate => 'Create recovery kit';
+
+  @override
+  String get recoveryKitCreateNew => 'Create a new kit';
+
+  @override
+  String get recoveryKitReplaceTitle => 'Create a new recovery kit?';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      'Your current kit stops working as soon as the new one is created.';
+
+  @override
+  String get recoveryKitReminderTitle => 'Save a recovery kit';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'Your account has no email address. If you forget your password, a recovery kit is the only way back in. It only takes a minute.';
+
+  @override
+  String get registerUsernameSignInHint =>
+      'You sign in with this username. Pick one you will remember.';
+
+  @override
+  String get registerUsernameTaken => 'This username is already taken';
+
+  @override
+  String get registerUsernameAvailable => 'This username is available';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'Claim your account by choosing a username and password. You sign in with them, so pick ones you will remember.';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'Your account is not yet claimed. Without a username and password, you won\'t be able to sign in from other devices and you could lose access to your account. Claim your account now to secure it.';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'Username';
+
+  @override
   String get registerTitle => 'Create an account';
 
   @override
@@ -654,6 +820,9 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get errorInvalidEmailOrPassword => 'Invalid email or password.';
+
+  @override
+  String get errorInvalidUsernameOrPassword => 'Invalid username or password.';
 
   @override
   String get errorUnableToSendResetLink =>
@@ -2033,7 +2202,7 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   }
 
   @override
-  String get securityLoginPasswordNeverChanged => 'Last changed: Never';
+  String get securityLoginPasswordNeverChanged => 'Last changed: never';
 
   @override
   String get securityLoginNoPasswordSet => 'No password set';
@@ -2169,7 +2338,7 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
       'Add an extra layer of security to your account';
 
   @override
-  String get securityTfaAuthenticatorApp => 'Authenticator App';
+  String get securityTfaAuthenticatorApp => 'Authenticator app';
 
   @override
   String get securityTfaAuthenticatorEnabled =>
@@ -7514,6 +7683,10 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get chatMessageDeleteAttachment => 'Delete attachment';
 
   @override
+  String get chatMessageDeleteAttachmentConfirmDescription =>
+      'Are you sure you want to delete this attachment?';
+
+  @override
   String get chatMessageEditAttachmentAltText => 'Edit alt text';
 
   @override
@@ -9707,6 +9880,14 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      'Your gift time has ended. Subscribe to keep Plutonium.';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      'Subscribing charges you now. Your remaining gift time is added after your paid period.';
+
+  @override
   String get premiumComparisonFeatureColumn => 'Feature';
 
   @override
@@ -9730,10 +9911,6 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   @override
   String get premiumCheckoutStartFailedBody =>
       'Something went wrong while starting checkout. Please try again in a moment.';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      'You\'re currently on a gift subscription. It won\'t renew. You can redeem more gift codes to extend it. Recurring subscriptions can be started after your gift time ends.';
 
   @override
   String get premiumPlanUnavailable =>
@@ -11283,6 +11460,9 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get quickSwitcherSectionTextChannels => 'Text channels';
 
   @override
+  String get quickSwitcherSectionThreads => 'Threads';
+
+  @override
   String get quickSwitcherSectionVoiceChannels => 'Voice channels';
 
   @override
@@ -11818,25 +11998,25 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get guildNavbarChannelType => 'Channel type';
 
   @override
-  String get guildNavbarTextChannel => 'Text channel';
+  String get guildNavbarTextChannel => 'Text';
 
   @override
   String get guildNavbarTextChannelDescription =>
-      'Send messages, images, GIFs, and emoji';
+      'Send messages, images, GIFs and emoji';
 
   @override
-  String get guildNavbarVoiceChannel => 'Voice channel';
+  String get guildNavbarVoiceChannel => 'Voice';
 
   @override
   String get guildNavbarVoiceChannelDescription =>
-      'Hang out together with voice, video, and screen share';
+      'Hang out with voice, video and screen share';
 
   @override
-  String get guildNavbarLinkChannel => 'Link channel';
+  String get guildNavbarLinkChannel => 'Link';
 
   @override
   String get guildNavbarLinkChannelDescription =>
-      'Quick access to an external website or resource';
+      'Shortcut to an external website';
 
   @override
   String get guildNavbarNameLabel => 'Name';
@@ -11852,6 +12032,19 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get guildNavbarChannelTypeSelection => 'Channel type selection';
+
+  @override
+  String get guildNavbarPrivateChannel => 'Private channel';
+
+  @override
+  String get guildNavbarPrivateChannelDescription =>
+      'Only selected members and roles will be able to view this channel.';
+
+  @override
+  String get guildNavbarAddMembersOrRoles => 'Add members or roles';
+
+  @override
+  String get guildNavbarAddMembersOrRolesHint => 'Search members or roles';
 
   @override
   String get guildNavbarCreateCategory => 'Create category';
@@ -12559,6 +12752,355 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get permissionSetVoiceRegion => 'Set voice region';
 
   @override
+  String get permissionManageThreads => 'Manage threads';
+
+  @override
+  String get permissionManageThreadsDescription =>
+      'Rename, archive, lock and delete threads, set their slowmode, and view private threads.';
+
+  @override
+  String get permissionCreatePublicThreads => 'Create public threads';
+
+  @override
+  String get permissionCreatePublicThreadsDescription =>
+      'Start threads that everyone who can view the channel can see.';
+
+  @override
+  String get permissionCreatePrivateThreads => 'Create private threads';
+
+  @override
+  String get permissionCreatePrivateThreadsDescription =>
+      'Start invite-only threads.';
+
+  @override
+  String get permissionSendMessagesInThreads => 'Send messages in threads';
+
+  @override
+  String get permissionSendMessagesInThreadsDescription =>
+      'Send messages in threads and forum posts.';
+
+  @override
+  String get threadErrorArchived => 'This thread is archived.';
+
+  @override
+  String get threadErrorLocked =>
+      'This thread is locked. Only moderators can post or reopen it.';
+
+  @override
+  String get threadErrorAlreadyCreated =>
+      'A thread already exists for this message.';
+
+  @override
+  String get threadErrorMaxActiveThreads =>
+      'This community has reached its limit of active threads.';
+
+  @override
+  String get threadErrorMaxMembers =>
+      'This thread has reached its member limit.';
+
+  @override
+  String get threadErrorMaxPinnedPosts =>
+      'Only one post can be pinned in this forum.';
+
+  @override
+  String get threadErrorMaxForumTags => 'A forum can have at most 20 tags.';
+
+  @override
+  String get threadErrorTagNamesUnique => 'Tag names must be unique.';
+
+  @override
+  String get threadErrorNoTagsForEveryone =>
+      'Add a tag everyone can use before requiring tags.';
+
+  @override
+  String get threadErrorTagRequired => 'Pick at least one tag for this post.';
+
+  @override
+  String get threadErrorUnknownTag =>
+      'One of the selected tags no longer exists.';
+
+  @override
+  String get threadErrorInvalidNotificationSettings =>
+      'Those notification settings are not valid for a thread.';
+
+  @override
+  String get threadErrorSearchIndexNotReady =>
+      'Posts are still being indexed. Try again in a moment.';
+
+  @override
+  String get threadErrorInvalidChannelType =>
+      'This action is not available in this channel.';
+
+  @override
+  String get threadCreate => 'Create thread';
+
+  @override
+  String get threadName => 'Thread name';
+
+  @override
+  String get threadNameRequired => 'Give the thread a name.';
+
+  @override
+  String get threadNewThreadPlaceholder => 'New thread';
+
+  @override
+  String get threadPrivate => 'Private thread';
+
+  @override
+  String get threadPrivateDescription =>
+      'Only people you invite and moderators can see this thread.';
+
+  @override
+  String get threadStarterMessage => 'Message';
+
+  @override
+  String get threadStarterMessagePlaceholder =>
+      'Enter a message to start the conversation!';
+
+  @override
+  String threadCreateCooldown(int seconds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seconds,
+      locale: localeName,
+      other: 'You can start another thread in $seconds seconds.',
+      one: 'You can start another thread in 1 second.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String threadCreateFailed(String detail) {
+    return 'Could not start the thread: $detail';
+  }
+
+  @override
+  String get threadBrowserTitle => 'Threads';
+
+  @override
+  String get threadBrowserActive => 'Active';
+
+  @override
+  String get threadBrowserArchived => 'Closed';
+
+  @override
+  String get threadBrowserJoined => 'Joined';
+
+  @override
+  String get threadBrowserOtherActive => 'Other active threads';
+
+  @override
+  String get threadBrowserPublic => 'Public threads';
+
+  @override
+  String get threadBrowserPrivate => 'Private threads';
+
+  @override
+  String get threadBrowserEmpty =>
+      'There are no threads. Stay focused on a conversation with a thread, a temporary text channel.';
+
+  @override
+  String get threadBrowserArchivedEmpty => 'There are no closed threads.';
+
+  @override
+  String get threadBrowserLoadMore => 'Load more';
+
+  @override
+  String get threadBrowserSearch => 'Search threads';
+
+  @override
+  String get threadBrowserSearchEmpty => 'No threads match';
+
+  @override
+  String get threadBrowserSearchEmptyHint =>
+      'Try a different name or check the other tab.';
+
+  @override
+  String get threadBrowserSearchFailed =>
+      'Couldn\'t search threads. Try again later.';
+
+  @override
+  String get threadBrowserSearchIndexing =>
+      'Search is getting ready for this community. Trying again shortly...';
+
+  @override
+  String threadMessageCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count messages',
+      one: '1 message',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get threadFailedToMentionSomeRoles =>
+      'Some mentioned roles were not added to this thread.';
+
+  @override
+  String get threadMembers => 'Thread members';
+
+  @override
+  String threadMembersCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count members',
+      one: '1 member',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get threadMembersEmpty => 'Nobody has joined this thread yet.';
+
+  @override
+  String threadRemoveMember(String name) {
+    return 'Remove $name from thread';
+  }
+
+  @override
+  String get threadJoin => 'Join thread';
+
+  @override
+  String get threadLeave => 'Leave thread';
+
+  @override
+  String get threadJoinNotice =>
+      'Join this thread to follow it in your channel list and get notifications.';
+
+  @override
+  String get threadArchivedNotice =>
+      'This thread is closed. Sending a message will open it again.';
+
+  @override
+  String get threadLockedNotice =>
+      'This thread is locked. Only moderators can send messages.';
+
+  @override
+  String get threadArchive => 'Close thread';
+
+  @override
+  String get threadUnarchive => 'Open thread again';
+
+  @override
+  String get threadLock => 'Lock thread';
+
+  @override
+  String get threadUnlock => 'Unlock thread';
+
+  @override
+  String get threadDelete => 'Delete thread';
+
+  @override
+  String threadDeleteConfirm(String threadName) {
+    return 'Are you sure you want to delete $threadName? This cannot be undone.';
+  }
+
+  @override
+  String get threadDeleted => 'Thread deleted';
+
+  @override
+  String get threadMarkAsRead => 'Mark as read';
+
+  @override
+  String get threadMute => 'Mute thread';
+
+  @override
+  String get threadUnmute => 'Unmute thread';
+
+  @override
+  String get threadMuted => 'Thread muted';
+
+  @override
+  String get threadUnmuted => 'Thread unmuted';
+
+  @override
+  String get threadNotificationSettings => 'Notification settings';
+
+  @override
+  String get threadNotificationParentDefault => 'Use channel default';
+
+  @override
+  String get threadCopyLink => 'Copy link';
+
+  @override
+  String get threadCopyId => 'Copy thread ID';
+
+  @override
+  String get threadMoreOptions => 'More options';
+
+  @override
+  String get threadSettings => 'Thread settings';
+
+  @override
+  String get threadSettingsSaved => 'Thread settings saved';
+
+  @override
+  String get threadAutoArchive => 'Hide after inactivity';
+
+  @override
+  String get threadAutoArchiveDescription =>
+      'The thread stops showing in the channel list after this period of inactivity.';
+
+  @override
+  String get threadDefaultAutoArchive => 'Default hide after inactivity';
+
+  @override
+  String get threadDefaultAutoArchiveDescription =>
+      'New threads stop showing in the channel list after this period of inactivity.';
+
+  @override
+  String get threadDefaultSlowmode => 'Default thread slowmode';
+
+  @override
+  String get threadAutoArchiveOneHour => '1 Hour';
+
+  @override
+  String get threadAutoArchiveOneDay => '24 Hours';
+
+  @override
+  String get threadAutoArchiveThreeDays => '3 Days';
+
+  @override
+  String get threadAutoArchiveOneWeek => '1 Week';
+
+  @override
+  String get threadInvitable => 'Allow anyone to invite';
+
+  @override
+  String get threadInvitableDescription =>
+      'Members of this private thread can add other people.';
+
+  @override
+  String threadStartedBy(String name) {
+    return 'Started by $name';
+  }
+
+  @override
+  String get threadStarterDeleted => 'Original message was deleted.';
+
+  @override
+  String systemThreadCreated(
+    String username,
+    String threadLink,
+    String allThreadsLink,
+  ) {
+    return '$username started a thread: $threadLink. See $allThreadsLink.';
+  }
+
+  @override
+  String get systemThreadCreatedAllThreadsLink => 'all threads';
+
+  @override
+  String get systemThreadCreatedThreadFallback => 'a thread';
+
+  @override
+  String systemPreviewThreadCreated(String username) {
+    return '$username started a thread.';
+  }
+
+  @override
   String guildSettingsEmojiSlotInfo(int staticCount, int animatedCount) {
     return '$staticCount static, $animatedCount animated emoji slots used';
   }
@@ -12701,6 +13243,15 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get auditLogActionChannelDelete => 'Channel deleted';
 
   @override
+  String get auditLogActionThreadCreate => 'Thread created';
+
+  @override
+  String get auditLogActionThreadUpdate => 'Thread updated';
+
+  @override
+  String get auditLogActionThreadDelete => 'Thread deleted';
+
+  @override
   String get auditLogActionChannelOverwriteCreate => 'Channel overwrite added';
 
   @override
@@ -12813,6 +13364,21 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   @override
   String auditLogSummaryChannelDelete(String actor, String target) {
     return '$actor deleted the channel $target.';
+  }
+
+  @override
+  String auditLogSummaryThreadCreate(String actor, String target) {
+    return '$actor started the thread $target.';
+  }
+
+  @override
+  String auditLogSummaryThreadUpdate(String actor, String target) {
+    return '$actor updated the thread $target.';
+  }
+
+  @override
+  String auditLogSummaryThreadDelete(String actor, String target) {
+    return '$actor deleted the thread $target.';
   }
 
   @override
@@ -14862,17 +15428,17 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get assistantOkCustomStatusCleared => 'Custom status cleared.';
 
   @override
-  String get guildNavbarAnnouncementChannel => 'Announcement Channel';
+  String get guildNavbarAnnouncementChannel => 'Announcement';
 
   @override
   String get guildNavbarAnnouncementChannelDescription =>
-      'Post updates that other communities can follow into their own channels';
+      'Post updates other communities can follow';
 
   @override
-  String get channelDetailsAnnouncementChannel => 'Announcement Channel';
+  String get channelDetailsAnnouncementChannel => 'Announcement channel';
 
   @override
-  String get channelSettingsAnnouncementChannel => 'Announcement Channel';
+  String get channelSettingsAnnouncementChannel => 'Announcement channel';
 
   @override
   String get channelSettingsAnnouncementChannelDescription =>
@@ -14910,7 +15476,7 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
       'This channel still has followers. Remove those follows before converting it.';
 
   @override
-  String get channelMenuFollow => 'Follow Channel';
+  String get channelMenuFollow => 'Follow channel';
 
   @override
   String get channelFollowTitle => 'Follow this channel';
@@ -15109,7 +15675,7 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get crosspostGoToCommunity => 'Go to community';
 
   @override
-  String get crosspostJoinCommunity => 'Join Community';
+  String get crosspostJoinCommunity => 'Join community';
 
   @override
   String get crosspostSourceFailed =>
@@ -15160,6 +15726,308 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get channelDetailsUnsupportedChannel => 'Unsupported channel';
+
+  @override
+  String get forumChannelTypeForum => 'Forum';
+
+  @override
+  String get forumChannelTypeForumDescription =>
+      'Posts organized by topic and tags';
+
+  @override
+  String get forumChannelTypeMedia => 'Media';
+
+  @override
+  String get forumChannelTypeMediaDescription =>
+      'Posts built around images and videos';
+
+  @override
+  String get forumNewPost => 'New post';
+
+  @override
+  String get forumNewMediaPost => 'New media post';
+
+  @override
+  String get forumSearchPosts => 'Search posts';
+
+  @override
+  String get forumViewOptions => 'Sort and view';
+
+  @override
+  String get forumSearchIndexing =>
+      'Search is still being prepared for this community. Posts appear here as soon as it is ready.';
+
+  @override
+  String get forumNoPosts => 'There are no posts yet';
+
+  @override
+  String get forumNoPostsHint => 'Be the first to start a conversation here.';
+
+  @override
+  String get forumNoSearchResults => 'No posts match your search';
+
+  @override
+  String get forumNoSearchResultsHint =>
+      'Try different words or clear the tag filter.';
+
+  @override
+  String get forumCreateFirstPost => 'Create the first post';
+
+  @override
+  String get forumOlderPosts => 'Older posts';
+
+  @override
+  String get forumPostsLoadFailed => 'Posts could not be loaded.';
+
+  @override
+  String get forumRetry => 'Try again';
+
+  @override
+  String get forumPostPinned => 'Pinned';
+
+  @override
+  String get forumPostLocked => 'Locked';
+
+  @override
+  String get forumPostArchived => 'Archived';
+
+  @override
+  String get forumPostNewBadge => 'NEW';
+
+  @override
+  String get forumPostStarterDeleted => 'The original message was deleted.';
+
+  @override
+  String forumPostSnippet(String author, String content) {
+    return '$author: $content';
+  }
+
+  @override
+  String forumPostNewMessages(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count new messages',
+      one: '1 new message',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get forumPostReact => 'Add the default reaction';
+
+  @override
+  String get forumOpenPost => 'Open post';
+
+  @override
+  String get forumEditTags => 'Edit tags';
+
+  @override
+  String get forumSaveTags => 'Save tags';
+
+  @override
+  String forumTagsLimitHint(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Pick up to $count tags.',
+      one: 'Pick up to 1 tag.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get forumPinPost => 'Pin post';
+
+  @override
+  String get forumUnpinPost => 'Unpin post';
+
+  @override
+  String get forumMarkPostRead => 'Mark as read';
+
+  @override
+  String get forumCopyPostLink => 'Copy link';
+
+  @override
+  String get forumPostGuidelines => 'Post guidelines';
+
+  @override
+  String get forumGuidelinesPlaceholder =>
+      'Tell people what to post here and how to post it.';
+
+  @override
+  String get forumPostTitle => 'Title';
+
+  @override
+  String get forumPostMessage => 'Message';
+
+  @override
+  String get forumPostMessagePlaceholder =>
+      'Write the first message of your post';
+
+  @override
+  String get forumPostMediaPlaceholder => 'Add a caption';
+
+  @override
+  String get forumPostTags => 'Tags';
+
+  @override
+  String get forumPostTagsRequired => 'Tags (required)';
+
+  @override
+  String get forumPostAddMedia => 'Add media';
+
+  @override
+  String get forumPostAddFile => 'Add file';
+
+  @override
+  String get forumPostRemoveAttachment => 'Remove attachment';
+
+  @override
+  String get forumPostSubmit => 'Post';
+
+  @override
+  String get forumPostTitleRequired => 'Give your post a title.';
+
+  @override
+  String get forumPostMediaRequired =>
+      'Add at least one image or video to post here.';
+
+  @override
+  String get forumPostContentRequired => 'Write a message or add a file.';
+
+  @override
+  String get forumSortLatestActivity => 'Recently active';
+
+  @override
+  String get forumSortCreationTime => 'Date posted';
+
+  @override
+  String get forumLayoutList => 'List view';
+
+  @override
+  String get forumLayoutGallery => 'Gallery view';
+
+  @override
+  String get forumNewPostsUnread => 'Show unread for new posts';
+
+  @override
+  String get forumNewPostsUnreadDescription =>
+      'Mark this channel unread when someone creates a post.';
+
+  @override
+  String get forumPostSlowmode => 'Post slowmode';
+
+  @override
+  String forumPostSlowmodeDescription(String bypassSlowmodePermissionLabel) {
+    return 'Wait between creating posts. \"$bypassSlowmodePermissionLabel\" can bypass it.';
+  }
+
+  @override
+  String get forumMessageSlowmode => 'Message slowmode in posts';
+
+  @override
+  String get forumMessageSlowmodeDescription =>
+      'Slowmode applied to messages in new posts.';
+
+  @override
+  String get forumDefaultAutoArchive => 'Hide after inactivity';
+
+  @override
+  String get forumDefaultAutoArchiveDescription =>
+      'New posts are archived after this long without activity.';
+
+  @override
+  String get forumDefaultReaction => 'Default reaction';
+
+  @override
+  String get forumSetDefaultReaction => 'Pick an emoji';
+
+  @override
+  String get forumChangeDefaultReaction => 'Change';
+
+  @override
+  String get forumRemoveDefaultReaction => 'Remove';
+
+  @override
+  String get forumDefaultSortOrder => 'Default sort order';
+
+  @override
+  String get forumDefaultLayout => 'Default layout';
+
+  @override
+  String get forumTagMatchSetting => 'Tag filter';
+
+  @override
+  String get forumTagMatchSome => 'Match any selected tag';
+
+  @override
+  String get forumTagMatchAll => 'Match all selected tags';
+
+  @override
+  String get forumRequireTag => 'Require tags';
+
+  @override
+  String get forumRequireTagDescription =>
+      'People must pick at least one tag when they create a post.';
+
+  @override
+  String get forumHideMediaDownloads => 'Hide media download options';
+
+  @override
+  String get forumHideMediaDownloadsDescription =>
+      'Hide download, open in browser and copy link for images and videos in posts.';
+
+  @override
+  String forumTagsTitle(int count, int max) {
+    return 'Tags ($count/$max)';
+  }
+
+  @override
+  String get forumTagsDescription =>
+      'Tags help people find and filter posts. Only moderators can apply moderated tags.';
+
+  @override
+  String get forumCreateTag => 'Create tag';
+
+  @override
+  String get forumEditTag => 'Edit tag';
+
+  @override
+  String get forumSaveTag => 'Save tag';
+
+  @override
+  String get forumDeleteTag => 'Delete tag';
+
+  @override
+  String get forumTagName => 'Tag name';
+
+  @override
+  String get forumTagEmoji => 'Emoji';
+
+  @override
+  String get forumTagRemoveEmoji => 'Remove emoji';
+
+  @override
+  String get forumTagModerated => 'Only moderators can apply';
+
+  @override
+  String get forumTagModeratedDescription =>
+      'Only members who can manage threads can apply or remove this tag.';
+
+  @override
+  String get forumTagModeratedBadge => 'Moderated';
+
+  @override
+  String forumPostCooldown(int seconds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seconds,
+      locale: localeName,
+      other: 'You can post again in $seconds seconds.',
+      one: 'You can post again in 1 second.',
+    );
+    return '$_temp0';
+  }
 }
 
 /// The translations for English, as used in the United Kingdom (`en_GB`).
@@ -15445,7 +16313,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get mfaChooseMethod => 'Choose a verification method';
 
   @override
-  String get mfaMethodTotp => 'Authenticator App';
+  String get mfaMethodTotp => 'Authenticator app';
 
   @override
   String get mfaMethodWebauthn => 'Security key / passkey';
@@ -15711,6 +16579,172 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get resetPasswordMismatch => 'Passwords do not match.';
 
   @override
+  String get recoverAccountTitle => 'Recover your account';
+
+  @override
+  String get recoverAccountDescription =>
+      'Enter your username and the recovery key from your recovery kit, then choose a new password.';
+
+  @override
+  String get recoverAccountNoKit =>
+      'No recovery kit? Ask an admin of this instance for a password reset link.';
+
+  @override
+  String get recoveryKitTitle => 'Your recovery kit';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'If you forget your password, this kit is the only way back into your account. Store it somewhere safe, like a password manager or a printed copy.';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      'Your old recovery kit no longer works. Store this new one somewhere safe.';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'Your password is reset. Your old recovery kit no longer works. Store this new one somewhere safe.';
+
+  @override
+  String get recoveryKitWarning =>
+      'Anyone with this key can reset your password. Never share it.';
+
+  @override
+  String get recoveryKitKeyLabel => 'Recovery key';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return '$productName recovery kit';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'Keep this page somewhere safe. If you forget your password, you can use it to get back into your account. Anyone with this recovery key can reset your password, so never share it.';
+
+  @override
+  String get recoveryKitInstanceLabel => 'Instance';
+
+  @override
+  String get recoveryKitCreatedAtLabel => 'Created';
+
+  @override
+  String get recoveryKitQrCaption =>
+      'Scan to open the recovery page with your details filled in.';
+
+  @override
+  String get recoveryKitStepsTitle => 'How to recover your account';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return 'Go to $recoverUrl or scan the QR code.';
+  }
+
+  @override
+  String get recoveryKitStepEnter =>
+      'Enter your username and this recovery key.';
+
+  @override
+  String get recoveryKitStepPassword =>
+      'Choose a new password. You get a new recovery kit and this one stops working.';
+
+  @override
+  String get recoveryKitBackupCodesTitle => 'Two-factor backup codes';
+
+  @override
+  String get recoveryKitBackupCodesNote =>
+      'Each code works once in place of your authenticator app.';
+
+  @override
+  String get recoveryKitBackupCodesFailed =>
+      'Couldn\'t load your backup codes.';
+
+  @override
+  String get recoveryKitIncludeBackupCodes =>
+      'Include my two-factor backup codes in the saved image';
+
+  @override
+  String get recoveryKitCopy => 'Copy';
+
+  @override
+  String get recoveryKitCopied => 'Recovery key copied';
+
+  @override
+  String get recoveryKitSaveImage => 'Save image';
+
+  @override
+  String get recoveryKitSaved => 'Recovery kit saved';
+
+  @override
+  String get recoveryKitSavedToPhotos => 'Recovery kit saved to Photos';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'Couldn\'t save the recovery kit. Try again or copy the key instead.';
+
+  @override
+  String get recoveryKitAcknowledge =>
+      'I\'ve stored my recovery kit somewhere safe';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'Couldn\'t create your recovery kit. You can create one later in your account settings.';
+
+  @override
+  String get recoveryKitSectionTitle => 'Recovery kit';
+
+  @override
+  String get recoveryKitSectionDescription =>
+      'Lets you reset your password if you forget it.';
+
+  @override
+  String get recoveryKitNone => 'You don\'t have a recovery kit yet';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return 'Created $time';
+  }
+
+  @override
+  String get recoveryKitCreate => 'Create recovery kit';
+
+  @override
+  String get recoveryKitCreateNew => 'Create a new kit';
+
+  @override
+  String get recoveryKitReplaceTitle => 'Create a new recovery kit?';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      'Your current kit stops working as soon as the new one is created.';
+
+  @override
+  String get recoveryKitReminderTitle => 'Save a recovery kit';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'Your account has no email address. If you forget your password, a recovery kit is the only way back in. It only takes a minute.';
+
+  @override
+  String get registerUsernameSignInHint =>
+      'You sign in with this username. Pick one you will remember.';
+
+  @override
+  String get registerUsernameTaken => 'This username is already taken';
+
+  @override
+  String get registerUsernameAvailable => 'This username is available';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'Claim your account by choosing a username and password. You sign in with them, so pick ones you will remember.';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'Your account is not yet claimed. Without a username and password, you won\'t be able to sign in from other devices and you could lose access to your account. Claim your account now to secure it.';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'Username';
+
+  @override
   String get registerTitle => 'Create an account';
 
   @override
@@ -15812,6 +16846,9 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get errorInvalidEmailOrPassword => 'Invalid email or password.';
+
+  @override
+  String get errorInvalidUsernameOrPassword => 'Invalid username or password.';
 
   @override
   String get errorUnableToSendResetLink =>
@@ -17191,7 +18228,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   }
 
   @override
-  String get securityLoginPasswordNeverChanged => 'Last changed: Never';
+  String get securityLoginPasswordNeverChanged => 'Last changed: never';
 
   @override
   String get securityLoginNoPasswordSet => 'No password set';
@@ -17327,7 +18364,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
       'Add an extra layer of security to your account';
 
   @override
-  String get securityTfaAuthenticatorApp => 'Authenticator App';
+  String get securityTfaAuthenticatorApp => 'Authenticator app';
 
   @override
   String get securityTfaAuthenticatorEnabled =>
@@ -24765,6 +25802,14 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      'Your gift time has ended. Subscribe to keep Plutonium.';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      'You\'ll be charged now. Your remaining gift time is added after your paid period, so none of it is lost.';
+
+  @override
   String get premiumComparisonFeatureColumn => 'Feature';
 
   @override
@@ -24788,10 +25833,6 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   @override
   String get premiumCheckoutStartFailedBody =>
       'Something went wrong while starting checkout. Please try again in a moment.';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      'You\'re currently on a gift subscription. It won\'t renew. You can redeem more gift codes to extend it. Recurring subscriptions can be started after your gift time ends.';
 
   @override
   String get premiumPlanUnavailable =>
@@ -25409,7 +26450,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get pushRelayConsentNoticePrefix => 'Agree to the ';
 
   @override
-  String get pushRelayConsentNoticeLink => 'Push Relay Privacy Notice';
+  String get pushRelayConsentNoticeLink => 'Push relay privacy notice';
 
   @override
   String get pushRelayConsentNoticeSuffix =>
@@ -26678,25 +27719,25 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get guildNavbarChannelType => 'Channel type';
 
   @override
-  String get guildNavbarTextChannel => 'Text channel';
+  String get guildNavbarTextChannel => 'Text';
 
   @override
   String get guildNavbarTextChannelDescription =>
-      'Send messages, images, GIFs, and emoji';
+      'Send messages, images, GIFs and emoji';
 
   @override
-  String get guildNavbarVoiceChannel => 'Voice channel';
+  String get guildNavbarVoiceChannel => 'Voice';
 
   @override
   String get guildNavbarVoiceChannelDescription =>
-      'Hang out together with voice, video, and screen share';
+      'Hang out with voice, video and screen share';
 
   @override
-  String get guildNavbarLinkChannel => 'Link channel';
+  String get guildNavbarLinkChannel => 'Link';
 
   @override
   String get guildNavbarLinkChannelDescription =>
-      'Quick access to an external website or resource';
+      'Shortcut to an external website';
 
   @override
   String get guildNavbarNameLabel => 'Name';
@@ -29955,7 +30996,7 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get mfaChooseMethod => 'Choose a verification method';
 
   @override
-  String get mfaMethodTotp => 'Authenticator App';
+  String get mfaMethodTotp => 'Authenticator app';
 
   @override
   String get mfaMethodWebauthn => 'Security key / passkey';
@@ -30221,6 +31262,172 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get resetPasswordMismatch => 'Passwords do not match.';
 
   @override
+  String get recoverAccountTitle => 'Recover your account';
+
+  @override
+  String get recoverAccountDescription =>
+      'Enter your username and the recovery key from your recovery kit, then choose a new password.';
+
+  @override
+  String get recoverAccountNoKit =>
+      'No recovery kit? Ask an admin of this instance for a password reset link.';
+
+  @override
+  String get recoveryKitTitle => 'Your recovery kit';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      'If you forget your password, this kit is the only way back into your account. Store it somewhere safe, like a password manager or a printed copy.';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      'Your old recovery kit no longer works. Store this new one somewhere safe.';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      'Your password is reset. Your old recovery kit no longer works. Store this new one somewhere safe.';
+
+  @override
+  String get recoveryKitWarning =>
+      'Anyone with this key can reset your password. Never share it.';
+
+  @override
+  String get recoveryKitKeyLabel => 'Recovery key';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return '$productName recovery kit';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      'Keep this page somewhere safe. If you forget your password, you can use it to get back into your account. Anyone with this recovery key can reset your password, so never share it.';
+
+  @override
+  String get recoveryKitInstanceLabel => 'Instance';
+
+  @override
+  String get recoveryKitCreatedAtLabel => 'Created';
+
+  @override
+  String get recoveryKitQrCaption =>
+      'Scan to open the recovery page with your details filled in.';
+
+  @override
+  String get recoveryKitStepsTitle => 'How to recover your account';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return 'Go to $recoverUrl or scan the QR code.';
+  }
+
+  @override
+  String get recoveryKitStepEnter =>
+      'Enter your username and this recovery key.';
+
+  @override
+  String get recoveryKitStepPassword =>
+      'Choose a new password. You get a new recovery kit and this one stops working.';
+
+  @override
+  String get recoveryKitBackupCodesTitle => 'Two-factor backup codes';
+
+  @override
+  String get recoveryKitBackupCodesNote =>
+      'Each code works once in place of your authenticator app.';
+
+  @override
+  String get recoveryKitBackupCodesFailed =>
+      'Couldn\'t load your backup codes.';
+
+  @override
+  String get recoveryKitIncludeBackupCodes =>
+      'Include my two-factor backup codes in the saved image';
+
+  @override
+  String get recoveryKitCopy => 'Copy';
+
+  @override
+  String get recoveryKitCopied => 'Recovery key copied';
+
+  @override
+  String get recoveryKitSaveImage => 'Save image';
+
+  @override
+  String get recoveryKitSaved => 'Recovery kit saved';
+
+  @override
+  String get recoveryKitSavedToPhotos => 'Recovery kit saved to Photos';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      'Couldn\'t save the recovery kit. Try again or copy the key instead.';
+
+  @override
+  String get recoveryKitAcknowledge =>
+      'I\'ve stored my recovery kit somewhere safe';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      'Couldn\'t create your recovery kit. You can create one later in your account settings.';
+
+  @override
+  String get recoveryKitSectionTitle => 'Recovery kit';
+
+  @override
+  String get recoveryKitSectionDescription =>
+      'Lets you reset your password if you forget it.';
+
+  @override
+  String get recoveryKitNone => 'You don\'t have a recovery kit yet';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return 'Created $time';
+  }
+
+  @override
+  String get recoveryKitCreate => 'Create recovery kit';
+
+  @override
+  String get recoveryKitCreateNew => 'Create a new kit';
+
+  @override
+  String get recoveryKitReplaceTitle => 'Create a new recovery kit?';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      'Your current kit stops working as soon as the new one is created.';
+
+  @override
+  String get recoveryKitReminderTitle => 'Save a recovery kit';
+
+  @override
+  String get recoveryKitReminderBody =>
+      'Your account has no email address. If you forget your password, a recovery kit is the only way back in. It only takes a minute.';
+
+  @override
+  String get registerUsernameSignInHint =>
+      'You sign in with this username. Pick one you will remember.';
+
+  @override
+  String get registerUsernameTaken => 'This username is already taken';
+
+  @override
+  String get registerUsernameAvailable => 'This username is available';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      'Claim your account by choosing a username and password. You sign in with them, so pick ones you will remember.';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      'Your account is not yet claimed. Without a username and password, you won\'t be able to sign in from other devices and you could lose access to your account. Claim your account now to secure it.';
+
+  @override
+  String get addFriendUsernameOnlyHint => 'Username';
+
+  @override
   String get registerTitle => 'Create an account';
 
   @override
@@ -30322,6 +31529,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get errorInvalidEmailOrPassword => 'Invalid email or password.';
+
+  @override
+  String get errorInvalidUsernameOrPassword => 'Invalid username or password.';
 
   @override
   String get errorUnableToSendResetLink =>
@@ -31701,7 +32911,7 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   }
 
   @override
-  String get securityLoginPasswordNeverChanged => 'Last changed: Never';
+  String get securityLoginPasswordNeverChanged => 'Last changed: never';
 
   @override
   String get securityLoginNoPasswordSet => 'No password set';
@@ -31837,7 +33047,7 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
       'Add an extra layer of security to your account';
 
   @override
-  String get securityTfaAuthenticatorApp => 'Authenticator App';
+  String get securityTfaAuthenticatorApp => 'Authenticator app';
 
   @override
   String get securityTfaAuthenticatorEnabled =>
@@ -38973,6 +40183,14 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      'Your gift time has ended. Subscribe to keep Plutonium.';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      'You\'ll be charged now. Your remaining gift time is added after your paid period, so none of it is lost.';
+
+  @override
   String get premiumComparisonFeatureColumn => 'Feature';
 
   @override
@@ -38996,10 +40214,6 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   @override
   String get premiumCheckoutStartFailedBody =>
       'Something went wrong while starting checkout. Please try again in a moment.';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      'You\'re currently on a gift subscription. It won\'t renew. You can redeem more gift codes to extend it. Recurring subscriptions can be started after your gift time ends.';
 
   @override
   String get premiumPlanUnavailable =>
@@ -39617,7 +40831,7 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get pushRelayConsentNoticePrefix => 'Agree to the ';
 
   @override
-  String get pushRelayConsentNoticeLink => 'Push Relay Privacy Notice';
+  String get pushRelayConsentNoticeLink => 'Push relay privacy notice';
 
   @override
   String get pushRelayConsentNoticeSuffix =>
@@ -40871,25 +42085,25 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get guildNavbarChannelType => 'Channel type';
 
   @override
-  String get guildNavbarTextChannel => 'Text channel';
+  String get guildNavbarTextChannel => 'Text';
 
   @override
   String get guildNavbarTextChannelDescription =>
-      'Send messages, images, GIFs, and emoji';
+      'Send messages, images, GIFs and emoji';
 
   @override
-  String get guildNavbarVoiceChannel => 'Voice channel';
+  String get guildNavbarVoiceChannel => 'Voice';
 
   @override
   String get guildNavbarVoiceChannelDescription =>
-      'Hang out together with voice, video, and screen share';
+      'Hang out with voice, video and screen share';
 
   @override
-  String get guildNavbarLinkChannel => 'Link channel';
+  String get guildNavbarLinkChannel => 'Link';
 
   @override
   String get guildNavbarLinkChannelDescription =>
-      'Quick access to an external website or resource';
+      'Shortcut to an external website';
 
   @override
   String get guildNavbarNameLabel => 'Name';
@@ -41124,7 +42338,7 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get guildMenuSettingsSafetyModeration => 'Safety & moderation';
 
   @override
-  String get guildMenuSettingsActivityLog => 'Activity Log';
+  String get guildMenuSettingsActivityLog => 'Activity log';
 
   @override
   String get guildMenuSettingsWebhooks => 'Webhooks';

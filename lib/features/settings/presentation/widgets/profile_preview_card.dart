@@ -20,6 +20,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
+import 'package:fluxer_app/shared/utils/user_tag.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -404,7 +405,11 @@ class _ProfilePreviewCardState extends ConsumerState<ProfilePreviewCard> {
         ),
         const SizedBox(height: 2),
         Text(
-          '${s.username}#${s.discriminator}',
+          formatUserTag(
+            s.username,
+            s.discriminator,
+            uniqueUsernames: ref.watch(uniqueUsernamesProvider),
+          ),
           style: textStyles.bodySmall.copyWith(color: colors.textTertiary),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,

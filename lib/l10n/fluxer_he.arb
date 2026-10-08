@@ -756,6 +756,205 @@
     "@resetPasswordMismatch": {
         "description": "Error when password and confirmation don't match."
     },
+    "recoverAccountTitle": "שחזר את החשבון שלך",
+    "@recoverAccountTitle": {
+        "description": "Title of the screen where someone resets their password with a recovery kit."
+    },
+    "recoverAccountDescription": "הזן את שם המשתמש שלך ואת מפתח השחזור מתוך ערכת השחזור שלך, ואז בחר סיסמה חדשה.",
+    "@recoverAccountDescription": {
+        "description": "Description on the account recovery screen."
+    },
+    "recoverAccountNoKit": "אין לך ערכת שחזור? בקש ממנהל המערכת של המופע הזה קישור לאיפוס סיסמה.",
+    "@recoverAccountNoKit": {
+        "description": "Hint under the account recovery form for people without a recovery kit."
+    },
+    "recoveryKitTitle": "ערכת השחזור שלך",
+    "@recoveryKitTitle": {
+        "description": "Title of the sheet that shows a newly created account recovery kit."
+    },
+    "recoveryKitCreatedDescription": "אם תשכח את הסיסמה שלך, הקיט הזה הוא הדרך היחידה לחזור לחשבון שלך. שמור אותו במקום בטוח, כמו מנהל סיסמאות או עותק מודפס.",
+    "@recoveryKitCreatedDescription": {
+        "description": "Recovery kit sheet description for a newly created kit."
+    },
+    "recoveryKitReplacedDescription": "ערכת השחזור הישנה שלך כבר לא עובדת. שמור את החדשה במקום בטוח.",
+    "@recoveryKitReplacedDescription": {
+        "description": "Recovery kit sheet description shown after a kit replaces an older one."
+    },
+    "recoveryKitRecoveredDescription": "סיסמתך אופסה. ערכת השחזור הישנה שלך כבר לא עובדת. שמור את הערכה החדשה הזו במקום בטוח.",
+    "@recoveryKitRecoveredDescription": {
+        "description": "Recovery kit sheet description shown after someone recovers their account with a recovery key."
+    },
+    "recoveryKitWarning": "כל מי שיש לו את המפתח הזה יכול לאפס את הסיסמה שלך. לעולם אל תשתף אותו.",
+    "@recoveryKitWarning": {
+        "description": "Warning under the recovery key in the recovery kit sheet."
+    },
+    "recoveryKitKeyLabel": "מפתח שחזור",
+    "@recoveryKitKeyLabel": {
+        "description": "Label for the account recovery key."
+    },
+    "recoveryKitDocumentTitle": "ערכת שחזור של {productName}",
+    "@recoveryKitDocumentTitle": {
+        "description": "Title of the saved recovery kit image. productName is the app name.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitDocumentIntro": "שמור דף זה במקום בטוח. אם תשכח את הסיסמה שלך, תוכל להשתמש בו כדי לחזור לחשבונך. כל מי שיש לו את מפתח השחזור הזה יכול לאפס את הסיסמה שלך, אז לעולם אל תשתף אותו.",
+    "@recoveryKitDocumentIntro": {
+        "description": "Introduction on the saved recovery kit image."
+    },
+    "recoveryKitInstanceLabel": "מופע",
+    "@recoveryKitInstanceLabel": {
+        "description": "Label for the server address on the saved recovery kit."
+    },
+    "recoveryKitCreatedAtLabel": "נוצר",
+    "@recoveryKitCreatedAtLabel": {
+        "description": "Label for the creation date on the saved recovery kit."
+    },
+    "recoveryKitQrCaption": "סרוק כדי לפתוח את דף השחזור עם הפרטים שלך ממולאים.",
+    "@recoveryKitQrCaption": {
+        "description": "Caption under the QR code on the saved recovery kit."
+    },
+    "recoveryKitStepsTitle": "איך לשחזר את החשבון שלך",
+    "@recoveryKitStepsTitle": {
+        "description": "Heading above the recovery steps on the saved recovery kit."
+    },
+    "recoveryKitStepOpen": "עבור אל {recoverUrl} או סרוק את קוד ה-QR.",
+    "@recoveryKitStepOpen": {
+        "description": "First recovery step on the saved recovery kit. recoverUrl is the address of the recovery page.",
+        "placeholders": {
+            "recoverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitStepEnter": "הזן את שם המשתמש שלך ואת מפתח השחזור הזה.",
+    "@recoveryKitStepEnter": {
+        "description": "Second recovery step on the saved recovery kit."
+    },
+    "recoveryKitStepPassword": "בחר סיסמה חדשה. תקבל ערכת שחזור חדשה והערכה הנוכחית תפסיק לעבוד.",
+    "@recoveryKitStepPassword": {
+        "description": "Third recovery step on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesTitle": "קודי גיבוי דו-שלביים",
+    "@recoveryKitBackupCodesTitle": {
+        "description": "Heading above the two-factor backup codes on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesNote": "כל קוד עובד פעם אחת במקום אפליקציית האימות שלך.",
+    "@recoveryKitBackupCodesNote": {
+        "description": "Note under the two-factor backup codes heading on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesFailed": "לא ניתן היה לטעון את קודי הגיבוי שלך.",
+    "@recoveryKitBackupCodesFailed": {
+        "description": "Toast shown when the two-factor backup codes for the recovery kit cannot be loaded."
+    },
+    "recoveryKitIncludeBackupCodes": "לכלול את קודי הגיבוי שלי לאימות דו-שלבי בתמונה השמורה",
+    "@recoveryKitIncludeBackupCodes": {
+        "description": "Checkbox in the recovery kit sheet that adds the two-factor backup codes to the saved image."
+    },
+    "recoveryKitCopy": "העתקה",
+    "@recoveryKitCopy": {
+        "description": "Button that copies the account recovery key."
+    },
+    "recoveryKitCopied": "מפתח השחזור הועתק",
+    "@recoveryKitCopied": {
+        "description": "Toast shown after the recovery key is copied."
+    },
+    "recoveryKitSaveImage": "שמירת תמונה",
+    "@recoveryKitSaveImage": {
+        "description": "Button that saves the recovery kit as an image."
+    },
+    "recoveryKitSaved": "ערכת השחזור נשמרה",
+    "@recoveryKitSaved": {
+        "description": "Toast shown after the recovery kit image is saved to a file."
+    },
+    "recoveryKitSavedToPhotos": "ערכת השחזור נשמרה בתמונות",
+    "@recoveryKitSavedToPhotos": {
+        "description": "Toast shown after the recovery kit image is saved to the photo library."
+    },
+    "recoveryKitSaveFailed": "לא ניתן היה לשמור את ערכת השחזור. נסה שוב או העתק את המפתח במקום זאת.",
+    "@recoveryKitSaveFailed": {
+        "description": "Toast shown when saving the recovery kit image fails."
+    },
+    "recoveryKitAcknowledge": "שמרתי את ערכת השחזור שלי במקום בטוח",
+    "@recoveryKitAcknowledge": {
+        "description": "Checkbox that confirms the recovery kit is stored before closing the sheet."
+    },
+    "recoveryKitCreateFailed": "לא הצלחנו ליצור את ערכת השחזור שלך. תוכל ליצור אחת מאוחר יותר בהגדרות החשבון שלך.",
+    "@recoveryKitCreateFailed": {
+        "description": "Toast shown when a recovery kit cannot be created."
+    },
+    "recoveryKitSectionTitle": "ערכת שחזור",
+    "@recoveryKitSectionTitle": {
+        "description": "Title of the recovery kit section in security settings."
+    },
+    "recoveryKitSectionDescription": "מאפשר לך לאפס את הסיסמה שלך אם תשכח אותה.",
+    "@recoveryKitSectionDescription": {
+        "description": "Description of the recovery kit section in security settings."
+    },
+    "recoveryKitNone": "עדיין אין לך ערכת שחזור",
+    "@recoveryKitNone": {
+        "description": "Shown in security settings when the account has no recovery kit."
+    },
+    "recoveryKitCreatedRelative": "נוצר {time}",
+    "@recoveryKitCreatedRelative": {
+        "description": "When the current recovery kit was created. time is a relative time such as 3 days ago.",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitCreate": "צור ערכת שחזור",
+    "@recoveryKitCreate": {
+        "description": "Button that creates a recovery kit."
+    },
+    "recoveryKitCreateNew": "צור ערכה חדשה",
+    "@recoveryKitCreateNew": {
+        "description": "Button that replaces the existing recovery kit with a new one."
+    },
+    "recoveryKitReplaceTitle": "צור ערכת שחזור חדשה?",
+    "@recoveryKitReplaceTitle": {
+        "description": "Title of the confirmation shown before replacing an existing recovery kit."
+    },
+    "recoveryKitReplaceDescription": "הערכה הנוכחית שלך תפסיק לעבוד ברגע שהחדשה תיצור.",
+    "@recoveryKitReplaceDescription": {
+        "description": "Body of the confirmation shown before replacing an existing recovery kit."
+    },
+    "recoveryKitReminderTitle": "שמור ערכת שחזור",
+    "@recoveryKitReminderTitle": {
+        "description": "Title of the one-time prompt asking a signed-in user without a recovery kit to create one."
+    },
+    "recoveryKitReminderBody": "לחשבונך אין כתובת אימייל. אם תשכח את הסיסמה שלך, ערכת שחזור היא הדרך היחידה לחזור. זה לוקח רק דקה.",
+    "@recoveryKitReminderBody": {
+        "description": "Body of the one-time prompt asking a signed-in user without a recovery kit to create one."
+    },
+    "registerUsernameSignInHint": "אתה נכנס עם שם המשתמש הזה. בחר אחד שתזכור.",
+    "@registerUsernameSignInHint": {
+        "description": "Helper text under the required username field when the instance uses usernames to sign in."
+    },
+    "registerUsernameTaken": "שם המשתמש הזה כבר תפוס",
+    "@registerUsernameTaken": {
+        "description": "Registration form message when the chosen username belongs to someone else."
+    },
+    "registerUsernameAvailable": "השם הזה זמין",
+    "@registerUsernameAvailable": {
+        "description": "Registration form message when the chosen username is free to use."
+    },
+    "claimAccountUsernameDescription": "אמת את החשבון שלך על ידי בחירת שם משתמש וסיסמה. תתחבר איתם, אז בחר כאלה שתזכור.",
+    "@claimAccountUsernameDescription": {
+        "description": "Description in the claim account sheet on instances where people sign in with a username."
+    },
+    "unclaimedAccountDescriptionUsername": "החשבון שלך עדיין לא נתבע. ללא שם משתמש וסיסמה, לא תוכל להתחבר ממכשירים אחרים ועלול לאבד גישה לחשבון שלך. תבע את החשבון שלך עכשיו כדי לאבטח אותו.",
+    "@unclaimedAccountDescriptionUsername": {
+        "description": "Description for the unclaimed account warning on instances where people sign in with a username."
+    },
+    "addFriendUsernameOnlyHint": "שם משתמש",
+    "@addFriendUsernameOnlyHint": {
+        "description": "Placeholder for the add friend field on instances where usernames have no tag."
+    },
     "registerTitle": "צור חשבון",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -875,6 +1074,10 @@
     "errorInvalidEmailOrPassword": "כתובת אימייל או סיסמה שגויים.",
     "@errorInvalidEmailOrPassword": {
         "description": "Error shown on the login screen when the email and password combination is incorrect."
+    },
+    "errorInvalidUsernameOrPassword": "שם משתמש או סיסמה לא חוקיים.",
+    "@errorInvalidUsernameOrPassword": {
+        "description": "Sign-in error on instances where people sign in with a username."
     },
     "errorUnableToSendResetLink": "לא ניתן לשלוח קישור לאיפוס. אנא נסה שוב.",
     "@errorUnableToSendResetLink": {
@@ -11601,6 +11804,14 @@
             }
         }
     },
+    "premiumGiftGraceEnded": "זמן המתנה שלך הסתיים. הירשם כדי להמשיך לקבל את Plutonium.",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "החיוב יתבצע כעת. יתרת זמן המתנה שלך תתווסף לאחר תקופת התשלום, כך שלא תאבד דבר.",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
+    },
     "premiumComparisonFeatureColumn": "תכונה",
     "premiumDisclaimerPurchased": "על ידי הרכישה, הסכמת ל{terms} ול{privacy} שלנו.",
     "@premiumDisclaimerPurchased": {
@@ -11618,7 +11829,6 @@
     "premiumPrivacyPolicy": "מדיניות פרטיות",
     "premiumCheckoutStartFailedTitle": "לא ניתן להתחיל את התשלום",
     "premiumCheckoutStartFailedBody": "משהו השתבש במהלך התחלת התשלום. יש לנסות שוב בעוד רגע.",
-    "premiumGiftSubscriptionBlocksRecurring": "כרגע יש לך מנוי מתנה. הוא לא יתחדש. באפשרותך לממש קודי מתנה נוספים כדי להאריך אותו. ניתן להתחיל מנויים חוזרים לאחר שתקופת המתנה שלך תסתיים.",
     "premiumPlanUnavailable": "התוכנית הזו אינה זמינה. יש ליצור קשר עם התמיכה.",
     "premiumCompletePaymentTitle": "השלם תשלום",
     "premiumCompletePaymentBody": "אתה מועבר כעת ל-Stripe להשלמת התשלום. חזור ל-Fluxer לאחר שתסיים.",

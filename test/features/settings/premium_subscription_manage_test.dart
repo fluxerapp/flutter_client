@@ -15,7 +15,7 @@ void main() {
           surface: PremiumManageSurface.store,
           provider: PremiumSubscriptionProvider.googlePlay,
           manageUrl: playUrl,
-          currentStore: PlutoniumBillingStore.appStore,
+          currentStore: PremiumBillingStore.appStore,
         ),
         isNull,
       );
@@ -24,7 +24,7 @@ void main() {
           surface: PremiumManageSurface.store,
           provider: PremiumSubscriptionProvider.stripe,
           manageUrl: null,
-          currentStore: PlutoniumBillingStore.appStore,
+          currentStore: PremiumBillingStore.appStore,
         ),
         isNull,
       );
@@ -33,7 +33,7 @@ void main() {
           surface: PremiumManageSurface.store,
           provider: PremiumSubscriptionProvider.appStore,
           manageUrl: appleUrl,
-          currentStore: PlutoniumBillingStore.appStore,
+          currentStore: PremiumBillingStore.appStore,
         )?.url,
         appleUrl,
       );
@@ -45,7 +45,7 @@ void main() {
           surface: PremiumManageSurface.store,
           provider: PremiumSubscriptionProvider.appStore,
           manageUrl: appleUrl,
-          currentStore: PlutoniumBillingStore.googlePlay,
+          currentStore: PremiumBillingStore.googlePlay,
         ),
         isNull,
       );
@@ -54,7 +54,7 @@ void main() {
           surface: PremiumManageSurface.store,
           provider: PremiumSubscriptionProvider.stripe,
           manageUrl: null,
-          currentStore: PlutoniumBillingStore.googlePlay,
+          currentStore: PremiumBillingStore.googlePlay,
         ),
         isNull,
       );
@@ -62,7 +62,7 @@ void main() {
         surface: PremiumManageSurface.store,
         provider: PremiumSubscriptionProvider.googlePlay,
         manageUrl: playUrl,
-        currentStore: PlutoniumBillingStore.googlePlay,
+        currentStore: PremiumBillingStore.googlePlay,
       );
       expect(play?.kind, PremiumManageKind.storeUrl);
       expect(play?.url, playUrl);
@@ -104,29 +104,29 @@ void main() {
     });
   });
 
-  group('plutoniumStorePurchaseBlockedByOtherPlatform', () {
+  group('premiumStorePurchaseBlockedByOtherPlatform', () {
     test('hides the other store and stripe', () {
       expect(
-        plutoniumStorePurchaseBlockedByOtherPlatform(
+        premiumStorePurchaseBlockedByOtherPlatform(
           reason: StorePurchaseBlockedReason.existingSubscription,
           blockingProvider: StoreBlockingProvider.googlePlay,
-          currentStore: PlutoniumBillingStore.appStore,
+          currentStore: PremiumBillingStore.appStore,
         ),
         isTrue,
       );
       expect(
-        plutoniumStorePurchaseBlockedByOtherPlatform(
+        premiumStorePurchaseBlockedByOtherPlatform(
           reason: StorePurchaseBlockedReason.existingSubscription,
           blockingProvider: StoreBlockingProvider.stripe,
-          currentStore: PlutoniumBillingStore.googlePlay,
+          currentStore: PremiumBillingStore.googlePlay,
         ),
         isTrue,
       );
       expect(
-        plutoniumStorePurchaseBlockedByOtherPlatform(
+        premiumStorePurchaseBlockedByOtherPlatform(
           reason: StorePurchaseBlockedReason.existingSubscription,
           blockingProvider: StoreBlockingProvider.appStore,
-          currentStore: PlutoniumBillingStore.appStore,
+          currentStore: PremiumBillingStore.appStore,
         ),
         isFalse,
       );

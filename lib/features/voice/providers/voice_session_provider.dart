@@ -51,6 +51,7 @@ import 'package:fluxer_app/features/voice/utils/voice_connection_voice_state.dar
 import 'package:fluxer_app/features/voice/utils/voice_effective_audio_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_join_timing.dart';
 import 'package:fluxer_app/features/voice/utils/voice_lifecycle_log.dart';
+import 'package:fluxer_app/features/voice/utils/voice_media_teardown.dart';
 import 'package:fluxer_app/features/voice/utils/voice_participant_volume_utils.dart';
 import 'package:fluxer_app/features/voice/utils/voice_server_update_decision.dart';
 import 'package:fluxer_app/features/voice/voice_session_errors.dart';
@@ -137,6 +138,7 @@ class VoiceSession extends _$VoiceSession {
   bool _isRecoveringAudioRoute = false;
   VoiceChannelPermissions? _channelPermissions;
   VoiceJoinTiming? _joinTiming;
+  Future<void>? _liveKitTeardownTail;
 
   @override
   VoiceSessionState build() {
@@ -307,6 +309,7 @@ class VoiceSession extends _$VoiceSession {
     _managedLiveKitRoom = null;
     if (roomToDisconnect != null) {
       _sendVoiceDisconnectState(guildId: guildId, connectionId: connectionId);
+      await _prepareVoiceMediaTeardownBeforeRoomDisconnect();
       await _disconnectAndDisposeRoom(roomToDisconnect, reason: reason);
     }
     state = state.copyWith(
@@ -1420,6 +1423,17 @@ class VoiceSession extends _$VoiceSession {
           guildId: state.guildId,
         );
       }
+      await _disconnectRegionHotSwapPreviousRoom(existingRoom);
+      if (attempt != _connectGeneration ||
+          _regionHotSwapPendingRoom != newRoom) {
+        await _disconnectAndDisposeRoom(
+          newRoom,
+          reason: 'region_hotswap_cancelled',
+        );
+        return;
+      }
+      _managedLiveKitRoom = newRoom;
+      state = state.copyWith(liveKitRoom: newRoom, e2eeKey: e2eeKey);
       final bool shareDropped = await _restoreLocalMediaAfterRegionHotSwap(
         newRoom: newRoom,
         resolvedChannelId: resolvedChannelId,
@@ -1437,7 +1451,6 @@ class VoiceSession extends _$VoiceSession {
       _regionHotSwapPendingRoom = null;
       _detachRoomEventsListener();
       _detachLocalParticipantListener();
-      final Room previousRoom = existingRoom;
       _managedLiveKitRoom = newRoom;
       final String? resolvedGuildId =
           _normalizeVoiceGuildId(event.guildId) ?? state.guildId;
@@ -1473,7 +1486,6 @@ class VoiceSession extends _$VoiceSession {
           _reconcileSelfStreamState(reason: 'region_share_not_restored'),
         );
       }
-      unawaited(_disconnectRegionHotSwapPreviousRoom(previousRoom));
       talker.info(
         '[Voice] LiveKit region change complete (endpoint=${event.endpoint}).',
       );
@@ -1831,11 +1843,54 @@ class VoiceSession extends _$VoiceSession {
     unawaited(_disconnectAndDisposeRoom(roomToDisconnect));
   }
 
+  Future<void> _prepareVoiceMediaTeardownBeforeRoomDisconnect() async {
+    if (state.isInVoice) {
+      state = state.copyWith(
+        isConnecting: false,
+        isConnected: false,
+        isReconnecting: false,
+        clearRoom: true,
+        clearE2eeKey: true,
+      );
+      await waitForVoiceMediaWidgetsToRelease();
+    }
+    await drainVoiceMediaHandoffs(ref);
+  }
+
+  Future<void> _enqueueLiveKitTeardown(Future<void> Function() action) {
+    final Future<void> previous = _liveKitTeardownTail ?? Future<void>.value();
+    final Future<void> next = previous.then((_) => action());
+    _liveKitTeardownTail = next.catchError((Object _, StackTrace _) {});
+    return next;
+  }
+
   Future<void> _disconnectAndDisposeRoom(
     Room room, {
     String? reason,
     bool releaseLocalCapture = true,
+  }) {
+    return _enqueueLiveKitTeardown(
+      () => _disconnectAndDisposeRoomImpl(
+        room,
+        reason: reason,
+        releaseLocalCapture: releaseLocalCapture,
+      ),
+    );
+  }
+
+  Future<void> _disconnectAndDisposeRoomImpl(
+    Room room, {
+    String? reason,
+    bool releaseLocalCapture = true,
   }) async {
+    logVoiceLifecycle(
+      'livekit_room_teardown',
+      connectGeneration: _connectGeneration,
+      channelId: state.channelId,
+      connectionId: state.activeConnectionId,
+      reason: reason,
+      connectionState: room.connectionState.name,
+    );
     final bool teardownAlreadyArmed = _intentionalLiveKitTeardown;
     _intentionalLiveKitTeardown = true;
     final String reasonSuffix = reason == null ? '' : ' after $reason';
@@ -1904,7 +1959,7 @@ class VoiceSession extends _$VoiceSession {
         connectionId: connectionId ?? sessionState.activeConnectionId,
       );
     }
-    state = state.copyWith(clearRoom: true, clearE2eeKey: true);
+    await _prepareVoiceMediaTeardownBeforeRoomDisconnect();
     await _disconnectAndDisposeRoom(roomToDisconnect);
   }
 

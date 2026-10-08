@@ -395,6 +395,7 @@ Widget messageListApp({
   Set<String> blockedUserIds = const <String>{},
   Widget body = const MessageList(expectedChannelId: messageListChannelId),
   List<Override> overrides = const <Override>[],
+  bool disableMessageListAnimations = true,
 }) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
@@ -415,7 +416,18 @@ Widget messageListApp({
         textTheme: FluxerTextTheme.fromColors(colorTheme),
         layoutTheme: FluxerLayoutTheme.scaled(),
       ),
-      home: Scaffold(body: body),
+      home: Scaffold(
+        body: Builder(
+          builder: (BuildContext context) {
+            return MediaQuery(
+              data: MediaQuery.of(
+                context,
+              ).copyWith(disableAnimations: disableMessageListAnimations),
+              child: body,
+            );
+          },
+        ),
+      ),
     ),
   );
 }
@@ -789,6 +801,7 @@ Future<InstrumentedChatViewModel> pumpBottomList(
   int count = 60,
   bool enableTrimToNewestWindow = false,
   List<Message>? messages,
+  bool disableMessageListAnimations = true,
 }) async {
   tester.view.physicalSize = const Size(420, 640);
   tester.view.devicePixelRatio = 1;
@@ -799,7 +812,11 @@ Future<InstrumentedChatViewModel> pumpBottomList(
     enableTrimToNewestWindow: enableTrimToNewestWindow,
   );
   await tester.pumpWidget(
-    messageListApp(database: openTestDatabase(), chatViewModel: chatViewModel),
+    messageListApp(
+      database: openTestDatabase(),
+      chatViewModel: chatViewModel,
+      disableMessageListAnimations: disableMessageListAnimations,
+    ),
   );
   await pumpFluxerFrames(tester);
   for (int i = 0; i < 4; i += 1) {

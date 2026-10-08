@@ -5,6 +5,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_live_entrance.dart';
+
 const Duration _kSettleDelay = Duration(milliseconds: 80);
 const double _kFollowTau = 0.03;
 const double _kMinTickDt = 1 / 120;
@@ -28,11 +30,102 @@ class MessageListScrollPosition extends ScrollPositionWithSingleContext {
   double _target = 0;
   bool _disposed = false;
 
+  bool _tailFollowActive = false;
+  double _tailFollowFrom = 0;
+  double _tailFollowTo = 0;
+  Duration _tailFollowDuration = Duration.zero;
+  Curve _tailFollowCurve = Curves.linear;
+  Duration? _tailFollowStartedAt;
+  VoidCallback? _tailFollowOnComplete;
+
   bool get _signalScrolling => activity is _PointerSignalScrollActivity;
+
+  bool get isFollowingTail => _tailFollowActive;
+
+  void followTailTo(
+    double target, {
+    Duration duration = kMessageListLiveTailMotionDuration,
+    Curve curve = Curves.easeOutCubic,
+    VoidCallback? onComplete,
+  }) {
+    final double clampedTarget = target.clamp(minScrollExtent, maxScrollExtent);
+    if (clampedTarget <= pixels + _kSnapEpsilon) {
+      if (pixels < clampedTarget) {
+        _applyPixels(clampedTarget);
+      }
+      onComplete?.call();
+      return;
+    }
+    if (_tailFollowActive) {
+      if (clampedTarget > _tailFollowTo + _kSnapEpsilon) {
+        _tailFollowFrom = pixels;
+        _tailFollowStartedAt = null;
+      }
+      _tailFollowTo = clampedTarget;
+      if (onComplete != null) {
+        _tailFollowOnComplete = onComplete;
+      }
+      return;
+    }
+    _cancelSettle();
+    if (_signalScrolling) {
+      _stopTicker();
+      goBallistic(0);
+    }
+    _tailFollowActive = true;
+    _tailFollowFrom = pixels;
+    _tailFollowTo = clampedTarget;
+    _tailFollowDuration = duration;
+    _tailFollowCurve = curve;
+    _tailFollowStartedAt = null;
+    _tailFollowOnComplete = onComplete;
+    _ensureTicker();
+  }
+
+  void _stopTailFollow() {
+    if (!_tailFollowActive) {
+      return;
+    }
+    _tailFollowActive = false;
+    _tailFollowStartedAt = null;
+    _tailFollowOnComplete = null;
+    if (!_signalScrolling) {
+      _stopTicker();
+    }
+  }
+
+  void _finishTailFollow() {
+    _applyPixels(_tailFollowTo.clamp(minScrollExtent, maxScrollExtent));
+    _tailFollowActive = false;
+    _tailFollowStartedAt = null;
+    final VoidCallback? callback = _tailFollowOnComplete;
+    _tailFollowOnComplete = null;
+    if (!_signalScrolling) {
+      _stopTicker();
+    }
+    callback?.call();
+  }
+
+  void _tickTailFollow(Duration elapsed) {
+    _tailFollowStartedAt ??= elapsed;
+    final Duration sinceStart = elapsed - _tailFollowStartedAt!;
+    final double t = _tailFollowDuration.inMicroseconds <= 0
+        ? 1
+        : (sinceStart.inMicroseconds / _tailFollowDuration.inMicroseconds)
+              .clamp(0.0, 1.0);
+    final double curved = _tailFollowCurve.transform(t);
+    final double next =
+        _tailFollowFrom + (_tailFollowTo - _tailFollowFrom) * curved;
+    _applyPixels(next);
+    if (t >= 1.0) {
+      _finishTailFollow();
+    }
+  }
 
   @override
   void beginActivity(ScrollActivity? newActivity) {
     if (newActivity != null && newActivity is! _PointerSignalScrollActivity) {
+      _stopTailFollow();
       _stopTicker();
       _cancelSettle();
     }
@@ -51,6 +144,7 @@ class MessageListScrollPosition extends ScrollPositionWithSingleContext {
       return;
     }
 
+    _stopTailFollow();
     _cancelSettle();
     if (!_signalScrolling) {
       beginActivity(_PointerSignalScrollActivity(this));
@@ -82,7 +176,15 @@ class MessageListScrollPosition extends ScrollPositionWithSingleContext {
   }
 
   void _onTick(Duration elapsed) {
-    if (_disposed || !_signalScrolling) {
+    if (_disposed) {
+      _stopTicker();
+      return;
+    }
+    if (_tailFollowActive) {
+      _tickTailFollow(elapsed);
+      return;
+    }
+    if (!_signalScrolling) {
       _stopTicker();
       return;
     }
@@ -144,6 +246,7 @@ class MessageListScrollPosition extends ScrollPositionWithSingleContext {
   @override
   void dispose() {
     _disposed = true;
+    _stopTailFollow();
     _cancelSettle();
     _ticker?.dispose();
     _ticker = null;

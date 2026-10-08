@@ -100,6 +100,11 @@ db.MembersCompanion memberCompanionFromSdk(
 
 /// Converts SDK [ChannelResponse] to a Drift companion for upserting.
 db.ChannelsCompanion channelFromSdk(ChannelResponse sdk, String guildId) {
+  final ThreadMetadataResponse? meta = sdk.threadMetadata;
+  final List<String>? appliedTags = sdk.appliedTags;
+  final List<ForumTagResponse>? availableTags = sdk.availableTags;
+  final DefaultReactionEmojiResponse? defaultReactionEmoji =
+      sdk.defaultReactionEmoji;
   return db.ChannelsCompanion.insert(
     id: sdk.id,
     guildId: guildId,
@@ -123,6 +128,55 @@ db.ChannelsCompanion channelFromSdk(ChannelResponse sdk, String guildId) {
     bitrate: Value(sdk.bitrate),
     rtcRegion: Value(sdk.rtcRegion),
     voiceConnectionLimit: Value(sdk.voiceConnectionLimit),
+    ownerId: Value(sdk.ownerId),
+    flags: Value(sdk.flags),
+    threadArchived: Value(meta?.archived),
+    threadLocked: Value(meta?.locked),
+    threadInvitable: Value(meta?.invitable),
+    threadAutoArchiveDuration: Value(meta?.autoArchiveDuration),
+    threadArchiveTimestamp: Value(meta?.archiveTimestamp.toIso8601String()),
+    threadCreateTimestamp: Value(meta?.createTimestamp.toIso8601String()),
+    messageCount: Value(sdk.messageCount),
+    totalMessageSent: Value(sdk.totalMessageSent),
+    memberCount: Value(sdk.memberCount),
+    appliedTagsJson: Value(
+      appliedTags == null ? null : jsonEncode(appliedTags),
+    ),
+    defaultAutoArchiveDuration: Value(sdk.defaultAutoArchiveDuration),
+    defaultThreadRateLimitPerUser: Value(sdk.defaultThreadRateLimitPerUser),
+    availableTagsJson: Value(
+      availableTags == null
+          ? null
+          : jsonEncode(<Map<String, Object?>>[
+              for (final ForumTagResponse tag in availableTags) tag.toJson(),
+            ]),
+    ),
+    defaultReactionEmojiJson: Value(
+      defaultReactionEmoji == null
+          ? null
+          : jsonEncode(defaultReactionEmoji.toJson()),
+    ),
+    defaultSortOrder: Value(sdk.defaultSortOrder),
+    defaultForumLayout: Value(sdk.defaultForumLayout),
+    defaultTagSetting: Value(sdk.defaultTagSetting?.json),
+  );
+}
+
+db.ThreadMembersCompanion threadMemberFromSdk(
+  ThreadMemberResponse sdk, {
+  required String threadId,
+  required String guildId,
+}) {
+  final ThreadMemberResponseMuteConfig? muteConfig = sdk.muteConfig;
+  return db.ThreadMembersCompanion.insert(
+    threadId: threadId,
+    guildId: guildId,
+    joinTimestamp: Value(sdk.joinTimestamp.toIso8601String()),
+    flags: Value(sdk.flags),
+    muted: Value(sdk.muted ?? false),
+    muteConfigJson: Value(
+      muteConfig == null ? null : jsonEncode(muteConfig.toJson()),
+    ),
   );
 }
 

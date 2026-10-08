@@ -11,6 +11,21 @@ String embedMediaEffectiveUrl(EmbedMedia media) {
   return media.proxyUrl ?? media.url;
 }
 
+String embedMediaShareableUrl({
+  required EmbedMedia media,
+  String? embedPageUrl,
+}) {
+  final String pageUrl = embedPageUrl?.trim() ?? '';
+  if (pageUrl.isNotEmpty) {
+    return pageUrl;
+  }
+  final String mediaUrl = media.url.trim();
+  if (mediaUrl.isNotEmpty) {
+    return mediaUrl;
+  }
+  return embedMediaEffectiveUrl(media);
+}
+
 bool canOpenEmbedMediaViewer(EmbedMedia media) {
   return embedMediaEffectiveUrl(media).isNotEmpty;
 }
@@ -19,6 +34,7 @@ void openEmbedMediaViewer(
   BuildContext context, {
   required EmbedMedia media,
   String? title,
+  String? embedPageUrl,
   bool animated = false,
   int? embedIndex,
   String? channelId,
@@ -34,6 +50,7 @@ void openEmbedMediaViewer(
         (EmbedMedia item) => buildEmbedMediaViewerItem(
           media: item,
           title: title,
+          embedPageUrl: embedPageUrl,
           animated: animated || item.isAnimated,
           embedIndex: embedIndex,
         ),
@@ -63,6 +80,7 @@ void openEmbedMediaViewer(
 AttachmentMediaViewerItem buildEmbedMediaViewerItem({
   required EmbedMedia media,
   String? title,
+  String? embedPageUrl,
   bool animated = false,
   int? embedIndex,
 }) {
@@ -71,6 +89,7 @@ AttachmentMediaViewerItem buildEmbedMediaViewerItem({
       : embedMediaEffectiveUrl(media);
   return AttachmentMediaViewerItem(
     url: url,
+    linkUrl: embedMediaShareableUrl(media: media, embedPageUrl: embedPageUrl),
     filename: resolveEmbedMediaViewerFilename(url: url, title: title),
     width: media.width,
     height: media.height,

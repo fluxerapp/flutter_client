@@ -1,15 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/settings/services/plutonium_store_products.dart';
-import 'package:fluxer_app/features/settings/services/plutonium_store_purchase_client.dart';
+import 'package:fluxer_app/features/settings/services/premium_store_product_matching.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
 
 void main() {
-  group('plutoniumStoreCatalog', () {
+  group('premiumStoreCatalog', () {
     test('maps app store subscription product ids and skips gifts', () {
-      final PlutoniumStoreCatalog? catalog = plutoniumStoreCatalog(
+      final PremiumStoreCatalog? catalog = premiumStoreCatalog(
         context: _context(),
-        store: PlutoniumBillingStore.appStore,
+        store: PremiumBillingStore.appStore,
       );
 
       expect(catalog?.appAccountToken, 'token');
@@ -23,9 +22,9 @@ void main() {
     });
 
     test('maps play product ids with base plans', () {
-      final PlutoniumStoreCatalog? catalog = plutoniumStoreCatalog(
+      final PremiumStoreCatalog? catalog = premiumStoreCatalog(
         context: _context(),
-        store: PlutoniumBillingStore.googlePlay,
+        store: PremiumBillingStore.googlePlay,
       );
 
       expect(catalog?.monthly?.productId, 'plutonium');
@@ -36,9 +35,9 @@ void main() {
     });
 
     test('skips a play subscription that has no base plan', () {
-      final PlutoniumStoreCatalog? catalog = plutoniumStoreCatalog(
+      final PremiumStoreCatalog? catalog = premiumStoreCatalog(
         context: _context(playBasePlanId: null),
-        store: PlutoniumBillingStore.googlePlay,
+        store: PremiumBillingStore.googlePlay,
       );
 
       expect(catalog?.monthly, isNull);
@@ -47,9 +46,9 @@ void main() {
 
     test('returns null when the current store is disabled', () {
       expect(
-        plutoniumStoreCatalog(
+        premiumStoreCatalog(
           context: _context(appStoreEnabled: false),
-          store: PlutoniumBillingStore.appStore,
+          store: PremiumBillingStore.appStore,
         ),
         isNull,
       );
@@ -57,18 +56,19 @@ void main() {
   });
 
   test('store prices follow the matching base plan', () {
-    final PlutoniumStoreCatalog catalog = plutoniumStoreCatalog(
+    final PremiumStoreCatalog catalog = premiumStoreCatalog(
       context: _context(),
-      store: PlutoniumBillingStore.googlePlay,
+      store: PremiumBillingStore.googlePlay,
     )!;
-    final PlutoniumStoreProductSet products = matchPlutoniumStoreProducts(
-      products: <ProductDetails>[
-        _details(rawPrice: 4.99, price: r'$4.99'),
-        _details(rawPrice: 49.99, price: r'$49.99'),
+    final PremiumStoreProductSet products = matchPremiumStoreProducts(
+      products: <_TestPricedProduct>[
+        _TestPricedProduct(rawPrice: 4.99, priceLabel: r'$4.99'),
+        _TestPricedProduct(rawPrice: 49.99, priceLabel: r'$49.99'),
       ],
       catalog: catalog,
-      basePlanIdOf: (ProductDetails details) {
-        return details.rawPrice < 10 ? 'monthly' : 'yearly';
+      basePlanIdOf: (PremiumStorePricedProduct product) {
+        final _TestPricedProduct priced = product as _TestPricedProduct;
+        return priced.rawPrice < 10 ? 'monthly' : 'yearly';
       },
     );
 
@@ -79,15 +79,17 @@ void main() {
   });
 }
 
-ProductDetails _details({required double rawPrice, required String price}) {
-  return ProductDetails(
-    id: 'plutonium',
-    title: 'Plutonium',
-    description: '',
-    price: price,
-    rawPrice: rawPrice,
-    currencyCode: 'USD',
-  );
+class _TestPricedProduct implements PremiumStorePricedProduct {
+  _TestPricedProduct({required this.rawPrice, required this.priceLabel});
+
+  @override
+  final String id = 'plutonium';
+
+  @override
+  final String priceLabel;
+
+  @override
+  final double rawPrice;
 }
 
 StoreBillingContextResponse _context({

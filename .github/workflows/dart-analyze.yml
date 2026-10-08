@@ -45,8 +45,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-runner-
 
-      - name: Strip Firebase dependencies if present
-        run: dart tool/strip_firebase_deps.dart
+      - name: Configure APNs build tree
+        run: dart tool/configure_build.dart --profile=apns
 
       - name: Install dependencies
         run: flutter pub get
@@ -73,6 +73,9 @@ jobs:
 
       - name: Analyze project source
         run: flutter analyze --no-fatal-warnings --no-fatal-infos
+
+      - name: Verify OSS configure output
+        run: flutter test test/build/oss_configure_build_test.dart
 
   test:
     needs: analyze
@@ -116,8 +119,8 @@ jobs:
       - name: Enable native asset build hooks
         run: flutter config --enable-native-assets
 
-      - name: Strip Firebase dependencies if present
-        run: dart tool/strip_firebase_deps.dart
+      - name: Configure APNs build tree
+        run: dart tool/configure_build.dart --profile=apns
 
       - name: Install dependencies
         run: flutter pub get
@@ -126,7 +129,9 @@ jobs:
         run: dart run build_runner build
 
       - name: Run tests
-        run: flutter test
+        run: |
+          mapfile -t tests < <(git ls-files 'test/**/*_test.dart' | grep -v 'test/build/oss_configure_build_test.dart')
+          flutter test "${tests[@]}"
 
   package-tests:
     needs: analyze

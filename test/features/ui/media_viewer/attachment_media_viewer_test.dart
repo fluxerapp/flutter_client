@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -400,5 +401,137 @@ void main() {
 
       expect(find.byType(AttachmentMediaViewerShell), findsNothing);
     });
+
+    testWidgets('viewer thumbnails decode at strip size, not full resolution', (
+      tester,
+    ) async {
+      _useLowEndPhoneSurface(tester);
+
+      await tester.pumpWidget(
+        _touchApp(
+          const AttachmentMediaViewerShell(
+            items: [_landscapePhoto, _portraitPhoto, _unknownSizePhoto],
+            initialIndex: 0,
+          ),
+        ),
+      );
+      await tester.pump();
+
+      expect(_decodeCaps(tester, BoxFit.cover), [
+        (null, 112),
+        (112, null),
+        (112, null),
+      ]);
+    });
+
+    testWidgets('viewer page decodes at most twice the screen size', (
+      tester,
+    ) async {
+      _useLowEndPhoneSurface(tester);
+
+      for (final (AttachmentMediaViewerItem item, (int?, int?) expected) in [
+        (_landscapePhoto, (3200, null)),
+        (_portraitPhoto, (null, 3200)),
+        (_unknownSizePhoto, (3200, null)),
+      ]) {
+        await tester.pumpWidget(
+          _touchApp(
+            AttachmentMediaViewerShell(
+              key: ValueKey<String>(item.filename),
+              items: [item],
+              initialIndex: 0,
+            ),
+          ),
+        );
+        await tester.pump();
+
+        expect(_decodeCaps(tester, BoxFit.contain), [
+          expected,
+        ], reason: item.filename);
+      }
+    });
+
+    testWidgets('animated viewer items keep full-resolution decode', (
+      tester,
+    ) async {
+      _useLowEndPhoneSurface(tester);
+
+      await tester.pumpWidget(
+        _touchApp(
+          const AttachmentMediaViewerShell(
+            items: [
+              AttachmentMediaViewerItem(
+                url: 'https://cdn.example.com/attachments/1/clip.gif',
+                filename: 'clip.gif',
+                width: 4000,
+                height: 3000,
+                contentType: 'image/gif',
+              ),
+              AttachmentMediaViewerItem(
+                url:
+                    'https://media.example.com/external/a?format=webp&animated=true',
+                filename: 'a',
+                width: 4000,
+                height: 3000,
+              ),
+              AttachmentMediaViewerItem(
+                url: 'https://cdn.example.com/attachments/1/sticker.webp',
+                filename: 'sticker.webp',
+                width: 4000,
+                height: 3000,
+              ),
+            ],
+            initialIndex: 0,
+          ),
+        ),
+      );
+      await tester.pump();
+
+      expect(_decodeCaps(tester, BoxFit.contain), [(null, null)]);
+      expect(_decodeCaps(tester, BoxFit.cover), [
+        (null, null),
+        (null, null),
+        (null, null),
+      ]);
+    });
   });
+}
+
+const AttachmentMediaViewerItem _landscapePhoto = AttachmentMediaViewerItem(
+  url: 'https://cdn.example.com/attachments/1/landscape.jpg',
+  filename: 'landscape.jpg',
+  width: 4000,
+  height: 3000,
+  contentType: 'image/jpeg',
+);
+
+const AttachmentMediaViewerItem _portraitPhoto = AttachmentMediaViewerItem(
+  url: 'https://cdn.example.com/attachments/1/portrait.jpg',
+  filename: 'portrait.jpg',
+  width: 3000,
+  height: 4000,
+  contentType: 'image/jpeg',
+);
+
+const AttachmentMediaViewerItem _unknownSizePhoto = AttachmentMediaViewerItem(
+  url: 'https://cdn.example.com/attachments/1/unknown.png',
+  filename: 'unknown.png',
+  contentType: 'image/png',
+);
+
+void _useLowEndPhoneSurface(WidgetTester tester) {
+  tester.view.physicalSize = const Size(720, 1600);
+  tester.view.devicePixelRatio = 2;
+  addTearDown(tester.view.reset);
+}
+
+List<(int?, int?)> _decodeCaps(WidgetTester tester, BoxFit fit) {
+  return tester
+      .widgetList<CachedNetworkImage>(find.byType(CachedNetworkImage))
+      .where((CachedNetworkImage image) => image.fit == fit)
+      .map(
+        (CachedNetworkImage image) =>
+            (image.memCacheWidth, image.memCacheHeight),
+      )
+      .toList();
 }

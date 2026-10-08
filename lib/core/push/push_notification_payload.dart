@@ -48,6 +48,12 @@ bool isDmPushPayload(Map<String, String> payload) {
   return guildId == null || guildId == '@me' || guildId == 'null';
 }
 
+const String forumThreadCreatedNotifType = '9';
+
+bool isForumThreadCreatedPushPayload(Map<String, String> payload) =>
+    _nonEmpty(payload['notif_type_id']) == forumThreadCreatedNotifType &&
+    _nonEmpty(payload['parent_id']) != null;
+
 bool isNotificationClearPayload(Map<String, String> payload) {
   if (_isClearValue(payload['type']) || _isClearValue(payload['action'])) {
     return true;
@@ -143,6 +149,16 @@ String? resolvePushConversationName(
   }
   if (isDmPushPayload(enrichPushPayload(payload))) {
     return null;
+  }
+  if (_nonEmpty(payload['parent_id']) != null) {
+    final String? threadName = _nonEmpty(payload['channel_name']);
+    if (threadName != null) {
+      final int open = messageTitle.indexOf(' (#$threadName, ');
+      if (open >= 0 && messageTitle.endsWith(')')) {
+        return messageTitle.substring(open + 2, messageTitle.length - 1);
+      }
+      return threadName;
+    }
   }
   final RegExpMatch? match = _guildTitlePattern.firstMatch(messageTitle);
   final String? channelName = match?.group(1);

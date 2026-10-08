@@ -118,6 +118,13 @@ void main() {
         }),
         isNull,
       );
+      expect(
+        parseDiscordGuildTemplate(<String, Object?>{
+          'message': 'Unknown server template',
+          'code': 10057,
+        }),
+        isNull,
+      );
     });
 
     test('returns null when channels are malformed', () {
@@ -131,6 +138,38 @@ void main() {
         ),
         isNull,
       );
+    });
+
+    test('parses Discord numeric entity ids', () {
+      final DiscordGuildTemplate? parsed = parseDiscordGuildTemplate(
+        <String, Object?>{
+          'code': 'abcd1234',
+          'name': 'Gaming Hub',
+          'serialized_source_guild': <String, Object?>{
+            'name': 'Gaming',
+            'roles': <Map<String, Object?>>[
+              <String, Object?>{'id': 0, 'name': '@everyone'},
+            ],
+            'channels': <Map<String, Object?>>[
+              <String, Object?>{
+                'id': 1,
+                'type': 0,
+                'name': 'general',
+                'position': 0,
+                'permission_overwrites': <Map<String, Object?>>[
+                  <String, Object?>{
+                    'id': 2,
+                    'type': 0,
+                    'allow': '1024',
+                    'deny': '0',
+                  },
+                ],
+              },
+            ],
+          },
+        },
+      );
+      expect(parsed, isNotNull);
     });
   });
 }

@@ -19,6 +19,7 @@ export 'package:fluxer_app/features/ui/button/fluxer_action_button.dart';
 export 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 export 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 export 'package:fluxer_app/features/ui/button/fluxer_button_variant.dart';
+export 'package:fluxer_app/features/ui/button/fluxer_circle_fab.dart';
 export 'package:fluxer_app/features/ui/card_alignment_controls/fluxer_card_alignment_controls.dart';
 // Inputs
 export 'package:fluxer_app/features/ui/character_counter/fluxer_character_counter.dart';

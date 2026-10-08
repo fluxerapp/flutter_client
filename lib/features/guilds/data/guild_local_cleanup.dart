@@ -5,11 +5,15 @@ Future<void> clearGuildContentButKeepServer(
   FluxerDatabase db,
   String guildId,
 ) async {
-  final channels = await db.channelDao.getChannels(guildId);
+  final channels = await db.channelDao.getChannels(
+    guildId,
+    includeThreads: true,
+  );
   final channelIds = channels.map((channel) => channel.id).toList();
   await db.messageDao.deleteMessagesForChannels(channelIds);
   await db.readStateDao.deleteReadStatesForChannels(channelIds);
   await db.channelDao.deleteChannelsForGuild(guildId);
+  await db.threadDao.deleteMembersForGuild(guildId);
   await db.memberDao.deleteMembersForGuild(guildId);
   await db.roleDao.deleteRolesForGuild(guildId);
   await db.guildEmojiDao.replaceForGuild(guildId, const []);
@@ -19,11 +23,15 @@ Future<void> clearGuildContentButKeepServer(
 }
 
 Future<void> removeGuildFromLocalDb(FluxerDatabase db, String guildId) async {
-  final channels = await db.channelDao.getChannels(guildId);
+  final channels = await db.channelDao.getChannels(
+    guildId,
+    includeThreads: true,
+  );
   final channelIds = channels.map((channel) => channel.id).toList();
   await db.messageDao.deleteMessagesForChannels(channelIds);
   await db.readStateDao.deleteReadStatesForChannels(channelIds);
   await db.channelDao.deleteChannelsForGuild(guildId);
+  await db.threadDao.deleteMembersForGuild(guildId);
   await db.memberDao.deleteMembersForGuild(guildId);
   await db.roleDao.deleteRolesForGuild(guildId);
   await db.guildEmojiDao.replaceForGuild(guildId, const []);

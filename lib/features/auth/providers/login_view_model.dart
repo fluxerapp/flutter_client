@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/providers/app_startup_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/push/push_account_lifecycle.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/auth/data/sso_auth_service.dart';
 import 'package:fluxer_app/features/auth/data/webauthn_service.dart';
+import 'package:fluxer_app/features/auth/domain/account_recovery_result.dart';
 import 'package:fluxer_app/features/auth/domain/auth_failure.dart';
 import 'package:fluxer_app/features/auth/domain/auth_session.dart';
 import 'package:fluxer_app/features/auth/domain/ban_view.dart';
@@ -24,6 +26,8 @@ import 'package:fluxer_app/features/auth/providers/passkey_error.dart';
 import 'package:fluxer_app/features/auth/providers/pending_invite_code_provider.dart';
 import 'package:fluxer_app/features/auth/providers/pending_registration_url_code_provider.dart';
 import 'package:fluxer_app/features/auth/providers/registration_draft_provider.dart';
+import 'package:fluxer_app/features/recovery_kit/domain/recovery_kit.dart';
+import 'package:fluxer_app/features/recovery_kit/providers/recovery_kit_providers.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:passkeys/authenticator.dart';
 import 'package:passkeys/exceptions.dart';
@@ -150,6 +154,8 @@ class LoginViewState {
 @Riverpod(keepAlive: true)
 class LoginViewModel extends _$LoginViewModel {
   Timer? _suggestionTimer;
+  RecoveryKit? _pendingRecoveredKit;
+  ({String login, String recoveryKey})? _recoveryPrefill;
 
   @override
   LoginViewState build() {
@@ -279,6 +285,7 @@ class LoginViewModel extends _$LoginViewModel {
   }
 
   void clearMfaChallenge() {
+    _pendingRecoveredKit = null;
     state = state.copyWith(mfaChallenge: null);
   }
 
@@ -342,7 +349,7 @@ class LoginViewModel extends _$LoginViewModel {
   }
 
   Future<void> submitRegister({
-    required String email,
+    required String? email,
     required String password,
     String? dateOfBirth,
     String? username,
@@ -396,6 +403,9 @@ class LoginViewModel extends _$LoginViewModel {
         return;
       }
       state = state.copyWith(showRegister: false, isLoggingIn: false);
+      if (ref.read(instanceRuntimeConfigProvider).usernameSignIn) {
+        unawaited(_offerRecoveryKitAfterSignUp(password));
+      }
     } on AuthFailure catch (error) {
       state = _stateAfterAuthFailure(state, error);
     } on Exception catch (e) {
@@ -405,6 +415,86 @@ class LoginViewModel extends _$LoginViewModel {
         isLoggingIn: false,
       );
     }
+  }
+
+  Future<void> _offerRecoveryKitAfterSignUp(String password) async {
+    try {
+      await ref
+          .read(pendingRecoveryKitProvider.notifier)
+          .createAndPresent(
+            reason: RecoveryKitReason.created,
+            password: password,
+          );
+    } on Exception catch (e) {
+      talker.warning('[LoginViewModel] Recovery kit after sign-up failed: $e');
+    }
+  }
+
+  Future<void> submitRecoverAccount({
+    required String login,
+    required String recoveryKey,
+    required String password,
+  }) async {
+    state = state.copyWith(
+      isLoggingIn: true,
+      errorMessage: null,
+      errorType: null,
+      fieldErrors: const {},
+    );
+
+    try {
+      final AccountRecoveryResult result = await ref
+          .read(authRepositoryProvider)
+          .recoverAccount(
+            login: login,
+            recoveryKey: recoveryKey,
+            password: password,
+          );
+      final RecoveryKit kit = RecoveryKit(
+        recoveryKey: result.recoveryKey,
+        createdAt: result.recoveryKitCreatedAt,
+        reason: RecoveryKitReason.recovered,
+        username: result.username ?? _usernameFromLogin(login),
+        discriminator: result.discriminator,
+      );
+      switch (result.login) {
+        case LoginSuccess(:final session):
+          final restored = await _completeLoginSuccess(session);
+          if (!restored) {
+            return;
+          }
+          ref.read(pendingRecoveryKitProvider.notifier).present(kit);
+          state = state.copyWith(
+            email: '',
+            password: '',
+            showForgotPassword: false,
+            isLoggingIn: false,
+          );
+        case LoginMfaRequired(:final challenge):
+          _pendingRecoveredKit = kit;
+          state = state.copyWith(
+            mfaChallenge: challenge,
+            showForgotPassword: false,
+            isLoggingIn: false,
+          );
+        case LoginIpAuthRequired() || LoginSuspended():
+          state = state.copyWith(isLoggingIn: false);
+      }
+    } on AuthFailure catch (error) {
+      state = _stateAfterAuthFailure(state, error);
+    } on Exception catch (e) {
+      talker.error('[LoginViewModel] Recover account error: $e');
+      state = state.copyWith(
+        errorType: LoginError.unableToResetPassword,
+        isLoggingIn: false,
+      );
+    }
+  }
+
+  static String _usernameFromLogin(String login) {
+    final String trimmed = login.trim();
+    final int hashIndex = trimmed.indexOf('#');
+    return hashIndex < 0 ? trimmed : trimmed.substring(0, hashIndex);
   }
 
   void hideAccountSelector() {
@@ -417,6 +507,11 @@ class LoginViewModel extends _$LoginViewModel {
 
   Future<void> completeMfa() async {
     await _finalizeSavedSession(clearMfaChallenge: true);
+    final RecoveryKit? recoveredKit = _pendingRecoveredKit;
+    _pendingRecoveredKit = null;
+    if (recoveredKit != null && ref.read(authStateProvider)) {
+      ref.read(pendingRecoveryKitProvider.notifier).present(recoveredKit);
+    }
   }
 
   Future<void> completeIpAuth() async {
@@ -457,6 +552,20 @@ class LoginViewModel extends _$LoginViewModel {
       errorMessage: null,
       fieldErrors: const {},
     );
+  }
+
+  void showRecoverAccountScreen({
+    required String login,
+    required String recoveryKey,
+  }) {
+    _recoveryPrefill = (login: login, recoveryKey: recoveryKey);
+    showForgotPasswordScreen();
+  }
+
+  ({String login, String recoveryKey})? takeRecoveryPrefill() {
+    final prefill = _recoveryPrefill;
+    _recoveryPrefill = null;
+    return prefill;
   }
 
   void backFromForgotPassword() {
@@ -573,7 +682,10 @@ class LoginViewModel extends _$LoginViewModel {
       return false;
     }
 
-    if (!_emailRegex.hasMatch(state.email.trim())) {
+    final bool usernameSignIn = ref
+        .read(instanceRuntimeConfigProvider)
+        .usernameSignIn;
+    if (!usernameSignIn && !_emailRegex.hasMatch(state.email.trim())) {
       state = state.copyWith(
         errorType: LoginError.invalidEmail,
         fieldErrors: const {},
@@ -596,6 +708,7 @@ class LoginViewModel extends _$LoginViewModel {
             email: state.email,
             password: state.password,
             inviteCode: inviteCode,
+            usernameSignIn: usernameSignIn,
           );
 
       switch (result) {
@@ -628,7 +741,9 @@ class LoginViewModel extends _$LoginViewModel {
       }
       if (error.kind == AuthFailureKind.invalidCredentials) {
         state = state.copyWith(
-          errorType: LoginError.invalidCredentials,
+          errorType: usernameSignIn
+              ? LoginError.invalidUsernameOrPassword
+              : LoginError.invalidCredentials,
           fieldErrors: const {},
           isLoggingIn: false,
         );

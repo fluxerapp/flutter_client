@@ -79,6 +79,22 @@ enum PushNotificationPayload {
     return nil
   }
 
+  static func resolveSpeakableGroupName(
+    title: String,
+    userInfo: [AnyHashable: Any]
+  ) -> String? {
+    if payloadText("parent_id", in: userInfo) != nil,
+      let channelName = payloadText("channel_name", in: userInfo)
+    {
+      if title.hasSuffix(")"), let open = title.range(of: " (#\(channelName), ") {
+        return String(
+          title[title.index(open.lowerBound, offsetBy: 2)..<title.index(before: title.endIndex)])
+      }
+      return channelName
+    }
+    return resolveSpeakableGroupName(title: title)
+  }
+
   /// Group name for guild channels and group DMs. Nil for a 1:1 DM.
   static func resolveSpeakableGroupName(title: String) -> String? {
     if title.hasSuffix(" (Group DM)") {
@@ -326,6 +342,16 @@ enum PushNotificationPayload {
       return true
     }
     return false
+  }
+
+  private static func payloadText(_ key: String, in userInfo: [AnyHashable: Any]) -> String? {
+    if let value = nonEmptyText(userInfo[key]) {
+      return value
+    }
+    if let data = userInfo["data"] as? [AnyHashable: Any] {
+      return nonEmptyText(data[key])
+    }
+    return nil
   }
 
   private static func rawChannelId(from userInfo: [AnyHashable: Any]) -> String? {

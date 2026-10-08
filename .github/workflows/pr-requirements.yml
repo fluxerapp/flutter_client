@@ -44,8 +44,8 @@ jobs:
         with:
           channel: stable
 
-      - name: Strip Firebase dependencies if present
-        run: dart tool/strip_firebase_deps.dart
+      - name: Configure APNs build tree
+        run: dart tool/configure_build.dart --profile=apns
 
       - name: Install dependencies
         run: flutter pub get

@@ -102,7 +102,9 @@ bool _isVoiceType(int channelType) {
 bool _isTextType(int channelType) {
   return channelType == ChannelType.guildText.wireValue ||
       channelType == ChannelType.guildAnnouncement.wireValue ||
-      channelType == ChannelType.guildLink.wireValue;
+      channelType == ChannelType.guildLink.wireValue ||
+      channelType == ChannelType.guildForum.wireValue ||
+      channelType == ChannelType.guildMedia.wireValue;
 }
 
 ChannelReorderIndicatorPosition resolveChannelReorderIndicatorPosition({

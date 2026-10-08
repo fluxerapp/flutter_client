@@ -2,37 +2,78 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "firebase: OSS (UnifiedPush / APNs)",
-            "detail": "Strip Firebase deps + swap in push stubs, then pub get. Auto-runs before UnifiedPush/APNs launches.",
+            "label": "build: OSS (UnifiedPush / CI default)",
+            "detail": "Strip Firebase and Play billing from pubspec, restore push and billing stubs, then pub get.",
             "dependsOrder": "sequence",
             "dependsOn": [
-                "firebase: strip deps",
+                "build: configure oss",
                 "flutter: pub get",
                 "markdown: native parser"
             ],
             "problemMatcher": []
         },
         {
-            "label": "firebase: FCM",
-            "detail": "Merge Firebase deps + FCM sources, then pub get. Auto-runs before FCM launches (also needs firebase_options.dart).",
+            "label": "build: Android FCM + Play billing",
+            "detail": "Merge Firebase deps and FCM sources. Store billing stays in pubspec.yaml.",
             "dependsOrder": "sequence",
             "dependsOn": [
-                "firebase: merge deps",
+                "build: configure android-fcm",
                 "flutter: pub get",
                 "markdown: native parser"
             ],
+            "problemMatcher": []
+        },
+        {
+            "label": "build: iOS store billing",
+            "detail": "Strip Firebase artifacts and restore billing sources. Store billing deps stay in pubspec.yaml.",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "build: configure ios-store",
+                "flutter: pub get",
+                "markdown: native parser"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "build: configure oss",
+            "type": "shell",
+            "command": "dart tool/configure_build.dart --profile=oss",
+            "problemMatcher": []
+        },
+        {
+            "label": "build: configure android-fcm",
+            "type": "shell",
+            "command": "dart tool/configure_build.dart --profile=android-fcm",
+            "problemMatcher": []
+        },
+        {
+            "label": "build: configure ios-store",
+            "type": "shell",
+            "command": "dart tool/configure_build.dart --profile=ios-store",
+            "problemMatcher": []
+        },
+        {
+            "label": "firebase: OSS (UnifiedPush / APNs)",
+            "detail": "Alias for build: OSS.",
+            "dependsOn": ["build: OSS (UnifiedPush / CI default)"],
+            "problemMatcher": []
+        },
+        {
+            "label": "firebase: FCM",
+            "detail": "Alias for build: Android FCM + Play billing.",
+            "dependsOn": ["build: Android FCM + Play billing"],
             "problemMatcher": []
         },
         {
             "label": "firebase: strip deps",
             "type": "shell",
-            "command": "dart tool/strip_firebase_deps.dart",
+            "command": "dart tool/configure_build.dart --profile=oss",
             "problemMatcher": []
         },
         {
             "label": "firebase: merge deps",
             "type": "shell",
-            "command": "dart tool/merge_firebase_deps.dart",
+            "command": "dart tool/configure_build.dart --profile=android-fcm",
             "problemMatcher": []
         },
         {

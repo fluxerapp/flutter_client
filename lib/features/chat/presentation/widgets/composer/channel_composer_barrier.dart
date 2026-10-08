@@ -5,7 +5,6 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/utils/composer/guild_composer_barrier_l10n.dart';
 import 'package:fluxer_app/features/guilds/services/guild_verification.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/claim_account_sheet.dart';
-import 'package:fluxer_app/features/settings/presentation/sheets/phone_add_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -152,7 +151,6 @@ class _ChannelComposerBarrierState
         PhosphorIconsFill.envelopeSimple,
       GuildComposerBlockReason.accountTooNew ||
       GuildComposerBlockReason.notMemberLongEnough => PhosphorIconsFill.clock,
-      GuildComposerBlockReason.noPhoneNumber => PhosphorIconsFill.phone,
     };
   }
 
@@ -172,11 +170,6 @@ class _ChannelComposerBarrierState
         size: FluxerButtonSize.compact,
         onPressed: () =>
             UserSettingsModal.show(context, openSecuritySection: true),
-      ),
-      GuildComposerBlockReason.noPhoneNumber => FluxerButton.secondary(
-        label: l10n.channelComposerBarrierVerifyPhone,
-        size: FluxerButtonSize.compact,
-        onPressed: () => PhoneAddSheet.show(context, ref),
       ),
       GuildComposerBlockReason.guildSendDisabled ||
       GuildComposerBlockReason.timedOut ||

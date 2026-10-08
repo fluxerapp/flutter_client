@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
@@ -12,6 +13,7 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
+import 'package:fluxer_app/shared/utils/user_tag.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class UserBlockedUsers extends ConsumerWidget {
@@ -194,7 +196,17 @@ class UserBlockedUsers extends ConsumerWidget {
           icon: PhosphorIconsBold.copy,
           onPressed: () async {
             close();
-            await copyToClipboard(context: menuContext, value: friend.tag);
+            await copyToClipboard(
+              context: menuContext,
+              value: formatUserTag(
+                friend.username,
+                friend.discriminator,
+                uniqueUsernames: ProviderScope.containerOf(
+                  menuContext,
+                  listen: false,
+                ).read(uniqueUsernamesProvider),
+              ),
+            );
           },
         ),
         FluxerMenuItem(
@@ -214,7 +226,7 @@ class UserBlockedUsers extends ConsumerWidget {
 // Card
 // ---------------------------------------------------------------------------
 
-class _BlockedUserCard extends StatelessWidget {
+class _BlockedUserCard extends ConsumerWidget {
   _BlockedUserCard({
     required this.friend,
     required this.onUnblock,
@@ -228,7 +240,7 @@ class _BlockedUserCard extends StatelessWidget {
   final GlobalKey _moreButtonKey = GlobalKey();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.colors;
     final layout = context.layout;
 
@@ -254,7 +266,7 @@ class _BlockedUserCard extends StatelessWidget {
               showStatus: false,
             ),
             SizedBox(width: layout.s3),
-            Expanded(child: _buildName(context, colors)),
+            Expanded(child: _buildName(context, ref, colors)),
             SizedBox(width: layout.s2),
             FluxerButton.secondary(
               label: FluxerLocalizations.of(context).blockedUsersUnblock,
@@ -286,7 +298,11 @@ class _BlockedUserCard extends StatelessWidget {
     onMoreOptions(position);
   }
 
-  Widget _buildName(BuildContext context, FluxerColorTheme colors) {
+  Widget _buildName(
+    BuildContext context,
+    WidgetRef ref,
+    FluxerColorTheme colors,
+  ) {
     return RichText(
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
@@ -297,12 +313,16 @@ class _BlockedUserCard extends StatelessWidget {
         ),
         children: [
           TextSpan(text: friend.username),
-          TextSpan(
-            text: '#${friend.discriminator}',
-            style: context.textStyles.bodySmall.copyWith(
-              color: colors.textPrimary.withValues(alpha: 0.5),
+          if (shouldShowDiscriminator(
+            friend.discriminator,
+            uniqueUsernames: ref.watch(uniqueUsernamesProvider),
+          ))
+            TextSpan(
+              text: '#${friend.discriminator}',
+              style: context.textStyles.bodySmall.copyWith(
+                color: colors.textPrimary.withValues(alpha: 0.5),
+              ),
             ),
-          ),
         ],
       ),
     );

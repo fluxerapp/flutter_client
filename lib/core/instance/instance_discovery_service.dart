@@ -64,7 +64,7 @@ class InstanceDiscoveryService {
       final Map<String, dynamic> payload = Map<String, dynamic>.from(data);
       final WellKnownFluxerResponse wellKnown;
       try {
-        wellKnown = WellKnownFluxerResponse.fromJson(payload);
+        wellKnown = InstanceConfigSnapshot.parseWellKnown(payload);
       } on Object catch (error, stackTrace) {
         talker.error(
           '[InstanceDiscovery] Failed to parse well-known response from '

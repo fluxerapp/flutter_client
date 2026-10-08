@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
@@ -10,6 +11,7 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
+import 'package:fluxer_app/shared/utils/user_tag.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -61,6 +63,7 @@ class _MutualFriendList extends ConsumerWidget {
         label: l10n.userProfileNoMutualFriends,
       );
     }
+    final bool uniqueUsernames = ref.watch(uniqueUsernamesProvider);
     final Map<String, String?> friendNicknameById = friendNicknamesById(
       ref.watch(friendsListProvider).value ?? const <Friend>[],
     );
@@ -85,7 +88,11 @@ class _MutualFriendList extends ConsumerWidget {
                 showStatus: false,
               ),
               title: displayName,
-              subtitle: '${friend.username}#${friend.discriminator}',
+              subtitle: formatUserTag(
+                friend.username,
+                friend.discriminator,
+                uniqueUsernames: uniqueUsernames,
+              ),
               onTap: () => onFriendTap(friend),
             );
           })

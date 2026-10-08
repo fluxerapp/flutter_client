@@ -24,10 +24,14 @@ CONVENTIONAL_COMMIT_PATTERN = re.compile(
 SECTION_HEADINGS = {
     "feature": "### Features",
     "fix": "### Fixes",
-    "other": "### Other",
 }
-SECTION_ORDER = ("### Features", "### Fixes", "### Other")
-CATEGORY_ORDER = ("feature", "fix", "other")
+SECTION_ORDER = ("### Features", "### Fixes")
+
+RELEASE_DRAFTER_CATEGORIES = {
+    "Features": "### Features",
+    "Fixes": "### Fixes",
+}
+CATEGORY_ORDER = ("feature", "fix")
 DETAILED_CHANGES_HEADING = "## Detailed changes"
 SKIP_CHANGELOG_TYPES = frozenset({"chore", "ci", "build", "style", "refactor", "test"})
 DEFAULT_EXCLUDED_AUTHORS = frozenset(
@@ -218,9 +222,6 @@ def find_section_insert_at(body: str, section_heading: str) -> int:
         match = re.search(rf"\n{re.escape(later_heading)}\n", body)
         if match is not None:
             return match.start()
-    other_match = re.search(r"\n## Other\n", body)
-    if other_match is not None:
-        return other_match.start()
     detailed_match = re.search(rf"{re.escape(DETAILED_CHANGES_HEADING)}\n", body)
     if detailed_match is not None:
         return len(body.rstrip())
@@ -234,7 +235,7 @@ def append_line_to_section(body: str, section_heading: str, line: str) -> str:
     if line in body:
         return body
     section_pattern = re.compile(
-        rf"({re.escape(section_heading)}\n)(.*?)(?=\n## |\Z)",
+        rf"({re.escape(section_heading)}\n)(.*?)(?=\n#+[A-Z]|\Z)",
         re.DOTALL,
     )
     match = section_pattern.search(body)
@@ -273,6 +274,13 @@ def reorder_change_sections(body: str) -> str:
     return body.rstrip() + rebuilt_sections
 
 
+def normalize_headings(body: str) -> str:
+    """Convert release-drafter category ## headings to ### level."""
+    for title, replacement in RELEASE_DRAFTER_CATEGORIES.items():
+        body = re.sub(rf"^## {re.escape(title)}$", replacement, body, flags=re.MULTILINE)
+    return body
+
+
 def insert_direct_commits(body: str, direct_commits: list[DirectCommit]) -> str:
     grouped_commits: dict[str, list[DirectCommit]] = {category: [] for category in CATEGORY_ORDER}
     for commit in direct_commits:
@@ -308,6 +316,7 @@ def main() -> int:
     commitish = os.environ.get("COMMITISH", "beta").strip()
     body_path = Path(sys.argv[1])
     body = body_path.read_text(encoding="utf-8")
+    body = normalize_headings(body)
     previous_tag = find_previous_release_tag(current_tag) if current_tag != "" else None
     direct_commits = collect_direct_commits(previous_tag, commitish)
     if len(direct_commits) == 0:

@@ -66,8 +66,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pub-
 
-      - name: Merge Firebase dependencies
-        run: dart tool/merge_firebase_deps.dart
+      - name: Configure Android FCM build tree
+        run: dart tool/configure_build.dart --profile=android-fcm
 
       - name: Write firebase_options.dart
         env:

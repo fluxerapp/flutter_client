@@ -544,6 +544,205 @@
     "@resetPasswordMismatch": {
         "description": "Error when password and confirmation don't match."
     },
+    "recoverAccountTitle": "Recupera tu cuenta",
+    "@recoverAccountTitle": {
+        "description": "Title of the screen where someone resets their password with a recovery kit."
+    },
+    "recoverAccountDescription": "Ingresa tu nombre de usuario y la clave de recuperación de tu kit de recuperación, luego elige una nueva contraseña.",
+    "@recoverAccountDescription": {
+        "description": "Description on the account recovery screen."
+    },
+    "recoverAccountNoKit": "¿No tienes un kit de recuperación? Pídele al administrador de esta instancia un enlace para restablecer tu contraseña.",
+    "@recoverAccountNoKit": {
+        "description": "Hint under the account recovery form for people without a recovery kit."
+    },
+    "recoveryKitTitle": "Tu kit de recuperación",
+    "@recoveryKitTitle": {
+        "description": "Title of the sheet that shows a newly created account recovery kit."
+    },
+    "recoveryKitCreatedDescription": "Si olvidas tu contraseña, este kit es la única forma de volver a tu cuenta. Guárdalo en un lugar seguro, como un gestor de contraseñas o una copia impresa.",
+    "@recoveryKitCreatedDescription": {
+        "description": "Recovery kit sheet description for a newly created kit."
+    },
+    "recoveryKitReplacedDescription": "Tu kit de recuperación anterior ya no funciona. Guarda este nuevo en un lugar seguro.",
+    "@recoveryKitReplacedDescription": {
+        "description": "Recovery kit sheet description shown after a kit replaces an older one."
+    },
+    "recoveryKitRecoveredDescription": "Tu contraseña se restableció. Tu kit de recuperación anterior ya no funciona. Guarda este nuevo en un lugar seguro.",
+    "@recoveryKitRecoveredDescription": {
+        "description": "Recovery kit sheet description shown after someone recovers their account with a recovery key."
+    },
+    "recoveryKitWarning": "Cualquiera con esta clave puede restablecer tu contraseña. Nunca la compartas.",
+    "@recoveryKitWarning": {
+        "description": "Warning under the recovery key in the recovery kit sheet."
+    },
+    "recoveryKitKeyLabel": "Clave de recuperación",
+    "@recoveryKitKeyLabel": {
+        "description": "Label for the account recovery key."
+    },
+    "recoveryKitDocumentTitle": "Kit de recuperación de {productName}",
+    "@recoveryKitDocumentTitle": {
+        "description": "Title of the saved recovery kit image. productName is the app name.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitDocumentIntro": "Guarda esta página en un lugar seguro. Si olvidas tu contraseña, puedes usarla para volver a acceder a tu cuenta. Cualquiera que tenga esta clave de recuperación puede restablecer tu contraseña, así que nunca la compartas.",
+    "@recoveryKitDocumentIntro": {
+        "description": "Introduction on the saved recovery kit image."
+    },
+    "recoveryKitInstanceLabel": "Instancia",
+    "@recoveryKitInstanceLabel": {
+        "description": "Label for the server address on the saved recovery kit."
+    },
+    "recoveryKitCreatedAtLabel": "Creado",
+    "@recoveryKitCreatedAtLabel": {
+        "description": "Label for the creation date on the saved recovery kit."
+    },
+    "recoveryKitQrCaption": "Escanea para abrir la página de recuperación con tus datos precargados.",
+    "@recoveryKitQrCaption": {
+        "description": "Caption under the QR code on the saved recovery kit."
+    },
+    "recoveryKitStepsTitle": "Cómo recuperar tu cuenta",
+    "@recoveryKitStepsTitle": {
+        "description": "Heading above the recovery steps on the saved recovery kit."
+    },
+    "recoveryKitStepOpen": "Ve a {recoverUrl} o escanea el código QR.",
+    "@recoveryKitStepOpen": {
+        "description": "First recovery step on the saved recovery kit. recoverUrl is the address of the recovery page.",
+        "placeholders": {
+            "recoverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitStepEnter": "Ingresa tu nombre de usuario y esta clave de recuperación.",
+    "@recoveryKitStepEnter": {
+        "description": "Second recovery step on the saved recovery kit."
+    },
+    "recoveryKitStepPassword": "Elige una contraseña nueva. Recibirás un kit de recuperación nuevo y este dejará de funcionar.",
+    "@recoveryKitStepPassword": {
+        "description": "Third recovery step on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesTitle": "Códigos de respaldo de dos factores",
+    "@recoveryKitBackupCodesTitle": {
+        "description": "Heading above the two-factor backup codes on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesNote": "Cada código funciona una vez en lugar de tu app de autenticación.",
+    "@recoveryKitBackupCodesNote": {
+        "description": "Note under the two-factor backup codes heading on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesFailed": "No se pudieron cargar tus códigos de respaldo.",
+    "@recoveryKitBackupCodesFailed": {
+        "description": "Toast shown when the two-factor backup codes for the recovery kit cannot be loaded."
+    },
+    "recoveryKitIncludeBackupCodes": "Incluir mis códigos de respaldo de verificación en dos pasos en la imagen guardada",
+    "@recoveryKitIncludeBackupCodes": {
+        "description": "Checkbox in the recovery kit sheet that adds the two-factor backup codes to the saved image."
+    },
+    "recoveryKitCopy": "Copiar",
+    "@recoveryKitCopy": {
+        "description": "Button that copies the account recovery key."
+    },
+    "recoveryKitCopied": "Clave de recuperación copiada",
+    "@recoveryKitCopied": {
+        "description": "Toast shown after the recovery key is copied."
+    },
+    "recoveryKitSaveImage": "Guardar imagen",
+    "@recoveryKitSaveImage": {
+        "description": "Button that saves the recovery kit as an image."
+    },
+    "recoveryKitSaved": "Kit de recuperación guardado",
+    "@recoveryKitSaved": {
+        "description": "Toast shown after the recovery kit image is saved to a file."
+    },
+    "recoveryKitSavedToPhotos": "Kit de recuperación guardado en Fotos",
+    "@recoveryKitSavedToPhotos": {
+        "description": "Toast shown after the recovery kit image is saved to the photo library."
+    },
+    "recoveryKitSaveFailed": "No se pudo guardar el kit de recuperación. Vuelve a intentarlo o copia la clave.",
+    "@recoveryKitSaveFailed": {
+        "description": "Toast shown when saving the recovery kit image fails."
+    },
+    "recoveryKitAcknowledge": "Guardé mi kit de recuperación en un lugar seguro",
+    "@recoveryKitAcknowledge": {
+        "description": "Checkbox that confirms the recovery kit is stored before closing the sheet."
+    },
+    "recoveryKitCreateFailed": "No se pudo crear tu kit de recuperación. Puedes crear uno más tarde en la configuración de tu cuenta.",
+    "@recoveryKitCreateFailed": {
+        "description": "Toast shown when a recovery kit cannot be created."
+    },
+    "recoveryKitSectionTitle": "Kit de recuperación",
+    "@recoveryKitSectionTitle": {
+        "description": "Title of the recovery kit section in security settings."
+    },
+    "recoveryKitSectionDescription": "Te permite restablecer tu contraseña si la olvidas.",
+    "@recoveryKitSectionDescription": {
+        "description": "Description of the recovery kit section in security settings."
+    },
+    "recoveryKitNone": "Aún no tienes un kit de recuperación",
+    "@recoveryKitNone": {
+        "description": "Shown in security settings when the account has no recovery kit."
+    },
+    "recoveryKitCreatedRelative": "Creado {time}",
+    "@recoveryKitCreatedRelative": {
+        "description": "When the current recovery kit was created. time is a relative time such as 3 days ago.",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitCreate": "Crear kit de recuperación",
+    "@recoveryKitCreate": {
+        "description": "Button that creates a recovery kit."
+    },
+    "recoveryKitCreateNew": "Crear un kit nuevo",
+    "@recoveryKitCreateNew": {
+        "description": "Button that replaces the existing recovery kit with a new one."
+    },
+    "recoveryKitReplaceTitle": "¿Crear un nuevo kit de recuperación?",
+    "@recoveryKitReplaceTitle": {
+        "description": "Title of the confirmation shown before replacing an existing recovery kit."
+    },
+    "recoveryKitReplaceDescription": "Tu kit actual deja de funcionar tan pronto como se crea uno nuevo.",
+    "@recoveryKitReplaceDescription": {
+        "description": "Body of the confirmation shown before replacing an existing recovery kit."
+    },
+    "recoveryKitReminderTitle": "Guardar un kit de recuperación",
+    "@recoveryKitReminderTitle": {
+        "description": "Title of the one-time prompt asking a signed-in user without a recovery kit to create one."
+    },
+    "recoveryKitReminderBody": "Tu cuenta no tiene una dirección de correo electrónico. Si olvidas tu contraseña, un kit de recuperación es la única forma de volver a entrar. Solo toma un minuto.",
+    "@recoveryKitReminderBody": {
+        "description": "Body of the one-time prompt asking a signed-in user without a recovery kit to create one."
+    },
+    "registerUsernameSignInHint": "Inicias sesión con este nombre de usuario. Elige uno que recuerdes.",
+    "@registerUsernameSignInHint": {
+        "description": "Helper text under the required username field when the instance uses usernames to sign in."
+    },
+    "registerUsernameTaken": "Este nombre de usuario ya está en uso",
+    "@registerUsernameTaken": {
+        "description": "Registration form message when the chosen username belongs to someone else."
+    },
+    "registerUsernameAvailable": "Este nombre de usuario está disponible",
+    "@registerUsernameAvailable": {
+        "description": "Registration form message when the chosen username is free to use."
+    },
+    "claimAccountUsernameDescription": "Reclama tu cuenta eligiendo un nombre de usuario y una contraseña. Iniciarás sesión con ellos, así que elige unos que recuerdes.",
+    "@claimAccountUsernameDescription": {
+        "description": "Description in the claim account sheet on instances where people sign in with a username."
+    },
+    "unclaimedAccountDescriptionUsername": "Tu cuenta aún no ha sido reclamada. Sin un nombre de usuario y contraseña, no podrás iniciar sesión desde otros dispositivos y podrías perder el acceso a tu cuenta. Reclama tu cuenta ahora para asegurarla.",
+    "@unclaimedAccountDescriptionUsername": {
+        "description": "Description for the unclaimed account warning on instances where people sign in with a username."
+    },
+    "addFriendUsernameOnlyHint": "Nombre de usuario",
+    "@addFriendUsernameOnlyHint": {
+        "description": "Placeholder for the add friend field on instances where usernames have no tag."
+    },
     "registerTitle": "Crear una cuenta",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -651,6 +850,10 @@
     "errorInvalidEmailOrPassword": "Correo electrónico o contraseña no válidos.",
     "@errorInvalidEmailOrPassword": {
         "description": "Error shown on the login screen when the email and password combination is incorrect."
+    },
+    "errorInvalidUsernameOrPassword": "Nombre de usuario o contraseña no válidos.",
+    "@errorInvalidUsernameOrPassword": {
+        "description": "Sign-in error on instances where people sign in with a username."
     },
     "errorUnableToSendResetLink": "No se pudo enviar el enlace de restablecimiento. Por favor, Inténtalo de nuevo.",
     "@errorUnableToSendResetLink": {
@@ -12498,7 +12701,6 @@
     "giftSettingsAlreadyRedeemed": "Este regalo ya fue canjeado",
     "giftSettingsRedeemForYourself": "Canjear para ti",
     "premiumRedeemGiftCode": "Canjear código de regalo",
-    "premiumGiftSubscriptionBlocksRecurring": "Actualmente tienes una suscripción de regalo. No se renovará. Puedes canjear más códigos de regalo para extenderla. Las suscripciones recurrentes se pueden iniciar una vez que termine tu tiempo de regalo.",
     "systemPermissionPhotosMessage": "{productName} no tiene acceso a tu galería de fotos. Puedes habilitarlo en la configuración de privacidad de tu dispositivo.",
     "@systemPermissionPhotosMessage": {
         "description": "Body text when photo library access must be enabled in system settings."
@@ -15184,6 +15386,14 @@
                 "type": "String"
             }
         }
+    },
+    "premiumGiftGraceEnded": "Tu tiempo de regalo terminó. Suscríbete para conservar Plutonium.",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "Se te cobrará ahora. Tu tiempo de regalo restante se agregará después de tu período de pago, para que no se pierda nada.",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
     },
     "premiumDisclaimerPurchased": "Al comprar, aceptaste nuestros {terms} y nuestra {privacy}.",
     "@premiumDisclaimerPurchased": {

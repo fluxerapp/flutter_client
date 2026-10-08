@@ -1,8 +1,8 @@
 import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_style.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-class PlutoniumStoreBackdrop extends StatefulWidget {
-  const PlutoniumStoreBackdrop({
+class PremiumStoreBackdrop extends StatefulWidget {
+  const PremiumStoreBackdrop({
     required this.controller,
     required this.bar,
     required this.child,
@@ -14,10 +14,10 @@ class PlutoniumStoreBackdrop extends StatefulWidget {
   final Widget child;
 
   @override
-  State<PlutoniumStoreBackdrop> createState() => _PlutoniumStoreBackdropState();
+  State<PremiumStoreBackdrop> createState() => _PremiumStoreBackdropState();
 }
 
-class _PlutoniumStoreBackdropState extends State<PlutoniumStoreBackdrop> {
+class _PremiumStoreBackdropState extends State<PremiumStoreBackdrop> {
   double _offset = 0;
   double _viewport = 0;
   double _extent = 0;
@@ -30,7 +30,7 @@ class _PlutoniumStoreBackdropState extends State<PlutoniumStoreBackdrop> {
   }
 
   @override
-  void didUpdateWidget(PlutoniumStoreBackdrop oldWidget) {
+  void didUpdateWidget(PremiumStoreBackdrop oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.controller == widget.controller) {
       return;
@@ -68,7 +68,7 @@ class _PlutoniumStoreBackdropState extends State<PlutoniumStoreBackdrop> {
   Widget build(BuildContext context) {
     final double extent = _extent <= 0 ? _viewport : _extent;
     final Color barColor = extent <= 0
-        ? PlutoniumStoreStyle.spaceTop
+        ? PremiumStoreStyle.spaceTop
         : _colorAt((_offset + _viewport) / extent);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -100,14 +100,14 @@ Color _colorAt(double t) {
   final double clamped = t.clamp(0.0, 1.0);
   if (clamped <= 0.5) {
     return Color.lerp(
-      PlutoniumStoreStyle.spaceTop,
-      PlutoniumStoreStyle.spaceMid,
+      PremiumStoreStyle.spaceTop,
+      PremiumStoreStyle.spaceMid,
       clamped / 0.5,
     )!;
   }
   return Color.lerp(
-    PlutoniumStoreStyle.spaceMid,
-    PlutoniumStoreStyle.spaceBottom,
+    PremiumStoreStyle.spaceMid,
+    PremiumStoreStyle.spaceBottom,
     (clamped - 0.5) / 0.5,
   )!;
 }
@@ -126,9 +126,9 @@ class _PageGradientPainter extends CustomPainter {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          PlutoniumStoreStyle.spaceTop,
-          PlutoniumStoreStyle.spaceMid,
-          PlutoniumStoreStyle.spaceBottom,
+          PremiumStoreStyle.spaceTop,
+          PremiumStoreStyle.spaceMid,
+          PremiumStoreStyle.spaceBottom,
         ],
         stops: [0, 0.5, 1],
       ).createShader(Rect.fromLTWH(0, -offset, size.width, span));

@@ -59,6 +59,7 @@ import 'package:fluxer_app/features/settings/providers/chat_preferences_provider
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/threads/presentation/thread_messages.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -200,6 +201,7 @@ class MessageItem extends ConsumerStatefulWidget {
   final ValueChanged<Attachment>? onDeleteAttachment;
   final ValueChanged<Attachment>? onEditAttachmentAltText;
   final bool inboxPreviewMode;
+  final bool allowAuthorProfileInPreview;
   final bool hideMentionHighlight;
   final bool isJumpHighlighted;
   final bool isSendDisabled;
@@ -241,6 +243,7 @@ class MessageItem extends ConsumerStatefulWidget {
     this.onDeleteAttachment,
     this.onEditAttachmentAltText,
     this.inboxPreviewMode = false,
+    this.allowAuthorProfileInPreview = false,
     this.hideMentionHighlight = false,
     this.isJumpHighlighted = false,
     this.swipeToReplyEnabled = true,
@@ -345,7 +348,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   }
 
   bool _canOpenAuthorProfile(Message msg) {
-    if (widget.inboxPreviewMode) {
+    if (widget.inboxPreviewMode && !widget.allowAuthorProfileInPreview) {
       return false;
     }
     if (msg.isCrosspostCopy) {
@@ -1007,7 +1010,8 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         Padding(padding: padding, child: child),
       ],
     );
-    if (!_animateJumpHighlight && !widget.isJumpHighlighted) {
+    if ((!_animateJumpHighlight && !widget.isJumpHighlighted) ||
+        MediaQuery.disableAnimationsOf(context)) {
       return DecoratedBox(decoration: decoration, child: stacked);
     }
     return AnimatedContainer(
@@ -1262,6 +1266,24 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                   !widget.inboxPreviewMode,
               isMobile: isMobile,
             ),
+          ),
+        ),
+      if (!widget.inboxPreviewMode && messageMayCarryThread(msg))
+        wrapPart(
+          MessageThreadChip(
+            message: msg,
+            guildId:
+                widget.previewRoleGuildId ??
+                widget.renderSettings?.activeGuildId,
+          ),
+        ),
+      if (msg.flags & messageFlagFailedToMentionSomeRolesInThread != 0)
+        wrapPart(
+          ThreadFailedToMentionRolesNote(
+            message: msg,
+            guildId:
+                widget.previewRoleGuildId ??
+                widget.renderSettings?.activeGuildId,
           ),
         ),
       if (msg.hasFailed) wrapPart(_buildDeliveryStatus(context, msg)),

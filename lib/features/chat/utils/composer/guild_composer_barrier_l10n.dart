@@ -17,8 +17,6 @@ String guildComposerBarrierMessage(
       l10n.channelComposerBarrierAccountTooNew,
     GuildComposerBlockReason.notMemberLongEnough =>
       l10n.channelComposerBarrierNotMemberLongEnough,
-    GuildComposerBlockReason.noPhoneNumber =>
-      l10n.channelComposerBarrierNoPhoneNumber,
   };
 }
 

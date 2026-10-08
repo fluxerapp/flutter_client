@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/notifications/data/merge_void_streams.dart';
 import 'package:fluxer_app/features/notifications/data/notifications_repository.dart';
 import 'package:fluxer_app/features/notifications/data/unread_inbox_calculator.dart';
 import 'package:fluxer_app/features/notifications/domain/unread_inbox_entry.dart';
+import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'notifications_providers.g.dart';
@@ -46,6 +47,7 @@ Stream<List<UnreadInboxEntry>> unreadInboxChannelList(Ref ref) {
   final ChannelLastMessageIndex lastMessageIndex = ref.watch(
     channelLastMessageIndexProvider,
   );
+  final Set<String> threadGuildIds = ref.watch(threadGuildGateProvider);
   final Stream<void> tick = mergeVoidStreams(<Stream<dynamic>>[
     db.readStateDao.watchReadStates(),
     lastMessageIndex.flushStream,
@@ -53,6 +55,7 @@ Stream<List<UnreadInboxEntry>> unreadInboxChannelList(Ref ref) {
     db.guildDao.watchServers(),
     db.userGuildSettingsDao.watchAll(),
     db.notificationDao.watchUnreadCollapsedRows(),
+    db.threadDao.watchJoinedMembers(),
   ]);
   return tick.asyncMap((_) async {
     final rows = await db.notificationDao.getUnreadCollapsedRows();
@@ -64,6 +67,7 @@ Stream<List<UnreadInboxEntry>> unreadInboxChannelList(Ref ref) {
       db,
       collapsedByChannelId: collapsedMap,
       currentUserId: currentUserId,
+      threadGuildIds: threadGuildIds,
     );
   });
 }

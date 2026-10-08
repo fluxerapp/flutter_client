@@ -2,8 +2,8 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_style.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-class PlutoniumStorePerk extends StatelessWidget {
-  const PlutoniumStorePerk({
+class PremiumStorePerk extends StatelessWidget {
+  const PremiumStorePerk({
     required this.asset,
     required this.title,
     required this.body,
@@ -19,7 +19,7 @@ class PlutoniumStorePerk extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
-      decoration: PlutoniumStoreStyle.panel,
+      decoration: PremiumStoreStyle.panel,
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: LayoutBuilder(
@@ -70,13 +70,13 @@ class _PerkCopy extends StatelessWidget {
       children: [
         Text(
           title,
-          style: textStyles.heading.copyWith(color: PlutoniumStoreStyle.ink),
+          style: textStyles.heading.copyWith(color: PremiumStoreStyle.ink),
         ),
         const SizedBox(height: 10),
         Text(
           body,
           style: textStyles.bodyMedium.copyWith(
-            color: PlutoniumStoreStyle.inkSoft,
+            color: PremiumStoreStyle.inkSoft,
           ),
         ),
       ],

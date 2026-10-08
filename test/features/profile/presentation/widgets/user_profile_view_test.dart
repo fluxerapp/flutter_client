@@ -184,6 +184,12 @@ void main() {
   ) async {
     final ScrollController scrollController = ScrollController();
     addTearDown(scrollController.dispose);
+    tester.view.physicalSize = const Size(1400, 1200);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(() {
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
+    });
 
     await tester.pumpWidget(_buildApp(scrollController));
     await tester.pumpAndSettle();
@@ -201,6 +207,12 @@ void main() {
   ) async {
     final ScrollController scrollController = ScrollController();
     addTearDown(scrollController.dispose);
+    tester.view.physicalSize = const Size(1400, 1200);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(() {
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
+    });
 
     await tester.pumpWidget(_buildApp(scrollController));
     await tester.pumpAndSettle();

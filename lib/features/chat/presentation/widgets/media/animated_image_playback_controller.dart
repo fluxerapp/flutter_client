@@ -1,23 +1,22 @@
 import 'package:fluxer_app/material_ui.dart';
 
 class _AnimatedImageCandidate {
-  _AnimatedImageCandidate({
-    required this.key,
-    required this.top,
-    required this.left,
-  });
+  _AnimatedImageCandidate({required this.key});
 
   final String key;
   double visibleFraction = 0;
-  double top;
-  double left;
+  int visibleSince = 0;
   bool active = false;
 }
+
+/// Most animated images the chat list plays at once.
+const int kMaxActiveChatAnimatedImages = 3;
 
 /// Coordinates animated image playback in a scrollable feed.
 ///
 /// [maxActiveVideos] limits how many visible images animate. Null plays every
-/// visible image.
+/// visible image. Over the limit, the most visible images play, and ties go to
+/// the one that became visible last.
 class AnimatedImagePlaybackController extends ChangeNotifier {
   AnimatedImagePlaybackController({
     this.maxActiveVideos,
@@ -27,6 +26,7 @@ class AnimatedImagePlaybackController extends ChangeNotifier {
   final int? maxActiveVideos;
   final bool suppressWhileScrolling;
   bool _scrollActive = false;
+  int _visibleStamp = 0;
 
   final Map<String, _AnimatedImageCandidate> _candidates =
       <String, _AnimatedImageCandidate>{};
@@ -41,51 +41,36 @@ class AnimatedImagePlaybackController extends ChangeNotifier {
     _recompute();
   }
 
-  void register(
-    String key,
-    double visibleFraction, {
-    double top = 0,
-    double left = 0,
-  }) {
+  void register(String key, double visibleFraction) {
     final _AnimatedImageCandidate? existing = _candidates[key];
-    if (existing != null &&
-        existing.visibleFraction == visibleFraction &&
-        existing.top == top &&
-        existing.left == left) {
+    if (existing != null && existing.visibleFraction == visibleFraction) {
       return;
     }
     final _AnimatedImageCandidate candidate =
-        existing ?? _AnimatedImageCandidate(key: key, top: top, left: left);
-    candidate
-      ..visibleFraction = visibleFraction
-      ..top = top
-      ..left = left;
+        existing ?? _AnimatedImageCandidate(key: key);
+    _setVisibleFraction(candidate, visibleFraction);
     _candidates[key] = candidate;
     _recompute();
   }
 
-  void updateVisibility(
-    String key,
-    double visibleFraction, {
-    double? top,
-    double? left,
-  }) {
+  void updateVisibility(String key, double visibleFraction) {
     final _AnimatedImageCandidate? candidate = _candidates[key];
-    if (candidate == null) {
+    if (candidate == null || candidate.visibleFraction == visibleFraction) {
       return;
     }
-    final double nextTop = top ?? candidate.top;
-    final double nextLeft = left ?? candidate.left;
-    if (candidate.visibleFraction == visibleFraction &&
-        candidate.top == nextTop &&
-        candidate.left == nextLeft) {
-      return;
-    }
-    candidate
-      ..visibleFraction = visibleFraction
-      ..top = nextTop
-      ..left = nextLeft;
+    _setVisibleFraction(candidate, visibleFraction);
     _recompute();
+  }
+
+  void _setVisibleFraction(
+    _AnimatedImageCandidate candidate,
+    double visibleFraction,
+  ) {
+    if (candidate.visibleFraction <= 0 && visibleFraction > 0) {
+      _visibleStamp += 1;
+      candidate.visibleSince = _visibleStamp;
+    }
+    candidate.visibleFraction = visibleFraction;
   }
 
   void unregister(String key) {
@@ -115,7 +100,7 @@ class AnimatedImagePlaybackController extends ChangeNotifier {
           _candidates.values
               .where((candidate) => candidate.visibleFraction > 0)
               .toList()
-            ..sort(_compareCandidatesByPaintOrder);
+            ..sort(_compareCandidatesByVisibility);
       final int? configuredLimit = maxActiveVideos;
       final int limit = configuredLimit == null || configuredLimit <= 0
           ? visible.length
@@ -133,15 +118,17 @@ class AnimatedImagePlaybackController extends ChangeNotifier {
     }
   }
 
-  static int _compareCandidatesByPaintOrder(
+  static int _compareCandidatesByVisibility(
     _AnimatedImageCandidate a,
     _AnimatedImageCandidate b,
   ) {
-    final int topComparison = a.top.compareTo(b.top);
-    if (topComparison != 0) {
-      return topComparison;
+    final int fractionComparison = b.visibleFraction.compareTo(
+      a.visibleFraction,
+    );
+    if (fractionComparison != 0) {
+      return fractionComparison;
     }
-    return a.left.compareTo(b.left);
+    return b.visibleSince.compareTo(a.visibleSince);
   }
 
   bool _activeMapChanged(Map<String, bool> previousActive) {

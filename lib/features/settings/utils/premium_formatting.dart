@@ -5,6 +5,8 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:intl/intl.dart';
 
+const Set<String> _stripeTwoDecimalWholeUnitCurrencies = {'ISK', 'HUF', 'UGX'};
+
 String? formatPremiumMinorUnitPrice({
   required int? amountMinor,
   required String? currency,
@@ -13,13 +15,18 @@ String? formatPremiumMinorUnitPrice({
   if (amountMinor == null || currency == null || currency.isEmpty) {
     return null;
   }
-  final int fractionDigits =
-      NumberFormat.simpleCurrency(
-        name: currency,
-        locale: locale,
-      ).decimalDigits ??
-      2;
-  final double major = amountMinor / math.pow(10, fractionDigits).toDouble();
+  final bool wholeUnitDisplay = _stripeTwoDecimalWholeUnitCurrencies.contains(
+    currency.toUpperCase(),
+  );
+  final int fractionDigits = wholeUnitDisplay
+      ? 0
+      : NumberFormat.simpleCurrency(
+              name: currency,
+              locale: locale,
+            ).decimalDigits ??
+            2;
+  final int exponent = wholeUnitDisplay ? 2 : fractionDigits;
+  final double major = amountMinor / math.pow(10, exponent).toDouble();
   return NumberFormat.simpleCurrency(
     name: currency,
     locale: locale,

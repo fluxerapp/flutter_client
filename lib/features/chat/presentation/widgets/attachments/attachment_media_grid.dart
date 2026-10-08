@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
@@ -9,6 +8,7 @@ import 'package:fluxer_app/features/chat/presentation/sheets/forward_message_she
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_expiry_footnote.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_inline_video_player.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_mobile_fullscreen_video.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_network_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_alt_text.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_load_error_placeholder.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
@@ -317,15 +317,14 @@ class AttachmentMediaGrid extends ConsumerWidget {
                   if (displayUrl.isEmpty)
                     const MediaLoadErrorPlaceholder()
                   else
-                    CachedNetworkImage(
+                    ChatNetworkImage(
                       imageUrl: displayUrl,
+                      filename: attachment.filename,
+                      contentType: attachment.contentType,
                       memCacheWidth: cache.width,
                       memCacheHeight: cache.height,
                       fit: BoxFit.cover,
-                      fadeInDuration: Duration.zero,
-                      fadeOutDuration: Duration.zero,
-                      errorBuilder: (_, _, _) =>
-                          const MediaLoadErrorPlaceholder(),
+                      errorPlaceholder: const MediaLoadErrorPlaceholder(),
                     ),
                   if (isVideo) const VideoPlayButtonOverlay(),
                 ],

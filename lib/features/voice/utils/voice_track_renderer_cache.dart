@@ -76,6 +76,40 @@ class VoiceTrackRendererCache<T> {
     }
   }
 
+  /// Waits until pending creates and destroys finish.
+  Future<void> drain() async {
+    for (final String key in _slots.keys.toList()) {
+      final _RendererSlot<T>? slot = _slots[key];
+      if (slot == null || slot.refs > 0) {
+        continue;
+      }
+      slot.evictTimer?.cancel();
+      slot.evictTimer = null;
+      await _destroy(key);
+    }
+    final List<Future<void>> pending = <Future<void>>[];
+    for (final _RendererSlot<T> slot in _slots.values) {
+      if (slot.pending != null) {
+        pending.add(
+          slot.pending!.then((_) {}, onError: (Object _, StackTrace _) {}),
+        );
+      }
+      if (slot.destroyFuture != null) {
+        pending.add(slot.destroyFuture!);
+      }
+    }
+    if (pending.isNotEmpty) {
+      await Future.wait<void>(pending);
+    }
+    for (final String key in _slots.keys.toList()) {
+      final _RendererSlot<T>? slot = _slots[key];
+      if (slot == null || slot.refs > 0) {
+        continue;
+      }
+      await _destroy(key);
+    }
+  }
+
   void markSessionActive() {
     _sessionEnded = false;
   }
@@ -112,12 +146,22 @@ class VoiceTrackRendererCache<T> {
     return created;
   }
 
-  Future<void> _destroy(String key) async {
+  Future<void> _destroy(String key) {
     final _RendererSlot<T>? slot = _slots[key];
-    if (slot == null || slot.refs > 0 || slot.destroying) {
-      return;
+    if (slot == null || slot.refs > 0) {
+      return Future<void>.value();
+    }
+    final Future<void>? inFlight = slot.destroyFuture;
+    if (inFlight != null) {
+      return inFlight;
     }
     slot.destroying = true;
+    final Future<void> destroyFuture = _destroyImpl(key, slot);
+    slot.destroyFuture = destroyFuture;
+    return destroyFuture;
+  }
+
+  Future<void> _destroyImpl(String key, _RendererSlot<T> slot) async {
     slot.evictTimer?.cancel();
     slot.evictTimer = null;
     T? value = slot.value;
@@ -137,12 +181,16 @@ class VoiceTrackRendererCache<T> {
     if (value != null) {
       await dispose(value);
     }
+    if (identical(_slots[key], slot)) {
+      slot.destroyFuture = null;
+    }
   }
 }
 
 class _RendererSlot<T> {
   T? value;
   Future<T>? pending;
+  Future<void>? destroyFuture;
   int refs = 0;
   Timer? evictTimer;
   var destroying = false;

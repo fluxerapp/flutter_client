@@ -1,4 +1,3 @@
-import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
@@ -7,6 +6,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_galle
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_shared.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_youtube.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_inline_video_player.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_network_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_gallery_utils.dart';
@@ -194,6 +194,7 @@ class EmbedRich extends StatelessWidget {
                             media: embed.image!,
                             dimensionSize: dimensionSize,
                             title: embed.title,
+                            embedPageUrl: embed.url,
                             embedIndex: embedIndex,
                             channelId: channelId,
                             messageId: messageId,
@@ -219,6 +220,7 @@ class EmbedRich extends StatelessWidget {
                             context,
                             media: embed.thumbnail!,
                             title: embed.title,
+                            embedPageUrl: embed.url,
                             embedIndex: embedIndex,
                             channelId: channelId,
                             messageId: messageId,
@@ -227,17 +229,15 @@ class EmbedRich extends StatelessWidget {
                         : null,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(4),
-                      child: CachedNetworkImage(
+                      child: ChatNetworkImage(
                         imageUrl: embedMediaEffectiveUrl(embed.thumbnail!),
+                        contentType: embed.thumbnail!.contentType,
                         width: 72,
                         height: 72,
                         memCacheWidth:
                             (72 * MediaQuery.devicePixelRatioOf(context))
                                 .round(),
                         fit: BoxFit.cover,
-                        fadeInDuration: Duration.zero,
-                        fadeOutDuration: Duration.zero,
-                        errorBuilder: (_, e, s) => const SizedBox.shrink(),
                       ),
                     ),
                   ),
@@ -359,6 +359,7 @@ class _EmbedMediaImage extends StatelessWidget {
   final EmbedMedia media;
   final MediaDimensionSize dimensionSize;
   final String? title;
+  final String? embedPageUrl;
   final int embedIndex;
   final String? channelId;
   final String? messageId;
@@ -369,6 +370,7 @@ class _EmbedMediaImage extends StatelessWidget {
     required this.dimensionSize,
     required this.embedIndex,
     this.title,
+    this.embedPageUrl,
     this.channelId,
     this.messageId,
     this.actionScope,
@@ -397,16 +399,14 @@ class _EmbedMediaImage extends StatelessWidget {
         child: SizedBox(
           width: displaySize.width,
           height: displaySize.height,
-          child: CachedNetworkImage(
+          child: ChatNetworkImage(
             imageUrl: embedMediaEffectiveUrl(media),
+            contentType: media.contentType,
             width: displaySize.width,
             height: displaySize.height,
             memCacheWidth: cache.width,
             memCacheHeight: cache.height,
             fit: BoxFit.cover,
-            fadeInDuration: Duration.zero,
-            fadeOutDuration: Duration.zero,
-            errorBuilder: (_, e, s) => const SizedBox.shrink(),
           ),
         ),
       );
@@ -423,14 +423,11 @@ class _EmbedMediaImage extends StatelessWidget {
         child: SizedBox(
           width: dimensions.maxWidth,
           height: kEmbedMediaFallbackHeight,
-          child: CachedNetworkImage(
+          child: ChatNetworkImage(
             imageUrl: embedMediaEffectiveUrl(media),
-            fit: BoxFit.contain,
+            contentType: media.contentType,
             memCacheWidth: cache.width,
             memCacheHeight: cache.height,
-            fadeInDuration: Duration.zero,
-            fadeOutDuration: Duration.zero,
-            errorBuilder: (_, e, s) => const SizedBox.shrink(),
           ),
         ),
       );
@@ -441,6 +438,7 @@ class _EmbedMediaImage extends StatelessWidget {
               context,
               media: media,
               title: title,
+              embedPageUrl: embedPageUrl,
               embedIndex: embedIndex,
               channelId: channelId,
               messageId: messageId,

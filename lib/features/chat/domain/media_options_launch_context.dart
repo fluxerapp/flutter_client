@@ -35,7 +35,7 @@ class MediaOptionsLaunchContext {
     MessageMediaActionScope? actionScope,
   }) {
     return MediaOptionsLaunchContext(
-      fallbackUrl: item.url,
+      fallbackUrl: item.shareableUrl,
       actionScope: actionScope,
       attachmentId: item.attachmentId,
       embedIndex: item.embedIndex,

@@ -131,8 +131,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-runner-
 
-      - name: Strip Firebase dependencies if present
-        run: dart tool/strip_firebase_deps.dart
+      - name: Configure OSS build tree
+        run: dart tool/configure_build.dart --profile=oss
 
       - name: Install dependencies
         run: flutter pub get

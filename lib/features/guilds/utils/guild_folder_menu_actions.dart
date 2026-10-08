@@ -23,6 +23,7 @@ Future<void> handleFolderMenuAction({
   required FluxerDatabase db,
   required FluxerClient client,
   required String userId,
+  Set<String> threadGuildIds = const <String>{},
 }) async {
   final List<String> guildIds = guilds.map((Guild g) => g.id).toList();
   if (guildIds.isEmpty && action != FolderMenuAction.folderSettings) {
@@ -31,7 +32,12 @@ Future<void> handleFolderMenuAction({
 
   switch (action) {
     case FolderMenuAction.markAsRead:
-      await markFolderAsRead(guilds: guilds, db: db, client: client);
+      await markFolderAsRead(
+        guilds: guilds,
+        db: db,
+        client: client,
+        threadGuildIds: threadGuildIds,
+      );
     case FolderMenuAction.mute15Min:
     case FolderMenuAction.mute30Min:
     case FolderMenuAction.mute1Hour:

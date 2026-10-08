@@ -10,7 +10,6 @@ import 'package:fluxer_app/features/auth/presentation/widgets/login_form.dart';
 import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
 import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_app/shared/utils/keyboard_focus_restore.dart';
 
 import '../../../../helpers/test_l10n.dart';
 
@@ -175,7 +174,7 @@ void main() {
       ..handleAppLifecycleStateChanged(AppLifecycleState.inactive)
       ..handleAppLifecycleStateChanged(AppLifecycleState.resumed);
     await tester.pump();
-    await tester.pump(kKeyboardFocusRestoreRetryDelay);
+    await tester.pump();
 
     expect(focusNode.hasFocus, isTrue);
   });

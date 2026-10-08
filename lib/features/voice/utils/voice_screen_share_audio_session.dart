@@ -80,6 +80,16 @@ class VoiceScreenShareAudioSession<T> {
     _sessionEnded = false;
   }
 
+  Future<void> drain() async {
+    markSessionEnded();
+    final List<Future<void>> chains = _playback.values
+        .map((_Playback<T> playback) => playback.chain)
+        .toList();
+    if (chains.isNotEmpty) {
+      await Future.wait<void>(chains);
+    }
+  }
+
   Future<void> _enqueue(_Playback<T> playback, Future<void> Function() action) {
     final Future<void> step = playback.chain.then((_) => action());
     playback.chain = step.then<void>(

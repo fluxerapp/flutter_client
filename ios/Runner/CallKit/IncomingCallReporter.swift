@@ -122,7 +122,6 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
         completion: completion
       )
     case .reject(let messageId):
-      NSLog("[CallKit] voip push was not a live ring")
       let uuid = messageId.map { CallRingUuid.v5(name: $0) } ?? UUID()
       report(
         uuid: uuid,
@@ -357,15 +356,11 @@ final class IncomingCallReporter: NSObject, CXProviderDelegate {
       NSLog("[CallKit] voip payload did not decrypt")
       return .reject(messageId: nil)
     }
-    let outcome = CallRingResolver.resolve(
+    return CallRingResolver.resolve(
       plaintext: decrypted.plaintext,
       accountUserId: decrypted.userId,
       nowMs: Int64(Date().timeIntervalSince1970 * 1000)
     )
-    if case .reject = outcome {
-      NSLog("[CallKit] voip payload was not a live ring")
-    }
-    return outcome
   }
 
   private func dropOtherRings(except uuid: UUID) {

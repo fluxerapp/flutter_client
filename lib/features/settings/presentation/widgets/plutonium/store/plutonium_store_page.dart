@@ -26,18 +26,18 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
 
 const String _kDonateUrl = 'https://fluxer.app/donate';
-const String _kVisionaryUrl = 'https://fluxer.app/visionary';
+const String _kVisionaryUrl = 'https://fluxer.app/help/visionary';
 
-class PlutoniumStorePage extends ConsumerStatefulWidget {
-  const PlutoniumStorePage({this.scrollController, super.key});
+class PremiumStorePage extends ConsumerStatefulWidget {
+  const PremiumStorePage({this.scrollController, super.key});
 
   final ScrollController? scrollController;
 
   @override
-  ConsumerState<PlutoniumStorePage> createState() => _PlutoniumStorePageState();
+  ConsumerState<PremiumStorePage> createState() => _PremiumStorePageState();
 }
 
-class _PlutoniumStorePageState extends ConsumerState<PlutoniumStorePage> {
+class _PremiumStorePageState extends ConsumerState<PremiumStorePage> {
   ScrollController? _ownedScrollController;
 
   ScrollController get _scrollController =>
@@ -60,10 +60,10 @@ class _PlutoniumStorePageState extends ConsumerState<PlutoniumStorePage> {
   @override
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final PlutoniumStoreState store = ref.watch(plutoniumStoreProvider);
-    ref.listen(plutoniumStoreProvider, (
-      PlutoniumStoreState? previous,
-      PlutoniumStoreState next,
+    final PremiumStoreState store = ref.watch(premiumStoreProvider);
+    ref.listen(premiumStoreProvider, (
+      PremiumStoreState? previous,
+      PremiumStoreState next,
     ) {
       if (previous != null && next.errorSerial != previous.errorSerial) {
         unawaited(_showPurchaseError(l10n));
@@ -94,7 +94,7 @@ class _PlutoniumStorePageState extends ConsumerState<PlutoniumStorePage> {
       manageUrl: status.manageUrl,
       currentStore: store.billingStore,
     );
-    final PlutoniumStoreBarMode mode = plutoniumStoreBarMode(
+    final PremiumStoreBarMode mode = premiumStoreBarMode(
       status: status,
       purchasePending: store.purchasePending,
       manageOnDevice: manage != null,
@@ -105,7 +105,7 @@ class _PlutoniumStorePageState extends ConsumerState<PlutoniumStorePage> {
       onManage = () => unawaited(openPremiumManageAction(context, ref, action));
     }
     final String? otherStoreNotice =
-        plutoniumStorePurchaseBlockedByOtherPlatform(
+        premiumStorePurchaseBlockedByOtherPlatform(
           reason: store.purchaseBlockedReason,
           blockingProvider: store.blockingProvider,
           currentStore: store.billingStore,
@@ -123,17 +123,17 @@ class _PlutoniumStorePageState extends ConsumerState<PlutoniumStorePage> {
     );
 
     return ColoredBox(
-      color: PlutoniumStoreStyle.spaceTop,
-      child: PlutoniumStoreBackdrop(
+      color: PremiumStoreStyle.spaceTop,
+      child: PremiumStoreBackdrop(
         controller: _scrollController,
-        bar: PlutoniumStoreBar(
+        bar: PremiumStoreBar(
           mode: mode,
           status: status,
           store: store,
           purchaseDisabled: purchaseDisabled,
           purchaseDisabledMessage: purchaseDisabledMessage,
-          onBuy: (PlutoniumStorePlan plan) {
-            unawaited(ref.read(plutoniumStoreProvider.notifier).buy(plan));
+          onBuy: (PremiumStorePlan plan) {
+            unawaited(ref.read(premiumStoreProvider.notifier).buy(plan));
           },
           onManage: onManage,
           otherStoreNotice: otherStoreNotice,
@@ -141,7 +141,7 @@ class _PlutoniumStorePageState extends ConsumerState<PlutoniumStorePage> {
         child: Stack(
           children: [
             Positioned.fill(
-              child: PlutoniumStoreStars(controller: _scrollController),
+              child: PremiumStoreStars(controller: _scrollController),
             ),
             SingleChildScrollView(
               controller: _scrollController,
@@ -149,7 +149,7 @@ class _PlutoniumStorePageState extends ConsumerState<PlutoniumStorePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  PlutoniumStoreHero(
+                  PremiumStoreHero(
                     monthlyPrice: monthlyPrice,
                     yearlyPrice: yearlyPrice,
                     priceLoading:
@@ -159,30 +159,30 @@ class _PlutoniumStorePageState extends ConsumerState<PlutoniumStorePage> {
                   const SizedBox(height: 16),
                   const _DonateLine(),
                   const SizedBox(height: 16),
-                  const PlutoniumStoreHighlights(),
+                  const PremiumStoreHighlights(),
                   const SizedBox(height: 16),
-                  PlutoniumStorePerk(
+                  PremiumStorePerk(
                     asset: 'assets/images/plutonium/perk-expressions.webp',
                     title: l10n.storePlutoniumEmojiTitle,
                     body: l10n.storePlutoniumEmojiBody,
                     imageFirst: true,
                   ),
                   const SizedBox(height: 16),
-                  PlutoniumStorePerk(
+                  PremiumStorePerk(
                     asset: 'assets/images/plutonium/perk-profile.webp',
                     title: l10n.storePlutoniumProfileTitle,
                     body: l10n.storePlutoniumProfileBody,
                     imageFirst: false,
                   ),
                   const SizedBox(height: 16),
-                  PlutoniumStorePerk(
+                  PremiumStorePerk(
                     asset: 'assets/images/plutonium/perk-upload.webp',
                     title: l10n.storePlutoniumFilesTitle,
                     body: l10n.storePlutoniumFilesBody,
                     imageFirst: true,
                   ),
                   const SizedBox(height: 16),
-                  const PlutoniumStoreComparison(),
+                  const PremiumStoreComparison(),
                   const SizedBox(height: 16),
                   const _TagFootnote(),
                 ],
@@ -225,7 +225,7 @@ class _DonateLine extends StatelessWidget {
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final TextStyle muted = context.textStyles.bodySmall.copyWith(
-      color: PlutoniumStoreStyle.inkMuted,
+      color: PremiumStoreStyle.inkMuted,
     );
     return Text.rich(
       TextSpan(
@@ -239,9 +239,9 @@ class _DonateLine extends StatelessWidget {
               text: l10n.storePlutoniumDonateLink,
               url: _kDonateUrl,
               style: muted.copyWith(
-                color: PlutoniumStoreStyle.ink,
+                color: PremiumStoreStyle.ink,
                 decoration: TextDecoration.underline,
-                decorationColor: PlutoniumStoreStyle.inkFaint,
+                decorationColor: PremiumStoreStyle.inkFaint,
               ),
             ),
           ),
@@ -259,7 +259,7 @@ class _TagFootnote extends StatelessWidget {
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final TextStyle muted = context.textStyles.timestamp.copyWith(
-      color: PlutoniumStoreStyle.inkMuted,
+      color: PremiumStoreStyle.inkMuted,
     );
     return Text.rich(
       TextSpan(
@@ -272,7 +272,7 @@ class _TagFootnote extends StatelessWidget {
             child: FluxerTextLink(
               text: l10n.storePlutoniumLearnVisionary,
               url: _kVisionaryUrl,
-              style: muted.copyWith(color: PlutoniumStoreStyle.accent),
+              style: muted.copyWith(color: PremiumStoreStyle.accent),
             ),
           ),
         ],

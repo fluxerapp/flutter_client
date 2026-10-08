@@ -756,6 +756,205 @@
     "@resetPasswordMismatch": {
         "description": "Error when password and confirmation don't match."
     },
+    "recoverAccountTitle": "Pulihkan akun Anda",
+    "@recoverAccountTitle": {
+        "description": "Title of the screen where someone resets their password with a recovery kit."
+    },
+    "recoverAccountDescription": "Masukkan nama pengguna dan kunci pemulihan Anda dari kit pemulihan, lalu pilih kata sandi baru.",
+    "@recoverAccountDescription": {
+        "description": "Description on the account recovery screen."
+    },
+    "recoverAccountNoKit": "Tidak punya kit pemulihan? Minta tautan pengaturan ulang kata sandi dari admin instance ini.",
+    "@recoverAccountNoKit": {
+        "description": "Hint under the account recovery form for people without a recovery kit."
+    },
+    "recoveryKitTitle": "Kit pemulihan Anda",
+    "@recoveryKitTitle": {
+        "description": "Title of the sheet that shows a newly created account recovery kit."
+    },
+    "recoveryKitCreatedDescription": "Jika Anda lupa kata sandi, kit ini adalah satu-satunya cara untuk kembali ke akun Anda. Simpan di tempat yang aman, seperti pengelola kata sandi atau salinan cetak.",
+    "@recoveryKitCreatedDescription": {
+        "description": "Recovery kit sheet description for a newly created kit."
+    },
+    "recoveryKitReplacedDescription": "Kit pemulihan lama Anda tidak berfungsi lagi. Simpan kit baru ini di tempat yang aman.",
+    "@recoveryKitReplacedDescription": {
+        "description": "Recovery kit sheet description shown after a kit replaces an older one."
+    },
+    "recoveryKitRecoveredDescription": "Kata sandi Anda telah direset. Kit pemulihan lama Anda tidak lagi berfungsi. Simpan kit baru ini di tempat yang aman.",
+    "@recoveryKitRecoveredDescription": {
+        "description": "Recovery kit sheet description shown after someone recovers their account with a recovery key."
+    },
+    "recoveryKitWarning": "Siapa pun yang memiliki kunci ini dapat mengatur ulang sandi Anda. Jangan pernah membagikannya.",
+    "@recoveryKitWarning": {
+        "description": "Warning under the recovery key in the recovery kit sheet."
+    },
+    "recoveryKitKeyLabel": "Kunci pemulihan",
+    "@recoveryKitKeyLabel": {
+        "description": "Label for the account recovery key."
+    },
+    "recoveryKitDocumentTitle": "Kit pemulihan {productName}",
+    "@recoveryKitDocumentTitle": {
+        "description": "Title of the saved recovery kit image. productName is the app name.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitDocumentIntro": "Simpan halaman ini di tempat yang aman. Jika Anda lupa kata sandi, Anda dapat menggunakannya untuk kembali ke akun Anda. Siapa pun yang memiliki kunci pemulihan ini dapat mengatur ulang kata sandi Anda, jadi jangan pernah membagikannya.",
+    "@recoveryKitDocumentIntro": {
+        "description": "Introduction on the saved recovery kit image."
+    },
+    "recoveryKitInstanceLabel": "Instans",
+    "@recoveryKitInstanceLabel": {
+        "description": "Label for the server address on the saved recovery kit."
+    },
+    "recoveryKitCreatedAtLabel": "Dibuat",
+    "@recoveryKitCreatedAtLabel": {
+        "description": "Label for the creation date on the saved recovery kit."
+    },
+    "recoveryKitQrCaption": "Pindai untuk membuka halaman pemulihan dengan detail Anda terisi.",
+    "@recoveryKitQrCaption": {
+        "description": "Caption under the QR code on the saved recovery kit."
+    },
+    "recoveryKitStepsTitle": "Cara memulihkan akun Anda",
+    "@recoveryKitStepsTitle": {
+        "description": "Heading above the recovery steps on the saved recovery kit."
+    },
+    "recoveryKitStepOpen": "Buka {recoverUrl} atau pindai kode QR.",
+    "@recoveryKitStepOpen": {
+        "description": "First recovery step on the saved recovery kit. recoverUrl is the address of the recovery page.",
+        "placeholders": {
+            "recoverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitStepEnter": "Masukkan nama pengguna Anda dan kunci pemulihan ini.",
+    "@recoveryKitStepEnter": {
+        "description": "Second recovery step on the saved recovery kit."
+    },
+    "recoveryKitStepPassword": "Pilih kata sandi baru. Anda akan mendapatkan kit pemulihan baru dan yang ini tidak akan berfungsi lagi.",
+    "@recoveryKitStepPassword": {
+        "description": "Third recovery step on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesTitle": "Kode cadangan dua faktor",
+    "@recoveryKitBackupCodesTitle": {
+        "description": "Heading above the two-factor backup codes on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesNote": "Setiap kode berfungsi sekali sebagai pengganti aplikasi autentikator Anda.",
+    "@recoveryKitBackupCodesNote": {
+        "description": "Note under the two-factor backup codes heading on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesFailed": "Tidak dapat memuat kode cadangan Anda.",
+    "@recoveryKitBackupCodesFailed": {
+        "description": "Toast shown when the two-factor backup codes for the recovery kit cannot be loaded."
+    },
+    "recoveryKitIncludeBackupCodes": "Sertakan kode cadangan autentikasi dua faktor saya di gambar yang disimpan",
+    "@recoveryKitIncludeBackupCodes": {
+        "description": "Checkbox in the recovery kit sheet that adds the two-factor backup codes to the saved image."
+    },
+    "recoveryKitCopy": "Salin",
+    "@recoveryKitCopy": {
+        "description": "Button that copies the account recovery key."
+    },
+    "recoveryKitCopied": "Kunci pemulihan disalin",
+    "@recoveryKitCopied": {
+        "description": "Toast shown after the recovery key is copied."
+    },
+    "recoveryKitSaveImage": "Simpan gambar",
+    "@recoveryKitSaveImage": {
+        "description": "Button that saves the recovery kit as an image."
+    },
+    "recoveryKitSaved": "Kit pemulihan disimpan",
+    "@recoveryKitSaved": {
+        "description": "Toast shown after the recovery kit image is saved to a file."
+    },
+    "recoveryKitSavedToPhotos": "Kit pemulihan disimpan ke Foto",
+    "@recoveryKitSavedToPhotos": {
+        "description": "Toast shown after the recovery kit image is saved to the photo library."
+    },
+    "recoveryKitSaveFailed": "Tidak dapat menyimpan kit pemulihan. Coba lagi atau salin kuncinya saja.",
+    "@recoveryKitSaveFailed": {
+        "description": "Toast shown when saving the recovery kit image fails."
+    },
+    "recoveryKitAcknowledge": "Saya telah menyimpan kit pemulihan saya di tempat yang aman",
+    "@recoveryKitAcknowledge": {
+        "description": "Checkbox that confirms the recovery kit is stored before closing the sheet."
+    },
+    "recoveryKitCreateFailed": "Tidak dapat membuat kit pemulihan Anda. Anda dapat membuatnya nanti di pengaturan akun Anda.",
+    "@recoveryKitCreateFailed": {
+        "description": "Toast shown when a recovery kit cannot be created."
+    },
+    "recoveryKitSectionTitle": "Kit pemulihan",
+    "@recoveryKitSectionTitle": {
+        "description": "Title of the recovery kit section in security settings."
+    },
+    "recoveryKitSectionDescription": "Memungkinkan Anda mengatur ulang sandi jika lupa.",
+    "@recoveryKitSectionDescription": {
+        "description": "Description of the recovery kit section in security settings."
+    },
+    "recoveryKitNone": "Anda belum memiliki kit pemulihan",
+    "@recoveryKitNone": {
+        "description": "Shown in security settings when the account has no recovery kit."
+    },
+    "recoveryKitCreatedRelative": "Dibuat {time}",
+    "@recoveryKitCreatedRelative": {
+        "description": "When the current recovery kit was created. time is a relative time such as 3 days ago.",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitCreate": "Buat kit pemulihan",
+    "@recoveryKitCreate": {
+        "description": "Button that creates a recovery kit."
+    },
+    "recoveryKitCreateNew": "Buat kit baru",
+    "@recoveryKitCreateNew": {
+        "description": "Button that replaces the existing recovery kit with a new one."
+    },
+    "recoveryKitReplaceTitle": "Buat kit pemulihan baru?",
+    "@recoveryKitReplaceTitle": {
+        "description": "Title of the confirmation shown before replacing an existing recovery kit."
+    },
+    "recoveryKitReplaceDescription": "Kit Anda saat ini berhenti berfungsi segera setelah kit baru dibuat.",
+    "@recoveryKitReplaceDescription": {
+        "description": "Body of the confirmation shown before replacing an existing recovery kit."
+    },
+    "recoveryKitReminderTitle": "Simpan kit pemulihan",
+    "@recoveryKitReminderTitle": {
+        "description": "Title of the one-time prompt asking a signed-in user without a recovery kit to create one."
+    },
+    "recoveryKitReminderBody": "Akun Anda tidak memiliki alamat email. Jika Anda lupa kata sandi, kit pemulihan adalah satu-satunya cara untuk masuk kembali. Hanya perlu semenit.",
+    "@recoveryKitReminderBody": {
+        "description": "Body of the one-time prompt asking a signed-in user without a recovery kit to create one."
+    },
+    "registerUsernameSignInHint": "Anda masuk dengan nama pengguna ini. Pilih salah satu yang akan Anda ingat.",
+    "@registerUsernameSignInHint": {
+        "description": "Helper text under the required username field when the instance uses usernames to sign in."
+    },
+    "registerUsernameTaken": "Nama pengguna ini sudah digunakan",
+    "@registerUsernameTaken": {
+        "description": "Registration form message when the chosen username belongs to someone else."
+    },
+    "registerUsernameAvailable": "Nama pengguna ini tersedia",
+    "@registerUsernameAvailable": {
+        "description": "Registration form message when the chosen username is free to use."
+    },
+    "claimAccountUsernameDescription": "Klaim akun Anda dengan memilih nama pengguna dan kata sandi. Anda masuk menggunakan keduanya, jadi pilihlah yang akan Anda ingat.",
+    "@claimAccountUsernameDescription": {
+        "description": "Description in the claim account sheet on instances where people sign in with a username."
+    },
+    "unclaimedAccountDescriptionUsername": "Akun Anda belum diklaim. Tanpa nama pengguna dan kata sandi, Anda tidak akan dapat masuk dari perangkat lain dan Anda bisa kehilangan akses ke akun Anda. Klaim akun Anda sekarang untuk mengamankannya.",
+    "@unclaimedAccountDescriptionUsername": {
+        "description": "Description for the unclaimed account warning on instances where people sign in with a username."
+    },
+    "addFriendUsernameOnlyHint": "Nama pengguna",
+    "@addFriendUsernameOnlyHint": {
+        "description": "Placeholder for the add friend field on instances where usernames have no tag."
+    },
     "registerTitle": "Buat akun",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -875,6 +1074,10 @@
     "errorInvalidEmailOrPassword": "Email atau kata sandi salah.",
     "@errorInvalidEmailOrPassword": {
         "description": "Error shown on the login screen when the email and password combination is incorrect."
+    },
+    "errorInvalidUsernameOrPassword": "Nama pengguna atau kata sandi tidak valid.",
+    "@errorInvalidUsernameOrPassword": {
+        "description": "Sign-in error on instances where people sign in with a username."
     },
     "errorUnableToSendResetLink": "Tidak dapat mengirim tautan pengaturan ulang. Silakan coba lagi.",
     "@errorUnableToSendResetLink": {
@@ -11601,6 +11804,14 @@
             }
         }
     },
+    "premiumGiftGraceEnded": "Waktu gratis Anda telah berakhir. Berlangganan untuk melanjutkan Plutonium.",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "Anda akan dikenakan biaya sekarang. Sisa waktu hadiah Anda ditambahkan setelah periode berbayar Anda, jadi tidak ada yang terbuang.",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
+    },
     "premiumComparisonFeatureColumn": "Fitur",
     "premiumDisclaimerPurchased": "Dengan membeli, kamu telah menyetujui {terms} dan {privacy} kami.",
     "@premiumDisclaimerPurchased": {
@@ -11618,7 +11829,6 @@
     "premiumPrivacyPolicy": "Kebijakan privasi",
     "premiumCheckoutStartFailedTitle": "Tidak dapat memulai pembayaran",
     "premiumCheckoutStartFailedBody": "Terjadi kesalahan saat memulai pembayaran. Silakan coba lagi sebentar lagi.",
-    "premiumGiftSubscriptionBlocksRecurring": "Kamu sedang memakai langganan hadiah. Langganan ini tidak akan diperpanjang otomatis. Kamu bisa menukarkan kode hadiah lain untuk memperpanjangnya. Langganan berulang bisa dimulai setelah masa hadiahmu berakhir.",
     "premiumPlanUnavailable": "Paket ini tidak tersedia. Hubungi dukungan.",
     "premiumCompletePaymentTitle": "Selesaikan pembayaran",
     "premiumCompletePaymentBody": "Anda sekarang diarahkan ke Stripe untuk menyelesaikan pembayaran. Kembali ke Fluxer setelah selesai.",

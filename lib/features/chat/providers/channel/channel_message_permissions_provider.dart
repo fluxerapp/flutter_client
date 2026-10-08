@@ -82,9 +82,13 @@ ChannelMessagePermissions channelMessagePermissionsFromBits({
   required int bits,
   required ChannelType channelType,
 }) {
+  final bool threadOnly =
+      channelType == ChannelType.guildForum ||
+      channelType == ChannelType.guildMedia;
   return ChannelMessagePermissions(
     isResolved: true,
-    canSendMessages: hasPermission(bits, Permission.sendMessages),
+    canSendMessages:
+        !threadOnly && hasPermission(bits, Permission.sendMessages),
     canAttachFiles: hasPermission(bits, Permission.attachFiles),
     canEmbedLinks: hasPermission(bits, Permission.embedLinks),
     canUseExternalEmojis: hasPermission(bits, Permission.useExternalEmojis),

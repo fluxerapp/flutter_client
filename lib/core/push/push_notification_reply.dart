@@ -1,6 +1,7 @@
 import 'dart:ui' show Locale, PlatformDispatcher;
 
 import 'package:dio/dio.dart';
+import 'package:fluxer_app/core/api/fluxer_api_features.dart';
 import 'package:fluxer_app/core/api/session_authorization_header.dart';
 import 'package:fluxer_app/core/push/push_notification_ids.dart';
 import 'package:fluxer_app/core/push/push_notification_payload.dart';
@@ -160,6 +161,12 @@ Future<PushReplyAccount?> lookupPushReplyAccount(
   return PushReplyAccount(token: token, apiBaseUrl: stored);
 }
 
+Map<String, String> pushReplyHeaders(String token) => <String, String>{
+  'Authorization': formatSessionAuthorizationHeader(token),
+  'Content-Type': 'application/json',
+  fluxerApiFeaturesHeaderName: buildFluxerApiFeaturesHeaderValue(),
+};
+
 Future<void> postPushReply(PushReplySend send) async {
   final Dio dio = Dio(
     BaseOptions(
@@ -167,10 +174,7 @@ Future<void> postPushReply(PushReplySend send) async {
       connectTimeout: const Duration(seconds: 20),
       sendTimeout: const Duration(seconds: 20),
       receiveTimeout: const Duration(seconds: 20),
-      headers: <String, String>{
-        'Authorization': formatSessionAuthorizationHeader(send.token),
-        'Content-Type': 'application/json',
-      },
+      headers: pushReplyHeaders(send.token),
     ),
   );
   try {

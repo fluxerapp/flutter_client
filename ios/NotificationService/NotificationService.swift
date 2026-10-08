@@ -227,7 +227,10 @@ private extension NotificationService {
             suggestionType: .none
         )
         let threadId = content.threadIdentifier
-        let groupName = PushNotificationPayload.resolveSpeakableGroupName(title: title)
+        let groupName = PushNotificationPayload.resolveSpeakableGroupName(
+            title: title,
+            userInfo: userInfo
+        )
         let intent = INSendMessageIntent(
             recipients: nil,
             outgoingMessageType: .outgoingMessageText,

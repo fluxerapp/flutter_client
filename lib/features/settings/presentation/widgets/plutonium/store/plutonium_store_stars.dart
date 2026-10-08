@@ -2,8 +2,8 @@ import 'dart:math' as math;
 
 import 'package:fluxer_app/material_ui.dart';
 
-class PlutoniumStoreStars extends StatelessWidget {
-  const PlutoniumStoreStars({required this.controller, super.key});
+class PremiumStoreStars extends StatelessWidget {
+  const PremiumStoreStars({required this.controller, super.key});
 
   final ScrollController controller;
 

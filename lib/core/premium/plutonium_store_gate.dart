@@ -5,7 +5,7 @@ import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/push_provider_kind.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 
-bool resolvePlutoniumStorePage({
+bool resolvePremiumStorePage({
   required bool ossWebCheckout,
   required bool desktopOs,
   required PushProviderKind pushProvider,
@@ -17,26 +17,26 @@ bool resolvePlutoniumStorePage({
       pushProvider == PushProviderKind.apple;
 }
 
-bool isPlutoniumStorePageActive() {
-  return resolvePlutoniumStorePage(
+bool isPremiumStorePageActive() {
+  return resolvePremiumStorePage(
     ossWebCheckout: AppBuildConfig.isOssWebCheckout,
     desktopOs: isFluxerDesktopOs,
     pushProvider: AppBuildConfig.pushProvider,
   );
 }
 
-bool resolvePlutoniumStorePurchasesEnabled({
+bool resolvePremiumStorePurchasesEnabled({
   required bool isAndroid,
   required PushProviderKind pushProvider,
 }) {
   return isAndroid && pushProvider == PushProviderKind.firebaseMessaging;
 }
 
-bool isPlutoniumStorePurchasesEnabled() {
+bool isPremiumStorePurchasesEnabled() {
   if (kIsWeb || !Platform.isAndroid) {
     return false;
   }
-  return resolvePlutoniumStorePurchasesEnabled(
+  return resolvePremiumStorePurchasesEnabled(
     isAndroid: true,
     pushProvider: AppBuildConfig.pushProvider,
   );

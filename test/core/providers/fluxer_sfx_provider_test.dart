@@ -6,10 +6,26 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/fluxer_sfx_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
+import 'package:fluxer_app/features/settings/providers/notification_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/sound_preferences_provider.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
 
 import '../../helpers/message_realtime_test_helpers.dart';
+
+class _TestNotificationPreferences extends NotificationPreferences {
+  @override
+  NotificationPreferencesState build() {
+    return const NotificationPreferencesState(isLoaded: true);
+  }
+}
+
+class _TestSoundPreferences extends SoundPreferences {
+  @override
+  SoundPreferencesState build() {
+    return const SoundPreferencesState();
+  }
+}
 
 MessageCreateEvent _createEvent(String id) {
   return MessageCreateEvent(
@@ -47,7 +63,13 @@ void main() {
         LazyDatabase(() => throw const CancellationException()),
       );
       final container = ProviderContainer(
-        overrides: [fluxerDatabaseProvider.overrideWithValue(db)],
+        overrides: [
+          fluxerDatabaseProvider.overrideWithValue(db),
+          notificationPreferencesProvider.overrideWith(
+            _TestNotificationPreferences.new,
+          ),
+          soundPreferencesProvider.overrideWith(_TestSoundPreferences.new),
+        ],
       );
       addTearDown(container.dispose);
       container.read(currentUserIdProvider.notifier).set('me');

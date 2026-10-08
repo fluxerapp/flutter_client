@@ -22,7 +22,7 @@ bool userSettingsShowBillingNav(WidgetRef ref) {
   if (!_premiumCommerceVisibleFromRef(ref)) {
     return false;
   }
-  return isOssWebCheckoutBuild || isPlutoniumStorePageActive();
+  return isOssWebCheckoutBuild || isPremiumStorePageActive();
 }
 
 bool userSettingsShowGiftBillingNav(WidgetRef ref) {
@@ -33,5 +33,5 @@ bool userSettingsShowBillingNavFromContainer(ProviderContainer container) {
   if (!_premiumCommerceVisibleFromContainer(container)) {
     return false;
   }
-  return isOssWebCheckoutBuild || isPlutoniumStorePageActive();
+  return isOssWebCheckoutBuild || isPremiumStorePageActive();
 }

@@ -18,6 +18,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/settings/domain/guild/roles/guild_role_permission_spec.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/threads/presentation/thread_defaults_section.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_emoji_picker_popout.dart';
@@ -227,8 +228,15 @@ class _ChannelOverviewWidgetState extends ConsumerState<ChannelOverviewWidget> {
       if (!mounted) {
         return;
       }
-      if (apiErrorCodeFromDioException(error) == kChannelHasFollowedChannels) {
-        await _showConvertFailedModal();
+      final String? code = apiErrorCodeFromDioException(error);
+      if (code == kChannelHasFollowedChannels) {
+        await _showConvertFailedModal(l10n.channelSettingsChannelHasFollowers);
+        return;
+      }
+      if (code == kChannelHasThreads) {
+        await _showConvertFailedModal(
+          userFacingErrorMessage(error, l10n.networkErrorMessage),
+        );
         return;
       }
       ref
@@ -287,17 +295,14 @@ class _ChannelOverviewWidgetState extends ConsumerState<ChannelOverviewWidget> {
     return confirmed ?? false;
   }
 
-  Future<void> _showConvertFailedModal() {
+  Future<void> _showConvertFailedModal(String message) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     return FluxerModal.show<void>(
       context,
       title: l10n.channelSettingsConvertFailed,
       centered: true,
       builder: (BuildContext dialogContext, VoidCallback close) {
-        return Text(
-          l10n.channelSettingsChannelHasFollowers,
-          style: dialogContext.textStyles.bodySmall,
-        );
+        return Text(message, style: dialogContext.textStyles.bodySmall);
       },
       actionsBuilder: (void Function([void]) pop) => <Widget>[
         FluxerButton.primary(onPressed: () => pop(), label: l10n.uiConfirm),
@@ -488,6 +493,7 @@ class _ChannelOverviewWidgetState extends ConsumerState<ChannelOverviewWidget> {
                 _updateCurrent(_current.copyWith(slowmode: value));
               },
             ),
+            ThreadDefaultsSection(channel: channel),
           ],
           if (showVoice) ...<Widget>[
             SizedBox(height: context.layout.s6),

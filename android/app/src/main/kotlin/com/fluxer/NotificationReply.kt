@@ -9,6 +9,8 @@ internal const val EXTRA_NOTIFICATION_TAG = "notification_tag"
 internal const val EXTRA_CHANNEL_ID = "channel_id"
 internal const val EXTRA_MESSAGE_ID = "message_id"
 internal const val EXTRA_USER_ID = "target_user_id"
+internal const val EXTRA_FEATURES = "fluxer_features"
+internal const val FEATURES_HEADER = "X-Fluxer-Features"
 
 internal const val FAILED_REPLY_NOTIFICATION_ID = 900001
 internal const val FAILED_REPLY_NOTIFICATION_TAG = "fluxer_reply_failed"
@@ -27,6 +29,7 @@ internal data class NotificationReplyRequest(
     val url: String,
     val authorization: String,
     val body: String,
+    val features: String? = null,
 )
 
 internal data class NotificationReplyInput(
@@ -36,6 +39,7 @@ internal data class NotificationReplyInput(
     val userId: String,
     val notificationId: Int,
     val tag: String?,
+    val features: String? = null,
 )
 
 internal enum class NotificationReplyOutcome {
@@ -70,6 +74,7 @@ internal fun buildNotificationReplyRequest(
     channelId: String,
     messageId: String,
     content: String,
+    features: String? = null,
 ): NotificationReplyRequest? {
     val base = account.apiBaseUrl.trim().trimEnd('/')
     val authorization = replyAuthorizationHeader(account.token)
@@ -81,6 +86,7 @@ internal fun buildNotificationReplyRequest(
         url = "$base/channels/$encodedChannel/messages",
         authorization = authorization,
         body = notificationReplyBody(content, messageId),
+        features = features?.trim()?.takeIf { it.isNotEmpty() },
     )
 }
 
@@ -110,7 +116,13 @@ internal class NotificationReplyDispatcher(
         }
         val account = accounts.read(input.userId)
         val request = account?.let {
-            buildNotificationReplyRequest(it, input.channelId, input.messageId, content)
+            buildNotificationReplyRequest(
+                it,
+                input.channelId,
+                input.messageId,
+                content,
+                input.features,
+            )
         }
         if (request == null) {
             return fail(input)

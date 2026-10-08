@@ -544,6 +544,205 @@
     "@resetPasswordMismatch": {
         "description": "Error when password and confirmation don't match."
     },
+    "recoverAccountTitle": "Atkurti paskyrą",
+    "@recoverAccountTitle": {
+        "description": "Title of the screen where someone resets their password with a recovery kit."
+    },
+    "recoverAccountDescription": "Įveskite savo vartotojo vardą ir atkūrimo rinkinio atkūrimo raktą, tada pasirinkite naują slaptažodį.",
+    "@recoverAccountDescription": {
+        "description": "Description on the account recovery screen."
+    },
+    "recoverAccountNoKit": "Nėra atkūrimo rinkinio? Paprašykite šio serverio administratoriaus slaptažodžio nustatymo iš naujo nuorodos.",
+    "@recoverAccountNoKit": {
+        "description": "Hint under the account recovery form for people without a recovery kit."
+    },
+    "recoveryKitTitle": "Tavo atkūrimo rinkinys",
+    "@recoveryKitTitle": {
+        "description": "Title of the sheet that shows a newly created account recovery kit."
+    },
+    "recoveryKitCreatedDescription": "Jei pamiršite slaptažodį, šis rinkinys yra vienintelis būdas grįžti į paskyrą. Laikykite jį saugioje vietoje, pavyzdžiui, slaptažodžių tvarkyklėje arba atspausdintą kopiją.",
+    "@recoveryKitCreatedDescription": {
+        "description": "Recovery kit sheet description for a newly created kit."
+    },
+    "recoveryKitReplacedDescription": "Jūsų senasis atkūrimo rinkinys nebeveikia. Šį naująjį laikykite saugioje vietoje.",
+    "@recoveryKitReplacedDescription": {
+        "description": "Recovery kit sheet description shown after a kit replaces an older one."
+    },
+    "recoveryKitRecoveredDescription": "Jūsų slaptažodis nustatytas iš naujo. Jūsų senasis atkūrimo rinkinys nebeveikia. Laikykite šį naująjį saugioje vietoje.",
+    "@recoveryKitRecoveredDescription": {
+        "description": "Recovery kit sheet description shown after someone recovers their account with a recovery key."
+    },
+    "recoveryKitWarning": "Kiekvienas, turintis šį raktą, gali atstatyti jūsų slaptažodį. Niekada juo nesidalinkite.",
+    "@recoveryKitWarning": {
+        "description": "Warning under the recovery key in the recovery kit sheet."
+    },
+    "recoveryKitKeyLabel": "Pagalbos raktas",
+    "@recoveryKitKeyLabel": {
+        "description": "Label for the account recovery key."
+    },
+    "recoveryKitDocumentTitle": "{productName} atkūrimo rinkinys",
+    "@recoveryKitDocumentTitle": {
+        "description": "Title of the saved recovery kit image. productName is the app name.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitDocumentIntro": "Laikykite šį puslapį saugioje vietoje. Jei pamiršite slaptažodį, galėsite jį naudoti, kad vėl prisijungtumėte prie savo paskyros. Bet kas, turintis šį atkūrimo raktą, gali pakeisti jūsų slaptažodį, todėl niekada juo nesidalinkite.",
+    "@recoveryKitDocumentIntro": {
+        "description": "Introduction on the saved recovery kit image."
+    },
+    "recoveryKitInstanceLabel": "Instance",
+    "@recoveryKitInstanceLabel": {
+        "description": "Label for the server address on the saved recovery kit."
+    },
+    "recoveryKitCreatedAtLabel": "Sukurta",
+    "@recoveryKitCreatedAtLabel": {
+        "description": "Label for the creation date on the saved recovery kit."
+    },
+    "recoveryKitQrCaption": "Nuskaitykite, kad atidarytumėte atkūrimo puslapį su užpildyta jūsų informacija.",
+    "@recoveryKitQrCaption": {
+        "description": "Caption under the QR code on the saved recovery kit."
+    },
+    "recoveryKitStepsTitle": "Kaip atkurti paskyrą",
+    "@recoveryKitStepsTitle": {
+        "description": "Heading above the recovery steps on the saved recovery kit."
+    },
+    "recoveryKitStepOpen": "Eikite į {recoverUrl} arba nuskaitykite QR kodą.",
+    "@recoveryKitStepOpen": {
+        "description": "First recovery step on the saved recovery kit. recoverUrl is the address of the recovery page.",
+        "placeholders": {
+            "recoverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitStepEnter": "Įveskite savo vartotojo vardą ir šį atkūrimo raktą.",
+    "@recoveryKitStepEnter": {
+        "description": "Second recovery step on the saved recovery kit."
+    },
+    "recoveryKitStepPassword": "Pasirinkite naują slaptažodį. Gausite naują atkūrimo rinkinį, o šis nustos veikti.",
+    "@recoveryKitStepPassword": {
+        "description": "Third recovery step on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesTitle": "Dviejų veiksnių autentifikavimo atsarginiai kodai",
+    "@recoveryKitBackupCodesTitle": {
+        "description": "Heading above the two-factor backup codes on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesNote": "Kiekvienas kodas veikia vieną kartą, pakeisdamas jūsų autentifikavimo programėlę.",
+    "@recoveryKitBackupCodesNote": {
+        "description": "Note under the two-factor backup codes heading on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesFailed": "Nepavyko įkelti atsarginių kodų.",
+    "@recoveryKitBackupCodesFailed": {
+        "description": "Toast shown when the two-factor backup codes for the recovery kit cannot be loaded."
+    },
+    "recoveryKitIncludeBackupCodes": "Įtraukti mano dviejų veiksnių autentifikavimo atsarginius kodus į išsaugotą vaizdą",
+    "@recoveryKitIncludeBackupCodes": {
+        "description": "Checkbox in the recovery kit sheet that adds the two-factor backup codes to the saved image."
+    },
+    "recoveryKitCopy": "Kopijuoti",
+    "@recoveryKitCopy": {
+        "description": "Button that copies the account recovery key."
+    },
+    "recoveryKitCopied": "Atkūrimo raktas nukopijuotas",
+    "@recoveryKitCopied": {
+        "description": "Toast shown after the recovery key is copied."
+    },
+    "recoveryKitSaveImage": "Išsaugoti vaizdą",
+    "@recoveryKitSaveImage": {
+        "description": "Button that saves the recovery kit as an image."
+    },
+    "recoveryKitSaved": "Atkūrimo rinkinys išsaugotas",
+    "@recoveryKitSaved": {
+        "description": "Toast shown after the recovery kit image is saved to a file."
+    },
+    "recoveryKitSavedToPhotos": "Atkūrimo rinkinys išsaugotas nuotraukose",
+    "@recoveryKitSavedToPhotos": {
+        "description": "Toast shown after the recovery kit image is saved to the photo library."
+    },
+    "recoveryKitSaveFailed": "Nepavyko išsaugoti atkūrimo rinkinio. Bandyk dar kartą arba nukopijuok raktą.",
+    "@recoveryKitSaveFailed": {
+        "description": "Toast shown when saving the recovery kit image fails."
+    },
+    "recoveryKitAcknowledge": "Atsidėjau savo atkūrimo rinkinį saugioje vietoje",
+    "@recoveryKitAcknowledge": {
+        "description": "Checkbox that confirms the recovery kit is stored before closing the sheet."
+    },
+    "recoveryKitCreateFailed": "Nepavyko sukurti jūsų atkūrimo rinkinio. Vėliau galėsite jį sukurti paskyros nustatymuose.",
+    "@recoveryKitCreateFailed": {
+        "description": "Toast shown when a recovery kit cannot be created."
+    },
+    "recoveryKitSectionTitle": "Atsarginių kopijų rinkinys",
+    "@recoveryKitSectionTitle": {
+        "description": "Title of the recovery kit section in security settings."
+    },
+    "recoveryKitSectionDescription": "Leidžia atkurti slaptažodį, jei jį pamiršite.",
+    "@recoveryKitSectionDescription": {
+        "description": "Description of the recovery kit section in security settings."
+    },
+    "recoveryKitNone": "Dar neturite atkūrimo rinkinio",
+    "@recoveryKitNone": {
+        "description": "Shown in security settings when the account has no recovery kit."
+    },
+    "recoveryKitCreatedRelative": "Sukurtas {time}",
+    "@recoveryKitCreatedRelative": {
+        "description": "When the current recovery kit was created. time is a relative time such as 3 days ago.",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitCreate": "Sukurti atkūrimo rinkinį",
+    "@recoveryKitCreate": {
+        "description": "Button that creates a recovery kit."
+    },
+    "recoveryKitCreateNew": "Sukurti naują rinkinį",
+    "@recoveryKitCreateNew": {
+        "description": "Button that replaces the existing recovery kit with a new one."
+    },
+    "recoveryKitReplaceTitle": "Sukurti naują atkūrimo rinkinį?",
+    "@recoveryKitReplaceTitle": {
+        "description": "Title of the confirmation shown before replacing an existing recovery kit."
+    },
+    "recoveryKitReplaceDescription": "Jūsų dabartinis rinkinys nustos veikti, kai tik bus sukurtas naujas.",
+    "@recoveryKitReplaceDescription": {
+        "description": "Body of the confirmation shown before replacing an existing recovery kit."
+    },
+    "recoveryKitReminderTitle": "Saugoti atkūrimo rinkinį",
+    "@recoveryKitReminderTitle": {
+        "description": "Title of the one-time prompt asking a signed-in user without a recovery kit to create one."
+    },
+    "recoveryKitReminderBody": "Jūsų paskyroje nėra el. pašto adreso. Jei pamiršite slaptažodį, atsigavimo rinkinys yra vienintelis būdas grįžti. Tai užtruks tik minutę.",
+    "@recoveryKitReminderBody": {
+        "description": "Body of the one-time prompt asking a signed-in user without a recovery kit to create one."
+    },
+    "registerUsernameSignInHint": "Prisijunkite naudodami šį vartotojo vardą. Pasirinkite tokį, kurį atsiminsite.",
+    "@registerUsernameSignInHint": {
+        "description": "Helper text under the required username field when the instance uses usernames to sign in."
+    },
+    "registerUsernameTaken": "Šis vartotojo vardas jau užimtas",
+    "@registerUsernameTaken": {
+        "description": "Registration form message when the chosen username belongs to someone else."
+    },
+    "registerUsernameAvailable": "Šis vartotojo vardas yra laisvas",
+    "@registerUsernameAvailable": {
+        "description": "Registration form message when the chosen username is free to use."
+    },
+    "claimAccountUsernameDescription": "Prisijunkite prie savo paskyros pasirinkdami vartotojo vardą ir slaptažodį. Jais prisijungsite, todėl pasirinkite tokius, kuriuos atsiminsite.",
+    "@claimAccountUsernameDescription": {
+        "description": "Description in the claim account sheet on instances where people sign in with a username."
+    },
+    "unclaimedAccountDescriptionUsername": "Jūsų paskyra dar nepaprašyta. Be vartotojo vardo ir slaptažodžio negalėsite prisijungti iš kitų įrenginių ir galite prarasti prieigą prie savo paskyros. Paprašykite savo paskyros dabar, kad ją apsaugotumėte.",
+    "@unclaimedAccountDescriptionUsername": {
+        "description": "Description for the unclaimed account warning on instances where people sign in with a username."
+    },
+    "addFriendUsernameOnlyHint": "Naudotojo vardas",
+    "@addFriendUsernameOnlyHint": {
+        "description": "Placeholder for the add friend field on instances where usernames have no tag."
+    },
     "registerTitle": "Sukurti paskyrą",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -651,6 +850,10 @@
     "errorInvalidEmailOrPassword": "Neteisingas el. paštas arba slaptažodis.",
     "@errorInvalidEmailOrPassword": {
         "description": "Error shown on the login screen when the email and password combination is incorrect."
+    },
+    "errorInvalidUsernameOrPassword": "Neteisingas naudotojo vardas arba slaptažodis.",
+    "@errorInvalidUsernameOrPassword": {
+        "description": "Sign-in error on instances where people sign in with a username."
     },
     "errorUnableToSendResetLink": "Nepavyksta išsiųsti atstatymo nuorodos. Pabandykite dar kartą.",
     "@errorUnableToSendResetLink": {
@@ -15648,6 +15851,14 @@
             }
         }
     },
+    "premiumGiftGraceEnded": "Jūsų dovanos laikas baigėsi. Prenumeruokite, kad išsaugotumėte Plutonium.",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "Jums bus apmokestinta dabar. Jūsų likęs dovanų laikas bus pridėtas po apmokėto laikotarpio, todėl niekas nebus prarasta.",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
+    },
     "premiumComparisonFeatureColumn": "Funkcija",
     "premiumDisclaimerPurchased": "Pirkdami sutikote su mūsų {terms} ir {privacy}.",
     "@premiumDisclaimerPurchased": {
@@ -15665,7 +15876,6 @@
     "premiumPrivacyPolicy": "Privatumo politika",
     "premiumCheckoutStartFailedTitle": "Nepavyko pradėti atsiskaitymo",
     "premiumCheckoutStartFailedBody": "Nepavyko pradėti atsiskaitymo. Bandykite dar kartą po akimirkos.",
-    "premiumGiftSubscriptionBlocksRecurring": "Šiuo metu naudojatės dovanų prenumerata. Ji nebus atnaujinta. Galite išpirkti daugiau dovanų kodų, kad ją pratęstumėte. Pasibaigus dovanų prenumeratos laikotarpiui, galėsite pradėti pasikartojančias prenumeratas.",
     "premiumPlanUnavailable": "Šis planas nepasiekiamas. Susisiekite su palaikymo komanda.",
     "premiumCompletePaymentTitle": "Užbaigti mokėjimą",
     "premiumCompletePaymentBody": "Dabar būsite nukreipti į „Stripe“, kad užbaigtumėte mokėjimą. Grįžkite į „Fluxer“, kai baigsite.",

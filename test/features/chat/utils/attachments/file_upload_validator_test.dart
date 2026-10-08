@@ -78,6 +78,10 @@ void main() {
         'image/jpeg',
       );
       expect(
+        FileUploadValidator.guessContentTypeFromName('icon.svg'),
+        'image/svg+xml',
+      );
+      expect(
         FileUploadValidator.guessContentTypeFromName('a.pdf'),
         'application/pdf',
       );

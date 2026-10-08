@@ -141,6 +141,24 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     });
   }
 
+  void _prepareForRelaunch() {
+    _exitRevealStarted = false;
+    _revealComplete ??= ref.read(splashRevealCompleteProvider.notifier);
+    _revealComplete?.reset();
+    ref.read(splashExitAllowedProvider.notifier).reset();
+    _pulseController
+      ..reset()
+      ..repeat();
+    _cancelSplashTimers();
+    _timersStarted = false;
+    _showStatusData = false;
+    _showProblems = false;
+    if (mounted) {
+      setState(() {});
+    }
+    _scheduleExitReveal();
+  }
+
   void _scheduleExitReveal() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) {
@@ -324,6 +342,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
         }
         if (next is AsyncLoading<void> && _serviceUnavailableOutage) {
           return;
+        }
+        if (next is AsyncLoading<void> && previous is AsyncData<void>) {
+          _prepareForRelaunch();
         }
         if (next is AsyncData<void>) {
           _clearServiceUnavailableUi();

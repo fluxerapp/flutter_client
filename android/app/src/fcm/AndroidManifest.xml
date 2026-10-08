@@ -32,4 +32,9 @@
             </intent-filter>
         </receiver>
     </application>
+    <queries>
+        <intent>
+            <action android:name="com.android.vending.billing.InAppBillingService.BIND" />
+        </intent>
+    </queries>
 </manifest>

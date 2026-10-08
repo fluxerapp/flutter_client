@@ -18,3 +18,28 @@ InstanceRuntimeConfig instanceRuntimeConfig(Ref ref) {
     ),
   );
 }
+
+typedef AccountIdentityFlags = ({bool usernameSignIn, bool uniqueUsernames});
+
+@Riverpod(keepAlive: true)
+class AccountIdentity extends _$AccountIdentity {
+  @override
+  AccountIdentityFlags build() {
+    return (usernameSignIn: false, uniqueUsernames: false);
+  }
+
+  void sync(InstanceRuntimeConfig config) {
+    final AccountIdentityFlags next = (
+      usernameSignIn: config.usernameSignIn,
+      uniqueUsernames: config.uniqueUsernames,
+    );
+    if (next != state) {
+      state = next;
+    }
+  }
+}
+
+@Riverpod(keepAlive: true)
+bool uniqueUsernames(Ref ref) {
+  return ref.watch(accountIdentityProvider).uniqueUsernames;
+}

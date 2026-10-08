@@ -346,44 +346,10 @@ class _DMListState extends ConsumerState<DMList> {
 
   Widget _buildComposeFab(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    return FluxerTappable(
-      onTap: () => unawaited(CreateDmFlow.show(context)),
+    return FluxerCircleFab(
+      icon: PhosphorIconsFill.paperPlane,
       semanticLabel: l10n.createDmNewMessage,
-      builder: (context, states) {
-        final colors = context.colors;
-        final motion = context.motion;
-        final isHovered = states.contains(WidgetState.hovered);
-
-        return AnimatedContainer(
-          duration: motion.fast,
-          curve: motion.curve,
-          width: 56,
-          height: 56,
-          decoration: BoxDecoration(
-            color: isHovered ? colors.brandSecondary : colors.brandPrimary,
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: FluxerButtonVariant.primary.borderColor(
-                colors,
-                hovered: isHovered,
-              )!,
-            ),
-            boxShadow: const [
-              BoxShadow(
-                color: Color(0x33000000),
-                blurRadius: 4,
-                offset: Offset(0, 2),
-              ),
-            ],
-          ),
-          alignment: Alignment.center,
-          child: PhosphorIcon(
-            PhosphorIconsFill.paperPlane,
-            size: 24,
-            color: colors.textOnBrandPrimary,
-          ),
-        );
-      },
+      onTap: () => unawaited(CreateDmFlow.show(context)),
     );
   }
 

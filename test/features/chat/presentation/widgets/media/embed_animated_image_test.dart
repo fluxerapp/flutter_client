@@ -295,6 +295,58 @@ void main() {
       );
     });
 
+    testWidgets('scrolling re-ranks images that stay partly visible', (
+      tester,
+    ) async {
+      final AnimatedImagePlaybackController controller =
+          AnimatedImagePlaybackController(maxActiveVideos: 1);
+      final ScrollController scrollController = ScrollController();
+      addTearDown(scrollController.dispose);
+      await tester.pumpWidget(
+        _wrap(
+          AnimatedImagePlaybackScope(
+            controller: controller,
+            child: SizedBox(
+              height: 300,
+              child: SingleChildScrollView(
+                controller: scrollController,
+                child: const Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 200,
+                      child: EmbedAnimatedImage(
+                        animatedUrl: 'https://x/a.webp',
+                        staticUrl: 'https://x/a.png',
+                        visibilityKey: 'v1',
+                      ),
+                    ),
+                    SizedBox(
+                      height: 200,
+                      child: EmbedAnimatedImage(
+                        animatedUrl: 'https://x/b.webp',
+                        staticUrl: 'https://x/b.png',
+                        visibilityKey: 'v2',
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+      expect(controller.isPlaying('v1'), isTrue);
+      expect(controller.isPlaying('v2'), isFalse);
+
+      scrollController.jumpTo(100);
+      await tester.pump();
+      await tester.pump();
+
+      expect(controller.isPlaying('v2'), isTrue);
+      expect(controller.isPlaying('v1'), isFalse);
+    });
+
     testWidgets('sticker mode stays static when never animate', (tester) async {
       await tester.pumpWidget(
         _wrap(

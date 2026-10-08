@@ -56,6 +56,7 @@ class FluxerNotificationReplyReceiver : BroadcastReceiver() {
                 userId = userId,
                 notificationId = notificationId,
                 tag = tag?.takeIf { it.isNotEmpty() },
+                features = intent.getStringExtra(EXTRA_FEATURES),
             )
         }
 

@@ -6,12 +6,14 @@ import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_con
 import 'package:fluxer_app/features/chat/domain/media_options_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/attachment_alt_text_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/sheets/delete_message_confirm_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/message_bottom_sheet.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_download_service.dart';
 import 'package:fluxer_app/features/chat/utils/media/favorite_media_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_favorite_state.dart';
 import 'package:fluxer_app/features/chat/utils/media/save_message_media_favorite.dart';
+import 'package:fluxer_app/features/forum/providers/media_download_policy_provider.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -71,9 +73,14 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final String linkUrl = launchContext.fallbackUrl.trim();
-    final String? downloadUrl = _downloadUrl();
     final MessageMediaActionScope? actionScope = launchContext.actionScope;
+    final bool downloadsHidden =
+        actionScope != null &&
+        ref.watch(mediaDownloadHiddenProvider(actionScope.message.channelId));
+    final String linkUrl = downloadsHidden
+        ? ''
+        : launchContext.fallbackUrl.trim();
+    final String? downloadUrl = downloadsHidden ? null : _downloadUrl();
     final Attachment? attachment = actionScope == null
         ? null
         : resolveMessageAttachment(
@@ -139,8 +146,21 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
               unawaited(_handleMessageAction(actionScope, action)),
           attachmentCallbacks: MessageActionCallbacks(
             onDeleteAttachment: (Attachment attachment) {
-              actionScope.callbacks.onDeleteAttachment?.call(attachment);
-              onCloseViewer?.call();
+              onCloseSheet.call();
+              WidgetsBinding.instance.addPostFrameCallback((_) async {
+                if (!hostContext.mounted) {
+                  return;
+                }
+                final bool? confirmed = await showDeleteAttachmentConfirmSheet(
+                  hostContext,
+                  hostRef,
+                  messageId: actionScope.message.id,
+                  attachment: attachment,
+                );
+                if (confirmed ?? false) {
+                  onCloseViewer?.call();
+                }
+              });
             },
             onEditAttachmentAltText: (Attachment attachment) {
               unawaited(_editAttachmentAltText(actionScope, attachment));
@@ -247,7 +267,8 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
         callbacks: actionScope.callbacks,
         previewRoleGuildId: actionScope.previewRoleGuildId,
       );
-      if (!shouldCloseMediaViewerForMessageAction(action)) {
+      if (action == MessageAction.delete ||
+          !shouldCloseMediaViewerForMessageAction(action)) {
         return;
       }
       WidgetsBinding.instance.addPostFrameCallback((_) {

@@ -9,9 +9,31 @@ class QuickSwitcherRepository {
 
   final FluxerDatabase _database;
 
-  Future<List<Channel>> getGuildChannels() async {
+  Future<List<Channel>> getGuildChannels({
+    Set<String> threadGuildIds = const <String>{},
+  }) async {
     final rows = await _database.channelDao.getAllChannels();
-    return rows.map(Channel.fromRow).toList();
+    final List<Channel> channels = <Channel>[
+      for (final row in rows)
+        if (!isThreadOnlyChannelType(row.type) ||
+            threadGuildIds.contains(row.guildId))
+          Channel.fromRow(row),
+    ];
+    if (threadGuildIds.isEmpty) {
+      return channels;
+    }
+    final Set<String> joined = await _database.threadDao.getJoinedThreadIds();
+    for (final String guildId in threadGuildIds) {
+      for (final row in await _database.threadDao.getThreadsForGuild(guildId)) {
+        final bool visible =
+            joined.contains(row.id) ||
+            row.type != ChannelType.privateThread.wireValue;
+        if (visible && row.threadArchived != true) {
+          channels.add(Channel.fromRow(row));
+        }
+      }
+    }
+    return channels;
   }
 
   Future<String?> getChannelParentId(String channelId) async {

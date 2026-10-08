@@ -1,8 +1,8 @@
-import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_network_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animated_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_load_error_placeholder.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_animated_image_url.dart';
@@ -79,6 +79,7 @@ class EmbedImage extends ConsumerWidget {
                     context,
                     media: media,
                     title: embed.title,
+                    embedPageUrl: embed.url,
                     animated: animate,
                     embedIndex: embedIndex,
                     channelId: channelId,
@@ -111,6 +112,7 @@ class EmbedImage extends ConsumerWidget {
                       mode: hdrDisplayMode,
                       contentType: media.contentType,
                     ),
+                    contentType: media.contentType,
                     cellWidth: cellWidth,
                     cellHeight: cellHeight,
                     sourceWidth: media.width,
@@ -128,6 +130,7 @@ class EmbedImage extends ConsumerWidget {
 class _EmbedStaticImage extends StatelessWidget {
   const _EmbedStaticImage({
     required this.imageUrl,
+    required this.contentType,
     required this.cellWidth,
     required this.cellHeight,
     required this.sourceWidth,
@@ -137,6 +140,7 @@ class _EmbedStaticImage extends StatelessWidget {
   });
 
   final String imageUrl;
+  final String? contentType;
   final double cellWidth;
   final double cellHeight;
   final int? sourceWidth;
@@ -154,17 +158,15 @@ class _EmbedStaticImage extends StatelessWidget {
       sourceWidth: sourceWidth,
       sourceHeight: sourceHeight,
     );
-    return CachedNetworkImage(
+    return ChatNetworkImage(
       imageUrl: imageUrl,
+      contentType: contentType,
       width: cellWidth,
       height: cellHeight,
       memCacheWidth: cache.width,
       memCacheHeight: cache.height,
-      fit: BoxFit.contain,
-      fadeInDuration: Duration.zero,
-      fadeOutDuration: Duration.zero,
-      placeholder: (_, _) => placeholder,
-      errorBuilder: (_, Object _, StackTrace? _) => errorPlaceholder,
+      placeholder: placeholder,
+      errorPlaceholder: errorPlaceholder,
     );
   }
 }

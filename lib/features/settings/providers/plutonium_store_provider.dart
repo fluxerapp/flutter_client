@@ -6,15 +6,15 @@ import 'package:fluxer_app/core/premium/plutonium_store_gate.dart';
 import 'package:fluxer_app/features/settings/providers/premium_settings_state_provider.dart';
 import 'package:fluxer_app/features/settings/providers/store_billing_context_provider.dart';
 import 'package:fluxer_app/features/settings/services/plutonium_store_products.dart';
-import 'package:fluxer_app/features/settings/services/plutonium_store_purchase_client.dart';
+import 'package:fluxer_app/features/settings/services/premium_store_purchase_client.dart';
+import 'package:fluxer_app/features/settings/services/premium_store_purchase_update.dart';
 import 'package:fluxer_app/features/shell/providers/current_user_private_provider.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
 
-enum PlutoniumStorePlan { monthly, yearly }
+enum PremiumStorePlan { monthly, yearly }
 
-class PlutoniumStoreState {
-  const PlutoniumStoreState({
+class PremiumStoreState {
+  const PremiumStoreState({
     this.monthly,
     this.yearly,
     this.loading = false,
@@ -28,16 +28,16 @@ class PlutoniumStoreState {
     this.productIds = const <String>{},
   });
 
-  final PlutoniumStoreProduct? monthly;
-  final PlutoniumStoreProduct? yearly;
+  final PremiumStoreProduct? monthly;
+  final PremiumStoreProduct? yearly;
   final bool loading;
   final bool storeUnavailable;
   final bool purchasePending;
-  final PlutoniumStorePlan? purchasingPlan;
+  final PremiumStorePlan? purchasingPlan;
   final int errorSerial;
   final StorePurchaseBlockedReason? purchaseBlockedReason;
   final StoreBlockingProvider? blockingProvider;
-  final PlutoniumBillingStore? billingStore;
+  final PremiumBillingStore? billingStore;
   final Set<String> productIds;
 
   bool get subscriptionPurchaseBlocked {
@@ -52,7 +52,7 @@ class PlutoniumStoreState {
   bool get accountPurchasesDisabled =>
       purchaseBlockedReason == StorePurchaseBlockedReason.purchaseDisabled;
 
-  PlutoniumStoreState copyWith({
+  PremiumStoreState copyWith({
     Object? monthly = _keep,
     Object? yearly = _keep,
     Object? purchasingPlan = _keep,
@@ -65,16 +65,16 @@ class PlutoniumStoreState {
     Object? billingStore = _keep,
     Set<String>? productIds,
   }) {
-    return PlutoniumStoreState(
+    return PremiumStoreState(
       monthly: identical(monthly, _keep)
           ? this.monthly
-          : monthly as PlutoniumStoreProduct?,
+          : monthly as PremiumStoreProduct?,
       yearly: identical(yearly, _keep)
           ? this.yearly
-          : yearly as PlutoniumStoreProduct?,
+          : yearly as PremiumStoreProduct?,
       purchasingPlan: identical(purchasingPlan, _keep)
           ? this.purchasingPlan
-          : purchasingPlan as PlutoniumStorePlan?,
+          : purchasingPlan as PremiumStorePlan?,
       loading: loading ?? this.loading,
       storeUnavailable: storeUnavailable ?? this.storeUnavailable,
       purchasePending: purchasePending ?? this.purchasePending,
@@ -87,7 +87,7 @@ class PlutoniumStoreState {
           : blockingProvider as StoreBlockingProvider?,
       billingStore: identical(billingStore, _keep)
           ? this.billingStore
-          : billingStore as PlutoniumBillingStore?,
+          : billingStore as PremiumBillingStore?,
       productIds: productIds ?? this.productIds,
     );
   }
@@ -99,35 +99,35 @@ class _Keep {
 
 const Object _keep = _Keep();
 
-final plutoniumStorePurchaseClientProvider =
-    Provider<PlutoniumStorePurchaseClient>((Ref ref) {
-      return createPlutoniumStorePurchaseClient();
-    });
+final premiumStorePurchaseClientProvider = Provider<PremiumStorePurchaseClient>(
+  (Ref ref) {
+    return createPremiumStorePurchaseClient();
+  },
+);
 
-final plutoniumStoreProvider =
-    NotifierProvider<PlutoniumStoreNotifier, PlutoniumStoreState>(
-      PlutoniumStoreNotifier.new,
+final premiumStoreProvider =
+    NotifierProvider<PremiumStoreNotifier, PremiumStoreState>(
+      PremiumStoreNotifier.new,
     );
 
-class PlutoniumStoreNotifier extends Notifier<PlutoniumStoreState> {
+class PremiumStoreNotifier extends Notifier<PremiumStoreState> {
   int _loadGeneration = 0;
   final Set<String> _finishedPurchaseIds = <String>{};
 
   @override
-  PlutoniumStoreState build() {
-    final PlutoniumStorePurchaseClient client = ref.watch(
-      plutoniumStorePurchaseClientProvider,
+  PremiumStoreState build() {
+    final PremiumStorePurchaseClient client = ref.watch(
+      premiumStorePurchaseClientProvider,
     );
     final AsyncValue<StoreBillingContextResponse?> billing = ref.watch(
       storeBillingContextProvider,
     );
-    if (!isPlutoniumStorePageActive() || !client.supportsPurchases) {
-      return const PlutoniumStoreState(storeUnavailable: true);
+    if (!isPremiumStorePageActive() || !client.supportsPurchases) {
+      return const PremiumStoreState(storeUnavailable: true);
     }
-    if (plutoniumStorePurchasesEnabled) {
-      final StreamSubscription<List<PurchaseDetails>> purchases = client
-          .purchaseUpdates
-          .listen(
+    if (premiumStorePurchasesEnabled) {
+      final StreamSubscription<List<PremiumStorePurchaseUpdate>> purchases =
+          client.purchaseUpdates.listen(
             _onPurchases,
             onError: (Object error, StackTrace stackTrace) {
               _bumpError();
@@ -138,19 +138,19 @@ class PlutoniumStoreNotifier extends Notifier<PlutoniumStoreState> {
       });
     }
     if (billing.isLoading) {
-      return const PlutoniumStoreState(loading: true);
+      return const PremiumStoreState(loading: true);
     }
     final StoreBillingContextResponse? context = billing.value;
     if (context == null) {
-      return const PlutoniumStoreState(storeUnavailable: true);
+      return const PremiumStoreState(storeUnavailable: true);
     }
-    final PlutoniumBillingStore? platform = currentPlutoniumBillingStore();
-    final PlutoniumStoreCatalog? catalog = plutoniumStoreCatalog(
+    final PremiumBillingStore? platform = currentPremiumBillingStore();
+    final PremiumStoreCatalog? catalog = premiumStoreCatalog(
       context: context,
       store: platform,
     );
     if (catalog == null || !catalog.hasSubscriptionProducts) {
-      return PlutoniumStoreState(
+      return PremiumStoreState(
         storeUnavailable: true,
         purchaseBlockedReason: context.purchaseBlockedReason,
         blockingProvider: context.blockingProvider,
@@ -158,7 +158,7 @@ class PlutoniumStoreNotifier extends Notifier<PlutoniumStoreState> {
       );
     }
     unawaited(_start(client, catalog));
-    return PlutoniumStoreState(
+    return PremiumStoreState(
       loading: true,
       purchaseBlockedReason: context.purchaseBlockedReason,
       blockingProvider: context.blockingProvider,
@@ -167,13 +167,13 @@ class PlutoniumStoreNotifier extends Notifier<PlutoniumStoreState> {
     );
   }
 
-  Future<void> buy(PlutoniumStorePlan plan) async {
-    if (!plutoniumStorePurchasesEnabled || state.subscriptionPurchaseBlocked) {
+  Future<void> buy(PremiumStorePlan plan) async {
+    if (!premiumStorePurchasesEnabled || state.subscriptionPurchaseBlocked) {
       return;
     }
-    final PlutoniumStoreProduct? product = switch (plan) {
-      PlutoniumStorePlan.monthly => state.monthly,
-      PlutoniumStorePlan.yearly => state.yearly,
+    final PremiumStoreProduct? product = switch (plan) {
+      PremiumStorePlan.monthly => state.monthly,
+      PremiumStorePlan.yearly => state.yearly,
     };
     if (product == null || state.purchasingPlan != null) {
       return;
@@ -181,7 +181,7 @@ class PlutoniumStoreNotifier extends Notifier<PlutoniumStoreState> {
     state = state.copyWith(purchasingPlan: plan);
     try {
       final bool started = await ref
-          .read(plutoniumStorePurchaseClientProvider)
+          .read(premiumStorePurchaseClientProvider)
           .buy(product);
       if (!ref.mounted) {
         return;
@@ -204,8 +204,8 @@ class PlutoniumStoreNotifier extends Notifier<PlutoniumStoreState> {
   }
 
   Future<void> _start(
-    PlutoniumStorePurchaseClient client,
-    PlutoniumStoreCatalog catalog,
+    PremiumStorePurchaseClient client,
+    PremiumStoreCatalog catalog,
   ) async {
     final int generation = ++_loadGeneration;
     final bool available = await client.isStoreAvailable();
@@ -216,7 +216,7 @@ class PlutoniumStoreNotifier extends Notifier<PlutoniumStoreState> {
       state = state.copyWith(loading: false, storeUnavailable: true);
       return;
     }
-    if (plutoniumStorePurchasesEnabled) {
+    if (premiumStorePurchasesEnabled) {
       try {
         await client.restore();
       } on Object {
@@ -227,7 +227,7 @@ class PlutoniumStoreNotifier extends Notifier<PlutoniumStoreState> {
       return;
     }
     try {
-      final PlutoniumStoreProductSet products = await client.loadProducts(
+      final PremiumStoreProductSet products = await client.loadProducts(
         catalog,
       );
       if (!ref.mounted || generation != _loadGeneration) {
@@ -247,28 +247,28 @@ class PlutoniumStoreNotifier extends Notifier<PlutoniumStoreState> {
     }
   }
 
-  void _onPurchases(List<PurchaseDetails> purchases) {
-    for (final PurchaseDetails purchase in purchases) {
-      if (!state.productIds.contains(purchase.productID)) {
+  void _onPurchases(List<PremiumStorePurchaseUpdate> purchases) {
+    for (final PremiumStorePurchaseUpdate purchase in purchases) {
+      if (!state.productIds.contains(purchase.productId)) {
         continue;
       }
       switch (purchase.status) {
-        case PurchaseStatus.pending:
+        case PremiumStorePurchaseStatus.pending:
           break;
-        case PurchaseStatus.canceled:
+        case PremiumStorePurchaseStatus.canceled:
           state = state.copyWith(purchasingPlan: null);
-        case PurchaseStatus.error:
+        case PremiumStorePurchaseStatus.error:
           state = state.copyWith(purchasingPlan: null);
           _bumpError();
-        case PurchaseStatus.purchased:
-        case PurchaseStatus.restored:
+        case PremiumStorePurchaseStatus.purchased:
+        case PremiumStorePurchaseStatus.restored:
           unawaited(_finish(purchase));
       }
     }
   }
 
-  Future<void> _finish(PurchaseDetails purchase) async {
-    final String? purchaseId = purchase.purchaseID;
+  Future<void> _finish(PremiumStorePurchaseUpdate purchase) async {
+    final String? purchaseId = purchase.purchaseId;
     if (purchaseId != null && !_finishedPurchaseIds.add(purchaseId)) {
       if (purchase.pendingCompletePurchase) {
         await _complete(purchase);
@@ -298,12 +298,12 @@ class PlutoniumStoreNotifier extends Notifier<PlutoniumStoreState> {
     }
   }
 
-  Future<void> _complete(PurchaseDetails purchase) async {
+  Future<void> _complete(PremiumStorePurchaseUpdate purchase) async {
     if (!purchase.pendingCompletePurchase) {
       return;
     }
     try {
-      await ref.read(plutoniumStorePurchaseClientProvider).complete(purchase);
+      await ref.read(premiumStorePurchaseClientProvider).complete(purchase);
     } on Object {
       _bumpError();
     }

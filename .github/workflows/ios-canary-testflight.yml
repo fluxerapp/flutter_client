@@ -37,8 +37,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pub-
 
-      - name: Strip Firebase dependencies if present
-        run: dart tool/strip_firebase_deps.dart
+      - name: Configure iOS store build tree
+        run: dart tool/configure_build.dart --profile=ios-store
 
       - name: Set up Rust and native asset build hooks
         run: |

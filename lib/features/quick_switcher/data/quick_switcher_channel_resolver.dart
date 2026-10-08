@@ -85,6 +85,7 @@ class QuickSwitcherChannelResolver {
         guildName: guildName,
         guildIcon: guild?.icon,
         isVoice: isVoice,
+        channelType: channel.type,
         searchValues: <String>[channel.name, guildName, channel.id],
         sortWeight: dateTimeFromSnowflakeAsLocalOrNow(
           channel.id,

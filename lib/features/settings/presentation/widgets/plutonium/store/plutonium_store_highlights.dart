@@ -4,14 +4,14 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-class PlutoniumStoreHighlights extends StatelessWidget {
-  const PlutoniumStoreHighlights({super.key});
+class PremiumStoreHighlights extends StatelessWidget {
+  const PremiumStoreHighlights({super.key});
 
   @override
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     return DecoratedBox(
-      decoration: PlutoniumStoreStyle.panel,
+      decoration: PremiumStoreStyle.panel,
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -20,7 +20,7 @@ class PlutoniumStoreHighlights extends StatelessWidget {
               l10n.storePlutoniumHighlightsLead,
               textAlign: TextAlign.center,
               style: context.textStyles.bodyMedium.copyWith(
-                color: PlutoniumStoreStyle.ink,
+                color: PremiumStoreStyle.ink,
               ),
             ),
             const SizedBox(height: 14),
@@ -53,7 +53,7 @@ class PlutoniumStoreHighlights extends StatelessWidget {
               l10n.storePlutoniumHighlightsMore,
               textAlign: TextAlign.center,
               style: context.textStyles.bodySmall.copyWith(
-                color: PlutoniumStoreStyle.inkMuted,
+                color: PremiumStoreStyle.inkMuted,
               ),
             ),
           ],
@@ -73,13 +73,13 @@ class _Highlight extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        PhosphorIcon(icon, size: 20, color: PlutoniumStoreStyle.accent),
+        PhosphorIcon(icon, size: 20, color: PremiumStoreStyle.accent),
         const SizedBox(width: 12),
         Expanded(
           child: Text(
             label,
             style: context.textStyles.bodySmall.copyWith(
-              color: PlutoniumStoreStyle.inkSoft,
+              color: PremiumStoreStyle.inkSoft,
             ),
           ),
         ),

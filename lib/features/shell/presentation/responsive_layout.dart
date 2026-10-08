@@ -32,8 +32,8 @@ abstract final class Breakpoints {
   static const double shellMinWidth =
       guildListWidth + channelSidebarWidth + 1 + minShellChatWidth;
 
-  /// Max guild banner height on mobile.
-  static const double mobileGuildBannerMaxHeight = 150;
+  /// Max guild integrated banner height as a fraction of viewport height.
+  static const double guildBannerMaxViewportHeightFraction = 0.3;
 
   /// Guild banner asset aspect ratio (16:9).
   static const double guildBannerAspectRatio = 16 / 9;
@@ -82,6 +82,8 @@ bool isDesktopLayout(BuildContext context) =>
 
 /// Non-mobile layout (tablet + desktop). Matches web `!MobileLayout.enabled`.
 bool isWideLayout(BuildContext context) => !isMobileLayout(context);
+
+bool isForumHandheldLayout(BuildContext context) => !isDesktopLayout(context);
 
 /// Phone voice overlay (immersive hideable header/controls).
 bool isPhoneVoiceOverlay(BuildContext context) {

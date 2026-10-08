@@ -163,6 +163,48 @@ void main() {
     await tester.pump(const Duration(milliseconds: 500));
   });
 
+  testWidgets(
+    'BottomInputSpacer keeps slot height when viewInsets clear before native',
+    (tester) async {
+      final ProviderContainer container = ProviderContainer();
+      addTearDown(container.dispose);
+      final MobileKeyboardMetrics notifier = container.read(
+        mobileKeyboardMetricsProvider.notifier,
+      )..updateLayout(screenHeight: 800, isPortrait: true, isIos: true);
+
+      await tester.pumpWidget(_buildSpacerHarness(container));
+      await tester.pump();
+
+      notifier
+        ..debugApplyNativeMetrics(
+          keyboardHeight: 336,
+          isKeyboardVisible: true,
+          nativeSafeAreaBottom: 34,
+        )
+        ..syncViewInsets(302, safeAreaBottom: 0);
+      await tester.pump();
+      expect(tester.getSize(_spacerSizedBoxFinder()).height, 302);
+
+      notifier.syncViewInsets(0, safeAreaBottom: 34);
+      await tester.pump();
+      expect(
+        container.read(mobileKeyboardMetricsProvider).liveKeyboardHeight,
+        336,
+      );
+      expect(tester.getSize(_spacerSizedBoxFinder()).height, 336);
+
+      notifier.debugApplyNativeMetrics(
+        keyboardHeight: 0,
+        isKeyboardVisible: false,
+        nativeSafeAreaBottom: 34,
+      );
+      await tester.pump();
+      expect(tester.getSize(find.byType(BottomInputSpacer)).height, 0);
+
+      await tester.pump(const Duration(milliseconds: 500));
+    },
+  );
+
   testWidgets('BottomInputSpacer stays collapsed when keyboard is dismissed', (
     tester,
   ) async {

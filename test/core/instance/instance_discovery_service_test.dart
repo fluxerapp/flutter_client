@@ -116,6 +116,24 @@ void main() {
       expect(snapshot.displayDomain, 'chat.example.com');
     });
 
+    test('connectToEndpoint accepts servers without premium fields', () async {
+      final Map<String, dynamic> discovery = buildDiscovery();
+      (discovery['features'] as Map<String, dynamic>)
+        ..remove('premium_enabled')
+        ..remove('stripe_serviceable');
+      ((discovery['app_public'] as Map<String, dynamic>)['branding']
+              as Map<String, dynamic>)
+          .remove('premium_product_name');
+      final InstanceDiscoveryService service = InstanceDiscoveryService(
+        dio: buildDio(responseJson: discovery),
+      );
+
+      final snapshot = await service.connectToEndpoint('chat.example.com');
+
+      expect(snapshot.apiBaseUrl, 'https://chat.example.com/v1');
+      expect(snapshot.wellKnown?.features.premiumEnabled, isFalse);
+    });
+
     test('connectToEndpoint throws on 404', () {
       final InstanceDiscoveryService service = InstanceDiscoveryService(
         dio: buildDio(responseJson: <String, dynamic>{}, statusCode: 404),

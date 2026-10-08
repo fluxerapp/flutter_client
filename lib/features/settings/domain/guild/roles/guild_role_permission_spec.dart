@@ -23,9 +23,17 @@ class GuildPermissionCategorySpec {
   final List<GuildPermissionEntry> permissions;
 }
 
+const List<Permission> threadPermissionOrder = <Permission>[
+  Permission.createPublicThreads,
+  Permission.createPrivateThreads,
+  Permission.sendMessagesInThreads,
+  Permission.manageThreads,
+];
+
 List<GuildPermissionCategorySpec> generateGuildPermissionSpec(
-  FluxerLocalizations l10n,
-) {
+  FluxerLocalizations l10n, {
+  bool threads = false,
+}) {
   return <GuildPermissionCategorySpec>[
     GuildPermissionCategorySpec(
       title: l10n.permissionCategoryCommunityWide,
@@ -67,6 +75,9 @@ List<GuildPermissionCategorySpec> generateGuildPermissionSpec(
         _entry(l10n, Permission.useExternalStickers),
         _entry(l10n, Permission.addReactions),
         _entry(l10n, Permission.bypassSlowmode),
+        if (threads)
+          for (final Permission permission in threadPermissionOrder)
+            _entry(l10n, permission),
       ],
     ),
     GuildPermissionCategorySpec(
@@ -139,6 +150,10 @@ String permissionTitle(FluxerLocalizations l10n, Permission permission) {
     Permission.deafenMembers => l10n.permissionDeafenMembers,
     Permission.moveMembers => l10n.permissionMoveMembers,
     Permission.updateRtcRegion => l10n.permissionSetVoiceRegion,
+    Permission.manageThreads => l10n.permissionManageThreads,
+    Permission.createPublicThreads => l10n.permissionCreatePublicThreads,
+    Permission.createPrivateThreads => l10n.permissionCreatePrivateThreads,
+    Permission.sendMessagesInThreads => l10n.permissionSendMessagesInThreads,
   };
 }
 
@@ -167,6 +182,13 @@ String? permissionDescription(FluxerLocalizations l10n, Permission permission) {
       l10n.permissionViewChannelMembersDescription,
     Permission.useVad => l10n.permissionUseVoiceActivityDescription,
     Permission.moveMembers => l10n.permissionMoveMembersDescription,
+    Permission.manageThreads => l10n.permissionManageThreadsDescription,
+    Permission.createPublicThreads =>
+      l10n.permissionCreatePublicThreadsDescription,
+    Permission.createPrivateThreads =>
+      l10n.permissionCreatePrivateThreadsDescription,
+    Permission.sendMessagesInThreads =>
+      l10n.permissionSendMessagesInThreadsDescription,
     _ => null,
   };
 }

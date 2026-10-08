@@ -1,27 +1,27 @@
 import 'package:fluxer_app/core/premium/plutonium_store_gate.dart';
 import 'package:fluxer_dart/export.dart';
 
-bool get plutoniumStorePurchasesEnabled => isPlutoniumStorePurchasesEnabled();
+bool get premiumStorePurchasesEnabled => isPremiumStorePurchasesEnabled();
 
-enum PlutoniumBillingStore { appStore, googlePlay }
+enum PremiumBillingStore { appStore, googlePlay }
 
-class PlutoniumStoreCatalogEntry {
-  const PlutoniumStoreCatalogEntry({required this.productId, this.basePlanId});
+class PremiumStoreCatalogEntry {
+  const PremiumStoreCatalogEntry({required this.productId, this.basePlanId});
 
   final String productId;
   final String? basePlanId;
 }
 
-class PlutoniumStoreCatalog {
-  const PlutoniumStoreCatalog({
+class PremiumStoreCatalog {
+  const PremiumStoreCatalog({
     required this.appAccountToken,
     this.monthly,
     this.yearly,
   });
 
   final String appAccountToken;
-  final PlutoniumStoreCatalogEntry? monthly;
-  final PlutoniumStoreCatalogEntry? yearly;
+  final PremiumStoreCatalogEntry? monthly;
+  final PremiumStoreCatalogEntry? yearly;
 
   bool get hasSubscriptionProducts => monthly != null || yearly != null;
 
@@ -31,14 +31,14 @@ class PlutoniumStoreCatalog {
   };
 }
 
-PlutoniumStoreCatalog? plutoniumStoreCatalog({
+PremiumStoreCatalog? premiumStoreCatalog({
   required StoreBillingContextResponse context,
-  required PlutoniumBillingStore? store,
+  required PremiumBillingStore? store,
 }) {
   return switch (store) {
-    PlutoniumBillingStore.appStore =>
+    PremiumBillingStore.appStore =>
       context.appStore.enabled
-          ? PlutoniumStoreCatalog(
+          ? PremiumStoreCatalog(
               appAccountToken: context.appAccountToken,
               monthly: _appStoreEntry(
                 context.appStore.products,
@@ -50,9 +50,9 @@ PlutoniumStoreCatalog? plutoniumStoreCatalog({
               ),
             )
           : null,
-    PlutoniumBillingStore.googlePlay =>
+    PremiumBillingStore.googlePlay =>
       context.googlePlay.enabled
-          ? PlutoniumStoreCatalog(
+          ? PremiumStoreCatalog(
               appAccountToken: context.appAccountToken,
               monthly: _playEntry(
                 context.googlePlay.products,
@@ -65,7 +65,7 @@ PlutoniumStoreCatalog? plutoniumStoreCatalog({
   };
 }
 
-PlutoniumStoreCatalogEntry? _appStoreEntry(
+PremiumStoreCatalogEntry? _appStoreEntry(
   List<StoreBillingAppStoreProductResponse> products,
   StoreSlot slot,
 ) {
@@ -73,12 +73,12 @@ PlutoniumStoreCatalogEntry? _appStoreEntry(
     if (product.slot != slot || product.productId.isEmpty) {
       continue;
     }
-    return PlutoniumStoreCatalogEntry(productId: product.productId);
+    return PremiumStoreCatalogEntry(productId: product.productId);
   }
   return null;
 }
 
-PlutoniumStoreCatalogEntry? _playEntry(
+PremiumStoreCatalogEntry? _playEntry(
   List<StoreBillingGooglePlayProductResponse> products,
   StoreSlot slot,
 ) {
@@ -90,7 +90,7 @@ PlutoniumStoreCatalogEntry? _playEntry(
         basePlanId.isEmpty) {
       continue;
     }
-    return PlutoniumStoreCatalogEntry(
+    return PremiumStoreCatalogEntry(
       productId: product.productId,
       basePlanId: basePlanId,
     );

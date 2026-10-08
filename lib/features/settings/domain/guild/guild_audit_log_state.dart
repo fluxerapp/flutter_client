@@ -1,3 +1,4 @@
+import 'package:fluxer_app/features/channels/domain/channel.dart' show Channel;
 import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_audit_log_entry.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
@@ -10,6 +11,7 @@ class GuildAuditLogState {
     required this.userDisplays,
     required this.filterMembers,
     required this.hasMore,
+    this.threads = const <String, Channel>{},
     this.isLoadingMore = false,
     this.selectedUserId,
     this.selectedActionType,
@@ -22,6 +24,7 @@ class GuildAuditLogState {
   final Map<String, GuildUserDisplay> userDisplays;
   final List<Member> filterMembers;
   final bool hasMore;
+  final Map<String, Channel> threads;
   final bool isLoadingMore;
   final String? selectedUserId;
   final AuditLogActionType? selectedActionType;
@@ -101,6 +104,7 @@ class GuildAuditLogState {
     Map<String, GuildUserDisplay>? userDisplays,
     List<Member>? filterMembers,
     bool? hasMore,
+    Map<String, Channel>? threads,
     bool? isLoadingMore,
     String? selectedUserId,
     AuditLogActionType? selectedActionType,
@@ -115,6 +119,7 @@ class GuildAuditLogState {
       userDisplays: userDisplays ?? this.userDisplays,
       filterMembers: filterMembers ?? this.filterMembers,
       hasMore: hasMore ?? this.hasMore,
+      threads: threads ?? this.threads,
       isLoadingMore: isLoadingMore ?? this.isLoadingMore,
       selectedUserId: clearSelectedUserId
           ? null

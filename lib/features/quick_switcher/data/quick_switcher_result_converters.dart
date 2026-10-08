@@ -73,6 +73,7 @@ QuickSwitcherResult candidateToQuickSwitcherResult(
       :final guildId,
       :final guildName,
       :final guildIcon,
+      :final channelType,
       isVoice: false,
     ) =>
       QuickSwitcherTextChannelResult(
@@ -83,6 +84,7 @@ QuickSwitcherResult candidateToQuickSwitcherResult(
         guildId: guildId,
         guildName: guildName,
         guildIcon: guildIcon,
+        channelType: channelType,
       ),
     QuickSwitcherGuildCandidate(
       :final id,
@@ -141,6 +143,7 @@ String quickSwitcherHeaderTitle(
   QuickSwitcherResultType.user => l10n.quickSwitcherSectionPeople,
   QuickSwitcherResultType.groupDm => l10n.quickSwitcherSectionGroupMessages,
   QuickSwitcherResultType.textChannel => l10n.quickSwitcherSectionTextChannels,
+  QuickSwitcherResultType.thread => l10n.quickSwitcherSectionThreads,
   QuickSwitcherResultType.voiceChannel =>
     l10n.quickSwitcherSectionVoiceChannels,
   QuickSwitcherResultType.guild ||

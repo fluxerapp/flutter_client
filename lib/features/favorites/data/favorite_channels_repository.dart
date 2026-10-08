@@ -1,6 +1,8 @@
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
+import 'package:fluxer_app/features/channels/domain/channel.dart'
+    show isThreadFeatureChannelType;
 
 class FavoriteChannelsRepository {
   FavoriteChannelsRepository(this._database, this._store);
@@ -29,6 +31,12 @@ class FavoriteChannelsRepository {
     String? parentId,
     String? nickname,
   }) async {
+    final db.Channel? channel = await _database.channelDao.getChannelById(
+      channelId,
+    );
+    if (channel != null && isThreadFeatureChannelType(channel.type)) {
+      return false;
+    }
     final added = await _database.favoriteChannelsDao.addChannel(
       channelId: channelId,
       guildId: guildId,

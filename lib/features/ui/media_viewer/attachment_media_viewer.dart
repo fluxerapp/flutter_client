@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math' as math;
 import 'dart:ui';
 
-import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -10,10 +9,13 @@ import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_con
 import 'package:fluxer_app/features/chat/domain/media_options_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/mobile_media_options_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_network_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_load_error_placeholder.dart';
 import 'package:fluxer_app/features/chat/utils/media/favorite_media_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media/gif_preview_media_policy.dart';
 import 'package:fluxer_app/features/chat/utils/media/hdr_aware_image_url.dart';
 import 'package:fluxer_app/features/chat/utils/media/save_message_media_favorite.dart';
+import 'package:fluxer_app/features/forum/providers/media_download_policy_provider.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -36,6 +38,7 @@ class AttachmentMediaViewerItem {
     this.isMatureMedia = false,
     this.attachmentId,
     this.embedIndex,
+    this.linkUrl,
     this.proxyUrl,
     this.contentType,
     this.isExpired = false,
@@ -66,11 +69,27 @@ class AttachmentMediaViewerItem {
   final bool isMatureMedia;
   final String? attachmentId;
   final int? embedIndex;
+  final String? linkUrl;
   final String? proxyUrl;
+
+  String get shareableUrl {
+    final String resolved = linkUrl?.trim() ?? '';
+    return resolved.isNotEmpty ? resolved : url;
+  }
+
   final String? contentType;
   final bool isExpired;
   final String? contentHash;
   final String? description;
+}
+
+bool _mayBeAnimated(AttachmentMediaViewerItem item) {
+  final String? contentType = item.contentType?.toLowerCase();
+  return mediaProxyUrlIsAnimated(item.url) ||
+      isAnimatedImagePreviewUrl(item.filename) ||
+      contentType == 'image/gif' ||
+      contentType == 'image/webp' ||
+      contentType == 'image/avif';
 }
 
 Future<void> showAttachmentMediaViewer(
@@ -134,6 +153,7 @@ class AttachmentMediaViewerShell extends ConsumerStatefulWidget {
 class _AttachmentMediaViewerShellState
     extends ConsumerState<AttachmentMediaViewerShell> {
   static const double _desktopZoomScale = 2.5;
+  static const double _pageDecodeScreenFactor = 2;
   late final PageController _pageController;
   late final List<TransformationController> _touchControllers;
   late int _currentIndex;
@@ -145,6 +165,8 @@ class _AttachmentMediaViewerShellState
   bool _isDesktopDragging = false;
   double _touchDismissProgress = 0;
   bool _isTouchZoomed = false;
+
+  int? _pageDecodeCap;
 
   @override
   void initState() {
@@ -339,6 +361,10 @@ class _AttachmentMediaViewerShellState
     required bool showOptionsButton,
     MessageMediaFavoriteTarget? favoriteTarget,
   }) {
+    final MessageMediaActionScope? actionScope = widget.actionScope;
+    final bool downloadsHidden =
+        actionScope != null &&
+        ref.watch(mediaDownloadHiddenProvider(actionScope.message.channelId));
     return Opacity(
       opacity: useTouchGestures ? dismissChromeOpacity : 1,
       child: Padding(
@@ -378,15 +404,17 @@ class _AttachmentMediaViewerShellState
               const SizedBox(width: 8),
             ],
             if (!isMobile) ...[
-              Tooltip(
-                message: l10n.mediaViewerOpenInBrowser,
-                child: FluxerButton.mediaOverlay(
-                  onPressed: _executeOpenInBrowser,
-                  icon: PhosphorIconsBold.arrowSquareOut,
-                  isSquare: true,
+              if (!downloadsHidden) ...[
+                Tooltip(
+                  message: l10n.mediaViewerOpenInBrowser,
+                  child: FluxerButton.mediaOverlay(
+                    onPressed: _executeOpenInBrowser,
+                    icon: PhosphorIconsBold.arrowSquareOut,
+                    isSquare: true,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 8),
+                const SizedBox(width: 8),
+              ],
               if (!useTouchGestures) ...[
                 Tooltip(
                   message: _isDesktopZoomed
@@ -718,12 +746,23 @@ class _AttachmentMediaViewerShellState
       contentType: item.contentType,
     );
     const Widget errorPlaceholder = MediaLoadErrorPlaceholder();
+    final int? decodeCap = _mayBeAnimated(item)
+        ? null
+        : _pageDecodeCap ??=
+              (MediaQuery.sizeOf(context).longestSide *
+                      MediaQuery.devicePixelRatioOf(context) *
+                      _pageDecodeScreenFactor)
+                  .ceil();
+    final bool isPortrait = (item.height ?? 0) > (item.width ?? 0);
     final Widget image = imageUrl.isEmpty
         ? errorPlaceholder
-        : CachedNetworkImage(
+        : ChatNetworkImage(
             imageUrl: imageUrl,
-            fit: BoxFit.contain,
-            errorBuilder: (_, _, _) => errorPlaceholder,
+            filename: item.filename,
+            contentType: item.contentType,
+            memCacheWidth: isPortrait ? null : decodeCap,
+            memCacheHeight: isPortrait ? decodeCap : null,
+            errorPlaceholder: errorPlaceholder,
           );
     final Widget media = MatureMediaOverlay(
       channelId: widget.channelId,
@@ -917,6 +956,8 @@ class _MediaViewerThumbnailStrip extends ConsumerWidget {
         (AppearancePreferencesState state) => state.hdrDisplayMode,
       ),
     );
+    final int thumbnailDecodeSide =
+        (56 * MediaQuery.devicePixelRatioOf(context)).ceil();
     return SizedBox(
       height: 70,
       child: ListView.separated(
@@ -954,7 +995,11 @@ class _MediaViewerThumbnailStrip extends ConsumerWidget {
                             color: context.colors.spoilerBackground,
                             child: const SizedBox.expand(),
                           )
-                        : _thumbnailImage(item, hdrDisplayMode),
+                        : _thumbnailImage(
+                            item,
+                            hdrDisplayMode,
+                            thumbnailDecodeSide,
+                          ),
                   ),
                 ),
               ),
@@ -970,6 +1015,7 @@ class _MediaViewerThumbnailStrip extends ConsumerWidget {
   Widget _thumbnailImage(
     AttachmentMediaViewerItem item,
     HdrDisplayMode hdrDisplayMode,
+    int decodeSide,
   ) {
     final String imageUrl = buildHdrAwareDisplayImageUrl(
       url: item.url,
@@ -981,12 +1027,18 @@ class _MediaViewerThumbnailStrip extends ConsumerWidget {
       return const MediaLoadErrorPlaceholder(showLabel: false);
     }
     const Widget errorPlaceholder = MediaLoadErrorPlaceholder(showLabel: false);
-    return CachedNetworkImage(
+    final int? decodeCap = _mayBeAnimated(item) ? null : decodeSide;
+    final bool isLandscape = (item.width ?? 0) > (item.height ?? 0);
+    return ChatNetworkImage(
       imageUrl: imageUrl,
+      filename: item.filename,
+      contentType: item.contentType,
       fit: BoxFit.cover,
       width: double.infinity,
       height: double.infinity,
-      errorBuilder: (_, _, _) => errorPlaceholder,
+      memCacheWidth: isLandscape ? null : decodeCap,
+      memCacheHeight: isLandscape ? decodeCap : null,
+      errorPlaceholder: errorPlaceholder,
     );
   }
 }

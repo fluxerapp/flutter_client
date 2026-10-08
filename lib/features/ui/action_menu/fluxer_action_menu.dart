@@ -12,9 +12,9 @@ import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart'
         FluxerBottomSheetMenuItem,
         FluxerBottomSheetSection,
         FluxerBottomSheetVariant,
-        FluxerMenuGroup,
-        FluxerMenuRadioIndicator;
+        FluxerMenuGroup;
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
+import 'package:fluxer_app/features/ui/radio_group/fluxer_radio_group.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -495,7 +495,7 @@ class FluxerMenuRadioItem extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: layout.s3),
-                FluxerMenuRadioIndicator(selected: isSelected),
+                FluxerRadioIndicator(selected: isSelected),
               ],
             ),
           );

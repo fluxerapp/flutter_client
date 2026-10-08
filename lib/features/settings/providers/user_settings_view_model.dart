@@ -10,6 +10,7 @@ import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
 import 'package:fluxer_app/core/premium/user_entitlements.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
@@ -75,9 +76,9 @@ class UserSettingsViewState {
   final String? email;
   final bool verified;
   final bool isProfileLoaded;
+  final bool usernameSignIn;
   final String? passwordLastChangedAt;
   final bool mfaEnabled;
-  final String? phone;
   final bool hasVerifiedPhone;
   final List<String> requiredActions;
   final List<int> authenticatorTypes;
@@ -171,9 +172,9 @@ class UserSettingsViewState {
     this.email,
     this.verified = false,
     this.isProfileLoaded = false,
+    this.usernameSignIn = false,
     this.passwordLastChangedAt,
     this.mfaEnabled = false,
-    this.phone,
     this.hasVerifiedPhone = false,
     this.requiredActions = const <String>[],
     this.authenticatorTypes = const [],
@@ -310,10 +311,16 @@ class UserSettingsViewState {
 
   bool get hasVerifiedEmail => email != null;
 
-  bool get isKnownUnclaimed => isProfileLoaded && !hasVerifiedEmail;
+  bool get isClaimed => usernameSignIn
+      ? passwordLastChangedAt != null || traits.contains('sso')
+      : hasVerifiedEmail;
+
+  bool get isKnownUnclaimed => isProfileLoaded && !isClaimed;
+
+  bool get isVerified => usernameSignIn || verified;
 
   bool get needsKnownEmailVerification =>
-      isProfileLoaded && hasVerifiedEmail && !verified;
+      !usernameSignIn && isProfileLoaded && hasVerifiedEmail && !verified;
 
   bool get hasTotpMfa => authenticatorTypes.contains(0);
   bool get hasWebauthnMfa => authenticatorTypes.contains(2);
@@ -610,9 +617,9 @@ class UserSettingsViewState {
     Object? email = _unset,
     bool? verified,
     bool? isProfileLoaded,
+    bool? usernameSignIn,
     Object? passwordLastChangedAt = _unset,
     bool? mfaEnabled,
-    Object? phone = _unset,
     bool? hasVerifiedPhone,
     List<String>? requiredActions,
     List<int>? authenticatorTypes,
@@ -710,11 +717,11 @@ class UserSettingsViewState {
       email: email == _unset ? this.email : email as String?,
       verified: verified ?? this.verified,
       isProfileLoaded: isProfileLoaded ?? this.isProfileLoaded,
+      usernameSignIn: usernameSignIn ?? this.usernameSignIn,
       passwordLastChangedAt: passwordLastChangedAt == _unset
           ? this.passwordLastChangedAt
           : passwordLastChangedAt as String?,
       mfaEnabled: mfaEnabled ?? this.mfaEnabled,
-      phone: phone == _unset ? this.phone : phone as String?,
       hasVerifiedPhone: hasVerifiedPhone ?? this.hasVerifiedPhone,
       requiredActions: requiredActions ?? this.requiredActions,
       authenticatorTypes: authenticatorTypes ?? this.authenticatorTypes,
@@ -878,6 +885,14 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
       }
       applyPrivateProfile(next);
     });
+    ref.listen<AccountIdentityFlags>(accountIdentityProvider, (
+      AccountIdentityFlags? previous,
+      AccountIdentityFlags next,
+    ) {
+      if (previous?.usernameSignIn != next.usernameSignIn) {
+        state = state.copyWith(usernameSignIn: next.usernameSignIn);
+      }
+    });
     if (userId != null) {
       _watchUser(userId);
       _watchSettings(userId);
@@ -895,6 +910,7 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
       messageDisplayCompact: false,
       developerMode: false,
       trustedDomains: const [],
+      usernameSignIn: ref.read(accountIdentityProvider).usernameSignIn,
     );
   }
 
@@ -1052,7 +1068,6 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
       verified: profile.verified,
       passwordLastChangedAt: profile.passwordLastChangedAt,
       mfaEnabled: profile.mfaEnabled,
-      phone: profile.phone,
       hasVerifiedPhone: profile.hasVerifiedPhone,
       requiredActions: List<String>.from(profile.requiredActions),
       authenticatorTypes:

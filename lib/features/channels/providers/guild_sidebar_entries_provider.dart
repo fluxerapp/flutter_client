@@ -14,13 +14,19 @@ import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_mute_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'guild_sidebar_entries_provider.g.dart';
 
-enum GuildSidebarEntryKind { categoryHeader, channel, voiceParticipants }
+enum GuildSidebarEntryKind {
+  categoryHeader,
+  channel,
+  voiceParticipants,
+  thread,
+}
 
 @immutable
 class GuildSidebarEntry {
@@ -30,6 +36,7 @@ class GuildSidebarEntry {
     this.isCategoryCollapsed = false,
     this.channel,
     this.guildId,
+    this.isLastThread = false,
   });
 
   final GuildSidebarEntryKind kind;
@@ -37,6 +44,7 @@ class GuildSidebarEntry {
   final bool isCategoryCollapsed;
   final Channel? channel;
   final String? guildId;
+  final bool isLastThread;
 
   @override
   bool operator ==(Object other) {
@@ -45,12 +53,19 @@ class GuildSidebarEntry {
         isCategoryCollapsed == other.isCategoryCollapsed &&
         category == other.category &&
         channel == other.channel &&
-        guildId == other.guildId;
+        guildId == other.guildId &&
+        isLastThread == other.isLastThread;
   }
 
   @override
-  int get hashCode =>
-      Object.hash(kind, isCategoryCollapsed, category, channel, guildId);
+  int get hashCode => Object.hash(
+    kind,
+    isCategoryCollapsed,
+    category,
+    channel,
+    guildId,
+    isLastThread,
+  );
 }
 
 @immutable
@@ -112,8 +127,32 @@ List<GuildSidebarEntry> flattenGuildSidebarEntries({
   required bool showFadedUnread,
   required String guildId,
   required UnreadState? Function(String channelId) unreadForChannel,
+  Map<String, List<Channel>> threadsByParent = const <String, List<Channel>>{},
 }) {
   final List<GuildSidebarEntry> entries = <GuildSidebarEntry>[];
+  void addThreads(Channel parent, {required bool onlySelected}) {
+    final List<Channel>? threads = threadsByParent[parent.id];
+    if (threads == null) {
+      return;
+    }
+    final List<Channel> shown = onlySelected
+        ? <Channel>[
+            for (final Channel thread in threads)
+              if (thread.id == selectedId) thread,
+          ]
+        : threads;
+    for (int i = 0; i < shown.length; i++) {
+      entries.add(
+        GuildSidebarEntry(
+          kind: GuildSidebarEntryKind.thread,
+          channel: shown[i],
+          guildId: guildId,
+          isLastThread: i == shown.length - 1,
+        ),
+      );
+    }
+  }
+
   for (final ChannelCategory category in categories) {
     final bool isCollapsed = collapsed.contains(category.id);
     final bool isCategoryMuted = mutedSet.contains(category.id);
@@ -157,9 +196,14 @@ List<GuildSidebarEntry> flattenGuildSidebarEntries({
 
     if (!category.isUncategorized && isCollapsed) {
       for (final Channel channel in base) {
+        final bool hasSelectedThread =
+            threadsByParent[channel.id]?.any(
+              (Channel thread) => thread.id == selectedId,
+            ) ??
+            false;
         if (shouldShowChannelInCollapsedCategory(
           isCategoryMuted: isCategoryMuted,
-          isSelected: channel.id == selectedId,
+          isSelected: channel.id == selectedId || hasSelectedThread,
           isConnected: channel.id == connectedChannelId,
           hasVisibleUnread: _hasVisibleUnreadForChannel(
             unread: unreadForChannel(channel.id),
@@ -175,6 +219,7 @@ List<GuildSidebarEntry> flattenGuildSidebarEntries({
             ),
           );
         }
+        addThreads(channel, onlySelected: true);
       }
       continue;
     }
@@ -186,6 +231,7 @@ List<GuildSidebarEntry> flattenGuildSidebarEntries({
           channel: channel,
         ),
       );
+      addThreads(channel, onlySelected: false);
       if (channel.type == ChannelType.guildVoice) {
         entries.add(
           GuildSidebarEntry(
@@ -219,6 +265,9 @@ List<GuildSidebarEntry> guildSidebarEntries(Ref ref) {
   final Set<String> collapsed =
       ref.watch(guildCollapsedCategoriesProvider(guild.id)).value ??
       const <String>{};
+  final Map<String, List<Channel>> threadsByParent = ref.watch(
+    sidebarThreadsByParentProvider(guildId),
+  );
   final bool selectionChangesMembership =
       hideMutedChannels || collapsed.isNotEmpty;
   final Map<String, UnreadState> unreadSnapshot = selectionChangesMembership
@@ -246,6 +295,7 @@ List<GuildSidebarEntry> guildSidebarEntries(Ref ref) {
       showFadedUnread: showFadedUnread,
       guildId: guildId,
       unreadForChannel: (String channelId) => unreadSnapshot[channelId],
+      threadsByParent: threadsByParent,
     ),
   );
 }

@@ -185,6 +185,9 @@ class _LoginFormState extends ConsumerState<LoginForm>
     final bool emailsEnabled = ref.watch(
       instanceRuntimeConfigProvider.select((config) => config.emailsEnabled),
     );
+    final bool usernameSignIn = ref.watch(
+      instanceRuntimeConfigProvider.select((config) => config.usernameSignIn),
+    );
     final String ssoProviderName = ssoConfig?.displayName ?? 'Single Sign-On';
 
     ref
@@ -218,14 +221,18 @@ class _LoginFormState extends ConsumerState<LoginForm>
             SizedBox(height: layout.s8),
             FluxerInput(
               controller: _emailController,
-              label: strings.email,
+              label: usernameSignIn ? strings.usernameLabel : strings.email,
               focusNode: _emailFocusNode,
               autofocus: true,
-              autofillHints: const [AutofillHints.email],
-              keyboardType: TextInputType.emailAddress,
+              autofillHints: usernameSignIn
+                  ? const [AutofillHints.username]
+                  : const [AutofillHints.email],
+              keyboardType: usernameSignIn
+                  ? TextInputType.text
+                  : TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
               onSubmitted: (_) => _passwordFocusNode.requestFocus(),
-              errorText: vm.fieldErrors['email'],
+              errorText: vm.fieldErrors['email'] ?? vm.fieldErrors['login'],
             ),
             SizedBox(height: layout.s6),
             FluxerInput(
@@ -251,7 +258,7 @@ class _LoginFormState extends ConsumerState<LoginForm>
               onSuffixTap: notifier.togglePassword,
             ),
             SizedBox(height: layout.s1),
-            if (emailsEnabled)
+            if (emailsEnabled || usernameSignIn)
               FluxerTextLink(
                 text: strings.forgotPassword,
                 onTap: notifier.showForgotPasswordScreen,

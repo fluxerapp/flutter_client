@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -127,10 +129,17 @@ class _FluxerTagChangeContentState
     return value >= 1 && value <= 9999;
   }
 
+  bool get _uniqueUsernames => ref.read(uniqueUsernamesProvider);
+
   bool get _isFormValid =>
-      _isValidLength && _isValidChars && _isValidDiscriminator;
+      _isValidLength &&
+      _isValidChars &&
+      (_uniqueUsernames || _isValidDiscriminator);
 
   bool get _isDirty {
+    if (_uniqueUsernames) {
+      return _usernameController.text.trim() != _originalUsername;
+    }
     return _usernameController.text != _originalUsername ||
         _discriminatorController.text != _originalDiscriminator;
   }
@@ -144,6 +153,10 @@ class _FluxerTagChangeContentState
     }
 
     final username = _usernameController.text.trim();
+    if (_uniqueUsernames) {
+      await _submitUsernameOnly(username);
+      return;
+    }
     final discriminator = _discriminatorController.text.trim().padLeft(4, '0');
     final state = ref.read(userSettingsViewModelProvider);
     final bool hasCustomDiscriminator = ref.read(
@@ -240,6 +253,43 @@ class _FluxerTagChangeContentState
       setState(() {
         _isSubmitting = false;
         _error = FluxerLocalizations.of(context).fluxerTagUpdateFailed;
+      });
+    }
+  }
+
+  Future<void> _submitUsernameOnly(String username) async {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    setState(() {
+      _isSubmitting = true;
+      _error = null;
+    });
+    try {
+      await ref
+          .read(fluxerClientProvider)
+          .users
+          .updateCurrentUser(
+            body: UserUpdateWithVerificationRequest(username: username),
+          );
+      if (!mounted) {
+        return;
+      }
+      ref
+          .read(toastProvider.notifier)
+          .show(
+            FluxerToast(
+              message: l10n.fluxerTagUpdated,
+              variant: FluxerToastVariant.success,
+            ),
+          );
+      widget.onDone();
+    } on Exception catch (e) {
+      talker.error('Failed to update username', e);
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _isSubmitting = false;
+        _error = userFacingErrorMessage(e, l10n.fluxerTagUpdateFailed);
       });
     }
   }
@@ -396,9 +446,9 @@ class _FluxerTagChangeContentState
     final bool hasCustomDiscriminator = ref.watch(
       instanceFeatureEnabledProvider(LimitKeys.featureCustomDiscriminator),
     );
-    final bool shouldShowPremiumCommerce = ref.watch(
-      shouldShowPremiumCommerceProvider,
-    );
+    final bool uniqueUsernames = ref.watch(uniqueUsernamesProvider);
+    final bool shouldShowPremiumCommerce =
+        !uniqueUsernames && ref.watch(shouldShowPremiumCommerceProvider);
     final colors = context.colors;
     final layout = context.layout;
     final textStyles = context.textStyles;
@@ -418,7 +468,9 @@ class _FluxerTagChangeContentState
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              _buildDescriptionText(state, l10n),
+              uniqueUsernames
+                  ? l10n.fluxerTagDescriptionBase
+                  : _buildDescriptionText(state, l10n),
               style: textStyles.bodySmall.copyWith(color: colors.textSecondary),
             ),
             SizedBox(height: layout.s4),
@@ -444,29 +496,31 @@ class _FluxerTagChangeContentState
                     autofocus: true,
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: layout.s2,
-                    right: layout.s2,
-                    top: layout.s3,
-                  ),
-                  child: Text(
-                    '#',
-                    style: textStyles.bodyMedium.copyWith(
-                      color: colors.textSecondary,
+                if (!uniqueUsernames) ...[
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: layout.s2,
+                      right: layout.s2,
+                      top: layout.s3,
+                    ),
+                    child: Text(
+                      '#',
+                      style: textStyles.bodyMedium.copyWith(
+                        color: colors.textSecondary,
+                      ),
                     ),
                   ),
-                ),
-                Expanded(
-                  child: FluxerInput(
-                    controller: _discriminatorController,
-                    hint: '0000',
-                    maxLength: 4,
-                    enabled: hasCustomDiscriminator,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  Expanded(
+                    child: FluxerInput(
+                      controller: _discriminatorController,
+                      hint: '0000',
+                      maxLength: 4,
+                      enabled: hasCustomDiscriminator,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    ),
                   ),
-                ),
+                ],
               ],
             ),
             SizedBox(height: layout.s3),

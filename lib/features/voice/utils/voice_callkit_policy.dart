@@ -8,6 +8,7 @@ const String kVoiceCallKitExtraConnectionId = 'connectionId';
 const String kVoiceCallKitExtraIsDm = 'isDm';
 const String kVoiceCallKitExtraTargetUserId = 'targetUserId';
 const String kVoiceCallKitExtraGuildId = 'guildId';
+const Duration kVoiceCallKitGatewayRingSyncDelay = Duration(seconds: 10);
 
 enum VoiceCallKitSessionKind { incomingRing, outgoingRing, activeVoice }
 

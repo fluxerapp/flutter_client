@@ -37,7 +37,7 @@ final class CallRingPayloadTests: XCTestCase {
     let outcome = CallRingResolver.resolve(
       plaintext: #"{"data":{"type":"call_ring","channel_id":"c","message_id":"m","expires_at_ms":500}}"#,
       accountUserId: "u",
-      nowMs: 1000
+      nowMs: 20_000
     )
     XCTAssertEqual(outcome, .reject(messageId: "m"))
   }
@@ -65,6 +65,18 @@ final class CallRingPayloadTests: XCTestCase {
       nowMs: 1000
     )
     XCTAssertEqual(missingMessage, .reject(messageId: nil))
+  }
+
+  func testUsesDefaultDurationWhenExpiryIsMissing() {
+    let outcome = CallRingResolver.resolve(
+      plaintext: #"{"type":"call_ring","channel_id":"c","message_id":"m"}"#,
+      accountUserId: "u",
+      nowMs: 1000
+    )
+    guard case .ring(let fields) = outcome else {
+      return XCTFail("expected a ring")
+    }
+    XCTAssertEqual(fields.durationMs, CallRingResolver.defaultDurationMs)
   }
 
   func testUsesFallbackNameAndFloorsAShortRemainingWindow() {

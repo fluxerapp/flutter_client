@@ -207,6 +207,38 @@ void main() {
       );
     });
 
+    test('@everyone in a thread mentions thread members only', () async {
+      final db = await seededGuildDb();
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'thread-1',
+          guildId: 'guild-1',
+          name: 'thread',
+          type: const Value(11),
+        ),
+      );
+      expect(
+        await resolve(db, channelId: 'thread-1', mentionEveryone: true),
+        isFalse,
+      );
+      expect(
+        await resolve(
+          db,
+          channelId: 'thread-1',
+          mentionEveryone: true,
+          mentionRoleIds: const ['role-1'],
+        ),
+        isTrue,
+      );
+      await db.threadDao.upsertMember(
+        ThreadMembersCompanion.insert(threadId: 'thread-1', guildId: 'guild-1'),
+      );
+      expect(
+        await resolve(db, channelId: 'thread-1', mentionEveryone: true),
+        isTrue,
+      );
+    });
+
     test('missing channel (DM) falls back to @everyone passthrough', () async {
       final db = openTestDatabase();
       expect(

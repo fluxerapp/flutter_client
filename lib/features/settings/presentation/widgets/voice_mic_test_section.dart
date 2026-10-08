@@ -246,12 +246,10 @@ class _VoiceMicTestSectionState extends ConsumerState<VoiceMicTestSection> {
     final l10n = FluxerLocalizations.of(context);
     final layout = context.layout;
     final colors = context.colors;
-    final bool voiceCallActive = ref.watch(
-      voiceSessionProvider.select(
-        (VoiceSessionState state) => state.isConnected,
-      ),
+    final bool voiceSessionActive = ref.watch(
+      voiceSessionProvider.select((VoiceSessionState state) => state.isInVoice),
     );
-    final bool canInteract = !voiceCallActive;
+    final bool canInteract = !voiceSessionActive;
     final String actionLabel = _isRunning
         ? l10n.audioAndVideoMicTestStopLabel
         : l10n.audioAndVideoMicTestStartLabel;

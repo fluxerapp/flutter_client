@@ -544,6 +544,205 @@
     "@resetPasswordMismatch": {
         "description": "Error when password and confirmation don't match."
     },
+    "recoverAccountTitle": "Hesabını kurtar",
+    "@recoverAccountTitle": {
+        "description": "Title of the screen where someone resets their password with a recovery kit."
+    },
+    "recoverAccountDescription": "Kurtarma anahtarınızı ve kurtarma kitinizdeki kurtarma anahtarını girin, ardından yeni bir şifre seçin.",
+    "@recoverAccountDescription": {
+        "description": "Description on the account recovery screen."
+    },
+    "recoverAccountNoKit": "Kurtarma kiti yok mu? Parola sıfırlama bağlantısı için bu örneğin yöneticisinden yardım isteyin.",
+    "@recoverAccountNoKit": {
+        "description": "Hint under the account recovery form for people without a recovery kit."
+    },
+    "recoveryKitTitle": "Kurtarma kitiniz",
+    "@recoveryKitTitle": {
+        "description": "Title of the sheet that shows a newly created account recovery kit."
+    },
+    "recoveryKitCreatedDescription": "Parolanızı unutursanız, bu kit hesabınıza geri dönmenin tek yoludur. Güvenli bir yerde, örneğin bir parola yöneticisinde veya basılı bir kopya olarak saklayın.",
+    "@recoveryKitCreatedDescription": {
+        "description": "Recovery kit sheet description for a newly created kit."
+    },
+    "recoveryKitReplacedDescription": "Eski kurtarma kitiniz artık çalışmıyor. Bu yeni kiti güvenli bir yere saklayın.",
+    "@recoveryKitReplacedDescription": {
+        "description": "Recovery kit sheet description shown after a kit replaces an older one."
+    },
+    "recoveryKitRecoveredDescription": "Şifreniz sıfırlandı. Eski kurtarma kitiniz artık çalışmıyor. Bu yeni kurtarma kitini güvenli bir yere saklayın.",
+    "@recoveryKitRecoveredDescription": {
+        "description": "Recovery kit sheet description shown after someone recovers their account with a recovery key."
+    },
+    "recoveryKitWarning": "Bu anahtara sahip herkes parolanızı sıfırlayabilir. Asla paylaşmayın.",
+    "@recoveryKitWarning": {
+        "description": "Warning under the recovery key in the recovery kit sheet."
+    },
+    "recoveryKitKeyLabel": "Kurtarma anahtarı",
+    "@recoveryKitKeyLabel": {
+        "description": "Label for the account recovery key."
+    },
+    "recoveryKitDocumentTitle": "{productName} kurtarma kiti",
+    "@recoveryKitDocumentTitle": {
+        "description": "Title of the saved recovery kit image. productName is the app name.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitDocumentIntro": "Bu sayfayı güvenli bir yerde saklayın. Parolanızı unutursanız, hesabınıza geri dönmek için kullanabilirsiniz. Bu kurtarma anahtarına sahip herkes parolanızı sıfırlayabilir, bu yüzden asla paylaşmayın.",
+    "@recoveryKitDocumentIntro": {
+        "description": "Introduction on the saved recovery kit image."
+    },
+    "recoveryKitInstanceLabel": "Sunucu Adresi",
+    "@recoveryKitInstanceLabel": {
+        "description": "Label for the server address on the saved recovery kit."
+    },
+    "recoveryKitCreatedAtLabel": "Oluşturuldu",
+    "@recoveryKitCreatedAtLabel": {
+        "description": "Label for the creation date on the saved recovery kit."
+    },
+    "recoveryKitQrCaption": "Ayrıntılarınızın doldurulduğu kurtarma sayfasını açmak için tara.",
+    "@recoveryKitQrCaption": {
+        "description": "Caption under the QR code on the saved recovery kit."
+    },
+    "recoveryKitStepsTitle": "Hesabınızı nasıl kurtarabilirsiniz",
+    "@recoveryKitStepsTitle": {
+        "description": "Heading above the recovery steps on the saved recovery kit."
+    },
+    "recoveryKitStepOpen": "{recoverUrl} adresine gidin veya QR kodu tarayın.",
+    "@recoveryKitStepOpen": {
+        "description": "First recovery step on the saved recovery kit. recoverUrl is the address of the recovery page.",
+        "placeholders": {
+            "recoverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitStepEnter": "Kullanıcı adınızı ve bu kurtarma anahtarını girin.",
+    "@recoveryKitStepEnter": {
+        "description": "Second recovery step on the saved recovery kit."
+    },
+    "recoveryKitStepPassword": "Yeni bir şifre seçin. Yeni bir kurtarma kiti alacaksınız ve bu mevcut kitiniz çalışmayı durduracak.",
+    "@recoveryKitStepPassword": {
+        "description": "Third recovery step on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesTitle": "İki faktörlü yedek kodları",
+    "@recoveryKitBackupCodesTitle": {
+        "description": "Heading above the two-factor backup codes on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesNote": "Her kod, kimlik doğrulama uygulamanızın yerine tek seferlik kullanılabilir.",
+    "@recoveryKitBackupCodesNote": {
+        "description": "Note under the two-factor backup codes heading on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesFailed": "Yedek kodlarınız yüklenemedi.",
+    "@recoveryKitBackupCodesFailed": {
+        "description": "Toast shown when the two-factor backup codes for the recovery kit cannot be loaded."
+    },
+    "recoveryKitIncludeBackupCodes": "İki faktörlü kimlik doğrulama yedek kodlarımı kaydedilen görsele ekle",
+    "@recoveryKitIncludeBackupCodes": {
+        "description": "Checkbox in the recovery kit sheet that adds the two-factor backup codes to the saved image."
+    },
+    "recoveryKitCopy": "Kopyala",
+    "@recoveryKitCopy": {
+        "description": "Button that copies the account recovery key."
+    },
+    "recoveryKitCopied": "Kurtarma anahtarı kopyalandı",
+    "@recoveryKitCopied": {
+        "description": "Toast shown after the recovery key is copied."
+    },
+    "recoveryKitSaveImage": "Görseli kaydet",
+    "@recoveryKitSaveImage": {
+        "description": "Button that saves the recovery kit as an image."
+    },
+    "recoveryKitSaved": "Kurtarma kiti kaydedildi",
+    "@recoveryKitSaved": {
+        "description": "Toast shown after the recovery kit image is saved to a file."
+    },
+    "recoveryKitSavedToPhotos": "Kurtarma kiti Fotoğraflar'a kaydedildi",
+    "@recoveryKitSavedToPhotos": {
+        "description": "Toast shown after the recovery kit image is saved to the photo library."
+    },
+    "recoveryKitSaveFailed": "Kurtarma kiti kaydedilemedi. Tekrar dene veya bunun yerine anahtarı kopyala.",
+    "@recoveryKitSaveFailed": {
+        "description": "Toast shown when saving the recovery kit image fails."
+    },
+    "recoveryKitAcknowledge": "Kurtarma kitimi güvenli bir yere sakladım",
+    "@recoveryKitAcknowledge": {
+        "description": "Checkbox that confirms the recovery kit is stored before closing the sheet."
+    },
+    "recoveryKitCreateFailed": "Kurtarma kitiniz oluşturulamadı. Daha sonra hesap ayarlarınızdan bir tane oluşturabilirsiniz.",
+    "@recoveryKitCreateFailed": {
+        "description": "Toast shown when a recovery kit cannot be created."
+    },
+    "recoveryKitSectionTitle": "Kurtarma kiti",
+    "@recoveryKitSectionTitle": {
+        "description": "Title of the recovery kit section in security settings."
+    },
+    "recoveryKitSectionDescription": "Unutursanız parolanızı sıfırlamanızı sağlar.",
+    "@recoveryKitSectionDescription": {
+        "description": "Description of the recovery kit section in security settings."
+    },
+    "recoveryKitNone": "Henüz bir kurtarma kitiniz yok",
+    "@recoveryKitNone": {
+        "description": "Shown in security settings when the account has no recovery kit."
+    },
+    "recoveryKitCreatedRelative": "{time} tarihinde oluşturuldu",
+    "@recoveryKitCreatedRelative": {
+        "description": "When the current recovery kit was created. time is a relative time such as 3 days ago.",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitCreate": "Kurtarma kiti oluştur",
+    "@recoveryKitCreate": {
+        "description": "Button that creates a recovery kit."
+    },
+    "recoveryKitCreateNew": "Yeni bir kit oluştur",
+    "@recoveryKitCreateNew": {
+        "description": "Button that replaces the existing recovery kit with a new one."
+    },
+    "recoveryKitReplaceTitle": "Yeni bir kurtarma kiti oluştursun mu?",
+    "@recoveryKitReplaceTitle": {
+        "description": "Title of the confirmation shown before replacing an existing recovery kit."
+    },
+    "recoveryKitReplaceDescription": "Yeni kit oluşturulduğunda mevcut kit'iniz çalışmayı durduracaktır.",
+    "@recoveryKitReplaceDescription": {
+        "description": "Body of the confirmation shown before replacing an existing recovery kit."
+    },
+    "recoveryKitReminderTitle": "Kurtarma kiti kaydet",
+    "@recoveryKitReminderTitle": {
+        "description": "Title of the one-time prompt asking a signed-in user without a recovery kit to create one."
+    },
+    "recoveryKitReminderBody": "Hesabınızda e-posta adresi yok. Parolanızı unutursanız, kurtarma kiti tek geri dönüş yolunuzdur. Bir dakika sürer.",
+    "@recoveryKitReminderBody": {
+        "description": "Body of the one-time prompt asking a signed-in user without a recovery kit to create one."
+    },
+    "registerUsernameSignInHint": "Bu kullanıcı adıyla oturum açarsınız. Hatırlayacağınız bir tane seçin.",
+    "@registerUsernameSignInHint": {
+        "description": "Helper text under the required username field when the instance uses usernames to sign in."
+    },
+    "registerUsernameTaken": "Bu kullanıcı adı zaten alınmış",
+    "@registerUsernameTaken": {
+        "description": "Registration form message when the chosen username belongs to someone else."
+    },
+    "registerUsernameAvailable": "Bu kullanıcı adı kullanılabilir",
+    "@registerUsernameAvailable": {
+        "description": "Registration form message when the chosen username is free to use."
+    },
+    "claimAccountUsernameDescription": "Kullanıcı adı ve şifre seçerek hesabınızı talep edin. Bunlarla oturum açacaksınız, bu yüzden hatırlayacağınız bir şeyler seçin.",
+    "@claimAccountUsernameDescription": {
+        "description": "Description in the claim account sheet on instances where people sign in with a username."
+    },
+    "unclaimedAccountDescriptionUsername": "Hesabınız henüz alınmamış. Kullanıcı adı ve şifre olmadan başka cihazlardan giriş yapamazsınız ve hesabınıza erişimi kaybedebilirsiniz. Hesabınızı güvence altına almak için şimdi alın.",
+    "@unclaimedAccountDescriptionUsername": {
+        "description": "Description for the unclaimed account warning on instances where people sign in with a username."
+    },
+    "addFriendUsernameOnlyHint": "Kullanıcı adı",
+    "@addFriendUsernameOnlyHint": {
+        "description": "Placeholder for the add friend field on instances where usernames have no tag."
+    },
     "registerTitle": "Hesap oluştur",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -651,6 +850,10 @@
     "errorInvalidEmailOrPassword": "Geçersiz e-posta veya parola.",
     "@errorInvalidEmailOrPassword": {
         "description": "Error shown on the login screen when the email and password combination is incorrect."
+    },
+    "errorInvalidUsernameOrPassword": "Geçersiz kullanıcı adı veya şifre.",
+    "@errorInvalidUsernameOrPassword": {
+        "description": "Sign-in error on instances where people sign in with a username."
     },
     "errorUnableToSendResetLink": "Sıfırlama bağlantısı gönderilemedi. Lütfen tekrar deneyin.",
     "@errorUnableToSendResetLink": {
@@ -15648,6 +15851,14 @@
             }
         }
     },
+    "premiumGiftGraceEnded": "Hediye süreniz sona erdi. Plutonium almaya devam etmek için abone olun.",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "Şimdi ücretlendirileceksiniz. Hediye sürenizin kalanı, ödeme sürenizin sonuna eklenecek, böylece hiçbiri kaybolmayacak.",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
+    },
     "premiumComparisonFeatureColumn": "Özellik",
     "premiumDisclaimerPurchased": "Satın alarak {terms} ve {privacy} belgelerini kabul etmiş oldunuz.",
     "@premiumDisclaimerPurchased": {
@@ -15665,7 +15876,6 @@
     "premiumPrivacyPolicy": "Gizlilik politikası",
     "premiumCheckoutStartFailedTitle": "Ödeme başlatılamadı",
     "premiumCheckoutStartFailedBody": "Ödeme başlatılırken bir sorun oluştu. Lütfen bir süre sonra tekrar deneyin.",
-    "premiumGiftSubscriptionBlocksRecurring": "Şu anda hediye aboneliğindesiniz. Otomatik olarak yenilenmeyecektir. Süreyi uzatmak için daha fazla hediye kodu kullanabilirsiniz. Hediye süreniz bittikten sonra yinelenen abonelikler başlatılabilir.",
     "premiumPlanUnavailable": "Bu plan kullanılamıyor. Destekle iletişime geçin.",
     "premiumCompletePaymentTitle": "Ödemeyi tamamla",
     "premiumCompletePaymentBody": "Ödemeyi tamamlamak için şimdi Stripe'a yönlendiriliyorsunuz. Tamamladıktan sonra Fluxer'a geri dönün.",

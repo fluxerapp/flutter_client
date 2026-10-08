@@ -20,6 +20,8 @@ class InstanceRuntimeConfig {
     required this.registrationClosed,
     required this.adminRegistrationUrlsEnabled,
     required this.collectDateOfBirth,
+    this.usernameSignIn = false,
+    this.uniqueUsernames = false,
     this.guildCreateAccess = true,
     this.iconUrl,
     this.symbolUrl,
@@ -52,6 +54,8 @@ class InstanceRuntimeConfig {
   final bool registrationClosed;
   final bool adminRegistrationUrlsEnabled;
   final bool collectDateOfBirth;
+  final bool usernameSignIn;
+  final bool uniqueUsernames;
 
   static const InstanceRuntimeConfig defaults = InstanceRuntimeConfig(
     productName: InstanceConstants.defaultProductName,
@@ -83,7 +87,12 @@ class InstanceRuntimeConfig {
         .community
         .singleCommunityGuildId
         ?.trim();
+    final bool usernameSignIn =
+        response.features.accountIdentity == AccountIdentityModeSchema.username;
     return InstanceRuntimeConfig(
+      usernameSignIn: usernameSignIn,
+      uniqueUsernames:
+          usernameSignIn || response.features.tagStyle == TagStyleSchema.none,
       productName: productName.isEmpty
           ? InstanceConstants.defaultProductName
           : productName,
@@ -164,7 +173,9 @@ class InstanceRuntimeConfig {
         other.guildCreateAccess == guildCreateAccess &&
         other.registrationClosed == registrationClosed &&
         other.adminRegistrationUrlsEnabled == adminRegistrationUrlsEnabled &&
-        other.collectDateOfBirth == collectDateOfBirth;
+        other.collectDateOfBirth == collectDateOfBirth &&
+        other.usernameSignIn == usernameSignIn &&
+        other.uniqueUsernames == uniqueUsernames;
   }
 
   @override
@@ -191,6 +202,8 @@ class InstanceRuntimeConfig {
     registrationClosed,
     adminRegistrationUrlsEnabled,
     collectDateOfBirth,
+    usernameSignIn,
+    uniqueUsernames,
   ]);
 
   static String? _nonEmpty(String? value) {

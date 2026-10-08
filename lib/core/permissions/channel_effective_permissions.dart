@@ -4,7 +4,10 @@ import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_reads.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_resolver.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/permissions/thread_permissions.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/features/channels/domain/channel.dart'
+    show isThreadChannelType;
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
@@ -121,7 +124,12 @@ computeEffectiveGuildChannelPermissionBitsOutcome({
     memberRecordPresent: true,
     overwriteJsonLayersRootToLeaf: layers,
   );
-  return (value: value, shouldCache: true);
+  return (
+    value: isThreadChannelType(channelRow.type)
+        ? threadViewPermissions(value)
+        : value,
+    shouldCache: true,
+  );
 }
 
 Future<int> computeEffectiveGuildChannelPermissionBits({
@@ -208,6 +216,16 @@ computeChannelLocalGuildChannelPermissionBitsOutcome({
       .where((r) => memberRoleIds.contains(r.id))
       .map(MemberRole.fromRow)
       .toList();
+  final bool isThread = isThreadChannelType(channelRow.type);
+  final String? threadParentId = isThread ? channelRow.parentId : null;
+  final String? leafOverwritesJson = threadParentId == null
+      ? channelRow.permissionOverwritesJson
+      : (await db.channelDao.getChannelById(
+          threadParentId,
+        ))?.permissionOverwritesJson;
+  if (!ref.mounted) {
+    return (value: 0, shouldCache: false);
+  }
   // Only apply this channel's own overwrites, not parent category layers.
   final int value = evaluateChannelEffectivePermissionBits(
     guildOwnerId: guild.ownerId ?? '',
@@ -216,9 +234,12 @@ computeChannelLocalGuildChannelPermissionBitsOutcome({
     everyonePermissions: everyonePermissions,
     memberRoles: memberRoles,
     memberRecordPresent: true,
-    overwriteJsonLayersRootToLeaf: [channelRow.permissionOverwritesJson],
+    overwriteJsonLayersRootToLeaf: [leafOverwritesJson],
   );
-  return (value: value, shouldCache: true);
+  return (
+    value: isThread ? threadViewPermissions(value) : value,
+    shouldCache: true,
+  );
 }
 
 Future<int> computeChannelLocalGuildChannelPermissionBits({

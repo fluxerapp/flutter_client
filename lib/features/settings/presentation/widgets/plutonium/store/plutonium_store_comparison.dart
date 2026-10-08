@@ -5,8 +5,8 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-class PlutoniumStoreComparison extends StatelessWidget {
-  const PlutoniumStoreComparison({super.key});
+class PremiumStoreComparison extends StatelessWidget {
+  const PremiumStoreComparison({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +105,7 @@ class PlutoniumStoreComparison extends StatelessWidget {
     ];
 
     return DecoratedBox(
-      decoration: PlutoniumStoreStyle.panel,
+      decoration: PremiumStoreStyle.panel,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 28, 16, 20),
         child: Column(
@@ -114,7 +114,7 @@ class PlutoniumStoreComparison extends StatelessWidget {
               l10n.storePlutoniumCompareTitle,
               textAlign: TextAlign.center,
               style: context.textStyles.heading.copyWith(
-                color: PlutoniumStoreStyle.ink,
+                color: PremiumStoreStyle.ink,
               ),
             ),
             const SizedBox(height: 8),
@@ -124,7 +124,7 @@ class PlutoniumStoreComparison extends StatelessWidget {
               l10n.storePlutoniumCompareMobileNote,
               textAlign: TextAlign.center,
               style: context.textStyles.bodySmall.copyWith(
-                color: PlutoniumStoreStyle.inkMuted,
+                color: PremiumStoreStyle.inkMuted,
               ),
             ),
           ],
@@ -180,14 +180,14 @@ class _CompareTable extends StatelessWidget {
             l10n.premiumFreeColumn,
             textAlign: TextAlign.center,
             style: context.textStyles.label.copyWith(
-              color: PlutoniumStoreStyle.inkMuted,
+              color: PremiumStoreStyle.inkMuted,
             ),
           ),
           plutonium: Text(
             kPremiumProductName,
             textAlign: TextAlign.center,
             style: context.textStyles.label.copyWith(
-              color: PlutoniumStoreStyle.accent,
+              color: PremiumStoreStyle.accent,
             ),
           ),
           header: true,
@@ -229,7 +229,7 @@ class _TableLine extends StatelessWidget {
       decoration: BoxDecoration(
         border: last
             ? null
-            : const Border(bottom: BorderSide(color: PlutoniumStoreStyle.line)),
+            : const Border(bottom: BorderSide(color: PremiumStoreStyle.line)),
       ),
       child: Row(
         children: [
@@ -239,7 +239,7 @@ class _TableLine extends StatelessWidget {
                 ? Text(
                     label,
                     style: context.textStyles.label.copyWith(
-                      color: PlutoniumStoreStyle.inkMuted,
+                      color: PremiumStoreStyle.inkMuted,
                     ),
                   )
                 : Row(
@@ -248,7 +248,7 @@ class _TableLine extends StatelessWidget {
                         PhosphorIcon(
                           icon!,
                           size: 22,
-                          color: PlutoniumStoreStyle.accent,
+                          color: PremiumStoreStyle.accent,
                         ),
                         const SizedBox(width: 14),
                       ],
@@ -256,14 +256,16 @@ class _TableLine extends StatelessWidget {
                         child: Text(
                           label,
                           style: context.textStyles.label.copyWith(
-                            color: PlutoniumStoreStyle.ink,
+                            color: PremiumStoreStyle.ink,
                           ),
                         ),
                       ),
                     ],
                   ),
           ),
+          const SizedBox(width: 12),
           Expanded(flex: 3, child: Center(child: free)),
+          const SizedBox(width: 8),
           Expanded(flex: 3, child: Center(child: plutonium)),
         ],
       ),
@@ -285,9 +287,7 @@ class _ValueView extends StatelessWidget {
         text,
         textAlign: TextAlign.center,
         style: context.textStyles.bodySmall.copyWith(
-          color: plutonium
-              ? PlutoniumStoreStyle.ink
-              : PlutoniumStoreStyle.inkMuted,
+          color: plutonium ? PremiumStoreStyle.ink : PremiumStoreStyle.inkMuted,
         ),
       ),
       _Mark(:final bool on) => Semantics(
@@ -298,10 +298,10 @@ class _ValueView extends StatelessWidget {
           on ? PhosphorIconsBold.check : PhosphorIconsBold.x,
           size: 18,
           color: on && plutonium
-              ? PlutoniumStoreStyle.accent
+              ? PremiumStoreStyle.accent
               : on
-              ? PlutoniumStoreStyle.inkMuted
-              : PlutoniumStoreStyle.inkFaint,
+              ? PremiumStoreStyle.inkMuted
+              : PremiumStoreStyle.inkFaint,
         ),
       ),
     };

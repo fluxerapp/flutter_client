@@ -35,21 +35,21 @@ PremiumSubscriptionStatus _status({
 }
 
 void main() {
-  group('plutoniumStoreBarMode', () {
+  group('premiumStoreBarMode', () {
     test('asks to subscribe when there is no plan', () {
       expect(
-        plutoniumStoreBarMode(status: _status(), purchasePending: false),
-        PlutoniumStoreBarMode.subscribe,
+        premiumStoreBarMode(status: _status(), purchasePending: false),
+        PremiumStoreBarMode.subscribe,
       );
     });
 
     test('offers manage for an active subscription', () {
       expect(
-        plutoniumStoreBarMode(
+        premiumStoreBarMode(
           status: _status(isPremium: true, shouldShowPremiumCard: true),
           purchasePending: false,
         ),
-        PlutoniumStoreBarMode.manage,
+        PremiumStoreBarMode.manage,
       );
     });
 
@@ -57,18 +57,18 @@ void main() {
       'keeps manage when a purchase is pending on an already premium account',
       () {
         expect(
-          plutoniumStoreBarMode(
+          premiumStoreBarMode(
             status: _status(isPremium: true, shouldShowPremiumCard: true),
             purchasePending: true,
           ),
-          PlutoniumStoreBarMode.manage,
+          PremiumStoreBarMode.manage,
         );
       },
     );
 
     test('shows visionary without a buy bar', () {
       expect(
-        plutoniumStoreBarMode(
+        premiumStoreBarMode(
           status: _status(
             isPremium: true,
             isVisionary: true,
@@ -77,13 +77,13 @@ void main() {
           ),
           purchasePending: true,
         ),
-        PlutoniumStoreBarMode.visionary,
+        PremiumStoreBarMode.visionary,
       );
     });
 
-    test('blocks recurring purchase while a gift is active', () {
+    test('offers the gift buy bar while a gift is active', () {
       expect(
-        plutoniumStoreBarMode(
+        premiumStoreBarMode(
           status: _status(
             isPremium: true,
             isGiftSubscription: true,
@@ -92,34 +92,34 @@ void main() {
           ),
           purchasePending: false,
         ),
-        PlutoniumStoreBarMode.gift,
+        PremiumStoreBarMode.gift,
       );
     });
 
     test('keeps manage during grace when this device can manage it', () {
       expect(
-        plutoniumStoreBarMode(
+        premiumStoreBarMode(
           status: _status(shouldShowPremiumCard: true, inGrace: true),
           purchasePending: false,
           manageOnDevice: true,
         ),
-        PlutoniumStoreBarMode.manage,
+        PremiumStoreBarMode.manage,
       );
     });
 
     test('returns the buy bar during grace', () {
       expect(
-        plutoniumStoreBarMode(
+        premiumStoreBarMode(
           status: _status(shouldShowPremiumCard: true, inGrace: true),
           purchasePending: false,
         ),
-        PlutoniumStoreBarMode.subscribe,
+        PremiumStoreBarMode.subscribe,
       );
     });
 
     test('returns the buy bar after expiry', () {
       expect(
-        plutoniumStoreBarMode(
+        premiumStoreBarMode(
           status: _status(
             shouldShowPremiumCard: true,
             expired: true,
@@ -127,14 +127,14 @@ void main() {
           ),
           purchasePending: false,
         ),
-        PlutoniumStoreBarMode.subscribe,
+        PremiumStoreBarMode.subscribe,
       );
     });
 
     test('waits when Play finished and the account is not premium yet', () {
       expect(
-        plutoniumStoreBarMode(status: _status(), purchasePending: true),
-        PlutoniumStoreBarMode.waiting,
+        premiumStoreBarMode(status: _status(), purchasePending: true),
+        PremiumStoreBarMode.waiting,
       );
     });
   });

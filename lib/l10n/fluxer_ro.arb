@@ -756,6 +756,205 @@
     "@resetPasswordMismatch": {
         "description": "Error when password and confirmation don't match."
     },
+    "recoverAccountTitle": "Recuperează-ți contul",
+    "@recoverAccountTitle": {
+        "description": "Title of the screen where someone resets their password with a recovery kit."
+    },
+    "recoverAccountDescription": "Introdu numele de utilizator și cheia de recuperare din kitul tău de recuperare, apoi alege o parolă nouă.",
+    "@recoverAccountDescription": {
+        "description": "Description on the account recovery screen."
+    },
+    "recoverAccountNoKit": "Nu ai un kit de recuperare? Cere administratorului acestei instanțe un link pentru resetarea parolei.",
+    "@recoverAccountNoKit": {
+        "description": "Hint under the account recovery form for people without a recovery kit."
+    },
+    "recoveryKitTitle": "Kitul tău de recuperare",
+    "@recoveryKitTitle": {
+        "description": "Title of the sheet that shows a newly created account recovery kit."
+    },
+    "recoveryKitCreatedDescription": "Dacă uiți parola, acest kit este singura modalitate de a reveni în contul tău. Păstrează-l într-un loc sigur, cum ar fi un manager de parole sau o copie tipărită.",
+    "@recoveryKitCreatedDescription": {
+        "description": "Recovery kit sheet description for a newly created kit."
+    },
+    "recoveryKitReplacedDescription": "Vechiul tău kit de recuperare nu mai funcționează. Păstrează-l pe acesta nou undeva în siguranță.",
+    "@recoveryKitReplacedDescription": {
+        "description": "Recovery kit sheet description shown after a kit replaces an older one."
+    },
+    "recoveryKitRecoveredDescription": "Parola ta a fost resetată. Vechiul tău kit de recuperare nu mai funcționează. Păstrează-l pe acesta nou undeva în siguranță.",
+    "@recoveryKitRecoveredDescription": {
+        "description": "Recovery kit sheet description shown after someone recovers their account with a recovery key."
+    },
+    "recoveryKitWarning": "Oricine deține această cheie îți poate reseta parola. Nu o distribui niciodată.",
+    "@recoveryKitWarning": {
+        "description": "Warning under the recovery key in the recovery kit sheet."
+    },
+    "recoveryKitKeyLabel": "Cheie de recuperare",
+    "@recoveryKitKeyLabel": {
+        "description": "Label for the account recovery key."
+    },
+    "recoveryKitDocumentTitle": "Kit de recuperare {productName}",
+    "@recoveryKitDocumentTitle": {
+        "description": "Title of the saved recovery kit image. productName is the app name.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitDocumentIntro": "Păstrează această pagină într-un loc sigur. Dacă uiți parola, o poți folosi pentru a-ți recupera accesul la cont. Oricine deține această cheie de recuperare îți poate reseta parola, așa că nu o împărtăși niciodată.",
+    "@recoveryKitDocumentIntro": {
+        "description": "Introduction on the saved recovery kit image."
+    },
+    "recoveryKitInstanceLabel": "Instanță",
+    "@recoveryKitInstanceLabel": {
+        "description": "Label for the server address on the saved recovery kit."
+    },
+    "recoveryKitCreatedAtLabel": "Creată",
+    "@recoveryKitCreatedAtLabel": {
+        "description": "Label for the creation date on the saved recovery kit."
+    },
+    "recoveryKitQrCaption": "Scanează pentru a deschide pagina de recuperare cu detaliile tale completate.",
+    "@recoveryKitQrCaption": {
+        "description": "Caption under the QR code on the saved recovery kit."
+    },
+    "recoveryKitStepsTitle": "Cum să-ți recuperezi contul",
+    "@recoveryKitStepsTitle": {
+        "description": "Heading above the recovery steps on the saved recovery kit."
+    },
+    "recoveryKitStepOpen": "Mergi la {recoverUrl} sau scanează codul QR.",
+    "@recoveryKitStepOpen": {
+        "description": "First recovery step on the saved recovery kit. recoverUrl is the address of the recovery page.",
+        "placeholders": {
+            "recoverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitStepEnter": "Introdu numele de utilizator și această cheie de recuperare.",
+    "@recoveryKitStepEnter": {
+        "description": "Second recovery step on the saved recovery kit."
+    },
+    "recoveryKitStepPassword": "Alege o parolă nouă. Primești un kit de recuperare nou, iar acesta nu va mai funcționa.",
+    "@recoveryKitStepPassword": {
+        "description": "Third recovery step on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesTitle": "Coduri de rezervă pentru autentificare în doi pași",
+    "@recoveryKitBackupCodesTitle": {
+        "description": "Heading above the two-factor backup codes on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesNote": "Fiecare cod funcționează o singură dată în locul aplicației tale de autentificare.",
+    "@recoveryKitBackupCodesNote": {
+        "description": "Note under the two-factor backup codes heading on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesFailed": "Nu am putut încărca codurile de rezervă.",
+    "@recoveryKitBackupCodesFailed": {
+        "description": "Toast shown when the two-factor backup codes for the recovery kit cannot be loaded."
+    },
+    "recoveryKitIncludeBackupCodes": "Include codurile mele de rezervă pentru autentificarea în doi pași în imaginea salvată",
+    "@recoveryKitIncludeBackupCodes": {
+        "description": "Checkbox in the recovery kit sheet that adds the two-factor backup codes to the saved image."
+    },
+    "recoveryKitCopy": "Copiază",
+    "@recoveryKitCopy": {
+        "description": "Button that copies the account recovery key."
+    },
+    "recoveryKitCopied": "Cheia de recuperare a fost copiată",
+    "@recoveryKitCopied": {
+        "description": "Toast shown after the recovery key is copied."
+    },
+    "recoveryKitSaveImage": "Salvează imaginea",
+    "@recoveryKitSaveImage": {
+        "description": "Button that saves the recovery kit as an image."
+    },
+    "recoveryKitSaved": "Kitul de recuperare a fost salvat",
+    "@recoveryKitSaved": {
+        "description": "Toast shown after the recovery kit image is saved to a file."
+    },
+    "recoveryKitSavedToPhotos": "Kitul de recuperare a fost salvat în Fotografii",
+    "@recoveryKitSavedToPhotos": {
+        "description": "Toast shown after the recovery kit image is saved to the photo library."
+    },
+    "recoveryKitSaveFailed": "Kitul de recuperare nu a putut fi salvat. Încearcă din nou sau copiază cheia.",
+    "@recoveryKitSaveFailed": {
+        "description": "Toast shown when saving the recovery kit image fails."
+    },
+    "recoveryKitAcknowledge": "Mi-am salvat kitul de recuperare într-un loc sigur",
+    "@recoveryKitAcknowledge": {
+        "description": "Checkbox that confirms the recovery kit is stored before closing the sheet."
+    },
+    "recoveryKitCreateFailed": "Nu am putut crea kitul de recuperare. Îl poți crea mai târziu în setările contului tău.",
+    "@recoveryKitCreateFailed": {
+        "description": "Toast shown when a recovery kit cannot be created."
+    },
+    "recoveryKitSectionTitle": "Kit de recuperare",
+    "@recoveryKitSectionTitle": {
+        "description": "Title of the recovery kit section in security settings."
+    },
+    "recoveryKitSectionDescription": "Îți permite să-ți resetezi parola dacă o uiți.",
+    "@recoveryKitSectionDescription": {
+        "description": "Description of the recovery kit section in security settings."
+    },
+    "recoveryKitNone": "Nu ai încă un kit de recuperare",
+    "@recoveryKitNone": {
+        "description": "Shown in security settings when the account has no recovery kit."
+    },
+    "recoveryKitCreatedRelative": "Creat {time}",
+    "@recoveryKitCreatedRelative": {
+        "description": "When the current recovery kit was created. time is a relative time such as 3 days ago.",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitCreate": "Creează kit de recuperare",
+    "@recoveryKitCreate": {
+        "description": "Button that creates a recovery kit."
+    },
+    "recoveryKitCreateNew": "Creează un kit nou",
+    "@recoveryKitCreateNew": {
+        "description": "Button that replaces the existing recovery kit with a new one."
+    },
+    "recoveryKitReplaceTitle": "Creezi un nou kit de recuperare?",
+    "@recoveryKitReplaceTitle": {
+        "description": "Title of the confirmation shown before replacing an existing recovery kit."
+    },
+    "recoveryKitReplaceDescription": "Kitul tău actual nu va mai funcționa imediat ce cel nou va fi creat.",
+    "@recoveryKitReplaceDescription": {
+        "description": "Body of the confirmation shown before replacing an existing recovery kit."
+    },
+    "recoveryKitReminderTitle": "Salvează un kit de recuperare",
+    "@recoveryKitReminderTitle": {
+        "description": "Title of the one-time prompt asking a signed-in user without a recovery kit to create one."
+    },
+    "recoveryKitReminderBody": "Contul tău nu are o adresă de e-mail. Dacă uiți parola, un kit de recuperare este singura modalitate de a reveni. Durează doar un minut.",
+    "@recoveryKitReminderBody": {
+        "description": "Body of the one-time prompt asking a signed-in user without a recovery kit to create one."
+    },
+    "registerUsernameSignInHint": "Te autentifici cu acest nume de utilizator. Alege unul pe care ți-l vei aminti.",
+    "@registerUsernameSignInHint": {
+        "description": "Helper text under the required username field when the instance uses usernames to sign in."
+    },
+    "registerUsernameTaken": "Acest nume de utilizator este deja ocupat",
+    "@registerUsernameTaken": {
+        "description": "Registration form message when the chosen username belongs to someone else."
+    },
+    "registerUsernameAvailable": "Acest nume de utilizator este disponibil",
+    "@registerUsernameAvailable": {
+        "description": "Registration form message when the chosen username is free to use."
+    },
+    "claimAccountUsernameDescription": "Revendică-ți contul alegând un nume de utilizator și o parolă. Te vei conecta cu ele, așa că alege unele pe care ți le vei aminti.",
+    "@claimAccountUsernameDescription": {
+        "description": "Description in the claim account sheet on instances where people sign in with a username."
+    },
+    "unclaimedAccountDescriptionUsername": "Contul tău nu a fost încă revendicat. Fără un nume de utilizator și o parolă, nu vei putea să te conectezi de pe alte dispozitive și ai putea pierde accesul la contul tău. Revendică-ți acum contul pentru a-l securiza.",
+    "@unclaimedAccountDescriptionUsername": {
+        "description": "Description for the unclaimed account warning on instances where people sign in with a username."
+    },
+    "addFriendUsernameOnlyHint": "Nume de utilizator",
+    "@addFriendUsernameOnlyHint": {
+        "description": "Placeholder for the add friend field on instances where usernames have no tag."
+    },
     "registerTitle": "Creează un cont",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -875,6 +1074,10 @@
     "errorInvalidEmailOrPassword": "Email sau parolă invalidă.",
     "@errorInvalidEmailOrPassword": {
         "description": "Error shown on the login screen when the email and password combination is incorrect."
+    },
+    "errorInvalidUsernameOrPassword": "Nume de utilizator sau parolă nevalide.",
+    "@errorInvalidUsernameOrPassword": {
+        "description": "Sign-in error on instances where people sign in with a username."
     },
     "errorUnableToSendResetLink": "Nu am putut trimite linkul de resetare. Te rugăm să încerci din nou.",
     "@errorUnableToSendResetLink": {
@@ -11601,6 +11804,14 @@
             }
         }
     },
+    "premiumGiftGraceEnded": "Timpul tău cadou s-a încheiat. Abonează-te pentru a păstra Plutonium.",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "Vei fi taxat acum. Timpul tău cadou rămas se adaugă după perioada plătită, astfel încât nimic din el să nu se piardă.",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
+    },
     "premiumComparisonFeatureColumn": "Funcție",
     "premiumDisclaimerPurchased": "Prin achiziție, ai acceptat {terms} și {privacy}.",
     "@premiumDisclaimerPurchased": {
@@ -11618,7 +11829,6 @@
     "premiumPrivacyPolicy": "Politica de confidențialitate",
     "premiumCheckoutStartFailedTitle": "Nu s-a putut iniția plata",
     "premiumCheckoutStartFailedBody": "A apărut o eroare la inițierea plății. Te rugăm să încerci din nou mai târziu.",
-    "premiumGiftSubscriptionBlocksRecurring": "Ai în prezent un abonament cadou. Acesta nu se va reînnoi. Poți valorifica mai multe coduri cadou pentru a-l prelungi. Poți începe un abonament recurent după ce se termină perioada cadou.",
     "premiumPlanUnavailable": "Acest plan nu este disponibil. Contactează asistența.",
     "premiumCompletePaymentTitle": "Finalizează plata",
     "premiumCompletePaymentBody": "Acum vei fi redirecționat către Stripe pentru a finaliza plata. Revino la Fluxer după ce ai terminat.",

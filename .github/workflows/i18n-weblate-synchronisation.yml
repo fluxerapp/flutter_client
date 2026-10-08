@@ -83,7 +83,7 @@ jobs:
             exit 0
           fi
 
-          dart tool/strip_firebase_deps.dart
+          dart tool/configure_build.dart --profile=oss
           flutter pub get
 
           flutter gen-l10n

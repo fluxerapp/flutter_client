@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/observability/error_log_rate_limiter.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info.dart';
 import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/features/voice/utils/voice_lifecycle_breadcrumb.dart';
 import 'package:opentelemetry/api.dart' as otel;
 import 'package:opentelemetry/sdk.dart' as otel_sdk;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -213,17 +214,27 @@ class FluxerObservability {
           preferences.getBool(_kObservabilitySessionActiveKey) ?? false;
       await preferences.setBool(_kObservabilitySessionActiveKey, true);
       if (previousSessionWasActive) {
+        final Map<String, String>? voiceBreadcrumb =
+            await readVoiceLifecycleBreadcrumb();
+        final List<otel.Attribute> attributes = <otel.Attribute>[
+          otel.Attribute.fromBoolean('app.crash.detected', true),
+        ];
+        if (voiceBreadcrumb != null) {
+          for (final MapEntry<String, String> entry
+              in voiceBreadcrumb.entries) {
+            attributes.add(otel.Attribute.fromString(entry.key, entry.value));
+          }
+        }
         final otel.Span? span = startSpan(
           'app.previous_session_unclean_exit',
-          attributes: <otel.Attribute>[
-            otel.Attribute.fromBoolean('app.crash.detected', true),
-          ],
+          attributes: attributes,
         );
         span?.setStatus(
           otel.StatusCode.error,
           'Previous app session did not exit cleanly',
         );
         span?.end();
+        await clearVoiceLifecycleBreadcrumb();
       }
     } on Object {
       // Session crash detection should never block app startup.

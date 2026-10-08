@@ -490,6 +490,137 @@ void main() {
     },
   );
 
+  group('threads', () {
+    const String guildId = 'guild_test_1';
+    const String userId = 'user_test_1';
+    const String parentId = 'channel_parent';
+    const String mentionedThreadId = 'thread_mentioned';
+    const String joinedThreadId = 'thread_joined';
+    const String otherThreadId = 'thread_other';
+
+    Future<FluxerDatabase> seed() async {
+      final FluxerDatabase db = openTestDatabase();
+      final String ackId = _snowflakeForUtc(
+        DateTime.now().toUtc().subtract(const Duration(hours: 3)),
+      );
+      final String lastId = _recentSnowflake();
+      await db.guildDao.upsertServer(
+        ServersCompanion.insert(id: guildId, name: 'Test Guild'),
+      );
+      await db.memberDao.upsertMember(
+        MembersCompanion.insert(
+          userId: userId,
+          guildId: guildId,
+          joinedAt: Value(DateTime.utc(2020, 1, 15)),
+        ),
+      );
+      await db.channelDao.upsertChannels(<ChannelsCompanion>[
+        ChannelsCompanion.insert(
+          id: parentId,
+          guildId: guildId,
+          name: 'general',
+          lastMessageId: Value(ackId),
+        ),
+        for (final String id in <String>[
+          mentionedThreadId,
+          joinedThreadId,
+          otherThreadId,
+        ])
+          ChannelsCompanion.insert(
+            id: id,
+            guildId: guildId,
+            name: id,
+            type: const Value(11),
+            parentId: const Value(parentId),
+            lastMessageId: Value(lastId),
+          ),
+      ]);
+      for (final String id in <String>[
+        parentId,
+        mentionedThreadId,
+        joinedThreadId,
+        otherThreadId,
+      ]) {
+        await db.readStateDao.upsertReadState(
+          ReadStatesCompanion(
+            channelId: Value(id),
+            lastMessageId: Value(ackId),
+            mentionCount: Value(id == mentionedThreadId ? 2 : 0),
+          ),
+        );
+      }
+      await db.threadDao.upsertMember(
+        ThreadMembersCompanion.insert(
+          threadId: joinedThreadId,
+          guildId: guildId,
+        ),
+      );
+      return db;
+    }
+
+    test('lists mentioned and joined unread threads when threads are '
+        'active', () async {
+      final FluxerDatabase db = await seed();
+
+      final List<UnreadInboxEntry> entries =
+          await UnreadInboxCalculator.compute(
+            db,
+            collapsedByChannelId: <String, bool>{},
+            currentUserId: userId,
+            threadGuildIds: <String>{guildId},
+          );
+
+      expect(entries.map((UnreadInboxEntry e) => e.channelId).toSet(), <String>{
+        mentionedThreadId,
+        joinedThreadId,
+      });
+      expect(
+        entries
+            .firstWhere(
+              (UnreadInboxEntry e) => e.channelId == mentionedThreadId,
+            )
+            .mentionCount,
+        2,
+      );
+    });
+
+    test('skips threads when threads are not active in the guild', () async {
+      final FluxerDatabase db = await seed();
+
+      final List<UnreadInboxEntry> entries =
+          await UnreadInboxCalculator.compute(
+            db,
+            collapsedByChannelId: <String, bool>{},
+            currentUserId: userId,
+          );
+
+      expect(entries, isEmpty);
+    });
+
+    test('skips a joined thread the user muted', () async {
+      final FluxerDatabase db = await seed();
+      await db.threadDao.upsertMember(
+        ThreadMembersCompanion.insert(
+          threadId: joinedThreadId,
+          guildId: guildId,
+          muted: const Value(true),
+        ),
+      );
+
+      final List<UnreadInboxEntry> entries =
+          await UnreadInboxCalculator.compute(
+            db,
+            collapsedByChannelId: <String, bool>{},
+            currentUserId: userId,
+            threadGuildIds: <String>{guildId},
+          );
+
+      expect(entries.map((UnreadInboxEntry e) => e.channelId), <String>[
+        mentionedThreadId,
+      ]);
+    });
+  });
+
   test('muted DM is excluded from unread inbox', () async {
     final db = openTestDatabase();
     await db.dmChannelDao.upsertDmChannels([

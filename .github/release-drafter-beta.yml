@@ -60,16 +60,11 @@ categories:
       - fix
       - bug
 
-  - title: Other
-
 change-template: "- $TITLE (#$NUMBER) @$AUTHOR"
+commit-template: "- $TITLE @$AUTHOR"
 change-title-escapes: '\<*_&'
 
 template: |
-  Welcome to the Fluxer Mobile beta!
-
-  This is a Pre-release build for TestFlight and Android APK (FCM + OSS).
-
   ## What's New
 
   > Add custom changelog notes here! (remove this text)

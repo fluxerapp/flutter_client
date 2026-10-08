@@ -26,11 +26,17 @@ const String _kMessageChannelId = 'fluxer_messages';
 const String _kDirectMessageChannelId = 'fluxer_direct_messages';
 const String _kMessageChannelName = 'Messages';
 const String _kDirectMessageChannelName = 'Direct messages';
+const String _kForumThreadCreatedChannelId = 'fluxer_forum_thread_created';
+const String _kForumThreadCreatedChannelName = 'New forum posts';
 const String _kChannelDescription = 'Messages and alerts';
 
-String _androidChannelId(Map<String, String> payload) {
+@visibleForTesting
+String androidPushChannelId(Map<String, String> payload) {
   if (isDmPushPayload(payload)) {
     return _kDirectMessageChannelId;
+  }
+  if (isForumThreadCreatedPushPayload(payload)) {
+    return _kForumThreadCreatedChannelId;
   }
   return _kMessageChannelId;
 }
@@ -38,6 +44,9 @@ String _androidChannelId(Map<String, String> payload) {
 String _androidChannelName(Map<String, String> payload) {
   if (isDmPushPayload(payload)) {
     return _kDirectMessageChannelName;
+  }
+  if (isForumThreadCreatedPushPayload(payload)) {
+    return _kForumThreadCreatedChannelName;
   }
   return _kMessageChannelName;
 }
@@ -185,6 +194,25 @@ final class LocalPushNotifications {
         sound: kPushNotificationDirectMessageAndroidSound,
       ),
     );
+  }
+
+  Future<void> ensureForumThreadCreatedChannel() async {
+    if (!_initialized || defaultTargetPlatform != TargetPlatform.android) {
+      return;
+    }
+    await _plugin
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >()
+        ?.createNotificationChannel(
+          const AndroidNotificationChannel(
+            _kForumThreadCreatedChannelId,
+            _kForumThreadCreatedChannelName,
+            description: _kChannelDescription,
+            importance: Importance.high,
+            sound: kPushNotificationMessageAndroidSound,
+          ),
+        );
   }
 
   Future<void> requestDisplayPermission() async {
@@ -618,7 +646,7 @@ final class LocalPushNotifications {
             hideExpandedLargeIcon: true,
           );
     return AndroidNotificationDetails(
-      _androidChannelId(payload),
+      androidPushChannelId(payload),
       _androidChannelName(payload),
       channelDescription: _kChannelDescription,
       importance: Importance.high,
@@ -670,7 +698,7 @@ final class LocalPushNotifications {
         body: body,
         notificationDetails: NotificationDetails(
           android: AndroidNotificationDetails(
-            _androidChannelId(payload),
+            androidPushChannelId(payload),
             _androidChannelName(payload),
             channelDescription: _kChannelDescription,
             importance: Importance.high,

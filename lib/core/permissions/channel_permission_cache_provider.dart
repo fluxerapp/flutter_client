@@ -72,7 +72,10 @@ class ChannelPermissionCache extends _$ChannelPermissionCache {
       return;
     }
     final db = ref.read(fluxerDatabaseProvider);
-    final channels = await db.channelDao.getChannels(guildId);
+    final channels = await db.channelDao.getChannels(
+      guildId,
+      includeThreads: true,
+    );
     if (!ref.mounted) {
       return;
     }
@@ -87,7 +90,7 @@ class ChannelPermissionCache extends _$ChannelPermissionCache {
 
   Future<void> rebuildAfterReady({String? priorityGuildId}) async {
     final db = ref.read(fluxerDatabaseProvider);
-    final channels = await db.channelDao.getAllChannels();
+    final channels = await db.channelDao.getAllChannels(includeThreads: true);
     if (!ref.mounted) {
       return;
     }
@@ -151,7 +154,10 @@ class ChannelPermissionCache extends _$ChannelPermissionCache {
       return;
     }
     final db = ref.read(fluxerDatabaseProvider);
-    final channels = await db.channelDao.getChannels(guildId);
+    final channels = await db.channelDao.getChannels(
+      guildId,
+      includeThreads: true,
+    );
     if (!ref.mounted) {
       return;
     }

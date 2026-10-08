@@ -111,9 +111,9 @@ dependencies:
   dynamic_app_icon_flutter_plus: ^2.2.1
   altcha_lib: ^0.3.1
   timezone: ^0.11.1
+
   in_app_purchase: ^3.3.1
   in_app_purchase_android: ^0.5.3
-
 dependency_overrides:
   # mockito >=5.6.5 requires analyzer ^13, incompatible with the overrides below.
   analyzer: ^14.4.0

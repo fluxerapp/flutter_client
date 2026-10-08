@@ -75,8 +75,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pub-
 
-      - name: Strip Firebase dependencies if present
-        run: dart tool/strip_firebase_deps.dart
+      - name: Configure OSS build tree
+        run: dart tool/configure_build.dart --profile=oss
 
       - name: Set up Rust for the native markdown parser
         run: |

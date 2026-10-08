@@ -1,4 +1,6 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_ban_entry.dart';
 import 'package:fluxer_app/features/settings/utils/guild_bans_utils.dart';
@@ -7,7 +9,7 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-class GuildBansListItem extends StatelessWidget {
+class GuildBansListItem extends ConsumerWidget {
   GuildBansListItem({
     required this.entry,
     required this.isMobile,
@@ -24,13 +26,16 @@ class GuildBansListItem extends StatelessWidget {
   final GlobalKey _menuButtonKey = GlobalKey();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final user = entry.ban.user;
     final String displayName = resolveDisplayName(
       username: user.username,
       globalName: user.globalName,
     );
-    final String tag = GuildBansUtils.buildUserTag(user);
+    final String tag = GuildBansUtils.buildUserTag(
+      user,
+      uniqueUsernames: ref.watch(uniqueUsernamesProvider),
+    );
     final colors = context.colors;
     final textStyles = context.textStyles;
     final layout = context.layout;

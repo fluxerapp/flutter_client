@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/chat/providers/messages/message_realtime_eve
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
+import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'channel_details_providers.g.dart';
@@ -32,6 +33,7 @@ MessageSearchRepository messageSearchRepository(Ref ref) =>
       ref.watch(fluxerClientProvider),
       ref.watch(fluxerDatabaseProvider),
       ref.watch(currentUserIdProvider),
+      threadsGate: ref.watch(threadsGateProvider),
     );
 
 class ChannelPinsState {

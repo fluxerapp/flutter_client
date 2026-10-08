@@ -100,4 +100,26 @@ void main() {
       );
     });
   });
+
+  test('thread pushes follow the same foreground rule as channels', () {
+    const Map<String, String> threadPayload = <String, String>{
+      'channel_id': '300',
+      'parent_id': '100',
+      'guild_id': '1',
+    };
+    expect(
+      ForegroundPushNotificationPolicy.shouldProcessPush(
+        isAppForeground: false,
+        payload: threadPayload,
+      ),
+      isTrue,
+    );
+    expect(
+      ForegroundPushNotificationPolicy.shouldProcessPush(
+        isAppForeground: true,
+        payload: threadPayload,
+      ),
+      isFalse,
+    );
+  });
 }

@@ -340,6 +340,7 @@ class _GuildListItemState extends State<_GuildListItem>
   Future<void> _showCreateChannelModal(BuildContext context) async {
     final ChannelCreateRequest? request = await CreateChannelSheet.show(
       context,
+      guildId: widget.guild?.id,
     );
     if (request != null && context.mounted) {
       widget.onCreateChannel?.call(request);

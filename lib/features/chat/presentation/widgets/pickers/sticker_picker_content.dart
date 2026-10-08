@@ -4,11 +4,13 @@ import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
+import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animated_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/plutonium_upsell_banner.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
@@ -718,20 +720,24 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
 
   Widget _buildStickerCell(StickerEntry sticker, FluxerColorTheme colors) {
     final isHovered = _hoveredSticker?.id == sticker.id;
-    final content = Container(
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: isHovered
-            ? colors.backgroundModifierSelected
-            : Colors.transparent,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: CachedNetworkImage(
+    final Widget child;
+    if (sticker.animated) {
+      child = EmbedAnimatedImage(
+        animatedUrl: sticker.urlForSize(_kStickerRequestSize),
+        staticUrl: FluxerMediaUrl.sticker(id: sticker.id),
+        visibilityKey:
+            'picker_${sticker.cacheKeyForSize(_kStickerRequestSize)}',
+        useStickerAnimationPreference: true,
+        fit: BoxFit.contain,
+        placeholder: SizedBox(width: _imageSize, height: _imageSize),
+      );
+    } else {
+      child = CachedNetworkImage(
         imageUrl: sticker.urlForSize(_kStickerRequestSize),
         cacheKey: sticker.cacheKeyForSize(_kStickerRequestSize),
         width: _imageSize,
         height: _imageSize,
-        memCacheWidth: sticker.animated ? null : _imageSize.toInt(),
+        memCacheWidth: _imageSize.toInt(),
         fadeInDuration: Duration.zero,
         fadeOutDuration: Duration.zero,
         fit: BoxFit.contain,
@@ -741,7 +747,17 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
           size: 36,
           color: colors.textTertiaryMuted,
         ),
+      );
+    }
+    final content = Container(
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: isHovered
+            ? colors.backgroundModifierSelected
+            : Colors.transparent,
+        borderRadius: BorderRadius.circular(8),
       ),
+      child: SizedBox(width: _imageSize, height: _imageSize, child: child),
     );
 
     return FluxerGestureDetector(

@@ -756,6 +756,205 @@
     "@resetPasswordMismatch": {
         "description": "Error when password and confirmation don't match."
     },
+    "recoverAccountTitle": "Възстановете акаунта си",
+    "@recoverAccountTitle": {
+        "description": "Title of the screen where someone resets their password with a recovery kit."
+    },
+    "recoverAccountDescription": "Въведете вашето потребителско име и ключ за възстановяване от комплекта си за възстановяване, след което изберете нова парола.",
+    "@recoverAccountDescription": {
+        "description": "Description on the account recovery screen."
+    },
+    "recoverAccountNoKit": "Нямате комплект за възстановяване? Поискайте от администратор на този сървър връзка за нулиране на паролата.",
+    "@recoverAccountNoKit": {
+        "description": "Hint under the account recovery form for people without a recovery kit."
+    },
+    "recoveryKitTitle": "Вашият комплект за възстановяване",
+    "@recoveryKitTitle": {
+        "description": "Title of the sheet that shows a newly created account recovery kit."
+    },
+    "recoveryKitCreatedDescription": "Ако забравите паролата си, този комплект е единственият начин да влезете отново в акаунта си. Съхранявайте го на сигурно място, например в мениджър на пароли или като разпечатка.",
+    "@recoveryKitCreatedDescription": {
+        "description": "Recovery kit sheet description for a newly created kit."
+    },
+    "recoveryKitReplacedDescription": "Старият ви комплект за възстановяване вече не работи. Съхранявайте този нов на сигурно място.",
+    "@recoveryKitReplacedDescription": {
+        "description": "Recovery kit sheet description shown after a kit replaces an older one."
+    },
+    "recoveryKitRecoveredDescription": "Паролата ви е нулирана. Старият ви комплект за възстановяване вече не работи. Съхранявайте този нов някъде на сигурно място.",
+    "@recoveryKitRecoveredDescription": {
+        "description": "Recovery kit sheet description shown after someone recovers their account with a recovery key."
+    },
+    "recoveryKitWarning": "Всеки с този ключ може да нулира паролата ви. Никога не го споделяйте.",
+    "@recoveryKitWarning": {
+        "description": "Warning under the recovery key in the recovery kit sheet."
+    },
+    "recoveryKitKeyLabel": "Ключ за възстановяване",
+    "@recoveryKitKeyLabel": {
+        "description": "Label for the account recovery key."
+    },
+    "recoveryKitDocumentTitle": "Резервен комплект на {productName}",
+    "@recoveryKitDocumentTitle": {
+        "description": "Title of the saved recovery kit image. productName is the app name.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitDocumentIntro": "Пазете тази страница на сигурно място. Ако забравите паролата си, можете да я използвате, за да влезете отново в профила си. Всеки, който има този ключ за възстановяване, може да нулира паролата ви, така че никога не го споделяйте.",
+    "@recoveryKitDocumentIntro": {
+        "description": "Introduction on the saved recovery kit image."
+    },
+    "recoveryKitInstanceLabel": "Инстанция",
+    "@recoveryKitInstanceLabel": {
+        "description": "Label for the server address on the saved recovery kit."
+    },
+    "recoveryKitCreatedAtLabel": "Създадена",
+    "@recoveryKitCreatedAtLabel": {
+        "description": "Label for the creation date on the saved recovery kit."
+    },
+    "recoveryKitQrCaption": "Сканирайте, за да отворите страницата за възстановяване с попълнени данни.",
+    "@recoveryKitQrCaption": {
+        "description": "Caption under the QR code on the saved recovery kit."
+    },
+    "recoveryKitStepsTitle": "Как да възстановите акаунта си",
+    "@recoveryKitStepsTitle": {
+        "description": "Heading above the recovery steps on the saved recovery kit."
+    },
+    "recoveryKitStepOpen": "Отидете на {recoverUrl} или сканирайте QR кода.",
+    "@recoveryKitStepOpen": {
+        "description": "First recovery step on the saved recovery kit. recoverUrl is the address of the recovery page.",
+        "placeholders": {
+            "recoverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitStepEnter": "Въведете вашето потребителско име и този ключ за възстановяване.",
+    "@recoveryKitStepEnter": {
+        "description": "Second recovery step on the saved recovery kit."
+    },
+    "recoveryKitStepPassword": "Изберете нова парола. Ще получите нов комплект за възстановяване и този ще спре да работи.",
+    "@recoveryKitStepPassword": {
+        "description": "Third recovery step on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesTitle": "Резервни кодове за двуфакторна автентикация",
+    "@recoveryKitBackupCodesTitle": {
+        "description": "Heading above the two-factor backup codes on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesNote": "Всеки код работи еднократно вместо приложението ви за удостоверяване.",
+    "@recoveryKitBackupCodesNote": {
+        "description": "Note under the two-factor backup codes heading on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesFailed": "Не успяхме да заредим резервните ви кодове.",
+    "@recoveryKitBackupCodesFailed": {
+        "description": "Toast shown when the two-factor backup codes for the recovery kit cannot be loaded."
+    },
+    "recoveryKitIncludeBackupCodes": "Включи резервните ми кодове за двуфакторно удостоверяване в запазеното изображение",
+    "@recoveryKitIncludeBackupCodes": {
+        "description": "Checkbox in the recovery kit sheet that adds the two-factor backup codes to the saved image."
+    },
+    "recoveryKitCopy": "Копирай",
+    "@recoveryKitCopy": {
+        "description": "Button that copies the account recovery key."
+    },
+    "recoveryKitCopied": "Ключът за възстановяване е копиран",
+    "@recoveryKitCopied": {
+        "description": "Toast shown after the recovery key is copied."
+    },
+    "recoveryKitSaveImage": "Запази изображение",
+    "@recoveryKitSaveImage": {
+        "description": "Button that saves the recovery kit as an image."
+    },
+    "recoveryKitSaved": "Комплектът за възстановяване е запазен",
+    "@recoveryKitSaved": {
+        "description": "Toast shown after the recovery kit image is saved to a file."
+    },
+    "recoveryKitSavedToPhotos": "Комплектът за възстановяване е запазен в снимките",
+    "@recoveryKitSavedToPhotos": {
+        "description": "Toast shown after the recovery kit image is saved to the photo library."
+    },
+    "recoveryKitSaveFailed": "Комплектът за възстановяване не можа да бъде запазен. Опитай отново или копирай ключа.",
+    "@recoveryKitSaveFailed": {
+        "description": "Toast shown when saving the recovery kit image fails."
+    },
+    "recoveryKitAcknowledge": "Съхраних комплекта си за възстановяване на сигурно място",
+    "@recoveryKitAcknowledge": {
+        "description": "Checkbox that confirms the recovery kit is stored before closing the sheet."
+    },
+    "recoveryKitCreateFailed": "Не успяхме да създадем вашия комплект за възстановяване. Можете да създадете такъв по-късно в настройките на профила си.",
+    "@recoveryKitCreateFailed": {
+        "description": "Toast shown when a recovery kit cannot be created."
+    },
+    "recoveryKitSectionTitle": "Комплект за възстановяване",
+    "@recoveryKitSectionTitle": {
+        "description": "Title of the recovery kit section in security settings."
+    },
+    "recoveryKitSectionDescription": "Позволява ви да нулирате паролата си, ако я забравите.",
+    "@recoveryKitSectionDescription": {
+        "description": "Description of the recovery kit section in security settings."
+    },
+    "recoveryKitNone": "Все още нямате комплект за възстановяване",
+    "@recoveryKitNone": {
+        "description": "Shown in security settings when the account has no recovery kit."
+    },
+    "recoveryKitCreatedRelative": "Създадено {time}",
+    "@recoveryKitCreatedRelative": {
+        "description": "When the current recovery kit was created. time is a relative time such as 3 days ago.",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitCreate": "Създай комплект за възстановяване",
+    "@recoveryKitCreate": {
+        "description": "Button that creates a recovery kit."
+    },
+    "recoveryKitCreateNew": "Създай нов комплект",
+    "@recoveryKitCreateNew": {
+        "description": "Button that replaces the existing recovery kit with a new one."
+    },
+    "recoveryKitReplaceTitle": "Създаване на нов комплект за възстановяване?",
+    "@recoveryKitReplaceTitle": {
+        "description": "Title of the confirmation shown before replacing an existing recovery kit."
+    },
+    "recoveryKitReplaceDescription": "Настоящият ви комплект спира да работи веднага щом бъде създаден нов.",
+    "@recoveryKitReplaceDescription": {
+        "description": "Body of the confirmation shown before replacing an existing recovery kit."
+    },
+    "recoveryKitReminderTitle": "Запазете комплект за възстановяване",
+    "@recoveryKitReminderTitle": {
+        "description": "Title of the one-time prompt asking a signed-in user without a recovery kit to create one."
+    },
+    "recoveryKitReminderBody": "В профила ви няма имейл адрес. Ако забравите паролата си, комплектът за възстановяване е единственият начин да влезете отново. Отнема само минута.",
+    "@recoveryKitReminderBody": {
+        "description": "Body of the one-time prompt asking a signed-in user without a recovery kit to create one."
+    },
+    "registerUsernameSignInHint": "Влизате с това потребителско име. Изберете такова, което ще запомните.",
+    "@registerUsernameSignInHint": {
+        "description": "Helper text under the required username field when the instance uses usernames to sign in."
+    },
+    "registerUsernameTaken": "Това потребителско име вече е заето",
+    "@registerUsernameTaken": {
+        "description": "Registration form message when the chosen username belongs to someone else."
+    },
+    "registerUsernameAvailable": "Това потребителско име е налично",
+    "@registerUsernameAvailable": {
+        "description": "Registration form message when the chosen username is free to use."
+    },
+    "claimAccountUsernameDescription": "Заяви своя акаунт, като избереш потребителско име и парола. С тях ще влизаш в системата, така че избери такива, които ще помниш.",
+    "@claimAccountUsernameDescription": {
+        "description": "Description in the claim account sheet on instances where people sign in with a username."
+    },
+    "unclaimedAccountDescriptionUsername": "Акаунтът ви все още не е заявен. Без потребителско име и парола няма да можете да влезете от други устройства и може да загубите достъп до акаунта си. Заявете акаунта си сега, за да го защитите.",
+    "@unclaimedAccountDescriptionUsername": {
+        "description": "Description for the unclaimed account warning on instances where people sign in with a username."
+    },
+    "addFriendUsernameOnlyHint": "Потребителско име",
+    "@addFriendUsernameOnlyHint": {
+        "description": "Placeholder for the add friend field on instances where usernames have no tag."
+    },
     "registerTitle": "Създаване на акаунт",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -875,6 +1074,10 @@
     "errorInvalidEmailOrPassword": "Невалиден имейл или парола.",
     "@errorInvalidEmailOrPassword": {
         "description": "Error shown on the login screen when the email and password combination is incorrect."
+    },
+    "errorInvalidUsernameOrPassword": "Невалидно потребителско име или парола.",
+    "@errorInvalidUsernameOrPassword": {
+        "description": "Sign-in error on instances where people sign in with a username."
     },
     "errorUnableToSendResetLink": "Не успяхме да изпратим връзка за нулиране. Моля, опитайте отново.",
     "@errorUnableToSendResetLink": {
@@ -11601,6 +11804,14 @@
             }
         }
     },
+    "premiumGiftGraceEnded": "Времето на подаръка ви изтече. Абонирайте се, за да запазите Plutonium.",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "Ще бъдете таксувани сега. Остатъчното ви безплатно време ще бъде добавено след платената ви услуга, така че няма да загубите нищо.",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
+    },
     "premiumComparisonFeatureColumn": "Функция",
     "premiumDisclaimerPurchased": "С покупката прие нашите {terms} и {privacy}.",
     "@premiumDisclaimerPurchased": {
@@ -11618,7 +11829,6 @@
     "premiumPrivacyPolicy": "Политика за поверителност",
     "premiumCheckoutStartFailedTitle": "Неуспешно стартиране на плащането",
     "premiumCheckoutStartFailedBody": "Нещо се обърка при стартирането на плащането. Опитай отново след малко.",
-    "premiumGiftSubscriptionBlocksRecurring": "В момента ползваш абонамент подарък. Той няма да се поднови. Можеш да осребриш още кодове за подарък, за да го удължиш. Можеш да започнеш редовен абонамент, след като подареното време изтече.",
     "premiumPlanUnavailable": "Този план не е наличен. Свържи се с поддръжката.",
     "premiumCompletePaymentTitle": "Завършване на плащането",
     "premiumCompletePaymentBody": "Сега ще бъдете пренасочени към Stripe, за да завършите плащането. Върнете се във Fluxer, след като сте готови.",

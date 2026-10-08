@@ -184,6 +184,24 @@ void main() {
       });
     });
 
+    test('drain waits for stop chain to finish', () {
+      fakeAsync((FakeAsync async) {
+        final List<String> events = <String>[];
+        final VoiceScreenShareAudioSession<Object> playback = session(
+          events: events,
+        );
+        final Object track = Object();
+        unawaited(playback.retain(track));
+        tick(async);
+        playback.release(track);
+        var drained = false;
+        unawaited(playback.drain().then((_) => drained = true));
+        tick(async);
+        expect(drained, isTrue);
+        expect(events, <String>['start', 'stop']);
+      });
+    });
+
     test('ending the session stops a held track when it is released', () {
       fakeAsync((FakeAsync async) {
         final List<String> events = <String>[];

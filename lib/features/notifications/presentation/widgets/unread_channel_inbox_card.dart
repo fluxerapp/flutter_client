@@ -7,6 +7,8 @@ import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
+import 'package:fluxer_app/features/channels/domain/channel.dart'
+    show isThreadFeatureChannelType;
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/notifications/data/notifications_repository.dart';
 import 'package:fluxer_app/features/notifications/data/unread_inbox_card_meta.dart';
@@ -116,6 +118,12 @@ class _UnreadChannelInboxCardState
   Future<void> _toggleCollapsed() async {
     final drift_db.FluxerDatabase db = ref.read(fluxerDatabaseProvider);
     final bool nextCollapsed = !widget.entry.isCollapsed;
+    final drift_db.Channel? channel = await db.channelDao.getChannelById(
+      widget.entry.channelId,
+    );
+    if (channel != null && isThreadFeatureChannelType(channel.type)) {
+      return;
+    }
     await db.notificationDao.upsertUnreadCollapsed(
       channelId: widget.entry.channelId,
       isCollapsed: nextCollapsed,
@@ -210,7 +218,12 @@ class _UnreadChannelInboxCardState
             entry: widget.entry,
             meta: _meta,
             collapsed: collapsed,
-            onToggleCollapsed: () => unawaited(_toggleCollapsed()),
+            onToggleCollapsed:
+                isThreadFeatureChannelType(
+                  _meta.guildChannelVisualType.wireValue,
+                )
+                ? null
+                : () => unawaited(_toggleCollapsed()),
             onJump: _jump,
             onMarkRead: () => unawaited(_markRead()),
             onOpenGuildNotificationSettings: () =>

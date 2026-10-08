@@ -544,6 +544,205 @@
     "@resetPasswordMismatch": {
         "description": "Error when password and confirmation don't match."
     },
+    "recoverAccountTitle": "Obnovit účet",
+    "@recoverAccountTitle": {
+        "description": "Title of the screen where someone resets their password with a recovery kit."
+    },
+    "recoverAccountDescription": "Zadejte své uživatelské jméno a obnovovací klíč z vaší obnovovací sady a poté zvolte nové heslo.",
+    "@recoverAccountDescription": {
+        "description": "Description on the account recovery screen."
+    },
+    "recoverAccountNoKit": "Žádný záchranný balíček? Požádejte administrátora této instance o odkaz na obnovení hesla.",
+    "@recoverAccountNoKit": {
+        "description": "Hint under the account recovery form for people without a recovery kit."
+    },
+    "recoveryKitTitle": "Vaše sada pro obnovení",
+    "@recoveryKitTitle": {
+        "description": "Title of the sheet that shows a newly created account recovery kit."
+    },
+    "recoveryKitCreatedDescription": "Pokud zapomenete heslo, tato sada je jediný způsob, jak se dostat zpět do svého účtu. Uložte si ji na bezpečné místo, například do správce hesel nebo jako tištěnou kopii.",
+    "@recoveryKitCreatedDescription": {
+        "description": "Recovery kit sheet description for a newly created kit."
+    },
+    "recoveryKitReplacedDescription": "Vaše stará sada pro obnovení již nefunguje. Tuto novou si uložte na bezpečné místo.",
+    "@recoveryKitReplacedDescription": {
+        "description": "Recovery kit sheet description shown after a kit replaces an older one."
+    },
+    "recoveryKitRecoveredDescription": "Vaše heslo bylo resetováno. Vaše stará sada pro obnovení již nefunguje. Uložte si tuto novou sadu na bezpečné místo.",
+    "@recoveryKitRecoveredDescription": {
+        "description": "Recovery kit sheet description shown after someone recovers their account with a recovery key."
+    },
+    "recoveryKitWarning": "Kdokoli s tímto klíčem může resetovat vaše heslo. Nikdy ho nesdílejte.",
+    "@recoveryKitWarning": {
+        "description": "Warning under the recovery key in the recovery kit sheet."
+    },
+    "recoveryKitKeyLabel": "Obnovovací klíč",
+    "@recoveryKitKeyLabel": {
+        "description": "Label for the account recovery key."
+    },
+    "recoveryKitDocumentTitle": "Klíč k obnovení {productName}",
+    "@recoveryKitDocumentTitle": {
+        "description": "Title of the saved recovery kit image. productName is the app name.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitDocumentIntro": "Tuto stránku si uložte na bezpečné místo. Pokud zapomenete heslo, můžete ji použít k obnovení přístupu ke svému účtu. Kdokoli s tímto obnovovacím klíčem může resetovat vaše heslo, takže ho nikdy nesdílejte.",
+    "@recoveryKitDocumentIntro": {
+        "description": "Introduction on the saved recovery kit image."
+    },
+    "recoveryKitInstanceLabel": "Instance",
+    "@recoveryKitInstanceLabel": {
+        "description": "Label for the server address on the saved recovery kit."
+    },
+    "recoveryKitCreatedAtLabel": "Vytvořeno",
+    "@recoveryKitCreatedAtLabel": {
+        "description": "Label for the creation date on the saved recovery kit."
+    },
+    "recoveryKitQrCaption": "Naskenujte a otevřete stránku pro obnovení s předvyplněnými údaji.",
+    "@recoveryKitQrCaption": {
+        "description": "Caption under the QR code on the saved recovery kit."
+    },
+    "recoveryKitStepsTitle": "Jak obnovit svůj účet",
+    "@recoveryKitStepsTitle": {
+        "description": "Heading above the recovery steps on the saved recovery kit."
+    },
+    "recoveryKitStepOpen": "Přejděte na {recoverUrl} nebo naskenujte QR kód.",
+    "@recoveryKitStepOpen": {
+        "description": "First recovery step on the saved recovery kit. recoverUrl is the address of the recovery page.",
+        "placeholders": {
+            "recoverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitStepEnter": "Zadejte své uživatelské jméno a tento obnovovací klíč.",
+    "@recoveryKitStepEnter": {
+        "description": "Second recovery step on the saved recovery kit."
+    },
+    "recoveryKitStepPassword": "Zvolte nové heslo. Dostanete novou sadu pro obnovení a tato přestane fungovat.",
+    "@recoveryKitStepPassword": {
+        "description": "Third recovery step on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesTitle": "Dvoufaktorové záložní kódy",
+    "@recoveryKitBackupCodesTitle": {
+        "description": "Heading above the two-factor backup codes on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesNote": "Každý kód funguje jednou místo vaší aplikace pro ověřování.",
+    "@recoveryKitBackupCodesNote": {
+        "description": "Note under the two-factor backup codes heading on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesFailed": "Nepodařilo se načíst vaše záložní kódy.",
+    "@recoveryKitBackupCodesFailed": {
+        "description": "Toast shown when the two-factor backup codes for the recovery kit cannot be loaded."
+    },
+    "recoveryKitIncludeBackupCodes": "Zahrnout mé záložní kódy dvoufázového ověření do uloženého obrázku",
+    "@recoveryKitIncludeBackupCodes": {
+        "description": "Checkbox in the recovery kit sheet that adds the two-factor backup codes to the saved image."
+    },
+    "recoveryKitCopy": "Kopírovat",
+    "@recoveryKitCopy": {
+        "description": "Button that copies the account recovery key."
+    },
+    "recoveryKitCopied": "Klíč pro obnovení zkopírován",
+    "@recoveryKitCopied": {
+        "description": "Toast shown after the recovery key is copied."
+    },
+    "recoveryKitSaveImage": "Uložit obrázek",
+    "@recoveryKitSaveImage": {
+        "description": "Button that saves the recovery kit as an image."
+    },
+    "recoveryKitSaved": "Sada pro obnovení uložena",
+    "@recoveryKitSaved": {
+        "description": "Toast shown after the recovery kit image is saved to a file."
+    },
+    "recoveryKitSavedToPhotos": "Sada pro obnovení uložena do fotek",
+    "@recoveryKitSavedToPhotos": {
+        "description": "Toast shown after the recovery kit image is saved to the photo library."
+    },
+    "recoveryKitSaveFailed": "Sadu pro obnovení se nepodařilo uložit. Zkus to znovu nebo místo toho zkopíruj klíč.",
+    "@recoveryKitSaveFailed": {
+        "description": "Toast shown when saving the recovery kit image fails."
+    },
+    "recoveryKitAcknowledge": "Uložil/a jsem si svou sadu pro obnovení na bezpečné místo",
+    "@recoveryKitAcknowledge": {
+        "description": "Checkbox that confirms the recovery kit is stored before closing the sheet."
+    },
+    "recoveryKitCreateFailed": "Nepodařilo se vytvořit váš záchranný balíček. Můžete si ho vytvořit později v nastavení účtu.",
+    "@recoveryKitCreateFailed": {
+        "description": "Toast shown when a recovery kit cannot be created."
+    },
+    "recoveryKitSectionTitle": "Záchranná sada",
+    "@recoveryKitSectionTitle": {
+        "description": "Title of the recovery kit section in security settings."
+    },
+    "recoveryKitSectionDescription": "Umožňuje resetovat heslo, pokud ho zapomenete.",
+    "@recoveryKitSectionDescription": {
+        "description": "Description of the recovery kit section in security settings."
+    },
+    "recoveryKitNone": "Ještě nemáte záchrannou sadu",
+    "@recoveryKitNone": {
+        "description": "Shown in security settings when the account has no recovery kit."
+    },
+    "recoveryKitCreatedRelative": "Vytvořeno {time}",
+    "@recoveryKitCreatedRelative": {
+        "description": "When the current recovery kit was created. time is a relative time such as 3 days ago.",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitCreate": "Vytvořit záchrannou sadu",
+    "@recoveryKitCreate": {
+        "description": "Button that creates a recovery kit."
+    },
+    "recoveryKitCreateNew": "Vytvořit novou sadu",
+    "@recoveryKitCreateNew": {
+        "description": "Button that replaces the existing recovery kit with a new one."
+    },
+    "recoveryKitReplaceTitle": "Vytvořit nový obnovovací klíč?",
+    "@recoveryKitReplaceTitle": {
+        "description": "Title of the confirmation shown before replacing an existing recovery kit."
+    },
+    "recoveryKitReplaceDescription": "Vaše současná sada přestane fungovat, jakmile bude vytvořena nová.",
+    "@recoveryKitReplaceDescription": {
+        "description": "Body of the confirmation shown before replacing an existing recovery kit."
+    },
+    "recoveryKitReminderTitle": "Uložit obnovovací sadu",
+    "@recoveryKitReminderTitle": {
+        "description": "Title of the one-time prompt asking a signed-in user without a recovery kit to create one."
+    },
+    "recoveryKitReminderBody": "Váš účet nemá zadanou e-mailovou adresu. Pokud zapomenete heslo, jediná cesta zpět je záchranná sada. Zabere to jen chvilku.",
+    "@recoveryKitReminderBody": {
+        "description": "Body of the one-time prompt asking a signed-in user without a recovery kit to create one."
+    },
+    "registerUsernameSignInHint": "Přihlašujete se tímto uživatelským jménem. Vyberte si takové, které si zapamatujete.",
+    "@registerUsernameSignInHint": {
+        "description": "Helper text under the required username field when the instance uses usernames to sign in."
+    },
+    "registerUsernameTaken": "Toto uživatelské jméno je již obsazené",
+    "@registerUsernameTaken": {
+        "description": "Registration form message when the chosen username belongs to someone else."
+    },
+    "registerUsernameAvailable": "Toto uživatelské jméno je k dispozici",
+    "@registerUsernameAvailable": {
+        "description": "Registration form message when the chosen username is free to use."
+    },
+    "claimAccountUsernameDescription": "Získejte svůj účet výběrem uživatelského jména a hesla. Přihlásíte se s nimi, takže si vyberte takové, na které si vzpomenete.",
+    "@claimAccountUsernameDescription": {
+        "description": "Description in the claim account sheet on instances where people sign in with a username."
+    },
+    "unclaimedAccountDescriptionUsername": "Váš účet ještě není uplatněn. Bez uživatelského jména a hesla se nebudete moci přihlásit z jiných zařízení a můžete ztratit přístup ke svému účtu. Uplatněte svůj účet nyní a zabezpečte ho.",
+    "@unclaimedAccountDescriptionUsername": {
+        "description": "Description for the unclaimed account warning on instances where people sign in with a username."
+    },
+    "addFriendUsernameOnlyHint": "Uživatelské jméno",
+    "@addFriendUsernameOnlyHint": {
+        "description": "Placeholder for the add friend field on instances where usernames have no tag."
+    },
     "registerTitle": "Vytvořit účet",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -651,6 +850,10 @@
     "errorInvalidEmailOrPassword": "Neplatný e-mail nebo heslo.",
     "@errorInvalidEmailOrPassword": {
         "description": "Error shown on the login screen when the email and password combination is incorrect."
+    },
+    "errorInvalidUsernameOrPassword": "Neplatné uživatelské jméno nebo heslo.",
+    "@errorInvalidUsernameOrPassword": {
+        "description": "Sign-in error on instances where people sign in with a username."
     },
     "errorUnableToSendResetLink": "Odkaz pro obnovení hesla se nepodařilo odeslat. Zkuste to prosím znovu.",
     "@errorUnableToSendResetLink": {
@@ -15648,6 +15851,14 @@
             }
         }
     },
+    "premiumGiftGraceEnded": "Čas vašeho dárku vypršel. Přihlaste se k odběru a zachovejte si Plutonium.",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "Budeme vám účtovat ihned. Zbývající čas z dárku se přidá po placeném období, takže o nic nepřijdete.",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
+    },
     "premiumComparisonFeatureColumn": "Funkce",
     "premiumDisclaimerPurchased": "Nákupem jste přijali naše {terms} a {privacy}.",
     "@premiumDisclaimerPurchased": {
@@ -15665,7 +15876,6 @@
     "premiumPrivacyPolicy": "Zásady ochrany osobních údajů",
     "premiumCheckoutStartFailedTitle": "Nepodařilo se spustit platbu",
     "premiumCheckoutStartFailedBody": "Při zahájení platby se něco pokazilo. Zkuste to prosím za chvíli znovu.",
-    "premiumGiftSubscriptionBlocksRecurring": "Momentálně máte dárkové předplatné. Nebude se automaticky obnovovat. Můžete uplatnit další dárkové kódy a prodloužit ho. Opakující se předplatné lze spustit po skončení vašeho dárkového předplatného.",
     "premiumPlanUnavailable": "Tento tarif není k dispozici. Kontaktujte podporu.",
     "premiumCompletePaymentTitle": "Dokončit platbu",
     "premiumCompletePaymentBody": "Nyní budete přesměrováni na Stripe k dokončení platby. Po dokončení se vraťte do Fluxeru.",

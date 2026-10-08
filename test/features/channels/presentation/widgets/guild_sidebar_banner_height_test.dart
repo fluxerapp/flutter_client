@@ -4,34 +4,27 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 
 void main() {
   group('guildSidebarBannerHeight', () {
-    test('uses full 16:9 height on non-mobile layouts', () {
+    test('uses 16:9 height when under the viewport cap', () {
       expect(
-        guildSidebarBannerHeight(width: 270, isMobile: false),
+        guildSidebarBannerHeight(width: 270, viewportHeight: 900),
         closeTo(270 / Breakpoints.guildBannerAspectRatio, 0.001),
       );
+    });
+
+    test('caps height at 30% of viewport height', () {
       expect(
-        guildSidebarBannerHeight(width: 1060, isMobile: false),
-        closeTo(1060 / Breakpoints.guildBannerAspectRatio, 0.001),
+        guildSidebarBannerHeight(width: 1060, viewportHeight: 500),
+        500 * Breakpoints.guildBannerMaxViewportHeightFraction,
       );
     });
 
-    test('caps height on mobile wide viewports', () {
-      expect(
-        guildSidebarBannerHeight(width: 1060, isMobile: true),
-        Breakpoints.mobileGuildBannerMaxHeight,
-      );
-    });
-
-    test('keeps natural height on mobile when under the cap', () {
-      expect(
-        guildSidebarBannerHeight(width: 240, isMobile: true),
-        closeTo(240 / Breakpoints.guildBannerAspectRatio, 0.001),
-      );
+    test('never goes below the header minimum', () {
+      expect(guildSidebarBannerHeight(width: 90, viewportHeight: 200), 56);
     });
 
     test('returns zero for non-positive width', () {
-      expect(guildSidebarBannerHeight(width: 0, isMobile: true), 0);
-      expect(guildSidebarBannerHeight(width: -10, isMobile: true), 0);
+      expect(guildSidebarBannerHeight(width: 0, viewportHeight: 900), 0);
+      expect(guildSidebarBannerHeight(width: -10, viewportHeight: 900), 0);
     });
   });
 }

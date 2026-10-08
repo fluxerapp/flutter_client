@@ -179,9 +179,16 @@ Future<ClientSensitiveMediaFilterLevel> sensitiveMediaFilterForChannel(
     return ClientSensitiveMediaFilterLevel.blur;
   }
   final db.FluxerDatabase database = ref.watch(fluxerDatabaseProvider);
-  final db.Channel? guildChannel = await database.channelDao.getChannelById(
+  db.Channel? guildChannel = await database.channelDao.getChannelById(
     channelId,
   );
+  final String? threadParentId =
+      guildChannel != null && isThreadChannelType(guildChannel.type)
+      ? guildChannel.parentId
+      : null;
+  if (threadParentId != null) {
+    guildChannel = await database.channelDao.getChannelById(threadParentId);
+  }
   if (guildChannel != null) {
     final Channel channel = Channel.fromRow(guildChannel);
     final db.Server? guildRow = await database.guildDao.getServerById(

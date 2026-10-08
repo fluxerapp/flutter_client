@@ -44,13 +44,8 @@ class AppBottomNavBar extends ConsumerWidget {
               config: items[index],
               isSelected: currentIndex == index,
               user: user,
+              ref: ref,
               onTap: () => onBranchSelected(index),
-              onLongPress: index == 2
-                  ? () {
-                      FluxerHaptics.medium();
-                      unawaited(ProfileTabMenuSheet.show(context, ref));
-                    }
-                  : null,
             ),
           ),
       ],
@@ -100,55 +95,67 @@ class _NavItemConfig {
   final bool isProfile;
 }
 
-class _AppBottomNavItem extends StatelessWidget {
+class _AppBottomNavItem extends StatefulWidget {
   const _AppBottomNavItem({
     required this.config,
     required this.isSelected,
     required this.user,
+    required this.ref,
     required this.onTap,
-    this.onLongPress,
   });
 
   final _NavItemConfig config;
   final bool isSelected;
   final UserSettingsViewState user;
+  final WidgetRef ref;
   final VoidCallback onTap;
-  final VoidCallback? onLongPress;
+
+  @override
+  State<_AppBottomNavItem> createState() => _AppBottomNavItemState();
+}
+
+class _AppBottomNavItemState extends State<_AppBottomNavItem> {
+  static const double _kNavAvatarSize = 24;
+
+  void _openProfileMenu() {
+    FluxerHaptics.medium();
+    unawaited(ProfileTabMenuSheet.show(context, widget.ref));
+  }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final Color itemColor = isSelected
+    final Color itemColor = widget.isSelected
         ? colors.textChat
         : colors.textPrimaryMuted;
 
     return FluxerTappable(
-      onTap: onTap,
-      onLongPress: onLongPress,
-      selected: isSelected,
-      semanticLabel: config.label,
+      onTap: widget.onTap,
+      onLongPress: widget.config.isProfile ? _openProfileMenu : null,
+      selected: widget.isSelected,
+      semanticLabel: widget.config.label,
       excludeChildSemantics: true,
       builder: (BuildContext context, Set<WidgetState> states) {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (config.isProfile)
+            if (widget.config.isProfile)
               AnimatedOpacity(
                 duration: context.motion.panel,
-                opacity: isSelected ? 1 : 0.5,
+                opacity: widget.isSelected ? 1 : 0.5,
                 child: FluxerAvatar.userPresence(
-                  fallbackText: user.displayName,
-                  userId: user.userId,
-                  imageUrl: user.avatarUrl,
-                  avatarColor: user.avatarColor,
-                  size: 24,
+                  fallbackText: widget.user.displayName,
+                  userId: widget.user.userId,
+                  imageUrl: widget.user.avatarUrl,
+                  avatarColor: widget.user.avatarColor,
+                  size: _kNavAvatarSize,
                 ),
               )
             else
-              PhosphorIcon(config.icon!, color: itemColor, size: 24),
+              PhosphorIcon(widget.config.icon!, color: itemColor, size: 24),
             const SizedBox(height: 4),
             Text(
-              config.label,
+              widget.config.label,
               textAlign: TextAlign.center,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,

@@ -104,6 +104,58 @@ void main() {
       );
     });
 
+    test('uses the thread name from a thread title', () {
+      expect(
+        resolvePushConversationName(const <String, String>{
+          'guild_id': '99',
+          'parent_id': '5',
+          'channel_name': 'release plan',
+        }, title: 'Alice (#release plan, #general, My Server)'),
+        '#release plan, #general, My Server',
+      );
+    });
+
+    test('keeps the channel name without a parent', () {
+      expect(
+        resolvePushConversationName(const <String, String>{
+          'guild_id': '99',
+        }, title: 'Alice (#general, #1 Fan Club)'),
+        'general',
+      );
+    });
+
+    test('prefers the structured thread name', () {
+      expect(
+        resolvePushConversationName(const <String, String>{
+          'guild_id': '99',
+          'parent_id': '5',
+          'channel_name': 'a, b',
+        }, title: 'Alice (#a, b, #general, My Server)'),
+        '#a, b, #general, My Server',
+      );
+    });
+
+    test('falls back to the thread name when the title differs', () {
+      expect(
+        resolvePushConversationName(const <String, String>{
+          'guild_id': '99',
+          'parent_id': '5',
+          'channel_name': 'release plan',
+        }, title: 'Alice'),
+        'release plan',
+      );
+    });
+
+    test('ignores channel_name without a parent', () {
+      expect(
+        resolvePushConversationName(const <String, String>{
+          'guild_id': '99',
+          'channel_name': 'other',
+        }, title: 'Alice (#general, My Server)'),
+        'general',
+      );
+    });
+
     test('uses Group DM from a group conversation title', () {
       expect(
         resolvePushConversationName(const <String, String>{

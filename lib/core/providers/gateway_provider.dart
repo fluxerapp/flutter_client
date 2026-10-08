@@ -13,6 +13,7 @@ import 'package:fluxer_app/core/providers/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/core/providers/splash_exit_allowed_provider.dart';
+import 'package:fluxer_app/core/push/local_push_notifications.dart';
 import 'package:fluxer_app/core/push/pending_push_notification_path_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
@@ -31,6 +32,8 @@ import 'package:fluxer_app/features/chat/providers/messages/message_realtime_pro
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_sync_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_page_sync.dart';
+import 'package:fluxer_app/features/forum/providers/forum_first_messages_provider.dart';
+import 'package:fluxer_app/features/forum/providers/forum_post_unreads_provider.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/channel_member_count_cache_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_availability_provider.dart';
@@ -49,6 +52,9 @@ import 'package:fluxer_app/features/settings/providers/premium_settings_state_pr
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/webauthn_credentials_view_model.dart';
 import 'package:fluxer_app/features/shell/providers/current_user_private_provider.dart';
+import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
+import 'package:fluxer_app/features/threads/providers/thread_member_list_provider.dart';
+import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
@@ -77,6 +83,7 @@ void gatewayConnectBinding(Ref ref) {
     if (previous != null) {
       ref.read(gatewayReadyProvider.notifier).reset();
       ref.read(guildAvailabilityProvider.notifier).clear();
+      ref.read(threadsGateProvider).resetConnection();
     }
     unawaited(next.connect());
   }, fireImmediately: true);
@@ -181,6 +188,7 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
       ref.read(memberListViewportProvider.notifier).clearSession();
       ref.read(memberListDesiredRangesProvider.notifier).clearAll();
       ref.read(memberListUpdateBatcherProvider).clearAll();
+      ref.read(threadMemberListsProvider.notifier).clearAll();
       scheduleReadyHeavyWork(activeGuildId);
       ref.read(gatewaySessionRecoveryProvider.notifier).bump();
       ref.read(gatewayFullRecoveryProvider.notifier).bump();
@@ -487,6 +495,35 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     resolveDefaultHideMutedChannels: () =>
         ref.mounted &&
         ref.read(userSettingsViewModelProvider).defaultHideMutedChannels,
+    threadsGate: ref.read(threadsGateProvider),
+    resolveParentThreadActor: (String guildId, String parentId) => ref.mounted
+        ? ref.read(parentThreadActorProvider(guildId, parentId))
+        : null,
+    onThreadGateChanged: (guildId, {required active}) => ifMounted(() {
+      if (!active) {
+        ref.read(threadMemberListsProvider.notifier).clearGuild(guildId);
+        ref.read(forumPostUnreadsProvider.notifier).clearGuild(guildId);
+        ref.read(forumFirstMessagesProvider.notifier).clear();
+      } else {
+        unawaited(
+          LocalPushNotifications().ensureForumThreadCreatedChannel().catchError(
+            (Object _) {},
+          ),
+        );
+      }
+      ref
+          .read(guildSyncProvider.notifier)
+          .handleThreadGateChanged(guildId, active: active);
+      unawaited(
+        ref.read(channelPermissionCacheProvider.notifier).rebuildGuild(guildId),
+      );
+    }),
+    onThreadMemberListUpdate: (event) => ifMounted(() {
+      ref.read(threadMemberListsProvider.notifier).apply(event);
+    }),
+    onForumUnreads: (event) => ifMounted(() {
+      ref.read(forumPostUnreadsProvider.notifier).apply(event);
+    }),
   );
 
   final dispatcher = GatewayEventDispatcher(

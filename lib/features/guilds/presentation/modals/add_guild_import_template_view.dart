@@ -85,7 +85,7 @@ class AddGuildImportTemplateViewState
     if (!settings.isProfileLoaded) {
       return const Center(child: FluxerLoadingSpinner());
     }
-    if (!settings.hasVerifiedEmail) {
+    if (!settings.isClaimed) {
       return AddGuildCreateGate(
         icon: PhosphorIconsFill.shieldWarning,
         title: l10n.addGuildCreateClaimTitle,
@@ -94,7 +94,7 @@ class AddGuildImportTemplateViewState
         onAction: () => ClaimAccountSheet.show(context, ref),
       );
     }
-    if (!settings.verified) {
+    if (!settings.isVerified) {
       return AddGuildCreateGate(
         icon: PhosphorIconsFill.envelopeSimple,
         title: l10n.addGuildCreateVerifyTitle,

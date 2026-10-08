@@ -9,6 +9,10 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/data/unread_permission_utils.dart';
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
+import 'package:fluxer_app/features/channels/domain/channel.dart'
+    show isThreadChannelType, isThreadOnlyChannelType;
+import 'package:fluxer_app/features/forum/domain/forum_channel.dart'
+    show forumNewPostsUnreadEnabled;
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -63,6 +67,7 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
   String? watchedMemberGuildId;
   StreamSubscription<Object?>? settingsSub;
   String? watchedSettingsGuildId;
+  StreamSubscription<Object?>? threadMemberSub;
   UnreadState? lastEmitted;
 
   void emit(UnreadState next) {
@@ -136,13 +141,29 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
     // A guild channel without an ack returns false before the fallback is
     // read, so skipping it here keeps this hot recompute off the DB.
     final fallbackAckMs = channel == null ? snowflakeTimestampMs(channelId) : 0;
-    final hasUnreadMessage = hasUnreadByReadState(
-      channelLastMessageId: latestMessageId,
-      ackLastMessageId: readState?.lastMessageId,
-      fallbackAckMs: fallbackAckMs,
-      mentionCount: 0,
-      isGuildChannel: channel != null,
-    );
+    final bool isThread = channel != null && isThreadChannelType(channel.type);
+    if (isThread && threadMemberSub == null) {
+      threadMemberSub = db.threadDao
+          .watchMember(channelId)
+          .skip(1)
+          .listen((_) => scheduleRecompute());
+    }
+    final bool unreadTracked =
+        (!isThread || await db.threadDao.getMember(channelId) != null) &&
+        !(channel != null &&
+            isThreadOnlyChannelType(channel.type) &&
+            !forumNewPostsUnreadEnabled(
+              decodedGuildSettings?.channelOverrides?[channelId]?.flags,
+            ));
+    final hasUnreadMessage =
+        unreadTracked &&
+        hasUnreadByReadState(
+          channelLastMessageId: latestMessageId,
+          ackLastMessageId: readState?.lastMessageId,
+          fallbackAckMs: fallbackAckMs,
+          mentionCount: 0,
+          isGuildChannel: channel != null,
+        );
     final hasUnread = mentionCount > 0 || hasUnreadMessage;
 
     final hasPinUnread = hasUnreadPins(
@@ -203,6 +224,7 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
     unawaited(indexSub.cancel());
     unawaited(settingsSub?.cancel());
     unawaited(memberSub?.cancel());
+    unawaited(threadMemberSub?.cancel());
     unawaited(controller.close());
   });
 

@@ -35,6 +35,9 @@ ChannelInviteCapability resolveChannelInviteCapability({
   required String guildId,
   String? vanityUrlCode,
 }) {
+  if (channel.isThread || channel.isThreadOnly) {
+    return const ChannelInviteCapability(canInvite: false);
+  }
   final int bits = permissionBits ?? 0;
   if (hasPermission(bits, Permission.createInstantInvite)) {
     return const ChannelInviteCapability(canInvite: true);

@@ -21,6 +21,7 @@ import 'package:fluxer_app/features/settings/providers/guild/guild_role_settings
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_providers.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_sheet.dart';
@@ -172,7 +173,10 @@ class _GuildRolesSettingsWidgetState
           Permission.mentionEveryone,
         );
         final List<GuildPermissionCategorySpec> permissionSpecs =
-            generateGuildPermissionSpec(l10n);
+            generateGuildPermissionSpec(
+              l10n,
+              threads: ref.watch(threadChannelsActiveProvider(widget.guildId)),
+            );
         final List<GuildPermissionCategorySpec> filteredPermissionSpecs =
             filterGuildPermissionSpec(
               specs: permissionSpecs,

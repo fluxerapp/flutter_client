@@ -4,8 +4,8 @@ import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
-class PlutoniumStoreHero extends StatelessWidget {
-  const PlutoniumStoreHero({
+class PremiumStoreHero extends StatelessWidget {
+  const PremiumStoreHero({
     required this.monthlyPrice,
     required this.yearlyPrice,
     required this.priceLoading,
@@ -52,19 +52,19 @@ class PlutoniumStoreHero extends StatelessWidget {
                     Text(
                       monthlyPrice!,
                       style: textStyles.channelName.copyWith(
-                        color: PlutoniumStoreStyle.ink,
+                        color: PremiumStoreStyle.ink,
                       ),
                     ),
                     Text(
                       l10n.storePlutoniumPriceOr,
                       style: textStyles.bodySmall.copyWith(
-                        color: PlutoniumStoreStyle.inkMuted,
+                        color: PremiumStoreStyle.inkMuted,
                       ),
                     ),
                     Text(
                       yearlyPrice!,
                       style: textStyles.channelName.copyWith(
-                        color: PlutoniumStoreStyle.ink,
+                        color: PremiumStoreStyle.ink,
                       ),
                     ),
                   ],

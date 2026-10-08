@@ -20,7 +20,7 @@ PremiumManageAction? premiumManageAction({
   required PremiumManageSurface surface,
   required PremiumSubscriptionProvider? provider,
   required String? manageUrl,
-  PlutoniumBillingStore? currentStore,
+  PremiumBillingStore? currentStore,
 }) {
   final String? url = _url(manageUrl);
   switch (surface) {
@@ -46,19 +46,19 @@ PremiumManageAction? premiumManageAction({
   }
 }
 
-bool plutoniumStorePurchaseBlockedByOtherPlatform({
+bool premiumStorePurchaseBlockedByOtherPlatform({
   required StorePurchaseBlockedReason? reason,
   required StoreBlockingProvider? blockingProvider,
-  required PlutoniumBillingStore? currentStore,
+  required PremiumBillingStore? currentStore,
 }) {
   if (reason != StorePurchaseBlockedReason.existingSubscription) {
     return false;
   }
   return switch (blockingProvider) {
     StoreBlockingProvider.appStore =>
-      currentStore != PlutoniumBillingStore.appStore,
+      currentStore != PremiumBillingStore.appStore,
     StoreBlockingProvider.googlePlay =>
-      currentStore != PlutoniumBillingStore.googlePlay,
+      currentStore != PremiumBillingStore.googlePlay,
     StoreBlockingProvider.stripe ||
     StoreBlockingProvider.$unknown ||
     null => true,
@@ -66,13 +66,13 @@ bool plutoniumStorePurchaseBlockedByOtherPlatform({
 }
 
 bool _storeMatches(
-  PlutoniumBillingStore? currentStore,
+  PremiumBillingStore? currentStore,
   PremiumSubscriptionProvider? provider,
 ) {
   return switch (currentStore) {
-    PlutoniumBillingStore.appStore =>
+    PremiumBillingStore.appStore =>
       provider == PremiumSubscriptionProvider.appStore,
-    PlutoniumBillingStore.googlePlay =>
+    PremiumBillingStore.googlePlay =>
       provider == PremiumSubscriptionProvider.googlePlay,
     null => false,
   };

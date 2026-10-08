@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
@@ -158,7 +159,13 @@ class _AttachmentChip extends ConsumerWidget {
                     children: [
                       ColoredBox(color: colors.backgroundTertiary),
                       if (hasImagePreview && !isSpoiler)
-                        Image.file(File(path), fit: BoxFit.cover)
+                        isSvgImageMedia(
+                              url: path,
+                              filename: attachment.filename,
+                              contentType: attachment.contentType,
+                            )
+                            ? SvgPicture.file(File(path), fit: BoxFit.cover)
+                            : Image.file(File(path), fit: BoxFit.cover)
                       else
                         Center(
                           child: Icon(

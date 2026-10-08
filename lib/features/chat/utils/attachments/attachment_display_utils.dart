@@ -8,7 +8,15 @@ const Set<String> kImageAttachmentExtensions = <String>{
   'jpeg',
   'gif',
   'webp',
+  'svg',
 };
+
+String? normalizedImageContentType(String? contentType) {
+  if (contentType == null || contentType.isEmpty) {
+    return null;
+  }
+  return contentType.toLowerCase().split(';').first.trim();
+}
 
 const Set<String> kVideoAttachmentExtensions = <String>{
   'mp4',
@@ -29,13 +37,27 @@ bool isImageAttachment({required String filename, String? contentType}) {
       return true;
     }
   }
-  final String? normalizedType = contentType?.toLowerCase();
-  if (normalizedType != null &&
-      normalizedType.startsWith('image/') &&
-      normalizedType != 'image/svg+xml') {
+  final String? normalizedType = normalizedImageContentType(contentType);
+  if (normalizedType != null && normalizedType.startsWith('image/')) {
     return true;
   }
   return false;
+}
+
+bool isSvgImageMedia({
+  required String url,
+  String? filename,
+  String? contentType,
+}) {
+  final String? normalizedType = normalizedImageContentType(contentType);
+  if (normalizedType == 'image/svg+xml' || normalizedType == 'image/svg') {
+    return true;
+  }
+  if (filename != null && filename.toLowerCase().endsWith('.svg')) {
+    return true;
+  }
+  final String path = Uri.tryParse(url)?.path ?? url;
+  return path.toLowerCase().endsWith('.svg');
 }
 
 bool isVideoAttachment({required String filename, String? contentType}) {

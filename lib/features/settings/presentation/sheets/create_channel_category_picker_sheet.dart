@@ -12,6 +12,7 @@ class CreateChannelCategoryPickerSheet {
   static Future<void> show(
     BuildContext context, {
     String? parentId,
+    String? guildId,
     Future<void> Function(ChannelCreateRequest request)? onCreateChannel,
     Future<void> Function(String name)? onCreateCategory,
   }) {
@@ -40,6 +41,7 @@ class CreateChannelCategoryPickerSheet {
                           await CreateChannelSheet.show(
                             context,
                             parentId: parentId,
+                            guildId: guildId,
                           );
                       if (request != null && context.mounted) {
                         await onCreateChannel?.call(request);

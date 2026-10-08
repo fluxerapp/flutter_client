@@ -1,3 +1,4 @@
+import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_proxy_url.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 
@@ -33,6 +34,9 @@ HdrImageProxyFormatAction hdrImageProxyFormatAction({
   String? contentType,
   String? url,
 }) {
+  if (isSvgImageMedia(url: url ?? '', contentType: contentType)) {
+    return HdrImageProxyFormatAction.unchanged;
+  }
   if (mode == HdrDisplayMode.standard ||
       _isJpegXlImage(contentType: contentType, url: url)) {
     return HdrImageProxyFormatAction.setWebp;

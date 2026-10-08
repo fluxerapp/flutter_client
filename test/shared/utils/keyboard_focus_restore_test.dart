@@ -46,7 +46,7 @@ void main() {
 
     await resumeApp(handle);
     await tester.pump();
-    await tester.pump(kKeyboardFocusRestoreRetryDelay);
+    await tester.pump();
 
     expect(focusNode.hasFocus, isTrue);
   });
@@ -79,7 +79,6 @@ void main() {
 
     await resumeApp(handle);
     await tester.pump();
-    await tester.pump(kKeyboardFocusRestoreRetryDelay);
     expect(focusNode.hasFocus, isFalse);
     expect(handle.hasPendingRestore, isTrue);
 
@@ -87,7 +86,6 @@ void main() {
     handle.scheduleRestoreIfPending();
     await tester.pump();
     await tester.pump();
-    await tester.pump(kKeyboardFocusRestoreRetryDelay);
     expect(focusNode.hasFocus, isTrue);
     expect(handle.hasPendingRestore, isFalse);
   });
@@ -119,7 +117,6 @@ void main() {
 
     handle.handleLifecycleState(AppLifecycleState.resumed);
     await tester.pump();
-    await tester.pump(kKeyboardFocusRestoreRetryDelay);
 
     expect(focusNode.hasFocus, isTrue);
     expect(handle.hasPendingRestore, isFalse);
@@ -151,6 +148,7 @@ void main() {
     await backgroundApp(handle);
     await resumeApp(handle);
     await tester.pump();
+    await tester.pump();
 
     expect(focusNode.hasFocus, isTrue);
     expect(handle.hasPendingRestore, isFalse);
@@ -158,12 +156,9 @@ void main() {
       tester.testTextInput.log.map((call) => call.method),
       contains('TextInput.show'),
     );
-
-    await tester.pump(kKeyboardFocusRestoreRetryDelay);
-    await tester.pump();
   });
 
-  testWidgets('replaces a focused connection on the next frame', (
+  testWidgets('reconnectOpenField restores a focused connection', (
     tester,
   ) async {
     final FocusNode focusNode = FocusNode();
@@ -186,7 +181,8 @@ void main() {
     await tester.pumpAndSettle();
     tester.testTextInput.log.clear();
 
-    handle.replaceFocusedConnection();
+    handle.reconnectOpenField();
+    await tester.pump();
     await tester.pump();
 
     expect(focusNode.hasFocus, isTrue);
@@ -194,37 +190,6 @@ void main() {
       tester.testTextInput.log.map((call) => call.method),
       contains('TextInput.show'),
     );
-  });
-
-  testWidgets('refocuses when the keyboard stays closed after resume', (
-    tester,
-  ) async {
-    final FocusNode focusNode = FocusNode();
-    addTearDown(focusNode.dispose);
-    final KeyboardFocusRestoreHandle handle = KeyboardFocusRestoreHandle(
-      focusNode: focusNode,
-      shouldTrackOnBackground: () => true,
-      canRestoreFocus: () => true,
-    );
-
-    await tester.pumpWidget(
-      MaterialApp(
-        home: Scaffold(body: TextField(focusNode: focusNode)),
-      ),
-    );
-    await tester.pumpAndSettle();
-
-    focusNode.requestFocus();
-    await tester.pumpAndSettle();
-
-    await backgroundApp(handle);
-    await resumeApp(handle);
-    await tester.pump();
-    await tester.pump(kKeyboardFocusRestoreRetryDelay);
-    await tester.pump();
-
-    expect(focusNode.hasFocus, isTrue);
-    expect(handle.hasPendingRestore, isFalse);
   });
 
   testWidgets('keeps pending restore when the resume frame is cancelled', (
@@ -261,6 +226,7 @@ void main() {
 
     handle.handleLifecycleState(AppLifecycleState.resumed);
     await tester.pump();
+    await tester.pump();
 
     expect(focusNode.hasFocus, isTrue);
     expect(handle.hasPendingRestore, isFalse);
@@ -293,15 +259,44 @@ void main() {
 
     await resumeApp(handle);
     await tester.pump();
+    await tester.pump();
     expect(focusNode.hasFocus, isTrue);
 
     focusNode.unfocus();
     await tester.pump();
     handle.handleLifecycleState(AppLifecycleState.inactive);
     await tester.pump();
-    await tester.pump(kKeyboardFocusRestoreRetryDelay);
 
     expect(focusNode.hasFocus, isFalse);
+  });
+
+  testWidgets('isActiveReadOnlyReconnect tracks reconnect lifecycle', (
+    tester,
+  ) async {
+    final FocusNode focusNode = FocusNode();
+    addTearDown(focusNode.dispose);
+    var composerReadOnly = false;
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(body: TextField(focusNode: focusNode)),
+      ),
+    );
+    await tester.pumpAndSettle();
+    focusNode.requestFocus();
+    await tester.pumpAndSettle();
+
+    reconnectComposerKeyboard(
+      focusNode,
+      toggleReadOnly: ({required bool readOnly}) {
+        composerReadOnly = readOnly;
+      },
+    );
+    expect(isActiveReadOnlyReconnect(), isTrue);
+    expect(composerReadOnly, isTrue);
+
+    await tester.pump(const Duration(milliseconds: 500));
+    expect(isActiveReadOnlyReconnect(), isFalse);
+    expect(composerReadOnly, isFalse);
   });
 
   test('isAppBackgroundLifecycleState covers paused and hidden only', () {
@@ -309,5 +304,75 @@ void main() {
     expect(isAppBackgroundLifecycleState(AppLifecycleState.paused), isTrue);
     expect(isAppBackgroundLifecycleState(AppLifecycleState.hidden), isTrue);
     expect(isAppBackgroundLifecycleState(AppLifecycleState.resumed), isFalse);
+  });
+
+  testWidgets('readOnly reconnect clears when focus is lost mid-toggle', (
+    tester,
+  ) async {
+    final FocusNode focusNode = FocusNode();
+    addTearDown(focusNode.dispose);
+    var composerReadOnly = false;
+    final KeyboardFocusRestoreHandle handle = KeyboardFocusRestoreHandle(
+      focusNode: focusNode,
+      shouldTrackOnBackground: () => true,
+      canRestoreFocus: () => true,
+      toggleReadOnly: ({required bool readOnly}) {
+        composerReadOnly = readOnly;
+      },
+    );
+    addTearDown(handle.dispose);
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(body: TextField(focusNode: focusNode)),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    focusNode.requestFocus();
+    await tester.pumpAndSettle();
+    expect(focusNode.hasFocus, isTrue);
+
+    handle.reconnectOpenField();
+    await tester.pump();
+    expect(composerReadOnly, isTrue);
+
+    focusNode.unfocus();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 60));
+
+    expect(composerReadOnly, isFalse);
+    await tester.pump(const Duration(milliseconds: 500));
+  });
+
+  testWidgets('cancelReadOnlyReconnect clears stuck readOnly', (tester) async {
+    final FocusNode focusNode = FocusNode();
+    addTearDown(focusNode.dispose);
+    var composerReadOnly = false;
+    final KeyboardFocusRestoreHandle handle = KeyboardFocusRestoreHandle(
+      focusNode: focusNode,
+      shouldTrackOnBackground: () => true,
+      canRestoreFocus: () => true,
+      toggleReadOnly: ({required bool readOnly}) {
+        composerReadOnly = readOnly;
+      },
+    );
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(body: TextField(focusNode: focusNode)),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    focusNode.requestFocus();
+    await tester.pumpAndSettle();
+    handle.reconnectOpenField();
+    await tester.pump();
+    expect(composerReadOnly, isTrue);
+
+    handle.cancelReadOnlyReconnect();
+    expect(composerReadOnly, isFalse);
+    addTearDown(handle.dispose);
   });
 }

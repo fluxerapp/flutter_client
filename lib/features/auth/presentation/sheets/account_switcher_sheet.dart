@@ -8,7 +8,6 @@ import 'package:fluxer_app/features/auth/domain/stored_account.dart';
 import 'package:fluxer_app/features/auth/presentation/add_account_screen.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/account_row.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
-import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
@@ -47,7 +46,6 @@ class AccountSwitcherSheetBody extends ConsumerWidget {
     required bool isCurrent,
   }) async {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final AccountManager manager = ref.read(accountManagerProvider.notifier);
     await FluxerConfirmModal.show(
       context,
       title: l10n.signOut,
@@ -55,6 +53,9 @@ class AccountSwitcherSheetBody extends ConsumerWidget {
       confirmLabel: l10n.signOut,
       isDanger: true,
       onConfirm: () {
+        final AccountManager manager = ref.read(
+          accountManagerProvider.notifier,
+        );
         if (isCurrent) {
           unawaited(manager.signOut(account.userId));
         } else {
@@ -93,9 +94,6 @@ class AccountSwitcherSheetBody extends ConsumerWidget {
           .read(accountManagerProvider.notifier)
           .switchToAccount(account.userId);
     } on SessionExpiredFailure {
-      ref.read(loginViewModelProvider.notifier)
-        ..updateEmail(account.identifier)
-        ..hideAccountSelector();
       final BuildContext? rootContext = rootNavigatorKey.currentContext;
       if (rootContext == null || !rootContext.mounted) {
         return;

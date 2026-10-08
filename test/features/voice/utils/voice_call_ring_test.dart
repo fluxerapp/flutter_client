@@ -86,10 +86,23 @@ void main() {
   });
 
   test('a closed ring window is detected', () {
-    expect(callRingWindowHasClosed(expiresAtMs: nowMs, nowMs: nowMs), isTrue);
+    expect(
+      callRingWindowHasClosed(
+        expiresAtMs: nowMs - kCallRingExpiryDeliveryGraceMs,
+        nowMs: nowMs,
+      ),
+      isTrue,
+    );
     expect(
       callRingWindowHasClosed(expiresAtMs: nowMs + 1, nowMs: nowMs),
       isFalse,
+    );
+  });
+
+  test('uses the default ring length when expiry is missing', () {
+    expect(
+      callRingDurationMs(expiresAtMs: null, nowMs: nowMs),
+      kCallRingDefaultDurationMs,
     );
   });
 }

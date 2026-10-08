@@ -12,7 +12,10 @@ Future<void> evictInactiveGuildPermissionState(
     return;
   }
   final db = container.read(fluxerDatabaseProvider);
-  final channels = await db.channelDao.getChannels(guildId);
+  final channels = await db.channelDao.getChannels(
+    guildId,
+    includeThreads: true,
+  );
   await container
       .read(channelPermissionCacheProvider.notifier)
       .evictGuild(guildId);

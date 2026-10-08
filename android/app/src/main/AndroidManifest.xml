@@ -244,9 +244,6 @@
         <intent>
             <action android:name="android.intent.action.TTS_SERVICE" />
         </intent>
-        <intent>
-            <action android:name="com.android.vending.billing.InAppBillingService.BIND" />
-        </intent>
         <package android:name="com.android.chrome" />
         <package android:name="org.mozilla.firefox" />
         <package android:name="com.duckduckgo.mobile.android" />

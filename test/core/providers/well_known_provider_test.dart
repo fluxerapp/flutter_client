@@ -71,6 +71,81 @@ void main() {
       expect(InstanceEndpoints.media, selfHostedMedia);
     },
   );
+
+  test('decodes a well-known payload without the premium fields', () async {
+    final Map<String, dynamic> payload =
+        jsonDecode(
+              jsonEncode(
+                wellKnownFixture(
+                  media: 'https://chat.example/media',
+                  staticCdn: 'https://chat.example/static',
+                ).toJson(),
+              ),
+            )
+            as Map<String, dynamic>;
+    final Map<String, dynamic> features =
+        Map<String, dynamic>.from(payload['features'] as Map)
+          ..remove('premium_enabled')
+          ..remove('stripe_serviceable');
+    final Map<String, dynamic> appPublic = Map<String, dynamic>.from(
+      payload['app_public'] as Map,
+    );
+    appPublic['branding'] = Map<String, dynamic>.from(
+      appPublic['branding'] as Map,
+    )..remove('premium_product_name');
+    payload['features'] = features;
+    payload['app_public'] = appPublic;
+
+    final ProviderContainer container = ProviderContainer(
+      overrides: [
+        fluxerDatabaseProvider.overrideWithValue(openTestDatabase()),
+        authTokenStorageProvider.overrideWithValue(MapAuthTokenStorage()),
+        fluxerDioProvider.overrideWith((Ref ref) {
+          return Dio(BaseOptions(baseUrl: ref.watch(fluxerBaseUrlProvider)))
+            ..httpClientAdapter = _StaticJsonAdapter(payload);
+        }),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    final WellKnownFluxerResponse built = await container.read(
+      wellKnownProvider.future,
+    );
+    expect(built.features.premiumEnabled, isFalse);
+    expect(built.features.stripeServiceable, isFalse);
+    expect(built.appPublic.branding.premiumProductName, 'Plutonium');
+
+    await container.read(wellKnownProvider.notifier).refresh(silent: false);
+    expect(container.read(wellKnownProvider).hasError, isFalse);
+    expect(
+      container.read(wellKnownProvider).requireValue.features.premiumEnabled,
+      isFalse,
+    );
+  });
+}
+
+class _StaticJsonAdapter implements HttpClientAdapter {
+  _StaticJsonAdapter(this.payload);
+
+  final Map<String, dynamic> payload;
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) async {
+    return ResponseBody.fromString(
+      jsonEncode(payload),
+      200,
+      headers: <String, List<String>>{
+        Headers.contentTypeHeader: <String>['application/json'],
+      },
+    );
+  }
+
+  @override
+  void close({bool force = false}) {}
 }
 
 class _HostWellKnownAdapter implements HttpClientAdapter {

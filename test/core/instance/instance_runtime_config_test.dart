@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
 
+import '../../helpers/well_known_fixture.dart';
+
 void main() {
   group('parseCssHexColor', () {
     test('parses 6-digit hex', () {
@@ -104,6 +106,63 @@ void main() {
         InstanceRuntimeConfig.defaults,
         InstanceRuntimeConfig.fromWellKnown(null),
       );
+    });
+  });
+
+  group('account identity', () {
+    InstanceRuntimeConfig configFor({
+      String? accountIdentity,
+      String? tagStyle,
+    }) {
+      return InstanceRuntimeConfig.fromWellKnown(
+        wellKnownFixture(
+          media: 'https://chat.example/media',
+          staticCdn: 'https://chat.example/static',
+          accountIdentity: accountIdentity,
+          tagStyle: tagStyle,
+        ),
+      );
+    }
+
+    test('reads an older server without the fields as email with tags', () {
+      final InstanceRuntimeConfig config = configFor();
+      expect(config.usernameSignIn, isFalse);
+      expect(config.uniqueUsernames, isFalse);
+    });
+
+    test('username sign-in always hides tags', () {
+      final InstanceRuntimeConfig config = configFor(
+        accountIdentity: 'username',
+        tagStyle: 'random',
+      );
+      expect(config.usernameSignIn, isTrue);
+      expect(config.uniqueUsernames, isTrue);
+    });
+
+    test('email sign-in with no tags hides tags', () {
+      final InstanceRuntimeConfig config = configFor(
+        accountIdentity: 'email',
+        tagStyle: 'none',
+      );
+      expect(config.usernameSignIn, isFalse);
+      expect(config.uniqueUsernames, isTrue);
+    });
+
+    test('email sign-in with random tags keeps tags', () {
+      final InstanceRuntimeConfig config = configFor(
+        accountIdentity: 'email',
+        tagStyle: 'random',
+      );
+      expect(config.uniqueUsernames, isFalse);
+    });
+
+    test('unknown values from a newer server fall back to email with tags', () {
+      final InstanceRuntimeConfig config = configFor(
+        accountIdentity: 'passkey',
+        tagStyle: 'emoji',
+      );
+      expect(config.usernameSignIn, isFalse);
+      expect(config.uniqueUsernames, isFalse);
     });
   });
 }

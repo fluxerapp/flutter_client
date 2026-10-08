@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:fluxer_app/core/deep_links/deep_link_handler.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/push/pending_push_notification_path_provider.dart';
@@ -60,11 +59,19 @@ class PushNotificationTapHandler extends _$PushNotificationTapHandler {
       return;
     }
     unawaited(
-      _navigateToPath(path, targetUserId: normalized['target_user_id']),
+      _navigateToPath(
+        path,
+        targetUserId: normalized['target_user_id'],
+        threadParent: resolvePushNotificationThreadParent(normalized),
+      ),
     );
   }
 
-  Future<void> _navigateToPath(String path, {String? targetUserId}) async {
+  Future<void> _navigateToPath(
+    String path, {
+    String? targetUserId,
+    ({String guildId, String parentId})? threadParent,
+  }) async {
     final String? currentUserId = ref.read(currentUserIdProvider);
     if (targetUserId != null &&
         targetUserId.isNotEmpty &&
@@ -81,7 +88,7 @@ class PushNotificationTapHandler extends _$PushNotificationTapHandler {
       }
       ref
           .read(pendingPushNotificationPathProvider.notifier)
-          .store(path, accountUserId: targetUserId);
+          .store(path, accountUserId: targetUserId, threadParent: threadParent);
       try {
         await ref
             .read(accountManagerProvider.notifier)
@@ -101,10 +108,14 @@ class PushNotificationTapHandler extends _$PushNotificationTapHandler {
       isConnectionFailed: ref.read(gatewayConnectionFailedProvider),
     );
     if (!ready) {
-      ref.read(pendingPushNotificationPathProvider.notifier).store(path);
+      ref
+          .read(pendingPushNotificationPathProvider.notifier)
+          .store(path, threadParent: threadParent);
       return;
     }
-    ref.read(deepLinkHandlerProvider.notifier).handlePath(path);
+    ref
+        .read(pendingPushNotificationPathProvider.notifier)
+        .open(path, threadParent: threadParent);
   }
 
   Future<bool> _isKnownValidAccount(String userId) async {

@@ -99,7 +99,13 @@ void main() {
   });
 
   test('a closed ring window is not still ringing', () {
-    expect(callRingWindowHasClosed(expiresAtMs: 1000, nowMs: 1000), isTrue);
+    expect(
+      callRingWindowHasClosed(
+        expiresAtMs: 1000 - kCallRingExpiryDeliveryGraceMs,
+        nowMs: 1000,
+      ),
+      isTrue,
+    );
     expect(
       isCallRingPayload(const <String, String>{'type': 'call_ring'}),
       isTrue,

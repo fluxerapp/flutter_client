@@ -53,3 +53,38 @@ Future<bool?> showDeleteMessageConfirmSheet(
   }
   return confirmed;
 }
+
+/// Shows a confirmation bottom sheet for deleting an attachment.
+///
+/// [context] may be null or unmounted; the sheet is presented from the root
+/// navigator. The attachment is removed only after the sheet closes.
+Future<bool?> showDeleteAttachmentConfirmSheet(
+  BuildContext? context,
+  WidgetRef ref, {
+  required String messageId,
+  required Attachment attachment,
+}) async {
+  final BuildContext? sheetContext = _deleteConfirmSheetContext(context);
+  if (sheetContext == null) {
+    return null;
+  }
+  final l10n = FluxerLocalizations.of(sheetContext);
+  final bool? confirmed = await FluxerConfirmSheet.show(
+    sheetContext,
+    title: l10n.chatMessageDeleteAttachment,
+    description: l10n.chatMessageDeleteAttachmentConfirmDescription,
+    confirmLabel: l10n.chatMessageDeleteAttachment,
+    isDanger: true,
+  );
+  if (confirmed ?? false) {
+    unawaited(
+      ref
+          .read(chatViewModelProvider.notifier)
+          .deleteMessageAttachment(
+            messageId: messageId,
+            attachmentId: attachment.id,
+          ),
+    );
+  }
+  return confirmed;
+}

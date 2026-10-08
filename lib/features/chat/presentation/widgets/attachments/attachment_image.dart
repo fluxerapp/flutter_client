@@ -1,10 +1,10 @@
-import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_thumbhash/flutter_thumbhash.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/forward_message_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_network_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animated_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_alt_text.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/media_load_error_placeholder.dart';
@@ -136,6 +136,8 @@ class AttachmentImage extends ConsumerWidget {
                                 mode: hdrDisplayMode,
                                 contentType: attachment.contentType,
                               ),
+                              filename: attachment.filename,
+                              contentType: attachment.contentType,
                               displaySize: displaySize,
                               dimensions: dimensions,
                               sourceWidth: attachment.width,
@@ -230,6 +232,8 @@ class AttachmentImage extends ConsumerWidget {
 class _AttachmentStaticImage extends StatelessWidget {
   const _AttachmentStaticImage({
     required this.imageUrl,
+    required this.filename,
+    required this.contentType,
     required this.displaySize,
     required this.dimensions,
     required this.sourceWidth,
@@ -238,6 +242,8 @@ class _AttachmentStaticImage extends StatelessWidget {
   });
 
   final String imageUrl;
+  final String filename;
+  final String? contentType;
   final Size? displaySize;
   final FluxerMediaDimensions dimensions;
   final int? sourceWidth;
@@ -269,17 +275,16 @@ class _AttachmentStaticImage extends StatelessWidget {
           memCacheWidth = cache.width;
           memCacheHeight = cache.height;
         }
-        return CachedNetworkImage(
+        return ChatNetworkImage(
           imageUrl: imageUrl,
+          filename: filename,
+          contentType: contentType,
           width: constraints.maxWidth.isFinite ? constraints.maxWidth : null,
           height: constraints.maxHeight.isFinite ? constraints.maxHeight : null,
           memCacheWidth: memCacheWidth,
           memCacheHeight: memCacheHeight,
-          fit: BoxFit.contain,
-          fadeInDuration: Duration.zero,
-          fadeOutDuration: Duration.zero,
-          placeholder: (BuildContext _, String _) => placeholder,
-          errorBuilder: (_, _, _) => const MediaLoadErrorPlaceholder(),
+          placeholder: placeholder,
+          errorPlaceholder: const MediaLoadErrorPlaceholder(),
         );
       },
     );

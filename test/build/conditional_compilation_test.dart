@@ -6,6 +6,10 @@ import 'package:fluxer_app/core/build/push_provider_kind.dart';
 
 void main() {
   final Directory projectRoot = _findProjectRoot(Directory.current);
+  const String billingClientPath =
+      'lib/features/settings/services/premium_store_purchase_client.dart';
+  const String billingClientBilling =
+      'lib/features/settings/services/premium_store_purchase_client.billing.dart';
 
   group('conditional compilation artifacts', () {
     test('active firebase messaging service uses the OSS stub', () {
@@ -71,12 +75,37 @@ void main() {
       );
     });
 
-    test('pubspec excludes firebase dependencies in OSS tree', () {
+    test('pubspec includes store billing in the default git tree', () {
       final File pubspec = File('${projectRoot.path}/pubspec.yaml');
       final String content = pubspec.readAsStringSync();
       expect(content, isNot(contains('firebase_core:')));
       expect(content, isNot(contains('firebase_messaging:')));
       expect(content, isNot(contains('fluxer_fcm:')));
+      expect(content, contains('in_app_purchase:'));
+      expect(content, contains('in_app_purchase_android:'));
+    });
+
+    test('active premium store purchase client uses billing sources', () {
+      final File clientFile = File('${projectRoot.path}/$billingClientPath');
+      final File billingTemplate = File(
+        '${projectRoot.path}/$billingClientBilling',
+      );
+      expect(clientFile.readAsStringSync(), billingTemplate.readAsStringSync());
+      expect(
+        clientFile.readAsStringSync(),
+        contains('package:in_app_purchase/in_app_purchase.dart'),
+      );
+    });
+
+    test('main manifest excludes play billing queries', () {
+      final File manifest = File(
+        '${projectRoot.path}/android/app/src/main/AndroidManifest.xml',
+      );
+      final String content = manifest.readAsStringSync();
+      expect(
+        content,
+        isNot(contains('com.android.vending.billing.InAppBillingService.BIND')),
+      );
     });
   });
 

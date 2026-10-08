@@ -113,6 +113,65 @@ class RunnerTests: XCTestCase {
     )
   }
 
+  func testSpeakableGroupNameUsesThreadNameForThreadTitles() {
+    XCTAssertEqual(
+      PushNotificationPayload.resolveSpeakableGroupName(
+        title: "Alice (#release plan, #general, My Server)",
+        userInfo: ["parent_id": "100", "channel_name": "release plan"]
+      ),
+      "#release plan, #general, My Server"
+    )
+  }
+
+  func testSpeakableGroupNamePrefersStructuredThreadName() {
+    XCTAssertEqual(
+      PushNotificationPayload.resolveSpeakableGroupName(
+        title: "Alice (#a, b, #general, My Server)",
+        userInfo: ["parent_id": "100", "channel_name": "a, b"]
+      ),
+      "#a, b, #general, My Server"
+    )
+  }
+
+  func testSpeakableGroupNameKeepsChannelNameWithoutParent() {
+    XCTAssertEqual(
+      PushNotificationPayload.resolveSpeakableGroupName(
+        title: "Alice (#general, #1 Fan Club)",
+        userInfo: [:]
+      ),
+      "general"
+    )
+  }
+
+  func testSpeakableGroupNameFallsBackToThreadNameWhenTitleDiffers() {
+    XCTAssertEqual(
+      PushNotificationPayload.resolveSpeakableGroupName(
+        title: "Alice",
+        userInfo: ["data": ["parent_id": "100", "channel_name": "release plan"]]
+      ),
+      "release plan"
+    )
+  }
+
+  func testSpeakableGroupNameIgnoresChannelNameWithoutParent() {
+    XCTAssertEqual(
+      PushNotificationPayload.resolveSpeakableGroupName(
+        title: "Alice (#general, My Server)",
+        userInfo: ["channel_name": "other"]
+      ),
+      "general"
+    )
+  }
+
+  func testThreadPushGroupsByThreadChannel() {
+    XCTAssertEqual(
+      PushNotificationPayload.resolveChannelThreadIdentifier(
+        from: ["channel_id": "300", "parent_id": "100"]
+      ),
+      "channel:300"
+    )
+  }
+
   func testSpeakableGroupNameUsesGroupDmFallback() {
     XCTAssertEqual(
       PushNotificationPayload.resolveSpeakableGroupName(title: "Alice (Group DM)"),

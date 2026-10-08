@@ -544,6 +544,205 @@
     "@resetPasswordMismatch": {
         "description": "Error when password and confirmation don't match."
     },
+    "recoverAccountTitle": "Gjenopprett kontoen din",
+    "@recoverAccountTitle": {
+        "description": "Title of the screen where someone resets their password with a recovery kit."
+    },
+    "recoverAccountDescription": "Skriv inn brukernavnet ditt og gjenopprettingsnøkkelen fra gjenopprettingssettet ditt, og velg deretter et nytt passord.",
+    "@recoverAccountDescription": {
+        "description": "Description on the account recovery screen."
+    },
+    "recoverAccountNoKit": "Ingen gjenopprettingspakke? Be en administrator av denne instansen om en lenke for tilbakestilling av passord.",
+    "@recoverAccountNoKit": {
+        "description": "Hint under the account recovery form for people without a recovery kit."
+    },
+    "recoveryKitTitle": "Gjenopprettingssettet ditt",
+    "@recoveryKitTitle": {
+        "description": "Title of the sheet that shows a newly created account recovery kit."
+    },
+    "recoveryKitCreatedDescription": "Hvis du glemmer passordet ditt, er dette settet den eneste måten å komme inn på kontoen din igjen. Oppbevar det et trygt sted, for eksempel en passordbehandler eller en utskrift.",
+    "@recoveryKitCreatedDescription": {
+        "description": "Recovery kit sheet description for a newly created kit."
+    },
+    "recoveryKitReplacedDescription": "Ditt gamle gjenopprettingssett fungerer ikke lenger. Oppbevar dette nye et trygt sted.",
+    "@recoveryKitReplacedDescription": {
+        "description": "Recovery kit sheet description shown after a kit replaces an older one."
+    },
+    "recoveryKitRecoveredDescription": "Passordet ditt er tilbakestilt. Din gamle gjenopprettingspakke fungerer ikke lenger. Oppbevar denne nye et trygt sted.",
+    "@recoveryKitRecoveredDescription": {
+        "description": "Recovery kit sheet description shown after someone recovers their account with a recovery key."
+    },
+    "recoveryKitWarning": "Alle med denne nøkkelen kan tilbakestille passordet ditt. Aldri del den.",
+    "@recoveryKitWarning": {
+        "description": "Warning under the recovery key in the recovery kit sheet."
+    },
+    "recoveryKitKeyLabel": "Gjenopprettingsnøkkel",
+    "@recoveryKitKeyLabel": {
+        "description": "Label for the account recovery key."
+    },
+    "recoveryKitDocumentTitle": "{productName} gjenopprettingssett",
+    "@recoveryKitDocumentTitle": {
+        "description": "Title of the saved recovery kit image. productName is the app name.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitDocumentIntro": "Ta vare på denne siden. Hvis du glemmer passordet ditt, kan du bruke den til å logge inn på kontoen din igjen. Alle som har denne gjenopprettingsnøkkelen, kan tilbakestille passordet ditt, så aldri del den.",
+    "@recoveryKitDocumentIntro": {
+        "description": "Introduction on the saved recovery kit image."
+    },
+    "recoveryKitInstanceLabel": "Instans",
+    "@recoveryKitInstanceLabel": {
+        "description": "Label for the server address on the saved recovery kit."
+    },
+    "recoveryKitCreatedAtLabel": "Opprettet",
+    "@recoveryKitCreatedAtLabel": {
+        "description": "Label for the creation date on the saved recovery kit."
+    },
+    "recoveryKitQrCaption": "Skann for å åpne gjenopprettingssiden med detaljene dine forhåndsfylt.",
+    "@recoveryKitQrCaption": {
+        "description": "Caption under the QR code on the saved recovery kit."
+    },
+    "recoveryKitStepsTitle": "Slik gjenoppretter du kontoen din",
+    "@recoveryKitStepsTitle": {
+        "description": "Heading above the recovery steps on the saved recovery kit."
+    },
+    "recoveryKitStepOpen": "Gå til {recoverUrl} eller skann QR-koden.",
+    "@recoveryKitStepOpen": {
+        "description": "First recovery step on the saved recovery kit. recoverUrl is the address of the recovery page.",
+        "placeholders": {
+            "recoverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitStepEnter": "Skriv inn brukernavnet ditt og denne gjenopprettingsnøkkelen.",
+    "@recoveryKitStepEnter": {
+        "description": "Second recovery step on the saved recovery kit."
+    },
+    "recoveryKitStepPassword": "Velg et nytt passord. Du får et nytt gjenopprettingssett, og dette slutter å virke.",
+    "@recoveryKitStepPassword": {
+        "description": "Third recovery step on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesTitle": "Sikkerhetskopikoder for totrinnsbekreftelse",
+    "@recoveryKitBackupCodesTitle": {
+        "description": "Heading above the two-factor backup codes on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesNote": "Hver kode fungerer én gang i stedet for autentiseringsappen din.",
+    "@recoveryKitBackupCodesNote": {
+        "description": "Note under the two-factor backup codes heading on the saved recovery kit."
+    },
+    "recoveryKitBackupCodesFailed": "Kunne ikke laste inn sikkerhetskopikodene dine.",
+    "@recoveryKitBackupCodesFailed": {
+        "description": "Toast shown when the two-factor backup codes for the recovery kit cannot be loaded."
+    },
+    "recoveryKitIncludeBackupCodes": "Ta med reservekodene mine for tofaktorautentisering i det lagrede bildet",
+    "@recoveryKitIncludeBackupCodes": {
+        "description": "Checkbox in the recovery kit sheet that adds the two-factor backup codes to the saved image."
+    },
+    "recoveryKitCopy": "Kopier",
+    "@recoveryKitCopy": {
+        "description": "Button that copies the account recovery key."
+    },
+    "recoveryKitCopied": "Gjenopprettingsnøkkel kopiert",
+    "@recoveryKitCopied": {
+        "description": "Toast shown after the recovery key is copied."
+    },
+    "recoveryKitSaveImage": "Lagre bilde",
+    "@recoveryKitSaveImage": {
+        "description": "Button that saves the recovery kit as an image."
+    },
+    "recoveryKitSaved": "Gjenopprettingssett lagret",
+    "@recoveryKitSaved": {
+        "description": "Toast shown after the recovery kit image is saved to a file."
+    },
+    "recoveryKitSavedToPhotos": "Gjenopprettingssett lagret i Bilder",
+    "@recoveryKitSavedToPhotos": {
+        "description": "Toast shown after the recovery kit image is saved to the photo library."
+    },
+    "recoveryKitSaveFailed": "Kunne ikke lagre gjenopprettingssettet. Prøv igjen, eller kopier nøkkelen i stedet.",
+    "@recoveryKitSaveFailed": {
+        "description": "Toast shown when saving the recovery kit image fails."
+    },
+    "recoveryKitAcknowledge": "Jeg har lagret gjenopprettingssettet mitt et trygt sted",
+    "@recoveryKitAcknowledge": {
+        "description": "Checkbox that confirms the recovery kit is stored before closing the sheet."
+    },
+    "recoveryKitCreateFailed": "Kunne ikke opprette gjenopprettingssettet ditt. Du kan opprette et senere i kontoinnstillingene dine.",
+    "@recoveryKitCreateFailed": {
+        "description": "Toast shown when a recovery kit cannot be created."
+    },
+    "recoveryKitSectionTitle": "Gjenopprettingssett",
+    "@recoveryKitSectionTitle": {
+        "description": "Title of the recovery kit section in security settings."
+    },
+    "recoveryKitSectionDescription": "Lar deg tilbakestille passordet ditt hvis du glemmer det.",
+    "@recoveryKitSectionDescription": {
+        "description": "Description of the recovery kit section in security settings."
+    },
+    "recoveryKitNone": "Du har ikke et gjenopprettingssett ennå",
+    "@recoveryKitNone": {
+        "description": "Shown in security settings when the account has no recovery kit."
+    },
+    "recoveryKitCreatedRelative": "Opprettet {time}",
+    "@recoveryKitCreatedRelative": {
+        "description": "When the current recovery kit was created. time is a relative time such as 3 days ago.",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "recoveryKitCreate": "Opprett gjenopprettingssett",
+    "@recoveryKitCreate": {
+        "description": "Button that creates a recovery kit."
+    },
+    "recoveryKitCreateNew": "Opprett et nytt sett",
+    "@recoveryKitCreateNew": {
+        "description": "Button that replaces the existing recovery kit with a new one."
+    },
+    "recoveryKitReplaceTitle": "Opprette et nytt gjenopprettingssett?",
+    "@recoveryKitReplaceTitle": {
+        "description": "Title of the confirmation shown before replacing an existing recovery kit."
+    },
+    "recoveryKitReplaceDescription": "Ditt nåværende sett slutter å fungere så snart det nye er opprettet.",
+    "@recoveryKitReplaceDescription": {
+        "description": "Body of the confirmation shown before replacing an existing recovery kit."
+    },
+    "recoveryKitReminderTitle": "Lagre et gjenopprettingssett",
+    "@recoveryKitReminderTitle": {
+        "description": "Title of the one-time prompt asking a signed-in user without a recovery kit to create one."
+    },
+    "recoveryKitReminderBody": "Kontoen din har ingen e-postadresse. Hvis du glemmer passordet ditt, er et gjenopprettingssett den eneste måten å komme inn igjen på. Det tar bare et minutt.",
+    "@recoveryKitReminderBody": {
+        "description": "Body of the one-time prompt asking a signed-in user without a recovery kit to create one."
+    },
+    "registerUsernameSignInHint": "Du logger inn med dette brukernavnet. Velg et du vil huske.",
+    "@registerUsernameSignInHint": {
+        "description": "Helper text under the required username field when the instance uses usernames to sign in."
+    },
+    "registerUsernameTaken": "Dette brukernavnet er allerede i bruk",
+    "@registerUsernameTaken": {
+        "description": "Registration form message when the chosen username belongs to someone else."
+    },
+    "registerUsernameAvailable": "Dette brukernavnet er ledig",
+    "@registerUsernameAvailable": {
+        "description": "Registration form message when the chosen username is free to use."
+    },
+    "claimAccountUsernameDescription": "Gjør krav på kontoen din ved å velge et brukernavn og passord. Du logger inn med dem, så velg noen du vil huske.",
+    "@claimAccountUsernameDescription": {
+        "description": "Description in the claim account sheet on instances where people sign in with a username."
+    },
+    "unclaimedAccountDescriptionUsername": "Kontoen din er ikke gjort krav på ennå. Uten brukernavn og passord vil du ikke kunne logge inn fra andre enheter, og du kan miste tilgangen til kontoen din. Gjør krav på kontoen din nå for å sikre den.",
+    "@unclaimedAccountDescriptionUsername": {
+        "description": "Description for the unclaimed account warning on instances where people sign in with a username."
+    },
+    "addFriendUsernameOnlyHint": "Brukernavn",
+    "@addFriendUsernameOnlyHint": {
+        "description": "Placeholder for the add friend field on instances where usernames have no tag."
+    },
     "registerTitle": "Opprett en konto",
     "@registerTitle": {
         "description": "Title for the registration screen."
@@ -651,6 +850,10 @@
     "errorInvalidEmailOrPassword": "Ugyldig e-post eller passord.",
     "@errorInvalidEmailOrPassword": {
         "description": "Error shown on the login screen when the email and password combination is incorrect."
+    },
+    "errorInvalidUsernameOrPassword": "Ugyldig brukernavn eller passord.",
+    "@errorInvalidUsernameOrPassword": {
+        "description": "Sign-in error on instances where people sign in with a username."
     },
     "errorUnableToSendResetLink": "Kunne ikke sende tilbakestillingslenke. Prøv igjen.",
     "@errorUnableToSendResetLink": {
@@ -15648,6 +15851,14 @@
             }
         }
     },
+    "premiumGiftGraceEnded": "Gaven din er utløpt. Abonner for å beholde Plutonium.",
+    "@premiumGiftGraceEnded": {
+        "description": "Plutonium settings summary line shown during the grace period after gifted Plutonium time runs out."
+    },
+    "premiumGiftTimeAddedAfterSubscription": "Du blir belastet nå. Din gjenværende gaveperiode legges til etter betalingsperioden din, slik at ingenting går tapt.",
+    "@premiumGiftTimeAddedAfterSubscription": {
+        "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
+    },
     "premiumComparisonFeatureColumn": "Funksjon",
     "premiumDisclaimerPurchased": "Ved kjøpet godtok du våre {terms} og {privacy}.",
     "@premiumDisclaimerPurchased": {
@@ -15665,7 +15876,6 @@
     "premiumPrivacyPolicy": "Personvernregler",
     "premiumCheckoutStartFailedTitle": "Kunne ikke starte betaling",
     "premiumCheckoutStartFailedBody": "Noe gikk galt da betalingsprosessen skulle startes. Prøv igjen om et øyeblikk.",
-    "premiumGiftSubscriptionBlocksRecurring": "Du har et gaveabonnement. Det fornyes ikke. Du kan løse inn flere gavekoder for å forlenge det. Gjentakende abonnementer kan startes etter at gaveperioden din er over.",
     "premiumPlanUnavailable": "Dette abonnementet er ikke tilgjengelig. Kontakt kundestøtte.",
     "premiumCompletePaymentTitle": "Fullfør betaling",
     "premiumCompletePaymentBody": "Du navigerer nå til Stripe for å fullføre betalingen. Gå tilbake til Fluxer når du er ferdig.",

@@ -7,6 +7,8 @@ extension LoginErrorL10n on LoginError {
     return switch (this) {
       LoginError.invalidEmail => l10n.emailInvalid,
       LoginError.invalidCredentials => l10n.errorInvalidEmailOrPassword,
+      LoginError.invalidUsernameOrPassword =>
+        l10n.errorInvalidUsernameOrPassword,
       LoginError.unableToCreateAccount => l10n.errorUnableToCreateAccount,
       LoginError.unableToSignIn => l10n.errorUnableToSignIn,
       LoginError.unableToSendResetLink => l10n.errorUnableToSendResetLink,

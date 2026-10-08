@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_callkit_incoming/entities/call_kit_params.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
@@ -11,6 +12,8 @@ import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/voice/utils/voice_call_ring.dart';
 import 'package:fluxer_app/features/voice/utils/voice_callkit_params.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+
+import '../../../helpers/open_test_database.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +34,7 @@ void main() {
   test('voice session params include headers', () {
     final ProviderContainer container = ProviderContainer(
       overrides: [
+        fluxerDatabaseProvider.overrideWithValue(openTestDatabase()),
         channelByIdProvider(
           'channel',
         ).overrideWith((ref) => Stream<Channel?>.value(null)),

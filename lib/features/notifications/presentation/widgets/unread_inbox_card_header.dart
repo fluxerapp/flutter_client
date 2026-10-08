@@ -30,7 +30,7 @@ class UnreadInboxCardHeader extends StatelessWidget {
   final UnreadInboxEntry entry;
   final UnreadInboxCardMeta meta;
   final bool collapsed;
-  final VoidCallback onToggleCollapsed;
+  final VoidCallback? onToggleCollapsed;
   final VoidCallback onJump;
   final VoidCallback onMarkRead;
   final VoidCallback onOpenGuildNotificationSettings;
@@ -60,6 +60,9 @@ class UnreadInboxCardHeader extends StatelessWidget {
     FluxerColorTheme colors,
     FluxerLocalizations l10n,
   ) {
+    if (onToggleCollapsed == null) {
+      return const SizedBox(width: _kActionButtonSize);
+    }
     return IconButton(
       padding: EdgeInsets.zero,
       constraints: const BoxConstraints(

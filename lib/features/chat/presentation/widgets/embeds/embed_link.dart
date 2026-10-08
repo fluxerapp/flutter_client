@@ -1,8 +1,8 @@
-import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_gallery_media.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_shared.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_network_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/wallpaper/chat_wallpaper_text_theme.dart';
 import 'package:fluxer_app/features/chat/utils/embeds/embed_gallery_utils.dart';
@@ -120,6 +120,7 @@ class EmbedLink extends StatelessWidget {
                               context,
                               media: embed.thumbnail!,
                               title: embed.title,
+                              embedPageUrl: embed.url,
                               embedIndex: embedIndex,
                               channelId: channelId,
                               messageId: messageId,
@@ -175,14 +176,13 @@ class EmbedLink extends StatelessWidget {
       sourceWidth: thumbnail.width,
       sourceHeight: thumbnail.height,
     );
-    final Widget image = CachedNetworkImage(
-      imageUrl: embedMediaEffectiveUrl(thumbnail),
+    final String imageUrl = embedMediaEffectiveUrl(thumbnail);
+    final Widget image = ChatNetworkImage(
+      imageUrl: imageUrl,
+      contentType: thumbnail.contentType,
       fit: BoxFit.cover,
       memCacheWidth: cache.width,
       memCacheHeight: cache.height,
-      fadeInDuration: Duration.zero,
-      fadeOutDuration: Duration.zero,
-      errorBuilder: (_, e, s) => const SizedBox.shrink(),
     );
     if (displaySize != null) {
       return SizedBox(

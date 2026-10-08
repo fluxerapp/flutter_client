@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/constants/user_flags.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
@@ -22,6 +23,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/user_profile.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
+import 'package:fluxer_app/shared/utils/user_tag.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -58,7 +60,12 @@ class UserProfileActionsSheet {
       position: position,
       builder: (menuContext, close) {
         final l10n = FluxerLocalizations.of(menuContext);
-        final tag = '${user.username}#${user.discriminator}';
+        final tag = formatUserTag(
+          user.username,
+          user.discriminator,
+          uniqueUsernames: ref.read(uniqueUsernamesProvider),
+          bot: user.bot ?? false,
+        );
         final status = relationship?.friendStatus;
         final bool isSystem = user.system ?? false;
 
@@ -527,6 +534,7 @@ class UserProfileActionsSheet {
   ) async {
     try {
       await action();
+      ref.invalidate(friendsListProvider);
     } on Object catch (e, st) {
       talker.error('[UserProfileActionsSheet] action failed: $e', e, st);
       ref

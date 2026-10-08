@@ -150,6 +150,7 @@ Future<void> showSystemMessageActionsSheet(
     case MessageAction.report:
     case MessageAction.retry:
     case MessageAction.deleteFailed:
+    case MessageAction.createThread:
       break;
   }
 }

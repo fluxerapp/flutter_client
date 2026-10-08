@@ -3,10 +3,10 @@ import 'package:fluxer_app/core/build/push_provider_kind.dart';
 import 'package:fluxer_app/core/premium/plutonium_store_gate.dart';
 
 void main() {
-  group('resolvePlutoniumStorePage', () {
+  group('resolvePremiumStorePage', () {
     test('stays off for OSS', () {
       expect(
-        resolvePlutoniumStorePage(
+        resolvePremiumStorePage(
           ossWebCheckout: true,
           desktopOs: false,
           pushProvider: PushProviderKind.unifiedPush,
@@ -17,7 +17,7 @@ void main() {
 
     test('stays off on desktop', () {
       expect(
-        resolvePlutoniumStorePage(
+        resolvePremiumStorePage(
           ossWebCheckout: false,
           desktopOs: true,
           pushProvider: PushProviderKind.firebaseMessaging,
@@ -28,7 +28,7 @@ void main() {
 
     test('stays off for UnifiedPush', () {
       expect(
-        resolvePlutoniumStorePage(
+        resolvePremiumStorePage(
           ossWebCheckout: false,
           desktopOs: false,
           pushProvider: PushProviderKind.unifiedPush,
@@ -39,7 +39,7 @@ void main() {
 
     test('turns on for FCM mobile', () {
       expect(
-        resolvePlutoniumStorePage(
+        resolvePremiumStorePage(
           ossWebCheckout: false,
           desktopOs: false,
           pushProvider: PushProviderKind.firebaseMessaging,
@@ -50,7 +50,7 @@ void main() {
 
     test('turns on for APNS mobile', () {
       expect(
-        resolvePlutoniumStorePage(
+        resolvePremiumStorePage(
           ossWebCheckout: false,
           desktopOs: false,
           pushProvider: PushProviderKind.apple,

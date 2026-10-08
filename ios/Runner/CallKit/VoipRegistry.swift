@@ -124,6 +124,9 @@ private final class VoipPushDelegate: NSObject, PKPushRegistryDelegate {
     metadata: PKVoIPPushMetadata,
     withCompletionHandler completion: @escaping () -> Void
   ) {
+    if !metadata.mustReport {
+      NSLog("[CallKit] voip push mustReport=false")
+    }
     owner.receive(payload: payload, completion: completion)
   }
 }

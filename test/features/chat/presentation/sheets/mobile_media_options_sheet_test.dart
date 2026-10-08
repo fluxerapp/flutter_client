@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -10,6 +11,7 @@ import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_con
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/media_options_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/sheets/delete_message_confirm_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/mobile_media_options_sheet.dart';
 import 'package:fluxer_app/features/chat/providers/messages/saved_message_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provider.dart';
@@ -36,6 +38,7 @@ Widget _wrap(Widget child, {List<Override> overrides = const []}) {
       ...overrides,
     ],
     child: MaterialApp(
+      navigatorKey: rootNavigatorKey,
       locale: kTestLocale,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,
@@ -239,5 +242,128 @@ void main() {
 
     expect(find.text('Edit attachment'), findsOneWidget);
     expect(find.text('Edit alt text'), findsNothing);
+  });
+
+  testWidgets('delete attachment closes media viewer after the sheet', (
+    tester,
+  ) async {
+    const Attachment attachment = Attachment(
+      id: 'attachment-id',
+      filename: 'image.png',
+      url: _testImageUrl,
+      contentType: 'image/png',
+    );
+    final Message message = Message(
+      id: 'message-id',
+      channelId: 'channel-id',
+      authorId: 'author-id',
+      authorName: 'Author',
+      content: '',
+      timestamp: DateTime(2026),
+      attachments: const <Attachment>[attachment],
+    );
+    var viewerClosed = false;
+
+    await tester.pumpWidget(
+      _wrap(
+        overrides: <Override>[
+          appearancePreferencesProvider.overrideWithValue(
+            const AppearancePreferencesState(),
+          ),
+          isMessageSavedProvider(
+            message.id,
+          ).overrideWith((Ref ref) => Stream<bool>.value(false)),
+        ],
+        Consumer(
+          builder: (BuildContext context, WidgetRef ref, Widget? child) {
+            return Scaffold(
+              body: Center(
+                child: TextButton(
+                  onPressed: () {
+                    showGeneralDialog<void>(
+                      context: context,
+                      pageBuilder: (BuildContext dialogContext, _, _) {
+                        return Scaffold(
+                          body: Center(
+                            child: TextButton(
+                              onPressed: () {
+                                unawaited(
+                                  showMobileMediaOptionsSheet(
+                                    context: dialogContext,
+                                    ref: ref,
+                                    launchContext: MediaOptionsLaunchContext(
+                                      fallbackUrl: _testImageUrl,
+                                      attachmentId: attachment.id,
+                                      filename: attachment.filename,
+                                      actionScope: MessageMediaActionScope(
+                                        message: message,
+                                        permissions:
+                                            const MessageActionPermissions(
+                                              isOwnMessage: true,
+                                              isDmChannel: false,
+                                              canDelete: true,
+                                              canReport: false,
+                                              canAddReactions: false,
+                                              canPinMessage: false,
+                                              canManageMessages: false,
+                                              canSendMessages: true,
+                                              developerMode: false,
+                                            ),
+                                        callbacks: MessageActionCallbacks(
+                                          onDeleteAttachment:
+                                              (Attachment attachment) {
+                                                unawaited(
+                                                  showDeleteAttachmentConfirmSheet(
+                                                    dialogContext,
+                                                    ref,
+                                                    messageId: message.id,
+                                                    attachment: attachment,
+                                                  ),
+                                                );
+                                              },
+                                        ),
+                                      ),
+                                    ),
+                                    onCloseViewer: () {
+                                      viewerClosed = true;
+                                      Navigator.of(dialogContext).pop();
+                                    },
+                                  ),
+                                );
+                              },
+                              child: const Text('options'),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: const Text('open viewer'),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+
+    await tester.tap(find.text('open viewer'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('options'));
+    await tester.pumpAndSettle();
+
+    final Finder deleteAttachment = find.text('Delete attachment');
+    await tester.ensureVisible(deleteAttachment);
+    await tester.pumpAndSettle();
+    await tester.tap(deleteAttachment.first);
+    await tester.pumpAndSettle();
+
+    // Confirm the deletion via the confirm sheet
+    await tester.tap(deleteAttachment.last);
+    await tester.pumpAndSettle();
+
+    expect(viewerClosed, isTrue);
+    expect(find.text('options'), findsNothing);
   });
 }

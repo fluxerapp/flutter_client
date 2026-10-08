@@ -119,6 +119,9 @@ class FileUploadValidator {
     if (lower.endsWith('.webp')) {
       return 'image/webp';
     }
+    if (lower.endsWith('.svg')) {
+      return 'image/svg+xml';
+    }
     if (lower.endsWith('.pdf')) {
       return 'application/pdf';
     }

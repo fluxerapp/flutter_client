@@ -36,7 +36,7 @@ List<ChannelSettingsTab> visibleChannelSettingsTabs({
   if (canManageRoles) {
     tabs.add(ChannelSettingsTab.permissions);
   }
-  if (canManageChannels) {
+  if (canManageChannels && !channel.isThreadOnly) {
     tabs.add(ChannelSettingsTab.invites);
   }
   if (canManageWebhooks && channel.type != ChannelType.guildLink) {

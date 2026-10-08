@@ -534,6 +534,165 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get resetPasswordMismatch => '비밀번호가 일치하지 않습니다.';
 
   @override
+  String get recoverAccountTitle => '계정 복구';
+
+  @override
+  String get recoverAccountDescription =>
+      '복구 키트를 받은 복구 키와 사용자 이름을 입력한 다음, 새 비밀번호를 선택하세요.';
+
+  @override
+  String get recoverAccountNoKit =>
+      '복구 키트가 없으신가요? 이 인스턴스의 관리자에게 비밀번호 재설정 링크를 요청하세요.';
+
+  @override
+  String get recoveryKitTitle => '복구 키트';
+
+  @override
+  String get recoveryKitCreatedDescription =>
+      '비밀번호를 잊으셨다면, 이 복구 키가 계정에 다시 로그인할 수 있는 유일한 방법입니다. 비밀번호 관리자나 인쇄된 복사본처럼 안전한 곳에 보관하세요.';
+
+  @override
+  String get recoveryKitReplacedDescription =>
+      '기존 복구 키는 더 이상 작동하지 않습니다. 새 복구 키를 안전한 곳에 보관하세요.';
+
+  @override
+  String get recoveryKitRecoveredDescription =>
+      '비밀번호가 재설정되었습니다. 이전 복구 키는 더 이상 작동하지 않습니다. 새 복구 키를 안전한 곳에 보관하세요.';
+
+  @override
+  String get recoveryKitWarning =>
+      '이 키를 가진 사람은 누구나 비밀번호를 재설정할 수 있습니다. 절대 공유하지 마세요.';
+
+  @override
+  String get recoveryKitKeyLabel => '복구 키';
+
+  @override
+  String recoveryKitDocumentTitle(String productName) {
+    return '$productName 복구 키트';
+  }
+
+  @override
+  String get recoveryKitDocumentIntro =>
+      '이 페이지를 안전한 곳에 보관하세요. 비밀번호를 잊어버렸을 때 계정에 다시 로그인하는 데 사용할 수 있습니다. 이 복구 키를 가진 사람은 누구나 비밀번호를 재설정할 수 있으므로 절대 공유하지 마세요.';
+
+  @override
+  String get recoveryKitInstanceLabel => '인스턴스';
+
+  @override
+  String get recoveryKitCreatedAtLabel => '생성됨';
+
+  @override
+  String get recoveryKitQrCaption => '스캔하여 복구 페이지를 열고 세부 정보를 미리 입력하세요.';
+
+  @override
+  String get recoveryKitStepsTitle => '계정 복구 방법';
+
+  @override
+  String recoveryKitStepOpen(String recoverUrl) {
+    return '$recoverUrl로 이동하거나 QR 코드를 스캔하세요.';
+  }
+
+  @override
+  String get recoveryKitStepEnter => '사용자 이름과 복구 키를 입력하세요.';
+
+  @override
+  String get recoveryKitStepPassword =>
+      '새 비밀번호를 선택하세요. 새 복구 키트를 받게 되며, 이 복구 키트는 더 이상 작동하지 않습니다.';
+
+  @override
+  String get recoveryKitBackupCodesTitle => '2단계 인증 백업 코드';
+
+  @override
+  String get recoveryKitBackupCodesNote => '각 코드는 인증 앱을 대신하여 한 번 사용할 수 있습니다.';
+
+  @override
+  String get recoveryKitBackupCodesFailed => '백업 코드를 불러올 수 없습니다.';
+
+  @override
+  String get recoveryKitIncludeBackupCodes => '저장되는 이미지에 2단계 인증 백업 코드 포함';
+
+  @override
+  String get recoveryKitCopy => '복사';
+
+  @override
+  String get recoveryKitCopied => '복구 키를 복사했습니다';
+
+  @override
+  String get recoveryKitSaveImage => '이미지 저장';
+
+  @override
+  String get recoveryKitSaved => '복구 키트를 저장했습니다';
+
+  @override
+  String get recoveryKitSavedToPhotos => '복구 키트를 사진에 저장했습니다';
+
+  @override
+  String get recoveryKitSaveFailed =>
+      '복구 키트를 저장할 수 없습니다. 다시 시도하거나 대신 키를 복사하세요.';
+
+  @override
+  String get recoveryKitAcknowledge => '복구 키트를 안전한 곳에 보관했어요';
+
+  @override
+  String get recoveryKitCreateFailed =>
+      '복구 키트를 만들 수 없습니다. 나중에 계정 설정에서 만들 수 있습니다.';
+
+  @override
+  String get recoveryKitSectionTitle => '복구 키트';
+
+  @override
+  String get recoveryKitSectionDescription => '비밀번호를 잊어버렸을 때 재설정할 수 있습니다.';
+
+  @override
+  String get recoveryKitNone => '복구 키트가 아직 없습니다';
+
+  @override
+  String recoveryKitCreatedRelative(String time) {
+    return '$time에 생성됨';
+  }
+
+  @override
+  String get recoveryKitCreate => '복구 키트 만들기';
+
+  @override
+  String get recoveryKitCreateNew => '새 키트 만들기';
+
+  @override
+  String get recoveryKitReplaceTitle => '새 복구 키트를 만드시겠어요?';
+
+  @override
+  String get recoveryKitReplaceDescription =>
+      '새 복구 키트를 만들면 현재 복구 키트는 작동을 멈춥니다.';
+
+  @override
+  String get recoveryKitReminderTitle => '복구 키트 저장';
+
+  @override
+  String get recoveryKitReminderBody =>
+      '계정에 이메일 주소가 없습니다. 비밀번호를 잊으셨을 경우, 복구 키트가 유일한 복구 방법입니다. 1분이면 충분합니다.';
+
+  @override
+  String get registerUsernameSignInHint =>
+      '이 사용자 이름으로 로그인합니다. 기억하기 쉬운 이름으로 선택하세요.';
+
+  @override
+  String get registerUsernameTaken => '이 사용자 이름은 이미 사용 중입니다';
+
+  @override
+  String get registerUsernameAvailable => '이 사용자 이름은 사용할 수 있습니다';
+
+  @override
+  String get claimAccountUsernameDescription =>
+      '사용자 이름과 비밀번호를 선택하여 계정을 등록하세요. 이 정보로 로그인하므로 기억하기 쉬운 것으로 선택하세요.';
+
+  @override
+  String get unclaimedAccountDescriptionUsername =>
+      '계정을 아직 등록하지 않으셨습니다. 사용자 이름과 비밀번호가 없으면 다른 기기에서 로그인할 수 없으며 계정에 액세스하지 못할 수 있습니다. 지금 계정을 등록하여 안전하게 보호하세요.';
+
+  @override
+  String get addFriendUsernameOnlyHint => '사용자 이름';
+
+  @override
   String get registerTitle => '계정 만들기';
 
   @override
@@ -627,6 +786,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get errorInvalidEmailOrPassword => '잘못된 이메일 또는 비밀번호입니다.';
+
+  @override
+  String get errorInvalidUsernameOrPassword => '사용자 이름 또는 비밀번호가 올바르지 않습니다.';
 
   @override
   String get errorUnableToSendResetLink => '재설정 링크를 보낼 수 없습니다. 다시 시도해 주세요.';
@@ -7233,6 +7395,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get chatMessageDeleteAttachment => '첨부 파일 삭제';
 
   @override
+  String get chatMessageDeleteAttachmentConfirmDescription =>
+      'Are you sure you want to delete this attachment?';
+
+  @override
   String get chatMessageEditAttachmentAltText => '대체 텍스트 편집';
 
   @override
@@ -9343,6 +9509,14 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   }
 
   @override
+  String get premiumGiftGraceEnded =>
+      '선물 받은 시간이 종료되었습니다. Plutonium을(를) 계속 사용하려면 구독하세요.';
+
+  @override
+  String get premiumGiftTimeAddedAfterSubscription =>
+      '지금 결제됩니다. 선물 받은 기간은 유료 기간 이후에 추가되므로 남은 기간이 사라지지 않습니다.';
+
+  @override
   String get premiumComparisonFeatureColumn => '기능';
 
   @override
@@ -9366,10 +9540,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   @override
   String get premiumCheckoutStartFailedBody =>
       '결제를 시작하는 중에 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.';
-
-  @override
-  String get premiumGiftSubscriptionBlocksRecurring =>
-      '현재 선물 구독 중입니다. 이 구독은 갱신되지 않습니다. 선물 코드를 추가로 사용하여 구독 기간을 연장할 수 있습니다. 선물 구독 기간이 종료된 후에는 정기 구독을 시작할 수 있습니다.';
 
   @override
   String get premiumPlanUnavailable => '이용할 수 없는 플랜입니다. 고객지원팀에 문의하세요.';
@@ -10853,6 +11023,9 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get quickSwitcherSectionTextChannels => '텍스트 채널';
 
   @override
+  String get quickSwitcherSectionThreads => 'Threads';
+
+  @override
   String get quickSwitcherSectionVoiceChannels => '음성 채널';
 
   @override
@@ -11411,6 +11584,19 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get guildNavbarChannelTypeSelection => '채널 유형 선택';
+
+  @override
+  String get guildNavbarPrivateChannel => 'Private channel';
+
+  @override
+  String get guildNavbarPrivateChannelDescription =>
+      'Only selected members and roles will be able to view this channel.';
+
+  @override
+  String get guildNavbarAddMembersOrRoles => 'Add members or roles';
+
+  @override
+  String get guildNavbarAddMembersOrRolesHint => 'Search members or roles';
 
   @override
   String get guildNavbarCreateCategory => '카테고리 만들기';
@@ -12096,6 +12282,355 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get permissionSetVoiceRegion => '음성 지역 설정';
 
   @override
+  String get permissionManageThreads => 'Manage threads';
+
+  @override
+  String get permissionManageThreadsDescription =>
+      'Rename, archive, lock and delete threads, set their slowmode, and view private threads.';
+
+  @override
+  String get permissionCreatePublicThreads => 'Create public threads';
+
+  @override
+  String get permissionCreatePublicThreadsDescription =>
+      'Start threads that everyone who can view the channel can see.';
+
+  @override
+  String get permissionCreatePrivateThreads => 'Create private threads';
+
+  @override
+  String get permissionCreatePrivateThreadsDescription =>
+      'Start invite-only threads.';
+
+  @override
+  String get permissionSendMessagesInThreads => 'Send messages in threads';
+
+  @override
+  String get permissionSendMessagesInThreadsDescription =>
+      'Send messages in threads and forum posts.';
+
+  @override
+  String get threadErrorArchived => 'This thread is archived.';
+
+  @override
+  String get threadErrorLocked =>
+      'This thread is locked. Only moderators can post or reopen it.';
+
+  @override
+  String get threadErrorAlreadyCreated =>
+      'A thread already exists for this message.';
+
+  @override
+  String get threadErrorMaxActiveThreads =>
+      'This community has reached its limit of active threads.';
+
+  @override
+  String get threadErrorMaxMembers =>
+      'This thread has reached its member limit.';
+
+  @override
+  String get threadErrorMaxPinnedPosts =>
+      'Only one post can be pinned in this forum.';
+
+  @override
+  String get threadErrorMaxForumTags => 'A forum can have at most 20 tags.';
+
+  @override
+  String get threadErrorTagNamesUnique => 'Tag names must be unique.';
+
+  @override
+  String get threadErrorNoTagsForEveryone =>
+      'Add a tag everyone can use before requiring tags.';
+
+  @override
+  String get threadErrorTagRequired => 'Pick at least one tag for this post.';
+
+  @override
+  String get threadErrorUnknownTag =>
+      'One of the selected tags no longer exists.';
+
+  @override
+  String get threadErrorInvalidNotificationSettings =>
+      'Those notification settings are not valid for a thread.';
+
+  @override
+  String get threadErrorSearchIndexNotReady =>
+      'Posts are still being indexed. Try again in a moment.';
+
+  @override
+  String get threadErrorInvalidChannelType =>
+      'This action is not available in this channel.';
+
+  @override
+  String get threadCreate => 'Create thread';
+
+  @override
+  String get threadName => 'Thread name';
+
+  @override
+  String get threadNameRequired => 'Give the thread a name.';
+
+  @override
+  String get threadNewThreadPlaceholder => 'New thread';
+
+  @override
+  String get threadPrivate => 'Private thread';
+
+  @override
+  String get threadPrivateDescription =>
+      'Only people you invite and moderators can see this thread.';
+
+  @override
+  String get threadStarterMessage => 'Message';
+
+  @override
+  String get threadStarterMessagePlaceholder =>
+      'Enter a message to start the conversation!';
+
+  @override
+  String threadCreateCooldown(int seconds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seconds,
+      locale: localeName,
+      other: 'You can start another thread in $seconds seconds.',
+      one: 'You can start another thread in 1 second.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String threadCreateFailed(String detail) {
+    return 'Could not start the thread: $detail';
+  }
+
+  @override
+  String get threadBrowserTitle => 'Threads';
+
+  @override
+  String get threadBrowserActive => 'Active';
+
+  @override
+  String get threadBrowserArchived => 'Closed';
+
+  @override
+  String get threadBrowserJoined => 'Joined';
+
+  @override
+  String get threadBrowserOtherActive => 'Other active threads';
+
+  @override
+  String get threadBrowserPublic => 'Public threads';
+
+  @override
+  String get threadBrowserPrivate => 'Private threads';
+
+  @override
+  String get threadBrowserEmpty =>
+      'There are no threads. Stay focused on a conversation with a thread, a temporary text channel.';
+
+  @override
+  String get threadBrowserArchivedEmpty => 'There are no closed threads.';
+
+  @override
+  String get threadBrowserLoadMore => 'Load more';
+
+  @override
+  String get threadBrowserSearch => 'Search threads';
+
+  @override
+  String get threadBrowserSearchEmpty => 'No threads match';
+
+  @override
+  String get threadBrowserSearchEmptyHint =>
+      'Try a different name or check the other tab.';
+
+  @override
+  String get threadBrowserSearchFailed =>
+      'Couldn\'t search threads. Try again later.';
+
+  @override
+  String get threadBrowserSearchIndexing =>
+      'Search is getting ready for this community. Trying again shortly...';
+
+  @override
+  String threadMessageCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count messages',
+      one: '1 message',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get threadFailedToMentionSomeRoles =>
+      'Some mentioned roles were not added to this thread.';
+
+  @override
+  String get threadMembers => 'Thread members';
+
+  @override
+  String threadMembersCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count members',
+      one: '1 member',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get threadMembersEmpty => 'Nobody has joined this thread yet.';
+
+  @override
+  String threadRemoveMember(String name) {
+    return 'Remove $name from thread';
+  }
+
+  @override
+  String get threadJoin => 'Join thread';
+
+  @override
+  String get threadLeave => 'Leave thread';
+
+  @override
+  String get threadJoinNotice =>
+      'Join this thread to follow it in your channel list and get notifications.';
+
+  @override
+  String get threadArchivedNotice =>
+      'This thread is closed. Sending a message will open it again.';
+
+  @override
+  String get threadLockedNotice =>
+      'This thread is locked. Only moderators can send messages.';
+
+  @override
+  String get threadArchive => 'Close thread';
+
+  @override
+  String get threadUnarchive => 'Open thread again';
+
+  @override
+  String get threadLock => 'Lock thread';
+
+  @override
+  String get threadUnlock => 'Unlock thread';
+
+  @override
+  String get threadDelete => 'Delete thread';
+
+  @override
+  String threadDeleteConfirm(String threadName) {
+    return 'Are you sure you want to delete $threadName? This cannot be undone.';
+  }
+
+  @override
+  String get threadDeleted => 'Thread deleted';
+
+  @override
+  String get threadMarkAsRead => 'Mark as read';
+
+  @override
+  String get threadMute => 'Mute thread';
+
+  @override
+  String get threadUnmute => 'Unmute thread';
+
+  @override
+  String get threadMuted => 'Thread muted';
+
+  @override
+  String get threadUnmuted => 'Thread unmuted';
+
+  @override
+  String get threadNotificationSettings => 'Notification settings';
+
+  @override
+  String get threadNotificationParentDefault => 'Use channel default';
+
+  @override
+  String get threadCopyLink => 'Copy link';
+
+  @override
+  String get threadCopyId => 'Copy thread ID';
+
+  @override
+  String get threadMoreOptions => 'More options';
+
+  @override
+  String get threadSettings => 'Thread settings';
+
+  @override
+  String get threadSettingsSaved => 'Thread settings saved';
+
+  @override
+  String get threadAutoArchive => 'Hide after inactivity';
+
+  @override
+  String get threadAutoArchiveDescription =>
+      'The thread stops showing in the channel list after this period of inactivity.';
+
+  @override
+  String get threadDefaultAutoArchive => 'Default hide after inactivity';
+
+  @override
+  String get threadDefaultAutoArchiveDescription =>
+      'New threads stop showing in the channel list after this period of inactivity.';
+
+  @override
+  String get threadDefaultSlowmode => 'Default thread slowmode';
+
+  @override
+  String get threadAutoArchiveOneHour => '1 Hour';
+
+  @override
+  String get threadAutoArchiveOneDay => '24 Hours';
+
+  @override
+  String get threadAutoArchiveThreeDays => '3 Days';
+
+  @override
+  String get threadAutoArchiveOneWeek => '1 Week';
+
+  @override
+  String get threadInvitable => 'Allow anyone to invite';
+
+  @override
+  String get threadInvitableDescription =>
+      'Members of this private thread can add other people.';
+
+  @override
+  String threadStartedBy(String name) {
+    return 'Started by $name';
+  }
+
+  @override
+  String get threadStarterDeleted => 'Original message was deleted.';
+
+  @override
+  String systemThreadCreated(
+    String username,
+    String threadLink,
+    String allThreadsLink,
+  ) {
+    return '$username started a thread: $threadLink. See $allThreadsLink.';
+  }
+
+  @override
+  String get systemThreadCreatedAllThreadsLink => 'all threads';
+
+  @override
+  String get systemThreadCreatedThreadFallback => 'a thread';
+
+  @override
+  String systemPreviewThreadCreated(String username) {
+    return '$username started a thread.';
+  }
+
+  @override
   String guildSettingsEmojiSlotInfo(int staticCount, int animatedCount) {
     return '$staticCount개 고정, $animatedCount개 애니메이션 이모지 슬롯 사용됨';
   }
@@ -12231,6 +12766,15 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get auditLogActionChannelDelete => '채널 삭제됨';
 
   @override
+  String get auditLogActionThreadCreate => 'Thread created';
+
+  @override
+  String get auditLogActionThreadUpdate => 'Thread updated';
+
+  @override
+  String get auditLogActionThreadDelete => 'Thread deleted';
+
+  @override
   String get auditLogActionChannelOverwriteCreate => '채널 권한 추가됨';
 
   @override
@@ -12341,6 +12885,21 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   @override
   String auditLogSummaryChannelDelete(String actor, String target) {
     return '$actor님이 $target 채널을 삭제했습니다.';
+  }
+
+  @override
+  String auditLogSummaryThreadCreate(String actor, String target) {
+    return '$actor started the thread $target.';
+  }
+
+  @override
+  String auditLogSummaryThreadUpdate(String actor, String target) {
+    return '$actor updated the thread $target.';
+  }
+
+  @override
+  String auditLogSummaryThreadDelete(String actor, String target) {
+    return '$actor deleted the thread $target.';
   }
 
   @override
@@ -14315,17 +14874,17 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get assistantOkCustomStatusCleared => 'Custom status cleared.';
 
   @override
-  String get guildNavbarAnnouncementChannel => 'Announcement Channel';
+  String get guildNavbarAnnouncementChannel => 'Announcement';
 
   @override
   String get guildNavbarAnnouncementChannelDescription =>
-      'Post updates that other communities can follow into their own channels';
+      'Post updates other communities can follow';
 
   @override
-  String get channelDetailsAnnouncementChannel => 'Announcement Channel';
+  String get channelDetailsAnnouncementChannel => 'Announcement channel';
 
   @override
-  String get channelSettingsAnnouncementChannel => 'Announcement Channel';
+  String get channelSettingsAnnouncementChannel => 'Announcement channel';
 
   @override
   String get channelSettingsAnnouncementChannelDescription =>
@@ -14363,7 +14922,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
       'This channel still has followers. Remove those follows before converting it.';
 
   @override
-  String get channelMenuFollow => 'Follow Channel';
+  String get channelMenuFollow => 'Follow channel';
 
   @override
   String get channelFollowTitle => 'Follow this channel';
@@ -14562,7 +15121,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get crosspostGoToCommunity => 'Go to community';
 
   @override
-  String get crosspostJoinCommunity => 'Join Community';
+  String get crosspostJoinCommunity => 'Join community';
 
   @override
   String get crosspostSourceFailed =>
@@ -14613,4 +15172,306 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get channelDetailsUnsupportedChannel => 'Unsupported channel';
+
+  @override
+  String get forumChannelTypeForum => 'Forum';
+
+  @override
+  String get forumChannelTypeForumDescription =>
+      'Posts organized by topic and tags';
+
+  @override
+  String get forumChannelTypeMedia => 'Media';
+
+  @override
+  String get forumChannelTypeMediaDescription =>
+      'Posts built around images and videos';
+
+  @override
+  String get forumNewPost => 'New post';
+
+  @override
+  String get forumNewMediaPost => 'New media post';
+
+  @override
+  String get forumSearchPosts => 'Search posts';
+
+  @override
+  String get forumViewOptions => 'Sort and view';
+
+  @override
+  String get forumSearchIndexing =>
+      'Search is still being prepared for this community. Posts appear here as soon as it is ready.';
+
+  @override
+  String get forumNoPosts => 'There are no posts yet';
+
+  @override
+  String get forumNoPostsHint => 'Be the first to start a conversation here.';
+
+  @override
+  String get forumNoSearchResults => 'No posts match your search';
+
+  @override
+  String get forumNoSearchResultsHint =>
+      'Try different words or clear the tag filter.';
+
+  @override
+  String get forumCreateFirstPost => 'Create the first post';
+
+  @override
+  String get forumOlderPosts => 'Older posts';
+
+  @override
+  String get forumPostsLoadFailed => 'Posts could not be loaded.';
+
+  @override
+  String get forumRetry => 'Try again';
+
+  @override
+  String get forumPostPinned => 'Pinned';
+
+  @override
+  String get forumPostLocked => 'Locked';
+
+  @override
+  String get forumPostArchived => 'Archived';
+
+  @override
+  String get forumPostNewBadge => 'NEW';
+
+  @override
+  String get forumPostStarterDeleted => 'The original message was deleted.';
+
+  @override
+  String forumPostSnippet(String author, String content) {
+    return '$author: $content';
+  }
+
+  @override
+  String forumPostNewMessages(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count new messages',
+      one: '1 new message',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get forumPostReact => 'Add the default reaction';
+
+  @override
+  String get forumOpenPost => 'Open post';
+
+  @override
+  String get forumEditTags => 'Edit tags';
+
+  @override
+  String get forumSaveTags => 'Save tags';
+
+  @override
+  String forumTagsLimitHint(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Pick up to $count tags.',
+      one: 'Pick up to 1 tag.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get forumPinPost => 'Pin post';
+
+  @override
+  String get forumUnpinPost => 'Unpin post';
+
+  @override
+  String get forumMarkPostRead => 'Mark as read';
+
+  @override
+  String get forumCopyPostLink => 'Copy link';
+
+  @override
+  String get forumPostGuidelines => 'Post guidelines';
+
+  @override
+  String get forumGuidelinesPlaceholder =>
+      'Tell people what to post here and how to post it.';
+
+  @override
+  String get forumPostTitle => 'Title';
+
+  @override
+  String get forumPostMessage => 'Message';
+
+  @override
+  String get forumPostMessagePlaceholder =>
+      'Write the first message of your post';
+
+  @override
+  String get forumPostMediaPlaceholder => 'Add a caption';
+
+  @override
+  String get forumPostTags => 'Tags';
+
+  @override
+  String get forumPostTagsRequired => 'Tags (required)';
+
+  @override
+  String get forumPostAddMedia => 'Add media';
+
+  @override
+  String get forumPostAddFile => 'Add file';
+
+  @override
+  String get forumPostRemoveAttachment => 'Remove attachment';
+
+  @override
+  String get forumPostSubmit => 'Post';
+
+  @override
+  String get forumPostTitleRequired => 'Give your post a title.';
+
+  @override
+  String get forumPostMediaRequired =>
+      'Add at least one image or video to post here.';
+
+  @override
+  String get forumPostContentRequired => 'Write a message or add a file.';
+
+  @override
+  String get forumSortLatestActivity => 'Recently active';
+
+  @override
+  String get forumSortCreationTime => 'Date posted';
+
+  @override
+  String get forumLayoutList => 'List view';
+
+  @override
+  String get forumLayoutGallery => 'Gallery view';
+
+  @override
+  String get forumNewPostsUnread => 'Show unread for new posts';
+
+  @override
+  String get forumNewPostsUnreadDescription =>
+      'Mark this channel unread when someone creates a post.';
+
+  @override
+  String get forumPostSlowmode => 'Post slowmode';
+
+  @override
+  String forumPostSlowmodeDescription(String bypassSlowmodePermissionLabel) {
+    return 'Wait between creating posts. \"$bypassSlowmodePermissionLabel\" can bypass it.';
+  }
+
+  @override
+  String get forumMessageSlowmode => 'Message slowmode in posts';
+
+  @override
+  String get forumMessageSlowmodeDescription =>
+      'Slowmode applied to messages in new posts.';
+
+  @override
+  String get forumDefaultAutoArchive => 'Hide after inactivity';
+
+  @override
+  String get forumDefaultAutoArchiveDescription =>
+      'New posts are archived after this long without activity.';
+
+  @override
+  String get forumDefaultReaction => 'Default reaction';
+
+  @override
+  String get forumSetDefaultReaction => 'Pick an emoji';
+
+  @override
+  String get forumChangeDefaultReaction => 'Change';
+
+  @override
+  String get forumRemoveDefaultReaction => 'Remove';
+
+  @override
+  String get forumDefaultSortOrder => 'Default sort order';
+
+  @override
+  String get forumDefaultLayout => 'Default layout';
+
+  @override
+  String get forumTagMatchSetting => 'Tag filter';
+
+  @override
+  String get forumTagMatchSome => 'Match any selected tag';
+
+  @override
+  String get forumTagMatchAll => 'Match all selected tags';
+
+  @override
+  String get forumRequireTag => 'Require tags';
+
+  @override
+  String get forumRequireTagDescription =>
+      'People must pick at least one tag when they create a post.';
+
+  @override
+  String get forumHideMediaDownloads => 'Hide media download options';
+
+  @override
+  String get forumHideMediaDownloadsDescription =>
+      'Hide download, open in browser and copy link for images and videos in posts.';
+
+  @override
+  String forumTagsTitle(int count, int max) {
+    return 'Tags ($count/$max)';
+  }
+
+  @override
+  String get forumTagsDescription =>
+      'Tags help people find and filter posts. Only moderators can apply moderated tags.';
+
+  @override
+  String get forumCreateTag => 'Create tag';
+
+  @override
+  String get forumEditTag => 'Edit tag';
+
+  @override
+  String get forumSaveTag => 'Save tag';
+
+  @override
+  String get forumDeleteTag => 'Delete tag';
+
+  @override
+  String get forumTagName => 'Tag name';
+
+  @override
+  String get forumTagEmoji => 'Emoji';
+
+  @override
+  String get forumTagRemoveEmoji => 'Remove emoji';
+
+  @override
+  String get forumTagModerated => 'Only moderators can apply';
+
+  @override
+  String get forumTagModeratedDescription =>
+      'Only members who can manage threads can apply or remove this tag.';
+
+  @override
+  String get forumTagModeratedBadge => 'Moderated';
+
+  @override
+  String forumPostCooldown(int seconds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seconds,
+      locale: localeName,
+      other: 'You can post again in $seconds seconds.',
+      one: 'You can post again in 1 second.',
+    );
+    return '$_temp0';
+  }
 }

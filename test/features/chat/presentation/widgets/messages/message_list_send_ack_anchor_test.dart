@@ -18,6 +18,7 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/features/accessibility/providers/effective_motion_preferences_provider.dart';
 import 'package:fluxer_app/features/channels/data/ack_batcher.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/ack_batcher_provider.dart';
@@ -42,6 +43,7 @@ import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:fluxer_dart/gateway.dart';
 import 'package:riverpod/src/framework.dart' show Override;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../../helpers/instance_runtime_config_override.dart';
 import '../../../../../helpers/message_realtime_test_helpers.dart';
@@ -90,6 +92,7 @@ Map<String, Object?> _messageJson({
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences.setMockInitialValues(<String, Object>{});
 
   testWidgets(
     'an acked own send keeps its rect because the renamed anchor is not treated as a delete',
@@ -229,6 +232,8 @@ void main() {
               ),
             ),
           );
+      await _flushRealtimeQueue(tester);
+      await _flushRealtimeQueue(tester);
 
       Rect? ackRect;
       var ackAppeared = false;
@@ -267,6 +272,7 @@ void main() {
       expect(rectSettled, rectBefore, reason: 'settled frames moved the row');
 
       adapter.releaseSend();
+      await _flushRealtimeQueue(tester);
       await tester.pump();
       await tester.pumpWidget(const SizedBox.shrink());
       await tester.pump(const Duration(milliseconds: 1));
@@ -283,8 +289,21 @@ Future<void> _yieldEventLoop(WidgetTester tester) {
   return tester.runAsync(_emptyFuture);
 }
 
+Future<void> _flushRealtimeQueue(WidgetTester tester) async {
+  await tester.runAsync(() async {
+    for (var i = 0; i < 8; i++) {
+      await pumpEventQueue();
+    }
+  });
+  await tester.pump();
+  await tester.pump();
+}
+
 List<Override> _messageListUiOverrides() {
   return <Override>[
+    androidAnimatorDurationDisabledProvider.overrideWith(
+      (Ref ref) => Stream<bool>.value(false),
+    ),
     appStartupProvider.overrideWith(_IdleAppStartup.new),
     blockedUserIdsProvider.overrideWithValue(<String>{}),
     activeGuildIdProvider.overrideWithValue(null),
@@ -348,7 +367,16 @@ Widget _messageListApp(ProviderContainer container) {
         textTheme: FluxerTextTheme.fromColors(colorTheme),
         layoutTheme: FluxerLayoutTheme.scaled(),
       ),
-      home: const Scaffold(body: MessageList(expectedChannelId: _channelId)),
+      home: Scaffold(
+        body: Builder(
+          builder: (BuildContext context) {
+            return MediaQuery(
+              data: MediaQuery.of(context).copyWith(disableAnimations: true),
+              child: const MessageList(expectedChannelId: _channelId),
+            );
+          },
+        ),
+      ),
     ),
   );
 }

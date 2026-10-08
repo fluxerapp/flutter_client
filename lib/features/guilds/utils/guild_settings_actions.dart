@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:drift/drift.dart' show Value;
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Channel;
 import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/features/channels/domain/channel.dart'
+    show isThreadChannelType, isThreadOnlyChannelType;
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_menu_data.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_notification_resolution.dart';
 import 'package:fluxer_dart/export.dart';
@@ -13,14 +15,32 @@ export 'package:fluxer_app/features/guilds/utils/guild_notification_resolution.d
 Future<void> markGuildAsRead(
   String guildId,
   FluxerDatabase db,
-  FluxerClient client,
-) async {
-  final channels = await db.channelDao.getChannels(guildId);
+  FluxerClient client, {
+  bool threadsActive = false,
+}) async {
+  var channels = await db.channelDao.getChannels(
+    guildId,
+    includeThreads: threadsActive,
+  );
+  if (!threadsActive) {
+    channels = channels.where((c) => !isThreadOnlyChannelType(c.type)).toList();
+  }
   final channelIds = channels.map((c) => c.id).toList();
   final readStates = await db.readStateDao
       .watchReadStatesForChannels(channelIds)
       .first;
   final readStateMap = {for (final rs in readStates) rs.channelId: rs};
+  if (threadsActive) {
+    final Set<String> joinedThreadIds = await db.threadDao.getJoinedThreadIds();
+    channels = channels
+        .where(
+          (c) =>
+              !isThreadChannelType(c.type) ||
+              joinedThreadIds.contains(c.id) ||
+              (readStateMap[c.id]?.mentionCount ?? 0) > 0,
+        )
+        .toList();
+  }
 
   final ackEntries = <ReadStateAckBulkRequestReadStates>[];
   for (final channel in channels) {
@@ -193,9 +213,11 @@ Future<
 getGuildChannelsForSettings({
   required FluxerDatabase db,
   required String guildId,
+  bool threadsActive = false,
 }) async {
   final channels = await db.channelDao.getChannels(guildId);
   return channels
+      .where((c) => threadsActive || !isThreadOnlyChannelType(c.type))
       .map(
         (c) => (
           id: c.id,

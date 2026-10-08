@@ -127,6 +127,27 @@ void main() {
       });
     });
 
+    test('drain completes after session-ended destroys', () {
+      fakeAsync((FakeAsync async) {
+        final List<Object> created = <Object>[];
+        final List<Object> destroyed = <Object>[];
+        final VoiceTrackRendererCache<Object> renderers = cache(
+          created: created,
+          destroyed: destroyed,
+        );
+        unawaited(renderers.retain('screen'));
+        tick(async);
+        renderers
+          ..release('screen')
+          ..markSessionEnded();
+        var drained = false;
+        unawaited(renderers.drain().then((_) => drained = true));
+        tick(async);
+        expect(drained, isTrue);
+        expect(destroyed, <Object>[created.single]);
+      });
+    });
+
     test('ending the session keeps a held renderer until it is released', () {
       fakeAsync((FakeAsync async) {
         final List<Object> created = <Object>[];

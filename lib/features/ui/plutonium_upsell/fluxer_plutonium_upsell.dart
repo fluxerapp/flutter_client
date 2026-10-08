@@ -100,7 +100,7 @@ class FluxerPlutoniumUpsell extends ConsumerWidget {
   }
 
   void _openPlutonium(BuildContext context) {
-    if (AppBuildConfig.isOssWebCheckout || isPlutoniumStorePageActive()) {
+    if (AppBuildConfig.isOssWebCheckout || isPremiumStorePageActive()) {
       unawaited(
         openUserBillingSettings(context, UserSettingsSection.fluxerPlutonium),
       );

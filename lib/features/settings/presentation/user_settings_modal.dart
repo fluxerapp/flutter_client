@@ -260,7 +260,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
     final l10n = FluxerLocalizations.of(context);
     final selectedEntry = desktopNav[_selectedIndex];
     final bool storePane =
-        isPlutoniumStorePageActive() &&
+        isPremiumStorePageActive() &&
         selectedEntry.section == UserSettingsSection.fluxerPlutonium;
     final double contentGutter = wideSettingsContentEdgeGutter(context);
     final List<UserSettingsSearchHit> hits = searchVisibleUserSettings(
@@ -326,7 +326,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
               Expanded(
                 child: ColoredBox(
                   color: storePane
-                      ? PlutoniumStoreStyle.spaceTop
+                      ? PremiumStoreStyle.spaceTop
                       : Colors.transparent,
                   child: Column(
                     children: [
@@ -343,13 +343,13 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
                               selectedEntry.displayLabel(l10n),
                               style: storePane
                                   ? context.textStyles.heading.copyWith(
-                                      color: PlutoniumStoreStyle.ink,
+                                      color: PremiumStoreStyle.ink,
                                     )
                                   : context.textStyles.heading,
                             ),
                             const Spacer(),
                             _buildCloseButton(
-                              color: storePane ? PlutoniumStoreStyle.ink : null,
+                              color: storePane ? PremiumStoreStyle.ink : null,
                             ),
                           ],
                         ),
@@ -679,14 +679,14 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
     final l10n = FluxerLocalizations.of(context);
     final bool storePage =
         section == UserSettingsSection.fluxerPlutonium &&
-        isPlutoniumStorePageActive();
+        isPremiumStorePageActive();
     final canDismiss = ValueNotifier<bool>(true);
     unawaited(
       FluxerPageSheet.showScrollable<void>(
         context,
         title: userSettingsSectionLabel(l10n, section),
-        backgroundColor: storePage ? PlutoniumStoreStyle.spaceTop : null,
-        foregroundColor: storePage ? PlutoniumStoreStyle.ink : null,
+        backgroundColor: storePage ? PremiumStoreStyle.spaceTop : null,
+        foregroundColor: storePage ? PremiumStoreStyle.ink : null,
         canDismissNotifier: canDismiss,
         builder: (sheetContext, scrollController, close) =>
             _MobileSettingsContentBody(
@@ -901,8 +901,8 @@ Widget _buildUserSettingsSectionContent({
           ? const UserLanguageAndTime()
           : UserLanguageAndTime(scrollController: scrollController);
     case UserSettingsSection.fluxerPlutonium:
-      if (isPlutoniumStorePageActive()) {
-        return PlutoniumStorePage(scrollController: scrollController);
+      if (isPremiumStorePageActive()) {
+        return PremiumStorePage(scrollController: scrollController);
       }
       return UserPlutoniumSettings(
         scrollController: scrollController,

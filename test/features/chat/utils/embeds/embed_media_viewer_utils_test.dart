@@ -12,6 +12,27 @@ void main() {
   const String directUrl =
       'https://fluxerusercontent.com/attachments/$attachmentId/photo.png';
 
+  group('embedMediaShareableUrl', () {
+    test('prefers embed page URL for gif providers', () {
+      const EmbedMedia media = EmbedMedia(
+        url: 'https://media.tenor.com/wave.gif',
+        proxyUrl: 'https://fluxerusercontent.com/external/sig/v2/wave',
+      );
+      expect(
+        embedMediaShareableUrl(
+          media: media,
+          embedPageUrl: 'https://tenor.com/view/wave-gif-1',
+        ),
+        'https://tenor.com/view/wave-gif-1',
+      );
+    });
+
+    test('falls back to direct media URL when page URL is absent', () {
+      const EmbedMedia media = EmbedMedia(url: directUrl, proxyUrl: proxyUrl);
+      expect(embedMediaShareableUrl(media: media), directUrl);
+    });
+  });
+
   group('embedMediaEffectiveUrl', () {
     test('prefers proxy URL when present', () {
       const EmbedMedia media = EmbedMedia(url: originalUrl, proxyUrl: proxyUrl);
@@ -61,6 +82,20 @@ void main() {
       );
       expect(item.url, contains('format=webp'));
       expect(item.url, contains('animated=true'));
+    });
+
+    test('keeps shareable URL separate from display URL', () {
+      const EmbedMedia media = EmbedMedia(
+        url: 'https://media.tenor.com/wave.gif',
+        proxyUrl: 'https://fluxerusercontent.com/external/sig/v2/wave',
+      );
+      final AttachmentMediaViewerItem item = buildEmbedMediaViewerItem(
+        media: media,
+        embedPageUrl: 'https://tenor.com/view/wave-gif-1',
+        animated: true,
+      );
+      expect(item.url, contains('fluxerusercontent.com'));
+      expect(item.shareableUrl, 'https://tenor.com/view/wave-gif-1');
     });
   });
 

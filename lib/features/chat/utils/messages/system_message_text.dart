@@ -103,6 +103,8 @@ String? stringifySystemMessage({
       );
     case messageTypeChannelPinnedMessage:
       return l10n.systemPreviewPinnedMessage(authorName);
+    case messageTypeThreadCreated:
+      return l10n.systemPreviewThreadCreated(authorName);
     case messageTypeRecipientAdd:
       if (mentionedUserName != null && mentionedUserName.isNotEmpty) {
         return l10n.systemPreviewAddedToGroup(authorName, mentionedUserName);
@@ -230,6 +232,26 @@ List<InlineSpan> buildSystemMessageTextSpans({
       sourceStyle: linkStyle ?? usernameStyle,
       onAuthorTap: onAuthorTap,
       onSourceTap: onSourceTap,
+    );
+  }
+  if (message.type == messageTypeThreadCreated) {
+    return _expandPinMessageTemplate(
+      l10n.systemThreadCreated(
+        kSystemMessageUsernamePlaceholder,
+        kSystemMessageMessageLinkPlaceholder,
+        kSystemMessageAllPinsLinkPlaceholder,
+      ),
+      authorName: authorName,
+      messageLinkLabel: message.content.trim().isEmpty
+          ? l10n.systemThreadCreatedThreadFallback
+          : message.content.trim(),
+      allPinsLinkLabel: l10n.systemThreadCreatedAllThreadsLink,
+      textStyle: textStyle,
+      usernameStyle: usernameStyle,
+      linkStyle: linkStyle ?? usernameStyle,
+      onAuthorTap: onAuthorTap,
+      onMessageLinkTap: onMessageLinkTap,
+      onAllPinsLinkTap: onAllPinsLinkTap,
     );
   }
   if (message.type == messageTypeCall) {

@@ -149,12 +149,7 @@ class _EmbedAnimatedImageState extends ConsumerState<EmbedAnimatedImage> {
 
   void _applyVisibility(VisibilityInfo info, {required bool visible}) {
     _localVisible = visible;
-    _controller?.updateVisibility(
-      widget.visibilityKey,
-      info.visibleFraction,
-      top: info.visibleBounds.top,
-      left: info.visibleBounds.left,
-    );
+    _controller?.updateVisibility(widget.visibilityKey, info.visibleFraction);
     _syncPlaying();
   }
 
@@ -165,9 +160,7 @@ class _EmbedAnimatedImageState extends ConsumerState<EmbedAnimatedImage> {
     final bool visible = info.visibleFraction > 0;
     if (visible) {
       _hideScheduled = false;
-      if (!_localVisible) {
-        _applyVisibility(info, visible: true);
-      }
+      _applyVisibility(info, visible: true);
       return;
     }
     if (!_localVisible || _hideScheduled) {
