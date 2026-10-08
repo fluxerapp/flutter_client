@@ -167,7 +167,7 @@ def commit_has_pull_request(sha: str) -> bool:
 def categorize_commit(subject: str) -> str | None:
     match = CONVENTIONAL_COMMIT_PATTERN.match(subject)
     if match is None:
-        return "other"
+        return None
     commit_type = match.group("type").lower()
     if commit_type in SKIP_CHANGELOG_TYPES:
         return None
@@ -175,7 +175,7 @@ def categorize_commit(subject: str) -> str | None:
         return "feature"
     if commit_type == "fix":
         return "fix"
-    return "other"
+    return None
 
 
 def format_commit_line(sha: str, title: str, author: str) -> str:
