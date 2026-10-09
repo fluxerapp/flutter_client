@@ -19,20 +19,16 @@ class AddFriendsToGroupModal {
       context,
       title: l10n.createDmSelectFriends,
       builder: (BuildContext dialogContext, VoidCallback close) {
-        return _AddFriendsToGroupModalContent(dm: dm, onClose: close);
+        return _AddFriendsToGroupModalContent(dm: dm);
       },
     );
   }
 }
 
 class _AddFriendsToGroupModalContent extends ConsumerStatefulWidget {
-  const _AddFriendsToGroupModalContent({
-    required this.dm,
-    required this.onClose,
-  });
+  const _AddFriendsToGroupModalContent({required this.dm});
 
   final DmConversation dm;
-  final VoidCallback onClose;
 
   @override
   ConsumerState<_AddFriendsToGroupModalContent> createState() =>

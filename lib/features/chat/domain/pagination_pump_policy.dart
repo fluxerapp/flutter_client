@@ -43,7 +43,6 @@ enum PageLoadStatus {
 /// and interleaved realtime/trim/swap writes make state diffs lie).
 final class PageLoadResult {
   const PageLoadResult({
-    required this.edge,
     required this.channelId,
     required this.windowEpoch,
     required this.requestCursor,
@@ -52,7 +51,6 @@ final class PageLoadResult {
     required this.hasMoreAtEdge,
   });
 
-  final PaginationEdge edge;
   final String channelId;
 
   /// Window epoch captured at request start.

@@ -136,7 +136,10 @@ class _UsernameClaimAccountSheetState
         _loading = false;
         _fieldErrors = fieldErrors;
         _error = fieldErrors.isEmpty
-            ? userFacingErrorMessage(e, 'An error occurred')
+            ? userFacingErrorMessage(
+                e,
+                FluxerLocalizations.of(context).genericError,
+              )
             : null;
       });
     }

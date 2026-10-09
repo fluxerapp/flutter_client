@@ -17,13 +17,11 @@ class VoiceMessagePreparedRecording {
     required this.filePath,
     required this.duration,
     required this.waveform,
-    required this.pcm,
   });
 
   final String filePath;
   final int duration;
   final String waveform;
-  final VoiceMessagePcmSlice pcm;
 }
 
 enum VoiceMessageCaptureMode { pcmStream, fileWithAmplitude }
@@ -59,8 +57,6 @@ class VoiceMessageRecordingService {
 
   bool get isRecording => _startedAt != null;
 
-  VoiceMessageCaptureMode get captureMode => _captureMode;
-
   bool get usesPcmCapture => _captureMode == VoiceMessageCaptureMode.pcmStream;
 
   int get capturedDurationMs {
@@ -89,8 +85,6 @@ class VoiceMessageRecordingService {
     }
     return _pcmWindowSnapshot;
   }
-
-  Future<bool> requestPermission() => requestMicrophonePermissionForVoice();
 
   Future<void> start({
     required int maxDurationSeconds,
@@ -253,7 +247,6 @@ class VoiceMessageRecordingService {
       filePath: outputPath,
       duration: waveform.duration,
       waveform: waveform.waveform,
-      pcm: pcm,
     );
   }
 

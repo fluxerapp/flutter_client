@@ -64,24 +64,4 @@ void main() {
       expect(retryAfterMsFromDioException(error), 3000);
     });
   });
-
-  group('dioExceptionMessage', () {
-    test('prefers API message over fallback', () {
-      final DioException error = DioException(
-        requestOptions: RequestOptions(path: '/test'),
-        response: Response<dynamic>(
-          requestOptions: RequestOptions(path: '/test'),
-          data: <String, dynamic>{'message': 'Rate limited'},
-        ),
-      );
-      expect(dioExceptionMessage(error, 'fallback'), 'Rate limited');
-    });
-
-    test('uses fallback when response has no message', () {
-      final DioException error = DioException(
-        requestOptions: RequestOptions(path: '/test'),
-      );
-      expect(dioExceptionMessage(error, 'fallback'), 'fallback');
-    });
-  });
 }

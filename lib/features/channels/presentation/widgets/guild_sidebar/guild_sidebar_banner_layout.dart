@@ -7,6 +7,24 @@ const double kGuildSidebarScrollIndicatorTopInset =
     kGuildSidebarHeaderMinHeight + 8;
 
 @visibleForTesting
+double guildSidebarBannerLayoutWidth(
+  BuildContext context,
+  BoxConstraints constraints,
+) {
+  if (constraints.hasBoundedWidth && constraints.maxWidth > 0) {
+    return constraints.maxWidth;
+  }
+  final layout = context.layout;
+  if (isMobileLayout(context)) {
+    return math.max(
+      layout.sidebarWidth,
+      MediaQuery.sizeOf(context).width - layout.guildListWidth,
+    );
+  }
+  return layout.sidebarWidth;
+}
+
+@visibleForTesting
 double guildSidebarBannerHeight({
   required double width,
   required double viewportHeight,
@@ -22,24 +40,4 @@ double guildSidebarBannerHeight({
     kGuildSidebarHeaderMinHeight,
     math.min(idealHeight, viewportCap),
   );
-}
-
-double guildSidebarBannerCollapseRatio({
-  required double scrollOffset,
-  required double fullBannerHeight,
-}) {
-  final double collapseDistance =
-      fullBannerHeight - kGuildSidebarHeaderMinHeight;
-  if (collapseDistance <= 0) {
-    return 1;
-  }
-  return (scrollOffset / collapseDistance).clamp(0.0, 1.0);
-}
-
-double guildSidebarBannerHeightForCollapse({
-  required double fullBannerHeight,
-  required double collapseRatio,
-}) {
-  return fullBannerHeight -
-      (fullBannerHeight - kGuildSidebarHeaderMinHeight) * collapseRatio;
 }

@@ -11,9 +11,8 @@ const MethodChannel _voiceSpeakerRouteChannel = MethodChannel(
 );
 
 Future<void> applyNativeVoiceOutputRoute(VoiceOutputRoute route) async {
-  if (kIsWeb ||
-      (defaultTargetPlatform != TargetPlatform.android &&
-          defaultTargetPlatform != TargetPlatform.iOS)) {
+  if (defaultTargetPlatform != TargetPlatform.android &&
+      defaultTargetPlatform != TargetPlatform.iOS) {
     return;
   }
   try {
@@ -27,9 +26,8 @@ Future<void> applyNativeVoiceOutputRoute(VoiceOutputRoute route) async {
 }
 
 Future<Set<VoiceOutputRoute>> readAvailableVoiceOutputRoutes() async {
-  if (kIsWeb ||
-      (defaultTargetPlatform != TargetPlatform.android &&
-          defaultTargetPlatform != TargetPlatform.iOS)) {
+  if (defaultTargetPlatform != TargetPlatform.android &&
+      defaultTargetPlatform != TargetPlatform.iOS) {
     return kPhoneVoiceOutputRoutes;
   }
   try {

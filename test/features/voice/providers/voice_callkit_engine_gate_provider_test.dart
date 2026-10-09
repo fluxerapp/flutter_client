@@ -17,13 +17,13 @@ void main() {
 
       container
           .read(voiceCallKitEngineSuppressedProvider.notifier)
-          .setSuppressed(true);
+          .setSuppressed(suppressed: true);
       expect(container.read(voiceCallKitEngineSuppressedProvider), isTrue);
       expect(container.read(voiceCallKitEngineSuppressedProvider), isTrue);
 
       container
           .read(voiceCallKitEngineSuppressedProvider.notifier)
-          .setSuppressed(false);
+          .setSuppressed(suppressed: false);
       expect(container.read(voiceCallKitEngineSuppressedProvider), isFalse);
     });
   });

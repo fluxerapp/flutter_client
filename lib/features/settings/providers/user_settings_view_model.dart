@@ -59,12 +59,6 @@ class UserSettingsViewState {
   final StickerAnimationOptions animateStickers;
   final bool defaultHideMutedChannels;
 
-  // TODO(M0n7y5): server-sync once the SDK ships
-  // `show_faded_unread_on_muted_channels`. For now this is an in-memory
-  // accessibility toggle (resets on app restart) so we can ship the indicator
-  // parity work without blocking on the SDK regen.
-  final bool showFadedUnreadOnMutedChannels;
-
   final int publicFlags;
 
   final String? bio;
@@ -79,7 +73,6 @@ class UserSettingsViewState {
   final bool usernameSignIn;
   final String? passwordLastChangedAt;
   final bool mfaEnabled;
-  final bool hasVerifiedPhone;
   final List<String> requiredActions;
   final List<int> authenticatorTypes;
   final bool premiumWillCancel;
@@ -161,7 +154,6 @@ class UserSettingsViewState {
     this.animateEmoji = true,
     this.animateStickers = StickerAnimationOptions.alwaysAnimate,
     this.defaultHideMutedChannels = false,
-    this.showFadedUnreadOnMutedChannels = false,
     this.publicFlags = 0,
     this.bio,
     this.pronouns,
@@ -175,7 +167,6 @@ class UserSettingsViewState {
     this.usernameSignIn = false,
     this.passwordLastChangedAt,
     this.mfaEnabled = false,
-    this.hasVerifiedPhone = false,
     this.requiredActions = const <String>[],
     this.authenticatorTypes = const [],
     this.premiumWillCancel = false,
@@ -323,7 +314,6 @@ class UserSettingsViewState {
       !usernameSignIn && isProfileLoaded && hasVerifiedEmail && !verified;
 
   bool get hasTotpMfa => authenticatorTypes.contains(0);
-  bool get hasWebauthnMfa => authenticatorTypes.contains(2);
 
   bool get hasActiveSubscription =>
       premiumType == UserPremiumTypes.subscription.json && !premiumWillCancel;
@@ -604,7 +594,6 @@ class UserSettingsViewState {
     bool? animateEmoji,
     StickerAnimationOptions? animateStickers,
     bool? defaultHideMutedChannels,
-    bool? showFadedUnreadOnMutedChannels,
     int? publicFlags,
     Object? bio = _unset,
     Object? pronouns = _unset,
@@ -620,7 +609,6 @@ class UserSettingsViewState {
     bool? usernameSignIn,
     Object? passwordLastChangedAt = _unset,
     bool? mfaEnabled,
-    bool? hasVerifiedPhone,
     List<String>? requiredActions,
     List<int>? authenticatorTypes,
     bool? premiumWillCancel,
@@ -701,8 +689,6 @@ class UserSettingsViewState {
       animateStickers: animateStickers ?? this.animateStickers,
       defaultHideMutedChannels:
           defaultHideMutedChannels ?? this.defaultHideMutedChannels,
-      showFadedUnreadOnMutedChannels:
-          showFadedUnreadOnMutedChannels ?? this.showFadedUnreadOnMutedChannels,
       publicFlags: publicFlags ?? this.publicFlags,
       bio: bio == _unset ? this.bio : bio as String?,
       pronouns: pronouns == _unset ? this.pronouns : pronouns as String?,
@@ -722,7 +708,6 @@ class UserSettingsViewState {
           ? this.passwordLastChangedAt
           : passwordLastChangedAt as String?,
       mfaEnabled: mfaEnabled ?? this.mfaEnabled,
-      hasVerifiedPhone: hasVerifiedPhone ?? this.hasVerifiedPhone,
       requiredActions: requiredActions ?? this.requiredActions,
       authenticatorTypes: authenticatorTypes ?? this.authenticatorTypes,
       premiumWillCancel: premiumWillCancel ?? this.premiumWillCancel,
@@ -1068,7 +1053,6 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
       verified: profile.verified,
       passwordLastChangedAt: profile.passwordLastChangedAt,
       mfaEnabled: profile.mfaEnabled,
-      hasVerifiedPhone: profile.hasVerifiedPhone,
       requiredActions: List<String>.from(profile.requiredActions),
       authenticatorTypes:
           profile.authenticatorTypes
@@ -1457,10 +1441,6 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
     );
   }
 
-  void toggleCompact() {
-    state = state.copyWith(messageDisplayCompact: !state.messageDisplayCompact);
-  }
-
   Future<void> setMessageDisplayCompact({required bool value}) async {
     final bool previous = state.messageDisplayCompact;
     state = state.copyWith(messageDisplayCompact: value);
@@ -1627,13 +1607,6 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
       talker.error('Failed to update animateStickers', e, st);
       rethrow;
     }
-  }
-
-  // TODO(M0n7y5): switch to server-sync once the SDK exposes
-  // `show_faded_unread_on_muted_channels` on `UserSettingsUpdateRequest` /
-  // `UserSettingsResponse`. Until then this is an in-memory toggle.
-  void setShowFadedUnreadOnMutedChannels({required bool value}) {
-    state = state.copyWith(showFadedUnreadOnMutedChannels: value);
   }
 
   Future<void> setDefaultHideMutedChannels({required bool value}) async {

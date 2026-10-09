@@ -39,13 +39,13 @@ class _PreviewBytesAdapter implements HttpClientAdapter {
 }
 
 Dio _previewDio() {
-  final Dio dio = Dio();
-  dio.httpClientAdapter = _PreviewBytesAdapter(const <int>[
-    0xFF,
-    0xD8,
-    0xFF,
-    0xD9,
-  ]);
+  final Dio dio = Dio()
+    ..httpClientAdapter = _PreviewBytesAdapter(const <int>[
+      0xFF,
+      0xD8,
+      0xFF,
+      0xD9,
+    ]);
   return dio;
 }
 

@@ -1,7 +1,7 @@
 part of '../sheets/channel_details_sheet.dart';
 
 Route<T> _channelSearchPageRoute<T>(Widget page) {
-  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.iOS) {
+  if (defaultTargetPlatform == TargetPlatform.iOS) {
     return CupertinoPageRoute<T>(builder: (_) => page);
   }
   return MaterialPageRoute<T>(builder: (_) => page);
@@ -280,7 +280,6 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
         channelsByName: _chipState.channelNames,
       ),
       context: ChannelSearchParseContext(
-        guildId: widget.guildId,
         currentUserId: ref.read(currentUserIdProvider),
         resolveChannelByName: _resolveChannelName,
       ),
@@ -387,7 +386,6 @@ class _ChannelSearchPageState extends ConsumerState<ChannelSearchPage> {
                 usersByTag: entry.usersByTag,
                 channelsByName: entry.channelsByName,
               ),
-              context: ChannelSearchParseContext(guildId: widget.guildId),
               chipAuthorId: entry.authorId.isEmpty ? null : entry.authorId,
               chipContentTypes: entry.contentTypeIndices
                   .map((int index) => MessageSearchContentFilter.values[index])

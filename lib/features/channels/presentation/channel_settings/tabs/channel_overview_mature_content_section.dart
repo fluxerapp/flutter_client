@@ -18,7 +18,6 @@ class ChannelOverviewMatureContentSection extends ConsumerWidget {
     required this.guild,
     required this.nsfwOverride,
     required this.contentWarningLevel,
-    required this.contentWarningText,
     required this.warningTextController,
     required this.onNsfwOverrideChanged,
     required this.onContentWarningLevelChanged,
@@ -30,7 +29,6 @@ class ChannelOverviewMatureContentSection extends ConsumerWidget {
   final Guild? guild;
   final bool? nsfwOverride;
   final int contentWarningLevel;
-  final String contentWarningText;
   final TextEditingController warningTextController;
   final ValueChanged<bool?> onNsfwOverrideChanged;
   final ValueChanged<int> onContentWarningLevelChanged;

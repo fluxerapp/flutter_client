@@ -66,13 +66,11 @@ class _PinsTab extends ConsumerWidget {
     required this.channelId,
     required this.guildId,
     required this.scrollController,
-    required this.close,
   });
 
   final String channelId;
   final String? guildId;
   final ScrollController scrollController;
-  final VoidCallback close;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

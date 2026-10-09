@@ -110,6 +110,10 @@ class UserPreferencesTable extends Table {
   TextColumn get voiceSettingsJson => text().withDefault(const Constant(''))();
   RealColumn get saturationFactor => real().withDefault(const Constant(1))();
   TextColumn get customThemeCss => text().withDefault(const Constant(''))();
+  BoolColumn get syncThemeColorsFromThemeStudio =>
+      boolean().withDefault(const Constant(true))();
+  BoolColumn get syncThemeColorsToThemeStudio =>
+      boolean().withDefault(const Constant(true))();
   BoolColumn get screenReaderAnnounceNewMessages =>
       boolean().withDefault(const Constant(false))();
   BoolColumn get syncReducedMotionWithSystem =>

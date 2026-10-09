@@ -11,9 +11,6 @@ part 'push_relay_consent_provider.g.dart';
 const String _kPushRelayConsentGrantedKey = 'push_relay_consent_granted';
 
 bool pushRelayConsentIsAvailable() {
-  if (kIsWeb) {
-    return false;
-  }
   if (!PushProviderGuard.isApple && !PushProviderGuard.isFirebaseMessaging) {
     return false;
   }
@@ -29,10 +26,6 @@ class PushRelayConsent extends _$PushRelayConsent {
 
   @override
   bool build() => false;
-
-  bool get isLoaded => _isLoaded;
-
-  bool get hasDecision => _hasDecision;
 
   Future<void> load() {
     _loadInFlight = _load();
@@ -81,7 +74,7 @@ Future<bool> ensurePushRelayConsent(Ref ref, String relayUrl) async {
   if (shouldPromptForPushRelayConsent(
     relayUrl: relayUrl,
     isConsentGranted: isConsentGranted,
-    hasDecision: consent.hasDecision,
+    hasDecision: consent._hasDecision,
     isOfficialInstance: isOfficialInstance,
   )) {
     ref.read(pushRelayConsentPromptProvider.notifier).requestPrompt();

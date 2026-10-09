@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
+import 'package:fluxer_app/core/l10n/api_locale.dart';
 import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/data/favorite_media_repository.dart';
@@ -255,7 +256,7 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
 
   @override
   Widget build(BuildContext context) {
-    final locale = gifLocaleFromFlutterLocale(Localizations.localeOf(context));
+    final locale = apiLocaleFromFlutterLocale(Localizations.localeOf(context));
     final provider = ref.watch(activeGifProviderProvider).value;
 
     return ColoredBox(
@@ -434,9 +435,6 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
         onFavoritesTap: _onFavoritesTileTap,
         onTrendingTap: _showTrending,
         onCategoryTap: _setSearchTerm,
-        onGifTap: (gif) => _selectGif(gif, locale),
-        isGifFavorite: favoriteLookup.isFavorite,
-        onGifLongPress: (gif) => _showGifActions(gif, favoriteLookup),
       ),
       error: (_, _) => _GifEmptyState(
         title: FluxerLocalizations.of(context).gifPickerLoadFailedTitle,
@@ -492,9 +490,6 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
     final shiftPressed = HardwareKeyboard.instance.isShiftPressed;
     final autoSend =
         ref.read(chatPreferencesProvider).autoSendKlipyGifs && !shiftPressed;
-    final title = gif.title.trim().isEmpty
-        ? parseKlipyTitleFromUrl(gif.url)
-        : gif.title;
     final shareUrl = switch (gif.provider) {
       GifProviderKind.klipy => resolveKlipyShareUrl(
         url: gif.url,
@@ -505,17 +500,7 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
     };
 
     widget.onGifSelect?.call(
-      FluxerSelectedGif(
-        provider: gif.provider,
-        id: shareId,
-        title: title,
-        url: shareUrl,
-        src: gif.src,
-        proxySrc: gif.proxySrc,
-        width: gif.width,
-        height: gif.height,
-        autoSend: autoSend,
-      ),
+      FluxerSelectedGif(url: shareUrl, autoSend: autoSend),
     );
 
     if (!shiftPressed) {
@@ -613,9 +598,6 @@ class _FeaturedGifLanding extends StatelessWidget {
     required this.featured,
     required this.onTrendingTap,
     required this.onCategoryTap,
-    required this.onGifTap,
-    required this.isGifFavorite,
-    required this.onGifLongPress,
     required this.onFavoritesTap,
     this.scrollController,
   });
@@ -624,9 +606,6 @@ class _FeaturedGifLanding extends StatelessWidget {
   final VoidCallback onFavoritesTap;
   final VoidCallback onTrendingTap;
   final ValueChanged<String> onCategoryTap;
-  final ValueChanged<GifPickerGif> onGifTap;
-  final bool Function(GifPickerGif gif) isGifFavorite;
-  final ValueChanged<GifPickerGif> onGifLongPress;
   final ScrollController? scrollController;
 
   @override

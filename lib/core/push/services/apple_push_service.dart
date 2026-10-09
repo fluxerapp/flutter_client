@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/push/local_push_notifications.dart';
 import 'package:fluxer_app/core/push/push_message.dart';
-import 'package:fluxer_app/core/push/push_notification_permission.dart';
 import 'package:fluxer_app/core/push/push_notification_reply.dart';
 import 'package:fluxer_app/core/push/push_service.dart';
 
@@ -18,18 +17,7 @@ class ApplePushService implements PushService {
     'fluxer_app/apple_push/messages',
   );
   static bool _shouldUseNativeChannel() {
-    if (kIsWeb) {
-      return false;
-    }
     return defaultTargetPlatform == TargetPlatform.iOS;
-  }
-
-  @override
-  Future<void> requestPermissions() async {
-    if (!_shouldUseNativeChannel()) {
-      return;
-    }
-    await requestPushNotificationPermission();
   }
 
   static Future<void> syncActiveUserId(String? userId) async {

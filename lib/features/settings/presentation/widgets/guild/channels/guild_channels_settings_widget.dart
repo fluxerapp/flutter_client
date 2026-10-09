@@ -574,7 +574,6 @@ class _GuildChannelsSettingsWidgetState
             return GuildChannelSettingsRow(
               key: ValueKey<String>('guild-channel-settings-${entry.id}'),
               entry: entry,
-              channels: channels,
               hoverNotifier: _hoverNotifier,
               activeDragItem: _activeDragItem,
               activeHoverEntryId: _activeHoverEntryId,

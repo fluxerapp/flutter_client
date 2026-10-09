@@ -97,12 +97,3 @@ final memberRowByGuildProvider = StreamProvider.autoDispose
           .memberDao
           .watchMemberByUserId(key.$1, key.$2),
     );
-
-// Member rows stream keyed by guild id.
-// ignore: specify_nonobvious_property_types
-final guildMemberRowsProvider = StreamProvider.family<List<db.Member>, String>((
-  Ref ref,
-  String guildId,
-) {
-  return ref.watch(fluxerDatabaseProvider).memberDao.watchMembers(guildId);
-});

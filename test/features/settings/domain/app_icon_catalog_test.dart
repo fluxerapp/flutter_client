@@ -10,7 +10,7 @@ void main() {
 
   test('ios catalog uses ios preview assets', () {
     final choices = iosAppIconChoiceCatalog();
-    expect(choices, hasLength(3));
+    expect(choices, hasLength(9));
     for (final choice in choices) {
       expect(
         choice.previewAssetPath.startsWith(AppIconPreviewAssets.iosRoot),
@@ -21,6 +21,12 @@ void main() {
       null,
       kIosStarfieldAlternateIconName,
       kIosSwedenAlternateIconName,
+      kIosGreyscaleAlternateIconName,
+      kIosRainbowAlternateIconName,
+      kIosWavesAlternateIconName,
+      kIosChromaticAberrationAlternateIconName,
+      kIosDefaultBrutalistAlternateIconName,
+      kIosGreyscaleBrutalistAlternateIconName,
     ]);
   });
 }

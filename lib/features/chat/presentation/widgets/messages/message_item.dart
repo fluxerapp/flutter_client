@@ -56,6 +56,7 @@ import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/double_tap_action_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -268,9 +269,8 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   bool _semanticLabelFailed = false;
   String? _semanticLabel;
 
-  FluxerSpoilerSyncController get _spoilerSyncController => ref
-      .watch(channelSpoilerSyncProvider(widget.message.channelId).notifier)
-      .controller;
+  FluxerSpoilerSyncController get _spoilerSyncController =>
+      ref.watch(channelSpoilerSyncProvider(widget.message.channelId));
 
   late final Listenable _actionBarVisibility = Listenable.merge([
     _hovered,
@@ -473,16 +473,9 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     );
   }
 
-  bool get _canReportThisMessage {
-    if (widget.message.hasFailed) {
-      return false;
-    }
-    if (widget.message.authorId == widget.currentUserId) {
-      return false;
-    }
-    return widget.message.type == messageTypeDefault ||
-        widget.message.type == messageTypeReply;
-  }
+  bool get _canReportThisMessage =>
+      widget.message.isReportable &&
+      widget.message.authorId != widget.currentUserId;
 
   String? _guildIdForMessageActions() {
     return widget.previewRoleGuildId ??
@@ -690,6 +683,25 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     final bool dimMessagePartsExceptAttachments =
         isSending && hasUploadingPlaceholderAttachments;
 
+    final bool canEditOwnMessage =
+        widget.onEdit != null &&
+        msg.authorId == widget.currentUserId &&
+        msg.isUserMessage &&
+        msg.messageSnapshots.isEmpty;
+    final doubleTapAction = ref
+        .watch(doubleTapActionPreferencesProvider)
+        .effectiveAction;
+    final bool doubleTapEnabled =
+        !widget.inboxPreviewMode &&
+        !isFailed &&
+        !isSending &&
+        messageDoubleTapEnabled(
+          action: doubleTapAction,
+          canAddReactions: widget.canAddReactions,
+          onReaction: widget.onReaction,
+          canEditOwnMessage: canEditOwnMessage,
+          onEdit: widget.onEdit,
+        );
     final body = FluxerGestureDetector(
       onLongPressStart: useTouchMessageActions && !widget.inboxPreviewMode
           ? (details) {
@@ -700,13 +712,13 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       onSecondaryTapUp: !useTouchMessageActions && !widget.inboxPreviewMode
           ? (details) => _showContextMenu(context, details.globalPosition)
           : null,
-      onDoubleTap:
-          !widget.inboxPreviewMode &&
-              widget.canAddReactions &&
-              widget.onReaction != null &&
-              !isFailed &&
-              !isSending
-          ? () => dispatchStoredDoubleTapReaction(ref, widget.onReaction)
+      onDoubleTap: doubleTapEnabled
+          ? () => dispatchDoubleTapMessageAction(
+              ref: ref,
+              action: doubleTapAction,
+              onReaction: widget.onReaction,
+              onEdit: canEditOwnMessage ? widget.onEdit : null,
+            )
           : null,
       child: MouseRegion(
         onEnter: (_) => _hovered.value = true,
@@ -908,11 +920,6 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         ),
       );
     }
-    final bool canEditOwnMessage =
-        widget.onEdit != null &&
-        msg.authorId == widget.currentUserId &&
-        msg.isUserMessage &&
-        msg.messageSnapshots.isEmpty;
     return _wrapMessageSendingDim(
       dim: dimEntireMessage,
       child: _wrapKeyboardFocus(
@@ -1010,12 +1017,14 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         Padding(padding: padding, child: child),
       ],
     );
-    if ((!_animateJumpHighlight && !widget.isJumpHighlighted) ||
+    final Duration duration = context.motion.slow;
+    if (duration == Duration.zero ||
+        (!_animateJumpHighlight && !widget.isJumpHighlighted) ||
         MediaQuery.disableAnimationsOf(context)) {
       return DecoratedBox(decoration: decoration, child: stacked);
     }
     return AnimatedContainer(
-      duration: context.motion.slow,
+      duration: duration,
       curve: _kJumpHighlightFadeCurve,
       decoration: decoration,
       onEnd: () {
@@ -2052,7 +2061,6 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         embed: embed,
         dimensionSize: dimensionSize,
         channelId: channelId,
-        messageId: messageId,
         embedIndex: embedIndex,
         videoActionScope: _videoActionScope,
       ),

@@ -26,7 +26,6 @@ void main() {
   group('ScheduledMaintenanceNagbar', () {
     final ServiceStatusMaintenance maintenance = ServiceStatusMaintenance(
       id: 'maint-1',
-      name: 'Maintenance',
       status: ServiceStatusMaintenanceStatus.scheduled,
       start: DateTime.utc(2026, 7, 11, 18),
       durationMinutes: 60,
@@ -59,7 +58,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           locale: kTestLocale,
-          localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+          localizationsDelegates: fluxerLocalizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           theme: buildFluxerTheme(
             colorTheme: colorTheme,
@@ -101,7 +100,7 @@ Widget _wrap({
     ],
     child: MaterialApp(
       locale: kTestLocale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,

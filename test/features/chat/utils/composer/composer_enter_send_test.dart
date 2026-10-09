@@ -19,41 +19,16 @@ void main() {
     test('sends on desktop', () {
       expect(
         composerEnterSends(
-          isWeb: false,
-          isWideLayout: false,
           isNativeMobileOs: false,
           physicalKeyboardConnected: false,
         ),
         isTrue,
-      );
-    });
-
-    test('sends on web only when the layout is wide', () {
-      expect(
-        composerEnterSends(
-          isWeb: true,
-          isWideLayout: true,
-          isNativeMobileOs: false,
-          physicalKeyboardConnected: false,
-        ),
-        isTrue,
-      );
-      expect(
-        composerEnterSends(
-          isWeb: true,
-          isWideLayout: false,
-          isNativeMobileOs: false,
-          physicalKeyboardConnected: false,
-        ),
-        isFalse,
       );
     });
 
     test('ignores on-screen enter on mobile without a physical keyboard', () {
       expect(
         composerEnterSends(
-          isWeb: false,
-          isWideLayout: false,
           isNativeMobileOs: true,
           physicalKeyboardConnected: false,
         ),
@@ -64,8 +39,6 @@ void main() {
     test('sends on mobile when a physical keyboard is connected', () {
       expect(
         composerEnterSends(
-          isWeb: false,
-          isWideLayout: false,
           isNativeMobileOs: true,
           physicalKeyboardConnected: true,
         ),

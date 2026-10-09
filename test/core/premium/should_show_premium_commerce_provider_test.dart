@@ -98,7 +98,11 @@ WellKnownFluxerResponse _selfHostedWellKnown() {
         premiumInfoUrl: null,
       ),
       setup: InstanceSetupSchema(configured: true, adminUrl: null),
-      legal: InstanceAppPublicSchemaLegal(termsUrl: null, privacyUrl: null),
+      legal: InstanceAppPublicSchemaLegal(
+        termsUrl: null,
+        privacyUrl: null,
+        guidelinesUrl: null,
+      ),
       registration: InstanceAppPublicSchemaRegistration(
         collectDateOfBirth: true,
       ),

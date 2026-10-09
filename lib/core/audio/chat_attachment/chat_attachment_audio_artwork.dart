@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -13,7 +12,7 @@ Uri? _chatAttachmentAudioArtUri;
 Uri? get chatAttachmentAudioArtUri => _chatAttachmentAudioArtUri;
 
 Future<void> bootstrapChatAttachmentAudioArtwork() async {
-  if (kIsWeb || !(Platform.isAndroid || Platform.isIOS)) {
+  if (!(Platform.isAndroid || Platform.isIOS)) {
     return;
   }
   final ByteData data = await rootBundle.load(_kChatAttachmentAudioArtAsset);

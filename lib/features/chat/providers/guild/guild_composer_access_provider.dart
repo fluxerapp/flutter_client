@@ -100,7 +100,6 @@ Future<GuildComposerAccess> guildComposerAccess(
       hasVerifiedEmail: userSettings.isClaimed,
       isEmailVerified: userSettings.isVerified,
       accountCreatedAt: userSettings.resolvedMemberSince,
-      hasVerifiedPhone: userSettings.hasVerifiedPhone,
       now: DateTime.now(),
     ),
   );

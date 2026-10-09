@@ -16,5 +16,4 @@ abstract final class FluxerColorFamilies {
   static const statusOffline = ColorFamily(hue: 218, saturation: 11);
   static const statusDanger = ColorFamily(hue: 1, saturation: 77);
   static const textCode = ColorFamily(hue: 340, saturation: 50);
-  static const brandIcon = ColorFamily(hue: 38, saturation: 92);
 }

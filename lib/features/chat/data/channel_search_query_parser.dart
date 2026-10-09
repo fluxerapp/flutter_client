@@ -10,16 +10,6 @@ class ChannelSearchParseHints {
 
   final Map<String, String> usersByTag;
   final Map<String, String> channelsByName;
-
-  ChannelSearchParseHints merge(ChannelSearchParseHints other) {
-    return ChannelSearchParseHints(
-      usersByTag: <String, String>{...usersByTag, ...other.usersByTag},
-      channelsByName: <String, String>{
-        ...channelsByName,
-        ...other.channelsByName,
-      },
-    );
-  }
 }
 
 typedef ChannelIdResolver = String? Function(String channelName);
@@ -29,13 +19,11 @@ final RegExp _snowflakeIdPattern = RegExp(r'^\d{17,20}$');
 
 class ChannelSearchParseContext {
   const ChannelSearchParseContext({
-    this.guildId,
     this.currentUserId,
     this.resolveChannelByName,
     this.resolveUserByTag,
   });
 
-  final String? guildId;
   final String? currentUserId;
   final ChannelIdResolver? resolveChannelByName;
   final UserIdResolver? resolveUserByTag;

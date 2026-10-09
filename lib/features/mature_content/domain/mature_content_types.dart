@@ -1,11 +1,7 @@
 enum ClientSensitiveMediaFilterLevel {
-  show(0),
-  blur(1),
-  block(2);
-
-  const ClientSensitiveMediaFilterLevel(this.value);
-
-  final int value;
+  show,
+  blur,
+  block;
 
   static ClientSensitiveMediaFilterLevel fromInt(int value) => switch (value) {
     1 => ClientSensitiveMediaFilterLevel.blur,
@@ -22,9 +18,6 @@ enum EffectiveMatureSource { none, guild, parent, channel }
 
 const int contentWarningLevelInherit = 0;
 const int contentWarningLevelContentWarning = 1;
-
-const double matureMediaBlurSigma = 12;
-const double matureMediaBlurredChildOpacity = 0.15;
 
 class MatureContentAgreementsState {
   const MatureContentAgreementsState({
@@ -82,10 +75,8 @@ class ResolvedMatureGateContext {
     required this.categoryId,
     required this.guildId,
     required this.effectiveMatureContent,
-    required this.matureContentSource,
     required this.effectiveWarningLevel,
     required this.effectiveWarningText,
-    required this.warningSource,
     required this.scope,
     required this.scopeId,
   });
@@ -94,10 +85,8 @@ class ResolvedMatureGateContext {
   final String? categoryId;
   final String? guildId;
   final bool effectiveMatureContent;
-  final EffectiveMatureSource matureContentSource;
   final int effectiveWarningLevel;
   final String? effectiveWarningText;
-  final EffectiveMatureSource warningSource;
   final MatureContentAgreementScope scope;
   final String? scopeId;
 }
@@ -107,18 +96,15 @@ class MatureMediaPolicy {
     required this.shouldBlur,
     required this.shouldBlock,
     required this.canReveal,
-    required this.gateReason,
   });
 
   static const MatureMediaPolicy none = MatureMediaPolicy(
     shouldBlur: false,
     shouldBlock: false,
     canReveal: false,
-    gateReason: MatureContentGateReason.none,
   );
 
   final bool shouldBlur;
   final bool shouldBlock;
   final bool canReveal;
-  final MatureContentGateReason gateReason;
 }

@@ -65,6 +65,7 @@ UserSettingsResponse _testUserSettings({required String syncedPreferences}) {
     'synced_preferences': syncedPreferences,
     'render_embeds': true,
     'profile_privacy': 0,
+    'privacy_setup_version': 0,
     'restricted_guilds': <String>[],
     'bot_restricted_guilds': <String>[],
     'default_guilds_restricted': false,
@@ -114,10 +115,7 @@ void main() {
     setUp(() {
       database = openTestDatabase();
       container = _createContainer(database: database);
-    });
-
-    tearDown(() {
-      container.dispose();
+      addTearDown(container.dispose);
     });
 
     test('hydrate applies remote favorite emoji ids', () async {

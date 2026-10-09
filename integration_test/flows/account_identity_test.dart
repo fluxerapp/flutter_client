@@ -1,8 +1,7 @@
-// ignore_for_file: do_not_use_environment
+// ignore_for_file: do_not_use_environment -- integration runs are configured through --dart-define
 
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -33,7 +32,7 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   testWidgets('account identity: $_step', (WidgetTester tester) async {
-    if (kIsWeb || _step.isEmpty) {
+    if (_step.isEmpty) {
       return;
     }
     await launchFluxerApp(tester);

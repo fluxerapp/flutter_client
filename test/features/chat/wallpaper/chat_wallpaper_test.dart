@@ -158,23 +158,9 @@ void main() {
   });
 
   group('chat wallpaper tone', () {
-    test('default wallpaper has no tone and does not overlay', () {
+    test('default wallpaper has no tone', () {
       const ChatWallpaperState def = ChatWallpaperState();
       expect(resolveChatWallpaperTone(def), isNull);
-      expect(
-        shouldOverlayChatWallpaperText(
-          resolved: def,
-          themeBrightness: Brightness.light,
-        ),
-        isFalse,
-      );
-      expect(
-        shouldOverlayChatWallpaperText(
-          resolved: def,
-          themeBrightness: Brightness.dark,
-        ),
-        isFalse,
-      );
     });
 
     test('every current color, gradient, and starfield is dark', () {
@@ -201,26 +187,6 @@ void main() {
           const ChatWallpaperState(kind: ChatWallpaperKind.starfield),
         ),
         Brightness.dark,
-      );
-    });
-
-    test('dark wallpaper overlays in light theme and not in dark theme', () {
-      const ChatWallpaperState starfield = ChatWallpaperState(
-        kind: ChatWallpaperKind.starfield,
-      );
-      expect(
-        shouldOverlayChatWallpaperText(
-          resolved: starfield,
-          themeBrightness: Brightness.light,
-        ),
-        isTrue,
-      );
-      expect(
-        shouldOverlayChatWallpaperText(
-          resolved: starfield,
-          themeBrightness: Brightness.dark,
-        ),
-        isFalse,
       );
     });
 

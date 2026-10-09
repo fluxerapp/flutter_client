@@ -161,8 +161,9 @@ void main() {
     expect(session!.isValid, isTrue);
   });
 
-  test('missing token skips the probe entirely', () async {
-    for (final String? token in <String?>[null, '']) {
+  for (final String? token in <String?>[null, '']) {
+    final String label = token == null ? 'null' : 'empty';
+    test('missing token skips the probe entirely ($label)', () async {
       final server = await _FakeApiServer.start();
       addTearDown(server.close);
       final (:container, :db) = _harness(baseUrl: server.baseUrl);
@@ -173,17 +174,11 @@ void main() {
           .read(accountManagerProvider.notifier)
           .expireSessionIfInvalid();
 
-      expect(expired, isFalse, reason: 'token: ${token ?? 'null'}');
-      expect(
-        server.requests,
-        isEmpty,
-        reason:
-            'no HTTP probe may be sent without a token '
-            '(token: ${token ?? 'null'})',
-      );
+      expect(expired, isFalse);
+      expect(server.requests, isEmpty);
       expect(container.read(authStateProvider), isTrue);
       final session = await db.authSessionDao.getSession(_userId);
       expect(session!.isValid, isTrue);
-    }
-  });
+    });
+  }
 }

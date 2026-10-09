@@ -724,21 +724,21 @@ void main() {
   group('visible window reconcile params', () {
     test('anchors around the middle server-backed row', () {
       final String idOlder = _snowflakeForUtc(DateTime.utc(2026, 5, 9, 12));
-      final VisibleWindowReconcileParams? params =
-          reconcileParamsForVisibleWindow(
+      final List<VisibleWindowReconcileParams> params =
+          reconcileParamsListForVisibleWindow(
             window: [_message(idOlder), _message(idA), _message(idB)],
           );
-      expect(params, isNotNull);
-      expect(params!.aroundId, idA);
-      expect(params.limit, greaterThanOrEqualTo(30));
+      expect(params, hasLength(1));
+      expect(params.single.aroundId, idA);
+      expect(params.single.limit, greaterThanOrEqualTo(30));
     });
 
-    test('returns null when the window has only local-only rows', () {
+    test('returns nothing when the window has only local-only rows', () {
       expect(
-        reconcileParamsForVisibleWindow(
+        reconcileParamsListForVisibleWindow(
           window: [_message(idA, deliveryState: MessageDeliveryState.sending)],
         ),
-        isNull,
+        isEmpty,
       );
     });
 

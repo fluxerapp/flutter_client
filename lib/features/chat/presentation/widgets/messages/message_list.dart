@@ -91,8 +91,8 @@ import 'package:fluxer_app/features/input/providers/chat_keybind_effects_provide
 import 'package:fluxer_app/features/input/providers/focused_message_provider.dart';
 import 'package:fluxer_app/features/input/providers/keyboard_mode_provider.dart';
 import 'package:fluxer_app/features/input/providers/message_keyboard_navigation_provider.dart';
-import 'package:fluxer_app/features/moderation/domain/iar_flow.dart';
-import 'package:fluxer_app/features/moderation/presentation/iar_simple_report_sheet.dart';
+import 'package:fluxer_app/features/moderation/domain/iar_context.dart';
+import 'package:fluxer_app/features/moderation/presentation/report_flow/open_report_flow.dart';
 import 'package:fluxer_app/features/moderation/providers/local_user_spam_override_provider.dart';
 import 'package:fluxer_app/features/settings/domain/search_provider_engine.dart';
 import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
@@ -225,7 +225,11 @@ class MessageList extends ConsumerStatefulWidget {
   ConsumerState<MessageList> createState() => _MessageListState();
 }
 
-class _MessageListState extends ConsumerState<MessageList> {
+const int _kMaxSimultaneousRowResizes = 2;
+const int _kMaxSimultaneousDeleteCollapses = 3;
+
+class _MessageListState extends ConsumerState<MessageList>
+    with SingleTickerProviderStateMixin {
   final _LiveTailScrollController _scrollController =
       _LiveTailScrollController();
   final GlobalKey _unreadCenterKey = GlobalKey();
@@ -246,6 +250,7 @@ class _MessageListState extends ConsumerState<MessageList> {
   bool _olderRevealScheduled = false;
   String? _olderRevealBoundaryId;
   ChannelStreamIndex _builtStreamIndex = ChannelStreamIndex.empty;
+  MessageListViewport? _builtViewport;
   // True while the open anchor is the unread divider; underfill must not
   // bottom-pin short trailing blocks.
   bool _unreadOpenLayout = false;
@@ -315,8 +320,12 @@ class _MessageListState extends ConsumerState<MessageList> {
   // cannot re-arm follow.
   bool _followDisarmed = false;
   bool _pinnedTailGlueScheduled = false;
+  String? _tailGlueRowId;
   bool _pinnedTailGlueIgnorePin = false;
-  String? _liveTailEntranceMessageId;
+  final Set<String> _liveTailEntranceMessageIds = <String>{};
+  AnimationController? _liveTailEntranceController;
+  Animation<double>? _liveTailEntranceFade;
+  Animation<double>? _liveTailEntranceSlide;
   bool _liveTailFollowAnimated = false;
   int _suppressPinnedTailReconcileExtentChanges = 0;
   final Map<String, Message> _collapsingMessageSnapshots = <String, Message>{};
@@ -424,6 +433,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     );
     _detachedTrimTimer?.cancel();
     _rowResizeClearTimer?.cancel();
+    _disposeLiveTailEntranceAnimation();
     _pendingScrollTargetTimer?.cancel();
     _pendingScrollTargetTimer = null;
     _readViewport.setViewportActive(
@@ -473,6 +483,9 @@ class _MessageListState extends ConsumerState<MessageList> {
             if (motionStateChanged && mounted) {
               setState(() {});
             }
+          }
+          if (next.isEmpty || next.last.id != _tailGlueRowId) {
+            _tailGlueRowId = null;
           }
           if (origin == MessagesOrigin.windowSwap) {
             // EVERY wholesale replacement - jump landings AND network-refresh
@@ -531,12 +544,12 @@ class _MessageListState extends ConsumerState<MessageList> {
                   origin == MessagesOrigin.ownSend ||
                   origin == MessagesOrigin.realtimeEvent)) {
             _scheduleLiveTailFollow(
-              entranceMessageId: _tailAppendedMessageId(previous, next),
+              entranceMessageIds: _tailAppendedMessageIds(previous, next),
             );
           } else if (_pin.pinned &&
               (origin == MessagesOrigin.localMutation ||
                   origin == MessagesOrigin.realtimeEvent) &&
-              _tailAppendedMessageId(previous, next) == null &&
+              _tailAppendedMessageIds(previous, next).isEmpty &&
               previous != null &&
               next.length >= previous.length &&
               _isNearLiveTail()) {
@@ -557,6 +570,14 @@ class _MessageListState extends ConsumerState<MessageList> {
           }
         },
       )
+      ..listen<Set<String>>(blockedUserIdsProvider, (
+        Set<String>? previous,
+        Set<String> next,
+      ) {
+        if (previous != null && !setEquals(previous, next)) {
+          _holdReadingRowAcrossRegroup();
+        }
+      })
       ..listen<(String, int)?>(
         chatViewModelProvider.select(
           (ChatViewState s) => s.scrollToMessageSignal,
@@ -578,7 +599,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     final String? expectedChannelId = widget.expectedChannelId;
     final String spoilerChannelId = expectedChannelId ?? channelId;
     if (spoilerChannelId.isNotEmpty) {
-      ref.watch(channelSpoilerSyncProvider(spoilerChannelId).notifier);
+      ref.watch(channelSpoilerSyncProvider(spoilerChannelId));
     }
     if (expectedChannelId != null &&
         chatWindowMismatchesChannel(
@@ -690,8 +711,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     final String? oldestUnreadId = unreadSummary.oldestUnreadMessageId;
     final String? visualUnreadId = resolveVisualUnreadId(
       messages: messages.map(
-        (Message message) =>
-            ChatUnreadMessageRef(id: message.id, authorId: message.authorId),
+        (Message message) => ChatUnreadMessageRef(id: message.id),
       ),
       stickyUnreadId: stickyUnreadId,
       oldestUnreadId: oldestUnreadId,
@@ -1046,7 +1066,7 @@ class _MessageListState extends ConsumerState<MessageList> {
                       child: child!,
                     );
                   },
-                  child: MessageListViewport(
+                  child: _builtViewport = MessageListViewport(
                     anchorEpoch: _anchorEpoch,
                     withheldLeadingCount: _pendingOlderReveal,
                     stream: channelStream,
@@ -1089,6 +1109,7 @@ class _MessageListState extends ConsumerState<MessageList> {
                           required bool reverse,
                         }) => _centerChildIndexForStream(
                           key,
+                          channelStream,
                           streamIndex,
                           startInclusive,
                           endExclusive,
@@ -1728,11 +1749,22 @@ class _MessageListState extends ConsumerState<MessageList> {
     return position is MessageListScrollPosition && position.isFollowingTail;
   }
 
-  String? _tailAppendedMessageId(List<Message>? previous, List<Message> next) {
+  List<String> _tailAppendedMessageIds(
+    List<Message>? previous,
+    List<Message> next,
+  ) {
     if (previous == null || next.isEmpty || next.length <= previous.length) {
-      return null;
+      return const <String>[];
     }
-    return next.last.id;
+    for (int index = 0; index < previous.length; index++) {
+      if (previous[index].id != next[index].id) {
+        return const <String>[];
+      }
+    }
+    return next
+        .sublist(previous.length)
+        .map((Message message) => message.id)
+        .toList();
   }
 
   bool _shouldFollowPinnedTailAppend(List<Message> messages, String newestId) {
@@ -1749,12 +1781,62 @@ class _MessageListState extends ConsumerState<MessageList> {
     return anchorIndex >= 0 && anchorIndex + 1 == messages.length - 1;
   }
 
-  void _scheduleLiveTailFollow({required String? entranceMessageId}) {
+  void _scheduleLiveTailFollow({required List<String> entranceMessageIds}) {
     _refreshLiveTailFollowAnimated(context);
-    if (_liveTailFollowAnimated && entranceMessageId != null) {
-      _liveTailEntranceMessageId = entranceMessageId;
+    if (_liveTailFollowAnimated && entranceMessageIds.isNotEmpty) {
+      _armLiveTailEntrance(entranceMessageIds);
     }
     _schedulePinnedTailGlue();
+  }
+
+  void _armLiveTailEntrance(Iterable<String> messageIds) {
+    final Set<String> ids = messageIds.toSet();
+    if (ids.isEmpty) {
+      return;
+    }
+    _liveTailEntranceMessageIds
+      ..clear()
+      ..addAll(ids);
+    final AnimationController controller = _liveTailEntranceController ??=
+        AnimationController(
+          vsync: this,
+          duration: kMessageListLiveTailMotionDuration,
+        )..addStatusListener(_onLiveTailEntranceStatus);
+    _liveTailEntranceFade ??= CurvedAnimation(
+      parent: controller,
+      curve: Curves.easeOutCubic,
+    );
+    _liveTailEntranceSlide ??= Tween<double>(
+      begin: kMessageListLiveTailSlidePx,
+      end: 0,
+    ).animate(CurvedAnimation(parent: controller, curve: Curves.easeOutCubic));
+    controller.forward(from: 0);
+  }
+
+  void _onLiveTailEntranceStatus(AnimationStatus status) {
+    if (status != AnimationStatus.completed || !mounted) {
+      return;
+    }
+    _clearLiveTailEntrance();
+    _finishTailGlueSideEffects();
+  }
+
+  void _clearLiveTailEntrance() {
+    _liveTailEntranceMessageIds.clear();
+    _liveTailEntranceController?.stop();
+  }
+
+  void _disposeLiveTailEntranceAnimation() {
+    final AnimationController? controller = _liveTailEntranceController;
+    if (controller == null) {
+      return;
+    }
+    controller
+      ..removeStatusListener(_onLiveTailEntranceStatus)
+      ..dispose();
+    _liveTailEntranceController = null;
+    _liveTailEntranceFade = null;
+    _liveTailEntranceSlide = null;
   }
 
   void _armSuppressPinnedTailReconcile(MessagesOrigin? origin) {
@@ -1803,18 +1885,22 @@ class _MessageListState extends ConsumerState<MessageList> {
       return false;
     }
     final Set<String> nextIds = next.map((Message m) => m.id).toSet();
-    bool tracked = false;
+    final List<(int index, Message message)> removed = <(int, Message)>[];
     for (int index = 0; index < previous.length; index++) {
       final Message message = previous[index];
-      if (nextIds.contains(message.id)) {
-        continue;
+      if (!nextIds.contains(message.id)) {
+        removed.add((index, message));
       }
+    }
+    if (removed.isEmpty || removed.length > _kMaxSimultaneousDeleteCollapses) {
+      return false;
+    }
+    for (final (int index, Message message) in removed) {
       _collapsingMessageSnapshots[message.id] = message;
       _collapsingMessageIndex[message.id] = index;
       _collapsingMessageIds.add(message.id);
-      tracked = true;
     }
-    return tracked;
+    return true;
   }
 
   bool _trackRowResizeAnimations({
@@ -1830,8 +1916,9 @@ class _MessageListState extends ConsumerState<MessageList> {
         (origin == MessagesOrigin.liveCreate ||
             origin == MessagesOrigin.ownSend ||
             origin == MessagesOrigin.realtimeEvent)) {
-      final String? appendedId = _tailAppendedMessageId(previous, next);
-      if (appendedId != null && _rowResizeMessageIds.add(appendedId)) {
+      final List<String> appendedIds = _tailAppendedMessageIds(previous, next);
+      if (appendedIds.length == 1 &&
+          _rowResizeMessageIds.add(appendedIds.single)) {
         tracked = true;
       }
     }
@@ -1845,12 +1932,19 @@ class _MessageListState extends ConsumerState<MessageList> {
     final Map<String, Message> previousById = <String, Message>{
       for (final Message message in previous) message.id: message,
     };
+    final List<String> changedIds = <String>[];
     for (final Message message in next) {
       final Message? prior = previousById[message.id];
       if (prior == null || prior.isRenderEquivalent(message)) {
         continue;
       }
-      if (_rowResizeMessageIds.add(message.id)) {
+      changedIds.add(message.id);
+    }
+    if (changedIds.length > _kMaxSimultaneousRowResizes) {
+      return tracked;
+    }
+    for (final String id in changedIds) {
+      if (_rowResizeMessageIds.add(id)) {
         tracked = true;
       }
     }
@@ -1860,6 +1954,10 @@ class _MessageListState extends ConsumerState<MessageList> {
     return tracked;
   }
 
+  void _clearRowResizeMessageIds() {
+    _rowResizeMessageIds.clear();
+  }
+
   void _armRowResizeClear() {
     _rowResizeClearTimer?.cancel();
     _rowResizeClearTimer = Timer(kMessageListLiveTailMotionDuration, () {
@@ -1867,7 +1965,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       if (!mounted || _rowResizeMessageIds.isEmpty) {
         return;
       }
-      setState(_rowResizeMessageIds.clear);
+      setState(_clearRowResizeMessageIds);
     });
   }
 
@@ -1921,13 +2019,13 @@ class _MessageListState extends ConsumerState<MessageList> {
       return child;
     }
     final bool collapsing = _collapsingMessageIds.contains(messageId);
-    Widget row = MessageListRowResize(
-      enabled: !collapsing && _rowResizeMessageIds.contains(messageId),
-      child: child,
-    );
+    final bool resizing =
+        !collapsing &&
+        _rowResizeMessageIds.contains(messageId) &&
+        !_liveTailEntranceMessageIds.contains(messageId);
+    Widget row = resizing ? MessageListRowResize(child: child) : child;
     if (collapsing) {
       row = MessageListLiveRemoval(
-        active: true,
         onComplete: () => _finishMessageCollapse(messageId),
         child: row,
       );
@@ -2019,7 +2117,10 @@ class _MessageListState extends ConsumerState<MessageList> {
       return;
     }
     _refreshLiveTailFollowAnimated(context);
-    if (_followDisarmed || _isUserDrivenScroll || _unreadOpenLayout) {
+    if (_followDisarmed ||
+        _isUserDrivenScroll ||
+        !_parkedAtLiveTail ||
+        _isJumpOwningViewport()) {
       return;
     }
     if (ref.read(chatViewModelProvider).hasMoreNewerMessages) {
@@ -2118,6 +2219,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     _collapsingMessageSnapshots.clear();
     _collapsingMessageIndex.clear();
     _collapsingMessageIds.clear();
+    _disposeLiveTailEntranceAnimation();
     _rowResizeMessageIds.clear();
     _rowResizeClearTimer?.cancel();
     _rowResizeClearTimer = null;
@@ -2579,6 +2681,85 @@ class _MessageListState extends ConsumerState<MessageList> {
     );
   }
 
+  void _holdReadingRowAcrossRegroup() {
+    final MessageListViewport? built = _builtViewport;
+    if (built == null ||
+        !_anchorResolved ||
+        !_scrollController.hasClients ||
+        _isNearLiveTail()) {
+      return;
+    }
+    RenderViewport? viewport;
+    void findViewport(RenderObject node) {
+      if (viewport != null) {
+        return;
+      }
+      if (node is RenderViewport) {
+        viewport = node;
+        return;
+      }
+      node.visitChildren(findViewport);
+    }
+
+    final RenderObject? scrollable = _scrollController
+        .position
+        .context
+        .notificationContext
+        ?.findRenderObject();
+    if (scrollable != null) {
+      findViewport(scrollable);
+    }
+    final RenderViewport? laidOut = viewport;
+    if (laidOut == null || !laidOut.hasSize) {
+      return;
+    }
+    final double viewportTop = laidOut.localToGlobal(Offset.zero).dy;
+    final double viewportHeight = laidOut.size.height;
+    final double viewportBottom = viewportTop + viewportHeight;
+    String? rowId;
+    double rowTop = double.infinity;
+    String? straddlingId;
+    double straddlingTop = 0;
+    built.visitLaidOutRows(laidOut, (int dataIndex, RenderBox row) {
+      final List<Message> rowMessages = built.stream[dataIndex].messages;
+      if (rowMessages.isEmpty) {
+        return;
+      }
+      final double top = row.localToGlobal(Offset.zero).dy;
+      if (top + row.size.height <= viewportTop || top >= viewportBottom) {
+        return;
+      }
+      if (top < viewportTop) {
+        straddlingId = rowMessages.first.id;
+        straddlingTop = top;
+      } else if (top < rowTop) {
+        rowId = rowMessages.first.id;
+        rowTop = top;
+      }
+    });
+    final String? anchorId = rowId ?? straddlingId;
+    if (anchorId == null) {
+      return;
+    }
+    final double splitY = rowId != null ? rowTop : straddlingTop;
+    final double fraction = ((splitY - viewportTop) / viewportHeight).clamp(
+      0.0,
+      1.0,
+    );
+    _scrollController.position.correctPixels(
+      viewportTop + fraction * viewportHeight - splitY,
+    );
+    setState(() {
+      _anchorId = anchorId;
+      _anchorFraction = fraction;
+      _anchorEdge = MessageListAnchorEdge.before;
+      _unreadOpenLayout = false;
+      _setUnreadLeadingPad(0);
+      _exposeOlderRowsNow();
+      _uiEpoch++;
+    });
+  }
+
   /// Re-center policy: a pinned reader with a deep trailing run re-anchors
   /// to the newest message.
   void _maybeRecenterPinnedTail(List<Message> messages) {
@@ -2695,7 +2876,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       if (extentGrew || extentShrank) {
         if (_suppressPinnedTailReconcileExtentChanges > 0) {
           _suppressPinnedTailReconcileExtentChanges -= 1;
-        } else {
+        } else if (_tailGlueRowId != null) {
           _reconcilePinnedLiveTailScroll();
         }
       }
@@ -2863,8 +3044,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     }
     final ChatUnreadSummary summary = computeChatUnreadSummary(
       messages: messages.map(
-        (Message message) =>
-            ChatUnreadMessageRef(id: message.id, authorId: message.authorId),
+        (Message message) => ChatUnreadMessageRef(id: message.id),
       ),
       ackLastMessageId: ackLastMessageId,
       mentionCount: mentionCount,
@@ -2977,7 +3157,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     if (newestId != null && _shouldFollowPinnedTailAppend(messages, newestId)) {
       _followDisarmed = false;
       _pin.onJumpToPresentLanded();
-      _scheduleLiveTailFollow(entranceMessageId: newestId);
+      _scheduleLiveTailFollow(entranceMessageIds: <String>[newestId]);
       return;
     }
     _landAtLatestTail(messages);
@@ -3069,6 +3249,8 @@ class _MessageListState extends ConsumerState<MessageList> {
         if (!scheduledIgnorePin && (_followDisarmed || _isUserDrivenScroll)) {
           return;
         }
+        final List<Message> messages = ref.read(chatViewModelProvider).messages;
+        _tailGlueRowId = messages.isEmpty ? null : messages.last.id;
         _jumpToLiveTailExtent(
           _scrollController.position,
           instantGlue: scheduledIgnorePin,
@@ -3092,7 +3274,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     final bool tallSnap = delta > position.viewportDimension;
     final bool snap = instantGlue || tallSnap || !_liveTailFollowAnimated;
     if (snap) {
-      _liveTailEntranceMessageId = null;
+      _clearLiveTailEntrance();
       position.jumpTo(tail);
       return;
     }
@@ -3476,7 +3658,7 @@ class _MessageListState extends ConsumerState<MessageList> {
                 .read(chatViewModelProvider.notifier)
                 .markMessageUnread(message.id),
             onReport: () => unawaited(
-              showSimpleIarReportSheet(
+              openReportFlow(
                 this.context,
                 iarContext: IarMessageContext(
                   message: message,
@@ -3714,25 +3896,20 @@ class _MessageListState extends ConsumerState<MessageList> {
     required String? messageId,
     required Widget child,
   }) {
-    if (messageId == null || messageId != _liveTailEntranceMessageId) {
+    final Animation<double>? fade = _liveTailEntranceFade;
+    final Animation<double>? slide = _liveTailEntranceSlide;
+    if (messageId == null ||
+        fade == null ||
+        slide == null ||
+        !_liveTailEntranceMessageIds.contains(messageId)) {
       return child;
     }
-    return MessageListLiveEntrance(
-      onComplete: () {
-        if (!mounted || _liveTailEntranceMessageId != messageId) {
-          return;
-        }
-        setState(() {
-          _liveTailEntranceMessageId = null;
-        });
-        _finishTailGlueSideEffects();
-      },
-      child: child,
-    );
+    return MessageListLiveEntrance(fade: fade, slide: slide, child: child);
   }
 
   int? _centerChildIndexForStream(
     Key key,
+    List<ChannelStreamItem> stream,
     ChannelStreamIndex index,
     int startInclusive,
     int endExclusive, {
@@ -3744,7 +3921,8 @@ class _MessageListState extends ConsumerState<MessageList> {
     final String value = key.value;
     const String messagePrefix = 'msg-';
     const String groupPrefix = 'group-';
-    final int? dataIndex = value.startsWith(messagePrefix)
+    final bool isMessageKey = value.startsWith(messagePrefix);
+    final int? dataIndex = isMessageKey
         ? index.itemOfMessage(value.substring(messagePrefix.length))
         : value.startsWith(groupPrefix)
         ? index.itemOfGroup(value.substring(groupPrefix.length))
@@ -3752,6 +3930,9 @@ class _MessageListState extends ConsumerState<MessageList> {
     if (dataIndex == null ||
         dataIndex < startInclusive ||
         dataIndex >= endExclusive) {
+      return null;
+    }
+    if (isMessageKey && stream[dataIndex].type != ChannelStreamType.message) {
       return null;
     }
     if (reverse) {

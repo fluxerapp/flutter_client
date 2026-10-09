@@ -28,10 +28,6 @@
     "@retry": {
         "description": "Generic label for retry actions (splash, errors, network, etc.)."
     },
-    "connectingCaps": "CONNECTING",
-    "@connectingCaps": {
-        "description": "Connecting text on the splash screen"
-    },
     "splashConnectionLost": "Kapcsolat megszakadt",
     "@splashConnectionLost": {
         "description": "Fallback headline on splash when gateway is unavailable (web parity)."
@@ -93,10 +89,6 @@
             }
         }
     },
-    "ssoRequired": "Az ehhez az instanciához való hozzáféréshez SSO szükséges.",
-    "@ssoRequired": {
-        "description": "Short sign-in note shown when the instance requires single sign-on."
-    },
     "organizationSsoProvider": "Jelentkezz be a szervezeted egységes bejelentkezési szolgáltatójával.",
     "@organizationSsoProvider": {
         "description": "Description shown when sign-in is restricted to the configured SSO provider."
@@ -117,10 +109,6 @@
                 "type": "String"
             }
         }
-    },
-    "logInViaBrowser": "Bejelentkezés böngészőn keresztül",
-    "@logInViaBrowser": {
-        "description": "Secondary login that opens or uses the system browser."
     },
     "needAccountPrompt": "Nincs még fiókod? ",
     "@needAccountPrompt": {
@@ -232,26 +220,9 @@
     "@accountAdd": {
         "description": "Button to add a new account."
     },
-    "accountRemove": "Eltávolítás",
-    "@accountRemove": {
-        "description": "Context menu option to remove a stored account."
-    },
-    "accountRemoveTitle": "{username} eltávolítása",
-    "@accountRemoveTitle": {
-        "description": "Title for the remove account confirmation modal.",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
     "accountRemoveDescription": "Ezzel eltávolítja a mentett munkamenetet ehhez a fiókhoz.",
     "@accountRemoveDescription": {
         "description": "Description for the remove account confirmation modal."
-    },
-    "accountRemoveOnlyDescription": "Ezzel eltávolítja az egyetlen mentett fiókot erről az eszközről.",
-    "@accountRemoveOnlyDescription": {
-        "description": "Description when removing the last stored account."
     },
     "accountExpired": "Lejárt",
     "@accountExpired": {
@@ -636,7 +607,7 @@
     },
     "recoveryKitBackupCodesFailed": "Nem sikerült betölteni a biztonsági mentési kódokat.",
     "@recoveryKitBackupCodesFailed": {
-        "description": "Toast shown when the two-factor backup codes for the recovery kit cannot be loaded."
+        "description": "Toast shown when the two-factor backup codes cannot be loaded, in the recovery kit sheet or from View codes in security settings."
     },
     "recoveryKitIncludeBackupCodes": "A kétlépcsős azonosítás tartalékkódjaim szerepeljenek a mentett képen",
     "@recoveryKitIncludeBackupCodes": {
@@ -783,10 +754,6 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsent": "Elfogadom a Felhasználási feltételeket és az Adatvédelmi irányelveket",
-    "@registerConsent": {
-        "description": "Consent checkbox label for registration (plain text fallback)."
-    },
     "registerConsentPrefix": "Elfogadom a ",
     "@registerConsentPrefix": {
         "description": "Text before the Terms of Service link in the consent checkbox."
@@ -830,10 +797,6 @@
     "passkeyTimeout": "A jelszó-hitelesítés időtúllépése. Kérjük, próbáld újra.",
     "@passkeyTimeout": {
         "description": "Error when passkey authentication times out."
-    },
-    "passkeyNotAvailable": "A jelszavak nem érhetők el ehhez az alkalmazáshoz. Jelentkezz be inkább e-maillel és jelszóval.",
-    "@passkeyNotAvailable": {
-        "description": "Error for unknown passkey provider errors (e.g. TYPE_UNKNOWN)."
     },
     "passkeyFailed": "A jelszóazonosító hitelesítése sikertelen volt. Kérjük, próbálkozzon újra.",
     "@passkeyFailed": {
@@ -942,26 +905,6 @@
     "@inviteAcceptSomeone": {
         "description": "Fallback inviter name when the inviter is unknown."
     },
-    "inviteAcceptEmojiPack": "Emoji csomag",
-    "@inviteAcceptEmojiPack": {
-        "description": "Label for an emoji pack invite."
-    },
-    "inviteAcceptStickerPack": "Matrica csomag",
-    "@inviteAcceptStickerPack": {
-        "description": "Label for a sticker pack invite."
-    },
-    "inviteAcceptInstallEmojiPack": "Emoji csomag telepítése",
-    "@inviteAcceptInstallEmojiPack": {
-        "description": "Primary action to install an emoji pack from an invite."
-    },
-    "inviteAcceptInstallStickerPack": "Matrica csomag telepítése",
-    "@inviteAcceptInstallStickerPack": {
-        "description": "Primary action to install a sticker pack from an invite."
-    },
-    "inviteAcceptPackInstallNote": "A meghívó elfogadása automatikusan telepíti a csomagot.",
-    "@inviteAcceptPackInstallNote": {
-        "description": "Note shown on expression pack invites before accepting."
-    },
     "mentionUnknownChannel": "unknown-channel",
     "@mentionUnknownChannel": {
         "description": "Fallback name shown in a channel mention pill when the channel is not found."
@@ -986,13 +929,13 @@
     "@embedThemeTitle": {
         "description": "Title on the theme embed card in chat."
     },
-    "embedThemeSubtitle": "Ez az ügyfél nem támogatja az egyéni témákat.",
-    "@embedThemeSubtitle": {
-        "description": "Subtitle on the theme embed card."
+    "embedThemeWebOnly": "Témákat csak weben vagy asztali gépen importálhatsz.",
+    "@embedThemeWebOnly": {
+        "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
     },
-    "embedThemeUnavailableButton": "Témák nem elérhetők",
-    "@embedThemeUnavailableButton": {
-        "description": "Button on the theme embed card - themes aren't supported in the client."
+    "embedThemeImport": "Téma importálása",
+    "@embedThemeImport": {
+        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "privacySettings": "Adatvédelmi beállítások",
     "@privacySettings": {
@@ -1220,9 +1163,18 @@
     "@dmLeaveGroup": {
         "description": "DM context menu action to leave a group DM."
     },
-    "dmNoCommunitiesAvailable": "Nincsenek elérhető közösségek",
-    "@dmNoCommunitiesAvailable": {
-        "description": "Shown when no communities are available to invite to."
+    "dmInviteSentFor": "A(z) {communityName} közösségbe szóló meghívó elküldve",
+    "@dmInviteSentFor": {
+        "description": "Toast confirming a community invite was sent to a DM recipient.",
+        "placeholders": {
+            "communityName": {
+                "type": "String"
+            }
+        }
+    },
+    "dmInviteSendFailed": "Nem sikerült elküldeni a meghívót. Próbáld újra.",
+    "@dmInviteSendFailed": {
+        "description": "Toast shown when sending a community invite from the DM menu fails."
     },
     "dmGroupMemberCount": "{count} tag",
     "@dmGroupMemberCount": {
@@ -1667,10 +1619,6 @@
             }
         }
     },
-    "emojiPlutoniumUpsellButton": "Szerezz Plutoniumot",
-    "@emojiPlutoniumUpsellButton": {
-        "description": "Button label on the Plutonium upsell banner."
-    },
     "emojiPlutoniumUpsellDismiss": "Ne mutasd többé",
     "@emojiPlutoniumUpsellDismiss": {
         "description": "Dismiss link on the Plutonium upsell banner."
@@ -1837,10 +1785,6 @@
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
     },
-    "fluxerTagInputLabel": "Felhasználónév",
-    "@fluxerTagInputLabel": {
-        "description": "Label above the username and discriminator input fields."
-    },
     "fluxerTagDescriptionBase": "A felhasználónevek csak betűket (a-z, A-Z), számokat (0-9) és aláhúzásjeleket tartalmazhatnak. A felhasználónevek nem különböztetik meg a kis- és nagybetűket.",
     "@fluxerTagDescriptionBase": {
         "description": "Base description text on the username change sheet."
@@ -1868,10 +1812,6 @@
     "validationAllowedChars": "Csak betűk (a-z, A-Z), számok (0-9) és aláhúzásjelek (_)",
     "@validationAllowedChars": {
         "description": "Validation rule for allowed username characters."
-    },
-    "discriminatorPremiumTooltip": "Szerezz Plutoniumot a tagod testreszabásához, vagy tartsd meg a felhasználóneved módosításakor",
-    "@discriminatorPremiumTooltip": {
-        "description": "Tooltip on disabled discriminator field for non-premium users."
     },
     "fluxerTagAlreadyTaken": "A felhasználónév már foglalt",
     "@fluxerTagAlreadyTaken": {
@@ -1926,19 +1866,6 @@
     "premiumUpsellCustomizeTag": "Szabd testre a 4 számjegyű tagodat, vagy tartsd meg a felhasználóneved módosításakor",
     "@premiumUpsellCustomizeTag": {
         "description": "Upsell text encouraging non-premium users to get Plutonium for tag customization."
-    },
-    "premiumTrialExpiresOn": "A Plutonium próbaidőszakod {date} napon jár le. Frissíts, hogy megtartsd az egyéni tagodat, és szerezz egy jelvényt a profilodban.",
-    "@premiumTrialExpiresOn": {
-        "description": "Trial upsell with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActive": "Plutonium próbaidőszakon vagy. Frissíts, hogy megtartsd az egyéni tagodat, és szerezz egy jelvényt a profilodban.",
-    "@premiumTrialActive": {
-        "description": "Trial upsell without specific expiry date."
     },
     "fluxerTagUpdated": "Felhasználónév frissítve",
     "@fluxerTagUpdated": {
@@ -2112,32 +2039,6 @@
     "@hideVisionaryIdDescription": {
         "description": "Description for the toggle to hide the Visionary ID badge."
     },
-    "premiumTrialSubscriptionStarts": "Plutonium próbaidőszakon vagy – az előfizetésed {date}-án kezdődik",
-    "@premiumTrialSubscriptionStarts": {
-        "description": "Trial banner title when user has an active subscription pending after trial.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialSubscriptionStartsDescription": "Az előfizetésed automatikusan elindul, amikor a próbaidőszak véget ér. Nincs teendőd.",
-    "@premiumTrialSubscriptionStartsDescription": {
-        "description": "Trial banner description when user has an active subscription pending after trial."
-    },
-    "premiumTrialExpiresOnProfile": "Plutonium próbaidőszakon vagy, amely {date}-án jár le",
-    "@premiumTrialExpiresOnProfile": {
-        "description": "Trial banner title with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActiveProfile": "Plutonium próbaidőszakon vagy",
-    "@premiumTrialActiveProfile": {
-        "description": "Trial banner title without specific expiry date."
-    },
     "avatarDescriptionNonPremium": "JPEG, PNG, WebP. Max. 10 MB. Ajánlott: 512×512px. Animált profilképek (GIF) Plutoniumot igényelnek.",
     "@avatarDescriptionNonPremium": {
         "description": "Avatar helper text for non-premium users, mentioning Plutonium requirement for animated avatars."
@@ -2222,22 +2123,6 @@
     "profileSavedToast": "Profil frissítve",
     "@profileSavedToast": {
         "description": "Toast message shown after successfully saving profile changes."
-    },
-    "profileEditButton": "Profil szerkesztése",
-    "@profileEditButton": {
-        "description": "Button label to open profile editing from the profile content card."
-    },
-    "profileNoteLabel": "Megjegyzés",
-    "@profileNoteLabel": {
-        "description": "Label for the personal note section on a user profile."
-    },
-    "profileNoteVisibility": "(csak te láthatod)",
-    "@profileNoteVisibility": {
-        "description": "Hint that the note is private and only visible to the current user."
-    },
-    "profileNoteEmpty": "Még nincs jegyzet.",
-    "@profileNoteEmpty": {
-        "description": "Placeholder shown when no personal note has been set for a user."
     },
     "sudoTitle": "Hitelesítsd az adataidat",
     "@sudoTitle": {
@@ -2610,42 +2495,6 @@
     "@securityPasskeyNameHint": {
         "description": "Hint for passkey name input."
     },
-    "securityPhoneSectionTitle": "Telefonszám",
-    "@securityPhoneSectionTitle": {
-        "description": "Title for phone number section."
-    },
-    "securityPhoneSectionDescription": "Kezelje telefonszámát.",
-    "@securityPhoneSectionDescription": {
-        "description": "Description for phone number section."
-    },
-    "securityPhoneLabel": "Telefonszám",
-    "@securityPhoneLabel": {
-        "description": "Label for phone number row."
-    },
-    "securityPhoneNone": "Nincs hozzáadott telefonszám.",
-    "@securityPhoneNone": {
-        "description": "Shown when no phone number is set."
-    },
-    "securityPhoneAdd": "Telefonszám hozzáadása",
-    "@securityPhoneAdd": {
-        "description": "Button to add phone number."
-    },
-    "securityPhoneRemove": "Eltávolítás",
-    "@securityPhoneRemove": {
-        "description": "Button to remove phone number."
-    },
-    "securityPhoneRemoveTitle": "Telefonszám eltávolítása",
-    "@securityPhoneRemoveTitle": {
-        "description": "Title for phone remove confirmation."
-    },
-    "securityPhoneRemoveDescription": "Biztosan el szeretnéd távolítani a telefonszámodat?",
-    "@securityPhoneRemoveDescription": {
-        "description": "Description for phone remove confirmation."
-    },
-    "securityPhoneRemoved": "Telefonszám eltávolítva",
-    "@securityPhoneRemoved": {
-        "description": "Toast after phone removed."
-    },
     "securityClaimTitle": "Biztonsági funkciók",
     "@securityClaimTitle": {
         "description": "Title when user needs to claim account for security."
@@ -2654,7 +2503,7 @@
     "@securityClaimDescription": {
         "description": "Description prompting user to claim account."
     },
-    "securityVerifyEmailRequired": "E-mail címedet igazolnod kell, mielőtt beállíthatod a kétfaktoros hitelesítést, a jelszómentes belépést vagy az SMS-ellenőrzést.",
+    "securityVerifyEmailRequired": "E-mail címedet igazolnod kell, mielőtt beállíthatod a kétfaktoros hitelesítést vagy a jelszómentes belépést.",
     "@securityVerifyEmailRequired": {
         "description": "Warning when email is not verified."
     },
@@ -2698,10 +2547,6 @@
     "@backupCodesWarning": {
         "description": "Warning about backup codes."
     },
-    "backupCodesDownload": "Letöltés",
-    "@backupCodesDownload": {
-        "description": "Button to download backup codes."
-    },
     "backupCodesCopy": "Másolás",
     "@backupCodesCopy": {
         "description": "Button to copy backup codes."
@@ -2717,46 +2562,6 @@
     "backupCodesDone": "Kész",
     "@backupCodesDone": {
         "description": "Button to close backup codes sheet."
-    },
-    "backupCodesViewTitle": "Biztonsági kódok megtekintése",
-    "@backupCodesViewTitle": {
-        "description": "Title for viewing existing backup codes."
-    },
-    "backupCodesViewDescription": "A biztonsági mentési kódok megtekintése előtt ellenőrzésre lehet szükség.",
-    "@backupCodesViewDescription": {
-        "description": "Description for view backup codes."
-    },
-    "phoneAddTitle": "Telefonszám hozzáadása",
-    "@phoneAddTitle": {
-        "description": "Title for phone add sheet."
-    },
-    "phoneAddLabel": "Telefonszám",
-    "@phoneAddLabel": {
-        "description": "Label for phone input."
-    },
-    "phoneAddHint": "Add meg a telefonszámodat",
-    "@phoneAddHint": {
-        "description": "Hint for phone input."
-    },
-    "phoneAddFooter": "SMS kódot küldünk, amint elérhető lesz. A számod nincs összekapcsolva a fiókoddal. Csak egy titkosított jelölőt tárolunk, felhasználói azonosító nélkül, hogy legfeljebb 2 ellenőrzést engedélyezzünk körülbelül 30 napon belül.",
-    "@phoneAddFooter": {
-        "description": "Footer text for phone input."
-    },
-    "phoneAddSendCode": "Kód küldése",
-    "@phoneAddSendCode": {
-        "description": "Button to send phone verification code."
-    },
-    "phoneVerifyTitle": "Telefonszám ellenőrzése",
-    "@phoneVerifyTitle": {
-        "description": "Title for phone verify step."
-    },
-    "phoneVerifyDescription": "Add meg a telefonszámodra küldött ellenőrző kódot.",
-    "@phoneVerifyDescription": {
-        "description": "Description for phone verify step."
-    },
-    "phoneAddSuccess": "Telefonszám ellenőrizve",
-    "@phoneAddSuccess": {
-        "description": "Toast after phone added."
     },
     "dangerZoneSectionTitle": "Veszélyzóna",
     "@dangerZoneSectionTitle": {
@@ -3008,10 +2813,6 @@
     "@authorizedAppsScopeAdmin": {
         "description": "OAuth2 scope description: admin."
     },
-    "privacyPendingDeletionTitle": "Függőben lévő törlés",
-    "@privacyPendingDeletionTitle": {
-        "description": "Title of the warning alert shown when a bulk message deletion is pending."
-    },
     "blockedUsersTitle": "Letiltott felhasználók",
     "@blockedUsersTitle": {
         "description": "Header title of the Blocked Users settings page."
@@ -3248,10 +3049,6 @@
     "@userProfileNoteDelete": {
         "description": "Delete button in the note editor sheet."
     },
-    "userProfileNoteEmpty": "Kattints jegyzet hozzáadásához",
-    "@userProfileNoteEmpty": {
-        "description": "Hint text when no note has been written yet."
-    },
     "userProfileMemberSince": "Tag ekkortól",
     "@userProfileMemberSince": {
         "description": "Header of the member-since section in the bio card."
@@ -3363,13 +3160,13 @@
     "@userProfileTransferOwnership": {
         "description": "Three-dot menu item to transfer community ownership to the member."
     },
-    "userProfileReportUser": "Felhasználó bejelentése",
-    "@userProfileReportUser": {
-        "description": "Three-dot menu item to report the user."
-    },
     "userProfileReportMessage": "Üzenet bejelentése",
     "@userProfileReportMessage": {
         "description": "Three-dot menu item to report the message that opened this profile."
+    },
+    "userProfileReportUserProfile": "Profil bejelentése",
+    "@userProfileReportUserProfile": {
+        "description": "Three-dot menu item on the full profile to report this user's profile (avatar, banner, name, bio and other profile parts). Message behavior is reported from the message instead."
     },
     "userProfileKickConfirmTitle": "{username} kirúgása?",
     "@userProfileKickConfirmTitle": {
@@ -3596,18 +3393,6 @@
     "durationCustom": "Egyéni…",
     "@durationCustom": {
         "description": "Duration option label for a user-specified custom duration."
-    },
-    "iarReportUserTitle": "Felhasználó bejelentése",
-    "@iarReportUserTitle": {
-        "description": "Title of the simple user-report sheet."
-    },
-    "iarReasonInappropriateProfile": "Nem megfelelő profil",
-    "@iarReasonInappropriateProfile": {
-        "description": "User-report reason: the user's profile contains inappropriate content."
-    },
-    "iarReasonInappropriateProfileDescription": "Ez a felhasználó profilja nem megfelelő tartalmat tartalmaz",
-    "@iarReasonInappropriateProfileDescription": {
-        "description": "Description for the inappropriate-profile user-report reason."
     },
     "typingIndicatorOne": "{name} ír...",
     "@typingIndicatorOne": {
@@ -4034,17 +3819,9 @@
     "@channelComposerBarrierNotMemberLongEnough": {
         "description": "Composer barrier when the user's guild membership is too recent."
     },
-    "channelComposerBarrierNoPhoneNumber": "Telefonszámot kell igazolnod, hogy üzeneteket küldhess ebben a közösségben.",
-    "@channelComposerBarrierNoPhoneNumber": {
-        "description": "Composer barrier when the user must verify a phone number before messaging."
-    },
     "channelComposerBarrierVerifyEmail": "E-mail-cím megerősítése",
     "@channelComposerBarrierVerifyEmail": {
         "description": "Action button on the composer barrier for unverified email."
-    },
-    "channelComposerBarrierVerifyPhone": "Telefonszám ellenőrzése",
-    "@channelComposerBarrierVerifyPhone": {
-        "description": "Action button on the composer barrier for missing phone verification."
     },
     "chatAttachmentTooMany": "Túl sok melléklet ({max} max)",
     "@chatAttachmentTooMany": {
@@ -4071,10 +3848,6 @@
     "@chatAttachmentDropToSend": {
         "description": "Overlay hint when dragging files over chat with Shift held."
     },
-    "chatAttachmentSendVoiceMessage": "Hangüzenet küldése",
-    "@chatAttachmentSendVoiceMessage": {
-        "description": "Menu item to open the voice message recorder."
-    },
     "voiceMessageTitle": "Hangüzenet",
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
@@ -4095,10 +3868,6 @@
     "@voiceMessageMicPermissionDenied": {
         "description": "Shown when microphone permission is denied for voice messages."
     },
-    "voiceMessageRecordingNotSupported": "A hangrögzítés nem támogatott ezen az eszközön.",
-    "@voiceMessageRecordingNotSupported": {
-        "description": "Shown when the device cannot record voice messages."
-    },
     "voiceMessageMicInUse": "Hagyd el a hanghívást a hangüzenet rögzítéséhez.",
     "@voiceMessageMicInUse": {
         "description": "Shown when the microphone is already used by an active voice call."
@@ -4111,26 +3880,6 @@
     "@voiceMessageSendFailed": {
         "description": "Shown when sending a voice message fails."
     },
-    "voiceMessageRecordingHint": "Beszélj most. Ha végeztél, nyomd meg a Leállítás gombot – a felvételt utólag megvághatod.",
-    "@voiceMessageRecordingHint": {
-        "description": "Help text while recording a voice message on desktop."
-    },
-    "voiceMessageReviewHint": "Húzd a fogantyúkat a vágáshoz, majd nyomd meg a Küldés gombot.",
-    "@voiceMessageReviewHint": {
-        "description": "Help text while reviewing a voice message before send."
-    },
-    "voiceMessageStop": "Leállítás",
-    "@voiceMessageStop": {
-        "description": "Stop recording button in voice message composer."
-    },
-    "voiceMessageStartRecording": "Felvétel indítása",
-    "@voiceMessageStartRecording": {
-        "description": "Button to retry voice recording after permission error."
-    },
-    "voiceMessageRerecord": "Újrafelvétel",
-    "@voiceMessageRerecord": {
-        "description": "Button to discard review and record again."
-    },
     "voiceMessagePlay": "Lejátszás",
     "@voiceMessagePlay": {
         "description": "Play voice message preview."
@@ -4138,16 +3887,6 @@
     "voiceMessagePause": "Szüneteltetés",
     "@voiceMessagePause": {
         "description": "Pause voice message preview."
-    },
-    "voiceMessageSelectionTooShort": "A kijelölésnek legalább {seconds} másodpercnek kell lennie.",
-    "@voiceMessageSelectionTooShort": {
-        "description": "Error when trimmed voice message is too short.",
-        "placeholders": {
-            "seconds": {
-                "type": "num",
-                "format": "compact"
-            }
-        }
     },
     "chatAttachmentEditTitle": "Melléklet szerkesztése",
     "@chatAttachmentEditTitle": {
@@ -4192,10 +3931,6 @@
     "chatAttachmentSourceBrowse": "Fájlok tallózása",
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
-    },
-    "chatAttachmentPasteTooltip": "Fájl beillesztése a vágólapról",
-    "@chatAttachmentPasteTooltip": {
-        "description": "Tooltip for pasting an image attachment from the clipboard."
     },
     "chatAttachmentSpoiler": "Spoiler",
     "@chatAttachmentSpoiler": {
@@ -4293,14 +4028,6 @@
     "@matureContentOpenLinkButton": {
         "description": "Primary action on mature link channel gates."
     },
-    "sensitiveContentSectionTitle": "Érzékeny tartalom",
-    "@sensitiveContentSectionTitle": {
-        "description": "Privacy settings section title for sensitive content filters."
-    },
-    "sensitiveContentSectionDescription": "Szabályozd, hogyan szűrődjön az érett vagy érzékeny média különböző kontextusokban",
-    "@sensitiveContentSectionDescription": {
-        "description": "Privacy settings section description for sensitive content filters."
-    },
     "sensitiveContentFriendDmLabel": "Közvetlen üzenetek ismerősöktől",
     "@sensitiveContentFriendDmLabel": {
         "description": "Label for friend DM sensitive content filter."
@@ -4325,18 +4052,6 @@
     "@sensitiveContentFilterBlock": {
         "description": "Sensitive content filter option to block media."
     },
-    "sensitiveContentBlurUnscannedLabel": "Média elmosása a biztonsági vizsgálat befejezéséig",
-    "@sensitiveContentBlurUnscannedLabel": {
-        "description": "Toggle label for blurring unscanned media."
-    },
-    "sensitiveContentBlurUnscannedDescriptionAdult": "Ha engedélyezve van, a képek és videók elmosódnak, amíg a tartalombiztonsági vizsgálat be nem fejeződik.",
-    "@sensitiveContentBlurUnscannedDescriptionAdult": {
-        "description": "Description for blur-unscanned toggle for adult accounts."
-    },
-    "sensitiveContentBlurUnscannedDescriptionMinor": "Ez a beállítás mindig be van kapcsolva a fiókod számára.",
-    "@sensitiveContentBlurUnscannedDescriptionMinor": {
-        "description": "Description for blur-unscanned toggle for minor accounts."
-    },
     "sensitiveContentResetButton": "Visszaállítás",
     "@sensitiveContentResetButton": {
         "description": "Reset button for sensitive content settings."
@@ -4353,10 +4068,6 @@
                 "type": "int"
             }
         }
-    },
-    "chatCancelUpload": "Feltöltés megszakítása",
-    "@chatCancelUpload": {
-        "description": "Button or menu action label for canceling an in-flight message attachment upload."
     },
     "chatAttachmentExpiresOn": "Lejár ekkor: {date}",
     "@chatAttachmentExpiresOn": {
@@ -4626,10 +4337,6 @@
     "@connectionEnterDomain": {
         "description": "Inline error shown when the domain input is empty."
     },
-    "lookAndFeelTitle": "Megjelenés",
-    "@lookAndFeelTitle": {
-        "description": "Title of the Look & Feel (Appearance) settings page."
-    },
     "lookAndFeelThemeSectionTitle": "Téma",
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
@@ -4669,14 +4376,6 @@
     "lookAndFeelThemeSyncFailed": "Nem sikerült szinkronizálni a témát a fiókoddal. Kérlek, próbáld újra.",
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
-    },
-    "lookAndFeelChatFontScalingTitle": "Csevegés betűméretezése",
-    "@lookAndFeelChatFontScalingTitle": {
-        "description": "Section title for the chat font size slider."
-    },
-    "lookAndFeelChatFontScalingDescription": "A betűméret módosítása a csevegőfelületen.",
-    "@lookAndFeelChatFontScalingDescription": {
-        "description": "Section description for the chat font size slider."
     },
     "lookAndFeelInterfaceTitle": "Felület",
     "@lookAndFeelInterfaceTitle": {
@@ -4745,42 +4444,6 @@
     "lookAndFeelHideKeyboardHintsDescription": "Ha engedélyezve van, a parancsikonok elrejtésre kerülnek az eszköztippekben.",
     "@lookAndFeelHideKeyboardHintsDescription": {
         "description": "Toggle description for the hide-keyboard-hints switch."
-    },
-    "lookAndFeelNekoTitle": "Egyéb",
-    "@lookAndFeelNekoTitle": {
-        "description": "Subsection title under Interface for Neko appearance settings."
-    },
-    "lookAndFeelNekoDescription": "Egyéb felületi opciók.",
-    "@lookAndFeelNekoDescription": {
-        "description": "Subsection description for Neko appearance settings."
-    },
-    "lookAndFeelShowNekoLabel": "Neko megjelenítése",
-    "@lookAndFeelShowNekoLabel": {
-        "description": "Toggle label for showing Neko in the chat footer."
-    },
-    "lookAndFeelShowNekoDescription": "Ha engedélyezve van, Neko megjelenik a csevegés láblécében.",
-    "@lookAndFeelShowNekoDescription": {
-        "description": "Toggle description for showing Neko in chat."
-    },
-    "lookAndFeelVoiceChannelJoinTitle": "Csatlakozási viselkedés hangcsatornán",
-    "@lookAndFeelVoiceChannelJoinTitle": {
-        "description": "Subsection title under Interface — voice channel join behavior."
-    },
-    "lookAndFeelVoiceChannelJoinDescription": "Szabályozd, hogyan csatlakozz hangcsatornákhoz a közösségekben.",
-    "@lookAndFeelVoiceChannelJoinDescription": {
-        "description": "Subsection description for voice channel join behavior."
-    },
-    "lookAndFeelRequireDoubleClickJoinLabel": "Dupla kattintás szükséges a hangcsatornákhoz való csatlakozáshoz",
-    "@lookAndFeelRequireDoubleClickJoinLabel": {
-        "description": "Toggle label — require double-click to join voice channels."
-    },
-    "lookAndFeelRequireDoubleClickJoinDescription": "Ha engedélyezve van, dupla kattintással csatlakozhatsz a hangcsatornákhoz. Ha le van tiltva (alapértelmezett), egyetlen kattintással azonnal csatlakozol a csatornához.",
-    "@lookAndFeelRequireDoubleClickJoinDescription": {
-        "description": "Toggle description for the require-double-click voice channel join switch."
-    },
-    "lookAndFeelChatFontPreviewSample": "A gyors barna róka átugrik a lusta kutya felett.",
-    "@lookAndFeelChatFontPreviewSample": {
-        "description": "Sample text rendered at the selected chat font size to preview scaling."
     },
     "lookAndFeelGuildSidebarTitle": "Kiszolgáló oldalsáv",
     "@lookAndFeelGuildSidebarTitle": {
@@ -5189,25 +4852,9 @@
     "@messagesMediaAutocompleteSavedMediaLabel": {
         "description": "Toggle label for saved media in expression autocomplete."
     },
-    "messagesMediaEditingSectionTitle": "Üzenet szerkesztése",
-    "@messagesMediaEditingSectionTitle": {
-        "description": "Section title for message editing settings."
-    },
-    "messagesMediaEditingSectionDescription": "Szabályozza, mi történjen a szerkesztési piszkozatával, amikor törli.",
-    "@messagesMediaEditingSectionDescription": {
-        "description": "Section description for message editing settings."
-    },
-    "messagesMediaEditingPreserveDraftLabel": "Szerkesztési piszkozat megőrzése törléskor",
-    "@messagesMediaEditingPreserveDraftLabel": {
-        "description": "Toggle label for preserving edit drafts on cancel."
-    },
     "accessibilityDmMessagePreviewGroupTitle": "DM-üzenetek előnézete",
     "@accessibilityDmMessagePreviewGroupTitle": {
         "description": "Section title for DM message preview accessibility settings."
-    },
-    "accessibilityDmMessagePreviewGroupDescription": "Szabályozza, mikor jelenjenek meg üzenetelőnézetek a DM listában.",
-    "@accessibilityDmMessagePreviewGroupDescription": {
-        "description": "Section description for DM message preview accessibility settings."
     },
     "accessibilityDmMessagePreviewModeLabel": "DM-üzenetek előnézeti módja",
     "@accessibilityDmMessagePreviewModeLabel": {
@@ -5365,10 +5012,6 @@
     "@voiceConnectionConfirmDoNothing": {
         "description": "Dismiss the dialog without joining voice."
     },
-    "voiceChannelEmptyDescription": "Ez egy hangcsatorna. Csatlakozz, hogy beszélhess!",
-    "@voiceChannelEmptyDescription": {
-        "description": "Empty state body when viewing a guild voice channel while not in the call."
-    },
     "voiceChannelJoin": "Csatlakozás a hangcsatornához",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
@@ -5408,14 +5051,6 @@
     "voiceChannelStatusConnecting": "Csatlakozás…",
     "@voiceChannelStatusConnecting": {
         "description": "Status in the in-page voice view while LiveKit is connecting."
-    },
-    "voiceChannelStatusConnected": "Csatlakoztatva",
-    "@voiceChannelStatusConnected": {
-        "description": "Status in the in-page voice view when the voice session is active."
-    },
-    "voiceChannelStatusError": "Hiba",
-    "@voiceChannelStatusError": {
-        "description": "Short label in the channel header when the voice session reports an error."
     },
     "voiceParticipantTooltipMobileDevice": "Mobileszköz",
     "@voiceParticipantTooltipMobileDevice": {
@@ -5490,10 +5125,6 @@
     "voiceScreenShareNotificationText": "Megosztod a képernyődet.",
     "@voiceScreenShareNotificationText": {
         "description": "Body text for the Android foreground notification shown while screen sharing."
-    },
-    "voiceControlMore": "Továbbiak",
-    "@voiceControlMore": {
-        "description": "Tooltip: more voice actions in the voice call control bar."
     },
     "voiceControlDisconnect": "Kapcsolat bontása",
     "@voiceControlDisconnect": {
@@ -5745,6 +5376,10 @@
     "@chatSendFailureContentBlocked": {
         "description": "Fluxerbot system message when message content is blocked by safety systems."
     },
+    "chatSendFailureContentBlockedSelfHosted": "Az üzenetedet nem sikerült kézbesíteni, mert a biztonsági rendszereink megjelölték. Ha úgy gondolod, ez tévedés, kérjük, vedd fel a kapcsolatot ennek a példánynak az adminisztrátoraival.",
+    "@chatSendFailureContentBlockedSelfHosted": {
+        "description": "Fluxerbot system message on a self-hosted instance when message content is blocked by safety systems. Names no support mailbox."
+    },
     "chatSendFailureNsfwEmojiSticker": "Az üzenetedet nem lehetett kézbesíteni, mert olyan felnőtt tartalmú hangulatjeleket vagy matricákat tartalmaz, amelyek ebben a kontextusban nem engedélyezettek.",
     "@chatSendFailureNsfwEmojiSticker": {
         "description": "Fluxerbot system message when mature emoji or stickers are blocked."
@@ -5769,6 +5404,10 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "Koppints duplán egy üzenetre, hogy reagálj ezzel:",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
     "chatMessageEdit": "Üzenet szerkesztése",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -5776,6 +5415,14 @@
     "chatMessageReply": "Válasz",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
+    },
+    "notificationReplyPlaceholder": "Üzenet",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "Nem sikerült elküldeni a választ",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
     },
     "chatMessageForward": "Továbbítás",
     "@chatMessageForward": {
@@ -5926,420 +5573,155 @@
     "@chatMessageReport": {
         "description": "Action label that opens the report-message sheet so the user can flag the message to moderators."
     },
-    "iarReportMessageTitle": "Üzenet bejelentése",
-    "@iarReportMessageTitle": {
-        "description": "Title shown at the top of the In-App Reporting (IAR) sheet when the user is reporting a specific message."
+    "reportFlowTitleMessage": "Üzenet bejelentése",
+    "@reportFlowTitleMessage": {
+        "description": "Report flow: sheet title while the message report form loads or fails to load."
     },
-    "iarThisUserFallback": "ez a felhasználó",
-    "@iarThisUserFallback": {
-        "description": "Lowercase phrase used mid-sentence in IAR copy when referring to the reported user without a name (e.g. inside the close-DM confirmation)."
+    "reportFlowTitleUserProfile": "Profil bejelentése",
+    "@reportFlowTitleUserProfile": {
+        "description": "Report flow: sheet title while the user profile report form loads or fails to load."
     },
-    "iarModalDescription": "Szabálysértés bejelentése, vagy eszközök keresése a kapcsolatok és beállítások kezeléséhez.",
-    "@iarModalDescription": {
-        "description": "Screen-reader description for the IAR sheet announcing what the flow is for."
+    "reportFlowSummaryTitle": "A bejelentésed ellenőrzése",
+    "@reportFlowSummaryTitle": {
+        "description": "Report flow: title of the last screen, where the reporter reviews the report before sending it."
     },
-    "iarPathStepAriaLabel": "Mire van szükséged?",
-    "@iarPathStepAriaLabel": {
-        "description": "Accessible label for the primary-path radio group on the first step of the IAR sheet. Not shown visually; the radios are labelled inline."
+    "reportFlowSummarySubtitle": "Ellenőrizd, hogy minden rendben van-e, mielőtt elküldöd.",
+    "@reportFlowSummarySubtitle": {
+        "description": "Report flow: subtitle of the report summary screen."
     },
-    "iarCategoryStepTitle": "Milyen szabályt sértettek meg?",
-    "@iarCategoryStepTitle": {
-        "description": "Title shown on the category step of the IAR sheet (platform-report path)."
+    "reportFlowDisclaimer": "Csak olyat jelents be, amiről őszintén úgy gondolod, hogy megszegi a szabályokat. A bejelentésekkel való visszaélés ellentétes a {guidelines}.",
+    "@reportFlowDisclaimer": {
+        "description": "Report flow: disclaimer on the report summary screen. {guidelines} is a link whose text is reportFlowCommunityGuidelinesLink.",
+        "placeholders": {
+            "guidelines": {
+                "type": "String",
+                "example": "Community Guidelines"
+            }
+        }
     },
-    "iarReasonStepTitle": "Melyik szabályt szegték meg?",
-    "@iarReasonStepTitle": {
-        "description": "Title shown on the reason step of the IAR sheet after the user has picked a rule category."
+    "reportFlowCommunityGuidelinesLink": "közösségi irányelvek",
+    "@reportFlowCommunityGuidelinesLink": {
+        "description": "Report flow: link text inside reportFlowDisclaimer. Opens the community guidelines page."
     },
-    "iarReasonSelectHint": "Válassz okot",
-    "@iarReasonSelectHint": {
-        "description": "Placeholder shown in the message-report reason dropdown before the user picks a rule."
+    "reportFlowDisclaimerNoLink": "Csak olyat jelents be, amiről őszintén úgy gondolod, hogy megszegi a szabályokat, és kérjük, ne küldd el ugyanazt a bejelentést kétszer.",
+    "@reportFlowDisclaimerNoLink": {
+        "description": "Report flow: disclaimer on the report summary screen when the instance has no community guidelines page."
     },
-    "iarPickAnOptionToast": "Válassz egy lehetőséget a folytatáshoz.",
-    "@iarPickAnOptionToast": {
-        "description": "Toast shown when the user taps Continue on a step without selecting any radio option."
+    "reportFlowSelectedMessage": "Az általad bejelentett üzenet",
+    "@reportFlowSelectedMessage": {
+        "description": "Report flow: heading above the preview of the reported message on the report summary screen."
     },
-    "iarPickARuleToast": "Válaszd ki a megsértett szabályt.",
-    "@iarPickARuleToast": {
-        "description": "Toast shown when the user taps Send report without selecting a rule reason."
+    "reportFlowSelectedUser": "Az általad bejelentett profil",
+    "@reportFlowSelectedUser": {
+        "description": "Report flow: heading above the card of the reported user on the first screen and the report summary screen."
     },
-    "iarPathPlatform": "Platformszabály-sértés jelentése",
-    "@iarPathPlatform": {
-        "description": "Primary-path radio label: file a real DSA / platform-level report."
+    "reportFlowReportCategory": "A válaszaid",
+    "@reportFlowReportCategory": {
+        "description": "Report flow: heading above the list of answers the reporter picked, on the report summary screen."
     },
-    "iarPathCommunity": "Jelentés ennek a közösségnek a moderátorainak",
-    "@iarPathCommunity": {
-        "description": "Primary-path radio label: surface this to community moderators rather than platform safety."
+    "reportFlowSubmit": "Bejelentés küldése",
+    "@reportFlowSubmit": {
+        "description": "Report flow: button on the report summary screen that sends the report."
     },
-    "iarPathPreferenceMessage": "Nem kedvelem ezt a tartalmat",
-    "@iarPathPreferenceMessage": {
-        "description": "Primary-path radio label: the user doesn't want platform action, they want self-service tools (block, leave, settings)."
+    "reportFlowBack": "Vissza",
+    "@reportFlowBack": {
+        "description": "Report flow: button that returns to the previous screen of the report form."
     },
-    "iarCategoryTargetedHarmLabel": "Fenyegetés, zaklatás vagy bántalmazás",
-    "@iarCategoryTargetedHarmLabel": {
-        "description": "Rule-category label grouping harassment, hate, violence, terrorism, raids, and self-harm content."
+    "reportFlowNext": "Tovább",
+    "@reportFlowNext": {
+        "description": "Report flow: button that goes to the next screen of the report form."
     },
-    "iarCategoryTargetedHarmDescription": "Zaklatás, fenyegetés, gyűlölet, erőszak, összehangolt támadások vagy önkárosításra ösztönző tartalom.",
-    "@iarCategoryTargetedHarmDescription": {
-        "description": "One-line description for the targeted-harm rule category."
+    "reportFlowDone": "Kész",
+    "@reportFlowDone": {
+        "description": "Report flow: button that closes the report form when it is finished."
     },
-    "iarCategorySafetyMinorsLabel": "Gyermekbiztonság vagy felnőtt tartalom",
-    "@iarCategorySafetyMinorsLabel": {
-        "description": "Rule-category label grouping child-safety and mature-content reports."
+    "reportFlowThankYouTitle": "Bejelentés elküldve",
+    "@reportFlowThankYouTitle": {
+        "description": "Report flow: title of the screen shown after a report was sent."
     },
-    "iarCategorySafetyMinorsDescription": "Kiskorúak veszélyeztetése, nem megfelelő helyen megjelenő felnőtt tartalom vagy nem kívánt viselkedés.",
-    "@iarCategorySafetyMinorsDescription": {
-        "description": "One-line description for the child-safety / mature-content rule category."
+    "reportFlowThankYouNoReportTitle": "Köszönjük, hogy jelezted",
+    "@reportFlowThankYouNoReportTitle": {
+        "description": "Report flow: title of the screen shown when the chosen answer does not send a report."
     },
-    "iarCategoryPrivacyIdentityLabel": "Adatvédelem vagy személyiséglopás",
-    "@iarCategoryPrivacyIdentityLabel": {
-        "description": "Rule-category label grouping privacy violations and impersonation."
-    },
-    "iarCategoryPrivacyIdentityDescription": "Doxxing, követéses zaklatás, személyazonossággal való visszaélés vagy nem megfelelő profil.",
-    "@iarCategoryPrivacyIdentityDescription": {
-        "description": "One-line description for the privacy / impersonation rule category."
-    },
-    "iarCategoryDeceptionLabel": "Csalások, rosszindulatú programok vagy félretájékoztatás",
-    "@iarCategoryDeceptionLabel": {
-        "description": "Rule-category label grouping spam/scams, malware, and harmful misinformation."
-    },
-    "iarCategoryDeceptionDescription": "Adathalászat, csalás, rosszindulatú hivatkozások vagy valós károkat okozó hamis állítások.",
-    "@iarCategoryDeceptionDescription": {
-        "description": "One-line description for the scams / malware / misinformation rule category."
-    },
-    "iarCategoryIllegalOtherLabel": "Illegális tevékenység vagy egyéb",
-    "@iarCategoryIllegalOtherLabel": {
-        "description": "Rule-category label grouping illegal activity and the catch-all Other reason."
-    },
-    "iarCategoryIllegalOtherDescription": "Illegális értékesítés, bűncselekmény elősegítése vagy egyértelmű szabálysértés, ami nem illik a fenti kategóriákba.",
-    "@iarCategoryIllegalOtherDescription": {
-        "description": "One-line description for the illegal / other rule category."
-    },
-    "iarReasonHarassmentLabel": "Zaklatás vagy fenyegetés",
-    "@iarReasonHarassmentLabel": {
-        "description": "Rule-reason label for harassment in the IAR message flow."
-    },
-    "iarReasonHarassmentMessageDescription": "Megfélemlítés, ismételt kéretlen kapcsolatfelvétel, követéses zaklatás vagy célzott bántalmazás.",
-    "@iarReasonHarassmentMessageDescription": {
-        "description": "Rule-reason description for harassment in the IAR message flow."
-    },
-    "iarReasonHateLabel": "Gyűlöletbeszéd",
-    "@iarReasonHateLabel": {
-        "description": "Rule-reason label for hate speech in the IAR message flow."
-    },
-    "iarReasonHateMessageDescription": "Gyalázkodás, dehumanizáló nyelvezet vagy védett csoportok elleni támadások.",
-    "@iarReasonHateMessageDescription": {
-        "description": "Rule-reason description for hate speech in the IAR message flow."
-    },
-    "iarReasonViolenceLabel": "Erőszak vagy erőszakos fenyegetés",
-    "@iarReasonViolenceLabel": {
-        "description": "Rule-reason label for violence in the IAR message flow."
-    },
-    "iarReasonViolenceDescription": "Hiteles fenyegetések, explicit erőszak vagy az erőszak dicsőítése.",
-    "@iarReasonViolenceDescription": {
-        "description": "Rule-reason description for violence in the IAR message flow."
-    },
-    "iarReasonMatureContentLabel": "Felnőtt tartalom vagy zaklatás",
-    "@iarReasonMatureContentLabel": {
-        "description": "Rule-reason label for mature content / unwanted conduct in the IAR message flow."
-    },
-    "iarReasonMatureContentMessageDescription": "Nem kívánt viselkedés vagy felnőtt tartalom nem megfelelő helyen.",
-    "@iarReasonMatureContentMessageDescription": {
-        "description": "Rule-reason description for mature content in the IAR message flow."
-    },
-    "iarReasonChildSafetyLabel": "Gyermekbiztonság vagy kiskorúak kizsákmányolása",
-    "@iarReasonChildSafetyLabel": {
-        "description": "Rule-reason label for child-safety reports in the IAR message flow. Also used as the {childSafetyReason} placeholder in iarUseChildSafetyInstead."
-    },
-    "iarReasonChildSafetyMessageDescription": "Gyermekek szexuális célú behálózása vagy kizsákmányolásukhoz kapcsolódó tartalom.",
-    "@iarReasonChildSafetyMessageDescription": {
-        "description": "Rule-reason description for child-safety reports in the IAR message flow."
-    },
-    "iarReasonHarmfulMisinfoLabel": "Káros félretájékoztatás",
-    "@iarReasonHarmfulMisinfoLabel": {
-        "description": "Rule-reason label for harmful misinformation in the IAR message flow."
-    },
-    "iarReasonHarmfulMisinfoDescription": "Valótlan állítások, amelyek valós károkat okozhatnak.",
-    "@iarReasonHarmfulMisinfoDescription": {
-        "description": "Rule-reason description for harmful misinformation."
-    },
-    "iarReasonSpamLabel": "Spam, átverés vagy adathalászat",
-    "@iarReasonSpamLabel": {
-        "description": "Rule-reason label for spam/scams/phishing in the IAR message flow."
-    },
-    "iarReasonSpamMessageDescription": "Tömeges spam, csalás, hamis nyereményjátékok vagy fiókokkal való visszaélés.",
-    "@iarReasonSpamMessageDescription": {
-        "description": "Rule-reason description for spam/scams in the IAR message flow."
-    },
-    "iarReasonMalwareLabel": "Kártevő vagy veszélyes linkek",
-    "@iarReasonMalwareLabel": {
-        "description": "Rule-reason label for malware / dangerous links in the IAR message flow."
-    },
-    "iarReasonMalwareDescription": "Kártevő, hitelesítő adatok lopása vagy káros fájlok.",
-    "@iarReasonMalwareDescription": {
-        "description": "Rule-reason description for malware."
-    },
-    "iarReasonPrivacyLabel": "Adatvédelmi szabálysértés",
-    "@iarReasonPrivacyLabel": {
-        "description": "Rule-reason label for privacy violations in the IAR message flow."
-    },
-    "iarReasonPrivacyDescription": "Doxxing, személyes adatok közzététele vagy zaklatás.",
-    "@iarReasonPrivacyDescription": {
-        "description": "Rule-reason description for privacy violations."
-    },
-    "iarReasonImpersonationLabel": "Megszemélyesítés vagy megtévesztő média",
-    "@iarReasonImpersonationLabel": {
-        "description": "Rule-reason label for impersonation in the IAR message flow."
-    },
-    "iarReasonImpersonationMessageDescription": "Más személynek adja ki magát, akár megtévesztő, mesterséges intelligenciával létrehozott tartalommal.",
-    "@iarReasonImpersonationMessageDescription": {
-        "description": "Rule-reason description for impersonation in the IAR message flow."
-    },
-    "iarReasonIllegalLabel": "Illegális tevékenység",
-    "@iarReasonIllegalLabel": {
-        "description": "Rule-reason label for illegal activity in the IAR message flow."
-    },
-    "iarReasonIllegalDescription": "Illegális értékesítés, bűncselekmény elősegítése vagy jogellenes tevékenység.",
-    "@iarReasonIllegalDescription": {
-        "description": "Rule-reason description for illegal activity."
-    },
-    "iarReasonSelfHarmLabel": "Önsértés vagy öngyilkosság",
-    "@iarReasonSelfHarmLabel": {
-        "description": "Rule-reason label for self-harm content in the IAR message flow."
-    },
-    "iarReasonSelfHarmMessageDescription": "Önsértésre vagy étkezési zavarokra ösztönző tartalom vagy útmutatás.",
-    "@iarReasonSelfHarmMessageDescription": {
-        "description": "Rule-reason description for self-harm content in the IAR message flow."
-    },
-    "iarReasonOtherLabel": "Egy másik egyértelmű szabálysértés",
-    "@iarReasonOtherLabel": {
-        "description": "Rule-reason label for the catch-all option in the IAR message flow."
-    },
-    "iarReasonOtherDescription": "Csak akkor használd, ha egyértelműen sérti a(z) {productName} szabályait, és nem illik a fentiekbe.",
-    "@iarReasonOtherDescription": {
-        "description": "Rule-reason description for the catch-all option.",
+    "reportFlowThankYouBody": "A(z) {productName} biztonsági csapata áttekinti a bejelentésedet. Nem fogjuk felfedni, hogy tőled érkezett.",
+    "@reportFlowThankYouBody": {
+        "description": "Report flow: body of the thank-you screen after a report was sent. {productName} is the name of the app.",
         "placeholders": {
             "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "iarUseChildSafetyInstead": "Ha kiskorú érintett, használd ehelyett a(z) „{childSafetyReason}” opciót.",
-    "@iarUseChildSafetyInstead": {
-        "description": "Inline routing nudge shown under reasons (e.g. mature content) that overlap with child safety.",
-        "placeholders": {
-            "childSafetyReason": {
                 "type": "String",
-                "example": "Child safety or exploitation of minors"
+                "example": "Fluxer"
             }
         }
     },
-    "iarSafetyNoteChildSafety": "Ha ez kiskorúak sérelmére elkövetett szexuális bűncselekményt (CSAM) vagy kizsákmányolást érint, küldd el azonnal, és ne oszd meg újra az anyagot.",
-    "@iarSafetyNoteChildSafety": {
-        "description": "Inline safety note shown for child-safety reports on the reason step."
+    "reportFlowThankYouNoReportBody": "Köszönjük, hogy szóltál. Ez önmagában nem sérti a szabályainkat, ezért nem küldtünk bejelentést. Ha valakit célba vesz, vagy gyalázkodó szavakat használ, jelentsd be újra, és válaszd a „Bántalmazó vagy káros tartalom” lehetőséget.",
+    "@reportFlowThankYouNoReportBody": {
+        "description": "Report flow: body of the thank-you screen when the chosen answer does not send a report. \"Abusive or harmful content\" is the name of an option on the first screen of the message report form."
     },
-    "iarSafetyNoteSelfHarm": "Ha valakit közvetlen veszély fenyegethet, értesítsd a helyi segélyszolgálatokat, amennyiben ezt biztonságosan megteheted.",
-    "@iarSafetyNoteSelfHarm": {
-        "description": "Inline safety note shown for self-harm reports on the reason step."
+    "reportFlowThankYouNoReportBodyShort": "Köszönjük, hogy szóltál. Ez önmagában nem sérti a szabályainkat, ezért nem küldtünk bejelentést.",
+    "@reportFlowThankYouNoReportBodyShort": {
+        "description": "Report flow: body of the thank-you screen when the chosen answer does not send a report and the reporter is already past the first screen of the form."
     },
-    "iarSafetyNoteViolence": "Ha valós, közvetlen fenyegetésről van szó, értesítsd a helyi segélyszolgálatokat is.",
-    "@iarSafetyNoteViolence": {
-        "description": "Inline safety note shown for violence reports on the reason step."
+    "reportFlowMoreYouCanDo": "A lehetőségeid",
+    "@reportFlowMoreYouCanDo": {
+        "description": "Report flow: heading above the extra actions (such as blocking the user) on the thank-you screen."
     },
-    "iarSafetyNoteTerrorism": "Ha közvetlen terrorfenyegetésről van szó, értesítsd a helyi segélyszolgálatokat is.",
-    "@iarSafetyNoteTerrorism": {
-        "description": "Inline safety note shown for terrorism reports on the reason step."
-    },
-    "iarActionBlockUserTitle": "Felhasználó letiltása",
-    "@iarActionBlockUserTitle": {
-        "description": "Action card title for blocking the reported user."
-    },
-    "iarActionBlockUserDescription": "Üzenetek és ismerősjelölések leállítása.",
-    "@iarActionBlockUserDescription": {
-        "description": "Action card description for blocking the reported user."
-    },
-    "iarActionBlockUserButton": "Letiltás",
-    "@iarActionBlockUserButton": {
-        "description": "Trailing button label on the block-user action card."
-    },
-    "iarActionCopyMessageLinkTitle": "Üzenetlink másolása",
-    "@iarActionCopyMessageLinkTitle": {
-        "description": "Action card title for copying a link to the reported message so the user can share it with community moderators."
-    },
-    "iarActionCopyMessageLinkDescription": "Megosztás a közösségi moderátorokkal.",
-    "@iarActionCopyMessageLinkDescription": {
-        "description": "Action card description for copying a message link."
-    },
-    "iarActionCopyMessageLinkButton": "Másolás",
-    "@iarActionCopyMessageLinkButton": {
-        "description": "Trailing button label on the copy-message-link action card."
-    },
-    "iarActionCloseDmTitle": "Közvetlen beszélgetés bezárása",
-    "@iarActionCloseDmTitle": {
-        "description": "Action card title for closing the DM with the reported user."
-    },
-    "iarActionCloseDmDescription": "Nem tiltja le. Később újra megnyithatod.",
-    "@iarActionCloseDmDescription": {
-        "description": "Action card description for closing the DM."
-    },
-    "iarActionCloseDmButton": "Közvetlen beszélgetés bezárása",
-    "@iarActionCloseDmButton": {
-        "description": "Trailing button label on the close-DM action card."
-    },
-    "iarActionLeaveCommunityTitle": "Közösség elhagyása",
-    "@iarActionLeaveCommunityTitle": {
-        "description": "Action card title for leaving the guild the reported message was sent in."
-    },
-    "iarActionLeaveCommunityDescription": "Ne lásd többé a tartalmát és a tagjait.",
-    "@iarActionLeaveCommunityDescription": {
-        "description": "Action card description for leaving the community."
-    },
-    "iarActionLeaveCommunityButton": "Kilépés",
-    "@iarActionLeaveCommunityButton": {
-        "description": "Trailing button label on the leave-community action card."
-    },
-    "iarActionDmSettingsTitle": "DM- és ismerősjelölési beállítások",
-    "@iarActionDmSettingsTitle": {
-        "description": "Action card title for opening the DM / friend-request privacy settings."
-    },
-    "iarActionDmSettingsDescription": "Állítsd be, hogy ki léphet kapcsolatba veled.",
-    "@iarActionDmSettingsDescription": {
-        "description": "Action card description for DM / friend-request privacy settings."
-    },
-    "iarActionCallSettingsTitle": "Hívások és csoportos beszélgetések beállításai",
-    "@iarActionCallSettingsTitle": {
-        "description": "Action card title for opening the call / group-chat privacy settings."
-    },
-    "iarActionCallSettingsDescription": "Módosítsd, hogy ki hívhat fel vagy adhat hozzá csoportos beszélgetésekhez.",
-    "@iarActionCallSettingsDescription": {
-        "description": "Action card description for call / group-chat privacy settings."
-    },
-    "iarActionOpenButton": "Megnyitás",
-    "@iarActionOpenButton": {
-        "description": "Trailing button label for action cards that navigate the user into a settings section."
-    },
-    "iarActionDeleteMessageTitle": "Üzenet törlése",
-    "@iarActionDeleteMessageTitle": {
-        "description": "Action card title (moderator-only) for deleting the reported message."
-    },
-    "iarActionDeleteMessageDescription": "Eltávolítás a csatornából mindenki számára.",
-    "@iarActionDeleteMessageDescription": {
-        "description": "Action card description (moderator-only) for deleting the reported message."
-    },
-    "iarActionDeleteMessageButton": "Törlés",
-    "@iarActionDeleteMessageButton": {
-        "description": "Trailing button label on the delete-message action card."
-    },
-    "iarActionDeleteMessageDeletedButton": "Törölve",
-    "@iarActionDeleteMessageDeletedButton": {
-        "description": "Disabled-state trailing button label on the delete-message action card after the message is already gone."
-    },
-    "iarActionDeleteMessageDeletedTooltip": "Ezt az üzenetet már törölték.",
-    "@iarActionDeleteMessageDeletedTooltip": {
-        "description": "Tooltip on the disabled delete-message action card."
-    },
-    "iarActionBanUserTitle": "Felhasználó kitiltása",
-    "@iarActionBanUserTitle": {
-        "description": "Action card title (moderator-only) for opening the ban dialog against the reported user."
-    },
-    "iarActionBanUserDescription": "A közösség kitiltási párbeszédablakának megnyitása.",
-    "@iarActionBanUserDescription": {
-        "description": "Action card description (moderator-only) for banning the reported user."
-    },
-    "iarActionBanUserButton": "Kitiltás",
-    "@iarActionBanUserButton": {
-        "description": "Trailing button label on the ban-user action card."
-    },
-    "iarActionBanUserBannedButton": "Kitiltva",
-    "@iarActionBanUserBannedButton": {
-        "description": "Disabled-state trailing button label on the ban-user action card after the target is already banned."
-    },
-    "iarActionBanUserBannedTooltip": "Ez a felhasználó már ki van tiltva a közösségből.",
-    "@iarActionBanUserBannedTooltip": {
-        "description": "Tooltip on the disabled ban-user action card."
-    },
-    "iarCloseDmConfirmTitle": "Közvetlen beszélgetés bezárása",
-    "@iarCloseDmConfirmTitle": {
-        "description": "Title of the confirm-close-DM bottom sheet shown after the user taps Close DM on the action card."
-    },
-    "iarCloseDmConfirmDescription": "Zárd be a jelenlegi DM-edet {name} felhasználóval. Ez nem blokkolja őket; később újra megnyithatod.",
-    "@iarCloseDmConfirmDescription": {
-        "description": "Body of the confirm-close-DM bottom sheet.",
+    "reportFlowBlockName": "{name} letiltása",
+    "@reportFlowBlockName": {
+        "description": "Report flow: title of the row on the thank-you screen that blocks the reported user. {name} is the display name of that user.",
         "placeholders": {
             "name": {
                 "type": "String",
-                "example": "ada"
+                "example": "Alice"
             }
         }
     },
-    "iarSuccessTitle": "Bejelentés elküldve",
-    "@iarSuccessTitle": {
-        "description": "Title shown on the success step after a platform report is submitted."
+    "reportFlowBlockDescription": "Elrejti az üzeneteit, és megakadályozza, hogy üzenetet küldjön neked",
+    "@reportFlowBlockDescription": {
+        "description": "Report flow: description under reportFlowBlockName on the thank-you screen."
     },
-    "iarSuccessBody": "Biztonsági csapatunk felülvizsgálja a bejelentést. DM-et és e-mailt küldünk, amint megszületett a döntés.",
-    "@iarSuccessBody": {
-        "description": "Body shown on the success step after a platform report is submitted."
+    "reportFlowBlockButton": "Letiltás",
+    "@reportFlowBlockButton": {
+        "description": "Report flow: button on the thank-you screen that blocks the reported user."
     },
-    "iarAlreadyReportedTitle": "Már jelentetted",
-    "@iarAlreadyReportedTitle": {
-        "description": "Title shown on the IAR success step when the message had already been reported by this user (HTTP 409); the existing report is under review."
+    "reportFlowBlockedButton": "Letiltva",
+    "@reportFlowBlockedButton": {
+        "description": "Report flow: disabled button on the thank-you screen after the reported user was blocked."
     },
-    "iarAlreadyReportedBody": "Már jelentetted ezt az üzenetet. Biztonsági csapatunk áttekinti.",
-    "@iarAlreadyReportedBody": {
-        "description": "Body shown on the IAR success step when the message had already been reported by this user (HTTP 409)."
+    "reportFlowUrgentBanner": "Ha valaki azonnali veszélyben van, először vedd fel a kapcsolatot a helyi segélyhívóval.",
+    "@reportFlowUrgentBanner": {
+        "description": "Report flow: banner on screens about urgent harm, such as threats, self-harm or the safety of minors."
     },
-    "iarBackButton": "Vissza",
-    "@iarBackButton": {
-        "description": "Footer button label that returns the user to the previous IAR step."
+    "reportFlowLoadFailed": "Nem sikerült betölteni a bejelentési űrlapot.",
+    "@reportFlowLoadFailed": {
+        "description": "Report flow: error shown when the report form could not be loaded."
     },
-    "iarContinueButton": "Folytatás",
-    "@iarContinueButton": {
-        "description": "Footer button label that advances the user to the next IAR step."
+    "reportFlowTryAgain": "Újra",
+    "@reportFlowTryAgain": {
+        "description": "Report flow: button that loads the report form again after an error."
     },
-    "iarSendReportButton": "Bejelentés küldése",
-    "@iarSendReportButton": {
-        "description": "Footer button label that submits the IAR report."
+    "reportFlowOutdated": "A bejelentési űrlap megváltozott. Kérjük, kezdd újra.",
+    "@reportFlowOutdated": {
+        "description": "Report flow: toast shown when the report form changed on the server while the reporter was filling it in. The form restarts from the first screen."
     },
-    "iarDoneButton": "Kész",
-    "@iarDoneButton": {
-        "description": "Footer button label that closes the IAR sheet from the success or guidance step."
+    "reportFlowAlreadyReported": "Már bejelentetted ezt az üzenetet.",
+    "@reportFlowAlreadyReported": {
+        "description": "Report flow: note on the report summary screen when the reporter already reported this message."
     },
-    "iarCouldntSendToast": "Nem sikerült elküldeni a jelentést. Kérlek, próbáld újra.",
-    "@iarCouldntSendToast": {
-        "description": "Toast shown when the IAR report submission fails."
+    "reportFlowAlreadyReportedProfile": "Ezt a profilt ma már bejelentetted.",
+    "@reportFlowAlreadyReportedProfile": {
+        "description": "Report flow: note on the report summary screen when the reporter already reported this user profile in the last 24 hours."
     },
-    "iarRateLimitedToast": "Túl gyorsan jelentesz. Kérlek, várj egy pillanatot, és próbáld újra.",
-    "@iarRateLimitedToast": {
-        "description": "Toast shown when an IAR report submission is rejected for rate limiting (HTTP 429)."
+    "reportFlowRateLimited": "Túl gyorsan küldöd a bejelentéseket. Próbáld újra később.",
+    "@reportFlowRateLimited": {
+        "description": "Report flow: note on the report summary screen when the reporter sent too many reports."
     },
-    "iarReportSentToast": "Jelentés elküldve. Biztonsági csapatunk áttekinti.",
-    "@iarReportSentToast": {
-        "description": "Toast shown after a message report is submitted successfully from the simple mobile report sheet."
+    "reportFlowSubmitFailed": "A bejelentésedet nem sikerült elküldeni. Próbáld újra.",
+    "@reportFlowSubmitFailed": {
+        "description": "Report flow: note on the report summary screen when the report could not be sent."
     },
-    "iarBlockUserConfirmDescription": "Blokkolod {name} felhasználót? Nem tud majd üzenetet küldeni neked, vagy ismerősnek jelölni. Később feloldhatod a blokkot.",
-    "@iarBlockUserConfirmDescription": {
-        "description": "Body of the confirm-block-user bottom sheet shown after the user taps Block on the IAR action card.",
-        "placeholders": {
-            "name": {
-                "type": "String",
-                "example": "ada"
-            }
-        }
-    },
-    "iarBlockUserFailedToast": "Nem sikerült blokkolni ezt a felhasználót. Kérlek, próbáld újra.",
-    "@iarBlockUserFailedToast": {
-        "description": "Toast shown when blocking the reported user from the IAR action card fails."
-    },
-    "iarCloseDmSuccessToast": "DM bezárva.",
-    "@iarCloseDmSuccessToast": {
-        "description": "Toast shown after the DM with the reported user is closed from the IAR action card."
-    },
-    "iarCloseDmFailedToast": "Nem sikerült bezárni ezt a DM-et. Kérlek, próbáld újra.",
-    "@iarCloseDmFailedToast": {
-        "description": "Toast shown when closing the DM from the IAR action card fails."
-    },
-    "iarLeaveCommunityFailedToast": "Nem sikerült elhagyni ezt a közösséget. Kérlek, próbáld újra.",
-    "@iarLeaveCommunityFailedToast": {
-        "description": "Toast shown when leaving the community from the IAR action card fails."
+    "reportFlowAccountSetupRequired": "A bejelentések küldéséhez fejezd be a fiókod regisztrációját, és erősítsd meg az e-mail-címedet.",
+    "@reportFlowAccountSetupRequired": {
+        "description": "Report flow: notice on the report summary screen when the account must be claimed and its email verified before it can send reports."
     },
     "chatMessageSuppressEmbeds": "Beágyazott tartalmak elrejtése",
     "@chatMessageSuppressEmbeds": {
@@ -6547,6 +5929,10 @@
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
     },
+    "chatImageCouldNotLoad": "Nem sikerült betölteni a képet.",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
+    },
     "composerAutocompleteRoleMentionDescription": "Az ezzel a szerepkörrel rendelkező, a csatorna megtekintésére jogosult felhasználók értesítése.",
     "@composerAutocompleteRoleMentionDescription": {
         "description": "Secondary line in the @ mention autocomplete when the row is a mentionable guild role."
@@ -6594,10 +5980,6 @@
     "addGuildJoinFailed": "Nem sikerült csatlakozni a közösséghez. Kérjük, próbálja újra.",
     "@addGuildJoinFailed": {
         "description": "Generic error when joining a community via invite fails."
-    },
-    "addGuildPackInstalled": "A csomag sikeresen telepítve.",
-    "@addGuildPackInstalled": {
-        "description": "Toast shown after accepting an emoji or sticker pack invite."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "Összes reakció eltávolítása",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -6685,7 +6067,7 @@
             }
         }
     },
-    "dmComposerHint": "Message @{recipientName}",
+    "dmComposerHint": "Üzenet ide: @{recipientName}",
     "@dmComposerHint": {
         "description": "Placeholder in the message composer for a one-to-one DM.",
         "placeholders": {
@@ -7087,6 +6469,10 @@
     "instanceUrlPlaceholder": "Add meg a példány URL-jét (pl. fluxer.app)",
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
+    },
+    "instanceUrlHelper": "Használd a fluxer.app címet a hivatalos példányhoz, vagy egy saját üzemeltetésű példány pontos URL-jét.",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
     },
     "resetToDefaultInstance": "Visszaállítás Fluxer-re",
     "@resetToDefaultInstance": {
@@ -7628,10 +7014,6 @@
     "@guildMenuHideMutedChannels": {
         "description": "Guild menu checkbox to hide muted channels."
     },
-    "guildMenuReportCommunity": "Közösség bejelentése",
-    "@guildMenuReportCommunity": {
-        "description": "Guild menu action to report the community."
-    },
     "guildMenuDebugCommunity": "Közösség hibakeresése",
     "@guildMenuDebugCommunity": {
         "description": "Guild menu action to open community debug info."
@@ -7677,10 +7059,6 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsCustomInviteUrl": "Egyéni meghívó URL",
-    "@guildMenuSettingsCustomInviteUrl": {
-        "description": "Community settings tab for custom invite URLs."
-    },
     "guildMenuSettingsDiscovery": "Felfedezés",
     "@guildMenuSettingsDiscovery": {
         "description": "Community settings tab for discovery settings."
@@ -7705,17 +7083,9 @@
     "@guildSettingsOverviewIconTitle": {
         "description": "Title for the guild icon section in overview settings."
     },
-    "guildSettingsUploadImage": "Kép feltöltése",
-    "@guildSettingsUploadImage": {
-        "description": "Button label to upload an image in guild settings."
-    },
     "guildSettingsOverviewBannerTitle": "Borítókép",
     "@guildSettingsOverviewBannerTitle": {
         "description": "Title for the guild banner section."
-    },
-    "guildSettingsOverviewBannerHint": "Tölts fel egy bannert a szerveredhez.",
-    "@guildSettingsOverviewBannerHint": {
-        "description": "Hint text for guild banner upload."
     },
     "guildSettingsOverviewNameTitle": "Név",
     "@guildSettingsOverviewNameTitle": {
@@ -7725,22 +7095,6 @@
     "@guildSettingsOverviewNameHint": {
         "description": "Hint for the guild name field."
     },
-    "guildSettingsOverviewStatsTitle": "Statisztikák",
-    "@guildSettingsOverviewStatsTitle": {
-        "description": "Title for guild statistics section."
-    },
-    "guildSettingsOverviewMembers": "Tagok",
-    "@guildSettingsOverviewMembers": {
-        "description": "Label for member count in overview."
-    },
-    "guildSettingsOverviewOnline": "Online",
-    "@guildSettingsOverviewOnline": {
-        "description": "Label for online count in overview."
-    },
-    "guildSettingsRolesDescription": "Szerepkörök használatával csoportosíthatod a tagokat és engedélyeket adhatsz meg.",
-    "@guildSettingsRolesDescription": {
-        "description": "Description for the roles settings tab."
-    },
     "guildSettingsCreateRole": "Szerepkör létrehozása",
     "@guildSettingsCreateRole": {
         "description": "Button to create a new role."
@@ -7749,30 +7103,9 @@
     "@guildSettingsRolesListTitle": {
         "description": "Title for the roles list section."
     },
-    "guildSettingsEmojiSlotInfo": "{staticCount} statikus, {animatedCount} animált hangulatjel hely használatban",
-    "@guildSettingsEmojiSlotInfo": {
-        "description": "Emoji slot usage summary.",
-        "placeholders": {
-            "staticCount": {
-                "type": "int"
-            },
-            "animatedCount": {
-                "type": "int"
-            }
-        }
-    },
     "guildSettingsEmojiEmpty": "Még nincsenek egyéni hangulatjelek.",
     "@guildSettingsEmojiEmpty": {
         "description": "Empty state for emoji settings."
-    },
-    "guildSettingsStickersSlotInfo": "{count} matrica feltöltve",
-    "@guildSettingsStickersSlotInfo": {
-        "description": "Sticker slot usage summary.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsStickersEmpty": "Még nincsenek egyéni matricák.",
     "@guildSettingsStickersEmpty": {
@@ -7818,8 +7151,6 @@
     "guildSettingsVerificationMediumDescription": "Ellenőrzött e-mail címet és legalább 5 perces fiókot igényel.",
     "guildSettingsVerificationHigh": "Magas",
     "guildSettingsVerificationHighDescription": "A közepes szint minden feltételét megköveteli, továbbá legalább 10 perces közösségi tagságot.",
-    "guildSettingsVerificationHighest": "Nagyon magas",
-    "guildSettingsVerificationHighestDescription": "Igazolt telefonszám szükséges.",
     "guildSettingsAuditLogDescription": "Kövesd nyomon a moderátori műveleteket a közösségben.",
     "@guildSettingsAuditLogDescription": {
         "description": "Subtitle under the activity-log page title."
@@ -7847,14 +7178,6 @@
     "guildSettingsAuditLogUnknownUser": "Ismeretlen felhasználó",
     "@guildSettingsAuditLogUnknownUser": {
         "description": "Fallback avatar label when the acting user is unavailable."
-    },
-    "guildSettingsAuditLogLoadError": "Hiba történt a tevékenységnapló betöltése közben.",
-    "@guildSettingsAuditLogLoadError": {
-        "description": "Generic error shown when fetching log entries fails."
-    },
-    "guildSettingsAuditLogLoadErrorTitle": "Nem sikerült betölteni a tevékenységnaplókat",
-    "@guildSettingsAuditLogLoadErrorTitle": {
-        "description": "Error-state title when fetching log entries failed."
     },
     "guildSettingsAuditLogReason": "Ok (indoklás)",
     "@guildSettingsAuditLogReason": {
@@ -8826,14 +8149,6 @@
     "@auditLogOptionPermanentMembership": {
         "description": "Audit log option detail sentence."
     },
-    "guildSettingsLoadMore": "Több betöltése",
-    "@guildSettingsLoadMore": {
-        "description": "Button to load more audit log entries."
-    },
-    "guildSettingsLoadingMore": "Betöltés...",
-    "@guildSettingsLoadingMore": {
-        "description": "Loading state for pagination."
-    },
     "guildSettingsWebhooksDescription": "A közösségedben beállított összes webhook megtekintése és kezelése.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
@@ -8842,42 +8157,9 @@
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
-    "guildSettingsCopyUrl": "URL másolása",
-    "@guildSettingsCopyUrl": {
-        "description": "Tooltip to copy a URL."
-    },
     "guildSettingsCopiedUrl": "URL vágólapra másolva",
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
-    },
-    "guildSettingsDeleteWebhook": "Webhook törlése",
-    "@guildSettingsDeleteWebhook": {
-        "description": "Tooltip to delete a webhook."
-    },
-    "guildSettingsVanityUrlDescription": "Állíts be egyéni meghívólinket a szerveredhez.",
-    "@guildSettingsVanityUrlDescription": {
-        "description": "Description for vanity URL tab."
-    },
-    "guildSettingsVanityUrlHint": "my-server",
-    "@guildSettingsVanityUrlHint": {
-        "description": "Hint for vanity URL input."
-    },
-    "guildSettingsSave": "Mentés",
-    "@guildSettingsSave": {
-        "description": "Generic save button label."
-    },
-    "guildSettingsVanityUrlUsageTitle": "Használat",
-    "@guildSettingsVanityUrlUsageTitle": {
-        "description": "Title for vanity URL usage section."
-    },
-    "guildSettingsVanityUrlUses": "{count} használat",
-    "@guildSettingsVanityUrlUses": {
-        "description": "Vanity URL usage count.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsDiscoveryDescription": "Tedd közzé a közösségedet a Felfedezésben, hogy mások is megtalálhassák és csatlakozhassanak hozzá.",
     "@guildSettingsDiscoveryDescription": {
@@ -8916,10 +8198,6 @@
     "@guildSettingsDiscoveryWithdraw": {
         "description": "Button to withdraw discovery application."
     },
-    "guildSettingsMembersDescription": "Keresés és kezelés a szer tagjai között.",
-    "@guildSettingsMembersDescription": {
-        "description": "Description for members tab."
-    },
     "guildSettingsMembersSearchHint": "Keresés felhasználónév vagy azonosító alapján",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
@@ -8941,27 +8219,6 @@
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
-    "guildSettingsInviteUses": "{uses} / {maxUses} használat",
-    "@guildSettingsInviteUses": {
-        "description": "Invite usage count.",
-        "placeholders": {
-            "uses": {
-                "type": "int"
-            },
-            "maxUses": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsInviteExpires": "Lejár: {date}",
-    "@guildSettingsInviteExpires": {
-        "description": "Invite expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBansDescription": "Kitiltott felhasználók megtekintése és kezelése.",
     "@guildSettingsBansDescription": {
         "description": "Description for bans tab."
@@ -8974,30 +8231,9 @@
     "@guildSettingsBansEmpty": {
         "description": "Empty state for bans."
     },
-    "guildSettingsBanPermanent": "Végleges letiltás",
-    "@guildSettingsBanPermanent": {
-        "description": "Label for permanent ban."
-    },
-    "guildSettingsBanExpires": "Lejár: {date}",
-    "@guildSettingsBanExpires": {
-        "description": "Ban expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBanExpiresLabel": "Lejár",
     "@guildSettingsBanExpiresLabel": {
         "description": "Label for ban expiration row."
-    },
-    "guildSettingsUnban": "Feloldás",
-    "@guildSettingsUnban": {
-        "description": "Button to unban a user."
-    },
-    "guildSettingsBansLoading": "Kitiltott felhasználók betöltése",
-    "@guildSettingsBansLoading": {
-        "description": "Loading state for the guild bans list."
     },
     "guildSettingsBansNoSearchResults": "Nincs a keresésnek megfelelő kitiltás.",
     "@guildSettingsBansNoSearchResults": {
@@ -9041,10 +8277,6 @@
             }
         }
     },
-    "guildSettingsBansLoadError": "Nem sikerült betölteni a letiltásokat. Próbáld újra.",
-    "@guildSettingsBansLoadError": {
-        "description": "Error when loading the guild bans list fails."
-    },
     "guildSettingsRevokeBanError": "Nem sikerült visszavonni a letiltást. Próbáld újra.",
     "@guildSettingsRevokeBanError": {
         "description": "Error when revoking a ban fails."
@@ -9069,7 +8301,6 @@
     "@guildSettingsCategoryPeople": {
         "description": "Sidebar category for members, invites, and bans."
     },
-    "guildSettingsOverviewDescription": "Közösséged profiljának, csatornáinak és alapértelmezett beállításainak kezelése.",
     "guildSettingsOverviewBrandingTitle": "Arculat",
     "guildSettingsOverviewBrandingDescription": "Profilkép, név, banner és meghívó háttér frissítése",
     "@guildSettingsOverviewBrandingDescription": {
@@ -9088,7 +8319,6 @@
     },
     "guildSettingsOverviewNotificationsTitle": "Alapértelmezett értesítések",
     "guildSettingsOverviewNotificationsLargeGuild": "A 250 főnél nagyobb közösségekben kötelező a „Csak említések” beállítás. Az eredeti beállításod megmarad, és visszaáll, ha a közösség létszáma 250 alá csökken.",
-    "guildSettingsOverviewAdvancedTitle": "Speciális",
     "guildSettingsOverviewFlexibleNames": "Rugalmas szöveges csatornanevek engedélyezése",
     "guildSettingsOverviewHideOwnerCrown": "Közösségtulajdonosi korona elrejtése",
     "guildSettingsOverviewDetachedBanner": "Különálló borítókép",
@@ -9114,10 +8344,6 @@
     "guildSettingsOverviewEmbedSplashTitle": "Csevegésbe ágyazott tartalom háttere",
     "@guildSettingsOverviewEmbedSplashTitle": {
         "description": "Title for embed splash upload section."
-    },
-    "guildSettingsOverviewEmbedSplashHint": "Megjelenik a chatben található meghívó-beágyazásokban.",
-    "@guildSettingsOverviewEmbedSplashHint": {
-        "description": "Note shown when uploading chat embed background."
     },
     "guildSettingsOverviewUploadBackground": "Háttér feltöltése",
     "@guildSettingsOverviewUploadBackground": {
@@ -9284,8 +8510,6 @@
     "@guildSettingsOverviewEmbedSplashUploadHint": {
         "description": "Upload requirements for chat embed background images."
     },
-    "guildSettingsModerationDescription": "Állítsd be az ellenőrzést, a tartalom szűrését és az érett tartalom beállításait.",
-    "guildSettingsModerationDiscoveryNotice": "A Discoveryben szereplő közösségek moderálási lehetőségei korlátozottak.",
     "guildSettingsModerationContentFilterTitle": "Tartalomszűrés",
     "guildSettingsModerationContentFilterDescription": "Automatikusan ellenőrzi, hogy tartalmaznak-e explicit tartalmat a felnőtt tartalomra nem megjelölt csatornák üzenetei.",
     "guildSettingsModerationContentFilterDiscoveryNote": "A Discoveryben szereplő közösségek kötelesek minden tagot szűrni. Ez a beállítás nem változtatható meg, amíg a Discovery engedélyezve van.",
@@ -9295,8 +8519,6 @@
     "guildSettingsContentFilterNoRoleDescription": "A legtöbb közösség számára ajánlott",
     "guildSettingsContentFilterAll": "Minden tag üzeneteinek szűrése",
     "guildSettingsContentFilterAllDescription": "Maximális védelem a családbarát tereknek",
-    "guildSettingsModerationMatureOff": "Ki",
-    "guildSettingsModerationMatureOn": "Be",
     "guildSettingsContentWarningToggle": "Tartalmi figyelmeztetés megjelenítése",
     "@guildSettingsContentWarningToggle": {
         "description": "Switch label for the community content warning setting."
@@ -9316,7 +8538,6 @@
     "guildSettingsModeration2faTitle": "2FA-követelmény",
     "guildSettingsModeration2faDescription": "Követeld meg a moderátoroktól a kétfaktoros hitelesítést, mielőtt kitilthatnak, eltávolíthatnak, időtúllépést adhatnak, vagy törölhetnek üzeneteket.",
     "guildSettingsModeration2faSwitchLabel": "Kétlépcsős azonosítás megkövetelése a moderálási műveletekhez",
-    "guildSettingsModeration2faOwnerOnlyTooltip": "Ezt a beállítást csak a közösség tulajdonosa módosíthatja",
     "guildSettingsModeration2faEnableFirstTooltip": "A beállítás módosításához engedélyezd a kétlépcsős azonosítást a fiókodon",
     "guildSettingsEmojiSearchHint": "Emojik keresése",
     "guildSettingsEmojiUploadTitle": "Emoji feltöltése",
@@ -9338,8 +8559,6 @@
     },
     "guildSettingsStickersSearchHint": "Matricák keresése",
     "guildSettingsWebhooksInfo": "Webhook létrehozásához nyissa meg a(z) {channelSettingsPath} oldalt. Itt továbbra is szerkeszthet és rendszerezhet minden létező webhookot.",
-    "guildSettingsVanityUrlWarning": "Az egyéni URL-je nem fog működni, hacsak legalább egy csatorna nem látható mindenki számára.",
-    "guildSettingsVanityUrlRemove": "Eltávolítás",
     "guildSettingsBannedUsersTitle": "Kitiltott felhasználók",
     "guildSettingsInvitesTableInviter": "Meghívó felhasználó",
     "guildSettingsInvitesTableChannel": "Csatorna",
@@ -9362,6 +8581,80 @@
     "userProfileLocalTime": "Helyi idő",
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
+    },
+    "profileLocalTimeSettingsTitle": "Profil helyi ideje",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "Állítsd be egyszer az időzónádat, hogy a(z) {productName} a nyári időszámítás változásakor is naprakészen tarthassa az UTC-eltolódásodat. Mások csak az UTC-eltolódásodat látják, a pontos időzóna-azonosítódat nem.",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "Helyi idő szerkesztése",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "Időzóna",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "Válaszd ki, melyik időzóna alapján számolja ki a(z) {productName} a profilodon megjelenő helyi idő UTC-eltolását.",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "Időzónák keresése",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "Nincs beállítva",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "Ha megosztod a helyi időt a profilodon, mások csak az aktuális UTC-eltolódásodat látják. A pontos időzóna-azonosítót, például ezt: {timezoneIdentifierExample}, nem látják. A(z) {productName} csak azért tárolja ezt az azonosítót, hogy az eltolódás a nyári időszámítás változásakor automatikusan frissülhessen.",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "Mindenki",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "Bárki láthatja a helyi idődet, aki megtekintheti a teljes profilodat",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "Ismerősök",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "Az ismerőseid láthatják a helyi idődet",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "Közösségi tagok",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "A közösségeid tagjai láthatják a helyi idődet",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
     },
     "userProfileTimeAheadOfYou": "Időeltérés hozzád képest: +{duration}",
     "@userProfileTimeAheadOfYou": {
@@ -9527,16 +8820,6 @@
     "@audioAndVideoMicTestStopLabel": {
         "description": "Button label to stop the microphone test."
     },
-    "audioAndVideoMicTestPermissionRequired": "A {productName}-nek mikrofon-hozzáférésre van szüksége a bemenet teszteléséhez.",
-    "@audioAndVideoMicTestPermissionRequired": {
-        "description": "Shown when microphone permission is required for the mic test.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
     "audioAndVideoCameraLabel": "Kamera",
     "@audioAndVideoCameraLabel": {
         "description": "Label for camera device selection."
@@ -9581,29 +8864,9 @@
     "@audioAndVideoFrameRate60Label": {
         "description": "Screen share frame rate option for 60 FPS."
     },
-    "audioAndVideoHigherQualityRequiresPremium": "Az 1080p 60 FPS beállításhoz {premiumProductName} szükséges.",
-    "@audioAndVideoHigherQualityRequiresPremium": {
-        "description": "Note shown when higher video quality options require premium.",
-        "placeholders": {
-            "premiumProductName": {
-                "type": "String",
-                "example": "Plutonium"
-            }
-        }
-    },
     "audioAndVideoInstanceVideoQualityLimit": "Ez a példány jelenleg legfeljebb 720p 30 FPS-t engedélyez.",
     "@audioAndVideoInstanceVideoQualityLimit": {
         "description": "Note shown when instance limits block higher screen share quality."
-    },
-    "audioAndVideoMicrophonePermissionRequired": "A(z) {productName} mikrofon-hozzáférést igényel az eszközök listázásához.",
-    "@audioAndVideoMicrophonePermissionRequired": {
-        "description": "Shown when microphone permission is required to enumerate audio input devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
     },
     "addGuildCreateTitle": "Közösség létrehozása",
     "@addGuildCreateTitle": {
@@ -9678,10 +8941,6 @@
     "@accessibilitySaturationTitle": {
         "description": "Section title for the theme saturation slider on the accessibility settings page."
     },
-    "accessibilitySaturationDescription": "Szabályozza, hogy mennyire élénken jelennek meg a témaszínek az alkalmazásban.",
-    "@accessibilitySaturationDescription": {
-        "description": "Section description for the theme saturation slider on the accessibility settings page."
-    },
     "lookAndFeelChatWallpaperTitle": "Csevegés háttere",
     "@lookAndFeelChatWallpaperTitle": {
         "description": "Look and Feel section title for chat wallpaper presets."
@@ -9705,6 +8964,10 @@
     "lookAndFeelChatWallpaperCustomLabel": "Egyéni kép",
     "@lookAndFeelChatWallpaperCustomLabel": {
         "description": "Chat wallpaper option that picks an image from the gallery."
+    },
+    "lookAndFeelChatWallpaperStarfieldLabel": "Csillagmező",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
     },
     "lookAndFeelChatWallpaperColorLabel": "Szín {id}",
     "@lookAndFeelChatWallpaperColorLabel": {
@@ -9731,10 +8994,6 @@
     "lookAndFeelChatWallpaperPickFailed": "Nem sikerült beállítani ezt a képet háttérképként.",
     "@lookAndFeelChatWallpaperPickFailed": {
         "description": "Toast shown when a custom wallpaper image cannot be decoded or saved."
-    },
-    "iarContinueToReportCommunity": "Tovább a közösség bejelentéséhez",
-    "@iarContinueToReportCommunity": {
-        "description": "Primary button in the community report pre-confirm dialog."
     },
     "systemCallMissed": "Lekésted a hívást erről: {username}.",
     "@systemCallMissed": {
@@ -10030,26 +9289,6 @@
     "@permissionManageRoles": {
         "description": "Permission name."
     },
-    "iarReasonHateGuildDescription": "Gyűlöletet szít védett csoportok ellen.",
-    "@iarReasonHateGuildDescription": {
-        "description": "Community-report reason description for hate speech."
-    },
-    "iarReasonMatureContentGuildDescription": "Felnőtt tartalom megfelelő hozzáférési korlátozás nélkül.",
-    "@iarReasonMatureContentGuildDescription": {
-        "description": "Community-report reason description for mature content or unsafe gating."
-    },
-    "iarReasonPrivacyGuildLabel": "Adatvédelmi szabálysértés vagy doxxing",
-    "@iarReasonPrivacyGuildLabel": {
-        "description": "Community-report reason label for privacy violation or doxxing."
-    },
-    "iarReasonPrivacyGuildDescription": "Személyes adatokat oszt meg, felhasználókat zaklat, vagy a magánélet megsértését koordinálja.",
-    "@iarReasonPrivacyGuildDescription": {
-        "description": "Community-report reason description for privacy violation or doxxing."
-    },
-    "iarReasonSelfHarmGuildLabel": "Önsértésre buzdít",
-    "@iarReasonSelfHarmGuildLabel": {
-        "description": "Community-report reason label for self-harm encouragement."
-    },
     "userSettingsNavNotifications": "Értesítések",
     "@userSettingsNavNotifications": {
         "description": "User settings navigation item for notification settings."
@@ -10061,10 +9300,6 @@
     "notificationsEnableNotificationsLabel": "Értesítések engedélyezése",
     "@notificationsEnableNotificationsLabel": {
         "description": "Toggle label for enabling push or system notifications."
-    },
-    "notificationsEnableBrowserNotificationsDescription": "Értesítést kapsz, ha üzeneteket fogadsz. Lehet, hogy engedélyezned kell az értesítéseket a böngészőbeállításaidban. A csatornánkénti/közösségenkénti vezérléshez kattints jobb gombbal egy közösség ikonjára, és nyisd meg az értesítési beállításokat.",
-    "@notificationsEnableBrowserNotificationsDescription": {
-        "description": "Description for the enable browser notifications toggle."
     },
     "notificationsPushInactiveTimeoutOneMinute": "{oneMinute} perc",
     "@notificationsPushInactiveTimeoutOneMinute": {
@@ -10159,54 +9394,6 @@
                 "type": "String"
             }
         }
-    },
-    "iarReportGuildPreconfirmBody": "Ha a bejelentés a közösség egy konkrét üzenetére vonatkozik, inkább azt az üzenetet jelentsd be. Az üzenet bejelentése mutatja meg legjobban a körülményeket a biztonsági csapatunknak, a megjegyzésekben megadott részletek pedig gyorsíthatják az elbírálást. Csak akkor jelentsd be az egész közösséget, ha egy üzenet bejelentése nem mutatná meg a probléma teljes körét.",
-    "@iarReportGuildPreconfirmBody": {
-        "description": "Body shown in the pre-confirm dialog before opening the community report sheet."
-    },
-    "iarReasonHarassmentGuildLabel": "Zaklatás vagy célzott visszaélés",
-    "@iarReasonHarassmentGuildLabel": {
-        "description": "Community-report reason label for harassment or targeted abuse."
-    },
-    "iarReasonHarassmentGuildDescription": "A közösség megkönnyíti a tömeges támadásokat vagy a célzott zaklatást.",
-    "@iarReasonHarassmentGuildDescription": {
-        "description": "Community-report reason description for harassment or targeted abuse."
-    },
-    "iarReasonTerrorismLabel": "Terrorizmus vagy erőszakos szélsőségesség",
-    "@iarReasonTerrorismLabel": {
-        "description": "Community-report reason label for terrorism or violent extremism."
-    },
-    "iarReasonTerrorismDescription": "Erőszakos szélsőséges tevékenységet népszerűsít vagy szervez, illetve arra toboroz.",
-    "@iarReasonTerrorismDescription": {
-        "description": "Community-report reason description for terrorism or violent extremism."
-    },
-    "iarReasonMatureContentGuildLabel": "Felnőtt tartalom vagy nem megfelelő hozzáférési korlátozás",
-    "@iarReasonMatureContentGuildLabel": {
-        "description": "Community-report reason label for mature content or unsafe gating."
-    },
-    "iarReasonChildSafetyGuildDescription": "Kiskorúakat veszélyeztet, vagy gyermekek kizsákmányolásával kapcsolatos tartalmat tartalmaz.",
-    "@iarReasonChildSafetyGuildDescription": {
-        "description": "Community-report reason description for child safety."
-    },
-    "iarReasonRaidLabel": "Összehangolt támadás szervezése",
-    "@iarReasonRaidLabel": {
-        "description": "Community-report reason label for raid coordination."
-    },
-    "iarReasonRaidDescription": "Személyek vagy közösségek ellen szervez összehangolt támadásokat, tömeges fellépést vagy zaklatást.",
-    "@iarReasonRaidDescription": {
-        "description": "Community-report reason description for raid coordination."
-    },
-    "iarReasonSpamGuildDescription": "A közösség spamküldésre, átverésre vagy a platformmal való visszaélésre jött létre.",
-    "@iarReasonSpamGuildDescription": {
-        "description": "Community-report reason description for spam, scams, or phishing."
-    },
-    "iarReasonMalwareGuildLabel": "Kártevő terjesztése",
-    "@iarReasonMalwareGuildLabel": {
-        "description": "Community-report reason label for malware distribution."
-    },
-    "iarReasonMalwareGuildDescription": "Kártevőket, hitelesítőadat-lopást vagy káros fájlokat terjeszt.",
-    "@iarReasonMalwareGuildDescription": {
-        "description": "Community-report reason description for malware distribution."
     },
     "invalidDeepLinkTitle": "A hivatkozás nem nyitható meg",
     "@invalidDeepLinkTitle": {
@@ -10407,14 +9594,6 @@
     "@languageAndTimeTimeFormat24Hour": {
         "description": "Time format option for 24-hour display."
     },
-    "guildSettingsRolesSwitchToTwoColumns": "Váltás két oszlopra",
-    "@guildSettingsRolesSwitchToTwoColumns": {
-        "description": "Aria label for switching to two columns."
-    },
-    "guildSettingsRolesCustomHoistOrder": "Külön megjelenített szerepkörök egyéni sorrendje",
-    "@guildSettingsRolesCustomHoistOrder": {
-        "description": "Button to enter custom hoist order mode."
-    },
     "guildSettingsRolesHoistOrder": "Külön megjelenített szerepkörök sorrendje",
     "@guildSettingsRolesHoistOrder": {
         "description": "Header for hoist order sub-mode."
@@ -10529,14 +9708,6 @@
     "@guildSettingsRolesClearPermissions": {
         "description": "Button to clear all role permissions."
     },
-    "guildSettingsRolesSwitchToDenseLayout": "Váltás sűrű elrendezésre",
-    "@guildSettingsRolesSwitchToDenseLayout": {
-        "description": "Aria label for switching to dense layout."
-    },
-    "guildSettingsRolesSwitchToComfyLayout": "Átváltás kényelmes elrendezésre",
-    "@guildSettingsRolesSwitchToComfyLayout": {
-        "description": "Aria label for switching to comfy layout."
-    },
     "guildSettingsRolesSingleColumn": "Egy oszlop",
     "@guildSettingsRolesSingleColumn": {
         "description": "Tooltip when permission list is in two-column layout."
@@ -10544,10 +9715,6 @@
     "guildSettingsRolesTwoColumns": "Két oszlop",
     "@guildSettingsRolesTwoColumns": {
         "description": "Tooltip when permission list is in single-column layout."
-    },
-    "guildSettingsRolesSwitchToSingleColumn": "Váltás egyoszlopos nézetre",
-    "@guildSettingsRolesSwitchToSingleColumn": {
-        "description": "Aria label for switching to single column."
     },
     "guildSettingsRolesHoistOrderHelp": "Húzd a szerepköröket a taglistában megjelenő sorrendjük beállításához.",
     "@guildSettingsRolesHoistOrderHelp": {
@@ -10919,18 +10086,6 @@
     "@nagbarPushNotification": {
         "description": "Push notification permission nagbar body."
     },
-    "iarReportGuildTitle": "Közösség bejelentése",
-    "@iarReportGuildTitle": {
-        "description": "Title of the simple community-report sheet."
-    },
-    "iarPreviewCommunitySubtitle": "Közösség",
-    "@iarPreviewCommunitySubtitle": {
-        "description": "Subtitle shown under the community name in the IAR preview card."
-    },
-    "iarReasonSelfHarmGuildDescription": "Öngyilkosságra, önkárosításra vagy étkezési zavarokra buzdít.",
-    "@iarReasonSelfHarmGuildDescription": {
-        "description": "Community-report reason description for self-harm encouragement."
-    },
     "systemCallDurationOneMonth": "1 hónap",
     "@systemCallDurationOneMonth": {
         "description": "Duration label when a call lasted about one month."
@@ -10990,10 +10145,6 @@
     "permissionCategoryAudioVideo": "Hang és videó",
     "@permissionCategoryAudioVideo": {
         "description": "Permission category label."
-    },
-    "permissionUnknown": "Ismeretlen jogosultság",
-    "@permissionUnknown": {
-        "description": "Fallback permission label."
     },
     "permissionManageCommunity": "Közösség kezelése",
     "@permissionManageCommunity": {
@@ -11141,10 +10292,6 @@
     "createDmFailed": "Nem sikerült létrehozni a beszélgetést. Próbáld újra.",
     "@createDmFailed": {
         "description": "Generic error when DM or group DM creation fails."
-    },
-    "languageAndTimeOpenLanguageSettings": "Nyelvi beállítások megnyitása",
-    "@languageAndTimeOpenLanguageSettings": {
-        "description": "Button that opens the system per-app language settings."
     },
     "userProfileSameTimeAsYou": "Ugyanannyi az idő, mint nálad",
     "@userProfileSameTimeAsYou": {
@@ -11372,10 +10519,6 @@
     "@groupDmWelcomeAddFriends": {
         "description": "Primary action on the group DM welcome hero."
     },
-    "groupDmFailedToProcessCroppedImage": "Nem sikerült feldolgozni a körbevágott képet. Próbáld újra.",
-    "@groupDmFailedToProcessCroppedImage": {
-        "description": "Body when a cropped group icon cannot be processed."
-    },
     "groupDmInvalidImage": "Érvénytelen kép",
     "@groupDmInvalidImage": {
         "description": "Title when the selected group icon image cannot be used."
@@ -11544,10 +10687,6 @@
     "@groupDmEditTitle": {
         "description": "Title for the edit group DM modal or sheet."
     },
-    "groupDmEditDetailsTooltip": "Csoportadatok szerkesztése",
-    "@groupDmEditDetailsTooltip": {
-        "description": "Tooltip on the desktop group DM header edit action."
-    },
     "groupDmGroupName": "Csoport neve",
     "@groupDmGroupName": {
         "description": "Label for the group name field in edit group."
@@ -11634,10 +10773,6 @@
     "@groupDmIconFileTooLargeTitle": {
         "description": "Title when the selected group icon exceeds the size limit."
     },
-    "groupDmCouldntProcessImage": "Nem sikerült feldolgozni a képet",
-    "@groupDmCouldntProcessImage": {
-        "description": "Title when a cropped group icon cannot be processed."
-    },
     "groupDmInvalidImageBody": "Ez a kép érvénytelen. Próbálj másikat.",
     "@groupDmInvalidImageBody": {
         "description": "Body when the selected group icon image cannot be used."
@@ -11645,14 +10780,6 @@
     "groupDmAddFriends": "Hozzáadás",
     "@groupDmAddFriends": {
         "description": "Button to add selected friends to a group DM."
-    },
-    "groupDmAddFailed": "Nem sikerült hozzáadni a csoporthoz",
-    "@groupDmAddFailed": {
-        "description": "Title when adding friends to a group DM fails."
-    },
-    "groupDmCreateInviteFailed": "Nem sikerült meghívólinket létrehozni",
-    "@groupDmCreateInviteFailed": {
-        "description": "Title when invite link generation fails."
     },
     "groupDmCopyInviteFailed": "Nem sikerült kimásolni a meghívólinket",
     "@groupDmCopyInviteFailed": {
@@ -11980,16 +11107,6 @@
     "@channelDetailsSearchContentStickerDescription": {
         "description": "Description for the sticker content filter."
     },
-    "audioAndVideoCameraPermissionRequired": "A(z) {productName} alkalmazásnak kamera-hozzáférésre van szüksége az eszközök listázásához.",
-    "@audioAndVideoCameraPermissionRequired": {
-        "description": "Shown when camera permission is required to enumerate video devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
     "createDmVerifyToStartDms": "Közvetlen beszélgetések indításához erősítsd meg az e-mail-címedet.",
     "@createDmVerifyToStartDms": {
         "description": "Blocked state when an unverified account cannot start DMs."
@@ -12037,10 +11154,6 @@
     "@nagbarEnableNotifications": {
         "description": "Push notification permission nagbar CTA."
     },
-    "phoneNumberRequired": "Telefonszám megadása kötelező",
-    "@phoneNumberRequired": {
-        "description": "Validation error when phone number is empty."
-    },
     "channelDetailsPinsDmEndHint": "Ebben a beszélgetésben üzeneteket tűzhetsz ki, hogy mindenki lássa őket.",
     "@channelDetailsPinsDmEndHint": {
         "description": "Footer hint at the end of the pins list in DM channels."
@@ -12064,126 +11177,6 @@
     "guildNavbarChannelTypeSelection": "Csatornatípus kiválasztása",
     "@guildNavbarChannelTypeSelection": {
         "description": "Accessibility label for channel type radio group in create channel modal."
-    },
-    "phoneTooManyAttempts": "Túl sok próbálkozás. Várj egy kicsit, majd próbáld újra.",
-    "@phoneTooManyAttempts": {
-        "description": "Rate limit error for phone verification."
-    },
-    "phoneSmsUnavailable": "Az SMS-ellenőrzés jelenleg nem érhető el. Próbáld újra később, vagy fordulj az ügyfélszolgálathoz.",
-    "@phoneSmsUnavailable": {
-        "description": "SMS provider unavailable error."
-    },
-    "phoneNotEligible": "A telefonszám-ellenőrzés nem érhető el ehhez a fiókhoz. Használj másik módszert, vagy fordulj az ügyfélszolgálathoz.",
-    "@phoneNotEligible": {
-        "description": "Account not eligible for phone verification."
-    },
-    "phoneSomethingWentWrong": "Hiba történt. Próbáld újra.",
-    "@phoneSomethingWentWrong": {
-        "description": "Generic phone verification error."
-    },
-    "phoneInboundGetNewCode": "Új kód kérése",
-    "@phoneInboundGetNewCode": {
-        "description": "Button to refresh inbound challenge."
-    },
-    "phoneInboundChallengeCodeLabel": "Küldendő kód",
-    "@phoneInboundChallengeCodeLabel": {
-        "description": "Label for inbound challenge code."
-    },
-    "phoneInboundOurNumberLabel": "Küldés ide",
-    "@phoneInboundOurNumberLabel": {
-        "description": "Label for inbound destination number."
-    },
-    "requiredActionTitle": "Fiókellenőrzés szükséges",
-    "@requiredActionTitle": {
-        "description": "Title for required action blocking modal."
-    },
-    "requiredActionResendVerificationEmail": "Megerősítő e-mail újraküldése",
-    "@requiredActionResendVerificationEmail": {
-        "description": "Button to resend verification email."
-    },
-    "requiredActionSignOut": "Kijelentkezés",
-    "@requiredActionSignOut": {
-        "description": "Sign out button in required action modal."
-    },
-    "phoneCountryLabel": "Ország",
-    "@phoneCountryLabel": {
-        "description": "Label for country selector in phone verification."
-    },
-    "phoneSearchCountries": "Országok keresése...",
-    "@phoneSearchCountries": {
-        "description": "Search hint for country selector."
-    },
-    "phoneEnterValidNumber": "Adj meg egy érvényes mobilszámot.",
-    "@phoneEnterValidNumber": {
-        "description": "Validation error for invalid phone format."
-    },
-    "phoneCannotBeUsed": "Ez a telefonszám nem használható. Próbálj másik mobilszámot, vagy fordulj az ügyfélszolgálathoz.",
-    "@phoneCannotBeUsed": {
-        "description": "API error when phone number is rejected."
-    },
-    "requiredActionUseEmail": "E-mail használata",
-    "@requiredActionUseEmail": {
-        "description": "Button to choose email verification."
-    },
-    "phoneAlreadyUsed": "Ezt a telefonszámot már használták. Próbálj másik számot, vagy fordulj az ügyfélszolgálathoz.",
-    "@phoneAlreadyUsed": {
-        "description": "API error when phone number was reused."
-    },
-    "phoneCodeDidNotWork": "Ez a kód nem működött. Ellenőrizd, és próbáld újra.",
-    "@phoneCodeDidNotWork": {
-        "description": "API error for invalid verification code."
-    },
-    "phoneInboundExpensiveDescription": "SMS küldése erre a telefonszámra túl drága, ezért kérjük, hogy Ön küldjön nekünk SMS-t. A támogatási csapatunkkal is felveheti a kapcsolatot, hogy eltávolíttassa ezt a követelményt a fiókjából.",
-    "@phoneInboundExpensiveDescription": {
-        "description": "Inbound challenge reason for expensive destinations."
-    },
-    "phoneInboundDefaultDescription": "SMS-ben kell igazolnod a telefonszámodat.",
-    "@phoneInboundDefaultDescription": {
-        "description": "Default inbound challenge description."
-    },
-    "phoneInboundStepOpenMessaging": "Nyisd meg a telefonod üzenetküldő alkalmazását, és hozz létre egy új szöveges üzenetet.",
-    "@phoneInboundStepOpenMessaging": {
-        "description": "Inbound verification step 1."
-    },
-    "phoneInboundStepSendCode": "Küldd el a {code} kódot a {number} címre.",
-    "@phoneInboundStepSendCode": {
-        "description": "Inbound verification step 2.",
-        "placeholders": {
-            "code": {
-                "type": "String"
-            },
-            "number": {
-                "type": "String"
-            }
-        }
-    },
-    "phoneInboundStepWait": "Várj, amíg megkapjuk az üzeneted. Ez egy percet vehet igénybe.",
-    "@phoneInboundStepWait": {
-        "description": "Inbound verification step 3."
-    },
-    "requiredActionIntroPhone": "A regisztrációdhoz még egy spamellenőrzés szükséges, mielőtt folytathatnád.",
-    "@requiredActionIntroPhone": {
-        "description": "Phone-only required action intro."
-    },
-    "requiredActionChooseMethodTitle": "Válassz ellenőrzési módszert",
-    "@requiredActionChooseMethodTitle": {
-        "description": "Title when user can pick email or phone."
-    },
-    "requiredActionUsePhone": "Telefon használata",
-    "@requiredActionUsePhone": {
-        "description": "Button to choose phone verification."
-    },
-    "requiredActionCheckEmailTitle": "Ellenőrizd az e-mailjeidet",
-    "@requiredActionCheckEmailTitle": {
-        "description": "Title for email verification instructions."
-    },
-    "requiredActionCheckEmailDescription": "Küldtünk egy ellenőrző linket az e-mail címedre. Nyisd meg a folytatáshoz.",
-    "@requiredActionCheckEmailDescription": {
-        "description": "Description for email verification instructions."
-    },
-    "requiredActionVerificationEmailSent": "Ellenőrző e-mail elküldve. Nézd meg a beérkező üzeneteidet.",
-    "@requiredActionVerificationEmailSent": {
-        "description": "Toast after resending verification email."
     },
     "channelSettingsSlowmodeOff": "Ki",
     "@channelSettingsSlowmodeOff": {
@@ -12274,10 +11267,6 @@
     "guildSettingsRolesEditSubtitle": "Szerepkör-beállítások és jogosultságok megadása",
     "@guildSettingsRolesEditSubtitle": {
         "description": "Subtitle for the role editor panel."
-    },
-    "guildSettingsRolesLockedTooltip": "Ezt a szerepkört nem szerkesztheted, mert ez a legmagasabb szerepköröd, vagy nálad magasabb rangú",
-    "@guildSettingsRolesLockedTooltip": {
-        "description": "Tooltip on locked role rows."
     },
     "guildSettingsRolesCannotGrantPermission": "Nem adhatsz meg olyan jogosultságot, amellyel te sem rendelkezel",
     "@guildSettingsRolesCannotGrantPermission": {
@@ -12419,10 +11408,6 @@
     "notificationsEnableDesktopNotificationsDescription": "Az operációs rendszer értesítési központját használja. A csatornánkénti és közösségenkénti beállításokhoz kattints jobb gombbal egy közösség ikonjára, és nyisd meg az értesítési beállításokat.",
     "@notificationsEnableDesktopNotificationsDescription": {
         "description": "Description for the enable desktop notifications toggle."
-    },
-    "notificationsEnableBrowserNotificationsLabel": "Böngészőértesítések engedélyezése",
-    "@notificationsEnableBrowserNotificationsLabel": {
-        "description": "Toggle label for enabling browser notifications."
     },
     "notificationsPushInactiveTimeoutLabel": "Pushértesítésekhez szükséges inaktivitási idő",
     "@notificationsPushInactiveTimeoutLabel": {
@@ -12596,10 +11581,6 @@
     "@channelDetailsDeleteChannel": {
         "description": "Channel details menu action to delete a guild channel."
     },
-    "channelSettingsCategorySettingsTitle": "Kategóriabeállítások",
-    "@channelSettingsCategorySettingsTitle": {
-        "description": "Title for category settings modal."
-    },
     "channelSettingsEditCategory": "Kategória szerkesztése",
     "@channelSettingsEditCategory": {
         "description": "Context menu action to edit a category."
@@ -12725,18 +11706,6 @@
     "@channelSettingsVoiceRegionsLoadFailedDescription": {
         "description": "Error modal body when voice regions fail to load in channel settings."
     },
-    "channelSettingsResetSlider": "Csúszka visszaállítása alapértelmezett értékre",
-    "@channelSettingsResetSlider": {
-        "description": "Tooltip for reset buttons on channel settings sliders."
-    },
-    "channelSettingsAdvanced": "Speciális",
-    "@channelSettingsAdvanced": {
-        "description": "Collapsible advanced section title in channel overview."
-    },
-    "channelSettingsMatureContentOverride": "Felnőtt tartalom felülbírálása",
-    "@channelSettingsMatureContentOverride": {
-        "description": "Accessibility label for mature content override control."
-    },
     "channelSettingsMatureContentOffDescription": "Hagyd ezt a csatornát felnőtt tartalomra megnyitva.",
     "@channelSettingsMatureContentOffDescription": {
         "description": "Description for the mature content off override option."
@@ -12759,35 +11728,9 @@
             }
         }
     },
-    "channelSettingsMatureContentCategorySource": "kategória",
-    "@channelSettingsMatureContentCategorySource": {
-        "description": "Lowercase source label for inherited mature content from category."
-    },
-    "channelSettingsMatureContentCommunitySource": "közösség",
-    "@channelSettingsMatureContentCommunitySource": {
-        "description": "Lowercase source label for inherited mature content from community."
-    },
     "channelSettingsContentWarningDefault": "Ez érzékeny tartalmat tartalmaz.",
     "@channelSettingsContentWarningDefault": {
         "description": "Default content warning text placeholder."
-    },
-    "channelSettingsPermissionsNeedManageChannels": "E jogosultságok szerkesztéséhez a(z) „{manageChannelsPermissionLabel}” jogosultság szükséges.",
-    "@channelSettingsPermissionsNeedManageChannels": {
-        "description": "Error when user lacks manage channels permission for channel permissions tab.",
-        "placeholders": {
-            "manageChannelsPermissionLabel": {
-                "type": "String"
-            }
-        }
-    },
-    "channelSettingsPermissionsNeedManageRoles": "E jogosultságok szerkesztéséhez a(z) „{manageRolesPermissionLabel}” jogosultság szükséges.",
-    "@channelSettingsPermissionsNeedManageRoles": {
-        "description": "Error when user lacks manage roles permission for channel permissions tab.",
-        "placeholders": {
-            "manageRolesPermissionLabel": {
-                "type": "String"
-            }
-        }
     },
     "channelSettingsUnknownRole": "Ismeretlen szerepkör",
     "@channelSettingsUnknownRole": {
@@ -12828,10 +11771,6 @@
     "channelSettingsPermissionsSearchRolesOrMembers": "Szerepkörök vagy tagok keresése…",
     "@channelSettingsPermissionsSearchRolesOrMembers": {
         "description": "Placeholder for the add override search field."
-    },
-    "channelSettingsPermissionsRolesAndMembers": "Szerepkörök és tagok",
-    "@channelSettingsPermissionsRolesAndMembers": {
-        "description": "Section title in the add override picker."
     },
     "channelSettingsDeleteInvite": "Meghívó törlése",
     "@channelSettingsDeleteInvite": {
@@ -12884,10 +11823,6 @@
                 "type": "String"
             }
         }
-    },
-    "channelSettingsWebhooksUnknownUser": "Ismeretlen felhasználó",
-    "@channelSettingsWebhooksUnknownUser": {
-        "description": "Fallback label when webhook creator is unavailable."
     },
     "channelSettingsWebhooksAvatar": "Profilkép",
     "@channelSettingsWebhooksAvatar": {
@@ -13280,42 +12215,6 @@
     "gifPickerFavoritesEmptyDescription": "Jelölj csillaggal egy GIF-et, hogy itt lásd.",
     "@gifPickerFavoritesEmptyDescription": {
         "description": "Empty state description for the GIF picker favorites view."
-    },
-    "requiredActionIntroGeneric": "A(z) {productName} további használatához végezd el a szükséges ellenőrzést.",
-    "@requiredActionIntroGeneric": {
-        "description": "Generic required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailOrPhone": "A(z) {productName} további használatához erősítsd meg az e-mail-címedet, vagy igazold a telefonszámodat.",
-    "@requiredActionIntroEmailOrPhone": {
-        "description": "Email or phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailAndPhone": "A(z) {productName} további használatához végezd el az alábbi kötelező e-mail- és telefonszám-ellenőrzési lépéseket.",
-    "@requiredActionIntroEmailAndPhone": {
-        "description": "Email and phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionChooseMethodDescription": "A(z) {productName} további használatához végezd el az alábbi ellenőrzési módok egyikét.",
-    "@requiredActionChooseMethodDescription": {
-        "description": "Description when user can pick email or phone.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
     },
     "networkErrorMessage": "Valami hiba történt. Kérlek, próbáld újra.",
     "@networkErrorMessage": {
@@ -13823,6 +12722,14 @@
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
     },
+    "accessibilityShowAltTextOnImagesLabel": "Alternatív szöveg megjelenítése a képeken",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "Alternatív szöveg megjelenítése a képek alatt, ha elérhető.",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
     "accessibilityDimStrikethroughTextLabel": "Áthúzott szöveg halványítása",
     "@accessibilityDimStrikethroughTextLabel": {
         "description": "Toggle label for dimming strikethrough text in messages."
@@ -13941,10 +12848,6 @@
     "accessibilityPausedGifByReducedMotion": "A csökkentett mozgás miatt szünetel. Kapcsold be a GIF-ek folyamatos lejátszásához.",
     "@accessibilityPausedGifByReducedMotion": {
         "description": "Description for GIF toggle while reduced motion is active."
-    },
-    "accessibilityGifDefaultsOffOnMobile": "Mobilon alapértelmezetten ki van kapcsolva az akkumulátor-üzemidő és az adatforgalom kímélése érdekében.",
-    "@accessibilityGifDefaultsOffOnMobile": {
-        "description": "Helper text for GIF autoplay default on mobile."
     },
     "accessibilityStickerAnimationsTitle": "Matricaanimációk",
     "@accessibilityStickerAnimationsTitle": {
@@ -14401,25 +13304,13 @@
     "@privacyDashboardFriendRequestsEveryone": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsEveryoneDesc": "Bárki küldhet neked ismerősnek jelölési kérést",
-    "@privacyDashboardFriendRequestsEveryoneDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsFriendsOfFriends": "Ismerősök ismerősei",
     "@privacyDashboardFriendRequestsFriendsOfFriends": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsFriendsOfFriendsDesc": "Engedélyezd, hogy a barátaid barátai is küldhessenek neked kéréseket",
-    "@privacyDashboardFriendRequestsFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsCommunityMembers": "Közösségi tagok",
     "@privacyDashboardFriendRequestsCommunityMembers": {
         "description": "Privacy dashboard friend request toggle label."
-    },
-    "privacyDashboardFriendRequestsCommunityMembersDesc": "Engedélyezd, hogy a közösségeid tagjai kérjenek ismerősnek.",
-    "@privacyDashboardFriendRequestsCommunityMembersDesc": {
-        "description": "Privacy dashboard friend request toggle description."
     },
     "privacyDashboardDirectMessagesTitle": "Közvetlen üzenetek",
     "@privacyDashboardDirectMessagesTitle": {
@@ -14429,65 +13320,29 @@
     "@privacyDashboardDirectMessagesMembers": {
         "description": "Privacy dashboard DM toggle label."
     },
-    "privacyDashboardDirectMessagesMembersDesc": "Engedélyezd, hogy a közösségeid tagjai közvetlen üzeneteket küldhessenek neked",
-    "@privacyDashboardDirectMessagesMembersDesc": {
-        "description": "Privacy dashboard DM toggle description."
-    },
     "privacyDashboardDirectMessagesBots": "Közvetlen üzenetek engedélyezése közösségi botoktól",
     "@privacyDashboardDirectMessagesBots": {
         "description": "Privacy dashboard bot DM toggle label."
-    },
-    "privacyDashboardDirectMessagesBotsDesc": "Engedélyezd a botoknak, hogy közvetlen üzeneteket küldjenek neked az általad használt közösségekből",
-    "@privacyDashboardDirectMessagesBotsDesc": {
-        "description": "Privacy dashboard bot DM toggle description."
-    },
-    "privacyDashboardConnectionsSectionDesc": "Vezéreld, ki küldhet neked ismerős- és közvetlen üzeneteket.",
-    "@privacyDashboardConnectionsSectionDesc": {
-        "description": "Privacy dashboard connections section description."
-    },
-    "privacyDashboardCommunicationSectionDesc": "Vezérelheted, hogy ki hívhasson téged, és ki vehessen fel csoportos csevegésekbe",
-    "@privacyDashboardCommunicationSectionDesc": {
-        "description": "Privacy dashboard communication section description."
     },
     "privacyDashboardIncomingCallsTitle": "Bejövő hívások",
     "@privacyDashboardIncomingCallsTitle": {
         "description": "Privacy dashboard incoming calls subsection title."
     },
-    "privacyDashboardIncomingCallsDesc": "Vezéreld, ki hívhat téged",
-    "@privacyDashboardIncomingCallsDesc": {
-        "description": "Privacy dashboard incoming calls subsection description."
-    },
     "privacyDashboardAllowedCallers": "Engedélyezett hívók",
     "@privacyDashboardAllowedCallers": {
         "description": "Privacy > Communication: select label."
-    },
-    "privacyDashboardIncomingCallNobody": "Senki",
-    "@privacyDashboardIncomingCallNobody": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallNobodyDesc": "Minden bejövő hívás letiltása",
     "@privacyDashboardIncomingCallNobodyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallFriendsOnly": "Csak ismerősök",
-    "@privacyDashboardIncomingCallFriendsOnly": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallFriendsOnlyDesc": "Csak a barátaid hívhassanak (ajánlott)",
     "@privacyDashboardIncomingCallFriendsOnlyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallCustom": "Ismerősök + Egyéni",
-    "@privacyDashboardIncomingCallCustom": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallCustomDesc": "Engedélyezd a barátoknak és további, általad választott csoportoknak",
     "@privacyDashboardIncomingCallCustomDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardIncomingCallEveryone": "Mindenki",
-    "@privacyDashboardIncomingCallEveryone": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallEveryoneDesc": "Engedélyezd bárkinek, hogy felhívjon, akár idegeneknek is",
     "@privacyDashboardIncomingCallEveryoneDesc": {
@@ -14497,14 +13352,6 @@
     "@privacyDashboardAdditionalGroups": {
         "description": "Privacy dashboard label for custom permission groups."
     },
-    "privacyDashboardCallFriendsOfFriendsDesc": "A barátaid barátai is felhívhatnak.",
-    "@privacyDashboardCallFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
-    "privacyDashboardCallGuildMembersDesc": "Azok, akikkel mindkettőtöknek van közös közössége, felhívhatnak.",
-    "@privacyDashboardCallGuildMembersDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
     "privacyDashboardRingBehavior": "Csengetés működése",
     "@privacyDashboardRingBehavior": {
         "description": "Privacy dashboard ring behavior subsection label."
@@ -14513,17 +13360,9 @@
     "@privacyDashboardSilentCalls": {
         "description": "Privacy dashboard silent calls toggle label."
     },
-    "privacyDashboardSilentCallsDesc": "Minden hívás néma értesítést küld csengés helyett. Alapértelmezetten a nem ismerősöktől érkező hívások mindig némák.",
-    "@privacyDashboardSilentCallsDesc": {
-        "description": "Privacy dashboard silent calls toggle description."
-    },
     "privacyDashboardGroupDmTitle": "Ki vehet fel csoportos beszélgetésekbe",
     "@privacyDashboardGroupDmTitle": {
         "description": "Privacy dashboard group DM subsection title."
-    },
-    "privacyDashboardGroupDmDesc": "Szabhatod, ki adhat hozzá csoportos csevegésekhez kérés nélkül. Bárki küldhet neked meghívó linket a csatlakozáshoz.",
-    "@privacyDashboardGroupDmDesc": {
-        "description": "Privacy dashboard group DM subsection description."
     },
     "privacyDashboardAllowedInvites": "Engedélyezett meghívások",
     "@privacyDashboardAllowedInvites": {
@@ -14544,14 +13383,6 @@
     "privacyDashboardGroupDmEveryoneDesc": "Bárki hozzáadhat csoportos csevegésekhez anélkül, hogy engedélyt kérne",
     "@privacyDashboardGroupDmEveryoneDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardGroupDmFriendsOfFriendsDesc": "A barátaid barátai felvehetnek csoportos csevegésekbe",
-    "@privacyDashboardGroupDmFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
-    },
-    "privacyDashboardGroupDmGuildMembersDesc": "Azok, akikkel mindkettőtöknek van közös közössége, felvehetnek csoportos csevegésekbe.",
-    "@privacyDashboardGroupDmGuildMembersDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
     },
     "privacyDashboardVoiceActivityTitle": "Hangtevékenység a Most aktívak részben",
     "@privacyDashboardVoiceActivityTitle": {
@@ -15084,26 +13915,6 @@
     "@composerAutocompleteOptionalArgumentsHeading": {
         "description": "Section heading in composer autocomplete for adding optional slash-command arguments."
     },
-    "composerAutocompleteChannelsHeading": "Csatornák",
-    "@composerAutocompleteChannelsHeading": {
-        "description": "Section heading in composer autocomplete for channel suggestions."
-    },
-    "composerAutocompleteMembersHeading": "Tagok",
-    "@composerAutocompleteMembersHeading": {
-        "description": "Section heading in composer autocomplete for member suggestions."
-    },
-    "composerAutocompleteUsersHeading": "Felhasználók",
-    "@composerAutocompleteUsersHeading": {
-        "description": "Section heading in composer autocomplete for user suggestions."
-    },
-    "composerAutocompleteMentionsHeading": "Említések",
-    "@composerAutocompleteMentionsHeading": {
-        "description": "Section heading in composer autocomplete for mixed mention suggestions."
-    },
-    "composerAutocompleteRolesHeading": "Szerepkörök",
-    "@composerAutocompleteRolesHeading": {
-        "description": "Section heading in composer autocomplete for role suggestions."
-    },
     "composerAutocompleteMediaHeading": "Média",
     "@composerAutocompleteMediaHeading": {
         "description": "Section heading in composer autocomplete for saved media."
@@ -15320,10 +14131,6 @@
     "memberListUnavailableBody": "A taglisták átmenetileg nem érhetők el ebben a közösségben",
     "@memberListUnavailableBody": {
         "description": "Body when member list updates are disabled for the community."
-    },
-    "channelHeaderOpenDetails": "Csatorna részleteinek megnyitása",
-    "@channelHeaderOpenDetails": {
-        "description": "Accessibility label for the channel header title area."
     },
     "channelHeaderPinnedMessages": "Rögzített üzenetek",
     "@channelHeaderPinnedMessages": {
@@ -15686,10 +14493,6 @@
     "@userSettingsSearchPlaceholder": {
         "description": "Placeholder for the user settings search field."
     },
-    "userSettingsSearchFieldLabel": "Beállítások keresése",
-    "@userSettingsSearchFieldLabel": {
-        "description": "Accessibility label for the user settings search field."
-    },
     "userSettingsSearchClear": "Keresés törlése",
     "@userSettingsSearchClear": {
         "description": "Accessibility label for clearing the user settings search field."
@@ -15716,8 +14519,6 @@
     "giftSettingsGiftUrl": "Ajándék URL-je",
     "giftSettingsCopy": "Másolás",
     "giftSettingsCopied": "Másolva",
-    "giftSettingsGiftUrlCopied": "Az ajándék URL-je a vágólapra másolva!",
-    "giftSettingsGiftUrlCopyFailed": "Nem sikerült kimásolni az ajándék URL-jét",
     "giftSettingsPurchasedDate": "Megvásárolva: {date}",
     "@giftSettingsPurchasedDate": {
         "placeholders": {
@@ -15759,7 +14560,6 @@
     "premiumBuyGift": "Ajándék vásárlása",
     "premiumOneYearGift": "1 éves ajándék",
     "premiumOneMonthGift": "1 hónapos ajándék",
-    "premiumMostPopular": "Legnépszerűbb",
     "premiumScrollPrompt": "Görgess lefelé, hogy megtekintsd a Plutonium összes előnyét",
     "premiumFreeVsPlutonium": "Ingyenes vs. Plutonium",
     "premiumFreeColumn": "Ingyenes",
@@ -15777,50 +14577,15 @@
     "premiumViewGifts": "Ajándékok megtekintése",
     "premiumReadyToUpgrade": "Készen állsz a csomagváltásra?",
     "premiumReadyToBuyGift": "Készen állsz egy ajándék vásárlására?",
-    "premiumMonthlyPrice": "Havi {price}",
-    "@premiumMonthlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumYearlyPrice": "Éves {price}",
-    "@premiumYearlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneYearPrice": "1 év {price}",
-    "@premiumOneYearPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneMonthPrice": "1 hónap {price}",
-    "@premiumOneMonthPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
     "premiumManageSubscription": "Előfizetés kezelése",
     "premiumRedeemGiftCode": "Ajándékkód beváltása",
     "premiumGiftBadge": "Ajándék",
     "premiumCancelSubscriptionTitle": "Előfizetés lemondása?",
     "premiumCancelSubscriptionBody": "Az előnyöket a következő megújítási dátumig megtartod. Ezután 3 napos türelmi időszak áll rendelkezésedre, hogy újra előfizess és megőrizd az előfizetői előzményeidet.",
     "premiumCancelSubscriptionConfirm": "Előfizetés lemondása",
-    "premiumKeepSubscription": "Előfizetés megtartása",
     "premiumPurchaseHistoryTitle": "Vásárlási előzmények",
     "premiumPurchaseHistoryDescription": "A legutóbbi számláid. Az előfizetésed fizetési módjának módosításához adj hozzá vagy válassz ki egyet a számlázási portálon, és állítsd be alapértelmezettként.",
     "premiumManagePaymentMethods": "Fizetési módok kezelése",
-    "premiumBillingHistory": "Számlázási előzmények",
-    "premiumSelfServeRefundTitle": "Önkiszolgáló visszatérítés",
     "premiumSelfServeRefundButton": "Legutóbbi vásárlás visszatérítése",
     "premiumDisclaimerAgreementPrefix": "A vásárlással elfogadja a következőket ",
     "premiumDisclaimerAgreementPastPrefix": "A vásárlással elfogadta a következőket ",
@@ -15860,23 +14625,16 @@
         "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
     },
     "premiumComparisonFeatureColumn": "Funkció",
-    "premiumDisclaimerPurchased": "A vásárlással elfogadtad a következőket: {terms} és {privacy}.",
-    "@premiumDisclaimerPurchased": {
-        "placeholders": {
-            "terms": {
-                "type": "String"
-            },
-            "privacy": {
-                "type": "String"
-            }
-        }
-    },
     "premiumDisclaimerRefund": "A fizetéstől számított 3 napon belül, 30 naponta egyszer önkiszolgáló visszatérítés kérhető. Az előfizetés visszatérítése megszünteti az előfizetést. Az EU/EGT vásárlói fizetéskor lemondanak a 14 napos elállási jogukról, hogy azonnal hozzáférhessenek a tartalomhoz. Banki visszaterhelés helyett használd az alkalmazáson belüli visszatérítési gombot. A banki visszaterhelés a fiókod végleges korlátozását eredményezheti. A fizetést a Stripe biztonságosan kezeli. A teljes kártyaszámodat soha nem látjuk.",
     "premiumTermsOfService": "Szolgáltatási feltételek",
     "premiumPrivacyPolicy": "Adatvédelmi irányelvek",
     "premiumCheckoutStartFailedTitle": "Nem sikerült elindítani a fizetést",
     "premiumCheckoutStartFailedBody": "Hiba történt a fizetés elindításakor. Próbáld újra egy kis idő múlva.",
     "premiumPlanUnavailable": "Ez a csomag nem elérhető. Vedd fel a kapcsolatot az ügyfélszolgálattal.",
+    "premiumPlanUnavailableSelfHosted": "Ez a csomag nem elérhető. Vedd fel a kapcsolatot ennek a példánynak az adminisztrátoraival.",
+    "@premiumPlanUnavailableSelfHosted": {
+        "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
+    },
     "premiumCompletePaymentTitle": "Fizetés befejezése",
     "premiumCompletePaymentBody": "Most a rendszer átirányít a Stripe oldalára a fizetés befejezéséhez. Miután befejezted, térj vissza a Fluxerbe.",
     "premiumChoosePaymentMethodTitle": "Fizetési mód kiválasztása",
@@ -15892,29 +14650,97 @@
     "premiumExistingSubscriptionTitle": "Az előfizetés már létezik",
     "premiumExistingSubscriptionBody": "Már találtunk egy meglévő Fluxer Plutonium előfizetést ehhez a fiókhoz. Kezeld a biztonságos számlázási portálon a fizetési adatok frissítéséhez vagy az újítási állapot ellenőrzéséhez. Ha most fizettél, várj egy percet, és nyisd meg újra ezt az oldalt.",
     "premiumPurchasesDisabledTitle": "Vásárlások nem elérhetők",
-    "premiumPurchasesDisabledBody": "A vásárlások le vannak tiltva ehhez a fiókhoz. Ha úgy gondolod, hogy ez hiba, lépj kapcsolatba a support@fluxer.app címmel.",
+    "premiumPurchasesDisabledBody": "A vásárlások le vannak tiltva ehhez a fiókhoz. Ha úgy gondolod, hogy ez hiba, lépj kapcsolatba a {supportEmail} címmel.",
+    "@premiumPurchasesDisabledBody": {
+        "description": "Shown on the official hosted instance when purchases are disabled for the account. supportEmail is the support mailbox.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumPurchasesDisabledBodySelfHosted": "A vásárlások le vannak tiltva ehhez a fiókhoz. Ha úgy gondolod, hogy ez hiba, lépj kapcsolatba ennek a példánynak az adminisztrátoraival.",
+    "@premiumPurchasesDisabledBodySelfHosted": {
+        "description": "Shown on a self-hosted instance when purchases are disabled for the account. Names no email address."
+    },
     "premiumClaimAccountToPurchase": "Igényeld a fiókodat a Fluxer Plutonium megvásárlásához.",
     "premiumVerifyEmailToPurchase": "A Fluxer Plutonium megvásárlásához először igazolnod kell az e-mail címedet.",
-    "premiumPerkCustomUsernameTag": "Egyéni felhasználói címke",
-    "premiumPerkPerCommunityProfiles": "Közösségenkénti profilok",
-    "premiumPerkMessageScheduling": "Üzenet ütemezése",
-    "premiumPerkProfileBadge": "Profiljelvény",
-    "premiumPerkCustomVideoBackgrounds": "Egyéni videóhátterek",
-    "premiumPerkEntranceSounds": "Belépési hangok",
     "premiumPerkCommunities": "Közösségek",
     "premiumPerkMessageCharacterLimit": "Üzenet karakterkorlátja",
     "premiumPerkBookmarkedMessages": "Mentett üzenetek",
     "premiumPerkFileUploadSize": "Fájlfeltöltés mérete",
-    "premiumPerkEmojiStickerPacks": "Emoji és matricacsomagok",
-    "premiumPerkSavedMedia": "Mentett média",
     "premiumPerkUseAnimatedEmojis": "Animált emojik használata",
-    "premiumPerkGlobalEmojiStickerAccess": "Emojik és matricák használata mindenhol",
     "premiumPerkVideoQuality": "Videó minősége",
     "premiumPerkAnimatedAvatarsBanners": "Animált profilképek és borítóképek",
     "premiumPerkEarlyAccess": "Korai hozzáférés az új funkciókhoz",
-    "premiumPerkCustomThemes": "Egyéni témák",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "Akár 4K/60fps felbontásig",
+    "storePlutoniumPriceLine": "{monthly} vagy {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/hó",
+    "storePlutoniumYearSuffix": "/év",
+    "storePlutoniumPriceOr": "vagy",
+    "storePlutoniumEmojiTitle": "Emojijaid mindenhol",
+    "storePlutoniumEmojiBody": "Hozd el a közösségeid egyedi emojijait és matricáit minden csevegésbe és közösségbe, ahol éppen vagy.",
+    "storePlutoniumProfileTitle": "Egy profil, ami kitűnik",
+    "storePlutoniumProfileBody": "Szerezz animált profilképet és borítóképet, előfizetői jelvényt, a kívánt négyjegyű címkét a felhasználóneved után*, és külön profilt minden közösséghez.",
+    "storePlutoniumFilesTitle": "Fájlok küldése akár 500 MB-ig",
+    "storePlutoniumFilesBody": "Ossz meg teljes hosszúságú videókat és nagy fájlokat anélkül, hogy előbb lekicsinyítenéd őket. Az ingyenes fiókok legfeljebb 25 MB-ot küldhetnek.",
+    "storePlutoniumCompareTitle": "Ingyenes és Plutonium összehasonlítása",
+    "storePlutoniumCompareMobileNote": "Nem mindegyik funkció érhető el a mobilalkalmazásban. Néhány csak asztali gépen használható.",
+    "storePlutoniumNotAvailable": "Nem elérhető",
+    "storePlutoniumAvailable": "Elérhető",
+    "storePlutoniumCompareTag": "Válaszd ki a felhasználóneved utáni 4 jegyű számot*",
+    "storePlutoniumCompareProfile": "Külön profil minden közösséghez",
+    "storePlutoniumCompareBadge": "Előfizetői jelvény a profilodon",
+    "storePlutoniumCompareBackgrounds": "Elmenthető videohívási háttérképek",
+    "storePlutoniumCompareCommunities": "Csatlakozható közösségek",
+    "storePlutoniumCompareCharacters": "Karakterek egyetlen üzenetben",
+    "storePlutoniumCompareBookmarks": "Üzenetek, amelyeket megjelölhetsz",
+    "storePlutoniumCompareUpload": "Legnagyobb feltölthető fájl",
+    "storePlutoniumCompareSavedMedia": "Médiaelemek, amelyeket elmenthetsz későbbre",
+    "storePlutoniumCompareAnimatedEmoji": "Animált emojik használata az üzenetekben",
+    "storePlutoniumCompareCustomEmoji": "Használj egyéni emojikat és matricákat bármelyik közösségben",
+    "storePlutoniumCompareVideo": "Videohívás és képernyőmegosztás minősége",
+    "storePlutoniumCompareAvatar": "Animált avatár és profilbanner",
+    "storePlutoniumCompareEarlyAccess": "Korai hozzáférés az új funkciókhoz",
+    "storePlutoniumCompareThemes": "Egyéni témák az alkalmazáshoz",
+    "storePlutoniumVideoFree": "Akár 720p felbontás 30 FPS sebességgel",
+    "storePlutoniumVideoPlutonium": "Akár 4K felbontás 60 FPS sebességgel",
+    "storePlutoniumTagFootnote": "Csak olyan címkét választhatsz, amellyel még senki más nem rendelkezik ugyanazzal a felhasználónévvel. A felhasználónevek nem különböztetik meg a kis- és nagybetűket, így a Mina#4821 és a mina#4821 ugyanannak számít. A #0000 címke a Fluxer Visionary tagok számára van fenntartva.",
+    "storePlutoniumLearnVisionary": "Tudj meg többet a Visionaryról.",
+    "storePlutoniumDonatePrompt": "Csak a Fluxer nyílt forráskódú fejlesztését szeretnéd támogatni? ",
+    "storePlutoniumDonateLink": "Adományozz inkább.",
+    "storePlutoniumHighlightsLead": "Az előfizetéssel támogatod a Fluxert, és feloldod a következőket",
+    "storePlutoniumHighlightEmoji": "Egyéni emojik és matricák bármely csevegésben",
+    "storePlutoniumHighlightProfile": "Animált profil, jelvény és egyedi 4 számjegyű szám",
+    "storePlutoniumHighlightFiles": "Feltöltések akár 500 MB-ig",
+    "storePlutoniumHighlightMessages": "Akár 4000 karakteres üzenetek küldése",
+    "storePlutoniumHighlightCommunityProfile": "Külön profil minden közösséghez",
+    "storePlutoniumHighlightsMore": "És még sok más",
+    "storePlutoniumRenewsThroughPlay": "A lemondásig automatikusan megújul a Google Playen keresztül.",
+    "storePlutoniumRenewsThroughAppStore": "Az App Store-on keresztül automatikusan megújul, amíg le nem mondod.",
+    "storePlutoniumAlreadySubscribed": "Már van Fluxer Plutonium előfizetésed.",
+    "storePlutoniumSavePercent": "Spórolj {percent}%-ot",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "Vásárlás megérkezett. A Plutonium itt jelenik meg, amint aktiválódik.",
+    "storePlutoniumUnavailable": "Az alkalmazáson belüli előfizetések még nem érhetők el ezen az eszközön.",
+    "storePlutoniumVisionaryStatus": "A Visionary már tartalmazza az állandó hozzáférést, így nincs szükség ismétlődő előfizetésre.",
     "userSettingsNavShortcuts": "Billentyűparancsok",
     "@userSettingsNavShortcuts": {
         "description": "User settings navigation item for keyboard shortcuts."
@@ -16003,6 +14829,18 @@
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
     },
+    "userSettingsNavAppIcon": "Alkalmazásikon",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "Alkalmazásikon",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "Válaszd ki, melyik ikon jelenjen meg a kezdőképernyődön.",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
+    },
     "advancedSettingsConfigure": "Beállítás",
     "@advancedSettingsConfigure": {
         "description": "Button label that opens a dedicated advanced settings modal."
@@ -16050,7 +14888,6 @@
     "advancedSettingStripTrackingLabel": "Követési paraméterek eltávolítása az URL-ekből",
     "advancedSettingStripTrackingDescription": "Automatikusan eltávolítja a követési paramétereket az elküldött üzenetekben lévő URL-ekből",
     "advancedSettingTrustAllLinksLabel": "Minden külső link megjelölése megbízhatóként",
-    "advancedSettingTrustAllLinksDescription": "Külső linkre figyelmeztetés kihagyása minden domainhez",
     "advancedSettingSearchEnginesLabel": "Keresőmotorok",
     "advancedSettingSearchEnginesDescription": "Kijelölt szöveg kereséséhez használt keresőmotorok beállítása",
     "advancedSettingTranslatorsLabel": "Fordítók",
@@ -16106,13 +14943,6 @@
     "advancedSettingHideStreamPreviewLabel": "Saját stream előnézeti bélyegképének elrejtése",
     "advancedSettingDeveloperModeLabel": "Fejlesztői mód engedélyezése",
     "advancedSettingDeveloperModeDescription": "Fejlesztői mód engedélyezése",
-    "advancedSettingSearchEngineGoogle": "Google",
-    "advancedSettingSearchEngineDuckDuckGo": "DuckDuckGo",
-    "advancedSettingSearchEngineBing": "Bing",
-    "advancedSettingSearchEngineGoogleLens": "Google Lens",
-    "advancedSettingSearchEngineTinEye": "TinEye",
-    "advancedSettingTranslatorGoogle": "Google Fordító",
-    "advancedSettingTranslatorDeepL": "DeepL",
     "advancedSettingDefaultSearchEngineLabel": "Alapértelmezett keresőmotor",
     "advancedSettingDefaultSearchEngineDescription": "Válaszd ki, melyik keresőmotort használja az alkalmazás alapértelmezés szerint a kijelölt szöveg keresésekor.",
     "advancedSettingBuiltInSearchEnginesLabel": "Beépített keresőmotorok",
@@ -16251,6 +15081,14 @@
     "authHidePassword": "Jelszó elrejtése",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "Még dolgozunk rajta…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
+    },
+    "authVerificationFailed": "Nem sikerült befejezni az ellenőrzést. Próbáld újra.",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
     },
     "chatLoadingMessages": "Üzenetek betöltése",
     "@chatLoadingMessages": {
@@ -16658,10 +15496,6 @@
     "@guildMembersColumnRoles": {
         "description": "Table column header on the community members page."
     },
-    "guildMembersColumnActions": "Műveletek",
-    "@guildMembersColumnActions": {
-        "description": "Table column header on the community members page."
-    },
     "guildMembersFilterMemberSince": "Szűrés tagság kezdete szerint",
     "@guildMembersFilterMemberSince": {
         "description": "Filter menu label on the community members page."
@@ -16746,23 +15580,6 @@
     "@guildMembersIndexing": {
         "description": "Banner shown while guild members are being indexed."
     },
-    "guildMembersGoToPage": "Ugrás az oldalra",
-    "@guildMembersGoToPage": {
-        "description": "Pagination jump label on the community members page."
-    },
-    "guildMembersGoToPageItem": "Ugrás a(z) {page}. oldalra",
-    "@guildMembersGoToPageItem": {
-        "description": "Accessibility label for a pagination page button.",
-        "placeholders": {
-            "page": {
-                "type": "int"
-            }
-        }
-    },
-    "guildMembersJumpToPage": "Ugrás az oldalra",
-    "@guildMembersJumpToPage": {
-        "description": "Label for pagination jump input on the community members page."
-    },
     "guildMembersJoinSourceCreator": "Közösség létrehozója",
     "@guildMembersJoinSourceCreator": {
         "description": "Join method label on the community members page."
@@ -16839,28 +15656,14 @@
             }
         }
     },
-    "guildMembersJoinedDaysAgo": "{count, plural, one {1 napja} other {{count} napja}}",
-    "@guildMembersJoinedDaysAgo": {
-        "description": "Relative join time on the community members page.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
     "guildMembersChannelListLabel": "Tagok",
     "@guildMembersChannelListLabel": {
         "description": "Label for the Members item at the top of the guild channel list."
-    },
-    "guildMembersChannelListSelected": "Tagok, kiválasztva",
-    "@guildMembersChannelListSelected": {
-        "description": "Accessibility label when the Members channel list item is selected."
     },
     "guildSettingsEmojiSlotsTitle": "Emojihelyek",
     "guildSettingsEmojiDropZone": "Húzd ide az emojifájlokat",
     "guildSettingsEmojiLoadFailed": "Nem sikerült betölteni az emojikat. Próbáld újra később.",
     "guildSettingsEmojiSearchEmpty": "Nincs a keresésnek megfelelő emoji.",
-    "guildSettingsEmojiNoSlots": "Nincs szabad emojihely",
     "guildSettingsEmojiSlotsFull": "Elérted az emojik maximális számát. Törölj néhány meglévő emojit, hogy helyet szabadíts fel.",
     "guildSettingsEmojiUploadRequirements": "Az emojik nevének legalább 2 karakterből kell állnia, és betűket, számokat és aláhúzásjeleket tartalmazhat. Az emojik méretének {maxSize} alatt kell lennie. A statikus képeket automatikusan 128×128 képpontosra méretezzük és tömörítjük. Az animált emojiknak és az SVG-knek már feltöltéskor meg kell felelniük a méretkorlátnak.",
     "@guildSettingsEmojiUploadRequirements": {
@@ -16870,24 +15673,11 @@
             }
         }
     },
-    "guildSettingsEmojiUploadingTitle": "Emojik feltöltése",
-    "guildSettingsEmojiUploadingBody": "Feltöltés: {count, plural, one {# hangulatjel} other {# hangulatjel}}. Ez eltarthat egy ideig.",
-    "@guildSettingsEmojiUploadingBody": {
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsEmojiUploadFailed": "Nem sikerült feltölteni az emojikat. Próbáld újra.",
     "guildSettingsEmojiSomeFailedTitle": "Néhány emojit nem sikerült hozzáadni",
-    "guildSettingsEmojiSomeFailedBody": "Nézd át ezeket a fájlokat, és próbáld újra kisebb vagy egyszerűbb képekkel.",
     "guildSettingsEmojiRenameTitle": "Emoji átnevezése",
     "guildSettingsEmojiRenameHint": "2-32 karakter, betűk, számok, aláhúzások.",
-    "guildSettingsEmojiColumnEmoji": "Emoji",
     "guildSettingsEmojiColumnName": "Név",
     "guildSettingsEmojiColumnUploader": "Feltöltötte",
-    "guildSettingsEmojiUnknownUploader": "Ismeretlen",
     "guildSettingsEmojiDeleteTitle": "Emoji törlése",
     "guildSettingsEmojiDeleteBody": "Törlés: {name}?: Ez nem vonható vissza.",
     "@guildSettingsEmojiDeleteBody": {
@@ -16902,15 +15692,7 @@
     "guildSettingsEmojiNameTooLong": "Az emoji neve legfeljebb 32 karakter hosszú lehet",
     "guildSettingsEmojiInvalidNameTitle": "Érvénytelen emojinév",
     "guildSettingsEmojiRenameFailedTitle": "Nem sikerült átnevezni ezt az emojit",
-    "guildSettingsEmojiRenameFailedBody": "A név visszaállt az előző értékére. Próbáld újra egy kis idő múlva.",
-    "guildSettingsEmojiGoneTitle": "Ez az emoji már nem létezik",
-    "guildSettingsEmojiGoneBody": "Lehet, hogy törölték. A név visszaállt az eredetire.",
-    "guildSettingsEmojiNoPermissionRenameTitle": "Nem nevezheted át ezt az emojit",
-    "guildSettingsEmojiNoPermissionRenameBody": "Nincs jogosultságod az emoji átnevezéséhez. A név visszaállt az eredetire.",
-    "guildSettingsEmojiRateLimitedTitle": "Túl gyors vagy",
-    "guildSettingsEmojiRateLimitedBody": "Várj egy pillanatot, majd próbáld újra az átnevezést.",
     "guildSettingsEmojiDeleteFailedTitle": "Nem sikerült törölni ezt az emojit",
-    "guildSettingsEmojiDeleteNoPermissionTitle": "Nem törölheted ezt az emojit",
     "guildSettingsCloneEmojiTitle": "Engedélyezd másoknak az emojid klónozását",
     "guildSettingsCloneEmojiDescription": "Ha engedélyezve van, más közösségek tagjai is használhatják az alkalmazáson belüli egykattintásos \"Klónozás\" parancsikont az egyéni emojijaidon. Ez nem akadályozza meg őket abban, hogy elmentsék a képet, és maguk töltsék fel.",
     "guildSettingsCloneStickerTitle": "Engedélyezi, hogy mások klónozzák a matricáit",
@@ -16934,8 +15716,6 @@
     "guildSettingsStickersLoadFailedTitle": "A matricák betöltése sikertelen",
     "guildSettingsStickersLoadFailedBody": "Hiba történt a matricák betöltésekor. Próbáld újra.",
     "guildSettingsStickersSearchEmpty": "Nincsenek a keresésnek megfelelő matricák.",
-    "guildSettingsStickersEmptySearch": "Nem található matrica",
-    "guildSettingsStickerNoSlots": "Nincs szabad matricahely",
     "guildSettingsStickerSlotsFull": "Elérted a matricák maximális számát. Törölj néhány meglévő matricát, hogy helyet szabadíts fel.",
     "guildSettingsStickerUploadRequirements": "A matricákat 320x320 képpontban mentjük, és a méretüknek {maxSize} alatt kell lennie. A statikus képeket automatikusan átméretezzük és tömörítjük. Az animált matricáknak és SVG-knek már feltöltéskor bele kell férniük a korlátba.",
     "@guildSettingsStickerUploadRequirements": {
@@ -16945,7 +15725,6 @@
             }
         }
     },
-    "guildSettingsStickerUnsupportedTitle": "Nem támogatott matricafájl",
     "guildSettingsStickerAddTitle": "Matrica hozzáadása",
     "guildSettingsStickerEditTitle": "Matrica szerkesztése",
     "guildSettingsStickerNameLabel": "Név",
@@ -16970,8 +15749,6 @@
     "guildSettingsStickerNameTooLong": "A név legfeljebb 30 karakterből állhat",
     "guildSettingsStickerDescriptionTooLong": "A leírás legfeljebb 500 karakter lehet",
     "guildSettingsStickerCreateFailedTitle": "Nem sikerült létrehozni a matricát",
-    "guildSettingsStickerTooLargeTitle": "A matrica túl nagy",
-    "guildSettingsStickerCompressFailedTitle": "A matrica nem tömöríthető eléggé",
     "guildSettingsStickerDeleteTitle": "Matrica törlése",
     "guildSettingsStickerDeleteBody": "Törlés „{name}”? Nem vonható vissza.",
     "@guildSettingsStickerDeleteBody": {
@@ -16983,7 +15760,6 @@
     },
     "guildSettingsStickerPurgeLabel": "Matrica törlése a tárhelyről és a CDN-ről",
     "guildSettingsStickerDeleteFailedTitle": "Nem sikerült törölni ezt a matricát",
-    "guildSettingsStickerDeleteNoPermissionTitle": "Nem törölheted ezt a matricát",
     "keybindsSearchShortcuts": "Billentyűparancsok keresése",
     "@keybindsSearchShortcuts": {
         "description": "Placeholder for the shortcuts settings search field."
@@ -17066,6 +15842,40 @@
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
+    "assistantNeedsLogin": "Először nyisd meg a Fluxert, és jelentkezz be.",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "Nem vagy hívásban.",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "A Fluxer nem találta.",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "A közvetlen üzenetek le vannak tiltva ezen a példányon.",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "A Fluxer nem tudta befejezni.",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "Mikrofon némítva.",
+    "assistantOkUnmuted": "Mikrofon némítása feloldva.",
+    "assistantOkLeftVoice": "Elhagytad a hangcsatornát.",
+    "assistantOkJoinedVoice": "Csatlakozás a hangcsatornához.",
+    "assistantOkStartedCall": "Hívás indítása.",
+    "assistantOkStatusSet": "Állapot beállítva: {status}.",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "Fluxer megnyitása.",
     "applicationsTitle": "Alkalmazások",
     "@applicationsTitle": {
         "description": "Title for the developer Applications settings tab."
@@ -17108,6 +15918,15 @@
         "description": "Empty-state body. apiName is the product API display name.",
         "placeholders": {
             "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "Létrehozva: {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
                 "type": "String"
             }
         }
@@ -17292,6 +16111,10 @@
     "@applicationsOauthBuilderTitle": {
         "description": "Section title for the authorize URL builder."
     },
+    "applicationsOauthBuilderDescription": "Hozz létre egy engedélyezési URL-t hatókörökkel és jogosultságokkal.",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
     "applicationsScopes": "Hatókörök",
     "@applicationsScopes": {
         "description": "Label for OAuth2 scope checkboxes."
@@ -17324,6 +16147,10 @@
     "@applicationsAuthorizeUrlPlaceholder": {
         "description": "Placeholder when the authorize URL cannot be built yet."
     },
+    "applicationsCopyAuthorizeUrl": "Engedélyezési URL másolása",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
     "applicationsCopiedUrl": "URL kimásolva a vágólapra",
     "@applicationsCopiedUrl": {
         "description": "Toast after copying the authorize URL."
@@ -17343,6 +16170,15 @@
     "applicationsDelete": "Alkalmazás törlése",
     "@applicationsDelete": {
         "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "Biztosan törölni szeretnéd a(z) {name} alkalmazást? Ez a művelet nem vonható vissza. Minden kapcsolódó adat, beleértve a botfelhasználót is, véglegesen törlődik.",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     },
     "applicationsDeleteFailed": "Nem sikerült törölni az alkalmazást",
     "@applicationsDeleteFailed": {
@@ -17432,6 +16268,10 @@
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
     },
+    "voiceOutputRouteEarpiece": "Beszédhangszóró",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
     "voiceOutputRouteHeadset": "Fejhallgató",
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
@@ -17439,6 +16279,14 @@
     "doubleTapReactionEdit": "Szerkesztés",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "Alapértelmezett szerkesztése",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "Válassz dupla koppintásos emojit",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
     },
     "chatMessagePinConfirm": "Rögzítés",
     "@chatMessagePinConfirm": {
@@ -17452,9 +16300,17 @@
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."
     },
+    "appIconOptionStarfield": "Csillagmező",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
     "appIconOptionSweden": "Svédország",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "Az alkalmazásikon megváltoztatása nem érhető el ezen az eszközön.",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     },
     "userSettingsLogOutConfirmTitle": "Kijelentkezés?",
     "@userSettingsLogOutConfirmTitle": {
@@ -17484,5 +16340,178 @@
     "@guildSettingsCommunityDeleted": {
         "description": "Success toast after a community is deleted."
     },
-    "assistantOkMessageSent": "Üzenet elküldve."
+    "guildSettingsDeleteCommunityFailed": "Nem sikerült törölni ezt a közösséget",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantOkMessageSent": "Üzenet elküldve.",
+    "assistantOkCustomStatusSet": "Egyéni állapot frissítve.",
+    "assistantOkCustomStatusCleared": "Egyéni állapot törölve.",
+    "guildNavbarAnnouncementChannel": "Bejelentési csatorna",
+    "guildNavbarAnnouncementChannelDescription": "Tegyél közzé frissítéseket, amelyeket más közösségek is követhetnek a saját csatornáikon",
+    "channelDetailsAnnouncementChannel": "Bejelentési csatorna",
+    "channelSettingsAnnouncementChannel": "Bejelentési csatorna",
+    "channelSettingsAnnouncementChannelDescription": "Más közösségek is követhetik ezt a csatornát, és másolatot kaphatnak a közzétett tartalmakról.",
+    "channelSettingsStopAnnouncementTitle": "Ne legyen többé bejelentési csatorna?",
+    "channelSettingsStopAnnouncementBody": "{count, plural, =1{1 csatorna követi ezt a csatornát. Szöveges csatornává alakítva megszűnik ez a követés.} other{{count} csatorna követi ezt a csatornát. Szöveges csatornává alakítva megszűnnek ezek a követések.}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "Ha szöveges csatornává alakítod ezt a csatornát, egyetlen csatorna sem fogja tovább követni.",
+    "channelSettingsConvertChannel": "Átalakítás",
+    "channelSettingsConvertFailed": "Nem sikerült átalakítani ezt a csatornát",
+    "channelSettingsChannelHasFollowers": "Ezt a csatornát még más csatornák követik. Az átalakítás előtt szüntesd meg ezeket a követéseket.",
+    "channelMenuFollow": "Csatorna követése",
+    "channelFollowTitle": "Kövesd ezt a csatornát",
+    "channelFollowBody": "Válaszd ki, hová kerüljenek a közzétett üzenetei. A követést bármikor megszüntetheted a Közösségi beállítások → Webhookok menüpontban.",
+    "channelFollowCommunity": "Közösség",
+    "channelFollowChannel": "Csatorna",
+    "channelFollowAgeWarning": "Ez egy korhatáros csatorna. Frissítések csak korhatáros csatornákra küldhetők.",
+    "channelFollowContentWarning": "Ez a csatorna tartalmaz egy tartalomra vonatkozó figyelmeztetést. Frissítések csak tartalomra vonatkozó figyelmeztetéssel vagy korhatáros besorolással rendelkező csatornákra küldhetők.",
+    "channelFollowHiddenHint": "A közösségek és csatornák, ahol nem tudsz webhookokat kezelni, el vannak rejtve.",
+    "channelFollowEmpty": "Nem tudsz webhookokat kezelni egyetlen közösségben sem. Kérj meg egy rendszergazdát, hogy kövesse ezt a csatornát.",
+    "channelFollowSubmit": "Követés",
+    "channelFollowFailed": "Nem sikerült követni ezt a csatornát.",
+    "channelFollowSuccessTitle": "A frissítések úton vannak!",
+    "channelFollowSuccessBody": "A(z) {sourceName} csatornán közzétett üzenetek megjelennek a(z) #{targetName} csatornán.",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "Értettem!",
+    "channelFollowBarrier": "Kövesd ezt a csatornát, hogy ezeket a bejelentéseket egy általad választott csatornán kapd meg.",
+    "channelHeaderFollow": "Csatorna követése",
+    "chatMessagePublish": "Közzététel",
+    "chatMessagePublished": "Közzétéve",
+    "chatMessagePublishConfirmTitle": "Üzenet közzététele?",
+    "chatMessagePublishConfirmBody": "Ez másolatot küld minden csatornára, amely ezt a csatornát követi.",
+    "chatMessagePublishedToast": "Üzenet közzétéve",
+    "chatMessageAlreadyPublished": "Ez az üzenet már közzé van téve.",
+    "chatMessagePublishFailedTitle": "Nem sikerült közzétenni ezt az üzenetet",
+    "chatMessagePublishFailedBody": "Valami hiba történt. Próbáld újra egy pillanat múlva.",
+    "chatMessagePublishLimitTitle": "Lassíts",
+    "chatMessagePublishLimitBody": "Újra közzéteheted {duration} múlva.",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "Túl gyorsan teszel közzé. Próbáld újra egy pillanat múlva.",
+    "chatMessageDeletePublished": "Ez azokat a másolatokat is eltávolítja, amelyeket az ezt a csatornát követő csatornákra küldtünk.",
+    "chatMessageEditPublishedTitle": "Közzétett üzenet szerkesztése?",
+    "chatMessageEditPublishedBody": "Ez frissíti azokat a másolatokat, amelyeket az ezt a csatornát követő csatornákra küldtünk.",
+    "chatMessageEditPublishedSave": "Mentés",
+    "chatMessageEditLimitTitle": "Lassíts",
+    "chatMessageEditLimitBody": "Ezt a közzétett üzenetet újra szerkesztheted {duration} múlva.",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "Túl gyorsan szerkeszted ezt a közzétett üzenetet. Próbáld újra egy pillanat múlva.",
+    "chatMessageOriginalDeleted": "[Eredeti üzenet törölve]",
+    "userTagCommunity": "Közösség",
+    "systemFollowAdd": "{username} beállította, hogy ez a csatorna kövesse ezt: {source}. Az ott közzétett üzenetek itt jelennek meg.",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username} beállította, hogy ez a csatorna kövesse ezt: {source}.",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "Még nem lett elküldve a követőknek.",
+    "publishNudgeHideForever": "Ne mutasd újra",
+    "publishNudgeDismiss": "Elvetés",
+    "channelSettingsFollowedChannels": "Követett csatornák",
+    "channelSettingsFollowedChannelsDescription": "Bejelentési csatornák, amelyeket ez a csatorna követ. Szüntesd meg a követést, ha nem szeretnél több másolatot kapni.",
+    "guildSettingsFollowedChannelsDescription": "A közösség csatornái által követett bejelentési csatornák.",
+    "channelSettingsFollowedFrom": "Forrás: {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "A frissítések szünetelnek, mert a forráscsatorna már nem elérhető.",
+    "channelSettingsUnfollowTitle": "Megszünteted a(z) {name} követését?",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "Ez a csatorna többé nem kap másolatokat attól a bejelentési csatornától.",
+    "channelSettingsUnfollow": "Követés megszüntetése",
+    "crosspostCommunityTitle": "Közösség",
+    "crosspostGoToCommunity": "Ugrás a közösséghez",
+    "crosspostJoinCommunity": "Csatlakozás a közösséghez",
+    "crosspostSourceFailed": "Nem sikerült betölteni ezt a közösséget. Próbáld meg később újra.",
+    "crosspostMembers": "{count} tag",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "{count} online",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, =1{1 perc} other{{count} perc}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, =1{1 másodperc} other{{count} másodperc}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "Nem támogatott csatornatípus",
+    "channelUnsupportedBody": "Az alkalmazás ezen verziója nem támogatja ezt a csatornatípust.",
+    "channelDetailsUnsupportedChannel": "Nem támogatott csatorna"
 }

@@ -322,7 +322,9 @@ void main() {
       ),
     );
 
-    final stickers = await database.guildStickerDao.getByGuild('200');
+    final stickers = (await database.guildStickerDao.getAll())
+        .where((s) => s.guildId == '200')
+        .toList();
 
     expect(stickers, hasLength(1));
     expect(stickers.single.id, '300');
@@ -1072,14 +1074,15 @@ void main() {
 
       await handler.handle(ready(favoriteMemes: [meme('1'), meme('2')]));
       expect(
-        (await database.favoriteMemesDao.getAll()).map((row) => row.id),
+        (await database.favoriteMemesDao.watchAll().first).map((row) => row.id),
         unorderedEquals(['1', '2']),
       );
 
       await handler.handle(ready(favoriteMemes: [meme('2')]));
-      expect((await database.favoriteMemesDao.getAll()).map((row) => row.id), [
-        '2',
-      ]);
+      expect(
+        (await database.favoriteMemesDao.watchAll().first).map((row) => row.id),
+        ['2'],
+      );
     });
 
     test('READY stores numeric meme ids as strings', () async {
@@ -1088,7 +1091,7 @@ void main() {
 
       await handler.handle(ready(favoriteMemes: [meme(99)]));
 
-      final rows = await database.favoriteMemesDao.getAll();
+      final rows = await database.favoriteMemesDao.watchAll().first;
       expect(rows, hasLength(1));
       expect(rows.single.id, '99');
     });
@@ -1101,9 +1104,10 @@ void main() {
       await handler.handle(const FavoriteMemeDeleteEvent(id: '1'));
       await pumpEventQueue();
 
-      expect((await database.favoriteMemesDao.getAll()).map((row) => row.id), [
-        '2',
-      ]);
+      expect(
+        (await database.favoriteMemesDao.watchAll().first).map((row) => row.id),
+        ['2'],
+      );
     });
   });
 }

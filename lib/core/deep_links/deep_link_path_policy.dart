@@ -21,32 +21,6 @@ final RegExp _routePathBlocklist = RegExp(r'''["'<>\\|\t\r\n]''');
 
 const String userSettingsDeepLinkPath = '/settings/user';
 
-/// Example paths that must not be handled as mobile deep links.
-const List<String> kIgnoredDeepLinkPathExamples = [
-  '/',
-  '/authorize-ip',
-  '/login',
-  '/register',
-  '/forgot',
-  '/verify',
-  '/wasntme',
-  '/pending',
-  '/oauth2/authorize',
-  '/auth/sso/callback',
-  '/report',
-  '/admin',
-  '/premium-callback',
-  '/age-verification-callback',
-  '/connection-callback',
-  '/theme-studio',
-  '/theme/my-theme',
-  '/bookmarks',
-  '/mentions',
-  '/settings/guild/123',
-  '/.well-known/fluxer',
-  '/_health',
-];
-
 String normalizeDeepLinkPath(String path) {
   final String trimmed = path.replaceAll(RegExp(r'/+$'), '');
   return trimmed.isEmpty ? '/' : trimmed;
@@ -103,10 +77,6 @@ Uri normalizeInviteDeepLinkUri(Uri uri) {
 /// Applies app protocol and invite URL normalization for incoming deep links.
 Uri normalizeIncomingDeepLinkUri(Uri uri) {
   return normalizeInviteDeepLinkUri(normalizeAppProtocolDeepLinkUri(uri));
-}
-
-bool hasBlocklistedDeepLinkPathCharacters(String path) {
-  return _routePathBlocklist.hasMatch(path);
 }
 
 Set<String> fluxerOAuthDeepLinkHosts({String? instanceWebAppBase}) {

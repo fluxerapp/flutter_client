@@ -51,7 +51,6 @@ void main() {
       );
       expect(first, isNotNull);
       expect(second, isNull);
-      expect(session.isDropHandled, isTrue);
     });
 
     test('resets after drag start', () {
@@ -70,25 +69,6 @@ void main() {
       expect(retry, isNotNull);
     });
 
-    test('tryCompleteFromHover ignores missing hover data', () {
-      final GuildChannelDropSession session = GuildChannelDropSession();
-      expect(
-        session.tryCompleteFromHover(
-          channels: channels,
-          dragItem: null,
-          dropResult: dropResult,
-        ),
-        isNull,
-      );
-      expect(
-        session.tryCompleteFromHover(
-          channels: channels,
-          dragItem: dragItem,
-          dropResult: null,
-        ),
-        isNull,
-      );
-    });
     test('moves uncategorized channel before a category child', () {
       final GuildChannelDropSession session = GuildChannelDropSession();
       final ChannelMoveComputation? computation = session.tryComplete(

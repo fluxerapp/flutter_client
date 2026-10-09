@@ -1647,17 +1647,12 @@ class GatewayEventHandler {
           : null;
       channelResolution = priorChannel != null
           ? ChannelResolution.guild(
-              channelId: channelId,
               guildStorageId: priorChannel.guildId,
               guildChannel: priorChannel,
             )
           : (priorDm == null && threadGuildId != null)
-          ? ChannelResolution.unknownGuildChannel(
-              channelId: channelId,
-              guildStorageId: threadGuildId,
-            )
+          ? ChannelResolution.unknownGuildChannel(guildStorageId: threadGuildId)
           : ChannelResolution.private(
-              channelId: channelId,
               guildStorageId: '@me',
               dmChannel: priorDm,
             );
@@ -1808,7 +1803,6 @@ class GatewayEventHandler {
           snapshot: MessagePersistSnapshot(
             mentionsCurrentUser: mentionsCurrentUser,
             isDm: isDm,
-            guildStorageId: channelResolution.guildStorageId,
             acknowledgedByGateway: acknowledgedByGateway,
             notificationLevel: notificationLevel,
             isChannelMuted: isChannelMuted,
@@ -3025,7 +3019,6 @@ class GatewayEventHandler {
         serverVersion: current?.version,
         version: event.version,
         manual: manual,
-        readStateWasKnown: current?.lastMessageId != null,
         hasMentionCount: event.mentionCount != null,
       ),
     );

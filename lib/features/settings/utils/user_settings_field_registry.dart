@@ -35,6 +35,7 @@ Set<String> knownUserSettingsFieldIdsForTab(String tab) {
     case 'appearance':
       return {
         'theme',
+        'theme-colors',
         'hdr',
         'app-zoom-level',
         'chat-wallpaper',

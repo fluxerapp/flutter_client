@@ -7,7 +7,6 @@ List<AvatarClusterMember> groupDmClusterMembers(List<GroupMemberInfo> members) {
     for (final GroupMemberInfo member in members.take(3))
       AvatarClusterMember(
         userId: member.id,
-        fallbackText: member.name,
         imageUrl: FluxerMediaUrl.userAvatar(
           userId: member.id,
           hash: member.avatar,

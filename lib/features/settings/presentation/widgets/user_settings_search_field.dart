@@ -27,34 +27,66 @@ class UserSettingsSearchField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final colors = context.colors;
+    final layout = context.layout;
     final bool showClear = controller.text.isNotEmpty;
+    final InputDecorationThemeData baseTheme = Theme.of(
+      context,
+    ).inputDecorationTheme;
+    final BorderRadius cardRadius = layout.radiusXl;
+    final InputDecorationThemeData searchTheme = baseTheme.copyWith(
+      border: OutlineInputBorder(
+        borderRadius: cardRadius,
+        borderSide: BorderSide(color: colors.backgroundModifierAccent),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: cardRadius,
+        borderSide: BorderSide(color: colors.backgroundModifierAccent),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: cardRadius,
+        borderSide: BorderSide(color: colors.backgroundModifierAccentFocus),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: cardRadius,
+        borderSide: BorderSide(color: colors.statusDanger),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: cardRadius,
+        borderSide: BorderSide(color: colors.statusDanger),
+      ),
+    );
+
     return Padding(
-      padding: padding ?? EdgeInsets.only(bottom: context.layout.s4),
-      child: FluxerInput(
-        controller: controller,
-        focusNode: focusNode,
-        hint: l10n.userSettingsSearchPlaceholder,
-        onTapOutside: (_) =>
-            (focusNode ?? FocusManager.instance.primaryFocus)?.unfocus(),
-        prefixIcon: PhosphorIcon(
-          PhosphorIconsBold.magnifyingGlass,
-          size: iconSize,
-          color: context.colors.textPrimaryMuted,
+      padding: padding ?? EdgeInsets.only(bottom: layout.s4),
+      child: Theme(
+        data: Theme.of(context).copyWith(inputDecorationTheme: searchTheme),
+        child: FluxerInput(
+          controller: controller,
+          focusNode: focusNode,
+          hint: l10n.userSettingsSearchPlaceholder,
+          onTapOutside: (_) =>
+              (focusNode ?? FocusManager.instance.primaryFocus)?.unfocus(),
+          prefixIcon: PhosphorIcon(
+            PhosphorIconsBold.magnifyingGlass,
+            size: iconSize,
+            color: colors.textPrimaryMuted,
+          ),
+          suffixIcon: showClear
+              ? PhosphorIcon(
+                  PhosphorIconsBold.x,
+                  size: iconSize,
+                  color: colors.textPrimaryMuted,
+                )
+              : null,
+          onSuffixTap: showClear ? onClear : null,
+          suffixSemanticLabel: showClear ? l10n.userSettingsSearchClear : null,
+          onChanged: onChanged,
+          style: style,
+          textInputAction: TextInputAction.search,
+          autocorrect: false,
+          enableSuggestions: false,
         ),
-        suffixIcon: showClear
-            ? PhosphorIcon(
-                PhosphorIconsBold.x,
-                size: iconSize,
-                color: context.colors.textPrimaryMuted,
-              )
-            : null,
-        onSuffixTap: showClear ? onClear : null,
-        suffixSemanticLabel: showClear ? l10n.userSettingsSearchClear : null,
-        onChanged: onChanged,
-        style: style,
-        textInputAction: TextInputAction.search,
-        autocorrect: false,
-        enableSuggestions: false,
       ),
     );
   }

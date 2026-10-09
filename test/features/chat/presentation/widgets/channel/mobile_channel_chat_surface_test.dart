@@ -956,7 +956,7 @@ Widget _surfaceApp({
     ),
     child: MaterialApp(
       locale: kTestLocale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,
@@ -1062,7 +1062,7 @@ Widget _contentApp({
         textTheme: FluxerTextTheme.fromColors(colorTheme),
         layoutTheme: FluxerLayoutTheme.scaled(),
       ),
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       home: MediaQuery(
         data: const MediaQueryData(size: Size(390, 844)),
@@ -1129,6 +1129,7 @@ class _HarnessChatViewModel extends ChatViewModel {
 
   final ChatViewState _initialState;
 
+  @visibleForTesting
   ChatViewState get harnessState => state;
 
   set harnessState(ChatViewState nextState) {
@@ -1246,6 +1247,7 @@ class _JumpTargetRecorder extends ChatViewModel {
       <({String channelId, String? targetMessageId})>[];
   final List<String> repliedJumps = <String>[];
 
+  @visibleForTesting
   int get targetedCallCount =>
       calls.where((c) => c.targetMessageId != null).length;
 
@@ -1442,7 +1444,11 @@ class _FakeWellKnown extends WellKnown {
           premiumInfoUrl: null,
         ),
         setup: InstanceSetupSchema(configured: true, adminUrl: null),
-        legal: InstanceAppPublicSchemaLegal(termsUrl: null, privacyUrl: null),
+        legal: InstanceAppPublicSchemaLegal(
+          termsUrl: null,
+          privacyUrl: null,
+          guidelinesUrl: null,
+        ),
         registration: InstanceAppPublicSchemaRegistration(
           collectDateOfBirth: false,
         ),

@@ -20,7 +20,6 @@ void main() {
         fullscreenMediaOpen: false,
         hasIncomingCall: false,
         channelHasUnread: false,
-        quickSwitcherOpen: false,
       );
     }
 

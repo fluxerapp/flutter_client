@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/daos/favorite_channels_dao.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
@@ -10,23 +8,6 @@ import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/prefere
     as pb;
 import 'package:fluxer_app/features/favorites/domain/favorite_guild_id.dart';
 import 'package:protobuf/protobuf.dart' as $pb;
-
-enum FavoritesWireDecodeStatus { empty, success, failure }
-
-class FavoritesWireDecodeResult {
-  const FavoritesWireDecodeResult._({
-    required this.status,
-    required this.state,
-  });
-
-  final FavoritesWireDecodeStatus status;
-  final FavoritesLocalState state;
-
-  static const empty = FavoritesWireDecodeResult._(
-    status: FavoritesWireDecodeStatus.empty,
-    state: FavoritesLocalState.empty,
-  );
-}
 
 class FavoritesLocalState {
   const FavoritesLocalState({
@@ -42,14 +23,6 @@ class FavoritesLocalState {
   final List<String> collapsedCategoryIds;
   final bool hideMutedChannels;
   final bool muted;
-
-  static const empty = FavoritesLocalState(
-    channels: [],
-    categories: [],
-    collapsedCategoryIds: [],
-    hideMutedChannels: false,
-    muted: false,
-  );
 }
 
 class FavoritesSyncedField extends SyncedFieldAdapter<FavoritesLocalState> {
@@ -172,42 +145,10 @@ class FavoritesSyncedField extends SyncedFieldAdapter<FavoritesLocalState> {
   ) {
     return hasInboundUpdatesWhileProtected(local, remote);
   }
-
-  static FavoritesWireDecodeResult decodeFromWireResult(String encoded) {
-    if (encoded.isEmpty) {
-      return FavoritesWireDecodeResult.empty;
-    }
-    try {
-      final synced = pb.SyncedPreferences.fromBuffer(
-        FavoritesStateHelpers.decodeBase64(encoded),
-      );
-      if (!synced.hasFavorites()) {
-        return const FavoritesWireDecodeResult._(
-          status: FavoritesWireDecodeStatus.failure,
-          state: FavoritesLocalState.empty,
-        );
-      }
-      return FavoritesWireDecodeResult._(
-        status: FavoritesWireDecodeStatus.success,
-        state: FavoritesStateHelpers.normalizeForSync(
-          FavoritesStateHelpers.fromProto(synced.favorites),
-        ),
-      );
-    } on Object {
-      return const FavoritesWireDecodeResult._(
-        status: FavoritesWireDecodeStatus.failure,
-        state: FavoritesLocalState.empty,
-      );
-    }
-  }
 }
 
 class FavoritesStateHelpers {
   const FavoritesStateHelpers._();
-
-  static List<int> decodeBase64(String encoded) {
-    return encoded.isEmpty ? <int>[] : base64Decode(encoded);
-  }
 
   static Future<FavoritesLocalState> readFromDatabase(
     FavoriteChannelsDao dao,

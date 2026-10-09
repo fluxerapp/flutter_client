@@ -7,7 +7,7 @@ void main() {
     await tester.pumpWidget(
       const MaterialApp(
         home: Scaffold(
-          body: MessageListLiveEntrance(
+          body: MessageListLiveEntranceStandalone(
             child: SizedBox(height: 40, width: 200),
           ),
         ),
@@ -15,14 +15,14 @@ void main() {
     );
     await tester.pump();
     final Finder entrance = find.descendant(
-      of: find.byType(MessageListLiveEntrance),
+      of: find.byType(MessageListLiveEntranceStandalone),
       matching: find.byType(Opacity),
     );
     final Opacity opacity = tester.widget(entrance);
     expect(opacity.opacity, lessThan(1));
     final Transform transform = tester.widget(
       find.descendant(
-        of: find.byType(MessageListLiveEntrance),
+        of: find.byType(MessageListLiveEntranceStandalone),
         matching: find.byType(Transform),
       ),
     );
@@ -34,7 +34,7 @@ void main() {
     await tester.pumpWidget(
       const MaterialApp(
         home: Scaffold(
-          body: MessageListLiveEntrance(
+          body: MessageListLiveEntranceStandalone(
             child: SizedBox(height: 40, width: 200),
           ),
         ),
@@ -45,14 +45,14 @@ void main() {
     await tester.pump();
     final Opacity opacity = tester.widget(
       find.descendant(
-        of: find.byType(MessageListLiveEntrance),
+        of: find.byType(MessageListLiveEntranceStandalone),
         matching: find.byType(Opacity),
       ),
     );
     expect(opacity.opacity, 1);
     final Transform transform = tester.widget(
       find.descendant(
-        of: find.byType(MessageListLiveEntrance),
+        of: find.byType(MessageListLiveEntranceStandalone),
         matching: find.byType(Transform),
       ),
     );

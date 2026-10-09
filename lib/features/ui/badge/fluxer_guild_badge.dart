@@ -16,31 +16,20 @@ const String _discoverableLightAsset =
     'assets/images/icons/discoverable-light.png';
 
 class FluxerGuildBadge extends StatelessWidget {
-  final List<String>? features;
-  final FluxerGuildBadgeKind? forcedKind;
+  final List<String> features;
   final double size;
   final List<Shadow>? shadows;
   final Color? color;
   final Brightness? forceBrightness;
 
   const FluxerGuildBadge({
-    required List<String> this.features,
+    required this.features,
     super.key,
     this.size = _defaultBadgeSize,
     this.shadows,
     this.color,
     this.forceBrightness,
-  }) : forcedKind = null;
-
-  const FluxerGuildBadge.forced({
-    required FluxerGuildBadgeKind kind,
-    super.key,
-    this.size = _defaultBadgeSize,
-    this.shadows,
-    this.color,
-    this.forceBrightness,
-  }) : features = null,
-       forcedKind = kind;
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -61,10 +50,7 @@ class FluxerGuildBadge extends StatelessWidget {
   }
 
   FluxerGuildBadgeKind? _resolveKind() {
-    if (forcedKind != null) {
-      return forcedKind;
-    }
-    final List<String> list = features ?? const <String>[];
+    final List<String> list = features;
     if (list.contains(_partneredFeature)) {
       return FluxerGuildBadgeKind.partnered;
     }

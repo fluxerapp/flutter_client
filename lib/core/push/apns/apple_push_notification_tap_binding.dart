@@ -14,7 +14,7 @@ const EventChannel _applePushTapChannel = EventChannel(
 
 @Riverpod(keepAlive: true)
 void applePushNotificationTapBinding(Ref ref) {
-  if (kIsWeb || !PushProviderGuard.isApple) {
+  if (!PushProviderGuard.isApple) {
     return;
   }
   final StreamSubscription<dynamic> subscription = _applePushTapChannel

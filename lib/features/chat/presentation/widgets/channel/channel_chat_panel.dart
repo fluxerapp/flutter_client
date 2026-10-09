@@ -299,7 +299,6 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
                       autocompletePanelHost: _composerAutocompletePanelHost,
                       autocompletePanelScrollController:
                           _composerAutocompletePanelScroll,
-                      showInlineEmojiPicker: widget.showInlineEmojiPicker,
                     ),
                   ],
                 ),
@@ -314,7 +313,6 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
                         kExpressionPanelMinContentHeight,
                       ),
                       dragHandleHeight: dragHandleHeight,
-                      parentHeight: constraints.maxHeight,
                       contentBuilder: isAttachmentOpen
                           ? _attachmentPanelContent
                           : null,

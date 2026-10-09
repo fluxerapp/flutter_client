@@ -6,6 +6,36 @@ import 'package:fluxer_app/features/channels/utils/channel_invite_capability.dar
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import '../../../helpers/test_l10n.dart';
 
+List<ChannelMenuAction> _flattenChannelMenuActions(
+  List<ChannelMenuGroup> groups,
+) {
+  return <ChannelMenuAction>[
+    for (final ChannelMenuGroup group in groups)
+      for (final ChannelMenuEntry entry in group) entry.action,
+  ];
+}
+
+List<String> _flattenChannelMenuLabels(List<ChannelMenuGroup> groups) {
+  return <String>[
+    for (final ChannelMenuGroup group in groups)
+      for (final ChannelMenuEntry entry in group) entry.label,
+  ];
+}
+
+bool _channelMenuEntryIsDanger(
+  List<ChannelMenuGroup> groups,
+  ChannelMenuAction action,
+) {
+  for (final ChannelMenuGroup group in groups) {
+    for (final ChannelMenuEntry entry in group) {
+      if (entry.action == action) {
+        return entry.isDanger;
+      }
+    }
+  }
+  return false;
+}
+
 void main() {
   final FluxerLocalizations l10n = testL10n;
 
@@ -182,7 +212,9 @@ void main() {
         l10n: l10n,
         state: fullTextState(hasUnread: false),
       );
-      final List<ChannelMenuAction> actions = flattenChannelMenuActions(groups);
+      final List<ChannelMenuAction> actions = _flattenChannelMenuActions(
+        groups,
+      );
       expect(actions, isNot(contains(ChannelMenuAction.markAsRead)));
     });
 
@@ -205,8 +237,10 @@ void main() {
         l10n: l10n,
         state: state,
       );
-      final List<ChannelMenuAction> actions = flattenChannelMenuActions(groups);
-      final List<String> labels = flattenChannelMenuLabels(groups);
+      final List<ChannelMenuAction> actions = _flattenChannelMenuActions(
+        groups,
+      );
+      final List<String> labels = _flattenChannelMenuLabels(groups);
       expect(actions, contains(ChannelMenuAction.notificationSettings));
       expect(actions, isNot(contains(ChannelMenuAction.mute)));
       expect(actions, contains(ChannelMenuAction.openLink));
@@ -235,8 +269,10 @@ void main() {
         l10n: l10n,
         state: state,
       );
-      final List<ChannelMenuAction> actions = flattenChannelMenuActions(groups);
-      final List<String> labels = flattenChannelMenuLabels(groups);
+      final List<ChannelMenuAction> actions = _flattenChannelMenuActions(
+        groups,
+      );
+      final List<String> labels = _flattenChannelMenuLabels(groups);
       expect(actions, contains(ChannelMenuAction.copyLink));
       expect(actions, isNot(contains(ChannelMenuAction.copyRedirectLink)));
       expect(labels, contains('Copy link'));
@@ -248,14 +284,16 @@ void main() {
         l10n: l10n,
         state: fullTextState(),
       );
-      final List<ChannelMenuAction> actions = flattenChannelMenuActions(groups);
+      final List<ChannelMenuAction> actions = _flattenChannelMenuActions(
+        groups,
+      );
       expect(actions.last, ChannelMenuAction.deleteMyMessages);
       expect(
-        channelMenuEntryIsDanger(groups, ChannelMenuAction.deleteChannel),
+        _channelMenuEntryIsDanger(groups, ChannelMenuAction.deleteChannel),
         isTrue,
       );
       expect(
-        channelMenuEntryIsDanger(groups, ChannelMenuAction.deleteMyMessages),
+        _channelMenuEntryIsDanger(groups, ChannelMenuAction.deleteMyMessages),
         isTrue,
       );
     });
@@ -280,7 +318,7 @@ void main() {
         state: withoutAgreement,
       );
       expect(
-        flattenChannelMenuActions(withoutGroups),
+        _flattenChannelMenuActions(withoutGroups),
         isNot(contains(ChannelMenuAction.resetMatureContentAgree)),
       );
       final ChannelMenuState withAgreement = resolveChannelMenuState(
@@ -302,7 +340,7 @@ void main() {
         state: withAgreement,
       );
       expect(
-        flattenChannelMenuActions(withGroups),
+        _flattenChannelMenuActions(withGroups),
         contains(ChannelMenuAction.resetMatureContentAgree),
       );
     });

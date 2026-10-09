@@ -488,12 +488,3 @@ List<DefaultKeybind> visibleDefaultKeybinds() {
 }
 
 bool get isMacOsKeybindPlatform => Platform.isMacOS || Platform.isIOS;
-
-DefaultKeybind? defaultKeybindForAction(KeybindAction action) {
-  for (final DefaultKeybind entry in buildDefaultKeybinds()) {
-    if (entry.action == action) {
-      return entry;
-    }
-  }
-  return null;
-}

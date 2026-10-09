@@ -4,8 +4,6 @@ import 'package:fluxer_app/core/push/push_message.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_envelope.dart';
 import 'package:unifiedpush/unifiedpush.dart' as up;
 
-const String kUnifiedPushDefaultTitle = kWebPushDefaultTitle;
-
 /// Maps a decrypted UnifiedPush payload into a [PushMessage].
 PushMessage mapUnifiedPushMessage(up.PushMessage message) {
   assert(

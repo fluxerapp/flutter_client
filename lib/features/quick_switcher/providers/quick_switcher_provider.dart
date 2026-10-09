@@ -60,9 +60,6 @@ class QuickSwitcherState {
   final FluxerLocalizations? l10n;
   final Map<String, QuickSwitcherUnreadChannel> unreadByChannelId;
 
-  int get executableResultCount =>
-      results.where(isQuickSwitcherExecutable).length;
-
   QuickSwitcherState copyWith({
     bool? isOpen,
     String? query,
@@ -153,30 +150,6 @@ class QuickSwitcher extends _$QuickSwitcher {
     );
     _triggerMemberSearchIfNeeded(query, queryMode);
     _recomputeResults();
-  }
-
-  void selectIndex(int index) {
-    if (index < 0) {
-      state = state.copyWith(selectedIndex: -1);
-      return;
-    }
-    if (index >= state.results.length) {
-      return;
-    }
-    if (!isQuickSwitcherExecutable(state.results[index])) {
-      state = state.copyWith(selectedIndex: -1);
-      return;
-    }
-    state = state.copyWith(selectedIndex: index);
-  }
-
-  void selectNext({required bool down}) {
-    final int nextIndex = findNextSelectableQuickSwitcherIndex(
-      results: state.results,
-      startIndex: state.selectedIndex,
-      down: down,
-    );
-    selectIndex(nextIndex);
   }
 
   Future<void> _warmCandidatesAndRecompute() async {

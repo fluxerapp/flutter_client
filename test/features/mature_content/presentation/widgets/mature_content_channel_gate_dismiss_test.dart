@@ -18,10 +18,8 @@ void main() {
     categoryId: null,
     guildId: 'guild-1',
     effectiveMatureContent: true,
-    matureContentSource: EffectiveMatureSource.channel,
     effectiveWarningLevel: contentWarningLevelInherit,
     effectiveWarningText: null,
-    warningSource: EffectiveMatureSource.none,
     scope: MatureContentAgreementScope.channel,
     scopeId: 'channel-1',
   );
@@ -62,7 +60,7 @@ Widget _buildTestApp({
     overrides: overrides,
     child: MaterialApp(
       locale: kTestLocale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,

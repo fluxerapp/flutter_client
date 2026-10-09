@@ -15,14 +15,6 @@ void main() {
       limiter.shouldLog(error: error, stackTrace: stack, source: 'widgets'),
       isFalse,
     );
-    expect(
-      limiter.suppressedCount(
-        error: error,
-        stackTrace: stack,
-        source: 'widgets',
-      ),
-      1,
-    );
   });
 
   test('allows same error after cooldown', () {
@@ -49,11 +41,6 @@ void main() {
     expect(
       limiter.shouldLog(error: StateError('b'), source: 'widgets'),
       isTrue,
-    );
-
-    expect(
-      limiter.suppressedCount(error: StateError('a'), source: 'widgets'),
-      0,
     );
   });
 }

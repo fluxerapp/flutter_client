@@ -31,9 +31,11 @@ import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
+import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
+import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:go_router/go_router.dart';
@@ -754,6 +756,7 @@ List<Override> _buildOverrides({
   final db = openTestDatabase();
   return [
     fluxerDatabaseProvider.overrideWithValue(db),
+    userSettingsStatusProvider.overrideWithValue(null),
     ..._userPresenceOverrides(
       conversations,
       userPresenceStreams: userPresenceStreams,
@@ -868,7 +871,7 @@ Widget _buildTestApp({
       ...overrides,
     ],
     child: MaterialApp.router(
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,

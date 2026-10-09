@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:drift/drift.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
@@ -471,27 +472,6 @@ class AdvancedPreferences extends _$AdvancedPreferences {
     );
   }
 
-  Future<void> setTextSearchEngineId(String value) async {
-    await setSearchProviderDefault(
-      mode: SearchProviderMode.text,
-      engineId: value,
-    );
-  }
-
-  Future<void> setReverseImageSearchEngineId(String value) async {
-    await setSearchProviderDefault(
-      mode: SearchProviderMode.image,
-      engineId: value,
-    );
-  }
-
-  Future<void> setTranslatorEngineId(String value) async {
-    await setSearchProviderDefault(
-      mode: SearchProviderMode.translate,
-      engineId: value,
-    );
-  }
-
   void _markAccessibilityDirty() {
     if (_isApplyingRemote) {
       return;
@@ -564,31 +544,6 @@ class AdvancedPreferences extends _$AdvancedPreferences {
   }
 }
 
-const AdvancedAccessibilityLocalState kDefaultAdvancedAccessibility =
-    AdvancedAccessibilityLocalState(
-      enableTextSelection: false,
-      voiceChannelJoinRequiresDoubleClick: false,
-      confirmBeforeJoiningVoiceChannels: false,
-      showGifIndicator: true,
-      showAttachmentExpiryIndicator: true,
-      showMessageActionBar: true,
-      showMessageActionBarQuickReactions: true,
-      showMessageActionBarShiftExpand: true,
-      showMessageActionBarOnlyMoreButton: false,
-      showGifButton: true,
-      showMemesButton: true,
-      showStickersButton: true,
-      showEmojiButton: true,
-      showMessageSendButton: false,
-      scrollToBottomOnMessageSend: true,
-    );
-
-const AdvancedPrivacyLocalState kDefaultAdvancedPrivacy =
-    AdvancedPrivacyLocalState(
-      preuploadMessageAttachments: true,
-      disableStreamPreviews: false,
-    );
-
 class AdvancedAccessibilityLocalState {
   const AdvancedAccessibilityLocalState({
     required this.enableTextSelection,
@@ -625,6 +580,7 @@ class AdvancedAccessibilityLocalState {
   final bool scrollToBottomOnMessageSend;
 }
 
+@immutable
 class AdvancedPrivacyLocalState {
   const AdvancedPrivacyLocalState({
     required this.preuploadMessageAttachments,

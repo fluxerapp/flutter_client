@@ -15,7 +15,6 @@ class GuildInvitesListItem extends StatelessWidget {
   GuildInvitesListItem({
     required this.entry,
     required this.l10n,
-    required this.inviteUrl,
     required this.showCreatedDate,
     required this.isMobile,
     required this.categoryName,
@@ -29,7 +28,6 @@ class GuildInvitesListItem extends StatelessWidget {
 
   final GuildInviteEntry entry;
   final FluxerLocalizations l10n;
-  final String inviteUrl;
   final bool showCreatedDate;
   final bool isMobile;
   final String? categoryName;

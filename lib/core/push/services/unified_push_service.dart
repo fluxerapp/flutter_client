@@ -7,7 +7,6 @@ import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/push/android/android_push_pipeline.dart';
 import 'package:fluxer_app/core/push/local_push_notifications.dart';
 import 'package:fluxer_app/core/push/push_message.dart';
-import 'package:fluxer_app/core/push/push_notification_permission.dart';
 import 'package:fluxer_app/core/push/push_service.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_message_mapper.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_vapid_cache.dart';
@@ -97,14 +96,6 @@ class UnifiedPushService implements PushService {
     _database ??= database;
   }
 
-  @visibleForTesting
-  static bool get backgroundModeForTesting => _backgroundMode;
-
-  @visibleForTesting
-  static void resetBackgroundModeForTesting() {
-    _backgroundMode = false;
-  }
-
   static Future<void> ensureBackgroundInitialized() async {
     if (!_isUnifiedPushAndroid()) {
       return;
@@ -181,11 +172,6 @@ class UnifiedPushService implements PushService {
     }
     await _ensureUnifiedPushInitialized();
     await registerWithSavedDistributor(vapid: vapid);
-  }
-
-  @override
-  Future<void> requestPermissions() async {
-    await requestPushNotificationPermission();
   }
 
   @override

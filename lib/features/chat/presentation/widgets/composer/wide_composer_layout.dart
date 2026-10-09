@@ -29,9 +29,6 @@ abstract final class WideComposerLayout {
   static double fadeHeightFor({required bool isMobile}) =>
       isMobile ? mobileFadeHeight : fadeHeight;
 
-  static double boxInsetFor({required bool isMobile}) =>
-      isMobile ? 0 : boxInset;
-
   static double statusRailPaddingInlineFor({required bool isMobile}) =>
       isMobile ? mobileStatusRailPaddingInline : statusRailPaddingInline;
 }

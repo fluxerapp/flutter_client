@@ -4,8 +4,11 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart'
+    show FluxerDatabase;
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
@@ -75,6 +78,7 @@ Widget _buildTestApp({
 
   return ProviderScope(
     overrides: [
+      fluxerDatabaseProvider.overrideWithValue(_database),
       organizedGuildListProvider.overrideWith(_FakeOrganizedGuildList.new),
       activeGuildIdProvider.overrideWithValue('g1'),
       dmViewModelProvider.overrideWith(_FakeDmViewModel.new),
@@ -93,7 +97,7 @@ Widget _buildTestApp({
       favoriteEmojiKeysProvider.overrideWith(_FakeFavoriteEmojiKeys.new),
       guildListViewModelProvider.overrideWith(_FakeGuildListViewModel.new),
       guildByIdProvider('g1').overrideWith(
-        (ref) async => const Guild(id: 'g1', name: 'One', ownerId: 'owner'),
+        (ref) => const Guild(id: 'g1', name: 'One', ownerId: 'owner'),
       ),
       collapsedEmojiPickerCategoriesProvider.overrideWith(
         _FakeCollapsedCategories.new,
@@ -101,7 +105,7 @@ Widget _buildTestApp({
     ],
     child: MaterialApp(
       locale: kTestLocale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,
@@ -127,7 +131,13 @@ final _animatedCustomEmoji = GuildEmojiEntry(
   guildId: 'g1',
 );
 
+late FluxerDatabase _database;
+
 void main() {
+  setUp(() {
+    _database = openTestDatabase();
+  });
+
   setUpAll(() async {
     TestWidgetsFlutterBinding.ensureInitialized();
     await EmojiRegistry.preload();

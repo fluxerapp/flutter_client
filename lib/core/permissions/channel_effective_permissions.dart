@@ -242,18 +242,6 @@ computeChannelLocalGuildChannelPermissionBitsOutcome({
   );
 }
 
-Future<int> computeChannelLocalGuildChannelPermissionBits({
-  required Ref ref,
-  required String channelId,
-}) async {
-  final ChannelPermissionBitsOutcome outcome =
-      await computeChannelLocalGuildChannelPermissionBitsOutcome(
-        ref: ref,
-        channelId: channelId,
-      );
-  return outcome.value;
-}
-
 final FutureProviderFamily<int, String>
 channelLocalGuildChannelPermissionBitsProvider =
     FutureProvider.family<int, String>((Ref ref, String channelId) {

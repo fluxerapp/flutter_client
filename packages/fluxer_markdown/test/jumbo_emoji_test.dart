@@ -7,7 +7,6 @@ import 'package:material_ui/material_ui.dart';
 import 'support/native_test_parser.dart';
 
 const FluxerMarkdownConfig _testMarkdownConfig = FluxerMarkdownConfig(
-  resolveEmojiShortcode: _noopEmojiShortcode,
   unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
   customEmojiUrlBuilder: _noopCustomEmojiUrl,
 );
@@ -15,8 +14,6 @@ const TextStyle _baseStyle = TextStyle(fontSize: 16, height: 1.375);
 const String _emojiA = '<:a:111111111111111111>';
 const String _emojiB = '<:b:222222222222222222>';
 const String _emojiC = '<:c:333333333333333333>';
-
-String? _noopEmojiShortcode(String name) => null;
 
 String? _noopUnicodeEmojiUrl(String unicode) => null;
 

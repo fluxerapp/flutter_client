@@ -28,10 +28,6 @@
     "@retry": {
         "description": "Generic label for retry actions (splash, errors, network, etc.)."
     },
-    "connectingCaps": "CONNECTING",
-    "@connectingCaps": {
-        "description": "Connecting text on the splash screen"
-    },
     "splashConnectionLost": "Ryšys nutrūko",
     "@splashConnectionLost": {
         "description": "Fallback headline on splash when gateway is unavailable (web parity)."
@@ -93,10 +89,6 @@
             }
         }
     },
-    "ssoRequired": "Norint pasiekti šią instanciją, būtinas SSO.",
-    "@ssoRequired": {
-        "description": "Short sign-in note shown when the instance requires single sign-on."
-    },
     "organizationSsoProvider": "Prisijunkite naudodami savo organizacijos vieningo prisijungimo (SSO) teikėją.",
     "@organizationSsoProvider": {
         "description": "Description shown when sign-in is restricted to the configured SSO provider."
@@ -117,10 +109,6 @@
                 "type": "String"
             }
         }
-    },
-    "logInViaBrowser": "Prisijungti per naršyklę",
-    "@logInViaBrowser": {
-        "description": "Secondary login that opens or uses the system browser."
     },
     "needAccountPrompt": "Neturite paskyros? ",
     "@needAccountPrompt": {
@@ -232,26 +220,9 @@
     "@accountAdd": {
         "description": "Button to add a new account."
     },
-    "accountRemove": "Pašalinti",
-    "@accountRemove": {
-        "description": "Context menu option to remove a stored account."
-    },
-    "accountRemoveTitle": "Pašalinti {username}",
-    "@accountRemoveTitle": {
-        "description": "Title for the remove account confirmation modal.",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
     "accountRemoveDescription": "Tai pašalins išsaugotą šios paskyros seansą.",
     "@accountRemoveDescription": {
         "description": "Description for the remove account confirmation modal."
-    },
-    "accountRemoveOnlyDescription": "Tai pašalins vienintelę išsaugotą paskyrą šiame įrenginyje.",
-    "@accountRemoveOnlyDescription": {
-        "description": "Description when removing the last stored account."
     },
     "accountExpired": "Baigėsi",
     "@accountExpired": {
@@ -636,7 +607,7 @@
     },
     "recoveryKitBackupCodesFailed": "Nepavyko įkelti atsarginių kodų.",
     "@recoveryKitBackupCodesFailed": {
-        "description": "Toast shown when the two-factor backup codes for the recovery kit cannot be loaded."
+        "description": "Toast shown when the two-factor backup codes cannot be loaded, in the recovery kit sheet or from View codes in security settings."
     },
     "recoveryKitIncludeBackupCodes": "Įtraukti mano dviejų veiksnių autentifikavimo atsarginius kodus į išsaugotą vaizdą",
     "@recoveryKitIncludeBackupCodes": {
@@ -783,10 +754,6 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsent": "Sutinku su Paslaugų teikimo sąlygomis ir Privatumo politika",
-    "@registerConsent": {
-        "description": "Consent checkbox label for registration (plain text fallback)."
-    },
     "registerConsentPrefix": "Sutinku su ",
     "@registerConsentPrefix": {
         "description": "Text before the Terms of Service link in the consent checkbox."
@@ -830,10 +797,6 @@
     "passkeyTimeout": "„Passkey“ autentifikavimas baigėsi. Prašome bandyti dar kartą.",
     "@passkeyTimeout": {
         "description": "Error when passkey authentication times out."
-    },
-    "passkeyNotAvailable": "„Passkey“ šiai programai neprieinami. Vietoj to prisijunkite el. paštu ir slaptažodžiu.",
-    "@passkeyNotAvailable": {
-        "description": "Error for unknown passkey provider errors (e.g. TYPE_UNKNOWN)."
     },
     "passkeyFailed": "Nepavyko autentifikuoti naudojant slaptafaktą. Pabandykite dar kartą.",
     "@passkeyFailed": {
@@ -942,26 +905,6 @@
     "@inviteAcceptSomeone": {
         "description": "Fallback inviter name when the inviter is unknown."
     },
-    "inviteAcceptEmojiPack": "Emocijų rinkinys",
-    "@inviteAcceptEmojiPack": {
-        "description": "Label for an emoji pack invite."
-    },
-    "inviteAcceptStickerPack": "Lipdukų rinkinys",
-    "@inviteAcceptStickerPack": {
-        "description": "Label for a sticker pack invite."
-    },
-    "inviteAcceptInstallEmojiPack": "Įdiegti emocijų rinkinį",
-    "@inviteAcceptInstallEmojiPack": {
-        "description": "Primary action to install an emoji pack from an invite."
-    },
-    "inviteAcceptInstallStickerPack": "Įdiegti lipdukų rinkinį",
-    "@inviteAcceptInstallStickerPack": {
-        "description": "Primary action to install a sticker pack from an invite."
-    },
-    "inviteAcceptPackInstallNote": "Priėmus šį kvietimą rinkinys bus įdiegtas automatiškai.",
-    "@inviteAcceptPackInstallNote": {
-        "description": "Note shown on expression pack invites before accepting."
-    },
     "mentionUnknownChannel": "unknown-channel",
     "@mentionUnknownChannel": {
         "description": "Fallback name shown in a channel mention pill when the channel is not found."
@@ -986,13 +929,13 @@
     "@embedThemeTitle": {
         "description": "Title on the theme embed card in chat."
     },
-    "embedThemeSubtitle": "Šis klientas nepalaiko pasirinktinių temų.",
-    "@embedThemeSubtitle": {
-        "description": "Subtitle on the theme embed card."
+    "embedThemeWebOnly": "Temas galima importuoti tik žiniatinklyje arba kompiuteryje.",
+    "@embedThemeWebOnly": {
+        "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
     },
-    "embedThemeUnavailableButton": "Temos neprieinamos",
-    "@embedThemeUnavailableButton": {
-        "description": "Button on the theme embed card - themes aren't supported in the client."
+    "embedThemeImport": "Importuoti temą",
+    "@embedThemeImport": {
+        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "privacySettings": "Privatumo nustatymai",
     "@privacySettings": {
@@ -1220,9 +1163,18 @@
     "@dmLeaveGroup": {
         "description": "DM context menu action to leave a group DM."
     },
-    "dmNoCommunitiesAvailable": "Nėra bendruomenių",
-    "@dmNoCommunitiesAvailable": {
-        "description": "Shown when no communities are available to invite to."
+    "dmInviteSentFor": "Išsiųstas kvietimas prisijungti prie bendruomenės „{communityName}“",
+    "@dmInviteSentFor": {
+        "description": "Toast confirming a community invite was sent to a DM recipient.",
+        "placeholders": {
+            "communityName": {
+                "type": "String"
+            }
+        }
+    },
+    "dmInviteSendFailed": "Nepavyko išsiųsti kvietimo. Bandykite dar kartą.",
+    "@dmInviteSendFailed": {
+        "description": "Toast shown when sending a community invite from the DM menu fails."
     },
     "dmGroupMemberCount": "{count} nariai",
     "@dmGroupMemberCount": {
@@ -1667,10 +1619,6 @@
             }
         }
     },
-    "emojiPlutoniumUpsellButton": "Gauti Plutonium",
-    "@emojiPlutoniumUpsellButton": {
-        "description": "Button label on the Plutonium upsell banner."
-    },
     "emojiPlutoniumUpsellDismiss": "Daugiau nerodyti",
     "@emojiPlutoniumUpsellDismiss": {
         "description": "Dismiss link on the Plutonium upsell banner."
@@ -1837,10 +1785,6 @@
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
     },
-    "fluxerTagInputLabel": "Naudotojo vardas",
-    "@fluxerTagInputLabel": {
-        "description": "Label above the username and discriminator input fields."
-    },
     "fluxerTagDescriptionBase": "Naudotojo vardą gali sudaryti tik raidės (a-z, A-Z), skaičiai (0-9) ir apatiniai brūkšniai. Naudotojų varduose didžiosios ir mažosios raidės neskiriamos.",
     "@fluxerTagDescriptionBase": {
         "description": "Base description text on the username change sheet."
@@ -1868,10 +1812,6 @@
     "validationAllowedChars": "Tik raidės (a-z, A-Z), skaitmenys (0-9) ir apatiniai brūkšniai (_)",
     "@validationAllowedChars": {
         "description": "Validation rule for allowed username characters."
-    },
-    "discriminatorPremiumTooltip": "Gaukite Plutonium, kad pritaikytumėte savo žymą arba išlaikytumėte ją keisdami vartotojo vardą",
-    "@discriminatorPremiumTooltip": {
-        "description": "Tooltip on disabled discriminator field for non-premium users."
     },
     "fluxerTagAlreadyTaken": "Naudotojo vardas jau užimtas",
     "@fluxerTagAlreadyTaken": {
@@ -1926,19 +1866,6 @@
     "premiumUpsellCustomizeTag": "Pritaikykite savo 4 skaitmenų žymą arba išlaikykite ją keisdami vartotojo vardą",
     "@premiumUpsellCustomizeTag": {
         "description": "Upsell text encouraging non-premium users to get Plutonium for tag customization."
-    },
-    "premiumTrialExpiresOn": "Jūsų Plutonium bandomasis laikotarpis baigiasi {date}. Atnaujinkite, kad išlaikytumėte savo pasirinktinę žymą ir gautumėte ženklelį savo profilyje.",
-    "@premiumTrialExpiresOn": {
-        "description": "Trial upsell with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActive": "Jūs naudojate Plutonium bandomąją versiją. Atnaujinkite, kad išlaikytumėte savo pasirinktinę žymą ir gautumėte ženklelį savo profilyje.",
-    "@premiumTrialActive": {
-        "description": "Trial upsell without specific expiry date."
     },
     "fluxerTagUpdated": "Naudotojo vardas atnaujintas",
     "@fluxerTagUpdated": {
@@ -2112,32 +2039,6 @@
     "@hideVisionaryIdDescription": {
         "description": "Description for the toggle to hide the Visionary ID badge."
     },
-    "premiumTrialSubscriptionStarts": "Jūs naudojate Plutonium bandomąją versiją – jūsų prenumerata prasidės {date}",
-    "@premiumTrialSubscriptionStarts": {
-        "description": "Trial banner title when user has an active subscription pending after trial.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialSubscriptionStartsDescription": "Jūsų prenumerata automatiškai prasidės pasibaigus bandomajai versijai. Jokių veiksmų nereikia.",
-    "@premiumTrialSubscriptionStartsDescription": {
-        "description": "Trial banner description when user has an active subscription pending after trial."
-    },
-    "premiumTrialExpiresOnProfile": "Jūs naudojate Plutonium bandomąją versiją, kuri baigiasi {date}",
-    "@premiumTrialExpiresOnProfile": {
-        "description": "Trial banner title with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActiveProfile": "Jūs naudojate Plutonium bandomąją versiją",
-    "@premiumTrialActiveProfile": {
-        "description": "Trial banner title without specific expiry date."
-    },
     "avatarDescriptionNonPremium": "JPEG, PNG, WebP. Daugiausiai 10MB. Rekomenduojama: 512×512px. Animaciniams avatarams (GIF) reikia Plutonium.",
     "@avatarDescriptionNonPremium": {
         "description": "Avatar helper text for non-premium users, mentioning Plutonium requirement for animated avatars."
@@ -2222,22 +2123,6 @@
     "profileSavedToast": "Profilis atnaujintas",
     "@profileSavedToast": {
         "description": "Toast message shown after successfully saving profile changes."
-    },
-    "profileEditButton": "Redaguoti profilį",
-    "@profileEditButton": {
-        "description": "Button label to open profile editing from the profile content card."
-    },
-    "profileNoteLabel": "Pastaba",
-    "@profileNoteLabel": {
-        "description": "Label for the personal note section on a user profile."
-    },
-    "profileNoteVisibility": "(matoma tik jums)",
-    "@profileNoteVisibility": {
-        "description": "Hint that the note is private and only visible to the current user."
-    },
-    "profileNoteEmpty": "Dar nėra pastabos.",
-    "@profileNoteEmpty": {
-        "description": "Placeholder shown when no personal note has been set for a user."
     },
     "sudoTitle": "Patvirtinkite savo tapatybę",
     "@sudoTitle": {
@@ -2610,42 +2495,6 @@
     "@securityPasskeyNameHint": {
         "description": "Hint for passkey name input."
     },
-    "securityPhoneSectionTitle": "Telefono numeris",
-    "@securityPhoneSectionTitle": {
-        "description": "Title for phone number section."
-    },
-    "securityPhoneSectionDescription": "Tvarkykite savo telefono numerį.",
-    "@securityPhoneSectionDescription": {
-        "description": "Description for phone number section."
-    },
-    "securityPhoneLabel": "Telefono numeris",
-    "@securityPhoneLabel": {
-        "description": "Label for phone number row."
-    },
-    "securityPhoneNone": "Nėra pridėto telefono numerio.",
-    "@securityPhoneNone": {
-        "description": "Shown when no phone number is set."
-    },
-    "securityPhoneAdd": "Pridėti telefoną",
-    "@securityPhoneAdd": {
-        "description": "Button to add phone number."
-    },
-    "securityPhoneRemove": "Pašalinti",
-    "@securityPhoneRemove": {
-        "description": "Button to remove phone number."
-    },
-    "securityPhoneRemoveTitle": "Panaikinti telefono numerį",
-    "@securityPhoneRemoveTitle": {
-        "description": "Title for phone remove confirmation."
-    },
-    "securityPhoneRemoveDescription": "Ar tikrai norite pašalinti savo telefono numerį?",
-    "@securityPhoneRemoveDescription": {
-        "description": "Description for phone remove confirmation."
-    },
-    "securityPhoneRemoved": "Telefono numeris pašalintas",
-    "@securityPhoneRemoved": {
-        "description": "Toast after phone removed."
-    },
     "securityClaimTitle": "Saugos funkcijos",
     "@securityClaimTitle": {
         "description": "Title when user needs to claim account for security."
@@ -2654,7 +2503,7 @@
     "@securityClaimDescription": {
         "description": "Description prompting user to claim account."
     },
-    "securityVerifyEmailRequired": "Turite patvirtinti savo el. pašto adresą, kad galėtumėte nustatyti dviejų veiksnių autentifikavimą, slaptažodžių raktus arba SMS patvirtinimą.",
+    "securityVerifyEmailRequired": "Turite patvirtinti savo el. pašto adresą, kad galėtumėte nustatyti dviejų veiksnių autentifikavimą arba slaptažodžių raktus.",
     "@securityVerifyEmailRequired": {
         "description": "Warning when email is not verified."
     },
@@ -2698,10 +2547,6 @@
     "@backupCodesWarning": {
         "description": "Warning about backup codes."
     },
-    "backupCodesDownload": "Atsisiųsti",
-    "@backupCodesDownload": {
-        "description": "Button to download backup codes."
-    },
     "backupCodesCopy": "Kopijuoti",
     "@backupCodesCopy": {
         "description": "Button to copy backup codes."
@@ -2717,46 +2562,6 @@
     "backupCodesDone": "Atlikta",
     "@backupCodesDone": {
         "description": "Button to close backup codes sheet."
-    },
-    "backupCodesViewTitle": "Peržiūrėti atsarginius kodus",
-    "@backupCodesViewTitle": {
-        "description": "Title for viewing existing backup codes."
-    },
-    "backupCodesViewDescription": "Norint peržiūrėti atsarginius kodus, gali prireikti patvirtinimo.",
-    "@backupCodesViewDescription": {
-        "description": "Description for view backup codes."
-    },
-    "phoneAddTitle": "Pridėti telefono numerį",
-    "@phoneAddTitle": {
-        "description": "Title for phone add sheet."
-    },
-    "phoneAddLabel": "Telefono numeris",
-    "@phoneAddLabel": {
-        "description": "Label for phone input."
-    },
-    "phoneAddHint": "Įveskite savo telefono numerį",
-    "@phoneAddHint": {
-        "description": "Hint for phone input."
-    },
-    "phoneAddFooter": "Atsiųsime SMS kodą, kai jis bus pasiekiamas. Jūsų numeris nėra susietas su paskyra. Mes saugome tik užšifruotą žymę be vartotojo ID, kad leistume ne daugiau kaip 2 patvirtinimus maždaug per 30 dienų.",
-    "@phoneAddFooter": {
-        "description": "Footer text for phone input."
-    },
-    "phoneAddSendCode": "Siųsti kodą",
-    "@phoneAddSendCode": {
-        "description": "Button to send phone verification code."
-    },
-    "phoneVerifyTitle": "Patvirtinti telefono numerį",
-    "@phoneVerifyTitle": {
-        "description": "Title for phone verify step."
-    },
-    "phoneVerifyDescription": "Įveskite patvirtinimo kodą, išsiųstą jūsų telefono numeriu.",
-    "@phoneVerifyDescription": {
-        "description": "Description for phone verify step."
-    },
-    "phoneAddSuccess": "Telefono numeris patvirtintas",
-    "@phoneAddSuccess": {
-        "description": "Toast after phone added."
     },
     "dangerZoneSectionTitle": "Pavojinga zona",
     "@dangerZoneSectionTitle": {
@@ -3008,10 +2813,6 @@
     "@authorizedAppsScopeAdmin": {
         "description": "OAuth2 scope description: admin."
     },
-    "privacyPendingDeletionTitle": "Laukiama ištrynimo",
-    "@privacyPendingDeletionTitle": {
-        "description": "Title of the warning alert shown when a bulk message deletion is pending."
-    },
     "blockedUsersTitle": "Užblokuoti naudotojai",
     "@blockedUsersTitle": {
         "description": "Header title of the Blocked Users settings page."
@@ -3248,10 +3049,6 @@
     "@userProfileNoteDelete": {
         "description": "Delete button in the note editor sheet."
     },
-    "userProfileNoteEmpty": "Spustelėkite, kad pridėtumėte pastabą",
-    "@userProfileNoteEmpty": {
-        "description": "Hint text when no note has been written yet."
-    },
     "userProfileMemberSince": "Narys nuo",
     "@userProfileMemberSince": {
         "description": "Header of the member-since section in the bio card."
@@ -3363,13 +3160,13 @@
     "@userProfileTransferOwnership": {
         "description": "Three-dot menu item to transfer community ownership to the member."
     },
-    "userProfileReportUser": "Pranešti apie naudotoją",
-    "@userProfileReportUser": {
-        "description": "Three-dot menu item to report the user."
-    },
     "userProfileReportMessage": "Pranešti apie žinutę",
     "@userProfileReportMessage": {
         "description": "Three-dot menu item to report the message that opened this profile."
+    },
+    "userProfileReportUserProfile": "Pranešti apie profilį",
+    "@userProfileReportUserProfile": {
+        "description": "Three-dot menu item on the full profile to report this user's profile (avatar, banner, name, bio and other profile parts). Message behavior is reported from the message instead."
     },
     "userProfileKickConfirmTitle": "Išmesti {username}?",
     "@userProfileKickConfirmTitle": {
@@ -3596,18 +3393,6 @@
     "durationCustom": "Pasirinktinis…",
     "@durationCustom": {
         "description": "Duration option label for a user-specified custom duration."
-    },
-    "iarReportUserTitle": "Pranešti apie naudotoją",
-    "@iarReportUserTitle": {
-        "description": "Title of the simple user-report sheet."
-    },
-    "iarReasonInappropriateProfile": "Netinkamas profilis",
-    "@iarReasonInappropriateProfile": {
-        "description": "User-report reason: the user's profile contains inappropriate content."
-    },
-    "iarReasonInappropriateProfileDescription": "Šio vartotojo profilyje yra netinkamo turinio",
-    "@iarReasonInappropriateProfileDescription": {
-        "description": "Description for the inappropriate-profile user-report reason."
     },
     "typingIndicatorOne": "Rašo {name}...",
     "@typingIndicatorOne": {
@@ -4034,17 +3819,9 @@
     "@channelComposerBarrierNotMemberLongEnough": {
         "description": "Composer barrier when the user's guild membership is too recent."
     },
-    "channelComposerBarrierNoPhoneNumber": "Norėdami siųsti žinutes šioje bendruomenėje, turite patvirtinti telefono numerį.",
-    "@channelComposerBarrierNoPhoneNumber": {
-        "description": "Composer barrier when the user must verify a phone number before messaging."
-    },
     "channelComposerBarrierVerifyEmail": "Patvirtinti el. paštą",
     "@channelComposerBarrierVerifyEmail": {
         "description": "Action button on the composer barrier for unverified email."
-    },
-    "channelComposerBarrierVerifyPhone": "Patvirtinti telefono numerį",
-    "@channelComposerBarrierVerifyPhone": {
-        "description": "Action button on the composer barrier for missing phone verification."
     },
     "chatAttachmentTooMany": "Pernelyg daug priedų (daugiausia {max})",
     "@chatAttachmentTooMany": {
@@ -4071,10 +3848,6 @@
     "@chatAttachmentDropToSend": {
         "description": "Overlay hint when dragging files over chat with Shift held."
     },
-    "chatAttachmentSendVoiceMessage": "Siųsti balso žinutę",
-    "@chatAttachmentSendVoiceMessage": {
-        "description": "Menu item to open the voice message recorder."
-    },
     "voiceMessageTitle": "Balso žinutė",
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
@@ -4095,10 +3868,6 @@
     "@voiceMessageMicPermissionDenied": {
         "description": "Shown when microphone permission is denied for voice messages."
     },
-    "voiceMessageRecordingNotSupported": "Balso įrašymas nepalaikomas šiame įrenginyje.",
-    "@voiceMessageRecordingNotSupported": {
-        "description": "Shown when the device cannot record voice messages."
-    },
     "voiceMessageMicInUse": "Išeikite iš balso skambučio, kad įrašytumėte balso pranešimą.",
     "@voiceMessageMicInUse": {
         "description": "Shown when the microphone is already used by an active voice call."
@@ -4111,26 +3880,6 @@
     "@voiceMessageSendFailed": {
         "description": "Shown when sending a voice message fails."
     },
-    "voiceMessageRecordingHint": "Kalbėkite dabar. Baigę paspauskite „Stabdyti“ – vėliau galėsite apkarpyti.",
-    "@voiceMessageRecordingHint": {
-        "description": "Help text while recording a voice message on desktop."
-    },
-    "voiceMessageReviewHint": "Vilkite rankenėles, kad apkarpytumėte, tada paspauskite „Siųsti“.",
-    "@voiceMessageReviewHint": {
-        "description": "Help text while reviewing a voice message before send."
-    },
-    "voiceMessageStop": "Stabdyti",
-    "@voiceMessageStop": {
-        "description": "Stop recording button in voice message composer."
-    },
-    "voiceMessageStartRecording": "Pradėti įrašymą",
-    "@voiceMessageStartRecording": {
-        "description": "Button to retry voice recording after permission error."
-    },
-    "voiceMessageRerecord": "Įrašyti iš naujo",
-    "@voiceMessageRerecord": {
-        "description": "Button to discard review and record again."
-    },
     "voiceMessagePlay": "Leisti",
     "@voiceMessagePlay": {
         "description": "Play voice message preview."
@@ -4138,16 +3887,6 @@
     "voiceMessagePause": "Pristabdyti",
     "@voiceMessagePause": {
         "description": "Pause voice message preview."
-    },
-    "voiceMessageSelectionTooShort": "Pasirinkimas turi būti bent {seconds} s.",
-    "@voiceMessageSelectionTooShort": {
-        "description": "Error when trimmed voice message is too short.",
-        "placeholders": {
-            "seconds": {
-                "type": "num",
-                "format": "compact"
-            }
-        }
     },
     "chatAttachmentEditTitle": "Redaguoti priedą",
     "@chatAttachmentEditTitle": {
@@ -4192,10 +3931,6 @@
     "chatAttachmentSourceBrowse": "Naršyti failus",
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
-    },
-    "chatAttachmentPasteTooltip": "Įklijuoti failą iš mainų srities",
-    "@chatAttachmentPasteTooltip": {
-        "description": "Tooltip for pasting an image attachment from the clipboard."
     },
     "chatAttachmentSpoiler": "Spoileris",
     "@chatAttachmentSpoiler": {
@@ -4293,14 +4028,6 @@
     "@matureContentOpenLinkButton": {
         "description": "Primary action on mature link channel gates."
     },
-    "sensitiveContentSectionTitle": "Jautrus turinys",
-    "@sensitiveContentSectionTitle": {
-        "description": "Privacy settings section title for sensitive content filters."
-    },
-    "sensitiveContentSectionDescription": "Valdykite, kaip neskelbtini ar suaugusiems skirti medijos failai filtruojami skirtinguose kontekstuose",
-    "@sensitiveContentSectionDescription": {
-        "description": "Privacy settings section description for sensitive content filters."
-    },
     "sensitiveContentFriendDmLabel": "Tiesioginės žinutės iš draugų",
     "@sensitiveContentFriendDmLabel": {
         "description": "Label for friend DM sensitive content filter."
@@ -4325,18 +4052,6 @@
     "@sensitiveContentFilterBlock": {
         "description": "Sensitive content filter option to block media."
     },
-    "sensitiveContentBlurUnscannedLabel": "Užtušuoti mediją iki saugos patikrinimo pabaigos",
-    "@sensitiveContentBlurUnscannedLabel": {
-        "description": "Toggle label for blurring unscanned media."
-    },
-    "sensitiveContentBlurUnscannedDescriptionAdult": "Kai įjungta, vaizdai ir vaizdo įrašai bus užtušuoti, kol baigsis turinio saugos patikrinimas.",
-    "@sensitiveContentBlurUnscannedDescriptionAdult": {
-        "description": "Description for blur-unscanned toggle for adult accounts."
-    },
-    "sensitiveContentBlurUnscannedDescriptionMinor": "Šis nustatymas visada įjungtas jūsų paskyrai.",
-    "@sensitiveContentBlurUnscannedDescriptionMinor": {
-        "description": "Description for blur-unscanned toggle for minor accounts."
-    },
     "sensitiveContentResetButton": "Atkurti",
     "@sensitiveContentResetButton": {
         "description": "Reset button for sensitive content settings."
@@ -4353,10 +4068,6 @@
                 "type": "int"
             }
         }
-    },
-    "chatCancelUpload": "Atšaukti įkėlimą",
-    "@chatCancelUpload": {
-        "description": "Button or menu action label for canceling an in-flight message attachment upload."
     },
     "chatAttachmentExpiresOn": "Baigiasi {date}",
     "@chatAttachmentExpiresOn": {
@@ -4626,10 +4337,6 @@
     "@connectionEnterDomain": {
         "description": "Inline error shown when the domain input is empty."
     },
-    "lookAndFeelTitle": "Išvaizda",
-    "@lookAndFeelTitle": {
-        "description": "Title of the Look & Feel (Appearance) settings page."
-    },
     "lookAndFeelThemeSectionTitle": "Tema",
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
@@ -4669,14 +4376,6 @@
     "lookAndFeelThemeSyncFailed": "Nepavyko sinchronizuoti temos su jūsų paskyra. Pabandykite dar kartą.",
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
-    },
-    "lookAndFeelChatFontScalingTitle": "Pokalbių šrifto dydis",
-    "@lookAndFeelChatFontScalingTitle": {
-        "description": "Section title for the chat font size slider."
-    },
-    "lookAndFeelChatFontScalingDescription": "Koreguoti šrifto dydį pokalbių srityje.",
-    "@lookAndFeelChatFontScalingDescription": {
-        "description": "Section description for the chat font size slider."
     },
     "lookAndFeelInterfaceTitle": "Sąsaja",
     "@lookAndFeelInterfaceTitle": {
@@ -4745,42 +4444,6 @@
     "lookAndFeelHideKeyboardHintsDescription": "Kai įjungta, sparčiųjų klavišų ženkleliai paslėpti įrankių patarimų iššokančiuose languose.",
     "@lookAndFeelHideKeyboardHintsDescription": {
         "description": "Toggle description for the hide-keyboard-hints switch."
-    },
-    "lookAndFeelNekoTitle": "Įvairūs",
-    "@lookAndFeelNekoTitle": {
-        "description": "Subsection title under Interface for Neko appearance settings."
-    },
-    "lookAndFeelNekoDescription": "Įvairūs sąsajos nustatymai.",
-    "@lookAndFeelNekoDescription": {
-        "description": "Subsection description for Neko appearance settings."
-    },
-    "lookAndFeelShowNekoLabel": "Rodyti Neko",
-    "@lookAndFeelShowNekoLabel": {
-        "description": "Toggle label for showing Neko in the chat footer."
-    },
-    "lookAndFeelShowNekoDescription": "Kai įjungta, Neko pasirodo šalia pokalbių įvesties laukelio.",
-    "@lookAndFeelShowNekoDescription": {
-        "description": "Toggle description for showing Neko in chat."
-    },
-    "lookAndFeelVoiceChannelJoinTitle": "Prisijungimo prie balso kanalo veiksena",
-    "@lookAndFeelVoiceChannelJoinTitle": {
-        "description": "Subsection title under Interface — voice channel join behavior."
-    },
-    "lookAndFeelVoiceChannelJoinDescription": "Valdykite, kaip prisijungiate prie balso kanalų bendruomenėse.",
-    "@lookAndFeelVoiceChannelJoinDescription": {
-        "description": "Subsection description for voice channel join behavior."
-    },
-    "lookAndFeelRequireDoubleClickJoinLabel": "Reikalauti dukart spustelėti norint prisijungti prie balso kanalų",
-    "@lookAndFeelRequireDoubleClickJoinLabel": {
-        "description": "Toggle label — require double-click to join voice channels."
-    },
-    "lookAndFeelRequireDoubleClickJoinDescription": "Kai įjungta, turėsite dukart spustelėti balso kanalus, kad prisijungtumėte prie jų. Kai išjungta (numatyta), vienas spustelėjimas iškart prisijungs prie kanalo.",
-    "@lookAndFeelRequireDoubleClickJoinDescription": {
-        "description": "Toggle description for the require-double-click voice channel join switch."
-    },
-    "lookAndFeelChatFontPreviewSample": "Gudrusis lapinas peršoko tingų šunį.",
-    "@lookAndFeelChatFontPreviewSample": {
-        "description": "Sample text rendered at the selected chat font size to preview scaling."
     },
     "lookAndFeelGuildSidebarTitle": "Bendruomenės šoninė juosta",
     "@lookAndFeelGuildSidebarTitle": {
@@ -5189,25 +4852,9 @@
     "@messagesMediaAutocompleteSavedMediaLabel": {
         "description": "Toggle label for saved media in expression autocomplete."
     },
-    "messagesMediaEditingSectionTitle": "Redaguoti žinutę",
-    "@messagesMediaEditingSectionTitle": {
-        "description": "Section title for message editing settings."
-    },
-    "messagesMediaEditingSectionDescription": "Valdykite, kas nutinka jūsų redagavimo juodraščiui, kai atšaukiate.",
-    "@messagesMediaEditingSectionDescription": {
-        "description": "Section description for message editing settings."
-    },
-    "messagesMediaEditingPreserveDraftLabel": "Išsaugoti redagavimo juodraštį atšaukus",
-    "@messagesMediaEditingPreserveDraftLabel": {
-        "description": "Toggle label for preserving edit drafts on cancel."
-    },
     "accessibilityDmMessagePreviewGroupTitle": "DM žinučių peržiūros",
     "@accessibilityDmMessagePreviewGroupTitle": {
         "description": "Section title for DM message preview accessibility settings."
-    },
-    "accessibilityDmMessagePreviewGroupDescription": "Valdykite, kada tiesioginių žinučių sąraše rodomos žinučių peržiūros.",
-    "@accessibilityDmMessagePreviewGroupDescription": {
-        "description": "Section description for DM message preview accessibility settings."
     },
     "accessibilityDmMessagePreviewModeLabel": "DM žinučių peržiūros režimas",
     "@accessibilityDmMessagePreviewModeLabel": {
@@ -5365,10 +5012,6 @@
     "@voiceConnectionConfirmDoNothing": {
         "description": "Dismiss the dialog without joining voice."
     },
-    "voiceChannelEmptyDescription": "Tai balso kanalas. Prisijunkite, kad pradėtumėte kalbėti!",
-    "@voiceChannelEmptyDescription": {
-        "description": "Empty state body when viewing a guild voice channel while not in the call."
-    },
     "voiceChannelJoin": "Prisijungti prie balso kanalo",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
@@ -5408,14 +5051,6 @@
     "voiceChannelStatusConnecting": "Jungiamasi…",
     "@voiceChannelStatusConnecting": {
         "description": "Status in the in-page voice view while LiveKit is connecting."
-    },
-    "voiceChannelStatusConnected": "Prisijungta",
-    "@voiceChannelStatusConnected": {
-        "description": "Status in the in-page voice view when the voice session is active."
-    },
-    "voiceChannelStatusError": "Klaida",
-    "@voiceChannelStatusError": {
-        "description": "Short label in the channel header when the voice session reports an error."
     },
     "voiceParticipantTooltipMobileDevice": "Mobilusis įrenginys",
     "@voiceParticipantTooltipMobileDevice": {
@@ -5490,10 +5125,6 @@
     "voiceScreenShareNotificationText": "Bendrinamas jūsų ekranas.",
     "@voiceScreenShareNotificationText": {
         "description": "Body text for the Android foreground notification shown while screen sharing."
-    },
-    "voiceControlMore": "Daugiau",
-    "@voiceControlMore": {
-        "description": "Tooltip: more voice actions in the voice call control bar."
     },
     "voiceControlDisconnect": "Atjungti",
     "@voiceControlDisconnect": {
@@ -5745,6 +5376,10 @@
     "@chatSendFailureContentBlocked": {
         "description": "Fluxerbot system message when message content is blocked by safety systems."
     },
+    "chatSendFailureContentBlockedSelfHosted": "Jūsų žinutė nebuvo pristatyta, nes ją pažymėjo mūsų saugos sistemos. Jei manote, kad tai klaida, susisiekite su šios instancijos administratoriais.",
+    "@chatSendFailureContentBlockedSelfHosted": {
+        "description": "Fluxerbot system message on a self-hosted instance when message content is blocked by safety systems. Names no support mailbox."
+    },
     "chatSendFailureNsfwEmojiSticker": "Jūsų žinutė negalėjo būti pristatyta, nes joje yra suaugusiems skirtų jaustukų ar lipdukų, kurie neleidžiami šiame kontekste.",
     "@chatSendFailureNsfwEmojiSticker": {
         "description": "Fluxerbot system message when mature emoji or stickers are blocked."
@@ -5769,6 +5404,10 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "Dukart bakstelėkite žinutę, kad sureaguotumėte",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
     "chatMessageEdit": "Redaguoti žinutę",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -5776,6 +5415,14 @@
     "chatMessageReply": "Atsakyti",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
+    },
+    "notificationReplyPlaceholder": "Žinutė",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "Nepavyko išsiųsti atsakymo",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
     },
     "chatMessageForward": "Persiųsti",
     "@chatMessageForward": {
@@ -5926,420 +5573,155 @@
     "@chatMessageReport": {
         "description": "Action label that opens the report-message sheet so the user can flag the message to moderators."
     },
-    "iarReportMessageTitle": "Pranešti apie žinutę",
-    "@iarReportMessageTitle": {
-        "description": "Title shown at the top of the In-App Reporting (IAR) sheet when the user is reporting a specific message."
+    "reportFlowTitleMessage": "Pranešti apie žinutę",
+    "@reportFlowTitleMessage": {
+        "description": "Report flow: sheet title while the message report form loads or fails to load."
     },
-    "iarThisUserFallback": "šis naudotojas",
-    "@iarThisUserFallback": {
-        "description": "Lowercase phrase used mid-sentence in IAR copy when referring to the reported user without a name (e.g. inside the close-DM confirmation)."
+    "reportFlowTitleUserProfile": "Pranešti apie profilį",
+    "@reportFlowTitleUserProfile": {
+        "description": "Report flow: sheet title while the user profile report form loads or fails to load."
     },
-    "iarModalDescription": "Praneškite apie taisyklių pažeidimą arba raskite įrankius kontaktams ir nuostatoms tvarkyti.",
-    "@iarModalDescription": {
-        "description": "Screen-reader description for the IAR sheet announcing what the flow is for."
+    "reportFlowSummaryTitle": "Peržiūrėkite savo pranešimą",
+    "@reportFlowSummaryTitle": {
+        "description": "Report flow: title of the last screen, where the reporter reviews the report before sending it."
     },
-    "iarPathStepAriaLabel": "Ko jums reikia?",
-    "@iarPathStepAriaLabel": {
-        "description": "Accessible label for the primary-path radio group on the first step of the IAR sheet. Not shown visually; the radios are labelled inline."
+    "reportFlowSummarySubtitle": "Įsitikinkite, kad viskas atrodo gerai, prieš siųsdami.",
+    "@reportFlowSummarySubtitle": {
+        "description": "Report flow: subtitle of the report summary screen."
     },
-    "iarCategoryStepTitle": "Kokia taisyklė buvo pažeista?",
-    "@iarCategoryStepTitle": {
-        "description": "Title shown on the category step of the IAR sheet (platform-report path)."
+    "reportFlowDisclaimer": "Praneškite tik tai, ką sąžiningai laikote taisyklių pažeidimu. Piktnaudžiavimas pranešimais prieštarauja mūsų {guidelines}.",
+    "@reportFlowDisclaimer": {
+        "description": "Report flow: disclaimer on the report summary screen. {guidelines} is a link whose text is reportFlowCommunityGuidelinesLink.",
+        "placeholders": {
+            "guidelines": {
+                "type": "String",
+                "example": "Community Guidelines"
+            }
+        }
     },
-    "iarReasonStepTitle": "Kokia taisyklė buvo pažeista?",
-    "@iarReasonStepTitle": {
-        "description": "Title shown on the reason step of the IAR sheet after the user has picked a rule category."
+    "reportFlowCommunityGuidelinesLink": "bendruomenės gairių",
+    "@reportFlowCommunityGuidelinesLink": {
+        "description": "Report flow: link text inside reportFlowDisclaimer. Opens the community guidelines page."
     },
-    "iarReasonSelectHint": "Pasirinkite priežastį",
-    "@iarReasonSelectHint": {
-        "description": "Placeholder shown in the message-report reason dropdown before the user picks a rule."
+    "reportFlowDisclaimerNoLink": "Praneškite tik tai, ką sąžiningai laikote taisyklių pažeidimu, ir prašome nesiųsti to paties pranešimo du kartus.",
+    "@reportFlowDisclaimerNoLink": {
+        "description": "Report flow: disclaimer on the report summary screen when the instance has no community guidelines page."
     },
-    "iarPickAnOptionToast": "Pasirinkite parinktį, kad tęstumėte.",
-    "@iarPickAnOptionToast": {
-        "description": "Toast shown when the user taps Continue on a step without selecting any radio option."
+    "reportFlowSelectedMessage": "Žinutė, apie kurią pranešate",
+    "@reportFlowSelectedMessage": {
+        "description": "Report flow: heading above the preview of the reported message on the report summary screen."
     },
-    "iarPickARuleToast": "Pasirinkite pažeistą taisyklę.",
-    "@iarPickARuleToast": {
-        "description": "Toast shown when the user taps Send report without selecting a rule reason."
+    "reportFlowSelectedUser": "Profilis, apie kurį pranešate",
+    "@reportFlowSelectedUser": {
+        "description": "Report flow: heading above the card of the reported user on the first screen and the report summary screen."
     },
-    "iarPathPlatform": "Pranešti apie platformos taisyklių pažeidimą",
-    "@iarPathPlatform": {
-        "description": "Primary-path radio label: file a real DSA / platform-level report."
+    "reportFlowReportCategory": "Jūsų atsakymai",
+    "@reportFlowReportCategory": {
+        "description": "Report flow: heading above the list of answers the reporter picked, on the report summary screen."
     },
-    "iarPathCommunity": "Pranešti šios bendruomenės moderatoriems",
-    "@iarPathCommunity": {
-        "description": "Primary-path radio label: surface this to community moderators rather than platform safety."
+    "reportFlowSubmit": "Siųsti pranešimą",
+    "@reportFlowSubmit": {
+        "description": "Report flow: button on the report summary screen that sends the report."
     },
-    "iarPathPreferenceMessage": "Nepatinka šis turinys",
-    "@iarPathPreferenceMessage": {
-        "description": "Primary-path radio label: the user doesn't want platform action, they want self-service tools (block, leave, settings)."
+    "reportFlowBack": "Atgal",
+    "@reportFlowBack": {
+        "description": "Report flow: button that returns to the previous screen of the report form."
     },
-    "iarCategoryTargetedHarmLabel": "Grasinimai, priekabiavimas ar žala",
-    "@iarCategoryTargetedHarmLabel": {
-        "description": "Rule-category label grouping harassment, hate, violence, terrorism, raids, and self-harm content."
+    "reportFlowNext": "Kitas",
+    "@reportFlowNext": {
+        "description": "Report flow: button that goes to the next screen of the report form."
     },
-    "iarCategoryTargetedHarmDescription": "Patyčios, grasinimai, neapykanta, smurtas, reidai ar turinys, skatinantis žaloti save.",
-    "@iarCategoryTargetedHarmDescription": {
-        "description": "One-line description for the targeted-harm rule category."
+    "reportFlowDone": "Atlikta",
+    "@reportFlowDone": {
+        "description": "Report flow: button that closes the report form when it is finished."
     },
-    "iarCategorySafetyMinorsLabel": "Vaikų saugumas arba suaugusiesiems skirtas turinys",
-    "@iarCategorySafetyMinorsLabel": {
-        "description": "Rule-category label grouping child-safety and mature-content reports."
+    "reportFlowThankYouTitle": "Pranešimas išsiųstas",
+    "@reportFlowThankYouTitle": {
+        "description": "Report flow: title of the screen shown after a report was sent."
     },
-    "iarCategorySafetyMinorsDescription": "Rizika nepilnamečiams, netinkamoje vietoje esantis suaugusiesiems skirtas turinys arba nepageidaujamas elgesys.",
-    "@iarCategorySafetyMinorsDescription": {
-        "description": "One-line description for the child-safety / mature-content rule category."
+    "reportFlowThankYouNoReportTitle": "Ačiū, kad atkreipėte į tai dėmesį",
+    "@reportFlowThankYouNoReportTitle": {
+        "description": "Report flow: title of the screen shown when the chosen answer does not send a report."
     },
-    "iarCategoryPrivacyIdentityLabel": "Privatumas arba apsimetinėjimas kitu asmeniu",
-    "@iarCategoryPrivacyIdentityLabel": {
-        "description": "Rule-category label grouping privacy violations and impersonation."
-    },
-    "iarCategoryPrivacyIdentityDescription": "Doksingas, persekiojimas, apsimetinėjimas kitu asmeniu ar netinkamas profilis.",
-    "@iarCategoryPrivacyIdentityDescription": {
-        "description": "One-line description for the privacy / impersonation rule category."
-    },
-    "iarCategoryDeceptionLabel": "Sukčiavimas, kenkėjiškos programos ar dezinformacija",
-    "@iarCategoryDeceptionLabel": {
-        "description": "Rule-category label grouping spam/scams, malware, and harmful misinformation."
-    },
-    "iarCategoryDeceptionDescription": "Sukčiavimas, apgaulė, kenkėjiškos nuorodos ar melagingi teiginiai, galintys sukelti realią žalą.",
-    "@iarCategoryDeceptionDescription": {
-        "description": "One-line description for the scams / malware / misinformation rule category."
-    },
-    "iarCategoryIllegalOtherLabel": "Neteisėta veikla ar kas nors kita",
-    "@iarCategoryIllegalOtherLabel": {
-        "description": "Rule-category label grouping illegal activity and the catch-all Other reason."
-    },
-    "iarCategoryIllegalOtherDescription": "Neteisėta prekyba, nusikalstamos veikos palengvinimas arba aiškus taisyklių pažeidimas, kuris netelpa į aukščiau nurodytas kategorijas.",
-    "@iarCategoryIllegalOtherDescription": {
-        "description": "One-line description for the illegal / other rule category."
-    },
-    "iarReasonHarassmentLabel": "Priekabiavimas ar grasinimai",
-    "@iarReasonHarassmentLabel": {
-        "description": "Rule-reason label for harassment in the IAR message flow."
-    },
-    "iarReasonHarassmentMessageDescription": "Patyčios, pasikartojantis nepageidaujamas bendravimas, persekiojimas ar tikslingas piktnaudžiavimas.",
-    "@iarReasonHarassmentMessageDescription": {
-        "description": "Rule-reason description for harassment in the IAR message flow."
-    },
-    "iarReasonHateLabel": "Neapykantos kalba",
-    "@iarReasonHateLabel": {
-        "description": "Rule-reason label for hate speech in the IAR message flow."
-    },
-    "iarReasonHateMessageDescription": "Įžeidūs epitetai, nužmoginanti kalba ar išpuoliai prieš saugomas grupes.",
-    "@iarReasonHateMessageDescription": {
-        "description": "Rule-reason description for hate speech in the IAR message flow."
-    },
-    "iarReasonViolenceLabel": "Smurtas ar smurtiniai grasinimai",
-    "@iarReasonViolenceLabel": {
-        "description": "Rule-reason label for violence in the IAR message flow."
-    },
-    "iarReasonViolenceDescription": "Patikimi grasinimai, smurtinis turinys ar smurto šlovinimas.",
-    "@iarReasonViolenceDescription": {
-        "description": "Rule-reason description for violence in the IAR message flow."
-    },
-    "iarReasonMatureContentLabel": "Brandus turinys arba priekabiavimas",
-    "@iarReasonMatureContentLabel": {
-        "description": "Rule-reason label for mature content / unwanted conduct in the IAR message flow."
-    },
-    "iarReasonMatureContentMessageDescription": "Nepageidaujamas elgesys arba brandus turinys netinkamoje vietoje.",
-    "@iarReasonMatureContentMessageDescription": {
-        "description": "Rule-reason description for mature content in the IAR message flow."
-    },
-    "iarReasonChildSafetyLabel": "Vaikų saugumas arba nepilnamečių išnaudojimas",
-    "@iarReasonChildSafetyLabel": {
-        "description": "Rule-reason label for child-safety reports in the IAR message flow. Also used as the {childSafetyReason} placeholder in iarUseChildSafetyInstead."
-    },
-    "iarReasonChildSafetyMessageDescription": "Vaikų viliojimo arba išnaudojimo turinys.",
-    "@iarReasonChildSafetyMessageDescription": {
-        "description": "Rule-reason description for child-safety reports in the IAR message flow."
-    },
-    "iarReasonHarmfulMisinfoLabel": "Žalinga dezinformacija",
-    "@iarReasonHarmfulMisinfoLabel": {
-        "description": "Rule-reason label for harmful misinformation in the IAR message flow."
-    },
-    "iarReasonHarmfulMisinfoDescription": "Melagingi teiginiai, galintys sukelti realią žalą.",
-    "@iarReasonHarmfulMisinfoDescription": {
-        "description": "Rule-reason description for harmful misinformation."
-    },
-    "iarReasonSpamLabel": "Šlamštas, sukčiavimas ar duomenų viliojimas",
-    "@iarReasonSpamLabel": {
-        "description": "Rule-reason label for spam/scams/phishing in the IAR message flow."
-    },
-    "iarReasonSpamMessageDescription": "Masinis šlamštas, sukčiavimas, netikri dovanų žaidimai arba piktnaudžiavimas paskyra.",
-    "@iarReasonSpamMessageDescription": {
-        "description": "Rule-reason description for spam/scams in the IAR message flow."
-    },
-    "iarReasonMalwareLabel": "Kenkėjiškos programos arba pavojingos nuorodos",
-    "@iarReasonMalwareLabel": {
-        "description": "Rule-reason label for malware / dangerous links in the IAR message flow."
-    },
-    "iarReasonMalwareDescription": "Kenkėjiškos programos, prisijungimo duomenų vagystė arba žalingi failai.",
-    "@iarReasonMalwareDescription": {
-        "description": "Rule-reason description for malware."
-    },
-    "iarReasonPrivacyLabel": "Privatumo pažeidimas",
-    "@iarReasonPrivacyLabel": {
-        "description": "Rule-reason label for privacy violations in the IAR message flow."
-    },
-    "iarReasonPrivacyDescription": "Doksingas, paviešinta privati informacija arba persekiojimas.",
-    "@iarReasonPrivacyDescription": {
-        "description": "Rule-reason description for privacy violations."
-    },
-    "iarReasonImpersonationLabel": "Apsimetinėjimas ar apgaulinga medija",
-    "@iarReasonImpersonationLabel": {
-        "description": "Rule-reason label for impersonation in the IAR message flow."
-    },
-    "iarReasonImpersonationMessageDescription": "Apsimetinėjimas kitu asmeniu, įskaitant apgaulingą dirbtinio intelekto sukurtą turinį.",
-    "@iarReasonImpersonationMessageDescription": {
-        "description": "Rule-reason description for impersonation in the IAR message flow."
-    },
-    "iarReasonIllegalLabel": "Neteisėta veikla",
-    "@iarReasonIllegalLabel": {
-        "description": "Rule-reason label for illegal activity in the IAR message flow."
-    },
-    "iarReasonIllegalDescription": "Neteisėta prekyba, nusikalstamos veikos palengvinimas arba neteisėta veikla.",
-    "@iarReasonIllegalDescription": {
-        "description": "Rule-reason description for illegal activity."
-    },
-    "iarReasonSelfHarmLabel": "Savižala ar savižudybė",
-    "@iarReasonSelfHarmLabel": {
-        "description": "Rule-reason label for self-harm content in the IAR message flow."
-    },
-    "iarReasonSelfHarmMessageDescription": "Savižalos ar valgymo sutrikimų skatinimas arba nurodymai, kaip tai daryti.",
-    "@iarReasonSelfHarmMessageDescription": {
-        "description": "Rule-reason description for self-harm content in the IAR message flow."
-    },
-    "iarReasonOtherLabel": "Dar vienas akivaizdus taisyklių pažeidimas",
-    "@iarReasonOtherLabel": {
-        "description": "Rule-reason label for the catch-all option in the IAR message flow."
-    },
-    "iarReasonOtherDescription": "Naudokite tik tuo atveju, jei tai aiškiai pažeidžia {productName} taisykles ir netinka aukščiau nurodytiems atvejams.",
-    "@iarReasonOtherDescription": {
-        "description": "Rule-reason description for the catch-all option.",
+    "reportFlowThankYouBody": "„{productName}“ saugos komanda peržiūrės jūsų pranešimą. Mes neatskleisime, kad jį pateikėte jūs.",
+    "@reportFlowThankYouBody": {
+        "description": "Report flow: body of the thank-you screen after a report was sent. {productName} is the name of the app.",
         "placeholders": {
             "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "iarUseChildSafetyInstead": "Jei įtrauktas nepilnametis, vietoj to naudokite „{childSafetyReason}“.",
-    "@iarUseChildSafetyInstead": {
-        "description": "Inline routing nudge shown under reasons (e.g. mature content) that overlap with child safety.",
-        "placeholders": {
-            "childSafetyReason": {
                 "type": "String",
-                "example": "Child safety or exploitation of minors"
+                "example": "Fluxer"
             }
         }
     },
-    "iarSafetyNoteChildSafety": "Jei tai susiję su CSAM arba nepilnamečio išnaudojimu, nedelsdami nusiųskite ir neatkurkite medžiagos.",
-    "@iarSafetyNoteChildSafety": {
-        "description": "Inline safety note shown for child-safety reports on the reason step."
+    "reportFlowThankYouNoReportBody": "Dėkojame, kad mums pranešėte. Tai savaime nepažeidžia mūsų taisyklių, todėl pranešimo nesiuntėme. Jei tai nukreipta prieš kokį nors asmenį arba vartojami įžeidžiantys epitetai, praneškite apie tai dar kartą ir pasirinkite „Įžeidžiantis ar žalingas turinys“.",
+    "@reportFlowThankYouNoReportBody": {
+        "description": "Report flow: body of the thank-you screen when the chosen answer does not send a report. \"Abusive or harmful content\" is the name of an option on the first screen of the message report form."
     },
-    "iarSafetyNoteSelfHarm": "Jei kam nors gresia tiesioginis pavojus ir galite tai padaryti saugiai, susisiekite su vietos pagalbos tarnybomis.",
-    "@iarSafetyNoteSelfHarm": {
-        "description": "Inline safety note shown for self-harm reports on the reason step."
+    "reportFlowThankYouNoReportBodyShort": "Dėkojame, kad mums pranešėte. Tai savaime nepažeidžia mūsų taisyklių, todėl pranešimo nesiuntėme.",
+    "@reportFlowThankYouNoReportBodyShort": {
+        "description": "Report flow: body of the thank-you screen when the chosen answer does not send a report and the reporter is already past the first screen of the form."
     },
-    "iarSafetyNoteViolence": "Jei grėsmė reali ir neišvengiama, susisiekite ir su vietos pagalbos tarnybomis.",
-    "@iarSafetyNoteViolence": {
-        "description": "Inline safety note shown for violence reports on the reason step."
+    "reportFlowMoreYouCanDo": "Jūsų galimybės",
+    "@reportFlowMoreYouCanDo": {
+        "description": "Report flow: heading above the extra actions (such as blocking the user) on the thank-you screen."
     },
-    "iarSafetyNoteTerrorism": "Jei tai yra neišvengiama teroristinė grėsmė, susisiekite ir su vietos pagalbos tarnybomis.",
-    "@iarSafetyNoteTerrorism": {
-        "description": "Inline safety note shown for terrorism reports on the reason step."
-    },
-    "iarActionBlockUserTitle": "Blokuoti šį naudotoją",
-    "@iarActionBlockUserTitle": {
-        "description": "Action card title for blocking the reported user."
-    },
-    "iarActionBlockUserDescription": "Nebegausite žinučių ir draugystės užklausų.",
-    "@iarActionBlockUserDescription": {
-        "description": "Action card description for blocking the reported user."
-    },
-    "iarActionBlockUserButton": "Blokuoti",
-    "@iarActionBlockUserButton": {
-        "description": "Trailing button label on the block-user action card."
-    },
-    "iarActionCopyMessageLinkTitle": "Kopijuoti žinutės nuorodą",
-    "@iarActionCopyMessageLinkTitle": {
-        "description": "Action card title for copying a link to the reported message so the user can share it with community moderators."
-    },
-    "iarActionCopyMessageLinkDescription": "Bendrinti su bendruomenės moderatoriais.",
-    "@iarActionCopyMessageLinkDescription": {
-        "description": "Action card description for copying a message link."
-    },
-    "iarActionCopyMessageLinkButton": "Kopijuoti",
-    "@iarActionCopyMessageLinkButton": {
-        "description": "Trailing button label on the copy-message-link action card."
-    },
-    "iarActionCloseDmTitle": "Uždaryti šį tiesioginį pokalbį",
-    "@iarActionCloseDmTitle": {
-        "description": "Action card title for closing the DM with the reported user."
-    },
-    "iarActionCloseDmDescription": "Neužblokuoja. Vėliau galėsite jį vėl atidaryti.",
-    "@iarActionCloseDmDescription": {
-        "description": "Action card description for closing the DM."
-    },
-    "iarActionCloseDmButton": "Uždaryti tiesioginį pokalbį",
-    "@iarActionCloseDmButton": {
-        "description": "Trailing button label on the close-DM action card."
-    },
-    "iarActionLeaveCommunityTitle": "Palikti bendruomenę",
-    "@iarActionLeaveCommunityTitle": {
-        "description": "Action card title for leaving the guild the reported message was sent in."
-    },
-    "iarActionLeaveCommunityDescription": "Nebematysite jo turinio ir narių.",
-    "@iarActionLeaveCommunityDescription": {
-        "description": "Action card description for leaving the community."
-    },
-    "iarActionLeaveCommunityButton": "Palikti",
-    "@iarActionLeaveCommunityButton": {
-        "description": "Trailing button label on the leave-community action card."
-    },
-    "iarActionDmSettingsTitle": "DM ir draugystės užklausų nustatymai",
-    "@iarActionDmSettingsTitle": {
-        "description": "Action card title for opening the DM / friend-request privacy settings."
-    },
-    "iarActionDmSettingsDescription": "Pakeiskite, kas gali su jumis susisiekti.",
-    "@iarActionDmSettingsDescription": {
-        "description": "Action card description for DM / friend-request privacy settings."
-    },
-    "iarActionCallSettingsTitle": "Skambučių ir grupinių pokalbių nustatymai",
-    "@iarActionCallSettingsTitle": {
-        "description": "Action card title for opening the call / group-chat privacy settings."
-    },
-    "iarActionCallSettingsDescription": "Pakeiskite, kas gali jums skambinti ar jus pridėti.",
-    "@iarActionCallSettingsDescription": {
-        "description": "Action card description for call / group-chat privacy settings."
-    },
-    "iarActionOpenButton": "Atidaryti",
-    "@iarActionOpenButton": {
-        "description": "Trailing button label for action cards that navigate the user into a settings section."
-    },
-    "iarActionDeleteMessageTitle": "Ištrinti šią žinutę",
-    "@iarActionDeleteMessageTitle": {
-        "description": "Action card title (moderator-only) for deleting the reported message."
-    },
-    "iarActionDeleteMessageDescription": "Pašalinti ją iš kanalo visiems.",
-    "@iarActionDeleteMessageDescription": {
-        "description": "Action card description (moderator-only) for deleting the reported message."
-    },
-    "iarActionDeleteMessageButton": "Ištrinti",
-    "@iarActionDeleteMessageButton": {
-        "description": "Trailing button label on the delete-message action card."
-    },
-    "iarActionDeleteMessageDeletedButton": "Ištrinta",
-    "@iarActionDeleteMessageDeletedButton": {
-        "description": "Disabled-state trailing button label on the delete-message action card after the message is already gone."
-    },
-    "iarActionDeleteMessageDeletedTooltip": "Ši žinutė jau ištrinta.",
-    "@iarActionDeleteMessageDeletedTooltip": {
-        "description": "Tooltip on the disabled delete-message action card."
-    },
-    "iarActionBanUserTitle": "Užblokuoti šį naudotoją",
-    "@iarActionBanUserTitle": {
-        "description": "Action card title (moderator-only) for opening the ban dialog against the reported user."
-    },
-    "iarActionBanUserDescription": "Atidaryti užblokavimo dialogo langą šioje bendruomenėje.",
-    "@iarActionBanUserDescription": {
-        "description": "Action card description (moderator-only) for banning the reported user."
-    },
-    "iarActionBanUserButton": "Užblokuoti",
-    "@iarActionBanUserButton": {
-        "description": "Trailing button label on the ban-user action card."
-    },
-    "iarActionBanUserBannedButton": "Užblokuotas",
-    "@iarActionBanUserBannedButton": {
-        "description": "Disabled-state trailing button label on the ban-user action card after the target is already banned."
-    },
-    "iarActionBanUserBannedTooltip": "Šis naudotojas jau užblokuotas bendruomenėje.",
-    "@iarActionBanUserBannedTooltip": {
-        "description": "Tooltip on the disabled ban-user action card."
-    },
-    "iarCloseDmConfirmTitle": "Uždaryti tiesioginį pokalbį",
-    "@iarCloseDmConfirmTitle": {
-        "description": "Title of the confirm-close-DM bottom sheet shown after the user taps Close DM on the action card."
-    },
-    "iarCloseDmConfirmDescription": "Uždarykite dabartinį DM su {name}. Tai neužblokuos jo; galėsite atidaryti vėliau.",
-    "@iarCloseDmConfirmDescription": {
-        "description": "Body of the confirm-close-DM bottom sheet.",
+    "reportFlowBlockName": "Blokuoti {name}",
+    "@reportFlowBlockName": {
+        "description": "Report flow: title of the row on the thank-you screen that blocks the reported user. {name} is the display name of that user.",
         "placeholders": {
             "name": {
                 "type": "String",
-                "example": "ada"
+                "example": "Alice"
             }
         }
     },
-    "iarSuccessTitle": "Pranešimas išsiųstas",
-    "@iarSuccessTitle": {
-        "description": "Title shown on the success step after a platform report is submitted."
+    "reportFlowBlockDescription": "Paslepia šio naudotojo žinutes ir neleidžia rašyti jums",
+    "@reportFlowBlockDescription": {
+        "description": "Report flow: description under reportFlowBlockName on the thank-you screen."
     },
-    "iarSuccessBody": "Mūsų saugos komanda peržiūri pranešimą. Kai priimsime sprendimą, atsiųsime jums tiesioginę žinutę ir el. laišką.",
-    "@iarSuccessBody": {
-        "description": "Body shown on the success step after a platform report is submitted."
+    "reportFlowBlockButton": "Blokuoti",
+    "@reportFlowBlockButton": {
+        "description": "Report flow: button on the thank-you screen that blocks the reported user."
     },
-    "iarAlreadyReportedTitle": "Jau pranešta",
-    "@iarAlreadyReportedTitle": {
-        "description": "Title shown on the IAR success step when the message had already been reported by this user (HTTP 409); the existing report is under review."
+    "reportFlowBlockedButton": "Užblokuota",
+    "@reportFlowBlockedButton": {
+        "description": "Report flow: disabled button on the thank-you screen after the reported user was blocked."
     },
-    "iarAlreadyReportedBody": "Jūs jau pranešėte apie šią žinutę. Mūsų saugos komanda ją peržiūri.",
-    "@iarAlreadyReportedBody": {
-        "description": "Body shown on the IAR success step when the message had already been reported by this user (HTTP 409)."
+    "reportFlowUrgentBanner": "Jei kam nors gresia tiesioginis pavojus, pirmiausia kreipkitės į vietines pagalbos tarnybas.",
+    "@reportFlowUrgentBanner": {
+        "description": "Report flow: banner on screens about urgent harm, such as threats, self-harm or the safety of minors."
     },
-    "iarBackButton": "Atgal",
-    "@iarBackButton": {
-        "description": "Footer button label that returns the user to the previous IAR step."
+    "reportFlowLoadFailed": "Nepavyko įkelti pranešimo formos.",
+    "@reportFlowLoadFailed": {
+        "description": "Report flow: error shown when the report form could not be loaded."
     },
-    "iarContinueButton": "Tęsti",
-    "@iarContinueButton": {
-        "description": "Footer button label that advances the user to the next IAR step."
+    "reportFlowTryAgain": "Bandyti dar kartą",
+    "@reportFlowTryAgain": {
+        "description": "Report flow: button that loads the report form again after an error."
     },
-    "iarSendReportButton": "Siųsti pranešimą",
-    "@iarSendReportButton": {
-        "description": "Footer button label that submits the IAR report."
+    "reportFlowOutdated": "Pranešimo forma pasikeitė. Pradėkite iš naujo.",
+    "@reportFlowOutdated": {
+        "description": "Report flow: toast shown when the report form changed on the server while the reporter was filling it in. The form restarts from the first screen."
     },
-    "iarDoneButton": "Atlikta",
-    "@iarDoneButton": {
-        "description": "Footer button label that closes the IAR sheet from the success or guidance step."
+    "reportFlowAlreadyReported": "Jau pranešėte apie šią žinutę.",
+    "@reportFlowAlreadyReported": {
+        "description": "Report flow: note on the report summary screen when the reporter already reported this message."
     },
-    "iarCouldntSendToast": "Nepavyko išsiųsti pranešimo. Pabandykite dar kartą.",
-    "@iarCouldntSendToast": {
-        "description": "Toast shown when the IAR report submission fails."
+    "reportFlowAlreadyReportedProfile": "Jau šiandien pranešėte apie šį profilį.",
+    "@reportFlowAlreadyReportedProfile": {
+        "description": "Report flow: note on the report summary screen when the reporter already reported this user profile in the last 24 hours."
     },
-    "iarRateLimitedToast": "Siunčiate pranešimus per greitai. Palaukite akimirką ir pabandykite dar kartą.",
-    "@iarRateLimitedToast": {
-        "description": "Toast shown when an IAR report submission is rejected for rate limiting (HTTP 429)."
+    "reportFlowRateLimited": "Siunčiate pranešimus per greitai. Bandykite vėliau.",
+    "@reportFlowRateLimited": {
+        "description": "Report flow: note on the report summary screen when the reporter sent too many reports."
     },
-    "iarReportSentToast": "Pranešimas išsiųstas. Mūsų saugos komanda jį peržiūrės.",
-    "@iarReportSentToast": {
-        "description": "Toast shown after a message report is submitted successfully from the simple mobile report sheet."
+    "reportFlowSubmitFailed": "Nepavyko išsiųsti jūsų pranešimo. Bandykite dar kartą.",
+    "@reportFlowSubmitFailed": {
+        "description": "Report flow: note on the report summary screen when the report could not be sent."
     },
-    "iarBlockUserConfirmDescription": "Užblokuoti {name}? Jis negalės jums rašyti žinučių ar siųsti draugų prašymų. Vėliau galėsite jį atblokuoti.",
-    "@iarBlockUserConfirmDescription": {
-        "description": "Body of the confirm-block-user bottom sheet shown after the user taps Block on the IAR action card.",
-        "placeholders": {
-            "name": {
-                "type": "String",
-                "example": "ada"
-            }
-        }
-    },
-    "iarBlockUserFailedToast": "Nepavyko užblokuoti šio vartotojo. Pabandykite dar kartą.",
-    "@iarBlockUserFailedToast": {
-        "description": "Toast shown when blocking the reported user from the IAR action card fails."
-    },
-    "iarCloseDmSuccessToast": "DM uždarytas.",
-    "@iarCloseDmSuccessToast": {
-        "description": "Toast shown after the DM with the reported user is closed from the IAR action card."
-    },
-    "iarCloseDmFailedToast": "Nepavyko uždaryti šio DM. Pabandykite dar kartą.",
-    "@iarCloseDmFailedToast": {
-        "description": "Toast shown when closing the DM from the IAR action card fails."
-    },
-    "iarLeaveCommunityFailedToast": "Nepavyko palikti šios bendruomenės. Pabandykite dar kartą.",
-    "@iarLeaveCommunityFailedToast": {
-        "description": "Toast shown when leaving the community from the IAR action card fails."
+    "reportFlowAccountSetupRequired": "Norėdami siųsti pranešimus, užregistruokite paskyrą ir patvirtinkite el. pašto adresą.",
+    "@reportFlowAccountSetupRequired": {
+        "description": "Report flow: notice on the report summary screen when the account must be claimed and its email verified before it can send reports."
     },
     "chatMessageSuppressEmbeds": "Slėpti įterptuosius elementus",
     "@chatMessageSuppressEmbeds": {
@@ -6547,6 +5929,10 @@
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
     },
+    "chatImageCouldNotLoad": "Nepavyko įkelti šio paveikslėlio.",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
+    },
     "composerAutocompleteRoleMentionDescription": "Pranešti naudotojams, turintiems šį vaidmenį ir leidimą matyti šį kanalą.",
     "@composerAutocompleteRoleMentionDescription": {
         "description": "Secondary line in the @ mention autocomplete when the row is a mentionable guild role."
@@ -6594,10 +5980,6 @@
     "addGuildJoinFailed": "Nepavyko prisijungti prie bendruomenės. Pabandykite dar kartą.",
     "@addGuildJoinFailed": {
         "description": "Generic error when joining a community via invite fails."
-    },
-    "addGuildPackInstalled": "Pakuotė sėkmingai įdiegta.",
-    "@addGuildPackInstalled": {
-        "description": "Toast shown after accepting an emoji or sticker pack invite."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "Pašalinti visas reakcijas",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -6685,7 +6067,7 @@
             }
         }
     },
-    "dmComposerHint": "Message @{recipientName}",
+    "dmComposerHint": "Rašyti @{recipientName}",
     "@dmComposerHint": {
         "description": "Placeholder in the message composer for a one-to-one DM.",
         "placeholders": {
@@ -7087,6 +6469,10 @@
     "instanceUrlPlaceholder": "Įveskite instance URL (pvz., fluxer.app)",
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
+    },
+    "instanceUrlHelper": "Naudokite fluxer.app oficialiam egzemplioriui arba tikslų savarankiškai priglobto egzemplioriaus URL.",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
     },
     "resetToDefaultInstance": "Atstatyti į Fluxer",
     "@resetToDefaultInstance": {
@@ -7628,10 +7014,6 @@
     "@guildMenuHideMutedChannels": {
         "description": "Guild menu checkbox to hide muted channels."
     },
-    "guildMenuReportCommunity": "Pranešti apie bendruomenę",
-    "@guildMenuReportCommunity": {
-        "description": "Guild menu action to report the community."
-    },
     "guildMenuDebugCommunity": "Derinti bendruomenę",
     "@guildMenuDebugCommunity": {
         "description": "Guild menu action to open community debug info."
@@ -7677,10 +7059,6 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsCustomInviteUrl": "Pasirinktinė kvietimo nuoroda",
-    "@guildMenuSettingsCustomInviteUrl": {
-        "description": "Community settings tab for custom invite URLs."
-    },
     "guildMenuSettingsDiscovery": "Atradimas",
     "@guildMenuSettingsDiscovery": {
         "description": "Community settings tab for discovery settings."
@@ -7705,17 +7083,9 @@
     "@guildSettingsOverviewIconTitle": {
         "description": "Title for the guild icon section in overview settings."
     },
-    "guildSettingsUploadImage": "Įkelti paveikslėlį",
-    "@guildSettingsUploadImage": {
-        "description": "Button label to upload an image in guild settings."
-    },
     "guildSettingsOverviewBannerTitle": "Reklamjuostė",
     "@guildSettingsOverviewBannerTitle": {
         "description": "Title for the guild banner section."
-    },
-    "guildSettingsOverviewBannerHint": "Įkelkite banerį savo serveriui.",
-    "@guildSettingsOverviewBannerHint": {
-        "description": "Hint text for guild banner upload."
     },
     "guildSettingsOverviewNameTitle": "Pavadinimas",
     "@guildSettingsOverviewNameTitle": {
@@ -7725,22 +7095,6 @@
     "@guildSettingsOverviewNameHint": {
         "description": "Hint for the guild name field."
     },
-    "guildSettingsOverviewStatsTitle": "Statistika",
-    "@guildSettingsOverviewStatsTitle": {
-        "description": "Title for guild statistics section."
-    },
-    "guildSettingsOverviewMembers": "Nariai",
-    "@guildSettingsOverviewMembers": {
-        "description": "Label for member count in overview."
-    },
-    "guildSettingsOverviewOnline": "Prisijungęs",
-    "@guildSettingsOverviewOnline": {
-        "description": "Label for online count in overview."
-    },
-    "guildSettingsRolesDescription": "Naudokite vaidmenis nariams grupuoti ir priskirti leidimus.",
-    "@guildSettingsRolesDescription": {
-        "description": "Description for the roles settings tab."
-    },
     "guildSettingsCreateRole": "Kurti vaidmenį",
     "@guildSettingsCreateRole": {
         "description": "Button to create a new role."
@@ -7749,30 +7103,9 @@
     "@guildSettingsRolesListTitle": {
         "description": "Title for the roles list section."
     },
-    "guildSettingsEmojiSlotInfo": "Naudoti {staticCount} statinių, {animatedCount} animuotų jaustukų lizdai",
-    "@guildSettingsEmojiSlotInfo": {
-        "description": "Emoji slot usage summary.",
-        "placeholders": {
-            "staticCount": {
-                "type": "int"
-            },
-            "animatedCount": {
-                "type": "int"
-            }
-        }
-    },
     "guildSettingsEmojiEmpty": "Dar nėra pasirinktinių jaustukų.",
     "@guildSettingsEmojiEmpty": {
         "description": "Empty state for emoji settings."
-    },
-    "guildSettingsStickersSlotInfo": "Įkelta {count} lipdukės",
-    "@guildSettingsStickersSlotInfo": {
-        "description": "Sticker slot usage summary.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsStickersEmpty": "Dar nėra pasirinktinių lipdukų.",
     "@guildSettingsStickersEmpty": {
@@ -7818,8 +7151,6 @@
     "guildSettingsVerificationMediumDescription": "Reikalingas patvirtintas el. pašto adresas ir paskyra, kuri yra bent 5 minučių senumo.",
     "guildSettingsVerificationHigh": "Aukštas",
     "guildSettingsVerificationHighDescription": "Reikalingi visi vidutinio lygio reikalavimai ir narystė bendruomenėje bent 10 minučių.",
-    "guildSettingsVerificationHighest": "Labai aukštas",
-    "guildSettingsVerificationHighestDescription": "Reikalingas patvirtintas telefono numeris.",
     "guildSettingsAuditLogDescription": "Stebėkite moderatorių veiksmus visoje bendruomenėje.",
     "@guildSettingsAuditLogDescription": {
         "description": "Subtitle under the activity-log page title."
@@ -7847,14 +7178,6 @@
     "guildSettingsAuditLogUnknownUser": "Nežinomas naudotojas",
     "@guildSettingsAuditLogUnknownUser": {
         "description": "Fallback avatar label when the acting user is unavailable."
-    },
-    "guildSettingsAuditLogLoadError": "Nepavyko įkelti veiklos žurnalo.",
-    "@guildSettingsAuditLogLoadError": {
-        "description": "Generic error shown when fetching log entries fails."
-    },
-    "guildSettingsAuditLogLoadErrorTitle": "Nepavyko įkelti veiklos žurnalo",
-    "@guildSettingsAuditLogLoadErrorTitle": {
-        "description": "Error-state title when fetching log entries failed."
     },
     "guildSettingsAuditLogReason": "Priežastis",
     "@guildSettingsAuditLogReason": {
@@ -8826,14 +8149,6 @@
     "@auditLogOptionPermanentMembership": {
         "description": "Audit log option detail sentence."
     },
-    "guildSettingsLoadMore": "Įkelti daugiau",
-    "@guildSettingsLoadMore": {
-        "description": "Button to load more audit log entries."
-    },
-    "guildSettingsLoadingMore": "Įkeliama...",
-    "@guildSettingsLoadingMore": {
-        "description": "Loading state for pagination."
-    },
     "guildSettingsWebhooksDescription": "Peržiūrėkite ir tvarkykite visus savo bendruomenėje sukonfigūruotus webhookus.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
@@ -8842,42 +8157,9 @@
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
-    "guildSettingsCopyUrl": "Kopijuoti URL",
-    "@guildSettingsCopyUrl": {
-        "description": "Tooltip to copy a URL."
-    },
     "guildSettingsCopiedUrl": "URL nukopijuotas į iškarpinę",
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
-    },
-    "guildSettingsDeleteWebhook": "Ištrinti webhooką",
-    "@guildSettingsDeleteWebhook": {
-        "description": "Tooltip to delete a webhook."
-    },
-    "guildSettingsVanityUrlDescription": "Nustatykite pasirinktinę kvietimo nuorodą savo serveriui.",
-    "@guildSettingsVanityUrlDescription": {
-        "description": "Description for vanity URL tab."
-    },
-    "guildSettingsVanityUrlHint": "my-server",
-    "@guildSettingsVanityUrlHint": {
-        "description": "Hint for vanity URL input."
-    },
-    "guildSettingsSave": "Išsaugoti",
-    "@guildSettingsSave": {
-        "description": "Generic save button label."
-    },
-    "guildSettingsVanityUrlUsageTitle": "Naudojimas",
-    "@guildSettingsVanityUrlUsageTitle": {
-        "description": "Title for vanity URL usage section."
-    },
-    "guildSettingsVanityUrlUses": "{count} naudojimo kartų",
-    "@guildSettingsVanityUrlUses": {
-        "description": "Vanity URL usage count.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsDiscoveryDescription": "Įtraukite savo bendruomenę į Atradimą, kad kiti galėtų ją rasti ir prie jos prisijungti.",
     "@guildSettingsDiscoveryDescription": {
@@ -8916,10 +8198,6 @@
     "@guildSettingsDiscoveryWithdraw": {
         "description": "Button to withdraw discovery application."
     },
-    "guildSettingsMembersDescription": "Ieškokite ir tvarkykite serverio narius.",
-    "@guildSettingsMembersDescription": {
-        "description": "Description for members tab."
-    },
     "guildSettingsMembersSearchHint": "Ieškoti pagal naudotojo vardą arba ID",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
@@ -8941,27 +8219,6 @@
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
-    "guildSettingsInviteUses": "{uses} / {maxUses} naudojimo kartų",
-    "@guildSettingsInviteUses": {
-        "description": "Invite usage count.",
-        "placeholders": {
-            "uses": {
-                "type": "int"
-            },
-            "maxUses": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsInviteExpires": "Baigiasi {date}",
-    "@guildSettingsInviteExpires": {
-        "description": "Invite expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBansDescription": "Peržiūrėkite ir tvarkykite užblokuotus narius.",
     "@guildSettingsBansDescription": {
         "description": "Description for bans tab."
@@ -8974,30 +8231,9 @@
     "@guildSettingsBansEmpty": {
         "description": "Empty state for bans."
     },
-    "guildSettingsBanPermanent": "Nuolatinis banas",
-    "@guildSettingsBanPermanent": {
-        "description": "Label for permanent ban."
-    },
-    "guildSettingsBanExpires": "Baigiasi {date}",
-    "@guildSettingsBanExpires": {
-        "description": "Ban expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBanExpiresLabel": "Baigiasi",
     "@guildSettingsBanExpiresLabel": {
         "description": "Label for ban expiration row."
-    },
-    "guildSettingsUnban": "Atblokuoti",
-    "@guildSettingsUnban": {
-        "description": "Button to unban a user."
-    },
-    "guildSettingsBansLoading": "Įkeliami užblokuoti nariai",
-    "@guildSettingsBansLoading": {
-        "description": "Loading state for the guild bans list."
     },
     "guildSettingsBansNoSearchResults": "Nerasta užblokuotų narių, atitinkančių jūsų paiešką.",
     "@guildSettingsBansNoSearchResults": {
@@ -9041,10 +8277,6 @@
             }
         }
     },
-    "guildSettingsBansLoadError": "Nepavyko įkelti banų. Pabandykite dar kartą.",
-    "@guildSettingsBansLoadError": {
-        "description": "Error when loading the guild bans list fails."
-    },
     "guildSettingsRevokeBanError": "Nepavyko atšaukti baną. Pabandykite dar kartą.",
     "@guildSettingsRevokeBanError": {
         "description": "Error when revoking a ban fails."
@@ -9069,7 +8301,6 @@
     "@guildSettingsCategoryPeople": {
         "description": "Sidebar category for members, invites, and bans."
     },
-    "guildSettingsOverviewDescription": "Tvarkykite savo bendruomenės profilį, kanalus ir numatytuosius nustatymus.",
     "guildSettingsOverviewBrandingTitle": "Prekės ženklas",
     "guildSettingsOverviewBrandingDescription": "Atnaujinkite savo piktogramą, pavadinimą, reklamjuostę ir kvietimo foną",
     "@guildSettingsOverviewBrandingDescription": {
@@ -9088,7 +8319,6 @@
     },
     "guildSettingsOverviewNotificationsTitle": "Numatytieji pranešimai",
     "guildSettingsOverviewNotificationsLargeGuild": "Bendruomenėms, turinčioms daugiau nei 250 narių, priverstinai nustatomas „tik paminėjimai“ režimas. Jūsų originalus nustatymas išsaugomas ir bus atkurtas, jei bendruomenės narių skaičius nukris žemiau 250.",
-    "guildSettingsOverviewAdvancedTitle": "Išplėstiniai",
     "guildSettingsOverviewFlexibleNames": "Leisti lanksčius teksto kanalo pavadinimus",
     "guildSettingsOverviewHideOwnerCrown": "Slėpti bendruomenės savininko karūną",
     "guildSettingsOverviewDetachedBanner": "Atskirta reklamjuostė",
@@ -9114,10 +8344,6 @@
     "guildSettingsOverviewEmbedSplashTitle": "Pokalbio įterpties fonas",
     "@guildSettingsOverviewEmbedSplashTitle": {
         "description": "Title for embed splash upload section."
-    },
-    "guildSettingsOverviewEmbedSplashHint": "Rodoma kvietimų įterptuosiuose elementuose pokalbiuose.",
-    "@guildSettingsOverviewEmbedSplashHint": {
-        "description": "Note shown when uploading chat embed background."
     },
     "guildSettingsOverviewUploadBackground": "Įkelti foną",
     "@guildSettingsOverviewUploadBackground": {
@@ -9284,8 +8510,6 @@
     "@guildSettingsOverviewEmbedSplashUploadHint": {
         "description": "Upload requirements for chat embed background images."
     },
-    "guildSettingsModerationDescription": "Konfigūruokite patvirtinimo, turinio filtravimo ir suaugusiųjų turinio nustatymus.",
-    "guildSettingsModerationDiscoveryNotice": "Bendruomenėms, įtrauktoms į „Discovery“, taikomi apriboti moderavimo nustatymai.",
     "guildSettingsModerationContentFilterTitle": "Turinio filtravimas",
     "guildSettingsModerationContentFilterDescription": "Automatiškai tikrinti žinutes dėl nepadoraus turinio kanaluose, kurie nepažymėti kaip skirti brandžiam turiniui.",
     "guildSettingsModerationContentFilterDiscoveryNote": "Bendruomenėms, įtrauktoms į „Discovery“, privaloma tikrinti visus narius. Šio nustatymo negalima pakeisti, kai įjungtas „Discovery“.",
@@ -9295,8 +8519,6 @@
     "guildSettingsContentFilterNoRoleDescription": "Rekomenduojama daugumai bendruomenių",
     "guildSettingsContentFilterAll": "Filtruoti visus",
     "guildSettingsContentFilterAllDescription": "Didžiausia apsauga šeimai tinkamoms erdvėms",
-    "guildSettingsModerationMatureOff": "Išjungta",
-    "guildSettingsModerationMatureOn": "Įjungta",
     "guildSettingsContentWarningToggle": "Rodyti įspėjimą apie turinį",
     "@guildSettingsContentWarningToggle": {
         "description": "Switch label for the community content warning setting."
@@ -9316,7 +8538,6 @@
     "guildSettingsModeration2faTitle": "2FA reikalavimas",
     "guildSettingsModeration2faDescription": "Reikalauti dviejų veiksnių autentifikavimo iš moderatorių prieš jiems leidžiant blokuoti, šalinti, laikinai stabdyti ar naikinti žinutes.",
     "guildSettingsModeration2faSwitchLabel": "Reikalauti 2FA moderavimo veiksmams",
-    "guildSettingsModeration2faOwnerOnlyTooltip": "Šį nustatymą gali keisti tik bendruomenės savininkas",
     "guildSettingsModeration2faEnableFirstTooltip": "Norėdami pakeisti šį nustatymą, įjunkite dviejų veiksnių autentifikavimą savo paskyroje",
     "guildSettingsEmojiSearchHint": "Ieškoti jaustukų",
     "guildSettingsEmojiUploadTitle": "Įkelti jaustuką",
@@ -9338,8 +8559,6 @@
     },
     "guildSettingsStickersSearchHint": "Ieškoti lipdukų",
     "guildSettingsWebhooksInfo": "Norėdami sukurti webhook, atidarykite {channelSettingsPath}. Čia vis tiek galėsite redaguoti ir tvarkyti visus esamus webhook.",
-    "guildSettingsVanityUrlWarning": "Jūsų pasirinktinis URL neveiks, nebent bent vienas kanalas bus matomas visiems.",
-    "guildSettingsVanityUrlRemove": "Pašalinti",
     "guildSettingsBannedUsersTitle": "Užblokuoti nariai",
     "guildSettingsInvitesTableInviter": "Pakvietė",
     "guildSettingsInvitesTableChannel": "Kanalas",
@@ -9362,6 +8581,80 @@
     "userProfileLocalTime": "Vietinis laikas",
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
+    },
+    "profileLocalTimeSettingsTitle": "Profilio vietinis laikas",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "Nustatykite laiko juostą vieną kartą, kad {productName} galėtų atnaujinti jūsų UTC poslinkį pasikeitus vasaros laikui. Kiti žmonės mato tik jūsų UTC poslinkį, o ne tikslų laiko juostos identifikatorių.",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "Redaguoti profilio vietinį laiką",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "Laiko juosta",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "Pasirinkite laiko zoną, kurią {productName} naudoja apskaičiuodama jūsų UTC poslinkį, kad būtų rodomas vietinis profilio laikas.",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "Ieškoti laiko juostų",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "Nenustatyta",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "Kiti žmonės mato tik jūsų dabartinį UTC poslinkį, kai nusprendžiate dalytis profilio vietiniu laiku. Jie nemato tikslaus jūsų laiko juostos identifikatoriaus, pavyzdžiui, {timezoneIdentifierExample}. {productName} šį identifikatorių saugo tik tam, kad poslinkis būtų automatiškai atnaujintas pasikeitus vasaros laikui.",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "Visi",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "Leisti visiems, kurie gali matyti visą jūsų profilį, matyti jūsų vietos laiką",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "Draugai",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "Leisti draugams matyti jūsų profilio vietinį laiką",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "Bendruomenės nariai",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "Leisti bendruomenių, kuriose esate, nariams matyti jūsų profilio vietinį laiką",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
     },
     "userProfileSameTimeAsYou": "Toks pat laikas kaip ir jūsų",
     "@userProfileSameTimeAsYou": {
@@ -9418,10 +8711,6 @@
     "accessibilitySaturationTitle": "Sodrumas",
     "@accessibilitySaturationTitle": {
         "description": "Section title for the theme saturation slider on the accessibility settings page."
-    },
-    "accessibilitySaturationDescription": "Reguliuokite programėlės temos spalvų sodrumą.",
-    "@accessibilitySaturationDescription": {
-        "description": "Section description for the theme saturation slider on the accessibility settings page."
     },
     "dmDebugCategory": "Derinimo kategorija",
     "@dmDebugCategory": {
@@ -9596,6 +8885,10 @@
     "@lookAndFeelChatWallpaperCustomLabel": {
         "description": "Chat wallpaper option that picks an image from the gallery."
     },
+    "lookAndFeelChatWallpaperStarfieldLabel": "Žvaigždžių laukas",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
+    },
     "lookAndFeelChatWallpaperColorLabel": "Spalva {id}",
     "@lookAndFeelChatWallpaperColorLabel": {
         "description": "Accessibility label for a solid color wallpaper preset.",
@@ -9629,18 +8922,6 @@
     "mediaViewerCopyLink": "Kopijuoti nuorodą",
     "@mediaViewerCopyLink": {
         "description": "Media viewer action that copies the media URL to the clipboard."
-    },
-    "iarContinueToReportCommunity": "Tęsti ir pranešti apie bendruomenę",
-    "@iarContinueToReportCommunity": {
-        "description": "Primary button in the community report pre-confirm dialog."
-    },
-    "iarReasonHateGuildDescription": "Skatina neapykantą saugomoms grupėms.",
-    "@iarReasonHateGuildDescription": {
-        "description": "Community-report reason description for hate speech."
-    },
-    "iarReasonRaidLabel": "Reidų koordinavimas",
-    "@iarReasonRaidLabel": {
-        "description": "Community-report reason label for raid coordination."
     },
     "audioAndVideoInstanceVideoQualityLimit": "Šis serveris šiuo metu leidžia bendrinti ekraną iki 720p raiška ir 30 kadrų per sekundę.",
     "@audioAndVideoInstanceVideoQualityLimit": {
@@ -9706,14 +8987,6 @@
     "@guildSettingsRolesDenseLayout": {
         "description": "Tooltip when permission list is in comfy layout."
     },
-    "guildSettingsRolesSwitchToDenseLayout": "Perjungti į tankų išdėstymą",
-    "@guildSettingsRolesSwitchToDenseLayout": {
-        "description": "Aria label for switching to dense layout."
-    },
-    "guildSettingsRolesSwitchToComfyLayout": "Perjungti į patogų išdėstymą",
-    "@guildSettingsRolesSwitchToComfyLayout": {
-        "description": "Aria label for switching to comfy layout."
-    },
     "guildSettingsRolesSingleColumn": "Vienas stulpelis",
     "@guildSettingsRolesSingleColumn": {
         "description": "Tooltip when permission list is in two-column layout."
@@ -9721,10 +8994,6 @@
     "guildSettingsRolesTwoColumns": "Du stulpeliai",
     "@guildSettingsRolesTwoColumns": {
         "description": "Tooltip when permission list is in single-column layout."
-    },
-    "guildSettingsRolesSwitchToTwoColumns": "Perjungti į du stulpelius",
-    "@guildSettingsRolesSwitchToTwoColumns": {
-        "description": "Aria label for switching to two columns."
     },
     "guildSettingsRolesNoPermissionsFound": "Leidimų nerasta",
     "@guildSettingsRolesNoPermissionsFound": {
@@ -9900,42 +9169,6 @@
     "@systemPermissionSettingsOpenSettings": {
         "description": "Primary action that opens the device app settings for a blocked permission."
     },
-    "phoneTooManyAttempts": "Per daug bandymų. Šiek tiek palaukite ir bandykite dar kartą.",
-    "@phoneTooManyAttempts": {
-        "description": "Rate limit error for phone verification."
-    },
-    "phoneSmsUnavailable": "Šiuo metu SMS patvirtinimas nepasiekiamas. Bandykite dar kartą vėliau arba susisiekite su palaikymo komanda.",
-    "@phoneSmsUnavailable": {
-        "description": "SMS provider unavailable error."
-    },
-    "phoneNotEligible": "Telefono numerio patvirtinimas šiai paskyrai negalimas. Naudokite kitą metodą arba susisiekite su palaikymo komanda.",
-    "@phoneNotEligible": {
-        "description": "Account not eligible for phone verification."
-    },
-    "phoneInboundChallengeCodeLabel": "Kodas, kurį reikia išsiųsti",
-    "@phoneInboundChallengeCodeLabel": {
-        "description": "Label for inbound challenge code."
-    },
-    "requiredActionTitle": "Reikalingas paskyros patvirtinimas",
-    "@requiredActionTitle": {
-        "description": "Title for required action blocking modal."
-    },
-    "requiredActionIntroPhone": "Prieš tęsiant, jūsų registracijai reikalingas papildomas apsaugos nuo brukalų patikrinimas.",
-    "@requiredActionIntroPhone": {
-        "description": "Phone-only required action intro."
-    },
-    "requiredActionCheckEmailDescription": "Atsidarykite savo el. paštą ir spustelėkite gautą patvirtinimo nuorodą, kad tęstumėte.",
-    "@requiredActionCheckEmailDescription": {
-        "description": "Description for email verification instructions."
-    },
-    "requiredActionVerificationEmailSent": "Patvirtinimo el. laiškas išsiųstas. Patikrinkite gautuosius.",
-    "@requiredActionVerificationEmailSent": {
-        "description": "Toast after resending verification email."
-    },
-    "iarReasonChildSafetyGuildDescription": "Kelia pavojų nepilnamečiams arba talpina vaikų išnaudojimo turinį.",
-    "@iarReasonChildSafetyGuildDescription": {
-        "description": "Community-report reason description for child safety."
-    },
     "channelSettingsUrl": "URL",
     "@channelSettingsUrl": {
         "description": "Label for link channel URL field."
@@ -10012,10 +9245,6 @@
     "@channelSettingsVoiceRegionsLoadFailedDescription": {
         "description": "Error modal body when voice regions fail to load in channel settings."
     },
-    "channelSettingsResetSlider": "Grąžinti slankiklį į numatytąją reikšmę",
-    "@channelSettingsResetSlider": {
-        "description": "Tooltip for reset buttons on channel settings sliders."
-    },
     "channelSettingsMatureContentOffDescription": "Palikite šį kanalą atvirą brandžiam turiniui.",
     "@channelSettingsMatureContentOffDescription": {
         "description": "Description for the mature content off override option."
@@ -10025,15 +9254,6 @@
         "description": "Mature content summary when inherited setting is enabled.",
         "placeholders": {
             "inheritedSourceLabel": {
-                "type": "String"
-            }
-        }
-    },
-    "channelSettingsPermissionsNeedManageChannels": "Norėdami redaguoti šiuos leidimus, turite turėti leidimą „{manageChannelsPermissionLabel}“.",
-    "@channelSettingsPermissionsNeedManageChannels": {
-        "description": "Error when user lacks manage channels permission for channel permissions tab.",
-        "placeholders": {
-            "manageChannelsPermissionLabel": {
                 "type": "String"
             }
         }
@@ -10128,10 +9348,6 @@
     "@channelSettingsWebhooksUrl": {
         "description": "Label for read-only webhook URL field."
     },
-    "guildSettingsRolesCustomHoistOrder": "Pasirinktinė iškėlimo tvarka",
-    "@guildSettingsRolesCustomHoistOrder": {
-        "description": "Button to enter custom hoist order mode."
-    },
     "guildSettingsRolesCannotEditHigherRole": "Negalite redaguoti vaidmens, kuris yra tokio pat lygio arba aukštesnis už jūsų aukščiausią vaidmenį",
     "@guildSettingsRolesCannotEditHigherRole": {
         "description": "Tooltip when role hierarchy blocks editing."
@@ -10157,34 +9373,6 @@
         "description": "Deny state label for channel permission overwrite controls."
     },
     "guildSettingsInvitesTableExpires": "Baigiasi",
-    "iarReportGuildPreconfirmBody": "Jei šis pranešimas yra apie konkrečią žinutę šioje bendruomenėje, geriau praneškite apie tą žinutę. Pranešimai apie žinutes mūsų saugos komandai suteikia aiškiausią kontekstą, o išsamesnė informacija komentaruose padeda peržiūrėti greičiau. Apie visą bendruomenę praneškite tik tuo atveju, jei pranešimas apie žinutę neapimtų platesnės problemos.",
-    "@iarReportGuildPreconfirmBody": {
-        "description": "Body shown in the pre-confirm dialog before opening the community report sheet."
-    },
-    "iarReasonTerrorismDescription": "Propaguoja, verbuoja ar koordinuoja smurtinę ekstremistinę veiklą.",
-    "@iarReasonTerrorismDescription": {
-        "description": "Community-report reason description for terrorism or violent extremism."
-    },
-    "iarReasonMatureContentGuildLabel": "Brandus turinys arba nesaugus filtravimas",
-    "@iarReasonMatureContentGuildLabel": {
-        "description": "Community-report reason label for mature content or unsafe gating."
-    },
-    "iarReasonMatureContentGuildDescription": "Brandus turinys be tinkamo filtravimo.",
-    "@iarReasonMatureContentGuildDescription": {
-        "description": "Community-report reason description for mature content or unsafe gating."
-    },
-    "iarReasonPrivacyGuildLabel": "Privatumo pažeidimas arba asmens duomenų atskleidimas",
-    "@iarReasonPrivacyGuildLabel": {
-        "description": "Community-report reason label for privacy violation or doxxing."
-    },
-    "iarReasonPrivacyGuildDescription": "Bendrina asmeninę informaciją, persekioja naudotojus arba koordinuoja privatumo pažeidimus.",
-    "@iarReasonPrivacyGuildDescription": {
-        "description": "Community-report reason description for privacy violation or doxxing."
-    },
-    "iarReasonSelfHarmGuildDescription": "Skatina savižudybę, žalojimąsi ar valgymo sutrikimus.",
-    "@iarReasonSelfHarmGuildDescription": {
-        "description": "Community-report reason description for self-harm encouragement."
-    },
     "userSettingsNavNotifications": "Pranešimai",
     "@userSettingsNavNotifications": {
         "description": "User settings navigation item for notification settings."
@@ -10202,14 +9390,6 @@
                 "example": "Fluxer"
             }
         }
-    },
-    "notificationsEnableBrowserNotificationsLabel": "Įjungti naršyklės pranešimus",
-    "@notificationsEnableBrowserNotificationsLabel": {
-        "description": "Toggle label for enabling browser notifications."
-    },
-    "notificationsEnableBrowserNotificationsDescription": "Gaukite pranešimus, kai gaunate žinučių. Gali reikėti leisti pranešimus naršyklės nustatymuose. Norėdami valdyti pranešimus pagal kanalą / bendruomenę, dešiniuoju pelės mygtuku spustelėkite bendruomenės piktogramą ir atidarykite pranešimų nustatymus.",
-    "@notificationsEnableBrowserNotificationsDescription": {
-        "description": "Description for the enable browser notifications toggle."
     },
     "notificationsPushInactiveTimeoutLabel": "Neaktyvumo laikas iki pranešimų siuntimo",
     "@notificationsPushInactiveTimeoutLabel": {
@@ -10385,42 +9565,6 @@
             }
         }
     },
-    "iarReportGuildTitle": "Pranešti apie bendruomenę",
-    "@iarReportGuildTitle": {
-        "description": "Title of the simple community-report sheet."
-    },
-    "iarPreviewCommunitySubtitle": "Bendruomenė",
-    "@iarPreviewCommunitySubtitle": {
-        "description": "Subtitle shown under the community name in the IAR preview card."
-    },
-    "iarReasonHarassmentGuildLabel": "Priekabiavimas ar tikslinis piktnaudžiavimas",
-    "@iarReasonHarassmentGuildLabel": {
-        "description": "Community-report reason label for harassment or targeted abuse."
-    },
-    "iarReasonHarassmentGuildDescription": "Bendruomenė sudaro sąlygas masiniam užsipuldinėjimui arba tiksliniam priekabiavimui.",
-    "@iarReasonHarassmentGuildDescription": {
-        "description": "Community-report reason description for harassment or targeted abuse."
-    },
-    "iarReasonTerrorismLabel": "Terorizmas arba smurtinis ekstremizmas",
-    "@iarReasonTerrorismLabel": {
-        "description": "Community-report reason label for terrorism or violent extremism."
-    },
-    "iarReasonRaidDescription": "Koordinuoja reidus, masinius puolimus ar priekabiavimą prieš asmenis ar bendruomenes.",
-    "@iarReasonRaidDescription": {
-        "description": "Community-report reason description for raid coordination."
-    },
-    "iarReasonSpamGuildDescription": "Bendruomenė skirta šlamštui, sukčiavimui arba piktnaudžiavimui platforma.",
-    "@iarReasonSpamGuildDescription": {
-        "description": "Community-report reason description for spam, scams, or phishing."
-    },
-    "iarReasonMalwareGuildDescription": "Platina kenkėjiškas programas, kredencialų vagystes ar žalingus failus.",
-    "@iarReasonMalwareGuildDescription": {
-        "description": "Community-report reason description for malware distribution."
-    },
-    "iarReasonSelfHarmGuildLabel": "Skatina žalotis",
-    "@iarReasonSelfHarmGuildLabel": {
-        "description": "Community-report reason label for self-harm encouragement."
-    },
     "createDmChooseFriendsSubtitle": "Pasirinkite draugus, kuriems norite parašyti.",
     "@createDmChooseFriendsSubtitle": {
         "description": "Subtitle in the create DM flow."
@@ -10546,10 +9690,6 @@
     "@guildSettingsRolesAllowMentions": {
         "description": "Switch label for the mentionable toggle."
     },
-    "guildSettingsRolesSwitchToSingleColumn": "Perjungti į vieną stulpelį",
-    "@guildSettingsRolesSwitchToSingleColumn": {
-        "description": "Aria label for switching to single column."
-    },
     "guildSettingsRolesHoistOrder": "Iškėlimo tvarka",
     "@guildSettingsRolesHoistOrder": {
         "description": "Header for hoist order sub-mode."
@@ -10565,10 +9705,6 @@
     "guildSettingsRolesNoHoistedRoles": "Nėra iškeltų vaidmenų. Vaidmens nustatymuose įjunkite „Rodyti šį vaidmenį atskirai“, kad jis būtų rodomas čia.",
     "@guildSettingsRolesNoHoistedRoles": {
         "description": "Empty state when no roles are hoisted."
-    },
-    "guildSettingsRolesLockedTooltip": "Negalite redaguoti šio vaidmens, nes tai yra jūsų aukščiausias vaidmuo arba jis yra aukščiau už jus",
-    "@guildSettingsRolesLockedTooltip": {
-        "description": "Tooltip on locked role rows."
     },
     "guildSettingsRolesUpdatedSuccess": "Vaidmenys sėkmingai atnaujinti",
     "@guildSettingsRolesUpdatedSuccess": {
@@ -10639,10 +9775,6 @@
     "channelSettingsTopicTooLongMessage": "Sutrumpinkite temą ir bandykite dar kartą.",
     "@channelSettingsTopicTooLongMessage": {
         "description": "Error modal body when channel topic exceeds maximum length."
-    },
-    "channelSettingsAdvanced": "Išplėstiniai",
-    "@channelSettingsAdvanced": {
-        "description": "Collapsible advanced section title in channel overview."
     },
     "createDmDuplicateGroupDescription": "Jau turite grupę su šiais naudotojais. Ar tikrai norite sukurti naują? Tai irgi gerai!",
     "@createDmDuplicateGroupDescription": {
@@ -10831,10 +9963,6 @@
     "guildSettingsRolesCannotRemoveOwnPermission": "Negalite pašalinti šio leidimo, nes jis būtų pašalintas iš jūsų paties",
     "@guildSettingsRolesCannotRemoveOwnPermission": {
         "description": "Tooltip when revoking would strip permission from self."
-    },
-    "permissionUnknown": "Nežinomas leidimas",
-    "@permissionUnknown": {
-        "description": "Fallback permission label."
     },
     "permissionAdministrator": "Administratorius",
     "@permissionAdministrator": {
@@ -11033,10 +10161,6 @@
     "@channelDetailsSearchSortNewest": {
         "description": "Sort option label for newest messages first."
     },
-    "groupDmCreateInviteFailed": "Nepavyko sukurti kvietimo nuorodos",
-    "@groupDmCreateInviteFailed": {
-        "description": "Title when invite link generation fails."
-    },
     "groupDmLoadingInvites": "Įkeliami kvietimai...",
     "@groupDmLoadingInvites": {
         "description": "Loading state for group DM invites list."
@@ -11173,26 +10297,6 @@
     "audioAndVideoCameraQuality480pLabel": "480p",
     "@audioAndVideoCameraQuality480pLabel": {
         "description": "Camera quality option for 480p resolution."
-    },
-    "audioAndVideoHigherQualityRequiresPremium": "1080p ir 60 FPS reikalauja {premiumProductName}.",
-    "@audioAndVideoHigherQualityRequiresPremium": {
-        "description": "Note shown when higher video quality options require premium.",
-        "placeholders": {
-            "premiumProductName": {
-                "type": "String",
-                "example": "Plutonium"
-            }
-        }
-    },
-    "audioAndVideoCameraPermissionRequired": "{productName} reikia prieigos prie kameros, kad būtų galima parodyti jūsų įrenginius.",
-    "@audioAndVideoCameraPermissionRequired": {
-        "description": "Shown when camera permission is required to enumerate video devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
     },
     "languageAndTimeTimeFormatSectionDescription": "Pasirinkite, kaip laikas rodomas programėlėje",
     "@languageAndTimeTimeFormatSectionDescription": {
@@ -11339,10 +10443,6 @@
     "@languageAndTimeLanguageSectionDescription": {
         "description": "Settings section description for interface language preference."
     },
-    "languageAndTimeOpenLanguageSettings": "Atidaryti kalbos nustatymus",
-    "@languageAndTimeOpenLanguageSettings": {
-        "description": "Button that opens the system per-app language settings."
-    },
     "shareMediaTitle": "Bendrinti su",
     "@shareMediaTitle": {
         "description": "Title of the share-media bottom sheet."
@@ -11422,16 +10522,6 @@
     "audioAndVideoMicTestStopLabel": "Sustabdyti mikrofono testą",
     "@audioAndVideoMicTestStopLabel": {
         "description": "Button label to stop the microphone test."
-    },
-    "audioAndVideoMicTestPermissionRequired": "„{productName}“ reikalinga prieiga prie mikrofono, kad būtų galima patikrinti jūsų garsą.",
-    "@audioAndVideoMicTestPermissionRequired": {
-        "description": "Shown when microphone permission is required for the mic test.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
     },
     "audioAndVideoFrameRate60Label": "60 FPS",
     "@audioAndVideoFrameRate60Label": {
@@ -11745,10 +10835,6 @@
             }
         }
     },
-    "groupDmEditDetailsTooltip": "Redaguoti grupės informaciją",
-    "@groupDmEditDetailsTooltip": {
-        "description": "Tooltip on the desktop group DM header edit action."
-    },
     "groupDmGroupName": "Grupės pavadinimas",
     "@groupDmGroupName": {
         "description": "Label for the group name field in edit group."
@@ -11776,14 +10862,6 @@
     "groupDmAnimatedIconNotSupportedTitle": "Animuotos piktogramos nepalaikomos",
     "@groupDmAnimatedIconNotSupportedTitle": {
         "description": "Title when user selects an animated group icon."
-    },
-    "groupDmCouldntProcessImage": "Nepavyko apdoroti paveikslėlio",
-    "@groupDmCouldntProcessImage": {
-        "description": "Title when a cropped group icon cannot be processed."
-    },
-    "groupDmFailedToProcessCroppedImage": "Nepavyko apdoroti apkarpyto vaizdo. Bandykite dar kartą.",
-    "@groupDmFailedToProcessCroppedImage": {
-        "description": "Body when a cropped group icon cannot be processed."
     },
     "groupDmOrSendInvite": "arba išsiųskite kvietimą draugui:",
     "@groupDmOrSendInvite": {
@@ -11974,10 +11052,6 @@
     "groupDmAddFriendFailed": "Nepavyko pridėti šio draugo į grupę. Bandykite dar kartą.",
     "@groupDmAddFriendFailed": {
         "description": "Error when adding a single friend to a group DM fails."
-    },
-    "groupDmAddFailed": "Nepavyko pridėti prie grupės",
-    "@groupDmAddFailed": {
-        "description": "Title when adding friends to a group DM fails."
     },
     "groupDmRateLimited": "Veikiate per greitai. Truputį palaukite ir bandykite dar kartą.",
     "@groupDmRateLimited": {
@@ -12264,42 +11338,6 @@
     "@nagbarEnableNotifications": {
         "description": "Push notification permission nagbar CTA."
     },
-    "phoneCountryLabel": "Šalis",
-    "@phoneCountryLabel": {
-        "description": "Label for country selector in phone verification."
-    },
-    "phoneSearchCountries": "Ieškoti šalių...",
-    "@phoneSearchCountries": {
-        "description": "Search hint for country selector."
-    },
-    "phoneNumberRequired": "Reikalingas telefono numeris",
-    "@phoneNumberRequired": {
-        "description": "Validation error when phone number is empty."
-    },
-    "phoneInboundStepOpenMessaging": "Atidarykite telefono žinučių programėlę ir sukurkite naują tekstinę žinutę.",
-    "@phoneInboundStepOpenMessaging": {
-        "description": "Inbound verification step 1."
-    },
-    "phoneInboundStepSendCode": "Siųskite kodą {code} numeriu {number}.",
-    "@phoneInboundStepSendCode": {
-        "description": "Inbound verification step 2.",
-        "placeholders": {
-            "code": {
-                "type": "String"
-            },
-            "number": {
-                "type": "String"
-            }
-        }
-    },
-    "phoneInboundStepWait": "Palaukite, kol gausime jūsų žinutę. Tai gali užtrukti minutę.",
-    "@phoneInboundStepWait": {
-        "description": "Inbound verification step 3."
-    },
-    "iarReasonMalwareGuildLabel": "Kenkėjiškos programinės įrangos platinimas",
-    "@iarReasonMalwareGuildLabel": {
-        "description": "Community-report reason label for malware distribution."
-    },
     "addGuildCreateNameLabel": "Bendruomenės pavadinimas",
     "@addGuildCreateNameLabel": {
         "description": "Label for the community name input on the create sub-view."
@@ -12391,69 +11429,9 @@
     "@guildMenuSettingsChannels": {
         "description": "Guild settings menu item for channel management."
     },
-    "phoneEnterValidNumber": "Įveskite galiojantį mobiliojo telefono numerį.",
-    "@phoneEnterValidNumber": {
-        "description": "Validation error for invalid phone format."
-    },
-    "phoneCannotBeUsed": "Šio telefono numerio negalima naudoti. Bandykite kitą mobiliojo telefono numerį arba susisiekite su palaikymo komanda.",
-    "@phoneCannotBeUsed": {
-        "description": "API error when phone number is rejected."
-    },
-    "phoneAlreadyUsed": "Šis telefono numeris jau buvo naudotas. Bandykite kitą numerį arba susisiekite su palaikymo komanda.",
-    "@phoneAlreadyUsed": {
-        "description": "API error when phone number was reused."
-    },
-    "phoneCodeDidNotWork": "Šis kodas netiko. Patikrinkite jį ir bandykite dar kartą.",
-    "@phoneCodeDidNotWork": {
-        "description": "API error for invalid verification code."
-    },
-    "phoneSomethingWentWrong": "Kažkas nepavyko. Bandykite dar kartą.",
-    "@phoneSomethingWentWrong": {
-        "description": "Generic phone verification error."
-    },
-    "phoneInboundExpensiveDescription": "Siųsti SMS į šį telefono numerį yra per brangu, todėl prašome, kad Jūs atsiųstumėte mums SMS. Taip pat galite susisiekti su palaikymo tarnyba, kad šis reikalavimas būtų panaikintas Jūsų paskyroje.",
-    "@phoneInboundExpensiveDescription": {
-        "description": "Inbound challenge reason for expensive destinations."
-    },
-    "phoneInboundDefaultDescription": "Turime gauti jūsų SMS žinutę, kad patvirtintume jūsų telefono numerį.",
-    "@phoneInboundDefaultDescription": {
-        "description": "Default inbound challenge description."
-    },
-    "phoneInboundGetNewCode": "Gauti naują kodą",
-    "@phoneInboundGetNewCode": {
-        "description": "Button to refresh inbound challenge."
-    },
-    "requiredActionChooseMethodTitle": "Pasirinkite patvirtinimo metodą",
-    "@requiredActionChooseMethodTitle": {
-        "description": "Title when user can pick email or phone."
-    },
-    "requiredActionUseEmail": "Naudoti el. paštą",
-    "@requiredActionUseEmail": {
-        "description": "Button to choose email verification."
-    },
-    "requiredActionUsePhone": "Naudoti telefoną",
-    "@requiredActionUsePhone": {
-        "description": "Button to choose phone verification."
-    },
-    "requiredActionCheckEmailTitle": "Patikrinkite savo el. paštą",
-    "@requiredActionCheckEmailTitle": {
-        "description": "Title for email verification instructions."
-    },
     "addGuildCreateChangeIcon": "Keisti piktogramą",
     "@addGuildCreateChangeIcon": {
         "description": "Button label to replace the selected community icon."
-    },
-    "phoneInboundOurNumberLabel": "Siųsti į",
-    "@phoneInboundOurNumberLabel": {
-        "description": "Label for inbound destination number."
-    },
-    "requiredActionResendVerificationEmail": "Siųsti patvirtinimo el. laišką iš naujo",
-    "@requiredActionResendVerificationEmail": {
-        "description": "Button to resend verification email."
-    },
-    "requiredActionSignOut": "Atsijungti",
-    "@requiredActionSignOut": {
-        "description": "Sign out button in required action modal."
     },
     "channelDetailsSearchEmptyTitle": "Ieškoti šioje pokalbyje",
     "@channelDetailsSearchEmptyTitle": {
@@ -12490,16 +11468,6 @@
     "guildSettingsInvitesTitle": "Kvietimai",
     "@guildSettingsInvitesTitle": {
         "description": "Title for the invites settings tab."
-    },
-    "audioAndVideoMicrophonePermissionRequired": "{productName} reikia prieigos prie mikrofono, kad būtų galima parodyti jūsų įrenginius.",
-    "@audioAndVideoMicrophonePermissionRequired": {
-        "description": "Shown when microphone permission is required to enumerate audio input devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
     },
     "permissionPinMessages": "Prisegti žinutes",
     "@permissionPinMessages": {
@@ -12586,10 +11554,6 @@
     "channelDetailsDeleteChannel": "Ištrinti kanalą",
     "@channelDetailsDeleteChannel": {
         "description": "Channel details menu action to delete a guild channel."
-    },
-    "channelSettingsCategorySettingsTitle": "Kategorijos nustatymai",
-    "@channelSettingsCategorySettingsTitle": {
-        "description": "Title for category settings modal."
     },
     "channelSettingsEditCategory": "Redaguoti kategoriją",
     "@channelSettingsEditCategory": {
@@ -12730,10 +11694,6 @@
     "@channelSettingsVoiceRegionDescription": {
         "description": "Helper text for the voice region picker in channel settings."
     },
-    "channelSettingsMatureContentOverride": "Brandaus turinio nepaisymas",
-    "@channelSettingsMatureContentOverride": {
-        "description": "Accessibility label for mature content override control."
-    },
     "channelSettingsMatureContentSectionDescription": "Perrašyti šiam kanalui nustatytą {scopeLevel} lygio parametrą. Brandus turinys bus rodomas už užtvaros prieš įeinant.",
     "@channelSettingsMatureContentSectionDescription": {
         "description": "Section description for mature content settings in channel overview.",
@@ -12764,14 +11724,6 @@
             }
         }
     },
-    "channelSettingsMatureContentCategorySource": "kategorija",
-    "@channelSettingsMatureContentCategorySource": {
-        "description": "Lowercase source label for inherited mature content from category."
-    },
-    "channelSettingsMatureContentCommunitySource": "bendruomenės",
-    "@channelSettingsMatureContentCommunitySource": {
-        "description": "Lowercase source label for inherited mature content from community."
-    },
     "channelSettingsMatureContentCategoryScope": "Kategorija",
     "@channelSettingsMatureContentCategoryScope": {
         "description": "Capitalized scope label when mature content inherits from a category."
@@ -12783,15 +11735,6 @@
     "channelSettingsContentWarningToggle": "Rodyti įspėjimą apie turinį šiame kanale",
     "@channelSettingsContentWarningToggle": {
         "description": "Toggle for showing content warning in channel."
-    },
-    "channelSettingsPermissionsNeedManageRoles": "Norėdami redaguoti šiuos leidimus, turite turėti leidimą „{manageRolesPermissionLabel}“.",
-    "@channelSettingsPermissionsNeedManageRoles": {
-        "description": "Error when user lacks manage roles permission for channel permissions tab.",
-        "placeholders": {
-            "manageRolesPermissionLabel": {
-                "type": "String"
-            }
-        }
     },
     "channelSettingsUnknownRole": "Nežinomas vaidmuo",
     "@channelSettingsUnknownRole": {
@@ -12828,10 +11771,6 @@
     "channelSettingsPermissionsNotSyncedWithParentPrefix": "Šis kanalas nesinchronizuojamas su pagrindine kategorija ",
     "@channelSettingsPermissionsNotSyncedWithParentPrefix": {
         "description": "Prefix for the not-synced-with-parent banner in channel permissions."
-    },
-    "channelSettingsPermissionsRolesAndMembers": "Vaidmenys ir nariai",
-    "@channelSettingsPermissionsRolesAndMembers": {
-        "description": "Section title in the add override picker."
     },
     "channelSettingsDeleteInvite": "Ištrinti kvietimą",
     "@channelSettingsDeleteInvite": {
@@ -12888,10 +11827,6 @@
                 "type": "String"
             }
         }
-    },
-    "channelSettingsWebhooksUnknownUser": "Nežinomas naudotojas",
-    "@channelSettingsWebhooksUnknownUser": {
-        "description": "Fallback label when webhook creator is unavailable."
     },
     "channelSettingsWebhooksAvatar": "Avataras",
     "@channelSettingsWebhooksAvatar": {
@@ -13280,42 +12215,6 @@
     "gifPickerFavoritesEmptyDescription": "Pažymėkite GIF, kad pamatytumėte jį čia.",
     "@gifPickerFavoritesEmptyDescription": {
         "description": "Empty state description for the GIF picker favorites view."
-    },
-    "requiredActionIntroGeneric": "Norėdami toliau naudotis „{productName}“, atlikite reikiamą patvirtinimą.",
-    "@requiredActionIntroGeneric": {
-        "description": "Generic required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailOrPhone": "Norėdami toliau naudotis {productName}, patvirtinkite savo el. paštą arba telefono numerį.",
-    "@requiredActionIntroEmailOrPhone": {
-        "description": "Email or phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailAndPhone": "Kad galėtumėte toliau naudotis „{productName}“, atlikite toliau nurodytus el. pašto ir telefono patvirtinimo veiksmus.",
-    "@requiredActionIntroEmailAndPhone": {
-        "description": "Email and phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionChooseMethodDescription": "Norėdami toliau naudotis „{productName}“, atlikite vieną iš toliau nurodytų patvirtinimo veiksmų.",
-    "@requiredActionChooseMethodDescription": {
-        "description": "Description when user can pick email or phone.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
     },
     "networkErrorMessage": "Panašu, kad kilo problemų. Pabandykite dar kartą.",
     "@networkErrorMessage": {
@@ -13823,6 +12722,14 @@
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
     },
+    "accessibilityShowAltTextOnImagesLabel": "Rodyti alternatyvųjį tekstą prie paveikslėlių",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "Rodyti alternatyvųjį tekstą po paveikslėliais, kai jis pasiekiamas.",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
     "accessibilityDimStrikethroughTextLabel": "Pritemdyti perbrauktą tekstą",
     "@accessibilityDimStrikethroughTextLabel": {
         "description": "Toggle label for dimming strikethrough text in messages."
@@ -13941,10 +12848,6 @@
     "accessibilityPausedGifByReducedMotion": "Pristabdyta dėl sumažinto judesio. Įjunkite, kad GIF failai būtų leidžiami.",
     "@accessibilityPausedGifByReducedMotion": {
         "description": "Description for GIF toggle while reduced motion is active."
-    },
-    "accessibilityGifDefaultsOffOnMobile": "Numatytoji reikšmė mobiliajame įrenginyje yra išjungta, siekiant taupyti baterijos energiją ir duomenų naudojimą.",
-    "@accessibilityGifDefaultsOffOnMobile": {
-        "description": "Helper text for GIF autoplay default on mobile."
     },
     "accessibilityStickerAnimationsTitle": "Lipdukų animacijos",
     "@accessibilityStickerAnimationsTitle": {
@@ -14401,25 +13304,13 @@
     "@privacyDashboardFriendRequestsEveryone": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsEveryoneDesc": "Leisti visiems siųsti jums draugų užklausas",
-    "@privacyDashboardFriendRequestsEveryoneDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsFriendsOfFriends": "Draugų draugai",
     "@privacyDashboardFriendRequestsFriendsOfFriends": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsFriendsOfFriendsDesc": "Leisti draugų draugams siųsti jums užklausas",
-    "@privacyDashboardFriendRequestsFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsCommunityMembers": "Bendruomenės nariai",
     "@privacyDashboardFriendRequestsCommunityMembers": {
         "description": "Privacy dashboard friend request toggle label."
-    },
-    "privacyDashboardFriendRequestsCommunityMembersDesc": "Leisti bendruomenių nariams siųsti jums užklausas",
-    "@privacyDashboardFriendRequestsCommunityMembersDesc": {
-        "description": "Privacy dashboard friend request toggle description."
     },
     "privacyDashboardDirectMessagesTitle": "Tiesioginės žinutės",
     "@privacyDashboardDirectMessagesTitle": {
@@ -14429,65 +13320,29 @@
     "@privacyDashboardDirectMessagesMembers": {
         "description": "Privacy dashboard DM toggle label."
     },
-    "privacyDashboardDirectMessagesMembersDesc": "Leisti bendruomenių, kuriose esate, nariams siųsti jums tiesiogines žinutes",
-    "@privacyDashboardDirectMessagesMembersDesc": {
-        "description": "Privacy dashboard DM toggle description."
-    },
     "privacyDashboardDirectMessagesBots": "Leisti tiesiogines žinutes iš bendruomenės botų",
     "@privacyDashboardDirectMessagesBots": {
         "description": "Privacy dashboard bot DM toggle label."
-    },
-    "privacyDashboardDirectMessagesBotsDesc": "Leisti botams iš bendruomenių, kuriose esate, siųsti jums tiesioginius pranešimus",
-    "@privacyDashboardDirectMessagesBotsDesc": {
-        "description": "Privacy dashboard bot DM toggle description."
-    },
-    "privacyDashboardConnectionsSectionDesc": "Valdykite, kas gali siųsti jums draugų užklausas ir tiesiogines žinutes",
-    "@privacyDashboardConnectionsSectionDesc": {
-        "description": "Privacy dashboard connections section description."
-    },
-    "privacyDashboardCommunicationSectionDesc": "Valdykite, kas gali jums skambinti ir pridėti jus į grupės pokalbius",
-    "@privacyDashboardCommunicationSectionDesc": {
-        "description": "Privacy dashboard communication section description."
     },
     "privacyDashboardIncomingCallsTitle": "Gaunamieji skambučiai",
     "@privacyDashboardIncomingCallsTitle": {
         "description": "Privacy dashboard incoming calls subsection title."
     },
-    "privacyDashboardIncomingCallsDesc": "Valdykite, kas gali jums skambinti",
-    "@privacyDashboardIncomingCallsDesc": {
-        "description": "Privacy dashboard incoming calls subsection description."
-    },
     "privacyDashboardAllowedCallers": "Leidžiami skambintojai",
     "@privacyDashboardAllowedCallers": {
         "description": "Privacy > Communication: select label."
-    },
-    "privacyDashboardIncomingCallNobody": "Niekas",
-    "@privacyDashboardIncomingCallNobody": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallNobodyDesc": "Blokuoti visus gaunamus skambučius",
     "@privacyDashboardIncomingCallNobodyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallFriendsOnly": "Tik draugai",
-    "@privacyDashboardIncomingCallFriendsOnly": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallFriendsOnlyDesc": "Leiskite skambinti tik draugams (rekomenduojama)",
     "@privacyDashboardIncomingCallFriendsOnlyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallCustom": "Draugai + Pasirinktinai",
-    "@privacyDashboardIncomingCallCustom": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallCustomDesc": "Leisti draugams ir papildomoms grupėms, kurias pasirenkate",
     "@privacyDashboardIncomingCallCustomDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardIncomingCallEveryone": "Visi",
-    "@privacyDashboardIncomingCallEveryone": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallEveryoneDesc": "Leisti visiems skambinti jums, net nepažįstamiems žmonėms",
     "@privacyDashboardIncomingCallEveryoneDesc": {
@@ -14497,14 +13352,6 @@
     "@privacyDashboardAdditionalGroups": {
         "description": "Privacy dashboard label for custom permission groups."
     },
-    "privacyDashboardCallFriendsOfFriendsDesc": "Žmonės, kurie yra jūsų draugų draugai, gali jums skambinti",
-    "@privacyDashboardCallFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
-    "privacyDashboardCallGuildMembersDesc": "Žmonės iš bendruomenių, kuriose esate abu, gali jums skambinti",
-    "@privacyDashboardCallGuildMembersDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
     "privacyDashboardRingBehavior": "Skambučio elgsena",
     "@privacyDashboardRingBehavior": {
         "description": "Privacy dashboard ring behavior subsection label."
@@ -14513,17 +13360,9 @@
     "@privacyDashboardSilentCalls": {
         "description": "Privacy dashboard silent calls toggle label."
     },
-    "privacyDashboardSilentCallsDesc": "Visi skambučiai bus tylūs, o ne skambės. Numatoma, kad skambučiai iš nepažįstamų žmonių visada bus tylūs.",
-    "@privacyDashboardSilentCallsDesc": {
-        "description": "Privacy dashboard silent calls toggle description."
-    },
     "privacyDashboardGroupDmTitle": "Kas gali jus pridėti prie grupinių pokalbių",
     "@privacyDashboardGroupDmTitle": {
         "description": "Privacy dashboard group DM subsection title."
-    },
-    "privacyDashboardGroupDmDesc": "Valdykite, kas gali pridėti jus į grupės pokalbius neprašydamas. Kiekvienas vis tiek galės atsiųsti jums kvietimo nuorodas, kad prisijungtumėte.",
-    "@privacyDashboardGroupDmDesc": {
-        "description": "Privacy dashboard group DM subsection description."
     },
     "privacyDashboardAllowedInvites": "Leidžiami kvietimai",
     "@privacyDashboardAllowedInvites": {
@@ -14544,14 +13383,6 @@
     "privacyDashboardGroupDmEveryoneDesc": "Leisti bet kam pridėti jus į grupės pokalbius be prašymo",
     "@privacyDashboardGroupDmEveryoneDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardGroupDmFriendsOfFriendsDesc": "Žmonės, kurie yra jūsų draugų draugai, gali pridėti jus prie grupės pokalbių",
-    "@privacyDashboardGroupDmFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
-    },
-    "privacyDashboardGroupDmGuildMembersDesc": "Žmonės iš bendruomenių, kuriose esate abu, gali pridėti jus prie grupinių pokalbių",
-    "@privacyDashboardGroupDmGuildMembersDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
     },
     "privacyDashboardVoiceActivityTitle": "Balso aktyvumas skiltyje „Aktyvūs dabar“",
     "@privacyDashboardVoiceActivityTitle": {
@@ -15084,26 +13915,6 @@
     "@composerAutocompleteOptionalArgumentsHeading": {
         "description": "Section heading in composer autocomplete for adding optional slash-command arguments."
     },
-    "composerAutocompleteChannelsHeading": "Kanalai",
-    "@composerAutocompleteChannelsHeading": {
-        "description": "Section heading in composer autocomplete for channel suggestions."
-    },
-    "composerAutocompleteMembersHeading": "Nariai",
-    "@composerAutocompleteMembersHeading": {
-        "description": "Section heading in composer autocomplete for member suggestions."
-    },
-    "composerAutocompleteUsersHeading": "Naudotojai",
-    "@composerAutocompleteUsersHeading": {
-        "description": "Section heading in composer autocomplete for user suggestions."
-    },
-    "composerAutocompleteMentionsHeading": "Paminėjimai",
-    "@composerAutocompleteMentionsHeading": {
-        "description": "Section heading in composer autocomplete for mixed mention suggestions."
-    },
-    "composerAutocompleteRolesHeading": "Vaidmenys",
-    "@composerAutocompleteRolesHeading": {
-        "description": "Section heading in composer autocomplete for role suggestions."
-    },
     "composerAutocompleteMediaHeading": "Medija",
     "@composerAutocompleteMediaHeading": {
         "description": "Section heading in composer autocomplete for saved media."
@@ -15320,10 +14131,6 @@
     "memberListUnavailableBody": "Šiuo metu bendruomenės narių sąrašai nepasiekiami",
     "@memberListUnavailableBody": {
         "description": "Body when member list updates are disabled for the community."
-    },
-    "channelHeaderOpenDetails": "Atidaryti kanalo informaciją",
-    "@channelHeaderOpenDetails": {
-        "description": "Accessibility label for the channel header title area."
     },
     "channelHeaderPinnedMessages": "Prisegtos žinutės",
     "@channelHeaderPinnedMessages": {
@@ -15686,10 +14493,6 @@
     "@userSettingsSearchPlaceholder": {
         "description": "Placeholder for the user settings search field."
     },
-    "userSettingsSearchFieldLabel": "Ieškoti nustatymų",
-    "@userSettingsSearchFieldLabel": {
-        "description": "Accessibility label for the user settings search field."
-    },
     "userSettingsSearchClear": "Išvalyti paiešką",
     "@userSettingsSearchClear": {
         "description": "Accessibility label for clearing the user settings search field."
@@ -15716,8 +14519,6 @@
     "giftSettingsGiftUrl": "Dovanos URL",
     "giftSettingsCopy": "Kopijuoti",
     "giftSettingsCopied": "Nukopijuota",
-    "giftSettingsGiftUrlCopied": "Dovanos URL nukopijuotas į iškarpinę!",
-    "giftSettingsGiftUrlCopyFailed": "Nepavyko nukopijuoti dovanos URL",
     "giftSettingsPurchasedDate": "Įsigyta {date}",
     "@giftSettingsPurchasedDate": {
         "placeholders": {
@@ -15759,7 +14560,6 @@
     "premiumBuyGift": "Pirkti dovaną",
     "premiumOneYearGift": "1 metų dovana",
     "premiumOneMonthGift": "1 mėnesio dovana",
-    "premiumMostPopular": "Populiariausias",
     "premiumScrollPrompt": "Slinkite žemyn, kad pamatytumėte visas „Plutonium“ teikiamas privilegijas",
     "premiumFreeVsPlutonium": "Nemokama ir Plutonium",
     "premiumFreeColumn": "Nemokama",
@@ -15777,50 +14577,15 @@
     "premiumViewGifts": "Peržiūrėti dovanas",
     "premiumReadyToUpgrade": "Pasiruošę atnaujinti?",
     "premiumReadyToBuyGift": "Pasiruošę pirkti dovaną?",
-    "premiumMonthlyPrice": "Mėnesinis {price}",
-    "@premiumMonthlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumYearlyPrice": "Metinis {price}",
-    "@premiumYearlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneYearPrice": "1 metai {price}",
-    "@premiumOneYearPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneMonthPrice": "1 mėn. {price}",
-    "@premiumOneMonthPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
     "premiumManageSubscription": "Tvarkyti prenumeratą",
     "premiumRedeemGiftCode": "Išpirkti dovanos kodą",
     "premiumGiftBadge": "Dovana",
     "premiumCancelSubscriptionTitle": "Atšaukti prenumeratą?",
     "premiumCancelSubscriptionBody": "Privilegijas išsaugosite iki kito atnaujinimo datos, o tada turėsite 3 dienų pereinamąjį laikotarpį, kad vėl užsiprenumeruotumėte ir išsaugotumėte prenumeratos istoriją.",
     "premiumCancelSubscriptionConfirm": "Atšaukti prenumeratą",
-    "premiumKeepSubscription": "Palikti prenumeratą",
     "premiumPurchaseHistoryTitle": "Pirkimų istorija",
     "premiumPurchaseHistoryDescription": "Jūsų naujausios sąskaitos faktūros. Norėdami pakeisti savo prenumeratos mokėjimo būdą, pridėkite arba pasirinkite jį atsiskaitymo portale ir nustatykite kaip numatytąjį.",
     "premiumManagePaymentMethods": "Tvarkyti mokėjimo būdus",
-    "premiumBillingHistory": "Atsiskaitymų istorija",
-    "premiumSelfServeRefundTitle": "Grąžinimas savitarnos būdu",
     "premiumSelfServeRefundButton": "Grąžinti naujausią pirkinį",
     "premiumDisclaimerAgreementPrefix": "Pirkdami sutinkate su mūsų ",
     "premiumDisclaimerAgreementPastPrefix": "Pirkdami sutikote su mūsų ",
@@ -15860,23 +14625,16 @@
         "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
     },
     "premiumComparisonFeatureColumn": "Funkcija",
-    "premiumDisclaimerPurchased": "Pirkdami sutikote su mūsų {terms} ir {privacy}.",
-    "@premiumDisclaimerPurchased": {
-        "placeholders": {
-            "terms": {
-                "type": "String"
-            },
-            "privacy": {
-                "type": "String"
-            }
-        }
-    },
     "premiumDisclaimerRefund": "Pinigų grąžinimas savitarnos būdu galimas per 3 dienas nuo apmokėjimo, kartą per 30 dienų. Grąžinus pinigus už prenumeratą, ji atšaukiama. Pirkėjai iš ES / EEE atsiskaitydami atsisako 14 dienų teisės atsisakyti sutarties, kad turinį galėtų pasiekti iš karto. Naudokite programėlės pinigų grąžinimo mygtuką, o ne mokėjimo ginčijimą banke. Ginčijimai banke gali visam laikui apriboti jūsų paskyrą. „Stripe“ saugiai tvarko mokėjimus. Mes niekada nematome viso jūsų kortelės numerio.",
     "premiumTermsOfService": "Paslaugų teikimo sąlygos",
     "premiumPrivacyPolicy": "Privatumo politika",
     "premiumCheckoutStartFailedTitle": "Nepavyko pradėti atsiskaitymo",
     "premiumCheckoutStartFailedBody": "Nepavyko pradėti atsiskaitymo. Bandykite dar kartą po akimirkos.",
     "premiumPlanUnavailable": "Šis planas nepasiekiamas. Susisiekite su palaikymo komanda.",
+    "premiumPlanUnavailableSelfHosted": "Šis planas nepasiekiamas. Susisiekite su šios instancijos administratoriais.",
+    "@premiumPlanUnavailableSelfHosted": {
+        "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
+    },
     "premiumCompletePaymentTitle": "Užbaigti mokėjimą",
     "premiumCompletePaymentBody": "Dabar būsite nukreipti į „Stripe“, kad užbaigtumėte mokėjimą. Grįžkite į „Fluxer“, kai baigsite.",
     "premiumChoosePaymentMethodTitle": "Pasirinkite mokėjimo būdą",
@@ -15892,29 +14650,97 @@
     "premiumExistingSubscriptionTitle": "Prenumerata jau yra",
     "premiumExistingSubscriptionBody": "Jūsų paskyrai radome galiojančią „Fluxer Plutonium“ prenumeratą. Tvarkykite ją saugiame atsiskaitymo portale, kad atnaujintumėte mokėjimo duomenis arba patikrintumėte atnaujinimo būseną. Jei ką tik sumokėjote, palaukite minutę ir iš naujo atidarykite šį puslapį.",
     "premiumPurchasesDisabledTitle": "Pirkimai negalimi",
-    "premiumPurchasesDisabledBody": "Pirkimai šiai paskyrai yra išjungti. Jei manote, kad tai klaida, susisiekite su support@fluxer.app.",
+    "premiumPurchasesDisabledBody": "Pirkimai šiai paskyrai yra išjungti. Jei manote, kad tai klaida, susisiekite su {supportEmail}.",
+    "@premiumPurchasesDisabledBody": {
+        "description": "Shown on the official hosted instance when purchases are disabled for the account. supportEmail is the support mailbox.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumPurchasesDisabledBodySelfHosted": "Pirkimai šiai paskyrai yra išjungti. Jei manote, kad tai klaida, susisiekite su šios instancijos administratoriais.",
+    "@premiumPurchasesDisabledBodySelfHosted": {
+        "description": "Shown on a self-hosted instance when purchases are disabled for the account. Names no email address."
+    },
     "premiumClaimAccountToPurchase": "Prisijunkite prie savo paskyros, kad įsigytumėte Fluxer Plutonium.",
     "premiumVerifyEmailToPurchase": "Norėdami įsigyti „Fluxer Plutonium“, turite patvirtinti savo el. paštą.",
-    "premiumPerkCustomUsernameTag": "Pasirinktinė naudotojo vardo žyma",
-    "premiumPerkPerCommunityProfiles": "Profiliai kiekvienai bendruomenei",
-    "premiumPerkMessageScheduling": "Pranešimų planavimas",
-    "premiumPerkProfileBadge": "Profilio ženklelis",
-    "premiumPerkCustomVideoBackgrounds": "Pasirinktiniai vaizdo fonai",
-    "premiumPerkEntranceSounds": "Įėjimo garsai",
     "premiumPerkCommunities": "Bendruomenės",
     "premiumPerkMessageCharacterLimit": "Žinučių simbolių limitas",
     "premiumPerkBookmarkedMessages": "Pažymėtos žinutės",
     "premiumPerkFileUploadSize": "Įkeliamo failo dydis",
-    "premiumPerkEmojiStickerPacks": "Emotikonių ir lipdukų rinkiniai",
-    "premiumPerkSavedMedia": "Išsaugota medija",
     "premiumPerkUseAnimatedEmojis": "Naudoti animuotus jaustukus",
-    "premiumPerkGlobalEmojiStickerAccess": "Visuotinė prieiga prie jaustukų ir lipdukų",
     "premiumPerkVideoQuality": "Vaizdo kokybė",
     "premiumPerkAnimatedAvatarsBanners": "Animuoti avatarai ir profilio reklamjuostės",
     "premiumPerkEarlyAccess": "Ankstyvoji prieiga prie naujų funkcijų",
-    "premiumPerkCustomThemes": "Pasirinktinės temos",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "Iki 4K/60 kadr./s",
+    "storePlutoniumPriceLine": "{monthly} arba {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/mėn.",
+    "storePlutoniumYearSuffix": "/m.",
+    "storePlutoniumPriceOr": "arba",
+    "storePlutoniumEmojiTitle": "Jūsų jaustukai visur",
+    "storePlutoniumEmojiBody": "Įkelkite pasirinktinius jaustukus ir lipdukus iš bet kurios bendruomenės į kiekvieną pokalbį ir bendruomenę, kurioje esate.",
+    "storePlutoniumProfileTitle": "Profilis, kuris išsiskiria",
+    "storePlutoniumProfileBody": "Gaukite animuotą avatarą ir reklamjuostę, prenumeratoriaus ženklelį, norimą keturių skaitmenų žymę po naudotojo vardo* ir atskirą profilį kiekvienai bendruomenei.",
+    "storePlutoniumFilesTitle": "Siųskite iki 500 MB failus",
+    "storePlutoniumFilesBody": "Bendrinkite viso ilgio vaizdo įrašus ir didelius failus jų nesumažinę. Nemokamos paskyros gali siųsti iki 25 MB.",
+    "storePlutoniumCompareTitle": "Palyginkite nemokamą planą ir Plutonium",
+    "storePlutoniumCompareMobileNote": "Ne visos šios funkcijos yra mobiliojoje programėlėje. Kai kurios pasiekiamos tik kompiuteryje.",
+    "storePlutoniumNotAvailable": "Nepasiekiama",
+    "storePlutoniumAvailable": "Pasiekiama",
+    "storePlutoniumCompareTag": "Pasirinkite 4 skaitmenų numerį po savo naudotojo vardo*",
+    "storePlutoniumCompareProfile": "Atskiras profilis kiekvienai bendruomenei",
+    "storePlutoniumCompareBadge": "Prenumeratoriaus ženklelis jūsų profilyje",
+    "storePlutoniumCompareBackgrounds": "Vaizdo skambučių fonai, kuriuos galite išsaugoti",
+    "storePlutoniumCompareCommunities": "Bendruomenės, prie kurių galite prisijungti",
+    "storePlutoniumCompareCharacters": "Simbolių vienoje žinutėje",
+    "storePlutoniumCompareBookmarks": "Žinutės, kurias galite pažymėti",
+    "storePlutoniumCompareUpload": "Didžiausias failas, kurį galite įkelti",
+    "storePlutoniumCompareSavedMedia": "Medijos elementai, kuriuos galite išsaugoti vėliau",
+    "storePlutoniumCompareAnimatedEmoji": "Naudokite animuotus jaustukus žinutėse",
+    "storePlutoniumCompareCustomEmoji": "Naudokite pasirinktinius jaustukus ir lipdukus bet kurioje bendruomenėje",
+    "storePlutoniumCompareVideo": "Vaizdo skambučių ir ekrano bendrinimo kokybė",
+    "storePlutoniumCompareAvatar": "Animuotas avataras ir profilio reklamjuostė",
+    "storePlutoniumCompareEarlyAccess": "Ankstyvoji prieiga prie naujų funkcijų",
+    "storePlutoniumCompareThemes": "Pasirinktinės temos programai",
+    "storePlutoniumVideoFree": "Iki 720p esant 30 kadrų per sekundę",
+    "storePlutoniumVideoPlutonium": "Iki 4K esant 60 kadrų per sekundę",
+    "storePlutoniumTagFootnote": "Galite pasirinkti tik tokį žymeklį, kurio dar neturi joks kitas naudotojas su tokiu pat naudotojo vardu. Naudotojo vardai nėra jautrūs didžiosioms ir mažosioms raidėms, todėl Mina#4821 ir mina#4821 laikomi tokiais pačiais. Žymeklis #0000 yra skirtas Fluxer Visionary nariams.",
+    "storePlutoniumLearnVisionary": "Sužinokite daugiau apie Visionary.",
+    "storePlutoniumDonatePrompt": "Tiesiog norite paremti atvirojo kodo Fluxer kūrimą? ",
+    "storePlutoniumDonateLink": "Verčiau paaukoti.",
+    "storePlutoniumHighlightsLead": "Prenumeruodami finansuojate Fluxer ir atrakinate",
+    "storePlutoniumHighlightEmoji": "Pasirinktiniai jaustukai ir lipdukai bet kuriame pokalbyje",
+    "storePlutoniumHighlightProfile": "Animuotas profilis, ženklelis ir pasirinktas 4 skaitmenų numeris",
+    "storePlutoniumHighlightFiles": "Įkėlimai iki 500 MB",
+    "storePlutoniumHighlightMessages": "Siųskite iki 4 000 simbolių ilgio žinutes",
+    "storePlutoniumHighlightCommunityProfile": "Atskiras profilis kiekvienai bendruomenei",
+    "storePlutoniumHighlightsMore": "Ir dar daugiau",
+    "storePlutoniumRenewsThroughPlay": "Automatiškai atnaujinama per Google Play, kol neatšauksite.",
+    "storePlutoniumRenewsThroughAppStore": "Automatiškai atnaujinama per App Store, kol neatšauksite.",
+    "storePlutoniumAlreadySubscribed": "Jau turite Fluxer Plutonium prenumeratą.",
+    "storePlutoniumSavePercent": "Sutaupykite {percent}%",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "Pirkinys gautas. Plutonium čia atsiras, kai tik bus aktyvuotas.",
+    "storePlutoniumUnavailable": "Prenumeratos programėlėje kol kas nepasiekiamos šiame įrenginyje.",
+    "storePlutoniumVisionaryStatus": "Visionary jau apima nuolatinę prieigą, todėl pasikartojanti prenumerata nereikalinga.",
     "userSettingsNavShortcuts": "Spartieji klavišai",
     "@userSettingsNavShortcuts": {
         "description": "User settings navigation item for keyboard shortcuts."
@@ -16003,6 +14829,18 @@
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
     },
+    "userSettingsNavAppIcon": "Programėlės piktograma",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "Programėlės piktograma",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "Pasirinkite, kuri piktograma bus rodoma pagrindiniame ekrane.",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
+    },
     "advancedSettingsConfigure": "Konfigūruoti",
     "@advancedSettingsConfigure": {
         "description": "Button label that opens a dedicated advanced settings modal."
@@ -16050,7 +14888,6 @@
     "advancedSettingStripTrackingLabel": "Pašalinti sekimo parametrus iš URL",
     "advancedSettingStripTrackingDescription": "Automatiškai pašalinti sekimo parametrus iš URL nuorodų siunčiamose žinutėse",
     "advancedSettingTrustAllLinksLabel": "Pasitikėti visomis išorinėmis nuorodomis",
-    "advancedSettingTrustAllLinksDescription": "Praleisti išorinių nuorodų įspėjimą visiems domenams",
     "advancedSettingSearchEnginesLabel": "Paieškos sistemos",
     "advancedSettingSearchEnginesDescription": "Konfigūruoti paieškos sistemas, naudojamas pasirinktam tekstui",
     "advancedSettingTranslatorsLabel": "Vertėjai",
@@ -16106,13 +14943,6 @@
     "advancedSettingHideStreamPreviewLabel": "Slėpti mano srauto peržiūros miniatiūrą",
     "advancedSettingDeveloperModeLabel": "Įjungti kūrėjo režimą",
     "advancedSettingDeveloperModeDescription": "Įjungti kūrėjo režimą",
-    "advancedSettingSearchEngineGoogle": "Google",
-    "advancedSettingSearchEngineDuckDuckGo": "DuckDuckGo",
-    "advancedSettingSearchEngineBing": "Bing",
-    "advancedSettingSearchEngineGoogleLens": "Google Lens",
-    "advancedSettingSearchEngineTinEye": "TinEye",
-    "advancedSettingTranslatorGoogle": "„Google“ vertimas",
-    "advancedSettingTranslatorDeepL": "„DeepL“",
     "advancedSettingDefaultSearchEngineLabel": "Numatytoji paieškos sistema",
     "advancedSettingDefaultSearchEngineDescription": "Pasirinkite, kuri paieškos sistema bus naudojama pagal numatytuosius nustatymus ieškant pasirinkto teksto.",
     "advancedSettingBuiltInSearchEnginesLabel": "Integruotos paieškos sistemos",
@@ -16251,6 +15081,14 @@
     "authHidePassword": "Slėpti slaptažodį",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "Vis dar dirbama…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
+    },
+    "authVerificationFailed": "Nepavyko užbaigti patvirtinimo. Bandykite dar kartą.",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
     },
     "chatLoadingMessages": "Įkeliamos žinutės",
     "@chatLoadingMessages": {
@@ -16658,10 +15496,6 @@
     "@guildMembersColumnRoles": {
         "description": "Table column header on the community members page."
     },
-    "guildMembersColumnActions": "Veiksmai",
-    "@guildMembersColumnActions": {
-        "description": "Table column header on the community members page."
-    },
     "guildMembersFilterMemberSince": "Filtruoti pagal narystės datą",
     "@guildMembersFilterMemberSince": {
         "description": "Filter menu label on the community members page."
@@ -16746,23 +15580,6 @@
     "@guildMembersIndexing": {
         "description": "Banner shown while guild members are being indexed."
     },
-    "guildMembersGoToPage": "Eiti į puslapį",
-    "@guildMembersGoToPage": {
-        "description": "Pagination jump label on the community members page."
-    },
-    "guildMembersGoToPageItem": "Eiti į puslapį {page}",
-    "@guildMembersGoToPageItem": {
-        "description": "Accessibility label for a pagination page button.",
-        "placeholders": {
-            "page": {
-                "type": "int"
-            }
-        }
-    },
-    "guildMembersJumpToPage": "Pereiti į puslapį",
-    "@guildMembersJumpToPage": {
-        "description": "Label for pagination jump input on the community members page."
-    },
     "guildMembersJoinSourceCreator": "Bendruomenės kūrėjas",
     "@guildMembersJoinSourceCreator": {
         "description": "Join method label on the community members page."
@@ -16839,28 +15656,14 @@
             }
         }
     },
-    "guildMembersJoinedDaysAgo": "{count, plural, one {prieš 1 dieną} other {prieš # dienų}}",
-    "@guildMembersJoinedDaysAgo": {
-        "description": "Relative join time on the community members page.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
     "guildMembersChannelListLabel": "Nariai",
     "@guildMembersChannelListLabel": {
         "description": "Label for the Members item at the top of the guild channel list."
-    },
-    "guildMembersChannelListSelected": "Nariai, pasirinkta",
-    "@guildMembersChannelListSelected": {
-        "description": "Accessibility label when the Members channel list item is selected."
     },
     "guildSettingsEmojiSlotsTitle": "Jaustukų vietos",
     "guildSettingsEmojiDropZone": "Nuvilkite jaustukų failus čia",
     "guildSettingsEmojiLoadFailed": "Nepavyko įkelti jaustukų. Bandykite dar kartą vėliau.",
     "guildSettingsEmojiSearchEmpty": "Nerasta jaustukų, atitinkančių jūsų paiešką.",
-    "guildSettingsEmojiNoSlots": "Nėra laisvų jaustukų vietų",
     "guildSettingsEmojiSlotsFull": "Pasiekėte didžiausią jaustukų skaičių. Ištrinkite kai kuriuos esamus jaustukus, kad atlaisvintumėte vietos.",
     "guildSettingsEmojiUploadRequirements": "Jaustukų pavadinimai turi būti bent 2 simbolių ilgio, juose galima naudoti raides, skaičius ir pabraukimo brūkšnius. Jaustukai turi būti mažesni nei {maxSize}. Statiniai vaizdai automatiškai sumažinami iki 128x128 pikselių ir suspaudžiami. Animuoti jaustukai ir SVG failai jau turi atitikti šią ribą.",
     "@guildSettingsEmojiUploadRequirements": {
@@ -16870,24 +15673,11 @@
             }
         }
     },
-    "guildSettingsEmojiUploadingTitle": "Įkeliami jaustukai",
-    "guildSettingsEmojiUploadingBody": "Įkeliama {count, plural, one {# jaustukas} other {# jaustukai}}. Tai gali užtrukti.",
-    "@guildSettingsEmojiUploadingBody": {
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsEmojiUploadFailed": "Nepavyko įkelti jaustukų. Bandykite dar kartą.",
     "guildSettingsEmojiSomeFailedTitle": "Kai kurių jaustukų nepavyko pridėti",
-    "guildSettingsEmojiSomeFailedBody": "Peržiūrėkite šiuos failus ir bandykite dar kartą su mažesniais ar paprastesniais vaizdais.",
     "guildSettingsEmojiRenameTitle": "Pervadinti jaustuką",
     "guildSettingsEmojiRenameHint": "2–32 simboliai, raidės, skaičiai, pabraukimai.",
-    "guildSettingsEmojiColumnEmoji": "Jaustukai",
     "guildSettingsEmojiColumnName": "Pavadinimas",
     "guildSettingsEmojiColumnUploader": "Įkėlė",
-    "guildSettingsEmojiUnknownUploader": "Nežinoma",
     "guildSettingsEmojiDeleteTitle": "Ištrinti jaustuką",
     "guildSettingsEmojiDeleteBody": "Ištrinti :{name}:? Negalima atšaukti.",
     "@guildSettingsEmojiDeleteBody": {
@@ -16902,15 +15692,7 @@
     "guildSettingsEmojiNameTooLong": "Jaustuko pavadinimas turi būti ne ilgesnis nei 32 simboliai",
     "guildSettingsEmojiInvalidNameTitle": "Neteisingas jaustuko pavadinimas",
     "guildSettingsEmojiRenameFailedTitle": "Nepavyko pervadinti šio jaustuko",
-    "guildSettingsEmojiRenameFailedBody": "Pavadinimas grąžintas į buvusį. Bandykite dar kartą po akimirkos.",
-    "guildSettingsEmojiGoneTitle": "Šis jaustukas nebeegzistuoja",
-    "guildSettingsEmojiGoneBody": "Gali būti, kad jis buvo ištrintas. Pavadinimas grąžintas į buvusį.",
-    "guildSettingsEmojiNoPermissionRenameTitle": "Negalite pervadinti šio jaustuko",
-    "guildSettingsEmojiNoPermissionRenameBody": "Neturite leidimo pervadinti šio jaustuko. Pavadinimas buvo grąžintas į ankstesnį.",
-    "guildSettingsEmojiRateLimitedTitle": "Per greitai",
-    "guildSettingsEmojiRateLimitedBody": "Palaukite ir bandykite pervadinti dar kartą.",
     "guildSettingsEmojiDeleteFailedTitle": "Nepavyko ištrinti šio jaustuko",
-    "guildSettingsEmojiDeleteNoPermissionTitle": "Negalite ištrinti šio jaustuko",
     "guildSettingsCloneEmojiTitle": "Leisti kitiems klonuoti jūsų jaustukus",
     "guildSettingsCloneEmojiDescription": "Kai įjungta, kitų bendruomenių nariai gali naudoti programėlės \"Klonuoti\" nuorodą vienu spustelėjimu jūsų pasirinktiniams jaustukams. Tai netrukdo jiems išsaugoti paveikslėlio ir įkelti jį patiems.",
     "guildSettingsCloneStickerTitle": "Leisti kitiems klonuoti jūsų lipdukus",
@@ -16934,8 +15716,6 @@
     "guildSettingsStickersLoadFailedTitle": "Nepavyko įkelti lipdukų",
     "guildSettingsStickersLoadFailedBody": "Įkeliant lipdukus įvyko klaida. Bandykite dar kartą.",
     "guildSettingsStickersSearchEmpty": "Nerasta lipdukų, atitinkančių jūsų paiešką.",
-    "guildSettingsStickersEmptySearch": "Lipdukų nerasta",
-    "guildSettingsStickerNoSlots": "Nėra laisvų lipdukų vietų",
     "guildSettingsStickerSlotsFull": "Pasiekėte didžiausią lipdukų skaičių. Ištrinkite esamus lipdukus, kad atlaisvintumėte vietos.",
     "guildSettingsStickerUploadRequirements": "Lipdukai išsaugomi 320x320 pikselių dydžiu ir turi būti ne didesni nei {maxSize}. Statiniai vaizdai automatiškai keičiami į reikiamą dydį ir suspaudžiami. Animuoti lipdukai ir SVG jau turi atitikti nurodytą dydį.",
     "@guildSettingsStickerUploadRequirements": {
@@ -16945,7 +15725,6 @@
             }
         }
     },
-    "guildSettingsStickerUnsupportedTitle": "Nepalaikomas lipduko failas",
     "guildSettingsStickerAddTitle": "Pridėti lipduką",
     "guildSettingsStickerEditTitle": "Redaguoti lipduką",
     "guildSettingsStickerNameLabel": "Pavadinimas",
@@ -16970,8 +15749,6 @@
     "guildSettingsStickerNameTooLong": "Pavadinimas turi būti ne ilgesnis nei 30 simbolių",
     "guildSettingsStickerDescriptionTooLong": "Aprašymas turi būti ne ilgesnis nei 500 simbolių",
     "guildSettingsStickerCreateFailedTitle": "Nepavyko sukurti šio lipduko",
-    "guildSettingsStickerTooLargeTitle": "Lipdukas per didelis",
-    "guildSettingsStickerCompressFailedTitle": "Lipduko nepavyko pakankamai suglaudinti",
     "guildSettingsStickerDeleteTitle": "Ištrinti lipduką",
     "guildSettingsStickerDeleteBody": "Ištrinti „{name}“? Negalima atšaukti.",
     "@guildSettingsStickerDeleteBody": {
@@ -16983,7 +15760,6 @@
     },
     "guildSettingsStickerPurgeLabel": "Išvalyti šį lipduką iš saugyklos ir CDN",
     "guildSettingsStickerDeleteFailedTitle": "Nepavyko ištrinti šios etiketės",
-    "guildSettingsStickerDeleteNoPermissionTitle": "Jūs negalite ištrinti šios etiketės",
     "keybindsSearchShortcuts": "Ieškoti sparčiųjų klavišų",
     "@keybindsSearchShortcuts": {
         "description": "Placeholder for the shortcuts settings search field."
@@ -17066,6 +15842,40 @@
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
+    "assistantNeedsLogin": "Pirmiausia atidarykite Fluxer ir prisijunkite.",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "Jūs nedalyvaujate skambutyje.",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "Fluxer to nerado.",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "Tiesioginės žinutės šiame egzemplioriuje išjungtos.",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "Fluxer negalėjo to atlikti.",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "Mikrofonas nutildytas.",
+    "assistantOkUnmuted": "Mikrofonas įjungtas.",
+    "assistantOkLeftVoice": "Palikote balso kanalą.",
+    "assistantOkJoinedVoice": "Jungiamasi prie balso kanalo.",
+    "assistantOkStartedCall": "Pradedamas skambutis.",
+    "assistantOkStatusSet": "Būsena nustatyta į „{status}“.",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "Atidaromas Fluxer.",
     "applicationsTitle": "Programos",
     "@applicationsTitle": {
         "description": "Title for the developer Applications settings tab."
@@ -17108,6 +15918,15 @@
         "description": "Empty-state body. apiName is the product API display name.",
         "placeholders": {
             "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "Sukurta {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
                 "type": "String"
             }
         }
@@ -17292,6 +16111,10 @@
     "@applicationsOauthBuilderTitle": {
         "description": "Section title for the authorize URL builder."
     },
+    "applicationsOauthBuilderDescription": "Sukurkite autorizavimo URL su sritimis ir leidimais.",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
     "applicationsScopes": "Leidimų sritys",
     "@applicationsScopes": {
         "description": "Label for OAuth2 scope checkboxes."
@@ -17324,6 +16147,10 @@
     "@applicationsAuthorizeUrlPlaceholder": {
         "description": "Placeholder when the authorize URL cannot be built yet."
     },
+    "applicationsCopyAuthorizeUrl": "Kopijuoti autorizavimo URL",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
     "applicationsCopiedUrl": "URL nukopijuotas į iškarpinę",
     "@applicationsCopiedUrl": {
         "description": "Toast after copying the authorize URL."
@@ -17343,6 +16170,15 @@
     "applicationsDelete": "Ištrinti programą",
     "@applicationsDelete": {
         "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "Ar tikrai norite ištrinti {name}? Šio veiksmo anuliuoti negalima. Visi susiję duomenys, įskaitant boto naudotoją, bus ištrinti visam laikui.",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     },
     "applicationsDeleteFailed": "Nepavyko ištrinti programos",
     "@applicationsDeleteFailed": {
@@ -17432,6 +16268,10 @@
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
     },
+    "voiceOutputRouteEarpiece": "Ausinė",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
     "voiceOutputRouteHeadset": "Ausinės",
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
@@ -17439,6 +16279,14 @@
     "doubleTapReactionEdit": "Redaguoti",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "Redaguoti numatytąjį",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "Pasirinkite dukart palietus siunčiamą jaustuką",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
     },
     "chatMessagePinConfirm": "Prisegti",
     "@chatMessagePinConfirm": {
@@ -17452,9 +16300,17 @@
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."
     },
+    "appIconOptionStarfield": "Žvaigždžių laukas",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
     "appIconOptionSweden": "Švedija",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "Programėlės piktogramos keitimas šiame įrenginyje negalimas.",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     },
     "userSettingsLogOutConfirmTitle": "Atsijungti?",
     "@userSettingsLogOutConfirmTitle": {
@@ -17484,5 +16340,178 @@
     "@guildSettingsCommunityDeleted": {
         "description": "Success toast after a community is deleted."
     },
-    "assistantOkMessageSent": "Žinutė išsiųsta."
+    "guildSettingsDeleteCommunityFailed": "Nepavyko ištrinti šios bendruomenės",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantOkMessageSent": "Žinutė išsiųsta.",
+    "assistantOkCustomStatusSet": "Pasirinktinė būsena atnaujinta.",
+    "assistantOkCustomStatusCleared": "Pasirinktinė būsena išvalyta.",
+    "guildNavbarAnnouncementChannel": "Skelbimų kanalas",
+    "guildNavbarAnnouncementChannelDescription": "Skelbkite naujienas, kurias kitos bendruomenės gali sekti savo kanaluose",
+    "channelDetailsAnnouncementChannel": "Skelbimų kanalas",
+    "channelSettingsAnnouncementChannel": "Skelbimų kanalas",
+    "channelSettingsAnnouncementChannelDescription": "Leidžia kitoms bendruomenėms sekti šį kanalą ir gauti jūsų skelbiamų įrašų kopijas.",
+    "channelSettingsStopAnnouncementTitle": "Nebebūti skelbimų kanalu?",
+    "channelSettingsStopAnnouncementBody": "{count, plural, one{{count} kanalas seka šį kanalą. Pavertus jį teksto kanalu, šis sekimas bus pašalintas.} few{{count} kanalai seka šį kanalą. Pavertus jį teksto kanalu, šie sekimai bus pašalinti.} many{{count} kanalo seka šį kanalą. Pavertus jį teksto kanalu, šie sekimai bus pašalinti.} other{{count} kanalų seka šį kanalą. Pavertus jį teksto kanalu, šie sekimai bus pašalinti.}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "Pavertus šį kanalą teksto kanalu, visi jį sekantys kanalai nustos jį sekti.",
+    "channelSettingsConvertChannel": "Konvertuoti",
+    "channelSettingsConvertFailed": "Nepavyko konvertuoti šio kanalo",
+    "channelSettingsChannelHasFollowers": "Šį kanalą vis dar seka kiti kanalai. Prieš konvertuodami pašalinkite šiuos sekimus.",
+    "channelMenuFollow": "Sekti kanalą",
+    "channelFollowTitle": "Sekti šį kanalą",
+    "channelFollowBody": "Pasirinkite, kur bus siunčiamos jo paskelbtos žinutės. Bet kada galite nustoti sekti skiltyje Bendruomenės nustatymai → Webhookai.",
+    "channelFollowCommunity": "Bendruomenė",
+    "channelFollowChannel": "Kanalas",
+    "channelFollowAgeWarning": "Tai amžiaus apribojimų kanalas. Naujienos gali būti siunčiamos tik į amžiaus apribojimų kanalus.",
+    "channelFollowContentWarning": "Šiame kanale yra turinio įspėjimas. Naujienos gali būti siunčiamos tik į kanalus su turinio įspėjimu arba amžiaus apribojimu.",
+    "channelFollowHiddenHint": "Bendruomenės ir kanalai, kuriuose negalite tvarkyti webhookų, yra paslėpti.",
+    "channelFollowEmpty": "Jokioje bendruomenėje negalite tvarkyti webhookų. Paprašykite administratoriaus sekti šį kanalą.",
+    "channelFollowSubmit": "Sekti",
+    "channelFollowFailed": "Nepavyko sekti šio kanalo.",
+    "channelFollowSuccessTitle": "Atnaujinimai jau pakeliui!",
+    "channelFollowSuccessBody": "Žinutės, paskelbtos {sourceName}, bus rodomos kanale #{targetName}.",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "Supratau!",
+    "channelFollowBarrier": "Sekite šį kanalą, kad gautumėte šiuos skelbimus pasirinktame kanale.",
+    "channelHeaderFollow": "Sekti kanalą",
+    "chatMessagePublish": "Paskelbti",
+    "chatMessagePublished": "Paskelbta",
+    "chatMessagePublishConfirmTitle": "Paskelbti žinutę?",
+    "chatMessagePublishConfirmBody": "Tai nusiųs kopiją į kiekvieną kanalą, kuris seka šį.",
+    "chatMessagePublishedToast": "Žinutė paskelbta",
+    "chatMessageAlreadyPublished": "Ši žinutė jau paskelbta.",
+    "chatMessagePublishFailedTitle": "Nepavyko paskelbti šios žinutės",
+    "chatMessagePublishFailedBody": "Kažkas nepavyko. Bandykite dar kartą po akimirkos.",
+    "chatMessagePublishLimitTitle": "Neskubėkite",
+    "chatMessagePublishLimitBody": "Vėl galėsite paskelbti po {duration}.",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "Per greitai skelbiate. Bandykite dar kartą po akimirkos.",
+    "chatMessageDeletePublished": "Taip pat bus pašalintos kopijos, kurios buvo išsiųstos šį kanalą sekantiems kanalams.",
+    "chatMessageEditPublishedTitle": "Redaguoti paskelbtą žinutę?",
+    "chatMessageEditPublishedBody": "Tai atnaujins kopijas, kurios buvo išsiųstos šį kanalą sekantiems kanalams.",
+    "chatMessageEditPublishedSave": "Išsaugoti",
+    "chatMessageEditLimitTitle": "Neskubėkite",
+    "chatMessageEditLimitBody": "Šią paskelbtą žinutę vėl galėsite redaguoti po {duration}.",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "Per greitai redaguojate šią paskelbtą žinutę. Bandykite dar kartą po akimirkos.",
+    "chatMessageOriginalDeleted": "[Originali žinutė ištrinta]",
+    "userTagCommunity": "Bendruomenė",
+    "systemFollowAdd": "{username} nustatė, kad šis kanalas sektų {source}. Ten paskelbtos žinutės bus rodomos čia.",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username} nustatė, kad šis kanalas sektų {source}.",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "Dar neišsiųsta sekėjams.",
+    "publishNudgeHideForever": "Daugiau nerodyti",
+    "publishNudgeDismiss": "Atmesti",
+    "channelSettingsFollowedChannels": "Sekami kanalai",
+    "channelSettingsFollowedChannelsDescription": "Skelbimų kanalai, kuriuos seka šis kanalas. Nustokite sekti, kad nebegautumėte kopijų.",
+    "guildSettingsFollowedChannelsDescription": "Skelbimų kanalai, kuriuos seka šios bendruomenės kanalai.",
+    "channelSettingsFollowedFrom": "Iš {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "Naujinimai pristabdyti, nes šaltinio kanalas nebepasiekiamas.",
+    "channelSettingsUnfollowTitle": "Nustoti sekti {name}?",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "Šis kanalas nebegaus kopijų iš to skelbimų kanalo.",
+    "channelSettingsUnfollow": "Nustoti sekti",
+    "crosspostCommunityTitle": "Bendruomenė",
+    "crosspostGoToCommunity": "Eiti į bendruomenę",
+    "crosspostJoinCommunity": "Prisijungti prie bendruomenės",
+    "crosspostSourceFailed": "Nepavyko įkelti šios bendruomenės. Pabandykite dar kartą po akimirkos.",
+    "crosspostMembers": "Narių: {count}",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "Prisijungę: {count}",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, one{{count} minutė} few{{count} minutės} many{{count} minutės} other{{count} minučių}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, one{{count} sekundė} few{{count} sekundės} many{{count} sekundės} other{{count} sekundžių}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "Nepalaikomas kanalo tipas",
+    "channelUnsupportedBody": "Ši programos versija nepalaiko šio kanalo tipo.",
+    "channelDetailsUnsupportedChannel": "Nepalaikomas kanalas"
 }

@@ -45,9 +45,6 @@ bool requiresSystemSettingsForKind(
 Future<SystemPermissionOutcome> requestSystemPermission(
   SystemPermissionKind kind,
 ) async {
-  if (kIsWeb && kind == SystemPermissionKind.notifications) {
-    return SystemPermissionOutcome.denied;
-  }
   final Permission permission = permissionForKind(kind);
   PermissionStatus status = await permission.status;
   if (isSystemPermissionGranted(kind, status)) {
@@ -68,7 +65,7 @@ Future<SystemPermissionOutcome> requestSystemPermission(
       shouldOpenSystemSettingsAfterRequest(
         before: before,
         after: status,
-        isAndroid: !kIsWeb && Platform.isAndroid,
+        isAndroid: Platform.isAndroid,
       )) {
     return SystemPermissionOutcome.requiresSettings;
   }

@@ -4,9 +4,6 @@ import 'package:fluxer_app/features/settings/domain/app_icon_catalog_ios.dart';
 import 'package:fluxer_app/features/settings/domain/app_icon_choice.dart';
 
 List<AppIconChoice> appIconChoiceCatalog() {
-  if (kIsWeb) {
-    return const <AppIconChoice>[];
-  }
   return switch (defaultTargetPlatform) {
     TargetPlatform.iOS => iosAppIconChoiceCatalog(),
     TargetPlatform.android => androidAppIconChoiceCatalog(),

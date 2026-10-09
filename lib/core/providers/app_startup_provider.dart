@@ -332,8 +332,7 @@ class AppStartup extends _$AppStartup {
       ref
           .read(userSettingsViewModelProvider.notifier)
           .applyStartupProfile(validatedUser);
-      ref.read(currentUserPrivateReadProvider.notifier).startupUser =
-          validatedUser;
+      ref.read(currentUserPrivateReadProvider.notifier).apply(validatedUser);
       unawaited(
         ref
             .read(sensitiveContentProvider.notifier)

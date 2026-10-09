@@ -42,7 +42,7 @@ Widget buildTestApp(
   return ProviderScope(
     child: MaterialApp(
       locale: kTestLocale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       navigatorObservers: observers,
       theme: buildFluxerTheme(

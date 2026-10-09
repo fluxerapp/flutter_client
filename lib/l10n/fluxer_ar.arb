@@ -28,10 +28,6 @@
     "@retry": {
         "description": "Generic label for retry actions (splash, errors, network, etc.)."
     },
-    "connectingCaps": "CONNECTING",
-    "@connectingCaps": {
-        "description": "Connecting text on the splash screen"
-    },
     "splashConnectionLost": "فُقد الاتصال",
     "@splashConnectionLost": {
         "description": "Fallback headline on splash when gateway is unavailable (web parity)."
@@ -93,10 +89,6 @@
             }
         }
     },
-    "ssoRequired": "تسجيل الدخول الموحد مطلوب للوصول إلى هذه النسخة.",
-    "@ssoRequired": {
-        "description": "Short sign-in note shown when the instance requires single sign-on."
-    },
     "organizationSsoProvider": "تسجيل الدخول باستخدام موفر تسجيل الدخول الموحّد لمؤسستك.",
     "@organizationSsoProvider": {
         "description": "Description shown when sign-in is restricted to the configured SSO provider."
@@ -117,10 +109,6 @@
                 "type": "String"
             }
         }
-    },
-    "logInViaBrowser": "تسجيل الدخول عبر المتصفح",
-    "@logInViaBrowser": {
-        "description": "Secondary login that opens or uses the system browser."
     },
     "needAccountPrompt": "هل تحتاج إلى حساب؟ ",
     "@needAccountPrompt": {
@@ -232,26 +220,9 @@
     "@accountAdd": {
         "description": "Button to add a new account."
     },
-    "accountRemove": "إزالة",
-    "@accountRemove": {
-        "description": "Context menu option to remove a stored account."
-    },
-    "accountRemoveTitle": "إزالة {username}",
-    "@accountRemoveTitle": {
-        "description": "Title for the remove account confirmation modal.",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
     "accountRemoveDescription": "سيؤدي هذا إلى إزالة الجلسة المحفوظة لهذا الحساب.",
     "@accountRemoveDescription": {
         "description": "Description for the remove account confirmation modal."
-    },
-    "accountRemoveOnlyDescription": "سيؤدي هذا إلى إزالة الحساب الوحيد المحفوظ على هذا الجهاز.",
-    "@accountRemoveOnlyDescription": {
-        "description": "Description when removing the last stored account."
     },
     "accountExpired": "انتهت الصلاحية",
     "@accountExpired": {
@@ -636,7 +607,7 @@
     },
     "recoveryKitBackupCodesFailed": "تعذر تحميل رموز النسخ الاحتياطي الخاصة بك.",
     "@recoveryKitBackupCodesFailed": {
-        "description": "Toast shown when the two-factor backup codes for the recovery kit cannot be loaded."
+        "description": "Toast shown when the two-factor backup codes cannot be loaded, in the recovery kit sheet or from View codes in security settings."
     },
     "recoveryKitIncludeBackupCodes": "تضمين رموز النسخ الاحتياطي للمصادقة الثنائية في الصورة المحفوظة",
     "@recoveryKitIncludeBackupCodes": {
@@ -783,10 +754,6 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsent": "أوافق على شروط الخدمة وسياسة الخصوصية",
-    "@registerConsent": {
-        "description": "Consent checkbox label for registration (plain text fallback)."
-    },
     "registerConsentPrefix": "أوافق على ",
     "@registerConsentPrefix": {
         "description": "Text before the Terms of Service link in the consent checkbox."
@@ -830,10 +797,6 @@
     "passkeyTimeout": "انتهت مهلة مصادقة مفتاح المرور. يرجى المحاولة مرة أخرى.",
     "@passkeyTimeout": {
         "description": "Error when passkey authentication times out."
-    },
-    "passkeyNotAvailable": "مفاتيح المرور غير متاحة لهذا التطبيق. قم بتسجيل الدخول باستخدام البريد الإلكتروني وكلمة المرور بدلاً من ذلك.",
-    "@passkeyNotAvailable": {
-        "description": "Error for unknown passkey provider errors (e.g. TYPE_UNKNOWN)."
     },
     "passkeyFailed": "فشل المصادقة باستخدام المفتاح السري. يرجى المحاولة مرة أخرى.",
     "@passkeyFailed": {
@@ -942,26 +905,6 @@
     "@inviteAcceptSomeone": {
         "description": "Fallback inviter name when the inviter is unknown."
     },
-    "inviteAcceptEmojiPack": "حزمة رموز تعبيرية",
-    "@inviteAcceptEmojiPack": {
-        "description": "Label for an emoji pack invite."
-    },
-    "inviteAcceptStickerPack": "حزمة ملصقات",
-    "@inviteAcceptStickerPack": {
-        "description": "Label for a sticker pack invite."
-    },
-    "inviteAcceptInstallEmojiPack": "تثبيت حزمة الرموز التعبيرية",
-    "@inviteAcceptInstallEmojiPack": {
-        "description": "Primary action to install an emoji pack from an invite."
-    },
-    "inviteAcceptInstallStickerPack": "تثبيت حزمة الملصقات",
-    "@inviteAcceptInstallStickerPack": {
-        "description": "Primary action to install a sticker pack from an invite."
-    },
-    "inviteAcceptPackInstallNote": "قبول هذه الدعوة سيقوم بتثبيت الحزمة تلقائيًا.",
-    "@inviteAcceptPackInstallNote": {
-        "description": "Note shown on expression pack invites before accepting."
-    },
     "mentionUnknownChannel": "unknown-channel",
     "@mentionUnknownChannel": {
         "description": "Fallback name shown in a channel mention pill when the channel is not found."
@@ -986,13 +929,13 @@
     "@embedThemeTitle": {
         "description": "Title on the theme embed card in chat."
     },
-    "embedThemeSubtitle": "هذا العميل لا يدعم السمات المخصصة.",
-    "@embedThemeSubtitle": {
-        "description": "Subtitle on the theme embed card."
+    "embedThemeWebOnly": "يمكنك استيراد السمات على الويب أو سطح المكتب فقط.",
+    "@embedThemeWebOnly": {
+        "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
     },
-    "embedThemeUnavailableButton": "السمات غير متاحة",
-    "@embedThemeUnavailableButton": {
-        "description": "Button on the theme embed card - themes aren't supported in the client."
+    "embedThemeImport": "استيراد السمة",
+    "@embedThemeImport": {
+        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "privacySettings": "إعدادات الخصوصية",
     "@privacySettings": {
@@ -1220,9 +1163,18 @@
     "@dmLeaveGroup": {
         "description": "DM context menu action to leave a group DM."
     },
-    "dmNoCommunitiesAvailable": "لا توجد مجتمعات متاحة",
-    "@dmNoCommunitiesAvailable": {
-        "description": "Shown when no communities are available to invite to."
+    "dmInviteSentFor": "تم إرسال دعوة للانضمام إلى {communityName}",
+    "@dmInviteSentFor": {
+        "description": "Toast confirming a community invite was sent to a DM recipient.",
+        "placeholders": {
+            "communityName": {
+                "type": "String"
+            }
+        }
+    },
+    "dmInviteSendFailed": "تعذّر إرسال الدعوة. حاول مرة أخرى.",
+    "@dmInviteSendFailed": {
+        "description": "Toast shown when sending a community invite from the DM menu fails."
     },
     "dmGroupMemberCount": "{count} أعضاء",
     "@dmGroupMemberCount": {
@@ -1667,10 +1619,6 @@
             }
         }
     },
-    "emojiPlutoniumUpsellButton": "احصل على Plutonium",
-    "@emojiPlutoniumUpsellButton": {
-        "description": "Button label on the Plutonium upsell banner."
-    },
     "emojiPlutoniumUpsellDismiss": "عدم الإظهار مرة أخرى",
     "@emojiPlutoniumUpsellDismiss": {
         "description": "Dismiss link on the Plutonium upsell banner."
@@ -1837,10 +1785,6 @@
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
     },
-    "fluxerTagInputLabel": "اسم المستخدم",
-    "@fluxerTagInputLabel": {
-        "description": "Label above the username and discriminator input fields."
-    },
     "fluxerTagDescriptionBase": "يمكن أن تتضمن أسماء المستخدمين أحرفًا (a-z, A-Z) وأرقامًا (0-9) وشرطات سفلية فقط. لا تميّز أسماء المستخدمين بين الأحرف الكبيرة والصغيرة.",
     "@fluxerTagDescriptionBase": {
         "description": "Base description text on the username change sheet."
@@ -1868,10 +1812,6 @@
     "validationAllowedChars": "الأحرف (a-z وA-Z) والأرقام (0-9) والشرطات السفلية (_) فقط",
     "@validationAllowedChars": {
         "description": "Validation rule for allowed username characters."
-    },
-    "discriminatorPremiumTooltip": "احصل على Plutonium لتخصيص علامتك أو الاحتفاظ بها عند تغيير اسم المستخدم الخاص بك",
-    "@discriminatorPremiumTooltip": {
-        "description": "Tooltip on disabled discriminator field for non-premium users."
     },
     "fluxerTagAlreadyTaken": "اسم المستخدم هذا مُستخدَم بالفعل",
     "@fluxerTagAlreadyTaken": {
@@ -1926,19 +1866,6 @@
     "premiumUpsellCustomizeTag": "خصص علامتك المكونة من 4 أرقام أو احتفظ بها عند تغيير اسم المستخدم الخاص بك",
     "@premiumUpsellCustomizeTag": {
         "description": "Upsell text encouraging non-premium users to get Plutonium for tag customization."
-    },
-    "premiumTrialExpiresOn": "تنتهي فترة تجريبية لـ Plutonium الخاصة بك في {date}. قم بالترقية للاحتفاظ بعلامتك المخصصة واكسب شارة على ملفك الشخصي.",
-    "@premiumTrialExpiresOn": {
-        "description": "Trial upsell with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActive": "أنت في فترة تجريبية لـ Plutonium. قم بالترقية للاحتفاظ بعلامتك المخصصة واكسب شارة على ملفك الشخصي.",
-    "@premiumTrialActive": {
-        "description": "Trial upsell without specific expiry date."
     },
     "fluxerTagUpdated": "تم تحديث اسم المستخدم",
     "@fluxerTagUpdated": {
@@ -2112,32 +2039,6 @@
     "@hideVisionaryIdDescription": {
         "description": "Description for the toggle to hide the Visionary ID badge."
     },
-    "premiumTrialSubscriptionStarts": "أنت في فترة تجريبية لـ Plutonium — يبدأ اشتراكك في {date}",
-    "@premiumTrialSubscriptionStarts": {
-        "description": "Trial banner title when user has an active subscription pending after trial.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialSubscriptionStartsDescription": "سيبدأ اشتراكك تلقائيًا عند انتهاء الفترة التجريبية. لا يلزم اتخاذ أي إجراء.",
-    "@premiumTrialSubscriptionStartsDescription": {
-        "description": "Trial banner description when user has an active subscription pending after trial."
-    },
-    "premiumTrialExpiresOnProfile": "أنت في فترة تجريبية لـ Plutonium تنتهي في {date}",
-    "@premiumTrialExpiresOnProfile": {
-        "description": "Trial banner title with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActiveProfile": "أنت في فترة تجريبية لـ Plutonium",
-    "@premiumTrialActiveProfile": {
-        "description": "Trial banner title without specific expiry date."
-    },
     "avatarDescriptionNonPremium": "JPEG، PNG، WebP. بحد أقصى 10 ميجابايت. موصى به: 512×512 بكسل. تتطلب الصور الرمزية المتحركة (GIF) Plutonium.",
     "@avatarDescriptionNonPremium": {
         "description": "Avatar helper text for non-premium users, mentioning Plutonium requirement for animated avatars."
@@ -2222,22 +2123,6 @@
     "profileSavedToast": "تم تحديث الملف الشخصي",
     "@profileSavedToast": {
         "description": "Toast message shown after successfully saving profile changes."
-    },
-    "profileEditButton": "تعديل الملف الشخصي",
-    "@profileEditButton": {
-        "description": "Button label to open profile editing from the profile content card."
-    },
-    "profileNoteLabel": "ملاحظة",
-    "@profileNoteLabel": {
-        "description": "Label for the personal note section on a user profile."
-    },
-    "profileNoteVisibility": "(مرئية لك فقط)",
-    "@profileNoteVisibility": {
-        "description": "Hint that the note is private and only visible to the current user."
-    },
-    "profileNoteEmpty": "لا توجد ملاحظة بعد.",
-    "@profileNoteEmpty": {
-        "description": "Placeholder shown when no personal note has been set for a user."
     },
     "sudoTitle": "تحقق من هويتك",
     "@sudoTitle": {
@@ -2610,42 +2495,6 @@
     "@securityPasskeyNameHint": {
         "description": "Hint for passkey name input."
     },
-    "securityPhoneSectionTitle": "رقم الهاتف",
-    "@securityPhoneSectionTitle": {
-        "description": "Title for phone number section."
-    },
-    "securityPhoneSectionDescription": "إدارة رقم هاتفك.",
-    "@securityPhoneSectionDescription": {
-        "description": "Description for phone number section."
-    },
-    "securityPhoneLabel": "رقم الهاتف",
-    "@securityPhoneLabel": {
-        "description": "Label for phone number row."
-    },
-    "securityPhoneNone": "لم يتم إضافة رقم هاتف.",
-    "@securityPhoneNone": {
-        "description": "Shown when no phone number is set."
-    },
-    "securityPhoneAdd": "إضافة هاتف",
-    "@securityPhoneAdd": {
-        "description": "Button to add phone number."
-    },
-    "securityPhoneRemove": "إزالة",
-    "@securityPhoneRemove": {
-        "description": "Button to remove phone number."
-    },
-    "securityPhoneRemoveTitle": "إزالة رقم الهاتف",
-    "@securityPhoneRemoveTitle": {
-        "description": "Title for phone remove confirmation."
-    },
-    "securityPhoneRemoveDescription": "هل أنت متأكد أنك تريد إزالة رقم هاتفك؟",
-    "@securityPhoneRemoveDescription": {
-        "description": "Description for phone remove confirmation."
-    },
-    "securityPhoneRemoved": "تمت إزالة رقم الهاتف",
-    "@securityPhoneRemoved": {
-        "description": "Toast after phone removed."
-    },
     "securityClaimTitle": "ميزات الأمان",
     "@securityClaimTitle": {
         "description": "Title when user needs to claim account for security."
@@ -2654,7 +2503,7 @@
     "@securityClaimDescription": {
         "description": "Description prompting user to claim account."
     },
-    "securityVerifyEmailRequired": "يجب عليك التحقق من عنوان بريدك الإلكتروني قبل إعداد المصادقة الثنائية أو المفاتيح السرية أو التحقق عبر الرسائل القصيرة.",
+    "securityVerifyEmailRequired": "يجب عليك التحقق من عنوان بريدك الإلكتروني قبل إعداد المصادقة الثنائية أو المفاتيح السرية.",
     "@securityVerifyEmailRequired": {
         "description": "Warning when email is not verified."
     },
@@ -2698,10 +2547,6 @@
     "@backupCodesWarning": {
         "description": "Warning about backup codes."
     },
-    "backupCodesDownload": "تنزيل",
-    "@backupCodesDownload": {
-        "description": "Button to download backup codes."
-    },
     "backupCodesCopy": "نسخ",
     "@backupCodesCopy": {
         "description": "Button to copy backup codes."
@@ -2717,46 +2562,6 @@
     "backupCodesDone": "تم",
     "@backupCodesDone": {
         "description": "Button to close backup codes sheet."
-    },
-    "backupCodesViewTitle": "عرض الرموز الاحتياطية",
-    "@backupCodesViewTitle": {
-        "description": "Title for viewing existing backup codes."
-    },
-    "backupCodesViewDescription": "قد يكون التحقق مطلوبًا قبل عرض رموز النسخ الاحتياطي الخاصة بك.",
-    "@backupCodesViewDescription": {
-        "description": "Description for view backup codes."
-    },
-    "phoneAddTitle": "إضافة رقم هاتف",
-    "@phoneAddTitle": {
-        "description": "Title for phone add sheet."
-    },
-    "phoneAddLabel": "رقم الهاتف",
-    "@phoneAddLabel": {
-        "description": "Label for phone input."
-    },
-    "phoneAddHint": "أدخل رقم هاتفك",
-    "@phoneAddHint": {
-        "description": "Hint for phone input."
-    },
-    "phoneAddFooter": "سنرسل رمز SMS عند توفره. رقمك غير مرتبط بحسابك. نحتفظ بمعرّف مشفر فقط، بدون معرف مستخدم، للسماح بـ 2 تحقق كحد أقصى خلال حوالي 30 يومًا.",
-    "@phoneAddFooter": {
-        "description": "Footer text for phone input."
-    },
-    "phoneAddSendCode": "إرسال الرمز",
-    "@phoneAddSendCode": {
-        "description": "Button to send phone verification code."
-    },
-    "phoneVerifyTitle": "التحقق من رقم الهاتف",
-    "@phoneVerifyTitle": {
-        "description": "Title for phone verify step."
-    },
-    "phoneVerifyDescription": "أدخل رمز التحقق المرسل إلى رقم هاتفك.",
-    "@phoneVerifyDescription": {
-        "description": "Description for phone verify step."
-    },
-    "phoneAddSuccess": "تم التحقق من رقم الهاتف",
-    "@phoneAddSuccess": {
-        "description": "Toast after phone added."
     },
     "dangerZoneSectionTitle": "منطقة الخطر",
     "@dangerZoneSectionTitle": {
@@ -3008,10 +2813,6 @@
     "@authorizedAppsScopeAdmin": {
         "description": "OAuth2 scope description: admin."
     },
-    "privacyPendingDeletionTitle": "قيد الحذف",
-    "@privacyPendingDeletionTitle": {
-        "description": "Title of the warning alert shown when a bulk message deletion is pending."
-    },
     "blockedUsersTitle": "المستخدمون المحظورون",
     "@blockedUsersTitle": {
         "description": "Header title of the Blocked Users settings page."
@@ -3248,10 +3049,6 @@
     "@userProfileNoteDelete": {
         "description": "Delete button in the note editor sheet."
     },
-    "userProfileNoteEmpty": "انقر لإضافة ملاحظة",
-    "@userProfileNoteEmpty": {
-        "description": "Hint text when no note has been written yet."
-    },
     "userProfileMemberSince": "عضو منذ",
     "@userProfileMemberSince": {
         "description": "Header of the member-since section in the bio card."
@@ -3363,13 +3160,13 @@
     "@userProfileTransferOwnership": {
         "description": "Three-dot menu item to transfer community ownership to the member."
     },
-    "userProfileReportUser": "الإبلاغ عن المستخدم",
-    "@userProfileReportUser": {
-        "description": "Three-dot menu item to report the user."
-    },
     "userProfileReportMessage": "الإبلاغ عن الرسالة",
     "@userProfileReportMessage": {
         "description": "Three-dot menu item to report the message that opened this profile."
+    },
+    "userProfileReportUserProfile": "الإبلاغ عن الملف الشخصي",
+    "@userProfileReportUserProfile": {
+        "description": "Three-dot menu item on the full profile to report this user's profile (avatar, banner, name, bio and other profile parts). Message behavior is reported from the message instead."
     },
     "userProfileKickConfirmTitle": "طرد {username}؟",
     "@userProfileKickConfirmTitle": {
@@ -3596,18 +3393,6 @@
     "durationCustom": "مخصص…",
     "@durationCustom": {
         "description": "Duration option label for a user-specified custom duration."
-    },
-    "iarReportUserTitle": "الإبلاغ عن المستخدم",
-    "@iarReportUserTitle": {
-        "description": "Title of the simple user-report sheet."
-    },
-    "iarReasonInappropriateProfile": "ملف شخصي غير لائق",
-    "@iarReasonInappropriateProfile": {
-        "description": "User-report reason: the user's profile contains inappropriate content."
-    },
-    "iarReasonInappropriateProfileDescription": "ملف هذا المستخدم الشخصي يحتوي على محتوى غير لائق",
-    "@iarReasonInappropriateProfileDescription": {
-        "description": "Description for the inappropriate-profile user-report reason."
     },
     "typingIndicatorOne": "يكتب {name}...",
     "@typingIndicatorOne": {
@@ -4034,17 +3819,9 @@
     "@channelComposerBarrierNotMemberLongEnough": {
         "description": "Composer barrier when the user's guild membership is too recent."
     },
-    "channelComposerBarrierNoPhoneNumber": "يجب عليك التحقق من رقم الهاتف لإرسال الرسائل في هذا المجتمع.",
-    "@channelComposerBarrierNoPhoneNumber": {
-        "description": "Composer barrier when the user must verify a phone number before messaging."
-    },
     "channelComposerBarrierVerifyEmail": "التحقق من البريد الإلكتروني",
     "@channelComposerBarrierVerifyEmail": {
         "description": "Action button on the composer barrier for unverified email."
-    },
-    "channelComposerBarrierVerifyPhone": "التحقق من الهاتف",
-    "@channelComposerBarrierVerifyPhone": {
-        "description": "Action button on the composer barrier for missing phone verification."
     },
     "chatAttachmentTooMany": "ملفات مرفقة كثيرة جدًا (الحد الأقصى {max})",
     "@chatAttachmentTooMany": {
@@ -4071,10 +3848,6 @@
     "@chatAttachmentDropToSend": {
         "description": "Overlay hint when dragging files over chat with Shift held."
     },
-    "chatAttachmentSendVoiceMessage": "إرسال رسالة صوتية",
-    "@chatAttachmentSendVoiceMessage": {
-        "description": "Menu item to open the voice message recorder."
-    },
     "voiceMessageTitle": "رسالة صوتية",
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
@@ -4095,10 +3868,6 @@
     "@voiceMessageMicPermissionDenied": {
         "description": "Shown when microphone permission is denied for voice messages."
     },
-    "voiceMessageRecordingNotSupported": "التسجيل الصوتي غير مدعوم على هذا الجهاز.",
-    "@voiceMessageRecordingNotSupported": {
-        "description": "Shown when the device cannot record voice messages."
-    },
     "voiceMessageMicInUse": "غادر المكالمة الصوتية لتسجيل رسالة صوتية.",
     "@voiceMessageMicInUse": {
         "description": "Shown when the microphone is already used by an active voice call."
@@ -4111,26 +3880,6 @@
     "@voiceMessageSendFailed": {
         "description": "Shown when sending a voice message fails."
     },
-    "voiceMessageRecordingHint": "تحدث الآن. اضغط على إيقاف عند الانتهاء، ويمكنك قص التسجيل بعد ذلك.",
-    "@voiceMessageRecordingHint": {
-        "description": "Help text while recording a voice message on desktop."
-    },
-    "voiceMessageReviewHint": "اسحب المقبضين للقص، ثم اضغط على إرسال.",
-    "@voiceMessageReviewHint": {
-        "description": "Help text while reviewing a voice message before send."
-    },
-    "voiceMessageStop": "إيقاف",
-    "@voiceMessageStop": {
-        "description": "Stop recording button in voice message composer."
-    },
-    "voiceMessageStartRecording": "بدء التسجيل",
-    "@voiceMessageStartRecording": {
-        "description": "Button to retry voice recording after permission error."
-    },
-    "voiceMessageRerecord": "إعادة التسجيل",
-    "@voiceMessageRerecord": {
-        "description": "Button to discard review and record again."
-    },
     "voiceMessagePlay": "تشغيل",
     "@voiceMessagePlay": {
         "description": "Play voice message preview."
@@ -4138,16 +3887,6 @@
     "voiceMessagePause": "إيقاف مؤقت",
     "@voiceMessagePause": {
         "description": "Pause voice message preview."
-    },
-    "voiceMessageSelectionTooShort": "يجب ألا تقل مدة التحديد عن {seconds} ث.",
-    "@voiceMessageSelectionTooShort": {
-        "description": "Error when trimmed voice message is too short.",
-        "placeholders": {
-            "seconds": {
-                "type": "num",
-                "format": "compact"
-            }
-        }
     },
     "chatAttachmentEditTitle": "تعديل المرفق",
     "@chatAttachmentEditTitle": {
@@ -4192,10 +3931,6 @@
     "chatAttachmentSourceBrowse": "تصفح الملفات",
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
-    },
-    "chatAttachmentPasteTooltip": "لصق ملف من الحافظة",
-    "@chatAttachmentPasteTooltip": {
-        "description": "Tooltip for pasting an image attachment from the clipboard."
     },
     "chatAttachmentSpoiler": "محتوى مخفي",
     "@chatAttachmentSpoiler": {
@@ -4293,14 +4028,6 @@
     "@matureContentOpenLinkButton": {
         "description": "Primary action on mature link channel gates."
     },
-    "sensitiveContentSectionTitle": "محتوى حساس",
-    "@sensitiveContentSectionTitle": {
-        "description": "Privacy settings section title for sensitive content filters."
-    },
-    "sensitiveContentSectionDescription": "تحكم في كيفية تصفية الوسائط الخاصة بالبالغين أو الحساسة في سياقات مختلفة",
-    "@sensitiveContentSectionDescription": {
-        "description": "Privacy settings section description for sensitive content filters."
-    },
     "sensitiveContentFriendDmLabel": "الرسائل المباشرة من الأصدقاء",
     "@sensitiveContentFriendDmLabel": {
         "description": "Label for friend DM sensitive content filter."
@@ -4325,18 +4052,6 @@
     "@sensitiveContentFilterBlock": {
         "description": "Sensitive content filter option to block media."
     },
-    "sensitiveContentBlurUnscannedLabel": "تمويه الوسائط حتى اكتمال فحص الأمان",
-    "@sensitiveContentBlurUnscannedLabel": {
-        "description": "Toggle label for blurring unscanned media."
-    },
-    "sensitiveContentBlurUnscannedDescriptionAdult": "عند التمكين، يتم تمويه الصور ومقاطع الفيديو حتى تنتهي عملية فحص سلامة المحتوى.",
-    "@sensitiveContentBlurUnscannedDescriptionAdult": {
-        "description": "Description for blur-unscanned toggle for adult accounts."
-    },
-    "sensitiveContentBlurUnscannedDescriptionMinor": "هذا الإعداد قيد التشغيل دائمًا لحسابك.",
-    "@sensitiveContentBlurUnscannedDescriptionMinor": {
-        "description": "Description for blur-unscanned toggle for minor accounts."
-    },
     "sensitiveContentResetButton": "إعادة تعيين",
     "@sensitiveContentResetButton": {
         "description": "Reset button for sensitive content settings."
@@ -4353,10 +4068,6 @@
                 "type": "int"
             }
         }
-    },
-    "chatCancelUpload": "إلغاء التحميل",
-    "@chatCancelUpload": {
-        "description": "Button or menu action label for canceling an in-flight message attachment upload."
     },
     "chatAttachmentExpiresOn": "تنتهي صلاحيته في {date}",
     "@chatAttachmentExpiresOn": {
@@ -4626,10 +4337,6 @@
     "@connectionEnterDomain": {
         "description": "Inline error shown when the domain input is empty."
     },
-    "lookAndFeelTitle": "المظهر والإحساس",
-    "@lookAndFeelTitle": {
-        "description": "Title of the Look & Feel (Appearance) settings page."
-    },
     "lookAndFeelThemeSectionTitle": "السمة",
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
@@ -4669,14 +4376,6 @@
     "lookAndFeelThemeSyncFailed": "لم نتمكن من مزامنة السمة إلى حسابك. يرجى المحاولة مرة أخرى.",
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
-    },
-    "lookAndFeelChatFontScalingTitle": "حجم خط الدردشة",
-    "@lookAndFeelChatFontScalingTitle": {
-        "description": "Section title for the chat font size slider."
-    },
-    "lookAndFeelChatFontScalingDescription": "اضبط حجم الخط في منطقة الدردشة.",
-    "@lookAndFeelChatFontScalingDescription": {
-        "description": "Section description for the chat font size slider."
     },
     "lookAndFeelInterfaceTitle": "الواجهة",
     "@lookAndFeelInterfaceTitle": {
@@ -4745,42 +4444,6 @@
     "lookAndFeelHideKeyboardHintsDescription": "عند التمكين، يتم إخفاء شارات الاختصارات في نوافذ التلميحات المنبثقة.",
     "@lookAndFeelHideKeyboardHintsDescription": {
         "description": "Toggle description for the hide-keyboard-hints switch."
-    },
-    "lookAndFeelNekoTitle": "متفرقات",
-    "@lookAndFeelNekoTitle": {
-        "description": "Subsection title under Interface for Neko appearance settings."
-    },
-    "lookAndFeelNekoDescription": "خيارات واجهة متفرقة.",
-    "@lookAndFeelNekoDescription": {
-        "description": "Subsection description for Neko appearance settings."
-    },
-    "lookAndFeelShowNekoLabel": "إظهار Neko",
-    "@lookAndFeelShowNekoLabel": {
-        "description": "Toggle label for showing Neko in the chat footer."
-    },
-    "lookAndFeelShowNekoDescription": "عند التمكين، يظهر Neko بالقرب من شريط إدخال الدردشة.",
-    "@lookAndFeelShowNekoDescription": {
-        "description": "Toggle description for showing Neko in chat."
-    },
-    "lookAndFeelVoiceChannelJoinTitle": "سلوك الانضمام إلى القناة الصوتية",
-    "@lookAndFeelVoiceChannelJoinTitle": {
-        "description": "Subsection title under Interface — voice channel join behavior."
-    },
-    "lookAndFeelVoiceChannelJoinDescription": "تحكم في كيفية الانضمام إلى قنوات الصوت في المجتمعات.",
-    "@lookAndFeelVoiceChannelJoinDescription": {
-        "description": "Subsection description for voice channel join behavior."
-    },
-    "lookAndFeelRequireDoubleClickJoinLabel": "اشتراط النقر المزدوج للانضمام إلى القنوات الصوتية",
-    "@lookAndFeelRequireDoubleClickJoinLabel": {
-        "description": "Toggle label — require double-click to join voice channels."
-    },
-    "lookAndFeelRequireDoubleClickJoinDescription": "عند التمكين، ستحتاج إلى النقر المزدوج على قنوات الصوت للانضمام إليها. عند التعطيل (افتراضي)، سيؤدي النقر الفردي إلى الانضمام إلى القناة فورًا.",
-    "@lookAndFeelRequireDoubleClickJoinDescription": {
-        "description": "Toggle description for the require-double-click voice channel join switch."
-    },
-    "lookAndFeelChatFontPreviewSample": "الثعلب البني السريع يقفز فوق الكلب الكسول.",
-    "@lookAndFeelChatFontPreviewSample": {
-        "description": "Sample text rendered at the selected chat font size to preview scaling."
     },
     "lookAndFeelGuildSidebarTitle": "الشريط الجانبي للمجتمع",
     "@lookAndFeelGuildSidebarTitle": {
@@ -5189,25 +4852,9 @@
     "@messagesMediaAutocompleteSavedMediaLabel": {
         "description": "Toggle label for saved media in expression autocomplete."
     },
-    "messagesMediaEditingSectionTitle": "تعديل الرسالة",
-    "@messagesMediaEditingSectionTitle": {
-        "description": "Section title for message editing settings."
-    },
-    "messagesMediaEditingSectionDescription": "تحكم في ما يحدث لمسودة التعديل عند الإلغاء.",
-    "@messagesMediaEditingSectionDescription": {
-        "description": "Section description for message editing settings."
-    },
-    "messagesMediaEditingPreserveDraftLabel": "الاحتفاظ بمسودة التعديل عند الإلغاء",
-    "@messagesMediaEditingPreserveDraftLabel": {
-        "description": "Toggle label for preserving edit drafts on cancel."
-    },
     "accessibilityDmMessagePreviewGroupTitle": "معاينات الرسائل المباشرة",
     "@accessibilityDmMessagePreviewGroupTitle": {
         "description": "Section title for DM message preview accessibility settings."
-    },
-    "accessibilityDmMessagePreviewGroupDescription": "تحكم في وقت عرض معاينات الرسائل في قائمة الدردشة المباشرة.",
-    "@accessibilityDmMessagePreviewGroupDescription": {
-        "description": "Section description for DM message preview accessibility settings."
     },
     "accessibilityDmMessagePreviewModeLabel": "وضع معاينة الرسائل المباشرة",
     "@accessibilityDmMessagePreviewModeLabel": {
@@ -5365,10 +5012,6 @@
     "@voiceConnectionConfirmDoNothing": {
         "description": "Dismiss the dialog without joining voice."
     },
-    "voiceChannelEmptyDescription": "هذه قناة صوتية. اتصل لبدء التحدث!",
-    "@voiceChannelEmptyDescription": {
-        "description": "Empty state body when viewing a guild voice channel while not in the call."
-    },
     "voiceChannelJoin": "الانضمام إلى القناة الصوتية",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
@@ -5408,14 +5051,6 @@
     "voiceChannelStatusConnecting": "جارٍ الاتصال…",
     "@voiceChannelStatusConnecting": {
         "description": "Status in the in-page voice view while LiveKit is connecting."
-    },
-    "voiceChannelStatusConnected": "متصل",
-    "@voiceChannelStatusConnected": {
-        "description": "Status in the in-page voice view when the voice session is active."
-    },
-    "voiceChannelStatusError": "خطأ",
-    "@voiceChannelStatusError": {
-        "description": "Short label in the channel header when the voice session reports an error."
     },
     "voiceParticipantTooltipMobileDevice": "جهاز جوال",
     "@voiceParticipantTooltipMobileDevice": {
@@ -5490,10 +5125,6 @@
     "voiceScreenShareNotificationText": "جارٍ مشاركة شاشتك.",
     "@voiceScreenShareNotificationText": {
         "description": "Body text for the Android foreground notification shown while screen sharing."
-    },
-    "voiceControlMore": "المزيد",
-    "@voiceControlMore": {
-        "description": "Tooltip: more voice actions in the voice call control bar."
     },
     "voiceControlDisconnect": "قطع الاتصال",
     "@voiceControlDisconnect": {
@@ -5745,6 +5376,10 @@
     "@chatSendFailureContentBlocked": {
         "description": "Fluxerbot system message when message content is blocked by safety systems."
     },
+    "chatSendFailureContentBlockedSelfHosted": "تعذّر تسليم رسالتك لأن أنظمة الأمان لدينا وضعت عليها علامة. إذا كنت تعتقد أن هذا خطأ، فيُرجى التواصل مع مسؤولي هذا المثيل.",
+    "@chatSendFailureContentBlockedSelfHosted": {
+        "description": "Fluxerbot system message on a self-hosted instance when message content is blocked by safety systems. Names no support mailbox."
+    },
     "chatSendFailureNsfwEmojiSticker": "لم يتم تسليم رسالتك لأنها تحتوي على رموز تعبيرية أو ملصقات ناضجة غير مسموح بها في هذا السياق.",
     "@chatSendFailureNsfwEmojiSticker": {
         "description": "Fluxerbot system message when mature emoji or stickers are blocked."
@@ -5769,6 +5404,10 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "انقر نقرًا مزدوجًا على رسالة للتفاعل بـ",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
     "chatMessageEdit": "تعديل الرسالة",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -5776,6 +5415,14 @@
     "chatMessageReply": "رد",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
+    },
+    "notificationReplyPlaceholder": "رسالة",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "تعذّر إرسال الرد",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
     },
     "chatMessageForward": "إعادة توجيه",
     "@chatMessageForward": {
@@ -5926,420 +5573,155 @@
     "@chatMessageReport": {
         "description": "Action label that opens the report-message sheet so the user can flag the message to moderators."
     },
-    "iarReportMessageTitle": "الإبلاغ عن الرسالة",
-    "@iarReportMessageTitle": {
-        "description": "Title shown at the top of the In-App Reporting (IAR) sheet when the user is reporting a specific message."
+    "reportFlowTitleMessage": "الإبلاغ عن الرسالة",
+    "@reportFlowTitleMessage": {
+        "description": "Report flow: sheet title while the message report form loads or fails to load."
     },
-    "iarThisUserFallback": "هذا المستخدم",
-    "@iarThisUserFallback": {
-        "description": "Lowercase phrase used mid-sentence in IAR copy when referring to the reported user without a name (e.g. inside the close-DM confirmation)."
+    "reportFlowTitleUserProfile": "الإبلاغ عن الملف الشخصي",
+    "@reportFlowTitleUserProfile": {
+        "description": "Report flow: sheet title while the user profile report form loads or fails to load."
     },
-    "iarModalDescription": "أبلغ عن مخالفة للقواعد، أو اعثر على أدوات للتحكم في التواصل والتفضيلات.",
-    "@iarModalDescription": {
-        "description": "Screen-reader description for the IAR sheet announcing what the flow is for."
+    "reportFlowSummaryTitle": "راجع بلاغك",
+    "@reportFlowSummaryTitle": {
+        "description": "Report flow: title of the last screen, where the reporter reviews the report before sending it."
     },
-    "iarPathStepAriaLabel": "ماذا تحتاج؟",
-    "@iarPathStepAriaLabel": {
-        "description": "Accessible label for the primary-path radio group on the first step of the IAR sheet. Not shown visually; the radios are labelled inline."
+    "reportFlowSummarySubtitle": "تأكد من أن هذا يبدو صحيحًا قبل إرساله.",
+    "@reportFlowSummarySubtitle": {
+        "description": "Report flow: subtitle of the report summary screen."
     },
-    "iarCategoryStepTitle": "ما نوع القاعدة التي تم خرقها؟",
-    "@iarCategoryStepTitle": {
-        "description": "Title shown on the category step of the IAR sheet (platform-report path)."
+    "reportFlowDisclaimer": "لا تُبلغ إلا عما تعتقد بصدق أنه يخالف القواعد. إساءة استخدام البلاغات تتعارض مع {guidelines}.",
+    "@reportFlowDisclaimer": {
+        "description": "Report flow: disclaimer on the report summary screen. {guidelines} is a link whose text is reportFlowCommunityGuidelinesLink.",
+        "placeholders": {
+            "guidelines": {
+                "type": "String",
+                "example": "Community Guidelines"
+            }
+        }
     },
-    "iarReasonStepTitle": "ما القاعدة التي تم خرقها؟",
-    "@iarReasonStepTitle": {
-        "description": "Title shown on the reason step of the IAR sheet after the user has picked a rule category."
+    "reportFlowCommunityGuidelinesLink": "إرشادات المجتمع",
+    "@reportFlowCommunityGuidelinesLink": {
+        "description": "Report flow: link text inside reportFlowDisclaimer. Opens the community guidelines page."
     },
-    "iarReasonSelectHint": "اختر سببًا",
-    "@iarReasonSelectHint": {
-        "description": "Placeholder shown in the message-report reason dropdown before the user picks a rule."
+    "reportFlowDisclaimerNoLink": "لا تُبلغ إلا عما تعتقد بصدق أنه يخالف القواعد، ويرجى عدم إرسال البلاغ نفسه مرتين.",
+    "@reportFlowDisclaimerNoLink": {
+        "description": "Report flow: disclaimer on the report summary screen when the instance has no community guidelines page."
     },
-    "iarPickAnOptionToast": "اختر خيارًا للمتابعة.",
-    "@iarPickAnOptionToast": {
-        "description": "Toast shown when the user taps Continue on a step without selecting any radio option."
+    "reportFlowSelectedMessage": "الرسالة التي تبلغ عنها",
+    "@reportFlowSelectedMessage": {
+        "description": "Report flow: heading above the preview of the reported message on the report summary screen."
     },
-    "iarPickARuleToast": "اختر القاعدة التي تم كسرها.",
-    "@iarPickARuleToast": {
-        "description": "Toast shown when the user taps Send report without selecting a rule reason."
+    "reportFlowSelectedUser": "الملف الشخصي الذي تبلّغ عنه",
+    "@reportFlowSelectedUser": {
+        "description": "Report flow: heading above the card of the reported user on the first screen and the report summary screen."
     },
-    "iarPathPlatform": "الإبلاغ عن انتهاك لقواعد المنصة",
-    "@iarPathPlatform": {
-        "description": "Primary-path radio label: file a real DSA / platform-level report."
+    "reportFlowReportCategory": "إجاباتك",
+    "@reportFlowReportCategory": {
+        "description": "Report flow: heading above the list of answers the reporter picked, on the report summary screen."
     },
-    "iarPathCommunity": "الإبلاغ لمشرفي هذا المجتمع",
-    "@iarPathCommunity": {
-        "description": "Primary-path radio label: surface this to community moderators rather than platform safety."
+    "reportFlowSubmit": "إرسال البلاغ",
+    "@reportFlowSubmit": {
+        "description": "Report flow: button on the report summary screen that sends the report."
     },
-    "iarPathPreferenceMessage": "لا يعجبني هذا المحتوى",
-    "@iarPathPreferenceMessage": {
-        "description": "Primary-path radio label: the user doesn't want platform action, they want self-service tools (block, leave, settings)."
+    "reportFlowBack": "رجوع",
+    "@reportFlowBack": {
+        "description": "Report flow: button that returns to the previous screen of the report form."
     },
-    "iarCategoryTargetedHarmLabel": "التهديدات أو المضايقات أو الأذى",
-    "@iarCategoryTargetedHarmLabel": {
-        "description": "Rule-category label grouping harassment, hate, violence, terrorism, raids, and self-harm content."
+    "reportFlowNext": "التالي",
+    "@reportFlowNext": {
+        "description": "Report flow: button that goes to the next screen of the report form."
     },
-    "iarCategoryTargetedHarmDescription": "التنمّر أو التهديدات أو الكراهية أو العنف أو الهجمات المنظّمة أو المحتوى الذي يشجع على إيذاء النفس.",
-    "@iarCategoryTargetedHarmDescription": {
-        "description": "One-line description for the targeted-harm rule category."
+    "reportFlowDone": "تم",
+    "@reportFlowDone": {
+        "description": "Report flow: button that closes the report form when it is finished."
     },
-    "iarCategorySafetyMinorsLabel": "سلامة الأطفال أو محتوى للبالغين",
-    "@iarCategorySafetyMinorsLabel": {
-        "description": "Rule-category label grouping child-safety and mature-content reports."
+    "reportFlowThankYouTitle": "تم إرسال البلاغ",
+    "@reportFlowThankYouTitle": {
+        "description": "Report flow: title of the screen shown after a report was sent."
     },
-    "iarCategorySafetyMinorsDescription": "قُصَّر معرضون للخطر، أو محتوى للبالغين في غير مكانه، أو سلوك غير مرغوب فيه.",
-    "@iarCategorySafetyMinorsDescription": {
-        "description": "One-line description for the child-safety / mature-content rule category."
+    "reportFlowThankYouNoReportTitle": "شكرًا لك على الإبلاغ عن هذا",
+    "@reportFlowThankYouNoReportTitle": {
+        "description": "Report flow: title of the screen shown when the chosen answer does not send a report."
     },
-    "iarCategoryPrivacyIdentityLabel": "الخصوصية أو انتحال الشخصية",
-    "@iarCategoryPrivacyIdentityLabel": {
-        "description": "Rule-category label grouping privacy violations and impersonation."
-    },
-    "iarCategoryPrivacyIdentityDescription": "كشف هوية الأشخاص ونشر بياناتهم، أو الملاحقة، أو انتحال الشخصية، أو ملف شخصي غير لائق.",
-    "@iarCategoryPrivacyIdentityDescription": {
-        "description": "One-line description for the privacy / impersonation rule category."
-    },
-    "iarCategoryDeceptionLabel": "عمليات الاحتيال أو البرامج الضارة أو المعلومات المضللة",
-    "@iarCategoryDeceptionLabel": {
-        "description": "Rule-category label grouping spam/scams, malware, and harmful misinformation."
-    },
-    "iarCategoryDeceptionDescription": "التصيّد الاحتيالي أو الاحتيال أو الروابط الضارة أو الادعاءات الكاذبة التي يُحتمل أن تسبب ضررًا في العالم الحقيقي.",
-    "@iarCategoryDeceptionDescription": {
-        "description": "One-line description for the scams / malware / misinformation rule category."
-    },
-    "iarCategoryIllegalOtherLabel": "نشاط غير قانوني أو شيء آخر",
-    "@iarCategoryIllegalOtherLabel": {
-        "description": "Rule-category label grouping illegal activity and the catch-all Other reason."
-    },
-    "iarCategoryIllegalOtherDescription": "مبيعات غير قانونية، أو تسهيل أعمال إجرامية، أو انتهاك واضح للقواعد لا يندرج تحت الفئات المذكورة أعلاه.",
-    "@iarCategoryIllegalOtherDescription": {
-        "description": "One-line description for the illegal / other rule category."
-    },
-    "iarReasonHarassmentLabel": "مضايقة أو تهديدات",
-    "@iarReasonHarassmentLabel": {
-        "description": "Rule-reason label for harassment in the IAR message flow."
-    },
-    "iarReasonHarassmentMessageDescription": "التنمّر، أو التواصل المتكرر غير المرغوب فيه، أو المطاردة، أو الإساءة الموجهة.",
-    "@iarReasonHarassmentMessageDescription": {
-        "description": "Rule-reason description for harassment in the IAR message flow."
-    },
-    "iarReasonHateLabel": "خطاب الكراهية",
-    "@iarReasonHateLabel": {
-        "description": "Rule-reason label for hate speech in the IAR message flow."
-    },
-    "iarReasonHateMessageDescription": "الألفاظ المسيئة أو اللغة المجرِّدة من الإنسانية أو الهجمات على الفئات المحمية.",
-    "@iarReasonHateMessageDescription": {
-        "description": "Rule-reason description for hate speech in the IAR message flow."
-    },
-    "iarReasonViolenceLabel": "العنف أو التهديدات العنيفة",
-    "@iarReasonViolenceLabel": {
-        "description": "Rule-reason label for violence in the IAR message flow."
-    },
-    "iarReasonViolenceDescription": "التهديدات الجدية أو مشاهد العنف الصادمة أو تمجيد العنف.",
-    "@iarReasonViolenceDescription": {
-        "description": "Rule-reason description for violence in the IAR message flow."
-    },
-    "iarReasonMatureContentLabel": "محتوى للبالغين أو مضايقة",
-    "@iarReasonMatureContentLabel": {
-        "description": "Rule-reason label for mature content / unwanted conduct in the IAR message flow."
-    },
-    "iarReasonMatureContentMessageDescription": "سلوك غير مرغوب فيه أو محتوى للبالغين في المكان الخطأ.",
-    "@iarReasonMatureContentMessageDescription": {
-        "description": "Rule-reason description for mature content in the IAR message flow."
-    },
-    "iarReasonChildSafetyLabel": "سلامة الأطفال أو استغلال القُصّر",
-    "@iarReasonChildSafetyLabel": {
-        "description": "Rule-reason label for child-safety reports in the IAR message flow. Also used as the {childSafetyReason} placeholder in iarUseChildSafetyInstead."
-    },
-    "iarReasonChildSafetyMessageDescription": "محتوى استدراج الأطفال أو استغلالهم.",
-    "@iarReasonChildSafetyMessageDescription": {
-        "description": "Rule-reason description for child-safety reports in the IAR message flow."
-    },
-    "iarReasonHarmfulMisinfoLabel": "معلومات مضللة ضارة",
-    "@iarReasonHarmfulMisinfoLabel": {
-        "description": "Rule-reason label for harmful misinformation in the IAR message flow."
-    },
-    "iarReasonHarmfulMisinfoDescription": "ادعاءات كاذبة من المحتمل أن تسبب ضررًا في العالم الحقيقي.",
-    "@iarReasonHarmfulMisinfoDescription": {
-        "description": "Rule-reason description for harmful misinformation."
-    },
-    "iarReasonSpamLabel": "رسائل مزعجة أو احتيال أو تصيّد",
-    "@iarReasonSpamLabel": {
-        "description": "Rule-reason label for spam/scams/phishing in the IAR message flow."
-    },
-    "iarReasonSpamMessageDescription": "رسائل مزعجة جماعية أو احتيال أو سحوبات جوائز مزيفة أو إساءة استخدام الحسابات.",
-    "@iarReasonSpamMessageDescription": {
-        "description": "Rule-reason description for spam/scams in the IAR message flow."
-    },
-    "iarReasonMalwareLabel": "برامج ضارة أو روابط خطيرة",
-    "@iarReasonMalwareLabel": {
-        "description": "Rule-reason label for malware / dangerous links in the IAR message flow."
-    },
-    "iarReasonMalwareDescription": "برامج ضارة، أو سرقة بيانات اعتماد، أو ملفات مؤذية.",
-    "@iarReasonMalwareDescription": {
-        "description": "Rule-reason description for malware."
-    },
-    "iarReasonPrivacyLabel": "انتهاك الخصوصية",
-    "@iarReasonPrivacyLabel": {
-        "description": "Rule-reason label for privacy violations in the IAR message flow."
-    },
-    "iarReasonPrivacyDescription": "كشف هوية الأشخاص ونشر بياناتهم، أو كشف معلومات خاصة، أو الملاحقة.",
-    "@iarReasonPrivacyDescription": {
-        "description": "Rule-reason description for privacy violations."
-    },
-    "iarReasonImpersonationLabel": "انتحال شخصية أو وسائط خادعة",
-    "@iarReasonImpersonationLabel": {
-        "description": "Rule-reason label for impersonation in the IAR message flow."
-    },
-    "iarReasonImpersonationMessageDescription": "انتحال شخصية شخص آخر، بما في ذلك المحتوى الخادع الذي تم إنشاؤه بواسطة الذكاء الاصطناعي.",
-    "@iarReasonImpersonationMessageDescription": {
-        "description": "Rule-reason description for impersonation in the IAR message flow."
-    },
-    "iarReasonIllegalLabel": "نشاط غير قانوني",
-    "@iarReasonIllegalLabel": {
-        "description": "Rule-reason label for illegal activity in the IAR message flow."
-    },
-    "iarReasonIllegalDescription": "مبيعات غير قانونية، أو تسهيل أعمال إجرامية، أو نشاط غير مشروع.",
-    "@iarReasonIllegalDescription": {
-        "description": "Rule-reason description for illegal activity."
-    },
-    "iarReasonSelfHarmLabel": "إيذاء النفس أو الانتحار",
-    "@iarReasonSelfHarmLabel": {
-        "description": "Rule-reason label for self-harm content in the IAR message flow."
-    },
-    "iarReasonSelfHarmMessageDescription": "الترويج لإيذاء النفس أو اضطرابات الأكل أو التعليمات التي تشجع عليهما.",
-    "@iarReasonSelfHarmMessageDescription": {
-        "description": "Rule-reason description for self-harm content in the IAR message flow."
-    },
-    "iarReasonOtherLabel": "انتهاك آخر واضح للقواعد",
-    "@iarReasonOtherLabel": {
-        "description": "Rule-reason label for the catch-all option in the IAR message flow."
-    },
-    "iarReasonOtherDescription": "استخدم هذا الخيار فقط إذا كان يخالف قواعد {productName} بوضوح ولا يندرج تحت الفئات المذكورة أعلاه.",
-    "@iarReasonOtherDescription": {
-        "description": "Rule-reason description for the catch-all option.",
+    "reportFlowThankYouBody": "سيراجع فريق السلامة في {productName} بلاغك. لن نكشف أن البلاغ جاء منك.",
+    "@reportFlowThankYouBody": {
+        "description": "Report flow: body of the thank-you screen after a report was sent. {productName} is the name of the app.",
         "placeholders": {
             "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "iarUseChildSafetyInstead": "إذا كان هناك قاصر متورط، استخدم \"{childSafetyReason}\" بدلاً من ذلك.",
-    "@iarUseChildSafetyInstead": {
-        "description": "Inline routing nudge shown under reasons (e.g. mature content) that overlap with child safety.",
-        "placeholders": {
-            "childSafetyReason": {
                 "type": "String",
-                "example": "Child safety or exploitation of minors"
+                "example": "Fluxer"
             }
         }
     },
-    "iarSafetyNoteChildSafety": "إذا كان هذا يتعلق بـ CSAM أو استغلال قاصر، فأرسله الآن ولا تشارك المادة مرة أخرى.",
-    "@iarSafetyNoteChildSafety": {
-        "description": "Inline safety note shown for child-safety reports on the reason step."
+    "reportFlowThankYouNoReportBody": "شكرًا لإخبارنا. هذا لا يخالف قواعدنا بمفرده، لذلك لم نرسل بلاغًا. إذا كان يستهدف شخصًا ما أو يستخدم ألفاظًا مهينة، فأبلغ عنه مرة أخرى واختر «محتوى مسيء أو ضار».",
+    "@reportFlowThankYouNoReportBody": {
+        "description": "Report flow: body of the thank-you screen when the chosen answer does not send a report. \"Abusive or harmful content\" is the name of an option on the first screen of the message report form."
     },
-    "iarSafetyNoteSelfHarm": "إذا كان شخص ما في خطر وشيك، فاتصل بخدمات الطوارئ المحلية إذا كان بإمكانك القيام بذلك بأمان.",
-    "@iarSafetyNoteSelfHarm": {
-        "description": "Inline safety note shown for self-harm reports on the reason step."
+    "reportFlowThankYouNoReportBodyShort": "شكرًا لإخبارنا. هذا لا يخالف قواعدنا بمفرده، لذلك لم نرسل بلاغًا.",
+    "@reportFlowThankYouNoReportBodyShort": {
+        "description": "Report flow: body of the thank-you screen when the chosen answer does not send a report and the reporter is already past the first screen of the form."
     },
-    "iarSafetyNoteViolence": "إذا كان هذا تهديدًا وشيكًا وذا مصداقية، فاتصل بخدمات الطوارئ المحلية أيضًا.",
-    "@iarSafetyNoteViolence": {
-        "description": "Inline safety note shown for violence reports on the reason step."
+    "reportFlowMoreYouCanDo": "خياراتك",
+    "@reportFlowMoreYouCanDo": {
+        "description": "Report flow: heading above the extra actions (such as blocking the user) on the thank-you screen."
     },
-    "iarSafetyNoteTerrorism": "إذا كان هذا تهديدًا إرهابيًا وشيكًا، فاتصل بخدمات الطوارئ المحلية أيضًا.",
-    "@iarSafetyNoteTerrorism": {
-        "description": "Inline safety note shown for terrorism reports on the reason step."
-    },
-    "iarActionBlockUserTitle": "حظر هذا المستخدم",
-    "@iarActionBlockUserTitle": {
-        "description": "Action card title for blocking the reported user."
-    },
-    "iarActionBlockUserDescription": "إيقاف الرسائل وطلبات الصداقة.",
-    "@iarActionBlockUserDescription": {
-        "description": "Action card description for blocking the reported user."
-    },
-    "iarActionBlockUserButton": "حظر",
-    "@iarActionBlockUserButton": {
-        "description": "Trailing button label on the block-user action card."
-    },
-    "iarActionCopyMessageLinkTitle": "نسخ رابط الرسالة",
-    "@iarActionCopyMessageLinkTitle": {
-        "description": "Action card title for copying a link to the reported message so the user can share it with community moderators."
-    },
-    "iarActionCopyMessageLinkDescription": "مشاركة مع مشرفي المجتمع.",
-    "@iarActionCopyMessageLinkDescription": {
-        "description": "Action card description for copying a message link."
-    },
-    "iarActionCopyMessageLinkButton": "نسخ",
-    "@iarActionCopyMessageLinkButton": {
-        "description": "Trailing button label on the copy-message-link action card."
-    },
-    "iarActionCloseDmTitle": "إغلاق هذه الرسالة المباشرة",
-    "@iarActionCloseDmTitle": {
-        "description": "Action card title for closing the DM with the reported user."
-    },
-    "iarActionCloseDmDescription": "لا يحظر المستخدم. يمكنك إعادة فتح المحادثة لاحقًا.",
-    "@iarActionCloseDmDescription": {
-        "description": "Action card description for closing the DM."
-    },
-    "iarActionCloseDmButton": "إغلاق الرسالة المباشرة",
-    "@iarActionCloseDmButton": {
-        "description": "Trailing button label on the close-DM action card."
-    },
-    "iarActionLeaveCommunityTitle": "مغادرة المجتمع",
-    "@iarActionLeaveCommunityTitle": {
-        "description": "Action card title for leaving the guild the reported message was sent in."
-    },
-    "iarActionLeaveCommunityDescription": "إيقاف عرض محتواه وأعضائه.",
-    "@iarActionLeaveCommunityDescription": {
-        "description": "Action card description for leaving the community."
-    },
-    "iarActionLeaveCommunityButton": "مغادرة",
-    "@iarActionLeaveCommunityButton": {
-        "description": "Trailing button label on the leave-community action card."
-    },
-    "iarActionDmSettingsTitle": "إعدادات الرسائل المباشرة وطلبات الصداقة",
-    "@iarActionDmSettingsTitle": {
-        "description": "Action card title for opening the DM / friend-request privacy settings."
-    },
-    "iarActionDmSettingsDescription": "غيّر من يمكنه الوصول إليك.",
-    "@iarActionDmSettingsDescription": {
-        "description": "Action card description for DM / friend-request privacy settings."
-    },
-    "iarActionCallSettingsTitle": "إعدادات المكالمات والمحادثات الجماعية",
-    "@iarActionCallSettingsTitle": {
-        "description": "Action card title for opening the call / group-chat privacy settings."
-    },
-    "iarActionCallSettingsDescription": "غيّر من يمكنه الاتصال بك أو إضافتك.",
-    "@iarActionCallSettingsDescription": {
-        "description": "Action card description for call / group-chat privacy settings."
-    },
-    "iarActionOpenButton": "فتح",
-    "@iarActionOpenButton": {
-        "description": "Trailing button label for action cards that navigate the user into a settings section."
-    },
-    "iarActionDeleteMessageTitle": "حذف هذه الرسالة",
-    "@iarActionDeleteMessageTitle": {
-        "description": "Action card title (moderator-only) for deleting the reported message."
-    },
-    "iarActionDeleteMessageDescription": "إزالة الرسالة من القناة لدى الجميع.",
-    "@iarActionDeleteMessageDescription": {
-        "description": "Action card description (moderator-only) for deleting the reported message."
-    },
-    "iarActionDeleteMessageButton": "حذف",
-    "@iarActionDeleteMessageButton": {
-        "description": "Trailing button label on the delete-message action card."
-    },
-    "iarActionDeleteMessageDeletedButton": "تم الحذف",
-    "@iarActionDeleteMessageDeletedButton": {
-        "description": "Disabled-state trailing button label on the delete-message action card after the message is already gone."
-    },
-    "iarActionDeleteMessageDeletedTooltip": "تم حذف هذه الرسالة بالفعل.",
-    "@iarActionDeleteMessageDeletedTooltip": {
-        "description": "Tooltip on the disabled delete-message action card."
-    },
-    "iarActionBanUserTitle": "حظر هذا المستخدم",
-    "@iarActionBanUserTitle": {
-        "description": "Action card title (moderator-only) for opening the ban dialog against the reported user."
-    },
-    "iarActionBanUserDescription": "افتح مربع حوار الحظر لهذا المجتمع.",
-    "@iarActionBanUserDescription": {
-        "description": "Action card description (moderator-only) for banning the reported user."
-    },
-    "iarActionBanUserButton": "حظر",
-    "@iarActionBanUserButton": {
-        "description": "Trailing button label on the ban-user action card."
-    },
-    "iarActionBanUserBannedButton": "محظور",
-    "@iarActionBanUserBannedButton": {
-        "description": "Disabled-state trailing button label on the ban-user action card after the target is already banned."
-    },
-    "iarActionBanUserBannedTooltip": "هذا المستخدم محظور بالفعل من المجتمع.",
-    "@iarActionBanUserBannedTooltip": {
-        "description": "Tooltip on the disabled ban-user action card."
-    },
-    "iarCloseDmConfirmTitle": "إغلاق الرسالة المباشرة",
-    "@iarCloseDmConfirmTitle": {
-        "description": "Title of the confirm-close-DM bottom sheet shown after the user taps Close DM on the action card."
-    },
-    "iarCloseDmConfirmDescription": "إغلاق رسالتك المباشرة الحالية مع {name}. هذا لا يحظرهم؛ يمكنك إعادة الفتح لاحقًا.",
-    "@iarCloseDmConfirmDescription": {
-        "description": "Body of the confirm-close-DM bottom sheet.",
+    "reportFlowBlockName": "حظر {name}",
+    "@reportFlowBlockName": {
+        "description": "Report flow: title of the row on the thank-you screen that blocks the reported user. {name} is the display name of that user.",
         "placeholders": {
             "name": {
                 "type": "String",
-                "example": "ada"
+                "example": "Alice"
             }
         }
     },
-    "iarSuccessTitle": "تم إرسال البلاغ",
-    "@iarSuccessTitle": {
-        "description": "Title shown on the success step after a platform report is submitted."
+    "reportFlowBlockDescription": "يخفي رسائلهم ويمنعهم من إرسال رسائل إليك",
+    "@reportFlowBlockDescription": {
+        "description": "Report flow: description under reportFlowBlockName on the thank-you screen."
     },
-    "iarSuccessBody": "يراجع فريق السلامة لدينا بلاغك. سنرسل لك رسالة مباشرة وبريدًا إلكترونيًا فور التوصل إلى قرار.",
-    "@iarSuccessBody": {
-        "description": "Body shown on the success step after a platform report is submitted."
+    "reportFlowBlockButton": "حظر",
+    "@reportFlowBlockButton": {
+        "description": "Report flow: button on the thank-you screen that blocks the reported user."
     },
-    "iarAlreadyReportedTitle": "تم الإبلاغ عنه بالفعل",
-    "@iarAlreadyReportedTitle": {
-        "description": "Title shown on the IAR success step when the message had already been reported by this user (HTTP 409); the existing report is under review."
+    "reportFlowBlockedButton": "محظور",
+    "@reportFlowBlockedButton": {
+        "description": "Report flow: disabled button on the thank-you screen after the reported user was blocked."
     },
-    "iarAlreadyReportedBody": "لقد أبلغت عن هذه الرسالة بالفعل. يقوم فريق السلامة لدينا بمراجعته.",
-    "@iarAlreadyReportedBody": {
-        "description": "Body shown on the IAR success step when the message had already been reported by this user (HTTP 409)."
+    "reportFlowUrgentBanner": "إذا كان شخص ما في خطر وشيك، فاتصل بخدمات الطوارئ المحلية أولًا.",
+    "@reportFlowUrgentBanner": {
+        "description": "Report flow: banner on screens about urgent harm, such as threats, self-harm or the safety of minors."
     },
-    "iarBackButton": "رجوع",
-    "@iarBackButton": {
-        "description": "Footer button label that returns the user to the previous IAR step."
+    "reportFlowLoadFailed": "تعذّر تحميل نموذج البلاغ.",
+    "@reportFlowLoadFailed": {
+        "description": "Report flow: error shown when the report form could not be loaded."
     },
-    "iarContinueButton": "متابعة",
-    "@iarContinueButton": {
-        "description": "Footer button label that advances the user to the next IAR step."
+    "reportFlowTryAgain": "حاول مرة أخرى",
+    "@reportFlowTryAgain": {
+        "description": "Report flow: button that loads the report form again after an error."
     },
-    "iarSendReportButton": "إرسال البلاغ",
-    "@iarSendReportButton": {
-        "description": "Footer button label that submits the IAR report."
+    "reportFlowOutdated": "تغير نموذج البلاغ. يرجى البدء من جديد.",
+    "@reportFlowOutdated": {
+        "description": "Report flow: toast shown when the report form changed on the server while the reporter was filling it in. The form restarts from the first screen."
     },
-    "iarDoneButton": "تم",
-    "@iarDoneButton": {
-        "description": "Footer button label that closes the IAR sheet from the success or guidance step."
+    "reportFlowAlreadyReported": "لقد أبلغت عن هذه الرسالة بالفعل.",
+    "@reportFlowAlreadyReported": {
+        "description": "Report flow: note on the report summary screen when the reporter already reported this message."
     },
-    "iarCouldntSendToast": "تعذر إرسال البلاغ. يرجى المحاولة مرة أخرى.",
-    "@iarCouldntSendToast": {
-        "description": "Toast shown when the IAR report submission fails."
+    "reportFlowAlreadyReportedProfile": "لقد أبلغت عن هذا الملف الشخصي بالفعل اليوم.",
+    "@reportFlowAlreadyReportedProfile": {
+        "description": "Report flow: note on the report summary screen when the reporter already reported this user profile in the last 24 hours."
     },
-    "iarRateLimitedToast": "أنت تبلغ بسرعة كبيرة. يرجى الانتظار لحظة والمحاولة مرة أخرى.",
-    "@iarRateLimitedToast": {
-        "description": "Toast shown when an IAR report submission is rejected for rate limiting (HTTP 429)."
+    "reportFlowRateLimited": "ترسل البلاغات بسرعة كبيرة. حاول مرة أخرى لاحقًا.",
+    "@reportFlowRateLimited": {
+        "description": "Report flow: note on the report summary screen when the reporter sent too many reports."
     },
-    "iarReportSentToast": "تم إرسال البلاغ. سيقوم فريق السلامة لدينا بمراجعته.",
-    "@iarReportSentToast": {
-        "description": "Toast shown after a message report is submitted successfully from the simple mobile report sheet."
+    "reportFlowSubmitFailed": "لم يتم إرسال بلاغك. حاول مرة أخرى.",
+    "@reportFlowSubmitFailed": {
+        "description": "Report flow: note on the report summary screen when the report could not be sent."
     },
-    "iarBlockUserConfirmDescription": "هل تريد حظر {name}؟ لن يتمكنوا من مراسلتك أو إرسال طلبات صداقة إليك. يمكنك إلغاء حظرهم لاحقًا.",
-    "@iarBlockUserConfirmDescription": {
-        "description": "Body of the confirm-block-user bottom sheet shown after the user taps Block on the IAR action card.",
-        "placeholders": {
-            "name": {
-                "type": "String",
-                "example": "ada"
-            }
-        }
-    },
-    "iarBlockUserFailedToast": "تعذر حظر هذا المستخدم. يرجى المحاولة مرة أخرى.",
-    "@iarBlockUserFailedToast": {
-        "description": "Toast shown when blocking the reported user from the IAR action card fails."
-    },
-    "iarCloseDmSuccessToast": "تم إغلاق الرسالة المباشرة.",
-    "@iarCloseDmSuccessToast": {
-        "description": "Toast shown after the DM with the reported user is closed from the IAR action card."
-    },
-    "iarCloseDmFailedToast": "تعذر إغلاق هذه الرسالة المباشرة. يرجى المحاولة مرة أخرى.",
-    "@iarCloseDmFailedToast": {
-        "description": "Toast shown when closing the DM from the IAR action card fails."
-    },
-    "iarLeaveCommunityFailedToast": "تعذر مغادرة هذا المجتمع. يرجى المحاولة مرة أخرى.",
-    "@iarLeaveCommunityFailedToast": {
-        "description": "Toast shown when leaving the community from the IAR action card fails."
+    "reportFlowAccountSetupRequired": "طالب بحسابك وتحقق من بريدك الإلكتروني لإرسال البلاغات.",
+    "@reportFlowAccountSetupRequired": {
+        "description": "Report flow: notice on the report summary screen when the account must be claimed and its email verified before it can send reports."
     },
     "chatMessageSuppressEmbeds": "إخفاء التضمينات",
     "@chatMessageSuppressEmbeds": {
@@ -6547,6 +5929,10 @@
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
     },
+    "chatImageCouldNotLoad": "تعذر تحميل هذه الصورة.",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
+    },
     "composerAutocompleteRoleMentionDescription": "إشعار أصحاب هذا الدور ممن لديهم إذن عرض هذه القناة.",
     "@composerAutocompleteRoleMentionDescription": {
         "description": "Secondary line in the @ mention autocomplete when the row is a mentionable guild role."
@@ -6594,10 +5980,6 @@
     "addGuildJoinFailed": "تعذر الانضمام إلى المجتمع. يرجى المحاولة مرة أخرى.",
     "@addGuildJoinFailed": {
         "description": "Generic error when joining a community via invite fails."
-    },
-    "addGuildPackInstalled": "تم تثبيت الحزمة بنجاح.",
-    "@addGuildPackInstalled": {
-        "description": "Toast shown after accepting an emoji or sticker pack invite."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "إزالة جميع التفاعلات",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -6685,7 +6067,7 @@
             }
         }
     },
-    "dmComposerHint": "Message @{recipientName}",
+    "dmComposerHint": "أرسل رسالة إلى @{recipientName}",
     "@dmComposerHint": {
         "description": "Placeholder in the message composer for a one-to-one DM.",
         "placeholders": {
@@ -7087,6 +6469,10 @@
     "instanceUrlPlaceholder": "أدخل عنوان URL للمثيل (مثل fluxer.app)",
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
+    },
+    "instanceUrlHelper": "استخدم fluxer.app للمثيل الرسمي، أو عنوان URL الدقيق لمثيل مستضاف ذاتيًا.",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
     },
     "resetToDefaultInstance": "إعادة الضبط إلى Fluxer",
     "@resetToDefaultInstance": {
@@ -7628,10 +7014,6 @@
     "@guildMenuHideMutedChannels": {
         "description": "Guild menu checkbox to hide muted channels."
     },
-    "guildMenuReportCommunity": "الإبلاغ عن المجتمع",
-    "@guildMenuReportCommunity": {
-        "description": "Guild menu action to report the community."
-    },
     "guildMenuDebugCommunity": "تصحيح أخطاء المجتمع",
     "@guildMenuDebugCommunity": {
         "description": "Guild menu action to open community debug info."
@@ -7677,10 +7059,6 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsCustomInviteUrl": "رابط دعوة مخصص",
-    "@guildMenuSettingsCustomInviteUrl": {
-        "description": "Community settings tab for custom invite URLs."
-    },
     "guildMenuSettingsDiscovery": "الاكتشاف",
     "@guildMenuSettingsDiscovery": {
         "description": "Community settings tab for discovery settings."
@@ -7705,17 +7083,9 @@
     "@guildSettingsOverviewIconTitle": {
         "description": "Title for the guild icon section in overview settings."
     },
-    "guildSettingsUploadImage": "تحميل صورة",
-    "@guildSettingsUploadImage": {
-        "description": "Button label to upload an image in guild settings."
-    },
     "guildSettingsOverviewBannerTitle": "لافتة",
     "@guildSettingsOverviewBannerTitle": {
         "description": "Title for the guild banner section."
-    },
-    "guildSettingsOverviewBannerHint": "قم بتحميل لافتة لخادمك.",
-    "@guildSettingsOverviewBannerHint": {
-        "description": "Hint text for guild banner upload."
     },
     "guildSettingsOverviewNameTitle": "الاسم",
     "@guildSettingsOverviewNameTitle": {
@@ -7725,22 +7095,6 @@
     "@guildSettingsOverviewNameHint": {
         "description": "Hint for the guild name field."
     },
-    "guildSettingsOverviewStatsTitle": "الإحصائيات",
-    "@guildSettingsOverviewStatsTitle": {
-        "description": "Title for guild statistics section."
-    },
-    "guildSettingsOverviewMembers": "الأعضاء",
-    "@guildSettingsOverviewMembers": {
-        "description": "Label for member count in overview."
-    },
-    "guildSettingsOverviewOnline": "متصل",
-    "@guildSettingsOverviewOnline": {
-        "description": "Label for online count in overview."
-    },
-    "guildSettingsRolesDescription": "استخدم الأدوار لتجميع الأعضاء وتعيين الصلاحيات.",
-    "@guildSettingsRolesDescription": {
-        "description": "Description for the roles settings tab."
-    },
     "guildSettingsCreateRole": "إنشاء دور",
     "@guildSettingsCreateRole": {
         "description": "Button to create a new role."
@@ -7749,30 +7103,9 @@
     "@guildSettingsRolesListTitle": {
         "description": "Title for the roles list section."
     },
-    "guildSettingsEmojiSlotInfo": "تم استخدام {staticCount} رمز تعبيري ثابت، و {animatedCount} رمز تعبيري متحرك",
-    "@guildSettingsEmojiSlotInfo": {
-        "description": "Emoji slot usage summary.",
-        "placeholders": {
-            "staticCount": {
-                "type": "int"
-            },
-            "animatedCount": {
-                "type": "int"
-            }
-        }
-    },
     "guildSettingsEmojiEmpty": "لا توجد رموز تعبيرية مخصصة بعد.",
     "@guildSettingsEmojiEmpty": {
         "description": "Empty state for emoji settings."
-    },
-    "guildSettingsStickersSlotInfo": "تم تحميل {count} ملصق",
-    "@guildSettingsStickersSlotInfo": {
-        "description": "Sticker slot usage summary.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsStickersEmpty": "لا توجد ملصقات مخصصة بعد.",
     "@guildSettingsStickersEmpty": {
@@ -7818,8 +7151,6 @@
     "guildSettingsVerificationMediumDescription": "يتطلب عنوان بريد إلكتروني تم التحقق منه، وحسابًا عمره 5 دقائق على الأقل.",
     "guildSettingsVerificationHigh": "مرتفع",
     "guildSettingsVerificationHighDescription": "يتطلب كل ما في المستوى المتوسط، بالإضافة إلى كونك عضوًا في المجتمع لمدة 10 دقائق على الأقل.",
-    "guildSettingsVerificationHighest": "مرتفع جدًا",
-    "guildSettingsVerificationHighestDescription": "يتطلب رقم هاتف تم التحقق منه.",
     "guildSettingsAuditLogDescription": "تتبع إجراءات المشرفين في جميع أنحاء المجتمع.",
     "@guildSettingsAuditLogDescription": {
         "description": "Subtitle under the activity-log page title."
@@ -7847,14 +7178,6 @@
     "guildSettingsAuditLogUnknownUser": "مستخدم غير معروف",
     "@guildSettingsAuditLogUnknownUser": {
         "description": "Fallback avatar label when the acting user is unavailable."
-    },
-    "guildSettingsAuditLogLoadError": "حدث خطأ أثناء تحميل سجل النشاط.",
-    "@guildSettingsAuditLogLoadError": {
-        "description": "Generic error shown when fetching log entries fails."
-    },
-    "guildSettingsAuditLogLoadErrorTitle": "تعذر تحميل سجل النشاط",
-    "@guildSettingsAuditLogLoadErrorTitle": {
-        "description": "Error-state title when fetching log entries failed."
     },
     "guildSettingsAuditLogReason": "السبب",
     "@guildSettingsAuditLogReason": {
@@ -8826,14 +8149,6 @@
     "@auditLogOptionPermanentMembership": {
         "description": "Audit log option detail sentence."
     },
-    "guildSettingsLoadMore": "Load more",
-    "@guildSettingsLoadMore": {
-        "description": "Button to load more audit log entries."
-    },
-    "guildSettingsLoadingMore": "جارٍ التحميل...",
-    "@guildSettingsLoadingMore": {
-        "description": "Loading state for pagination."
-    },
     "guildSettingsWebhooksDescription": "عرض كل الويب هوك المُعدّة في مجتمعك وإدارتها.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
@@ -8842,42 +8157,9 @@
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
-    "guildSettingsCopyUrl": "Copy URL",
-    "@guildSettingsCopyUrl": {
-        "description": "Tooltip to copy a URL."
-    },
     "guildSettingsCopiedUrl": "تم نسخ الرابط إلى الحافظة",
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
-    },
-    "guildSettingsDeleteWebhook": "حذف الويب هوك",
-    "@guildSettingsDeleteWebhook": {
-        "description": "Tooltip to delete a webhook."
-    },
-    "guildSettingsVanityUrlDescription": "قم بتعيين رابط دعوة مخصص لخادمك.",
-    "@guildSettingsVanityUrlDescription": {
-        "description": "Description for vanity URL tab."
-    },
-    "guildSettingsVanityUrlHint": "my-server",
-    "@guildSettingsVanityUrlHint": {
-        "description": "Hint for vanity URL input."
-    },
-    "guildSettingsSave": "حفظ",
-    "@guildSettingsSave": {
-        "description": "Generic save button label."
-    },
-    "guildSettingsVanityUrlUsageTitle": "الاستخدام",
-    "@guildSettingsVanityUrlUsageTitle": {
-        "description": "Title for vanity URL usage section."
-    },
-    "guildSettingsVanityUrlUses": "{count} استخدامًا",
-    "@guildSettingsVanityUrlUses": {
-        "description": "Vanity URL usage count.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsDiscoveryDescription": "أدرج مجتمعك في \"الاكتشاف\" ليتمكن الآخرون من العثور عليه والانضمام إليه.",
     "@guildSettingsDiscoveryDescription": {
@@ -8916,10 +8198,6 @@
     "@guildSettingsDiscoveryWithdraw": {
         "description": "Button to withdraw discovery application."
     },
-    "guildSettingsMembersDescription": "البحث عن أعضاء الخادم وإدارتهم.",
-    "@guildSettingsMembersDescription": {
-        "description": "Description for members tab."
-    },
     "guildSettingsMembersSearchHint": "البحث باسم المستخدم أو المعرف",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
@@ -8941,27 +8219,6 @@
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
-    "guildSettingsInviteUses": "{uses} / {maxUses} استخدامًا",
-    "@guildSettingsInviteUses": {
-        "description": "Invite usage count.",
-        "placeholders": {
-            "uses": {
-                "type": "int"
-            },
-            "maxUses": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsInviteExpires": "تنتهي صلاحية {date}",
-    "@guildSettingsInviteExpires": {
-        "description": "Invite expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBansDescription": "عرض المستخدمين المحظورين وإدارتهم.",
     "@guildSettingsBansDescription": {
         "description": "Description for bans tab."
@@ -8974,30 +8231,9 @@
     "@guildSettingsBansEmpty": {
         "description": "Empty state for bans."
     },
-    "guildSettingsBanPermanent": "حظر دائم",
-    "@guildSettingsBanPermanent": {
-        "description": "Label for permanent ban."
-    },
-    "guildSettingsBanExpires": "تنتهي صلاحية {date}",
-    "@guildSettingsBanExpires": {
-        "description": "Ban expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBanExpiresLabel": "تاريخ الانتهاء",
     "@guildSettingsBanExpiresLabel": {
         "description": "Label for ban expiration row."
-    },
-    "guildSettingsUnban": "إلغاء الحظر",
-    "@guildSettingsUnban": {
-        "description": "Button to unban a user."
-    },
-    "guildSettingsBansLoading": "جارٍ تحميل المستخدمين المحظورين",
-    "@guildSettingsBansLoading": {
-        "description": "Loading state for the guild bans list."
     },
     "guildSettingsBansNoSearchResults": "لم يتم العثور على عمليات حظر مطابقة لبحثك.",
     "@guildSettingsBansNoSearchResults": {
@@ -9041,10 +8277,6 @@
             }
         }
     },
-    "guildSettingsBansLoadError": "تعذر تحميل الحظر. حاول مرة أخرى.",
-    "@guildSettingsBansLoadError": {
-        "description": "Error when loading the guild bans list fails."
-    },
     "guildSettingsRevokeBanError": "تعذر إلغاء الحظر. حاول مرة أخرى.",
     "@guildSettingsRevokeBanError": {
         "description": "Error when revoking a ban fails."
@@ -9069,7 +8301,6 @@
     "@guildSettingsCategoryPeople": {
         "description": "Sidebar category for members, invites, and bans."
     },
-    "guildSettingsOverviewDescription": "إدارة ملف تعريف مجتمعك وقنواته والإعدادات الافتراضية.",
     "guildSettingsOverviewBrandingTitle": "العلامة التجارية",
     "guildSettingsOverviewBrandingDescription": "تحديث الأيقونة والاسم والشعار وخلفية الدعوة",
     "@guildSettingsOverviewBrandingDescription": {
@@ -9088,7 +8319,6 @@
     },
     "guildSettingsOverviewNotificationsTitle": "الإشعارات الافتراضية",
     "guildSettingsOverviewNotificationsLargeGuild": "يُفرض إعداد \"الإشارات فقط\" على المجتمعات التي يزيد عدد أعضائها على 250 شخصًا. نحتفظ بإعدادك الأصلي وسنعيده إذا انخفض عدد أعضاء المجتمع إلى أقل من 250.",
-    "guildSettingsOverviewAdvancedTitle": "خيارات متقدمة",
     "guildSettingsOverviewFlexibleNames": "السماح بأسماء قنوات نصية مرنة",
     "guildSettingsOverviewHideOwnerCrown": "إخفاء تاج مالك المجتمع",
     "guildSettingsOverviewDetachedBanner": "لافتة منفصلة",
@@ -9114,10 +8344,6 @@
     "guildSettingsOverviewEmbedSplashTitle": "خلفية التضمين في الدردشة",
     "@guildSettingsOverviewEmbedSplashTitle": {
         "description": "Title for embed splash upload section."
-    },
-    "guildSettingsOverviewEmbedSplashHint": "يظهر في بطاقات الدعوة المضمّنة في الدردشة.",
-    "@guildSettingsOverviewEmbedSplashHint": {
-        "description": "Note shown when uploading chat embed background."
     },
     "guildSettingsOverviewUploadBackground": "تحميل الخلفية",
     "@guildSettingsOverviewUploadBackground": {
@@ -9284,8 +8510,6 @@
     "@guildSettingsOverviewEmbedSplashUploadHint": {
         "description": "Upload requirements for chat embed background images."
     },
-    "guildSettingsModerationDescription": "تكوين إعدادات التحقق وتصفية المحتوى والمحتوى المخصص للبالغين.",
-    "guildSettingsModerationDiscoveryNotice": "المجتمعات المدرجة في الاكتشاف لديها خيارات إشراف مقيدة.",
     "guildSettingsModerationContentFilterTitle": "فلترة المحتوى",
     "guildSettingsModerationContentFilterDescription": "فحص الرسائل تلقائيًا بحثًا عن المحتوى الصريح في القنوات غير المصنفة للبالغين.",
     "guildSettingsModerationContentFilterDiscoveryNote": "يُطلب من المجتمعات المدرجة في الاكتشاف فحص جميع الأعضاء. لا يمكن تغيير هذا الإعداد أثناء تمكين الاكتشاف.",
@@ -9295,8 +8519,6 @@
     "guildSettingsContentFilterNoRoleDescription": "مقترح لمعظم المجتمعات",
     "guildSettingsContentFilterAll": "تصفية رسائل الجميع",
     "guildSettingsContentFilterAllDescription": "أقصى حماية للمساحات الملائمة للعائلة",
-    "guildSettingsModerationMatureOff": "إيقاف",
-    "guildSettingsModerationMatureOn": "تشغيل",
     "guildSettingsContentWarningToggle": "إظهار تحذير محتوى",
     "@guildSettingsContentWarningToggle": {
         "description": "Switch label for the community content warning setting."
@@ -9316,7 +8538,6 @@
     "guildSettingsModeration2faTitle": "اشتراط المصادقة الثنائية",
     "guildSettingsModeration2faDescription": "طلب المصادقة الثنائية للمشرفين قبل أن يتمكنوا من حظر أو طرد أو تقييد الوقت أو إزالة الرسائل.",
     "guildSettingsModeration2faSwitchLabel": "اشتراط المصادقة الثنائية لإجراءات الإشراف",
-    "guildSettingsModeration2faOwnerOnlyTooltip": "يمكن لمالك المجتمع فقط تغيير هذا الإعداد",
     "guildSettingsModeration2faEnableFirstTooltip": "فعّل المصادقة الثنائية (2FA) على حسابك لتغيير هذا الإعداد",
     "guildSettingsEmojiSearchHint": "البحث عن الرموز التعبيرية",
     "guildSettingsEmojiUploadTitle": "تحميل رمز تعبيري",
@@ -9338,8 +8559,6 @@
     },
     "guildSettingsStickersSearchHint": "البحث عن الملصقات",
     "guildSettingsWebhooksInfo": "لإنشاء خطاف ويب، افتح {channelSettingsPath}. لا يزال بإمكانك تعديل وتنظيم جميع خطافات الويب الموجودة هنا.",
-    "guildSettingsVanityUrlWarning": "لن يعمل عنوان URL المخصص الخاص بك ما لم تكن هناك قناة واحدة على الأقل مرئية للجميع.",
-    "guildSettingsVanityUrlRemove": "إزالة",
     "guildSettingsBannedUsersTitle": "المستخدمون المحظورون",
     "guildSettingsInvitesTableInviter": "الداعي",
     "guildSettingsInvitesTableChannel": "القناة",
@@ -9378,6 +8597,10 @@
     "lookAndFeelChatWallpaperCustomLabel": "صورة مخصصة",
     "@lookAndFeelChatWallpaperCustomLabel": {
         "description": "Chat wallpaper option that picks an image from the gallery."
+    },
+    "lookAndFeelChatWallpaperStarfieldLabel": "حقل النجوم",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
     },
     "lookAndFeelChatWallpaperColorLabel": "اللون {id}",
     "@lookAndFeelChatWallpaperColorLabel": {
@@ -9451,10 +8674,6 @@
             }
         }
     },
-    "channelSettingsMatureContentOverride": "تجاوز المحتوى للبالغين",
-    "@channelSettingsMatureContentOverride": {
-        "description": "Accessibility label for mature content override control."
-    },
     "channelSettingsMatureContentOffDescription": "اترك هذه القناة متاحة للمحتوى غير اللائق.",
     "@channelSettingsMatureContentOffDescription": {
         "description": "Description for the mature content off override option."
@@ -9467,14 +8686,6 @@
                 "type": "String"
             }
         }
-    },
-    "channelSettingsMatureContentCategorySource": "الفئة",
-    "@channelSettingsMatureContentCategorySource": {
-        "description": "Lowercase source label for inherited mature content from category."
-    },
-    "channelSettingsMatureContentCommunitySource": "المجتمع",
-    "@channelSettingsMatureContentCommunitySource": {
-        "description": "Lowercase source label for inherited mature content from community."
     },
     "channelSettingsCopyInviteCode": "نسخ رمز الدعوة",
     "@channelSettingsCopyInviteCode": {
@@ -9672,10 +8883,6 @@
     "@notificationsEnableDesktopNotificationsDescription": {
         "description": "Description for the enable desktop notifications toggle."
     },
-    "notificationsEnableBrowserNotificationsLabel": "تفعيل إشعارات المتصفح",
-    "@notificationsEnableBrowserNotificationsLabel": {
-        "description": "Toggle label for enabling browser notifications."
-    },
     "notificationsPushInactiveTimeoutDescription": "يتجنب {productName} إرسال إشعارات الدفع إلى أجهزتك المحمولة عندما تكون أمام الكمبيوتر. اختر مدة عدم النشاط على سطح المكتب قبل أن تبدأ إشعارات الدفع بالوصول إليك.",
     "@notificationsPushInactiveTimeoutDescription": {
         "description": "Description for push notification inactive timeout setting.",
@@ -9753,34 +8960,6 @@
             }
         }
     },
-    "iarReportGuildTitle": "الإبلاغ عن المجتمع",
-    "@iarReportGuildTitle": {
-        "description": "Title of the simple community-report sheet."
-    },
-    "iarReportGuildPreconfirmBody": "إذا كان هذا البلاغ يتعلق برسالة معينة في هذا المجتمع، فبلّغ عن تلك الرسالة بدلاً من ذلك. بلاغات الرسائل تمنح فريق السلامة لدينا أوضح سياق، وإضافة التفاصيل في التعليقات يمكن أن تساعدنا في مراجعتها بشكل أسرع. لا تتابع الإبلاغ عن المجتمع ككل إلا إذا كان الإبلاغ عن رسالة لا يكفي لتوضيح المشكلة الأوسع.",
-    "@iarReportGuildPreconfirmBody": {
-        "description": "Body shown in the pre-confirm dialog before opening the community report sheet."
-    },
-    "iarReasonHarassmentGuildLabel": "مضايقة أو إساءة موجّهة",
-    "@iarReasonHarassmentGuildLabel": {
-        "description": "Community-report reason label for harassment or targeted abuse."
-    },
-    "iarReasonHarassmentGuildDescription": "مجتمع يسهّل الهجمات الجماعية أو الإساءة الموجّهة.",
-    "@iarReasonHarassmentGuildDescription": {
-        "description": "Community-report reason description for harassment or targeted abuse."
-    },
-    "iarReasonHateGuildDescription": "يروج للكراهية ضد الفئات المحمية.",
-    "@iarReasonHateGuildDescription": {
-        "description": "Community-report reason description for hate speech."
-    },
-    "iarReasonTerrorismLabel": "الإرهاب أو التطرف العنيف",
-    "@iarReasonTerrorismLabel": {
-        "description": "Community-report reason label for terrorism or violent extremism."
-    },
-    "iarReasonTerrorismDescription": "يروج للنشاط المتطرف العنيف أو يجند له أو ينسقه.",
-    "@iarReasonTerrorismDescription": {
-        "description": "Community-report reason description for terrorism or violent extremism."
-    },
     "systemCallMissed": "لقد فاتتك مكالمة من {username}.",
     "@systemCallMissed": {
         "description": "System message when the viewer missed a call.",
@@ -9815,65 +8994,9 @@
             }
         }
     },
-    "iarReasonRaidLabel": "تنسيق الهجمات الجماعية",
-    "@iarReasonRaidLabel": {
-        "description": "Community-report reason label for raid coordination."
-    },
-    "iarReasonRaidDescription": "ينسّق الاقتحامات الجماعية أو الهجمات المنظمة أو المضايقات ضد أشخاص أو مجتمعات.",
-    "@iarReasonRaidDescription": {
-        "description": "Community-report reason description for raid coordination."
-    },
-    "iarReasonMalwareGuildDescription": "يوزع برامج ضارة أو يسرق بيانات الاعتماد أو ملفات ضارة.",
-    "@iarReasonMalwareGuildDescription": {
-        "description": "Community-report reason description for malware distribution."
-    },
-    "iarReasonPrivacyGuildLabel": "انتهاك الخصوصية أو نشر المعلومات الشخصية",
-    "@iarReasonPrivacyGuildLabel": {
-        "description": "Community-report reason label for privacy violation or doxxing."
-    },
-    "iarReasonPrivacyGuildDescription": "يشارك معلومات شخصية، أو يلاحق المستخدمين، أو ينسّق انتهاكات الخصوصية.",
-    "@iarReasonPrivacyGuildDescription": {
-        "description": "Community-report reason description for privacy violation or doxxing."
-    },
-    "iarReasonSelfHarmGuildLabel": "يشجع على إيذاء النفس",
-    "@iarReasonSelfHarmGuildLabel": {
-        "description": "Community-report reason label for self-harm encouragement."
-    },
-    "iarReasonSelfHarmGuildDescription": "يشجع على الانتحار أو إيذاء النفس أو اضطرابات الأكل.",
-    "@iarReasonSelfHarmGuildDescription": {
-        "description": "Community-report reason description for self-harm encouragement."
-    },
     "addGuildCreateIconLabel": "أيقونة المجتمع",
     "@addGuildCreateIconLabel": {
         "description": "Label for the optional community icon field on the create sub-view."
-    },
-    "iarContinueToReportCommunity": "متابعة الإبلاغ عن المجتمع",
-    "@iarContinueToReportCommunity": {
-        "description": "Primary button in the community report pre-confirm dialog."
-    },
-    "iarPreviewCommunitySubtitle": "المجتمع",
-    "@iarPreviewCommunitySubtitle": {
-        "description": "Subtitle shown under the community name in the IAR preview card."
-    },
-    "iarReasonMatureContentGuildLabel": "محتوى للبالغين أو تقييد وصول غير آمن",
-    "@iarReasonMatureContentGuildLabel": {
-        "description": "Community-report reason label for mature content or unsafe gating."
-    },
-    "iarReasonMatureContentGuildDescription": "محتوى للبالغين بدون تقييد وصول مناسب.",
-    "@iarReasonMatureContentGuildDescription": {
-        "description": "Community-report reason description for mature content or unsafe gating."
-    },
-    "iarReasonChildSafetyGuildDescription": "يعرض القاصرين للخطر أو يستضيف محتوى استغلال الأطفال.",
-    "@iarReasonChildSafetyGuildDescription": {
-        "description": "Community-report reason description for child safety."
-    },
-    "iarReasonSpamGuildDescription": "مجتمع أُنشئ لإرسال الرسائل المزعجة أو الاحتيال أو إساءة استخدام المنصة.",
-    "@iarReasonSpamGuildDescription": {
-        "description": "Community-report reason description for spam, scams, or phishing."
-    },
-    "iarReasonMalwareGuildLabel": "توزيع البرامج الضارة",
-    "@iarReasonMalwareGuildLabel": {
-        "description": "Community-report reason label for malware distribution."
     },
     "mentionConfirmRoleBody": "سيؤدي هذا إلى إخطار {count} من الأعضاء الذين لديهم دور {roleName}. هل تريد المتابعة؟",
     "@mentionConfirmRoleBody": {
@@ -9903,10 +9026,6 @@
     "channelSettingsConnectionLimitDescription": "الحد الأقصى للاتصالات النشطة التي يمكن لعضو واحد الاحتفاظ بها في هذه القناة.",
     "@channelSettingsConnectionLimitDescription": {
         "description": "Helper text for voice channel connection limit."
-    },
-    "channelSettingsResetSlider": "إعادة تعيين شريط التمرير إلى القيمة الافتراضية",
-    "@channelSettingsResetSlider": {
-        "description": "Tooltip for reset buttons on channel settings sliders."
     },
     "channelDetailsSearchEmptyBody": "أدخل نصًا أو مؤلفًا أو فلتر محتوى للعثور على الرسائل.",
     "@channelDetailsSearchEmptyBody": {
@@ -10100,16 +9219,6 @@
     "@audioAndVideoMicTestStopLabel": {
         "description": "Button label to stop the microphone test."
     },
-    "audioAndVideoMicTestPermissionRequired": "يحتاج {productName} إلى الوصول إلى الميكروفون لاختبار إدخالك.",
-    "@audioAndVideoMicTestPermissionRequired": {
-        "description": "Shown when microphone permission is required for the mic test.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
     "audioAndVideoCameraLabel": "الكاميرا",
     "@audioAndVideoCameraLabel": {
         "description": "Label for camera device selection."
@@ -10186,10 +9295,6 @@
     "guildSettingsRolesTwoColumns": "عمودان",
     "@guildSettingsRolesTwoColumns": {
         "description": "Tooltip when permission list is in single-column layout."
-    },
-    "guildSettingsRolesSwitchToTwoColumns": "التبديل إلى عمودين",
-    "@guildSettingsRolesSwitchToTwoColumns": {
-        "description": "Aria label for switching to two columns."
     },
     "guildSettingsRolesHoistOrder": "ترتيب الظهور",
     "@guildSettingsRolesHoistOrder": {
@@ -10317,10 +9422,6 @@
     "@categoryCopyCategoryId": {
         "description": "Context menu action to copy a category ID to the clipboard."
     },
-    "channelSettingsAdvanced": "خيارات متقدمة",
-    "@channelSettingsAdvanced": {
-        "description": "Collapsible advanced section title in channel overview."
-    },
     "channelSettingsUnknownRole": "دور غير معروف",
     "@channelSettingsUnknownRole": {
         "description": "Fallback label for unknown role in permission overwrites."
@@ -10349,10 +9450,6 @@
     "@guildSettingsRolesAllowMentions": {
         "description": "Switch label for the mentionable toggle."
     },
-    "guildSettingsRolesCustomHoistOrder": "ترتيب الظهور المخصص",
-    "@guildSettingsRolesCustomHoistOrder": {
-        "description": "Button to enter custom hoist order mode."
-    },
     "guildSettingsRolesHoistOrderHelp": "اسحب الأدوار لتخصيص ترتيب ظهورها في قائمة الأعضاء.",
     "@guildSettingsRolesHoistOrderHelp": {
         "description": "Help text in hoist order mode."
@@ -10376,24 +9473,6 @@
     "channelSettingsMatureContentCategoryScope": "الفئة",
     "@channelSettingsMatureContentCategoryScope": {
         "description": "Capitalized scope label when mature content inherits from a category."
-    },
-    "channelSettingsPermissionsNeedManageChannels": "أنت بحاجة إلى إذن \"{manageChannelsPermissionLabel}\" لتعديل هذه الأذونات.",
-    "@channelSettingsPermissionsNeedManageChannels": {
-        "description": "Error when user lacks manage channels permission for channel permissions tab.",
-        "placeholders": {
-            "manageChannelsPermissionLabel": {
-                "type": "String"
-            }
-        }
-    },
-    "channelSettingsPermissionsNeedManageRoles": "أنت بحاجة إلى إذن \"{manageRolesPermissionLabel}\" لتعديل هذه الأذونات.",
-    "@channelSettingsPermissionsNeedManageRoles": {
-        "description": "Error when user lacks manage roles permission for channel permissions tab.",
-        "placeholders": {
-            "manageRolesPermissionLabel": {
-                "type": "String"
-            }
-        }
     },
     "channelSettingsPermissionsChannelAccessUpdated": "تم تحديث الوصول إلى القناة",
     "@channelSettingsPermissionsChannelAccessUpdated": {
@@ -10422,10 +9501,6 @@
     "channelSettingsPermissionsSearchRolesOrMembers": "البحث عن الأدوار أو الأعضاء…",
     "@channelSettingsPermissionsSearchRolesOrMembers": {
         "description": "Placeholder for the add override search field."
-    },
-    "channelSettingsPermissionsRolesAndMembers": "الأدوار والأعضاء",
-    "@channelSettingsPermissionsRolesAndMembers": {
-        "description": "Section title in the add override picker."
     },
     "channelSettingsDeleteInvite": "حذف الدعوة",
     "@channelSettingsDeleteInvite": {
@@ -10470,10 +9545,6 @@
                 "type": "String"
             }
         }
-    },
-    "channelSettingsWebhooksUnknownUser": "مستخدم غير معروف",
-    "@channelSettingsWebhooksUnknownUser": {
-        "description": "Fallback label when webhook creator is unavailable."
     },
     "channelDetailsVoiceChannel": "قناة صوتية",
     "@channelDetailsVoiceChannel": {
@@ -10624,14 +9695,6 @@
     "@guildSettingsRolesComfyLayout": {
         "description": "Tooltip when permission list is in dense layout."
     },
-    "guildSettingsRolesSwitchToDenseLayout": "التبديل إلى التخطيط المضغوط",
-    "@guildSettingsRolesSwitchToDenseLayout": {
-        "description": "Aria label for switching to dense layout."
-    },
-    "guildSettingsRolesSwitchToSingleColumn": "التبديل إلى عمود واحد",
-    "@guildSettingsRolesSwitchToSingleColumn": {
-        "description": "Aria label for switching to single column."
-    },
     "guildSettingsRolesCannotGrantPermission": "لا يمكنك منح إذن لا تملكه",
     "@guildSettingsRolesCannotGrantPermission": {
         "description": "Tooltip when user cannot grant a permission."
@@ -10660,10 +9723,6 @@
                 "type": "String"
             }
         }
-    },
-    "permissionUnknown": "إذن غير معروف",
-    "@permissionUnknown": {
-        "description": "Fallback permission label."
     },
     "permissionAdministratorDescription": "يمنح جميع الأذونات ويتجاوز قيود القنوات. إذن حساس للغاية.",
     "@permissionAdministratorDescription": {
@@ -10801,6 +9860,80 @@
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
     },
+    "profileLocalTimeSettingsTitle": "الوقت المحلي في الملف الشخصي",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "حدّد منطقتك الزمنية مرة واحدة ليُبقي {productName} فارق توقيتك عن UTC محدّثًا عند تغيّر التوقيت الصيفي. لا يرى الآخرون إلا فارق توقيتك عن UTC، وليس معرف منطقتك الزمنية الدقيق.",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "تعديل التوقيت المحلي للملف الشخصي",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "المنطقة الزمنية",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "اختر المنطقة الزمنية التي يستخدمها {productName} لحساب الإزاحة عن التوقيت العالمي المنسق (UTC) لعرض الوقت المحلي في ملفك الشخصي.",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "البحث عن المناطق الزمنية",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "غير محدد",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "لا يرى الآخرون إزاحتك الحالية عن التوقيت العالمي المنسق (UTC) إلا عندما تختار مشاركة الوقت المحلي في ملفك الشخصي. ولا يرون معرف منطقتك الزمنية الدقيق، مثل {timezoneIdentifierExample}. يخزّن {productName} هذا المعرف فقط لكي تُحدَّث الإزاحة تلقائيًا عند تغيّر التوقيت الصيفي.",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "الجميع",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "السماح لأي شخص يمكنه عرض ملفك الشخصي بالكامل برؤية وقتك المحلي",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "الأصدقاء",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "السماح لأصدقائك برؤية توقيتك المحلي",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "أعضاء المجتمع",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "السماح لأعضاء المجتمعات التي تنتمي إليها برؤية توقيتك المحلي",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
+    },
     "userProfileSameTimeAsYou": "نفس توقيتك",
     "@userProfileSameTimeAsYou": {
         "description": "Profile timezone difference when the target matches the viewer."
@@ -10884,10 +10017,6 @@
     "audioAndVideoDirectInputDescription": "يرسل صوتك دون أي تعديل. مناسب إذا كنت تستخدم برامج صوت خارجية.",
     "@audioAndVideoDirectInputDescription": {
         "description": "Description for the direct input voice processing profile."
-    },
-    "languageAndTimeOpenLanguageSettings": "فتح إعدادات اللغة",
-    "@languageAndTimeOpenLanguageSettings": {
-        "description": "Button that opens the system per-app language settings."
     },
     "languageAndTimeTimeFormatSelectionLabel": "اختيار تنسيق الوقت",
     "@languageAndTimeTimeFormatSelectionLabel": {
@@ -11055,29 +10184,9 @@
     "@audioAndVideoCameraQuality1080pLabel": {
         "description": "Camera quality option for 1080p resolution."
     },
-    "audioAndVideoHigherQualityRequiresPremium": "يتطلب خيار 1080p و 60 إطارًا في الثانية {premiumProductName}.",
-    "@audioAndVideoHigherQualityRequiresPremium": {
-        "description": "Note shown when higher video quality options require premium.",
-        "placeholders": {
-            "premiumProductName": {
-                "type": "String",
-                "example": "Plutonium"
-            }
-        }
-    },
     "audioAndVideoInstanceVideoQualityLimit": "تسمح هذه النسخة حاليًا بمشاركة الشاشة بدقة تصل إلى 720 بكسل بمعدل 30 إطارًا في الثانية.",
     "@audioAndVideoInstanceVideoQualityLimit": {
         "description": "Note shown when instance limits block higher screen share quality."
-    },
-    "audioAndVideoCameraPermissionRequired": "يحتاج {productName} إلى الوصول إلى الكاميرا لعرض أجهزتك.",
-    "@audioAndVideoCameraPermissionRequired": {
-        "description": "Shown when camera permission is required to enumerate video devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
     },
     "notificationsMentionNoPreferenceName": "بلا تفضيل",
     "@notificationsMentionNoPreferenceName": {
@@ -11314,10 +10423,6 @@
     "@groupDmEditTitle": {
         "description": "Title for the edit group DM modal or sheet."
     },
-    "groupDmEditDetailsTooltip": "تعديل تفاصيل المجموعة",
-    "@groupDmEditDetailsTooltip": {
-        "description": "Tooltip on the desktop group DM header edit action."
-    },
     "groupDmGroupName": "اسم المجموعة",
     "@groupDmGroupName": {
         "description": "Label for the group name field in edit group."
@@ -11325,10 +10430,6 @@
     "groupDmMyGroup": "مجموعتي",
     "@groupDmMyGroup": {
         "description": "Placeholder for the group name field in edit group."
-    },
-    "groupDmFailedToProcessCroppedImage": "تعذّر معالجة الصورة المقصوصة. حاول مرة أخرى.",
-    "@groupDmFailedToProcessCroppedImage": {
-        "description": "Body when a cropped group icon cannot be processed."
     },
     "groupDmInvalidImage": "صورة غير صالحة",
     "@groupDmInvalidImage": {
@@ -11345,10 +10446,6 @@
     "groupDmRateLimited": "أنت تفعل ذلك بسرعة كبيرة. انتظر لحظة وحاول مرة أخرى.",
     "@groupDmRateLimited": {
         "description": "Error when add-friends requests are rate limited."
-    },
-    "groupDmCreateInviteFailed": "تعذّر إنشاء رابط الدعوة",
-    "@groupDmCreateInviteFailed": {
-        "description": "Title when invite link generation fails."
     },
     "groupDmCreateInviteFailedBody": "تعذر إنشاء رابط دعوة. يرجى المحاولة مرة أخرى.",
     "@groupDmCreateInviteFailedBody": {
@@ -11393,16 +10490,6 @@
     "audioAndVideoFrameRate30Label": "30 إطارًا في الثانية",
     "@audioAndVideoFrameRate30Label": {
         "description": "Screen share frame rate option for 30 FPS."
-    },
-    "audioAndVideoMicrophonePermissionRequired": "يحتاج {productName} إلى الوصول إلى الميكروفون لعرض أجهزتك.",
-    "@audioAndVideoMicrophonePermissionRequired": {
-        "description": "Shown when microphone permission is required to enumerate audio input devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
     },
     "languageAndTimeTimeFormatSyncFailed": "فشل تحديث تنسيق الوقت",
     "@languageAndTimeTimeFormatSyncFailed": {
@@ -11489,10 +10576,6 @@
     "groupDmUnsupportedIconFormat": "تنسيق الأيقونة غير مدعوم",
     "@groupDmUnsupportedIconFormat": {
         "description": "Title when the selected group icon format is unsupported."
-    },
-    "groupDmCouldntProcessImage": "تعذر معالجة الصورة",
-    "@groupDmCouldntProcessImage": {
-        "description": "Title when a cropped group icon cannot be processed."
     },
     "groupDmCreateInvite": "إنشاء",
     "@groupDmCreateInvite": {
@@ -11822,26 +10905,6 @@
     "@nagbarPushNotification": {
         "description": "Push notification permission nagbar body."
     },
-    "phoneCountryLabel": "البلد",
-    "@phoneCountryLabel": {
-        "description": "Label for country selector in phone verification."
-    },
-    "phoneSearchCountries": "البحث عن البلدان...",
-    "@phoneSearchCountries": {
-        "description": "Search hint for country selector."
-    },
-    "phoneNumberRequired": "رقم الهاتف مطلوب",
-    "@phoneNumberRequired": {
-        "description": "Validation error when phone number is empty."
-    },
-    "phoneEnterValidNumber": "أدخل رقم هاتف جوال صالحًا.",
-    "@phoneEnterValidNumber": {
-        "description": "Validation error for invalid phone format."
-    },
-    "requiredActionTitle": "يلزم التحقق من الحساب",
-    "@requiredActionTitle": {
-        "description": "Title for required action blocking modal."
-    },
     "systemCallJoinTheCall": "الانضمام إلى المكالمة",
     "@systemCallJoinTheCall": {
         "description": "Call-to-action button label on an in-progress call system message."
@@ -12003,10 +11066,6 @@
     "@groupDmGenerateInviteLink": {
         "description": "Placeholder for the invite link field before generation."
     },
-    "groupDmAddFailed": "تعذّر الإضافة إلى المجموعة",
-    "@groupDmAddFailed": {
-        "description": "Title when adding friends to a group DM fails."
-    },
     "groupDmGroupFull": "هذه المجموعة ممتلئة. أزل شخصًا قبل إضافة المزيد من الأشخاص.",
     "@groupDmGroupFull": {
         "description": "Error when the group DM has no remaining member slots."
@@ -12026,10 +11085,6 @@
     "audioAndVideoScreenShareQualitySectionTitle": "جودة مشاركة الشاشة",
     "@audioAndVideoScreenShareQualitySectionTitle": {
         "description": "Subsection title for screen share resolution selection."
-    },
-    "guildSettingsRolesLockedTooltip": "لا يمكنك تعديل هذا الدور لأنه دورك الأعلى أو أعلى منك",
-    "@guildSettingsRolesLockedTooltip": {
-        "description": "Tooltip on locked role rows."
     },
     "guildSettingsRolesNeedManageRolesPermission": "تحتاج إلى صلاحية \"{permission}\" لتعديل هذه الصلاحيات",
     "@guildSettingsRolesNeedManageRolesPermission": {
@@ -12213,10 +11268,6 @@
     "@accessibilitySaturationTitle": {
         "description": "Section title for the theme saturation slider on the accessibility settings page."
     },
-    "accessibilitySaturationDescription": "اضبط مدى ظهور ألوان السمة عبر التطبيق.",
-    "@accessibilitySaturationDescription": {
-        "description": "Section description for the theme saturation slider on the accessibility settings page."
-    },
     "sessionExpiredToast": "انتهت صلاحية جلستك. يرجى تسجيل الدخول مرة أخرى.",
     "@sessionExpiredToast": {
         "description": "Toast shown when the stored session is rejected by the server and the user is signed out to the login screen."
@@ -12229,110 +11280,6 @@
     "@guildMenuSettingsChannels": {
         "description": "Guild settings menu item for channel management."
     },
-    "phoneCannotBeUsed": "لا يمكن استخدام رقم الهاتف هذا. جرّب رقم هاتف محمول آخر أو اتصل بالدعم.",
-    "@phoneCannotBeUsed": {
-        "description": "API error when phone number is rejected."
-    },
-    "phoneAlreadyUsed": "لقد تم استخدام رقم الهاتف هذا بالفعل. جرّب رقمًا آخر أو اتصل بالدعم.",
-    "@phoneAlreadyUsed": {
-        "description": "API error when phone number was reused."
-    },
-    "phoneCodeDidNotWork": "هذا الرمز غير صحيح. تحقق منه وحاول مرة أخرى.",
-    "@phoneCodeDidNotWork": {
-        "description": "API error for invalid verification code."
-    },
-    "phoneTooManyAttempts": "محاولات كثيرة جدًا. انتظر قليلًا، ثم حاول مرة أخرى.",
-    "@phoneTooManyAttempts": {
-        "description": "Rate limit error for phone verification."
-    },
-    "phoneSmsUnavailable": "التحقق عبر الرسائل النصية غير متاح حاليًا. حاول مرة أخرى لاحقًا أو تواصل مع فريق الدعم.",
-    "@phoneSmsUnavailable": {
-        "description": "SMS provider unavailable error."
-    },
-    "phoneNotEligible": "التحقق من الهاتف غير متاح لهذا الحساب. استخدم طريقة أخرى أو اتصل بالدعم.",
-    "@phoneNotEligible": {
-        "description": "Account not eligible for phone verification."
-    },
-    "phoneInboundGetNewCode": "الحصول على رمز جديد",
-    "@phoneInboundGetNewCode": {
-        "description": "Button to refresh inbound challenge."
-    },
-    "phoneInboundChallengeCodeLabel": "رمز للإرسال",
-    "@phoneInboundChallengeCodeLabel": {
-        "description": "Label for inbound challenge code."
-    },
-    "phoneInboundOurNumberLabel": "إرسال إلى",
-    "@phoneInboundOurNumberLabel": {
-        "description": "Label for inbound destination number."
-    },
-    "requiredActionIntroPhone": "يتطلب تسجيلك فحصًا إضافيًا لمكافحة الرسائل المزعجة قبل أن تتمكن من المتابعة.",
-    "@requiredActionIntroPhone": {
-        "description": "Phone-only required action intro."
-    },
-    "requiredActionUsePhone": "استخدام الهاتف",
-    "@requiredActionUsePhone": {
-        "description": "Button to choose phone verification."
-    },
-    "requiredActionCheckEmailTitle": "تحقق من بريدك الإلكتروني",
-    "@requiredActionCheckEmailTitle": {
-        "description": "Title for email verification instructions."
-    },
-    "requiredActionCheckEmailDescription": "لقد أرسلنا رابط تحقق إلى عنوان بريدك الإلكتروني. افتحه للمتابعة.",
-    "@requiredActionCheckEmailDescription": {
-        "description": "Description for email verification instructions."
-    },
-    "requiredActionResendVerificationEmail": "إعادة إرسال البريد الإلكتروني للتحقق",
-    "@requiredActionResendVerificationEmail": {
-        "description": "Button to resend verification email."
-    },
-    "phoneSomethingWentWrong": "حدث خطأ ما. يُرجى المحاولة مرة أخرى.",
-    "@phoneSomethingWentWrong": {
-        "description": "Generic phone verification error."
-    },
-    "phoneInboundExpensiveDescription": "إرسال رسالة نصية قصيرة إلى رقم الهاتف هذا مُكلف للغاية، لذا نحتاج منك إرسال رسالة نصية قصيرة إلينا بدلاً من ذلك. يمكنك أيضًا الاتصال بالدعم لطلب إزالة هذا المتطلب من حسابك.",
-    "@phoneInboundExpensiveDescription": {
-        "description": "Inbound challenge reason for expensive destinations."
-    },
-    "phoneInboundDefaultDescription": "نحتاج منك إرسال رسالة نصية قصيرة إلينا للتحقق من رقم هاتفك.",
-    "@phoneInboundDefaultDescription": {
-        "description": "Default inbound challenge description."
-    },
-    "phoneInboundStepOpenMessaging": "افتح تطبيق الرسائل على هاتفك وأنشئ رسالة نصية جديدة.",
-    "@phoneInboundStepOpenMessaging": {
-        "description": "Inbound verification step 1."
-    },
-    "phoneInboundStepSendCode": "أرسل الرمز {code} إلى {number}.",
-    "@phoneInboundStepSendCode": {
-        "description": "Inbound verification step 2.",
-        "placeholders": {
-            "code": {
-                "type": "String"
-            },
-            "number": {
-                "type": "String"
-            }
-        }
-    },
-    "phoneInboundStepWait": "انتظر حتى نستلم رسالتك. قد يستغرق هذا دقيقة واحدة.",
-    "@phoneInboundStepWait": {
-        "description": "Inbound verification step 3."
-    },
-    "requiredActionChooseMethodTitle": "اختر طريقة التحقق",
-    "@requiredActionChooseMethodTitle": {
-        "description": "Title when user can pick email or phone."
-    },
-    "requiredActionUseEmail": "استخدام البريد الإلكتروني",
-    "@requiredActionUseEmail": {
-        "description": "Button to choose email verification."
-    },
-    "requiredActionVerificationEmailSent": "تم إرسال رسالة تحقق إلى بريدك الإلكتروني. تحقق من صندوق الوارد.",
-    "@requiredActionVerificationEmailSent": {
-        "description": "Toast after resending verification email."
-    },
-    "requiredActionSignOut": "تسجيل الخروج",
-    "@requiredActionSignOut": {
-        "description": "Sign out button in required action modal."
-    },
     "notificationsEnableNotificationsDescription": "تلقَّ إشعارات عند استلام الرسائل. قد تحتاج إلى السماح بالإشعارات لتطبيق {productName} في إعدادات جهازك. للتحكم في الإشعارات لكل قناة/مجتمع، افتح إعدادات الإشعارات من قائمة المجتمع.",
     "@notificationsEnableNotificationsDescription": {
         "description": "Description for the enable notifications toggle on mobile.",
@@ -12342,10 +11289,6 @@
                 "example": "Fluxer"
             }
         }
-    },
-    "notificationsEnableBrowserNotificationsDescription": "تلقَّ إشعارات عند استلامك رسائل. قد تحتاج إلى السماح بالإشعارات في إعدادات المتصفح. للتحكم في الإشعارات لكل قناة/مجتمع، انقر بزر الفأرة الأيمن على أيقونة المجتمع وافتح إعدادات الإشعارات.",
-    "@notificationsEnableBrowserNotificationsDescription": {
-        "description": "Description for the enable browser notifications toggle."
     },
     "notificationsPushInactiveTimeoutLabel": "مهلة عدم النشاط لإشعارات الدفع",
     "@notificationsPushInactiveTimeoutLabel": {
@@ -12585,10 +11528,6 @@
     "@guildSettingsRolesDenseLayout": {
         "description": "Tooltip when permission list is in comfy layout."
     },
-    "guildSettingsRolesSwitchToComfyLayout": "التبديل إلى التخطيط المريح",
-    "@guildSettingsRolesSwitchToComfyLayout": {
-        "description": "Aria label for switching to comfy layout."
-    },
     "permissionKickMembers": "طرد الأعضاء",
     "@permissionKickMembers": {
         "description": "Permission name."
@@ -12667,10 +11606,6 @@
     "channelDetailsDeleteChannel": "حذف القناة",
     "@channelDetailsDeleteChannel": {
         "description": "Channel details menu action to delete a guild channel."
-    },
-    "channelSettingsCategorySettingsTitle": "إعدادات الفئة",
-    "@channelSettingsCategorySettingsTitle": {
-        "description": "Title for category settings modal."
     },
     "channelSettingsEditCategory": "تعديل الفئة",
     "@channelSettingsEditCategory": {
@@ -13281,42 +12216,6 @@
     "@gifPickerFavoritesEmptyDescription": {
         "description": "Empty state description for the GIF picker favorites view."
     },
-    "requiredActionIntroGeneric": "أكمل عملية التحقق المطلوبة لمتابعة استخدام {productName}.",
-    "@requiredActionIntroGeneric": {
-        "description": "Generic required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailOrPhone": "تحقق من بريدك الإلكتروني أو هاتفك لمتابعة استخدام {productName}.",
-    "@requiredActionIntroEmailOrPhone": {
-        "description": "Email or phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailAndPhone": "أكمل خطوات التحقق المطلوبة من البريد الإلكتروني والهاتف أدناه لمتابعة استخدام {productName}.",
-    "@requiredActionIntroEmailAndPhone": {
-        "description": "Email and phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionChooseMethodDescription": "أكمل أحد مسارات التحقق أدناه لمتابعة استخدام {productName}.",
-    "@requiredActionChooseMethodDescription": {
-        "description": "Description when user can pick email or phone.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
     "networkErrorMessage": "حدث خطأ ما. يُرجى المحاولة مرة أخرى.",
     "@networkErrorMessage": {
         "description": "Generic message shown when a network request fails."
@@ -13823,6 +12722,14 @@
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
     },
+    "accessibilityShowAltTextOnImagesLabel": "إظهار النص البديل على الصور",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "عرض النص البديل أسفل الصور عند توفره.",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
     "accessibilityDimStrikethroughTextLabel": "تعتيم النص المشطوب",
     "@accessibilityDimStrikethroughTextLabel": {
         "description": "Toggle label for dimming strikethrough text in messages."
@@ -13941,10 +12848,6 @@
     "accessibilityPausedGifByReducedMotion": "متوقفة مؤقتًا بسبب تقليل الحركة. فعّل هذا الخيار لمواصلة تشغيل صور GIF.",
     "@accessibilityPausedGifByReducedMotion": {
         "description": "Description for GIF toggle while reduced motion is active."
-    },
-    "accessibilityGifDefaultsOffOnMobile": "يتم إيقاف تشغيله افتراضيًا على الهاتف المحمول للحفاظ على عمر البطارية واستخدام البيانات.",
-    "@accessibilityGifDefaultsOffOnMobile": {
-        "description": "Helper text for GIF autoplay default on mobile."
     },
     "accessibilityStickerAnimationsTitle": "رسوم الملصقات المتحركة",
     "@accessibilityStickerAnimationsTitle": {
@@ -14401,25 +13304,13 @@
     "@privacyDashboardFriendRequestsEveryone": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsEveryoneDesc": "السماح لأي شخص بإرسال طلبات صداقة إليك",
-    "@privacyDashboardFriendRequestsEveryoneDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsFriendsOfFriends": "أصدقاء الأصدقاء",
     "@privacyDashboardFriendRequestsFriendsOfFriends": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsFriendsOfFriendsDesc": "السماح لأصدقاء أصدقائك بإرسال طلبات إليك",
-    "@privacyDashboardFriendRequestsFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsCommunityMembers": "أعضاء المجتمع",
     "@privacyDashboardFriendRequestsCommunityMembers": {
         "description": "Privacy dashboard friend request toggle label."
-    },
-    "privacyDashboardFriendRequestsCommunityMembersDesc": "السماح للأعضاء من المجتمعات التي تنتمي إليها بإرسال طلبات إليك",
-    "@privacyDashboardFriendRequestsCommunityMembersDesc": {
-        "description": "Privacy dashboard friend request toggle description."
     },
     "privacyDashboardDirectMessagesTitle": "الرسائل المباشرة",
     "@privacyDashboardDirectMessagesTitle": {
@@ -14429,65 +13320,29 @@
     "@privacyDashboardDirectMessagesMembers": {
         "description": "Privacy dashboard DM toggle label."
     },
-    "privacyDashboardDirectMessagesMembersDesc": "السماح للأعضاء من المجتمعات التي تنتمي إليها بإرسال رسائل مباشرة إليك",
-    "@privacyDashboardDirectMessagesMembersDesc": {
-        "description": "Privacy dashboard DM toggle description."
-    },
     "privacyDashboardDirectMessagesBots": "السماح بالرسائل المباشرة من بوتات المجتمع",
     "@privacyDashboardDirectMessagesBots": {
         "description": "Privacy dashboard bot DM toggle label."
-    },
-    "privacyDashboardDirectMessagesBotsDesc": "السماح للبوتات من المجتمعات التي تنتمي إليها بإرسال رسائل مباشرة إليك",
-    "@privacyDashboardDirectMessagesBotsDesc": {
-        "description": "Privacy dashboard bot DM toggle description."
-    },
-    "privacyDashboardConnectionsSectionDesc": "تحكم في من يمكنه إرسال طلبات صداقة ورسائل مباشرة إليك",
-    "@privacyDashboardConnectionsSectionDesc": {
-        "description": "Privacy dashboard connections section description."
-    },
-    "privacyDashboardCommunicationSectionDesc": "تحكم فيمن يمكنه الاتصال بك وإضافتك إلى المحادثات الجماعية",
-    "@privacyDashboardCommunicationSectionDesc": {
-        "description": "Privacy dashboard communication section description."
     },
     "privacyDashboardIncomingCallsTitle": "المكالمات الواردة",
     "@privacyDashboardIncomingCallsTitle": {
         "description": "Privacy dashboard incoming calls subsection title."
     },
-    "privacyDashboardIncomingCallsDesc": "تحكم فيمن يمكنه الاتصال بك",
-    "@privacyDashboardIncomingCallsDesc": {
-        "description": "Privacy dashboard incoming calls subsection description."
-    },
     "privacyDashboardAllowedCallers": "المتصلون المسموح لهم",
     "@privacyDashboardAllowedCallers": {
         "description": "Privacy > Communication: select label."
-    },
-    "privacyDashboardIncomingCallNobody": "لا أحد",
-    "@privacyDashboardIncomingCallNobody": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallNobodyDesc": "حظر جميع المكالمات الواردة",
     "@privacyDashboardIncomingCallNobodyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallFriendsOnly": "الأصدقاء فقط",
-    "@privacyDashboardIncomingCallFriendsOnly": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallFriendsOnlyDesc": "السماح للأصدقاء فقط بالاتصال بك (موصى به)",
     "@privacyDashboardIncomingCallFriendsOnlyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallCustom": "الأصدقاء + مخصص",
-    "@privacyDashboardIncomingCallCustom": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallCustomDesc": "السماح للأصدقاء بالإضافة إلى المجموعات الإضافية التي تختارها",
     "@privacyDashboardIncomingCallCustomDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardIncomingCallEveryone": "الجميع",
-    "@privacyDashboardIncomingCallEveryone": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallEveryoneDesc": "السماح لأي شخص بالاتصال بك، حتى الغرباء",
     "@privacyDashboardIncomingCallEveryoneDesc": {
@@ -14497,14 +13352,6 @@
     "@privacyDashboardAdditionalGroups": {
         "description": "Privacy dashboard label for custom permission groups."
     },
-    "privacyDashboardCallFriendsOfFriendsDesc": "يمكن للأشخاص الذين تربطهم صداقة بأصدقائك الاتصال بك",
-    "@privacyDashboardCallFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
-    "privacyDashboardCallGuildMembersDesc": "يمكن للأشخاص من المجتمعات المشتركة بينكما الاتصال بك",
-    "@privacyDashboardCallGuildMembersDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
     "privacyDashboardRingBehavior": "سلوك الرنين",
     "@privacyDashboardRingBehavior": {
         "description": "Privacy dashboard ring behavior subsection label."
@@ -14513,17 +13360,9 @@
     "@privacyDashboardSilentCalls": {
         "description": "Privacy dashboard silent calls toggle label."
     },
-    "privacyDashboardSilentCallsDesc": "سيتم إخطار جميع المكالمات بصمت بدلاً من الرنين. بشكل افتراضي، تكون المكالمات من غير الأصدقاء صامتة دائمًا.",
-    "@privacyDashboardSilentCallsDesc": {
-        "description": "Privacy dashboard silent calls toggle description."
-    },
     "privacyDashboardGroupDmTitle": "من يمكنه إضافتك إلى المحادثات الجماعية",
     "@privacyDashboardGroupDmTitle": {
         "description": "Privacy dashboard group DM subsection title."
-    },
-    "privacyDashboardGroupDmDesc": "تحكم في من يمكنه إضافتك إلى الدردشات الجماعية دون طلب إذن. لا يزال بإمكان أي شخص إرسال روابط دعوة للانضمام إليك.",
-    "@privacyDashboardGroupDmDesc": {
-        "description": "Privacy dashboard group DM subsection description."
     },
     "privacyDashboardAllowedInvites": "الدعوات المسموح بها",
     "@privacyDashboardAllowedInvites": {
@@ -14544,14 +13383,6 @@
     "privacyDashboardGroupDmEveryoneDesc": "السماح لأي شخص بإضافتك إلى الدردشات الجماعية دون طلب",
     "@privacyDashboardGroupDmEveryoneDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardGroupDmFriendsOfFriendsDesc": "يمكن للأشخاص الذين تربطك بهم صداقة أن يضيفوك إلى الدردشات الجماعية",
-    "@privacyDashboardGroupDmFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
-    },
-    "privacyDashboardGroupDmGuildMembersDesc": "يمكن للأشخاص من المجتمعات المشتركة إضافتك إلى الدردشات الجماعية",
-    "@privacyDashboardGroupDmGuildMembersDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
     },
     "privacyDashboardVoiceActivityTitle": "النشاط الصوتي في \"نشط الآن\"",
     "@privacyDashboardVoiceActivityTitle": {
@@ -15084,26 +13915,6 @@
     "@composerAutocompleteOptionalArgumentsHeading": {
         "description": "Section heading in composer autocomplete for adding optional slash-command arguments."
     },
-    "composerAutocompleteChannelsHeading": "القنوات",
-    "@composerAutocompleteChannelsHeading": {
-        "description": "Section heading in composer autocomplete for channel suggestions."
-    },
-    "composerAutocompleteMembersHeading": "الأعضاء",
-    "@composerAutocompleteMembersHeading": {
-        "description": "Section heading in composer autocomplete for member suggestions."
-    },
-    "composerAutocompleteUsersHeading": "المستخدمون",
-    "@composerAutocompleteUsersHeading": {
-        "description": "Section heading in composer autocomplete for user suggestions."
-    },
-    "composerAutocompleteMentionsHeading": "الإشارات",
-    "@composerAutocompleteMentionsHeading": {
-        "description": "Section heading in composer autocomplete for mixed mention suggestions."
-    },
-    "composerAutocompleteRolesHeading": "الأدوار",
-    "@composerAutocompleteRolesHeading": {
-        "description": "Section heading in composer autocomplete for role suggestions."
-    },
     "composerAutocompleteMediaHeading": "الوسائط",
     "@composerAutocompleteMediaHeading": {
         "description": "Section heading in composer autocomplete for saved media."
@@ -15320,10 +14131,6 @@
     "memberListUnavailableBody": "قوائم الأعضاء غير متاحة مؤقتًا في هذا المجتمع",
     "@memberListUnavailableBody": {
         "description": "Body when member list updates are disabled for the community."
-    },
-    "channelHeaderOpenDetails": "فتح تفاصيل القناة",
-    "@channelHeaderOpenDetails": {
-        "description": "Accessibility label for the channel header title area."
     },
     "channelHeaderPinnedMessages": "الرسائل المثبتة",
     "@channelHeaderPinnedMessages": {
@@ -15686,10 +14493,6 @@
     "@userSettingsSearchPlaceholder": {
         "description": "Placeholder for the user settings search field."
     },
-    "userSettingsSearchFieldLabel": "البحث في الإعدادات",
-    "@userSettingsSearchFieldLabel": {
-        "description": "Accessibility label for the user settings search field."
-    },
     "userSettingsSearchClear": "مسح البحث",
     "@userSettingsSearchClear": {
         "description": "Accessibility label for clearing the user settings search field."
@@ -15716,8 +14519,6 @@
     "giftSettingsGiftUrl": "رابط الهدية",
     "giftSettingsCopy": "نسخ",
     "giftSettingsCopied": "تم النسخ",
-    "giftSettingsGiftUrlCopied": "تم نسخ رابط الهدية إلى الحافظة!",
-    "giftSettingsGiftUrlCopyFailed": "تعذر نسخ رابط الهدية",
     "giftSettingsPurchasedDate": "تم الشراء في {date}",
     "@giftSettingsPurchasedDate": {
         "placeholders": {
@@ -15759,7 +14560,6 @@
     "premiumBuyGift": "شراء هدية",
     "premiumOneYearGift": "هدية لمدة عام واحد",
     "premiumOneMonthGift": "هدية شهر واحد",
-    "premiumMostPopular": "الأكثر شيوعًا",
     "premiumScrollPrompt": "مرر لأسفل لرؤية جميع المزايا المضمنة مع Plutonium",
     "premiumFreeVsPlutonium": "مجاني مقابل Plutonium",
     "premiumFreeColumn": "مجاني",
@@ -15777,50 +14577,15 @@
     "premiumViewGifts": "عرض الهدايا",
     "premiumReadyToUpgrade": "هل أنت مستعد للترقية؟",
     "premiumReadyToBuyGift": "هل أنت مستعد لشراء هدية؟",
-    "premiumMonthlyPrice": "شهريًا {price}",
-    "@premiumMonthlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumYearlyPrice": "سنويًا {price}",
-    "@premiumYearlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneYearPrice": "سنة واحدة {price}",
-    "@premiumOneYearPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneMonthPrice": "شهر واحد {price}",
-    "@premiumOneMonthPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
     "premiumManageSubscription": "إدارة الاشتراك",
     "premiumRedeemGiftCode": "استرداد رمز الهدية",
     "premiumGiftBadge": "هدية",
     "premiumCancelSubscriptionTitle": "هل تريد إلغاء الاشتراك؟",
     "premiumCancelSubscriptionBody": "ستحتفظ بمزاياك حتى تاريخ التجديد التالي، ثم تحصل على فترة سماح مدتها 3 أيام لإعادة الاشتراك والاحتفاظ بسجل اشتراكك.",
     "premiumCancelSubscriptionConfirm": "إلغاء الاشتراك",
-    "premiumKeepSubscription": "الاحتفاظ بالاشتراك",
     "premiumPurchaseHistoryTitle": "سجل الشراء",
     "premiumPurchaseHistoryDescription": "فواتيرك الأخيرة. لتغيير طريقة الدفع لاشتراكك، أضف واحدة أو اخترها في بوابة الفوترة واجعلها الافتراضية.",
     "premiumManagePaymentMethods": "إدارة طرق الدفع",
-    "premiumBillingHistory": "سجل الفواتير",
-    "premiumSelfServeRefundTitle": "استرداد ذاتي",
     "premiumSelfServeRefundButton": "استرداد آخر عملية شراء",
     "premiumDisclaimerAgreementPrefix": "بإتمام عملية الشراء، أنت توافق على ",
     "premiumDisclaimerAgreementPastPrefix": "بشرائك، تكون قد وافقت على ",
@@ -15860,23 +14625,16 @@
         "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
     },
     "premiumComparisonFeatureColumn": "الميزة",
-    "premiumDisclaimerPurchased": "بإتمامك الشراء، تكون قد وافقت على {terms} و{privacy}.",
-    "@premiumDisclaimerPurchased": {
-        "placeholders": {
-            "terms": {
-                "type": "String"
-            },
-            "privacy": {
-                "type": "String"
-            }
-        }
-    },
     "premiumDisclaimerRefund": "يمكنك استرداد أموالك بنفسك خلال 3 أيام من الدفع، مرة واحدة كل 30 يومًا. استرداد قيمة الاشتراك يلغيه. يتنازل المشترون في الاتحاد الأوروبي/المنطقة الاقتصادية الأوروبية عن حق الانسحاب خلال 14 يومًا عند إتمام الشراء، للوصول إلى المحتوى فورًا. استخدم زر الاسترداد داخل التطبيق بدلًا من طلب رد المبلغ عبر البنك. قد تؤدي طلبات رد المبالغ عبر البنك إلى تقييد حسابك نهائيًا. تتولى Stripe معالجة الدفع بأمان. لا نرى رقم بطاقتك كاملًا أبدًا.",
     "premiumTermsOfService": "شروط الخدمة",
     "premiumPrivacyPolicy": "سياسة الخصوصية",
     "premiumCheckoutStartFailedTitle": "تعذر بدء عملية الدفع",
     "premiumCheckoutStartFailedBody": "حدث خطأ ما أثناء بدء عملية الدفع. يرجى المحاولة مرة أخرى بعد قليل.",
     "premiumPlanUnavailable": "هذه الخطة غير متاحة. اتصل بالدعم.",
+    "premiumPlanUnavailableSelfHosted": "هذه الخطة غير متاحة. اتصل بمسؤولي هذا المثيل.",
+    "@premiumPlanUnavailableSelfHosted": {
+        "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
+    },
     "premiumCompletePaymentTitle": "إتمام الدفع",
     "premiumCompletePaymentBody": "أنت الآن تنتقل إلى Stripe لإكمال الدفع. عد إلى Fluxer بمجرد الانتهاء منه.",
     "premiumChoosePaymentMethodTitle": "اختيار طريقة الدفع",
@@ -15892,29 +14650,97 @@
     "premiumExistingSubscriptionTitle": "الاشتراك موجود بالفعل",
     "premiumExistingSubscriptionBody": "لقد وجدنا اشتراكًا حاليًا في Fluxer Plutonium لهذا الحساب. قم بإدارته في بوابة الفوترة الآمنة لتحديث تفاصيل الدفع أو التحقق من حالة التجديد. إذا دفعت للتو، انتظر دقيقة وأعد فتح هذه الصفحة.",
     "premiumPurchasesDisabledTitle": "المشتريات غير متاحة",
-    "premiumPurchasesDisabledBody": "تم تعطيل عمليات الشراء لهذا الحساب. اتصل بـ support@fluxer.app إذا بدا هذا الأمر خاطئًا.",
+    "premiumPurchasesDisabledBody": "تم تعطيل عمليات الشراء لهذا الحساب. اتصل بـ {supportEmail} إذا بدا هذا الأمر خاطئًا.",
+    "@premiumPurchasesDisabledBody": {
+        "description": "Shown on the official hosted instance when purchases are disabled for the account. supportEmail is the support mailbox.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumPurchasesDisabledBodySelfHosted": "تم تعطيل عمليات الشراء لهذا الحساب. اتصل بمسؤولي هذا المثيل إذا بدا هذا الأمر خاطئًا.",
+    "@premiumPurchasesDisabledBodySelfHosted": {
+        "description": "Shown on a self-hosted instance when purchases are disabled for the account. Names no email address."
+    },
     "premiumClaimAccountToPurchase": "احصل على حسابك لشراء Fluxer Plutonium.",
     "premiumVerifyEmailToPurchase": "تحتاج إلى التحقق من بريدك الإلكتروني قبل أن تتمكن من شراء Fluxer Plutonium.",
-    "premiumPerkCustomUsernameTag": "علامة اسم المستخدم المخصصة",
-    "premiumPerkPerCommunityProfiles": "ملفات شخصية لكل مجتمع",
-    "premiumPerkMessageScheduling": "جدولة الرسائل",
-    "premiumPerkProfileBadge": "شارة الملف الشخصي",
-    "premiumPerkCustomVideoBackgrounds": "خلفيات فيديو مخصصة",
-    "premiumPerkEntranceSounds": "أصوات الدخول",
     "premiumPerkCommunities": "المجتمعات",
     "premiumPerkMessageCharacterLimit": "الحد الأقصى لأحرف الرسالة",
     "premiumPerkBookmarkedMessages": "الرسائل ذات الإشارات المرجعية",
     "premiumPerkFileUploadSize": "حجم تحميل الملف",
-    "premiumPerkEmojiStickerPacks": "حزم الرموز التعبيرية والملصقات",
-    "premiumPerkSavedMedia": "الوسائط المحفوظة",
     "premiumPerkUseAnimatedEmojis": "استخدام الرموز التعبيرية المتحركة",
-    "premiumPerkGlobalEmojiStickerAccess": "الوصول الشامل إلى الرموز التعبيرية والملصقات",
     "premiumPerkVideoQuality": "جودة الفيديو",
     "premiumPerkAnimatedAvatarsBanners": "صور رمزية ولافتات ملف شخصي متحركة",
     "premiumPerkEarlyAccess": "وصول مبكر للميزات الجديدة",
-    "premiumPerkCustomThemes": "سمات مخصصة",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "حتى 4K/60 إطارًا في الثانية",
+    "storePlutoniumPriceLine": "{monthly} أو {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/شهر",
+    "storePlutoniumYearSuffix": "/سنة",
+    "storePlutoniumPriceOr": "أو",
+    "storePlutoniumEmojiTitle": "رموزك التعبيرية، في كل مكان",
+    "storePlutoniumEmojiBody": "أضف رموزًا تعبيرية وملصقات مخصصة من أي من مجتمعاتك إلى كل محادثة ومجتمع تتواجد فيه.",
+    "storePlutoniumProfileTitle": "ملف شخصي مميز",
+    "storePlutoniumProfileBody": "احصل على صورة رمزية ولافتة متحركتين، وشارة مشترك، والعلامة المكونة من أربعة أرقام التي تريدها بعد اسم المستخدم الخاص بك*، وملف شخصي منفصل لكل مجتمع.",
+    "storePlutoniumFilesTitle": "إرسال ملفات بحجم يصل إلى 500 ميجابايت",
+    "storePlutoniumFilesBody": "شارك مقاطع الفيديو كاملة الطول والملفات الكبيرة دون تصغيرها أولاً. يمكن للحسابات المجانية إرسال ما يصل إلى 25 ميجابايت.",
+    "storePlutoniumCompareTitle": "قارن بين المجاني وPlutonium",
+    "storePlutoniumCompareMobileNote": "ليست كل هذه الميزات متوفرة في تطبيق الجوال. بعضها متوفر فقط على سطح المكتب.",
+    "storePlutoniumNotAvailable": "غير متاح",
+    "storePlutoniumAvailable": "متاح",
+    "storePlutoniumCompareTag": "اختر الرقم المكون من 4 أرقام بعد اسم المستخدم الخاص بك*",
+    "storePlutoniumCompareProfile": "ملف شخصي منفصل لكل مجتمع",
+    "storePlutoniumCompareBadge": "شارة المشترك في ملفك الشخصي",
+    "storePlutoniumCompareBackgrounds": "خلفيات مكالمات الفيديو التي يمكنك حفظها",
+    "storePlutoniumCompareCommunities": "المجتمعات التي يمكنك الانضمام إليها",
+    "storePlutoniumCompareCharacters": "الأحرف في رسالة واحدة",
+    "storePlutoniumCompareBookmarks": "الرسائل التي يمكنك تمييزها",
+    "storePlutoniumCompareUpload": "أكبر ملف يمكنك تحميله",
+    "storePlutoniumCompareSavedMedia": "عناصر الوسائط التي يمكنك حفظها لوقت لاحق",
+    "storePlutoniumCompareAnimatedEmoji": "استخدم الرموز التعبيرية المتحركة في الرسائل",
+    "storePlutoniumCompareCustomEmoji": "استخدم الرموز التعبيرية والملصقات المخصصة في أي مجتمع",
+    "storePlutoniumCompareVideo": "جودة مكالمات الفيديو ومشاركة الشاشة",
+    "storePlutoniumCompareAvatar": "صورة رمزية متحركة ولافتة ملف شخصي",
+    "storePlutoniumCompareEarlyAccess": "وصول مبكر للميزات الجديدة",
+    "storePlutoniumCompareThemes": "سمات مخصصة للتطبيق",
+    "storePlutoniumVideoFree": "حتى 720p بمعدل 30 إطارًا في الثانية",
+    "storePlutoniumVideoPlutonium": "حتى 4K بمعدل 60 إطارًا في الثانية",
+    "storePlutoniumTagFootnote": "يمكنك اختيار علامة لا يمتلكها أي شخص آخر بنفس اسم المستخدم. أسماء المستخدمين لا تميز بين الأحرف الكبيرة والصغيرة، لذا فإن Mina#4821 وmina#4821 يعتبران متطابقين. العلامة #0000 محجوزة لأعضاء Fluxer Visionary.",
+    "storePlutoniumLearnVisionary": "تعرّف على المزيد حول Visionary.",
+    "storePlutoniumDonatePrompt": "هل تريد فقط دعم تطوير Fluxer مفتوح المصدر؟ ",
+    "storePlutoniumDonateLink": "تبرّع بدلاً من ذلك.",
+    "storePlutoniumHighlightsLead": "يساهم الاشتراك في تمويل Fluxer ويفتح لك",
+    "storePlutoniumHighlightEmoji": "رموز تعبيرية وملصقات مخصصة في أي محادثة",
+    "storePlutoniumHighlightProfile": "ملف شخصي متحرك، وشارة، ورقم مخصص مكون من 4 أرقام",
+    "storePlutoniumHighlightFiles": "تحميلات تصل إلى 500 ميجابايت",
+    "storePlutoniumHighlightMessages": "إرسال رسائل يصل عدد أحرفها إلى 4,000 حرف",
+    "storePlutoniumHighlightCommunityProfile": "ملف شخصي منفصل لكل مجتمع",
+    "storePlutoniumHighlightsMore": "والمزيد",
+    "storePlutoniumRenewsThroughPlay": "يُجدّد تلقائيًا عبر Google Play حتى تقوم بالإلغاء.",
+    "storePlutoniumRenewsThroughAppStore": "يتجدد تلقائيًا عبر App Store حتى تقوم بالإلغاء.",
+    "storePlutoniumAlreadySubscribed": "لديك بالفعل اشتراك في Fluxer Plutonium.",
+    "storePlutoniumSavePercent": "وفر {percent}%",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "تم استلام عملية الشراء. سيظهر Plutonium هنا بمجرد تفعيله.",
+    "storePlutoniumUnavailable": "الاشتراكات داخل التطبيق غير متاحة على هذا الجهاز بعد.",
+    "storePlutoniumVisionaryStatus": "يتضمن Visionary بالفعل وصولاً دائمًا، لذا لا يلزم وجود اشتراك متكرر.",
     "userSettingsNavShortcuts": "اختصارات لوحة المفاتيح",
     "@userSettingsNavShortcuts": {
         "description": "User settings navigation item for keyboard shortcuts."
@@ -16003,6 +14829,18 @@
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
     },
+    "userSettingsNavAppIcon": "أيقونة التطبيق",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "أيقونة التطبيق",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "اختر الأيقونة التي تظهر على شاشتك الرئيسية.",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
+    },
     "advancedSettingsConfigure": "تكوين",
     "@advancedSettingsConfigure": {
         "description": "Button label that opens a dedicated advanced settings modal."
@@ -16050,7 +14888,6 @@
     "advancedSettingStripTrackingLabel": "إزالة معلمات التتبع من الروابط",
     "advancedSettingStripTrackingDescription": "إزالة معلمات التتبع تلقائيًا من الروابط في الرسائل التي ترسلها",
     "advancedSettingTrustAllLinksLabel": "الوثوق بجميع الروابط الخارجية",
-    "advancedSettingTrustAllLinksDescription": "تخطي تحذير الروابط الخارجية لجميع النطاقات",
     "advancedSettingSearchEnginesLabel": "محركات البحث",
     "advancedSettingSearchEnginesDescription": "تكوين محركات البحث المستخدمة من النص المحدد",
     "advancedSettingTranslatorsLabel": "المترجمون",
@@ -16106,13 +14943,6 @@
     "advancedSettingHideStreamPreviewLabel": "إخفاء الصورة المصغرة لمعاينة البث الخاص بي",
     "advancedSettingDeveloperModeLabel": "تفعيل وضع المطور",
     "advancedSettingDeveloperModeDescription": "تفعيل وضع المطور",
-    "advancedSettingSearchEngineGoogle": "جوجل",
-    "advancedSettingSearchEngineDuckDuckGo": "DuckDuckGo",
-    "advancedSettingSearchEngineBing": "Bing",
-    "advancedSettingSearchEngineGoogleLens": "عدسة Google",
-    "advancedSettingSearchEngineTinEye": "TinEye",
-    "advancedSettingTranslatorGoogle": "ترجمة Google",
-    "advancedSettingTranslatorDeepL": "DeepL",
     "advancedSettingDefaultSearchEngineLabel": "محرك البحث الافتراضي",
     "advancedSettingDefaultSearchEngineDescription": "اختر محرك البحث الذي سيتم استخدامه افتراضيًا عند البحث عن النص المحدد.",
     "advancedSettingBuiltInSearchEnginesLabel": "محركات البحث المضمّنة",
@@ -16251,6 +15081,14 @@
     "authHidePassword": "إخفاء كلمة المرور",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "لا يزال قيد المعالجة…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
+    },
+    "authVerificationFailed": "تعذر إكمال التحقق. حاول مرة أخرى.",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
     },
     "chatLoadingMessages": "جارٍ تحميل الرسائل",
     "@chatLoadingMessages": {
@@ -16658,10 +15496,6 @@
     "@guildMembersColumnRoles": {
         "description": "Table column header on the community members page."
     },
-    "guildMembersColumnActions": "إجراءات",
-    "@guildMembersColumnActions": {
-        "description": "Table column header on the community members page."
-    },
     "guildMembersFilterMemberSince": "تصفية حسب تاريخ الانضمام",
     "@guildMembersFilterMemberSince": {
         "description": "Filter menu label on the community members page."
@@ -16746,23 +15580,6 @@
     "@guildMembersIndexing": {
         "description": "Banner shown while guild members are being indexed."
     },
-    "guildMembersGoToPage": "الانتقال إلى الصفحة",
-    "@guildMembersGoToPage": {
-        "description": "Pagination jump label on the community members page."
-    },
-    "guildMembersGoToPageItem": "الانتقال إلى الصفحة {page}",
-    "@guildMembersGoToPageItem": {
-        "description": "Accessibility label for a pagination page button.",
-        "placeholders": {
-            "page": {
-                "type": "int"
-            }
-        }
-    },
-    "guildMembersJumpToPage": "الانتقال إلى الصفحة",
-    "@guildMembersJumpToPage": {
-        "description": "Label for pagination jump input on the community members page."
-    },
     "guildMembersJoinSourceCreator": "منشئ المجتمع",
     "@guildMembersJoinSourceCreator": {
         "description": "Join method label on the community members page."
@@ -16839,28 +15656,14 @@
             }
         }
     },
-    "guildMembersJoinedDaysAgo": "{count, plural, one {منذ يوم واحد} other {منذ # أيام}}",
-    "@guildMembersJoinedDaysAgo": {
-        "description": "Relative join time on the community members page.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
     "guildMembersChannelListLabel": "الأعضاء",
     "@guildMembersChannelListLabel": {
         "description": "Label for the Members item at the top of the guild channel list."
-    },
-    "guildMembersChannelListSelected": "الأعضاء، محدد",
-    "@guildMembersChannelListSelected": {
-        "description": "Accessibility label when the Members channel list item is selected."
     },
     "guildSettingsEmojiSlotsTitle": "خانات الرموز التعبيرية",
     "guildSettingsEmojiDropZone": "اسحب ملفات الرموز التعبيرية وأفلتها هنا",
     "guildSettingsEmojiLoadFailed": "تعذّر تحميل الرموز التعبيرية. حاول مرة أخرى لاحقًا.",
     "guildSettingsEmojiSearchEmpty": "لم يتم العثور على أي رموز تعبيرية مطابقة لبحثك.",
-    "guildSettingsEmojiNoSlots": "لا توجد خانات رموز تعبيرية متاحة",
     "guildSettingsEmojiSlotsFull": "لقد وصلت إلى الحد الأقصى لعدد الرموز التعبيرية. احذف بعض الرموز التعبيرية الموجودة لإفساح المجال.",
     "guildSettingsEmojiUploadRequirements": "يجب أن تتكون أسماء الرموز التعبيرية من حرفين على الأقل، ويمكن أن تحتوي على أحرف وأرقام وشرطات سفلية. يجب ألا يتجاوز حجم الرمز التعبيري {maxSize}. يُغيَّر حجم الصور الثابتة إلى 128 × 128 بكسل وتُضغط تلقائيًا. يجب أن تكون الرموز التعبيرية المتحركة وملفات SVG ضمن الحد مسبقًا.",
     "@guildSettingsEmojiUploadRequirements": {
@@ -16870,24 +15673,11 @@
             }
         }
     },
-    "guildSettingsEmojiUploadingTitle": "جارٍ تحميل الرموز التعبيرية",
-    "guildSettingsEmojiUploadingBody": "جارٍ تحميل {count, plural, one {# رمز تعبيري} other {# رموز تعبيرية}}. قد يستغرق هذا بعض الوقت.",
-    "@guildSettingsEmojiUploadingBody": {
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsEmojiUploadFailed": "تعذّر تحميل الرموز التعبيرية. حاول مرة أخرى.",
     "guildSettingsEmojiSomeFailedTitle": "تعذر إضافة بعض الرموز التعبيرية",
-    "guildSettingsEmojiSomeFailedBody": "راجع هذه الملفات وحاول مرة أخرى باستخدام صور أصغر أو أبسط.",
     "guildSettingsEmojiRenameTitle": "إعادة تسمية الرمز التعبيري",
     "guildSettingsEmojiRenameHint": "2-32 حرفًا أو رقمًا أو شرطة سفلية.",
-    "guildSettingsEmojiColumnEmoji": "رموز تعبيرية",
     "guildSettingsEmojiColumnName": "الاسم",
     "guildSettingsEmojiColumnUploader": "تم التحميل بواسطة",
-    "guildSettingsEmojiUnknownUploader": "غير معروف",
     "guildSettingsEmojiDeleteTitle": "حذف الرمز التعبيري",
     "guildSettingsEmojiDeleteBody": "هل تريد حذف :{name}:؟ لا يمكن التراجع عن هذا الإجراء.",
     "@guildSettingsEmojiDeleteBody": {
@@ -16902,15 +15692,7 @@
     "guildSettingsEmojiNameTooLong": "يجب ألا يتجاوز اسم الرمز التعبيري 32 حرفًا",
     "guildSettingsEmojiInvalidNameTitle": "اسم الرمز التعبيري غير صالح",
     "guildSettingsEmojiRenameFailedTitle": "تعذّر تغيير اسم هذا الرمز التعبيري",
-    "guildSettingsEmojiRenameFailedBody": "تمت إعادة الاسم إلى ما كان عليه سابقًا. يرجى المحاولة مرة أخرى بعد قليل.",
-    "guildSettingsEmojiGoneTitle": "لم يعد هذا الرمز التعبيري موجودًا",
-    "guildSettingsEmojiGoneBody": "ربما تم حذفه. تمت إعادة الاسم إلى ما كان عليه من قبل.",
-    "guildSettingsEmojiNoPermissionRenameTitle": "لا يمكنك إعادة تسمية هذا الرمز التعبيري",
-    "guildSettingsEmojiNoPermissionRenameBody": "ليس لديك إذن لإعادة تسمية هذا الرمز التعبيري. أُعيد الاسم إلى ما كان عليه.",
-    "guildSettingsEmojiRateLimitedTitle": "أنت تفعل ذلك بسرعة كبيرة",
-    "guildSettingsEmojiRateLimitedBody": "الرجاء الانتظار لحظة ثم حاول إعادة التسمية مرة أخرى.",
     "guildSettingsEmojiDeleteFailedTitle": "تعذّر حذف هذا الرمز التعبيري",
-    "guildSettingsEmojiDeleteNoPermissionTitle": "لا يمكنك حذف هذا الرمز التعبيري",
     "guildSettingsCloneEmojiTitle": "السماح للآخرين بنسخ رموزك التعبيرية",
     "guildSettingsCloneEmojiDescription": "عند التمكين، يمكن لأعضاء المجتمعات الأخرى استخدام اختصار \"الاستنساخ\" بنقرة واحدة داخل التطبيق على الرموز التعبيرية المخصصة لديك. هذا لا يمنعهم من حفظ الصورة وتحميلها بأنفسهم.",
     "guildSettingsCloneStickerTitle": "السماح للآخرين بنسخ ملصقاتك",
@@ -16934,8 +15716,6 @@
     "guildSettingsStickersLoadFailedTitle": "تعذّر تحميل الملصقات",
     "guildSettingsStickersLoadFailedBody": "حدث خطأ أثناء تحميل الملصقات. حاول مرة أخرى.",
     "guildSettingsStickersSearchEmpty": "لم يتم العثور على ملصقات مطابقة لبحثك.",
-    "guildSettingsStickersEmptySearch": "لم يتم العثور على ملصقات",
-    "guildSettingsStickerNoSlots": "لا توجد خانات ملصقات متاحة",
     "guildSettingsStickerSlotsFull": "لقد وصلت إلى الحد الأقصى لعدد الملصقات. احذف بعض الملصقات الموجودة لإفساح المجال.",
     "guildSettingsStickerUploadRequirements": "تُحفظ الملصقات بدقة 320×320 بكسل ويجب أن يكون حجمها أقل من {maxSize}. يُغيَّر حجم الصور الثابتة وتُضغط تلقائيًا. أما الملصقات المتحركة وملفات SVG فيجب أن تكون ضمن الحد مسبقًا.",
     "@guildSettingsStickerUploadRequirements": {
@@ -16945,7 +15725,6 @@
             }
         }
     },
-    "guildSettingsStickerUnsupportedTitle": "ملف الملصق غير مدعوم",
     "guildSettingsStickerAddTitle": "إضافة ملصق",
     "guildSettingsStickerEditTitle": "تعديل الملصق",
     "guildSettingsStickerNameLabel": "الاسم",
@@ -16970,8 +15749,6 @@
     "guildSettingsStickerNameTooLong": "يجب أن يكون الاسم 30 حرفًا أو أقل",
     "guildSettingsStickerDescriptionTooLong": "يجب أن يكون الوصف 500 حرف أو أقل",
     "guildSettingsStickerCreateFailedTitle": "تعذّر إنشاء هذا الملصق",
-    "guildSettingsStickerTooLargeTitle": "الملصق كبير جدًا",
-    "guildSettingsStickerCompressFailedTitle": "تعذر ضغط الملصق بالقدر الكافي",
     "guildSettingsStickerDeleteTitle": "حذف الملصق",
     "guildSettingsStickerDeleteBody": "هل تريد حذف \"{name}\"؟ لا يمكن التراجع عن هذا الإجراء.",
     "@guildSettingsStickerDeleteBody": {
@@ -16983,7 +15760,6 @@
     },
     "guildSettingsStickerPurgeLabel": "حذف هذا الملصق نهائيًا من التخزين وشبكة CDN",
     "guildSettingsStickerDeleteFailedTitle": "تعذر حذف هذا الملصق",
-    "guildSettingsStickerDeleteNoPermissionTitle": "لا يمكنك حذف هذا الملصق",
     "keybindsSearchShortcuts": "البحث عن الاختصارات",
     "@keybindsSearchShortcuts": {
         "description": "Placeholder for the shortcuts settings search field."
@@ -17066,6 +15842,40 @@
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
+    "assistantNeedsLogin": "افتح Fluxer وسجّل الدخول أولاً.",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "أنت لست في مكالمة.",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "لم يتمكن Fluxer من العثور على ذلك.",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "الرسائل المباشرة معطلة في هذا المثيل.",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "تعذر على Fluxer إكمال ذلك.",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "تم كتم الميكروفون.",
+    "assistantOkUnmuted": "تم إلغاء كتم الميكروفون.",
+    "assistantOkLeftVoice": "غادرت القناة الصوتية.",
+    "assistantOkJoinedVoice": "جارٍ الانضمام إلى القناة الصوتية.",
+    "assistantOkStartedCall": "جارٍ بدء المكالمة.",
+    "assistantOkStatusSet": "تم تعيين الحالة إلى {status}.",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "جارٍ فتح Fluxer.",
     "applicationsTitle": "التطبيقات",
     "@applicationsTitle": {
         "description": "Title for the developer Applications settings tab."
@@ -17108,6 +15918,15 @@
         "description": "Empty-state body. apiName is the product API display name.",
         "placeholders": {
             "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "تم الإنشاء {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
                 "type": "String"
             }
         }
@@ -17292,6 +16111,10 @@
     "@applicationsOauthBuilderTitle": {
         "description": "Section title for the authorize URL builder."
     },
+    "applicationsOauthBuilderDescription": "أنشئ عنوان URL للتفويض باستخدام النطاقات والأذونات.",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
     "applicationsScopes": "نطاقات الصلاحيات",
     "@applicationsScopes": {
         "description": "Label for OAuth2 scope checkboxes."
@@ -17324,6 +16147,10 @@
     "@applicationsAuthorizeUrlPlaceholder": {
         "description": "Placeholder when the authorize URL cannot be built yet."
     },
+    "applicationsCopyAuthorizeUrl": "نسخ رابط التفويض",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
     "applicationsCopiedUrl": "تم نسخ الرابط إلى الحافظة",
     "@applicationsCopiedUrl": {
         "description": "Toast after copying the authorize URL."
@@ -17343,6 +16170,15 @@
     "applicationsDelete": "حذف التطبيق",
     "@applicationsDelete": {
         "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "هل أنت متأكد أنك تريد حذف {name}؟ لا يمكن التراجع عن هذا الإجراء. سيتم حذف جميع البيانات المرتبطة، بما في ذلك مستخدم الروبوت، نهائيًا.",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     },
     "applicationsDeleteFailed": "تعذّر حذف التطبيق",
     "@applicationsDeleteFailed": {
@@ -17432,6 +16268,10 @@
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
     },
+    "voiceOutputRouteEarpiece": "سماعة الأذن",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
     "voiceOutputRouteHeadset": "سماعات الرأس",
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
@@ -17439,6 +16279,14 @@
     "doubleTapReactionEdit": "تعديل",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "تعديل الافتراضي",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "اختر رمزًا تعبيريًا للنقر المزدوج",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
     },
     "chatMessagePinConfirm": "تثبيت",
     "@chatMessagePinConfirm": {
@@ -17452,9 +16300,17 @@
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."
     },
+    "appIconOptionStarfield": "حقل النجوم",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
     "appIconOptionSweden": "السويد",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "تغيير أيقونة التطبيق غير متاح على هذا الجهاز.",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     },
     "userSettingsLogOutConfirmTitle": "تسجيل الخروج؟",
     "@userSettingsLogOutConfirmTitle": {
@@ -17484,5 +16340,178 @@
     "@guildSettingsCommunityDeleted": {
         "description": "Success toast after a community is deleted."
     },
-    "assistantOkMessageSent": "تم إرسال الرسالة."
+    "guildSettingsDeleteCommunityFailed": "تعذر حذف هذا المجتمع",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantOkMessageSent": "تم إرسال الرسالة.",
+    "assistantOkCustomStatusSet": "تم تحديث الحالة المخصصة.",
+    "assistantOkCustomStatusCleared": "تم مسح الحالة المخصصة.",
+    "guildNavbarAnnouncementChannel": "قناة إعلانات",
+    "guildNavbarAnnouncementChannelDescription": "انشر التحديثات التي يمكن للمجتمعات الأخرى متابعتها في قنواتها الخاصة",
+    "channelDetailsAnnouncementChannel": "قناة إعلانات",
+    "channelSettingsAnnouncementChannel": "قناة إعلانات",
+    "channelSettingsAnnouncementChannelDescription": "يتيح لمجتمعات أخرى متابعة هذه القناة والحصول على نسخ مما تنشره.",
+    "channelSettingsStopAnnouncementTitle": "هل تريد إيقاف كونها قناة إعلانات؟",
+    "channelSettingsStopAnnouncementBody": "{count, plural, zero{لا توجد قنوات تتابع هذه القناة.} one{قناة واحدة تتابع هذه القناة. تحويلها إلى قناة نصية يزيل هذه المتابعة.} two{قناتان تتابعان هذه القناة. تحويلها إلى قناة نصية يزيل هاتين المتابعتين.} few{{count} قنوات تتابع هذه القناة. تحويلها إلى قناة نصية يزيل هذه المتابعات.} many{{count} قناة تتابع هذه القناة. تحويلها إلى قناة نصية يزيل هذه المتابعات.} other{{count} قناة تتابع هذه القناة. تحويلها إلى قناة نصية يزيل هذه المتابعات.}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "سيؤدي تحويل هذه القناة إلى قناة نصية إلى إلغاء متابعة كل القنوات التي تتابعها.",
+    "channelSettingsConvertChannel": "تحويل",
+    "channelSettingsConvertFailed": "تعذر تحويل هذه القناة",
+    "channelSettingsChannelHasFollowers": "لا تزال قنوات أخرى تتابع هذه القناة. أزل هذه المتابعات قبل تحويلها.",
+    "channelMenuFollow": "متابعة القناة",
+    "channelFollowTitle": "متابعة هذه القناة",
+    "channelFollowBody": "اختر أين تذهب رسائلها المنشورة. يمكنك إلغاء المتابعة في أي وقت من إعدادات المجتمع ← الويب هوك.",
+    "channelFollowCommunity": "المجتمع",
+    "channelFollowChannel": "القناة",
+    "channelFollowAgeWarning": "هذه قناة مقيدة بالعمر. لا يمكن إرسال التحديثات إلا إلى القنوات المقيدة بالعمر.",
+    "channelFollowContentWarning": "هذه القناة لديها تحذير محتوى. يمكن إرسال التحديثات فقط إلى القنوات التي لديها تحذير محتوى أو تقييد عمري.",
+    "channelFollowHiddenHint": "تم إخفاء المجتمعات والقنوات التي لا يمكنك إدارة الويب هوك فيها.",
+    "channelFollowEmpty": "لا يمكنك إدارة الويب هوك في أي مجتمع. اطلب من المسؤول متابعة هذه القناة.",
+    "channelFollowSubmit": "متابعة",
+    "channelFollowFailed": "تعذر متابعة هذه القناة.",
+    "channelFollowSuccessTitle": "التحديثات في طريقها!",
+    "channelFollowSuccessBody": "ستظهر الرسائل المنشورة في {sourceName} في #{targetName}.",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "تمام!",
+    "channelFollowBarrier": "تابع هذه القناة لتلقي هذه الإعلانات في قناة من اختيارك.",
+    "channelHeaderFollow": "متابعة القناة",
+    "chatMessagePublish": "نشر",
+    "chatMessagePublished": "تم النشر",
+    "chatMessagePublishConfirmTitle": "نشر الرسالة؟",
+    "chatMessagePublishConfirmBody": "سيؤدي هذا إلى إرسال نسخة إلى كل قناة تتابع هذه القناة.",
+    "chatMessagePublishedToast": "تم نشر الرسالة",
+    "chatMessageAlreadyPublished": "هذه الرسالة منشورة بالفعل.",
+    "chatMessagePublishFailedTitle": "تعذر نشر هذه الرسالة",
+    "chatMessagePublishFailedBody": "حدث خطأ ما. حاول مرة أخرى بعد قليل.",
+    "chatMessagePublishLimitTitle": "تمهل",
+    "chatMessagePublishLimitBody": "يمكنك النشر مرة أخرى خلال {duration}.",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "أنت تنشر بسرعة كبيرة. حاول مرة أخرى بعد قليل.",
+    "chatMessageDeletePublished": "سيؤدي هذا أيضًا إلى إزالة النسخ التي تم إرسالها إلى القنوات التي تتابع هذه القناة.",
+    "chatMessageEditPublishedTitle": "تعديل الرسالة المنشورة؟",
+    "chatMessageEditPublishedBody": "سيؤدي هذا إلى تحديث النسخ التي تم إرسالها إلى القنوات التي تتابع هذه القناة.",
+    "chatMessageEditPublishedSave": "حفظ",
+    "chatMessageEditLimitTitle": "تمهل",
+    "chatMessageEditLimitBody": "يمكنك تعديل هذه الرسالة المنشورة مرة أخرى في {duration}.",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "أنت تعدّل هذه الرسالة المنشورة بسرعة كبيرة. حاول مرة أخرى بعد قليل.",
+    "chatMessageOriginalDeleted": "[تم حذف الرسالة الأصلية]",
+    "userTagCommunity": "المجتمع",
+    "systemFollowAdd": "جعل {username} هذه القناة تتابع {source}. ستظهر هنا الرسائل المنشورة هناك.",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "جعل {username} هذه القناة تتابع {source}.",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "لم يتم الإرسال إلى المتابعين بعد.",
+    "publishNudgeHideForever": "عدم الإظهار مرة أخرى",
+    "publishNudgeDismiss": "تجاهل",
+    "channelSettingsFollowedChannels": "القنوات المتابَعة",
+    "channelSettingsFollowedChannelsDescription": "قنوات الإعلانات التي تتابعها هذه القناة. ألغِ المتابعة لإيقاف تلقي النسخ.",
+    "guildSettingsFollowedChannelsDescription": "قنوات الإعلانات التي تتابعها القنوات في هذا المجتمع.",
+    "channelSettingsFollowedFrom": "من {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "تم إيقاف التحديثات مؤقتًا لأن القناة المصدر لم تعد متاحة.",
+    "channelSettingsUnfollowTitle": "هل ترغب في إلغاء متابعة {name}؟",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "ستتوقف هذه القناة عن تلقي نسخ من قناة الإعلانات تلك.",
+    "channelSettingsUnfollow": "إلغاء المتابعة",
+    "crosspostCommunityTitle": "المجتمع",
+    "crosspostGoToCommunity": "الانتقال إلى المجتمع",
+    "crosspostJoinCommunity": "انضم إلى المجتمع",
+    "crosspostSourceFailed": "تعذر تحميل هذا المجتمع. حاول مرة أخرى بعد لحظة.",
+    "crosspostMembers": "عدد الأعضاء: {count}",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "المتصلون: {count}",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, zero{{count} دقيقة} one{دقيقة واحدة} two{دقيقتان} few{{count} دقائق} many{{count} دقيقة} other{{count} دقيقة}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, zero{{count} ثانية} one{ثانية واحدة} two{ثانيتان} few{{count} ثوانٍ} many{{count} ثانية} other{{count} ثانية}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "نوع قناة غير مدعوم",
+    "channelUnsupportedBody": "هذا الإصدار من التطبيق لا يدعم نوع القناة هذا.",
+    "channelDetailsUnsupportedChannel": "قناة غير مدعومة"
 }

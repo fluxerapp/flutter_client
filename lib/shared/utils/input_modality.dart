@@ -1,13 +1,9 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 
 bool initialIsTouchPrimary() {
-  if (kIsWeb) {
-    return false;
-  }
   if (Platform.isIOS || Platform.isAndroid) {
     return true;
   }

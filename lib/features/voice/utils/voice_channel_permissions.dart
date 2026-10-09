@@ -37,15 +37,6 @@ class VoiceChannelPermissions {
   );
 }
 
-const VoiceChannelPermissions kDefaultVoiceChannelPermissions =
-    VoiceChannelPermissions(
-      canSpeak: true,
-      canStream: true,
-      canUseVideo: true,
-      canConnect: true,
-      canPrioritySpeaker: false,
-    );
-
 VoiceChannelPermissions resolveVoiceChannelPermissions(int permissionBits) {
   return VoiceChannelPermissions(
     canSpeak: hasPermission(permissionBits, Permission.speak),

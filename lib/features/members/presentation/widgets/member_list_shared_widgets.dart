@@ -319,22 +319,6 @@ class MemberListDetailsMemberShell extends StatelessWidget {
   }
 }
 
-class MemberListGroupHeader extends StatelessWidget {
-  const MemberListGroupHeader({
-    required this.groupName,
-    required this.count,
-    super.key,
-  });
-
-  final String groupName;
-  final int count;
-
-  @override
-  Widget build(BuildContext context) {
-    return MemberListSidebarGroupHeader(groupName: groupName, count: count);
-  }
-}
-
 class MemberListUnavailableFallback extends StatelessWidget {
   const MemberListUnavailableFallback({
     required this.reason,

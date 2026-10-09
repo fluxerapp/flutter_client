@@ -11,13 +11,6 @@ bool _premiumCommerceVisibleFromRef(WidgetRef ref) {
   return ref.watch(shouldShowPremiumCommerceProvider);
 }
 
-bool _premiumCommerceVisibleFromContainer(ProviderContainer container) {
-  if (!container.read(isActiveInstanceOfficialProvider)) {
-    return false;
-  }
-  return container.read(shouldShowPremiumCommerceProvider);
-}
-
 bool userSettingsShowBillingNav(WidgetRef ref) {
   if (!_premiumCommerceVisibleFromRef(ref)) {
     return false;
@@ -27,11 +20,4 @@ bool userSettingsShowBillingNav(WidgetRef ref) {
 
 bool userSettingsShowGiftBillingNav(WidgetRef ref) {
   return userSettingsShowBillingNav(ref) && isOssWebCheckoutBuild;
-}
-
-bool userSettingsShowBillingNavFromContainer(ProviderContainer container) {
-  if (!_premiumCommerceVisibleFromContainer(container)) {
-    return false;
-  }
-  return isOssWebCheckoutBuild || isPremiumStorePageActive();
 }

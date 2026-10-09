@@ -17,7 +17,7 @@ class RateLimitPacer {
   final DateTime Function() _now;
   final Map<String, _PaceHit> _pacing = {};
 
-  _PaceHit? consult(RequestOptions options) {
+  _PaceHit? _consult(RequestOptions options) {
     return _activeHit(_globalKey(options)) ?? _activeHit(_pathKey(options));
   }
 
@@ -48,7 +48,7 @@ class RateLimitPacer {
     }
   }
 
-  DioException reject(RequestOptions options, _PaceHit hit) {
+  DioException _reject(RequestOptions options, _PaceHit hit) {
     options.extra[_kPacedExtraKey] = true;
     final remainingMs = hit.until.difference(_now()).inMilliseconds;
     final remainingSeconds = (remainingMs < 0 ? 0 : remainingMs) / 1000;
@@ -120,9 +120,9 @@ class RateLimitInterceptor extends Interceptor {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    final hit = _pacer.consult(options);
+    final hit = _pacer._consult(options);
     if (hit != null) {
-      handler.reject(_pacer.reject(options, hit));
+      handler.reject(_pacer._reject(options, hit));
       return;
     }
     handler.next(options);

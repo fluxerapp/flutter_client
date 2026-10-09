@@ -8,9 +8,6 @@ class NoOpPushService implements PushService {
   const NoOpPushService();
 
   @override
-  Future<void> requestPermissions() async {}
-
-  @override
   Future<void> initialize() async {}
 
   @override

@@ -102,7 +102,11 @@ class _FakeWellKnown extends WellKnown {
           premiumInfoUrl: null,
         ),
         setup: InstanceSetupSchema(configured: true, adminUrl: null),
-        legal: InstanceAppPublicSchemaLegal(termsUrl: null, privacyUrl: null),
+        legal: InstanceAppPublicSchemaLegal(
+          termsUrl: null,
+          privacyUrl: null,
+          guidelinesUrl: null,
+        ),
         registration: InstanceAppPublicSchemaRegistration(
           collectDateOfBirth: false,
         ),
@@ -126,7 +130,6 @@ void main() {
             throw Exception('boot failure');
           }
           return AppRuntimeInfo(
-            appName: 'Fluxer',
             packageName: 'com.fluxer',
             version: '1.0.0',
             buildNumber: '1',
@@ -391,7 +394,6 @@ ProviderContainer _startupContainer({
 }
 
 final AppRuntimeInfo _testRuntimeInfo = AppRuntimeInfo(
-  appName: 'Fluxer',
   packageName: 'com.fluxer',
   version: '1.0.0',
   buildNumber: '1',

@@ -4,6 +4,7 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
+import 'package:fluxer_app/core/theme/theme_color_editor.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 void main() {
@@ -31,6 +32,24 @@ void main() {
       expect(state.coalColorTheme.brandPrimary, const Color(0xFFFF5500));
       expect(state.colorTheme.brandPrimary, const Color(0xFFFF5500));
     });
+
+    test(
+      'copyWith rebuilds dark theme for scoped mobile override over root',
+      () {
+        const existing = ':root { --brand-primary: #0000ff; }';
+        final String scoped = upsertScopedThemeColor(
+          customThemeCss: existing,
+          editingMode: FluxerThemeMode.dark,
+          cssVariable: '--brand-primary',
+          hexValue: '#ff5500',
+        );
+        final ThemePreferenceState state = ThemePreferenceState(
+          customThemeCss: existing,
+        ).copyWith(customThemeCss: scoped);
+        expect(state.darkColorTheme.brandPrimary, const Color(0xFFFF5500));
+        expect(state.customThemeCss, scoped);
+      },
+    );
 
     test('applies brand primary into Material ThemeData extensions', () {
       const css = ':root { --brand-primary: #ff5500; }';

@@ -19,8 +19,6 @@ class ExpressionPanel extends _$ExpressionPanel {
     ref.read(expressionPanelTabProvider.notifier).reset();
     ref.read(expressionPanelContentFadeProvider.notifier).reset();
   }
-
-  void toggle() => state = !state;
 }
 
 @Riverpod(keepAlive: true)
@@ -50,9 +48,12 @@ class ExpressionPanelTab extends _$ExpressionPanelTab {
   @override
   ExpressionPickerTab build() => ExpressionPickerTab.emojis;
 
-  ExpressionPickerTab get tab => state;
-
-  set tab(ExpressionPickerTab tab) => state = tab;
+  void setTab(ExpressionPickerTab tab) {
+    if (state == tab) {
+      return;
+    }
+    state = tab;
+  }
 
   void reset() => state = ExpressionPickerTab.emojis;
 }
@@ -72,9 +73,12 @@ class ExpressionPanelHeight extends _$ExpressionPanelHeight {
   @override
   double? build() => null;
 
-  double? get height => state;
-
-  set height(double height) => state = height;
+  void setHeight(double height) {
+    if (state == height) {
+      return;
+    }
+    state = height;
+  }
 
   void clear() => state = null;
 }
@@ -100,9 +104,12 @@ class PendingGifSelection extends Notifier<FluxerSelectedGif?> {
   @override
   FluxerSelectedGif? build() => null;
 
-  FluxerSelectedGif? get selection => state;
-
-  set selection(FluxerSelectedGif selection) => state = selection;
+  void setSelection(FluxerSelectedGif selection) {
+    if (state == selection) {
+      return;
+    }
+    state = selection;
+  }
 
   void consume() => state = null;
 }
@@ -117,9 +124,12 @@ class PendingStickerSelection extends Notifier<StickerEntry?> {
   @override
   StickerEntry? build() => null;
 
-  StickerEntry? get selection => state;
-
-  set selection(StickerEntry selection) => state = selection;
+  void setSelection(StickerEntry selection) {
+    if (state == selection) {
+      return;
+    }
+    state = selection;
+  }
 
   void consume() => state = null;
 }
@@ -134,9 +144,12 @@ class PendingFavoriteMemeSelection extends Notifier<FavoriteMemeSelection?> {
   @override
   FavoriteMemeSelection? build() => null;
 
-  FavoriteMemeSelection? get selection => state;
-
-  set selection(FavoriteMemeSelection selection) => state = selection;
+  void setSelection(FavoriteMemeSelection selection) {
+    if (state == selection) {
+      return;
+    }
+    state = selection;
+  }
 
   void consume() => state = null;
 }

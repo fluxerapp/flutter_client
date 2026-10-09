@@ -129,19 +129,6 @@ void main() {
     });
   });
 
-  group('unionMembers', () {
-    test('prefers remote members and appends cache-only members', () {
-      final Member remote = _member(id: '1', username: 'remote');
-      final Member cachedOnly = _member(id: '2', username: 'cached');
-      final Member shared = _member(id: '3', username: 'shared');
-      final List<Member> merged = unionMembers(
-        <Member>[remote, shared],
-        <Member>[shared, cachedOnly],
-      );
-      expect(merged.map((Member m) => m.id).toList(), <String>['1', '3', '2']);
-    });
-  });
-
   group('rankRolesForMentionQuery', () {
     const List<RoleMentionSearchTarget> roles = <RoleMentionSearchTarget>[
       RoleMentionSearchTarget(

@@ -12,7 +12,7 @@ import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_fiel
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_wire_codec.dart'
     as engine;
-import 'package:fluxer_app/core/synced_preferences/favorites_state_codec.dart';
+import 'package:fluxer_app/core/synced_preferences/fields/favorites_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/accessibility.pb.dart'
     as accessibility_pb;
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/preferences.pb.dart'
@@ -63,10 +63,7 @@ class _FakeClient extends FluxerClient {
 }
 
 UserSettingsResponse _settingsFor(FavoritesLocalState state) {
-  final encoded = FavoritesStateCodec.encodeFavoritesIntoWire(
-    currentWire: null,
-    local: state,
-  );
+  final encoded = _encodeFavorites(currentWire: null, local: state);
   return _testUserSettings(syncedPreferences: encoded);
 }
 
@@ -78,6 +75,7 @@ UserSettingsResponse _testUserSettings({required String syncedPreferences}) {
     'synced_preferences': syncedPreferences,
     'render_embeds': true,
     'profile_privacy': 0,
+    'privacy_setup_version': 0,
     'restricted_guilds': <String>[],
     'bot_restricted_guilds': <String>[],
     'default_guilds_restricted': false,
@@ -125,6 +123,14 @@ Future<void> _waitForDebounce(SyncedPreferencesStore store) async {
   await flushSyncedPreferencesDebounce(store);
 }
 
+const FavoritesLocalState _emptyFavorites = FavoritesLocalState(
+  channels: [],
+  categories: [],
+  collapsedCategoryIds: [],
+  hideMutedChannels: false,
+  muted: false,
+);
+
 void main() {
   group('SyncedPreferencesStore favorites', () {
     late db.FluxerDatabase database;
@@ -153,13 +159,11 @@ void main() {
 
       expect(usersApi.pushCount, 0);
 
-      await syncStore.hydrateFromUserSettings(
-        _settingsFor(FavoritesLocalState.empty),
-      );
+      await syncStore.hydrateFromUserSettings(_settingsFor(_emptyFavorites));
       await _waitForDebounce(syncStore);
 
       expect(usersApi.pushCount, 1);
-      final pushed = FavoritesStateCodec.decodeFavoritesFromWire(
+      final pushed = _decodeFavorites(
         usersApi.lastPushBody!.syncedPreferences.value!,
       );
       expect(pushed.channels.single.channelId, 'channel-1');
@@ -194,7 +198,7 @@ void main() {
       await _waitForDebounce(syncStore);
 
       expect(usersApi.pushCount, 1);
-      final pushed = FavoritesStateCodec.decodeFavoritesFromWire(
+      final pushed = _decodeFavorites(
         usersApi.lastPushBody!.syncedPreferences.value!,
       );
       expect(
@@ -228,7 +232,7 @@ void main() {
       syncStore.markDirty(SyncedPreferenceField.favorites);
       await _waitForDebounce(syncStore);
 
-      final pushed = FavoritesStateCodec.decodeFavoritesFromWire(
+      final pushed = _decodeFavorites(
         usersApi.lastPushBody!.syncedPreferences.value!,
       );
       expect(pushed.channels.map((channel) => channel.channelId), ['keep']);
@@ -263,9 +267,7 @@ void main() {
           name: 'Read',
         );
 
-        await syncStore.hydrateFromUserSettings(
-          _settingsFor(FavoritesLocalState.empty),
-        );
+        await syncStore.hydrateFromUserSettings(_settingsFor(_emptyFavorites));
 
         final categories = await database.favoriteChannelsDao.getCategories();
         expect(categories, isEmpty);
@@ -284,7 +286,7 @@ void main() {
           hideMutedChannels: false,
           muted: false,
         );
-        const remoteAfterDelete = FavoritesLocalState.empty;
+        const remoteAfterDelete = _emptyFavorites;
 
         await syncStore.hydrateFromUserSettings(_settingsFor(initial));
         await database.favoriteChannelsDao.setHideMuted(value: true);
@@ -327,7 +329,7 @@ void main() {
           hideMutedChannels: false,
           muted: false,
         );
-        const remoteShrink = FavoritesLocalState.empty;
+        const remoteShrink = _emptyFavorites;
 
         await syncStore.hydrateFromUserSettings(_settingsFor(initial));
         await database.favoriteChannelsDao.addChannel(
@@ -420,7 +422,7 @@ void main() {
           containsAll(['android-1', 'desktop-1', 'desktop-2']),
         );
         expect(usersApi.pushCount, 1);
-        final pushed = FavoritesStateCodec.decodeFavoritesFromWire(
+        final pushed = _decodeFavorites(
           usersApi.lastPushBody!.syncedPreferences.value!,
         );
         expect(
@@ -545,9 +547,7 @@ void main() {
         ),
       );
 
-      await syncStore.hydrateFromUserSettings(
-        _settingsFor(FavoritesLocalState.empty),
-      );
+      await syncStore.hydrateFromUserSettings(_settingsFor(_emptyFavorites));
       await database.favoriteChannelsDao.addChannel(
         channelId: 'retry-1',
         guildId: 'guild-1',
@@ -566,9 +566,7 @@ void main() {
       () async {
         usersApi.firstPushGate = Completer<void>();
 
-        await syncStore.hydrateFromUserSettings(
-          _settingsFor(FavoritesLocalState.empty),
-        );
+        await syncStore.hydrateFromUserSettings(_settingsFor(_emptyFavorites));
         await database.favoriteChannelsDao.addChannel(
           channelId: 'channel-1',
           guildId: 'guild-1',
@@ -592,7 +590,7 @@ void main() {
         await _waitForDebounce(syncStore);
 
         expect(usersApi.pushCount, greaterThanOrEqualTo(2));
-        final pushed = FavoritesStateCodec.decodeFavoritesFromWire(
+        final pushed = _decodeFavorites(
           usersApi.lastPushBody!.syncedPreferences.value!,
         );
         expect(
@@ -603,7 +601,7 @@ void main() {
     );
   });
 
-  group('FavoritesStateCodec cross-client', () {
+  group('FavoritesStateHelpers cross-client', () {
     test('statesEqual treats null and @me guildId as equivalent', () {
       const withNull = FavoritesLocalState(
         channels: [db.FavoriteChannel(channelId: 'dm-1', position: 0)],
@@ -622,7 +620,7 @@ void main() {
         muted: false,
       );
 
-      expect(FavoritesStateCodec.statesEqual(withNull, withAtMe), isTrue);
+      expect(FavoritesStateHelpers.statesEqual(withNull, withAtMe), isTrue);
     });
 
     test('wire roundtrip preserves unrelated synced preference fields', () {
@@ -640,10 +638,7 @@ void main() {
         muted: false,
       );
       final favoritesWire = base64Decode(
-        FavoritesStateCodec.encodeFavoritesIntoWire(
-          currentWire: null,
-          local: initial,
-        ),
+        _encodeFavorites(currentWire: null, local: initial),
       );
       final preservedField = base64Decode(
         engine.SyncedPreferencesWireCodec.encodeFieldIntoWire(
@@ -660,7 +655,7 @@ void main() {
       ]);
       final currentWire = base64Encode(combined);
 
-      final updated = FavoritesStateCodec.encodeFavoritesIntoWire(
+      final updated = _encodeFavorites(
         currentWire: currentWire,
         local: const FavoritesLocalState(
           channels: [
@@ -680,7 +675,7 @@ void main() {
       final updatedBytes = base64Decode(updated);
       final synced = pb.SyncedPreferences.fromBuffer(updatedBytes);
       expect(synced.accessibility.hideKeyboardHints, isTrue);
-      final decoded = FavoritesStateCodec.decodeFavoritesFromWire(updated);
+      final decoded = _decodeFavorites(updated);
       expect(decoded.channels.single.channelId, 'updated');
     });
 
@@ -698,10 +693,7 @@ void main() {
         hideMutedChannels: false,
         muted: false,
       );
-      final favoritesOnly = FavoritesStateCodec.encodeFavoritesIntoWire(
-        currentWire: null,
-        local: initial,
-      );
+      final favoritesOnly = _encodeFavorites(currentWire: null, local: initial);
       final foreignField = _encodeStringField(1, 'keep-me');
       final combined = base64Encode(
         Uint8List.fromList([...foreignField, ...base64Decode(favoritesOnly)]),
@@ -744,4 +736,25 @@ Uint8List _encodeStringField(int fieldNumber, String value) {
     ..._encodeVarint(valueBytes.length),
     ...valueBytes,
   ]);
+}
+
+String _encodeFavorites({
+  required String? currentWire,
+  required FavoritesLocalState local,
+}) {
+  return engine.SyncedPreferencesWireCodec.encodeFieldIntoWire(
+    currentWire: currentWire,
+    fieldNumber: SyncedPreferenceField.favorites.fieldNumber,
+    fieldMessageBytes: FavoritesStateHelpers.toProto(
+      FavoritesStateHelpers.normalizeForSync(local),
+    ).writeToBuffer(),
+  );
+}
+
+FavoritesLocalState _decodeFavorites(String encoded) {
+  return FavoritesStateHelpers.normalizeForSync(
+    FavoritesStateHelpers.fromProto(
+      pb.SyncedPreferences.fromBuffer(base64Decode(encoded)).favorites,
+    ),
+  );
 }

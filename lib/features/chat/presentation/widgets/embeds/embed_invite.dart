@@ -120,7 +120,6 @@ class _GuildInviteCard extends StatelessWidget {
           position: position,
           canCopyGuildId: true,
           canCopyChannelId: true,
-          canReport: true,
         );
     if (action == null || !context.mounted) {
       return;
@@ -129,8 +128,6 @@ class _GuildInviteCard extends StatelessWidget {
       context: context,
       action: action,
       guildId: invite.guild.id,
-      guildName: invite.guild.name,
-      inviteCode: code,
       channelId: invite.channel.id,
     );
   }
@@ -300,7 +297,6 @@ class _GroupDmInviteCard extends StatelessWidget {
           position: position,
           canCopyGuildId: false,
           canCopyChannelId: true,
-          canReport: false,
         );
     if (action == null || !context.mounted) {
       return;
@@ -309,8 +305,6 @@ class _GroupDmInviteCard extends StatelessWidget {
       context: context,
       action: action,
       guildId: '',
-      guildName: '',
-      inviteCode: code,
       channelId: invite.channel.id,
     );
   }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_engine.dart';
@@ -91,28 +93,14 @@ void main() {
       },
     );
 
-    test('changedFields detects field differences', () {
-      final left = pb.SyncedPreferences(
-        privacy: pb.PrivacyPreferences(showActiveNow: true),
-      );
-      final right = pb.SyncedPreferences(
-        privacy: pb.PrivacyPreferences(showActiveNow: false),
-      );
-      final changed = SyncedPreferencesEngine.changedFields(
-        left: left,
-        right: right,
-      );
-      expect(changed, [SyncedPreferenceField.privacy]);
-    });
-
-    test('decode and encode roundtrip', () {
+    test('decode reads base64 wire bytes', () {
       final message = pb.SyncedPreferences(
         accessibility: accessibility_pb.AccessibilitySettings(
           hideKeyboardHints: true,
           showFavorites: false,
         ),
       );
-      final encoded = SyncedPreferencesEngine.encode(message);
+      final String encoded = base64Encode(message.writeToBuffer());
       final decoded = SyncedPreferencesEngine.decode(encoded);
       expect(decoded.accessibility.hideKeyboardHints, isTrue);
       expect(decoded.accessibility.showFavorites, isFalse);

@@ -9,8 +9,6 @@ class PushRelayConsentPrompt extends _$PushRelayConsentPrompt {
   @override
   bool build() => false;
 
-  bool get presentationInFlight => _presentationInFlight;
-
   void requestPrompt() {
     if (_presentationInFlight || state) {
       return;

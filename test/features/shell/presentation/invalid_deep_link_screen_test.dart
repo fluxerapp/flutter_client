@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/shell/presentation/invalid_deep_link_screen.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:go_router/go_router.dart';
@@ -50,7 +51,7 @@ GoRouter _buildRouter({required String initialLocation}) {
   return GoRouter(
     initialLocation: initialLocation,
     errorBuilder: (BuildContext context, GoRouterState state) {
-      return InvalidDeepLinkScreen(uri: state.uri);
+      return const InvalidDeepLinkScreen();
     },
     routes: <RouteBase>[
       GoRoute(
@@ -71,7 +72,7 @@ Widget _buildRouterApp({required String initialLocation}) {
 Widget _buildRouterAppFromRouter(GoRouter router) {
   final colorTheme = buildDarkColorTheme();
   return MaterialApp.router(
-    localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+    localizationsDelegates: fluxerLocalizationsDelegates,
     supportedLocales: FluxerLocalizations.supportedLocales,
     theme: buildFluxerTheme(
       colorTheme: colorTheme,

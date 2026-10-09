@@ -33,7 +33,6 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/relative_time.dart';
 import 'package:fluxer_dart/export.dart';
 
-// TODO(Elias): Re-enable if needed for phone eligibility rules.
 const int _kMaxPasskeys = 10;
 
 class UserSecurityLogin extends ConsumerStatefulWidget {
@@ -47,8 +46,6 @@ class UserSecurityLogin extends ConsumerStatefulWidget {
 
 class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
   bool _emailRevealed = false;
-  // TODO(Elias): Restore phone-number flows when backend support is ready.
-  // bool _phoneRevealed = false;
 
   String _maskEmail(String email) {
     final atIndex = email.indexOf('@');
@@ -57,14 +54,6 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
     }
     return '${'*' * atIndex}${email.substring(atIndex)}';
   }
-
-  // TODO(Elias): Restore phone-number flows when backend support is ready.
-  // String _maskPhone(String phone) {
-  //   if (phone.length <= 4) {
-  //     return '*' * phone.length;
-  //   }
-  //   return '${'*' * (phone.length - 2)}${phone.substring(phone.length - 2)}';
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -252,11 +241,6 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
         _buildTfaSubsection(s, colors, l10n),
         SizedBox(height: layout.s8),
         _buildPasskeysSubsection(s, passkeyState, colors, l10n),
-        // TODO(Elias): Restore phone-number flows when backend support is ready.
-        // if (s.mfaEnabled) ...[
-        //   SizedBox(height: layout.s8),
-        //   _buildPhoneSubsection(s, colors, l10n),
-        // ],
       ],
     );
   }
@@ -465,99 +449,6 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
           );
     }
   }
-
-  // TODO(Elias): Restore phone-number flows when backend support is ready.
-  // Widget _buildPhoneSubsection(
-  //   UserSettingsViewState s,
-  //   FluxerColorTheme colors,
-  //   FluxerLocalizations l10n,
-  // ) {
-  //   return FluxerSettingsSubsection(
-  //     title: l10n.securityPhoneSectionTitle,
-  //     description: l10n.securityPhoneSectionDescription,
-  //     children: [
-  //       if (s.phone != null)
-  //         _responsiveRow(
-  //           label: l10n.securityPhoneLabel,
-  //           child: Column(
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: [
-  //               Text(
-  //                 _phoneRevealed ? s.phone! : _maskPhone(s.phone!),
-  //                 style: TextStyle(
-  //                   fontSize: 14,
-  //                   color: colors.textPrimaryMuted,
-  //                 ),
-  //               ),
-  //               const SizedBox(height: 4),
-  //               FluxerTextLink(
-  //                 text: _phoneRevealed
-  //                     ? l10n.securityLoginHide
-  //                     : l10n.securityLoginReveal,
-  //                 onTap: () => setState(() => _phoneRevealed = !_phoneRevealed),
-  //               ),
-  //             ],
-  //           ),
-  //           button: FluxerButton.dangerSecondary(
-  //             onPressedAsync: () => _handleRemovePhone(s, l10n),
-  //             label: l10n.securityPhoneRemove,
-  //             size: FluxerButtonSize.small,
-  //           ),
-  //         )
-  //       else
-  //         _responsiveRow(
-  //           label: l10n.securityPhoneLabel,
-  //           child: Text(
-  //             l10n.securityPhoneNone,
-  //             style: TextStyle(fontSize: 14, color: colors.textPrimaryMuted),
-  //           ),
-  //           button: FluxerButton.primary(
-  //             onPressedAsync: () => PhoneAddSheet.show(context, ref),
-  //             label: l10n.securityPhoneAdd,
-  //             size: FluxerButtonSize.small,
-  //           ),
-  //         ),
-  //     ],
-  //   );
-  // }
-
-  // TODO(Elias): Restore phone-number flows when backend support is ready.
-  // Future<void> _handleRemovePhone(
-  //   UserSettingsViewState s,
-  //   FluxerLocalizations l10n,
-  // ) async {
-  //   final description = l10n.securityPhoneRemoveDescription;
-  //
-  //   final confirmed = await FluxerConfirmModal.show(
-  //     context,
-  //     title: l10n.securityPhoneRemoveTitle,
-  //     description: description,
-  //     confirmLabel: l10n.securityPhoneRemove,
-  //     isDanger: true,
-  //     onConfirm: () {},
-  //   );
-  //   if (confirmed != true) {
-  //     return;
-  //   }
-  //
-  //   try {
-  //     final client = ref.read(fluxerClientProvider);
-  //     await client.users.removePhoneFromAccount(
-  //       body: const SudoVerificationSchema(),
-  //     );
-  //     ref
-  //         .read(toastProvider.notifier)
-  //         .show(
-  //           FluxerToast(
-  //             message: l10n.securityPhoneRemoved,
-  //             variant: FluxerToastVariant.success,
-  //           ),
-  //         );
-  //     await ref.read(userSettingsViewModelProvider.notifier).loadProfile();
-  //   } on Exception {
-  //     // TODO(Elias): show error toast
-  //   }
-  // }
 
   Widget _buildDangerZone(
     UserSettingsViewState s,

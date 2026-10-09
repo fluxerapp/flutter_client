@@ -53,23 +53,14 @@ void main() {
       expect(call?.pendingRingUserIds, {'user-2'});
     });
 
-    test('isChannelPendingRingForUser reflects pending set', () {
-      final ActiveCalls notifier = container.read(activeCallsProvider.notifier)
-        ..createCall('channel-1', ringing: <String>['user-1']);
+    test('createCall seeds pendingRingUserIds from ringing', () {
+      container
+          .read(activeCallsProvider.notifier)
+          .createCall('channel-1', ringing: <String>['user-1']);
 
       expect(
-        notifier.isChannelPendingRingForUser(
-          channelId: 'channel-1',
-          userId: 'user-1',
-        ),
-        isTrue,
-      );
-      expect(
-        notifier.isChannelPendingRingForUser(
-          channelId: 'channel-1',
-          userId: 'user-2',
-        ),
-        isFalse,
+        container.read(activeCallsProvider)['channel-1']?.pendingRingUserIds,
+        <String>{'user-1'},
       );
     });
   });

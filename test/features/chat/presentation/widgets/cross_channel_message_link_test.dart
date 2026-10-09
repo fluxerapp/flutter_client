@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provi
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider.dart';
+import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
@@ -197,7 +198,11 @@ class _FakeWellKnown extends WellKnown {
           premiumInfoUrl: null,
         ),
         setup: InstanceSetupSchema(configured: true, adminUrl: null),
-        legal: InstanceAppPublicSchemaLegal(termsUrl: null, privacyUrl: null),
+        legal: InstanceAppPublicSchemaLegal(
+          termsUrl: null,
+          privacyUrl: null,
+          guidelinesUrl: null,
+        ),
         registration: InstanceAppPublicSchemaRegistration(
           collectDateOfBirth: false,
         ),
@@ -222,7 +227,7 @@ Widget _buildTestApp({
         textTheme: textTheme,
         layoutTheme: layoutTheme,
       ),
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       home: MediaQuery(
         data: const MediaQueryData(size: Size(400, 800)),

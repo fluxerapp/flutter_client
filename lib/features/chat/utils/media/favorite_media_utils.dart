@@ -36,8 +36,6 @@ class MessageMediaFavoriteTarget {
   final MessageMediaGifInfo? gifInfo;
   final bool isAudioOnly;
 
-  bool get isGifFavoriteMedia => gifInfo != null;
-
   FavoriteMeme? findExisting(Iterable<FavoriteMeme> savedMedia) {
     return findFavoritedMedia(
       savedMedia,

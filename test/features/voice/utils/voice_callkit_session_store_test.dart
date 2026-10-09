@@ -22,39 +22,39 @@ void main() {
   });
 
   test('ends rings the gateway does not know about', () {
-    final VoiceCallKitSessionStore store = VoiceCallKitSessionStore();
-    store.registerSession(
-      channelId: 'live',
-      callKitId: 'a',
-      kind: VoiceCallKitSessionKind.incomingRing,
-    );
-    store.registerSession(
-      channelId: 'gone',
-      callKitId: 'b',
-      kind: VoiceCallKitSessionKind.incomingRing,
-    );
-    store.registerSession(
-      channelId: 'voice',
-      callKitId: 'c',
-      kind: VoiceCallKitSessionKind.activeVoice,
-    );
+    final VoiceCallKitSessionStore store = VoiceCallKitSessionStore()
+      ..registerSession(
+        channelId: 'live',
+        callKitId: 'a',
+        kind: VoiceCallKitSessionKind.incomingRing,
+      )
+      ..registerSession(
+        channelId: 'gone',
+        callKitId: 'b',
+        kind: VoiceCallKitSessionKind.incomingRing,
+      )
+      ..registerSession(
+        channelId: 'voice',
+        callKitId: 'c',
+        kind: VoiceCallKitSessionKind.activeVoice,
+      );
     expect(store.incomingRingChannelIdsAbsentFrom(<String>{'live'}), <String>[
       'gone',
     ]);
   });
 
   test('soleActiveVoiceChannelId is the only live voice session', () {
-    final VoiceCallKitSessionStore store = VoiceCallKitSessionStore();
-    store.registerSession(
-      channelId: 'ring',
-      callKitId: 'a',
-      kind: VoiceCallKitSessionKind.incomingRing,
-    );
-    store.registerSession(
-      channelId: 'voice',
-      callKitId: 'b',
-      kind: VoiceCallKitSessionKind.activeVoice,
-    );
+    final VoiceCallKitSessionStore store = VoiceCallKitSessionStore()
+      ..registerSession(
+        channelId: 'ring',
+        callKitId: 'a',
+        kind: VoiceCallKitSessionKind.incomingRing,
+      )
+      ..registerSession(
+        channelId: 'voice',
+        callKitId: 'b',
+        kind: VoiceCallKitSessionKind.activeVoice,
+      );
     expect(store.soleActiveVoiceChannelId, 'voice');
     store.registerSession(
       channelId: 'voice-2',

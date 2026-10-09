@@ -58,7 +58,6 @@ class _DmMemberGroups extends ConsumerWidget {
                           hash: participant.avatar,
                         ),
                   avatarColor: participant.avatarColor,
-                  status: resolveStatus(participant.id),
                   customStatus: presenceById[participant.id]?.customStatus,
                   isBot: participant.isBot,
                   isSystem: participant.isSystem,
@@ -179,7 +178,6 @@ class _SimpleMemberRow extends StatelessWidget {
     required this.name,
     this.avatarUrl,
     this.avatarColor,
-    this.status = 'offline',
     this.isBot = false,
     this.isSystem = false,
     this.isCurrentUser = false,
@@ -191,7 +189,6 @@ class _SimpleMemberRow extends StatelessWidget {
   final String name;
   final String? avatarUrl;
   final int? avatarColor;
-  final String status;
   final bool isBot;
   final bool isSystem;
   final bool isCurrentUser;

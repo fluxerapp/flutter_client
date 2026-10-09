@@ -151,7 +151,10 @@ void main() {
         channelPermissionCacheProvider.notifier,
       );
       await cache.rebuildGuild(guildA);
-      expect(container.read(channelPermissionCacheProvider).length, 2);
+      expect(
+        container.read(channelPermissionCacheProvider).effective.length,
+        2,
+      );
 
       await evictInactiveGuildPermissionState(container, guildA);
       await cache.rebuildGuild(guildB);
@@ -196,7 +199,10 @@ void main() {
         channelPermissionCacheProvider.notifier,
       );
       await cache.rebuildGuild(guildId);
-      expect(container.read(channelPermissionCacheProvider).length, 1);
+      expect(
+        container.read(channelPermissionCacheProvider).effective.length,
+        1,
+      );
 
       await evictInactiveGuildPermissionState(container, guildId);
 

@@ -173,6 +173,16 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     ],
   ),
   _UserSettingsSearchOption(
+    id: 'look-and-feel:theme-colors',
+    section: UserSettingsSection.themeColors,
+    label: _l((l10n) => l10n.lookAndFeelThemeColorsTitle),
+    description: _l((l10n) => l10n.lookAndFeelThemeColorsConfigureDescription),
+    keywords: [
+      _l((l10n) => l10n.lookAndFeelThemeColorsTitle),
+      _l((l10n) => l10n.lookAndFeelThemeColorsConfigureDescription),
+    ],
+  ),
+  _UserSettingsSearchOption(
     id: 'look-and-feel:chat-wallpaper',
     section: UserSettingsSection.lookAndFeel,
     fieldId: 'chat-wallpaper',
@@ -385,6 +395,13 @@ final List<_UserSettingsSearchOption> _userSettingsSearchOptions = [
     fieldId: 'media',
     label: _l((l10n) => l10n.messagesMediaCameraUploadsSaveToDeviceLabel),
     keywords: [_l((l10n) => l10n.messagesMediaCameraUploadsSectionTitle)],
+  ),
+  _UserSettingsSearchOption(
+    id: 'chat:double-tap-action',
+    section: UserSettingsSection.chat,
+    fieldId: 'media',
+    label: _l((l10n) => l10n.messagesMediaDoubleTapActionLabel),
+    keywords: [_l((l10n) => l10n.messagesMediaDoubleTapSectionTitle)],
   ),
   _UserSettingsSearchOption(
     id: 'chat:expression-autocomplete',

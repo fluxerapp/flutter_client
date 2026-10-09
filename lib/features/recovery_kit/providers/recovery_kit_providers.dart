@@ -22,7 +22,12 @@ class PendingRecoveryKit extends _$PendingRecoveryKit {
     return null;
   }
 
-  void present(RecoveryKit kit) => state = kit;
+  void present(RecoveryKit kit) {
+    if (state == kit) {
+      return;
+    }
+    state = kit;
+  }
 
   void clear() => state = null;
 

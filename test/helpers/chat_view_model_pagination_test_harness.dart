@@ -104,7 +104,6 @@ void paginationEmitCreatedMessage(
           snapshot: const MessagePersistSnapshot(
             mentionsCurrentUser: false,
             isDm: false,
-            guildStorageId: null,
             acknowledgedByGateway: true,
           ),
         ),

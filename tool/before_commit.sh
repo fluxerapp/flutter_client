@@ -111,6 +111,7 @@ fi
 if ((${#dart_files[@]} == 0)); then
   if [[ "${BEFORE_COMMIT_ALL:-}" == 1 ]]; then
     _step "Saving editor buffers" save_editor_buffers
+    _step "Resolving package dependencies" bash "${ROOT}/tool/pub_get_packages.sh"
     _step "Applying dart fix (full project)" dart fix --apply
     _step "Formatting tracked Dart files" bash "${ROOT}/tool/format_dart.sh"
     _log "All steps finished ($((SECONDS - total_start))s total)."
@@ -127,6 +128,7 @@ if ((${#dart_files[@]} == 0)); then
 fi
 
 _step "Saving editor buffers" save_editor_buffers
+_step "Resolving package dependencies" bash "${ROOT}/tool/pub_get_packages.sh"
 
 fix_label="Applying dart fix (${#dart_files[@]} files)"
 if ((${#dart_files[@]} > 200)); then

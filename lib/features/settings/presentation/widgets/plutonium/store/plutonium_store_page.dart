@@ -9,7 +9,6 @@ import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/stor
 import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_hero.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_highlights.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_perk.dart';
-import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_stars.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_style.dart';
 import 'package:fluxer_app/features/settings/providers/plutonium_store_provider.dart';
 import 'package:fluxer_app/features/settings/providers/premium_settings_state_provider.dart';
@@ -138,57 +137,50 @@ class _PremiumStorePageState extends ConsumerState<PremiumStorePage> {
           onManage: onManage,
           otherStoreNotice: otherStoreNotice,
         ),
-        child: Stack(
-          children: [
-            Positioned.fill(
-              child: PremiumStoreStars(controller: _scrollController),
-            ),
-            SingleChildScrollView(
-              controller: _scrollController,
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 32),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  PremiumStoreHero(
-                    monthlyPrice: monthlyPrice,
-                    yearlyPrice: yearlyPrice,
-                    priceLoading:
-                        store.loading &&
-                        (monthlyPrice == null || yearlyPrice == null),
-                  ),
-                  const SizedBox(height: 16),
-                  const _DonateLine(),
-                  const SizedBox(height: 16),
-                  const PremiumStoreHighlights(),
-                  const SizedBox(height: 16),
-                  PremiumStorePerk(
-                    asset: 'assets/images/plutonium/perk-expressions.webp',
-                    title: l10n.storePlutoniumEmojiTitle,
-                    body: l10n.storePlutoniumEmojiBody,
-                    imageFirst: true,
-                  ),
-                  const SizedBox(height: 16),
-                  PremiumStorePerk(
-                    asset: 'assets/images/plutonium/perk-profile.webp',
-                    title: l10n.storePlutoniumProfileTitle,
-                    body: l10n.storePlutoniumProfileBody,
-                    imageFirst: false,
-                  ),
-                  const SizedBox(height: 16),
-                  PremiumStorePerk(
-                    asset: 'assets/images/plutonium/perk-upload.webp',
-                    title: l10n.storePlutoniumFilesTitle,
-                    body: l10n.storePlutoniumFilesBody,
-                    imageFirst: true,
-                  ),
-                  const SizedBox(height: 16),
-                  const PremiumStoreComparison(),
-                  const SizedBox(height: 16),
-                  const _TagFootnote(),
-                ],
+        child: SingleChildScrollView(
+          controller: _scrollController,
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 32),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              PremiumStoreHero(
+                monthlyPrice: monthlyPrice,
+                yearlyPrice: yearlyPrice,
+                priceLoading:
+                    store.loading &&
+                    (monthlyPrice == null || yearlyPrice == null),
               ),
-            ),
-          ],
+              const SizedBox(height: 16),
+              const _DonateLine(),
+              const SizedBox(height: 16),
+              const PremiumStoreHighlights(),
+              const SizedBox(height: 16),
+              PremiumStorePerk(
+                asset: 'assets/images/plutonium/perk-expressions.webp',
+                title: l10n.storePlutoniumEmojiTitle,
+                body: l10n.storePlutoniumEmojiBody,
+                imageFirst: true,
+              ),
+              const SizedBox(height: 16),
+              PremiumStorePerk(
+                asset: 'assets/images/plutonium/perk-profile.webp',
+                title: l10n.storePlutoniumProfileTitle,
+                body: l10n.storePlutoniumProfileBody,
+                imageFirst: false,
+              ),
+              const SizedBox(height: 16),
+              PremiumStorePerk(
+                asset: 'assets/images/plutonium/perk-upload.webp',
+                title: l10n.storePlutoniumFilesTitle,
+                body: l10n.storePlutoniumFilesBody,
+                imageFirst: true,
+              ),
+              const SizedBox(height: 16),
+              const PremiumStoreComparison(),
+              const SizedBox(height: 16),
+              const _TagFootnote(),
+            ],
+          ),
         ),
       ),
     );

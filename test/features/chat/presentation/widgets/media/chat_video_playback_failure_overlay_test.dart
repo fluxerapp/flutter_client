@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_con
 import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_mobile_fullscreen_video.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_video_playback_failure_overlay.dart';
+import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:media_kit/media_kit.dart';
@@ -23,7 +24,7 @@ Widget _wrap(Widget child) {
         textTheme: FluxerTextTheme.fromColors(colorTheme),
         layoutTheme: FluxerLayoutTheme.scaled(),
       ),
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       home: Scaffold(body: child),
     ),
@@ -81,7 +82,7 @@ void main() {
             textTheme: FluxerTextTheme.fromColors(buildDarkColorTheme()),
             layoutTheme: FluxerLayoutTheme.scaled(),
           ),
-          localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+          localizationsDelegates: fluxerLocalizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           home: Builder(
             builder: (BuildContext context) {

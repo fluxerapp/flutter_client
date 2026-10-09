@@ -8,9 +8,11 @@ Message _message({
   required String authorId,
   int authorPublicFlags = 0,
   DateTime? timestamp,
+  int type = messageTypeDefault,
 }) {
   return Message(
     id: id,
+    type: type,
     channelId: 'channel-1',
     authorId: authorId,
     authorName: authorId,
@@ -62,6 +64,34 @@ void main() {
       );
       expect(group.groupKey, '1');
       expect(group.messages.length, 2);
+    });
+
+    test('leaves system messages from a blocked user out of the group', () {
+      final List<Message> messages = <Message>[
+        _message(id: '1', authorId: 'blocked', type: messageTypeRecipientAdd),
+        _message(id: '2', authorId: 'blocked'),
+        _message(id: '3', authorId: 'blocked', type: messageTypeReply),
+        _message(id: '4', authorId: 'blocked', type: messageTypeRecipientAdd),
+      ];
+      final List<ChannelStreamItem> stream = createChannelStream(
+        messages: messages,
+        oldestUnreadMessageId: null,
+        context: _context,
+      );
+      final List<ChannelStreamItem> groups = stream
+          .where((item) => item.type == ChannelStreamType.messageGroupBlocked)
+          .toList();
+      expect(groups, hasLength(1));
+      expect(
+        groups.single.messages.map((Message message) => message.id),
+        <String>['2', '3'],
+      );
+      expect(
+        stream
+            .where((item) => item.type == ChannelStreamType.message)
+            .map((item) => item.singleMessage?.id),
+        <String>['1', '4'],
+      );
     });
 
     test('groups consecutive spammer messages when not self', () {
@@ -263,7 +293,7 @@ void main() {
   });
 
   group('stream index helpers', () {
-    test('findChannelStreamRenderIndex maps to reverse list index', () {
+    test('findChannelStreamDataIndex locates a message in the stream', () {
       final List<Message> messages = <Message>[
         _message(id: '1', authorId: 'a'),
         _message(id: '2', authorId: 'b'),
@@ -278,7 +308,6 @@ void main() {
           isUserMarkedAsSpammer: _neverSpammer,
         ),
       );
-      expect(findChannelStreamRenderIndex(stream, '2'), 0);
       expect(findChannelStreamDataIndex(stream, '1'), 1);
     });
 

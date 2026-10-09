@@ -9,7 +9,6 @@ class ResolvedFavoriteEntry {
     required this.channel,
     required this.dm,
     required this.guildId,
-    required this.guildName,
     required this.guild,
   });
 
@@ -17,7 +16,6 @@ class ResolvedFavoriteEntry {
   final Channel? channel;
   final DmConversation? dm;
   final String? guildId;
-  final String? guildName;
   final Guild? guild;
 
   String get channelId => favorite.channelId;

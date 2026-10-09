@@ -235,9 +235,9 @@ void main() {
             const FluxerAvatarCluster(
               channelId: '123',
               members: [
-                AvatarClusterMember(userId: '1', fallbackText: 'Alice'),
-                AvatarClusterMember(userId: '2', fallbackText: 'Bob'),
-                AvatarClusterMember(userId: '3', fallbackText: 'Cara'),
+                AvatarClusterMember(userId: '1'),
+                AvatarClusterMember(userId: '2'),
+                AvatarClusterMember(userId: '3'),
               ],
             ),
           ),
@@ -255,8 +255,8 @@ void main() {
           const FluxerAvatarCluster(
             channelId: '123',
             members: [
-              AvatarClusterMember(userId: 'oops', fallbackText: 'Alice'),
-              AvatarClusterMember(userId: '2', fallbackText: 'Bob'),
+              AvatarClusterMember(userId: 'oops'),
+              AvatarClusterMember(userId: '2'),
             ],
           ),
         ),

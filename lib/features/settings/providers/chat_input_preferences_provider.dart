@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_dirty.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'chat_input_preferences_provider.g.dart';
 
+@immutable
 class ChatInputPreferencesState {
   const ChatInputPreferencesState({this.saveCameraCapturesToDevice = true});
 

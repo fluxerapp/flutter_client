@@ -34,9 +34,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get retry => 'Zkusit znovu';
 
   @override
-  String get connectingCaps => 'CONNECTING';
-
-  @override
   String get splashConnectionLost => 'Připojení ztraceno';
 
   @override
@@ -209,9 +206,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   }
 
   @override
-  String get ssoRequired => 'Pro přístup k této instanci je vyžadováno SSO.';
-
-  @override
   String get organizationSsoProvider =>
       'Přihlaste se pomocí poskytovatele jednotného přihlášení vaší organizace.';
 
@@ -225,9 +219,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String preferSso(String provider) {
     return 'Preferujete SSO? Pokračujte s $provider.';
   }
-
-  @override
-  String get logInViaBrowser => 'Přihlásit se přes prohlížeč';
 
   @override
   String get needAccountPrompt => 'Potřebujete účet? ';
@@ -316,20 +307,8 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get accountAdd => 'Přidat účet';
 
   @override
-  String get accountRemove => 'Odebrat';
-
-  @override
-  String accountRemoveTitle(String username) {
-    return 'Odebrat účet $username';
-  }
-
-  @override
   String get accountRemoveDescription =>
       'Tímto odstraníte uloženou relaci pro tento účet.';
-
-  @override
-  String get accountRemoveOnlyDescription =>
-      'Tímto odstraníte jediný uložený účet v tomto zařízení.';
 
   @override
   String get accountExpired => 'Vypršela platnost';
@@ -752,10 +731,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get registerYear => 'Rok';
 
   @override
-  String get registerConsent =>
-      'Souhlasím s podmínkami služby a zásadami ochrany osobních údajů';
-
-  @override
   String get registerConsentPrefix => 'Souhlasím s ';
 
   @override
@@ -799,10 +774,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   @override
   String get passkeyTimeout =>
       'Autentizace passkey vypršela. Zkuste to prosím znovu.';
-
-  @override
-  String get passkeyNotAvailable =>
-      'Passkey nejsou pro tuto aplikaci k dispozici. Místo toho se přihlaste pomocí e-mailu a hesla.';
 
   @override
   String get passkeyFailed =>
@@ -928,22 +899,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get inviteAcceptSomeone => 'někdo';
 
   @override
-  String get inviteAcceptEmojiPack => 'Balíček emotikonů';
-
-  @override
-  String get inviteAcceptStickerPack => 'Balíček samolepek';
-
-  @override
-  String get inviteAcceptInstallEmojiPack => 'Nainstalovat balíček emotikonů';
-
-  @override
-  String get inviteAcceptInstallStickerPack => 'Nainstalovat balíček samolepek';
-
-  @override
-  String get inviteAcceptPackInstallNote =>
-      'Přijetím tohoto pozvání se balíček automaticky nainstaluje.';
-
-  @override
   String get mentionUnknownChannel => 'neznámý-kanál';
 
   @override
@@ -963,10 +918,11 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get embedThemeTitle => 'Sdílený motiv';
 
   @override
-  String get embedThemeSubtitle => 'Tento klient nepodporuje vlastní témata.';
+  String get embedThemeWebOnly =>
+      'Motivy lze importovat pouze na webu nebo v počítači.';
 
   @override
-  String get embedThemeUnavailableButton => 'Témata nejsou k dispozici';
+  String get embedThemeImport => 'Importovat motiv';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1291,7 +1247,13 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get dmLeaveGroup => 'Opustit skupinu';
 
   @override
-  String get dmNoCommunitiesAvailable => 'Žádné dostupné komunity';
+  String dmInviteSentFor(String communityName) {
+    return 'Pozvánka do komunity $communityName odeslána';
+  }
+
+  @override
+  String get dmInviteSendFailed =>
+      'Nepodařilo se odeslat pozvánku. Zkuste to znovu.';
 
   @override
   String dmGroupMemberCount(int count) {
@@ -1685,9 +1647,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   }
 
   @override
-  String get emojiPlutoniumUpsellButton => 'Získat Plutonium';
-
-  @override
   String get emojiPlutoniumUpsellDismiss => 'Už nezobrazovat';
 
   @override
@@ -1839,9 +1798,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get changeYourFluxerTag => 'Změnit uživatelské jméno';
 
   @override
-  String get fluxerTagInputLabel => 'Uživatelské jméno';
-
-  @override
   String get fluxerTagDescriptionBase =>
       'Uživatelská jména mohou obsahovat pouze písmena (a-z, A-Z), číslice (0-9) a podtržítka. Na velikosti písmen nezáleží.';
 
@@ -1861,10 +1817,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   @override
   String get validationAllowedChars =>
       'Pouze písmena (a-z, A-Z), čísla (0-9) a podtržítka (_)';
-
-  @override
-  String get discriminatorPremiumTooltip =>
-      'Získejte Plutonium pro úpravu svého tagu nebo si ho ponechte při změně uživatelského jména';
 
   @override
   String get fluxerTagAlreadyTaken => 'Uživatelské jméno je již obsazeno';
@@ -1901,15 +1853,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   @override
   String get premiumUpsellCustomizeTag =>
       'Upravte si svůj 4místný tag nebo si ho ponechte při změně uživatelského jména';
-
-  @override
-  String premiumTrialExpiresOn(String date) {
-    return 'Vaše zkušební verze Plutonia vyprší $date. Vylepšete si ji a ponechte si vlastní značku a získejte odznak na svém profilu.';
-  }
-
-  @override
-  String get premiumTrialActive =>
-      'Jste ve zkušební verzi Plutonium. Upgradujte, abyste si ponechali vlastní tag a získali odznak na svém profilu.';
 
   @override
   String get fluxerTagUpdated => 'Uživatelské jméno aktualizováno';
@@ -2046,23 +1989,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get hideVisionaryIdDescription => 'Odstranit odznak Visionary ID';
 
   @override
-  String premiumTrialSubscriptionStarts(String date) {
-    return 'Jste na zkušební verzi Plutonia — vaše předplatné začíná $date';
-  }
-
-  @override
-  String get premiumTrialSubscriptionStartsDescription =>
-      'Vaše předplatné se automaticky spustí po skončení zkušební verze. Není třeba nic dělat.';
-
-  @override
-  String premiumTrialExpiresOnProfile(String date) {
-    return 'Jste na zkušební verzi Plutonia, která končí $date';
-  }
-
-  @override
-  String get premiumTrialActiveProfile => 'Jste na zkušební verzi Plutonia';
-
-  @override
   String get avatarDescriptionNonPremium =>
       'JPEG, PNG, WebP. Max 10 MB. Doporučeno: 512×512px. Animované avatary (GIF) vyžadují Plutonium.';
 
@@ -2129,18 +2055,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get profileSavedToast => 'Profil aktualizován';
-
-  @override
-  String get profileEditButton => 'Upravit profil';
-
-  @override
-  String get profileNoteLabel => 'Poznámka';
-
-  @override
-  String get profileNoteVisibility => '(viditelné jen vám)';
-
-  @override
-  String get profileNoteEmpty => 'Zatím žádná poznámka.';
 
   @override
   String get sudoTitle => 'Ověřte svou identitu';
@@ -2433,35 +2347,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'např. YubiKey, iPhone, pracovní počítač';
 
   @override
-  String get securityPhoneSectionTitle => 'Telefonní číslo';
-
-  @override
-  String get securityPhoneSectionDescription =>
-      'Spravujte své telefonní číslo.';
-
-  @override
-  String get securityPhoneLabel => 'Telefonní číslo';
-
-  @override
-  String get securityPhoneNone => 'Není přidáno žádné telefonní číslo.';
-
-  @override
-  String get securityPhoneAdd => 'Přidat telefonní číslo';
-
-  @override
-  String get securityPhoneRemove => 'Odebrat';
-
-  @override
-  String get securityPhoneRemoveTitle => 'Odebrat telefonní číslo';
-
-  @override
-  String get securityPhoneRemoveDescription =>
-      'Opravdu chcete odebrat své telefonní číslo?';
-
-  @override
-  String get securityPhoneRemoved => 'Telefonní číslo odebráno';
-
-  @override
   String get securityClaimTitle => 'Funkce zabezpečení';
 
   @override
@@ -2470,7 +2355,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get securityVerifyEmailRequired =>
-      'Před nastavením dvoufaktorového ověřování, hesel nebo ověření přes SMS musíte ověřit svou e-mailovou adresu.';
+      'Před nastavením dvoufaktorového ověřování nebo hesel musíte ověřit svou e-mailovou adresu.';
 
   @override
   String get totpEnableTitle => 'Nastavit aplikaci pro ověřování';
@@ -2507,9 +2392,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Pokud ztratíte přístup ke své aplikaci pro ověřování a nebudete mít tyto kódy, budete trvale zablokováni ze svého účtu. Stáhněte si je nebo si je zkopírujte a uložte je na bezpečné místo.';
 
   @override
-  String get backupCodesDownload => 'Stáhnout';
-
-  @override
   String get backupCodesCopy => 'Kopírovat';
 
   @override
@@ -2521,163 +2403,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get backupCodesDone => 'Hotovo';
-
-  @override
-  String get backupCodesViewTitle => 'Zobrazit záložní kódy';
-
-  @override
-  String get backupCodesViewDescription =>
-      'Před zobrazením záložních kódů může být vyžadováno ověření.';
-
-  @override
-  String get phoneAddTitle => 'Přidat telefonní číslo';
-
-  @override
-  String get phoneAddLabel => 'Telefonní číslo';
-
-  @override
-  String get phoneAddHint => 'Zadejte své telefonní číslo';
-
-  @override
-  String get phoneAddFooter =>
-      'Pošleme SMS kód, jakmile bude dostupný. Vaše číslo není propojeno s vaším účtem. Uchováváme pouze šifrovaný identifikátor bez ID uživatele, abychom umožnili maximálně 2 ověření přibližně za 30 dní.';
-
-  @override
-  String get phoneAddSendCode => 'Odeslat kód';
-
-  @override
-  String get phoneVerifyTitle => 'Ověřit telefonní číslo';
-
-  @override
-  String get phoneVerifyDescription =>
-      'Zadejte ověřovací kód zaslaný na vaše telefonní číslo.';
-
-  @override
-  String get phoneAddSuccess => 'Telefonní číslo ověřeno';
-
-  @override
-  String get phoneCountryLabel => 'Země';
-
-  @override
-  String get phoneSearchCountries => 'Hledat země...';
-
-  @override
-  String get phoneNumberRequired => 'Je vyžadováno telefonní číslo';
-
-  @override
-  String get phoneEnterValidNumber =>
-      'Zadejte platné číslo mobilního telefonu.';
-
-  @override
-  String get phoneCannotBeUsed =>
-      'Toto telefonní číslo nelze použít. Zkuste jiné mobilní číslo nebo kontaktujte podporu.';
-
-  @override
-  String get phoneAlreadyUsed =>
-      'Toto telefonní číslo již bylo použito. Zkuste jiné číslo nebo kontaktujte podporu.';
-
-  @override
-  String get phoneCodeDidNotWork =>
-      'Tento kód nefungoval. Zkontrolujte ho a zkuste to znovu.';
-
-  @override
-  String get phoneTooManyAttempts =>
-      'Příliš mnoho pokusů. Chvíli počkejte a zkuste to znovu.';
-
-  @override
-  String get phoneSmsUnavailable =>
-      'Ověření SMS zprávou momentálně není k dispozici. Zkuste to prosím později, nebo kontaktujte podporu.';
-
-  @override
-  String get phoneNotEligible =>
-      'Ověření telefonního čísla není pro tento účet k dispozici. Použijte jinou metodu nebo kontaktujte podporu.';
-
-  @override
-  String get phoneSomethingWentWrong => 'Něco se pokazilo. Zkuste to znovu.';
-
-  @override
-  String get phoneInboundExpensiveDescription =>
-      'Odeslání SMS na toto telefonní číslo je příliš drahé, proto potřebujeme, abyste nám místo toho poslali SMS. Můžete také kontaktovat podporu a požádat o zrušení tohoto požadavku pro váš účet.';
-
-  @override
-  String get phoneInboundDefaultDescription =>
-      'Potřebujeme, abyste nám poslali SMS pro ověření vašeho telefonního čísla.';
-
-  @override
-  String get phoneInboundStepOpenMessaging =>
-      'Otevřete v telefonu aplikaci pro zprávy a vytvořte novou SMS.';
-
-  @override
-  String phoneInboundStepSendCode(String code, String number) {
-    return 'Odešli kód $code na číslo $number.';
-  }
-
-  @override
-  String get phoneInboundStepWait =>
-      'Počkejte, až obdržíme vaši zprávu. Může to chvíli trvat.';
-
-  @override
-  String get phoneInboundGetNewCode => 'Získat nový kód';
-
-  @override
-  String get phoneInboundChallengeCodeLabel => 'Kód k odeslání';
-
-  @override
-  String get phoneInboundOurNumberLabel => 'Odeslat na';
-
-  @override
-  String get requiredActionTitle => 'Je potřeba ověřit účet';
-
-  @override
-  String requiredActionIntroGeneric(String productName) {
-    return 'Dokončete požadované ověření, abyste mohli nadále používat $productName.';
-  }
-
-  @override
-  String get requiredActionIntroPhone =>
-      'Než budete moct pokračovat, je potřeba provést dodatečnou kontrolu proti spamu.';
-
-  @override
-  String requiredActionIntroEmailOrPhone(String productName) {
-    return 'Ověřte svůj e-mail nebo telefon, abyste mohli nadále používat $productName.';
-  }
-
-  @override
-  String requiredActionIntroEmailAndPhone(String productName) {
-    return 'Pro další používání aplikace $productName dokončete níže uvedené kroky ověření e-mailu a telefonu.';
-  }
-
-  @override
-  String get requiredActionChooseMethodTitle => 'Vyberte metodu ověření';
-
-  @override
-  String requiredActionChooseMethodDescription(String productName) {
-    return 'Pro další používání aplikace $productName dokončete jeden z níže uvedených způsobů ověření.';
-  }
-
-  @override
-  String get requiredActionUseEmail => 'Použít e-mail';
-
-  @override
-  String get requiredActionUsePhone => 'Použít telefon';
-
-  @override
-  String get requiredActionCheckEmailTitle => 'Zkontrolujte svůj e-mail';
-
-  @override
-  String get requiredActionCheckEmailDescription =>
-      'Odeslali jsme odkaz k ověření na vaši e-mailovou adresu. Otevřete ho pro pokračování.';
-
-  @override
-  String get requiredActionResendVerificationEmail =>
-      'Znovu poslat ověřovací e-mail';
-
-  @override
-  String get requiredActionVerificationEmailSent =>
-      'Ověřovací e-mail byl odeslán. Zkontrolujte si doručenou poštu.';
-
-  @override
-  String get requiredActionSignOut => 'Odhlásit se';
 
   @override
   String get dangerZoneSectionTitle => 'Nebezpečná zóna';
@@ -3012,7 +2737,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String applicationsCreated(String date) {
-    return 'Created $date';
+    return 'Vytvořeno $date';
   }
 
   @override
@@ -3172,7 +2897,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get applicationsOauthBuilderDescription =>
-      'Construct an authorize URL with scopes and permissions.';
+      'Sestavte autorizační URL s rozsahy a oprávněními.';
 
   @override
   String get applicationsScopes => 'Oprávnění';
@@ -3202,7 +2927,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Vyberte oprávnění (a v případě potřeby URI pro přesměrování)';
 
   @override
-  String get applicationsCopyAuthorizeUrl => 'Copy authorize URL';
+  String get applicationsCopyAuthorizeUrl => 'Kopírovat autorizační URL';
 
   @override
   String get applicationsCopiedUrl => 'Adresa URL zkopírována do schránky';
@@ -3223,7 +2948,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String applicationsDeleteConfirmDescription(String name) {
-    return 'Are you sure you want to delete $name? This action cannot be undone. All associated data, including the bot user, will be permanently deleted.';
+    return 'Opravdu chcete smazat $name? Tuto akci nelze vrátit zpět. Všechna související data, včetně uživatele bota, budou trvale smazána.';
   }
 
   @override
@@ -3263,9 +2988,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get applicationsSearchDocumentation => 'Dokumentace';
-
-  @override
-  String get privacyPendingDeletionTitle => 'Čeká na smazání';
 
   @override
   String get blockedUsersTitle => 'Blokovaní uživatelé';
@@ -3428,9 +3150,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get userProfileNoteDelete => 'Smazat';
 
   @override
-  String get userProfileNoteEmpty => 'Kliknutím přidáte poznámku';
-
-  @override
   String get userProfileMemberSince => 'Členem od';
 
   @override
@@ -3477,58 +3196,58 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get userProfileLocalTime => 'Místní čas';
 
   @override
-  String get profileLocalTimeSettingsTitle => 'Profile local time';
+  String get profileLocalTimeSettingsTitle => 'Místní čas v profilu';
 
   @override
   String profileLocalTimeSettingsSummary(String productName) {
-    return 'Set your time zone once so $productName can keep your UTC offset current when daylight saving time changes. Other people can only see your UTC offset, not your exact time zone identifier.';
+    return 'Nastavte si časové pásmo jednou a $productName bude průběžně aktualizovat váš UTC posun při změnách letního času. Ostatní uživatelé uvidí pouze váš UTC posun, nikoli přesný identifikátor vašeho časového pásma.';
   }
 
   @override
-  String get profileLocalTimeEditButton => 'Edit profile local time';
+  String get profileLocalTimeEditButton => 'Upravit místní čas profilu';
 
   @override
-  String get profileLocalTimeTimezoneLabel => 'Time zone';
+  String get profileLocalTimeTimezoneLabel => 'Časové pásmo';
 
   @override
   String profileLocalTimeTimezoneHelp(String productName) {
-    return 'Choose the time zone $productName uses to calculate your UTC offset for profile local time.';
+    return 'Vyberte časové pásmo, které aplikace $productName používá pro výpočet vašeho UTC posunu a zobrazení místního času v profilu.';
   }
 
   @override
-  String get profileLocalTimeSearchTimezones => 'Search time zones';
+  String get profileLocalTimeSearchTimezones => 'Hledat časová pásma';
 
   @override
-  String get profileLocalTimeNotSet => 'Not set';
+  String get profileLocalTimeNotSet => 'Nenastaveno';
 
   @override
   String profileLocalTimePrivacyNote(
     String timezoneIdentifierExample,
     String productName,
   ) {
-    return 'Other people can only see your current UTC offset when you choose to share profile local time. They do not see your exact time zone identifier, such as $timezoneIdentifierExample. $productName stores that identifier only so the offset can update automatically when daylight saving time changes.';
+    return 'Ostatní uživatelé vidí pouze váš aktuální UTC posun, pokud se rozhodnete sdílet místní čas ve svém profilu. Neuvidí přesný identifikátor vašeho časového pásma, například $timezoneIdentifierExample. Aplikace $productName si tento identifikátor ukládá pouze proto, aby mohl posun automaticky aktualizovat při změnách letního času.';
   }
 
   @override
-  String get profileLocalTimePrivacyEveryone => 'Everyone';
+  String get profileLocalTimePrivacyEveryone => 'Všichni';
 
   @override
   String get profileLocalTimePrivacyEveryoneDesc =>
-      'Allow anyone who can view your full profile to see your local time';
+      'Povolit všem, kdo si mohou zobrazit váš celý profil, zobrazit také váš místní čas';
 
   @override
-  String get profileLocalTimePrivacyFriends => 'Friends';
+  String get profileLocalTimePrivacyFriends => 'Přátelé';
 
   @override
   String get profileLocalTimePrivacyFriendsDesc =>
-      'Allow your friends to see your local time';
+      'Povolit přátelům, aby viděli váš místní čas v profilu';
 
   @override
-  String get profileLocalTimePrivacyCommunityMembers => 'Community members';
+  String get profileLocalTimePrivacyCommunityMembers => 'Členové komunity';
 
   @override
   String get profileLocalTimePrivacyCommunityMembersDesc =>
-      'Allow members from communities you\'re in to see your local time';
+      'Povolit členům komunit, ve kterých jste, aby viděli místní čas ve vašem profilu';
 
   @override
   String get userProfileSameTimeAsYou => 'Má stejný čas jako vy';
@@ -3657,10 +3376,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get userProfileTransferOwnership => 'Převést vlastnictví';
 
   @override
-  String get userProfileReportUser => 'Nahlásit uživatele';
+  String get userProfileReportMessage => 'Nahlásit zprávu';
 
   @override
-  String get userProfileReportMessage => 'Nahlásit zprávu';
+  String get userProfileReportUserProfile => 'Nahlásit profil';
 
   @override
   String userProfileKickConfirmTitle(String username) {
@@ -3809,91 +3528,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get durationCustom => 'Vlastní…';
-
-  @override
-  String get iarReportUserTitle => 'Nahlásit uživatele';
-
-  @override
-  String get iarReportGuildTitle => 'Nahlásit komunitu';
-
-  @override
-  String get iarReportGuildPreconfirmBody =>
-      'Pokud se toto nahlášení týká konkrétní zprávy v této komunitě, nahlaste místo toho tuto zprávu. Nahlášení zpráv poskytuje našemu bezpečnostnímu týmu nejjasnější kontext a přidání podrobností do komentářů nám může pomoci s rychlejším posouzením. Pokračujte v nahlášení komunity jako celku pouze v případě, že nahlášení zprávy by nevystihovalo širší problém.';
-
-  @override
-  String get iarContinueToReportCommunity => 'Pokračovat v nahlášení komunity';
-
-  @override
-  String get iarPreviewCommunitySubtitle => 'Komunita';
-
-  @override
-  String get iarReasonHarassmentGuildLabel => 'Obtěžování nebo cílené útoky';
-
-  @override
-  String get iarReasonHarassmentGuildDescription =>
-      'Komunita umožňuje hromadné útoky nebo cílené obtěžování.';
-
-  @override
-  String get iarReasonHateGuildDescription =>
-      'Podněcuje nenávist vůči chráněným skupinám.';
-
-  @override
-  String get iarReasonTerrorismLabel => 'Terorismus nebo násilný extremismus';
-
-  @override
-  String get iarReasonTerrorismDescription =>
-      'Propaguje násilné extremistické aktivity, získává pro ně nové členy nebo je koordinuje.';
-
-  @override
-  String get iarReasonMatureContentGuildLabel =>
-      'Obsah pro dospělé nebo nedostatečné omezení přístupu';
-
-  @override
-  String get iarReasonMatureContentGuildDescription =>
-      'Obsah pro dospělé bez řádného omezení přístupu.';
-
-  @override
-  String get iarReasonChildSafetyGuildDescription =>
-      'Ohrožuje nezletilé nebo hostuje obsah zobrazující zneužívání dětí.';
-
-  @override
-  String get iarReasonRaidLabel => 'Koordinace nájezdu';
-
-  @override
-  String get iarReasonRaidDescription =>
-      'Koordinuje nájezdy, hromadné útoky nebo obtěžování lidí či komunit.';
-
-  @override
-  String get iarReasonSpamGuildDescription =>
-      'Komunita existuje za účelem spamování, podvodů nebo zneužívání platformy.';
-
-  @override
-  String get iarReasonMalwareGuildLabel => 'Šíření malwaru';
-
-  @override
-  String get iarReasonMalwareGuildDescription =>
-      'Šíří malware, krade přihlašovací údaje nebo škodlivé soubory.';
-
-  @override
-  String get iarReasonPrivacyGuildLabel => 'Porušení soukromí nebo doxxing';
-
-  @override
-  String get iarReasonPrivacyGuildDescription =>
-      'Sdílí osobní údaje, pronásleduje uživatele nebo koordinuje narušování soukromí.';
-
-  @override
-  String get iarReasonSelfHarmGuildLabel => 'Podněcuje sebepoškozování';
-
-  @override
-  String get iarReasonSelfHarmGuildDescription =>
-      'Podněcuje k sebevraždě, sebepoškozování nebo poruchám příjmu potravy.';
-
-  @override
-  String get iarReasonInappropriateProfile => 'Nevhodný profil';
-
-  @override
-  String get iarReasonInappropriateProfileDescription =>
-      'Profil tohoto uživatele obsahuje nevhodný obsah';
 
   @override
   String typingIndicatorOne(String name) {
@@ -4277,14 +3911,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'V této komunitě ještě nejste členem dostatečně dlouho, abyste mohli posílat zprávy.';
 
   @override
-  String get channelComposerBarrierNoPhoneNumber =>
-      'Abyste mohli v této komunitě posílat zprávy, musíte si ověřit telefonní číslo.';
-
-  @override
   String get channelComposerBarrierVerifyEmail => 'Ověřit e-mail';
-
-  @override
-  String get channelComposerBarrierVerifyPhone => 'Ověřit telefon';
 
   @override
   String chatAttachmentTooMany(int max) {
@@ -4307,9 +3934,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get chatAttachmentDropToSend => 'Pusťte soubory pro okamžité odeslání';
 
   @override
-  String get chatAttachmentSendVoiceMessage => 'Odeslat hlasovou zprávu';
-
-  @override
   String get voiceMessageTitle => 'Hlasová zpráva';
 
   @override
@@ -4327,10 +3951,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Nahrávání nelze spustit. Povolte přístup k mikrofonu.';
 
   @override
-  String get voiceMessageRecordingNotSupported =>
-      'Nahrávání hlasu není na tomto zařízení podporováno.';
-
-  @override
   String get voiceMessageMicInUse =>
       'Opusťte hlasový hovor a nahrajte hlasovou zprávu.';
 
@@ -4343,23 +3963,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Nepodařilo se odeslat hlasovou zprávu. Zkuste to znovu.';
 
   @override
-  String get voiceMessageRecordingHint =>
-      'Mluvte. Až budete hotovi, stiskněte Zastavit – nahrávku pak můžete oříznout.';
-
-  @override
-  String get voiceMessageReviewHint =>
-      'Přetažením úchytů zprávu ořízněte a poté stiskněte Odeslat.';
-
-  @override
-  String get voiceMessageStop => 'Zastavit';
-
-  @override
-  String get voiceMessageStartRecording => 'Spustit nahrávání';
-
-  @override
-  String get voiceMessageRerecord => 'Nahrát znovu';
-
-  @override
   String get voiceMessagePlay => 'Přehrát';
 
   @override
@@ -4370,16 +3973,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get voiceMessageSeekBackward => 'Přehrát zpět';
-
-  @override
-  String voiceMessageSelectionTooShort(num seconds) {
-    final intl.NumberFormat secondsNumberFormat = intl.NumberFormat.compact(
-      locale: localeName,
-    );
-    final String secondsString = secondsNumberFormat.format(seconds);
-
-    return 'Výběr musí trvat alespoň $secondsString s.';
-  }
 
   @override
   String get chatAttachmentEditTitle => 'Upravit přílohu';
@@ -4526,9 +4119,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get chatAttachmentSourceBrowse => 'Procházet soubory';
 
   @override
-  String get chatAttachmentPasteTooltip => 'Vložit soubor ze schránky';
-
-  @override
   String get chatAttachmentSpoiler => 'Spoiler';
 
   @override
@@ -4609,13 +4199,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get matureContentOpenLinkButton => 'Otevřít odkaz';
 
   @override
-  String get sensitiveContentSectionTitle => 'Citlivý obsah';
-
-  @override
-  String get sensitiveContentSectionDescription =>
-      'Ovládejte, jak je nevhodný nebo citlivý obsah filtrován v různých kontextech.';
-
-  @override
   String get sensitiveContentFriendDmLabel => 'Přímé zprávy od přátel';
 
   @override
@@ -4634,18 +4217,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get sensitiveContentFilterBlock => 'Blokovat';
 
   @override
-  String get sensitiveContentBlurUnscannedLabel =>
-      'Rozmazat média do dokončení kontroly bezpečnosti';
-
-  @override
-  String get sensitiveContentBlurUnscannedDescriptionAdult =>
-      'Pokud je povoleno, obrázky a videa se rozmažou, dokud se nedokončí kontrola bezpečnosti obsahu.';
-
-  @override
-  String get sensitiveContentBlurUnscannedDescriptionMinor =>
-      'Toto nastavení je pro váš účet vždy zapnuté.';
-
-  @override
   String get sensitiveContentResetButton => 'Resetovat';
 
   @override
@@ -4661,9 +4232,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     );
     return 'Nahrávání $_temp0';
   }
-
-  @override
-  String get chatCancelUpload => 'Zrušit nahrávání';
 
   @override
   String chatAttachmentExpiresOn(String date) {
@@ -4869,9 +4437,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get connectionEnterDomain => 'Zadejte doménu.';
 
   @override
-  String get lookAndFeelTitle => 'Vzhled a chování';
-
-  @override
   String get lookAndFeelThemeSectionTitle => 'Motiv';
 
   @override
@@ -4935,11 +4500,93 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Motiv se nepodařilo synchronizovat s vaším účtem. Zkuste to prosím znovu.';
 
   @override
-  String get lookAndFeelChatFontScalingTitle => 'Měřítko písma chatu';
+  String get lookAndFeelThemeColorsTitle => 'Theme colors';
+
+  @override
+  String get lookAndFeelThemeColorsConfigureDescription =>
+      'Customize individual theme colors for this device.';
+
+  @override
+  String lookAndFeelThemeColorsEditingMode(String mode) {
+    return 'Editing $mode';
+  }
+
+  @override
+  String get lookAndFeelThemeColorsSyncSectionTitle => 'Theme Studio sync';
+
+  @override
+  String get lookAndFeelThemeColorsSyncFromStudioLabel =>
+      'Use colors from Theme Studio';
+
+  @override
+  String get lookAndFeelThemeColorsSyncFromStudioDescription =>
+      'When enabled, color changes from Theme Studio on desktop apply on this device. When disabled, this device keeps its own colors.';
+
+  @override
+  String get lookAndFeelThemeColorsSyncToStudioLabel =>
+      'Send color changes to Theme Studio';
+
+  @override
+  String get lookAndFeelThemeColorsSyncToStudioDescription =>
+      'When enabled, colors you change here sync to Theme Studio on your other devices. When disabled, desktop Theme Studio keeps its own colors.';
+
+  @override
+  String get lookAndFeelThemeColorsSyncFromStudioOffBanner =>
+      'Desktop Theme Studio color changes will not apply on this device.';
+
+  @override
+  String get lookAndFeelThemeColorsEssentialSectionTitle => 'Essential colors';
+
+  @override
+  String get lookAndFeelThemeColorsChatBackgroundWallpaperNote =>
+      'If you have a chat wallpaper set, you won\'t see this color.';
+
+  @override
+  String lookAndFeelThemeColorsResetForMode(String mode) {
+    return 'Reset all colors for $mode';
+  }
+
+  @override
+  String get lookAndFeelThemeColorsResetConfirmTitle => 'Reset theme colors?';
+
+  @override
+  String lookAndFeelThemeColorsResetConfirmBody(String mode) {
+    return 'This removes your custom color overrides for $mode on this device.';
+  }
+
+  @override
+  String get lookAndFeelThemeColorsGroupBrandButtons => 'Brand & buttons';
+
+  @override
+  String get lookAndFeelThemeColorsGroupChatSurfaces => 'Chat & messages';
+
+  @override
+  String get lookAndFeelThemeColorsGroupSidebars => 'Sidebars & navigation';
+
+  @override
+  String get lookAndFeelThemeColorsGroupText => 'Text';
+
+  @override
+  String get lookAndFeelThemeColorsGroupHeaders => 'Headers';
+
+  @override
+  String get lookAndFeelThemeColorsGroupStatus => 'Status';
+
+  @override
+  String get lookAndFeelThemeColorsGroupEmbedsMarkup => 'Embeds & mentions';
+
+  @override
+  String get lookAndFeelThemeColorsGroupAccentsAlerts => 'Accents & alerts';
+
+  @override
+  String get lookAndFeelThemeColorsGroupControls => 'Surfaces & controls';
+
+  @override
+  String get lookAndFeelChatFontScalingTitle => 'Chat font scaling';
 
   @override
   String get lookAndFeelChatFontScalingDescription =>
-      'Upravte velikost písma v chatu.';
+      'Adjust the font size in the chat area.';
 
   @override
   String get lookAndFeelChatFontSizeLabel => 'Velikost písma chatu';
@@ -4973,7 +4620,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get lookAndFeelChatWallpaperCustomLabel => 'Vlastní obrázek';
 
   @override
-  String get lookAndFeelChatWallpaperStarfieldLabel => 'Starfield';
+  String get lookAndFeelChatWallpaperStarfieldLabel => 'Hvězdné pole';
 
   @override
   String lookAndFeelChatWallpaperColorLabel(String id) {
@@ -5091,39 +4738,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   @override
   String get lookAndFeelHideKeyboardHintsDescription =>
       'Když je povoleno, odznaky zkratek jsou skryty v kontextových oknech.';
-
-  @override
-  String get lookAndFeelNekoTitle => 'Různé';
-
-  @override
-  String get lookAndFeelNekoDescription => 'Různé možnosti rozhraní.';
-
-  @override
-  String get lookAndFeelShowNekoLabel => 'Zobrazit Neko';
-
-  @override
-  String get lookAndFeelShowNekoDescription =>
-      'Když je povoleno, Neko se zobrazí poblíž vstupního pole chatu.';
-
-  @override
-  String get lookAndFeelVoiceChannelJoinTitle =>
-      'Chování při připojení k hlasovému kanálu';
-
-  @override
-  String get lookAndFeelVoiceChannelJoinDescription =>
-      'Ovládejte, jak se připojujete k hlasovým kanálům v komunitách.';
-
-  @override
-  String get lookAndFeelRequireDoubleClickJoinLabel =>
-      'Vyžadovat dvojklik pro připojení k hlasovým kanálům';
-
-  @override
-  String get lookAndFeelRequireDoubleClickJoinDescription =>
-      'Když je povoleno, budete muset dvakrát kliknout na hlasové kanály, abyste se k nim připojili. Když je zakázáno (výchozí), jedním kliknutím se okamžitě připojíte ke kanálu.';
-
-  @override
-  String get lookAndFeelChatFontPreviewSample =>
-      'Rychlá hnědá liška skáče přes líného psa.';
 
   @override
   String get lookAndFeelGuildSidebarTitle => 'Postranní panel komunity';
@@ -5584,22 +5198,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Zobrazovat uložená média v automatickém doplňování výrazů';
 
   @override
-  String get messagesMediaEditingSectionTitle => 'Úprava zpráv';
-
-  @override
-  String get messagesMediaEditingSectionDescription =>
-      'Ovládejte, co se stane s návrhem úpravy po zrušení.';
-
-  @override
-  String get messagesMediaEditingPreserveDraftLabel =>
-      'Ponechat návrh úpravy při zrušení';
-
-  @override
   String get accessibilitySaturationTitle => 'Sytost';
-
-  @override
-  String get accessibilitySaturationDescription =>
-      'Upravte, jak živě se zobrazují barvy motivu v celé aplikaci.';
 
   @override
   String get accessibilityVisualGroupTitle => 'Vzhled';
@@ -5609,11 +5208,11 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get accessibilityShowAltTextOnImagesLabel =>
-      'Show alternative text on images';
+      'Zobrazit alternativní text u obrázků';
 
   @override
   String get accessibilityShowAltTextOnImagesDescription =>
-      'Display alternative text below images when it is available.';
+      'Zobrazit alternativní text pod obrázky, pokud je k dispozici.';
 
   @override
   String get accessibilityDimStrikethroughTextLabel =>
@@ -5622,10 +5221,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   @override
   String get accessibilityDmMessagePreviewGroupTitle =>
       'Náhledy zpráv v soukromých chatech';
-
-  @override
-  String get accessibilityDmMessagePreviewGroupDescription =>
-      'Ovládejte, kdy se zobrazují náhledy zpráv v seznamu přímých zpráv.';
 
   @override
   String get accessibilityDmMessagePreviewModeLabel =>
@@ -5746,10 +5341,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   @override
   String get accessibilityPausedGifByReducedMotion =>
       'Pozastaveno kvůli omezenému pohybu. Zapněte pro přehrávání GIFů.';
-
-  @override
-  String get accessibilityGifDefaultsOffOnMobile =>
-      'Ve výchozím nastavení vypnuto na mobilu kvůli úspoře baterie a dat.';
 
   @override
   String get accessibilityStickerAnimationsTitle => 'Animace samolepek';
@@ -6073,10 +5664,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Nepodařilo se odpojit ostatní zařízení. Zkuste to za chvíli znovu.';
 
   @override
-  String get voiceChannelEmptyDescription =>
-      'Toto je hlasový kanál. Připojte se a začněte mluvit!';
-
-  @override
   String get voiceChannelJoin => 'Připojit se k hlasovému kanálu';
 
   @override
@@ -6115,12 +5702,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get voiceChannelStatusConnecting => 'Připojování…';
-
-  @override
-  String get voiceChannelStatusConnected => 'Připojeno';
-
-  @override
-  String get voiceChannelStatusError => 'Chyba';
 
   @override
   String get voiceParticipantTooltipMobileDevice => 'Mobilní zařízení';
@@ -6182,9 +5763,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get voiceScreenShareNotificationText => 'Sdílíte obrazovku.';
-
-  @override
-  String get voiceControlMore => 'Více';
 
   @override
   String get voiceControlDisconnect => 'Odpojit';
@@ -6338,7 +5916,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get voiceOutputRouteSpeaker => 'Reproduktor';
 
   @override
-  String get voiceOutputRouteEarpiece => 'Earpiece';
+  String get voiceOutputRouteEarpiece => 'Sluchátko';
 
   @override
   String get voiceOutputRouteHeadset => 'Sluchátka';
@@ -6550,6 +6128,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Vaše zpráva nemohla být doručena, protože byla označena našimi bezpečnostními systémy. Pokud se domníváte, že jde o chybu, kontaktujte prosím podporu.';
 
   @override
+  String get chatSendFailureContentBlockedSelfHosted =>
+      'Vaše zpráva nemohla být doručena, protože byla označena našimi bezpečnostními systémy. Pokud se domníváte, že jde o chybu, kontaktujte prosím správce této instance.';
+
+  @override
   String get chatSendFailureNsfwEmojiSticker =>
       'Vaše zpráva nemohla být doručena, protože obsahuje nevhodné emoji nebo nálepky, které nejsou v tomto kontextu povoleny.';
 
@@ -6615,23 +6197,11 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get privacyDashboardFriendRequestsEveryone => 'Všichni';
 
   @override
-  String get privacyDashboardFriendRequestsEveryoneDesc =>
-      'Povolit komukoli posílat žádosti o přátelství';
-
-  @override
   String get privacyDashboardFriendRequestsFriendsOfFriends => 'Přátelé přátel';
-
-  @override
-  String get privacyDashboardFriendRequestsFriendsOfFriendsDesc =>
-      'Povolit přátelům vašich přátel, aby vám mohli posílat žádosti';
 
   @override
   String get privacyDashboardFriendRequestsCommunityMembers =>
       'Členové komunity';
-
-  @override
-  String get privacyDashboardFriendRequestsCommunityMembersDesc =>
-      'Povolit členům komunit, ve kterých se nacházíte, aby vám mohli posílat žádosti';
 
   @override
   String get privacyDashboardDirectMessagesTitle => 'Přímé zprávy';
@@ -6641,58 +6211,26 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Povolit přímé zprávy od členů komunity';
 
   @override
-  String get privacyDashboardDirectMessagesMembersDesc =>
-      'Povolit členům komunit, ve kterých se nacházíte, aby vám posílali přímé zprávy';
-
-  @override
   String get privacyDashboardDirectMessagesBots =>
       'Povolit přímé zprávy od komunitních botů';
-
-  @override
-  String get privacyDashboardDirectMessagesBotsDesc =>
-      'Povolit botům z komunit, ve kterých jste, posílat vám přímé zprávy';
-
-  @override
-  String get privacyDashboardConnectionsSectionDesc =>
-      'Ovládejte, kdo vám může posílat žádosti o přátelství a přímé zprávy';
-
-  @override
-  String get privacyDashboardCommunicationSectionDesc =>
-      'Ovládejte, kdo vám může lhat a přidávat vás do skupinových chatů';
 
   @override
   String get privacyDashboardIncomingCallsTitle => 'Příchozí hovory';
 
   @override
-  String get privacyDashboardIncomingCallsDesc =>
-      'Ovládejte, kdo vám může lhat';
-
-  @override
   String get privacyDashboardAllowedCallers => 'Kdo vám může volat';
-
-  @override
-  String get privacyDashboardIncomingCallNobody => 'Nikdo';
 
   @override
   String get privacyDashboardIncomingCallNobodyDesc =>
       'Blokovat všechny příchozí hovory';
 
   @override
-  String get privacyDashboardIncomingCallFriendsOnly => 'Jen přátelé';
-
-  @override
   String get privacyDashboardIncomingCallFriendsOnlyDesc =>
       'Povolit volání pouze přátelům (doporučeno)';
 
   @override
-  String get privacyDashboardIncomingCallCustom => 'Přátelé + Vlastní';
-
-  @override
   String get privacyDashboardIncomingCallCustomDesc =>
       'Povolit přátelům a dalším skupinám, které vyberete';
-
-  @override
-  String get privacyDashboardIncomingCallEveryone => 'Všichni';
 
   @override
   String get privacyDashboardIncomingCallEveryoneDesc =>
@@ -6702,30 +6240,14 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get privacyDashboardAdditionalGroups => 'Další skupiny';
 
   @override
-  String get privacyDashboardCallFriendsOfFriendsDesc =>
-      'Lidé, kteří jsou přáteli vašich přátel, vám mohou volat';
-
-  @override
-  String get privacyDashboardCallGuildMembersDesc =>
-      'Lidé z komunit, ve kterých jste oba, vám mohou volat';
-
-  @override
   String get privacyDashboardRingBehavior => 'Chování vyzvánění';
 
   @override
   String get privacyDashboardSilentCalls => 'Tiché hovory od všech';
 
   @override
-  String get privacyDashboardSilentCallsDesc =>
-      'Všechny hovory budou místo zvonění tiše upozorňovat. Ve výchozím nastavení jsou hovory od neznámých kontaktů vždy tiché.';
-
-  @override
   String get privacyDashboardGroupDmTitle =>
       'Kdo vás může přidat do skupinových chatů';
-
-  @override
-  String get privacyDashboardGroupDmDesc =>
-      'Ovládejte, kdo vás může přidávat do skupinových chatů bez zeptání. Kdokoli vám stále může poslat odkaz s pozvánkou k připojení.';
 
   @override
   String get privacyDashboardAllowedInvites =>
@@ -6746,14 +6268,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   @override
   String get privacyDashboardGroupDmEveryoneDesc =>
       'Povolit komukoli přidat vás do skupinových chatů bez zeptání';
-
-  @override
-  String get privacyDashboardGroupDmFriendsOfFriendsDesc =>
-      'Lidé, kteří jsou přáteli vašich přátel, vás mohou přidat do skupinových chatů';
-
-  @override
-  String get privacyDashboardGroupDmGuildMembersDesc =>
-      'Lidé z komunit, ve kterých jste oba, vás mohou přidat do skupinových chatů';
 
   @override
   String get privacyDashboardVoiceActivityTitle =>
@@ -7159,16 +6673,48 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get chatMessageAddReaction => 'Přidat reakci';
 
   @override
-  String get doubleTapReactionHint => 'Double tap a message to';
+  String get doubleTapReactionHint => 'Dvojitým klepnutím na zprávu reagujete';
 
   @override
   String get doubleTapReactionEdit => 'Upravit';
 
   @override
-  String get doubleTapReactionEditTitle => 'Edit default';
+  String get doubleTapReactionEditTitle => 'Upravit výchozí';
 
   @override
-  String get doubleTapReactionEditSubtitle => 'Choose double tap emoji';
+  String get doubleTapReactionEditSubtitle =>
+      'Vyberte emoji pro dvojité klepnutí';
+
+  @override
+  String get messagesMediaDoubleTapSectionTitle => 'Double tap';
+
+  @override
+  String get messagesMediaDoubleTapSectionDescription =>
+      'Choose what happens when you double tap a message.';
+
+  @override
+  String get messagesMediaDoubleTapActionLabel => 'Double tap action';
+
+  @override
+  String get messagesMediaDoubleTapActionReactName => 'Add reaction';
+
+  @override
+  String get messagesMediaDoubleTapActionReactDescription =>
+      'Adds your default double-tap emoji as a reaction.';
+
+  @override
+  String get messagesMediaDoubleTapActionEditName => 'Edit message';
+
+  @override
+  String get messagesMediaDoubleTapActionEditDescription =>
+      'Opens the editor on messages you sent. Other messages are unchanged.';
+
+  @override
+  String get messagesMediaDoubleTapActionNoneName => 'Nothing';
+
+  @override
+  String get messagesMediaDoubleTapActionNoneDescription =>
+      'Double tap is disabled.';
 
   @override
   String get chatMessageEdit => 'Upravit zprávu';
@@ -7177,10 +6723,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get chatMessageReply => 'Odpovědět';
 
   @override
-  String get notificationReplyPlaceholder => 'Message';
+  String get notificationReplyPlaceholder => 'Zpráva';
 
   @override
-  String get notificationReplyFailed => 'Couldn\'t send reply';
+  String get notificationReplyFailed => 'Odpověď se nepodařilo odeslat';
 
   @override
   String get chatMessageForward => 'Přeposlat';
@@ -7378,354 +6924,121 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get chatMessageReport => 'Nahlásit zprávu';
 
   @override
-  String get iarReportMessageTitle => 'Nahlásit zprávu';
+  String get reportFlowTitleMessage => 'Nahlásit zprávu';
 
   @override
-  String get iarThisUserFallback => 'tento uživatel';
+  String get reportFlowTitleUserProfile => 'Nahlásit profil';
 
   @override
-  String get iarModalDescription =>
-      'Nahlaste porušení pravidel nebo najděte nástroje pro správu kontaktů a předvoleb.';
+  String get reportFlowSummaryTitle => 'Zkontrolujte své nahlášení';
 
   @override
-  String get iarPathStepAriaLabel => 'Co potřebujete?';
+  String get reportFlowSummarySubtitle =>
+      'Ujistěte se, že to před odesláním vypadá správně.';
 
   @override
-  String get iarCategoryStepTitle => 'Jaký typ pravidla byl porušen?';
-
-  @override
-  String get iarReasonStepTitle => 'Které pravidlo bylo porušeno?';
-
-  @override
-  String get iarReasonSelectHint => 'Vyberte důvod';
-
-  @override
-  String get iarPickAnOptionToast => 'Vyberte možnost pro pokračování.';
-
-  @override
-  String get iarPickARuleToast => 'Vyberte pravidlo, které bylo porušeno.';
-
-  @override
-  String get iarPathPlatform => 'Nahlásit porušení pravidel platformy';
-
-  @override
-  String get iarPathCommunity => 'Nahlásit moderátorům této komunity';
-
-  @override
-  String get iarPathPreferenceMessage => 'Nelíbí se mi tento obsah';
-
-  @override
-  String get iarCategoryTargetedHarmLabel =>
-      'Vyhrožování, obtěžování nebo újma';
-
-  @override
-  String get iarCategoryTargetedHarmDescription =>
-      'Šikana, výhrůžky, nenávist, násilí, nájezdy nebo obsah nabádající k sebepoškozování.';
-
-  @override
-  String get iarCategorySafetyMinorsLabel =>
-      'Bezpečnost dětí nebo obsah pro dospělé';
-
-  @override
-  String get iarCategorySafetyMinorsDescription =>
-      'Ohrožení nezletilých, obsah pro dospělé na nevhodném místě nebo nežádoucí chování.';
-
-  @override
-  String get iarCategoryPrivacyIdentityLabel =>
-      'Soukromí nebo vydávání se za někoho jiného';
-
-  @override
-  String get iarCategoryPrivacyIdentityDescription =>
-      'Doxxing, stalking, vydávání se za někoho nebo nevhodný profil.';
-
-  @override
-  String get iarCategoryDeceptionLabel => 'Podvody, malware nebo dezinformace';
-
-  @override
-  String get iarCategoryDeceptionDescription =>
-      'Phishing, podvody, škodlivé odkazy nebo falešná tvrzení, která pravděpodobně způsobí skutečnou škodu.';
-
-  @override
-  String get iarCategoryIllegalOtherLabel =>
-      'Nezákonná činnost nebo něco jiného';
-
-  @override
-  String get iarCategoryIllegalOtherDescription =>
-      'Nezákonný prodej, napomáhání trestné činnosti nebo jasné porušení pravidel, které nespadá do výše uvedených kategorií.';
-
-  @override
-  String get iarReasonHarassmentLabel => 'Obtěžování nebo hrozby';
-
-  @override
-  String get iarReasonHarassmentMessageDescription =>
-      'Šikana, opakovaný nevyžádaný kontakt, pronásledování nebo cílené obtěžování.';
-
-  @override
-  String get iarReasonHateLabel => 'Nenávistné projevy';
-
-  @override
-  String get iarReasonHateMessageDescription =>
-      'Nadávky, dehumanizující jazyk nebo útoky na chráněné skupiny.';
-
-  @override
-  String get iarReasonViolenceLabel => 'Násilí nebo násilné hrozby';
-
-  @override
-  String get iarReasonViolenceDescription =>
-      'Věrohodné hrozby, explicitní násilí nebo oslavování násilí.';
-
-  @override
-  String get iarReasonMatureContentLabel => 'Obsah pro dospělé nebo obtěžování';
-
-  @override
-  String get iarReasonMatureContentMessageDescription =>
-      'Nevhodné chování nebo obsah pro dospělé na nesprávném místě.';
-
-  @override
-  String get iarReasonChildSafetyLabel =>
-      'Bezpečnost dětí nebo zneužívání nezletilých';
-
-  @override
-  String get iarReasonChildSafetyMessageDescription =>
-      'Navazování kontaktu s dětmi za účelem zneužití nebo obsah zobrazující zneužívání dětí.';
-
-  @override
-  String get iarReasonHarmfulMisinfoLabel => 'Škodlivé dezinformace';
-
-  @override
-  String get iarReasonHarmfulMisinfoDescription =>
-      'Nepravdivá tvrzení, která pravděpodobně způsobí skutečnou újmu.';
-
-  @override
-  String get iarReasonSpamLabel => 'Spam, podvody nebo phishing';
-
-  @override
-  String get iarReasonSpamMessageDescription =>
-      'Hromadný spam, podvody, falešné soutěže nebo zneužití účtu.';
-
-  @override
-  String get iarReasonMalwareLabel => 'Malware nebo nebezpečné odkazy';
-
-  @override
-  String get iarReasonMalwareDescription =>
-      'Malware, krádež přihlašovacích údajů nebo škodlivé soubory.';
-
-  @override
-  String get iarReasonPrivacyLabel => 'Porušení soukromí';
-
-  @override
-  String get iarReasonPrivacyDescription =>
-      'Doxxing, zveřejnění soukromých informací nebo stalking.';
-
-  @override
-  String get iarReasonImpersonationLabel =>
-      'Vydávání se za někoho jiného nebo klamavá média';
-
-  @override
-  String get iarReasonImpersonationMessageDescription =>
-      'Vydávání se za někoho jiného, včetně klamavého obsahu vytvořeného umělou inteligencí.';
-
-  @override
-  String get iarReasonIllegalLabel => 'Nezákonná aktivita';
-
-  @override
-  String get iarReasonIllegalDescription =>
-      'Nezákonný prodej, napomáhání trestné činnosti nebo nezákonná činnost.';
-
-  @override
-  String get iarReasonSelfHarmLabel => 'Sebepoškozování nebo sebevražda';
-
-  @override
-  String get iarReasonSelfHarmMessageDescription =>
-      'Propagace nebo návod k sebepoškozování či poruchám příjmu potravy.';
-
-  @override
-  String get iarReasonOtherLabel => 'Jiné zjevné porušení pravidel';
-
-  @override
-  String iarReasonOtherDescription(String productName) {
-    return 'Použijte pouze v případě, že jasně porušuje pravidla $productName a nespadá do výše uvedených kategorií.';
+  String reportFlowDisclaimer(String guidelines) {
+    return 'Nahlašujte jen to, o čem jste upřímně přesvědčeni, že porušuje pravidla. Zneužití nahlášení porušuje naše $guidelines.';
   }
 
   @override
-  String iarUseChildSafetyInstead(String childSafetyReason) {
-    return 'Pokud se jedná o nezletilou osobu, použijte místo toho „$childSafetyReason“.';
+  String get reportFlowCommunityGuidelinesLink => 'pravidla komunity';
+
+  @override
+  String get reportFlowDisclaimerNoLink =>
+      'Nahlašujte jen to, o čem jste upřímně přesvědčeni, že porušuje pravidla, a prosím, neodesílejte stejné nahlášení dvakrát.';
+
+  @override
+  String get reportFlowSelectedMessage => 'Zpráva, kterou nahlašujete';
+
+  @override
+  String get reportFlowSelectedUser => 'Profil, který nahlašujete';
+
+  @override
+  String get reportFlowReportCategory => 'Vaše odpovědi';
+
+  @override
+  String get reportFlowSubmit => 'Odeslat nahlášení';
+
+  @override
+  String get reportFlowBack => 'Zpět';
+
+  @override
+  String get reportFlowNext => 'Další';
+
+  @override
+  String get reportFlowDone => 'Hotovo';
+
+  @override
+  String get reportFlowThankYouTitle => 'Nahlášení odesláno';
+
+  @override
+  String get reportFlowThankYouNoReportTitle =>
+      'Děkujeme, že jste na to upozornili';
+
+  @override
+  String reportFlowThankYouBody(String productName) {
+    return 'Tým bezpečnosti $productName vaše nahlášení posoudí. Neprozradíme, že pochází od vás.';
   }
 
   @override
-  String get iarSafetyNoteChildSafety =>
-      'Pokud se jedná o CSAM nebo zneužívání nezletilé osoby, odešlete to nyní a znovu nesdílejte materiál.';
+  String get reportFlowThankYouNoReportBody =>
+      'Děkujeme, že jste nám to oznámili. Samo o sobě to naše pravidla neporušuje, proto jsme neodeslali žádné nahlášení. Pokud to míří na někoho nebo obsahuje urážky, nahlaste to znovu a vyberte „Zneužívající nebo škodlivý obsah“.';
 
   @override
-  String get iarSafetyNoteSelfHarm =>
-      'Pokud někomu může hrozit bezprostřední nebezpečí, kontaktujte místní záchranné složky, pokud to můžete udělat bezpečně.';
+  String get reportFlowThankYouNoReportBodyShort =>
+      'Děkujeme, že jste nám to oznámili. Samo o sobě to naše pravidla neporušuje, proto jsme neodeslali žádné nahlášení.';
 
   @override
-  String get iarSafetyNoteViolence =>
-      'Pokud jde o věrohodnou bezprostřední hrozbu, kontaktujte také místní záchranné složky.';
+  String get reportFlowMoreYouCanDo => 'Vaše možnosti';
 
   @override
-  String get iarSafetyNoteTerrorism =>
-      'Pokud se jedná o bezprostřední teroristickou hrozbu, kontaktujte také místní záchranné složky.';
-
-  @override
-  String get iarActionBlockUserTitle => 'Blokovat tohoto uživatele';
-
-  @override
-  String get iarActionBlockUserDescription =>
-      'Zastavit zprávy a žádosti o přátelství.';
-
-  @override
-  String get iarActionBlockUserButton => 'Blokovat';
-
-  @override
-  String get iarActionCopyMessageLinkTitle => 'Kopírovat odkaz na zprávu';
-
-  @override
-  String get iarActionCopyMessageLinkDescription =>
-      'Sdílet s moderátory komunity.';
-
-  @override
-  String get iarActionCopyMessageLinkButton => 'Kopírovat';
-
-  @override
-  String get iarActionCloseDmTitle => 'Zavřít tuto soukromou konverzaci';
-
-  @override
-  String get iarActionCloseDmDescription =>
-      'Neblokuje. Můžete znovu otevřít později.';
-
-  @override
-  String get iarActionCloseDmButton => 'Zavřít soukromou konverzaci';
-
-  @override
-  String get iarActionLeaveCommunityTitle => 'Opustit komunitu';
-
-  @override
-  String get iarActionLeaveCommunityDescription =>
-      'Přestanete vídat její obsah a členy.';
-
-  @override
-  String get iarActionLeaveCommunityButton => 'Opustit';
-
-  @override
-  String get iarActionDmSettingsTitle =>
-      'Nastavení přímých zpráv a žádostí o přátelství';
-
-  @override
-  String get iarActionDmSettingsDescription =>
-      'Změňte, kdo vás může kontaktovat.';
-
-  @override
-  String get iarActionCallSettingsTitle =>
-      'Nastavení hovorů a skupinových konverzací';
-
-  @override
-  String get iarActionCallSettingsDescription =>
-      'Změňte, kdo vám může volat nebo vás přidat.';
-
-  @override
-  String get iarActionOpenButton => 'Otevřít';
-
-  @override
-  String get iarActionDeleteMessageTitle => 'Smazat tuto zprávu';
-
-  @override
-  String get iarActionDeleteMessageDescription =>
-      'Odstranit z kanálu pro všechny.';
-
-  @override
-  String get iarActionDeleteMessageButton => 'Smazat';
-
-  @override
-  String get iarActionDeleteMessageDeletedButton => 'Smazáno';
-
-  @override
-  String get iarActionDeleteMessageDeletedTooltip =>
-      'Tato zpráva již byla smazána.';
-
-  @override
-  String get iarActionBanUserTitle => 'Zabanovat tohoto uživatele';
-
-  @override
-  String get iarActionBanUserDescription =>
-      'Otevřít dialog pro zabanování v této komunitě.';
-
-  @override
-  String get iarActionBanUserButton => 'Zabanovat';
-
-  @override
-  String get iarActionBanUserBannedButton => 'Zabanováno';
-
-  @override
-  String get iarActionBanUserBannedTooltip =>
-      'Tento uživatel už má v komunitě ban.';
-
-  @override
-  String get iarCloseDmConfirmTitle => 'Zavřít soukromou konverzaci';
-
-  @override
-  String iarCloseDmConfirmDescription(String name) {
-    return 'Zavřete svůj aktuální soukromý chat s $name. Tím je neblokujete; můžete je znovu otevřít později.';
+  String reportFlowBlockName(String name) {
+    return 'Blokovat uživatele $name';
   }
 
   @override
-  String get iarSuccessTitle => 'Nahlášení odesláno';
+  String get reportFlowBlockDescription =>
+      'Skryje zprávy od této osoby a zabrání jí posílat vám zprávy';
 
   @override
-  String get iarSuccessBody =>
-      'Náš bezpečnostní tým nahlášení prověřuje. Jakmile rozhodneme, pošleme vám přímou zprávu a e-mail.';
+  String get reportFlowBlockButton => 'Blokovat';
 
   @override
-  String get iarAlreadyReportedTitle => 'Již nahlášeno';
+  String get reportFlowBlockedButton => 'Blokováno';
 
   @override
-  String get iarAlreadyReportedBody =>
-      'Tuto zprávu jste již nahlásili. Náš bezpečnostní tým ji prověřuje.';
+  String get reportFlowUrgentBanner =>
+      'Pokud je někdo v bezprostředním nebezpečí, nejprve kontaktujte místní záchranné složky.';
 
   @override
-  String get iarBackButton => 'Zpět';
+  String get reportFlowLoadFailed => 'Nepodařilo se načíst formulář nahlášení.';
 
   @override
-  String get iarContinueButton => 'Pokračovat';
+  String get reportFlowTryAgain => 'Zkusit znovu';
 
   @override
-  String get iarSendReportButton => 'Odeslat nahlášení';
+  String get reportFlowOutdated =>
+      'Formulář nahlášení se změnil. Začněte prosím znovu.';
 
   @override
-  String get iarDoneButton => 'Hotovo';
+  String get reportFlowAlreadyReported => 'Tuto zprávu jste již nahlásili.';
 
   @override
-  String get iarCouldntSendToast =>
-      'Nahlášení se nepodařilo odeslat. Zkuste to prosím znovu.';
+  String get reportFlowAlreadyReportedProfile =>
+      'Tento profil jste dnes již nahlásili.';
 
   @override
-  String get iarRateLimitedToast =>
-      'Nahlásili jste příliš rychle. Počkejte prosím chvíli a zkuste to znovu.';
+  String get reportFlowRateLimited =>
+      'Odesíláte nahlášení příliš rychle. Zkuste to později.';
 
   @override
-  String get iarReportSentToast =>
-      'Nahlášení odesláno. Náš bezpečnostní tým ho prověří.';
+  String get reportFlowSubmitFailed =>
+      'Nahlášení se nepodařilo odeslat. Zkuste to znovu.';
 
   @override
-  String iarBlockUserConfirmDescription(String name) {
-    return 'Zablokovat $name? Nebude vám moci posílat zprávy ani vám posílat žádosti o přátelství. Můžete je později odblokovat.';
-  }
-
-  @override
-  String get iarBlockUserFailedToast =>
-      'Nepodařilo se zablokovat tohoto uživatele. Zkuste to prosím znovu.';
-
-  @override
-  String get iarCloseDmSuccessToast => 'Soukromý chat zavřen.';
-
-  @override
-  String get iarCloseDmFailedToast =>
-      'Nepodařilo se zavřít tento soukromý chat. Zkuste to prosím znovu.';
-
-  @override
-  String get iarLeaveCommunityFailedToast =>
-      'Nepodařilo se opustit tuto komunitu. Zkuste to prosím znovu.';
+  String get reportFlowAccountSetupRequired =>
+      'Dokončete registraci účtu a ověřte svůj e-mail, abyste mohli odesílat nahlášení.';
 
   @override
   String get chatMessageSuppressEmbeds => 'Skrýt vložený obsah';
@@ -7937,7 +7250,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get chatVideoPlaybackFailed => 'Toto video se nepodařilo přehrát.';
 
   @override
-  String get chatImageCouldNotLoad => 'Could not load this image.';
+  String get chatImageCouldNotLoad => 'Nepodařilo se načíst tento obrázek.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
@@ -7955,21 +7268,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   @override
   String get composerAutocompleteOptionalArgumentsHeading =>
       'Volitelné argumenty';
-
-  @override
-  String get composerAutocompleteChannelsHeading => 'Kanály';
-
-  @override
-  String get composerAutocompleteMembersHeading => 'Členové';
-
-  @override
-  String get composerAutocompleteUsersHeading => 'Uživatelé';
-
-  @override
-  String get composerAutocompleteMentionsHeading => 'Zmínky';
-
-  @override
-  String get composerAutocompleteRolesHeading => 'Role';
 
   @override
   String get composerAutocompleteMediaHeading => 'Média';
@@ -8225,9 +7523,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Data šablony komunity je neplatná nebo poškozená.';
 
   @override
-  String get addGuildPackInstalled => 'Balíček byl úspěšně nainstalován.';
-
-  @override
   String get chatMessageRemoveAllReactionsConfirmTitle =>
       'Odebrat všechny reakce';
 
@@ -8320,9 +7615,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get channelDetailsDeleteChannel => 'Smazat kanál';
-
-  @override
-  String get channelSettingsCategorySettingsTitle => 'Nastavení kategorie';
 
   @override
   String get channelSettingsEditCategory => 'Upravit kategorii';
@@ -8523,16 +7815,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Zkuste to znovu za chvíli.';
 
   @override
-  String get channelSettingsResetSlider => 'Obnovit výchozí hodnotu posuvníku';
-
-  @override
-  String get channelSettingsAdvanced => 'Pokročilé';
-
-  @override
-  String get channelSettingsMatureContentOverride =>
-      'Vlastní nastavení obsahu pro dospělé';
-
-  @override
   String channelSettingsMatureContentSectionDescription(String scopeLevel) {
     return 'Přepsat nastavení úrovně $scopeLevel pro tento kanál. Obsah pro dospělé se zobrazí za bránou před vstupem.';
   }
@@ -8565,12 +7847,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   }
 
   @override
-  String get channelSettingsMatureContentCategorySource => 'kategorie';
-
-  @override
-  String get channelSettingsMatureContentCommunitySource => 'komunita';
-
-  @override
   String get channelSettingsMatureContentCategoryScope => 'Kategorie';
 
   @override
@@ -8589,20 +7865,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get channelSettingsContentWarningDefault => 'Obsahuje citlivý obsah.';
-
-  @override
-  String channelSettingsPermissionsNeedManageChannels(
-    String manageChannelsPermissionLabel,
-  ) {
-    return 'K úpravě těchto oprávnění potřebujete oprávnění \"$manageChannelsPermissionLabel\".';
-  }
-
-  @override
-  String channelSettingsPermissionsNeedManageRoles(
-    String manageRolesPermissionLabel,
-  ) {
-    return 'K úpravě těchto oprávnění potřebujete oprávnění \"$manageRolesPermissionLabel\".';
-  }
 
   @override
   String get channelSettingsUnknownRole => 'Neznámá role';
@@ -8679,9 +7941,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Hledat role nebo členy…';
 
   @override
-  String get channelSettingsPermissionsRolesAndMembers => 'Role a členové';
-
-  @override
   String get channelSettingsDeleteInvite => 'Smazat pozvánku';
 
   @override
@@ -8754,9 +8013,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String channelSettingsWebhooksCreatedBy(String creator, String date) {
     return 'Vytvořil $creator dne $date';
   }
-
-  @override
-  String get channelSettingsWebhooksUnknownUser => 'Neznámý uživatel';
 
   @override
   String get channelSettingsWebhooksAvatar => 'Avatar';
@@ -8912,9 +8168,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get channelDetailsPinsEndReached => 'Dostali jste se na konec';
-
-  @override
-  String get channelHeaderOpenDetails => 'Otevřít podrobnosti kanálu';
 
   @override
   String get channelHeaderPinnedMessages => 'Připnuté zprávy';
@@ -9381,9 +8634,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get groupDmEditTitle => 'Upravit skupinu';
 
   @override
-  String get groupDmEditDetailsTooltip => 'Upravit podrobnosti skupiny';
-
-  @override
   String get groupDmGroupName => 'Název skupiny';
 
   @override
@@ -9435,13 +8685,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get groupDmUnsupportedIconFormatBody => 'Nepodporovaný typ souboru.';
 
   @override
-  String get groupDmCouldntProcessImage => 'Nepodařilo se zpracovat obrázek';
-
-  @override
-  String get groupDmFailedToProcessCroppedImage =>
-      'Nepodařilo se zpracovat oříznutý obrázek. Zkuste to znovu.';
-
-  @override
   String get groupDmInvalidImage => 'Neplatný obrázek';
 
   @override
@@ -9467,19 +8710,12 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Nepodařilo se přidat tohoto přítele do skupiny. Zkuste to prosím znovu.';
 
   @override
-  String get groupDmAddFailed => 'Nepodařilo se přidat do skupiny';
-
-  @override
   String get groupDmGroupFull =>
       'Tato skupina je plná. Než přidáte další lidi, někoho odeberte.';
 
   @override
   String get groupDmRateLimited =>
       'Postupujete příliš rychle. Chvíli počkejte a zkuste to znovu.';
-
-  @override
-  String get groupDmCreateInviteFailed =>
-      'Nepodařilo se vytvořit odkaz na pozvánku';
 
   @override
   String get groupDmCreateInviteFailedBody =>
@@ -9551,7 +8787,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String dmComposerHint(String recipientName) {
-    return 'Message @$recipientName';
+    return 'Napsat @$recipientName';
   }
 
   @override
@@ -9684,9 +8920,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get userSettingsSearchPlaceholder => 'Hledat nastavení...';
 
   @override
-  String get userSettingsSearchFieldLabel => 'Hledat v nastavení';
-
-  @override
   String get userSettingsSearchClear => 'Vymazat hledání';
 
   @override
@@ -9765,14 +8998,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get giftSettingsCopied => 'Zkopírováno';
 
   @override
-  String get giftSettingsGiftUrlCopied =>
-      'Adresa dárku zkopírována do schránky!';
-
-  @override
-  String get giftSettingsGiftUrlCopyFailed =>
-      'Nepodařilo se zkopírovat URL dárku';
-
-  @override
   String giftSettingsPurchasedDate(String date) {
     return 'Zakoupeno $date';
   }
@@ -9840,9 +9065,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get premiumOneMonthGift => 'Dárek na 1 měsíc';
 
   @override
-  String get premiumMostPopular => 'Nejoblíbenější';
-
-  @override
   String get premiumScrollPrompt =>
       'Přejděte dolů a zobrazte všechny výhody zahrnuté v Plutonium';
 
@@ -9877,26 +9099,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get premiumReadyToBuyGift => 'Chcete koupit dárek?';
 
   @override
-  String premiumMonthlyPrice(String price) {
-    return 'Měsíčně $price';
-  }
-
-  @override
-  String premiumYearlyPrice(String price) {
-    return 'Ročně $price';
-  }
-
-  @override
-  String premiumOneYearPrice(String price) {
-    return '1 rok $price';
-  }
-
-  @override
-  String premiumOneMonthPrice(String price) {
-    return '1 měsíc $price';
-  }
-
-  @override
   String get premiumManageSubscription => 'Spravovat předplatné';
 
   @override
@@ -9916,9 +9118,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get premiumCancelSubscriptionConfirm => 'Zrušit předplatné';
 
   @override
-  String get premiumKeepSubscription => 'Ponechat předplatné';
-
-  @override
   String get premiumPurchaseHistoryTitle => 'Historie nákupů';
 
   @override
@@ -9927,12 +9126,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get premiumManagePaymentMethods => 'Spravovat platební metody';
-
-  @override
-  String get premiumBillingHistory => 'Historie plateb';
-
-  @override
-  String get premiumSelfServeRefundTitle => 'Vrácení peněz bez asistence';
 
   @override
   String get premiumSelfServeRefundButton => 'Vrátit poslední nákup';
@@ -9981,11 +9174,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get premiumComparisonFeatureColumn => 'Funkce';
 
   @override
-  String premiumDisclaimerPurchased(String terms, String privacy) {
-    return 'Nákupem jste přijali naše $terms a $privacy.';
-  }
-
-  @override
   String get premiumDisclaimerRefund =>
       'Samoobslužné vrácení peněz je k dispozici do 3 dnů od platby, jednou za 30 dní. Vrácením peněz za předplatné dojde k jeho zrušení. Kupující z EU/EHP se při placení vzdávají 14denního práva na odstoupení od smlouvy, aby získali okamžitý přístup k obsahu. Místo zpětného zúčtování použijte tlačítko pro vrácení peněz v aplikaci. Zpětné zúčtování může trvale omezit váš účet. Platby bezpečně zpracovává Stripe. Nikdy nevidíme celé číslo vaší karty.';
 
@@ -10005,6 +9193,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   @override
   String get premiumPlanUnavailable =>
       'Tento tarif není k dispozici. Kontaktujte podporu.';
+
+  @override
+  String get premiumPlanUnavailableSelfHosted =>
+      'Tento tarif není k dispozici. Kontaktujte správce této instance.';
 
   @override
   String get premiumCompletePaymentTitle => 'Dokončit platbu';
@@ -10059,8 +9251,13 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get premiumPurchasesDisabledTitle => 'Nákupy nejsou k dispozici';
 
   @override
-  String get premiumPurchasesDisabledBody =>
-      'Nákupy jsou pro tento účet zakázány. Pokud se vám to nezdá, kontaktujte support@fluxer.app.';
+  String premiumPurchasesDisabledBody(String supportEmail) {
+    return 'Nákupy jsou pro tento účet zakázány. Pokud se vám to nezdá, kontaktujte $supportEmail.';
+  }
+
+  @override
+  String get premiumPurchasesDisabledBodySelfHosted =>
+      'Nákupy jsou pro tento účet zakázány. Pokud se vám to nezdá, kontaktujte správce této instance.';
 
   @override
   String get premiumClaimAccountToPurchase =>
@@ -10069,25 +9266,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   @override
   String get premiumVerifyEmailToPurchase =>
       'Před nákupem Fluxer Plutonium si musíte ověřit svůj e-mail.';
-
-  @override
-  String get premiumPerkCustomUsernameTag => 'Vlastní čtyřmístný identifikátor';
-
-  @override
-  String get premiumPerkPerCommunityProfiles =>
-      'Profily pro jednotlivé komunity';
-
-  @override
-  String get premiumPerkMessageScheduling => 'Plánování zpráv';
-
-  @override
-  String get premiumPerkProfileBadge => 'Odznak profilu';
-
-  @override
-  String get premiumPerkCustomVideoBackgrounds => 'Vlastní pozadí videa';
-
-  @override
-  String get premiumPerkEntranceSounds => 'Zvuky při vstupu';
 
   @override
   String get premiumPerkCommunities => 'Komunity';
@@ -10102,17 +9280,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get premiumPerkFileUploadSize => 'Velikost nahrávaného souboru';
 
   @override
-  String get premiumPerkEmojiStickerPacks => 'Balíčky emoji a samolepek';
-
-  @override
-  String get premiumPerkSavedMedia => 'Uložená média';
-
-  @override
   String get premiumPerkUseAnimatedEmojis => 'Používat animované emoji';
-
-  @override
-  String get premiumPerkGlobalEmojiStickerAccess =>
-      'Globální přístup k emoji a samolepkám';
 
   @override
   String get premiumPerkVideoQuality => 'Kvalita videa';
@@ -10125,9 +9293,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get premiumPerkEarlyAccess => 'Předběžný přístup k novým funkcím';
 
   @override
-  String get premiumPerkCustomThemes => 'Vlastní motivy';
-
-  @override
   String get premiumPerkVideoQualityRestricted => '720p/30fps';
 
   @override
@@ -10135,180 +9300,184 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String storePlutoniumPriceLine(String monthly, String yearly) {
-    return '$monthly or $yearly';
+    return '$monthly nebo $yearly';
   }
 
   @override
-  String get storePlutoniumMonthSuffix => '/mo';
+  String get storePlutoniumMonthSuffix => '/měs.';
 
   @override
-  String get storePlutoniumYearSuffix => '/yr';
+  String get storePlutoniumYearSuffix => '/rok';
 
   @override
-  String get storePlutoniumPriceOr => 'or';
+  String get storePlutoniumPriceOr => 'nebo';
 
   @override
-  String get storePlutoniumEmojiTitle => 'Your emojis, everywhere';
+  String get storePlutoniumEmojiTitle => 'Vaše emoji všude';
 
   @override
   String get storePlutoniumEmojiBody =>
-      'Bring custom emojis and stickers from any of your communities into every chat and community you\'re in.';
+      'Používejte vlastní emoji a samolepky ze všech svých komunit v každém chatu a komunitě, ve které jste.';
 
   @override
-  String get storePlutoniumProfileTitle => 'A profile that stands out';
+  String get storePlutoniumProfileTitle => 'Profil, který vynikne';
 
   @override
   String get storePlutoniumProfileBody =>
-      'Get an animated avatar and banner, a subscriber badge, the four-digit tag you want after your username*, and a separate profile for each community.';
+      'Získejte animovaný avatar a banner, odznak předplatitele, vybraný čtyřmístný tag za uživatelským jménem* a samostatný profil pro každou komunitu.';
 
   @override
-  String get storePlutoniumFilesTitle => 'Send files up to 500 MB';
+  String get storePlutoniumFilesTitle => 'Posílejte soubory až do 500 MB';
 
   @override
   String get storePlutoniumFilesBody =>
-      'Share full-length videos and big files without shrinking them first. Free accounts can send up to 25 MB.';
+      'Sdílejte celovečerní videa a velké soubory, aniž byste je museli zmenšovat. Bezplatné účty mohou odesílat až 25 MB.';
 
   @override
-  String get storePlutoniumCompareTitle => 'Compare Free and Plutonium';
+  String get storePlutoniumCompareTitle => 'Porovnání verze zdarma a Plutonium';
 
   @override
   String get storePlutoniumCompareMobileNote =>
-      'Not all of these features are in the mobile app. Some are only available on desktop.';
+      'Ne všechny tyto funkce jsou v mobilní aplikaci. Některé jsou dostupné pouze na počítači.';
 
   @override
-  String get storePlutoniumNotAvailable => 'Not available';
+  String get storePlutoniumNotAvailable => 'Není k dispozici';
 
   @override
-  String get storePlutoniumAvailable => 'Available';
+  String get storePlutoniumAvailable => 'K dispozici';
 
   @override
   String get storePlutoniumCompareTag =>
-      'Pick the 4-digit number after your username*';
+      'Vyberte 4místné číslo za svým uživatelským jménem*';
 
   @override
   String get storePlutoniumCompareProfile =>
-      'A separate profile for each community';
+      'Samostatný profil pro každou komunitu';
 
   @override
-  String get storePlutoniumCompareBadge => 'Subscriber badge on your profile';
+  String get storePlutoniumCompareBadge =>
+      'Odznak předplatitele na vašem profilu';
 
   @override
   String get storePlutoniumCompareBackgrounds =>
-      'Video call backgrounds you can save';
+      'Video pozadí, která si můžete uložit';
 
   @override
-  String get storePlutoniumCompareCommunities => 'Communities you can join';
+  String get storePlutoniumCompareCommunities =>
+      'Komunity, ke kterým se můžete připojit';
 
   @override
-  String get storePlutoniumCompareCharacters =>
-      'Characters in a single message';
+  String get storePlutoniumCompareCharacters => 'Znaků v jedné zprávě';
 
   @override
-  String get storePlutoniumCompareBookmarks => 'Messages you can bookmark';
+  String get storePlutoniumCompareBookmarks =>
+      'Zprávy, které si můžete uložit do záložek';
 
   @override
-  String get storePlutoniumCompareUpload => 'Largest file you can upload';
+  String get storePlutoniumCompareUpload =>
+      'Největší soubor, který můžete nahrát';
 
   @override
   String get storePlutoniumCompareSavedMedia =>
-      'Media items you can save for later';
+      'Média, která si můžete uložit na později';
 
   @override
   String get storePlutoniumCompareAnimatedEmoji =>
-      'Use animated emojis in messages';
+      'Používat animované emoji ve zprávách';
 
   @override
   String get storePlutoniumCompareCustomEmoji =>
-      'Use custom emojis and stickers in any community';
+      'Používejte vlastní emoji a samolepky v jakékoli komunitě';
 
   @override
   String get storePlutoniumCompareVideo =>
-      'Video call and screen share quality';
+      'Kvalita videohovoru a sdílení obrazovky';
 
   @override
   String get storePlutoniumCompareAvatar =>
-      'Animated avatar and profile banner';
+      'Animovaný avatar a profilový banner';
 
   @override
-  String get storePlutoniumCompareEarlyAccess => 'Early access to new features';
+  String get storePlutoniumCompareEarlyAccess =>
+      'Předběžný přístup k novým funkcím';
 
   @override
-  String get storePlutoniumCompareThemes => 'Custom themes for the app';
+  String get storePlutoniumCompareThemes => 'Vlastní motivy pro aplikaci';
 
   @override
-  String get storePlutoniumVideoFree => 'Up to 720p at 30 FPS';
+  String get storePlutoniumVideoFree => 'Až 720p při 30 snímcích za sekundu';
 
   @override
-  String get storePlutoniumVideoPlutonium => 'Up to 4K at 60 FPS';
+  String get storePlutoniumVideoPlutonium => 'Až 4K při 60 snímcích za sekundu';
 
   @override
   String get storePlutoniumTagFootnote =>
-      'You can only pick a tag that nobody else with the same username already has. Usernames aren\'t case sensitive, so Mina#4821 and mina#4821 count as the same. The #0000 tag is reserved for Fluxer Visionary members.';
+      'Můžete si vybrat pouze takový tag, který ještě nikdo jiný se stejným uživatelským jménem nemá. Uživatelská jména nerozlišují velká a malá písmena, takže Mina#4821 a mina#4821 se počítají jako stejná. Tag #0000 je vyhrazen pro členy Fluxer Visionary.';
 
   @override
-  String get storePlutoniumLearnVisionary => 'Learn more about Visionary.';
+  String get storePlutoniumLearnVisionary => 'Zjistěte více o Visionary.';
 
   @override
   String get storePlutoniumDonatePrompt =>
-      'Just want to support Fluxer\'s open source development? ';
+      'Chcete jen podpořit open source vývoj Fluxeru? ';
 
   @override
-  String get storePlutoniumDonateLink => 'Donate instead.';
+  String get storePlutoniumDonateLink => 'Místo toho přispějte.';
 
   @override
   String get storePlutoniumHighlightsLead =>
-      'Subscribing funds Fluxer and unlocks';
+      'Předplacením podpoříte Fluxer a odemknete si';
 
   @override
   String get storePlutoniumHighlightEmoji =>
-      'Custom emoji and stickers in any chat';
+      'Vlastní emoji a samolepky v jakémkoli chatu';
 
   @override
   String get storePlutoniumHighlightProfile =>
-      'Animated profile, badge, and custom 4-digit number';
+      'Animovaný profil, odznak a vybrané čtyřmístné číslo';
 
   @override
-  String get storePlutoniumHighlightFiles => 'Uploads up to 500 MB';
+  String get storePlutoniumHighlightFiles => 'Nahrávání souborů až do 500 MB';
 
   @override
   String get storePlutoniumHighlightMessages =>
-      'Send messages up to 4,000 characters';
+      'Posílejte zprávy o délce až 4 000 znaků';
 
   @override
   String get storePlutoniumHighlightCommunityProfile =>
-      'A separate profile for each community';
+      'Samostatný profil pro každou komunitu';
 
   @override
-  String get storePlutoniumHighlightsMore => 'And more';
+  String get storePlutoniumHighlightsMore => 'A další';
 
   @override
   String get storePlutoniumRenewsThroughPlay =>
-      'Renews automatically through Google Play until you cancel.';
+      'Automaticky se obnovuje přes Google Play, dokud předplatné nezrušíte.';
 
   @override
   String get storePlutoniumRenewsThroughAppStore =>
-      'Renews automatically through the App Store until you cancel.';
+      'Automaticky se obnovuje přes App Store, dokud předplatné nezrušíte.';
 
   @override
   String get storePlutoniumAlreadySubscribed =>
-      'You already have a Fluxer Plutonium subscription.';
+      'Už máte předplatné Fluxer Plutonium.';
 
   @override
   String storePlutoniumSavePercent(int percent) {
-    return 'Save $percent%';
+    return 'Ušetřete $percent%';
   }
 
   @override
   String get storePlutoniumWaiting =>
-      'Purchase received. Plutonium will show here once it activates.';
+      'Nákup přijat. Plutonium se zde zobrazí, jakmile se aktivuje.';
 
   @override
   String get storePlutoniumUnavailable =>
-      'Subscriptions in the app aren\'t available on this device yet.';
+      'Předplatné v aplikaci zatím na tomto zařízení není k dispozici.';
 
   @override
   String get storePlutoniumVisionaryStatus =>
-      'Visionary already includes permanent access, so a recurring subscription isn\'t needed.';
+      'Visionary již zahrnuje trvalý přístup, takže opakované předplatné není potřeba.';
 
   @override
   String get userSettingsNavPrivacyDashboard => 'Přehled ochrany soukromí';
@@ -10440,11 +9609,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get audioAndVideoMicTestStopLabel => 'Zastavit test mikrofonu';
 
   @override
-  String audioAndVideoMicTestPermissionRequired(String productName) {
-    return '$productName potřebuje přístup k mikrofonu, aby mohl otestovat váš vstup.';
-  }
-
-  @override
   String get audioAndVideoCameraLabel => 'Kamera';
 
   @override
@@ -10479,23 +9643,8 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get audioAndVideoFrameRate60Label => '60 snímků/s';
 
   @override
-  String audioAndVideoHigherQualityRequiresPremium(String premiumProductName) {
-    return '1080p a 60 FPS vyžadují $premiumProductName.';
-  }
-
-  @override
   String get audioAndVideoInstanceVideoQualityLimit =>
       'Tato instance momentálně umožňuje sdílení obrazovky až do rozlišení 720p při 30 snímcích za sekundu.';
-
-  @override
-  String audioAndVideoMicrophonePermissionRequired(String productName) {
-    return 'Aplikace $productName potřebuje přístup k mikrofonu, aby mohla zobrazit vaše zařízení.';
-  }
-
-  @override
-  String audioAndVideoCameraPermissionRequired(String productName) {
-    return 'Aplikace $productName potřebuje přístup ke kameře, aby mohla zobrazit vaše zařízení.';
-  }
 
   @override
   String get audioAndVideoSkipHideOwnCameraConfirmLabel =>
@@ -10526,14 +9675,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   @override
   String get notificationsEnableDesktopNotificationsDescription =>
       'Používá oznamovací centrum OS. Pro nastavení oznámení pro jednotlivé kanály/komunity klikněte pravým tlačítkem na ikonu komunity a otevřete nastavení oznámení.';
-
-  @override
-  String get notificationsEnableBrowserNotificationsLabel =>
-      'Povolit oznámení prohlížeče';
-
-  @override
-  String get notificationsEnableBrowserNotificationsDescription =>
-      'Dostávejte oznámení, když obdržíte zprávy. Možná budete muset povolit oznámení v nastavení prohlížeče. Pro ovládání oznámení pro jednotlivé kanály/komunity klikněte pravým tlačítkem na ikonu komunity a otevřete nastavení oznámení.';
 
   @override
   String get notificationsPushInactiveTimeoutLabel =>
@@ -10826,9 +9967,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Vyberte jazyk používaný v celé aplikaci';
 
   @override
-  String get languageAndTimeOpenLanguageSettings => 'Otevřít nastavení jazyka';
-
-  @override
   String get languageAndTimeTimeFormatSectionTitle => 'Formát času';
 
   @override
@@ -10886,27 +10024,45 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get defaultAppsWebBrowserExternal => 'Externí prohlížeč';
 
   @override
-  String get userSettingsNavAppIcon => 'App icon';
+  String get userSettingsNavAppIcon => 'Ikona aplikace';
 
   @override
-  String get appIconSectionTitle => 'App icon';
+  String get appIconSectionTitle => 'Ikona aplikace';
 
   @override
   String get appIconSectionDescription =>
-      'Choose which icon appears on your home screen.';
+      'Vyberte, která ikona se zobrazí na vaší domovské obrazovce.';
 
   @override
   String get appIconOptionDefault => 'Výchozí';
 
   @override
-  String get appIconOptionStarfield => 'Starfield';
+  String get appIconOptionStarfield => 'Hvězdné pole';
 
   @override
   String get appIconOptionSweden => 'Švédsko';
 
   @override
+  String get appIconOptionGreyscale => 'Greyscale';
+
+  @override
+  String get appIconOptionRainbow => 'Rainbow';
+
+  @override
+  String get appIconOptionWaves => 'Waves';
+
+  @override
+  String get appIconOptionChromaticAberration => 'Chromatic aberration';
+
+  @override
+  String get appIconOptionDefaultBrutalist => 'Brutalist';
+
+  @override
+  String get appIconOptionGreyscaleBrutalist => 'Greyscale brutalist';
+
+  @override
   String get appIconUnsupported =>
-      'Changing the app icon is not available on this device.';
+      'Změna ikony aplikace není na tomto zařízení k dispozici.';
 
   @override
   String get userSettingsNavAdvanced => 'Pokročilé';
@@ -11065,10 +10221,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   @override
   String get advancedSettingTrustAllLinksLabel =>
       'Důvěřovat všem externím odkazům';
-
-  @override
-  String get advancedSettingTrustAllLinksDescription =>
-      'Přeskočit upozornění na externí odkaz pro všechny domény';
 
   @override
   String get advancedSettingSearchEnginesLabel => 'Vyhledávače';
@@ -11270,27 +10422,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   @override
   String get advancedSettingDeveloperModeDescription =>
       'Zapnout režim pro vývojáře';
-
-  @override
-  String get advancedSettingSearchEngineGoogle => 'Google';
-
-  @override
-  String get advancedSettingSearchEngineDuckDuckGo => 'DuckDuckGo';
-
-  @override
-  String get advancedSettingSearchEngineBing => 'Bing';
-
-  @override
-  String get advancedSettingSearchEngineGoogleLens => 'Google Lens';
-
-  @override
-  String get advancedSettingSearchEngineTinEye => 'TinEye';
-
-  @override
-  String get advancedSettingTranslatorGoogle => 'Překlad Google';
-
-  @override
-  String get advancedSettingTranslatorDeepL => 'DeepL';
 
   @override
   String get advancedSettingDefaultSearchEngineLabel => 'Výchozí vyhledávač';
@@ -11751,7 +10882,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get instanceUrlHelper =>
-      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+      'Použijte fluxer.app pro oficiální instanci nebo přesnou URL instance hostované na vlastním serveru.';
 
   @override
   String get resetToDefaultInstance => 'Obnovit na Fluxer';
@@ -11764,6 +10895,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get instanceConnectFailed => 'Nepodařilo se připojit k instanci';
+
+  @override
+  String get instanceInvalidDiscoveryResponse =>
+      'This client cannot connect to this instance. The instance is likely out of date. If the instance is up to date, try updating this app.';
 
   @override
   String get recentInstances => 'Nedávné instance';
@@ -11969,11 +11104,11 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get authHidePassword => 'Skrýt heslo';
 
   @override
-  String get authCheckStillWorking => 'Still working on it…';
+  String get authCheckStillWorking => 'Ještě pracujeme…';
 
   @override
   String get authVerificationFailed =>
-      'Couldn\'t complete verification. Try again.';
+      'Ověření se nepodařilo dokončit. Zkuste to znovu.';
 
   @override
   String get chatLoadingMessages => 'Načítání zpráv';
@@ -12349,9 +11484,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get guildMenuHideMutedChannels => 'Skrýt ztlumené kanály';
 
   @override
-  String get guildMenuReportCommunity => 'Nahlásit komunitu';
-
-  @override
   String get guildMenuDebugCommunity => 'Ladit komunitu';
 
   @override
@@ -12384,9 +11516,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get guildMenuSettingsWebhooks => 'Webhooky';
 
   @override
-  String get guildMenuSettingsCustomInviteUrl => 'Vlastní odkaz na pozvánku';
-
-  @override
   String get guildMenuSettingsDiscovery => 'Objevování';
 
   @override
@@ -12409,33 +11538,13 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get guildSettingsOverviewIconTitle => 'Ikona';
 
   @override
-  String get guildSettingsUploadImage => 'Nahrát obrázek';
-
-  @override
   String get guildSettingsOverviewBannerTitle => 'Banner';
-
-  @override
-  String get guildSettingsOverviewBannerHint =>
-      'Nahrajte banner pro svůj server.';
 
   @override
   String get guildSettingsOverviewNameTitle => 'Název';
 
   @override
   String get guildSettingsOverviewNameHint => 'Moje úžasná komunita';
-
-  @override
-  String get guildSettingsOverviewStatsTitle => 'Statistiky';
-
-  @override
-  String get guildSettingsOverviewMembers => 'Členové';
-
-  @override
-  String get guildSettingsOverviewOnline => 'Online';
-
-  @override
-  String get guildSettingsRolesDescription =>
-      'Použijte role ke seskupení členů a přiřazení oprávnění.';
 
   @override
   String get guildSettingsCreateRole => 'Vytvořit roli';
@@ -12512,32 +11621,14 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get guildSettingsRolesComfyLayout => 'Pohodlné rozvržení';
 
   @override
-  String get guildSettingsRolesSwitchToDenseLayout =>
-      'Přepnout na zhuštěné rozvržení';
-
-  @override
-  String get guildSettingsRolesSwitchToComfyLayout =>
-      'Přepnout na pohodlné rozvržení';
-
-  @override
   String get guildSettingsRolesSingleColumn => 'Jeden sloupec';
 
   @override
   String get guildSettingsRolesTwoColumns => 'Dva sloupce';
 
   @override
-  String get guildSettingsRolesSwitchToSingleColumn =>
-      'Přepnout na jeden sloupec';
-
-  @override
-  String get guildSettingsRolesSwitchToTwoColumns => 'Přepnout na dva sloupce';
-
-  @override
   String get guildSettingsRolesNoPermissionsFound =>
       'Nenalezena žádná oprávnění';
-
-  @override
-  String get guildSettingsRolesCustomHoistOrder => 'Vlastní pořadí zobrazení';
 
   @override
   String get guildSettingsRolesHoistOrder => 'Pořadí zobrazení';
@@ -12552,10 +11643,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   @override
   String get guildSettingsRolesNoHoistedRoles =>
       'Žádné samostatně zobrazené role. Aby se zde role zobrazila, zapněte u ní možnost „Zobrazit tuto roli samostatně“.';
-
-  @override
-  String get guildSettingsRolesLockedTooltip =>
-      'Tuto roli nemůžete upravit, protože je to vaše nejvyšší role nebo je nad vámi';
 
   @override
   String guildSettingsRolesNeedManageRolesPermission(String permission) {
@@ -12640,9 +11727,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get permissionCategoryAudioVideo => 'Zvuk a video';
-
-  @override
-  String get permissionUnknown => 'Neznámé oprávnění';
 
   @override
   String get permissionAdministrator => 'Administrátor';
@@ -13222,17 +12306,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   }
 
   @override
-  String guildSettingsEmojiSlotInfo(int staticCount, int animatedCount) {
-    return '$staticCount statických, $animatedCount animovaných slotů pro emotikony obsazeno';
-  }
-
-  @override
   String get guildSettingsEmojiEmpty => 'Zatím žádné vlastní emotikony.';
-
-  @override
-  String guildSettingsStickersSlotInfo(int count) {
-    return '$count samolepek nahráno';
-  }
 
   @override
   String get guildSettingsStickersEmpty => 'Ještě žádné vlastní nálepky.';
@@ -13296,13 +12370,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Vyžaduje vše ze střední úrovně a navíc členství v komunitě po dobu alespoň 10 minut.';
 
   @override
-  String get guildSettingsVerificationHighest => 'Velmi vysoká';
-
-  @override
-  String get guildSettingsVerificationHighestDescription =>
-      'Vyžaduje ověřené telefonní číslo.';
-
-  @override
   String get guildSettingsAuditLogDescription =>
       'Sledujte akce moderátorů napříč komunitou.';
 
@@ -13324,14 +12391,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get guildSettingsAuditLogUnknownUser => 'Neznámý uživatel';
-
-  @override
-  String get guildSettingsAuditLogLoadError =>
-      'Při načítání protokolu aktivit se vyskytla chyba.';
-
-  @override
-  String get guildSettingsAuditLogLoadErrorTitle =>
-      'Nelze načíst protokoly aktivit';
 
   @override
   String get guildSettingsAuditLogReason => 'Důvod';
@@ -13897,12 +12956,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get auditLogOptionPermanentMembership => 'Uděluje trvalé členství.';
 
   @override
-  String get guildSettingsLoadMore => 'Načíst další';
-
-  @override
-  String get guildSettingsLoadingMore => 'Načítání...';
-
-  @override
   String get guildSettingsWebhooksDescription =>
       'Zobrazte a spravujte všechny webhooky nakonfigurované v rámci vaší komunity.';
 
@@ -13938,31 +12991,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get guildSettingsUnknownChannel => 'Neznámý kanál';
 
   @override
-  String get guildSettingsCopyUrl => 'Zkopírovat URL';
-
-  @override
   String get guildSettingsCopiedUrl => 'Adresa URL zkopírována do schránky';
-
-  @override
-  String get guildSettingsDeleteWebhook => 'Smazat webhook';
-
-  @override
-  String get guildSettingsVanityUrlDescription =>
-      'Nastavte vlastní odkaz pro pozvánku na váš server.';
-
-  @override
-  String get guildSettingsVanityUrlHint => 'my-server';
-
-  @override
-  String get guildSettingsSave => 'Uložit';
-
-  @override
-  String get guildSettingsVanityUrlUsageTitle => 'Použití';
-
-  @override
-  String guildSettingsVanityUrlUses(int count) {
-    return '$count použití';
-  }
 
   @override
   String get guildSettingsDiscoveryDescription =>
@@ -14102,10 +13131,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Zkuste to znovu za chvíli.';
 
   @override
-  String get guildSettingsMembersDescription =>
-      'Vyhledávejte a spravujte členy serveru.';
-
-  @override
   String get guildSettingsMembersSearchHint =>
       'Hledat podle uživatelského jména nebo ID';
 
@@ -14147,9 +13172,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get guildMembersColumnRoles => 'Role';
-
-  @override
-  String get guildMembersColumnActions => 'Akce';
 
   @override
   String get guildMembersFilterMemberSince => 'Filtrovat podle data připojení';
@@ -14218,17 +13240,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get guildMembersIndexing => 'Indexuji členy…';
 
   @override
-  String get guildMembersGoToPage => 'Přejít na stránku';
-
-  @override
-  String guildMembersGoToPageItem(int page) {
-    return 'Přejít na stránku $page';
-  }
-
-  @override
-  String get guildMembersJumpToPage => 'Přejít na stránku';
-
-  @override
   String get guildMembersJoinSourceCreator => 'Tvůrce komunity';
 
   @override
@@ -14291,21 +13302,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   }
 
   @override
-  String guildMembersJoinedDaysAgo(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'před # dny',
-      one: 'před 1 dnem',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String get guildMembersChannelListLabel => 'Členové';
-
-  @override
-  String get guildMembersChannelListSelected => 'Členové, vybráno';
 
   @override
   String get guildSettingsInvitesTitle => 'Pozvánky';
@@ -14415,16 +13412,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Odkaz může být stále funkční. Zkuste to prosím za chvíli znovu.';
 
   @override
-  String guildSettingsInviteUses(int uses, int maxUses) {
-    return '$uses / $maxUses použití';
-  }
-
-  @override
-  String guildSettingsInviteExpires(String date) {
-    return 'Vyprší $date';
-  }
-
-  @override
   String get guildSettingsBansDescription =>
       'Zobrazit a spravovat zabanované uživatele.';
 
@@ -14435,21 +13422,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get guildSettingsBansEmpty => 'Žádní zabanovaní uživatelé.';
 
   @override
-  String get guildSettingsBanPermanent => 'Trvalý ban';
-
-  @override
-  String guildSettingsBanExpires(String date) {
-    return 'Vyprší $date';
-  }
-
-  @override
   String get guildSettingsBanExpiresLabel => 'Vyprší';
-
-  @override
-  String get guildSettingsUnban => 'Zrušit ban';
-
-  @override
-  String get guildSettingsBansLoading => 'Načítání zabanovaných uživatelů';
 
   @override
   String get guildSettingsBansNoSearchResults =>
@@ -14481,10 +13454,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsBansLoadError =>
-      'Nepodařilo se načíst bany. Zkuste to znovu.';
-
-  @override
   String get guildSettingsRevokeBanError =>
       'Nepodařilo se zrušit ban. Zkuste to znovu.';
 
@@ -14503,7 +13472,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+      'Nepodařilo se smazat tuto komunitu';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
@@ -14516,10 +13485,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get guildSettingsCategoryPeople => 'PEOPLE';
-
-  @override
-  String get guildSettingsOverviewDescription =>
-      'Spravujte profil své komunity, kanály a výchozí nastavení.';
 
   @override
   String get guildSettingsOverviewBrandingTitle => 'Vizuální identita';
@@ -14553,9 +13518,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Komunity s více než 250 lidmi jsou automaticky přepnuty na nastavení „Pouze zmínky“. Původní nastavení se zachová a obnoví se, pokud počet členů komunity klesne pod 250.';
 
   @override
-  String get guildSettingsOverviewAdvancedTitle => 'Pokročilé';
-
-  @override
   String get guildSettingsOverviewFlexibleNames =>
       'Povolit flexibilní názvy textových kanálů';
 
@@ -14582,10 +13544,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   @override
   String get guildSettingsOverviewEmbedSplashTitle =>
       'Pozadí vložené pozvánky v chatu';
-
-  @override
-  String get guildSettingsOverviewEmbedSplashHint =>
-      'Zobrazuje se ve vložených náhledech pozvánek v chatu.';
 
   @override
   String get guildSettingsOverviewUploadBackground => 'Nahrát pozadí';
@@ -14760,14 +13718,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'JPEG, PNG, WebP, AVIF. Max 10 MB. Minimum: 960×540 px (16:9). Zobrazuje se ve vkládaných odkazech v chatu.';
 
   @override
-  String get guildSettingsModerationDescription =>
-      'Nastavte ověřování, filtrování obsahu a nastavení pro obsah pro dospělé.';
-
-  @override
-  String get guildSettingsModerationDiscoveryNotice =>
-      'Komunity uvedené v Discovery mají omezené možnosti moderování.';
-
-  @override
   String get guildSettingsModerationContentFilterTitle => 'Filtrování obsahu';
 
   @override
@@ -14801,12 +13751,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Maximální ochrana pro prostory vhodné pro rodiny';
 
   @override
-  String get guildSettingsModerationMatureOff => 'Vypnuto';
-
-  @override
-  String get guildSettingsModerationMatureOn => 'Zapnuto';
-
-  @override
   String get guildSettingsContentWarningToggle =>
       'Zobrazit upozornění na obsah';
 
@@ -14833,10 +13777,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Vyžadovat dvoufaktorové ověřování pro moderátorské zásahy';
 
   @override
-  String get guildSettingsModeration2faOwnerOnlyTooltip =>
-      'Toto nastavení může změnit pouze vlastník komunity';
-
-  @override
   String get guildSettingsModeration2faEnableFirstTooltip =>
       'Pro změnu tohoto nastavení zapněte na svém účtu dvoufaktorové ověřování';
 
@@ -14861,9 +13801,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Nebylo nalezeno žádné emoji odpovídající vašemu hledání.';
 
   @override
-  String get guildSettingsEmojiNoSlots => 'Žádné volné sloty pro emoji';
-
-  @override
   String get guildSettingsEmojiSlotsFull =>
       'Dosáhli jste maximálního počtu emoji. Chcete-li uvolnit místo, odstraňte některé stávající emoji.';
 
@@ -14873,30 +13810,8 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsEmojiUploadingTitle => 'Nahrávání emoji';
-
-  @override
-  String guildSettingsEmojiUploadingBody(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '# emojis',
-      one: '# emoji',
-    );
-    return 'Nahrávám $_temp0. Může to chvíli trvat.';
-  }
-
-  @override
-  String get guildSettingsEmojiUploadFailed =>
-      'Nepodařilo se nahrát emoji. Zkuste to znovu.';
-
-  @override
   String get guildSettingsEmojiSomeFailedTitle =>
       'Některé emoji nebylo možné přidat';
-
-  @override
-  String get guildSettingsEmojiSomeFailedBody =>
-      'Zkontrolujte tyto soubory a zkuste to znovu s menšími nebo jednoduššími obrázky.';
 
   @override
   String get guildSettingsEmojiRenameTitle => 'Přejmenovat emoji';
@@ -14906,16 +13821,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       '2–32 znaků, písmena, čísla, podtržítka.';
 
   @override
-  String get guildSettingsEmojiColumnEmoji => 'Emoji';
-
-  @override
   String get guildSettingsEmojiColumnName => 'Název';
 
   @override
   String get guildSettingsEmojiColumnUploader => 'Nahráno uživatelem';
-
-  @override
-  String get guildSettingsEmojiUnknownUploader => 'Neznámý';
 
   @override
   String get guildSettingsEmojiDeleteTitle => 'Smazat emoji';
@@ -14945,38 +13854,8 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Nepodařilo se přejmenovat toto emoji';
 
   @override
-  String get guildSettingsEmojiRenameFailedBody =>
-      'Název byl vrácen na původní. Zkuste to prosím za chvíli znovu.';
-
-  @override
-  String get guildSettingsEmojiGoneTitle => 'Toto emoji již neexistuje';
-
-  @override
-  String get guildSettingsEmojiGoneBody =>
-      'Možná byla položka smazána. Název byl obnoven na původní.';
-
-  @override
-  String get guildSettingsEmojiNoPermissionRenameTitle =>
-      'Toto emoji nemůžete přejmenovat';
-
-  @override
-  String get guildSettingsEmojiNoPermissionRenameBody =>
-      'Nemáte oprávnění přejmenovat toto emoji. Název byl vrácen na původní.';
-
-  @override
-  String get guildSettingsEmojiRateLimitedTitle => 'Postupujete příliš rychle';
-
-  @override
-  String get guildSettingsEmojiRateLimitedBody =>
-      'Počkejte chvíli a zkuste přejmenování znovu.';
-
-  @override
   String get guildSettingsEmojiDeleteFailedTitle =>
       'Toto emoji se nepodařilo smazat';
-
-  @override
-  String get guildSettingsEmojiDeleteNoPermissionTitle =>
-      'Toto emoji nemůžete smazat';
 
   @override
   String get guildSettingsCloneEmojiTitle =>
@@ -15052,13 +13931,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Nebyly nalezeny žádné samolepky odpovídající vašemu hledání.';
 
   @override
-  String get guildSettingsStickersEmptySearch =>
-      'Nebyly nalezeny žádné samolepky';
-
-  @override
-  String get guildSettingsStickerNoSlots => 'Žádné volné sloty pro samolepky';
-
-  @override
   String get guildSettingsStickerSlotsFull =>
       'Dosáhli jste maximálního počtu samolepek. Chcete-li uvolnit místo, smažte některé stávající samolepky.';
 
@@ -15066,10 +13938,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String guildSettingsStickerUploadRequirements(String maxSize) {
     return 'Samolepky jsou uloženy ve velikosti 320x320 pixelů a musí být menší než $maxSize. Statické obrázky se automaticky upraví a komprimují. Animované samolepky a SVG soubory musí již odpovídat limitu.';
   }
-
-  @override
-  String get guildSettingsStickerUnsupportedTitle =>
-      'Nepodporovaný soubor samolepky';
 
   @override
   String get guildSettingsStickerAddTitle => 'Přidat samolepku';
@@ -15120,13 +13988,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Nepodařilo se vytvořit tuto samolepku';
 
   @override
-  String get guildSettingsStickerTooLargeTitle => 'Samolepka je příliš velká';
-
-  @override
-  String get guildSettingsStickerCompressFailedTitle =>
-      'Samolepku se nepodařilo dostatečně zkomprimovat';
-
-  @override
   String get guildSettingsStickerDeleteTitle => 'Smazat samolepku';
 
   @override
@@ -15143,20 +14004,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       'Nepodařilo se odstranit tento sticker';
 
   @override
-  String get guildSettingsStickerDeleteNoPermissionTitle =>
-      'Tuto nálepku nemůžete smazat';
-
-  @override
   String guildSettingsWebhooksInfo(String channelSettingsPath) {
     return 'Chcete-li vytvořit webhook, otevřete $channelSettingsPath. Všechny existující webhooky můžete zde stále upravovat a organizovat.';
   }
-
-  @override
-  String get guildSettingsVanityUrlWarning =>
-      'Vaše vlastní URL nebude fungovat, pokud alespoň jeden kanál nebude viditelný pro všechny.';
-
-  @override
-  String get guildSettingsVanityUrlRemove => 'Odebrat';
 
   @override
   String get guildSettingsBannedUsersTitle => 'Zabanovaní uživatelé';
@@ -15533,73 +14383,73 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get homeQuickActionDms => 'Zprávy';
 
   @override
-  String get assistantNeedsLogin => 'Open Fluxer and sign in first.';
+  String get assistantNeedsLogin => 'Nejprve otevřete Fluxer a přihlaste se.';
 
   @override
-  String get assistantNotInVoice => 'You\'re not in a call.';
+  String get assistantNotInVoice => 'Nejste v hovoru.';
 
   @override
-  String get assistantNotFound => 'Fluxer could not find that.';
+  String get assistantNotFound => 'Fluxer to nenašel.';
 
   @override
   String get assistantDmsDisabled =>
-      'Direct messages are disabled on this instance.';
+      'Přímé zprávy jsou na této instanci zakázány.';
 
   @override
-  String get assistantFailed => 'Fluxer could not complete that.';
+  String get assistantFailed => 'Fluxer to nemohl dokončit.';
 
   @override
-  String get assistantOkMuted => 'Muted.';
+  String get assistantOkMuted => 'Mikrofon ztlumen.';
 
   @override
-  String get assistantOkUnmuted => 'Unmuted.';
+  String get assistantOkUnmuted => 'Ztlumení mikrofonu zrušeno.';
 
   @override
-  String get assistantOkLeftVoice => 'Left voice.';
+  String get assistantOkLeftVoice => 'Opustili jste hlasový kanál.';
 
   @override
-  String get assistantOkJoinedVoice => 'Joining voice.';
+  String get assistantOkJoinedVoice => 'Připojuji se k hlasovému kanálu.';
 
   @override
-  String get assistantOkStartedCall => 'Starting the call.';
+  String get assistantOkStartedCall => 'Zahajuji hovor.';
 
   @override
   String assistantOkStatusSet(String status) {
-    return 'Status set to $status.';
+    return 'Stav nastaven na $status.';
   }
 
   @override
-  String get assistantOkOpened => 'Opening Fluxer.';
+  String get assistantOkOpened => 'Otevírám Fluxer.';
 
   @override
   String get assistantOkMessageSent => 'Zpráva odeslána.';
 
   @override
-  String get assistantOkCustomStatusSet => 'Custom status updated.';
+  String get assistantOkCustomStatusSet => 'Vlastní stav aktualizován.';
 
   @override
-  String get assistantOkCustomStatusCleared => 'Custom status cleared.';
+  String get assistantOkCustomStatusCleared => 'Vlastní stav vymazán.';
 
   @override
-  String get guildNavbarAnnouncementChannel => 'Announcement';
+  String get guildNavbarAnnouncementChannel => 'Kanál s oznámeními';
 
   @override
   String get guildNavbarAnnouncementChannelDescription =>
-      'Post updates other communities can follow';
+      'Zveřejňujte aktualizace, které mohou ostatní komunity sledovat ve svých vlastních kanálech';
 
   @override
-  String get channelDetailsAnnouncementChannel => 'Announcement channel';
+  String get channelDetailsAnnouncementChannel => 'Kanál s oznámeními';
 
   @override
-  String get channelSettingsAnnouncementChannel => 'Announcement channel';
+  String get channelSettingsAnnouncementChannel => 'Kanál s oznámeními';
 
   @override
   String get channelSettingsAnnouncementChannelDescription =>
-      'Lets other communities follow this channel and get copies of what you publish.';
+      'Umožní ostatním komunitám sledovat tento kanál a dostávat kopie toho, co publikujete.';
 
   @override
   String get channelSettingsStopAnnouncementTitle =>
-      'Stop being an announcement channel?';
+      'Přestat být kanálem s oznámeními?';
 
   @override
   String channelSettingsStopAnnouncementBody(int count) {
@@ -15607,240 +14457,226 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       count,
       locale: localeName,
       other:
-          '$count channels follow this channel. Converting it to a text channel removes those follows.',
+          '$count kanálů sleduje tento kanál. Převodem na textový kanál se tato sledování zruší.',
+      many:
+          '$count kanálu sleduje tento kanál. Převodem na textový kanál se tato sledování zruší.',
+      few:
+          '$count kanály sledují tento kanál. Převodem na textový kanál se tato sledování zruší.',
       one:
-          '1 channel follows this channel. Converting it to a text channel removes that follow.',
+          '$count kanál sleduje tento kanál. Převodem na textový kanál se toto sledování zruší.',
     );
     return '$_temp0';
   }
 
   @override
   String get channelSettingsStopAnnouncementUnknown =>
-      'Converting this channel to a text channel removes every channel that follows it.';
+      'Převodem tohoto kanálu na textový kanál se zruší sledování všech kanálů, které ho sledují.';
 
   @override
-  String get channelSettingsConvertChannel => 'Convert';
+  String get channelSettingsConvertChannel => 'Převést';
 
   @override
-  String get channelSettingsConvertFailed => 'Couldn\'t convert this channel';
+  String get channelSettingsConvertFailed =>
+      'Nepodařilo se převést tento kanál';
 
   @override
   String get channelSettingsChannelHasFollowers =>
-      'This channel still has followers. Remove those follows before converting it.';
+      'Tento kanál stále sledují jiné kanály. Před převodem tato sledování odstraňte.';
 
   @override
-  String get channelMenuFollow => 'Follow channel';
+  String get channelMenuFollow => 'Sledovat kanál';
 
   @override
-  String get channelFollowTitle => 'Follow this channel';
+  String get channelFollowTitle => 'Sledovat tento kanál';
 
   @override
   String get channelFollowBody =>
-      'Choose where its published messages should go. You can unfollow any time in Community settings → Webhooks.';
+      'Vyberte, kam se mají publikované zprávy odesílat. Kdykoli se můžete odhlásit v nastavení komunity → Webhooky.';
 
   @override
-  String get channelFollowCommunity => 'Community';
+  String get channelFollowCommunity => 'Komunita';
 
   @override
-  String get channelFollowChannel => 'Channel';
-
-  @override
-  String get channelFollowSelectCommunity => 'Select a community';
-
-  @override
-  String get channelFollowSelectChannel => 'Select a channel';
+  String get channelFollowChannel => 'Kanál';
 
   @override
   String get channelFollowAgeWarning =>
-      'This is an age-restricted channel. Updates can only go to age-restricted channels.';
+      'Toto je kanál s věkovým omezením. Aktualizace mohou jít pouze do kanálů s věkovým omezením.';
 
   @override
   String get channelFollowContentWarning =>
-      'This channel has a content warning. Updates can only go to channels with a content warning or an age restriction.';
+      'Tento kanál má varování o obsahu. Aktualizace lze posílat pouze do kanálů s varováním o obsahu nebo věkovým omezením.';
 
   @override
   String get channelFollowHiddenHint =>
-      'Communities and channels where you can\'t manage webhooks are hidden.';
+      'Komunity a kanály, kde nemůžete spravovat webhooky, jsou skryté.';
 
   @override
   String get channelFollowEmpty =>
-      'You can\'t manage webhooks in any community. Ask an admin to follow this channel.';
+      'Nemůžete spravovat webhooky v žádné komunitě. Požádejte administrátora, aby tento kanál sledoval.';
 
   @override
-  String get channelFollowSubmit => 'Follow';
+  String get channelFollowSubmit => 'Sledovat';
 
   @override
-  String get channelFollowFailed => 'Couldn\'t follow this channel.';
+  String get channelFollowFailed => 'Nepodařilo se sledovat tento kanál.';
 
   @override
-  String get channelFollowSuccessTitle => 'Updates are on their way!';
+  String get channelFollowSuccessTitle => 'Aktualizace jsou na cestě!';
 
   @override
   String channelFollowSuccessBody(String sourceName, String targetName) {
-    return 'Messages published in $sourceName will show up in #$targetName.';
+    return 'Zprávy publikované v $sourceName se zobrazí v #$targetName.';
   }
 
   @override
-  String get channelFollowSuccessDismiss => 'Got it!';
+  String get channelFollowSuccessDismiss => 'Rozumím!';
 
   @override
   String get channelFollowBarrier =>
-      'Follow to get these announcements in a channel you choose.';
+      'Sledujte tento kanál a dostávejte tato oznámení do kanálu, který si vyberete.';
 
   @override
-  String get channelHeaderFollow => 'Follow channel';
+  String get channelHeaderFollow => 'Sledovat kanál';
 
   @override
-  String get chatMessagePublish => 'Publish';
+  String get chatMessagePublish => 'Publikovat';
 
   @override
-  String get chatMessagePublished => 'Published';
+  String get chatMessagePublished => 'Publikováno';
 
   @override
-  String get chatMessagePublishConfirmTitle => 'Publish message?';
+  String get chatMessagePublishConfirmTitle => 'Publikovat zprávu?';
 
   @override
   String get chatMessagePublishConfirmBody =>
-      'This sends a copy to every channel that follows this one.';
+      'Tím se odešle kopie do každého kanálu, který sleduje tento kanál.';
 
   @override
-  String get chatMessagePublishedToast => 'Message published';
+  String get chatMessagePublishedToast => 'Zpráva publikována';
 
   @override
-  String get chatMessageAlreadyPublished =>
-      'This message is already published.';
+  String get chatMessageAlreadyPublished => 'Tato zpráva je již publikována.';
 
   @override
-  String get chatMessagePublishFailedTitle => 'Couldn\'t publish this message';
+  String get chatMessagePublishFailedTitle =>
+      'Nepodařilo se publikovat tuto zprávu';
 
   @override
   String get chatMessagePublishFailedBody =>
-      'Something went wrong. Try again in a moment.';
+      'Něco se pokazilo. Zkuste to za chvíli znovu.';
 
   @override
-  String get chatMessagePublishLimitTitle => 'Slow down';
+  String get chatMessagePublishLimitTitle => 'Zpomalte';
 
   @override
   String chatMessagePublishLimitBody(String duration) {
-    return 'You can publish again in $duration.';
+    return 'Znovu můžete publikovat za $duration.';
   }
 
   @override
   String get chatMessagePublishLimitUnknown =>
-      'You are publishing too quickly. Try again in a moment.';
+      'Publikujete příliš rychle. Zkuste to za chvíli znovu.';
 
   @override
   String get chatMessageDeletePublished =>
-      'This also removes the copies that were sent to channels following this one.';
+      'Tím se také odstraní kopie, které byly odeslány do kanálů, které tento kanál sledují.';
 
   @override
-  String get chatMessageEditPublishedTitle => 'Edit published message?';
+  String get chatMessageEditPublishedTitle => 'Upravit publikovanou zprávu?';
 
   @override
   String get chatMessageEditPublishedBody =>
-      'This updates the copies that were sent to channels following this one.';
+      'Tím se aktualizují kopie, které byly odeslány do kanálů, které tento kanál sledují.';
 
   @override
-  String get chatMessageEditPublishedSave => 'Save';
+  String get chatMessageEditPublishedSave => 'Uložit';
 
   @override
-  String get chatMessageEditLimitTitle => 'Slow down';
+  String get chatMessageEditLimitTitle => 'Zpomalte';
 
   @override
   String chatMessageEditLimitBody(String duration) {
-    return 'You can edit this published message again in $duration.';
+    return 'Tuto zveřejněnou zprávu můžete znovu upravit za $duration.';
   }
 
   @override
   String get chatMessageEditLimitUnknown =>
-      'You are editing this published message too quickly. Try again in a moment.';
+      'Tuto publikovanou zprávu upravujete příliš rychle. Zkuste to znovu za chvíli.';
 
   @override
-  String get chatMessageOriginalDeleted => '[Original message deleted]';
+  String get chatMessageOriginalDeleted => '[Původní zpráva smazána]';
 
   @override
-  String get userTagCommunity => 'Community';
+  String get userTagCommunity => 'Komunita';
 
   @override
   String systemFollowAdd(String username, String source) {
-    return '$username followed $source into this channel. Messages published there will appear here.';
+    return '$username nastavil(a) tento kanál, aby sledoval $source. Zprávy publikované tam se zobrazí zde.';
   }
 
   @override
   String systemPreviewFollowAdd(String username, String source) {
-    return '$username followed $source into this channel.';
+    return '$username nastavil(a) tento kanál, aby sledoval $source.';
   }
 
   @override
-  String get publishNudgeNotSent => 'Not sent to followers yet.';
+  String get publishNudgeNotSent => 'Ještě neodesláno sledujícím.';
 
   @override
-  String get publishNudgeHideForever => 'Don\'t show again';
+  String get publishNudgeHideForever => 'Znovu nezobrazovat';
 
   @override
-  String get publishNudgeDismiss => 'Dismiss';
+  String get publishNudgeDismiss => 'Zavřít';
 
   @override
-  String get channelSettingsFollowedChannels => 'Followed channels';
+  String get channelSettingsFollowedChannels => 'Sledované kanály';
 
   @override
   String get channelSettingsFollowedChannelsDescription =>
-      'Announcement channels this channel follows. Unfollow to stop receiving copies.';
+      'Kanály s oznámeními, které tento kanál sleduje. Přestaňte sledovat, abyste přestali dostávat kopie.';
 
   @override
   String get guildSettingsFollowedChannelsDescription =>
-      'Announcement channels followed by channels in this community.';
+      'Kanály s oznámeními, které sledují kanály v této komunitě.';
 
   @override
   String channelSettingsFollowedFrom(String guildName, String channelName) {
-    return 'From $guildName #$channelName';
+    return 'Z $guildName #$channelName';
   }
 
   @override
   String get channelSettingsFollowedPaused =>
-      'Updates are paused because the source channel is no longer available.';
+      'Aktualizace jsou pozastaveny, protože zdrojový kanál již není k dispozici.';
 
   @override
   String channelSettingsUnfollowTitle(String name) {
-    return 'Unfollow $name?';
+    return 'Přestat sledovat $name?';
   }
 
   @override
   String get channelSettingsUnfollowBody =>
-      'This channel will stop receiving copies from that announcement channel.';
+      'Tento kanál přestane přijímat kopie z daného kanálu s oznámeními.';
 
   @override
-  String get channelSettingsUnfollow => 'Unfollow';
+  String get channelSettingsUnfollow => 'Přestat sledovat';
 
   @override
-  String get channelSettingsUnfollowFailed =>
-      'Couldn\'t unfollow this channel.';
+  String get crosspostCommunityTitle => 'Komunita';
 
   @override
-  String channelSettingsDeliveredTo(String channelName) {
-    return 'Delivered to #$channelName';
-  }
+  String get crosspostGoToCommunity => 'Přejít do komunity';
 
   @override
-  String get crosspostCommunityTitle => 'Community';
-
-  @override
-  String get crosspostGoToCommunity => 'Go to community';
-
-  @override
-  String get crosspostJoinCommunity => 'Join community';
+  String get crosspostJoinCommunity => 'Připojit se ke komunitě';
 
   @override
   String get crosspostSourceFailed =>
-      'Couldn\'t load this community. Try again in a moment.';
-
-  @override
-  String get crosspostSourceUnavailable =>
-      'This community is no longer available';
+      'Nepodařilo se načíst tuto komunitu. Zkuste to za chvíli znovu.';
 
   @override
   String crosspostMembers(int count) {
-    return '$count members';
+    return '$count členů';
   }
 
   @override
@@ -15853,8 +14689,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count minutes',
-      one: '1 minute',
+      other: '$count minut',
+      many: '$count minuty',
+      few: '$count minuty',
+      one: '$count minuta',
     );
     return '$_temp0';
   }
@@ -15864,21 +14702,23 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count seconds',
-      one: '1 second',
+      other: '$count sekund',
+      many: '$count sekundy',
+      few: '$count sekundy',
+      one: '$count sekunda',
     );
     return '$_temp0';
   }
 
   @override
-  String get channelUnsupportedTitle => 'Unsupported channel type';
+  String get channelUnsupportedTitle => 'Nepodporovaný typ kanálu';
 
   @override
   String get channelUnsupportedBody =>
-      'This version of the app doesn\'t support this channel type.';
+      'Tato verze aplikace nepodporuje tento typ kanálu.';
 
   @override
-  String get channelDetailsUnsupportedChannel => 'Unsupported channel';
+  String get channelDetailsUnsupportedChannel => 'Nepodporovaný kanál';
 
   @override
   String get forumChannelTypeForum => 'Forum';

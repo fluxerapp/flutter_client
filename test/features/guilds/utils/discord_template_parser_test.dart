@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/guilds/utils/discord_template_parser.dart';
+import 'package:fluxer_dart/export.dart';
 
 Map<String, Object?> _validTemplateJson({
   String code = 'abcd1234',
@@ -95,6 +96,40 @@ void main() {
     });
   });
 
+  group('isTemplateEveryoneRole', () {
+    test('matches a role named @everyone whatever its id', () {
+      expect(
+        isTemplateEveryoneRole(
+          TemplateRole(
+            id: '7',
+            name: const JsonNullable<String>.of('@everyone'),
+          ),
+        ),
+        isTrue,
+      );
+    });
+
+    test('matches the role with id 0 whatever its name', () {
+      expect(
+        isTemplateEveryoneRole(
+          TemplateRole(id: '0', name: const JsonNullable<String>.of('Members')),
+        ),
+        isTrue,
+      );
+      expect(isTemplateEveryoneRole(TemplateRole(id: '0')), isTrue);
+    });
+
+    test('does not match other roles', () {
+      expect(
+        isTemplateEveryoneRole(
+          TemplateRole(id: '7', name: const JsonNullable<String>.of('Mods')),
+        ),
+        isFalse,
+      );
+      expect(isTemplateEveryoneRole(TemplateRole(id: '7')), isFalse);
+    });
+  });
+
   group('parseDiscordGuildTemplate', () {
     test('parses a valid Discord template payload', () {
       final DiscordGuildTemplate? parsed = parseDiscordGuildTemplate(
@@ -107,6 +142,19 @@ void main() {
       expect(parsed.stats.voiceChannelCount, 2);
       expect(parsed.stats.categoryCount, 1);
       expect(parsed.stats.roleCount, 1);
+    });
+
+    test('counts the role with id 0 as everyone whatever its name', () {
+      final DiscordGuildTemplate? parsed = parseDiscordGuildTemplate(
+        _validTemplateJson(
+          roles: <Map<String, Object?>>[
+            <String, Object?>{'id': '0', 'name': 'Members'},
+            <String, Object?>{'id': '8', 'name': 'Mods'},
+            <String, Object?>{'id': '9', 'name': 'Helpers'},
+          ],
+        ),
+      );
+      expect(parsed!.stats.roleCount, 2);
     });
 
     test('returns null when required fields are missing', () {

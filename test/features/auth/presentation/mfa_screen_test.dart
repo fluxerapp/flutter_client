@@ -15,7 +15,6 @@ import '../../../helpers/test_l10n.dart';
 const _challenge = MfaChallenge(
   ticket: 'mfa-ticket',
   totp: true,
-  sms: false,
   webauthn: false,
 );
 
@@ -23,7 +22,7 @@ Widget _app(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return MaterialApp(
     locale: kTestLocale,
-    localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+    localizationsDelegates: fluxerLocalizationsDelegates,
     supportedLocales: FluxerLocalizations.supportedLocales,
     theme: buildFluxerTheme(
       colorTheme: colorTheme,
@@ -124,7 +123,6 @@ void main() {
     const multiMethodChallenge = MfaChallenge(
       ticket: 'mfa-ticket',
       totp: true,
-      sms: false,
       webauthn: true,
     );
 
@@ -174,7 +172,6 @@ void main() {
     const multiMethodChallenge = MfaChallenge(
       ticket: 'mfa-ticket',
       totp: true,
-      sms: false,
       webauthn: true,
     );
 

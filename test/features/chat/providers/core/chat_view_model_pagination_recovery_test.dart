@@ -295,7 +295,6 @@ void main() {
     await paginationFlushAsync();
 
     expect(result.status, PageLoadStatus.superseded);
-    expect(result.edge, PaginationEdge.older);
     expect(result.channelId, 'channel-1');
     expect(
       result.windowEpoch,
@@ -445,7 +444,6 @@ void main() {
       await paginationFlushAsync();
 
       expect(result.status, PageLoadStatus.superseded);
-      expect(result.edge, PaginationEdge.newer);
       expect(result.requestCursor, boundary);
       expect(result.windowEpoch, entryEpoch);
 

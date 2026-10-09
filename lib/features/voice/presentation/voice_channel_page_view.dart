@@ -263,7 +263,6 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
         child: usePhoneVoiceOverlay
             ? VoiceCallMobilePageLayout(
                 channelId: widget.channelId,
-                guildId: widget.guildId,
                 child: RepaintBoundary(
                   child: VoiceChannelParticipantGrid(
                     key: const ValueKey<String>('voice-participant-grid'),
@@ -284,9 +283,7 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
                       ),
                     ),
                   ),
-                  RepaintBoundary(
-                    child: VoiceChannelControlBar(channelId: widget.channelId),
-                  ),
+                  const RepaintBoundary(child: VoiceChannelControlBar()),
                 ],
               ),
       ),

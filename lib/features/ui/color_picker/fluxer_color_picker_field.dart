@@ -107,7 +107,7 @@ class _FluxerColorPickerFieldState extends State<FluxerColorPickerField> {
 
   Color _swatchColor(BuildContext context) {
     if (_useLogicalSwatchColor) {
-      return _intToColor(_effectiveValue);
+      return _intToColor(widget.value);
     }
     return context.colors.textChat;
   }

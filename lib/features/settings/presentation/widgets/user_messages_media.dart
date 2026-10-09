@@ -4,6 +4,7 @@ import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart'
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/chat_input_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/double_tap_action_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_domain_actions.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -26,6 +27,10 @@ class UserMessagesMedia extends ConsumerWidget {
     final chatInputPrefs = ref.watch(chatInputPreferencesProvider);
     final chatInputPrefsNotifier = ref.read(
       chatInputPreferencesProvider.notifier,
+    );
+    final doubleTapActionPrefs = ref.watch(doubleTapActionPreferencesProvider);
+    final doubleTapActionPrefsNotifier = ref.read(
+      doubleTapActionPreferencesProvider.notifier,
     );
     final l10n = FluxerLocalizations.of(context);
 
@@ -185,6 +190,42 @@ class UserMessagesMedia extends ConsumerWidget {
                       value: chatInputPrefs.saveCameraCapturesToDevice,
                       onChanged: (value) => chatInputPrefsNotifier
                           .setSaveCameraCapturesToDevice(value: value),
+                    ),
+                  ],
+                ),
+              if (isFluxerNativeMobileOs)
+                FluxerSettingsSubsection(
+                  title: l10n.messagesMediaDoubleTapSectionTitle,
+                  description: l10n.messagesMediaDoubleTapSectionDescription,
+                  children: [
+                    FluxerRadioGroup<DoubleTapActionPreference>(
+                      label: l10n.messagesMediaDoubleTapActionLabel,
+                      value:
+                          doubleTapActionPrefs.action ==
+                              DoubleTapActionPreference.unspecified
+                          ? DoubleTapActionPreference.react
+                          : doubleTapActionPrefs.action,
+                      onChanged: doubleTapActionPrefsNotifier.setAction,
+                      items: [
+                        FluxerRadioItem(
+                          value: DoubleTapActionPreference.react,
+                          label: l10n.messagesMediaDoubleTapActionReactName,
+                          description:
+                              l10n.messagesMediaDoubleTapActionReactDescription,
+                        ),
+                        FluxerRadioItem(
+                          value: DoubleTapActionPreference.edit,
+                          label: l10n.messagesMediaDoubleTapActionEditName,
+                          description:
+                              l10n.messagesMediaDoubleTapActionEditDescription,
+                        ),
+                        FluxerRadioItem(
+                          value: DoubleTapActionPreference.none,
+                          label: l10n.messagesMediaDoubleTapActionNoneName,
+                          description:
+                              l10n.messagesMediaDoubleTapActionNoneDescription,
+                        ),
+                      ],
                     ),
                   ],
                 ),

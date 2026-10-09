@@ -125,11 +125,6 @@ void main() {
                 isTrue,
               )
               .having(
-                (LoginMfaRequired result) => result.challenge.sms,
-                'sms',
-                isFalse,
-              )
-              .having(
                 (LoginMfaRequired result) => result.challenge.webauthn,
                 'webauthn',
                 isFalse,

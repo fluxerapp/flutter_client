@@ -42,12 +42,9 @@ class BanViewRepository {
     );
   }
 
-  Future<BanRecheckResult> recheck(String token) async {
+  Future<void> recheck(String token) async {
     final dio = _createDio(token);
-    final response = await dio.post<Map<String, dynamic>>(
-      '/auth/ban-view/recheck',
-    );
-    return BanRecheckResult.fromJson(response.data!);
+    await dio.post<Map<String, dynamic>>('/auth/ban-view/recheck');
   }
 
   Future<String> refreshToken(String token) async {

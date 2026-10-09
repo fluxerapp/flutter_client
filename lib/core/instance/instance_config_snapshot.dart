@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
 import 'package:fluxer_app/core/instance/instance_endpoints.dart';
-import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
 import 'package:fluxer_app/core/instance/well_known_compat.dart';
 import 'package:fluxer_dart/export.dart';
 
@@ -125,14 +124,6 @@ class InstanceConfigSnapshot {
     return config != null && config.enabled && config.enforced;
   }
 
-  bool get isSsoOptional {
-    final InstanceSsoSchema? config = ssoConfig;
-    return config != null && config.enabled && !config.enforced;
-  }
-
-  bool get isRegistrationClosed =>
-      wellKnown?.registration.mode == InstanceRegistrationModeSchema.closed;
-
   /// Terms of service URL to show during registration, null when this instance
   /// has none to offer.
   String? get termsUrl =>
@@ -175,17 +166,6 @@ class InstanceConfigSnapshot {
       return null;
     }
     return name;
-  }
-
-  bool get emailsEnabled => wellKnown?.features.emailsEnabled ?? true;
-
-  bool get collectDateOfBirth =>
-      wellKnown?.appPublic.registration.collectDateOfBirth ?? true;
-
-  bool canPublicRegister({String? registrationUrlCode}) {
-    return InstanceRuntimeConfig.fromWellKnown(
-      wellKnown,
-    ).canPublicRegister(registrationUrlCode: registrationUrlCode);
   }
 
   static String _resolveApiBaseUrl(InstanceEndpointsSchema endpoints) {

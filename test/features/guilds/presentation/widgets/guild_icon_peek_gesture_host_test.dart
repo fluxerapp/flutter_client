@@ -100,7 +100,7 @@ void main() {
 
         expect(find.byType(GuildIconPeekMenuPanel), findsOneWidget);
 
-        await tester.tap(find.byKey(dmKey));
+        await tester.tap(find.byKey(dmKey), warnIfMissed: false);
         await tester.pumpAndSettle();
 
         expect(find.byType(GuildIconPeekMenuPanel), findsNothing);

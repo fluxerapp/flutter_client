@@ -11,13 +11,8 @@ const Duration kGuildMentionGatewayFetchDedup = Duration(milliseconds: 750);
 const Duration kGuildMentionGatewayDebounce = Duration(milliseconds: 300);
 
 class GuildMentionSnapshot {
-  GuildMentionSnapshot({
-    required this.guildId,
-    required this.members,
-    required this.discriminators,
-  });
+  GuildMentionSnapshot({required this.members, required this.discriminators});
 
-  final String guildId;
   final List<Member> members;
   final Map<String, String> discriminators;
 }
@@ -89,7 +84,6 @@ class GuildMentionMemberSearch {
         .getCachedMembersForGuild(guildId);
     final Map<String, String> discriminators = await discriminatorsFor(members);
     return GuildMentionSnapshot(
-      guildId: guildId,
       members: members,
       discriminators: discriminators,
     );

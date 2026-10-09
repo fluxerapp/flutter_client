@@ -14,9 +14,6 @@ class FluxerRelativeTimeTick extends ChangeNotifier {
   Timer? _timer;
   int _refCount = 0;
 
-  @visibleForTesting
-  bool get hasTimer => _timer != null;
-
   void retain() {
     _refCount++;
     _timer ??= Timer.periodic(const Duration(seconds: 1), (_) {

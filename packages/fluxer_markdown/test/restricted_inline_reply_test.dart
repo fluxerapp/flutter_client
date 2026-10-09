@@ -10,12 +10,9 @@ import 'package:material_ui/material_ui.dart';
 import 'support/native_test_parser.dart';
 
 const FluxerMarkdownConfig _testMarkdownConfig = FluxerMarkdownConfig(
-  resolveEmojiShortcode: _resolveEmojiShortcode,
   unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
   customEmojiUrlBuilder: _noopCustomEmojiUrl,
 );
-
-String? _resolveEmojiShortcode(String name) => null;
 
 String? _noopUnicodeEmojiUrl(String unicode) => null;
 
@@ -160,7 +157,6 @@ void main() {
     ) async {
       const Key mentionKey = Key('reply-mention');
       final FluxerMarkdownConfig config = FluxerMarkdownConfig(
-        resolveEmojiShortcode: _resolveEmojiShortcode,
         unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
         customEmojiUrlBuilder: _noopCustomEmojiUrl,
         userMentionBuilder: (_, _, _) =>
@@ -201,7 +197,6 @@ void main() {
     ) async {
       const Key commandKey = Key('reply-command');
       final FluxerMarkdownConfig config = FluxerMarkdownConfig(
-        resolveEmojiShortcode: _resolveEmojiShortcode,
         unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
         customEmojiUrlBuilder: _noopCustomEmojiUrl,
         commandMentionBuilder: (_, command, _, _) =>

@@ -561,23 +561,3 @@ List<VisibleWindowReconcileParams> reconcileParamsListForVisibleWindow({
   }
   return params;
 }
-
-/// Network fetch anchor and page size that cover a scrolled-up in-memory window.
-VisibleWindowReconcileParams? reconcileParamsForVisibleWindow({
-  required List<Message> window,
-  int minLimit = 30,
-  int maxLimit = 100,
-  int padding = 20,
-}) {
-  final List<VisibleWindowReconcileParams> params =
-      reconcileParamsListForVisibleWindow(
-        window: window,
-        minLimit: minLimit,
-        maxLimit: maxLimit,
-        padding: padding,
-      );
-  if (params.isEmpty) {
-    return null;
-  }
-  return params.first;
-}

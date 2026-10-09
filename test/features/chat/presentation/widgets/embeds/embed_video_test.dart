@@ -17,7 +17,7 @@ Widget _wrap(Widget child) {
   return ProviderScope(
     child: MaterialApp(
       locale: kTestLocale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,
@@ -62,7 +62,6 @@ void main() {
             ),
           ),
           channelId: 'c1',
-          messageId: 'm1',
           embedIndex: 0,
         ),
       ),
@@ -92,7 +91,6 @@ void main() {
             ),
           ),
           channelId: 'c1',
-          messageId: 'm1',
           embedIndex: 0,
         ),
       ),

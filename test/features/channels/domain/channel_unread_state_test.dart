@@ -58,7 +58,6 @@ void main() {
         showFadedUnreadOnMutedChannels: true,
         unreadBadgesLevel: UserNotificationSettings.noMessages,
       );
-      expect(state.hasUnreadMessages, isTrue);
       expect(state.shouldShowUnreadIndicator, isFalse);
       expect(state.hasMentions, isFalse);
       expect(state.isHighlight, isFalse);

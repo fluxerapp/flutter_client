@@ -36,7 +36,6 @@ void main() {
               ),
               messageId: nonce,
               messageNonce: nonce,
-              channelId: 'channel-1',
             ),
           ),
         ),
@@ -77,7 +76,6 @@ void main() {
             ),
             messageId: nonce,
             messageNonce: nonce,
-            channelId: 'channel-1',
           ),
         ),
       ),
@@ -111,7 +109,6 @@ void main() {
             ),
             messageId: nonce,
             messageNonce: nonce,
-            channelId: 'channel-1',
           ),
         ),
       ),
@@ -125,7 +122,7 @@ Widget _buildTestApp({required Widget child}) {
   final colorTheme = buildDarkColorTheme();
   return MaterialApp(
     locale: kTestLocale,
-    localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+    localizationsDelegates: fluxerLocalizationsDelegates,
     supportedLocales: FluxerLocalizations.supportedLocales,
     theme: buildFluxerTheme(
       colorTheme: colorTheme,

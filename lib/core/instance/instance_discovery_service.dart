@@ -5,10 +5,13 @@ import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_dart/export.dart';
 
+enum InstanceDiscoveryFailureReason { invalidDiscoveryResponse }
+
 class InstanceDiscoveryException implements Exception {
-  const InstanceDiscoveryException(this.message);
+  const InstanceDiscoveryException(this.message, {this.reason});
 
   final String message;
+  final InstanceDiscoveryFailureReason? reason;
 
   @override
   String toString() => message;
@@ -59,6 +62,7 @@ class InstanceDiscoveryService {
         );
         throw const InstanceDiscoveryException(
           'Invalid instance discovery response',
+          reason: InstanceDiscoveryFailureReason.invalidDiscoveryResponse,
         );
       }
       final Map<String, dynamic> payload = Map<String, dynamic>.from(data);
@@ -74,6 +78,7 @@ class InstanceDiscoveryService {
         );
         throw const InstanceDiscoveryException(
           'Invalid instance discovery response',
+          reason: InstanceDiscoveryFailureReason.invalidDiscoveryResponse,
         );
       }
       _assertCodeVersion(wellKnown.apiCodeVersion);

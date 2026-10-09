@@ -143,15 +143,6 @@ class FavoriteGifsSyncedField
     return a == b;
   }
 
-  static pickers_pb.FavoriteGifSettings toProtoForPush({
-    required FavoriteGifsSyncedLocalState local,
-    pickers_pb.FavoriteGifSettings? wireBase,
-  }) {
-    final proto = mergeOrCreate(wireBase, pickers_pb.FavoriteGifSettings.new);
-    FavoriteGifsSyncedField._writeProto(proto, local);
-    return proto;
-  }
-
   static void _writeProto(
     pickers_pb.FavoriteGifSettings proto,
     FavoriteGifsSyncedLocalState local,
@@ -167,8 +158,9 @@ class FavoriteGifsSyncedField
               _entryToProto(entry, wireEntry: wireEntriesByUrl[entry.url]),
         ),
       );
-    proto.saveAsSavedMedia = local.saveAsSavedMedia;
-    proto.seenFirstTimePrompt = local.seenFirstTimePrompt;
+    proto
+      ..saveAsSavedMedia = local.saveAsSavedMedia
+      ..seenFirstTimePrompt = local.seenFirstTimePrompt;
   }
 
   static FavoriteGifEntry _entryFromProto(pickers_pb.FavoriteGifEntry entry) {

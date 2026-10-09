@@ -28,10 +28,6 @@
     "@retry": {
         "description": "Generic label for retry actions (splash, errors, network, etc.)."
     },
-    "connectingCaps": "CONNECTING",
-    "@connectingCaps": {
-        "description": "Connecting text on the splash screen"
-    },
     "splashConnectionLost": "連線中斷",
     "@splashConnectionLost": {
         "description": "Fallback headline on splash when gateway is unavailable (web parity)."
@@ -93,10 +89,6 @@
             }
         }
     },
-    "ssoRequired": "必須使用 SSO 才能存取此執行個體。",
-    "@ssoRequired": {
-        "description": "Short sign-in note shown when the instance requires single sign-on."
-    },
     "organizationSsoProvider": "使用您機構的單一登入服務供應商登入。",
     "@organizationSsoProvider": {
         "description": "Description shown when sign-in is restricted to the configured SSO provider."
@@ -117,10 +109,6 @@
                 "type": "String"
             }
         }
-    },
-    "logInViaBrowser": "透過瀏覽器登入",
-    "@logInViaBrowser": {
-        "description": "Secondary login that opens or uses the system browser."
     },
     "needAccountPrompt": "還沒有帳號嗎？ ",
     "@needAccountPrompt": {
@@ -232,26 +220,9 @@
     "@accountAdd": {
         "description": "Button to add a new account."
     },
-    "accountRemove": "移除",
-    "@accountRemove": {
-        "description": "Context menu option to remove a stored account."
-    },
-    "accountRemoveTitle": "移除 {username}",
-    "@accountRemoveTitle": {
-        "description": "Title for the remove account confirmation modal.",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
     "accountRemoveDescription": "這會移除此帳號的已儲存工作階段。",
     "@accountRemoveDescription": {
         "description": "Description for the remove account confirmation modal."
-    },
-    "accountRemoveOnlyDescription": "這會移除此裝置上唯一儲存的帳號。",
-    "@accountRemoveOnlyDescription": {
-        "description": "Description when removing the last stored account."
     },
     "accountExpired": "已過期",
     "@accountExpired": {
@@ -636,7 +607,7 @@
     },
     "recoveryKitBackupCodesFailed": "無法載入您的備份驗證碼。",
     "@recoveryKitBackupCodesFailed": {
-        "description": "Toast shown when the two-factor backup codes for the recovery kit cannot be loaded."
+        "description": "Toast shown when the two-factor backup codes cannot be loaded, in the recovery kit sheet or from View codes in security settings."
     },
     "recoveryKitIncludeBackupCodes": "在儲存的圖片中加入我的雙重驗證備用碼",
     "@recoveryKitIncludeBackupCodes": {
@@ -783,10 +754,6 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsent": "我同意服務條款與隱私權政策",
-    "@registerConsent": {
-        "description": "Consent checkbox label for registration (plain text fallback)."
-    },
     "registerConsentPrefix": "我同意",
     "@registerConsentPrefix": {
         "description": "Text before the Terms of Service link in the consent checkbox."
@@ -830,10 +797,6 @@
     "passkeyTimeout": "通行金鑰驗證逾時。請再試一次。",
     "@passkeyTimeout": {
         "description": "Error when passkey authentication times out."
-    },
-    "passkeyNotAvailable": "此應用程式無法使用通行金鑰。請改用電子郵件和密碼登入。",
-    "@passkeyNotAvailable": {
-        "description": "Error for unknown passkey provider errors (e.g. TYPE_UNKNOWN)."
     },
     "passkeyFailed": "通行密鑰驗證失敗。請再試一次。",
     "@passkeyFailed": {
@@ -942,26 +905,6 @@
     "@inviteAcceptSomeone": {
         "description": "Fallback inviter name when the inviter is unknown."
     },
-    "inviteAcceptEmojiPack": "表情符號包",
-    "@inviteAcceptEmojiPack": {
-        "description": "Label for an emoji pack invite."
-    },
-    "inviteAcceptStickerPack": "貼圖包",
-    "@inviteAcceptStickerPack": {
-        "description": "Label for a sticker pack invite."
-    },
-    "inviteAcceptInstallEmojiPack": "安裝表情符號包",
-    "@inviteAcceptInstallEmojiPack": {
-        "description": "Primary action to install an emoji pack from an invite."
-    },
-    "inviteAcceptInstallStickerPack": "安裝貼圖包",
-    "@inviteAcceptInstallStickerPack": {
-        "description": "Primary action to install a sticker pack from an invite."
-    },
-    "inviteAcceptPackInstallNote": "接受此邀請將自動安裝套件。",
-    "@inviteAcceptPackInstallNote": {
-        "description": "Note shown on expression pack invites before accepting."
-    },
     "mentionUnknownChannel": "unknown-channel",
     "@mentionUnknownChannel": {
         "description": "Fallback name shown in a channel mention pill when the channel is not found."
@@ -986,13 +929,13 @@
     "@embedThemeTitle": {
         "description": "Title on the theme embed card in chat."
     },
-    "embedThemeSubtitle": "此用戶端不支援自訂主題。",
-    "@embedThemeSubtitle": {
-        "description": "Subtitle on the theme embed card."
+    "embedThemeWebOnly": "只能在網頁版或桌面版匯入主題。",
+    "@embedThemeWebOnly": {
+        "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
     },
-    "embedThemeUnavailableButton": "主題無法使用",
-    "@embedThemeUnavailableButton": {
-        "description": "Button on the theme embed card - themes aren't supported in the client."
+    "embedThemeImport": "匯入主題",
+    "@embedThemeImport": {
+        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "privacySettings": "隱私設定",
     "@privacySettings": {
@@ -1220,9 +1163,18 @@
     "@dmLeaveGroup": {
         "description": "DM context menu action to leave a group DM."
     },
-    "dmNoCommunitiesAvailable": "沒有可用的社群",
-    "@dmNoCommunitiesAvailable": {
-        "description": "Shown when no communities are available to invite to."
+    "dmInviteSentFor": "已傳送加入 {communityName} 的邀請",
+    "@dmInviteSentFor": {
+        "description": "Toast confirming a community invite was sent to a DM recipient.",
+        "placeholders": {
+            "communityName": {
+                "type": "String"
+            }
+        }
+    },
+    "dmInviteSendFailed": "無法傳送邀請。請再試一次。",
+    "@dmInviteSendFailed": {
+        "description": "Toast shown when sending a community invite from the DM menu fails."
     },
     "dmGroupMemberCount": "{count} 位成員",
     "@dmGroupMemberCount": {
@@ -1667,10 +1619,6 @@
             }
         }
     },
-    "emojiPlutoniumUpsellButton": "取得 Plutonium",
-    "@emojiPlutoniumUpsellButton": {
-        "description": "Button label on the Plutonium upsell banner."
-    },
     "emojiPlutoniumUpsellDismiss": "不要再顯示",
     "@emojiPlutoniumUpsellDismiss": {
         "description": "Dismiss link on the Plutonium upsell banner."
@@ -1837,10 +1785,6 @@
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
     },
-    "fluxerTagInputLabel": "使用者名稱",
-    "@fluxerTagInputLabel": {
-        "description": "Label above the username and discriminator input fields."
-    },
     "fluxerTagDescriptionBase": "使用者名稱只能包含字母 (a-z, A-Z)、數字 (0-9) 和底線。使用者名稱不區分大小寫。",
     "@fluxerTagDescriptionBase": {
         "description": "Base description text on the username change sheet."
@@ -1868,10 +1812,6 @@
     "validationAllowedChars": "僅限使用字母 (a-z, A-Z)、數字 (0-9) 和底線 (_)",
     "@validationAllowedChars": {
         "description": "Validation rule for allowed username characters."
-    },
-    "discriminatorPremiumTooltip": "取得 Plutonium 以自訂您的標籤，或在變更使用者名稱時保留它",
-    "@discriminatorPremiumTooltip": {
-        "description": "Tooltip on disabled discriminator field for non-premium users."
     },
     "fluxerTagAlreadyTaken": "此使用者名稱已被使用",
     "@fluxerTagAlreadyTaken": {
@@ -1926,19 +1866,6 @@
     "premiumUpsellCustomizeTag": "自訂您的 4 位數字標籤，或在變更使用者名稱時保留它",
     "@premiumUpsellCustomizeTag": {
         "description": "Upsell text encouraging non-premium users to get Plutonium for tag customization."
-    },
-    "premiumTrialExpiresOn": "您的 Plutonium 試用將於 {date} 到期。升級即可保留您的自訂標籤並在個人資料中獲得徽章。",
-    "@premiumTrialExpiresOn": {
-        "description": "Trial upsell with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActive": "您目前處於 Plutonium 試用期。升級即可保留您的自訂標籤並在個人資料中獲得徽章。",
-    "@premiumTrialActive": {
-        "description": "Trial upsell without specific expiry date."
     },
     "fluxerTagUpdated": "使用者名稱已更新",
     "@fluxerTagUpdated": {
@@ -2112,32 +2039,6 @@
     "@hideVisionaryIdDescription": {
         "description": "Description for the toggle to hide the Visionary ID badge."
     },
-    "premiumTrialSubscriptionStarts": "您目前處於 Plutonium 試用期 — 您的訂閱將於 {date} 開始",
-    "@premiumTrialSubscriptionStarts": {
-        "description": "Trial banner title when user has an active subscription pending after trial.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialSubscriptionStartsDescription": "您的試用期結束後，訂閱將自動開始。無需任何操作。",
-    "@premiumTrialSubscriptionStartsDescription": {
-        "description": "Trial banner description when user has an active subscription pending after trial."
-    },
-    "premiumTrialExpiresOnProfile": "您目前處於 Plutonium 試用期，將於 {date} 到期",
-    "@premiumTrialExpiresOnProfile": {
-        "description": "Trial banner title with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActiveProfile": "您目前處於 Plutonium 試用期",
-    "@premiumTrialActiveProfile": {
-        "description": "Trial banner title without specific expiry date."
-    },
     "avatarDescriptionNonPremium": "JPEG、PNG、WebP。上限 10MB。建議：512×512px。動態頭像 (GIF) 需要 Plutonium。",
     "@avatarDescriptionNonPremium": {
         "description": "Avatar helper text for non-premium users, mentioning Plutonium requirement for animated avatars."
@@ -2222,22 +2123,6 @@
     "profileSavedToast": "個人檔案已更新",
     "@profileSavedToast": {
         "description": "Toast message shown after successfully saving profile changes."
-    },
-    "profileEditButton": "編輯個人檔案",
-    "@profileEditButton": {
-        "description": "Button label to open profile editing from the profile content card."
-    },
-    "profileNoteLabel": "備註",
-    "@profileNoteLabel": {
-        "description": "Label for the personal note section on a user profile."
-    },
-    "profileNoteVisibility": "（僅您可見）",
-    "@profileNoteVisibility": {
-        "description": "Hint that the note is private and only visible to the current user."
-    },
-    "profileNoteEmpty": "尚未新增備註。",
-    "@profileNoteEmpty": {
-        "description": "Placeholder shown when no personal note has been set for a user."
     },
     "sudoTitle": "驗證您的身分",
     "@sudoTitle": {
@@ -2610,42 +2495,6 @@
     "@securityPasskeyNameHint": {
         "description": "Hint for passkey name input."
     },
-    "securityPhoneSectionTitle": "電話號碼",
-    "@securityPhoneSectionTitle": {
-        "description": "Title for phone number section."
-    },
-    "securityPhoneSectionDescription": "管理您的電話號碼。",
-    "@securityPhoneSectionDescription": {
-        "description": "Description for phone number section."
-    },
-    "securityPhoneLabel": "電話號碼",
-    "@securityPhoneLabel": {
-        "description": "Label for phone number row."
-    },
-    "securityPhoneNone": "尚未新增電話號碼。",
-    "@securityPhoneNone": {
-        "description": "Shown when no phone number is set."
-    },
-    "securityPhoneAdd": "新增電話",
-    "@securityPhoneAdd": {
-        "description": "Button to add phone number."
-    },
-    "securityPhoneRemove": "移除",
-    "@securityPhoneRemove": {
-        "description": "Button to remove phone number."
-    },
-    "securityPhoneRemoveTitle": "移除電話號碼",
-    "@securityPhoneRemoveTitle": {
-        "description": "Title for phone remove confirmation."
-    },
-    "securityPhoneRemoveDescription": "確定要移除您的電話號碼嗎？",
-    "@securityPhoneRemoveDescription": {
-        "description": "Description for phone remove confirmation."
-    },
-    "securityPhoneRemoved": "電話號碼已移除",
-    "@securityPhoneRemoved": {
-        "description": "Toast after phone removed."
-    },
     "securityClaimTitle": "安全性功能",
     "@securityClaimTitle": {
         "description": "Title when user needs to claim account for security."
@@ -2654,7 +2503,7 @@
     "@securityClaimDescription": {
         "description": "Description prompting user to claim account."
     },
-    "securityVerifyEmailRequired": "您必須先驗證您的電子郵件地址，才能設定雙重驗證、通行金鑰或簡訊驗證。",
+    "securityVerifyEmailRequired": "您必須先驗證您的電子郵件地址，才能設定雙重驗證或通行金鑰。",
     "@securityVerifyEmailRequired": {
         "description": "Warning when email is not verified."
     },
@@ -2698,10 +2547,6 @@
     "@backupCodesWarning": {
         "description": "Warning about backup codes."
     },
-    "backupCodesDownload": "下載",
-    "@backupCodesDownload": {
-        "description": "Button to download backup codes."
-    },
     "backupCodesCopy": "複製",
     "@backupCodesCopy": {
         "description": "Button to copy backup codes."
@@ -2717,46 +2562,6 @@
     "backupCodesDone": "完成",
     "@backupCodesDone": {
         "description": "Button to close backup codes sheet."
-    },
-    "backupCodesViewTitle": "查看備用碼",
-    "@backupCodesViewTitle": {
-        "description": "Title for viewing existing backup codes."
-    },
-    "backupCodesViewDescription": "在檢視您的備份碼之前，可能需要進行驗證。",
-    "@backupCodesViewDescription": {
-        "description": "Description for view backup codes."
-    },
-    "phoneAddTitle": "新增電話號碼",
-    "@phoneAddTitle": {
-        "description": "Title for phone add sheet."
-    },
-    "phoneAddLabel": "電話號碼",
-    "@phoneAddLabel": {
-        "description": "Label for phone input."
-    },
-    "phoneAddHint": "輸入您的電話號碼",
-    "@phoneAddHint": {
-        "description": "Hint for phone input."
-    },
-    "phoneAddFooter": "我們會在收到驗證碼時傳送簡訊。您的號碼不會連結到您的帳號。我們只會保留一個加密標記，不含使用者 ID，以便在約 30 天內最多驗證 2 次。",
-    "@phoneAddFooter": {
-        "description": "Footer text for phone input."
-    },
-    "phoneAddSendCode": "傳送驗證碼",
-    "@phoneAddSendCode": {
-        "description": "Button to send phone verification code."
-    },
-    "phoneVerifyTitle": "驗證電話號碼",
-    "@phoneVerifyTitle": {
-        "description": "Title for phone verify step."
-    },
-    "phoneVerifyDescription": "輸入傳送至您電話號碼的驗證碼。",
-    "@phoneVerifyDescription": {
-        "description": "Description for phone verify step."
-    },
-    "phoneAddSuccess": "電話號碼已驗證",
-    "@phoneAddSuccess": {
-        "description": "Toast after phone added."
     },
     "dangerZoneSectionTitle": "危險區域",
     "@dangerZoneSectionTitle": {
@@ -3008,10 +2813,6 @@
     "@authorizedAppsScopeAdmin": {
         "description": "OAuth2 scope description: admin."
     },
-    "privacyPendingDeletionTitle": "待刪除",
-    "@privacyPendingDeletionTitle": {
-        "description": "Title of the warning alert shown when a bulk message deletion is pending."
-    },
     "blockedUsersTitle": "已封鎖的使用者",
     "@blockedUsersTitle": {
         "description": "Header title of the Blocked Users settings page."
@@ -3248,10 +3049,6 @@
     "@userProfileNoteDelete": {
         "description": "Delete button in the note editor sheet."
     },
-    "userProfileNoteEmpty": "點擊以新增記事",
-    "@userProfileNoteEmpty": {
-        "description": "Hint text when no note has been written yet."
-    },
     "userProfileMemberSince": "加入時間",
     "@userProfileMemberSince": {
         "description": "Header of the member-since section in the bio card."
@@ -3363,13 +3160,13 @@
     "@userProfileTransferOwnership": {
         "description": "Three-dot menu item to transfer community ownership to the member."
     },
-    "userProfileReportUser": "檢舉使用者",
-    "@userProfileReportUser": {
-        "description": "Three-dot menu item to report the user."
-    },
     "userProfileReportMessage": "檢舉訊息",
     "@userProfileReportMessage": {
         "description": "Three-dot menu item to report the message that opened this profile."
+    },
+    "userProfileReportUserProfile": "檢舉個人檔案",
+    "@userProfileReportUserProfile": {
+        "description": "Three-dot menu item on the full profile to report this user's profile (avatar, banner, name, bio and other profile parts). Message behavior is reported from the message instead."
     },
     "userProfileKickConfirmTitle": "踢出 {username}？",
     "@userProfileKickConfirmTitle": {
@@ -3596,18 +3393,6 @@
     "durationCustom": "自訂…",
     "@durationCustom": {
         "description": "Duration option label for a user-specified custom duration."
-    },
-    "iarReportUserTitle": "檢舉使用者",
-    "@iarReportUserTitle": {
-        "description": "Title of the simple user-report sheet."
-    },
-    "iarReasonInappropriateProfile": "不當的個人檔案",
-    "@iarReasonInappropriateProfile": {
-        "description": "User-report reason: the user's profile contains inappropriate content."
-    },
-    "iarReasonInappropriateProfileDescription": "此使用者的個人檔案包含不當內容",
-    "@iarReasonInappropriateProfileDescription": {
-        "description": "Description for the inappropriate-profile user-report reason."
     },
     "typingIndicatorOne": "{name} 正在輸入...",
     "@typingIndicatorOne": {
@@ -4034,17 +3819,9 @@
     "@channelComposerBarrierNotMemberLongEnough": {
         "description": "Composer barrier when the user's guild membership is too recent."
     },
-    "channelComposerBarrierNoPhoneNumber": "您需要驗證電話號碼才能在這個社群傳送訊息。",
-    "@channelComposerBarrierNoPhoneNumber": {
-        "description": "Composer barrier when the user must verify a phone number before messaging."
-    },
     "channelComposerBarrierVerifyEmail": "驗證電子郵件",
     "@channelComposerBarrierVerifyEmail": {
         "description": "Action button on the composer barrier for unverified email."
-    },
-    "channelComposerBarrierVerifyPhone": "驗證電話號碼",
-    "@channelComposerBarrierVerifyPhone": {
-        "description": "Action button on the composer barrier for missing phone verification."
     },
     "chatAttachmentTooMany": "附件太多（最多 {max} 個）",
     "@chatAttachmentTooMany": {
@@ -4071,10 +3848,6 @@
     "@chatAttachmentDropToSend": {
         "description": "Overlay hint when dragging files over chat with Shift held."
     },
-    "chatAttachmentSendVoiceMessage": "傳送語音訊息",
-    "@chatAttachmentSendVoiceMessage": {
-        "description": "Menu item to open the voice message recorder."
-    },
     "voiceMessageTitle": "語音訊息",
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
@@ -4095,10 +3868,6 @@
     "@voiceMessageMicPermissionDenied": {
         "description": "Shown when microphone permission is denied for voice messages."
     },
-    "voiceMessageRecordingNotSupported": "此裝置不支援語音錄製。",
-    "@voiceMessageRecordingNotSupported": {
-        "description": "Shown when the device cannot record voice messages."
-    },
     "voiceMessageMicInUse": "請離開語音通話才能錄製語音訊息。",
     "@voiceMessageMicInUse": {
         "description": "Shown when the microphone is already used by an active voice call."
@@ -4111,26 +3880,6 @@
     "@voiceMessageSendFailed": {
         "description": "Shown when sending a voice message fails."
     },
-    "voiceMessageRecordingHint": "請開始說話。完成後請按「停止」，您之後可以再修剪。",
-    "@voiceMessageRecordingHint": {
-        "description": "Help text while recording a voice message on desktop."
-    },
-    "voiceMessageReviewHint": "拖曳把手來修剪，然後按下「傳送」。",
-    "@voiceMessageReviewHint": {
-        "description": "Help text while reviewing a voice message before send."
-    },
-    "voiceMessageStop": "停止",
-    "@voiceMessageStop": {
-        "description": "Stop recording button in voice message composer."
-    },
-    "voiceMessageStartRecording": "開始錄音",
-    "@voiceMessageStartRecording": {
-        "description": "Button to retry voice recording after permission error."
-    },
-    "voiceMessageRerecord": "重新錄音",
-    "@voiceMessageRerecord": {
-        "description": "Button to discard review and record again."
-    },
     "voiceMessagePlay": "播放",
     "@voiceMessagePlay": {
         "description": "Play voice message preview."
@@ -4138,16 +3887,6 @@
     "voiceMessagePause": "暫停",
     "@voiceMessagePause": {
         "description": "Pause voice message preview."
-    },
-    "voiceMessageSelectionTooShort": "選取範圍必須至少為 {seconds} 秒。",
-    "@voiceMessageSelectionTooShort": {
-        "description": "Error when trimmed voice message is too short.",
-        "placeholders": {
-            "seconds": {
-                "type": "num",
-                "format": "compact"
-            }
-        }
     },
     "chatAttachmentEditTitle": "編輯附件",
     "@chatAttachmentEditTitle": {
@@ -4192,10 +3931,6 @@
     "chatAttachmentSourceBrowse": "瀏覽檔案",
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
-    },
-    "chatAttachmentPasteTooltip": "從剪貼簿貼上檔案",
-    "@chatAttachmentPasteTooltip": {
-        "description": "Tooltip for pasting an image attachment from the clipboard."
     },
     "chatAttachmentSpoiler": "劇透",
     "@chatAttachmentSpoiler": {
@@ -4293,14 +4028,6 @@
     "@matureContentOpenLinkButton": {
         "description": "Primary action on mature link channel gates."
     },
-    "sensitiveContentSectionTitle": "敏感內容",
-    "@sensitiveContentSectionTitle": {
-        "description": "Privacy settings section title for sensitive content filters."
-    },
-    "sensitiveContentSectionDescription": "控制在不同情境下如何篩選成人或敏感媒體",
-    "@sensitiveContentSectionDescription": {
-        "description": "Privacy settings section description for sensitive content filters."
-    },
     "sensitiveContentFriendDmLabel": "來自好友的私訊",
     "@sensitiveContentFriendDmLabel": {
         "description": "Label for friend DM sensitive content filter."
@@ -4325,18 +4052,6 @@
     "@sensitiveContentFilterBlock": {
         "description": "Sensitive content filter option to block media."
     },
-    "sensitiveContentBlurUnscannedLabel": "掃描完成前模糊媒體",
-    "@sensitiveContentBlurUnscannedLabel": {
-        "description": "Toggle label for blurring unscanned media."
-    },
-    "sensitiveContentBlurUnscannedDescriptionAdult": "啟用後，圖片和影片將會模糊處理，直到內容安全掃描完成。",
-    "@sensitiveContentBlurUnscannedDescriptionAdult": {
-        "description": "Description for blur-unscanned toggle for adult accounts."
-    },
-    "sensitiveContentBlurUnscannedDescriptionMinor": "此設定對您的帳號一律保持啟用。",
-    "@sensitiveContentBlurUnscannedDescriptionMinor": {
-        "description": "Description for blur-unscanned toggle for minor accounts."
-    },
     "sensitiveContentResetButton": "重設",
     "@sensitiveContentResetButton": {
         "description": "Reset button for sensitive content settings."
@@ -4353,10 +4068,6 @@
                 "type": "int"
             }
         }
-    },
-    "chatCancelUpload": "取消上傳",
-    "@chatCancelUpload": {
-        "description": "Button or menu action label for canceling an in-flight message attachment upload."
     },
     "chatAttachmentExpiresOn": "將於 {date} 到期",
     "@chatAttachmentExpiresOn": {
@@ -4626,10 +4337,6 @@
     "@connectionEnterDomain": {
         "description": "Inline error shown when the domain input is empty."
     },
-    "lookAndFeelTitle": "外觀",
-    "@lookAndFeelTitle": {
-        "description": "Title of the Look & Feel (Appearance) settings page."
-    },
     "lookAndFeelThemeSectionTitle": "主題",
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
@@ -4669,14 +4376,6 @@
     "lookAndFeelThemeSyncFailed": "無法將佈景主題同步到您的帳戶。請再試一次。",
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
-    },
-    "lookAndFeelChatFontScalingTitle": "聊天字體縮放",
-    "@lookAndFeelChatFontScalingTitle": {
-        "description": "Section title for the chat font size slider."
-    },
-    "lookAndFeelChatFontScalingDescription": "調整聊天區域的文字大小。",
-    "@lookAndFeelChatFontScalingDescription": {
-        "description": "Section description for the chat font size slider."
     },
     "lookAndFeelInterfaceTitle": "介面",
     "@lookAndFeelInterfaceTitle": {
@@ -4745,42 +4444,6 @@
     "lookAndFeelHideKeyboardHintsDescription": "啟用時，工具提示彈出視窗中會隱藏快速鍵徽章。",
     "@lookAndFeelHideKeyboardHintsDescription": {
         "description": "Toggle description for the hide-keyboard-hints switch."
-    },
-    "lookAndFeelNekoTitle": "其他",
-    "@lookAndFeelNekoTitle": {
-        "description": "Subsection title under Interface for Neko appearance settings."
-    },
-    "lookAndFeelNekoDescription": "其他介面選項。",
-    "@lookAndFeelNekoDescription": {
-        "description": "Subsection description for Neko appearance settings."
-    },
-    "lookAndFeelShowNekoLabel": "顯示 Neko",
-    "@lookAndFeelShowNekoLabel": {
-        "description": "Toggle label for showing Neko in the chat footer."
-    },
-    "lookAndFeelShowNekoDescription": "啟用時，Neko 會出現在聊天輸入列附近。",
-    "@lookAndFeelShowNekoDescription": {
-        "description": "Toggle description for showing Neko in chat."
-    },
-    "lookAndFeelVoiceChannelJoinTitle": "語音頻道加入行為",
-    "@lookAndFeelVoiceChannelJoinTitle": {
-        "description": "Subsection title under Interface — voice channel join behavior."
-    },
-    "lookAndFeelVoiceChannelJoinDescription": "控制您在社群中加入語音頻道的方式。",
-    "@lookAndFeelVoiceChannelJoinDescription": {
-        "description": "Subsection description for voice channel join behavior."
-    },
-    "lookAndFeelRequireDoubleClickJoinLabel": "需要按兩下才能加入語音頻道",
-    "@lookAndFeelRequireDoubleClickJoinLabel": {
-        "description": "Toggle label — require double-click to join voice channels."
-    },
-    "lookAndFeelRequireDoubleClickJoinDescription": "啟用時，您需要按兩下語音頻道才能加入。停用時（預設），按一下即可立即加入頻道。",
-    "@lookAndFeelRequireDoubleClickJoinDescription": {
-        "description": "Toggle description for the require-double-click voice channel join switch."
-    },
-    "lookAndFeelChatFontPreviewSample": "敏捷的棕色狐狸跳過懶惰的狗。",
-    "@lookAndFeelChatFontPreviewSample": {
-        "description": "Sample text rendered at the selected chat font size to preview scaling."
     },
     "lookAndFeelGuildSidebarTitle": "伺服器側邊欄",
     "@lookAndFeelGuildSidebarTitle": {
@@ -5189,25 +4852,9 @@
     "@messagesMediaAutocompleteSavedMediaLabel": {
         "description": "Toggle label for saved media in expression autocomplete."
     },
-    "messagesMediaEditingSectionTitle": "編輯訊息",
-    "@messagesMediaEditingSectionTitle": {
-        "description": "Section title for message editing settings."
-    },
-    "messagesMediaEditingSectionDescription": "控制取消編輯時草稿的處理方式。",
-    "@messagesMediaEditingSectionDescription": {
-        "description": "Section description for message editing settings."
-    },
-    "messagesMediaEditingPreserveDraftLabel": "取消時保留編輯草稿",
-    "@messagesMediaEditingPreserveDraftLabel": {
-        "description": "Toggle label for preserving edit drafts on cancel."
-    },
     "accessibilityDmMessagePreviewGroupTitle": "私訊預覽",
     "@accessibilityDmMessagePreviewGroupTitle": {
         "description": "Section title for DM message preview accessibility settings."
-    },
-    "accessibilityDmMessagePreviewGroupDescription": "控制私訊列表中顯示訊息預覽的時間。",
-    "@accessibilityDmMessagePreviewGroupDescription": {
-        "description": "Section description for DM message preview accessibility settings."
     },
     "accessibilityDmMessagePreviewModeLabel": "私訊預覽模式",
     "@accessibilityDmMessagePreviewModeLabel": {
@@ -5365,10 +5012,6 @@
     "@voiceConnectionConfirmDoNothing": {
         "description": "Dismiss the dialog without joining voice."
     },
-    "voiceChannelEmptyDescription": "這是語音頻道。連線即可開始交談！",
-    "@voiceChannelEmptyDescription": {
-        "description": "Empty state body when viewing a guild voice channel while not in the call."
-    },
     "voiceChannelJoin": "加入語音頻道",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
@@ -5408,14 +5051,6 @@
     "voiceChannelStatusConnecting": "連線中…",
     "@voiceChannelStatusConnecting": {
         "description": "Status in the in-page voice view while LiveKit is connecting."
-    },
-    "voiceChannelStatusConnected": "已連線",
-    "@voiceChannelStatusConnected": {
-        "description": "Status in the in-page voice view when the voice session is active."
-    },
-    "voiceChannelStatusError": "錯誤",
-    "@voiceChannelStatusError": {
-        "description": "Short label in the channel header when the voice session reports an error."
     },
     "voiceParticipantTooltipMobileDevice": "行動裝置",
     "@voiceParticipantTooltipMobileDevice": {
@@ -5490,10 +5125,6 @@
     "voiceScreenShareNotificationText": "正在分享您的螢幕。",
     "@voiceScreenShareNotificationText": {
         "description": "Body text for the Android foreground notification shown while screen sharing."
-    },
-    "voiceControlMore": "更多",
-    "@voiceControlMore": {
-        "description": "Tooltip: more voice actions in the voice call control bar."
     },
     "voiceControlDisconnect": "中斷連線",
     "@voiceControlDisconnect": {
@@ -5745,6 +5376,10 @@
     "@chatSendFailureContentBlocked": {
         "description": "Fluxerbot system message when message content is blocked by safety systems."
     },
+    "chatSendFailureContentBlockedSelfHosted": "您的訊息無法送達，因為它已被我們的安全系統標記。如果您認為這是錯誤，請聯絡此實例的管理員。",
+    "@chatSendFailureContentBlockedSelfHosted": {
+        "description": "Fluxerbot system message on a self-hosted instance when message content is blocked by safety systems. Names no support mailbox."
+    },
     "chatSendFailureNsfwEmojiSticker": "您的訊息無法送達，因為其中包含在此情境不允許的成人表情符號或貼圖。",
     "@chatSendFailureNsfwEmojiSticker": {
         "description": "Fluxerbot system message when mature emoji or stickers are blocked."
@@ -5769,6 +5404,10 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "輕觸兩下訊息即可回應",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
     "chatMessageEdit": "編輯訊息",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -5776,6 +5415,14 @@
     "chatMessageReply": "回覆",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
+    },
+    "notificationReplyPlaceholder": "訊息",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "無法傳送回覆",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
     },
     "chatMessageForward": "轉傳",
     "@chatMessageForward": {
@@ -5926,420 +5573,155 @@
     "@chatMessageReport": {
         "description": "Action label that opens the report-message sheet so the user can flag the message to moderators."
     },
-    "iarReportMessageTitle": "檢舉訊息",
-    "@iarReportMessageTitle": {
-        "description": "Title shown at the top of the In-App Reporting (IAR) sheet when the user is reporting a specific message."
+    "reportFlowTitleMessage": "檢舉訊息",
+    "@reportFlowTitleMessage": {
+        "description": "Report flow: sheet title while the message report form loads or fails to load."
     },
-    "iarThisUserFallback": "這位使用者",
-    "@iarThisUserFallback": {
-        "description": "Lowercase phrase used mid-sentence in IAR copy when referring to the reported user without a name (e.g. inside the close-DM confirmation)."
+    "reportFlowTitleUserProfile": "檢舉個人檔案",
+    "@reportFlowTitleUserProfile": {
+        "description": "Report flow: sheet title while the user profile report form loads or fails to load."
     },
-    "iarModalDescription": "檢舉違規行為，或尋找工具來管理聯絡人和偏好設定。",
-    "@iarModalDescription": {
-        "description": "Screen-reader description for the IAR sheet announcing what the flow is for."
+    "reportFlowSummaryTitle": "檢查您的檢舉",
+    "@reportFlowSummaryTitle": {
+        "description": "Report flow: title of the last screen, where the reporter reviews the report before sending it."
     },
-    "iarPathStepAriaLabel": "您需要什麼？",
-    "@iarPathStepAriaLabel": {
-        "description": "Accessible label for the primary-path radio group on the first step of the IAR sheet. Not shown visually; the radios are labelled inline."
+    "reportFlowSummarySubtitle": "送出前請再次確認內容是否正確。",
+    "@reportFlowSummarySubtitle": {
+        "description": "Report flow: subtitle of the report summary screen."
     },
-    "iarCategoryStepTitle": "違反了哪一類規則？",
-    "@iarCategoryStepTitle": {
-        "description": "Title shown on the category step of the IAR sheet (platform-report path)."
+    "reportFlowDisclaimer": "僅檢舉您真心認為違反規則的內容。濫用檢舉功能將違反我們的{guidelines}。",
+    "@reportFlowDisclaimer": {
+        "description": "Report flow: disclaimer on the report summary screen. {guidelines} is a link whose text is reportFlowCommunityGuidelinesLink.",
+        "placeholders": {
+            "guidelines": {
+                "type": "String",
+                "example": "Community Guidelines"
+            }
+        }
     },
-    "iarReasonStepTitle": "違反了哪一條規則？",
-    "@iarReasonStepTitle": {
-        "description": "Title shown on the reason step of the IAR sheet after the user has picked a rule category."
+    "reportFlowCommunityGuidelinesLink": "社群準則",
+    "@reportFlowCommunityGuidelinesLink": {
+        "description": "Report flow: link text inside reportFlowDisclaimer. Opens the community guidelines page."
     },
-    "iarReasonSelectHint": "選擇原因",
-    "@iarReasonSelectHint": {
-        "description": "Placeholder shown in the message-report reason dropdown before the user picks a rule."
+    "reportFlowDisclaimerNoLink": "請僅檢舉您真心認為違反規則的內容，且請勿重複送出相同的檢舉。",
+    "@reportFlowDisclaimerNoLink": {
+        "description": "Report flow: disclaimer on the report summary screen when the instance has no community guidelines page."
     },
-    "iarPickAnOptionToast": "請選擇一個選項以繼續。",
-    "@iarPickAnOptionToast": {
-        "description": "Toast shown when the user taps Continue on a step without selecting any radio option."
+    "reportFlowSelectedMessage": "您要檢舉的訊息",
+    "@reportFlowSelectedMessage": {
+        "description": "Report flow: heading above the preview of the reported message on the report summary screen."
     },
-    "iarPickARuleToast": "請選擇違反的規則。",
-    "@iarPickARuleToast": {
-        "description": "Toast shown when the user taps Send report without selecting a rule reason."
+    "reportFlowSelectedUser": "您要檢舉的個人檔案",
+    "@reportFlowSelectedUser": {
+        "description": "Report flow: heading above the card of the reported user on the first screen and the report summary screen."
     },
-    "iarPathPlatform": "檢舉平台規則違規",
-    "@iarPathPlatform": {
-        "description": "Primary-path radio label: file a real DSA / platform-level report."
+    "reportFlowReportCategory": "您的回答",
+    "@reportFlowReportCategory": {
+        "description": "Report flow: heading above the list of answers the reporter picked, on the report summary screen."
     },
-    "iarPathCommunity": "向此社群管理員檢舉",
-    "@iarPathCommunity": {
-        "description": "Primary-path radio label: surface this to community moderators rather than platform safety."
+    "reportFlowSubmit": "送出檢舉",
+    "@reportFlowSubmit": {
+        "description": "Report flow: button on the report summary screen that sends the report."
     },
-    "iarPathPreferenceMessage": "我不喜歡這個內容",
-    "@iarPathPreferenceMessage": {
-        "description": "Primary-path radio label: the user doesn't want platform action, they want self-service tools (block, leave, settings)."
+    "reportFlowBack": "返回",
+    "@reportFlowBack": {
+        "description": "Report flow: button that returns to the previous screen of the report form."
     },
-    "iarCategoryTargetedHarmLabel": "威脅、騷擾或傷害",
-    "@iarCategoryTargetedHarmLabel": {
-        "description": "Rule-category label grouping harassment, hate, violence, terrorism, raids, and self-harm content."
+    "reportFlowNext": "下一步",
+    "@reportFlowNext": {
+        "description": "Report flow: button that goes to the next screen of the report form."
     },
-    "iarCategoryTargetedHarmDescription": "霸凌、威脅、仇恨、暴力、突襲，或助長自殘的內容。",
-    "@iarCategoryTargetedHarmDescription": {
-        "description": "One-line description for the targeted-harm rule category."
+    "reportFlowDone": "完成",
+    "@reportFlowDone": {
+        "description": "Report flow: button that closes the report form when it is finished."
     },
-    "iarCategorySafetyMinorsLabel": "兒童安全或成人內容",
-    "@iarCategorySafetyMinorsLabel": {
-        "description": "Rule-category label grouping child-safety and mature-content reports."
+    "reportFlowThankYouTitle": "已送出檢舉",
+    "@reportFlowThankYouTitle": {
+        "description": "Report flow: title of the screen shown after a report was sent."
     },
-    "iarCategorySafetyMinorsDescription": "未成年人面臨風險、成人內容出現在不當的地方，或不受歡迎的行為。",
-    "@iarCategorySafetyMinorsDescription": {
-        "description": "One-line description for the child-safety / mature-content rule category."
+    "reportFlowThankYouNoReportTitle": "感謝您告知我們",
+    "@reportFlowThankYouNoReportTitle": {
+        "description": "Report flow: title of the screen shown when the chosen answer does not send a report."
     },
-    "iarCategoryPrivacyIdentityLabel": "隱私或冒充",
-    "@iarCategoryPrivacyIdentityLabel": {
-        "description": "Rule-category label grouping privacy violations and impersonation."
-    },
-    "iarCategoryPrivacyIdentityDescription": "人肉搜索、跟蹤、冒充他人或不當的個人檔案。",
-    "@iarCategoryPrivacyIdentityDescription": {
-        "description": "One-line description for the privacy / impersonation rule category."
-    },
-    "iarCategoryDeceptionLabel": "詐騙、惡意軟體或不實資訊",
-    "@iarCategoryDeceptionLabel": {
-        "description": "Rule-category label grouping spam/scams, malware, and harmful misinformation."
-    },
-    "iarCategoryDeceptionDescription": "網路釣魚、詐騙、惡意連結或可能造成實際危害的虛假聲明。",
-    "@iarCategoryDeceptionDescription": {
-        "description": "One-line description for the scams / malware / misinformation rule category."
-    },
-    "iarCategoryIllegalOtherLabel": "非法活動或其他",
-    "@iarCategoryIllegalOtherLabel": {
-        "description": "Rule-category label grouping illegal activity and the catch-all Other reason."
-    },
-    "iarCategoryIllegalOtherDescription": "非法銷售、協助犯罪，或上述未涵蓋的明顯違規行為。",
-    "@iarCategoryIllegalOtherDescription": {
-        "description": "One-line description for the illegal / other rule category."
-    },
-    "iarReasonHarassmentLabel": "騷擾或威脅",
-    "@iarReasonHarassmentLabel": {
-        "description": "Rule-reason label for harassment in the IAR message flow."
-    },
-    "iarReasonHarassmentMessageDescription": "霸凌、反覆的不受歡迎聯繫、跟蹤騷擾或針對性攻擊。",
-    "@iarReasonHarassmentMessageDescription": {
-        "description": "Rule-reason description for harassment in the IAR message flow."
-    },
-    "iarReasonHateLabel": "仇恨言論",
-    "@iarReasonHateLabel": {
-        "description": "Rule-reason label for hate speech in the IAR message flow."
-    },
-    "iarReasonHateMessageDescription": "歧視性字眼、貶低人格的言論或針對受保護群體的攻擊。",
-    "@iarReasonHateMessageDescription": {
-        "description": "Rule-reason description for hate speech in the IAR message flow."
-    },
-    "iarReasonViolenceLabel": "暴力或暴力威脅",
-    "@iarReasonViolenceLabel": {
-        "description": "Rule-reason label for violence in the IAR message flow."
-    },
-    "iarReasonViolenceDescription": "可信的威脅、露骨的暴力內容或美化暴力。",
-    "@iarReasonViolenceDescription": {
-        "description": "Rule-reason description for violence in the IAR message flow."
-    },
-    "iarReasonMatureContentLabel": "成人內容或騷擾",
-    "@iarReasonMatureContentLabel": {
-        "description": "Rule-reason label for mature content / unwanted conduct in the IAR message flow."
-    },
-    "iarReasonMatureContentMessageDescription": "不受歡迎的行為，或出現在不當場合的成人內容。",
-    "@iarReasonMatureContentMessageDescription": {
-        "description": "Rule-reason description for mature content in the IAR message flow."
-    },
-    "iarReasonChildSafetyLabel": "兒童安全或未成年人剝削",
-    "@iarReasonChildSafetyLabel": {
-        "description": "Rule-reason label for child-safety reports in the IAR message flow. Also used as the {childSafetyReason} placeholder in iarUseChildSafetyInstead."
-    },
-    "iarReasonChildSafetyMessageDescription": "誘騙或兒童剝削內容。",
-    "@iarReasonChildSafetyMessageDescription": {
-        "description": "Rule-reason description for child-safety reports in the IAR message flow."
-    },
-    "iarReasonHarmfulMisinfoLabel": "有害不實資訊",
-    "@iarReasonHarmfulMisinfoLabel": {
-        "description": "Rule-reason label for harmful misinformation in the IAR message flow."
-    },
-    "iarReasonHarmfulMisinfoDescription": "可能對現實世界造成傷害的不實說法。",
-    "@iarReasonHarmfulMisinfoDescription": {
-        "description": "Rule-reason description for harmful misinformation."
-    },
-    "iarReasonSpamLabel": "垃圾訊息、詐騙或網路釣魚",
-    "@iarReasonSpamLabel": {
-        "description": "Rule-reason label for spam/scams/phishing in the IAR message flow."
-    },
-    "iarReasonSpamMessageDescription": "大量垃圾訊息、詐騙、假贈品或濫用帳號。",
-    "@iarReasonSpamMessageDescription": {
-        "description": "Rule-reason description for spam/scams in the IAR message flow."
-    },
-    "iarReasonMalwareLabel": "惡意軟體或危險連結",
-    "@iarReasonMalwareLabel": {
-        "description": "Rule-reason label for malware / dangerous links in the IAR message flow."
-    },
-    "iarReasonMalwareDescription": "惡意軟體、竊取帳號密碼或有害檔案。",
-    "@iarReasonMalwareDescription": {
-        "description": "Rule-reason description for malware."
-    },
-    "iarReasonPrivacyLabel": "侵犯隱私",
-    "@iarReasonPrivacyLabel": {
-        "description": "Rule-reason label for privacy violations in the IAR message flow."
-    },
-    "iarReasonPrivacyDescription": "人肉搜索、洩漏個人資訊或跟蹤騷擾。",
-    "@iarReasonPrivacyDescription": {
-        "description": "Rule-reason description for privacy violations."
-    },
-    "iarReasonImpersonationLabel": "冒充或欺騙性媒體內容",
-    "@iarReasonImpersonationLabel": {
-        "description": "Rule-reason label for impersonation in the IAR message flow."
-    },
-    "iarReasonImpersonationMessageDescription": "假冒他人，包括欺騙性 AI 生成內容。",
-    "@iarReasonImpersonationMessageDescription": {
-        "description": "Rule-reason description for impersonation in the IAR message flow."
-    },
-    "iarReasonIllegalLabel": "非法活動",
-    "@iarReasonIllegalLabel": {
-        "description": "Rule-reason label for illegal activity in the IAR message flow."
-    },
-    "iarReasonIllegalDescription": "非法銷售、協助犯罪或非法活動。",
-    "@iarReasonIllegalDescription": {
-        "description": "Rule-reason description for illegal activity."
-    },
-    "iarReasonSelfHarmLabel": "自殘或自殺",
-    "@iarReasonSelfHarmLabel": {
-        "description": "Rule-reason label for self-harm content in the IAR message flow."
-    },
-    "iarReasonSelfHarmMessageDescription": "鼓勵自殘或飲食失調的宣傳或教學內容。",
-    "@iarReasonSelfHarmMessageDescription": {
-        "description": "Rule-reason description for self-harm content in the IAR message flow."
-    },
-    "iarReasonOtherLabel": "另一個明顯違反規定的行為",
-    "@iarReasonOtherLabel": {
-        "description": "Rule-reason label for the catch-all option in the IAR message flow."
-    },
-    "iarReasonOtherDescription": "僅在內容明確違反 {productName} 規則且不符合上述任何選項時使用。",
-    "@iarReasonOtherDescription": {
-        "description": "Rule-reason description for the catch-all option.",
+    "reportFlowThankYouBody": "{productName} 安全團隊會審核您的檢舉。我們不會透露是您檢舉的。",
+    "@reportFlowThankYouBody": {
+        "description": "Report flow: body of the thank-you screen after a report was sent. {productName} is the name of the app.",
         "placeholders": {
             "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "iarUseChildSafetyInstead": "若涉及未成年人，請改用「{childSafetyReason}」。",
-    "@iarUseChildSafetyInstead": {
-        "description": "Inline routing nudge shown under reasons (e.g. mature content) that overlap with child safety.",
-        "placeholders": {
-            "childSafetyReason": {
                 "type": "String",
-                "example": "Child safety or exploitation of minors"
+                "example": "Fluxer"
             }
         }
     },
-    "iarSafetyNoteChildSafety": "若涉及兒童性犯罪圖像 (CSAM) 或剝削未成年人，請立即檢舉，請勿再次分享相關內容。",
-    "@iarSafetyNoteChildSafety": {
-        "description": "Inline safety note shown for child-safety reports on the reason step."
+    "reportFlowThankYouNoReportBody": "感謝您告訴我們。這本身並不違反我們的規定，所以我們沒有送出檢舉。如果內容針對特定對象或使用侮辱性字眼，請再次檢舉並選擇「辱罵性或有害的內容」。",
+    "@reportFlowThankYouNoReportBody": {
+        "description": "Report flow: body of the thank-you screen when the chosen answer does not send a report. \"Abusive or harmful content\" is the name of an option on the first screen of the message report form."
     },
-    "iarSafetyNoteSelfHarm": "如果有人可能處於立即危險中，請在安全的情況下聯絡當地緊急服務。",
-    "@iarSafetyNoteSelfHarm": {
-        "description": "Inline safety note shown for self-harm reports on the reason step."
+    "reportFlowThankYouNoReportBodyShort": "感謝您告訴我們。這本身並不違反我們的規定，所以我們沒有送出檢舉。",
+    "@reportFlowThankYouNoReportBodyShort": {
+        "description": "Report flow: body of the thank-you screen when the chosen answer does not send a report and the reporter is already past the first screen of the form."
     },
-    "iarSafetyNoteViolence": "如果這是可信的緊急威脅，請同時聯絡當地緊急服務單位。",
-    "@iarSafetyNoteViolence": {
-        "description": "Inline safety note shown for violence reports on the reason step."
+    "reportFlowMoreYouCanDo": "您的選項",
+    "@reportFlowMoreYouCanDo": {
+        "description": "Report flow: heading above the extra actions (such as blocking the user) on the thank-you screen."
     },
-    "iarSafetyNoteTerrorism": "如果這是迫在眉睫的恐怖威脅，請同時聯絡當地緊急服務單位。",
-    "@iarSafetyNoteTerrorism": {
-        "description": "Inline safety note shown for terrorism reports on the reason step."
-    },
-    "iarActionBlockUserTitle": "封鎖此使用者",
-    "@iarActionBlockUserTitle": {
-        "description": "Action card title for blocking the reported user."
-    },
-    "iarActionBlockUserDescription": "不再收到訊息和好友邀請。",
-    "@iarActionBlockUserDescription": {
-        "description": "Action card description for blocking the reported user."
-    },
-    "iarActionBlockUserButton": "封鎖",
-    "@iarActionBlockUserButton": {
-        "description": "Trailing button label on the block-user action card."
-    },
-    "iarActionCopyMessageLinkTitle": "複製訊息連結",
-    "@iarActionCopyMessageLinkTitle": {
-        "description": "Action card title for copying a link to the reported message so the user can share it with community moderators."
-    },
-    "iarActionCopyMessageLinkDescription": "分享給社群管理員。",
-    "@iarActionCopyMessageLinkDescription": {
-        "description": "Action card description for copying a message link."
-    },
-    "iarActionCopyMessageLinkButton": "複製",
-    "@iarActionCopyMessageLinkButton": {
-        "description": "Trailing button label on the copy-message-link action card."
-    },
-    "iarActionCloseDmTitle": "關閉此私訊",
-    "@iarActionCloseDmTitle": {
-        "description": "Action card title for closing the DM with the reported user."
-    },
-    "iarActionCloseDmDescription": "不會封鎖。您可以稍後再重新開啟。",
-    "@iarActionCloseDmDescription": {
-        "description": "Action card description for closing the DM."
-    },
-    "iarActionCloseDmButton": "關閉私訊",
-    "@iarActionCloseDmButton": {
-        "description": "Trailing button label on the close-DM action card."
-    },
-    "iarActionLeaveCommunityTitle": "離開社群",
-    "@iarActionLeaveCommunityTitle": {
-        "description": "Action card title for leaving the guild the reported message was sent in."
-    },
-    "iarActionLeaveCommunityDescription": "不再看到社群的內容和成員。",
-    "@iarActionLeaveCommunityDescription": {
-        "description": "Action card description for leaving the community."
-    },
-    "iarActionLeaveCommunityButton": "離開",
-    "@iarActionLeaveCommunityButton": {
-        "description": "Trailing button label on the leave-community action card."
-    },
-    "iarActionDmSettingsTitle": "私訊和好友邀請設定",
-    "@iarActionDmSettingsTitle": {
-        "description": "Action card title for opening the DM / friend-request privacy settings."
-    },
-    "iarActionDmSettingsDescription": "變更誰可以聯絡您。",
-    "@iarActionDmSettingsDescription": {
-        "description": "Action card description for DM / friend-request privacy settings."
-    },
-    "iarActionCallSettingsTitle": "通話與群組聊天設定",
-    "@iarActionCallSettingsTitle": {
-        "description": "Action card title for opening the call / group-chat privacy settings."
-    },
-    "iarActionCallSettingsDescription": "變更誰可以與您通話或加您為好友。",
-    "@iarActionCallSettingsDescription": {
-        "description": "Action card description for call / group-chat privacy settings."
-    },
-    "iarActionOpenButton": "開啟",
-    "@iarActionOpenButton": {
-        "description": "Trailing button label for action cards that navigate the user into a settings section."
-    },
-    "iarActionDeleteMessageTitle": "刪除此訊息",
-    "@iarActionDeleteMessageTitle": {
-        "description": "Action card title (moderator-only) for deleting the reported message."
-    },
-    "iarActionDeleteMessageDescription": "為所有人從頻道中移除這則訊息。",
-    "@iarActionDeleteMessageDescription": {
-        "description": "Action card description (moderator-only) for deleting the reported message."
-    },
-    "iarActionDeleteMessageButton": "刪除",
-    "@iarActionDeleteMessageButton": {
-        "description": "Trailing button label on the delete-message action card."
-    },
-    "iarActionDeleteMessageDeletedButton": "已刪除",
-    "@iarActionDeleteMessageDeletedButton": {
-        "description": "Disabled-state trailing button label on the delete-message action card after the message is already gone."
-    },
-    "iarActionDeleteMessageDeletedTooltip": "此訊息已被刪除。",
-    "@iarActionDeleteMessageDeletedTooltip": {
-        "description": "Tooltip on the disabled delete-message action card."
-    },
-    "iarActionBanUserTitle": "將此使用者停權",
-    "@iarActionBanUserTitle": {
-        "description": "Action card title (moderator-only) for opening the ban dialog against the reported user."
-    },
-    "iarActionBanUserDescription": "開啟此社群的停權對話框。",
-    "@iarActionBanUserDescription": {
-        "description": "Action card description (moderator-only) for banning the reported user."
-    },
-    "iarActionBanUserButton": "停權",
-    "@iarActionBanUserButton": {
-        "description": "Trailing button label on the ban-user action card."
-    },
-    "iarActionBanUserBannedButton": "已停權",
-    "@iarActionBanUserBannedButton": {
-        "description": "Disabled-state trailing button label on the ban-user action card after the target is already banned."
-    },
-    "iarActionBanUserBannedTooltip": "此使用者已被社群停權。",
-    "@iarActionBanUserBannedTooltip": {
-        "description": "Tooltip on the disabled ban-user action card."
-    },
-    "iarCloseDmConfirmTitle": "關閉私訊",
-    "@iarCloseDmConfirmTitle": {
-        "description": "Title of the confirm-close-DM bottom sheet shown after the user taps Close DM on the action card."
-    },
-    "iarCloseDmConfirmDescription": "關閉你與 {name} 的目前私訊。這不會封鎖對方；你之後可以重新開啟。",
-    "@iarCloseDmConfirmDescription": {
-        "description": "Body of the confirm-close-DM bottom sheet.",
+    "reportFlowBlockName": "封鎖 {name}",
+    "@reportFlowBlockName": {
+        "description": "Report flow: title of the row on the thank-you screen that blocks the reported user. {name} is the display name of that user.",
         "placeholders": {
             "name": {
                 "type": "String",
-                "example": "ada"
+                "example": "Alice"
             }
         }
     },
-    "iarSuccessTitle": "已送出檢舉",
-    "@iarSuccessTitle": {
-        "description": "Title shown on the success step after a platform report is submitted."
+    "reportFlowBlockDescription": "隱藏對方的訊息，並使對方無法傳送私訊給您",
+    "@reportFlowBlockDescription": {
+        "description": "Report flow: description under reportFlowBlockName on the thank-you screen."
     },
-    "iarSuccessBody": "我們的安全團隊正在審核。一旦有結果，我們會透過私訊和電子郵件通知您。",
-    "@iarSuccessBody": {
-        "description": "Body shown on the success step after a platform report is submitted."
+    "reportFlowBlockButton": "封鎖",
+    "@reportFlowBlockButton": {
+        "description": "Report flow: button on the thank-you screen that blocks the reported user."
     },
-    "iarAlreadyReportedTitle": "已檢舉",
-    "@iarAlreadyReportedTitle": {
-        "description": "Title shown on the IAR success step when the message had already been reported by this user (HTTP 409); the existing report is under review."
+    "reportFlowBlockedButton": "已封鎖",
+    "@reportFlowBlockedButton": {
+        "description": "Report flow: disabled button on the thank-you screen after the reported user was blocked."
     },
-    "iarAlreadyReportedBody": "你已檢舉此訊息。我們的安全團隊正在審查。",
-    "@iarAlreadyReportedBody": {
-        "description": "Body shown on the IAR success step when the message had already been reported by this user (HTTP 409)."
+    "reportFlowUrgentBanner": "如果有人面臨立即危險，請先聯絡當地緊急救援單位。",
+    "@reportFlowUrgentBanner": {
+        "description": "Report flow: banner on screens about urgent harm, such as threats, self-harm or the safety of minors."
     },
-    "iarBackButton": "返回",
-    "@iarBackButton": {
-        "description": "Footer button label that returns the user to the previous IAR step."
+    "reportFlowLoadFailed": "無法載入檢舉表單。",
+    "@reportFlowLoadFailed": {
+        "description": "Report flow: error shown when the report form could not be loaded."
     },
-    "iarContinueButton": "繼續",
-    "@iarContinueButton": {
-        "description": "Footer button label that advances the user to the next IAR step."
+    "reportFlowTryAgain": "再試一次",
+    "@reportFlowTryAgain": {
+        "description": "Report flow: button that loads the report form again after an error."
     },
-    "iarSendReportButton": "送出檢舉",
-    "@iarSendReportButton": {
-        "description": "Footer button label that submits the IAR report."
+    "reportFlowOutdated": "檢舉表單已變更。請重新開始。",
+    "@reportFlowOutdated": {
+        "description": "Report flow: toast shown when the report form changed on the server while the reporter was filling it in. The form restarts from the first screen."
     },
-    "iarDoneButton": "完成",
-    "@iarDoneButton": {
-        "description": "Footer button label that closes the IAR sheet from the success or guidance step."
+    "reportFlowAlreadyReported": "您已經檢舉過這則訊息了。",
+    "@reportFlowAlreadyReported": {
+        "description": "Report flow: note on the report summary screen when the reporter already reported this message."
     },
-    "iarCouldntSendToast": "無法送出檢舉。請再試一次。",
-    "@iarCouldntSendToast": {
-        "description": "Toast shown when the IAR report submission fails."
+    "reportFlowAlreadyReportedProfile": "您今天已經檢舉過這個個人檔案了。",
+    "@reportFlowAlreadyReportedProfile": {
+        "description": "Report flow: note on the report summary screen when the reporter already reported this user profile in the last 24 hours."
     },
-    "iarRateLimitedToast": "你檢舉的頻率太快。請稍候再試。",
-    "@iarRateLimitedToast": {
-        "description": "Toast shown when an IAR report submission is rejected for rate limiting (HTTP 429)."
+    "reportFlowRateLimited": "您傳送檢舉的速度太快了。請稍後再試。",
+    "@reportFlowRateLimited": {
+        "description": "Report flow: note on the report summary screen when the reporter sent too many reports."
     },
-    "iarReportSentToast": "已送出檢舉。我們的安全團隊會進行審查。",
-    "@iarReportSentToast": {
-        "description": "Toast shown after a message report is submitted successfully from the simple mobile report sheet."
+    "reportFlowSubmitFailed": "您的檢舉未成功送出。請再試一次。",
+    "@reportFlowSubmitFailed": {
+        "description": "Report flow: note on the report summary screen when the report could not be sent."
     },
-    "iarBlockUserConfirmDescription": "要封鎖 {name} 嗎？對方將無法傳送訊息給你或傳送交友邀請。你之後可以解除封鎖。",
-    "@iarBlockUserConfirmDescription": {
-        "description": "Body of the confirm-block-user bottom sheet shown after the user taps Block on the IAR action card.",
-        "placeholders": {
-            "name": {
-                "type": "String",
-                "example": "ada"
-            }
-        }
-    },
-    "iarBlockUserFailedToast": "無法封鎖此使用者。請再試一次。",
-    "@iarBlockUserFailedToast": {
-        "description": "Toast shown when blocking the reported user from the IAR action card fails."
-    },
-    "iarCloseDmSuccessToast": "已關閉私訊。",
-    "@iarCloseDmSuccessToast": {
-        "description": "Toast shown after the DM with the reported user is closed from the IAR action card."
-    },
-    "iarCloseDmFailedToast": "無法關閉此私訊。請再試一次。",
-    "@iarCloseDmFailedToast": {
-        "description": "Toast shown when closing the DM from the IAR action card fails."
-    },
-    "iarLeaveCommunityFailedToast": "無法離開此社群。請再試一次。",
-    "@iarLeaveCommunityFailedToast": {
-        "description": "Toast shown when leaving the community from the IAR action card fails."
+    "reportFlowAccountSetupRequired": "請先認領帳號並驗證電子郵件，才能傳送檢舉。",
+    "@reportFlowAccountSetupRequired": {
+        "description": "Report flow: notice on the report summary screen when the account must be claimed and its email verified before it can send reports."
     },
     "chatMessageSuppressEmbeds": "隱藏嵌入內容",
     "@chatMessageSuppressEmbeds": {
@@ -6547,6 +5929,10 @@
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
     },
+    "chatImageCouldNotLoad": "無法載入此圖片。",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
+    },
     "composerAutocompleteRoleMentionDescription": "通知擁有此身分組且有權限查看此頻道的使用者。",
     "@composerAutocompleteRoleMentionDescription": {
         "description": "Secondary line in the @ mention autocomplete when the row is a mentionable guild role."
@@ -6594,10 +5980,6 @@
     "addGuildJoinFailed": "無法加入社群。請再試一次。",
     "@addGuildJoinFailed": {
         "description": "Generic error when joining a community via invite fails."
-    },
-    "addGuildPackInstalled": "套件已成功安裝。",
-    "@addGuildPackInstalled": {
-        "description": "Toast shown after accepting an emoji or sticker pack invite."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "移除所有反應",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -6685,7 +6067,7 @@
             }
         }
     },
-    "dmComposerHint": "Message @{recipientName}",
+    "dmComposerHint": "傳送訊息給 @{recipientName}",
     "@dmComposerHint": {
         "description": "Placeholder in the message composer for a one-to-one DM.",
         "placeholders": {
@@ -7087,6 +6469,10 @@
     "instanceUrlPlaceholder": "輸入伺服器網址 (例如 fluxer.app)",
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
+    },
+    "instanceUrlHelper": "官方伺服器請使用 fluxer.app，自架伺服器請使用確切的網址。",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
     },
     "resetToDefaultInstance": "重設為 Fluxer",
     "@resetToDefaultInstance": {
@@ -7628,10 +7014,6 @@
     "@guildMenuHideMutedChannels": {
         "description": "Guild menu checkbox to hide muted channels."
     },
-    "guildMenuReportCommunity": "檢舉社群",
-    "@guildMenuReportCommunity": {
-        "description": "Guild menu action to report the community."
-    },
     "guildMenuDebugCommunity": "偵錯社群",
     "@guildMenuDebugCommunity": {
         "description": "Guild menu action to open community debug info."
@@ -7677,10 +7059,6 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsCustomInviteUrl": "自訂邀請網址",
-    "@guildMenuSettingsCustomInviteUrl": {
-        "description": "Community settings tab for custom invite URLs."
-    },
     "guildMenuSettingsDiscovery": "探索",
     "@guildMenuSettingsDiscovery": {
         "description": "Community settings tab for discovery settings."
@@ -7705,17 +7083,9 @@
     "@guildSettingsOverviewIconTitle": {
         "description": "Title for the guild icon section in overview settings."
     },
-    "guildSettingsUploadImage": "上傳圖片",
-    "@guildSettingsUploadImage": {
-        "description": "Button label to upload an image in guild settings."
-    },
     "guildSettingsOverviewBannerTitle": "橫幅",
     "@guildSettingsOverviewBannerTitle": {
         "description": "Title for the guild banner section."
-    },
-    "guildSettingsOverviewBannerHint": "為您的伺服器上傳橫幅。",
-    "@guildSettingsOverviewBannerHint": {
-        "description": "Hint text for guild banner upload."
     },
     "guildSettingsOverviewNameTitle": "名稱",
     "@guildSettingsOverviewNameTitle": {
@@ -7725,22 +7095,6 @@
     "@guildSettingsOverviewNameHint": {
         "description": "Hint for the guild name field."
     },
-    "guildSettingsOverviewStatsTitle": "統計資料",
-    "@guildSettingsOverviewStatsTitle": {
-        "description": "Title for guild statistics section."
-    },
-    "guildSettingsOverviewMembers": "成員",
-    "@guildSettingsOverviewMembers": {
-        "description": "Label for member count in overview."
-    },
-    "guildSettingsOverviewOnline": "線上",
-    "@guildSettingsOverviewOnline": {
-        "description": "Label for online count in overview."
-    },
-    "guildSettingsRolesDescription": "使用角色來分組成員並指派權限。",
-    "@guildSettingsRolesDescription": {
-        "description": "Description for the roles settings tab."
-    },
     "guildSettingsCreateRole": "建立身分組",
     "@guildSettingsCreateRole": {
         "description": "Button to create a new role."
@@ -7749,30 +7103,9 @@
     "@guildSettingsRolesListTitle": {
         "description": "Title for the roles list section."
     },
-    "guildSettingsEmojiSlotInfo": "已使用 {staticCount} 個靜態表情符號、{animatedCount} 個動態表情符號",
-    "@guildSettingsEmojiSlotInfo": {
-        "description": "Emoji slot usage summary.",
-        "placeholders": {
-            "staticCount": {
-                "type": "int"
-            },
-            "animatedCount": {
-                "type": "int"
-            }
-        }
-    },
     "guildSettingsEmojiEmpty": "尚未有自訂表情符號。",
     "@guildSettingsEmojiEmpty": {
         "description": "Empty state for emoji settings."
-    },
-    "guildSettingsStickersSlotInfo": "已上傳 {count} 個貼圖",
-    "@guildSettingsStickersSlotInfo": {
-        "description": "Sticker slot usage summary.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsStickersEmpty": "尚未有自訂貼圖。",
     "@guildSettingsStickersEmpty": {
@@ -7818,8 +7151,6 @@
     "guildSettingsVerificationMediumDescription": "需要已驗證的電子郵件地址，且帳號至少已建立 5 分鐘。",
     "guildSettingsVerificationHigh": "高",
     "guildSettingsVerificationHighDescription": "除了中等安全等級的所有要求外，還必須成為社群成員至少 10 分鐘。",
-    "guildSettingsVerificationHighest": "非常高",
-    "guildSettingsVerificationHighestDescription": "需要已驗證的電話號碼。",
     "guildSettingsAuditLogDescription": "追蹤社群中的管理員操作。",
     "@guildSettingsAuditLogDescription": {
         "description": "Subtitle under the activity-log page title."
@@ -7847,14 +7178,6 @@
     "guildSettingsAuditLogUnknownUser": "不明使用者",
     "@guildSettingsAuditLogUnknownUser": {
         "description": "Fallback avatar label when the acting user is unavailable."
-    },
-    "guildSettingsAuditLogLoadError": "載入活動紀錄時發生錯誤。",
-    "@guildSettingsAuditLogLoadError": {
-        "description": "Generic error shown when fetching log entries fails."
-    },
-    "guildSettingsAuditLogLoadErrorTitle": "無法載入活動紀錄",
-    "@guildSettingsAuditLogLoadErrorTitle": {
-        "description": "Error-state title when fetching log entries failed."
     },
     "guildSettingsAuditLogReason": "原因",
     "@guildSettingsAuditLogReason": {
@@ -8826,14 +8149,6 @@
     "@auditLogOptionPermanentMembership": {
         "description": "Audit log option detail sentence."
     },
-    "guildSettingsLoadMore": "載入更多",
-    "@guildSettingsLoadMore": {
-        "description": "Button to load more audit log entries."
-    },
-    "guildSettingsLoadingMore": "正在載入…",
-    "@guildSettingsLoadingMore": {
-        "description": "Loading state for pagination."
-    },
     "guildSettingsWebhooksDescription": "檢視並管理社群中設定的所有 Webhook。",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
@@ -8842,42 +8157,9 @@
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
-    "guildSettingsCopyUrl": "複製網址",
-    "@guildSettingsCopyUrl": {
-        "description": "Tooltip to copy a URL."
-    },
     "guildSettingsCopiedUrl": "網址已複製到剪貼簿",
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
-    },
-    "guildSettingsDeleteWebhook": "刪除 Webhook",
-    "@guildSettingsDeleteWebhook": {
-        "description": "Tooltip to delete a webhook."
-    },
-    "guildSettingsVanityUrlDescription": "設定伺服器的自訂邀請連結。",
-    "@guildSettingsVanityUrlDescription": {
-        "description": "Description for vanity URL tab."
-    },
-    "guildSettingsVanityUrlHint": "my-server",
-    "@guildSettingsVanityUrlHint": {
-        "description": "Hint for vanity URL input."
-    },
-    "guildSettingsSave": "儲存",
-    "@guildSettingsSave": {
-        "description": "Generic save button label."
-    },
-    "guildSettingsVanityUrlUsageTitle": "使用狀況",
-    "@guildSettingsVanityUrlUsageTitle": {
-        "description": "Title for vanity URL usage section."
-    },
-    "guildSettingsVanityUrlUses": "{count} 次使用",
-    "@guildSettingsVanityUrlUses": {
-        "description": "Vanity URL usage count.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsDiscoveryDescription": "將您的社群列入探索，讓其他人可以找到並加入。",
     "@guildSettingsDiscoveryDescription": {
@@ -8916,10 +8198,6 @@
     "@guildSettingsDiscoveryWithdraw": {
         "description": "Button to withdraw discovery application."
     },
-    "guildSettingsMembersDescription": "搜尋並管理伺服器成員。",
-    "@guildSettingsMembersDescription": {
-        "description": "Description for members tab."
-    },
     "guildSettingsMembersSearchHint": "依使用者名稱或 ID 搜尋",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
@@ -8941,27 +8219,6 @@
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
-    "guildSettingsInviteUses": "{uses} / {maxUses} 次使用",
-    "@guildSettingsInviteUses": {
-        "description": "Invite usage count.",
-        "placeholders": {
-            "uses": {
-                "type": "int"
-            },
-            "maxUses": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsInviteExpires": "將於 {date} 到期",
-    "@guildSettingsInviteExpires": {
-        "description": "Invite expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBansDescription": "檢視並管理已停權的使用者。",
     "@guildSettingsBansDescription": {
         "description": "Description for bans tab."
@@ -8974,30 +8231,9 @@
     "@guildSettingsBansEmpty": {
         "description": "Empty state for bans."
     },
-    "guildSettingsBanPermanent": "永久封鎖",
-    "@guildSettingsBanPermanent": {
-        "description": "Label for permanent ban."
-    },
-    "guildSettingsBanExpires": "將於 {date} 到期",
-    "@guildSettingsBanExpires": {
-        "description": "Ban expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBanExpiresLabel": "到期",
     "@guildSettingsBanExpiresLabel": {
         "description": "Label for ban expiration row."
-    },
-    "guildSettingsUnban": "解除封鎖",
-    "@guildSettingsUnban": {
-        "description": "Button to unban a user."
-    },
-    "guildSettingsBansLoading": "正在載入已停權的使用者",
-    "@guildSettingsBansLoading": {
-        "description": "Loading state for the guild bans list."
     },
     "guildSettingsBansNoSearchResults": "找不到符合您搜尋條件的停權紀錄。",
     "@guildSettingsBansNoSearchResults": {
@@ -9041,10 +8277,6 @@
             }
         }
     },
-    "guildSettingsBansLoadError": "無法載入封鎖。請再試一次。",
-    "@guildSettingsBansLoadError": {
-        "description": "Error when loading the guild bans list fails."
-    },
     "guildSettingsRevokeBanError": "無法撤銷封鎖。請再試一次。",
     "@guildSettingsRevokeBanError": {
         "description": "Error when revoking a ban fails."
@@ -9069,7 +8301,6 @@
     "@guildSettingsCategoryPeople": {
         "description": "Sidebar category for members, invites, and bans."
     },
-    "guildSettingsOverviewDescription": "管理您的社群個人資料、頻道和預設設定。",
     "guildSettingsOverviewBrandingTitle": "品牌設定",
     "guildSettingsOverviewBrandingDescription": "更新您的圖示、名稱、橫幅和邀請背景",
     "@guildSettingsOverviewBrandingDescription": {
@@ -9088,7 +8319,6 @@
     },
     "guildSettingsOverviewNotificationsTitle": "預設通知",
     "guildSettingsOverviewNotificationsLargeGuild": "成員人數超過 250 人的社群會強制套用「只接收提及通知」設定。您原本的設定會保留，若社群成員人數降到 250 人以下就會還原。",
-    "guildSettingsOverviewAdvancedTitle": "進階",
     "guildSettingsOverviewFlexibleNames": "允許彈性的文字頻道名稱",
     "guildSettingsOverviewHideOwnerCrown": "隱藏社群擁有者皇冠",
     "guildSettingsOverviewDetachedBanner": "分離式橫幅",
@@ -9114,10 +8344,6 @@
     "guildSettingsOverviewEmbedSplashTitle": "聊天嵌入背景",
     "@guildSettingsOverviewEmbedSplashTitle": {
         "description": "Title for embed splash upload section."
-    },
-    "guildSettingsOverviewEmbedSplashHint": "會顯示在聊天的邀請嵌入內容中。",
-    "@guildSettingsOverviewEmbedSplashHint": {
-        "description": "Note shown when uploading chat embed background."
     },
     "guildSettingsOverviewUploadBackground": "上傳背景圖片",
     "@guildSettingsOverviewUploadBackground": {
@@ -9284,8 +8510,6 @@
     "@guildSettingsOverviewEmbedSplashUploadHint": {
         "description": "Upload requirements for chat embed background images."
     },
-    "guildSettingsModerationDescription": "設定驗證、內容篩選及成人內容設定。",
-    "guildSettingsModerationDiscoveryNotice": "列於 Discovery 中的社群有受限的內容管理選項。",
     "guildSettingsModerationContentFilterTitle": "內容篩選",
     "guildSettingsModerationContentFilterDescription": "自動篩選未標示為成人內容的頻道中，含有露骨內容的訊息。",
     "guildSettingsModerationContentFilterDiscoveryNote": "列於 Discovery 中的社群必須掃描所有成員。啟用 Discovery 時無法變更此設定。",
@@ -9295,8 +8519,6 @@
     "guildSettingsContentFilterNoRoleDescription": "建議用於大多數社群",
     "guildSettingsContentFilterAll": "篩選所有人",
     "guildSettingsContentFilterAllDescription": "為闔家適宜的空間提供最高等級的保護",
-    "guildSettingsModerationMatureOff": "關閉",
-    "guildSettingsModerationMatureOn": "開啟",
     "guildSettingsContentWarningToggle": "顯示內容警示",
     "@guildSettingsContentWarningToggle": {
         "description": "Switch label for the community content warning setting."
@@ -9316,7 +8538,6 @@
     "guildSettingsModeration2faTitle": "雙重驗證要求",
     "guildSettingsModeration2faDescription": "要求管理員在封鎖、踢出、暫停或移除訊息前啟用雙重驗證。",
     "guildSettingsModeration2faSwitchLabel": "管理動作需要雙重驗證",
-    "guildSettingsModeration2faOwnerOnlyTooltip": "只有社群擁有者可以變更此設定",
     "guildSettingsModeration2faEnableFirstTooltip": "請先為您的帳號啟用雙重驗證，才能變更此設定",
     "guildSettingsEmojiSearchHint": "搜尋表情符號",
     "guildSettingsEmojiUploadTitle": "上傳表情符號",
@@ -9338,8 +8559,6 @@
     },
     "guildSettingsStickersSearchHint": "搜尋貼圖",
     "guildSettingsWebhooksInfo": "如要建立網頁掛鉤，請開啟 {channelSettingsPath}。您仍可在此編輯和整理所有現有的網頁掛鉤。",
-    "guildSettingsVanityUrlWarning": "除非至少有一個頻道對所有人可見，否則您的自訂網址將無法運作。",
-    "guildSettingsVanityUrlRemove": "移除",
     "guildSettingsBannedUsersTitle": "已停權的使用者",
     "guildSettingsInvitesTableInviter": "邀請人",
     "guildSettingsInvitesTableChannel": "頻道",
@@ -9378,6 +8597,10 @@
     "lookAndFeelChatWallpaperCustomLabel": "自訂圖片",
     "@lookAndFeelChatWallpaperCustomLabel": {
         "description": "Chat wallpaper option that picks an image from the gallery."
+    },
+    "lookAndFeelChatWallpaperStarfieldLabel": "星空",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
     },
     "lookAndFeelChatWallpaperColorLabel": "顏色 {id}",
     "@lookAndFeelChatWallpaperColorLabel": {
@@ -9446,10 +8669,6 @@
     "@channelSettingsVoiceRegionAutomatic": {
         "description": "Automatic voice region option."
     },
-    "channelSettingsAdvanced": "進階",
-    "@channelSettingsAdvanced": {
-        "description": "Collapsible advanced section title in channel overview."
-    },
     "channelSettingsMatureContentInherit": "繼承",
     "@channelSettingsMatureContentInherit": {
         "description": "Mature content option that uses parent or community setting."
@@ -9458,10 +8677,6 @@
     "@channelSettingsMatureContentOn": {
         "description": "Mature content option that marks channel for mature content."
     },
-    "channelSettingsMatureContentCommunitySource": "社群",
-    "@channelSettingsMatureContentCommunitySource": {
-        "description": "Lowercase source label for inherited mature content from community."
-    },
     "channelSettingsContentWarningToggle": "在此頻道中顯示內容警示",
     "@channelSettingsContentWarningToggle": {
         "description": "Toggle for showing content warning in channel."
@@ -9469,15 +8684,6 @@
     "channelSettingsContentWarningToggleDescription": "開啟後，進入此頻道前會顯示同意提示。",
     "@channelSettingsContentWarningToggleDescription": {
         "description": "Description for the channel content warning toggle."
-    },
-    "channelSettingsPermissionsNeedManageRoles": "您需要「{manageRolesPermissionLabel}」權限才能編輯這些權限。",
-    "@channelSettingsPermissionsNeedManageRoles": {
-        "description": "Error when user lacks manage roles permission for channel permissions tab.",
-        "placeholders": {
-            "manageRolesPermissionLabel": {
-                "type": "String"
-            }
-        }
     },
     "channelSettingsUnknownRole": "不明身分組",
     "@channelSettingsUnknownRole": {
@@ -9502,10 +8708,6 @@
     "channelSettingsPermissionsSearchRolesOrMembers": "搜尋身分組或成員…",
     "@channelSettingsPermissionsSearchRolesOrMembers": {
         "description": "Placeholder for the add override search field."
-    },
-    "channelSettingsPermissionsRolesAndMembers": "身分組和成員",
-    "@channelSettingsPermissionsRolesAndMembers": {
-        "description": "Section title in the add override picker."
     },
     "channelSettingsDeleteInvite": "刪除邀請",
     "@channelSettingsDeleteInvite": {
@@ -9562,10 +8764,6 @@
                 "type": "String"
             }
         }
-    },
-    "channelSettingsWebhooksUnknownUser": "不明使用者",
-    "@channelSettingsWebhooksUnknownUser": {
-        "description": "Fallback label when webhook creator is unavailable."
     },
     "channelSettingsWebhooksAvatar": "大頭貼",
     "@channelSettingsWebhooksAvatar": {
@@ -9767,62 +8965,6 @@
             }
         }
     },
-    "iarReportGuildTitle": "檢舉社群",
-    "@iarReportGuildTitle": {
-        "description": "Title of the simple community-report sheet."
-    },
-    "iarContinueToReportCommunity": "繼續檢舉社群",
-    "@iarContinueToReportCommunity": {
-        "description": "Primary button in the community report pre-confirm dialog."
-    },
-    "iarReasonHarassmentGuildLabel": "騷擾或針對性攻擊",
-    "@iarReasonHarassmentGuildLabel": {
-        "description": "Community-report reason label for harassment or targeted abuse."
-    },
-    "iarReasonHarassmentGuildDescription": "社群助長群體圍攻或針對性騷擾。",
-    "@iarReasonHarassmentGuildDescription": {
-        "description": "Community-report reason description for harassment or targeted abuse."
-    },
-    "iarReasonChildSafetyGuildDescription": "危害未成年人或含有兒童剝削內容。",
-    "@iarReasonChildSafetyGuildDescription": {
-        "description": "Community-report reason description for child safety."
-    },
-    "iarReasonRaidLabel": "協調突襲",
-    "@iarReasonRaidLabel": {
-        "description": "Community-report reason label for raid coordination."
-    },
-    "iarReasonRaidDescription": "協調對個人或社群發動突襲、集體圍攻或騷擾。",
-    "@iarReasonRaidDescription": {
-        "description": "Community-report reason description for raid coordination."
-    },
-    "iarPreviewCommunitySubtitle": "社群",
-    "@iarPreviewCommunitySubtitle": {
-        "description": "Subtitle shown under the community name in the IAR preview card."
-    },
-    "iarReasonTerrorismDescription": "宣傳、招募或協調暴力極端主義活動。",
-    "@iarReasonTerrorismDescription": {
-        "description": "Community-report reason description for terrorism or violent extremism."
-    },
-    "iarReasonMatureContentGuildLabel": "成人內容或把關不當",
-    "@iarReasonMatureContentGuildLabel": {
-        "description": "Community-report reason label for mature content or unsafe gating."
-    },
-    "iarReasonSpamGuildDescription": "社群的存在是為了濫發訊息、詐騙或濫用平台。",
-    "@iarReasonSpamGuildDescription": {
-        "description": "Community-report reason description for spam, scams, or phishing."
-    },
-    "iarReasonMalwareGuildLabel": "散佈惡意軟體",
-    "@iarReasonMalwareGuildLabel": {
-        "description": "Community-report reason label for malware distribution."
-    },
-    "iarReasonPrivacyGuildLabel": "侵犯隱私或人肉搜索",
-    "@iarReasonPrivacyGuildLabel": {
-        "description": "Community-report reason label for privacy violation or doxxing."
-    },
-    "iarReasonPrivacyGuildDescription": "分享個人資訊、跟蹤騷擾使用者或串連侵犯隱私的行為。",
-    "@iarReasonPrivacyGuildDescription": {
-        "description": "Community-report reason description for privacy violation or doxxing."
-    },
     "notificationsEnableNotificationsLabel": "開啟通知",
     "@notificationsEnableNotificationsLabel": {
         "description": "Toggle label for enabling push or system notifications."
@@ -10010,18 +9152,6 @@
     "guildSettingsRolesShowSeparately": "將此身分組單獨顯示",
     "@guildSettingsRolesShowSeparately": {
         "description": "Switch label for the hoist toggle."
-    },
-    "guildSettingsRolesSwitchToComfyLayout": "切換成舒適版面配置",
-    "@guildSettingsRolesSwitchToComfyLayout": {
-        "description": "Aria label for switching to comfy layout."
-    },
-    "guildSettingsRolesSwitchToTwoColumns": "切換成兩欄顯示",
-    "@guildSettingsRolesSwitchToTwoColumns": {
-        "description": "Aria label for switching to two columns."
-    },
-    "guildSettingsRolesLockedTooltip": "您無法編輯此角色，因為這是您的最高角色或高於您的角色",
-    "@guildSettingsRolesLockedTooltip": {
-        "description": "Tooltip on locked role rows."
     },
     "guildSettingsRolesNeedManageRolesPermission": "你需要「{permission}」權限才能編輯這些權限",
     "@guildSettingsRolesNeedManageRolesPermission": {
@@ -10216,26 +9346,6 @@
     "audioAndVideoCameraQualitySectionTitle": "相機畫質",
     "@audioAndVideoCameraQualitySectionTitle": {
         "description": "Subsection title for camera resolution selection."
-    },
-    "iarReportGuildPreconfirmBody": "如果這份檢舉是關於此社群中的特定訊息，請改為檢舉該訊息。訊息檢舉能讓我們的安全團隊掌握最清楚的脈絡，在意見中新增詳細資訊也能幫助我們更快審查。只有在檢舉訊息無法涵蓋更廣泛的問題時，才繼續檢舉整個社群。",
-    "@iarReportGuildPreconfirmBody": {
-        "description": "Body shown in the pre-confirm dialog before opening the community report sheet."
-    },
-    "iarReasonMatureContentGuildDescription": "未經適當把關的成人內容。",
-    "@iarReasonMatureContentGuildDescription": {
-        "description": "Community-report reason description for mature content or unsafe gating."
-    },
-    "iarReasonMalwareGuildDescription": "散佈惡意軟體、竊取憑證或有害檔案。",
-    "@iarReasonMalwareGuildDescription": {
-        "description": "Community-report reason description for malware distribution."
-    },
-    "iarReasonSelfHarmGuildLabel": "鼓勵自殘",
-    "@iarReasonSelfHarmGuildLabel": {
-        "description": "Community-report reason label for self-harm encouragement."
-    },
-    "iarReasonSelfHarmGuildDescription": "鼓勵自殺、自殘或飲食失調。",
-    "@iarReasonSelfHarmGuildDescription": {
-        "description": "Community-report reason description for self-harm encouragement."
     },
     "systemCallMissedWithDuration": "你錯過了 {username} 的通話，該通話持續了 {duration}。",
     "@systemCallMissedWithDuration": {
@@ -10435,14 +9545,6 @@
     "@groupDmUnsupportedIconFormatBody": {
         "description": "Body when the selected group icon format is unsupported."
     },
-    "groupDmCouldntProcessImage": "無法處理圖片",
-    "@groupDmCouldntProcessImage": {
-        "description": "Title when a cropped group icon cannot be processed."
-    },
-    "groupDmFailedToProcessCroppedImage": "無法處理裁切後的圖片。請再試一次。",
-    "@groupDmFailedToProcessCroppedImage": {
-        "description": "Body when a cropped group icon cannot be processed."
-    },
     "groupDmInvalidImage": "無效的圖片",
     "@groupDmInvalidImage": {
         "description": "Title when the selected group icon image cannot be used."
@@ -10450,10 +9552,6 @@
     "groupDmAddFriendFailed": "無法將這位好友新增到群組。請再試一次。",
     "@groupDmAddFriendFailed": {
         "description": "Error when adding a single friend to a group DM fails."
-    },
-    "groupDmAddFailed": "無法新增至群組",
-    "@groupDmAddFailed": {
-        "description": "Title when adding friends to a group DM fails."
     },
     "groupDmGroupFull": "此群組已滿。請先移除成員，才能再新增成員。",
     "@groupDmGroupFull": {
@@ -10503,10 +9601,6 @@
     "guildNavbarChannelTypeSelection": "選擇頻道類型",
     "@guildNavbarChannelTypeSelection": {
         "description": "Accessibility label for channel type radio group in create channel modal."
-    },
-    "guildSettingsRolesCustomHoistOrder": "自訂置頂順序",
-    "@guildSettingsRolesCustomHoistOrder": {
-        "description": "Button to enter custom hoist order mode."
     },
     "guildSettingsRolesResetHoistOrder": "重設為預設值",
     "@guildSettingsRolesResetHoistOrder": {
@@ -10657,14 +9751,6 @@
                 "type": "String"
             }
         }
-    },
-    "guildSettingsRolesSwitchToDenseLayout": "切換成緊湊版面配置",
-    "@guildSettingsRolesSwitchToDenseLayout": {
-        "description": "Aria label for switching to dense layout."
-    },
-    "guildSettingsRolesSwitchToSingleColumn": "切換成單欄顯示",
-    "@guildSettingsRolesSwitchToSingleColumn": {
-        "description": "Aria label for switching to single column."
     },
     "guildSettingsRolesNoPermissionsFound": "找不到權限",
     "@guildSettingsRolesNoPermissionsFound": {
@@ -10917,18 +10003,6 @@
     "@channelDetailsChannelSettingsTitle": {
         "description": "Title for the channel details overflow menu on guild channels."
     },
-    "channelSettingsCategorySettingsTitle": "類別設定",
-    "@channelSettingsCategorySettingsTitle": {
-        "description": "Title for category settings modal."
-    },
-    "channelSettingsResetSlider": "將滑桿重設為預設值",
-    "@channelSettingsResetSlider": {
-        "description": "Tooltip for reset buttons on channel settings sliders."
-    },
-    "channelSettingsMatureContentOverride": "覆寫成人內容設定",
-    "@channelSettingsMatureContentOverride": {
-        "description": "Accessibility label for mature content override control."
-    },
     "channelSettingsMatureContentSectionDescription": "覆寫此頻道的 {scopeLevel} 設定。進入前，成人內容會顯示在閘門後。",
     "@channelSettingsMatureContentSectionDescription": {
         "description": "Section description for mature content settings in channel overview.",
@@ -10963,15 +10037,6 @@
     "channelSettingsMatureContentCategoryScope": "類別",
     "@channelSettingsMatureContentCategoryScope": {
         "description": "Capitalized scope label when mature content inherits from a category."
-    },
-    "channelSettingsPermissionsNeedManageChannels": "您需要「{manageChannelsPermissionLabel}」權限才能編輯這些權限。",
-    "@channelSettingsPermissionsNeedManageChannels": {
-        "description": "Error when user lacks manage channels permission for channel permissions tab.",
-        "placeholders": {
-            "manageChannelsPermissionLabel": {
-                "type": "String"
-            }
-        }
     },
     "channelSettingsPermissionsEditAccessFor": "編輯 {name} 的存取權限",
     "@channelSettingsPermissionsEditAccessFor": {
@@ -11223,10 +10288,6 @@
     "@guildSettingsRolesComfyLayout": {
         "description": "Tooltip when permission list is in dense layout."
     },
-    "permissionUnknown": "不明權限",
-    "@permissionUnknown": {
-        "description": "Fallback permission label."
-    },
     "permissionUseExternalEmoji": "使用外部表情符號",
     "@permissionUseExternalEmoji": {
         "description": "Permission name."
@@ -11290,10 +10351,6 @@
     "channelDetailsSearchContentStickerDescription": "訊息中附有貼圖",
     "@channelDetailsSearchContentStickerDescription": {
         "description": "Description for the sticker content filter."
-    },
-    "groupDmEditDetailsTooltip": "編輯群組資訊",
-    "@groupDmEditDetailsTooltip": {
-        "description": "Tooltip on the desktop group DM header edit action."
     },
     "groupDmMyGroup": "我的群組",
     "@groupDmMyGroup": {
@@ -11403,6 +10460,80 @@
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
     },
+    "profileLocalTimeSettingsTitle": "個人檔案當地時間",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "設定您的時區，以便 {productName} 在日光節約時間變更時，可以保持您的 UTC 偏移量為最新狀態。其他人只能看到您的 UTC 偏移量，而不能看到您確切的時區識別碼。",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "編輯個人檔案當地時間",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "時區",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "選擇時區，{productName} 將使用該時區來計算您的 UTC 偏移量，以顯示個人檔案中的當地時間。",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "搜尋時區",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "未設定",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "當您選擇分享個人檔案中的當地時間時，其他人只能看到您目前的 UTC 時區偏移量。他們不會看到您的確切時區識別碼，例如 {timezoneIdentifierExample}。{productName} 會儲存該識別碼，以便在日光節約時間變更時自動更新偏移量。",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "所有人",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "允許所有能檢視您完整個人檔案的人查看您的當地時間",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "好友",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "允許好友查看您的當地時間",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "社群成員",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "允許您所屬社群的成員查看您的當地時間",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
+    },
     "userProfileSameTimeAsYou": "與您的時區相同",
     "@userProfileSameTimeAsYou": {
         "description": "Profile timezone difference when the target matches the viewer."
@@ -11495,16 +10626,6 @@
     "audioAndVideoMicTestStartLabel": "開始麥克風測試",
     "@audioAndVideoMicTestStartLabel": {
         "description": "Button label to start the microphone test."
-    },
-    "audioAndVideoMicTestPermissionRequired": "{productName} 需要麥克風權限才能測試您的輸入。",
-    "@audioAndVideoMicTestPermissionRequired": {
-        "description": "Shown when microphone permission is required for the mic test.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
     },
     "languageAndTimeLanguageSectionTitle": "介面語言",
     "@languageAndTimeLanguageSectionTitle": {
@@ -11858,40 +10979,6 @@
     "@audioAndVideoFrameRate60Label": {
         "description": "Screen share frame rate option for 60 FPS."
     },
-    "audioAndVideoHigherQualityRequiresPremium": "1080p 和 60 FPS 需要 {premiumProductName}。",
-    "@audioAndVideoHigherQualityRequiresPremium": {
-        "description": "Note shown when higher video quality options require premium.",
-        "placeholders": {
-            "premiumProductName": {
-                "type": "String",
-                "example": "Plutonium"
-            }
-        }
-    },
-    "audioAndVideoMicrophonePermissionRequired": "{productName} 需要麥克風存取權限才能列出您的裝置。",
-    "@audioAndVideoMicrophonePermissionRequired": {
-        "description": "Shown when microphone permission is required to enumerate audio input devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
-    "audioAndVideoCameraPermissionRequired": "{productName} 需要相機存取權限才能列出您的裝置。",
-    "@audioAndVideoCameraPermissionRequired": {
-        "description": "Shown when camera permission is required to enumerate video devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
-    "languageAndTimeOpenLanguageSettings": "開啟語言設定",
-    "@languageAndTimeOpenLanguageSettings": {
-        "description": "Button that opens the system per-app language settings."
-    },
     "languageAndTimeTimeFormatSyncFailed": "更新時間格式失敗",
     "@languageAndTimeTimeFormatSyncFailed": {
         "description": "Toast shown when saving the time format preference fails."
@@ -12236,10 +11323,6 @@
             }
         }
     },
-    "iarReasonTerrorismLabel": "恐怖主義或暴力極端主義",
-    "@iarReasonTerrorismLabel": {
-        "description": "Community-report reason label for terrorism or violent extremism."
-    },
     "groupDmGroupNameMaxLength": "群組名稱不能超過 100 個字元",
     "@groupDmGroupNameMaxLength": {
         "description": "Validation error when group name is too long."
@@ -12548,10 +11631,6 @@
     "@groupDmInvitesLoadFailed": {
         "description": "Inline error when group DM invites fail to load."
     },
-    "groupDmCreateInviteFailed": "無法建立邀請連結",
-    "@groupDmCreateInviteFailed": {
-        "description": "Title when invite link generation fails."
-    },
     "groupDmCreateInviteFailedBody": "無法產生邀請連結。請再試一次。",
     "@groupDmCreateInviteFailedBody": {
         "description": "Body when invite link generation fails."
@@ -12596,10 +11675,6 @@
     "@accessibilitySaturationTitle": {
         "description": "Section title for the theme saturation slider on the accessibility settings page."
     },
-    "accessibilitySaturationDescription": "調整應用程式中主題色彩的鮮豔度。",
-    "@accessibilitySaturationDescription": {
-        "description": "Section description for the theme saturation slider on the accessibility settings page."
-    },
     "nagbarEmailVerificationMessage": "嗨，{displayName}，請驗證您的電子郵件地址。",
     "@nagbarEmailVerificationMessage": {
         "description": "Email verification nagbar body.",
@@ -12629,18 +11704,6 @@
     "@nagbarViewGiftInventory": {
         "description": "Gift inventory nagbar CTA."
     },
-    "phoneCountryLabel": "國家/地區",
-    "@phoneCountryLabel": {
-        "description": "Label for country selector in phone verification."
-    },
-    "phoneSearchCountries": "搜尋國家…",
-    "@phoneSearchCountries": {
-        "description": "Search hint for country selector."
-    },
-    "iarReasonHateGuildDescription": "宣揚對受保護族群的仇恨。",
-    "@iarReasonHateGuildDescription": {
-        "description": "Community-report reason description for hate speech."
-    },
     "groupDmWelcomeEditGroup": "編輯群組",
     "@groupDmWelcomeEditGroup": {
         "description": "Secondary action on the group DM welcome hero."
@@ -12648,122 +11711,6 @@
     "permissionUseExternalStickers": "使用外部貼圖",
     "@permissionUseExternalStickers": {
         "description": "Permission name."
-    },
-    "phoneNumberRequired": "請輸入電話號碼",
-    "@phoneNumberRequired": {
-        "description": "Validation error when phone number is empty."
-    },
-    "phoneTooManyAttempts": "嘗試次數過多。請稍候再試。",
-    "@phoneTooManyAttempts": {
-        "description": "Rate limit error for phone verification."
-    },
-    "phoneSmsUnavailable": "目前無法進行簡訊驗證。請稍後再試或聯絡客服。",
-    "@phoneSmsUnavailable": {
-        "description": "SMS provider unavailable error."
-    },
-    "phoneNotEligible": "此帳號無法使用電話驗證。請使用其他方式或聯絡客服。",
-    "@phoneNotEligible": {
-        "description": "Account not eligible for phone verification."
-    },
-    "phoneSomethingWentWrong": "發生錯誤。請再試一次。",
-    "@phoneSomethingWentWrong": {
-        "description": "Generic phone verification error."
-    },
-    "phoneInboundGetNewCode": "取得新驗證碼",
-    "@phoneInboundGetNewCode": {
-        "description": "Button to refresh inbound challenge."
-    },
-    "phoneInboundChallengeCodeLabel": "要傳送的驗證碼",
-    "@phoneInboundChallengeCodeLabel": {
-        "description": "Label for inbound challenge code."
-    },
-    "phoneInboundOurNumberLabel": "傳送至",
-    "@phoneInboundOurNumberLabel": {
-        "description": "Label for inbound destination number."
-    },
-    "requiredActionTitle": "需要驗證帳號",
-    "@requiredActionTitle": {
-        "description": "Title for required action blocking modal."
-    },
-    "requiredActionIntroPhone": "您的註冊需要額外的防垃圾訊息驗證，才能繼續。",
-    "@requiredActionIntroPhone": {
-        "description": "Phone-only required action intro."
-    },
-    "requiredActionUseEmail": "使用電子郵件",
-    "@requiredActionUseEmail": {
-        "description": "Button to choose email verification."
-    },
-    "phoneEnterValidNumber": "請輸入有效的行動電話號碼。",
-    "@phoneEnterValidNumber": {
-        "description": "Validation error for invalid phone format."
-    },
-    "phoneCannotBeUsed": "此電話號碼無法使用。請嘗試其他手機號碼或聯絡客服。",
-    "@phoneCannotBeUsed": {
-        "description": "API error when phone number is rejected."
-    },
-    "phoneAlreadyUsed": "此電話號碼已被使用。請嘗試其他號碼或聯絡客服。",
-    "@phoneAlreadyUsed": {
-        "description": "API error when phone number was reused."
-    },
-    "phoneCodeDidNotWork": "驗證碼有誤。請檢查後再試一次。",
-    "@phoneCodeDidNotWork": {
-        "description": "API error for invalid verification code."
-    },
-    "phoneInboundExpensiveDescription": "傳送 SMS 到此電話號碼費用過高，因此我們需要您改為傳送 SMS 給我們。您也可以聯絡客服，要求我們移除您帳戶的此項要求。",
-    "@phoneInboundExpensiveDescription": {
-        "description": "Inbound challenge reason for expensive destinations."
-    },
-    "phoneInboundDefaultDescription": "我們需要你傳送一則簡訊來驗證你的手機號碼。",
-    "@phoneInboundDefaultDescription": {
-        "description": "Default inbound challenge description."
-    },
-    "phoneInboundStepOpenMessaging": "開啟手機的訊息應用程式，然後建立新簡訊。",
-    "@phoneInboundStepOpenMessaging": {
-        "description": "Inbound verification step 1."
-    },
-    "phoneInboundStepSendCode": "將驗證碼 {code} 發送至 {number}。",
-    "@phoneInboundStepSendCode": {
-        "description": "Inbound verification step 2.",
-        "placeholders": {
-            "code": {
-                "type": "String"
-            },
-            "number": {
-                "type": "String"
-            }
-        }
-    },
-    "phoneInboundStepWait": "請稍候，我們正在接收您的訊息。這可能需要一分鐘。",
-    "@phoneInboundStepWait": {
-        "description": "Inbound verification step 3."
-    },
-    "requiredActionChooseMethodTitle": "選擇驗證方式",
-    "@requiredActionChooseMethodTitle": {
-        "description": "Title when user can pick email or phone."
-    },
-    "requiredActionUsePhone": "使用電話號碼",
-    "@requiredActionUsePhone": {
-        "description": "Button to choose phone verification."
-    },
-    "requiredActionCheckEmailTitle": "請檢查您的電子郵件",
-    "@requiredActionCheckEmailTitle": {
-        "description": "Title for email verification instructions."
-    },
-    "requiredActionCheckEmailDescription": "我們已將驗證連結寄到您的電子郵件地址。請開啟連結以繼續。",
-    "@requiredActionCheckEmailDescription": {
-        "description": "Description for email verification instructions."
-    },
-    "requiredActionResendVerificationEmail": "重新傳送驗證電子郵件",
-    "@requiredActionResendVerificationEmail": {
-        "description": "Button to resend verification email."
-    },
-    "requiredActionVerificationEmailSent": "驗證電子郵件已寄出。請檢查您的收件匣。",
-    "@requiredActionVerificationEmailSent": {
-        "description": "Toast after resending verification email."
-    },
-    "requiredActionSignOut": "登出",
-    "@requiredActionSignOut": {
-        "description": "Sign out button in required action modal."
     },
     "channelMenuOpenChat": "開啟聊天",
     "@channelMenuOpenChat": {
@@ -12790,14 +11737,6 @@
     "notificationsEnableDesktopNotificationsDescription": "使用作業系統的通知中心。如要設定個別頻道或社群的通知，請在社群圖示上按一下右鍵，然後開啟通知設定。",
     "@notificationsEnableDesktopNotificationsDescription": {
         "description": "Description for the enable desktop notifications toggle."
-    },
-    "notificationsEnableBrowserNotificationsLabel": "啟用瀏覽器通知",
-    "@notificationsEnableBrowserNotificationsLabel": {
-        "description": "Toggle label for enabling browser notifications."
-    },
-    "notificationsEnableBrowserNotificationsDescription": "收到訊息時通知您。您可能需要在瀏覽器設定中允許通知。若要設定個別頻道或社群的通知，請在社群圖示上按一下右鍵，然後開啟通知設定。",
-    "@notificationsEnableBrowserNotificationsDescription": {
-        "description": "Description for the enable browser notifications toggle."
     },
     "notificationsPushInactiveTimeoutLabel": "推播通知閒置逾時",
     "@notificationsPushInactiveTimeoutLabel": {
@@ -12936,10 +11875,6 @@
     "notificationsPermissionDeniedTitle": "通知已封鎖",
     "@notificationsPermissionDeniedTitle": {
         "description": "Banner title when OS notification permission is denied."
-    },
-    "channelSettingsMatureContentCategorySource": "類別",
-    "@channelSettingsMatureContentCategorySource": {
-        "description": "Lowercase source label for inherited mature content from category."
     },
     "systemPermissionMicrophoneMessage": "{productName} 無法存取您的麥克風。您可以在裝置的隱私權設定中啟用它。",
     "@systemPermissionMicrophoneMessage": {
@@ -13280,42 +12215,6 @@
     "gifPickerFavoritesEmptyDescription": "將 GIF 標記為星號，即可在此處看到。",
     "@gifPickerFavoritesEmptyDescription": {
         "description": "Empty state description for the GIF picker favorites view."
-    },
-    "requiredActionIntroGeneric": "請完成必要的驗證，以繼續使用 {productName}。",
-    "@requiredActionIntroGeneric": {
-        "description": "Generic required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailOrPhone": "請驗證您的電子郵件或電話，以繼續使用 {productName}。",
-    "@requiredActionIntroEmailOrPhone": {
-        "description": "Email or phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailAndPhone": "請完成下方所需的電子郵件和電話驗證步驟，以繼續使用 {productName}。",
-    "@requiredActionIntroEmailAndPhone": {
-        "description": "Email and phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionChooseMethodDescription": "請完成以下其中一個驗證路徑，以繼續使用 {productName}。",
-    "@requiredActionChooseMethodDescription": {
-        "description": "Description when user can pick email or phone.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
     },
     "networkErrorMessage": "發生了些問題。請再試一次。",
     "@networkErrorMessage": {
@@ -13823,6 +12722,14 @@
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
     },
+    "accessibilityShowAltTextOnImagesLabel": "在圖片上顯示替代文字",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "當圖片有替代文字時，顯示在圖片下方。",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
     "accessibilityDimStrikethroughTextLabel": "調暗刪除線文字",
     "@accessibilityDimStrikethroughTextLabel": {
         "description": "Toggle label for dimming strikethrough text in messages."
@@ -13941,10 +12848,6 @@
     "accessibilityPausedGifByReducedMotion": "因減少動態效果而暫停。開啟即可繼續播放 GIF。",
     "@accessibilityPausedGifByReducedMotion": {
         "description": "Description for GIF toggle while reduced motion is active."
-    },
-    "accessibilityGifDefaultsOffOnMobile": "為節省電力與數據用量，行動裝置預設為關閉。",
-    "@accessibilityGifDefaultsOffOnMobile": {
-        "description": "Helper text for GIF autoplay default on mobile."
     },
     "accessibilityStickerAnimationsTitle": "貼圖動畫",
     "@accessibilityStickerAnimationsTitle": {
@@ -14401,25 +13304,13 @@
     "@privacyDashboardFriendRequestsEveryone": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsEveryoneDesc": "允許任何人傳送好友邀請給你",
-    "@privacyDashboardFriendRequestsEveryoneDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsFriendsOfFriends": "好友的好友",
     "@privacyDashboardFriendRequestsFriendsOfFriends": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsFriendsOfFriendsDesc": "允許朋友的朋友向你傳送要求",
-    "@privacyDashboardFriendRequestsFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsCommunityMembers": "社群成員",
     "@privacyDashboardFriendRequestsCommunityMembers": {
         "description": "Privacy dashboard friend request toggle label."
-    },
-    "privacyDashboardFriendRequestsCommunityMembersDesc": "允許你所屬社群的成員傳送好友邀請給你",
-    "@privacyDashboardFriendRequestsCommunityMembersDesc": {
-        "description": "Privacy dashboard friend request toggle description."
     },
     "privacyDashboardDirectMessagesTitle": "私訊",
     "@privacyDashboardDirectMessagesTitle": {
@@ -14429,65 +13320,29 @@
     "@privacyDashboardDirectMessagesMembers": {
         "description": "Privacy dashboard DM toggle label."
     },
-    "privacyDashboardDirectMessagesMembersDesc": "允許你所在社群的成員傳送私人訊息給你",
-    "@privacyDashboardDirectMessagesMembersDesc": {
-        "description": "Privacy dashboard DM toggle description."
-    },
     "privacyDashboardDirectMessagesBots": "允許社群機器人傳送私訊",
     "@privacyDashboardDirectMessagesBots": {
         "description": "Privacy dashboard bot DM toggle label."
-    },
-    "privacyDashboardDirectMessagesBotsDesc": "允許你所在社群的機器人傳送私訊給你",
-    "@privacyDashboardDirectMessagesBotsDesc": {
-        "description": "Privacy dashboard bot DM toggle description."
-    },
-    "privacyDashboardConnectionsSectionDesc": "控制誰可以向您傳送好友要求和私訊",
-    "@privacyDashboardConnectionsSectionDesc": {
-        "description": "Privacy dashboard connections section description."
-    },
-    "privacyDashboardCommunicationSectionDesc": "控制誰可以撥打電話給你，以及將你加入群組聊天",
-    "@privacyDashboardCommunicationSectionDesc": {
-        "description": "Privacy dashboard communication section description."
     },
     "privacyDashboardIncomingCallsTitle": "來電",
     "@privacyDashboardIncomingCallsTitle": {
         "description": "Privacy dashboard incoming calls subsection title."
     },
-    "privacyDashboardIncomingCallsDesc": "控制誰可以打電話給你",
-    "@privacyDashboardIncomingCallsDesc": {
-        "description": "Privacy dashboard incoming calls subsection description."
-    },
     "privacyDashboardAllowedCallers": "允許的來電者",
     "@privacyDashboardAllowedCallers": {
         "description": "Privacy > Communication: select label."
-    },
-    "privacyDashboardIncomingCallNobody": "無人",
-    "@privacyDashboardIncomingCallNobody": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallNobodyDesc": "封鎖所有來電",
     "@privacyDashboardIncomingCallNobodyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallFriendsOnly": "僅限好友",
-    "@privacyDashboardIncomingCallFriendsOnly": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallFriendsOnlyDesc": "只允許朋友撥打您的電話（建議）",
     "@privacyDashboardIncomingCallFriendsOnlyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallCustom": "朋友 + 自訂",
-    "@privacyDashboardIncomingCallCustom": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallCustomDesc": "允許朋友以及你選擇的其他群組",
     "@privacyDashboardIncomingCallCustomDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardIncomingCallEveryone": "所有人",
-    "@privacyDashboardIncomingCallEveryone": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallEveryoneDesc": "允許任何人撥打你的電話，即使是陌生人",
     "@privacyDashboardIncomingCallEveryoneDesc": {
@@ -14497,14 +13352,6 @@
     "@privacyDashboardAdditionalGroups": {
         "description": "Privacy dashboard label for custom permission groups."
     },
-    "privacyDashboardCallFriendsOfFriendsDesc": "你朋友的朋友也能打給你",
-    "@privacyDashboardCallFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
-    "privacyDashboardCallGuildMembersDesc": "你來自你們都加入的社群的朋友可以打電話給你",
-    "@privacyDashboardCallGuildMembersDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
     "privacyDashboardRingBehavior": "鈴聲行為",
     "@privacyDashboardRingBehavior": {
         "description": "Privacy dashboard ring behavior subsection label."
@@ -14513,17 +13360,9 @@
     "@privacyDashboardSilentCalls": {
         "description": "Privacy dashboard silent calls toggle label."
     },
-    "privacyDashboardSilentCallsDesc": "所有來電都會改為靜音通知，而非響鈴。預設情況下，非好友的來電一律為靜音。",
-    "@privacyDashboardSilentCallsDesc": {
-        "description": "Privacy dashboard silent calls toggle description."
-    },
     "privacyDashboardGroupDmTitle": "誰可以將您加入群組聊天",
     "@privacyDashboardGroupDmTitle": {
         "description": "Privacy dashboard group DM subsection title."
-    },
-    "privacyDashboardGroupDmDesc": "控制誰可以在未經詢問的情況下將你加入群組聊天。任何人仍可傳送邀請連結給你加入。",
-    "@privacyDashboardGroupDmDesc": {
-        "description": "Privacy dashboard group DM subsection description."
     },
     "privacyDashboardAllowedInvites": "允許的邀請",
     "@privacyDashboardAllowedInvites": {
@@ -14544,14 +13383,6 @@
     "privacyDashboardGroupDmEveryoneDesc": "允許任何人將你加入群組聊天，無需詢問",
     "@privacyDashboardGroupDmEveryoneDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardGroupDmFriendsOfFriendsDesc": "你朋友的朋友可以將你加入群組聊天",
-    "@privacyDashboardGroupDmFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
-    },
-    "privacyDashboardGroupDmGuildMembersDesc": "你與對方都同屬的社群中的成員可以將你加入群組聊天",
-    "@privacyDashboardGroupDmGuildMembersDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
     },
     "privacyDashboardVoiceActivityTitle": "目前上線中的語音活動",
     "@privacyDashboardVoiceActivityTitle": {
@@ -15084,26 +13915,6 @@
     "@composerAutocompleteOptionalArgumentsHeading": {
         "description": "Section heading in composer autocomplete for adding optional slash-command arguments."
     },
-    "composerAutocompleteChannelsHeading": "頻道",
-    "@composerAutocompleteChannelsHeading": {
-        "description": "Section heading in composer autocomplete for channel suggestions."
-    },
-    "composerAutocompleteMembersHeading": "成員",
-    "@composerAutocompleteMembersHeading": {
-        "description": "Section heading in composer autocomplete for member suggestions."
-    },
-    "composerAutocompleteUsersHeading": "使用者",
-    "@composerAutocompleteUsersHeading": {
-        "description": "Section heading in composer autocomplete for user suggestions."
-    },
-    "composerAutocompleteMentionsHeading": "提及",
-    "@composerAutocompleteMentionsHeading": {
-        "description": "Section heading in composer autocomplete for mixed mention suggestions."
-    },
-    "composerAutocompleteRolesHeading": "身分組",
-    "@composerAutocompleteRolesHeading": {
-        "description": "Section heading in composer autocomplete for role suggestions."
-    },
     "composerAutocompleteMediaHeading": "媒體",
     "@composerAutocompleteMediaHeading": {
         "description": "Section heading in composer autocomplete for saved media."
@@ -15320,10 +14131,6 @@
     "memberListUnavailableBody": "此社群的成員列表暫時無法使用",
     "@memberListUnavailableBody": {
         "description": "Body when member list updates are disabled for the community."
-    },
-    "channelHeaderOpenDetails": "開啟頻道詳細資訊",
-    "@channelHeaderOpenDetails": {
-        "description": "Accessibility label for the channel header title area."
     },
     "channelHeaderPinnedMessages": "釘選的訊息",
     "@channelHeaderPinnedMessages": {
@@ -15686,10 +14493,6 @@
     "@userSettingsSearchPlaceholder": {
         "description": "Placeholder for the user settings search field."
     },
-    "userSettingsSearchFieldLabel": "搜尋設定",
-    "@userSettingsSearchFieldLabel": {
-        "description": "Accessibility label for the user settings search field."
-    },
     "userSettingsSearchClear": "清除搜尋",
     "@userSettingsSearchClear": {
         "description": "Accessibility label for clearing the user settings search field."
@@ -15716,8 +14519,6 @@
     "giftSettingsGiftUrl": "禮物網址",
     "giftSettingsCopy": "複製",
     "giftSettingsCopied": "已複製",
-    "giftSettingsGiftUrlCopied": "禮物網址已複製到剪貼簿！",
-    "giftSettingsGiftUrlCopyFailed": "無法複製禮物網址",
     "giftSettingsPurchasedDate": "已購買 {date}",
     "@giftSettingsPurchasedDate": {
         "placeholders": {
@@ -15759,7 +14560,6 @@
     "premiumBuyGift": "購買禮物",
     "premiumOneYearGift": "1 年贈禮",
     "premiumOneMonthGift": "贈送 1 個月",
-    "premiumMostPopular": "最熱門",
     "premiumScrollPrompt": "向下捲動以查看 Plutonium 包含的所有優惠",
     "premiumFreeVsPlutonium": "免費版與 Plutonium 版",
     "premiumFreeColumn": "免費",
@@ -15777,50 +14577,15 @@
     "premiumViewGifts": "檢視禮物",
     "premiumReadyToUpgrade": "準備好升級了嗎？",
     "premiumReadyToBuyGift": "準備好購買禮物了嗎？",
-    "premiumMonthlyPrice": "每月 {price}",
-    "@premiumMonthlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumYearlyPrice": "每年 {price}",
-    "@premiumYearlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneYearPrice": "1 年 {price}",
-    "@premiumOneYearPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneMonthPrice": "1 個月 {price}",
-    "@premiumOneMonthPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
     "premiumManageSubscription": "管理訂閱",
     "premiumRedeemGiftCode": "兌換禮物代碼",
     "premiumGiftBadge": "禮物",
     "premiumCancelSubscriptionTitle": "取消訂閱？",
     "premiumCancelSubscriptionBody": "您會保留福利到下一個續訂日期，之後有 3 天寬限期可以重新訂閱並保留您的訂閱者歷史記錄。",
     "premiumCancelSubscriptionConfirm": "取消訂閱",
-    "premiumKeepSubscription": "保留訂閱",
     "premiumPurchaseHistoryTitle": "購買紀錄",
     "premiumPurchaseHistoryDescription": "您近期的發票。若要更改訂閱的付款方式，請在帳單入口網站中新增或選擇一種並設為預設。",
     "premiumManagePaymentMethods": "管理付款方式",
-    "premiumBillingHistory": "帳單記錄",
-    "premiumSelfServeRefundTitle": "自助退款",
     "premiumSelfServeRefundButton": "退款最新購買項目",
     "premiumDisclaimerAgreementPrefix": "購買即表示您同意我們的 ",
     "premiumDisclaimerAgreementPastPrefix": "購買即表示您同意我們的 ",
@@ -15860,23 +14625,16 @@
         "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
     },
     "premiumComparisonFeatureColumn": "功能",
-    "premiumDisclaimerPurchased": "購買即表示您已同意我們的{terms}和{privacy}。",
-    "@premiumDisclaimerPurchased": {
-        "placeholders": {
-            "terms": {
-                "type": "String"
-            },
-            "privacy": {
-                "type": "String"
-            }
-        }
-    },
     "premiumDisclaimerRefund": "付款後 3 天內可自行申請退款，每 30 天限一次。訂閱退款後即會取消訂閱。歐盟/歐洲經濟區買家在結帳時放棄 14 天的撤銷權，以立即存取內容。請使用應用程式內的退款按鈕，而非向發卡機構提出拒付。拒付可能會導致您的帳號被永久限制。Stripe 會安全處理付款。我們絕不會看到您的完整卡號。",
     "premiumTermsOfService": "服務條款",
     "premiumPrivacyPolicy": "隱私權政策",
     "premiumCheckoutStartFailedTitle": "無法開始結帳",
     "premiumCheckoutStartFailedBody": "啟動結帳時發生錯誤。請稍後再試一次。",
     "premiumPlanUnavailable": "此方案無法使用。請聯絡客服。",
+    "premiumPlanUnavailableSelfHosted": "此方案無法使用。請聯絡此實例的管理員。",
+    "@premiumPlanUnavailableSelfHosted": {
+        "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
+    },
     "premiumCompletePaymentTitle": "完成付款",
     "premiumCompletePaymentBody": "您即將前往 Stripe 完成付款。完成後請返回 Fluxer。",
     "premiumChoosePaymentMethodTitle": "選擇付款方式",
@@ -15892,29 +14650,97 @@
     "premiumExistingSubscriptionTitle": "您已有訂閱",
     "premiumExistingSubscriptionBody": "我們在此帳戶找到現有的 Fluxer Plutonium 訂閱。請前往安全的帳單入口網站進行管理，以更新付款詳情或查看續訂狀態。如果您剛付款，請稍候一分鐘後重新開啟此頁面。",
     "premiumPurchasesDisabledTitle": "無法購買",
-    "premiumPurchasesDisabledBody": "此帳號已停用購買功能。如果這看起來有誤，請聯絡 support@fluxer.app。",
+    "premiumPurchasesDisabledBody": "此帳號已停用購買功能。如果這看起來有誤，請聯絡 {supportEmail}。",
+    "@premiumPurchasesDisabledBody": {
+        "description": "Shown on the official hosted instance when purchases are disabled for the account. supportEmail is the support mailbox.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumPurchasesDisabledBodySelfHosted": "此帳號已停用購買功能。如果這看起來有誤，請聯絡此實例的管理員。",
+    "@premiumPurchasesDisabledBodySelfHosted": {
+        "description": "Shown on a self-hosted instance when purchases are disabled for the account. Names no email address."
+    },
     "premiumClaimAccountToPurchase": "領取你的帳號即可購買 Fluxer Plutonium。",
     "premiumVerifyEmailToPurchase": "購買 Fluxer Plutonium 前，你需要驗證你的電子郵件。",
-    "premiumPerkCustomUsernameTag": "自訂使用者名稱標籤",
-    "premiumPerkPerCommunityProfiles": "各社群獨立個人檔案",
-    "premiumPerkMessageScheduling": "訊息排程",
-    "premiumPerkProfileBadge": "個人檔案徽章",
-    "premiumPerkCustomVideoBackgrounds": "自訂視訊背景",
-    "premiumPerkEntranceSounds": "進場音效",
     "premiumPerkCommunities": "社群",
     "premiumPerkMessageCharacterLimit": "訊息字數限制",
     "premiumPerkBookmarkedMessages": "已加入書籤的訊息",
     "premiumPerkFileUploadSize": "檔案上傳大小",
-    "premiumPerkEmojiStickerPacks": "表情符號與貼圖套件",
-    "premiumPerkSavedMedia": "已儲存的媒體",
     "premiumPerkUseAnimatedEmojis": "使用動態表情符號",
-    "premiumPerkGlobalEmojiStickerAccess": "全域表情符號和貼圖存取權",
     "premiumPerkVideoQuality": "視訊畫質",
     "premiumPerkAnimatedAvatarsBanners": "動態頭像與個人檔案橫幅",
     "premiumPerkEarlyAccess": "搶先體驗新功能",
-    "premiumPerkCustomThemes": "自訂主題",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "最高 4K/60fps",
+    "storePlutoniumPriceLine": "{monthly} 或 {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/月",
+    "storePlutoniumYearSuffix": "/年",
+    "storePlutoniumPriceOr": "或",
+    "storePlutoniumEmojiTitle": "您的表情符號，隨處可用",
+    "storePlutoniumEmojiBody": "將您社群中的自訂表情符號和貼圖，帶到您加入的每個聊天和社群中。",
+    "storePlutoniumProfileTitle": "一個脫穎而出的個人檔案",
+    "storePlutoniumProfileBody": "取得動態大頭貼和橫幅、訂閱者徽章、使用者名稱後方您想要的四位數標籤*，以及每個社群的獨立個人檔案。",
+    "storePlutoniumFilesTitle": "傳送最大 500 MB 的檔案",
+    "storePlutoniumFilesBody": "分享完整長度的影片和大型檔案，無需先壓縮。免費帳戶最多可傳送 25 MB。",
+    "storePlutoniumCompareTitle": "比較免費版與 Plutonium",
+    "storePlutoniumCompareMobileNote": "這些功能並非全部都可在行動應用程式中使用。部分功能僅限於桌面版。",
+    "storePlutoniumNotAvailable": "不可用",
+    "storePlutoniumAvailable": "可用",
+    "storePlutoniumCompareTag": "選擇使用者名稱後的 4 位數數字*",
+    "storePlutoniumCompareProfile": "每個社群的獨立個人檔案",
+    "storePlutoniumCompareBadge": "個人檔案上的訂閱者徽章",
+    "storePlutoniumCompareBackgrounds": "可儲存的視訊通話背景",
+    "storePlutoniumCompareCommunities": "您可以加入的社群",
+    "storePlutoniumCompareCharacters": "單則訊息中的字元數",
+    "storePlutoniumCompareBookmarks": "可收藏的訊息",
+    "storePlutoniumCompareUpload": "您可上傳的最大檔案",
+    "storePlutoniumCompareSavedMedia": "可儲存的媒體項目",
+    "storePlutoniumCompareAnimatedEmoji": "在訊息中使用動態表情符號",
+    "storePlutoniumCompareCustomEmoji": "在任何社群中使用自訂表情符號和貼圖",
+    "storePlutoniumCompareVideo": "視訊通話與畫面分享品質",
+    "storePlutoniumCompareAvatar": "動畫頭像與個人檔案橫幅",
+    "storePlutoniumCompareEarlyAccess": "搶先體驗新功能",
+    "storePlutoniumCompareThemes": "應用程式的自訂佈景主題",
+    "storePlutoniumVideoFree": "最高 720p，30 FPS",
+    "storePlutoniumVideoPlutonium": "最高 4K，60 FPS",
+    "storePlutoniumTagFootnote": "您只能選擇沒有其他使用者名稱相同的人使用的標籤。使用者名稱不區分大小寫，因此 Mina#4821 和 mina#4821 視為相同。#0000 標籤保留給 Fluxer Visionary 會員。",
+    "storePlutoniumLearnVisionary": "深入了解 Visionary。",
+    "storePlutoniumDonatePrompt": "只想支持 Fluxer 的開源開發嗎？ ",
+    "storePlutoniumDonateLink": "改為捐款。",
+    "storePlutoniumHighlightsLead": "訂閱可資助 Fluxer 並解鎖",
+    "storePlutoniumHighlightEmoji": "在任何聊天室中使用自訂表情符號和貼圖",
+    "storePlutoniumHighlightProfile": "動態個人檔案、徽章和自訂 4 位數號碼",
+    "storePlutoniumHighlightFiles": "上傳檔案大小上限 500 MB",
+    "storePlutoniumHighlightMessages": "傳送最長 4,000 個字元的訊息",
+    "storePlutoniumHighlightCommunityProfile": "每個社群的獨立個人檔案",
+    "storePlutoniumHighlightsMore": "還有更多",
+    "storePlutoniumRenewsThroughPlay": "透過 Google Play 自動續訂，直到您取消為止。",
+    "storePlutoniumRenewsThroughAppStore": "透過 App Store 自動續訂，直到您取消為止。",
+    "storePlutoniumAlreadySubscribed": "您已經有 Fluxer Plutonium 訂閱了。",
+    "storePlutoniumSavePercent": "節省 {percent}%",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "已收到購買。Plutonium 啟用後將會顯示於此。",
+    "storePlutoniumUnavailable": "此裝置尚不支援應用程式內訂閱。",
+    "storePlutoniumVisionaryStatus": "Visionary 已包含永久存取權，因此不需要定期訂閱。",
     "userSettingsNavShortcuts": "快速鍵",
     "@userSettingsNavShortcuts": {
         "description": "User settings navigation item for keyboard shortcuts."
@@ -16003,6 +14829,18 @@
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
     },
+    "userSettingsNavAppIcon": "應用程式圖示",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "應用程式圖示",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "選擇要在主畫面顯示的圖示。",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
+    },
     "advancedSettingsConfigure": "設定",
     "@advancedSettingsConfigure": {
         "description": "Button label that opens a dedicated advanced settings modal."
@@ -16050,7 +14888,6 @@
     "advancedSettingStripTrackingLabel": "移除網址中的追蹤參數",
     "advancedSettingStripTrackingDescription": "自動移除您傳送訊息中網址的追蹤參數",
     "advancedSettingTrustAllLinksLabel": "信任所有外部連結",
-    "advancedSettingTrustAllLinksDescription": "略過所有網域的外部連結警告",
     "advancedSettingSearchEnginesLabel": "搜尋引擎",
     "advancedSettingSearchEnginesDescription": "設定選取文字時使用的搜尋引擎",
     "advancedSettingTranslatorsLabel": "翻譯服務",
@@ -16106,13 +14943,6 @@
     "advancedSettingHideStreamPreviewLabel": "隱藏我的直播預覽縮圖",
     "advancedSettingDeveloperModeLabel": "啟用開發者模式",
     "advancedSettingDeveloperModeDescription": "啟用開發者模式",
-    "advancedSettingSearchEngineGoogle": "Google",
-    "advancedSettingSearchEngineDuckDuckGo": "DuckDuckGo",
-    "advancedSettingSearchEngineBing": "Bing",
-    "advancedSettingSearchEngineGoogleLens": "Google 智慧鏡頭",
-    "advancedSettingSearchEngineTinEye": "TinEye",
-    "advancedSettingTranslatorGoogle": "Google 翻譯",
-    "advancedSettingTranslatorDeepL": "DeepL",
     "advancedSettingDefaultSearchEngineLabel": "預設搜尋引擎",
     "advancedSettingDefaultSearchEngineDescription": "選擇預設搜尋引擎，以用於搜尋選取的文字。",
     "advancedSettingBuiltInSearchEnginesLabel": "內建搜尋引擎",
@@ -16251,6 +15081,14 @@
     "authHidePassword": "隱藏密碼",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "仍在處理中…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
+    },
+    "authVerificationFailed": "無法完成驗證。請再試一次。",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
     },
     "chatLoadingMessages": "正在載入訊息",
     "@chatLoadingMessages": {
@@ -16658,10 +15496,6 @@
     "@guildMembersColumnRoles": {
         "description": "Table column header on the community members page."
     },
-    "guildMembersColumnActions": "動作",
-    "@guildMembersColumnActions": {
-        "description": "Table column header on the community members page."
-    },
     "guildMembersFilterMemberSince": "依加入時間篩選",
     "@guildMembersFilterMemberSince": {
         "description": "Filter menu label on the community members page."
@@ -16746,23 +15580,6 @@
     "@guildMembersIndexing": {
         "description": "Banner shown while guild members are being indexed."
     },
-    "guildMembersGoToPage": "前往頁面",
-    "@guildMembersGoToPage": {
-        "description": "Pagination jump label on the community members page."
-    },
-    "guildMembersGoToPageItem": "前往第 {page} 頁",
-    "@guildMembersGoToPageItem": {
-        "description": "Accessibility label for a pagination page button.",
-        "placeholders": {
-            "page": {
-                "type": "int"
-            }
-        }
-    },
-    "guildMembersJumpToPage": "跳轉到頁面",
-    "@guildMembersJumpToPage": {
-        "description": "Label for pagination jump input on the community members page."
-    },
     "guildMembersJoinSourceCreator": "社群建立者",
     "@guildMembersJoinSourceCreator": {
         "description": "Join method label on the community members page."
@@ -16839,28 +15656,14 @@
             }
         }
     },
-    "guildMembersJoinedDaysAgo": "{count, plural, one {1 天前} other {{count} 天前}}",
-    "@guildMembersJoinedDaysAgo": {
-        "description": "Relative join time on the community members page.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
     "guildMembersChannelListLabel": "成員",
     "@guildMembersChannelListLabel": {
         "description": "Label for the Members item at the top of the guild channel list."
-    },
-    "guildMembersChannelListSelected": "已選取成員",
-    "@guildMembersChannelListSelected": {
-        "description": "Accessibility label when the Members channel list item is selected."
     },
     "guildSettingsEmojiSlotsTitle": "表情符號欄位",
     "guildSettingsEmojiDropZone": "將表情符號檔案拖曳到這裡",
     "guildSettingsEmojiLoadFailed": "表情符號載入失敗。請稍後再試。",
     "guildSettingsEmojiSearchEmpty": "找不到符合搜尋條件的表情符號。",
-    "guildSettingsEmojiNoSlots": "沒有可用的表情符號欄位",
     "guildSettingsEmojiSlotsFull": "您已達到表情符號數量上限。請刪除一些現有的表情符號以騰出空間。",
     "guildSettingsEmojiUploadRequirements": "表情符號名稱至少需要 2 個字元，並且可以使用字母、數字和底線。表情符號的大小必須小於 {maxSize}。靜態圖片會自動調整大小到 128x128 像素並進行壓縮。動畫表情符號和 SVG 檔案必須已符合限制。",
     "@guildSettingsEmojiUploadRequirements": {
@@ -16870,24 +15673,11 @@
             }
         }
     },
-    "guildSettingsEmojiUploadingTitle": "正在上傳表情符號",
-    "guildSettingsEmojiUploadingBody": "正在上傳 {count, plural, one {# 個表情符號} other {# 個表情符號}}。這可能需要一點時間。",
-    "@guildSettingsEmojiUploadingBody": {
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsEmojiUploadFailed": "表情符號上傳失敗。請再試一次。",
     "guildSettingsEmojiSomeFailedTitle": "部分表情符號無法新增",
-    "guildSettingsEmojiSomeFailedBody": "請檢查這些檔案，然後使用較小或較簡單的圖片再試一次。",
     "guildSettingsEmojiRenameTitle": "重新命名表情符號",
     "guildSettingsEmojiRenameHint": "2-32 個字元，限英數字、底線。",
-    "guildSettingsEmojiColumnEmoji": "表情符號",
     "guildSettingsEmojiColumnName": "名稱",
     "guildSettingsEmojiColumnUploader": "上傳者",
-    "guildSettingsEmojiUnknownUploader": "不明",
     "guildSettingsEmojiDeleteTitle": "刪除表情符號",
     "guildSettingsEmojiDeleteBody": "刪除 :{name}:？此操作無法復原。",
     "@guildSettingsEmojiDeleteBody": {
@@ -16902,15 +15692,7 @@
     "guildSettingsEmojiNameTooLong": "表情符號名稱最多只能有 32 個字元",
     "guildSettingsEmojiInvalidNameTitle": "無效的表情符號名稱",
     "guildSettingsEmojiRenameFailedTitle": "無法重新命名此表情符號",
-    "guildSettingsEmojiRenameFailedBody": "名稱已還原。請稍後再試一次。",
-    "guildSettingsEmojiGoneTitle": "這個表情符號已不存在",
-    "guildSettingsEmojiGoneBody": "表情符號可能已被刪除。名稱已還原為先前的名稱。",
-    "guildSettingsEmojiNoPermissionRenameTitle": "您無法重新命名此表情符號",
-    "guildSettingsEmojiNoPermissionRenameBody": "您沒有重新命名此表情符號的權限。名稱已還原為先前的名稱。",
-    "guildSettingsEmojiRateLimitedTitle": "您的操作太頻繁了",
-    "guildSettingsEmojiRateLimitedBody": "請稍候片刻，然後再試著重新命名。",
     "guildSettingsEmojiDeleteFailedTitle": "無法刪除此表情符號",
-    "guildSettingsEmojiDeleteNoPermissionTitle": "您無法刪除此表情符號",
     "guildSettingsCloneEmojiTitle": "允許其他人複製你的表情符號",
     "guildSettingsCloneEmojiDescription": "啟用後，其他社群的成員就能使用應用程式內的「複製」捷徑來複製您的自訂表情符號。這並不會阻止他們自行儲存圖片並上傳。",
     "guildSettingsCloneStickerTitle": "允許其他人複製你的貼圖",
@@ -16934,8 +15716,6 @@
     "guildSettingsStickersLoadFailedTitle": "貼圖載入失敗",
     "guildSettingsStickersLoadFailedBody": "載入貼圖時發生錯誤。請再試一次。",
     "guildSettingsStickersSearchEmpty": "找不到符合您搜尋條件的貼圖。",
-    "guildSettingsStickersEmptySearch": "找不到貼圖",
-    "guildSettingsStickerNoSlots": "沒有可用的貼圖欄位",
     "guildSettingsStickerSlotsFull": "您已達到貼圖數量上限。請刪除一些現有貼圖以騰出空間。",
     "guildSettingsStickerUploadRequirements": "貼圖會以 320x320 像素儲存，且大小必須小於 {maxSize}。靜態圖片會自動調整大小並進行壓縮。動畫貼圖和 SVG 檔案必須已符合限制。",
     "@guildSettingsStickerUploadRequirements": {
@@ -16945,7 +15725,6 @@
             }
         }
     },
-    "guildSettingsStickerUnsupportedTitle": "不支援的貼圖檔案",
     "guildSettingsStickerAddTitle": "新增貼圖",
     "guildSettingsStickerEditTitle": "編輯貼圖",
     "guildSettingsStickerNameLabel": "名稱",
@@ -16970,8 +15749,6 @@
     "guildSettingsStickerNameTooLong": "名稱長度必須在 30 個字元以下",
     "guildSettingsStickerDescriptionTooLong": "說明文字不可超過 500 個字元",
     "guildSettingsStickerCreateFailedTitle": "無法建立此貼圖",
-    "guildSettingsStickerTooLargeTitle": "貼圖檔案過大",
-    "guildSettingsStickerCompressFailedTitle": "貼圖無法充分壓縮",
     "guildSettingsStickerDeleteTitle": "刪除貼圖",
     "guildSettingsStickerDeleteBody": "刪除「{name}」？此操作無法復原。",
     "@guildSettingsStickerDeleteBody": {
@@ -16983,7 +15760,6 @@
     },
     "guildSettingsStickerPurgeLabel": "從儲存空間和 CDN 清除此貼圖",
     "guildSettingsStickerDeleteFailedTitle": "無法刪除此貼圖",
-    "guildSettingsStickerDeleteNoPermissionTitle": "你無法刪除此貼圖",
     "keybindsSearchShortcuts": "搜尋快速鍵",
     "@keybindsSearchShortcuts": {
         "description": "Placeholder for the shortcuts settings search field."
@@ -17066,6 +15842,40 @@
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
+    "assistantNeedsLogin": "請先開啟 Fluxer 並登入。",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "您沒有在通話中。",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "Fluxer 找不到該項目。",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "此伺服器已停用私訊功能。",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "Fluxer 無法完成該操作。",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "已將麥克風靜音。",
+    "assistantOkUnmuted": "已取消麥克風靜音。",
+    "assistantOkLeftVoice": "已離開語音頻道。",
+    "assistantOkJoinedVoice": "正在加入語音頻道。",
+    "assistantOkStartedCall": "正在開始通話。",
+    "assistantOkStatusSet": "狀態已設為「{status}」。",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "正在開啟 Fluxer。",
     "applicationsTitle": "應用程式",
     "@applicationsTitle": {
         "description": "Title for the developer Applications settings tab."
@@ -17108,6 +15918,15 @@
         "description": "Empty-state body. apiName is the product API display name.",
         "placeholders": {
             "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "建立於 {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
                 "type": "String"
             }
         }
@@ -17292,6 +16111,10 @@
     "@applicationsOauthBuilderTitle": {
         "description": "Section title for the authorize URL builder."
     },
+    "applicationsOauthBuilderDescription": "使用範圍和權限建構授權 URL。",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
     "applicationsScopes": "權限",
     "@applicationsScopes": {
         "description": "Label for OAuth2 scope checkboxes."
@@ -17324,6 +16147,10 @@
     "@applicationsAuthorizeUrlPlaceholder": {
         "description": "Placeholder when the authorize URL cannot be built yet."
     },
+    "applicationsCopyAuthorizeUrl": "複製授權 URL",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
     "applicationsCopiedUrl": "已將網址複製到剪貼簿",
     "@applicationsCopiedUrl": {
         "description": "Toast after copying the authorize URL."
@@ -17343,6 +16170,15 @@
     "applicationsDelete": "刪除應用程式",
     "@applicationsDelete": {
         "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "您確定要刪除 {name} 嗎？此動作無法復原。所有相關資料，包括機器人使用者，都將永久刪除。",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     },
     "applicationsDeleteFailed": "無法刪除應用程式",
     "@applicationsDeleteFailed": {
@@ -17432,6 +16268,10 @@
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
     },
+    "voiceOutputRouteEarpiece": "聽筒",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
     "voiceOutputRouteHeadset": "耳機",
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
@@ -17439,6 +16279,14 @@
     "doubleTapReactionEdit": "編輯",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "編輯預設",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "選擇雙擊表情符號",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
     },
     "chatMessagePinConfirm": "釘選",
     "@chatMessagePinConfirm": {
@@ -17452,9 +16300,17 @@
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."
     },
+    "appIconOptionStarfield": "星空",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
     "appIconOptionSweden": "瑞典",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "此裝置無法變更應用程式圖示。",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     },
     "userSettingsLogOutConfirmTitle": "要登出嗎？",
     "@userSettingsLogOutConfirmTitle": {
@@ -17484,5 +16340,178 @@
     "@guildSettingsCommunityDeleted": {
         "description": "Success toast after a community is deleted."
     },
-    "assistantOkMessageSent": "訊息已傳送。"
+    "guildSettingsDeleteCommunityFailed": "無法刪除此社群",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantOkMessageSent": "訊息已傳送。",
+    "assistantOkCustomStatusSet": "自訂狀態已更新。",
+    "assistantOkCustomStatusCleared": "自訂狀態已清除。",
+    "guildNavbarAnnouncementChannel": "公告頻道",
+    "guildNavbarAnnouncementChannelDescription": "發布更新，讓其他社群可以追蹤到自己的頻道中",
+    "channelDetailsAnnouncementChannel": "公告頻道",
+    "channelSettingsAnnouncementChannel": "公告頻道",
+    "channelSettingsAnnouncementChannelDescription": "讓其他社群追蹤此頻道，並取得您發布內容的副本。",
+    "channelSettingsStopAnnouncementTitle": "停止作為公告頻道？",
+    "channelSettingsStopAnnouncementBody": "{count, plural, =1{有 1 個頻道正在追蹤此頻道。將其轉換為文字頻道會移除該追蹤。} other{有 {count} 個頻道正在追蹤此頻道。將其轉換為文字頻道會移除這些追蹤。}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "將此頻道轉換為文字頻道後，所有頻道都會取消追蹤它。",
+    "channelSettingsConvertChannel": "轉換",
+    "channelSettingsConvertFailed": "無法轉換此頻道",
+    "channelSettingsChannelHasFollowers": "仍有其他頻道追蹤此頻道。請先移除這些追蹤，再轉換此頻道。",
+    "channelMenuFollow": "追蹤頻道",
+    "channelFollowTitle": "追蹤此頻道",
+    "channelFollowBody": "選擇要發布訊息的目的地。您隨時可以在「社群設定」→「Webhook」中取消追蹤。",
+    "channelFollowCommunity": "社群",
+    "channelFollowChannel": "頻道",
+    "channelFollowAgeWarning": "這是年齡限制頻道。更新只能發送到年齡限制頻道。",
+    "channelFollowContentWarning": "這個頻道有內容警告。更新只能傳送到設有內容警告或年齡限制的頻道。",
+    "channelFollowHiddenHint": "您無法管理 Webhook 的社群和頻道已隱藏。",
+    "channelFollowEmpty": "您無法在任何社群中管理 Webhook。請要求管理員追蹤此頻道。",
+    "channelFollowSubmit": "追蹤",
+    "channelFollowFailed": "無法追蹤此頻道。",
+    "channelFollowSuccessTitle": "更新訊息即將送達！",
+    "channelFollowSuccessBody": "在 {sourceName} 發布的訊息將會顯示在 #{targetName}。",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "知道了！",
+    "channelFollowBarrier": "追蹤此頻道，即可在您選擇的頻道中接收這些公告。",
+    "channelHeaderFollow": "追蹤頻道",
+    "chatMessagePublish": "發布",
+    "chatMessagePublished": "已發布",
+    "chatMessagePublishConfirmTitle": "發布訊息？",
+    "chatMessagePublishConfirmBody": "這會將副本傳送至所有追蹤此頻道的頻道。",
+    "chatMessagePublishedToast": "訊息已發布",
+    "chatMessageAlreadyPublished": "此訊息已發布。",
+    "chatMessagePublishFailedTitle": "無法發布此訊息",
+    "chatMessagePublishFailedBody": "發生錯誤。請稍後再試。",
+    "chatMessagePublishLimitTitle": "慢一點",
+    "chatMessagePublishLimitBody": "您可以在 {duration} 後再次發布。",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "您發布訊息的速度太快了。請稍後再試。",
+    "chatMessageDeletePublished": "這也會移除傳送至追蹤此頻道的其他頻道的訊息副本。",
+    "chatMessageEditPublishedTitle": "編輯已發布的訊息？",
+    "chatMessageEditPublishedBody": "這會更新已傳送至追蹤此頻道的其他頻道的訊息副本。",
+    "chatMessageEditPublishedSave": "儲存",
+    "chatMessageEditLimitTitle": "慢一點",
+    "chatMessageEditLimitBody": "您可以在 {duration} 後再次編輯這則已發布的訊息。",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "您編輯這則已發布訊息的速度太快了。請稍後再試。",
+    "chatMessageOriginalDeleted": "[原始訊息已刪除]",
+    "userTagCommunity": "社群",
+    "systemFollowAdd": "{username} 讓此頻道追蹤了 {source}。在那裡發布的訊息將會顯示在這裡。",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username} 讓此頻道追蹤了 {source}。",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "尚未發送給追蹤者。",
+    "publishNudgeHideForever": "不再顯示",
+    "publishNudgeDismiss": "關閉",
+    "channelSettingsFollowedChannels": "已追蹤的頻道",
+    "channelSettingsFollowedChannelsDescription": "此頻道追蹤的公告頻道。停止追蹤以停止接收副本。",
+    "guildSettingsFollowedChannelsDescription": "此社群中的頻道所追蹤的公告頻道。",
+    "channelSettingsFollowedFrom": "來自 {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "由於來源頻道已不再可用，更新已暫停。",
+    "channelSettingsUnfollowTitle": "取消追蹤 {name}？",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "此頻道將停止接收來自該公告頻道的副本。",
+    "channelSettingsUnfollow": "停止追蹤",
+    "crosspostCommunityTitle": "社群",
+    "crosspostGoToCommunity": "前往社群",
+    "crosspostJoinCommunity": "加入社群",
+    "crosspostSourceFailed": "無法載入這個社群。請稍後再試。",
+    "crosspostMembers": "{count} 位成員",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "{count} 人在線上",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, =1{1 分鐘} other{{count} 分鐘}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, =1{1 秒} other{{count} 秒}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "不支援的頻道類型",
+    "channelUnsupportedBody": "此應用程式版本不支援此頻道類型。",
+    "channelDetailsUnsupportedChannel": "不支援的頻道"
 }

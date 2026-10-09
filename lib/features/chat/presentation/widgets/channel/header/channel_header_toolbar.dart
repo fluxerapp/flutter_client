@@ -137,11 +137,7 @@ class ChannelHeaderToolbar extends ConsumerWidget {
             ),
           ),
         if (_shouldShowFavorite(ref))
-          _FavoriteStarButton(
-            channel: channel,
-            dm: dm,
-            highContrast: highContrast,
-          ),
+          _FavoriteStarButton(channel: channel, dm: dm),
         if (showMembers)
           ChannelHeaderIconButton(
             icon: PhosphorIconsFill.users,
@@ -244,15 +240,10 @@ class ChannelHeaderToolbar extends ConsumerWidget {
 }
 
 class _FavoriteStarButton extends ConsumerWidget {
-  const _FavoriteStarButton({
-    required this.channel,
-    required this.dm,
-    required this.highContrast,
-  });
+  const _FavoriteStarButton({required this.channel, required this.dm});
 
   final Channel? channel;
   final DmConversation? dm;
-  final bool highContrast;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

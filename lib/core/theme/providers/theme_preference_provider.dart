@@ -13,6 +13,8 @@ import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
+import 'package:fluxer_app/core/theme/theme_color_editor.dart';
+import 'package:fluxer_app/core/theme/theme_variable_mapping.dart';
 import 'package:fluxer_app/core/theme/themes/coal.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/core/theme/themes/dark_legacy.dart';
@@ -20,6 +22,7 @@ import 'package:fluxer_app/core/theme/themes/light.dart';
 import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
 import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_sync_service.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -164,6 +167,8 @@ _BuiltColorThemes _buildActiveColorThemes({
 }
 
 class ThemePreferenceState {
+  static const Object unspecifiedCustomThemeCss = Object();
+
   factory ThemePreferenceState({
     FluxerThemeMode mode = FluxerThemeMode.dark,
     double scaleFactor = 1.0,
@@ -171,6 +176,8 @@ class ThemePreferenceState {
     bool syncAcrossDevices = true,
     double saturationFactor = 1.0,
     String? customThemeCss,
+    bool syncThemeColorsFromThemeStudio = true,
+    bool syncThemeColorsToThemeStudio = true,
     FluxerThemeMode? inflightTheme,
   }) {
     final _BuiltColorThemes themes = _buildColorThemes(
@@ -184,6 +191,8 @@ class ThemePreferenceState {
       syncAcrossDevices: syncAcrossDevices,
       saturationFactor: clampSaturationFactor(saturationFactor),
       customThemeCss: normalizeCustomThemeCss(customThemeCss),
+      syncThemeColorsFromThemeStudio: syncThemeColorsFromThemeStudio,
+      syncThemeColorsToThemeStudio: syncThemeColorsToThemeStudio,
       inflightTheme: inflightTheme,
       darkColorTheme: themes.dark,
       darkLegacyColorTheme: themes.darkLegacy,
@@ -200,6 +209,8 @@ class ThemePreferenceState {
     required this.syncAcrossDevices,
     required this.saturationFactor,
     required this.customThemeCss,
+    required this.syncThemeColorsFromThemeStudio,
+    required this.syncThemeColorsToThemeStudio,
     required this.inflightTheme,
     required this.darkColorTheme,
     required this.darkLegacyColorTheme,
@@ -214,6 +225,8 @@ class ThemePreferenceState {
   final bool syncAcrossDevices;
   final double saturationFactor;
   final String? customThemeCss;
+  final bool syncThemeColorsFromThemeStudio;
+  final bool syncThemeColorsToThemeStudio;
 
   /// Non-null while a server PATCH for this theme is in flight. UI uses this
   /// to disable swatches and surface a spinner on the targeted swatch.
@@ -227,13 +240,17 @@ class ThemePreferenceState {
 
   bool get isSyncing => inflightTheme != null;
 
-  FluxerColorTheme get colorTheme => switch (mode) {
-    FluxerThemeMode.dark => darkColorTheme,
-    FluxerThemeMode.darkLegacy => darkLegacyColorTheme,
-    FluxerThemeMode.light => lightColorTheme,
-    FluxerThemeMode.coal => coalColorTheme,
-    FluxerThemeMode.system => darkColorTheme,
-  };
+  FluxerColorTheme get colorTheme => colorThemeForMode(mode);
+
+  FluxerColorTheme colorThemeForMode(FluxerThemeMode resolvedMode) {
+    return switch (resolvedMode) {
+      FluxerThemeMode.dark => darkColorTheme,
+      FluxerThemeMode.darkLegacy => darkLegacyColorTheme,
+      FluxerThemeMode.light => lightColorTheme,
+      FluxerThemeMode.coal => coalColorTheme,
+      FluxerThemeMode.system => darkColorTheme,
+    };
+  }
 
   late final FluxerTextTheme textTheme = FluxerTextTheme.fromColors(colorTheme);
   late final FluxerTextTheme darkTextTheme = FluxerTextTheme.fromColors(
@@ -249,7 +266,9 @@ class ThemePreferenceState {
     int? chatFontSize,
     bool? syncAcrossDevices,
     double? saturationFactor,
-    String? customThemeCss,
+    Object? customThemeCss = unspecifiedCustomThemeCss,
+    bool? syncThemeColorsFromThemeStudio,
+    bool? syncThemeColorsToThemeStudio,
     bool clearCustomThemeCss = false,
     Object? inflightTheme = _kInflightSentinel,
     bool rebuildAllColorThemes = true,
@@ -258,13 +277,25 @@ class ThemePreferenceState {
     final double nextSaturationFactor = saturationFactor == null
         ? this.saturationFactor
         : clampSaturationFactor(saturationFactor);
+    final bool customThemeCssArgumentProvided = !identical(
+      customThemeCss,
+      unspecifiedCustomThemeCss,
+    );
     final String? nextCustomThemeCss = clearCustomThemeCss
         ? null
-        : normalizeCustomThemeCss(customThemeCss ?? this.customThemeCss);
+        : normalizeCustomThemeCss(
+            customThemeCssArgumentProvided
+                ? customThemeCss as String?
+                : this.customThemeCss,
+          );
     final double nextScaleFactor = scaleFactor ?? this.scaleFactor;
+    final String? normalizedCurrentCss = normalizeCustomThemeCss(
+      this.customThemeCss,
+    );
     final bool themesChanged =
         nextSaturationFactor != this.saturationFactor ||
-        nextCustomThemeCss != this.customThemeCss;
+        ((customThemeCssArgumentProvided || clearCustomThemeCss) &&
+            nextCustomThemeCss != normalizedCurrentCss);
     final _BuiltColorThemes themes;
     if (!themesChanged) {
       themes = _BuiltColorThemes(
@@ -296,6 +327,10 @@ class ThemePreferenceState {
       syncAcrossDevices: syncAcrossDevices ?? this.syncAcrossDevices,
       saturationFactor: nextSaturationFactor,
       customThemeCss: nextCustomThemeCss,
+      syncThemeColorsFromThemeStudio:
+          syncThemeColorsFromThemeStudio ?? this.syncThemeColorsFromThemeStudio,
+      syncThemeColorsToThemeStudio:
+          syncThemeColorsToThemeStudio ?? this.syncThemeColorsToThemeStudio,
       inflightTheme: identical(inflightTheme, _kInflightSentinel)
           ? this.inflightTheme
           : inflightTheme as FluxerThemeMode?,
@@ -310,13 +345,20 @@ class ThemePreferenceState {
   }
 }
 
+const Duration _kThemeColorPersistDebounce = Duration(milliseconds: 1500);
+
 @Riverpod(keepAlive: true)
 class ThemePreference extends _$ThemePreference {
   String? _userId;
   bool _isApplyingRemote = false;
+  Timer? _themeColorPersistTimer;
 
   @override
   ThemePreferenceState build() {
+    ref.onDispose(() {
+      _themeColorPersistTimer?.cancel();
+      _themeColorPersistTimer = null;
+    });
     ref.listen<AsyncValue<UserSettingsResponse?>>(
       userSettingsStatusStreamProvider,
       (
@@ -350,6 +392,8 @@ class ThemePreference extends _$ThemePreference {
         customThemeCss: prefs.customThemeCss.isEmpty
             ? null
             : prefs.customThemeCss,
+        syncThemeColorsFromThemeStudio: prefs.syncThemeColorsFromThemeStudio,
+        syncThemeColorsToThemeStudio: prefs.syncThemeColorsToThemeStudio,
       );
     } else {
       state = ThemePreferenceState();
@@ -487,6 +531,8 @@ class ThemePreference extends _$ThemePreference {
     bool updateScaleFactor = false,
     bool clearCustomThemeCss = false,
   }) async {
+    final bool applyCustomThemeCss =
+        updateCustomThemeCss && state.syncThemeColorsFromThemeStudio;
     if (_userId == null) {
       return;
     }
@@ -498,10 +544,12 @@ class ThemePreference extends _$ThemePreference {
     try {
       state = state.copyWith(
         saturationFactor: updateSaturationFactor ? saturationFactor : null,
-        customThemeCss: updateCustomThemeCss ? customThemeCss : null,
+        customThemeCss: applyCustomThemeCss
+            ? customThemeCss
+            : ThemePreferenceState.unspecifiedCustomThemeCss,
         chatFontSize: updateChatFontSize ? chatFontSize : null,
         scaleFactor: updateScaleFactor ? scaleFactor : null,
-        clearCustomThemeCss: updateCustomThemeCss && clearCustomThemeCss,
+        clearCustomThemeCss: applyCustomThemeCss && clearCustomThemeCss,
       );
       await _persist();
     } finally {
@@ -572,6 +620,130 @@ class ThemePreference extends _$ThemePreference {
     await _persist();
   }
 
+  Future<void> setSyncThemeColorsFromThemeStudio({required bool value}) async {
+    if (state.syncThemeColorsFromThemeStudio == value) {
+      return;
+    }
+    state = state.copyWith(syncThemeColorsFromThemeStudio: value);
+    await _persist();
+    if (value) {
+      final String? wireCss = normalizeCustomThemeCss(
+        ref.read(syncedPreferencesStoreProvider).readWireCustomThemeCss(),
+      );
+      if (wireCss != null) {
+        await applySyncedThemeCustomization(
+          customThemeCss: wireCss,
+          updateSaturationFactor: false,
+        );
+      }
+    }
+  }
+
+  Future<void> setSyncThemeColorsToThemeStudio({required bool value}) async {
+    if (state.syncThemeColorsToThemeStudio == value) {
+      return;
+    }
+    state = state.copyWith(syncThemeColorsToThemeStudio: value);
+    await _persist();
+    if (value) {
+      _markAccessibilityDirty();
+    }
+  }
+
+  void previewThemeColorOverride({
+    required FluxerThemeMode editingMode,
+    required String cssVariable,
+    required Color color,
+  }) {
+    _applyThemeColorCssChange(
+      upsertScopedThemeColor(
+        customThemeCss: state.customThemeCss,
+        editingMode: editingMode,
+        cssVariable: cssVariable,
+        hexValue: themeColorToCssHex(color),
+      ),
+    );
+    _scheduleThemeColorPersist();
+  }
+
+  Future<void> setThemeColorOverride({
+    required FluxerThemeMode editingMode,
+    required String cssVariable,
+    required Color color,
+  }) async {
+    previewThemeColorOverride(
+      editingMode: editingMode,
+      cssVariable: cssVariable,
+      color: color,
+    );
+    await _flushThemeColorPersist();
+  }
+
+  Future<void> clearThemeColorOverride({
+    required FluxerThemeMode editingMode,
+    required String cssVariable,
+  }) async {
+    _applyThemeColorCssChange(
+      clearScopedThemeColor(
+        customThemeCss: state.customThemeCss,
+        editingMode: editingMode,
+        cssVariable: cssVariable,
+      ),
+    );
+    await _flushThemeColorPersist();
+  }
+
+  Future<void> resetThemeColorOverridesForMode(
+    FluxerThemeMode editingMode,
+  ) async {
+    _applyThemeColorCssChange(
+      clearAllScopedThemeColorsForMode(
+        customThemeCss: state.customThemeCss,
+        editingMode: editingMode,
+      ),
+    );
+    await _flushThemeColorPersist();
+  }
+
+  void _applyThemeColorCssChange(String nextCss) {
+    final ThemePreferenceState current = state;
+    state = ThemePreferenceState(
+      mode: current.mode,
+      scaleFactor: current.scaleFactor,
+      chatFontSize: current.chatFontSize,
+      syncAcrossDevices: current.syncAcrossDevices,
+      saturationFactor: current.saturationFactor,
+      customThemeCss: nextCss.isEmpty ? null : nextCss,
+      syncThemeColorsFromThemeStudio: current.syncThemeColorsFromThemeStudio,
+      syncThemeColorsToThemeStudio: current.syncThemeColorsToThemeStudio,
+      inflightTheme: current.inflightTheme,
+    );
+  }
+
+  void _scheduleThemeColorPersist() {
+    _themeColorPersistTimer?.cancel();
+    _themeColorPersistTimer = Timer(_kThemeColorPersistDebounce, () {
+      unawaited(_flushThemeColorPersist());
+    });
+  }
+
+  Future<void> flushPendingThemeColorPersist() async {
+    await _flushThemeColorPersist();
+  }
+
+  Future<void> _flushThemeColorPersist() async {
+    _themeColorPersistTimer?.cancel();
+    _themeColorPersistTimer = null;
+    if (!ref.mounted) {
+      return;
+    }
+    await _persist();
+    if (!ref.mounted) {
+      return;
+    }
+    _markAccessibilityDirty();
+  }
+
   void _markAccessibilityDirty() {
     if (_isApplyingRemote) {
       return;
@@ -597,6 +769,12 @@ class ThemePreference extends _$ThemePreference {
           syncAcrossDevices: Value(state.syncAcrossDevices),
           saturationFactor: Value(state.saturationFactor),
           customThemeCss: Value(state.customThemeCss ?? ''),
+          syncThemeColorsFromThemeStudio: Value(
+            state.syncThemeColorsFromThemeStudio,
+          ),
+          syncThemeColorsToThemeStudio: Value(
+            state.syncThemeColorsToThemeStudio,
+          ),
         ),
       );
     } on Object catch (e, st) {

@@ -1274,8 +1274,13 @@ class FluxerBottomSheetFooter extends StatelessWidget {
 
 class FluxerMenuGroup extends StatelessWidget {
   final List<Widget> children;
+  final bool bordered;
 
-  const FluxerMenuGroup({required this.children, super.key});
+  const FluxerMenuGroup({
+    required this.children,
+    this.bordered = false,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -1285,33 +1290,47 @@ class FluxerMenuGroup extends StatelessWidget {
 
     final colors = context.colors;
     final layout = context.layout;
+    final dividerColor = bordered
+        ? colors.backgroundModifierAccent
+        : colors.backgroundHeaderSecondary.withValues(alpha: 0.3);
+    final dividerInset = bordered ? layout.s3 : 16.0;
 
     return Material(
       color: colors.backgroundSecondaryAlt,
       surfaceTintColor: Colors.transparent,
-      borderRadius: layout.radiusXl,
+      shape: bordered
+          ? RoundedRectangleBorder(
+              borderRadius: layout.radiusXl,
+              side: BorderSide(color: colors.backgroundModifierAccent),
+            )
+          : null,
+      borderRadius: bordered ? null : layout.radiusXl,
       clipBehavior: Clip.antiAlias,
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: _intersperseDividers(children, colors),
+        children: _intersperseDividers(
+          children,
+          dividerColor: dividerColor,
+          dividerInset: dividerInset,
+        ),
       ),
     );
   }
 }
 
-List<Widget> _intersperseDividers(List<Widget> items, FluxerColorTheme colors) {
+List<Widget> _intersperseDividers(
+  List<Widget> items, {
+  required Color dividerColor,
+  required double dividerInset,
+}) {
   final result = <Widget>[];
   for (var i = 0; i < items.length; i++) {
     result.add(items[i]);
     if (i < items.length - 1) {
       result.add(
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Divider(
-            height: 1,
-            thickness: 1,
-            color: colors.backgroundHeaderSecondary.withValues(alpha: 0.3),
-          ),
+          padding: EdgeInsets.symmetric(horizontal: dividerInset),
+          child: Divider(height: 1, thickness: 1, color: dividerColor),
         ),
       );
     }

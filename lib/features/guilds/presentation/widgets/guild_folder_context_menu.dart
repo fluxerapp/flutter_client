@@ -380,6 +380,7 @@ class _FolderContextMenuPageState extends State<_FolderContextMenuPage> {
   }
 }
 
+@immutable
 sealed class FolderPeekTarget {
   const FolderPeekTarget();
 }

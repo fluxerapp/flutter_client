@@ -10,9 +10,9 @@ import 'package:fluxer_app/features/settings/presentation/widgets/chat_wallpaper
 import 'package:fluxer_app/features/settings/presentation/widgets/look_and_feel_messages_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/theme_swatch_button.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/typing_indicator_preview.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/user_theme_colors.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
-import 'package:fluxer_app/features/settings/utils/advanced_setting_visibility.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -145,6 +145,13 @@ class UserLookAndFeel extends ConsumerWidget {
                 value: themePref.syncAcrossDevices && !isSystem,
                 enabled: !isSystem && swatchesEnabled,
                 onChanged: (value) => unawaited(changeSync(value: value)),
+              ),
+              FluxerSettingsConfigureRow(
+                title: l10n.lookAndFeelThemeColorsTitle,
+                description: l10n.lookAndFeelThemeColorsConfigureDescription,
+                configureLabel: l10n.advancedSettingsConfigure,
+                onConfigure: () =>
+                    unawaited(openUserThemeColorsSettings(context)),
               ),
             ],
           ),
@@ -307,23 +314,6 @@ class UserLookAndFeel extends ConsumerWidget {
                   ),
                 ],
               ),
-              if (showKeyboardShortcutAdvancedSettings(context))
-                FluxerSettingsSubsection(
-                  title: l10n.lookAndFeelVoiceChannelJoinTitle,
-                  description: l10n.lookAndFeelVoiceChannelJoinDescription,
-                  children: [
-                    // TODO(M0n7y5): wire to UserPreferences + sync once the
-                    // Dart SDK exposes SyncedAccessibilityPreferences. Toggle is
-                    // presentational only for now.
-                    FluxerSwitchGroupItem(
-                      label: l10n.lookAndFeelRequireDoubleClickJoinLabel,
-                      description:
-                          l10n.lookAndFeelRequireDoubleClickJoinDescription,
-                      value: false,
-                      onChanged: (_) {},
-                    ),
-                  ],
-                ),
               FluxerSettingsSubsection(
                 title: l10n.lookAndFeelGuildSidebarTitle,
                 description: l10n.lookAndFeelGuildSidebarDescription,

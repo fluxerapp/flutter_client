@@ -299,6 +299,9 @@ IconData? iconForUserSettingsSection(
   required bool isTouchPrimary,
   bool showGifts = true,
 }) {
+  if (section == UserSettingsSection.themeColors) {
+    return PhosphorIconsFill.palette;
+  }
   for (final UserSettingsDesktopNavEntry entry in buildUserSettingsDesktopNav(
     showBilling: showBilling,
     showGifts: showGifts,
@@ -343,7 +346,6 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
     FluxerSettingsNavGroup(
       label: userSettingsNavGroupLabel(l10n, UserSettingsNavGroup.yourAccount),
       items: [
-        link(UserSettingsSection.profile, PhosphorIconsFill.user),
         link(UserSettingsSection.securityLogin, PhosphorIconsFill.shieldCheck),
         link(UserSettingsSection.privacyDashboard, PhosphorIconsFill.eyeSlash),
         link(UserSettingsSection.authorizedApps, PhosphorIconsFill.robot),

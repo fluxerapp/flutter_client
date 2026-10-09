@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:fluxer_app/core/api/accept_language_interceptor.dart';
 import 'package:fluxer_app/core/api/captcha_interceptor.dart';
 import 'package:fluxer_app/core/api/fluxer_api_features.dart';
 import 'package:fluxer_app/core/api/fluxer_client_properties.dart';
@@ -63,6 +64,12 @@ Dio _buildFluxerDio({required Ref ref, required String baseUrl}) {
         'X-Fluxer-Client-Properties': clientPropertiesHeader,
         fluxerApiFeaturesHeaderName: buildFluxerApiFeaturesHeaderValue(),
       },
+    ),
+  );
+  final ProviderContainer container = ref.container;
+  dio.interceptors.add(
+    AcceptLanguageInterceptor(
+      readLocale: () => container.read(effectiveAppLocaleProvider),
     ),
   );
   dio.interceptors.add(
@@ -150,6 +157,9 @@ class FluxerAuthToken extends _$FluxerAuthToken {
   // Auth state is updated from repository flows; Riverpod state remains the
   // source of truth for consumers.
   void setToken(String? token) {
+    if (state == token) {
+      return;
+    }
     state = token;
   }
 }

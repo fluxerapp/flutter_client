@@ -82,6 +82,9 @@ class AuthState extends _$AuthState {
 
   // Auth transitions are imperative events from startup/login/logout flows.
   void setAuthenticated({required bool value}) {
+    if (state == value) {
+      return;
+    }
     state = value;
   }
 }
@@ -93,6 +96,9 @@ class CurrentUserId extends _$CurrentUserId {
 
   // The active user id is assigned once a session is restored.
   void set(String id) {
+    if (state == id) {
+      return;
+    }
     state = id;
   }
 }
@@ -104,6 +110,9 @@ class CurrentUserPremiumType extends _$CurrentUserPremiumType {
 
   // Premium type mirrors the current user profile payload.
   void set(int type) {
+    if (state == type) {
+      return;
+    }
     state = type;
   }
 }
@@ -115,6 +124,9 @@ class ServerReachable extends _$ServerReachable {
 
   // Gateway reachability is driven by connection lifecycle events.
   void setReachable({required bool value}) {
+    if (state == value) {
+      return;
+    }
     state = value;
   }
 }
@@ -190,7 +202,7 @@ GoRouter fluxerRouter(Ref ref) {
     navigatorKey: rootNavigatorKey,
     initialLocation: '/login',
     errorBuilder: (BuildContext context, GoRouterState state) {
-      return InvalidDeepLinkScreen(uri: state.uri);
+      return const InvalidDeepLinkScreen();
     },
     refreshListenable: refreshNotifier,
     observers: [

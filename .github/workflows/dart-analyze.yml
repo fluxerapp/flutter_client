@@ -52,18 +52,26 @@ jobs:
         run: flutter pub get
 
       - name: Resolve package dependencies
-        run: |
-          for pkg in packages/*/; do
-            [ "$pkg" = "packages/fluxer_fcm/" ] && continue
-            [ -f "${pkg}pubspec.yaml" ] || continue
-            flutter pub get --directory "$pkg"
-          done
+        run: bash tool/pub_get_packages.sh
 
       - name: Verify generated localizations
         run: |
           flutter gen-l10n
           dart format lib/l10n/generated
           git diff --exit-code -- lib/l10n/generated
+
+      - name: Summarize untranslated localizations
+        if: ${{ !cancelled() }}
+        continue-on-error: true
+        run: |
+          [ -f build/l10n_untranslated.json ] || exit 0
+          {
+            echo "### Untranslated Flutter strings"
+            echo
+            echo "| Locale | Missing |"
+            echo "| --- | ---: |"
+            jq -r 'to_entries | sort_by(.key)[] | "| \(.key) | \(.value | length) |"' build/l10n_untranslated.json
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Run code generation
         run: dart run build_runner build
@@ -72,7 +80,7 @@ jobs:
         run: bash tool/format_dart.sh --output=none --set-exit-if-changed
 
       - name: Analyze project source
-        run: flutter analyze --no-fatal-warnings --no-fatal-infos
+        run: flutter analyze
 
       - name: Verify OSS configure output
         run: flutter test test/build/oss_configure_build_test.dart
@@ -129,9 +137,7 @@ jobs:
         run: dart run build_runner build
 
       - name: Run tests
-        run: |
-          mapfile -t tests < <(git ls-files 'test/**/*_test.dart' | grep -v 'test/build/oss_configure_build_test.dart')
-          flutter test "${tests[@]}"
+        run: flutter test
 
   package-tests:
     needs: analyze

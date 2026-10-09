@@ -45,7 +45,6 @@ void main() {
             as MdLink;
     expect(link.url, 'https://example.com/x');
     expect(link.rawUrl, 'https://example.com/x');
-    expect(link.escaped, isFalse);
     expect((link.text! as MdText).content, 'go');
 
     final role = parseFluxerMarkdownBinary('<@&42>').single as MdMention;
@@ -119,8 +118,7 @@ String describeAst(MdNode node) {
       '[${nodes.map(describeAst).join(',')}]';
   return switch (node) {
     MdText(:final content) => 'text($content)',
-    MdBlockquote(children: final c, :final blankLines) =>
-      'quote($blankLines,${children(c)})',
+    MdBlockquote(children: final c) => 'quote(${children(c)})',
     MdStrong(children: final c) => 'strong(${children(c)})',
     MdEmphasis(children: final c) => 'em(${children(c)})',
     MdUnderline(children: final c) => 'under(${children(c)})',
@@ -138,8 +136,8 @@ String describeAst(MdNode node) {
     MdCodeBlock(:final language, :final content) => 'code($language,$content)',
     MdInlineCode(:final content) => 'inline($content)',
     MdSequence(children: final c) => 'seq(${children(c)})',
-    MdLink(:final text, :final url, :final escaped, :final rawUrl) =>
-      'link($url,$rawUrl,$escaped,${text == null ? '' : describeAst(text)})',
+    MdLink(:final text, :final url, :final rawUrl) =>
+      'link($url,$rawUrl,${text == null ? '' : describeAst(text)})',
     MdMention(:final kind) => 'mention(${_describeMention(kind)})',
     MdTimestamp(:final timestamp, :final style) => 'ts($timestamp,$style)',
     MdEmoji(:final kind) => 'emoji(${_describeEmoji(kind)})',
@@ -170,8 +168,7 @@ String _describeMention(MdMentionKind kind) => switch (kind) {
 };
 
 String _describeEmoji(MdEmojiKind kind) => switch (kind) {
-  MdStandardEmoji(:final raw, :final codepoints, :final name) =>
-    'std:$raw/$codepoints/$name',
+  MdStandardEmoji(:final raw, :final name) => 'std:$raw/$name',
   MdCustomEmoji(:final name, :final id, :final animated) =>
     'custom:$name/$id/$animated',
 };

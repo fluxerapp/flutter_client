@@ -31,7 +31,13 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../../../../../helpers/open_test_database.dart';
 import '../../../../../helpers/test_l10n.dart';
 
+late FluxerDatabase _database;
+
 void main() {
+  setUp(() {
+    _database = openTestDatabase();
+  });
+
   testWidgets('mentions the replied-to author when the reply pings them', (
     tester,
   ) async {
@@ -295,7 +301,6 @@ void main() {
     await tester.pumpWidget(
       _buildTestApp(
         chatViewModel: _TestChatViewModel(_chatState(messages: [reply])),
-        database: openTestDatabase(),
         repository: repository,
         child: InlineReplyPreview(message: reply),
       ),
@@ -324,7 +329,6 @@ Widget _buildTestApp({
   required Widget child,
   ChatViewState? chatState,
   _TestChatViewModel? chatViewModel,
-  FluxerDatabase? database,
   MessageRepository? repository,
 }) {
   final colorTheme = buildDarkColorTheme();
@@ -336,13 +340,13 @@ Widget _buildTestApp({
         chatViewModelProvider.overrideWithValue(chatState!),
       activeGuildIdProvider.overrideWithValue(null),
       currentUserIdProvider.overrideWithValue(null),
-      if (database != null) fluxerDatabaseProvider.overrideWithValue(database),
+      fluxerDatabaseProvider.overrideWithValue(_database),
       if (repository != null)
         messageRepositoryProvider.overrideWithValue(repository),
     ],
     child: MaterialApp(
       locale: kTestLocale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,

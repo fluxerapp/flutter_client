@@ -356,9 +356,6 @@ class VoiceStatesMap extends _$VoiceStatesMap {
     }
   }
 
-  List<VoiceState> getForChannel(String channelId) =>
-      state.values.where((VoiceState v) => v.channelId == channelId).toList();
-
   void clear() => state = {};
 }
 
@@ -470,13 +467,6 @@ class ActiveCalls extends _$ActiveCalls {
     };
   }
 
-  bool isChannelPendingRingForUser({
-    required String channelId,
-    required String userId,
-  }) {
-    return state[channelId]?.pendingRingUserIds.contains(userId) ?? false;
-  }
-
   void removeUserFromPendingRing({
     required String channelId,
     required String userId,
@@ -528,8 +518,6 @@ class OutgoingVoiceCallInitiator extends _$OutgoingVoiceCallInitiator {
     }
     state = {...state, channelId};
   }
-
-  bool hasInitiated(String channelId) => state.contains(channelId);
 
   void clearChannel(String channelId) {
     if (!state.contains(channelId)) {
@@ -655,6 +643,4 @@ class InviteCache extends _$InviteCache {
   void removeInvite(String code) {
     state = Map.of(state)..remove(code);
   }
-
-  void clear() => state = {};
 }

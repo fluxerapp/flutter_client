@@ -7,7 +7,7 @@ import 'package:fluxer_app/core/build/push_provider_kind.dart';
 /// Warns in debug when Android is built without an explicit push provider.
 void assertPushProviderBuildConfig() {
   assert(() {
-    if (kIsWeb || !Platform.isAndroid) {
+    if (!Platform.isAndroid) {
       return true;
     }
     if (AppBuildConfig.pushProvider == PushProviderKind.apple) {

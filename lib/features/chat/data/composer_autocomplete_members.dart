@@ -17,8 +17,6 @@ Member dmRecipientMentionMember({
     globalName: recipientUser?.globalName ?? dm.recipientName,
     avatar: dm.recipientAvatar ?? recipientUser?.avatar,
     avatarColor: recipientUser?.avatarColor,
-    status: recipientUser?.status ?? dm.recipientStatus,
-    isBot: recipientUser?.bot ?? dm.isBot,
   );
 }
 
@@ -33,8 +31,6 @@ Member dmGroupParticipantMentionMember({
     globalName: user?.globalName ?? cached?.name,
     avatar: user?.avatar ?? cached?.avatar,
     avatarColor: user?.avatarColor,
-    status: user?.status ?? 'offline',
-    isBot: user?.bot ?? false,
   );
 }
 
@@ -117,27 +113,4 @@ List<Member> filterMembersByViewChannelWithContext({
     }
   }
   return visible;
-}
-
-Future<List<Member>> filterMembersByViewChannel({
-  required db.FluxerDatabase database,
-  required String channelId,
-  required String guildId,
-  required List<Member> members,
-  Set<String> assumeVisibleForUserIds = const <String>{},
-}) async {
-  final ViewChannelFilterContext? context = await loadViewChannelFilterContext(
-    database: database,
-    channelId: channelId,
-    guildId: guildId,
-  );
-  if (context == null) {
-    return members;
-  }
-  return filterMembersByViewChannelWithContext(
-    context: context,
-    guildId: guildId,
-    members: members,
-    assumeVisibleForUserIds: assumeVisibleForUserIds,
-  );
 }

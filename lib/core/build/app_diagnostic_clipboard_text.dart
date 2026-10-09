@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/api/fluxer_client_properties.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
@@ -9,9 +8,6 @@ import 'package:fluxer_app/core/build/push_provider_kind.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info.dart';
 
 Future<String> resolveDeviceModelName() async {
-  if (kIsWeb) {
-    return '';
-  }
   final DeviceInfoPlugin plugin = DeviceInfoPlugin();
   try {
     if (Platform.isAndroid) {
@@ -41,9 +37,6 @@ Future<String> resolveDeviceModelName() async {
 }
 
 Future<String> resolveOsVersionLabel() async {
-  if (kIsWeb) {
-    return '';
-  }
   final DeviceInfoPlugin plugin = DeviceInfoPlugin();
   try {
     if (Platform.isAndroid) {

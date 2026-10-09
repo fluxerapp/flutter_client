@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
+import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
 import 'package:fluxer_app/features/channels/presentation/sheets/mute_duration_sheet.dart';
@@ -38,7 +40,10 @@ import 'package:fluxer_app/features/favorites/domain/favorite_guild_id.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
 import 'package:fluxer_app/features/friends/presentation/change_friend_nickname.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
+import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
+import 'package:fluxer_app/features/guilds/utils/invitable_channel.dart';
+import 'package:fluxer_app/features/guilds/utils/invite_people_actions.dart';
 import 'package:fluxer_app/features/members/domain/group_dm_member_groups.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/quick_switcher/presentation/sheets/quick_switcher_bottom_sheet.dart';
@@ -122,13 +127,6 @@ class _DMListState extends ConsumerState<DMList> {
       _scrollController.jumpTo(_scrollStore.offset.clamp(0.0, maxExtent));
       _restoringScroll = false;
     });
-  }
-
-  void personalNote() {
-    final userId = ref.read(currentUserIdProvider);
-    if (userId != null) {
-      unawaited(_navigateToDmChannel(userId));
-    }
   }
 
   Future<void> _navigateToDmChannel(String channelId) async {
@@ -267,9 +265,6 @@ class _DMListState extends ConsumerState<DMList> {
                 _buildMobileHeader(context),
                 Divider(color: context.colors.borderColor, height: 1),
               ] else ...[
-                // TODO(deuss): fully setup quick switcher
-                // _buildQuickSwitcher(context),
-                // Divider(color: context.colors.borderColor, height: 1),
                 Builder(
                   builder: (context) {
                     final location = ref.watch(currentLocationProvider);
@@ -309,12 +304,6 @@ class _DMListState extends ConsumerState<DMList> {
                                   )
                                 : null,
                           ),
-                          // _buildNavButton(
-                          //   context,
-                          //   icon: PhosphorIconsFill.skull,
-                          //   label: 'Plutonium',
-                          //   onTap: () {},
-                          // ),
                         ],
                       ),
                     );
@@ -352,47 +341,6 @@ class _DMListState extends ConsumerState<DMList> {
       onTap: () => unawaited(CreateDmFlow.show(context)),
     );
   }
-
-  // Reserved for planned quick-switcher UI.
-  // ignore: unused_element
-  Widget _buildQuickSwitcher(BuildContext context) => Material(
-    color: Colors.transparent,
-    child: InkWell(
-      onTap: () {},
-      child: Container(
-        height: 56,
-        padding: EdgeInsets.symmetric(horizontal: context.layout.s2),
-        child: Row(
-          children: [
-            Expanded(
-              child: Text(
-                'Quick Switcher',
-                style: context.textStyles.bodySmall.copyWith(fontSize: 13),
-              ),
-            ),
-            _buildKbdBadge(context, 'CTRL'),
-            const SizedBox(width: 3),
-            _buildKbdBadge(context, 'K'),
-          ],
-        ),
-      ),
-    ),
-  );
-
-  Widget _buildKbdBadge(BuildContext context, String label) => Container(
-    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
-    decoration: BoxDecoration(
-      color: context.colors.backgroundModifierSelected,
-      borderRadius: BorderRadius.circular(3),
-    ),
-    child: Text(
-      label,
-      style: context.textStyles.smallText.copyWith(
-        color: context.colors.textPrimaryMuted,
-        fontSize: 10,
-      ),
-    ),
-  );
 
   Widget _selectableRow(
     BuildContext context, {
@@ -974,6 +922,64 @@ class _DMListState extends ConsumerState<DMList> {
     );
   }
 
+  Future<List<_InviteCandidate>> _inviteCandidatesFor(String userId) async {
+    final FluxerDatabase db = ref.read(fluxerDatabaseProvider);
+    final List<Guild> guilds = ref.read(guildListViewModelProvider).guilds;
+    final List<_InviteCandidate?> resolved = await Future.wait(
+      guilds.map((Guild guild) async {
+        if (await db.memberDao.getMemberByUserId(userId, guild.id) != null) {
+          return null;
+        }
+        final InvitableChannelMatch? match = await resolveGuildInvitableChannel(
+          ref: ref,
+          guildId: guild.id,
+          preferSelectedChannel: false,
+        );
+        return match == null
+            ? null
+            : _InviteCandidate(guildName: guild.name, match: match);
+      }),
+    );
+    return resolved.nonNulls.toList()..sort(
+      (_InviteCandidate a, _InviteCandidate b) =>
+          a.guildName.toLowerCase().compareTo(b.guildName.toLowerCase()),
+    );
+  }
+
+  Future<void> _sendCommunityInvite(
+    DmConversation convo,
+    _InviteCandidate candidate,
+    FluxerLocalizations l10n,
+  ) async {
+    final Toast toasts = ref.read(toastProvider.notifier);
+    try {
+      final String url = await communityInviteUrlFor(
+        ref: ref,
+        match: candidate.match,
+      );
+      await sendInviteLinkMessage(
+        ref: ref,
+        channelId: convo.id,
+        recipientId: null,
+        url: url,
+      );
+      toasts.show(
+        FluxerToast(
+          message: l10n.dmInviteSentFor(candidate.guildName),
+          variant: FluxerToastVariant.success,
+        ),
+      );
+    } on Object catch (error, stackTrace) {
+      talker.error('[DMList] community invite failed', error, stackTrace);
+      toasts.show(
+        FluxerToast(
+          message: l10n.dmInviteSendFailed,
+          variant: FluxerToastVariant.danger,
+        ),
+      );
+    }
+  }
+
   Future<void> _showDmContextMenu(
     BuildContext context,
     DmConversation convo,
@@ -996,6 +1002,10 @@ class _DMListState extends ConsumerState<DMList> {
     final isFavorite =
         showFavorites &&
         await ref.read(favoriteChannelsRepositoryProvider).isFavorite(convo.id);
+    final List<_InviteCandidate> inviteCandidates =
+        convo.isGroup || convo.isBot || convo.isSystem
+        ? const <_InviteCandidate>[]
+        : await _inviteCandidatesFor(convo.recipientId);
     if (!mounted || !context.mounted) {
       return;
     }
@@ -1021,6 +1031,7 @@ class _DMListState extends ConsumerState<DMList> {
         showFavorites: showFavorites,
         relationshipType: rel?.type,
         developerMode: devMode,
+        inviteCandidates: inviteCandidates,
       ),
     );
 
@@ -1028,8 +1039,8 @@ class _DMListState extends ConsumerState<DMList> {
       return;
     }
 
-    if (result is _InviteToGuildAction) {
-      // TODO(Elias): send invite for guild ${result.guildId} in DM
+    if (result is _InviteCandidate) {
+      unawaited(_sendCommunityInvite(convo, result, l10n));
       return;
     }
 
@@ -1073,8 +1084,13 @@ class _DMListState extends ConsumerState<DMList> {
           }
         }());
       case _DmAction.addNote:
-        // TODO(Elias): open add note sheet
-        break;
+        unawaited(
+          FluxerUserProfileSheet.show(
+            context,
+            userId: convo.recipientId,
+            autoFocusNote: true,
+          ),
+        );
       case _DmAction.changeFriendNickname:
         unawaited(
           showChangeFriendNicknameSheet(
@@ -1508,9 +1524,11 @@ enum _DmAction {
   copyChannelId,
 }
 
-class _InviteToGuildAction {
-  final String guildId;
-  const _InviteToGuildAction(this.guildId);
+class _InviteCandidate {
+  const _InviteCandidate({required this.guildName, required this.match});
+
+  final String guildName;
+  final InvitableChannelMatch match;
 }
 
 class _DmBottomSheet extends ConsumerWidget {
@@ -1522,6 +1540,7 @@ class _DmBottomSheet extends ConsumerWidget {
   final bool showFavorites;
   final int? relationshipType;
   final bool developerMode;
+  final List<_InviteCandidate> inviteCandidates;
 
   const _DmBottomSheet({
     required this.convo,
@@ -1532,6 +1551,7 @@ class _DmBottomSheet extends ConsumerWidget {
     required this.showFavorites,
     required this.relationshipType,
     required this.developerMode,
+    required this.inviteCandidates,
   });
 
   @override
@@ -1634,32 +1654,34 @@ class _DmBottomSheet extends ConsumerWidget {
             ),
         ]);
       }
-      children.add(
-        FluxerBottomSheetMenuItem(
-          icon: PhosphorIconsFill.trash,
-          label: l10n.channelMenuDeleteMyMessagesConfirm,
-          isDanger: true,
-          onTap: () => pop(_DmAction.deleteMyMessages),
-        ),
-      );
-      children.add(
-        FluxerBottomSheetMenuItem(
-          icon: PhosphorIconsFill.xCircle,
-          label: convo.isGroup ? l10n.dmLeaveGroup : l10n.dmCloseDm,
-          isDanger: true,
-          onTap: () => pop(_DmAction.closeDm),
-        ),
-      );
+      children
+        ..add(
+          FluxerBottomSheetMenuItem(
+            icon: PhosphorIconsFill.trash,
+            label: l10n.channelMenuDeleteMyMessagesConfirm,
+            isDanger: true,
+            onTap: () => pop(_DmAction.deleteMyMessages),
+          ),
+        )
+        ..add(
+          FluxerBottomSheetMenuItem(
+            icon: PhosphorIconsFill.xCircle,
+            label: convo.isGroup ? l10n.dmLeaveGroup : l10n.dmCloseDm,
+            isDanger: true,
+            onTap: () => pop(_DmAction.closeDm),
+          ),
+        );
       groups.add(FluxerMenuGroup(children: children));
     }
 
     // Group 3: Relationship actions (1-on-1 DMs only)
     if (!convo.isGroup) {
       final relChildren = <Widget>[
-        FluxerBottomSheetSubmenuItem(
-          label: l10n.dmInviteToCommunity,
-          onTap: () => _openInviteSheet(context),
-        ),
+        if (inviteCandidates.isNotEmpty)
+          FluxerBottomSheetSubmenuItem(
+            label: l10n.dmInviteToCommunity,
+            onTap: () => _openInviteSheet(context),
+          ),
       ];
 
       // Friend actions based on relationship state.
@@ -1833,13 +1855,15 @@ class _DmBottomSheet extends ConsumerWidget {
     final nav = Navigator.of(context);
     final l10n = FluxerLocalizations.of(context);
     unawaited(
-      FluxerBottomSheet.showScrollable<_InviteToGuildAction>(
+      FluxerBottomSheet.showScrollable<_InviteCandidate>(
         context,
         title: l10n.dmInviteToCommunity,
         onBack: () => Navigator.of(context).pop(),
         initialChildSize: FluxerBottomSheet.scrollableSheetHalfSize,
-        builder: (sheetContext, scrollController, _) =>
-            _DmInviteSheet(scrollController: scrollController),
+        builder: (sheetContext, scrollController, _) => _DmInviteSheet(
+          scrollController: scrollController,
+          candidates: inviteCandidates,
+        ),
       ).then((result) {
         if (result != null) {
           nav.pop(result);
@@ -1922,18 +1946,18 @@ class _DmContextMenuSubtitle extends StatelessWidget {
   }
 }
 
-class _DmInviteSheet extends ConsumerWidget {
+class _DmInviteSheet extends StatelessWidget {
   final ScrollController scrollController;
+  final List<_InviteCandidate> candidates;
 
-  const _DmInviteSheet({required this.scrollController});
+  const _DmInviteSheet({
+    required this.scrollController,
+    required this.candidates,
+  });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final layout = context.layout;
-    final colors = context.colors;
-    final l10n = FluxerLocalizations.of(context);
-    final guilds = ref.watch(guildListViewModelProvider).guilds;
-
     return ListView(
       controller: scrollController,
       padding: FluxerBottomSheet.scrollViewPadding(
@@ -1944,27 +1968,14 @@ class _DmInviteSheet extends ConsumerWidget {
         FluxerBottomSheetGroupColumn(
           children: [
             FluxerMenuGroup(
-              children: guilds.isEmpty
-                  ? [
-                      Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Text(
-                          l10n.dmNoCommunitiesAvailable,
-                          style: context.textStyles.username.copyWith(
-                            color: colors.textTertiary,
-                          ),
-                        ),
-                      ),
-                    ]
-                  : [
-                      for (final guild in guilds)
-                        FluxerBottomSheetMenuItem(
-                          label: guild.name,
-                          onTap: () => Navigator.of(
-                            context,
-                          ).pop(_InviteToGuildAction(guild.id)),
-                        ),
-                    ],
+              children: [
+                for (final _InviteCandidate candidate in candidates)
+                  FluxerBottomSheetMenuItem(
+                    icon: PhosphorIconsFill.paperPlaneRight,
+                    label: candidate.guildName,
+                    onTap: () => Navigator.of(context).pop(candidate),
+                  ),
+              ],
             ),
           ],
         ),

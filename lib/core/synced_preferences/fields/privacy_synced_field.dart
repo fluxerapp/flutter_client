@@ -100,16 +100,4 @@ class PrivacySyncedField
 
   @override
   bool statesEqual(PrivacyLocalState a, PrivacyLocalState b) => a == b;
-
-  static pb.PrivacyPreferences toProtoForPush({
-    required PrivacyLocalState local,
-    pb.PrivacyPreferences? wireBase,
-  }) {
-    final proto = mergeOrCreate(wireBase, pb.PrivacyPreferences.new);
-    proto
-      ..showActiveNow = local.showActiveNow
-      ..preuploadMessageAttachments = local.advanced.preuploadMessageAttachments
-      ..disableStreamPreviews = local.advanced.disableStreamPreviews;
-    return proto;
-  }
 }

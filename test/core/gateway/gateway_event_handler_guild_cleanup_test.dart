@@ -174,7 +174,7 @@ void main() {
       await ctx.database.guildDao.upsertServer(
         ServersCompanion.insert(id: 'g1', name: 'Guild One'),
       );
-      ctx.handler.handle(
+      await ctx.handler.handle(
         GuildCreateEvent(
           guild: GuildCreateData.fromJson({
             'id': 'g1',

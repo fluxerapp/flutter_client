@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/deep_links/user_settings_deep_link.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/utils/open_user_settings_deep_link.dart';
+import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -96,7 +97,7 @@ void main() {
     ) async {
       await tester.pumpWidget(
         MaterialApp(
-          localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+          localizationsDelegates: fluxerLocalizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           home: Builder(
             builder: (context) {

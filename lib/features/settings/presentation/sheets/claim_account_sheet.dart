@@ -60,7 +60,10 @@ class _ClaimAccountSheetState extends ConsumerState<ClaimAccountSheet>
   }
 
   String _extractError(DioException e) {
-    return userFacingErrorMessage(e, 'An error occurred');
+    return userFacingErrorMessage(
+      e,
+      FluxerLocalizations.of(context).genericError,
+    );
   }
 
   Future<void> _handleSendCode() async {

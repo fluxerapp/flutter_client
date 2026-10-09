@@ -5,10 +5,10 @@ void main() {
   test('finds oldest unread including own messages', () {
     final summary = computeChatUnreadSummary(
       messages: const [
-        ChatUnreadMessageRef(id: '90', authorId: 'other'),
-        ChatUnreadMessageRef(id: '100', authorId: 'me'),
-        ChatUnreadMessageRef(id: '110', authorId: 'other'),
-        ChatUnreadMessageRef(id: '120', authorId: 'other'),
+        ChatUnreadMessageRef(id: '90'),
+        ChatUnreadMessageRef(id: '100'),
+        ChatUnreadMessageRef(id: '110'),
+        ChatUnreadMessageRef(id: '120'),
       ],
       ackLastMessageId: '90',
       mentionCount: 0,
@@ -18,7 +18,6 @@ void main() {
     );
 
     expect(summary.oldestUnreadMessageId, '100');
-    expect(summary.loadedUnreadCount, 3);
     expect(summary.displayUnreadCount, 3);
     expect(summary.isEstimated, isFalse);
   });
@@ -26,9 +25,9 @@ void main() {
   test('anchors unread on own messages when they are the only unread', () {
     final summary = computeChatUnreadSummary(
       messages: const [
-        ChatUnreadMessageRef(id: '90', authorId: 'other'),
-        ChatUnreadMessageRef(id: '100', authorId: 'me'),
-        ChatUnreadMessageRef(id: '110', authorId: 'me'),
+        ChatUnreadMessageRef(id: '90'),
+        ChatUnreadMessageRef(id: '100'),
+        ChatUnreadMessageRef(id: '110'),
       ],
       ackLastMessageId: '90',
       mentionCount: 0,
@@ -38,18 +37,17 @@ void main() {
     );
 
     expect(summary.oldestUnreadMessageId, '100');
-    expect(summary.loadedUnreadCount, 2);
     expect(summary.displayUnreadCount, 2);
-    expect(summary.hasUnread, isTrue);
+    expect(summary.displayUnreadCount, greaterThan(0));
     expect(summary.isEstimated, isFalse);
   });
 
   test('uses an older loaded message as an exact unread boundary', () {
     final summary = computeChatUnreadSummary(
       messages: const [
-        ChatUnreadMessageRef(id: '90', authorId: 'other'),
-        ChatUnreadMessageRef(id: '110', authorId: 'other'),
-        ChatUnreadMessageRef(id: '120', authorId: 'other'),
+        ChatUnreadMessageRef(id: '90'),
+        ChatUnreadMessageRef(id: '110'),
+        ChatUnreadMessageRef(id: '120'),
       ],
       ackLastMessageId: '100',
       mentionCount: 0,
@@ -59,7 +57,6 @@ void main() {
     );
 
     expect(summary.oldestUnreadMessageId, '110');
-    expect(summary.loadedUnreadCount, 2);
     expect(summary.displayUnreadCount, 2);
     expect(summary.isEstimated, isFalse);
   });
@@ -67,8 +64,8 @@ void main() {
   test('marks count estimated when unread boundary is not loaded', () {
     final summary = computeChatUnreadSummary(
       messages: const [
-        ChatUnreadMessageRef(id: '200', authorId: 'other'),
-        ChatUnreadMessageRef(id: '210', authorId: 'other'),
+        ChatUnreadMessageRef(id: '200'),
+        ChatUnreadMessageRef(id: '210'),
       ],
       ackLastMessageId: '100',
       mentionCount: 0,
@@ -78,7 +75,6 @@ void main() {
     );
 
     expect(summary.oldestUnreadMessageId, isNull);
-    expect(summary.loadedUnreadCount, 2);
     expect(summary.displayUnreadCount, 2);
     expect(summary.isEstimated, isTrue);
   });
@@ -86,8 +82,8 @@ void main() {
   test('window reaching the channel start is a known unread boundary', () {
     final summary = computeChatUnreadSummary(
       messages: const [
-        ChatUnreadMessageRef(id: '200', authorId: 'other'),
-        ChatUnreadMessageRef(id: '210', authorId: 'other'),
+        ChatUnreadMessageRef(id: '200'),
+        ChatUnreadMessageRef(id: '210'),
       ],
       ackLastMessageId: '100',
       mentionCount: 0,
@@ -97,29 +93,26 @@ void main() {
     );
 
     expect(summary.oldestUnreadMessageId, '200');
-    expect(summary.loadedUnreadCount, 2);
     expect(summary.displayUnreadCount, 2);
     expect(summary.isEstimated, isFalse);
   });
 
   test('uses mention count as display lower bound', () {
     final summary = computeChatUnreadSummary(
-      messages: const [ChatUnreadMessageRef(id: '200', authorId: 'other')],
+      messages: const [ChatUnreadMessageRef(id: '200')],
       ackLastMessageId: '100',
       mentionCount: 5,
       channelLastMessageId: '200',
       hasMoreNewerMessages: false,
       hasMoreOlderMessages: true,
     );
-
-    expect(summary.loadedUnreadCount, 1);
     expect(summary.displayUnreadCount, 5);
     expect(summary.isEstimated, isTrue);
   });
 
   test('does not produce unread summary without ack id', () {
     final summary = computeChatUnreadSummary(
-      messages: const [ChatUnreadMessageRef(id: '200', authorId: 'other')],
+      messages: const [ChatUnreadMessageRef(id: '200')],
       ackLastMessageId: null,
       mentionCount: 5,
       channelLastMessageId: '200',
@@ -128,10 +121,9 @@ void main() {
     );
 
     expect(summary.oldestUnreadMessageId, isNull);
-    expect(summary.loadedUnreadCount, 0);
     expect(summary.displayUnreadCount, 0);
     expect(summary.isEstimated, isFalse);
-    expect(summary.hasUnread, isFalse);
+    expect(summary.displayUnreadCount, 0);
   });
 
   test('formats exact and estimated unread count labels', () {
@@ -146,8 +138,8 @@ void main() {
     () {
       final summary = computeChatUnreadSummary(
         messages: const [
-          ChatUnreadMessageRef(id: '100', authorId: 'other'),
-          ChatUnreadMessageRef(id: '110', authorId: 'other'),
+          ChatUnreadMessageRef(id: '100'),
+          ChatUnreadMessageRef(id: '110'),
         ],
         ackLastMessageId: '90',
         mentionCount: 0,
@@ -163,9 +155,9 @@ void main() {
 
   group('resolveVisualUnreadId', () {
     const messages = [
-      ChatUnreadMessageRef(id: '100', authorId: 'me'),
-      ChatUnreadMessageRef(id: '110', authorId: 'other'),
-      ChatUnreadMessageRef(id: '120', authorId: 'other'),
+      ChatUnreadMessageRef(id: '100'),
+      ChatUnreadMessageRef(id: '110'),
+      ChatUnreadMessageRef(id: '120'),
     ];
 
     test('falls back to oldest unread when no sticky is set', () {

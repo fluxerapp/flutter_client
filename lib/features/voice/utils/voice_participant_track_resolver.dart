@@ -143,24 +143,6 @@ String? buildViewerStreamPreviewUrl({
   return '$baseUrl/streams/$streamKey/preview';
 }
 
-TrackPublication? resolveCameraPublication(Participant participant) {
-  for (final Object publication in participant.videoTrackPublications) {
-    if (publication is! TrackPublication) {
-      continue;
-    }
-    if (publication.isScreenShare) {
-      continue;
-    }
-    if (publication.muted) {
-      continue;
-    }
-    if (publication.track != null) {
-      return publication;
-    }
-  }
-  return null;
-}
-
 TrackPublication? resolveCameraPublicationAllowingNoTrack(
   Participant participant,
 ) {

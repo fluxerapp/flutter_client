@@ -7,8 +7,6 @@ class BoundedLruCache<K extends Object, V extends Object> {
 
   final LinkedHashMap<K, V> _entries = LinkedHashMap<K, V>();
 
-  int get length => _entries.length;
-
   V? get(K key) {
     if (!_entries.containsKey(key)) {
       return null;
@@ -35,6 +33,4 @@ class BoundedLruCache<K extends Object, V extends Object> {
       _entries.remove(_entries.keys.first);
     }
   }
-
-  void clear() => _entries.clear();
 }

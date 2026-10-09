@@ -26,7 +26,6 @@ FluxerAlertType? tryParseFluxerAlertType(String raw) {
   };
 }
 
-typedef FluxerShortcodeResolver = String? Function(String name);
 typedef FluxerUnicodeEmojiUrlBuilder = String? Function(String unicode);
 typedef FluxerCustomEmojiUrlBuilder =
     String Function({
@@ -118,7 +117,6 @@ class FluxerSpoilerSyncController extends ChangeNotifier {
 
 class FluxerMarkdownConfig {
   const FluxerMarkdownConfig({
-    required this.resolveEmojiShortcode,
     required this.unicodeEmojiUrlBuilder,
     required this.customEmojiUrlBuilder,
     this.unicodeEmojiPattern,
@@ -157,7 +155,6 @@ class FluxerMarkdownConfig {
     this.dimStrikethroughText = true,
   });
 
-  final FluxerShortcodeResolver resolveEmojiShortcode;
   final FluxerUnicodeEmojiUrlBuilder unicodeEmojiUrlBuilder;
   final FluxerCustomEmojiUrlBuilder customEmojiUrlBuilder;
   final RegExp? unicodeEmojiPattern;

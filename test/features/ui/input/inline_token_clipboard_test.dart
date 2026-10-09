@@ -32,8 +32,8 @@ void main() {
   group('reprocessNativeTextPaste', () {
     test('re-chips pasted emoji shortcode after native paste', () async {
       final EmojiTextEditingController controller = EmojiTextEditingController()
-        ..selection = const TextSelection.collapsed(offset: 0);
-      controller.text = ':wave:';
+        ..selection = const TextSelection.collapsed(offset: 0)
+        ..text = ':wave:';
 
       final bool pasted = await reprocessNativeTextPaste(
         controller: controller,
@@ -53,8 +53,8 @@ void main() {
   group('reprocessNativeInlineTokenPaste', () {
     test('delegates to reprocessNativeTextPaste', () async {
       final EmojiTextEditingController controller = EmojiTextEditingController()
-        ..selection = const TextSelection.collapsed(offset: 0);
-      controller.text = ':wave:';
+        ..selection = const TextSelection.collapsed(offset: 0)
+        ..text = ':wave:';
 
       final bool pasted = await reprocessNativeInlineTokenPaste(
         controller: controller,

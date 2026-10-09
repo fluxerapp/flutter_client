@@ -8,6 +8,7 @@
 import 'dart:async';
 
 import 'package:fake_async/fake_async.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -234,9 +235,7 @@ void main() {
         final _Harness h = _Harness();
         addTearDown(h.dispose);
 
-        h.vm.scriptNewer(
-          _empty(edge: PaginationEdge.newer, requestCursor: '200'),
-        );
+        h.vm.scriptNewer(_empty(requestCursor: '200'));
         h.demand(edge: PaginationEdge.newer, active: true, revision: 1);
         await _flushAsync();
         expect(h.vm.loadNewerCalls, 1);
@@ -252,9 +251,7 @@ void main() {
         expect(h.newerPhase, 'parked');
 
         // One retry per new gesture, exactly one attempt each.
-        h.vm.scriptNewer(
-          _empty(edge: PaginationEdge.newer, requestCursor: '200'),
-        );
+        h.vm.scriptNewer(_empty(requestCursor: '200'));
         h.retry(edge: PaginationEdge.newer, gestureId: 1);
         await _flushAsync();
         expect(h.vm.loadNewerCalls, 2);
@@ -264,9 +261,7 @@ void main() {
         await _flushAsync();
         expect(h.vm.loadNewerCalls, 2, reason: 'same gesture is collapsed');
 
-        h.vm.scriptNewer(
-          _empty(edge: PaginationEdge.newer, requestCursor: '200'),
-        );
+        h.vm.scriptNewer(_empty(requestCursor: '200'));
         h.retry(edge: PaginationEdge.newer, gestureId: 2);
         await _flushAsync();
         expect(h.vm.loadNewerCalls, 3, reason: 'a new gesture buys one retry');
@@ -562,12 +557,15 @@ class _ScriptedChatViewModel extends ChatViewModel {
   final List<Future<PageLoadResult>> _olderResults = <Future<PageLoadResult>>[];
   final List<Future<PageLoadResult>> _newerResults = <Future<PageLoadResult>>[];
 
+  @visibleForTesting
   int loadMoreCalls = 0;
+  @visibleForTesting
   int loadNewerCalls = 0;
 
   /// Requests that arrived with nothing scripted - always a test bug; the
   /// harness asserts zero on dispose. Their futures never complete so a
   /// stray request cannot cascade into further transitions.
+  @visibleForTesting
   int unscriptedCalls = 0;
 
   @override
@@ -581,9 +579,6 @@ class _ScriptedChatViewModel extends ChatViewModel {
 
   void scriptNewer(PageLoadResult result) =>
       _newerResults.add(Future<PageLoadResult>.value(result));
-
-  void scriptNewerHeld(Completer<PageLoadResult> completer) =>
-      _newerResults.add(completer.future);
 
   /// A wholesale window replacement as the coordinator observes it.
   void setWindowEpoch(int windowEpoch) {
@@ -619,12 +614,10 @@ class _ScriptedChatViewModel extends ChatViewModel {
 PageLoadResult _applied({
   required String requestCursor,
   required String installedBoundary,
-  PaginationEdge edge = PaginationEdge.older,
   bool hasMoreAtEdge = true,
   String channelId = _channelId,
   int windowEpoch = 0,
 }) => PageLoadResult(
-  edge: edge,
   channelId: channelId,
   windowEpoch: windowEpoch,
   requestCursor: requestCursor,
@@ -635,11 +628,9 @@ PageLoadResult _applied({
 
 PageLoadResult _empty({
   required String requestCursor,
-  PaginationEdge edge = PaginationEdge.older,
   String channelId = _channelId,
   int windowEpoch = 0,
 }) => PageLoadResult(
-  edge: edge,
   channelId: channelId,
   windowEpoch: windowEpoch,
   requestCursor: requestCursor,

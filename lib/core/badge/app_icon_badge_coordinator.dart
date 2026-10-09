@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/badge/app_icon_badge.dart';
 import 'package:fluxer_app/core/badge/app_icon_badge_provider.dart';
 import 'package:fluxer_app/core/badge/app_icon_badge_service.dart';
@@ -47,7 +46,7 @@ class AppIconBadgeCoordinator extends _$AppIconBadgeCoordinator {
       final AppIconBadgeValue badge = ref.watch(appIconBadgeProvider);
       unawaited(AppIconBadgeService.update(badge.count));
     }
-    if (!kIsWeb && Platform.isAndroid) {
+    if (Platform.isAndroid) {
       unawaited(_pushSub?.cancel());
       _pushSub = ref
           .read(pushServiceProvider)

@@ -53,25 +53,8 @@ class GifPickerFeatured {
 
 @immutable
 class FluxerSelectedGif {
-  const FluxerSelectedGif({
-    required this.provider,
-    required this.id,
-    required this.title,
-    required this.url,
-    required this.src,
-    required this.proxySrc,
-    required this.width,
-    required this.height,
-    required this.autoSend,
-  });
+  const FluxerSelectedGif({required this.url, required this.autoSend});
 
-  final GifProviderKind provider;
-  final String id;
-  final String title;
   final String url;
-  final String src;
-  final String proxySrc;
-  final int width;
-  final int height;
   final bool autoSend;
 }

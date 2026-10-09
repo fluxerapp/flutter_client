@@ -52,27 +52,3 @@ Finder findRenderedTextContaining(String text) {
     return false;
   });
 }
-
-Finder findAppTextRichStartingWith(String text) {
-  return find.byWidgetPredicate(
-    (Widget widget) =>
-        widget is Text &&
-        widget.textSpan != null &&
-        widget.textSpan!.toPlainText().startsWith(text),
-  );
-}
-
-Finder findRenderedTextStartingWith(String text) {
-  return find.byWidgetPredicate((Widget widget) {
-    if (widget is RichText) {
-      return widget.text.toPlainText().startsWith(text);
-    }
-    if (widget is flutter.RichText) {
-      return widget.text.toPlainText().startsWith(text);
-    }
-    if (widget is Text && widget.textSpan != null) {
-      return widget.textSpan!.toPlainText().startsWith(text);
-    }
-    return false;
-  });
-}

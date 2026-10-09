@@ -37,7 +37,12 @@ void main() {
       display['symbols']!.first.spriteIndex,
       EmojiRegistry.entryByName('heart')!.spriteIndex,
     );
-    expect(EmojiRegistry.entryByName('heart')!.category, 'people');
+    expect(
+      EmojiRegistry.categories['people']!.map(
+        (EmojiEntry emoji) => emoji.primaryName,
+      ),
+      contains('heart'),
+    );
   });
 
   test('does not mutate the registry categories', () {

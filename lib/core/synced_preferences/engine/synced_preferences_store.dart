@@ -17,7 +17,6 @@ import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/custom_theme_css.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:protobuf/protobuf.dart' as $pb;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'synced_preferences_store.g.dart';
@@ -209,6 +208,10 @@ class SyncedPreferencesStore {
         _ref
             .read(themePreferenceProvider.notifier)
             .applySyncedThemeCustomization;
+    final bool accessibilityDirty = _dirtyFields.contains(
+      SyncedPreferenceField.accessibility,
+    );
+    final ThemePreferenceState themePrefs = _ref.read(themePreferenceProvider);
     if (_local.hasAccessibility()) {
       final accessibility = _local.accessibility;
       final String? mergedCss = accessibility.hasCustomThemeCss()
@@ -218,15 +221,23 @@ class SyncedPreferencesStore {
         await applyThemeCustomizationFromAccessibilityProto(
           accessibility,
           apply,
+          skipCustomThemeCss: accessibilityDirty,
         );
         return;
       }
+    }
+    if (accessibilityDirty || !themePrefs.syncThemeColorsFromThemeStudio) {
+      return;
     }
     final String? wireCss = normalizeCustomThemeCss(readWireCustomThemeCss());
     if (wireCss == null) {
       return;
     }
-    await apply(customThemeCss: wireCss, updateSaturationFactor: false);
+    await apply(
+      customThemeCss: wireCss,
+      updateSaturationFactor: false,
+      updateCustomThemeCss: true,
+    );
   }
 
   Future<void> _reconcileRegisteredFields({
@@ -647,6 +658,7 @@ class SyncedPreferencesStore {
         ? SyncedPreferencesEngine.createEmpty()
         : SyncedPreferencesEngine.decodeLenient(_wireBlob);
     final fieldMessages = <int, Uint8List>{};
+    final fieldWireTypes = <int, int>{};
     for (final field in fieldsToEncode) {
       if (!_ref.mounted) {
         return '';
@@ -656,15 +668,17 @@ class SyncedPreferencesStore {
         continue;
       }
       final Object? local = await adapter.readLocalValue();
-      fieldMessages[adapter.fieldNumber] = _buildProtoForPush(
+      fieldMessages[adapter.fieldNumber] = _buildPushValueBytes(
         adapter,
         local,
         wire: wire,
-      ).writeToBuffer();
+      );
+      fieldWireTypes[adapter.fieldNumber] = adapter.fieldPushWireType;
     }
     return SyncedPreferencesWireCodec.encodeSnapshotIntoWire(
       currentWire: _wireBlob.isEmpty ? null : _wireBlob,
       fieldMessages: fieldMessages,
+      fieldWireTypes: fieldWireTypes,
     );
   }
 
@@ -679,21 +693,23 @@ class SyncedPreferencesStore {
     return SyncedPreferencesWireCodec.encodeFieldIntoWire(
       currentWire: currentWire,
       fieldNumber: adapter.fieldNumber,
-      fieldMessageBytes: _buildProtoForPush(
-        adapter,
-        local,
-        wire: wire,
-      ).writeToBuffer(),
+      fieldMessageBytes: _buildPushValueBytes(adapter, local, wire: wire),
+      fieldWireType: adapter.fieldPushWireType,
     );
   }
 
-  $pb.GeneratedMessage _buildProtoForPush(
+  Uint8List _buildPushValueBytes(
     SyncedFieldAdapter<Object?> adapter,
     Object? local, {
     required pb.SyncedPreferences wire,
   }) {
+    if (adapter.fieldPushWireType != 2) {
+      return adapter.encodePushValueBytes(local);
+    }
     final wireSubMessage = adapter.readWireSubMessage(wire);
-    return adapter.toProtoMessageForPush(local, wireSubMessage: wireSubMessage);
+    return adapter
+        .toProtoMessageForPush(local, wireSubMessage: wireSubMessage)
+        .writeToBuffer();
   }
 
   pb.SyncedPreferences _applyAdapterToProto(
@@ -706,11 +722,8 @@ class SyncedPreferencesStore {
       SyncedPreferencesWireCodec.encodeFieldIntoWire(
         currentWire: null,
         fieldNumber: adapter.fieldNumber,
-        fieldMessageBytes: _buildProtoForPush(
-          adapter,
-          local,
-          wire: wire,
-        ).writeToBuffer(),
+        fieldMessageBytes: _buildPushValueBytes(adapter, local, wire: wire),
+        fieldWireType: adapter.fieldPushWireType,
       ),
     );
     return SyncedPreferencesEngine.copyField(

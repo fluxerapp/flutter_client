@@ -32,9 +32,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get retry => '再試行';
 
   @override
-  String get connectingCaps => 'CONNECTING';
-
-  @override
   String get splashConnectionLost => '接続が切れました';
 
   @override
@@ -203,9 +200,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   }
 
   @override
-  String get ssoRequired => 'このインスタンスにアクセスするにはSSOが必要です。';
-
-  @override
   String get organizationSsoProvider => '組織のシングルサインオンプロバイダーでサインインします。';
 
   @override
@@ -218,9 +212,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String preferSso(String provider) {
     return 'SSOの使用を優先しますか？ $providerで続行してください。';
   }
-
-  @override
-  String get logInViaBrowser => 'ブラウザでログイン';
 
   @override
   String get needAccountPrompt => 'アカウントが必要ですか？ ';
@@ -306,18 +297,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get accountAdd => 'アカウントを追加';
 
   @override
-  String get accountRemove => '削除';
-
-  @override
-  String accountRemoveTitle(String username) {
-    return '$username を削除';
-  }
-
-  @override
   String get accountRemoveDescription => 'このアカウントの保存済みセッションが削除されます。';
-
-  @override
-  String get accountRemoveOnlyDescription => 'このデバイスに保存されている唯一のアカウントが削除されます。';
 
   @override
   String get accountExpired => '期限切れ';
@@ -723,9 +703,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get registerYear => '年';
 
   @override
-  String get registerConsent => '利用規約とプライバシーポリシーに同意します';
-
-  @override
   String get registerConsentPrefix => '同意する';
 
   @override
@@ -766,10 +743,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get passkeyTimeout => 'パスキー認証がタイムアウトしました。もう一度お試しください。';
-
-  @override
-  String get passkeyNotAvailable =>
-      'このアプリではパスキーが利用できません。代わりにメールとパスワードでログインしてください。';
 
   @override
   String get passkeyFailed => 'パスキー認証に失敗しました。もう一度お試しください。';
@@ -887,21 +860,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get inviteAcceptSomeone => '不明なユーザー';
 
   @override
-  String get inviteAcceptEmojiPack => '絵文字パック';
-
-  @override
-  String get inviteAcceptStickerPack => 'スタンプパック';
-
-  @override
-  String get inviteAcceptInstallEmojiPack => '絵文字パックをインストール';
-
-  @override
-  String get inviteAcceptInstallStickerPack => 'スタンプパックをインストール';
-
-  @override
-  String get inviteAcceptPackInstallNote => 'この招待を承認すると、パックが自動的にインストールされます。';
-
-  @override
   String get mentionUnknownChannel => 'unknown-channel';
 
   @override
@@ -920,10 +878,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get embedThemeTitle => '共有テーマ';
 
   @override
-  String get embedThemeSubtitle => 'このクライアントではカスタムテーマはサポートされていません。';
+  String get embedThemeWebOnly => 'テーマはウェブ版またはデスクトップ版でのみインポートできます。';
 
   @override
-  String get embedThemeUnavailableButton => 'テーマは利用できません';
+  String get embedThemeImport => 'テーマをインポート';
 
   @override
   String embedGiftVisionaryLifetime(String productName) {
@@ -1241,7 +1199,12 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get dmLeaveGroup => 'グループを退出';
 
   @override
-  String get dmNoCommunitiesAvailable => 'コミュニティがありません';
+  String dmInviteSentFor(String communityName) {
+    return '$communityNameへの招待を送信しました';
+  }
+
+  @override
+  String get dmInviteSendFailed => '招待を送信できませんでした。もう一度お試しください。';
 
   @override
   String dmGroupMemberCount(int count) {
@@ -1618,9 +1581,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   }
 
   @override
-  String get emojiPlutoniumUpsellButton => 'Plutoniumを入手';
-
-  @override
   String get emojiPlutoniumUpsellDismiss => '今後表示しない';
 
   @override
@@ -1762,9 +1722,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get changeYourFluxerTag => 'ユーザー名を変更';
 
   @override
-  String get fluxerTagInputLabel => 'ユーザー名';
-
-  @override
   String get fluxerTagDescriptionBase =>
       'ユーザー名に使用できるのは、文字（a-z、A-Z）、数字（0-9）、アンダースコアのみです。大文字・小文字は区別されません。';
 
@@ -1783,10 +1740,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get validationAllowedChars => '半角英数字とアンダースコア (_) のみ使用できます';
-
-  @override
-  String get discriminatorPremiumTooltip =>
-      'Plutoniumを入手してタグをカスタマイズするか、ユーザー名を変更するときに保持してください';
 
   @override
   String get fluxerTagAlreadyTaken => 'ユーザー名は既に使用されています';
@@ -1823,15 +1776,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   @override
   String get premiumUpsellCustomizeTag =>
       '4桁のタグをカスタマイズするか、ユーザー名を変更するときに保持してください';
-
-  @override
-  String premiumTrialExpiresOn(String date) {
-    return 'Plutoniumトライアルは$dateに期限切れになります。カスタムタグを保持し、プロフィールにバッジを獲得するにはアップグレードしてください。';
-  }
-
-  @override
-  String get premiumTrialActive =>
-      'Plutoniumトライアル中です。カスタムタグを保持し、プロフィールにバッジを獲得するにはアップグレードしてください。';
 
   @override
   String get fluxerTagUpdated => 'ユーザー名を更新しました';
@@ -1957,23 +1901,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get hideVisionaryIdDescription => 'Visionary IDバッジを削除';
 
   @override
-  String premiumTrialSubscriptionStarts(String date) {
-    return 'Plutoniumのトライアル中です — サブスクリプションは$dateから開始されます';
-  }
-
-  @override
-  String get premiumTrialSubscriptionStartsDescription =>
-      'トライアル終了時にサブスクリプションが自動的に開始されます。操作は不要です。';
-
-  @override
-  String premiumTrialExpiresOnProfile(String date) {
-    return 'Plutoniumのトライアルは$dateに期限切れになります';
-  }
-
-  @override
-  String get premiumTrialActiveProfile => 'Plutoniumのトライアル中です';
-
-  @override
   String get avatarDescriptionNonPremium =>
       'JPEG、PNG、WebP。最大10MB。推奨：512×512px。アニメーションアバター（GIF）にはPlutoniumが必要です。';
 
@@ -2040,18 +1967,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get profileSavedToast => 'プロフィールを更新しました';
-
-  @override
-  String get profileEditButton => 'プロフィールを編集';
-
-  @override
-  String get profileNoteLabel => 'メモ';
-
-  @override
-  String get profileNoteVisibility => '（あなただけに表示）';
-
-  @override
-  String get profileNoteEmpty => 'まだメモがありません。';
 
   @override
   String get sudoTitle => '本人確認';
@@ -2332,33 +2247,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get securityPasskeyNameHint => '例: YubiKey、iPhone、会社のPC';
 
   @override
-  String get securityPhoneSectionTitle => '電話番号';
-
-  @override
-  String get securityPhoneSectionDescription => '電話番号を管理する';
-
-  @override
-  String get securityPhoneLabel => '電話番号';
-
-  @override
-  String get securityPhoneNone => '電話番号は追加されていません。';
-
-  @override
-  String get securityPhoneAdd => '電話番号を追加';
-
-  @override
-  String get securityPhoneRemove => '削除';
-
-  @override
-  String get securityPhoneRemoveTitle => '電話番号を削除';
-
-  @override
-  String get securityPhoneRemoveDescription => '電話番号を削除してもよろしいですか？';
-
-  @override
-  String get securityPhoneRemoved => '電話番号を削除しました';
-
-  @override
   String get securityClaimTitle => 'セキュリティ機能';
 
   @override
@@ -2367,7 +2255,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get securityVerifyEmailRequired =>
-      '2段階認証、パスキー、またはSMS認証を設定する前に、メールアドレスを確認する必要があります。';
+      '2段階認証またはパスキーを設定する前に、メールアドレスを確認する必要があります。';
 
   @override
   String get totpEnableTitle => '認証アプリを設定';
@@ -2401,9 +2289,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       '認証アプリにアクセスできなくなり、これらのコードがない場合、アカウントに永久にアクセスできなくなります。今すぐダウンロードまたはコピーして、安全な場所に保管してください。';
 
   @override
-  String get backupCodesDownload => 'ダウンロード';
-
-  @override
   String get backupCodesCopy => 'コピー';
 
   @override
@@ -2414,153 +2299,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get backupCodesDone => '完了';
-
-  @override
-  String get backupCodesViewTitle => 'バックアップコードを表示';
-
-  @override
-  String get backupCodesViewDescription => 'バックアップコードを表示する前に、確認が必要になる場合があります。';
-
-  @override
-  String get phoneAddTitle => '電話番号を追加';
-
-  @override
-  String get phoneAddLabel => '電話番号';
-
-  @override
-  String get phoneAddHint => '電話番号を入力';
-
-  @override
-  String get phoneAddFooter =>
-      'SMSコードを送信します。この番号はアカウントとは紐づけられません。ユーザーIDを含まない暗号化されたマーカーのみを保持し、約30日間で最大2回の認証を許可します。';
-
-  @override
-  String get phoneAddSendCode => 'コードを送信';
-
-  @override
-  String get phoneVerifyTitle => '電話番号を認証';
-
-  @override
-  String get phoneVerifyDescription => 'お使いの電話番号に送信された確認コードを入力してください。';
-
-  @override
-  String get phoneAddSuccess => '電話番号を確認しました';
-
-  @override
-  String get phoneCountryLabel => '国';
-
-  @override
-  String get phoneSearchCountries => '国を検索…';
-
-  @override
-  String get phoneNumberRequired => '電話番号は必須です';
-
-  @override
-  String get phoneEnterValidNumber => '有効な携帯電話番号を入力してください。';
-
-  @override
-  String get phoneCannotBeUsed =>
-      'この電話番号は使用できません。別の携帯電話番号を試すか、サポートにお問い合わせください。';
-
-  @override
-  String get phoneAlreadyUsed => 'この電話番号はすでに使用されています。別の番号を試すか、サポートにお問い合わせください。';
-
-  @override
-  String get phoneCodeDidNotWork => 'コードが正しくありません。確認してもう一度お試しください。';
-
-  @override
-  String get phoneTooManyAttempts => '試行回数が多すぎます。しばらく待ってから、もう一度お試しください。';
-
-  @override
-  String get phoneSmsUnavailable =>
-      '現在、SMS認証をご利用いただけません。しばらくしてからもう一度お試しいただくか、サポートにお問い合わせください。';
-
-  @override
-  String get phoneNotEligible =>
-      'このアカウントでは電話番号認証をご利用いただけません。別の方法を使用するか、サポートにお問い合わせください。';
-
-  @override
-  String get phoneSomethingWentWrong => '問題が発生しました。もう一度お試しください。';
-
-  @override
-  String get phoneInboundExpensiveDescription =>
-      'この電話番号へのSMS送信は高額になるため、代わりに私たちにSMSを送信していただく必要があります。サポートに連絡して、この要件をアカウントから解除してもらうこともできます。';
-
-  @override
-  String get phoneInboundDefaultDescription => 'SMSを送信して、電話番号を確認してください。';
-
-  @override
-  String get phoneInboundStepOpenMessaging =>
-      'スマートフォンのメッセージアプリを開き、新しいメッセージを作成してください。';
-
-  @override
-  String phoneInboundStepSendCode(String code, String number) {
-    return 'コード $code を $number に送信します。';
-  }
-
-  @override
-  String get phoneInboundStepWait => 'メッセージの受信をお待ちください。1分ほどかかる場合があります。';
-
-  @override
-  String get phoneInboundGetNewCode => '新しいコードを取得';
-
-  @override
-  String get phoneInboundChallengeCodeLabel => '送信コード';
-
-  @override
-  String get phoneInboundOurNumberLabel => '送信先';
-
-  @override
-  String get requiredActionTitle => 'アカウント認証が必要です';
-
-  @override
-  String requiredActionIntroGeneric(String productName) {
-    return '$productNameを継続して利用するには、必要な認証を完了してください。';
-  }
-
-  @override
-  String get requiredActionIntroPhone => '引き続きご利用いただくには、追加のスパム対策認証が必要です。';
-
-  @override
-  String requiredActionIntroEmailOrPhone(String productName) {
-    return '$productNameを使い続けるには、メールアドレスまたは電話番号を確認してください。';
-  }
-
-  @override
-  String requiredActionIntroEmailAndPhone(String productName) {
-    return '$productNameを継続して利用するには、以下のメールと電話番号の認証ステップを完了してください。';
-  }
-
-  @override
-  String get requiredActionChooseMethodTitle => '確認方法を選択';
-
-  @override
-  String requiredActionChooseMethodDescription(String productName) {
-    return '$productNameを継続して利用するには、以下のいずれかの認証方法を完了してください。';
-  }
-
-  @override
-  String get requiredActionUseEmail => 'メールアドレスを使用';
-
-  @override
-  String get requiredActionUsePhone => '電話番号を使用';
-
-  @override
-  String get requiredActionCheckEmailTitle => 'メールを確認してください';
-
-  @override
-  String get requiredActionCheckEmailDescription =>
-      '確認リンクをメールアドレスに送信しました。続行するには、メールを開いてください。';
-
-  @override
-  String get requiredActionResendVerificationEmail => '確認メールを再送信';
-
-  @override
-  String get requiredActionVerificationEmailSent =>
-      '確認メールを送信しました。受信トレイをご確認ください。';
-
-  @override
-  String get requiredActionSignOut => 'サインアウト';
 
   @override
   String get dangerZoneSectionTitle => '危険な操作';
@@ -2884,7 +2622,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String applicationsCreated(String date) {
-    return 'Created $date';
+    return '作成日: $date';
   }
 
   @override
@@ -3033,8 +2771,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get applicationsOauthBuilderTitle => 'OAuth2 URLビルダー';
 
   @override
-  String get applicationsOauthBuilderDescription =>
-      'Construct an authorize URL with scopes and permissions.';
+  String get applicationsOauthBuilderDescription => 'スコープと権限を指定して、承認URLを作成します。';
 
   @override
   String get applicationsScopes => 'スコープ';
@@ -3063,7 +2800,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get applicationsAuthorizeUrlPlaceholder => 'スコープを選択（必要に応じてリダイレクトURIも）';
 
   @override
-  String get applicationsCopyAuthorizeUrl => 'Copy authorize URL';
+  String get applicationsCopyAuthorizeUrl => '承認URLをコピー';
 
   @override
   String get applicationsCopiedUrl => 'URLをクリップボードにコピーしました';
@@ -3083,7 +2820,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String applicationsDeleteConfirmDescription(String name) {
-    return 'Are you sure you want to delete $name? This action cannot be undone. All associated data, including the bot user, will be permanently deleted.';
+    return '$nameを削除してもよろしいですか？この操作は元に戻せません。ボットユーザーを含むすべての関連データは完全に削除されます。';
   }
 
   @override
@@ -3120,9 +2857,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get applicationsSearchDocumentation => 'ドキュメント';
-
-  @override
-  String get privacyPendingDeletionTitle => '削除保留中';
 
   @override
   String get blockedUsersTitle => 'ブロックしたユーザー';
@@ -3283,9 +3017,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get userProfileNoteDelete => '削除';
 
   @override
-  String get userProfileNoteEmpty => 'クリックしてメモを追加';
-
-  @override
   String get userProfileMemberSince => '参加日';
 
   @override
@@ -3331,58 +3062,57 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get userProfileLocalTime => '現地時間';
 
   @override
-  String get profileLocalTimeSettingsTitle => 'Profile local time';
+  String get profileLocalTimeSettingsTitle => 'プロフィールの現地時間';
 
   @override
   String profileLocalTimeSettingsSummary(String productName) {
-    return 'Set your time zone once so $productName can keep your UTC offset current when daylight saving time changes. Other people can only see your UTC offset, not your exact time zone identifier.';
+    return 'タイムゾーンを設定すると、$productNameは夏時間の変更時にUTCオフセットを最新の状態に保つことができます。他のユーザーが確認できるのはUTCオフセットのみで、正確なタイムゾーン識別子は表示されません。';
   }
 
   @override
-  String get profileLocalTimeEditButton => 'Edit profile local time';
+  String get profileLocalTimeEditButton => 'プロフィールの現地時間を編集';
 
   @override
-  String get profileLocalTimeTimezoneLabel => 'Time zone';
+  String get profileLocalTimeTimezoneLabel => 'タイムゾーン';
 
   @override
   String profileLocalTimeTimezoneHelp(String productName) {
-    return 'Choose the time zone $productName uses to calculate your UTC offset for profile local time.';
+    return '$productNameがプロフィールの現地時間のUTCオフセットを計算するために使用するタイムゾーンを選択してください。';
   }
 
   @override
-  String get profileLocalTimeSearchTimezones => 'Search time zones';
+  String get profileLocalTimeSearchTimezones => 'タイムゾーンを検索';
 
   @override
-  String get profileLocalTimeNotSet => 'Not set';
+  String get profileLocalTimeNotSet => '未設定';
 
   @override
   String profileLocalTimePrivacyNote(
     String timezoneIdentifierExample,
     String productName,
   ) {
-    return 'Other people can only see your current UTC offset when you choose to share profile local time. They do not see your exact time zone identifier, such as $timezoneIdentifierExample. $productName stores that identifier only so the offset can update automatically when daylight saving time changes.';
+    return 'プロフィールでローカル時間を共有することを選択した場合、他のユーザーは現在のUTCオフセットのみを確認できます。正確なタイムゾーン識別子（例：$timezoneIdentifierExample）は表示されません。$productNameがこの識別子を保存するのは、夏時間の切り替え時にオフセットを自動で更新するためだけです。';
   }
 
   @override
-  String get profileLocalTimePrivacyEveryone => 'Everyone';
+  String get profileLocalTimePrivacyEveryone => '全員';
 
   @override
   String get profileLocalTimePrivacyEveryoneDesc =>
-      'Allow anyone who can view your full profile to see your local time';
+      'プロフィールを閲覧できるすべてのユーザーに、あなたの現地の時刻の表示を許可します';
 
   @override
-  String get profileLocalTimePrivacyFriends => 'Friends';
+  String get profileLocalTimePrivacyFriends => '友達';
 
   @override
-  String get profileLocalTimePrivacyFriendsDesc =>
-      'Allow your friends to see your local time';
+  String get profileLocalTimePrivacyFriendsDesc => '友達に現地時間の表示を許可する';
 
   @override
-  String get profileLocalTimePrivacyCommunityMembers => 'Community members';
+  String get profileLocalTimePrivacyCommunityMembers => 'コミュニティメンバー';
 
   @override
   String get profileLocalTimePrivacyCommunityMembersDesc =>
-      'Allow members from communities you\'re in to see your local time';
+      '参加しているコミュニティのメンバーに現地時間の表示を許可する';
 
   @override
   String get userProfileSameTimeAsYou => 'あなたと同じ時刻です';
@@ -3509,10 +3239,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get userProfileTransferOwnership => '所有権を移行';
 
   @override
-  String get userProfileReportUser => 'ユーザーを報告';
+  String get userProfileReportMessage => 'メッセージを報告';
 
   @override
-  String get userProfileReportMessage => 'メッセージを報告';
+  String get userProfileReportUserProfile => 'プロフィールを報告';
 
   @override
   String userProfileKickConfirmTitle(String username) {
@@ -3661,85 +3391,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get durationCustom => 'カスタム…';
-
-  @override
-  String get iarReportUserTitle => 'ユーザーを報告';
-
-  @override
-  String get iarReportGuildTitle => 'コミュニティを報告';
-
-  @override
-  String get iarReportGuildPreconfirmBody =>
-      'このコミュニティ内の特定のメッセージに関する報告の場合は、そのメッセージを直接報告してください。メッセージを報告していただくと、安全チームが状況をより正確に把握できます。コメントで詳細を追加していただけると、より迅速に確認できます。メッセージの報告では問題の全体像を伝えきれない場合にのみ、コミュニティ全体の報告に進んでください。';
-
-  @override
-  String get iarContinueToReportCommunity => 'コミュニティの報告に進む';
-
-  @override
-  String get iarPreviewCommunitySubtitle => 'コミュニティ';
-
-  @override
-  String get iarReasonHarassmentGuildLabel => 'ハラスメントまたは特定の相手への嫌がらせ';
-
-  @override
-  String get iarReasonHarassmentGuildDescription =>
-      '集団攻撃や標的型嫌がらせを助長しているコミュニティです。';
-
-  @override
-  String get iarReasonHateGuildDescription => '保護対象のグループに対する憎悪を助長する行為。';
-
-  @override
-  String get iarReasonTerrorismLabel => 'テロまたは暴力的過激主義';
-
-  @override
-  String get iarReasonTerrorismDescription => '暴力的な過激派活動を助長、勧誘、または組織する行為。';
-
-  @override
-  String get iarReasonMatureContentGuildLabel => '成人向けコンテンツまたは不適切な制限設定';
-
-  @override
-  String get iarReasonMatureContentGuildDescription =>
-      '適切な制限が設定されていない成人向けコンテンツ。';
-
-  @override
-  String get iarReasonChildSafetyGuildDescription =>
-      '未成年者を危険にさらしたり、児童搾取コンテンツをホストしたりする行為。';
-
-  @override
-  String get iarReasonRaidLabel => 'レイドの組織化';
-
-  @override
-  String get iarReasonRaidDescription =>
-      '個人またはコミュニティに対する襲撃、集団的嫌がらせ、またはハラスメントを組織する行為。';
-
-  @override
-  String get iarReasonSpamGuildDescription =>
-      'スパム、詐欺、またはプラットフォームの悪用を目的としたコミュニティです。';
-
-  @override
-  String get iarReasonMalwareGuildLabel => 'マルウェア配布';
-
-  @override
-  String get iarReasonMalwareGuildDescription => 'マルウェア、認証情報、または有害なファイルを配布する。';
-
-  @override
-  String get iarReasonPrivacyGuildLabel => 'プライバシー侵害または個人情報の暴露';
-
-  @override
-  String get iarReasonPrivacyGuildDescription => '個人情報の共有、ストーカー行為、プライバシー侵害の共謀。';
-
-  @override
-  String get iarReasonSelfHarmGuildLabel => '自傷行為の助長';
-
-  @override
-  String get iarReasonSelfHarmGuildDescription => '自殺、自傷行為、摂食障害を助長するコンテンツ。';
-
-  @override
-  String get iarReasonInappropriateProfile => '不適切なプロフィール';
-
-  @override
-  String get iarReasonInappropriateProfileDescription =>
-      'このユーザーのプロフィールには不適切なコンテンツが含まれています';
 
   @override
   String typingIndicatorOne(String name) {
@@ -4112,14 +3763,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       'このコミュニティのメンバーになってから間もないため、メッセージを送信できません。';
 
   @override
-  String get channelComposerBarrierNoPhoneNumber =>
-      'このコミュニティでメッセージを送信するには、電話番号認証が必要です。';
-
-  @override
   String get channelComposerBarrierVerifyEmail => 'メールアドレスを確認';
-
-  @override
-  String get channelComposerBarrierVerifyPhone => '電話番号を認証';
 
   @override
   String chatAttachmentTooMany(int max) {
@@ -4141,9 +3785,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get chatAttachmentDropToSend => 'ファイルをドロップして今すぐ送信';
 
   @override
-  String get chatAttachmentSendVoiceMessage => 'ボイスメッセージを送信';
-
-  @override
   String get voiceMessageTitle => '音声メッセージ';
 
   @override
@@ -4161,10 +3802,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       '録音を開始できません。マイクへのアクセスを許可してください。';
 
   @override
-  String get voiceMessageRecordingNotSupported =>
-      'このデバイスではボイスメッセージの録音はサポートされていません。';
-
-  @override
   String get voiceMessageMicInUse => 'ボイスメッセージを録音するには、ボイス通話を終了してください。';
 
   @override
@@ -4172,22 +3809,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get voiceMessageSendFailed => '音声メッセージを送信できませんでした。もう一度お試しください。';
-
-  @override
-  String get voiceMessageRecordingHint =>
-      '話し始めてください。終わったら「停止」を押してください。あとでトリミングできます。';
-
-  @override
-  String get voiceMessageReviewHint => 'ハンドルをドラッグしてトリミングし、送信を押してください。';
-
-  @override
-  String get voiceMessageStop => '停止';
-
-  @override
-  String get voiceMessageStartRecording => '録音を開始';
-
-  @override
-  String get voiceMessageRerecord => '録り直す';
 
   @override
   String get voiceMessagePlay => '再生';
@@ -4200,16 +3821,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get voiceMessageSeekBackward => '巻き戻す';
-
-  @override
-  String voiceMessageSelectionTooShort(num seconds) {
-    final intl.NumberFormat secondsNumberFormat = intl.NumberFormat.compact(
-      locale: localeName,
-    );
-    final String secondsString = secondsNumberFormat.format(seconds);
-
-    return '選択範囲は$secondsString秒以上である必要があります。';
-  }
 
   @override
   String get chatAttachmentEditTitle => '添付ファイルを編集';
@@ -4352,9 +3963,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get chatAttachmentSourceBrowse => 'ファイルをブラウズ';
 
   @override
-  String get chatAttachmentPasteTooltip => 'クリップボードからファイルを貼り付け';
-
-  @override
   String get chatAttachmentSpoiler => 'ネタバレ';
 
   @override
@@ -4433,13 +4041,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get matureContentOpenLinkButton => 'リンクを開く';
 
   @override
-  String get sensitiveContentSectionTitle => 'センシティブなコンテンツ';
-
-  @override
-  String get sensitiveContentSectionDescription =>
-      'さまざまなコンテキストで年齢制限のある、または機密性の高いメディアがどのようにフィルタリングされるかを制御します';
-
-  @override
   String get sensitiveContentFriendDmLabel => '友達からのダイレクトメッセージ';
 
   @override
@@ -4458,17 +4059,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get sensitiveContentFilterBlock => 'ブロック';
 
   @override
-  String get sensitiveContentBlurUnscannedLabel => '安全スキャン完了までメディアをぼかす';
-
-  @override
-  String get sensitiveContentBlurUnscannedDescriptionAdult =>
-      '有効にすると、コンテンツ安全スキャンが完了するまで画像と動画がぼかされます。';
-
-  @override
-  String get sensitiveContentBlurUnscannedDescriptionMinor =>
-      'この設定はアカウントで常にオンになっています。';
-
-  @override
   String get sensitiveContentResetButton => 'リセット';
 
   @override
@@ -4484,9 +4074,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
     );
     return '$_temp0';
   }
-
-  @override
-  String get chatCancelUpload => 'アップロードをキャンセル';
 
   @override
   String chatAttachmentExpiresOn(String date) {
@@ -4684,9 +4271,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get connectionEnterDomain => 'ドメインを入力してください。';
 
   @override
-  String get lookAndFeelTitle => '見た目';
-
-  @override
   String get lookAndFeelThemeSectionTitle => 'テーマ';
 
   @override
@@ -4745,10 +4329,93 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get lookAndFeelThemeSyncFailed => 'テーマをアカウントに同期できませんでした。もう一度お試しください。';
 
   @override
-  String get lookAndFeelChatFontScalingTitle => 'チャットのフォントサイズ';
+  String get lookAndFeelThemeColorsTitle => 'Theme colors';
 
   @override
-  String get lookAndFeelChatFontScalingDescription => 'チャット画面のフォントサイズを調整します。';
+  String get lookAndFeelThemeColorsConfigureDescription =>
+      'Customize individual theme colors for this device.';
+
+  @override
+  String lookAndFeelThemeColorsEditingMode(String mode) {
+    return 'Editing $mode';
+  }
+
+  @override
+  String get lookAndFeelThemeColorsSyncSectionTitle => 'Theme Studio sync';
+
+  @override
+  String get lookAndFeelThemeColorsSyncFromStudioLabel =>
+      'Use colors from Theme Studio';
+
+  @override
+  String get lookAndFeelThemeColorsSyncFromStudioDescription =>
+      'When enabled, color changes from Theme Studio on desktop apply on this device. When disabled, this device keeps its own colors.';
+
+  @override
+  String get lookAndFeelThemeColorsSyncToStudioLabel =>
+      'Send color changes to Theme Studio';
+
+  @override
+  String get lookAndFeelThemeColorsSyncToStudioDescription =>
+      'When enabled, colors you change here sync to Theme Studio on your other devices. When disabled, desktop Theme Studio keeps its own colors.';
+
+  @override
+  String get lookAndFeelThemeColorsSyncFromStudioOffBanner =>
+      'Desktop Theme Studio color changes will not apply on this device.';
+
+  @override
+  String get lookAndFeelThemeColorsEssentialSectionTitle => 'Essential colors';
+
+  @override
+  String get lookAndFeelThemeColorsChatBackgroundWallpaperNote =>
+      'If you have a chat wallpaper set, you won\'t see this color.';
+
+  @override
+  String lookAndFeelThemeColorsResetForMode(String mode) {
+    return 'Reset all colors for $mode';
+  }
+
+  @override
+  String get lookAndFeelThemeColorsResetConfirmTitle => 'Reset theme colors?';
+
+  @override
+  String lookAndFeelThemeColorsResetConfirmBody(String mode) {
+    return 'This removes your custom color overrides for $mode on this device.';
+  }
+
+  @override
+  String get lookAndFeelThemeColorsGroupBrandButtons => 'Brand & buttons';
+
+  @override
+  String get lookAndFeelThemeColorsGroupChatSurfaces => 'Chat & messages';
+
+  @override
+  String get lookAndFeelThemeColorsGroupSidebars => 'Sidebars & navigation';
+
+  @override
+  String get lookAndFeelThemeColorsGroupText => 'Text';
+
+  @override
+  String get lookAndFeelThemeColorsGroupHeaders => 'Headers';
+
+  @override
+  String get lookAndFeelThemeColorsGroupStatus => 'Status';
+
+  @override
+  String get lookAndFeelThemeColorsGroupEmbedsMarkup => 'Embeds & mentions';
+
+  @override
+  String get lookAndFeelThemeColorsGroupAccentsAlerts => 'Accents & alerts';
+
+  @override
+  String get lookAndFeelThemeColorsGroupControls => 'Surfaces & controls';
+
+  @override
+  String get lookAndFeelChatFontScalingTitle => 'Chat font scaling';
+
+  @override
+  String get lookAndFeelChatFontScalingDescription =>
+      'Adjust the font size in the chat area.';
 
   @override
   String get lookAndFeelChatFontSizeLabel => 'チャットのフォントサイズ';
@@ -4780,7 +4447,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get lookAndFeelChatWallpaperCustomLabel => 'カスタム画像';
 
   @override
-  String get lookAndFeelChatWallpaperStarfieldLabel => 'Starfield';
+  String get lookAndFeelChatWallpaperStarfieldLabel => 'スターフィールド';
 
   @override
   String lookAndFeelChatWallpaperColorLabel(String id) {
@@ -4891,37 +4558,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   @override
   String get lookAndFeelHideKeyboardHintsDescription =>
       '有効にすると、ツールチップのポップアップでショートカットバッジが非表示になります。';
-
-  @override
-  String get lookAndFeelNekoTitle => 'その他';
-
-  @override
-  String get lookAndFeelNekoDescription => 'その他のインターフェースオプション。';
-
-  @override
-  String get lookAndFeelShowNekoLabel => 'ネコを表示';
-
-  @override
-  String get lookAndFeelShowNekoDescription =>
-      '有効にすると、Nekoがチャット入力バーの近くに表示されます。';
-
-  @override
-  String get lookAndFeelVoiceChannelJoinTitle => 'ボイスチャンネル参加時の動作';
-
-  @override
-  String get lookAndFeelVoiceChannelJoinDescription =>
-      'コミュニティでのボイスチャンネルへの参加方法を制御します。';
-
-  @override
-  String get lookAndFeelRequireDoubleClickJoinLabel =>
-      'ボイスチャンネルへの参加にダブルクリックを必須にする';
-
-  @override
-  String get lookAndFeelRequireDoubleClickJoinDescription =>
-      '有効にすると、ボイスチャンネルに参加するにはダブルクリックが必要になります。無効（デフォルト）の場合、シングルクリックで即座に参加できます。';
-
-  @override
-  String get lookAndFeelChatFontPreviewSample => 'すばやい茶色のキツネは怠惰な犬を飛び越える。';
 
   @override
   String get lookAndFeelGuildSidebarTitle => 'サーバーサイドバー';
@@ -5355,20 +4991,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       'エクスプレッションの入力候補に保存済みメディアを表示';
 
   @override
-  String get messagesMediaEditingSectionTitle => 'メッセージの編集';
-
-  @override
-  String get messagesMediaEditingSectionDescription =>
-      'キャンセル時に編集中の下書きがどうなるかを制御します。';
-
-  @override
-  String get messagesMediaEditingPreserveDraftLabel => 'キャンセル時に編集下書きを保持';
-
-  @override
   String get accessibilitySaturationTitle => '彩度';
-
-  @override
-  String get accessibilitySaturationDescription => 'アプリ全体のテーマカラーの鮮やかさを調整します。';
 
   @override
   String get accessibilityVisualGroupTitle => '視覚';
@@ -5377,22 +5000,17 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get accessibilityAlwaysUnderlineLinksLabel => 'リンクに常に下線を表示';
 
   @override
-  String get accessibilityShowAltTextOnImagesLabel =>
-      'Show alternative text on images';
+  String get accessibilityShowAltTextOnImagesLabel => '画像に代替テキストを表示';
 
   @override
   String get accessibilityShowAltTextOnImagesDescription =>
-      'Display alternative text below images when it is available.';
+      '利用可能な場合、画像の代替テキストを画像の下に表示します。';
 
   @override
   String get accessibilityDimStrikethroughTextLabel => '取り消し線のテキストを薄く表示する';
 
   @override
   String get accessibilityDmMessagePreviewGroupTitle => 'DMメッセージのプレビュー';
-
-  @override
-  String get accessibilityDmMessagePreviewGroupDescription =>
-      'DMリストにメッセージプレビューが表示されるタイミングを制御します。';
 
   @override
   String get accessibilityDmMessagePreviewModeLabel => 'DMメッセージのプレビューモード';
@@ -5505,10 +5123,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   @override
   String get accessibilityPausedGifByReducedMotion =>
       'アニメーションを減らす設定により一時停止中です。オンにすると、GIFの再生が続きます。';
-
-  @override
-  String get accessibilityGifDefaultsOffOnMobile =>
-      'バッテリーとデータ使用量を節約するため、モバイルではデフォルトでオフになっています。';
 
   @override
   String get accessibilityStickerAnimationsTitle => 'スタンプアニメーション';
@@ -5823,9 +5437,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       '他のデバイスから切断できませんでした。しばらくしてからもう一度お試しください。';
 
   @override
-  String get voiceChannelEmptyDescription => 'これはボイスチャンネルです。話すには接続してください！';
-
-  @override
   String get voiceChannelJoin => 'ボイスチャンネルに参加';
 
   @override
@@ -5862,12 +5473,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get voiceChannelStatusConnecting => '接続中…';
-
-  @override
-  String get voiceChannelStatusConnected => '接続済み';
-
-  @override
-  String get voiceChannelStatusError => 'エラー';
 
   @override
   String get voiceParticipantTooltipMobileDevice => 'モバイル端末';
@@ -5930,9 +5535,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get voiceScreenShareNotificationText => '画面を共有しています。';
-
-  @override
-  String get voiceControlMore => 'その他';
 
   @override
   String get voiceControlDisconnect => '切断';
@@ -6085,7 +5687,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get voiceOutputRouteSpeaker => 'スピーカー';
 
   @override
-  String get voiceOutputRouteEarpiece => 'Earpiece';
+  String get voiceOutputRouteEarpiece => '受話口';
 
   @override
   String get voiceOutputRouteHeadset => 'ヘッドホン';
@@ -6286,6 +5888,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       'メッセージは安全システムによって不適切と判断されたため、送信できませんでした。誤りだと思われる場合は、サポートにお問い合わせください。';
 
   @override
+  String get chatSendFailureContentBlockedSelfHosted =>
+      'メッセージは安全システムによって不適切と判断されたため、送信できませんでした。誤りだと思われる場合は、このインスタンスの管理者にお問い合わせください。';
+
+  @override
   String get chatSendFailureNsfwEmojiSticker =>
       'このコンテキストで許可されていない成人向け絵文字またはステッカーが含まれているため、メッセージを配信できませんでした。';
 
@@ -6347,22 +5953,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get privacyDashboardFriendRequestsEveryone => '全員';
 
   @override
-  String get privacyDashboardFriendRequestsEveryoneDesc =>
-      '誰でもあなたに友達リクエストを送信できるようにする';
-
-  @override
   String get privacyDashboardFriendRequestsFriendsOfFriends => '友達の友達';
 
   @override
-  String get privacyDashboardFriendRequestsFriendsOfFriendsDesc =>
-      '友達の友達からのリクエストを許可する';
-
-  @override
   String get privacyDashboardFriendRequestsCommunityMembers => 'コミュニティメンバー';
-
-  @override
-  String get privacyDashboardFriendRequestsCommunityMembersDesc =>
-      '参加中のコミュニティのメンバーからのリクエストを許可する';
 
   @override
   String get privacyDashboardDirectMessagesTitle => 'ダイレクトメッセージ';
@@ -6372,55 +5966,24 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       'コミュニティメンバーからのダイレクトメッセージを許可';
 
   @override
-  String get privacyDashboardDirectMessagesMembersDesc =>
-      '参加中のコミュニティのメンバーからのダイレクトメッセージを許可する';
-
-  @override
   String get privacyDashboardDirectMessagesBots => 'コミュニティボットからのダイレクトメッセージを許可';
-
-  @override
-  String get privacyDashboardDirectMessagesBotsDesc =>
-      '参加中のコミュニティのボットからのダイレクトメッセージを許可する';
-
-  @override
-  String get privacyDashboardConnectionsSectionDesc =>
-      '友達リクエストやダイレクトメッセージを送信できるユーザーを管理します';
-
-  @override
-  String get privacyDashboardCommunicationSectionDesc =>
-      '通話やグループチャットへの追加を許可する相手を管理';
 
   @override
   String get privacyDashboardIncomingCallsTitle => '着信';
 
   @override
-  String get privacyDashboardIncomingCallsDesc => '誰があなたに電話できるかを管理する';
-
-  @override
   String get privacyDashboardAllowedCallers => '着信を許可する相手';
 
   @override
-  String get privacyDashboardIncomingCallNobody => '誰も';
-
-  @override
   String get privacyDashboardIncomingCallNobodyDesc => 'すべての着信をブロックする';
-
-  @override
-  String get privacyDashboardIncomingCallFriendsOnly => '友達のみ';
 
   @override
   String get privacyDashboardIncomingCallFriendsOnlyDesc =>
       '友達からの通話のみを許可する（推奨）';
 
   @override
-  String get privacyDashboardIncomingCallCustom => '友達 + カスタム';
-
-  @override
   String get privacyDashboardIncomingCallCustomDesc =>
       '友達と、追加で選択したグループからの通話を許可する';
-
-  @override
-  String get privacyDashboardIncomingCallEveryone => '全員';
 
   @override
   String get privacyDashboardIncomingCallEveryoneDesc => '知らない人からの着信も許可する';
@@ -6429,29 +5992,13 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get privacyDashboardAdditionalGroups => '追加のグループ';
 
   @override
-  String get privacyDashboardCallFriendsOfFriendsDesc =>
-      '友達の友達から電話がかかってくることがあります';
-
-  @override
-  String get privacyDashboardCallGuildMembersDesc =>
-      'お互いが参加しているコミュニティのメンバーから電話がかかってきます';
-
-  @override
   String get privacyDashboardRingBehavior => '着信時の動作';
 
   @override
   String get privacyDashboardSilentCalls => '全員からの着信をサイレントにする';
 
   @override
-  String get privacyDashboardSilentCallsDesc =>
-      'すべての通話は、鳴る代わりにサイレントで通知されます。デフォルトでは、友達以外からの通話は常にサイレントになります。';
-
-  @override
   String get privacyDashboardGroupDmTitle => '自分をグループチャットに追加できる人';
-
-  @override
-  String get privacyDashboardGroupDmDesc =>
-      '誰があなたをグループチャットに追加できるかを管理します。招待リンクは引き続き送信できます。';
 
   @override
   String get privacyDashboardAllowedInvites => '招待を許可する相手';
@@ -6470,14 +6017,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   @override
   String get privacyDashboardGroupDmEveryoneDesc =>
       '誰でも確認なしでグループチャットに追加できるようにする';
-
-  @override
-  String get privacyDashboardGroupDmFriendsOfFriendsDesc =>
-      '友達の友達があなたをグループチャットに追加できるようになります';
-
-  @override
-  String get privacyDashboardGroupDmGuildMembersDesc =>
-      'お互いが参加しているコミュニティのメンバーが、あなたをグループチャットに追加できるようになります';
 
   @override
   String get privacyDashboardVoiceActivityTitle => '「オンライン中」での音声アクティビティ';
@@ -6854,16 +6393,47 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get chatMessageAddReaction => 'リアクションを追加';
 
   @override
-  String get doubleTapReactionHint => 'Double tap a message to';
+  String get doubleTapReactionHint => 'メッセージをダブルタップしてリアクション:';
 
   @override
   String get doubleTapReactionEdit => '編集';
 
   @override
-  String get doubleTapReactionEditTitle => 'Edit default';
+  String get doubleTapReactionEditTitle => 'デフォルトを編集';
 
   @override
-  String get doubleTapReactionEditSubtitle => 'Choose double tap emoji';
+  String get doubleTapReactionEditSubtitle => 'ダブルタップの絵文字を選択';
+
+  @override
+  String get messagesMediaDoubleTapSectionTitle => 'Double tap';
+
+  @override
+  String get messagesMediaDoubleTapSectionDescription =>
+      'Choose what happens when you double tap a message.';
+
+  @override
+  String get messagesMediaDoubleTapActionLabel => 'Double tap action';
+
+  @override
+  String get messagesMediaDoubleTapActionReactName => 'Add reaction';
+
+  @override
+  String get messagesMediaDoubleTapActionReactDescription =>
+      'Adds your default double-tap emoji as a reaction.';
+
+  @override
+  String get messagesMediaDoubleTapActionEditName => 'Edit message';
+
+  @override
+  String get messagesMediaDoubleTapActionEditDescription =>
+      'Opens the editor on messages you sent. Other messages are unchanged.';
+
+  @override
+  String get messagesMediaDoubleTapActionNoneName => 'Nothing';
+
+  @override
+  String get messagesMediaDoubleTapActionNoneDescription =>
+      'Double tap is disabled.';
 
   @override
   String get chatMessageEdit => 'メッセージを編集';
@@ -6872,10 +6442,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get chatMessageReply => '返信';
 
   @override
-  String get notificationReplyPlaceholder => 'Message';
+  String get notificationReplyPlaceholder => 'メッセージ';
 
   @override
-  String get notificationReplyFailed => 'Couldn\'t send reply';
+  String get notificationReplyFailed => '返信を送信できませんでした';
 
   @override
   String get chatMessageForward => '転送';
@@ -7065,321 +6635,115 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get chatMessageReport => 'メッセージを報告';
 
   @override
-  String get iarReportMessageTitle => 'メッセージを報告';
+  String get reportFlowTitleMessage => 'メッセージを報告';
 
   @override
-  String get iarThisUserFallback => 'このユーザー';
+  String get reportFlowTitleUserProfile => 'プロフィールを報告';
 
   @override
-  String get iarModalDescription => 'ルール違反を報告したり、連絡や設定を管理するツールを見つけたりできます。';
+  String get reportFlowSummaryTitle => '報告内容の確認';
 
   @override
-  String get iarPathStepAriaLabel => '何が必要ですか？';
+  String get reportFlowSummarySubtitle => '送信する前に、内容が正しいか確認してください。';
 
   @override
-  String get iarCategoryStepTitle => 'どのようなルール違反ですか？';
-
-  @override
-  String get iarReasonStepTitle => '違反しているルールはどれですか？';
-
-  @override
-  String get iarReasonSelectHint => '理由を選択';
-
-  @override
-  String get iarPickAnOptionToast => '続行するにはオプションを選択してください。';
-
-  @override
-  String get iarPickARuleToast => '違反されたルールを選択してください。';
-
-  @override
-  String get iarPathPlatform => 'プラットフォームのルール違反を報告';
-
-  @override
-  String get iarPathCommunity => 'このコミュニティのモデレーターに報告';
-
-  @override
-  String get iarPathPreferenceMessage => 'このコンテンツは好きではありません';
-
-  @override
-  String get iarCategoryTargetedHarmLabel => '脅迫、ハラスメント、または危害';
-
-  @override
-  String get iarCategoryTargetedHarmDescription =>
-      'いじめ、脅迫、ヘイト、暴力、荒らし、または自傷行為を助長するコンテンツ。';
-
-  @override
-  String get iarCategorySafetyMinorsLabel => '児童の安全または成人向けコンテンツ';
-
-  @override
-  String get iarCategorySafetyMinorsDescription =>
-      '未成年者を危険にさらす行為、不適切な場所での成人向けコンテンツ、または迷惑行為。';
-
-  @override
-  String get iarCategoryPrivacyIdentityLabel => 'プライバシーまたはなりすまし';
-
-  @override
-  String get iarCategoryPrivacyIdentityDescription =>
-      '個人情報の暴露、ストーカー行為、なりすまし、不適切なプロフィール。';
-
-  @override
-  String get iarCategoryDeceptionLabel => '詐欺、マルウェア、誤情報';
-
-  @override
-  String get iarCategoryDeceptionDescription =>
-      'フィッシング、詐欺、悪意のあるリンク、または現実世界に危害を及ぼす可能性のある虚偽の主張。';
-
-  @override
-  String get iarCategoryIllegalOtherLabel => '違法行為、またはその他';
-
-  @override
-  String get iarCategoryIllegalOtherDescription =>
-      '違法な販売、犯罪を助長する行為、または上記のいずれにも当てはまらない明確なルール違反。';
-
-  @override
-  String get iarReasonHarassmentLabel => 'ハラスメントまたは脅迫';
-
-  @override
-  String get iarReasonHarassmentMessageDescription =>
-      'いじめ、望まない接触の繰り返し、ストーカー行為、特定の相手を狙った嫌がらせ。';
-
-  @override
-  String get iarReasonHateLabel => 'ヘイトスピーチ';
-
-  @override
-  String get iarReasonHateMessageDescription =>
-      '差別的な中傷、人間性を否定する表現、保護対象グループへの攻撃。';
-
-  @override
-  String get iarReasonViolenceLabel => '暴力または暴力的な脅迫';
-
-  @override
-  String get iarReasonViolenceDescription => '信憑性のある脅迫、露骨な暴力、または暴力の賛美。';
-
-  @override
-  String get iarReasonMatureContentLabel => '成人向けコンテンツまたはハラスメント';
-
-  @override
-  String get iarReasonMatureContentMessageDescription =>
-      '望まない行為、またはふさわしくない場所での成人向けコンテンツ。';
-
-  @override
-  String get iarReasonChildSafetyLabel => '児童の安全または未成年者の搾取';
-
-  @override
-  String get iarReasonChildSafetyMessageDescription => 'グルーミングまたは児童搾取コンテンツ。';
-
-  @override
-  String get iarReasonHarmfulMisinfoLabel => '有害な誤情報';
-
-  @override
-  String get iarReasonHarmfulMisinfoDescription => '現実世界に危害を及ぼす可能性のある虚偽の主張。';
-
-  @override
-  String get iarReasonSpamLabel => 'スパム、詐欺、フィッシング';
-
-  @override
-  String get iarReasonSpamMessageDescription =>
-      '大量のスパム、詐欺、偽のプレゼント企画、またはアカウントの不正利用。';
-
-  @override
-  String get iarReasonMalwareLabel => 'マルウェアまたは危険なリンク';
-
-  @override
-  String get iarReasonMalwareDescription => 'マルウェア、認証情報の窃取、または有害なファイル。';
-
-  @override
-  String get iarReasonPrivacyLabel => 'プライバシー侵害';
-
-  @override
-  String get iarReasonPrivacyDescription => '個人情報の暴露、プライベートな情報の公開、ストーカー行為。';
-
-  @override
-  String get iarReasonImpersonationLabel => 'なりすましまたは誤解を招くメディア';
-
-  @override
-  String get iarReasonImpersonationMessageDescription =>
-      '他人になりすます行為（誤解を招くAI生成コンテンツを含む）。';
-
-  @override
-  String get iarReasonIllegalLabel => '違法行為';
-
-  @override
-  String get iarReasonIllegalDescription => '違法な販売、犯罪幇助、または違法行為。';
-
-  @override
-  String get iarReasonSelfHarmLabel => '自傷行為または自殺';
-
-  @override
-  String get iarReasonSelfHarmMessageDescription => '自傷行為や摂食障害を助長または指示する内容。';
-
-  @override
-  String get iarReasonOtherLabel => 'その他の明らかなルール違反';
-
-  @override
-  String iarReasonOtherDescription(String productName) {
-    return '$productNameのルールに明らかに違反し、上記のいずれにも当てはまらない場合にのみ使用してください。';
+  String reportFlowDisclaimer(String guidelines) {
+    return 'ルール違反だと正直に思うものだけを報告してください。報告の悪用は、当社の$guidelinesに違反します。';
   }
 
   @override
-  String iarUseChildSafetyInstead(String childSafetyReason) {
-    return '未成年者が関与している場合は、代わりに「$childSafetyReason」を使用してください。';
+  String get reportFlowCommunityGuidelinesLink => 'コミュニティガイドライン';
+
+  @override
+  String get reportFlowDisclaimerNoLink =>
+      'ルール違反だと正直に思うものだけを報告してください。同じ報告を複数回送信しないでください。';
+
+  @override
+  String get reportFlowSelectedMessage => '報告するメッセージ';
+
+  @override
+  String get reportFlowSelectedUser => '報告するプロフィール';
+
+  @override
+  String get reportFlowReportCategory => 'あなたの回答';
+
+  @override
+  String get reportFlowSubmit => '報告を送信';
+
+  @override
+  String get reportFlowBack => '戻る';
+
+  @override
+  String get reportFlowNext => '次へ';
+
+  @override
+  String get reportFlowDone => '完了';
+
+  @override
+  String get reportFlowThankYouTitle => '報告を送信しました';
+
+  @override
+  String get reportFlowThankYouNoReportTitle => 'お知らせいただきありがとうございます';
+
+  @override
+  String reportFlowThankYouBody(String productName) {
+    return '$productNameの安全チームがあなたの報告を確認します。あなたからの報告であることは明かしません。';
   }
 
   @override
-  String get iarSafetyNoteChildSafety =>
-      'CSAMまたは未成年者の搾取が関わる場合は、すぐに送信し、資料を再共有しないでください。';
+  String get reportFlowThankYouNoReportBody =>
+      'お知らせいただきありがとうございます。この内容だけでは規約違反にはあたらないため、報告は送信されませんでした。もし誰かを標的にしたり、差別的な言葉を使用したりしている場合は、再度報告して「攻撃的または有害なコンテンツ」を選択してください。';
 
   @override
-  String get iarSafetyNoteSelfHarm =>
-      'もし誰かが差し迫った危険に晒されている場合、安全にできるのであれば、地域の緊急サービスに連絡してください。';
+  String get reportFlowThankYouNoReportBodyShort =>
+      'お知らせいただきありがとうございます。この内容だけでは規約違反にはあたらないため、報告は送信されませんでした。';
 
   @override
-  String get iarSafetyNoteViolence => '差し迫った脅威がある場合は、地域の緊急サービスにも連絡してください。';
+  String get reportFlowMoreYouCanDo => '選択肢';
 
   @override
-  String get iarSafetyNoteTerrorism => '差し迫ったテロの脅威である場合は、地域の緊急サービスにも連絡してください。';
-
-  @override
-  String get iarActionBlockUserTitle => 'このユーザーをブロック';
-
-  @override
-  String get iarActionBlockUserDescription => 'メッセージと友達リクエストが届かなくなります。';
-
-  @override
-  String get iarActionBlockUserButton => 'ブロック';
-
-  @override
-  String get iarActionCopyMessageLinkTitle => 'メッセージリンクをコピー';
-
-  @override
-  String get iarActionCopyMessageLinkDescription => 'コミュニティのモデレーターに共有できます。';
-
-  @override
-  String get iarActionCopyMessageLinkButton => 'コピー';
-
-  @override
-  String get iarActionCloseDmTitle => 'このDMを閉じる';
-
-  @override
-  String get iarActionCloseDmDescription => 'ブロックはしません。後でまた開けます。';
-
-  @override
-  String get iarActionCloseDmButton => 'DMを閉じる';
-
-  @override
-  String get iarActionLeaveCommunityTitle => 'コミュニティを脱退';
-
-  @override
-  String get iarActionLeaveCommunityDescription => 'コンテンツやメンバーが表示されなくなります。';
-
-  @override
-  String get iarActionLeaveCommunityButton => '脱退';
-
-  @override
-  String get iarActionDmSettingsTitle => 'DM・友達リクエスト設定';
-
-  @override
-  String get iarActionDmSettingsDescription => 'あなたに連絡できる人を変更します。';
-
-  @override
-  String get iarActionCallSettingsTitle => '通話とグループチャットの設定';
-
-  @override
-  String get iarActionCallSettingsDescription =>
-      'あなたに通話をかけたり、あなたを追加したりできる人を変更します。';
-
-  @override
-  String get iarActionOpenButton => '開く';
-
-  @override
-  String get iarActionDeleteMessageTitle => 'このメッセージを削除';
-
-  @override
-  String get iarActionDeleteMessageDescription =>
-      'チャンネルから削除して、全員に表示されないようにします。';
-
-  @override
-  String get iarActionDeleteMessageButton => '削除';
-
-  @override
-  String get iarActionDeleteMessageDeletedButton => '削除済み';
-
-  @override
-  String get iarActionDeleteMessageDeletedTooltip => 'このメッセージはすでに削除されています。';
-
-  @override
-  String get iarActionBanUserTitle => 'このユーザーをBANする';
-
-  @override
-  String get iarActionBanUserDescription => 'このコミュニティのBANダイアログを開く。';
-
-  @override
-  String get iarActionBanUserButton => 'BAN';
-
-  @override
-  String get iarActionBanUserBannedButton => 'BAN済み';
-
-  @override
-  String get iarActionBanUserBannedTooltip => 'このユーザーはすでにコミュニティからBANされています。';
-
-  @override
-  String get iarCloseDmConfirmTitle => 'DMを閉じる';
-
-  @override
-  String iarCloseDmConfirmDescription(String name) {
-    return '$nameとの現在のDMを閉じます。ブロックされるわけではありません。後で再開できます。';
+  String reportFlowBlockName(String name) {
+    return '$nameをブロック';
   }
 
   @override
-  String get iarSuccessTitle => '報告を送信しました';
+  String get reportFlowBlockDescription =>
+      '相手のメッセージを非表示にし、相手があなたにダイレクトメッセージを送れないようにします';
 
   @override
-  String get iarSuccessBody =>
-      'Fluxerの安全チームが内容を確認しています。結果が出ましたら、DMとメールでお知らせします。';
+  String get reportFlowBlockButton => 'ブロック';
 
   @override
-  String get iarAlreadyReportedTitle => 'すでに報告済み';
+  String get reportFlowBlockedButton => 'ブロック中';
 
   @override
-  String get iarAlreadyReportedBody => 'このメッセージはすでに報告されています。安全チームが確認中です。';
+  String get reportFlowUrgentBanner =>
+      '誰かに差し迫った危険がある場合は、まず現地の警察や救急などの緊急通報先に連絡してください。';
 
   @override
-  String get iarBackButton => '戻る';
+  String get reportFlowLoadFailed => '報告フォームを読み込めませんでした。';
 
   @override
-  String get iarContinueButton => '続行';
+  String get reportFlowTryAgain => '再試行';
 
   @override
-  String get iarSendReportButton => '報告を送信';
+  String get reportFlowOutdated => '報告フォームが変更されました。最初からやり直してください。';
 
   @override
-  String get iarDoneButton => '完了';
+  String get reportFlowAlreadyReported => 'このメッセージはすでに報告済みです。';
 
   @override
-  String get iarCouldntSendToast => 'レポートを送信できませんでした。もう一度お試しください。';
+  String get reportFlowAlreadyReportedProfile => 'このプロフィールは本日すでに報告済みです。';
 
   @override
-  String get iarRateLimitedToast => '報告が速すぎます。しばらく待ってからもう一度お試しください。';
+  String get reportFlowRateLimited => '報告の送信間隔が短すぎます。しばらくしてからもう一度お試しください。';
 
   @override
-  String get iarReportSentToast => 'レポートを送信しました。安全チームが確認します。';
+  String get reportFlowSubmitFailed => '報告を送信できませんでした。もう一度お試しください。';
 
   @override
-  String iarBlockUserConfirmDescription(String name) {
-    return '$nameをブロックしますか？相手はあなたにメッセージを送ったり、フレンドリクエストを送ったりできなくなります。後でブロック解除できます。';
-  }
-
-  @override
-  String get iarBlockUserFailedToast => 'このユーザーをブロックできませんでした。もう一度お試しください。';
-
-  @override
-  String get iarCloseDmSuccessToast => 'DMを閉じました。';
-
-  @override
-  String get iarCloseDmFailedToast => 'このDMを閉じることができませんでした。もう一度お試しください。';
-
-  @override
-  String get iarLeaveCommunityFailedToast => 'このコミュニティを退出できませんでした。もう一度お試しください。';
+  String get reportFlowAccountSetupRequired =>
+      '報告を送信するには、アカウントを登録してメールアドレスを確認してください。';
 
   @override
   String get chatMessageSuppressEmbeds => '埋め込みを非表示';
@@ -7584,7 +6948,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get chatVideoPlaybackFailed => 'この動画を再生できませんでした。';
 
   @override
-  String get chatImageCouldNotLoad => 'Could not load this image.';
+  String get chatImageCouldNotLoad => '画像を読み込めませんでした。';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
@@ -7601,21 +6965,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get composerAutocompleteOptionalArgumentsHeading => 'オプション引数';
-
-  @override
-  String get composerAutocompleteChannelsHeading => 'チャンネル';
-
-  @override
-  String get composerAutocompleteMembersHeading => 'メンバー';
-
-  @override
-  String get composerAutocompleteUsersHeading => 'ユーザー';
-
-  @override
-  String get composerAutocompleteMentionsHeading => 'メンション';
-
-  @override
-  String get composerAutocompleteRolesHeading => 'ロール';
 
   @override
   String get composerAutocompleteMediaHeading => 'メディア';
@@ -7853,9 +7202,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get addGuildImportTemplateInvalid => 'コミュニティテンプレートのデータが無効または破損しています。';
 
   @override
-  String get addGuildPackInstalled => 'パックが正常にインストールされました。';
-
-  @override
   String get chatMessageRemoveAllReactionsConfirmTitle => 'リアクションをすべて削除';
 
   @override
@@ -7946,9 +7292,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get channelDetailsDeleteChannel => 'チャンネルを削除';
-
-  @override
-  String get channelSettingsCategorySettingsTitle => 'カテゴリ設定';
 
   @override
   String get channelSettingsEditCategory => 'カテゴリを編集';
@@ -8146,15 +7489,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       'しばらくしてからもう一度お試しください。';
 
   @override
-  String get channelSettingsResetSlider => 'スライダーを初期値にリセット';
-
-  @override
-  String get channelSettingsAdvanced => '詳細設定';
-
-  @override
-  String get channelSettingsMatureContentOverride => '成人向けコンテンツのオーバーライド';
-
-  @override
   String channelSettingsMatureContentSectionDescription(String scopeLevel) {
     return 'このチャンネルの$scopeLevelレベルの設定を上書きします。不適切なコンテンツは、参加前にゲートの後ろに表示されます。';
   }
@@ -8187,12 +7521,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   }
 
   @override
-  String get channelSettingsMatureContentCategorySource => 'カテゴリ';
-
-  @override
-  String get channelSettingsMatureContentCommunitySource => 'コミュニティ';
-
-  @override
   String get channelSettingsMatureContentCategoryScope => 'カテゴリ';
 
   @override
@@ -8210,20 +7538,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get channelSettingsContentWarningDefault => 'センシティブなコンテンツが含まれています。';
-
-  @override
-  String channelSettingsPermissionsNeedManageChannels(
-    String manageChannelsPermissionLabel,
-  ) {
-    return 'これらの権限を編集するには、「$manageChannelsPermissionLabel」の権限が必要です。';
-  }
-
-  @override
-  String channelSettingsPermissionsNeedManageRoles(
-    String manageRolesPermissionLabel,
-  ) {
-    return 'これらの権限を編集するには、「$manageRolesPermissionLabel」の権限が必要です。';
-  }
 
   @override
   String get channelSettingsUnknownRole => '不明なロール';
@@ -8295,9 +7609,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get channelSettingsPermissionsSearchRolesOrMembers => 'ロールまたはメンバーを検索…';
 
   @override
-  String get channelSettingsPermissionsRolesAndMembers => 'ロールとメンバー';
-
-  @override
   String get channelSettingsDeleteInvite => '招待を削除';
 
   @override
@@ -8365,9 +7676,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String channelSettingsWebhooksCreatedBy(String creator, String date) {
     return '$creatorさんが$dateに作成しました';
   }
-
-  @override
-  String get channelSettingsWebhooksUnknownUser => '不明なユーザー';
 
   @override
   String get channelSettingsWebhooksAvatar => 'アバター';
@@ -8514,9 +7822,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get channelDetailsPinsEndReached => '最後まで表示しました';
-
-  @override
-  String get channelHeaderOpenDetails => 'チャンネル詳細を開く';
 
   @override
   String get channelHeaderPinnedMessages => 'ピン留め済みメッセージ';
@@ -8954,9 +8259,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get groupDmEditTitle => 'グループを編集';
 
   @override
-  String get groupDmEditDetailsTooltip => 'グループ情報を編集';
-
-  @override
   String get groupDmGroupName => 'グループ名';
 
   @override
@@ -9005,13 +8307,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get groupDmUnsupportedIconFormatBody => 'サポートされていないファイルタイプです。';
 
   @override
-  String get groupDmCouldntProcessImage => '画像を処理できませんでした';
-
-  @override
-  String get groupDmFailedToProcessCroppedImage =>
-      '切り抜いた画像の処理に失敗しました。もう一度お試しください。';
-
-  @override
   String get groupDmInvalidImage => '無効な画像';
 
   @override
@@ -9036,16 +8331,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get groupDmAddFriendFailed => 'グループにこの友達を追加できませんでした。もう一度お試しください。';
 
   @override
-  String get groupDmAddFailed => 'グループに追加できませんでした';
-
-  @override
   String get groupDmGroupFull => 'このグループは満員です。メンバーを追加する前に、誰かを削除してください。';
 
   @override
   String get groupDmRateLimited => 'ペースが速すぎます。少し待ってからもう一度お試しください。';
-
-  @override
-  String get groupDmCreateInviteFailed => '招待リンクを作成できませんでした';
 
   @override
   String get groupDmCreateInviteFailedBody => '招待リンクを生成できませんでした。もう一度お試しください。';
@@ -9110,7 +8399,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String dmComposerHint(String recipientName) {
-    return 'Message @$recipientName';
+    return '@$recipientNameにメッセージを送信';
   }
 
   @override
@@ -9239,9 +8528,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get userSettingsSearchPlaceholder => '設定を検索...';
 
   @override
-  String get userSettingsSearchFieldLabel => '設定を検索';
-
-  @override
   String get userSettingsSearchClear => '検索をクリア';
 
   @override
@@ -9318,12 +8604,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get giftSettingsCopied => 'コピーしました';
 
   @override
-  String get giftSettingsGiftUrlCopied => 'ギフトURLをクリップボードにコピーしました！';
-
-  @override
-  String get giftSettingsGiftUrlCopyFailed => 'ギフトURLをコピーできませんでした';
-
-  @override
   String giftSettingsPurchasedDate(String date) {
     return '$dateに購入';
   }
@@ -9391,9 +8671,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get premiumOneMonthGift => '1ヶ月ギフト';
 
   @override
-  String get premiumMostPopular => '一番人気';
-
-  @override
   String get premiumScrollPrompt => 'Plutoniumに含まれる特典をすべて表示するには、下にスクロールしてください';
 
   @override
@@ -9427,26 +8704,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get premiumReadyToBuyGift => 'ギフトを購入しますか？';
 
   @override
-  String premiumMonthlyPrice(String price) {
-    return '月額 $price';
-  }
-
-  @override
-  String premiumYearlyPrice(String price) {
-    return '年間 $price';
-  }
-
-  @override
-  String premiumOneYearPrice(String price) {
-    return '1年 $price';
-  }
-
-  @override
-  String premiumOneMonthPrice(String price) {
-    return '1か月 $price';
-  }
-
-  @override
   String get premiumManageSubscription => 'サブスクリプションを管理';
 
   @override
@@ -9466,9 +8723,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get premiumCancelSubscriptionConfirm => 'サブスクリプションをキャンセル';
 
   @override
-  String get premiumKeepSubscription => 'サブスクリプションを継続';
-
-  @override
   String get premiumPurchaseHistoryTitle => '購入履歴';
 
   @override
@@ -9477,12 +8731,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get premiumManagePaymentMethods => '支払い方法を管理';
-
-  @override
-  String get premiumBillingHistory => '請求履歴';
-
-  @override
-  String get premiumSelfServeRefundTitle => 'セルフサービス返金';
 
   @override
   String get premiumSelfServeRefundButton => '最新の購入を返金';
@@ -9529,11 +8777,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get premiumComparisonFeatureColumn => '機能';
 
   @override
-  String premiumDisclaimerPurchased(String terms, String privacy) {
-    return '購入することで、$termsおよび$privacyに同意したことになります。';
-  }
-
-  @override
   String get premiumDisclaimerRefund =>
       'お支払いから3日以内、かつ30日に1回まで、ご自身で返金手続きが可能です。サブスクリプションを返金すると、サブスクリプションはキャンセルされます。EU/EEA圏の購入者は、コンテンツにすぐにアクセスするため、チェックアウト時に14日間の撤回権を放棄します。チャージバックではなく、アプリ内の返金ボタンをご利用ください。チャージバックはアカウントの永久的な制限につながる可能性があります。Stripeが支払いを安全に処理します。お客様のカード番号全体が当社に表示されることはありません。';
 
@@ -9552,6 +8795,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get premiumPlanUnavailable => 'このプランはご利用いただけません。サポートにお問い合わせください。';
+
+  @override
+  String get premiumPlanUnavailableSelfHosted =>
+      'このプランはご利用いただけません。このインスタンスの管理者にお問い合わせください。';
 
   @override
   String get premiumCompletePaymentTitle => '支払いを完了';
@@ -9605,8 +8852,13 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get premiumPurchasesDisabledTitle => '購入できません';
 
   @override
-  String get premiumPurchasesDisabledBody =>
-      'このアカウントでは購入が無効になっています。問題があると思われる場合は、support@fluxer.app までお問い合わせください。';
+  String premiumPurchasesDisabledBody(String supportEmail) {
+    return 'このアカウントでは購入が無効になっています。問題があると思われる場合は、$supportEmail までお問い合わせください。';
+  }
+
+  @override
+  String get premiumPurchasesDisabledBodySelfHosted =>
+      'このアカウントでは購入が無効になっています。問題があると思われる場合は、このインスタンスの管理者までお問い合わせください。';
 
   @override
   String get premiumClaimAccountToPurchase =>
@@ -9615,24 +8867,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   @override
   String get premiumVerifyEmailToPurchase =>
       'Fluxer Plutonium を購入するには、メールアドレスの認証が必要です。';
-
-  @override
-  String get premiumPerkCustomUsernameTag => 'カスタムユーザー名タグ';
-
-  @override
-  String get premiumPerkPerCommunityProfiles => 'コミュニティごとのプロフィール';
-
-  @override
-  String get premiumPerkMessageScheduling => 'メッセージの予約送信';
-
-  @override
-  String get premiumPerkProfileBadge => 'プロフィールバッジ';
-
-  @override
-  String get premiumPerkCustomVideoBackgrounds => 'カスタムビデオ背景';
-
-  @override
-  String get premiumPerkEntranceSounds => '入室サウンド';
 
   @override
   String get premiumPerkCommunities => 'コミュニティ';
@@ -9647,16 +8881,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get premiumPerkFileUploadSize => 'ファイルアップロードサイズ';
 
   @override
-  String get premiumPerkEmojiStickerPacks => '絵文字＆スタンプパック';
-
-  @override
-  String get premiumPerkSavedMedia => '保存済みメディア';
-
-  @override
   String get premiumPerkUseAnimatedEmojis => 'アニメーション絵文字を使う';
-
-  @override
-  String get premiumPerkGlobalEmojiStickerAccess => 'グローバル絵文字とスタンプの利用';
 
   @override
   String get premiumPerkVideoQuality => 'ビデオ品質';
@@ -9668,9 +8893,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get premiumPerkEarlyAccess => '新機能への早期アクセス';
 
   @override
-  String get premiumPerkCustomThemes => 'カスタムテーマ';
-
-  @override
   String get premiumPerkVideoQualityRestricted => '720p/30fps';
 
   @override
@@ -9678,180 +8900,166 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String storePlutoniumPriceLine(String monthly, String yearly) {
-    return '$monthly or $yearly';
+    return '$monthlyまたは$yearly';
   }
 
   @override
-  String get storePlutoniumMonthSuffix => '/mo';
+  String get storePlutoniumMonthSuffix => '/月';
 
   @override
-  String get storePlutoniumYearSuffix => '/yr';
+  String get storePlutoniumYearSuffix => '/年';
 
   @override
-  String get storePlutoniumPriceOr => 'or';
+  String get storePlutoniumPriceOr => 'または';
 
   @override
-  String get storePlutoniumEmojiTitle => 'Your emojis, everywhere';
+  String get storePlutoniumEmojiTitle => 'あなたの絵文字を、どこでも';
 
   @override
   String get storePlutoniumEmojiBody =>
-      'Bring custom emojis and stickers from any of your communities into every chat and community you\'re in.';
+      'コミュニティのカスタム絵文字やスタンプを、参加しているすべてのチャットやコミュニティに持ち込もう。';
 
   @override
-  String get storePlutoniumProfileTitle => 'A profile that stands out';
+  String get storePlutoniumProfileTitle => '個性を際立たせるプロフィール';
 
   @override
   String get storePlutoniumProfileBody =>
-      'Get an animated avatar and banner, a subscriber badge, the four-digit tag you want after your username*, and a separate profile for each community.';
+      'アニメーションアバターとバナー、サブスクライバーバッジ、ユーザー名の後に好きな4桁のタグ*、コミュニティごとに個別のプロフィールを入手できます。';
 
   @override
-  String get storePlutoniumFilesTitle => 'Send files up to 500 MB';
+  String get storePlutoniumFilesTitle => '最大500MBのファイルを送信';
 
   @override
   String get storePlutoniumFilesBody =>
-      'Share full-length videos and big files without shrinking them first. Free accounts can send up to 25 MB.';
+      '動画や大きなファイルを圧縮せずにそのまま共有できます。無料アカウントでは最大25MBまで送信できます。';
 
   @override
-  String get storePlutoniumCompareTitle => 'Compare Free and Plutonium';
+  String get storePlutoniumCompareTitle => '無料版とPlutoniumを比較';
 
   @override
   String get storePlutoniumCompareMobileNote =>
-      'Not all of these features are in the mobile app. Some are only available on desktop.';
+      'これらの機能のすべてがモバイルアプリで利用できるわけではありません。一部はデスクトップ版でのみ利用可能です。';
 
   @override
-  String get storePlutoniumNotAvailable => 'Not available';
+  String get storePlutoniumNotAvailable => 'なし';
 
   @override
-  String get storePlutoniumAvailable => 'Available';
+  String get storePlutoniumAvailable => '利用可能';
 
   @override
-  String get storePlutoniumCompareTag =>
-      'Pick the 4-digit number after your username*';
+  String get storePlutoniumCompareTag => 'ユーザー名の後に4桁の数字を選択*';
 
   @override
-  String get storePlutoniumCompareProfile =>
-      'A separate profile for each community';
+  String get storePlutoniumCompareProfile => 'コミュニティごとのプロフィール';
 
   @override
-  String get storePlutoniumCompareBadge => 'Subscriber badge on your profile';
+  String get storePlutoniumCompareBadge => 'プロフィールに表示される購読者バッジ';
 
   @override
-  String get storePlutoniumCompareBackgrounds =>
-      'Video call backgrounds you can save';
+  String get storePlutoniumCompareBackgrounds => '保存できるビデオ通話の背景';
 
   @override
-  String get storePlutoniumCompareCommunities => 'Communities you can join';
+  String get storePlutoniumCompareCommunities => '参加できるコミュニティ';
 
   @override
-  String get storePlutoniumCompareCharacters =>
-      'Characters in a single message';
+  String get storePlutoniumCompareCharacters => '1回のメッセージの文字数';
 
   @override
-  String get storePlutoniumCompareBookmarks => 'Messages you can bookmark';
+  String get storePlutoniumCompareBookmarks => 'ブックマークできるメッセージ';
 
   @override
-  String get storePlutoniumCompareUpload => 'Largest file you can upload';
+  String get storePlutoniumCompareUpload => 'アップロードできる最大のファイル';
 
   @override
-  String get storePlutoniumCompareSavedMedia =>
-      'Media items you can save for later';
+  String get storePlutoniumCompareSavedMedia => '後で保存できるメディアアイテム';
 
   @override
-  String get storePlutoniumCompareAnimatedEmoji =>
-      'Use animated emojis in messages';
+  String get storePlutoniumCompareAnimatedEmoji => 'メッセージでアニメーション絵文字を使用する';
 
   @override
   String get storePlutoniumCompareCustomEmoji =>
-      'Use custom emojis and stickers in any community';
+      'どのコミュニティでもカスタム絵文字やスタンプを使用できます';
 
   @override
-  String get storePlutoniumCompareVideo =>
-      'Video call and screen share quality';
+  String get storePlutoniumCompareVideo => 'ビデオ通話と画面共有の品質';
 
   @override
-  String get storePlutoniumCompareAvatar =>
-      'Animated avatar and profile banner';
+  String get storePlutoniumCompareAvatar => 'アニメーションアバターとプロフィールバナー';
 
   @override
-  String get storePlutoniumCompareEarlyAccess => 'Early access to new features';
+  String get storePlutoniumCompareEarlyAccess => '新機能への早期アクセス';
 
   @override
-  String get storePlutoniumCompareThemes => 'Custom themes for the app';
+  String get storePlutoniumCompareThemes => 'アプリのカスタムテーマ';
 
   @override
-  String get storePlutoniumVideoFree => 'Up to 720p at 30 FPS';
+  String get storePlutoniumVideoFree => '最大720p、30FPS';
 
   @override
-  String get storePlutoniumVideoPlutonium => 'Up to 4K at 60 FPS';
+  String get storePlutoniumVideoPlutonium => '最大4K、60FPS';
 
   @override
   String get storePlutoniumTagFootnote =>
-      'You can only pick a tag that nobody else with the same username already has. Usernames aren\'t case sensitive, so Mina#4821 and mina#4821 count as the same. The #0000 tag is reserved for Fluxer Visionary members.';
+      '他のユーザーが同じユーザー名でまだ使用していないタグのみを選択できます。ユーザー名は大文字と小文字を区別しないため、Mina#4821とmina#4821は同じものとして扱われます。#0000タグはFluxer Visionaryメンバー専用です。';
 
   @override
-  String get storePlutoniumLearnVisionary => 'Learn more about Visionary.';
+  String get storePlutoniumLearnVisionary => 'Visionaryについて詳しくはこちら。';
 
   @override
-  String get storePlutoniumDonatePrompt =>
-      'Just want to support Fluxer\'s open source development? ';
+  String get storePlutoniumDonatePrompt => 'Fluxerのオープンソース開発を支援したいだけですか？ ';
 
   @override
-  String get storePlutoniumDonateLink => 'Donate instead.';
+  String get storePlutoniumDonateLink => '寄付する';
 
   @override
   String get storePlutoniumHighlightsLead =>
-      'Subscribing funds Fluxer and unlocks';
+      '購読するとFluxerの活動を支援でき、以下の特典が利用可能になります';
 
   @override
-  String get storePlutoniumHighlightEmoji =>
-      'Custom emoji and stickers in any chat';
+  String get storePlutoniumHighlightEmoji => 'どのチャットでもカスタム絵文字とスタンプ';
 
   @override
-  String get storePlutoniumHighlightProfile =>
-      'Animated profile, badge, and custom 4-digit number';
+  String get storePlutoniumHighlightProfile => 'アニメーションプロフィール、バッジ、カスタム4桁の番号';
 
   @override
-  String get storePlutoniumHighlightFiles => 'Uploads up to 500 MB';
+  String get storePlutoniumHighlightFiles => '最大500MBのアップロード';
 
   @override
-  String get storePlutoniumHighlightMessages =>
-      'Send messages up to 4,000 characters';
+  String get storePlutoniumHighlightMessages => '最大4,000文字のメッセージを送信';
 
   @override
-  String get storePlutoniumHighlightCommunityProfile =>
-      'A separate profile for each community';
+  String get storePlutoniumHighlightCommunityProfile => 'コミュニティごとのプロフィール';
 
   @override
-  String get storePlutoniumHighlightsMore => 'And more';
+  String get storePlutoniumHighlightsMore => 'その他多数';
 
   @override
   String get storePlutoniumRenewsThroughPlay =>
-      'Renews automatically through Google Play until you cancel.';
+      'キャンセルするまでGoogle Playを通じて自動更新されます。';
 
   @override
   String get storePlutoniumRenewsThroughAppStore =>
-      'Renews automatically through the App Store until you cancel.';
+      'キャンセルしない限り、App Storeを通じて自動的に更新されます。';
 
   @override
   String get storePlutoniumAlreadySubscribed =>
-      'You already have a Fluxer Plutonium subscription.';
+      'すでにFluxer Plutoniumサブスクリプションをご利用中です。';
 
   @override
   String storePlutoniumSavePercent(int percent) {
-    return 'Save $percent%';
+    return '$percent% オフ';
   }
 
   @override
-  String get storePlutoniumWaiting =>
-      'Purchase received. Plutonium will show here once it activates.';
+  String get storePlutoniumWaiting => '購入を受け付けました。Plutoniumは有効化されるとここに表示されます。';
 
   @override
   String get storePlutoniumUnavailable =>
-      'Subscriptions in the app aren\'t available on this device yet.';
+      'このデバイスでは、アプリ内でのサブスクリプションはまだご利用いただけません。';
 
   @override
   String get storePlutoniumVisionaryStatus =>
-      'Visionary already includes permanent access, so a recurring subscription isn\'t needed.';
+      'Visionaryには永続的なアクセス権が含まれているため、定期購入は不要です。';
 
   @override
   String get userSettingsNavPrivacyDashboard => 'プライバシーダッシュボード';
@@ -9980,11 +9188,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get audioAndVideoMicTestStopLabel => 'マイクテストを停止';
 
   @override
-  String audioAndVideoMicTestPermissionRequired(String productName) {
-    return '$productName は、入力テストのためにマイクへのアクセスが必要です。';
-  }
-
-  @override
   String get audioAndVideoCameraLabel => 'カメラ';
 
   @override
@@ -10018,23 +9221,8 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get audioAndVideoFrameRate60Label => '60 FPS';
 
   @override
-  String audioAndVideoHigherQualityRequiresPremium(String premiumProductName) {
-    return '1080pと60FPSには$premiumProductNameが必要です。';
-  }
-
-  @override
   String get audioAndVideoInstanceVideoQualityLimit =>
       'このインスタンスでは現在、最大720p、30FPSで画面共有が可能です。';
-
-  @override
-  String audioAndVideoMicrophonePermissionRequired(String productName) {
-    return '$productNameがデバイスを一覧表示するには、マイクへのアクセスが必要です。';
-  }
-
-  @override
-  String audioAndVideoCameraPermissionRequired(String productName) {
-    return '$productNameがデバイスを一覧表示するには、カメラへのアクセスが必要です。';
-  }
 
   @override
   String get audioAndVideoSkipHideOwnCameraConfirmLabel => 'カメラを非表示にする際に確認しない';
@@ -10063,13 +9251,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   @override
   String get notificationsEnableDesktopNotificationsDescription =>
       'OSの通知センターを使用します。チャンネルごと、コミュニティごとの設定は、コミュニティアイコンを右クリックして通知設定を開いてください。';
-
-  @override
-  String get notificationsEnableBrowserNotificationsLabel => 'ブラウザ通知を有効にする';
-
-  @override
-  String get notificationsEnableBrowserNotificationsDescription =>
-      'メッセージ受信時に通知を受け取れます。ブラウザの設定で通知を許可する必要がある場合があります。チャンネルごと/コミュニティごとの設定は、コミュニティアイコンを右クリックして通知設定を開いてください。';
 
   @override
   String get notificationsPushInactiveTimeoutLabel => 'プッシュ通知までの非アクティブ時間';
@@ -10346,9 +9527,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get languageAndTimeLanguageSectionDescription => 'アプリの表示に使用する言語を選択します';
 
   @override
-  String get languageAndTimeOpenLanguageSettings => '言語設定を開く';
-
-  @override
   String get languageAndTimeTimeFormatSectionTitle => '時刻表示';
 
   @override
@@ -10403,27 +9581,43 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get defaultAppsWebBrowserExternal => '外部ブラウザ';
 
   @override
-  String get userSettingsNavAppIcon => 'App icon';
+  String get userSettingsNavAppIcon => 'アプリアイコン';
 
   @override
-  String get appIconSectionTitle => 'App icon';
+  String get appIconSectionTitle => 'アプリアイコン';
 
   @override
-  String get appIconSectionDescription =>
-      'Choose which icon appears on your home screen.';
+  String get appIconSectionDescription => 'ホーム画面に表示されるアイコンを選択します。';
 
   @override
   String get appIconOptionDefault => 'デフォルト';
 
   @override
-  String get appIconOptionStarfield => 'Starfield';
+  String get appIconOptionStarfield => 'スターフィールド';
 
   @override
   String get appIconOptionSweden => 'スウェーデン';
 
   @override
-  String get appIconUnsupported =>
-      'Changing the app icon is not available on this device.';
+  String get appIconOptionGreyscale => 'Greyscale';
+
+  @override
+  String get appIconOptionRainbow => 'Rainbow';
+
+  @override
+  String get appIconOptionWaves => 'Waves';
+
+  @override
+  String get appIconOptionChromaticAberration => 'Chromatic aberration';
+
+  @override
+  String get appIconOptionDefaultBrutalist => 'Brutalist';
+
+  @override
+  String get appIconOptionGreyscaleBrutalist => 'Greyscale brutalist';
+
+  @override
+  String get appIconUnsupported => 'このデバイスではアプリアイコンの変更はできません。';
 
   @override
   String get userSettingsNavAdvanced => '詳細設定';
@@ -10569,10 +9763,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get advancedSettingTrustAllLinksLabel => 'すべての外部リンクを信頼する';
-
-  @override
-  String get advancedSettingTrustAllLinksDescription =>
-      'すべてのドメインで外部リンクの警告をスキップ';
 
   @override
   String get advancedSettingSearchEnginesLabel => '検索エンジン';
@@ -10756,27 +9946,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get advancedSettingDeveloperModeDescription => '開発者モードを有効にする';
-
-  @override
-  String get advancedSettingSearchEngineGoogle => 'Google';
-
-  @override
-  String get advancedSettingSearchEngineDuckDuckGo => 'DuckDuckGo';
-
-  @override
-  String get advancedSettingSearchEngineBing => 'Bing';
-
-  @override
-  String get advancedSettingSearchEngineGoogleLens => 'Google レンズ';
-
-  @override
-  String get advancedSettingSearchEngineTinEye => 'TinEye';
-
-  @override
-  String get advancedSettingTranslatorGoogle => 'Google翻訳';
-
-  @override
-  String get advancedSettingTranslatorDeepL => 'DeepL';
 
   @override
   String get advancedSettingDefaultSearchEngineLabel => 'デフォルトの検索エンジン';
@@ -11216,7 +10385,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get instanceUrlHelper =>
-      'Use fluxer.app for the official instance, or the exact URL of a self-hosted instance.';
+      '公式インスタンスにはfluxer.appを、セルフホスト型インスタンスには正確なURLを使用してください。';
 
   @override
   String get resetToDefaultInstance => 'Fluxerにリセット';
@@ -11229,6 +10398,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get instanceConnectFailed => 'インスタンスに接続できませんでした';
+
+  @override
+  String get instanceInvalidDiscoveryResponse =>
+      'This client cannot connect to this instance. The instance is likely out of date. If the instance is up to date, try updating this app.';
 
   @override
   String get recentInstances => '最近使ったインスタンス';
@@ -11427,11 +10600,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get authHidePassword => 'パスワードを非表示';
 
   @override
-  String get authCheckStillWorking => 'Still working on it…';
+  String get authCheckStillWorking => '確認中です…';
 
   @override
-  String get authVerificationFailed =>
-      'Couldn\'t complete verification. Try again.';
+  String get authVerificationFailed => '認証を完了できませんでした。もう一度お試しください。';
 
   @override
   String get chatLoadingMessages => 'メッセージを読み込み中';
@@ -11797,9 +10969,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get guildMenuHideMutedChannels => 'ミュート中のチャンネルを非表示';
 
   @override
-  String get guildMenuReportCommunity => 'コミュニティを報告';
-
-  @override
   String get guildMenuDebugCommunity => 'コミュニティをデバッグ';
 
   @override
@@ -11832,9 +11001,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get guildMenuSettingsWebhooks => 'ウェブフック';
 
   @override
-  String get guildMenuSettingsCustomInviteUrl => 'カスタム招待URL';
-
-  @override
   String get guildMenuSettingsDiscovery => '見つける';
 
   @override
@@ -11856,31 +11022,13 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get guildSettingsOverviewIconTitle => 'アイコン';
 
   @override
-  String get guildSettingsUploadImage => '画像をアップロード';
-
-  @override
   String get guildSettingsOverviewBannerTitle => 'バナー';
-
-  @override
-  String get guildSettingsOverviewBannerHint => 'サーバーのバナーをアップロードしてください。';
 
   @override
   String get guildSettingsOverviewNameTitle => '名前';
 
   @override
   String get guildSettingsOverviewNameHint => '私の素敵なコミュニティ';
-
-  @override
-  String get guildSettingsOverviewStatsTitle => '統計';
-
-  @override
-  String get guildSettingsOverviewMembers => 'メンバー';
-
-  @override
-  String get guildSettingsOverviewOnline => 'オンライン';
-
-  @override
-  String get guildSettingsRolesDescription => 'ロールを使用してメンバーをグループ化し、権限を割り当てます。';
 
   @override
   String get guildSettingsCreateRole => 'ロールを作成';
@@ -11956,28 +11104,13 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get guildSettingsRolesComfyLayout => 'ゆったりレイアウト';
 
   @override
-  String get guildSettingsRolesSwitchToDenseLayout => 'コンパクト表示に切り替える';
-
-  @override
-  String get guildSettingsRolesSwitchToComfyLayout => 'ゆったり表示に切り替える';
-
-  @override
   String get guildSettingsRolesSingleColumn => '1列';
 
   @override
   String get guildSettingsRolesTwoColumns => '2列';
 
   @override
-  String get guildSettingsRolesSwitchToSingleColumn => '1列表示に切り替える';
-
-  @override
-  String get guildSettingsRolesSwitchToTwoColumns => '2列表示に切り替える';
-
-  @override
   String get guildSettingsRolesNoPermissionsFound => '権限が見つかりませんでした';
-
-  @override
-  String get guildSettingsRolesCustomHoistOrder => 'カスタム表示順';
 
   @override
   String get guildSettingsRolesHoistOrder => '表示順';
@@ -11992,10 +11125,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   @override
   String get guildSettingsRolesNoHoistedRoles =>
       '個別に表示されるロールはありません。ロールで「このロールを個別に表示」を有効にすると、ここに表示されます。';
-
-  @override
-  String get guildSettingsRolesLockedTooltip =>
-      'このロールは、あなたの最高ロールであるか、あなたより上位のロールであるため編集できません';
 
   @override
   String guildSettingsRolesNeedManageRolesPermission(String permission) {
@@ -12072,9 +11201,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get permissionCategoryAudioVideo => 'オーディオとビデオ';
-
-  @override
-  String get permissionUnknown => '不明な権限';
 
   @override
   String get permissionAdministrator => '管理者';
@@ -12643,17 +11769,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   }
 
   @override
-  String guildSettingsEmojiSlotInfo(int staticCount, int animatedCount) {
-    return '$staticCount個の静的絵文字、$animatedCount個のアニメーション絵文字を使用中';
-  }
-
-  @override
   String get guildSettingsEmojiEmpty => 'カスタム絵文字はまだありません。';
-
-  @override
-  String guildSettingsStickersSlotInfo(int count) {
-    return '$count個のステッカーをアップロード済み';
-  }
 
   @override
   String get guildSettingsStickersEmpty => 'カスタムステッカーはまだありません。';
@@ -12714,12 +11830,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       '「中」のすべての条件に加えて、コミュニティのメンバーになってから10分以上経過していること。';
 
   @override
-  String get guildSettingsVerificationHighest => '非常に高い';
-
-  @override
-  String get guildSettingsVerificationHighestDescription => '電話番号の認証が必要です。';
-
-  @override
   String get guildSettingsAuditLogDescription => 'コミュニティ全体のモデレーターアクションを追跡します。';
 
   @override
@@ -12740,12 +11850,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get guildSettingsAuditLogUnknownUser => '不明なユーザー';
-
-  @override
-  String get guildSettingsAuditLogLoadError => 'アクティビティログの読み込み中に問題が発生しました。';
-
-  @override
-  String get guildSettingsAuditLogLoadErrorTitle => 'アクティビティログを読み込めません';
 
   @override
   String get guildSettingsAuditLogReason => '理由';
@@ -13309,12 +12413,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get auditLogOptionPermanentMembership => '永続的なメンバーシップを付与します。';
 
   @override
-  String get guildSettingsLoadMore => 'さらに読み込む';
-
-  @override
-  String get guildSettingsLoadingMore => '読み込み中...';
-
-  @override
   String get guildSettingsWebhooksDescription =>
       'コミュニティに設定されているすべてのウェブフックを表示・管理できます。';
 
@@ -13348,30 +12446,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get guildSettingsUnknownChannel => '不明なチャンネル';
 
   @override
-  String get guildSettingsCopyUrl => 'URLをコピー';
-
-  @override
   String get guildSettingsCopiedUrl => 'URLをクリップボードにコピーしました';
-
-  @override
-  String get guildSettingsDeleteWebhook => 'ウェブフックを削除';
-
-  @override
-  String get guildSettingsVanityUrlDescription => 'サーバーのカスタム招待リンクを設定します。';
-
-  @override
-  String get guildSettingsVanityUrlHint => 'my-server';
-
-  @override
-  String get guildSettingsSave => '保存';
-
-  @override
-  String get guildSettingsVanityUrlUsageTitle => '使用状況';
-
-  @override
-  String guildSettingsVanityUrlUses(int count) {
-    return '$count 回使用';
-  }
 
   @override
   String get guildSettingsDiscoveryDescription =>
@@ -13506,9 +12581,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       'しばらくしてからもう一度お試しください。';
 
   @override
-  String get guildSettingsMembersDescription => 'サーバーメンバーを検索して管理します。';
-
-  @override
   String get guildSettingsMembersSearchHint => 'ユーザー名またはIDで検索';
 
   @override
@@ -13549,9 +12621,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get guildMembersColumnRoles => 'ロール';
-
-  @override
-  String get guildMembersColumnActions => 'アクション';
 
   @override
   String get guildMembersFilterMemberSince => 'メンバー参加日で絞り込む';
@@ -13617,17 +12686,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get guildMembersIndexing => 'メンバーをインデックス化しています…';
 
   @override
-  String get guildMembersGoToPage => 'ページへ移動';
-
-  @override
-  String guildMembersGoToPageItem(int page) {
-    return '$pageページへ移動';
-  }
-
-  @override
-  String get guildMembersJumpToPage => 'ページに移動';
-
-  @override
   String get guildMembersJoinSourceCreator => 'コミュニティ作成者';
 
   @override
@@ -13690,21 +12748,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   }
 
   @override
-  String guildMembersJoinedDaysAgo(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count日前',
-      one: '1日前',
-    );
-    return '$_temp0';
-  }
-
-  @override
   String get guildMembersChannelListLabel => 'メンバー';
-
-  @override
-  String get guildMembersChannelListSelected => 'メンバー、選択済み';
 
   @override
   String get guildSettingsInvitesTitle => '招待';
@@ -13810,16 +12854,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       'リンクがまだ有効な可能性があります。しばらくしてからもう一度お試しください。';
 
   @override
-  String guildSettingsInviteUses(int uses, int maxUses) {
-    return '$uses / $maxUses 回使用';
-  }
-
-  @override
-  String guildSettingsInviteExpires(String date) {
-    return '$date に期限切れ';
-  }
-
-  @override
   String get guildSettingsBansDescription => 'BANしたユーザーを表示・管理できます。';
 
   @override
@@ -13829,21 +12863,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get guildSettingsBansEmpty => '禁止されているユーザーはいません。';
 
   @override
-  String get guildSettingsBanPermanent => '無期限禁止';
-
-  @override
-  String guildSettingsBanExpires(String date) {
-    return '$date に期限切れ';
-  }
-
-  @override
   String get guildSettingsBanExpiresLabel => '有効期限';
-
-  @override
-  String get guildSettingsUnban => '禁止解除';
-
-  @override
-  String get guildSettingsBansLoading => 'BANしたユーザーを読み込んでいます';
 
   @override
   String get guildSettingsBansNoSearchResults => '検索条件に一致するBANユーザーはいません。';
@@ -13874,9 +12894,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsBansLoadError => '禁止ユーザーを読み込めませんでした。 再試行してください。';
-
-  @override
   String get guildSettingsRevokeBanError => '禁止を解除できませんでした。 再試行してください。';
 
   @override
@@ -13893,8 +12910,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get guildSettingsCommunityDeleted => 'コミュニティを削除しました';
 
   @override
-  String get guildSettingsDeleteCommunityFailed =>
-      'Couldn\'t delete this community';
+  String get guildSettingsDeleteCommunityFailed => 'このコミュニティを削除できませんでした';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
@@ -13907,10 +12923,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get guildSettingsCategoryPeople => 'PEOPLE';
-
-  @override
-  String get guildSettingsOverviewDescription =>
-      'コミュニティのプロフィール、チャンネル、デフォルト設定を管理します。';
 
   @override
   String get guildSettingsOverviewBrandingTitle => 'ブランディング';
@@ -13943,9 +12955,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       '250人を超えるコミュニティでは、通知設定が「メンションのみ」に強制されます。コミュニティのメンバーが250人を下回ると、元の設定に戻ります。';
 
   @override
-  String get guildSettingsOverviewAdvancedTitle => '詳細設定';
-
-  @override
   String get guildSettingsOverviewFlexibleNames => 'テキストチャンネル名を自由に設定';
 
   @override
@@ -13969,9 +12978,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get guildSettingsOverviewEmbedSplashTitle => 'チャット埋め込みの背景';
-
-  @override
-  String get guildSettingsOverviewEmbedSplashHint => 'チャットの招待埋め込みに表示されます。';
 
   @override
   String get guildSettingsOverviewUploadBackground => '背景をアップロード';
@@ -14134,14 +13140,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
       'JPEG、PNG、WebP、AVIF。最大10MB。最小: 960×540px (16:9)。チャットの招待リンクに表示されます。';
 
   @override
-  String get guildSettingsModerationDescription =>
-      '認証、コンテンツフィルタリング、不適切コンテンツの設定を行います。';
-
-  @override
-  String get guildSettingsModerationDiscoveryNotice =>
-      'Discoveryに掲載されているコミュニティは、モデレーションオプションが制限されています。';
-
-  @override
   String get guildSettingsModerationContentFilterTitle => 'コンテンツフィルター';
 
   @override
@@ -14172,12 +13170,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get guildSettingsContentFilterAllDescription => 'ファミリー向けスペースを最大限保護';
 
   @override
-  String get guildSettingsModerationMatureOff => 'オフ';
-
-  @override
-  String get guildSettingsModerationMatureOn => 'オン';
-
-  @override
   String get guildSettingsContentWarningToggle => 'コンテンツ警告を表示';
 
   @override
@@ -14202,10 +13194,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get guildSettingsModeration2faSwitchLabel => 'モデレーション操作に2段階認証を必須にする';
 
   @override
-  String get guildSettingsModeration2faOwnerOnlyTooltip =>
-      'この設定を変更できるのはコミュニティのオーナーのみです';
-
-  @override
   String get guildSettingsModeration2faEnableFirstTooltip =>
       'この設定を変更するには、アカウントで2段階認証を有効にしてください';
 
@@ -14228,9 +13216,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get guildSettingsEmojiSearchEmpty => '検索条件に一致する絵文字は見つかりませんでした。';
 
   @override
-  String get guildSettingsEmojiNoSlots => '利用可能な絵文字スロットがありません';
-
-  @override
   String get guildSettingsEmojiSlotsFull =>
       '絵文字の上限に達しました。既存の絵文字をいくつか削除して空きを作ってください。';
 
@@ -14240,28 +13225,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   }
 
   @override
-  String get guildSettingsEmojiUploadingTitle => '絵文字をアップロード中';
-
-  @override
-  String guildSettingsEmojiUploadingBody(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '# 絵文字',
-      one: '# 絵文字',
-    );
-    return '$_temp0をアップロードしています。少々お待ちください。';
-  }
-
-  @override
-  String get guildSettingsEmojiUploadFailed => '絵文字のアップロードに失敗しました。もう一度お試しください。';
-
-  @override
   String get guildSettingsEmojiSomeFailedTitle => '一部の絵文字を追加できませんでした';
-
-  @override
-  String get guildSettingsEmojiSomeFailedBody =>
-      'これらのファイルを確認し、より小さい画像またはシンプルな画像でもう一度お試しください。';
 
   @override
   String get guildSettingsEmojiRenameTitle => '絵文字の名前を変更';
@@ -14270,16 +13234,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get guildSettingsEmojiRenameHint => '2～32文字（半角英数字、アンダースコア）.';
 
   @override
-  String get guildSettingsEmojiColumnEmoji => '絵文字';
-
-  @override
   String get guildSettingsEmojiColumnName => '名前';
 
   @override
   String get guildSettingsEmojiColumnUploader => 'アップロード者';
-
-  @override
-  String get guildSettingsEmojiUnknownUploader => '不明';
 
   @override
   String get guildSettingsEmojiDeleteTitle => '絵文字を削除';
@@ -14305,34 +13263,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get guildSettingsEmojiRenameFailedTitle => 'この絵文字の名前を変更できませんでした';
 
   @override
-  String get guildSettingsEmojiRenameFailedBody =>
-      '名前は以前のものに戻されました。しばらくしてからもう一度お試しください。';
-
-  @override
-  String get guildSettingsEmojiGoneTitle => 'この絵文字はすでに削除されています';
-
-  @override
-  String get guildSettingsEmojiGoneBody => '削除された可能性があります。名前は以前のものに戻されました。';
-
-  @override
-  String get guildSettingsEmojiNoPermissionRenameTitle => 'この絵文字の名前は変更できません';
-
-  @override
-  String get guildSettingsEmojiNoPermissionRenameBody =>
-      'この絵文字の名前を変更する権限がありません。名前は以前のものに戻されました。';
-
-  @override
-  String get guildSettingsEmojiRateLimitedTitle => 'ペースが速すぎます';
-
-  @override
-  String get guildSettingsEmojiRateLimitedBody =>
-      'しばらく待ってから、もう一度名前の変更をお試しください。';
-
-  @override
   String get guildSettingsEmojiDeleteFailedTitle => 'この絵文字を削除できませんでした';
-
-  @override
-  String get guildSettingsEmojiDeleteNoPermissionTitle => 'この絵文字は削除できません';
 
   @override
   String get guildSettingsCloneEmojiTitle => '他のユーザーによる絵文字のクローン作成を許可する';
@@ -14402,12 +13333,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get guildSettingsStickersSearchEmpty => '検索条件に一致するスタンプは見つかりませんでした。';
 
   @override
-  String get guildSettingsStickersEmptySearch => 'スタンプが見つかりませんでした';
-
-  @override
-  String get guildSettingsStickerNoSlots => '利用可能なスタンプスロットがありません';
-
-  @override
   String get guildSettingsStickerSlotsFull =>
       'スタンプの上限に達しました。既存のスタンプをいくつか削除して空きを作ってください。';
 
@@ -14415,9 +13340,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String guildSettingsStickerUploadRequirements(String maxSize) {
     return 'スタンプは320x320ピクセルで保存され、$maxSize未満である必要があります。静止画像は自動的にリサイズおよび圧縮されます。アニメーションスタンプとSVGは、あらかじめ制限内に収まっている必要があります。';
   }
-
-  @override
-  String get guildSettingsStickerUnsupportedTitle => 'サポートされていないスタンプファイル';
 
   @override
   String get guildSettingsStickerAddTitle => 'スタンプを追加';
@@ -14464,12 +13386,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get guildSettingsStickerCreateFailedTitle => 'スタンプを作成できませんでした';
 
   @override
-  String get guildSettingsStickerTooLargeTitle => 'スタンプが大きすぎます';
-
-  @override
-  String get guildSettingsStickerCompressFailedTitle => 'スタンプを十分に圧縮できませんでした';
-
-  @override
   String get guildSettingsStickerDeleteTitle => 'スタンプを削除';
 
   @override
@@ -14484,19 +13400,9 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get guildSettingsStickerDeleteFailedTitle => 'このスタンプを削除できませんでした';
 
   @override
-  String get guildSettingsStickerDeleteNoPermissionTitle => 'このスタンプは削除できません';
-
-  @override
   String guildSettingsWebhooksInfo(String channelSettingsPath) {
     return 'Webhookを作成するには、$channelSettingsPathを開いてください。既存のすべてのWebhookは、ここで編集および整理できます。';
   }
-
-  @override
-  String get guildSettingsVanityUrlWarning =>
-      '少なくとも1つのチャンネルが全員に表示されていないと、カスタムURLは機能しません。';
-
-  @override
-  String get guildSettingsVanityUrlRemove => '削除';
 
   @override
   String get guildSettingsBannedUsersTitle => 'BANしたユーザー';
@@ -14843,319 +13749,292 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get homeQuickActionDms => 'ダイレクトメッセージ';
 
   @override
-  String get assistantNeedsLogin => 'Open Fluxer and sign in first.';
+  String get assistantNeedsLogin => 'まずFluxerを開いてサインインしてください。';
 
   @override
-  String get assistantNotInVoice => 'You\'re not in a call.';
+  String get assistantNotInVoice => '通話に参加していません。';
 
   @override
-  String get assistantNotFound => 'Fluxer could not find that.';
+  String get assistantNotFound => 'Fluxerでそれを見つけられませんでした。';
 
   @override
-  String get assistantDmsDisabled =>
-      'Direct messages are disabled on this instance.';
+  String get assistantDmsDisabled => 'このインスタンスではダイレクトメッセージが無効になっています。';
 
   @override
-  String get assistantFailed => 'Fluxer could not complete that.';
+  String get assistantFailed => 'Fluxerがその操作を完了できませんでした。';
 
   @override
-  String get assistantOkMuted => 'Muted.';
+  String get assistantOkMuted => 'マイクをミュートしました。';
 
   @override
-  String get assistantOkUnmuted => 'Unmuted.';
+  String get assistantOkUnmuted => 'マイクのミュートを解除しました。';
 
   @override
-  String get assistantOkLeftVoice => 'Left voice.';
+  String get assistantOkLeftVoice => 'ボイスチャンネルを退出しました。';
 
   @override
-  String get assistantOkJoinedVoice => 'Joining voice.';
+  String get assistantOkJoinedVoice => 'ボイスチャンネルに参加しています。';
 
   @override
-  String get assistantOkStartedCall => 'Starting the call.';
+  String get assistantOkStartedCall => '通話を開始します。';
 
   @override
   String assistantOkStatusSet(String status) {
-    return 'Status set to $status.';
+    return 'ステータスを$statusに設定しました。';
   }
 
   @override
-  String get assistantOkOpened => 'Opening Fluxer.';
+  String get assistantOkOpened => 'Fluxerを開いています。';
 
   @override
   String get assistantOkMessageSent => 'メッセージを送信しました。';
 
   @override
-  String get assistantOkCustomStatusSet => 'Custom status updated.';
+  String get assistantOkCustomStatusSet => 'カスタムステータスを更新しました。';
 
   @override
-  String get assistantOkCustomStatusCleared => 'Custom status cleared.';
+  String get assistantOkCustomStatusCleared => 'カスタムステータスをクリアしました。';
 
   @override
-  String get guildNavbarAnnouncementChannel => 'Announcement';
+  String get guildNavbarAnnouncementChannel => 'お知らせチャンネル';
 
   @override
   String get guildNavbarAnnouncementChannelDescription =>
-      'Post updates other communities can follow';
+      '他のコミュニティが自分のチャンネルでフォローできる更新を投稿します';
 
   @override
-  String get channelDetailsAnnouncementChannel => 'Announcement channel';
+  String get channelDetailsAnnouncementChannel => 'お知らせチャンネル';
 
   @override
-  String get channelSettingsAnnouncementChannel => 'Announcement channel';
+  String get channelSettingsAnnouncementChannel => 'お知らせチャンネル';
 
   @override
   String get channelSettingsAnnouncementChannelDescription =>
-      'Lets other communities follow this channel and get copies of what you publish.';
+      '他のコミュニティがこのチャンネルをフォローし、あなたが公開したメッセージのコピーを受け取れるようにします。';
 
   @override
-  String get channelSettingsStopAnnouncementTitle =>
-      'Stop being an announcement channel?';
+  String get channelSettingsStopAnnouncementTitle => 'お知らせチャンネルを停止しますか？';
 
   @override
   String channelSettingsStopAnnouncementBody(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other:
-          '$count channels follow this channel. Converting it to a text channel removes those follows.',
-      one:
-          '1 channel follows this channel. Converting it to a text channel removes that follow.',
+      other: '$count個のチャンネルがこのチャンネルをフォローしています。テキストチャンネルに変換すると、それらのフォローは解除されます。',
+      one: '1つのチャンネルがこのチャンネルをフォローしています。テキストチャンネルに変換すると、そのフォローは解除されます。',
     );
     return '$_temp0';
   }
 
   @override
   String get channelSettingsStopAnnouncementUnknown =>
-      'Converting this channel to a text channel removes every channel that follows it.';
+      'このチャンネルをテキストチャンネルに変換すると、フォローしているすべてのチャンネルのフォローが解除されます。';
 
   @override
-  String get channelSettingsConvertChannel => 'Convert';
+  String get channelSettingsConvertChannel => '変換';
 
   @override
-  String get channelSettingsConvertFailed => 'Couldn\'t convert this channel';
+  String get channelSettingsConvertFailed => 'このチャンネルを変換できませんでした';
 
   @override
   String get channelSettingsChannelHasFollowers =>
-      'This channel still has followers. Remove those follows before converting it.';
+      'このチャンネルはまだ他のチャンネルにフォローされています。変換する前にそれらのフォローを解除してください。';
 
   @override
-  String get channelMenuFollow => 'Follow channel';
+  String get channelMenuFollow => 'チャンネルをフォロー';
 
   @override
-  String get channelFollowTitle => 'Follow this channel';
+  String get channelFollowTitle => 'このチャンネルをフォローする';
 
   @override
   String get channelFollowBody =>
-      'Choose where its published messages should go. You can unfollow any time in Community settings → Webhooks.';
+      '公開されたメッセージの送信先を選択してください。コミュニティ設定 → ウェブフックでいつでもフォローをやめることができます。';
 
   @override
-  String get channelFollowCommunity => 'Community';
+  String get channelFollowCommunity => 'コミュニティ';
 
   @override
-  String get channelFollowChannel => 'Channel';
-
-  @override
-  String get channelFollowSelectCommunity => 'Select a community';
-
-  @override
-  String get channelFollowSelectChannel => 'Select a channel';
+  String get channelFollowChannel => 'チャンネル';
 
   @override
   String get channelFollowAgeWarning =>
-      'This is an age-restricted channel. Updates can only go to age-restricted channels.';
+      'このチャンネルは年齢制限付きです。年齢制限付きチャンネルにのみアップデートを送信できます。';
 
   @override
   String get channelFollowContentWarning =>
-      'This channel has a content warning. Updates can only go to channels with a content warning or an age restriction.';
+      'このチャンネルにはコンテンツ警告があります。コンテンツ警告または年齢制限のあるチャンネルにのみ、アップデートを送信できます。';
 
   @override
-  String get channelFollowHiddenHint =>
-      'Communities and channels where you can\'t manage webhooks are hidden.';
+  String get channelFollowHiddenHint => 'ウェブフックを管理できないコミュニティとチャンネルは非表示になります。';
 
   @override
   String get channelFollowEmpty =>
-      'You can\'t manage webhooks in any community. Ask an admin to follow this channel.';
+      'いずれのコミュニティでもウェブフックを管理できません。管理者にこのチャンネルをフォローするよう依頼してください。';
 
   @override
-  String get channelFollowSubmit => 'Follow';
+  String get channelFollowSubmit => 'フォロー';
 
   @override
-  String get channelFollowFailed => 'Couldn\'t follow this channel.';
+  String get channelFollowFailed => 'このチャンネルをフォローできませんでした。';
 
   @override
-  String get channelFollowSuccessTitle => 'Updates are on their way!';
+  String get channelFollowSuccessTitle => '更新情報が届いています！';
 
   @override
   String channelFollowSuccessBody(String sourceName, String targetName) {
-    return 'Messages published in $sourceName will show up in #$targetName.';
+    return '$sourceNameで公開されたメッセージは#$targetNameに表示されます。';
   }
 
   @override
-  String get channelFollowSuccessDismiss => 'Got it!';
+  String get channelFollowSuccessDismiss => '了解しました！';
 
   @override
   String get channelFollowBarrier =>
-      'Follow to get these announcements in a channel you choose.';
+      'このチャンネルをフォローすると、選択したチャンネルでこれらのお知らせを受け取れます。';
 
   @override
-  String get channelHeaderFollow => 'Follow channel';
+  String get channelHeaderFollow => 'チャンネルをフォロー';
 
   @override
-  String get chatMessagePublish => 'Publish';
+  String get chatMessagePublish => '公開';
 
   @override
-  String get chatMessagePublished => 'Published';
+  String get chatMessagePublished => '公開済み';
 
   @override
-  String get chatMessagePublishConfirmTitle => 'Publish message?';
+  String get chatMessagePublishConfirmTitle => 'メッセージを公開しますか？';
 
   @override
   String get chatMessagePublishConfirmBody =>
-      'This sends a copy to every channel that follows this one.';
+      'これは、このチャンネルをフォローしているすべてのチャンネルにコピーを送信します。';
 
   @override
-  String get chatMessagePublishedToast => 'Message published';
+  String get chatMessagePublishedToast => 'メッセージを公開しました';
 
   @override
-  String get chatMessageAlreadyPublished =>
-      'This message is already published.';
+  String get chatMessageAlreadyPublished => 'このメッセージはすでに公開されています。';
 
   @override
-  String get chatMessagePublishFailedTitle => 'Couldn\'t publish this message';
+  String get chatMessagePublishFailedTitle => 'このメッセージを公開できませんでした';
 
   @override
-  String get chatMessagePublishFailedBody =>
-      'Something went wrong. Try again in a moment.';
+  String get chatMessagePublishFailedBody => '問題が発生しました。しばらくしてからもう一度お試しください。';
 
   @override
-  String get chatMessagePublishLimitTitle => 'Slow down';
+  String get chatMessagePublishLimitTitle => 'ペースが速すぎます';
 
   @override
   String chatMessagePublishLimitBody(String duration) {
-    return 'You can publish again in $duration.';
+    return '$duration後に再度公開できます。';
   }
 
   @override
   String get chatMessagePublishLimitUnknown =>
-      'You are publishing too quickly. Try again in a moment.';
+      '投稿頻度が速すぎます。しばらくしてからもう一度お試しください。';
 
   @override
   String get chatMessageDeletePublished =>
-      'This also removes the copies that were sent to channels following this one.';
+      'このチャンネルをフォローしているチャンネルに送信されたコピーも削除されます。';
 
   @override
-  String get chatMessageEditPublishedTitle => 'Edit published message?';
+  String get chatMessageEditPublishedTitle => '投稿メッセージを編集しますか？';
 
   @override
   String get chatMessageEditPublishedBody =>
-      'This updates the copies that were sent to channels following this one.';
+      'このチャンネルをフォローしているチャンネルに送信されたコピーも更新されます。';
 
   @override
-  String get chatMessageEditPublishedSave => 'Save';
+  String get chatMessageEditPublishedSave => '保存';
 
   @override
-  String get chatMessageEditLimitTitle => 'Slow down';
+  String get chatMessageEditLimitTitle => 'ペースが速すぎます';
 
   @override
   String chatMessageEditLimitBody(String duration) {
-    return 'You can edit this published message again in $duration.';
+    return 'この公開済みメッセージは、$duration後に再度編集できます。';
   }
 
   @override
   String get chatMessageEditLimitUnknown =>
-      'You are editing this published message too quickly. Try again in a moment.';
+      '公開済みのメッセージを編集する頻度が高すぎます。しばらくしてからもう一度お試しください。';
 
   @override
-  String get chatMessageOriginalDeleted => '[Original message deleted]';
+  String get chatMessageOriginalDeleted => '[元のメッセージは削除されました]';
 
   @override
-  String get userTagCommunity => 'Community';
+  String get userTagCommunity => 'コミュニティ';
 
   @override
   String systemFollowAdd(String username, String source) {
-    return '$username followed $source into this channel. Messages published there will appear here.';
+    return '$usernameがこのチャンネルで$sourceをフォローするよう設定しました。そちらで公開されたメッセージがここに表示されます。';
   }
 
   @override
   String systemPreviewFollowAdd(String username, String source) {
-    return '$username followed $source into this channel.';
+    return '$usernameがこのチャンネルで$sourceをフォローするよう設定しました。';
   }
 
   @override
-  String get publishNudgeNotSent => 'Not sent to followers yet.';
+  String get publishNudgeNotSent => 'まだフォロワーに送信されていません。';
 
   @override
-  String get publishNudgeHideForever => 'Don\'t show again';
+  String get publishNudgeHideForever => '今後表示しない';
 
   @override
-  String get publishNudgeDismiss => 'Dismiss';
+  String get publishNudgeDismiss => '閉じる';
 
   @override
-  String get channelSettingsFollowedChannels => 'Followed channels';
+  String get channelSettingsFollowedChannels => 'フォロー中のチャンネル';
 
   @override
   String get channelSettingsFollowedChannelsDescription =>
-      'Announcement channels this channel follows. Unfollow to stop receiving copies.';
+      'このチャンネルがフォローしているお知らせチャンネルです。コピーの受信を停止するには、フォローをやめてください。';
 
   @override
   String get guildSettingsFollowedChannelsDescription =>
-      'Announcement channels followed by channels in this community.';
+      'このコミュニティのチャンネルがフォローしているお知らせチャンネル。';
 
   @override
   String channelSettingsFollowedFrom(String guildName, String channelName) {
-    return 'From $guildName #$channelName';
+    return '$guildNameの#$channelNameから';
   }
 
   @override
   String get channelSettingsFollowedPaused =>
-      'Updates are paused because the source channel is no longer available.';
+      'ソースチャンネルが利用できなくなったため、更新は一時停止されています。';
 
   @override
   String channelSettingsUnfollowTitle(String name) {
-    return 'Unfollow $name?';
+    return '$nameのフォローをやめますか？';
   }
 
   @override
   String get channelSettingsUnfollowBody =>
-      'This channel will stop receiving copies from that announcement channel.';
+      'このチャンネルは、そのお知らせチャンネルからのコピーを受信しなくなります。';
 
   @override
-  String get channelSettingsUnfollow => 'Unfollow';
+  String get channelSettingsUnfollow => 'フォローをやめる';
 
   @override
-  String get channelSettingsUnfollowFailed =>
-      'Couldn\'t unfollow this channel.';
+  String get crosspostCommunityTitle => 'コミュニティ';
 
   @override
-  String channelSettingsDeliveredTo(String channelName) {
-    return 'Delivered to #$channelName';
-  }
+  String get crosspostGoToCommunity => 'コミュニティへ';
 
   @override
-  String get crosspostCommunityTitle => 'Community';
+  String get crosspostJoinCommunity => 'コミュニティに参加';
 
   @override
-  String get crosspostGoToCommunity => 'Go to community';
-
-  @override
-  String get crosspostJoinCommunity => 'Join community';
-
-  @override
-  String get crosspostSourceFailed =>
-      'Couldn\'t load this community. Try again in a moment.';
-
-  @override
-  String get crosspostSourceUnavailable =>
-      'This community is no longer available';
+  String get crosspostSourceFailed => 'コミュニティを読み込めませんでした。しばらくしてからもう一度お試しください。';
 
   @override
   String crosspostMembers(int count) {
-    return '$count members';
+    return '$count人のメンバー';
   }
 
   @override
   String crosspostOnline(int count) {
-    return '$count online';
+    return '$count人がオンライン';
   }
 
   @override
@@ -15163,8 +14042,8 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count minutes',
-      one: '1 minute',
+      other: '$count分',
+      one: '1分',
     );
     return '$_temp0';
   }
@@ -15174,21 +14053,20 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count seconds',
-      one: '1 second',
+      other: '$count秒',
+      one: '1秒',
     );
     return '$_temp0';
   }
 
   @override
-  String get channelUnsupportedTitle => 'Unsupported channel type';
+  String get channelUnsupportedTitle => 'サポートされていないチャンネルタイプ';
 
   @override
-  String get channelUnsupportedBody =>
-      'This version of the app doesn\'t support this channel type.';
+  String get channelUnsupportedBody => 'このバージョンのアプリは、このチャンネルタイプに対応していません。';
 
   @override
-  String get channelDetailsUnsupportedChannel => 'Unsupported channel';
+  String get channelDetailsUnsupportedChannel => 'サポートされていないチャンネル';
 
   @override
   String get forumChannelTypeForum => 'Forum';

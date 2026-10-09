@@ -28,10 +28,6 @@
     "@retry": {
         "description": "Generic label for retry actions (splash, errors, network, etc.)."
     },
-    "connectingCaps": "CONNECTING",
-    "@connectingCaps": {
-        "description": "Connecting text on the splash screen"
-    },
     "splashConnectionLost": "Connexion perdue",
     "@splashConnectionLost": {
         "description": "Fallback headline on splash when gateway is unavailable (web parity)."
@@ -93,10 +89,6 @@
             }
         }
     },
-    "ssoRequired": "L'authentification unique est requise pour accéder à cette instance.",
-    "@ssoRequired": {
-        "description": "Short sign-in note shown when the instance requires single sign-on."
-    },
     "organizationSsoProvider": "Connectez-vous avec le fournisseur d'authentification unique de votre organisation.",
     "@organizationSsoProvider": {
         "description": "Description shown when sign-in is restricted to the configured SSO provider."
@@ -117,10 +109,6 @@
                 "type": "String"
             }
         }
-    },
-    "logInViaBrowser": "Se connecter via le navigateur",
-    "@logInViaBrowser": {
-        "description": "Secondary login that opens or uses the system browser."
     },
     "needAccountPrompt": "Besoin d'un compte ? ",
     "@needAccountPrompt": {
@@ -232,26 +220,9 @@
     "@accountAdd": {
         "description": "Button to add a new account."
     },
-    "accountRemove": "Supprimer",
-    "@accountRemove": {
-        "description": "Context menu option to remove a stored account."
-    },
-    "accountRemoveTitle": "Supprimer {username}",
-    "@accountRemoveTitle": {
-        "description": "Title for the remove account confirmation modal.",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
     "accountRemoveDescription": "Ceci supprimera la session enregistrée pour ce compte.",
     "@accountRemoveDescription": {
         "description": "Description for the remove account confirmation modal."
-    },
-    "accountRemoveOnlyDescription": "Cela supprimera le seul compte enregistré sur cet appareil.",
-    "@accountRemoveOnlyDescription": {
-        "description": "Description when removing the last stored account."
     },
     "accountExpired": "Expiré",
     "@accountExpired": {
@@ -636,7 +607,7 @@
     },
     "recoveryKitBackupCodesFailed": "Impossible de charger vos codes de sauvegarde.",
     "@recoveryKitBackupCodesFailed": {
-        "description": "Toast shown when the two-factor backup codes for the recovery kit cannot be loaded."
+        "description": "Toast shown when the two-factor backup codes cannot be loaded, in the recovery kit sheet or from View codes in security settings."
     },
     "recoveryKitIncludeBackupCodes": "Inclure mes codes de secours d'authentification à deux facteurs dans l'image enregistrée",
     "@recoveryKitIncludeBackupCodes": {
@@ -783,10 +754,6 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsent": "J'accepte les Conditions d'utilisation et la Politique de confidentialité",
-    "@registerConsent": {
-        "description": "Consent checkbox label for registration (plain text fallback)."
-    },
     "registerConsentPrefix": "J'accepte les ",
     "@registerConsentPrefix": {
         "description": "Text before the Terms of Service link in the consent checkbox."
@@ -830,10 +797,6 @@
     "passkeyTimeout": "L'authentification par clé d'accès a expiré. Veuillez réessayer.",
     "@passkeyTimeout": {
         "description": "Error when passkey authentication times out."
-    },
-    "passkeyNotAvailable": "Les clés d'accès ne sont pas disponibles pour cette application. Connectez-vous avec votre e-mail et votre mot de passe à la place.",
-    "@passkeyNotAvailable": {
-        "description": "Error for unknown passkey provider errors (e.g. TYPE_UNKNOWN)."
     },
     "passkeyFailed": "L'authentification par clé d'accès a échoué. Veuillez réessayer.",
     "@passkeyFailed": {
@@ -942,26 +905,6 @@
     "@inviteAcceptSomeone": {
         "description": "Fallback inviter name when the inviter is unknown."
     },
-    "inviteAcceptEmojiPack": "Pack d'emojis",
-    "@inviteAcceptEmojiPack": {
-        "description": "Label for an emoji pack invite."
-    },
-    "inviteAcceptStickerPack": "Pack d'autocollants",
-    "@inviteAcceptStickerPack": {
-        "description": "Label for a sticker pack invite."
-    },
-    "inviteAcceptInstallEmojiPack": "Installer le pack d'emojis",
-    "@inviteAcceptInstallEmojiPack": {
-        "description": "Primary action to install an emoji pack from an invite."
-    },
-    "inviteAcceptInstallStickerPack": "Installer le pack d'autocollants",
-    "@inviteAcceptInstallStickerPack": {
-        "description": "Primary action to install a sticker pack from an invite."
-    },
-    "inviteAcceptPackInstallNote": "Accepter cette invitation installe le pack automatiquement.",
-    "@inviteAcceptPackInstallNote": {
-        "description": "Note shown on expression pack invites before accepting."
-    },
     "mentionUnknownChannel": "salon-inconnu",
     "@mentionUnknownChannel": {
         "description": "Fallback name shown in a channel mention pill when the channel is not found."
@@ -986,13 +929,13 @@
     "@embedThemeTitle": {
         "description": "Title on the theme embed card in chat."
     },
-    "embedThemeSubtitle": "Ce client ne prend pas en charge les thèmes personnalisés.",
-    "@embedThemeSubtitle": {
-        "description": "Subtitle on the theme embed card."
+    "embedThemeWebOnly": "Tu peux importer des thèmes uniquement sur le web ou sur ordinateur.",
+    "@embedThemeWebOnly": {
+        "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
     },
-    "embedThemeUnavailableButton": "Thèmes indisponibles",
-    "@embedThemeUnavailableButton": {
-        "description": "Button on the theme embed card - themes aren't supported in the client."
+    "embedThemeImport": "Importer le thème",
+    "@embedThemeImport": {
+        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "privacySettings": "Paramètres de confidentialité",
     "@privacySettings": {
@@ -1220,9 +1163,18 @@
     "@dmLeaveGroup": {
         "description": "DM context menu action to leave a group DM."
     },
-    "dmNoCommunitiesAvailable": "Aucune communauté disponible",
-    "@dmNoCommunitiesAvailable": {
-        "description": "Shown when no communities are available to invite to."
+    "dmInviteSentFor": "Invitation envoyée pour {communityName}",
+    "@dmInviteSentFor": {
+        "description": "Toast confirming a community invite was sent to a DM recipient.",
+        "placeholders": {
+            "communityName": {
+                "type": "String"
+            }
+        }
+    },
+    "dmInviteSendFailed": "Impossible d'envoyer l'invitation. Veuillez réessayer.",
+    "@dmInviteSendFailed": {
+        "description": "Toast shown when sending a community invite from the DM menu fails."
     },
     "dmGroupMemberCount": "{count} membres",
     "@dmGroupMemberCount": {
@@ -1667,10 +1619,6 @@
             }
         }
     },
-    "emojiPlutoniumUpsellButton": "Obtenir Plutonium",
-    "@emojiPlutoniumUpsellButton": {
-        "description": "Button label on the Plutonium upsell banner."
-    },
     "emojiPlutoniumUpsellDismiss": "Ne plus afficher",
     "@emojiPlutoniumUpsellDismiss": {
         "description": "Dismiss link on the Plutonium upsell banner."
@@ -1837,10 +1785,6 @@
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
     },
-    "fluxerTagInputLabel": "Nom d'utilisateur",
-    "@fluxerTagInputLabel": {
-        "description": "Label above the username and discriminator input fields."
-    },
     "fluxerTagDescriptionBase": "Les noms d'utilisateur ne peuvent contenir que des lettres (a-z, A-Z), des chiffres (0-9) et des tirets bas. Ils ne sont pas sensibles à la casse.",
     "@fluxerTagDescriptionBase": {
         "description": "Base description text on the username change sheet."
@@ -1868,10 +1812,6 @@
     "validationAllowedChars": "Lettres (a-z, A-Z), chiffres (0-9) et tirets bas (_) uniquement",
     "@validationAllowedChars": {
         "description": "Validation rule for allowed username characters."
-    },
-    "discriminatorPremiumTooltip": "Obtenez Plutonium pour personnaliser votre tag ou le conserver lors de la modification de votre nom d'utilisateur",
-    "@discriminatorPremiumTooltip": {
-        "description": "Tooltip on disabled discriminator field for non-premium users."
     },
     "fluxerTagAlreadyTaken": "Nom d'utilisateur déjà pris",
     "@fluxerTagAlreadyTaken": {
@@ -1926,19 +1866,6 @@
     "premiumUpsellCustomizeTag": "Personnalisez votre tag à 4 chiffres ou conservez-le lors de la modification de votre nom d'utilisateur",
     "@premiumUpsellCustomizeTag": {
         "description": "Upsell text encouraging non-premium users to get Plutonium for tag customization."
-    },
-    "premiumTrialExpiresOn": "Votre essai Plutonium expire le {date}. Passez à la version supérieure pour conserver votre tag personnalisé et obtenir un badge sur votre profil.",
-    "@premiumTrialExpiresOn": {
-        "description": "Trial upsell with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActive": "Vous êtes en période d'essai Plutonium. Passez à la version supérieure pour conserver votre tag personnalisé et obtenir un badge sur votre profil.",
-    "@premiumTrialActive": {
-        "description": "Trial upsell without specific expiry date."
     },
     "fluxerTagUpdated": "Nom d'utilisateur mis à jour",
     "@fluxerTagUpdated": {
@@ -2112,32 +2039,6 @@
     "@hideVisionaryIdDescription": {
         "description": "Description for the toggle to hide the Visionary ID badge."
     },
-    "premiumTrialSubscriptionStarts": "Vous êtes en essai Plutonium — votre abonnement commence le {date}",
-    "@premiumTrialSubscriptionStarts": {
-        "description": "Trial banner title when user has an active subscription pending after trial.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialSubscriptionStartsDescription": "Votre abonnement commencera automatiquement à la fin de votre essai. Aucune action requise.",
-    "@premiumTrialSubscriptionStartsDescription": {
-        "description": "Trial banner description when user has an active subscription pending after trial."
-    },
-    "premiumTrialExpiresOnProfile": "Vous êtes en essai Plutonium qui expire le {date}",
-    "@premiumTrialExpiresOnProfile": {
-        "description": "Trial banner title with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActiveProfile": "Vous êtes en essai Plutonium",
-    "@premiumTrialActiveProfile": {
-        "description": "Trial banner title without specific expiry date."
-    },
     "avatarDescriptionNonPremium": "JPEG, PNG, WebP. 10 Mo max. Recommandé : 512×512 px. Les avatars animés (GIF) nécessitent Plutonium.",
     "@avatarDescriptionNonPremium": {
         "description": "Avatar helper text for non-premium users, mentioning Plutonium requirement for animated avatars."
@@ -2222,22 +2123,6 @@
     "profileSavedToast": "Profil mis à jour",
     "@profileSavedToast": {
         "description": "Toast message shown after successfully saving profile changes."
-    },
-    "profileEditButton": "Modifier le profil",
-    "@profileEditButton": {
-        "description": "Button label to open profile editing from the profile content card."
-    },
-    "profileNoteLabel": "Note",
-    "@profileNoteLabel": {
-        "description": "Label for the personal note section on a user profile."
-    },
-    "profileNoteVisibility": "(visible uniquement par vous)",
-    "@profileNoteVisibility": {
-        "description": "Hint that the note is private and only visible to the current user."
-    },
-    "profileNoteEmpty": "Pas encore de note.",
-    "@profileNoteEmpty": {
-        "description": "Placeholder shown when no personal note has been set for a user."
     },
     "sudoTitle": "Vérifiez votre identité",
     "@sudoTitle": {
@@ -2610,42 +2495,6 @@
     "@securityPasskeyNameHint": {
         "description": "Hint for passkey name input."
     },
-    "securityPhoneSectionTitle": "Numéro de téléphone",
-    "@securityPhoneSectionTitle": {
-        "description": "Title for phone number section."
-    },
-    "securityPhoneSectionDescription": "Gérez votre numéro de téléphone.",
-    "@securityPhoneSectionDescription": {
-        "description": "Description for phone number section."
-    },
-    "securityPhoneLabel": "Numéro de téléphone",
-    "@securityPhoneLabel": {
-        "description": "Label for phone number row."
-    },
-    "securityPhoneNone": "Aucun numéro de téléphone ajouté.",
-    "@securityPhoneNone": {
-        "description": "Shown when no phone number is set."
-    },
-    "securityPhoneAdd": "Ajouter un téléphone",
-    "@securityPhoneAdd": {
-        "description": "Button to add phone number."
-    },
-    "securityPhoneRemove": "Supprimer",
-    "@securityPhoneRemove": {
-        "description": "Button to remove phone number."
-    },
-    "securityPhoneRemoveTitle": "Supprimer le numéro de téléphone",
-    "@securityPhoneRemoveTitle": {
-        "description": "Title for phone remove confirmation."
-    },
-    "securityPhoneRemoveDescription": "Êtes-vous sûr de vouloir supprimer votre numéro de téléphone ?",
-    "@securityPhoneRemoveDescription": {
-        "description": "Description for phone remove confirmation."
-    },
-    "securityPhoneRemoved": "Numéro de téléphone supprimé",
-    "@securityPhoneRemoved": {
-        "description": "Toast after phone removed."
-    },
     "securityClaimTitle": "Fonctionnalités de sécurité",
     "@securityClaimTitle": {
         "description": "Title when user needs to claim account for security."
@@ -2654,7 +2503,7 @@
     "@securityClaimDescription": {
         "description": "Description prompting user to claim account."
     },
-    "securityVerifyEmailRequired": "Vous devez vérifier votre adresse e-mail avant de pouvoir configurer l'authentification à deux facteurs, les passkeys ou la vérification par SMS.",
+    "securityVerifyEmailRequired": "Vous devez vérifier votre adresse e-mail avant de pouvoir configurer l'authentification à deux facteurs ou les passkeys.",
     "@securityVerifyEmailRequired": {
         "description": "Warning when email is not verified."
     },
@@ -2698,10 +2547,6 @@
     "@backupCodesWarning": {
         "description": "Warning about backup codes."
     },
-    "backupCodesDownload": "Télécharger",
-    "@backupCodesDownload": {
-        "description": "Button to download backup codes."
-    },
     "backupCodesCopy": "Copier",
     "@backupCodesCopy": {
         "description": "Button to copy backup codes."
@@ -2717,46 +2562,6 @@
     "backupCodesDone": "Terminé",
     "@backupCodesDone": {
         "description": "Button to close backup codes sheet."
-    },
-    "backupCodesViewTitle": "Afficher les codes de secours",
-    "@backupCodesViewTitle": {
-        "description": "Title for viewing existing backup codes."
-    },
-    "backupCodesViewDescription": "Une vérification peut être nécessaire avant de voir vos codes de secours.",
-    "@backupCodesViewDescription": {
-        "description": "Description for view backup codes."
-    },
-    "phoneAddTitle": "Ajouter un numéro de téléphone",
-    "@phoneAddTitle": {
-        "description": "Title for phone add sheet."
-    },
-    "phoneAddLabel": "Numéro de téléphone",
-    "@phoneAddLabel": {
-        "description": "Label for phone input."
-    },
-    "phoneAddHint": "Saisissez votre numéro de téléphone",
-    "@phoneAddHint": {
-        "description": "Hint for phone input."
-    },
-    "phoneAddFooter": "Nous enverrons un code SMS lorsqu'il sera disponible. Votre numéro n'est pas lié à votre compte. Nous conservons uniquement un marqueur chiffré, sans identifiant utilisateur, pour permettre au plus 2 vérifications sur environ 30 jours.",
-    "@phoneAddFooter": {
-        "description": "Footer text for phone input."
-    },
-    "phoneAddSendCode": "Envoyer le code",
-    "@phoneAddSendCode": {
-        "description": "Button to send phone verification code."
-    },
-    "phoneVerifyTitle": "Vérifier le numéro de téléphone",
-    "@phoneVerifyTitle": {
-        "description": "Title for phone verify step."
-    },
-    "phoneVerifyDescription": "Entrez le code de vérification envoyé à votre numéro de téléphone.",
-    "@phoneVerifyDescription": {
-        "description": "Description for phone verify step."
-    },
-    "phoneAddSuccess": "Numéro de téléphone vérifié",
-    "@phoneAddSuccess": {
-        "description": "Toast after phone added."
     },
     "dangerZoneSectionTitle": "Zone de danger",
     "@dangerZoneSectionTitle": {
@@ -3008,10 +2813,6 @@
     "@authorizedAppsScopeAdmin": {
         "description": "OAuth2 scope description: admin."
     },
-    "privacyPendingDeletionTitle": "Suppression en attente",
-    "@privacyPendingDeletionTitle": {
-        "description": "Title of the warning alert shown when a bulk message deletion is pending."
-    },
     "blockedUsersTitle": "Utilisateurs bloqués",
     "@blockedUsersTitle": {
         "description": "Header title of the Blocked Users settings page."
@@ -3248,10 +3049,6 @@
     "@userProfileNoteDelete": {
         "description": "Delete button in the note editor sheet."
     },
-    "userProfileNoteEmpty": "Cliquer pour ajouter une note",
-    "@userProfileNoteEmpty": {
-        "description": "Hint text when no note has been written yet."
-    },
     "userProfileMemberSince": "Membre depuis",
     "@userProfileMemberSince": {
         "description": "Header of the member-since section in the bio card."
@@ -3363,13 +3160,13 @@
     "@userProfileTransferOwnership": {
         "description": "Three-dot menu item to transfer community ownership to the member."
     },
-    "userProfileReportUser": "Signaler l'utilisateur",
-    "@userProfileReportUser": {
-        "description": "Three-dot menu item to report the user."
-    },
     "userProfileReportMessage": "Signaler le message",
     "@userProfileReportMessage": {
         "description": "Three-dot menu item to report the message that opened this profile."
+    },
+    "userProfileReportUserProfile": "Signaler le profil",
+    "@userProfileReportUserProfile": {
+        "description": "Three-dot menu item on the full profile to report this user's profile (avatar, banner, name, bio and other profile parts). Message behavior is reported from the message instead."
     },
     "userProfileKickConfirmTitle": "Expulser {username} ?",
     "@userProfileKickConfirmTitle": {
@@ -3596,18 +3393,6 @@
     "durationCustom": "Personnalisé…",
     "@durationCustom": {
         "description": "Duration option label for a user-specified custom duration."
-    },
-    "iarReportUserTitle": "Signaler l'utilisateur",
-    "@iarReportUserTitle": {
-        "description": "Title of the simple user-report sheet."
-    },
-    "iarReasonInappropriateProfile": "Profil inapproprié",
-    "@iarReasonInappropriateProfile": {
-        "description": "User-report reason: the user's profile contains inappropriate content."
-    },
-    "iarReasonInappropriateProfileDescription": "Le profil de cet utilisateur contient du contenu inapproprié",
-    "@iarReasonInappropriateProfileDescription": {
-        "description": "Description for the inappropriate-profile user-report reason."
     },
     "typingIndicatorOne": "Touche {name} en train de taper...",
     "@typingIndicatorOne": {
@@ -4034,17 +3819,9 @@
     "@channelComposerBarrierNotMemberLongEnough": {
         "description": "Composer barrier when the user's guild membership is too recent."
     },
-    "channelComposerBarrierNoPhoneNumber": "Vous devez vérifier un numéro de téléphone pour envoyer des messages dans cette communauté.",
-    "@channelComposerBarrierNoPhoneNumber": {
-        "description": "Composer barrier when the user must verify a phone number before messaging."
-    },
     "channelComposerBarrierVerifyEmail": "Vérifier l'e-mail",
     "@channelComposerBarrierVerifyEmail": {
         "description": "Action button on the composer barrier for unverified email."
-    },
-    "channelComposerBarrierVerifyPhone": "Vérifier le téléphone",
-    "@channelComposerBarrierVerifyPhone": {
-        "description": "Action button on the composer barrier for missing phone verification."
     },
     "chatAttachmentTooMany": "Trop de pièces jointes (max {max})",
     "@chatAttachmentTooMany": {
@@ -4071,10 +3848,6 @@
     "@chatAttachmentDropToSend": {
         "description": "Overlay hint when dragging files over chat with Shift held."
     },
-    "chatAttachmentSendVoiceMessage": "Envoyer un message vocal",
-    "@chatAttachmentSendVoiceMessage": {
-        "description": "Menu item to open the voice message recorder."
-    },
     "voiceMessageTitle": "Message vocal",
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
@@ -4095,10 +3868,6 @@
     "@voiceMessageMicPermissionDenied": {
         "description": "Shown when microphone permission is denied for voice messages."
     },
-    "voiceMessageRecordingNotSupported": "L'enregistrement vocal n'est pas pris en charge sur cet appareil.",
-    "@voiceMessageRecordingNotSupported": {
-        "description": "Shown when the device cannot record voice messages."
-    },
     "voiceMessageMicInUse": "Quittez l'appel vocal pour enregistrer un message vocal.",
     "@voiceMessageMicInUse": {
         "description": "Shown when the microphone is already used by an active voice call."
@@ -4111,26 +3880,6 @@
     "@voiceMessageSendFailed": {
         "description": "Shown when sending a voice message fails."
     },
-    "voiceMessageRecordingHint": "Parlez maintenant. Appuyez sur Arrêter lorsque vous avez terminé. Vous pourrez ensuite raccourcir l’enregistrement.",
-    "@voiceMessageRecordingHint": {
-        "description": "Help text while recording a voice message on desktop."
-    },
-    "voiceMessageReviewHint": "Faites glisser les poignées pour couper, puis appuyez sur Envoyer.",
-    "@voiceMessageReviewHint": {
-        "description": "Help text while reviewing a voice message before send."
-    },
-    "voiceMessageStop": "Arrêter",
-    "@voiceMessageStop": {
-        "description": "Stop recording button in voice message composer."
-    },
-    "voiceMessageStartRecording": "Démarrer l’enregistrement",
-    "@voiceMessageStartRecording": {
-        "description": "Button to retry voice recording after permission error."
-    },
-    "voiceMessageRerecord": "Réenregistrer",
-    "@voiceMessageRerecord": {
-        "description": "Button to discard review and record again."
-    },
     "voiceMessagePlay": "Lire",
     "@voiceMessagePlay": {
         "description": "Play voice message preview."
@@ -4138,16 +3887,6 @@
     "voiceMessagePause": "Pause",
     "@voiceMessagePause": {
         "description": "Pause voice message preview."
-    },
-    "voiceMessageSelectionTooShort": "La sélection doit durer au moins {seconds} s.",
-    "@voiceMessageSelectionTooShort": {
-        "description": "Error when trimmed voice message is too short.",
-        "placeholders": {
-            "seconds": {
-                "type": "num",
-                "format": "compact"
-            }
-        }
     },
     "chatAttachmentEditTitle": "Modifier la pièce jointe",
     "@chatAttachmentEditTitle": {
@@ -4192,10 +3931,6 @@
     "chatAttachmentSourceBrowse": "Parcourir les fichiers",
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
-    },
-    "chatAttachmentPasteTooltip": "Coller le fichier depuis le presse-papiers",
-    "@chatAttachmentPasteTooltip": {
-        "description": "Tooltip for pasting an image attachment from the clipboard."
     },
     "chatAttachmentSpoiler": "Spoiler",
     "@chatAttachmentSpoiler": {
@@ -4293,14 +4028,6 @@
     "@matureContentOpenLinkButton": {
         "description": "Primary action on mature link channel gates."
     },
-    "sensitiveContentSectionTitle": "Contenu sensible",
-    "@sensitiveContentSectionTitle": {
-        "description": "Privacy settings section title for sensitive content filters."
-    },
-    "sensitiveContentSectionDescription": "Contrôlez la façon dont les médias pour adultes ou sensibles sont filtrés dans différents contextes",
-    "@sensitiveContentSectionDescription": {
-        "description": "Privacy settings section description for sensitive content filters."
-    },
     "sensitiveContentFriendDmLabel": "Messages privés d’amis",
     "@sensitiveContentFriendDmLabel": {
         "description": "Label for friend DM sensitive content filter."
@@ -4325,18 +4052,6 @@
     "@sensitiveContentFilterBlock": {
         "description": "Sensitive content filter option to block media."
     },
-    "sensitiveContentBlurUnscannedLabel": "Flouter les médias jusqu'à la fin de l'analyse de sécurité",
-    "@sensitiveContentBlurUnscannedLabel": {
-        "description": "Toggle label for blurring unscanned media."
-    },
-    "sensitiveContentBlurUnscannedDescriptionAdult": "Lorsque cette option est activée, les images et les vidéos sont floutées jusqu'à la fin de l'analyse de sécurité du contenu.",
-    "@sensitiveContentBlurUnscannedDescriptionAdult": {
-        "description": "Description for blur-unscanned toggle for adult accounts."
-    },
-    "sensitiveContentBlurUnscannedDescriptionMinor": "Ce paramètre est toujours activé pour votre compte.",
-    "@sensitiveContentBlurUnscannedDescriptionMinor": {
-        "description": "Description for blur-unscanned toggle for minor accounts."
-    },
     "sensitiveContentResetButton": "Réinitialiser",
     "@sensitiveContentResetButton": {
         "description": "Reset button for sensitive content settings."
@@ -4353,10 +4068,6 @@
                 "type": "int"
             }
         }
-    },
-    "chatCancelUpload": "Annuler l'envoi",
-    "@chatCancelUpload": {
-        "description": "Button or menu action label for canceling an in-flight message attachment upload."
     },
     "chatAttachmentExpiresOn": "Expire le {date}",
     "@chatAttachmentExpiresOn": {
@@ -4626,10 +4337,6 @@
     "@connectionEnterDomain": {
         "description": "Inline error shown when the domain input is empty."
     },
-    "lookAndFeelTitle": "Apparence",
-    "@lookAndFeelTitle": {
-        "description": "Title of the Look & Feel (Appearance) settings page."
-    },
     "lookAndFeelThemeSectionTitle": "Thème",
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
@@ -4669,14 +4376,6 @@
     "lookAndFeelThemeSyncFailed": "Impossible de synchroniser le thème avec votre compte. Veuillez réessayer.",
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
-    },
-    "lookAndFeelChatFontScalingTitle": "Taille de la police du chat",
-    "@lookAndFeelChatFontScalingTitle": {
-        "description": "Section title for the chat font size slider."
-    },
-    "lookAndFeelChatFontScalingDescription": "Ajuster la taille de la police dans la zone de discussion.",
-    "@lookAndFeelChatFontScalingDescription": {
-        "description": "Section description for the chat font size slider."
     },
     "lookAndFeelInterfaceTitle": "Interface",
     "@lookAndFeelInterfaceTitle": {
@@ -4745,42 +4444,6 @@
     "lookAndFeelHideKeyboardHintsDescription": "Lorsqu'elle est activée, les badges de raccourcis sont masqués dans les fenêtres contextuelles d'infobulles.",
     "@lookAndFeelHideKeyboardHintsDescription": {
         "description": "Toggle description for the hide-keyboard-hints switch."
-    },
-    "lookAndFeelNekoTitle": "Divers",
-    "@lookAndFeelNekoTitle": {
-        "description": "Subsection title under Interface for Neko appearance settings."
-    },
-    "lookAndFeelNekoDescription": "Options d'interface diverses.",
-    "@lookAndFeelNekoDescription": {
-        "description": "Subsection description for Neko appearance settings."
-    },
-    "lookAndFeelShowNekoLabel": "Afficher Neko",
-    "@lookAndFeelShowNekoLabel": {
-        "description": "Toggle label for showing Neko in the chat footer."
-    },
-    "lookAndFeelShowNekoDescription": "Lorsqu'elle est activée, Neko apparaît près de la barre de saisie de discussion.",
-    "@lookAndFeelShowNekoDescription": {
-        "description": "Toggle description for showing Neko in chat."
-    },
-    "lookAndFeelVoiceChannelJoinTitle": "Comportement lors de la connexion aux salons vocaux",
-    "@lookAndFeelVoiceChannelJoinTitle": {
-        "description": "Subsection title under Interface — voice channel join behavior."
-    },
-    "lookAndFeelVoiceChannelJoinDescription": "Contrôlez la façon dont vous rejoignez les salons vocaux dans les communautés.",
-    "@lookAndFeelVoiceChannelJoinDescription": {
-        "description": "Subsection description for voice channel join behavior."
-    },
-    "lookAndFeelRequireDoubleClickJoinLabel": "Demander un double-clic pour rejoindre les salons vocaux",
-    "@lookAndFeelRequireDoubleClickJoinLabel": {
-        "description": "Toggle label — require double-click to join voice channels."
-    },
-    "lookAndFeelRequireDoubleClickJoinDescription": "Lorsqu'elle est activée, vous devrez double-cliquer sur les salons vocaux pour les rejoindre. Lorsqu'elle est désactivée (par défaut), un simple clic vous rejoindra immédiatement dans le salon.",
-    "@lookAndFeelRequireDoubleClickJoinDescription": {
-        "description": "Toggle description for the require-double-click voice channel join switch."
-    },
-    "lookAndFeelChatFontPreviewSample": "Le rapide renard brun saute par-dessus le chien paresseux.",
-    "@lookAndFeelChatFontPreviewSample": {
-        "description": "Sample text rendered at the selected chat font size to preview scaling."
     },
     "lookAndFeelGuildSidebarTitle": "Barre latérale des serveurs",
     "@lookAndFeelGuildSidebarTitle": {
@@ -5189,25 +4852,9 @@
     "@messagesMediaAutocompleteSavedMediaLabel": {
         "description": "Toggle label for saved media in expression autocomplete."
     },
-    "messagesMediaEditingSectionTitle": "Modification des messages",
-    "@messagesMediaEditingSectionTitle": {
-        "description": "Section title for message editing settings."
-    },
-    "messagesMediaEditingSectionDescription": "Contrôler ce qui arrive à votre brouillon de modification lorsque vous annulez.",
-    "@messagesMediaEditingSectionDescription": {
-        "description": "Section description for message editing settings."
-    },
-    "messagesMediaEditingPreserveDraftLabel": "Conserver le brouillon de modification en cas d'annulation",
-    "@messagesMediaEditingPreserveDraftLabel": {
-        "description": "Toggle label for preserving edit drafts on cancel."
-    },
     "accessibilityDmMessagePreviewGroupTitle": "Aperçus des messages privés",
     "@accessibilityDmMessagePreviewGroupTitle": {
         "description": "Section title for DM message preview accessibility settings."
-    },
-    "accessibilityDmMessagePreviewGroupDescription": "Contrôler quand les aperçus de messages sont affichés dans la liste des DM.",
-    "@accessibilityDmMessagePreviewGroupDescription": {
-        "description": "Section description for DM message preview accessibility settings."
     },
     "accessibilityDmMessagePreviewModeLabel": "Mode d'aperçu des messages privés",
     "@accessibilityDmMessagePreviewModeLabel": {
@@ -5365,10 +5012,6 @@
     "@voiceConnectionConfirmDoNothing": {
         "description": "Dismiss the dialog without joining voice."
     },
-    "voiceChannelEmptyDescription": "Ceci est un salon vocal. Connectez-vous pour commencer à parler !",
-    "@voiceChannelEmptyDescription": {
-        "description": "Empty state body when viewing a guild voice channel while not in the call."
-    },
     "voiceChannelJoin": "Rejoindre le salon vocal",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
@@ -5408,14 +5051,6 @@
     "voiceChannelStatusConnecting": "Connexion…",
     "@voiceChannelStatusConnecting": {
         "description": "Status in the in-page voice view while LiveKit is connecting."
-    },
-    "voiceChannelStatusConnected": "Connecté",
-    "@voiceChannelStatusConnected": {
-        "description": "Status in the in-page voice view when the voice session is active."
-    },
-    "voiceChannelStatusError": "Erreur",
-    "@voiceChannelStatusError": {
-        "description": "Short label in the channel header when the voice session reports an error."
     },
     "voiceParticipantTooltipMobileDevice": "Appareil mobile",
     "@voiceParticipantTooltipMobileDevice": {
@@ -5490,10 +5125,6 @@
     "voiceScreenShareNotificationText": "Partage de votre écran.",
     "@voiceScreenShareNotificationText": {
         "description": "Body text for the Android foreground notification shown while screen sharing."
-    },
-    "voiceControlMore": "Plus",
-    "@voiceControlMore": {
-        "description": "Tooltip: more voice actions in the voice call control bar."
     },
     "voiceControlDisconnect": "Déconnecter",
     "@voiceControlDisconnect": {
@@ -5745,6 +5376,10 @@
     "@chatSendFailureContentBlocked": {
         "description": "Fluxerbot system message when message content is blocked by safety systems."
     },
+    "chatSendFailureContentBlockedSelfHosted": "Votre message n'a pas pu être envoyé, car il a été signalé par nos systèmes de sécurité. Si vous pensez qu'il s'agit d'une erreur, veuillez contacter les administrateurs de cette instance.",
+    "@chatSendFailureContentBlockedSelfHosted": {
+        "description": "Fluxerbot system message on a self-hosted instance when message content is blocked by safety systems. Names no support mailbox."
+    },
     "chatSendFailureNsfwEmojiSticker": "Votre message n'a pas pu être délivré car il contient des emoji ou des autocollants pour adultes qui ne sont pas autorisés dans ce contexte.",
     "@chatSendFailureNsfwEmojiSticker": {
         "description": "Fluxerbot system message when mature emoji or stickers are blocked."
@@ -5769,6 +5404,10 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "Appuyez deux fois sur un message pour",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
     "chatMessageEdit": "Modifier le message",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -5776,6 +5415,14 @@
     "chatMessageReply": "Répondre",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
+    },
+    "notificationReplyPlaceholder": "Message",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "Impossible d'envoyer la réponse",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
     },
     "chatMessageForward": "Transférer",
     "@chatMessageForward": {
@@ -5926,420 +5573,155 @@
     "@chatMessageReport": {
         "description": "Action label that opens the report-message sheet so the user can flag the message to moderators."
     },
-    "iarReportMessageTitle": "Signaler le message",
-    "@iarReportMessageTitle": {
-        "description": "Title shown at the top of the In-App Reporting (IAR) sheet when the user is reporting a specific message."
+    "reportFlowTitleMessage": "Signaler le message",
+    "@reportFlowTitleMessage": {
+        "description": "Report flow: sheet title while the message report form loads or fails to load."
     },
-    "iarThisUserFallback": "cet utilisateur",
-    "@iarThisUserFallback": {
-        "description": "Lowercase phrase used mid-sentence in IAR copy when referring to the reported user without a name (e.g. inside the close-DM confirmation)."
+    "reportFlowTitleUserProfile": "Signaler le profil",
+    "@reportFlowTitleUserProfile": {
+        "description": "Report flow: sheet title while the user profile report form loads or fails to load."
     },
-    "iarModalDescription": "Signaler une infraction au règlement ou trouver des outils pour gérer les contacts et les préférences.",
-    "@iarModalDescription": {
-        "description": "Screen-reader description for the IAR sheet announcing what the flow is for."
+    "reportFlowSummaryTitle": "Vérifier votre signalement",
+    "@reportFlowSummaryTitle": {
+        "description": "Report flow: title of the last screen, where the reporter reviews the report before sending it."
     },
-    "iarPathStepAriaLabel": "Que vous faut-il ?",
-    "@iarPathStepAriaLabel": {
-        "description": "Accessible label for the primary-path radio group on the first step of the IAR sheet. Not shown visually; the radios are labelled inline."
+    "reportFlowSummarySubtitle": "Vérifiez que tout est correct avant d'envoyer.",
+    "@reportFlowSummarySubtitle": {
+        "description": "Report flow: subtitle of the report summary screen."
     },
-    "iarCategoryStepTitle": "Quel type de règle a été enfreint ?",
-    "@iarCategoryStepTitle": {
-        "description": "Title shown on the category step of the IAR sheet (platform-report path)."
+    "reportFlowDisclaimer": "Ne signalez que ce que vous pensez sincèrement contraire aux règles. L'utilisation abusive des signalements va à l'encontre de nos {guidelines}.",
+    "@reportFlowDisclaimer": {
+        "description": "Report flow: disclaimer on the report summary screen. {guidelines} is a link whose text is reportFlowCommunityGuidelinesLink.",
+        "placeholders": {
+            "guidelines": {
+                "type": "String",
+                "example": "Community Guidelines"
+            }
+        }
     },
-    "iarReasonStepTitle": "Quelle règle a été enfreinte ?",
-    "@iarReasonStepTitle": {
-        "description": "Title shown on the reason step of the IAR sheet after the user has picked a rule category."
+    "reportFlowCommunityGuidelinesLink": "règles de la communauté",
+    "@reportFlowCommunityGuidelinesLink": {
+        "description": "Report flow: link text inside reportFlowDisclaimer. Opens the community guidelines page."
     },
-    "iarReasonSelectHint": "Sélectionner une raison",
-    "@iarReasonSelectHint": {
-        "description": "Placeholder shown in the message-report reason dropdown before the user picks a rule."
+    "reportFlowDisclaimerNoLink": "Ne signalez que ce que vous pensez sincèrement contraire aux règles, et veuillez ne pas envoyer deux fois le même signalement.",
+    "@reportFlowDisclaimerNoLink": {
+        "description": "Report flow: disclaimer on the report summary screen when the instance has no community guidelines page."
     },
-    "iarPickAnOptionToast": "Choisissez une option pour continuer.",
-    "@iarPickAnOptionToast": {
-        "description": "Toast shown when the user taps Continue on a step without selecting any radio option."
+    "reportFlowSelectedMessage": "Message que vous signalez",
+    "@reportFlowSelectedMessage": {
+        "description": "Report flow: heading above the preview of the reported message on the report summary screen."
     },
-    "iarPickARuleToast": "Choisissez la règle qui a été enfreinte.",
-    "@iarPickARuleToast": {
-        "description": "Toast shown when the user taps Send report without selecting a rule reason."
+    "reportFlowSelectedUser": "Profil que vous signalez",
+    "@reportFlowSelectedUser": {
+        "description": "Report flow: heading above the card of the reported user on the first screen and the report summary screen."
     },
-    "iarPathPlatform": "Signaler une violation de règle de la plateforme",
-    "@iarPathPlatform": {
-        "description": "Primary-path radio label: file a real DSA / platform-level report."
+    "reportFlowReportCategory": "Vos réponses",
+    "@reportFlowReportCategory": {
+        "description": "Report flow: heading above the list of answers the reporter picked, on the report summary screen."
     },
-    "iarPathCommunity": "Signaler aux modérateurs de cette communauté",
-    "@iarPathCommunity": {
-        "description": "Primary-path radio label: surface this to community moderators rather than platform safety."
+    "reportFlowSubmit": "Envoyer le signalement",
+    "@reportFlowSubmit": {
+        "description": "Report flow: button on the report summary screen that sends the report."
     },
-    "iarPathPreferenceMessage": "Je n'aime pas ce contenu",
-    "@iarPathPreferenceMessage": {
-        "description": "Primary-path radio label: the user doesn't want platform action, they want self-service tools (block, leave, settings)."
+    "reportFlowBack": "Retour",
+    "@reportFlowBack": {
+        "description": "Report flow: button that returns to the previous screen of the report form."
     },
-    "iarCategoryTargetedHarmLabel": "Menaces, harcèlement ou préjudice",
-    "@iarCategoryTargetedHarmLabel": {
-        "description": "Rule-category label grouping harassment, hate, violence, terrorism, raids, and self-harm content."
+    "reportFlowNext": "Suivant",
+    "@reportFlowNext": {
+        "description": "Report flow: button that goes to the next screen of the report form."
     },
-    "iarCategoryTargetedHarmDescription": "Harcèlement, menaces, haine, violence, raids ou contenu incitant à l'automutilation.",
-    "@iarCategoryTargetedHarmDescription": {
-        "description": "One-line description for the targeted-harm rule category."
+    "reportFlowDone": "Terminé",
+    "@reportFlowDone": {
+        "description": "Report flow: button that closes the report form when it is finished."
     },
-    "iarCategorySafetyMinorsLabel": "Sécurité des enfants ou contenu pour adultes",
-    "@iarCategorySafetyMinorsLabel": {
-        "description": "Rule-category label grouping child-safety and mature-content reports."
+    "reportFlowThankYouTitle": "Signalement envoyé",
+    "@reportFlowThankYouTitle": {
+        "description": "Report flow: title of the screen shown after a report was sent."
     },
-    "iarCategorySafetyMinorsDescription": "Mineurs en danger, contenu pour adultes dans un espace inadapté ou comportement indésirable.",
-    "@iarCategorySafetyMinorsDescription": {
-        "description": "One-line description for the child-safety / mature-content rule category."
+    "reportFlowThankYouNoReportTitle": "Merci d'avoir signalé ceci",
+    "@reportFlowThankYouNoReportTitle": {
+        "description": "Report flow: title of the screen shown when the chosen answer does not send a report."
     },
-    "iarCategoryPrivacyIdentityLabel": "Confidentialité ou usurpation d'identité",
-    "@iarCategoryPrivacyIdentityLabel": {
-        "description": "Rule-category label grouping privacy violations and impersonation."
-    },
-    "iarCategoryPrivacyIdentityDescription": "Divulgation de renseignements personnels, harcèlement, usurpation d'identité ou profil inapproprié.",
-    "@iarCategoryPrivacyIdentityDescription": {
-        "description": "One-line description for the privacy / impersonation rule category."
-    },
-    "iarCategoryDeceptionLabel": "Arnaques, logiciels malveillants ou désinformation",
-    "@iarCategoryDeceptionLabel": {
-        "description": "Rule-category label grouping spam/scams, malware, and harmful misinformation."
-    },
-    "iarCategoryDeceptionDescription": "Hameçonnage, fraude, liens malveillants ou fausses déclarations susceptibles de causer des dommages dans le monde réel.",
-    "@iarCategoryDeceptionDescription": {
-        "description": "One-line description for the scams / malware / misinformation rule category."
-    },
-    "iarCategoryIllegalOtherLabel": "Activité illégale ou autre",
-    "@iarCategoryIllegalOtherLabel": {
-        "description": "Rule-category label grouping illegal activity and the catch-all Other reason."
-    },
-    "iarCategoryIllegalOtherDescription": "Ventes illégales, facilitation d'activités criminelles ou violation manifeste d'une règle ne correspondant à aucune des catégories ci-dessus.",
-    "@iarCategoryIllegalOtherDescription": {
-        "description": "One-line description for the illegal / other rule category."
-    },
-    "iarReasonHarassmentLabel": "Harcèlement ou menaces",
-    "@iarReasonHarassmentLabel": {
-        "description": "Rule-reason label for harassment in the IAR message flow."
-    },
-    "iarReasonHarassmentMessageDescription": "Intimidation, contacts répétés non désirés, traque ou abus ciblés.",
-    "@iarReasonHarassmentMessageDescription": {
-        "description": "Rule-reason description for harassment in the IAR message flow."
-    },
-    "iarReasonHateLabel": "Discours haineux",
-    "@iarReasonHateLabel": {
-        "description": "Rule-reason label for hate speech in the IAR message flow."
-    },
-    "iarReasonHateMessageDescription": "Insultes, langage déshumanisant ou attaques envers des groupes protégés.",
-    "@iarReasonHateMessageDescription": {
-        "description": "Rule-reason description for hate speech in the IAR message flow."
-    },
-    "iarReasonViolenceLabel": "Violence ou menaces de violence",
-    "@iarReasonViolenceLabel": {
-        "description": "Rule-reason label for violence in the IAR message flow."
-    },
-    "iarReasonViolenceDescription": "Menaces crédibles, violence explicite ou apologie de la violence.",
-    "@iarReasonViolenceDescription": {
-        "description": "Rule-reason description for violence in the IAR message flow."
-    },
-    "iarReasonMatureContentLabel": "Contenu pour adultes ou harcèlement",
-    "@iarReasonMatureContentLabel": {
-        "description": "Rule-reason label for mature content / unwanted conduct in the IAR message flow."
-    },
-    "iarReasonMatureContentMessageDescription": "Comportement indésirable ou contenu pour adultes dans un espace inadapté.",
-    "@iarReasonMatureContentMessageDescription": {
-        "description": "Rule-reason description for mature content in the IAR message flow."
-    },
-    "iarReasonChildSafetyLabel": "Sécurité des enfants ou exploitation de mineurs",
-    "@iarReasonChildSafetyLabel": {
-        "description": "Rule-reason label for child-safety reports in the IAR message flow. Also used as the {childSafetyReason} placeholder in iarUseChildSafetyInstead."
-    },
-    "iarReasonChildSafetyMessageDescription": "Sollicitation de mineurs à des fins sexuelles ou contenu lié à l’exploitation d’enfants.",
-    "@iarReasonChildSafetyMessageDescription": {
-        "description": "Rule-reason description for child-safety reports in the IAR message flow."
-    },
-    "iarReasonHarmfulMisinfoLabel": "Fausses informations nuisibles",
-    "@iarReasonHarmfulMisinfoLabel": {
-        "description": "Rule-reason label for harmful misinformation in the IAR message flow."
-    },
-    "iarReasonHarmfulMisinfoDescription": "Fausses déclarations susceptibles de causer des préjudices dans le monde réel.",
-    "@iarReasonHarmfulMisinfoDescription": {
-        "description": "Rule-reason description for harmful misinformation."
-    },
-    "iarReasonSpamLabel": "Spam, arnaques ou hameçonnage",
-    "@iarReasonSpamLabel": {
-        "description": "Rule-reason label for spam/scams/phishing in the IAR message flow."
-    },
-    "iarReasonSpamMessageDescription": "Spam de masse, fraude, faux concours ou utilisation abusive de compte.",
-    "@iarReasonSpamMessageDescription": {
-        "description": "Rule-reason description for spam/scams in the IAR message flow."
-    },
-    "iarReasonMalwareLabel": "Logiciels malveillants ou liens dangereux",
-    "@iarReasonMalwareLabel": {
-        "description": "Rule-reason label for malware / dangerous links in the IAR message flow."
-    },
-    "iarReasonMalwareDescription": "Logiciels malveillants, vol d'identifiants ou fichiers nuisibles.",
-    "@iarReasonMalwareDescription": {
-        "description": "Rule-reason description for malware."
-    },
-    "iarReasonPrivacyLabel": "Atteinte à la vie privée",
-    "@iarReasonPrivacyLabel": {
-        "description": "Rule-reason label for privacy violations in the IAR message flow."
-    },
-    "iarReasonPrivacyDescription": "Doxxing, divulgation d'informations privées ou harcèlement.",
-    "@iarReasonPrivacyDescription": {
-        "description": "Rule-reason description for privacy violations."
-    },
-    "iarReasonImpersonationLabel": "Usurpation d'identité ou contenu trompeur",
-    "@iarReasonImpersonationLabel": {
-        "description": "Rule-reason label for impersonation in the IAR message flow."
-    },
-    "iarReasonImpersonationMessageDescription": "Se faire passer pour quelqu'un d'autre, y compris avec du contenu généré par l'IA de manière trompeuse.",
-    "@iarReasonImpersonationMessageDescription": {
-        "description": "Rule-reason description for impersonation in the IAR message flow."
-    },
-    "iarReasonIllegalLabel": "Activité illégale",
-    "@iarReasonIllegalLabel": {
-        "description": "Rule-reason label for illegal activity in the IAR message flow."
-    },
-    "iarReasonIllegalDescription": "Ventes illégales, facilitation d'activités criminelles ou activités illégales.",
-    "@iarReasonIllegalDescription": {
-        "description": "Rule-reason description for illegal activity."
-    },
-    "iarReasonSelfHarmLabel": "Automutilation ou suicide",
-    "@iarReasonSelfHarmLabel": {
-        "description": "Rule-reason label for self-harm content in the IAR message flow."
-    },
-    "iarReasonSelfHarmMessageDescription": "Promotion ou instructions encourageant l'automutilation ou les troubles alimentaires.",
-    "@iarReasonSelfHarmMessageDescription": {
-        "description": "Rule-reason description for self-harm content in the IAR message flow."
-    },
-    "iarReasonOtherLabel": "Une autre violation claire du règlement",
-    "@iarReasonOtherLabel": {
-        "description": "Rule-reason label for the catch-all option in the IAR message flow."
-    },
-    "iarReasonOtherDescription": "À utiliser uniquement si le contenu enfreint clairement les règles de {productName} et ne correspond pas aux catégories ci-dessus.",
-    "@iarReasonOtherDescription": {
-        "description": "Rule-reason description for the catch-all option.",
+    "reportFlowThankYouBody": "L'équipe de sécurité de {productName} examinera votre signalement. Nous ne révélerons pas que cela vient de vous.",
+    "@reportFlowThankYouBody": {
+        "description": "Report flow: body of the thank-you screen after a report was sent. {productName} is the name of the app.",
         "placeholders": {
             "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "iarUseChildSafetyInstead": "Si un mineur est impliqué, utilisez \"{childSafetyReason}\" à la place.",
-    "@iarUseChildSafetyInstead": {
-        "description": "Inline routing nudge shown under reasons (e.g. mature content) that overlap with child safety.",
-        "placeholders": {
-            "childSafetyReason": {
                 "type": "String",
-                "example": "Child safety or exploitation of minors"
+                "example": "Fluxer"
             }
         }
     },
-    "iarSafetyNoteChildSafety": "Si cela implique du CSAM ou l'exploitation d'un mineur, envoyez-le maintenant et ne partagez plus le matériel.",
-    "@iarSafetyNoteChildSafety": {
-        "description": "Inline safety note shown for child-safety reports on the reason step."
+    "reportFlowThankYouNoReportBody": "Merci de nous en avoir informés. Cela n'enfreint pas nos règles à lui seul, donc nous n'avons pas envoyé de signalement. Si cela vise quelqu'un ou contient des insultes, signalez-le à nouveau et choisissez « Contenu abusif ou nuisible ».",
+    "@reportFlowThankYouNoReportBody": {
+        "description": "Report flow: body of the thank-you screen when the chosen answer does not send a report. \"Abusive or harmful content\" is the name of an option on the first screen of the message report form."
     },
-    "iarSafetyNoteSelfHarm": "Si quelqu'un est en danger immédiat, contactez les services d'urgence locaux si vous pouvez le faire en toute sécurité.",
-    "@iarSafetyNoteSelfHarm": {
-        "description": "Inline safety note shown for self-harm reports on the reason step."
+    "reportFlowThankYouNoReportBodyShort": "Merci de nous en avoir informés. Cela n'enfreint pas nos règles à lui seul, donc nous n'avons pas envoyé de signalement.",
+    "@reportFlowThankYouNoReportBodyShort": {
+        "description": "Report flow: body of the thank-you screen when the chosen answer does not send a report and the reporter is already past the first screen of the form."
     },
-    "iarSafetyNoteViolence": "S'il s'agit d'une menace imminente et crédible, contactez également les services d'urgence locaux.",
-    "@iarSafetyNoteViolence": {
-        "description": "Inline safety note shown for violence reports on the reason step."
+    "reportFlowMoreYouCanDo": "Vos options",
+    "@reportFlowMoreYouCanDo": {
+        "description": "Report flow: heading above the extra actions (such as blocking the user) on the thank-you screen."
     },
-    "iarSafetyNoteTerrorism": "S'il s'agit d'une menace terroriste imminente, contactez également les services d'urgence locaux.",
-    "@iarSafetyNoteTerrorism": {
-        "description": "Inline safety note shown for terrorism reports on the reason step."
-    },
-    "iarActionBlockUserTitle": "Bloquer cet utilisateur",
-    "@iarActionBlockUserTitle": {
-        "description": "Action card title for blocking the reported user."
-    },
-    "iarActionBlockUserDescription": "Arrêter les messages et les demandes d'amis.",
-    "@iarActionBlockUserDescription": {
-        "description": "Action card description for blocking the reported user."
-    },
-    "iarActionBlockUserButton": "Bloquer",
-    "@iarActionBlockUserButton": {
-        "description": "Trailing button label on the block-user action card."
-    },
-    "iarActionCopyMessageLinkTitle": "Copier le lien du message",
-    "@iarActionCopyMessageLinkTitle": {
-        "description": "Action card title for copying a link to the reported message so the user can share it with community moderators."
-    },
-    "iarActionCopyMessageLinkDescription": "Partager avec les modérateurs de la communauté.",
-    "@iarActionCopyMessageLinkDescription": {
-        "description": "Action card description for copying a message link."
-    },
-    "iarActionCopyMessageLinkButton": "Copier",
-    "@iarActionCopyMessageLinkButton": {
-        "description": "Trailing button label on the copy-message-link action card."
-    },
-    "iarActionCloseDmTitle": "Fermer cette conversation privée",
-    "@iarActionCloseDmTitle": {
-        "description": "Action card title for closing the DM with the reported user."
-    },
-    "iarActionCloseDmDescription": "Ne bloque pas la personne. Vous pourrez rouvrir la conversation plus tard.",
-    "@iarActionCloseDmDescription": {
-        "description": "Action card description for closing the DM."
-    },
-    "iarActionCloseDmButton": "Fermer le MP",
-    "@iarActionCloseDmButton": {
-        "description": "Trailing button label on the close-DM action card."
-    },
-    "iarActionLeaveCommunityTitle": "Quitter la communauté",
-    "@iarActionLeaveCommunityTitle": {
-        "description": "Action card title for leaving the guild the reported message was sent in."
-    },
-    "iarActionLeaveCommunityDescription": "Ne plus voir son contenu et ses membres.",
-    "@iarActionLeaveCommunityDescription": {
-        "description": "Action card description for leaving the community."
-    },
-    "iarActionLeaveCommunityButton": "Quitter",
-    "@iarActionLeaveCommunityButton": {
-        "description": "Trailing button label on the leave-community action card."
-    },
-    "iarActionDmSettingsTitle": "Paramètres des messages privés et des demandes d'amis",
-    "@iarActionDmSettingsTitle": {
-        "description": "Action card title for opening the DM / friend-request privacy settings."
-    },
-    "iarActionDmSettingsDescription": "Modifier qui peut vous contacter.",
-    "@iarActionDmSettingsDescription": {
-        "description": "Action card description for DM / friend-request privacy settings."
-    },
-    "iarActionCallSettingsTitle": "Paramètres d'appel et de discussion de groupe",
-    "@iarActionCallSettingsTitle": {
-        "description": "Action card title for opening the call / group-chat privacy settings."
-    },
-    "iarActionCallSettingsDescription": "Modifier qui peut vous appeler ou vous ajouter.",
-    "@iarActionCallSettingsDescription": {
-        "description": "Action card description for call / group-chat privacy settings."
-    },
-    "iarActionOpenButton": "Ouvrir",
-    "@iarActionOpenButton": {
-        "description": "Trailing button label for action cards that navigate the user into a settings section."
-    },
-    "iarActionDeleteMessageTitle": "Supprimer ce message",
-    "@iarActionDeleteMessageTitle": {
-        "description": "Action card title (moderator-only) for deleting the reported message."
-    },
-    "iarActionDeleteMessageDescription": "Le supprimer du salon pour tout le monde.",
-    "@iarActionDeleteMessageDescription": {
-        "description": "Action card description (moderator-only) for deleting the reported message."
-    },
-    "iarActionDeleteMessageButton": "Supprimer",
-    "@iarActionDeleteMessageButton": {
-        "description": "Trailing button label on the delete-message action card."
-    },
-    "iarActionDeleteMessageDeletedButton": "Supprimé",
-    "@iarActionDeleteMessageDeletedButton": {
-        "description": "Disabled-state trailing button label on the delete-message action card after the message is already gone."
-    },
-    "iarActionDeleteMessageDeletedTooltip": "Ce message a déjà été supprimé.",
-    "@iarActionDeleteMessageDeletedTooltip": {
-        "description": "Tooltip on the disabled delete-message action card."
-    },
-    "iarActionBanUserTitle": "Bannir cet utilisateur",
-    "@iarActionBanUserTitle": {
-        "description": "Action card title (moderator-only) for opening the ban dialog against the reported user."
-    },
-    "iarActionBanUserDescription": "Ouvrir la boîte de dialogue de bannissement pour cette communauté.",
-    "@iarActionBanUserDescription": {
-        "description": "Action card description (moderator-only) for banning the reported user."
-    },
-    "iarActionBanUserButton": "Bannir",
-    "@iarActionBanUserButton": {
-        "description": "Trailing button label on the ban-user action card."
-    },
-    "iarActionBanUserBannedButton": "Banni",
-    "@iarActionBanUserBannedButton": {
-        "description": "Disabled-state trailing button label on the ban-user action card after the target is already banned."
-    },
-    "iarActionBanUserBannedTooltip": "Cet utilisateur est déjà banni de la communauté.",
-    "@iarActionBanUserBannedTooltip": {
-        "description": "Tooltip on the disabled ban-user action card."
-    },
-    "iarCloseDmConfirmTitle": "Fermer le MP",
-    "@iarCloseDmConfirmTitle": {
-        "description": "Title of the confirm-close-DM bottom sheet shown after the user taps Close DM on the action card."
-    },
-    "iarCloseDmConfirmDescription": "Fermez votre MP actuelle avec {name}. Cela ne vous bloquera pas ; vous pourrez la rouvrir plus tard.",
-    "@iarCloseDmConfirmDescription": {
-        "description": "Body of the confirm-close-DM bottom sheet.",
+    "reportFlowBlockName": "Bloquer {name}",
+    "@reportFlowBlockName": {
+        "description": "Report flow: title of the row on the thank-you screen that blocks the reported user. {name} is the display name of that user.",
         "placeholders": {
             "name": {
                 "type": "String",
-                "example": "ada"
+                "example": "Alice"
             }
         }
     },
-    "iarSuccessTitle": "Signalement envoyé",
-    "@iarSuccessTitle": {
-        "description": "Title shown on the success step after a platform report is submitted."
+    "reportFlowBlockDescription": "Masque ses messages et l'empêche de vous envoyer des messages",
+    "@reportFlowBlockDescription": {
+        "description": "Report flow: description under reportFlowBlockName on the thank-you screen."
     },
-    "iarSuccessBody": "Notre équipe de sécurité examine votre signalement. Nous vous enverrons un message privé et un e-mail dès que nous aurons pris une décision.",
-    "@iarSuccessBody": {
-        "description": "Body shown on the success step after a platform report is submitted."
+    "reportFlowBlockButton": "Bloquer",
+    "@reportFlowBlockButton": {
+        "description": "Report flow: button on the thank-you screen that blocks the reported user."
     },
-    "iarAlreadyReportedTitle": "Déjà signalé",
-    "@iarAlreadyReportedTitle": {
-        "description": "Title shown on the IAR success step when the message had already been reported by this user (HTTP 409); the existing report is under review."
+    "reportFlowBlockedButton": "Bloqué",
+    "@reportFlowBlockedButton": {
+        "description": "Report flow: disabled button on the thank-you screen after the reported user was blocked."
     },
-    "iarAlreadyReportedBody": "Vous avez déjà signalé ce message. Notre équipe de sécurité est en train de l'examiner.",
-    "@iarAlreadyReportedBody": {
-        "description": "Body shown on the IAR success step when the message had already been reported by this user (HTTP 409)."
+    "reportFlowUrgentBanner": "Si quelqu'un est en danger immédiat, contactez d'abord les services d'urgence locaux.",
+    "@reportFlowUrgentBanner": {
+        "description": "Report flow: banner on screens about urgent harm, such as threats, self-harm or the safety of minors."
     },
-    "iarBackButton": "Retour",
-    "@iarBackButton": {
-        "description": "Footer button label that returns the user to the previous IAR step."
+    "reportFlowLoadFailed": "Impossible de charger le formulaire de signalement.",
+    "@reportFlowLoadFailed": {
+        "description": "Report flow: error shown when the report form could not be loaded."
     },
-    "iarContinueButton": "Continuer",
-    "@iarContinueButton": {
-        "description": "Footer button label that advances the user to the next IAR step."
+    "reportFlowTryAgain": "Réessayer",
+    "@reportFlowTryAgain": {
+        "description": "Report flow: button that loads the report form again after an error."
     },
-    "iarSendReportButton": "Envoyer le signalement",
-    "@iarSendReportButton": {
-        "description": "Footer button label that submits the IAR report."
+    "reportFlowOutdated": "Le formulaire de signalement a changé. Veuillez recommencer.",
+    "@reportFlowOutdated": {
+        "description": "Report flow: toast shown when the report form changed on the server while the reporter was filling it in. The form restarts from the first screen."
     },
-    "iarDoneButton": "Terminé",
-    "@iarDoneButton": {
-        "description": "Footer button label that closes the IAR sheet from the success or guidance step."
+    "reportFlowAlreadyReported": "Vous avez déjà signalé ce message.",
+    "@reportFlowAlreadyReported": {
+        "description": "Report flow: note on the report summary screen when the reporter already reported this message."
     },
-    "iarCouldntSendToast": "Impossible d'envoyer le signalement. Veuillez réessayer.",
-    "@iarCouldntSendToast": {
-        "description": "Toast shown when the IAR report submission fails."
+    "reportFlowAlreadyReportedProfile": "Vous avez déjà signalé ce profil aujourd'hui.",
+    "@reportFlowAlreadyReportedProfile": {
+        "description": "Report flow: note on the report summary screen when the reporter already reported this user profile in the last 24 hours."
     },
-    "iarRateLimitedToast": "Vous signalez trop rapidement. Veuillez patienter un moment et réessayer.",
-    "@iarRateLimitedToast": {
-        "description": "Toast shown when an IAR report submission is rejected for rate limiting (HTTP 429)."
+    "reportFlowRateLimited": "Vous envoyez des signalements trop rapidement. Réessayez plus tard.",
+    "@reportFlowRateLimited": {
+        "description": "Report flow: note on the report summary screen when the reporter sent too many reports."
     },
-    "iarReportSentToast": "Signalement envoyé. Notre équipe de sécurité l'examinera.",
-    "@iarReportSentToast": {
-        "description": "Toast shown after a message report is submitted successfully from the simple mobile report sheet."
+    "reportFlowSubmitFailed": "Votre signalement n'a pas pu être envoyé. Réessayez.",
+    "@reportFlowSubmitFailed": {
+        "description": "Report flow: note on the report summary screen when the report could not be sent."
     },
-    "iarBlockUserConfirmDescription": "Bloquer {name} ? Il ne pourra pas vous envoyer de messages ni de demandes d'ami. Vous pourrez le débloquer plus tard.",
-    "@iarBlockUserConfirmDescription": {
-        "description": "Body of the confirm-block-user bottom sheet shown after the user taps Block on the IAR action card.",
-        "placeholders": {
-            "name": {
-                "type": "String",
-                "example": "ada"
-            }
-        }
-    },
-    "iarBlockUserFailedToast": "Impossible de bloquer cet utilisateur. Veuillez réessayer.",
-    "@iarBlockUserFailedToast": {
-        "description": "Toast shown when blocking the reported user from the IAR action card fails."
-    },
-    "iarCloseDmSuccessToast": "MP fermée.",
-    "@iarCloseDmSuccessToast": {
-        "description": "Toast shown after the DM with the reported user is closed from the IAR action card."
-    },
-    "iarCloseDmFailedToast": "Impossible de fermer cette MP. Veuillez réessayer.",
-    "@iarCloseDmFailedToast": {
-        "description": "Toast shown when closing the DM from the IAR action card fails."
-    },
-    "iarLeaveCommunityFailedToast": "Impossible de quitter cette communauté. Veuillez réessayer.",
-    "@iarLeaveCommunityFailedToast": {
-        "description": "Toast shown when leaving the community from the IAR action card fails."
+    "reportFlowAccountSetupRequired": "Finalisez votre inscription et vérifiez votre adresse e-mail pour envoyer des signalements.",
+    "@reportFlowAccountSetupRequired": {
+        "description": "Report flow: notice on the report summary screen when the account must be claimed and its email verified before it can send reports."
     },
     "chatMessageSuppressEmbeds": "Masquer les contenus intégrés",
     "@chatMessageSuppressEmbeds": {
@@ -6547,6 +5929,10 @@
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
     },
+    "chatImageCouldNotLoad": "Impossible de charger cette image.",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
+    },
     "composerAutocompleteRoleMentionDescription": "Notifier les utilisateurs ayant ce rôle et autorisés à voir ce salon.",
     "@composerAutocompleteRoleMentionDescription": {
         "description": "Secondary line in the @ mention autocomplete when the row is a mentionable guild role."
@@ -6594,10 +5980,6 @@
     "addGuildJoinFailed": "Impossible de rejoindre la communauté. Veuillez réessayer.",
     "@addGuildJoinFailed": {
         "description": "Generic error when joining a community via invite fails."
-    },
-    "addGuildPackInstalled": "Pack installé avec succès.",
-    "@addGuildPackInstalled": {
-        "description": "Toast shown after accepting an emoji or sticker pack invite."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "Supprimer toutes les réactions",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -6685,7 +6067,7 @@
             }
         }
     },
-    "dmComposerHint": "Message @{recipientName}",
+    "dmComposerHint": "Envoyer un message à @{recipientName}",
     "@dmComposerHint": {
         "description": "Placeholder in the message composer for a one-to-one DM.",
         "placeholders": {
@@ -7087,6 +6469,10 @@
     "instanceUrlPlaceholder": "Entrez l'URL de l'instance (par ex. fluxer.app)",
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
+    },
+    "instanceUrlHelper": "Utilisez fluxer.app pour l'instance officielle, ou l'URL exacte d'une instance auto-hébergée.",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
     },
     "resetToDefaultInstance": "Réinitialiser à Fluxer",
     "@resetToDefaultInstance": {
@@ -7628,10 +7014,6 @@
     "@guildMenuHideMutedChannels": {
         "description": "Guild menu checkbox to hide muted channels."
     },
-    "guildMenuReportCommunity": "Signaler la communauté",
-    "@guildMenuReportCommunity": {
-        "description": "Guild menu action to report the community."
-    },
     "guildMenuDebugCommunity": "Déboguer la communauté",
     "@guildMenuDebugCommunity": {
         "description": "Guild menu action to open community debug info."
@@ -7677,10 +7059,6 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsCustomInviteUrl": "URL d'invitation personnalisée",
-    "@guildMenuSettingsCustomInviteUrl": {
-        "description": "Community settings tab for custom invite URLs."
-    },
     "guildMenuSettingsDiscovery": "Découverte",
     "@guildMenuSettingsDiscovery": {
         "description": "Community settings tab for discovery settings."
@@ -7705,17 +7083,9 @@
     "@guildSettingsOverviewIconTitle": {
         "description": "Title for the guild icon section in overview settings."
     },
-    "guildSettingsUploadImage": "Importer une image",
-    "@guildSettingsUploadImage": {
-        "description": "Button label to upload an image in guild settings."
-    },
     "guildSettingsOverviewBannerTitle": "Bannière",
     "@guildSettingsOverviewBannerTitle": {
         "description": "Title for the guild banner section."
-    },
-    "guildSettingsOverviewBannerHint": "Téléchargez une bannière pour votre serveur.",
-    "@guildSettingsOverviewBannerHint": {
-        "description": "Hint text for guild banner upload."
     },
     "guildSettingsOverviewNameTitle": "Nom",
     "@guildSettingsOverviewNameTitle": {
@@ -7725,22 +7095,6 @@
     "@guildSettingsOverviewNameHint": {
         "description": "Hint for the guild name field."
     },
-    "guildSettingsOverviewStatsTitle": "Statistiques",
-    "@guildSettingsOverviewStatsTitle": {
-        "description": "Title for guild statistics section."
-    },
-    "guildSettingsOverviewMembers": "Membres",
-    "@guildSettingsOverviewMembers": {
-        "description": "Label for member count in overview."
-    },
-    "guildSettingsOverviewOnline": "En ligne",
-    "@guildSettingsOverviewOnline": {
-        "description": "Label for online count in overview."
-    },
-    "guildSettingsRolesDescription": "Utilisez des rôles pour regrouper les membres et attribuer des autorisations.",
-    "@guildSettingsRolesDescription": {
-        "description": "Description for the roles settings tab."
-    },
     "guildSettingsCreateRole": "Créer un rôle",
     "@guildSettingsCreateRole": {
         "description": "Button to create a new role."
@@ -7749,30 +7103,9 @@
     "@guildSettingsRolesListTitle": {
         "description": "Title for the roles list section."
     },
-    "guildSettingsEmojiSlotInfo": "{staticCount} émojis statiques, {animatedCount} émojis animés utilisés",
-    "@guildSettingsEmojiSlotInfo": {
-        "description": "Emoji slot usage summary.",
-        "placeholders": {
-            "staticCount": {
-                "type": "int"
-            },
-            "animatedCount": {
-                "type": "int"
-            }
-        }
-    },
     "guildSettingsEmojiEmpty": "Pas encore d'émojis personnalisés.",
     "@guildSettingsEmojiEmpty": {
         "description": "Empty state for emoji settings."
-    },
-    "guildSettingsStickersSlotInfo": "{count} autocollants téléchargés",
-    "@guildSettingsStickersSlotInfo": {
-        "description": "Sticker slot usage summary.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsStickersEmpty": "Pas encore d'autocollants personnalisés.",
     "@guildSettingsStickersEmpty": {
@@ -7818,8 +7151,6 @@
     "guildSettingsVerificationMediumDescription": "Nécessite une adresse e-mail vérifiée et un compte âgé d'au moins 5 minutes.",
     "guildSettingsVerificationHigh": "Élevé",
     "guildSettingsVerificationHighDescription": "Exige les conditions du niveau moyen, ainsi qu’une présence dans la communauté depuis au moins 10 minutes.",
-    "guildSettingsVerificationHighest": "Très élevé",
-    "guildSettingsVerificationHighestDescription": "Nécessite un numéro de téléphone vérifié.",
     "guildSettingsAuditLogDescription": "Suivre les actions des modérateurs dans toute la communauté.",
     "@guildSettingsAuditLogDescription": {
         "description": "Subtitle under the activity-log page title."
@@ -7847,14 +7178,6 @@
     "guildSettingsAuditLogUnknownUser": "Utilisateur inconnu",
     "@guildSettingsAuditLogUnknownUser": {
         "description": "Fallback avatar label when the acting user is unavailable."
-    },
-    "guildSettingsAuditLogLoadError": "Une erreur s’est produite lors du chargement du journal d’activité.",
-    "@guildSettingsAuditLogLoadError": {
-        "description": "Generic error shown when fetching log entries fails."
-    },
-    "guildSettingsAuditLogLoadErrorTitle": "Impossible de charger l’historique des activités",
-    "@guildSettingsAuditLogLoadErrorTitle": {
-        "description": "Error-state title when fetching log entries failed."
     },
     "guildSettingsAuditLogReason": "Raison",
     "@guildSettingsAuditLogReason": {
@@ -8826,14 +8149,6 @@
     "@auditLogOptionPermanentMembership": {
         "description": "Audit log option detail sentence."
     },
-    "guildSettingsLoadMore": "Charger plus",
-    "@guildSettingsLoadMore": {
-        "description": "Button to load more audit log entries."
-    },
-    "guildSettingsLoadingMore": "Chargement...",
-    "@guildSettingsLoadingMore": {
-        "description": "Loading state for pagination."
-    },
     "guildSettingsWebhooksDescription": "Afficher et gérer tous les webhooks configurés pour votre communauté.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
@@ -8842,42 +8157,9 @@
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
-    "guildSettingsCopyUrl": "Copier l'URL",
-    "@guildSettingsCopyUrl": {
-        "description": "Tooltip to copy a URL."
-    },
     "guildSettingsCopiedUrl": "URL copiée dans le presse-papiers",
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
-    },
-    "guildSettingsDeleteWebhook": "Supprimer le webhook",
-    "@guildSettingsDeleteWebhook": {
-        "description": "Tooltip to delete a webhook."
-    },
-    "guildSettingsVanityUrlDescription": "Définissez un lien d'invitation personnalisé pour votre serveur.",
-    "@guildSettingsVanityUrlDescription": {
-        "description": "Description for vanity URL tab."
-    },
-    "guildSettingsVanityUrlHint": "my-server",
-    "@guildSettingsVanityUrlHint": {
-        "description": "Hint for vanity URL input."
-    },
-    "guildSettingsSave": "Enregistrer",
-    "@guildSettingsSave": {
-        "description": "Generic save button label."
-    },
-    "guildSettingsVanityUrlUsageTitle": "Utilisation",
-    "@guildSettingsVanityUrlUsageTitle": {
-        "description": "Title for vanity URL usage section."
-    },
-    "guildSettingsVanityUrlUses": "{count} utilisations",
-    "@guildSettingsVanityUrlUses": {
-        "description": "Vanity URL usage count.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsDiscoveryDescription": "Répertoriez votre communauté dans Découverte pour que d'autres puissent la trouver et la rejoindre.",
     "@guildSettingsDiscoveryDescription": {
@@ -8916,10 +8198,6 @@
     "@guildSettingsDiscoveryWithdraw": {
         "description": "Button to withdraw discovery application."
     },
-    "guildSettingsMembersDescription": "Recherchez et gérez les membres du serveur.",
-    "@guildSettingsMembersDescription": {
-        "description": "Description for members tab."
-    },
     "guildSettingsMembersSearchHint": "Rechercher par nom d'utilisateur ou ID",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
@@ -8941,27 +8219,6 @@
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
-    "guildSettingsInviteUses": "{uses} / {maxUses} utilisations",
-    "@guildSettingsInviteUses": {
-        "description": "Invite usage count.",
-        "placeholders": {
-            "uses": {
-                "type": "int"
-            },
-            "maxUses": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsInviteExpires": "Expire le {date}",
-    "@guildSettingsInviteExpires": {
-        "description": "Invite expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBansDescription": "Voir et gérer les utilisateurs bannis.",
     "@guildSettingsBansDescription": {
         "description": "Description for bans tab."
@@ -8974,30 +8231,9 @@
     "@guildSettingsBansEmpty": {
         "description": "Empty state for bans."
     },
-    "guildSettingsBanPermanent": "Bannissement permanent",
-    "@guildSettingsBanPermanent": {
-        "description": "Label for permanent ban."
-    },
-    "guildSettingsBanExpires": "Expire le {date}",
-    "@guildSettingsBanExpires": {
-        "description": "Ban expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBanExpiresLabel": "Expire le",
     "@guildSettingsBanExpiresLabel": {
         "description": "Label for ban expiration row."
-    },
-    "guildSettingsUnban": "Lever le bannissement",
-    "@guildSettingsUnban": {
-        "description": "Button to unban a user."
-    },
-    "guildSettingsBansLoading": "Chargement des utilisateurs bannis",
-    "@guildSettingsBansLoading": {
-        "description": "Loading state for the guild bans list."
     },
     "guildSettingsBansNoSearchResults": "Aucun bannissement ne correspond à votre recherche.",
     "@guildSettingsBansNoSearchResults": {
@@ -9041,10 +8277,6 @@
             }
         }
     },
-    "guildSettingsBansLoadError": "Impossible de charger les bannissements. Réessayez.",
-    "@guildSettingsBansLoadError": {
-        "description": "Error when loading the guild bans list fails."
-    },
     "guildSettingsRevokeBanError": "Impossible de révoquer le bannissement. Réessayez.",
     "@guildSettingsRevokeBanError": {
         "description": "Error when revoking a ban fails."
@@ -9069,7 +8301,6 @@
     "@guildSettingsCategoryPeople": {
         "description": "Sidebar category for members, invites, and bans."
     },
-    "guildSettingsOverviewDescription": "Gérez le profil, les salons et les paramètres par défaut de votre communauté.",
     "guildSettingsOverviewBrandingTitle": "Image de marque",
     "guildSettingsOverviewBrandingDescription": "Mettez à jour votre icône, votre nom, votre bannière et l'arrière-plan d'invitation",
     "@guildSettingsOverviewBrandingDescription": {
@@ -9088,7 +8319,6 @@
     },
     "guildSettingsOverviewNotificationsTitle": "Notifications par défaut",
     "guildSettingsOverviewNotificationsLargeGuild": "Les communautés de plus de 250 personnes sont automatiquement réglées sur « Mentions seulement ». Votre réglage d'origine est conservé et sera restauré si la communauté compte moins de 250 membres.",
-    "guildSettingsOverviewAdvancedTitle": "Avancé",
     "guildSettingsOverviewFlexibleNames": "Autoriser les noms de salons textuels flexibles",
     "guildSettingsOverviewHideOwnerCrown": "Masquer la couronne du propriétaire de la communauté",
     "guildSettingsOverviewDetachedBanner": "Bannière détachée",
@@ -9114,10 +8344,6 @@
     "guildSettingsOverviewEmbedSplashTitle": "Arrière-plan de l’aperçu d’invitation dans le chat",
     "@guildSettingsOverviewEmbedSplashTitle": {
         "description": "Title for embed splash upload section."
-    },
-    "guildSettingsOverviewEmbedSplashHint": "Affiché dans les aperçus d’invitation du chat.",
-    "@guildSettingsOverviewEmbedSplashHint": {
-        "description": "Note shown when uploading chat embed background."
     },
     "guildSettingsOverviewUploadBackground": "Importer une image de fond",
     "@guildSettingsOverviewUploadBackground": {
@@ -9284,8 +8510,6 @@
     "@guildSettingsOverviewEmbedSplashUploadHint": {
         "description": "Upload requirements for chat embed background images."
     },
-    "guildSettingsModerationDescription": "Configurez les paramètres de vérification, de filtrage de contenu et de contenu sensible.",
-    "guildSettingsModerationDiscoveryNotice": "Les communautés listées dans la découverte ont des options de modération restreintes.",
     "guildSettingsModerationContentFilterTitle": "Filtrage du contenu",
     "guildSettingsModerationContentFilterDescription": "Analyser automatiquement les messages à la recherche de contenu explicite dans les salons qui ne sont pas marqués comme réservés aux adultes.",
     "guildSettingsModerationContentFilterDiscoveryNote": "Les communautés listées dans la découverte doivent scanner tous les membres. Ce paramètre ne peut pas être modifié tant que la découverte est activée.",
@@ -9295,8 +8519,6 @@
     "guildSettingsContentFilterNoRoleDescription": "Suggéré pour la plupart des communautés",
     "guildSettingsContentFilterAll": "Filtrer tout le monde",
     "guildSettingsContentFilterAllDescription": "Protection maximale pour les espaces familiaux",
-    "guildSettingsModerationMatureOff": "Désactivé",
-    "guildSettingsModerationMatureOn": "Activé",
     "guildSettingsContentWarningToggle": "Afficher un avertissement de contenu",
     "@guildSettingsContentWarningToggle": {
         "description": "Switch label for the community content warning setting."
@@ -9316,7 +8538,6 @@
     "guildSettingsModeration2faTitle": "Exigence de la 2FA",
     "guildSettingsModeration2faDescription": "Exigez l'authentification à deux facteurs pour les modérateurs avant qu'ils ne puissent bannir, expulser, mettre en sourdine ou supprimer des messages.",
     "guildSettingsModeration2faSwitchLabel": "Exiger la 2FA pour les actions de modération",
-    "guildSettingsModeration2faOwnerOnlyTooltip": "Seul le propriétaire de la communauté peut modifier ce paramètre",
     "guildSettingsModeration2faEnableFirstTooltip": "Activez l'authentification à deux facteurs sur votre compte pour modifier ce paramètre",
     "guildSettingsEmojiSearchHint": "Rechercher des emojis",
     "guildSettingsEmojiUploadTitle": "Importer un emoji",
@@ -9338,8 +8559,6 @@
     },
     "guildSettingsStickersSearchHint": "Rechercher des stickers",
     "guildSettingsWebhooksInfo": "Créez des webhooks depuis les paramètres du salon. Modifiez-les ici.",
-    "guildSettingsVanityUrlWarning": "Votre URL personnalisée ne fonctionnera pas à moins qu'au moins un salon ne soit visible par tout le monde.",
-    "guildSettingsVanityUrlRemove": "Supprimer",
     "guildSettingsBannedUsersTitle": "Utilisateurs bannis",
     "guildSettingsInvitesTableInviter": "Auteur de l’invitation",
     "guildSettingsInvitesTableChannel": "Salon",
@@ -9362,6 +8581,80 @@
     "userProfileLocalTime": "Heure locale",
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
+    },
+    "profileLocalTimeSettingsTitle": "Heure locale du profil",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "Définissez votre fuseau horaire une fois pour que {productName} puisse maintenir à jour votre décalage UTC lorsque l’heure d’été change. Les autres utilisateurs ne peuvent voir que votre décalage UTC, et non votre identifiant de fuseau horaire exact.",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "Modifier l'heure locale du profil",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "Fuseau horaire",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "Choisissez le fuseau horaire que {productName} utilise pour calculer votre décalage UTC et afficher l’heure locale de votre profil.",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "Rechercher des fuseaux horaires",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "Non défini",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "Les autres utilisateurs ne peuvent voir que votre décalage UTC actuel lorsque vous choisissez de partager l’heure locale de votre profil. Ils ne voient pas votre identifiant de fuseau horaire exact, tel que {timezoneIdentifierExample}. {productName} conserve cet identifiant afin que le décalage puisse être mis à jour automatiquement lors des changements d’heure d’été.",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "Tout le monde",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "Autoriser toute personne pouvant consulter votre profil complet à voir votre heure locale",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "Amis",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "Autoriser vos amis à voir votre heure locale",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "Membres de la communauté",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "Autoriser les membres de vos communautés à voir votre heure locale",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
     },
     "voiceControlFlipCamera": "Retourner la caméra",
     "@voiceControlFlipCamera": {
@@ -9464,6 +8757,10 @@
     "lookAndFeelChatWallpaperCustomLabel": "Image personnalisée",
     "@lookAndFeelChatWallpaperCustomLabel": {
         "description": "Chat wallpaper option that picks an image from the gallery."
+    },
+    "lookAndFeelChatWallpaperStarfieldLabel": "Champ d'étoiles",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
     },
     "lookAndFeelChatWallpaperColorLabel": "Couleur {id}",
     "@lookAndFeelChatWallpaperColorLabel": {
@@ -9699,10 +8996,6 @@
     "@guildSettingsInvitesPausedForCommunity": {
         "description": "Status message when invites are manually paused."
     },
-    "requiredActionChooseMethodTitle": "Choisir une méthode de vérification",
-    "@requiredActionChooseMethodTitle": {
-        "description": "Title when user can pick email or phone."
-    },
     "guildSettingsInvitesRevokeFailedDescription": "Le lien pourrait encore fonctionner. Réessayez dans un instant.",
     "@guildSettingsInvitesRevokeFailedDescription": {
         "description": "Error description when revoking an invite fails."
@@ -9783,10 +9076,6 @@
     "@channelSettingsPermissionsSearchRolesOrMembers": {
         "description": "Placeholder for the add override search field."
     },
-    "channelSettingsPermissionsRolesAndMembers": "Rôles et membres",
-    "@channelSettingsPermissionsRolesAndMembers": {
-        "description": "Section title in the add override picker."
-    },
     "channelSettingsDeleteInvite": "Supprimer l'invitation",
     "@channelSettingsDeleteInvite": {
         "description": "Action to delete a channel invite."
@@ -9806,10 +9095,6 @@
                 "type": "String"
             }
         }
-    },
-    "channelSettingsWebhooksUnknownUser": "Utilisateur inconnu",
-    "@channelSettingsWebhooksUnknownUser": {
-        "description": "Fallback label when webhook creator is unavailable."
     },
     "channelSettingsWebhooksAvatar": "Avatar",
     "@channelSettingsWebhooksAvatar": {
@@ -9915,20 +9200,6 @@
     "@savedMessagesEndBody": {
         "description": "End-of-list body on the saved messages page."
     },
-    "audioAndVideoCameraPermissionRequired": "{productName} a besoin d'accéder à votre caméra pour afficher vos appareils.",
-    "@audioAndVideoCameraPermissionRequired": {
-        "description": "Shown when camera permission is required to enumerate video devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
-    "iarContinueToReportCommunity": "Poursuivre le signalement de la communauté",
-    "@iarContinueToReportCommunity": {
-        "description": "Primary button in the community report pre-confirm dialog."
-    },
     "notificationsGeneralSectionTitle": "Général",
     "@notificationsGeneralSectionTitle": {
         "description": "Notifications settings section title for general notification controls."
@@ -9936,14 +9207,6 @@
     "notificationsEnableNotificationsLabel": "Activer les notifications",
     "@notificationsEnableNotificationsLabel": {
         "description": "Toggle label for enabling push or system notifications."
-    },
-    "iarReasonMatureContentGuildDescription": "Contenu pour adultes sans restriction d’accès appropriée.",
-    "@iarReasonMatureContentGuildDescription": {
-        "description": "Community-report reason description for mature content or unsafe gating."
-    },
-    "iarReasonChildSafetyGuildDescription": "Met des mineurs en danger ou héberge du contenu lié à l’exploitation d’enfants.",
-    "@iarReasonChildSafetyGuildDescription": {
-        "description": "Community-report reason description for child safety."
     },
     "notificationsMentionNoPreferenceName": "Pas de préférence",
     "@notificationsMentionNoPreferenceName": {
@@ -10013,34 +9276,6 @@
             }
         }
     },
-    "iarPreviewCommunitySubtitle": "Communauté",
-    "@iarPreviewCommunitySubtitle": {
-        "description": "Subtitle shown under the community name in the IAR preview card."
-    },
-    "iarReasonHarassmentGuildLabel": "Harcèlement ou abus ciblé",
-    "@iarReasonHarassmentGuildLabel": {
-        "description": "Community-report reason label for harassment or targeted abuse."
-    },
-    "iarReasonHarassmentGuildDescription": "Cette communauté facilite le harcèlement collectif ou les abus ciblés.",
-    "@iarReasonHarassmentGuildDescription": {
-        "description": "Community-report reason description for harassment or targeted abuse."
-    },
-    "iarReasonHateGuildDescription": "Fait la promotion de la haine envers des groupes protégés.",
-    "@iarReasonHateGuildDescription": {
-        "description": "Community-report reason description for hate speech."
-    },
-    "iarReasonTerrorismDescription": "Promeut ou coordonne des activités extrémistes violentes, ou recrute pour celles-ci.",
-    "@iarReasonTerrorismDescription": {
-        "description": "Community-report reason description for terrorism or violent extremism."
-    },
-    "iarReasonMatureContentGuildLabel": "Contenu pour adultes ou restriction d’accès insuffisante",
-    "@iarReasonMatureContentGuildLabel": {
-        "description": "Community-report reason label for mature content or unsafe gating."
-    },
-    "iarReasonSpamGuildDescription": "La communauté existe pour spammer, escroquer ou abuser de la plateforme.",
-    "@iarReasonSpamGuildDescription": {
-        "description": "Community-report reason description for spam, scams, or phishing."
-    },
     "permissionViewChannel": "Voir le salon",
     "@permissionViewChannel": {
         "description": "Permission name."
@@ -10072,10 +9307,6 @@
     "channelSettingsVoiceRegionsLoadFailedDescription": "Réessayez dans un instant.",
     "@channelSettingsVoiceRegionsLoadFailedDescription": {
         "description": "Error modal body when voice regions fail to load in channel settings."
-    },
-    "channelSettingsResetSlider": "Réinitialiser le curseur à sa valeur par défaut",
-    "@channelSettingsResetSlider": {
-        "description": "Tooltip for reset buttons on channel settings sliders."
     },
     "channelSettingsMatureContentOff": "Désactivé",
     "@channelSettingsMatureContentOff": {
@@ -10109,15 +9340,6 @@
     "channelSettingsContentWarningDefault": "Ce contenu est sensible.",
     "@channelSettingsContentWarningDefault": {
         "description": "Default content warning text placeholder."
-    },
-    "channelSettingsPermissionsNeedManageChannels": "Vous devez disposer de la permission « {manageChannelsPermissionLabel} » pour modifier ces permissions.",
-    "@channelSettingsPermissionsNeedManageChannels": {
-        "description": "Error when user lacks manage channels permission for channel permissions tab.",
-        "placeholders": {
-            "manageChannelsPermissionLabel": {
-                "type": "String"
-            }
-        }
     },
     "channelSettingsUnknownRole": "Rôle inconnu",
     "@channelSettingsUnknownRole": {
@@ -10304,16 +9526,6 @@
     "@audioAndVideoFrameRate60Label": {
         "description": "Screen share frame rate option for 60 FPS."
     },
-    "audioAndVideoHigherQualityRequiresPremium": "La 1080p et 60 IPS nécessitent {premiumProductName}.",
-    "@audioAndVideoHigherQualityRequiresPremium": {
-        "description": "Note shown when higher video quality options require premium.",
-        "placeholders": {
-            "premiumProductName": {
-                "type": "String",
-                "example": "Plutonium"
-            }
-        }
-    },
     "notificationsEnableNotificationsDescription": "Recevez des notifications lorsque vous recevez des messages. Vous devrez peut-être autoriser les notifications pour {productName} dans les réglages de votre appareil. Pour les contrôles par salon/par communauté, ouvrez les réglages de notification depuis le menu d'une communauté.",
     "@notificationsEnableNotificationsDescription": {
         "description": "Description for the enable notifications toggle on mobile.",
@@ -10370,10 +9582,6 @@
     "@guildSettingsRolesDenseLayout": {
         "description": "Tooltip when permission list is in comfy layout."
     },
-    "guildSettingsRolesCustomHoistOrder": "Ordre d'affichage personnalisé",
-    "@guildSettingsRolesCustomHoistOrder": {
-        "description": "Button to enter custom hoist order mode."
-    },
     "guildSettingsRolesResetHoistOrder": "Réinitialiser par défaut",
     "@guildSettingsRolesResetHoistOrder": {
         "description": "Button to reset custom hoist order."
@@ -10381,10 +9589,6 @@
     "guildSettingsRolesHoistOrderHelp": "Faites glisser les rôles pour personnaliser l'ordre d'affichage dans la liste des membres.",
     "@guildSettingsRolesHoistOrderHelp": {
         "description": "Help text in hoist order mode."
-    },
-    "guildSettingsRolesLockedTooltip": "Vous ne pouvez pas modifier ce rôle, car c'est votre rôle le plus élevé ou il est au-dessus du vôtre",
-    "@guildSettingsRolesLockedTooltip": {
-        "description": "Tooltip on locked role rows."
     },
     "guildSettingsRolesUpdatedSuccess": "Rôles mis à jour",
     "@guildSettingsRolesUpdatedSuccess": {
@@ -10566,10 +9770,6 @@
     "@permissionCategoryAudioVideo": {
         "description": "Permission category label."
     },
-    "permissionUnknown": "Permission inconnue",
-    "@permissionUnknown": {
-        "description": "Fallback permission label."
-    },
     "permissionManageChannelsDescription": "Créer, modifier ou supprimer des salons et des catégories.",
     "@permissionManageChannelsDescription": {
         "description": "Permission description."
@@ -10665,26 +9865,6 @@
     "permissionSetVoiceRegion": "Définir la région vocale",
     "@permissionSetVoiceRegion": {
         "description": "Permission name."
-    },
-    "iarReportGuildPreconfirmBody": "Si ce signalement concerne un message spécifique de cette communauté, signalez plutôt ce message. Les signalements de messages donnent à notre équipe de sécurité le contexte le plus clair, et l'ajout de détails dans les commentaires peut nous aider à l'examiner plus rapidement. Ne signalez la communauté dans son ensemble que si le signalement d'un message ne permettait pas de saisir le problème plus large.",
-    "@iarReportGuildPreconfirmBody": {
-        "description": "Body shown in the pre-confirm dialog before opening the community report sheet."
-    },
-    "iarReasonRaidLabel": "Coordination de raid",
-    "@iarReasonRaidLabel": {
-        "description": "Community-report reason label for raid coordination."
-    },
-    "iarReasonRaidDescription": "Coordonne des raids, des attaques collectives ou du harcèlement contre des personnes ou des communautés.",
-    "@iarReasonRaidDescription": {
-        "description": "Community-report reason description for raid coordination."
-    },
-    "iarReasonMalwareGuildLabel": "Distribution de logiciels malveillants",
-    "@iarReasonMalwareGuildLabel": {
-        "description": "Community-report reason label for malware distribution."
-    },
-    "iarReasonMalwareGuildDescription": "Distribue des logiciels malveillants, vole des identifiants ou envoie des fichiers nuisibles.",
-    "@iarReasonMalwareGuildDescription": {
-        "description": "Community-report reason description for malware distribution."
     },
     "systemUnknownMessage": "Mettez à jour {productName} pour afficher ce message.",
     "@systemUnknownMessage": {
@@ -10855,15 +10035,6 @@
     "@addGuildCreateTitle": {
         "description": "Title of the create-community sub-view in the add community modal."
     },
-    "channelSettingsPermissionsNeedManageRoles": "Vous devez disposer de la permission « {manageRolesPermissionLabel} » pour modifier ces permissions.",
-    "@channelSettingsPermissionsNeedManageRoles": {
-        "description": "Error when user lacks manage roles permission for channel permissions tab.",
-        "placeholders": {
-            "manageRolesPermissionLabel": {
-                "type": "String"
-            }
-        }
-    },
     "channelSettingsPermissionsAccessOverrides": "Permissions spécifiques",
     "@channelSettingsPermissionsAccessOverrides": {
         "description": "Sidebar title for channel permission overwrite list."
@@ -10998,14 +10169,6 @@
     "@groupDmUnsupportedIconFormatBody": {
         "description": "Body when the selected group icon format is unsupported."
     },
-    "groupDmCouldntProcessImage": "Impossible de traiter l’image",
-    "@groupDmCouldntProcessImage": {
-        "description": "Title when a cropped group icon cannot be processed."
-    },
-    "groupDmFailedToProcessCroppedImage": "Impossible de traiter l'image recadrée. Veuillez réessayer.",
-    "@groupDmFailedToProcessCroppedImage": {
-        "description": "Body when a cropped group icon cannot be processed."
-    },
     "groupDmInvalidImage": "Image non valide",
     "@groupDmInvalidImage": {
         "description": "Title when the selected group icon image cannot be used."
@@ -11057,10 +10220,6 @@
     "guildSettingsRolesRoleName": "Nom du rôle",
     "@guildSettingsRolesRoleName": {
         "description": "Label for the role name input."
-    },
-    "guildSettingsRolesSwitchToComfyLayout": "Passer à la mise en page confortable",
-    "@guildSettingsRolesSwitchToComfyLayout": {
-        "description": "Aria label for switching to comfy layout."
     },
     "guildSettingsRolesTwoColumns": "Deux colonnes",
     "@guildSettingsRolesTwoColumns": {
@@ -11168,10 +10327,6 @@
         "description": "Label when an invite has expired."
     },
     "guildSettingsInvitesTableExpires": "Expire le",
-    "languageAndTimeOpenLanguageSettings": "Ouvrir les paramètres de langue",
-    "@languageAndTimeOpenLanguageSettings": {
-        "description": "Button that opens the system per-app language settings."
-    },
     "userProfileTimeAheadOfYou": "{duration} d'avance sur vous",
     "@userProfileTimeAheadOfYou": {
         "description": "Profile timezone difference when the target is ahead of the viewer.",
@@ -11441,42 +10596,6 @@
     "@nagbarBillingPortalFailed": {
         "description": "Toast when opening the billing portal from a nagbar fails."
     },
-    "phoneEnterValidNumber": "Saisissez un numéro de téléphone mobile valide.",
-    "@phoneEnterValidNumber": {
-        "description": "Validation error for invalid phone format."
-    },
-    "phoneCannotBeUsed": "Ce numéro de téléphone ne peut pas être utilisé. Essayez un autre numéro de mobile ou contactez l'assistance.",
-    "@phoneCannotBeUsed": {
-        "description": "API error when phone number is rejected."
-    },
-    "phoneSomethingWentWrong": "Une erreur est survenue. Veuillez réessayer.",
-    "@phoneSomethingWentWrong": {
-        "description": "Generic phone verification error."
-    },
-    "phoneInboundStepSendCode": "Envoyez le code {code} à {number}.",
-    "@phoneInboundStepSendCode": {
-        "description": "Inbound verification step 2.",
-        "placeholders": {
-            "code": {
-                "type": "String"
-            },
-            "number": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionCheckEmailTitle": "Vérifiez votre e-mail",
-    "@requiredActionCheckEmailTitle": {
-        "description": "Title for email verification instructions."
-    },
-    "requiredActionVerificationEmailSent": "E-mail de vérification envoyé. Vérifiez votre boîte de réception.",
-    "@requiredActionVerificationEmailSent": {
-        "description": "Toast after resending verification email."
-    },
-    "requiredActionSignOut": "Se déconnecter",
-    "@requiredActionSignOut": {
-        "description": "Sign out button in required action modal."
-    },
     "voiceParticipantMenuViewProfile": "Voir le profil",
     "@voiceParticipantMenuViewProfile": {
         "description": "Voice participant context menu item to open the user's profile."
@@ -11549,14 +10668,6 @@
     "@channelSettingsMatureContentOffDescription": {
         "description": "Description for the mature content off override option."
     },
-    "channelSettingsMatureContentCategorySource": "catégorie",
-    "@channelSettingsMatureContentCategorySource": {
-        "description": "Lowercase source label for inherited mature content from category."
-    },
-    "channelSettingsMatureContentCommunitySource": "communauté",
-    "@channelSettingsMatureContentCommunitySource": {
-        "description": "Lowercase source label for inherited mature content from community."
-    },
     "channelSettingsMatureContentCategoryScope": "Catégorie",
     "@channelSettingsMatureContentCategoryScope": {
         "description": "Capitalized scope label when mature content inherits from a category."
@@ -11612,16 +10723,6 @@
     "audioAndVideoCameraQualitySectionTitle": "Qualité de la caméra",
     "@audioAndVideoCameraQualitySectionTitle": {
         "description": "Subsection title for camera resolution selection."
-    },
-    "audioAndVideoMicrophonePermissionRequired": "{productName} a besoin d'accéder à votre microphone pour afficher vos appareils.",
-    "@audioAndVideoMicrophonePermissionRequired": {
-        "description": "Shown when microphone permission is required to enumerate audio input devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
     },
     "audioAndVideoSkipHideOwnCameraConfirmLabel": "Ne pas demander lors de la masquage de ma caméra",
     "@audioAndVideoSkipHideOwnCameraConfirmLabel": {
@@ -11709,10 +10810,6 @@
     "@guildSettingsRolesSingleColumn": {
         "description": "Tooltip when permission list is in two-column layout."
     },
-    "guildSettingsRolesSwitchToSingleColumn": "Passer en mode colonne unique",
-    "@guildSettingsRolesSwitchToSingleColumn": {
-        "description": "Aria label for switching to single column."
-    },
     "guildSettingsRolesNoHoistedRoles": "Aucun rôle affiché séparément. Activez « Afficher ce rôle séparément » dans les paramètres d’un rôle pour qu’il apparaisse ici.",
     "@guildSettingsRolesNoHoistedRoles": {
         "description": "Empty state when no roles are hoisted."
@@ -11777,22 +10874,6 @@
     "createDmUnaddableNotFriends": "Pas dans votre liste d'amis",
     "@createDmUnaddableNotFriends": {
         "description": "Reason when a recipient is not a friend."
-    },
-    "iarReasonPrivacyGuildLabel": "Atteinte à la vie privée ou doxing",
-    "@iarReasonPrivacyGuildLabel": {
-        "description": "Community-report reason label for privacy violation or doxxing."
-    },
-    "iarReasonPrivacyGuildDescription": "Divulgue des informations personnelles, traque des utilisateurs ou coordonne des atteintes à la vie privée.",
-    "@iarReasonPrivacyGuildDescription": {
-        "description": "Community-report reason description for privacy violation or doxxing."
-    },
-    "iarReasonSelfHarmGuildLabel": "Encourage l'automutilation",
-    "@iarReasonSelfHarmGuildLabel": {
-        "description": "Community-report reason label for self-harm encouragement."
-    },
-    "iarReasonSelfHarmGuildDescription": "Encourage le suicide, l'automutilation ou les troubles alimentaires.",
-    "@iarReasonSelfHarmGuildDescription": {
-        "description": "Community-report reason description for self-harm encouragement."
     },
     "systemCallJoinTheCall": "Rejoindre l'appel",
     "@systemCallJoinTheCall": {
@@ -11884,10 +10965,6 @@
     "@addGuildCreateAnimatedIconUnsupported": {
         "description": "Error when the user picks an animated image for a new community icon."
     },
-    "groupDmCreateInviteFailed": "Impossible de créer le lien d’invitation",
-    "@groupDmCreateInviteFailed": {
-        "description": "Title when invite link generation fails."
-    },
     "shareMediaTitle": "Partager sur",
     "@shareMediaTitle": {
         "description": "Title of the share-media bottom sheet."
@@ -11957,10 +11034,6 @@
     "groupDmEditTitle": "Modifier le groupe",
     "@groupDmEditTitle": {
         "description": "Title for the edit group DM modal or sheet."
-    },
-    "groupDmEditDetailsTooltip": "Modifier les détails du groupe",
-    "@groupDmEditDetailsTooltip": {
-        "description": "Tooltip on the desktop group DM header edit action."
     },
     "groupDmUploadIcon": "Importer une icône",
     "@groupDmUploadIcon": {
@@ -12346,18 +11419,6 @@
     "@accessibilitySaturationTitle": {
         "description": "Section title for the theme saturation slider on the accessibility settings page."
     },
-    "accessibilitySaturationDescription": "Ajustez l'intensité des couleurs du thème dans toute l'application.",
-    "@accessibilitySaturationDescription": {
-        "description": "Section description for the theme saturation slider on the accessibility settings page."
-    },
-    "iarReportGuildTitle": "Signaler la communauté",
-    "@iarReportGuildTitle": {
-        "description": "Title of the simple community-report sheet."
-    },
-    "iarReasonTerrorismLabel": "Terrorisme ou extrémisme violent",
-    "@iarReasonTerrorismLabel": {
-        "description": "Community-report reason label for terrorism or violent extremism."
-    },
     "channelDetailsActionMute": "Désactiver",
     "@channelDetailsActionMute": {
         "description": "Mute action button label in channel details."
@@ -12410,90 +11471,6 @@
     "@guildMenuSettingsChannels": {
         "description": "Guild settings menu item for channel management."
     },
-    "phoneAlreadyUsed": "Ce numéro de téléphone a déjà été utilisé. Essayez un autre numéro ou contactez l'assistance.",
-    "@phoneAlreadyUsed": {
-        "description": "API error when phone number was reused."
-    },
-    "phoneCodeDidNotWork": "Ce code n'a pas fonctionné. Vérifiez-le et réessayez.",
-    "@phoneCodeDidNotWork": {
-        "description": "API error for invalid verification code."
-    },
-    "phoneTooManyAttempts": "Trop de tentatives. Attendez un peu, puis réessayez.",
-    "@phoneTooManyAttempts": {
-        "description": "Rate limit error for phone verification."
-    },
-    "phoneInboundStepOpenMessaging": "Ouvrez l’application de SMS de votre téléphone et rédigez un nouveau message.",
-    "@phoneInboundStepOpenMessaging": {
-        "description": "Inbound verification step 1."
-    },
-    "phoneInboundStepWait": "Patientez pendant que nous recevons votre message. Cela peut prendre une minute.",
-    "@phoneInboundStepWait": {
-        "description": "Inbound verification step 3."
-    },
-    "phoneInboundGetNewCode": "Recevoir un nouveau code",
-    "@phoneInboundGetNewCode": {
-        "description": "Button to refresh inbound challenge."
-    },
-    "phoneInboundChallengeCodeLabel": "Code à envoyer",
-    "@phoneInboundChallengeCodeLabel": {
-        "description": "Label for inbound challenge code."
-    },
-    "phoneInboundOurNumberLabel": "Envoyer à",
-    "@phoneInboundOurNumberLabel": {
-        "description": "Label for inbound destination number."
-    },
-    "requiredActionTitle": "Vérification du compte requise",
-    "@requiredActionTitle": {
-        "description": "Title for required action blocking modal."
-    },
-    "requiredActionUseEmail": "Utiliser l'e-mail",
-    "@requiredActionUseEmail": {
-        "description": "Button to choose email verification."
-    },
-    "requiredActionUsePhone": "Utiliser le téléphone",
-    "@requiredActionUsePhone": {
-        "description": "Button to choose phone verification."
-    },
-    "requiredActionCheckEmailDescription": "Nous avons envoyé un lien de vérification à votre adresse e-mail. Ouvrez-le pour continuer.",
-    "@requiredActionCheckEmailDescription": {
-        "description": "Description for email verification instructions."
-    },
-    "requiredActionResendVerificationEmail": "Renvoyer l'e-mail de vérification",
-    "@requiredActionResendVerificationEmail": {
-        "description": "Button to resend verification email."
-    },
-    "phoneCountryLabel": "Pays",
-    "@phoneCountryLabel": {
-        "description": "Label for country selector in phone verification."
-    },
-    "phoneSearchCountries": "Rechercher des pays…",
-    "@phoneSearchCountries": {
-        "description": "Search hint for country selector."
-    },
-    "phoneNumberRequired": "Numéro de téléphone requis",
-    "@phoneNumberRequired": {
-        "description": "Validation error when phone number is empty."
-    },
-    "phoneSmsUnavailable": "La vérification par SMS est indisponible pour le moment. Réessayez plus tard ou contactez l'assistance.",
-    "@phoneSmsUnavailable": {
-        "description": "SMS provider unavailable error."
-    },
-    "phoneNotEligible": "La vérification par téléphone n'est pas disponible pour ce compte. Utilisez une autre méthode ou contactez l'assistance.",
-    "@phoneNotEligible": {
-        "description": "Account not eligible for phone verification."
-    },
-    "phoneInboundExpensiveDescription": "L'envoi d'un SMS à ce numéro de téléphone est trop coûteux. Nous vous demandons donc de nous envoyer un SMS à la place. Vous pouvez également contacter le support pour que nous levions cette exigence de votre compte.",
-    "@phoneInboundExpensiveDescription": {
-        "description": "Inbound challenge reason for expensive destinations."
-    },
-    "phoneInboundDefaultDescription": "Nous devons recevoir un SMS de votre part pour vérifier votre numéro de téléphone.",
-    "@phoneInboundDefaultDescription": {
-        "description": "Default inbound challenge description."
-    },
-    "requiredActionIntroPhone": "Votre inscription nécessite une vérification anti-spam supplémentaire avant de pouvoir continuer.",
-    "@requiredActionIntroPhone": {
-        "description": "Phone-only required action intro."
-    },
     "channelSettingsInvitesEmpty": "Aucun lien d'invitation",
     "@channelSettingsInvitesEmpty": {
         "description": "Empty state title for channel invites."
@@ -12526,16 +11503,6 @@
     "@audioAndVideoCustomProfileLabel": {
         "description": "Voice processing profile with manual controls."
     },
-    "audioAndVideoMicTestPermissionRequired": "{productName} a besoin d'accéder à votre microphone pour tester votre entrée.",
-    "@audioAndVideoMicTestPermissionRequired": {
-        "description": "Shown when microphone permission is required for the mic test.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
     "guildSettingsRolesDeleteRole": "Supprimer le rôle",
     "@guildSettingsRolesDeleteRole": {
         "description": "Button to delete the selected role."
@@ -12552,14 +11519,6 @@
     "guildSettingsRolesSearchPermissions": "Rechercher des permissions",
     "@guildSettingsRolesSearchPermissions": {
         "description": "Placeholder for the permission search input."
-    },
-    "guildSettingsRolesSwitchToDenseLayout": "Passer à la mise en page dense",
-    "@guildSettingsRolesSwitchToDenseLayout": {
-        "description": "Aria label for switching to dense layout."
-    },
-    "guildSettingsRolesSwitchToTwoColumns": "Passer en mode deux colonnes",
-    "@guildSettingsRolesSwitchToTwoColumns": {
-        "description": "Aria label for switching to two columns."
     },
     "guildSettingsRolesNoPermissionsFound": "Aucune permission trouvée",
     "@guildSettingsRolesNoPermissionsFound": {
@@ -12582,21 +11541,9 @@
             }
         }
     },
-    "groupDmAddFailed": "Impossible d’ajouter au groupe",
-    "@groupDmAddFailed": {
-        "description": "Title when adding friends to a group DM fails."
-    },
     "notificationsEnableDesktopNotificationsDescription": "Utilise le centre de notifications du système d'exploitation. Pour les contrôles par salon/communauté, faites un clic droit sur l'icône d'une communauté et ouvrez les paramètres de notification.",
     "@notificationsEnableDesktopNotificationsDescription": {
         "description": "Description for the enable desktop notifications toggle."
-    },
-    "notificationsEnableBrowserNotificationsLabel": "Activer les notifications du navigateur",
-    "@notificationsEnableBrowserNotificationsLabel": {
-        "description": "Toggle label for enabling browser notifications."
-    },
-    "notificationsEnableBrowserNotificationsDescription": "Recevez des notifications lorsque vous recevez des messages. Vous devrez peut-être autoriser les notifications dans les paramètres de votre navigateur. Pour les contrôles par salon/communauté, faites un clic droit sur l'icône d'une communauté et ouvrez les paramètres de notification.",
-    "@notificationsEnableBrowserNotificationsDescription": {
-        "description": "Description for the enable browser notifications toggle."
     },
     "notificationsPushInactiveTimeoutLabel": "Délai d'inactivité des notifications push",
     "@notificationsPushInactiveTimeoutLabel": {
@@ -12778,10 +11725,6 @@
     "@channelDetailsDeleteChannel": {
         "description": "Channel details menu action to delete a guild channel."
     },
-    "channelSettingsCategorySettingsTitle": "Paramètres de catégorie",
-    "@channelSettingsCategorySettingsTitle": {
-        "description": "Title for category settings modal."
-    },
     "channelSettingsEditCategory": "Modifier la catégorie",
     "@channelSettingsEditCategory": {
         "description": "Context menu action to edit a category."
@@ -12907,14 +11850,6 @@
     "channelSettingsVoiceRegionDescription": "Sélectionnez une région vocale pour ce canal. Automatique utilise la région la plus proche.",
     "@channelSettingsVoiceRegionDescription": {
         "description": "Helper text for the voice region picker in channel settings."
-    },
-    "channelSettingsAdvanced": "Avancé",
-    "@channelSettingsAdvanced": {
-        "description": "Collapsible advanced section title in channel overview."
-    },
-    "channelSettingsMatureContentOverride": "Forçage du contenu pour adultes",
-    "@channelSettingsMatureContentOverride": {
-        "description": "Accessibility label for mature content override control."
     },
     "channelSettingsMatureContentSectionDescription": "Ignorer le réglage de niveau {scopeLevel} pour ce canal. Le contenu pour adultes est affiché derrière un filtre avant l'entrée.",
     "@channelSettingsMatureContentSectionDescription": {
@@ -13280,42 +12215,6 @@
     "gifPickerFavoritesEmptyDescription": "Ajoutez un GIF en favori pour le voir ici.",
     "@gifPickerFavoritesEmptyDescription": {
         "description": "Empty state description for the GIF picker favorites view."
-    },
-    "requiredActionIntroGeneric": "Veuillez effectuer la vérification requise pour continuer à utiliser {productName}.",
-    "@requiredActionIntroGeneric": {
-        "description": "Generic required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailOrPhone": "Vérifiez votre e-mail ou votre numéro de téléphone pour continuer à utiliser {productName}.",
-    "@requiredActionIntroEmailOrPhone": {
-        "description": "Email or phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailAndPhone": "Veuillez suivre les étapes de vérification de l'e-mail et du numéro de téléphone ci-dessous pour continuer à utiliser {productName}.",
-    "@requiredActionIntroEmailAndPhone": {
-        "description": "Email and phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionChooseMethodDescription": "Pour continuer à utiliser {productName}, veuillez suivre l'une des méthodes de vérification ci-dessous.",
-    "@requiredActionChooseMethodDescription": {
-        "description": "Description when user can pick email or phone.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
     },
     "networkErrorMessage": "Une erreur est survenue. Veuillez réessayer.",
     "@networkErrorMessage": {
@@ -13823,6 +12722,14 @@
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
     },
+    "accessibilityShowAltTextOnImagesLabel": "Afficher le texte alternatif des images",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "Afficher le texte alternatif sous les images lorsqu'il est disponible.",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
     "accessibilityDimStrikethroughTextLabel": "Atténuer le texte barré",
     "@accessibilityDimStrikethroughTextLabel": {
         "description": "Toggle label for dimming strikethrough text in messages."
@@ -13941,10 +12848,6 @@
     "accessibilityPausedGifByReducedMotion": "Lecture mise en pause par la réduction des animations. Activez cette option pour continuer à lire les GIF.",
     "@accessibilityPausedGifByReducedMotion": {
         "description": "Description for GIF toggle while reduced motion is active."
-    },
-    "accessibilityGifDefaultsOffOnMobile": "Désactivé par défaut sur mobile pour préserver la batterie et l'utilisation des données.",
-    "@accessibilityGifDefaultsOffOnMobile": {
-        "description": "Helper text for GIF autoplay default on mobile."
     },
     "accessibilityStickerAnimationsTitle": "Animations des stickers",
     "@accessibilityStickerAnimationsTitle": {
@@ -14401,25 +13304,13 @@
     "@privacyDashboardFriendRequestsEveryone": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsEveryoneDesc": "Autoriser tout le monde à vous envoyer des demandes d'ami",
-    "@privacyDashboardFriendRequestsEveryoneDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsFriendsOfFriends": "Amis d'amis",
     "@privacyDashboardFriendRequestsFriendsOfFriends": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsFriendsOfFriendsDesc": "Autoriser les amis de vos amis à vous envoyer des demandes",
-    "@privacyDashboardFriendRequestsFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsCommunityMembers": "Membres de la communauté",
     "@privacyDashboardFriendRequestsCommunityMembers": {
         "description": "Privacy dashboard friend request toggle label."
-    },
-    "privacyDashboardFriendRequestsCommunityMembersDesc": "Autoriser les membres des communautés auxquelles vous appartenez à vous envoyer des demandes",
-    "@privacyDashboardFriendRequestsCommunityMembersDesc": {
-        "description": "Privacy dashboard friend request toggle description."
     },
     "privacyDashboardDirectMessagesTitle": "Messages privés",
     "@privacyDashboardDirectMessagesTitle": {
@@ -14429,65 +13320,29 @@
     "@privacyDashboardDirectMessagesMembers": {
         "description": "Privacy dashboard DM toggle label."
     },
-    "privacyDashboardDirectMessagesMembersDesc": "Autoriser les membres des communautés auxquelles vous appartenez à vous envoyer des messages directs",
-    "@privacyDashboardDirectMessagesMembersDesc": {
-        "description": "Privacy dashboard DM toggle description."
-    },
     "privacyDashboardDirectMessagesBots": "Autoriser les messages privés des bots de la communauté",
     "@privacyDashboardDirectMessagesBots": {
         "description": "Privacy dashboard bot DM toggle label."
-    },
-    "privacyDashboardDirectMessagesBotsDesc": "Autoriser les bots des communautés auxquelles vous appartenez à vous envoyer des messages directs",
-    "@privacyDashboardDirectMessagesBotsDesc": {
-        "description": "Privacy dashboard bot DM toggle description."
-    },
-    "privacyDashboardConnectionsSectionDesc": "Contrôlez qui peut vous envoyer des demandes d'ami et des messages directs",
-    "@privacyDashboardConnectionsSectionDesc": {
-        "description": "Privacy dashboard connections section description."
-    },
-    "privacyDashboardCommunicationSectionDesc": "Contrôlez qui peut vous appeler et vous ajouter aux discussions de groupe",
-    "@privacyDashboardCommunicationSectionDesc": {
-        "description": "Privacy dashboard communication section description."
     },
     "privacyDashboardIncomingCallsTitle": "Appels entrants",
     "@privacyDashboardIncomingCallsTitle": {
         "description": "Privacy dashboard incoming calls subsection title."
     },
-    "privacyDashboardIncomingCallsDesc": "Contrôlez qui peut vous appeler",
-    "@privacyDashboardIncomingCallsDesc": {
-        "description": "Privacy dashboard incoming calls subsection description."
-    },
     "privacyDashboardAllowedCallers": "Appelants autorisés",
     "@privacyDashboardAllowedCallers": {
         "description": "Privacy > Communication: select label."
-    },
-    "privacyDashboardIncomingCallNobody": "Personne",
-    "@privacyDashboardIncomingCallNobody": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallNobodyDesc": "Bloquer tous les appels entrants",
     "@privacyDashboardIncomingCallNobodyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallFriendsOnly": "Amis seulement",
-    "@privacyDashboardIncomingCallFriendsOnly": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallFriendsOnlyDesc": "Autoriser uniquement les amis à vous appeler (recommandé)",
     "@privacyDashboardIncomingCallFriendsOnlyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallCustom": "Amis + Personnalisé",
-    "@privacyDashboardIncomingCallCustom": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallCustomDesc": "Autoriser les amis plus des groupes supplémentaires que vous choisissez",
     "@privacyDashboardIncomingCallCustomDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardIncomingCallEveryone": "Tout le monde",
-    "@privacyDashboardIncomingCallEveryone": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallEveryoneDesc": "Autoriser tout le monde à vous appeler, même des inconnus",
     "@privacyDashboardIncomingCallEveryoneDesc": {
@@ -14497,14 +13352,6 @@
     "@privacyDashboardAdditionalGroups": {
         "description": "Privacy dashboard label for custom permission groups."
     },
-    "privacyDashboardCallFriendsOfFriendsDesc": "Les personnes qui sont amies avec vos amis peuvent vous appeler",
-    "@privacyDashboardCallFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
-    "privacyDashboardCallGuildMembersDesc": "Les personnes des communautés que vous partagez peuvent vous appeler",
-    "@privacyDashboardCallGuildMembersDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
     "privacyDashboardRingBehavior": "Comportement de la sonnerie",
     "@privacyDashboardRingBehavior": {
         "description": "Privacy dashboard ring behavior subsection label."
@@ -14513,17 +13360,9 @@
     "@privacyDashboardSilentCalls": {
         "description": "Privacy dashboard silent calls toggle label."
     },
-    "privacyDashboardSilentCallsDesc": "Tous les appels seront notifiés silencieusement au lieu de sonner. Par défaut, les appels des non-amis sont toujours silencieux.",
-    "@privacyDashboardSilentCallsDesc": {
-        "description": "Privacy dashboard silent calls toggle description."
-    },
     "privacyDashboardGroupDmTitle": "Qui peut vous ajouter aux conversations de groupe",
     "@privacyDashboardGroupDmTitle": {
         "description": "Privacy dashboard group DM subsection title."
-    },
-    "privacyDashboardGroupDmDesc": "Contrôlez qui peut vous ajouter aux discussions de groupe sans demander. N'importe qui peut toujours vous envoyer des liens d'invitation pour vous rejoindre.",
-    "@privacyDashboardGroupDmDesc": {
-        "description": "Privacy dashboard group DM subsection description."
     },
     "privacyDashboardAllowedInvites": "Invitations autorisées",
     "@privacyDashboardAllowedInvites": {
@@ -14544,14 +13383,6 @@
     "privacyDashboardGroupDmEveryoneDesc": "Autoriser n'importe qui à vous ajouter à des discussions de groupe sans demander",
     "@privacyDashboardGroupDmEveryoneDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardGroupDmFriendsOfFriendsDesc": "Les personnes qui sont amies avec vos amis peuvent vous ajouter à des discussions de groupe",
-    "@privacyDashboardGroupDmFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
-    },
-    "privacyDashboardGroupDmGuildMembersDesc": "Les personnes des communautés que vous partagez peuvent vous ajouter à des discussions de groupe",
-    "@privacyDashboardGroupDmGuildMembersDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
     },
     "privacyDashboardVoiceActivityTitle": "Activité vocale dans « Actif en ce moment »",
     "@privacyDashboardVoiceActivityTitle": {
@@ -15084,26 +13915,6 @@
     "@composerAutocompleteOptionalArgumentsHeading": {
         "description": "Section heading in composer autocomplete for adding optional slash-command arguments."
     },
-    "composerAutocompleteChannelsHeading": "Salons",
-    "@composerAutocompleteChannelsHeading": {
-        "description": "Section heading in composer autocomplete for channel suggestions."
-    },
-    "composerAutocompleteMembersHeading": "Membres",
-    "@composerAutocompleteMembersHeading": {
-        "description": "Section heading in composer autocomplete for member suggestions."
-    },
-    "composerAutocompleteUsersHeading": "Utilisateurs",
-    "@composerAutocompleteUsersHeading": {
-        "description": "Section heading in composer autocomplete for user suggestions."
-    },
-    "composerAutocompleteMentionsHeading": "Mentions",
-    "@composerAutocompleteMentionsHeading": {
-        "description": "Section heading in composer autocomplete for mixed mention suggestions."
-    },
-    "composerAutocompleteRolesHeading": "Rôles",
-    "@composerAutocompleteRolesHeading": {
-        "description": "Section heading in composer autocomplete for role suggestions."
-    },
     "composerAutocompleteMediaHeading": "Médias",
     "@composerAutocompleteMediaHeading": {
         "description": "Section heading in composer autocomplete for saved media."
@@ -15320,10 +14131,6 @@
     "memberListUnavailableBody": "Les listes de membres sont temporairement indisponibles dans cette communauté",
     "@memberListUnavailableBody": {
         "description": "Body when member list updates are disabled for the community."
-    },
-    "channelHeaderOpenDetails": "Ouvrir les détails du canal",
-    "@channelHeaderOpenDetails": {
-        "description": "Accessibility label for the channel header title area."
     },
     "channelHeaderPinnedMessages": "Messages épinglés",
     "@channelHeaderPinnedMessages": {
@@ -15686,10 +14493,6 @@
     "@userSettingsSearchPlaceholder": {
         "description": "Placeholder for the user settings search field."
     },
-    "userSettingsSearchFieldLabel": "Rechercher dans les réglages",
-    "@userSettingsSearchFieldLabel": {
-        "description": "Accessibility label for the user settings search field."
-    },
     "userSettingsSearchClear": "Effacer la recherche",
     "@userSettingsSearchClear": {
         "description": "Accessibility label for clearing the user settings search field."
@@ -15716,8 +14519,6 @@
     "giftSettingsGiftUrl": "URL du cadeau",
     "giftSettingsCopy": "Copier",
     "giftSettingsCopied": "Copié",
-    "giftSettingsGiftUrlCopied": "L'URL du cadeau a été copiée dans le presse-papiers !",
-    "giftSettingsGiftUrlCopyFailed": "Impossible de copier l’URL du cadeau",
     "giftSettingsPurchasedDate": "Acheté le {date}",
     "@giftSettingsPurchasedDate": {
         "placeholders": {
@@ -15759,7 +14560,6 @@
     "premiumBuyGift": "Offrir",
     "premiumOneYearGift": "Cadeau 1 an",
     "premiumOneMonthGift": "Cadeau d'un mois",
-    "premiumMostPopular": "Le plus populaire",
     "premiumScrollPrompt": "Faites défiler vers le bas pour voir tous les avantages inclus avec Plutonium",
     "premiumFreeVsPlutonium": "Gratuit ou Plutonium",
     "premiumFreeColumn": "Gratuit",
@@ -15777,50 +14577,15 @@
     "premiumViewGifts": "Voir les cadeaux",
     "premiumReadyToUpgrade": "Prêt à passer à la version supérieure ?",
     "premiumReadyToBuyGift": "Prêt(e) à offrir un cadeau ?",
-    "premiumMonthlyPrice": "Mensuel {price}",
-    "@premiumMonthlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumYearlyPrice": "Annuel {price}",
-    "@premiumYearlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneYearPrice": "1 an {price}",
-    "@premiumOneYearPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneMonthPrice": "1 mois {price}",
-    "@premiumOneMonthPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
     "premiumManageSubscription": "Gérer l'abonnement",
     "premiumRedeemGiftCode": "Utiliser un code cadeau",
     "premiumGiftBadge": "Cadeau",
     "premiumCancelSubscriptionTitle": "Résilier l’abonnement ?",
     "premiumCancelSubscriptionBody": "Vous conservez vos avantages jusqu’à la date de votre prochain renouvellement, puis vous disposez d’une période de grâce de 3 jours pour vous réabonner et conserver votre historique d’abonné.",
     "premiumCancelSubscriptionConfirm": "Résilier l’abonnement",
-    "premiumKeepSubscription": "Garder l'abonnement",
     "premiumPurchaseHistoryTitle": "Historique des achats",
     "premiumPurchaseHistoryDescription": "Vos factures récentes. Pour modifier le mode de paiement de votre abonnement, ajoutez-en un ou choisissez-en un dans le portail de facturation et définissez-le comme mode de paiement par défaut.",
     "premiumManagePaymentMethods": "Gérer les modes de paiement",
-    "premiumBillingHistory": "Historique de facturation",
-    "premiumSelfServeRefundTitle": "Remboursement en libre-service",
     "premiumSelfServeRefundButton": "Rembourser le dernier achat",
     "premiumDisclaimerAgreementPrefix": "En achetant, vous acceptez nos ",
     "premiumDisclaimerAgreementPastPrefix": "En achetant, vous avez accepté nos ",
@@ -15860,23 +14625,16 @@
         "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
     },
     "premiumComparisonFeatureColumn": "Fonctionnalité",
-    "premiumDisclaimerPurchased": "En effectuant cet achat, vous avez accepté nos {terms} et notre {privacy}.",
-    "@premiumDisclaimerPurchased": {
-        "placeholders": {
-            "terms": {
-                "type": "String"
-            },
-            "privacy": {
-                "type": "String"
-            }
-        }
-    },
     "premiumDisclaimerRefund": "Les remboursements en libre-service sont disponibles dans les 3 jours suivant le paiement, une fois tous les 30 jours. Le remboursement d’un abonnement entraîne sa résiliation. Les acheteurs de l’UE et de l’EEE renoncent au droit de rétractation de 14 jours lors du paiement pour accéder immédiatement au contenu. Utilisez le bouton de remboursement dans l’application plutôt qu’une rétrofacturation. Les rétrofacturations peuvent entraîner des restrictions permanentes sur votre compte. Stripe traite les paiements en toute sécurité. Nous ne voyons jamais votre numéro de carte complet.",
     "premiumTermsOfService": "Conditions d'utilisation",
     "premiumPrivacyPolicy": "Politique de confidentialité",
     "premiumCheckoutStartFailedTitle": "Impossible de démarrer le paiement",
     "premiumCheckoutStartFailedBody": "Un problème est survenu lors du démarrage du paiement. Veuillez réessayer dans un instant.",
     "premiumPlanUnavailable": "Ce forfait n'est pas disponible. Contactez l'assistance.",
+    "premiumPlanUnavailableSelfHosted": "Ce forfait n'est pas disponible. Contactez les administrateurs de cette instance.",
+    "@premiumPlanUnavailableSelfHosted": {
+        "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
+    },
     "premiumCompletePaymentTitle": "Finaliser le paiement",
     "premiumCompletePaymentBody": "Vous êtes maintenant redirigé vers Stripe pour finaliser le paiement. Revenez sur Fluxer une fois que vous aurez terminé.",
     "premiumChoosePaymentMethodTitle": "Choisir le mode de paiement",
@@ -15892,29 +14650,97 @@
     "premiumExistingSubscriptionTitle": "Abonnement déjà existant",
     "premiumExistingSubscriptionBody": "Nous avons trouvé un abonnement Fluxer Plutonium existant pour ce compte. Gérez-le dans le portail de facturation sécurisé pour mettre à jour les détails de paiement ou vérifier le statut du renouvellement. Si vous venez de payer, attendez une minute et rouvrez cette page.",
     "premiumPurchasesDisabledTitle": "Achats indisponibles",
-    "premiumPurchasesDisabledBody": "Les achats sont désactivés pour ce compte. Contactez support@fluxer.app si cela vous semble incorrect.",
+    "premiumPurchasesDisabledBody": "Les achats sont désactivés pour ce compte. Contactez {supportEmail} si cela vous semble incorrect.",
+    "@premiumPurchasesDisabledBody": {
+        "description": "Shown on the official hosted instance when purchases are disabled for the account. supportEmail is the support mailbox.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumPurchasesDisabledBodySelfHosted": "Les achats sont désactivés pour ce compte. Contactez les administrateurs de cette instance si cela vous semble incorrect.",
+    "@premiumPurchasesDisabledBodySelfHosted": {
+        "description": "Shown on a self-hosted instance when purchases are disabled for the account. Names no email address."
+    },
     "premiumClaimAccountToPurchase": "Réclamez votre compte pour acheter Fluxer Plutonium.",
     "premiumVerifyEmailToPurchase": "Vous devez vérifier votre e-mail avant de pouvoir acheter Fluxer Plutonium.",
-    "premiumPerkCustomUsernameTag": "Tag de nom d'utilisateur personnalisé",
-    "premiumPerkPerCommunityProfiles": "Profils par communauté",
-    "premiumPerkMessageScheduling": "Planification de messages",
-    "premiumPerkProfileBadge": "Badge de profil",
-    "premiumPerkCustomVideoBackgrounds": "Arrière-plans vidéo personnalisés",
-    "premiumPerkEntranceSounds": "Sons d'entrée",
     "premiumPerkCommunities": "Communautés",
     "premiumPerkMessageCharacterLimit": "Limite de caractères des messages",
     "premiumPerkBookmarkedMessages": "Messages enregistrés",
     "premiumPerkFileUploadSize": "Taille de l'envoi de fichiers",
-    "premiumPerkEmojiStickerPacks": "Packs d'emojis et d'autocollants",
-    "premiumPerkSavedMedia": "Médias enregistrés",
     "premiumPerkUseAnimatedEmojis": "Utiliser les emojis animés",
-    "premiumPerkGlobalEmojiStickerAccess": "Utilisation des emojis et stickers partout",
     "premiumPerkVideoQuality": "Qualité vidéo",
     "premiumPerkAnimatedAvatarsBanners": "Avatars animés et bannières de profil",
     "premiumPerkEarlyAccess": "Accès anticipé aux nouvelles fonctionnalités",
-    "premiumPerkCustomThemes": "Thèmes personnalisés",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "Jusqu’à 4K à 60 FPS",
+    "storePlutoniumPriceLine": "{monthly} ou {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/mois",
+    "storePlutoniumYearSuffix": "/an",
+    "storePlutoniumPriceOr": "ou",
+    "storePlutoniumEmojiTitle": "Vos emojis, partout",
+    "storePlutoniumEmojiBody": "Utilisez les emojis et stickers personnalisés de toutes vos communautés dans chaque discussion et communauté dont vous faites partie.",
+    "storePlutoniumProfileTitle": "Un profil qui sort du lot",
+    "storePlutoniumProfileBody": "Obtenez un avatar et une bannière animés, un badge d'abonné, le tag à quatre chiffres de votre choix après votre nom d'utilisateur*, et un profil séparé pour chaque communauté.",
+    "storePlutoniumFilesTitle": "Envoyer des fichiers jusqu’à 500 Mo",
+    "storePlutoniumFilesBody": "Partagez des vidéos complètes et des fichiers volumineux sans les compresser. Les comptes gratuits peuvent envoyer jusqu'à 25 Mo.",
+    "storePlutoniumCompareTitle": "Comparer Gratuit et Plutonium",
+    "storePlutoniumCompareMobileNote": "Toutes ces fonctionnalités ne sont pas disponibles dans l'application mobile. Certaines ne sont disponibles que sur ordinateur.",
+    "storePlutoniumNotAvailable": "Non disponible",
+    "storePlutoniumAvailable": "Disponible",
+    "storePlutoniumCompareTag": "Choisissez le numéro à 4 chiffres après votre nom d'utilisateur*",
+    "storePlutoniumCompareProfile": "Un profil distinct pour chaque communauté",
+    "storePlutoniumCompareBadge": "Badge d'abonné sur votre profil",
+    "storePlutoniumCompareBackgrounds": "Arrière-plans d'appel vidéo que vous pouvez enregistrer",
+    "storePlutoniumCompareCommunities": "Communautés que vous pouvez rejoindre",
+    "storePlutoniumCompareCharacters": "Caractères dans un seul message",
+    "storePlutoniumCompareBookmarks": "Messages que vous pouvez enregistrer",
+    "storePlutoniumCompareUpload": "Taille maximale des fichiers que vous pouvez envoyer",
+    "storePlutoniumCompareSavedMedia": "Éléments multimédias que vous pouvez enregistrer pour plus tard",
+    "storePlutoniumCompareAnimatedEmoji": "Utiliser des emojis animés dans les messages",
+    "storePlutoniumCompareCustomEmoji": "Utiliser des emojis et des autocollants personnalisés dans n’importe quelle communauté",
+    "storePlutoniumCompareVideo": "Qualité des appels vidéo et du partage d'écran",
+    "storePlutoniumCompareAvatar": "Avatar et bannière de profil animés",
+    "storePlutoniumCompareEarlyAccess": "Accès anticipé aux nouvelles fonctionnalités",
+    "storePlutoniumCompareThemes": "Thèmes personnalisés pour l’application",
+    "storePlutoniumVideoFree": "Jusqu'à 720p à 30 IPS",
+    "storePlutoniumVideoPlutonium": "Jusqu'à 4K à 60 IPS",
+    "storePlutoniumTagFootnote": "Vous ne pouvez choisir qu'un tag que personne d'autre avec le même nom d'utilisateur n'a déjà. Les noms d'utilisateur ne sont pas sensibles à la casse, donc Mina#4821 et mina#4821 sont considérés comme identiques. Le tag #0000 est réservé aux membres Fluxer Visionary.",
+    "storePlutoniumLearnVisionary": "En savoir plus sur Visionary.",
+    "storePlutoniumDonatePrompt": "Vous voulez juste soutenir le développement open source de Fluxer ? ",
+    "storePlutoniumDonateLink": "Faire un don plutôt.",
+    "storePlutoniumHighlightsLead": "S'abonner finance Fluxer et débloque",
+    "storePlutoniumHighlightEmoji": "Emojis et stickers personnalisés dans n’importe quelle discussion",
+    "storePlutoniumHighlightProfile": "Profil animé, badge et numéro à 4 chiffres personnalisé",
+    "storePlutoniumHighlightFiles": "Envois jusqu’à 500 Mo",
+    "storePlutoniumHighlightMessages": "Envoyez des messages jusqu'à 4 000 caractères",
+    "storePlutoniumHighlightCommunityProfile": "Un profil distinct pour chaque communauté",
+    "storePlutoniumHighlightsMore": "Et plus encore",
+    "storePlutoniumRenewsThroughPlay": "Se renouvelle automatiquement via Google Play jusqu'à votre annulation.",
+    "storePlutoniumRenewsThroughAppStore": "Se renouvelle automatiquement via l’App Store jusqu’à votre annulation.",
+    "storePlutoniumAlreadySubscribed": "Vous avez déjà un abonnement Fluxer Plutonium.",
+    "storePlutoniumSavePercent": "Économisez {percent} %",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "Achat reçu. Plutonium s’affichera ici une fois activé.",
+    "storePlutoniumUnavailable": "Les abonnements intégrés à l'application ne sont pas encore disponibles sur cet appareil.",
+    "storePlutoniumVisionaryStatus": "Visionary inclut déjà un accès permanent, un abonnement récurrent n'est donc pas nécessaire.",
     "userSettingsNavShortcuts": "Raccourcis",
     "@userSettingsNavShortcuts": {
         "description": "User settings navigation item for keyboard shortcuts."
@@ -16003,6 +14829,18 @@
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
     },
+    "userSettingsNavAppIcon": "Icône de l'application",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "Icône de l'application",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "Choisissez l’icône qui apparaît sur votre écran d’accueil.",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
+    },
     "advancedSettingsConfigure": "Configurer",
     "@advancedSettingsConfigure": {
         "description": "Button label that opens a dedicated advanced settings modal."
@@ -16050,7 +14888,6 @@
     "advancedSettingStripTrackingLabel": "Supprimer les paramètres de suivi des URL",
     "advancedSettingStripTrackingDescription": "Supprimer automatiquement les paramètres de suivi des URL dans les messages que vous envoyez",
     "advancedSettingTrustAllLinksLabel": "Faire confiance à tous les liens externes",
-    "advancedSettingTrustAllLinksDescription": "Ignorer l'avertissement de lien externe pour tous les domaines",
     "advancedSettingSearchEnginesLabel": "Moteurs de recherche",
     "advancedSettingSearchEnginesDescription": "Configurer les moteurs de recherche utilisés pour le texte sélectionné",
     "advancedSettingTranslatorsLabel": "Traducteurs",
@@ -16106,13 +14943,6 @@
     "advancedSettingHideStreamPreviewLabel": "Masquer la miniature d’aperçu de ma diffusion",
     "advancedSettingDeveloperModeLabel": "Activer le mode développeur",
     "advancedSettingDeveloperModeDescription": "Activer le mode développeur",
-    "advancedSettingSearchEngineGoogle": "Google",
-    "advancedSettingSearchEngineDuckDuckGo": "DuckDuckGo",
-    "advancedSettingSearchEngineBing": "Bing",
-    "advancedSettingSearchEngineGoogleLens": "Google Lens",
-    "advancedSettingSearchEngineTinEye": "TinEye",
-    "advancedSettingTranslatorGoogle": "Traduction Google",
-    "advancedSettingTranslatorDeepL": "DeepL",
     "advancedSettingDefaultSearchEngineLabel": "Moteur de recherche par défaut",
     "advancedSettingDefaultSearchEngineDescription": "Choisissez le moteur de recherche utilisé par défaut lorsque vous recherchez le texte sélectionné.",
     "advancedSettingBuiltInSearchEnginesLabel": "Moteurs de recherche intégrés",
@@ -16251,6 +15081,14 @@
     "authHidePassword": "Masquer le mot de passe",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "Toujours en cours…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
+    },
+    "authVerificationFailed": "Impossible de terminer la vérification. Réessayez.",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
     },
     "chatLoadingMessages": "Chargement des messages",
     "@chatLoadingMessages": {
@@ -16658,10 +15496,6 @@
     "@guildMembersColumnRoles": {
         "description": "Table column header on the community members page."
     },
-    "guildMembersColumnActions": "Actions",
-    "@guildMembersColumnActions": {
-        "description": "Table column header on the community members page."
-    },
     "guildMembersFilterMemberSince": "Filtrer par date d'arrivée",
     "@guildMembersFilterMemberSince": {
         "description": "Filter menu label on the community members page."
@@ -16746,23 +15580,6 @@
     "@guildMembersIndexing": {
         "description": "Banner shown while guild members are being indexed."
     },
-    "guildMembersGoToPage": "Aller à la page",
-    "@guildMembersGoToPage": {
-        "description": "Pagination jump label on the community members page."
-    },
-    "guildMembersGoToPageItem": "Aller à la page {page}",
-    "@guildMembersGoToPageItem": {
-        "description": "Accessibility label for a pagination page button.",
-        "placeholders": {
-            "page": {
-                "type": "int"
-            }
-        }
-    },
-    "guildMembersJumpToPage": "Aller à la page",
-    "@guildMembersJumpToPage": {
-        "description": "Label for pagination jump input on the community members page."
-    },
     "guildMembersJoinSourceCreator": "Créateur de la communauté",
     "@guildMembersJoinSourceCreator": {
         "description": "Join method label on the community members page."
@@ -16839,28 +15656,14 @@
             }
         }
     },
-    "guildMembersJoinedDaysAgo": "{count, plural, one {Il y a 1 jour} other {Il y a {count} jours}}",
-    "@guildMembersJoinedDaysAgo": {
-        "description": "Relative join time on the community members page.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
     "guildMembersChannelListLabel": "Membres",
     "@guildMembersChannelListLabel": {
         "description": "Label for the Members item at the top of the guild channel list."
-    },
-    "guildMembersChannelListSelected": "Membres, sélectionnés",
-    "@guildMembersChannelListSelected": {
-        "description": "Accessibility label when the Members channel list item is selected."
     },
     "guildSettingsEmojiSlotsTitle": "Emplacements d'emojis",
     "guildSettingsEmojiDropZone": "Faites glisser et déposez les fichiers d'emoji ici",
     "guildSettingsEmojiLoadFailed": "Échec du chargement des emojis. Veuillez réessayer plus tard.",
     "guildSettingsEmojiSearchEmpty": "Aucun emoji ne correspond à votre recherche.",
-    "guildSettingsEmojiNoSlots": "Aucun emplacement d'emoji disponible",
     "guildSettingsEmojiSlotsFull": "Vous avez atteint le nombre maximal d'emojis. Supprimez des emojis existants pour libérer de l'espace.",
     "guildSettingsEmojiUploadRequirements": "Les noms des emojis doivent comporter au moins 2 caractères et peuvent utiliser des lettres, des chiffres et des tirets bas. Les emojis doivent avoir une taille inférieure à {maxSize}. Les images statiques sont redimensionnées à 128 x 128 pixels et compressées automatiquement. Les emojis animés et les SVG doivent déjà respecter cette limite.",
     "@guildSettingsEmojiUploadRequirements": {
@@ -16870,24 +15673,11 @@
             }
         }
     },
-    "guildSettingsEmojiUploadingTitle": "Envoi des emojis",
-    "guildSettingsEmojiUploadingBody": "Envoi de {count, plural, one {# emoji} other {# emojis}}. Cela peut prendre un peu de temps.",
-    "@guildSettingsEmojiUploadingBody": {
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsEmojiUploadFailed": "Échec de l’envoi des emojis. Veuillez réessayer.",
     "guildSettingsEmojiSomeFailedTitle": "Certains emojis n’ont pas pu être ajoutés",
-    "guildSettingsEmojiSomeFailedBody": "Vérifiez ces fichiers et réessayez avec des images plus petites ou plus simples.",
     "guildSettingsEmojiRenameTitle": "Renommer l'emoji",
     "guildSettingsEmojiRenameHint": "2 à 32 caractères, lettres, chiffres, tirets bas.",
-    "guildSettingsEmojiColumnEmoji": "Emoji",
     "guildSettingsEmojiColumnName": "Nom",
     "guildSettingsEmojiColumnUploader": "Ajouté par",
-    "guildSettingsEmojiUnknownUploader": "Inconnu",
     "guildSettingsEmojiDeleteTitle": "Supprimer l'emoji",
     "guildSettingsEmojiDeleteBody": "Supprimer :{name}: ? Cette action est irréversible.",
     "@guildSettingsEmojiDeleteBody": {
@@ -16902,15 +15692,7 @@
     "guildSettingsEmojiNameTooLong": "Le nom de l'emoji doit contenir au maximum 32 caractères",
     "guildSettingsEmojiInvalidNameTitle": "Nom d’emoji non valide",
     "guildSettingsEmojiRenameFailedTitle": "Impossible de renommer cet emoji",
-    "guildSettingsEmojiRenameFailedBody": "Le nom a été restauré à sa valeur précédente. Veuillez réessayer dans un instant.",
-    "guildSettingsEmojiGoneTitle": "Cet emoji n’existe plus",
-    "guildSettingsEmojiGoneBody": "Il a peut-être été supprimé. Le nom a été restauré à sa version précédente.",
-    "guildSettingsEmojiNoPermissionRenameTitle": "Vous ne pouvez pas renommer cet emoji",
-    "guildSettingsEmojiNoPermissionRenameBody": "Vous n'avez pas l'autorisation de renommer cet emoji. Le nom a été rétabli tel qu'il était auparavant.",
-    "guildSettingsEmojiRateLimitedTitle": "Vous allez trop vite",
-    "guildSettingsEmojiRateLimitedBody": "Veuillez patienter un instant et réessayer de renommer.",
     "guildSettingsEmojiDeleteFailedTitle": "Impossible de supprimer cet emoji",
-    "guildSettingsEmojiDeleteNoPermissionTitle": "Vous ne pouvez pas supprimer cet emoji",
     "guildSettingsCloneEmojiTitle": "Autoriser d'autres utilisateurs à cloner vos émojis",
     "guildSettingsCloneEmojiDescription": "Lorsque cette option est activée, les membres d'autres communautés peuvent utiliser le raccourci \" Cloner \" en un clic dans l'application pour vos emojis personnalisés. Cela ne les empêche pas d'enregistrer l'image et de la télécharger eux-mêmes.",
     "guildSettingsCloneStickerTitle": "Autoriser les autres à cloner vos autocollants",
@@ -16934,8 +15716,6 @@
     "guildSettingsStickersLoadFailedTitle": "Échec du chargement des stickers",
     "guildSettingsStickersLoadFailedBody": "Une erreur est survenue lors du chargement des stickers. Veuillez réessayer.",
     "guildSettingsStickersSearchEmpty": "Aucun sticker ne correspond à votre recherche.",
-    "guildSettingsStickersEmptySearch": "Aucun sticker trouvé",
-    "guildSettingsStickerNoSlots": "Aucun emplacement de sticker disponible",
     "guildSettingsStickerSlotsFull": "Vous avez atteint le nombre maximal de stickers. Supprimez des stickers existants pour faire de la place.",
     "guildSettingsStickerUploadRequirements": "Les stickers sont enregistrés en 320 × 320 pixels et doivent peser moins de {maxSize}. Les images statiques sont redimensionnées et compressées automatiquement. Les stickers animés et les SVG doivent déjà respecter cette limite.",
     "@guildSettingsStickerUploadRequirements": {
@@ -16945,7 +15725,6 @@
             }
         }
     },
-    "guildSettingsStickerUnsupportedTitle": "Fichier de sticker non pris en charge",
     "guildSettingsStickerAddTitle": "Ajouter un sticker",
     "guildSettingsStickerEditTitle": "Modifier le sticker",
     "guildSettingsStickerNameLabel": "Nom",
@@ -16970,8 +15749,6 @@
     "guildSettingsStickerNameTooLong": "Le nom doit contenir 30 caractères ou moins",
     "guildSettingsStickerDescriptionTooLong": "La description doit contenir 500 caractères ou moins",
     "guildSettingsStickerCreateFailedTitle": "Impossible de créer ce sticker",
-    "guildSettingsStickerTooLargeTitle": "Le sticker est trop volumineux",
-    "guildSettingsStickerCompressFailedTitle": "Impossible de compresser suffisamment le sticker",
     "guildSettingsStickerDeleteTitle": "Supprimer le sticker",
     "guildSettingsStickerDeleteBody": "Supprimer « {name} » ? Cette action est irréversible.",
     "@guildSettingsStickerDeleteBody": {
@@ -16983,7 +15760,6 @@
     },
     "guildSettingsStickerPurgeLabel": "Purger ce sticker du stockage et du CDN",
     "guildSettingsStickerDeleteFailedTitle": "Impossible de supprimer cet autocollant",
-    "guildSettingsStickerDeleteNoPermissionTitle": "Vous ne pouvez pas supprimer cet autocollant",
     "keybindsSearchShortcuts": "Rechercher des raccourcis",
     "@keybindsSearchShortcuts": {
         "description": "Placeholder for the shortcuts settings search field."
@@ -17066,6 +15842,40 @@
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
+    "assistantNeedsLogin": "Ouvrez Fluxer et connectez-vous d’abord.",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "Vous n'êtes pas en appel.",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "Fluxer n’a pas trouvé cela.",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "Les messages privés sont désactivés sur cette instance.",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "Fluxer n’a pas pu terminer cette action.",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "Micro coupé.",
+    "assistantOkUnmuted": "Micro réactivé.",
+    "assistantOkLeftVoice": "Vous avez quitté le salon vocal.",
+    "assistantOkJoinedVoice": "Connexion au salon vocal.",
+    "assistantOkStartedCall": "Démarrage de l'appel.",
+    "assistantOkStatusSet": "Statut défini sur {status}.",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "Ouverture de Fluxer.",
     "applicationsTitle": "Applications",
     "@applicationsTitle": {
         "description": "Title for the developer Applications settings tab."
@@ -17108,6 +15918,15 @@
         "description": "Empty-state body. apiName is the product API display name.",
         "placeholders": {
             "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "Créé le {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
                 "type": "String"
             }
         }
@@ -17292,6 +16111,10 @@
     "@applicationsOauthBuilderTitle": {
         "description": "Section title for the authorize URL builder."
     },
+    "applicationsOauthBuilderDescription": "Créez une URL d'autorisation avec des scopes et des permissions.",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
     "applicationsScopes": "Portées",
     "@applicationsScopes": {
         "description": "Label for OAuth2 scope checkboxes."
@@ -17324,6 +16147,10 @@
     "@applicationsAuthorizeUrlPlaceholder": {
         "description": "Placeholder when the authorize URL cannot be built yet."
     },
+    "applicationsCopyAuthorizeUrl": "Copier l'URL d'autorisation",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
     "applicationsCopiedUrl": "URL copiée dans le presse-papiers",
     "@applicationsCopiedUrl": {
         "description": "Toast after copying the authorize URL."
@@ -17343,6 +16170,15 @@
     "applicationsDelete": "Supprimer l'application",
     "@applicationsDelete": {
         "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "Voulez-vous vraiment supprimer {name} ? Cette action est irréversible. Toutes les données associées, y compris l’utilisateur bot, seront définitivement supprimées.",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     },
     "applicationsDeleteFailed": "Impossible de supprimer l’application",
     "@applicationsDeleteFailed": {
@@ -17432,6 +16268,10 @@
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
     },
+    "voiceOutputRouteEarpiece": "Récepteur",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
     "voiceOutputRouteHeadset": "Écouteurs",
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
@@ -17439,6 +16279,14 @@
     "doubleTapReactionEdit": "Modifier",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "Modifier la valeur par défaut",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "Choisir l'emoji du double appui",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
     },
     "chatMessagePinConfirm": "Épingler",
     "@chatMessagePinConfirm": {
@@ -17452,9 +16300,17 @@
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."
     },
+    "appIconOptionStarfield": "Champ d'étoiles",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
     "appIconOptionSweden": "Suède",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "Le changement d'icône d'application n'est pas disponible sur cet appareil.",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     },
     "userSettingsLogOutConfirmTitle": "Se déconnecter ?",
     "@userSettingsLogOutConfirmTitle": {
@@ -17484,5 +16340,178 @@
     "@guildSettingsCommunityDeleted": {
         "description": "Success toast after a community is deleted."
     },
-    "assistantOkMessageSent": "Message envoyé."
+    "guildSettingsDeleteCommunityFailed": "Impossible de supprimer cette communauté",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantOkMessageSent": "Message envoyé.",
+    "assistantOkCustomStatusSet": "Statut personnalisé mis à jour.",
+    "assistantOkCustomStatusCleared": "Statut personnalisé effacé.",
+    "guildNavbarAnnouncementChannel": "Salon d'annonces",
+    "guildNavbarAnnouncementChannelDescription": "Publiez des mises à jour que d’autres communautés peuvent suivre dans leurs propres salons",
+    "channelDetailsAnnouncementChannel": "Salon d'annonces",
+    "channelSettingsAnnouncementChannel": "Salon d'annonces",
+    "channelSettingsAnnouncementChannelDescription": "Permet à d’autres communautés de suivre ce salon et de recevoir des copies de ce que vous publiez.",
+    "channelSettingsStopAnnouncementTitle": "Ne plus être un salon d'annonces ?",
+    "channelSettingsStopAnnouncementBody": "{count, plural, one{{count} salon suit ce salon. Le convertir en salon textuel supprime ce suivi.} other{{count} salons suivent ce salon. Le convertir en salon textuel supprime ces suivis.}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "Convertir ce salon en salon textuel supprime le suivi de tous les salons qui le suivent.",
+    "channelSettingsConvertChannel": "Convertir",
+    "channelSettingsConvertFailed": "Impossible de convertir ce salon",
+    "channelSettingsChannelHasFollowers": "D'autres salons suivent encore ce salon. Supprimez ces suivis avant de le convertir.",
+    "channelMenuFollow": "Suivre le salon",
+    "channelFollowTitle": "Suivre ce salon",
+    "channelFollowBody": "Choisissez où ses messages publiés doivent aller. Vous pouvez ne plus suivre à tout moment dans Paramètres de la communauté → Webhooks.",
+    "channelFollowCommunity": "Communauté",
+    "channelFollowChannel": "Salon",
+    "channelFollowAgeWarning": "Ce salon est soumis à une restriction d’âge. Les mises à jour ne peuvent être envoyées qu’aux salons soumis à une restriction d’âge.",
+    "channelFollowContentWarning": "Ce salon a un avertissement de contenu. Les mises à jour ne peuvent être envoyées qu’aux salons avec un avertissement de contenu ou une restriction d’âge.",
+    "channelFollowHiddenHint": "Les communautés et les salons où vous ne pouvez pas gérer les webhooks sont masqués.",
+    "channelFollowEmpty": "Vous ne pouvez gérer les webhooks dans aucune communauté. Demandez à un administrateur de suivre ce salon.",
+    "channelFollowSubmit": "Suivre",
+    "channelFollowFailed": "Impossible de suivre ce salon.",
+    "channelFollowSuccessTitle": "Les mises à jour arrivent !",
+    "channelFollowSuccessBody": "Les messages publiés dans {sourceName} apparaîtront dans #{targetName}.",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "OK !",
+    "channelFollowBarrier": "Suivez ce salon pour recevoir ces annonces dans le salon de votre choix.",
+    "channelHeaderFollow": "Suivre le salon",
+    "chatMessagePublish": "Publier",
+    "chatMessagePublished": "Publié",
+    "chatMessagePublishConfirmTitle": "Publier le message ?",
+    "chatMessagePublishConfirmBody": "Ceci envoie une copie à chaque salon qui suit celui-ci.",
+    "chatMessagePublishedToast": "Message publié",
+    "chatMessageAlreadyPublished": "Ce message est déjà publié.",
+    "chatMessagePublishFailedTitle": "Impossible de publier ce message",
+    "chatMessagePublishFailedBody": "Un problème est survenu. Veuillez réessayer dans un instant.",
+    "chatMessagePublishLimitTitle": "Du calme",
+    "chatMessagePublishLimitBody": "Vous pourrez publier à nouveau dans {duration}.",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "Vous publiez trop rapidement. Réessayez dans un instant.",
+    "chatMessageDeletePublished": "Cela supprime également les copies qui ont été envoyées aux salons qui suivent celui-ci.",
+    "chatMessageEditPublishedTitle": "Modifier le message publié ?",
+    "chatMessageEditPublishedBody": "Ceci met à jour les copies qui ont été envoyées aux salons qui suivent celui-ci.",
+    "chatMessageEditPublishedSave": "Enregistrer",
+    "chatMessageEditLimitTitle": "Du calme",
+    "chatMessageEditLimitBody": "Vous pourrez modifier ce message publié à nouveau dans {duration}.",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "Vous modifiez ce message publié trop rapidement. Réessayez dans un instant.",
+    "chatMessageOriginalDeleted": "[Message d’origine supprimé]",
+    "userTagCommunity": "Communauté",
+    "systemFollowAdd": "{username} a abonné ce salon à {source}. Les messages publiés là-bas apparaîtront ici.",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username} a abonné ce salon à {source}.",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "Pas encore envoyé aux abonnés.",
+    "publishNudgeHideForever": "Ne plus afficher",
+    "publishNudgeDismiss": "Ignorer",
+    "channelSettingsFollowedChannels": "Salons suivis",
+    "channelSettingsFollowedChannelsDescription": "Salons d’annonces que ce salon suit. Arrêtez de les suivre pour ne plus recevoir de copies.",
+    "guildSettingsFollowedChannelsDescription": "Salons d’annonces suivis par les salons de cette communauté.",
+    "channelSettingsFollowedFrom": "De {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "Les mises à jour sont en pause car le salon source n’est plus disponible.",
+    "channelSettingsUnfollowTitle": "Ne plus suivre {name} ?",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "Ce salon ne recevra plus de copies de ce salon d'annonces.",
+    "channelSettingsUnfollow": "Ne plus suivre",
+    "crosspostCommunityTitle": "Communauté",
+    "crosspostGoToCommunity": "Aller à la communauté",
+    "crosspostJoinCommunity": "Rejoindre la communauté",
+    "crosspostSourceFailed": "Impossible de charger cette communauté. Réessayez dans un instant.",
+    "crosspostMembers": "{count} membres",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "{count} en ligne",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, one{{count} minute} other{{count} minutes}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, one{{count} seconde} other{{count} secondes}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "Type de salon non pris en charge",
+    "channelUnsupportedBody": "Cette version de l'application ne prend pas en charge ce type de salon.",
+    "channelDetailsUnsupportedChannel": "Salon non pris en charge"
 }

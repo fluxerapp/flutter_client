@@ -39,23 +39,25 @@ String sanitizeDeepLinkForLog(Uri uri) {
 
   final StringBuffer buffer = StringBuffer();
   if (uri.hasScheme) {
-    buffer.write(uri.scheme);
-    buffer.write('://');
+    buffer
+      ..write(uri.scheme)
+      ..write('://');
     if (uri.hasAuthority) {
       buffer.write(uri.authority);
     }
   }
   buffer.write(path);
   if (query.isNotEmpty) {
-    buffer.write('?');
-    buffer.write(
-      query.entries
-          .map(
-            (MapEntry<String, String> entry) =>
-                '${Uri.encodeQueryComponent(entry.key)}=${Uri.encodeQueryComponent(entry.value)}',
-          )
-          .join('&'),
-    );
+    buffer
+      ..write('?')
+      ..write(
+        query.entries
+            .map(
+              (MapEntry<String, String> entry) =>
+                  '${Uri.encodeQueryComponent(entry.key)}=${Uri.encodeQueryComponent(entry.value)}',
+            )
+            .join('&'),
+      );
   }
   return buffer.toString();
 }

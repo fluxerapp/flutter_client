@@ -24,26 +24,6 @@ void main() {
     });
   });
 
-  group('isRootOverlayLocation', () {
-    test('detects top location differing from shell location', () {
-      expect(
-        isRootOverlayLocation(
-          '/settings/guild/g1',
-          shellLocation: '/channels/@me/abc',
-        ),
-        isTrue,
-      );
-      expect(
-        isRootOverlayLocation(
-          '/channels/@me/abc',
-          shellLocation: '/channels/@me/abc',
-        ),
-        isFalse,
-      );
-      expect(isRootOverlayLocation('/channels/@discover'), isFalse);
-    });
-  });
-
   group('inferShellBranchIndex', () {
     test('classifies shell branch routes', () {
       expect(inferShellBranchIndex('/notifications'), 1);

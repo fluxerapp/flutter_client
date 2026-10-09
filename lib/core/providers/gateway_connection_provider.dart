@@ -29,6 +29,9 @@ class IdentifyInitialGuildId extends _$IdentifyInitialGuildId {
 
   // Applied from the persisted last location before Identify.
   void set(String? guildId) {
+    if (state == guildId) {
+      return;
+    }
     state = guildId;
   }
 }

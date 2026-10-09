@@ -2,7 +2,6 @@ import 'package:fluxer_dart/export.dart';
 
 class ChannelUnreadState {
   const ChannelUnreadState({
-    required this.hasUnreadMessages,
     required this.hasMentions,
     required this.isHighlight,
     required this.shouldShowUnreadIndicator,
@@ -10,7 +9,6 @@ class ChannelUnreadState {
     required this.hasVisibleUnread,
   });
 
-  final bool hasUnreadMessages;
   final bool hasMentions;
   final bool isHighlight;
   final bool shouldShowUnreadIndicator;
@@ -28,8 +26,7 @@ ChannelUnreadState getChannelUnreadState({
   final bool hasUnreadMessages = unreadCount > 0;
   final bool rawHasMentions = mentionCount > 0;
   if (unreadBadgesLevel == UserNotificationSettings.noMessages) {
-    return ChannelUnreadState(
-      hasUnreadMessages: hasUnreadMessages,
+    return const ChannelUnreadState(
       hasMentions: false,
       isHighlight: false,
       shouldShowUnreadIndicator: false,
@@ -39,7 +36,6 @@ ChannelUnreadState getChannelUnreadState({
   }
   if (unreadBadgesLevel == UserNotificationSettings.onlyMentions) {
     return ChannelUnreadState(
-      hasUnreadMessages: hasUnreadMessages,
       hasMentions: rawHasMentions,
       isHighlight: rawHasMentions,
       shouldShowUnreadIndicator: hasUnreadMessages,
@@ -49,7 +45,6 @@ ChannelUnreadState getChannelUnreadState({
   }
   if (unreadBadgesLevel == UserNotificationSettings.allMessages) {
     return ChannelUnreadState(
-      hasUnreadMessages: hasUnreadMessages,
       hasMentions: rawHasMentions,
       isHighlight: rawHasMentions || hasUnreadMessages,
       shouldShowUnreadIndicator: hasUnreadMessages,
@@ -60,7 +55,6 @@ ChannelUnreadState getChannelUnreadState({
   final bool shouldShowUnreadIndicator =
       hasUnreadMessages && (!isMuted || showFadedUnreadOnMutedChannels);
   return ChannelUnreadState(
-    hasUnreadMessages: hasUnreadMessages,
     hasMentions: rawHasMentions,
     isHighlight: rawHasMentions || (hasUnreadMessages && !isMuted),
     shouldShowUnreadIndicator: shouldShowUnreadIndicator,

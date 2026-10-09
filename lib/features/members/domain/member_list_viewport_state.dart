@@ -8,8 +8,6 @@ class MemberListViewportKey {
   final String guildId;
   final String channelId;
 
-  String get storageKey => '$guildId\u0000$channelId';
-
   @override
   bool operator ==(Object other) {
     return other is MemberListViewportKey &&

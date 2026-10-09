@@ -7,13 +7,6 @@ class VoiceScreenShareWatchTile extends Notifier<Set<String>> {
   @override
   Set<String> build() => const <String>{};
 
-  String? get primaryTileId {
-    if (state.isEmpty) {
-      return null;
-    }
-    return state.first;
-  }
-
   void watch(String tileId) {
     if (state.contains(tileId) || state.length >= kVoiceMaxWatchedStreams) {
       return;

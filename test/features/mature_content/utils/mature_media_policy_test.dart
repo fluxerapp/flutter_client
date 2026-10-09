@@ -41,7 +41,6 @@ void main() {
     );
     expect(policy.shouldBlur, isTrue);
     expect(policy.canReveal, isFalse);
-    expect(policy.gateReason, MatureContentGateReason.minorBlocked);
   });
 
   test('resolveChannelGateReason blocks minors in mature guild context', () {
@@ -50,10 +49,8 @@ void main() {
       categoryId: null,
       guildId: 'guild-1',
       effectiveMatureContent: true,
-      matureContentSource: EffectiveMatureSource.guild,
       effectiveWarningLevel: contentWarningLevelInherit,
       effectiveWarningText: null,
-      warningSource: EffectiveMatureSource.none,
       scope: MatureContentAgreementScope.guild,
       scopeId: 'guild-1',
     );

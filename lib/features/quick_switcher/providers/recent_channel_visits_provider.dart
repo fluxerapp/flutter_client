@@ -10,11 +10,7 @@ class RecentChannelVisits extends _$RecentChannelVisits {
 
   void recordVisit({required String channelId, String? guildId}) {
     final List<RecentChannelVisit> next = <RecentChannelVisit>[
-      RecentChannelVisit(
-        channelId: channelId,
-        guildId: guildId,
-        visitedAt: DateTime.now(),
-      ),
+      RecentChannelVisit(channelId: channelId, guildId: guildId),
       ...state.where(
         (RecentChannelVisit visit) => visit.channelId != channelId,
       ),

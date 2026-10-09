@@ -118,19 +118,4 @@ class AccessibilityOverridesSyncedField
         a.keepStickerAnimationUnderReducedMotion ==
             b.keepStickerAnimationUnderReducedMotion;
   }
-
-  static accessibility_pb.AccessibilityOverrides toProtoForPush({
-    required AccessibilityOverridesLocalState local,
-    accessibility_pb.AccessibilityOverrides? wireBase,
-  }) {
-    final proto = mergeOrCreate(
-      wireBase,
-      accessibility_pb.AccessibilityOverrides.new,
-    );
-    proto
-      ..gifAutoplayDirty = local.keepGifAutoPlayUnderReducedMotion
-      ..animateEmojiDirty = local.keepAnimatedEmojiUnderReducedMotion
-      ..animateStickersDirty = local.keepStickerAnimationUnderReducedMotion;
-    return proto;
-  }
 }

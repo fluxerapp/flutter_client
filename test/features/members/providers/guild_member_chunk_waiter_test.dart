@@ -4,11 +4,10 @@ import 'package:fluxer_app/features/members/providers/guild_member_chunk_waiter.
 void main() {
   group('GuildMemberChunkWaiter', () {
     test('beginRequest ignores unscoped and stale chunk notifications', () {
-      final GuildMemberChunkWaiter waiter = GuildMemberChunkWaiter();
-      final int firstRequest = waiter.beginRequest('g1');
-      waiter.notifyChunk('g1', userIds: <String>['unscoped']);
+      final GuildMemberChunkWaiter waiter = GuildMemberChunkWaiter()
+        ..beginRequest('g1')
+        ..notifyChunk('g1', userIds: <String>['unscoped']);
       expect(waiter.lastChunkUserIds('g1'), isEmpty);
-      expect(waiter.activeRequestId('g1'), firstRequest);
 
       final int secondRequest = waiter.beginRequest('g1');
       expect(waiter.lastChunkUserIds('g1'), isEmpty);
@@ -18,7 +17,6 @@ void main() {
         requestId: secondRequest,
       );
       expect(waiter.lastChunkUserIds('g1'), <String>['fresh']);
-      expect(waiter.activeRequestId('g1'), isNull);
       waiter.notifyChunk(
         'g1',
         userIds: <String>['old'],
@@ -37,7 +35,8 @@ void main() {
       waiter.notifyChunk('g1', userIds: <String>['u1'], requestId: requestId);
       await pending;
       expect(waiter.lastChunkUserIds('g1'), <String>['u1']);
-      expect(waiter.activeRequestId('g1'), isNull);
+      waiter.notifyChunk('g1', userIds: <String>['later']);
+      expect(waiter.lastChunkUserIds('g1'), <String>['later']);
     });
 
     test('nonce helpers round-trip request ids', () {

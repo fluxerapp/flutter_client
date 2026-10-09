@@ -1,8 +1,34 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/guild_sidebar.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/material_ui.dart';
+
+import '../../../../helpers/pump_fluxer_app.dart';
 
 void main() {
+  group('guildSidebarBannerLayoutWidth', () {
+    testWidgets('uses layout width from constraints when bounded', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        pumpFluxerApp(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              expect(
+                guildSidebarBannerLayoutWidth(
+                  context,
+                  const BoxConstraints.tightFor(width: 248),
+                ),
+                248,
+              );
+              return const SizedBox.shrink();
+            },
+          ),
+        ),
+      );
+    });
+  });
+
   group('guildSidebarBannerHeight', () {
     test('uses 16:9 height when under the viewport cap', () {
       expect(

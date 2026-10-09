@@ -34,7 +34,8 @@ enum SyncedPreferenceField {
   sudoPrompt(110),
   keybinds(111),
   chatInput(112),
-  doubleTapReaction(114);
+  doubleTapReaction(114),
+  doubleTapAction(117);
 
   const SyncedPreferenceField(this.fieldNumber);
 
@@ -48,6 +49,4 @@ enum SyncedPreferenceField {
     }
     return null;
   }
-
-  static const List<SyncedPreferenceField> all = SyncedPreferenceField.values;
 }

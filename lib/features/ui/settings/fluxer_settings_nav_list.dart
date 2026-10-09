@@ -39,6 +39,7 @@ class FluxerSettingsNavList extends StatelessWidget {
     super.key,
     this.controller,
     this.header,
+    this.profileSection,
     this.empty,
     this.footer,
     this.padding,
@@ -47,6 +48,7 @@ class FluxerSettingsNavList extends StatelessWidget {
   final List<FluxerSettingsNavGroup> groups;
   final ScrollController? controller;
   final Widget? header;
+  final Widget? profileSection;
   final Widget? empty;
   final Widget? footer;
   final EdgeInsetsGeometry? padding;
@@ -55,6 +57,7 @@ class FluxerSettingsNavList extends StatelessWidget {
   Widget build(BuildContext context) {
     final layout = context.layout;
     final int headerCount = header == null ? 0 : 1;
+    final int profileCount = profileSection == null ? 0 : 1;
     final int emptyCount = empty != null && groups.isEmpty ? 1 : 0;
     final int footerCount = footer == null ? 0 : 1;
 
@@ -64,12 +67,25 @@ class FluxerSettingsNavList extends StatelessWidget {
         context,
         padding: padding ?? EdgeInsets.symmetric(horizontal: layout.s4),
       ),
-      itemCount: headerCount + groups.length + emptyCount + footerCount,
+      itemCount:
+          headerCount + profileCount + groups.length + emptyCount + footerCount,
       itemBuilder: (context, index) {
         var remaining = index;
         if (header != null) {
           if (remaining == 0) {
             return header!;
+          }
+          remaining--;
+        }
+        if (profileSection != null) {
+          if (remaining == 0) {
+            return Padding(
+              padding: EdgeInsets.only(bottom: layout.s4),
+              child: FluxerMenuGroup(
+                bordered: true,
+                children: [profileSection!],
+              ),
+            );
           }
           remaining--;
         }
@@ -99,20 +115,21 @@ class _FluxerSettingsNavGroupWidget extends StatelessWidget {
     final layout = context.layout;
 
     return Padding(
-      padding: EdgeInsets.only(bottom: layout.s2),
+      padding: EdgeInsets.only(bottom: layout.s4),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (group.label != null)
             Padding(
               padding: EdgeInsets.only(
-                top: layout.s2,
-                bottom: layout.s2,
-                left: layout.s1,
+                bottom: layout.s1_5,
+                left: layout.s2 + layout.s1,
+                right: layout.s2 + layout.s1,
               ),
               child: Text(group.label!, style: context.textStyles.categoryName),
             ),
           FluxerMenuGroup(
+            bordered: true,
             children: [
               for (final item in group.items)
                 _FluxerSettingsNavItemWidget(item: item),

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/preferences.pb.dart'
     as pb;
@@ -21,6 +23,13 @@ abstract class SyncedFieldAdapter<T> {
   T? readFromProto(pb.SyncedPreferences message);
 
   $pb.GeneratedMessage toProtoMessage(T local);
+
+  /// Wire type for per-field pushes (`0` = varint, `2` = length-delimited).
+  int get fieldPushWireType => 2;
+
+  Uint8List encodePushValueBytes(T local) {
+    return toProtoMessage(local).writeToBuffer();
+  }
 
   $pb.GeneratedMessage? readWireSubMessage(pb.SyncedPreferences wire) => null;
 
@@ -53,11 +62,4 @@ abstract class SyncedFieldAdapter<T> {
   bool ignoreAckedRemoteShrink(T local, T remote) => false;
 
   bool mergeAckedInbound(T local, T remote) => false;
-}
-
-bool verifyAdapterRoundtrip<T>({
-  required SyncedFieldAdapter<T> adapter,
-  required T candidate,
-}) {
-  return adapter.verifyRoundtrip(candidate);
 }

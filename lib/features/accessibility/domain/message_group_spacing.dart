@@ -1,13 +1,4 @@
-const double kComfyMessageGroupSpacingDefault = 16;
-const double kCompactMessageGroupSpacingDefault = 0;
-
 const List<int> kMessageGroupSpacingOptions = <int>[0, 4, 8, 16, 24];
-
-double defaultMessageGroupSpacing({required bool messageDisplayCompact}) {
-  return messageDisplayCompact
-      ? kCompactMessageGroupSpacingDefault
-      : kComfyMessageGroupSpacingDefault;
-}
 
 double messageGroupSpacingForDisplayMode({
   required double messageGroupSpacing,

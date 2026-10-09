@@ -1,4 +1,4 @@
-// ignore_for_file: do_not_use_environment
+// ignore_for_file: do_not_use_environment -- integration runs are configured through --dart-define
 
 class IntegrationTestConfig {
   const IntegrationTestConfig._();
@@ -41,5 +41,4 @@ class IntegrationTestConfig {
   static bool get hasGuildChannel => guildId.isNotEmpty && channelId.isNotEmpty;
 
   static const Duration shellTimeout = Duration(minutes: 3);
-  static const Duration navigationTimeout = Duration(seconds: 30);
 }

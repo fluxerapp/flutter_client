@@ -51,30 +51,6 @@ class VoiceJoinEmptyLayout {
   }
 }
 
-bool voiceJoinEmptyIsCompact(BuildContext context) {
-  return MediaQuery.sizeOf(context).height < 260;
-}
-
-double voiceJoinEmptyMarkSize(BuildContext context, {required bool compact}) {
-  if (compact) {
-    return _kVoiceJoinEmptyCompactMark;
-  }
-  return (MediaQuery.sizeOf(context).height * 0.11).clamp(
-    _kVoiceJoinEmptyMarkMin,
-    _kVoiceJoinEmptyMarkMax,
-  );
-}
-
-double voiceJoinEmptyTitleFontSize(
-  BuildContext context, {
-  required bool compact,
-}) {
-  if (compact) {
-    return 16;
-  }
-  return (MediaQuery.sizeOf(context).height * 0.052).clamp(18.4, 28);
-}
-
 class VoiceJoinEmptyState extends StatelessWidget {
   const VoiceJoinEmptyState({required this.childBuilder, super.key});
 

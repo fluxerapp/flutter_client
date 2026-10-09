@@ -294,8 +294,6 @@ class ChatViewState {
     return auth.origin;
   }
 
-  bool get canSend => hasVisibleContent(messageText);
-
   /// The `write` parameter is the ONLY way to change [messages], and it is
   /// indivisible from its [MessagesOrigin]: an untagged messages write is
   /// unrepresentable, so an authorization can never outlive the write that
@@ -3299,7 +3297,6 @@ class ChatViewModel extends _$ChatViewModel {
       String? requestCursor,
       String? installedBoundary,
     }) => PageLoadResult(
-      edge: PaginationEdge.older,
       channelId: channelId,
       windowEpoch: entryEpoch,
       requestCursor: requestCursor,
@@ -3520,7 +3517,6 @@ class ChatViewModel extends _$ChatViewModel {
       String? requestCursor,
       String? installedBoundary,
     }) => PageLoadResult(
-      edge: PaginationEdge.newer,
       channelId: channelId,
       windowEpoch: entryEpoch,
       requestCursor: requestCursor,
@@ -5304,9 +5300,9 @@ class ChatViewModel extends _$ChatViewModel {
     }
     final int? retryAfterMs = slowmodeRetryAfterMsFromError(error);
     if (retryAfterMs != null) {
-      ref.read(slowmodeRateLimitedAlertProvider.notifier).remaining = Duration(
-        milliseconds: retryAfterMs,
-      );
+      ref
+          .read(slowmodeRateLimitedAlertProvider.notifier)
+          .show(Duration(milliseconds: retryAfterMs));
     }
     ref.read(slowmodeIndicatorShakeProvider.notifier).requestShake();
   }
@@ -5368,8 +5364,7 @@ class ChatViewModel extends _$ChatViewModel {
             );
       case _SendBlockReason.slowmode:
         if (remaining != null && remaining > Duration.zero) {
-          ref.read(slowmodeRateLimitedAlertProvider.notifier).remaining =
-              remaining;
+          ref.read(slowmodeRateLimitedAlertProvider.notifier).show(remaining);
         }
         ref.read(slowmodeIndicatorShakeProvider.notifier).requestShake();
       case _SendBlockReason.channelNotReady:
@@ -5422,6 +5417,7 @@ class ChatViewModel extends _$ChatViewModel {
     final String? systemMessageContent = clientSystemMessageForSendError(
       apiErrorCode: apiErrorCode,
       l10n: l10n,
+      selfHosted: ref.read(instanceRuntimeConfigProvider).selfHosted,
     );
     if (systemMessageContent != null) {
       nextMessages.add(
@@ -5587,6 +5583,7 @@ class ChatViewModel extends _$ChatViewModel {
       final String? systemMessageContent = clientSystemMessageForSendError(
         apiErrorCode: apiErrorCode,
         l10n: l10n,
+        selfHosted: ref.read(instanceRuntimeConfigProvider).selfHosted,
       );
       if (systemMessageContent != null) {
         nextMessages.add(

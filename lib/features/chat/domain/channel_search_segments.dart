@@ -170,35 +170,6 @@ bool isUserFilterKey(String key) {
 bool channelSearchFilterHasPredefinedValues(String key) =>
     channelSearchFilterOptionForKey(key)?.values != null;
 
-String buildChannelSearchDisplayText(List<ChannelSearchSegment> segments) {
-  final StringBuffer buffer = StringBuffer();
-  for (final ChannelSearchSegment segment in segments) {
-    if (segment.type == ChannelSearchSegmentType.text) {
-      if (buffer.isNotEmpty &&
-          segment.display.isNotEmpty &&
-          !buffer.toString().endsWith(' ') &&
-          !segment.display.startsWith(' ')) {
-        buffer.write(' ');
-      }
-      buffer.write(segment.display);
-      continue;
-    }
-    if (buffer.isNotEmpty && !buffer.toString().endsWith(' ')) {
-      buffer.write(' ');
-    }
-    buffer.write('${segment.filterKey}:');
-    if (segment.display.isNotEmpty) {
-      final bool needsQuotes = segment.display.contains(' ');
-      if (needsQuotes) {
-        buffer.write('"${segment.display}"');
-      } else {
-        buffer.write(segment.display);
-      }
-    }
-  }
-  return buffer.toString();
-}
-
 List<ChannelSearchSegment> parseChannelSearchDisplayText(String text) {
   final List<ChannelSearchSegment> segments = <ChannelSearchSegment>[];
   final StringBuffer textBuffer = StringBuffer();

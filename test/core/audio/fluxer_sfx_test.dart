@@ -71,15 +71,6 @@ void main() {
     });
   });
 
-  group('usesAmbientSfxContext', () {
-    test('notification and incoming ring contexts are ambient', () {
-      expect(usesAmbientSfxContext(kNotificationSfxContext), isTrue);
-      expect(usesAmbientSfxContext(kIncomingRingLoopContext), isTrue);
-      expect(usesAmbientSfxContext(kSessionFeedbackSfxContext), isFalse);
-      expect(usesAmbientSfxContext(kAppMediaAudioContext), isFalse);
-    });
-  });
-
   group('shouldRestorePreferredAudioAfterOneShot', () {
     test('only incoming ring restores preferred audio session', () {
       expect(

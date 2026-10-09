@@ -71,11 +71,6 @@ class MessageReferencesNotifier extends _$MessageReferencesNotifier {
     );
   }
 
-  void clearAll() {
-    state = const MessageReferencesState();
-    _inFlightKeys.clear();
-  }
-
   void onMessagesLoaded({
     required String channelId,
     required List<Message> messages,

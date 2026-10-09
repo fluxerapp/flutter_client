@@ -9,8 +9,6 @@ sealed class EmojiPickerLayoutEntry {
   const EmojiPickerLayoutEntry();
 
   double get height;
-
-  void collectVisibleCustomEmojiIds(Set<String> ids);
 }
 
 final class EmojiPickerTopPaddingEntry extends EmojiPickerLayoutEntry {
@@ -18,9 +16,6 @@ final class EmojiPickerTopPaddingEntry extends EmojiPickerLayoutEntry {
 
   @override
   double get height => kEmojiPickerTopPadding;
-
-  @override
-  void collectVisibleCustomEmojiIds(Set<String> ids) {}
 }
 
 final class EmojiPickerUpsellEntry extends EmojiPickerLayoutEntry {
@@ -28,9 +23,6 @@ final class EmojiPickerUpsellEntry extends EmojiPickerLayoutEntry {
 
   @override
   double get height => kEmojiPickerUpsellEstimatedHeight;
-
-  @override
-  void collectVisibleCustomEmojiIds(Set<String> ids) {}
 }
 
 final class EmojiPickerSectionGapEntry extends EmojiPickerLayoutEntry {
@@ -38,9 +30,6 @@ final class EmojiPickerSectionGapEntry extends EmojiPickerLayoutEntry {
 
   @override
   double get height => kEmojiPickerSectionGap;
-
-  @override
-  void collectVisibleCustomEmojiIds(Set<String> ids) {}
 }
 
 final class EmojiPickerSectionHeaderEntry extends EmojiPickerLayoutEntry {
@@ -50,9 +39,6 @@ final class EmojiPickerSectionHeaderEntry extends EmojiPickerLayoutEntry {
 
   @override
   double get height => kEmojiPickerHeaderHeight;
-
-  @override
-  void collectVisibleCustomEmojiIds(Set<String> ids) {}
 }
 
 final class EmojiPickerCustomEmojiRowEntry extends EmojiPickerLayoutEntry {
@@ -62,13 +48,6 @@ final class EmojiPickerCustomEmojiRowEntry extends EmojiPickerLayoutEntry {
 
   @override
   double get height => kEmojiPickerCellSize;
-
-  @override
-  void collectVisibleCustomEmojiIds(Set<String> ids) {
-    for (final GuildEmojiEntry emoji in emojis) {
-      ids.add(emoji.id);
-    }
-  }
 }
 
 final class EmojiPickerUnicodeEmojiRowEntry extends EmojiPickerLayoutEntry {
@@ -78,9 +57,6 @@ final class EmojiPickerUnicodeEmojiRowEntry extends EmojiPickerLayoutEntry {
 
   @override
   double get height => kEmojiPickerCellSize;
-
-  @override
-  void collectVisibleCustomEmojiIds(Set<String> ids) {}
 }
 
 final class EmojiPickerFavoriteEmojiRowEntry extends EmojiPickerLayoutEntry {
@@ -90,15 +66,6 @@ final class EmojiPickerFavoriteEmojiRowEntry extends EmojiPickerLayoutEntry {
 
   @override
   double get height => kEmojiPickerCellSize;
-
-  @override
-  void collectVisibleCustomEmojiIds(Set<String> ids) {
-    for (final EmojiPickerFavoriteRowItem item in items) {
-      if (item is EmojiPickerFavoriteCustomRowItem) {
-        ids.add(item.emoji.id);
-      }
-    }
-  }
 }
 
 final class EmojiPickerFrecentEmojiRowEntry extends EmojiPickerLayoutEntry {
@@ -108,15 +75,6 @@ final class EmojiPickerFrecentEmojiRowEntry extends EmojiPickerLayoutEntry {
 
   @override
   double get height => kEmojiPickerCellSize;
-
-  @override
-  void collectVisibleCustomEmojiIds(Set<String> ids) {
-    for (final FrecentEmojiItem item in items) {
-      if (item is FrecentCustomEmoji) {
-        ids.add(item.emoji.id);
-      }
-    }
-  }
 }
 
 sealed class EmojiPickerFavoriteRowItem {
@@ -183,22 +141,6 @@ class EmojiPickerLayoutIndex {
   String? activeCategoryKey(double scrollOffset) {
     final int i = _upperBound(_headerTops, scrollOffset + 1) - 1;
     return i < 0 ? null : _headerKeys[i];
-  }
-
-  Set<String> visibleCustomEmojiIds({
-    required double scrollOffset,
-    required double viewportHeight,
-  }) {
-    final double visibleBottom = scrollOffset + viewportHeight;
-    final Set<String> ids = <String>{};
-    for (
-      var i = _firstIntersecting(scrollOffset);
-      i < entries.length && _tops[i] < visibleBottom;
-      i++
-    ) {
-      entries[i].collectVisibleCustomEmojiIds(ids);
-    }
-    return ids;
   }
 
   Set<String> animatedCustomEmojiIds({
@@ -480,28 +422,4 @@ Set<String> animatedCustomEmojiIdsForSearchGrid({
         a.distance.compareTo(b.distance),
   );
   return candidates.take(maxAnimated).map((item) => item.id).toSet();
-}
-
-Set<String> visibleCustomEmojiIdsForSearchGrid({
-  required List<GuildEmojiEntry> customResults,
-  required int columns,
-  required double scrollOffset,
-  required double viewportHeight,
-  double verticalPadding = 4,
-}) {
-  if (customResults.isEmpty || viewportHeight <= 0) {
-    return const <String>{};
-  }
-  final double visibleTop = scrollOffset;
-  final double visibleBottom = scrollOffset + viewportHeight;
-  final Set<String> ids = <String>{};
-  for (var index = 0; index < customResults.length; index++) {
-    final int row = index ~/ columns;
-    final double rowTop = verticalPadding + row * kEmojiPickerCellSize;
-    final double rowBottom = rowTop + kEmojiPickerCellSize;
-    if (rowBottom > visibleTop && rowTop < visibleBottom) {
-      ids.add(customResults[index].id);
-    }
-  }
-  return ids;
 }

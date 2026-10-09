@@ -174,19 +174,6 @@ void main() {
     });
   });
 
-  group('mediaKitPlayerVolume', () {
-    test('returns 0 when muted', () {
-      expect(mediaKitPlayerVolume(normalizedVolume: 1, isMuted: true), 0);
-    });
-
-    test('returns scaled volume when unmuted', () {
-      expect(
-        mediaKitPlayerVolume(normalizedVolume: 1, isMuted: false),
-        kMediaKitMaxVolume,
-      );
-    });
-  });
-
   group('resolvePlaybackUrl', () {
     test('returns direct media URL for non-YouTube sources', () async {
       const ChatVideoSource source = ChatVideoSource(

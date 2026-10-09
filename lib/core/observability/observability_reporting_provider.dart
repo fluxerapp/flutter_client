@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/observability/fluxer_observability.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
@@ -11,9 +10,6 @@ const String _kObservabilityReportingEnabledKey =
     'observability_reporting_enabled';
 
 bool observabilityReportingIsAvailable() {
-  if (kIsWeb) {
-    return false;
-  }
   return AppBuildConfig.hasObservabilityConfig;
 }
 

@@ -7,10 +7,11 @@ class SlowmodeRateLimitedAlert extends _$SlowmodeRateLimitedAlert {
   @override
   Duration? build() => null;
 
-  Duration? get remaining => state;
-
-  set remaining(Duration value) {
-    state = value;
+  void show(Duration remaining) {
+    if (state == remaining) {
+      return;
+    }
+    state = remaining;
   }
 
   void clear() {

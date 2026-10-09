@@ -147,7 +147,6 @@ VoiceGridLayoutMetrics _emptyMetrics({
   );
   return VoiceGridLayoutMetrics(
     columns: 1,
-    rows: 1,
     gap: gap,
     sidePadding: padding.sidePadding,
     verticalPadding: padding.verticalPadding,
@@ -155,8 +154,6 @@ VoiceGridLayoutMetrics _emptyMetrics({
     availableHeight: availableHeight,
     tileWidth: 0,
     tileHeight: 0,
-    contentWidth: padding.sidePadding * 2,
-    contentHeight: padding.verticalPadding * 2,
   );
 }
 
@@ -221,18 +218,8 @@ VoiceGridLayoutMetrics _metricsForColumns({
   final double rowHeight = math.max(0, (availableHeight - rowGapTotal) / rows);
   final double tileWidth = columnWidth;
   final double tileHeight = rowHeight;
-  final int columnsInUse = math.min(count, resolvedColumns);
-  final double contentWidth =
-      padding.sidePadding * 2 +
-      tileWidth * columnsInUse +
-      gap * math.max(0, columnsInUse - 1);
-  final double contentHeight =
-      padding.verticalPadding * 2 +
-      tileHeight * rows +
-      gap * math.max(0, rows - 1);
   return VoiceGridLayoutMetrics(
     columns: resolvedColumns,
-    rows: rows,
     gap: gap,
     sidePadding: padding.sidePadding,
     verticalPadding: padding.verticalPadding,
@@ -240,33 +227,6 @@ VoiceGridLayoutMetrics _metricsForColumns({
     availableHeight: availableHeight,
     tileWidth: tileWidth,
     tileHeight: tileHeight,
-    contentWidth: contentWidth,
-    contentHeight: contentHeight,
-  );
-}
-
-VoiceGridLayoutMetrics resolveVoiceGridLayoutMetrics({
-  required int tileCount,
-  required double containerWidth,
-  required double containerHeight,
-  bool compact = false,
-  bool edgeToEdge = false,
-}) {
-  final int count = _sanitizeCount(tileCount);
-  final double width = _sanitizeDimension(containerWidth);
-  final double height = _sanitizeDimension(containerHeight);
-  final int columns = voiceGridColumnCount(
-    tileCount: count,
-    containerWidth: width,
-    containerHeight: height,
-  );
-  return _metricsForColumns(
-    tileCount: count,
-    containerWidth: width,
-    containerHeight: height,
-    compact: compact,
-    edgeToEdge: edgeToEdge,
-    columns: columns,
   );
 }
 
@@ -351,24 +311,4 @@ VoiceGridPackedLayoutMetrics resolveVoiceGridPackedLayoutMetrics({
     ),
     visibleTileCount: 0,
   );
-}
-
-int voiceGridVisibleTileCapacity({
-  required int tileCount,
-  required double containerWidth,
-  required double containerHeight,
-  bool compact = false,
-  bool edgeToEdge = false,
-  double? minTileWidth,
-  double? minTileHeight,
-}) {
-  return resolveVoiceGridPackedLayoutMetrics(
-    tileCount: tileCount,
-    containerWidth: containerWidth,
-    containerHeight: containerHeight,
-    compact: compact,
-    edgeToEdge: edgeToEdge,
-    minTileWidth: minTileWidth,
-    minTileHeight: minTileHeight,
-  ).visibleTileCount;
 }

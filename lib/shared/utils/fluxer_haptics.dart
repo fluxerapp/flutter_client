@@ -1,7 +1,6 @@
 import 'dart:async' show unawaited;
 import 'dart:io' show Platform;
 
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:gaimon/gaimon.dart';
 
@@ -15,24 +14,15 @@ abstract final class FluxerHaptics {
   static final Map<String, Future<String>> _ahapLoads =
       <String, Future<String>>{};
   static final FluxerHapticPurrGate _purrGate = FluxerHapticPurrGate();
-  static bool _enabled = true;
+  static bool enabled = true;
 
-  static bool get supportsExpressive =>
-      !kIsWeb && (Platform.isIOS || Platform.isAndroid);
-
-  static bool get enabled => _enabled;
-
-  static void setEnabled(bool value) {
-    _enabled = value;
-  }
+  static bool get supportsExpressive => Platform.isIOS || Platform.isAndroid;
 
   static void selection() => _run(Gaimon.selection);
 
   static void light() => _run(Gaimon.light);
 
   static void medium() => _run(Gaimon.medium);
-
-  static void heavy() => _run(Gaimon.heavy);
 
   static void soft() {
     _run(() {
@@ -61,16 +51,6 @@ abstract final class FluxerHaptics {
         return;
       }
       Gaimon.medium();
-    });
-  }
-
-  static void error() {
-    _run(() {
-      if (supportsExpressive) {
-        Gaimon.error();
-        return;
-      }
-      Gaimon.heavy();
     });
   }
 
@@ -105,28 +85,28 @@ abstract final class FluxerHaptics {
 
   /// Play a custom AHAP JSON pattern
   static void pattern(String ahapJson) {
-    if (!_enabled || !supportsExpressive) {
+    if (!enabled || !supportsExpressive) {
       return;
     }
     Gaimon.patternFromData(ahapJson);
   }
 
   static void stop() {
-    if (!_enabled || !supportsExpressive) {
+    if (!enabled || !supportsExpressive) {
       return;
     }
     Gaimon.stop();
   }
 
   static void _run(void Function() action) {
-    if (!_enabled) {
+    if (!enabled) {
       return;
     }
     action();
   }
 
   static void _playAhap(String asset, {void Function()? onUnavailable}) {
-    if (!_enabled) {
+    if (!enabled) {
       return;
     }
     if (!supportsExpressive) {
@@ -158,7 +138,7 @@ abstract final class FluxerHaptics {
   }
 
   static Future<void> _warmAhap(String asset) {
-    if (!_enabled || !supportsExpressive) {
+    if (!enabled || !supportsExpressive) {
       return Future<void>.value();
     }
     return _loadAhap(asset);

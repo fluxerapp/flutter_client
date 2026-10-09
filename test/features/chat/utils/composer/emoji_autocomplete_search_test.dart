@@ -10,7 +10,6 @@ EmojiEntry uni(
 }) => EmojiEntry(
   names: names,
   surrogates: surrogates,
-  category: 'people',
   spriteIndex: 0,
   keywords: keywords,
 );

@@ -12,7 +12,7 @@ import '../../helpers/synced_preferences_test_helpers.dart';
 
 class _FakeUsersApi implements UsersApi {
   int pushCount = 0;
-  Object? pushError;
+  DioException? pushError;
 
   @override
   Future<UserSettingsResponse> updateCurrentUserSettings({
@@ -20,7 +20,6 @@ class _FakeUsersApi implements UsersApi {
   }) async {
     pushCount++;
     if (pushError != null) {
-      // ignore: only_throw_errors
       throw pushError!;
     }
     return UserSettingsResponse.fromJson(<String, Object?>{
@@ -30,6 +29,7 @@ class _FakeUsersApi implements UsersApi {
       'synced_preferences': body?.syncedPreferences.value ?? '',
       'render_embeds': true,
       'profile_privacy': 0,
+      'privacy_setup_version': 0,
       'restricted_guilds': <String>[],
       'bot_restricted_guilds': <String>[],
       'default_guilds_restricted': false,
@@ -82,6 +82,7 @@ UserSettingsResponse _emptySyncedSettings() {
     'synced_preferences': '',
     'render_embeds': true,
     'profile_privacy': 0,
+    'privacy_setup_version': 0,
     'restricted_guilds': <String>[],
     'bot_restricted_guilds': <String>[],
     'default_guilds_restricted': false,

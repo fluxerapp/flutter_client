@@ -119,7 +119,6 @@ void main() {
     test('shows scheduled maintenance when not dismissed', () async {
       final ServiceStatusMaintenance maintenance = ServiceStatusMaintenance(
         id: 'maint-1',
-        name: 'Maintenance',
         status: ServiceStatusMaintenanceStatus.scheduled,
         start: DateTime.utc(2099, 1, 1, 12),
         durationMinutes: 60,
@@ -318,7 +317,11 @@ WellKnownFluxerResponse _buildWellKnown({required bool selfHosted}) {
         premiumInfoUrl: null,
       ),
       setup: InstanceSetupSchema(configured: true, adminUrl: null),
-      legal: InstanceAppPublicSchemaLegal(termsUrl: null, privacyUrl: null),
+      legal: InstanceAppPublicSchemaLegal(
+        termsUrl: null,
+        privacyUrl: null,
+        guidelinesUrl: null,
+      ),
       registration: InstanceAppPublicSchemaRegistration(
         collectDateOfBirth: true,
       ),

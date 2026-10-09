@@ -43,20 +43,6 @@ class ReadStateDao extends DatabaseAccessor<FluxerDatabase>
     });
   }
 
-  Future<void> incrementMentionCount(String channelId) => transaction(() async {
-    final existing = await getReadState(channelId);
-    await upsertReadState(
-      ReadStatesCompanion(
-        channelId: Value(channelId),
-        lastMessageId: Value(existing?.lastMessageId),
-        mentionCount: Value((existing?.mentionCount ?? 0) + 1),
-        lastPinTimestamp: Value(existing?.lastPinTimestamp),
-        manual: Value(existing?.manual ?? false),
-        stickyUnreadMessageId: Value(existing?.stickyUnreadMessageId),
-      ),
-    );
-  });
-
   Future<void> updatePinTimestamp(String channelId, String? timestamp) =>
       transaction(() async {
         final existing = await getReadState(channelId);

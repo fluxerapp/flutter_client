@@ -99,5 +99,19 @@ void main() {
         isEmpty,
       );
     });
+
+    test('extracts theme ids from other official theme hosts', () {
+      expect(
+        msg(
+          'https://fluxer.com/theme/aa fluxer.app/theme/bb '
+          'https://canary.fluxer.app/theme/cc',
+        ).themes,
+        <String>['aa', 'bb', 'cc'],
+      );
+    });
+
+    test('ignores theme paths on unrelated hosts', () {
+      expect(msg('https://example.com/theme/dark1').themes, isEmpty);
+    });
   });
 }

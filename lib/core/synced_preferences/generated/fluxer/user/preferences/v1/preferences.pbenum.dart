@@ -111,5 +111,31 @@ class MfaMethod extends $pb.ProtobufEnum {
   const MfaMethod._(super.value, super.name);
 }
 
+class DoubleTapAction extends $pb.ProtobufEnum {
+  static const DoubleTapAction DOUBLE_TAP_ACTION_UNSPECIFIED =
+      DoubleTapAction._(
+          0, _omitEnumNames ? '' : 'DOUBLE_TAP_ACTION_UNSPECIFIED');
+  static const DoubleTapAction DOUBLE_TAP_ACTION_REACT =
+      DoubleTapAction._(1, _omitEnumNames ? '' : 'DOUBLE_TAP_ACTION_REACT');
+  static const DoubleTapAction DOUBLE_TAP_ACTION_EDIT =
+      DoubleTapAction._(2, _omitEnumNames ? '' : 'DOUBLE_TAP_ACTION_EDIT');
+  static const DoubleTapAction DOUBLE_TAP_ACTION_NONE =
+      DoubleTapAction._(3, _omitEnumNames ? '' : 'DOUBLE_TAP_ACTION_NONE');
+
+  static const $core.List<DoubleTapAction> values = <DoubleTapAction>[
+    DOUBLE_TAP_ACTION_UNSPECIFIED,
+    DOUBLE_TAP_ACTION_REACT,
+    DOUBLE_TAP_ACTION_EDIT,
+    DOUBLE_TAP_ACTION_NONE,
+  ];
+
+  static final $core.List<DoubleTapAction?> _byValue =
+      $pb.ProtobufEnum.$_initByValueList(values, 3);
+  static DoubleTapAction? valueOf($core.int value) =>
+      value < 0 || value >= _byValue.length ? null : _byValue[value];
+
+  const DoubleTapAction._(super.value, super.name);
+}
+
 const $core.bool _omitEnumNames =
     $core.bool.fromEnvironment('protobuf.omit_enum_names');

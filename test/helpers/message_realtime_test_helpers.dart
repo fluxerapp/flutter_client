@@ -12,7 +12,6 @@ MessageCreated testMessageCreated(
         const MessagePersistSnapshot(
           mentionsCurrentUser: false,
           isDm: false,
-          guildStorageId: null,
           acknowledgedByGateway: false,
         ),
   );

@@ -32,8 +32,4 @@ class TypingSender extends _$TypingSender {
       debugPrint('[TypingSender] Failed to send typing for $channelId: $err');
     }
   }
-
-  void reset() {
-    _lastSentAt.clear();
-  }
 }

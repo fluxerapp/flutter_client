@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/instance_domain_icon.dart';
 import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
 import 'package:fluxer_app/features/auth/providers/instance_selector_provider.dart';
+import 'package:fluxer_app/features/auth/utils/instance_discovery_error_l10n.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -141,7 +142,7 @@ class _InstanceSelectorControlState
         final bool canSubmit = widget.enabled && !discovering;
         final String? errorText =
             viewState.status == InstanceDiscoveryStatus.error
-            ? viewState.errorMessage ?? l10n.instanceConnectFailed
+            ? instanceDiscoveryErrorText(viewState, l10n)
             : null;
 
         return Column(
@@ -295,7 +296,7 @@ class InstanceSelectorLoginEntry extends ConsumerWidget {
   ) {
     if (!canAuthenticate) {
       final String hint = selector.status == InstanceDiscoveryStatus.error
-          ? selector.errorMessage ?? l10n.instanceConnectFailed
+          ? instanceDiscoveryErrorText(selector, l10n)
           : selector.status == InstanceDiscoveryStatus.discovering
           ? l10n.instanceConnecting
           : l10n.instanceConnectionRequired;

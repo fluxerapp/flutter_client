@@ -29,6 +29,7 @@ class AccessibilityLocalState {
     required this.saturationFactor,
     required this.customThemeCss,
     required this.advanced,
+    this.syncThemeColorsToThemeStudio = true,
     this.showUserAvatarsInCompactMode = false,
     this.screenReaderAnnounceNewMessages = false,
     this.showMediaDeleteButton = true,
@@ -75,6 +76,7 @@ class AccessibilityLocalState {
   final bool showUserAvatarsInCompactMode;
   final double saturationFactor;
   final String? customThemeCss;
+  final bool syncThemeColorsToThemeStudio;
   final AdvancedAccessibilityLocalState advanced;
   final bool screenReaderAnnounceNewMessages;
   final bool showMediaDeleteButton;
@@ -109,6 +111,25 @@ class AccessibilityLocalState {
   final HdrDisplayMode hdrDisplayMode;
 }
 
+String? mergeAccessibilityCustomThemeCss(
+  AccessibilityLocalState local,
+  AccessibilityLocalState remote,
+) {
+  final String? localCss = normalizeCustomThemeCss(local.customThemeCss);
+  final String? remoteCss =
+      remote.hasCustomThemeCssInProto && remote.customThemeCss != null
+      ? normalizeCustomThemeCss(remote.customThemeCss)
+      : null;
+
+  if (!local.syncThemeColorsToThemeStudio) {
+    return localCss;
+  }
+  if (localCss != null && remoteCss != null && localCss != remoteCss) {
+    return localCss;
+  }
+  return remoteCss ?? localCss;
+}
+
 class AccessibilitySyncedField
     extends SyncedFieldAdapter<AccessibilityLocalState> {
   AccessibilitySyncedField(this._ref);
@@ -137,6 +158,7 @@ class AccessibilitySyncedField
       showUserAvatarsInCompactMode: appearance.showUserAvatarsInCompactMode,
       saturationFactor: theme.saturationFactor,
       customThemeCss: theme.customThemeCss,
+      syncThemeColorsToThemeStudio: theme.syncThemeColorsToThemeStudio,
       screenReaderAnnounceNewMessages:
           appearance.screenReaderAnnounceNewMessages,
       showMediaDeleteButton: appearance.showMediaDeleteButton,
@@ -197,6 +219,7 @@ class AccessibilitySyncedField
     );
     final advancedNotifier = _ref.read(advancedPreferencesProvider.notifier);
     final themeNotifier = _ref.read(themePreferenceProvider.notifier);
+    final theme = _ref.read(themePreferenceProvider);
     await appearanceNotifier.applySyncedAccessibility(value);
     await advancedNotifier.applySyncedAccessibility(value.advanced);
     await themeNotifier.applySyncedThemeCustomization(
@@ -206,7 +229,9 @@ class AccessibilitySyncedField
       scaleFactor: value.scaleFactor,
       updateSaturationFactor: value.hasSaturationFactorInProto,
       updateCustomThemeCss:
-          value.hasCustomThemeCssInProto && value.customThemeCss != null,
+          theme.syncThemeColorsFromThemeStudio &&
+          value.hasCustomThemeCssInProto &&
+          value.customThemeCss != null,
       updateChatFontSize: value.hasFontSizeInProto,
       updateScaleFactor: value.hasZoomLevelInProto,
     );
@@ -242,7 +267,11 @@ class AccessibilitySyncedField
   }
 
   @override
-  bool statesEqual(AccessibilityLocalState a, AccessibilityLocalState b) {
+  bool statesEqual(
+    AccessibilityLocalState a,
+    AccessibilityLocalState b, {
+    bool ignoreCustomThemeCss = false,
+  }) {
     return a.hideKeyboardHints == b.hideKeyboardHints &&
         a.channelTypingIndicatorMode == b.channelTypingIndicatorMode &&
         a.showSelectedChannelTypingIndicator ==
@@ -283,8 +312,9 @@ class AccessibilitySyncedField
         a.hdrDisplayMode == b.hdrDisplayMode &&
         a.chatFontSize == b.chatFontSize &&
         a.scaleFactor == b.scaleFactor &&
-        normalizeCustomThemeCss(a.customThemeCss) ==
-            normalizeCustomThemeCss(b.customThemeCss) &&
+        (ignoreCustomThemeCss ||
+            normalizeCustomThemeCss(a.customThemeCss) ==
+                normalizeCustomThemeCss(b.customThemeCss)) &&
         _advancedStatesEqual(a.advanced, b.advanced);
   }
 
@@ -334,10 +364,7 @@ class AccessibilitySyncedField
       saturationFactor: remote.hasSaturationFactorInProto
           ? remote.saturationFactor
           : local.saturationFactor,
-      customThemeCss:
-          remote.hasCustomThemeCssInProto && remote.customThemeCss != null
-          ? remote.customThemeCss
-          : local.customThemeCss,
+      customThemeCss: mergeAccessibilityCustomThemeCss(local, remote),
       showMediaDeleteButton: remote.showMediaDeleteButton,
       showMediaDownloadButton: remote.showMediaDownloadButton,
       showMediaFavoriteButton: remote.showMediaFavoriteButton,
@@ -397,7 +424,11 @@ class AccessibilitySyncedField
   @override
   bool verifyRoundtrip(AccessibilityLocalState candidate) {
     final roundtripped = fromProto(toProto(candidate));
-    return statesEqual(candidate, roundtripped);
+    return statesEqual(
+      candidate,
+      roundtripped,
+      ignoreCustomThemeCss: !candidate.syncThemeColorsToThemeStudio,
+    );
   }
 
   static AccessibilityLocalState fromProto(pb.AccessibilitySettings proto) {
@@ -590,7 +621,7 @@ class AccessibilitySyncedField
           ..fontSize = local.chatFontSize.toDouble()
           ..zoomLevel = local.scaleFactor;
     _applyAdvancedToProto(settings, local.advanced, wireBase: wireBase);
-    if (effectiveCss != null) {
+    if (effectiveCss != null && local.syncThemeColorsToThemeStudio) {
       return settings..customThemeCss = effectiveCss;
     }
     return settings;
@@ -641,7 +672,7 @@ class AccessibilitySyncedField
       zoomLevel: local.scaleFactor,
     );
     _applyAdvancedToProto(settings, local.advanced);
-    if (effectiveCss != null) {
+    if (effectiveCss != null && local.syncThemeColorsToThemeStudio) {
       settings.customThemeCss = effectiveCss;
     }
     return settings;

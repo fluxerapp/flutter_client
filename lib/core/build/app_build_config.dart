@@ -60,7 +60,6 @@ class AppBuildConfig {
 
   static bool get isCanary => environment == AppBuildEnvironment.canary;
   static bool get isBeta => environment == AppBuildEnvironment.beta;
-  static bool get isStable => environment == AppBuildEnvironment.stable;
 
   /// Value for `RegisterMobileDeviceRequest.appId` / mobile-devices API.
   static String get mobilePushAppId {
@@ -78,8 +77,6 @@ class AppBuildConfig {
   static bool get isOssWebCheckout =>
       pushProvider == PushProviderKind.unifiedPush;
 
-  static bool get isFirebaseMessagingEnabled =>
-      pushProvider == PushProviderKind.firebaseMessaging;
   static bool get isBlueskyEnabled => _blueskyEnabled;
   static String get buildTimestamp => _buildTimestampValue;
 

@@ -30,7 +30,7 @@ void main() {
         overrides: [fluxerDatabaseProvider.overrideWithValue(db)],
         child: MaterialApp(
           locale: kTestLocale,
-          localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+          localizationsDelegates: fluxerLocalizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           theme: buildFluxerTheme(
             colorTheme: colorTheme,

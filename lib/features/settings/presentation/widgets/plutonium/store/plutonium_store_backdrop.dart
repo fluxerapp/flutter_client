@@ -1,4 +1,5 @@
 import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_style.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_waves.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 class PremiumStoreBackdrop extends StatefulWidget {
@@ -86,6 +87,9 @@ class _PremiumStoreBackdropState extends State<PremiumStoreBackdrop> {
                   ),
                 ),
               ),
+              Positioned.fill(
+                child: PremiumStoreWaves(controller: widget.controller),
+              ),
               widget.child,
             ],
           ),
@@ -130,7 +134,7 @@ class _PageGradientPainter extends CustomPainter {
           PremiumStoreStyle.spaceMid,
           PremiumStoreStyle.spaceBottom,
         ],
-        stops: [0, 0.5, 1],
+        stops: [0, 0.45, 1],
       ).createShader(Rect.fromLTWH(0, -offset, size.width, span));
     canvas.drawRect(Offset.zero & size, paint);
   }

@@ -39,7 +39,7 @@ Widget _app(Widget child) {
   return ProviderScope(
     child: MaterialApp(
       locale: kTestLocale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,
@@ -115,7 +115,7 @@ Widget _materialApp(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return MaterialApp(
     locale: kTestLocale,
-    localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+    localizationsDelegates: fluxerLocalizationsDelegates,
     supportedLocales: FluxerLocalizations.supportedLocales,
     theme: buildFluxerTheme(
       colorTheme: colorTheme,

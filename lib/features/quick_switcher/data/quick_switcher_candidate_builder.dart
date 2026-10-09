@@ -57,7 +57,6 @@ QuickSwitcherCandidateSets buildQuickSwitcherCandidateSets(
             userId: convo.recipientId,
             dmChannelId: convo.id,
             avatar: convo.recipientAvatar,
-            status: convo.recipientStatus,
             searchValues: <String>[
               resolvedName,
               convo.displayName,
@@ -102,7 +101,6 @@ QuickSwitcherCandidateSets buildQuickSwitcherCandidateSets(
         userId: member.id,
         avatar: member.avatar,
         avatarColor: member.avatarColor,
-        status: member.status,
         searchValues: <String>[
           memberName,
           member.username,
@@ -139,8 +137,6 @@ QuickSwitcherCandidateSets buildQuickSwitcherCandidateSets(
           subtitle: parentName == null ? guildName : '$parentName · $guildName',
           channelId: channel.id,
           guildId: channel.guildId,
-          guildName: guildName,
-          guildIcon: guild.icon,
           isVoice: channel.type == ChannelType.guildVoice,
           channelType: channel.type,
           searchValues: <String>[
@@ -308,7 +304,6 @@ List<QuickSwitcherUserCandidate> mergeMemberSearchCandidates({
         userId: member.id,
         avatar: member.avatar,
         avatarColor: member.avatarColor,
-        status: member.status,
         searchValues: <String>[
           memberName,
           member.username,

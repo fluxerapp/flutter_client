@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_field_adapter.dart';
-import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/accessibility_overrides_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/accessibility_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/chat_input_synced_field.dart';
+import 'package:fluxer_app/core/synced_preferences/fields/double_tap_action_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/double_tap_reaction_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/expression_picker_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/favorite_gifs_synced_field.dart';
@@ -19,28 +19,6 @@ import 'package:fluxer_app/core/synced_preferences/fields/sound_synced_field.dar
 import 'package:fluxer_app/core/synced_preferences/fields/textual_preview_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/unread_channels_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/voice_prompts_synced_field.dart';
-
-const List<SyncedPreferenceField> kRegisteredSyncedPreferenceFields = [
-  SyncedPreferenceField.favorites,
-  SyncedPreferenceField.accessibility,
-  SyncedPreferenceField.accessibilityOverrides,
-  SyncedPreferenceField.searchEngines,
-  SyncedPreferenceField.sidebar,
-  SyncedPreferenceField.privacy,
-  SyncedPreferenceField.memberList,
-  SyncedPreferenceField.unreadChannels,
-  SyncedPreferenceField.voicePrompts,
-  SyncedPreferenceField.sound,
-  SyncedPreferenceField.guildFolders,
-  SyncedPreferenceField.localSpamOverrides,
-  SyncedPreferenceField.nagbars,
-  SyncedPreferenceField.textualPreview,
-  SyncedPreferenceField.emojiPicker,
-  SyncedPreferenceField.stickerPicker,
-  SyncedPreferenceField.favoriteGifs,
-  SyncedPreferenceField.chatInput,
-  SyncedPreferenceField.doubleTapReaction,
-];
 
 void registerDefaultSyncedFieldAdapters({
   required void Function(SyncedFieldAdapter<Object?> adapter) registerAdapter,
@@ -68,4 +46,5 @@ void registerDefaultSyncedFieldAdapters({
   registerAdapter(FavoriteGifsSyncedField(ref));
   registerAdapter(ChatInputSyncedField(ref));
   registerAdapter(DoubleTapReactionSyncedField(ref));
+  registerAdapter(DoubleTapActionSyncedField(ref));
 }

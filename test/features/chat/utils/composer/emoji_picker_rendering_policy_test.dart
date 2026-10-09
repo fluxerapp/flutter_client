@@ -21,40 +21,10 @@ void main() {
     expect(emojiPickerUsesHoverTracking(isMobile: false), isTrue);
   });
 
-  test(
-    'animates custom emojis in the mobile grid only when settled and in view',
-    () {
-      expect(
-        emojiPickerAnimateCustomEmojiInGrid(
-          isMobile: false,
-          emojiAnimated: true,
-          isInView: true,
-          scrollSettled: true,
-        ),
-        isFalse,
-      );
-      expect(
-        emojiPickerAnimateCustomEmojiInGrid(
-          isMobile: true,
-          emojiAnimated: true,
-          isInView: true,
-          scrollSettled: true,
-        ),
-        isTrue,
-      );
-      expect(
-        emojiPickerAnimateCustomEmojiInGrid(
-          isMobile: true,
-          emojiAnimated: true,
-          isInView: true,
-          scrollSettled: false,
-        ),
-        isFalse,
-      );
-      expect(emojiPickerPrefetchAnimatedUrls(isMobile: true), isTrue);
-      expect(emojiPickerPrefetchAnimatedUrls(isMobile: false), isFalse);
-    },
-  );
+  test('prefetches animated emoji urls on mobile only', () {
+    expect(emojiPickerPrefetchAnimatedUrls(isMobile: true), isTrue);
+    expect(emojiPickerPrefetchAnimatedUrls(isMobile: false), isFalse);
+  });
 
   test('defers premium upsell work until after the first frame', () {
     expect(

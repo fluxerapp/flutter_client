@@ -36,14 +36,12 @@ class ChatExpressionExpandableSheet extends ConsumerStatefulWidget {
   const ChatExpressionExpandableSheet({
     required this.collapsedHeight,
     required this.dragHandleHeight,
-    required this.parentHeight,
     this.contentBuilder,
     super.key,
   });
 
   final double collapsedHeight;
   final double dragHandleHeight;
-  final double parentHeight;
   final Widget Function(
     BuildContext context,
     ScrollController scrollController,
@@ -524,18 +522,19 @@ class ChatExpressionExpandableSheetState
   }
 
   void _onGifSelect(FluxerSelectedGif selection) {
-    ref.read(pendingGifSelectionProvider.notifier).selection = selection;
+    ref.read(pendingGifSelectionProvider.notifier).setSelection(selection);
     _snapToDockedIfNeeded();
   }
 
   void _onStickerSelect(StickerEntry selection) {
-    ref.read(pendingStickerSelectionProvider.notifier).selection = selection;
+    ref.read(pendingStickerSelectionProvider.notifier).setSelection(selection);
     _snapToDockedIfNeeded();
   }
 
   void _onFavoriteMemeSelect(FavoriteMemeSelection selection) {
-    ref.read(pendingFavoriteMemeSelectionProvider.notifier).selection =
-        selection;
+    ref
+        .read(pendingFavoriteMemeSelectionProvider.notifier)
+        .setSelection(selection);
     _snapToDockedIfNeeded();
   }
 
@@ -562,21 +561,22 @@ class ChatExpressionExpandableSheetState
 
   @override
   Widget build(BuildContext context) {
-    ref.watch(expressionPanelProvider);
-    ref.watch(attachmentPanelProvider);
-    ref.listen<int>(composerPanelDismissRequestProvider, (_, int next) {
-      if (next <= _lastHandledDismissRequest || _isClosing) {
-        return;
-      }
-      _lastHandledDismissRequest = next;
-      if (!isComposerPanelOpen(
-        expressionPanelOpen: ref.read(expressionPanelProvider),
-        attachmentPanelOpen: ref.read(attachmentPanelProvider),
-      )) {
-        return;
-      }
-      _beginCloseAnimation(playDismissHaptic: false);
-    });
+    ref
+      ..watch(expressionPanelProvider)
+      ..watch(attachmentPanelProvider)
+      ..listen<int>(composerPanelDismissRequestProvider, (_, int next) {
+        if (next <= _lastHandledDismissRequest || _isClosing) {
+          return;
+        }
+        _lastHandledDismissRequest = next;
+        if (!isComposerPanelOpen(
+          expressionPanelOpen: ref.read(expressionPanelProvider),
+          attachmentPanelOpen: ref.read(attachmentPanelProvider),
+        )) {
+          return;
+        }
+        _beginCloseAnimation(playDismissHaptic: false);
+      });
     final colors = context.colors;
     final Color sheetBackground = colors.chatInputBackground;
     final double homeIndicatorInset = inlineExpressionPanelHomeIndicatorInset(

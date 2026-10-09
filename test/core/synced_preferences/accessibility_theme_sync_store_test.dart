@@ -12,6 +12,7 @@ import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/prefere
     as accessibility_pb;
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/preferences.pb.dart'
     as pb;
+import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_sync_service.dart';
@@ -51,6 +52,7 @@ class _FakeUsersApi implements UsersApi {
       'synced_preferences': body?.syncedPreferences.value ?? '',
       'render_embeds': true,
       'profile_privacy': 0,
+      'privacy_setup_version': 0,
       'restricted_guilds': <String>[],
       'bot_restricted_guilds': <String>[],
       'default_guilds_restricted': false,
@@ -110,6 +112,7 @@ UserSettingsResponse _testUserSettings({required String syncedPreferences}) {
     'synced_preferences': syncedPreferences,
     'render_embeds': true,
     'profile_privacy': 0,
+    'privacy_setup_version': 0,
     'restricted_guilds': <String>[],
     'bot_restricted_guilds': <String>[],
     'default_guilds_restricted': false,
@@ -244,6 +247,45 @@ void main() {
         const Color(0xFF007FFF),
       );
     });
+
+    test(
+      'local theme color override survives hydrate with stale wire css',
+      () async {
+        const wireCss = ':root { --brand-primary: #007fff; }';
+        final store = container.read(syncedPreferencesStoreProvider);
+        final themeNotifier = container.read(themePreferenceProvider.notifier);
+        await themeNotifier.load('u1');
+        await container.read(appearancePreferencesProvider.notifier).load('u1');
+        await store.hydrateFromUserSettings(
+          _testUserSettings(
+            syncedPreferences: _settingsWithAccessibility(
+              accessibility_pb.AccessibilitySettings(customThemeCss: wireCss),
+            ),
+          ),
+        );
+        await _waitForDebounce(store);
+
+        themeNotifier.previewThemeColorOverride(
+          editingMode: FluxerThemeMode.dark,
+          cssVariable: '--brand-primary',
+          color: const Color(0xFFFF5500),
+        );
+        await themeNotifier.flushPendingThemeColorPersist();
+
+        await store.hydrateFromUserSettings(
+          _testUserSettings(
+            syncedPreferences: _settingsWithAccessibility(
+              accessibility_pb.AccessibilitySettings(customThemeCss: wireCss),
+            ),
+          ),
+        );
+
+        expect(
+          container.read(themePreferenceProvider).darkColorTheme.brandPrimary,
+          const Color(0xFFFF5500),
+        );
+      },
+    );
 
     test(
       'push preserves wire custom theme css when local theme is empty',
@@ -447,6 +489,72 @@ void main() {
       final synced = pb.SyncedPreferences.fromBuffer(bytes);
       expect(synced.accessibility.autoSendKlipyGifs, isTrue);
     });
+
+    test(
+      'sync from theme studio off ignores inbound custom theme css',
+      () async {
+        const localCss = '.theme-dark { --brand-primary: #111111; }';
+        const remoteCss = '.theme-dark { --brand-primary: #222222; }';
+        final store = container.read(syncedPreferencesStoreProvider);
+        final themeNotifier = container.read(themePreferenceProvider.notifier);
+        await themeNotifier.load('u1');
+        await container.read(appearancePreferencesProvider.notifier).load('u1');
+        await themeNotifier.applySyncedThemeCustomization(
+          customThemeCss: localCss,
+          updateSaturationFactor: false,
+        );
+        await themeNotifier.setSyncThemeColorsFromThemeStudio(value: false);
+
+        await store.hydrateFromUserSettings(
+          _testUserSettings(
+            syncedPreferences: _settingsWithAccessibility(
+              accessibility_pb.AccessibilitySettings(customThemeCss: remoteCss),
+            ),
+          ),
+        );
+
+        expect(
+          container.read(themePreferenceProvider).customThemeCss,
+          localCss,
+        );
+      },
+    );
+
+    test(
+      'sync to theme studio off keeps wire custom theme css on push',
+      () async {
+        const wireCss = ':root { --brand-primary: #aaaaaa; }';
+        final store = container.read(syncedPreferencesStoreProvider);
+        final themeNotifier = container.read(themePreferenceProvider.notifier);
+        await themeNotifier.load('u1');
+        await container.read(appearancePreferencesProvider.notifier).load('u1');
+        await store.hydrateFromUserSettings(
+          _testUserSettings(
+            syncedPreferences: _settingsWithAccessibility(
+              accessibility_pb.AccessibilitySettings(customThemeCss: wireCss),
+            ),
+          ),
+        );
+
+        await themeNotifier.setSyncThemeColorsToThemeStudio(value: false);
+        await themeNotifier.setThemeColorOverride(
+          editingMode: FluxerThemeMode.dark,
+          cssVariable: '--brand-primary',
+          color: const Color(0xFFBBBBBB),
+        );
+        await container
+            .read(appearancePreferencesProvider.notifier)
+            .setHideKeyboardHints(value: true);
+        await _waitForDebounce(store);
+
+        expect(usersApi.pushCount, 1);
+        final bytes = base64Decode(
+          usersApi.lastPushBody!.syncedPreferences.value!,
+        );
+        final synced = pb.SyncedPreferences.fromBuffer(bytes);
+        expect(synced.accessibility.customThemeCss, wireCss);
+      },
+    );
 
     test('first hydrate with desktop-only diff does not auto-push', () async {
       final store = container.read(syncedPreferencesStoreProvider);

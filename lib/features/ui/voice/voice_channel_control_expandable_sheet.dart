@@ -27,12 +27,10 @@ class VoiceCallMobilePageLayout extends ConsumerWidget {
   const VoiceCallMobilePageLayout({
     required this.channelId,
     required this.child,
-    this.guildId,
     super.key,
   });
 
   final String? channelId;
-  final String? guildId;
   final Widget child;
 
   @override
@@ -126,7 +124,6 @@ class VoiceCallMobilePageLayout extends ConsumerWidget {
                       ignoring: !showsOverlay,
                       child: VoiceChannelControlExpandableSheet(
                         channelId: channelId ?? sessionChannelId,
-                        guildId: guildId ?? sessionGuildId,
                         isConnected: isConnected,
                         connectionId: connectionId,
                         parentHeight: constraints.maxHeight,
@@ -151,14 +148,12 @@ class VoiceChannelControlExpandableSheet extends ConsumerStatefulWidget {
     required this.parentWidth,
     required this.isConnected,
     this.channelId,
-    this.guildId,
     this.connectionId,
     this.positioned = true,
     super.key,
   });
 
   final String? channelId;
-  final String? guildId;
   final String? connectionId;
   final bool isConnected;
   final double parentHeight;
@@ -534,9 +529,6 @@ class _VoiceChannelControlExpandableSheetState
                                                     ),
                                                     ClipRect(
                                                       child: VoiceChannelControlBarContent(
-                                                        channelId:
-                                                            widget.channelId,
-                                                        guildId: widget.guildId,
                                                         connectionId:
                                                             widget.connectionId,
                                                         isConnected:

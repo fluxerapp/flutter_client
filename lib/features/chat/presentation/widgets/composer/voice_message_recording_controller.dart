@@ -63,7 +63,6 @@ class VoiceMessageRecordingController extends ChangeNotifier {
   bool get isSending => _isSending;
   bool get lockPreview => _lockPreview;
   bool get discardPreview => _discardPreview;
-  String get channelId => _channelId;
 
   @visibleForTesting
   void debugSetActive({required bool value}) {

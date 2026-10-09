@@ -4,11 +4,11 @@ import 'package:fluxer_app/features/chat/utils/attachments/file_upload_constants
 const int kMaxMessageLengthNonPremium = 2000;
 const int kMaxMessageLengthPremium = 4000;
 const int kMaxGuildsNonPremium = 100;
-const int kMaxGuildsPremium = 200;
+
 const int kMaxBookmarksNonPremium = 50;
-const int kMaxBookmarksPremium = 300;
+
 const int kMaxFavoriteMemesNonPremium = 50;
-const int kMaxFavoriteMemesPremium = 500;
+
 const int kAvatarMaxSizeBytes = 10 * 1024 * 1024;
 const int kEmojiMaxSizeBytes = 512 * 1024;
 const int kStickerMaxSizeBytes = 512 * 1024;

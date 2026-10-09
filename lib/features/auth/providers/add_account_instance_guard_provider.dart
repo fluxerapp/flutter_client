@@ -10,8 +10,10 @@ class AddAccountInstanceGuard extends _$AddAccountInstanceGuard {
   @override
   InstanceConfigSnapshot? build() => null;
 
-  // ignore: command mirrors guard lifecycle.
   void arm(InstanceConfigSnapshot snapshot) {
+    if (state == snapshot) {
+      return;
+    }
     state = snapshot;
   }
 

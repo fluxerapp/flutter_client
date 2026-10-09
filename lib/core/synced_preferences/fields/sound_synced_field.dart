@@ -81,21 +81,4 @@ class SoundSyncedField
         mapEquals(a.disabledSounds, b.disabledSounds) &&
         mapEquals(a.soundOverrides, b.soundOverrides);
   }
-
-  static pickers.SoundSettings toProtoForPush({
-    required SoundLocalState local,
-    pickers.SoundSettings? wireBase,
-  }) {
-    final settings = mergeOrCreate(wireBase, pickers.SoundSettings.new);
-    settings
-      ..allSoundsDisabled = local.allSoundsDisabled
-      ..masterVolume = local.masterVolume;
-    settings.disabledSounds
-      ..clear()
-      ..addEntries(local.disabledSounds.entries);
-    settings.soundOverrides
-      ..clear()
-      ..addEntries(local.soundOverrides.entries);
-    return settings;
-  }
 }

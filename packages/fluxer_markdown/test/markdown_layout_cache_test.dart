@@ -4,8 +4,6 @@ import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 import 'package:material_ui/material_ui.dart';
 import 'support/native_test_parser.dart';
 
-String? _noopEmojiShortcode(String name) => null;
-
 String? _noopUnicodeEmojiUrl(String unicode) => null;
 
 String _noopCustomEmojiUrl({
@@ -16,7 +14,6 @@ String _noopCustomEmojiUrl({
 
 FluxerMarkdownConfig _configWithTimestamp(FluxerTimestampFormatter formatter) {
   return FluxerMarkdownConfig(
-    resolveEmojiShortcode: _noopEmojiShortcode,
     unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
     customEmojiUrlBuilder: _noopCustomEmojiUrl,
     timestampFormatter: formatter,

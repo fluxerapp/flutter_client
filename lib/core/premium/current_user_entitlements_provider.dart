@@ -16,10 +16,6 @@ class CurrentUserEntitlements extends _$CurrentUserEntitlements {
   void applyPremiumState(PremiumStateResponse premiumState) {
     state = state.applyPremiumState(premiumState);
   }
-
-  void reset() {
-    state = const UserEntitlements.empty();
-  }
 }
 
 @Riverpod(keepAlive: true)

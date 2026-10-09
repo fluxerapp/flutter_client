@@ -15,14 +15,3 @@ bool isAnimatedImagePreviewUrl(String value) {
   }
   return _animatedImageFileExtensionRegex.hasMatch(value);
 }
-
-bool gifPreviewShouldLoadImage({
-  required String previewUrl,
-  required String sourceUrl,
-  required bool isAnimatedImagePlaybackAllowed,
-}) {
-  final isAnimatedImagePreview =
-      isAnimatedImagePreviewUrl(previewUrl) ||
-      isAnimatedImagePreviewUrl(sourceUrl);
-  return !isAnimatedImagePreview || isAnimatedImagePlaybackAllowed;
-}

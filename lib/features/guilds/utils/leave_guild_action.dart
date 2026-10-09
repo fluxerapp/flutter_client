@@ -58,15 +58,6 @@ Future<void> deleteGuildAndCleanup(WidgetRef ref, String guildId) async {
   );
 }
 
-Future<void> removeGuildLocallyAndEvict(WidgetRef ref, String guildId) async {
-  await _removeGuildLocallyAndEvict(
-    guildId: guildId,
-    guildRepository: ref.read(guildRepositoryProvider),
-    guildPermissions: ref.read(guildPermissionsProvider.notifier),
-    channelPermissionCache: ref.read(channelPermissionCacheProvider.notifier),
-  );
-}
-
 Future<void> _removeGuildLocallyAndEvict({
   required String guildId,
   required GuildRepository guildRepository,

@@ -4,14 +4,14 @@ import 'package:fluxer_app/features/chat/providers/pickers/attachment_panel_prov
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 
 void main() {
-  test('attachment panel toggle opens and closes', () {
+  test('attachment panel opens and closes', () {
     final ProviderContainer container = ProviderContainer();
     addTearDown(container.dispose);
 
     expect(container.read(attachmentPanelProvider), isFalse);
-    container.read(attachmentPanelProvider.notifier).toggle();
+    container.read(attachmentPanelProvider.notifier).open();
     expect(container.read(attachmentPanelProvider), isTrue);
-    container.read(attachmentPanelProvider.notifier).toggle();
+    container.read(attachmentPanelProvider.notifier).close();
     expect(container.read(attachmentPanelProvider), isFalse);
   });
 

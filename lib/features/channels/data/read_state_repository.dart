@@ -230,11 +230,7 @@ class ReadStateRepository {
     );
   }
 
-  Future<void> cleanupStaleReadStates({
-    int maxConcurrentHttp = 3,
-    int maxConsecutiveFailures = 5,
-    DateTime? now,
-  }) async {
+  Future<void> cleanupStaleReadStates({DateTime? now}) async {
     final readStates = await _db.readStateDao.getReadStates();
     if (readStates.isEmpty) {
       return;
@@ -283,39 +279,12 @@ class ReadStateRepository {
     if (staleChannelIds.isEmpty) {
       return;
     }
-    staleChannelIds.sort();
 
     await _db.transaction(() async {
       for (final channelId in staleChannelIds) {
         await _db.readStateDao.deleteReadState(channelId);
       }
     });
-
-    var consecutiveFailures = 0;
-    for (var i = 0; i < staleChannelIds.length; i += maxConcurrentHttp) {
-      final end = (i + maxConcurrentHttp).clamp(0, staleChannelIds.length);
-      final chunk = staleChannelIds.sublist(i, end);
-      final results = await Future.wait(
-        chunk.map((channelId) async {
-          try {
-            await _client.channels.clearChannelReadState(channelId: channelId);
-            return true;
-          } on Exception {
-            return false;
-          }
-        }),
-      );
-      for (final ok in results) {
-        if (ok) {
-          consecutiveFailures = 0;
-        } else {
-          consecutiveFailures++;
-          if (consecutiveFailures >= maxConsecutiveFailures) {
-            return;
-          }
-        }
-      }
-    }
   }
 
   Future<void> ackPins(String channelId) async {

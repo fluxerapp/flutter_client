@@ -80,10 +80,7 @@ class ComposerMsgCommand extends ComposerCommand {
 
 /// `/saved`, `/sticker`, or `/gif` — must pick a result before submit.
 class ComposerMediaSearchCommand extends ComposerCommand {
-  const ComposerMediaSearchCommand({required this.kind, required this.query});
-
-  final String kind;
-  final String query;
+  const ComposerMediaSearchCommand();
 }
 
 /// `s/<source>/<replacement>[/g]` — edits the last own message in place.
@@ -197,10 +194,7 @@ ComposerCommand parseComposerCommand(String wireText) {
   for (final String type in const <String>['saved', 'sticker', 'gif']) {
     final String prefix = '/$type';
     if (trimmed == prefix || trimmed.startsWith('$prefix ')) {
-      return ComposerMediaSearchCommand(
-        kind: type,
-        query: trimmed.substring(prefix.length).trim(),
-      );
+      return const ComposerMediaSearchCommand();
     }
   }
 

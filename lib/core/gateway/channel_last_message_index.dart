@@ -27,10 +27,6 @@ class ChannelLastMessageIndex {
       ..addAll(values);
   }
 
-  void removeChannel(String channelId) {
-    _lastMessageIds.remove(channelId);
-  }
-
   void clear() {
     _lastMessageIds.clear();
   }

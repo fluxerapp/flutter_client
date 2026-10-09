@@ -7,10 +7,6 @@ class KnownGuildBans extends _$KnownGuildBans {
   @override
   Map<String, Set<String>> build() => <String, Set<String>>{};
 
-  bool isKnownBanned(String guildId, String userId) {
-    return state[guildId]?.contains(userId) ?? false;
-  }
-
   void noteBan(String guildId, String userId) {
     final Set<String> existing = state[guildId] ?? <String>{};
     if (existing.contains(userId)) {

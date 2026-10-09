@@ -276,13 +276,6 @@ String getInitialSelectedLanguage(
   return 'plaintext';
 }
 
-int getLineCount(String? textContent) {
-  if (textContent == null || textContent.isEmpty) {
-    return 0;
-  }
-  return splitPreviewLines(textContent).length;
-}
-
 List<String> splitPreviewLines(String textContent) {
   return textContent.split(kTextualPreviewLineBreakPattern);
 }
@@ -304,19 +297,6 @@ String joinPreviewLines(List<String> lines, {required int maxLines}) {
     return lines.join('\n');
   }
   return lines.take(maxLines).join('\n');
-}
-
-String truncatePreviewTextForInlineExpand(String textContent) {
-  final List<String> lines = splitPreviewLines(textContent);
-  return joinPreviewLines(lines, maxLines: kMaxExpandedPreviewLines);
-}
-
-int remainingPreviewLines(String textContent) {
-  final int lineCount = getLineCount(textContent);
-  if (lineCount <= kMaxExpandedPreviewLines) {
-    return 0;
-  }
-  return lineCount - kMaxExpandedPreviewLines;
 }
 
 int remainingPreviewLinesFromCount(int lineCount) {

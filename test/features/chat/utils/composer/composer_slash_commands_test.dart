@@ -142,7 +142,6 @@ void main() {
         required: true,
       );
       expect(result.valid, isFalse);
-      expect(result.error, SlashSlotValidationError.requiredValue);
     });
 
     test('user mention wire resolves', () {

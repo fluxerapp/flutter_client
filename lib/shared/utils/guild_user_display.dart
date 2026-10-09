@@ -1,7 +1,6 @@
 import 'package:fluxer_app/core/constants/media_proxy_sizes.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/instance/instance_constants.dart';
-import 'package:fluxer_app/core/media/fluxer_media_hash.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
@@ -205,28 +204,6 @@ GuildUserDisplay resolveGuildUserDisplayFromMessage({
     avatarHash: resolvedAvatarHash,
     avatarColor: fallbackAvatarColor,
   );
-}
-
-bool messageAuthorAvatarDiffers({
-  required String? messageAvatarHash,
-  required String? guildAvatarHash,
-}) {
-  final String? messageHash = _comparableAvatarHash(messageAvatarHash);
-  final String? guildHash = _comparableAvatarHash(guildAvatarHash);
-  if (messageHash == null && guildHash == null) {
-    return false;
-  }
-  if (messageHash == null || guildHash == null) {
-    return true;
-  }
-  return messageHash != guildHash;
-}
-
-String? _comparableAvatarHash(String? hash) {
-  if (hash == null || hash.isEmpty) {
-    return null;
-  }
-  return normalizeMediaHash(hash);
 }
 
 bool messagePrefersPersistedAuthorDisplay(Message message) {

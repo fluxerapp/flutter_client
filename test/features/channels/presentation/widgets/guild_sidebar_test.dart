@@ -52,6 +52,14 @@ Future<void> _pumpSidebar(WidgetTester tester) async {
 
 const String _guildId = 'g1';
 const String _otherGuildId = 'g2';
+const GuildReadStateEntry _unreadGuildReadState = GuildReadStateEntry(
+  hasUnread: true,
+  hasPlainUnread: false,
+  mentionCount: 0,
+  mentionChannels: <String>{},
+  unreadChannelId: null,
+  sentinel: 0,
+);
 
 class _GuildSwitchTestHarness {
   String activeGuildId = _guildId;
@@ -764,9 +772,7 @@ void main() {
             ),
             selectedChannelId: 'c1',
             unread: unread,
-            guildReadState: {
-              _guildId: GuildReadStateEntry.empty.copyWith(hasUnread: true),
-            },
+            guildReadState: {_guildId: _unreadGuildReadState},
           ),
         ),
       );
@@ -821,9 +827,7 @@ void main() {
               ),
               selectedChannelId: 'c10',
               unread: unread,
-              guildReadState: {
-                _guildId: GuildReadStateEntry.empty.copyWith(hasUnread: true),
-              },
+              guildReadState: {_guildId: _unreadGuildReadState},
             ),
           ),
         );
@@ -898,8 +902,7 @@ void main() {
             container: container,
             child: MaterialApp(
               locale: kTestLocale,
-              localizationsDelegates:
-                  FluxerLocalizations.localizationsDelegates,
+              localizationsDelegates: fluxerLocalizationsDelegates,
               supportedLocales: FluxerLocalizations.supportedLocales,
               theme: buildFluxerTheme(
                 colorTheme: colorTheme,
@@ -1021,8 +1024,7 @@ void main() {
             container: container,
             child: MaterialApp(
               locale: kTestLocale,
-              localizationsDelegates:
-                  FluxerLocalizations.localizationsDelegates,
+              localizationsDelegates: fluxerLocalizationsDelegates,
               supportedLocales: FluxerLocalizations.supportedLocales,
               theme: buildFluxerTheme(
                 colorTheme: colorTheme,
@@ -1280,7 +1282,7 @@ Widget _buildTestApp({required List<Override> overrides}) {
   return ProviderScope(
     overrides: overrides,
     child: MaterialApp.router(
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,

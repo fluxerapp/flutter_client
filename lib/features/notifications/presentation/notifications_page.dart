@@ -141,11 +141,8 @@ class _NotificationsPageState extends ConsumerState<NotificationsPage> {
                       ],
                       onChanged: (NotificationsInboxTab next) {
                         ref
-                                .read(
-                                  notificationsInboxSegmentProvider.notifier,
-                                )
-                                .segment =
-                            next;
+                            .read(notificationsInboxSegmentProvider.notifier)
+                            .select(next);
                       },
                     ),
                   ],

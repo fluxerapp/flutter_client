@@ -175,8 +175,15 @@ double _listMarkerColumnWidth({
     }
   }
   painter.dispose();
+  return maxWidth + _listMarkerGap(style: style, textScaler: textScaler);
+}
+
+double _listMarkerGap({
+  required TextStyle style,
+  required TextScaler textScaler,
+}) {
   final double fontSize = style.fontSize ?? FluxerMarkupSpacing.rootFontSize;
-  return maxWidth + textScaler.scale(fontSize) * 0.25;
+  return textScaler.scale(fontSize) * 0.25;
 }
 
 double _textLineHeight(TextStyle style, TextScaler textScaler) {
@@ -194,10 +201,6 @@ final RegExp _spoilerSyncUrlPattern = RegExp(
   r'''https?:\/\/[^\s<>"']+''',
   caseSensitive: false,
 );
-
-class FluxerMarkdownBlockRenderState {
-  var hasRenderedHeading = false;
-}
 
 Widget defaultFluxerAlertBuilder(
   BuildContext context,
@@ -243,39 +246,8 @@ Widget wrapFluxerMarkdownSelectable({
   return SelectionArea(contextMenuBuilder: menuBuilder, child: body);
 }
 
-Widget buildFluxerMarkdownAst({
-  required BuildContext context,
-  required List<md.Node> nodes,
-  required TextStyle baseStyle,
-  required FluxerMarkdownConfig config,
-  required FluxerMarkdownFeatures features,
-  required bool selectable,
-  required bool isDark,
-  int? maxLines,
-  TextOverflow? overflow,
-  FluxerMarkdownBlockRenderState? renderState,
-}) {
-  final body = _MarkdownBlockRenderer(
-    context: context,
-    baseStyle: baseStyle,
-    config: config,
-    features: features,
-    isDark: isDark,
-    maxLines: maxLines,
-    overflow: overflow,
-    renderState: renderState,
-  ).build(nodes);
-
-  return wrapFluxerMarkdownSelectable(
-    body: body,
-    selectable: selectable,
-    config: config,
-  );
-}
-
-/// Renders a pre-parsed AST through the same renderers as
-/// [buildFluxerMarkdownAst]; hosts inline spoiler reveal state itself because
-/// the text-flow path never runs for provided ASTs.
+/// Renders a pre-parsed AST and hosts inline spoiler reveal state itself
+/// because the text-flow path never runs for provided ASTs.
 Widget buildFluxerMarkdownProvidedAst({
   required BuildContext context,
   required List<md.Node> nodes,
@@ -337,27 +309,6 @@ String collapseRestrictedInlineText(String text) {
   return text.replaceAll('\n', ' ').replaceAll(RegExp(r'\s+'), ' ');
 }
 
-List<InlineSpan> collectRestrictedInlinePreviewSpans({
-  required BuildContext context,
-  required List<md.Node> nodes,
-  required TextStyle baseStyle,
-  required FluxerMarkdownConfig config,
-  required FluxerMarkdownFeatures features,
-  required bool isDark,
-  int? maxLines,
-  TextOverflow? overflow,
-}) {
-  return _MarkdownBlockRenderer(
-    context: context,
-    baseStyle: baseStyle,
-    config: config,
-    features: features,
-    isDark: isDark,
-    maxLines: maxLines,
-    overflow: overflow,
-  ).collectRestrictedInlinePreviewSpans(nodes);
-}
-
 void appendTrailingInlineWidget(
   List<InlineSpan> spans,
   TextStyle baseStyle,
@@ -391,7 +342,6 @@ class _MarkdownBlockRenderer {
     required this.isDark,
     this.maxLines,
     this.overflow,
-    this.renderState,
   });
 
   final BuildContext context;
@@ -401,7 +351,6 @@ class _MarkdownBlockRenderer {
   final bool isDark;
   final int? maxLines;
   final TextOverflow? overflow;
-  final FluxerMarkdownBlockRenderState? renderState;
   var _hasRenderedBlock = false;
 
   Widget build(List<md.Node> nodes) {
@@ -564,7 +513,6 @@ class _MarkdownBlockRenderer {
           baseStyle: baseStyle,
           config: config,
           features: features,
-          isDark: isDark,
           jumbo: false,
           maxLines: maxLines,
           overflow: overflow,
@@ -613,7 +561,6 @@ class _MarkdownBlockRenderer {
             baseStyle: baseStyle,
             config: config,
             features: features,
-            isDark: isDark,
             jumbo: false,
             maxLines: maxLines,
             overflow: overflow,
@@ -682,10 +629,8 @@ class _MarkdownBlockRenderer {
 
   Widget _buildHeadingParagraph(List<md.Node> nodes, {required int level}) {
     final bool isFirstBlock = !_hasRenderedBlock;
-    final bool isFirstHeading =
-        renderState?.hasRenderedHeading != true && isFirstBlock;
+    final bool isFirstHeading = isFirstBlock;
     _hasRenderedBlock = true;
-    renderState?.hasRenderedHeading = true;
     final TextStyle style = baseStyle.copyWith(
       fontSize: _headingFontSize(baseStyle, level),
       fontWeight: FontWeight.w600,
@@ -715,7 +660,6 @@ class _MarkdownBlockRenderer {
       baseStyle: effectiveStyle,
       config: config,
       features: features,
-      isDark: isDark,
       jumbo:
           style == null && features.allowJumboEmoji && _allNodesAreEmoji(nodes),
       maxLines: maxLines,
@@ -1022,14 +966,19 @@ class _MarkdownBlockRenderer {
       children: [
         SizedBox(
           width: markerColumnWidth,
-          child: buildFluxerBoundedRichText(
-            text: TextSpan(text: marker, style: baseStyle),
-            baseStyle: baseStyle,
-            textAlign: markerTextAlign,
-            textScaler: textScaler,
-            maxLines: 1,
-            overflow: TextOverflow.clip,
-            softWrap: false,
+          child: Padding(
+            padding: EdgeInsetsDirectional.only(
+              end: _listMarkerGap(style: baseStyle, textScaler: textScaler),
+            ),
+            child: buildFluxerBoundedRichText(
+              text: TextSpan(text: marker, style: baseStyle),
+              baseStyle: baseStyle,
+              textAlign: markerTextAlign,
+              textScaler: textScaler,
+              maxLines: 1,
+              overflow: TextOverflow.clip,
+              softWrap: false,
+            ),
           ),
         ),
         Expanded(child: body),
@@ -1229,7 +1178,6 @@ class _MarkdownInlineRenderer {
     required this.baseStyle,
     required this.config,
     required this.features,
-    required this.isDark,
     required this.jumbo,
     required this.spoilerIndexCounter,
     this.maxLines,
@@ -1240,7 +1188,6 @@ class _MarkdownInlineRenderer {
   final TextStyle baseStyle;
   final FluxerMarkdownConfig config;
   final FluxerMarkdownFeatures features;
-  final bool isDark;
   final bool jumbo;
   final _SpoilerIndexCounter spoilerIndexCounter;
   final int? maxLines;
@@ -1820,8 +1767,6 @@ List<String> _collectSpoilerSyncKeys(
 
 class _SpoilerIndexCounter {
   int _next = 0;
-
-  void reset() => _next = 0;
 
   int next() => _next++;
 }

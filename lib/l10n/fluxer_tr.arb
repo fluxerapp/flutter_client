@@ -3,7 +3,7 @@
     "@reconnectingTitle": {
         "description": "Title on the reconnecting / server error screen."
     },
-    "reconnectingBody": "Sunucuda bir sorun var.\nBirazdan düzelecek!",
+    "reconnectingBody": "Kurulumda bir sorun var.\nBirazdan düzelecek!",
     "@reconnectingBody": {
         "description": "Subtitle on the reconnecting screen explaining temporary server issues."
     },
@@ -27,10 +27,6 @@
     "retry": "Tekrar Dene",
     "@retry": {
         "description": "Generic label for retry actions (splash, errors, network, etc.)."
-    },
-    "connectingCaps": "CONNECTING",
-    "@connectingCaps": {
-        "description": "Connecting text on the splash screen"
     },
     "splashConnectionLost": "Bağlantı kesildi",
     "@splashConnectionLost": {
@@ -93,10 +89,6 @@
             }
         }
     },
-    "ssoRequired": "Bu örneğe erişmek için SSO gereklidir.",
-    "@ssoRequired": {
-        "description": "Short sign-in note shown when the instance requires single sign-on."
-    },
     "organizationSsoProvider": "Kuruluşunuzun tek oturum açma sağlayıcısıyla oturum açın.",
     "@organizationSsoProvider": {
         "description": "Description shown when sign-in is restricted to the configured SSO provider."
@@ -117,10 +109,6 @@
                 "type": "String"
             }
         }
-    },
-    "logInViaBrowser": "Tarayıcı ile giriş yap",
-    "@logInViaBrowser": {
-        "description": "Secondary login that opens or uses the system browser."
     },
     "needAccountPrompt": "Hesabınız yok mu? ",
     "@needAccountPrompt": {
@@ -232,26 +220,9 @@
     "@accountAdd": {
         "description": "Button to add a new account."
     },
-    "accountRemove": "Kaldır",
-    "@accountRemove": {
-        "description": "Context menu option to remove a stored account."
-    },
-    "accountRemoveTitle": "{username} kaldırılıyor",
-    "@accountRemoveTitle": {
-        "description": "Title for the remove account confirmation modal.",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
     "accountRemoveDescription": "Bu işlem, bu hesap için kayıtlı oturumu kaldıracaktır.",
     "@accountRemoveDescription": {
         "description": "Description for the remove account confirmation modal."
-    },
-    "accountRemoveOnlyDescription": "Bu işlem, bu cihazdaki tek kayıtlı hesabı kaldıracak.",
-    "@accountRemoveOnlyDescription": {
-        "description": "Description when removing the last stored account."
     },
     "accountExpired": "Süresi doldu",
     "@accountExpired": {
@@ -552,7 +523,7 @@
     "@recoverAccountDescription": {
         "description": "Description on the account recovery screen."
     },
-    "recoverAccountNoKit": "Kurtarma kiti yok mu? Parola sıfırlama bağlantısı için bu örneğin yöneticisinden yardım isteyin.",
+    "recoverAccountNoKit": "Kurtarma kiti yok mu? Parola sıfırlama bağlantısı için bu kurulumun yöneticisinden yardım isteyin.",
     "@recoverAccountNoKit": {
         "description": "Hint under the account recovery form for people without a recovery kit."
     },
@@ -593,7 +564,7 @@
     "@recoveryKitDocumentIntro": {
         "description": "Introduction on the saved recovery kit image."
     },
-    "recoveryKitInstanceLabel": "Sunucu Adresi",
+    "recoveryKitInstanceLabel": "Kurulum",
     "@recoveryKitInstanceLabel": {
         "description": "Label for the server address on the saved recovery kit."
     },
@@ -636,7 +607,7 @@
     },
     "recoveryKitBackupCodesFailed": "Yedek kodlarınız yüklenemedi.",
     "@recoveryKitBackupCodesFailed": {
-        "description": "Toast shown when the two-factor backup codes for the recovery kit cannot be loaded."
+        "description": "Toast shown when the two-factor backup codes cannot be loaded, in the recovery kit sheet or from View codes in security settings."
     },
     "recoveryKitIncludeBackupCodes": "İki faktörlü kimlik doğrulama yedek kodlarımı kaydedilen görsele ekle",
     "@recoveryKitIncludeBackupCodes": {
@@ -783,10 +754,6 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsent": "Hizmet Şartları ve Gizlilik Politikasını kabul ediyorum",
-    "@registerConsent": {
-        "description": "Consent checkbox label for registration (plain text fallback)."
-    },
     "registerConsentPrefix": "Kabul ediyorum",
     "@registerConsentPrefix": {
         "description": "Text before the Terms of Service link in the consent checkbox."
@@ -830,10 +797,6 @@
     "passkeyTimeout": "Parola anahtarı kimlik doğrulaması zaman aşımına uğradı. Lütfen tekrar deneyin.",
     "@passkeyTimeout": {
         "description": "Error when passkey authentication times out."
-    },
-    "passkeyNotAvailable": "Bu uygulama için parola anahtarları mevcut değil. Bunun yerine e-posta ve şifre ile giriş yapın.",
-    "@passkeyNotAvailable": {
-        "description": "Error for unknown passkey provider errors (e.g. TYPE_UNKNOWN)."
     },
     "passkeyFailed": "Parola anahtarı kimlik doğrulaması başarısız oldu. Lütfen tekrar deneyin.",
     "@passkeyFailed": {
@@ -942,26 +905,6 @@
     "@inviteAcceptSomeone": {
         "description": "Fallback inviter name when the inviter is unknown."
     },
-    "inviteAcceptEmojiPack": "Emoji paketi",
-    "@inviteAcceptEmojiPack": {
-        "description": "Label for an emoji pack invite."
-    },
-    "inviteAcceptStickerPack": "Çıkartma paketi",
-    "@inviteAcceptStickerPack": {
-        "description": "Label for a sticker pack invite."
-    },
-    "inviteAcceptInstallEmojiPack": "Emoji paketini yükle",
-    "@inviteAcceptInstallEmojiPack": {
-        "description": "Primary action to install an emoji pack from an invite."
-    },
-    "inviteAcceptInstallStickerPack": "Çıkartma paketini yükle",
-    "@inviteAcceptInstallStickerPack": {
-        "description": "Primary action to install a sticker pack from an invite."
-    },
-    "inviteAcceptPackInstallNote": "Bu davetiyeyi kabul etmek paketi otomatik olarak yükler.",
-    "@inviteAcceptPackInstallNote": {
-        "description": "Note shown on expression pack invites before accepting."
-    },
     "mentionUnknownChannel": "unknown-channel",
     "@mentionUnknownChannel": {
         "description": "Fallback name shown in a channel mention pill when the channel is not found."
@@ -986,13 +929,13 @@
     "@embedThemeTitle": {
         "description": "Title on the theme embed card in chat."
     },
-    "embedThemeSubtitle": "Bu istemci özel temaları desteklemiyor.",
-    "@embedThemeSubtitle": {
-        "description": "Subtitle on the theme embed card."
+    "embedThemeWebOnly": "Temaları yalnızca web veya masaüstünde içe aktarabilirsin.",
+    "@embedThemeWebOnly": {
+        "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
     },
-    "embedThemeUnavailableButton": "Temalar kullanılamıyor",
-    "@embedThemeUnavailableButton": {
-        "description": "Button on the theme embed card - themes aren't supported in the client."
+    "embedThemeImport": "Temayı içe aktar",
+    "@embedThemeImport": {
+        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "privacySettings": "Gizlilik ayarları",
     "@privacySettings": {
@@ -1220,9 +1163,18 @@
     "@dmLeaveGroup": {
         "description": "DM context menu action to leave a group DM."
     },
-    "dmNoCommunitiesAvailable": "Topluluk mevcut değil",
-    "@dmNoCommunitiesAvailable": {
-        "description": "Shown when no communities are available to invite to."
+    "dmInviteSentFor": "{communityName} için davet gönderildi",
+    "@dmInviteSentFor": {
+        "description": "Toast confirming a community invite was sent to a DM recipient.",
+        "placeholders": {
+            "communityName": {
+                "type": "String"
+            }
+        }
+    },
+    "dmInviteSendFailed": "Davet gönderilemedi. Tekrar deneyin.",
+    "@dmInviteSendFailed": {
+        "description": "Toast shown when sending a community invite from the DM menu fails."
     },
     "dmGroupMemberCount": "{count} Üye",
     "@dmGroupMemberCount": {
@@ -1667,10 +1619,6 @@
             }
         }
     },
-    "emojiPlutoniumUpsellButton": "Plutonium Al",
-    "@emojiPlutoniumUpsellButton": {
-        "description": "Button label on the Plutonium upsell banner."
-    },
     "emojiPlutoniumUpsellDismiss": "Bunu bir daha gösterme",
     "@emojiPlutoniumUpsellDismiss": {
         "description": "Dismiss link on the Plutonium upsell banner."
@@ -1837,10 +1785,6 @@
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
     },
-    "fluxerTagInputLabel": "Kullanıcı adı",
-    "@fluxerTagInputLabel": {
-        "description": "Label above the username and discriminator input fields."
-    },
     "fluxerTagDescriptionBase": "Kullanıcı adları yalnızca harf (a-z, A-Z), rakam (0-9) ve alt çizgi içerebilir. Kullanıcı adlarında büyük/küçük harf duyarlılığı yoktur.",
     "@fluxerTagDescriptionBase": {
         "description": "Base description text on the username change sheet."
@@ -1868,10 +1812,6 @@
     "validationAllowedChars": "Yalnızca harfler (a-z, A-Z), rakamlar (0-9) ve alt çizgi (_)",
     "@validationAllowedChars": {
         "description": "Validation rule for allowed username characters."
-    },
-    "discriminatorPremiumTooltip": "Etiketinizi özelleştirmek veya kullanıcı adınızı değiştirirken onu korumak için Plutonium edinin",
-    "@discriminatorPremiumTooltip": {
-        "description": "Tooltip on disabled discriminator field for non-premium users."
     },
     "fluxerTagAlreadyTaken": "Kullanıcı adı zaten alınmış",
     "@fluxerTagAlreadyTaken": {
@@ -1926,19 +1866,6 @@
     "premiumUpsellCustomizeTag": "4 haneli etiketini özelleştir veya kullanıcı adını değiştirirken onu koru",
     "@premiumUpsellCustomizeTag": {
         "description": "Upsell text encouraging non-premium users to get Plutonium for tag customization."
-    },
-    "premiumTrialExpiresOn": "Plutonium denemeniz {date} tarihinde sona eriyor. Özel etiketini korumak ve profilinde bir rozet kazanmak için yükseltme yap.",
-    "@premiumTrialExpiresOn": {
-        "description": "Trial upsell with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActive": "Plutonium denemesindesiniz. Özel etiketini korumak ve profilinde bir rozet kazanmak için yükseltme yap.",
-    "@premiumTrialActive": {
-        "description": "Trial upsell without specific expiry date."
     },
     "fluxerTagUpdated": "Kullanıcı adı güncellendi",
     "@fluxerTagUpdated": {
@@ -2112,32 +2039,6 @@
     "@hideVisionaryIdDescription": {
         "description": "Description for the toggle to hide the Visionary ID badge."
     },
-    "premiumTrialSubscriptionStarts": "Plutonium deneme sürümündesin — aboneliğin {date} tarihinde başlıyor",
-    "@premiumTrialSubscriptionStarts": {
-        "description": "Trial banner title when user has an active subscription pending after trial.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialSubscriptionStartsDescription": "Deneme sürümün sona erdiğinde aboneliğin otomatik olarak başlayacaktır. İşlem yapmana gerek yok.",
-    "@premiumTrialSubscriptionStartsDescription": {
-        "description": "Trial banner description when user has an active subscription pending after trial."
-    },
-    "premiumTrialExpiresOnProfile": "Plutonium deneme sürümündesin ve {date} tarihinde sona eriyor",
-    "@premiumTrialExpiresOnProfile": {
-        "description": "Trial banner title with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActiveProfile": "Plutonium deneme sürümündesin",
-    "@premiumTrialActiveProfile": {
-        "description": "Trial banner title without specific expiry date."
-    },
     "avatarDescriptionNonPremium": "JPEG, PNG, WebP. Maksimum 10MB. Önerilen: 512×512px. Animasyonlu avatarlar (GIF) Plutonium gerektirir.",
     "@avatarDescriptionNonPremium": {
         "description": "Avatar helper text for non-premium users, mentioning Plutonium requirement for animated avatars."
@@ -2222,22 +2123,6 @@
     "profileSavedToast": "Profil güncellendi",
     "@profileSavedToast": {
         "description": "Toast message shown after successfully saving profile changes."
-    },
-    "profileEditButton": "Profili düzenle",
-    "@profileEditButton": {
-        "description": "Button label to open profile editing from the profile content card."
-    },
-    "profileNoteLabel": "Not",
-    "@profileNoteLabel": {
-        "description": "Label for the personal note section on a user profile."
-    },
-    "profileNoteVisibility": "(yalnızca siz görebilirsiniz)",
-    "@profileNoteVisibility": {
-        "description": "Hint that the note is private and only visible to the current user."
-    },
-    "profileNoteEmpty": "Henüz not yok.",
-    "@profileNoteEmpty": {
-        "description": "Placeholder shown when no personal note has been set for a user."
     },
     "sudoTitle": "Kimliğini Doğrula",
     "@sudoTitle": {
@@ -2610,42 +2495,6 @@
     "@securityPasskeyNameHint": {
         "description": "Hint for passkey name input."
     },
-    "securityPhoneSectionTitle": "Telefon numarası",
-    "@securityPhoneSectionTitle": {
-        "description": "Title for phone number section."
-    },
-    "securityPhoneSectionDescription": "Telefon numaranızı yönetin.",
-    "@securityPhoneSectionDescription": {
-        "description": "Description for phone number section."
-    },
-    "securityPhoneLabel": "Telefon numarası",
-    "@securityPhoneLabel": {
-        "description": "Label for phone number row."
-    },
-    "securityPhoneNone": "Telefon numarası eklenmemiş.",
-    "@securityPhoneNone": {
-        "description": "Shown when no phone number is set."
-    },
-    "securityPhoneAdd": "Telefon Ekle",
-    "@securityPhoneAdd": {
-        "description": "Button to add phone number."
-    },
-    "securityPhoneRemove": "Kaldır",
-    "@securityPhoneRemove": {
-        "description": "Button to remove phone number."
-    },
-    "securityPhoneRemoveTitle": "Telefon Numarasını Kaldır",
-    "@securityPhoneRemoveTitle": {
-        "description": "Title for phone remove confirmation."
-    },
-    "securityPhoneRemoveDescription": "Telefon numaranızı kaldırmak istediğinizden emin misiniz?",
-    "@securityPhoneRemoveDescription": {
-        "description": "Description for phone remove confirmation."
-    },
-    "securityPhoneRemoved": "Telefon numarası kaldırıldı",
-    "@securityPhoneRemoved": {
-        "description": "Toast after phone removed."
-    },
     "securityClaimTitle": "Güvenlik özellikleri",
     "@securityClaimTitle": {
         "description": "Title when user needs to claim account for security."
@@ -2654,7 +2503,7 @@
     "@securityClaimDescription": {
         "description": "Description prompting user to claim account."
     },
-    "securityVerifyEmailRequired": "İki faktörlü kimlik doğrulama, parolalar veya SMS doğrulaması ayarlamadan önce e-posta adresinizi doğrulamanız gerekir.",
+    "securityVerifyEmailRequired": "İki faktörlü kimlik doğrulamayı veya parolaları ayarlamadan önce e-posta adresinizi doğrulamanız gerekir.",
     "@securityVerifyEmailRequired": {
         "description": "Warning when email is not verified."
     },
@@ -2698,10 +2547,6 @@
     "@backupCodesWarning": {
         "description": "Warning about backup codes."
     },
-    "backupCodesDownload": "İndir",
-    "@backupCodesDownload": {
-        "description": "Button to download backup codes."
-    },
     "backupCodesCopy": "Kopyala",
     "@backupCodesCopy": {
         "description": "Button to copy backup codes."
@@ -2717,46 +2562,6 @@
     "backupCodesDone": "Bitti",
     "@backupCodesDone": {
         "description": "Button to close backup codes sheet."
-    },
-    "backupCodesViewTitle": "Yedek kodları görüntüle",
-    "@backupCodesViewTitle": {
-        "description": "Title for viewing existing backup codes."
-    },
-    "backupCodesViewDescription": "Yedek kodlarınızı görüntülemeden önce doğrulama gerekebilir.",
-    "@backupCodesViewDescription": {
-        "description": "Description for view backup codes."
-    },
-    "phoneAddTitle": "Telefon Numarası Ekle",
-    "@phoneAddTitle": {
-        "description": "Title for phone add sheet."
-    },
-    "phoneAddLabel": "Telefon numarası",
-    "@phoneAddLabel": {
-        "description": "Label for phone input."
-    },
-    "phoneAddHint": "Telefon numaranızı girin",
-    "@phoneAddHint": {
-        "description": "Hint for phone input."
-    },
-    "phoneAddFooter": "SMS kodu mevcut olduğunda gönderilecektir. Numaranız hesabınıza bağlı değildir. Yaklaşık 30 gün içinde en fazla 2 doğrulamaya izin vermek için şifrelenmiş bir işaretleyici saklıyoruz, kullanıcı kimliği olmadan.",
-    "@phoneAddFooter": {
-        "description": "Footer text for phone input."
-    },
-    "phoneAddSendCode": "Kod gönder",
-    "@phoneAddSendCode": {
-        "description": "Button to send phone verification code."
-    },
-    "phoneVerifyTitle": "Telefon numarasını doğrula",
-    "@phoneVerifyTitle": {
-        "description": "Title for phone verify step."
-    },
-    "phoneVerifyDescription": "Telefon numaranıza gönderilen doğrulama kodunu girin.",
-    "@phoneVerifyDescription": {
-        "description": "Description for phone verify step."
-    },
-    "phoneAddSuccess": "Telefon numarası doğrulandı",
-    "@phoneAddSuccess": {
-        "description": "Toast after phone added."
     },
     "dangerZoneSectionTitle": "Tehlike bölgesi",
     "@dangerZoneSectionTitle": {
@@ -3008,10 +2813,6 @@
     "@authorizedAppsScopeAdmin": {
         "description": "OAuth2 scope description: admin."
     },
-    "privacyPendingDeletionTitle": "Silme Bekliyor",
-    "@privacyPendingDeletionTitle": {
-        "description": "Title of the warning alert shown when a bulk message deletion is pending."
-    },
     "blockedUsersTitle": "Engellenen kullanıcılar",
     "@blockedUsersTitle": {
         "description": "Header title of the Blocked Users settings page."
@@ -3248,10 +3049,6 @@
     "@userProfileNoteDelete": {
         "description": "Delete button in the note editor sheet."
     },
-    "userProfileNoteEmpty": "Not eklemek için tıklayın",
-    "@userProfileNoteEmpty": {
-        "description": "Hint text when no note has been written yet."
-    },
     "userProfileMemberSince": "Üye olma tarihi",
     "@userProfileMemberSince": {
         "description": "Header of the member-since section in the bio card."
@@ -3363,13 +3160,13 @@
     "@userProfileTransferOwnership": {
         "description": "Three-dot menu item to transfer community ownership to the member."
     },
-    "userProfileReportUser": "Kullanıcıyı bildir",
-    "@userProfileReportUser": {
-        "description": "Three-dot menu item to report the user."
-    },
     "userProfileReportMessage": "Mesajı bildir",
     "@userProfileReportMessage": {
         "description": "Three-dot menu item to report the message that opened this profile."
+    },
+    "userProfileReportUserProfile": "Profili bildir",
+    "@userProfileReportUserProfile": {
+        "description": "Three-dot menu item on the full profile to report this user's profile (avatar, banner, name, bio and other profile parts). Message behavior is reported from the message instead."
     },
     "userProfileKickConfirmTitle": "{username} kişisini mi atıyorsun?",
     "@userProfileKickConfirmTitle": {
@@ -3596,18 +3393,6 @@
     "durationCustom": "Özel…",
     "@durationCustom": {
         "description": "Duration option label for a user-specified custom duration."
-    },
-    "iarReportUserTitle": "Kullanıcıyı bildir",
-    "@iarReportUserTitle": {
-        "description": "Title of the simple user-report sheet."
-    },
-    "iarReasonInappropriateProfile": "Uygunsuz profil",
-    "@iarReasonInappropriateProfile": {
-        "description": "User-report reason: the user's profile contains inappropriate content."
-    },
-    "iarReasonInappropriateProfileDescription": "Bu kullanıcının profilinde uygunsuz içerik var",
-    "@iarReasonInappropriateProfileDescription": {
-        "description": "Description for the inappropriate-profile user-report reason."
     },
     "typingIndicatorOne": "{name} yazıyor...",
     "@typingIndicatorOne": {
@@ -4034,17 +3819,9 @@
     "@channelComposerBarrierNotMemberLongEnough": {
         "description": "Composer barrier when the user's guild membership is too recent."
     },
-    "channelComposerBarrierNoPhoneNumber": "Bu toplulukta mesaj göndermek için bir telefon numarası doğrulamanız gerekiyor.",
-    "@channelComposerBarrierNoPhoneNumber": {
-        "description": "Composer barrier when the user must verify a phone number before messaging."
-    },
     "channelComposerBarrierVerifyEmail": "E-postayı doğrula",
     "@channelComposerBarrierVerifyEmail": {
         "description": "Action button on the composer barrier for unverified email."
-    },
-    "channelComposerBarrierVerifyPhone": "Telefonu doğrula",
-    "@channelComposerBarrierVerifyPhone": {
-        "description": "Action button on the composer barrier for missing phone verification."
     },
     "chatAttachmentTooMany": "Çok fazla dosya (en fazla {max})",
     "@chatAttachmentTooMany": {
@@ -4071,10 +3848,6 @@
     "@chatAttachmentDropToSend": {
         "description": "Overlay hint when dragging files over chat with Shift held."
     },
-    "chatAttachmentSendVoiceMessage": "Sesli mesaj gönder",
-    "@chatAttachmentSendVoiceMessage": {
-        "description": "Menu item to open the voice message recorder."
-    },
     "voiceMessageTitle": "Sesli mesaj",
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
@@ -4095,10 +3868,6 @@
     "@voiceMessageMicPermissionDenied": {
         "description": "Shown when microphone permission is denied for voice messages."
     },
-    "voiceMessageRecordingNotSupported": "Bu cihazda sesli kayıt desteklenmiyor.",
-    "@voiceMessageRecordingNotSupported": {
-        "description": "Shown when the device cannot record voice messages."
-    },
     "voiceMessageMicInUse": "Sesli mesaj kaydetmek için sesli aramadan ayrıl.",
     "@voiceMessageMicInUse": {
         "description": "Shown when the microphone is already used by an active voice call."
@@ -4111,26 +3880,6 @@
     "@voiceMessageSendFailed": {
         "description": "Shown when sending a voice message fails."
     },
-    "voiceMessageRecordingHint": "Şimdi konuşun. Bitirdiğinizde Durdur'a basın. Daha sonra kırpabilirsiniz.",
-    "@voiceMessageRecordingHint": {
-        "description": "Help text while recording a voice message on desktop."
-    },
-    "voiceMessageReviewHint": "Kırpmak için tutamaçları sürükleyin, ardından Gönder'e basın.",
-    "@voiceMessageReviewHint": {
-        "description": "Help text while reviewing a voice message before send."
-    },
-    "voiceMessageStop": "Durdur",
-    "@voiceMessageStop": {
-        "description": "Stop recording button in voice message composer."
-    },
-    "voiceMessageStartRecording": "Kaydı başlat",
-    "@voiceMessageStartRecording": {
-        "description": "Button to retry voice recording after permission error."
-    },
-    "voiceMessageRerecord": "Yeniden kaydet",
-    "@voiceMessageRerecord": {
-        "description": "Button to discard review and record again."
-    },
     "voiceMessagePlay": "Oynat",
     "@voiceMessagePlay": {
         "description": "Play voice message preview."
@@ -4138,16 +3887,6 @@
     "voiceMessagePause": "Duraklat",
     "@voiceMessagePause": {
         "description": "Pause voice message preview."
-    },
-    "voiceMessageSelectionTooShort": "Seçim en az {seconds} saniye olmalı.",
-    "@voiceMessageSelectionTooShort": {
-        "description": "Error when trimmed voice message is too short.",
-        "placeholders": {
-            "seconds": {
-                "type": "num",
-                "format": "compact"
-            }
-        }
     },
     "chatAttachmentEditTitle": "Eki düzenle",
     "@chatAttachmentEditTitle": {
@@ -4192,10 +3931,6 @@
     "chatAttachmentSourceBrowse": "Dosyalara göz at",
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
-    },
-    "chatAttachmentPasteTooltip": "Panodan dosya yapıştır",
-    "@chatAttachmentPasteTooltip": {
-        "description": "Tooltip for pasting an image attachment from the clipboard."
     },
     "chatAttachmentSpoiler": "Spoiler",
     "@chatAttachmentSpoiler": {
@@ -4293,14 +4028,6 @@
     "@matureContentOpenLinkButton": {
         "description": "Primary action on mature link channel gates."
     },
-    "sensitiveContentSectionTitle": "Hassas içerik",
-    "@sensitiveContentSectionTitle": {
-        "description": "Privacy settings section title for sensitive content filters."
-    },
-    "sensitiveContentSectionDescription": "Hassas veya yetişkinlere yönelik medyanın farklı bağlamlarda nasıl filtreleneceğini kontrol edin",
-    "@sensitiveContentSectionDescription": {
-        "description": "Privacy settings section description for sensitive content filters."
-    },
     "sensitiveContentFriendDmLabel": "Arkadaşlardan gelen doğrudan mesajlar",
     "@sensitiveContentFriendDmLabel": {
         "description": "Label for friend DM sensitive content filter."
@@ -4325,18 +4052,6 @@
     "@sensitiveContentFilterBlock": {
         "description": "Sensitive content filter option to block media."
     },
-    "sensitiveContentBlurUnscannedLabel": "Güvenlik taraması tamamlanana kadar medyayı bulanıklaştır",
-    "@sensitiveContentBlurUnscannedLabel": {
-        "description": "Toggle label for blurring unscanned media."
-    },
-    "sensitiveContentBlurUnscannedDescriptionAdult": "Etkinleştirildiğinde, içerik güvenlik taraması bitene kadar resimler ve videolar bulanıklaştırılır.",
-    "@sensitiveContentBlurUnscannedDescriptionAdult": {
-        "description": "Description for blur-unscanned toggle for adult accounts."
-    },
-    "sensitiveContentBlurUnscannedDescriptionMinor": "Bu ayar hesabınız için her zaman açıktır.",
-    "@sensitiveContentBlurUnscannedDescriptionMinor": {
-        "description": "Description for blur-unscanned toggle for minor accounts."
-    },
     "sensitiveContentResetButton": "Sıfırla",
     "@sensitiveContentResetButton": {
         "description": "Reset button for sensitive content settings."
@@ -4353,10 +4068,6 @@
                 "type": "int"
             }
         }
-    },
-    "chatCancelUpload": "Yüklemeyi iptal et",
-    "@chatCancelUpload": {
-        "description": "Button or menu action label for canceling an in-flight message attachment upload."
     },
     "chatAttachmentExpiresOn": "{date} tarihinde sona eriyor",
     "@chatAttachmentExpiresOn": {
@@ -4626,10 +4337,6 @@
     "@connectionEnterDomain": {
         "description": "Inline error shown when the domain input is empty."
     },
-    "lookAndFeelTitle": "Görünüm",
-    "@lookAndFeelTitle": {
-        "description": "Title of the Look & Feel (Appearance) settings page."
-    },
     "lookAndFeelThemeSectionTitle": "Tema",
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
@@ -4669,14 +4376,6 @@
     "lookAndFeelThemeSyncFailed": "Tema hesabınıza eşitlenemedi. Lütfen tekrar deneyin.",
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
-    },
-    "lookAndFeelChatFontScalingTitle": "Sohbet yazı tipi ölçeklendirmesi",
-    "@lookAndFeelChatFontScalingTitle": {
-        "description": "Section title for the chat font size slider."
-    },
-    "lookAndFeelChatFontScalingDescription": "Sohbet alanındaki yazı tipi boyutunu ayarlayın.",
-    "@lookAndFeelChatFontScalingDescription": {
-        "description": "Section description for the chat font size slider."
     },
     "lookAndFeelInterfaceTitle": "Arayüz",
     "@lookAndFeelInterfaceTitle": {
@@ -4745,42 +4444,6 @@
     "lookAndFeelHideKeyboardHintsDescription": "Etkinleştirildiğinde, kısayol rozetleri araç ipucu açılır pencerelerinde gizlenir.",
     "@lookAndFeelHideKeyboardHintsDescription": {
         "description": "Toggle description for the hide-keyboard-hints switch."
-    },
-    "lookAndFeelNekoTitle": "Çeşitli",
-    "@lookAndFeelNekoTitle": {
-        "description": "Subsection title under Interface for Neko appearance settings."
-    },
-    "lookAndFeelNekoDescription": "Çeşitli arayüz seçenekleri.",
-    "@lookAndFeelNekoDescription": {
-        "description": "Subsection description for Neko appearance settings."
-    },
-    "lookAndFeelShowNekoLabel": "Neko'yu göster",
-    "@lookAndFeelShowNekoLabel": {
-        "description": "Toggle label for showing Neko in the chat footer."
-    },
-    "lookAndFeelShowNekoDescription": "Etkinleştirildiğinde, Neko sohbet giriş çubuğunun yakınında görünür.",
-    "@lookAndFeelShowNekoDescription": {
-        "description": "Toggle description for showing Neko in chat."
-    },
-    "lookAndFeelVoiceChannelJoinTitle": "Sesli kanala katılma davranışı",
-    "@lookAndFeelVoiceChannelJoinTitle": {
-        "description": "Subsection title under Interface — voice channel join behavior."
-    },
-    "lookAndFeelVoiceChannelJoinDescription": "Topluluklardaki sesli kanallara nasıl katılacağınızı kontrol edin.",
-    "@lookAndFeelVoiceChannelJoinDescription": {
-        "description": "Subsection description for voice channel join behavior."
-    },
-    "lookAndFeelRequireDoubleClickJoinLabel": "Sesli kanallara katılmak için çift tıklama gerektir",
-    "@lookAndFeelRequireDoubleClickJoinLabel": {
-        "description": "Toggle label — require double-click to join voice channels."
-    },
-    "lookAndFeelRequireDoubleClickJoinDescription": "Etkinleştirildiğinde, sesli kanallara katılmak için çift tıklamanız gerekir. Devre dışı bırakıldığında (varsayılan), tek tıklama kanala hemen katılacaktır.",
-    "@lookAndFeelRequireDoubleClickJoinDescription": {
-        "description": "Toggle description for the require-double-click voice channel join switch."
-    },
-    "lookAndFeelChatFontPreviewSample": "Hızlı kahverengi tilki tembel köpeğin üzerinden atlar.",
-    "@lookAndFeelChatFontPreviewSample": {
-        "description": "Sample text rendered at the selected chat font size to preview scaling."
     },
     "lookAndFeelGuildSidebarTitle": "Sunucu kenar çubuğu",
     "@lookAndFeelGuildSidebarTitle": {
@@ -5189,25 +4852,9 @@
     "@messagesMediaAutocompleteSavedMediaLabel": {
         "description": "Toggle label for saved media in expression autocomplete."
     },
-    "messagesMediaEditingSectionTitle": "Mesaj düzenleme",
-    "@messagesMediaEditingSectionTitle": {
-        "description": "Section title for message editing settings."
-    },
-    "messagesMediaEditingSectionDescription": "İptal ettiğinizde düzenleme taslağınıza ne olacağını kontrol edin.",
-    "@messagesMediaEditingSectionDescription": {
-        "description": "Section description for message editing settings."
-    },
-    "messagesMediaEditingPreserveDraftLabel": "İptal edildiğinde düzenleme taslağını koru",
-    "@messagesMediaEditingPreserveDraftLabel": {
-        "description": "Toggle label for preserving edit drafts on cancel."
-    },
     "accessibilityDmMessagePreviewGroupTitle": "DM mesaj önizlemeleri",
     "@accessibilityDmMessagePreviewGroupTitle": {
         "description": "Section title for DM message preview accessibility settings."
-    },
-    "accessibilityDmMessagePreviewGroupDescription": "DM listesinde mesaj önizlemelerinin ne zaman gösterileceğini kontrol edin.",
-    "@accessibilityDmMessagePreviewGroupDescription": {
-        "description": "Section description for DM message preview accessibility settings."
     },
     "accessibilityDmMessagePreviewModeLabel": "DM mesaj önizleme modu",
     "@accessibilityDmMessagePreviewModeLabel": {
@@ -5365,10 +5012,6 @@
     "@voiceConnectionConfirmDoNothing": {
         "description": "Dismiss the dialog without joining voice."
     },
-    "voiceChannelEmptyDescription": "Bu bir sesli kanal. Konuşmaya başlamak için bağlanın!",
-    "@voiceChannelEmptyDescription": {
-        "description": "Empty state body when viewing a guild voice channel while not in the call."
-    },
     "voiceChannelJoin": "Sesli kanala katıl",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
@@ -5408,14 +5051,6 @@
     "voiceChannelStatusConnecting": "Bağlanıyor…",
     "@voiceChannelStatusConnecting": {
         "description": "Status in the in-page voice view while LiveKit is connecting."
-    },
-    "voiceChannelStatusConnected": "Bağlandı",
-    "@voiceChannelStatusConnected": {
-        "description": "Status in the in-page voice view when the voice session is active."
-    },
-    "voiceChannelStatusError": "Hata",
-    "@voiceChannelStatusError": {
-        "description": "Short label in the channel header when the voice session reports an error."
     },
     "voiceParticipantTooltipMobileDevice": "Mobil cihaz",
     "@voiceParticipantTooltipMobileDevice": {
@@ -5490,10 +5125,6 @@
     "voiceScreenShareNotificationText": "Ekranınızı paylaşıyorsunuz.",
     "@voiceScreenShareNotificationText": {
         "description": "Body text for the Android foreground notification shown while screen sharing."
-    },
-    "voiceControlMore": "Daha fazla",
-    "@voiceControlMore": {
-        "description": "Tooltip: more voice actions in the voice call control bar."
     },
     "voiceControlDisconnect": "Bağlantıyı kes",
     "@voiceControlDisconnect": {
@@ -5745,6 +5376,10 @@
     "@chatSendFailureContentBlocked": {
         "description": "Fluxerbot system message when message content is blocked by safety systems."
     },
+    "chatSendFailureContentBlockedSelfHosted": "Mesajınız güvenlik sistemlerimiz tarafından işaretlendiği için gönderilemedi. Bunun bir hata olduğunu düşünüyorsanız lütfen bu kurulumun yöneticileriyle iletişime geçin.",
+    "@chatSendFailureContentBlockedSelfHosted": {
+        "description": "Fluxerbot system message on a self-hosted instance when message content is blocked by safety systems. Names no support mailbox."
+    },
     "chatSendFailureNsfwEmojiSticker": "Mesajınız, bu bağlamda izin verilmeyen yetişkinlere yönelik emojiler veya çıkartmalar içerdiği için teslim edilemedi.",
     "@chatSendFailureNsfwEmojiSticker": {
         "description": "Fluxerbot system message when mature emoji or stickers are blocked."
@@ -5769,6 +5404,10 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "Bir mesaja çift dokunarak tepki ver:",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
     "chatMessageEdit": "Mesajı düzenle",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -5776,6 +5415,14 @@
     "chatMessageReply": "Yanıtla",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
+    },
+    "notificationReplyPlaceholder": "Mesaj",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "Yanıt gönderilemedi",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
     },
     "chatMessageForward": "İlet",
     "@chatMessageForward": {
@@ -5926,420 +5573,155 @@
     "@chatMessageReport": {
         "description": "Action label that opens the report-message sheet so the user can flag the message to moderators."
     },
-    "iarReportMessageTitle": "Mesajı bildir",
-    "@iarReportMessageTitle": {
-        "description": "Title shown at the top of the In-App Reporting (IAR) sheet when the user is reporting a specific message."
+    "reportFlowTitleMessage": "Mesajı bildir",
+    "@reportFlowTitleMessage": {
+        "description": "Report flow: sheet title while the message report form loads or fails to load."
     },
-    "iarThisUserFallback": "bu kullanıcı",
-    "@iarThisUserFallback": {
-        "description": "Lowercase phrase used mid-sentence in IAR copy when referring to the reported user without a name (e.g. inside the close-DM confirmation)."
+    "reportFlowTitleUserProfile": "Profili bildir",
+    "@reportFlowTitleUserProfile": {
+        "description": "Report flow: sheet title while the user profile report form loads or fails to load."
     },
-    "iarModalDescription": "Kural ihlali bildirin veya kişi ve tercihleri yönetme araçlarını bulun.",
-    "@iarModalDescription": {
-        "description": "Screen-reader description for the IAR sheet announcing what the flow is for."
+    "reportFlowSummaryTitle": "Raporunuzu kontrol edin",
+    "@reportFlowSummaryTitle": {
+        "description": "Report flow: title of the last screen, where the reporter reviews the report before sending it."
     },
-    "iarPathStepAriaLabel": "Neye ihtiyacın var?",
-    "@iarPathStepAriaLabel": {
-        "description": "Accessible label for the primary-path radio group on the first step of the IAR sheet. Not shown visually; the radios are labelled inline."
+    "reportFlowSummarySubtitle": "Göndermeden önce doğru göründüğünden emin olun.",
+    "@reportFlowSummarySubtitle": {
+        "description": "Report flow: subtitle of the report summary screen."
     },
-    "iarCategoryStepTitle": "Ne tür bir kural ihlal edildi?",
-    "@iarCategoryStepTitle": {
-        "description": "Title shown on the category step of the IAR sheet (platform-report path)."
+    "reportFlowDisclaimer": "Yalnızca kuralları ihlal ettiğine dürüstçe inandığınız şeyleri bildirin. Raporları kötüye kullanmak {guidelines} aykırıdır.",
+    "@reportFlowDisclaimer": {
+        "description": "Report flow: disclaimer on the report summary screen. {guidelines} is a link whose text is reportFlowCommunityGuidelinesLink.",
+        "placeholders": {
+            "guidelines": {
+                "type": "String",
+                "example": "Community Guidelines"
+            }
+        }
     },
-    "iarReasonStepTitle": "Hangi kural ihlal edildi?",
-    "@iarReasonStepTitle": {
-        "description": "Title shown on the reason step of the IAR sheet after the user has picked a rule category."
+    "reportFlowCommunityGuidelinesLink": "Topluluk Kurallarımıza",
+    "@reportFlowCommunityGuidelinesLink": {
+        "description": "Report flow: link text inside reportFlowDisclaimer. Opens the community guidelines page."
     },
-    "iarReasonSelectHint": "Bir neden seç",
-    "@iarReasonSelectHint": {
-        "description": "Placeholder shown in the message-report reason dropdown before the user picks a rule."
+    "reportFlowDisclaimerNoLink": "Yalnızca kuralları ihlal ettiğine dürüstçe inandığınız şeyleri bildirin ve lütfen aynı raporu iki kez göndermeyin.",
+    "@reportFlowDisclaimerNoLink": {
+        "description": "Report flow: disclaimer on the report summary screen when the instance has no community guidelines page."
     },
-    "iarPickAnOptionToast": "Devam etmek için bir seçenek belirleyin.",
-    "@iarPickAnOptionToast": {
-        "description": "Toast shown when the user taps Continue on a step without selecting any radio option."
+    "reportFlowSelectedMessage": "Bildirdiğiniz mesaj",
+    "@reportFlowSelectedMessage": {
+        "description": "Report flow: heading above the preview of the reported message on the report summary screen."
     },
-    "iarPickARuleToast": "İhlal edilen kuralı seçin.",
-    "@iarPickARuleToast": {
-        "description": "Toast shown when the user taps Send report without selecting a rule reason."
+    "reportFlowSelectedUser": "Bildirdiğiniz profil",
+    "@reportFlowSelectedUser": {
+        "description": "Report flow: heading above the card of the reported user on the first screen and the report summary screen."
     },
-    "iarPathPlatform": "Platform kuralı ihlalini bildir",
-    "@iarPathPlatform": {
-        "description": "Primary-path radio label: file a real DSA / platform-level report."
+    "reportFlowReportCategory": "Yanıtlarınız",
+    "@reportFlowReportCategory": {
+        "description": "Report flow: heading above the list of answers the reporter picked, on the report summary screen."
     },
-    "iarPathCommunity": "Bu topluluğun moderatörlerine bildir",
-    "@iarPathCommunity": {
-        "description": "Primary-path radio label: surface this to community moderators rather than platform safety."
+    "reportFlowSubmit": "Rapor gönder",
+    "@reportFlowSubmit": {
+        "description": "Report flow: button on the report summary screen that sends the report."
     },
-    "iarPathPreferenceMessage": "Bu içeriği beğenmedim",
-    "@iarPathPreferenceMessage": {
-        "description": "Primary-path radio label: the user doesn't want platform action, they want self-service tools (block, leave, settings)."
+    "reportFlowBack": "Geri",
+    "@reportFlowBack": {
+        "description": "Report flow: button that returns to the previous screen of the report form."
     },
-    "iarCategoryTargetedHarmLabel": "Tehdit, taciz veya zarar verme",
-    "@iarCategoryTargetedHarmLabel": {
-        "description": "Rule-category label grouping harassment, hate, violence, terrorism, raids, and self-harm content."
+    "reportFlowNext": "İleri",
+    "@reportFlowNext": {
+        "description": "Report flow: button that goes to the next screen of the report form."
     },
-    "iarCategoryTargetedHarmDescription": "Zorbalık, tehditler, nefret, şiddet, baskınlar veya kendine zarar vermeyi teşvik eden içerik.",
-    "@iarCategoryTargetedHarmDescription": {
-        "description": "One-line description for the targeted-harm rule category."
+    "reportFlowDone": "Bitti",
+    "@reportFlowDone": {
+        "description": "Report flow: button that closes the report form when it is finished."
     },
-    "iarCategorySafetyMinorsLabel": "Çocuk güvenliği veya yetişkinlere yönelik içerik",
-    "@iarCategorySafetyMinorsLabel": {
-        "description": "Rule-category label grouping child-safety and mature-content reports."
+    "reportFlowThankYouTitle": "Rapor gönderildi",
+    "@reportFlowThankYouTitle": {
+        "description": "Report flow: title of the screen shown after a report was sent."
     },
-    "iarCategorySafetyMinorsDescription": "Risk altındaki küçükler, yanlış yerdeki yetişkin içeriği veya istenmeyen davranışlar.",
-    "@iarCategorySafetyMinorsDescription": {
-        "description": "One-line description for the child-safety / mature-content rule category."
+    "reportFlowThankYouNoReportTitle": "Bunu bildirdiğiniz için teşekkürler",
+    "@reportFlowThankYouNoReportTitle": {
+        "description": "Report flow: title of the screen shown when the chosen answer does not send a report."
     },
-    "iarCategoryPrivacyIdentityLabel": "Gizlilik veya kimliğe bürünme",
-    "@iarCategoryPrivacyIdentityLabel": {
-        "description": "Rule-category label grouping privacy violations and impersonation."
-    },
-    "iarCategoryPrivacyIdentityDescription": "Doxxing, takip, başkası gibi davranma veya uygunsuz profil.",
-    "@iarCategoryPrivacyIdentityDescription": {
-        "description": "One-line description for the privacy / impersonation rule category."
-    },
-    "iarCategoryDeceptionLabel": "Dolandırıcılık, kötü amaçlı yazılım veya yanlış bilgi",
-    "@iarCategoryDeceptionLabel": {
-        "description": "Rule-category label grouping spam/scams, malware, and harmful misinformation."
-    },
-    "iarCategoryDeceptionDescription": "Kimlik avı, dolandırıcılık, kötü amaçlı bağlantılar veya gerçek dünyada zarara yol açabilecek yanlış iddialar.",
-    "@iarCategoryDeceptionDescription": {
-        "description": "One-line description for the scams / malware / misinformation rule category."
-    },
-    "iarCategoryIllegalOtherLabel": "Yasa dışı etkinlik veya başka bir şey",
-    "@iarCategoryIllegalOtherLabel": {
-        "description": "Rule-category label grouping illegal activity and the catch-all Other reason."
-    },
-    "iarCategoryIllegalOtherDescription": "Yasa dışı satışlar, suç teşkil eden eylemlere aracılık veya yukarıdakilere uymayan açık bir kural ihlali.",
-    "@iarCategoryIllegalOtherDescription": {
-        "description": "One-line description for the illegal / other rule category."
-    },
-    "iarReasonHarassmentLabel": "Taciz veya tehdit",
-    "@iarReasonHarassmentLabel": {
-        "description": "Rule-reason label for harassment in the IAR message flow."
-    },
-    "iarReasonHarassmentMessageDescription": "Zorbalık, tekrarlanan istenmeyen iletişim, takip veya hedefli taciz.",
-    "@iarReasonHarassmentMessageDescription": {
-        "description": "Rule-reason description for harassment in the IAR message flow."
-    },
-    "iarReasonHateLabel": "Nefret söylemi",
-    "@iarReasonHateLabel": {
-        "description": "Rule-reason label for hate speech in the IAR message flow."
-    },
-    "iarReasonHateMessageDescription": "Aşağılayıcı ifadeler, insanlık dışı dil veya korunan gruplara yönelik saldırılar.",
-    "@iarReasonHateMessageDescription": {
-        "description": "Rule-reason description for hate speech in the IAR message flow."
-    },
-    "iarReasonViolenceLabel": "Şiddet veya şiddet tehditleri",
-    "@iarReasonViolenceLabel": {
-        "description": "Rule-reason label for violence in the IAR message flow."
-    },
-    "iarReasonViolenceDescription": "Güvenilir tehditler, açık şiddet veya şiddetin yüceltilmesi.",
-    "@iarReasonViolenceDescription": {
-        "description": "Rule-reason description for violence in the IAR message flow."
-    },
-    "iarReasonMatureContentLabel": "Yetişkinlere yönelik içerik veya taciz",
-    "@iarReasonMatureContentLabel": {
-        "description": "Rule-reason label for mature content / unwanted conduct in the IAR message flow."
-    },
-    "iarReasonMatureContentMessageDescription": "Yanlış yerde istenmeyen davranış veya yetişkinlere yönelik içerik.",
-    "@iarReasonMatureContentMessageDescription": {
-        "description": "Rule-reason description for mature content in the IAR message flow."
-    },
-    "iarReasonChildSafetyLabel": "Çocuk güvenliği veya reşit olmayanların istismarı",
-    "@iarReasonChildSafetyLabel": {
-        "description": "Rule-reason label for child-safety reports in the IAR message flow. Also used as the {childSafetyReason} placeholder in iarUseChildSafetyInstead."
-    },
-    "iarReasonChildSafetyMessageDescription": "Çocukları istismara hazırlama (grooming) veya çocuk istismarı içeriği.",
-    "@iarReasonChildSafetyMessageDescription": {
-        "description": "Rule-reason description for child-safety reports in the IAR message flow."
-    },
-    "iarReasonHarmfulMisinfoLabel": "Zararlı yanlış bilgi",
-    "@iarReasonHarmfulMisinfoLabel": {
-        "description": "Rule-reason label for harmful misinformation in the IAR message flow."
-    },
-    "iarReasonHarmfulMisinfoDescription": "Gerçek dünyada zarara yol açabilecek yanlış iddialar.",
-    "@iarReasonHarmfulMisinfoDescription": {
-        "description": "Rule-reason description for harmful misinformation."
-    },
-    "iarReasonSpamLabel": "Spam, dolandırıcılık veya kimlik avı",
-    "@iarReasonSpamLabel": {
-        "description": "Rule-reason label for spam/scams/phishing in the IAR message flow."
-    },
-    "iarReasonSpamMessageDescription": "Toplu spam, dolandırıcılık, sahte çekilişler veya hesap suistimali.",
-    "@iarReasonSpamMessageDescription": {
-        "description": "Rule-reason description for spam/scams in the IAR message flow."
-    },
-    "iarReasonMalwareLabel": "Kötü amaçlı yazılım veya tehlikeli bağlantılar",
-    "@iarReasonMalwareLabel": {
-        "description": "Rule-reason label for malware / dangerous links in the IAR message flow."
-    },
-    "iarReasonMalwareDescription": "Kötü amaçlı yazılım, kimlik bilgisi hırsızlığı veya zararlı dosyalar.",
-    "@iarReasonMalwareDescription": {
-        "description": "Rule-reason description for malware."
-    },
-    "iarReasonPrivacyLabel": "Gizlilik ihlali",
-    "@iarReasonPrivacyLabel": {
-        "description": "Rule-reason label for privacy violations in the IAR message flow."
-    },
-    "iarReasonPrivacyDescription": "Doxxing, ifşa edilmiş özel bilgiler veya takip.",
-    "@iarReasonPrivacyDescription": {
-        "description": "Rule-reason description for privacy violations."
-    },
-    "iarReasonImpersonationLabel": "Kimliğe bürünme veya aldatıcı medya",
-    "@iarReasonImpersonationLabel": {
-        "description": "Rule-reason label for impersonation in the IAR message flow."
-    },
-    "iarReasonImpersonationMessageDescription": "Yanıltıcı yapay zeka içeriği de dahil olmak üzere başka biri gibi davranmak.",
-    "@iarReasonImpersonationMessageDescription": {
-        "description": "Rule-reason description for impersonation in the IAR message flow."
-    },
-    "iarReasonIllegalLabel": "Yasa dışı etkinlik",
-    "@iarReasonIllegalLabel": {
-        "description": "Rule-reason label for illegal activity in the IAR message flow."
-    },
-    "iarReasonIllegalDescription": "Yasa dışı satışlar, suç işlemeye yardım etme veya yasa dışı faaliyetler.",
-    "@iarReasonIllegalDescription": {
-        "description": "Rule-reason description for illegal activity."
-    },
-    "iarReasonSelfHarmLabel": "Kendine zarar verme veya intihar",
-    "@iarReasonSelfHarmLabel": {
-        "description": "Rule-reason label for self-harm content in the IAR message flow."
-    },
-    "iarReasonSelfHarmMessageDescription": "Kendine zarar vermeyi veya yeme bozukluklarını teşvik eden tanıtım veya talimatlar.",
-    "@iarReasonSelfHarmMessageDescription": {
-        "description": "Rule-reason description for self-harm content in the IAR message flow."
-    },
-    "iarReasonOtherLabel": "Başka bir açık kural ihlali",
-    "@iarReasonOtherLabel": {
-        "description": "Rule-reason label for the catch-all option in the IAR message flow."
-    },
-    "iarReasonOtherDescription": "Yalnızca {productName} kurallarını açıkça ihlal ediyorsa ve yukarıdakilere uymuyorsa kullanın.",
-    "@iarReasonOtherDescription": {
-        "description": "Rule-reason description for the catch-all option.",
+    "reportFlowThankYouBody": "{productName} güvenlik ekibi raporunuzu inceleyecek. Raporun sizden geldiğini belli etmeyeceğiz.",
+    "@reportFlowThankYouBody": {
+        "description": "Report flow: body of the thank-you screen after a report was sent. {productName} is the name of the app.",
         "placeholders": {
             "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "iarUseChildSafetyInstead": "Eğer bir reşit olmayan dahilse, bunun yerine \"{childSafetyReason}\" kullanın.",
-    "@iarUseChildSafetyInstead": {
-        "description": "Inline routing nudge shown under reasons (e.g. mature content) that overlap with child safety.",
-        "placeholders": {
-            "childSafetyReason": {
                 "type": "String",
-                "example": "Child safety or exploitation of minors"
+                "example": "Fluxer"
             }
         }
     },
-    "iarSafetyNoteChildSafety": "Bu, CSAM veya bir reşit olmayanın istismarını içeriyorsa, bunu hemen gönderin ve materyali yeniden paylaşmayın.",
-    "@iarSafetyNoteChildSafety": {
-        "description": "Inline safety note shown for child-safety reports on the reason step."
+    "reportFlowThankYouNoReportBody": "Bize bildirdiğiniz için teşekkür ederiz. Bu tek başına kurallarımızı ihlal etmiyor, bu yüzden rapor göndermedik. Birini hedef alıyorsa veya aşağılayıcı ifadeler içeriyorsa, tekrar bildirin ve “Saldırgan veya zararlı içerik” seçeneğini seçin.",
+    "@reportFlowThankYouNoReportBody": {
+        "description": "Report flow: body of the thank-you screen when the chosen answer does not send a report. \"Abusive or harmful content\" is the name of an option on the first screen of the message report form."
     },
-    "iarSafetyNoteSelfHarm": "Biri acil tehlikede olabilecekse, güvenli bir şekilde yapabiliyorsanız yerel acil servislerle iletişime geçin.",
-    "@iarSafetyNoteSelfHarm": {
-        "description": "Inline safety note shown for self-harm reports on the reason step."
+    "reportFlowThankYouNoReportBodyShort": "Bize bildirdiğiniz için teşekkür ederiz. Bu tek başına kurallarımızı ihlal etmiyor, bu yüzden rapor göndermedik.",
+    "@reportFlowThankYouNoReportBodyShort": {
+        "description": "Report flow: body of the thank-you screen when the chosen answer does not send a report and the reporter is already past the first screen of the form."
     },
-    "iarSafetyNoteViolence": "Bu, gerçek ve yakın bir tehditse yerel acil servislerle de iletişime geçin.",
-    "@iarSafetyNoteViolence": {
-        "description": "Inline safety note shown for violence reports on the reason step."
+    "reportFlowMoreYouCanDo": "Seçenekleriniz",
+    "@reportFlowMoreYouCanDo": {
+        "description": "Report flow: heading above the extra actions (such as blocking the user) on the thank-you screen."
     },
-    "iarSafetyNoteTerrorism": "Bu, yakın bir terör tehdidiyse yerel acil servislerle de iletişime geçin.",
-    "@iarSafetyNoteTerrorism": {
-        "description": "Inline safety note shown for terrorism reports on the reason step."
-    },
-    "iarActionBlockUserTitle": "Bu kullanıcıyı engelle",
-    "@iarActionBlockUserTitle": {
-        "description": "Action card title for blocking the reported user."
-    },
-    "iarActionBlockUserDescription": "Mesajları ve arkadaşlık isteklerini durdurur.",
-    "@iarActionBlockUserDescription": {
-        "description": "Action card description for blocking the reported user."
-    },
-    "iarActionBlockUserButton": "Engelle",
-    "@iarActionBlockUserButton": {
-        "description": "Trailing button label on the block-user action card."
-    },
-    "iarActionCopyMessageLinkTitle": "Mesaj bağlantısını kopyala",
-    "@iarActionCopyMessageLinkTitle": {
-        "description": "Action card title for copying a link to the reported message so the user can share it with community moderators."
-    },
-    "iarActionCopyMessageLinkDescription": "Topluluk moderatörleriyle paylaşın.",
-    "@iarActionCopyMessageLinkDescription": {
-        "description": "Action card description for copying a message link."
-    },
-    "iarActionCopyMessageLinkButton": "Kopyala",
-    "@iarActionCopyMessageLinkButton": {
-        "description": "Trailing button label on the copy-message-link action card."
-    },
-    "iarActionCloseDmTitle": "Bu DM'i kapat",
-    "@iarActionCloseDmTitle": {
-        "description": "Action card title for closing the DM with the reported user."
-    },
-    "iarActionCloseDmDescription": "Engellemez. Daha sonra tekrar açabilirsiniz.",
-    "@iarActionCloseDmDescription": {
-        "description": "Action card description for closing the DM."
-    },
-    "iarActionCloseDmButton": "DM'i kapat",
-    "@iarActionCloseDmButton": {
-        "description": "Trailing button label on the close-DM action card."
-    },
-    "iarActionLeaveCommunityTitle": "Topluluktan ayrıl",
-    "@iarActionLeaveCommunityTitle": {
-        "description": "Action card title for leaving the guild the reported message was sent in."
-    },
-    "iarActionLeaveCommunityDescription": "İçeriğini ve üyelerini görmeyi durdurur.",
-    "@iarActionLeaveCommunityDescription": {
-        "description": "Action card description for leaving the community."
-    },
-    "iarActionLeaveCommunityButton": "Ayrıl",
-    "@iarActionLeaveCommunityButton": {
-        "description": "Trailing button label on the leave-community action card."
-    },
-    "iarActionDmSettingsTitle": "DM ve arkadaşlık isteği ayarları",
-    "@iarActionDmSettingsTitle": {
-        "description": "Action card title for opening the DM / friend-request privacy settings."
-    },
-    "iarActionDmSettingsDescription": "Size kimlerin ulaşabileceğini değiştirin.",
-    "@iarActionDmSettingsDescription": {
-        "description": "Action card description for DM / friend-request privacy settings."
-    },
-    "iarActionCallSettingsTitle": "Arama ve grup sohbeti ayarları",
-    "@iarActionCallSettingsTitle": {
-        "description": "Action card title for opening the call / group-chat privacy settings."
-    },
-    "iarActionCallSettingsDescription": "Sizi kimlerin arayabileceğini veya ekleyebileceğini değiştirin.",
-    "@iarActionCallSettingsDescription": {
-        "description": "Action card description for call / group-chat privacy settings."
-    },
-    "iarActionOpenButton": "Aç",
-    "@iarActionOpenButton": {
-        "description": "Trailing button label for action cards that navigate the user into a settings section."
-    },
-    "iarActionDeleteMessageTitle": "Bu mesajı sil",
-    "@iarActionDeleteMessageTitle": {
-        "description": "Action card title (moderator-only) for deleting the reported message."
-    },
-    "iarActionDeleteMessageDescription": "Mesajı herkes için kanaldan kaldırın.",
-    "@iarActionDeleteMessageDescription": {
-        "description": "Action card description (moderator-only) for deleting the reported message."
-    },
-    "iarActionDeleteMessageButton": "Sil",
-    "@iarActionDeleteMessageButton": {
-        "description": "Trailing button label on the delete-message action card."
-    },
-    "iarActionDeleteMessageDeletedButton": "Silindi",
-    "@iarActionDeleteMessageDeletedButton": {
-        "description": "Disabled-state trailing button label on the delete-message action card after the message is already gone."
-    },
-    "iarActionDeleteMessageDeletedTooltip": "Bu mesaj zaten silinmiş.",
-    "@iarActionDeleteMessageDeletedTooltip": {
-        "description": "Tooltip on the disabled delete-message action card."
-    },
-    "iarActionBanUserTitle": "Bu kullanıcıyı yasakla",
-    "@iarActionBanUserTitle": {
-        "description": "Action card title (moderator-only) for opening the ban dialog against the reported user."
-    },
-    "iarActionBanUserDescription": "Bu topluluk için yasaklama iletişim kutusunu açın.",
-    "@iarActionBanUserDescription": {
-        "description": "Action card description (moderator-only) for banning the reported user."
-    },
-    "iarActionBanUserButton": "Yasakla",
-    "@iarActionBanUserButton": {
-        "description": "Trailing button label on the ban-user action card."
-    },
-    "iarActionBanUserBannedButton": "Yasaklandı",
-    "@iarActionBanUserBannedButton": {
-        "description": "Disabled-state trailing button label on the ban-user action card after the target is already banned."
-    },
-    "iarActionBanUserBannedTooltip": "Bu kullanıcı topluluktan zaten yasaklanmış.",
-    "@iarActionBanUserBannedTooltip": {
-        "description": "Tooltip on the disabled ban-user action card."
-    },
-    "iarCloseDmConfirmTitle": "DM'i kapat",
-    "@iarCloseDmConfirmTitle": {
-        "description": "Title of the confirm-close-DM bottom sheet shown after the user taps Close DM on the action card."
-    },
-    "iarCloseDmConfirmDescription": "{name} ile mevcut DM'ni kapat. Bu onları engellemez; daha sonra yeniden açabilirsin.",
-    "@iarCloseDmConfirmDescription": {
-        "description": "Body of the confirm-close-DM bottom sheet.",
+    "reportFlowBlockName": "{name} adlı kullanıcıyı engelle",
+    "@reportFlowBlockName": {
+        "description": "Report flow: title of the row on the thank-you screen that blocks the reported user. {name} is the display name of that user.",
         "placeholders": {
             "name": {
                 "type": "String",
-                "example": "ada"
+                "example": "Alice"
             }
         }
     },
-    "iarSuccessTitle": "Rapor gönderildi",
-    "@iarSuccessTitle": {
-        "description": "Title shown on the success step after a platform report is submitted."
+    "reportFlowBlockDescription": "Mesajlarını gizler ve size mesaj göndermesini engeller",
+    "@reportFlowBlockDescription": {
+        "description": "Report flow: description under reportFlowBlockName on the thank-you screen."
     },
-    "iarSuccessBody": "Güvenlik ekibimiz inceliyor. Bir karara vardığımızda size bir DM ve e-posta göndereceğiz.",
-    "@iarSuccessBody": {
-        "description": "Body shown on the success step after a platform report is submitted."
+    "reportFlowBlockButton": "Engelle",
+    "@reportFlowBlockButton": {
+        "description": "Report flow: button on the thank-you screen that blocks the reported user."
     },
-    "iarAlreadyReportedTitle": "Zaten Raporlandı",
-    "@iarAlreadyReportedTitle": {
-        "description": "Title shown on the IAR success step when the message had already been reported by this user (HTTP 409); the existing report is under review."
+    "reportFlowBlockedButton": "Engellendi",
+    "@reportFlowBlockedButton": {
+        "description": "Report flow: disabled button on the thank-you screen after the reported user was blocked."
     },
-    "iarAlreadyReportedBody": "Bu mesajı zaten bildirdin. Güvenlik ekibimiz inceliyor.",
-    "@iarAlreadyReportedBody": {
-        "description": "Body shown on the IAR success step when the message had already been reported by this user (HTTP 409)."
+    "reportFlowUrgentBanner": "Biri acil tehlikedeyse önce yerel acil durum servisleriyle iletişime geçin.",
+    "@reportFlowUrgentBanner": {
+        "description": "Report flow: banner on screens about urgent harm, such as threats, self-harm or the safety of minors."
     },
-    "iarBackButton": "Geri",
-    "@iarBackButton": {
-        "description": "Footer button label that returns the user to the previous IAR step."
+    "reportFlowLoadFailed": "Rapor formu yüklenemedi.",
+    "@reportFlowLoadFailed": {
+        "description": "Report flow: error shown when the report form could not be loaded."
     },
-    "iarContinueButton": "Devam et",
-    "@iarContinueButton": {
-        "description": "Footer button label that advances the user to the next IAR step."
+    "reportFlowTryAgain": "Tekrar dene",
+    "@reportFlowTryAgain": {
+        "description": "Report flow: button that loads the report form again after an error."
     },
-    "iarSendReportButton": "Rapor gönder",
-    "@iarSendReportButton": {
-        "description": "Footer button label that submits the IAR report."
+    "reportFlowOutdated": "Rapor formu değişti. Lütfen yeniden başlayın.",
+    "@reportFlowOutdated": {
+        "description": "Report flow: toast shown when the report form changed on the server while the reporter was filling it in. The form restarts from the first screen."
     },
-    "iarDoneButton": "Bitti",
-    "@iarDoneButton": {
-        "description": "Footer button label that closes the IAR sheet from the success or guidance step."
+    "reportFlowAlreadyReported": "Bu mesajı zaten bildirdiniz.",
+    "@reportFlowAlreadyReported": {
+        "description": "Report flow: note on the report summary screen when the reporter already reported this message."
     },
-    "iarCouldntSendToast": "Rapor gönderilemedi. Lütfen tekrar deneyin.",
-    "@iarCouldntSendToast": {
-        "description": "Toast shown when the IAR report submission fails."
+    "reportFlowAlreadyReportedProfile": "Bu profili bugün zaten bildirdiniz.",
+    "@reportFlowAlreadyReportedProfile": {
+        "description": "Report flow: note on the report summary screen when the reporter already reported this user profile in the last 24 hours."
     },
-    "iarRateLimitedToast": "Çok hızlı raporlama yapıyorsun. Lütfen biraz bekle ve tekrar dene.",
-    "@iarRateLimitedToast": {
-        "description": "Toast shown when an IAR report submission is rejected for rate limiting (HTTP 429)."
+    "reportFlowRateLimited": "Çok hızlı rapor gönderiyorsunuz. Daha sonra tekrar deneyin.",
+    "@reportFlowRateLimited": {
+        "description": "Report flow: note on the report summary screen when the reporter sent too many reports."
     },
-    "iarReportSentToast": "Rapor gönderildi. Güvenlik ekibimiz inceleyecek.",
-    "@iarReportSentToast": {
-        "description": "Toast shown after a message report is submitted successfully from the simple mobile report sheet."
+    "reportFlowSubmitFailed": "Raporunuz gönderilemedi. Tekrar deneyin.",
+    "@reportFlowSubmitFailed": {
+        "description": "Report flow: note on the report summary screen when the report could not be sent."
     },
-    "iarBlockUserConfirmDescription": "{name} engellensin mi? Sana mesaj gönderemeyecek veya arkadaşlık isteği yollayamayacak. Daha sonra engelini kaldırabilirsin.",
-    "@iarBlockUserConfirmDescription": {
-        "description": "Body of the confirm-block-user bottom sheet shown after the user taps Block on the IAR action card.",
-        "placeholders": {
-            "name": {
-                "type": "String",
-                "example": "ada"
-            }
-        }
-    },
-    "iarBlockUserFailedToast": "Bu kullanıcı engellenemedi. Lütfen tekrar deneyin.",
-    "@iarBlockUserFailedToast": {
-        "description": "Toast shown when blocking the reported user from the IAR action card fails."
-    },
-    "iarCloseDmSuccessToast": "DM kapatıldı.",
-    "@iarCloseDmSuccessToast": {
-        "description": "Toast shown after the DM with the reported user is closed from the IAR action card."
-    },
-    "iarCloseDmFailedToast": "Bu DM kapatılamadı. Lütfen tekrar deneyin.",
-    "@iarCloseDmFailedToast": {
-        "description": "Toast shown when closing the DM from the IAR action card fails."
-    },
-    "iarLeaveCommunityFailedToast": "Bu topluluktan ayrılamadı. Lütfen tekrar deneyin.",
-    "@iarLeaveCommunityFailedToast": {
-        "description": "Toast shown when leaving the community from the IAR action card fails."
+    "reportFlowAccountSetupRequired": "Hesabınızı sahiplenin ve rapor göndermek için e-postanızı doğrulayın.",
+    "@reportFlowAccountSetupRequired": {
+        "description": "Report flow: notice on the report summary screen when the account must be claimed and its email verified before it can send reports."
     },
     "chatMessageSuppressEmbeds": "Gömülü içerikleri gizle",
     "@chatMessageSuppressEmbeds": {
@@ -6547,6 +5929,10 @@
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
     },
+    "chatImageCouldNotLoad": "Bu görsel yüklenemedi.",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
+    },
     "composerAutocompleteRoleMentionDescription": "Bu role sahip olup bu kanalı görüntüleme izni olan kullanıcıları bilgilendir.",
     "@composerAutocompleteRoleMentionDescription": {
         "description": "Secondary line in the @ mention autocomplete when the row is a mentionable guild role."
@@ -6594,10 +5980,6 @@
     "addGuildJoinFailed": "Topluluğa katılım sağlanamadı. Lütfen tekrar deneyin.",
     "@addGuildJoinFailed": {
         "description": "Generic error when joining a community via invite fails."
-    },
-    "addGuildPackInstalled": "Paket başarıyla yüklendi.",
-    "@addGuildPackInstalled": {
-        "description": "Toast shown after accepting an emoji or sticker pack invite."
     },
     "chatMessageRemoveAllReactionsConfirmTitle": "Tüm tepkileri kaldır",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
@@ -6685,7 +6067,7 @@
             }
         }
     },
-    "dmComposerHint": "Message @{recipientName}",
+    "dmComposerHint": "@{recipientName} kişisine mesaj gönder",
     "@dmComposerHint": {
         "description": "Placeholder in the message composer for a one-to-one DM.",
         "placeholders": {
@@ -7080,13 +6462,17 @@
     "@composerEmojiUnavailable": {
         "description": "Toast shown when a message contains a custom emoji the user cannot use in this channel."
     },
-    "instanceUrlLabel": "Sunucu URL'si",
+    "instanceUrlLabel": "Kurulum URL'si",
     "@instanceUrlLabel": {
         "description": "Label for the self-hosted instance URL input on the login screen."
     },
-    "instanceUrlPlaceholder": "Sunucu URL'sini girin (ör. fluxer.app)",
+    "instanceUrlPlaceholder": "Kurulum URL'sini girin (ör. fluxer.app)",
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
+    },
+    "instanceUrlHelper": "Resmi kurulum için fluxer.app'i veya kendi barındırdığınız bir kurulumun tam URL'sini kullanın.",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
     },
     "resetToDefaultInstance": "Fluxer'a sıfırla",
     "@resetToDefaultInstance": {
@@ -7100,15 +6486,15 @@
     "@instanceConnecting": {
         "description": "Status text while discovering a custom Fluxer instance."
     },
-    "instanceConnectFailed": "Sunucuya bağlanılamadı",
+    "instanceConnectFailed": "Kuruluma bağlanılamadı",
     "@instanceConnectFailed": {
         "description": "Fallback error when instance discovery fails."
     },
-    "recentInstances": "Son sunucular",
+    "recentInstances": "Son kurulumlar",
     "@recentInstances": {
         "description": "Label for the recent self-hosted instances list."
     },
-    "removeRecentInstance": "{domain} sunucusunu son sunuculardan kaldır",
+    "removeRecentInstance": "{domain} kurulumunu son kurulumlardan kaldır",
     "@removeRecentInstance": {
         "description": "Accessibility label for removing a recent instance.",
         "placeholders": {
@@ -7117,7 +6503,7 @@
             }
         }
     },
-    "instanceSheetTitle": "Sunucuya bağlan",
+    "instanceSheetTitle": "Kuruluma bağlan",
     "@instanceSheetTitle": {
         "description": "Title for the self-hosted instance connection bottom sheet."
     },
@@ -7125,7 +6511,7 @@
     "@changeInstance": {
         "description": "Link to change the connected Fluxer instance."
     },
-    "instanceConnectionRequired": "Giriş yapmak için sunucuya bağlanın",
+    "instanceConnectionRequired": "Giriş yapmak için kuruluma bağlanın",
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
@@ -7628,10 +7014,6 @@
     "@guildMenuHideMutedChannels": {
         "description": "Guild menu checkbox to hide muted channels."
     },
-    "guildMenuReportCommunity": "Topluluğu bildir",
-    "@guildMenuReportCommunity": {
-        "description": "Guild menu action to report the community."
-    },
     "guildMenuDebugCommunity": "Toplulukta hata ayıkla",
     "@guildMenuDebugCommunity": {
         "description": "Guild menu action to open community debug info."
@@ -7677,10 +7059,6 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsCustomInviteUrl": "Özel Davet URL'si",
-    "@guildMenuSettingsCustomInviteUrl": {
-        "description": "Community settings tab for custom invite URLs."
-    },
     "guildMenuSettingsDiscovery": "Keşfet",
     "@guildMenuSettingsDiscovery": {
         "description": "Community settings tab for discovery settings."
@@ -7705,17 +7083,9 @@
     "@guildSettingsOverviewIconTitle": {
         "description": "Title for the guild icon section in overview settings."
     },
-    "guildSettingsUploadImage": "Görsel yükle",
-    "@guildSettingsUploadImage": {
-        "description": "Button label to upload an image in guild settings."
-    },
     "guildSettingsOverviewBannerTitle": "Banner",
     "@guildSettingsOverviewBannerTitle": {
         "description": "Title for the guild banner section."
-    },
-    "guildSettingsOverviewBannerHint": "Sunucunuz için bir banner yükleyin.",
-    "@guildSettingsOverviewBannerHint": {
-        "description": "Hint text for guild banner upload."
     },
     "guildSettingsOverviewNameTitle": "Ad",
     "@guildSettingsOverviewNameTitle": {
@@ -7725,22 +7095,6 @@
     "@guildSettingsOverviewNameHint": {
         "description": "Hint for the guild name field."
     },
-    "guildSettingsOverviewStatsTitle": "İstatistikler",
-    "@guildSettingsOverviewStatsTitle": {
-        "description": "Title for guild statistics section."
-    },
-    "guildSettingsOverviewMembers": "Üyeler",
-    "@guildSettingsOverviewMembers": {
-        "description": "Label for member count in overview."
-    },
-    "guildSettingsOverviewOnline": "Çevrimiçi",
-    "@guildSettingsOverviewOnline": {
-        "description": "Label for online count in overview."
-    },
-    "guildSettingsRolesDescription": "Üyeleri gruplamak ve izinler atamak için rolleri kullanın.",
-    "@guildSettingsRolesDescription": {
-        "description": "Description for the roles settings tab."
-    },
     "guildSettingsCreateRole": "Rol oluştur",
     "@guildSettingsCreateRole": {
         "description": "Button to create a new role."
@@ -7749,30 +7103,9 @@
     "@guildSettingsRolesListTitle": {
         "description": "Title for the roles list section."
     },
-    "guildSettingsEmojiSlotInfo": "{staticCount} statik, {animatedCount} animasyonlu emoji yuvası kullanıldı",
-    "@guildSettingsEmojiSlotInfo": {
-        "description": "Emoji slot usage summary.",
-        "placeholders": {
-            "staticCount": {
-                "type": "int"
-            },
-            "animatedCount": {
-                "type": "int"
-            }
-        }
-    },
     "guildSettingsEmojiEmpty": "Henüz özel emoji yok.",
     "@guildSettingsEmojiEmpty": {
         "description": "Empty state for emoji settings."
-    },
-    "guildSettingsStickersSlotInfo": "{count} çıkartma yüklendi",
-    "@guildSettingsStickersSlotInfo": {
-        "description": "Sticker slot usage summary.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsStickersEmpty": "Henüz özel çıkartma yok.",
     "@guildSettingsStickersEmpty": {
@@ -7818,8 +7151,6 @@
     "guildSettingsVerificationMediumDescription": "Doğrulanmış bir e-posta adresi ve en az 5 dakika önce oluşturulmuş bir hesap gerektirir.",
     "guildSettingsVerificationHigh": "Yüksek",
     "guildSettingsVerificationHighDescription": "Orta seviyedeki her şeye ek olarak, topluluğun en az 10 dakikadır üyesi olmayı gerektirir.",
-    "guildSettingsVerificationHighest": "Çok yüksek",
-    "guildSettingsVerificationHighestDescription": "Doğrulanmış bir telefon numarası gerektirir.",
     "guildSettingsAuditLogDescription": "Topluluk genelindeki moderatör eylemlerini takip edin.",
     "@guildSettingsAuditLogDescription": {
         "description": "Subtitle under the activity-log page title."
@@ -7847,14 +7178,6 @@
     "guildSettingsAuditLogUnknownUser": "Bilinmeyen kullanıcı",
     "@guildSettingsAuditLogUnknownUser": {
         "description": "Fallback avatar label when the acting user is unavailable."
-    },
-    "guildSettingsAuditLogLoadError": "Etkinlik günlüğü yüklenirken bir sorun oluştu.",
-    "@guildSettingsAuditLogLoadError": {
-        "description": "Generic error shown when fetching log entries fails."
-    },
-    "guildSettingsAuditLogLoadErrorTitle": "Etkinlik günlükleri yüklenemedi",
-    "@guildSettingsAuditLogLoadErrorTitle": {
-        "description": "Error-state title when fetching log entries failed."
     },
     "guildSettingsAuditLogReason": "Neden",
     "@guildSettingsAuditLogReason": {
@@ -8826,14 +8149,6 @@
     "@auditLogOptionPermanentMembership": {
         "description": "Audit log option detail sentence."
     },
-    "guildSettingsLoadMore": "Daha fazla yükle",
-    "@guildSettingsLoadMore": {
-        "description": "Button to load more audit log entries."
-    },
-    "guildSettingsLoadingMore": "Yükleniyor...",
-    "@guildSettingsLoadingMore": {
-        "description": "Loading state for pagination."
-    },
     "guildSettingsWebhooksDescription": "Topluluğunuzda yapılandırılmış tüm webhook'ları görüntüleyin ve yönetin.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
@@ -8842,42 +8157,9 @@
     "@guildSettingsWebhooksEmpty": {
         "description": "Empty state for webhooks."
     },
-    "guildSettingsCopyUrl": "URL'yi kopyala",
-    "@guildSettingsCopyUrl": {
-        "description": "Tooltip to copy a URL."
-    },
     "guildSettingsCopiedUrl": "URL panoya kopyalandı",
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
-    },
-    "guildSettingsDeleteWebhook": "Webhook'u sil",
-    "@guildSettingsDeleteWebhook": {
-        "description": "Tooltip to delete a webhook."
-    },
-    "guildSettingsVanityUrlDescription": "Sunucunuz için özel bir davet bağlantısı ayarlayın.",
-    "@guildSettingsVanityUrlDescription": {
-        "description": "Description for vanity URL tab."
-    },
-    "guildSettingsVanityUrlHint": "my-server",
-    "@guildSettingsVanityUrlHint": {
-        "description": "Hint for vanity URL input."
-    },
-    "guildSettingsSave": "Kaydet",
-    "@guildSettingsSave": {
-        "description": "Generic save button label."
-    },
-    "guildSettingsVanityUrlUsageTitle": "Kullanım",
-    "@guildSettingsVanityUrlUsageTitle": {
-        "description": "Title for vanity URL usage section."
-    },
-    "guildSettingsVanityUrlUses": "{count} kullanım",
-    "@guildSettingsVanityUrlUses": {
-        "description": "Vanity URL usage count.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsDiscoveryDescription": "Topluluğunuzu Keşfet'te listeleyin, böylece başkaları bulup katılabilsin.",
     "@guildSettingsDiscoveryDescription": {
@@ -8916,10 +8198,6 @@
     "@guildSettingsDiscoveryWithdraw": {
         "description": "Button to withdraw discovery application."
     },
-    "guildSettingsMembersDescription": "Sunucu üyelerini ara ve yönet.",
-    "@guildSettingsMembersDescription": {
-        "description": "Description for members tab."
-    },
     "guildSettingsMembersSearchHint": "Kullanıcı adına veya kimliğe göre ara",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field."
@@ -8941,27 +8219,6 @@
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
-    "guildSettingsInviteUses": "{uses} / {maxUses} kullanım",
-    "@guildSettingsInviteUses": {
-        "description": "Invite usage count.",
-        "placeholders": {
-            "uses": {
-                "type": "int"
-            },
-            "maxUses": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsInviteExpires": "{date} tarihinde sona eriyor",
-    "@guildSettingsInviteExpires": {
-        "description": "Invite expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBansDescription": "Yasaklı kullanıcıları görüntüle ve yönet.",
     "@guildSettingsBansDescription": {
         "description": "Description for bans tab."
@@ -8974,30 +8231,9 @@
     "@guildSettingsBansEmpty": {
         "description": "Empty state for bans."
     },
-    "guildSettingsBanPermanent": "Kalıcı yasaklama",
-    "@guildSettingsBanPermanent": {
-        "description": "Label for permanent ban."
-    },
-    "guildSettingsBanExpires": "{date} tarihinde sona eriyor",
-    "@guildSettingsBanExpires": {
-        "description": "Ban expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBanExpiresLabel": "Sona eriyor",
     "@guildSettingsBanExpiresLabel": {
         "description": "Label for ban expiration row."
-    },
-    "guildSettingsUnban": "Yasağı Kaldır",
-    "@guildSettingsUnban": {
-        "description": "Button to unban a user."
-    },
-    "guildSettingsBansLoading": "Yasaklı kullanıcılar yükleniyor",
-    "@guildSettingsBansLoading": {
-        "description": "Loading state for the guild bans list."
     },
     "guildSettingsBansNoSearchResults": "Aramanızla eşleşen yasaklama bulunamadı.",
     "@guildSettingsBansNoSearchResults": {
@@ -9041,10 +8277,6 @@
             }
         }
     },
-    "guildSettingsBansLoadError": "Yasaklamalar yüklenemedi. Tekrar deneyin.",
-    "@guildSettingsBansLoadError": {
-        "description": "Error when loading the guild bans list fails."
-    },
     "guildSettingsRevokeBanError": "Yasaklama kaldırılamadı. Tekrar deneyin.",
     "@guildSettingsRevokeBanError": {
         "description": "Error when revoking a ban fails."
@@ -9069,7 +8301,6 @@
     "@guildSettingsCategoryPeople": {
         "description": "Sidebar category for members, invites, and bans."
     },
-    "guildSettingsOverviewDescription": "Topluluğunuzun profilini, kanallarını ve varsayılan ayarlarını yönetin.",
     "guildSettingsOverviewBrandingTitle": "Marka",
     "guildSettingsOverviewBrandingDescription": "Simgesini, adını, banner'ını ve davet arka planını güncelle",
     "@guildSettingsOverviewBrandingDescription": {
@@ -9088,7 +8319,6 @@
     },
     "guildSettingsOverviewNotificationsTitle": "Varsayılan bildirimler",
     "guildSettingsOverviewNotificationsLargeGuild": "250'den fazla kişiye sahip topluluklar \"yalnızca bahsetmeler\" ayarına zorlanır. Orijinal ayarınız korunur ve topluluk 250 üyenin altına düşerse geri yüklenir.",
-    "guildSettingsOverviewAdvancedTitle": "Gelişmiş",
     "guildSettingsOverviewFlexibleNames": "Esnek metin kanalı adlarına izin ver",
     "guildSettingsOverviewHideOwnerCrown": "Topluluk sahibi tacını gizle",
     "guildSettingsOverviewDetachedBanner": "Ayrılmış başlık",
@@ -9114,10 +8344,6 @@
     "guildSettingsOverviewEmbedSplashTitle": "Sohbet gömülü içerik arka planı",
     "@guildSettingsOverviewEmbedSplashTitle": {
         "description": "Title for embed splash upload section."
-    },
-    "guildSettingsOverviewEmbedSplashHint": "Sohbetteki davet gömülü içeriklerinde gösterilir.",
-    "@guildSettingsOverviewEmbedSplashHint": {
-        "description": "Note shown when uploading chat embed background."
     },
     "guildSettingsOverviewUploadBackground": "Arka plan yükle",
     "@guildSettingsOverviewUploadBackground": {
@@ -9284,8 +8510,6 @@
     "@guildSettingsOverviewEmbedSplashUploadHint": {
         "description": "Upload requirements for chat embed background images."
     },
-    "guildSettingsModerationDescription": "Doğrulama, içerik filtreleme ve yetişkinlere yönelik içerik ayarlarını yapılandırın.",
-    "guildSettingsModerationDiscoveryNotice": "Keşfedilen toplulukların sınırlı moderasyon seçenekleri vardır.",
     "guildSettingsModerationContentFilterTitle": "İçerik filtreleme",
     "guildSettingsModerationContentFilterDescription": "Yetişkinlere yönelik içerik olarak işaretlenmemiş kanallardaki mesajları müstehcen içeriğe karşı otomatik olarak tarar.",
     "guildSettingsModerationContentFilterDiscoveryNote": "Keşfedilen toplulukların tüm üyeleri taraması zorunludur. Keşif etkinleştirildiğinde bu ayar değiştirilemez.",
@@ -9295,8 +8519,6 @@
     "guildSettingsContentFilterNoRoleDescription": "Çoğu topluluk için önerilir",
     "guildSettingsContentFilterAll": "Herkese filtre uygula",
     "guildSettingsContentFilterAllDescription": "Aile dostu alanlar için maksimum koruma",
-    "guildSettingsModerationMatureOff": "Kapalı",
-    "guildSettingsModerationMatureOn": "Açık",
     "guildSettingsContentWarningToggle": "İçerik uyarısı göster",
     "@guildSettingsContentWarningToggle": {
         "description": "Switch label for the community content warning setting."
@@ -9316,7 +8538,6 @@
     "guildSettingsModeration2faTitle": "2FA gereksinimi",
     "guildSettingsModeration2faDescription": "Yöneticilerin yasaklama, atma, zaman aşımına uğratma veya mesaj silme işlemlerini gerçekleştirebilmeleri için iki faktörlü kimlik doğrulama gerektir.",
     "guildSettingsModeration2faSwitchLabel": "Moderasyon işlemleri için 2FA zorunlu kıl",
-    "guildSettingsModeration2faOwnerOnlyTooltip": "Bu ayarı yalnızca topluluk sahibi değiştirebilir",
     "guildSettingsModeration2faEnableFirstTooltip": "Bu ayarı değiştirmek için hesabınızda 2FA'yı etkinleştirin",
     "guildSettingsEmojiSearchHint": "Emojileri ara",
     "guildSettingsEmojiUploadTitle": "Emoji yükle",
@@ -9338,8 +8559,6 @@
     },
     "guildSettingsStickersSearchHint": "Çıkartma ara",
     "guildSettingsWebhooksInfo": "Webhook oluşturmak için {channelSettingsPath} bölümünü açın. Mevcut tüm webhook'ları buradan düzenleyebilir ve organize edebilirsiniz.",
-    "guildSettingsVanityUrlWarning": "Vanity URL'niz, en az bir kanal herkese açık olmadıkça çalışmaz.",
-    "guildSettingsVanityUrlRemove": "Kaldır",
     "guildSettingsBannedUsersTitle": "Yasaklı kullanıcılar",
     "guildSettingsInvitesTableInviter": "Davet eden",
     "guildSettingsInvitesTableChannel": "Kanal",
@@ -9362,6 +8581,80 @@
     "userProfileLocalTime": "Yerel saat",
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
+    },
+    "profileLocalTimeSettingsTitle": "Profil yerel saati",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "Zaman diliminizi bir kez ayarlayın, böylece yaz saati uygulaması değiştiğinde {productName} UTC ofsetinizi güncel tutabilsin. Diğer kişiler yalnızca UTC ofsetinizi görebilir, tam zaman dilimi tanımlayıcınızı değil.",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "Profil yerel saatini düzenle",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "Saat dilimi",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "Profil yerel saatiniz için UTC ofsetinizi hesaplarken {productName} uygulamasının kullanacağı zaman dilimini seçin.",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "Saat dilimlerini ara",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "Ayarlanmadı",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "Profil yerel saatinizi paylaşmayı seçtiğinizde diğer kişiler yalnızca mevcut UTC ofsetinizi görebilir. {timezoneIdentifierExample} gibi tam zaman dilimi tanımlayıcınızı görmezler. {productName}, bu tanımlayıcıyı yalnızca yaz saati değiştiğinde ofsetin otomatik olarak güncellenebilmesi için saklar.",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "Herkes",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "Profilinizin tamamını görüntüleyebilen herkesin yerel saatinizi görmesine izin verin",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "Arkadaşlar",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "Arkadaşlarınızın yerel saatinizi görmesine izin ver",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "Topluluk üyeleri",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "Üyesi olduğunuz topluluklardaki üyelerin yerel saatinizi görmesine izin ver",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
     },
     "userProfileSameTimeAsYou": "Sizinle aynı saat diliminde",
     "@userProfileSameTimeAsYou": {
@@ -9504,7 +8797,7 @@
             }
         }
     },
-    "addGuildCreateSingleCommunityBlocked": "Bu sunucu tek bir toplulukla sınırlıdır, bu nedenle başka topluluklar oluşturulamaz.",
+    "addGuildCreateSingleCommunityBlocked": "Bu kurulum tek bir toplulukla sınırlıdır, bu nedenle başka topluluklar oluşturulamaz.",
     "@addGuildCreateSingleCommunityBlocked": {
         "description": "Error when creation is blocked because the instance only allows one community."
     },
@@ -9523,10 +8816,6 @@
     "accessibilitySaturationTitle": "Doygunluk",
     "@accessibilitySaturationTitle": {
         "description": "Section title for the theme saturation slider on the accessibility settings page."
-    },
-    "accessibilitySaturationDescription": "Uygulama genelindeki tema renklerinin canlılığını ayarlayın.",
-    "@accessibilitySaturationDescription": {
-        "description": "Section description for the theme saturation slider on the accessibility settings page."
     },
     "dmDebugCategory": "Ayıklama Kategorisi",
     "@dmDebugCategory": {
@@ -9555,6 +8844,10 @@
     "lookAndFeelChatWallpaperCustomLabel": "Özel resim",
     "@lookAndFeelChatWallpaperCustomLabel": {
         "description": "Chat wallpaper option that picks an image from the gallery."
+    },
+    "lookAndFeelChatWallpaperStarfieldLabel": "Yıldız alanı",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
     },
     "lookAndFeelChatWallpaperColorLabel": "Renk {id}",
     "@lookAndFeelChatWallpaperColorLabel": {
@@ -9663,14 +8956,6 @@
     "@channelSettingsVoiceRegionsLoadFailed": {
         "description": "Error modal title when voice regions fail to load."
     },
-    "channelSettingsResetSlider": "Kaydırıcıyı varsayılan değere sıfırla",
-    "@channelSettingsResetSlider": {
-        "description": "Tooltip for reset buttons on channel settings sliders."
-    },
-    "channelSettingsAdvanced": "Gelişmiş",
-    "@channelSettingsAdvanced": {
-        "description": "Collapsible advanced section title in channel overview."
-    },
     "channelSettingsUnknownRole": "Bilinmeyen rol",
     "@channelSettingsUnknownRole": {
         "description": "Fallback label for unknown role in permission overwrites."
@@ -9718,10 +9003,6 @@
                 "type": "String"
             }
         }
-    },
-    "channelSettingsWebhooksUnknownUser": "Bilinmeyen kullanıcı",
-    "@channelSettingsWebhooksUnknownUser": {
-        "description": "Fallback label when webhook creator is unavailable."
     },
     "channelSettingsWebhooksAvatar": "Avatar",
     "@channelSettingsWebhooksAvatar": {
@@ -9964,38 +9245,6 @@
     "@savedMessagesRemoveTooltip": {
         "description": "Tooltip for removing a saved message bookmark."
     },
-    "iarReportGuildTitle": "Topluluğu bildir",
-    "@iarReportGuildTitle": {
-        "description": "Title of the simple community-report sheet."
-    },
-    "iarContinueToReportCommunity": "Topluluğu bildirmeye devam et",
-    "@iarContinueToReportCommunity": {
-        "description": "Primary button in the community report pre-confirm dialog."
-    },
-    "iarReasonTerrorismDescription": "Şiddet içeren aşırılık yanlısı faaliyetleri teşvik eder, bu faaliyetler için eleman toplar veya koordine eder.",
-    "@iarReasonTerrorismDescription": {
-        "description": "Community-report reason description for terrorism or violent extremism."
-    },
-    "iarReasonMatureContentGuildLabel": "Yetişkinlere yönelik içerik veya güvenli olmayan kısıtlama",
-    "@iarReasonMatureContentGuildLabel": {
-        "description": "Community-report reason label for mature content or unsafe gating."
-    },
-    "iarReasonRaidLabel": "Saldırı koordinasyonu",
-    "@iarReasonRaidLabel": {
-        "description": "Community-report reason label for raid coordination."
-    },
-    "iarReasonRaidDescription": "Kişilere veya topluluklara karşı baskın, toplu saldırı veya taciz koordine eder.",
-    "@iarReasonRaidDescription": {
-        "description": "Community-report reason description for raid coordination."
-    },
-    "iarReasonSelfHarmGuildLabel": "Kendine zarar vermeyi teşvik ediyor",
-    "@iarReasonSelfHarmGuildLabel": {
-        "description": "Community-report reason label for self-harm encouragement."
-    },
-    "iarReasonSelfHarmGuildDescription": "İntiharı, kendine zarar vermeyi veya yeme bozukluklarını teşvik ediyor.",
-    "@iarReasonSelfHarmGuildDescription": {
-        "description": "Community-report reason description for self-harm encouragement."
-    },
     "userSettingsNavNotifications": "Bildirimler",
     "@userSettingsNavNotifications": {
         "description": "User settings navigation item for notification settings."
@@ -10186,10 +9435,6 @@
     "@permissionCategoryChannelManagement": {
         "description": "Permission category for per-channel management permissions."
     },
-    "permissionUnknown": "Bilinmeyen izin",
-    "@permissionUnknown": {
-        "description": "Fallback permission label."
-    },
     "permissionAdministrator": "Yönetici",
     "@permissionAdministrator": {
         "description": "Permission name."
@@ -10350,10 +9595,6 @@
     "systemPermissionSettingsOpenSettings": "Ayarları aç",
     "@systemPermissionSettingsOpenSettings": {
         "description": "Primary action that opens the device app settings for a blocked permission."
-    },
-    "iarReportGuildPreconfirmBody": "Bu rapor bu topluluktaki belirli bir mesajla ilgiliyse, bunun yerine o mesajı bildirin. Mesaj raporları, güvenlik ekibimize en net bağlamı sağlar ve yorumlara ayrıntı eklemek, incelememizi hızlandırmamıza yardımcı olabilir. Yalnızca bir mesajı bildirmenin daha geniş sorunu kapsamayacağı durumlarda topluluğun tamamını bildirmeye devam edin.",
-    "@iarReportGuildPreconfirmBody": {
-        "description": "Body shown in the pre-confirm dialog before opening the community report sheet."
     },
     "systemCallDurationOneYear": "1 yıl",
     "@systemCallDurationOneYear": {
@@ -10577,10 +9818,6 @@
     "@groupDmUnsupportedIconFormat": {
         "description": "Title when the selected group icon format is unsupported."
     },
-    "groupDmCreateInviteFailed": "Davet bağlantısı oluşturulamadı",
-    "@groupDmCreateInviteFailed": {
-        "description": "Title when invite link generation fails."
-    },
     "groupDmCopyInviteFailed": "Davet bağlantısı kopyalanamadı",
     "@groupDmCopyInviteFailed": {
         "description": "Error when copying a group DM invite link fails."
@@ -10652,38 +9889,6 @@
     "createDmFailed": "Sohbet oluşturulamadı. Lütfen tekrar deneyin.",
     "@createDmFailed": {
         "description": "Generic error when DM or group DM creation fails."
-    },
-    "iarReasonHateGuildDescription": "Korumalı gruplara karşı nefreti teşvik eder.",
-    "@iarReasonHateGuildDescription": {
-        "description": "Community-report reason description for hate speech."
-    },
-    "iarReasonTerrorismLabel": "Terörizm veya şiddet içeren aşırıcılık",
-    "@iarReasonTerrorismLabel": {
-        "description": "Community-report reason label for terrorism or violent extremism."
-    },
-    "iarReasonMatureContentGuildDescription": "Uygun kısıtlama olmadan yetişkinlere yönelik içerik.",
-    "@iarReasonMatureContentGuildDescription": {
-        "description": "Community-report reason description for mature content or unsafe gating."
-    },
-    "iarReasonHarassmentGuildLabel": "Taciz veya hedefli kötüye kullanım",
-    "@iarReasonHarassmentGuildLabel": {
-        "description": "Community-report reason label for harassment or targeted abuse."
-    },
-    "iarReasonHarassmentGuildDescription": "Topluluk, toplu saldırıları veya hedefli kötüye kullanımı kolaylaştırır.",
-    "@iarReasonHarassmentGuildDescription": {
-        "description": "Community-report reason description for harassment or targeted abuse."
-    },
-    "iarReasonChildSafetyGuildDescription": "Küçüklere zarar veriyor veya çocuk istismarı içeriği barındırıyor.",
-    "@iarReasonChildSafetyGuildDescription": {
-        "description": "Community-report reason description for child safety."
-    },
-    "iarReasonMalwareGuildDescription": "Kötü amaçlı yazılım, kimlik bilgisi hırsızlığı veya zararlı dosyalar dağıtır.",
-    "@iarReasonMalwareGuildDescription": {
-        "description": "Community-report reason description for malware distribution."
-    },
-    "iarReasonPrivacyGuildDescription": "Kişisel bilgi paylaşıyor, kullanıcıları ısrarla takip ediyor veya gizlilik ihlallerini koordine ediyor.",
-    "@iarReasonPrivacyGuildDescription": {
-        "description": "Community-report reason description for privacy violation or doxxing."
     },
     "guildSettingsRolesDisplaySection": "Göster",
     "@guildSettingsRolesDisplaySection": {
@@ -10765,16 +9970,6 @@
     "audioAndVideoCameraQuality720pLabel": "720p",
     "@audioAndVideoCameraQuality720pLabel": {
         "description": "Camera quality option for 720p resolution."
-    },
-    "audioAndVideoMicrophonePermissionRequired": "{productName} uygulamasının cihazlarınızı listelemek için mikrofon erişimine ihtiyacı var.",
-    "@audioAndVideoMicrophonePermissionRequired": {
-        "description": "Shown when microphone permission is required to enumerate audio input devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
     },
     "audioAndVideoSkipHideOwnScreenshareConfirmLabel": "Ekran paylaşımımı gizlerken sorma",
     "@audioAndVideoSkipHideOwnScreenshareConfirmLabel": {
@@ -10863,10 +10058,6 @@
     "@channelSettingsVoiceRegionsLoadFailedDescription": {
         "description": "Error modal body when voice regions fail to load in channel settings."
     },
-    "channelSettingsMatureContentOverride": "Yetişkin içeriği geçersiz kılma",
-    "@channelSettingsMatureContentOverride": {
-        "description": "Accessibility label for mature content override control."
-    },
     "channelSettingsMatureContentOnDescription": "Bu kanalı yetişkinlere yönelik içerik olarak işaretler.",
     "@channelSettingsMatureContentOnDescription": {
         "description": "Description for the mature content on override option."
@@ -10893,14 +10084,6 @@
             }
         }
     },
-    "channelSettingsMatureContentCategorySource": "kategori",
-    "@channelSettingsMatureContentCategorySource": {
-        "description": "Lowercase source label for inherited mature content from category."
-    },
-    "channelSettingsMatureContentCommunitySource": "topluluk",
-    "@channelSettingsMatureContentCommunitySource": {
-        "description": "Lowercase source label for inherited mature content from community."
-    },
     "channelSettingsMatureContentCategoryScope": "Kategori",
     "@channelSettingsMatureContentCategoryScope": {
         "description": "Capitalized scope label when mature content inherits from a category."
@@ -10924,24 +10107,6 @@
     "channelSettingsContentWarningDefault": "Bu hassas içerik barındırıyor.",
     "@channelSettingsContentWarningDefault": {
         "description": "Default content warning text placeholder."
-    },
-    "channelSettingsPermissionsNeedManageChannels": "Bu izinleri düzenlemek için \"{manageChannelsPermissionLabel}\" iznine sahip olmanız gerekir.",
-    "@channelSettingsPermissionsNeedManageChannels": {
-        "description": "Error when user lacks manage channels permission for channel permissions tab.",
-        "placeholders": {
-            "manageChannelsPermissionLabel": {
-                "type": "String"
-            }
-        }
-    },
-    "channelSettingsPermissionsNeedManageRoles": "Bu izinleri düzenlemek için \"{manageRolesPermissionLabel}\" iznine sahip olmanız gerekir.",
-    "@channelSettingsPermissionsNeedManageRoles": {
-        "description": "Error when user lacks manage roles permission for channel permissions tab.",
-        "placeholders": {
-            "manageRolesPermissionLabel": {
-                "type": "String"
-            }
-        }
     },
     "channelSettingsEveryoneRole": "@everyone",
     "@channelSettingsEveryoneRole": {
@@ -10978,10 +10143,6 @@
     "channelSettingsPermissionsSearchRolesOrMembers": "Rol veya üye ara…",
     "@channelSettingsPermissionsSearchRolesOrMembers": {
         "description": "Placeholder for the add override search field."
-    },
-    "channelSettingsPermissionsRolesAndMembers": "Roller ve üyeler",
-    "@channelSettingsPermissionsRolesAndMembers": {
-        "description": "Section title in the add override picker."
     },
     "channelSettingsDeleteInvite": "Daveti sil",
     "@channelSettingsDeleteInvite": {
@@ -11038,10 +10199,6 @@
     "guildSettingsRolesResetHoistOrder": "Varsayılana sıfırla",
     "@guildSettingsRolesResetHoistOrder": {
         "description": "Button to reset custom hoist order."
-    },
-    "guildSettingsRolesLockedTooltip": "Bu rolü düzenleyemezsiniz çünkü bu, sizin en yüksek rolünüz veya sizin üstünüzde bir roldür",
-    "@guildSettingsRolesLockedTooltip": {
-        "description": "Tooltip on locked role rows."
     },
     "createDmNoFriendsYet": "Henüz hiç arkadaşınız yok",
     "@createDmNoFriendsYet": {
@@ -11133,21 +10290,9 @@
     "@guildSettingsRolesTwoColumns": {
         "description": "Tooltip when permission list is in single-column layout."
     },
-    "guildSettingsRolesSwitchToSingleColumn": "Tek sütuna geç",
-    "@guildSettingsRolesSwitchToSingleColumn": {
-        "description": "Aria label for switching to single column."
-    },
-    "guildSettingsRolesSwitchToTwoColumns": "İki sütuna geç",
-    "@guildSettingsRolesSwitchToTwoColumns": {
-        "description": "Aria label for switching to two columns."
-    },
     "guildSettingsRolesNoPermissionsFound": "İzin bulunamadı",
     "@guildSettingsRolesNoPermissionsFound": {
         "description": "Empty state when permission search has no matches."
-    },
-    "guildSettingsRolesCustomHoistOrder": "Özel yükseltme sırası",
-    "@guildSettingsRolesCustomHoistOrder": {
-        "description": "Button to enter custom hoist order mode."
     },
     "guildSettingsRolesHoistOrder": "Yükseltme sırası",
     "@guildSettingsRolesHoistOrder": {
@@ -11240,10 +10385,6 @@
     "channelDetailsDeleteChannel": "Kanalı sil",
     "@channelDetailsDeleteChannel": {
         "description": "Channel details menu action to delete a guild channel."
-    },
-    "channelSettingsCategorySettingsTitle": "Kategori ayarları",
-    "@channelSettingsCategorySettingsTitle": {
-        "description": "Title for category settings modal."
     },
     "channelSettingsDeleteCategoryConfirm": "{categoryName} silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
     "@channelSettingsDeleteCategoryConfirm": {
@@ -11388,10 +10529,6 @@
             }
         }
     },
-    "groupDmEditDetailsTooltip": "Grup ayrıntılarını düzenle",
-    "@groupDmEditDetailsTooltip": {
-        "description": "Tooltip on the desktop group DM header edit action."
-    },
     "groupDmGroupName": "Grup adı",
     "@groupDmGroupName": {
         "description": "Label for the group name field in edit group."
@@ -11399,14 +10536,6 @@
     "groupDmUnsupportedIconFormatBody": "Desteklenmeyen dosya türü.",
     "@groupDmUnsupportedIconFormatBody": {
         "description": "Body when the selected group icon format is unsupported."
-    },
-    "groupDmCouldntProcessImage": "Görsel işlenemedi",
-    "@groupDmCouldntProcessImage": {
-        "description": "Title when a cropped group icon cannot be processed."
-    },
-    "groupDmFailedToProcessCroppedImage": "Kırpılan görsel işlenemedi. Tekrar deneyin.",
-    "@groupDmFailedToProcessCroppedImage": {
-        "description": "Body when a cropped group icon cannot be processed."
     },
     "groupDmInvalidImage": "Geçersiz görsel",
     "@groupDmInvalidImage": {
@@ -11444,16 +10573,6 @@
     "@audioAndVideoMicTestStopLabel": {
         "description": "Button label to stop the microphone test."
     },
-    "audioAndVideoMicTestPermissionRequired": "{productName} mikrofon erişimine ihtiyaç duyuyor.",
-    "@audioAndVideoMicTestPermissionRequired": {
-        "description": "Shown when microphone permission is required for the mic test.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
     "audioAndVideoCameraQuality1080pLabel": "1080p",
     "@audioAndVideoCameraQuality1080pLabel": {
         "description": "Camera quality option for 1080p resolution."
@@ -11461,16 +10580,6 @@
     "audioAndVideoFrameRate15Label": "15 FPS",
     "@audioAndVideoFrameRate15Label": {
         "description": "Screen share frame rate option for 15 FPS."
-    },
-    "audioAndVideoHigherQualityRequiresPremium": "1080p ve 60 FPS için {premiumProductName} gerekir.",
-    "@audioAndVideoHigherQualityRequiresPremium": {
-        "description": "Note shown when higher video quality options require premium.",
-        "placeholders": {
-            "premiumProductName": {
-                "type": "String",
-                "example": "Plutonium"
-            }
-        }
     },
     "notificationsPushInactiveTimeoutDescription": "{productName}, bilgisayarınızın başındayken mobil cihazlarınıza anlık bildirim göndermemeye çalışır. Anlık bildirim almadan önce masaüstünde ne kadar süre hareketsiz kalmanız gerektiğini seçin.",
     "@notificationsPushInactiveTimeoutDescription": {
@@ -11517,10 +10626,6 @@
     "guildSettingsRolesComfyLayout": "Rahat düzen",
     "@guildSettingsRolesComfyLayout": {
         "description": "Tooltip when permission list is in dense layout."
-    },
-    "guildSettingsRolesSwitchToDenseLayout": "Yoğun düzene geç",
-    "@guildSettingsRolesSwitchToDenseLayout": {
-        "description": "Aria label for switching to dense layout."
     },
     "guildSettingsRolesDeleteFailedTitle": "Rol silinemedi",
     "@guildSettingsRolesDeleteFailedTitle": {
@@ -11603,10 +10708,6 @@
     "@languageAndTimeLanguageSectionDescription": {
         "description": "Settings section description for interface language preference."
     },
-    "languageAndTimeOpenLanguageSettings": "Dil ayarlarını aç",
-    "@languageAndTimeOpenLanguageSettings": {
-        "description": "Button that opens the system per-app language settings."
-    },
     "guildSettingsRolesPermissionsSection": "İzinler",
     "@guildSettingsRolesPermissionsSection": {
         "description": "Section title for role permissions."
@@ -11639,19 +10740,9 @@
     "@audioAndVideoVoiceProcessingSectionTitle": {
         "description": "Subsection title for voice processing profile selection."
     },
-    "audioAndVideoInstanceVideoQualityLimit": "Bu örneklem şu anda ekran paylaşımını 30 FPS'de 720p'ye kadar desteklemektedir.",
+    "audioAndVideoInstanceVideoQualityLimit": "Bu kurulum şu anda ekran paylaşımını 30 FPS'de 720p'ye kadar desteklemektedir.",
     "@audioAndVideoInstanceVideoQualityLimit": {
         "description": "Note shown when instance limits block higher screen share quality."
-    },
-    "audioAndVideoCameraPermissionRequired": "{productName} uygulamasının cihazlarınızı listelemek için kamera erişimine ihtiyacı var.",
-    "@audioAndVideoCameraPermissionRequired": {
-        "description": "Shown when camera permission is required to enumerate video devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
     },
     "guildSettingsInvitesLoadFailedDescription": "Davetler yüklenirken bir hata oluştu. Tekrar deneyin.",
     "@guildSettingsInvitesLoadFailedDescription": {
@@ -11827,10 +10918,6 @@
     "@groupDmInviteExpires24Hours": {
         "description": "Note below the invite link field in add friends to group."
     },
-    "groupDmAddFailed": "Gruba eklenemedi",
-    "@groupDmAddFailed": {
-        "description": "Title when adding friends to a group DM fails."
-    },
     "languageAndTimeTimeFormatSectionTitle": "Saat biçimi",
     "@languageAndTimeTimeFormatSectionTitle": {
         "description": "Settings section title for time format preference."
@@ -12000,10 +11087,6 @@
     "notificationsAfkTimeoutSyncFailed": "Push bildirim zaman aşımı güncellenemedi. Tekrar deneyin.",
     "@notificationsAfkTimeoutSyncFailed": {
         "description": "Toast shown when push inactive timeout sync fails."
-    },
-    "guildSettingsRolesSwitchToComfyLayout": "Rahat düzene geç",
-    "@guildSettingsRolesSwitchToComfyLayout": {
-        "description": "Aria label for switching to comfy layout."
     },
     "guildSettingsRolesSingleColumn": "Tek sütun",
     "@guildSettingsRolesSingleColumn": {
@@ -12583,30 +11666,6 @@
     "@nagbarEnableNotifications": {
         "description": "Push notification permission nagbar CTA."
     },
-    "phoneAlreadyUsed": "Bu telefon numarası zaten kullanılmış. Başka bir numara deneyin veya destekle iletişime geçin.",
-    "@phoneAlreadyUsed": {
-        "description": "API error when phone number was reused."
-    },
-    "phoneCodeDidNotWork": "Bu kod çalışmadı. Kontrol edip tekrar deneyin.",
-    "@phoneCodeDidNotWork": {
-        "description": "API error for invalid verification code."
-    },
-    "iarPreviewCommunitySubtitle": "Topluluk",
-    "@iarPreviewCommunitySubtitle": {
-        "description": "Subtitle shown under the community name in the IAR preview card."
-    },
-    "iarReasonSpamGuildDescription": "Topluluk, platformda spam yapmak, dolandırıcılık yapmak veya platformu kötüye kullanmak için var.",
-    "@iarReasonSpamGuildDescription": {
-        "description": "Community-report reason description for spam, scams, or phishing."
-    },
-    "iarReasonMalwareGuildLabel": "Kötü amaçlı yazılım dağıtımı",
-    "@iarReasonMalwareGuildLabel": {
-        "description": "Community-report reason label for malware distribution."
-    },
-    "iarReasonPrivacyGuildLabel": "Gizlilik ihlali veya doxxing",
-    "@iarReasonPrivacyGuildLabel": {
-        "description": "Community-report reason label for privacy violation or doxxing."
-    },
     "guildSettingsInvitesLabelUses": "Kullanım:",
     "@guildSettingsInvitesLabelUses": {
         "description": "Mobile invite row label for uses count."
@@ -12614,122 +11673,6 @@
     "guildSettingsInvitesLabelCreated": "Oluşturuldu:",
     "@guildSettingsInvitesLabelCreated": {
         "description": "Mobile invite row label for created date."
-    },
-    "phoneEnterValidNumber": "Geçerli bir cep telefonu numarası girin.",
-    "@phoneEnterValidNumber": {
-        "description": "Validation error for invalid phone format."
-    },
-    "phoneSomethingWentWrong": "Bir şeyler ters gitti. Tekrar deneyin.",
-    "@phoneSomethingWentWrong": {
-        "description": "Generic phone verification error."
-    },
-    "phoneInboundExpensiveDescription": "Bu telefon numarasına SMS göndermek çok pahalı, bu yüzden bunun yerine bize bir SMS göndermeniz gerekiyor. Bu gereksinimi hesabınızdan kaldırmamız için destek ekibiyle de iletişime geçebilirsiniz.",
-    "@phoneInboundExpensiveDescription": {
-        "description": "Inbound challenge reason for expensive destinations."
-    },
-    "phoneInboundDefaultDescription": "Telefon numaranızı doğrulamak için bize bir SMS göndermeniz gerekiyor.",
-    "@phoneInboundDefaultDescription": {
-        "description": "Default inbound challenge description."
-    },
-    "phoneInboundChallengeCodeLabel": "Gönderilecek kod",
-    "@phoneInboundChallengeCodeLabel": {
-        "description": "Label for inbound challenge code."
-    },
-    "phoneInboundOurNumberLabel": "Gönderilecek numara",
-    "@phoneInboundOurNumberLabel": {
-        "description": "Label for inbound destination number."
-    },
-    "requiredActionTitle": "Hesap doğrulaması gerekli",
-    "@requiredActionTitle": {
-        "description": "Title for required action blocking modal."
-    },
-    "requiredActionIntroPhone": "Devam etmeden önce kaydınızın ek bir anti-spam kontrolünden geçmesi gerekiyor.",
-    "@requiredActionIntroPhone": {
-        "description": "Phone-only required action intro."
-    },
-    "requiredActionCheckEmailTitle": "E-postanızı kontrol edin",
-    "@requiredActionCheckEmailTitle": {
-        "description": "Title for email verification instructions."
-    },
-    "requiredActionCheckEmailDescription": "E-posta adresinize bir doğrulama bağlantısı gönderdik. Devam etmek için açın.",
-    "@requiredActionCheckEmailDescription": {
-        "description": "Description for email verification instructions."
-    },
-    "requiredActionResendVerificationEmail": "Doğrulama e-postasını yeniden gönder",
-    "@requiredActionResendVerificationEmail": {
-        "description": "Button to resend verification email."
-    },
-    "requiredActionVerificationEmailSent": "Doğrulama e-postası gönderildi. Gelen kutunuzu kontrol edin.",
-    "@requiredActionVerificationEmailSent": {
-        "description": "Toast after resending verification email."
-    },
-    "requiredActionSignOut": "Çıkış yap",
-    "@requiredActionSignOut": {
-        "description": "Sign out button in required action modal."
-    },
-    "phoneCountryLabel": "Ülke",
-    "@phoneCountryLabel": {
-        "description": "Label for country selector in phone verification."
-    },
-    "phoneSearchCountries": "Ülkeleri ara...",
-    "@phoneSearchCountries": {
-        "description": "Search hint for country selector."
-    },
-    "phoneNumberRequired": "Telefon numarası gerekli",
-    "@phoneNumberRequired": {
-        "description": "Validation error when phone number is empty."
-    },
-    "phoneCannotBeUsed": "Bu telefon numarası kullanılamıyor. Başka bir mobil numara deneyin veya destekle iletişime geçin.",
-    "@phoneCannotBeUsed": {
-        "description": "API error when phone number is rejected."
-    },
-    "phoneTooManyAttempts": "Çok fazla deneme yaptınız. Biraz bekleyip tekrar deneyin.",
-    "@phoneTooManyAttempts": {
-        "description": "Rate limit error for phone verification."
-    },
-    "phoneSmsUnavailable": "SMS doğrulaması şu anda kullanılamıyor. Daha sonra tekrar deneyin veya destekle iletişime geçin.",
-    "@phoneSmsUnavailable": {
-        "description": "SMS provider unavailable error."
-    },
-    "phoneNotEligible": "Bu hesap için telefon doğrulaması kullanılamıyor. Başka bir yöntem kullanın veya destek ekibiyle iletişime geçin.",
-    "@phoneNotEligible": {
-        "description": "Account not eligible for phone verification."
-    },
-    "phoneInboundStepOpenMessaging": "Telefonunuzun mesajlaşma uygulamasını açın ve yeni bir kısa mesaj oluşturun.",
-    "@phoneInboundStepOpenMessaging": {
-        "description": "Inbound verification step 1."
-    },
-    "phoneInboundStepSendCode": "{code} kodunu {number} numarasına gönder.",
-    "@phoneInboundStepSendCode": {
-        "description": "Inbound verification step 2.",
-        "placeholders": {
-            "code": {
-                "type": "String"
-            },
-            "number": {
-                "type": "String"
-            }
-        }
-    },
-    "phoneInboundStepWait": "Mesajınızın bize ulaşmasını bekleyin. Bu bir dakika sürebilir.",
-    "@phoneInboundStepWait": {
-        "description": "Inbound verification step 3."
-    },
-    "phoneInboundGetNewCode": "Yeni kod al",
-    "@phoneInboundGetNewCode": {
-        "description": "Button to refresh inbound challenge."
-    },
-    "requiredActionChooseMethodTitle": "Doğrulama yöntemi seçin",
-    "@requiredActionChooseMethodTitle": {
-        "description": "Title when user can pick email or phone."
-    },
-    "requiredActionUseEmail": "E-posta kullan",
-    "@requiredActionUseEmail": {
-        "description": "Button to choose email verification."
-    },
-    "requiredActionUsePhone": "Telefon kullan",
-    "@requiredActionUsePhone": {
-        "description": "Button to choose phone verification."
     },
     "permissionManageEmojiStickersDescription": "Diğer üyeler tarafından oluşturulan emojileri ve çıkartmaları düzenleyin veya silin.",
     "@permissionManageEmojiStickersDescription": {
@@ -12788,14 +11731,6 @@
     "notificationsEnableDesktopNotificationsDescription": "İşletim sistemi bildirim merkezini kullanır. Kanal/topluluk bazında denetimler için bir topluluk simgesine sağ tıklayın ve bildirim ayarlarını açın.",
     "@notificationsEnableDesktopNotificationsDescription": {
         "description": "Description for the enable desktop notifications toggle."
-    },
-    "notificationsEnableBrowserNotificationsLabel": "Tarayıcı bildirimlerini etkinleştir",
-    "@notificationsEnableBrowserNotificationsLabel": {
-        "description": "Toggle label for enabling browser notifications."
-    },
-    "notificationsEnableBrowserNotificationsDescription": "Mesaj aldığınızda bildirim alın. Tarayıcı ayarlarınızda bildirimlere izin vermeniz gerekebilir. Kanal/topluluk bazında kontrol için bir topluluk simgesine sağ tıklayın ve bildirim ayarlarını açın.",
-    "@notificationsEnableBrowserNotificationsDescription": {
-        "description": "Description for the enable browser notifications toggle."
     },
     "notificationsPushInactiveTimeoutLabel": "Anlık bildirim hareketsizlik süresi",
     "@notificationsPushInactiveTimeoutLabel": {
@@ -12989,7 +11924,7 @@
     "@registerClosed": {
         "description": "Notice shown on the register screen when the instance has registration closed."
     },
-    "errorServiceUnavailable": "Bu örnek geçici olarak kullanılamıyor. Bir süre sonra tekrar deneyin.",
+    "errorServiceUnavailable": "Bu kurulum geçici olarak kullanılamıyor. Bir süre sonra tekrar deneyin.",
     "@errorServiceUnavailable": {
         "description": "Login error when the API returns 502, 503, or 504."
     },
@@ -13280,42 +12215,6 @@
     "gifPickerFavoritesEmptyDescription": "Bir GIF'i sabitleyerek burada görmesini sağla.",
     "@gifPickerFavoritesEmptyDescription": {
         "description": "Empty state description for the GIF picker favorites view."
-    },
-    "requiredActionIntroGeneric": "{productName} uygulamasını kullanmaya devam etmek için gerekli doğrulamayı tamamlayın.",
-    "@requiredActionIntroGeneric": {
-        "description": "Generic required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailOrPhone": "{productName} uygulamasını kullanmaya devam etmek için e-postanızı veya telefonunuzu doğrulayın.",
-    "@requiredActionIntroEmailOrPhone": {
-        "description": "Email or phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailAndPhone": "{productName} uygulamasını kullanmaya devam etmek için aşağıdaki gerekli e-posta ve telefon doğrulama adımlarını tamamlayın.",
-    "@requiredActionIntroEmailAndPhone": {
-        "description": "Email and phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionChooseMethodDescription": "{productName} uygulamasını kullanmaya devam etmek için aşağıdaki doğrulama yollarından birini tamamlayın.",
-    "@requiredActionChooseMethodDescription": {
-        "description": "Description when user can pick email or phone.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
     },
     "networkErrorMessage": "Bir şeyler ters gitti. Lütfen tekrar deneyin.",
     "@networkErrorMessage": {
@@ -13823,6 +12722,14 @@
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
     },
+    "accessibilityShowAltTextOnImagesLabel": "Görsellerde alternatif metni göster",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "Mevcut olduğunda resimlerin altında alternatif metin göster.",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
     "accessibilityDimStrikethroughTextLabel": "Üstü çizili metni soluklaştır",
     "@accessibilityDimStrikethroughTextLabel": {
         "description": "Toggle label for dimming strikethrough text in messages."
@@ -13941,10 +12848,6 @@
     "accessibilityPausedGifByReducedMotion": "Azaltılmış hareket nedeniyle duraklatıldı. GIF'lerin oynatılmaya devam etmesi için açın.",
     "@accessibilityPausedGifByReducedMotion": {
         "description": "Description for GIF toggle while reduced motion is active."
-    },
-    "accessibilityGifDefaultsOffOnMobile": "Pil ömrünü ve veri kullanımını korumak için mobil cihazlarda varsayılan olarak kapalıdır.",
-    "@accessibilityGifDefaultsOffOnMobile": {
-        "description": "Helper text for GIF autoplay default on mobile."
     },
     "accessibilityStickerAnimationsTitle": "Çıkartma animasyonları",
     "@accessibilityStickerAnimationsTitle": {
@@ -14401,25 +13304,13 @@
     "@privacyDashboardFriendRequestsEveryone": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsEveryoneDesc": "Herkesin sana arkadaşlık isteği göndermesine izin ver",
-    "@privacyDashboardFriendRequestsEveryoneDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsFriendsOfFriends": "Arkadaşların arkadaşları",
     "@privacyDashboardFriendRequestsFriendsOfFriends": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsFriendsOfFriendsDesc": "Arkadaşlarınızın arkadaşları size istek göndermesine izin ver",
-    "@privacyDashboardFriendRequestsFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsCommunityMembers": "Topluluk üyeleri",
     "@privacyDashboardFriendRequestsCommunityMembers": {
         "description": "Privacy dashboard friend request toggle label."
-    },
-    "privacyDashboardFriendRequestsCommunityMembersDesc": "Dahil olduğunuz topluluklardaki üyelerin size istek göndermesine izin ver",
-    "@privacyDashboardFriendRequestsCommunityMembersDesc": {
-        "description": "Privacy dashboard friend request toggle description."
     },
     "privacyDashboardDirectMessagesTitle": "Doğrudan mesajlar",
     "@privacyDashboardDirectMessagesTitle": {
@@ -14429,65 +13320,29 @@
     "@privacyDashboardDirectMessagesMembers": {
         "description": "Privacy dashboard DM toggle label."
     },
-    "privacyDashboardDirectMessagesMembersDesc": "Dahil olduğunuz topluluklardaki üyelerin size doğrudan mesaj göndermesine izin ver",
-    "@privacyDashboardDirectMessagesMembersDesc": {
-        "description": "Privacy dashboard DM toggle description."
-    },
     "privacyDashboardDirectMessagesBots": "Topluluk botlarından doğrudan mesajlara izin ver",
     "@privacyDashboardDirectMessagesBots": {
         "description": "Privacy dashboard bot DM toggle label."
-    },
-    "privacyDashboardDirectMessagesBotsDesc": "Dahil olduğunuz topluluklardaki botların size özel mesaj göndermesine izin ver",
-    "@privacyDashboardDirectMessagesBotsDesc": {
-        "description": "Privacy dashboard bot DM toggle description."
-    },
-    "privacyDashboardConnectionsSectionDesc": "Arkadaşlık istekleri ve özel mesajlar gönderebilen kişileri kontrol edin",
-    "@privacyDashboardConnectionsSectionDesc": {
-        "description": "Privacy dashboard connections section description."
-    },
-    "privacyDashboardCommunicationSectionDesc": "Kimlerin sizi arayabileceğini ve grup sohbetlerine ekleyebileceğini kontrol edin",
-    "@privacyDashboardCommunicationSectionDesc": {
-        "description": "Privacy dashboard communication section description."
     },
     "privacyDashboardIncomingCallsTitle": "Gelen aramalar",
     "@privacyDashboardIncomingCallsTitle": {
         "description": "Privacy dashboard incoming calls subsection title."
     },
-    "privacyDashboardIncomingCallsDesc": "Kimlerin seni arayabileceğini kontrol et",
-    "@privacyDashboardIncomingCallsDesc": {
-        "description": "Privacy dashboard incoming calls subsection description."
-    },
     "privacyDashboardAllowedCallers": "İzin verilen arayanlar",
     "@privacyDashboardAllowedCallers": {
         "description": "Privacy > Communication: select label."
-    },
-    "privacyDashboardIncomingCallNobody": "Kimse",
-    "@privacyDashboardIncomingCallNobody": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallNobodyDesc": "Tüm gelen aramaları engelle",
     "@privacyDashboardIncomingCallNobodyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallFriendsOnly": "Sadece arkadaşlar",
-    "@privacyDashboardIncomingCallFriendsOnly": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallFriendsOnlyDesc": "Yalnızca arkadaşlarınızın sizi arama yapmasına izin verin (önerilen)",
     "@privacyDashboardIncomingCallFriendsOnlyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallCustom": "Arkadaşlar + Özel",
-    "@privacyDashboardIncomingCallCustom": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallCustomDesc": "Arkadaşlara ve seçtiğiniz ek gruplara izin ver",
     "@privacyDashboardIncomingCallCustomDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardIncomingCallEveryone": "Herkes",
-    "@privacyDashboardIncomingCallEveryone": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallEveryoneDesc": "Herkesin, yabancıların bile sizi arayabilmesine izin verin",
     "@privacyDashboardIncomingCallEveryoneDesc": {
@@ -14497,14 +13352,6 @@
     "@privacyDashboardAdditionalGroups": {
         "description": "Privacy dashboard label for custom permission groups."
     },
-    "privacyDashboardCallFriendsOfFriendsDesc": "Arkadaşlarınızın arkadaşları size arama yapabilir",
-    "@privacyDashboardCallFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
-    "privacyDashboardCallGuildMembersDesc": "Hem sizin hem de diğer kişilerin bulunduğu topluluklardaki kişiler size arama yapabilir",
-    "@privacyDashboardCallGuildMembersDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
     "privacyDashboardRingBehavior": "Zil davranışı",
     "@privacyDashboardRingBehavior": {
         "description": "Privacy dashboard ring behavior subsection label."
@@ -14513,17 +13360,9 @@
     "@privacyDashboardSilentCalls": {
         "description": "Privacy dashboard silent calls toggle label."
     },
-    "privacyDashboardSilentCallsDesc": "Tüm aramalar çalmak yerine sessizce bildirim gönderecek. Varsayılan olarak, arkadaşı olmayanlardan gelen aramalar her zaman sessizdir.",
-    "@privacyDashboardSilentCallsDesc": {
-        "description": "Privacy dashboard silent calls toggle description."
-    },
     "privacyDashboardGroupDmTitle": "Sizi grup sohbetlerine kimler ekleyebilir",
     "@privacyDashboardGroupDmTitle": {
         "description": "Privacy dashboard group DM subsection title."
-    },
-    "privacyDashboardGroupDmDesc": "İzin istemeden sizi grup sohbetlerine kimlerin ekleyebileceğini kontrol edin. Herkes yine de size katılma davet bağlantıları gönderebilir.",
-    "@privacyDashboardGroupDmDesc": {
-        "description": "Privacy dashboard group DM subsection description."
     },
     "privacyDashboardAllowedInvites": "İzin verilen davetler",
     "@privacyDashboardAllowedInvites": {
@@ -14544,14 +13383,6 @@
     "privacyDashboardGroupDmEveryoneDesc": "Herkesin sizi sormadan grup sohbetlerine eklemesine izin verin",
     "@privacyDashboardGroupDmEveryoneDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardGroupDmFriendsOfFriendsDesc": "Arkadaşlarınızın arkadaşları sizi grup sohbetlerine ekleyebilir",
-    "@privacyDashboardGroupDmFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
-    },
-    "privacyDashboardGroupDmGuildMembersDesc": "Hem üyesi olduğunuz topluluklardaki kişiler sizi grup sohbetlerine ekleyebilir",
-    "@privacyDashboardGroupDmGuildMembersDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
     },
     "privacyDashboardVoiceActivityTitle": "Şu an aktif'te ses etkinliği",
     "@privacyDashboardVoiceActivityTitle": {
@@ -15084,26 +13915,6 @@
     "@composerAutocompleteOptionalArgumentsHeading": {
         "description": "Section heading in composer autocomplete for adding optional slash-command arguments."
     },
-    "composerAutocompleteChannelsHeading": "Kanallar",
-    "@composerAutocompleteChannelsHeading": {
-        "description": "Section heading in composer autocomplete for channel suggestions."
-    },
-    "composerAutocompleteMembersHeading": "Üyeler",
-    "@composerAutocompleteMembersHeading": {
-        "description": "Section heading in composer autocomplete for member suggestions."
-    },
-    "composerAutocompleteUsersHeading": "Kullanıcılar",
-    "@composerAutocompleteUsersHeading": {
-        "description": "Section heading in composer autocomplete for user suggestions."
-    },
-    "composerAutocompleteMentionsHeading": "Bahsetmeler",
-    "@composerAutocompleteMentionsHeading": {
-        "description": "Section heading in composer autocomplete for mixed mention suggestions."
-    },
-    "composerAutocompleteRolesHeading": "Roller",
-    "@composerAutocompleteRolesHeading": {
-        "description": "Section heading in composer autocomplete for role suggestions."
-    },
     "composerAutocompleteMediaHeading": "Medya",
     "@composerAutocompleteMediaHeading": {
         "description": "Section heading in composer autocomplete for saved media."
@@ -15320,10 +14131,6 @@
     "memberListUnavailableBody": "Üye listeleri bu toplulukta geçici olarak kullanılamıyor",
     "@memberListUnavailableBody": {
         "description": "Body when member list updates are disabled for the community."
-    },
-    "channelHeaderOpenDetails": "Kanal ayrıntılarını aç",
-    "@channelHeaderOpenDetails": {
-        "description": "Accessibility label for the channel header title area."
     },
     "channelHeaderPinnedMessages": "Sabitlenmiş mesajlar",
     "@channelHeaderPinnedMessages": {
@@ -15686,10 +14493,6 @@
     "@userSettingsSearchPlaceholder": {
         "description": "Placeholder for the user settings search field."
     },
-    "userSettingsSearchFieldLabel": "Ayarları ara",
-    "@userSettingsSearchFieldLabel": {
-        "description": "Accessibility label for the user settings search field."
-    },
     "userSettingsSearchClear": "Aramayı temizle",
     "@userSettingsSearchClear": {
         "description": "Accessibility label for clearing the user settings search field."
@@ -15716,8 +14519,6 @@
     "giftSettingsGiftUrl": "Hediye URL'si",
     "giftSettingsCopy": "Kopyala",
     "giftSettingsCopied": "Kopyalandı",
-    "giftSettingsGiftUrlCopied": "Hediye URL'si panoya kopyalandı!",
-    "giftSettingsGiftUrlCopyFailed": "Hediye URL'si kopyalanamadı",
     "giftSettingsPurchasedDate": "{date} tarihinde satın alındı",
     "@giftSettingsPurchasedDate": {
         "placeholders": {
@@ -15759,7 +14560,6 @@
     "premiumBuyGift": "Hediye satın al",
     "premiumOneYearGift": "1 yıllık hediye",
     "premiumOneMonthGift": "1 aylık hediye",
-    "premiumMostPopular": "En popüler",
     "premiumScrollPrompt": "Plutonium'un sunduğu tüm avantajları görmek için aşağı kaydırın",
     "premiumFreeVsPlutonium": "Ücretsiz ve Plutonium",
     "premiumFreeColumn": "Ücretsiz",
@@ -15777,50 +14577,15 @@
     "premiumViewGifts": "Hediyeleri görüntüle",
     "premiumReadyToUpgrade": "Yükseltmeye hazır mısınız?",
     "premiumReadyToBuyGift": "Hediye almaya hazır mısınız?",
-    "premiumMonthlyPrice": "Aylık {price}",
-    "@premiumMonthlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumYearlyPrice": "Yıllık {price}",
-    "@premiumYearlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneYearPrice": "1 yıl {price}",
-    "@premiumOneYearPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneMonthPrice": "1 ay {price}",
-    "@premiumOneMonthPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
     "premiumManageSubscription": "Aboneliği yönet",
     "premiumRedeemGiftCode": "Hediye kodunu kullan",
     "premiumGiftBadge": "Hediye",
     "premiumCancelSubscriptionTitle": "Abonelik iptal edilsin mi?",
     "premiumCancelSubscriptionBody": "Avantajlarınız bir sonraki yenileme tarihinize kadar devam eder, ardından yeniden abone olup abone geçmişinizi korumak için 3 günlük ek süreniz olur.",
     "premiumCancelSubscriptionConfirm": "Aboneliği iptal et",
-    "premiumKeepSubscription": "Aboneliği sürdür",
     "premiumPurchaseHistoryTitle": "Satın alma geçmişi",
     "premiumPurchaseHistoryDescription": "Son faturalarınız. Aboneliğinizin ödeme yöntemini değiştirmek için fatura portalına bir tane ekleyin veya seçin ve varsayılan yapın.",
     "premiumManagePaymentMethods": "Ödeme yöntemlerini yönet",
-    "premiumBillingHistory": "Fatura geçmişi",
-    "premiumSelfServeRefundTitle": "Kendi kendine iade",
     "premiumSelfServeRefundButton": "Son satın almayı iade et",
     "premiumDisclaimerAgreementPrefix": "Satın alarak şunları kabul etmiş olursunuz ",
     "premiumDisclaimerAgreementPastPrefix": "Satın alarak şunları kabul etmiş olursunuz ",
@@ -15860,23 +14625,16 @@
         "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
     },
     "premiumComparisonFeatureColumn": "Özellik",
-    "premiumDisclaimerPurchased": "Satın alarak {terms} ve {privacy} belgelerini kabul etmiş oldunuz.",
-    "@premiumDisclaimerPurchased": {
-        "placeholders": {
-            "terms": {
-                "type": "String"
-            },
-            "privacy": {
-                "type": "String"
-            }
-        }
-    },
     "premiumDisclaimerRefund": "Ödemeden sonraki 3 gün içinde, 30 günde bir olmak üzere iadeyi kendiniz başlatabilirsiniz. Aboneliği iade etmek aboneliği iptal eder. AB/AEA alıcıları, içeriğe hemen erişmek için ödeme sırasında 14 günlük cayma hakkından feragat eder. Ödeme itirazı yerine uygulama içi iade düğmesini kullanın. Ödeme itirazları hesabınızı kalıcı olarak kısıtlayabilir. Stripe ödemeyi güvenli bir şekilde işler. Tam kart numaranızı asla görmeyiz.",
     "premiumTermsOfService": "Hizmet Şartları",
     "premiumPrivacyPolicy": "Gizlilik politikası",
     "premiumCheckoutStartFailedTitle": "Ödeme başlatılamadı",
     "premiumCheckoutStartFailedBody": "Ödeme başlatılırken bir sorun oluştu. Lütfen bir süre sonra tekrar deneyin.",
     "premiumPlanUnavailable": "Bu plan kullanılamıyor. Destekle iletişime geçin.",
+    "premiumPlanUnavailableSelfHosted": "Bu plan kullanılamıyor. Bu kurulumun yöneticileriyle iletişime geçin.",
+    "@premiumPlanUnavailableSelfHosted": {
+        "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
+    },
     "premiumCompletePaymentTitle": "Ödemeyi tamamla",
     "premiumCompletePaymentBody": "Ödemeyi tamamlamak için şimdi Stripe'a yönlendiriliyorsunuz. Tamamladıktan sonra Fluxer'a geri dönün.",
     "premiumChoosePaymentMethodTitle": "Ödeme yöntemi seçin",
@@ -15892,29 +14650,97 @@
     "premiumExistingSubscriptionTitle": "Abonelik zaten mevcut",
     "premiumExistingSubscriptionBody": "Bu hesap için mevcut bir Fluxer Plutonium aboneliği bulduk. Ödeme ayrıntılarını güncellemek veya yenileme durumunu kontrol etmek için güvenli faturalandırma portalında yönetin. Az önce ödeme yaptıysanız, bir dakika bekleyip bu sayfayı yeniden açın.",
     "premiumPurchasesDisabledTitle": "Satın alımlar kullanılamıyor",
-    "premiumPurchasesDisabledBody": "Bu hesap için satın alımlar devre dışı bırakıldı. Yanlış görünüyorsa support@fluxer.app ile iletişime geçin.",
+    "premiumPurchasesDisabledBody": "Bu hesap için satın alımlar devre dışı bırakıldı. Yanlış görünüyorsa {supportEmail} ile iletişime geçin.",
+    "@premiumPurchasesDisabledBody": {
+        "description": "Shown on the official hosted instance when purchases are disabled for the account. supportEmail is the support mailbox.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumPurchasesDisabledBodySelfHosted": "Bu hesap için satın alımlar devre dışı bırakıldı. Yanlış görünüyorsa bu kurulumun yöneticileriyle iletişime geçin.",
+    "@premiumPurchasesDisabledBodySelfHosted": {
+        "description": "Shown on a self-hosted instance when purchases are disabled for the account. Names no email address."
+    },
     "premiumClaimAccountToPurchase": "Fluxer Plutonium satın almak için hesabını talep et.",
     "premiumVerifyEmailToPurchase": "Fluxer Plutonium satın almadan önce e-postanı doğrulaman gerekiyor.",
-    "premiumPerkCustomUsernameTag": "Özel kullanıcı adı etiketi",
-    "premiumPerkPerCommunityProfiles": "Topluluğa özel profiller",
-    "premiumPerkMessageScheduling": "Mesaj zamanlama",
-    "premiumPerkProfileBadge": "Profil rozeti",
-    "premiumPerkCustomVideoBackgrounds": "Özel video arka planları",
-    "premiumPerkEntranceSounds": "Giriş sesleri",
     "premiumPerkCommunities": "Topluluklar",
     "premiumPerkMessageCharacterLimit": "Mesaj karakter sınırı",
     "premiumPerkBookmarkedMessages": "Yer işaretli mesajlar",
     "premiumPerkFileUploadSize": "Dosya yükleme boyutu",
-    "premiumPerkEmojiStickerPacks": "Emoji ve çıkartma paketleri",
-    "premiumPerkSavedMedia": "Kayıtlı medya",
     "premiumPerkUseAnimatedEmojis": "Hareketli emoji kullanımı",
-    "premiumPerkGlobalEmojiStickerAccess": "Her yerde emoji ve çıkartma erişimi",
     "premiumPerkVideoQuality": "Video kalitesi",
     "premiumPerkAnimatedAvatarsBanners": "Hareketli avatarlar ve profil banner'ları",
     "premiumPerkEarlyAccess": "Yeni özelliklere erken erişim",
-    "premiumPerkCustomThemes": "Özel temalar",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "4K/60fps'ye kadar",
+    "storePlutoniumPriceLine": "{monthly} veya {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/ay",
+    "storePlutoniumYearSuffix": "/yıl",
+    "storePlutoniumPriceOr": "veya",
+    "storePlutoniumEmojiTitle": "Emojileriniz her yerde",
+    "storePlutoniumEmojiBody": "Topluluklarınızdaki özel emojileri ve çıkartmaları bulunduğunuz her sohbete ve topluluğa getirin.",
+    "storePlutoniumProfileTitle": "Öne çıkan bir profil",
+    "storePlutoniumProfileBody": "Hareketli bir avatar ve başlık, abone rozeti, kullanıcı adınızdan sonra istediğiniz dört haneli etiket* ve her topluluk için ayrı bir profil edinin.",
+    "storePlutoniumFilesTitle": "500 MB'a kadar dosya gönderin",
+    "storePlutoniumFilesBody": "Videoların ve büyük dosyaların tamamını küçültmeden paylaşın. Ücretsiz hesaplar 25 MB'a kadar gönderebilir.",
+    "storePlutoniumCompareTitle": "Ücretsiz ve Plutonium karşılaştırması",
+    "storePlutoniumCompareMobileNote": "Bu özelliklerin tümü mobil uygulamada bulunmamaktadır. Bazıları yalnızca masaüstünde mevcuttur.",
+    "storePlutoniumNotAvailable": "Mevcut değil",
+    "storePlutoniumAvailable": "Mevcut",
+    "storePlutoniumCompareTag": "Kullanıcı adınızdan sonraki 4 haneli sayıyı seçin*",
+    "storePlutoniumCompareProfile": "Her topluluk için ayrı bir profil",
+    "storePlutoniumCompareBadge": "Profilinizdeki abone rozeti",
+    "storePlutoniumCompareBackgrounds": "Kaydedebileceğiniz görüntülü arama arka planları",
+    "storePlutoniumCompareCommunities": "Katılabileceğiniz topluluklar",
+    "storePlutoniumCompareCharacters": "Tek bir mesajdaki karakterler",
+    "storePlutoniumCompareBookmarks": "Yer işaretlerine ekleyebileceğiniz mesajlar",
+    "storePlutoniumCompareUpload": "Yükleyebileceğiniz en büyük dosya",
+    "storePlutoniumCompareSavedMedia": "Daha sonrası için kaydedebileceğiniz medya öğeleri",
+    "storePlutoniumCompareAnimatedEmoji": "Mesajlarda hareketli emojiler kullanın",
+    "storePlutoniumCompareCustomEmoji": "Herhangi bir toplulukta özel emojiler ve çıkartmalar kullanın",
+    "storePlutoniumCompareVideo": "Görüntülü arama ve ekran paylaşımı kalitesi",
+    "storePlutoniumCompareAvatar": "Animasyonlu avatar ve profil banner'ı",
+    "storePlutoniumCompareEarlyAccess": "Yeni özelliklere erken erişim",
+    "storePlutoniumCompareThemes": "Uygulama için özel temalar",
+    "storePlutoniumVideoFree": "30 FPS ile 720p'ye kadar",
+    "storePlutoniumVideoPlutonium": "60 FPS ile 4K'ya kadar",
+    "storePlutoniumTagFootnote": "Aynı kullanıcı adına sahip başka kimsenin kullanmadığı bir etiket seçebilirsiniz. Kullanıcı adları büyük/küçük harfe duyarlı değildir, bu nedenle Mina#4821 ve mina#4821 aynı kabul edilir. #0000 etiketi Fluxer Visionary üyeleri için ayrılmıştır.",
+    "storePlutoniumLearnVisionary": "Visionary hakkında daha fazla bilgi edinin.",
+    "storePlutoniumDonatePrompt": "Sadece Fluxer'ın açık kaynak geliştirmesini mi desteklemek istiyorsunuz? ",
+    "storePlutoniumDonateLink": "Bunun yerine bağış yapın.",
+    "storePlutoniumHighlightsLead": "Abone olmak Fluxer'ı finanse eder ve şunların kilidini açar",
+    "storePlutoniumHighlightEmoji": "Tüm sohbetlerde özel emojiler ve çıkartmalar",
+    "storePlutoniumHighlightProfile": "Hareketli profil, rozet ve özel 4 haneli numara",
+    "storePlutoniumHighlightFiles": "500 MB'a kadar yükleme",
+    "storePlutoniumHighlightMessages": "4.000 karaktere kadar mesaj gönderin",
+    "storePlutoniumHighlightCommunityProfile": "Her topluluk için ayrı bir profil",
+    "storePlutoniumHighlightsMore": "Ve daha fazlası",
+    "storePlutoniumRenewsThroughPlay": "İptal edene kadar Google Play üzerinden otomatik olarak yenilenir.",
+    "storePlutoniumRenewsThroughAppStore": "Siz iptal edene kadar App Store üzerinden otomatik olarak yenilenir.",
+    "storePlutoniumAlreadySubscribed": "Zaten bir Fluxer Plutonium aboneliğiniz var.",
+    "storePlutoniumSavePercent": "% {percent} tasarruf edin",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "Satın alma işlemi alındı. Plutonium etkinleştirildiğinde burada görünecektir.",
+    "storePlutoniumUnavailable": "Uygulama içi abonelikler bu cihazda henüz kullanılamıyor.",
+    "storePlutoniumVisionaryStatus": "Visionary zaten kalıcı erişim içerdiği için yinelenen bir aboneliğe gerek yok.",
     "userSettingsNavShortcuts": "Kısayollar",
     "@userSettingsNavShortcuts": {
         "description": "User settings navigation item for keyboard shortcuts."
@@ -16003,6 +14829,18 @@
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
     },
+    "userSettingsNavAppIcon": "Uygulama simgesi",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "Uygulama simgesi",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "Ana ekranınızda hangi simgenin görüneceğini seçin.",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
+    },
     "advancedSettingsConfigure": "Yapılandır",
     "@advancedSettingsConfigure": {
         "description": "Button label that opens a dedicated advanced settings modal."
@@ -16050,7 +14888,6 @@
     "advancedSettingStripTrackingLabel": "URL'lerden izleme parametrelerini kaldır",
     "advancedSettingStripTrackingDescription": "Gönderdiğiniz mesajlardaki URL'lerden izleme parametrelerini otomatik olarak kaldırın",
     "advancedSettingTrustAllLinksLabel": "Tüm harici bağlantılara güven",
-    "advancedSettingTrustAllLinksDescription": "Tüm alan adları için harici bağlantı uyarısını atla",
     "advancedSettingSearchEnginesLabel": "Arama motorları",
     "advancedSettingSearchEnginesDescription": "Seçili metinden kullanılacak arama motorlarını yapılandırın",
     "advancedSettingTranslatorsLabel": "Çevirmenler",
@@ -16106,13 +14943,6 @@
     "advancedSettingHideStreamPreviewLabel": "Yayın önizleme küçük resmimi gizle",
     "advancedSettingDeveloperModeLabel": "Geliştirici modunu etkinleştir",
     "advancedSettingDeveloperModeDescription": "Geliştirici modunu etkinleştir",
-    "advancedSettingSearchEngineGoogle": "Google",
-    "advancedSettingSearchEngineDuckDuckGo": "DuckDuckGo",
-    "advancedSettingSearchEngineBing": "Bing",
-    "advancedSettingSearchEngineGoogleLens": "Google Lens",
-    "advancedSettingSearchEngineTinEye": "TinEye",
-    "advancedSettingTranslatorGoogle": "Google Çeviri",
-    "advancedSettingTranslatorDeepL": "DeepL",
     "advancedSettingDefaultSearchEngineLabel": "Varsayılan arama motoru",
     "advancedSettingDefaultSearchEngineDescription": "Seçili metni ararken varsayılan olarak hangi arama motorunun kullanılacağını seçin.",
     "advancedSettingBuiltInSearchEnginesLabel": "Yerleşik arama motorları",
@@ -16251,6 +15081,14 @@
     "authHidePassword": "Parolayı gizle",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "Hâlâ çalışıyor…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
+    },
+    "authVerificationFailed": "Doğrulama tamamlanamadı. Tekrar deneyin.",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
     },
     "chatLoadingMessages": "Mesajlar yükleniyor",
     "@chatLoadingMessages": {
@@ -16658,10 +15496,6 @@
     "@guildMembersColumnRoles": {
         "description": "Table column header on the community members page."
     },
-    "guildMembersColumnActions": "İşlemler",
-    "@guildMembersColumnActions": {
-        "description": "Table column header on the community members page."
-    },
     "guildMembersFilterMemberSince": "Üyelik tarihine göre filtrele",
     "@guildMembersFilterMemberSince": {
         "description": "Filter menu label on the community members page."
@@ -16746,23 +15580,6 @@
     "@guildMembersIndexing": {
         "description": "Banner shown while guild members are being indexed."
     },
-    "guildMembersGoToPage": "Sayfaya git",
-    "@guildMembersGoToPage": {
-        "description": "Pagination jump label on the community members page."
-    },
-    "guildMembersGoToPageItem": "{page} sayfasına git",
-    "@guildMembersGoToPageItem": {
-        "description": "Accessibility label for a pagination page button.",
-        "placeholders": {
-            "page": {
-                "type": "int"
-            }
-        }
-    },
-    "guildMembersJumpToPage": "Sayfaya atla",
-    "@guildMembersJumpToPage": {
-        "description": "Label for pagination jump input on the community members page."
-    },
     "guildMembersJoinSourceCreator": "Topluluk kurucusu",
     "@guildMembersJoinSourceCreator": {
         "description": "Join method label on the community members page."
@@ -16839,28 +15656,14 @@
             }
         }
     },
-    "guildMembersJoinedDaysAgo": "{count, plural, one {1 gün önce} other {{count} gün önce}}",
-    "@guildMembersJoinedDaysAgo": {
-        "description": "Relative join time on the community members page.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
     "guildMembersChannelListLabel": "Üyeler",
     "@guildMembersChannelListLabel": {
         "description": "Label for the Members item at the top of the guild channel list."
-    },
-    "guildMembersChannelListSelected": "Üyeler, seçili",
-    "@guildMembersChannelListSelected": {
-        "description": "Accessibility label when the Members channel list item is selected."
     },
     "guildSettingsEmojiSlotsTitle": "Emoji yuvaları",
     "guildSettingsEmojiDropZone": "Emoji dosyalarını buraya sürükleyip bırakın",
     "guildSettingsEmojiLoadFailed": "Emojiler yüklenemedi. Daha sonra tekrar deneyin.",
     "guildSettingsEmojiSearchEmpty": "Aramanızla eşleşen emoji bulunamadı.",
-    "guildSettingsEmojiNoSlots": "Kullanılabilir emoji alanı yok",
     "guildSettingsEmojiSlotsFull": "Maksimum emoji sayısına ulaştınız. Yer açmak için mevcut emojilerden bazılarını silin.",
     "guildSettingsEmojiUploadRequirements": "Emoji adları en az 2 karakter olmalıdır ve harf, rakam ve alt çizgi içerebilir. Emojiler {maxSize} boyutunun altında olmalıdır. Statik görseller otomatik olarak 128x128 piksele yeniden boyutlandırılır ve sıkıştırılır. Hareketli emojiler ve SVG'ler bu sınıra baştan uymalıdır.",
     "@guildSettingsEmojiUploadRequirements": {
@@ -16870,24 +15673,11 @@
             }
         }
     },
-    "guildSettingsEmojiUploadingTitle": "Emojiler yükleniyor",
-    "guildSettingsEmojiUploadingBody": "{count, plural, one {# emoji yükleniyor} other {# emoji yükleniyor}}. Bu biraz zaman alabilir.",
-    "@guildSettingsEmojiUploadingBody": {
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsEmojiUploadFailed": "Emojiler yüklenemedi. Tekrar deneyin.",
     "guildSettingsEmojiSomeFailedTitle": "Bazı emojiler eklenemedi",
-    "guildSettingsEmojiSomeFailedBody": "Bu dosyaları inceleyin ve daha küçük veya daha basit görsellerle tekrar deneyin.",
     "guildSettingsEmojiRenameTitle": "Emojiyi yeniden adlandır",
     "guildSettingsEmojiRenameHint": "2-32 karakter, harf, sayı, alt çizgi.",
-    "guildSettingsEmojiColumnEmoji": "Emoji",
     "guildSettingsEmojiColumnName": "Ad",
     "guildSettingsEmojiColumnUploader": "Yükleyen",
-    "guildSettingsEmojiUnknownUploader": "Bilinmiyor",
     "guildSettingsEmojiDeleteTitle": "Emojiyi sil",
     "guildSettingsEmojiDeleteBody": "{name}: silinsin mi? Geri alınamaz.",
     "@guildSettingsEmojiDeleteBody": {
@@ -16902,15 +15692,7 @@
     "guildSettingsEmojiNameTooLong": "Emoji adı en fazla 32 karakter uzunluğunda olmalıdır",
     "guildSettingsEmojiInvalidNameTitle": "Geçersiz emoji adı",
     "guildSettingsEmojiRenameFailedTitle": "Bu emojinin adı değiştirilemedi",
-    "guildSettingsEmojiRenameFailedBody": "Ad eski haline döndürüldü. Lütfen birazdan tekrar deneyin.",
-    "guildSettingsEmojiGoneTitle": "Bu emoji artık mevcut değil",
-    "guildSettingsEmojiGoneBody": "Silinmiş olabilir. Adı önceki haline döndürüldü.",
-    "guildSettingsEmojiNoPermissionRenameTitle": "Bu emojiyi yeniden adlandıramazsınız",
-    "guildSettingsEmojiNoPermissionRenameBody": "Bu emojiyi yeniden adlandırma izniniz yok. Ad önceki haline döndürüldü.",
-    "guildSettingsEmojiRateLimitedTitle": "Çok hızlı gidiyorsunuz",
-    "guildSettingsEmojiRateLimitedBody": "Lütfen bir süre bekleyip yeniden adlandırmayı tekrar deneyin.",
     "guildSettingsEmojiDeleteFailedTitle": "Bu emoji silinemedi",
-    "guildSettingsEmojiDeleteNoPermissionTitle": "Bu emojiyi silemezsiniz",
     "guildSettingsCloneEmojiTitle": "Emojilerinizin kopyalanmasına izin ver",
     "guildSettingsCloneEmojiDescription": "Etkinleştirildiğinde, diğer toplulukların üyeleri özel emojilerinizde uygulama içi tek tıklamayla \"Klonla\" kısayolunu kullanabilir. Bu, onların görseli kaydedip kendilerinin yüklemesini engellemez.",
     "guildSettingsCloneStickerTitle": "Çıkartmalarının kopyalanmasına izin ver",
@@ -16934,8 +15716,6 @@
     "guildSettingsStickersLoadFailedTitle": "Çıkartmalar yüklenemedi",
     "guildSettingsStickersLoadFailedBody": "Çıkartmalar yüklenirken bir hata oluştu. Tekrar deneyin.",
     "guildSettingsStickersSearchEmpty": "Aramanızla eşleşen çıkartma bulunamadı.",
-    "guildSettingsStickersEmptySearch": "Çıkartma bulunamadı",
-    "guildSettingsStickerNoSlots": "Kullanılabilir çıkartma alanı yok",
     "guildSettingsStickerSlotsFull": "Çıkartma sınırına ulaştınız. Yer açmak için mevcut çıkartmalardan bazılarını silin.",
     "guildSettingsStickerUploadRequirements": "Çıkartmalar 320x320 piksel boyutunda kaydedilir ve {maxSize} boyutundan küçük olmalıdır. Statik görseller otomatik olarak yeniden boyutlandırılır ve sıkıştırılır. Animasyonlu çıkartmaların ve SVG'lerin zaten bu sınıra uyması gerekir.",
     "@guildSettingsStickerUploadRequirements": {
@@ -16945,7 +15725,6 @@
             }
         }
     },
-    "guildSettingsStickerUnsupportedTitle": "Desteklenmeyen çıkartma dosyası",
     "guildSettingsStickerAddTitle": "Çıkartma ekle",
     "guildSettingsStickerEditTitle": "Çıkartmayı düzenle",
     "guildSettingsStickerNameLabel": "Ad",
@@ -16970,8 +15749,6 @@
     "guildSettingsStickerNameTooLong": "Ad 30 karakter veya daha az olmalı",
     "guildSettingsStickerDescriptionTooLong": "Açıklama 500 karakter veya daha az olmalı",
     "guildSettingsStickerCreateFailedTitle": "Bu çıkartma oluşturulamadı",
-    "guildSettingsStickerTooLargeTitle": "Çıkartma çok büyük",
-    "guildSettingsStickerCompressFailedTitle": "Çıkartma yeterince sıkıştırılamadı",
     "guildSettingsStickerDeleteTitle": "Çıkartmayı sil",
     "guildSettingsStickerDeleteBody": "\"{name}\" silinsin mi? Geri alınamaz.",
     "@guildSettingsStickerDeleteBody": {
@@ -16983,7 +15760,6 @@
     },
     "guildSettingsStickerPurgeLabel": "Bu çıkartmayı depolama alanından ve CDN'den temizle",
     "guildSettingsStickerDeleteFailedTitle": "Bu çıkartma silinemedi",
-    "guildSettingsStickerDeleteNoPermissionTitle": "Bu etiketi silemezsin",
     "keybindsSearchShortcuts": "Kısayolları ara",
     "@keybindsSearchShortcuts": {
         "description": "Placeholder for the shortcuts settings search field."
@@ -17066,6 +15842,40 @@
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
+    "assistantNeedsLogin": "Önce Fluxer'ı açın ve oturum açın.",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "Bir aramada değilsiniz.",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "Fluxer bunu bulamadı.",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "Bu kurulumda doğrudan mesajlar devre dışı bırakıldı.",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "Fluxer bunu tamamlayamadı.",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "Mikrofon kapatıldı.",
+    "assistantOkUnmuted": "Mikrofon açıldı.",
+    "assistantOkLeftVoice": "Sesli kanaldan ayrıldınız.",
+    "assistantOkJoinedVoice": "Sesli kanala katılınıyor.",
+    "assistantOkStartedCall": "Arama başlatılıyor.",
+    "assistantOkStatusSet": "Durum {status} olarak ayarlandı.",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "Fluxer açılıyor.",
     "applicationsTitle": "Uygulamalar",
     "@applicationsTitle": {
         "description": "Title for the developer Applications settings tab."
@@ -17108,6 +15918,15 @@
         "description": "Empty-state body. apiName is the product API display name.",
         "placeholders": {
             "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "Oluşturulma tarihi: {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
                 "type": "String"
             }
         }
@@ -17292,6 +16111,10 @@
     "@applicationsOauthBuilderTitle": {
         "description": "Section title for the authorize URL builder."
     },
+    "applicationsOauthBuilderDescription": "Kapsamlar ve izinlerle bir yetkilendirme URL'si oluşturun.",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
     "applicationsScopes": "Kapsamlar",
     "@applicationsScopes": {
         "description": "Label for OAuth2 scope checkboxes."
@@ -17324,6 +16147,10 @@
     "@applicationsAuthorizeUrlPlaceholder": {
         "description": "Placeholder when the authorize URL cannot be built yet."
     },
+    "applicationsCopyAuthorizeUrl": "Yetkilendirme URL'sini kopyala",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
     "applicationsCopiedUrl": "URL panoya kopyalandı",
     "@applicationsCopiedUrl": {
         "description": "Toast after copying the authorize URL."
@@ -17343,6 +16170,15 @@
     "applicationsDelete": "Uygulamayı sil",
     "@applicationsDelete": {
         "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "{name} uygulamasını silmek istediğinizden emin misiniz? Bu eylem geri alınamaz. Bot kullanıcısı dahil olmak üzere ilgili tüm veriler kalıcı olarak silinecektir.",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     },
     "applicationsDeleteFailed": "Uygulama silinemedi",
     "@applicationsDeleteFailed": {
@@ -17432,6 +16268,10 @@
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
     },
+    "voiceOutputRouteEarpiece": "Ahize",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
     "voiceOutputRouteHeadset": "Kulaklık",
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
@@ -17439,6 +16279,14 @@
     "doubleTapReactionEdit": "Düzenle",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "Varsayılanı düzenle",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "Çift dokunma emojisini seçin",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
     },
     "chatMessagePinConfirm": "Sabitle",
     "@chatMessagePinConfirm": {
@@ -17452,9 +16300,17 @@
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."
     },
+    "appIconOptionStarfield": "Yıldız alanı",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
     "appIconOptionSweden": "İsveç",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "Uygulama simgesini değiştirme bu cihazda kullanılamıyor.",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     },
     "userSettingsLogOutConfirmTitle": "Çıkış yapılsın mı?",
     "@userSettingsLogOutConfirmTitle": {
@@ -17484,5 +16340,178 @@
     "@guildSettingsCommunityDeleted": {
         "description": "Success toast after a community is deleted."
     },
-    "assistantOkMessageSent": "Mesaj gönderildi."
+    "guildSettingsDeleteCommunityFailed": "Bu topluluk silinemedi",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantOkMessageSent": "Mesaj gönderildi.",
+    "assistantOkCustomStatusSet": "Özel durum güncellendi.",
+    "assistantOkCustomStatusCleared": "Özel durum temizlendi.",
+    "guildNavbarAnnouncementChannel": "Duyuru kanalı",
+    "guildNavbarAnnouncementChannelDescription": "Diğer toplulukların kendi kanallarında takip edebileceği güncellemeler yayınla",
+    "channelDetailsAnnouncementChannel": "Duyuru kanalı",
+    "channelSettingsAnnouncementChannel": "Duyuru kanalı",
+    "channelSettingsAnnouncementChannelDescription": "Diğer toplulukların bu kanalı takip etmesini ve yayınladıklarınızın kopyalarını almasını sağlar.",
+    "channelSettingsStopAnnouncementTitle": "Duyuru kanalı olmaktan çıkılsın mı?",
+    "channelSettingsStopAnnouncementBody": "{count, plural, =1{1 kanal bu kanalı takip ediyor. Bu kanalı bir metin kanalına dönüştürmek, bu takibi kaldırır.} other{{count} kanal bu kanalı takip ediyor. Bu kanalı bir metin kanalına dönüştürmek, bu takipleri kaldırır.}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "Bu kanalı bir metin kanalına dönüştürürseniz onu takip eden tüm kanalların takibi kaldırılır.",
+    "channelSettingsConvertChannel": "Dönüştür",
+    "channelSettingsConvertFailed": "Bu kanal dönüştürülemedi",
+    "channelSettingsChannelHasFollowers": "Bu kanalı hâlâ başka kanallar takip ediyor. Dönüştürmeden önce bu takipleri kaldırın.",
+    "channelMenuFollow": "Kanalı takip et",
+    "channelFollowTitle": "Bu kanalı takip et",
+    "channelFollowBody": "Yayınlanan mesajlarının nereye gideceğini seçin. Topluluk ayarları → Webhook'lar bölümünden istediğiniz zaman takibi bırakabilirsiniz.",
+    "channelFollowCommunity": "Topluluk",
+    "channelFollowChannel": "Kanal",
+    "channelFollowAgeWarning": "Bu, yaş kısıtlamalı bir kanaldır. Güncellemeler yalnızca yaş kısıtlamalı kanallara gidebilir.",
+    "channelFollowContentWarning": "Bu kanalda içerik uyarısı var. Güncellemeler yalnızca içerik uyarısı veya yaş kısıtlaması olan kanallara gidebilir.",
+    "channelFollowHiddenHint": "Webhook'ları yönetemediğiniz topluluklar ve kanallar gizlenir.",
+    "channelFollowEmpty": "Hiçbir toplulukta webhook'ları yönetemiyorsunuz. Bu kanalı takip etmesi için bir yöneticiden yardım isteyin.",
+    "channelFollowSubmit": "Takip et",
+    "channelFollowFailed": "Bu kanal takip edilemedi.",
+    "channelFollowSuccessTitle": "Güncellemeler yolda!",
+    "channelFollowSuccessBody": "{sourceName} kanalında yayınlanan mesajlar #{targetName} kanalında görünecek.",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "Tamamdır!",
+    "channelFollowBarrier": "Bu duyuruları seçtiğiniz bir kanalda almak için bu kanalı takip edin.",
+    "channelHeaderFollow": "Kanalı takip et",
+    "chatMessagePublish": "Yayınla",
+    "chatMessagePublished": "Yayınlandı",
+    "chatMessagePublishConfirmTitle": "Mesaj yayınlansın mı?",
+    "chatMessagePublishConfirmBody": "Bu, bu kanalı takip eden her kanala bir kopya gönderir.",
+    "chatMessagePublishedToast": "Mesaj yayınlandı",
+    "chatMessageAlreadyPublished": "Bu mesaj zaten yayınlandı.",
+    "chatMessagePublishFailedTitle": "Bu mesaj yayınlanamadı",
+    "chatMessagePublishFailedBody": "Bir sorun oluştu. Lütfen birazdan tekrar deneyin.",
+    "chatMessagePublishLimitTitle": "Yavaşlayın",
+    "chatMessagePublishLimitBody": "{duration} sonra tekrar yayınlayabilirsiniz.",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "Çok hızlı yayın yapıyorsunuz. Birazdan tekrar deneyin.",
+    "chatMessageDeletePublished": "Bu işlem, bu kanalı takip eden kanallara gönderilen kopyaları da kaldırır.",
+    "chatMessageEditPublishedTitle": "Yayınlanan mesaj düzenlensin mi?",
+    "chatMessageEditPublishedBody": "Bu işlem, bu kanalı takip eden kanallara gönderilen kopyaları günceller.",
+    "chatMessageEditPublishedSave": "Kaydet",
+    "chatMessageEditLimitTitle": "Yavaşlayın",
+    "chatMessageEditLimitBody": "Bu yayınlanmış mesajı {duration} içinde tekrar düzenleyebilirsiniz.",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "Bu yayınlanmış mesajı çok hızlı düzenliyorsunuz. Lütfen bir süre sonra tekrar deneyin.",
+    "chatMessageOriginalDeleted": "[Orijinal mesaj silindi]",
+    "userTagCommunity": "Topluluk",
+    "systemFollowAdd": "{username}, bu kanalı {source} kanalını takip edecek şekilde ayarladı. Orada yayınlanan mesajlar burada görünecek.",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username}, bu kanalı {source} kanalını takip edecek şekilde ayarladı.",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "Henüz takipçilere gönderilmedi.",
+    "publishNudgeHideForever": "Bir daha gösterme",
+    "publishNudgeDismiss": "Kapat",
+    "channelSettingsFollowedChannels": "Takip edilen kanallar",
+    "channelSettingsFollowedChannelsDescription": "Bu kanalın takip ettiği duyuru kanalları. Kopya almayı durdurmak için takibi bırakın.",
+    "guildSettingsFollowedChannelsDescription": "Bu topluluktaki kanallar tarafından takip edilen duyuru kanalları.",
+    "channelSettingsFollowedFrom": "Kaynak: {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "Kaynak kanal artık kullanılamadığı için güncellemeler duraklatıldı.",
+    "channelSettingsUnfollowTitle": "{name} takibi bırakılsın mı?",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "Bu kanal, o duyuru kanalından kopya almayı durduracak.",
+    "channelSettingsUnfollow": "Takibi bırak",
+    "crosspostCommunityTitle": "Topluluk",
+    "crosspostGoToCommunity": "Topluluğa git",
+    "crosspostJoinCommunity": "Topluluğa katıl",
+    "crosspostSourceFailed": "Bu topluluk yüklenemedi. Bir süre sonra tekrar deneyin.",
+    "crosspostMembers": "{count} üye",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "{count} çevrimiçi",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, =1{1 dakika} other{{count} dakika}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, =1{1 saniye} other{{count} saniye}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "Desteklenmeyen kanal türü",
+    "channelUnsupportedBody": "Uygulamanın bu sürümü bu kanal türünü desteklemiyor.",
+    "channelDetailsUnsupportedChannel": "Desteklenmeyen kanal"
 }

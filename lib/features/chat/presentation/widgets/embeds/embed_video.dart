@@ -16,7 +16,6 @@ class EmbedVideo extends StatelessWidget {
   final Embed embed;
   final MediaDimensionSize dimensionSize;
   final String? channelId;
-  final String? messageId;
   final int? embedIndex;
   final MessageMediaActionScope? videoActionScope;
 
@@ -24,7 +23,6 @@ class EmbedVideo extends StatelessWidget {
     required this.embed,
     this.dimensionSize = MediaDimensionSize.small,
     this.channelId,
-    this.messageId,
     this.embedIndex,
     this.videoActionScope,
     super.key,

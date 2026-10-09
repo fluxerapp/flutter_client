@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
-import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/announcement_follow.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -177,15 +176,4 @@ Future<void> _showPublishFailed(
       FluxerButton.primary(onPressed: () => pop(), label: l10n.uiConfirm),
     ],
   );
-}
-
-BuildContext? publishSheetContext(BuildContext? fallback) {
-  final BuildContext? root = rootNavigatorKey.currentContext;
-  if (root != null && root.mounted) {
-    return root;
-  }
-  if (fallback != null && fallback.mounted) {
-    return fallback;
-  }
-  return null;
 }

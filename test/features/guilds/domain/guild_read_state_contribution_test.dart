@@ -94,7 +94,6 @@ void main() {
         );
         expect(result.mentionAllowed, isFalse);
         expect(result.unreadAllowed, isFalse);
-        expect(result.mentionCount, 0);
       },
     );
   });

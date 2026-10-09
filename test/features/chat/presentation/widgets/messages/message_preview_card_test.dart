@@ -15,7 +15,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         locale: kTestLocale,
-        localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+        localizationsDelegates: fluxerLocalizationsDelegates,
         supportedLocales: FluxerLocalizations.supportedLocales,
         theme: buildFluxerTheme(
           colorTheme: colorTheme,

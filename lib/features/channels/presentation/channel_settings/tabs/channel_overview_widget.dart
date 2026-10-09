@@ -527,7 +527,6 @@ class _ChannelOverviewWidgetState extends ConsumerState<ChannelOverviewWidget> {
               guild: ref.watch(guildByIdProvider(channel.guildId)).value,
               nsfwOverride: _current.nsfwOverride,
               contentWarningLevel: _current.contentWarningLevel,
-              contentWarningText: _current.contentWarningText,
               warningTextController: _warningTextController,
               onNsfwOverrideChanged: (bool? value) {
                 _updateCurrent(_current.copyWith(nsfwOverride: value));

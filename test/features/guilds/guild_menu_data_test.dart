@@ -7,49 +7,6 @@ import '../../helpers/test_l10n.dart';
 void main() {
   final FluxerLocalizations l10n = testL10n;
 
-  group('canAccessAnyGuildSettings', () {
-    test('returns true for manageGuild', () {
-      expect(canAccessAnyGuildSettings(Permission.manageGuild.value), isTrue);
-    });
-
-    test('returns true for manageRoles', () {
-      expect(canAccessAnyGuildSettings(Permission.manageRoles.value), isTrue);
-    });
-
-    test('returns true for viewAuditLog', () {
-      expect(canAccessAnyGuildSettings(Permission.viewAuditLog.value), isTrue);
-    });
-
-    test('returns true for manageWebhooks', () {
-      expect(
-        canAccessAnyGuildSettings(Permission.manageWebhooks.value),
-        isTrue,
-      );
-    });
-
-    test('returns true for manageExpressions', () {
-      expect(
-        canAccessAnyGuildSettings(Permission.manageExpressions.value),
-        isTrue,
-      );
-    });
-
-    test('returns true for createExpressions', () {
-      expect(
-        canAccessAnyGuildSettings(Permission.createExpressions.value),
-        isTrue,
-      );
-    });
-
-    test('returns true for banMembers', () {
-      expect(canAccessAnyGuildSettings(Permission.banMembers.value), isTrue);
-    });
-
-    test('returns false for viewChannel only', () {
-      expect(canAccessAnyGuildSettings(Permission.viewChannel.value), isFalse);
-    });
-  });
-
   group('canOpenGuildSettings', () {
     test('returns true for manageGuild on non-touch', () {
       expect(

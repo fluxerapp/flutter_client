@@ -9,7 +9,6 @@ LimitConfigSnapshot expandLimitWireFormat(
   final List<LimitRule> rules = <LimitRule>[
     for (final WellKnownFluxerResponseLimitsRules rule in wireFormat.rules)
       LimitRule(
-        id: rule.id,
         filters: _mapLimitFilter(rule.filters),
         limits: <String, int>{
           ...defaults,
@@ -18,11 +17,7 @@ LimitConfigSnapshot expandLimitWireFormat(
         },
       ),
   ];
-  return LimitConfigSnapshot(
-    version: wireFormat.version.round(),
-    traitDefinitions: wireFormat.traitDefinitions.toList(growable: false),
-    rules: rules,
-  );
+  return LimitConfigSnapshot(rules: rules);
 }
 
 LimitFilter? _mapLimitFilter(

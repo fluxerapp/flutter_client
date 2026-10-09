@@ -239,33 +239,3 @@ List<Widget> categoryMenuGroupsToWidgets({
   }
   return widgets;
 }
-
-List<CategoryMenuAction> flattenCategoryMenuActions(
-  List<CategoryMenuGroup> groups,
-) {
-  return <CategoryMenuAction>[
-    for (final CategoryMenuGroup group in groups)
-      for (final CategoryMenuEntry entry in group) entry.action,
-  ];
-}
-
-List<String> flattenCategoryMenuLabels(List<CategoryMenuGroup> groups) {
-  return <String>[
-    for (final CategoryMenuGroup group in groups)
-      for (final CategoryMenuEntry entry in group) entry.label,
-  ];
-}
-
-bool categoryMenuEntryIsDanger(
-  List<CategoryMenuGroup> groups,
-  CategoryMenuAction action,
-) {
-  for (final CategoryMenuGroup group in groups) {
-    for (final CategoryMenuEntry entry in group) {
-      if (entry.action == action) {
-        return entry.isDanger;
-      }
-    }
-  }
-  return false;
-}

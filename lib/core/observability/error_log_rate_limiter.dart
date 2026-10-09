@@ -25,22 +25,10 @@ class ErrorLogRateLimiter {
     final String key = _key(error, stackTrace, source);
     final _Entry? entry = _entries[key];
     if (entry != null && now.difference(entry.lastLogged) < cooldown) {
-      entry.suppressed++;
       return false;
-    }
-    if (entry != null && entry.suppressed > 0) {
-      entry.suppressed = 0;
     }
     _entries[key] = _Entry(lastLogged: now);
     return true;
-  }
-
-  int suppressedCount({
-    required Object error,
-    required String source,
-    StackTrace? stackTrace,
-  }) {
-    return _entries[_key(error, stackTrace, source)]?.suppressed ?? 0;
   }
 
   void _maybePrune(DateTime now) {
@@ -69,5 +57,4 @@ class _Entry {
   _Entry({required this.lastLogged});
 
   final DateTime lastLogged;
-  int suppressed = 0;
 }

@@ -13,7 +13,6 @@ import 'package:fluxer_app/features/discovery/presentation/widgets/discovery_joi
 import 'package:fluxer_app/features/discovery/providers/discovery_controller.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
-import 'package:fluxer_app/features/moderation/presentation/iar_report_guild.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_icon_avatar.dart';
 import 'package:fluxer_app/features/ui/badge/fluxer_guild_badge.dart';
@@ -274,12 +273,6 @@ class DiscoveryGuildCard extends ConsumerWidget {
                 variant: FluxerToastVariant.success,
               ),
             );
-      case DiscoveryGuildCardAction.report:
-        await showReportGuildFlow(
-          context,
-          guildId: guild.id,
-          guildName: guild.name,
-        );
     }
   }
 

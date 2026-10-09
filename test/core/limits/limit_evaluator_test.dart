@@ -10,10 +10,8 @@ void main() {
   group('LimitEvaluator', () {
     test('applies premium attachment limit when premium trait matches', () {
       const LimitConfigSnapshot snapshot = LimitConfigSnapshot(
-        traitDefinitions: <String>['premium'],
         rules: <LimitRule>[
           LimitRule(
-            id: 'premium',
             filters: LimitFilter(traits: <String>['premium']),
             limits: <String, int>{
               LimitKeys.maxAttachmentFileSize: kPremiumMaxAttachmentBytes,
@@ -31,10 +29,8 @@ void main() {
 
     test('uses free defaults when premium trait does not match', () {
       const LimitConfigSnapshot snapshot = LimitConfigSnapshot(
-        traitDefinitions: <String>['premium'],
         rules: <LimitRule>[
           LimitRule(
-            id: 'premium',
             filters: LimitFilter(traits: <String>['premium']),
             limits: <String, int>{
               LimitKeys.maxAttachmentFileSize: kPremiumMaxAttachmentBytes,
@@ -54,10 +50,8 @@ void main() {
       'self-hosted everyone mode grants feature toggles without premium trait',
       () {
         const LimitConfigSnapshot snapshot = LimitConfigSnapshot(
-          traitDefinitions: <String>[],
           rules: <LimitRule>[
             LimitRule(
-              id: 'default',
               limits: <String, int>{
                 LimitKeys.featureGlobalExpressions: 1,
                 LimitKeys.maxMessageLength: kMaxMessageLengthPremium,

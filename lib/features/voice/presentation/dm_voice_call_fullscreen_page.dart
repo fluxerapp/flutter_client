@@ -146,7 +146,7 @@ class _DmVoiceCallFullscreenPageState
                                 channelId: widget.channelId,
                               ),
                             ),
-                            VoiceChannelControlBar(channelId: widget.channelId),
+                            const VoiceChannelControlBar(),
                           ],
                         ),
                 )

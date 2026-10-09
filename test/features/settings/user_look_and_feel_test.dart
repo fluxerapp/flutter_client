@@ -18,6 +18,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/user_look_and_
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_sync_service.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
+import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart';
@@ -128,6 +129,7 @@ UserSettingsResponse _settingsResponseWithTheme(String theme) =>
       'staff_dm_access_user_ids': <String>[],
       'synced_preferences': '',
       'profile_privacy': 0,
+      'privacy_setup_version': 0,
       'default_share_voice_activity': false,
       'custom_status': null,
     });
@@ -149,7 +151,7 @@ Widget _wrap(Widget child, {required FluxerDatabase db}) {
         textTheme: FluxerTextTheme.fromColors(colorTheme),
         layoutTheme: FluxerLayoutTheme.scaled(),
       ),
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       home: Scaffold(body: child),
     ),
@@ -206,6 +208,50 @@ void main() {
     expect(find.text('Favorites'), findsOneWidget);
   });
 
+  testWidgets('shows theme colors configure row', (tester) async {
+    _ignoreSliderOverflows();
+    tester.view.physicalSize = const Size(800, 2000);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(() {
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
+    });
+
+    final container = ProviderContainer(
+      overrides: [
+        instanceRuntimeConfigOverride(),
+        fluxerDatabaseProvider.overrideWithValue(db),
+        userSettingsSyncProvider.overrideWith(_NoopUserSettingsSyncService.new),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: MaterialApp(
+          theme: buildFluxerTheme(
+            colorTheme: buildDarkColorTheme(),
+            textTheme: FluxerTextTheme.fromColors(buildDarkColorTheme()),
+            layoutTheme: FluxerLayoutTheme.scaled(),
+          ),
+          localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+          supportedLocales: FluxerLocalizations.supportedLocales,
+          home: Scaffold(
+            body: UserLookAndFeel(scrollController: ScrollController()),
+          ),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    expect(find.text('Theme colors'), findsOneWidget);
+    expect(
+      find.text('Customize individual theme colors for this device.'),
+      findsOneWidget,
+    );
+  });
+
   testWidgets('tapping local-only wallpaper icon shows a toast', (
     tester,
   ) async {
@@ -235,7 +281,7 @@ void main() {
             textTheme: FluxerTextTheme.fromColors(buildDarkColorTheme()),
             layoutTheme: FluxerLayoutTheme.scaled(),
           ),
-          localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+          localizationsDelegates: fluxerLocalizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           home: Scaffold(
             body: UserLookAndFeel(scrollController: ScrollController()),
@@ -287,7 +333,7 @@ void main() {
             textTheme: FluxerTextTheme.fromColors(buildDarkColorTheme()),
             layoutTheme: FluxerLayoutTheme.scaled(),
           ),
-          localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+          localizationsDelegates: fluxerLocalizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           home: Scaffold(
             body: UserLookAndFeel(scrollController: ScrollController()),
@@ -338,7 +384,7 @@ void main() {
             textTheme: FluxerTextTheme.fromColors(buildDarkColorTheme()),
             layoutTheme: FluxerLayoutTheme.scaled(),
           ),
-          localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+          localizationsDelegates: fluxerLocalizationsDelegates,
           supportedLocales: FluxerLocalizations.supportedLocales,
           home: Scaffold(
             body: UserLookAndFeel(scrollController: ScrollController()),

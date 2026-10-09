@@ -1,8 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/clipboard_attachment_reader.dart';
-import 'package:fluxer_app/features/chat/utils/composer/composer_clipboard_paste.dart';
-import 'package:fluxer_app/material_ui.dart';
 import 'package:super_clipboard/super_clipboard.dart';
 
 void main() {
@@ -236,27 +234,6 @@ void main() {
         shouldSkipClipboardFileFormat(item, Formats.plainTextFile),
         isFalse,
       );
-    });
-  });
-
-  group('pastePlainTextIntoComposer', () {
-    test('inserts clipboard text at the current selection', () async {
-      TestWidgetsFlutterBinding.ensureInitialized();
-      final TextEditingController controller = TextEditingController(
-        text: 'hello world',
-      )..selection = const TextSelection.collapsed(offset: 5);
-      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .setMockMethodCallHandler(SystemChannels.platform, (
-            MethodCall methodCall,
-          ) async {
-            if (methodCall.method == 'Clipboard.getData') {
-              return <String, String>{'text': ' there'};
-            }
-            return null;
-          });
-      await pastePlainTextIntoComposer(controller);
-      expect(controller.text, 'hello there world');
-      expect(controller.selection, const TextSelection.collapsed(offset: 11));
     });
   });
 }

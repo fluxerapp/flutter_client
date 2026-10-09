@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/push/android/android_push_pipeline.dart';
 import 'package:fluxer_app/core/push/push_message.dart';
@@ -13,7 +12,7 @@ part 'fcm_notification_tap_binding.g.dart';
 
 @Riverpod(keepAlive: true)
 void fcmNotificationTapBinding(Ref ref) {
-  if (kIsWeb || !Platform.isAndroid || !PushProviderGuard.isFirebaseMessaging) {
+  if (!Platform.isAndroid || !PushProviderGuard.isFirebaseMessaging) {
     return;
   }
   void handleTap(Map<String, String> payload) {

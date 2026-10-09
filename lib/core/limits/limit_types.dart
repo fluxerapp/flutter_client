@@ -6,22 +6,15 @@ class LimitFilter {
 }
 
 class LimitRule {
-  const LimitRule({required this.id, required this.limits, this.filters});
+  const LimitRule({required this.limits, this.filters});
 
-  final String id;
   final Map<String, int> limits;
   final LimitFilter? filters;
 }
 
 class LimitConfigSnapshot {
-  const LimitConfigSnapshot({
-    required this.traitDefinitions,
-    required this.rules,
-    this.version,
-  });
+  const LimitConfigSnapshot({required this.rules});
 
-  final int? version;
-  final List<String> traitDefinitions;
   final List<LimitRule> rules;
 }
 

@@ -16,7 +16,7 @@ void main() {
     return ProviderScope(
       child: MaterialApp(
         locale: kTestLocale,
-        localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+        localizationsDelegates: fluxerLocalizationsDelegates,
         supportedLocales: FluxerLocalizations.supportedLocales,
         theme: buildFluxerTheme(
           colorTheme: colorTheme,
@@ -63,7 +63,6 @@ void main() {
       isCreatingRole: false,
       onCreateRole: () {},
       onSelectRole: (_) {},
-      onEnterHoistOrderMode: () {},
       onExitHoistOrderMode: () {},
       onResetHoistOrder: () {},
       onReorder: (_, _) {},

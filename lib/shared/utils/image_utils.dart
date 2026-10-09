@@ -3,7 +3,6 @@ import 'dart:io' show Platform;
 import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path_lib;
 
@@ -15,7 +14,7 @@ const int _kMaxImageSizeBytes = 10 * 1024 * 1024;
 // ignore: avoid_classes_with_only_static_members
 abstract final class ImageUtils {
   static Future<({Uint8List bytes, String name})?> pickImage() {
-    if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+    if (Platform.isAndroid || Platform.isIOS) {
       return _pickImageFromGallery();
     }
     return _pickImageFromFilePicker();

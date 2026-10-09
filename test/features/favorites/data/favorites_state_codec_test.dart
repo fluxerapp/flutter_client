@@ -4,11 +4,21 @@ import 'dart:typed_data';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_wire_codec.dart';
-import 'package:fluxer_app/core/synced_preferences/favorites_state_codec.dart';
+import 'package:fluxer_app/core/synced_preferences/fields/favorites_synced_field.dart';
+import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/preferences.pb.dart'
+    as pb;
 import 'package:test/test.dart';
 
+const FavoritesLocalState _emptyFavorites = FavoritesLocalState(
+  channels: [],
+  categories: [],
+  collapsedCategoryIds: [],
+  hideMutedChannels: false,
+  muted: false,
+);
+
 void main() {
-  group('FavoritesStateCodec', () {
+  group('FavoritesStateHelpers wire', () {
     test('round-trips favorites state through wire blob', () {
       const local = FavoritesLocalState(
         channels: [
@@ -27,11 +37,8 @@ void main() {
         muted: false,
       );
 
-      final encoded = FavoritesStateCodec.encodeFavoritesIntoWire(
-        currentWire: null,
-        local: local,
-      );
-      final decoded = FavoritesStateCodec.decodeFavoritesFromWire(encoded);
+      final encoded = _encodeFavorites(currentWire: null, local: local);
+      final decoded = _decodeFavorites(encoded);
 
       expect(decoded.channels, hasLength(1));
       expect(decoded.channels.first.channelId, 'channel-1');
@@ -78,7 +85,7 @@ void main() {
         muted: false,
       );
 
-      final merged = FavoritesStateCodec.mergeForMigration(
+      final merged = FavoritesStateHelpers.mergeForMigration(
         local: local,
         server: server,
       );
@@ -132,7 +139,7 @@ void main() {
         muted: true,
       );
 
-      final merged = FavoritesStateCodec.mergeForMigration(
+      final merged = FavoritesStateHelpers.mergeForMigration(
         local: local,
         server: server,
       );
@@ -167,9 +174,9 @@ void main() {
         hideMutedChannels: false,
         muted: false,
       );
-      const server = FavoritesLocalState.empty;
+      const server = _emptyFavorites;
 
-      final merged = FavoritesStateCodec.mergeForMigration(
+      final merged = FavoritesStateHelpers.mergeForMigration(
         local: local,
         server: server,
         syncedLocal: syncedLocal,
@@ -189,10 +196,10 @@ void main() {
         hideMutedChannels: false,
         muted: false,
       );
-      const syncedLocal = FavoritesLocalState.empty;
+      const syncedLocal = _emptyFavorites;
       const server = syncedLocal;
 
-      final merged = FavoritesStateCodec.mergeForMigration(
+      final merged = FavoritesStateHelpers.mergeForMigration(
         local: local,
         server: server,
         syncedLocal: syncedLocal,
@@ -200,21 +207,6 @@ void main() {
 
       expect(merged.categories.single.id, 'cat-new');
       expect(merged.collapsedCategoryIds, ['cat-new']);
-    });
-
-    test('decode failure does not masquerade as empty server', () {
-      final result = FavoritesStateCodec.decodeFavoritesFromWireResult(
-        'not-valid-base64!!!',
-      );
-      expect(result.status, FavoritesWireDecodeStatus.failure);
-    });
-
-    test('non-empty wire without favorites field is decode failure', () {
-      final foreignOnly = base64Encode(_encodeStringField(1, 'other-pref'));
-      final result = FavoritesStateCodec.decodeFavoritesFromWireResult(
-        foreignOnly,
-      );
-      expect(result.status, FavoritesWireDecodeStatus.failure);
     });
 
     test('encode preserves foreign fields in multi-field blob', () {
@@ -232,10 +224,7 @@ void main() {
         muted: false,
       );
       final favoritesWire = base64Decode(
-        FavoritesStateCodec.encodeFavoritesIntoWire(
-          currentWire: null,
-          local: initial,
-        ),
+        _encodeFavorites(currentWire: null, local: initial),
       );
       final combined = base64Encode(
         Uint8List.fromList([
@@ -243,7 +232,7 @@ void main() {
           ...favoritesWire,
         ]),
       );
-      final updated = FavoritesStateCodec.encodeFavoritesIntoWire(
+      final updated = _encodeFavorites(
         currentWire: combined,
         local: const FavoritesLocalState(
           channels: [
@@ -316,8 +305,8 @@ void main() {
         muted: false,
       );
 
-      expect(FavoritesStateCodec.statesEqual(left, right), isTrue);
-      expect(FavoritesStateCodec.statesEqual(left, different), isFalse);
+      expect(FavoritesStateHelpers.statesEqual(left, right), isTrue);
+      expect(FavoritesStateHelpers.statesEqual(left, different), isFalse);
     });
 
     test('statesEqual treats null and @me guildId as equivalent', () {
@@ -338,7 +327,7 @@ void main() {
         muted: false,
       );
 
-      expect(FavoritesStateCodec.statesEqual(withNull, withAtMe), isTrue);
+      expect(FavoritesStateHelpers.statesEqual(withNull, withAtMe), isTrue);
     });
 
     test('preserves wire blob when updating favorites field', () {
@@ -355,12 +344,9 @@ void main() {
         hideMutedChannels: false,
         muted: false,
       );
-      final originalWire = FavoritesStateCodec.encodeFavoritesIntoWire(
-        currentWire: null,
-        local: initial,
-      );
+      final originalWire = _encodeFavorites(currentWire: null, local: initial);
 
-      final updated = FavoritesStateCodec.encodeFavoritesIntoWire(
+      final updated = _encodeFavorites(
         currentWire: originalWire,
         local: const FavoritesLocalState(
           channels: [
@@ -377,7 +363,7 @@ void main() {
         ),
       );
 
-      final decoded = FavoritesStateCodec.decodeFavoritesFromWire(updated);
+      final decoded = _decodeFavorites(updated);
       expect(decoded.channels.single.channelId, 'updated');
     });
   });
@@ -402,4 +388,25 @@ Uint8List _encodeStringField(int fieldNumber, String value) {
     ..._encodeVarint(valueBytes.length),
     ...valueBytes,
   ]);
+}
+
+String _encodeFavorites({
+  required String? currentWire,
+  required FavoritesLocalState local,
+}) {
+  return SyncedPreferencesWireCodec.encodeFieldIntoWire(
+    currentWire: currentWire,
+    fieldNumber: SyncedPreferenceField.favorites.fieldNumber,
+    fieldMessageBytes: FavoritesStateHelpers.toProto(
+      FavoritesStateHelpers.normalizeForSync(local),
+    ).writeToBuffer(),
+  );
+}
+
+FavoritesLocalState _decodeFavorites(String encoded) {
+  return FavoritesStateHelpers.normalizeForSync(
+    FavoritesStateHelpers.fromProto(
+      pb.SyncedPreferences.fromBuffer(base64Decode(encoded)).favorites,
+    ),
+  );
 }

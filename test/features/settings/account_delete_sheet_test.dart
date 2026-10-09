@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/guilds/data/guild_repository.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/settings/presentation/sheets/account_delete_sheet.dart';
+import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -46,7 +47,7 @@ Widget _wrap({required ProviderContainer container, required Widget child}) {
         textTheme: FluxerTextTheme.fromColors(colorTheme),
         layoutTheme: FluxerLayoutTheme.scaled(),
       ),
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       home: Scaffold(body: child),
     ),

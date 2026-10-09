@@ -42,13 +42,8 @@ bool avatarClusterGeometryChanged({
 class AvatarClusterMember {
   final String userId;
   final String? imageUrl;
-  final String fallbackText;
 
-  const AvatarClusterMember({
-    required this.userId,
-    required this.fallbackText,
-    this.imageUrl,
-  });
+  const AvatarClusterMember({required this.userId, this.imageUrl});
 
   String? get resolvedImageUrl {
     if (imageUrl != null) {

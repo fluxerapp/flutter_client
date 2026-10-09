@@ -1,11 +1,7 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_skeleton.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_viewport.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../../helpers/pump_fluxer_app.dart';
 import 'message_list_test_harness.dart';
@@ -23,29 +19,7 @@ Widget listWithCompact(
   return messageListApp(
     database: harness.database,
     chatViewModel: harness.chatViewModel,
-    body: ProviderScope(
-      overrides: <Override>[
-        userSettingsViewModelProvider.overrideWithValue(
-          UserSettingsViewState(
-            userId: messageListCurrentUserId,
-            username: 'tester',
-            displayName: 'Tester',
-            discriminator: '0',
-            avatar: null,
-            avatarColor: null,
-            memberSince: null,
-            status: 'online',
-            messageDisplayCompact: compact,
-            developerMode: false,
-            trustedDomains: const <String>[],
-            renderEmbeds: false,
-            renderReactions: false,
-            inlineAttachmentMedia: false,
-          ),
-        ),
-      ],
-      child: const MessageList(expectedChannelId: messageListChannelId),
-    ),
+    messageDisplayCompact: compact,
   );
 }
 

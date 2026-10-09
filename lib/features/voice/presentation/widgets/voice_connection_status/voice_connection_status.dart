@@ -416,7 +416,7 @@ class _VoiceLatencyIcon extends ConsumerWidget {
       message: latencyMs == null
           ? l10n.voiceMeasuringLatency
           : l10n.voicePingMs(latencyMs),
-      child: VoiceSignalStrengthIcon(latencyMs: latencyMs, tone: tone),
+      child: VoiceSignalStrengthIcon(tone: tone),
     );
   }
 }

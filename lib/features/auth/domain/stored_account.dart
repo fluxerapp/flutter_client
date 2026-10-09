@@ -7,13 +7,11 @@ class StoredAccount {
   final String? discriminator;
   final String? avatar;
   final bool isValid;
-  final DateTime lastActive;
   final String? displayDomain;
 
   const StoredAccount({
     required this.userId,
     required this.isValid,
-    required this.lastActive,
     this.username,
     this.discriminator,
     this.avatar,

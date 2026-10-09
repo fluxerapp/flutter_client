@@ -565,21 +565,3 @@ String buildSearchProviderUrl({
       .replaceAll('{query}', encoded)
       .replaceAll('{url}', encoded);
 }
-
-SearchProviderEngine? resolveDefaultSearchEngine(
-  SearchProviderCategoryState category,
-) {
-  final enabled = category.enabledEngines;
-  if (enabled.isEmpty) {
-    return null;
-  }
-  final defaultId = category.defaultEngineId;
-  if (defaultId != null) {
-    for (final engine in enabled) {
-      if (engine.id == defaultId) {
-        return engine;
-      }
-    }
-  }
-  return enabled.first;
-}

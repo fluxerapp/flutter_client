@@ -7,7 +7,6 @@ class VolumePopoutControl extends StatefulWidget {
     required this.volume,
     required this.isMuted,
     required this.onVolumeChanged,
-    required this.onToggleMute,
     this.iconSize = 18,
     this.buttonSize = 28,
     this.popoutHeight = 80,
@@ -17,7 +16,6 @@ class VolumePopoutControl extends StatefulWidget {
   final double volume;
   final bool isMuted;
   final ValueChanged<double> onVolumeChanged;
-  final VoidCallback onToggleMute;
   final double iconSize;
   final double buttonSize;
   final double popoutHeight;

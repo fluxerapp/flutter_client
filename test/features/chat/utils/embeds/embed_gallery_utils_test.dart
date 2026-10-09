@@ -27,7 +27,7 @@ void main() {
     });
   });
 
-  group('collectGalleryImages', () {
+  group('EmbedGalleryIndex.galleryImagesAt', () {
     test('aggregates images from same-url embeds', () {
       final List<Embed> embedList = <Embed>[
         Embed(
@@ -39,10 +39,9 @@ void main() {
         Embed(type: EmbedType.rich, url: _postUrl, image: _media('2.png')),
         Embed(type: EmbedType.rich, url: _postUrl, image: _media('3.png')),
       ];
-      final List<EmbedMedia> gallery = collectGalleryImages(
-        embedIndex: 0,
-        embedList: embedList,
-      );
+      final List<EmbedMedia> gallery = EmbedGalleryIndex(
+        embedList,
+      ).galleryImagesAt(0);
       expect(gallery, hasLength(3));
       expect(gallery[0].url, contains('1.png'));
       expect(gallery[1].url, contains('2.png'));
@@ -55,10 +54,9 @@ void main() {
         Embed(type: EmbedType.link, url: _postUrl, thumbnail: shared),
         Embed(type: EmbedType.rich, url: _postUrl, image: shared),
       ];
-      final List<EmbedMedia> gallery = collectGalleryImages(
-        embedIndex: 0,
-        embedList: embedList,
-      );
+      final List<EmbedMedia> gallery = EmbedGalleryIndex(
+        embedList,
+      ).galleryImagesAt(0);
       expect(gallery, hasLength(1));
     });
 
@@ -72,10 +70,9 @@ void main() {
             image: i == 0 ? null : _media('$i.png'),
           ),
       ];
-      final List<EmbedMedia> gallery = collectGalleryImages(
-        embedIndex: 0,
-        embedList: embedList,
-      );
+      final List<EmbedMedia> gallery = EmbedGalleryIndex(
+        embedList,
+      ).galleryImagesAt(0);
       expect(gallery, hasLength(kMaxEmbedGalleryMedia));
     });
 
@@ -84,14 +81,11 @@ void main() {
         Embed(type: EmbedType.link, url: _postUrl, thumbnail: _media('1.png')),
         Embed(type: EmbedType.rich, url: _postUrl, image: _media('2.png')),
       ];
-      expect(
-        collectGalleryImages(embedIndex: 1, embedList: embedList),
-        isEmpty,
-      );
+      expect(EmbedGalleryIndex(embedList).galleryImagesAt(1), isEmpty);
     });
   });
 
-  group('isDuplicateEmbedAtIndex', () {
+  group('EmbedGalleryIndex.isDuplicateAt', () {
     test('marks later same-url embeds as duplicates', () {
       final List<Embed> embedList = <Embed>[
         Embed(type: EmbedType.link, url: _postUrl, thumbnail: _media('1.png')),
@@ -102,7 +96,7 @@ void main() {
       expect(galleryIndex.isDuplicateAt(0), isFalse);
       expect(galleryIndex.isDuplicateAt(1), isTrue);
       expect(galleryIndex.isDuplicateAt(2), isFalse);
-      expect(isDuplicateEmbedAtIndex(1, embedList), isTrue);
+      expect(EmbedGalleryIndex(embedList).isDuplicateAt(1), isTrue);
     });
 
     test('treats trailing slash urls as same', () {
@@ -118,7 +112,7 @@ void main() {
           image: _media('2.png'),
         ),
       ];
-      expect(isDuplicateEmbedAtIndex(1, embedList), isTrue);
+      expect(EmbedGalleryIndex(embedList).isDuplicateAt(1), isTrue);
     });
   });
 

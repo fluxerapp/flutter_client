@@ -43,7 +43,6 @@ void main() {
     const MessagePersistSnapshot snapshot = MessagePersistSnapshot(
       mentionsCurrentUser: false,
       isDm: false,
-      guildStorageId: null,
       acknowledgedByGateway: false,
     );
     batcher
@@ -66,7 +65,6 @@ void main() {
     const MessagePersistSnapshot snapshot = MessagePersistSnapshot(
       mentionsCurrentUser: false,
       isDm: false,
-      guildStorageId: null,
       acknowledgedByGateway: false,
     );
     batcher

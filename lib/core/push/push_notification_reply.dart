@@ -3,7 +3,6 @@ import 'dart:ui' show Locale, PlatformDispatcher;
 import 'package:dio/dio.dart';
 import 'package:fluxer_app/core/api/fluxer_api_features.dart';
 import 'package:fluxer_app/core/api/session_authorization_header.dart';
-import 'package:fluxer_app/core/push/push_notification_ids.dart';
 import 'package:fluxer_app/core/push/push_notification_payload.dart';
 import 'package:fluxer_app/features/auth/data/auth_token_storage.dart';
 import 'package:fluxer_app/features/chat/data/message_repository.dart';
@@ -18,13 +17,6 @@ class PushReplyAccount {
 
   final String token;
   final String apiBaseUrl;
-}
-
-class PushReplyDismissal {
-  const PushReplyDismissal({required this.id, this.tag});
-
-  final int id;
-  final String? tag;
 }
 
 class PushReplySend {
@@ -78,21 +70,6 @@ AndroidNotificationReplyTarget? androidNotificationReplyTarget(
     channelId: channelId,
     messageId: messageId,
     userId: userId,
-  );
-}
-
-PushReplyDismissal? pushReplyDismissal({
-  required int? notificationId,
-  required Map<String, String> payload,
-}) {
-  final int? id = _replyNotificationId(notificationId, payload);
-  if (id == null) {
-    return null;
-  }
-  final String? tag = resolvePushDisplayTag(payload);
-  return PushReplyDismissal(
-    id: id,
-    tag: tag == null || tag.isEmpty ? null : tag,
   );
 }
 
@@ -191,17 +168,6 @@ FluxerLocalizations _pushReplyLocalizations() {
   } on Object {
     return lookupFluxerLocalizations(const Locale('en'));
   }
-}
-
-int? _replyNotificationId(int? notificationId, Map<String, String> payload) {
-  if (notificationId != null && notificationId > 0) {
-    return notificationId;
-  }
-  final String? messageId = resolvePushNotificationMessageId(payload);
-  if (messageId == null) {
-    return null;
-  }
-  return pushMessageNotificationId(messageId);
 }
 
 String? _nonEmpty(String? value) {

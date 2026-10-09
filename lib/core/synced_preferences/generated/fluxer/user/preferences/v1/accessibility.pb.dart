@@ -88,7 +88,7 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
     $core.bool? mobileSplashZoomAnimation,
     $core.bool? showAltTextOnImages,
   }) {
-    final result = create();
+    final result = AccessibilitySettings._();
     if (saturationFactor != null) result.saturationFactor = saturationFactor;
     if (alwaysUnderlineLinks != null)
       result.alwaysUnderlineLinks = alwaysUnderlineLinks;
@@ -217,16 +217,16 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
 
   factory AccessibilitySettings.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      AccessibilitySettings()..mergeFromBuffer(data, registry);
   factory AccessibilitySettings.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      AccessibilitySettings()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'AccessibilitySettings',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: AccessibilitySettings.$_createMessage)
     ..aD(1, _omitFieldNames ? '' : 'saturationFactor')
     ..aOB(2, _omitFieldNames ? '' : 'alwaysUnderlineLinks')
     ..aOB(3, _omitFieldNames ? '' : 'enableTextSelection')
@@ -315,12 +315,16 @@ class AccessibilitySettings extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated(
+      'Use AccessibilitySettings() / AccessibilitySettings.new instead')
   static AccessibilitySettings create() => AccessibilitySettings._();
+  static $pb.GeneratedMessage $_createMessage() => AccessibilitySettings._();
   @$core.override
-  AccessibilitySettings createEmptyInstance() => create();
+  AccessibilitySettings createEmptyInstance() => AccessibilitySettings._();
   @$core.pragma('dart2js:noInline')
   static AccessibilitySettings getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<AccessibilitySettings>(create);
+      $pb.GeneratedMessage.$_defaultFor<AccessibilitySettings>(
+          AccessibilitySettings.$_createMessage);
   static AccessibilitySettings? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -926,7 +930,7 @@ class AccessibilityOverrides extends $pb.GeneratedMessage {
     $core.bool? animateEmojiDirty,
     $core.bool? animateStickersDirty,
   }) {
-    final result = create();
+    final result = AccessibilityOverrides._();
     if (gifAutoplayDirty != null) result.gifAutoplayDirty = gifAutoplayDirty;
     if (animateEmojiDirty != null) result.animateEmojiDirty = animateEmojiDirty;
     if (animateStickersDirty != null)
@@ -938,16 +942,16 @@ class AccessibilityOverrides extends $pb.GeneratedMessage {
 
   factory AccessibilityOverrides.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      AccessibilityOverrides()..mergeFromBuffer(data, registry);
   factory AccessibilityOverrides.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      AccessibilityOverrides()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'AccessibilityOverrides',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: AccessibilityOverrides.$_createMessage)
     ..aOB(1, _omitFieldNames ? '' : 'gifAutoplayDirty')
     ..aOB(2, _omitFieldNames ? '' : 'animateEmojiDirty')
     ..aOB(3, _omitFieldNames ? '' : 'animateStickersDirty')
@@ -965,12 +969,16 @@ class AccessibilityOverrides extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated(
+      'Use AccessibilityOverrides() / AccessibilityOverrides.new instead')
   static AccessibilityOverrides create() => AccessibilityOverrides._();
+  static $pb.GeneratedMessage $_createMessage() => AccessibilityOverrides._();
   @$core.override
-  AccessibilityOverrides createEmptyInstance() => create();
+  AccessibilityOverrides createEmptyInstance() => AccessibilityOverrides._();
   @$core.pragma('dart2js:noInline')
   static AccessibilityOverrides getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<AccessibilityOverrides>(create);
+      $pb.GeneratedMessage.$_defaultFor<AccessibilityOverrides>(
+          AccessibilityOverrides.$_createMessage);
   static AccessibilityOverrides? _defaultInstance;
 
   @$pb.TagNumber(1)

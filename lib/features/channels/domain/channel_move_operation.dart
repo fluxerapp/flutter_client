@@ -316,15 +316,3 @@ ChannelMoveComputation? computeChannelMove({
     updatedChannels: updatedChannels,
   );
 }
-
-ChannelMoveOperation? createChannelMoveOperation({
-  required List<Channel> channels,
-  required ChannelReorderDragItem dragItem,
-  required ChannelReorderDropResult dropResult,
-}) {
-  return computeChannelMove(
-    channels: channels,
-    dragItem: dragItem,
-    dropResult: dropResult,
-  )?.operation;
-}

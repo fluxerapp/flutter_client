@@ -11,18 +11,14 @@ part 'bottom_input_slot_provider.g.dart';
 
 class BottomInputSlotState {
   const BottomInputSlotState({
-    required this.mode,
     required this.transition,
     required this.lockedHeight,
-    required this.panelHeight,
     required this.slotHeight,
     required this.slotHeightHeld,
   });
 
-  final BottomInputMode mode;
   final BottomInputTransition transition;
   final double lockedHeight;
-  final double panelHeight;
   final double slotHeight;
   final bool slotHeightHeld;
 }
@@ -63,18 +59,15 @@ class BottomInputSlot extends _$BottomInputSlot {
         mobileKeyboardMetricsProvider,
       );
       final double anchorHeight = metrics.resolveAnchorHeight();
-      ref.read(expressionPanelHeightProvider.notifier).height = anchorHeight;
-      state = _resolveState(
-        mode: BottomInputMode.panelAnchored,
-        panelHeight: anchorHeight,
-      );
+      ref.read(expressionPanelHeightProvider.notifier).setHeight(anchorHeight);
+      state = _resolveState(panelHeight: anchorHeight);
       return;
     }
     if (state.transition == BottomInputTransition.lockingToKeyboard) {
       return;
     }
     ref.read(expressionPanelHeightProvider.notifier).clear();
-    state = _resolveState(mode: BottomInputMode.none, panelHeight: 0);
+    state = _resolveState(panelHeight: 0);
   }
 
   void _onKeyboardMetricsChanged(
@@ -86,7 +79,7 @@ class BottomInputSlot extends _$BottomInputSlot {
           liveKeyboardHeight: next.liveKeyboardHeight,
           isKeyboardVisible: next.isKeyboardVisible,
         )) {
-      _endTransition(BottomInputMode.panelAnchored);
+      _endTransition();
       return;
     }
     if (state.transition == BottomInputTransition.lockingToKeyboard &&
@@ -96,7 +89,7 @@ class BottomInputSlot extends _$BottomInputSlot {
           safeAreaBottom: 0,
           isKeyboardVisible: next.isKeyboardVisible,
         )) {
-      _endTransition(BottomInputMode.keyboard);
+      _endTransition();
       return;
     }
     if (state.transition != BottomInputTransition.idle) {
@@ -112,13 +105,7 @@ class BottomInputSlot extends _$BottomInputSlot {
     if (next == null || state.transition != BottomInputTransition.idle) {
       return;
     }
-    final double anchorHeight = ref
-        .read(mobileKeyboardMetricsProvider)
-        .resolveAnchorHeight();
-    final BottomInputMode mode = next > anchorHeight + 1
-        ? BottomInputMode.panelExpanded
-        : BottomInputMode.panelAnchored;
-    state = _resolveState(mode: mode, panelHeight: next);
+    state = _resolveState(panelHeight: next);
   }
 
   void beginPanelTransition(double lockedHeight) {
@@ -128,7 +115,7 @@ class BottomInputSlot extends _$BottomInputSlot {
         return;
       }
       if (state.transition == BottomInputTransition.lockingToPanel) {
-        _endTransition(BottomInputMode.panelAnchored);
+        _endTransition();
       }
     });
     final MobileKeyboardMetricsState metrics = ref.read(
@@ -143,11 +130,10 @@ class BottomInputSlot extends _$BottomInputSlot {
     ref
         .read(mobileKeyboardMetricsProvider.notifier)
         .captureKeyboardAnchor(grossLock);
-    ref.read(expressionPanelHeightProvider.notifier).height = grossLock;
+    ref.read(expressionPanelHeightProvider.notifier).setHeight(grossLock);
     state = _resolveState(
       transition: BottomInputTransition.lockingToPanel,
       lockedHeight: grossLock,
-      mode: BottomInputMode.panelAnchored,
       panelHeight: grossLock,
     );
   }
@@ -159,7 +145,7 @@ class BottomInputSlot extends _$BottomInputSlot {
         return;
       }
       if (state.transition == BottomInputTransition.lockingToKeyboard) {
-        _endTransition(BottomInputMode.keyboard);
+        _endTransition();
       }
     });
     final double quantizedLock = quantizeBottomInputHeight(lockedHeight);
@@ -183,6 +169,15 @@ class BottomInputSlot extends _$BottomInputSlot {
     state = _resolveState();
   }
 
+  void resetAfterChannelChange() {
+    _transitionTimeout?.cancel();
+    _heldSlotHeightOverride = null;
+    state = _resolveState(
+      transition: BottomInputTransition.idle,
+      lockedHeight: 0,
+    );
+  }
+
   void settlePanelHeight(double height) {
     final MobileKeyboardMetricsState metrics = ref.read(
       mobileKeyboardMetricsProvider,
@@ -190,25 +185,20 @@ class BottomInputSlot extends _$BottomInputSlot {
     final double anchorHeight = metrics.resolveAnchorHeight();
     final bool isExpanded = height > anchorHeight + 1;
     if (!isExpanded) {
-      ref.read(expressionPanelHeightProvider.notifier).height = height;
+      ref.read(expressionPanelHeightProvider.notifier).setHeight(height);
     }
-    final BottomInputMode mode = isExpanded
-        ? BottomInputMode.panelExpanded
-        : BottomInputMode.panelAnchored;
-    state = _resolveState(mode: mode, panelHeight: anchorHeight);
+    state = _resolveState(panelHeight: anchorHeight);
   }
 
-  void _endTransition(BottomInputMode mode) {
+  void _endTransition() {
     _transitionTimeout?.cancel();
     state = _resolveState(
       transition: BottomInputTransition.idle,
-      mode: mode,
       lockedHeight: 0,
     );
   }
 
   BottomInputSlotState _resolveState({
-    BottomInputMode? mode,
     BottomInputTransition? transition,
     double? lockedHeight,
     double? panelHeight,
@@ -224,15 +214,6 @@ class BottomInputSlot extends _$BottomInputSlot {
         (preserveTransition ? state.transition : BottomInputTransition.idle);
     final double resolvedLockedHeight =
         lockedHeight ?? (preserveTransition ? state.lockedHeight : 0);
-    final bool keyboardSlotActive =
-        metrics.isKeyboardVisible || metrics.unmeasuredKeyboardReserved;
-    final BottomInputMode resolvedMode =
-        mode ??
-        (isPanelOpen
-            ? BottomInputMode.panelAnchored
-            : (keyboardSlotActive
-                  ? BottomInputMode.keyboard
-                  : BottomInputMode.none));
     final double resolvedPanelHeight =
         panelHeight ??
         storedPanelHeight ??
@@ -249,10 +230,8 @@ class BottomInputSlot extends _$BottomInputSlot {
       unmeasuredKeyboardReserved: metrics.unmeasuredKeyboardReserved,
     );
     return BottomInputSlotState(
-      mode: resolvedMode,
       transition: resolvedTransition,
       lockedHeight: resolvedLockedHeight,
-      panelHeight: resolvedPanelHeight,
       slotHeight: slotHeight,
       slotHeightHeld: _heldSlotHeightOverride != null,
     );

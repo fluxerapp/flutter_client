@@ -24,6 +24,9 @@ class VoicePipPlacement extends Notifier<Offset?> {
   Offset? build() => null;
 
   void setOffset(Offset offset) {
+    if (state == offset) {
+      return;
+    }
     state = offset;
   }
 }
@@ -242,7 +245,3 @@ final voicePipOverlayPhaseProvider =
     NotifierProvider<VoicePipOverlayPhaseController, VoicePipOverlayPhase>(
       VoicePipOverlayPhaseController.new,
     );
-
-final voicePipHostsFeaturedProvider = Provider<bool>((Ref ref) {
-  return voicePipHostsFeatured(ref.watch(voicePipOverlayPhaseProvider));
-});

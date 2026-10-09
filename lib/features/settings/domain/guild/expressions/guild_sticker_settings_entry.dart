@@ -7,7 +7,6 @@ class GuildStickerSettingsEntry {
     required this.name,
     required this.description,
     required this.tags,
-    required this.animated,
     required this.uploader,
   });
 
@@ -15,7 +14,6 @@ class GuildStickerSettingsEntry {
   final String name;
   final String description;
   final List<String> tags;
-  final bool animated;
   final GuildExpressionUploader uploader;
 
   factory GuildStickerSettingsEntry.fromResponse(
@@ -26,7 +24,6 @@ class GuildStickerSettingsEntry {
       name: response.name,
       description: response.description,
       tags: List<String>.from(response.tags),
-      animated: response.animated,
       uploader: GuildExpressionUploader.fromResponse(response.user),
     );
   }

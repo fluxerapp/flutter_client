@@ -16,13 +16,6 @@ class GuildStickerDao extends DatabaseAccessor<FluxerDatabase>
 
   Future<List<GuildSticker>> getAll() => select(guildStickers).get();
 
-  Stream<List<GuildSticker>> watchByGuild(String guildId) => (select(
-    guildStickers,
-  )..where((s) => s.guildId.equals(guildId))).watch().suppressDriftCancellation;
-
-  Future<List<GuildSticker>> getByGuild(String guildId) =>
-      (select(guildStickers)..where((s) => s.guildId.equals(guildId))).get();
-
   Future<void> replaceForGuild(
     String guildId,
     List<GuildStickersCompanion> stickers,

@@ -14,13 +14,6 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
     with _$MessageDaoMixin {
   MessageDao(super.attachedDatabase);
 
-  Stream<List<Message>> watchMessages(String channelId) =>
-      (select(messages)
-            ..where((m) => m.channelId.equals(channelId))
-            ..orderBy([(m) => OrderingTerm.asc(m.timestamp)]))
-          .watch()
-          .suppressDriftCancellation;
-
   Future<List<Message>> getMessages(
     String channelId, {
     int limit = 50,
@@ -232,22 +225,6 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
           .watchSingleOrNull()
           .suppressDriftCancellation;
 
-  Future<Map<String, Message>> getMessagesByIds(List<String> ids) async {
-    if (ids.isEmpty) {
-      return <String, Message>{};
-    }
-    final List<Message> rows = await (select(
-      messages,
-    )..where((m) => m.id.isIn(ids))).get();
-    return <String, Message>{for (final Message row in rows) row.id: row};
-  }
-
-  Future<List<Message>> getAllMessagesForChannel(String channelId) =>
-      (select(messages)
-            ..where((m) => m.channelId.equals(channelId))
-            ..orderBy([(m) => OrderingTerm.asc(m.timestamp)]))
-          .get();
-
   Future<Message?> getLastMessage(String channelId) =>
       (select(messages)
             ..where((m) => m.channelId.equals(channelId))
@@ -315,21 +292,6 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
     return query.get();
   }
 
-  Future<List<Message>> getMessagesInTimestampRange(
-    String channelId,
-    DateTime oldest,
-    DateTime newest,
-  ) =>
-      (select(messages)
-            ..where(
-              (m) =>
-                  m.channelId.equals(channelId) &
-                  m.timestamp.isBiggerOrEqualValue(oldest) &
-                  m.timestamp.isSmallerOrEqualValue(newest),
-            )
-            ..orderBy([(m) => OrderingTerm.asc(m.timestamp)]))
-          .get();
-
   Future<List<Message>> getMessagesInSnowflakeRange(
     String channelId,
     String oldestId,
@@ -377,9 +339,6 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
             (m) => m.id.equals(messageId) & m.channelId.equals(channelId),
           ))
           .write(MessagesCompanion(threadJson: Value(json)));
-
-  Future<void> deleteMessage(String id) =>
-      (delete(messages)..where((m) => m.id.equals(id))).go();
 
   Future<void> deleteMessages(List<String> ids) {
     if (ids.isEmpty) {

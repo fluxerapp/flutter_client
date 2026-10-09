@@ -1,9 +1,12 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_style.dart';
 import 'package:fluxer_app/features/settings/providers/plutonium_store_provider.dart';
 import 'package:fluxer_app/features/settings/services/plutonium_store_products.dart';
 import 'package:fluxer_app/features/settings/utils/plutonium_store_bar_mode.dart';
 import 'package:fluxer_app/features/settings/utils/premium_formatting.dart';
+import 'package:fluxer_app/features/settings/utils/premium_purchases_disabled_l10n.dart';
 import 'package:fluxer_app/features/settings/utils/premium_subscription_status.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
@@ -217,7 +220,7 @@ class _ManageStatus extends StatelessWidget {
   }
 }
 
-class _SubscribeActions extends StatelessWidget {
+class _SubscribeActions extends ConsumerWidget {
   const _SubscribeActions({
     required this.l10n,
     required this.store,
@@ -237,7 +240,7 @@ class _SubscribeActions extends StatelessWidget {
   final List<String> statusLines;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final layout = context.layout;
     final bool sideBySide = !isMobileLayout(context);
     final int? savings = plutoniumYearlySavingsPercent(
@@ -246,17 +249,20 @@ class _SubscribeActions extends StatelessWidget {
     );
     final bool missingProducts =
         !store.loading && store.monthly == null && store.yearly == null;
+    final bool selfHosted = ref.watch(
+      instanceRuntimeConfigProvider.select((config) => config.selfHosted),
+    );
     final String? blockMessage = purchaseDisabled
         ? purchaseDisabledMessage
         : store.storeUnavailable
         ? l10n.storePlutoniumUnavailable
         : store.accountPurchasesDisabled
-        ? l10n.premiumPurchasesDisabledBody
+        ? premiumPurchasesDisabledMessage(l10n, selfHosted: selfHosted)
         : otherStoreNotice ??
               (store.subscriptionPurchaseBlocked
                   ? l10n.storePlutoniumAlreadySubscribed
                   : missingProducts
-                  ? l10n.premiumPlanUnavailable
+                  ? premiumPlanUnavailableMessage(l10n, selfHosted: selfHosted)
                   : null);
     final String? renewsThrough = switch (store.billingStore) {
       PremiumBillingStore.appStore => l10n.storePlutoniumRenewsThroughAppStore,

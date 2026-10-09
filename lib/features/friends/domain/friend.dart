@@ -17,7 +17,6 @@ class Friend {
   final String? avatar;
   final int? avatarColor;
   final String status;
-  final bool mobile;
   final String? customStatus;
   final FriendStatus friendStatus;
   final String? nickname;
@@ -32,7 +31,6 @@ class Friend {
     this.avatar,
     this.avatarColor,
     this.status = 'offline',
-    this.mobile = false,
     this.customStatus,
     this.nickname,
     this.since,
@@ -61,7 +59,6 @@ class Friend {
       avatar: user?.avatar,
       avatarColor: user?.avatarColor,
       status: user?.status ?? 'offline',
-      mobile: user?.mobile ?? false,
       customStatus: user?.customStatus,
       friendStatus: _typeFromInt(row.type),
       nickname: row.nickname,
@@ -74,8 +71,6 @@ class Friend {
     globalName: globalName,
     username: username,
   );
-
-  String get tag => '$username#$discriminator';
 
   static FriendStatus _mapType(RelationshipTypes type) => switch (type) {
     RelationshipTypes.friend => FriendStatus.accepted,

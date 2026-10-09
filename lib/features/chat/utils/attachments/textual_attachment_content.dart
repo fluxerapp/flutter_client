@@ -8,10 +8,9 @@ enum TextualAttachmentPreviewStatus { idle, loading, loaded, error }
 enum TextualAttachmentPreviewErrorType { size, network }
 
 class TextualAttachmentPreviewError {
-  const TextualAttachmentPreviewError({required this.type, this.message});
+  const TextualAttachmentPreviewError({required this.type});
 
   final TextualAttachmentPreviewErrorType type;
-  final String? message;
 }
 
 class TextualAttachmentContentResult {
@@ -82,17 +81,15 @@ Future<TextualAttachmentContentResult> fetchTextualAttachmentContent({
     if (CancelToken.isCancel(error)) {
       rethrow;
     }
-    return TextualAttachmentContentResult.error(
+    return const TextualAttachmentContentResult.error(
       TextualAttachmentPreviewError(
         type: TextualAttachmentPreviewErrorType.network,
-        message: error.message,
       ),
     );
-  } on Object catch (error) {
-    return TextualAttachmentContentResult.error(
+  } on Object {
+    return const TextualAttachmentContentResult.error(
       TextualAttachmentPreviewError(
         type: TextualAttachmentPreviewErrorType.network,
-        message: error.toString(),
       ),
     );
   }

@@ -71,6 +71,7 @@ UserSettingsResponse _settingsResponse() {
     'suppress_unprivileged_self_mentions_bypass_user_ids': <String>[],
     'staff_dm_access_user_ids': <String>[],
     'profile_privacy': 0,
+    'privacy_setup_version': 0,
     'synced_preferences': '',
     'restricted_guilds': <String>[],
     'bot_restricted_guilds': <String>[],
@@ -108,7 +109,7 @@ Widget _wrap(Widget child) {
     container: container,
     child: MaterialApp(
       locale: kTestLocale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,

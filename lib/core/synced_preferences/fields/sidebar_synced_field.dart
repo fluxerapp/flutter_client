@@ -72,13 +72,4 @@ class SidebarSyncedField
 
   @override
   bool statesEqual(SidebarLocalState a, SidebarLocalState b) => a == b;
-
-  static pb.SidebarPreferences toProtoForPush({
-    required SidebarLocalState local,
-    pb.SidebarPreferences? wireBase,
-  }) {
-    final proto = mergeOrCreate(wireBase, pb.SidebarPreferences.new);
-    proto.inlineDmsCollapsed = local.inlineDmsCollapsed;
-    return proto;
-  }
 }

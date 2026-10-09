@@ -25,12 +25,14 @@ class InstanceSelectorState {
     required this.recentInstances,
     required this.requiresDiscovery,
     this.errorMessage,
+    this.discoveryFailureReason,
     this.pendingSnapshot,
   });
 
   final String instanceUrl;
   final InstanceDiscoveryStatus status;
   final String? errorMessage;
+  final InstanceDiscoveryFailureReason? discoveryFailureReason;
   final List<RecentInstance> recentInstances;
   final bool requiresDiscovery;
   final InstanceConfigSnapshot? pendingSnapshot;
@@ -52,16 +54,21 @@ class InstanceSelectorState {
     String? instanceUrl,
     InstanceDiscoveryStatus? status,
     String? errorMessage,
+    InstanceDiscoveryFailureReason? discoveryFailureReason,
     List<RecentInstance>? recentInstances,
     bool? requiresDiscovery,
     InstanceConfigSnapshot? pendingSnapshot,
     bool clearError = false,
+    bool clearDiscoveryFailureReason = false,
     bool clearPendingSnapshot = false,
   }) {
     return InstanceSelectorState(
       instanceUrl: instanceUrl ?? this.instanceUrl,
       status: status ?? this.status,
       errorMessage: clearError ? null : errorMessage ?? this.errorMessage,
+      discoveryFailureReason: clearError || clearDiscoveryFailureReason
+          ? null
+          : discoveryFailureReason ?? this.discoveryFailureReason,
       recentInstances: recentInstances ?? this.recentInstances,
       requiresDiscovery: requiresDiscovery ?? this.requiresDiscovery,
       pendingSnapshot: clearPendingSnapshot
@@ -259,7 +266,8 @@ class InstanceSelector extends _$InstanceSelector {
           instanceUrl: url,
           status: InstanceDiscoveryStatus.error,
           requiresDiscovery: true,
-          errorMessage: error.message,
+          errorMessage: error.reason == null ? error.message : null,
+          discoveryFailureReason: error.reason,
           clearPendingSnapshot: true,
         ),
       );
@@ -281,6 +289,7 @@ class InstanceSelector extends _$InstanceSelector {
           errorMessage: error is DioException
               ? apiMessageFromDioException(error)
               : null,
+          clearDiscoveryFailureReason: true,
           clearPendingSnapshot: true,
         ),
       );

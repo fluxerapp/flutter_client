@@ -4,7 +4,6 @@ import 'dart:io';
 // LiveKit CallKit audio ownership APIs are marked @experimental.
 // ignore_for_file: experimental_member_use
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart' show BuildContext, WidgetsBinding;
 import 'package:flutter_callkit_incoming/entities/call_event.dart';
@@ -59,7 +58,7 @@ VoiceCallKitVoiceSnapshot _voiceCallKitVoiceSnapshot(VoiceSessionState state) {
 
 @Riverpod(keepAlive: true)
 void voiceCallKitCoordinator(Ref ref) {
-  if (kIsWeb || !(Platform.isIOS || Platform.isAndroid)) {
+  if (!(Platform.isIOS || Platform.isAndroid)) {
     return;
   }
   final VoiceCallKitCoordinatorLogic logic = VoiceCallKitCoordinatorLogic(ref)
@@ -69,8 +68,7 @@ void voiceCallKitCoordinator(Ref ref) {
 
 class VoiceCallKitCoordinatorLogic {
   VoiceCallKitCoordinatorLogic(this._ref)
-    : _isMobileCallKitPlatform =
-          !kIsWeb && (Platform.isIOS || Platform.isAndroid);
+    : _isMobileCallKitPlatform = Platform.isIOS || Platform.isAndroid;
 
   final Ref _ref;
   final bool _isMobileCallKitPlatform;
@@ -252,7 +250,7 @@ class VoiceCallKitCoordinatorLogic {
       );
       _ref
           .read(voiceCallKitEngineSuppressedProvider.notifier)
-          .setSuppressed(false);
+          .setSuppressed(suppressed: false);
     } on Object catch (error) {
       talker.warning(
         '[VoiceCallKit] audio session recovery setEngineAvailability failed: $error',
@@ -293,7 +291,7 @@ class VoiceCallKitCoordinatorLogic {
       );
       _ref
           .read(voiceCallKitEngineSuppressedProvider.notifier)
-          .setSuppressed(false);
+          .setSuppressed(suppressed: false);
       await AudioManager.instance.setAudioSessionManagementMode(
         AudioSessionManagementMode.automatic,
       );
@@ -343,7 +341,7 @@ class VoiceCallKitCoordinatorLogic {
       );
       _ref
           .read(voiceCallKitEngineSuppressedProvider.notifier)
-          .setSuppressed(!enableEngine);
+          .setSuppressed(suppressed: !enableEngine);
     } on Object catch (error) {
       talker.warning('[VoiceCallKit] setEngineAvailability failed: $error');
       return;

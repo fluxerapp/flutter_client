@@ -9,9 +9,6 @@ class LocalDeviceTranslationSource implements MessageTranslationSource {
   final LocalTranslation _plugin;
 
   @override
-  String get id => 'local_device';
-
-  @override
   Future<bool> isAvailable() => _plugin.isSupported();
 
   @override

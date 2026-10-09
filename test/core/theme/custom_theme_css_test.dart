@@ -78,7 +78,7 @@ void main() {
     });
 
     test(
-      'applyCustomThemeCss applies mode-scoped overrides with root winning',
+      'applyCustomThemeCss applies mode scope over root for active mode',
       () {
         const css = '''
 .theme-coal { --brand-primary: #010203; }
@@ -91,7 +91,25 @@ void main() {
           saturationFactor: 1,
           mode: FluxerThemeMode.coal,
         );
-        expect(themed.brandPrimary, const Color(0xFF007FFF));
+        expect(themed.brandPrimary, const Color(0xFF010203));
+      },
+    );
+
+    test(
+      'applyCustomThemeCss applies .theme-dark override over :root on dark mode',
+      () {
+        const css = '''
+:root { --brand-primary: #007fff; }
+.theme-dark { --brand-primary: #ff5500; }
+''';
+        final base = buildDarkColorTheme();
+        final themed = applyCustomThemeCss(
+          base,
+          css: css,
+          saturationFactor: 1,
+          mode: FluxerThemeMode.dark,
+        );
+        expect(themed.brandPrimary, const Color(0xFFFF5500));
       },
     );
 

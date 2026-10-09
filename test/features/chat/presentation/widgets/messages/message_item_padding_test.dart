@@ -1,5 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart'
+    show FluxerDatabase;
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -13,6 +16,7 @@ import 'package:fluxer_dart/export.dart';
 
 import '../../../../../helpers/instance_runtime_config_override.dart';
 import '../../../../../helpers/message_item_test_overrides.dart';
+import '../../../../../helpers/open_test_database.dart';
 import '../../../../../helpers/test_l10n.dart';
 
 // Webhook author lets the row resolve its display with no provider/DB read.
@@ -37,40 +41,48 @@ const MessageRenderSettings _settings = MessageRenderSettings(
   messageGroupSpacing: 16,
 );
 
-Widget _app(Widget child) {
+Future<void> _pumpApp(WidgetTester tester, Widget child) {
   final colorTheme = buildDarkColorTheme();
-  return ProviderScope(
-    overrides: [
-      instanceRuntimeConfigOverride(),
-      ...messageItemTestProviderOverrides(),
-    ],
-    child: MaterialApp(
-      locale: kTestLocale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
-      supportedLocales: FluxerLocalizations.supportedLocales,
-      theme: buildFluxerTheme(
-        colorTheme: colorTheme,
-        textTheme: FluxerTextTheme.fromColors(colorTheme),
-        layoutTheme: FluxerLayoutTheme.scaled(),
+  return tester.pumpWidget(
+    ProviderScope(
+      overrides: [
+        fluxerDatabaseProvider.overrideWithValue(_database),
+        instanceRuntimeConfigOverride(),
+        ...messageItemTestProviderOverrides(),
+      ],
+      child: MaterialApp(
+        locale: kTestLocale,
+        localizationsDelegates: fluxerLocalizationsDelegates,
+        supportedLocales: FluxerLocalizations.supportedLocales,
+        theme: buildFluxerTheme(
+          colorTheme: colorTheme,
+          textTheme: FluxerTextTheme.fromColors(colorTheme),
+          layoutTheme: FluxerLayoutTheme.scaled(),
+        ),
+        home: Scaffold(body: child),
       ),
-      home: Scaffold(body: child),
     ),
   );
 }
 
+late FluxerDatabase _database;
+
 void main() {
+  setUp(() {
+    _database = openTestDatabase();
+  });
+
   group('MessageItem vertical padding', () {
     Future<EdgeInsetsGeometry?> pumpPadding(
       WidgetTester tester, {
       required bool isGrouped,
     }) async {
-      await tester.pumpWidget(
-        _app(
-          MessageItem(
-            message: _message(),
-            isGrouped: isGrouped,
-            renderSettings: _settings,
-          ),
+      await _pumpApp(
+        tester,
+        MessageItem(
+          message: _message(),
+          isGrouped: isGrouped,
+          renderSettings: _settings,
         ),
       );
       await tester.pump();

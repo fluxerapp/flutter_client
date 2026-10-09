@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:audio_session/audio_session.dart' as audio_session;
 import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter/foundation.dart';
+import 'package:fluxer_app/core/talker.dart';
 
 final AudioContext kAppMediaAudioContext = AudioContext(
   android: const AudioContextAndroid(audioFocus: AndroidAudioFocus.none),
@@ -32,36 +32,36 @@ const audio_session.AudioSessionConfiguration kMixableIdleAudioSessionConfig =
     );
 
 Future<void> prepareAppMediaAudioSession() async {
-  if (kIsWeb || !(Platform.isAndroid || Platform.isIOS)) {
+  if (!(Platform.isAndroid || Platform.isIOS)) {
     return;
   }
   try {
     await AudioPlayer.global.setAudioContext(kAppMediaAudioContext);
-  } on Object {}
+  } on Object catch (error, stackTrace) {
+    talker.warning(
+      '[AudioSession] Failed to set the media audio context',
+      error,
+      stackTrace,
+    );
+  }
   final audio_session.AudioSession session =
       await audio_session.AudioSession.instance;
   await session.configure(kAppMediaAudioSessionConfig);
 }
 
-Future<void> activateAppMediaAudioSession() async {
-  if (kIsWeb || !(Platform.isAndroid || Platform.isIOS)) {
-    return;
-  }
-  await prepareAppMediaAudioSession();
-  try {
-    final audio_session.AudioSession session =
-        await audio_session.AudioSession.instance;
-    await session.setActive(true);
-  } on Object {}
-}
-
 Future<void> releaseAppAudioSessionForMixing() async {
-  if (kIsWeb || !(Platform.isAndroid || Platform.isIOS)) {
+  if (!(Platform.isAndroid || Platform.isIOS)) {
     return;
   }
   try {
     await AudioPlayer.global.setAudioContext(kAppMediaAudioContext);
-  } on Object {}
+  } on Object catch (error, stackTrace) {
+    talker.warning(
+      '[AudioSession] Failed to set the media audio context',
+      error,
+      stackTrace,
+    );
+  }
   final audio_session.AudioSession session =
       await audio_session.AudioSession.instance;
   await session.setActive(false);
@@ -69,5 +69,3 @@ Future<void> releaseAppAudioSessionForMixing() async {
     await session.configure(kMixableIdleAudioSessionConfig);
   }
 }
-
-Future<void> restoreAppMediaAudioSession() => activateAppMediaAudioSession();

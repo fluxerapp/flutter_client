@@ -33,15 +33,13 @@ class EmbedTheme extends StatelessWidget {
           maxLines: 1,
         ),
         subtitle: Text(
-          l10n.embedThemeSubtitle,
+          l10n.embedThemeWebOnly,
           style: context.textStyles.embedFooter.copyWith(
             color: context.colors.textTertiaryMuted,
             height: 1.2,
           ),
         ),
-        footer: FluxerButton.dangerPrimary(
-          label: l10n.embedThemeUnavailableButton,
-        ),
+        footer: FluxerButton.primary(label: l10n.embedThemeImport),
       ),
     );
   }

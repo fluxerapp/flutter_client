@@ -121,7 +121,6 @@ void main() {
       final ParsedChannelSearchParams params = parseChannelSearchQuery(
         'in:general',
         context: ChannelSearchParseContext(
-          guildId: 'guild-1',
           resolveChannelByName: (String name) =>
               name.toLowerCase() == 'general' ? 'channel-1' : null,
         ),
@@ -152,7 +151,6 @@ void main() {
           usersByTag: <String, String>{'alice': 'user-1'},
         ),
         context: ChannelSearchParseContext(
-          guildId: 'guild-1',
           resolveChannelByName: (String name) =>
               name.toLowerCase() == 'general' ? 'channel-1' : null,
         ),

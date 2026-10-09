@@ -79,8 +79,8 @@ void main() {
   test('close 4008 uses the same backoff and ignores nudges', () {
     fakeAsync((FakeAsync async) {
       final List<int> opens = <int>[];
-      final GatewayConnection connection = _connection(opens);
-      connection.handleSocketClosedForTest(GatewayCloseCode.rateLimited.code);
+      final GatewayConnection connection = _connection(opens)
+        ..handleSocketClosedForTest(GatewayCloseCode.rateLimited.code);
       expect(connection.state, GatewayState.reconnecting);
       expect(opens, isEmpty);
 

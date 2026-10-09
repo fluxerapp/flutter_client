@@ -55,12 +55,6 @@ void main() {
     expect(alert.single.publicKey, isNot(calls.single.publicKey));
   });
 
-  test('delete removes one account', () async {
-    await store.ensureKeys('user-a');
-    await store.delete('user-a');
-    expect(await store.read('user-a'), isNull);
-  });
-
   test('corrupt key json is ignored', () async {
     FlutterSecureStorage.setMockInitialValues(<String, String>{
       '${kWebPushKeysPrefix}user-a': '{',

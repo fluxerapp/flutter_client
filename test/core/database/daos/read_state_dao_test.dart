@@ -50,28 +50,6 @@ void main() {
     },
   );
 
-  test('incrementMentionCount preserves stickyUnreadMessageId', () async {
-    final db = openTestDatabase();
-
-    await db.readStateDao.upsertReadState(
-      const ReadStatesCompanion(
-        channelId: Value('channel-1'),
-        lastMessageId: Value('msg-100'),
-        mentionCount: Value(2),
-        stickyUnreadMessageId: Value('msg-50'),
-        manual: Value(true),
-      ),
-    );
-
-    await db.readStateDao.incrementMentionCount('channel-1');
-
-    final state = await db.readStateDao.getReadState('channel-1');
-    expect(state?.mentionCount, 3);
-    expect(state?.stickyUnreadMessageId, 'msg-50');
-    expect(state?.manual, isTrue);
-    expect(state?.lastMessageId, 'msg-100');
-  });
-
   test('updatePinTimestamp preserves stickyUnreadMessageId', () async {
     final db = openTestDatabase();
 

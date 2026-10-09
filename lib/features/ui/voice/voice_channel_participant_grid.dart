@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/gestures.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as database;
@@ -811,9 +812,6 @@ class _VoiceChannelParticipantGridState
     final List<_VoiceGridTileItem> secondary = tiles
         .where((_VoiceGridTileItem t) => t.tileId != mainTile.tileId)
         .toList();
-    final bool isScreenShareMain =
-        mainTile.source == VoiceParticipantTileSource.screenShare;
-
     return _wrapLayoutSurface(
       maxWidth: maxWidth,
       maxHeight: maxHeight,
@@ -827,9 +825,6 @@ class _VoiceChannelParticipantGridState
           secondary: secondary,
           watchedTileIds: watchedTileIds,
           compact: compact,
-          expandMiniGrid: layout.isFocusMiniGridExpanded,
-          isFilmstripCollapsed:
-              layout.isFilmstripCollapsed || isScreenShareMain,
           room: room,
           me: me,
           localConnectionId: localConnectionId,
@@ -1165,8 +1160,6 @@ class _VoiceChannelParticipantGridState
     required List<_VoiceGridTileItem> secondary,
     required Set<String> watchedTileIds,
     required bool compact,
-    required bool expandMiniGrid,
-    required bool isFilmstripCollapsed,
     required Room? room,
     required String? me,
     required String? localConnectionId,
@@ -1174,13 +1167,13 @@ class _VoiceChannelParticipantGridState
     required FluxerLocalizations l10n,
   }) {
     final bool landscape = maxWidth > maxHeight;
-    final bool hasSecondary = secondary.isNotEmpty && !isFilmstripCollapsed;
+    final bool isScreenShareMain =
+        mainTile.source == VoiceParticipantTileSource.screenShare;
+    final bool hasSecondary = secondary.isNotEmpty && !isScreenShareMain;
     final double filmstripCrossAxis = voiceFocusFilmstripCrossAxis(
       compact: compact,
       landscape: landscape,
     );
-    final bool isScreenShareMain =
-        mainTile.source == VoiceParticipantTileSource.screenShare;
     final EdgeInsets mainPadding = isScreenShareMain
         ? EdgeInsets.zero
         : EdgeInsets.fromLTRB(
@@ -1234,13 +1227,11 @@ class _VoiceChannelParticipantGridState
       );
     }
 
-    final bool useMiniGrid =
-        expandMiniGrid ||
-        voiceFocusShouldUseMiniGrid(
-          compact: compact,
-          containerWidth: maxWidth,
-          secondaryCount: secondary.length,
-        );
+    final bool useMiniGrid = voiceFocusShouldUseMiniGrid(
+      compact: compact,
+      containerWidth: maxWidth,
+      secondaryCount: secondary.length,
+    );
 
     if (landscape) {
       return Row(
@@ -1255,7 +1246,7 @@ class _VoiceChannelParticipantGridState
               child: SizedBox(
                 width: filmstripCrossAxis,
                 child: ListView.separated(
-                  cacheExtent: 0,
+                  scrollCacheExtent: const ScrollCacheExtent.pixels(0),
                   addAutomaticKeepAlives: false,
                   padding: const EdgeInsets.symmetric(
                     vertical: voiceGridEdgePaddingPx,
@@ -1295,7 +1286,7 @@ class _VoiceChannelParticipantGridState
                 : SizedBox(
                     height: filmstripCrossAxis,
                     child: ListView.separated(
-                      cacheExtent: 0,
+                      scrollCacheExtent: const ScrollCacheExtent.pixels(0),
                       addAutomaticKeepAlives: false,
                       scrollDirection: Axis.horizontal,
                       padding: const EdgeInsets.symmetric(
@@ -1326,7 +1317,7 @@ class _VoiceChannelParticipantGridState
     final int columns = voiceFocusMiniGridColumnCount(maxWidth);
     return GridView.builder(
       shrinkWrap: true,
-      cacheExtent: 0,
+      scrollCacheExtent: const ScrollCacheExtent.pixels(0),
       addAutomaticKeepAlives: false,
       physics: const ClampingScrollPhysics(),
       padding: const EdgeInsets.symmetric(horizontal: voiceGridEdgePaddingPx),
@@ -1397,8 +1388,6 @@ class _VoiceChannelParticipantGridState
     final Widget card = _VoiceParticipantCard(
       data: tile.data,
       guildId: widget.guildId,
-      channelId: widget.channelId,
-      tileId: tile.tileId,
       tileSource: tile.source,
       room: room,
       currentUserId: me,
@@ -1590,7 +1579,7 @@ class _TilePresenceState extends State<_TilePresence>
   }
 
   void _reverseOut() {
-    _controller.reverse().whenComplete(_notifyDeparted);
+    unawaited(_controller.reverse().whenComplete(_notifyDeparted));
   }
 
   void _scheduleDeparted() {
@@ -1625,8 +1614,6 @@ class _VoiceParticipantCard extends ConsumerWidget {
   const _VoiceParticipantCard({
     required this.data,
     required this.guildId,
-    required this.channelId,
-    required this.tileId,
     required this.room,
     required this.currentUserId,
     required this.localConnectionId,
@@ -1650,8 +1637,6 @@ class _VoiceParticipantCard extends ConsumerWidget {
 
   final VoiceChannelParticipantData data;
   final String? guildId;
-  final String channelId;
-  final String tileId;
   final Room? room;
   final String? currentUserId;
   final String? localConnectionId;
@@ -2178,19 +2163,17 @@ class _StopWatchingButton extends StatelessWidget {
 }
 
 class _TileHudVisibility extends ConsumerWidget {
-  const _TileHudVisibility({required this.child}) : visible = true;
+  const _TileHudVisibility({required this.child});
 
-  final bool visible;
   final Widget child;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bool overlayVisible = ref.watch(
+    final bool show = ref.watch(
       voiceCallOverlayProvider.select(
         (VoiceCallOverlayState state) => state.showsOverlay,
       ),
     );
-    final bool show = visible && overlayVisible;
     final Duration duration = MediaQuery.disableAnimationsOf(context)
         ? Duration.zero
         : context.motion.panel;

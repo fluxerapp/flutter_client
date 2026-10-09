@@ -36,7 +36,7 @@ Future<void> _showDesktopWindow() async {
 }
 
 void _configureImagePicker() {
-  if (kIsWeb || !Platform.isAndroid) {
+  if (!Platform.isAndroid) {
     return;
   }
   final ImagePickerPlatform implementation = ImagePickerPlatform.instance;
@@ -79,8 +79,7 @@ Future<void> _bootstrapFluxer(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   unawaited(ApplePushService.installReplyHandler());
   assertPushProviderBuildConfig();
-  if (!kIsWeb &&
-      Platform.isAndroid &&
+  if (Platform.isAndroid &&
       PushProviderGuard.isUnifiedPush &&
       args.contains('--unifiedpush-bg')) {
     await UnifiedPushService.ensureBackgroundInitialized();
@@ -92,22 +91,19 @@ Future<void> _bootstrapFluxer(List<String> args) async {
   configureFluxerErrorUi();
   _configureFluxerErrorReporting();
 
-  if (!kIsWeb) {
-    FluxerObservability.instance.traceSync(
-      'app.bootstrap.media_kit',
-      MediaKit.ensureInitialized,
-    );
-  }
+  FluxerObservability.instance.traceSync(
+    'app.bootstrap.media_kit',
+    MediaKit.ensureInitialized,
+  );
 
   final ProviderContainer container = ProviderContainer();
   // Chat-attachment audio is platform-channel bound and independent of the
   // observability/FCM chain; observability consent stays ahead of Firebase.
   await Future.wait<void>([
-    if (!kIsWeb)
-      FluxerObservability.instance.traceAsync(
-        'app.bootstrap.chat_attachment_audio',
-        bootstrapChatAttachmentAudio,
-      ),
+    FluxerObservability.instance.traceAsync(
+      'app.bootstrap.chat_attachment_audio',
+      bootstrapChatAttachmentAudio,
+    ),
     () async {
       await Future.wait<void>([
         container.read(observabilityReportingProvider.notifier).load(),
@@ -119,7 +115,7 @@ Future<void> _bootstrapFluxer(List<String> args) async {
         bootstrapFcmIfNeeded,
       );
     }(),
-    if (!kIsWeb && (Platform.isIOS || Platform.isAndroid))
+    if (Platform.isIOS || Platform.isAndroid)
       FluxerObservability.instance.traceAsync(
         'app.bootstrap.app_media_audio_session',
         prepareAppMediaAudioSession,
@@ -130,7 +126,7 @@ Future<void> _bootstrapFluxer(List<String> args) async {
     _configureImagePicker,
   );
 
-  if (!kIsWeb && isFluxerDesktopOs) {
+  if (isFluxerDesktopOs) {
     await FluxerObservability.instance.traceAsync(
       'app.bootstrap.window',
       () async {

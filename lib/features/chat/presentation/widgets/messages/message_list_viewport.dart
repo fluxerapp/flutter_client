@@ -136,25 +136,62 @@ class MessageListViewport extends StatelessWidget {
   /// [startOfChannelHeader]); the trailing one sits below the newest row,
   /// before [trailingInset]. Null once that edge is loaded. Every
   /// "distance to the loaded tail" the host derives from
-  /// [ScrollMetrics.maxScrollExtent] subtracts [trailingFillerExtent].
+  /// [ScrollMetrics.maxScrollExtent] subtracts the trailing filler's height.
   final MessageListEdgeFiller? leadingFiller;
   final MessageListEdgeFiller? trailingFiller;
 
-  /// Extent each filler adds beyond the loaded rows.
-  double get leadingFillerExtent => leadingFiller?.specs.totalHeight ?? 0;
-  double get trailingFillerExtent => trailingFiller?.specs.totalHeight ?? 0;
+  int? get _anchorDataIndex {
+    final String? anchor = anchorId;
+    return anchor == null ? null : findChannelStreamDataIndex(stream, anchor);
+  }
+
+  int _splitIndexFor(int? anchorDataIndex) => anchorDataIndex == null
+      ? stream.length
+      : (anchorEdge == MessageListAnchorEdge.before
+            ? anchorDataIndex
+            : anchorDataIndex + 1);
+
+  void visitLaidOutRows(
+    RenderViewport viewport,
+    void Function(int dataIndex, RenderBox row) visit,
+  ) {
+    final int splitIndex = _splitIndexFor(_anchorDataIndex);
+    bool leading = true;
+    for (
+      RenderSliver? sliver = viewport.firstChild;
+      sliver != null;
+      sliver = viewport.childAfter(sliver)
+    ) {
+      if (sliver == viewport.center) {
+        leading = false;
+        continue;
+      }
+      final RenderSliver? rows = sliver is RenderSliverPadding
+          ? sliver.child
+          : sliver;
+      if (rows is! RenderSliverMultiBoxAdaptor) {
+        continue;
+      }
+      for (
+        RenderBox? row = rows.firstChild;
+        row != null;
+        row = rows.childAfter(row)
+      ) {
+        final int index = rows.indexOf(row);
+        final int dataIndex = leading
+            ? splitIndex - 1 - index
+            : splitIndex + index;
+        if (row.hasSize && dataIndex >= 0 && dataIndex < stream.length) {
+          visit(dataIndex, row);
+        }
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final String? anchor = anchorId;
-    final int? anchorDataIndex = anchor == null
-        ? null
-        : findChannelStreamDataIndex(stream, anchor);
-    final int splitIndex = anchorDataIndex == null
-        ? stream.length
-        : (anchorEdge == MessageListAnchorEdge.before
-              ? anchorDataIndex
-              : anchorDataIndex + 1);
+    final int? anchorDataIndex = _anchorDataIndex;
+    final int splitIndex = _splitIndexFor(anchorDataIndex);
     return Stack(
       fit: StackFit.expand,
       children: [

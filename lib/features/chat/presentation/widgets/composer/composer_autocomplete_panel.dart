@@ -63,13 +63,11 @@ typedef ComposerAutocompletePanelHost =
 
 class ComposerAutocompleteGifTile {
   const ComposerAutocompleteGifTile({
-    required this.id,
     required this.title,
     required this.imageUrl,
     required this.onTap,
   });
 
-  final String id;
   final String title;
   final String imageUrl;
   final VoidCallback onTap;
@@ -86,7 +84,6 @@ class ComposerAutocompletePanelRow {
     this.userAvatarImageUrl,
     this.userAvatarFallbackText,
     this.userAvatarColor,
-    this.userAvatarStatus,
     this.emojiSurrogates,
     this.emojiImageUrl,
     this.emojiCacheKey,
@@ -105,7 +102,6 @@ class ComposerAutocompletePanelRow {
   final String? userAvatarImageUrl;
   final String? userAvatarFallbackText;
   final int? userAvatarColor;
-  final String? userAvatarStatus;
   final String? emojiSurrogates;
   final String? emojiImageUrl;
   final String? emojiCacheKey;
@@ -280,29 +276,24 @@ class ComposerAutocompletePanelBody extends StatelessWidget {
                           }
                           return const SizedBox(height: _kAutocompleteRowGap);
                         },
-                        itemBuilder: (BuildContext _, int i) {
-                          if (snap.heading != null) {
-                            if (i == 0) {
-                              return Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                  12,
-                                  4,
-                                  12,
-                                  4,
+                        itemBuilder: (BuildContext _, int index) {
+                          if (snap.heading != null && index == 0) {
+                            return Padding(
+                              padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
+                              child: Text(
+                                snap.heading!.toUpperCase(),
+                                style: context.textStyles.timestamp.copyWith(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  color: context.colors.textPrimaryMuted,
+                                  letterSpacing: 0,
                                 ),
-                                child: Text(
-                                  snap.heading!.toUpperCase(),
-                                  style: context.textStyles.timestamp.copyWith(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                    color: context.colors.textPrimaryMuted,
-                                    letterSpacing: 0,
-                                  ),
-                                ),
-                              );
-                            }
-                            i -= 1;
+                              ),
+                            );
                           }
+                          final int i = snap.heading != null
+                              ? index - 1
+                              : index;
                           final ComposerAutocompletePanelRow row = snap.rows[i];
                           if (row.isDivider) {
                             return Divider(
@@ -336,7 +327,6 @@ class ComposerAutocompletePanelBody extends StatelessWidget {
                             userAvatarImageUrl: row.userAvatarImageUrl,
                             userAvatarFallbackText: row.userAvatarFallbackText,
                             userAvatarColor: row.userAvatarColor,
-                            userAvatarStatus: row.userAvatarStatus,
                             emojiSurrogates: row.emojiSurrogates,
                             emojiImageUrl: row.emojiImageUrl,
                             emojiCacheKey: row.emojiCacheKey,
@@ -380,7 +370,6 @@ class ComposerAutocompletePanelListTile extends StatelessWidget {
     this.userAvatarImageUrl,
     this.userAvatarFallbackText,
     this.userAvatarColor,
-    this.userAvatarStatus,
     this.emojiSurrogates,
     this.emojiImageUrl,
     this.emojiCacheKey,
@@ -399,7 +388,6 @@ class ComposerAutocompletePanelListTile extends StatelessWidget {
   final String? userAvatarImageUrl;
   final String? userAvatarFallbackText;
   final int? userAvatarColor;
-  final String? userAvatarStatus;
   final String? emojiSurrogates;
   final String? emojiImageUrl;
   final String? emojiCacheKey;

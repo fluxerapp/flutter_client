@@ -1,7 +1,10 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart'
+    show FluxerDatabase;
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -11,13 +14,14 @@ import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provid
 import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
 import 'package:fluxer_app/material_ui.dart';
 
+import '../../../../helpers/open_test_database.dart';
 import '../../../../helpers/test_l10n.dart';
 
 Widget _app(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return MaterialApp(
     locale: kTestLocale,
-    localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+    localizationsDelegates: fluxerLocalizationsDelegates,
     supportedLocales: FluxerLocalizations.supportedLocales,
     theme: buildFluxerTheme(
       colorTheme: colorTheme,
@@ -29,12 +33,19 @@ Widget _app(Widget child) {
 }
 
 void main() {
+  late FluxerDatabase database;
+
+  setUp(() {
+    database = openTestDatabase();
+  });
+
   testWidgets('entering email and password syncs to the view model', (
     tester,
   ) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          fluxerDatabaseProvider.overrideWithValue(database),
           authInstanceSnapshotProvider.overrideWith(
             (ref) => InstanceConfigSnapshot.officialDefault(),
           ),
@@ -67,6 +78,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          fluxerDatabaseProvider.overrideWithValue(database),
           authInstanceSnapshotProvider.overrideWith(
             (ref) => InstanceConfigSnapshot.officialDefault(),
           ),
@@ -94,6 +106,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          fluxerDatabaseProvider.overrideWithValue(database),
           authInstanceSnapshotProvider.overrideWith(
             (ref) => InstanceConfigSnapshot.officialDefault(),
           ),
@@ -125,6 +138,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          fluxerDatabaseProvider.overrideWithValue(database),
           authInstanceSnapshotProvider.overrideWith(
             (ref) => InstanceConfigSnapshot.officialDefault(),
           ),
@@ -146,6 +160,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          fluxerDatabaseProvider.overrideWithValue(database),
           authInstanceSnapshotProvider.overrideWith(
             (ref) => InstanceConfigSnapshot.officialDefault(),
           ),
@@ -187,6 +202,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          fluxerDatabaseProvider.overrideWithValue(database),
           authInstanceSnapshotProvider.overrideWith(
             (ref) => InstanceConfigSnapshot.officialDefault(),
           ),

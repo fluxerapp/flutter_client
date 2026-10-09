@@ -12,7 +12,6 @@ const Color _tableBorderColor = Color(0xFF445566);
 const Color _headerTextColor = Color(0xFF556677);
 
 const FluxerMarkdownConfig _testMarkdownConfig = FluxerMarkdownConfig(
-  resolveEmojiShortcode: _noopEmojiShortcode,
   unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
   customEmojiUrlBuilder: _noopCustomEmojiUrl,
   tableBorderColor: _tableBorderColor,
@@ -22,8 +21,6 @@ const FluxerMarkdownConfig _testMarkdownConfig = FluxerMarkdownConfig(
   tableRowEvenBackgroundColor: _rowEvenBackgroundColor,
   tableBorderRadius: BorderRadius.all(Radius.circular(6)),
 );
-
-String? _noopEmojiShortcode(String name) => null;
 
 String? _noopUnicodeEmojiUrl(String unicode) => null;
 

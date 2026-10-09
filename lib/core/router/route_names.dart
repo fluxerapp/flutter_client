@@ -2,11 +2,8 @@ abstract final class RouteNames {
   // Auth
   static const login = 'login';
 
-  static const loading = 'loading';
   static const reconnecting = 'reconnecting';
 
-  // Shell branches
-  static const home = 'home';
   static const notifications = 'notifications';
   static const you = 'you';
 
@@ -85,7 +82,6 @@ abstract final class RoutePaths {
   ) => '/channels/$guildId/$channelId/$messageId';
   static String inviteLink(String code) => '/invite/$code';
   static String giftLink(String code) => '/gift/$code';
-  static String themeLink(String themeId) => '/theme/$themeId';
   static String guildSettingsPath(String guildId, {String? tab}) {
     final base = '/settings/guild/$guildId';
     if (tab == null) {

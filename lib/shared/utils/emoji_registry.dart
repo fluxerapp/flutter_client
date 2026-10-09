@@ -10,9 +10,8 @@ class EmojiEntry {
   EmojiEntry({
     required this.names,
     required this.surrogates,
-    required this.category,
     required this.spriteIndex,
-    this.keywords = const <String>[],
+    List<String> keywords = const <String>[],
     this.diversityIndex,
     this.hasDiversity = false,
     this.skinSurrogates = const <String>[],
@@ -23,10 +22,8 @@ class EmojiEntry {
 
   final List<String> names;
   final List<String> namesLower;
-  final List<String> keywords;
   final List<String> keywordsLower;
   final String surrogates;
-  final String category;
   final int spriteIndex;
   final int? diversityIndex;
   final bool hasDiversity;
@@ -60,11 +57,6 @@ class EmojiRegistry {
   static int _maxUnicodeEmojiLength = 0;
   static String? _lastSearchQuery;
   static List<EmojiEntry>? _lastSearchResults;
-
-  static Future<String?> resolve(String name) async {
-    _nameToSurrogate ??= await _loadNameMap();
-    return _nameToSurrogate![name];
-  }
 
   static String? resolveSync(String name) => _nameToSurrogate?[name];
   static RegExp? get unicodeEmojiRegexSync => _unicodeEmojiRegex;
@@ -159,7 +151,6 @@ class EmojiRegistry {
           names: names,
           surrogates: surrogates,
           keywords: keywords,
-          category: category,
           spriteIndex: spriteIndex,
           diversityIndex: hasDiversity ? diversityIndex : null,
           hasDiversity: hasDiversity,
@@ -225,11 +216,6 @@ class EmojiRegistry {
     );
     _lastSearchQuery = null;
     _lastSearchResults = null;
-  }
-
-  static Future<Map<String, String>> _loadNameMap() async {
-    await preload();
-    return _nameToSurrogate!;
   }
 
   static RegExp? _buildUnicodeEmojiRegex(Set<String> surrogates) {

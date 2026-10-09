@@ -28,6 +28,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_l
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/guild/guild_composer_access_provider.dart';
+import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
@@ -230,6 +231,11 @@ void main() {
                   ),
                 ),
               ),
+              snapshot: const MessagePersistSnapshot(
+                mentionsCurrentUser: false,
+                isDm: false,
+                acknowledgedByGateway: true,
+              ),
             ),
           );
       await _flushRealtimeQueue(tester);
@@ -360,7 +366,7 @@ Widget _messageListApp(ProviderContainer container) {
     container: container,
     child: MaterialApp(
       locale: kTestLocale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,

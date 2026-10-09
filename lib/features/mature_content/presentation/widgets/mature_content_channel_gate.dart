@@ -13,13 +13,11 @@ import 'package:go_router/go_router.dart';
 class MatureContentChannelGate extends ConsumerWidget {
   const MatureContentChannelGate({
     required this.channelId,
-    this.guildId,
     this.channelType,
     super.key,
   });
 
   final String channelId;
-  final String? guildId;
   final ChannelType? channelType;
 
   @override

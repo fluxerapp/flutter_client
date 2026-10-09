@@ -6,7 +6,6 @@ import 'package:fluxer_app/core/push/push_message.dart';
 import 'package:fluxer_app/core/push/push_notification_clear.dart';
 import 'package:fluxer_app/core/push/push_notification_payload.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_decrypt.dart';
-import 'package:fluxer_app/core/push/web_push/web_push_envelope.dart';
 import 'package:fluxer_app/core/push/web_push/web_push_key_store.dart';
 import 'package:fluxer_app/features/voice/utils/voice_call_ring.dart';
 import 'package:fluxer_app/features/voice/utils/voice_callkit_params.dart';
@@ -67,7 +66,7 @@ class AndroidPushPipeline {
     } on Object {
       return Future<PushMessage?>.value();
     }
-    final DecryptedWebPush? decrypted = await decryptWebPushForAccounts(
+    final PushMessage? decrypted = await decryptWebPushForAccounts(
       record: record,
       keys: keys,
       fallbackId: webPushFallbackId(),
@@ -76,18 +75,7 @@ class AndroidPushPipeline {
       return Future<PushMessage?>.value();
     }
     return dispatch(
-      message: decrypted.message,
-      backgroundMode: backgroundMode,
-      decrypted: true,
-    );
-  }
-
-  static Future<PushMessage?> handlePlaintext({
-    required String raw,
-    required bool backgroundMode,
-  }) {
-    return dispatch(
-      message: mapWebPushEnvelope(raw, fallbackId: webPushFallbackId()),
+      message: decrypted,
       backgroundMode: backgroundMode,
       decrypted: true,
     );

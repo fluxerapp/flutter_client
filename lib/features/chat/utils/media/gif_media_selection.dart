@@ -54,16 +54,6 @@ sdk.GifMediaFormat gifPreviewMediaForPicker({
   );
 }
 
-sdk.GifMediaFormat resolvedGifPreviewMediaForPicker(
-  sdk.ResolvedGifEntrySchema entry,
-) => gifPreviewMediaForPicker(
-  src: entry.url,
-  proxySrc: entry.proxyUrl,
-  width: entry.width,
-  height: entry.height,
-  media: entry.media,
-);
-
 String bestStoredGifUrl({
   required String url,
   required String src,

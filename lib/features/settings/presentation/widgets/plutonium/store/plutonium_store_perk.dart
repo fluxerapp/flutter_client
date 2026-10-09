@@ -1,4 +1,5 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_panel.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_style.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -18,8 +19,7 @@ class PremiumStorePerk extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: PremiumStoreStyle.panel,
+    return PremiumStorePanel(
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: LayoutBuilder(

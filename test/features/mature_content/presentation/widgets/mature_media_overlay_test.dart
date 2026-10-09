@@ -29,7 +29,6 @@ void main() {
               shouldBlur: true,
               shouldBlock: false,
               canReveal: true,
-              gateReason: MatureContentGateReason.none,
             ),
           ),
         ],
@@ -74,7 +73,6 @@ void main() {
         shouldBlur: true,
         shouldBlock: false,
         canReveal: true,
-        gateReason: MatureContentGateReason.none,
       ),
     );
     await tester.pumpAndSettle();
@@ -98,7 +96,6 @@ void main() {
               shouldBlur: false,
               shouldBlock: true,
               canReveal: false,
-              gateReason: MatureContentGateReason.none,
             ),
           ),
         ],
@@ -125,7 +122,7 @@ Widget _buildTestApp({
     overrides: overrides,
     child: MaterialApp(
       locale: kTestLocale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,

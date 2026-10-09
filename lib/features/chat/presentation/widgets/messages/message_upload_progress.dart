@@ -20,14 +20,12 @@ class MessageUploadProgress extends ConsumerWidget {
     required this.attachment,
     required this.messageId,
     required this.messageNonce,
-    required this.channelId,
     super.key,
   });
 
   final Attachment attachment;
   final String messageId;
   final String messageNonce;
-  final String channelId;
 
   static const double _maxWidth = 400;
   static const double _iconTileSize = 48;

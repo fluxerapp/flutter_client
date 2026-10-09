@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/ui/character_counter/fluxer_character_counte
 import 'package:fluxer_app/features/ui/keybind_hint/fluxer_keybind_hint.dart';
 import 'package:fluxer_app/features/ui/scroller/fluxer_scroller.dart';
 import 'package:fluxer_app/features/ui/warning_alert/fluxer_warning_alert.dart';
+import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -20,7 +21,7 @@ Widget buildTestApp(Widget child) {
       textTheme: FluxerTextTheme.fromColors(colorTheme),
       layoutTheme: FluxerLayoutTheme.scaled(),
     ),
-    localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+    localizationsDelegates: fluxerLocalizationsDelegates,
     supportedLocales: FluxerLocalizations.supportedLocales,
     home: Scaffold(body: child),
   );

@@ -497,6 +497,8 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
         ref.read(userSettingsViewModelProvider).defaultHideMutedChannels,
     threadsGate: ref.read(threadsGateProvider),
     resolveParentThreadActor: (String guildId, String parentId) => ref.mounted
+        // One-off snapshot; read does not retain the autoDispose family.
+        // ignore: riverpod_lint/only_use_keep_alive_inside_keep_alive
         ? ref.read(parentThreadActorProvider(guildId, parentId))
         : null,
     onThreadGateChanged: (guildId, {required active}) => ifMounted(() {

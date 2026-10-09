@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
-
 class SyncedPreferencesWireEncodeException implements Exception {
   SyncedPreferencesWireEncodeException(this.message);
 
@@ -19,8 +17,13 @@ class SyncedPreferencesWireCodec {
     required String? currentWire,
     required int fieldNumber,
     required Uint8List fieldMessageBytes,
+    int fieldWireType = 2,
   }) {
-    final fieldOnlyWire = _wrapFieldMessage(fieldNumber, fieldMessageBytes);
+    final fieldOnlyWire = _wrapFieldMessage(
+      fieldNumber,
+      fieldMessageBytes,
+      wireType: fieldWireType,
+    );
     final sourceFieldChunks = _extractFieldChunks(fieldOnlyWire, fieldNumber);
     if (sourceFieldChunks.isEmpty) {
       throw SyncedPreferencesWireEncodeException(
@@ -52,6 +55,7 @@ class SyncedPreferencesWireCodec {
   static String encodeSnapshotIntoWire({
     required String? currentWire,
     required Map<int, Uint8List> fieldMessages,
+    Map<int, int>? fieldWireTypes,
   }) {
     var wire = currentWire ?? '';
     for (final entry
@@ -61,6 +65,7 @@ class SyncedPreferencesWireCodec {
         currentWire: wire.isEmpty ? null : wire,
         fieldNumber: entry.key,
         fieldMessageBytes: entry.value,
+        fieldWireType: fieldWireTypes?[entry.key] ?? 2,
       );
     }
     return wire;
@@ -142,12 +147,6 @@ class SyncedPreferencesWireCodec {
     return _extractFieldChunks(bytes, fieldNumber);
   }
 
-  static List<int> parseFieldNumbers(Uint8List bytes) {
-    return parseTopLevelFieldChunks(
-      bytes,
-    ).map((chunk) => chunk.fieldNumber).toSet().toList()..sort();
-  }
-
   static List<SyncedPreferenceWireChunk> parseTopLevelFieldChunks(
     Uint8List bytes,
   ) {
@@ -170,8 +169,15 @@ class SyncedPreferencesWireCodec {
     ).where((chunk) => chunk.field != exceptFieldNumber).toList();
   }
 
-  static Uint8List _wrapFieldMessage(int fieldNumber, Uint8List messageBytes) {
-    final key = _encodeVarint((fieldNumber << 3) | 2);
+  static Uint8List _wrapFieldMessage(
+    int fieldNumber,
+    Uint8List messageBytes, {
+    int wireType = 2,
+  }) {
+    final key = _encodeVarint((fieldNumber << 3) | wireType);
+    if (wireType == 0) {
+      return _concatChunks(<Uint8List>[key, messageBytes]);
+    }
     final length = _encodeVarint(messageBytes.length);
     return _concatChunks(<Uint8List>[key, length, messageBytes]);
   }
@@ -280,10 +286,6 @@ class SyncedPreferencesWireCodec {
     }
     return out;
   }
-}
-
-int syncedPreferenceFieldNumber(SyncedPreferenceField field) {
-  return field.fieldNumber;
 }
 
 class SyncedPreferenceWireChunk {

@@ -37,11 +37,6 @@ class GuildAuditLog extends _$GuildAuditLog {
     state = AsyncData<GuildAuditLogState>(await _loadState());
   }
 
-  Future<void> reload() async {
-    state = const AsyncLoading<GuildAuditLogState>();
-    state = AsyncData<GuildAuditLogState>(await _loadState());
-  }
-
   Future<void> loadMore() async {
     final GuildAuditLogState? current = state.value;
     if (current == null || !current.hasMore || current.isLoadingMore) {

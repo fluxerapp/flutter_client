@@ -24,14 +24,12 @@ class ChannelPinsOverlayButton extends ConsumerStatefulWidget {
   const ChannelPinsOverlayButton({
     required this.channelId,
     required this.guildId,
-    required this.hasUnreadPins,
     required this.anchorBuilder,
     super.key,
   });
 
   final String channelId;
   final String? guildId;
-  final bool hasUnreadPins;
   final ChannelPinsAnchorBuilder anchorBuilder;
 
   @override
@@ -174,7 +172,6 @@ ChannelPinsOverlayButton buildChannelPinsButton({
   return ChannelPinsOverlayButton(
     channelId: channelId,
     guildId: guildId,
-    hasUnreadPins: hasUnreadPins,
     anchorBuilder:
         (
           BuildContext context, {

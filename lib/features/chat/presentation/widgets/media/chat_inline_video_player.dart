@@ -9,7 +9,6 @@ import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_con
 import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_mobile_fullscreen_video.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_video_playback_failure_overlay.dart';
-import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/chat_video_hdr_player_config.dart';
 import 'package:fluxer_app/features/chat/utils/media/chat_video_playback_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
@@ -68,7 +67,6 @@ class _ChatInlineVideoPlayerState extends ConsumerState<ChatInlineVideoPlayer> {
   Duration _position = Duration.zero;
   Duration _duration = Duration.zero;
   double _volume = 1;
-  bool _isMuted = false;
   double _playbackRate = 1;
   Timer? _controlsHideTimer;
   bool _pausedOffscreen = false;
@@ -301,11 +299,7 @@ class _ChatInlineVideoPlayerState extends ConsumerState<ChatInlineVideoPlayer> {
     final Player player = MediaKitPlayerLifecycleCoordinator.instance
         .createPlayer();
     _player = player;
-    unawaited(
-      player.setVolume(
-        mediaKitPlayerVolume(normalizedVolume: _volume, isMuted: _isMuted),
-      ),
-    );
+    unawaited(player.setVolume(mediaKitVolumeFromNormalized(_volume)));
     unawaited(player.setRate(_playbackRate));
     _controller = mkv.VideoController(player);
     unawaited(
@@ -359,17 +353,13 @@ class _ChatInlineVideoPlayerState extends ConsumerState<ChatInlineVideoPlayer> {
     return SharedVideoControls(
       isPlaying: _isPlaying,
       showControls: _showControls,
-      isMuted: _isMuted,
       volume: _volume,
       playbackRate: _playbackRate,
-      positionLabel: formatAttachmentDurationMmSs(_position),
-      durationLabel: formatAttachmentDurationMmSs(_duration),
       progress: _duration.inMilliseconds <= 0
           ? 0
           : (_position.inMilliseconds / _duration.inMilliseconds).clamp(0, 1),
       onShowControls: _showControlsTemporarily,
       onTogglePlayPause: _togglePlayPause,
-      onToggleMute: _toggleMute,
       onVolumeChanged: _setVolume,
       onCyclePlaybackRate: _cyclePlaybackRate,
       onToggleFullscreen: _toggleFullscreen,
@@ -408,22 +398,9 @@ class _ChatInlineVideoPlayerState extends ConsumerState<ChatInlineVideoPlayer> {
     _showControlsTemporarily();
   }
 
-  Future<void> _toggleMute() async {
-    _isMuted = !_isMuted;
-    await _player?.setVolume(
-      mediaKitPlayerVolume(normalizedVolume: _volume, isMuted: _isMuted),
-    );
-    if (mounted) {
-      setState(() {});
-    }
-    _showControlsTemporarily();
-  }
-
   Future<void> _setVolume(double value) async {
     _volume = value.clamp(0, 1);
-    if (!_isMuted) {
-      await _player?.setVolume(mediaKitVolumeFromNormalized(_volume));
-    }
+    await _player?.setVolume(mediaKitVolumeFromNormalized(_volume));
     if (mounted) {
       setState(() {});
     }

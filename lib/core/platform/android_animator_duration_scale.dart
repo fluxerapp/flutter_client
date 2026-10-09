@@ -6,7 +6,7 @@ const EventChannel _androidAnimatorDurationScaleChannel = EventChannel(
 );
 
 bool get androidAnimatorDurationScaleSupported =>
-    !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
+    defaultTargetPlatform == TargetPlatform.android;
 
 Stream<bool> watchAndroidAnimatorDurationDisabled() {
   if (!androidAnimatorDurationScaleSupported) {

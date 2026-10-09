@@ -18,7 +18,7 @@ void main() {
     expect(bytes.every((int b) => b >= 0 && b <= 255), isTrue);
   });
 
-  test('computeVoiceWaveformFromWavBytes encodes duration', () {
+  test('computeVoiceWaveformFromPcm encodes duration of decoded wav', () {
     final Float32List samples = Float32List(44100);
     for (int i = 0; i < samples.length; i++) {
       samples[i] = 0.5 * math.sin(i / 100);
@@ -27,7 +27,9 @@ void main() {
       samples: samples,
       sampleRate: 44100,
     );
-    final VoiceWaveformResult result = computeVoiceWaveformFromWavBytes(wav);
+    final VoiceWaveformResult result = computeVoiceWaveformFromPcm(
+      decodeWavMonoPcm(wav)!,
+    );
     expect(result.duration, greaterThanOrEqualTo(1));
     expect(result.waveform, isNotEmpty);
   });

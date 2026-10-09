@@ -27,11 +27,6 @@ bool isGuildSettingsTabComingSoon(GuildSettingsTab tab) {
   return _comingSoonTabs.contains(tab);
 }
 
-abstract final class GuildFeatureFlags {
-  static const String banner = GuildFeatures.banner;
-  static const String discoverable = 'DISCOVERABLE';
-}
-
 GuildAction guildSettingsTabToAction(GuildSettingsTab tab) {
   return switch (tab) {
     GuildSettingsTab.overview => GuildAction.settingsOverview,
@@ -70,10 +65,6 @@ bool isGuildInviteSplashEnabled(Guild guild) {
   return hasGuildFeature(guild.features, GuildFeatures.inviteSplash);
 }
 
-bool isGuildDiscoveryEnabled(Guild guild) {
-  return guild.features.contains(GuildFeatureFlags.discoverable);
-}
-
 String? guildSettingsTabCategoryLabel(
   FluxerLocalizations l10n,
   GuildSettingsTab tab,
@@ -88,14 +79,6 @@ String? guildSettingsTabCategoryLabel(
     GuildSettingsTab.bans => l10n.guildSettingsCategoryPeople,
     _ => null,
   };
-}
-
-GuildSettingsTab guildSettingsTabFromIndex(int index) {
-  const List<GuildSettingsTab> tabs = GuildSettingsTab.values;
-  if (index < 0 || index >= tabs.length) {
-    return GuildSettingsTab.overview;
-  }
-  return tabs[index];
 }
 
 String guildSettingsTabQuery(GuildSettingsTab tab) {

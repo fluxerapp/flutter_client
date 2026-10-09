@@ -201,10 +201,6 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
         ref.read(isActiveInstanceOfficialProvider)) {
       return;
     }
-    final promptNotifier = ref.read(pushRelayConsentPromptProvider.notifier);
-    if (promptNotifier.presentationInFlight) {
-      return;
-    }
     final BuildContext? rootContext = rootNavigatorKey.currentContext;
     if (rootContext == null || !rootContext.mounted) {
       if (attempt >= 60) {
@@ -218,7 +214,7 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
       });
       return;
     }
-    promptNotifier.beginPresentation();
+    ref.read(pushRelayConsentPromptProvider.notifier).beginPresentation();
     unawaited(_presentPushRelayConsent(rootContext));
   }
 

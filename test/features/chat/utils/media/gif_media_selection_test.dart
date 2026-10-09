@@ -150,23 +150,6 @@ void main() {
     expect(preview.height, 228);
   });
 
-  test('resolved GIF entries fall back to top-level media when needed', () {
-    const entry = sdk.ResolvedGifEntrySchema(
-      url: 'https://media.tenor.com/excited-ah.gif',
-      proxyUrl: 'https://cdn.example/excited-ah.gif',
-      width: 320,
-      height: 228,
-      media: <String, sdk.GifMediaFormat>{},
-    );
-
-    final preview = resolvedGifPreviewMediaForPicker(entry);
-
-    expect(preview.src, 'https://media.tenor.com/excited-ah.gif');
-    expect(preview.proxySrc, 'https://cdn.example/excited-ah.gif');
-    expect(preview.width, 320);
-    expect(preview.height, 228);
-  });
-
   test('drops video-only formats and falls back to the source url', () {
     const media = {
       'mp4': sdk.GifMediaFormat(

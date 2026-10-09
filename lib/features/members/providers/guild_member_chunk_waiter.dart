@@ -33,8 +33,6 @@ class GuildMemberChunkWaiter {
     return int.tryParse(nonce);
   }
 
-  int? activeRequestId(String guildId) => _activeRequestId[guildId];
-
   void notifyChunk(
     String guildId, {
     List<String> userIds = const <String>[],

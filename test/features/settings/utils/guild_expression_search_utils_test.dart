@@ -29,7 +29,6 @@ void main() {
       name: 'wave',
       description: 'hello',
       tags: <String>['greet'],
-      animated: false,
       uploader: uploader,
     ),
     const GuildStickerSettingsEntry(
@@ -37,7 +36,6 @@ void main() {
       name: 'party',
       description: 'celebrate',
       tags: <String>['fun'],
-      animated: true,
       uploader: uploader,
     ),
   ];

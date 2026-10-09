@@ -19,6 +19,7 @@ String formatPrivacyCommunicationSettingsPath(FluxerLocalizations l10n) {
 String? clientSystemMessageForSendError({
   required String? apiErrorCode,
   required FluxerLocalizations l10n,
+  required bool selfHosted,
 }) {
   switch (apiErrorCode) {
     case apiErrorCodeCannotSendMessagesToUser:
@@ -30,7 +31,9 @@ String? clientSystemMessageForSendError({
     case apiErrorCodeUnclaimedAccountCannotSendMessages:
       return l10n.chatSendFailureUnclaimedGeneral;
     case apiErrorCodeContentBlocked:
-      return l10n.chatSendFailureContentBlocked;
+      return selfHosted
+          ? l10n.chatSendFailureContentBlockedSelfHosted
+          : l10n.chatSendFailureContentBlocked;
     case apiErrorCodeNsfwEmojiStickerBlocked:
       return l10n.chatSendFailureNsfwEmojiSticker;
     case 'THREAD_LOCKED':

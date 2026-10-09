@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 const MethodChannel _androidNotificationsChannel = MethodChannel(
@@ -12,7 +11,7 @@ const MethodChannel _androidNotificationsChannel = MethodChannel(
 /// On Android this reflects Do Not Disturb / interruption filters. On iOS,
 /// notification clips already respect the silent switch via audio session policy.
 Future<bool> isSystemNotificationSoundSuppressed() async {
-  if (kIsWeb || !Platform.isAndroid) {
+  if (!Platform.isAndroid) {
     return false;
   }
   try {

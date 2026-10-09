@@ -79,9 +79,6 @@ void main() {
 
 class _FakePushService implements PushService {
   @override
-  Future<void> requestPermissions() async {}
-
-  @override
   Future<void> initialize() async {}
 
   @override

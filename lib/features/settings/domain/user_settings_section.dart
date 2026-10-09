@@ -9,6 +9,7 @@ enum UserSettingsSection {
   linkedDevices,
   connections,
   lookAndFeel,
+  themeColors,
   accessibility,
   chat,
   audioAndVideo,

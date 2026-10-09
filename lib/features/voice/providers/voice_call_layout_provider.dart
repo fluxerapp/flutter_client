@@ -14,24 +14,16 @@ class VoiceCallLayoutState {
   const VoiceCallLayoutState({
     this.mode = VoiceCallLayoutMode.grid,
     this.pinnedTileId,
-    this.isFilmstripCollapsed = false,
-    this.isFocusMiniGridExpanded = false,
     this.expandedUserIds = const <String>{},
   });
 
   final VoiceCallLayoutMode mode;
   final String? pinnedTileId;
-  final bool isFilmstripCollapsed;
-  final bool isFocusMiniGridExpanded;
   final Set<String> expandedUserIds;
-
-  bool isPinned(String tileId) => pinnedTileId == tileId;
 
   VoiceCallLayoutState copyWith({
     VoiceCallLayoutMode? mode,
     String? pinnedTileId,
-    bool? isFilmstripCollapsed,
-    bool? isFocusMiniGridExpanded,
     Set<String>? expandedUserIds,
     bool clearPinnedTileId = false,
   }) {
@@ -40,9 +32,6 @@ class VoiceCallLayoutState {
       pinnedTileId: clearPinnedTileId
           ? null
           : (pinnedTileId ?? this.pinnedTileId),
-      isFilmstripCollapsed: isFilmstripCollapsed ?? this.isFilmstripCollapsed,
-      isFocusMiniGridExpanded:
-          isFocusMiniGridExpanded ?? this.isFocusMiniGridExpanded,
       expandedUserIds: expandedUserIds ?? this.expandedUserIds,
     );
   }
@@ -99,32 +88,6 @@ class VoiceCallLayout extends _$VoiceCallLayout {
       return;
     }
     state = state.copyWith(clearPinnedTileId: true);
-  }
-
-  void togglePin(String tileId) {
-    if (state.pinnedTileId == tileId) {
-      unpin();
-    } else {
-      pin(tileId);
-    }
-  }
-
-  void setFilmstripCollapsed({required bool value}) {
-    if (state.isFilmstripCollapsed == value) {
-      return;
-    }
-    state = state.copyWith(isFilmstripCollapsed: value);
-  }
-
-  void toggleFilmstripCollapsed() {
-    setFilmstripCollapsed(value: !state.isFilmstripCollapsed);
-  }
-
-  void setFocusMiniGridExpanded({required bool value}) {
-    if (state.isFocusMiniGridExpanded == value) {
-      return;
-    }
-    state = state.copyWith(isFocusMiniGridExpanded: value);
   }
 
   void toggleExpandedUser(String userId) {

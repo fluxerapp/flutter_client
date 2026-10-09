@@ -45,7 +45,7 @@ void main() {
     final ChannelReorderDragItem dragItem = ChannelReorderDragItem.fromChannel(
       channels.firstWhere((Channel channel) => channel.id == 'text-2'),
     );
-    final ChannelMoveOperation? operation = createChannelMoveOperation(
+    final ChannelMoveOperation? operation = computeChannelMove(
       channels: channels,
       dragItem: dragItem,
       dropResult: const ChannelReorderDropResult(
@@ -54,7 +54,7 @@ void main() {
         targetParentId: 'cat-1',
         targetParentIdSpecified: true,
       ),
-    );
+    )?.operation;
     expect(operation, isNotNull);
     expect(operation!.newParentId, 'cat-1');
     expect(operation.precedingSiblingId, 'text-1');
@@ -99,14 +99,14 @@ void main() {
           ChannelReorderDragItem.fromChannel(
             channels.firstWhere((Channel channel) => channel.id == 'text-2'),
           );
-      final ChannelMoveOperation? operation = createChannelMoveOperation(
+      final ChannelMoveOperation? operation = computeChannelMove(
         channels: channels,
         dragItem: dragItem,
         dropResult: const ChannelReorderDropResult(
           targetId: kNullSpaceTargetId,
           position: ChannelReorderDropPosition.before,
         ),
-      );
+      )?.operation;
       expect(operation, isNotNull);
       expect(operation!.newParentId, isNull);
       expect(operation.precedingSiblingId, isNull);
@@ -126,14 +126,14 @@ void main() {
           ChannelReorderDragItem.fromChannel(
             channels.firstWhere((Channel channel) => channel.id == 'text-1'),
           );
-      final ChannelMoveOperation? operation = createChannelMoveOperation(
+      final ChannelMoveOperation? operation = computeChannelMove(
         channels: channels,
         dragItem: dragItem,
         dropResult: const ChannelReorderDropResult(
           targetId: kTrailingSpaceTargetId,
           position: ChannelReorderDropPosition.after,
         ),
-      );
+      )?.operation;
       expect(operation, isNotNull);
       expect(operation!.newParentId, isNull);
       expect(operation.precedingSiblingId, 'text-2');
@@ -154,7 +154,7 @@ void main() {
           ChannelReorderDragItem.fromChannel(
             channels.firstWhere((Channel channel) => channel.id == 'text-1'),
           );
-      final ChannelMoveOperation? operation = createChannelMoveOperation(
+      final ChannelMoveOperation? operation = computeChannelMove(
         channels: channels,
         dragItem: dragItem,
         dropResult: const ChannelReorderDropResult(
@@ -162,7 +162,7 @@ void main() {
           position: ChannelReorderDropPosition.before,
           targetParentIdSpecified: true,
         ),
-      );
+      )?.operation;
       expect(operation, isNotNull);
       expect(operation!.newParentId, isNull);
     },
@@ -181,7 +181,7 @@ void main() {
           ChannelReorderDragItem.fromChannel(
             channels.firstWhere((Channel channel) => channel.id == 'text-2'),
           );
-      final ChannelMoveOperation? operation = createChannelMoveOperation(
+      final ChannelMoveOperation? operation = computeChannelMove(
         channels: channels,
         dragItem: dragItem,
         dropResult: const ChannelReorderDropResult(
@@ -190,7 +190,7 @@ void main() {
           targetParentId: 'cat-1',
           targetParentIdSpecified: true,
         ),
-      );
+      )?.operation;
       expect(operation, isNotNull);
       expect(operation!.newParentId, 'cat-1');
       expect(operation.precedingSiblingId, 'text-1');
@@ -210,7 +210,7 @@ void main() {
           ChannelReorderDragItem.fromChannel(
             channels.firstWhere((Channel channel) => channel.id == 'text-2'),
           );
-      final ChannelMoveOperation? operation = createChannelMoveOperation(
+      final ChannelMoveOperation? operation = computeChannelMove(
         channels: channels,
         dragItem: dragItem,
         dropResult: const ChannelReorderDropResult(
@@ -219,7 +219,7 @@ void main() {
           targetParentId: 'cat-1',
           targetParentIdSpecified: true,
         ),
-      );
+      )?.operation;
       expect(operation, isNotNull);
       expect(operation!.newParentId, 'cat-1');
       expect(operation.precedingSiblingId, 'text-3');

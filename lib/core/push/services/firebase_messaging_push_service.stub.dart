@@ -15,9 +15,6 @@ class FirebaseMessagingPushService implements PushService {
   static Stream<String> get tokenRefreshStream => const Stream<String>.empty();
 
   @override
-  Future<void> requestPermissions() async {}
-
-  @override
   Future<void> initialize() async {}
 
   @override
@@ -25,8 +22,4 @@ class FirebaseMessagingPushService implements PushService {
 
   @override
   Stream<PushMessage> watchMessages() => const Stream<PushMessage>.empty();
-
-  static void configureForegroundMessageFilter(
-    bool Function(Map<String, String> payload)? filter,
-  ) {}
 }

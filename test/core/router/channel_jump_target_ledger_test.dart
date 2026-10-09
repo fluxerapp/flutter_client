@@ -6,15 +6,29 @@ void main() {
   const String channelId = 'channel-1';
   const String messageId = 'message-1';
 
+  late ProviderContainer container;
+
   ChannelJumpTargetLedger freshLedger() {
-    final ProviderContainer container = ProviderContainer();
+    container = ProviderContainer();
     addTearDown(container.dispose);
     return container.read(channelJumpTargetLedgerProvider.notifier);
   }
 
+  bool honours({required String channelId, required String messageId}) {
+    final ChannelJumpTargetConsumption consumption = container.read(
+      channelJumpTargetLedgerProvider,
+    );
+    return !consumption.isConsumed(
+          channelId: channelId,
+          messageId: messageId,
+        ) &&
+        !consumption.isSuperseded(channelId: channelId, messageId: messageId);
+  }
+
   test('a fresh target is honoured, since the ledger fails open', () {
+    freshLedger();
     expect(
-      freshLedger().shouldHonour(channelId: channelId, messageId: messageId),
+      honours(channelId: channelId, messageId: messageId),
       isTrue,
       reason:
           'an unknown target must be honoured: a spurious jump costs a fetch, '
@@ -25,10 +39,9 @@ void main() {
   // Defect C1: the route keeps the message id, so without durable consumption
   // every unrelated rebuild refetched the window around the stale target.
   test('a consumed target is not honoured again', () {
-    final ChannelJumpTargetLedger ledger = freshLedger()
-      ..markConsumed(channelId: channelId, messageId: messageId);
+    freshLedger().markConsumed(channelId: channelId, messageId: messageId);
     expect(
-      ledger.shouldHonour(channelId: channelId, messageId: messageId),
+      honours(channelId: channelId, messageId: messageId),
       isFalse,
       reason: 'the stale route target must not re-fire once applied',
     );
@@ -40,14 +53,16 @@ void main() {
     final ChannelJumpTargetLedger ledger = freshLedger()
       ..markConsumed(channelId: channelId, messageId: messageId);
     expect(
-      ledger.shouldHonour(channelId: channelId, messageId: messageId),
+      honours(channelId: channelId, messageId: messageId),
       isFalse,
       reason: 'precondition: consumed',
     );
 
-    final bool honouredAfterRequest =
-        (ledger..request(channelId: channelId, messageId: messageId))
-            .shouldHonour(channelId: channelId, messageId: messageId);
+    ledger.request(channelId: channelId, messageId: messageId);
+    final bool honouredAfterRequest = honours(
+      channelId: channelId,
+      messageId: messageId,
+    );
 
     expect(
       honouredAfterRequest,
@@ -62,16 +77,16 @@ void main() {
   // the user jumped to a second message in the same channel, an ordinary
   // follow-up search, which reopened the stale-refetch loop for the first.
   test('requesting one target does not re-open another', () {
-    final ChannelJumpTargetLedger ledger = freshLedger()
+    freshLedger()
       ..markConsumed(channelId: channelId, messageId: messageId)
       ..request(channelId: channelId, messageId: 'other-message');
     expect(
-      ledger.shouldHonour(channelId: channelId, messageId: messageId),
+      honours(channelId: channelId, messageId: messageId),
       isFalse,
       reason: 'an unrelated intent must not resurrect a consumed target',
     );
     expect(
-      ledger.shouldHonour(channelId: channelId, messageId: 'other-message'),
+      honours(channelId: channelId, messageId: 'other-message'),
       isTrue,
       reason: 'while the newly requested target is honoured',
     );
@@ -80,26 +95,23 @@ void main() {
   // Supersession: a newer jump in the same channel means the user asked for
   // something else, so an older PENDING target must never fire again.
   test('a newer intent supersedes an older pending target', () {
-    final ChannelJumpTargetLedger ledger = freshLedger()
+    freshLedger()
       ..request(channelId: channelId, messageId: messageId)
       ..request(channelId: channelId, messageId: 'newer');
     expect(
-      ledger.shouldHonour(channelId: channelId, messageId: messageId),
+      honours(channelId: channelId, messageId: messageId),
       isFalse,
       reason: 'the older pending target would drag the user off the newer one',
     );
-    expect(
-      ledger.shouldHonour(channelId: channelId, messageId: 'newer'),
-      isTrue,
-    );
+    expect(honours(channelId: channelId, messageId: 'newer'), isTrue);
   });
 
   test('supersession is per channel', () {
-    final ChannelJumpTargetLedger ledger = freshLedger()
+    freshLedger()
       ..request(channelId: channelId, messageId: messageId)
       ..request(channelId: 'channel-2', messageId: 'elsewhere');
     expect(
-      ledger.shouldHonour(channelId: channelId, messageId: messageId),
+      honours(channelId: channelId, messageId: messageId),
       isTrue,
       reason: 'a jump in another channel says nothing about this one',
     );
@@ -107,45 +119,28 @@ void main() {
 
   // Interruption is transient and must stay retryable, unlike supersession.
   test('a pending target with no newer intent is still honoured', () {
-    final ChannelJumpTargetLedger ledger = freshLedger()
-      ..request(channelId: channelId, messageId: messageId);
-    expect(
-      ledger.shouldHonour(channelId: channelId, messageId: messageId),
-      isTrue,
-    );
+    freshLedger().request(channelId: channelId, messageId: messageId);
+    expect(honours(channelId: channelId, messageId: messageId), isTrue);
   });
 
   test('re-requesting after supersession honours the target again', () {
-    final ChannelJumpTargetLedger ledger = freshLedger()
+    freshLedger()
       ..request(channelId: channelId, messageId: messageId)
       ..request(channelId: channelId, messageId: 'newer')
       ..request(channelId: channelId, messageId: messageId);
-    expect(
-      ledger.shouldHonour(channelId: channelId, messageId: messageId),
-      isTrue,
-    );
+    expect(honours(channelId: channelId, messageId: messageId), isTrue);
   });
 
   test('consuming a second target keeps the first consumed', () {
-    final ChannelJumpTargetLedger ledger = freshLedger()
+    freshLedger()
       ..markConsumed(channelId: channelId, messageId: messageId)
       ..markConsumed(channelId: channelId, messageId: 'second');
-    expect(
-      ledger.shouldHonour(channelId: channelId, messageId: messageId),
-      isFalse,
-    );
-    expect(
-      ledger.shouldHonour(channelId: channelId, messageId: 'second'),
-      isFalse,
-    );
+    expect(honours(channelId: channelId, messageId: messageId), isFalse);
+    expect(honours(channelId: channelId, messageId: 'second'), isFalse);
   });
 
   test('consumption is per channel, so the same id elsewhere still jumps', () {
-    final ChannelJumpTargetLedger ledger = freshLedger()
-      ..markConsumed(channelId: channelId, messageId: messageId);
-    expect(
-      ledger.shouldHonour(channelId: 'channel-2', messageId: messageId),
-      isTrue,
-    );
+    freshLedger().markConsumed(channelId: channelId, messageId: messageId);
+    expect(honours(channelId: 'channel-2', messageId: messageId), isTrue);
   });
 }

@@ -32,10 +32,6 @@
     "@retry": {
         "description": "Generic label for retry actions (splash, errors, network, etc.)."
     },
-    "connectingCaps": "CONNECTING",
-    "@connectingCaps": {
-        "description": "Connecting text on the splash screen"
-    },
     "splashConnectionLost": "Veza prekinuta",
     "@splashConnectionLost": {
         "description": "Fallback headline on splash when gateway is unavailable (web parity)."
@@ -301,10 +297,6 @@
             }
         }
     },
-    "ssoRequired": "Za pristup ovom serveru potrebna je prijava putem SSO-a.",
-    "@ssoRequired": {
-        "description": "Short sign-in note shown when the instance requires single sign-on."
-    },
     "organizationSsoProvider": "Prijavite se putem davatelja jedinstvene prijave vaše organizacije.",
     "@organizationSsoProvider": {
         "description": "Description shown when sign-in is restricted to the configured SSO provider."
@@ -325,10 +317,6 @@
                 "type": "String"
             }
         }
-    },
-    "logInViaBrowser": "Prijavi se putem preglednika",
-    "@logInViaBrowser": {
-        "description": "Secondary login that opens or uses the system browser."
     },
     "needAccountPrompt": "Trebate račun? ",
     "@needAccountPrompt": {
@@ -444,26 +432,9 @@
     "@accountAdd": {
         "description": "Button to add a new account."
     },
-    "accountRemove": "Ukloni",
-    "@accountRemove": {
-        "description": "Context menu option to remove a stored account."
-    },
-    "accountRemoveTitle": "Izbriši {username}",
-    "@accountRemoveTitle": {
-        "description": "Title for the remove account confirmation modal.",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
     "accountRemoveDescription": "Ovo će ukloniti spremljenu sesiju za ovaj račun.",
     "@accountRemoveDescription": {
         "description": "Description for the remove account confirmation modal."
-    },
-    "accountRemoveOnlyDescription": "Ovo će ukloniti jedini spremljeni račun na ovom uređaju.",
-    "@accountRemoveOnlyDescription": {
-        "description": "Description when removing the last stored account."
     },
     "accountExpired": "Isteklo",
     "@accountExpired": {
@@ -848,7 +819,7 @@
     },
     "recoveryKitBackupCodesFailed": "Nismo mogli učitati vaše sigurnosne kodove.",
     "@recoveryKitBackupCodesFailed": {
-        "description": "Toast shown when the two-factor backup codes for the recovery kit cannot be loaded."
+        "description": "Toast shown when the two-factor backup codes cannot be loaded, in the recovery kit sheet or from View codes in security settings."
     },
     "recoveryKitIncludeBackupCodes": "Uključi moje rezervne kodove za dvofaktorsku autentifikaciju u spremljenu sliku",
     "@recoveryKitIncludeBackupCodes": {
@@ -995,10 +966,6 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsent": "Slažem se s Uvjetima pružanja usluge i Pravilima o privatnosti",
-    "@registerConsent": {
-        "description": "Consent checkbox label for registration (plain text fallback)."
-    },
     "registerConsentPrefix": "Slažem se s ",
     "@registerConsentPrefix": {
         "description": "Text before the Terms of Service link in the consent checkbox."
@@ -1050,10 +1017,6 @@
     "passkeyTimeout": "Isteklo je vrijeme za provjeru autentičnosti putem sigurnosnog ključa. Molimo pokušajte ponovno.",
     "@passkeyTimeout": {
         "description": "Error when passkey authentication times out."
-    },
-    "passkeyNotAvailable": "Passkeys nisu dostupne za ovu aplikaciju. Umjesto toga, prijavite se e-poštom i lozinkom.",
-    "@passkeyNotAvailable": {
-        "description": "Error for unknown passkey provider errors (e.g. TYPE_UNKNOWN)."
     },
     "passkeyFailed": "Autentifikacija putem sigurnosnog ključa nije uspjela. Molimo pokušajte ponovno.",
     "@passkeyFailed": {
@@ -1216,26 +1179,6 @@
     "@inviteAcceptSomeone": {
         "description": "Fallback inviter name when the inviter is unknown."
     },
-    "inviteAcceptEmojiPack": "Paket emojija",
-    "@inviteAcceptEmojiPack": {
-        "description": "Label for an emoji pack invite."
-    },
-    "inviteAcceptStickerPack": "Paket naljepnica",
-    "@inviteAcceptStickerPack": {
-        "description": "Label for a sticker pack invite."
-    },
-    "inviteAcceptInstallEmojiPack": "Instaliraj paket emojija",
-    "@inviteAcceptInstallEmojiPack": {
-        "description": "Primary action to install an emoji pack from an invite."
-    },
-    "inviteAcceptInstallStickerPack": "Instaliraj paket naljepnica",
-    "@inviteAcceptInstallStickerPack": {
-        "description": "Primary action to install a sticker pack from an invite."
-    },
-    "inviteAcceptPackInstallNote": "Prihvaćanjem ovog poziva paket će se automatski instalirati.",
-    "@inviteAcceptPackInstallNote": {
-        "description": "Note shown on expression pack invites before accepting."
-    },
     "mentionUnknownChannel": "unknown-channel",
     "@mentionUnknownChannel": {
         "description": "Fallback name shown in a channel mention pill when the channel is not found."
@@ -1260,13 +1203,13 @@
     "@embedThemeTitle": {
         "description": "Title on the theme embed card in chat."
     },
-    "embedThemeSubtitle": "Ovaj klijent ne podržava prilagođene teme.",
-    "@embedThemeSubtitle": {
-        "description": "Subtitle on the theme embed card."
+    "embedThemeWebOnly": "Teme možeš uvesti samo na webu ili na računalu.",
+    "@embedThemeWebOnly": {
+        "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
     },
-    "embedThemeUnavailableButton": "Teme nedostupne",
-    "@embedThemeUnavailableButton": {
-        "description": "Button on the theme embed card - themes aren't supported in the client."
+    "embedThemeImport": "Uvezi temu",
+    "@embedThemeImport": {
+        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "embedGiftVisionaryLifetime": "Vizionar (doživotni {productName})",
     "@embedGiftVisionaryLifetime": {
@@ -1683,9 +1626,18 @@
     "@dmLeaveGroup": {
         "description": "DM context menu action to leave a group DM."
     },
-    "dmNoCommunitiesAvailable": "Nema dostupnih zajednica",
-    "@dmNoCommunitiesAvailable": {
-        "description": "Shown when no communities are available to invite to."
+    "dmInviteSentFor": "Pozivnica za {communityName} poslana",
+    "@dmInviteSentFor": {
+        "description": "Toast confirming a community invite was sent to a DM recipient.",
+        "placeholders": {
+            "communityName": {
+                "type": "String"
+            }
+        }
+    },
+    "dmInviteSendFailed": "Nije moguće poslati pozivnicu. Pokušajte ponovno.",
+    "@dmInviteSendFailed": {
+        "description": "Toast shown when sending a community invite from the DM menu fails."
     },
     "dmGroupMemberCount": "{count} člana",
     "@dmGroupMemberCount": {
@@ -2209,10 +2161,6 @@
             }
         }
     },
-    "emojiPlutoniumUpsellButton": "Nabavi Plutonium",
-    "@emojiPlutoniumUpsellButton": {
-        "description": "Button label on the Plutonium upsell banner."
-    },
     "emojiPlutoniumUpsellDismiss": "Ne prikazuj ovo ponovno",
     "@emojiPlutoniumUpsellDismiss": {
         "description": "Dismiss link on the Plutonium upsell banner."
@@ -2385,10 +2333,6 @@
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
     },
-    "fluxerTagInputLabel": "Korisničko ime",
-    "@fluxerTagInputLabel": {
-        "description": "Label above the username and discriminator input fields."
-    },
     "fluxerTagDescriptionBase": "Korisnička imena mogu sadržavati samo slova (a-z, A-Z), brojeve (0-9) i podvlake. Kod korisničkih imena ne razlikuju se velika i mala slova.",
     "@fluxerTagDescriptionBase": {
         "description": "Base description text on the username change sheet."
@@ -2416,10 +2360,6 @@
     "validationAllowedChars": "Samo slova (a-z, A-Z), brojevi (0-9) i podvlake (_)",
     "@validationAllowedChars": {
         "description": "Validation rule for allowed username characters."
-    },
-    "discriminatorPremiumTooltip": "Nabavite Plutonium za prilagodbu svoje oznake ili je zadržite prilikom promjene korisničkog imena",
-    "@discriminatorPremiumTooltip": {
-        "description": "Tooltip on disabled discriminator field for non-premium users."
     },
     "fluxerTagAlreadyTaken": "Korisničko ime je već zauzeto",
     "@fluxerTagAlreadyTaken": {
@@ -2474,19 +2414,6 @@
     "premiumUpsellCustomizeTag": "Prilagodi svoju 4-znamenkastu oznaku ili je zadrži prilikom promjene korisničkog imena",
     "@premiumUpsellCustomizeTag": {
         "description": "Upsell text encouraging non-premium users to get Plutonium for tag customization."
-    },
-    "premiumTrialExpiresOn": "Tvoja Plutonium proba istječe {date}. Nadogradi kako bi zadržao svoj prilagođeni tag i zaradio značku na svom profilu.",
-    "@premiumTrialExpiresOn": {
-        "description": "Trial upsell with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActive": "Na Plutonium ste probnoj verziji. Nadogradite kako biste zadržali svoj prilagođeni tag i zaradili značku na svom profilu.",
-    "@premiumTrialActive": {
-        "description": "Trial upsell without specific expiry date."
     },
     "fluxerTagUpdated": "Korisničko ime ažurirano",
     "@fluxerTagUpdated": {
@@ -2660,32 +2587,6 @@
     "@hideVisionaryIdDescription": {
         "description": "Description for the toggle to hide the Visionary ID badge."
     },
-    "premiumTrialSubscriptionStarts": "Na Plutonium ste pretplati — vaša pretplata počinje {date}",
-    "@premiumTrialSubscriptionStarts": {
-        "description": "Trial banner title when user has an active subscription pending after trial.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialSubscriptionStartsDescription": "Vaša pretplata automatski započinje kada završi besplatno probno razdoblje. Nije potrebna nikakva radnja.",
-    "@premiumTrialSubscriptionStartsDescription": {
-        "description": "Trial banner description when user has an active subscription pending after trial."
-    },
-    "premiumTrialExpiresOnProfile": "Na Plutonium pretplati ste na probno razdoblje koje istječe {date}",
-    "@premiumTrialExpiresOnProfile": {
-        "description": "Trial banner title with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActiveProfile": "Na Plutonium ste pretplati",
-    "@premiumTrialActiveProfile": {
-        "description": "Trial banner title without specific expiry date."
-    },
     "avatarDescriptionNonPremium": "JPEG, PNG, WebP. Maksimalno 10 MB. Preporučeno: 512×512 px. Animiranih avatara (GIF) zahtijeva Plutonium.",
     "@avatarDescriptionNonPremium": {
         "description": "Avatar helper text for non-premium users, mentioning Plutonium requirement for animated avatars."
@@ -2770,22 +2671,6 @@
     "profileSavedToast": "Profil ažuriran",
     "@profileSavedToast": {
         "description": "Toast message shown after successfully saving profile changes."
-    },
-    "profileEditButton": "Uredi profil",
-    "@profileEditButton": {
-        "description": "Button label to open profile editing from the profile content card."
-    },
-    "profileNoteLabel": "Bilješka",
-    "@profileNoteLabel": {
-        "description": "Label for the personal note section on a user profile."
-    },
-    "profileNoteVisibility": "(vidljivo samo vama)",
-    "@profileNoteVisibility": {
-        "description": "Hint that the note is private and only visible to the current user."
-    },
-    "profileNoteEmpty": "Još nema bilješke.",
-    "@profileNoteEmpty": {
-        "description": "Placeholder shown when no personal note has been set for a user."
     },
     "sudoTitle": "Potvrdi svoj identitet",
     "@sudoTitle": {
@@ -3158,42 +3043,6 @@
     "@securityPasskeyNameHint": {
         "description": "Hint for passkey name input."
     },
-    "securityPhoneSectionTitle": "Broj telefona",
-    "@securityPhoneSectionTitle": {
-        "description": "Title for phone number section."
-    },
-    "securityPhoneSectionDescription": "Upravljajte svojim telefonskim brojem.",
-    "@securityPhoneSectionDescription": {
-        "description": "Description for phone number section."
-    },
-    "securityPhoneLabel": "Broj telefona",
-    "@securityPhoneLabel": {
-        "description": "Label for phone number row."
-    },
-    "securityPhoneNone": "Nije dodan broj telefona.",
-    "@securityPhoneNone": {
-        "description": "Shown when no phone number is set."
-    },
-    "securityPhoneAdd": "Dodaj telefon",
-    "@securityPhoneAdd": {
-        "description": "Button to add phone number."
-    },
-    "securityPhoneRemove": "Ukloni",
-    "@securityPhoneRemove": {
-        "description": "Button to remove phone number."
-    },
-    "securityPhoneRemoveTitle": "Ukloni broj telefona",
-    "@securityPhoneRemoveTitle": {
-        "description": "Title for phone remove confirmation."
-    },
-    "securityPhoneRemoveDescription": "Jeste li sigurni da želite ukloniti svoj broj telefona?",
-    "@securityPhoneRemoveDescription": {
-        "description": "Description for phone remove confirmation."
-    },
-    "securityPhoneRemoved": "Broj telefona uklonjen",
-    "@securityPhoneRemoved": {
-        "description": "Toast after phone removed."
-    },
     "securityClaimTitle": "Sigurnosne značajke",
     "@securityClaimTitle": {
         "description": "Title when user needs to claim account for security."
@@ -3202,7 +3051,7 @@
     "@securityClaimDescription": {
         "description": "Description prompting user to claim account."
     },
-    "securityVerifyEmailRequired": "Morate potvrditi svoju e-adresu prije nego što možete postaviti dvofaktorsku provjeru autentičnosti, pristupne ključeve ili SMS provjeru.",
+    "securityVerifyEmailRequired": "Morate potvrditi svoju e-adresu prije nego što možete postaviti dvofaktorsku provjeru autentičnosti ili pristupne ključeve.",
     "@securityVerifyEmailRequired": {
         "description": "Warning when email is not verified."
     },
@@ -3246,10 +3095,6 @@
     "@backupCodesWarning": {
         "description": "Warning about backup codes."
     },
-    "backupCodesDownload": "Preuzmi",
-    "@backupCodesDownload": {
-        "description": "Button to download backup codes."
-    },
     "backupCodesCopy": "Kopiraj",
     "@backupCodesCopy": {
         "description": "Button to copy backup codes."
@@ -3265,206 +3110,6 @@
     "backupCodesDone": "Gotovo",
     "@backupCodesDone": {
         "description": "Button to close backup codes sheet."
-    },
-    "backupCodesViewTitle": "Prikaži rezervne kodove",
-    "@backupCodesViewTitle": {
-        "description": "Title for viewing existing backup codes."
-    },
-    "backupCodesViewDescription": "Možda će biti potrebna provjera prije pregledavanja sigurnosnih kodova.",
-    "@backupCodesViewDescription": {
-        "description": "Description for view backup codes."
-    },
-    "phoneAddTitle": "Dodaj broj telefona",
-    "@phoneAddTitle": {
-        "description": "Title for phone add sheet."
-    },
-    "phoneAddLabel": "Broj telefona",
-    "@phoneAddLabel": {
-        "description": "Label for phone input."
-    },
-    "phoneAddHint": "Unesite svoj telefonski broj",
-    "@phoneAddHint": {
-        "description": "Hint for phone input."
-    },
-    "phoneAddFooter": "Poslat ćemo SMS kod kada bude dostupan. Vaš broj nije povezan s vašim računom. Zadržavamo samo enkriptiranu oznaku, bez korisničkog ID-a, kako bismo omogućili najviše 2 provjere u otprilike 30 dana.",
-    "@phoneAddFooter": {
-        "description": "Footer text for phone input."
-    },
-    "phoneAddSendCode": "Pošalji kod",
-    "@phoneAddSendCode": {
-        "description": "Button to send phone verification code."
-    },
-    "phoneVerifyTitle": "Potvrdite telefonski broj",
-    "@phoneVerifyTitle": {
-        "description": "Title for phone verify step."
-    },
-    "phoneVerifyDescription": "Unesite verifikacijski kod poslan na vaš broj telefona.",
-    "@phoneVerifyDescription": {
-        "description": "Description for phone verify step."
-    },
-    "phoneAddSuccess": "Broj telefona potvrđen",
-    "@phoneAddSuccess": {
-        "description": "Toast after phone verified."
-    },
-    "phoneCountryLabel": "Država",
-    "@phoneCountryLabel": {
-        "description": "Label for country selector in phone verification."
-    },
-    "phoneSearchCountries": "Pretražite države...",
-    "@phoneSearchCountries": {
-        "description": "Search hint for country selector."
-    },
-    "phoneNumberRequired": "Broj telefona je obavezan",
-    "@phoneNumberRequired": {
-        "description": "Validation error when phone number is empty."
-    },
-    "phoneEnterValidNumber": "Unesite valjani broj mobilnog telefona.",
-    "@phoneEnterValidNumber": {
-        "description": "Validation error for invalid phone format."
-    },
-    "phoneCannotBeUsed": "Ovaj telefonski broj ne može se koristiti. Pokušajte s drugim brojem mobitela ili se obratite podršci.",
-    "@phoneCannotBeUsed": {
-        "description": "API error when phone number is rejected."
-    },
-    "phoneAlreadyUsed": "Ovaj je telefonski broj već korišten. Pokušajte s drugim brojem ili se obratite podršci.",
-    "@phoneAlreadyUsed": {
-        "description": "API error when phone number was reused."
-    },
-    "phoneCodeDidNotWork": "Taj kôd ne radi. Provjerite ga i pokušajte ponovno.",
-    "@phoneCodeDidNotWork": {
-        "description": "API error for invalid verification code."
-    },
-    "phoneTooManyAttempts": "Previše pokušaja. Pričekajte malo, pa pokušajte ponovno.",
-    "@phoneTooManyAttempts": {
-        "description": "Rate limit error for phone verification."
-    },
-    "phoneSmsUnavailable": "SMS provjera trenutačno nije dostupna. Pokušajte ponovno kasnije ili se obratite podršci.",
-    "@phoneSmsUnavailable": {
-        "description": "SMS provider unavailable error."
-    },
-    "phoneNotEligible": "Telefonska provjera nije dostupna za ovaj račun. Upotrijebite drugu metodu ili se obratite podršci.",
-    "@phoneNotEligible": {
-        "description": "Account not eligible for phone verification."
-    },
-    "phoneSomethingWentWrong": "Nešto je pošlo po zlu. Pokušajte ponovno.",
-    "@phoneSomethingWentWrong": {
-        "description": "Generic phone verification error."
-    },
-    "phoneInboundExpensiveDescription": "Slanje SMS-a na ovaj broj telefona je preskupo, stoga nam ga morate poslati vi. Također se možete obratiti podršci kako bismo uklonili ovaj zahtjev s vašeg računa.",
-    "@phoneInboundExpensiveDescription": {
-        "description": "Inbound challenge reason for expensive destinations."
-    },
-    "phoneInboundDefaultDescription": "Morate nam poslati SMS kako biste potvrdili svoj telefonski broj.",
-    "@phoneInboundDefaultDescription": {
-        "description": "Default inbound challenge description."
-    },
-    "phoneInboundStepOpenMessaging": "Otvorite aplikaciju za poruke na svom telefonu i stvorite novu tekstualnu poruku.",
-    "@phoneInboundStepOpenMessaging": {
-        "description": "Inbound verification step 1."
-    },
-    "phoneInboundStepSendCode": "Pošalji kod {code} na {number}.",
-    "@phoneInboundStepSendCode": {
-        "description": "Inbound verification step 2.",
-        "placeholders": {
-            "code": {
-                "type": "String"
-            },
-            "number": {
-                "type": "String"
-            }
-        }
-    },
-    "phoneInboundStepWait": "Pričekajte da primimo vašu poruku. Ovo može potrajati minutu.",
-    "@phoneInboundStepWait": {
-        "description": "Inbound verification step 3."
-    },
-    "phoneInboundGetNewCode": "Zatraži novi kôd",
-    "@phoneInboundGetNewCode": {
-        "description": "Button to refresh inbound challenge."
-    },
-    "phoneInboundChallengeCodeLabel": "Kod za slanje",
-    "@phoneInboundChallengeCodeLabel": {
-        "description": "Label for inbound challenge code."
-    },
-    "phoneInboundOurNumberLabel": "Pošalji na",
-    "@phoneInboundOurNumberLabel": {
-        "description": "Label for inbound destination number."
-    },
-    "requiredActionTitle": "Potrebna je provjera računa",
-    "@requiredActionTitle": {
-        "description": "Title for required action blocking modal."
-    },
-    "requiredActionIntroGeneric": "Dovršite potrebnu provjeru da biste nastavili koristiti {productName}.",
-    "@requiredActionIntroGeneric": {
-        "description": "Generic required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroPhone": "Vaša registracija zahtijeva dodatnu provjeru radi zaštite od neželjene pošte prije nego što možete nastaviti.",
-    "@requiredActionIntroPhone": {
-        "description": "Phone-only required action intro."
-    },
-    "requiredActionIntroEmailOrPhone": "Potvrdite svoju e-poštu ili telefon kako biste nastavili koristiti {productName}.",
-    "@requiredActionIntroEmailOrPhone": {
-        "description": "Email or phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailAndPhone": "Dovršite potrebne korake za potvrdu e-pošte i telefona u nastavku kako biste nastavili koristiti {productName}.",
-    "@requiredActionIntroEmailAndPhone": {
-        "description": "Email and phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionChooseMethodTitle": "Odaberite metodu provjere",
-    "@requiredActionChooseMethodTitle": {
-        "description": "Title when user can pick email or phone."
-    },
-    "requiredActionChooseMethodDescription": "Dovršite jedan od načina provjere u nastavku kako biste nastavili koristiti {productName}.",
-    "@requiredActionChooseMethodDescription": {
-        "description": "Description when user can pick email or phone.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionUseEmail": "Koristi e-poštu",
-    "@requiredActionUseEmail": {
-        "description": "Button to choose email verification."
-    },
-    "requiredActionUsePhone": "Koristi telefon",
-    "@requiredActionUsePhone": {
-        "description": "Button to choose phone verification."
-    },
-    "requiredActionCheckEmailTitle": "Provjerite e-poštu",
-    "@requiredActionCheckEmailTitle": {
-        "description": "Title for email verification instructions."
-    },
-    "requiredActionCheckEmailDescription": "Poslali smo poveznicu za provjeru na vašu e-adresu. Otvorite je za nastavak.",
-    "@requiredActionCheckEmailDescription": {
-        "description": "Description for email verification instructions."
-    },
-    "requiredActionResendVerificationEmail": "Ponovno pošalji e-poruku za potvrdu",
-    "@requiredActionResendVerificationEmail": {
-        "description": "Button to resend verification email."
-    },
-    "requiredActionVerificationEmailSent": "E-pošta za potvrdu poslana. Provjerite svoju pristiglu poštu.",
-    "@requiredActionVerificationEmailSent": {
-        "description": "Toast after resending verification email."
-    },
-    "requiredActionSignOut": "Odjava",
-    "@requiredActionSignOut": {
-        "description": "Sign out button in required action modal."
     },
     "dangerZoneSectionTitle": "Opasna zona",
     "@dangerZoneSectionTitle": {
@@ -3783,10 +3428,6 @@
     "@authorizedAppsScopeAdmin": {
         "description": "OAuth2 scope description: admin."
     },
-    "privacyPendingDeletionTitle": "Čeka brisanje",
-    "@privacyPendingDeletionTitle": {
-        "description": "Title of the warning alert shown when a bulk message deletion is pending."
-    },
     "blockedUsersTitle": "Blokirani korisnici",
     "@blockedUsersTitle": {
         "description": "Header title of the Blocked Users settings page."
@@ -4027,10 +3668,6 @@
     "@userProfileNoteDelete": {
         "description": "Delete button in the note editor sheet."
     },
-    "userProfileNoteEmpty": "Kliknite za dodavanje bilješke",
-    "@userProfileNoteEmpty": {
-        "description": "Hint text when no note has been written yet."
-    },
     "userProfileMemberSince": "Član od",
     "@userProfileMemberSince": {
         "description": "Header of the member-since section in the bio card."
@@ -4097,6 +3734,80 @@
     "userProfileLocalTime": "Lokalno vrijeme",
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
+    },
+    "profileLocalTimeSettingsTitle": "Lokalno vrijeme profila",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "Postavite svoju vremensku zonu jednom kako bi {productName} mogao ažurno pratiti vaš UTC pomak kada se mijenja ljetno računanje vremena. Ostali korisnici mogu vidjeti samo vaš UTC pomak, a ne točan identifikator vaše vremenske zone.",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "Uredi lokalno vrijeme profila",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "Vremenska zona",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "Odaberite vremensku zonu koju {productName} koristi za izračun vaše UTC razlike kako bi se prikazalo lokalno vrijeme u vašem profilu.",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "Pretražite vremenske zone",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "Nije postavljeno",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "Ostali korisnici mogu vidjeti samo vaš trenutni UTC pomak kada odaberete da dijelite lokalno vrijeme profila. Oni ne vide vaš točan identifikator vremenske zone, kao što je {timezoneIdentifierExample}. {productName} pohranjuje taj identifikator samo kako bi se pomak automatski ažurirao kada dođe do promjene ljetnog vremena.",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "Svi",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "Dopusti svima koji mogu vidjeti vaš cijeli profil da vide vaše lokalno vrijeme",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "Prijatelji",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "Dopusti prijateljima da vide vaše lokalno vrijeme",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "Članovi zajednice",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "Dopusti članovima zajednica u kojima ste da vide vaše lokalno vrijeme",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
     },
     "userProfileSameTimeAsYou": "Isto vrijeme kao i vi",
     "@userProfileSameTimeAsYou": {
@@ -4253,13 +3964,13 @@
     "@userProfileTransferOwnership": {
         "description": "Three-dot menu item to transfer community ownership to the member."
     },
-    "userProfileReportUser": "Prijavi korisnika",
-    "@userProfileReportUser": {
-        "description": "Three-dot menu item to report the user."
-    },
     "userProfileReportMessage": "Prijavi poruku",
     "@userProfileReportMessage": {
         "description": "Three-dot menu item to report the message that opened this profile."
+    },
+    "userProfileReportUserProfile": "Prijavi profil",
+    "@userProfileReportUserProfile": {
+        "description": "Three-dot menu item on the full profile to report this user's profile (avatar, banner, name, bio and other profile parts). Message behavior is reported from the message instead."
     },
     "userProfileKickConfirmTitle": "Izbaciti {username}?",
     "@userProfileKickConfirmTitle": {
@@ -4486,102 +4197,6 @@
     "durationCustom": "Prilagođeno…",
     "@durationCustom": {
         "description": "Duration option label for a user-specified custom duration."
-    },
-    "iarReportUserTitle": "Prijavi korisnika",
-    "@iarReportUserTitle": {
-        "description": "Title of the simple user-report sheet."
-    },
-    "iarReportGuildTitle": "Prijavi zajednicu",
-    "@iarReportGuildTitle": {
-        "description": "Title of the simple community-report sheet."
-    },
-    "iarReportGuildPreconfirmBody": "Ako se ova prijava odnosi na određenu poruku u ovoj zajednici, umjesto toga prijavite tu poruku. Prijave poruka našem sigurnosnom timu daju najjasniji kontekst, a dodavanje detalja u komentarima može nam pomoći da je brže pregledamo. Nastavite s prijavom cijele zajednice samo ako prijava poruke ne bi obuhvatila širi problem.",
-    "@iarReportGuildPreconfirmBody": {
-        "description": "Body shown in the pre-confirm dialog before opening the community report sheet."
-    },
-    "iarContinueToReportCommunity": "Nastavi s prijavom zajednice",
-    "@iarContinueToReportCommunity": {
-        "description": "Primary button in the community report pre-confirm dialog."
-    },
-    "iarPreviewCommunitySubtitle": "Zajednica",
-    "@iarPreviewCommunitySubtitle": {
-        "description": "Subtitle shown under the community name in the IAR preview card."
-    },
-    "iarReasonHarassmentGuildLabel": "Uznemiravanje ili ciljano zlostavljanje",
-    "@iarReasonHarassmentGuildLabel": {
-        "description": "Community-report reason label for harassment or targeted abuse."
-    },
-    "iarReasonHarassmentGuildDescription": "Zajednica olakšava grupne napade ili ciljano zlostavljanje.",
-    "@iarReasonHarassmentGuildDescription": {
-        "description": "Community-report reason description for harassment or targeted abuse."
-    },
-    "iarReasonHateGuildDescription": "Promiče mržnju prema zaštićenim skupinama.",
-    "@iarReasonHateGuildDescription": {
-        "description": "Community-report reason description for hate speech."
-    },
-    "iarReasonTerrorismLabel": "Terorizam ili nasilni ekstremizam",
-    "@iarReasonTerrorismLabel": {
-        "description": "Community-report reason label for terrorism or violent extremism."
-    },
-    "iarReasonTerrorismDescription": "Promovira, regrutira ili koordinira nasilne ekstremističke aktivnosti.",
-    "@iarReasonTerrorismDescription": {
-        "description": "Community-report reason description for terrorism or violent extremism."
-    },
-    "iarReasonMatureContentGuildLabel": "Sadržaj za odrasle ili nesigurno ograničavanje",
-    "@iarReasonMatureContentGuildLabel": {
-        "description": "Community-report reason label for mature content or unsafe gating."
-    },
-    "iarReasonMatureContentGuildDescription": "Sadržaj za odrasle bez odgovarajuće zaštite.",
-    "@iarReasonMatureContentGuildDescription": {
-        "description": "Community-report reason description for mature content or unsafe gating."
-    },
-    "iarReasonChildSafetyGuildDescription": "Ugrožava maloljetnike ili sadrži materijal iskorištavanja djece.",
-    "@iarReasonChildSafetyGuildDescription": {
-        "description": "Community-report reason description for child safety."
-    },
-    "iarReasonRaidLabel": "Koordinacija napada",
-    "@iarReasonRaidLabel": {
-        "description": "Community-report reason label for raid coordination."
-    },
-    "iarReasonRaidDescription": "Koordinira napade, hajke ili uznemiravanje ljudi ili zajednica.",
-    "@iarReasonRaidDescription": {
-        "description": "Community-report reason description for raid coordination."
-    },
-    "iarReasonSpamGuildDescription": "Zajednica postoji radi slanja neželjene pošte, prijevara ili zlouporabe platforme.",
-    "@iarReasonSpamGuildDescription": {
-        "description": "Community-report reason description for spam, scams, or phishing."
-    },
-    "iarReasonMalwareGuildLabel": "Distribucija zlonamjernog softvera",
-    "@iarReasonMalwareGuildLabel": {
-        "description": "Community-report reason label for malware distribution."
-    },
-    "iarReasonMalwareGuildDescription": "Distribuira zlonamjerni softver, krade vjerodajnice ili štetne datoteke.",
-    "@iarReasonMalwareGuildDescription": {
-        "description": "Community-report reason description for malware distribution."
-    },
-    "iarReasonPrivacyGuildLabel": "Kršenje privatnosti ili doxxing",
-    "@iarReasonPrivacyGuildLabel": {
-        "description": "Community-report reason label for privacy violation or doxxing."
-    },
-    "iarReasonPrivacyGuildDescription": "Dijeli osobne podatke, uhodi korisnike ili koordinira zlouporabu privatnosti.",
-    "@iarReasonPrivacyGuildDescription": {
-        "description": "Community-report reason description for privacy violation or doxxing."
-    },
-    "iarReasonSelfHarmGuildLabel": "Potiče samoozljeđivanje",
-    "@iarReasonSelfHarmGuildLabel": {
-        "description": "Community-report reason label for self-harm encouragement."
-    },
-    "iarReasonSelfHarmGuildDescription": "Potiče samoubojstvo, samoozljeđivanje ili poremećaje prehrane.",
-    "@iarReasonSelfHarmGuildDescription": {
-        "description": "Community-report reason description for self-harm encouragement."
-    },
-    "iarReasonInappropriateProfile": "Neprikladan profil",
-    "@iarReasonInappropriateProfile": {
-        "description": "User-report reason: the user's profile contains inappropriate content."
-    },
-    "iarReasonInappropriateProfileDescription": "Korisnikov profil sadrži neprikladan sadržaj",
-    "@iarReasonInappropriateProfileDescription": {
-        "description": "Description for the inappropriate-profile user-report reason."
     },
     "typingIndicatorOne": "{name} piše...",
     "@typingIndicatorOne": {
@@ -5052,17 +4667,9 @@
     "@channelComposerBarrierNotMemberLongEnough": {
         "description": "Composer barrier when the user's guild membership is too recent."
     },
-    "channelComposerBarrierNoPhoneNumber": "Morate potvrditi telefonski broj da biste slali poruke u ovoj zajednici.",
-    "@channelComposerBarrierNoPhoneNumber": {
-        "description": "Composer barrier when the user must verify a phone number before messaging."
-    },
     "channelComposerBarrierVerifyEmail": "Potvrdite e-poštu",
     "@channelComposerBarrierVerifyEmail": {
         "description": "Action button on the composer barrier for unverified email."
-    },
-    "channelComposerBarrierVerifyPhone": "Potvrdite telefon",
-    "@channelComposerBarrierVerifyPhone": {
-        "description": "Action button on the composer barrier for missing phone verification."
     },
     "chatAttachmentTooMany": "Previše privitaka (max {max})",
     "@chatAttachmentTooMany": {
@@ -5097,10 +4704,6 @@
     "@chatAttachmentDropToSend": {
         "description": "Overlay hint when dragging files over chat with Shift held."
     },
-    "chatAttachmentSendVoiceMessage": "Pošalji glasovnu poruku",
-    "@chatAttachmentSendVoiceMessage": {
-        "description": "Menu item to open the voice message recorder."
-    },
     "voiceMessageTitle": "Glasovna poruka",
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
@@ -5121,10 +4724,6 @@
     "@voiceMessageMicPermissionDenied": {
         "description": "Shown when microphone permission is denied for voice messages."
     },
-    "voiceMessageRecordingNotSupported": "Snimanje glasovnih poruka nije podržano na ovom uređaju.",
-    "@voiceMessageRecordingNotSupported": {
-        "description": "Shown when the device cannot record voice messages."
-    },
     "voiceMessageMicInUse": "Napusti glasovni poziv da snimiš glasovnu poruku.",
     "@voiceMessageMicInUse": {
         "description": "Shown when the microphone is already used by an active voice call."
@@ -5136,26 +4735,6 @@
     "voiceMessageSendFailed": "Slanje glasovne poruke nije uspjelo. Pokušajte ponovno.",
     "@voiceMessageSendFailed": {
         "description": "Shown when sending a voice message fails."
-    },
-    "voiceMessageRecordingHint": "Govorite sada. Pritisnite Zaustavi kada završite — snimku možete obrezati kasnije.",
-    "@voiceMessageRecordingHint": {
-        "description": "Help text while recording a voice message on desktop."
-    },
-    "voiceMessageReviewHint": "Povucite ručice za obrezivanje, zatim pritisnite Pošalji.",
-    "@voiceMessageReviewHint": {
-        "description": "Help text while reviewing a voice message before send."
-    },
-    "voiceMessageStop": "Zaustavi",
-    "@voiceMessageStop": {
-        "description": "Stop recording button in voice message composer."
-    },
-    "voiceMessageStartRecording": "Započni snimanje",
-    "@voiceMessageStartRecording": {
-        "description": "Button to retry voice recording after permission error."
-    },
-    "voiceMessageRerecord": "Snimi ponovno",
-    "@voiceMessageRerecord": {
-        "description": "Button to discard review and record again."
     },
     "voiceMessagePlay": "Reproduciraj",
     "@voiceMessagePlay": {
@@ -5172,16 +4751,6 @@
     "voiceMessageSeekBackward": "Pomakni unatrag",
     "@voiceMessageSeekBackward": {
         "description": "Accessibility hint when decreasing voice message seek position."
-    },
-    "voiceMessageSelectionTooShort": "Odabir mora trajati najmanje {seconds} s.",
-    "@voiceMessageSelectionTooShort": {
-        "description": "Error when trimmed voice message is too short.",
-        "placeholders": {
-            "seconds": {
-                "type": "num",
-                "format": "compact"
-            }
-        }
     },
     "chatAttachmentEditTitle": "Uredi privitak",
     "@chatAttachmentEditTitle": {
@@ -5338,10 +4907,6 @@
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
     },
-    "chatAttachmentPasteTooltip": "Zalijepi datoteku s međuspremnika",
-    "@chatAttachmentPasteTooltip": {
-        "description": "Tooltip for pasting a file attachment from the clipboard."
-    },
     "chatAttachmentSpoiler": "Spojler",
     "@chatAttachmentSpoiler": {
         "description": "Badge text for spoiler attachments."
@@ -5438,14 +5003,6 @@
     "@matureContentOpenLinkButton": {
         "description": "Primary action on mature link channel gates."
     },
-    "sensitiveContentSectionTitle": "Osjetljivi sadržaj",
-    "@sensitiveContentSectionTitle": {
-        "description": "Privacy settings section title for sensitive content filters."
-    },
-    "sensitiveContentSectionDescription": "Upravljajte kako se filtriraju zreli ili osjetljivi mediji u različitim kontekstima",
-    "@sensitiveContentSectionDescription": {
-        "description": "Privacy settings section description for sensitive content filters."
-    },
     "sensitiveContentFriendDmLabel": "Izravne poruke od prijatelja",
     "@sensitiveContentFriendDmLabel": {
         "description": "Label for friend DM sensitive content filter."
@@ -5470,18 +5027,6 @@
     "@sensitiveContentFilterBlock": {
         "description": "Sensitive content filter option to block media."
     },
-    "sensitiveContentBlurUnscannedLabel": "Zamućivanje medija do završetka skeniranja sigurnosti",
-    "@sensitiveContentBlurUnscannedLabel": {
-        "description": "Toggle label for blurring unscanned media."
-    },
-    "sensitiveContentBlurUnscannedDescriptionAdult": "Kada je omogućeno, slike i videozapisi bit će zamagljeni dok se skeniranje sigurnosti sadržaja ne završi.",
-    "@sensitiveContentBlurUnscannedDescriptionAdult": {
-        "description": "Description for blur-unscanned toggle for adult accounts."
-    },
-    "sensitiveContentBlurUnscannedDescriptionMinor": "Ova je postavka uvijek uključena za vaš račun.",
-    "@sensitiveContentBlurUnscannedDescriptionMinor": {
-        "description": "Description for blur-unscanned toggle for minor accounts."
-    },
     "sensitiveContentResetButton": "Poništi",
     "@sensitiveContentResetButton": {
         "description": "Reset button for sensitive content settings."
@@ -5498,10 +5043,6 @@
                 "type": "int"
             }
         }
-    },
-    "chatCancelUpload": "Odustani od prijenosa",
-    "@chatCancelUpload": {
-        "description": "Button or menu action label for canceling an in-flight message attachment upload."
     },
     "chatAttachmentExpiresOn": "Istječe {date}",
     "@chatAttachmentExpiresOn": {
@@ -5771,10 +5312,6 @@
     "@connectionEnterDomain": {
         "description": "Inline error shown when the domain input is empty."
     },
-    "lookAndFeelTitle": "Izgled i dojam",
-    "@lookAndFeelTitle": {
-        "description": "Title of the Look & Feel (Appearance) settings page."
-    },
     "lookAndFeelThemeSectionTitle": "Tema",
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
@@ -5842,14 +5379,6 @@
     "lookAndFeelThemeSyncFailed": "Nismo uspjeli sinkronizirati temu s vašim računom. Molimo pokušajte ponovno.",
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
-    },
-    "lookAndFeelChatFontScalingTitle": "Skaliranje fonta za chat",
-    "@lookAndFeelChatFontScalingTitle": {
-        "description": "Search label for chat font size within the Messages section."
-    },
-    "lookAndFeelChatFontScalingDescription": "Prilagodite veličinu fonta u području čavrljanja.",
-    "@lookAndFeelChatFontScalingDescription": {
-        "description": "Search description for chat font size."
     },
     "lookAndFeelChatFontSizeLabel": "Veličina fonta za chat",
     "@lookAndFeelChatFontSizeLabel": {
@@ -5975,42 +5504,6 @@
     "lookAndFeelHideKeyboardHintsDescription": "Kad je omogućeno, značke prečaca skrivene su u skočnim prozorima s opisima.",
     "@lookAndFeelHideKeyboardHintsDescription": {
         "description": "Toggle description for the hide-keyboard-hints switch."
-    },
-    "lookAndFeelNekoTitle": "Razno",
-    "@lookAndFeelNekoTitle": {
-        "description": "Subsection title under Interface for Neko appearance settings."
-    },
-    "lookAndFeelNekoDescription": "Razne opcije sučelja.",
-    "@lookAndFeelNekoDescription": {
-        "description": "Subsection description for Neko appearance settings."
-    },
-    "lookAndFeelShowNekoLabel": "Prikaži Neko",
-    "@lookAndFeelShowNekoLabel": {
-        "description": "Toggle label for showing Neko in the chat footer."
-    },
-    "lookAndFeelShowNekoDescription": "Kad je omogućeno, Neko se pojavljuje blizu trake za unos chata.",
-    "@lookAndFeelShowNekoDescription": {
-        "description": "Toggle description for showing Neko in chat."
-    },
-    "lookAndFeelVoiceChannelJoinTitle": "Ponašanje pri pridruživanju glasovnom kanalu",
-    "@lookAndFeelVoiceChannelJoinTitle": {
-        "description": "Subsection title under Interface — voice channel join behavior."
-    },
-    "lookAndFeelVoiceChannelJoinDescription": "Upravljajte načinom na koji se pridružujete glasovnim kanalima u zajednicama.",
-    "@lookAndFeelVoiceChannelJoinDescription": {
-        "description": "Subsection description for voice channel join behavior."
-    },
-    "lookAndFeelRequireDoubleClickJoinLabel": "Za pridruživanje glasovnim kanalima potreban je dvostruki klik",
-    "@lookAndFeelRequireDoubleClickJoinLabel": {
-        "description": "Toggle label — require double-click to join voice channels."
-    },
-    "lookAndFeelRequireDoubleClickJoinDescription": "Kad je omogućeno, morat ćete dvaput kliknuti na glasovne kanale da biste im se pridružili. Kad je onemogućeno (zadano), jednim klikom odmah ćete se pridružiti kanalu.",
-    "@lookAndFeelRequireDoubleClickJoinDescription": {
-        "description": "Toggle description for the require-double-click voice channel join switch."
-    },
-    "lookAndFeelChatFontPreviewSample": "Brza smeđa lisica skače preko lijenog psa.",
-    "@lookAndFeelChatFontPreviewSample": {
-        "description": "Sample text rendered at the selected chat font size to preview scaling."
     },
     "lookAndFeelGuildSidebarTitle": "Bočna traka zajednice",
     "@lookAndFeelGuildSidebarTitle": {
@@ -6543,25 +6036,9 @@
     "@messagesMediaAutocompleteSavedMediaLabel": {
         "description": "Toggle label for saved media in expression autocomplete."
     },
-    "messagesMediaEditingSectionTitle": "Uređivanje poruka",
-    "@messagesMediaEditingSectionTitle": {
-        "description": "Section title for message editing settings."
-    },
-    "messagesMediaEditingSectionDescription": "Upravljajte što se događa s nacrtom izmjene kada ga otkažete.",
-    "@messagesMediaEditingSectionDescription": {
-        "description": "Section description for message editing settings."
-    },
-    "messagesMediaEditingPreserveDraftLabel": "Zadrži nacrt izmjena pri otkazivanju",
-    "@messagesMediaEditingPreserveDraftLabel": {
-        "description": "Toggle label for preserving edit drafts on cancel."
-    },
     "accessibilitySaturationTitle": "Zasićenost",
     "@accessibilitySaturationTitle": {
         "description": "Section title for the theme saturation slider on the accessibility settings page."
-    },
-    "accessibilitySaturationDescription": "Prilagodi živost boja teme u cijeloj aplikaciji.",
-    "@accessibilitySaturationDescription": {
-        "description": "Section description for the theme saturation slider on the accessibility settings page."
     },
     "accessibilityVisualGroupTitle": "Vizualno",
     "@accessibilityVisualGroupTitle": {
@@ -6571,6 +6048,14 @@
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
     },
+    "accessibilityShowAltTextOnImagesLabel": "Prikaži zamjenski tekst na slikama",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "Prikaži zamjenski tekst ispod slika kada je dostupan.",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
     "accessibilityDimStrikethroughTextLabel": "Priguši precrtani tekst",
     "@accessibilityDimStrikethroughTextLabel": {
         "description": "Toggle label for dimming strikethrough text in messages."
@@ -6578,10 +6063,6 @@
     "accessibilityDmMessagePreviewGroupTitle": "Pretpregledi izravnih poruka",
     "@accessibilityDmMessagePreviewGroupTitle": {
         "description": "Section title for DM message preview accessibility settings."
-    },
-    "accessibilityDmMessagePreviewGroupDescription": "Upravljajte kada se pretpregledi poruka prikazuju na popisu izravnih poruka.",
-    "@accessibilityDmMessagePreviewGroupDescription": {
-        "description": "Section description for DM message preview accessibility settings."
     },
     "accessibilityDmMessagePreviewModeLabel": "Način pretpregleda izravnih poruka",
     "@accessibilityDmMessagePreviewModeLabel": {
@@ -6725,10 +6206,6 @@
     "accessibilityPausedGifByReducedMotion": "Pauzirano zbog smanjenog kretanja. Uključite za nastavak reprodukcije GIF-ova.",
     "@accessibilityPausedGifByReducedMotion": {
         "description": "Description for GIF toggle while reduced motion is active."
-    },
-    "accessibilityGifDefaultsOffOnMobile": "Na mobilnim uređajima je zadano isključeno radi očuvanja baterije i uštede podataka.",
-    "@accessibilityGifDefaultsOffOnMobile": {
-        "description": "Helper text for GIF autoplay default on mobile."
     },
     "accessibilityStickerAnimationsTitle": "Animacije naljepnica",
     "@accessibilityStickerAnimationsTitle": {
@@ -7208,10 +6685,6 @@
     "@voiceMultiDeviceDisconnectFailed": {
         "description": "Shown when switch-to-this-device times out waiting for other sessions to leave."
     },
-    "voiceChannelEmptyDescription": "Ovo je glasovni kanal. Povežite se da biste počeli razgovarati!",
-    "@voiceChannelEmptyDescription": {
-        "description": "Empty state body when viewing a guild voice channel while not in the call."
-    },
     "voiceChannelJoin": "Pridruži se glasovnom kanalu",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
@@ -7255,14 +6728,6 @@
     "voiceChannelStatusConnecting": "Povezivanje…",
     "@voiceChannelStatusConnecting": {
         "description": "Status in the in-page voice view while LiveKit is connecting."
-    },
-    "voiceChannelStatusConnected": "Povezano",
-    "@voiceChannelStatusConnected": {
-        "description": "Status in the in-page voice view when the voice session is active."
-    },
-    "voiceChannelStatusError": "Pogreška",
-    "@voiceChannelStatusError": {
-        "description": "Short label in the channel header when the voice session reports an error."
     },
     "voiceParticipantTooltipMobileDevice": "Mobilni uređaj",
     "@voiceParticipantTooltipMobileDevice": {
@@ -7341,10 +6806,6 @@
     "voiceScreenShareNotificationText": "Dijelim zaslon.",
     "@voiceScreenShareNotificationText": {
         "description": "Body text for the Android foreground notification shown while screen sharing."
-    },
-    "voiceControlMore": "Više",
-    "@voiceControlMore": {
-        "description": "Tooltip: more voice actions in the voice call control bar."
     },
     "voiceControlDisconnect": "Prekini vezu",
     "@voiceControlDisconnect": {
@@ -7817,6 +7278,10 @@
     "@chatSendFailureContentBlocked": {
         "description": "Fluxerbot system message when message content is blocked by safety systems."
     },
+    "chatSendFailureContentBlockedSelfHosted": "Vaša poruka nije mogla biti isporučena jer ju je naš sigurnosni sustav označio. Ako mislite da je ovo pogreška, obratite se administratorima ove instance.",
+    "@chatSendFailureContentBlockedSelfHosted": {
+        "description": "Fluxerbot system message on a self-hosted instance when message content is blocked by safety systems. Names no support mailbox."
+    },
     "chatSendFailureNsfwEmojiSticker": "Tvoja poruka nije mogla biti dostavljena jer sadrži neprikladne emotikone ili naljepnice koje nisu dopuštene u ovom kontekstu.",
     "@chatSendFailureNsfwEmojiSticker": {
         "description": "Fluxerbot system message when mature emoji or stickers are blocked."
@@ -7893,25 +7358,13 @@
     "@privacyDashboardFriendRequestsEveryone": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsEveryoneDesc": "Dopusti svima da ti šalju zahtjeve za prijateljstvo",
-    "@privacyDashboardFriendRequestsEveryoneDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsFriendsOfFriends": "Prijatelji prijatelja",
     "@privacyDashboardFriendRequestsFriendsOfFriends": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsFriendsOfFriendsDesc": "Dopusti prijateljima tvojih prijatelja da ti šalju zahtjeve",
-    "@privacyDashboardFriendRequestsFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsCommunityMembers": "Članovi zajednice",
     "@privacyDashboardFriendRequestsCommunityMembers": {
         "description": "Privacy dashboard friend request toggle label."
-    },
-    "privacyDashboardFriendRequestsCommunityMembersDesc": "Dopusti članovima zajednica u kojima se nalaziš da ti šalju zahtjeve",
-    "@privacyDashboardFriendRequestsCommunityMembersDesc": {
-        "description": "Privacy dashboard friend request toggle description."
     },
     "privacyDashboardDirectMessagesTitle": "Izravne poruke",
     "@privacyDashboardDirectMessagesTitle": {
@@ -7921,65 +7374,29 @@
     "@privacyDashboardDirectMessagesMembers": {
         "description": "Privacy dashboard DM toggle label."
     },
-    "privacyDashboardDirectMessagesMembersDesc": "Dopusti članovima zajednica u kojima se nalaziš da ti šalju izravne poruke",
-    "@privacyDashboardDirectMessagesMembersDesc": {
-        "description": "Privacy dashboard DM toggle description."
-    },
     "privacyDashboardDirectMessagesBots": "Dopusti izravne poruke od botova zajednice",
     "@privacyDashboardDirectMessagesBots": {
         "description": "Privacy dashboard bot DM toggle label."
-    },
-    "privacyDashboardDirectMessagesBotsDesc": "Dopusti botovima iz zajednica u kojima se nalaziš da ti šalju izravne poruke",
-    "@privacyDashboardDirectMessagesBotsDesc": {
-        "description": "Privacy dashboard bot DM toggle description."
-    },
-    "privacyDashboardConnectionsSectionDesc": "Upravljajte tko vam može slati zahtjeve za prijateljstvo i izravne poruke",
-    "@privacyDashboardConnectionsSectionDesc": {
-        "description": "Privacy dashboard connections section description."
-    },
-    "privacyDashboardCommunicationSectionDesc": "Upravljajte tko vas može nazvati i dodati u grupne razgovore",
-    "@privacyDashboardCommunicationSectionDesc": {
-        "description": "Privacy dashboard communication section description."
     },
     "privacyDashboardIncomingCallsTitle": "Dolazni pozivi",
     "@privacyDashboardIncomingCallsTitle": {
         "description": "Privacy dashboard incoming calls subsection title."
     },
-    "privacyDashboardIncomingCallsDesc": "Upravljajte tko vas može nazvati",
-    "@privacyDashboardIncomingCallsDesc": {
-        "description": "Privacy dashboard incoming calls subsection description."
-    },
     "privacyDashboardAllowedCallers": "Dopušteni pozivatelji",
     "@privacyDashboardAllowedCallers": {
         "description": "Privacy > Communication: select label."
-    },
-    "privacyDashboardIncomingCallNobody": "Nitko",
-    "@privacyDashboardIncomingCallNobody": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallNobodyDesc": "Blokiraj sve dolazne pozive",
     "@privacyDashboardIncomingCallNobodyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallFriendsOnly": "Samo prijatelji",
-    "@privacyDashboardIncomingCallFriendsOnly": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallFriendsOnlyDesc": "Dopusti samo prijateljima da te zovu (preporučeno)",
     "@privacyDashboardIncomingCallFriendsOnlyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallCustom": "Prijatelji + Prilagođeno",
-    "@privacyDashboardIncomingCallCustom": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallCustomDesc": "Dopusti prijateljima i dodatnim grupama koje odabereš",
     "@privacyDashboardIncomingCallCustomDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardIncomingCallEveryone": "Svi",
-    "@privacyDashboardIncomingCallEveryone": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallEveryoneDesc": "Dopusti svima da te zovu, čak i strancima",
     "@privacyDashboardIncomingCallEveryoneDesc": {
@@ -7989,14 +7406,6 @@
     "@privacyDashboardAdditionalGroups": {
         "description": "Privacy dashboard label for custom permission groups."
     },
-    "privacyDashboardCallFriendsOfFriendsDesc": "Ljudi koji su prijatelji vaših prijatelja mogu vas nazvati",
-    "@privacyDashboardCallFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
-    "privacyDashboardCallGuildMembersDesc": "Ljudi iz zajednica u kojima ste oboje članovi mogu vas zvati",
-    "@privacyDashboardCallGuildMembersDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
     "privacyDashboardRingBehavior": "Ponašanje zvona",
     "@privacyDashboardRingBehavior": {
         "description": "Privacy dashboard ring behavior subsection label."
@@ -8005,17 +7414,9 @@
     "@privacyDashboardSilentCalls": {
         "description": "Privacy dashboard silent calls toggle label."
     },
-    "privacyDashboardSilentCallsDesc": "Svi će pozivi biti tihi umjesto da zvone. Prema zadanim postavkama, pozivi od nepoznatih osoba uvijek su tihi.",
-    "@privacyDashboardSilentCallsDesc": {
-        "description": "Privacy dashboard silent calls toggle description."
-    },
     "privacyDashboardGroupDmTitle": "Tko vas može dodati u grupne razgovore",
     "@privacyDashboardGroupDmTitle": {
         "description": "Privacy dashboard group DM subsection title."
-    },
-    "privacyDashboardGroupDmDesc": "Upravljajte tko vas može dodati u grupne razgovore bez pitanja. Svatko vam i dalje može poslati poveznicu za pozivnicu za pridruživanje.",
-    "@privacyDashboardGroupDmDesc": {
-        "description": "Privacy dashboard group DM subsection description."
     },
     "privacyDashboardAllowedInvites": "Dopuštena pozivanja",
     "@privacyDashboardAllowedInvites": {
@@ -8036,14 +7437,6 @@
     "privacyDashboardGroupDmEveryoneDesc": "Dopusti svima da te dodaju u grupne razgovore bez pitanja",
     "@privacyDashboardGroupDmEveryoneDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardGroupDmFriendsOfFriendsDesc": "Ljudi koji su prijatelji vaših prijatelja mogu vas dodati u grupne razgovore",
-    "@privacyDashboardGroupDmFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
-    },
-    "privacyDashboardGroupDmGuildMembersDesc": "Osobe iz zajednica u kojima ste oboje članovi mogu vas dodati u grupne razgovore",
-    "@privacyDashboardGroupDmGuildMembersDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
     },
     "privacyDashboardVoiceActivityTitle": "Glasovna aktivnost u odjeljku „Aktivno sada”",
     "@privacyDashboardVoiceActivityTitle": {
@@ -8473,6 +7866,10 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "Dvaput dodirnite poruku za reakciju",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
     "chatMessageEdit": "Uredi poruku",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -8480,6 +7877,14 @@
     "chatMessageReply": "Odgovori",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
+    },
+    "notificationReplyPlaceholder": "Poruka",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "Nije moguće poslati odgovor",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
     },
     "chatMessageForward": "Proslijedi",
     "@chatMessageForward": {
@@ -8741,420 +8146,155 @@
     "@chatMessageReport": {
         "description": "Action label that opens the report-message sheet so the user can flag the message to moderators."
     },
-    "iarReportMessageTitle": "Prijavi poruku",
-    "@iarReportMessageTitle": {
-        "description": "Title shown at the top of the In-App Reporting (IAR) sheet when the user is reporting a specific message."
+    "reportFlowTitleMessage": "Prijavi poruku",
+    "@reportFlowTitleMessage": {
+        "description": "Report flow: sheet title while the message report form loads or fails to load."
     },
-    "iarThisUserFallback": "ovaj korisnik",
-    "@iarThisUserFallback": {
-        "description": "Lowercase phrase used mid-sentence in IAR copy when referring to the reported user without a name (e.g. inside the close-DM confirmation)."
+    "reportFlowTitleUserProfile": "Prijavi profil",
+    "@reportFlowTitleUserProfile": {
+        "description": "Report flow: sheet title while the user profile report form loads or fails to load."
     },
-    "iarModalDescription": "Prijavite kršenje pravila ili pronađite alate za upravljanje kontaktima i postavkama.",
-    "@iarModalDescription": {
-        "description": "Screen-reader description for the IAR sheet announcing what the flow is for."
+    "reportFlowSummaryTitle": "Provjerite svoju prijavu",
+    "@reportFlowSummaryTitle": {
+        "description": "Report flow: title of the last screen, where the reporter reviews the report before sending it."
     },
-    "iarPathStepAriaLabel": "Što vam treba?",
-    "@iarPathStepAriaLabel": {
-        "description": "Accessible label for the primary-path radio group on the first step of the IAR sheet. Not shown visually; the radios are labelled inline."
+    "reportFlowSummarySubtitle": "Provjerite je li sve u redu prije slanja.",
+    "@reportFlowSummarySubtitle": {
+        "description": "Report flow: subtitle of the report summary screen."
     },
-    "iarCategoryStepTitle": "Koja je vrsta pravila prekršena?",
-    "@iarCategoryStepTitle": {
-        "description": "Title shown on the category step of the IAR sheet (platform-report path)."
+    "reportFlowDisclaimer": "Prijavite samo ono za što iskreno vjerujete da krši pravila. Zlouporaba prijava protivi se našim {guidelines}.",
+    "@reportFlowDisclaimer": {
+        "description": "Report flow: disclaimer on the report summary screen. {guidelines} is a link whose text is reportFlowCommunityGuidelinesLink.",
+        "placeholders": {
+            "guidelines": {
+                "type": "String",
+                "example": "Community Guidelines"
+            }
+        }
     },
-    "iarReasonStepTitle": "Koje je pravilo prekršeno?",
-    "@iarReasonStepTitle": {
-        "description": "Title shown on the reason step of the IAR sheet after the user has picked a rule category."
+    "reportFlowCommunityGuidelinesLink": "smjernice zajednice",
+    "@reportFlowCommunityGuidelinesLink": {
+        "description": "Report flow: link text inside reportFlowDisclaimer. Opens the community guidelines page."
     },
-    "iarReasonSelectHint": "Odaberi razlog",
-    "@iarReasonSelectHint": {
-        "description": "Placeholder shown in the message-report reason dropdown before the user picks a rule."
+    "reportFlowDisclaimerNoLink": "Prijavite samo ono za što iskreno vjerujete da krši pravila i, molimo vas, ne šaljite istu prijavu dvaput.",
+    "@reportFlowDisclaimerNoLink": {
+        "description": "Report flow: disclaimer on the report summary screen when the instance has no community guidelines page."
     },
-    "iarPickAnOptionToast": "Odaberite opciju za nastavak.",
-    "@iarPickAnOptionToast": {
-        "description": "Toast shown when the user taps Continue on a step without selecting any radio option."
+    "reportFlowSelectedMessage": "Poruka koju prijavljujete",
+    "@reportFlowSelectedMessage": {
+        "description": "Report flow: heading above the preview of the reported message on the report summary screen."
     },
-    "iarPickARuleToast": "Odaberite pravilo koje je prekršeno.",
-    "@iarPickARuleToast": {
-        "description": "Toast shown when the user taps Send report without selecting a rule reason."
+    "reportFlowSelectedUser": "Profil koji prijavljujete",
+    "@reportFlowSelectedUser": {
+        "description": "Report flow: heading above the card of the reported user on the first screen and the report summary screen."
     },
-    "iarPathPlatform": "Prijavi kršenje pravila platforme",
-    "@iarPathPlatform": {
-        "description": "Primary-path radio label: file a real DSA / platform-level report."
+    "reportFlowReportCategory": "Vaši odgovori",
+    "@reportFlowReportCategory": {
+        "description": "Report flow: heading above the list of answers the reporter picked, on the report summary screen."
     },
-    "iarPathCommunity": "Prijavi moderatorima ove zajednice",
-    "@iarPathCommunity": {
-        "description": "Primary-path radio label: surface this to community moderators rather than platform safety."
+    "reportFlowSubmit": "Pošalji prijavu",
+    "@reportFlowSubmit": {
+        "description": "Report flow: button on the report summary screen that sends the report."
     },
-    "iarPathPreferenceMessage": "Ne sviđa mi se ovaj sadržaj",
-    "@iarPathPreferenceMessage": {
-        "description": "Primary-path radio label: the user doesn't want platform action, they want self-service tools (block, leave, settings)."
+    "reportFlowBack": "Natrag",
+    "@reportFlowBack": {
+        "description": "Report flow: button that returns to the previous screen of the report form."
     },
-    "iarCategoryTargetedHarmLabel": "Prijetnje, uznemiravanje ili nanošenje štete",
-    "@iarCategoryTargetedHarmLabel": {
-        "description": "Rule-category label grouping harassment, hate, violence, terrorism, raids, and self-harm content."
+    "reportFlowNext": "Dalje",
+    "@reportFlowNext": {
+        "description": "Report flow: button that goes to the next screen of the report form."
     },
-    "iarCategoryTargetedHarmDescription": "Zlostavljanje, prijetnje, mržnja, nasilje, napadi ili sadržaj koji potiče samoozljeđivanje.",
-    "@iarCategoryTargetedHarmDescription": {
-        "description": "One-line description for the targeted-harm rule category."
+    "reportFlowDone": "Gotovo",
+    "@reportFlowDone": {
+        "description": "Report flow: button that closes the report form when it is finished."
     },
-    "iarCategorySafetyMinorsLabel": "Sigurnost djece ili sadržaj za odrasle",
-    "@iarCategorySafetyMinorsLabel": {
-        "description": "Rule-category label grouping child-safety and mature-content reports."
+    "reportFlowThankYouTitle": "Prijava poslana",
+    "@reportFlowThankYouTitle": {
+        "description": "Report flow: title of the screen shown after a report was sent."
     },
-    "iarCategorySafetyMinorsDescription": "Maloljetnici u opasnosti, sadržaj za odrasle na pogrešnom mjestu ili neželjeno ponašanje.",
-    "@iarCategorySafetyMinorsDescription": {
-        "description": "One-line description for the child-safety / mature-content rule category."
+    "reportFlowThankYouNoReportTitle": "Hvala što ste nas upozorili na ovo",
+    "@reportFlowThankYouNoReportTitle": {
+        "description": "Report flow: title of the screen shown when the chosen answer does not send a report."
     },
-    "iarCategoryPrivacyIdentityLabel": "Privatnost ili lažno predstavljanje",
-    "@iarCategoryPrivacyIdentityLabel": {
-        "description": "Rule-category label grouping privacy violations and impersonation."
-    },
-    "iarCategoryPrivacyIdentityDescription": "Doxxing, uhođenje, lažno predstavljanje ili neprikladan profil.",
-    "@iarCategoryPrivacyIdentityDescription": {
-        "description": "One-line description for the privacy / impersonation rule category."
-    },
-    "iarCategoryDeceptionLabel": "Prijevare, zlonamjerni softver ili dezinformacije",
-    "@iarCategoryDeceptionLabel": {
-        "description": "Rule-category label grouping spam/scams, malware, and harmful misinformation."
-    },
-    "iarCategoryDeceptionDescription": "Phishing, prijevare, zlonamjerne poveznice ili lažne tvrdnje koje bi mogle uzrokovati stvarnu štetu.",
-    "@iarCategoryDeceptionDescription": {
-        "description": "One-line description for the scams / malware / misinformation rule category."
-    },
-    "iarCategoryIllegalOtherLabel": "Nezakonita aktivnost ili nešto drugo",
-    "@iarCategoryIllegalOtherLabel": {
-        "description": "Rule-category label grouping illegal activity and the catch-all Other reason."
-    },
-    "iarCategoryIllegalOtherDescription": "Nezakonita prodaja, omogućavanje kaznenih djela ili jasno kršenje pravila koje se ne uklapa u gornje kategorije.",
-    "@iarCategoryIllegalOtherDescription": {
-        "description": "One-line description for the illegal / other rule category."
-    },
-    "iarReasonHarassmentLabel": "Uznemiravanje ili prijetnje",
-    "@iarReasonHarassmentLabel": {
-        "description": "Rule-reason label for harassment in the IAR message flow."
-    },
-    "iarReasonHarassmentMessageDescription": "Zlostavljanje, ponavljani neželjeni kontakt, uhođenje ili ciljano zlostavljanje.",
-    "@iarReasonHarassmentMessageDescription": {
-        "description": "Rule-reason description for harassment in the IAR message flow."
-    },
-    "iarReasonHateLabel": "Govor mržnje",
-    "@iarReasonHateLabel": {
-        "description": "Rule-reason label for hate speech in the IAR message flow."
-    },
-    "iarReasonHateMessageDescription": "Uvrede, dehumanizirajući jezik ili napadi na zaštićene skupine.",
-    "@iarReasonHateMessageDescription": {
-        "description": "Rule-reason description for hate speech in the IAR message flow."
-    },
-    "iarReasonViolenceLabel": "Nasilje ili prijetnje nasiljem",
-    "@iarReasonViolenceLabel": {
-        "description": "Rule-reason label for violence in the IAR message flow."
-    },
-    "iarReasonViolenceDescription": "Vjerodostojne prijetnje, eksplicitno nasilje ili veličanje nasilja.",
-    "@iarReasonViolenceDescription": {
-        "description": "Rule-reason description for violence in the IAR message flow."
-    },
-    "iarReasonMatureContentLabel": "Sadržaj za odrasle ili uznemiravanje",
-    "@iarReasonMatureContentLabel": {
-        "description": "Rule-reason label for mature content / unwanted conduct in the IAR message flow."
-    },
-    "iarReasonMatureContentMessageDescription": "Neželjeno ponašanje ili sadržaj za odrasle na pogrešnom mjestu.",
-    "@iarReasonMatureContentMessageDescription": {
-        "description": "Rule-reason description for mature content in the IAR message flow."
-    },
-    "iarReasonChildSafetyLabel": "Sigurnost djece ili iskorištavanje maloljetnika",
-    "@iarReasonChildSafetyLabel": {
-        "description": "Rule-reason label for child-safety reports in the IAR message flow. Also used as the {childSafetyReason} placeholder in iarUseChildSafetyInstead."
-    },
-    "iarReasonChildSafetyMessageDescription": "Sadržaj s vrbovanjem ili iskorištavanjem djece.",
-    "@iarReasonChildSafetyMessageDescription": {
-        "description": "Rule-reason description for child-safety reports in the IAR message flow."
-    },
-    "iarReasonHarmfulMisinfoLabel": "Štetne dezinformacije",
-    "@iarReasonHarmfulMisinfoLabel": {
-        "description": "Rule-reason label for harmful misinformation in the IAR message flow."
-    },
-    "iarReasonHarmfulMisinfoDescription": "Lažne tvrdnje koje bi mogle prouzročiti stvarnu štetu.",
-    "@iarReasonHarmfulMisinfoDescription": {
-        "description": "Rule-reason description for harmful misinformation."
-    },
-    "iarReasonSpamLabel": "Neželjena pošta, prijevare ili krađa identiteta",
-    "@iarReasonSpamLabel": {
-        "description": "Rule-reason label for spam/scams/phishing in the IAR message flow."
-    },
-    "iarReasonSpamMessageDescription": "Masovna neželjena pošta, prijevare, lažna darivanja ili zlouporaba računa.",
-    "@iarReasonSpamMessageDescription": {
-        "description": "Rule-reason description for spam/scams in the IAR message flow."
-    },
-    "iarReasonMalwareLabel": "Zlonamjerni softver ili opasne poveznice",
-    "@iarReasonMalwareLabel": {
-        "description": "Rule-reason label for malware / dangerous links in the IAR message flow."
-    },
-    "iarReasonMalwareDescription": "Zlonamjerni softver, krađa vjerodajnica ili štetne datoteke.",
-    "@iarReasonMalwareDescription": {
-        "description": "Rule-reason description for malware."
-    },
-    "iarReasonPrivacyLabel": "Kršenje privatnosti",
-    "@iarReasonPrivacyLabel": {
-        "description": "Rule-reason label for privacy violations in the IAR message flow."
-    },
-    "iarReasonPrivacyDescription": "Doxxing, otkrivanje privatnih podataka ili uhođenje.",
-    "@iarReasonPrivacyDescription": {
-        "description": "Rule-reason description for privacy violations."
-    },
-    "iarReasonImpersonationLabel": "Lažno predstavljanje ili obmanjujući medijski sadržaj",
-    "@iarReasonImpersonationLabel": {
-        "description": "Rule-reason label for impersonation in the IAR message flow."
-    },
-    "iarReasonImpersonationMessageDescription": "Pretvaranje da ste netko drugi, uključujući obmanjujući sadržaj generiran umjetnom inteligencijom.",
-    "@iarReasonImpersonationMessageDescription": {
-        "description": "Rule-reason description for impersonation in the IAR message flow."
-    },
-    "iarReasonIllegalLabel": "Nezakonita aktivnost",
-    "@iarReasonIllegalLabel": {
-        "description": "Rule-reason label for illegal activity in the IAR message flow."
-    },
-    "iarReasonIllegalDescription": "Nezakonita prodaja, omogućavanje kaznenih djela ili nezakonite aktivnosti.",
-    "@iarReasonIllegalDescription": {
-        "description": "Rule-reason description for illegal activity."
-    },
-    "iarReasonSelfHarmLabel": "Samoozljeđivanje ili samoubojstvo",
-    "@iarReasonSelfHarmLabel": {
-        "description": "Rule-reason label for self-harm content in the IAR message flow."
-    },
-    "iarReasonSelfHarmMessageDescription": "Promicanje ili upute koje potiču samoozljeđivanje ili poremećaje prehrane.",
-    "@iarReasonSelfHarmMessageDescription": {
-        "description": "Rule-reason description for self-harm content in the IAR message flow."
-    },
-    "iarReasonOtherLabel": "Još jedno jasno kršenje pravila",
-    "@iarReasonOtherLabel": {
-        "description": "Rule-reason label for the catch-all option in the IAR message flow."
-    },
-    "iarReasonOtherDescription": "Koristite samo ako jasno krši pravila {productName} i ne uklapa se u navedeno.",
-    "@iarReasonOtherDescription": {
-        "description": "Rule-reason description for the catch-all option.",
+    "reportFlowThankYouBody": "Sigurnosni tim {productName} pregledat će vašu prijavu. Nećemo otkriti da je došla od vas.",
+    "@reportFlowThankYouBody": {
+        "description": "Report flow: body of the thank-you screen after a report was sent. {productName} is the name of the app.",
         "placeholders": {
             "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "iarUseChildSafetyInstead": "Ako je uključen maloljetnik, umjesto toga upotrijebite \"{childSafetyReason}\".",
-    "@iarUseChildSafetyInstead": {
-        "description": "Inline routing nudge shown under reasons (e.g. mature content) that overlap with child safety.",
-        "placeholders": {
-            "childSafetyReason": {
                 "type": "String",
-                "example": "Child safety or exploitation of minors"
+                "example": "Fluxer"
             }
         }
     },
-    "iarSafetyNoteChildSafety": "Ako se radi o CSAM-u ili iskorištavanju maloljetnika, pošaljite odmah i nemojte ponovno dijeliti materijal.",
-    "@iarSafetyNoteChildSafety": {
-        "description": "Inline safety note shown for child-safety reports on the reason step."
+    "reportFlowThankYouNoReportBody": "Hvala što ste nam javili. Ovo samo po sebi ne krši naša pravila, stoga nismo poslali prijavu. Ako je usmjereno na nekoga ili koristi pogrdne izraze, prijavite to ponovno i odaberite „Zlostavljajući ili štetan sadržaj“.",
+    "@reportFlowThankYouNoReportBody": {
+        "description": "Report flow: body of the thank-you screen when the chosen answer does not send a report. \"Abusive or harmful content\" is the name of an option on the first screen of the message report form."
     },
-    "iarSafetyNoteSelfHarm": "Ako je netko u neposrednoj opasnosti, obratite se lokalnim hitnim službama ako to možete učiniti sigurno.",
-    "@iarSafetyNoteSelfHarm": {
-        "description": "Inline safety note shown for self-harm reports on the reason step."
+    "reportFlowThankYouNoReportBodyShort": "Hvala što ste nam javili. Ovo samo po sebi ne krši naša pravila, stoga nismo poslali prijavu.",
+    "@reportFlowThankYouNoReportBodyShort": {
+        "description": "Report flow: body of the thank-you screen when the chosen answer does not send a report and the reporter is already past the first screen of the form."
     },
-    "iarSafetyNoteViolence": "Ako je ovo vjerodostojna neposredna prijetnja, obratite se i lokalnim hitnim službama.",
-    "@iarSafetyNoteViolence": {
-        "description": "Inline safety note shown for violence reports on the reason step."
+    "reportFlowMoreYouCanDo": "Vaše mogućnosti",
+    "@reportFlowMoreYouCanDo": {
+        "description": "Report flow: heading above the extra actions (such as blocking the user) on the thank-you screen."
     },
-    "iarSafetyNoteTerrorism": "Ako je ovo neposredna teroristička prijetnja, obratite se i lokalnim hitnim službama.",
-    "@iarSafetyNoteTerrorism": {
-        "description": "Inline safety note shown for terrorism reports on the reason step."
-    },
-    "iarActionBlockUserTitle": "Blokiraj ovog korisnika",
-    "@iarActionBlockUserTitle": {
-        "description": "Action card title for blocking the reported user."
-    },
-    "iarActionBlockUserDescription": "Zaustavite poruke i zahtjeve za prijateljstvo.",
-    "@iarActionBlockUserDescription": {
-        "description": "Action card description for blocking the reported user."
-    },
-    "iarActionBlockUserButton": "Blokiraj",
-    "@iarActionBlockUserButton": {
-        "description": "Trailing button label on the block-user action card."
-    },
-    "iarActionCopyMessageLinkTitle": "Kopiraj poveznicu poruke",
-    "@iarActionCopyMessageLinkTitle": {
-        "description": "Action card title for copying a link to the reported message so the user can share it with community moderators."
-    },
-    "iarActionCopyMessageLinkDescription": "Podijeli s moderatorima zajednice.",
-    "@iarActionCopyMessageLinkDescription": {
-        "description": "Action card description for copying a message link."
-    },
-    "iarActionCopyMessageLinkButton": "Kopiraj",
-    "@iarActionCopyMessageLinkButton": {
-        "description": "Trailing button label on the copy-message-link action card."
-    },
-    "iarActionCloseDmTitle": "Zatvori ovu izravnu poruku",
-    "@iarActionCloseDmTitle": {
-        "description": "Action card title for closing the DM with the reported user."
-    },
-    "iarActionCloseDmDescription": "Ne blokira. Možete ga kasnije ponovno otvoriti.",
-    "@iarActionCloseDmDescription": {
-        "description": "Action card description for closing the DM."
-    },
-    "iarActionCloseDmButton": "Zatvori izravnu poruku",
-    "@iarActionCloseDmButton": {
-        "description": "Trailing button label on the close-DM action card."
-    },
-    "iarActionLeaveCommunityTitle": "Napusti zajednicu",
-    "@iarActionLeaveCommunityTitle": {
-        "description": "Action card title for leaving the guild the reported message was sent in."
-    },
-    "iarActionLeaveCommunityDescription": "Prestanite vidjeti njezin sadržaj i članove.",
-    "@iarActionLeaveCommunityDescription": {
-        "description": "Action card description for leaving the community."
-    },
-    "iarActionLeaveCommunityButton": "Napusti",
-    "@iarActionLeaveCommunityButton": {
-        "description": "Trailing button label on the leave-community action card."
-    },
-    "iarActionDmSettingsTitle": "Postavke izravnih poruka i zahtjeva za prijateljstvo",
-    "@iarActionDmSettingsTitle": {
-        "description": "Action card title for opening the DM / friend-request privacy settings."
-    },
-    "iarActionDmSettingsDescription": "Promijenite tko vas može kontaktirati.",
-    "@iarActionDmSettingsDescription": {
-        "description": "Action card description for DM / friend-request privacy settings."
-    },
-    "iarActionCallSettingsTitle": "Postavke poziva i grupnog razgovora",
-    "@iarActionCallSettingsTitle": {
-        "description": "Action card title for opening the call / group-chat privacy settings."
-    },
-    "iarActionCallSettingsDescription": "Promijenite tko vas može zvati ili dodati.",
-    "@iarActionCallSettingsDescription": {
-        "description": "Action card description for call / group-chat privacy settings."
-    },
-    "iarActionOpenButton": "Otvori",
-    "@iarActionOpenButton": {
-        "description": "Trailing button label for action cards that navigate the user into a settings section."
-    },
-    "iarActionDeleteMessageTitle": "Izbriši ovu poruku",
-    "@iarActionDeleteMessageTitle": {
-        "description": "Action card title (moderator-only) for deleting the reported message."
-    },
-    "iarActionDeleteMessageDescription": "Ukloni je iz kanala za sve.",
-    "@iarActionDeleteMessageDescription": {
-        "description": "Action card description (moderator-only) for deleting the reported message."
-    },
-    "iarActionDeleteMessageButton": "Izbriši",
-    "@iarActionDeleteMessageButton": {
-        "description": "Trailing button label on the delete-message action card."
-    },
-    "iarActionDeleteMessageDeletedButton": "Izbrisano",
-    "@iarActionDeleteMessageDeletedButton": {
-        "description": "Disabled-state trailing button label on the delete-message action card after the message is already gone."
-    },
-    "iarActionDeleteMessageDeletedTooltip": "Ova je poruka već izbrisana.",
-    "@iarActionDeleteMessageDeletedTooltip": {
-        "description": "Tooltip on the disabled delete-message action card."
-    },
-    "iarActionBanUserTitle": "Zabrani ovog korisnika",
-    "@iarActionBanUserTitle": {
-        "description": "Action card title (moderator-only) for opening the ban dialog against the reported user."
-    },
-    "iarActionBanUserDescription": "Otvorite dijaloški okvir za zabranu u ovoj zajednici.",
-    "@iarActionBanUserDescription": {
-        "description": "Action card description (moderator-only) for banning the reported user."
-    },
-    "iarActionBanUserButton": "Zabrani",
-    "@iarActionBanUserButton": {
-        "description": "Trailing button label on the ban-user action card."
-    },
-    "iarActionBanUserBannedButton": "Zabranjen pristup",
-    "@iarActionBanUserBannedButton": {
-        "description": "Disabled-state trailing button label on the ban-user action card after the target is already banned."
-    },
-    "iarActionBanUserBannedTooltip": "Ovom je korisniku već zabranjen pristup zajednici.",
-    "@iarActionBanUserBannedTooltip": {
-        "description": "Tooltip on the disabled ban-user action card."
-    },
-    "iarCloseDmConfirmTitle": "Zatvori izravnu poruku",
-    "@iarCloseDmConfirmTitle": {
-        "description": "Title of the confirm-close-DM bottom sheet shown after the user taps Close DM on the action card."
-    },
-    "iarCloseDmConfirmDescription": "Zatvori ovaj izravni razgovor s {name}. Ovo ih neće blokirati; možeš ga ponovno otvoriti kasnije.",
-    "@iarCloseDmConfirmDescription": {
-        "description": "Body of the confirm-close-DM bottom sheet.",
+    "reportFlowBlockName": "Blokiraj korisnika {name}",
+    "@reportFlowBlockName": {
+        "description": "Report flow: title of the row on the thank-you screen that blocks the reported user. {name} is the display name of that user.",
         "placeholders": {
             "name": {
                 "type": "String",
-                "example": "ada"
+                "example": "Alice"
             }
         }
     },
-    "iarSuccessTitle": "Prijava poslana",
-    "@iarSuccessTitle": {
-        "description": "Title shown on the success step after a platform report is submitted."
+    "reportFlowBlockDescription": "Skriva poruke te osobe i onemogućuje joj da vam šalje poruke",
+    "@reportFlowBlockDescription": {
+        "description": "Report flow: description under reportFlowBlockName on the thank-you screen."
     },
-    "iarSuccessBody": "Naš sigurnosni tim pregledava prijavu. Poslat ćemo vam izravnu poruku i e-poštu kada donesemo odluku.",
-    "@iarSuccessBody": {
-        "description": "Body shown on the success step after a platform report is submitted."
+    "reportFlowBlockButton": "Blokiraj",
+    "@reportFlowBlockButton": {
+        "description": "Report flow: button on the thank-you screen that blocks the reported user."
     },
-    "iarAlreadyReportedTitle": "Već prijavljeno",
-    "@iarAlreadyReportedTitle": {
-        "description": "Title shown on the IAR success step when the message had already been reported by this user (HTTP 409); the existing report is under review."
+    "reportFlowBlockedButton": "Blokirano",
+    "@reportFlowBlockedButton": {
+        "description": "Report flow: disabled button on the thank-you screen after the reported user was blocked."
     },
-    "iarAlreadyReportedBody": "Već ste prijavili ovu poruku. Naš tim za sigurnost je pregledava.",
-    "@iarAlreadyReportedBody": {
-        "description": "Body shown on the IAR success step when the message had already been reported by this user (HTTP 409)."
+    "reportFlowUrgentBanner": "Ako je netko u neposrednoj opasnosti, prvo kontaktirajte lokalne hitne službe.",
+    "@reportFlowUrgentBanner": {
+        "description": "Report flow: banner on screens about urgent harm, such as threats, self-harm or the safety of minors."
     },
-    "iarBackButton": "Natrag",
-    "@iarBackButton": {
-        "description": "Footer button label that returns the user to the previous IAR step."
+    "reportFlowLoadFailed": "Nismo mogli učitati obrazac za prijavu.",
+    "@reportFlowLoadFailed": {
+        "description": "Report flow: error shown when the report form could not be loaded."
     },
-    "iarContinueButton": "Nastavi",
-    "@iarContinueButton": {
-        "description": "Footer button label that advances the user to the next IAR step."
+    "reportFlowTryAgain": "Pokušaj ponovno",
+    "@reportFlowTryAgain": {
+        "description": "Report flow: button that loads the report form again after an error."
     },
-    "iarSendReportButton": "Pošalji prijavu",
-    "@iarSendReportButton": {
-        "description": "Footer button label that submits the IAR report."
+    "reportFlowOutdated": "Obrazac prijave se promijenio. Molimo započnite ponovno.",
+    "@reportFlowOutdated": {
+        "description": "Report flow: toast shown when the report form changed on the server while the reporter was filling it in. The form restarts from the first screen."
     },
-    "iarDoneButton": "Gotovo",
-    "@iarDoneButton": {
-        "description": "Footer button label that closes the IAR sheet from the success or guidance step."
+    "reportFlowAlreadyReported": "Već ste prijavili ovu poruku.",
+    "@reportFlowAlreadyReported": {
+        "description": "Report flow: note on the report summary screen when the reporter already reported this message."
     },
-    "iarCouldntSendToast": "Nismo mogli poslati izvješće. Molimo pokušajte ponovno.",
-    "@iarCouldntSendToast": {
-        "description": "Toast shown when the IAR report submission fails."
+    "reportFlowAlreadyReportedProfile": "Već ste prijavili ovaj profil danas.",
+    "@reportFlowAlreadyReportedProfile": {
+        "description": "Report flow: note on the report summary screen when the reporter already reported this user profile in the last 24 hours."
     },
-    "iarRateLimitedToast": "Prebrzo šaljete prijave. Pričekajte trenutak i pokušajte ponovno.",
-    "@iarRateLimitedToast": {
-        "description": "Toast shown when an IAR report submission is rejected for rate limiting (HTTP 429)."
+    "reportFlowRateLimited": "Prebrzo šaljete prijave. Pokušajte ponovno kasnije.",
+    "@reportFlowRateLimited": {
+        "description": "Report flow: note on the report summary screen when the reporter sent too many reports."
     },
-    "iarReportSentToast": "Poslano. Naš tim za sigurnost će ga pregledati.",
-    "@iarReportSentToast": {
-        "description": "Toast shown after a message report is submitted successfully from the simple mobile report sheet."
+    "reportFlowSubmitFailed": "Vaša prijava nije prošla. Pokušajte ponovno.",
+    "@reportFlowSubmitFailed": {
+        "description": "Report flow: note on the report summary screen when the report could not be sent."
     },
-    "iarBlockUserConfirmDescription": "Blokiraj {name}? Neće ti moći slati poruke niti slati zahtjeve za prijateljstvo. Možeš ih deblokirati kasnije.",
-    "@iarBlockUserConfirmDescription": {
-        "description": "Body of the confirm-block-user bottom sheet shown after the user taps Block on the IAR action card.",
-        "placeholders": {
-            "name": {
-                "type": "String",
-                "example": "ada"
-            }
-        }
-    },
-    "iarBlockUserFailedToast": "Nije moguće blokirati ovog korisnika. Molimo pokušajte ponovno.",
-    "@iarBlockUserFailedToast": {
-        "description": "Toast shown when blocking the reported user from the IAR action card fails."
-    },
-    "iarCloseDmSuccessToast": "DM zatvoren.",
-    "@iarCloseDmSuccessToast": {
-        "description": "Toast shown after the DM with the reported user is closed from the IAR action card."
-    },
-    "iarCloseDmFailedToast": "Nije moguće zatvoriti ovaj izravni razgovor. Molimo pokušajte ponovno.",
-    "@iarCloseDmFailedToast": {
-        "description": "Toast shown when closing the DM from the IAR action card fails."
-    },
-    "iarLeaveCommunityFailedToast": "Nismo mogli napustiti ovu zajednicu. Molimo pokušajte ponovno.",
-    "@iarLeaveCommunityFailedToast": {
-        "description": "Toast shown when leaving the community from the IAR action card fails."
+    "reportFlowAccountSetupRequired": "Preuzmite svoj račun i potvrdite e-poštu kako biste mogli slati prijave.",
+    "@reportFlowAccountSetupRequired": {
+        "description": "Report flow: notice on the report summary screen when the account must be claimed and its email verified before it can send reports."
     },
     "chatMessageSuppressEmbeds": "Sakrij ugrađeni sadržaj",
     "@chatMessageSuppressEmbeds": {
@@ -9425,6 +8565,10 @@
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
     },
+    "chatImageCouldNotLoad": "Nije moguće učitati ovu sliku.",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
+    },
     "composerAutocompleteRoleMentionDescription": "Obavijesti korisnike s ovom ulogom koji imaju dopuštenje za pregled ovog kanala.",
     "@composerAutocompleteRoleMentionDescription": {
         "description": "Secondary line in the @ mention autocomplete when the row is a mentionable guild role."
@@ -9444,26 +8588,6 @@
     "composerAutocompleteOptionalArgumentsHeading": "Neobavezni argumenti",
     "@composerAutocompleteOptionalArgumentsHeading": {
         "description": "Section heading in composer autocomplete for adding optional slash-command arguments."
-    },
-    "composerAutocompleteChannelsHeading": "Kanali",
-    "@composerAutocompleteChannelsHeading": {
-        "description": "Section heading in composer autocomplete for channel suggestions."
-    },
-    "composerAutocompleteMembersHeading": "Članovi",
-    "@composerAutocompleteMembersHeading": {
-        "description": "Section heading in composer autocomplete for member suggestions."
-    },
-    "composerAutocompleteUsersHeading": "Korisnici",
-    "@composerAutocompleteUsersHeading": {
-        "description": "Section heading in composer autocomplete for user suggestions."
-    },
-    "composerAutocompleteMentionsHeading": "Spominjanja",
-    "@composerAutocompleteMentionsHeading": {
-        "description": "Section heading in composer autocomplete for mixed mention suggestions."
-    },
-    "composerAutocompleteRolesHeading": "Uloge",
-    "@composerAutocompleteRolesHeading": {
-        "description": "Section heading in composer autocomplete for role suggestions."
     },
     "composerAutocompleteMediaHeading": "Mediji",
     "@composerAutocompleteMediaHeading": {
@@ -9779,10 +8903,6 @@
     "@addGuildImportTemplateInvalid": {
         "description": "API error when Fluxer rejects the imported community template payload."
     },
-    "addGuildPackInstalled": "Paket je uspješno instaliran.",
-    "@addGuildPackInstalled": {
-        "description": "Toast shown after accepting an emoji or sticker pack invite."
-    },
     "chatMessageRemoveAllReactionsConfirmTitle": "Ukloni sve reakcije",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
         "description": "Title for the remove-all-reactions confirmation sheet."
@@ -9904,10 +9024,6 @@
     "channelDetailsDeleteChannel": "Izbriši kanal",
     "@channelDetailsDeleteChannel": {
         "description": "Channel details menu action to delete a guild channel."
-    },
-    "channelSettingsCategorySettingsTitle": "Postavke kategorije",
-    "@channelSettingsCategorySettingsTitle": {
-        "description": "Title for category settings modal."
     },
     "channelSettingsEditCategory": "Uredi kategoriju",
     "@channelSettingsEditCategory": {
@@ -10168,18 +9284,6 @@
     "@channelSettingsVoiceRegionsLoadFailedDescription": {
         "description": "Error modal body when voice regions fail to load in channel settings."
     },
-    "channelSettingsResetSlider": "Vrati klizač na zadanu vrijednost",
-    "@channelSettingsResetSlider": {
-        "description": "Tooltip for reset buttons on channel settings sliders."
-    },
-    "channelSettingsAdvanced": "Napredno",
-    "@channelSettingsAdvanced": {
-        "description": "Collapsible advanced section title in channel overview."
-    },
-    "channelSettingsMatureContentOverride": "Nadjačavanje postavke sadržaja za odrasle",
-    "@channelSettingsMatureContentOverride": {
-        "description": "Accessibility label for mature content override control."
-    },
     "channelSettingsMatureContentSectionDescription": "Zameni postavku razine {scopeLevel} za ovaj kanal. Sadržaj za odrasle prikazuje se iza zaštite prije ulaska.",
     "@channelSettingsMatureContentSectionDescription": {
         "description": "Section description for mature content settings in channel overview.",
@@ -10227,14 +9331,6 @@
             }
         }
     },
-    "channelSettingsMatureContentCategorySource": "kategorija",
-    "@channelSettingsMatureContentCategorySource": {
-        "description": "Lowercase source label for inherited mature content from category."
-    },
-    "channelSettingsMatureContentCommunitySource": "zajednice",
-    "@channelSettingsMatureContentCommunitySource": {
-        "description": "Lowercase source label for inherited mature content from community."
-    },
     "channelSettingsMatureContentCategoryScope": "Kategorija",
     "@channelSettingsMatureContentCategoryScope": {
         "description": "Capitalized scope label when mature content inherits from a category."
@@ -10258,24 +9354,6 @@
     "channelSettingsContentWarningDefault": "Ovo sadrži osjetljiv sadržaj.",
     "@channelSettingsContentWarningDefault": {
         "description": "Default content warning text placeholder."
-    },
-    "channelSettingsPermissionsNeedManageChannels": "Potrebno vam je dopuštenje \"{manageChannelsPermissionLabel}\" za uređivanje ovih dopuštenja.",
-    "@channelSettingsPermissionsNeedManageChannels": {
-        "description": "Error when user lacks manage channels permission for channel permissions tab.",
-        "placeholders": {
-            "manageChannelsPermissionLabel": {
-                "type": "String"
-            }
-        }
-    },
-    "channelSettingsPermissionsNeedManageRoles": "Potrebno vam je dopuštenje \"{manageRolesPermissionLabel}\" za uređivanje ovih dopuštenja.",
-    "@channelSettingsPermissionsNeedManageRoles": {
-        "description": "Error when user lacks manage roles permission for channel permissions tab.",
-        "placeholders": {
-            "manageRolesPermissionLabel": {
-                "type": "String"
-            }
-        }
     },
     "channelSettingsUnknownRole": "Nepoznata uloga",
     "@channelSettingsUnknownRole": {
@@ -10361,10 +9439,6 @@
     "channelSettingsPermissionsSearchRolesOrMembers": "Pretražite uloge ili članove…",
     "@channelSettingsPermissionsSearchRolesOrMembers": {
         "description": "Placeholder for the add override search field."
-    },
-    "channelSettingsPermissionsRolesAndMembers": "Uloge i članovi",
-    "@channelSettingsPermissionsRolesAndMembers": {
-        "description": "Section title in the add override picker."
     },
     "channelSettingsDeleteInvite": "Izbriši pozivnicu",
     "@channelSettingsDeleteInvite": {
@@ -10458,10 +9532,6 @@
                 "type": "String"
             }
         }
-    },
-    "channelSettingsWebhooksUnknownUser": "Nepoznat korisnik",
-    "@channelSettingsWebhooksUnknownUser": {
-        "description": "Fallback label when webhook creator is unavailable."
     },
     "channelSettingsWebhooksAvatar": "Avatar",
     "@channelSettingsWebhooksAvatar": {
@@ -10650,10 +9720,6 @@
     "channelDetailsPinsEndReached": "Došli ste do kraja",
     "@channelDetailsPinsEndReached": {
         "description": "Footer label when the user has scrolled through all pinned messages."
-    },
-    "channelHeaderOpenDetails": "Otvori detalje kanala",
-    "@channelHeaderOpenDetails": {
-        "description": "Accessibility label for the channel header title area."
     },
     "channelHeaderPinnedMessages": "Prikvačene poruke",
     "@channelHeaderPinnedMessages": {
@@ -11217,10 +10283,6 @@
     "@groupDmEditTitle": {
         "description": "Title for the edit group DM modal or sheet."
     },
-    "groupDmEditDetailsTooltip": "Uredi detalje grupe",
-    "@groupDmEditDetailsTooltip": {
-        "description": "Tooltip on the desktop group DM header edit action."
-    },
     "groupDmGroupName": "Naziv grupe",
     "@groupDmGroupName": {
         "description": "Label for the group name field in edit group."
@@ -11286,14 +10348,6 @@
     "@groupDmUnsupportedIconFormatBody": {
         "description": "Body when the selected group icon format is unsupported."
     },
-    "groupDmCouldntProcessImage": "Nije moguće obraditi sliku",
-    "@groupDmCouldntProcessImage": {
-        "description": "Title when a cropped group icon cannot be processed."
-    },
-    "groupDmFailedToProcessCroppedImage": "Obrada obrezane slike nije uspjela. Pokušajte ponovno.",
-    "@groupDmFailedToProcessCroppedImage": {
-        "description": "Body when a cropped group icon cannot be processed."
-    },
     "groupDmInvalidImage": "Nevažeća slika",
     "@groupDmInvalidImage": {
         "description": "Title when the selected group icon image cannot be used."
@@ -11326,10 +10380,6 @@
     "@groupDmAddFriendFailed": {
         "description": "Error when adding a single friend to a group DM fails."
     },
-    "groupDmAddFailed": "Nije moguće dodati u grupu",
-    "@groupDmAddFailed": {
-        "description": "Title when adding friends to a group DM fails."
-    },
     "groupDmGroupFull": "Ova je grupa puna. Uklonite nekoga prije dodavanja novih osoba.",
     "@groupDmGroupFull": {
         "description": "Error when the group DM has no remaining member slots."
@@ -11337,10 +10387,6 @@
     "groupDmRateLimited": "Usporite malo. Pričekajte trenutak pa pokušajte ponovno.",
     "@groupDmRateLimited": {
         "description": "Error when add-friends requests are rate limited."
-    },
-    "groupDmCreateInviteFailed": "Nije moguće stvoriti poveznicu za pozivnicu",
-    "@groupDmCreateInviteFailed": {
-        "description": "Title when invite link generation fails."
     },
     "groupDmCreateInviteFailedBody": "Nije moguće generirati poveznicu za pozivnicu. Pokušajte ponovno.",
     "@groupDmCreateInviteFailedBody": {
@@ -11623,10 +10669,6 @@
     "@userSettingsSearchPlaceholder": {
         "description": "Placeholder for the user settings search field."
     },
-    "userSettingsSearchFieldLabel": "Pretražite postavke",
-    "@userSettingsSearchFieldLabel": {
-        "description": "Accessibility label for the user settings search field."
-    },
     "userSettingsSearchClear": "Očisti pretragu",
     "@userSettingsSearchClear": {
         "description": "Accessibility label for clearing the user settings search field."
@@ -11669,8 +10711,6 @@
     "giftSettingsGiftUrl": "URL poklona",
     "giftSettingsCopy": "Kopiraj",
     "giftSettingsCopied": "Kopirano",
-    "giftSettingsGiftUrlCopied": "URL poklona kopiran u međuspremnik!",
-    "giftSettingsGiftUrlCopyFailed": "Nije moguće kopirati URL poklona",
     "giftSettingsPurchasedDate": "Kupljeno {date}",
     "@giftSettingsPurchasedDate": {
         "placeholders": {
@@ -11712,7 +10752,6 @@
     "premiumBuyGift": "Kupi poklon",
     "premiumOneYearGift": "Poklon za 1 godinu",
     "premiumOneMonthGift": "Poklon za 1 mjesec",
-    "premiumMostPopular": "Najpopularnije",
     "premiumScrollPrompt": "Pomaknite se prema dolje da biste vidjeli sve pogodnosti uključene u Plutonium",
     "premiumFreeVsPlutonium": "Besplatno ili Plutonium",
     "premiumFreeColumn": "Besplatno",
@@ -11730,50 +10769,15 @@
     "premiumViewGifts": "Prikaži poklone",
     "premiumReadyToUpgrade": "Spremni za nadogradnju?",
     "premiumReadyToBuyGift": "Želite kupiti poklon?",
-    "premiumMonthlyPrice": "Mjesečno {price}",
-    "@premiumMonthlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumYearlyPrice": "Godišnje {price}",
-    "@premiumYearlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneYearPrice": "1 godina {price}",
-    "@premiumOneYearPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneMonthPrice": "1 mjesec {price}",
-    "@premiumOneMonthPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
     "premiumManageSubscription": "Upravljanje pretplatom",
     "premiumRedeemGiftCode": "Iskoristi kôd poklona",
     "premiumGiftBadge": "Poklon",
     "premiumCancelSubscriptionTitle": "Otkaži pretplatu?",
     "premiumCancelSubscriptionBody": "Zadržavate svoje pogodnosti do sljedećeg datuma obnove, a zatim imate razdoblje od 3 dana za ponovnu pretplatu i zadržavanje povijesti pretplate.",
     "premiumCancelSubscriptionConfirm": "Otkaži pretplatu",
-    "premiumKeepSubscription": "Zadrži pretplatu",
     "premiumPurchaseHistoryTitle": "Povijest kupnje",
     "premiumPurchaseHistoryDescription": "Vaši nedavni računi. Da biste promijenili način plaćanja pretplate, dodajte ili odaberite jedan u portalu za naplatu i postavite ga kao zadani.",
     "premiumManagePaymentMethods": "Upravljanje načinima plaćanja",
-    "premiumBillingHistory": "Povijest naplate",
-    "premiumSelfServeRefundTitle": "Samostalni povrat",
     "premiumSelfServeRefundButton": "Vrati zadnju kupnju",
     "premiumDisclaimerAgreementPrefix": "Kupnjom prihvaćate naše ",
     "premiumDisclaimerAgreementPastPrefix": "Kupnjom ste prihvatili naše ",
@@ -11813,23 +10817,16 @@
         "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
     },
     "premiumComparisonFeatureColumn": "Značajka",
-    "premiumDisclaimerPurchased": "Kupnjom ste prihvatili naše {terms} i {privacy}.",
-    "@premiumDisclaimerPurchased": {
-        "placeholders": {
-            "terms": {
-                "type": "String"
-            },
-            "privacy": {
-                "type": "String"
-            }
-        }
-    },
     "premiumDisclaimerRefund": "Samoposlužni povrat novca dostupan je unutar 3 dana od plaćanja, jednom svakih 30 dana. Povratom novca za pretplatu, pretplata se otkazuje. Kupci iz EU/EGP-a odriču se prava na odustajanje od kupnje u roku od 14 dana prilikom naplate kako bi odmah pristupili sadržaju. Koristite gumb za povrat novca u aplikaciji umjesto povrata putem banke. Povrati putem banke mogu trajno ograničiti vaš račun. Stripe sigurno obrađuje plaćanje. Nikada ne vidimo cijeli broj vaše kartice.",
     "premiumTermsOfService": "Uvjeti pružanja usluge",
     "premiumPrivacyPolicy": "Pravila privatnosti",
     "premiumCheckoutStartFailedTitle": "Nije moguće pokrenuti naplatu",
     "premiumCheckoutStartFailedBody": "Nešto je pošlo po zlu prilikom pokretanja naplate. Pokušajte ponovno za nekoliko trenutaka.",
     "premiumPlanUnavailable": "Ovaj plan nije dostupan. Obratite se podršci.",
+    "premiumPlanUnavailableSelfHosted": "Ovaj plan nije dostupan. Obratite se administratorima ove instance.",
+    "@premiumPlanUnavailableSelfHosted": {
+        "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
+    },
     "premiumCompletePaymentTitle": "Dovrši plaćanje",
     "premiumCompletePaymentBody": "Sada prelazite na Stripe kako biste dovršili plaćanje. Vratite se u Fluxer nakon što završite.",
     "premiumChoosePaymentMethodTitle": "Odaberite način plaćanja",
@@ -11845,29 +10842,97 @@
     "premiumExistingSubscriptionTitle": "Pretplata već postoji",
     "premiumExistingSubscriptionBody": "Pronašli smo postojeću pretplatu na Fluxer Plutonium za ovaj račun. Upravljajte njome u sigurnosnom portalu za naplatu kako biste ažurirali podatke o plaćanju ili provjerili status obnove. Ako ste upravo platili, pričekajte minutu i ponovno otvorite ovu stranicu.",
     "premiumPurchasesDisabledTitle": "Kupnja nije dostupna",
-    "premiumPurchasesDisabledBody": "Kupnje su onemogućene za ovaj račun. Obratite se na support@fluxer.app ako ovo izgleda pogrešno.",
+    "premiumPurchasesDisabledBody": "Kupnje su onemogućene za ovaj račun. Obratite se na {supportEmail} ako ovo izgleda pogrešno.",
+    "@premiumPurchasesDisabledBody": {
+        "description": "Shown on the official hosted instance when purchases are disabled for the account. supportEmail is the support mailbox.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumPurchasesDisabledBodySelfHosted": "Kupnje su onemogućene za ovaj račun. Obratite se administratorima ove instance ako ovo izgleda pogrešno.",
+    "@premiumPurchasesDisabledBodySelfHosted": {
+        "description": "Shown on a self-hosted instance when purchases are disabled for the account. Names no email address."
+    },
     "premiumClaimAccountToPurchase": "Preuzmite svoj račun za kupnju Fluxer Plutonium.",
     "premiumVerifyEmailToPurchase": "Potrebno je potvrditi svoju e-poštu prije nego što možete kupiti Fluxer Plutonium.",
-    "premiumPerkCustomUsernameTag": "Prilagođena korisnička oznaka",
-    "premiumPerkPerCommunityProfiles": "Profili po zajednicama",
-    "premiumPerkMessageScheduling": "Raspoređivanje poruka",
-    "premiumPerkProfileBadge": "Značka profila",
-    "premiumPerkCustomVideoBackgrounds": "Prilagođene video pozadine",
-    "premiumPerkEntranceSounds": "Zvukovi ulaska",
     "premiumPerkCommunities": "Zajednice",
     "premiumPerkMessageCharacterLimit": "Ograničenje broja znakova u poruci",
     "premiumPerkBookmarkedMessages": "Označene poruke",
     "premiumPerkFileUploadSize": "Veličina datoteke za prijenos",
-    "premiumPerkEmojiStickerPacks": "Paketi emotikona i naljepnica",
-    "premiumPerkSavedMedia": "Spremljeni mediji",
     "premiumPerkUseAnimatedEmojis": "Korištenje animiranih emojija",
-    "premiumPerkGlobalEmojiStickerAccess": "Globalni pristup emojijima i naljepnicama",
     "premiumPerkVideoQuality": "Kvaliteta videa",
     "premiumPerkAnimatedAvatarsBanners": "Animirani avatari i naslovne slike profila",
     "premiumPerkEarlyAccess": "Rani pristup novim značajkama",
-    "premiumPerkCustomThemes": "Prilagođene teme",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "Do 4K/60fps",
+    "storePlutoniumPriceLine": "{monthly} ili {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/mj.",
+    "storePlutoniumYearSuffix": "/god.",
+    "storePlutoniumPriceOr": "ili",
+    "storePlutoniumEmojiTitle": "Vaši emojiji posvuda",
+    "storePlutoniumEmojiBody": "Koristite prilagođene emojije i naljepnice iz bilo koje svoje zajednice u svakom chatu i zajednici u kojoj se nalazite.",
+    "storePlutoniumProfileTitle": "Profil koji se ističe",
+    "storePlutoniumProfileBody": "Nabavite animirani avatar i naslovnu sliku, značku pretplatnika, željenu četveroznamenkastu oznaku nakon korisničkog imena* i zaseban profil za svaku zajednicu.",
+    "storePlutoniumFilesTitle": "Šaljite datoteke do 500 MB",
+    "storePlutoniumFilesBody": "Dijelite videozapise pune duljine i velike datoteke bez prethodnog smanjivanja. Besplatni računi mogu slati do 25 MB.",
+    "storePlutoniumCompareTitle": "Usporedite besplatni plan i Plutonium",
+    "storePlutoniumCompareMobileNote": "Nisu sve ove značajke dostupne u mobilnoj aplikaciji. Neke su dostupne samo na stolnom računalu.",
+    "storePlutoniumNotAvailable": "Nije dostupno",
+    "storePlutoniumAvailable": "Dostupno",
+    "storePlutoniumCompareTag": "Odaberite četveroznamenkasti broj nakon vašeg korisničkog imena*",
+    "storePlutoniumCompareProfile": "Zaseban profil za svaku zajednicu",
+    "storePlutoniumCompareBadge": "Značka pretplatnika na vašem profilu",
+    "storePlutoniumCompareBackgrounds": "Pozadine videopoziva koje možete spremiti",
+    "storePlutoniumCompareCommunities": "Zajednice kojima se možete pridružiti",
+    "storePlutoniumCompareCharacters": "Znakova u jednoj poruci",
+    "storePlutoniumCompareBookmarks": "Poruke koje možete označiti",
+    "storePlutoniumCompareUpload": "Najveća datoteka koju možete prenijeti",
+    "storePlutoniumCompareSavedMedia": "Medijske stavke koje možete spremiti za kasnije",
+    "storePlutoniumCompareAnimatedEmoji": "Koristite animirane emojije u porukama",
+    "storePlutoniumCompareCustomEmoji": "Koristite prilagođene emojije i naljepnice u bilo kojoj zajednici",
+    "storePlutoniumCompareVideo": "Kvaliteta videopoziva i dijeljenja zaslona",
+    "storePlutoniumCompareAvatar": "Animirani avatar i naslovna slika profila",
+    "storePlutoniumCompareEarlyAccess": "Rani pristup novim značajkama",
+    "storePlutoniumCompareThemes": "Prilagođene teme za aplikaciju",
+    "storePlutoniumVideoFree": "Do 720p pri 30 FPS",
+    "storePlutoniumVideoPlutonium": "Do 4K pri 60 FPS",
+    "storePlutoniumTagFootnote": "Možete odabrati samo oznaku koju nitko drugi s istim korisničkim imenom već nema. Korisnička imena ne razlikuju velika i mala slova, tako da se Mina#4821 i mina#4821 smatraju istima. Oznaka #0000 rezervirana je za članove Fluxer Visionary.",
+    "storePlutoniumLearnVisionary": "Saznajte više o programu Visionary.",
+    "storePlutoniumDonatePrompt": "Želite li samo podržati razvoj Fluxera otvorenog koda? ",
+    "storePlutoniumDonateLink": "Donirajte umjesto toga.",
+    "storePlutoniumHighlightsLead": "Pretplatom financirate Fluxer i otključavate",
+    "storePlutoniumHighlightEmoji": "Prilagođeni emojiji i naljepnice u bilo kojem chatu",
+    "storePlutoniumHighlightProfile": "Animirani profil, značka i odabrani četveroznamenkasti broj",
+    "storePlutoniumHighlightFiles": "Prijenosi do 500 MB",
+    "storePlutoniumHighlightMessages": "Šaljite poruke do 4000 znakova",
+    "storePlutoniumHighlightCommunityProfile": "Zaseban profil za svaku zajednicu",
+    "storePlutoniumHighlightsMore": "I više",
+    "storePlutoniumRenewsThroughPlay": "Automatski se obnavlja putem Google Playa dok ne otkažete.",
+    "storePlutoniumRenewsThroughAppStore": "Automatski se obnavlja putem App Storea dok ne otkažete.",
+    "storePlutoniumAlreadySubscribed": "Već imate pretplatu na Fluxer Plutonium.",
+    "storePlutoniumSavePercent": "Uštedite {percent}%",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "Primili smo kupnju. Plutonium će se prikazati ovdje nakon aktivacije.",
+    "storePlutoniumUnavailable": "Pretplate u aplikaciji još nisu dostupne na ovom uređaju.",
+    "storePlutoniumVisionaryStatus": "Visionary već uključuje trajni pristup, tako da ponavljajuća pretplata nije potrebna.",
     "userSettingsNavPrivacyDashboard": "Nadzorna ploča privatnosti",
     "@userSettingsNavPrivacyDashboard": {
         "description": "User settings navigation item for the privacy dashboard."
@@ -12028,16 +11093,6 @@
     "@audioAndVideoMicTestStopLabel": {
         "description": "Button label to stop the microphone test."
     },
-    "audioAndVideoMicTestPermissionRequired": "{productName} treba pristup mikrofonu za testiranje vašeg unosa.",
-    "@audioAndVideoMicTestPermissionRequired": {
-        "description": "Shown when microphone permission is required for the mic test.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
     "audioAndVideoCameraLabel": "Kamera",
     "@audioAndVideoCameraLabel": {
         "description": "Label for camera device selection."
@@ -12082,39 +11137,9 @@
     "@audioAndVideoFrameRate60Label": {
         "description": "Screen share frame rate option for 60 FPS."
     },
-    "audioAndVideoHigherQualityRequiresPremium": "1080p i 60 FPS zahtijevaju {premiumProductName}.",
-    "@audioAndVideoHigherQualityRequiresPremium": {
-        "description": "Note shown when higher video quality options require premium.",
-        "placeholders": {
-            "premiumProductName": {
-                "type": "String",
-                "example": "Plutonium"
-            }
-        }
-    },
     "audioAndVideoInstanceVideoQualityLimit": "Ovo trenutno dopušta dijeljenje zaslona do 720p pri 30 FPS.",
     "@audioAndVideoInstanceVideoQualityLimit": {
         "description": "Note shown when instance limits block higher screen share quality."
-    },
-    "audioAndVideoMicrophonePermissionRequired": "Aplikacija {productName} treba pristup mikrofonu za prikaz vaših uređaja.",
-    "@audioAndVideoMicrophonePermissionRequired": {
-        "description": "Shown when microphone permission is required to enumerate audio input devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
-    "audioAndVideoCameraPermissionRequired": "Aplikacija {productName} treba pristup kameri za prikaz vaših uređaja.",
-    "@audioAndVideoCameraPermissionRequired": {
-        "description": "Shown when camera permission is required to enumerate video devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
     },
     "audioAndVideoSkipHideOwnCameraConfirmLabel": "Ne pitaj kad skrivam svoju kameru",
     "@audioAndVideoSkipHideOwnCameraConfirmLabel": {
@@ -12153,14 +11178,6 @@
     "notificationsEnableDesktopNotificationsDescription": "Koristi centar za obavijesti OS-a. Za kontrole po kanalu/zajednici, desnom tipkom miša kliknite ikonu zajednice i otvorite postavke obavijesti.",
     "@notificationsEnableDesktopNotificationsDescription": {
         "description": "Description for the enable desktop notifications toggle."
-    },
-    "notificationsEnableBrowserNotificationsLabel": "Omogući obavijesti preglednika",
-    "@notificationsEnableBrowserNotificationsLabel": {
-        "description": "Toggle label for enabling browser notifications."
-    },
-    "notificationsEnableBrowserNotificationsDescription": "Primajte obavijesti kada dobijete poruke. Možda ćete morati dopustiti obavijesti u postavkama preglednika. Za kontrole po kanalu/zajednici desnom tipkom miša kliknite ikonu zajednice i otvorite postavke obavijesti.",
-    "@notificationsEnableBrowserNotificationsDescription": {
-        "description": "Description for the enable browser notifications toggle."
     },
     "notificationsPushInactiveTimeoutLabel": "Istek vremena neaktivnosti push obavijesti",
     "@notificationsPushInactiveTimeoutLabel": {
@@ -12540,10 +11557,6 @@
     "@languageAndTimeLanguageSectionDescription": {
         "description": "Settings section description for interface language preference."
     },
-    "languageAndTimeOpenLanguageSettings": "Otvori postavke jezika",
-    "@languageAndTimeOpenLanguageSettings": {
-        "description": "Button that opens the system per-app language settings."
-    },
     "languageAndTimeTimeFormatSectionTitle": "Format vremena",
     "@languageAndTimeTimeFormatSectionTitle": {
         "description": "Settings section title for time format preference."
@@ -12617,6 +11630,18 @@
     "defaultAppsWebBrowserExternal": "Vanjski preglednik",
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
+    },
+    "userSettingsNavAppIcon": "Ikona aplikacije",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "Ikona aplikacije",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "Odaberite ikonu koja će se prikazati na početnom zaslonu.",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
     },
     "userSettingsNavAdvanced": "Napredno",
     "@userSettingsNavAdvanced": {
@@ -12695,7 +11720,6 @@
     "advancedSettingStripTrackingLabel": "Ukloni parametre praćenja iz URL-ova",
     "advancedSettingStripTrackingDescription": "Automatski uklanja parametre za praćenje iz URL-ova u porukama koje šaljete",
     "advancedSettingTrustAllLinksLabel": "Vjeruj svim vanjskim poveznicama",
-    "advancedSettingTrustAllLinksDescription": "Preskoči upozorenje o vanjskim poveznicama za sve domene",
     "advancedSettingSearchEnginesLabel": "Tražilice",
     "advancedSettingSearchEnginesDescription": "Konfigurirajte pretraživače koji se koriste za odabrani tekst",
     "advancedSettingTranslatorsLabel": "Prevoditelji",
@@ -12751,13 +11775,6 @@
     "advancedSettingHideStreamPreviewLabel": "Sakrij sličicu pretpregleda mog streama",
     "advancedSettingDeveloperModeLabel": "Omogući način rada za razvojne programere",
     "advancedSettingDeveloperModeDescription": "Omogući način rada za razvojne programere",
-    "advancedSettingSearchEngineGoogle": "Google",
-    "advancedSettingSearchEngineDuckDuckGo": "DuckDuckGo",
-    "advancedSettingSearchEngineBing": "Bing",
-    "advancedSettingSearchEngineGoogleLens": "Google Lens",
-    "advancedSettingSearchEngineTinEye": "TinEye",
-    "advancedSettingTranslatorGoogle": "Google prevoditelj",
-    "advancedSettingTranslatorDeepL": "Duboko",
     "advancedSettingDefaultSearchEngineLabel": "Zadana tražilica",
     "advancedSettingDefaultSearchEngineDescription": "Odaberite koja će se tražilica koristiti prema zadanim postavkama prilikom pretraživanja odabranog teksta.",
     "advancedSettingBuiltInSearchEnginesLabel": "Ugrađene tražilice",
@@ -13138,6 +12155,10 @@
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
     },
+    "instanceUrlHelper": "Koristite fluxer.app za službenu instancu ili točan URL samostalno hostirane instance.",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
+    },
     "resetToDefaultInstance": "Vrati na Fluxer",
     "@resetToDefaultInstance": {
         "description": "Tooltip for the button that resets the instance URL to the official Fluxer instance."
@@ -13399,6 +12420,14 @@
     "authHidePassword": "Sakrij lozinku",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "Još radimo na tome…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
+    },
+    "authVerificationFailed": "Nije moguće dovršiti provjeru. Pokušajte ponovno.",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
     },
     "chatLoadingMessages": "Učitavanje poruka",
     "@chatLoadingMessages": {
@@ -13879,10 +12908,6 @@
     "@guildMenuHideMutedChannels": {
         "description": "Guild menu checkbox to hide muted channels."
     },
-    "guildMenuReportCommunity": "Prijavi zajednicu",
-    "@guildMenuReportCommunity": {
-        "description": "Guild menu action to report the community."
-    },
     "guildMenuDebugCommunity": "Otklanjanje pogrešaka zajednice",
     "@guildMenuDebugCommunity": {
         "description": "Guild menu action to open community debug info."
@@ -13928,10 +12953,6 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsCustomInviteUrl": "Prilagođena URL adresa pozivnice",
-    "@guildMenuSettingsCustomInviteUrl": {
-        "description": "Community settings tab for custom invite URLs."
-    },
     "guildMenuSettingsDiscovery": "Otkrivanje",
     "@guildMenuSettingsDiscovery": {
         "description": "Community settings tab for discovery settings."
@@ -13960,17 +12981,9 @@
     "@guildSettingsOverviewIconTitle": {
         "description": "Title for the guild icon section in overview settings."
     },
-    "guildSettingsUploadImage": "Učitaj sliku",
-    "@guildSettingsUploadImage": {
-        "description": "Button label to upload an image in guild settings."
-    },
     "guildSettingsOverviewBannerTitle": "Naslovna slika",
     "@guildSettingsOverviewBannerTitle": {
         "description": "Title for the guild banner section."
-    },
-    "guildSettingsOverviewBannerHint": "Prenesite banner za svoj server.",
-    "@guildSettingsOverviewBannerHint": {
-        "description": "Hint text for guild banner upload."
     },
     "guildSettingsOverviewNameTitle": "Naziv",
     "@guildSettingsOverviewNameTitle": {
@@ -13979,22 +12992,6 @@
     "guildSettingsOverviewNameHint": "Moja super zajednica",
     "@guildSettingsOverviewNameHint": {
         "description": "Hint for the guild name field."
-    },
-    "guildSettingsOverviewStatsTitle": "Statistika",
-    "@guildSettingsOverviewStatsTitle": {
-        "description": "Title for guild statistics section."
-    },
-    "guildSettingsOverviewMembers": "Članovi",
-    "@guildSettingsOverviewMembers": {
-        "description": "Label for member count in overview."
-    },
-    "guildSettingsOverviewOnline": "Na mreži",
-    "@guildSettingsOverviewOnline": {
-        "description": "Label for online count in overview."
-    },
-    "guildSettingsRolesDescription": "Upotrijebi uloge za grupiranje članova i dodjeljivanje dopuštenja.",
-    "@guildSettingsRolesDescription": {
-        "description": "Description for the roles settings tab."
     },
     "guildSettingsCreateRole": "Stvori ulogu",
     "@guildSettingsCreateRole": {
@@ -14094,14 +13091,6 @@
     "@guildSettingsRolesComfyLayout": {
         "description": "Tooltip when permission list is in dense layout."
     },
-    "guildSettingsRolesSwitchToDenseLayout": "Prebaci na zgusnuti izgled",
-    "@guildSettingsRolesSwitchToDenseLayout": {
-        "description": "Aria label for switching to dense layout."
-    },
-    "guildSettingsRolesSwitchToComfyLayout": "Prebaci na ugodan izgled",
-    "@guildSettingsRolesSwitchToComfyLayout": {
-        "description": "Aria label for switching to comfy layout."
-    },
     "guildSettingsRolesSingleColumn": "Jedan stupac",
     "@guildSettingsRolesSingleColumn": {
         "description": "Tooltip when permission list is in two-column layout."
@@ -14110,21 +13099,9 @@
     "@guildSettingsRolesTwoColumns": {
         "description": "Tooltip when permission list is in single-column layout."
     },
-    "guildSettingsRolesSwitchToSingleColumn": "Prebaci na jedan stupac",
-    "@guildSettingsRolesSwitchToSingleColumn": {
-        "description": "Aria label for switching to single column."
-    },
-    "guildSettingsRolesSwitchToTwoColumns": "Prebaci na dva stupca",
-    "@guildSettingsRolesSwitchToTwoColumns": {
-        "description": "Aria label for switching to two columns."
-    },
     "guildSettingsRolesNoPermissionsFound": "Nema pronađenih dopuštenja",
     "@guildSettingsRolesNoPermissionsFound": {
         "description": "Empty state when permission search has no matches."
-    },
-    "guildSettingsRolesCustomHoistOrder": "Prilagođeni redoslijed isticanja",
-    "@guildSettingsRolesCustomHoistOrder": {
-        "description": "Button to enter custom hoist order mode."
     },
     "guildSettingsRolesHoistOrder": "Redoslijed isticanja",
     "@guildSettingsRolesHoistOrder": {
@@ -14141,10 +13118,6 @@
     "guildSettingsRolesNoHoistedRoles": "Nema istaknutih uloga. Omogućite opciju \"Prikaži ovu ulogu zasebno\" za ulogu da biste je vidjeli ovdje.",
     "@guildSettingsRolesNoHoistedRoles": {
         "description": "Empty state when no roles are hoisted."
-    },
-    "guildSettingsRolesLockedTooltip": "Ne možete urediti ovu ulogu jer je to vaša najviša uloga ili je iznad vas",
-    "@guildSettingsRolesLockedTooltip": {
-        "description": "Tooltip on locked role rows."
     },
     "guildSettingsRolesNeedManageRolesPermission": "Potrebna ti je dozvola \"{permission}\" za uređivanje ovih dozvola",
     "@guildSettingsRolesNeedManageRolesPermission": {
@@ -14252,10 +13225,6 @@
     "permissionCategoryAudioVideo": "Audio i video",
     "@permissionCategoryAudioVideo": {
         "description": "Permission category label."
-    },
-    "permissionUnknown": "Nepoznato dopuštenje",
-    "@permissionUnknown": {
-        "description": "Fallback permission label."
     },
     "permissionAdministrator": "Administrator",
     "@permissionAdministrator": {
@@ -14525,30 +13494,9 @@
     "@permissionSetVoiceRegion": {
         "description": "Permission name."
     },
-    "guildSettingsEmojiSlotInfo": "Iskorišteno je {staticCount} statičnih, {animatedCount} animiranih mjesta za emotikone",
-    "@guildSettingsEmojiSlotInfo": {
-        "description": "Emoji slot usage summary.",
-        "placeholders": {
-            "staticCount": {
-                "type": "int"
-            },
-            "animatedCount": {
-                "type": "int"
-            }
-        }
-    },
     "guildSettingsEmojiEmpty": "Još nema prilagođenih emotikona.",
     "@guildSettingsEmojiEmpty": {
         "description": "Empty state for emoji settings."
-    },
-    "guildSettingsStickersSlotInfo": "Preneseno {count} naljepnica",
-    "@guildSettingsStickersSlotInfo": {
-        "description": "Sticker slot usage summary.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsStickersEmpty": "Još nema prilagođenih naljepnica.",
     "@guildSettingsStickersEmpty": {
@@ -14594,8 +13542,6 @@
     "guildSettingsVerificationMediumDescription": "Zahtijeva potvrđenu adresu e-pošte i račun star najmanje 5 minuta.",
     "guildSettingsVerificationHigh": "Visoka",
     "guildSettingsVerificationHighDescription": "Zahtijeva sve što i srednja razina te članstvo u zajednici od najmanje 10 minuta.",
-    "guildSettingsVerificationHighest": "Vrlo visoka",
-    "guildSettingsVerificationHighestDescription": "Zahtijeva potvrđeni broj telefona.",
     "guildSettingsAuditLogDescription": "Pratite radnje moderatora u cijeloj zajednici.",
     "@guildSettingsAuditLogDescription": {
         "description": "Subtitle under the activity-log page title."
@@ -14623,14 +13569,6 @@
     "guildSettingsAuditLogUnknownUser": "Nepoznat korisnik",
     "@guildSettingsAuditLogUnknownUser": {
         "description": "Fallback avatar label when the acting user is unavailable."
-    },
-    "guildSettingsAuditLogLoadError": "Došlo je do pogreške pri učitavanju evidencije aktivnosti.",
-    "@guildSettingsAuditLogLoadError": {
-        "description": "Generic error shown when fetching log entries fails."
-    },
-    "guildSettingsAuditLogLoadErrorTitle": "Nije moguće učitati evidenciju aktivnosti",
-    "@guildSettingsAuditLogLoadErrorTitle": {
-        "description": "Error-state title when fetching log entries failed."
     },
     "guildSettingsAuditLogReason": "Razlog",
     "@guildSettingsAuditLogReason": {
@@ -15602,14 +14540,6 @@
     "@auditLogOptionPermanentMembership": {
         "description": "Audit log option detail sentence."
     },
-    "guildSettingsLoadMore": "Učitaj više",
-    "@guildSettingsLoadMore": {
-        "description": "Button to load more audit log entries."
-    },
-    "guildSettingsLoadingMore": "Učitavanje...",
-    "@guildSettingsLoadingMore": {
-        "description": "Loading state for pagination."
-    },
     "guildSettingsWebhooksDescription": "Pregledajte sve webhookove konfigurirane u vašoj zajednici i upravljajte njima.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
@@ -15656,42 +14586,9 @@
     "@guildSettingsUnknownChannel": {
         "description": "Fallback label when a webhook channel name is unavailable."
     },
-    "guildSettingsCopyUrl": "Kopiraj URL",
-    "@guildSettingsCopyUrl": {
-        "description": "Tooltip to copy a URL."
-    },
     "guildSettingsCopiedUrl": "URL kopiran u međuspremnik",
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
-    },
-    "guildSettingsDeleteWebhook": "Izbriši webhook",
-    "@guildSettingsDeleteWebhook": {
-        "description": "Tooltip to delete a webhook."
-    },
-    "guildSettingsVanityUrlDescription": "Postavite prilagođenu poveznicu za pozivnicu za svoj poslužitelj.",
-    "@guildSettingsVanityUrlDescription": {
-        "description": "Description for vanity URL tab."
-    },
-    "guildSettingsVanityUrlHint": "my-server",
-    "@guildSettingsVanityUrlHint": {
-        "description": "Hint for vanity URL input."
-    },
-    "guildSettingsSave": "Spremi",
-    "@guildSettingsSave": {
-        "description": "Generic save button label."
-    },
-    "guildSettingsVanityUrlUsageTitle": "Upotreba",
-    "@guildSettingsVanityUrlUsageTitle": {
-        "description": "Title for vanity URL usage section."
-    },
-    "guildSettingsVanityUrlUses": "{count} upotreba",
-    "@guildSettingsVanityUrlUses": {
-        "description": "Vanity URL usage count.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsDiscoveryDescription": "Uvrstite svoju zajednicu u Otkrivanje kako bi je drugi mogli pronaći i pridružiti joj se.",
     "@guildSettingsDiscoveryDescription": {
@@ -15877,10 +14774,6 @@
     "@guildSettingsDiscoveryWithdrawErrorDescription": {
         "description": "Error modal body when withdrawing a discovery application fails."
     },
-    "guildSettingsMembersDescription": "Pretražite i upravljajte članovima poslužitelja.",
-    "@guildSettingsMembersDescription": {
-        "description": "Description for members tab."
-    },
     "guildSettingsMembersSearchHint": "Pretražite po korisničkom imenu ili ID-u",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field on the community members page."
@@ -15945,10 +14838,6 @@
     },
     "guildMembersColumnRoles": "Uloge",
     "@guildMembersColumnRoles": {
-        "description": "Table column header on the community members page."
-    },
-    "guildMembersColumnActions": "Radnje",
-    "@guildMembersColumnActions": {
         "description": "Table column header on the community members page."
     },
     "guildMembersFilterMemberSince": "Filtriraj po datumu učlanjenja",
@@ -16035,23 +14924,6 @@
     "@guildMembersIndexing": {
         "description": "Banner shown while guild members are being indexed."
     },
-    "guildMembersGoToPage": "Idi na stranicu",
-    "@guildMembersGoToPage": {
-        "description": "Pagination jump label on the community members page."
-    },
-    "guildMembersGoToPageItem": "Idi na stranicu {page}",
-    "@guildMembersGoToPageItem": {
-        "description": "Accessibility label for a pagination page button.",
-        "placeholders": {
-            "page": {
-                "type": "int"
-            }
-        }
-    },
-    "guildMembersJumpToPage": "Skoči na stranicu",
-    "@guildMembersJumpToPage": {
-        "description": "Label for pagination jump input on the community members page."
-    },
     "guildMembersJoinSourceCreator": "Osnivač zajednice",
     "@guildMembersJoinSourceCreator": {
         "description": "Join method label on the community members page."
@@ -16128,22 +15000,9 @@
             }
         }
     },
-    "guildMembersJoinedDaysAgo": "{count, plural, one {prije 1 dan} other {prije # dana}}",
-    "@guildMembersJoinedDaysAgo": {
-        "description": "Relative join time on the community members page.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
     "guildMembersChannelListLabel": "Članovi",
     "@guildMembersChannelListLabel": {
         "description": "Label for the Members item at the top of the guild channel list."
-    },
-    "guildMembersChannelListSelected": "Članovi, odabrano",
-    "@guildMembersChannelListSelected": {
-        "description": "Accessibility label when the Members channel list item is selected."
     },
     "guildSettingsInvitesTitle": "Pozivnice",
     "@guildSettingsInvitesTitle": {
@@ -16274,27 +15133,6 @@
     "@guildSettingsInvitesRevokeFailedDescription": {
         "description": "Error description when revoking an invite fails."
     },
-    "guildSettingsInviteUses": "{uses} / {maxUses} upotreba",
-    "@guildSettingsInviteUses": {
-        "description": "Invite usage count.",
-        "placeholders": {
-            "uses": {
-                "type": "int"
-            },
-            "maxUses": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsInviteExpires": "Istječe {date}",
-    "@guildSettingsInviteExpires": {
-        "description": "Invite expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBansDescription": "Pregledajte zabranjene korisnike i upravljajte njima.",
     "@guildSettingsBansDescription": {
         "description": "Description for bans tab."
@@ -16307,30 +15145,9 @@
     "@guildSettingsBansEmpty": {
         "description": "Empty state for bans."
     },
-    "guildSettingsBanPermanent": "Trajna zabrana",
-    "@guildSettingsBanPermanent": {
-        "description": "Label for permanent ban."
-    },
-    "guildSettingsBanExpires": "Istječe {date}",
-    "@guildSettingsBanExpires": {
-        "description": "Ban expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBanExpiresLabel": "Istječe",
     "@guildSettingsBanExpiresLabel": {
         "description": "Label for ban expiration row."
-    },
-    "guildSettingsUnban": "Vrati zabranu",
-    "@guildSettingsUnban": {
-        "description": "Button to unban a user."
-    },
-    "guildSettingsBansLoading": "Učitavanje zabranjenih korisnika",
-    "@guildSettingsBansLoading": {
-        "description": "Loading state for the guild bans list."
     },
     "guildSettingsBansNoSearchResults": "Nema zabrana koje odgovaraju vašoj pretrazi.",
     "@guildSettingsBansNoSearchResults": {
@@ -16374,10 +15191,6 @@
             }
         }
     },
-    "guildSettingsBansLoadError": "Nismo mogli učitati zabrane. Pokušajte ponovno.",
-    "@guildSettingsBansLoadError": {
-        "description": "Error when loading the guild bans list fails."
-    },
     "guildSettingsRevokeBanError": "Nije moguće opozvati zabranu. Pokušajte ponovno.",
     "@guildSettingsRevokeBanError": {
         "description": "Error when revoking a ban fails."
@@ -16402,7 +15215,6 @@
     "@guildSettingsCategoryPeople": {
         "description": "Sidebar category for members, invites, and bans."
     },
-    "guildSettingsOverviewDescription": "Upravljajte profilom svoje zajednice, kanalima i zadanim postavkama.",
     "guildSettingsOverviewBrandingTitle": "Brendiranje",
     "guildSettingsOverviewBrandingDescription": "Ažurirajte svoju ikonu, naziv, banner i pozadinu pozivnice",
     "@guildSettingsOverviewBrandingDescription": {
@@ -16421,7 +15233,6 @@
     },
     "guildSettingsOverviewNotificationsTitle": "Zadane obavijesti",
     "guildSettingsOverviewNotificationsLargeGuild": "Zajednice s više od 250 ljudi prisilno se prebacuju na postavku \"samo spominjanja\". Vaša je izvorna postavka sačuvana i bit će vraćena ako zajednica padne ispod 250 članova.",
-    "guildSettingsOverviewAdvancedTitle": "Napredno",
     "guildSettingsOverviewFlexibleNames": "Dopusti fleksibilne nazive tekstualnih kanala",
     "guildSettingsOverviewHideOwnerCrown": "Sakrij krunu vlasnika zajednice",
     "guildSettingsOverviewDetachedBanner": "Odvojeni natpis",
@@ -16447,10 +15258,6 @@
     "guildSettingsOverviewEmbedSplashTitle": "Pozadina ugrađenog chata",
     "@guildSettingsOverviewEmbedSplashTitle": {
         "description": "Title for embed splash upload section."
-    },
-    "guildSettingsOverviewEmbedSplashHint": "Prikazuje se u pozivnicama u chatu.",
-    "@guildSettingsOverviewEmbedSplashHint": {
-        "description": "Note shown when uploading chat embed background."
     },
     "guildSettingsOverviewUploadBackground": "Učitaj pozadinu",
     "@guildSettingsOverviewUploadBackground": {
@@ -16617,8 +15424,6 @@
     "@guildSettingsOverviewEmbedSplashUploadHint": {
         "description": "Upload requirements for chat embed background images."
     },
-    "guildSettingsModerationDescription": "Konfigurirajte postavke provjere, filtriranja sadržaja i sadržaja za odrasle.",
-    "guildSettingsModerationDiscoveryNotice": "Zajednicama na popisu za otkrivanje dostupne su ograničene opcije moderiranja.",
     "guildSettingsModerationContentFilterTitle": "Filtriranje sadržaja",
     "guildSettingsModerationContentFilterDescription": "Poruke se automatski provjeravaju radi otkrivanja eksplicitnog sadržaja u kanalima koji nisu označeni za sadržaj za odrasle.",
     "guildSettingsModerationContentFilterDiscoveryNote": "Zajednice navedene u Otkrivanju moraju skenirati sve članove. Ova se postavka ne može promijeniti dok je Otkrivanje omogućeno.",
@@ -16628,8 +15433,6 @@
     "guildSettingsContentFilterNoRoleDescription": "Preporučeno za većinu zajednica",
     "guildSettingsContentFilterAll": "Filtriraj sve članove",
     "guildSettingsContentFilterAllDescription": "Maksimalna zaštita za prostore prikladne za obitelj",
-    "guildSettingsModerationMatureOff": "Isključeno",
-    "guildSettingsModerationMatureOn": "Uključeno",
     "guildSettingsContentWarningToggle": "Prikaži upozorenje o sadržaju",
     "@guildSettingsContentWarningToggle": {
         "description": "Switch label for the community content warning setting."
@@ -16649,7 +15452,6 @@
     "guildSettingsModeration2faTitle": "Obvezna 2FA",
     "guildSettingsModeration2faDescription": "Zahtijevajte dvostruku autentifikaciju za moderatore prije nego što mogu zabraniti, izbaciti, privremeno isključiti ili ukloniti poruke.",
     "guildSettingsModeration2faSwitchLabel": "Zahtijevaj 2FA za radnje moderiranja",
-    "guildSettingsModeration2faOwnerOnlyTooltip": "Samo vlasnik zajednice može promijeniti ovu postavku",
     "guildSettingsModeration2faEnableFirstTooltip": "Omogućite 2FA na svom računu da biste promijenili ovu postavku",
     "guildSettingsEmojiSearchHint": "Pretražite emojije",
     "guildSettingsEmojiUploadTitle": "Učitaj emoji",
@@ -16657,7 +15459,6 @@
     "guildSettingsEmojiDropZone": "Povucite i ispustite datoteke emojija ovdje",
     "guildSettingsEmojiLoadFailed": "Učitavanje emojija nije uspjelo. Pokušajte ponovno kasnije.",
     "guildSettingsEmojiSearchEmpty": "Nema emojija koji odgovaraju vašoj pretrazi.",
-    "guildSettingsEmojiNoSlots": "Nema dostupnih mjesta za emojije",
     "guildSettingsEmojiSlotsFull": "Dosegli ste maksimalan broj emojija. Izbrišite neke postojeće emojije kako biste oslobodili prostor.",
     "guildSettingsEmojiUploadRequirements": "Nazivi emojija moraju imati najmanje 2 znaka i mogu sadržavati slova, brojeve i podvlake. Emojiji moraju biti manji od {maxSize}. Statične slike automatski se smanjuju na 128x128 piksela i komprimiraju. Animirani emojiji i SVG-ovi moraju već zadovoljavati ograničenje.",
     "@guildSettingsEmojiUploadRequirements": {
@@ -16667,24 +15468,11 @@
             }
         }
     },
-    "guildSettingsEmojiUploadingTitle": "Učitavanje emojija",
-    "guildSettingsEmojiUploadingBody": "Preneseno {count, plural, one {# emotikon} other {# emotikona}}. Ovo može potrajati malo.",
-    "@guildSettingsEmojiUploadingBody": {
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsEmojiUploadFailed": "Prijenos emojija nije uspio. Pokušajte ponovno.",
     "guildSettingsEmojiSomeFailedTitle": "Neki emojiji nisu mogli biti dodani",
-    "guildSettingsEmojiSomeFailedBody": "Pregledajte ove datoteke i pokušajte ponovno s manjim ili jednostavnijim slikama.",
     "guildSettingsEmojiRenameTitle": "Preimenuj emoji",
     "guildSettingsEmojiRenameHint": "2 – 32 znaka, slova, brojevi, podvlake.",
-    "guildSettingsEmojiColumnEmoji": "Emojii",
     "guildSettingsEmojiColumnName": "Naziv",
     "guildSettingsEmojiColumnUploader": "Učitao/la",
-    "guildSettingsEmojiUnknownUploader": "Nepoznato",
     "guildSettingsEmojiDeleteTitle": "Izbriši emoji",
     "guildSettingsEmojiDeleteBody": "Izbrisati :{name}:? Ne može se poništiti.",
     "@guildSettingsEmojiDeleteBody": {
@@ -16699,15 +15487,7 @@
     "guildSettingsEmojiNameTooLong": "Naziv emojija mora imati najviše 32 znaka",
     "guildSettingsEmojiInvalidNameTitle": "Nevažeći naziv emojija",
     "guildSettingsEmojiRenameFailedTitle": "Nije moguće preimenovati ovaj emoji",
-    "guildSettingsEmojiRenameFailedBody": "Naziv je vraćen na prethodno stanje. Pokušajte ponovno za trenutak.",
-    "guildSettingsEmojiGoneTitle": "Ovaj emoji više ne postoji",
-    "guildSettingsEmojiGoneBody": "Možda je izbrisan. Naziv je vraćen na prethodno stanje.",
-    "guildSettingsEmojiNoPermissionRenameTitle": "Ne možete preimenovati ovaj emoji",
-    "guildSettingsEmojiNoPermissionRenameBody": "Nemate dopuštenje za preimenovanje ovog emojija. Naziv je vraćen na prethodni.",
-    "guildSettingsEmojiRateLimitedTitle": "Usporite malo",
-    "guildSettingsEmojiRateLimitedBody": "Pričekajte trenutak pa pokušajte ponovno preimenovati.",
     "guildSettingsEmojiDeleteFailedTitle": "Nije moguće izbrisati ovaj emoji",
-    "guildSettingsEmojiDeleteNoPermissionTitle": "Ne možete izbrisati ovaj emoji",
     "guildSettingsCloneEmojiTitle": "Dopusti drugima kloniranje tvojih emojija",
     "guildSettingsCloneEmojiDescription": "Kada je omogućeno, članovi drugih zajednica mogu koristiti prečac \"Kloniraj\" unutar aplikacije za vaše prilagođene emojije. To ih ne sprječava da sami spreme sliku i prenesu je.",
     "guildSettingsCloneStickerTitle": "Dopusti drugima kloniranje tvojih naljepnica",
@@ -16748,8 +15528,6 @@
     "guildSettingsStickersLoadFailedTitle": "Učitavanje naljepnica nije uspjelo",
     "guildSettingsStickersLoadFailedBody": "Došlo je do pogreške prilikom učitavanja naljepnica. Pokušajte ponovno.",
     "guildSettingsStickersSearchEmpty": "Nema naljepnica koje odgovaraju vašoj pretrazi.",
-    "guildSettingsStickersEmptySearch": "Nema pronađenih naljepnica",
-    "guildSettingsStickerNoSlots": "Nema dostupnih mjesta za naljepnice",
     "guildSettingsStickerSlotsFull": "Dosegli ste maksimalan broj naljepnica. Izbrišite neke postojeće naljepnice kako biste oslobodili prostor.",
     "guildSettingsStickerUploadRequirements": "Naljepnice se spremaju u veličini 320x320 piksela i moraju biti manje od {maxSize}. Statične slike automatski se smanjuju i komprimiraju. Animirane naljepnice i SVG-ovi već moraju biti unutar ograničenja.",
     "@guildSettingsStickerUploadRequirements": {
@@ -16759,7 +15537,6 @@
             }
         }
     },
-    "guildSettingsStickerUnsupportedTitle": "Nepodržana datoteka naljepnice",
     "guildSettingsStickerAddTitle": "Dodaj naljepnicu",
     "guildSettingsStickerEditTitle": "Uredi naljepnicu",
     "guildSettingsStickerNameLabel": "Naziv",
@@ -16784,8 +15561,6 @@
     "guildSettingsStickerNameTooLong": "Naziv mora imati najviše 30 znakova",
     "guildSettingsStickerDescriptionTooLong": "Opis mora imati najviše 500 znakova",
     "guildSettingsStickerCreateFailedTitle": "Nije moguće stvoriti ovu naljepnicu",
-    "guildSettingsStickerTooLargeTitle": "Naljepnica je prevelika",
-    "guildSettingsStickerCompressFailedTitle": "Naljepnica se nije mogla dovoljno komprimirati",
     "guildSettingsStickerDeleteTitle": "Izbriši naljepnicu",
     "guildSettingsStickerDeleteBody": "Izbrisati \"{name}\"? Ne može se poništiti.",
     "@guildSettingsStickerDeleteBody": {
@@ -16797,7 +15572,6 @@
     },
     "guildSettingsStickerPurgeLabel": "Izbriši ovu naljepnicu iz pohrane i CDN-a",
     "guildSettingsStickerDeleteFailedTitle": "Nije moguće izbrisati ovu naljepnicu",
-    "guildSettingsStickerDeleteNoPermissionTitle": "Ne možeš izbrisati ovu naljepnicu",
     "guildSettingsWebhooksInfo": "Da biste stvorili webhook, otvorite {channelSettingsPath}. Još uvijek možete uređivati i organizirati sve postojeće webhookove ovdje.",
     "@guildSettingsWebhooksInfo": {
         "description": "Info box on the guild webhooks tab.",
@@ -16807,8 +15581,6 @@
             }
         }
     },
-    "guildSettingsVanityUrlWarning": "Vaša prilagođena URL adresa neće raditi ako barem jedan kanal nije vidljiv svima.",
-    "guildSettingsVanityUrlRemove": "Ukloni",
     "guildSettingsBannedUsersTitle": "Zabranjeni korisnici",
     "guildSettingsInvitesTableInviter": "Pozivatelj",
     "guildSettingsInvitesTableChannel": "Kanal",
@@ -17041,6 +15813,40 @@
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
+    "assistantNeedsLogin": "Prvo otvorite Fluxer i prijavite se.",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "Niste u pozivu.",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "Fluxer to nije mogao pronaći.",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "Izravne poruke su onemogućene na ovoj instanci.",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "Fluxer to nije mogao dovršiti.",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "Mikrofon utišan.",
+    "assistantOkUnmuted": "Mikrofon uključen.",
+    "assistantOkLeftVoice": "Napustili ste glasovni kanal.",
+    "assistantOkJoinedVoice": "Pridružujem se glasovnom kanalu.",
+    "assistantOkStartedCall": "Pokrećem poziv.",
+    "assistantOkStatusSet": "Status postavljen na {status}.",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "Otvaram Fluxer.",
     "lookAndFeelChatWallpaperTitle": "Pozadina chata",
     "@lookAndFeelChatWallpaperTitle": {
         "description": "Look and Feel section title for chat wallpaper presets."
@@ -17064,6 +15870,10 @@
     "lookAndFeelChatWallpaperCustomLabel": "Prilagođena slika",
     "@lookAndFeelChatWallpaperCustomLabel": {
         "description": "Chat wallpaper option that picks an image from the gallery."
+    },
+    "lookAndFeelChatWallpaperStarfieldLabel": "Zvjezdano polje",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
     },
     "lookAndFeelChatWallpaperColorLabel": "Boja {id}",
     "@lookAndFeelChatWallpaperColorLabel": {
@@ -17133,6 +15943,15 @@
         "description": "Empty-state body. apiName is the product API display name.",
         "placeholders": {
             "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "Stvoreno {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
                 "type": "String"
             }
         }
@@ -17317,6 +16136,10 @@
     "@applicationsOauthBuilderTitle": {
         "description": "Section title for the authorize URL builder."
     },
+    "applicationsOauthBuilderDescription": "Izradite URL za autorizaciju s opsezima i dopuštenjima.",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
     "applicationsScopes": "Opsezi",
     "@applicationsScopes": {
         "description": "Label for OAuth2 scope checkboxes."
@@ -17349,6 +16172,10 @@
     "@applicationsAuthorizeUrlPlaceholder": {
         "description": "Placeholder when the authorize URL cannot be built yet."
     },
+    "applicationsCopyAuthorizeUrl": "Kopiraj URL za autorizaciju",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
     "applicationsCopiedUrl": "URL kopiran u međuspremnik",
     "@applicationsCopiedUrl": {
         "description": "Toast after copying the authorize URL."
@@ -17368,6 +16195,15 @@
     "applicationsDelete": "Izbriši aplikaciju",
     "@applicationsDelete": {
         "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "Jeste li sigurni da želite izbrisati {name}? Ova se radnja ne može poništiti. Svi povezani podaci, uključujući korisnika bota, bit će trajno izbrisani.",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     },
     "applicationsDeleteFailed": "Nije moguće izbrisati aplikaciju",
     "@applicationsDeleteFailed": {
@@ -17457,6 +16293,10 @@
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
     },
+    "voiceOutputRouteEarpiece": "Slušalica",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
     "voiceOutputRouteHeadset": "Slušalice",
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
@@ -17464,6 +16304,14 @@
     "doubleTapReactionEdit": "Uredi",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "Uredi zadano",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "Odaberite emoji za dvostruki dodir",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
     },
     "chatMessagePinConfirm": "Prikvači",
     "@chatMessagePinConfirm": {
@@ -17477,9 +16325,17 @@
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."
     },
+    "appIconOptionStarfield": "Zvjezdano polje",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
     "appIconOptionSweden": "Švedska",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "Promjena ikone aplikacije nije dostupna na ovom uređaju.",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     },
     "userSettingsLogOutConfirmTitle": "Želite li se odjaviti?",
     "@userSettingsLogOutConfirmTitle": {
@@ -17509,5 +16365,178 @@
     "@guildSettingsCommunityDeleted": {
         "description": "Success toast after a community is deleted."
     },
-    "assistantOkMessageSent": "Poruka poslana."
+    "guildSettingsDeleteCommunityFailed": "Nije bilo moguće izbrisati ovu zajednicu",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantOkMessageSent": "Poruka poslana.",
+    "assistantOkCustomStatusSet": "Prilagođeni status ažuriran.",
+    "assistantOkCustomStatusCleared": "Prilagođeni status obrisan.",
+    "guildNavbarAnnouncementChannel": "Kanal s obavijestima",
+    "guildNavbarAnnouncementChannelDescription": "Objavljujte ažuriranja koja druge zajednice mogu pratiti na svojim kanalima",
+    "channelDetailsAnnouncementChannel": "Kanal s obavijestima",
+    "channelSettingsAnnouncementChannel": "Kanal s obavijestima",
+    "channelSettingsAnnouncementChannelDescription": "Omogućuje drugim zajednicama da prate ovaj kanal i primaju kopije onoga što objavite.",
+    "channelSettingsStopAnnouncementTitle": "Prestati biti kanal s obavijestima?",
+    "channelSettingsStopAnnouncementBody": "{count, plural, one{{count} kanal prati ovaj kanal. Pretvaranjem u tekstualni kanal to se praćenje uklanja.} few{{count} kanala prate ovaj kanal. Pretvaranjem u tekstualni kanal ta se praćenja uklanjaju.} other{{count} kanala prati ovaj kanal. Pretvaranjem u tekstualni kanal ta se praćenja uklanjaju.}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "Pretvaranjem ovog kanala u tekstualni kanal uklanjaju se praćenja svih kanala koji ga prate.",
+    "channelSettingsConvertChannel": "Pretvori",
+    "channelSettingsConvertFailed": "Nije moguće pretvoriti ovaj kanal",
+    "channelSettingsChannelHasFollowers": "Ovaj kanal i dalje prate drugi kanali. Uklonite ta praćenja prije pretvaranja.",
+    "channelMenuFollow": "Prati kanal",
+    "channelFollowTitle": "Prati ovaj kanal",
+    "channelFollowBody": "Odaberite gdje će se objavljivati poruke. Praćenje možete prekinuti bilo kada u Postavkama zajednice → Webhookovi.",
+    "channelFollowCommunity": "Zajednica",
+    "channelFollowChannel": "Kanal",
+    "channelFollowAgeWarning": "Ovo je kanal s dobnim ograničenjem. Ažuriranja mogu ići samo na kanale s dobnim ograničenjem.",
+    "channelFollowContentWarning": "Ovaj kanal ima upozorenje o sadržaju. Ažuriranja mogu ići samo na kanale s upozorenjem o sadržaju ili dobnim ograničenjem.",
+    "channelFollowHiddenHint": "Zajednice i kanali kojima ne možete upravljati webhookovima skriveni su.",
+    "channelFollowEmpty": "Ne možete upravljati webhookovima ni u jednoj zajednici. Zamolite administratora da prati ovaj kanal.",
+    "channelFollowSubmit": "Prati",
+    "channelFollowFailed": "Nije moguće pratiti ovaj kanal.",
+    "channelFollowSuccessTitle": "Stižu ažuriranja!",
+    "channelFollowSuccessBody": "Poruke objavljene u {sourceName} prikazivat će se u #{targetName}.",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "U redu!",
+    "channelFollowBarrier": "Pratite ovaj kanal kako biste primali ove objave na kanalu po svom izboru.",
+    "channelHeaderFollow": "Prati kanal",
+    "chatMessagePublish": "Objavi",
+    "chatMessagePublished": "Objavljeno",
+    "chatMessagePublishConfirmTitle": "Objaviti poruku?",
+    "chatMessagePublishConfirmBody": "Ovo šalje kopiju svakom kanalu koji prati ovaj.",
+    "chatMessagePublishedToast": "Poruka objavljena",
+    "chatMessageAlreadyPublished": "Ova je poruka već objavljena.",
+    "chatMessagePublishFailedTitle": "Nije moguće objaviti ovu poruku",
+    "chatMessagePublishFailedBody": "Nešto je pošlo po zlu. Pokušajte ponovno za trenutak.",
+    "chatMessagePublishLimitTitle": "Usporite",
+    "chatMessagePublishLimitBody": "Možete ponovno objaviti za {duration}.",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "Prebrzo objavljujete. Pokušajte ponovno za trenutak.",
+    "chatMessageDeletePublished": "Ovo također uklanja kopije koje su poslane kanalima koji prate ovaj.",
+    "chatMessageEditPublishedTitle": "Uredi objavljenu poruku?",
+    "chatMessageEditPublishedBody": "Ovo ažurira kopije koje su poslane kanalima koji prate ovaj kanal.",
+    "chatMessageEditPublishedSave": "Spremi",
+    "chatMessageEditLimitTitle": "Usporite",
+    "chatMessageEditLimitBody": "Ovu objavljenu poruku možete ponovno urediti za {duration}.",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "Prebrzo uređujete ovu objavljenu poruku. Pokušajte ponovno za trenutak.",
+    "chatMessageOriginalDeleted": "[Izvorna poruka izbrisana]",
+    "userTagCommunity": "Zajednica",
+    "systemFollowAdd": "{username} je postavio/la ovaj kanal da prati {source}. Poruke objavljene tamo pojavit će se ovdje.",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username} je postavio/la ovaj kanal da prati {source}.",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "Još nije poslano pratiteljima.",
+    "publishNudgeHideForever": "Ne prikazuj ponovno",
+    "publishNudgeDismiss": "Odbaci",
+    "channelSettingsFollowedChannels": "Praćeni kanali",
+    "channelSettingsFollowedChannelsDescription": "Kanali s obavijestima koje ovaj kanal prati. Prekinite praćenje kako biste prestali primati kopije.",
+    "guildSettingsFollowedChannelsDescription": "Kanali s obavijestima koje prate kanali u ovoj zajednici.",
+    "channelSettingsFollowedFrom": "Iz {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "Ažuriranja su pauzirana jer izvorni kanal više nije dostupan.",
+    "channelSettingsUnfollowTitle": "Prekinuti praćenje {name}?",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "Ovaj kanal prestat će primati kopije s tog kanala s obavijestima.",
+    "channelSettingsUnfollow": "Prekini praćenje",
+    "crosspostCommunityTitle": "Zajednica",
+    "crosspostGoToCommunity": "Idi na zajednicu",
+    "crosspostJoinCommunity": "Pridruži se zajednici",
+    "crosspostSourceFailed": "Nismo mogli učitati ovu zajednicu. Pokušajte ponovno za trenutak.",
+    "crosspostMembers": "{count} članova",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "{count} na mreži",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, one{{count} minuta} few{{count} minute} other{{count} minuta}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, one{{count} sekunda} few{{count} sekunde} other{{count} sekundi}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "Nepodržana vrsta kanala",
+    "channelUnsupportedBody": "Ova verzija aplikacije ne podržava ovu vrstu kanala.",
+    "channelDetailsUnsupportedChannel": "Nepodržani kanal"
 }

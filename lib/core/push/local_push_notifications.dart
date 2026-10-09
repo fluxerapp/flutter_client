@@ -14,7 +14,6 @@ import 'package:fluxer_app/core/push/push_notification_ids.dart'
         pushNotificationCancelIds;
 import 'package:fluxer_app/core/push/push_notification_media.dart';
 import 'package:fluxer_app/core/push/push_notification_payload.dart';
-import 'package:fluxer_app/core/push/push_notification_permission.dart';
 import 'package:fluxer_app/core/push/push_notification_reply.dart';
 import 'package:fluxer_app/core/push/push_notification_reply_background.dart';
 import 'package:fluxer_app/core/push/push_notification_sound.dart';
@@ -68,7 +67,7 @@ final class LocalPushNotifications {
 
   /// Android launch payload. Does not deliver the tap.
   Future<String?> peekLaunchPayload() async {
-    if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) {
+    if (defaultTargetPlatform != TargetPlatform.android) {
       return null;
     }
     final bool ready = await _initializePlugin();
@@ -83,9 +82,6 @@ final class LocalPushNotifications {
   }) async {
     if (onNotificationTap != null) {
       _onNotificationTap = onNotificationTap;
-    }
-    if (kIsWeb) {
-      return true;
     }
     final bool ready = await _initializePlugin();
     if (!ready) {
@@ -215,10 +211,6 @@ final class LocalPushNotifications {
         );
   }
 
-  Future<void> requestDisplayPermission() async {
-    await requestPushNotificationPermission();
-  }
-
   void _onNotificationResponse(NotificationResponse response) {
     if (response.actionId == kPushReplyActionId) {
       return;
@@ -247,9 +239,6 @@ final class LocalPushNotifications {
   }
 
   Future<void> showReplyFailed() async {
-    if (kIsWeb) {
-      return;
-    }
     if (!_initialized) {
       final bool ready = await ensureInitialized();
       if (!ready) {
@@ -304,9 +293,6 @@ final class LocalPushNotifications {
   }
 
   Future<void> showPushMessage(PushMessage message) async {
-    if (kIsWeb) {
-      return;
-    }
     if (!_initialized) {
       final bool ready = await ensureInitialized();
       if (!ready) {
@@ -386,7 +372,7 @@ final class LocalPushNotifications {
     String channelId, {
     String? upToMessageId,
   }) async {
-    if (kIsWeb || channelId.isEmpty) {
+    if (channelId.isEmpty) {
       return;
     }
     if (!_initialized) {
@@ -499,7 +485,7 @@ final class LocalPushNotifications {
   }
 
   Future<void> cancelAll() async {
-    if (kIsWeb || !_initialized) {
+    if (!_initialized) {
       return;
     }
     try {
@@ -512,9 +498,6 @@ final class LocalPushNotifications {
   }
 
   Future<void> cancelForPayload(Map<String, String> payload) async {
-    if (kIsWeb) {
-      return;
-    }
     if (!_initialized) {
       final bool ready = await ensureInitialized();
       if (!ready) {

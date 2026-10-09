@@ -66,12 +66,6 @@ class MessageWriteBatcher {
     return clock.now().difference(lastFlush) >= _minIntervalBetweenFlushes;
   }
 
-  Future<void> flushChannel(String channelId) async {
-    if (_pendingLastMessageIds.containsKey(channelId)) {
-      await flush();
-    }
-  }
-
   Future<void> flush() async {
     if (_flushing != null) {
       return _flushing!;

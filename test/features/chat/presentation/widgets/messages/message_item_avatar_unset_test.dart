@@ -6,7 +6,10 @@ import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/constants/media_proxy_sizes.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart'
+    show FluxerDatabase;
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -23,6 +26,7 @@ import 'package:fluxer_dart/export.dart';
 
 import '../../../../../helpers/instance_runtime_config_override.dart';
 import '../../../../../helpers/message_item_test_overrides.dart';
+import '../../../../../helpers/open_test_database.dart';
 import '../../../../../helpers/test_l10n.dart';
 
 /// Author snowflake used by every case in this file.
@@ -91,6 +95,7 @@ Widget _app({
   return ProviderScope(
     key: ValueKey<Object>(authorDisplay.avatarUrl ?? 'unset'),
     overrides: [
+      fluxerDatabaseProvider.overrideWithValue(_database),
       instanceRuntimeConfigOverride(),
       ...messageItemTestProviderOverrides(),
       guildUserDisplayProvider((
@@ -109,7 +114,7 @@ Widget _app({
     ],
     child: MaterialApp(
       locale: kTestLocale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,
@@ -135,7 +140,13 @@ CachedNetworkImage _avatarImage(WidgetTester tester) {
   return images.first;
 }
 
+late FluxerDatabase _database;
+
 void main() {
+  setUp(() {
+    _database = openTestDatabase();
+  });
+
   group('MessageItem avatar AVATAR_UNSET', () {
     messageItemTestWidgets(
       'avatar-unset member message requests default avatar URL, not global',

@@ -231,13 +231,6 @@ VoiceJoinEligibility readCachedVoiceJoinEligibility(
   );
 }
 
-Future<VoiceJoinEligibility> readPrivateVoiceConnectPreflight(
-  Ref ref,
-  String channelId,
-) async {
-  return readCachedPrivateVoiceConnectPreflight(ref, channelId);
-}
-
 @riverpod
 Future<VoiceJoinEligibility> voiceJoinEligibility(
   Ref ref,

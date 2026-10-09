@@ -28,55 +28,6 @@ void main() {
     );
   }
 
-  group('shouldIncludeNsfwInMessageSearch', () {
-    test(
-      'is true for an age-restricted community even if the channel is safe',
-      () {
-        expect(
-          shouldIncludeNsfwInMessageSearch(
-            guildIsAgeRestricted: true,
-            contextChannelIsMature: false,
-            filterChannelsAreMature: const <bool>[],
-          ),
-          isTrue,
-        );
-      },
-    );
-
-    test('is true when the current channel is mature in a safe community', () {
-      expect(
-        shouldIncludeNsfwInMessageSearch(
-          guildIsAgeRestricted: false,
-          contextChannelIsMature: true,
-          filterChannelsAreMature: const <bool>[],
-        ),
-        isTrue,
-      );
-    });
-
-    test('is true when an in: channel is mature', () {
-      expect(
-        shouldIncludeNsfwInMessageSearch(
-          guildIsAgeRestricted: false,
-          contextChannelIsMature: false,
-          filterChannelsAreMature: const <bool>[true],
-        ),
-        isTrue,
-      );
-    });
-
-    test('is false for safe communities and channels', () {
-      expect(
-        shouldIncludeNsfwInMessageSearch(
-          guildIsAgeRestricted: false,
-          contextChannelIsMature: false,
-          filterChannelsAreMature: const <bool>[false],
-        ),
-        isFalse,
-      );
-    });
-  });
-
   group('isMatureSearchChannel', () {
     test('uses the server-computed channel nsfw flag', () {
       expect(
@@ -148,14 +99,10 @@ void main() {
       );
     });
 
-    test('maps age-restricted community search onto include_nsfw', () {
+    test('maps included nsfw onto the global search request', () {
       final MessageSearchQuery prepared = applyMatureContentToSearchQuery(
         query(),
-        includeNsfw: shouldIncludeNsfwInMessageSearch(
-          guildIsAgeRestricted: true,
-          contextChannelIsMature: false,
-          filterChannelsAreMature: const <bool>[],
-        ),
+        includeNsfw: true,
       );
 
       expect(buildGlobalSearchMessagesRequest(prepared).includeNsfw, isTrue);

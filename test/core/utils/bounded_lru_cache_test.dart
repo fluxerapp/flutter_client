@@ -21,7 +21,6 @@ void main() {
       final cache = BoundedLruCache<String, int>(capacity: 0)..set('a', 1);
 
       expect(cache.get('a'), isNull);
-      expect(cache.length, 0);
     });
   });
 }

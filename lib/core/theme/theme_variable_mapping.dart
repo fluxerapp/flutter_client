@@ -221,8 +221,20 @@ Color? readThemeColorProperty(FluxerColorTheme theme, String propertyName) {
 String themeColorToCssHex(Color color) {
   String channel(double component) =>
       (component * 255).round().toRadixString(16).padLeft(2, '0');
-  return '#$channel(color.r)$channel(color.g)$channel(color.b)';
+  return '#${channel(color.r)}${channel(color.g)}${channel(color.b)}';
 }
+
+int themeColorToPickerInt(Color color) =>
+    ((color.r * 255).round() << 16) |
+    ((color.g * 255).round() << 8) |
+    (color.b * 255).round();
+
+Color themeColorFromPickerInt(int value) => Color.fromARGB(
+  255,
+  (value >> 16) & 0xFF,
+  (value >> 8) & 0xFF,
+  value & 0xFF,
+);
 
 String resolveCssVariableReferences(
   String value,

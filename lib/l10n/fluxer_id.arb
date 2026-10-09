@@ -32,10 +32,6 @@
     "@retry": {
         "description": "Generic label for retry actions (splash, errors, network, etc.)."
     },
-    "connectingCaps": "CONNECTING",
-    "@connectingCaps": {
-        "description": "Connecting text on the splash screen"
-    },
     "splashConnectionLost": "Koneksi terputus",
     "@splashConnectionLost": {
         "description": "Fallback headline on splash when gateway is unavailable (web parity)."
@@ -301,10 +297,6 @@
             }
         }
     },
-    "ssoRequired": "SSO diperlukan untuk mengakses instance ini.",
-    "@ssoRequired": {
-        "description": "Short sign-in note shown when the instance requires single sign-on."
-    },
     "organizationSsoProvider": "Masuk dengan penyedia single sign-on organisasimu.",
     "@organizationSsoProvider": {
         "description": "Description shown when sign-in is restricted to the configured SSO provider."
@@ -325,10 +317,6 @@
                 "type": "String"
             }
         }
-    },
-    "logInViaBrowser": "Masuk melalui browser",
-    "@logInViaBrowser": {
-        "description": "Secondary login that opens or uses the system browser."
     },
     "needAccountPrompt": "Butuh akun? ",
     "@needAccountPrompt": {
@@ -444,26 +432,9 @@
     "@accountAdd": {
         "description": "Button to add a new account."
     },
-    "accountRemove": "Hapus",
-    "@accountRemove": {
-        "description": "Context menu option to remove a stored account."
-    },
-    "accountRemoveTitle": "Hapus {username}",
-    "@accountRemoveTitle": {
-        "description": "Title for the remove account confirmation modal.",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
     "accountRemoveDescription": "Ini akan menghapus sesi tersimpan untuk akun ini.",
     "@accountRemoveDescription": {
         "description": "Description for the remove account confirmation modal."
-    },
-    "accountRemoveOnlyDescription": "Ini akan menghapus satu-satunya akun yang tersimpan di perangkat ini.",
-    "@accountRemoveOnlyDescription": {
-        "description": "Description when removing the last stored account."
     },
     "accountExpired": "Kedaluwarsa",
     "@accountExpired": {
@@ -805,7 +776,7 @@
     "@recoveryKitDocumentIntro": {
         "description": "Introduction on the saved recovery kit image."
     },
-    "recoveryKitInstanceLabel": "Instans",
+    "recoveryKitInstanceLabel": "Instance",
     "@recoveryKitInstanceLabel": {
         "description": "Label for the server address on the saved recovery kit."
     },
@@ -848,7 +819,7 @@
     },
     "recoveryKitBackupCodesFailed": "Tidak dapat memuat kode cadangan Anda.",
     "@recoveryKitBackupCodesFailed": {
-        "description": "Toast shown when the two-factor backup codes for the recovery kit cannot be loaded."
+        "description": "Toast shown when the two-factor backup codes cannot be loaded, in the recovery kit sheet or from View codes in security settings."
     },
     "recoveryKitIncludeBackupCodes": "Sertakan kode cadangan autentikasi dua faktor saya di gambar yang disimpan",
     "@recoveryKitIncludeBackupCodes": {
@@ -995,10 +966,6 @@
     "@registerYear": {
         "description": "Placeholder for the year select."
     },
-    "registerConsent": "Saya setuju dengan Persyaratan Layanan dan Kebijakan Privasi",
-    "@registerConsent": {
-        "description": "Consent checkbox label for registration (plain text fallback)."
-    },
     "registerConsentPrefix": "Saya setuju dengan ",
     "@registerConsentPrefix": {
         "description": "Text before the Terms of Service link in the consent checkbox."
@@ -1051,10 +1018,6 @@
     "@passkeyTimeout": {
         "description": "Error when passkey authentication times out."
     },
-    "passkeyNotAvailable": "Passkey tidak tersedia untuk aplikasi ini. Masuk dengan email dan sandi saja.",
-    "@passkeyNotAvailable": {
-        "description": "Error for unknown passkey provider errors (e.g. TYPE_UNKNOWN)."
-    },
     "passkeyFailed": "Autentikasi kunci sandi gagal. Coba lagi.",
     "@passkeyFailed": {
         "description": "Generic fallback error for passkey authentication."
@@ -1067,7 +1030,7 @@
     "@errorUnableToSignIn": {
         "description": "Generic fallback error when login fails unexpectedly."
     },
-    "errorServiceUnavailable": "Instans ini sementara tidak tersedia. Coba lagi sebentar lagi.",
+    "errorServiceUnavailable": "Instance ini sementara tidak tersedia. Coba lagi sebentar lagi.",
     "@errorServiceUnavailable": {
         "description": "Login error when the API returns 502, 503, or 504."
     },
@@ -1216,26 +1179,6 @@
     "@inviteAcceptSomeone": {
         "description": "Fallback inviter name when the inviter is unknown."
     },
-    "inviteAcceptEmojiPack": "Paket emoji",
-    "@inviteAcceptEmojiPack": {
-        "description": "Label for an emoji pack invite."
-    },
-    "inviteAcceptStickerPack": "Paket stiker",
-    "@inviteAcceptStickerPack": {
-        "description": "Label for a sticker pack invite."
-    },
-    "inviteAcceptInstallEmojiPack": "Pasang paket emoji",
-    "@inviteAcceptInstallEmojiPack": {
-        "description": "Primary action to install an emoji pack from an invite."
-    },
-    "inviteAcceptInstallStickerPack": "Pasang paket stiker",
-    "@inviteAcceptInstallStickerPack": {
-        "description": "Primary action to install a sticker pack from an invite."
-    },
-    "inviteAcceptPackInstallNote": "Menerima undangan ini akan menginstal paket secara otomatis.",
-    "@inviteAcceptPackInstallNote": {
-        "description": "Note shown on expression pack invites before accepting."
-    },
     "mentionUnknownChannel": "unknown-channel",
     "@mentionUnknownChannel": {
         "description": "Fallback name shown in a channel mention pill when the channel is not found."
@@ -1260,13 +1203,13 @@
     "@embedThemeTitle": {
         "description": "Title on the theme embed card in chat."
     },
-    "embedThemeSubtitle": "Klien ini tidak mendukung tema kustom.",
-    "@embedThemeSubtitle": {
-        "description": "Subtitle on the theme embed card."
+    "embedThemeWebOnly": "Kamu hanya bisa mengimpor tema di web atau desktop.",
+    "@embedThemeWebOnly": {
+        "description": "Subtitle on a shared theme link embed in chat. Themes cannot be imported in this client."
     },
-    "embedThemeUnavailableButton": "Tema tidak tersedia",
-    "@embedThemeUnavailableButton": {
-        "description": "Button on the theme embed card - themes aren't supported in the client."
+    "embedThemeImport": "Impor tema",
+    "@embedThemeImport": {
+        "description": "Disabled button on a shared theme link embed. Themes can only be imported on web or desktop."
     },
     "embedGiftVisionaryLifetime": "Visionary (seumur hidup {productName})",
     "@embedGiftVisionaryLifetime": {
@@ -1683,9 +1626,18 @@
     "@dmLeaveGroup": {
         "description": "DM context menu action to leave a group DM."
     },
-    "dmNoCommunitiesAvailable": "Tidak ada komunitas yang tersedia",
-    "@dmNoCommunitiesAvailable": {
-        "description": "Shown when no communities are available to invite to."
+    "dmInviteSentFor": "Undangan untuk {communityName} telah terkirim",
+    "@dmInviteSentFor": {
+        "description": "Toast confirming a community invite was sent to a DM recipient.",
+        "placeholders": {
+            "communityName": {
+                "type": "String"
+            }
+        }
+    },
+    "dmInviteSendFailed": "Tidak dapat mengirim undangan. Coba lagi.",
+    "@dmInviteSendFailed": {
+        "description": "Toast shown when sending a community invite from the DM menu fails."
     },
     "dmGroupMemberCount": "{count} Anggota",
     "@dmGroupMemberCount": {
@@ -2209,10 +2161,6 @@
             }
         }
     },
-    "emojiPlutoniumUpsellButton": "Dapatkan Plutonium",
-    "@emojiPlutoniumUpsellButton": {
-        "description": "Button label on the Plutonium upsell banner."
-    },
     "emojiPlutoniumUpsellDismiss": "Jangan tampilkan ini lagi",
     "@emojiPlutoniumUpsellDismiss": {
         "description": "Dismiss link on the Plutonium upsell banner."
@@ -2385,10 +2333,6 @@
     "@changeYourFluxerTag": {
         "description": "Title for the username change bottom sheet."
     },
-    "fluxerTagInputLabel": "Nama pengguna",
-    "@fluxerTagInputLabel": {
-        "description": "Label above the username and discriminator input fields."
-    },
     "fluxerTagDescriptionBase": "Nama pengguna hanya bisa berisi huruf (a-z, A-Z), angka (0-9), dan garis bawah. Nama pengguna tidak peka huruf besar/kecil.",
     "@fluxerTagDescriptionBase": {
         "description": "Base description text on the username change sheet."
@@ -2416,10 +2360,6 @@
     "validationAllowedChars": "Hanya huruf (a-z, A-Z), angka (0-9), dan garis bawah (_)",
     "@validationAllowedChars": {
         "description": "Validation rule for allowed username characters."
-    },
-    "discriminatorPremiumTooltip": "Dapatkan Plutonium untuk menyesuaikan tag Anda atau simpan saat mengubah nama pengguna Anda",
-    "@discriminatorPremiumTooltip": {
-        "description": "Tooltip on disabled discriminator field for non-premium users."
     },
     "fluxerTagAlreadyTaken": "Nama pengguna sudah dipakai",
     "@fluxerTagAlreadyTaken": {
@@ -2474,19 +2414,6 @@
     "premiumUpsellCustomizeTag": "Sesuaikan tag 4 digit Anda atau simpan saat mengganti nama pengguna Anda",
     "@premiumUpsellCustomizeTag": {
         "description": "Upsell text encouraging non-premium users to get Plutonium for tag customization."
-    },
-    "premiumTrialExpiresOn": "Uji coba Plutonium Anda berakhir pada {date}. Tingkatkan untuk menyimpan tag kustom Anda dan dapatkan lencana di profil Anda.",
-    "@premiumTrialExpiresOn": {
-        "description": "Trial upsell with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActive": "Anda sedang dalam uji coba Plutonium. Tingkatkan untuk menyimpan tag kustom Anda dan dapatkan lencana di profil Anda.",
-    "@premiumTrialActive": {
-        "description": "Trial upsell without specific expiry date."
     },
     "fluxerTagUpdated": "Nama pengguna diperbarui",
     "@fluxerTagUpdated": {
@@ -2660,32 +2587,6 @@
     "@hideVisionaryIdDescription": {
         "description": "Description for the toggle to hide the Visionary ID badge."
     },
-    "premiumTrialSubscriptionStarts": "Anda sedang dalam uji coba Plutonium — langganan Anda dimulai pada {date}",
-    "@premiumTrialSubscriptionStarts": {
-        "description": "Trial banner title when user has an active subscription pending after trial.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialSubscriptionStartsDescription": "Langganan Anda akan dimulai secara otomatis saat uji coba berakhir. Tidak perlu tindakan.",
-    "@premiumTrialSubscriptionStartsDescription": {
-        "description": "Trial banner description when user has an active subscription pending after trial."
-    },
-    "premiumTrialExpiresOnProfile": "Anda sedang dalam uji coba Plutonium yang berakhir pada {date}",
-    "@premiumTrialExpiresOnProfile": {
-        "description": "Trial banner title with expiry date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumTrialActiveProfile": "Anda sedang mencoba Plutonium",
-    "@premiumTrialActiveProfile": {
-        "description": "Trial banner title without specific expiry date."
-    },
     "avatarDescriptionNonPremium": "JPEG, PNG, WebP. Maks 10MB. Rekomendasi: 512×512px. Avatar animasi (GIF) memerlukan Plutonium.",
     "@avatarDescriptionNonPremium": {
         "description": "Avatar helper text for non-premium users, mentioning Plutonium requirement for animated avatars."
@@ -2770,22 +2671,6 @@
     "profileSavedToast": "Profil diperbarui",
     "@profileSavedToast": {
         "description": "Toast message shown after successfully saving profile changes."
-    },
-    "profileEditButton": "Edit profil",
-    "@profileEditButton": {
-        "description": "Button label to open profile editing from the profile content card."
-    },
-    "profileNoteLabel": "Catatan",
-    "@profileNoteLabel": {
-        "description": "Label for the personal note section on a user profile."
-    },
-    "profileNoteVisibility": "(hanya terlihat olehmu)",
-    "@profileNoteVisibility": {
-        "description": "Hint that the note is private and only visible to the current user."
-    },
-    "profileNoteEmpty": "Belum ada catatan.",
-    "@profileNoteEmpty": {
-        "description": "Placeholder shown when no personal note has been set for a user."
     },
     "sudoTitle": "Verifikasi Identitas Anda",
     "@sudoTitle": {
@@ -3158,42 +3043,6 @@
     "@securityPasskeyNameHint": {
         "description": "Hint for passkey name input."
     },
-    "securityPhoneSectionTitle": "Nomor telepon",
-    "@securityPhoneSectionTitle": {
-        "description": "Title for phone number section."
-    },
-    "securityPhoneSectionDescription": "Kelola nomor telepon Anda.",
-    "@securityPhoneSectionDescription": {
-        "description": "Description for phone number section."
-    },
-    "securityPhoneLabel": "Nomor telepon",
-    "@securityPhoneLabel": {
-        "description": "Label for phone number row."
-    },
-    "securityPhoneNone": "Nomor telepon belum ditambahkan.",
-    "@securityPhoneNone": {
-        "description": "Shown when no phone number is set."
-    },
-    "securityPhoneAdd": "Tambah Telepon",
-    "@securityPhoneAdd": {
-        "description": "Button to add phone number."
-    },
-    "securityPhoneRemove": "Hapus",
-    "@securityPhoneRemove": {
-        "description": "Button to remove phone number."
-    },
-    "securityPhoneRemoveTitle": "Hapus Nomor Telepon",
-    "@securityPhoneRemoveTitle": {
-        "description": "Title for phone remove confirmation."
-    },
-    "securityPhoneRemoveDescription": "Apakah Anda yakin ingin menghapus nomor telepon Anda?",
-    "@securityPhoneRemoveDescription": {
-        "description": "Description for phone remove confirmation."
-    },
-    "securityPhoneRemoved": "Nomor telepon dihapus",
-    "@securityPhoneRemoved": {
-        "description": "Toast after phone removed."
-    },
     "securityClaimTitle": "Fitur keamanan",
     "@securityClaimTitle": {
         "description": "Title when user needs to claim account for security."
@@ -3202,7 +3051,7 @@
     "@securityClaimDescription": {
         "description": "Description prompting user to claim account."
     },
-    "securityVerifyEmailRequired": "Anda harus memverifikasi alamat email Anda sebelum dapat menyiapkan otentikasi dua faktor, kunci sandi, atau verifikasi SMS.",
+    "securityVerifyEmailRequired": "Anda harus memverifikasi alamat email Anda sebelum dapat menyiapkan otentikasi dua faktor atau kunci sandi.",
     "@securityVerifyEmailRequired": {
         "description": "Warning when email is not verified."
     },
@@ -3246,10 +3095,6 @@
     "@backupCodesWarning": {
         "description": "Warning about backup codes."
     },
-    "backupCodesDownload": "Unduh",
-    "@backupCodesDownload": {
-        "description": "Button to download backup codes."
-    },
     "backupCodesCopy": "Salin",
     "@backupCodesCopy": {
         "description": "Button to copy backup codes."
@@ -3265,206 +3110,6 @@
     "backupCodesDone": "Selesai",
     "@backupCodesDone": {
         "description": "Button to close backup codes sheet."
-    },
-    "backupCodesViewTitle": "Lihat kode cadangan",
-    "@backupCodesViewTitle": {
-        "description": "Title for viewing existing backup codes."
-    },
-    "backupCodesViewDescription": "Verifikasi mungkin diperlukan sebelum melihat kode cadangan Anda.",
-    "@backupCodesViewDescription": {
-        "description": "Description for view backup codes."
-    },
-    "phoneAddTitle": "Tambahkan Nomor Telepon",
-    "@phoneAddTitle": {
-        "description": "Title for phone add sheet."
-    },
-    "phoneAddLabel": "Nomor telepon",
-    "@phoneAddLabel": {
-        "description": "Label for phone input."
-    },
-    "phoneAddHint": "Masukkan nomor teleponmu",
-    "@phoneAddHint": {
-        "description": "Hint for phone input."
-    },
-    "phoneAddFooter": "Kami akan mengirimkan kode SMS jika tersedia. Nomor Anda tidak ditautkan ke akun Anda. Kami hanya menyimpan penanda terenkripsi, tanpa ID pengguna, untuk mengizinkan maksimal 2 verifikasi dalam waktu sekitar 30 hari.",
-    "@phoneAddFooter": {
-        "description": "Footer text for phone input."
-    },
-    "phoneAddSendCode": "Kirim kode",
-    "@phoneAddSendCode": {
-        "description": "Button to send phone verification code."
-    },
-    "phoneVerifyTitle": "Verifikasi nomor telepon",
-    "@phoneVerifyTitle": {
-        "description": "Title for phone verify step."
-    },
-    "phoneVerifyDescription": "Masukkan kode verifikasi yang dikirim ke nomor telepon Anda.",
-    "@phoneVerifyDescription": {
-        "description": "Description for phone verify step."
-    },
-    "phoneAddSuccess": "Nomor telepon terverifikasi",
-    "@phoneAddSuccess": {
-        "description": "Toast after phone verified."
-    },
-    "phoneCountryLabel": "Negara",
-    "@phoneCountryLabel": {
-        "description": "Label for country selector in phone verification."
-    },
-    "phoneSearchCountries": "Cari negara...",
-    "@phoneSearchCountries": {
-        "description": "Search hint for country selector."
-    },
-    "phoneNumberRequired": "Nomor telepon wajib diisi",
-    "@phoneNumberRequired": {
-        "description": "Validation error when phone number is empty."
-    },
-    "phoneEnterValidNumber": "Masukkan nomor ponsel yang valid.",
-    "@phoneEnterValidNumber": {
-        "description": "Validation error for invalid phone format."
-    },
-    "phoneCannotBeUsed": "Nomor telepon ini tidak dapat digunakan. Coba nomor ponsel lain atau hubungi dukungan.",
-    "@phoneCannotBeUsed": {
-        "description": "API error when phone number is rejected."
-    },
-    "phoneAlreadyUsed": "Nomor telepon ini sudah digunakan. Coba nomor lain atau hubungi dukungan.",
-    "@phoneAlreadyUsed": {
-        "description": "API error when phone number was reused."
-    },
-    "phoneCodeDidNotWork": "Kode itu tidak berfungsi. Periksa dan coba lagi.",
-    "@phoneCodeDidNotWork": {
-        "description": "API error for invalid verification code."
-    },
-    "phoneTooManyAttempts": "Terlalu banyak percobaan. Tunggu sebentar, lalu coba lagi.",
-    "@phoneTooManyAttempts": {
-        "description": "Rate limit error for phone verification."
-    },
-    "phoneSmsUnavailable": "Verifikasi SMS tidak tersedia saat ini. Coba lagi nanti atau hubungi dukungan.",
-    "@phoneSmsUnavailable": {
-        "description": "SMS provider unavailable error."
-    },
-    "phoneNotEligible": "Verifikasi telepon tidak tersedia untuk akun ini. Gunakan metode lain atau hubungi dukungan.",
-    "@phoneNotEligible": {
-        "description": "Account not eligible for phone verification."
-    },
-    "phoneSomethingWentWrong": "Terjadi kesalahan. Coba lagi.",
-    "@phoneSomethingWentWrong": {
-        "description": "Generic phone verification error."
-    },
-    "phoneInboundExpensiveDescription": "Mengirim SMS ke nomor telepon ini terlalu mahal, jadi kami perlu Anda mengirimkan SMS kepada kami sebagai gantinya. Anda juga dapat menghubungi dukungan untuk meminta kami menghapus persyaratan ini dari akun Anda.",
-    "@phoneInboundExpensiveDescription": {
-        "description": "Inbound challenge reason for expensive destinations."
-    },
-    "phoneInboundDefaultDescription": "Kami perlu Anda mengirim SMS untuk memverifikasi nomor telepon Anda.",
-    "@phoneInboundDefaultDescription": {
-        "description": "Default inbound challenge description."
-    },
-    "phoneInboundStepOpenMessaging": "Buka aplikasi pesan di ponselmu dan buat pesan teks baru.",
-    "@phoneInboundStepOpenMessaging": {
-        "description": "Inbound verification step 1."
-    },
-    "phoneInboundStepSendCode": "Kirim kode {code} ke {number}.",
-    "@phoneInboundStepSendCode": {
-        "description": "Inbound verification step 2.",
-        "placeholders": {
-            "code": {
-                "type": "String"
-            },
-            "number": {
-                "type": "String"
-            }
-        }
-    },
-    "phoneInboundStepWait": "Tunggu kami menerima pesan Anda. Ini mungkin memerlukan waktu satu menit.",
-    "@phoneInboundStepWait": {
-        "description": "Inbound verification step 3."
-    },
-    "phoneInboundGetNewCode": "Dapatkan kode baru",
-    "@phoneInboundGetNewCode": {
-        "description": "Button to refresh inbound challenge."
-    },
-    "phoneInboundChallengeCodeLabel": "Kode yang akan dikirim",
-    "@phoneInboundChallengeCodeLabel": {
-        "description": "Label for inbound challenge code."
-    },
-    "phoneInboundOurNumberLabel": "Kirim ke",
-    "@phoneInboundOurNumberLabel": {
-        "description": "Label for inbound destination number."
-    },
-    "requiredActionTitle": "Verifikasi akun diperlukan",
-    "@requiredActionTitle": {
-        "description": "Title for required action blocking modal."
-    },
-    "requiredActionIntroGeneric": "Selesaikan verifikasi yang diperlukan untuk terus menggunakan {productName}.",
-    "@requiredActionIntroGeneric": {
-        "description": "Generic required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroPhone": "Pendaftaranmu memerlukan pemeriksaan anti-spam tambahan sebelum kamu bisa melanjutkan.",
-    "@requiredActionIntroPhone": {
-        "description": "Phone-only required action intro."
-    },
-    "requiredActionIntroEmailOrPhone": "Verifikasi email atau teleponmu untuk terus menggunakan {productName}.",
-    "@requiredActionIntroEmailOrPhone": {
-        "description": "Email or phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionIntroEmailAndPhone": "Selesaikan langkah verifikasi email dan telepon yang diperlukan di bawah untuk terus menggunakan {productName}.",
-    "@requiredActionIntroEmailAndPhone": {
-        "description": "Email and phone required action intro.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionChooseMethodTitle": "Pilih metode verifikasi",
-    "@requiredActionChooseMethodTitle": {
-        "description": "Title when user can pick email or phone."
-    },
-    "requiredActionChooseMethodDescription": "Selesaikan salah satu jalur verifikasi di bawah untuk terus menggunakan {productName}.",
-    "@requiredActionChooseMethodDescription": {
-        "description": "Description when user can pick email or phone.",
-        "placeholders": {
-            "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "requiredActionUseEmail": "Gunakan email",
-    "@requiredActionUseEmail": {
-        "description": "Button to choose email verification."
-    },
-    "requiredActionUsePhone": "Gunakan telepon",
-    "@requiredActionUsePhone": {
-        "description": "Button to choose phone verification."
-    },
-    "requiredActionCheckEmailTitle": "Cek emailmu",
-    "@requiredActionCheckEmailTitle": {
-        "description": "Title for email verification instructions."
-    },
-    "requiredActionCheckEmailDescription": "Kami mengirimkan tautan verifikasi ke alamat email Anda. Buka tautan tersebut untuk melanjutkan.",
-    "@requiredActionCheckEmailDescription": {
-        "description": "Description for email verification instructions."
-    },
-    "requiredActionResendVerificationEmail": "Kirim ulang email verifikasi",
-    "@requiredActionResendVerificationEmail": {
-        "description": "Button to resend verification email."
-    },
-    "requiredActionVerificationEmailSent": "Email verifikasi telah dikirim. Periksa kotak masukmu.",
-    "@requiredActionVerificationEmailSent": {
-        "description": "Toast after resending verification email."
-    },
-    "requiredActionSignOut": "Keluar",
-    "@requiredActionSignOut": {
-        "description": "Sign out button in required action modal."
     },
     "dangerZoneSectionTitle": "Zona bahaya",
     "@dangerZoneSectionTitle": {
@@ -3783,10 +3428,6 @@
     "@authorizedAppsScopeAdmin": {
         "description": "OAuth2 scope description: admin."
     },
-    "privacyPendingDeletionTitle": "Menunggu Penghapusan",
-    "@privacyPendingDeletionTitle": {
-        "description": "Title of the warning alert shown when a bulk message deletion is pending."
-    },
     "blockedUsersTitle": "Pengguna yang diblokir",
     "@blockedUsersTitle": {
         "description": "Header title of the Blocked Users settings page."
@@ -4027,10 +3668,6 @@
     "@userProfileNoteDelete": {
         "description": "Delete button in the note editor sheet."
     },
-    "userProfileNoteEmpty": "Klik untuk menambahkan catatan",
-    "@userProfileNoteEmpty": {
-        "description": "Hint text when no note has been written yet."
-    },
     "userProfileMemberSince": "Anggota sejak",
     "@userProfileMemberSince": {
         "description": "Header of the member-since section in the bio card."
@@ -4097,6 +3734,80 @@
     "userProfileLocalTime": "Waktu setempat",
     "@userProfileLocalTime": {
         "description": "Profile section title for a user's local time."
+    },
+    "profileLocalTimeSettingsTitle": "Waktu lokal profil",
+    "@profileLocalTimeSettingsTitle": {
+        "description": "Profile settings row title for profile local time."
+    },
+    "profileLocalTimeSettingsSummary": "Atur zona waktumu sekali agar {productName} dapat menjaga selisih UTC kamu tetap akurat saat waktu musim panas berubah. Orang lain hanya dapat melihat selisih UTC kamu, bukan pengenal zona waktu kamu yang persis.",
+    "@profileLocalTimeSettingsSummary": {
+        "description": "Description for the profile local time settings section.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeEditButton": "Edit waktu lokal profil",
+    "@profileLocalTimeEditButton": {
+        "description": "Opens the profile local time editor."
+    },
+    "profileLocalTimeTimezoneLabel": "Zona waktu",
+    "@profileLocalTimeTimezoneLabel": {
+        "description": "Field label for the profile timezone picker."
+    },
+    "profileLocalTimeTimezoneHelp": "Pilih zona waktu yang digunakan {productName} untuk menghitung selisih UTC-mu guna menampilkan waktu lokal di profilmu.",
+    "@profileLocalTimeTimezoneHelp": {
+        "description": "Helper text under the profile timezone picker.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimeSearchTimezones": "Cari zona waktu",
+    "@profileLocalTimeSearchTimezones": {
+        "description": "Placeholder in the profile timezone picker."
+    },
+    "profileLocalTimeNotSet": "Belum diatur",
+    "@profileLocalTimeNotSet": {
+        "description": "Profile timezone picker option when no timezone is selected."
+    },
+    "profileLocalTimePrivacyNote": "Orang lain hanya bisa melihat selisih UTC-mu saat ini ketika kamu memilih untuk membagikan waktu lokal profil. Mereka tidak melihat pengidentifikasi zona waktu yang tepat, seperti {timezoneIdentifierExample}. {productName} menyimpan pengidentifikasi itu hanya agar selisihnya bisa diperbarui otomatis ketika waktu musim panas berubah.",
+    "@profileLocalTimePrivacyNote": {
+        "description": "Privacy note in profile timezone settings.",
+        "placeholders": {
+            "timezoneIdentifierExample": {
+                "type": "String"
+            },
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "profileLocalTimePrivacyEveryone": "Semua orang",
+    "@profileLocalTimePrivacyEveryone": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyEveryoneDesc": "Izinkan siapa pun yang dapat melihat profil lengkapmu untuk melihat waktu lokalmu",
+    "@profileLocalTimePrivacyEveryoneDesc": {
+        "description": "Profile timezone privacy option description for Everyone."
+    },
+    "profileLocalTimePrivacyFriends": "Teman",
+    "@profileLocalTimePrivacyFriends": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyFriendsDesc": "Izinkan temanmu melihat waktu lokalmu",
+    "@profileLocalTimePrivacyFriendsDesc": {
+        "description": "Profile timezone privacy option description for Friends."
+    },
+    "profileLocalTimePrivacyCommunityMembers": "Anggota komunitas",
+    "@profileLocalTimePrivacyCommunityMembers": {
+        "description": "Profile timezone privacy option label."
+    },
+    "profileLocalTimePrivacyCommunityMembersDesc": "Izinkan anggota dari komunitas yang kamu ikuti melihat waktu lokalmu",
+    "@profileLocalTimePrivacyCommunityMembersDesc": {
+        "description": "Profile timezone privacy option description for Community members."
     },
     "userProfileSameTimeAsYou": "Sama dengan zona waktumu",
     "@userProfileSameTimeAsYou": {
@@ -4253,13 +3964,13 @@
     "@userProfileTransferOwnership": {
         "description": "Three-dot menu item to transfer community ownership to the member."
     },
-    "userProfileReportUser": "Laporkan pengguna",
-    "@userProfileReportUser": {
-        "description": "Three-dot menu item to report the user."
-    },
     "userProfileReportMessage": "Laporkan pesan",
     "@userProfileReportMessage": {
         "description": "Three-dot menu item to report the message that opened this profile."
+    },
+    "userProfileReportUserProfile": "Laporkan profil",
+    "@userProfileReportUserProfile": {
+        "description": "Three-dot menu item on the full profile to report this user's profile (avatar, banner, name, bio and other profile parts). Message behavior is reported from the message instead."
     },
     "userProfileKickConfirmTitle": "Keluarkan {username}?",
     "@userProfileKickConfirmTitle": {
@@ -4486,102 +4197,6 @@
     "durationCustom": "Kustom…",
     "@durationCustom": {
         "description": "Duration option label for a user-specified custom duration."
-    },
-    "iarReportUserTitle": "Laporkan pengguna",
-    "@iarReportUserTitle": {
-        "description": "Title of the simple user-report sheet."
-    },
-    "iarReportGuildTitle": "Laporkan komunitas",
-    "@iarReportGuildTitle": {
-        "description": "Title of the simple community-report sheet."
-    },
-    "iarReportGuildPreconfirmBody": "Jika laporan ini tentang pesan tertentu di komunitas ini, laporkan pesan itu saja. Laporan pesan memberikan konteks yang paling jelas kepada tim keamanan kami, dan menambahkan detail di komentar dapat membantu kami meninjaunya lebih cepat. Lanjutkan melaporkan komunitas secara keseluruhan hanya jika melaporkan pesan tidak akan mencakup masalah yang lebih luas.",
-    "@iarReportGuildPreconfirmBody": {
-        "description": "Body shown in the pre-confirm dialog before opening the community report sheet."
-    },
-    "iarContinueToReportCommunity": "Lanjutkan melaporkan komunitas",
-    "@iarContinueToReportCommunity": {
-        "description": "Primary button in the community report pre-confirm dialog."
-    },
-    "iarPreviewCommunitySubtitle": "Komunitas",
-    "@iarPreviewCommunitySubtitle": {
-        "description": "Subtitle shown under the community name in the IAR preview card."
-    },
-    "iarReasonHarassmentGuildLabel": "Pelecehan atau penyalahgunaan yang ditargetkan",
-    "@iarReasonHarassmentGuildLabel": {
-        "description": "Community-report reason label for harassment or targeted abuse."
-    },
-    "iarReasonHarassmentGuildDescription": "Komunitas ini memfasilitasi perundungan beramai-ramai atau pelecehan yang ditargetkan.",
-    "@iarReasonHarassmentGuildDescription": {
-        "description": "Community-report reason description for harassment or targeted abuse."
-    },
-    "iarReasonHateGuildDescription": "Mendorong kebencian terhadap kelompok yang dilindungi.",
-    "@iarReasonHateGuildDescription": {
-        "description": "Community-report reason description for hate speech."
-    },
-    "iarReasonTerrorismLabel": "Terorisme atau ekstremisme kekerasan",
-    "@iarReasonTerrorismLabel": {
-        "description": "Community-report reason label for terrorism or violent extremism."
-    },
-    "iarReasonTerrorismDescription": "Mempromosikan, merekrut, atau mengoordinasikan aktivitas ekstremisme kekerasan.",
-    "@iarReasonTerrorismDescription": {
-        "description": "Community-report reason description for terrorism or violent extremism."
-    },
-    "iarReasonMatureContentGuildLabel": "Konten dewasa atau pembatasan yang tidak aman",
-    "@iarReasonMatureContentGuildLabel": {
-        "description": "Community-report reason label for mature content or unsafe gating."
-    },
-    "iarReasonMatureContentGuildDescription": "Konten dewasa tanpa pembatasan yang sesuai.",
-    "@iarReasonMatureContentGuildDescription": {
-        "description": "Community-report reason description for mature content or unsafe gating."
-    },
-    "iarReasonChildSafetyGuildDescription": "Membahayakan anak di bawah umur atau berisi konten eksploitasi anak.",
-    "@iarReasonChildSafetyGuildDescription": {
-        "description": "Community-report reason description for child safety."
-    },
-    "iarReasonRaidLabel": "Koordinasi penyerangan",
-    "@iarReasonRaidLabel": {
-        "description": "Community-report reason label for raid coordination."
-    },
-    "iarReasonRaidDescription": "Mengoordinasikan penyerangan, pengeroyokan, atau pelecehan terhadap orang atau komunitas.",
-    "@iarReasonRaidDescription": {
-        "description": "Community-report reason description for raid coordination."
-    },
-    "iarReasonSpamGuildDescription": "Komunitas ini ada untuk mengirim spam, menipu, atau menyalahgunakan platform.",
-    "@iarReasonSpamGuildDescription": {
-        "description": "Community-report reason description for spam, scams, or phishing."
-    },
-    "iarReasonMalwareGuildLabel": "Penyebaran malware",
-    "@iarReasonMalwareGuildLabel": {
-        "description": "Community-report reason label for malware distribution."
-    },
-    "iarReasonMalwareGuildDescription": "Mendistribusikan malware, pencurian kredensial, atau file berbahaya.",
-    "@iarReasonMalwareGuildDescription": {
-        "description": "Community-report reason description for malware distribution."
-    },
-    "iarReasonPrivacyGuildLabel": "Pelanggaran privasi atau doxing",
-    "@iarReasonPrivacyGuildLabel": {
-        "description": "Community-report reason label for privacy violation or doxxing."
-    },
-    "iarReasonPrivacyGuildDescription": "Membagikan info pribadi, menguntit pengguna, atau mengoordinasikan penyalahgunaan privasi.",
-    "@iarReasonPrivacyGuildDescription": {
-        "description": "Community-report reason description for privacy violation or doxxing."
-    },
-    "iarReasonSelfHarmGuildLabel": "Mendorong tindakan menyakiti diri sendiri",
-    "@iarReasonSelfHarmGuildLabel": {
-        "description": "Community-report reason label for self-harm encouragement."
-    },
-    "iarReasonSelfHarmGuildDescription": "Mendorong bunuh diri, menyakiti diri sendiri, atau gangguan makan.",
-    "@iarReasonSelfHarmGuildDescription": {
-        "description": "Community-report reason description for self-harm encouragement."
-    },
-    "iarReasonInappropriateProfile": "Profil tidak pantas",
-    "@iarReasonInappropriateProfile": {
-        "description": "User-report reason: the user's profile contains inappropriate content."
-    },
-    "iarReasonInappropriateProfileDescription": "Profil pengguna ini berisi konten yang tidak pantas",
-    "@iarReasonInappropriateProfileDescription": {
-        "description": "Description for the inappropriate-profile user-report reason."
     },
     "typingIndicatorOne": "{name} sedang mengetik...",
     "@typingIndicatorOne": {
@@ -5052,17 +4667,9 @@
     "@channelComposerBarrierNotMemberLongEnough": {
         "description": "Composer barrier when the user's guild membership is too recent."
     },
-    "channelComposerBarrierNoPhoneNumber": "Kamu perlu memverifikasi nomor telepon untuk mengirim pesan di komunitas ini.",
-    "@channelComposerBarrierNoPhoneNumber": {
-        "description": "Composer barrier when the user must verify a phone number before messaging."
-    },
     "channelComposerBarrierVerifyEmail": "Verifikasi email",
     "@channelComposerBarrierVerifyEmail": {
         "description": "Action button on the composer barrier for unverified email."
-    },
-    "channelComposerBarrierVerifyPhone": "Verifikasi telepon",
-    "@channelComposerBarrierVerifyPhone": {
-        "description": "Action button on the composer barrier for missing phone verification."
     },
     "chatAttachmentTooMany": "Terlalu banyak lampiran (maks {max})",
     "@chatAttachmentTooMany": {
@@ -5097,10 +4704,6 @@
     "@chatAttachmentDropToSend": {
         "description": "Overlay hint when dragging files over chat with Shift held."
     },
-    "chatAttachmentSendVoiceMessage": "Kirim pesan suara",
-    "@chatAttachmentSendVoiceMessage": {
-        "description": "Menu item to open the voice message recorder."
-    },
     "voiceMessageTitle": "Pesan suara",
     "@voiceMessageTitle": {
         "description": "Title for voice message recording UI."
@@ -5121,10 +4724,6 @@
     "@voiceMessageMicPermissionDenied": {
         "description": "Shown when microphone permission is denied for voice messages."
     },
-    "voiceMessageRecordingNotSupported": "Perekaman suara tidak didukung di perangkat ini.",
-    "@voiceMessageRecordingNotSupported": {
-        "description": "Shown when the device cannot record voice messages."
-    },
     "voiceMessageMicInUse": "Tinggalkan panggilan suara untuk merekam pesan suara.",
     "@voiceMessageMicInUse": {
         "description": "Shown when the microphone is already used by an active voice call."
@@ -5136,26 +4735,6 @@
     "voiceMessageSendFailed": "Tidak dapat mengirim pesan suara. Coba lagi.",
     "@voiceMessageSendFailed": {
         "description": "Shown when sending a voice message fails."
-    },
-    "voiceMessageRecordingHint": "Bicaralah sekarang. Tekan Berhenti setelah selesai — kamu bisa memangkasnya nanti.",
-    "@voiceMessageRecordingHint": {
-        "description": "Help text while recording a voice message on desktop."
-    },
-    "voiceMessageReviewHint": "Seret gagang untuk memangkas, lalu tekan Kirim.",
-    "@voiceMessageReviewHint": {
-        "description": "Help text while reviewing a voice message before send."
-    },
-    "voiceMessageStop": "Berhenti",
-    "@voiceMessageStop": {
-        "description": "Stop recording button in voice message composer."
-    },
-    "voiceMessageStartRecording": "Mulai merekam",
-    "@voiceMessageStartRecording": {
-        "description": "Button to retry voice recording after permission error."
-    },
-    "voiceMessageRerecord": "Rekam ulang",
-    "@voiceMessageRerecord": {
-        "description": "Button to discard review and record again."
     },
     "voiceMessagePlay": "Putar",
     "@voiceMessagePlay": {
@@ -5172,16 +4751,6 @@
     "voiceMessageSeekBackward": "Putar mundur",
     "@voiceMessageSeekBackward": {
         "description": "Accessibility hint when decreasing voice message seek position."
-    },
-    "voiceMessageSelectionTooShort": "Durasi pilihan minimal {seconds} detik.",
-    "@voiceMessageSelectionTooShort": {
-        "description": "Error when trimmed voice message is too short.",
-        "placeholders": {
-            "seconds": {
-                "type": "num",
-                "format": "compact"
-            }
-        }
     },
     "chatAttachmentEditTitle": "Edit lampiran",
     "@chatAttachmentEditTitle": {
@@ -5338,10 +4907,6 @@
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
     },
-    "chatAttachmentPasteTooltip": "Tempel file dari papan klip",
-    "@chatAttachmentPasteTooltip": {
-        "description": "Tooltip for pasting a file attachment from the clipboard."
-    },
     "chatAttachmentSpoiler": "Spoiler",
     "@chatAttachmentSpoiler": {
         "description": "Badge text for spoiler attachments."
@@ -5438,14 +5003,6 @@
     "@matureContentOpenLinkButton": {
         "description": "Primary action on mature link channel gates."
     },
-    "sensitiveContentSectionTitle": "Konten sensitif",
-    "@sensitiveContentSectionTitle": {
-        "description": "Privacy settings section title for sensitive content filters."
-    },
-    "sensitiveContentSectionDescription": "Atur pemfilteran media yang terlalu dewasa atau sensitif di berbagai konteks",
-    "@sensitiveContentSectionDescription": {
-        "description": "Privacy settings section description for sensitive content filters."
-    },
     "sensitiveContentFriendDmLabel": "Pesan langsung dari teman",
     "@sensitiveContentFriendDmLabel": {
         "description": "Label for friend DM sensitive content filter."
@@ -5470,18 +5027,6 @@
     "@sensitiveContentFilterBlock": {
         "description": "Sensitive content filter option to block media."
     },
-    "sensitiveContentBlurUnscannedLabel": "Blur media hingga pemindaian keamanan selesai",
-    "@sensitiveContentBlurUnscannedLabel": {
-        "description": "Toggle label for blurring unscanned media."
-    },
-    "sensitiveContentBlurUnscannedDescriptionAdult": "Jika diaktifkan, gambar dan video akan diburamkan hingga pemindaian keamanan konten selesai.",
-    "@sensitiveContentBlurUnscannedDescriptionAdult": {
-        "description": "Description for blur-unscanned toggle for adult accounts."
-    },
-    "sensitiveContentBlurUnscannedDescriptionMinor": "Pengaturan ini selalu aktif untuk akun Anda.",
-    "@sensitiveContentBlurUnscannedDescriptionMinor": {
-        "description": "Description for blur-unscanned toggle for minor accounts."
-    },
     "sensitiveContentResetButton": "Setel ulang",
     "@sensitiveContentResetButton": {
         "description": "Reset button for sensitive content settings."
@@ -5498,10 +5043,6 @@
                 "type": "int"
             }
         }
-    },
-    "chatCancelUpload": "Batalkan unggahan",
-    "@chatCancelUpload": {
-        "description": "Button or menu action label for canceling an in-flight message attachment upload."
     },
     "chatAttachmentExpiresOn": "Kedaluwarsa pada {date}",
     "@chatAttachmentExpiresOn": {
@@ -5771,10 +5312,6 @@
     "@connectionEnterDomain": {
         "description": "Inline error shown when the domain input is empty."
     },
-    "lookAndFeelTitle": "Tampilan & Nuansa",
-    "@lookAndFeelTitle": {
-        "description": "Title of the Look & Feel (Appearance) settings page."
-    },
     "lookAndFeelThemeSectionTitle": "Tema",
     "@lookAndFeelThemeSectionTitle": {
         "description": "Section title for theme selection."
@@ -5842,14 +5379,6 @@
     "lookAndFeelThemeSyncFailed": "Tema tidak dapat disinkronkan ke akun Anda. Coba lagi.",
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
-    },
-    "lookAndFeelChatFontScalingTitle": "Skala font obrolan",
-    "@lookAndFeelChatFontScalingTitle": {
-        "description": "Search label for chat font size within the Messages section."
-    },
-    "lookAndFeelChatFontScalingDescription": "Sesuaikan ukuran font di area obrolan.",
-    "@lookAndFeelChatFontScalingDescription": {
-        "description": "Search description for chat font size."
     },
     "lookAndFeelChatFontSizeLabel": "Ukuran font obrolan",
     "@lookAndFeelChatFontSizeLabel": {
@@ -5975,42 +5504,6 @@
     "lookAndFeelHideKeyboardHintsDescription": "Saat diaktifkan, lencana pintasan disembunyikan di popup tooltip.",
     "@lookAndFeelHideKeyboardHintsDescription": {
         "description": "Toggle description for the hide-keyboard-hints switch."
-    },
-    "lookAndFeelNekoTitle": "Lain-lain",
-    "@lookAndFeelNekoTitle": {
-        "description": "Subsection title under Interface for Neko appearance settings."
-    },
-    "lookAndFeelNekoDescription": "Opsi antarmuka lainnya.",
-    "@lookAndFeelNekoDescription": {
-        "description": "Subsection description for Neko appearance settings."
-    },
-    "lookAndFeelShowNekoLabel": "Tampilkan Neko",
-    "@lookAndFeelShowNekoLabel": {
-        "description": "Toggle label for showing Neko in the chat footer."
-    },
-    "lookAndFeelShowNekoDescription": "Saat diaktifkan, Neko akan muncul di dekat bilah input chat.",
-    "@lookAndFeelShowNekoDescription": {
-        "description": "Toggle description for showing Neko in chat."
-    },
-    "lookAndFeelVoiceChannelJoinTitle": "Perilaku bergabung ke saluran suara",
-    "@lookAndFeelVoiceChannelJoinTitle": {
-        "description": "Subsection title under Interface — voice channel join behavior."
-    },
-    "lookAndFeelVoiceChannelJoinDescription": "Atur cara Anda bergabung dengan saluran suara di komunitas.",
-    "@lookAndFeelVoiceChannelJoinDescription": {
-        "description": "Subsection description for voice channel join behavior."
-    },
-    "lookAndFeelRequireDoubleClickJoinLabel": "Wajibkan klik ganda untuk bergabung ke saluran suara",
-    "@lookAndFeelRequireDoubleClickJoinLabel": {
-        "description": "Toggle label — require double-click to join voice channels."
-    },
-    "lookAndFeelRequireDoubleClickJoinDescription": "Saat diaktifkan, Anda perlu mengklik dua kali saluran suara untuk bergabung. Saat dinonaktifkan (default), mengklik sekali akan langsung bergabung ke saluran.",
-    "@lookAndFeelRequireDoubleClickJoinDescription": {
-        "description": "Toggle description for the require-double-click voice channel join switch."
-    },
-    "lookAndFeelChatFontPreviewSample": "Rubah cokelat cepat melompati anjing malas.",
-    "@lookAndFeelChatFontPreviewSample": {
-        "description": "Sample text rendered at the selected chat font size to preview scaling."
     },
     "lookAndFeelGuildSidebarTitle": "Sidebar guild",
     "@lookAndFeelGuildSidebarTitle": {
@@ -6543,25 +6036,9 @@
     "@messagesMediaAutocompleteSavedMediaLabel": {
         "description": "Toggle label for saved media in expression autocomplete."
     },
-    "messagesMediaEditingSectionTitle": "Edit pesan",
-    "@messagesMediaEditingSectionTitle": {
-        "description": "Section title for message editing settings."
-    },
-    "messagesMediaEditingSectionDescription": "Atur apa yang terjadi pada draf editan Anda saat Anda membatalkan.",
-    "@messagesMediaEditingSectionDescription": {
-        "description": "Section description for message editing settings."
-    },
-    "messagesMediaEditingPreserveDraftLabel": "Simpan draf suntingan saat batal",
-    "@messagesMediaEditingPreserveDraftLabel": {
-        "description": "Toggle label for preserving edit drafts on cancel."
-    },
     "accessibilitySaturationTitle": "Saturasi",
     "@accessibilitySaturationTitle": {
         "description": "Section title for the theme saturation slider on the accessibility settings page."
-    },
-    "accessibilitySaturationDescription": "Sesuaikan seberapa cerah warna tema muncul di seluruh aplikasi.",
-    "@accessibilitySaturationDescription": {
-        "description": "Section description for the theme saturation slider on the accessibility settings page."
     },
     "accessibilityVisualGroupTitle": "Visual",
     "@accessibilityVisualGroupTitle": {
@@ -6571,6 +6048,14 @@
     "@accessibilityAlwaysUnderlineLinksLabel": {
         "description": "Toggle label for always underlining links in messages."
     },
+    "accessibilityShowAltTextOnImagesLabel": "Tampilkan teks alternatif pada gambar",
+    "@accessibilityShowAltTextOnImagesLabel": {
+        "description": "Toggle label for showing image alternative text as a caption."
+    },
+    "accessibilityShowAltTextOnImagesDescription": "Tampilkan teks alternatif di bawah gambar jika tersedia.",
+    "@accessibilityShowAltTextOnImagesDescription": {
+        "description": "Description for the show alternative text on images toggle."
+    },
     "accessibilityDimStrikethroughTextLabel": "Redupkan teks coret",
     "@accessibilityDimStrikethroughTextLabel": {
         "description": "Toggle label for dimming strikethrough text in messages."
@@ -6578,10 +6063,6 @@
     "accessibilityDmMessagePreviewGroupTitle": "Pratinjau pesan DM",
     "@accessibilityDmMessagePreviewGroupTitle": {
         "description": "Section title for DM message preview accessibility settings."
-    },
-    "accessibilityDmMessagePreviewGroupDescription": "Atur kapan pratinjau pesan ditampilkan di daftar DM.",
-    "@accessibilityDmMessagePreviewGroupDescription": {
-        "description": "Section description for DM message preview accessibility settings."
     },
     "accessibilityDmMessagePreviewModeLabel": "Mode pratinjau pesan DM",
     "@accessibilityDmMessagePreviewModeLabel": {
@@ -6725,10 +6206,6 @@
     "accessibilityPausedGifByReducedMotion": "Dijeda karena gerakan dikurangi. Aktifkan untuk tetap memutar GIF.",
     "@accessibilityPausedGifByReducedMotion": {
         "description": "Description for GIF toggle while reduced motion is active."
-    },
-    "accessibilityGifDefaultsOffOnMobile": "Nonaktif secara default di perangkat seluler untuk menghemat baterai dan penggunaan data.",
-    "@accessibilityGifDefaultsOffOnMobile": {
-        "description": "Helper text for GIF autoplay default on mobile."
     },
     "accessibilityStickerAnimationsTitle": "Animasi stiker",
     "@accessibilityStickerAnimationsTitle": {
@@ -7208,10 +6685,6 @@
     "@voiceMultiDeviceDisconnectFailed": {
         "description": "Shown when switch-to-this-device times out waiting for other sessions to leave."
     },
-    "voiceChannelEmptyDescription": "Ini adalah saluran suara. Hubungkan untuk mulai berbicara!",
-    "@voiceChannelEmptyDescription": {
-        "description": "Empty state body when viewing a guild voice channel while not in the call."
-    },
     "voiceChannelJoin": "Gabung ke saluran suara",
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
@@ -7255,14 +6728,6 @@
     "voiceChannelStatusConnecting": "Menyambungkan…",
     "@voiceChannelStatusConnecting": {
         "description": "Status in the in-page voice view while LiveKit is connecting."
-    },
-    "voiceChannelStatusConnected": "Terhubung",
-    "@voiceChannelStatusConnected": {
-        "description": "Status in the in-page voice view when the voice session is active."
-    },
-    "voiceChannelStatusError": "Terjadi kesalahan",
-    "@voiceChannelStatusError": {
-        "description": "Short label in the channel header when the voice session reports an error."
     },
     "voiceParticipantTooltipMobileDevice": "Perangkat seluler",
     "@voiceParticipantTooltipMobileDevice": {
@@ -7341,10 +6806,6 @@
     "voiceScreenShareNotificationText": "Membagikan layar Anda.",
     "@voiceScreenShareNotificationText": {
         "description": "Body text for the Android foreground notification shown while screen sharing."
-    },
-    "voiceControlMore": "Lainnya",
-    "@voiceControlMore": {
-        "description": "Tooltip: more voice actions in the voice call control bar."
     },
     "voiceControlDisconnect": "Putuskan sambungan",
     "@voiceControlDisconnect": {
@@ -7817,6 +7278,10 @@
     "@chatSendFailureContentBlocked": {
         "description": "Fluxerbot system message when message content is blocked by safety systems."
     },
+    "chatSendFailureContentBlockedSelfHosted": "Pesanmu tidak dapat dikirim karena ditandai oleh sistem keamanan kami. Jika menurutmu ini keliru, silakan hubungi administrator instance ini.",
+    "@chatSendFailureContentBlockedSelfHosted": {
+        "description": "Fluxerbot system message on a self-hosted instance when message content is blocked by safety systems. Names no support mailbox."
+    },
     "chatSendFailureNsfwEmojiSticker": "Pesan Anda tidak dapat terkirim karena berisi emoji atau stiker dewasa yang tidak diizinkan dalam konteks ini.",
     "@chatSendFailureNsfwEmojiSticker": {
         "description": "Fluxerbot system message when mature emoji or stickers are blocked."
@@ -7893,25 +7358,13 @@
     "@privacyDashboardFriendRequestsEveryone": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsEveryoneDesc": "Izinkan siapa saja mengirim permintaan pertemanan kepada Anda",
-    "@privacyDashboardFriendRequestsEveryoneDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsFriendsOfFriends": "Teman dari teman",
     "@privacyDashboardFriendRequestsFriendsOfFriends": {
         "description": "Privacy dashboard friend request toggle label."
     },
-    "privacyDashboardFriendRequestsFriendsOfFriendsDesc": "Izinkan teman dari teman Anda mengirim permintaan",
-    "@privacyDashboardFriendRequestsFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard friend request toggle description."
-    },
     "privacyDashboardFriendRequestsCommunityMembers": "Anggota komunitas",
     "@privacyDashboardFriendRequestsCommunityMembers": {
         "description": "Privacy dashboard friend request toggle label."
-    },
-    "privacyDashboardFriendRequestsCommunityMembersDesc": "Izinkan anggota dari komunitas yang Anda ikuti untuk mengirim permintaan kepada Anda",
-    "@privacyDashboardFriendRequestsCommunityMembersDesc": {
-        "description": "Privacy dashboard friend request toggle description."
     },
     "privacyDashboardDirectMessagesTitle": "Pesan langsung",
     "@privacyDashboardDirectMessagesTitle": {
@@ -7921,65 +7374,29 @@
     "@privacyDashboardDirectMessagesMembers": {
         "description": "Privacy dashboard DM toggle label."
     },
-    "privacyDashboardDirectMessagesMembersDesc": "Izinkan anggota dari komunitas yang Anda ikuti untuk mengirimi Anda pesan langsung",
-    "@privacyDashboardDirectMessagesMembersDesc": {
-        "description": "Privacy dashboard DM toggle description."
-    },
     "privacyDashboardDirectMessagesBots": "Izinkan pesan langsung dari bot komunitas",
     "@privacyDashboardDirectMessagesBots": {
         "description": "Privacy dashboard bot DM toggle label."
-    },
-    "privacyDashboardDirectMessagesBotsDesc": "Izinkan bot dari komunitas Anda untuk mengirim pesan langsung kepada Anda",
-    "@privacyDashboardDirectMessagesBotsDesc": {
-        "description": "Privacy dashboard bot DM toggle description."
-    },
-    "privacyDashboardConnectionsSectionDesc": "Kontrol siapa yang dapat mengirimi Anda permintaan pertemanan dan pesan langsung",
-    "@privacyDashboardConnectionsSectionDesc": {
-        "description": "Privacy dashboard connections section description."
-    },
-    "privacyDashboardCommunicationSectionDesc": "Kontrol siapa yang dapat menelepon Anda dan menambahkan Anda ke obrolan grup",
-    "@privacyDashboardCommunicationSectionDesc": {
-        "description": "Privacy dashboard communication section description."
     },
     "privacyDashboardIncomingCallsTitle": "Panggilan masuk",
     "@privacyDashboardIncomingCallsTitle": {
         "description": "Privacy dashboard incoming calls subsection title."
     },
-    "privacyDashboardIncomingCallsDesc": "Kontrol siapa yang dapat menelepon Anda",
-    "@privacyDashboardIncomingCallsDesc": {
-        "description": "Privacy dashboard incoming calls subsection description."
-    },
     "privacyDashboardAllowedCallers": "Penelepon yang diizinkan",
     "@privacyDashboardAllowedCallers": {
         "description": "Privacy > Communication: select label."
-    },
-    "privacyDashboardIncomingCallNobody": "Tidak ada",
-    "@privacyDashboardIncomingCallNobody": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallNobodyDesc": "Blokir semua panggilan masuk",
     "@privacyDashboardIncomingCallNobodyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallFriendsOnly": "Hanya teman",
-    "@privacyDashboardIncomingCallFriendsOnly": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallFriendsOnlyDesc": "Izinkan hanya teman yang menelepon Anda (disarankan)",
     "@privacyDashboardIncomingCallFriendsOnlyDesc": {
         "description": "Privacy > Communication: select option description."
     },
-    "privacyDashboardIncomingCallCustom": "Teman + Kustom",
-    "@privacyDashboardIncomingCallCustom": {
-        "description": "Privacy > Communication: radio option label."
-    },
     "privacyDashboardIncomingCallCustomDesc": "Izinkan teman dan grup tambahan yang Anda pilih",
     "@privacyDashboardIncomingCallCustomDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardIncomingCallEveryone": "Semua orang",
-    "@privacyDashboardIncomingCallEveryone": {
-        "description": "Privacy > Communication: radio option label."
     },
     "privacyDashboardIncomingCallEveryoneDesc": "Izinkan siapa saja menelepon Anda, bahkan orang asing",
     "@privacyDashboardIncomingCallEveryoneDesc": {
@@ -7989,14 +7406,6 @@
     "@privacyDashboardAdditionalGroups": {
         "description": "Privacy dashboard label for custom permission groups."
     },
-    "privacyDashboardCallFriendsOfFriendsDesc": "Teman dari teman Anda dapat menelepon Anda",
-    "@privacyDashboardCallFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
-    "privacyDashboardCallGuildMembersDesc": "Orang dari komunitas yang sama-sama Anda ikuti dapat menelepon Anda",
-    "@privacyDashboardCallGuildMembersDesc": {
-        "description": "Privacy dashboard incoming call custom toggle description."
-    },
     "privacyDashboardRingBehavior": "Perilaku dering",
     "@privacyDashboardRingBehavior": {
         "description": "Privacy dashboard ring behavior subsection label."
@@ -8005,17 +7414,9 @@
     "@privacyDashboardSilentCalls": {
         "description": "Privacy dashboard silent calls toggle label."
     },
-    "privacyDashboardSilentCallsDesc": "Semua panggilan akan berbunyi senyap alih-alih berdering. Secara default, panggilan dari bukan teman selalu senyap.",
-    "@privacyDashboardSilentCallsDesc": {
-        "description": "Privacy dashboard silent calls toggle description."
-    },
     "privacyDashboardGroupDmTitle": "Siapa yang bisa menambahkanmu ke obrolan grup",
     "@privacyDashboardGroupDmTitle": {
         "description": "Privacy dashboard group DM subsection title."
-    },
-    "privacyDashboardGroupDmDesc": "Atur siapa saja yang dapat menambahkan Anda ke grup tanpa meminta izin. Siapa pun masih dapat mengirimkan tautan undangan untuk bergabung.",
-    "@privacyDashboardGroupDmDesc": {
-        "description": "Privacy dashboard group DM subsection description."
     },
     "privacyDashboardAllowedInvites": "Undangan yang diizinkan",
     "@privacyDashboardAllowedInvites": {
@@ -8036,14 +7437,6 @@
     "privacyDashboardGroupDmEveryoneDesc": "Izinkan siapa saja menambahkan Anda ke chat grup tanpa bertanya",
     "@privacyDashboardGroupDmEveryoneDesc": {
         "description": "Privacy > Communication: select option description."
-    },
-    "privacyDashboardGroupDmFriendsOfFriendsDesc": "Orang yang berteman dengan teman Anda dapat menambahkan Anda ke obrolan grup",
-    "@privacyDashboardGroupDmFriendsOfFriendsDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
-    },
-    "privacyDashboardGroupDmGuildMembersDesc": "Orang dari komunitas yang sama-sama Anda ikuti dapat menambahkan Anda ke obrolan grup",
-    "@privacyDashboardGroupDmGuildMembersDesc": {
-        "description": "Privacy dashboard group DM custom toggle description."
     },
     "privacyDashboardVoiceActivityTitle": "Aktivitas suara di Aktif sekarang",
     "@privacyDashboardVoiceActivityTitle": {
@@ -8473,6 +7866,10 @@
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
+    "doubleTapReactionHint": "Ketuk dua kali pesan untuk bereaksi dengan",
+    "@doubleTapReactionHint": {
+        "description": "Hint under quick reactions explaining double-tap to react."
+    },
     "chatMessageEdit": "Edit pesan",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
@@ -8480,6 +7877,14 @@
     "chatMessageReply": "Balas",
     "@chatMessageReply": {
         "description": "Action label for replying to a message."
+    },
+    "notificationReplyPlaceholder": "Pesan",
+    "@notificationReplyPlaceholder": {
+        "description": "Placeholder for the text field on a notification reply action."
+    },
+    "notificationReplyFailed": "Tidak dapat mengirim balasan",
+    "@notificationReplyFailed": {
+        "description": "Body of the local notification shown when a notification reply fails to send."
     },
     "chatMessageForward": "Teruskan",
     "@chatMessageForward": {
@@ -8741,420 +8146,155 @@
     "@chatMessageReport": {
         "description": "Action label that opens the report-message sheet so the user can flag the message to moderators."
     },
-    "iarReportMessageTitle": "Laporkan pesan",
-    "@iarReportMessageTitle": {
-        "description": "Title shown at the top of the In-App Reporting (IAR) sheet when the user is reporting a specific message."
+    "reportFlowTitleMessage": "Laporkan pesan",
+    "@reportFlowTitleMessage": {
+        "description": "Report flow: sheet title while the message report form loads or fails to load."
     },
-    "iarThisUserFallback": "pengguna ini",
-    "@iarThisUserFallback": {
-        "description": "Lowercase phrase used mid-sentence in IAR copy when referring to the reported user without a name (e.g. inside the close-DM confirmation)."
+    "reportFlowTitleUserProfile": "Laporkan profil",
+    "@reportFlowTitleUserProfile": {
+        "description": "Report flow: sheet title while the user profile report form loads or fails to load."
     },
-    "iarModalDescription": "Laporkan pelanggaran aturan, atau temukan alat untuk mengelola kontak dan preferensi.",
-    "@iarModalDescription": {
-        "description": "Screen-reader description for the IAR sheet announcing what the flow is for."
+    "reportFlowSummaryTitle": "Periksa laporanmu",
+    "@reportFlowSummaryTitle": {
+        "description": "Report flow: title of the last screen, where the reporter reviews the report before sending it."
     },
-    "iarPathStepAriaLabel": "Apa yang Anda butuhkan?",
-    "@iarPathStepAriaLabel": {
-        "description": "Accessible label for the primary-path radio group on the first step of the IAR sheet. Not shown visually; the radios are labelled inline."
+    "reportFlowSummarySubtitle": "Pastikan ini sudah benar sebelum kamu mengirimnya.",
+    "@reportFlowSummarySubtitle": {
+        "description": "Report flow: subtitle of the report summary screen."
     },
-    "iarCategoryStepTitle": "Jenis aturan apa yang dilanggar?",
-    "@iarCategoryStepTitle": {
-        "description": "Title shown on the category step of the IAR sheet (platform-report path)."
+    "reportFlowDisclaimer": "Laporkan hanya hal yang kamu yakini dengan jujur melanggar aturan. Penyalahgunaan laporan bertentangan dengan {guidelines} kami.",
+    "@reportFlowDisclaimer": {
+        "description": "Report flow: disclaimer on the report summary screen. {guidelines} is a link whose text is reportFlowCommunityGuidelinesLink.",
+        "placeholders": {
+            "guidelines": {
+                "type": "String",
+                "example": "Community Guidelines"
+            }
+        }
     },
-    "iarReasonStepTitle": "Aturan mana yang dilanggar?",
-    "@iarReasonStepTitle": {
-        "description": "Title shown on the reason step of the IAR sheet after the user has picked a rule category."
+    "reportFlowCommunityGuidelinesLink": "panduan komunitas",
+    "@reportFlowCommunityGuidelinesLink": {
+        "description": "Report flow: link text inside reportFlowDisclaimer. Opens the community guidelines page."
     },
-    "iarReasonSelectHint": "Pilih alasan",
-    "@iarReasonSelectHint": {
-        "description": "Placeholder shown in the message-report reason dropdown before the user picks a rule."
+    "reportFlowDisclaimerNoLink": "Laporkan hanya hal yang kamu yakini dengan jujur melanggar aturan, dan mohon jangan mengirim laporan yang sama dua kali.",
+    "@reportFlowDisclaimerNoLink": {
+        "description": "Report flow: disclaimer on the report summary screen when the instance has no community guidelines page."
     },
-    "iarPickAnOptionToast": "Pilih salah satu opsi untuk melanjutkan.",
-    "@iarPickAnOptionToast": {
-        "description": "Toast shown when the user taps Continue on a step without selecting any radio option."
+    "reportFlowSelectedMessage": "Pesan yang kamu laporkan",
+    "@reportFlowSelectedMessage": {
+        "description": "Report flow: heading above the preview of the reported message on the report summary screen."
     },
-    "iarPickARuleToast": "Pilih aturan yang dilanggar.",
-    "@iarPickARuleToast": {
-        "description": "Toast shown when the user taps Send report without selecting a rule reason."
+    "reportFlowSelectedUser": "Profil yang kamu laporkan",
+    "@reportFlowSelectedUser": {
+        "description": "Report flow: heading above the card of the reported user on the first screen and the report summary screen."
     },
-    "iarPathPlatform": "Laporkan pelanggaran aturan platform",
-    "@iarPathPlatform": {
-        "description": "Primary-path radio label: file a real DSA / platform-level report."
+    "reportFlowReportCategory": "Jawabanmu",
+    "@reportFlowReportCategory": {
+        "description": "Report flow: heading above the list of answers the reporter picked, on the report summary screen."
     },
-    "iarPathCommunity": "Laporkan ke moderator komunitas ini",
-    "@iarPathCommunity": {
-        "description": "Primary-path radio label: surface this to community moderators rather than platform safety."
+    "reportFlowSubmit": "Kirim laporan",
+    "@reportFlowSubmit": {
+        "description": "Report flow: button on the report summary screen that sends the report."
     },
-    "iarPathPreferenceMessage": "Saya tidak suka konten ini",
-    "@iarPathPreferenceMessage": {
-        "description": "Primary-path radio label: the user doesn't want platform action, they want self-service tools (block, leave, settings)."
+    "reportFlowBack": "Kembali",
+    "@reportFlowBack": {
+        "description": "Report flow: button that returns to the previous screen of the report form."
     },
-    "iarCategoryTargetedHarmLabel": "Ancaman, pelecehan, atau bahaya",
-    "@iarCategoryTargetedHarmLabel": {
-        "description": "Rule-category label grouping harassment, hate, violence, terrorism, raids, and self-harm content."
+    "reportFlowNext": "Berikutnya",
+    "@reportFlowNext": {
+        "description": "Report flow: button that goes to the next screen of the report form."
     },
-    "iarCategoryTargetedHarmDescription": "Penindasan, ancaman, kebencian, kekerasan, serangan, atau konten yang mendorong tindakan menyakiti diri sendiri.",
-    "@iarCategoryTargetedHarmDescription": {
-        "description": "One-line description for the targeted-harm rule category."
+    "reportFlowDone": "Selesai",
+    "@reportFlowDone": {
+        "description": "Report flow: button that closes the report form when it is finished."
     },
-    "iarCategorySafetyMinorsLabel": "Keamanan anak atau konten dewasa",
-    "@iarCategorySafetyMinorsLabel": {
-        "description": "Rule-category label grouping child-safety and mature-content reports."
+    "reportFlowThankYouTitle": "Laporan terkirim",
+    "@reportFlowThankYouTitle": {
+        "description": "Report flow: title of the screen shown after a report was sent."
     },
-    "iarCategorySafetyMinorsDescription": "Anak di bawah umur berisiko, konten dewasa di tempat yang salah, atau perilaku yang tidak diinginkan.",
-    "@iarCategorySafetyMinorsDescription": {
-        "description": "One-line description for the child-safety / mature-content rule category."
+    "reportFlowThankYouNoReportTitle": "Terima kasih telah menandainya",
+    "@reportFlowThankYouNoReportTitle": {
+        "description": "Report flow: title of the screen shown when the chosen answer does not send a report."
     },
-    "iarCategoryPrivacyIdentityLabel": "Privasi atau peniruan identitas",
-    "@iarCategoryPrivacyIdentityLabel": {
-        "description": "Rule-category label grouping privacy violations and impersonation."
-    },
-    "iarCategoryPrivacyIdentityDescription": "Doxing, menguntit, menyamar sebagai orang lain, atau profil yang tidak pantas.",
-    "@iarCategoryPrivacyIdentityDescription": {
-        "description": "One-line description for the privacy / impersonation rule category."
-    },
-    "iarCategoryDeceptionLabel": "Penipuan, malware, atau misinformasi",
-    "@iarCategoryDeceptionLabel": {
-        "description": "Rule-category label grouping spam/scams, malware, and harmful misinformation."
-    },
-    "iarCategoryDeceptionDescription": "Phishing, penipuan, tautan berbahaya, atau klaim palsu yang berpotensi menimbulkan kerugian di dunia nyata.",
-    "@iarCategoryDeceptionDescription": {
-        "description": "One-line description for the scams / malware / misinformation rule category."
-    },
-    "iarCategoryIllegalOtherLabel": "Aktivitas ilegal atau lainnya",
-    "@iarCategoryIllegalOtherLabel": {
-        "description": "Rule-category label grouping illegal activity and the catch-all Other reason."
-    },
-    "iarCategoryIllegalOtherDescription": "Penjualan ilegal, fasilitasi kriminal, atau pelanggaran aturan yang jelas yang tidak termasuk dalam kategori di atas.",
-    "@iarCategoryIllegalOtherDescription": {
-        "description": "One-line description for the illegal / other rule category."
-    },
-    "iarReasonHarassmentLabel": "Pelecehan atau ancaman",
-    "@iarReasonHarassmentLabel": {
-        "description": "Rule-reason label for harassment in the IAR message flow."
-    },
-    "iarReasonHarassmentMessageDescription": "Penindasan, kontak yang tidak diinginkan berulang kali, penguntitan, atau pelecehan yang ditargetkan.",
-    "@iarReasonHarassmentMessageDescription": {
-        "description": "Rule-reason description for harassment in the IAR message flow."
-    },
-    "iarReasonHateLabel": "Ujaran kebencian",
-    "@iarReasonHateLabel": {
-        "description": "Rule-reason label for hate speech in the IAR message flow."
-    },
-    "iarReasonHateMessageDescription": "Kata-kata hinaan, bahasa yang merendahkan martabat, atau serangan terhadap kelompok yang dilindungi.",
-    "@iarReasonHateMessageDescription": {
-        "description": "Rule-reason description for hate speech in the IAR message flow."
-    },
-    "iarReasonViolenceLabel": "Kekerasan atau ancaman kekerasan",
-    "@iarReasonViolenceLabel": {
-        "description": "Rule-reason label for violence in the IAR message flow."
-    },
-    "iarReasonViolenceDescription": "Ancaman yang kredibel, kekerasan grafis, atau glorifikasi kekerasan.",
-    "@iarReasonViolenceDescription": {
-        "description": "Rule-reason description for violence in the IAR message flow."
-    },
-    "iarReasonMatureContentLabel": "Konten dewasa atau pelecehan",
-    "@iarReasonMatureContentLabel": {
-        "description": "Rule-reason label for mature content / unwanted conduct in the IAR message flow."
-    },
-    "iarReasonMatureContentMessageDescription": "Perilaku yang tidak diinginkan atau konten dewasa di tempat yang salah.",
-    "@iarReasonMatureContentMessageDescription": {
-        "description": "Rule-reason description for mature content in the IAR message flow."
-    },
-    "iarReasonChildSafetyLabel": "Keamanan anak atau eksploitasi anak di bawah umur",
-    "@iarReasonChildSafetyLabel": {
-        "description": "Rule-reason label for child-safety reports in the IAR message flow. Also used as the {childSafetyReason} placeholder in iarUseChildSafetyInstead."
-    },
-    "iarReasonChildSafetyMessageDescription": "Konten grooming atau eksploitasi anak.",
-    "@iarReasonChildSafetyMessageDescription": {
-        "description": "Rule-reason description for child-safety reports in the IAR message flow."
-    },
-    "iarReasonHarmfulMisinfoLabel": "Misinformasi berbahaya",
-    "@iarReasonHarmfulMisinfoLabel": {
-        "description": "Rule-reason label for harmful misinformation in the IAR message flow."
-    },
-    "iarReasonHarmfulMisinfoDescription": "Klaim palsu yang kemungkinan menyebabkan kerugian di dunia nyata.",
-    "@iarReasonHarmfulMisinfoDescription": {
-        "description": "Rule-reason description for harmful misinformation."
-    },
-    "iarReasonSpamLabel": "Spam, penipuan, atau phishing",
-    "@iarReasonSpamLabel": {
-        "description": "Rule-reason label for spam/scams/phishing in the IAR message flow."
-    },
-    "iarReasonSpamMessageDescription": "Spam massal, penipuan, giveaway palsu, atau penyalahgunaan akun.",
-    "@iarReasonSpamMessageDescription": {
-        "description": "Rule-reason description for spam/scams in the IAR message flow."
-    },
-    "iarReasonMalwareLabel": "Malware atau tautan berbahaya",
-    "@iarReasonMalwareLabel": {
-        "description": "Rule-reason label for malware / dangerous links in the IAR message flow."
-    },
-    "iarReasonMalwareDescription": "Malware, pencurian kredensial, atau file berbahaya.",
-    "@iarReasonMalwareDescription": {
-        "description": "Rule-reason description for malware."
-    },
-    "iarReasonPrivacyLabel": "Pelanggaran privasi",
-    "@iarReasonPrivacyLabel": {
-        "description": "Rule-reason label for privacy violations in the IAR message flow."
-    },
-    "iarReasonPrivacyDescription": "Doxing, informasi pribadi yang terekspos, atau penguntitan.",
-    "@iarReasonPrivacyDescription": {
-        "description": "Rule-reason description for privacy violations."
-    },
-    "iarReasonImpersonationLabel": "Peniruan identitas atau media yang menipu",
-    "@iarReasonImpersonationLabel": {
-        "description": "Rule-reason label for impersonation in the IAR message flow."
-    },
-    "iarReasonImpersonationMessageDescription": "Berpura-pura menjadi orang lain, termasuk konten hasil AI yang menipu.",
-    "@iarReasonImpersonationMessageDescription": {
-        "description": "Rule-reason description for impersonation in the IAR message flow."
-    },
-    "iarReasonIllegalLabel": "Aktivitas ilegal",
-    "@iarReasonIllegalLabel": {
-        "description": "Rule-reason label for illegal activity in the IAR message flow."
-    },
-    "iarReasonIllegalDescription": "Penjualan ilegal, fasilitasi kriminal, atau aktivitas melanggar hukum.",
-    "@iarReasonIllegalDescription": {
-        "description": "Rule-reason description for illegal activity."
-    },
-    "iarReasonSelfHarmLabel": "Melukai diri sendiri atau bunuh diri",
-    "@iarReasonSelfHarmLabel": {
-        "description": "Rule-reason label for self-harm content in the IAR message flow."
-    },
-    "iarReasonSelfHarmMessageDescription": "Promosi atau instruksi yang mendorong tindakan menyakiti diri sendiri atau gangguan makan.",
-    "@iarReasonSelfHarmMessageDescription": {
-        "description": "Rule-reason description for self-harm content in the IAR message flow."
-    },
-    "iarReasonOtherLabel": "Pelanggaran aturan yang jelas lainnya",
-    "@iarReasonOtherLabel": {
-        "description": "Rule-reason label for the catch-all option in the IAR message flow."
-    },
-    "iarReasonOtherDescription": "Gunakan hanya jika jelas melanggar aturan {productName} dan tidak sesuai dengan pilihan di atas.",
-    "@iarReasonOtherDescription": {
-        "description": "Rule-reason description for the catch-all option.",
+    "reportFlowThankYouBody": "Tim Keamanan {productName} akan meninjau laporanmu. Kami tidak akan mengungkapkan bahwa laporan itu berasal darimu.",
+    "@reportFlowThankYouBody": {
+        "description": "Report flow: body of the thank-you screen after a report was sent. {productName} is the name of the app.",
         "placeholders": {
             "productName": {
-                "type": "String"
-            }
-        }
-    },
-    "iarUseChildSafetyInstead": "Jika melibatkan anak di bawah umur, gunakan \"{childSafetyReason}\" sebagai gantinya.",
-    "@iarUseChildSafetyInstead": {
-        "description": "Inline routing nudge shown under reasons (e.g. mature content) that overlap with child safety.",
-        "placeholders": {
-            "childSafetyReason": {
                 "type": "String",
-                "example": "Child safety or exploitation of minors"
+                "example": "Fluxer"
             }
         }
     },
-    "iarSafetyNoteChildSafety": "Jika ini melibatkan CSAM atau eksploitasi anak di bawah umur, kirim sekarang dan jangan bagikan materi tersebut lagi.",
-    "@iarSafetyNoteChildSafety": {
-        "description": "Inline safety note shown for child-safety reports on the reason step."
+    "reportFlowThankYouNoReportBody": "Terima kasih sudah memberi tahu kami. Hal ini saja tidak melanggar aturan kami, jadi kami tidak mengirim laporan. Jika ini menargetkan seseorang atau menggunakan hinaan, laporkan lagi dan pilih “Konten yang kasar atau berbahaya”.",
+    "@reportFlowThankYouNoReportBody": {
+        "description": "Report flow: body of the thank-you screen when the chosen answer does not send a report. \"Abusive or harmful content\" is the name of an option on the first screen of the message report form."
     },
-    "iarSafetyNoteSelfHarm": "Jika ada orang yang berada dalam bahaya mendesak, hubungi layanan darurat setempat jika kamu bisa melakukannya dengan aman.",
-    "@iarSafetyNoteSelfHarm": {
-        "description": "Inline safety note shown for self-harm reports on the reason step."
+    "reportFlowThankYouNoReportBodyShort": "Terima kasih sudah memberi tahu kami. Hal ini saja tidak melanggar aturan kami, jadi kami tidak mengirim laporan.",
+    "@reportFlowThankYouNoReportBodyShort": {
+        "description": "Report flow: body of the thank-you screen when the chosen answer does not send a report and the reporter is already past the first screen of the form."
     },
-    "iarSafetyNoteViolence": "Jika ini adalah ancaman nyata yang akan segera terjadi, hubungi juga layanan darurat setempat.",
-    "@iarSafetyNoteViolence": {
-        "description": "Inline safety note shown for violence reports on the reason step."
+    "reportFlowMoreYouCanDo": "Pilihanmu",
+    "@reportFlowMoreYouCanDo": {
+        "description": "Report flow: heading above the extra actions (such as blocking the user) on the thank-you screen."
     },
-    "iarSafetyNoteTerrorism": "Jika ini adalah ancaman teroris yang akan segera terjadi, hubungi juga layanan darurat setempat.",
-    "@iarSafetyNoteTerrorism": {
-        "description": "Inline safety note shown for terrorism reports on the reason step."
-    },
-    "iarActionBlockUserTitle": "Blokir pengguna ini",
-    "@iarActionBlockUserTitle": {
-        "description": "Action card title for blocking the reported user."
-    },
-    "iarActionBlockUserDescription": "Hentikan pesan dan permintaan pertemanan.",
-    "@iarActionBlockUserDescription": {
-        "description": "Action card description for blocking the reported user."
-    },
-    "iarActionBlockUserButton": "Blokir",
-    "@iarActionBlockUserButton": {
-        "description": "Trailing button label on the block-user action card."
-    },
-    "iarActionCopyMessageLinkTitle": "Salin tautan pesan",
-    "@iarActionCopyMessageLinkTitle": {
-        "description": "Action card title for copying a link to the reported message so the user can share it with community moderators."
-    },
-    "iarActionCopyMessageLinkDescription": "Bagikan ke moderator komunitas.",
-    "@iarActionCopyMessageLinkDescription": {
-        "description": "Action card description for copying a message link."
-    },
-    "iarActionCopyMessageLinkButton": "Salin",
-    "@iarActionCopyMessageLinkButton": {
-        "description": "Trailing button label on the copy-message-link action card."
-    },
-    "iarActionCloseDmTitle": "Tutup DM ini",
-    "@iarActionCloseDmTitle": {
-        "description": "Action card title for closing the DM with the reported user."
-    },
-    "iarActionCloseDmDescription": "Tidak memblokir. Kamu bisa membukanya lagi nanti.",
-    "@iarActionCloseDmDescription": {
-        "description": "Action card description for closing the DM."
-    },
-    "iarActionCloseDmButton": "Tutup DM",
-    "@iarActionCloseDmButton": {
-        "description": "Trailing button label on the close-DM action card."
-    },
-    "iarActionLeaveCommunityTitle": "Keluar dari komunitas",
-    "@iarActionLeaveCommunityTitle": {
-        "description": "Action card title for leaving the guild the reported message was sent in."
-    },
-    "iarActionLeaveCommunityDescription": "Berhenti melihat konten dan anggotanya.",
-    "@iarActionLeaveCommunityDescription": {
-        "description": "Action card description for leaving the community."
-    },
-    "iarActionLeaveCommunityButton": "Keluar",
-    "@iarActionLeaveCommunityButton": {
-        "description": "Trailing button label on the leave-community action card."
-    },
-    "iarActionDmSettingsTitle": "Pengaturan DM & permintaan pertemanan",
-    "@iarActionDmSettingsTitle": {
-        "description": "Action card title for opening the DM / friend-request privacy settings."
-    },
-    "iarActionDmSettingsDescription": "Ubah siapa yang bisa menghubungimu.",
-    "@iarActionDmSettingsDescription": {
-        "description": "Action card description for DM / friend-request privacy settings."
-    },
-    "iarActionCallSettingsTitle": "Pengaturan panggilan & obrolan grup",
-    "@iarActionCallSettingsTitle": {
-        "description": "Action card title for opening the call / group-chat privacy settings."
-    },
-    "iarActionCallSettingsDescription": "Ubah siapa yang bisa menelepon atau menambahkanmu.",
-    "@iarActionCallSettingsDescription": {
-        "description": "Action card description for call / group-chat privacy settings."
-    },
-    "iarActionOpenButton": "Buka",
-    "@iarActionOpenButton": {
-        "description": "Trailing button label for action cards that navigate the user into a settings section."
-    },
-    "iarActionDeleteMessageTitle": "Hapus pesan ini",
-    "@iarActionDeleteMessageTitle": {
-        "description": "Action card title (moderator-only) for deleting the reported message."
-    },
-    "iarActionDeleteMessageDescription": "Hapus dari saluran untuk semua orang.",
-    "@iarActionDeleteMessageDescription": {
-        "description": "Action card description (moderator-only) for deleting the reported message."
-    },
-    "iarActionDeleteMessageButton": "Hapus",
-    "@iarActionDeleteMessageButton": {
-        "description": "Trailing button label on the delete-message action card."
-    },
-    "iarActionDeleteMessageDeletedButton": "Dihapus",
-    "@iarActionDeleteMessageDeletedButton": {
-        "description": "Disabled-state trailing button label on the delete-message action card after the message is already gone."
-    },
-    "iarActionDeleteMessageDeletedTooltip": "Pesan ini sudah dihapus.",
-    "@iarActionDeleteMessageDeletedTooltip": {
-        "description": "Tooltip on the disabled delete-message action card."
-    },
-    "iarActionBanUserTitle": "Blokir pengguna ini",
-    "@iarActionBanUserTitle": {
-        "description": "Action card title (moderator-only) for opening the ban dialog against the reported user."
-    },
-    "iarActionBanUserDescription": "Buka dialog blokir untuk komunitas ini.",
-    "@iarActionBanUserDescription": {
-        "description": "Action card description (moderator-only) for banning the reported user."
-    },
-    "iarActionBanUserButton": "Blokir",
-    "@iarActionBanUserButton": {
-        "description": "Trailing button label on the ban-user action card."
-    },
-    "iarActionBanUserBannedButton": "Diblokir",
-    "@iarActionBanUserBannedButton": {
-        "description": "Disabled-state trailing button label on the ban-user action card after the target is already banned."
-    },
-    "iarActionBanUserBannedTooltip": "Pengguna ini sudah diblokir dari komunitas.",
-    "@iarActionBanUserBannedTooltip": {
-        "description": "Tooltip on the disabled ban-user action card."
-    },
-    "iarCloseDmConfirmTitle": "Tutup DM",
-    "@iarCloseDmConfirmTitle": {
-        "description": "Title of the confirm-close-DM bottom sheet shown after the user taps Close DM on the action card."
-    },
-    "iarCloseDmConfirmDescription": "Tutup DM Anda saat ini dengan {name}. Ini tidak akan memblokir mereka; Anda dapat membukanya kembali nanti.",
-    "@iarCloseDmConfirmDescription": {
-        "description": "Body of the confirm-close-DM bottom sheet.",
+    "reportFlowBlockName": "Blokir {name}",
+    "@reportFlowBlockName": {
+        "description": "Report flow: title of the row on the thank-you screen that blocks the reported user. {name} is the display name of that user.",
         "placeholders": {
             "name": {
                 "type": "String",
-                "example": "ada"
+                "example": "Alice"
             }
         }
     },
-    "iarSuccessTitle": "Laporan terkirim",
-    "@iarSuccessTitle": {
-        "description": "Title shown on the success step after a platform report is submitted."
+    "reportFlowBlockDescription": "Menyembunyikan pesan mereka dan mencegah mereka mengirim pesan kepadamu",
+    "@reportFlowBlockDescription": {
+        "description": "Report flow: description under reportFlowBlockName on the thank-you screen."
     },
-    "iarSuccessBody": "Tim keamanan kami sedang meninjaunya. Kami akan mengirimimu DM dan email setelah ada keputusan.",
-    "@iarSuccessBody": {
-        "description": "Body shown on the success step after a platform report is submitted."
+    "reportFlowBlockButton": "Blokir",
+    "@reportFlowBlockButton": {
+        "description": "Report flow: button on the thank-you screen that blocks the reported user."
     },
-    "iarAlreadyReportedTitle": "Sudah dilaporkan",
-    "@iarAlreadyReportedTitle": {
-        "description": "Title shown on the IAR success step when the message had already been reported by this user (HTTP 409); the existing report is under review."
+    "reportFlowBlockedButton": "Diblokir",
+    "@reportFlowBlockedButton": {
+        "description": "Report flow: disabled button on the thank-you screen after the reported user was blocked."
     },
-    "iarAlreadyReportedBody": "Anda sudah melaporkan pesan ini. Tim keamanan kami sedang meninjaunya.",
-    "@iarAlreadyReportedBody": {
-        "description": "Body shown on the IAR success step when the message had already been reported by this user (HTTP 409)."
+    "reportFlowUrgentBanner": "Jika seseorang berada dalam bahaya mendesak, hubungi layanan darurat setempat terlebih dahulu.",
+    "@reportFlowUrgentBanner": {
+        "description": "Report flow: banner on screens about urgent harm, such as threats, self-harm or the safety of minors."
     },
-    "iarBackButton": "Kembali",
-    "@iarBackButton": {
-        "description": "Footer button label that returns the user to the previous IAR step."
+    "reportFlowLoadFailed": "Tidak dapat memuat formulir laporan.",
+    "@reportFlowLoadFailed": {
+        "description": "Report flow: error shown when the report form could not be loaded."
     },
-    "iarContinueButton": "Lanjutkan",
-    "@iarContinueButton": {
-        "description": "Footer button label that advances the user to the next IAR step."
+    "reportFlowTryAgain": "Coba lagi",
+    "@reportFlowTryAgain": {
+        "description": "Report flow: button that loads the report form again after an error."
     },
-    "iarSendReportButton": "Kirim laporan",
-    "@iarSendReportButton": {
-        "description": "Footer button label that submits the IAR report."
+    "reportFlowOutdated": "Formulir laporan berubah. Mulai lagi.",
+    "@reportFlowOutdated": {
+        "description": "Report flow: toast shown when the report form changed on the server while the reporter was filling it in. The form restarts from the first screen."
     },
-    "iarDoneButton": "Selesai",
-    "@iarDoneButton": {
-        "description": "Footer button label that closes the IAR sheet from the success or guidance step."
+    "reportFlowAlreadyReported": "Kamu sudah melaporkan pesan ini.",
+    "@reportFlowAlreadyReported": {
+        "description": "Report flow: note on the report summary screen when the reporter already reported this message."
     },
-    "iarCouldntSendToast": "Laporan tidak dapat dikirim. Coba lagi nanti.",
-    "@iarCouldntSendToast": {
-        "description": "Toast shown when the IAR report submission fails."
+    "reportFlowAlreadyReportedProfile": "Kamu sudah melaporkan profil ini hari ini.",
+    "@reportFlowAlreadyReportedProfile": {
+        "description": "Report flow: note on the report summary screen when the reporter already reported this user profile in the last 24 hours."
     },
-    "iarRateLimitedToast": "Anda terlalu cepat melaporkan. Harap tunggu sebentar dan coba lagi.",
-    "@iarRateLimitedToast": {
-        "description": "Toast shown when an IAR report submission is rejected for rate limiting (HTTP 429)."
+    "reportFlowRateLimited": "Kamu mengirim laporan terlalu cepat. Coba lagi nanti.",
+    "@reportFlowRateLimited": {
+        "description": "Report flow: note on the report summary screen when the reporter sent too many reports."
     },
-    "iarReportSentToast": "Laporan terkirim. Tim keselamatan kami akan meninjaunya.",
-    "@iarReportSentToast": {
-        "description": "Toast shown after a message report is submitted successfully from the simple mobile report sheet."
+    "reportFlowSubmitFailed": "Laporanmu tidak terkirim. Coba lagi.",
+    "@reportFlowSubmitFailed": {
+        "description": "Report flow: note on the report summary screen when the report could not be sent."
     },
-    "iarBlockUserConfirmDescription": "Blokir {name}? Mereka tidak akan bisa mengirim pesan atau permintaan pertemanan kepada Anda. Anda bisa membuka blokir mereka nanti.",
-    "@iarBlockUserConfirmDescription": {
-        "description": "Body of the confirm-block-user bottom sheet shown after the user taps Block on the IAR action card.",
-        "placeholders": {
-            "name": {
-                "type": "String",
-                "example": "ada"
-            }
-        }
-    },
-    "iarBlockUserFailedToast": "Tidak dapat memblokir pengguna ini. Silakan coba lagi.",
-    "@iarBlockUserFailedToast": {
-        "description": "Toast shown when blocking the reported user from the IAR action card fails."
-    },
-    "iarCloseDmSuccessToast": "DM ditutup.",
-    "@iarCloseDmSuccessToast": {
-        "description": "Toast shown after the DM with the reported user is closed from the IAR action card."
-    },
-    "iarCloseDmFailedToast": "Tidak dapat menutup DM ini. Coba lagi.",
-    "@iarCloseDmFailedToast": {
-        "description": "Toast shown when closing the DM from the IAR action card fails."
-    },
-    "iarLeaveCommunityFailedToast": "Gagal meninggalkan komunitas ini. Coba lagi.",
-    "@iarLeaveCommunityFailedToast": {
-        "description": "Toast shown when leaving the community from the IAR action card fails."
+    "reportFlowAccountSetupRequired": "Klaim akunmu dan verifikasi emailmu untuk mengirim laporan.",
+    "@reportFlowAccountSetupRequired": {
+        "description": "Report flow: notice on the report summary screen when the account must be claimed and its email verified before it can send reports."
     },
     "chatMessageSuppressEmbeds": "Sembunyikan sematan",
     "@chatMessageSuppressEmbeds": {
@@ -9425,6 +8565,10 @@
     "@chatVideoPlaybackFailed": {
         "description": "Shown when embedded or attachment video playback fails in the chat player."
     },
+    "chatImageCouldNotLoad": "Tidak dapat memuat gambar ini.",
+    "@chatImageCouldNotLoad": {
+        "description": "Shown when an attached, embedded, or viewed image fails to download or decode."
+    },
     "composerAutocompleteRoleMentionDescription": "Beri tahu pengguna dengan peran ini yang memiliki izin untuk melihat saluran ini.",
     "@composerAutocompleteRoleMentionDescription": {
         "description": "Secondary line in the @ mention autocomplete when the row is a mentionable guild role."
@@ -9444,26 +8588,6 @@
     "composerAutocompleteOptionalArgumentsHeading": "Argumen opsional",
     "@composerAutocompleteOptionalArgumentsHeading": {
         "description": "Section heading in composer autocomplete for adding optional slash-command arguments."
-    },
-    "composerAutocompleteChannelsHeading": "Saluran",
-    "@composerAutocompleteChannelsHeading": {
-        "description": "Section heading in composer autocomplete for channel suggestions."
-    },
-    "composerAutocompleteMembersHeading": "Anggota",
-    "@composerAutocompleteMembersHeading": {
-        "description": "Section heading in composer autocomplete for member suggestions."
-    },
-    "composerAutocompleteUsersHeading": "Pengguna",
-    "@composerAutocompleteUsersHeading": {
-        "description": "Section heading in composer autocomplete for user suggestions."
-    },
-    "composerAutocompleteMentionsHeading": "Sebutan",
-    "@composerAutocompleteMentionsHeading": {
-        "description": "Section heading in composer autocomplete for mixed mention suggestions."
-    },
-    "composerAutocompleteRolesHeading": "Peran",
-    "@composerAutocompleteRolesHeading": {
-        "description": "Section heading in composer autocomplete for role suggestions."
     },
     "composerAutocompleteMediaHeading": "Media",
     "@composerAutocompleteMediaHeading": {
@@ -9779,10 +8903,6 @@
     "@addGuildImportTemplateInvalid": {
         "description": "API error when Fluxer rejects the imported community template payload."
     },
-    "addGuildPackInstalled": "Paket berhasil diinstal.",
-    "@addGuildPackInstalled": {
-        "description": "Toast shown after accepting an emoji or sticker pack invite."
-    },
     "chatMessageRemoveAllReactionsConfirmTitle": "Hapus semua reaksi",
     "@chatMessageRemoveAllReactionsConfirmTitle": {
         "description": "Title for the remove-all-reactions confirmation sheet."
@@ -9904,10 +9024,6 @@
     "channelDetailsDeleteChannel": "Hapus saluran",
     "@channelDetailsDeleteChannel": {
         "description": "Channel details menu action to delete a guild channel."
-    },
-    "channelSettingsCategorySettingsTitle": "Pengaturan kategori",
-    "@channelSettingsCategorySettingsTitle": {
-        "description": "Title for category settings modal."
     },
     "channelSettingsEditCategory": "Edit kategori",
     "@channelSettingsEditCategory": {
@@ -10168,18 +9284,6 @@
     "@channelSettingsVoiceRegionsLoadFailedDescription": {
         "description": "Error modal body when voice regions fail to load in channel settings."
     },
-    "channelSettingsResetSlider": "Setel ulang penggeser ke nilai default",
-    "@channelSettingsResetSlider": {
-        "description": "Tooltip for reset buttons on channel settings sliders."
-    },
-    "channelSettingsAdvanced": "Lanjutan",
-    "@channelSettingsAdvanced": {
-        "description": "Collapsible advanced section title in channel overview."
-    },
-    "channelSettingsMatureContentOverride": "Penggantian konten dewasa",
-    "@channelSettingsMatureContentOverride": {
-        "description": "Accessibility label for mature content override control."
-    },
     "channelSettingsMatureContentSectionDescription": "Timpa pengaturan tingkat {scopeLevel} untuk saluran ini. Konten dewasa akan ditampilkan di balik gerbang sebelum masuk.",
     "@channelSettingsMatureContentSectionDescription": {
         "description": "Section description for mature content settings in channel overview.",
@@ -10227,14 +9331,6 @@
             }
         }
     },
-    "channelSettingsMatureContentCategorySource": "kategori",
-    "@channelSettingsMatureContentCategorySource": {
-        "description": "Lowercase source label for inherited mature content from category."
-    },
-    "channelSettingsMatureContentCommunitySource": "komunitas",
-    "@channelSettingsMatureContentCommunitySource": {
-        "description": "Lowercase source label for inherited mature content from community."
-    },
     "channelSettingsMatureContentCategoryScope": "Kategori",
     "@channelSettingsMatureContentCategoryScope": {
         "description": "Capitalized scope label when mature content inherits from a category."
@@ -10258,24 +9354,6 @@
     "channelSettingsContentWarningDefault": "Ini berisi konten sensitif.",
     "@channelSettingsContentWarningDefault": {
         "description": "Default content warning text placeholder."
-    },
-    "channelSettingsPermissionsNeedManageChannels": "Kamu memerlukan izin \"{manageChannelsPermissionLabel}\" untuk mengedit izin ini.",
-    "@channelSettingsPermissionsNeedManageChannels": {
-        "description": "Error when user lacks manage channels permission for channel permissions tab.",
-        "placeholders": {
-            "manageChannelsPermissionLabel": {
-                "type": "String"
-            }
-        }
-    },
-    "channelSettingsPermissionsNeedManageRoles": "Kamu memerlukan izin \"{manageRolesPermissionLabel}\" untuk mengedit izin ini.",
-    "@channelSettingsPermissionsNeedManageRoles": {
-        "description": "Error when user lacks manage roles permission for channel permissions tab.",
-        "placeholders": {
-            "manageRolesPermissionLabel": {
-                "type": "String"
-            }
-        }
     },
     "channelSettingsUnknownRole": "Peran tidak diketahui",
     "@channelSettingsUnknownRole": {
@@ -10361,10 +9439,6 @@
     "channelSettingsPermissionsSearchRolesOrMembers": "Cari peran atau anggota…",
     "@channelSettingsPermissionsSearchRolesOrMembers": {
         "description": "Placeholder for the add override search field."
-    },
-    "channelSettingsPermissionsRolesAndMembers": "Peran dan anggota",
-    "@channelSettingsPermissionsRolesAndMembers": {
-        "description": "Section title in the add override picker."
     },
     "channelSettingsDeleteInvite": "Hapus undangan",
     "@channelSettingsDeleteInvite": {
@@ -10458,10 +9532,6 @@
                 "type": "String"
             }
         }
-    },
-    "channelSettingsWebhooksUnknownUser": "Pengguna tidak dikenal",
-    "@channelSettingsWebhooksUnknownUser": {
-        "description": "Fallback label when webhook creator is unavailable."
     },
     "channelSettingsWebhooksAvatar": "Avatar",
     "@channelSettingsWebhooksAvatar": {
@@ -10650,10 +9720,6 @@
     "channelDetailsPinsEndReached": "Kamu sudah mencapai akhir",
     "@channelDetailsPinsEndReached": {
         "description": "Footer label when the user has scrolled through all pinned messages."
-    },
-    "channelHeaderOpenDetails": "Buka detail saluran",
-    "@channelHeaderOpenDetails": {
-        "description": "Accessibility label for the channel header title area."
     },
     "channelHeaderPinnedMessages": "Pesan tersemat",
     "@channelHeaderPinnedMessages": {
@@ -11217,10 +10283,6 @@
     "@groupDmEditTitle": {
         "description": "Title for the edit group DM modal or sheet."
     },
-    "groupDmEditDetailsTooltip": "Edit detail grup",
-    "@groupDmEditDetailsTooltip": {
-        "description": "Tooltip on the desktop group DM header edit action."
-    },
     "groupDmGroupName": "Nama grup",
     "@groupDmGroupName": {
         "description": "Label for the group name field in edit group."
@@ -11286,14 +10348,6 @@
     "@groupDmUnsupportedIconFormatBody": {
         "description": "Body when the selected group icon format is unsupported."
     },
-    "groupDmCouldntProcessImage": "Tidak dapat memproses gambar",
-    "@groupDmCouldntProcessImage": {
-        "description": "Title when a cropped group icon cannot be processed."
-    },
-    "groupDmFailedToProcessCroppedImage": "Gagal memproses gambar yang dipotong. Coba lagi.",
-    "@groupDmFailedToProcessCroppedImage": {
-        "description": "Body when a cropped group icon cannot be processed."
-    },
     "groupDmInvalidImage": "Gambar tidak valid",
     "@groupDmInvalidImage": {
         "description": "Title when the selected group icon image cannot be used."
@@ -11326,10 +10380,6 @@
     "@groupDmAddFriendFailed": {
         "description": "Error when adding a single friend to a group DM fails."
     },
-    "groupDmAddFailed": "Tidak dapat menambahkan ke grup",
-    "@groupDmAddFailed": {
-        "description": "Title when adding friends to a group DM fails."
-    },
     "groupDmGroupFull": "Grup ini penuh. Keluarkan seseorang sebelum menambahkan orang lain.",
     "@groupDmGroupFull": {
         "description": "Error when the group DM has no remaining member slots."
@@ -11337,10 +10387,6 @@
     "groupDmRateLimited": "Kamu terlalu cepat. Tunggu sebentar dan coba lagi.",
     "@groupDmRateLimited": {
         "description": "Error when add-friends requests are rate limited."
-    },
-    "groupDmCreateInviteFailed": "Tidak dapat membuat tautan undangan",
-    "@groupDmCreateInviteFailed": {
-        "description": "Title when invite link generation fails."
     },
     "groupDmCreateInviteFailedBody": "Tidak dapat membuat tautan undangan. Silakan coba lagi.",
     "@groupDmCreateInviteFailedBody": {
@@ -11623,10 +10669,6 @@
     "@userSettingsSearchPlaceholder": {
         "description": "Placeholder for the user settings search field."
     },
-    "userSettingsSearchFieldLabel": "Cari pengaturan",
-    "@userSettingsSearchFieldLabel": {
-        "description": "Accessibility label for the user settings search field."
-    },
     "userSettingsSearchClear": "Hapus pencarian",
     "@userSettingsSearchClear": {
         "description": "Accessibility label for clearing the user settings search field."
@@ -11669,8 +10711,6 @@
     "giftSettingsGiftUrl": "URL hadiah",
     "giftSettingsCopy": "Salin",
     "giftSettingsCopied": "Disalin",
-    "giftSettingsGiftUrlCopied": "URL hadiah disalin ke papan klip!",
-    "giftSettingsGiftUrlCopyFailed": "Tidak dapat menyalin URL hadiah",
     "giftSettingsPurchasedDate": "Dibeli {date}",
     "@giftSettingsPurchasedDate": {
         "placeholders": {
@@ -11712,7 +10752,6 @@
     "premiumBuyGift": "Beli hadiah",
     "premiumOneYearGift": "Hadiah 1 tahun",
     "premiumOneMonthGift": "Hadiah 1 bulan",
-    "premiumMostPopular": "Paling populer",
     "premiumScrollPrompt": "Gulir ke bawah untuk melihat semua keuntungan yang disertakan dengan Plutonium",
     "premiumFreeVsPlutonium": "Gratis vs Plutonium",
     "premiumFreeColumn": "Gratis",
@@ -11730,50 +10769,15 @@
     "premiumViewGifts": "Lihat hadiah",
     "premiumReadyToUpgrade": "Siap upgrade?",
     "premiumReadyToBuyGift": "Siap membeli hadiah?",
-    "premiumMonthlyPrice": "Bulanan {price}",
-    "@premiumMonthlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumYearlyPrice": "Tahunan {price}",
-    "@premiumYearlyPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneYearPrice": "1 tahun {price}",
-    "@premiumOneYearPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
-    "premiumOneMonthPrice": "1 bulan {price}",
-    "@premiumOneMonthPrice": {
-        "placeholders": {
-            "price": {
-                "type": "String"
-            }
-        }
-    },
     "premiumManageSubscription": "Kelola langganan",
     "premiumRedeemGiftCode": "Tukarkan kode hadiah",
     "premiumGiftBadge": "Hadiah",
     "premiumCancelSubscriptionTitle": "Batalkan langganan?",
     "premiumCancelSubscriptionBody": "Kamu tetap mendapat semua keuntungan hingga tanggal perpanjangan berikutnya, lalu ada masa tenggang 3 hari untuk berlangganan lagi dan mempertahankan riwayat langgananmu.",
     "premiumCancelSubscriptionConfirm": "Batalkan langganan",
-    "premiumKeepSubscription": "Tetap berlangganan",
     "premiumPurchaseHistoryTitle": "Riwayat pembelian",
     "premiumPurchaseHistoryDescription": "Tagihan terbaru Anda. Untuk mengubah metode pembayaran langganan Anda, tambahkan atau pilih salah satu di portal penagihan dan jadikan itu default.",
     "premiumManagePaymentMethods": "Kelola metode pembayaran",
-    "premiumBillingHistory": "Riwayat penagihan",
-    "premiumSelfServeRefundTitle": "Pengembalian dana mandiri",
     "premiumSelfServeRefundButton": "Kembalikan pembelian terakhir",
     "premiumDisclaimerAgreementPrefix": "Dengan membeli, Anda menyetujui ",
     "premiumDisclaimerAgreementPastPrefix": "Dengan membeli, Anda menyetujui ",
@@ -11813,23 +10817,16 @@
         "description": "Note next to the subscription plans when the user still has gifted Plutonium time left."
     },
     "premiumComparisonFeatureColumn": "Fitur",
-    "premiumDisclaimerPurchased": "Dengan membeli, kamu telah menyetujui {terms} dan {privacy} kami.",
-    "@premiumDisclaimerPurchased": {
-        "placeholders": {
-            "terms": {
-                "type": "String"
-            },
-            "privacy": {
-                "type": "String"
-            }
-        }
-    },
     "premiumDisclaimerRefund": "Pengembalian dana mandiri tersedia dalam 3 hari setelah pembayaran, sekali setiap 30 hari. Mengembalikan dana langganan akan membatalkannya. Pembeli di UE/EEA melepaskan hak penarikan 14 hari saat checkout untuk mengakses konten segera. Gunakan tombol pengembalian dana dalam aplikasi, bukan tolak bayar. Tolak bayar dapat membatasi akunmu secara permanen. Stripe menangani pembayaran dengan aman. Kami tidak pernah melihat nomor kartu lengkapmu.",
     "premiumTermsOfService": "Ketentuan layanan",
     "premiumPrivacyPolicy": "Kebijakan privasi",
     "premiumCheckoutStartFailedTitle": "Tidak dapat memulai pembayaran",
     "premiumCheckoutStartFailedBody": "Terjadi kesalahan saat memulai pembayaran. Silakan coba lagi sebentar lagi.",
     "premiumPlanUnavailable": "Paket ini tidak tersedia. Hubungi dukungan.",
+    "premiumPlanUnavailableSelfHosted": "Paket ini tidak tersedia. Hubungi administrator instance ini.",
+    "@premiumPlanUnavailableSelfHosted": {
+        "description": "Error shown on a self-hosted instance when the selected Plutonium plan is not available. Names no support mailbox."
+    },
     "premiumCompletePaymentTitle": "Selesaikan pembayaran",
     "premiumCompletePaymentBody": "Anda sekarang diarahkan ke Stripe untuk menyelesaikan pembayaran. Kembali ke Fluxer setelah selesai.",
     "premiumChoosePaymentMethodTitle": "Pilih metode pembayaran",
@@ -11845,29 +10842,97 @@
     "premiumExistingSubscriptionTitle": "Langganan sudah ada",
     "premiumExistingSubscriptionBody": "Kami menemukan langganan Fluxer Plutonium yang sudah ada untuk akun ini. Kelola di portal penagihan aman untuk memperbarui detail pembayaran atau memeriksa status perpanjangan. Jika baru saja membayar, tunggu sebentar dan buka kembali halaman ini.",
     "premiumPurchasesDisabledTitle": "Pembelian tidak tersedia",
-    "premiumPurchasesDisabledBody": "Pembelian dinonaktifkan untuk akun ini. Hubungi support@fluxer.app jika ini terlihat salah.",
+    "premiumPurchasesDisabledBody": "Pembelian dinonaktifkan untuk akun ini. Hubungi {supportEmail} jika ini terlihat salah.",
+    "@premiumPurchasesDisabledBody": {
+        "description": "Shown on the official hosted instance when purchases are disabled for the account. supportEmail is the support mailbox.",
+        "placeholders": {
+            "supportEmail": {
+                "type": "String"
+            }
+        }
+    },
+    "premiumPurchasesDisabledBodySelfHosted": "Pembelian dinonaktifkan untuk akun ini. Hubungi administrator instance ini jika ini terlihat salah.",
+    "@premiumPurchasesDisabledBodySelfHosted": {
+        "description": "Shown on a self-hosted instance when purchases are disabled for the account. Names no email address."
+    },
     "premiumClaimAccountToPurchase": "Klaim akun Anda untuk membeli Fluxer Plutonium.",
     "premiumVerifyEmailToPurchase": "Anda perlu memverifikasi email Anda sebelum dapat membeli Fluxer Plutonium.",
-    "premiumPerkCustomUsernameTag": "Tag nama pengguna khusus",
-    "premiumPerkPerCommunityProfiles": "Profil per komunitas",
-    "premiumPerkMessageScheduling": "Penjadwalan pesan",
-    "premiumPerkProfileBadge": "Lencana profil",
-    "premiumPerkCustomVideoBackgrounds": "Latar belakang video khusus",
-    "premiumPerkEntranceSounds": "Suara masuk",
     "premiumPerkCommunities": "Komunitas",
     "premiumPerkMessageCharacterLimit": "Batas karakter pesan",
     "premiumPerkBookmarkedMessages": "Pesan di bookmark",
     "premiumPerkFileUploadSize": "Ukuran unggahan file",
-    "premiumPerkEmojiStickerPacks": "Paket emoji & stiker",
-    "premiumPerkSavedMedia": "Media tersimpan",
     "premiumPerkUseAnimatedEmojis": "Gunakan emoji animasi",
-    "premiumPerkGlobalEmojiStickerAccess": "Akses emoji & stiker global",
     "premiumPerkVideoQuality": "Kualitas video",
     "premiumPerkAnimatedAvatarsBanners": "Avatar & banner profil animasi",
     "premiumPerkEarlyAccess": "Akses awal ke fitur baru",
-    "premiumPerkCustomThemes": "Tema kustom",
     "premiumPerkVideoQualityRestricted": "720p/30fps",
     "premiumPerkVideoQualityStock": "Hingga 4K/60fps",
+    "storePlutoniumPriceLine": "{monthly} atau {yearly}",
+    "@storePlutoniumPriceLine": {
+        "placeholders": {
+            "monthly": {
+                "type": "String"
+            },
+            "yearly": {
+                "type": "String"
+            }
+        }
+    },
+    "storePlutoniumMonthSuffix": "/bln",
+    "storePlutoniumYearSuffix": "/thn",
+    "storePlutoniumPriceOr": "atau",
+    "storePlutoniumEmojiTitle": "Emoji Anda, di mana saja",
+    "storePlutoniumEmojiBody": "Bawa emoji dan stiker kustom dari komunitas mana pun ke setiap chat dan komunitas tempat Anda berada.",
+    "storePlutoniumProfileTitle": "Profil yang menonjol",
+    "storePlutoniumProfileBody": "Dapatkan avatar dan banner animasi, lencana pelanggan, tag empat digit yang Anda inginkan setelah nama pengguna Anda*, dan profil terpisah untuk setiap komunitas.",
+    "storePlutoniumFilesTitle": "Kirim file hingga 500 MB",
+    "storePlutoniumFilesBody": "Bagikan video berdurasi penuh dan file besar tanpa mengecilkannya terlebih dahulu. Akun gratis dapat mengirim hingga 25 MB.",
+    "storePlutoniumCompareTitle": "Bandingkan Gratis dan Plutonium",
+    "storePlutoniumCompareMobileNote": "Tidak semua fitur ini ada di aplikasi seluler. Beberapa hanya tersedia di desktop.",
+    "storePlutoniumNotAvailable": "Tidak tersedia",
+    "storePlutoniumAvailable": "Tersedia",
+    "storePlutoniumCompareTag": "Pilih 4 digit angka setelah nama pengguna Anda*",
+    "storePlutoniumCompareProfile": "Profil terpisah untuk setiap komunitas",
+    "storePlutoniumCompareBadge": "Lencana pelanggan di profil Anda",
+    "storePlutoniumCompareBackgrounds": "Latar belakang panggilan video yang bisa Anda simpan",
+    "storePlutoniumCompareCommunities": "Komunitas yang bisa Anda ikuti",
+    "storePlutoniumCompareCharacters": "Karakter dalam satu pesan",
+    "storePlutoniumCompareBookmarks": "Pesan yang dapat Anda tandai",
+    "storePlutoniumCompareUpload": "File terbesar yang dapat Anda unggah",
+    "storePlutoniumCompareSavedMedia": "Item media yang bisa Anda simpan nanti",
+    "storePlutoniumCompareAnimatedEmoji": "Gunakan emoji animasi dalam pesan",
+    "storePlutoniumCompareCustomEmoji": "Gunakan emoji dan stiker kustom di komunitas mana pun",
+    "storePlutoniumCompareVideo": "Kualitas panggilan video dan berbagi layar",
+    "storePlutoniumCompareAvatar": "Avatar dan banner profil animasi",
+    "storePlutoniumCompareEarlyAccess": "Akses awal ke fitur baru",
+    "storePlutoniumCompareThemes": "Tema kustom untuk aplikasi",
+    "storePlutoniumVideoFree": "Hingga 720p pada 30 FPS",
+    "storePlutoniumVideoPlutonium": "Hingga 4K pada 60 FPS",
+    "storePlutoniumTagFootnote": "Anda hanya dapat memilih tag yang belum dimiliki oleh orang lain dengan nama pengguna yang sama. Nama pengguna tidak peka huruf besar/kecil, jadi Mina#4821 dan mina#4821 dianggap sama. Tag #0000 dicadangkan untuk anggota Fluxer Visionary.",
+    "storePlutoniumLearnVisionary": "Pelajari lebih lanjut tentang Visionary.",
+    "storePlutoniumDonatePrompt": "Hanya ingin mendukung pengembangan sumber terbuka Fluxer? ",
+    "storePlutoniumDonateLink": "Donasi saja.",
+    "storePlutoniumHighlightsLead": "Berlangganan mendanai Fluxer dan membuka kunci",
+    "storePlutoniumHighlightEmoji": "Emoji dan stiker kustom di chat mana pun",
+    "storePlutoniumHighlightProfile": "Profil animasi, lencana, dan nomor 4 digit kustom",
+    "storePlutoniumHighlightFiles": "Unggah hingga 500 MB",
+    "storePlutoniumHighlightMessages": "Kirim pesan hingga 4.000 karakter",
+    "storePlutoniumHighlightCommunityProfile": "Profil terpisah untuk setiap komunitas",
+    "storePlutoniumHighlightsMore": "Dan lainnya",
+    "storePlutoniumRenewsThroughPlay": "Diperbarui secara otomatis melalui Google Play sampai Anda membatalkan.",
+    "storePlutoniumRenewsThroughAppStore": "Diperbarui secara otomatis melalui App Store sampai Anda membatalkan.",
+    "storePlutoniumAlreadySubscribed": "Anda sudah memiliki langganan Fluxer Plutonium.",
+    "storePlutoniumSavePercent": "Hemat {percent}%",
+    "@storePlutoniumSavePercent": {
+        "placeholders": {
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "storePlutoniumWaiting": "Pembelian diterima. Plutonium akan muncul di sini setelah aktif.",
+    "storePlutoniumUnavailable": "Langganan dalam aplikasi belum tersedia di perangkat ini.",
+    "storePlutoniumVisionaryStatus": "Visionary sudah termasuk akses permanen, jadi langganan berulang tidak diperlukan.",
     "userSettingsNavPrivacyDashboard": "Dasbor Privasi",
     "@userSettingsNavPrivacyDashboard": {
         "description": "User settings navigation item for the privacy dashboard."
@@ -12028,16 +11093,6 @@
     "@audioAndVideoMicTestStopLabel": {
         "description": "Button label to stop the microphone test."
     },
-    "audioAndVideoMicTestPermissionRequired": "{productName} memerlukan akses mikrofon untuk menguji masukan Anda.",
-    "@audioAndVideoMicTestPermissionRequired": {
-        "description": "Shown when microphone permission is required for the mic test.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
     "audioAndVideoCameraLabel": "Kamera",
     "@audioAndVideoCameraLabel": {
         "description": "Label for camera device selection."
@@ -12082,39 +11137,9 @@
     "@audioAndVideoFrameRate60Label": {
         "description": "Screen share frame rate option for 60 FPS."
     },
-    "audioAndVideoHigherQualityRequiresPremium": "1080p dan 60 FPS memerlukan {premiumProductName}.",
-    "@audioAndVideoHigherQualityRequiresPremium": {
-        "description": "Note shown when higher video quality options require premium.",
-        "placeholders": {
-            "premiumProductName": {
-                "type": "String",
-                "example": "Plutonium"
-            }
-        }
-    },
-    "audioAndVideoInstanceVideoQualityLimit": "Instans ini saat ini mengizinkan berbagi layar hingga 720p pada 30 FPS.",
+    "audioAndVideoInstanceVideoQualityLimit": "Instance ini saat ini mengizinkan berbagi layar hingga 720p pada 30 FPS.",
     "@audioAndVideoInstanceVideoQualityLimit": {
         "description": "Note shown when instance limits block higher screen share quality."
-    },
-    "audioAndVideoMicrophonePermissionRequired": "{productName} memerlukan akses mikrofon untuk menampilkan daftar perangkatmu.",
-    "@audioAndVideoMicrophonePermissionRequired": {
-        "description": "Shown when microphone permission is required to enumerate audio input devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
-    },
-    "audioAndVideoCameraPermissionRequired": "{productName} memerlukan akses kamera untuk menampilkan daftar perangkatmu.",
-    "@audioAndVideoCameraPermissionRequired": {
-        "description": "Shown when camera permission is required to enumerate video devices.",
-        "placeholders": {
-            "productName": {
-                "type": "String",
-                "example": "Fluxer"
-            }
-        }
     },
     "audioAndVideoSkipHideOwnCameraConfirmLabel": "Jangan tanya saat menyembunyikan kamera saya",
     "@audioAndVideoSkipHideOwnCameraConfirmLabel": {
@@ -12153,14 +11178,6 @@
     "notificationsEnableDesktopNotificationsDescription": "Menggunakan pusat notifikasi OS. Untuk kontrol per-saluran/per-komunitas, klik kanan ikon komunitas dan buka pengaturan notifikasi.",
     "@notificationsEnableDesktopNotificationsDescription": {
         "description": "Description for the enable desktop notifications toggle."
-    },
-    "notificationsEnableBrowserNotificationsLabel": "Aktifkan notifikasi browser",
-    "@notificationsEnableBrowserNotificationsLabel": {
-        "description": "Toggle label for enabling browser notifications."
-    },
-    "notificationsEnableBrowserNotificationsDescription": "Dapatkan notifikasi saat kamu menerima pesan. Kamu mungkin perlu mengizinkan notifikasi di pengaturan browsermu. Untuk kontrol per saluran/per komunitas, klik kanan ikon komunitas dan buka pengaturan notifikasi.",
-    "@notificationsEnableBrowserNotificationsDescription": {
-        "description": "Description for the enable browser notifications toggle."
     },
     "notificationsPushInactiveTimeoutLabel": "Batas waktu tidak aktif untuk notifikasi push",
     "@notificationsPushInactiveTimeoutLabel": {
@@ -12540,10 +11557,6 @@
     "@languageAndTimeLanguageSectionDescription": {
         "description": "Settings section description for interface language preference."
     },
-    "languageAndTimeOpenLanguageSettings": "Buka pengaturan bahasa",
-    "@languageAndTimeOpenLanguageSettings": {
-        "description": "Button that opens the system per-app language settings."
-    },
     "languageAndTimeTimeFormatSectionTitle": "Format waktu",
     "@languageAndTimeTimeFormatSectionTitle": {
         "description": "Settings section title for time format preference."
@@ -12617,6 +11630,18 @@
     "defaultAppsWebBrowserExternal": "Peramban eksternal",
     "@defaultAppsWebBrowserExternal": {
         "description": "Default web browser option for the system default browser."
+    },
+    "userSettingsNavAppIcon": "Ikon aplikasi",
+    "@userSettingsNavAppIcon": {
+        "description": "User settings navigation item for choosing the home screen app icon."
+    },
+    "appIconSectionTitle": "Ikon aplikasi",
+    "@appIconSectionTitle": {
+        "description": "Title for the app icon settings section."
+    },
+    "appIconSectionDescription": "Pilih ikon yang muncul di layar utama Anda.",
+    "@appIconSectionDescription": {
+        "description": "Description for the app icon settings section."
     },
     "userSettingsNavAdvanced": "Lanjutan",
     "@userSettingsNavAdvanced": {
@@ -12695,7 +11720,6 @@
     "advancedSettingStripTrackingLabel": "Hapus parameter pelacakan dari URL",
     "advancedSettingStripTrackingDescription": "Hapus parameter pelacakan secara otomatis dari URL di pesan yang kamu kirim",
     "advancedSettingTrustAllLinksLabel": "Percayai semua tautan eksternal",
-    "advancedSettingTrustAllLinksDescription": "Lewati peringatan tautan eksternal untuk semua domain",
     "advancedSettingSearchEnginesLabel": "Mesin pencari",
     "advancedSettingSearchEnginesDescription": "Konfigurasi mesin pencari yang digunakan dari teks yang dipilih",
     "advancedSettingTranslatorsLabel": "Penerjemah",
@@ -12751,13 +11775,6 @@
     "advancedSettingHideStreamPreviewLabel": "Sembunyikan gambar mini pratinjau streaming saya",
     "advancedSettingDeveloperModeLabel": "Aktifkan mode pengembang",
     "advancedSettingDeveloperModeDescription": "Aktifkan mode pengembang",
-    "advancedSettingSearchEngineGoogle": "Google",
-    "advancedSettingSearchEngineDuckDuckGo": "DuckDuckGo",
-    "advancedSettingSearchEngineBing": "Bing",
-    "advancedSettingSearchEngineGoogleLens": "Google Lens",
-    "advancedSettingSearchEngineTinEye": "TinEye",
-    "advancedSettingTranslatorGoogle": "Terjemahan Google",
-    "advancedSettingTranslatorDeepL": "DeepL",
     "advancedSettingDefaultSearchEngineLabel": "Mesin pencari default",
     "advancedSettingDefaultSearchEngineDescription": "Pilih mesin pencari yang digunakan secara default saat mencari teks yang dipilih.",
     "advancedSettingBuiltInSearchEnginesLabel": "Mesin pencari bawaan",
@@ -13130,13 +12147,17 @@
     "@composerEmojiUnavailable": {
         "description": "Toast shown when a message contains a custom emoji the user cannot use in this channel."
     },
-    "instanceUrlLabel": "URL Instans",
+    "instanceUrlLabel": "URL Instance",
     "@instanceUrlLabel": {
         "description": "Label for the self-hosted instance URL input on the login screen."
     },
     "instanceUrlPlaceholder": "Masukkan URL instance (contoh: fluxer.app)",
     "@instanceUrlPlaceholder": {
         "description": "Placeholder for the self-hosted instance URL input."
+    },
+    "instanceUrlHelper": "Gunakan fluxer.app untuk instance resmi, atau URL persis dari instance yang di-host sendiri.",
+    "@instanceUrlHelper": {
+        "description": "Helper text explaining official vs self-hosted instance URLs."
     },
     "resetToDefaultInstance": "Atur ulang ke Fluxer",
     "@resetToDefaultInstance": {
@@ -13399,6 +12420,14 @@
     "authHidePassword": "Sembunyikan kata sandi",
     "@authHidePassword": {
         "description": "Screen reader label for the hide-password toggle on auth forms."
+    },
+    "authCheckStillWorking": "Masih dikerjakan…",
+    "@authCheckStillWorking": {
+        "description": "Small toast shown only when the automatic anti-spam check behind sign-in, sign-up or a similar action takes more than a couple of seconds. No user action needed."
+    },
+    "authVerificationFailed": "Verifikasi tidak dapat diselesaikan. Coba lagi.",
+    "@authVerificationFailed": {
+        "description": "Shown when the automatic anti-spam check behind sign-in, sign-up, phone verification or a similar action could not be completed."
     },
     "chatLoadingMessages": "Memuat pesan",
     "@chatLoadingMessages": {
@@ -13879,10 +12908,6 @@
     "@guildMenuHideMutedChannels": {
         "description": "Guild menu checkbox to hide muted channels."
     },
-    "guildMenuReportCommunity": "Laporkan komunitas",
-    "@guildMenuReportCommunity": {
-        "description": "Guild menu action to report the community."
-    },
     "guildMenuDebugCommunity": "Debug komunitas",
     "@guildMenuDebugCommunity": {
         "description": "Guild menu action to open community debug info."
@@ -13928,10 +12953,6 @@
     "@guildMenuSettingsWebhooks": {
         "description": "Community settings tab for webhooks."
     },
-    "guildMenuSettingsCustomInviteUrl": "URL Undangan Kustom",
-    "@guildMenuSettingsCustomInviteUrl": {
-        "description": "Community settings tab for custom invite URLs."
-    },
     "guildMenuSettingsDiscovery": "Discovery",
     "@guildMenuSettingsDiscovery": {
         "description": "Community settings tab for discovery settings."
@@ -13960,17 +12981,9 @@
     "@guildSettingsOverviewIconTitle": {
         "description": "Title for the guild icon section in overview settings."
     },
-    "guildSettingsUploadImage": "Unggah gambar",
-    "@guildSettingsUploadImage": {
-        "description": "Button label to upload an image in guild settings."
-    },
     "guildSettingsOverviewBannerTitle": "Banner",
     "@guildSettingsOverviewBannerTitle": {
         "description": "Title for the guild banner section."
-    },
-    "guildSettingsOverviewBannerHint": "Unggah banner untuk server Anda.",
-    "@guildSettingsOverviewBannerHint": {
-        "description": "Hint text for guild banner upload."
     },
     "guildSettingsOverviewNameTitle": "Nama",
     "@guildSettingsOverviewNameTitle": {
@@ -13979,22 +12992,6 @@
     "guildSettingsOverviewNameHint": "Komunitas saya yang keren",
     "@guildSettingsOverviewNameHint": {
         "description": "Hint for the guild name field."
-    },
-    "guildSettingsOverviewStatsTitle": "Statistik",
-    "@guildSettingsOverviewStatsTitle": {
-        "description": "Title for guild statistics section."
-    },
-    "guildSettingsOverviewMembers": "Anggota",
-    "@guildSettingsOverviewMembers": {
-        "description": "Label for member count in overview."
-    },
-    "guildSettingsOverviewOnline": "Online",
-    "@guildSettingsOverviewOnline": {
-        "description": "Label for online count in overview."
-    },
-    "guildSettingsRolesDescription": "Gunakan peran untuk mengelompokkan anggota dan memberikan izin.",
-    "@guildSettingsRolesDescription": {
-        "description": "Description for the roles settings tab."
     },
     "guildSettingsCreateRole": "Buat peran",
     "@guildSettingsCreateRole": {
@@ -14094,14 +13091,6 @@
     "@guildSettingsRolesComfyLayout": {
         "description": "Tooltip when permission list is in dense layout."
     },
-    "guildSettingsRolesSwitchToDenseLayout": "Beralih ke tata letak rapat",
-    "@guildSettingsRolesSwitchToDenseLayout": {
-        "description": "Aria label for switching to dense layout."
-    },
-    "guildSettingsRolesSwitchToComfyLayout": "Beralih ke tata letak nyaman",
-    "@guildSettingsRolesSwitchToComfyLayout": {
-        "description": "Aria label for switching to comfy layout."
-    },
     "guildSettingsRolesSingleColumn": "Satu kolom",
     "@guildSettingsRolesSingleColumn": {
         "description": "Tooltip when permission list is in two-column layout."
@@ -14110,21 +13099,9 @@
     "@guildSettingsRolesTwoColumns": {
         "description": "Tooltip when permission list is in single-column layout."
     },
-    "guildSettingsRolesSwitchToSingleColumn": "Beralih ke satu kolom",
-    "@guildSettingsRolesSwitchToSingleColumn": {
-        "description": "Aria label for switching to single column."
-    },
-    "guildSettingsRolesSwitchToTwoColumns": "Beralih ke dua kolom",
-    "@guildSettingsRolesSwitchToTwoColumns": {
-        "description": "Aria label for switching to two columns."
-    },
     "guildSettingsRolesNoPermissionsFound": "Tidak ada izin yang ditemukan",
     "@guildSettingsRolesNoPermissionsFound": {
         "description": "Empty state when permission search has no matches."
-    },
-    "guildSettingsRolesCustomHoistOrder": "Urutan hoist khusus",
-    "@guildSettingsRolesCustomHoistOrder": {
-        "description": "Button to enter custom hoist order mode."
     },
     "guildSettingsRolesHoistOrder": "Urutan hoist",
     "@guildSettingsRolesHoistOrder": {
@@ -14141,10 +13118,6 @@
     "guildSettingsRolesNoHoistedRoles": "Tidak ada peran yang ditampilkan terpisah. Aktifkan \"Tampilkan peran ini secara terpisah\" pada sebuah peran untuk melihatnya di sini.",
     "@guildSettingsRolesNoHoistedRoles": {
         "description": "Empty state when no roles are hoisted."
-    },
-    "guildSettingsRolesLockedTooltip": "Anda tidak dapat mengedit peran ini karena ini adalah peran tertinggi Anda atau di atas Anda",
-    "@guildSettingsRolesLockedTooltip": {
-        "description": "Tooltip on locked role rows."
     },
     "guildSettingsRolesNeedManageRolesPermission": "Anda memerlukan izin \"{permission}\" untuk mengedit izin ini",
     "@guildSettingsRolesNeedManageRolesPermission": {
@@ -14252,10 +13225,6 @@
     "permissionCategoryAudioVideo": "Audio & video",
     "@permissionCategoryAudioVideo": {
         "description": "Permission category label."
-    },
-    "permissionUnknown": "Izin tidak dikenal",
-    "@permissionUnknown": {
-        "description": "Fallback permission label."
     },
     "permissionAdministrator": "Administrator",
     "@permissionAdministrator": {
@@ -14525,30 +13494,9 @@
     "@permissionSetVoiceRegion": {
         "description": "Permission name."
     },
-    "guildSettingsEmojiSlotInfo": "{staticCount} emoji statis, {animatedCount} emoji animasi terpakai",
-    "@guildSettingsEmojiSlotInfo": {
-        "description": "Emoji slot usage summary.",
-        "placeholders": {
-            "staticCount": {
-                "type": "int"
-            },
-            "animatedCount": {
-                "type": "int"
-            }
-        }
-    },
     "guildSettingsEmojiEmpty": "Belum ada emoji kustom.",
     "@guildSettingsEmojiEmpty": {
         "description": "Empty state for emoji settings."
-    },
-    "guildSettingsStickersSlotInfo": "{count} stiker diunggah",
-    "@guildSettingsStickersSlotInfo": {
-        "description": "Sticker slot usage summary.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsStickersEmpty": "Belum ada stiker kustom.",
     "@guildSettingsStickersEmpty": {
@@ -14594,8 +13542,6 @@
     "guildSettingsVerificationMediumDescription": "Membutuhkan alamat email terverifikasi, dan akun yang berusia minimal 5 menit.",
     "guildSettingsVerificationHigh": "Tinggi",
     "guildSettingsVerificationHighDescription": "Memerlukan semua yang ada di tingkat sedang, ditambah menjadi anggota komunitas setidaknya selama 10 menit.",
-    "guildSettingsVerificationHighest": "Sangat tinggi",
-    "guildSettingsVerificationHighestDescription": "Memerlukan nomor telepon terverifikasi.",
     "guildSettingsAuditLogDescription": "Lacak tindakan moderator di seluruh komunitas.",
     "@guildSettingsAuditLogDescription": {
         "description": "Subtitle under the activity-log page title."
@@ -14623,14 +13569,6 @@
     "guildSettingsAuditLogUnknownUser": "Pengguna tidak dikenal",
     "@guildSettingsAuditLogUnknownUser": {
         "description": "Fallback avatar label when the acting user is unavailable."
-    },
-    "guildSettingsAuditLogLoadError": "Terjadi kesalahan saat memuat log aktivitas.",
-    "@guildSettingsAuditLogLoadError": {
-        "description": "Generic error shown when fetching log entries fails."
-    },
-    "guildSettingsAuditLogLoadErrorTitle": "Tidak dapat memuat log aktivitas",
-    "@guildSettingsAuditLogLoadErrorTitle": {
-        "description": "Error-state title when fetching log entries failed."
     },
     "guildSettingsAuditLogReason": "Alasan",
     "@guildSettingsAuditLogReason": {
@@ -15602,14 +14540,6 @@
     "@auditLogOptionPermanentMembership": {
         "description": "Audit log option detail sentence."
     },
-    "guildSettingsLoadMore": "Muat lainnya",
-    "@guildSettingsLoadMore": {
-        "description": "Button to load more audit log entries."
-    },
-    "guildSettingsLoadingMore": "Memuat...",
-    "@guildSettingsLoadingMore": {
-        "description": "Loading state for pagination."
-    },
     "guildSettingsWebhooksDescription": "Lihat dan kelola setiap webhook yang dikonfigurasi di seluruh komunitasmu.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
@@ -15656,42 +14586,9 @@
     "@guildSettingsUnknownChannel": {
         "description": "Fallback label when a webhook channel name is unavailable."
     },
-    "guildSettingsCopyUrl": "Salin URL",
-    "@guildSettingsCopyUrl": {
-        "description": "Tooltip to copy a URL."
-    },
     "guildSettingsCopiedUrl": "URL disalin ke papan klip",
     "@guildSettingsCopiedUrl": {
         "description": "Snackbar after copying a URL."
-    },
-    "guildSettingsDeleteWebhook": "Hapus webhook",
-    "@guildSettingsDeleteWebhook": {
-        "description": "Tooltip to delete a webhook."
-    },
-    "guildSettingsVanityUrlDescription": "Atur tautan undangan kustom untuk server Anda.",
-    "@guildSettingsVanityUrlDescription": {
-        "description": "Description for vanity URL tab."
-    },
-    "guildSettingsVanityUrlHint": "my-server",
-    "@guildSettingsVanityUrlHint": {
-        "description": "Hint for vanity URL input."
-    },
-    "guildSettingsSave": "Simpan",
-    "@guildSettingsSave": {
-        "description": "Generic save button label."
-    },
-    "guildSettingsVanityUrlUsageTitle": "Penggunaan",
-    "@guildSettingsVanityUrlUsageTitle": {
-        "description": "Title for vanity URL usage section."
-    },
-    "guildSettingsVanityUrlUses": "{count} penggunaan",
-    "@guildSettingsVanityUrlUses": {
-        "description": "Vanity URL usage count.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
     },
     "guildSettingsDiscoveryDescription": "Daftarkan komunitasmu di Discovery agar orang lain dapat menemukannya dan bergabung.",
     "@guildSettingsDiscoveryDescription": {
@@ -15877,10 +14774,6 @@
     "@guildSettingsDiscoveryWithdrawErrorDescription": {
         "description": "Error modal body when withdrawing a discovery application fails."
     },
-    "guildSettingsMembersDescription": "Cari dan kelola anggota server.",
-    "@guildSettingsMembersDescription": {
-        "description": "Description for members tab."
-    },
     "guildSettingsMembersSearchHint": "Cari berdasarkan nama pengguna atau ID",
     "@guildSettingsMembersSearchHint": {
         "description": "Hint for member search field on the community members page."
@@ -15945,10 +14838,6 @@
     },
     "guildMembersColumnRoles": "Peran",
     "@guildMembersColumnRoles": {
-        "description": "Table column header on the community members page."
-    },
-    "guildMembersColumnActions": "Tindakan",
-    "@guildMembersColumnActions": {
         "description": "Table column header on the community members page."
     },
     "guildMembersFilterMemberSince": "Filter berdasarkan tanggal bergabung",
@@ -16035,23 +14924,6 @@
     "@guildMembersIndexing": {
         "description": "Banner shown while guild members are being indexed."
     },
-    "guildMembersGoToPage": "Buka halaman",
-    "@guildMembersGoToPage": {
-        "description": "Pagination jump label on the community members page."
-    },
-    "guildMembersGoToPageItem": "Buka halaman {page}",
-    "@guildMembersGoToPageItem": {
-        "description": "Accessibility label for a pagination page button.",
-        "placeholders": {
-            "page": {
-                "type": "int"
-            }
-        }
-    },
-    "guildMembersJumpToPage": "Lompat ke halaman",
-    "@guildMembersJumpToPage": {
-        "description": "Label for pagination jump input on the community members page."
-    },
     "guildMembersJoinSourceCreator": "Pembuat komunitas",
     "@guildMembersJoinSourceCreator": {
         "description": "Join method label on the community members page."
@@ -16128,22 +15000,9 @@
             }
         }
     },
-    "guildMembersJoinedDaysAgo": "{count, plural, one {1 hari yang lalu} other {{count} hari yang lalu}}",
-    "@guildMembersJoinedDaysAgo": {
-        "description": "Relative join time on the community members page.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
     "guildMembersChannelListLabel": "Anggota",
     "@guildMembersChannelListLabel": {
         "description": "Label for the Members item at the top of the guild channel list."
-    },
-    "guildMembersChannelListSelected": "Anggota, terpilih",
-    "@guildMembersChannelListSelected": {
-        "description": "Accessibility label when the Members channel list item is selected."
     },
     "guildSettingsInvitesTitle": "Undangan",
     "@guildSettingsInvitesTitle": {
@@ -16274,27 +15133,6 @@
     "@guildSettingsInvitesRevokeFailedDescription": {
         "description": "Error description when revoking an invite fails."
     },
-    "guildSettingsInviteUses": "{uses} / {maxUses} kali pakai",
-    "@guildSettingsInviteUses": {
-        "description": "Invite usage count.",
-        "placeholders": {
-            "uses": {
-                "type": "int"
-            },
-            "maxUses": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsInviteExpires": "Kedaluwarsa {date}",
-    "@guildSettingsInviteExpires": {
-        "description": "Invite expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBansDescription": "Lihat dan kelola pengguna yang diblokir.",
     "@guildSettingsBansDescription": {
         "description": "Description for bans tab."
@@ -16307,30 +15145,9 @@
     "@guildSettingsBansEmpty": {
         "description": "Empty state for bans."
     },
-    "guildSettingsBanPermanent": "Larangan permanen",
-    "@guildSettingsBanPermanent": {
-        "description": "Label for permanent ban."
-    },
-    "guildSettingsBanExpires": "Kadaluwarsa {date}",
-    "@guildSettingsBanExpires": {
-        "description": "Ban expiration date.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "guildSettingsBanExpiresLabel": "Kedaluwarsa",
     "@guildSettingsBanExpiresLabel": {
         "description": "Label for ban expiration row."
-    },
-    "guildSettingsUnban": "Buka blokir",
-    "@guildSettingsUnban": {
-        "description": "Button to unban a user."
-    },
-    "guildSettingsBansLoading": "Memuat pengguna yang diblokir",
-    "@guildSettingsBansLoading": {
-        "description": "Loading state for the guild bans list."
     },
     "guildSettingsBansNoSearchResults": "Tidak ada pemblokiran yang cocok dengan pencarianmu.",
     "@guildSettingsBansNoSearchResults": {
@@ -16374,10 +15191,6 @@
             }
         }
     },
-    "guildSettingsBansLoadError": "Tidak dapat memuat daftar larangan. Coba lagi.",
-    "@guildSettingsBansLoadError": {
-        "description": "Error when loading the guild bans list fails."
-    },
     "guildSettingsRevokeBanError": "Tidak dapat mencabut larangan. Coba lagi.",
     "@guildSettingsRevokeBanError": {
         "description": "Error when revoking a ban fails."
@@ -16402,7 +15215,6 @@
     "@guildSettingsCategoryPeople": {
         "description": "Sidebar category for members, invites, and bans."
     },
-    "guildSettingsOverviewDescription": "Kelola profil, saluran, dan setelan default komunitas Anda.",
     "guildSettingsOverviewBrandingTitle": "Merek",
     "guildSettingsOverviewBrandingDescription": "Perbarui ikon, nama, banner, dan latar belakang undangan Anda",
     "@guildSettingsOverviewBrandingDescription": {
@@ -16421,7 +15233,6 @@
     },
     "guildSettingsOverviewNotificationsTitle": "Notifikasi default",
     "guildSettingsOverviewNotificationsLargeGuild": "Komunitas dengan lebih dari 250 orang akan otomatis menggunakan pengaturan \"Hanya sebutan\". Pengaturan awalmu tetap disimpan dan akan dipulihkan jika jumlah anggota komunitas turun di bawah 250.",
-    "guildSettingsOverviewAdvancedTitle": "Lanjutan",
     "guildSettingsOverviewFlexibleNames": "Izinkan nama saluran teks fleksibel",
     "guildSettingsOverviewHideOwnerCrown": "Sembunyikan mahkota pemilik komunitas",
     "guildSettingsOverviewDetachedBanner": "Banner terpisah",
@@ -16447,10 +15258,6 @@
     "guildSettingsOverviewEmbedSplashTitle": "Latar belakang sematan obrolan",
     "@guildSettingsOverviewEmbedSplashTitle": {
         "description": "Title for embed splash upload section."
-    },
-    "guildSettingsOverviewEmbedSplashHint": "Ditampilkan di sematan undangan dalam obrolan.",
-    "@guildSettingsOverviewEmbedSplashHint": {
-        "description": "Note shown when uploading chat embed background."
     },
     "guildSettingsOverviewUploadBackground": "Unggah latar belakang",
     "@guildSettingsOverviewUploadBackground": {
@@ -16617,8 +15424,6 @@
     "@guildSettingsOverviewEmbedSplashUploadHint": {
         "description": "Upload requirements for chat embed background images."
     },
-    "guildSettingsModerationDescription": "Atur pengaturan verifikasi, pemfilteran konten, dan konten dewasa.",
-    "guildSettingsModerationDiscoveryNotice": "Komunitas yang terdaftar di Penemuan memiliki opsi moderasi yang terbatas.",
     "guildSettingsModerationContentFilterTitle": "Filter konten",
     "guildSettingsModerationContentFilterDescription": "Saring pesan secara otomatis dari konten eksplisit di saluran yang tidak ditandai sebagai konten dewasa.",
     "guildSettingsModerationContentFilterDiscoveryNote": "Komunitas yang tercantum di Penemuan wajib memindai semua anggota. Pengaturan ini tidak dapat diubah saat Penemuan diaktifkan.",
@@ -16628,8 +15433,6 @@
     "guildSettingsContentFilterNoRoleDescription": "Disarankan untuk sebagian besar komunitas",
     "guildSettingsContentFilterAll": "Filter semua orang",
     "guildSettingsContentFilterAllDescription": "Perlindungan maksimal untuk ruang yang ramah keluarga",
-    "guildSettingsModerationMatureOff": "Nonaktif",
-    "guildSettingsModerationMatureOn": "Aktif",
     "guildSettingsContentWarningToggle": "Tampilkan peringatan konten",
     "@guildSettingsContentWarningToggle": {
         "description": "Switch label for the community content warning setting."
@@ -16649,7 +15452,6 @@
     "guildSettingsModeration2faTitle": "Wajib 2FA",
     "guildSettingsModeration2faDescription": "Wajibkan autentikasi dua faktor untuk moderator sebelum mereka dapat memblokir, mengeluarkan, menangguhkan, atau menghapus pesan.",
     "guildSettingsModeration2faSwitchLabel": "Wajibkan 2FA untuk tindakan moderasi",
-    "guildSettingsModeration2faOwnerOnlyTooltip": "Hanya pemilik komunitas yang dapat mengubah pengaturan ini",
     "guildSettingsModeration2faEnableFirstTooltip": "Aktifkan 2FA di akunmu untuk mengubah pengaturan ini",
     "guildSettingsEmojiSearchHint": "Cari emoji",
     "guildSettingsEmojiUploadTitle": "Unggah emoji",
@@ -16657,7 +15459,6 @@
     "guildSettingsEmojiDropZone": "Seret dan lepas file emoji di sini",
     "guildSettingsEmojiLoadFailed": "Gagal memuat emoji. Coba lagi nanti.",
     "guildSettingsEmojiSearchEmpty": "Tidak ada emoji yang cocok dengan pencarianmu.",
-    "guildSettingsEmojiNoSlots": "Tidak ada slot emoji yang tersedia",
     "guildSettingsEmojiSlotsFull": "Kamu sudah mencapai jumlah emoji maksimum. Hapus beberapa emoji yang ada untuk memberi ruang.",
     "guildSettingsEmojiUploadRequirements": "Nama emoji harus memiliki setidaknya 2 karakter dan dapat menggunakan huruf, angka, dan garis bawah. Emoji harus berukuran kurang dari {maxSize}. Gambar statis akan diubah ukurannya menjadi 128x128 piksel dan dikompresi secara otomatis. Emoji animasi dan SVG harus sudah sesuai dengan batas ukuran.",
     "@guildSettingsEmojiUploadRequirements": {
@@ -16667,24 +15468,11 @@
             }
         }
     },
-    "guildSettingsEmojiUploadingTitle": "Mengunggah emoji",
-    "guildSettingsEmojiUploadingBody": "Mengunggah {count, plural, one {# emoji} other {# emoji}}. Ini mungkin memerlukan sedikit waktu.",
-    "@guildSettingsEmojiUploadingBody": {
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsEmojiUploadFailed": "Gagal mengunggah emoji. Coba lagi.",
     "guildSettingsEmojiSomeFailedTitle": "Beberapa emoji tidak dapat ditambahkan",
-    "guildSettingsEmojiSomeFailedBody": "Tinjau file ini dan coba lagi dengan gambar yang lebih kecil atau lebih sederhana.",
     "guildSettingsEmojiRenameTitle": "Ganti nama emoji",
     "guildSettingsEmojiRenameHint": "2-32 karakter, huruf, angka, garis bawah.",
-    "guildSettingsEmojiColumnEmoji": "Emoji",
     "guildSettingsEmojiColumnName": "Nama",
     "guildSettingsEmojiColumnUploader": "Diunggah oleh",
-    "guildSettingsEmojiUnknownUploader": "Tidak diketahui",
     "guildSettingsEmojiDeleteTitle": "Hapus emoji",
     "guildSettingsEmojiDeleteBody": "Hapus :{name}:? Tindakan ini tidak dapat dibatalkan.",
     "@guildSettingsEmojiDeleteBody": {
@@ -16699,15 +15487,7 @@
     "guildSettingsEmojiNameTooLong": "Nama emoji maksimal 32 karakter",
     "guildSettingsEmojiInvalidNameTitle": "Nama emoji tidak valid",
     "guildSettingsEmojiRenameFailedTitle": "Tidak dapat mengganti nama emoji ini",
-    "guildSettingsEmojiRenameFailedBody": "Nama dikembalikan seperti semula. Silakan coba lagi sebentar lagi.",
-    "guildSettingsEmojiGoneTitle": "Emoji ini sudah tidak ada",
-    "guildSettingsEmojiGoneBody": "Mungkin emoji ini sudah dihapus. Namanya dikembalikan seperti semula.",
-    "guildSettingsEmojiNoPermissionRenameTitle": "Kamu tidak dapat mengganti nama emoji ini",
-    "guildSettingsEmojiNoPermissionRenameBody": "Kamu tidak memiliki izin untuk mengganti nama emoji ini. Nama dikembalikan ke nama sebelumnya.",
-    "guildSettingsEmojiRateLimitedTitle": "Kamu terlalu cepat",
-    "guildSettingsEmojiRateLimitedBody": "Harap tunggu sebentar dan coba ganti nama lagi.",
     "guildSettingsEmojiDeleteFailedTitle": "Tidak dapat menghapus emoji ini",
-    "guildSettingsEmojiDeleteNoPermissionTitle": "Kamu tidak dapat menghapus emoji ini",
     "guildSettingsCloneEmojiTitle": "Izinkan orang lain mengkloning emoji Anda",
     "guildSettingsCloneEmojiDescription": "Saat diaktifkan, anggota komunitas lain dapat menggunakan pintasan \"Kloning\" sekali klik dalam aplikasi pada emoji kustom Anda. Ini tidak mencegah mereka menyimpan gambar dan mengunggahnya sendiri.",
     "guildSettingsCloneStickerTitle": "Izinkan orang lain mengkloning stiker Anda",
@@ -16748,8 +15528,6 @@
     "guildSettingsStickersLoadFailedTitle": "Gagal memuat stiker",
     "guildSettingsStickersLoadFailedBody": "Terjadi error saat memuat stiker. Coba lagi.",
     "guildSettingsStickersSearchEmpty": "Tidak ada stiker yang cocok dengan pencarianmu.",
-    "guildSettingsStickersEmptySearch": "Tidak ada stiker yang ditemukan",
-    "guildSettingsStickerNoSlots": "Tidak ada slot stiker yang tersedia",
     "guildSettingsStickerSlotsFull": "Kamu sudah mencapai jumlah stiker maksimum. Hapus beberapa stiker yang ada untuk memberi ruang.",
     "guildSettingsStickerUploadRequirements": "Stiker disimpan pada 320x320 piksel dan harus berukuran kurang dari {maxSize}. Gambar statis akan diubah ukurannya dan dikompresi secara otomatis. Stiker animasi dan SVG harus sudah sesuai dengan batas ukuran.",
     "@guildSettingsStickerUploadRequirements": {
@@ -16759,7 +15537,6 @@
             }
         }
     },
-    "guildSettingsStickerUnsupportedTitle": "File stiker tidak didukung",
     "guildSettingsStickerAddTitle": "Tambah stiker",
     "guildSettingsStickerEditTitle": "Edit stiker",
     "guildSettingsStickerNameLabel": "Nama",
@@ -16784,8 +15561,6 @@
     "guildSettingsStickerNameTooLong": "Nama harus 30 karakter atau kurang",
     "guildSettingsStickerDescriptionTooLong": "Deskripsi harus 500 karakter atau kurang",
     "guildSettingsStickerCreateFailedTitle": "Tidak dapat membuat stiker ini",
-    "guildSettingsStickerTooLargeTitle": "Stiker terlalu besar",
-    "guildSettingsStickerCompressFailedTitle": "Stiker tidak dapat dikompresi cukup kecil",
     "guildSettingsStickerDeleteTitle": "Hapus stiker",
     "guildSettingsStickerDeleteBody": "Hapus \"{name}\"? Tindakan ini tidak dapat dibatalkan.",
     "@guildSettingsStickerDeleteBody": {
@@ -16797,7 +15572,6 @@
     },
     "guildSettingsStickerPurgeLabel": "Hapus stiker ini dari penyimpanan dan CDN",
     "guildSettingsStickerDeleteFailedTitle": "Tidak dapat menghapus stiker ini",
-    "guildSettingsStickerDeleteNoPermissionTitle": "Anda tidak dapat menghapus stiker ini",
     "guildSettingsWebhooksInfo": "Untuk membuat webhook, buka {channelSettingsPath}. Anda masih dapat mengedit dan mengatur semua webhook yang ada di sini.",
     "@guildSettingsWebhooksInfo": {
         "description": "Info box on the guild webhooks tab.",
@@ -16807,8 +15581,6 @@
             }
         }
     },
-    "guildSettingsVanityUrlWarning": "URL kustom Anda tidak akan berfungsi kecuali setidaknya satu saluran terlihat oleh semua orang.",
-    "guildSettingsVanityUrlRemove": "Hapus",
     "guildSettingsBannedUsersTitle": "Pengguna yang diblokir",
     "guildSettingsInvitesTableInviter": "Pengundang",
     "guildSettingsInvitesTableChannel": "Saluran",
@@ -17041,6 +15813,40 @@
     "@homeQuickActionDms": {
         "description": "Home screen quick action that opens Direct Messages."
     },
+    "assistantNeedsLogin": "Buka Fluxer dan masuk terlebih dahulu.",
+    "@assistantNeedsLogin": {
+        "description": "Siri/Shortcuts result when the user is logged out."
+    },
+    "assistantNotInVoice": "Anda tidak sedang dalam panggilan.",
+    "@assistantNotInVoice": {
+        "description": "Siri/Shortcuts result when mute or leave runs with no live call."
+    },
+    "assistantNotFound": "Fluxer tidak dapat menemukan itu.",
+    "@assistantNotFound": {
+        "description": "Siri/Shortcuts result when a friend, channel, or community cannot be resolved."
+    },
+    "assistantDmsDisabled": "Pesan langsung dinonaktifkan di instance ini.",
+    "@assistantDmsDisabled": {
+        "description": "Siri/Shortcuts result when DM actions are blocked by instance config."
+    },
+    "assistantFailed": "Fluxer tidak dapat menyelesaikan itu.",
+    "@assistantFailed": {
+        "description": "Siri/Shortcuts fallback when an assistant command fails."
+    },
+    "assistantOkMuted": "Mikrofon dibisukan.",
+    "assistantOkUnmuted": "Mikrofon diaktifkan.",
+    "assistantOkLeftVoice": "Keluar dari saluran suara.",
+    "assistantOkJoinedVoice": "Bergabung ke saluran suara.",
+    "assistantOkStartedCall": "Memulai panggilan.",
+    "assistantOkStatusSet": "Status diatur ke {status}.",
+    "@assistantOkStatusSet": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "assistantOkOpened": "Membuka Fluxer.",
     "lookAndFeelChatWallpaperTitle": "Wallpaper Obrolan",
     "@lookAndFeelChatWallpaperTitle": {
         "description": "Look and Feel section title for chat wallpaper presets."
@@ -17064,6 +15870,10 @@
     "lookAndFeelChatWallpaperCustomLabel": "Gambar kustom",
     "@lookAndFeelChatWallpaperCustomLabel": {
         "description": "Chat wallpaper option that picks an image from the gallery."
+    },
+    "lookAndFeelChatWallpaperStarfieldLabel": "Bidang bintang",
+    "@lookAndFeelChatWallpaperStarfieldLabel": {
+        "description": "Chat wallpaper preset that uses the static starfield background."
     },
     "lookAndFeelChatWallpaperColorLabel": "Warna {id}",
     "@lookAndFeelChatWallpaperColorLabel": {
@@ -17133,6 +15943,15 @@
         "description": "Empty-state body. apiName is the product API display name.",
         "placeholders": {
             "apiName": {
+                "type": "String"
+            }
+        }
+    },
+    "applicationsCreated": "Dibuat {date}",
+    "@applicationsCreated": {
+        "description": "List row subtitle showing when an application was created.",
+        "placeholders": {
+            "date": {
                 "type": "String"
             }
         }
@@ -17317,6 +16136,10 @@
     "@applicationsOauthBuilderTitle": {
         "description": "Section title for the authorize URL builder."
     },
+    "applicationsOauthBuilderDescription": "Buat URL otorisasi dengan cakupan dan izin.",
+    "@applicationsOauthBuilderDescription": {
+        "description": "Section description for the authorize URL builder."
+    },
     "applicationsScopes": "Cakupan",
     "@applicationsScopes": {
         "description": "Label for OAuth2 scope checkboxes."
@@ -17349,6 +16172,10 @@
     "@applicationsAuthorizeUrlPlaceholder": {
         "description": "Placeholder when the authorize URL cannot be built yet."
     },
+    "applicationsCopyAuthorizeUrl": "Salin URL otorisasi",
+    "@applicationsCopyAuthorizeUrl": {
+        "description": "Button that copies the generated authorize URL."
+    },
     "applicationsCopiedUrl": "URL disalin ke papan klip",
     "@applicationsCopiedUrl": {
         "description": "Toast after copying the authorize URL."
@@ -17368,6 +16195,15 @@
     "applicationsDelete": "Hapus aplikasi",
     "@applicationsDelete": {
         "description": "Button that deletes the current application."
+    },
+    "applicationsDeleteConfirmDescription": "Apakah Anda yakin ingin menghapus {name}? Tindakan ini tidak dapat dibatalkan. Semua data terkait, termasuk pengguna bot, akan dihapus secara permanen.",
+    "@applicationsDeleteConfirmDescription": {
+        "description": "Confirmation body when deleting an application.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     },
     "applicationsDeleteFailed": "Tidak dapat menghapus aplikasi",
     "@applicationsDeleteFailed": {
@@ -17457,6 +16293,10 @@
     "@voiceOutputRouteSpeaker": {
         "description": "Voice output route that plays call audio through the phone speaker."
     },
+    "voiceOutputRouteEarpiece": "Gagang telepon",
+    "@voiceOutputRouteEarpiece": {
+        "description": "Voice output route that plays call audio through the phone earpiece."
+    },
     "voiceOutputRouteHeadset": "Headphone",
     "@voiceOutputRouteHeadset": {
         "description": "Voice output route that plays call audio through a connected Bluetooth or wired headset."
@@ -17464,6 +16304,14 @@
     "doubleTapReactionEdit": "Edit",
     "@doubleTapReactionEdit": {
         "description": "Button that opens the double-tap default emoji picker."
+    },
+    "doubleTapReactionEditTitle": "Ubah default",
+    "@doubleTapReactionEditTitle": {
+        "description": "Title of the double-tap default emoji picker sheet."
+    },
+    "doubleTapReactionEditSubtitle": "Pilih emoji ketuk dua kali",
+    "@doubleTapReactionEditSubtitle": {
+        "description": "Subtitle of the double-tap default emoji picker sheet."
     },
     "chatMessagePinConfirm": "Sematkan",
     "@chatMessagePinConfirm": {
@@ -17477,9 +16325,17 @@
     "@appIconOptionDefault": {
         "description": "App icon option for the build default icon (release or canary)."
     },
+    "appIconOptionStarfield": "Bidang bintang",
+    "@appIconOptionStarfield": {
+        "description": "App icon option for the starfield alternate icon."
+    },
     "appIconOptionSweden": "Swedia",
     "@appIconOptionSweden": {
         "description": "App icon option for the Sweden flag alternate icon."
+    },
+    "appIconUnsupported": "Mengganti ikon aplikasi tidak tersedia di perangkat ini.",
+    "@appIconUnsupported": {
+        "description": "Shown when alternate app icons cannot be used on the current platform."
     },
     "userSettingsLogOutConfirmTitle": "Keluar?",
     "@userSettingsLogOutConfirmTitle": {
@@ -17509,5 +16365,178 @@
     "@guildSettingsCommunityDeleted": {
         "description": "Success toast after a community is deleted."
     },
-    "assistantOkMessageSent": "Pesan terkirim."
+    "guildSettingsDeleteCommunityFailed": "Tidak dapat menghapus komunitas ini",
+    "@guildSettingsDeleteCommunityFailed": {
+        "description": "Error toast when deleting a community fails."
+    },
+    "assistantOkMessageSent": "Pesan terkirim.",
+    "assistantOkCustomStatusSet": "Status kustom diperbarui.",
+    "assistantOkCustomStatusCleared": "Status kustom dihapus.",
+    "guildNavbarAnnouncementChannel": "Saluran pengumuman",
+    "guildNavbarAnnouncementChannelDescription": "Posting pembaruan yang dapat diikuti komunitas lain ke saluran mereka sendiri",
+    "channelDetailsAnnouncementChannel": "Saluran pengumuman",
+    "channelSettingsAnnouncementChannel": "Saluran pengumuman",
+    "channelSettingsAnnouncementChannelDescription": "Izinkan komunitas lain mengikuti saluran ini dan mendapatkan salinan dari apa yang Anda publikasikan.",
+    "channelSettingsStopAnnouncementTitle": "Berhenti menjadi saluran pengumuman?",
+    "channelSettingsStopAnnouncementBody": "{count, plural, =1{1 saluran mengikuti saluran ini. Mengubahnya menjadi saluran teks akan menghapus pengikut tersebut.} other{{count} saluran mengikuti saluran ini. Mengubahnya menjadi saluran teks akan menghapus pengikut tersebut.}}",
+    "@channelSettingsStopAnnouncementBody": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsStopAnnouncementUnknown": "Mengubah saluran ini menjadi saluran teks akan membuat semua saluran yang mengikutinya berhenti mengikuti.",
+    "channelSettingsConvertChannel": "Konversi",
+    "channelSettingsConvertFailed": "Tidak dapat mengonversi saluran ini",
+    "channelSettingsChannelHasFollowers": "Saluran ini masih memiliki pengikut. Hapus pengikut tersebut sebelum mengonversinya.",
+    "channelMenuFollow": "Ikuti saluran",
+    "channelFollowTitle": "Ikuti saluran ini",
+    "channelFollowBody": "Pilih tempat pesan yang dipublikasikan akan dikirim. Anda dapat berhenti mengikuti kapan saja di pengaturan Komunitas → Webhook.",
+    "channelFollowCommunity": "Komunitas",
+    "channelFollowChannel": "Saluran",
+    "channelFollowAgeWarning": "Saluran ini dibatasi usia. Pembaruan hanya dapat dikirim ke saluran yang dibatasi usia.",
+    "channelFollowContentWarning": "Saluran ini memiliki peringatan konten. Pembaruan hanya dapat dikirim ke saluran dengan peringatan konten atau batasan usia.",
+    "channelFollowHiddenHint": "Komunitas dan saluran tempat Anda tidak dapat mengelola webhook disembunyikan.",
+    "channelFollowEmpty": "Anda tidak dapat mengelola webhook di komunitas mana pun. Minta admin untuk mengikuti saluran ini.",
+    "channelFollowSubmit": "Ikuti",
+    "channelFollowFailed": "Tidak dapat mengikuti saluran ini.",
+    "channelFollowSuccessTitle": "Pembaruan sedang dikirim!",
+    "channelFollowSuccessBody": "Pesan yang dipublikasikan di {sourceName} akan muncul di #{targetName}.",
+    "@channelFollowSuccessBody": {
+        "placeholders": {
+            "sourceName": {
+                "type": "String"
+            },
+            "targetName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelFollowSuccessDismiss": "Oke!",
+    "channelFollowBarrier": "Ikuti saluran ini untuk mendapatkan pengumuman ini di saluran pilihan Anda.",
+    "channelHeaderFollow": "Ikuti saluran",
+    "chatMessagePublish": "Terbitkan",
+    "chatMessagePublished": "Dipublikasikan",
+    "chatMessagePublishConfirmTitle": "Terbitkan pesan?",
+    "chatMessagePublishConfirmBody": "Ini akan mengirimkan salinan ke setiap saluran yang mengikuti saluran ini.",
+    "chatMessagePublishedToast": "Pesan dipublikasikan",
+    "chatMessageAlreadyPublished": "Pesan ini sudah dipublikasikan.",
+    "chatMessagePublishFailedTitle": "Tidak dapat menerbitkan pesan ini",
+    "chatMessagePublishFailedBody": "Terjadi kesalahan. Coba lagi sebentar lagi.",
+    "chatMessagePublishLimitTitle": "Pelan-pelan",
+    "chatMessagePublishLimitBody": "Anda dapat menerbitkan lagi dalam {duration}.",
+    "@chatMessagePublishLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessagePublishLimitUnknown": "Anda memublikasikan terlalu cepat. Coba lagi sebentar lagi.",
+    "chatMessageDeletePublished": "Ini juga menghapus salinan yang dikirim ke saluran yang mengikuti saluran ini.",
+    "chatMessageEditPublishedTitle": "Edit pesan yang dipublikasikan?",
+    "chatMessageEditPublishedBody": "Ini akan memperbarui salinan yang dikirim ke saluran-saluran yang mengikuti saluran ini.",
+    "chatMessageEditPublishedSave": "Simpan",
+    "chatMessageEditLimitTitle": "Pelan-pelan",
+    "chatMessageEditLimitBody": "Anda dapat mengedit pesan terbitan ini lagi dalam {duration}.",
+    "@chatMessageEditLimitBody": {
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageEditLimitUnknown": "Anda mengedit pesan terbitan ini terlalu cepat. Coba lagi sebentar lagi.",
+    "chatMessageOriginalDeleted": "[Pesan asli dihapus]",
+    "userTagCommunity": "Komunitas",
+    "systemFollowAdd": "{username} mengatur saluran ini untuk mengikuti {source}. Pesan yang dipublikasikan di sana akan muncul di sini.",
+    "@systemFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewFollowAdd": "{username} mengatur saluran ini untuk mengikuti {source}.",
+    "@systemPreviewFollowAdd": {
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "source": {
+                "type": "String"
+            }
+        }
+    },
+    "publishNudgeNotSent": "Belum dikirim ke pengikut.",
+    "publishNudgeHideForever": "Jangan tampilkan lagi",
+    "publishNudgeDismiss": "Tutup",
+    "channelSettingsFollowedChannels": "Saluran yang diikuti",
+    "channelSettingsFollowedChannelsDescription": "Saluran pengumuman yang diikuti saluran ini. Berhenti mengikuti untuk berhenti menerima salinan.",
+    "guildSettingsFollowedChannelsDescription": "Saluran pengumuman yang diikuti oleh saluran di komunitas ini.",
+    "channelSettingsFollowedFrom": "Dari {guildName} #{channelName}",
+    "@channelSettingsFollowedFrom": {
+        "placeholders": {
+            "guildName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsFollowedPaused": "Pembaruan dijeda karena saluran sumber tidak lagi tersedia.",
+    "channelSettingsUnfollowTitle": "Berhenti mengikuti {name}?",
+    "@channelSettingsUnfollowTitle": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnfollowBody": "Saluran ini akan berhenti menerima salinan dari saluran pengumuman tersebut.",
+    "channelSettingsUnfollow": "Berhenti mengikuti",
+    "crosspostCommunityTitle": "Komunitas",
+    "crosspostGoToCommunity": "Buka komunitas",
+    "crosspostJoinCommunity": "Gabung komunitas",
+    "crosspostSourceFailed": "Tidak dapat memuat komunitas ini. Coba lagi sebentar lagi.",
+    "crosspostMembers": "{count} anggota",
+    "@crosspostMembers": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "crosspostOnline": "{count} online",
+    "@crosspostOnline": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationMinutes": "{count, plural, =1{1 menit} other{{count} menit}}",
+    "@durationMinutes": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "durationSeconds": "{count, plural, =1{1 detik} other{{count} detik}}",
+    "@durationSeconds": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelUnsupportedTitle": "Jenis saluran tidak didukung",
+    "channelUnsupportedBody": "Versi aplikasi ini tidak mendukung jenis saluran ini.",
+    "channelDetailsUnsupportedChannel": "Saluran tidak didukung"
 }

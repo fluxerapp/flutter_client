@@ -37,6 +37,4 @@ abstract final class FluxerParserFlags {
       tables |
       alerts |
       autolinks;
-
-  static const int none = 0;
 }

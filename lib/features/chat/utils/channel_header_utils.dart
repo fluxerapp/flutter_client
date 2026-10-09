@@ -21,10 +21,6 @@ bool isPersonalNotesHeader({
   );
 }
 
-bool isSystemDm(DmConversation? dm) {
-  return dm != null && dm.isSystem;
-}
-
 bool shouldShowPinsForContext({
   required Channel? channel,
   required DmConversation? dm,

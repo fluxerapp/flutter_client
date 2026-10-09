@@ -57,6 +57,7 @@ UserSettingsResponse _settingsResponse({String locale = 'en-US'}) {
     'suppress_unprivileged_self_mentions_bypass_user_ids': <String>[],
     'staff_dm_access_user_ids': <String>[],
     'profile_privacy': 0,
+    'privacy_setup_version': 0,
     'synced_preferences': '',
     'restricted_guilds': <String>[],
     'bot_restricted_guilds': <String>[],
@@ -82,7 +83,7 @@ Widget _wrap(Widget child, {String locale = 'en-US'}) {
     container: container,
     child: MaterialApp(
       locale: kTestLocale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,

@@ -15,7 +15,7 @@ Future<bool> attachAndroidNotificationReply({
   required String hint,
   String? tag,
 }) async {
-  if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) {
+  if (defaultTargetPlatform != TargetPlatform.android) {
     return false;
   }
   try {

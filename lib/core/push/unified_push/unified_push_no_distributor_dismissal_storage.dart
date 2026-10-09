@@ -26,16 +26,3 @@ class SharedPreferencesUnifiedPushNoDistributorDismissalStorage
     await preferences.setBool(kUnifiedPushNoDistributorDismissKey, true);
   }
 }
-
-class MapUnifiedPushNoDistributorDismissalStorage
-    implements UnifiedPushNoDistributorDismissalStorage {
-  bool dismissed = false;
-
-  @override
-  Future<bool> isDismissed() async => dismissed;
-
-  @override
-  Future<void> dismiss() async {
-    dismissed = true;
-  }
-}

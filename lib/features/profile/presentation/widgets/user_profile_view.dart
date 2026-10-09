@@ -522,6 +522,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                                     canManageRoles: canManageRoles,
                                     isGuildOwner: isGuildOwner,
                                     viewerHighestRole: viewerHighestRole,
+                                    canReportUserProfile: true,
                                   ),
                                 );
                               },

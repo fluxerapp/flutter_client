@@ -46,9 +46,21 @@ void main() {
       matureContentAgreementsProvider.notifier,
     );
     await Future<void>.delayed(Duration.zero);
-    expect(notifier.hasAgreedToChannel('channel-1'), isTrue);
+    expect(
+      container
+          .read(matureContentAgreementsProvider)
+          .agreedChannelIds
+          .contains('channel-1'),
+      isTrue,
+    );
     await notifier.revokeChannelAgreement('channel-1');
-    expect(notifier.hasAgreedToChannel('channel-1'), isFalse);
+    expect(
+      container
+          .read(matureContentAgreementsProvider)
+          .agreedChannelIds
+          .contains('channel-1'),
+      isFalse,
+    );
     final preferences_dao.MatureContentAgreements persisted = await db
         .userPreferencesDao
         .getMatureContentAgreements('user-1');
@@ -71,7 +83,13 @@ void main() {
       );
       await Future<void>.delayed(Duration.zero);
       await notifier.revokeChannelAgreement('missing-channel');
-      expect(notifier.hasAgreedToChannel('missing-channel'), isFalse);
+      expect(
+        container
+            .read(matureContentAgreementsProvider)
+            .agreedChannelIds
+            .contains('missing-channel'),
+        isFalse,
+      );
     },
   );
 

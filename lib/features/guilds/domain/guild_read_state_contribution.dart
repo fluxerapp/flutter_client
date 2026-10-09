@@ -4,12 +4,10 @@ class GuildReadStateContribution {
   const GuildReadStateContribution({
     required this.mentionAllowed,
     required this.unreadAllowed,
-    required this.mentionCount,
   });
 
   final bool mentionAllowed;
   final bool unreadAllowed;
-  final int mentionCount;
 }
 
 enum _GuildReadContributionRoute {
@@ -96,6 +94,5 @@ GuildReadStateContribution resolveGuildReadStateContribution({
   return GuildReadStateContribution(
     mentionAllowed: _isMentionAllowed(route: route, mentionCount: mentionCount),
     unreadAllowed: _isUnreadAllowed(route: route, hasUnread: hasUnread),
-    mentionCount: mentionCount,
   );
 }

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
@@ -11,10 +10,6 @@ void main() {
   testWidgets('cold start reaches login or authenticated shell', (
     WidgetTester tester,
   ) async {
-    if (kIsWeb) {
-      return;
-    }
-
     await launchFluxerApp(tester);
     await waitForAppShell(tester);
 
@@ -24,10 +19,6 @@ void main() {
   });
 
   testWidgets('login reaches home tab', (WidgetTester tester) async {
-    if (kIsWeb) {
-      return;
-    }
-
     await ensureAuthenticated(tester);
 
     expect(find.bySemanticsLabel('Home'), findsOneWidget);

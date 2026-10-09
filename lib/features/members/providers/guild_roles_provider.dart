@@ -60,26 +60,6 @@ void prefetchGuildRolesIfMissing({
   prefetchGuildRoles(repository, guildId);
 }
 
-bool _guildHasMatchingRoleName(
-  List<db.Role> roles,
-  String guildId,
-  String query,
-) {
-  final String trimmed = query.trim().toLowerCase();
-  if (trimmed.isEmpty) {
-    return true;
-  }
-  for (final db.Role role in roles) {
-    if (role.id == guildId) {
-      continue;
-    }
-    if (role.name.toLowerCase().contains(trimmed)) {
-      return true;
-    }
-  }
-  return false;
-}
-
 Future<List<db.Role>> localRolesForMentionAutocomplete({
   required db.FluxerDatabase database,
   required MemberRepository repository,
@@ -100,32 +80,6 @@ Future<List<db.Role>> localRolesForMentionAutocomplete({
     repository: repository,
     guildId: guildId,
   );
-  return roles;
-}
-
-Future<List<db.Role>> resolveGuildRolesForMentionAutocomplete({
-  required db.FluxerDatabase database,
-  required MemberRepository repository,
-  required String guildId,
-  required String query,
-  Map<String, db.Role>? rolesById,
-}) async {
-  List<db.Role> roles = rolesById != null
-      ? rolesById.values.toList()
-      : await database.roleDao.getRoles(guildId);
-  final bool needsAwaitedRefresh =
-      roles.isEmpty ||
-      (query.trim().isNotEmpty &&
-          !_guildHasMatchingRoleName(roles, guildId, query));
-  final Future<void> refresh = _ensurePrefetchStarted(
-    repository,
-    guildId,
-    ignoreCompleted: needsAwaitedRefresh,
-  );
-  if (needsAwaitedRefresh) {
-    await refresh;
-    roles = await database.roleDao.getRoles(guildId);
-  }
   return roles;
 }
 

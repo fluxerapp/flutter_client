@@ -19,7 +19,7 @@ void main() {
     return ProviderScope(
       child: MaterialApp(
         locale: kTestLocale,
-        localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+        localizationsDelegates: fluxerLocalizationsDelegates,
         supportedLocales: FluxerLocalizations.supportedLocales,
         theme: buildFluxerTheme(
           colorTheme: colorTheme,
@@ -41,9 +41,7 @@ void main() {
   );
   const GuildChannelSettingsEntry entry = GuildChannelSettingsEntry.channel(
     channel: channel,
-    guildId: guildId,
   );
-  final List<Channel> channels = <Channel>[channel];
   late ValueNotifier<GuildChannelSettingsDropHover?> hoverNotifier;
 
   setUp(() {
@@ -60,7 +58,6 @@ void main() {
   }) {
     return GuildChannelSettingsRow(
       entry: entry,
-      channels: channels,
       hoverNotifier: hoverNotifier,
       activeDragItem: activeDragItem,
       isMobile: false,

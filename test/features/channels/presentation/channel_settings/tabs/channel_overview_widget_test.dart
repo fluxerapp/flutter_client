@@ -2,7 +2,10 @@ import 'dart:ui' show CheckedState;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart'
+    show FluxerDatabase;
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -16,9 +19,16 @@ import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:riverpod/src/framework.dart' show Override;
 
+import '../../../../../helpers/open_test_database.dart';
 import '../../../../../helpers/test_l10n.dart';
 
+late FluxerDatabase _database;
+
 void main() {
+  setUp(() {
+    _database = openTestDatabase();
+  });
+
   const String guildId = 'guild-1';
   const Channel textChannel = Channel(
     id: 'text-1',
@@ -48,12 +58,11 @@ void main() {
   );
 
   testWidgets('text channel shows messaging fields', (tester) async {
-    await tester.pumpWidget(
-      _buildTestApp(
-        child: ChannelOverviewWidget(
-          channel: textChannel,
-          permissions: Permission.manageChannels.value,
-        ),
+    await _pumpTestApp(
+      tester,
+      child: ChannelOverviewWidget(
+        channel: textChannel,
+        permissions: Permission.manageChannels.value,
       ),
     );
     await tester.pumpAndSettle();
@@ -65,23 +74,22 @@ void main() {
   });
 
   testWidgets('voice channel shows voice fields', (tester) async {
-    await tester.pumpWidget(
-      _buildTestApp(
-        overrides: <Override>[
-          channelRtcRegionsProvider(voiceChannel.id).overrideWith(
-            (Ref ref) => <RtcRegionResponse>[
-              const RtcRegionResponse(
-                id: 'us-east',
-                name: 'US East',
-                emoji: '🇺🇸',
-              ),
-            ],
-          ),
-        ],
-        child: ChannelOverviewWidget(
-          channel: voiceChannel,
-          permissions: Permission.manageChannels.value,
+    await _pumpTestApp(
+      tester,
+      overrides: <Override>[
+        channelRtcRegionsProvider(voiceChannel.id).overrideWith(
+          (Ref ref) => <RtcRegionResponse>[
+            const RtcRegionResponse(
+              id: 'us-east',
+              name: 'US East',
+              emoji: '🇺🇸',
+            ),
+          ],
         ),
+      ],
+      child: ChannelOverviewWidget(
+        channel: voiceChannel,
+        permissions: Permission.manageChannels.value,
       ),
     );
     await tester.pumpAndSettle();
@@ -90,12 +98,11 @@ void main() {
   });
 
   testWidgets('link channel shows URL field', (tester) async {
-    await tester.pumpWidget(
-      _buildTestApp(
-        child: ChannelOverviewWidget(
-          channel: linkChannel,
-          permissions: Permission.manageChannels.value,
-        ),
+    await _pumpTestApp(
+      tester,
+      child: ChannelOverviewWidget(
+        channel: linkChannel,
+        permissions: Permission.manageChannels.value,
       ),
     );
     await tester.pumpAndSettle();
@@ -107,15 +114,14 @@ void main() {
     tester,
   ) async {
     const Guild guild = Guild(id: guildId, name: 'Test Guild');
-    await tester.pumpWidget(
-      _buildTestApp(
-        overrides: <Override>[
-          guildByIdProvider(guildId).overrideWith((Ref ref) => guild),
-        ],
-        child: ChannelOverviewWidget(
-          channel: categoryChannel,
-          permissions: Permission.manageChannels.value,
-        ),
+    await _pumpTestApp(
+      tester,
+      overrides: <Override>[
+        guildByIdProvider(guildId).overrideWith((Ref ref) => guild),
+      ],
+      child: ChannelOverviewWidget(
+        channel: categoryChannel,
+        permissions: Permission.manageChannels.value,
       ),
     );
     await tester.pumpAndSettle();
@@ -156,23 +162,29 @@ void main() {
   });
 }
 
-Widget _buildTestApp({
+Future<void> _pumpTestApp(
+  WidgetTester tester, {
   required Widget child,
   List<Override> overrides = const <Override>[],
 }) {
   final colorTheme = buildDarkColorTheme();
-  return ProviderScope(
-    overrides: overrides,
-    child: MaterialApp(
-      locale: kTestLocale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
-      supportedLocales: FluxerLocalizations.supportedLocales,
-      theme: buildFluxerTheme(
-        colorTheme: colorTheme,
-        textTheme: FluxerTextTheme.fromColors(colorTheme),
-        layoutTheme: FluxerLayoutTheme.scaled(),
+  return tester.pumpWidget(
+    ProviderScope(
+      overrides: <Override>[
+        fluxerDatabaseProvider.overrideWithValue(_database),
+        ...overrides,
+      ],
+      child: MaterialApp(
+        locale: kTestLocale,
+        localizationsDelegates: fluxerLocalizationsDelegates,
+        supportedLocales: FluxerLocalizations.supportedLocales,
+        theme: buildFluxerTheme(
+          colorTheme: colorTheme,
+          textTheme: FluxerTextTheme.fromColors(colorTheme),
+          layoutTheme: FluxerLayoutTheme.scaled(),
+        ),
+        home: Scaffold(body: child),
       ),
-      home: Scaffold(body: child),
     ),
   );
 }

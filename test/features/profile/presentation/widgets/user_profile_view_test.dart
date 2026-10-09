@@ -147,7 +147,7 @@ Widget _buildApp(
     overrides: _overrides(settings: settings),
     child: MaterialApp(
       locale: kTestLocale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,
@@ -172,11 +172,11 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   setUp(() {
-    FluxerHaptics.setEnabled(false);
+    FluxerHaptics.enabled = false;
   });
 
   tearDown(() {
-    FluxerHaptics.setEnabled(true);
+    FluxerHaptics.enabled = true;
   });
 
   testWidgets('profile tab avatar tap opens the same menu as display name', (

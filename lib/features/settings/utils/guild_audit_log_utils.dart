@@ -1,14 +1,9 @@
 import 'package:fluxer_app/features/settings/domain/guild/guild_audit_log_entry.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 
 class GuildAuditLogUtils {
   GuildAuditLogUtils._();
-
-  static DateTime? parseSnowflakeTimestamp(String snowflake) {
-    return dateTimeFromUserSnowflakeOrNull(snowflake);
-  }
 
   static String formatAuditLogTimestamp(
     DateTime timestamp,

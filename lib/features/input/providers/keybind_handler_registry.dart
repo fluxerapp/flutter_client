@@ -18,8 +18,6 @@ class KeybindHandlerRegistry {
     }
     return handler();
   }
-
-  bool hasHandler(KeybindAction action) => _handlers.containsKey(action);
 }
 
 final keybindHandlerRegistryProvider = Provider<KeybindHandlerRegistry>(

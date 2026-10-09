@@ -1,6 +1,6 @@
 import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_sticker_settings_entry.dart';
 
-enum GuildStickerSettingsLoadStatus { loading, success, error }
+enum GuildStickerSettingsLoadStatus { success, error }
 
 enum GuildStickerDensity { cozy, compact }
 

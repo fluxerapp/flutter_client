@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/chat/utils/messages/double_tap_reaction.dart';
+import 'package:fluxer_app/features/settings/providers/double_tap_action_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
 
 void main() {
@@ -18,6 +19,44 @@ void main() {
       expect(customEmojiAnimated(emojis, '2'), isTrue);
       expect(customEmojiAnimated(emojis, '1'), isFalse);
       expect(customEmojiAnimated(emojis, 'missing'), isFalse);
+    });
+  });
+
+  group('messageDoubleTapEnabled', () {
+    test('disables react when reactions are unavailable', () {
+      expect(
+        messageDoubleTapEnabled(
+          action: DoubleTapActionPreference.react,
+          canAddReactions: false,
+          onReaction: (_, {emojiId, bool animated = false}) {},
+          canEditOwnMessage: false,
+          onEdit: null,
+        ),
+        isFalse,
+      );
+    });
+
+    test('enables edit only for editable own messages', () {
+      expect(
+        messageDoubleTapEnabled(
+          action: DoubleTapActionPreference.edit,
+          canAddReactions: true,
+          onReaction: (_, {emojiId, bool animated = false}) {},
+          canEditOwnMessage: true,
+          onEdit: () {},
+        ),
+        isTrue,
+      );
+      expect(
+        messageDoubleTapEnabled(
+          action: DoubleTapActionPreference.edit,
+          canAddReactions: true,
+          onReaction: (_, {emojiId, bool animated = false}) {},
+          canEditOwnMessage: false,
+          onEdit: () {},
+        ),
+        isFalse,
+      );
     });
   });
 

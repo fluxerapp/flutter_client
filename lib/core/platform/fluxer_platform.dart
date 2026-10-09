@@ -16,20 +16,18 @@ const bool kFluxerMobileFormFactorBuild =
 
 bool? _isRuntimeMobileFormFactor;
 
-bool get isFluxerNativeMobileOs =>
-    !kIsWeb && (Platform.isAndroid || Platform.isIOS);
+bool get isFluxerNativeMobileOs => Platform.isAndroid || Platform.isIOS;
 
 /// Android and iOS use the system CallKit / connection service incoming UI
 bool get isNativeVoiceCallKitPlatform => isFluxerNativeMobileOs;
 
 bool _isFluxerDesktopClassOs() {
-  return !kIsWeb &&
-      (Platform.isLinux || Platform.isMacOS || Platform.isWindows);
+  return Platform.isLinux || Platform.isMacOS || Platform.isWindows;
 }
 
 /// Call after [WidgetsFlutterBinding.ensureInitialized].
 void configureFluxerMobileDetection() {
-  if (kIsWeb || isFluxerNativeMobileOs || !_isFluxerDesktopClassOs()) {
+  if (isFluxerNativeMobileOs || !_isFluxerDesktopClassOs()) {
     _isRuntimeMobileFormFactor = false;
     return;
   }
@@ -68,18 +66,8 @@ bool isFluxerMobileFormFactorShortestSide(double shortestLogicalSide) {
   return shortestLogicalSide < kFluxerMobileFormFactorMaxShortestSide;
 }
 
-@visibleForTesting
-void resetFluxerMobileDetectionForTesting() {
-  _isRuntimeMobileFormFactor = null;
-}
-
-@visibleForTesting
-void setFluxerRuntimeMobileFormFactorForTesting({required bool? value}) {
-  _isRuntimeMobileFormFactor = value;
-}
-
 bool get isFluxerRuntimeMobileFormFactor {
-  if (kIsWeb || isFluxerNativeMobileOs || !_isFluxerDesktopClassOs()) {
+  if (isFluxerNativeMobileOs || !_isFluxerDesktopClassOs()) {
     return false;
   }
   if (kFluxerMobileFormFactorBuild) {
@@ -95,4 +83,4 @@ bool get isFluxerMobileOs =>
     isFluxerNativeMobileOs || isFluxerRuntimeMobileFormFactor;
 
 bool get isFluxerLinuxMobileVoiceTarget =>
-    !kIsWeb && Platform.isLinux && isFluxerRuntimeMobileFormFactor;
+    Platform.isLinux && isFluxerRuntimeMobileFormFactor;

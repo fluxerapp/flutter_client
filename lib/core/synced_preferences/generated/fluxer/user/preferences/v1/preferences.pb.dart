@@ -61,8 +61,11 @@ class SyncedPreferences extends $pb.GeneratedMessage {
     KeybindSettings? keybinds,
     ChatInputSettings? chatInput,
     ReactionEmoji? doubleTapReaction,
+    ChannelFrecencyState? channelFrecency,
+    AnnouncementPromptsState? announcementPrompts,
+    DoubleTapAction? doubleTapAction,
   }) {
-    final result = create();
+    final result = SyncedPreferences._();
     if (accessibility != null) result.accessibility = accessibility;
     if (accessibilityOverrides != null)
       result.accessibilityOverrides = accessibilityOverrides;
@@ -104,6 +107,10 @@ class SyncedPreferences extends $pb.GeneratedMessage {
     if (keybinds != null) result.keybinds = keybinds;
     if (chatInput != null) result.chatInput = chatInput;
     if (doubleTapReaction != null) result.doubleTapReaction = doubleTapReaction;
+    if (channelFrecency != null) result.channelFrecency = channelFrecency;
+    if (announcementPrompts != null)
+      result.announcementPrompts = announcementPrompts;
+    if (doubleTapAction != null) result.doubleTapAction = doubleTapAction;
     return result;
   }
 
@@ -111,95 +118,102 @@ class SyncedPreferences extends $pb.GeneratedMessage {
 
   factory SyncedPreferences.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      SyncedPreferences()..mergeFromBuffer(data, registry);
   factory SyncedPreferences.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      SyncedPreferences()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'SyncedPreferences',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: SyncedPreferences.$_createMessage)
     ..aOM<$0.AccessibilitySettings>(1, _omitFieldNames ? '' : 'accessibility',
-        subBuilder: $0.AccessibilitySettings.create)
+        subBuilder: $0.AccessibilitySettings.$_createMessage)
     ..aOM<$0.AccessibilityOverrides>(
         2, _omitFieldNames ? '' : 'accessibilityOverrides',
-        subBuilder: $0.AccessibilityOverrides.create)
+        subBuilder: $0.AccessibilityOverrides.$_createMessage)
     ..aOM<TextualPreviewSettings>(3, _omitFieldNames ? '' : 'textualPreview',
-        subBuilder: TextualPreviewSettings.create)
+        subBuilder: TextualPreviewSettings.$_createMessage)
     ..aOM<$1.EmojiPickerState>(20, _omitFieldNames ? '' : 'emojiPicker',
-        subBuilder: $1.EmojiPickerState.create)
+        subBuilder: $1.EmojiPickerState.$_createMessage)
     ..aOM<$1.StickerPickerState>(21, _omitFieldNames ? '' : 'stickerPicker',
-        subBuilder: $1.StickerPickerState.create)
+        subBuilder: $1.StickerPickerState.$_createMessage)
     ..aOM<$1.MemesPickerState>(22, _omitFieldNames ? '' : 'memesPicker',
-        subBuilder: $1.MemesPickerState.create)
+        subBuilder: $1.MemesPickerState.$_createMessage)
     ..aOM<$1.EmojiState>(23, _omitFieldNames ? '' : 'emoji',
-        subBuilder: $1.EmojiState.create)
+        subBuilder: $1.EmojiState.$_createMessage)
     ..aOM<$1.EmojiStickerLayoutSettings>(
         24, _omitFieldNames ? '' : 'emojiStickerLayout',
-        subBuilder: $1.EmojiStickerLayoutSettings.create)
+        subBuilder: $1.EmojiStickerLayoutSettings.$_createMessage)
     ..aOM<$1.FavoriteGifSettings>(25, _omitFieldNames ? '' : 'favoriteGifs',
-        subBuilder: $1.FavoriteGifSettings.create)
+        subBuilder: $1.FavoriteGifSettings.$_createMessage)
     ..aOM<FavoritesState>(40, _omitFieldNames ? '' : 'favorites',
-        subBuilder: FavoritesState.create)
+        subBuilder: FavoritesState.$_createMessage)
     ..aOM<RecentMentionsSettings>(41, _omitFieldNames ? '' : 'recentMentions',
-        subBuilder: RecentMentionsSettings.create)
+        subBuilder: RecentMentionsSettings.$_createMessage)
     ..aOM<SidebarPreferences>(42, _omitFieldNames ? '' : 'sidebar',
-        subBuilder: SidebarPreferences.create)
+        subBuilder: SidebarPreferences.$_createMessage)
     ..aOM<MemberListState>(43, _omitFieldNames ? '' : 'memberList',
-        subBuilder: MemberListState.create)
+        subBuilder: MemberListState.$_createMessage)
     ..aOM<UnreadChannelsState>(44, _omitFieldNames ? '' : 'unreadChannels',
-        subBuilder: UnreadChannelsState.create)
+        subBuilder: UnreadChannelsState.$_createMessage)
     ..aOM<MentionFrecencyState>(45, _omitFieldNames ? '' : 'mentionFrecency',
-        subBuilder: MentionFrecencyState.create)
+        subBuilder: MentionFrecencyState.$_createMessage)
     ..aOM<NagbarDismissals>(60, _omitFieldNames ? '' : 'nagbars',
-        subBuilder: NagbarDismissals.create)
+        subBuilder: NagbarDismissals.$_createMessage)
     ..aOM<DismissedUpsells>(61, _omitFieldNames ? '' : 'dismissedUpsells',
-        subBuilder: DismissedUpsells.create)
+        subBuilder: DismissedUpsells.$_createMessage)
     ..aOM<GuildNsfwAgreements>(62, _omitFieldNames ? '' : 'guildNsfwAgreements',
-        subBuilder: GuildNsfwAgreements.create)
+        subBuilder: GuildNsfwAgreements.$_createMessage)
     ..aOM<WhatsNewState>(63, _omitFieldNames ? '' : 'whatsNew',
-        subBuilder: WhatsNewState.create)
+        subBuilder: WhatsNewState.$_createMessage)
     ..aOM<PrivacyPreferences>(80, _omitFieldNames ? '' : 'privacy',
-        subBuilder: PrivacyPreferences.create)
+        subBuilder: PrivacyPreferences.$_createMessage)
     ..aOM<LocalUserSpamOverrides>(
         81, _omitFieldNames ? '' : 'localSpamOverrides',
-        subBuilder: LocalUserSpamOverrides.create)
+        subBuilder: LocalUserSpamOverrides.$_createMessage)
     ..aOB(82, _omitFieldNames ? '' : 'sanitizeUrls')
     ..aOM<$1.SoundSettings>(100, _omitFieldNames ? '' : 'sound',
-        subBuilder: $1.SoundSettings.create)
+        subBuilder: $1.SoundSettings.$_createMessage)
     ..aOM<SpellcheckSettings>(101, _omitFieldNames ? '' : 'spellcheck',
-        subBuilder: SpellcheckSettings.create)
+        subBuilder: SpellcheckSettings.$_createMessage)
     ..aOM<SearchEngineSettings>(102, _omitFieldNames ? '' : 'searchEngines',
-        subBuilder: SearchEngineSettings.create)
+        subBuilder: SearchEngineSettings.$_createMessage)
     ..aOM<PermissionLayoutSettings>(
         103, _omitFieldNames ? '' : 'permissionLayout',
-        subBuilder: PermissionLayoutSettings.create)
+        subBuilder: PermissionLayoutSettings.$_createMessage)
     ..aOM<GuildMemberLayoutSettings>(
         104, _omitFieldNames ? '' : 'guildMemberLayout',
-        subBuilder: GuildMemberLayoutSettings.create)
+        subBuilder: GuildMemberLayoutSettings.$_createMessage)
     ..aOM<GuildFolderExpandedState>(105, _omitFieldNames ? '' : 'guildFolders',
-        subBuilder: GuildFolderExpandedState.create)
+        subBuilder: GuildFolderExpandedState.$_createMessage)
     ..aOM<HiddenGuildListButtons>(
         106, _omitFieldNames ? '' : 'hiddenGuildButtons',
-        subBuilder: HiddenGuildListButtons.create)
+        subBuilder: HiddenGuildListButtons.$_createMessage)
     ..aOM<KeyboardModeIntroState>(
         107, _omitFieldNames ? '' : 'keyboardModeIntro',
-        subBuilder: KeyboardModeIntroState.create)
+        subBuilder: KeyboardModeIntroState.$_createMessage)
     ..aOM<InputMonitoringPromptsState>(
         108, _omitFieldNames ? '' : 'inputMonitoring',
-        subBuilder: InputMonitoringPromptsState.create)
+        subBuilder: InputMonitoringPromptsState.$_createMessage)
     ..aOM<VoicePromptsState>(109, _omitFieldNames ? '' : 'voicePrompts',
-        subBuilder: VoicePromptsState.create)
+        subBuilder: VoicePromptsState.$_createMessage)
     ..aOM<SudoPromptState>(110, _omitFieldNames ? '' : 'sudoPrompt',
-        subBuilder: SudoPromptState.create)
+        subBuilder: SudoPromptState.$_createMessage)
     ..aOM<KeybindSettings>(111, _omitFieldNames ? '' : 'keybinds',
-        subBuilder: KeybindSettings.create)
+        subBuilder: KeybindSettings.$_createMessage)
     ..aOM<ChatInputSettings>(112, _omitFieldNames ? '' : 'chatInput',
-        subBuilder: ChatInputSettings.create)
+        subBuilder: ChatInputSettings.$_createMessage)
     ..aOM<ReactionEmoji>(114, _omitFieldNames ? '' : 'doubleTapReaction',
-        subBuilder: ReactionEmoji.create)
+        subBuilder: ReactionEmoji.$_createMessage)
+    ..aOM<ChannelFrecencyState>(115, _omitFieldNames ? '' : 'channelFrecency',
+        subBuilder: ChannelFrecencyState.$_createMessage)
+    ..aOM<AnnouncementPromptsState>(
+        116, _omitFieldNames ? '' : 'announcementPrompts',
+        subBuilder: AnnouncementPromptsState.$_createMessage)
+    ..aE<DoubleTapAction>(117, _omitFieldNames ? '' : 'doubleTapAction',
+        enumValues: DoubleTapAction.values)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -213,12 +227,15 @@ class SyncedPreferences extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use SyncedPreferences() / SyncedPreferences.new instead')
   static SyncedPreferences create() => SyncedPreferences._();
+  static $pb.GeneratedMessage $_createMessage() => SyncedPreferences._();
   @$core.override
-  SyncedPreferences createEmptyInstance() => create();
+  SyncedPreferences createEmptyInstance() => SyncedPreferences._();
   @$core.pragma('dart2js:noInline')
-  static SyncedPreferences getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<SyncedPreferences>(create);
+  static SyncedPreferences getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SyncedPreferences>(
+          SyncedPreferences.$_createMessage);
   static SyncedPreferences? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -620,6 +637,38 @@ class SyncedPreferences extends $pb.GeneratedMessage {
   void clearDoubleTapReaction() => $_clearField(114);
   @$pb.TagNumber(114)
   ReactionEmoji ensureDoubleTapReaction() => $_ensure(35);
+
+  @$pb.TagNumber(115)
+  ChannelFrecencyState get channelFrecency => $_getN(36);
+  @$pb.TagNumber(115)
+  set channelFrecency(ChannelFrecencyState value) => $_setField(115, value);
+  @$pb.TagNumber(115)
+  $core.bool hasChannelFrecency() => $_has(36);
+  @$pb.TagNumber(115)
+  void clearChannelFrecency() => $_clearField(115);
+  @$pb.TagNumber(115)
+  ChannelFrecencyState ensureChannelFrecency() => $_ensure(36);
+
+  @$pb.TagNumber(116)
+  AnnouncementPromptsState get announcementPrompts => $_getN(37);
+  @$pb.TagNumber(116)
+  set announcementPrompts(AnnouncementPromptsState value) =>
+      $_setField(116, value);
+  @$pb.TagNumber(116)
+  $core.bool hasAnnouncementPrompts() => $_has(37);
+  @$pb.TagNumber(116)
+  void clearAnnouncementPrompts() => $_clearField(116);
+  @$pb.TagNumber(116)
+  AnnouncementPromptsState ensureAnnouncementPrompts() => $_ensure(37);
+
+  @$pb.TagNumber(117)
+  DoubleTapAction get doubleTapAction => $_getN(38);
+  @$pb.TagNumber(117)
+  set doubleTapAction(DoubleTapAction value) => $_setField(117, value);
+  @$pb.TagNumber(117)
+  $core.bool hasDoubleTapAction() => $_has(38);
+  @$pb.TagNumber(117)
+  void clearDoubleTapAction() => $_clearField(117);
 }
 
 class SpellcheckSettings extends $pb.GeneratedMessage {
@@ -630,7 +679,7 @@ class SpellcheckSettings extends $pb.GeneratedMessage {
     $core.bool? autoDetect,
     $core.String? engine,
   }) {
-    final result = create();
+    final result = SpellcheckSettings._();
     if (enabled != null) result.enabled = enabled;
     if (languages != null) result.languages.addAll(languages);
     if (personalDictionary != null)
@@ -644,16 +693,16 @@ class SpellcheckSettings extends $pb.GeneratedMessage {
 
   factory SpellcheckSettings.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      SpellcheckSettings()..mergeFromBuffer(data, registry);
   factory SpellcheckSettings.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      SpellcheckSettings()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'SpellcheckSettings',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: SpellcheckSettings.$_createMessage)
     ..aOB(1, _omitFieldNames ? '' : 'enabled')
     ..pPS(2, _omitFieldNames ? '' : 'languages')
     ..pPS(3, _omitFieldNames ? '' : 'personalDictionary')
@@ -672,12 +721,15 @@ class SpellcheckSettings extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use SpellcheckSettings() / SpellcheckSettings.new instead')
   static SpellcheckSettings create() => SpellcheckSettings._();
+  static $pb.GeneratedMessage $_createMessage() => SpellcheckSettings._();
   @$core.override
-  SpellcheckSettings createEmptyInstance() => create();
+  SpellcheckSettings createEmptyInstance() => SpellcheckSettings._();
   @$core.pragma('dart2js:noInline')
   static SpellcheckSettings getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<SpellcheckSettings>(create);
+      $pb.GeneratedMessage.$_defaultFor<SpellcheckSettings>(
+          SpellcheckSettings.$_createMessage);
   static SpellcheckSettings? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -720,7 +772,7 @@ class SearchEngineSettings extends $pb.GeneratedMessage {
     $core.String? reverseImageSearchEngineId,
     $core.String? translationProviderId,
   }) {
-    final result = create();
+    final result = SearchEngineSettings._();
     if (textSearchEngineId != null)
       result.textSearchEngineId = textSearchEngineId;
     if (reverseImageSearchEngineId != null)
@@ -734,16 +786,16 @@ class SearchEngineSettings extends $pb.GeneratedMessage {
 
   factory SearchEngineSettings.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      SearchEngineSettings()..mergeFromBuffer(data, registry);
   factory SearchEngineSettings.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      SearchEngineSettings()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'SearchEngineSettings',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: SearchEngineSettings.$_createMessage)
     ..aOS(1, _omitFieldNames ? '' : 'textSearchEngineId')
     ..aOS(2, _omitFieldNames ? '' : 'reverseImageSearchEngineId')
     ..aOS(3, _omitFieldNames ? '' : 'translationProviderId')
@@ -760,12 +812,16 @@ class SearchEngineSettings extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated(
+      'Use SearchEngineSettings() / SearchEngineSettings.new instead')
   static SearchEngineSettings create() => SearchEngineSettings._();
+  static $pb.GeneratedMessage $_createMessage() => SearchEngineSettings._();
   @$core.override
-  SearchEngineSettings createEmptyInstance() => create();
+  SearchEngineSettings createEmptyInstance() => SearchEngineSettings._();
   @$core.pragma('dart2js:noInline')
   static SearchEngineSettings getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<SearchEngineSettings>(create);
+      $pb.GeneratedMessage.$_defaultFor<SearchEngineSettings>(
+          SearchEngineSettings.$_createMessage);
   static SearchEngineSettings? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -802,7 +858,7 @@ class PrivacyPreferences extends $pb.GeneratedMessage {
     $core.bool? showActiveNow,
     $core.bool? preuploadMessageAttachments,
   }) {
-    final result = create();
+    final result = PrivacyPreferences._();
     if (disableStreamPreviews != null)
       result.disableStreamPreviews = disableStreamPreviews;
     if (showActiveNow != null) result.showActiveNow = showActiveNow;
@@ -815,16 +871,16 @@ class PrivacyPreferences extends $pb.GeneratedMessage {
 
   factory PrivacyPreferences.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      PrivacyPreferences()..mergeFromBuffer(data, registry);
   factory PrivacyPreferences.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      PrivacyPreferences()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'PrivacyPreferences',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: PrivacyPreferences.$_createMessage)
     ..aOB(1, _omitFieldNames ? '' : 'disableStreamPreviews')
     ..aOB(2, _omitFieldNames ? '' : 'showActiveNow')
     ..aOB(3, _omitFieldNames ? '' : 'preuploadMessageAttachments')
@@ -841,12 +897,15 @@ class PrivacyPreferences extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use PrivacyPreferences() / PrivacyPreferences.new instead')
   static PrivacyPreferences create() => PrivacyPreferences._();
+  static $pb.GeneratedMessage $_createMessage() => PrivacyPreferences._();
   @$core.override
-  PrivacyPreferences createEmptyInstance() => create();
+  PrivacyPreferences createEmptyInstance() => PrivacyPreferences._();
   @$core.pragma('dart2js:noInline')
   static PrivacyPreferences getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<PrivacyPreferences>(create);
+      $pb.GeneratedMessage.$_defaultFor<PrivacyPreferences>(
+          PrivacyPreferences.$_createMessage);
   static PrivacyPreferences? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -882,7 +941,7 @@ class LocalUserSpamOverrides extends $pb.GeneratedMessage {
     $core.Iterable<$core.String>? spammerUserIds,
     $core.Iterable<$core.String>? notSpammerUserIds,
   }) {
-    final result = create();
+    final result = LocalUserSpamOverrides._();
     if (spammerUserIds != null) result.spammerUserIds.addAll(spammerUserIds);
     if (notSpammerUserIds != null)
       result.notSpammerUserIds.addAll(notSpammerUserIds);
@@ -893,16 +952,16 @@ class LocalUserSpamOverrides extends $pb.GeneratedMessage {
 
   factory LocalUserSpamOverrides.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      LocalUserSpamOverrides()..mergeFromBuffer(data, registry);
   factory LocalUserSpamOverrides.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      LocalUserSpamOverrides()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'LocalUserSpamOverrides',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: LocalUserSpamOverrides.$_createMessage)
     ..pPS(1, _omitFieldNames ? '' : 'spammerUserIds')
     ..pPS(2, _omitFieldNames ? '' : 'notSpammerUserIds')
     ..hasRequiredFields = false;
@@ -919,12 +978,16 @@ class LocalUserSpamOverrides extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated(
+      'Use LocalUserSpamOverrides() / LocalUserSpamOverrides.new instead')
   static LocalUserSpamOverrides create() => LocalUserSpamOverrides._();
+  static $pb.GeneratedMessage $_createMessage() => LocalUserSpamOverrides._();
   @$core.override
-  LocalUserSpamOverrides createEmptyInstance() => create();
+  LocalUserSpamOverrides createEmptyInstance() => LocalUserSpamOverrides._();
   @$core.pragma('dart2js:noInline')
   static LocalUserSpamOverrides getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<LocalUserSpamOverrides>(create);
+      $pb.GeneratedMessage.$_defaultFor<LocalUserSpamOverrides>(
+          LocalUserSpamOverrides.$_createMessage);
   static LocalUserSpamOverrides? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -938,7 +1001,7 @@ class TextualPreviewSettings extends $pb.GeneratedMessage {
   factory TextualPreviewSettings({
     $core.bool? wrapText,
   }) {
-    final result = create();
+    final result = TextualPreviewSettings._();
     if (wrapText != null) result.wrapText = wrapText;
     return result;
   }
@@ -947,16 +1010,16 @@ class TextualPreviewSettings extends $pb.GeneratedMessage {
 
   factory TextualPreviewSettings.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      TextualPreviewSettings()..mergeFromBuffer(data, registry);
   factory TextualPreviewSettings.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      TextualPreviewSettings()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'TextualPreviewSettings',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: TextualPreviewSettings.$_createMessage)
     ..aOB(1, _omitFieldNames ? '' : 'wrapText')
     ..hasRequiredFields = false;
 
@@ -972,12 +1035,16 @@ class TextualPreviewSettings extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated(
+      'Use TextualPreviewSettings() / TextualPreviewSettings.new instead')
   static TextualPreviewSettings create() => TextualPreviewSettings._();
+  static $pb.GeneratedMessage $_createMessage() => TextualPreviewSettings._();
   @$core.override
-  TextualPreviewSettings createEmptyInstance() => create();
+  TextualPreviewSettings createEmptyInstance() => TextualPreviewSettings._();
   @$core.pragma('dart2js:noInline')
   static TextualPreviewSettings getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<TextualPreviewSettings>(create);
+      $pb.GeneratedMessage.$_defaultFor<TextualPreviewSettings>(
+          TextualPreviewSettings.$_createMessage);
   static TextualPreviewSettings? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -996,7 +1063,7 @@ class SidebarPreferences extends $pb.GeneratedMessage {
     $core.bool? showCollapsedUnreadDmsBadge,
     $core.bool? showIncomingFriendRequestBadge,
   }) {
-    final result = create();
+    final result = SidebarPreferences._();
     if (inlineDmsCollapsed != null)
       result.inlineDmsCollapsed = inlineDmsCollapsed;
     if (showCollapsedUnreadDmsBadge != null)
@@ -1010,16 +1077,16 @@ class SidebarPreferences extends $pb.GeneratedMessage {
 
   factory SidebarPreferences.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      SidebarPreferences()..mergeFromBuffer(data, registry);
   factory SidebarPreferences.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      SidebarPreferences()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'SidebarPreferences',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: SidebarPreferences.$_createMessage)
     ..aOB(1, _omitFieldNames ? '' : 'inlineDmsCollapsed')
     ..aOB(2, _omitFieldNames ? '' : 'showCollapsedUnreadDmsBadge')
     ..aOB(3, _omitFieldNames ? '' : 'showIncomingFriendRequestBadge')
@@ -1036,12 +1103,15 @@ class SidebarPreferences extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use SidebarPreferences() / SidebarPreferences.new instead')
   static SidebarPreferences create() => SidebarPreferences._();
+  static $pb.GeneratedMessage $_createMessage() => SidebarPreferences._();
   @$core.override
-  SidebarPreferences createEmptyInstance() => create();
+  SidebarPreferences createEmptyInstance() => SidebarPreferences._();
   @$core.pragma('dart2js:noInline')
   static SidebarPreferences getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<SidebarPreferences>(create);
+      $pb.GeneratedMessage.$_defaultFor<SidebarPreferences>(
+          SidebarPreferences.$_createMessage);
   static SidebarPreferences? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -1076,7 +1146,7 @@ class MemberListState extends $pb.GeneratedMessage {
   factory MemberListState({
     $core.bool? membersOpen,
   }) {
-    final result = create();
+    final result = MemberListState._();
     if (membersOpen != null) result.membersOpen = membersOpen;
     return result;
   }
@@ -1085,16 +1155,16 @@ class MemberListState extends $pb.GeneratedMessage {
 
   factory MemberListState.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      MemberListState()..mergeFromBuffer(data, registry);
   factory MemberListState.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      MemberListState()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'MemberListState',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: MemberListState.$_createMessage)
     ..aOB(1, _omitFieldNames ? '' : 'membersOpen')
     ..hasRequiredFields = false;
 
@@ -1109,12 +1179,15 @@ class MemberListState extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use MemberListState() / MemberListState.new instead')
   static MemberListState create() => MemberListState._();
+  static $pb.GeneratedMessage $_createMessage() => MemberListState._();
   @$core.override
-  MemberListState createEmptyInstance() => create();
+  MemberListState createEmptyInstance() => MemberListState._();
   @$core.pragma('dart2js:noInline')
-  static MemberListState getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<MemberListState>(create);
+  static MemberListState getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<MemberListState>(
+          MemberListState.$_createMessage);
   static MemberListState? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -1131,7 +1204,7 @@ class UnreadChannelsState extends $pb.GeneratedMessage {
   factory UnreadChannelsState({
     $core.Iterable<$core.String>? collapsedChannelIds,
   }) {
-    final result = create();
+    final result = UnreadChannelsState._();
     if (collapsedChannelIds != null)
       result.collapsedChannelIds.addAll(collapsedChannelIds);
     return result;
@@ -1141,16 +1214,16 @@ class UnreadChannelsState extends $pb.GeneratedMessage {
 
   factory UnreadChannelsState.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      UnreadChannelsState()..mergeFromBuffer(data, registry);
   factory UnreadChannelsState.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      UnreadChannelsState()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'UnreadChannelsState',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: UnreadChannelsState.$_createMessage)
     ..pPS(1, _omitFieldNames ? '' : 'collapsedChannelIds')
     ..hasRequiredFields = false;
 
@@ -1165,12 +1238,16 @@ class UnreadChannelsState extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core
+      .Deprecated('Use UnreadChannelsState() / UnreadChannelsState.new instead')
   static UnreadChannelsState create() => UnreadChannelsState._();
+  static $pb.GeneratedMessage $_createMessage() => UnreadChannelsState._();
   @$core.override
-  UnreadChannelsState createEmptyInstance() => create();
+  UnreadChannelsState createEmptyInstance() => UnreadChannelsState._();
   @$core.pragma('dart2js:noInline')
   static UnreadChannelsState getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<UnreadChannelsState>(create);
+      $pb.GeneratedMessage.$_defaultFor<UnreadChannelsState>(
+          UnreadChannelsState.$_createMessage);
   static UnreadChannelsState? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -1183,7 +1260,7 @@ class RecentMentionsSettings extends $pb.GeneratedMessage {
     $core.bool? includeRoles,
     $core.bool? includeGuilds,
   }) {
-    final result = create();
+    final result = RecentMentionsSettings._();
     if (includeEveryone != null) result.includeEveryone = includeEveryone;
     if (includeRoles != null) result.includeRoles = includeRoles;
     if (includeGuilds != null) result.includeGuilds = includeGuilds;
@@ -1194,16 +1271,16 @@ class RecentMentionsSettings extends $pb.GeneratedMessage {
 
   factory RecentMentionsSettings.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      RecentMentionsSettings()..mergeFromBuffer(data, registry);
   factory RecentMentionsSettings.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      RecentMentionsSettings()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'RecentMentionsSettings',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: RecentMentionsSettings.$_createMessage)
     ..aOB(1, _omitFieldNames ? '' : 'includeEveryone')
     ..aOB(2, _omitFieldNames ? '' : 'includeRoles')
     ..aOB(3, _omitFieldNames ? '' : 'includeGuilds')
@@ -1221,12 +1298,16 @@ class RecentMentionsSettings extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated(
+      'Use RecentMentionsSettings() / RecentMentionsSettings.new instead')
   static RecentMentionsSettings create() => RecentMentionsSettings._();
+  static $pb.GeneratedMessage $_createMessage() => RecentMentionsSettings._();
   @$core.override
-  RecentMentionsSettings createEmptyInstance() => create();
+  RecentMentionsSettings createEmptyInstance() => RecentMentionsSettings._();
   @$core.pragma('dart2js:noInline')
   static RecentMentionsSettings getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<RecentMentionsSettings>(create);
+      $pb.GeneratedMessage.$_defaultFor<RecentMentionsSettings>(
+          RecentMentionsSettings.$_createMessage);
   static RecentMentionsSettings? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -1263,7 +1344,7 @@ class MentionFrecencyState_Entry extends $pb.GeneratedMessage {
     $core.int? count,
     $fixnum.Int64? lastAtMs,
   }) {
-    final result = create();
+    final result = MentionFrecencyState_Entry._();
     if (userId != null) result.userId = userId;
     if (count != null) result.count = count;
     if (lastAtMs != null) result.lastAtMs = lastAtMs;
@@ -1274,16 +1355,16 @@ class MentionFrecencyState_Entry extends $pb.GeneratedMessage {
 
   factory MentionFrecencyState_Entry.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      MentionFrecencyState_Entry()..mergeFromBuffer(data, registry);
   factory MentionFrecencyState_Entry.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      MentionFrecencyState_Entry()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'MentionFrecencyState.Entry',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: MentionFrecencyState_Entry.$_createMessage)
     ..aOS(1, _omitFieldNames ? '' : 'userId')
     ..aI(2, _omitFieldNames ? '' : 'count', fieldType: $pb.PbFieldType.OU3)
     ..aInt64(3, _omitFieldNames ? '' : 'lastAtMs')
@@ -1302,12 +1383,18 @@ class MentionFrecencyState_Entry extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated(
+      'Use MentionFrecencyState_Entry() / MentionFrecencyState_Entry.new instead')
   static MentionFrecencyState_Entry create() => MentionFrecencyState_Entry._();
+  static $pb.GeneratedMessage $_createMessage() =>
+      MentionFrecencyState_Entry._();
   @$core.override
-  MentionFrecencyState_Entry createEmptyInstance() => create();
+  MentionFrecencyState_Entry createEmptyInstance() =>
+      MentionFrecencyState_Entry._();
   @$core.pragma('dart2js:noInline')
   static MentionFrecencyState_Entry getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<MentionFrecencyState_Entry>(create);
+      $pb.GeneratedMessage.$_defaultFor<MentionFrecencyState_Entry>(
+          MentionFrecencyState_Entry.$_createMessage);
   static MentionFrecencyState_Entry? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -1343,7 +1430,7 @@ class MentionFrecencyState_Scope extends $pb.GeneratedMessage {
     $core.String? guildId,
     $core.Iterable<MentionFrecencyState_Entry>? entries,
   }) {
-    final result = create();
+    final result = MentionFrecencyState_Scope._();
     if (guildId != null) result.guildId = guildId;
     if (entries != null) result.entries.addAll(entries);
     return result;
@@ -1353,19 +1440,19 @@ class MentionFrecencyState_Scope extends $pb.GeneratedMessage {
 
   factory MentionFrecencyState_Scope.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      MentionFrecencyState_Scope()..mergeFromBuffer(data, registry);
   factory MentionFrecencyState_Scope.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      MentionFrecencyState_Scope()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'MentionFrecencyState.Scope',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: MentionFrecencyState_Scope.$_createMessage)
     ..aOS(1, _omitFieldNames ? '' : 'guildId')
     ..pPM<MentionFrecencyState_Entry>(2, _omitFieldNames ? '' : 'entries',
-        subBuilder: MentionFrecencyState_Entry.create)
+        subBuilder: MentionFrecencyState_Entry.$_createMessage)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -1381,12 +1468,18 @@ class MentionFrecencyState_Scope extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated(
+      'Use MentionFrecencyState_Scope() / MentionFrecencyState_Scope.new instead')
   static MentionFrecencyState_Scope create() => MentionFrecencyState_Scope._();
+  static $pb.GeneratedMessage $_createMessage() =>
+      MentionFrecencyState_Scope._();
   @$core.override
-  MentionFrecencyState_Scope createEmptyInstance() => create();
+  MentionFrecencyState_Scope createEmptyInstance() =>
+      MentionFrecencyState_Scope._();
   @$core.pragma('dart2js:noInline')
   static MentionFrecencyState_Scope getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<MentionFrecencyState_Scope>(create);
+      $pb.GeneratedMessage.$_defaultFor<MentionFrecencyState_Scope>(
+          MentionFrecencyState_Scope.$_createMessage);
   static MentionFrecencyState_Scope? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -1406,7 +1499,7 @@ class MentionFrecencyState extends $pb.GeneratedMessage {
   factory MentionFrecencyState({
     $core.Iterable<MentionFrecencyState_Scope>? scopes,
   }) {
-    final result = create();
+    final result = MentionFrecencyState._();
     if (scopes != null) result.scopes.addAll(scopes);
     return result;
   }
@@ -1415,18 +1508,18 @@ class MentionFrecencyState extends $pb.GeneratedMessage {
 
   factory MentionFrecencyState.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      MentionFrecencyState()..mergeFromBuffer(data, registry);
   factory MentionFrecencyState.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      MentionFrecencyState()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'MentionFrecencyState',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: MentionFrecencyState.$_createMessage)
     ..pPM<MentionFrecencyState_Scope>(1, _omitFieldNames ? '' : 'scopes',
-        subBuilder: MentionFrecencyState_Scope.create)
+        subBuilder: MentionFrecencyState_Scope.$_createMessage)
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -1440,12 +1533,16 @@ class MentionFrecencyState extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated(
+      'Use MentionFrecencyState() / MentionFrecencyState.new instead')
   static MentionFrecencyState create() => MentionFrecencyState._();
+  static $pb.GeneratedMessage $_createMessage() => MentionFrecencyState._();
   @$core.override
-  MentionFrecencyState createEmptyInstance() => create();
+  MentionFrecencyState createEmptyInstance() => MentionFrecencyState._();
   @$core.pragma('dart2js:noInline')
   static MentionFrecencyState getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<MentionFrecencyState>(create);
+      $pb.GeneratedMessage.$_defaultFor<MentionFrecencyState>(
+          MentionFrecencyState.$_createMessage);
   static MentionFrecencyState? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -1460,7 +1557,7 @@ class FavoritesState extends $pb.GeneratedMessage {
     $core.bool? hideMutedChannels,
     $core.bool? muted,
   }) {
-    final result = create();
+    final result = FavoritesState._();
     if (channels != null) result.channels.addAll(channels);
     if (categories != null) result.categories.addAll(categories);
     if (collapsedCategoryIds != null)
@@ -1474,20 +1571,20 @@ class FavoritesState extends $pb.GeneratedMessage {
 
   factory FavoritesState.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      FavoritesState()..mergeFromBuffer(data, registry);
   factory FavoritesState.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      FavoritesState()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'FavoritesState',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: FavoritesState.$_createMessage)
     ..pPM<FavoriteChannel>(1, _omitFieldNames ? '' : 'channels',
-        subBuilder: FavoriteChannel.create)
+        subBuilder: FavoriteChannel.$_createMessage)
     ..pPM<FavoriteCategory>(2, _omitFieldNames ? '' : 'categories',
-        subBuilder: FavoriteCategory.create)
+        subBuilder: FavoriteCategory.$_createMessage)
     ..pPS(3, _omitFieldNames ? '' : 'collapsedCategoryIds')
     ..aOB(4, _omitFieldNames ? '' : 'hideMutedChannels')
     ..aOB(5, _omitFieldNames ? '' : 'muted')
@@ -1504,12 +1601,15 @@ class FavoritesState extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use FavoritesState() / FavoritesState.new instead')
   static FavoritesState create() => FavoritesState._();
+  static $pb.GeneratedMessage $_createMessage() => FavoritesState._();
   @$core.override
-  FavoritesState createEmptyInstance() => create();
+  FavoritesState createEmptyInstance() => FavoritesState._();
   @$core.pragma('dart2js:noInline')
-  static FavoritesState getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<FavoritesState>(create);
+  static FavoritesState getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<FavoritesState>(
+          FavoritesState.$_createMessage);
   static FavoritesState? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -1548,7 +1648,7 @@ class FavoriteChannel extends $pb.GeneratedMessage {
     $core.int? position,
     $core.String? nickname,
   }) {
-    final result = create();
+    final result = FavoriteChannel._();
     if (channelId != null) result.channelId = channelId;
     if (guildId != null) result.guildId = guildId;
     if (parentId != null) result.parentId = parentId;
@@ -1561,16 +1661,16 @@ class FavoriteChannel extends $pb.GeneratedMessage {
 
   factory FavoriteChannel.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      FavoriteChannel()..mergeFromBuffer(data, registry);
   factory FavoriteChannel.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      FavoriteChannel()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'FavoriteChannel',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: FavoriteChannel.$_createMessage)
     ..aOS(1, _omitFieldNames ? '' : 'channelId')
     ..aOS(2, _omitFieldNames ? '' : 'guildId')
     ..aOS(3, _omitFieldNames ? '' : 'parentId')
@@ -1589,12 +1689,15 @@ class FavoriteChannel extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use FavoriteChannel() / FavoriteChannel.new instead')
   static FavoriteChannel create() => FavoriteChannel._();
+  static $pb.GeneratedMessage $_createMessage() => FavoriteChannel._();
   @$core.override
-  FavoriteChannel createEmptyInstance() => create();
+  FavoriteChannel createEmptyInstance() => FavoriteChannel._();
   @$core.pragma('dart2js:noInline')
-  static FavoriteChannel getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<FavoriteChannel>(create);
+  static FavoriteChannel getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<FavoriteChannel>(
+          FavoriteChannel.$_createMessage);
   static FavoriteChannel? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -1649,7 +1752,7 @@ class FavoriteCategory extends $pb.GeneratedMessage {
     $core.String? name,
     $core.int? position,
   }) {
-    final result = create();
+    final result = FavoriteCategory._();
     if (id != null) result.id = id;
     if (name != null) result.name = name;
     if (position != null) result.position = position;
@@ -1660,16 +1763,16 @@ class FavoriteCategory extends $pb.GeneratedMessage {
 
   factory FavoriteCategory.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      FavoriteCategory()..mergeFromBuffer(data, registry);
   factory FavoriteCategory.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      FavoriteCategory()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'FavoriteCategory',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: FavoriteCategory.$_createMessage)
     ..aOS(1, _omitFieldNames ? '' : 'id')
     ..aOS(2, _omitFieldNames ? '' : 'name')
     ..aI(3, _omitFieldNames ? '' : 'position')
@@ -1686,12 +1789,15 @@ class FavoriteCategory extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use FavoriteCategory() / FavoriteCategory.new instead')
   static FavoriteCategory create() => FavoriteCategory._();
+  static $pb.GeneratedMessage $_createMessage() => FavoriteCategory._();
   @$core.override
-  FavoriteCategory createEmptyInstance() => create();
+  FavoriteCategory createEmptyInstance() => FavoriteCategory._();
   @$core.pragma('dart2js:noInline')
-  static FavoriteCategory getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<FavoriteCategory>(create);
+  static FavoriteCategory getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<FavoriteCategory>(
+          FavoriteCategory.$_createMessage);
   static FavoriteCategory? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -1743,7 +1849,7 @@ class NagbarDismissals extends $pb.GeneratedMessage {
     $core.Iterable<$core.MapEntry<$core.String, $core.bool>>?
         guildMfaRequirement,
   }) {
-    final result = create();
+    final result = NagbarDismissals._();
     if (iosInstall != null) result.iosInstall = iosInstall;
     if (pwaInstall != null) result.pwaInstall = pwaInstall;
     if (pushNotification != null) result.pushNotification = pushNotification;
@@ -1774,16 +1880,16 @@ class NagbarDismissals extends $pb.GeneratedMessage {
 
   factory NagbarDismissals.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      NagbarDismissals()..mergeFromBuffer(data, registry);
   factory NagbarDismissals.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      NagbarDismissals()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'NagbarDismissals',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: NagbarDismissals.$_createMessage)
     ..aOB(1, _omitFieldNames ? '' : 'iosInstall')
     ..aOB(2, _omitFieldNames ? '' : 'pwaInstall')
     ..aOB(3, _omitFieldNames ? '' : 'pushNotification')
@@ -1827,12 +1933,15 @@ class NagbarDismissals extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use NagbarDismissals() / NagbarDismissals.new instead')
   static NagbarDismissals create() => NagbarDismissals._();
+  static $pb.GeneratedMessage $_createMessage() => NagbarDismissals._();
   @$core.override
-  NagbarDismissals createEmptyInstance() => create();
+  NagbarDismissals createEmptyInstance() => NagbarDismissals._();
   @$core.pragma('dart2js:noInline')
-  static NagbarDismissals getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<NagbarDismissals>(create);
+  static NagbarDismissals getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<NagbarDismissals>(
+          NagbarDismissals.$_createMessage);
   static NagbarDismissals? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -1966,7 +2075,7 @@ class DismissedUpsells extends $pb.GeneratedMessage {
   factory DismissedUpsells({
     $core.bool? pickerPremium,
   }) {
-    final result = create();
+    final result = DismissedUpsells._();
     if (pickerPremium != null) result.pickerPremium = pickerPremium;
     return result;
   }
@@ -1975,16 +2084,16 @@ class DismissedUpsells extends $pb.GeneratedMessage {
 
   factory DismissedUpsells.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      DismissedUpsells()..mergeFromBuffer(data, registry);
   factory DismissedUpsells.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      DismissedUpsells()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'DismissedUpsells',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: DismissedUpsells.$_createMessage)
     ..aOB(1, _omitFieldNames ? '' : 'pickerPremium')
     ..hasRequiredFields = false;
 
@@ -1999,12 +2108,15 @@ class DismissedUpsells extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use DismissedUpsells() / DismissedUpsells.new instead')
   static DismissedUpsells create() => DismissedUpsells._();
+  static $pb.GeneratedMessage $_createMessage() => DismissedUpsells._();
   @$core.override
-  DismissedUpsells createEmptyInstance() => create();
+  DismissedUpsells createEmptyInstance() => DismissedUpsells._();
   @$core.pragma('dart2js:noInline')
-  static DismissedUpsells getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<DismissedUpsells>(create);
+  static DismissedUpsells getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<DismissedUpsells>(
+          DismissedUpsells.$_createMessage);
   static DismissedUpsells? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -2023,7 +2135,7 @@ class GuildNsfwAgreements extends $pb.GeneratedMessage {
     $core.Iterable<$core.String>? agreedGuildIds,
     $core.Iterable<$core.String>? agreedCategoryIds,
   }) {
-    final result = create();
+    final result = GuildNsfwAgreements._();
     if (agreedChannelIds != null)
       result.agreedChannelIds.addAll(agreedChannelIds);
     if (agreedGuildIds != null) result.agreedGuildIds.addAll(agreedGuildIds);
@@ -2036,16 +2148,16 @@ class GuildNsfwAgreements extends $pb.GeneratedMessage {
 
   factory GuildNsfwAgreements.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      GuildNsfwAgreements()..mergeFromBuffer(data, registry);
   factory GuildNsfwAgreements.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      GuildNsfwAgreements()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'GuildNsfwAgreements',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: GuildNsfwAgreements.$_createMessage)
     ..pPS(1, _omitFieldNames ? '' : 'agreedChannelIds')
     ..pPS(2, _omitFieldNames ? '' : 'agreedGuildIds')
     ..pPS(3, _omitFieldNames ? '' : 'agreedCategoryIds')
@@ -2062,12 +2174,16 @@ class GuildNsfwAgreements extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core
+      .Deprecated('Use GuildNsfwAgreements() / GuildNsfwAgreements.new instead')
   static GuildNsfwAgreements create() => GuildNsfwAgreements._();
+  static $pb.GeneratedMessage $_createMessage() => GuildNsfwAgreements._();
   @$core.override
-  GuildNsfwAgreements createEmptyInstance() => create();
+  GuildNsfwAgreements createEmptyInstance() => GuildNsfwAgreements._();
   @$core.pragma('dart2js:noInline')
   static GuildNsfwAgreements getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<GuildNsfwAgreements>(create);
+      $pb.GeneratedMessage.$_defaultFor<GuildNsfwAgreements>(
+          GuildNsfwAgreements.$_createMessage);
   static GuildNsfwAgreements? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -2084,7 +2200,7 @@ class WhatsNewState extends $pb.GeneratedMessage {
   factory WhatsNewState({
     $core.String? lastDismissedEntryId,
   }) {
-    final result = create();
+    final result = WhatsNewState._();
     if (lastDismissedEntryId != null)
       result.lastDismissedEntryId = lastDismissedEntryId;
     return result;
@@ -2094,16 +2210,16 @@ class WhatsNewState extends $pb.GeneratedMessage {
 
   factory WhatsNewState.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      WhatsNewState()..mergeFromBuffer(data, registry);
   factory WhatsNewState.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      WhatsNewState()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'WhatsNewState',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: WhatsNewState.$_createMessage)
     ..aOS(1, _omitFieldNames ? '' : 'lastDismissedEntryId')
     ..hasRequiredFields = false;
 
@@ -2118,12 +2234,15 @@ class WhatsNewState extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use WhatsNewState() / WhatsNewState.new instead')
   static WhatsNewState create() => WhatsNewState._();
+  static $pb.GeneratedMessage $_createMessage() => WhatsNewState._();
   @$core.override
-  WhatsNewState createEmptyInstance() => create();
+  WhatsNewState createEmptyInstance() => WhatsNewState._();
   @$core.pragma('dart2js:noInline')
-  static WhatsNewState getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<WhatsNewState>(create);
+  static WhatsNewState getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<WhatsNewState>(
+          WhatsNewState.$_createMessage);
   static WhatsNewState? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -2141,7 +2260,7 @@ class PermissionLayoutSettings extends $pb.GeneratedMessage {
     PermissionLayoutMode? layout,
     PermissionGridMode? grid,
   }) {
-    final result = create();
+    final result = PermissionLayoutSettings._();
     if (layout != null) result.layout = layout;
     if (grid != null) result.grid = grid;
     return result;
@@ -2151,16 +2270,16 @@ class PermissionLayoutSettings extends $pb.GeneratedMessage {
 
   factory PermissionLayoutSettings.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      PermissionLayoutSettings()..mergeFromBuffer(data, registry);
   factory PermissionLayoutSettings.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      PermissionLayoutSettings()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'PermissionLayoutSettings',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: PermissionLayoutSettings.$_createMessage)
     ..aE<PermissionLayoutMode>(1, _omitFieldNames ? '' : 'layout',
         enumValues: PermissionLayoutMode.values)
     ..aE<PermissionGridMode>(2, _omitFieldNames ? '' : 'grid',
@@ -2179,12 +2298,17 @@ class PermissionLayoutSettings extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated(
+      'Use PermissionLayoutSettings() / PermissionLayoutSettings.new instead')
   static PermissionLayoutSettings create() => PermissionLayoutSettings._();
+  static $pb.GeneratedMessage $_createMessage() => PermissionLayoutSettings._();
   @$core.override
-  PermissionLayoutSettings createEmptyInstance() => create();
+  PermissionLayoutSettings createEmptyInstance() =>
+      PermissionLayoutSettings._();
   @$core.pragma('dart2js:noInline')
   static PermissionLayoutSettings getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<PermissionLayoutSettings>(create);
+      $pb.GeneratedMessage.$_defaultFor<PermissionLayoutSettings>(
+          PermissionLayoutSettings.$_createMessage);
   static PermissionLayoutSettings? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -2210,7 +2334,7 @@ class GuildMemberLayoutSettings extends $pb.GeneratedMessage {
   factory GuildMemberLayoutSettings({
     GuildMemberViewMode? mode,
   }) {
-    final result = create();
+    final result = GuildMemberLayoutSettings._();
     if (mode != null) result.mode = mode;
     return result;
   }
@@ -2219,16 +2343,16 @@ class GuildMemberLayoutSettings extends $pb.GeneratedMessage {
 
   factory GuildMemberLayoutSettings.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      GuildMemberLayoutSettings()..mergeFromBuffer(data, registry);
   factory GuildMemberLayoutSettings.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      GuildMemberLayoutSettings()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'GuildMemberLayoutSettings',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: GuildMemberLayoutSettings.$_createMessage)
     ..aE<GuildMemberViewMode>(1, _omitFieldNames ? '' : 'mode',
         enumValues: GuildMemberViewMode.values)
     ..hasRequiredFields = false;
@@ -2245,12 +2369,18 @@ class GuildMemberLayoutSettings extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated(
+      'Use GuildMemberLayoutSettings() / GuildMemberLayoutSettings.new instead')
   static GuildMemberLayoutSettings create() => GuildMemberLayoutSettings._();
+  static $pb.GeneratedMessage $_createMessage() =>
+      GuildMemberLayoutSettings._();
   @$core.override
-  GuildMemberLayoutSettings createEmptyInstance() => create();
+  GuildMemberLayoutSettings createEmptyInstance() =>
+      GuildMemberLayoutSettings._();
   @$core.pragma('dart2js:noInline')
   static GuildMemberLayoutSettings getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<GuildMemberLayoutSettings>(create);
+      $pb.GeneratedMessage.$_defaultFor<GuildMemberLayoutSettings>(
+          GuildMemberLayoutSettings.$_createMessage);
   static GuildMemberLayoutSettings? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -2267,7 +2397,7 @@ class GuildFolderExpandedState extends $pb.GeneratedMessage {
   factory GuildFolderExpandedState({
     $core.Iterable<$fixnum.Int64>? expandedFolderIds,
   }) {
-    final result = create();
+    final result = GuildFolderExpandedState._();
     if (expandedFolderIds != null)
       result.expandedFolderIds.addAll(expandedFolderIds);
     return result;
@@ -2277,16 +2407,16 @@ class GuildFolderExpandedState extends $pb.GeneratedMessage {
 
   factory GuildFolderExpandedState.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      GuildFolderExpandedState()..mergeFromBuffer(data, registry);
   factory GuildFolderExpandedState.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      GuildFolderExpandedState()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'GuildFolderExpandedState',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: GuildFolderExpandedState.$_createMessage)
     ..p<$fixnum.Int64>(
         1, _omitFieldNames ? '' : 'expandedFolderIds', $pb.PbFieldType.KF6)
     ..hasRequiredFields = false;
@@ -2303,12 +2433,17 @@ class GuildFolderExpandedState extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated(
+      'Use GuildFolderExpandedState() / GuildFolderExpandedState.new instead')
   static GuildFolderExpandedState create() => GuildFolderExpandedState._();
+  static $pb.GeneratedMessage $_createMessage() => GuildFolderExpandedState._();
   @$core.override
-  GuildFolderExpandedState createEmptyInstance() => create();
+  GuildFolderExpandedState createEmptyInstance() =>
+      GuildFolderExpandedState._();
   @$core.pragma('dart2js:noInline')
   static GuildFolderExpandedState getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<GuildFolderExpandedState>(create);
+      $pb.GeneratedMessage.$_defaultFor<GuildFolderExpandedState>(
+          GuildFolderExpandedState.$_createMessage);
   static GuildFolderExpandedState? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -2320,7 +2455,7 @@ class HiddenGuildListButtons extends $pb.GeneratedMessage {
     $core.bool? downloadButton,
     $core.bool? helpButton,
   }) {
-    final result = create();
+    final result = HiddenGuildListButtons._();
     if (downloadButton != null) result.downloadButton = downloadButton;
     if (helpButton != null) result.helpButton = helpButton;
     return result;
@@ -2330,16 +2465,16 @@ class HiddenGuildListButtons extends $pb.GeneratedMessage {
 
   factory HiddenGuildListButtons.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      HiddenGuildListButtons()..mergeFromBuffer(data, registry);
   factory HiddenGuildListButtons.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      HiddenGuildListButtons()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'HiddenGuildListButtons',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: HiddenGuildListButtons.$_createMessage)
     ..aOB(1, _omitFieldNames ? '' : 'downloadButton')
     ..aOB(2, _omitFieldNames ? '' : 'helpButton')
     ..hasRequiredFields = false;
@@ -2356,12 +2491,16 @@ class HiddenGuildListButtons extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated(
+      'Use HiddenGuildListButtons() / HiddenGuildListButtons.new instead')
   static HiddenGuildListButtons create() => HiddenGuildListButtons._();
+  static $pb.GeneratedMessage $_createMessage() => HiddenGuildListButtons._();
   @$core.override
-  HiddenGuildListButtons createEmptyInstance() => create();
+  HiddenGuildListButtons createEmptyInstance() => HiddenGuildListButtons._();
   @$core.pragma('dart2js:noInline')
   static HiddenGuildListButtons getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<HiddenGuildListButtons>(create);
+      $pb.GeneratedMessage.$_defaultFor<HiddenGuildListButtons>(
+          HiddenGuildListButtons.$_createMessage);
   static HiddenGuildListButtons? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -2387,7 +2526,7 @@ class KeyboardModeIntroState extends $pb.GeneratedMessage {
   factory KeyboardModeIntroState({
     $core.bool? seen,
   }) {
-    final result = create();
+    final result = KeyboardModeIntroState._();
     if (seen != null) result.seen = seen;
     return result;
   }
@@ -2396,16 +2535,16 @@ class KeyboardModeIntroState extends $pb.GeneratedMessage {
 
   factory KeyboardModeIntroState.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      KeyboardModeIntroState()..mergeFromBuffer(data, registry);
   factory KeyboardModeIntroState.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      KeyboardModeIntroState()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'KeyboardModeIntroState',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: KeyboardModeIntroState.$_createMessage)
     ..aOB(1, _omitFieldNames ? '' : 'seen')
     ..hasRequiredFields = false;
 
@@ -2421,12 +2560,16 @@ class KeyboardModeIntroState extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated(
+      'Use KeyboardModeIntroState() / KeyboardModeIntroState.new instead')
   static KeyboardModeIntroState create() => KeyboardModeIntroState._();
+  static $pb.GeneratedMessage $_createMessage() => KeyboardModeIntroState._();
   @$core.override
-  KeyboardModeIntroState createEmptyInstance() => create();
+  KeyboardModeIntroState createEmptyInstance() => KeyboardModeIntroState._();
   @$core.pragma('dart2js:noInline')
   static KeyboardModeIntroState getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<KeyboardModeIntroState>(create);
+      $pb.GeneratedMessage.$_defaultFor<KeyboardModeIntroState>(
+          KeyboardModeIntroState.$_createMessage);
   static KeyboardModeIntroState? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -2443,7 +2586,7 @@ class InputMonitoringPromptsState extends $pb.GeneratedMessage {
   factory InputMonitoringPromptsState({
     $core.bool? seenCta,
   }) {
-    final result = create();
+    final result = InputMonitoringPromptsState._();
     if (seenCta != null) result.seenCta = seenCta;
     return result;
   }
@@ -2452,16 +2595,16 @@ class InputMonitoringPromptsState extends $pb.GeneratedMessage {
 
   factory InputMonitoringPromptsState.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      InputMonitoringPromptsState()..mergeFromBuffer(data, registry);
   factory InputMonitoringPromptsState.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      InputMonitoringPromptsState()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'InputMonitoringPromptsState',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: InputMonitoringPromptsState.$_createMessage)
     ..aOB(1, _omitFieldNames ? '' : 'seenCta')
     ..hasRequiredFields = false;
 
@@ -2478,13 +2621,19 @@ class InputMonitoringPromptsState extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated(
+      'Use InputMonitoringPromptsState() / InputMonitoringPromptsState.new instead')
   static InputMonitoringPromptsState create() =>
       InputMonitoringPromptsState._();
+  static $pb.GeneratedMessage $_createMessage() =>
+      InputMonitoringPromptsState._();
   @$core.override
-  InputMonitoringPromptsState createEmptyInstance() => create();
+  InputMonitoringPromptsState createEmptyInstance() =>
+      InputMonitoringPromptsState._();
   @$core.pragma('dart2js:noInline')
   static InputMonitoringPromptsState getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<InputMonitoringPromptsState>(create);
+      $pb.GeneratedMessage.$_defaultFor<InputMonitoringPromptsState>(
+          InputMonitoringPromptsState.$_createMessage);
   static InputMonitoringPromptsState? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -2502,7 +2651,7 @@ class VoicePromptsState extends $pb.GeneratedMessage {
     $core.bool? skipHideOwnCameraConfirm,
     $core.bool? skipHideOwnScreenshareConfirm,
   }) {
-    final result = create();
+    final result = VoicePromptsState._();
     if (skipHideOwnCameraConfirm != null)
       result.skipHideOwnCameraConfirm = skipHideOwnCameraConfirm;
     if (skipHideOwnScreenshareConfirm != null)
@@ -2514,16 +2663,16 @@ class VoicePromptsState extends $pb.GeneratedMessage {
 
   factory VoicePromptsState.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      VoicePromptsState()..mergeFromBuffer(data, registry);
   factory VoicePromptsState.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      VoicePromptsState()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'VoicePromptsState',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: VoicePromptsState.$_createMessage)
     ..aOB(1, _omitFieldNames ? '' : 'skipHideOwnCameraConfirm')
     ..aOB(2, _omitFieldNames ? '' : 'skipHideOwnScreenshareConfirm')
     ..hasRequiredFields = false;
@@ -2539,12 +2688,15 @@ class VoicePromptsState extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use VoicePromptsState() / VoicePromptsState.new instead')
   static VoicePromptsState create() => VoicePromptsState._();
+  static $pb.GeneratedMessage $_createMessage() => VoicePromptsState._();
   @$core.override
-  VoicePromptsState createEmptyInstance() => create();
+  VoicePromptsState createEmptyInstance() => VoicePromptsState._();
   @$core.pragma('dart2js:noInline')
-  static VoicePromptsState getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<VoicePromptsState>(create);
+  static VoicePromptsState getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<VoicePromptsState>(
+          VoicePromptsState.$_createMessage);
   static VoicePromptsState? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -2566,11 +2718,72 @@ class VoicePromptsState extends $pb.GeneratedMessage {
   void clearSkipHideOwnScreenshareConfirm() => $_clearField(2);
 }
 
+class AnnouncementPromptsState extends $pb.GeneratedMessage {
+  factory AnnouncementPromptsState({
+    $core.bool? hidePublishNudge,
+  }) {
+    final result = AnnouncementPromptsState._();
+    if (hidePublishNudge != null) result.hidePublishNudge = hidePublishNudge;
+    return result;
+  }
+
+  AnnouncementPromptsState._();
+
+  factory AnnouncementPromptsState.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      AnnouncementPromptsState()..mergeFromBuffer(data, registry);
+  factory AnnouncementPromptsState.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      AnnouncementPromptsState()..mergeFromJson(json, registry);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'AnnouncementPromptsState',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
+      createEmptyInstance: AnnouncementPromptsState.$_createMessage)
+    ..aOB(1, _omitFieldNames ? '' : 'hidePublishNudge')
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  AnnouncementPromptsState clone() => deepCopy();
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  AnnouncementPromptsState copyWith(
+          void Function(AnnouncementPromptsState) updates) =>
+      super.copyWith((message) => updates(message as AnnouncementPromptsState))
+          as AnnouncementPromptsState;
+
+  @$core.override
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  @$core.Deprecated(
+      'Use AnnouncementPromptsState() / AnnouncementPromptsState.new instead')
+  static AnnouncementPromptsState create() => AnnouncementPromptsState._();
+  static $pb.GeneratedMessage $_createMessage() => AnnouncementPromptsState._();
+  @$core.override
+  AnnouncementPromptsState createEmptyInstance() =>
+      AnnouncementPromptsState._();
+  @$core.pragma('dart2js:noInline')
+  static AnnouncementPromptsState getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<AnnouncementPromptsState>(
+          AnnouncementPromptsState.$_createMessage);
+  static AnnouncementPromptsState? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.bool get hidePublishNudge => $_getBF(0);
+  @$pb.TagNumber(1)
+  set hidePublishNudge($core.bool value) => $_setBool(0, value);
+  @$pb.TagNumber(1)
+  $core.bool hasHidePublishNudge() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearHidePublishNudge() => $_clearField(1);
+}
+
 class SudoPromptState extends $pb.GeneratedMessage {
   factory SudoPromptState({
     MfaMethod? lastUsedMfaMethod,
   }) {
-    final result = create();
+    final result = SudoPromptState._();
     if (lastUsedMfaMethod != null) result.lastUsedMfaMethod = lastUsedMfaMethod;
     return result;
   }
@@ -2579,16 +2792,16 @@ class SudoPromptState extends $pb.GeneratedMessage {
 
   factory SudoPromptState.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      SudoPromptState()..mergeFromBuffer(data, registry);
   factory SudoPromptState.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      SudoPromptState()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'SudoPromptState',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: SudoPromptState.$_createMessage)
     ..aE<MfaMethod>(1, _omitFieldNames ? '' : 'lastUsedMfaMethod',
         enumValues: MfaMethod.values)
     ..hasRequiredFields = false;
@@ -2604,12 +2817,15 @@ class SudoPromptState extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use SudoPromptState() / SudoPromptState.new instead')
   static SudoPromptState create() => SudoPromptState._();
+  static $pb.GeneratedMessage $_createMessage() => SudoPromptState._();
   @$core.override
-  SudoPromptState createEmptyInstance() => create();
+  SudoPromptState createEmptyInstance() => SudoPromptState._();
   @$core.pragma('dart2js:noInline')
-  static SudoPromptState getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<SudoPromptState>(create);
+  static SudoPromptState getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SudoPromptState>(
+          SudoPromptState.$_createMessage);
   static SudoPromptState? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -2628,7 +2844,7 @@ class KeybindSettings extends $pb.GeneratedMessage {
     $core.String? transmitMode,
     $core.int? pushToTalkReleaseDelayMs,
   }) {
-    final result = create();
+    final result = KeybindSettings._();
     if (customKeybinds != null) result.customKeybinds.addAll(customKeybinds);
     if (transmitMode != null) result.transmitMode = transmitMode;
     if (pushToTalkReleaseDelayMs != null)
@@ -2640,18 +2856,18 @@ class KeybindSettings extends $pb.GeneratedMessage {
 
   factory KeybindSettings.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      KeybindSettings()..mergeFromBuffer(data, registry);
   factory KeybindSettings.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      KeybindSettings()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'KeybindSettings',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: KeybindSettings.$_createMessage)
     ..pPM<CustomKeybind>(1, _omitFieldNames ? '' : 'customKeybinds',
-        subBuilder: CustomKeybind.create)
+        subBuilder: CustomKeybind.$_createMessage)
     ..aOS(2, _omitFieldNames ? '' : 'transmitMode')
     ..aI(3, _omitFieldNames ? '' : 'pushToTalkReleaseDelayMs',
         fieldType: $pb.PbFieldType.OU3)
@@ -2668,12 +2884,15 @@ class KeybindSettings extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use KeybindSettings() / KeybindSettings.new instead')
   static KeybindSettings create() => KeybindSettings._();
+  static $pb.GeneratedMessage $_createMessage() => KeybindSettings._();
   @$core.override
-  KeybindSettings createEmptyInstance() => create();
+  KeybindSettings createEmptyInstance() => KeybindSettings._();
   @$core.pragma('dart2js:noInline')
-  static KeybindSettings getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<KeybindSettings>(create);
+  static KeybindSettings getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<KeybindSettings>(
+          KeybindSettings.$_createMessage);
   static KeybindSettings? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -2705,7 +2924,7 @@ class CustomKeybind extends $pb.GeneratedMessage {
     KeybindCombo? combo,
     $core.bool? enabled,
   }) {
-    final result = create();
+    final result = CustomKeybind._();
     if (id != null) result.id = id;
     if (action != null) result.action = action;
     if (combo != null) result.combo = combo;
@@ -2717,20 +2936,20 @@ class CustomKeybind extends $pb.GeneratedMessage {
 
   factory CustomKeybind.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      CustomKeybind()..mergeFromBuffer(data, registry);
   factory CustomKeybind.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      CustomKeybind()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'CustomKeybind',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: CustomKeybind.$_createMessage)
     ..aOS(1, _omitFieldNames ? '' : 'id')
     ..aOS(2, _omitFieldNames ? '' : 'action')
     ..aOM<KeybindCombo>(3, _omitFieldNames ? '' : 'combo',
-        subBuilder: KeybindCombo.create)
+        subBuilder: KeybindCombo.$_createMessage)
     ..aOB(4, _omitFieldNames ? '' : 'enabled')
     ..hasRequiredFields = false;
 
@@ -2745,12 +2964,15 @@ class CustomKeybind extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use CustomKeybind() / CustomKeybind.new instead')
   static CustomKeybind create() => CustomKeybind._();
+  static $pb.GeneratedMessage $_createMessage() => CustomKeybind._();
   @$core.override
-  CustomKeybind createEmptyInstance() => create();
+  CustomKeybind createEmptyInstance() => CustomKeybind._();
   @$core.pragma('dart2js:noInline')
-  static CustomKeybind getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<CustomKeybind>(create);
+  static CustomKeybind getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CustomKeybind>(
+          CustomKeybind.$_createMessage);
   static CustomKeybind? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -2808,7 +3030,7 @@ class KeybindCombo extends $pb.GeneratedMessage {
     $core.int? mouseButton,
     $core.int? gamepadButton,
   }) {
-    final result = create();
+    final result = KeybindCombo._();
     if (key != null) result.key = key;
     if (code != null) result.code = code;
     if (ctrlOrMeta != null) result.ctrlOrMeta = ctrlOrMeta;
@@ -2829,16 +3051,16 @@ class KeybindCombo extends $pb.GeneratedMessage {
 
   factory KeybindCombo.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      KeybindCombo()..mergeFromBuffer(data, registry);
   factory KeybindCombo.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      KeybindCombo()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'KeybindCombo',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: KeybindCombo.$_createMessage)
     ..aOS(1, _omitFieldNames ? '' : 'key')
     ..aOS(2, _omitFieldNames ? '' : 'code')
     ..aOB(3, _omitFieldNames ? '' : 'ctrlOrMeta')
@@ -2867,12 +3089,15 @@ class KeybindCombo extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use KeybindCombo() / KeybindCombo.new instead')
   static KeybindCombo create() => KeybindCombo._();
+  static $pb.GeneratedMessage $_createMessage() => KeybindCombo._();
   @$core.override
-  KeybindCombo createEmptyInstance() => create();
+  KeybindCombo createEmptyInstance() => KeybindCombo._();
   @$core.pragma('dart2js:noInline')
-  static KeybindCombo getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<KeybindCombo>(create);
+  static KeybindCombo getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<KeybindCombo>(
+          KeybindCombo.$_createMessage);
   static KeybindCombo? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -2993,12 +3218,137 @@ class KeybindCombo extends $pb.GeneratedMessage {
   void clearGamepadButton() => $_clearField(13);
 }
 
+class ChannelFrecencyEntry extends $pb.GeneratedMessage {
+  factory ChannelFrecencyEntry({
+    $core.int? totalUses,
+    $core.Iterable<$fixnum.Int64>? recentUsesMs,
+  }) {
+    final result = ChannelFrecencyEntry._();
+    if (totalUses != null) result.totalUses = totalUses;
+    if (recentUsesMs != null) result.recentUsesMs.addAll(recentUsesMs);
+    return result;
+  }
+
+  ChannelFrecencyEntry._();
+
+  factory ChannelFrecencyEntry.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      ChannelFrecencyEntry()..mergeFromBuffer(data, registry);
+  factory ChannelFrecencyEntry.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      ChannelFrecencyEntry()..mergeFromJson(json, registry);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'ChannelFrecencyEntry',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
+      createEmptyInstance: ChannelFrecencyEntry.$_createMessage)
+    ..aI(1, _omitFieldNames ? '' : 'totalUses', fieldType: $pb.PbFieldType.OU3)
+    ..p<$fixnum.Int64>(
+        2, _omitFieldNames ? '' : 'recentUsesMs', $pb.PbFieldType.K6)
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  ChannelFrecencyEntry clone() => deepCopy();
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  ChannelFrecencyEntry copyWith(void Function(ChannelFrecencyEntry) updates) =>
+      super.copyWith((message) => updates(message as ChannelFrecencyEntry))
+          as ChannelFrecencyEntry;
+
+  @$core.override
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  @$core.Deprecated(
+      'Use ChannelFrecencyEntry() / ChannelFrecencyEntry.new instead')
+  static ChannelFrecencyEntry create() => ChannelFrecencyEntry._();
+  static $pb.GeneratedMessage $_createMessage() => ChannelFrecencyEntry._();
+  @$core.override
+  ChannelFrecencyEntry createEmptyInstance() => ChannelFrecencyEntry._();
+  @$core.pragma('dart2js:noInline')
+  static ChannelFrecencyEntry getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<ChannelFrecencyEntry>(
+          ChannelFrecencyEntry.$_createMessage);
+  static ChannelFrecencyEntry? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get totalUses => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set totalUses($core.int value) => $_setUnsignedInt32(0, value);
+  @$pb.TagNumber(1)
+  $core.bool hasTotalUses() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearTotalUses() => $_clearField(1);
+
+  @$pb.TagNumber(2)
+  $pb.PbList<$fixnum.Int64> get recentUsesMs => $_getList(1);
+}
+
+class ChannelFrecencyState extends $pb.GeneratedMessage {
+  factory ChannelFrecencyState({
+    $core.Iterable<$core.MapEntry<$core.String, ChannelFrecencyEntry>>? usage,
+  }) {
+    final result = ChannelFrecencyState._();
+    if (usage != null) result.usage.addEntries(usage);
+    return result;
+  }
+
+  ChannelFrecencyState._();
+
+  factory ChannelFrecencyState.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      ChannelFrecencyState()..mergeFromBuffer(data, registry);
+  factory ChannelFrecencyState.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      ChannelFrecencyState()..mergeFromJson(json, registry);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'ChannelFrecencyState',
+      package: const $pb.PackageName(
+          _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
+      createEmptyInstance: ChannelFrecencyState.$_createMessage)
+    ..m<$core.String, ChannelFrecencyEntry>(1, _omitFieldNames ? '' : 'usage',
+        entryClassName: 'ChannelFrecencyState.UsageEntry',
+        keyFieldType: $pb.PbFieldType.OS,
+        valueFieldType: $pb.PbFieldType.OM,
+        valueCreator: ChannelFrecencyEntry.$_createMessage,
+        valueDefaultOrMaker: ChannelFrecencyEntry.getDefault,
+        packageName: const $pb.PackageName('fluxer.user.preferences.v1'))
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  ChannelFrecencyState clone() => deepCopy();
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  ChannelFrecencyState copyWith(void Function(ChannelFrecencyState) updates) =>
+      super.copyWith((message) => updates(message as ChannelFrecencyState))
+          as ChannelFrecencyState;
+
+  @$core.override
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  @$core.Deprecated(
+      'Use ChannelFrecencyState() / ChannelFrecencyState.new instead')
+  static ChannelFrecencyState create() => ChannelFrecencyState._();
+  static $pb.GeneratedMessage $_createMessage() => ChannelFrecencyState._();
+  @$core.override
+  ChannelFrecencyState createEmptyInstance() => ChannelFrecencyState._();
+  @$core.pragma('dart2js:noInline')
+  static ChannelFrecencyState getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<ChannelFrecencyState>(
+          ChannelFrecencyState.$_createMessage);
+  static ChannelFrecencyState? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $pb.PbMap<$core.String, ChannelFrecencyEntry> get usage => $_getMap(0);
+}
+
 class ChatInputSettings extends $pb.GeneratedMessage {
   factory ChatInputSettings({
     $core.bool? convertEmoticons,
     $core.bool? saveCameraCapturesToDevice,
   }) {
-    final result = create();
+    final result = ChatInputSettings._();
     if (convertEmoticons != null) result.convertEmoticons = convertEmoticons;
     if (saveCameraCapturesToDevice != null)
       result.saveCameraCapturesToDevice = saveCameraCapturesToDevice;
@@ -3009,16 +3359,16 @@ class ChatInputSettings extends $pb.GeneratedMessage {
 
   factory ChatInputSettings.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      ChatInputSettings()..mergeFromBuffer(data, registry);
   factory ChatInputSettings.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      ChatInputSettings()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'ChatInputSettings',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: ChatInputSettings.$_createMessage)
     ..aOB(1, _omitFieldNames ? '' : 'convertEmoticons')
     ..aOB(2, _omitFieldNames ? '' : 'saveCameraCapturesToDevice')
     ..hasRequiredFields = false;
@@ -3034,12 +3384,15 @@ class ChatInputSettings extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use ChatInputSettings() / ChatInputSettings.new instead')
   static ChatInputSettings create() => ChatInputSettings._();
+  static $pb.GeneratedMessage $_createMessage() => ChatInputSettings._();
   @$core.override
-  ChatInputSettings createEmptyInstance() => create();
+  ChatInputSettings createEmptyInstance() => ChatInputSettings._();
   @$core.pragma('dart2js:noInline')
-  static ChatInputSettings getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<ChatInputSettings>(create);
+  static ChatInputSettings getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ChatInputSettings>(
+          ChatInputSettings.$_createMessage);
   static ChatInputSettings? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -3066,7 +3419,7 @@ class ReactionEmoji extends $pb.GeneratedMessage {
     $core.String? id,
     $core.String? name,
   }) {
-    final result = create();
+    final result = ReactionEmoji._();
     if (id != null) result.id = id;
     if (name != null) result.name = name;
     return result;
@@ -3076,16 +3429,16 @@ class ReactionEmoji extends $pb.GeneratedMessage {
 
   factory ReactionEmoji.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
+      ReactionEmoji()..mergeFromBuffer(data, registry);
   factory ReactionEmoji.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
+      ReactionEmoji()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'ReactionEmoji',
       package: const $pb.PackageName(
           _omitMessageNames ? '' : 'fluxer.user.preferences.v1'),
-      createEmptyInstance: create)
+      createEmptyInstance: ReactionEmoji.$_createMessage)
     ..aOS(1, _omitFieldNames ? '' : 'id')
     ..aOS(2, _omitFieldNames ? '' : 'name')
     ..hasRequiredFields = false;
@@ -3101,12 +3454,15 @@ class ReactionEmoji extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
+  @$core.Deprecated('Use ReactionEmoji() / ReactionEmoji.new instead')
   static ReactionEmoji create() => ReactionEmoji._();
+  static $pb.GeneratedMessage $_createMessage() => ReactionEmoji._();
   @$core.override
-  ReactionEmoji createEmptyInstance() => create();
+  ReactionEmoji createEmptyInstance() => ReactionEmoji._();
   @$core.pragma('dart2js:noInline')
-  static ReactionEmoji getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<ReactionEmoji>(create);
+  static ReactionEmoji getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ReactionEmoji>(
+          ReactionEmoji.$_createMessage);
   static ReactionEmoji? _defaultInstance;
 
   @$pb.TagNumber(1)

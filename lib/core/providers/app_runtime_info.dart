@@ -3,7 +3,6 @@ import 'package:fluxer_app/core/build/push_provider_kind.dart';
 
 class AppRuntimeInfo {
   const AppRuntimeInfo({
-    required this.appName,
     required this.packageName,
     required this.version,
     required this.buildNumber,
@@ -13,7 +12,6 @@ class AppRuntimeInfo {
     this.deviceModel,
     this.osVersionLabel = '',
   });
-  final String appName;
   final String packageName;
   final String version;
   final String buildNumber;

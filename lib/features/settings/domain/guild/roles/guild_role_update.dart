@@ -17,23 +17,6 @@ class GuildRoleUpdate {
   final bool? mentionable;
   final int? permissions;
 
-  GuildRoleUpdate copyWith({
-    String? name,
-    int? color,
-    bool? hoist,
-    bool? mentionable,
-    int? permissions,
-  }) {
-    return GuildRoleUpdate(
-      id: id,
-      name: name ?? this.name,
-      color: color ?? this.color,
-      hoist: hoist ?? this.hoist,
-      mentionable: mentionable ?? this.mentionable,
-      permissions: permissions ?? this.permissions,
-    );
-  }
-
   GuildRoleUpdate merge(GuildRoleUpdate other) {
     return GuildRoleUpdate(
       id: id,

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io' show Platform;
 
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:fluxer_app/core/audio/app_audio_session_restore.dart';
 import 'package:fluxer_app/features/voice/tts/tts_rate_utils.dart';
@@ -32,10 +31,6 @@ class FluxerTts {
   FluxerTtsSpeakingChanged? onSpeakingChanged;
   void Function()? _onEnd;
   void Function()? _onError;
-
-  bool get isSpeaking => _isSpeaking;
-
-  FluxerTtsSpeakingTarget? get currentTarget => _currentTarget;
 
   bool isSpeakingMessage(String messageId) {
     return _isSpeaking && _currentTarget?.messageId == messageId;
@@ -141,7 +136,7 @@ class FluxerTts {
   }
 
   Future<void> _configurePlatformAudio() async {
-    if (kIsWeb || !(Platform.isIOS || Platform.isMacOS)) {
+    if (!(Platform.isIOS || Platform.isMacOS)) {
       return;
     }
     try {
@@ -165,7 +160,7 @@ class FluxerTts {
     if (_lastAppliedRate == clamped) {
       return;
     }
-    await _engine.setSpeechRate(engineSpeechRate(clamped, isWeb: kIsWeb));
+    await _engine.setSpeechRate(engineSpeechRate(clamped));
     _lastAppliedRate = clamped;
   }
 
@@ -200,7 +195,7 @@ class FluxerTts {
     _onError = null;
     _currentTarget = null;
     _setSpeaking(false);
-    if (!kIsWeb && (Platform.isIOS || Platform.isMacOS)) {
+    if (Platform.isIOS || Platform.isMacOS) {
       unawaited(restorePreferredAppAudioSession());
     }
     if (error) {

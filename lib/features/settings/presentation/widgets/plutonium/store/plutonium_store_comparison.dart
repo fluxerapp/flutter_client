@@ -1,5 +1,6 @@
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/gifts/utils/gift_duration_text.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_panel.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/plutonium/store/plutonium_store_style.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -104,8 +105,7 @@ class PremiumStoreComparison extends StatelessWidget {
       ),
     ];
 
-    return DecoratedBox(
-      decoration: PremiumStoreStyle.panel,
+    return PremiumStorePanel(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 28, 16, 20),
         child: Column(

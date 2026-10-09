@@ -74,20 +74,6 @@ bool isComposerDirectChat({
   return findDmById(dmConversations, channelId) != null;
 }
 
-bool isPersonalNotesChannel({
-  required int? type,
-  required String channelId,
-  required String? currentUserId,
-}) {
-  if (type != null && isDmPersonalNotesType(type)) {
-    return true;
-  }
-  return isPersonalNotesChannelRoute(
-    channelId: channelId,
-    currentUserId: currentUserId,
-  );
-}
-
 db.DmChannelsCompanion buildPersonalNotesDmCompanion({
   required String userId,
   String? lastMessageId,

@@ -9,13 +9,10 @@ import 'package:material_ui/material_ui.dart';
 import 'support/native_test_parser.dart';
 
 const FluxerMarkdownConfig _testConfig = FluxerMarkdownConfig(
-  resolveEmojiShortcode: _noopEmojiShortcode,
   unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
   customEmojiUrlBuilder: _noopCustomEmojiUrl,
   alertBuilder: _testAlertBuilder,
 );
-
-String? _noopEmojiShortcode(String name) => null;
 
 String? _noopUnicodeEmojiUrl(String unicode) => null;
 

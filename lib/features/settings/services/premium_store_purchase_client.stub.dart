@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/features/settings/services/plutonium_store_products.dart';
 import 'package:fluxer_app/features/settings/services/premium_store_product_matching.dart';
 import 'package:fluxer_app/features/settings/services/premium_store_purchase_update.dart';
@@ -56,9 +55,6 @@ class UnavailablePremiumStorePurchaseClient
 }
 
 PremiumBillingStore? currentPremiumBillingStore() {
-  if (kIsWeb) {
-    return null;
-  }
   if (Platform.isIOS) {
     return PremiumBillingStore.appStore;
   }

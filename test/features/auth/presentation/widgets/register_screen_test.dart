@@ -357,7 +357,7 @@ Widget _app(ProviderContainer container) {
     container: container,
     child: MaterialApp(
       locale: kTestLocale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,
@@ -464,6 +464,7 @@ InstanceConfigSnapshot _snapshot({
         legal: InstanceAppPublicSchemaLegal(
           termsUrl: termsUrl,
           privacyUrl: privacyUrl,
+          guidelinesUrl: null,
         ),
         registration: InstanceAppPublicSchemaRegistration(
           collectDateOfBirth: collectDateOfBirth,

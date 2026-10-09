@@ -53,14 +53,6 @@ class SyncedPreferencesEngine {
     }
   }
 
-  static String encode(pb.SyncedPreferences preferences) {
-    final bytes = preferences.writeToBuffer();
-    if (bytes.isEmpty) {
-      return '';
-    }
-    return base64Encode(bytes);
-  }
-
   static Uint8List preferencesToBytes(pb.SyncedPreferences preferences) {
     return preferences.writeToBuffer();
   }
@@ -70,15 +62,6 @@ class SyncedPreferencesEngine {
       return createEmpty();
     }
     return pb.SyncedPreferences.fromBuffer(bytes);
-  }
-
-  static List<SyncedPreferenceField> changedFields({
-    required pb.SyncedPreferences left,
-    required pb.SyncedPreferences right,
-  }) {
-    return _toFieldNames(
-      _changedFieldNumbers(preferencesToBytes(left), preferencesToBytes(right)),
-    );
   }
 
   static pb.SyncedPreferences copyField({
@@ -184,16 +167,6 @@ class MergeIncomingResult {
   final pb.SyncedPreferences merged;
   final pb.SyncedPreferences wire;
   final List<SyncedPreferenceField> dirtyFields;
-}
-
-List<int> _changedFieldNumbers(Uint8List left, Uint8List right) {
-  final leftFields = _indexFieldChunks(_parseTopLevelFieldChunks(left));
-  final rightFields = _indexFieldChunks(_parseTopLevelFieldChunks(right));
-  final fieldNumbers = <int>{...leftFields.keys, ...rightFields.keys}.toList()
-    ..sort();
-  return fieldNumbers
-      .where((field) => !_chunksEqual(leftFields[field], rightFields[field]))
-      .toList();
 }
 
 List<SyncedPreferenceField> _toFieldNames(List<int> fieldNumbers) {

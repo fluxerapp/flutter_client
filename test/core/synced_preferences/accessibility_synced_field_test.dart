@@ -26,7 +26,7 @@ AccessibilityLocalState _splashZoomLocal({
     customThemeCss: null,
     mobileSplashZoomAnimation: enabled,
     hasMobileSplashZoomAnimationInProto: hasInProto,
-    advanced: kDefaultAdvancedAccessibility,
+    advanced: _defaultAdvancedAccessibility,
   );
 }
 
@@ -37,6 +37,25 @@ AccessibilitySyncedField _splashZoomField() {
     Provider<AccessibilitySyncedField>(AccessibilitySyncedField.new),
   );
 }
+
+const AdvancedAccessibilityLocalState _defaultAdvancedAccessibility =
+    AdvancedAccessibilityLocalState(
+      enableTextSelection: false,
+      voiceChannelJoinRequiresDoubleClick: false,
+      confirmBeforeJoiningVoiceChannels: false,
+      showGifIndicator: true,
+      showAttachmentExpiryIndicator: true,
+      showMessageActionBar: true,
+      showMessageActionBarQuickReactions: true,
+      showMessageActionBarShiftExpand: true,
+      showMessageActionBarOnlyMoreButton: false,
+      showGifButton: true,
+      showMemesButton: true,
+      showStickersButton: true,
+      showEmojiButton: true,
+      showMessageSendButton: false,
+      scrollToBottomOnMessageSend: true,
+    );
 
 void main() {
   group('AccessibilitySyncedField', () {
@@ -53,7 +72,7 @@ void main() {
         compactMessageGroupSpacing: 4,
         saturationFactor: 0.8,
         customThemeCss: ':root { --background-primary: #010203; }',
-        advanced: kDefaultAdvancedAccessibility,
+        advanced: _defaultAdvancedAccessibility,
       );
       final proto = AccessibilitySyncedField.toProto(local);
       final restored = AccessibilitySyncedField.fromProto(proto);
@@ -127,7 +146,7 @@ void main() {
         customThemeCss: null,
         chatFontSize: 20,
         scaleFactor: 1.2,
-        advanced: kDefaultAdvancedAccessibility,
+        advanced: _defaultAdvancedAccessibility,
       );
       final proto = AccessibilitySyncedField.toProto(local);
       final restored = AccessibilitySyncedField.fromProto(proto);
@@ -158,7 +177,7 @@ void main() {
         saturationFactor: 1,
         customThemeCss: null,
         hdrDisplayMode: HdrDisplayMode.standard,
-        advanced: kDefaultAdvancedAccessibility,
+        advanced: _defaultAdvancedAccessibility,
       );
       final proto = AccessibilitySyncedField.toProto(local);
       expect(
@@ -191,7 +210,7 @@ void main() {
         saturationFactor: 1,
         customThemeCss: null,
         screenReaderAnnounceNewMessages: true,
-        advanced: kDefaultAdvancedAccessibility,
+        advanced: _defaultAdvancedAccessibility,
       );
       final proto = AccessibilitySyncedField.toProto(local);
       final restored = AccessibilitySyncedField.fromProto(proto);
@@ -213,7 +232,7 @@ void main() {
         customThemeCss: null,
         hasSaturationFactorInProto: false,
         hasCustomThemeCssInProto: false,
-        advanced: kDefaultAdvancedAccessibility,
+        advanced: _defaultAdvancedAccessibility,
       );
       final wireBase = accessibility_pb.AccessibilitySettings(
         showMessageSendButton: true,
@@ -258,7 +277,7 @@ void main() {
         mobileAnimateEmojiOverridden: true,
         mobileStickerAnimationOverridden: true,
         mobileAnimateEmojiValue: false,
-        advanced: kDefaultAdvancedAccessibility,
+        advanced: _defaultAdvancedAccessibility,
       );
       final proto = AccessibilitySyncedField.toProto(local);
       final restored = AccessibilitySyncedField.fromProto(proto);
@@ -336,6 +355,32 @@ void main() {
       );
     });
 
+    test(
+      'mergeAccessibilityCustomThemeCss prefers local when css diverges',
+      () {
+        const wireCss = ':root { --brand-primary: #007fff; }';
+        const localCss = ':root { --brand-primary: #ff5500; }';
+        const local = AccessibilityLocalState(
+          hideKeyboardHints: false,
+          channelTypingIndicatorMode: ChannelTypingIndicatorMode.avatars,
+          showSelectedChannelTypingIndicator: false,
+          showFadedUnreadOnMutedChannels: false,
+          dmMessagePreviewMode: DmMessagePreviewMode.all,
+          showFavorites: true,
+          useSystemLocaleForTimeFormat: false,
+          messageGroupSpacing: 16,
+          compactMessageGroupSpacing: 0,
+          saturationFactor: 1,
+          customThemeCss: localCss,
+          advanced: _defaultAdvancedAccessibility,
+        );
+        final remote = AccessibilitySyncedField.fromProto(
+          accessibility_pb.AccessibilitySettings(customThemeCss: wireCss),
+        );
+        expect(mergeAccessibilityCustomThemeCss(local, remote), localCss);
+      },
+    );
+
     test('toProtoForPush keeps wire custom theme css when local has none', () {
       const local = AccessibilityLocalState(
         hideKeyboardHints: false,
@@ -351,7 +396,7 @@ void main() {
         customThemeCss: null,
         hasSaturationFactorInProto: false,
         hasCustomThemeCssInProto: false,
-        advanced: kDefaultAdvancedAccessibility,
+        advanced: _defaultAdvancedAccessibility,
       );
       const css = ':root { --brand-primary: #010203; }';
       final wireBase = accessibility_pb.AccessibilitySettings(

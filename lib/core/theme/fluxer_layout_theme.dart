@@ -3,7 +3,6 @@ import 'package:fluxer_app/material_ui.dart';
 class FluxerLayoutTheme extends ThemeExtension<FluxerLayoutTheme> {
   const FluxerLayoutTheme({
     required this.scaleFactor,
-    required this.s0,
     required this.s1,
     required this.s1_5,
     required this.s2,
@@ -16,17 +15,14 @@ class FluxerLayoutTheme extends ThemeExtension<FluxerLayoutTheme> {
     required this.s12,
     required this.s16,
     required this.s20,
-    required this.s24,
     required this.radiusSm,
     required this.radiusMd,
     required this.radiusLg,
     required this.radiusXl,
     required this.radiusXxl,
     required this.radiusFull,
-    required this.radiusMedia,
     required this.sidebarWidth,
     required this.headerHeight,
-    required this.guildIconSize,
     required this.guildListWidth,
     required this.mobileBottomNavHeight,
     required this.userAreaHeight,
@@ -47,7 +43,6 @@ class FluxerLayoutTheme extends ThemeExtension<FluxerLayoutTheme> {
 
     return FluxerLayoutTheme(
       scaleFactor: scaleFactor,
-      s0: s(0),
       s1: s(4),
       s1_5: s(6),
       s2: s(8),
@@ -60,17 +55,14 @@ class FluxerLayoutTheme extends ThemeExtension<FluxerLayoutTheme> {
       s12: s(48),
       s16: s(64),
       s20: s(80),
-      s24: s(96),
       radiusSm: r(4),
       radiusMd: r(6),
       radiusLg: r(8),
       radiusXl: r(12),
       radiusXxl: r(16),
       radiusFull: r(9999),
-      radiusMedia: r(4),
       sidebarWidth: s(270),
       headerHeight: s(56),
-      guildIconSize: s(44),
       guildListWidth: s(72),
       mobileBottomNavHeight: s(60),
       userAreaHeight: s(72),
@@ -87,8 +79,6 @@ class FluxerLayoutTheme extends ThemeExtension<FluxerLayoutTheme> {
 
   final double scaleFactor;
 
-  // Spacing
-  final double s0;
   final double s1;
   final double s1_5;
   final double s2;
@@ -101,7 +91,6 @@ class FluxerLayoutTheme extends ThemeExtension<FluxerLayoutTheme> {
   final double s12;
   final double s16;
   final double s20;
-  final double s24;
 
   // Radius
   final BorderRadius radiusSm;
@@ -110,12 +99,10 @@ class FluxerLayoutTheme extends ThemeExtension<FluxerLayoutTheme> {
   final BorderRadius radiusXl;
   final BorderRadius radiusXxl;
   final BorderRadius radiusFull;
-  final BorderRadius radiusMedia;
 
   // Layout Dimensions
   final double sidebarWidth;
   final double headerHeight;
-  final double guildIconSize;
   final double guildListWidth;
   final double mobileBottomNavHeight;
   final double userAreaHeight;

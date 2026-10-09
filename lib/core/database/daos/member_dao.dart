@@ -58,10 +58,6 @@ class MemberDao extends DatabaseAccessor<FluxerDatabase> with _$MemberDaoMixin {
         .suppressDriftCancellation;
   }
 
-  Stream<List<Member>> watchMembers(String guildId) => (select(
-    members,
-  )..where((m) => m.guildId.equals(guildId))).watch().suppressDriftCancellation;
-
   Future<void> upsertMember(MembersCompanion member) async {
     await into(members).insertOnConflictUpdate(member);
     final String? guildId = member.guildId.present
@@ -96,11 +92,6 @@ class MemberDao extends DatabaseAccessor<FluxerDatabase> with _$MemberDaoMixin {
         ];
     await touchMemberAccessPairs(accessPairs);
   }
-
-  Future<void> touchMemberAccess(String guildId, List<String> userIds) =>
-      touchMemberAccessPairs(<({String guildId, String userId})>[
-        for (final String userId in userIds) (guildId: guildId, userId: userId),
-      ]);
 
   /// Touches cache-access rows for each `(guildId, userId)` pair in one batch.
   Future<void> touchMemberAccessPairs(

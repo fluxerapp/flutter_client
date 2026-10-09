@@ -213,34 +213,6 @@ class ChannelListViewModel extends _$ChannelListViewModel {
     ]);
   }
 
-  void selectChannel(String channelId) {
-    state = state.copyWith(selectedChannelId: channelId);
-  }
-
-  void setGuild(Guild guild) {
-    state = state.copyWith(guild: guild);
-  }
-
-  bool isMemberListVisibleForChannel({
-    required String channelId,
-    required ChannelType? channelType,
-  }) {
-    return state.isMemberListVisibleForChannel(
-      channelId: channelId,
-      channelType: channelType,
-    );
-  }
-
-  bool isMemberListToggleActive({
-    required String channelId,
-    required ChannelType? channelType,
-  }) {
-    return state.isMemberListToggleActive(
-      channelId: channelId,
-      channelType: channelType,
-    );
-  }
-
   void toggleMemberList({
     required String channelId,
     required ChannelType? channelType,

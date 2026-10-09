@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/message_character_counter.dart';
 import 'package:fluxer_app/features/ui/character_counter/fluxer_character_counter.dart';
+import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -16,7 +17,7 @@ Widget _buildTestApp(Widget child) {
       textTheme: FluxerTextTheme.fromColors(colorTheme),
       layoutTheme: FluxerLayoutTheme.scaled(),
     ),
-    localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+    localizationsDelegates: fluxerLocalizationsDelegates,
     supportedLocales: FluxerLocalizations.supportedLocales,
     home: Scaffold(body: child),
   );

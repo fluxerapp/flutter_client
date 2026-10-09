@@ -30,7 +30,6 @@ enum GuildAction {
   hideMutedChannels,
   leaveGuild,
   deleteMyMessages,
-  reportCommunity,
   debugCommunity,
   copyGuildId,
   mute15Min,
@@ -230,12 +229,6 @@ List<GuildMenuGroup> buildGuildMenuGroups({
             action: GuildAction.leaveGuild,
             isDanger: true,
           ),
-        GuildMenuAction(
-          label: l10n.guildMenuReportCommunity,
-          icon: PhosphorIconsFill.flag,
-          action: GuildAction.reportCommunity,
-          isDanger: true,
-        ),
       ],
     if (developerMode)
       [
@@ -341,12 +334,6 @@ String _settingsTabLabel(GuildAction action, FluxerLocalizations l10n) {
     GuildAction.settingsChannels => l10n.guildMenuSettingsChannels,
     _ => '',
   };
-}
-
-bool canAccessAnyGuildSettings(int permissions) {
-  return _settingsTabDefs.any(
-    (tab) => tab.perms.any((p) => hasPermission(permissions, p)),
-  );
 }
 
 bool canAccessGuildSettingsTab(GuildAction action, int permissions) {

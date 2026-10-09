@@ -39,10 +39,8 @@ void main() {
     categoryId: null,
     guildId: 'guild-1',
     effectiveMatureContent: false,
-    matureContentSource: EffectiveMatureSource.channel,
     effectiveWarningLevel: contentWarningLevelContentWarning,
     effectiveWarningText: 'Sensitive',
-    warningSource: EffectiveMatureSource.channel,
     scope: MatureContentAgreementScope.channel,
     scopeId: 'voice-1',
   );

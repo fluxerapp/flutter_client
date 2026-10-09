@@ -4,9 +4,6 @@ import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/features/profile/utils/profile_menu_capabilities.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
-const List<ComposerCommandChoice> kEmptyComposerCommandChoices =
-    <ComposerCommandChoice>[];
-
 List<ComposerSlashCommand> composerSlashCommands(FluxerLocalizations l10n) {
   return <ComposerSlashCommand>[
     ComposerSimpleSlashCommand(
@@ -257,11 +254,6 @@ String normalizeComposerCommandName(String? commandName) {
     return '';
   }
   return commandName.startsWith('/') ? commandName.substring(1) : commandName;
-}
-
-bool isCommandRequiringUserMention(String commandName) {
-  final String name = normalizeComposerCommandName(commandName);
-  return name == 'kick' || name == 'ban' || name == 'msg' || name == 'saved';
 }
 
 Permission? managePermissionForCommand(String? commandName) {

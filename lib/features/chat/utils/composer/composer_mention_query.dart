@@ -65,8 +65,6 @@ class MemberMentionSearchFields {
     username,
     tag,
   ].where((String v) => v.isNotEmpty).toList();
-
-  String get haystack => searchKeys.join(' ').toLowerCase();
 }
 
 MemberMentionSearchFields memberMentionSearchFields(
@@ -256,22 +254,6 @@ class MentionAutocompleteSession {
       rankFor(member.id);
     }
   }
-}
-
-List<Member> unionMembers(List<Member> remote, List<Member> cached) {
-  final Set<String> seen = <String>{};
-  final List<Member> merged = <Member>[];
-  for (final Member member in remote) {
-    if (seen.add(member.id)) {
-      merged.add(member);
-    }
-  }
-  for (final Member member in cached) {
-    if (seen.add(member.id)) {
-      merged.add(member);
-    }
-  }
-  return merged;
 }
 
 int _memberSortKey(

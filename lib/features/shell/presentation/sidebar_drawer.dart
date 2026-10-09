@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart'
-    show TargetPlatform, defaultTargetPlatform, kIsWeb, visibleForTesting;
+    show TargetPlatform, defaultTargetPlatform, visibleForTesting;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/route_kind.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
@@ -251,8 +251,7 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
     if (width <= 0) {
       return;
     }
-    final completionThreshold =
-        (defaultTargetPlatform == TargetPlatform.iOS && !kIsWeb)
+    final completionThreshold = defaultTargetPlatform == TargetPlatform.iOS
         ? kHorizontalSwipeCompletionThresholdCupertino
         : kHorizontalSwipeCompletionThresholdMaterial;
     final double? peekWidth = _usesPeekReveal() ? _peekWidth(width) : null;

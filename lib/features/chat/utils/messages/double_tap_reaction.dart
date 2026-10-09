@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_reactions_bar.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
+import 'package:fluxer_app/features/settings/providers/double_tap_action_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/double_tap_reaction_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
@@ -24,6 +26,43 @@ bool customEmojiAnimated(List<GuildEmojiEntry> emojis, String? emojiId) {
     return (name: emoji.name, id: emoji.emojiId);
   }
   return (name: emoji.surrogates, id: null);
+}
+
+bool messageDoubleTapEnabled({
+  required DoubleTapActionPreference action,
+  required bool canAddReactions,
+  required ReactionToggleCallback? onReaction,
+  required bool canEditOwnMessage,
+  required VoidCallback? onEdit,
+}) {
+  switch (action.effective) {
+    case DoubleTapActionPreference.none:
+      return false;
+    case DoubleTapActionPreference.edit:
+      return canEditOwnMessage && onEdit != null;
+    case DoubleTapActionPreference.react:
+      return canAddReactions && onReaction != null;
+    case DoubleTapActionPreference.unspecified:
+      return false;
+  }
+}
+
+void dispatchDoubleTapMessageAction({
+  required WidgetRef ref,
+  required DoubleTapActionPreference action,
+  required ReactionToggleCallback? onReaction,
+  required VoidCallback? onEdit,
+}) {
+  switch (action.effective) {
+    case DoubleTapActionPreference.none:
+    case DoubleTapActionPreference.unspecified:
+      return;
+    case DoubleTapActionPreference.edit:
+      onEdit?.call();
+      return;
+    case DoubleTapActionPreference.react:
+      dispatchStoredDoubleTapReaction(ref, onReaction);
+  }
 }
 
 void dispatchStoredDoubleTapReaction(

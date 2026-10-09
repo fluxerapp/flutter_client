@@ -4,14 +4,11 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_l
 import 'package:fluxer_app/material_ui.dart';
 
 void main() {
-  testWidgets('MessageListLiveRemoval collapses when active', (tester) async {
+  testWidgets('MessageListLiveRemoval collapses', (tester) async {
     await tester.pumpWidget(
       const MaterialApp(
         home: Scaffold(
-          body: MessageListLiveRemoval(
-            active: true,
-            child: SizedBox(height: 80, width: 200),
-          ),
+          body: MessageListLiveRemoval(child: SizedBox(height: 80, width: 200)),
         ),
       ),
     );

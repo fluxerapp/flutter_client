@@ -68,37 +68,42 @@ class _FakeUserSettings extends UserSettingsViewModel {
   );
 }
 
-Widget _wrap(Widget child, {required OAuth2Api api, bool unclaimed = false}) {
+Future<void> _pumpWrapped(
+  WidgetTester tester,
+  Widget child, {
+  required OAuth2Api api,
+  bool unclaimed = false,
+}) {
   final colorTheme = buildDarkColorTheme();
-  return ProviderScope(
-    overrides: [
-      fluxerClientProvider.overrideWithValue(_FakeClient(api)),
-      instanceRuntimeConfigProvider.overrideWithValue(
-        InstanceRuntimeConfig.defaults,
+  return tester.pumpWidget(
+    ProviderScope(
+      overrides: [
+        fluxerClientProvider.overrideWithValue(_FakeClient(api)),
+        instanceRuntimeConfigProvider.overrideWithValue(
+          InstanceRuntimeConfig.defaults,
+        ),
+        userSettingsViewModelProvider.overrideWith(
+          () => _FakeUserSettings(unclaimed: unclaimed),
+        ),
+      ],
+      child: MaterialApp(
+        locale: kTestLocale,
+        localizationsDelegates: fluxerLocalizationsDelegates,
+        supportedLocales: FluxerLocalizations.supportedLocales,
+        theme: buildFluxerTheme(
+          colorTheme: colorTheme,
+          textTheme: FluxerTextTheme.fromColors(colorTheme),
+          layoutTheme: FluxerLayoutTheme.scaled(),
+        ),
+        home: Scaffold(body: child),
       ),
-      userSettingsViewModelProvider.overrideWith(
-        () => _FakeUserSettings(unclaimed: unclaimed),
-      ),
-    ],
-    child: MaterialApp(
-      locale: kTestLocale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
-      supportedLocales: FluxerLocalizations.supportedLocales,
-      theme: buildFluxerTheme(
-        colorTheme: colorTheme,
-        textTheme: FluxerTextTheme.fromColors(colorTheme),
-        layoutTheme: FluxerLayoutTheme.scaled(),
-      ),
-      home: Scaffold(body: child),
     ),
   );
 }
 
 void main() {
   testWidgets('shows empty state after a successful load', (tester) async {
-    await tester.pumpWidget(
-      _wrap(const UserApplications(), api: _FakeOAuth2Api()),
-    );
+    await _pumpWrapped(tester, const UserApplications(), api: _FakeOAuth2Api());
     await tester.pumpAndSettle();
 
     expect(find.text(testL10n.applicationsEmptyTitle), findsOneWidget);
@@ -116,7 +121,7 @@ void main() {
     final api = _FakeOAuth2Api(
       listError: DioException(requestOptions: RequestOptions()),
     );
-    await tester.pumpWidget(_wrap(const UserApplications(), api: api));
+    await _pumpWrapped(tester, const UserApplications(), api: api);
     await tester.pumpAndSettle();
 
     expect(find.text(testL10n.applicationsLoadError), findsOneWidget);
@@ -135,8 +140,11 @@ void main() {
   });
 
   testWidgets('disables create when the account is unclaimed', (tester) async {
-    await tester.pumpWidget(
-      _wrap(const UserApplications(), api: _FakeOAuth2Api(), unclaimed: true),
+    await _pumpWrapped(
+      tester,
+      const UserApplications(),
+      api: _FakeOAuth2Api(),
+      unclaimed: true,
     );
     await tester.pumpAndSettle();
 

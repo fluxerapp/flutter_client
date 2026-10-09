@@ -1,6 +1,6 @@
 import 'package:fluxer_app/features/settings/domain/guild/expressions/guild_emoji_settings_entry.dart';
 
-enum GuildEmojiSettingsLoadStatus { loading, success, error }
+enum GuildEmojiSettingsLoadStatus { success, error }
 
 class GuildEmojiSettingsState {
   const GuildEmojiSettingsState({

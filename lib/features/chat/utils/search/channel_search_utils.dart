@@ -336,19 +336,3 @@ List<ChannelSearchFilterOption> channelSearchHistoryFilterOptions({
     return true;
   }).toList();
 }
-
-IconData channelSearchFilterIcon(String filterKey) => switch (filterKey) {
-  'from' => PhosphorIconsFill.user,
-  'mentions' => PhosphorIconsFill.at,
-  'has' => PhosphorIconsFill.funnel,
-  'before' || 'after' || 'on' || 'during' => PhosphorIconsFill.calendar,
-  'in' => PhosphorIconsBold.hash,
-  'pinned' => PhosphorIconsFill.pushPin,
-  'author-type' => PhosphorIconsFill.robot,
-  'link-from' => PhosphorIconsBold.link,
-  'file-name' => PhosphorIconsFill.file,
-  'file-type' => PhosphorIconsFill.fileCode,
-  'sort' => PhosphorIconsFill.sortAscending,
-  'order' => PhosphorIconsFill.arrowsDownUp,
-  _ => PhosphorIconsFill.funnel,
-};

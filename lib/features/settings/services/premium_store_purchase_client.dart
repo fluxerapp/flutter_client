@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/features/settings/services/plutonium_store_products.dart';
 import 'package:fluxer_app/features/settings/services/premium_store_product_matching.dart';
 import 'package:fluxer_app/features/settings/services/premium_store_purchase_client.stub.dart';
@@ -185,9 +184,6 @@ class IosPremiumStorePurchaseClient implements PremiumStorePurchaseClient {
 }
 
 PremiumStorePurchaseClient createPremiumStorePurchaseClient() {
-  if (kIsWeb) {
-    return const UnavailablePremiumStorePurchaseClient();
-  }
   if (Platform.isAndroid) {
     return AndroidPremiumStorePurchaseClient(InAppPurchase.instance);
   }

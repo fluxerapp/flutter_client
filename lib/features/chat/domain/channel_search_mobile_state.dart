@@ -100,9 +100,6 @@ class ChannelSearchMobileChipState {
     );
   }
 
-  ChannelSearchMobileChipState cleared() =>
-      const ChannelSearchMobileChipState();
-
   factory ChannelSearchMobileChipState.fromHistoryEntry(
     ChannelSearchHistoryEntry entry,
   ) {

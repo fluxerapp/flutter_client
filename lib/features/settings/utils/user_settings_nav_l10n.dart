@@ -27,6 +27,8 @@ String userSettingsSectionLabel(
       return l10n.userSettingsNavConnections;
     case UserSettingsSection.lookAndFeel:
       return l10n.userSettingsNavLookAndFeel;
+    case UserSettingsSection.themeColors:
+      return l10n.lookAndFeelThemeColorsTitle;
     case UserSettingsSection.accessibility:
       return l10n.userSettingsNavAccessibility;
     case UserSettingsSection.chat:

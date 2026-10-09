@@ -130,7 +130,6 @@ ServiceStatusMaintenance? _mapMaintenance(_NormalizedMaintenance? maintenance) {
   }
   return ServiceStatusMaintenance(
     id: maintenance.id,
-    name: maintenance.name,
     status: _toMaintenanceStatus(maintenance.status),
     start: start.toUtc(),
     durationMinutes: maintenance.durationMinutes,
@@ -229,12 +228,11 @@ class ServiceStatusClient {
         if (id.isEmpty || name.isEmpty || url.isEmpty) {
           return null;
         }
-        return ServiceStatusIncident(id: id, name: name, url: url);
+        return ServiceStatusIncident(name: name, url: url);
       }
       if (activeMaintenance?.status == 'in_progress') {
         return ServiceStatusIncident(
-          id: activeMaintenance!.id,
-          name: activeMaintenance.name,
+          name: activeMaintenance!.name,
           url: activeMaintenance.url,
         );
       }

@@ -276,7 +276,7 @@ class ChannelSearch extends _$ChannelSearch {
           uiScope: scope ?? state.query.uiScope,
           uiSort: sort ?? state.query.uiSort,
           hints: hints ?? const ChannelSearchParseHints(),
-          context: context ?? ChannelSearchParseContext(guildId: guildId),
+          context: context ?? const ChannelSearchParseContext(),
           chipAuthorId: authorId,
           chipContentTypes: contentTypes,
           chipFilters: chipFilters,

@@ -88,8 +88,6 @@ class MessageSearchQuery {
     );
   }
 
-  String get text => parsed.content ?? '';
-
   String get authorId => parsed.authorIds.join(',');
 
   Set<MessageSearchContentFilter> get contentTypes => parsed.hasContentFilters;

@@ -78,6 +78,23 @@ final $typed_data.Uint8List mfaMethodDescriptor = $convert.base64Decode(
     'CglNZmFNZXRob2QSGgoWTUZBX01FVEhPRF9VTlNQRUNJRklFRBAAEhMKD01GQV9NRVRIT0RfVE'
     '9UUBABEhcKE01GQV9NRVRIT0RfV0VCQVVUSE4QAw==');
 
+@$core.Deprecated('Use doubleTapActionDescriptor instead')
+const DoubleTapAction$json = {
+  '1': 'DoubleTapAction',
+  '2': [
+    {'1': 'DOUBLE_TAP_ACTION_UNSPECIFIED', '2': 0},
+    {'1': 'DOUBLE_TAP_ACTION_REACT', '2': 1},
+    {'1': 'DOUBLE_TAP_ACTION_EDIT', '2': 2},
+    {'1': 'DOUBLE_TAP_ACTION_NONE', '2': 3},
+  ],
+};
+
+/// Descriptor for `DoubleTapAction`. Decode as a `google.protobuf.EnumDescriptorProto`.
+final $typed_data.Uint8List doubleTapActionDescriptor = $convert.base64Decode(
+    'Cg9Eb3VibGVUYXBBY3Rpb24SIQodRE9VQkxFX1RBUF9BQ1RJT05fVU5TUEVDSUZJRUQQABIbCh'
+    'dET1VCTEVfVEFQX0FDVElPTl9SRUFDVBABEhoKFkRPVUJMRV9UQVBfQUNUSU9OX0VESVQQAhIa'
+    'ChZET1VCTEVfVEFQX0FDVElPTl9OT05FEAM=');
+
 @$core.Deprecated('Use syncedPreferencesDescriptor instead')
 const SyncedPreferences$json = {
   '1': 'SyncedPreferences',
@@ -363,6 +380,30 @@ const SyncedPreferences$json = {
       '6': '.fluxer.user.preferences.v1.ReactionEmoji',
       '10': 'doubleTapReaction'
     },
+    {
+      '1': 'channel_frecency',
+      '3': 115,
+      '4': 1,
+      '5': 11,
+      '6': '.fluxer.user.preferences.v1.ChannelFrecencyState',
+      '10': 'channelFrecency'
+    },
+    {
+      '1': 'announcement_prompts',
+      '3': 116,
+      '4': 1,
+      '5': 11,
+      '6': '.fluxer.user.preferences.v1.AnnouncementPromptsState',
+      '10': 'announcementPrompts'
+    },
+    {
+      '1': 'double_tap_action',
+      '3': 117,
+      '4': 1,
+      '5': 14,
+      '6': '.fluxer.user.preferences.v1.DoubleTapAction',
+      '10': 'doubleTapAction'
+    },
   ],
 };
 
@@ -422,7 +463,13 @@ final $typed_data.Uint8List syncedPreferencesDescriptor = $convert.base64Decode(
     'RvUHJvbXB0U3RhdGVSCnN1ZG9Qcm9tcHQSRwoIa2V5YmluZHMYbyABKAsyKy5mbHV4ZXIudXNl'
     'ci5wcmVmZXJlbmNlcy52MS5LZXliaW5kU2V0dGluZ3NSCGtleWJpbmRzEkwKCmNoYXRfaW5wdX'
     'QYcCABKAsyLS5mbHV4ZXIudXNlci5wcmVmZXJlbmNlcy52MS5DaGF0SW5wdXRTZXR0aW5nc1IJ'
-    'Y2hhdElucHV0');
+    'Y2hhdElucHV0ElkKE2RvdWJsZV90YXBfcmVhY3Rpb24YciABKAsyKS5mbHV4ZXIudXNlci5wcm'
+    'VmZXJlbmNlcy52MS5SZWFjdGlvbkVtb2ppUhFkb3VibGVUYXBSZWFjdGlvbhJbChBjaGFubmVs'
+    'X2ZyZWNlbmN5GHMgASgLMjAuZmx1eGVyLnVzZXIucHJlZmVyZW5jZXMudjEuQ2hhbm5lbEZyZW'
+    'NlbmN5U3RhdGVSD2NoYW5uZWxGcmVjZW5jeRJnChRhbm5vdW5jZW1lbnRfcHJvbXB0cxh0IAEo'
+    'CzI0LmZsdXhlci51c2VyLnByZWZlcmVuY2VzLnYxLkFubm91bmNlbWVudFByb21wdHNTdGF0ZV'
+    'ITYW5ub3VuY2VtZW50UHJvbXB0cxJXChFkb3VibGVfdGFwX2FjdGlvbhh1IAEoDjIrLmZsdXhl'
+    'ci51c2VyLnByZWZlcmVuY2VzLnYxLkRvdWJsZVRhcEFjdGlvblIPZG91YmxlVGFwQWN0aW9u');
 
 @$core.Deprecated('Use spellcheckSettingsDescriptor instead')
 const SpellcheckSettings$json = {
@@ -1235,6 +1282,26 @@ final $typed_data.Uint8List voicePromptsStateDescriptor = $convert.base64Decode(
     'gIUhhza2lwSGlkZU93bkNhbWVyYUNvbmZpcm0SSAohc2tpcF9oaWRlX293bl9zY3JlZW5zaGFy'
     'ZV9jb25maXJtGAIgASgIUh1za2lwSGlkZU93blNjcmVlbnNoYXJlQ29uZmlybQ==');
 
+@$core.Deprecated('Use announcementPromptsStateDescriptor instead')
+const AnnouncementPromptsState$json = {
+  '1': 'AnnouncementPromptsState',
+  '2': [
+    {
+      '1': 'hide_publish_nudge',
+      '3': 1,
+      '4': 1,
+      '5': 8,
+      '10': 'hidePublishNudge'
+    },
+  ],
+};
+
+/// Descriptor for `AnnouncementPromptsState`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List announcementPromptsStateDescriptor =
+    $convert.base64Decode(
+        'ChhBbm5vdW5jZW1lbnRQcm9tcHRzU3RhdGUSLAoSaGlkZV9wdWJsaXNoX251ZGdlGAEgASgIUh'
+        'BoaWRlUHVibGlzaE51ZGdl');
+
 @$core.Deprecated('Use sudoPromptStateDescriptor instead')
 const SudoPromptState$json = {
   '1': 'SudoPromptState',
@@ -1387,6 +1454,60 @@ final $typed_data.Uint8List keybindComboDescriptor = $convert.base64Decode(
     'NvZGVCCQoHX2dsb2JhbEIKCghfZW5hYmxlZEIPCg1fbW91c2VfYnV0dG9uQhEKD19nYW1lcGFk'
     'X2J1dHRvbg==');
 
+@$core.Deprecated('Use channelFrecencyEntryDescriptor instead')
+const ChannelFrecencyEntry$json = {
+  '1': 'ChannelFrecencyEntry',
+  '2': [
+    {'1': 'total_uses', '3': 1, '4': 1, '5': 13, '10': 'totalUses'},
+    {'1': 'recent_uses_ms', '3': 2, '4': 3, '5': 3, '10': 'recentUsesMs'},
+  ],
+};
+
+/// Descriptor for `ChannelFrecencyEntry`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List channelFrecencyEntryDescriptor = $convert.base64Decode(
+    'ChRDaGFubmVsRnJlY2VuY3lFbnRyeRIdCgp0b3RhbF91c2VzGAEgASgNUgl0b3RhbFVzZXMSJA'
+    'oOcmVjZW50X3VzZXNfbXMYAiADKANSDHJlY2VudFVzZXNNcw==');
+
+@$core.Deprecated('Use channelFrecencyStateDescriptor instead')
+const ChannelFrecencyState$json = {
+  '1': 'ChannelFrecencyState',
+  '2': [
+    {
+      '1': 'usage',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.fluxer.user.preferences.v1.ChannelFrecencyState.UsageEntry',
+      '10': 'usage'
+    },
+  ],
+  '3': [ChannelFrecencyState_UsageEntry$json],
+};
+
+@$core.Deprecated('Use channelFrecencyStateDescriptor instead')
+const ChannelFrecencyState_UsageEntry$json = {
+  '1': 'UsageEntry',
+  '2': [
+    {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
+    {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.fluxer.user.preferences.v1.ChannelFrecencyEntry',
+      '10': 'value'
+    },
+  ],
+  '7': {'7': true},
+};
+
+/// Descriptor for `ChannelFrecencyState`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List channelFrecencyStateDescriptor = $convert.base64Decode(
+    'ChRDaGFubmVsRnJlY2VuY3lTdGF0ZRJRCgV1c2FnZRgBIAMoCzI7LmZsdXhlci51c2VyLnByZW'
+    'ZlcmVuY2VzLnYxLkNoYW5uZWxGcmVjZW5jeVN0YXRlLlVzYWdlRW50cnlSBXVzYWdlGmoKClVz'
+    'YWdlRW50cnkSEAoDa2V5GAEgASgJUgNrZXkSRgoFdmFsdWUYAiABKAsyMC5mbHV4ZXIudXNlci'
+    '5wcmVmZXJlbmNlcy52MS5DaGFubmVsRnJlY2VuY3lFbnRyeVIFdmFsdWU6AjgB');
+
 @$core.Deprecated('Use chatInputSettingsDescriptor instead')
 const ChatInputSettings$json = {
   '1': 'ChatInputSettings',
@@ -1427,15 +1548,7 @@ final $typed_data.Uint8List chatInputSettingsDescriptor = $convert.base64Decode(
 const ReactionEmoji$json = {
   '1': 'ReactionEmoji',
   '2': [
-    {
-      '1': 'id',
-      '3': 1,
-      '4': 1,
-      '5': 9,
-      '9': 0,
-      '10': 'id',
-      '17': true
-    },
+    {'1': 'id', '3': 1, '4': 1, '5': 9, '9': 0, '10': 'id', '17': true},
     {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
   ],
   '8': [
@@ -1443,6 +1556,7 @@ const ReactionEmoji$json = {
   ],
 };
 
+/// Descriptor for `ReactionEmoji`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List reactionEmojiDescriptor = $convert.base64Decode(
-    'Cg1SZWFjdGlvbkVtb2ppEhMKAmlkGAEgASgJSABQAmlpZIgBARISCgRuYW1lGAIgASgJUgRuYW1'
-    'lQgUKA19pZA==');
+    'Cg1SZWFjdGlvbkVtb2ppEhMKAmlkGAEgASgJSABSAmlkiAEBEhIKBG5hbWUYAiABKAlSBG5hbW'
+    'VCBQoDX2lk');

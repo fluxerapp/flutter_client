@@ -9,8 +9,12 @@ class PendingInviteCode extends _$PendingInviteCode {
   @override
   String? build() => null;
 
-  // ignore: Riverpod notifier method.
-  void store(String code) => state = code;
+  void store(String code) {
+    if (state == code) {
+      return;
+    }
+    state = code;
+  }
 
   String? consume() {
     final code = state;

@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_image
 import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animated_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/fluxer_animated_image.dart';
 import 'package:fluxer_app/features/chat/utils/media/media_dimension_utils.dart';
+import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -23,7 +24,7 @@ Widget _wrap(Widget child) {
         textTheme: FluxerTextTheme.fromColors(colorTheme),
         layoutTheme: FluxerLayoutTheme.scaled(),
       ),
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       home: Scaffold(body: child),
     ),

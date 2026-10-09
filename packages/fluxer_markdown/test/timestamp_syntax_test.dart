@@ -12,12 +12,9 @@ import 'package:material_ui/material_ui.dart';
 import 'support/native_test_parser.dart';
 
 const FluxerMarkdownConfig _testMarkdownConfig = FluxerMarkdownConfig(
-  resolveEmojiShortcode: _noopEmojiShortcode,
   unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
   customEmojiUrlBuilder: _noopCustomEmojiUrl,
 );
-
-String? _noopEmojiShortcode(String name) => null;
 
 String? _noopUnicodeEmojiUrl(String unicode) => null;
 
@@ -170,7 +167,6 @@ void main() {
       DateTime? seenDateTime;
       String? seenStyle;
       final FluxerMarkdownConfig config = FluxerMarkdownConfig(
-        resolveEmojiShortcode: _noopEmojiShortcode,
         unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
         customEmojiUrlBuilder: _noopCustomEmojiUrl,
         timestampFormatter: (DateTime localDateTime, String style) {
@@ -204,7 +200,6 @@ void main() {
                 astParser: parseTestMarkdownAst,
                 data: '<t:1618936830:R>',
                 config: FluxerMarkdownConfig(
-                  resolveEmojiShortcode: _noopEmojiShortcode,
                   unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
                   customEmojiUrlBuilder: _noopCustomEmojiUrl,
                   timestampFormatter: (DateTime _, String style) {

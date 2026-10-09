@@ -36,9 +36,6 @@ class EmojiSpriteSheet {
   static final Map<String, Future<ui.Image>> _loading =
       <String, Future<ui.Image>>{};
 
-  static bool isLoaded({String? skinTone}) =>
-      _images.containsKey(_spriteSheetKeyForSkinTone(skinTone));
-
   static Future<void> preload({String? skinTone}) async {
     final key = _spriteSheetKeyForSkinTone(skinTone);
     if (_images.containsKey(key)) {

@@ -25,7 +25,6 @@ void main() {
         fullscreenMediaOpen: false,
         hasIncomingCall: true,
         channelHasUnread: true,
-        quickSwitcherOpen: false,
       ),
     );
     expect(actions.first, KeybindAction.voiceDeclineCall);
@@ -49,7 +48,6 @@ void main() {
         fullscreenMediaOpen: false,
         hasIncomingCall: false,
         channelHasUnread: false,
-        quickSwitcherOpen: false,
       ),
     );
     expect(withoutUnread, isEmpty);

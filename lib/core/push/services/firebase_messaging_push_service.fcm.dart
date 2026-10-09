@@ -18,9 +18,6 @@ class FirebaseMessagingPushService implements PushService {
   static Future<void> bootstrapAfterAuth() => _delegate.initialize();
 
   @override
-  Future<void> requestPermissions() => _delegate.requestPermissions();
-
-  @override
   Future<void> initialize() => _delegate.initialize();
 
   @override
@@ -38,10 +35,6 @@ class FirebaseMessagingPushService implements PushService {
       }
     });
   }
-
-  static void configureForegroundMessageFilter(
-    bool Function(Map<String, String> payload)? filter,
-  ) {}
 }
 
 final class _FcmTapBindingHostAdapter implements FcmTapBindingHost {

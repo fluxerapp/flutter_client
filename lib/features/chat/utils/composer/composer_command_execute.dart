@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -50,14 +51,16 @@ Future<void> executeComposerSideEffect({
         nickname: nickname,
         l10n: l10n,
       );
-    case ComposerKickCommand(:final String userId):
+    case ComposerKickCommand(:final String userId, :final String? reason):
       if (guildId == null || guildId.isEmpty) {
         return;
       }
-      await ref
-          .read(fluxerClientProvider)
-          .guilds
-          .removeGuildMember(guildId: guildId, userId: userId);
+      await kickGuildMember(
+        ref.read(fluxerDioProvider),
+        guildId: guildId,
+        userId: userId,
+        reason: reason,
+      );
     case ComposerBanCommand(
       :final String userId,
       :final int deleteMessageDays,
@@ -89,6 +92,22 @@ Future<void> executeComposerSideEffect({
     default:
       break;
   }
+}
+
+Future<void> kickGuildMember(
+  Dio dio, {
+  required String guildId,
+  required String userId,
+  String? reason,
+}) async {
+  await dio.delete<void>(
+    '/guilds/$guildId/members/$userId',
+    options: Options(
+      headers: <String, String>{
+        if (reason != null) 'X-Audit-Log-Reason': Uri.encodeComponent(reason),
+      },
+    ),
+  );
 }
 
 Future<void> _executeNick({

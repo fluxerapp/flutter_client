@@ -181,6 +181,33 @@ createGuildInviteLink({
   );
 }
 
+Future<String> communityInviteUrlFor({
+  required WidgetRef ref,
+  required InvitableChannelMatch match,
+}) async {
+  final String inviteBase = ref.read(instanceInviteBaseUrlProvider);
+  final String? vanityCode = match.capability.vanityUrlCode;
+  if (match.capability.useVanityUrl &&
+      vanityCode != null &&
+      vanityCode.isNotEmpty) {
+    return GuildInvitesUtils.buildInviteUrl(
+      inviteBaseUrl: inviteBase,
+      code: vanityCode,
+    );
+  }
+  final InviteMetadataResponseSchema invite = await ref
+      .read(fluxerClientProvider)
+      .invites
+      .createChannelInvite(
+        channelId: match.channel.id,
+        body: const ChannelInviteCreateRequest(),
+      );
+  return GuildInvitesUtils.buildInviteUrl(
+    inviteBaseUrl: inviteBase,
+    code: inviteCodeOf(invite),
+  );
+}
+
 Future<void> sendInviteLinkMessage({
   required WidgetRef ref,
   required String? channelId,

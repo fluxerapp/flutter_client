@@ -1,13 +1,8 @@
 class RecentChannelVisit {
-  const RecentChannelVisit({
-    required this.channelId,
-    required this.visitedAt,
-    this.guildId,
-  });
+  const RecentChannelVisit({required this.channelId, this.guildId});
 
   final String channelId;
   final String? guildId;
-  final DateTime visitedAt;
 }
 
 const int kMaxRecentChannelVisits = 20;

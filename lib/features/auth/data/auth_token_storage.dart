@@ -16,8 +16,6 @@ abstract interface class AuthTokenStorage {
   Future<String?> readApiBaseUrl(String userId);
 
   Future<void> deleteToken(String userId);
-
-  Future<void> deleteAllTokens();
 }
 
 class SecureAuthTokenStorage implements AuthTokenStorage {
@@ -70,11 +68,6 @@ class SecureAuthTokenStorage implements AuthTokenStorage {
     await _storage.delete(key: _keyFor(userId));
     await _storage.delete(key: _apiBaseKeyFor(userId));
   }
-
-  @override
-  Future<void> deleteAllTokens() {
-    return _storage.deleteAll();
-  }
 }
 
 class MapAuthTokenStorage implements AuthTokenStorage {
@@ -111,11 +104,5 @@ class MapAuthTokenStorage implements AuthTokenStorage {
   Future<void> deleteToken(String userId) async {
     tokens.remove(userId);
     apiBaseUrls.remove(userId);
-  }
-
-  @override
-  Future<void> deleteAllTokens() async {
-    tokens.clear();
-    apiBaseUrls.clear();
   }
 }

@@ -84,18 +84,6 @@ UserNotificationSettings? resolveGuildUnreadBadgesLevel({
   );
 }
 
-UserNotificationSettings? resolveExplicitUnreadBadgeLevel({
-  required db.Channel channel,
-  required UserGuildSettingsResponse? guildSettings,
-  bool unreadBadgeCustomizationEnabled = false,
-}) {
-  return _resolvedUnreadBadgeLevel(
-    channel: channel,
-    guildSettings: guildSettings,
-    unreadBadgeCustomizationEnabled: unreadBadgeCustomizationEnabled,
-  );
-}
-
 ResolvedUnreadSettings resolveChannelUnreadSettings({
   required db.Channel channel,
   required UserGuildSettingsResponse? guildSettings,
@@ -404,45 +392,6 @@ UserNotificationSettings resolvePrivateMessageNotifications({
     return UserNotificationSettings.allMessages;
   }
   return stored;
-}
-
-bool allowNoMessagesForGuildChannel({
-  required db.Channel channel,
-  required UserGuildSettingsResponse? guildSettings,
-  required DateTime now,
-  GuildNotificationContext? guildContext,
-}) {
-  if (isGuildOrCategoryOrChannelMuted(
-    channel: channel,
-    guildSettings: guildSettings,
-    now: now,
-  )) {
-    return true;
-  }
-  return resolveMessageNotifications(
-        channel: channel,
-        guildSettings: guildSettings,
-        guildContext: guildContext,
-      ) ==
-      UserNotificationSettings.noMessages;
-}
-
-bool allowNoMessagesForPrivateChannel({
-  required UserGuildSettingsResponse? guildSettings,
-  required String channelId,
-  required DateTime now,
-}) {
-  if (isChannelOverrideMuted(
-    guildSettings?.channelOverrides?[channelId],
-    now: now,
-  )) {
-    return true;
-  }
-  return resolvePrivateMessageNotifications(
-        guildSettings: guildSettings,
-        channelId: channelId,
-      ) ==
-      UserNotificationSettings.noMessages;
 }
 
 bool shouldNotifyMessageBasedOnSettings({

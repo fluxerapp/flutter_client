@@ -42,62 +42,6 @@ class VoiceGalleryPageDots extends StatelessWidget {
   }
 }
 
-List<Rect> voiceHangoutTileRects({
-  required int tileCount,
-  required double width,
-  required double height,
-  required bool landscape,
-}) {
-  if (tileCount <= 0) {
-    return <Rect>[];
-  }
-  if (tileCount == 1) {
-    return <Rect>[voiceHangoutCenteredAspectRect(width: width, height: height)];
-  }
-  if (tileCount == 2) {
-    if (landscape) {
-      final double tileWidth = (width - 8) / 2;
-      return <Rect>[
-        Rect.fromLTWH(0, 0, tileWidth, height),
-        Rect.fromLTWH(tileWidth + 8, 0, tileWidth, height),
-      ];
-    }
-    final double tileHeight = (height - 8) / 2;
-    return <Rect>[
-      Rect.fromLTWH(0, 0, width, tileHeight),
-      Rect.fromLTWH(0, tileHeight + 8, width, tileHeight),
-    ];
-  }
-  if (tileCount == 3) {
-    if (landscape) {
-      final double mainWidth = width * 0.62;
-      final double sideWidth = width - mainWidth - 8;
-      final double sideHeight = (height - 8) / 2;
-      return <Rect>[
-        Rect.fromLTWH(0, 0, mainWidth, height),
-        Rect.fromLTWH(mainWidth + 8, 0, sideWidth, sideHeight),
-        Rect.fromLTWH(mainWidth + 8, sideHeight + 8, sideWidth, sideHeight),
-      ];
-    }
-    final double topHeight = height * 0.58;
-    final double bottomHeight = height - topHeight - 8;
-    final double bottomWidth = (width - 8) / 2;
-    return <Rect>[
-      Rect.fromLTWH(0, 0, width, topHeight),
-      Rect.fromLTWH(0, topHeight + 8, bottomWidth, bottomHeight),
-      Rect.fromLTWH(bottomWidth + 8, topHeight + 8, bottomWidth, bottomHeight),
-    ];
-  }
-  final double tileWidth = (width - 8) / 2;
-  final double tileHeight = (height - 8) / 2;
-  return <Rect>[
-    Rect.fromLTWH(0, 0, tileWidth, tileHeight),
-    Rect.fromLTWH(tileWidth + 8, 0, tileWidth, tileHeight),
-    Rect.fromLTWH(0, tileHeight + 8, tileWidth, tileHeight),
-    Rect.fromLTWH(tileWidth + 8, tileHeight + 8, tileWidth, tileHeight),
-  ];
-}
-
 double voiceFocusFilmstripCrossAxis({
   required bool compact,
   required bool landscape,

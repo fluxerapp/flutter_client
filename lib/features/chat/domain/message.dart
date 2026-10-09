@@ -6,9 +6,9 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/features/chat/domain/message_translation.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/attachment_display_utils.dart';
-import 'package:fluxer_app/features/chat/utils/attachments/voice_message_constants.dart';
 import 'package:fluxer_app/features/chat/utils/messages/url_sanitization_utils.dart';
 import 'package:fluxer_app/features/gifts/utils/gift_code_utils.dart';
+import 'package:fluxer_app/features/themes/utils/shared_theme_links.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_dart/export.dart';
@@ -541,8 +541,6 @@ class MessageSticker {
   final String name;
   final bool animated;
 
-  String get url => urlForSize(320);
-
   String urlForSize(int size) =>
       FluxerMediaUrl.sticker(id: id, animated: animated, size: size);
 
@@ -603,9 +601,6 @@ class Reaction {
 
   /// Encoded emoji param for the reaction API.
   String get apiParam => isCustom ? '$emoji:$emojiId' : emoji;
-
-  /// Key for frecency tracking.
-  String get frecencyKey => isCustom ? 'custom:$emojiId' : 'unicode:$emoji';
 }
 
 class MessageReference {
@@ -1636,8 +1631,6 @@ class Message {
     );
   }
 
-  bool get hasEmbeds => embeds.isNotEmpty;
-  bool get hasAttachments => attachments.isNotEmpty;
   bool get hasStickers => stickers.isNotEmpty;
   bool get isReply =>
       replyToId != null && !(messageReference?.isForward ?? false);
@@ -1691,7 +1684,6 @@ class Message {
 
   bool get hasCompactAttachments =>
       (flags & messageFlagCompactAttachments) != 0;
-  bool get isVoiceMessage => (flags & kMessageFlagVoiceMessage) != 0;
 
   bool shouldHideContent({required bool renderEmbeds}) {
     if (!renderEmbeds || suppressEmbeds || embeds.isEmpty) {
@@ -1729,27 +1721,7 @@ class Message {
     return result;
   }
 
-  static final RegExp _themesRegExp = RegExp(
-    r'https?://web\.fluxer\.app/theme/([a-zA-Z0-9\-]{2,32})(?![a-zA-Z0-9\-])',
-  );
-
-  List<String> get themes {
-    final seen = <String>{};
-    final result = <String>[];
-    for (final m in _themesRegExp.allMatches(content)) {
-      if (matchOverlapsMarkdownCodeSpan(content, m)) {
-        continue;
-      }
-      final id = m.group(1);
-      if (id != null && seen.add(id)) {
-        result.add(id);
-        if (result.length == 10) {
-          break;
-        }
-      }
-    }
-    return result;
-  }
+  List<String> get themes => findSharedThemeIds(content);
 
   List<String> get gifts => findGiftCodes(content);
 
@@ -1776,10 +1748,14 @@ class Message {
   /// bookmark, suppress embeds) should be offered for this message.
   bool get supportsInteractiveActions => !isClientSystemMessage;
 
-  bool get isMemberJoin => type == messageTypeUserJoin;
-  bool get isPin => type == messageTypeChannelPinnedMessage;
   bool get isSending => deliveryState == MessageDeliveryState.sending;
   bool get hasFailed => deliveryState == MessageDeliveryState.failed;
+  bool get isReportable =>
+      !isSending &&
+      !hasFailed &&
+      !authorIsSystem &&
+      !isCrosspostSourceDeleted &&
+      (type == messageTypeDefault || type == messageTypeReply);
 
   String get speakableContent {
     if (content.trim().isNotEmpty) {
@@ -1790,8 +1766,6 @@ class Message {
     }
     return content;
   }
-
-  bool get shouldCacheAuthorUser => webhookId == null || webhookId!.isEmpty;
 
   bool get isWebhookMessage => webhookId != null && webhookId!.isNotEmpty;
 

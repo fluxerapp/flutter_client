@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channel_groups_provider.dart';
+import 'package:fluxer_app/features/favorites/utils/favorite_entry_unread.dart';
 
 class FavoritesUnreadSummary {
   const FavoritesUnreadSummary({this.mentionCount = 0, this.hasUnread = false});
@@ -15,6 +16,9 @@ final Provider<FavoritesUnreadSummary> favoritesUnreadSummaryProvider =
       var mentionCount = 0;
       var hasUnread = false;
       for (final entry in entries) {
+        if (isFavoriteDmEntry(entry)) {
+          continue;
+        }
         final unread = ref.watch(channelUnreadProvider(entry.channelId)).value;
         if (unread == null) {
           continue;

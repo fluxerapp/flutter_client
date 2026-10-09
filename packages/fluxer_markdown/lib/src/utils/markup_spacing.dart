@@ -18,8 +18,7 @@ abstract final class FluxerMarkupSpacing {
   static const double quoteMargin = 4; // 0.25rem
   static const double quoteDividerEnd = 12; // 0.75rem
 
-  static const double codePadding = 14; // 0.875rem
-  static const double codeBottom = 12; // 0.75rem
+  static const double codePadding = 14; // 0.75rem
 
   static const double blockGap = 12; // 0.75rem
 }

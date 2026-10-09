@@ -28,13 +28,11 @@ class MessageListRowResize extends StatelessWidget {
 class MessageListLiveRemoval extends StatefulWidget {
   const MessageListLiveRemoval({
     required this.child,
-    required this.active,
     this.onComplete,
     super.key,
   });
 
   final Widget child;
-  final bool active;
   final VoidCallback? onComplete;
 
   @override
@@ -66,9 +64,7 @@ class _MessageListLiveRemovalState extends State<MessageListLiveRemoval>
     _sizeFactor = Tween<double>(begin: 1, end: 0).animate(sizeCurve);
     _opacity = Tween<double>(begin: 1, end: 0).animate(fadeCurve);
     _controller.addStatusListener(_onStatus);
-    if (widget.active) {
-      _controller.forward();
-    }
+    _controller.forward();
   }
 
   void _onStatus(AnimationStatus status) {
@@ -77,15 +73,6 @@ class _MessageListLiveRemovalState extends State<MessageListLiveRemoval>
     }
     _completed = true;
     widget.onComplete?.call();
-  }
-
-  @override
-  void didUpdateWidget(MessageListLiveRemoval oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (!oldWidget.active && widget.active) {
-      _completed = false;
-      _controller.forward(from: 0);
-    }
   }
 
   @override
@@ -98,7 +85,7 @@ class _MessageListLiveRemovalState extends State<MessageListLiveRemoval>
 
   @override
   Widget build(BuildContext context) {
-    if (!widget.active || MediaQuery.disableAnimationsOf(context)) {
+    if (MediaQuery.disableAnimationsOf(context)) {
       return widget.child;
     }
     return RepaintBoundary(

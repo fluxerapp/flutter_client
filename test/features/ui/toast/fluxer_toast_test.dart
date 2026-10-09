@@ -16,7 +16,7 @@ Widget buildTestApp(Widget child) {
   return ProviderScope(
     child: MaterialApp(
       locale: kTestLocale,
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
       theme: buildFluxerTheme(
         colorTheme: colorTheme,
@@ -69,33 +69,6 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Tap me away'), findsNothing);
-    });
-
-    testWidgets('renders message only when action is provided', (tester) async {
-      await tester.pumpWidget(buildTestApp(const SizedBox.shrink()));
-
-      final container = ProviderScope.containerOf(
-        tester.element(find.byType(FluxerToastOverlay)),
-      );
-      container
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: 'With action',
-              action: FluxerToastAction(label: 'Undo', onPressed: () {}),
-            ),
-          );
-
-      await tester.pump();
-
-      // Current overlay renders only icon + message; the action is not
-      // surfaced as a separate button.
-      expect(find.text('With action'), findsOneWidget);
-      expect(find.text('Undo'), findsNothing);
-
-      // Advance past toast duration to clear pending timer.
-      await tester.pump(const Duration(seconds: 5));
-      await tester.pump();
     });
 
     testWidgets('auto-dismisses after duration', (tester) async {

@@ -59,14 +59,6 @@ VoiceWaveformResult computeVoiceWaveformFromPcm(VoiceMessagePcmSlice pcm) {
   );
 }
 
-VoiceWaveformResult computeVoiceWaveformFromWavBytes(Uint8List wavBytes) {
-  final VoiceMessagePcmSlice? pcm = decodeWavMonoPcm(wavBytes);
-  if (pcm == null) {
-    return const VoiceWaveformResult(duration: 1, waveform: '');
-  }
-  return computeVoiceWaveformFromPcm(pcm);
-}
-
 List<int> decodeVoiceMessageWaveform(String base64Waveform) {
   try {
     final Uint8List bytes = base64Decode(base64Waveform);

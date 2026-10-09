@@ -4,6 +4,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/features/chat/utils/composer/bottom_input_slot_layout.dart';
+import 'package:fluxer_app/features/input/providers/composer_focus_coordinator_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_keyboard_insets/smart_keyboard_insets.dart';
@@ -162,7 +163,7 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
   }
 
   void _attachMetricsListener() {
-    if (kIsWeb || !(Platform.isIOS || Platform.isAndroid)) {
+    if (!(Platform.isIOS || Platform.isAndroid)) {
       return;
     }
     unawaited(_metricsSubscription?.cancel());
@@ -251,12 +252,16 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
         (nativeImeOnly > 0 || _viewInsetsKeyboardHeight > 0)) {
       _hadKeyboardInsetWhileReserved = true;
     }
+    final bool composerEntryFocused = ref
+        .read(composerFocusCoordinatorProvider)
+        .composerHasFocus();
     final bool clearUnmeasuredReservation =
         shouldClearUnmeasuredKeyboardReservation(
           unmeasuredKeyboardReserved: state.unmeasuredKeyboardReserved,
           previousLiveHeight: state.liveKeyboardHeight,
           mergedHeight: mergedHeight,
           hadKeyboardInsetWhileReserved: _hadKeyboardInsetWhileReserved,
+          composerEntryFocused: composerEntryFocused,
         );
     if (clearUnmeasuredReservation) {
       _unmeasuredReservationTimer?.cancel();
@@ -391,6 +396,11 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
       _nativeOnlyTimer = null;
       return;
     }
+    if (ref.read(composerFocusCoordinatorProvider).composerHasFocus()) {
+      _nativeOnlyTimer?.cancel();
+      _nativeOnlyTimer = null;
+      return;
+    }
     _nativeOnlyTimer ??= Timer(kUnmeasuredKeyboardReservationTimeout, () {
       _nativeOnlyTimer = null;
       if (!ref.mounted || _viewInsetsKeyboardHeight > 0) {
@@ -426,6 +436,10 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
         if (state.liveKeyboardHeight > 0) {
           return;
         }
+        if (ref.read(composerFocusCoordinatorProvider).composerHasFocus()) {
+          _armUnmeasuredReservationTimeout();
+          return;
+        }
         clearUnmeasuredKeyboardReservation();
       },
     );
@@ -439,6 +453,31 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
     }
     _hadKeyboardInsetWhileReserved = false;
     state = state.copyWith(unmeasuredKeyboardReserved: false);
+  }
+
+  void resetTransientLayoutState() {
+    _unmeasuredReservationTimer?.cancel();
+    _unmeasuredReservationTimer = null;
+    _nativeOnlyTimer?.cancel();
+    _nativeOnlyTimer = null;
+    _shortInsetTimer?.cancel();
+    _shortInsetTimer = null;
+    _hadKeyboardInsetWhileReserved = false;
+    _ignoreNativeUntilHidden = false;
+    _preferNativeIme = false;
+    _sessionPeak = 0;
+    _viewInsetsKeyboardHeight = 0;
+    _nativeKeyboardHeight = 0;
+    _sawViewInsets = false;
+    if (!ref.mounted) {
+      return;
+    }
+    state = state.copyWith(
+      unmeasuredKeyboardReserved: false,
+      liveKeyboardHeight: 0,
+      isKeyboardVisible: false,
+    );
+    _commitMergedHeights();
   }
 
   void captureKeyboardAnchor(double height) {

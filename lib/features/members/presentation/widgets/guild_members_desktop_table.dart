@@ -1016,7 +1016,6 @@ class _MembersDesktopTableRow extends ConsumerWidget {
               topRole: topRole,
               extraRolesCount: extraRolesCount,
               memberRoles: memberRoles,
-              displayName: displayName,
             ),
             actions: Builder(
               builder: (BuildContext buttonContext) {
@@ -1167,13 +1166,11 @@ class _RolesCell extends StatelessWidget {
     required this.topRole,
     required this.extraRolesCount,
     required this.memberRoles,
-    required this.displayName,
   });
 
   final drift_db.Role? topRole;
   final int extraRolesCount;
   final List<drift_db.Role> memberRoles;
-  final String displayName;
 
   @override
   Widget build(BuildContext context) {

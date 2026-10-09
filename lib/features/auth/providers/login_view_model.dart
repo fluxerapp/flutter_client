@@ -88,9 +88,6 @@ class LoginViewState {
       email.trim().isNotEmpty &&
       password.isNotEmpty;
 
-  bool get hasError =>
-      errorMessage != null && errorMessage!.isNotEmpty || errorType != null;
-
   LoginViewState copyWith({
     String? email,
     String? password,
@@ -180,10 +177,6 @@ class LoginViewModel extends _$LoginViewModel {
       ssoError: null,
       pendingApprovalUserId: null,
     );
-  }
-
-  void clearSsoError() {
-    state = state.copyWith(ssoError: null, errorType: null);
   }
 
   Future<void> startSsoLogin() async {
@@ -296,10 +289,6 @@ class LoginViewModel extends _$LoginViewModel {
 
   void setError(String message) {
     state = state.copyWith(errorMessage: message, errorType: null);
-  }
-
-  void setErrorType(LoginError type) {
-    state = state.copyWith(errorType: type, errorMessage: null);
   }
 
   void showRegisterScreen() {
@@ -499,10 +488,6 @@ class LoginViewModel extends _$LoginViewModel {
 
   void hideAccountSelector() {
     state = state.copyWith(showAccountSelector: false);
-  }
-
-  void showAccountSelectorAgain() {
-    state = state.copyWith(showAccountSelector: true);
   }
 
   Future<void> completeMfa() async {

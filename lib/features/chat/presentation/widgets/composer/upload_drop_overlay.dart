@@ -1,6 +1,5 @@
 import 'package:cross_file/cross_file.dart';
 import 'package:desktop_drop/desktop_drop.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
@@ -17,9 +16,6 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 bool _isDesktopFileDropSupported() {
-  if (kIsWeb) {
-    return false;
-  }
   return isFluxerDesktopOs;
 }
 

@@ -8,7 +8,6 @@ class SettingsSidebar extends StatelessWidget {
   final List<SettingsSidebarItem> items;
   final int selectedIndex;
   final ValueChanged<int> onSelected;
-  final VoidCallback? onClose;
   final String? userId;
   final String? username;
   final String? avatarUrl;
@@ -25,7 +24,6 @@ class SettingsSidebar extends StatelessWidget {
     required this.items,
     required this.selectedIndex,
     required this.onSelected,
-    this.onClose,
     this.userId,
     this.username,
     this.avatarUrl,

@@ -7,15 +7,11 @@ class SharedVideoControls extends StatelessWidget {
   const SharedVideoControls({
     required this.isPlaying,
     required this.showControls,
-    required this.isMuted,
     required this.volume,
     required this.playbackRate,
-    required this.positionLabel,
-    required this.durationLabel,
     required this.progress,
     required this.onShowControls,
     required this.onTogglePlayPause,
-    required this.onToggleMute,
     required this.onVolumeChanged,
     required this.onCyclePlaybackRate,
     required this.onToggleFullscreen,
@@ -25,15 +21,11 @@ class SharedVideoControls extends StatelessWidget {
 
   final bool isPlaying;
   final bool showControls;
-  final bool isMuted;
   final double volume;
   final double playbackRate;
-  final String positionLabel;
-  final String durationLabel;
   final double progress;
   final VoidCallback onShowControls;
   final Future<void> Function() onTogglePlayPause;
-  final Future<void> Function() onToggleMute;
   final Future<void> Function(double value) onVolumeChanged;
   final Future<void> Function() onCyclePlaybackRate;
   final Future<void> Function() onToggleFullscreen;
@@ -109,9 +101,8 @@ class SharedVideoControls extends StatelessWidget {
                         ),
                         VolumePopoutControl(
                           volume: volume,
-                          isMuted: isMuted,
+                          isMuted: false,
                           onVolumeChanged: onVolumeChanged,
-                          onToggleMute: onToggleMute,
                         ),
                         const Spacer(),
                         TextButton(

@@ -80,7 +80,7 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
   }
 
   bool get _shouldRun {
-    if (kIsWeb || !Platform.isAndroid) {
+    if (!Platform.isAndroid) {
       return false;
     }
     return PushProviderGuard.isFirebaseMessaging;

@@ -14,23 +14,30 @@ class GuildSidebarHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool mobile = isMobileLayout(context);
-    final Size viewport = MediaQuery.sizeOf(context);
-    final double width = mobile ? viewport.width : context.layout.sidebarWidth;
-    final double fullHeight =
-        guild != null && !outageUnavailable && guild!.banner != null
-        ? guildSidebarBannerHeight(
-            width: width,
-            viewportHeight: viewport.height,
-          )
-        : kGuildSidebarHeaderMinHeight;
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final Size viewport = MediaQuery.sizeOf(context);
+        final double width = guildSidebarBannerLayoutWidth(
+          context,
+          constraints,
+        );
+        final bool showBanner =
+            guild != null && !outageUnavailable && guild!.banner != null;
+        final double fullHeight = showBanner
+            ? guildSidebarBannerHeight(
+                width: width,
+                viewportHeight: viewport.height,
+              )
+            : kGuildSidebarHeaderMinHeight;
 
-    return GuildSidebarHeaderBody(
-      guild: guild,
-      outageUnavailable: outageUnavailable,
-      onTap: onTap,
-      collapseRatio: 0,
-      height: fullHeight,
+        return GuildSidebarHeaderBody(
+          guild: guild,
+          outageUnavailable: outageUnavailable,
+          onTap: onTap,
+          collapseRatio: 0,
+          height: fullHeight,
+        );
+      },
     );
   }
 }

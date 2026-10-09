@@ -117,7 +117,6 @@ class ReadStateServerAckInput {
     required this.ackMessageId,
     required this.serverVersion,
     required this.manual,
-    required this.readStateWasKnown,
     required this.hasMentionCount,
     this.version,
   });
@@ -127,7 +126,6 @@ class ReadStateServerAckInput {
   final String? version;
   final String? serverVersion;
   final bool manual;
-  final bool readStateWasKnown;
   final bool hasMentionCount;
 }
 
@@ -135,14 +133,10 @@ class ReadStateServerAckDecision {
   const ReadStateServerAckDecision({
     required this.kind,
     this.shouldUpdateMentionCount = false,
-    this.shouldRefreshUnreadEstimate = false,
-    this.shouldNotify = false,
   });
 
   final ReadStateServerAckKind kind;
   final bool shouldUpdateMentionCount;
-  final bool shouldRefreshUnreadEstimate;
-  final bool shouldNotify;
 }
 
 ReadStateServerAckDecision resolveReadStateServerAckDecision(
@@ -171,8 +165,6 @@ ReadStateServerAckDecision resolveReadStateServerAckDecision(
     return ReadStateServerAckDecision(
       kind: ReadStateServerAckKind.refreshCurrentAck,
       shouldUpdateMentionCount: input.hasMentionCount,
-      shouldRefreshUnreadEstimate: input.hasMentionCount,
-      shouldNotify: !input.readStateWasKnown || input.hasMentionCount,
     );
   }
   return ReadStateServerAckDecision(

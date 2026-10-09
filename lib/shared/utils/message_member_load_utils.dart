@@ -1,6 +1,5 @@
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
-import 'package:fluxer_dart/export.dart';
 
 void _addUserId(Set<String> userIds, String? userId) {
   if (userId == null || userId.isEmpty) {
@@ -75,51 +74,6 @@ Set<String> collectMessageMemberUserIds(
       currentUserId,
       visitedMessageIds,
     );
-  }
-  return userIds;
-}
-
-Set<String> collectMessageMemberUserIdsFromSdk(
-  Iterable<MessageResponseSchema> messages, {
-  String? currentUserId,
-}) {
-  final Set<String> userIds = <String>{};
-  final Set<String> visitedMessageIds = <String>{};
-  for (final MessageResponseSchema sdk in messages) {
-    if (visitedMessageIds.contains(sdk.id)) {
-      continue;
-    }
-    visitedMessageIds.add(sdk.id);
-    if (sdk.webhookId == null) {
-      _addAuthorUserId(userIds, sdk.author.id, currentUserId);
-    }
-    for (final UserPartialResponse mention in sdk.mentions) {
-      _addUserId(userIds, mention.id);
-    }
-    for (final UserPartialResponse user
-        in sdk.users ?? const <UserPartialResponse>[]) {
-      _addUserId(userIds, user.id);
-    }
-    for (final MessageSnapshotResponse snapshot
-        in sdk.messageSnapshots ?? const <MessageSnapshotResponse>[]) {
-      for (final String userId in snapshot.mentions ?? const <String>[]) {
-        _addUserId(userIds, userId);
-      }
-    }
-    final MessageResponseSchemaReferencedMessage? referenced =
-        sdk.referencedMessage;
-    if (referenced != null) {
-      if (referenced.webhookId == null) {
-        _addAuthorUserId(userIds, referenced.author.id, currentUserId);
-      }
-      for (final UserPartialResponse mention in referenced.mentions) {
-        _addUserId(userIds, mention.id);
-      }
-      for (final UserPartialResponse user
-          in referenced.users ?? const <UserPartialResponse>[]) {
-        _addUserId(userIds, user.id);
-      }
-    }
   }
   return userIds;
 }

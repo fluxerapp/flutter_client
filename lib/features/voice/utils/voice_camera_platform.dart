@@ -7,7 +7,3 @@ bool isMobileVoiceCameraPlatform() {
 bool isNativeMobileVoiceCameraPlatform() {
   return isFluxerNativeMobileOs;
 }
-
-bool isNativeVoiceCallKitPlatform() {
-  return isFluxerNativeMobileOs;
-}

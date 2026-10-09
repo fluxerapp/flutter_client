@@ -32,7 +32,6 @@ ReadStateServerAckInput _serverAck({
   String? version,
   String? serverVersion,
   bool manual = false,
-  bool readStateWasKnown = true,
   bool hasMentionCount = false,
 }) => ReadStateServerAckInput(
   messageId: messageId,
@@ -40,7 +39,6 @@ ReadStateServerAckInput _serverAck({
   version: version,
   serverVersion: serverVersion,
   manual: manual,
-  readStateWasKnown: readStateWasKnown,
   hasMentionCount: hasMentionCount,
 );
 
@@ -136,8 +134,6 @@ void main() {
       );
       expect(decision.kind, ReadStateServerAckKind.refreshCurrentAck);
       expect(decision.shouldUpdateMentionCount, isTrue);
-      expect(decision.shouldRefreshUnreadEstimate, isTrue);
-      expect(decision.shouldNotify, isTrue);
     });
 
     test('newer ack advances', () {

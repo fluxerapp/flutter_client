@@ -58,7 +58,7 @@ void main() {
   test('feature flags gate constructs', () {
     final nodes = parseFluxerMarkdown(
       '# not a heading',
-      flags: FluxerParserFlags.none,
+      flags: 0,
     );
     expect(nodes.single, isA<MdText>());
   });
@@ -73,7 +73,6 @@ void main() {
     final link =
         parseFluxerMarkdown('[click](https://example.com/a)').single as MdLink;
     expect(link.url, 'https://example.com/a');
-    expect(link.escaped, isFalse);
     expect(((link.text!) as MdText).content, 'click');
   });
 

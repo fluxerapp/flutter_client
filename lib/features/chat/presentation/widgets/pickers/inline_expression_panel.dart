@@ -164,7 +164,7 @@ class _ExpressionPanelContentState extends ConsumerState<ExpressionPanelContent>
         if (!mounted) {
           return;
         }
-        ref.read(expressionPanelTabProvider.notifier).tab = selectedTab;
+        ref.read(expressionPanelTabProvider.notifier).setTab(selectedTab);
       });
     }
     return FadeTransition(
@@ -184,7 +184,7 @@ class _ExpressionPanelContentState extends ConsumerState<ExpressionPanelContent>
                   if (widget.scrollController.hasClients) {
                     widget.scrollController.jumpTo(0);
                   }
-                  ref.read(expressionPanelTabProvider.notifier).tab = tab;
+                  ref.read(expressionPanelTabProvider.notifier).setTab(tab);
                 }
               },
               initialTab: selectedTab,
@@ -264,7 +264,7 @@ class _ExpressionPanelContentState extends ConsumerState<ExpressionPanelContent>
                       if (widget.scrollController.hasClients) {
                         widget.scrollController.jumpTo(0);
                       }
-                      ref.read(expressionPanelTabProvider.notifier).tab = tab;
+                      ref.read(expressionPanelTabProvider.notifier).setTab(tab);
                     }
                   },
                   child: AnimatedContainer(

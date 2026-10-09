@@ -49,8 +49,10 @@ import 'package:fluxer_app/features/settings/presentation/widgets/user_plutonium
 import 'package:fluxer_app/features/settings/presentation/widgets/user_privacy_dashboard.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_profile.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_security_login.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/user_settings_mobile_profile_nav_item.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_settings_search_field.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_shortcuts.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/user_theme_colors.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_modal_frame.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
@@ -409,6 +411,10 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal>
     if (hit == null) {
       return;
     }
+    if (hit.section == UserSettingsSection.themeColors) {
+      unawaited(openUserThemeColorsSettings(context));
+      return;
+    }
     final bool showBilling = userSettingsShowBillingNav(ref);
     final bool showJoinFluxerLabs = userSettingsShowJoinFluxerLabsNav(ref);
     final bool isTouchPrimary = ref.read(inputModalityProvider);
@@ -611,6 +617,10 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
         instanceRuntimeConfigProvider.select((config) => config.productName),
       ),
     );
+    final UserSettingsViewState settingsState = ref.watch(
+      userSettingsViewModelProvider,
+    );
+
     return FluxerSettingsNavList(
       controller: widget.scrollController,
       padding: EdgeInsets.fromLTRB(
@@ -624,6 +634,15 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
         onChanged: onSearchQueryChanged,
         onClear: clearSearchQuery,
       ),
+      profileSection: isSettingsSearchActive
+          ? null
+          : UserSettingsMobileProfileNavItem(
+              displayName: settingsState.displayName,
+              userId: settingsState.userId,
+              avatarUrl: settingsState.avatarUrl,
+              avatarColor: settingsState.avatarColor,
+              onTap: () => _openSettingsPage(UserSettingsSection.profile),
+            ),
       groups: isSettingsSearchActive
           ? buildUserSettingsSearchNavGroups(
               l10n: l10n,
@@ -691,7 +710,6 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
         builder: (sheetContext, scrollController, close) =>
             _MobileSettingsContentBody(
               section: section,
-              onClose: close,
               scrollController: scrollController,
               canDismissNotifier: canDismiss,
               initialFieldId: initialFieldId,
@@ -760,14 +778,12 @@ class _MobileSettingsNavBodyState extends ConsumerState<_MobileSettingsNavBody>
 class _MobileSettingsContentBody extends ConsumerStatefulWidget {
   const _MobileSettingsContentBody({
     required this.section,
-    required this.onClose,
     required this.scrollController,
     this.canDismissNotifier,
     this.initialFieldId,
   });
 
   final UserSettingsSection section;
-  final VoidCallback onClose;
   final ScrollController scrollController;
   final ValueNotifier<bool>? canDismissNotifier;
   final String? initialFieldId;
@@ -846,6 +862,8 @@ Widget _buildUserSettingsSectionContent({
       );
     case UserSettingsSection.lookAndFeel:
       return UserLookAndFeel(scrollController: scrollController);
+    case UserSettingsSection.themeColors:
+      return UserThemeColors(scrollController: scrollController);
     case UserSettingsSection.securityLogin:
       return scrollController == null
           ? const UserSecurityLogin()

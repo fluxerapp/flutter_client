@@ -15,30 +15,32 @@ void main() {
       sheetFocusRequests++;
     }
 
-    coordinator.register(
-      requestFocus: requestChannelFocus,
-      readText: () => 'channel',
-      hasFocus: () => false,
-    );
-    coordinator.register(
-      requestFocus: requestSheetFocus,
-      readText: () => 'sheet',
-      hasFocus: () => true,
-    );
-
-    coordinator.requestComposerFocus();
+    coordinator
+      ..register(
+        requestFocus: requestChannelFocus,
+        readText: () => 'channel',
+        hasFocus: () => false,
+      )
+      ..register(
+        requestFocus: requestSheetFocus,
+        readText: () => 'sheet',
+        hasFocus: () => true,
+      )
+      ..requestComposerFocus();
     expect(sheetFocusRequests, 1);
     expect(coordinator.readComposerText(), 'sheet');
     expect(coordinator.composerHasFocus(), isTrue);
 
-    coordinator.unregister(requestSheetFocus);
-    coordinator.requestComposerFocus();
+    coordinator
+      ..unregister(requestSheetFocus)
+      ..requestComposerFocus();
     expect(channelFocusRequests, 1);
     expect(coordinator.readComposerText(), 'channel');
     expect(coordinator.composerHasFocus(), isFalse);
 
-    coordinator.unregister(requestChannelFocus);
-    coordinator.requestComposerFocus();
+    coordinator
+      ..unregister(requestChannelFocus)
+      ..requestComposerFocus();
     expect(channelFocusRequests, 1);
     expect(coordinator.readComposerText(), '');
   });

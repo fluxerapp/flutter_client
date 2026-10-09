@@ -61,6 +61,7 @@ UserSettingsResponse _testUserSettings({
     'synced_preferences': '',
     'render_embeds': true,
     'profile_privacy': 0,
+    'privacy_setup_version': 0,
     'restricted_guilds': <String>[],
     'bot_restricted_guilds': <String>[],
     'default_guilds_restricted': false,

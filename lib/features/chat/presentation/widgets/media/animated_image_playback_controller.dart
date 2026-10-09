@@ -31,8 +31,6 @@ class AnimatedImagePlaybackController extends ChangeNotifier {
   final Map<String, _AnimatedImageCandidate> _candidates =
       <String, _AnimatedImageCandidate>{};
 
-  bool get scrollActive => _scrollActive;
-
   void setScrollActive({required bool active}) {
     if (_scrollActive == active) {
       return;
