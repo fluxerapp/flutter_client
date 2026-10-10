@@ -117,8 +117,6 @@ class MemberListUpdateBatcher {
         _ref.read(fluxerDatabaseProvider),
       ).syncFromListUpdate(
         guildId: event.guildId,
-        memberCount: event.memberCount,
-        onlineCount: event.onlineCount,
         ops: event.ops,
         isValidRange: isValidMemberListRange,
       );

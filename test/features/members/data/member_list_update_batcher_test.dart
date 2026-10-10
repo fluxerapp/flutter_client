@@ -1,7 +1,8 @@
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
-    show FluxerDatabase;
+    show FluxerDatabase, Server, ServersCompanion;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/members/data/member_list_update_batcher.dart';
@@ -145,6 +146,40 @@ void main() {
     expect(listState(container)!.memberCount, 9);
     await pumpEventQueue();
   });
+
+  test(
+    'keeps the guild totals when a channel list reports its own counts',
+    () async {
+      final container = buildContainer();
+      final FluxerDatabase database = container.read(fluxerDatabaseProvider);
+      await database.guildDao.upsertServer(
+        ServersCompanion.insert(
+          id: 'g1',
+          name: 'Guild',
+          memberCount: const Value<int>(5000),
+          onlineCount: const Value<int>(1200),
+        ),
+      );
+
+      enqueue(
+        container,
+        event(
+          memberCount: 6,
+          onlineCount: 2,
+          ops: [
+            syncMembers(0, [memberItem('u1', status: 'online')]),
+          ],
+        ),
+      );
+      await pumpEventQueue(times: 50);
+
+      expect(listState(container)!.memberCount, 6);
+      expect(await database.memberDao.getMemberByUserId('u1', 'g1'), isNotNull);
+      final Server? server = await database.guildDao.getServerById('g1');
+      expect(server!.memberCount, 5000);
+      expect(server.onlineCount, 1200);
+    },
+  );
 
   test('applies the local user own presence change immediately', () async {
     final container = buildContainer();

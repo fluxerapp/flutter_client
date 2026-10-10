@@ -44,21 +44,6 @@ class GuildDao extends DatabaseAccessor<FluxerDatabase> with _$GuildDaoMixin {
     });
   }
 
-  Future<void> updateServerCounts(
-    String id, {
-    int? memberCount,
-    int? onlineCount,
-  }) => (update(servers)..where((s) => s.id.equals(id))).write(
-    ServersCompanion(
-      memberCount: memberCount == null
-          ? const Value.absent()
-          : Value(memberCount),
-      onlineCount: onlineCount == null
-          ? const Value.absent()
-          : Value(onlineCount),
-    ),
-  );
-
   Future<void> updateServerCountsBulk(
     List<({String id, int memberCount, int onlineCount})> counts,
   ) async {

@@ -9,8 +9,6 @@ class MemberListDriftSync {
 
   Future<void> syncFromListUpdate({
     required String guildId,
-    required int memberCount,
-    required int onlineCount,
     required List<MemberListOp> ops,
     required bool Function(List<int>? range) isValidRange,
   }) async {
@@ -59,11 +57,6 @@ class MemberListDriftSync {
       if (presenceUpdates.isNotEmpty) {
         await _database.userDao.updateUserPresencesBatch(presenceUpdates);
       }
-      await _database.guildDao.updateServerCounts(
-        guildId,
-        memberCount: memberCount,
-        onlineCount: onlineCount,
-      );
     });
   }
 }
