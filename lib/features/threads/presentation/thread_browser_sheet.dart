@@ -17,7 +17,6 @@ import 'package:fluxer_app/features/threads/utils/thread_actions.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
-import 'package:fluxer_dart/export.dart' hide ChannelType;
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 Future<void> showThreadBrowserSheet(
@@ -199,7 +198,7 @@ class _ThreadBrowserBodyState extends ConsumerState<_ThreadBrowserBody> {
     final int generation = _generation;
     setState(() => _loading = true);
     try {
-      final ArchivedThreadsResponse response = await ref
+      final ArchivedThreadPage page = await ref
           .read(threadsRepositoryProvider)
           .listArchived(
             guildId: parent.guildId,
@@ -211,10 +210,8 @@ class _ThreadBrowserBodyState extends ConsumerState<_ThreadBrowserBody> {
         return;
       }
       setState(() {
-        for (final ThreadChannelResponse thread in response.threads) {
-          _archived.add(threadFromResponse(thread, parent.guildId));
-        }
-        _hasMore = response.hasMore;
+        _archived.addAll(page.threads);
+        _hasMore = page.hasMore;
         _loading = false;
       });
     } on Object catch (error) {
@@ -232,10 +229,6 @@ class _ThreadBrowserBodyState extends ConsumerState<_ThreadBrowserBody> {
     final WidgetRef hostRef = widget.hostRef;
     final BuildContext hostContext = widget.hostContext;
     widget.close();
-    final channelDao = hostRef.read(fluxerDatabaseProvider).channelDao;
-    if (await channelDao.getChannelById(thread.id) == null) {
-      await channelDao.upsertChannel(thread.toCompanion());
-    }
     if (hostContext.mounted) {
       await openThread(hostContext, hostRef, thread);
     }

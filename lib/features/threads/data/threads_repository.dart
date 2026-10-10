@@ -4,7 +4,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart'
-    show isThreadChannelType;
+    show Channel, isThreadChannelType;
 import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_dart/export.dart';
@@ -161,39 +161,70 @@ class ThreadsRepository {
     return member;
   });
 
-  Future<ArchivedThreadsResponse> listArchived({
+  Future<ArchivedThreadPage> listArchived({
     required String guildId,
     required String parentId,
     required ArchivedThreadScope scope,
     String? before,
     int limit = 50,
-  }) {
+  }) => _guard(guildId, () async {
     final String limitParam = limit.toString();
-    return _guard(
-      guildId,
-      () => switch (scope) {
-        ArchivedThreadScope.public =>
-          _client.channels.listPublicArchivedThreads(
-            channelId: parentId,
-            limit: limitParam,
-            before: before,
+    final ArchivedThreadsResponse response = await switch (scope) {
+      ArchivedThreadScope.public => _client.channels.listPublicArchivedThreads(
+        channelId: parentId,
+        limit: limitParam,
+        before: before,
+      ),
+      ArchivedThreadScope.private =>
+        _client.channels.listPrivateArchivedThreads(
+          channelId: parentId,
+          limit: limitParam,
+          before: before,
+        ),
+      ArchivedThreadScope.joinedPrivate =>
+        _client.channels.listJoinedPrivateArchivedThreads(
+          channelId: parentId,
+          limit: limitParam,
+          before: before,
+        ),
+    };
+    final List<String> ids = <String>[
+      for (final ThreadChannelResponse thread in response.threads) thread.id,
+    ];
+    await _write(guildId, () async {
+      await _db.channelDao.upsertChannelsMerged(<db.ChannelsCompanion>[
+        for (final ThreadChannelResponse thread in response.threads)
+          channelFromSdk(
+            ChannelResponse.fromJson(
+              jsonDecode(jsonEncode(thread.toJson())) as Map<String, Object?>,
+            ),
+            guildId,
           ),
-        ArchivedThreadScope.private =>
-          _client.channels.listPrivateArchivedThreads(
-            channelId: parentId,
-            limit: limitParam,
-            before: before,
-          ),
-        ArchivedThreadScope.joinedPrivate =>
-          _client.channels.listJoinedPrivateArchivedThreads(
-            channelId: parentId,
-            limit: limitParam,
-            before: before,
-          ),
-      },
+      ]);
+      for (final ThreadMemberResponse member in response.members) {
+        final String? threadId = member.id;
+        if (threadId != null && ids.contains(threadId)) {
+          await _db.threadDao.upsertMember(
+            threadMemberFromSdk(member, threadId: threadId, guildId: guildId),
+          );
+        }
+      }
+    });
+    final Map<String, db.Channel> stored = <String, db.Channel>{
+      for (final db.Channel row in await _db.channelDao.getChannelsByIds(ids))
+        row.id: row,
+    };
+    return (
+      threads: <Channel>[
+        for (final String id in ids)
+          if (stored[id] case final db.Channel row) Channel.fromRow(row),
+      ],
+      hasMore: response.hasMore,
     );
-  }
+  });
 }
+
+typedef ArchivedThreadPage = ({List<Channel> threads, bool hasMore});
 
 enum ArchivedThreadScope { public, private, joinedPrivate }
 

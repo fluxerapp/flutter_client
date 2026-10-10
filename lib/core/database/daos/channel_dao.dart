@@ -62,6 +62,9 @@ class ChannelDao extends DatabaseAccessor<FluxerDatabase>
   Future<Channel?> getChannelById(String id) =>
       (select(channels)..where((c) => c.id.equals(id))).getSingleOrNull();
 
+  Future<List<Channel>> getChannelsByIds(List<String> ids) =>
+      (select(channels)..where((c) => c.id.isIn(ids))).get();
+
   /// Root category (or channel without parent) first,
   /// then each child down to [channelId].
   Future<List<String?>> getPermissionOverwriteLayers(String channelId) async {
