@@ -214,25 +214,39 @@ void main() {
       );
     });
 
-    test('a flagged user is retried once seen as a member again', () async {
-      final FluxerDatabase database = openTestDatabase();
-      final _FailAdapter adapter = _FailAdapter();
-      final GuildMemberHydrationService service = GuildMemberHydrationService(
-        database: database,
-        client: _clientWithAdapter(adapter),
-        chunkWaiter: GuildMemberChunkWaiter(),
-        readGateway: () => null,
-      );
-      await service.hydrateMembers(
-        guildId: 'guild-1',
-        userIds: <String>['rejoiner'],
-      );
-      expect(service.isNonMember('guild-1', 'rejoiner'), isTrue);
+    test(
+      'a flagged user is looked up again once the flag is cleared',
+      () async {
+        final FluxerDatabase database = openTestDatabase();
+        final _FailAdapter adapter = _FailAdapter();
+        final GuildMemberHydrationService service = GuildMemberHydrationService(
+          database: database,
+          client: _clientWithAdapter(adapter),
+          chunkWaiter: GuildMemberChunkWaiter(),
+          readGateway: () => null,
+        );
+        await service.hydrateMembers(
+          guildId: 'guild-1',
+          userIds: <String>['rejoiner'],
+        );
+        expect(service.isNonMember('guild-1', 'rejoiner'), isTrue);
 
-      service.clearNonMembers('guild-1', <String>['rejoiner']);
+        await service.hydrateMembers(
+          guildId: 'guild-1',
+          userIds: <String>['rejoiner'],
+        );
+        expect(adapter.requestCount, 1);
 
-      expect(service.isNonMember('guild-1', 'rejoiner'), isFalse);
-    });
+        service.clearNonMembers('guild-1', <String>['rejoiner']);
+        expect(service.isNonMember('guild-1', 'rejoiner'), isFalse);
+        await service.hydrateMembers(
+          guildId: 'guild-1',
+          userIds: <String>['rejoiner'],
+        );
+
+        expect(adapter.requestCount, 2);
+      },
+    );
   });
 }
 
