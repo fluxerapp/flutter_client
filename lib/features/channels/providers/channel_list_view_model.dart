@@ -170,14 +170,15 @@ class ChannelListViewModel extends _$ChannelListViewModel {
             final ChannelPermissionCaches cachedBits = ref.read(
               channelPermissionCacheProvider,
             );
-            final bool allChannelsCached = channels.every(
-              (Channel channel) => cachedBits.hasEffectiveBits(channel.id),
-            );
-            if (!allChannelsCached) {
+            final Set<String> uncached = <String>{
+              for (final Channel channel in channels)
+                if (!cachedBits.hasEffectiveBits(channel.id)) channel.id,
+            };
+            if (uncached.isNotEmpty) {
               unawaited(
                 ref
                     .read(channelPermissionCacheProvider.notifier)
-                    .rebuildGuild(guildId),
+                    .rebuildGuild(guildId, onlyChannelIds: uncached),
               );
             }
           },

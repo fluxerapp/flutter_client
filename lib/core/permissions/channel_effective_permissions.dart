@@ -129,6 +129,127 @@ computeEffectiveGuildChannelPermissionBitsOutcome({
   );
 }
 
+Future<Map<String, ChannelPermissionBitsOutcome>>
+computeEffectiveGuildChannelPermissionBitsOutcomesForGuild({
+  required Ref ref,
+  required String guildId,
+  Set<String>? onlyChannelIds,
+}) async {
+  const ChannelPermissionBitsOutcome notResolved = (
+    value: 0,
+    shouldCache: false,
+  );
+  final db = ref.read(fluxerDatabaseProvider);
+  final String currentUserId = ref.read(userSettingsViewModelProvider).userId;
+  final List<Channel> channels = await db.channelDao.getChannels(
+    guildId,
+    includeThreads: true,
+  );
+  if (!ref.mounted) {
+    return const <String, ChannelPermissionBitsOutcome>{};
+  }
+  final Map<String, Channel> byId = <String, Channel>{
+    for (final Channel channel in channels) channel.id: channel,
+  };
+  final List<Channel> targets = onlyChannelIds == null
+      ? channels
+      : <Channel>[
+          for (final String id in onlyChannelIds)
+            if (byId[id] case final Channel channel) channel,
+        ];
+  Map<String, ChannelPermissionBitsOutcome> all(
+    ChannelPermissionBitsOutcome outcome,
+  ) => <String, ChannelPermissionBitsOutcome>{
+    for (final Channel channel in targets) channel.id: outcome,
+  };
+  if (targets.isEmpty) {
+    return const <String, ChannelPermissionBitsOutcome>{};
+  }
+  final Guild? guild = await _guildForPermissionResolution(
+    ref: ref,
+    db: db,
+    guildId: guildId,
+  );
+  if (!ref.mounted) {
+    return const <String, ChannelPermissionBitsOutcome>{};
+  }
+  if (guild == null) {
+    return all(notResolved);
+  }
+  if (currentUserId == guild.ownerId) {
+    return all((value: allPermissions, shouldCache: true));
+  }
+  final List<Role> allRoles = await db.roleDao.getRoles(guildId);
+  if (!ref.mounted) {
+    return const <String, ChannelPermissionBitsOutcome>{};
+  }
+  final memberRow = await db.memberDao.getMemberByUserId(
+    currentUserId,
+    guildId,
+  );
+  if (!ref.mounted) {
+    return const <String, ChannelPermissionBitsOutcome>{};
+  }
+  if (memberRow == null) {
+    return all(notResolved);
+  }
+  Role? everyoneRole;
+  for (final Role r in allRoles) {
+    if (r.id == guildId) {
+      everyoneRole = r;
+      break;
+    }
+  }
+  final int everyonePermissions = everyoneRolePermissionsFromString(
+    everyoneRole?.permissions,
+  );
+  final List<String> memberRoleIds = memberRow.roleIdsJson.isNotEmpty
+      ? List<String>.from(jsonDecode(memberRow.roleIdsJson) as List<dynamic>)
+      : <String>[];
+  final List<MemberRole> memberRoles = allRoles
+      .where((r) => memberRoleIds.contains(r.id))
+      .map(MemberRole.fromRow)
+      .toList();
+  return <String, ChannelPermissionBitsOutcome>{
+    for (final Channel channel in targets)
+      channel.id: () {
+        final int value = evaluateChannelEffectivePermissionBits(
+          guildOwnerId: guild.ownerId ?? '',
+          guildId: guildId,
+          currentUserId: currentUserId,
+          everyonePermissions: everyonePermissions,
+          memberRoles: memberRoles,
+          memberRecordPresent: true,
+          overwriteJsonLayersRootToLeaf: _overwriteLayersRootToLeaf(
+            channel,
+            byId,
+          ),
+        );
+        return (
+          value: isThreadChannelType(channel.type)
+              ? threadViewPermissions(value)
+              : value,
+          shouldCache: true,
+        );
+      }(),
+  };
+}
+
+List<String?> _overwriteLayersRootToLeaf(
+  Channel channel,
+  Map<String, Channel> byId,
+) {
+  final List<String?> bottomUp = <String?>[];
+  Channel? current = channel;
+  final Set<String> seen = <String>{};
+  while (current != null && seen.add(current.id)) {
+    bottomUp.add(current.permissionOverwritesJson);
+    final String? parentId = current.parentId;
+    current = parentId == null ? null : byId[parentId];
+  }
+  return bottomUp.reversed.toList();
+}
+
 Future<int> computeEffectiveGuildChannelPermissionBits({
   required Ref ref,
   required String channelId,

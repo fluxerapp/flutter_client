@@ -1,3 +1,4 @@
+import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -59,67 +60,62 @@ class ChannelPermissionCache extends _$ChannelPermissionCache {
     _setEffectiveBits(channelId: channelId, outcome: outcome);
   }
 
-  Future<void> rebuildGuild(String guildId) async {
+  Future<void> rebuildGuild(
+    String guildId, {
+    Set<String>? onlyChannelIds,
+  }) async {
     if (guildId.isEmpty) {
       return;
     }
-    final db = ref.read(fluxerDatabaseProvider);
-    final channels = await db.channelDao.getChannels(
-      guildId,
-      includeThreads: true,
-    );
-    if (!ref.mounted) {
+    final Map<String, ChannelPermissionBitsOutcome> outcomes =
+        await computeEffectiveGuildChannelPermissionBitsOutcomesForGuild(
+          ref: ref,
+          guildId: guildId,
+          onlyChannelIds: onlyChannelIds,
+        );
+    if (!ref.mounted || outcomes.isEmpty) {
       return;
     }
-    for (final channel in channels) {
-      await rebuildChannel(channel.id);
+    final Map<String, int> nextEffective = Map<String, int>.from(
+      state.effective,
+    );
+    var changed = false;
+    for (final MapEntry<String, ChannelPermissionBitsOutcome> entry
+        in outcomes.entries) {
+      if (entry.value.shouldCache) {
+        if (nextEffective[entry.key] != entry.value.value) {
+          nextEffective[entry.key] = entry.value.value;
+          changed = true;
+        }
+      } else if (nextEffective.remove(entry.key) != null) {
+        changed = true;
+      }
+    }
+    if (changed) {
+      state = ChannelPermissionCaches(
+        effective: nextEffective,
+        local: state.local,
+      );
     }
   }
 
   Future<void> rebuildAfterReady({String? priorityGuildId}) async {
     final db = ref.read(fluxerDatabaseProvider);
-    final channels = await db.channelDao.getAllChannels(includeThreads: true);
+    final List<String> guildIds = <String>[
+      for (final Server guild in await db.guildDao.getServers()) guild.id,
+    ];
     if (!ref.mounted) {
       return;
     }
-
-    final Map<String, List<String>> channelIdsByGuild =
-        <String, List<String>>{};
-    for (final channel in channels) {
-      if (channel.guildId.isEmpty) {
-        continue;
-      }
-      channelIdsByGuild
-          .putIfAbsent(channel.guildId, () => <String>[])
-          .add(channel.id);
+    if (priorityGuildId != null && guildIds.remove(priorityGuildId)) {
+      guildIds.insert(0, priorityGuildId);
     }
-
-    final List<String> guildIds = channelIdsByGuild.keys.toList();
-    if (priorityGuildId != null &&
-        channelIdsByGuild.containsKey(priorityGuildId)) {
-      guildIds
-        ..remove(priorityGuildId)
-        ..insert(0, priorityGuildId);
-    }
-
-    var priorityRemaining = priorityGuildId == null
-        ? 0
-        : (channelIdsByGuild[priorityGuildId]?.length ?? 0);
     for (final String guildId in guildIds) {
-      for (final String channelId in channelIdsByGuild[guildId]!) {
-        if (!ref.mounted) {
-          return;
-        }
-        await rebuildChannel(channelId);
-        if (priorityRemaining > 0) {
-          priorityRemaining--;
-          await Future<void>.delayed(Duration.zero);
-        } else {
-          // Pure prefetch (misses rebuild on demand); pacing keeps the reads
-          // from starving the first channel switch racing this loop.
-          await Future<void>.delayed(const Duration(milliseconds: 15));
-        }
+      if (!ref.mounted) {
+        return;
       }
+      await rebuildGuild(guildId);
+      await Future<void>.delayed(const Duration(milliseconds: 15));
     }
   }
 
@@ -177,6 +173,9 @@ class ChannelPermissionCache extends _$ChannelPermissionCache {
       );
       return;
     }
+    if (state.effective[channelId] == outcome.value) {
+      return;
+    }
     final Map<String, int> nextEffective = Map<String, int>.from(
       state.effective,
     );
@@ -201,6 +200,9 @@ class ChannelPermissionCache extends _$ChannelPermissionCache {
         effective: state.effective,
         local: nextLocal,
       );
+      return;
+    }
+    if (state.local[channelId] == outcome.value) {
       return;
     }
     final Map<String, int> nextLocal = Map<String, int>.from(state.local);
