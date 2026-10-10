@@ -218,13 +218,15 @@ void main() {
     });
   });
   group('PASSIVE_UPDATES voice states', () {
-    test('forwards changed and removed voice states', () async {
+    test('sends voice states to the passive callback only', () async {
       final db = openTestDatabase();
       addTearDown(db.close);
       final List<List<VoiceState>> bulks = <List<VoiceState>>[];
+      final List<List<VoiceState>> passives = <List<VoiceState>>[];
       final GatewayEventHandler handler = GatewayEventHandler(
         database: db,
         onVoiceStatesBulk: bulks.add,
+        onPassiveVoiceStates: passives.add,
       );
 
       await handler.handle(
@@ -253,24 +255,25 @@ void main() {
           ],
         ),
       );
-      await _waitFor(() => bulks.isNotEmpty);
+      await _waitFor(() => passives.isNotEmpty);
 
-      expect(bulks, hasLength(1));
+      expect(passives, hasLength(1));
       expect(
-        bulks.single.map((VoiceState state) => state.connectionId).toList(),
+        passives.single.map((VoiceState state) => state.connectionId).toList(),
         <String>['conn-1', 'conn-2'],
       );
-      expect(bulks.single.first.channelId, 'voice-1');
-      expect(bulks.single.last.channelId, isNull);
+      expect(passives.single.first.channelId, 'voice-1');
+      expect(passives.single.last.channelId, isNull);
+      expect(bulks, isEmpty);
     });
 
     test('emits nothing when the payload has no voice_states', () async {
       final db = openTestDatabase();
       addTearDown(db.close);
-      final List<List<VoiceState>> bulks = <List<VoiceState>>[];
+      final List<List<VoiceState>> passives = <List<VoiceState>>[];
       final GatewayEventHandler handler = GatewayEventHandler(
         database: db,
-        onVoiceStatesBulk: bulks.add,
+        onPassiveVoiceStates: passives.add,
       );
 
       await handler.handle(
@@ -281,7 +284,7 @@ void main() {
       );
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
-      expect(bulks, isEmpty);
+      expect(passives, isEmpty);
     });
   });
 }

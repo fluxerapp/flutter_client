@@ -253,6 +253,9 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
       ref.read(voiceStatesMapProvider.notifier).updateBulk(states);
       syncVoiceSessionFromStates(states);
     }),
+    onPassiveVoiceStates: (states) => ifMounted(() {
+      ref.read(voiceStatesMapProvider.notifier).updateBulk(states);
+    }),
     onGuildVoiceStatesSnapshot: (guildId, states) => ifMounted(() {
       ref.read(voiceStatesMapProvider.notifier).replaceGuild(guildId, states);
       syncVoiceSessionFromStates(states);

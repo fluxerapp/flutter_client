@@ -147,6 +147,7 @@ class GatewayEventHandler {
     this.onTypingClear,
     this.onVoiceStateUpdate,
     this.onVoiceStatesBulk,
+    this.onPassiveVoiceStates,
     this.onGuildVoiceStatesSnapshot,
     this.onVoiceServerUpdate,
     this.onVoiceServerP2pUpdate,
@@ -225,6 +226,7 @@ class GatewayEventHandler {
   final TypingCallback? onTypingClear;
   final VoiceStateCallback? onVoiceStateUpdate;
   final VoiceBulkCallback? onVoiceStatesBulk;
+  final VoiceBulkCallback? onPassiveVoiceStates;
   final GuildVoiceStatesSnapshotCallback? onGuildVoiceStatesSnapshot;
   final VoiceServerUpdateCallback? onVoiceServerUpdate;
   final VoiceServerP2pUpdateCallback? onVoiceServerP2pUpdate;
@@ -3251,7 +3253,7 @@ class GatewayEventHandler {
     }
 
     if (voiceStates.isNotEmpty) {
-      _emit(() => onVoiceStatesBulk?.call(voiceStates));
+      _emit(() => onPassiveVoiceStates?.call(voiceStates));
     }
   }
 
