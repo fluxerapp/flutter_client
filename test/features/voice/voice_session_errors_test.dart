@@ -107,23 +107,4 @@ void main() {
       expect(resolveVoiceSessionErrorMessage(raw, l10n), raw);
     });
   });
-
-  group('shouldNotifyCameraUserLimitRejection', () {
-    test('is true only for rejected camera user limit', () {
-      expect(
-        shouldNotifyCameraUserLimitRejection(
-          status: 'rejected',
-          errorCode: kVoiceCameraUserLimitErrorCode,
-        ),
-        isTrue,
-      );
-      expect(
-        shouldNotifyCameraUserLimitRejection(
-          status: 'ok',
-          errorCode: kVoiceCameraUserLimitErrorCode,
-        ),
-        isFalse,
-      );
-    });
-  });
 }

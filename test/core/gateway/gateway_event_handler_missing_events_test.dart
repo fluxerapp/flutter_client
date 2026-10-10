@@ -158,22 +158,6 @@ void main() {
       expect(received?.premiumType, UserPremiumTypes.subscription);
       expect(received?.traits, contains('premium'));
     });
-
-    test('VOICE_STATE_ACK emits callback', () async {
-      VoiceStateAckEvent? received;
-      final handler = GatewayEventHandler(
-        database: database,
-        onVoiceStateAck: (VoiceStateAckEvent event) {
-          received = event;
-        },
-      );
-
-      await handler.handle(
-        const VoiceStateAckEvent(status: 'ok', mutationId: 'm1'),
-      );
-
-      expect(received?.mutationId, 'm1');
-    });
   });
 }
 

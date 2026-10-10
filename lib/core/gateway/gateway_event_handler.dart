@@ -113,7 +113,6 @@ typedef VoiceServerUpdateCallback = void Function(VoiceServerUpdateEvent event);
 typedef VoiceServerP2pUpdateCallback =
     void Function(VoiceServerP2pUpdateEvent event);
 typedef VoiceSignalCallback = void Function(VoiceSignalEvent event);
-typedef VoiceStateAckCallback = void Function(VoiceStateAckEvent event);
 typedef DefaultHideMutedChannelsResolver = bool Function();
 typedef GatewayErrorCallback = void Function(GatewayErrorEvent event);
 typedef ThreadGateChangedCallback =
@@ -153,7 +152,6 @@ class GatewayEventHandler {
     this.onVoiceServerUpdate,
     this.onVoiceServerP2pUpdate,
     this.onVoiceSignal,
-    this.onVoiceStateAck,
     this.onGatewayError,
     this.onCallCreate,
     this.onCallUpdate,
@@ -233,7 +231,6 @@ class GatewayEventHandler {
   final VoiceServerUpdateCallback? onVoiceServerUpdate;
   final VoiceServerP2pUpdateCallback? onVoiceServerP2pUpdate;
   final VoiceSignalCallback? onVoiceSignal;
-  final VoiceStateAckCallback? onVoiceStateAck;
   final GatewayErrorCallback? onGatewayError;
   final CallCreateCallback? onCallCreate;
   final CallUpdateCallback? onCallUpdate;
@@ -643,12 +640,6 @@ class GatewayEventHandler {
         _emit(() => onVoiceServerP2pUpdate?.call(e));
       case final VoiceSignalEvent e:
         _emit(() => onVoiceSignal?.call(e));
-      case VoiceStateAckEvent():
-        _logGatewayDebug(
-          () =>
-              talker.debug('[Gateway] VOICE_STATE_ACK status=${event.status}'),
-        );
-        _emit(() => onVoiceStateAck?.call(event));
       case CallCreateEvent():
         _logGatewayDebug(
           () => talker.debug('[Gateway] CALL_CREATE: ${event.channelId}'),

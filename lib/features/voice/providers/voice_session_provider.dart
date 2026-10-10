@@ -1332,34 +1332,6 @@ class VoiceSession extends _$VoiceSession {
     unawaited(leaveVoice(endCall: false));
   }
 
-  void handleVoiceStateAck(VoiceStateAckEvent event) {
-    if (shouldNotifyCameraUserLimitRejection(
-      status: event.status,
-      errorCode: event.errorCode,
-    )) {
-      unawaited(_turnCameraOffAfterLimitRejection());
-    }
-    final VoiceState? canonical = event.canonicalState;
-    if (canonical == null ||
-        canonical.channelId == null ||
-        canonical.connectionId == null) {
-      return;
-    }
-    final VoiceState? current = _selfConnectionVoiceState();
-    if (current != null &&
-        current.channelId == canonical.channelId &&
-        current.connectionId == canonical.connectionId &&
-        current.selfMute == canonical.selfMute &&
-        current.selfDeaf == canonical.selfDeaf &&
-        current.selfVideo == canonical.selfVideo &&
-        current.mute == canonical.mute &&
-        current.deaf == canonical.deaf &&
-        current.suppress == canonical.suppress) {
-      return;
-    }
-    handleSelfVoiceStateUpdate(canonical);
-  }
-
   void handleEntranceSoundPlay(EntranceSoundPlayEvent event) {
     if (!state.isConnected || state.channelId != event.channelId) {
       return;
@@ -1382,21 +1354,6 @@ class VoiceSession extends _$VoiceSession {
       ref
           .read(entranceSoundPlayerProvider)
           .play(url: event.url, volume: volume),
-    );
-  }
-
-  Future<void> _turnCameraOffAfterLimitRejection() async {
-    talker.warning('[Voice] Camera rejected: channel camera user limit');
-    try {
-      await _setSessionCameraEnabled(enabled: false);
-    } on Object catch (e) {
-      talker.warning('[Voice] Failed to disable camera after limit: $e');
-    }
-    final VoiceState? vs = _selfConnectionVoiceState();
-    await _applySelfVoiceState(
-      selfMute: vs?.selfMute ?? false,
-      selfDeaf: vs?.selfDeaf ?? false,
-      selfVideo: false,
     );
   }
 

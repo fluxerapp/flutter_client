@@ -278,9 +278,6 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     onVoiceSignal: (event) => ifMounted(() {
       ref.read(voiceSessionProvider.notifier).handleVoiceSignal(event);
     }),
-    onVoiceStateAck: (event) => ifMounted(() {
-      ref.read(voiceSessionProvider.notifier).handleVoiceStateAck(event);
-    }),
     onCallCreate: (event) => ifMounted(() {
       ref
           .read(activeCallsProvider.notifier)
