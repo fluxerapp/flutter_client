@@ -169,6 +169,36 @@ void main() {
       expect(ctx.evictedGuildIds, contains('g1'));
     });
 
+    test('GUILD_DELETE ends voice for a guild that is gone', () async {
+      final database = openTestDatabase();
+      final endedGuildIds = <String>[];
+      final handler = GatewayEventHandler(
+        database: database,
+        currentUserId: '100',
+        onGuildVoiceEnded: endedGuildIds.add,
+      );
+
+      await handler.handle(const GuildDeleteEvent(guildId: 'g1'));
+
+      expect(endedGuildIds, <String>['g1']);
+    });
+
+    test('GUILD_DELETE ends voice for a guild that went unavailable', () async {
+      final database = openTestDatabase();
+      final endedGuildIds = <String>[];
+      final handler = GatewayEventHandler(
+        database: database,
+        currentUserId: '100',
+        onGuildVoiceEnded: endedGuildIds.add,
+      );
+
+      await handler.handle(
+        const GuildDeleteEvent(guildId: 'g1', unavailable: true),
+      );
+
+      expect(endedGuildIds, <String>['g1']);
+    });
+
     test('incomplete GUILD_CREATE marks guild unavailable', () async {
       final ctx = await buildHandler();
       await ctx.database.guildDao.upsertServer(

@@ -260,6 +260,12 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
       ref.read(voiceStatesMapProvider.notifier).replaceGuild(guildId, states);
       syncVoiceSessionFromStates(states);
     }),
+    onGuildVoiceEnded: (guildId) => ifMounted(() {
+      ref
+          .read(voiceStatesMapProvider.notifier)
+          .replaceGuild(guildId, const <VoiceState>[]);
+      ref.read(voiceSessionProvider.notifier).handleGuildDeleted(guildId);
+    }),
     onGatewayError: (event) => ifMounted(() {
       ref.read(voiceSessionProvider.notifier).handleGatewayError(event);
     }),

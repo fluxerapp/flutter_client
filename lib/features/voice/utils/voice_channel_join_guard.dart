@@ -117,3 +117,10 @@ bool isDuplicateVoiceServerUpdateInFlight({
       state.voiceServerEndpoint != null &&
       state.voiceServerEndpoint == endpoint;
 }
+
+bool voiceSessionIsInGuild({
+  required VoiceSessionState state,
+  required String guildId,
+}) {
+  return state.isInVoice && state.guildId == guildId;
+}

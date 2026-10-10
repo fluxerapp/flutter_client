@@ -1323,6 +1323,17 @@ class VoiceSession extends _$VoiceSession {
     }
   }
 
+  void handleGuildDeleted(String guildId) {
+    if (!voiceSessionIsInGuild(state: state, guildId: guildId)) {
+      return;
+    }
+    talker.info(
+      '[Voice] Leaving voice: guild is gone or unavailable '
+      '(guildId=$guildId, channelId=${state.channelId}).',
+    );
+    unawaited(leaveVoice(endCall: false));
+  }
+
   void handleVoiceStateAck(VoiceStateAckEvent event) {
     if (shouldNotifyCameraUserLimitRejection(
       status: event.status,

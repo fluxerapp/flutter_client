@@ -321,4 +321,71 @@ void main() {
       );
     });
   });
+
+  group('voiceSessionIsInGuild', () {
+    test('is true while connected to a channel of the guild', () {
+      expect(
+        voiceSessionIsInGuild(
+          state: const VoiceSessionState(
+            isConnected: true,
+            guildId: 'g1',
+            channelId: channelId,
+          ),
+          guildId: 'g1',
+        ),
+        isTrue,
+      );
+    });
+
+    test('is true while a join to the guild is still connecting', () {
+      expect(
+        voiceSessionIsInGuild(
+          state: const VoiceSessionState(
+            isConnecting: true,
+            guildId: 'g1',
+            channelId: channelId,
+          ),
+          guildId: 'g1',
+        ),
+        isTrue,
+      );
+    });
+
+    test('is false while connected to another guild', () {
+      expect(
+        voiceSessionIsInGuild(
+          state: const VoiceSessionState(
+            isConnected: true,
+            guildId: 'g2',
+            channelId: channelId,
+          ),
+          guildId: 'g1',
+        ),
+        isFalse,
+      );
+    });
+
+    test('is false during a direct call', () {
+      expect(
+        voiceSessionIsInGuild(
+          state: const VoiceSessionState(
+            isConnected: true,
+            channelId: channelId,
+          ),
+          guildId: 'g1',
+        ),
+        isFalse,
+      );
+    });
+
+    test('is false when not in voice', () {
+      expect(
+        voiceSessionIsInGuild(
+          state: const VoiceSessionState(guildId: 'g1'),
+          guildId: 'g1',
+        ),
+        isFalse,
+      );
+    });
+  });
 }

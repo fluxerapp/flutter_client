@@ -149,6 +149,7 @@ class GatewayEventHandler {
     this.onVoiceStatesBulk,
     this.onPassiveVoiceStates,
     this.onGuildVoiceStatesSnapshot,
+    this.onGuildVoiceEnded,
     this.onVoiceServerUpdate,
     this.onVoiceServerP2pUpdate,
     this.onVoiceSignal,
@@ -228,6 +229,7 @@ class GatewayEventHandler {
   final VoiceBulkCallback? onVoiceStatesBulk;
   final VoiceBulkCallback? onPassiveVoiceStates;
   final GuildVoiceStatesSnapshotCallback? onGuildVoiceStatesSnapshot;
+  final GuildCallback? onGuildVoiceEnded;
   final VoiceServerUpdateCallback? onVoiceServerUpdate;
   final VoiceServerP2pUpdateCallback? onVoiceServerP2pUpdate;
   final VoiceSignalCallback? onVoiceSignal;
@@ -2947,6 +2949,7 @@ class GatewayEventHandler {
         unavailableHidden: event.unavailableHidden,
       ),
     );
+    _emit(() => onGuildVoiceEnded?.call(event.guildId));
     if (!event.unavailable) {
       threadsGate?.apply(event.guildId, active: false);
     }
