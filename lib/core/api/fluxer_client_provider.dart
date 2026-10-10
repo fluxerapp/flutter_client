@@ -101,8 +101,11 @@ Dio _buildFluxerDio({required Ref ref, required String baseUrl}) {
   dio.interceptors.add(
     SudoInterceptor(
       dio: dio,
-      showSudoSheet: () =>
-          showSudoVerificationSheet(navigatorKey: rootNavigatorKey, dio: dio),
+      showSudoSheet: (SudoChallenge challenge) => showSudoVerificationSheet(
+        navigatorKey: rootNavigatorKey,
+        dio: dio,
+        challenge: challenge,
+      ),
     ),
   );
   if (kDebugMode) {

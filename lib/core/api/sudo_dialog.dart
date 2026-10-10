@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/services.dart';
+import 'package:fluxer_app/core/api/sudo_interceptor.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/data/webauthn_service.dart';
@@ -10,7 +10,6 @@ import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
-import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/tabs/fluxer_segmented_tabs.dart';
 import 'package:fluxer_app/features/ui/tabs/fluxer_tabs.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -29,6 +28,7 @@ import 'package:passkeys/exceptions.dart';
 Future<Map<String, dynamic>?> showSudoVerificationSheet({
   required GlobalKey<NavigatorState> navigatorKey,
   required Dio dio,
+  required SudoChallenge challenge,
 }) {
   final context = navigatorKey.currentState?.context;
   if (context == null) {
@@ -42,6 +42,7 @@ Future<Map<String, dynamic>?> showSudoVerificationSheet({
   Widget buildContent(BuildContext overlayContext) {
     return _SudoVerificationSheetContent(
       dio: dio,
+      challenge: challenge,
       onVerified: (payload) {
         Navigator.of(overlayContext, rootNavigator: true).pop(payload);
       },
@@ -76,10 +77,12 @@ enum _SudoMethod { password, totp }
 class _SudoVerificationSheetContent extends StatefulWidget {
   const _SudoVerificationSheetContent({
     required this.dio,
+    required this.challenge,
     required this.onVerified,
   });
 
   final Dio dio;
+  final SudoChallenge challenge;
   final void Function(Map<String, dynamic> payload) onVerified;
 
   @override
@@ -90,11 +93,12 @@ class _SudoVerificationSheetContent extends StatefulWidget {
 class _SudoVerificationSheetContentState
     extends State<_SudoVerificationSheetContent>
     with WidgetsBindingObserver {
-  bool _isLoading = true;
-  bool _hasPassword = true;
-  bool _hasTotp = false;
-  bool _hasWebauthn = false;
-  _SudoMethod _selectedMethod = _SudoMethod.password;
+  late final bool _hasPassword = !widget.challenge.hasMfa;
+  late final bool _hasCode =
+      widget.challenge.totp || widget.challenge.backupCodes;
+  late _SudoMethod _selectedMethod = _hasPassword
+      ? _SudoMethod.password
+      : _SudoMethod.totp;
   String? _error;
 
   final _passwordController = TextEditingController();
@@ -102,7 +106,7 @@ class _SudoVerificationSheetContentState
   final _inputFocusNode = FocusNode();
   late final KeyboardFocusRestoreHandle _keyboardRestore;
 
-  bool get _canShowTextInput => !_isLoading && (_hasPassword || _hasTotp);
+  bool get _canShowTextInput => _hasPassword || _hasCode;
 
   @override
   void initState() {
@@ -114,7 +118,6 @@ class _SudoVerificationSheetContentState
       canRestoreFocus: () => mounted && _canShowTextInput,
     );
     WidgetsBinding.instance.addObserver(this);
-    unawaited(_loadMethods());
   }
 
   @override
@@ -130,47 +133,6 @@ class _SudoVerificationSheetContentState
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     _keyboardRestore.handleLifecycleState(state);
-  }
-
-  Future<void> _loadMethods() async {
-    try {
-      final response = await widget.dio.get<Map<String, dynamic>>(
-        '/users/@me/sudo/mfa-methods',
-      );
-      final data = response.data;
-      if (!mounted || data == null) {
-        return;
-      }
-      final hasMfa = data['has_mfa'] as bool? ?? false;
-      final totp = data['totp'] as bool? ?? false;
-      final webauthn = data['webauthn'] as bool? ?? false;
-      setState(() {
-        // When MFA is enabled, password-only is not available (matches
-        // web app behavior in SudoPrompt.tsx).
-        _hasPassword = !hasMfa;
-        _hasTotp = totp;
-        _hasWebauthn = webauthn;
-        _isLoading = false;
-        if (hasMfa && totp) {
-          _selectedMethod = _SudoMethod.totp;
-        } else if (!hasMfa) {
-          _selectedMethod = _SudoMethod.password;
-        }
-      });
-      if (_keyboardRestore.hasPendingRestore) {
-        _keyboardRestore.scheduleRestoreIfPending();
-      }
-    } on Exception catch (e) {
-      talker.warning('[SudoDialog] Failed to load MFA methods: $e');
-      if (!mounted) {
-        return;
-      }
-      // Fall back to password-only.
-      setState(() => _isLoading = false);
-      if (_keyboardRestore.hasPendingRestore) {
-        _keyboardRestore.scheduleRestoreIfPending();
-      }
-    }
   }
 
   void _submit() {
@@ -227,20 +189,13 @@ class _SudoVerificationSheetContentState
     final layout = context.layout;
     final l10n = FluxerLocalizations.of(context);
 
-    if (_isLoading) {
-      return Padding(
-        padding: EdgeInsets.symmetric(vertical: layout.s6),
-        child: const Center(child: FluxerLoadingSpinner()),
-      );
-    }
-
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: layout.s4),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          if (_hasPassword && _hasTotp) ...[
+          if (_hasPassword && _hasCode) ...[
             FluxerSegmentedTabs(
               tabs: [
                 FluxerTab(label: l10n.sudoMethodPassword),
@@ -273,7 +228,7 @@ class _SudoVerificationSheetContentState
             ),
             SizedBox(height: layout.s3),
           ],
-          if (_hasPassword || _hasTotp) ...[
+          if (_canShowTextInput) ...[
             if (_selectedMethod == _SudoMethod.password)
               FluxerInput(
                 controller: _passwordController,
@@ -287,11 +242,14 @@ class _SudoVerificationSheetContentState
               FluxerInput(
                 controller: _totpController,
                 focusNode: _inputFocusNode,
-                label: l10n.sudoAuthenticatorCode,
+                label: widget.challenge.totp
+                    ? l10n.sudoAuthenticatorCode
+                    : l10n.mfaCodeLabel,
                 autofocus: true,
                 maxLength: 10,
-                keyboardType: TextInputType.number,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                keyboardType: widget.challenge.backupCodes
+                    ? TextInputType.text
+                    : TextInputType.number,
                 autocorrect: false,
                 enableSuggestions: false,
                 autofillHints: const [AutofillHints.oneTimeCode],
@@ -304,8 +262,8 @@ class _SudoVerificationSheetContentState
             ),
             SizedBox(height: layout.s2),
           ],
-          if (_hasWebauthn) ...[
-            if (_hasPassword || _hasTotp)
+          if (widget.challenge.webauthn) ...[
+            if (_canShowTextInput)
               FluxerButton.secondary(
                 onPressedAsync: _verifyWithPasskey,
                 label: l10n.mfaMethodWebauthn,

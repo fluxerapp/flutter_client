@@ -15,6 +15,33 @@ const _kSudoInternalKey = '_sudoInternal';
 /// How long a sudo token stays valid before we discard it and re-prompt.
 const _kSudoTokenLifetime = Duration(minutes: 4, seconds: 30);
 
+class SudoChallenge {
+  const SudoChallenge({
+    required this.hasMfa,
+    required this.totp,
+    required this.webauthn,
+    required this.backupCodes,
+  });
+
+  factory SudoChallenge.fromResponseData(Map<String, dynamic>? data) {
+    final Object? methods = data?['methods'];
+    final Map<String, dynamic> methodMap = methods is Map<String, dynamic>
+        ? methods
+        : const <String, dynamic>{};
+    return SudoChallenge(
+      hasMfa: data?['has_mfa'] == true,
+      totp: methodMap['totp'] == true,
+      webauthn: methodMap['webauthn'] == true,
+      backupCodes: methodMap['backup_codes'] == true,
+    );
+  }
+
+  final bool hasMfa;
+  final bool totp;
+  final bool webauthn;
+  final bool backupCodes;
+}
+
 /// Dio interceptor that handles sudo mode challenges from the Fluxer API.
 ///
 /// When a response with status 403 and error code `SUDO_MODE_REQUIRED` is
@@ -34,7 +61,8 @@ class SudoInterceptor extends Interceptor {
   /// the verification payload as a map (e.g. `{'password': '...'}` or
   /// `{'mfa_method': 'totp', 'mfa_code': '...'}`).
   /// Returns `null` if the user cancels.
-  final Future<Map<String, dynamic>?> Function() showSudoSheet;
+  final Future<Map<String, dynamic>?> Function(SudoChallenge challenge)
+  showSudoSheet;
 
   String? _cachedToken;
   DateTime? _cachedTokenExpiry;
@@ -76,8 +104,8 @@ class SudoInterceptor extends Interceptor {
       return;
     }
 
-    final code = _extractErrorCode(response);
-    if (code != 'SUDO_MODE_REQUIRED') {
+    final Map<String, dynamic>? body = _responseBody(response);
+    if (body?['code'] != 'SUDO_MODE_REQUIRED') {
       handler.next(err);
       return;
     }
@@ -89,15 +117,18 @@ class SudoInterceptor extends Interceptor {
     talker.debug(
       '[SudoInterceptor] Challenge received for ${err.requestOptions.path}',
     );
-    unawaited(_verifyAndRetry(err, handler));
+    unawaited(
+      _verifyAndRetry(err, SudoChallenge.fromResponseData(body), handler),
+    );
   }
 
   Future<void> _verifyAndRetry(
     DioException err,
+    SudoChallenge challenge,
     ErrorInterceptorHandler handler,
   ) async {
     try {
-      final credentials = await showSudoSheet();
+      final credentials = await showSudoSheet(challenge);
 
       if (credentials == null || credentials.isEmpty) {
         talker.debug('[SudoInterceptor] User cancelled verification');
@@ -159,17 +190,16 @@ class SudoInterceptor extends Interceptor {
     }
   }
 
-  String? _extractErrorCode(Response<dynamic> response) {
+  Map<String, dynamic>? _responseBody(Response<dynamic> response) {
     final data = response.data;
-    if (data is Map) {
-      final code = data['code'];
-      return code is String ? code : null;
+    if (data is Map<String, dynamic>) {
+      return data;
     }
     if (data is String) {
       try {
-        final parsed = jsonDecode(data) as Map<String, dynamic>;
-        return parsed['code'] as String?;
-      } on Exception {
+        final Object? parsed = jsonDecode(data);
+        return parsed is Map<String, dynamic> ? parsed : null;
+      } on FormatException {
         return null;
       }
     }

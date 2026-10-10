@@ -27,7 +27,16 @@ class _SudoAdapter implements HttpClientAdapter {
 
     if (requests.length == 1) {
       return ResponseBody.fromString(
-        jsonEncode(<String, Object?>{'code': 'SUDO_MODE_REQUIRED'}),
+        jsonEncode(<String, Object?>{
+          'code': 'SUDO_MODE_REQUIRED',
+          'message': 'Sudo mode required.',
+          'has_mfa': true,
+          'methods': <String, Object?>{
+            'totp': false,
+            'webauthn': true,
+            'backup_codes': true,
+          },
+        }),
         403,
         headers: <String, List<String>>{
           Headers.contentTypeHeader: <String>[Headers.jsonContentType],
@@ -65,7 +74,7 @@ void main() {
     dio.interceptors.add(
       SudoInterceptor(
         dio: dio,
-        showSudoSheet: () async => <String, dynamic>{
+        showSudoSheet: (SudoChallenge challenge) async => <String, dynamic>{
           'mfa_method': 'totp',
           'mfa_code': '654321',
         },
@@ -92,5 +101,32 @@ void main() {
       data: <String, Object?>{'bio': 'hi'},
     );
     expect(adapter.requests.last.headers[kSudoTokenHeader], 'sudo-from-error');
+  });
+
+  test('hands the methods of the 403 challenge to the sheet', () async {
+    final adapter = _SudoAdapter();
+    final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+      ..httpClientAdapter = adapter;
+    final List<SudoChallenge> challenges = <SudoChallenge>[];
+    dio.interceptors.add(
+      SudoInterceptor(
+        dio: dio,
+        showSudoSheet: (SudoChallenge challenge) async {
+          challenges.add(challenge);
+          return null;
+        },
+      ),
+    );
+
+    await expectLater(
+      dio.post<dynamic>('/users/@me/disable', data: <String, Object?>{}),
+      throwsA(isA<DioException>()),
+    );
+
+    expect(challenges, hasLength(1));
+    expect(challenges.single.hasMfa, isTrue);
+    expect(challenges.single.totp, isFalse);
+    expect(challenges.single.webauthn, isTrue);
+    expect(challenges.single.backupCodes, isTrue);
   });
 }
