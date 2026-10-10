@@ -395,31 +395,12 @@ class ReadStateRepository {
     );
   }
 
-  Future<int> countMentionsAmong({
-    required String channelId,
-    required List<String> messageIds,
-    required String? currentUserId,
-  }) async {
-    final current = await _db.readStateDao.getReadState(channelId);
-    final String? ackMessageId = current?.lastMessageId;
-    if (ackMessageId == null || ackMessageId.isEmpty) {
-      return 0;
-    }
-    return _computeMentionCountAfterAck(
-      channelId: channelId,
-      ackMessageId: ackMessageId,
-      currentUserId: currentUserId,
-      onlyMessageIds: messageIds.toSet(),
-    );
-  }
-
   /// Reconciles read state after messages are deleted from a channel.
   /// Walks the channel/DM tail back when the deleted message was the tail,
   /// the DM unread counter.
   Future<void> reconcileAfterMessageDelete({
     required String channelId,
     required List<String> deletedMessageIds,
-    required int deletedMentionCount,
   }) async {
     final channel = await _db.channelDao.getChannelById(channelId);
     final dm = channel == null
@@ -433,11 +414,8 @@ class ReadStateRepository {
     final bool wasDmTail =
         dm?.lastMessageId != null && deletedSet.contains(dm!.lastMessageId);
 
-    var readState = await _db.readStateDao.getReadState(channelId);
-    final int storedMentionCount = readState?.mentionCount ?? 0;
-    final int remainingMentionCount = storedMentionCount > deletedMentionCount
-        ? storedMentionCount - deletedMentionCount
-        : 0;
+    final readState = await _db.readStateDao.getReadState(channelId);
+    final int mentionCount = readState?.mentionCount ?? 0;
 
     if (wasChannelTail || wasDmTail) {
       final String? ackMessageId = readState?.lastMessageId;
@@ -446,7 +424,7 @@ class ReadStateRepository {
         ackMessageId: ackMessageId,
         deletedSet: deletedSet,
       );
-      if (hasRemainingUnreadAfterAck || remainingMentionCount == 0) {
+      if (wasDmTail || hasRemainingUnreadAfterAck || mentionCount == 0) {
         final Message? lastCachedAfterTailWalk = await _db.messageDao
             .getLastMessage(channelId);
         if (wasChannelTail) {
@@ -466,6 +444,7 @@ class ReadStateRepository {
         }
         if (readState != null &&
             !readState.manual &&
+            mentionCount == 0 &&
             !hasRemainingUnreadAfterAck) {
           final String? effectiveTail = lastCachedAfterTailWalk?.id;
           String? ackTarget;
@@ -498,23 +477,14 @@ class ReadStateRepository {
       }
     }
 
-    readState = await _db.readStateDao.getReadState(channelId);
-    if (readState != null && readState.mentionCount != remainingMentionCount) {
-      await _db.readStateDao.upsertReadState(
-        ReadStatesCompanion(
-          channelId: Value(channelId),
-          mentionCount: Value(remainingMentionCount),
-        ),
-      );
-    }
-
     if (dm != null) {
+      final ackedReadState = await _db.readStateDao.getReadState(channelId);
       final updatedDm = await _db.dmChannelDao.getDmChannelById(channelId);
       final unreadCount = dmUnreadCountFromReadState(
         latestMessageId: updatedDm?.lastMessageId,
-        ackLastMessageId: readState?.lastMessageId,
+        ackLastMessageId: ackedReadState?.lastMessageId,
         fallbackAckMs: snowflakeTimestampMs(channelId),
-        mentionCount: readState == null ? 0 : remainingMentionCount,
+        mentionCount: mentionCount,
         cachedUnreadCount: updatedDm?.unreadCount ?? 0,
       );
       await _db.dmChannelDao.updateUnreadCount(channelId, unreadCount);
@@ -545,7 +515,6 @@ class ReadStateRepository {
     required String channelId,
     required String ackMessageId,
     required String? currentUserId,
-    Set<String>? onlyMessageIds,
   }) async {
     final isDm = await _db.dmChannelDao.getDmChannelById(channelId) != null;
     if (isDm && await _isDmMuted(channelId)) {
@@ -556,9 +525,6 @@ class ReadStateRepository {
     var mentionCount = 0;
     for (final message in messages) {
       if (compareSnowflakeIds(message.id, ackMessageId) <= 0) {
-        continue;
-      }
-      if (onlyMessageIds != null && !onlyMessageIds.contains(message.id)) {
         continue;
       }
       if (blockedUserIds.contains(message.authorId)) {

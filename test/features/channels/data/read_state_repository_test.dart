@@ -873,57 +873,51 @@ void main() {
     expect(readState?.mentionCount, 5);
   });
 
-  test(
-    'reconcileAfterMessageDelete walks tail back and drops mentions',
-    () async {
-      final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
-      final mentionId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
-      final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'));
-      final db = openTestDatabase();
-      await db.channelDao.upsertChannel(
-        ChannelsCompanion.insert(
-          id: 'channel-1',
-          guildId: 'guild-1',
-          name: 'general',
-          lastMessageId: Value(mentionId),
-        ),
-      );
-      await db.messageDao.upsertMessages([
-        _message(id: ackId, channelId: 'channel-1', authorId: 'other'),
-        _message(
-          id: mentionId,
-          channelId: 'channel-1',
-          authorId: 'other',
-          isMentioned: true,
-        ),
-      ]);
-      await db.readStateDao.upsertReadState(
-        ReadStatesCompanion(
-          channelId: const Value('channel-1'),
-          lastMessageId: Value(ackId),
-          mentionCount: const Value(1),
-        ),
-      );
-      final repository = ReadStateRepository(FluxerClient(dio), db);
-      final int deletedMentionCount = await repository.countMentionsAmong(
+  test('reconcileAfterMessageDelete keeps the stored mention count', () async {
+    final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+    final mentionId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+    final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'));
+    final db = openTestDatabase();
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: 'channel-1',
+        guildId: 'guild-1',
+        name: 'general',
+        lastMessageId: Value(mentionId),
+      ),
+    );
+    await db.messageDao.upsertMessages([
+      _message(id: ackId, channelId: 'channel-1', authorId: 'other'),
+      _message(
+        id: mentionId,
         channelId: 'channel-1',
-        messageIds: [mentionId],
-        currentUserId: 'me',
-      );
-      await db.messageDao.deleteMessages([mentionId]);
+        authorId: 'other',
+        isMentioned: true,
+      ),
+    ]);
+    await db.readStateDao.upsertReadState(
+      ReadStatesCompanion(
+        channelId: const Value('channel-1'),
+        lastMessageId: Value(ackId),
+        mentionCount: const Value(1),
+      ),
+    );
+    await db.messageDao.deleteMessages([mentionId]);
 
-      await repository.reconcileAfterMessageDelete(
-        channelId: 'channel-1',
-        deletedMessageIds: [mentionId],
-        deletedMentionCount: deletedMentionCount,
-      );
+    await ReadStateRepository(
+      FluxerClient(dio),
+      db,
+    ).reconcileAfterMessageDelete(
+      channelId: 'channel-1',
+      deletedMessageIds: [mentionId],
+    );
 
-      final channel = await db.channelDao.getChannelById('channel-1');
-      final readState = await db.readStateDao.getReadState('channel-1');
-      expect(channel?.lastMessageId, ackId);
-      expect(readState?.mentionCount, 0);
-    },
-  );
+    final channel = await db.channelDao.getChannelById('channel-1');
+    final readState = await db.readStateDao.getReadState('channel-1');
+    expect(channel?.lastMessageId, mentionId);
+    expect(readState?.lastMessageId, ackId);
+    expect(readState?.mentionCount, 1);
+  });
 
   test(
     'an authoritative mention recompute restores an unblocked author mention',

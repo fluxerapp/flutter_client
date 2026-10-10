@@ -2224,15 +2224,6 @@ class GatewayEventHandler {
       return;
     }
 
-    final ReadStateRepository? repository = readStateRepository;
-    final int deletedMentionCount = repository == null
-        ? 0
-        : await repository.countMentionsAmong(
-            channelId: channelId,
-            messageIds: messageIds,
-            currentUserId: currentUserId,
-          );
-
     await database.transaction(() async {
       for (final messageId in messageIds) {
         await database.notificationDao.deleteMentionRow(messageId);
@@ -2243,11 +2234,11 @@ class GatewayEventHandler {
     // Reconcile read state after the rows are removed. Only the tail is
     // rewritten; deleting older messages in a jump window must not hide real
     // unread below it.
+    final repository = readStateRepository;
     if (repository != null) {
       await repository.reconcileAfterMessageDelete(
         channelId: channelId,
         deletedMessageIds: messageIds,
-        deletedMentionCount: deletedMentionCount,
       );
       final ChannelLastMessageIndex? index = channelLastMessageIndex;
       if (index != null &&

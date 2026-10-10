@@ -919,56 +919,54 @@ void main() {
     expect(readState?.lastPinTimestamp, latestPin);
   });
 
-  test(
-    'message delete drops mention count and walks back channel tail',
-    () async {
-      final db = openTestDatabase();
-      final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
-      final mentionId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
-      await db.channelDao.upsertChannel(
-        ChannelsCompanion.insert(
-          id: 'channel-1',
-          guildId: 'guild-1',
-          name: 'general',
-          lastMessageId: Value(mentionId),
-        ),
-      );
-      await db.messageDao.upsertMessages([
-        _cachedMessage(id: ackId, channelId: 'channel-1', authorId: 'other'),
-        _cachedMessage(
-          id: mentionId,
-          channelId: 'channel-1',
-          authorId: 'other',
-          isMentioned: true,
-        ),
-      ]);
-      await db.notificationDao.prependMentionRow(
-        messageId: mentionId,
+  test('message delete keeps the server mention count', () async {
+    final db = openTestDatabase();
+    final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+    final mentionId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: 'channel-1',
+        guildId: 'guild-1',
+        name: 'general',
+        lastMessageId: Value(mentionId),
+      ),
+    );
+    await db.messageDao.upsertMessages([
+      _cachedMessage(id: ackId, channelId: 'channel-1', authorId: 'other'),
+      _cachedMessage(
+        id: mentionId,
         channelId: 'channel-1',
-      );
-      await db.readStateDao.upsertReadState(
-        ReadStatesCompanion(
-          channelId: const Value('channel-1'),
-          lastMessageId: Value(ackId),
-          mentionCount: const Value(1),
-        ),
-      );
-      final handler = _handlerWithReadState(db);
+        authorId: 'other',
+        isMentioned: true,
+      ),
+    ]);
+    await db.notificationDao.prependMentionRow(
+      messageId: mentionId,
+      channelId: 'channel-1',
+    );
+    await db.readStateDao.upsertReadState(
+      ReadStatesCompanion(
+        channelId: const Value('channel-1'),
+        lastMessageId: Value(ackId),
+        mentionCount: const Value(1),
+      ),
+    );
+    final handler = _handlerWithReadState(db);
 
-      await handler.handle(
-        MessageDeleteEvent(channelId: 'channel-1', messageId: mentionId),
-      );
-      await pumpEventQueue();
+    await handler.handle(
+      MessageDeleteEvent(channelId: 'channel-1', messageId: mentionId),
+    );
+    await pumpEventQueue();
 
-      final readState = await db.readStateDao.getReadState('channel-1');
-      final channel = await db.channelDao.getChannelById('channel-1');
-      final mentionRows = await db.notificationDao.getMentionFeedOrdered();
-      expect(await db.messageDao.getMessage(mentionId), isNull);
-      expect(channel?.lastMessageId, ackId);
-      expect(readState?.mentionCount, 0);
-      expect(mentionRows, isEmpty);
-    },
-  );
+    final readState = await db.readStateDao.getReadState('channel-1');
+    final channel = await db.channelDao.getChannelById('channel-1');
+    final mentionRows = await db.notificationDao.getMentionFeedOrdered();
+    expect(await db.messageDao.getMessage(mentionId), isNull);
+    expect(channel?.lastMessageId, mentionId);
+    expect(readState?.lastMessageId, ackId);
+    expect(readState?.mentionCount, 1);
+    expect(mentionRows, isEmpty);
+  });
 
   test(
     'a tail delete leaves a channel alone when its mentions are not cached',
@@ -1048,7 +1046,7 @@ void main() {
     },
   );
 
-  test('a bulk delete drops only the cached mentions it removed', () async {
+  test('a bulk delete keeps the server mention count', () async {
     final db = openTestDatabase();
     final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
     final mentionId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
@@ -1087,10 +1085,10 @@ void main() {
     await pumpEventQueue();
 
     final readState = await db.readStateDao.getReadState('channel-1');
-    expect(readState?.mentionCount, 2);
+    expect(readState?.mentionCount, 3);
   });
 
-  test('bulk message delete walks tail back and drops mention count', () async {
+  test('bulk message delete walks tail back and keeps mentions', () async {
     final db = openTestDatabase();
     final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
     final remainingId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11, 30));
@@ -1134,7 +1132,7 @@ void main() {
     final channel = await db.channelDao.getChannelById('channel-1');
     final readState = await db.readStateDao.getReadState('channel-1');
     expect(channel?.lastMessageId, remainingId);
-    expect(readState?.mentionCount, 0);
+    expect(readState?.mentionCount, 1);
   });
 
   test(
@@ -1176,8 +1174,8 @@ void main() {
       final readState = await db.readStateDao.getReadState('dm-1');
       final dm = await db.dmChannelDao.getDmChannelById('dm-1');
       expect(dm?.lastMessageId, remainingId);
-      expect(readState?.mentionCount, 1);
-      expect(dm?.unreadCount, 1);
+      expect(readState?.mentionCount, 2);
+      expect(dm?.unreadCount, 2);
     },
   );
 
@@ -1234,7 +1232,7 @@ void main() {
     );
   });
 
-  test('dm tail delete walks back and clears unread when caught up', () async {
+  test('dm tail delete walks back and keeps the mention count', () async {
     final db = openTestDatabase();
     final olderId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
     final newerId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
@@ -1277,8 +1275,9 @@ void main() {
       ),
       isTrue,
     );
-    expect(dm?.unreadCount, 0);
-    expect(readState?.mentionCount, 0);
+    expect(dm?.unreadCount, 1);
+    expect(readState?.lastMessageId, olderId);
+    expect(readState?.mentionCount, 1);
   });
 
   test(
