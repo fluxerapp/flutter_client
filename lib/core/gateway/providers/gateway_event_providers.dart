@@ -39,21 +39,20 @@ List<VoiceState> _voiceStatesInGuildChannel(
   return out;
 }
 
+bool _isInPrivateChannel(VoiceState voiceState, String channelId) {
+  final String? guildId = voiceState.guildId;
+  return voiceState.channelId == channelId &&
+      (guildId == null || guildId.isEmpty);
+}
+
 List<VoiceState> _voiceStatesInPrivateChannel(
   Map<String, VoiceState> map,
   String channelId,
 ) {
-  final List<VoiceState> out = <VoiceState>[];
-  for (final VoiceState vs in map.values) {
-    if (vs.channelId != channelId) {
-      continue;
-    }
-    if (vs.guildId != null && vs.guildId!.isNotEmpty) {
-      continue;
-    }
-    out.add(vs);
-  }
-  return out;
+  return <VoiceState>[
+    for (final VoiceState vs in map.values)
+      if (_isInPrivateChannel(vs, channelId)) vs,
+  ];
 }
 
 String _voiceStatesFingerprint(Iterable<VoiceState> states) {
@@ -373,6 +372,29 @@ class VoiceStatesMap extends _$VoiceStatesMap {
     state = next;
   }
 
+  void replacePrivateChannel(String channelId, List<VoiceState> voiceStates) {
+    final List<VoiceState> listed = <VoiceState>[
+      for (final VoiceState voiceState in voiceStates)
+        if (_isInPrivateChannel(voiceState, channelId)) voiceState,
+    ];
+    final Set<String> listedUserIds = <String>{
+      for (final VoiceState voiceState in listed) voiceState.userId,
+    };
+    final Map<String, VoiceState> next = <String, VoiceState>{
+      for (final MapEntry<String, VoiceState> entry in state.entries)
+        if (!_isInPrivateChannel(entry.value, channelId) ||
+            listedUserIds.contains(entry.value.userId))
+          entry.key: entry.value,
+    };
+    for (final VoiceState voiceState in listed) {
+      next[_voiceStateStorageKey(voiceState)] = voiceState;
+    }
+    if (mapEquals(next, state)) {
+      return;
+    }
+    state = next;
+  }
+
   void clear() => state = {};
 }
 
@@ -384,7 +406,6 @@ class CallState {
     this.region,
     this.ringing = const [],
     this.pendingRingUserIds = const {},
-    this.voiceStates = const [],
   });
 
   final String channelId;
@@ -397,14 +418,12 @@ class CallState {
   /// Subset tracked for incoming-call UI (reset from gateway `ringing` when
   /// present; mutated locally after accept/reject/ignore until next update).
   final Set<String> pendingRingUserIds;
-  final List<VoiceState> voiceStates;
 
   CallState copyWith({
     String? messageId,
     String? region,
     List<String>? ringing,
     Set<String>? pendingRingUserIds,
-    List<VoiceState>? voiceStates,
   }) {
     return CallState(
       channelId: channelId,
@@ -412,7 +431,6 @@ class CallState {
       region: region ?? this.region,
       ringing: ringing ?? this.ringing,
       pendingRingUserIds: pendingRingUserIds ?? this.pendingRingUserIds,
-      voiceStates: voiceStates ?? this.voiceStates,
     );
   }
 }
@@ -430,7 +448,6 @@ class ActiveCalls extends _$ActiveCalls {
     String? messageId,
     String? region,
     List<String>? ringing,
-    List<VoiceState>? voiceStates,
   }) {
     final List<String> ringList = List<String>.from(ringing ?? const []);
     state = {
@@ -441,7 +458,6 @@ class ActiveCalls extends _$ActiveCalls {
         region: region,
         ringing: ringList,
         pendingRingUserIds: _normalizeRingIds(ringing),
-        voiceStates: voiceStates ?? const [],
       ),
     };
   }
@@ -451,7 +467,6 @@ class ActiveCalls extends _$ActiveCalls {
     String? messageId,
     String? region,
     List<String>? ringing,
-    List<VoiceState>? voiceStates,
   }) {
     final CallState? existing = state[channelId];
     if (existing == null) {
@@ -460,7 +475,6 @@ class ActiveCalls extends _$ActiveCalls {
         messageId: messageId,
         region: region,
         ringing: ringing,
-        voiceStates: voiceStates,
       );
       return;
     }
@@ -479,7 +493,6 @@ class ActiveCalls extends _$ActiveCalls {
         region: region ?? existing.region,
         ringing: nextRing,
         pendingRingUserIds: nextPending,
-        voiceStates: voiceStates ?? existing.voiceStates,
       ),
     };
   }

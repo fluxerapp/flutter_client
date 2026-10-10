@@ -289,8 +289,13 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
             messageId: event.messageId,
             region: event.region,
             ringing: event.ringing,
-            voiceStates: event.voiceStates,
           );
+      final List<VoiceState>? voiceStates = event.voiceStates;
+      if (voiceStates != null) {
+        ref
+            .read(voiceStatesMapProvider.notifier)
+            .replacePrivateChannel(event.channelId, voiceStates);
+      }
     }),
     onCallUpdate: (event) => ifMounted(() {
       ref
@@ -300,14 +305,18 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
             messageId: event.messageId,
             region: event.region,
             ringing: event.ringing,
-            voiceStates: event.voiceStates,
           );
+      final List<VoiceState>? voiceStates = event.voiceStates;
+      if (voiceStates != null) {
+        ref
+            .read(voiceStatesMapProvider.notifier)
+            .replacePrivateChannel(event.channelId, voiceStates);
+      }
       if (event.ringing == null) {
         final String? uid = ref.read(currentUserIdProvider);
         final bool userJoinedOnAnotherDevice =
             uid != null &&
-            (event.voiceStates?.any((VoiceState vs) => vs.userId == uid) ??
-                false);
+            (voiceStates?.any((VoiceState vs) => vs.userId == uid) ?? false);
         if (userJoinedOnAnotherDevice) {
           final VoiceSessionState voice = ref.read(voiceSessionProvider);
           final bool onThisDevice =
@@ -325,6 +334,9 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     }),
     onCallDelete: (channelId) => ifMounted(() {
       ref.read(activeCallsProvider.notifier).deleteCall(channelId);
+      ref
+          .read(voiceStatesMapProvider.notifier)
+          .replacePrivateChannel(channelId, const <VoiceState>[]);
       ref
           .read(outgoingVoiceCallInitiatorProvider.notifier)
           .clearChannel(channelId);
