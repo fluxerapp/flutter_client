@@ -27,6 +27,7 @@ const String _userId = 'self';
 const String _guildId = 'g1';
 const String _channelId = 'voice-1';
 const String _otherConnectionId = 'conn-desktop';
+const String _gatewaySessionId = 'session-this';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -130,57 +131,62 @@ void main() {
       expect(gateway.voiceStateUpdates, isEmpty);
     });
 
-    testWidgets('joins directly when stale same-platform connection exists', (
-      WidgetTester tester,
-    ) async {
-      final _RecordingGateway gateway = _RecordingGateway();
-      final _RecordingVoiceSession voiceSession = _RecordingVoiceSession();
-      addTearDown(gateway.dispose);
-      WidgetRef? capturedRef;
+    testWidgets(
+      'joins directly when a stale connection of this session exists',
+      (WidgetTester tester) async {
+        final _RecordingGateway gateway = _RecordingGateway();
+        final _RecordingVoiceSession voiceSession = _RecordingVoiceSession();
+        addTearDown(gateway.dispose);
+        WidgetRef? capturedRef;
 
-      gateway.onVoiceStateUpdate = (GatewayVoiceStateUpdate update) {
-        if (capturedRef == null || update.connectionId == null) {
-          return;
-        }
+        gateway.onVoiceStateUpdate = (GatewayVoiceStateUpdate update) {
+          if (capturedRef == null || update.connectionId == null) {
+            return;
+          }
+          capturedRef!
+              .read(voiceStatesMapProvider.notifier)
+              .update(
+                VoiceState(
+                  userId: _userId,
+                  guildId: _guildId,
+                  connectionId: update.connectionId,
+                ),
+              );
+        };
+
+        await _pumpJoinHarness(
+          tester,
+          gateway: gateway,
+          voiceSession: voiceSession,
+          onRefCaptured: (WidgetRef ref) => capturedRef = ref,
+        );
+
         capturedRef!
             .read(voiceStatesMapProvider.notifier)
             .update(
               VoiceState(
                 userId: _userId,
+                channelId: _channelId,
                 guildId: _guildId,
-                connectionId: update.connectionId,
+                connectionId: _otherConnectionId,
+                sessionId: _gatewaySessionId,
+                isMobile: isFluxerMobileOs,
               ),
             );
-      };
 
-      await _pumpJoinHarness(
-        tester,
-        gateway: gateway,
-        voiceSession: voiceSession,
-        onRefCaptured: (WidgetRef ref) => capturedRef = ref,
-      );
+        await tester.tap(find.text('Join'));
+        await tester.pumpAndSettle();
 
-      capturedRef!
-          .read(voiceStatesMapProvider.notifier)
-          .update(
-            VoiceState(
-              userId: _userId,
-              channelId: _channelId,
-              guildId: _guildId,
-              connectionId: _otherConnectionId,
-              isMobile: isFluxerMobileOs,
-            ),
-          );
-
-      await tester.tap(find.text('Join'));
-      await tester.pumpAndSettle();
-
-      expect(find.text('Voice connection confirmation'), findsNothing);
-      expect(gateway.voiceStateUpdates, hasLength(1));
-      expect(gateway.voiceStateUpdates.single.connectionId, _otherConnectionId);
-      expect(voiceSession.connectCallCount, 1);
-      expect(voiceSession.lastForceJoin, isFalse);
-    });
+        expect(find.text('Voice connection confirmation'), findsNothing);
+        expect(gateway.voiceStateUpdates, hasLength(1));
+        expect(
+          gateway.voiceStateUpdates.single.connectionId,
+          _otherConnectionId,
+        );
+        expect(voiceSession.connectCallCount, 1);
+        expect(voiceSession.lastForceJoin, isFalse);
+      },
+    );
 
     testWidgets('cancel leaves voice and sends no disconnect', (
       WidgetTester tester,
@@ -324,7 +330,8 @@ Map<String, VoiceState> _otherDeviceVoiceStates() {
       channelId: _channelId,
       guildId: _guildId,
       connectionId: _otherConnectionId,
-      isMobile: !isFluxerMobileOs,
+      sessionId: 'session-other-device',
+      isMobile: isFluxerMobileOs,
     ),
   };
 }
@@ -473,6 +480,9 @@ class _RecordingGateway extends GatewayConnection {
       <GatewayVoiceStateUpdate>[];
 
   void Function(GatewayVoiceStateUpdate update)? onVoiceStateUpdate;
+
+  @override
+  String? get sessionId => _gatewaySessionId;
 
   @override
   bool updateVoiceState(GatewayVoiceStateUpdate update) {

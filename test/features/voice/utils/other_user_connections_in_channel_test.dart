@@ -126,72 +126,89 @@ void main() {
   });
 
   group('partitionSelfVoiceConnectionsForJoin', () {
-    test('treats same-platform ghosts as stale when session is inactive', () {
-      final Map<String, VoiceState> map = <String, VoiceState>{
-        'conn-stale': voiceState(
-          userId: 'self',
-          channelId: 'voice-1',
-          guildId: 'g1',
-          connectionId: 'conn-stale',
-        ),
-      };
+    VoiceState selfConnection({
+      required String connectionId,
+      required String sessionId,
+      bool isMobile = true,
+    }) => VoiceState.fromJson(<String, dynamic>{
+      'guild_id': 'g1',
+      'channel_id': 'voice-1',
+      'user_id': 'self',
+      'connection_id': connectionId,
+      'session_id': sessionId,
+      'member': null,
+      'mute': false,
+      'deaf': false,
+      'self_mute': false,
+      'self_deaf': false,
+      'self_video': false,
+      'self_stream': false,
+      'is_mobile': isMobile,
+      'suppress': false,
+      'viewer_stream_keys': <String>[],
+      'e2ee_capable': false,
+      'version': 0,
+    });
 
+    test('treats a connection from this gateway session as stale', () {
       final SelfVoiceConnectionsForJoin partitioned =
           partitionSelfVoiceConnectionsForJoin(
-            voiceStates: map,
+            voiceStates: <String, VoiceState>{
+              'conn-stale': selfConnection(
+                connectionId: 'conn-stale',
+                sessionId: 'session-this',
+              ),
+            },
             guildId: 'g1',
             channelId: 'voice-1',
             currentUserId: 'self',
+            gatewaySessionId: 'session-this',
             session: const VoiceSessionState(),
           );
 
-      expect(partitioned.stale, hasLength(1));
       expect(partitioned.stale.single.connectionId, 'conn-stale');
       expect(partitioned.otherDevices, isEmpty);
     });
 
-    test('keeps different-platform connections as other devices', () {
-      final Map<String, VoiceState> map = <String, VoiceState>{
-        'conn-other': VoiceState(
-          userId: 'self',
-          channelId: 'voice-1',
-          guildId: 'g1',
-          connectionId: 'conn-other',
-          isMobile: !isFluxerMobileOs,
-        ),
-      };
-
+    test('asks about a second phone from another gateway session', () {
       final SelfVoiceConnectionsForJoin partitioned =
           partitionSelfVoiceConnectionsForJoin(
-            voiceStates: map,
+            voiceStates: <String, VoiceState>{
+              'conn-tablet': selfConnection(
+                connectionId: 'conn-tablet',
+                sessionId: 'session-tablet',
+                isMobile: isFluxerMobileOs,
+              ),
+            },
             guildId: 'g1',
             channelId: 'voice-1',
             currentUserId: 'self',
+            gatewaySessionId: 'session-this',
             session: const VoiceSessionState(),
           );
 
       expect(partitioned.stale, isEmpty);
-      expect(partitioned.otherDevices, hasLength(1));
-      expect(partitioned.otherDevices.single.connectionId, 'conn-other');
+      expect(partitioned.otherDevices.single.connectionId, 'conn-tablet');
     });
 
-    test('treats failed join remnants as stale regardless of platform', () {
-      final Map<String, VoiceState> map = <String, VoiceState>{
-        'conn-stale': VoiceState(
-          userId: 'self',
-          channelId: 'voice-1',
-          guildId: 'g1',
-          connectionId: 'conn-stale',
-          isMobile: !isFluxerMobileOs,
-        ),
-      };
-
+    test('asks about another session even after a failed join there', () {
       final SelfVoiceConnectionsForJoin partitioned =
           partitionSelfVoiceConnectionsForJoin(
-            voiceStates: map,
+            voiceStates: <String, VoiceState>{
+              'conn-desktop': selfConnection(
+                connectionId: 'conn-desktop',
+                sessionId: 'session-desktop',
+                isMobile: false,
+              ),
+              'conn-failed': selfConnection(
+                connectionId: 'conn-failed',
+                sessionId: 'session-this',
+              ),
+            },
             guildId: 'g1',
             channelId: 'voice-1',
             currentUserId: 'self',
+            gatewaySessionId: 'session-this',
             session: const VoiceSessionState(
               connectFailed: true,
               connectFailedTarget: VoiceConnectFailedTarget(
@@ -201,8 +218,28 @@ void main() {
             ),
           );
 
-      expect(partitioned.stale, hasLength(1));
-      expect(partitioned.otherDevices, isEmpty);
+      expect(partitioned.stale.single.connectionId, 'conn-failed');
+      expect(partitioned.otherDevices.single.connectionId, 'conn-desktop');
+    });
+
+    test('asks about every connection without a gateway session id', () {
+      final SelfVoiceConnectionsForJoin partitioned =
+          partitionSelfVoiceConnectionsForJoin(
+            voiceStates: <String, VoiceState>{
+              'conn-1': selfConnection(
+                connectionId: 'conn-1',
+                sessionId: 'session-1',
+              ),
+            },
+            guildId: 'g1',
+            channelId: 'voice-1',
+            currentUserId: 'self',
+            gatewaySessionId: null,
+            session: const VoiceSessionState(),
+          );
+
+      expect(partitioned.stale, isEmpty);
+      expect(partitioned.otherDevices.single.connectionId, 'conn-1');
     });
   });
 }

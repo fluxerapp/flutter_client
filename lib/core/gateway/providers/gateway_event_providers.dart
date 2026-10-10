@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:clock/clock.dart';
 import 'package:flutter/foundation.dart' show mapEquals;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_connection_voice_state.dart';
@@ -116,6 +115,7 @@ SelfVoiceConnectionsForJoin partitionSelfVoiceConnectionsForJoin({
   required String? guildId,
   required String channelId,
   required String currentUserId,
+  required String? gatewaySessionId,
   required VoiceSessionState session,
 }) {
   final List<VoiceState> candidates = otherUserConnectionsInChannel(
@@ -125,16 +125,13 @@ SelfVoiceConnectionsForJoin partitionSelfVoiceConnectionsForJoin({
     currentUserId: currentUserId,
     localConnectionId: session.activeConnectionId,
   );
-  if (session.isInVoice || candidates.isEmpty) {
+  if (session.isInVoice || candidates.isEmpty || gatewaySessionId == null) {
     return (stale: const <VoiceState>[], otherDevices: candidates);
   }
-  final bool recoveringFromFailedJoin =
-      session.connectFailed &&
-      session.connectFailedTarget?.channelId == channelId;
   final List<VoiceState> stale = <VoiceState>[];
   final List<VoiceState> otherDevices = <VoiceState>[];
   for (final VoiceState vs in candidates) {
-    if (recoveringFromFailedJoin || vs.isMobile == isFluxerMobileOs) {
+    if (vs.sessionId == gatewaySessionId) {
       stale.add(vs);
     } else {
       otherDevices.add(vs);

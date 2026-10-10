@@ -326,6 +326,7 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
         guildId: guildId,
         channelId: channelId,
         currentUserId: currentUserId,
+        gatewaySessionId: container.read(gatewayConnectionProvider).sessionId,
         session: session,
       );
   if (partitioned.stale.isNotEmpty) {
