@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
@@ -75,7 +76,13 @@ class ChannelPinsRepository {
           .toList(),
     );
     await _database.messageDao.upsertMessages(
-      entries.map((entry) => entry.message.toCompanion()).toList(),
+      entries
+          .map(
+            (entry) => entry.message.toCompanion().copyWith(
+              reactionsJson: const Value.absent(),
+            ),
+          )
+          .toList(),
     );
 
     if (entries.any((e) => e.message.isMentioned)) {

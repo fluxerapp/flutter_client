@@ -130,4 +130,37 @@ void main() {
       expect(readState?.mentionCount, 0);
     },
   );
+
+  test(
+    'listPinnedMessages keeps stored reactions the pins list omits',
+    () async {
+      const String stored =
+          '[{"emoji":"👍","emojiId":null,"animated":false,"count":3,'
+          '"hasReacted":true}]';
+      final pinId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+      final db = openTestDatabase();
+      await db.messageDao.upsertMessage(
+        MessagesCompanion.insert(
+          id: pinId,
+          channelId: 'channel-1',
+          authorId: 'other',
+          content: 'stale',
+          timestamp: DateTime.utc(2026, 5, 6, 11),
+          reactionsJson: const Value(stored),
+        ),
+      );
+      final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+        ..httpClientAdapter = _PinAdapter([
+          _pinJson(id: pinId, channelId: 'channel-1', mentionEveryone: false),
+        ]);
+      final repo = ChannelPinsRepository(FluxerClient(dio), db, 'me');
+
+      await repo.listPinnedMessages(channelId: 'channel-1');
+
+      final row = await db.messageDao.getMessage(pinId);
+      expect(row?.content, 'message $pinId');
+      expect(row?.pinned, isTrue);
+      expect(jsonDecode(row!.reactionsJson), jsonDecode(stored));
+    },
+  );
 }

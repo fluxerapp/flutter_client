@@ -2140,7 +2140,8 @@ class GatewayEventHandler {
     }
     final db.MessagesCompanion companion = msg
         .copyWith(isMentioned: mentionsCurrentUser)
-        .toCompanion();
+        .toCompanion()
+        .copyWith(reactionsJson: const Value.absent());
     await database.messageDao.upsertMessage(
       msg.threadJson == null
           ? companion.copyWith(threadJson: const Value.absent())
