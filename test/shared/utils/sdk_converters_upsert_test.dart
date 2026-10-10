@@ -24,6 +24,45 @@ void main() {
     );
   });
 
+  test(
+    'a user partial with null avatar and global_name clears stored values',
+    () async {
+      final FluxerDatabase database = openTestDatabase();
+      await database.userDao.upsertUser(
+        userFromPartialSdk(
+          UserPartialResponse.fromJson(<String, Object?>{
+            'id': 'user-1',
+            'username': 'alice',
+            'discriminator': '0001',
+            'global_name': 'Global Alice',
+            'avatar': 'avatar_hash',
+            'avatar_color': 16711680,
+            'flags': 0,
+          }),
+        ),
+      );
+
+      await database.userDao.upsertUsers(<UsersCompanion>[
+        userFromPartialSdk(
+          UserPartialResponse.fromJson(<String, Object?>{
+            'id': 'user-1',
+            'username': 'alice',
+            'discriminator': '0001',
+            'global_name': null,
+            'avatar': null,
+            'avatar_color': null,
+            'flags': 0,
+          }),
+        ),
+      ]);
+
+      final User? user = await database.userDao.getUserById('user-1');
+      expect(user?.globalName, isNull);
+      expect(user?.avatar, isNull);
+      expect(user?.avatarColor, isNull);
+    },
+  );
+
   test('upsertGuildMembersFromSdk writes users and members in batch', () async {
     final FluxerDatabase database = openTestDatabase();
     final GuildMemberResponse sdk = GuildMemberResponse.fromJson(
