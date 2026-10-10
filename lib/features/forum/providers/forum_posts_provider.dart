@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/forum/data/forum_repository.dart';
 import 'package:fluxer_app/features/forum/domain/forum_channel.dart';
 import 'package:fluxer_app/features/forum/providers/forum_first_messages_provider.dart';
 import 'package:fluxer_app/features/notifications/data/merge_void_streams.dart';
+import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
 
 enum ForumListKind { archived, search }
 
@@ -143,7 +144,7 @@ class ForumPostsController extends Notifier<ForumViewState> {
 
   void loadMore(ForumListKind kind) {
     final ForumListState list = state.list(kind);
-    if (list.loading || !list.hasMore || list.indexing) {
+    if (list.loading || !list.hasMore || list.indexing || list.failed) {
       return;
     }
     unawaited(_fetch(kind, append: list.loaded));
@@ -216,6 +217,16 @@ class ForumPostsController extends Notifier<ForumViewState> {
   Future<void> _fetch(ForumListKind kind, {required bool append}) async {
     final Channel? forum = await _forum();
     if (!ref.mounted || forum == null) {
+      return;
+    }
+    if (!canRequestForumPosts(
+      ref.read(parentThreadActorProvider(forum.guildId, forumId)),
+    )) {
+      _reset(kind);
+      state = state.withList(
+        kind,
+        const ForumListState(hasMore: false, loaded: true),
+      );
       return;
     }
     final String query = state.query.trim();

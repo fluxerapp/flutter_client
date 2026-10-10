@@ -6,17 +6,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/permissions/thread_permissions.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/forum/data/forum_repository.dart';
 import 'package:fluxer_app/features/forum/domain/forum_channel.dart';
 import 'package:fluxer_app/features/forum/providers/forum_posts_provider.dart';
+import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
 
 import '../../helpers/open_test_database.dart';
 
 class _FakeRepository implements ForumRepository {
   final List<ForumSearchQuery> queries = <ForumSearchQuery>[];
   final List<ForumSearchOutcome> outcomes = <ForumSearchOutcome>[];
+  Exception? error;
 
   @override
   Future<ForumSearchOutcome> searchPosts({
@@ -25,6 +29,9 @@ class _FakeRepository implements ForumRepository {
     required ForumSearchQuery query,
   }) async {
     queries.add(query);
+    if (error case final Exception error) {
+      throw error;
+    }
     return outcomes.isEmpty
         ? const ForumSearchPage(
             postIds: <String>[],
@@ -47,12 +54,77 @@ void main() {
     database = openTestDatabase();
   });
 
-  ProviderContainer createContainer() => ProviderContainer(
+  ProviderContainer createContainer({ThreadActor? actor}) => ProviderContainer(
     overrides: <Override>[
       fluxerDatabaseProvider.overrideWithValue(database),
       forumRepositoryProvider.overrideWithValue(repository),
+      if (actor != null)
+        parentThreadActorProvider('g1', 'f1').overrideWithValue(actor),
     ],
   );
+
+  void storeForum(FakeAsync async) {
+    unawaited(
+      database.channelDao.upsertChannel(
+        db.ChannelsCompanion.insert(
+          id: 'f1',
+          guildId: 'g1',
+          name: 'forum',
+          type: const Value(15),
+        ),
+      ),
+    );
+    async.flushMicrotasks();
+  }
+
+  test('a forum without read message history loads empty with no request', () {
+    fakeAsync((FakeAsync async) {
+      repository = _FakeRepository();
+      storeForum(async);
+      container = createContainer(
+        actor: ThreadActor(permissions: Permission.viewChannel.value),
+      );
+      final ForumPostsController controller = container.read(
+        forumPostsProvider('f1').notifier,
+      )..ensureLoaded();
+      async.flushMicrotasks();
+      controller.loadMore(ForumListKind.archived);
+      async.flushMicrotasks();
+
+      expect(repository.queries, isEmpty);
+      final ForumListState list = container
+          .read(forumPostsProvider('f1'))
+          .archived;
+      expect(list.loaded, isTrue);
+      expect(list.hasMore, isFalse);
+      expect(list.failed, isFalse);
+      container.dispose();
+    });
+  });
+
+  test('a failed list is only requested again by retry', () {
+    fakeAsync((FakeAsync async) {
+      repository = _FakeRepository()..error = Exception('forbidden');
+      storeForum(async);
+      container = createContainer();
+      final ForumPostsController controller = container.read(
+        forumPostsProvider('f1').notifier,
+      )..ensureLoaded();
+      async.flushMicrotasks();
+      expect(container.read(forumPostsProvider('f1')).archived.failed, isTrue);
+
+      controller
+        ..loadMore(ForumListKind.archived)
+        ..loadMore(ForumListKind.archived);
+      async.flushMicrotasks();
+      expect(repository.queries, hasLength(1));
+
+      controller.retry(ForumListKind.archived);
+      async.flushMicrotasks();
+      expect(repository.queries, hasLength(2));
+      container.dispose();
+    });
+  });
 
   test('a 202 reply retries with backoff and then lands the page', () {
     fakeAsync((FakeAsync async) {

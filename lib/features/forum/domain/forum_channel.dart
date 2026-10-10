@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math' as math;
 
+import 'package:fluxer_app/core/permissions/thread_permissions.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_dart/export.dart' hide ChannelType;
@@ -296,3 +297,7 @@ bool isNewForumPost({
   }
   return compareSnowflakeIds(post.id, snapshotAckId) > 0;
 }
+
+bool canRequestForumPosts(ThreadActor? actor) =>
+    actor == null ||
+    canListArchivedThreads(actor, privateThreads: false) == null;

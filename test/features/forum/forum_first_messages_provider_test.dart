@@ -4,13 +4,35 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/permissions/thread_permissions.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
+import 'package:fluxer_app/features/forum/data/forum_repository.dart';
+import 'package:fluxer_app/features/forum/domain/forum_channel.dart';
 import 'package:fluxer_app/features/forum/providers/forum_first_messages_provider.dart';
+import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
 
 import '../../helpers/open_test_database.dart';
+
+class _FakeRepository implements ForumRepository {
+  final List<List<String>> requested = <List<String>>[];
+
+  @override
+  Future<Map<String, Message?>> fetchPostData({
+    required String guildId,
+    required String forumId,
+    required List<String> postIds,
+  }) async {
+    requested.add(postIds);
+    return <String, Message?>{for (final String id in postIds) id: null};
+  }
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
 
 void main() {
   late db.FluxerDatabase database;
@@ -52,6 +74,30 @@ void main() {
     await pumpEventQueue();
     return container.read(forumFirstMessagesProvider)['p1']!.reactions.single;
   }
+
+  test('post data is not requested without read message history', () async {
+    final _FakeRepository repository = _FakeRepository();
+    final ProviderContainer gated = ProviderContainer(
+      overrides: <Override>[
+        fluxerDatabaseProvider.overrideWithValue(database),
+        forumRepositoryProvider.overrideWithValue(repository),
+        parentThreadActorProvider('g1', 'f1').overrideWithValue(
+          ThreadActor(permissions: Permission.viewChannel.value),
+        ),
+      ],
+    );
+    addTearDown(gated.dispose);
+    gated.listen(forumFirstMessagesProvider, (_, _) {});
+
+    gated
+        .read(forumFirstMessagesProvider.notifier)
+        .request(guildId: 'g1', forumId: 'f1', postIds: <String>['p2']);
+    await Future<void>.delayed(
+      forumPostDataDebounce + const Duration(milliseconds: 50),
+    );
+
+    expect(repository.requested, isEmpty);
+  });
 
   test(
     'own reaction on a post card survives a reload of the stored row',

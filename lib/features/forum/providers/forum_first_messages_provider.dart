@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/chat/providers/messages/message_realtime_eve
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
 import 'package:fluxer_app/features/forum/data/forum_repository.dart';
 import 'package:fluxer_app/features/forum/domain/forum_channel.dart';
+import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
 
 class ForumFirstMessages extends Notifier<Map<String, Message?>> {
   final Set<String> _requested = <String>{};
@@ -68,6 +69,11 @@ class ForumFirstMessages extends Notifier<Map<String, Message?>> {
     required String forumId,
     required Iterable<String> postIds,
   }) {
+    if (!canRequestForumPosts(
+      ref.read(parentThreadActorProvider(guildId, forumId)),
+    )) {
+      return;
+    }
     final Set<String> ids = <String>{
       for (final String id in postIds)
         if (!state.containsKey(id) && _requested.add(id)) id,
