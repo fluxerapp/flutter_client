@@ -6,16 +6,6 @@ import 'package:fluxer_dart/gateway.dart';
 
 import '../../helpers/open_test_database.dart';
 
-UserPartialResponse _user(String id) => UserPartialResponse(
-  id: id,
-  username: 'user-$id',
-  discriminator: '0001',
-  globalName: null,
-  avatar: null,
-  avatarColor: null,
-  flags: 0,
-);
-
 void main() {
   group('GatewayEventHandler missing events', () {
     late FluxerDatabase database;
@@ -45,19 +35,19 @@ void main() {
 
     test('GUILD_BAN_ADD emits callback', () async {
       String? guildId;
-      UserPartialResponse? user;
+      String? userId;
       final handler = GatewayEventHandler(
         database: database,
-        onGuildBanAdd: (String id, UserPartialResponse banned) {
+        onGuildBanAdd: (String id, String banned) {
           guildId = id;
-          user = banned;
+          userId = banned;
         },
       );
 
-      await handler.handle(GuildBanAddEvent(guildId: 'g1', user: _user('u1')));
+      await handler.handle(const GuildBanAddEvent(guildId: 'g1', userId: 'u1'));
 
       expect(guildId, 'g1');
-      expect(user?.id, 'u1');
+      expect(userId, 'u1');
     });
 
     test('WEBHOOKS_UPDATE emits callback', () async {

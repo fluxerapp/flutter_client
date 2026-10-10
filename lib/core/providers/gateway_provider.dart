@@ -485,11 +485,11 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
           .read(channelMemberCountCacheProvider.notifier)
           .applyUpdates(event.counts);
     }),
-    onGuildBanAdd: (guildId, user) => ifMounted(() {
-      ref.read(knownGuildBansProvider.notifier).noteBan(guildId, user.id);
+    onGuildBanAdd: (guildId, userId) => ifMounted(() {
+      ref.read(knownGuildBansProvider.notifier).noteBan(guildId, userId);
     }),
-    onGuildBanRemove: (guildId, user) => ifMounted(() {
-      ref.read(knownGuildBansProvider.notifier).noteUnban(guildId, user.id);
+    onGuildBanRemove: (guildId, userId) => ifMounted(() {
+      ref.read(knownGuildBansProvider.notifier).noteUnban(guildId, userId);
     }),
     onWebhooksUpdate: (guildId, channelId) => ifMounted(() {
       ref

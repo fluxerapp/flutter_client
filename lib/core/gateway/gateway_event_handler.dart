@@ -98,8 +98,7 @@ typedef GuildMemberListUpdateCallback =
 typedef GuildCountsUpdateCallback = void Function(GuildCountsUpdateEvent event);
 typedef ChannelMemberCountsUpdateCallback =
     void Function(ChannelMemberCountsUpdateEvent event);
-typedef GuildBanCallback =
-    void Function(String guildId, UserPartialResponse user);
+typedef GuildBanCallback = void Function(String guildId, String userId);
 typedef WebhooksUpdateCallback =
     void Function(String guildId, String channelId);
 typedef EntranceSoundPlayCallback = void Function(EntranceSoundPlayEvent event);
@@ -485,12 +484,9 @@ class GatewayEventHandler {
         _logGatewayDebug(
           () => talker.debug('[Gateway] CHANNEL_PINS_ACK: ${event.channelId}'),
         );
-        final channel = await database.channelDao.getChannelById(
-          event.channelId,
-        );
         await database.readStateDao.updatePinTimestamp(
           event.channelId,
-          event.lastPinTimestamp ?? channel?.lastPinTimestamp,
+          event.timestamp,
         );
       case ChannelRecipientAddEvent():
         _logGatewayDebug(
@@ -547,12 +543,12 @@ class GatewayEventHandler {
         _logGatewayDebug(
           () => talker.debug('[Gateway] GUILD_BAN_ADD: ${event.guildId}'),
         );
-        _emit(() => onGuildBanAdd?.call(event.guildId, event.user));
+        _emit(() => onGuildBanAdd?.call(event.guildId, event.userId));
       case GuildBanRemoveEvent():
         _logGatewayDebug(
           () => talker.debug('[Gateway] GUILD_BAN_REMOVE: ${event.guildId}'),
         );
-        _emit(() => onGuildBanRemove?.call(event.guildId, event.user));
+        _emit(() => onGuildBanRemove?.call(event.guildId, event.userId));
       case GuildEmojisUpdateEvent():
         _logGatewayDebug(
           () => talker.debug(
@@ -765,9 +761,9 @@ class GatewayEventHandler {
         talker.warning('[Gateway] Error: [${e.code}] ${e.message}');
         _emit(() => onGatewayError?.call(e));
       case UnknownGatewayEvent():
-        if (event.eventType == 'MESSAGE_UPDATE') {
+        if (event.parseError != null) {
           talker.warning(
-            '[Gateway] Failed to parse MESSAGE_UPDATE: ${event.data}',
+            '[Gateway] Failed to parse ${event.eventType}: ${event.parseError}',
           );
         } else {
           _logGatewayDebug(
@@ -1445,7 +1441,7 @@ class GatewayEventHandler {
   Future<void> _handleUserGuildSettingsUpdate(
     UserGuildSettingsUpdateEvent event,
   ) async {
-    final guildId = _userGuildSettingsStorageId(event.guildId, event.data);
+    final guildId = _userGuildSettingsStorageId(event.guildId);
     final existingRow = await database.userGuildSettingsDao.getByGuildId(
       guildId,
     );
@@ -1465,15 +1461,8 @@ class GatewayEventHandler {
     messageMentionContextCache?.invalidateGuild(guildId);
   }
 
-  String _userGuildSettingsStorageId(
-    String eventGuildId,
-    Map<String, dynamic> data,
-  ) {
-    final rawGuildId = data['guild_id'];
-    if (rawGuildId is String && rawGuildId.isNotEmpty) {
-      return rawGuildId;
-    }
-    return eventGuildId.isEmpty ? '@me' : eventGuildId;
+  String _userGuildSettingsStorageId(String? eventGuildId) {
+    return eventGuildId == null || eventGuildId.isEmpty ? '@me' : eventGuildId;
   }
 
   Map<String, dynamic>? _tryDecodeJsonObject(String data) {
@@ -1501,8 +1490,7 @@ class GatewayEventHandler {
       ...updatesWithoutOverrides,
     };
     if (updates.containsKey('channel_overrides')) {
-      merged['channel_overrides'] = _mergeChannelOverrides(
-        existing?['channel_overrides'],
+      merged['channel_overrides'] = _normalizeChannelOverrides(
         channelOverridesUpdate,
       );
     }
@@ -1528,38 +1516,20 @@ class GatewayEventHandler {
     ).toJson();
   }
 
-  Map<String, dynamic>? _mergeChannelOverrides(
-    Object? existingRaw,
-    Object? updatesRaw,
-  ) {
-    if (updatesRaw == null) {
-      if (existingRaw is Map) {
-        return existingRaw.cast<String, dynamic>();
-      }
+  Map<String, dynamic>? _normalizeChannelOverrides(Object? raw) {
+    if (raw is! Map || raw.isEmpty) {
       return null;
     }
-    final existing = existingRaw is Map
-        ? existingRaw.cast<String, dynamic>()
-        : const <String, dynamic>{};
-    final updates = updatesRaw is Map
-        ? updatesRaw.cast<String, dynamic>()
-        : const <String, dynamic>{};
-    final merged = <String, dynamic>{...existing};
-    for (final entry in updates.entries) {
-      final existingOverride = existing[entry.key];
-      final updateOverride = entry.value;
-      if (updateOverride is Map) {
-        merged[entry.key] = <String, dynamic>{
-          ..._defaultChannelOverrideData(),
-          if (existingOverride is Map)
-            ...existingOverride.cast<String, dynamic>(),
-          ...updateOverride.cast<String, dynamic>(),
-        };
-      } else {
-        merged[entry.key] = updateOverride;
-      }
-    }
-    return merged;
+    return <String, dynamic>{
+      for (final MapEntry<String, dynamic> entry
+          in raw.cast<String, dynamic>().entries)
+        entry.key: entry.value is Map
+            ? <String, dynamic>{
+                ..._defaultChannelOverrideData(),
+                ...(entry.value as Map).cast<String, dynamic>(),
+              }
+            : entry.value,
+    };
   }
 
   Map<String, dynamic> _defaultChannelOverrideData() {

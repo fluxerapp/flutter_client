@@ -183,7 +183,7 @@ void main() {
     expect(decoded.channelOverrides?['dm-1']?.muted, isTrue);
   });
 
-  test('user guild settings update merges partial payload', () async {
+  test('user guild settings update replaces the override set', () async {
     final db = openTestDatabase();
     await db.userGuildSettingsDao.upsert(
       UserGuildSettingsTableCompanion.insert(
@@ -237,10 +237,7 @@ void main() {
     expect(decoded.messageNotifications, UserNotificationSettings.onlyMentions);
     expect(decoded.suppressEveryone, isTrue);
     expect(decoded.unreadBadges, UserNotificationSettings.allMessages);
-    expect(
-      decoded.channelOverrides?['channel-1']?.unreadBadges,
-      UserNotificationSettingsInput.onlyMentions,
-    );
+    expect(decoded.channelOverrides?.containsKey('channel-1'), isFalse);
     expect(decoded.channelOverrides?['channel-2']?.muted, isTrue);
     expect(
       decoded.channelOverrides?['channel-2']?.messageNotifications,
@@ -250,7 +247,7 @@ void main() {
   });
 
   test(
-    'user guild settings update preserves overrides when channel_overrides is null',
+    'user guild settings update clears overrides when channel_overrides is null',
     () async {
       final db = openTestDatabase();
       await db.userGuildSettingsDao.upsert(
@@ -298,7 +295,7 @@ void main() {
         jsonDecode(row!.data) as Map<String, dynamic>,
       );
       expect(decoded.muted, isTrue);
-      expect(decoded.channelOverrides?['channel-1']?.muted, isTrue);
+      expect(decoded.channelOverrides, isNull);
       expect(decoded.version, 2);
     },
   );
@@ -664,8 +661,9 @@ void main() {
     expect(readState?.lastPinTimestamp, isNot(latestPin));
   });
 
-  test('channel pins ack falls back to latest channel pin timestamp', () async {
+  test('an older pins ack does not mark a newer pin as seen', () async {
     final db = openTestDatabase();
+    const ackedPin = '2026-05-06T11:00:00.000Z';
     const latestPin = '2026-05-06T12:00:00.000Z';
     await db.channelDao.upsertChannel(
       ChannelsCompanion.insert(
@@ -677,10 +675,12 @@ void main() {
     );
     final handler = GatewayEventHandler(database: db, currentUserId: 'me');
 
-    await handler.handle(const ChannelPinsAckEvent(channelId: 'channel-1'));
+    await handler.handle(
+      const ChannelPinsAckEvent(channelId: 'channel-1', timestamp: ackedPin),
+    );
 
     final readState = await db.readStateDao.getReadState('channel-1');
-    expect(readState?.lastPinTimestamp, latestPin);
+    expect(readState?.lastPinTimestamp, ackedPin);
   });
 
   test('channel pins ack stores acknowledged pin timestamp', () async {
@@ -689,10 +689,7 @@ void main() {
     final handler = GatewayEventHandler(database: db, currentUserId: 'me');
 
     await handler.handle(
-      const ChannelPinsAckEvent(
-        channelId: 'channel-1',
-        lastPinTimestamp: latestPin,
-      ),
+      const ChannelPinsAckEvent(channelId: 'channel-1', timestamp: latestPin),
     );
 
     final readState = await db.readStateDao.getReadState('channel-1');
@@ -1450,4 +1447,33 @@ void main() {
       expect(index.lastMessageIdFor('channel-1'), newerId);
     });
   });
+
+  test(
+    'a DM settings update with a null guild id is stored under @me',
+    () async {
+      final db = openTestDatabase();
+      final handler = GatewayEventHandler(database: db, currentUserId: 'me');
+
+      await handler.handle(
+        const UserGuildSettingsUpdateEvent(
+          guildId: null,
+          data: <String, dynamic>{
+            'guild_id': null,
+            'muted': false,
+            'channel_overrides': <String, dynamic>{
+              'dm-9': <String, dynamic>{'muted': true},
+            },
+            'version': 3,
+          },
+        ),
+      );
+      await pumpEventQueue();
+
+      final row = await db.userGuildSettingsDao.getByGuildId('@me');
+      final decoded = UserGuildSettingsResponse.fromJson(
+        jsonDecode(row!.data) as Map<String, dynamic>,
+      );
+      expect(decoded.channelOverrides?['dm-9']?.muted, isTrue);
+    },
+  );
 }
