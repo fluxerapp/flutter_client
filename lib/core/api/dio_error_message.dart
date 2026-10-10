@@ -29,12 +29,36 @@ int? retryAfterMsFromDioException(DioException error) {
 String? apiMessageFromDioException(DioException error) {
   final Object? data = error.response?.data;
   if (data is Map<String, dynamic>) {
+    final String? fieldMessage = _invalidFormBodyMessage(data);
+    if (fieldMessage != null) {
+      return fieldMessage;
+    }
     final String? message = data['message'] as String?;
     if (message != null && message.isNotEmpty) {
       return message;
     }
   }
   return null;
+}
+
+String? _invalidFormBodyMessage(Map<String, dynamic> data) {
+  if (data['code'] != 'INVALID_FORM_BODY') {
+    return null;
+  }
+  final Object? errors = data['errors'];
+  if (errors is! List<dynamic>) {
+    return null;
+  }
+  final Set<String> messages = <String>{};
+  for (final Object? item in errors) {
+    if (item is Map<String, dynamic>) {
+      final Object? message = item['message'];
+      if (message is String && message.isNotEmpty) {
+        messages.add(message);
+      }
+    }
+  }
+  return messages.isEmpty ? null : messages.join(' ');
 }
 
 /// Returns a user facing message for [error].
