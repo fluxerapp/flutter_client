@@ -115,7 +115,7 @@ class RateLimitPacer {
 }
 
 class RateLimitInterceptor extends Interceptor {
-  RateLimitInterceptor({required RateLimitPacer pacer}) : _pacer = pacer;
+  RateLimitInterceptor({required this._pacer});
 
   final RateLimitPacer _pacer;
 
