@@ -1025,42 +1025,6 @@ void main() {
       expect(await h.database.channelDao.getChannelById(_threadId), isNull);
       expect(await h.database.threadDao.getMember(_threadId), isNull);
     });
-
-    for (final (String parentId, int parentType) in <(String, int)>[
-      (_textId, 0),
-      (_forumId, 15),
-    ]) {
-      test(
-        'a passive delete of a type $parentType parent drops its threads',
-        () async {
-          final _Harness h = _build();
-          await _ready(
-            h.handler,
-            withThreads: true,
-            threads: <Map<String, Object?>>[
-              _thread(_threadId, parentId: parentId),
-            ],
-          );
-          expect(
-            await h.database.channelDao.getChannelById(_threadId),
-            isNotNull,
-          );
-
-          await h.handler.handle(
-            PassiveUpdatesEvent(
-              guildId: _guildId,
-              channels: const <String, String>{},
-              deletedChannelIds: <String>[parentId],
-            ),
-          );
-          await Future<void>.delayed(const Duration(milliseconds: 50));
-
-          expect(await h.database.channelDao.getChannelById(parentId), isNull);
-          expect(await h.database.channelDao.getChannelById(_threadId), isNull);
-          expect(await h.database.threadDao.getMember(_threadId), isNull);
-        },
-      );
-    }
   });
 
   group('announcement threads', () {

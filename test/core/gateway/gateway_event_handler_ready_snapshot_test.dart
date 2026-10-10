@@ -304,6 +304,73 @@ void main() {
     });
   });
 
+  group('guild voice state snapshot', () {
+    Map<String, Object?> voiceState(String userId, String connectionId) =>
+        <String, Object?>{
+          'guild_id': 'g1',
+          'channel_id': 'voice-1',
+          'user_id': userId,
+          'connection_id': connectionId,
+          'session_id': 'session-$userId',
+          'member': null,
+          'version': 1,
+        };
+
+    test('GUILD_SYNC hands over its voice states as a replacement', () async {
+      final FluxerDatabase database = openTestDatabase();
+      final List<(String, List<VoiceState>)> snapshots =
+          <(String, List<VoiceState>)>[];
+      final GatewayEventHandler handler = GatewayEventHandler(
+        database: database,
+        onGuildVoiceStatesSnapshot: (String guildId, List<VoiceState> states) {
+          snapshots.add((guildId, states));
+        },
+      );
+
+      await handler.handle(
+        GuildSyncEvent(
+          guild: GuildCreateData.fromJson(
+            _guild(
+              channelIds: <String>['voice-1'],
+              roleIds: <String>['g1'],
+              voiceStates: <Map<String, Object?>>[voiceState('u1', 'conn-1')],
+            ),
+          ),
+        ),
+      );
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+
+      expect(snapshots, hasLength(1));
+      expect(snapshots.single.$1, 'g1');
+      expect(snapshots.single.$2.single.connectionId, 'conn-1');
+    });
+
+    test('GUILD_SYNC with no voice states still replaces the guild', () async {
+      final FluxerDatabase database = openTestDatabase();
+      final List<(String, List<VoiceState>)> snapshots =
+          <(String, List<VoiceState>)>[];
+      final GatewayEventHandler handler = GatewayEventHandler(
+        database: database,
+        onGuildVoiceStatesSnapshot: (String guildId, List<VoiceState> states) {
+          snapshots.add((guildId, states));
+        },
+      );
+
+      await handler.handle(
+        GuildSyncEvent(
+          guild: GuildCreateData.fromJson(
+            _guild(channelIds: <String>['voice-1'], roleIds: <String>['g1']),
+          ),
+        ),
+      );
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+
+      expect(snapshots, hasLength(1));
+      expect(snapshots.single.$1, 'g1');
+      expect(snapshots.single.$2, isEmpty);
+    });
+  });
+
   group('same-user re-READY account data', () {
     test('notes missing from the READY map are removed', () async {
       final FluxerDatabase database = openTestDatabase();

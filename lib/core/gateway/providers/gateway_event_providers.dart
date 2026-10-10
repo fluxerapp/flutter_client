@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:clock/clock.dart';
+import 'package:flutter/foundation.dart' show mapEquals;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
@@ -354,6 +355,22 @@ class VoiceStatesMap extends _$VoiceStatesMap {
     if (hasChanges) {
       state = updated;
     }
+  }
+
+  void replaceGuild(String guildId, List<VoiceState> voiceStates) {
+    final Map<String, VoiceState> next = <String, VoiceState>{
+      for (final MapEntry<String, VoiceState> entry in state.entries)
+        if (entry.value.guildId != guildId) entry.key: entry.value,
+    };
+    for (final VoiceState voiceState in voiceStates) {
+      if (voiceState.channelId != null) {
+        next[_voiceStateStorageKey(voiceState)] = voiceState;
+      }
+    }
+    if (mapEquals(next, state)) {
+      return;
+    }
+    state = next;
   }
 
   void clear() => state = {};

@@ -128,4 +128,82 @@ void main() {
       expect(map.containsKey('conn-desktop'), isTrue);
     });
   });
+  group('VoiceStatesMap guild snapshot', () {
+    test('replaceGuild drops states the snapshot no longer lists', () {
+      final ProviderContainer container = makeContainer();
+      container.read(voiceStatesMapProvider.notifier).updateBulk(<VoiceState>[
+        voiceState(
+          userId: 'left',
+          channelId: 'voice-1',
+          guildId: 'g1',
+          connectionId: 'conn-left',
+        ),
+        voiceState(
+          userId: 'stayed',
+          channelId: 'voice-1',
+          guildId: 'g1',
+          connectionId: 'conn-stayed',
+        ),
+        voiceState(
+          userId: 'other',
+          channelId: 'voice-9',
+          guildId: 'g2',
+          connectionId: 'conn-other',
+        ),
+      ]);
+
+      container
+          .read(voiceStatesMapProvider.notifier)
+          .replaceGuild('g1', <VoiceState>[
+            voiceState(
+              userId: 'stayed',
+              channelId: 'voice-2',
+              guildId: 'g1',
+              connectionId: 'conn-stayed',
+            ),
+            voiceState(
+              userId: 'joined',
+              channelId: 'voice-2',
+              guildId: 'g1',
+              connectionId: 'conn-joined',
+            ),
+          ]);
+
+      final Map<String, VoiceState> state = container.read(
+        voiceStatesMapProvider,
+      );
+      expect(state.keys.toSet(), <String>{
+        'conn-stayed',
+        'conn-joined',
+        'conn-other',
+      });
+      expect(state['conn-stayed']!.channelId, 'voice-2');
+    });
+
+    test('replaceGuild with an empty snapshot empties only that guild', () {
+      final ProviderContainer container = makeContainer();
+      container.read(voiceStatesMapProvider.notifier).updateBulk(<VoiceState>[
+        voiceState(
+          userId: 'left',
+          channelId: 'voice-1',
+          guildId: 'g1',
+          connectionId: 'conn-left',
+        ),
+        voiceState(
+          userId: 'other',
+          channelId: 'voice-9',
+          guildId: 'g2',
+          connectionId: 'conn-other',
+        ),
+      ]);
+
+      container
+          .read(voiceStatesMapProvider.notifier)
+          .replaceGuild('g1', const <VoiceState>[]);
+
+      expect(container.read(voiceStatesMapProvider).keys.toSet(), <String>{
+        'conn-other',
+      });
+    });
+  });
 }

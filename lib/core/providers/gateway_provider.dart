@@ -145,6 +145,29 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     ..listen<Set<String>>(blockedUserIdsProvider, (_, Set<String> next) {
       mentionCache.blockedUserIds = next;
     }, fireImmediately: true);
+  void syncVoiceSessionFromStates(List<VoiceState> states) {
+    final String? userId = currentUserId;
+    if (userId != null) {
+      for (final VoiceState vs in states) {
+        if (vs.userId == userId) {
+          ref
+              .read(voiceSessionProvider.notifier)
+              .handleSelfVoiceStateUpdate(vs);
+        }
+      }
+    }
+    final VoiceSessionState session = ref.read(voiceSessionProvider);
+    if (session.isConnected && session.channelId != null) {
+      final bool hasRelevantUpdate = states.any(
+        (VoiceState vs) =>
+            vs.channelId == session.channelId && vs.guildId == session.guildId,
+      );
+      if (hasRelevantUpdate) {
+        ref.read(voiceSessionProvider.notifier).syncE2eeFromVoiceStates();
+      }
+    }
+  }
+
   final handler = GatewayEventHandler(
     database: db,
     readStateRepository: ReadStateRepository(
@@ -227,28 +250,11 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     }),
     onVoiceStatesBulk: (states) => ifMounted(() {
       ref.read(voiceStatesMapProvider.notifier).updateBulk(states);
-      final String? userId = currentUserId;
-      if (userId != null) {
-        for (final VoiceState vs in states) {
-          if (vs.userId == userId) {
-            ref
-                .read(voiceSessionProvider.notifier)
-                .handleSelfVoiceStateUpdate(vs);
-          }
-        }
-      }
-      // Only sync E2EE if any of the bulk updates are for the current voice channel
-      final VoiceSessionState session = ref.read(voiceSessionProvider);
-      if (session.isConnected && session.channelId != null) {
-        final bool hasRelevantUpdate = states.any(
-          (VoiceState vs) =>
-              vs.channelId == session.channelId &&
-              vs.guildId == session.guildId,
-        );
-        if (hasRelevantUpdate) {
-          ref.read(voiceSessionProvider.notifier).syncE2eeFromVoiceStates();
-        }
-      }
+      syncVoiceSessionFromStates(states);
+    }),
+    onGuildVoiceStatesSnapshot: (guildId, states) => ifMounted(() {
+      ref.read(voiceStatesMapProvider.notifier).replaceGuild(guildId, states);
+      syncVoiceSessionFromStates(states);
     }),
     onGatewayError: (event) => ifMounted(() {
       ref.read(voiceSessionProvider.notifier).handleGatewayError(event);

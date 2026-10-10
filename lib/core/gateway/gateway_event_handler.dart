@@ -52,6 +52,8 @@ void _logGatewayDebug(void Function() log) {
 typedef TypingCallback = void Function(String channelId, String userId);
 typedef VoiceStateCallback = void Function(VoiceState state);
 typedef VoiceBulkCallback = void Function(List<VoiceState> states);
+typedef GuildVoiceStatesSnapshotCallback =
+    void Function(String guildId, List<VoiceState> states);
 typedef CallCreateCallback = void Function(CallCreateEvent event);
 typedef CallUpdateCallback = void Function(CallUpdateEvent event);
 typedef ChannelCallback = void Function(String channelId);
@@ -146,6 +148,7 @@ class GatewayEventHandler {
     this.onTypingClear,
     this.onVoiceStateUpdate,
     this.onVoiceStatesBulk,
+    this.onGuildVoiceStatesSnapshot,
     this.onVoiceServerUpdate,
     this.onVoiceServerP2pUpdate,
     this.onVoiceSignal,
@@ -223,6 +226,7 @@ class GatewayEventHandler {
   final TypingCallback? onTypingClear;
   final VoiceStateCallback? onVoiceStateUpdate;
   final VoiceBulkCallback? onVoiceStatesBulk;
+  final GuildVoiceStatesSnapshotCallback? onGuildVoiceStatesSnapshot;
   final VoiceServerUpdateCallback? onVoiceServerUpdate;
   final VoiceServerP2pUpdateCallback? onVoiceServerP2pUpdate;
   final VoiceSignalCallback? onVoiceSignal;
@@ -2839,9 +2843,9 @@ class GatewayEventHandler {
       }
     }());
 
-    if (event.guild.voiceStates.isNotEmpty) {
-      _emit(() => onVoiceStatesBulk?.call(event.guild.voiceStates));
-    }
+    _emit(
+      () => onGuildVoiceStatesSnapshot?.call(guildId, event.guild.voiceStates),
+    );
     if (transition != ThreadGateTransition.unchanged) {
       _emit(
         () => onThreadGateChanged?.call(
@@ -3216,13 +3220,13 @@ class GatewayEventHandler {
   }
 
   Future<void> _handlePassiveUpdates(PassiveUpdatesEvent event) async {
+    final List<VoiceState> voiceStates =
+        event.voiceStates ?? const <VoiceState>[];
     _logGatewayDebug(
       () => talker.debug(
         '[Gateway] PASSIVE_UPDATES: '
         'channels=${event.channels.length}, '
-        'created=${event.createdChannels?.length ?? 0}, '
-        'updated=${event.updatedChannels?.length ?? 0}, '
-        'deleted=${event.deletedChannelIds?.length ?? 0}',
+        'voiceStates=${voiceStates.length}',
       ),
     );
 
@@ -3233,22 +3237,8 @@ class GatewayEventHandler {
       );
     }
 
-    for (final channel in [
-      ...?event.createdChannels,
-      ...?event.updatedChannels,
-    ]) {
-      _logGatewayDebug(
-        () => talker.debug('[Gateway]   channel: ${channel.id}'),
-      );
-      unawaited(_handleChannelUpsert(channel));
-    }
-
-    for (final id in event.deletedChannelIds ?? const <String>[]) {
-      _logGatewayDebug(() => talker.debug('[Gateway]   -channel: $id'));
-      unawaited(database.channelDao.deleteChannel(id));
-      if (_threadsActive(event.guildId)) {
-        unawaited(_deleteThreadsForParent(id));
-      }
+    if (voiceStates.isNotEmpty) {
+      _emit(() => onVoiceStatesBulk?.call(voiceStates));
     }
   }
 
