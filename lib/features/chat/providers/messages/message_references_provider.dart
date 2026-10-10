@@ -86,7 +86,7 @@ class MessageReferencesNotifier extends _$MessageReferencesNotifier {
     final missing = <({String channelId, String messageId})>[];
     for (final message in messages) {
       final reference = message.messageReference;
-      if (reference == null || reference.isForward) {
+      if (reference == null || reference.isForward || message.isCrosspostCopy) {
         continue;
       }
       final refChannelId = reference.channelId.isNotEmpty
@@ -127,7 +127,9 @@ class MessageReferencesNotifier extends _$MessageReferencesNotifier {
       );
     }
     final reference = schema.messageReference;
-    if (reference != null && reference.type != MessageReferenceType.forward) {
+    if (reference != null &&
+        reference.type != MessageReferenceType.forward &&
+        (schema.flags & messageFlagIsCrosspost) == 0) {
       final refChannelId = reference.channelId;
       final refMessageId = reference.messageId;
       if (refMessageId == null || refMessageId.isEmpty) {

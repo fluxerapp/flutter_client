@@ -1624,7 +1624,9 @@ class Message {
 
   bool get hasStickers => stickers.isNotEmpty;
   bool get isReply =>
-      replyToId != null && !(messageReference?.isForward ?? false);
+      replyToId != null &&
+      !(messageReference?.isForward ?? false) &&
+      !isCrosspostCopy;
 
   String get displayedContent {
     final MessageTranslation? current = translation;
@@ -1644,7 +1646,8 @@ class Message {
   bool get hasMentionsForGrouping =>
       mentionEveryone || mentionRoles.isNotEmpty || mentionedUserIds.isNotEmpty;
 
-  String? get replyParentMessageId => replyToId ?? messageReference?.messageId;
+  String? get replyParentMessageId =>
+      isCrosspostCopy ? null : replyToId ?? messageReference?.messageId;
 
   String get replyParentChannelId {
     final String? refChannelId = messageReference?.channelId;

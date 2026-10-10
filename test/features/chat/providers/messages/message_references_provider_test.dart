@@ -1,8 +1,11 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/features/chat/data/message_repository.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_references_provider.dart';
 import 'package:fluxer_dart/export.dart';
 
@@ -34,8 +37,65 @@ MessageReference _replyReference({
   );
 }
 
+Map<String, Object?> _crosspostCopyJson() => <String, Object?>{
+  'id': '400',
+  'channel_id': 'follower-channel',
+  'author': <String, Object?>{
+    'id': 'author-1',
+    'username': 'user',
+    'discriminator': '0001',
+    'global_name': null,
+    'avatar': null,
+    'avatar_color': null,
+    'flags': 0,
+  },
+  'type': 0,
+  'flags': messageFlagIsCrosspost,
+  'content': 'announcement',
+  'timestamp': DateTime.utc(2026, 1, 4).toIso8601String(),
+  'pinned': false,
+  'mention_everyone': false,
+  'tts': false,
+  'mentions': <Object?>[],
+  'mention_roles': <Object?>[],
+  'embeds': <Object?>[],
+  'attachments': <Object?>[],
+  'stickers': <Object?>[],
+  'message_reference': <String, Object?>{
+    'channel_id': 'source-channel',
+    'message_id': '100',
+    'guild_id': 'source-guild',
+    'type': 0,
+  },
+};
+
+class _RecordingMessageRepository extends MessageRepository {
+  _RecordingMessageRepository(FluxerDatabase database)
+    : super(FluxerClient(Dio()), Dio(), database, null);
+
+  final List<String> fetched = <String>[];
+
+  @override
+  Future<Message> fetchMessage({
+    required String channelId,
+    required String messageId,
+  }) async {
+    fetched.add('$channelId:$messageId');
+    throw StateError('unreachable in tests');
+  }
+}
+
 void main() {
   group('Message.fromSdk replyToId', () {
+    test('crosspost copy is not a reply to its source announcement', () {
+      final message = Message.fromSdk(
+        MessageResponseSchema.fromJson(_crosspostCopyJson()),
+      );
+      expect(message.isCrosspostCopy, isTrue);
+      expect(message.isReply, isFalse);
+      expect(message.replyParentMessageId, isNull);
+    });
+
     test('uses message_reference when referenced_message is absent', () {
       final schema = MessageResponseSchema.fromJson(<String, Object?>{
         'id': '200',
@@ -117,11 +177,16 @@ void main() {
   group('MessageReferencesNotifier', () {
     late FluxerDatabase database;
     late ProviderContainer container;
+    late _RecordingMessageRepository repository;
 
     setUp(() {
       database = openTestDatabase();
+      repository = _RecordingMessageRepository(database);
       container = ProviderContainer(
-        overrides: [fluxerDatabaseProvider.overrideWithValue(database)],
+        overrides: [
+          fluxerDatabaseProvider.overrideWithValue(database),
+          messageRepositoryProvider.overrideWithValue(repository),
+        ],
       );
     });
 
@@ -197,6 +262,42 @@ void main() {
       );
       expect(resolution.state, MessageReferenceState.notLoaded);
       expect(resolution.message, isNull);
+    });
+
+    test('a reply with an unresolved parent fetches it', () async {
+      final reply = _domainMessage(id: '200', channelId: 'channel-1').copyWith(
+        messageReference: _replyReference(
+          channelId: 'channel-1',
+          messageId: '100',
+        ),
+        replyToId: '100',
+      );
+      container
+          .read(messageReferencesProvider.notifier)
+          .onMessagesLoaded(channelId: 'channel-1', messages: [reply]);
+      await pumpEventQueue();
+      expect(repository.fetched, ['channel-1:100']);
+    });
+
+    test('a loaded crosspost copy never fetches its source', () async {
+      final copy = Message.fromSdk(
+        MessageResponseSchema.fromJson(_crosspostCopyJson()),
+      );
+      container
+          .read(messageReferencesProvider.notifier)
+          .onMessagesLoaded(channelId: 'follower-channel', messages: [copy]);
+      await pumpEventQueue();
+      expect(repository.fetched, isEmpty);
+    });
+
+    test('a live crosspost copy never fetches its source', () async {
+      container
+          .read(messageReferencesProvider.notifier)
+          .onMessageCreated(
+            MessageResponseSchema.fromJson(_crosspostCopyJson()),
+          );
+      await pumpEventQueue();
+      expect(repository.fetched, isEmpty);
     });
   });
 }
