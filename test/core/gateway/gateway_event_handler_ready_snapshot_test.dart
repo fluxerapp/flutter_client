@@ -12,7 +12,6 @@ void main() {
     GatewayEventHandler handler, {
     required String sessionId,
     List<Map<String, dynamic>> rawGuilds = const <Map<String, dynamic>>[],
-    List<ChannelResponse> privateChannels = const <ChannelResponse>[],
     List<Map<String, dynamic>> presences = const <Map<String, dynamic>>[],
     List<Map<String, dynamic>>? users,
     Map<String, String>? notes,
@@ -23,7 +22,7 @@ void main() {
         user: _user(),
         guilds: const [],
         rawGuilds: rawGuilds,
-        privateChannels: privateChannels,
+        privateChannels: const [],
         relationships: const [],
         readStates: const [],
         presences: presences,
@@ -226,6 +225,37 @@ void main() {
         expect(permissionGuildIds, <String>['g1']);
       },
     );
+  });
+
+  group('same-user re-READY account data', () {
+    test('notes missing from the READY map are removed', () async {
+      final FluxerDatabase database = openTestDatabase();
+      final GatewayEventHandler handler = GatewayEventHandler(
+        database: database,
+      );
+      await sendReady(
+        handler,
+        sessionId: 'session-1',
+        notes: <String, String>{'u1': 'kept', 'u2': 'deleted elsewhere'},
+      );
+
+      await sendReady(
+        handler,
+        sessionId: 'session-2',
+        notes: <String, String>{'u1': 'kept'},
+      );
+
+      expect((await database.userNotesDao.getNote('u1'))?.content, 'kept');
+      expect(await database.userNotesDao.getNote('u2'), isNull);
+
+      await sendReady(
+        handler,
+        sessionId: 'session-3',
+        notes: <String, String>{},
+      );
+
+      expect(await database.userNotesDao.getNote('u1'), isNull);
+    });
   });
 }
 

@@ -27,11 +27,14 @@ class UserNotesDao extends DatabaseAccessor<FluxerDatabase>
     userNotesTable,
   )..where((t) => t.targetUserId.equals(targetUserId))).go();
 
-  Future<void> upsertNotes(List<UserNotesTableCompanion> entries) async {
-    await batch((b) {
-      for (final entry in entries) {
-        b.insert(userNotesTable, entry, onConflict: DoUpdate((_) => entry));
-      }
+  Future<void> replaceAll(List<UserNotesTableCompanion> entries) async {
+    await transaction(() async {
+      await delete(userNotesTable).go();
+      await batch((b) {
+        for (final entry in entries) {
+          b.insert(userNotesTable, entry);
+        }
+      });
     });
   }
 

@@ -1307,8 +1307,8 @@ class GatewayEventHandler {
       }
 
       final notes = event.notes;
-      if (notes != null && notes.isNotEmpty) {
-        await database.userNotesDao.upsertNotes(
+      if (notes != null) {
+        await database.userNotesDao.replaceAll(
           notes.entries
               .map(
                 (e) => db.UserNotesTableCompanion(
