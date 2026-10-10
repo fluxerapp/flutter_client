@@ -17,6 +17,7 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/data/ack_batcher.dart';
 import 'package:fluxer_app/features/channels/providers/ack_batcher_provider.dart';
 import 'package:fluxer_app/features/chat/data/attachment_upload_client.dart';
+import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
@@ -89,6 +90,26 @@ Message _msg({
   authorName: 'author',
   content: content,
   timestamp: DateTime.utc(2026, 6, 16, 12),
+);
+
+FavoriteMeme _favoriteMeme(String id) => FavoriteMeme(
+  id: id,
+  userId: 'me',
+  name: 'Meme',
+  altText: null,
+  tags: const <String>[],
+  attachmentId: 'attachment-$id',
+  filename: 'meme.png',
+  contentType: 'image/png',
+  contentHash: null,
+  size: 1,
+  width: 100,
+  height: 100,
+  duration: null,
+  isGifv: false,
+  url: 'https://cdn.example/meme.png',
+  klipySlug: null,
+  tenorSlugId: null,
 );
 
 void main() {
@@ -469,6 +490,74 @@ void main() {
       expect(state.replyMentioning, isFalse);
     },
   );
+
+  test(
+    'retrying a failed send resends flags, reply ping choice and tts',
+    () async {
+      final _SendAdapter adapter = _SendAdapter(
+        serverMessageId: _snowflakeForUtc(DateTime.utc(2026, 6, 16, 12)),
+        failureCode: 'UNKNOWN_CHANNEL',
+      );
+      final (container, _, _) = await setUpChannel(adapter: adapter);
+      final notifier = container.read(chatViewModelProvider.notifier)
+        ..startReply(_msg(id: 'm-reply', authorId: 'other', content: 'hi'))
+        ..setReplyMentioning(mentioning: false);
+      await _flushAsync();
+
+      await notifier.sendMessage(text: '@silent hello', tts: true);
+      await _flushAsync();
+
+      final Message failed = container
+          .read(chatViewModelProvider)
+          .messages
+          .firstWhere((Message m) => m.hasFailed);
+      final Map<String, dynamic> original = adapter.lastBody!;
+      adapter
+        ..failureCode = null
+        ..lastBody = null;
+
+      await notifier.retryMessageSend(failed.id);
+      await _flushAsync();
+
+      final Map<String, dynamic> retried = adapter.lastBody!;
+      expect(retried['content'], 'hello');
+      expect(retried['flags'], 4096);
+      expect(retried['tts'], isTrue);
+      expect(retried['message_reference'], <String, dynamic>{
+        'message_id': 'm-reply',
+      });
+      expect(retried['allowed_mentions'], <String, dynamic>{
+        'replied_user': false,
+      });
+      expect(retried, original);
+    },
+  );
+
+  test('retrying a failed favorite meme send resends the meme id', () async {
+    final _SendAdapter adapter = _SendAdapter(
+      serverMessageId: _snowflakeForUtc(DateTime.utc(2026, 6, 16, 12)),
+      failureCode: 'UNKNOWN_CHANNEL',
+    );
+    final (container, _, _) = await setUpChannel(adapter: adapter);
+    final notifier = container.read(chatViewModelProvider.notifier);
+
+    await notifier.sendFavoriteMemeMessage(_favoriteMeme('meme-1'));
+    await _flushAsync();
+
+    final Message failed = container
+        .read(chatViewModelProvider)
+        .messages
+        .firstWhere((Message m) => m.hasFailed);
+    expect(adapter.lastBody?['favorite_meme_id'], 'meme-1');
+    adapter
+      ..failureCode = null
+      ..lastBody = null;
+
+    await notifier.retryMessageSend(failed.id);
+    await _flushAsync();
+
+    expect(adapter.lastBody?['favorite_meme_id'], 'meme-1');
+  });
 
   test(
     'send failure with DM restriction adds Fluxerbot system message',
@@ -984,6 +1073,12 @@ class _SendAdapter implements HttpClientAdapter {
         _sendCompleter ??= Completer<void>();
         await _sendCompleter!.future;
       }
+      final String? raw = await _readRequestBody(requestStream, options.data);
+      final Map<String, dynamic> body = raw == null || raw.isEmpty
+          ? <String, dynamic>{}
+          : jsonDecode(raw) as Map<String, dynamic>;
+      lastSentNonce = body['nonce'] as String?;
+      lastBody = body;
       if (failureCode != null) {
         return ResponseBody.fromString(
           jsonEncode(<String, Object?>{
@@ -996,12 +1091,6 @@ class _SendAdapter implements HttpClientAdapter {
           },
         );
       }
-      final String? raw = await _readRequestBody(requestStream, options.data);
-      final Map<String, dynamic> body = raw == null || raw.isEmpty
-          ? <String, dynamic>{}
-          : jsonDecode(raw) as Map<String, dynamic>;
-      lastSentNonce = body['nonce'] as String?;
-      lastBody = body;
       return _json(
         _messageJson(
           id: serverMessageId,

@@ -442,17 +442,18 @@ class _ArmedWindowSwap {
 /// started yet, so it protects all of them.
 const int _kUnacknowledgedOrdinal = 1 << 62;
 
-/// What the user did, as an OPERATION rather than a snapshot of the whole row.
-///
-/// A stored whole-message revision would own fields the mutation never touched:
-/// a page row carrying a newer remote text edit AND the pre-delete attachment
-/// would be replaced wholesale, correctly dropping the attachment and wrongly
-/// reverting the text. An operation only touches what it changed, and is
-/// idempotent against a page that already reflects it.
-///
-/// Client start order cannot order server visibility: a mutation started first
-/// can still reach the server AFTER a fetch started second, so the boundary is
-/// the ACKNOWLEDGEMENT, not the start.
+class _RetrySendOptions {
+  const _RetrySendOptions({
+    required this.replyMention,
+    this.favoriteMemeId,
+    this.tts = false,
+  });
+
+  final bool replyMention;
+  final String? favoriteMemeId;
+  final bool tts;
+}
+
 enum _LocalMutationKind { deleteMessage, removeAttachment, setAttachmentAlt }
 
 class _LocalMutation {
@@ -639,6 +640,8 @@ class ChatViewModel extends _$ChatViewModel {
   final Map<String, List<_LocalMutation>> _localMutations =
       <String, List<_LocalMutation>>{};
   final Map<String, Message> _inFlightOptimisticMessages = <String, Message>{};
+  final Map<String, _RetrySendOptions> _retrySendOptions =
+      <String, _RetrySendOptions>{};
   final Map<String, Future<void>> _pendingDeleteFutures =
       <String, Future<void>>{};
   final Map<String, DateTime> _lastNetworkRefreshByChannel =
@@ -656,6 +659,7 @@ class ChatViewModel extends _$ChatViewModel {
     _lastNetworkRefreshByChannel.clear();
     _localMutations.clear();
     _inFlightOptimisticMessages.clear();
+    _retrySendOptions.clear();
     _pendingDeleteFutures.clear();
     _loadedUnreadBoundaryKeys.clear();
     _realtimeQueue.clear();
@@ -4950,6 +4954,9 @@ class ChatViewModel extends _$ChatViewModel {
           : const <String>[],
       flags: kMessageFlagVoiceMessage,
     );
+    _retrySendOptions[optimisticMessage.id] = _RetrySendOptions(
+      replyMention: replyMention,
+    );
     state = state.copyWith(
       replyingTo: null,
       replyMentioning: false,
@@ -5130,6 +5137,11 @@ class ChatViewModel extends _$ChatViewModel {
           : const <String>[],
       flags: messageFlags,
     );
+    _retrySendOptions[optimisticMessage.id] = _RetrySendOptions(
+      replyMention: replyMention,
+      favoriteMemeId: favoriteMemeId,
+      tts: tts,
+    );
 
     talker.debug('[ChatViewModel] send optimistic channelId=$channelId');
     if (state.channelId == channelId) {
@@ -5219,6 +5231,7 @@ class ChatViewModel extends _$ChatViewModel {
             messageFlags: messageFlags,
             tts: tts,
           );
+      _retrySendOptions.remove(optimisticMessageId);
       unawaited(_recordSlowmodeSendOnSuccess(channelId));
       _commitDeliveredOptimisticSend(
         channelId: channelId,
@@ -5278,6 +5291,7 @@ class ChatViewModel extends _$ChatViewModel {
             messageFlags: messageFlags,
             tts: tts,
           );
+      _retrySendOptions.remove(optimisticMessageId);
       _finishAttachmentUploadSession(clientNonce, uploadNotifier);
       unawaited(_recordSlowmodeSendOnSuccess(channelId));
       _commitDeliveredOptimisticSend(
@@ -5502,6 +5516,7 @@ class ChatViewModel extends _$ChatViewModel {
           .read(cloudUploadControllerProvider(message.channelId).notifier)
           .cancelMessageUpload(nonce);
     }
+    _retrySendOptions.remove(messageId);
     final List<Message>? next = _removeIds(state.messages, {messageId});
     if (next == null) {
       return;
@@ -5527,6 +5542,7 @@ class ChatViewModel extends _$ChatViewModel {
       message,
     );
     if (alreadyDelivered != null) {
+      _retrySendOptions.remove(message.id);
       state = state.copyWith(
         write: (
           messages: _replaceOptimisticWithDelivered(
@@ -5549,6 +5565,7 @@ class ChatViewModel extends _$ChatViewModel {
       write: (messages: pendingMessages, origin: MessagesOrigin.localMutation),
       errorMessage: null,
     );
+    final _RetrySendOptions? options = _retrySendOptions[message.id];
     try {
       final Message sent = await ref
           .read(messageRepositoryProvider)
@@ -5556,11 +5573,16 @@ class ChatViewModel extends _$ChatViewModel {
             channelId: message.channelId,
             content: message.content,
             replyToId: message.replyToId,
+            replyMention: options?.replyMention ?? true,
             clientNonce: message.clientNonce ?? clientNonceGenerator.next(),
             stickerIds: message.stickers
                 .map((MessageSticker s) => s.id)
                 .toList(),
+            favoriteMemeId: options?.favoriteMemeId,
+            messageFlags: message.flags,
+            tts: options?.tts ?? false,
           );
+      _retrySendOptions.remove(message.id);
       final List<Message> nextMessages = _replaceOptimisticWithDelivered(
         messages: state.messages,
         optimisticId: message.id,
@@ -5624,6 +5646,7 @@ class ChatViewModel extends _$ChatViewModel {
     if (messageIndex == -1 || !state.messages[messageIndex].hasFailed) {
       return;
     }
+    _retrySendOptions.remove(messageId);
     final List<Message>? next = _removeIds(state.messages, {messageId});
     if (next == null) {
       return;
