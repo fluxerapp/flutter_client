@@ -228,6 +228,82 @@ void main() {
     );
   });
 
+  group('guild counts', () {
+    Future<Server> waitForServer(
+      FluxerDatabase database,
+      bool Function(Server server) condition,
+    ) async {
+      for (int i = 0; i < 100; i++) {
+        final Server? server = await database.guildDao.getServerById('g1');
+        if (server != null && condition(server)) {
+          return server;
+        }
+        await Future<void>.delayed(const Duration(milliseconds: 10));
+      }
+      fail('server row not updated within timeout');
+    }
+
+    test('GUILD_CREATE stores the guild member and online counts', () async {
+      final FluxerDatabase database = openTestDatabase();
+      final GatewayEventHandler handler = GatewayEventHandler(
+        database: database,
+      );
+
+      await handler.handle(
+        GuildCreateEvent(
+          guild: GuildCreateData.fromJson(
+            _guild(
+              channelIds: <String>['c1'],
+              roleIds: <String>['g1'],
+              memberCount: 5000,
+              onlineCount: 1200,
+            ),
+          ),
+        ),
+      );
+
+      final Server server = await waitForServer(
+        database,
+        (Server server) => server.memberCount == 5000,
+      );
+      expect(server.onlineCount, 1200);
+    });
+
+    test('GUILD_SYNC refreshes stale member and online counts', () async {
+      final FluxerDatabase database = openTestDatabase();
+      final GatewayEventHandler handler = GatewayEventHandler(
+        database: database,
+      );
+      await database.guildDao.upsertServer(
+        ServersCompanion.insert(
+          id: 'g1',
+          name: 'Guild g1',
+          memberCount: const Value<int>(10),
+          onlineCount: const Value<int>(4),
+        ),
+      );
+
+      await handler.handle(
+        GuildSyncEvent(
+          guild: GuildCreateData.fromJson(
+            _guild(
+              channelIds: <String>['c1'],
+              roleIds: <String>['g1'],
+              memberCount: 300,
+              onlineCount: 25,
+            ),
+          ),
+        ),
+      );
+
+      final Server server = await waitForServer(
+        database,
+        (Server server) => server.memberCount == 300,
+      );
+      expect(server.onlineCount, 25);
+    });
+  });
+
   group('same-user re-READY account data', () {
     test('notes missing from the READY map are removed', () async {
       final FluxerDatabase database = openTestDatabase();
@@ -341,6 +417,9 @@ Map<String, dynamic> _guild({
   required List<String> roleIds,
   List<String> emojiIds = const <String>[],
   List<String> stickerIds = const <String>[],
+  int memberCount = 1,
+  int onlineCount = 1,
+  List<Map<String, Object?>> voiceStates = const <Map<String, Object?>>[],
 }) => <String, dynamic>{
   'id': 'g1',
   'properties': <String, dynamic>{
@@ -383,8 +462,11 @@ Map<String, dynamic> _guild({
         'mentionable': false,
       },
   ],
+  'member_count': memberCount,
+  'online_count': onlineCount,
   'presences': <Map<String, Object?>>[],
-  'voice_states': <Map<String, Object?>>[],
+  'voice_states': voiceStates,
+  'joined_at': '2026-01-01T00:00:00.000Z',
   'emojis': <Map<String, Object?>>[
     for (final String id in emojiIds)
       <String, Object?>{'id': id, 'name': id, 'animated': false, 'nsfw': false},

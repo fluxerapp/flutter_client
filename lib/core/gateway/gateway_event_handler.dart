@@ -2720,6 +2720,8 @@ class GatewayEventHandler {
         await database.guildDao.upsertServer(
           guildFromSdk(
             event.guild.guild,
+            memberCount: event.guild.memberCount,
+            onlineCount: event.guild.onlineCount,
           ).copyWith(threadChannelsActive: Value(threadsActive)),
         );
 
