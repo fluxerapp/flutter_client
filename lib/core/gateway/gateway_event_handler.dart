@@ -806,6 +806,7 @@ class GatewayEventHandler {
     );
 
     final List<String> prunedGuildIds = <String>[];
+    final List<String> prunedChannelIds = <String>[];
     final List<VoiceState> readyVoiceStates = <VoiceState>[];
 
     // Drop unread writes queued against the previous session. The snapshot
@@ -965,11 +966,20 @@ class GatewayEventHandler {
         final List<({String guildId, List<db.GuildStickersCompanion> stickers})>
         stickerReplacements =
             <({String guildId, List<db.GuildStickersCompanion> stickers})>[];
+        final Map<String, Set<String>> snapshotChannelIdsByGuildId =
+            <String, Set<String>>{};
+        final Map<String, Set<String>> snapshotRoleIdsByGuildId =
+            <String, Set<String>>{};
 
         for (final ParsedReadyGuild parsed in processedGuilds) {
           final GuildCreateData guildData = parsed.guildData;
           final String guildId = guildData.guild.id;
           final bool threadsActive = readyThreadGuildIds.contains(guildId);
+          final Set<String> snapshotChannelIds = <String>{};
+          snapshotChannelIdsByGuildId[guildId] = snapshotChannelIds;
+          snapshotRoleIdsByGuildId[guildId] = <String>{
+            for (final GuildRoleResponse role in guildData.roles) role.id,
+          };
           guildCompanions.add(
             guildFromSdk(
               guildData.guild,
@@ -984,6 +994,7 @@ class GatewayEventHandler {
               continue;
             }
             channelCompanions.add(channelFromSdk(channel, guildId));
+            snapshotChannelIds.add(channel.id);
           }
           if (threadsActive) {
             final List<db.ThreadMembersCompanion> joined =
@@ -1023,7 +1034,7 @@ class GatewayEventHandler {
           if (guildData.voiceStates.isNotEmpty) {
             readyVoiceStates.addAll(guildData.voiceStates);
           }
-          if (guildData.emojis.isNotEmpty) {
+          if (guildData.emojis.isNotEmpty || isSameUserReconnect) {
             emojiReplacements.add((
               guildId: guildId,
               emojis: guildData.emojis
@@ -1038,7 +1049,7 @@ class GatewayEventHandler {
                   .toList(),
             ));
           }
-          if (guildData.stickers.isNotEmpty) {
+          if (guildData.stickers.isNotEmpty || isSameUserReconnect) {
             stickerReplacements.add((
               guildId: guildId,
               stickers: guildData.stickers
@@ -1106,6 +1117,12 @@ class GatewayEventHandler {
         }
 
         if (isSameUserReconnect) {
+          prunedChannelIds.addAll(
+            (await _pruneGuildSnapshots(
+              channelIdsByGuildId: snapshotChannelIdsByGuildId,
+              roleIdsByGuildId: snapshotRoleIdsByGuildId,
+            )).channelIds,
+          );
           final readyGuildIds = <String>{
             for (final rawGuild in event.rawGuilds)
               if (rawGuild['id'] is String) rawGuild['id'] as String,
@@ -1373,6 +1390,7 @@ class GatewayEventHandler {
     if (!hasUnavailableGuilds) {
       unawaited(readStateRepository?.cleanupStaleReadStates());
     }
+    _forgetPrunedChannels(prunedChannelIds);
     _emit(() {
       for (final guildId in prunedGuildIds) {
         onGuildPermissionsEvict?.call(guildId);
@@ -2652,8 +2670,9 @@ class GatewayEventHandler {
         ? null
         : persisted?.remove(guildId);
 
-    unawaited(
-      database.transaction(() async {
+    unawaited(() async {
+      final ({List<String> channelIds, Set<String> roleGuildIds})
+      pruned = await database.transaction(() async {
         if (transition == ThreadGateTransition.deactivated ||
             (!threadsActive &&
                 (wasPersistedActive ??
@@ -2713,11 +2732,24 @@ class GatewayEventHandler {
           );
         }
 
-        if (event.guild.roles.isNotEmpty) {
-          await database.roleDao.upsertRoles(
-            event.guild.roles.map((r) => roleFromSdk(r, guildId)).toList(),
-          );
-        }
+        await database.roleDao.upsertRoles(
+          event.guild.roles.map((r) => roleFromSdk(r, guildId)).toList(),
+        );
+        final ({List<String> channelIds, Set<String> roleGuildIds}) pruned =
+            await _pruneGuildSnapshots(
+              channelIdsByGuildId: <String, Set<String>>{
+                guildId: <String>{
+                  for (final db.ChannelsCompanion channel in channelCompanions)
+                    channel.id.value,
+                },
+              },
+              roleIdsByGuildId: <String, Set<String>>{
+                guildId: <String>{
+                  for (final GuildRoleResponse role in event.guild.roles)
+                    role.id,
+                },
+              },
+            );
 
         if (event.guild.members.isNotEmpty) {
           await database.userDao.upsertUsers([
@@ -2730,41 +2762,45 @@ class GatewayEventHandler {
           ]);
         }
 
-        if (event.guild.emojis.isNotEmpty) {
-          await database.guildEmojiDao.replaceForGuild(
-            guildId,
-            event.guild.emojis
-                .map(
-                  (e) => db.GuildEmojisCompanion.insert(
-                    id: e.id,
-                    guildId: guildId,
-                    name: e.name,
-                    animated: Value(e.animated),
-                  ),
-                )
-                .toList(),
-          );
-        }
+        await database.guildEmojiDao.replaceForGuild(
+          guildId,
+          event.guild.emojis
+              .map(
+                (e) => db.GuildEmojisCompanion.insert(
+                  id: e.id,
+                  guildId: guildId,
+                  name: e.name,
+                  animated: Value(e.animated),
+                ),
+              )
+              .toList(),
+        );
 
-        if (event.guild.stickers.isNotEmpty) {
-          await database.guildStickerDao.replaceForGuild(
-            guildId,
-            event.guild.stickers
-                .map(
-                  (s) => db.GuildStickersCompanion.insert(
-                    id: s.id,
-                    guildId: guildId,
-                    name: s.name,
-                    description: Value(s.description),
-                    tagsJson: Value(jsonEncode(s.tags)),
-                    animated: Value(s.animated),
-                  ),
-                )
-                .toList(),
-          );
-        }
-      }),
-    );
+        await database.guildStickerDao.replaceForGuild(
+          guildId,
+          event.guild.stickers
+              .map(
+                (s) => db.GuildStickersCompanion.insert(
+                  id: s.id,
+                  guildId: guildId,
+                  name: s.name,
+                  description: Value(s.description),
+                  tagsJson: Value(jsonEncode(s.tags)),
+                  animated: Value(s.animated),
+                ),
+              )
+              .toList(),
+        );
+        return pruned;
+      });
+      _forgetPrunedChannels(pruned.channelIds);
+      if (pruned.channelIds.isNotEmpty) {
+        messageMentionContextCache?.invalidateGuild(guildId);
+      }
+      if (pruned.roleGuildIds.isNotEmpty) {
+        _emit(() => onGuildPermissionsChanged?.call(guildId));
+      }
+    }());
 
     if (event.guild.voiceStates.isNotEmpty) {
       _emit(() => onVoiceStatesBulk?.call(event.guild.voiceStates));
@@ -2776,6 +2812,35 @@ class GatewayEventHandler {
           active: transition == ThreadGateTransition.activated,
         ),
       );
+    }
+  }
+
+  Future<({List<String> channelIds, Set<String> roleGuildIds})>
+  _pruneGuildSnapshots({
+    required Map<String, Set<String>> channelIdsByGuildId,
+    required Map<String, Set<String>> roleIdsByGuildId,
+  }) async {
+    final List<String> channelIds = await database.channelDao
+        .deleteGuildChannelsNotIn(channelIdsByGuildId);
+    await database.messageDao.deleteMessagesForChannels(channelIds);
+    await database.readStateDao.deleteReadStatesForChannels(channelIds);
+    final List<String> threadIds = <String>[
+      for (final String channelId in channelIds)
+        ...await database.threadDao.deleteThreadsForParent(channelId),
+    ];
+    return (
+      channelIds: <String>[...channelIds, ...threadIds],
+      roleGuildIds: await database.roleDao.deleteGuildRolesNotIn(
+        roleIdsByGuildId,
+      ),
+    );
+  }
+
+  void _forgetPrunedChannels(List<String> channelIds) {
+    for (final String channelId in channelIds) {
+      readStateWriteBatcher?.discard(channelId);
+      messageMentionContextCache?.invalidateChannel(channelId);
+      _emit(() => onChannelDelete?.call(channelId));
     }
   }
 

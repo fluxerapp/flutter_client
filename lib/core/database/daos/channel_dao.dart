@@ -225,6 +225,28 @@ class ChannelDao extends DatabaseAccessor<FluxerDatabase>
   Future<void> deleteChannel(String id) =>
       (delete(channels)..where((c) => c.id.equals(id))).go();
 
+  Future<List<String>> deleteGuildChannelsNotIn(
+    Map<String, Set<String>> keepIdsByGuildId,
+  ) async {
+    if (keepIdsByGuildId.isEmpty) {
+      return const <String>[];
+    }
+    final List<String> staleIds = <String>[
+      for (final Channel row
+          in await (select(channels)..where(
+                (c) =>
+                    c.guildId.isIn(keepIdsByGuildId.keys) &
+                    c.type.isNotIn(_threadTypes),
+              ))
+              .get())
+        if (!(keepIdsByGuildId[row.guildId]?.contains(row.id) ?? true)) row.id,
+    ];
+    if (staleIds.isNotEmpty) {
+      await (delete(channels)..where((c) => c.id.isIn(staleIds))).go();
+    }
+    return staleIds;
+  }
+
   Future<void> deleteChannelsForGuild(String guildId) =>
       (delete(channels)..where((c) => c.guildId.equals(guildId))).go();
 

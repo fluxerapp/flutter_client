@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/gateway/gateway_event_handler.dart';
@@ -100,6 +101,132 @@ void main() {
       );
     });
   });
+
+  group('guild snapshot replace', () {
+    Future<void> waitFor(Future<bool> Function() condition) async {
+      for (var i = 0; i < 100; i++) {
+        if (await condition()) {
+          return;
+        }
+        await Future<void>.delayed(const Duration(milliseconds: 10));
+      }
+      fail('condition not met within timeout');
+    }
+
+    final Map<String, dynamic> fullGuild = _guild(
+      channelIds: <String>['c-kept', 'c-gone'],
+      roleIds: <String>['g1', 'r-kept', 'r-gone'],
+      emojiIds: <String>['e1'],
+      stickerIds: <String>['s1'],
+    );
+    final Map<String, dynamic> shrunkGuild = _guild(
+      channelIds: <String>['c-kept'],
+      roleIds: <String>['g1', 'r-kept'],
+    );
+
+    test(
+      'same-user re-READY drops channels and roles the guild no longer lists',
+      () async {
+        final FluxerDatabase database = openTestDatabase();
+        final List<String> deletedChannelIds = <String>[];
+        final GatewayEventHandler handler = GatewayEventHandler(
+          database: database,
+          onChannelDelete: deletedChannelIds.add,
+        );
+        await sendReady(
+          handler,
+          sessionId: 'session-1',
+          rawGuilds: <Map<String, dynamic>>[fullGuild],
+        );
+        await database.channelDao.upsertChannels(<ChannelsCompanion>[
+          ChannelsCompanion.insert(
+            id: 't-kept',
+            guildId: 'g1',
+            name: 'thread',
+            type: const Value(11),
+            parentId: const Value('c-kept'),
+          ),
+          ChannelsCompanion.insert(
+            id: 't-gone',
+            guildId: 'g1',
+            name: 'thread',
+            type: const Value(11),
+            parentId: const Value('c-gone'),
+          ),
+        ]);
+        await database.readStateDao.upsertReadStates(<ReadStatesCompanion>[
+          ReadStatesCompanion.insert(channelId: 'c-gone'),
+        ]);
+
+        await sendReady(
+          handler,
+          sessionId: 'session-2',
+          rawGuilds: <Map<String, dynamic>>[shrunkGuild],
+        );
+
+        expect(
+          (await database.channelDao.getChannels(
+            'g1',
+            includeThreads: true,
+          )).map((Channel channel) => channel.id).toSet(),
+          <String>{'c-kept', 't-kept'},
+        );
+        expect(
+          (await database.roleDao.getRoles(
+            'g1',
+          )).map((Role role) => role.id).toSet(),
+          <String>{'g1', 'r-kept'},
+        );
+        expect(await database.readStateDao.getReadState('c-gone'), isNull);
+        expect(await database.guildEmojiDao.getById('e1'), isNull);
+        expect(await database.guildStickerDao.getAll(), isEmpty);
+        expect(deletedChannelIds, containsAll(<String>['c-gone', 't-gone']));
+      },
+    );
+
+    test(
+      'GUILD_SYNC drops channels, roles, emojis and stickers it omits',
+      () async {
+        final FluxerDatabase database = openTestDatabase();
+        final List<String> deletedChannelIds = <String>[];
+        final List<String> permissionGuildIds = <String>[];
+        final GatewayEventHandler handler = GatewayEventHandler(
+          database: database,
+          onChannelDelete: deletedChannelIds.add,
+          onGuildPermissionsChanged: permissionGuildIds.add,
+        );
+        await sendReady(
+          handler,
+          sessionId: 'session-1',
+          rawGuilds: <Map<String, dynamic>>[fullGuild],
+        );
+        expect(await database.channelDao.getChannelById('c-gone'), isNotNull);
+        expect(await database.guildEmojiDao.getById('e1'), isNotNull);
+
+        await handler.handle(
+          GuildSyncEvent(guild: GuildCreateData.fromJson(shrunkGuild)),
+        );
+        await waitFor(() async => deletedChannelIds.isNotEmpty);
+
+        expect(
+          (await database.channelDao.getChannels(
+            'g1',
+          )).map((Channel channel) => channel.id).toSet(),
+          <String>{'c-kept'},
+        );
+        expect(
+          (await database.roleDao.getRoles(
+            'g1',
+          )).map((Role role) => role.id).toSet(),
+          <String>{'g1', 'r-kept'},
+        );
+        expect(await database.guildEmojiDao.getById('e1'), isNull);
+        expect(await database.guildStickerDao.getAll(), isEmpty);
+        expect(deletedChannelIds, <String>['c-gone']);
+        expect(permissionGuildIds, <String>['g1']);
+      },
+    );
+  });
 }
 
 Map<String, dynamic> _userPartial(String id) => <String, dynamic>{
@@ -122,6 +249,72 @@ Map<String, dynamic> _presence(
   'mobile': mobile,
   'afk': false,
   'custom_status': <String, dynamic>{'text': 'busy'},
+};
+
+Map<String, dynamic> _guild({
+  required List<String> channelIds,
+  required List<String> roleIds,
+  List<String> emojiIds = const <String>[],
+  List<String> stickerIds = const <String>[],
+}) => <String, dynamic>{
+  'id': 'g1',
+  'properties': <String, dynamic>{
+    'id': 'g1',
+    'name': 'Guild g1',
+    'splash_card_alignment': 0,
+    'owner_id': '100',
+    'system_channel_flags': 0,
+    'afk_timeout': 300,
+    'features': <String>[],
+    'verification_level': 0,
+    'mfa_level': 0,
+    'nsfw_level': 0,
+    'nsfw': false,
+    'content_warning_level': 0,
+    'explicit_content_filter': 0,
+    'default_message_notifications': 0,
+    'disabled_operations': 0,
+  },
+  'channels': <Map<String, Object?>>[
+    for (final String id in channelIds)
+      <String, Object?>{
+        'id': id,
+        'type': 0,
+        'guild_id': 'g1',
+        'name': id,
+        'position': 0,
+      },
+  ],
+  'members': <Map<String, Object?>>[],
+  'roles': <Map<String, Object?>>[
+    for (final String id in roleIds)
+      <String, Object?>{
+        'id': id,
+        'name': id,
+        'color': 0,
+        'position': 0,
+        'permissions': '0',
+        'hoist': false,
+        'mentionable': false,
+      },
+  ],
+  'presences': <Map<String, Object?>>[],
+  'voice_states': <Map<String, Object?>>[],
+  'emojis': <Map<String, Object?>>[
+    for (final String id in emojiIds)
+      <String, Object?>{'id': id, 'name': id, 'animated': false, 'nsfw': false},
+  ],
+  'stickers': <Map<String, Object?>>[
+    for (final String id in stickerIds)
+      <String, Object?>{
+        'id': id,
+        'name': id,
+        'description': '',
+        'tags': <String>[],
+        'animated': false,
+        'nsfw': false,
+      },
+  ],
 };
 
 UserPrivateResponse _user() => UserPrivateResponse.fromJson({
