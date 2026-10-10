@@ -179,6 +179,7 @@ void main() {
       );
 
       await handler.handle(const GuildDeleteEvent(guildId: 'g1'));
+      await Future<void>.delayed(const Duration(milliseconds: 50));
 
       expect(endedGuildIds, <String>['g1']);
     });
@@ -195,6 +196,7 @@ void main() {
       await handler.handle(
         const GuildDeleteEvent(guildId: 'g1', unavailable: true),
       );
+      await Future<void>.delayed(const Duration(milliseconds: 50));
 
       expect(endedGuildIds, <String>['g1']);
     });
