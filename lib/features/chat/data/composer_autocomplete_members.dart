@@ -79,7 +79,7 @@ Future<ViewChannelFilterContext?> loadViewChannelFilterContext({
   final int everyonePermissions =
       int.tryParse(everyoneRole?.permissions ?? '0') ?? 0;
   final List<String?> layers = await database.channelDao
-      .getPermissionOverwriteLayersRootToLeaf(channelId);
+      .getPermissionOverwriteLayers(channelId);
   return ViewChannelFilterContext(
     guildOwnerId: ownerId,
     everyonePermissions: everyonePermissions,

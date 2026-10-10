@@ -71,8 +71,9 @@ Future<ChannelUnreadPermissionOutcome> evaluateChannelUnreadPermission({
       .where((role) => memberRoleIds.contains(role.id))
       .map(MemberRole.fromRow)
       .toList();
-  final layers = await database.channelDao
-      .getPermissionOverwriteLayersRootToLeaf(channel.id);
+  final layers = await database.channelDao.getPermissionOverwriteLayers(
+    channel.id,
+  );
   final bits = evaluateChannelEffectivePermissionBits(
     guildOwnerId: guild.ownerId ?? '',
     guildId: channel.guildId,

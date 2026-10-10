@@ -107,8 +107,9 @@ computeEffectiveGuildChannelPermissionBitsOutcome({
       .where((r) => memberRoleIds.contains(r.id))
       .map(MemberRole.fromRow)
       .toList();
-  final List<String?> layers = await db.channelDao
-      .getPermissionOverwriteLayersRootToLeaf(channelId);
+  final List<String?> layers = await db.channelDao.getPermissionOverwriteLayers(
+    channelId,
+  );
   if (!ref.mounted) {
     return (value: 0, shouldCache: false);
   }
@@ -220,10 +221,7 @@ computeEffectiveGuildChannelPermissionBitsOutcomesForGuild({
           everyonePermissions: everyonePermissions,
           memberRoles: memberRoles,
           memberRecordPresent: true,
-          overwriteJsonLayersRootToLeaf: _overwriteLayersRootToLeaf(
-            channel,
-            byId,
-          ),
+          overwriteJsonLayersRootToLeaf: _overwriteLayers(channel, byId),
         );
         return (
           value: isThreadChannelType(channel.type)
@@ -235,19 +233,11 @@ computeEffectiveGuildChannelPermissionBitsOutcomesForGuild({
   };
 }
 
-List<String?> _overwriteLayersRootToLeaf(
-  Channel channel,
-  Map<String, Channel> byId,
-) {
-  final List<String?> bottomUp = <String?>[];
-  Channel? current = channel;
-  final Set<String> seen = <String>{};
-  while (current != null && seen.add(current.id)) {
-    bottomUp.add(current.permissionOverwritesJson);
-    final String? parentId = current.parentId;
-    current = parentId == null ? null : byId[parentId];
+List<String?> _overwriteLayers(Channel channel, Map<String, Channel> byId) {
+  if (!isThreadChannelType(channel.type)) {
+    return <String?>[channel.permissionOverwritesJson];
   }
-  return bottomUp.reversed.toList();
+  return <String?>[byId[channel.parentId]?.permissionOverwritesJson];
 }
 
 Future<int> computeEffectiveGuildChannelPermissionBits({
