@@ -19,9 +19,9 @@ String formatPrivacyCommunicationSettingsPath(FluxerLocalizations l10n) {
 
 String? clientSystemMessageForSendError({
   required String? apiErrorCode,
-  String? apiMessage,
   required FluxerLocalizations l10n,
   required bool selfHosted,
+  String? apiMessage,
 }) {
   switch (apiErrorCode) {
     case apiErrorCodeCannotSendMessagesToUser:
