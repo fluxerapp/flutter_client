@@ -151,7 +151,7 @@ void main() {
     test('pins, sorts active posts and keeps archived posts apart', () {
       final ForumPostList list = buildForumPostList(
         forumId: '100',
-        active: <Channel>[
+        known: <Channel>[
           _post('10'),
           _post('11', flags: channelFlagPinned),
           _post('12'),
@@ -168,10 +168,28 @@ void main() {
       expect(list.archived.map((post) => post.id), <String>['5']);
     });
 
+    test('known archived posts are bucketed and sorted as archived', () {
+      final ForumPostList list = buildForumPostList(
+        forumId: '100',
+        known: <Channel>[
+          _post('10'),
+          _post('6', archived: true),
+          _post('8', archived: true, flags: channelFlagPinned),
+        ],
+        extra: <Channel>[_post('7', archived: true)],
+        sortOrder: ForumSortOrder.creationTime,
+        tagIds: const <String>[],
+        tagMatch: ForumTagMatch.some,
+      );
+      expect(list.pinned, isNull);
+      expect(list.active.map((post) => post.id), <String>['10']);
+      expect(list.archived.map((post) => post.id), <String>['8', '7', '6']);
+    });
+
     test('creation time ignores activity', () {
       final ForumPostList list = buildForumPostList(
         forumId: '100',
-        active: <Channel>[_post('10'), _post('12')],
+        known: <Channel>[_post('10'), _post('12')],
         extra: const <Channel>[],
         sortOrder: ForumSortOrder.creationTime,
         tagIds: const <String>[],
@@ -189,7 +207,7 @@ void main() {
       ];
       List<String> ids(ForumTagMatch match) => buildForumPostList(
         forumId: '100',
-        active: posts,
+        known: posts,
         extra: const <Channel>[],
         sortOrder: ForumSortOrder.creationTime,
         tagIds: const <String>['a', 'b'],

@@ -227,7 +227,7 @@ class ForumPostList {
 
 ForumPostList buildForumPostList({
   required String forumId,
-  required Iterable<Channel> active,
+  required Iterable<Channel> known,
   required Iterable<Channel> extra,
   required ForumSortOrder sortOrder,
   required List<String> tagIds,
@@ -238,7 +238,7 @@ ForumPostList buildForumPostList({
   final List<Channel> activePosts = <Channel>[];
   final List<Channel> archivedPosts = <Channel>[];
   Channel? pinned;
-  for (final Channel post in <Channel>[...active, ...extra]) {
+  for (final Channel post in <Channel>[...known, ...extra]) {
     if (post.parentId != forumId || !post.isThread || !seen.add(post.id)) {
       continue;
     }
@@ -252,12 +252,12 @@ ForumPostList buildForumPostList({
     }
     (archived ? archivedPosts : activePosts).add(post);
   }
-  activePosts.sort(
-    (Channel a, Channel b) => compareSnowflakeIds(
-      postSortKey(b, sortOrder, lastMessageIds[b.id]),
-      postSortKey(a, sortOrder, lastMessageIds[a.id]),
-    ),
+  int byKey(Channel a, Channel b) => compareSnowflakeIds(
+    postSortKey(b, sortOrder, lastMessageIds[b.id]),
+    postSortKey(a, sortOrder, lastMessageIds[a.id]),
   );
+  activePosts.sort(byKey);
+  archivedPosts.sort(byKey);
   return ForumPostList(
     pinned: pinned,
     active: activePosts,

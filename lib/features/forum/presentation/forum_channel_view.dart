@@ -216,7 +216,7 @@ class _ForumChannelViewState extends ConsumerState<ForumChannelView> {
           )
         : buildForumPostList(
             forumId: forum.id,
-            active: stored.where((Channel post) => !isPostArchived(post)),
+            known: stored,
             extra: <Channel>[
               for (final String id in list.ids)
                 if (byId[id] case final Channel post) post,
