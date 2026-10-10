@@ -1,13 +1,17 @@
 import 'dart:async';
 
 import 'package:flutter_webrtc/flutter_webrtc.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/features/voice/domain/voice_output_route.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/providers/voice_noise_filter_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_p2p_mode_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_video_quality_provider.dart';
 import 'package:fluxer_app/features/voice/utils/camera_resolution_presets.dart';
 import 'package:fluxer_app/features/voice/utils/screen_share_presets.dart';
 import 'package:fluxer_app/features/voice/utils/voice_audio_publish_options.dart';
 import 'package:fluxer_app/features/voice/utils/voice_camera_platform.dart';
+import 'package:fluxer_app/features/voice/utils/voice_p2p_mode.dart';
 import 'package:fluxer_app/features/voice/utils/voice_processing_profile.dart';
 import 'package:fluxer_app/features/voice/utils/voice_speaker_route.dart';
 import 'package:fluxer_app/features/voice/utils/voice_volume_utils.dart';
@@ -17,16 +21,31 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'voice_settings_applicator.g.dart';
 
 class VoiceSettingsApplicator {
-  const VoiceSettingsApplicator({required this.noiseFilterSupported});
+  const VoiceSettingsApplicator({
+    required this.noiseFilterSupported,
+    required this.higherVideoQuality,
+    required this.meshPhoneCap,
+  });
 
   final bool noiseFilterSupported;
+  final bool higherVideoQuality;
+  final bool meshPhoneCap;
+
+  VoiceSettingsState _clampVideo(VoiceSettingsState settings) {
+    return clampVoiceVideoSettings(
+      settings,
+      higherVideoQuality: higherVideoQuality,
+      meshPhoneCap: meshPhoneCap,
+    );
+  }
 
   static Future<void> _cameraRefreshInFlight = Future<void>.value();
 
   RoomOptions buildRoomOptions(
-    VoiceSettingsState settings, {
+    VoiceSettingsState configured, {
     int? channelBitrate,
   }) {
+    final VoiceSettingsState settings = _clampVideo(configured);
     final ResolvedVoiceProcessing processing = resolveVoiceProcessing(
       settings: settings,
       noiseFilterSupported: noiseFilterSupported,
@@ -228,7 +247,10 @@ class VoiceSettingsApplicator {
     }
   }
 
-  CameraCaptureOptions buildCameraCaptureOptions(VoiceSettingsState settings) {
+  CameraCaptureOptions buildCameraCaptureOptions(
+    VoiceSettingsState configured,
+  ) {
+    final VoiceSettingsState settings = _clampVideo(configured);
     return cameraCaptureOptionsFor(
       resolution: settings.cameraResolution,
       deviceId: settings.videoDeviceId,
@@ -237,8 +259,9 @@ class VoiceSettingsApplicator {
   }
 
   ScreenShareCaptureOptions buildScreenShareCaptureOptions(
-    VoiceSettingsState settings,
+    VoiceSettingsState configured,
   ) {
+    final VoiceSettingsState settings = _clampVideo(configured);
     return screenShareCaptureOptionsFor(
       resolution: settings.screenshareResolution,
       frameRate: settings.videoFrameRate,
@@ -501,12 +524,17 @@ class VoiceSettingsApplicator {
 
 @Riverpod(keepAlive: true)
 VoiceSettingsApplicator voiceSettingsApplicator(Ref ref) {
-  final AsyncValue<VoiceNoiseFilterState> noiseFilterState = ref.watch(
-    voiceNoiseFilterProvider,
-  );
-  return noiseFilterState.maybeWhen(
-    data: (VoiceNoiseFilterState value) =>
-        VoiceSettingsApplicator(noiseFilterSupported: value.isSupported),
-    orElse: () => const VoiceSettingsApplicator(noiseFilterSupported: false),
+  final bool noiseFilterSupported = ref
+      .watch(voiceNoiseFilterProvider)
+      .maybeWhen(
+        data: (VoiceNoiseFilterState value) => value.isSupported,
+        orElse: () => false,
+      );
+  return VoiceSettingsApplicator(
+    noiseFilterSupported: noiseFilterSupported,
+    higherVideoQuality: ref.watch(voiceHigherVideoQualityProvider),
+    meshPhoneCap:
+        isFluxerMobileOs &&
+        ref.watch(activeVoiceChannelModeProvider) == VoiceChannelMode.p2p,
   );
 }

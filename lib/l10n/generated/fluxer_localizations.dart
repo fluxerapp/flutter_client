@@ -24851,6 +24851,150 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'{seconds, plural, =1{You can post again in 1 second.} other{You can post again in {seconds} seconds.}}'**
   String forumPostCooldown(int seconds);
+
+  /// Title of the sheet offering to start a call in P2P mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Start in P2P mode?'**
+  String get voiceP2pStartTitle;
+
+  /// Explains the costs of starting a P2P call. maxParticipants is the participant cap, for example 4.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio and video go directly between participants, with lower latency. Other participants can see your IP address. Up to {maxParticipants} people can take part. Anyone who cannot connect directly cannot take part until someone switches to a standard call.'**
+  String voiceP2pStartDescription(int maxParticipants);
+
+  /// Button that starts a call in P2P mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Start in P2P mode'**
+  String get voiceP2pStartConfirm;
+
+  /// Button that starts an ordinary call through the server.
+  ///
+  /// In en, this message translates to:
+  /// **'Start standard call'**
+  String get voiceP2pStartStandard;
+
+  /// Title of the sheet asking for agreement before joining a P2P call.
+  ///
+  /// In en, this message translates to:
+  /// **'Join a P2P call?'**
+  String get voiceP2pJoinTitle;
+
+  /// Explains the costs of joining a P2P call. maxParticipants is the participant cap, for example 4.
+  ///
+  /// In en, this message translates to:
+  /// **'This call connects participants directly. Other participants can see your IP address. Up to {maxParticipants} people can take part. If you cannot connect directly, you cannot take part until someone switches to a standard call.'**
+  String voiceP2pJoinDescription(int maxParticipants);
+
+  /// Explains the costs of joining a channel that only allows P2P calls. maxParticipants is the participant cap, for example 4.
+  ///
+  /// In en, this message translates to:
+  /// **'This channel only allows P2P calls. Participants connect directly and can see your IP address. Up to {maxParticipants} people can take part. If you cannot connect directly, you cannot take part.'**
+  String voiceP2pPinnedJoinDescription(int maxParticipants);
+
+  /// Button that agrees to join a P2P call.
+  ///
+  /// In en, this message translates to:
+  /// **'Join'**
+  String get voiceP2pJoinConfirm;
+
+  /// Checkbox on the P2P join sheet that skips the sheet in future.
+  ///
+  /// In en, this message translates to:
+  /// **'Do not ask again, always agree'**
+  String get voiceP2pAlwaysAgreeLabel;
+
+  /// Settings toggle that skips the P2P join agreement.
+  ///
+  /// In en, this message translates to:
+  /// **'Always agree to join P2P calls'**
+  String get voiceP2pAlwaysAgreeSettingLabel;
+
+  /// Description of the setting that skips the P2P join agreement.
+  ///
+  /// In en, this message translates to:
+  /// **'Join P2P calls without asking. Other participants can see your IP address.'**
+  String get voiceP2pAlwaysAgreeSettingDescription;
+
+  /// Short label shown while a call is in P2P mode.
+  ///
+  /// In en, this message translates to:
+  /// **'P2P'**
+  String get voiceP2pIndicatorLabel;
+
+  /// Status line shown while a call is in P2P mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct connection. Media is encrypted between participants.'**
+  String get voiceP2pIndicatorDescription;
+
+  /// Action that moves a P2P call to the server for everyone.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to standard call'**
+  String get voiceP2pSwitchToStandard;
+
+  /// Explains what switching a P2P call to a standard call does.
+  ///
+  /// In en, this message translates to:
+  /// **'Everyone in the call moves to a standard call through the server.'**
+  String get voiceP2pSwitchToStandardDescription;
+
+  /// Shown on a participant tile when a direct connection failed.
+  ///
+  /// In en, this message translates to:
+  /// **'A direct connection could not be made. Leave the call or switch everyone to a standard call.'**
+  String get voiceP2pPeerFailedDescription;
+
+  /// Shown when the server rejects a P2P call.
+  ///
+  /// In en, this message translates to:
+  /// **'P2P calls are unavailable right now.'**
+  String get voiceP2pUnavailableError;
+
+  /// Shown when the server rejects a join because P2P agreement is missing.
+  ///
+  /// In en, this message translates to:
+  /// **'This call is P2P and needs your agreement to join.'**
+  String get voiceP2pConsentRequiredError;
+
+  /// Shown when the server rejects a join because the call is full.
+  ///
+  /// In en, this message translates to:
+  /// **'This call is full.'**
+  String get voiceChannelFullError;
+
+  /// Explains why the screen share button is disabled in a P2P call.
+  ///
+  /// In en, this message translates to:
+  /// **'Screen sharing from this device is not available in P2P calls.'**
+  String get voiceP2pScreenShareUnavailable;
+
+  /// Voice channel menu item that starts a call in P2P mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Start P2P call'**
+  String get channelMenuJoinP2p;
+
+  /// Channel setting that makes every call in the channel a P2P call.
+  ///
+  /// In en, this message translates to:
+  /// **'P2P calls only'**
+  String get channelSettingsRtcP2pLabel;
+
+  /// Description of the P2P calls only channel setting. maxParticipants is the participant cap, for example 4.
+  ///
+  /// In en, this message translates to:
+  /// **'Participants connect directly and can see each other\'s IP addresses. Everyone must agree before joining. Up to {maxParticipants} people can take part.'**
+  String channelSettingsRtcP2pDescription(int maxParticipants);
+
+  /// Shown on a participant tile when a direct connection to them failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot connect directly to {name}'**
+  String voiceP2pPeerFailedTitle(String name);
 }
 
 class _FluxerLocalizationsDelegate

@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/ui/voice/voice_cached_video_track.dart';
 import 'package:fluxer_app/features/ui/voice/voice_call_avatar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
 import 'package:fluxer_app/features/ui/voice/voice_screen_share_audio.dart';
+import 'package:fluxer_app/features/voice/domain/voice_media_participant.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_pip_providers.dart';
@@ -53,8 +54,8 @@ class VoicePipVideo extends ConsumerWidget {
       return const ColoredBox(color: Color(0xFF111111));
     }
     final String? me = ref.watch(currentUserIdProvider);
-    final Participant? liveKit = resolveVoiceParticipant(
-      room: voice.liveKitRoom,
+    final VoiceMediaParticipant? participant = resolveVoiceParticipant(
+      media: voice.media,
       voice: match.voice,
       userId: match.userId,
       currentUserId: me,
@@ -64,7 +65,7 @@ class VoicePipVideo extends ConsumerWidget {
     final Color background = user?.avatarColor == null
         ? context.colors.brandPrimary
         : Color(0xFF000000 | user!.avatarColor!);
-    if (liveKit == null) {
+    if (participant == null) {
       return _PipAvatarFallback(
         user: user,
         userId: match.userId,
@@ -72,7 +73,7 @@ class VoicePipVideo extends ConsumerWidget {
       );
     }
     return _PipTrackView(
-      participant: liveKit,
+      participant: participant,
       source: parsed.source,
       isOwnCamera:
           parsed.source == VoiceParticipantTileSource.camera &&
@@ -103,7 +104,7 @@ class _PipTrackView extends StatefulWidget {
     required this.background,
   });
 
-  final Participant participant;
+  final VoiceMediaParticipant participant;
   final VoiceParticipantTileSource source;
   final bool isOwnCamera;
   final bool mirrorOwnCamera;
@@ -118,8 +119,6 @@ class _PipTrackView extends StatefulWidget {
 
 class _PipTrackViewState extends State<_PipTrackView> {
   bool _trackSyncScheduled = false;
-  String? _lastVideoSid;
-  String? _lastAudioSid;
 
   @override
   void didUpdateWidget(covariant _PipTrackView oldWidget) {
@@ -142,47 +141,19 @@ class _PipTrackViewState extends State<_PipTrackView> {
   }
 
   void _applyTrackSync() {
-    final bool isScreen =
-        widget.source == VoiceParticipantTileSource.screenShare;
-    final TrackPublication? publication = isScreen
-        ? resolveScreenShareVideoPublication(
-            participant: widget.participant,
-            requireTrack: false,
-          )
-        : resolveCameraPublicationAllowingNoTrack(widget.participant);
-    _syncRemotePublication(
-      publication: publication,
-      lastSid: _lastVideoSid,
-      onSid: (String sid) => _lastVideoSid = sid,
-    );
-    if (!isScreen) {
+    if (widget.source == VoiceParticipantTileSource.camera) {
+      unawaited(
+        widget.participant.setVideoWanted(TrackSource.camera, wanted: true),
+      );
       return;
     }
-    _syncRemotePublication(
-      publication: resolveScreenShareAudioPublication(
-        participant: widget.participant,
-        requireTrack: false,
+    unawaited(
+      widget.participant.setVideoWanted(
+        TrackSource.screenShareVideo,
+        wanted: true,
       ),
-      lastSid: _lastAudioSid,
-      onSid: (String sid) => _lastAudioSid = sid,
     );
-  }
-
-  void _syncRemotePublication({
-    required TrackPublication? publication,
-    required String? lastSid,
-    required void Function(String sid) onSid,
-  }) {
-    if (publication is! RemoteTrackPublication) {
-      return;
-    }
-    if (publication.sid == lastSid && publication.subscribed) {
-      return;
-    }
-    onSid(publication.sid);
-    if (!publication.subscribed) {
-      unawaited(publication.subscribe());
-    }
+    unawaited(widget.participant.setScreenShareAudioWanted(wanted: true));
   }
 
   @override
@@ -193,27 +164,12 @@ class _PipTrackViewState extends State<_PipTrackView> {
         _scheduleTrackSync();
         final bool isScreen =
             widget.source == VoiceParticipantTileSource.screenShare;
-        final TrackPublication? publication = isScreen
-            ? resolveScreenShareVideoPublication(
-                participant: widget.participant,
-                requireTrack: false,
-              )
-            : resolveCameraPublicationAllowingNoTrack(widget.participant);
-        final Track? publicationTrack = publication?.track;
-        final VideoTrack? track = publicationTrack is VideoTrack
-            ? publicationTrack
+        final VideoTrack? track = isScreen
+            ? widget.participant.screenShareTrack
+            : widget.participant.cameraTrack;
+        final AudioTrack? audioTrack = isScreen
+            ? widget.participant.screenShareAudioTrack
             : null;
-        AudioTrack? audioTrack;
-        if (isScreen) {
-          final Track? audioPublicationTrack =
-              resolveScreenShareAudioPublication(
-                participant: widget.participant,
-                requireTrack: false,
-              )?.track;
-          audioTrack = audioPublicationTrack is AudioTrack
-              ? audioPublicationTrack
-              : null;
-        }
         final Widget fallback = _PipAvatarFallback(
           user: widget.user,
           userId: widget.userId,

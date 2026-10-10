@@ -37,22 +37,3 @@ VideoQuality voiceCameraSubscribeQuality({
   }
   return VideoQuality.LOW;
 }
-
-Future<void> syncRemoteVideoSubscription({
-  required RemoteTrackPublication publication,
-  required bool shouldSubscribe,
-  VideoQuality quality = kVoiceCameraSubscribeQuality,
-}) async {
-  if (shouldSubscribe) {
-    if (publication.subscribed) {
-      await publication.setVideoQuality(quality);
-      return;
-    }
-    await publication.subscribe();
-    await publication.setVideoQuality(quality);
-    return;
-  }
-  if (publication.subscribed) {
-    await publication.unsubscribe();
-  }
-}

@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
-import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/voice_mic_test_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
@@ -13,6 +11,7 @@ import 'package:fluxer_app/features/voice/domain/voice_output_route.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_audio_processing_options.dart';
 import 'package:fluxer_app/features/voice/providers/voice_media_devices_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_video_quality_provider.dart';
 import 'package:fluxer_app/features/voice/utils/screen_share_presets.dart';
 import 'package:fluxer_app/features/voice/utils/voice_camera_platform.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -116,7 +115,7 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
       voicePromptsPreferencesProvider.notifier,
     );
     final bool higherQualityEnabled = ref.watch(
-      instanceFeatureEnabledProvider(LimitKeys.featureHigherVideoQuality),
+      voiceHigherVideoQualityProvider,
     );
     final bool canSwitchSpeaker = AudioManager.instance.canSwitchSpeakerphone;
     final bool showCameraDevicePicker = !isMobileVoiceCameraPlatform();
@@ -333,6 +332,14 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
                       promptsNotifier.setSkipHideOwnScreenshareConfirm(
                         value: value,
                       ),
+                    ),
+                  ),
+                  FluxerSettingsSwitchItem.grouped(
+                    label: l10n.voiceP2pAlwaysAgreeSettingLabel,
+                    description: l10n.voiceP2pAlwaysAgreeSettingDescription,
+                    value: prompts.skipP2pJoinConfirm,
+                    onChanged: (bool value) => unawaited(
+                      promptsNotifier.setSkipP2pJoinConfirm(value: value),
                     ),
                   ),
                 ],

@@ -1,4 +1,5 @@
 import 'package:flutter_webrtc/flutter_webrtc.dart';
+import 'package:fluxer_app/features/voice/domain/voice_media_participant.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_volume_utils.dart';
 import 'package:livekit_client/livekit_client.dart';
@@ -6,19 +7,6 @@ import 'package:livekit_client/livekit_client.dart';
 String? parseUserIdFromParticipantIdentity(String identity) {
   final RegExpMatch? match = RegExp(r'^user_(\d+)').firstMatch(identity);
   return match?.group(1);
-}
-
-bool participantIdentityMatchesUserId({
-  required String identity,
-  required String userId,
-}) {
-  if (userId.isEmpty) {
-    return false;
-  }
-  if (identity == userId) {
-    return true;
-  }
-  return identity.startsWith('user_${userId}_');
 }
 
 double resolveParticipantTrackVolume({
@@ -49,81 +37,56 @@ Future<void> applyParticipantVolumeToTrack({
   await Helper.setVolume(volume, track.mediaStreamTrack);
 }
 
-Future<void> applyParticipantVolumeToParticipant({
-  required RemoteParticipant participant,
-  required int participantVolumePercent,
-  required int outputVolumePercent,
-  bool locallyMuted = false,
-}) async {
-  for (final RemoteTrackPublication publication
-      in participant.audioTrackPublications) {
-    if (publication.source != TrackSource.microphone) {
-      continue;
-    }
-    final Track? publishedTrack = publication.track;
-    if (publishedTrack is! RemoteAudioTrack) {
-      continue;
-    }
-    await applyParticipantVolumeToTrack(
-      track: publishedTrack,
-      participantVolumePercent: participantVolumePercent,
-      outputVolumePercent: outputVolumePercent,
-      locallyMuted: locallyMuted,
-    );
-  }
-}
-
-Future<void> applyParticipantVolumeToRoom({
-  required Room? room,
+Future<void> applyParticipantVolumeToMedia({
+  required VoiceMediaRoom? media,
   required String userId,
   required int participantVolumePercent,
   required int outputVolumePercent,
   bool locallyMuted = false,
 }) async {
-  if (room == null || userId.isEmpty) {
+  if (media == null || userId.isEmpty) {
     return;
   }
-  for (final RemoteParticipant participant in room.remoteParticipants.values) {
-    if (!participantIdentityMatchesUserId(
-      identity: participant.identity,
-      userId: userId,
-    )) {
+  for (final VoiceMediaParticipant participant in media.participants) {
+    if (participant.userId != userId) {
       continue;
     }
-    await applyParticipantVolumeToParticipant(
-      participant: participant,
-      participantVolumePercent: participantVolumePercent,
-      outputVolumePercent: outputVolumePercent,
-      locallyMuted: locallyMuted,
-    );
+    for (final AudioTrack track in participant.voiceAudioTracks) {
+      await applyParticipantVolumeToTrack(
+        track: track,
+        participantVolumePercent: participantVolumePercent,
+        outputVolumePercent: outputVolumePercent,
+        locallyMuted: locallyMuted,
+      );
+    }
   }
 }
 
-Future<void> applyAllParticipantVolumesToRoom({
-  required Room? room,
+Future<void> applyAllParticipantVolumesToMedia({
+  required VoiceMediaRoom? media,
   required Map<String, int> participantVolumes,
   required Map<String, bool> participantLocalMutes,
   required int outputVolumePercent,
 }) async {
-  if (room == null) {
+  if (media == null) {
     return;
   }
-  for (final RemoteParticipant participant in room.remoteParticipants.values) {
-    final String? userId = parseUserIdFromParticipantIdentity(
-      participant.identity,
-    );
+  for (final VoiceMediaParticipant participant in media.participants) {
+    final String? userId = participant.userId;
     if (userId == null) {
       continue;
     }
-    await applyParticipantVolumeToParticipant(
-      participant: participant,
-      participantVolumePercent: defaultParticipantVolumeForUser(
-        participantVolumes: participantVolumes,
-        userId: userId,
-      ),
-      outputVolumePercent: outputVolumePercent,
-      locallyMuted: participantLocalMutes[userId] ?? false,
-    );
+    for (final AudioTrack track in participant.voiceAudioTracks) {
+      await applyParticipantVolumeToTrack(
+        track: track,
+        participantVolumePercent: defaultParticipantVolumeForUser(
+          participantVolumes: participantVolumes,
+          userId: userId,
+        ),
+        outputVolumePercent: outputVolumePercent,
+        locallyMuted: participantLocalMutes[userId] ?? false,
+      );
+    }
   }
 }
 

@@ -75,6 +75,27 @@ bool isHigherVideoQualityCameraResolution(CameraResolution resolution) {
   return resolution == CameraResolution.high;
 }
 
+VoiceSettingsState clampVoiceVideoSettings(
+  VoiceSettingsState settings, {
+  required bool higherVideoQuality,
+  required bool meshPhoneCap,
+}) {
+  final bool capCamera =
+      (!higherVideoQuality || meshPhoneCap) &&
+      isHigherVideoQualityCameraResolution(settings.cameraResolution);
+  final bool capScreenShare =
+      !higherVideoQuality &&
+      isHigherVideoQualityScreenShareResolution(settings.screenshareResolution);
+  final bool capFrameRate =
+      (!higherVideoQuality || meshPhoneCap) &&
+      isHigherVideoQualityFrameRate(settings.videoFrameRate);
+  return settings.copyWith(
+    cameraResolution: capCamera ? CameraResolution.medium : null,
+    screenshareResolution: capScreenShare ? ScreenshareResolution.medium : null,
+    videoFrameRate: capFrameRate ? kDefaultVideoFrameRate : null,
+  );
+}
+
 bool isHigherVideoQualityScreenShareResolution(
   ScreenshareResolution resolution,
 ) {

@@ -506,6 +506,7 @@ class _RecordingVoiceSession extends VoiceSession {
     bool initialSelfVideo = false,
     bool forceJoin = false,
     bool skipChannelGate = false,
+    bool p2p = false,
   }) async {
     connectCallCount++;
     lastForceJoin = forceJoin;

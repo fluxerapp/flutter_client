@@ -115,6 +115,7 @@ class Channel {
   final int? userLimit;
   final int? bitrate;
   final String? rtcRegion;
+  final bool rtcP2p;
   final int? voiceConnectionLimit;
   final int? storedTypeWire;
   final String? ownerId;
@@ -155,6 +156,7 @@ class Channel {
     this.userLimit,
     this.bitrate,
     this.rtcRegion,
+    this.rtcP2p = false,
     this.voiceConnectionLimit,
     this.storedTypeWire,
     this.ownerId,
@@ -198,6 +200,7 @@ class Channel {
     int? userLimit,
     int? bitrate,
     String? rtcRegion,
+    bool? rtcP2p,
     int? voiceConnectionLimit,
     int? typeWire,
     String? ownerId,
@@ -246,6 +249,7 @@ class Channel {
       userLimit: userLimit ?? this.userLimit,
       bitrate: bitrate ?? this.bitrate,
       rtcRegion: rtcRegion ?? this.rtcRegion,
+      rtcP2p: rtcP2p ?? this.rtcP2p,
       voiceConnectionLimit: voiceConnectionLimit ?? this.voiceConnectionLimit,
       ownerId: ownerId ?? this.ownerId,
       flags: flags ?? this.flags,
@@ -295,6 +299,7 @@ class Channel {
       userLimit: row.userLimit,
       bitrate: row.bitrate,
       rtcRegion: row.rtcRegion,
+      rtcP2p: row.rtcP2p,
       voiceConnectionLimit: row.voiceConnectionLimit,
       ownerId: row.ownerId,
       flags: row.flags,
@@ -337,6 +342,7 @@ class Channel {
       userLimit: Value(userLimit),
       bitrate: Value(bitrate),
       rtcRegion: Value(rtcRegion),
+      rtcP2p: Value(rtcP2p),
       voiceConnectionLimit: Value(voiceConnectionLimit),
       ownerId: Value(ownerId),
       flags: Value(flags),
@@ -391,6 +397,7 @@ class Channel {
         other.userLimit == userLimit &&
         other.bitrate == bitrate &&
         other.rtcRegion == rtcRegion &&
+        other.rtcP2p == rtcP2p &&
         other.voiceConnectionLimit == voiceConnectionLimit &&
         other.ownerId == ownerId &&
         other.flags == flags &&
@@ -433,6 +440,7 @@ class Channel {
     userLimit,
     bitrate,
     rtcRegion,
+    rtcP2p,
     voiceConnectionLimit,
     ownerId,
     flags,

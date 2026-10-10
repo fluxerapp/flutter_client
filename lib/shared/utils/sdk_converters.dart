@@ -127,6 +127,7 @@ db.ChannelsCompanion channelFromSdk(ChannelResponse sdk, String guildId) {
     userLimit: Value(sdk.userLimit),
     bitrate: Value(sdk.bitrate),
     rtcRegion: Value(sdk.rtcRegion),
+    rtcP2p: Value(sdk.rtcP2p ?? false),
     voiceConnectionLimit: Value(sdk.voiceConnectionLimit),
     ownerId: Value(sdk.ownerId),
     flags: Value(sdk.flags),
@@ -206,6 +207,7 @@ ChannelResponse channelResponseFromRow(db.Channel row) {
     userLimit: row.userLimit,
     bitrate: row.bitrate,
     rtcRegion: row.rtcRegion,
+    rtcP2p: row.rtcP2p,
     voiceConnectionLimit: row.voiceConnectionLimit,
   );
 }

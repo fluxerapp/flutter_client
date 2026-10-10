@@ -4,6 +4,7 @@ import 'package:fluxer_app/features/channels/domain/channel_overview_update.dart
 import 'package:fluxer_app/features/channels/presentation/channel_settings/widgets/channel_settings_control_row.dart';
 import 'package:fluxer_app/features/ui/select/fluxer_select.dart';
 import 'package:fluxer_app/features/ui/slider/fluxer_slider.dart';
+import 'package:fluxer_app/features/ui/switch_group/fluxer_switch_group.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
@@ -16,6 +17,9 @@ class ChannelOverviewVoiceSection extends StatelessWidget {
     required this.userLimit,
     required this.voiceConnectionLimit,
     required this.rtcRegion,
+    required this.rtcP2p,
+    required this.showRtcP2p,
+    required this.p2pMaxParticipants,
     required this.canManageChannel,
     required this.canUpdateRtcRegion,
     required this.rtcRegionsAsync,
@@ -23,6 +27,7 @@ class ChannelOverviewVoiceSection extends StatelessWidget {
     required this.onUserLimitChanged,
     required this.onVoiceConnectionLimitChanged,
     required this.onRtcRegionChanged,
+    required this.onRtcP2pChanged,
     super.key,
   });
 
@@ -31,6 +36,9 @@ class ChannelOverviewVoiceSection extends StatelessWidget {
   final int userLimit;
   final int voiceConnectionLimit;
   final String? rtcRegion;
+  final bool rtcP2p;
+  final bool showRtcP2p;
+  final int p2pMaxParticipants;
   final bool canManageChannel;
   final bool canUpdateRtcRegion;
   final AsyncValue<List<RtcRegionResponse>> rtcRegionsAsync;
@@ -38,6 +46,7 @@ class ChannelOverviewVoiceSection extends StatelessWidget {
   final ValueChanged<int> onUserLimitChanged;
   final ValueChanged<int> onVoiceConnectionLimitChanged;
   final ValueChanged<String?> onRtcRegionChanged;
+  final ValueChanged<bool> onRtcP2pChanged;
 
   static const List<double> _participantLimitMarkers = <double>[
     0,
@@ -124,6 +133,17 @@ class ChannelOverviewVoiceSection extends StatelessWidget {
                   onVoiceConnectionLimitChanged(value.round()),
             ),
           ),
+          if (showRtcP2p) ...<Widget>[
+            SizedBox(height: context.layout.s4),
+            FluxerSettingsSwitchItem(
+              label: l10n.channelSettingsRtcP2pLabel,
+              description: l10n.channelSettingsRtcP2pDescription(
+                p2pMaxParticipants,
+              ),
+              value: rtcP2p,
+              onChanged: onRtcP2pChanged,
+            ),
+          ],
         ],
         if (canUpdateRtcRegion) ...<Widget>[
           if (canManageChannel) SizedBox(height: context.layout.s4),

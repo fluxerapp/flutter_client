@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/api/service_unavailable.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/deep_links/deep_link_handler.dart';
+import 'package:fluxer_app/core/experiments/experiments_provider.dart';
 import 'package:fluxer_app/core/gateway/gateway_presence_coordinator.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/observability/fluxer_observability.dart';
@@ -52,6 +53,7 @@ import 'package:fluxer_app/features/settings/providers/user_settings_view_model.
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/shell/providers/current_user_private_provider.dart';
 import 'package:fluxer_app/features/shell/providers/service_status_maintenance_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_p2p_consent_provider.dart';
 import 'package:fluxer_app/features/voice/services/voice_callkit_coordinator.dart';
 import 'package:fluxer_app/features/voice/tts/fluxer_tts_provider.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
@@ -72,6 +74,8 @@ void authenticatedSessionBindings(Ref ref) {
     ..read(gatewayReconnectBannerListenerProvider)
     ..read(connectivityListenerProvider)
     ..read(gatewayEphemeralStateRecoveryListenerProvider)
+    ..read(experimentsProvider)
+    ..read(voiceP2pConsentRetryProvider)
     ..read(ackBatcherGatewayListenerProvider)
     ..read(pushTrayBackgroundListenerProvider)
     ..read(fluxerSfxIncomingRingBindingProvider)

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
+import 'package:fluxer_app/features/voice/services/mesh/voice_mesh_transport.dart';
 import 'package:livekit_client/livekit_client.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -105,27 +106,43 @@ class VoiceConnectionStatsNotifier extends _$VoiceConnectionStatsNotifier {
     if (_timer != null) {
       return;
     }
-    _timer = Timer.periodic(const Duration(seconds: 2), (_) {
-      final Room? room = ref.read(voiceSessionProvider).liveKitRoom;
-      if (room != null) {
-        _refreshFromRoom(room);
-      }
-    });
-    final Room? room = ref.read(voiceSessionProvider).liveKitRoom;
-    if (room != null) {
+    _timer = Timer.periodic(const Duration(seconds: 2), (_) => _refresh());
+    _refresh();
+  }
+
+  void _refresh() {
+    final VoiceSessionState voice = ref.read(voiceSessionProvider);
+    final VoiceMeshTransport? mesh = voice.mesh;
+    final Room? room = voice.liveKitRoom;
+    if (mesh != null) {
+      unawaited(_refreshFromMesh(mesh));
+    } else if (room != null) {
       _refreshFromRoom(room);
     }
   }
 
+  Future<void> _refreshFromMesh(VoiceMeshTransport mesh) async {
+    final int? rtt = await mesh.roundTripMs();
+    if (!ref.mounted || !identical(ref.read(voiceSessionProvider).mesh, mesh)) {
+      return;
+    }
+    _applySample(rtt: rtt, participantCount: mesh.peers.length + 1);
+  }
+
   void _refreshFromRoom(Room room) {
+    final LocalParticipant? local = room.localParticipant;
+    _applySample(
+      rtt: _latencyFromQuality(local?.connectionQuality),
+      participantCount: room.remoteParticipants.length + 1,
+    );
+  }
+
+  void _applySample({required int? rtt, required int participantCount}) {
     final VoiceSessionState voice = ref.read(voiceSessionProvider);
     if (!voice.isConnected) {
       return;
     }
-    final LocalParticipant? local = room.localParticipant;
-    final int? rtt = _latencyFromQuality(local?.connectionQuality);
     final int? latency = rtt ?? state.currentLatencyMs;
-    final int participantCount = room.remoteParticipants.length + 1;
     final Duration? duration = _connectedAt == null
         ? null
         : DateTime.now().difference(_connectedAt!);

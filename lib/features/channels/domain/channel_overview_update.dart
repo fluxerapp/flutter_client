@@ -41,6 +41,7 @@ class ChannelOverviewFormState {
     required this.userLimit,
     required this.voiceConnectionLimit,
     required this.rtcRegion,
+    this.rtcP2p = false,
     this.announcement = false,
   });
 
@@ -55,6 +56,7 @@ class ChannelOverviewFormState {
   final int userLimit;
   final int voiceConnectionLimit;
   final String? rtcRegion;
+  final bool rtcP2p;
   final bool announcement;
 
   factory ChannelOverviewFormState.fromChannel(Channel channel) {
@@ -73,6 +75,7 @@ class ChannelOverviewFormState {
       voiceConnectionLimit:
           channel.voiceConnectionLimit ?? kDefaultVoiceConnectionLimit,
       rtcRegion: channel.rtcRegion,
+      rtcP2p: channel.rtcP2p,
       announcement: channel.type == ChannelType.guildAnnouncement,
     );
   }
@@ -89,6 +92,7 @@ class ChannelOverviewFormState {
         userLimit != original.userLimit ||
         voiceConnectionLimit != original.voiceConnectionLimit ||
         rtcRegion != original.rtcRegion ||
+        rtcP2p != original.rtcP2p ||
         announcement != original.announcement;
   }
 
@@ -106,6 +110,7 @@ class ChannelOverviewFormState {
     int? userLimit,
     int? voiceConnectionLimit,
     Object? rtcRegion = _unset,
+    bool? rtcP2p,
     bool? announcement,
   }) {
     return ChannelOverviewFormState(
@@ -124,6 +129,7 @@ class ChannelOverviewFormState {
       rtcRegion: identical(rtcRegion, _unset)
           ? this.rtcRegion
           : rtcRegion as String?,
+      rtcP2p: rtcP2p ?? this.rtcP2p,
       announcement: announcement ?? this.announcement,
     );
   }
@@ -213,6 +219,12 @@ ChannelUpdateRequestBodyVariant1 buildChannelOverviewUpdate({
           current.rtcRegion != original.rtcRegion
       ? current.rtcRegion
       : null;
+  final bool? rtcP2p =
+      canManageChannel &&
+          channel.type == ChannelType.guildVoice &&
+          current.rtcP2p != original.rtcP2p
+      ? current.rtcP2p
+      : null;
   final num? type =
       canManageChannel &&
           isAnnouncementConvertibleChannel(channel.type) &&
@@ -237,6 +249,7 @@ ChannelUpdateRequestBodyVariant1 buildChannelOverviewUpdate({
       contentWarningText: contentWarningText,
       rateLimitPerUser: rateLimitPerUser,
       rtcRegion: rtcRegion,
+      rtcP2p: rtcP2p,
       name: name,
       type: type,
     ),

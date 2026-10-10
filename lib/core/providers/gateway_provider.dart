@@ -199,6 +199,7 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
       ref.read(gatewayReadyProvider.notifier).setReady();
       ref.read(gatewaySessionRecoveryProvider.notifier).bump();
       ref.read(pendingPushNotificationPathProvider.notifier).flushIfReady();
+      ref.read(voiceSessionProvider.notifier).handleGatewayResumed();
     }),
     onTypingStart: (channelId, userId) => ifMounted(() {
       ref.read(typingIndicatorsProvider.notifier).addTyping(channelId, userId);
@@ -252,6 +253,12 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     }),
     onVoiceServerUpdate: (event) => ifMounted(() {
       ref.read(voiceSessionProvider.notifier).handleVoiceServerUpdate(event);
+    }),
+    onVoiceServerP2pUpdate: (event) => ifMounted(() {
+      ref.read(voiceSessionProvider.notifier).handleVoiceServerP2pUpdate(event);
+    }),
+    onVoiceSignal: (event) => ifMounted(() {
+      ref.read(voiceSessionProvider.notifier).handleVoiceSignal(event);
     }),
     onVoiceStateAck: (event) => ifMounted(() {
       ref.read(voiceSessionProvider.notifier).handleVoiceStateAck(event);

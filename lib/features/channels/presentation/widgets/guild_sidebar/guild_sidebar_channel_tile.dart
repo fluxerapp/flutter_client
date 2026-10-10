@@ -262,6 +262,15 @@ class _ChannelTile extends ConsumerWidget {
         channel,
         ref.read(guildPermissionsProvider),
       ),
+      canOfferP2pCall:
+          ref.read(voiceP2pEnabledProvider) &&
+          ref.read(
+                voiceChannelModeForProvider(
+                  guildId: guildId,
+                  channelId: channel.id,
+                ),
+              ) ==
+              VoiceChannelMode.empty,
     );
     final List<ChannelMenuGroup> groups = buildChannelMenuGroups(
       l10n: l10n,
@@ -338,6 +347,9 @@ class _ChannelTile extends ConsumerWidget {
       case ChannelMenuAction.openChat:
         close();
         unawaited(_openVoiceChannelChat(menuContext, ref));
+      case ChannelMenuAction.startP2pCall:
+        close();
+        unawaited(_startP2pCall(hostContext, ref));
       case ChannelMenuAction.markAsRead:
         close();
         unawaited(_readStateRepository(ref).ackLatest(channel.id));
@@ -438,6 +450,27 @@ class _ChannelTile extends ConsumerWidget {
       case ChannelMenuAction.deleteMyMessages:
         close();
         unawaited(_confirmDeleteMyMessagesInChannel(menuContext, ref));
+    }
+  }
+
+  Future<void> _startP2pCall(BuildContext context, WidgetRef ref) async {
+    final VoiceP2pStartChoice? choice = await showVoiceP2pStartSheet(
+      context,
+      allowStandard: false,
+    );
+    if (choice != VoiceP2pStartChoice.p2p || !context.mounted) {
+      return;
+    }
+    final VoiceJoinResult result = await joinVoiceChannelWithConfirmation(
+      ref: ref,
+      context: context,
+      guildId: guildId,
+      channelId: channel.id,
+      channel: channel,
+      startP2p: true,
+    );
+    if (result.shouldOpenChannel && context.mounted) {
+      navigateToContent(context, RoutePaths.guildChannel(guildId, channel.id));
     }
   }
 

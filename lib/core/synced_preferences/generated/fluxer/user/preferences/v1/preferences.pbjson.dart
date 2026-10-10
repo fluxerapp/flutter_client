@@ -1273,6 +1273,13 @@ const VoicePromptsState$json = {
       '5': 8,
       '10': 'skipHideOwnScreenshareConfirm'
     },
+    {
+      '1': 'skip_p2p_join_confirm',
+      '3': 3,
+      '4': 1,
+      '5': 8,
+      '10': 'skipP2pJoinConfirm'
+    },
   ],
 };
 
@@ -1280,7 +1287,8 @@ const VoicePromptsState$json = {
 final $typed_data.Uint8List voicePromptsStateDescriptor = $convert.base64Decode(
     'ChFWb2ljZVByb21wdHNTdGF0ZRI+Chxza2lwX2hpZGVfb3duX2NhbWVyYV9jb25maXJtGAEgAS'
     'gIUhhza2lwSGlkZU93bkNhbWVyYUNvbmZpcm0SSAohc2tpcF9oaWRlX293bl9zY3JlZW5zaGFy'
-    'ZV9jb25maXJtGAIgASgIUh1za2lwSGlkZU93blNjcmVlbnNoYXJlQ29uZmlybQ==');
+    'ZV9jb25maXJtGAIgASgIUh1za2lwSGlkZU93blNjcmVlbnNoYXJlQ29uZmlybRIxChVza2lwX3'
+    'AycF9qb2luX2NvbmZpcm0YAyABKAhSEnNraXBQMnBKb2luQ29uZmlybQ==');
 
 @$core.Deprecated('Use announcementPromptsStateDescriptor instead')
 const AnnouncementPromptsState$json = {

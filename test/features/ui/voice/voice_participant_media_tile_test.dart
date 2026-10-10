@@ -85,7 +85,7 @@ void main() {
     await _pumpTile(
       tester,
       tile: const VoiceParticipantMediaTile(
-        room: null,
+        media: null,
         userId: 'u1',
         currentUserId: 'me',
         localConnectionId: null,
@@ -112,7 +112,7 @@ void main() {
       tester,
       overrides: <Override>[fluxerDioProvider.overrideWithValue(_previewDio())],
       tile: const VoiceParticipantMediaTile(
-        room: null,
+        media: null,
         userId: 'streamer',
         currentUserId: 'me',
         localConnectionId: 'my-conn',

@@ -2650,12 +2650,15 @@ class VoicePromptsState extends $pb.GeneratedMessage {
   factory VoicePromptsState({
     $core.bool? skipHideOwnCameraConfirm,
     $core.bool? skipHideOwnScreenshareConfirm,
+    $core.bool? skipP2pJoinConfirm,
   }) {
     final result = VoicePromptsState._();
     if (skipHideOwnCameraConfirm != null)
       result.skipHideOwnCameraConfirm = skipHideOwnCameraConfirm;
     if (skipHideOwnScreenshareConfirm != null)
       result.skipHideOwnScreenshareConfirm = skipHideOwnScreenshareConfirm;
+    if (skipP2pJoinConfirm != null)
+      result.skipP2pJoinConfirm = skipP2pJoinConfirm;
     return result;
   }
 
@@ -2675,6 +2678,7 @@ class VoicePromptsState extends $pb.GeneratedMessage {
       createEmptyInstance: VoicePromptsState.$_createMessage)
     ..aOB(1, _omitFieldNames ? '' : 'skipHideOwnCameraConfirm')
     ..aOB(2, _omitFieldNames ? '' : 'skipHideOwnScreenshareConfirm')
+    ..aOB(3, _omitFieldNames ? '' : 'skipP2pJoinConfirm')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
@@ -2716,6 +2720,15 @@ class VoicePromptsState extends $pb.GeneratedMessage {
   $core.bool hasSkipHideOwnScreenshareConfirm() => $_has(1);
   @$pb.TagNumber(2)
   void clearSkipHideOwnScreenshareConfirm() => $_clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.bool get skipP2pJoinConfirm => $_getBF(2);
+  @$pb.TagNumber(3)
+  set skipP2pJoinConfirm($core.bool value) => $_setBool(2, value);
+  @$pb.TagNumber(3)
+  $core.bool hasSkipP2pJoinConfirm() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearSkipP2pJoinConfirm() => $_clearField(3);
 }
 
 class AnnouncementPromptsState extends $pb.GeneratedMessage {

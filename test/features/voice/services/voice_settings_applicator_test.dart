@@ -9,6 +9,8 @@ void main() {
     () {
       const VoiceSettingsApplicator applicator = VoiceSettingsApplicator(
         noiseFilterSupported: false,
+        higherVideoQuality: false,
+        meshPhoneCap: false,
       );
       final AudioCaptureOptions options = applicator.buildAudioCaptureOptions(
         const VoiceSettingsState(),
@@ -23,6 +25,8 @@ void main() {
   test('room options include channel bitrate publish encoding', () {
     const VoiceSettingsApplicator applicator = VoiceSettingsApplicator(
       noiseFilterSupported: false,
+      higherVideoQuality: false,
+      meshPhoneCap: false,
     );
     final RoomOptions roomOptions = applicator.buildRoomOptions(
       const VoiceSettingsState(),

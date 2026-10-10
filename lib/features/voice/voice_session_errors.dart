@@ -19,6 +19,23 @@ const String kVoiceSessionErrorScreenShareUnsupported =
 /// Join rejected because the channel requires an E2EE capable client.
 const String kVoiceSessionErrorE2eeRequired = 'VOICE_ERR_E2EE_REQUIRED';
 
+const String kVoiceSessionErrorP2pConsentRequired =
+    'VOICE_ERR_P2P_CONSENT_REQUIRED';
+
+const String kVoiceSessionErrorP2pUnavailable = 'VOICE_ERR_P2P_UNAVAILABLE';
+
+const String kVoiceSessionErrorChannelFull = 'VOICE_ERR_CHANNEL_FULL';
+
+const String kVoiceSessionErrorP2pScreenShareUnavailable =
+    'VOICE_ERR_P2P_SCREEN_SHARE_UNAVAILABLE';
+
+const Map<String, String> kVoiceGatewayJoinErrors = <String, String>{
+  'VOICE_E2EE_REQUIRED': kVoiceSessionErrorE2eeRequired,
+  'VOICE_P2P_CONSENT_REQUIRED': kVoiceSessionErrorP2pConsentRequired,
+  'VOICE_P2P_UNAVAILABLE': kVoiceSessionErrorP2pUnavailable,
+  'VOICE_CHANNEL_FULL': kVoiceSessionErrorChannelFull,
+};
+
 /// Mic track publish failed, user may still be connected listen only.
 const String kVoiceSessionErrorMicPublish = 'VOICE_ERR_MIC_PUBLISH';
 
@@ -63,6 +80,14 @@ String resolveVoiceSessionErrorMessage(
       return l10n.voiceErrorScreenShareUnsupported;
     case kVoiceSessionErrorE2eeRequired:
       return l10n.voiceE2eeUpdateRequired;
+    case kVoiceSessionErrorP2pConsentRequired:
+      return l10n.voiceP2pConsentRequiredError;
+    case kVoiceSessionErrorP2pUnavailable:
+      return l10n.voiceP2pUnavailableError;
+    case kVoiceSessionErrorChannelFull:
+      return l10n.voiceChannelFullError;
+    case kVoiceSessionErrorP2pScreenShareUnavailable:
+      return l10n.voiceP2pScreenShareUnavailable;
     case kVoiceSessionErrorMicPublish:
       return l10n.voiceMicPublishFailedStayConnected;
     case kVoiceSessionErrorNoConnectPermission:

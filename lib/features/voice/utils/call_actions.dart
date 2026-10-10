@@ -1,12 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/experiments/experiments_provider.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_confirm_sheet.dart';
+import 'package:fluxer_app/features/voice/presentation/sheets/voice_p2p_sheets.dart';
+import 'package:fluxer_app/features/voice/providers/voice_p2p_mode_provider.dart';
 import 'package:fluxer_app/features/voice/utils/voice_connection_actions.dart';
+import 'package:fluxer_app/features/voice/utils/voice_p2p_mode.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
@@ -42,10 +46,34 @@ Future<StartDirectVoiceCallResult> startDirectVoiceCall(
       joinAttemptFailed: false,
     );
   }
+  final bool offerP2p =
+      ref.read(voiceP2pEnabledProvider) &&
+      ref.read(
+            voiceChannelModeForProvider(guildId: null, channelId: channelId),
+          ) ==
+          VoiceChannelMode.empty &&
+      (dm == null ||
+          dm.recipientCount <= ref.read(voiceP2pMaxParticipantsProvider));
+  bool startP2p = false;
   final bool confirmBeforeStartingCalls = ref
       .read(appearancePreferencesProvider)
       .confirmBeforeStartingCalls;
-  if (confirmBeforeStartingCalls) {
+  if (offerP2p) {
+    final VoiceP2pStartChoice? choice = await showVoiceP2pStartSheet(
+      context,
+      allowStandard: true,
+    );
+    if (choice == null) {
+      return (
+        ok: false,
+        microphoneDenied: false,
+        cameraDenied: false,
+        notEligible: false,
+        joinAttemptFailed: false,
+      );
+    }
+    startP2p = choice == VoiceP2pStartChoice.p2p;
+  } else if (confirmBeforeStartingCalls) {
     final l10n = FluxerLocalizations.of(context);
     final bool? confirmed = await showFluxerSettingsConfirmSheet(
       context,
@@ -90,6 +118,7 @@ Future<StartDirectVoiceCallResult> startDirectVoiceCall(
       startOutgoingCall: true,
       outboundRingRecipients: outboundRingRecipients,
       initialSelfVideo: startWithVideo,
+      startP2p: startP2p,
     );
     if (result != VoiceJoinResult.succeeded) {
       return (

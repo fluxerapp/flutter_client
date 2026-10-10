@@ -42,6 +42,7 @@ class VoicePromptsSyncedField
     return VoicePromptsLocalState(
       skipHideOwnCameraConfirm: proto.skipHideOwnCameraConfirm,
       skipHideOwnScreenshareConfirm: proto.skipHideOwnScreenshareConfirm,
+      skipP2pJoinConfirm: proto.skipP2pJoinConfirm,
     );
   }
 
@@ -49,7 +50,8 @@ class VoicePromptsSyncedField
   void writeProto(pb.VoicePromptsState proto, VoicePromptsLocalState local) {
     proto
       ..skipHideOwnCameraConfirm = local.skipHideOwnCameraConfirm
-      ..skipHideOwnScreenshareConfirm = local.skipHideOwnScreenshareConfirm;
+      ..skipHideOwnScreenshareConfirm = local.skipHideOwnScreenshareConfirm
+      ..skipP2pJoinConfirm = local.skipP2pJoinConfirm;
   }
 
   @override

@@ -26,6 +26,7 @@ class Channels extends Table {
   IntColumn get userLimit => integer().nullable()();
   IntColumn get bitrate => integer().nullable()();
   TextColumn get rtcRegion => text().nullable()();
+  BoolColumn get rtcP2p => boolean().withDefault(const Constant(false))();
   IntColumn get voiceConnectionLimit => integer().nullable()();
   TextColumn get ownerId => text().nullable()();
   IntColumn get flags => integer().nullable()();

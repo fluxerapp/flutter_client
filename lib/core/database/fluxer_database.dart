@@ -145,7 +145,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 92;
+  int get schemaVersion => 93;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1554,6 +1554,15 @@ class FluxerDatabase extends _$FluxerDatabase {
             userPreferencesTable,
             userPreferencesTable.syncThemeColorsToThemeStudio,
           );
+        }
+      }
+      if (from < 93) {
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'channels',
+          columnName: 'rtc_p2p',
+        )) {
+          await m.addColumn(channels, channels.rtcP2p);
         }
       }
     },

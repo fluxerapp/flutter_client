@@ -128,6 +128,7 @@ List<Channel> _channelsFromFinalList({
         userLimit: source.userLimit,
         bitrate: source.bitrate,
         rtcRegion: source.rtcRegion,
+        rtcP2p: source.rtcP2p,
         voiceConnectionLimit: source.voiceConnectionLimit,
       ),
     );

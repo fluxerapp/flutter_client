@@ -12,6 +12,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 enum ChannelMenuAction {
   openChat,
+  startP2pCall,
   markAsRead,
   toggleFavorite,
   invitePeople,
@@ -56,6 +57,7 @@ class ChannelMenuState {
     required this.isVoiceChannel,
     required this.isLinkChannel,
     required this.showOpenChat,
+    required this.showStartP2pCall,
     required this.showMarkAsRead,
     required this.showFavorites,
     required this.isFavorite,
@@ -81,6 +83,7 @@ class ChannelMenuState {
   final bool isVoiceChannel;
   final bool isLinkChannel;
   final bool showOpenChat;
+  final bool showStartP2pCall;
   final bool showMarkAsRead;
   final bool showFavorites;
   final bool isFavorite;
@@ -118,6 +121,7 @@ ChannelMenuState resolveChannelMenuState({
   String? vanityUrlCode,
   String? mutedHint,
   bool canFollow = false,
+  bool canOfferP2pCall = false,
 }) {
   final bool isTextChannel = isAnnouncementConvertibleChannel(channel.type);
   final bool isVoiceChannel = channel.type == ChannelType.guildVoice;
@@ -152,6 +156,11 @@ ChannelMenuState resolveChannelMenuState({
     isVoiceChannel: isVoiceChannel,
     isLinkChannel: isLinkChannel,
     showOpenChat: showOpenChat,
+    showStartP2pCall:
+        isVoiceChannel &&
+        canOfferP2pCall &&
+        !channel.rtcP2p &&
+        hasPermission(bits, Permission.connect),
     showMarkAsRead: isGuildChannel && hasUnread,
     showFavorites: showFavorites,
     isFavorite: isFavorite,
@@ -182,14 +191,22 @@ List<ChannelMenuGroup> buildChannelMenuGroups({
     return const <ChannelMenuGroup>[];
   }
   final List<ChannelMenuGroup> groups = <ChannelMenuGroup>[];
-  if (state.showOpenChat) {
-    groups.add(<ChannelMenuEntry>[
+  final List<ChannelMenuEntry> voiceItems = <ChannelMenuEntry>[
+    if (state.showOpenChat)
       ChannelMenuEntry(
         label: l10n.channelMenuOpenChat,
         icon: PhosphorIconsFill.chatCircle,
         action: ChannelMenuAction.openChat,
       ),
-    ]);
+    if (state.showStartP2pCall)
+      ChannelMenuEntry(
+        label: l10n.channelMenuJoinP2p,
+        icon: PhosphorIconsFill.shareNetwork,
+        action: ChannelMenuAction.startP2pCall,
+      ),
+  ];
+  if (voiceItems.isNotEmpty) {
+    groups.add(voiceItems);
   }
   final List<ChannelMenuEntry> metaItems = <ChannelMenuEntry>[];
   if (state.showMarkAsRead) {

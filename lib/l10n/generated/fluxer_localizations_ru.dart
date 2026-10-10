@@ -15108,4 +15108,93 @@ class FluxerLocalizationsRu extends FluxerLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get voiceP2pStartTitle => 'Start in P2P mode?';
+
+  @override
+  String voiceP2pStartDescription(int maxParticipants) {
+    return 'Audio and video go directly between participants, with lower latency. Other participants can see your IP address. Up to $maxParticipants people can take part. Anyone who cannot connect directly cannot take part until someone switches to a standard call.';
+  }
+
+  @override
+  String get voiceP2pStartConfirm => 'Start in P2P mode';
+
+  @override
+  String get voiceP2pStartStandard => 'Start standard call';
+
+  @override
+  String get voiceP2pJoinTitle => 'Join a P2P call?';
+
+  @override
+  String voiceP2pJoinDescription(int maxParticipants) {
+    return 'This call connects participants directly. Other participants can see your IP address. Up to $maxParticipants people can take part. If you cannot connect directly, you cannot take part until someone switches to a standard call.';
+  }
+
+  @override
+  String voiceP2pPinnedJoinDescription(int maxParticipants) {
+    return 'This channel only allows P2P calls. Participants connect directly and can see your IP address. Up to $maxParticipants people can take part. If you cannot connect directly, you cannot take part.';
+  }
+
+  @override
+  String get voiceP2pJoinConfirm => 'Join';
+
+  @override
+  String get voiceP2pAlwaysAgreeLabel => 'Do not ask again, always agree';
+
+  @override
+  String get voiceP2pAlwaysAgreeSettingLabel =>
+      'Always agree to join P2P calls';
+
+  @override
+  String get voiceP2pAlwaysAgreeSettingDescription =>
+      'Join P2P calls without asking. Other participants can see your IP address.';
+
+  @override
+  String get voiceP2pIndicatorLabel => 'P2P';
+
+  @override
+  String get voiceP2pIndicatorDescription =>
+      'Direct connection. Media is encrypted between participants.';
+
+  @override
+  String get voiceP2pSwitchToStandard => 'Switch to standard call';
+
+  @override
+  String get voiceP2pSwitchToStandardDescription =>
+      'Everyone in the call moves to a standard call through the server.';
+
+  @override
+  String get voiceP2pPeerFailedDescription =>
+      'A direct connection could not be made. Leave the call or switch everyone to a standard call.';
+
+  @override
+  String get voiceP2pUnavailableError => 'P2P calls are unavailable right now.';
+
+  @override
+  String get voiceP2pConsentRequiredError =>
+      'This call is P2P and needs your agreement to join.';
+
+  @override
+  String get voiceChannelFullError => 'This call is full.';
+
+  @override
+  String get voiceP2pScreenShareUnavailable =>
+      'Screen sharing from this device is not available in P2P calls.';
+
+  @override
+  String get channelMenuJoinP2p => 'Start P2P call';
+
+  @override
+  String get channelSettingsRtcP2pLabel => 'P2P calls only';
+
+  @override
+  String channelSettingsRtcP2pDescription(int maxParticipants) {
+    return 'Participants connect directly and can see each other\'s IP addresses. Everyone must agree before joining. Up to $maxParticipants people can take part.';
+  }
+
+  @override
+  String voiceP2pPeerFailedTitle(String name) {
+    return 'Cannot connect directly to $name';
+  }
 }

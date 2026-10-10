@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/shell/providers/drawer_past_half_screen_provider.dart';
 import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
+import 'package:fluxer_app/features/voice/domain/voice_media_participant.dart';
 import 'package:fluxer_app/features/voice/providers/voice_active_speakers_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
@@ -17,7 +18,6 @@ import 'package:fluxer_app/features/voice/utils/voice_participant_track_resolver
 import 'package:fluxer_app/features/voice/utils/voice_pip_featured_selector.dart';
 import 'package:fluxer_app/features/voice/utils/voice_pip_morph.dart';
 import 'package:fluxer_app/features/voice/utils/voice_pip_visibility.dart';
-import 'package:livekit_client/livekit_client.dart';
 
 class VoicePipPlacement extends Notifier<Offset?> {
   @override
@@ -49,21 +49,21 @@ String? voiceSessionParticipantsKey(VoiceSessionState voice) {
 
 List<VoicePipCandidate> buildVoicePipCandidates({
   required List<VoiceChannelParticipantData> participants,
-  required Room? room,
+  required VoiceMediaRoom? media,
   required String? currentUserId,
   required String? localConnectionId,
 }) {
   final List<VoicePipCandidate> tiles = <VoicePipCandidate>[];
   for (final VoiceChannelParticipantData participant in participants) {
-    final Participant? liveKit = resolveVoiceParticipant(
-      room: room,
+    final VoiceMediaParticipant? mediaParticipant = resolveVoiceParticipant(
+      media: media,
       voice: participant.voice,
       userId: participant.userId,
       currentUserId: currentUserId,
       localConnectionId: localConnectionId,
     );
     final String speakingKey =
-        liveKit?.identity ??
+        mediaParticipant?.identity ??
         participant.voice.connectionId ??
         participant.voice.sessionId ??
         participant.userId;
@@ -75,8 +75,7 @@ List<VoicePipCandidate> buildVoicePipCandidates({
         participant.voice.suppress;
     final bool hasCamera =
         participant.voice.selfVideo ||
-        (liveKit != null &&
-            resolveCameraPublicationAllowingNoTrack(liveKit) != null);
+        (mediaParticipant != null && mediaParticipant.hasCamera);
     tiles.add(
       VoicePipCandidate(
         tileId: voiceParticipantTileId(
@@ -93,7 +92,7 @@ List<VoicePipCandidate> buildVoicePipCandidates({
     );
     final bool hasScreen =
         participant.voice.selfStream ||
-        (liveKit != null && hasUnmutedScreenSharePublication(liveKit));
+        (mediaParticipant != null && mediaParticipant.hasScreenShare);
     if (hasScreen) {
       tiles.add(
         VoicePipCandidate(
@@ -140,7 +139,7 @@ class VoicePipFeatured extends Notifier<String?> {
     );
     final List<VoicePipCandidate> tiles = buildVoicePipCandidates(
       participants: participants,
-      room: voice.liveKitRoom,
+      media: voice.media,
       currentUserId: ref.watch(currentUserIdProvider),
       localConnectionId: voice.activeConnectionId,
     );
@@ -201,7 +200,7 @@ final voicePipFeaturedHasVideoProvider = Provider<bool>((Ref ref) {
   ref.watch(voiceChannelGridStructureProvider(key));
   final List<VoicePipCandidate> tiles = buildVoicePipCandidates(
     participants: ref.watch(voiceChannelParticipantsProvider(key)),
-    room: voice.liveKitRoom,
+    media: voice.media,
     currentUserId: ref.watch(currentUserIdProvider),
     localConnectionId: voice.activeConnectionId,
   );

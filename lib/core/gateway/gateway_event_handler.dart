@@ -105,6 +105,9 @@ typedef WebhooksUpdateCallback =
 typedef EntranceSoundPlayCallback = void Function(EntranceSoundPlayEvent event);
 typedef AuthSessionChangeCallback = void Function(AuthSessionChangeEvent event);
 typedef VoiceServerUpdateCallback = void Function(VoiceServerUpdateEvent event);
+typedef VoiceServerP2pUpdateCallback =
+    void Function(VoiceServerP2pUpdateEvent event);
+typedef VoiceSignalCallback = void Function(VoiceSignalEvent event);
 typedef VoiceStateAckCallback = void Function(VoiceStateAckEvent event);
 typedef DefaultHideMutedChannelsResolver = bool Function();
 typedef GatewayErrorCallback = void Function(GatewayErrorEvent event);
@@ -139,6 +142,8 @@ class GatewayEventHandler {
     this.onVoiceStateUpdate,
     this.onVoiceStatesBulk,
     this.onVoiceServerUpdate,
+    this.onVoiceServerP2pUpdate,
+    this.onVoiceSignal,
     this.onVoiceStateAck,
     this.onGatewayError,
     this.onCallCreate,
@@ -212,6 +217,8 @@ class GatewayEventHandler {
   final VoiceStateCallback? onVoiceStateUpdate;
   final VoiceBulkCallback? onVoiceStatesBulk;
   final VoiceServerUpdateCallback? onVoiceServerUpdate;
+  final VoiceServerP2pUpdateCallback? onVoiceServerP2pUpdate;
+  final VoiceSignalCallback? onVoiceSignal;
   final VoiceStateAckCallback? onVoiceStateAck;
   final GatewayErrorCallback? onGatewayError;
   final CallCreateCallback? onCallCreate;
@@ -612,6 +619,14 @@ class GatewayEventHandler {
           'channelId=${e.channelId}',
         );
         _emit(() => onVoiceServerUpdate?.call(e));
+      case final VoiceServerP2pUpdateEvent e:
+        talker.info(
+          '[Gateway] VOICE_SERVER_UPDATE p2p guildId=${e.guildId} '
+          'channelId=${e.channelId}',
+        );
+        _emit(() => onVoiceServerP2pUpdate?.call(e));
+      case final VoiceSignalEvent e:
+        _emit(() => onVoiceSignal?.call(e));
       case VoiceStateAckEvent():
         _logGatewayDebug(
           () =>

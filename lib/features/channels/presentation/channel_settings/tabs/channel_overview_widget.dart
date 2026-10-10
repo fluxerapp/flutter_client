@@ -4,6 +4,7 @@ import 'dart:math' show max;
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
+import 'package:fluxer_app/core/experiments/experiments_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/announcement_follow.dart';
@@ -377,6 +378,8 @@ class _ChannelOverviewWidgetState extends ConsumerState<ChannelOverviewWidget> {
         showVoice && _canUpdateRtcRegion
         ? ref.watch(channelRtcRegionsProvider(channel.id))
         : const AsyncValue<List<RtcRegionResponse>>.data(<RtcRegionResponse>[]);
+    final bool showRtcP2p =
+        ref.watch(voiceP2pEnabledProvider) || _original.rtcP2p;
     return FluxerSettingsSheet(
       hasUnsavedChanges: _isDirty,
       isSaving: _isSaving,
@@ -503,6 +506,9 @@ class _ChannelOverviewWidgetState extends ConsumerState<ChannelOverviewWidget> {
               userLimit: _current.userLimit,
               voiceConnectionLimit: _current.voiceConnectionLimit,
               rtcRegion: _current.rtcRegion,
+              rtcP2p: _current.rtcP2p,
+              showRtcP2p: showRtcP2p,
+              p2pMaxParticipants: ref.watch(voiceP2pMaxParticipantsProvider),
               canManageChannel: _canManageChannel,
               canUpdateRtcRegion: _canUpdateRtcRegion,
               rtcRegionsAsync: rtcRegionsAsync,
@@ -517,6 +523,9 @@ class _ChannelOverviewWidgetState extends ConsumerState<ChannelOverviewWidget> {
               },
               onRtcRegionChanged: (String? value) {
                 _updateCurrent(_current.copyWith(rtcRegion: value));
+              },
+              onRtcP2pChanged: (bool value) {
+                _updateCurrent(_current.copyWith(rtcP2p: value));
               },
             ),
           ],

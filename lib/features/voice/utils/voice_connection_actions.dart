@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/experiments/experiments_provider.dart';
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
@@ -13,9 +14,14 @@ import 'package:fluxer_app/features/settings/providers/voice_settings_provider.d
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_confirm_sheet.dart';
+import 'package:fluxer_app/features/voice/presentation/sheets/voice_p2p_sheets.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_connection_confirm_modal.dart';
+import 'package:fluxer_app/features/voice/providers/voice_join_eligibility_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_p2p_mode_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
+import 'package:fluxer_app/features/voice/utils/channel_e2ee_status.dart';
+import 'package:fluxer_app/features/voice/utils/voice_p2p_mode.dart';
 import 'package:fluxer_app/features/voice/voice_session_errors.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -173,6 +179,67 @@ Future<void> _prepareForVoiceJoinAfterDeviceSwitch({
   }
 }
 
+int _otherVoiceConnectionCount({
+  required ProviderContainer container,
+  required String? guildId,
+  required String channelId,
+}) {
+  return occupiedVoiceConnectionsForJoinLimit(
+    voiceStates: voiceStatesForChannel(
+      voiceStates: container.read(voiceStatesMapProvider),
+      channelId: channelId,
+      guildId: guildId == null || guildId.isEmpty ? null : guildId,
+    ),
+    currentConnectionId: container
+        .read(voiceSessionProvider)
+        .activeConnectionId,
+  );
+}
+
+Future<bool?> _resolveJoinP2p({
+  required ProviderContainer container,
+  required BuildContext? context,
+  required String? guildId,
+  required String channelId,
+  required Channel? channel,
+  required bool startP2p,
+}) async {
+  if (startP2p) {
+    return true;
+  }
+  final VoiceChannelMode mode = container.read(
+    voiceChannelModeForProvider(guildId: guildId, channelId: channelId),
+  );
+  final bool pinned = channel?.rtcP2p ?? false;
+  final bool needsAgreement =
+      mode == VoiceChannelMode.p2p ||
+      (mode == VoiceChannelMode.empty &&
+          pinned &&
+          container.read(voiceP2pEnabledProvider));
+  if (!needsAgreement) {
+    return false;
+  }
+  final BuildContext? modalContext = _modalContext(context);
+  if (modalContext == null) {
+    return null;
+  }
+  if (mode == VoiceChannelMode.p2p &&
+      _otherVoiceConnectionCount(
+            container: container,
+            guildId: guildId,
+            channelId: channelId,
+          ) >=
+          container.read(voiceP2pMaxParticipantsProvider)) {
+    await _showVoiceJoinFailedModal(
+      modalContext,
+      message: FluxerLocalizations.of(modalContext).voiceChannelFullError,
+    );
+    return null;
+  }
+  final bool agreed = await confirmVoiceP2pJoin(modalContext, pinned: pinned);
+  return agreed ? true : null;
+}
+
 Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
   required WidgetRef ref,
   required String? guildId,
@@ -185,6 +252,7 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
   bool initialSelfMute = false,
   bool initialSelfDeaf = false,
   bool initialSelfVideo = false,
+  bool startP2p = false,
 }) async {
   final ProviderContainer? container = _providerContainer(context);
   if (container == null) {
@@ -221,6 +289,17 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
   if (blockedByGate) {
     return VoiceJoinResult.gated;
   }
+  final bool? p2p = await _resolveJoinP2p(
+    container: container,
+    context: context != null && context.mounted ? context : null,
+    guildId: guildId,
+    channelId: channelId,
+    channel: channel,
+    startP2p: startP2p,
+  );
+  if (p2p == null) {
+    return VoiceJoinResult.cancelled;
+  }
   final String? currentUserId = container.read(currentUserIdProvider);
   if (currentUserId == null) {
     return _connectAndResolveJoinResult(
@@ -234,6 +313,7 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
       initialSelfMute: initialSelfMute,
       initialSelfDeaf: initialSelfDeaf,
       initialSelfVideo: initialSelfVideo,
+      p2p: p2p,
     );
   }
   final VoiceSessionState session = container.read(voiceSessionProvider);
@@ -276,6 +356,7 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
       initialSelfMute: initialSelfMute,
       initialSelfDeaf: initialSelfDeaf,
       initialSelfVideo: initialSelfVideo,
+      p2p: p2p,
     );
   }
   if (context == null || !context.mounted) {
@@ -348,6 +429,7 @@ Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
     initialSelfDeaf: initialSelfDeaf,
     initialSelfVideo: initialSelfVideo,
     forceJoin: forceJoin,
+    p2p: p2p,
   );
 }
 
@@ -363,6 +445,7 @@ Future<VoiceJoinResult> _connectAndResolveJoinResult({
   bool initialSelfDeaf = false,
   bool initialSelfVideo = false,
   bool forceJoin = false,
+  bool p2p = false,
 }) async {
   final bool joined = await container
       .read(voiceSessionProvider.notifier)
@@ -376,6 +459,7 @@ Future<VoiceJoinResult> _connectAndResolveJoinResult({
         initialSelfDeaf: initialSelfDeaf,
         initialSelfVideo: initialSelfVideo,
         forceJoin: forceJoin,
+        p2p: p2p,
       );
   if (joined) {
     return VoiceJoinResult.succeeded;

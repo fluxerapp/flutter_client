@@ -3,6 +3,7 @@ import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/profile/utils/profile_menu_capabilities.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
+import 'package:fluxer_app/features/voice/domain/voice_media_participant.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_menu_data.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
@@ -15,7 +16,6 @@ import 'package:fluxer_app/features/voice/utils/voice_effective_audio_state.dart
 import 'package:fluxer_app/features/voice/utils/voice_grid_layout/voice_call_visual_layout.dart';
 import 'package:fluxer_app/features/voice/utils/voice_participant_track_resolver.dart';
 import 'package:fluxer_dart/gateway.dart';
-import 'package:livekit_client/livekit_client.dart';
 
 class VoiceParticipantMenuCapabilities {
   const VoiceParticipantMenuCapabilities({
@@ -164,7 +164,7 @@ VoiceParticipantMenuCapabilities buildVoiceParticipantMenuCapabilities({
   final bool hasScreenShareAudio =
       streamKey != null &&
       _hasScreenShareAudio(
-        room: session.liveKitRoom,
+        media: session.media,
         target: target,
         voice: voice,
         currentUserId: currentUserId,
@@ -242,30 +242,20 @@ VoiceParticipantMenuTarget voiceParticipantMenuTargetWithVoice({
 }
 
 bool _hasScreenShareAudio({
-  required Room? room,
+  required VoiceMediaRoom? media,
   required VoiceParticipantMenuTarget target,
   required VoiceState voice,
   required String? currentUserId,
   required String? localConnectionId,
 }) {
-  if (room == null) {
-    return false;
-  }
-  final Participant? participant = resolveVoiceParticipant(
-    room: room,
+  final VoiceMediaParticipant? participant = resolveVoiceParticipant(
+    media: media,
     voice: voice,
     userId: target.participant.userId,
     currentUserId: currentUserId,
     localConnectionId: localConnectionId,
   );
-  if (participant == null) {
-    return false;
-  }
-  return resolveScreenShareAudioPublication(
-        participant: participant,
-        requireTrack: false,
-      ) !=
-      null;
+  return participant != null && participant.hasScreenShareAudio;
 }
 
 bool _isOwnCurrentDeviceTile({

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/domain/voice_output_route.dart';
@@ -11,6 +12,9 @@ import 'package:fluxer_app/features/voice/providers/voice_call_display_preferenc
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_text_chat_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_noise_filter_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_p2p_mode_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
+import 'package:fluxer_app/features/voice/utils/voice_p2p_mode.dart';
 import 'package:fluxer_app/features/voice/utils/voice_speaker_route.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -32,6 +36,9 @@ const Key kVoiceControlPanelPrioritizeSpeakersKey = Key(
   'voice-control-panel-prioritize-speakers',
 );
 const Key kVoiceControlPanelViewModeKey = Key('voice-control-panel-view-mode');
+const Key kVoiceControlPanelSwitchToStandardKey = Key(
+  'voice-control-panel-switch-to-standard',
+);
 
 class VoiceChannelControlPanelSettings extends ConsumerWidget {
   const VoiceChannelControlPanelSettings({
@@ -55,6 +62,23 @@ class VoiceChannelControlPanelSettings extends ConsumerWidget {
       await settingsNotifier.setVoiceProcessingMode(VoiceProcessingMode.custom);
     }
     await settingsNotifier.setNoiseSuppressionTier(tier);
+  }
+
+  Future<void> _confirmSwitchToStandardCall(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final bool? confirmed = await showFluxerSettingsConfirmSheet(
+      context,
+      title: l10n.voiceP2pSwitchToStandard,
+      description: l10n.voiceP2pSwitchToStandardDescription,
+      confirmLabel: l10n.voiceP2pSwitchToStandard,
+    );
+    if (confirmed != true) {
+      return;
+    }
+    ref.read(voiceSessionProvider.notifier).switchToStandardCall();
   }
 
   @override
@@ -91,6 +115,13 @@ class VoiceChannelControlPanelSettings extends ConsumerWidget {
         channelId != null &&
         (ref.watch(voiceChannelTextChatSupportedProvider(channelId)).value ??
             false);
+    final bool isP2pCall =
+        ref.watch(activeVoiceChannelModeProvider) == VoiceChannelMode.p2p;
+    final bool isPinnedP2pChannel =
+        isP2pCall &&
+        channelId != null &&
+        (ref.watch(channelByIdProvider(channelId)).value?.rtcP2p ?? false);
+    final bool showSwitchToStandard = isP2pCall && !isPinnedP2pChannel;
     final bool canSwitchSpeaker = AudioManager.instance.canSwitchSpeakerphone;
     final Set<VoiceOutputRoute> availableRoutes = ref.watch(
       voiceAvailableOutputRoutesProvider,
@@ -108,6 +139,24 @@ class VoiceChannelControlPanelSettings extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
+          if (showSwitchToStandard) ...<Widget>[
+            FluxerListSection(
+              children: <Widget>[
+                FluxerListRow(
+                  key: kVoiceControlPanelSwitchToStandardKey,
+                  leading: const VoicePanelListIcon(
+                    icon: PhosphorIconsFill.shareNetwork,
+                  ),
+                  title: l10n.voiceP2pSwitchToStandard,
+                  subtitle: l10n.voiceP2pSwitchToStandardDescription,
+                  onTap: () {
+                    unawaited(_confirmSwitchToStandardCall(context, ref));
+                  },
+                ),
+              ],
+            ),
+            SizedBox(height: layout.s4),
+          ],
           if (showChatRow) ...<Widget>[
             FluxerListSection(
               children: <Widget>[

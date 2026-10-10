@@ -1,27 +1,213 @@
+import 'package:flutter/foundation.dart';
+import 'package:fluxer_app/features/voice/domain/voice_media_participant.dart';
+import 'package:fluxer_app/features/voice/utils/voice_participant_volume_utils.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:livekit_client/livekit_client.dart';
 
-Participant? resolveVoiceParticipant({
-  required Room? room,
+VoiceMediaParticipant? resolveVoiceParticipant({
+  required VoiceMediaRoom? media,
   required VoiceState voice,
   required String userId,
   required String? currentUserId,
   required String? localConnectionId,
 }) {
-  final Room? resolvedRoom = room;
-  if (resolvedRoom == null) {
-    return null;
+  return media?.participantFor(
+    voice: voice,
+    userId: userId,
+    currentUserId: currentUserId,
+    localConnectionId: localConnectionId,
+  );
+}
+
+final Expando<VoiceLiveKitMediaRoom> _liveKitRooms =
+    Expando<VoiceLiveKitMediaRoom>();
+final Expando<VoiceLiveKitParticipant> _liveKitParticipants =
+    Expando<VoiceLiveKitParticipant>();
+
+class VoiceLiveKitMediaRoom implements VoiceMediaRoom {
+  VoiceLiveKitMediaRoom._(this.room);
+
+  factory VoiceLiveKitMediaRoom.of(Room room) {
+    return _liveKitRooms[room] ??= VoiceLiveKitMediaRoom._(room);
   }
+
+  final Room room;
+
+  @override
+  Iterable<VoiceMediaParticipant> get participants {
+    return <Participant>[
+      ?room.localParticipant,
+      ...room.remoteParticipants.values,
+    ].map(VoiceLiveKitParticipant.of);
+  }
+
+  @override
+  VoiceMediaParticipant? participantFor({
+    required VoiceState voice,
+    required String userId,
+    required String? currentUserId,
+    required String? localConnectionId,
+  }) {
+    final Participant? participant = _resolveLiveKitParticipant(
+      room: room,
+      voice: voice,
+      userId: userId,
+      currentUserId: currentUserId,
+      localConnectionId: localConnectionId,
+    );
+    return participant == null ? null : VoiceLiveKitParticipant.of(participant);
+  }
+}
+
+class VoiceLiveKitParticipant implements VoiceMediaParticipant {
+  VoiceLiveKitParticipant._(this.participant);
+
+  factory VoiceLiveKitParticipant.of(Participant participant) {
+    return _liveKitParticipants[participant] ??= VoiceLiveKitParticipant._(
+      participant,
+    );
+  }
+
+  final Participant participant;
+
+  @override
+  void addListener(VoidCallback listener) {
+    participant.addListener(listener);
+  }
+
+  @override
+  void removeListener(VoidCallback listener) {
+    participant.removeListener(listener);
+  }
+
+  @override
+  String get identity => participant.identity;
+
+  @override
+  String? get userId => parseUserIdFromParticipantIdentity(identity);
+
+  @override
+  bool get hasCamera => _cameraPublication(participant) != null;
+
+  @override
+  VideoTrack? get cameraTrack {
+    final Track? track = _cameraPublication(participant)?.track;
+    return track is VideoTrack ? track : null;
+  }
+
+  @override
+  bool get hasScreenShare {
+    for (final Object publication in participant.videoTrackPublications) {
+      if (publication is TrackPublication<VideoTrack> &&
+          publication.isScreenShare &&
+          !publication.muted) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  @override
+  VideoTrack? get screenShareTrack {
+    final Track? track = _sourcePublication(
+      participant,
+      TrackSource.screenShareVideo,
+    )?.track;
+    return track is VideoTrack ? track : null;
+  }
+
+  @override
+  bool get hasScreenShareAudio =>
+      _sourcePublication(participant, TrackSource.screenShareAudio) != null;
+
+  @override
+  AudioTrack? get screenShareAudioTrack {
+    final Track? track = _sourcePublication(
+      participant,
+      TrackSource.screenShareAudio,
+    )?.track;
+    return track is AudioTrack ? track : null;
+  }
+
+  @override
+  VideoDimensions? get screenShareDimensions =>
+      _sourcePublication(participant, TrackSource.screenShareVideo)?.dimensions;
+
+  @override
+  Iterable<AudioTrack> get voiceAudioTracks sync* {
+    for (final TrackPublication<Track> publication
+        in participant.audioTrackPublications) {
+      final Track? track = publication.track;
+      if (publication.source == TrackSource.microphone &&
+          track is RemoteAudioTrack) {
+        yield track;
+      }
+    }
+  }
+
+  @override
+  bool get directConnectionFailed => false;
+
+  @override
+  Future<void> setVideoWanted(
+    TrackSource source, {
+    required bool wanted,
+    VideoQuality? quality,
+  }) async {
+    final TrackPublication? publication = source == TrackSource.camera
+        ? _cameraPublication(participant)
+        : _sourcePublication(participant, source);
+    if (publication is! RemoteTrackPublication) {
+      return;
+    }
+    if (!wanted) {
+      if (publication.subscribed) {
+        await publication.unsubscribe();
+      }
+      return;
+    }
+    if (!publication.subscribed) {
+      await publication.subscribe();
+    }
+    if (quality != null && publication.videoQuality != quality) {
+      await publication.setVideoQuality(quality);
+    }
+  }
+
+  @override
+  Future<void> setScreenShareAudioWanted({required bool wanted}) async {
+    final TrackPublication? publication = _sourcePublication(
+      participant,
+      TrackSource.screenShareAudio,
+    );
+    if (publication is! RemoteTrackPublication) {
+      return;
+    }
+    if (wanted && !publication.subscribed) {
+      await publication.subscribe();
+    } else if (!wanted && publication.subscribed) {
+      await publication.unsubscribe();
+    }
+  }
+}
+
+Participant? _resolveLiveKitParticipant({
+  required Room room,
+  required VoiceState voice,
+  required String userId,
+  required String? currentUserId,
+  required String? localConnectionId,
+}) {
   final String? connectionId = voice.connectionId;
   if (currentUserId != null &&
       userId == currentUserId &&
       localConnectionId != null &&
       connectionId != null &&
       connectionId == localConnectionId) {
-    return resolvedRoom.localParticipant;
+    return room.localParticipant;
   }
   final Map<String, RemoteParticipant> remoteParticipants =
-      resolvedRoom.remoteParticipants;
+      room.remoteParticipants;
   if (connectionId != null && connectionId.isNotEmpty) {
     final RemoteParticipant? byConnectionId = remoteParticipants[connectionId];
     if (byConnectionId != null) {
@@ -84,22 +270,6 @@ bool matchesParticipantIdentity({
   return identity.startsWith('user_${userId}_');
 }
 
-bool hasUnmutedScreenSharePublication(Participant participant) {
-  for (final Object publication in participant.videoTrackPublications) {
-    if (publication is! TrackPublication<VideoTrack>) {
-      continue;
-    }
-    if (!publication.isScreenShare) {
-      continue;
-    }
-    if (publication.muted) {
-      continue;
-    }
-    return true;
-  }
-  return false;
-}
-
 String? buildViewerStreamKey({
   required VoiceState voice,
   required bool isScreenShareTile,
@@ -143,17 +313,12 @@ String? buildViewerStreamPreviewUrl({
   return '$baseUrl/streams/$streamKey/preview';
 }
 
-TrackPublication? resolveCameraPublicationAllowingNoTrack(
-  Participant participant,
-) {
+TrackPublication? _cameraPublication(Participant participant) {
   for (final Object publication in participant.videoTrackPublications) {
     if (publication is! TrackPublication) {
       continue;
     }
-    if (publication.isScreenShare) {
-      continue;
-    }
-    if (publication.muted) {
+    if (publication.isScreenShare || publication.muted) {
       continue;
     }
     return publication;
@@ -161,33 +326,14 @@ TrackPublication? resolveCameraPublicationAllowingNoTrack(
   return null;
 }
 
-TrackPublication? resolveScreenShareVideoPublication({
-  required Participant participant,
-  required bool requireTrack,
-}) {
+TrackPublication? _sourcePublication(
+  Participant participant,
+  TrackSource source,
+) {
   final TrackPublication? publication = participant.getTrackPublicationBySource(
-    TrackSource.screenShareVideo,
+    source,
   );
   if (publication == null || publication.muted) {
-    return null;
-  }
-  if (requireTrack && publication.track == null) {
-    return null;
-  }
-  return publication;
-}
-
-TrackPublication? resolveScreenShareAudioPublication({
-  required Participant participant,
-  required bool requireTrack,
-}) {
-  final TrackPublication? publication = participant.getTrackPublicationBySource(
-    TrackSource.screenShareAudio,
-  );
-  if (publication == null || publication.muted) {
-    return null;
-  }
-  if (requireTrack && publication.track == null) {
     return null;
   }
   return publication;

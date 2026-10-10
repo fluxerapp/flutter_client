@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/ui/voice/voice_cached_video_track.dart';
 import 'package:fluxer_app/features/ui/voice/voice_call_avatar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_screen_share_audio.dart';
 import 'package:fluxer_app/features/ui/voice/voice_stream_preview_image.dart';
+import 'package:fluxer_app/features/voice/domain/voice_media_participant.dart';
 import 'package:fluxer_app/features/voice/utils/voice_participant_track_resolver.dart';
 import 'package:fluxer_app/features/voice/utils/voice_video_subscription.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -20,7 +21,7 @@ enum VoiceParticipantTileSource { camera, screenShare }
 /// Renders a LiveKit camera/screen-share track, or an avatar fallback.
 class VoiceParticipantMediaTile extends StatefulWidget {
   const VoiceParticipantMediaTile({
-    required this.room,
+    required this.media,
     required this.userId,
     required this.currentUserId,
     required this.localConnectionId,
@@ -41,7 +42,7 @@ class VoiceParticipantMediaTile extends StatefulWidget {
     super.key,
   });
 
-  final Room? room;
+  final VoiceMediaRoom? media;
   final String userId;
   final String? currentUserId;
   final String? localConnectionId;
@@ -69,8 +70,6 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
   bool _tileVisible = false;
   bool _trackSyncScheduled = false;
   Timer? _unsubscribeGrace;
-  String? _lastVideoIntent;
-  String? _lastAudioIntent;
   bool _hadScreenShareFrame = false;
 
   @override
@@ -138,80 +137,42 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
   }
 
   void _applyRemoteTrackSync() {
-    final Participant? participant = _resolveParticipant();
+    final VoiceMediaParticipant? participant = _resolveParticipant();
     if (participant == null) {
       return;
     }
-    final bool isScreenShareTile =
-        widget.tileSource == VoiceParticipantTileSource.screenShare;
-    _syncRemoteVideo(
-      publication: isScreenShareTile
-          ? _screenShareVideoPublication(participant, false)
-          : _cameraPublication(participant),
-      isScreenShareTile: isScreenShareTile,
-    );
-    if (isScreenShareTile) {
-      _syncRemoteScreenShareAudio(
-        publication: _screenShareAudioPublication(participant, false),
-      );
-    }
-  }
-
-  void _syncRemoteVideo({
-    required TrackPublication? publication,
-    required bool isScreenShareTile,
-  }) {
-    if (publication is! RemoteTrackPublication) {
-      return;
-    }
-    final bool shouldSubscribe = isScreenShareTile
-        ? shouldSubscribeRemoteScreenShare(
+    if (widget.tileSource == VoiceParticipantTileSource.screenShare) {
+      unawaited(
+        participant.setVideoWanted(
+          TrackSource.screenShareVideo,
+          wanted: shouldSubscribeRemoteScreenShare(
             isActiveScreenShare: widget.isActiveScreenShare,
-          )
-        : shouldSubscribeRemoteCamera(
-            tileVisible: _tileVisible,
-            omitVideoTrack: widget.omitVideoTrack,
-          );
-    final String intent =
-        '${publication.sid}:$shouldSubscribe:${widget.subscribeQuality.name}';
-    if (intent == _lastVideoIntent) {
+          ),
+          quality: widget.subscribeQuality,
+        ),
+      );
+      unawaited(
+        participant.setScreenShareAudioWanted(
+          wanted: widget.isActiveScreenShare,
+        ),
+      );
       return;
     }
-    _lastVideoIntent = intent;
     unawaited(
-      syncRemoteVideoSubscription(
-        publication: publication,
-        shouldSubscribe: shouldSubscribe,
+      participant.setVideoWanted(
+        TrackSource.camera,
+        wanted: shouldSubscribeRemoteCamera(
+          tileVisible: _tileVisible,
+          omitVideoTrack: widget.omitVideoTrack,
+        ),
         quality: widget.subscribeQuality,
       ),
     );
   }
 
-  void _syncRemoteScreenShareAudio({required TrackPublication? publication}) {
-    if (publication is! RemoteTrackPublication) {
-      return;
-    }
-    final bool shouldSubscribe = widget.isActiveScreenShare;
-    if (shouldSubscribe) {
-      if (!publication.subscribed) {
-        unawaited(publication.subscribe());
-      }
-      _lastAudioIntent = null;
-      return;
-    }
-    final String intent = '${publication.sid}:false';
-    if (intent == _lastAudioIntent) {
-      return;
-    }
-    _lastAudioIntent = intent;
-    if (publication.subscribed) {
-      unawaited(publication.unsubscribe());
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    final Participant? participant = _resolveParticipant();
+    final VoiceMediaParticipant? participant = _resolveParticipant();
     final bool isScreenShareTile =
         widget.tileSource == VoiceParticipantTileSource.screenShare;
     final bool isOwnScreenShareTile =
@@ -241,8 +202,7 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
         ? buildViewerStreamKey(voice: widget.voice, isScreenShareTile: true)
         : null;
     final bool hasOwnScreenSharePublication =
-        isScreenShareTile &&
-        _screenShareVideoPublication(participant, false) != null;
+        isScreenShareTile && participant.hasScreenShare;
     if (isOwnScreenShareTile &&
         hasOwnScreenSharePublication &&
         widget.pauseOwnScreenSharePreviewOnUnfocus &&
@@ -259,23 +219,12 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
         listenable: participant,
         builder: (BuildContext context, Widget? _) {
           _scheduleRemoteTrackSync();
-          final TrackPublication? publication = isScreenShareTile
-              ? _screenShareVideoPublication(participant, false)
-              : _cameraPublication(participant);
-          final Track? publicationTrack = publication?.track;
-          final VideoTrack? track = publicationTrack is VideoTrack
-              ? publicationTrack
+          final VideoTrack? track = isScreenShareTile
+              ? participant.screenShareTrack
+              : participant.cameraTrack;
+          final AudioTrack? audioTrack = isScreenShareTile
+              ? participant.screenShareAudioTrack
               : null;
-          AudioTrack? audioTrack;
-          if (isScreenShareTile) {
-            final Track? audioPublicationTrack = _screenShareAudioPublication(
-              participant,
-              false,
-            )?.track;
-            audioTrack = audioPublicationTrack is AudioTrack
-                ? audioPublicationTrack
-                : null;
-          }
           if (track != null) {
             if (widget.omitVideoTrack) {
               if (showRemoteStreamPreview) {
@@ -412,37 +361,13 @@ class _VoiceParticipantMediaTileState extends State<VoiceParticipantMediaTile> {
     );
   }
 
-  Participant? _resolveParticipant() {
+  VoiceMediaParticipant? _resolveParticipant() {
     return resolveVoiceParticipant(
-      room: widget.room,
+      media: widget.media,
       voice: widget.voice,
       userId: widget.userId,
       currentUserId: widget.currentUserId,
       localConnectionId: widget.localConnectionId,
-    );
-  }
-
-  static TrackPublication? _cameraPublication(Participant participant) {
-    return resolveCameraPublicationAllowingNoTrack(participant);
-  }
-
-  static TrackPublication? _screenShareVideoPublication(
-    Participant participant,
-    bool requireTrack,
-  ) {
-    return resolveScreenShareVideoPublication(
-      participant: participant,
-      requireTrack: requireTrack,
-    );
-  }
-
-  static TrackPublication? _screenShareAudioPublication(
-    Participant participant,
-    bool requireTrack,
-  ) {
-    return resolveScreenShareAudioPublication(
-      participant: participant,
-      requireTrack: requireTrack,
     );
   }
 

@@ -1,8 +1,11 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/features/voice/domain/voice_media_participant.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
+import 'package:fluxer_app/features/voice/services/mesh/voice_mesh_transport.dart';
 import 'package:livekit_client/livekit_client.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -25,23 +28,21 @@ class VoiceActiveSpeakersState {
   final Set<String> speakingKeys;
   final Set<String> recentlySpokeKeys;
 
-  bool isParticipantSpeaking(Participant? participant) {
+  bool isParticipantSpeaking(VoiceMediaParticipant? participant) {
     if (participant == null) {
       return false;
     }
-    return speakingKeys.contains(participant.identity) ||
-        speakingKeys.contains(participant.sid);
+    return speakingKeys.contains(participant.identity);
   }
 
-  bool participantSpokeRecently(Participant? participant) {
+  bool participantSpokeRecently(VoiceMediaParticipant? participant) {
     if (participant == null) {
       return false;
     }
     if (isParticipantSpeaking(participant)) {
       return true;
     }
-    return recentlySpokeKeys.contains(participant.identity) ||
-        recentlySpokeKeys.contains(participant.sid);
+    return recentlySpokeKeys.contains(participant.identity);
   }
 }
 
@@ -53,6 +54,8 @@ class VoiceActiveSpeakersState {
 class VoiceActiveSpeakers extends _$VoiceActiveSpeakers {
   EventsListener<RoomEvent>? _listener;
   Room? _attachedRoom;
+  VoiceMeshTransport? _attachedMesh;
+  VoidCallback? _meshListener;
   final Map<String, Timer> _holdTimers = <String, Timer>{};
   Set<String> _speakingKeys = <String>{};
   final Set<String> _recentlySpokeKeys = <String>{};
@@ -61,19 +64,29 @@ class VoiceActiveSpeakers extends _$VoiceActiveSpeakers {
 
   @override
   VoiceActiveSpeakersState build() {
-    final Room? room = ref.watch(
-      voiceSessionProvider.select((VoiceSessionState s) => s.liveKitRoom),
+    final (Room? room, VoiceMeshTransport? mesh) = ref.watch(
+      voiceSessionProvider.select(
+        (VoiceSessionState s) => (s.liveKitRoom, s.mesh),
+      ),
     );
     ref.onDispose(_detachForDispose);
-    _attachTo(room);
+    _attachTo(room, mesh);
     return const VoiceActiveSpeakersState();
   }
 
-  void _attachTo(Room? room) {
-    if (identical(_attachedRoom, room)) {
+  void _attachTo(Room? room, VoiceMeshTransport? mesh) {
+    if (identical(_attachedRoom, room) && identical(_attachedMesh, mesh)) {
       return;
     }
     _detach();
+    if (mesh != null) {
+      _attachedMesh = mesh;
+      void listener() => _handleSpeakingKeys(mesh.speakingKeys);
+      _meshListener = listener;
+      mesh.addListener(listener);
+      listener();
+      return;
+    }
     if (room == null) {
       return;
     }
@@ -87,11 +100,17 @@ class VoiceActiveSpeakers extends _$VoiceActiveSpeakers {
   }
 
   void _handleSpeakers(List<Participant> speakers) {
-    final Set<String> next = <String>{};
-    for (final Participant speaker in speakers) {
-      next
-        ..add(speaker.identity)
-        ..add(speaker.sid);
+    _handleSpeakingKeys(<String>{
+      for (final Participant speaker in speakers) ...<String>[
+        speaker.identity,
+        speaker.sid,
+      ],
+    });
+  }
+
+  void _handleSpeakingKeys(Set<String> next) {
+    if (setEquals(next, _speakingKeys)) {
+      return;
     }
     for (final String key in _speakingKeys) {
       if (!next.contains(key)) {
@@ -158,6 +177,12 @@ class VoiceActiveSpeakers extends _$VoiceActiveSpeakers {
     if (listener != null) {
       unawaited(listener.dispose());
     }
+    final VoidCallback? meshListener = _meshListener;
+    _meshListener = null;
+    if (meshListener != null) {
+      _attachedMesh?.removeListener(meshListener);
+    }
+    _attachedMesh = null;
     if (emitState) {
       _emit();
     }

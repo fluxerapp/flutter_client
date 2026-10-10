@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/experiments/experiments_provider.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -1213,6 +1214,7 @@ List<Override> _buildOverrides({
   return [
     fluxerDatabaseProvider.overrideWithValue(db),
     currentUserIdProvider.overrideWithValue('me'),
+    experimentsProvider.overrideWithValue(null),
     routeStateProvider.overrideWithValue(
       RouteState(
         location: routeLocation,

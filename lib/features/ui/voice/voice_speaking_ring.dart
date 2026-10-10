@@ -21,13 +21,11 @@ class VoiceSpeakingRingLayer extends StatelessWidget {
     required this.enabled,
     required this.identity,
     required this.aroundAvatar,
-    this.sid,
     super.key,
   });
 
   final bool enabled;
   final String identity;
-  final String? sid;
   final bool aroundAvatar;
 
   @override
@@ -38,7 +36,6 @@ class VoiceSpeakingRingLayer extends StatelessWidget {
     final Widget overlay = VoiceSpeakingRingOverlay(
       enabled: true,
       identity: identity,
-      sid: sid,
       circular: aroundAvatar,
     );
     if (!aroundAvatar) {
@@ -61,14 +58,12 @@ class VoiceSpeakingRingOverlay extends ConsumerWidget {
   const VoiceSpeakingRingOverlay({
     required this.enabled,
     required this.identity,
-    this.sid,
     this.circular = false,
     super.key,
   });
 
   final bool enabled;
   final String identity;
-  final String? sid;
   final bool circular;
 
   @override
@@ -79,8 +74,7 @@ class VoiceSpeakingRingOverlay extends ConsumerWidget {
     final bool speaking = ref.watch(
       voiceActiveSpeakersProvider.select(
         (VoiceActiveSpeakersState speakers) =>
-            speakers.speakingKeys.contains(identity) ||
-            (sid != null && speakers.speakingKeys.contains(sid)),
+            speakers.speakingKeys.contains(identity),
       ),
     );
     return _VoiceSpeakingRingPaint(

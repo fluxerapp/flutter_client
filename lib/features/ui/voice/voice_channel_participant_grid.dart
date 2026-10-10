@@ -9,8 +9,11 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as database;
 import 'package:fluxer_app/core/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/features/ui/voice/fluxer_live_badge.dart';
@@ -19,6 +22,7 @@ import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
 import 'package:fluxer_app/features/ui/voice/voice_speaking_ring.dart';
 import 'package:fluxer_app/features/ui/voice/voice_tile_metrics.dart';
 import 'package:fluxer_app/features/voice/domain/local_voice_state_data.dart';
+import 'package:fluxer_app/features/voice/domain/voice_media_participant.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_context_menu.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_menu_data.dart';
@@ -93,7 +97,7 @@ class _VoiceGridTileItem {
 
 List<_VoiceGridTileItem> _buildTileItems({
   required List<VoiceChannelParticipantData> participants,
-  required Room? room,
+  required VoiceMediaRoom? media,
   required String? currentUserId,
   required String? localConnectionId,
   required bool onlyShowVideos,
@@ -117,19 +121,16 @@ List<_VoiceGridTileItem> _buildTileItems({
         ),
       );
     }
-    final Participant? liveKitParticipant = resolveVoiceParticipant(
-      room: room,
+    final VoiceMediaParticipant? mediaParticipant = resolveVoiceParticipant(
+      media: media,
       voice: participant.voice,
       userId: participant.userId,
       currentUserId: currentUserId,
       localConnectionId: localConnectionId,
     );
-    final bool hasLiveKitScreenSharePublication =
-        liveKitParticipant != null &&
-        hasUnmutedScreenSharePublication(liveKitParticipant);
     final bool shouldShowScreenShareTile =
-        hasLiveKitScreenSharePublication ||
-        (participant.voice.selfStream && room == null);
+        (mediaParticipant != null && mediaParticipant.hasScreenShare) ||
+        (participant.voice.selfStream && media == null);
     if (!shouldShowScreenShareTile) {
       continue;
     }
@@ -339,14 +340,14 @@ class _VoiceChannelParticipantGridState
     _toggleCallOverlay();
   }
 
-  Participant? _resolveParticipant(
+  VoiceMediaParticipant? _resolveParticipant(
     _VoiceGridTileItem item,
-    Room? room,
+    VoiceMediaRoom? media,
     String? me,
     String? localConnectionId,
   ) {
     return resolveVoiceParticipant(
-      room: room,
+      media: media,
       voice: item.data.voice,
       userId: item.data.userId,
       currentUserId: me,
@@ -356,7 +357,7 @@ class _VoiceChannelParticipantGridState
 
   int _tilePriority(
     _VoiceGridTileItem item,
-    Room? room,
+    VoiceMediaRoom? media,
     String? me,
     String? localConnectionId,
     VoiceActiveSpeakersState speakers,
@@ -367,9 +368,9 @@ class _VoiceChannelParticipantGridState
     if (_isVoiceMuted(item.data.voice)) {
       return 0;
     }
-    final Participant? participant = _resolveParticipant(
+    final VoiceMediaParticipant? participant = _resolveParticipant(
       item,
-      room,
+      media,
       me,
       localConnectionId,
     );
@@ -384,7 +385,7 @@ class _VoiceChannelParticipantGridState
 
   List<_VoiceGridTileItem> _orderTiles(
     List<_VoiceGridTileItem> items,
-    Room? room,
+    VoiceMediaRoom? media,
     String? me,
     String? localConnectionId,
     VoiceActiveSpeakersState speakers,
@@ -396,14 +397,14 @@ class _VoiceChannelParticipantGridState
         ) {
           final int priorityA = _tilePriority(
             a.value,
-            room,
+            media,
             me,
             localConnectionId,
             speakers,
           );
           final int priorityB = _tilePriority(
             b.value,
-            room,
+            media,
             me,
             localConnectionId,
             speakers,
@@ -523,8 +524,8 @@ class _VoiceChannelParticipantGridState
     final String participantKey = widget.guildId == null
         ? voiceDmChannelParticipantsFamilyKey(widget.channelId)
         : voiceChannelParticipantsFamilyKey(widget.guildId!, widget.channelId);
-    final Room? liveKit = ref.watch(
-      voiceSessionProvider.select((VoiceSessionState s) => s.liveKitRoom),
+    final VoiceMediaRoom? media = ref.watch(
+      voiceSessionProvider.select((VoiceSessionState s) => s.media),
     );
     final String? me = ref.watch(currentUserIdProvider);
     final String? localConnectionId = ref.watch(
@@ -585,7 +586,7 @@ class _VoiceChannelParticipantGridState
     }
     final List<_VoiceGridTileItem> builtTiles = _buildTileItems(
       participants: participants,
-      room: liveKit,
+      media: media,
       currentUserId: me,
       localConnectionId: localConnectionId,
       onlyShowVideos: displayPreferences.onlyShowVideos,
@@ -627,7 +628,7 @@ class _VoiceChannelParticipantGridState
     return _SpeakingOrderedGrid(
       prioritizeSpeakingParticipants: prioritizeSpeakingParticipants,
       tiles: consolidatedTiles,
-      liveKit: liveKit,
+      media: media,
       me: me,
       localConnectionId: localConnectionId,
       orderTiles: _orderTiles,
@@ -649,7 +650,7 @@ class _VoiceChannelParticipantGridState
                 tiles: tileItems,
                 watchedTileIds: watchedTileIds,
                 layout: layout,
-                room: liveKit,
+                media: media,
                 me: me,
                 localConnectionId: localConnectionId,
                 baseUrl: baseUrl,
@@ -668,7 +669,7 @@ class _VoiceChannelParticipantGridState
     required List<_VoiceGridTileItem> tiles,
     required Set<String> watchedTileIds,
     required VoiceCallLayoutState layout,
-    required Room? room,
+    required VoiceMediaRoom? media,
     required String? me,
     required String? localConnectionId,
     required String? baseUrl,
@@ -729,7 +730,7 @@ class _VoiceChannelParticipantGridState
             compactLayout: compactLayout,
             tiles: <_VoiceGridTileItem>[...cameras, ...shares],
             watchedTileIds: watchedTileIds,
-            room: room,
+            media: media,
             me: me,
             localConnectionId: localConnectionId,
             baseUrl: baseUrl,
@@ -766,7 +767,7 @@ class _VoiceChannelParticipantGridState
             metrics: packed.metrics,
             tiles: tiles,
             watchedTileIds: watchedTileIds,
-            room: room,
+            media: media,
             me: me,
             localConnectionId: localConnectionId,
             baseUrl: baseUrl,
@@ -790,7 +791,7 @@ class _VoiceChannelParticipantGridState
             watchedTileIds: watchedTileIds,
             tilesPerPage: packed.visibleTileCount,
             compact: compact,
-            room: room,
+            media: media,
             me: me,
             localConnectionId: localConnectionId,
             baseUrl: baseUrl,
@@ -825,7 +826,7 @@ class _VoiceChannelParticipantGridState
           secondary: secondary,
           watchedTileIds: watchedTileIds,
           compact: compact,
-          room: room,
+          media: media,
           me: me,
           localConnectionId: localConnectionId,
           baseUrl: baseUrl,
@@ -905,7 +906,7 @@ class _VoiceChannelParticipantGridState
     required Set<String> watchedTileIds,
     required int tilesPerPage,
     required bool compact,
-    required Room? room,
+    required VoiceMediaRoom? media,
     required String? me,
     required String? localConnectionId,
     required String? baseUrl,
@@ -951,7 +952,7 @@ class _VoiceChannelParticipantGridState
                   metrics: packed.metrics,
                   tiles: pages[pageIndex],
                   watchedTileIds: watchedTileIds,
-                  room: room,
+                  media: media,
                   me: me,
                   localConnectionId: localConnectionId,
                   baseUrl: baseUrl,
@@ -980,7 +981,7 @@ class _VoiceChannelParticipantGridState
     required double maxHeight,
     required List<_VoiceGridTileItem> tiles,
     required Set<String> watchedTileIds,
-    required Room? room,
+    required VoiceMediaRoom? media,
     required String? me,
     required String? localConnectionId,
     required String? baseUrl,
@@ -1005,7 +1006,7 @@ class _VoiceChannelParticipantGridState
           rect: rects[i],
           departing: false,
           watchedTileIds: watchedTileIds,
-          room: room,
+          media: media,
           me: me,
           localConnectionId: localConnectionId,
           baseUrl: baseUrl,
@@ -1033,7 +1034,7 @@ class _VoiceChannelParticipantGridState
             rect: rect,
             departing: true,
             watchedTileIds: watchedTileIds,
-            room: room,
+            media: media,
             me: me,
             localConnectionId: localConnectionId,
             baseUrl: baseUrl,
@@ -1113,7 +1114,7 @@ class _VoiceChannelParticipantGridState
     required Rect rect,
     required bool departing,
     required Set<String> watchedTileIds,
-    required Room? room,
+    required VoiceMediaRoom? media,
     required String? me,
     required String? localConnectionId,
     required String? baseUrl,
@@ -1136,7 +1137,7 @@ class _VoiceChannelParticipantGridState
           child: _buildCard(
             context: context,
             tile: tile,
-            room: room,
+            media: media,
             me: me,
             localConnectionId: localConnectionId,
             baseUrl: baseUrl,
@@ -1160,7 +1161,7 @@ class _VoiceChannelParticipantGridState
     required List<_VoiceGridTileItem> secondary,
     required Set<String> watchedTileIds,
     required bool compact,
-    required Room? room,
+    required VoiceMediaRoom? media,
     required String? me,
     required String? localConnectionId,
     required String? baseUrl,
@@ -1186,7 +1187,7 @@ class _VoiceChannelParticipantGridState
       child: _buildCard(
         context: context,
         tile: mainTile,
-        room: room,
+        media: media,
         me: me,
         localConnectionId: localConnectionId,
         baseUrl: baseUrl,
@@ -1213,7 +1214,7 @@ class _VoiceChannelParticipantGridState
           child: _buildCard(
             context: context,
             tile: tile,
-            room: room,
+            media: media,
             me: me,
             localConnectionId: localConnectionId,
             baseUrl: baseUrl,
@@ -1368,7 +1369,7 @@ class _VoiceChannelParticipantGridState
   Widget _buildCard({
     required BuildContext context,
     required _VoiceGridTileItem tile,
-    required Room? room,
+    required VoiceMediaRoom? media,
     required String? me,
     required String? localConnectionId,
     required String? baseUrl,
@@ -1388,8 +1389,9 @@ class _VoiceChannelParticipantGridState
     final Widget card = _VoiceParticipantCard(
       data: tile.data,
       guildId: widget.guildId,
+      channelId: widget.channelId,
       tileSource: tile.source,
-      room: room,
+      media: media,
       currentUserId: me,
       localConnectionId: localConnectionId,
       isActiveScreenShare: isActiveScreenShare,
@@ -1435,7 +1437,7 @@ class _SpeakingOrderedGrid extends ConsumerWidget {
   const _SpeakingOrderedGrid({
     required this.prioritizeSpeakingParticipants,
     required this.tiles,
-    required this.liveKit,
+    required this.media,
     required this.me,
     required this.localConnectionId,
     required this.orderTiles,
@@ -1444,12 +1446,12 @@ class _SpeakingOrderedGrid extends ConsumerWidget {
 
   final bool prioritizeSpeakingParticipants;
   final List<_VoiceGridTileItem> tiles;
-  final Room? liveKit;
+  final VoiceMediaRoom? media;
   final String? me;
   final String? localConnectionId;
   final List<_VoiceGridTileItem> Function(
     List<_VoiceGridTileItem> tiles,
-    Room? liveKit,
+    VoiceMediaRoom? media,
     String? me,
     String? localConnectionId,
     VoiceActiveSpeakersState speakers,
@@ -1468,7 +1470,7 @@ class _SpeakingOrderedGrid extends ConsumerWidget {
         return voiceGridOrderSignature(
           orderTiles(
             tiles,
-            liveKit,
+            media,
             me,
             localConnectionId,
             speakers,
@@ -1482,7 +1484,7 @@ class _SpeakingOrderedGrid extends ConsumerWidget {
       orderBySpeaking: (List<_VoiceGridTileItem> input) {
         return orderTiles(
           input,
-          liveKit,
+          media,
           me,
           localConnectionId,
           ref.read(voiceActiveSpeakersProvider),
@@ -1614,7 +1616,8 @@ class _VoiceParticipantCard extends ConsumerWidget {
   const _VoiceParticipantCard({
     required this.data,
     required this.guildId,
-    required this.room,
+    required this.channelId,
+    required this.media,
     required this.currentUserId,
     required this.localConnectionId,
     required this.tileSource,
@@ -1637,7 +1640,8 @@ class _VoiceParticipantCard extends ConsumerWidget {
 
   final VoiceChannelParticipantData data;
   final String? guildId;
-  final Room? room;
+  final String channelId;
+  final VoiceMediaRoom? media;
   final String? currentUserId;
   final String? localConnectionId;
   final VoiceParticipantTileSource tileSource;
@@ -1681,8 +1685,8 @@ class _VoiceParticipantCard extends ConsumerWidget {
       voice = _withLocalAudio(voice, selfMute: selfMute, selfDeaf: selfDeaf);
     }
     final int? avatarArgb = user?.avatarColor;
-    final Participant? participant = resolveVoiceParticipant(
-      room: room,
+    final VoiceMediaParticipant? participant = resolveVoiceParticipant(
+      media: media,
       voice: voice,
       userId: data.userId,
       currentUserId: currentUserId,
@@ -1706,7 +1710,6 @@ class _VoiceParticipantCard extends ConsumerWidget {
       ),
     );
     final String speakingIdentity = participant?.identity ?? data.userId;
-    final String? speakingSid = participant?.sid;
     final BorderRadius radius = BorderRadius.circular(edgeToEdge ? 0 : 12);
     final Color streamSurface = context.colors.backgroundPrimary;
     final Color cardColor = tileSource == VoiceParticipantTileSource.screenShare
@@ -1714,8 +1717,8 @@ class _VoiceParticipantCard extends ConsumerWidget {
         : (avatarArgb == null
               ? context.colors.brandPrimary
               : Color(0xFF000000 | avatarArgb));
-    final Widget media = VoiceParticipantMediaTile(
-      room: room,
+    final Widget mediaTile = VoiceParticipantMediaTile(
+      media: media,
       userId: data.userId,
       currentUserId: currentUserId,
       localConnectionId: localConnectionId,
@@ -1765,15 +1768,23 @@ class _VoiceParticipantCard extends ConsumerWidget {
             child: Stack(
               fit: StackFit.expand,
               children: <Widget>[
-                media,
+                mediaTile,
                 Positioned.fill(
                   child: VoiceSpeakingRingLayer(
                     enabled: ringEnabled,
                     identity: speakingIdentity,
-                    sid: speakingSid,
                     aroundAvatar: omitVideoTrack || !voice.selfVideo,
                   ),
                 ),
+                if (participant != null &&
+                    tileSource == VoiceParticipantTileSource.camera)
+                  Positioned.fill(
+                    child: _DirectConnectionFailedOverlay(
+                      participant: participant,
+                      display: display,
+                      channelId: channelId,
+                    ),
+                  ),
                 if (tileSource == VoiceParticipantTileSource.screenShare &&
                     !isOwnScreenShareTile &&
                     !isActiveScreenShare &&
@@ -1858,7 +1869,7 @@ class _StreamStatusBadge extends StatefulWidget {
     required this.collectQuality,
   });
 
-  final Participant? participant;
+  final VoiceMediaParticipant? participant;
   final bool collectQuality;
 
   @override
@@ -1927,23 +1938,15 @@ class _StreamStatusBadgeState extends State<_StreamStatusBadge> {
       _apply(height: 0, fps: 0);
       return;
     }
-    final Participant? participant = widget.participant;
-    if (participant == null) {
+    final VoiceMediaParticipant? participant = widget.participant;
+    if (participant == null || !participant.hasScreenShare) {
       _apply(height: 0, fps: 0);
       return;
     }
     _refreshing = true;
     try {
-      final TrackPublication? publication = resolveScreenShareVideoPublication(
-        participant: participant,
-        requireTrack: false,
-      );
-      if (publication == null) {
-        _apply(height: 0, fps: 0);
-        return;
-      }
-      final VideoDimensions? dimensions = publication.dimensions;
-      final Track? track = publication.track;
+      final VideoDimensions? dimensions = participant.screenShareDimensions;
+      final VideoTrack? track = participant.screenShareTrack;
       var settingsWidth = 0;
       var settingsHeight = 0;
       var settingsFps = 0;
@@ -2326,6 +2329,92 @@ class _VoiceParticipantNameplate extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+}
+
+class _DirectConnectionFailedOverlay extends ConsumerWidget {
+  const _DirectConnectionFailedOverlay({
+    required this.participant,
+    required this.display,
+    required this.channelId,
+  });
+
+  final VoiceMediaParticipant participant;
+  final String display;
+  final String channelId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final bool pinned =
+        ref.watch(channelByIdProvider(channelId)).value?.rtcP2p ?? false;
+    return ListenableBuilder(
+      listenable: participant,
+      builder: (BuildContext context, Widget? _) {
+        if (!participant.directConnectionFailed) {
+          return const SizedBox.shrink();
+        }
+        return ColoredBox(
+          color: const Color(0xCC000000),
+          child: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text(
+                    l10n.voiceP2pPeerFailedTitle(display),
+                    textAlign: TextAlign.center,
+                    style: context.textStyles.channelName.copyWith(
+                      color: const Color(0xFFFFFFFF),
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    l10n.voiceP2pPeerFailedDescription,
+                    textAlign: TextAlign.center,
+                    style: context.textStyles.timestamp.copyWith(
+                      color: const Color(0xCCFFFFFF),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: <Widget>[
+                      FluxerButton.dangerPrimary(
+                        size: FluxerButtonSize.compact,
+                        fitContent: true,
+                        label: l10n.voiceChannelLeave,
+                        onPressed: () {
+                          unawaited(
+                            ref
+                                .read(voiceSessionProvider.notifier)
+                                .leaveVoice(),
+                          );
+                        },
+                      ),
+                      if (!pinned)
+                        FluxerButton.secondary(
+                          size: FluxerButtonSize.compact,
+                          fitContent: true,
+                          label: l10n.voiceP2pSwitchToStandard,
+                          onPressed: () {
+                            ref
+                                .read(voiceSessionProvider.notifier)
+                                .switchToStandardCall();
+                          },
+                        ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
