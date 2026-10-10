@@ -23,6 +23,28 @@ bool isServerInitiatedVoiceMove({
   return state.channelId == expectedChannelId;
 }
 
+VoiceSessionState voiceSessionStateAfterServerMove({
+  required VoiceSessionState state,
+  required String channelId,
+}) {
+  return state.copyWith(
+    isConnecting: true,
+    isConnected: false,
+    clearError: true,
+    channelId: channelId,
+    clearActiveConnectionId: true,
+  );
+}
+
+bool shouldSendVoiceDisconnectForReplacedRoom({
+  required VoiceSessionState state,
+  required String incomingConnectionId,
+}) {
+  final String? replacedConnectionId = state.activeConnectionId;
+  return replacedConnectionId != null &&
+      replacedConnectionId != incomingConnectionId;
+}
+
 /// LiveKit endpoint change while already connected on the same channel.
 bool isVoiceServerRegionChange({
   required VoiceSessionState state,

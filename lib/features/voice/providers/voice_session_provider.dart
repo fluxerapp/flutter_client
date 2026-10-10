@@ -782,10 +782,8 @@ class VoiceSession extends _$VoiceSession {
     _connectGeneration++;
     _voiceMovePreviousChannelId = state.channelId;
     _expectedChannelId = channelId;
-    state = state.copyWith(
-      isConnecting: true,
-      isConnected: false,
-      clearError: true,
+    state = voiceSessionStateAfterServerMove(
+      state: state,
       channelId: channelId,
     );
     prefetchVoiceParticipantsForChannel(
@@ -1491,7 +1489,12 @@ class VoiceSession extends _$VoiceSession {
       );
       return;
     }
-    await _disconnectRoomOnly();
+    await _disconnectRoomOnly(
+      skipGatewayDisconnect: !shouldSendVoiceDisconnectForReplacedRoom(
+        state: state,
+        incomingConnectionId: event.connectionId,
+      ),
+    );
     if (attempt != _connectGeneration) {
       return;
     }
