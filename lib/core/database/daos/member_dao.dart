@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 
@@ -188,6 +190,36 @@ class MemberDao extends DatabaseAccessor<FluxerDatabase> with _$MemberDaoMixin {
   Future<void> deleteMember(String userId, String guildId) => (delete(
     members,
   )..where((m) => m.userId.equals(userId) & m.guildId.equals(guildId))).go();
+
+  Future<void> removeRoleFromGuildMembers(String guildId, String roleId) async {
+    final List<Member> rows =
+        await (select(members)..where(
+              (Members tbl) =>
+                  tbl.guildId.equals(guildId) &
+                  tbl.roleIdsJson.contains(jsonEncode(roleId)),
+            ))
+            .get();
+    for (final Member row in rows) {
+      final Object? decoded = jsonDecode(row.roleIdsJson);
+      if (decoded is! List) {
+        continue;
+      }
+      await (update(members)..where(
+            (Members tbl) =>
+                tbl.userId.equals(row.userId) & tbl.guildId.equals(guildId),
+          ))
+          .write(
+            MembersCompanion(
+              roleIdsJson: Value<String>(
+                jsonEncode(<Object?>[
+                  for (final Object? id in decoded)
+                    if (id != roleId) id,
+                ]),
+              ),
+            ),
+          );
+    }
+  }
 
   Future<void> deleteMembersForGuild(String guildId) async {
     await (delete(

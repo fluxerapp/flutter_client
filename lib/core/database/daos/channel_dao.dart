@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 
@@ -245,6 +247,39 @@ class ChannelDao extends DatabaseAccessor<FluxerDatabase>
       await (delete(channels)..where((c) => c.id.isIn(staleIds))).go();
     }
     return staleIds;
+  }
+
+  Future<void> removeRoleOverwrites(String guildId, String roleId) async {
+    final List<Channel> rows =
+        await (select(channels)..where(
+              (c) =>
+                  c.guildId.equals(guildId) &
+                  c.permissionOverwritesJson.contains(jsonEncode(roleId)),
+            ))
+            .get();
+    for (final Channel row in rows) {
+      final Object? decoded = jsonDecode(row.permissionOverwritesJson ?? '[]');
+      if (decoded is! List) {
+        continue;
+      }
+      final List<Object?> kept = <Object?>[
+        for (final Object? overwrite in decoded)
+          if (overwrite is! Map ||
+              overwrite['id'] != roleId ||
+              overwrite['type'] != 0)
+            overwrite,
+      ];
+      if (kept.length == decoded.length) {
+        continue;
+      }
+      await (update(channels)..where((c) => c.id.equals(row.id))).write(
+        ChannelsCompanion(
+          permissionOverwritesJson: Value<String?>(
+            kept.isEmpty ? null : jsonEncode(kept),
+          ),
+        ),
+      );
+    }
   }
 
   Future<void> deleteChannelsForGuild(String guildId) =>

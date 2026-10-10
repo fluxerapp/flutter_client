@@ -543,8 +543,7 @@ class GatewayEventHandler {
         _logGatewayDebug(
           () => talker.debug('[Gateway] GUILD_ROLE_DELETE: ${event.roleId}'),
         );
-        unawaited(database.roleDao.deleteRole(event.roleId));
-        _emit(() => onGuildPermissionsChanged?.call(event.guildId));
+        unawaited(_handleRoleDelete(event));
       case GuildRoleUpdateBulkEvent():
         _logGatewayDebug(
           () => talker.debug(
@@ -2904,6 +2903,21 @@ class GatewayEventHandler {
 
   void _handleGuildUpdate(GuildUpdateEvent event) {
     unawaited(database.guildDao.upsertServer(guildFromSdk(event.guild.guild)));
+  }
+
+  Future<void> _handleRoleDelete(GuildRoleDeleteEvent event) async {
+    await database.transaction(() async {
+      await database.roleDao.deleteRole(event.roleId);
+      await database.memberDao.removeRoleFromGuildMembers(
+        event.guildId,
+        event.roleId,
+      );
+      await database.channelDao.removeRoleOverwrites(
+        event.guildId,
+        event.roleId,
+      );
+    });
+    _emit(() => onGuildPermissionsChanged?.call(event.guildId));
   }
 
   Future<void> _handleGuildCountsUpdate(GuildCountsUpdateEvent event) async {
