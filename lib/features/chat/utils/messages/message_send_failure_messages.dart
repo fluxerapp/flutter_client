@@ -9,6 +9,7 @@ const String apiErrorCodeUnclaimedAccountCannotSendMessages =
     'UNCLAIMED_ACCOUNT_CANNOT_SEND_MESSAGES';
 const String apiErrorCodeContentBlocked = 'CONTENT_BLOCKED';
 const String apiErrorCodeNsfwEmojiStickerBlocked = 'NSFW_EMOJI_STICKER_BLOCKED';
+const String apiErrorCodeNewConversationsLimited = 'NEW_CONVERSATIONS_LIMITED';
 
 String formatPrivacyCommunicationSettingsPath(FluxerLocalizations l10n) {
   return '${l10n.quickSwitcherUserSettingsLabel} > '
@@ -18,6 +19,7 @@ String formatPrivacyCommunicationSettingsPath(FluxerLocalizations l10n) {
 
 String? clientSystemMessageForSendError({
   required String? apiErrorCode,
+  String? apiMessage,
   required FluxerLocalizations l10n,
   required bool selfHosted,
 }) {
@@ -40,6 +42,8 @@ String? clientSystemMessageForSendError({
     case 'THREAD_ARCHIVED':
     case 'MAX_ACTIVE_THREADS':
       return threadApiErrorMessage(apiErrorCode: apiErrorCode, l10n: l10n);
+    case apiErrorCodeNewConversationsLimited:
+      return apiMessage;
     default:
       return null;
   }

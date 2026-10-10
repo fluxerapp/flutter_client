@@ -80,4 +80,18 @@ void main() {
       isNull,
     );
   });
+
+  test('uses the server message for the new conversation limit', () {
+    final String? message = clientSystemMessageForSendError(
+      apiErrorCode: 'NEW_CONVERSATIONS_LIMITED',
+      apiMessage:
+          "You can't start new conversations right now. Please try again later.",
+      l10n: l10n,
+      selfHosted: false,
+    );
+    expect(
+      message,
+      "You can't start new conversations right now. Please try again later.",
+    );
+  });
 }

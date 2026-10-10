@@ -596,6 +596,33 @@ void main() {
     },
   );
 
+  test(
+    'send failure under the new conversation limit shows the server message',
+    () async {
+      const String serverMessage =
+          "You can't start new conversations right now. Please try again later.";
+      final (container, _, _) = await setUpChannel(
+        adapter: _SendAdapter(
+          serverMessageId: _snowflakeForUtc(DateTime.utc(2026, 6, 16, 12)),
+          failureCode: 'NEW_CONVERSATIONS_LIMITED',
+          failureStatus: 403,
+          failureMessage: serverMessage,
+        ),
+      );
+      final notifier = container.read(chatViewModelProvider.notifier);
+
+      await notifier.sendMessage(text: 'hi there');
+      await _flushAsync();
+
+      final ChatViewState state = container.read(chatViewModelProvider);
+      expect(state.errorMessage, isNull);
+      expect(state.messages, hasLength(2));
+      expect(state.messages.first.hasFailed, isTrue);
+      expect(state.messages.last.isClientSystemMessage, isTrue);
+      expect(state.messages.last.content, serverMessage);
+    },
+  );
+
   test('no-op edit warning uses app locale', () async {
     final FluxerLocalizations l10n = lookupFluxerLocalizations(
       const ui.Locale('fr'),
@@ -1013,12 +1040,16 @@ class _SendAdapter implements HttpClientAdapter {
   _SendAdapter({
     required this.serverMessageId,
     this.failureCode,
+    this.failureStatus = 400,
+    this.failureMessage = 'Cannot send message',
     this.aroundMessages = const <Map<String, Object?>>[],
     List<Map<String, Object?>>? latestMessages,
   }) : latestMessages = latestMessages ?? <Map<String, Object?>>[];
 
   final String serverMessageId;
   String? failureCode;
+  int failureStatus;
+  String failureMessage;
   final List<Map<String, Object?>> aroundMessages;
   final List<Map<String, Object?>> latestMessages;
   final List<String> ackedMessageIds = <String>[];
@@ -1083,9 +1114,9 @@ class _SendAdapter implements HttpClientAdapter {
         return ResponseBody.fromString(
           jsonEncode(<String, Object?>{
             'code': failureCode,
-            'message': 'Cannot send message',
+            'message': failureMessage,
           }),
-          400,
+          failureStatus,
           headers: {
             Headers.contentTypeHeader: ['application/json'],
           },

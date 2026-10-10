@@ -5484,6 +5484,9 @@ class ChatViewModel extends _$ChatViewModel {
     _syncSlowmodeFromSendError(error, state.channelId);
     final String? systemMessageContent = clientSystemMessageForSendError(
       apiErrorCode: apiErrorCode,
+      apiMessage: error is DioException
+          ? apiMessageFromDioException(error)
+          : null,
       l10n: l10n,
       selfHosted: ref.read(instanceRuntimeConfigProvider).selfHosted,
     );
@@ -5658,6 +5661,7 @@ class ChatViewModel extends _$ChatViewModel {
       _syncSlowmodeFromSendError(e, message.channelId);
       final String? systemMessageContent = clientSystemMessageForSendError(
         apiErrorCode: apiErrorCode,
+        apiMessage: e is DioException ? apiMessageFromDioException(e) : null,
         l10n: l10n,
         selfHosted: ref.read(instanceRuntimeConfigProvider).selfHosted,
       );
