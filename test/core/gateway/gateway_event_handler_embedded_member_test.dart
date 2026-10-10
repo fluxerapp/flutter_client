@@ -133,6 +133,49 @@ void main() {
     expect(member?.nick, 'Monty');
   });
 
+  test(
+    'VOICE_STATE_UPDATE stores the embedded user before the state is applied',
+    () async {
+      final List<Future<List<User>>> usersAtEmit = <Future<List<User>>>[];
+      final GatewayEventHandler voiceHandler = GatewayEventHandler(
+        database: database,
+        currentUserId: '100',
+        onVoiceStateUpdate: (_) {
+          usersAtEmit.add(database.userDao.getUsersByIds(<String>[_authorId]));
+        },
+      );
+
+      await voiceHandler.handle(
+        parser.parse('VOICE_STATE_UPDATE', <String, Object?>{
+          'guild_id': _guildId,
+          'channel_id': 'voice-1',
+          'user_id': _authorId,
+          'connection_id': 'conn-1',
+          'session_id': 'session-1',
+          'member': <String, Object?>{
+            ..._memberJson(nick: 'Monty'),
+            'user': _userJson(_authorId),
+          },
+          'mute': false,
+          'deaf': false,
+          'self_mute': false,
+          'self_deaf': false,
+          'self_video': false,
+          'self_stream': false,
+          'is_mobile': true,
+          'suppress': false,
+          'viewer_stream_keys': <String>[],
+          'e2ee_capable': false,
+          'version': 0,
+        }),
+      );
+
+      expect(usersAtEmit, hasLength(1));
+      final List<User> users = await usersAtEmit.single;
+      expect(users.map((User user) => user.id), <String>[_authorId]);
+    },
+  );
+
   test('an embedded member never overwrites a cached member', () async {
     await handler.handle(
       parser.parse('MESSAGE_CREATE', _guildMessageJson(nick: 'first')),

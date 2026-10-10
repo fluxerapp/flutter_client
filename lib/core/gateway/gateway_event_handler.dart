@@ -353,7 +353,7 @@ class GatewayEventHandler {
             ' → ${event.guildId}',
           ),
         );
-        _handleMemberUpsert(event.guildId, event.member);
+        unawaited(_handleMemberUpsert(event.guildId, event.member));
         if (event.member.user.id == currentUserId) {
           _emit(() => onGuildPermissionsChanged?.call(event.guildId));
         }
@@ -364,7 +364,7 @@ class GatewayEventHandler {
             ' → ${event.guildId}',
           ),
         );
-        _handleMemberUpsert(event.guildId, event.member);
+        unawaited(_handleMemberUpsert(event.guildId, event.member));
         if (event.member.user.id == currentUserId) {
           _emit(() => onGuildPermissionsChanged?.call(event.guildId));
           messageMentionContextCache?.invalidateGuild(event.guildId);
@@ -623,7 +623,11 @@ class GatewayEventHandler {
             ' → ${event.state.channelId}',
           ),
         );
-        _hydrateEmbeddedMember(event.state.guildId, event.member);
+        final String? voiceGuildId = event.state.guildId;
+        final GuildMemberResponse? voiceMember = event.member;
+        if (voiceGuildId != null && voiceMember != null) {
+          await _hydrateMemberIfMissing(voiceGuildId, voiceMember);
+        }
         _emit(() => onVoiceStateUpdate?.call(event.state));
       case final VoiceServerUpdateEvent e:
         talker.info(
@@ -2283,7 +2287,7 @@ class GatewayEventHandler {
     if (existing != null) {
       return;
     }
-    _handleMemberUpsert(guildId, member);
+    await _handleMemberUpsert(guildId, member);
   }
 
   void _handlePresenceUpdate(PresenceUpdateEvent event) {
@@ -2295,15 +2299,17 @@ class GatewayEventHandler {
     );
   }
 
-  void _handleMemberUpsert(String guildId, GuildMemberResponse member) {
+  Future<void> _handleMemberUpsert(
+    String guildId,
+    GuildMemberResponse member,
+  ) async {
     _emit(() => onGuildMembersSeen?.call(guildId, <String>[member.user.id]));
-    unawaited(database.userDao.upsertUser(userFromPartialSdk(member.user)));
-
-    unawaited(
+    await Future.wait(<Future<void>>[
+      database.userDao.upsertUser(userFromPartialSdk(member.user)),
       database.memberDao.upsertMember(
         memberCompanionFromSdk(member, guildId: guildId),
       ),
-    );
+    ]);
   }
 
   void _handleMemberRemove(GuildMemberRemoveEvent event) {
