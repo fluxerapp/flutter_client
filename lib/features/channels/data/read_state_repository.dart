@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/push/push_notification_clear.dart';
 import 'package:fluxer_app/core/push/push_tray_registry.dart';
 import 'package:fluxer_app/features/channels/data/ack_batcher.dart';
+import 'package:fluxer_app/features/channels/data/read_state_decisions.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
 import 'package:fluxer_dart/export.dart';
@@ -51,22 +52,32 @@ class ReadStateRepository {
   Future<void> clearSticky(String channelId) =>
       _db.readStateDao.clearStickyUnread(channelId);
 
-  /// Applies the authoritative read states returned by `/read-states/ack`.
-  /// Version-gated: skips a channel whose stored version is newer than the
-  /// response's, keeping local ack / mention / version aligned with the server
-  /// (mirrors the web's `ReadStates.applyAckResponse`).
   Future<void> applyAckResponse(ReadStateAckResponse response) async {
     for (final rs in response.readStates) {
+      final String? messageId = rs.lastMessageId;
+      if (messageId == null) {
+        continue;
+      }
       final current = await _db.readStateDao.getReadState(rs.id);
-      if (current?.version != null &&
-          rs.version != null &&
-          compareReadStateVersions(rs.version, current!.version) < 0) {
+      final ReadStateServerAckDecision decision =
+          resolveReadStateServerAckDecision(
+            ReadStateServerAckInput(
+              messageId: messageId,
+              ackMessageId: current?.lastMessageId,
+              serverVersion: current?.version,
+              version: rs.version,
+              manual: false,
+              hasMentionCount: true,
+            ),
+          );
+      if (decision.kind == ReadStateServerAckKind.ignoreStaleVersion ||
+          decision.kind == ReadStateServerAckKind.ignoreOlderMessage) {
         continue;
       }
       await _db.readStateDao.upsertReadState(
         ReadStatesCompanion(
           channelId: Value(rs.id),
-          lastMessageId: Value(rs.lastMessageId),
+          lastMessageId: Value(messageId),
           mentionCount: Value(rs.mentionCount),
           version: Value(rs.version),
           flags: rs.flags == null ? const Value.absent() : Value(rs.flags),

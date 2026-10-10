@@ -596,6 +596,81 @@ void main() {
     expect(readState?.manual, isFalse);
   });
 
+  test(
+    'applyAckResponse keeps a newer local ack when the server version is 0',
+    () async {
+      final String olderId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+      final String newerId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+      final db = openTestDatabase();
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('channel-1'),
+          lastMessageId: Value(newerId),
+          mentionCount: const Value(0),
+          version: const Value('0'),
+        ),
+      );
+      final repository = ReadStateRepository(
+        FluxerClient(Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))),
+        db,
+      );
+
+      await repository.applyAckResponse(
+        ReadStateAckResponse.fromJson({
+          'read_states': [
+            {
+              'id': 'channel-1',
+              'mention_count': 2,
+              'last_message_id': olderId,
+              'last_pin_timestamp': null,
+              'version': '0',
+            },
+          ],
+        }),
+      );
+
+      final readState = await db.readStateDao.getReadState('channel-1');
+      expect(readState?.lastMessageId, newerId);
+      expect(readState?.mentionCount, 0);
+    },
+  );
+
+  test('applyAckResponse advances an older local ack', () async {
+    final String olderId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+    final String newerId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+    final db = openTestDatabase();
+    await db.readStateDao.upsertReadState(
+      ReadStatesCompanion(
+        channelId: const Value('channel-1'),
+        lastMessageId: Value(olderId),
+        mentionCount: const Value(3),
+        version: const Value('0'),
+      ),
+    );
+    final repository = ReadStateRepository(
+      FluxerClient(Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))),
+      db,
+    );
+
+    await repository.applyAckResponse(
+      ReadStateAckResponse.fromJson({
+        'read_states': [
+          {
+            'id': 'channel-1',
+            'mention_count': 0,
+            'last_message_id': newerId,
+            'last_pin_timestamp': null,
+            'version': '0',
+          },
+        ],
+      }),
+    );
+
+    final readState = await db.readStateDao.getReadState('channel-1');
+    expect(readState?.lastMessageId, newerId);
+    expect(readState?.mentionCount, 0);
+  });
+
   test('recomputeMentionsForUnreadOrMentionedChannels drops blocked author '
       'mentions', () async {
     final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
