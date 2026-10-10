@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:fluxer_app/core/providers/gateway_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
-import 'package:fluxer_app/features/members/providers/guild_member_chunk_waiter.dart';
 import 'package:fluxer_app/features/members/providers/guild_roles_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
 import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
@@ -10,6 +9,8 @@ import 'package:fluxer_dart/gateway.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'guild_sync_provider.g.dart';
+
+const Duration kMemberListSyncSettleDelay = Duration(seconds: 3);
 
 LazyRequestSubscription guildSyncSubscription({required bool threads}) =>
     threads
@@ -68,9 +69,7 @@ class GuildSync extends _$GuildSync {
   }
 
   Future<void> backfillMembersIfSparse(String guildId) async {
-    await ref
-        .read(guildMemberChunkWaiterProvider)
-        .waitForChunk(guildId, timeout: const Duration(seconds: 3));
+    await Future<void>.delayed(kMemberListSyncSettleDelay);
     try {
       await ref.read(memberRepositoryProvider).backfillMembersIfSparse(guildId);
     } on Object catch (e) {

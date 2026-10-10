@@ -91,15 +91,14 @@ typedef GuildAvailabilityChangedCallback =
     });
 typedef GuildAvailableCallback = void Function(String guildId);
 typedef GuildMembersChunkCallback =
-    void Function(String guildId, List<String> userIds, {String? nonce});
-typedef GuildMembersChunkProgressCallback =
     void Function(
       String guildId,
-      int chunkIndex,
-      int chunkCount,
       List<String> userIds, {
+      required int chunkCount,
       String? nonce,
     });
+typedef GuildMembersSeenCallback =
+    void Function(String guildId, List<String> userIds);
 typedef GuildMemberListUpdateCallback =
     void Function(GuildMemberListUpdateEvent event);
 typedef GuildCountsUpdateCallback = void Function(GuildCountsUpdateEvent event);
@@ -185,7 +184,7 @@ class GatewayEventHandler {
     this.onGuildAvailabilityChanged,
     this.onGuildAvailable,
     this.onMembersChunk,
-    this.onMembersChunkProgress,
+    this.onGuildMembersSeen,
     this.onMemberListUpdate,
     this.onGuildCountsUpdate,
     this.onChannelMemberCountsUpdate,
@@ -263,7 +262,7 @@ class GatewayEventHandler {
   final GuildAvailabilityChangedCallback? onGuildAvailabilityChanged;
   final GuildAvailableCallback? onGuildAvailable;
   final GuildMembersChunkCallback? onMembersChunk;
-  final GuildMembersChunkProgressCallback? onMembersChunkProgress;
+  final GuildMembersSeenCallback? onGuildMembersSeen;
   final GuildMemberListUpdateCallback? onMemberListUpdate;
   final GuildCountsUpdateCallback? onGuildCountsUpdate;
   final ChannelMemberCountsUpdateCallback? onChannelMemberCountsUpdate;
@@ -2293,6 +2292,7 @@ class GatewayEventHandler {
   }
 
   void _handleMemberUpsert(String guildId, GuildMemberResponse member) {
+    _emit(() => onGuildMembersSeen?.call(guildId, <String>[member.user.id]));
     unawaited(database.userDao.upsertUser(userFromPartialSdk(member.user)));
 
     unawaited(
@@ -2615,12 +2615,11 @@ class GatewayEventHandler {
       );
     }
     _emit(() {
-      onMembersChunk?.call(event.guildId, userIds, nonce: event.nonce);
-      onMembersChunkProgress?.call(
+      onGuildMembersSeen?.call(event.guildId, userIds);
+      onMembersChunk?.call(
         event.guildId,
-        event.chunkIndex,
-        event.chunkCount,
         userIds,
+        chunkCount: event.chunkCount,
         nonce: event.nonce,
       );
       if (currentUserId != null && userIds.contains(currentUserId)) {

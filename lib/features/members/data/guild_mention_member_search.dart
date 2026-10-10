@@ -40,6 +40,9 @@ class GuildMentionMemberSearch {
   final Map<String, String> _pendingGatewayQueries = <String, String>{};
   final Map<String, Set<String>> _remoteMemberIdsByGuild =
       <String, Set<String>>{};
+  final Map<String, int> _gatewaySearchGeneration = <String, int>{};
+  final Map<String, List<String>> _gatewaySearchUserIds =
+      <String, List<String>>{};
 
   Set<String> remoteMemberIdsFor(String guildId) {
     return _remoteMemberIdsByGuild[guildId] ?? const <String>{};
@@ -146,7 +149,8 @@ class GuildMentionMemberSearch {
       return;
     }
     await _ensureGatewaySearch(guildId, query);
-    final List<String> scopeUserIds = _chunkWaiter.lastChunkUserIds(guildId);
+    final List<String> scopeUserIds =
+        _gatewaySearchUserIds[guildId] ?? const <String>[];
     _remoteMemberIdsByGuild[guildId] = scopeUserIds.toSet();
     await refreshSnapshot(guildId);
     onComplete();
@@ -224,7 +228,8 @@ class GuildMentionMemberSearch {
       return (members: cached, remoteMemberIds: const <String>{});
     }
     await _ensureGatewaySearch(guildId, trimmed);
-    final List<String> scopeUserIds = _chunkWaiter.lastChunkUserIds(guildId);
+    final List<String> scopeUserIds =
+        _gatewaySearchUserIds[guildId] ?? const <String>[];
     final List<Member> remote = scopeUserIds.isEmpty
         ? const <Member>[]
         : await _memberRepository.searchMembersForAutocomplete(
@@ -328,15 +333,21 @@ class GuildMentionMemberSearch {
 
   Future<void> _requestGuildMembers(String guildId, String query) async {
     _recordGatewayFetch(guildId, query);
-    final int requestId = _chunkWaiter.beginRequest(guildId);
+    final int generation = (_gatewaySearchGeneration[guildId] ?? 0) + 1;
+    _gatewaySearchGeneration[guildId] = generation;
+    _gatewaySearchUserIds.remove(guildId);
     try {
-      _gateway.requestGuildMembers(
-        guildId: guildId,
-        query: query,
-        limit: kMentionMemberSearchLimit,
-        nonce: GuildMemberChunkWaiter.nonceFor(requestId),
+      final List<String>? userIds = await _chunkWaiter.request(
+        send: (String nonce) => _gateway.requestGuildMembers(
+          guildId: guildId,
+          query: query,
+          limit: kMentionMemberSearchLimit,
+          nonce: nonce,
+        ),
       );
-      await _chunkWaiter.waitForChunk(guildId, requestId: requestId);
+      if (userIds != null && _gatewaySearchGeneration[guildId] == generation) {
+        _gatewaySearchUserIds[guildId] = userIds;
+      }
     } on Object {
       return;
     }

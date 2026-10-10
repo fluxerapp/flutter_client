@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -5,6 +7,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/features/members/providers/guild_member_chunk_waiter.dart';
 import 'package:fluxer_app/shared/services/guild_member_hydration_service.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/gateway.dart';
 
 import '../../helpers/open_test_database.dart';
 
@@ -113,9 +116,165 @@ void main() {
     expect(adapter.requestCount, 1);
     expect(service.isNonMember('guild-1', 'missing-user'), isTrue);
   });
+
+  test('REST failures other than 404 leave the user unflagged', () async {
+    final FluxerDatabase database = openTestDatabase();
+    final GuildMemberHydrationService service = GuildMemberHydrationService(
+      database: database,
+      client: _clientWithAdapter(_FailAdapter(statusCode: 429)),
+      chunkWaiter: GuildMemberChunkWaiter(),
+      readGateway: () => null,
+    );
+
+    await service.hydrateMembers(
+      guildId: 'guild-1',
+      userIds: <String>['user-1'],
+    );
+
+    expect(service.isNonMember('guild-1', 'user-1'), isFalse);
+  });
+
+  group('gateway hydration', () {
+    test('flags only users missing from the chunk echoing its nonce', () async {
+      final FluxerDatabase database = openTestDatabase();
+      final GuildMemberChunkWaiter waiter = GuildMemberChunkWaiter();
+      final _RecordingAdapter adapter = _RecordingAdapter();
+      final _RecordingGateway gateway = _RecordingGateway();
+      final List<String> fetched = <String>[];
+      final GuildMemberHydrationService service = GuildMemberHydrationService(
+        database: database,
+        client: _clientWithAdapter(adapter),
+        chunkWaiter: waiter,
+        readGateway: () => gateway,
+      );
+      gateway.onRequest = (_RecordedRequest request) async {
+        waiter.notifyChunk(
+          nonce: 'unrelated',
+          chunkCount: 1,
+          userIds: const <String>[],
+        );
+        await database.memberDao.upsertMember(
+          MembersCompanion.insert(userId: 'user-1', guildId: 'guild-1'),
+        );
+        waiter.notifyChunk(
+          nonce: request.nonce,
+          chunkCount: 1,
+          userIds: <String>['user-1'],
+        );
+      };
+
+      await service.hydrateMembers(
+        guildId: 'guild-1',
+        userIds: <String>['user-1', 'stranger'],
+        onMemberFetched: fetched.add,
+      );
+
+      expect(gateway.requests, hasLength(1));
+      expect(gateway.requests.single.nonce, isNotEmpty);
+      expect(gateway.requests.single.userIds, <String>['user-1', 'stranger']);
+      expect(fetched, <String>['user-1']);
+      expect(service.isNonMember('guild-1', 'user-1'), isFalse);
+      expect(service.isNonMember('guild-1', 'stranger'), isTrue);
+      expect(adapter.requestCount, 0);
+    });
+
+    test('a dropped request flags nobody and falls back to REST', () async {
+      final FluxerDatabase database = openTestDatabase();
+      final GuildMemberChunkWaiter waiter = GuildMemberChunkWaiter();
+      final _RecordingAdapter adapter = _RecordingAdapter();
+      final _RecordingGateway gateway = _RecordingGateway();
+      final GuildMemberHydrationService service = GuildMemberHydrationService(
+        database: database,
+        client: _clientWithAdapter(adapter),
+        chunkWaiter: waiter,
+        readGateway: () => gateway,
+        chunkTimeout: const Duration(milliseconds: 30),
+      );
+      gateway.onRequest = (_RecordedRequest request) async {
+        waiter.notifyChunk(
+          nonce: null,
+          chunkCount: 1,
+          userIds: const <String>[],
+        );
+      };
+
+      await service.hydrateMembers(
+        guildId: 'guild-1',
+        userIds: <String>['user-1'],
+      );
+
+      expect(gateway.requests, hasLength(1));
+      expect(service.isNonMember('guild-1', 'user-1'), isFalse);
+      expect(adapter.requestedPaths, <String>[
+        '/v1/guilds/guild-1/members/user-1',
+      ]);
+      expect(
+        (await database.memberDao.getMemberByUserId('user-1', 'guild-1'))?.nick,
+        'Guild Alice',
+      );
+    });
+
+    test('a flagged user is retried once seen as a member again', () async {
+      final FluxerDatabase database = openTestDatabase();
+      final _FailAdapter adapter = _FailAdapter();
+      final GuildMemberHydrationService service = GuildMemberHydrationService(
+        database: database,
+        client: _clientWithAdapter(adapter),
+        chunkWaiter: GuildMemberChunkWaiter(),
+        readGateway: () => null,
+      );
+      await service.hydrateMembers(
+        guildId: 'guild-1',
+        userIds: <String>['rejoiner'],
+      );
+      expect(service.isNonMember('guild-1', 'rejoiner'), isTrue);
+
+      service.clearNonMembers('guild-1', <String>['rejoiner']);
+
+      expect(service.isNonMember('guild-1', 'rejoiner'), isFalse);
+    });
+  });
+}
+
+class _RecordedRequest {
+  const _RecordedRequest({required this.userIds, required this.nonce});
+
+  final List<String> userIds;
+  final String? nonce;
+}
+
+class _RecordingGateway extends GatewayConnection {
+  _RecordingGateway() : super(token: 'test', dio: Dio());
+
+  final List<_RecordedRequest> requests = <_RecordedRequest>[];
+  Future<void> Function(_RecordedRequest request)? onRequest;
+
+  @override
+  GatewayState get state => GatewayState.connected;
+
+  @override
+  void requestGuildMembers({
+    String? guildId,
+    List<String>? guildIds,
+    String? query,
+    int? limit,
+    List<String>? userIds,
+    bool? presences,
+    String? nonce,
+  }) {
+    final _RecordedRequest request = _RecordedRequest(
+      userIds: userIds ?? const <String>[],
+      nonce: nonce,
+    );
+    requests.add(request);
+    unawaited(onRequest?.call(request));
+  }
 }
 
 class _FailAdapter implements HttpClientAdapter {
+  _FailAdapter({this.statusCode = 404});
+
+  final int statusCode;
   int requestCount = 0;
 
   @override
@@ -127,7 +286,10 @@ class _FailAdapter implements HttpClientAdapter {
     requestCount++;
     throw DioException(
       requestOptions: options,
-      response: Response<dynamic>(requestOptions: options, statusCode: 404),
+      response: Response<dynamic>(
+        requestOptions: options,
+        statusCode: statusCode,
+      ),
       type: DioExceptionType.badResponse,
     );
   }

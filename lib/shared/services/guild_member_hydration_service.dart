@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
@@ -21,12 +22,14 @@ class GuildMemberHydrationService {
     required this._client,
     required this._chunkWaiter,
     required this._readGateway,
+    this._chunkTimeout = kGuildMemberHydrationChunkTimeout,
   });
 
   final db.FluxerDatabase _database;
   final FluxerClient _client;
   final GuildMemberChunkWaiter _chunkWaiter;
   final GatewayConnection? Function() _readGateway;
+  final Duration _chunkTimeout;
 
   final Map<String, Set<String>> _nonMembers = <String, Set<String>>{};
   final Map<String, Set<String>> _pendingByGuild = <String, Set<String>>{};
@@ -34,6 +37,10 @@ class GuildMemberHydrationService {
 
   bool isNonMember(String guildId, String userId) {
     return _nonMembers[guildId]?.contains(userId) ?? false;
+  }
+
+  void clearNonMembers(String guildId, Iterable<String> userIds) {
+    _nonMembers[guildId]?.removeAll(userIds);
   }
 
   void requestHydration({
@@ -166,29 +173,23 @@ class GuildMemberHydrationService {
         missingUserIds.length,
       );
       final List<String> batch = missingUserIds.sublist(index, end);
-      gateway.requestGuildMembers(
-        guildId: guildId,
-        userIds: batch,
-        presences: false,
+      final List<String>? returned = await _chunkWaiter.request(
+        send: (String nonce) => gateway.requestGuildMembers(
+          guildId: guildId,
+          userIds: batch,
+          presences: false,
+          nonce: nonce,
+        ),
+        timeout: _chunkTimeout,
       );
-      await _chunkWaiter.waitForChunk(
-        guildId,
-        timeout: kGuildMemberHydrationChunkTimeout,
-      );
-      final Set<String> returnedUserIds = _chunkWaiter
-          .lastChunkUserIds(guildId)
-          .toSet();
-      final List<db.Member> cachedMembers = await _database.memberDao
-          .getMembersByUserIds(guildId, batch);
-      final Set<String> cachedUserIds = cachedMembers
-          .map((db.Member member) => member.userId)
-          .toSet();
+      if (returned == null) {
+        continue;
+      }
+      final Set<String> returnedUserIds = returned.toSet();
       for (final String userId in batch) {
-        if (cachedUserIds.contains(userId)) {
+        if (returnedUserIds.contains(userId)) {
           onMemberFetched?.call(userId);
-          continue;
-        }
-        if (!returnedUserIds.contains(userId)) {
+        } else {
           _markNonMember(guildId, userId);
         }
       }
@@ -228,8 +229,12 @@ class GuildMemberHydrationService {
         if (pendingUpsert.length >= kGuildMemberHydrationRestUpsertBatchSize) {
           await flushPendingUpsert();
         }
+      } on DioException catch (error) {
+        if (error.response?.statusCode == 404) {
+          _markNonMember(guildId, userId);
+        }
       } on Object {
-        _markNonMember(guildId, userId);
+        continue;
       }
     }
     await flushPendingUpsert();

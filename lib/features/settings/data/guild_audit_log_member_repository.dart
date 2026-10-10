@@ -112,13 +112,13 @@ class GuildAuditLogMemberRepository {
         missingUserIds.length,
       );
       final List<String> batch = missingUserIds.sublist(index, end);
-      gateway.requestGuildMembers(
-        guildId: guildId,
-        userIds: batch,
-        presences: false,
-      );
-      await _chunkWaiter.waitForChunk(
-        guildId,
+      await _chunkWaiter.request(
+        send: (String nonce) => gateway.requestGuildMembers(
+          guildId: guildId,
+          userIds: batch,
+          presences: false,
+          nonce: nonce,
+        ),
         timeout: _kGuildMemberChunkWaitTimeout,
       );
     }

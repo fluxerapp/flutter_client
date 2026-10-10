@@ -3,56 +3,89 @@ import 'package:fluxer_app/features/members/providers/guild_member_chunk_waiter.
 
 void main() {
   group('GuildMemberChunkWaiter', () {
-    test('beginRequest ignores unscoped and stale chunk notifications', () {
-      final GuildMemberChunkWaiter waiter = GuildMemberChunkWaiter()
-        ..beginRequest('g1')
-        ..notifyChunk('g1', userIds: <String>['unscoped']);
-      expect(waiter.lastChunkUserIds('g1'), isEmpty);
-
-      final int secondRequest = waiter.beginRequest('g1');
-      expect(waiter.lastChunkUserIds('g1'), isEmpty);
-      waiter.notifyChunk(
-        'g1',
-        userIds: <String>['fresh'],
-        requestId: secondRequest,
-      );
-      expect(waiter.lastChunkUserIds('g1'), <String>['fresh']);
-      waiter.notifyChunk(
-        'g1',
-        userIds: <String>['old'],
-        requestId: secondRequest - 1,
-      );
-      expect(waiter.lastChunkUserIds('g1'), <String>['fresh']);
-    });
-
-    test('waitForChunk completes when matching chunk arrives', () async {
+    test('resolves with the users of the chunk echoing its nonce', () async {
       final GuildMemberChunkWaiter waiter = GuildMemberChunkWaiter();
-      final int requestId = waiter.beginRequest('g1');
-      final Future<void> pending = waiter.waitForChunk(
-        'g1',
-        requestId: requestId,
+      late final String nonce;
+      final Future<List<String>?> result = waiter.request(
+        send: (String value) => nonce = value,
       );
-      waiter.notifyChunk('g1', userIds: <String>['u1'], requestId: requestId);
-      await pending;
-      expect(waiter.lastChunkUserIds('g1'), <String>['u1']);
-      waiter.notifyChunk('g1', userIds: <String>['later']);
-      expect(waiter.lastChunkUserIds('g1'), <String>['later']);
+
+      waiter.notifyChunk(
+        nonce: nonce,
+        chunkCount: 1,
+        userIds: <String>['u1', 'u2'],
+      );
+
+      expect(await result, <String>['u1', 'u2']);
     });
 
-    test('nonce helpers round-trip request ids', () {
-      expect(GuildMemberChunkWaiter.nonceFor(42), '42');
-      expect(GuildMemberChunkWaiter.requestIdFromNonce('42'), 42);
-      expect(GuildMemberChunkWaiter.requestIdFromNonce(null), isNull);
-      expect(GuildMemberChunkWaiter.requestIdFromNonce(''), isNull);
-      expect(GuildMemberChunkWaiter.requestIdFromNonce('abc'), isNull);
-    });
-
-    test('unscoped chunks still complete waits without beginRequest', () async {
+    test('gives every request its own nonce', () async {
       final GuildMemberChunkWaiter waiter = GuildMemberChunkWaiter();
-      final Future<void> pending = waiter.waitForChunk('g1');
-      waiter.notifyChunk('g1', userIds: <String>['u1']);
-      await pending;
-      expect(waiter.lastChunkUserIds('g1'), <String>['u1']);
+      final List<String> nonces = <String>[];
+      final Future<List<String>?> first = waiter.request(send: nonces.add);
+      final Future<List<String>?> second = waiter.request(send: nonces.add);
+
+      expect(nonces.toSet(), hasLength(2));
+      waiter
+        ..notifyChunk(
+          nonce: nonces[1],
+          chunkCount: 1,
+          userIds: <String>['second'],
+        )
+        ..notifyChunk(
+          nonce: nonces[0],
+          chunkCount: 1,
+          userIds: <String>['first'],
+        );
+
+      expect(await first, <String>['first']);
+      expect(await second, <String>['second']);
+    });
+
+    test('waits for every chunk of a split response', () async {
+      final GuildMemberChunkWaiter waiter = GuildMemberChunkWaiter();
+      late final String nonce;
+      bool completed = false;
+      final Future<List<String>?> result = waiter
+          .request(send: (String value) => nonce = value)
+          .whenComplete(() => completed = true);
+
+      waiter.notifyChunk(nonce: nonce, chunkCount: 2, userIds: <String>['u1']);
+      await pumpEventQueue();
+      expect(completed, isFalse);
+
+      waiter.notifyChunk(nonce: nonce, chunkCount: 2, userIds: <String>['u2']);
+
+      expect(await result, <String>['u1', 'u2']);
+    });
+
+    test(
+      'ignores chunks of other requests and chunks without a nonce',
+      () async {
+        final GuildMemberChunkWaiter waiter = GuildMemberChunkWaiter();
+        final Future<List<String>?> result = waiter.request(
+          send: (_) {},
+          timeout: const Duration(milliseconds: 50),
+        );
+
+        waiter
+          ..notifyChunk(nonce: 'other', chunkCount: 1, userIds: <String>['x'])
+          ..notifyChunk(nonce: null, chunkCount: 1, userIds: <String>['y']);
+
+        expect(await result, isNull);
+      },
+    );
+
+    test('resolves with null when no reply arrives', () async {
+      final GuildMemberChunkWaiter waiter = GuildMemberChunkWaiter();
+
+      expect(
+        await waiter.request(
+          send: (_) {},
+          timeout: const Duration(milliseconds: 20),
+        ),
+        isNull,
+      );
     });
   });
 }

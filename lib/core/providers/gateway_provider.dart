@@ -59,6 +59,7 @@ import 'package:fluxer_app/features/threads/providers/thread_ui_providers.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
+import 'package:fluxer_app/shared/services/guild_member_hydration_service.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -463,38 +464,32 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     onGuildAvailable: (guildId) => ifMounted(() {
       ref.read(guildAvailabilityProvider.notifier).setGuildAvailable(guildId);
     }),
-    onMembersChunk: (guildId, userIds, {nonce}) => ifMounted(() {
-      ref
-          .read(guildMemberChunkWaiterProvider)
-          .notifyChunk(
-            guildId,
-            userIds: userIds,
-            requestId: GuildMemberChunkWaiter.requestIdFromNonce(nonce),
-          );
-      unawaited(
-        ref
-            .read(memberCacheEvictorProvider)
-            .evictIfNeeded(
-              guildId: guildId,
-              protectedUserIds: collectProtectedMemberUserIds(
-                ref: ref,
-                guildId: guildId,
-              ),
-            ),
-      );
-    }),
-    onMembersChunkProgress:
-        (guildId, chunkIndex, chunkCount, userIds, {nonce}) => ifMounted(() {
+    onMembersChunk: (guildId, userIds, {required chunkCount, nonce}) =>
+        ifMounted(() {
           ref
               .read(guildMemberChunkWaiterProvider)
-              .notifyChunkProgress(
-                guildId,
-                chunkIndex,
-                chunkCount,
+              .notifyChunk(
+                nonce: nonce,
+                chunkCount: chunkCount,
                 userIds: userIds,
-                requestId: GuildMemberChunkWaiter.requestIdFromNonce(nonce),
               );
+          unawaited(
+            ref
+                .read(memberCacheEvictorProvider)
+                .evictIfNeeded(
+                  guildId: guildId,
+                  protectedUserIds: collectProtectedMemberUserIds(
+                    ref: ref,
+                    guildId: guildId,
+                  ),
+                ),
+          );
         }),
+    onGuildMembersSeen: (guildId, userIds) => ifMounted(() {
+      ref
+          .read(guildMemberHydrationServiceProvider)
+          .clearNonMembers(guildId, userIds);
+    }),
     onMemberListUpdate: (event) => ifMounted(() {
       ref.read(memberListUpdateBatcherProvider).enqueue(event);
     }),
