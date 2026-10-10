@@ -328,9 +328,9 @@ class GuildUserSettingsRepository {
       final FluxerDatabase db = _ref.read(fluxerDatabaseProvider);
       final UserGuildSettingsUpdateRequest body =
           UserGuildSettingsUpdateRequest(
-            channelOverrides: channelOverrides.isEmpty
-                ? const JsonNullable.undefined()
-                : JsonNullable.of(channelOverrides),
+            channelOverrides: JsonNullable.of(
+              channelOverrides.isEmpty ? null : channelOverrides,
+            ),
           );
       final UserGuildSettingsResponse response;
       if (guildId == '@me') {
@@ -341,20 +341,10 @@ class GuildUserSettingsRepository {
           body: body,
         );
       }
-      final Map<String, ChannelOverrides>? persistedOverrides =
-          _mergePersistedChannelOverrides(
-            requested: channelOverrides,
-            response: response.channelOverrides,
-          );
-      final Map<String, dynamic> persistedData = response.toJson()
-        ..['channel_overrides'] = persistedOverrides?.map(
-          (String key, ChannelOverrides value) =>
-              MapEntry<String, dynamic>(key, value.toJson()),
-        );
       await db.userGuildSettingsDao.upsert(
         UserGuildSettingsTableCompanion(
           guildId: Value(_storageGuildId(response.guildId, guildId)),
-          data: Value(jsonEncode(persistedData)),
+          data: Value(jsonEncode(response.toJson())),
         ),
       );
     } on Object catch (error, stackTrace) {
@@ -395,21 +385,6 @@ class GuildUserSettingsRepository {
       version: -1,
     ).toJson();
   }
-}
-
-Map<String, ChannelOverrides>? _mergePersistedChannelOverrides({
-  required Map<String, ChannelOverrides> requested,
-  required Map<String, ChannelOverrides>? response,
-}) {
-  if (requested.isEmpty && (response == null || response.isEmpty)) {
-    return null;
-  }
-  final Map<String, ChannelOverrides> merged =
-      Map<String, ChannelOverrides>.from(requested);
-  if (response != null) {
-    merged.addAll(response);
-  }
-  return merged;
 }
 
 ChannelOverrides _mergeChannelOverride({
