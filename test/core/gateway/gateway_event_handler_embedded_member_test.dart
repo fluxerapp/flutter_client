@@ -111,6 +111,28 @@ void main() {
     );
   }
 
+  test('VOICE_STATE_UPDATE stores the embedded member when missing', () async {
+    await handler.handle(
+      parser.parse('VOICE_STATE_UPDATE', <String, Object?>{
+        'user_id': _authorId,
+        'channel_id': 'voice-1',
+        'guild_id': _guildId,
+        'connection_id': 'conn-1',
+        'self_mute': false,
+        'self_deaf': false,
+        'mute': false,
+        'deaf': false,
+        'member': <String, Object?>{
+          ..._memberJson(nick: 'Monty'),
+          'user': _userJson(_authorId),
+        },
+      }),
+    );
+
+    final Member? member = await _waitForMember(database);
+    expect(member?.nick, 'Monty');
+  });
+
   test('an embedded member never overwrites a cached member', () async {
     await handler.handle(
       parser.parse('MESSAGE_CREATE', _guildMessageJson(nick: 'first')),

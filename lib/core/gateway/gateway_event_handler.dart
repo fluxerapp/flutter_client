@@ -612,6 +612,7 @@ class GatewayEventHandler {
             ' → ${event.state.channelId}',
           ),
         );
+        _hydrateEmbeddedMember(event.state.guildId, event.member);
         _emit(() => onVoiceStateUpdate?.call(event.state));
       case final VoiceServerUpdateEvent e:
         talker.info(
