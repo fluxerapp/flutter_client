@@ -14,10 +14,10 @@ class _PendingWellKnown extends WellKnown {
       Completer<WellKnownFluxerResponse>().future;
 }
 
-WellKnownFluxerResponse _selfHostedWellKnown() {
-  return const WellKnownFluxerResponse(
+WellKnownFluxerResponse _selfHostedWellKnown({bool premiumEnabled = false}) {
+  return WellKnownFluxerResponse(
     apiCodeVersion: 1,
-    endpoints: InstanceEndpointsSchema(
+    endpoints: const InstanceEndpointsSchema(
       api: 'https://example.test/api',
       apiClient: 'https://example.test/api/client',
       apiPublic: 'https://example.test/api/public',
@@ -30,13 +30,13 @@ WellKnownFluxerResponse _selfHostedWellKnown() {
       gift: 'https://example.test/gift',
       webapp: 'https://example.test/webapp',
     ),
-    captcha: InstanceCaptchaSchema(
+    captcha: const InstanceCaptchaSchema(
       provider: InstanceCaptchaProviderSchema.none,
     ),
     features: InstanceFeaturesSchema(
       voiceEnabled: true,
       stripeEnabled: false,
-      premiumEnabled: false,
+      premiumEnabled: premiumEnabled,
       stripeServiceable: false,
       selfHosted: true,
       presignedAttachmentUploads: false,
@@ -45,33 +45,33 @@ WellKnownFluxerResponse _selfHostedWellKnown() {
       accountIdentity: AccountIdentityModeSchema.email,
       tagStyle: TagStyleSchema.random,
     ),
-    gif: InstanceGifSchema(
+    gif: const InstanceGifSchema(
       provider: 'tenor',
       displayName: 'Tenor',
       attributionRequired: false,
     ),
-    sso: InstanceSsoSchema(
+    sso: const InstanceSsoSchema(
       enabled: false,
       enforced: false,
       displayName: null,
       redirectUri: 'https://example.test/sso',
     ),
-    registration: InstanceRegistrationSchema(
+    registration: const InstanceRegistrationSchema(
       mode: InstanceRegistrationModeSchema.open,
       adminRegistrationUrlsEnabled: false,
     ),
-    community: InstanceCommunitySchema(
+    community: const InstanceCommunitySchema(
       singleCommunity: false,
       singleCommunityGuildId: null,
       directMessagesDisabled: false,
       guildCreateAccess: true,
     ),
-    services: InstanceServicesSchema(
+    services: const InstanceServicesSchema(
       gifEnabled: true,
       youtubeEnabled: true,
       blueskyEnabled: false,
     ),
-    limits: WellKnownFluxerResponseLimits(
+    limits: const WellKnownFluxerResponseLimits(
       version: 2,
       traitDefinitions: <String>[],
       defaultsHash: 'test',
@@ -82,8 +82,8 @@ WellKnownFluxerResponse _selfHostedWellKnown() {
         ),
       ],
     ),
-    push: InstancePushSchema(publicVapidKey: null),
-    appPublic: InstanceAppPublicSchema(
+    push: const InstancePushSchema(publicVapidKey: null),
+    appPublic: const InstanceAppPublicSchema(
       branding: InstanceBrandingSchema(
         productName: 'Acme',
         iconUrl: null,
@@ -131,6 +131,25 @@ void main() {
 
       expect(container.read(wellKnownProvider).isLoading, isTrue);
       expect(container.read(shouldShowPremiumCommerceProvider), isFalse);
+    });
+
+    test('is true when a self-hosted instance enables premium', () {
+      final ProviderContainer container = ProviderContainer(
+        overrides: [
+          wellKnownProvider.overrideWith(_PendingWellKnown.new),
+          activeInstanceProvider.overrideWithValue(
+            InstanceConfigSnapshot(
+              apiBaseUrl: 'https://example.test/api',
+              gatewayUrl: '',
+              displayDomain: 'example.test',
+              wellKnown: _selfHostedWellKnown(premiumEnabled: true),
+            ),
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      expect(container.read(shouldShowPremiumCommerceProvider), isTrue);
     });
   });
 }

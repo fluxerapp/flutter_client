@@ -5,5 +5,5 @@ part 'should_show_premium_commerce_provider.g.dart';
 
 @Riverpod(keepAlive: true)
 bool shouldShowPremiumCommerce(Ref ref) {
-  return !ref.watch(instanceRuntimeConfigProvider).selfHosted;
+  return ref.watch(instanceRuntimeConfigProvider).showsPremiumFeatures;
 }

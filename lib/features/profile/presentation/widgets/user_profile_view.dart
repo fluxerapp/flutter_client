@@ -348,7 +348,11 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
   }) {
     final layout = context.layout;
     final colors = context.colors;
-    final bool selfHosted = ref.watch(instanceRuntimeConfigProvider).selfHosted;
+    final bool showsPremiumFeatures = ref.watch(
+      instanceRuntimeConfigProvider.select(
+        (config) => config.showsPremiumFeatures,
+      ),
+    );
     final bool isBlocked = relationship?.friendStatus == FriendStatus.blocked;
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -548,7 +552,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                   discriminator: discriminator,
                   displayName: displayName,
                   flags: flags,
-                  hasPlutonium: hasPlutonium && !selfHosted,
+                  hasPlutonium: hasPlutonium && showsPremiumFeatures,
                   isLifetimePlutonium: isLifetimePlutonium,
                   premiumSince: premiumSince,
                   premiumLifetimeSequence: premiumLifetimeSequence,

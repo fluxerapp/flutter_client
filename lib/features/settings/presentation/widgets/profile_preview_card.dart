@@ -191,16 +191,22 @@ class _ProfilePreviewCardState extends ConsumerState<ProfilePreviewCard> {
     FluxerLocalizations l10n,
   ) {
     final effectiveBio = _effectiveBio();
-    final bool selfHosted = ref.watch(
-      instanceRuntimeConfigProvider.select((config) => config.selfHosted),
+    final ({bool selfHosted, bool showsPremium}) instance = ref.watch(
+      instanceRuntimeConfigProvider.select(
+        (config) => (
+          selfHosted: config.selfHosted,
+          showsPremium: config.showsPremiumFeatures,
+        ),
+      ),
     );
     final PremiumBadgeVisibility premiumBadges =
         PremiumBadgeVisibility.fromSettings(s);
-    final bool showPremiumBadge = !selfHosted && premiumBadges.hasPlutonium;
+    final bool showPremiumBadge =
+        instance.showsPremium && premiumBadges.hasPlutonium;
     final hasBadges = UserProfileBadges.hasBadges(
       flags: s.publicFlags,
       hasPlutonium: showPremiumBadge,
-      selfHosted: selfHosted,
+      selfHosted: instance.selfHosted,
     );
 
     return LayoutBuilder(

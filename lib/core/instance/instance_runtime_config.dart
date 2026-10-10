@@ -20,6 +20,7 @@ class InstanceRuntimeConfig {
     required this.registrationClosed,
     required this.adminRegistrationUrlsEnabled,
     required this.collectDateOfBirth,
+    this.premiumEnabled = false,
     this.usernameSignIn = false,
     this.uniqueUsernames = false,
     this.guildCreateAccess = true,
@@ -39,6 +40,7 @@ class InstanceRuntimeConfig {
   final String? wordmarkUrl;
   final String? themeColorHex;
   final bool selfHosted;
+  final bool premiumEnabled;
   final bool stripeEnabled;
   final bool emailsEnabled;
   final bool voiceEnabled;
@@ -102,6 +104,7 @@ class InstanceRuntimeConfig {
       wordmarkUrl: _nonEmpty(branding.wordmarkUrl),
       themeColorHex: _nonEmpty(branding.themeColor),
       selfHosted: response.features.selfHosted,
+      premiumEnabled: response.features.premiumEnabled,
       stripeEnabled: response.features.stripeEnabled,
       emailsEnabled: response.features.emailsEnabled,
       voiceEnabled: response.features.voiceEnabled,
@@ -127,6 +130,8 @@ class InstanceRuntimeConfig {
 
   String? get compactMarkUrl =>
       _nonEmpty(symbolUrl) ?? _nonEmpty(iconUrl) ?? _nonEmpty(logoUrl);
+
+  bool get showsPremiumFeatures => !selfHosted || premiumEnabled;
 
   bool get giftsEnabled => !selfHosted || stripeEnabled;
 
@@ -157,6 +162,7 @@ class InstanceRuntimeConfig {
         other.wordmarkUrl == wordmarkUrl &&
         other.themeColorHex == themeColorHex &&
         other.selfHosted == selfHosted &&
+        other.premiumEnabled == premiumEnabled &&
         other.stripeEnabled == stripeEnabled &&
         other.emailsEnabled == emailsEnabled &&
         other.voiceEnabled == voiceEnabled &&
@@ -185,6 +191,7 @@ class InstanceRuntimeConfig {
     wordmarkUrl,
     themeColorHex,
     selfHosted,
+    premiumEnabled,
     stripeEnabled,
     emailsEnabled,
     voiceEnabled,

@@ -225,5 +225,40 @@ void main() {
       expect(find.byTooltip('Acme Plutonium'), findsNothing);
       expect(find.text('#42'), findsNothing);
     });
+
+    testWidgets('shows Plutonium on self-hosted with premium enabled', (
+      tester,
+    ) async {
+      const InstanceRuntimeConfig selfHosted = InstanceRuntimeConfig(
+        productName: 'Acme',
+        selfHosted: true,
+        premiumEnabled: true,
+        stripeEnabled: true,
+        emailsEnabled: true,
+        voiceEnabled: true,
+        presignedAttachmentUploads: true,
+        gifEnabled: true,
+        blueskyEnabled: true,
+        gifAttributionRequired: false,
+        singleCommunity: false,
+        directMessagesDisabled: false,
+        registrationClosed: false,
+        adminRegistrationUrlsEnabled: false,
+        collectDateOfBirth: true,
+      );
+      await tester.pumpWidget(
+        _buildApp(
+          const UserProfileBadges(
+            flags: 0,
+            hasPlutonium: true,
+            isLifetimePlutonium: true,
+            premiumLifetimeSequence: 42,
+          ),
+          config: selfHosted,
+        ),
+      );
+      expect(find.byTooltip('Acme Plutonium'), findsOneWidget);
+      expect(find.text('#42'), findsNothing);
+    });
   });
 }
