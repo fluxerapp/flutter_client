@@ -22,8 +22,6 @@ import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
 
-const int kMessageFlagCompactAttachments = 1 << 17;
-
 class MessageListLoadResult {
   const MessageListLoadResult({
     required this.messages,
@@ -56,13 +54,11 @@ Map<String, dynamic> buildMessageCreateBody({
   if (stickerIds.isNotEmpty) {
     body['sticker_ids'] = stickerIds;
   }
-  var flags = messageFlags ?? 0;
   if (favoriteMemeId != null) {
     body['favorite_meme_id'] = favoriteMemeId;
-    flags |= kMessageFlagCompactAttachments;
   }
-  if (flags != 0) {
-    body['flags'] = flags;
+  if (messageFlags != null && messageFlags != 0) {
+    body['flags'] = messageFlags;
   }
   if (tts) {
     body['tts'] = true;

@@ -36,13 +36,10 @@ Map<String, dynamic> _pageMessageJson(String id) => MessageResponseSchema(
 ).toJson();
 
 void main() {
-  test('buildMessageCreateBody sends favorite meme ids compactly', () {
+  test('buildMessageCreateBody sends a favorite meme id with no flags', () {
     final body = buildMessageCreateBody(content: '', favoriteMemeId: 'meme-1');
 
-    expect(body, {
-      'favorite_meme_id': 'meme-1',
-      'flags': kMessageFlagCompactAttachments,
-    });
+    expect(body, {'favorite_meme_id': 'meme-1'});
   });
 
   test('buildMessageCreateBody keeps normal text message body minimal', () {
@@ -77,27 +74,16 @@ void main() {
     expect(bodyDisabled['allowed_mentions'], {'replied_user': false});
   });
 
-  test(
-    'buildMessageCreateBody merges favorite meme flag with explicit flags',
-    () {
-      final body = buildMessageCreateBody(
-        content: 'hi',
-        favoriteMemeId: 'meme-1',
-        messageFlags: messageFlagSuppressNotifications,
-      );
+  test('buildMessageCreateBody sends only sendable flags with a meme', () {
+    final body = buildMessageCreateBody(
+      content: 'hi',
+      favoriteMemeId: 'meme-1',
+      messageFlags: messageFlagSuppressNotifications,
+    );
 
-      expect(body['favorite_meme_id'], 'meme-1');
-      final flags = body['flags'] as int;
-      expect(
-        flags & kMessageFlagCompactAttachments,
-        kMessageFlagCompactAttachments,
-      );
-      expect(
-        flags & messageFlagSuppressNotifications,
-        messageFlagSuppressNotifications,
-      );
-    },
-  );
+    expect(body['favorite_meme_id'], 'meme-1');
+    expect(body['flags'], messageFlagSuppressNotifications);
+  });
 
   test('buildMessageCreateBody passes explicit message flags through', () {
     final body = buildMessageCreateBody(

@@ -24,7 +24,6 @@ const int messageFlagSourceMessageDeleted = 1 << 3;
 const int messageFlagSuppressNotifications = 1 << 12;
 const int messageFlagHasThread = 1 << 5;
 const int messageFlagFailedToMentionSomeRolesInThread = 1 << 8;
-const int messageFlagCompactAttachments = 1 << 17;
 const int attachmentFlagIsSpoiler = 1 << 3;
 const int attachmentFlagContainsExplicitMedia = 1 << 4;
 
@@ -824,9 +823,6 @@ class MessageSnapshot {
     'stickers': stickers.map((s) => s.toJson()).toList(),
     'flags': flags,
   };
-
-  bool get hasCompactAttachments =>
-      (flags & messageFlagCompactAttachments) != 0;
 }
 
 class MessageCall {
@@ -1675,9 +1671,6 @@ class Message {
         .where((String text) => text.isNotEmpty)
         .join('\n\n');
   }
-
-  bool get hasCompactAttachments =>
-      (flags & messageFlagCompactAttachments) != 0;
 
   bool shouldHideContent({required bool renderEmbeds}) {
     if (!renderEmbeds || suppressEmbeds || embeds.isEmpty) {

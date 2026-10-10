@@ -57,9 +57,7 @@ class ForwardedMessageContent extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final attachmentSize = snapshot.hasCompactAttachments
-        ? MediaDimensionSize.small
-        : chatPreferences.attachmentMediaDimensionSize;
+    final attachmentSize = chatPreferences.attachmentMediaDimensionSize;
     final String snapshotScope = forwardedSnapshotScope(message.id);
 
     return Padding(

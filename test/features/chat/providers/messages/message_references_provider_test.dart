@@ -79,9 +79,9 @@ class _RecordingMessageRepository extends MessageRepository {
   Future<Message> fetchMessage({
     required String channelId,
     required String messageId,
-  }) async {
+  }) {
     fetched.add('$channelId:$messageId');
-    throw StateError('unreachable in tests');
+    return Future<Message>.error(StateError('no network in tests'));
   }
 }
 

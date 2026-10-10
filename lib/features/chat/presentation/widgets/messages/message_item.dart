@@ -1208,9 +1208,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       dim: dimMessagePartsExceptAttachments,
       child: child,
     );
-    final attachmentSize = msg.hasCompactAttachments
-        ? MediaDimensionSize.small
-        : chatPreferences.attachmentMediaDimensionSize;
+    final attachmentSize = chatPreferences.attachmentMediaDimensionSize;
 
     return [
       if ((msg.content.isNotEmpty || msg.isCrosspostSourceDeleted) &&
