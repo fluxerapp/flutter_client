@@ -112,32 +112,26 @@ void main() {
 
     test('CALL_UPDATE older than the live state keeps the live flags', () {
       final ProviderContainer container = makeContainer();
-      final VoiceStatesMap notifier = container.read(
-        voiceStatesMapProvider.notifier,
-      );
-      notifier.update(
-        _callVoiceState(
-          userId: 'u1',
-          connectionId: 'conn-1',
-          selfMute: true,
-          version: 2,
-        ),
-      );
-      notifier.update(
-        _callVoiceState(userId: 'u1', connectionId: 'conn-1', version: 3),
-      );
-
-      notifier.replacePrivateChannel('dm-1', <VoiceState>[
-        _callVoiceState(userId: 'u1', connectionId: 'conn-1', version: 3),
-      ]);
-      notifier.replacePrivateChannel('dm-1', <VoiceState>[
-        _callVoiceState(
-          userId: 'u1',
-          connectionId: 'conn-1',
-          selfMute: true,
-          version: 2,
-        ),
-      ]);
+      container.read(voiceStatesMapProvider.notifier)
+        ..update(
+          _callVoiceState(
+            userId: 'u1',
+            connectionId: 'conn-1',
+            selfMute: true,
+            version: 2,
+          ),
+        )
+        ..update(
+          _callVoiceState(userId: 'u1', connectionId: 'conn-1', version: 3),
+        )
+        ..replacePrivateChannel('dm-1', <VoiceState>[
+          _callVoiceState(
+            userId: 'u1',
+            connectionId: 'conn-1',
+            selfMute: true,
+            version: 2,
+          ),
+        ]);
 
       final VoiceState live = container.read(voiceStatesMapProvider)['conn-1']!;
       expect(live.selfMute, isFalse);
@@ -146,21 +140,18 @@ void main() {
 
     test('CALL_UPDATE newer than the live state replaces it', () {
       final ProviderContainer container = makeContainer();
-      final VoiceStatesMap notifier = container.read(
-        voiceStatesMapProvider.notifier,
-      );
-      notifier.update(
-        _callVoiceState(userId: 'u1', connectionId: 'conn-1', version: 2),
-      );
-
-      notifier.replacePrivateChannel('dm-1', <VoiceState>[
-        _callVoiceState(
-          userId: 'u1',
-          connectionId: 'conn-1',
-          selfMute: true,
-          version: 3,
-        ),
-      ]);
+      container.read(voiceStatesMapProvider.notifier)
+        ..update(
+          _callVoiceState(userId: 'u1', connectionId: 'conn-1', version: 2),
+        )
+        ..replacePrivateChannel('dm-1', <VoiceState>[
+          _callVoiceState(
+            userId: 'u1',
+            connectionId: 'conn-1',
+            selfMute: true,
+            version: 3,
+          ),
+        ]);
 
       final VoiceState live = container.read(voiceStatesMapProvider)['conn-1']!;
       expect(live.selfMute, isTrue);
