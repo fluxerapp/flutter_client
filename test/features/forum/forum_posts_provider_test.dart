@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/permissions/thread_permissions.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/forum/data/forum_repository.dart';
 import 'package:fluxer_app/features/forum/domain/forum_channel.dart';
@@ -98,6 +99,42 @@ void main() {
       expect(list.loaded, isTrue);
       expect(list.hasMore, isFalse);
       expect(list.failed, isFalse);
+      container.dispose();
+    });
+  });
+
+  test('a fresh READY drops the archived page and fetches it again', () {
+    fakeAsync((FakeAsync async) {
+      repository = _FakeRepository()
+        ..outcomes.addAll(<ForumSearchOutcome>[
+          const ForumSearchPage(
+            postIds: <String>['p1'],
+            hasMore: false,
+            firstMessages: <String, Message>{},
+          ),
+          const ForumSearchPage(
+            postIds: <String>['p2'],
+            hasMore: false,
+            firstMessages: <String, Message>{},
+          ),
+        ]);
+      storeForum(async);
+      container = createContainer();
+      container.read(forumPostsProvider('f1').notifier)
+        ..ensureLoaded()
+        ..setLayout(ForumLayout.gallery);
+      async.flushMicrotasks();
+      expect(container.read(forumPostsProvider('f1')).archived.ids, <String>[
+        'p1',
+      ]);
+
+      container.read(gatewayFullRecoveryProvider.notifier).bump();
+      async.flushMicrotasks();
+
+      final ForumViewState state = container.read(forumPostsProvider('f1'));
+      expect(repository.queries, hasLength(2));
+      expect(state.archived.ids, <String>['p2']);
+      expect(state.layoutOverride, ForumLayout.gallery);
       container.dispose();
     });
   });

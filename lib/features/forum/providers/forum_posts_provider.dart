@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/gateway/channel_last_message_index.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_performance_providers.dart';
+import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/forum/data/forum_repository.dart';
@@ -116,6 +117,7 @@ class ForumPostsController extends Notifier<ForumViewState> {
 
   @override
   ForumViewState build() {
+    ref.listen<int>(gatewayFullRecoveryProvider, (_, _) => _resetAfterReady());
     ref.onDispose(() {
       _searchTimer?.cancel();
       for (final Timer timer in _retryTimers.values) {
@@ -139,6 +141,19 @@ class ForumPostsController extends Notifier<ForumViewState> {
   void ensureLoaded() {
     if (!state.archived.loaded && !state.archived.loading) {
       unawaited(_fetch(ForumListKind.archived, append: false));
+    }
+  }
+
+  void _resetAfterReady() {
+    final ForumListState archived = state.archived;
+    _reset(ForumListKind.archived);
+    _reset(ForumListKind.search);
+    if (archived.loaded || archived.loading || archived.indexing) {
+      ensureLoaded();
+    }
+    if (state.isSearching) {
+      _searchTimer?.cancel();
+      unawaited(_fetch(ForumListKind.search, append: false));
     }
   }
 
