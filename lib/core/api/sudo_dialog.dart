@@ -99,7 +99,7 @@ class _SudoVerificationSheetContentState
   late _SudoMethod _selectedMethod = _hasPassword
       ? _SudoMethod.password
       : _SudoMethod.totp;
-  String? _error;
+  late String? _error = widget.challenge.error;
 
   final _passwordController = TextEditingController();
   final _totpController = TextEditingController();

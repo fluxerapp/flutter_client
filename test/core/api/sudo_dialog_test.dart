@@ -211,4 +211,27 @@ void main() {
 
     expect(await result, <String, dynamic>{'password': 'hunter2'});
   });
+
+  testWidgets('shows the error of a failed verification', (tester) async {
+    final navigatorKey = GlobalKey<NavigatorState>();
+    await tester.pumpWidget(_app(navigatorKey));
+    await tester.pumpAndSettle();
+
+    unawaited(
+      showSudoVerificationSheet(
+        navigatorKey: navigatorKey,
+        dio: _dio(),
+        challenge: const SudoChallenge(
+          hasMfa: true,
+          totp: true,
+          webauthn: false,
+          backupCodes: true,
+          error: 'Invalid MFA code.',
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Invalid MFA code.'), findsOneWidget);
+  });
 }
