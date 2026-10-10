@@ -44,6 +44,10 @@ Future<void> restoreIdentifyInitialGuildId(
   notifier.set(location == null ? null : extractGuildId(location));
 }
 
+String? readGatewaySessionId(Ref ref) => ref.read(gatewayHasAuthTokenProvider)
+    ? ref.read(gatewayConnectionProvider).sessionId
+    : null;
+
 @Riverpod(keepAlive: true)
 GatewayConnection gatewayConnection(Ref ref) {
   final Dio dio = ref.watch(fluxerDioProvider);

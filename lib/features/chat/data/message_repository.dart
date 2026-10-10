@@ -116,6 +116,7 @@ class MessageRepository {
   final db.FluxerDatabase _db;
   final String? _currentUserId;
   final MessageMentionContextCache? _mentionContextCache;
+  final String? Function()? _gatewaySessionId;
   final Map<String, Future<MessageListLoadResult>> _inFlightPages =
       <String, Future<MessageListLoadResult>>{};
 
@@ -125,6 +126,7 @@ class MessageRepository {
     this._db,
     this._currentUserId, {
     this._mentionContextCache,
+    this._gatewaySessionId,
   });
 
   Future<List<Message>> getCachedMessages(
@@ -633,6 +635,7 @@ class MessageRepository {
       channelId: channelId,
       messageId: messageId,
       emoji: emoji,
+      sessionId: _gatewaySessionId?.call(),
     );
   }
 
@@ -645,6 +648,7 @@ class MessageRepository {
       channelId: channelId,
       messageId: messageId,
       emoji: emoji,
+      sessionId: _gatewaySessionId?.call(),
     );
   }
 

@@ -1,5 +1,6 @@
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/chat/data/message_repository.dart';
@@ -19,5 +20,6 @@ MessageRepository messageRepository(Ref ref) {
     db,
     currentUserId,
     mentionContextCache: ref.watch(messageMentionContextCacheProvider),
+    gatewaySessionId: () => readGatewaySessionId(ref),
   );
 }

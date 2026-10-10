@@ -316,4 +316,38 @@ void main() {
       ),
     );
   });
+
+  test('post reactions name the gateway session so it gets no echo', () async {
+    gate.apply('g1', active: true);
+    final Dio dio = Dio(BaseOptions(baseUrl: 'https://api.test'))
+      ..httpClientAdapter = adapter;
+    final ForumRepository withSession = ForumRepository(
+      FluxerClient(dio),
+      dio,
+      db,
+      gate,
+      gatewaySessionId: () => 'session-1',
+    );
+
+    await withSession.reactToPost(
+      guildId: 'g1',
+      postId: 'p1',
+      emoji: '👍',
+      add: true,
+    );
+    await withSession.reactToPost(
+      guildId: 'g1',
+      postId: 'p1',
+      emoji: '👍',
+      add: false,
+    );
+
+    expect(adapter.requests.map((RequestOptions r) => r.method), <String>[
+      'PUT',
+      'DELETE',
+    ]);
+    for (final RequestOptions request in adapter.requests) {
+      expect(request.uri.queryParameters['session_id'], 'session-1');
+    }
+  });
 }

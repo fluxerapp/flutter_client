@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dart';
@@ -120,6 +121,7 @@ class ForumRepository {
     this._db,
     this._gate, {
     this._currentUserId,
+    this._gatewaySessionId,
   });
 
   final FluxerClient _client;
@@ -127,6 +129,7 @@ class ForumRepository {
   final db.FluxerDatabase _db;
   final ThreadsGate _gate;
   final String? _currentUserId;
+  final String? Function()? _gatewaySessionId;
 
   Future<T> _guard<T>(String guildId, Future<T> Function() call) {
     if (!_gate.isActive(guildId)) {
@@ -452,11 +455,13 @@ class ForumRepository {
             channelId: postId,
             messageId: postId,
             emoji: emoji,
+            sessionId: _gatewaySessionId?.call(),
           )
         : _client.channels.removeOwnReaction(
             channelId: postId,
             messageId: postId,
             emoji: emoji,
+            sessionId: _gatewaySessionId?.call(),
           ),
   );
 }
@@ -472,5 +477,6 @@ final Provider<ForumRepository> forumRepositoryProvider =
         ref.watch(fluxerDatabaseProvider),
         ref.watch(threadsGateProvider),
         currentUserId: ref.watch(currentUserIdProvider),
+        gatewaySessionId: () => readGatewaySessionId(ref),
       ),
     );

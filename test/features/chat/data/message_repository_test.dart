@@ -36,6 +36,50 @@ Map<String, dynamic> _pageMessageJson(String id) => MessageResponseSchema(
 ).toJson();
 
 void main() {
+  test('own reactions name the gateway session so it gets no echo', () async {
+    final _RecordingAdapter adapter = _RecordingAdapter();
+    final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+      ..httpClientAdapter = adapter;
+    final repo = MessageRepository(
+      FluxerClient(dio),
+      dio,
+      openTestDatabase(),
+      'me',
+      gatewaySessionId: () => 'session-1',
+    );
+
+    await repo.addReaction(channelId: 'c1', messageId: 'm1', emoji: '👍');
+    await repo.removeReaction(channelId: 'c1', messageId: 'm1', emoji: '👍');
+
+    expect(adapter.requests.map((RequestOptions r) => r.method), <String>[
+      'PUT',
+      'DELETE',
+    ]);
+    for (final RequestOptions request in adapter.requests) {
+      expect(request.uri.queryParameters['session_id'], 'session-1');
+    }
+  });
+
+  test('own reactions omit session_id before the gateway is ready', () async {
+    final _RecordingAdapter adapter = _RecordingAdapter();
+    final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+      ..httpClientAdapter = adapter;
+    final repo = MessageRepository(
+      FluxerClient(dio),
+      dio,
+      openTestDatabase(),
+      'me',
+      gatewaySessionId: () => null,
+    );
+
+    await repo.addReaction(channelId: 'c1', messageId: 'm1', emoji: '👍');
+
+    expect(
+      adapter.requests.single.uri.queryParameters.containsKey('session_id'),
+      isFalse,
+    );
+  });
+
   test('buildMessageCreateBody sends a favorite meme id with no flags', () {
     final body = buildMessageCreateBody(content: '', favoriteMemeId: 'meme-1');
 
@@ -585,6 +629,23 @@ void main() {
       expect(sentAttachments[1], <String, dynamic>{'id': 'att-2'});
     },
   );
+}
+
+class _RecordingAdapter implements HttpClientAdapter {
+  final List<RequestOptions> requests = <RequestOptions>[];
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) async {
+    requests.add(options);
+    return ResponseBody.fromString('', 204);
+  }
+
+  @override
+  void close({bool force = false}) {}
 }
 
 class _CountingAdapter implements HttpClientAdapter {
