@@ -77,7 +77,12 @@ Dio _buildFluxerDio({required Ref ref, required String baseUrl}) {
   );
   dio.interceptors.add(SkipAuthInterceptor());
   dio.interceptors.add(RetryInterceptor(dio: dio));
-  dio.interceptors.add(RateLimitInterceptor(pacer: sharedRateLimitPacer));
+  final RateLimitPacer rateLimitPacer = RateLimitPacer();
+  ref.listen<String?>(
+    fluxerAuthTokenProvider,
+    (String? previous, String? next) => rateLimitPacer.clear(),
+  );
+  dio.interceptors.add(RateLimitInterceptor(pacer: rateLimitPacer));
   dio.interceptors.add(PremiumStateResponseInterceptor());
   dio.interceptors.add(const FluxerOtelDioInterceptor());
   dio.interceptors.add(
