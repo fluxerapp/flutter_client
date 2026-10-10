@@ -145,6 +145,7 @@ class GuildNavbar extends ConsumerStatefulWidget {
 class _GuildNavbarState extends ConsumerState<GuildNavbar> {
   late final ScrollController _scrollController;
   final Map<String, GlobalKey> _itemKeys = <String, GlobalKey>{};
+  List<_NavbarListEntry> _indicatorEntries = const <_NavbarListEntry>[];
   late final GuildScrollIndicatorController _scrollIndicator;
   bool _restoring = false;
   bool _needsScrollClamp = false;
@@ -164,6 +165,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       resolveSeverity: _resolveGuildScrollSeverity,
       isMounted: () => mounted,
       hideTopWhen: (double scrollOffset) => scrollOffset < 80,
+      orderedIds: _indicatorOrder,
     )..attach();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) {
@@ -173,6 +175,18 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       _clampScrollOffset();
       _scrollIndicator.scheduleUpdate();
     });
+  }
+
+  List<String> _indicatorOrder() {
+    final Set<int> expanded = ref.read(folderExpandedStateProvider);
+    return <String>[
+      for (final _NavbarListEntry entry in _indicatorEntries)
+        if (entry.organizedItem case final GuildNavbarGuild item)
+          item.guild.id
+        else if (entry.organizedItem case final GuildNavbarFolder folder
+            when expanded.contains(folder.id))
+          for (final Guild guild in folder.guilds) guild.id,
+    ];
   }
 
   void _persistScroll() {
@@ -338,7 +352,6 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
     final guilds = ref.watch(
       guildListViewModelProvider.select((s) => s.guilds),
     );
-    final activeGuildId = ref.watch(activeGuildIdProvider);
     final unavailableCount = unavailableGuildCount(
       trackedUnavailableGuildIds: ref.watch(guildAvailabilityProvider),
       guilds: guilds,
@@ -412,6 +425,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       showAddCommunity: showAddCommunity,
       hideDirectMessages: hideDirectMessages,
     );
+    _indicatorEntries = navbarEntries;
     final guildListView = ListView.builder(
       scrollCacheExtent: const ScrollCacheExtent.pixels(600),
       controller: _scrollController,
@@ -422,7 +436,6 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
           context,
           entry: navbarEntries[index],
           dmFolderState: dmFolderState,
-          activeGuildId: activeGuildId,
           unavailableCount: unavailableCount,
         );
       },
@@ -451,7 +464,6 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
     BuildContext context, {
     required _NavbarListEntry entry,
     required DmFolderViewState dmFolderState,
-    required String? activeGuildId,
     required int unavailableCount,
   }) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
@@ -541,7 +553,6 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
               child: _buildGuildItem(
                 context,
                 guild: guild,
-                activeGuildId: activeGuildId,
                 unavailableCount: unavailableCount,
                 itemKey: itemKey,
               ),
@@ -554,7 +565,6 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
         return _GuildFolderWidget(
           key: ValueKey<String>('folder-${folderItem.id}'),
           folder: folderItem,
-          activeGuildId: activeGuildId,
           unavailableCount: unavailableCount,
           resolveGuildItemKey: (String guildId) =>
               _itemKeys.putIfAbsent(guildId, GlobalKey<_GuildListItemState>.new)
@@ -722,7 +732,6 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
   Widget _buildGuildItem(
     BuildContext context, {
     required Guild guild,
-    required String? activeGuildId,
     required int unavailableCount,
     required GlobalKey<_GuildListItemState> itemKey,
   }) {
@@ -745,11 +754,14 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
         final developerMode = ref.watch(
           userSettingsViewModelProvider.select((s) => s.developerMode),
         );
+        final bool isSelected = ref.watch(
+          activeGuildIdProvider.select((String? id) => id == guild.id),
+        );
         return _GuildListItem(
           key: itemKey,
           label: guild.name,
           guild: guild,
-          isSelected: guild.id == activeGuildId,
+          isSelected: isSelected,
           permissions: permissions,
           isOwner: guild.ownerId == currentUserId,
           iconUrl: guild.iconUrl,

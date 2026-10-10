@@ -2,14 +2,12 @@ part of 'guild_navbar.dart';
 
 class _GuildFolderWidget extends ConsumerStatefulWidget {
   final GuildNavbarFolder folder;
-  final String? activeGuildId;
   final int unavailableCount;
   final GlobalKey<_GuildListItemState> Function(String guildId)
   resolveGuildItemKey;
 
   const _GuildFolderWidget({
     required this.folder,
-    required this.activeGuildId,
     required this.unavailableCount,
     required this.resolveGuildItemKey,
     super.key,
@@ -382,6 +380,9 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
         );
         final GlobalKey<_GuildListItemState> itemKey = widget
             .resolveGuildItemKey(guild.id);
+        final bool isSelected = ref.watch(
+          activeGuildIdProvider.select((String? id) => id == guild.id),
+        );
         final bool hasUnread =
             !guild.unavailable && (unread?.hasUnread ?? false);
         return GuildDragWrapper(
@@ -409,7 +410,7 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
             key: itemKey,
             label: guild.name,
             guild: guild,
-            isSelected: guild.id == widget.activeGuildId,
+            isSelected: isSelected,
             permissions: permissions,
             isOwner: guild.ownerId == currentUserId,
             iconUrl: guild.iconUrl,

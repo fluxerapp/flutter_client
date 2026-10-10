@@ -23,7 +23,7 @@ import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_unavailable_screen.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/staff_only_guild_nagbar.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_availability_provider.dart';
-import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
+import 'package:fluxer_app/features/guilds/providers/route_guild_provider.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_outage_availability.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_content_channel_gate.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
@@ -94,7 +94,7 @@ class _ChannelLayoutState extends ConsumerState<ChannelLayout> {
       guildAvailabilityProvider,
     );
     final AsyncValue<Guild?> guildAsync = ref.watch(
-      guildStreamByIdProvider(widget.guildId),
+      routeGuildProvider(widget.guildId),
     );
     final Guild? guild = guildAsync.value;
     final bool guildOutageUnavailable = isGuildOutageUnavailable(
