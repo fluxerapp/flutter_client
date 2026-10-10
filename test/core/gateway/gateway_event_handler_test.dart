@@ -138,6 +138,41 @@ void main() {
     expect(bulkCalls.single.single.guildId, '200');
   });
 
+  test('READY stores members whose user is only a reference', () async {
+    final database = openTestDatabase();
+    final handler = GatewayEventHandler(database: database);
+    await handler.handle(
+      ReadyEvent(
+        sessionId: 'session-id',
+        user: _user(),
+        guilds: const [],
+        rawGuilds: [
+          {
+            ..._guildWithVoiceState(),
+            'voice_states': <Map<String, Object?>>[],
+            'members': <Map<String, Object?>>[
+              {
+                'user': {'id': '100'},
+                'roles': <String>['role-1'],
+                'joined_at': '2024-01-01T00:00:00.000Z',
+                'mute': false,
+                'deaf': false,
+              },
+            ],
+          },
+        ],
+        privateChannels: const [],
+        relationships: const [],
+        readStates: const [],
+        presences: const [],
+      ),
+    );
+
+    final member = await database.memberDao.getMemberByUserId('100', '200');
+    expect(member, isNotNull);
+    expect(member!.roleIdsJson, contains('role-1'));
+  });
+
   test('READY keeps pending requests omitted from the payload', () async {
     final database = openTestDatabase();
     final handler = GatewayEventHandler(database: database);
