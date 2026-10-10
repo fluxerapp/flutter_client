@@ -316,26 +316,27 @@ class ReadStateRepository {
 
   Future<String?> latestAckableMessageId(String channelId) async {
     final channel = await _db.channelDao.getChannelById(channelId);
-    final channelLastMessageId =
+    final String? channelLastMessageId =
         channel?.lastMessageId ??
         (await _db.dmChannelDao.getDmChannelById(channelId))?.lastMessageId;
-    final readState = await _db.readStateDao.getReadState(channelId);
-    final resolved = await resolveLatestMessageIdForChannel(
-      _db,
+    final String? cachedLastMessageId = (await _db.messageDao.getLastMessage(
       channelId,
-      channelLastMessageId: channelLastMessageId,
-    );
-    final latestForUnread = resolveLatestMessageIdForUnread(
-      strictLatestMessageId: resolved.id,
-      channelLastMessageId: channelLastMessageId,
-      ackLastMessageId: readState?.lastMessageId,
-      mentionCount: readState?.mentionCount ?? 0,
-      channelLastMessageExistsInCache: resolved.existsInCache,
-    );
-    if (latestForUnread != null && latestForUnread.isNotEmpty) {
-      return latestForUnread;
+    ))?.id;
+    final readState = await _db.readStateDao.getReadState(channelId);
+    String? latest;
+    for (final String? candidate in <String?>[
+      channelLastMessageId,
+      cachedLastMessageId,
+      readState?.lastMessageId,
+    ]) {
+      if (candidate == null || candidate.isEmpty) {
+        continue;
+      }
+      if (latest == null || compareSnowflakeIds(candidate, latest) > 0) {
+        latest = candidate;
+      }
     }
-    return readState?.lastMessageId;
+    return latest;
   }
 
   Future<String?> _previousMessageId(String channelId, String messageId) async {

@@ -158,6 +158,121 @@ void main() {
   );
 
   test(
+    'ackLatest acks the channel pointer past an older cached tail',
+    () async {
+      final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
+      final cachedId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+      final pointerId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+      final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+        ..httpClientAdapter = _AckAdapter(
+          expectedPath: '/v1/channels/channel-1/messages/$pointerId/ack',
+        );
+      final db = openTestDatabase();
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          lastMessageId: Value(pointerId),
+        ),
+      );
+      await db.messageDao.upsertMessage(
+        _message(id: cachedId, channelId: 'channel-1', authorId: 'other'),
+      );
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('channel-1'),
+          lastMessageId: Value(ackId),
+          mentionCount: const Value(0),
+        ),
+      );
+
+      await ReadStateRepository(FluxerClient(dio), db).ackLatest('channel-1');
+
+      final readState = await db.readStateDao.getReadState('channel-1');
+      expect(readState?.lastMessageId, pointerId);
+    },
+  );
+
+  test(
+    'ackLatestBulk acks the channel pointer past an older cached tail',
+    () async {
+      final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
+      final cachedId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+      final pointerId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+      final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+        ..httpClientAdapter = _AckAdapter(
+          expectedPath: '/v1/read-states/ack-bulk',
+          expectedBody: <String, Object?>{
+            'read_states': [
+              <String, Object?>{
+                'channel_id': 'channel-1',
+                'message_id': pointerId,
+              },
+            ],
+          },
+        );
+      final db = openTestDatabase();
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          lastMessageId: Value(pointerId),
+        ),
+      );
+      await db.messageDao.upsertMessage(
+        _message(id: cachedId, channelId: 'channel-1', authorId: 'other'),
+      );
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('channel-1'),
+          lastMessageId: Value(ackId),
+          mentionCount: const Value(0),
+        ),
+      );
+
+      await ReadStateRepository(
+        FluxerClient(dio),
+        db,
+      ).ackLatestBulk(['channel-1']);
+
+      final readState = await db.readStateDao.getReadState('channel-1');
+      expect(readState?.lastMessageId, pointerId);
+    },
+  );
+
+  test('ackLatest never regresses an ack newer than the pointer', () async {
+    final pointerId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+    final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+    final adapter = _RecordingAdapter();
+    final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+      ..httpClientAdapter = adapter;
+    final db = openTestDatabase();
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: 'channel-1',
+        guildId: 'guild-1',
+        name: 'general',
+        lastMessageId: Value(pointerId),
+      ),
+    );
+    await db.readStateDao.upsertReadState(
+      ReadStatesCompanion(
+        channelId: const Value('channel-1'),
+        lastMessageId: Value(ackId),
+        mentionCount: const Value(0),
+      ),
+    );
+
+    await ReadStateRepository(FluxerClient(dio), db).ackLatest('channel-1');
+
+    final readState = await db.readStateDao.getReadState('channel-1');
+    expect(readState?.lastMessageId, ackId);
+    expect(adapter.requests, isEmpty);
+  });
+
+  test(
     'ackLatestBulk acknowledges unread channels and clears manual state',
     () async {
       final firstId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
