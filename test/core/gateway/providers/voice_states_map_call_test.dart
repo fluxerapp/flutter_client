@@ -158,6 +158,65 @@ void main() {
       expect(live.version, 3);
     });
 
+    test('late VOICE_STATE_UPDATE after a newer CALL_UPDATE is ignored', () {
+      final ProviderContainer container = makeContainer();
+      container.read(voiceStatesMapProvider.notifier)
+        ..replacePrivateChannel('dm-1', <VoiceState>[
+          _callVoiceState(userId: 'u1', connectionId: 'conn-1', version: 3),
+        ])
+        ..update(
+          _callVoiceState(
+            userId: 'u1',
+            connectionId: 'conn-1',
+            selfMute: true,
+            version: 2,
+          ),
+        );
+
+      final VoiceState live = container.read(voiceStatesMapProvider)['conn-1']!;
+      expect(live.selfMute, isFalse);
+      expect(live.version, 3);
+    });
+
+    test('late VOICE_STATE_UPDATE after a newer one is ignored', () {
+      final ProviderContainer container = makeContainer();
+      container.read(voiceStatesMapProvider.notifier)
+        ..update(
+          _callVoiceState(userId: 'u1', connectionId: 'conn-1', version: 3),
+        )
+        ..update(
+          _callVoiceState(
+            userId: 'u1',
+            connectionId: 'conn-1',
+            selfMute: true,
+            version: 2,
+          ),
+        );
+
+      final VoiceState live = container.read(voiceStatesMapProvider)['conn-1']!;
+      expect(live.selfMute, isFalse);
+      expect(live.version, 3);
+    });
+
+    test('VOICE_STATE_UPDATE with an equal version still applies', () {
+      final ProviderContainer container = makeContainer();
+      container.read(voiceStatesMapProvider.notifier)
+        ..update(
+          _callVoiceState(userId: 'u1', connectionId: 'conn-1', version: 3),
+        )
+        ..update(
+          _callVoiceState(
+            userId: 'u1',
+            connectionId: 'conn-1',
+            selfMute: true,
+            version: 3,
+          ),
+        );
+
+      final VoiceState live = container.read(voiceStatesMapProvider)['conn-1']!;
+      expect(live.selfMute, isTrue);
+    });
+
     test('CALL_DELETE removes the voice states of that call only', () {
       final ProviderContainer container = makeContainer();
       container.read(voiceStatesMapProvider.notifier).updateBulk(<VoiceState>[

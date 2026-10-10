@@ -282,7 +282,8 @@ class VoiceStatesMap extends _$VoiceStatesMap {
     }
     final String key = _voiceStateStorageKey(voiceState);
     final VoiceState? existing = next[key];
-    if (existing == voiceState) {
+    if (existing == voiceState ||
+        (existing != null && _isNewerVoiceState(existing, voiceState))) {
       return;
     }
     if (voiceState.connectionId != null &&
