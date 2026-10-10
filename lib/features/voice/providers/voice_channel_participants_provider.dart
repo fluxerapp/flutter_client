@@ -47,6 +47,10 @@ final Map<String, database.User> _voiceParticipantUsersCache =
 final Map<String, database.Member> _voiceGuildMembersCache =
     <String, database.Member>{};
 
+String _voiceGuildMemberCacheKey(String guildId, String userId) {
+  return '$guildId|$userId';
+}
+
 Map<String, String?>? _friendNicknamesCache;
 
 void clearVoiceParticipantUsersCache() {
@@ -286,7 +290,8 @@ Future<void> voiceGuildMembersLoader(Ref ref, String guildMembersKey) async {
   final List<database.Member> memberRows = await db.memberDao
       .getMembersByUserIds(guildId, userIds);
   for (final database.Member member in memberRows) {
-    _voiceGuildMembersCache[member.userId] = member;
+    _voiceGuildMembersCache[_voiceGuildMemberCacheKey(guildId, member.userId)] =
+        member;
   }
 }
 
@@ -457,7 +462,11 @@ List<VoiceSidebarParticipant> voiceChannelSidebarParticipants(
   final Map<String, database.Member> membersByUserId =
       <String, database.Member>{
         for (final String userId in userIds)
-          if (_voiceGuildMembersCache[userId] case final database.Member member)
+          if (_voiceGuildMembersCache[_voiceGuildMemberCacheKey(
+                guildId,
+                userId,
+              )]
+              case final database.Member member)
             userId: member,
       };
   final Map<String, String?> nicknameByUserId =
