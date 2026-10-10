@@ -401,6 +401,13 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
           .read(chatViewModelProvider.notifier)
           .applyExternalAck(channelId, manual: manual);
     }),
+    onRelationshipsChanged: () => ifMounted(() {
+      unawaited(
+        ref
+            .read(chatViewModelProvider.notifier)
+            .recomputeMentionsAfterRelationshipChange(),
+      );
+    }),
     onAuthSessionChange: (event) => ifMounted(() {
       final String? newToken = event.newToken;
       if (newToken != null && newToken.isNotEmpty) {

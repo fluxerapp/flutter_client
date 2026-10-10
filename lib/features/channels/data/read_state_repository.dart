@@ -395,47 +395,6 @@ class ReadStateRepository {
     );
   }
 
-  /// Recomputes mention counts for every unread or mentioned channel after a
-  /// relationship change, so blocking a user drops their mentions and
-  /// unblocking restores them (mirrors the web's
-  /// `ReadStates.handleRelationshipUpdate`). Authoritative (`allowDecrease:
-  /// true`) so counts can fall as well as rise.
-  Future<void> recomputeMentionsForUnreadOrMentionedChannels({
-    required String? currentUserId,
-  }) async {
-    final readStates = await _db.readStateDao.getReadStates();
-    for (final readState in readStates) {
-      final bool unreadOrMentioned;
-      if (readState.mentionCount > 0) {
-        unreadOrMentioned = true;
-      } else {
-        final dm = await _db.dmChannelDao.getDmChannelById(readState.channelId);
-        if (dm != null) {
-          unreadOrMentioned = dm.unreadCount > 0;
-        } else {
-          final channel = await _db.channelDao.getChannelById(
-            readState.channelId,
-          );
-          unreadOrMentioned =
-              channel != null &&
-              compareSnowflakeIds(
-                    readState.lastMessageId,
-                    channel.lastMessageId,
-                  ) <
-                  0;
-        }
-      }
-      if (!unreadOrMentioned) {
-        continue;
-      }
-      await recomputeMentionsAfterBackfill(
-        channelId: readState.channelId,
-        currentUserId: currentUserId,
-        allowDecrease: true,
-      );
-    }
-  }
-
   /// Reconciles read state after messages are deleted from a channel.
   /// Walks the channel/DM tail back when the deleted message was the tail,
   /// recomputes mention counts from remaining cached messages, and refreshes

@@ -786,7 +786,7 @@ void main() {
     expect(readState?.mentionCount, 0);
   });
 
-  test('recomputeMentionsForUnreadOrMentionedChannels drops blocked author '
+  test('an authoritative mention recompute drops blocked author '
       'mentions', () async {
     final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
     final mentionId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
@@ -822,7 +822,11 @@ void main() {
     await ReadStateRepository(
       FluxerClient(dio),
       db,
-    ).recomputeMentionsForUnreadOrMentionedChannels(currentUserId: 'me');
+    ).recomputeMentionsAfterBackfill(
+      channelId: 'channel-1',
+      currentUserId: 'me',
+      allowDecrease: true,
+    );
 
     final readState = await db.readStateDao.getReadState('channel-1');
     expect(readState?.mentionCount, 0);
@@ -919,7 +923,7 @@ void main() {
   );
 
   test(
-    'unblock restores mentions in an unread channel with no current count',
+    'an authoritative mention recompute restores an unblocked author mention',
     () async {
       final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
       final mentionId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
@@ -954,7 +958,11 @@ void main() {
       await ReadStateRepository(
         FluxerClient(dio),
         db,
-      ).recomputeMentionsForUnreadOrMentionedChannels(currentUserId: 'me');
+      ).recomputeMentionsAfterBackfill(
+        channelId: 'channel-1',
+        currentUserId: 'me',
+        allowDecrease: true,
+      );
 
       final readState = await db.readStateDao.getReadState('channel-1');
       expect(readState?.mentionCount, 1);

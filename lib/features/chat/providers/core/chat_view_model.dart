@@ -4712,6 +4712,48 @@ class ChatViewModel extends _$ChatViewModel {
     }
   }
 
+  Future<void> recomputeMentionsAfterRelationshipChange() async {
+    final String channelId = state.channelId;
+    if (channelId.isEmpty || !_isLoadedWindowContiguousToTail(channelId)) {
+      return;
+    }
+    final String? windowOldestId = _contiguity.oldestId;
+    final bool reachesChannelStart = !state.hasMoreMessages;
+    final readState = await ref
+        .read(fluxerDatabaseProvider)
+        .readStateDao
+        .getReadState(channelId);
+    final String? ackMessageId = readState?.lastMessageId;
+    if (ackMessageId == null || ackMessageId.isEmpty) {
+      return;
+    }
+    final bool windowCoversAck =
+        reachesChannelStart ||
+        (windowOldestId != null &&
+            compareSnowflakeIds(ackMessageId, windowOldestId) >= 0);
+    if (!windowCoversAck ||
+        !ref.mounted ||
+        !_isLoadedWindowContiguousToTail(channelId)) {
+      return;
+    }
+    await ref
+        .read(readStateRepositoryProvider)
+        .recomputeMentionsAfterBackfill(
+          channelId: channelId,
+          currentUserId: ref.read(currentUserIdProvider),
+          allowDecrease: true,
+        );
+  }
+
+  bool _isLoadedWindowContiguousToTail(String channelId) =>
+      state.channelId == channelId &&
+      !state.isLoading &&
+      !state.hasMoreNewerMessages &&
+      _contiguityTrusted &&
+      _contiguity.verified &&
+      _contiguity.channelId == channelId &&
+      !_messagesNeedResync(channelId);
+
   void clearStickyUnreadAfterBuildForCurrentChannel() {
     final channelId = state.channelId;
     unawaited(

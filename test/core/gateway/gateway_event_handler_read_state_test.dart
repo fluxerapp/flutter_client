@@ -808,6 +808,57 @@ void main() {
     expect(mentionRows, isEmpty);
   });
 
+  test(
+    'a relationship event keeps the server mention count of an unloaded channel',
+    () async {
+      final db = openTestDatabase();
+      final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+      final lastMessageId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          lastMessageId: Value(lastMessageId),
+        ),
+      );
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('channel-1'),
+          lastMessageId: Value(ackId),
+          mentionCount: const Value(3),
+        ),
+      );
+      var relationshipChanges = 0;
+      final handler = GatewayEventHandler(
+        database: db,
+        currentUserId: 'me',
+        readStateRepository: ReadStateRepository(FluxerClient(Dio()), db),
+        onRelationshipsChanged: () => relationshipChanges++,
+      );
+
+      await handler.handle(
+        RelationshipAddEvent(
+          relationship: RelationshipResponse(
+            id: 'stranger',
+            type: RelationshipTypes.incomingRequest,
+            user: _user('stranger'),
+            nickname: null,
+            shareVoiceActivity: false,
+            friendSharesVoiceActivity: false,
+          ),
+        ),
+      );
+      await pumpEventQueue();
+      await handler.handle(const RelationshipRemoveEvent(userId: 'stranger'));
+      await pumpEventQueue();
+
+      final readState = await db.readStateDao.getReadState('channel-1');
+      expect(readState?.mentionCount, 3);
+      expect(relationshipChanges, 2);
+    },
+  );
+
   test('channel pins update stores latest channel pin timestamp', () async {
     final db = openTestDatabase();
     const latestPin = '2026-05-06T12:00:00.000Z';

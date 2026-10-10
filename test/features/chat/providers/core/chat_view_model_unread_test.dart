@@ -269,6 +269,139 @@ void main() {
   );
 
   test(
+    'a relationship change recounts mentions when the window covers the ack',
+    () async {
+      final db = openTestDatabase();
+      final String ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+      final String mentionId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          lastMessageId: Value(mentionId),
+        ),
+      );
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('channel-1'),
+          lastMessageId: Value(ackId),
+          mentionCount: const Value(1),
+        ),
+      );
+      final adapter = _ChatAdapter(
+        initialMessages: <Map<String, Object?>>[
+          <String, Object?>{
+            ..._messageJson(
+              id: mentionId,
+              channelId: 'channel-1',
+              authorId: 'spammer',
+            ),
+            'mentions': <Object?>[
+              <String, Object?>{
+                'id': 'me',
+                'username': 'user-me',
+                'discriminator': '0001',
+                'global_name': null,
+                'avatar': null,
+                'avatar_color': null,
+                'flags': 0,
+              },
+            ],
+          },
+          _messageJson(id: ackId, channelId: 'channel-1', authorId: 'other'),
+        ],
+      );
+      final container = _container(db, adapter);
+      addTearDown(container.dispose);
+      final notifier = container.read(chatViewModelProvider.notifier);
+      await notifier.switchChannel('channel-1');
+      await _flushAsync();
+      expect(
+        (await db.readStateDao.getReadState('channel-1'))?.mentionCount,
+        1,
+      );
+
+      await db.relationshipDao.upsertRelationships([
+        RelationshipsCompanion.insert(userId: 'spammer', type: 2),
+      ]);
+      await notifier.recomputeMentionsAfterRelationshipChange();
+
+      expect(
+        (await db.readStateDao.getReadState('channel-1'))?.mentionCount,
+        0,
+      );
+    },
+  );
+
+  test('a relationship change keeps the server mention count when the ack is '
+      'older than the loaded window', () async {
+    final db = openTestDatabase();
+    final String ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 1, 9));
+    final List<String> ids = <String>[
+      for (int i = 0; i < 120; i++)
+        _snowflakeForUtc(DateTime.utc(2026, 5, 6, 9).add(Duration(minutes: i))),
+    ];
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: 'channel-1',
+        guildId: 'guild-1',
+        name: 'general',
+        lastMessageId: Value(ids.last),
+      ),
+    );
+    await db.readStateDao.upsertReadState(
+      ReadStatesCompanion(
+        channelId: const Value('channel-1'),
+        lastMessageId: Value(ackId),
+        mentionCount: const Value(3),
+      ),
+    );
+    final adapter = _ChatAdapter(
+      initialMessages: <Map<String, Object?>>[
+        for (final String id in ids.reversed)
+          _messageJson(id: id, channelId: 'channel-1', authorId: 'other'),
+      ],
+    );
+    final container = _container(db, adapter);
+    addTearDown(container.dispose);
+    final notifier = container.read(chatViewModelProvider.notifier);
+    await notifier.switchChannel('channel-1');
+    await _flushAsync();
+    expect(container.read(chatViewModelProvider).hasMoreMessages, isTrue);
+
+    await notifier.recomputeMentionsAfterRelationshipChange();
+
+    expect((await db.readStateDao.getReadState('channel-1'))?.mentionCount, 3);
+  });
+
+  test(
+    'a relationship change leaves a channel that is not open alone',
+    () async {
+      final db = openTestDatabase();
+      final String ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('channel-1'),
+          lastMessageId: Value(ackId),
+          mentionCount: const Value(3),
+        ),
+      );
+      final container = _container(db, _ChatAdapter());
+      addTearDown(container.dispose);
+
+      await container
+          .read(chatViewModelProvider.notifier)
+          .recomputeMentionsAfterRelationshipChange();
+
+      expect(
+        (await db.readStateDao.getReadState('channel-1'))?.mentionCount,
+        3,
+      );
+    },
+  );
+
+  test(
     'switchChannel honors loadMessages false when target is provided',
     () async {
       final db = openTestDatabase();

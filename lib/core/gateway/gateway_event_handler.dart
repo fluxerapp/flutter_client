@@ -170,6 +170,7 @@ class GatewayEventHandler {
     this.onMessageReactionChange,
     this.onOwnMessageCreated,
     this.onMessageAcked,
+    this.onRelationshipsChanged,
     this.onAuthSessionChange,
     this.onAuthSessionIdHashChanged,
     this.onConnectionsUpdate,
@@ -246,6 +247,7 @@ class GatewayEventHandler {
   final MessageReactionChangeCallback? onMessageReactionChange;
   final void Function(String channelId, DateTime sentAt)? onOwnMessageCreated;
   final void Function(String channelId, {required bool manual})? onMessageAcked;
+  final void Function()? onRelationshipsChanged;
   final AuthSessionChangeCallback? onAuthSessionChange;
   final void Function(String? idHash)? onAuthSessionIdHashChanged;
   final ConnectionsUpdateCallback? onConnectionsUpdate;
@@ -2956,9 +2958,7 @@ class GatewayEventHandler {
         ),
       ]);
       await readStateWriteBatcher?.flushAll();
-      await readStateRepository?.recomputeMentionsForUnreadOrMentionedChannels(
-        currentUserId: currentUserId,
-      );
+      _emit(() => onRelationshipsChanged?.call());
     }());
   }
 
@@ -2966,9 +2966,7 @@ class GatewayEventHandler {
     unawaited(() async {
       await database.relationshipDao.deleteRelationship(event.userId);
       await readStateWriteBatcher?.flushAll();
-      await readStateRepository?.recomputeMentionsForUnreadOrMentionedChannels(
-        currentUserId: currentUserId,
-      );
+      _emit(() => onRelationshipsChanged?.call());
     }());
   }
 
