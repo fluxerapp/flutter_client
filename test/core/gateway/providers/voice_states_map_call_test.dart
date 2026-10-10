@@ -7,22 +7,28 @@ VoiceState _callVoiceState({
   required String userId,
   required String connectionId,
   String channelId = 'dm-1',
+  bool selfMute = false,
+  int version = 1,
 }) => VoiceState.fromJson(<String, dynamic>{
   'guild_id': null,
   'channel_id': channelId,
   'user_id': userId,
   'connection_id': connectionId,
   'session_id': 'session-$userId',
+  'member': null,
   'mute': false,
   'deaf': false,
-  'self_mute': false,
+  'self_mute': selfMute,
   'self_deaf': false,
   'self_video': false,
   'self_stream': false,
   'is_mobile': false,
   'suppress': false,
   'viewer_stream_keys': <String>[],
-  'version': 1,
+  'e2ee_capable': false,
+  'region_id': null,
+  'server_id': null,
+  'version': version,
 });
 
 void main() {
@@ -102,6 +108,63 @@ void main() {
         container.read(voiceStatesMapProvider).keys,
         unorderedEquals(<String>['conn-phone', 'conn-desktop']),
       );
+    });
+
+    test('CALL_UPDATE older than the live state keeps the live flags', () {
+      final ProviderContainer container = makeContainer();
+      final VoiceStatesMap notifier = container.read(
+        voiceStatesMapProvider.notifier,
+      );
+      notifier.update(
+        _callVoiceState(
+          userId: 'u1',
+          connectionId: 'conn-1',
+          selfMute: true,
+          version: 2,
+        ),
+      );
+      notifier.update(
+        _callVoiceState(userId: 'u1', connectionId: 'conn-1', version: 3),
+      );
+
+      notifier.replacePrivateChannel('dm-1', <VoiceState>[
+        _callVoiceState(userId: 'u1', connectionId: 'conn-1', version: 3),
+      ]);
+      notifier.replacePrivateChannel('dm-1', <VoiceState>[
+        _callVoiceState(
+          userId: 'u1',
+          connectionId: 'conn-1',
+          selfMute: true,
+          version: 2,
+        ),
+      ]);
+
+      final VoiceState live = container.read(voiceStatesMapProvider)['conn-1']!;
+      expect(live.selfMute, isFalse);
+      expect(live.version, 3);
+    });
+
+    test('CALL_UPDATE newer than the live state replaces it', () {
+      final ProviderContainer container = makeContainer();
+      final VoiceStatesMap notifier = container.read(
+        voiceStatesMapProvider.notifier,
+      );
+      notifier.update(
+        _callVoiceState(userId: 'u1', connectionId: 'conn-1', version: 2),
+      );
+
+      notifier.replacePrivateChannel('dm-1', <VoiceState>[
+        _callVoiceState(
+          userId: 'u1',
+          connectionId: 'conn-1',
+          selfMute: true,
+          version: 3,
+        ),
+      ]);
+
+      final VoiceState live = container.read(voiceStatesMapProvider)['conn-1']!;
+      expect(live.selfMute, isTrue);
+      expect(live.version, 3);
     });
 
     test('CALL_DELETE removes the voice states of that call only', () {

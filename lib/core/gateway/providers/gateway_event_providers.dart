@@ -45,6 +45,12 @@ bool _isInPrivateChannel(VoiceState voiceState, String channelId) {
       (guildId == null || guildId.isEmpty);
 }
 
+bool _isNewerVoiceState(VoiceState voiceState, VoiceState other) {
+  final int? version = voiceState.version;
+  final int? otherVersion = other.version;
+  return version != null && otherVersion != null && version > otherVersion;
+}
+
 List<VoiceState> _voiceStatesInPrivateChannel(
   Map<String, VoiceState> map,
   String channelId,
@@ -387,7 +393,11 @@ class VoiceStatesMap extends _$VoiceStatesMap {
           entry.key: entry.value,
     };
     for (final VoiceState voiceState in listed) {
-      next[_voiceStateStorageKey(voiceState)] = voiceState;
+      final String key = _voiceStateStorageKey(voiceState);
+      final VoiceState? live = state[key];
+      if (live == null || !_isNewerVoiceState(live, voiceState)) {
+        next[key] = voiceState;
+      }
     }
     if (mapEquals(next, state)) {
       return;
