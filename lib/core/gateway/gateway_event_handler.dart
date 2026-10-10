@@ -1639,6 +1639,7 @@ class GatewayEventHandler {
   }
 
   Future<void> _handleMessageCreate(MessageCreateEvent event) async {
+    _hydrateEmbeddedMember(event.guildId, event.member);
     final String channelId = event.message.channelId;
     final int? channelType = event.channelType;
     final String? threadGuildId =
@@ -2125,6 +2126,7 @@ class GatewayEventHandler {
   }
 
   Future<void> _handleMessageUpdate(MessageUpdateEvent event) async {
+    _hydrateEmbeddedMember(event.guildId, event.member);
     final msg = Message.fromSdk(event.message, currentUserId: currentUserId);
     final mentionsCurrentUser = await resolveMessageMentionsUser(
       database,
@@ -2241,17 +2243,19 @@ class GatewayEventHandler {
   }
 
   void _handleTypingStart(TypingStartEvent event) {
-    final String? guildId = event.guildId;
-    final GuildMemberResponse? member = event.member;
-    if (guildId != null && member != null) {
-      unawaited(_hydrateTypingMemberIfMissing(guildId, member));
-    }
+    _hydrateEmbeddedMember(event.guildId, event.member);
     _emit(() => onTypingStart?.call(event.channelId, event.userId));
+  }
+
+  void _hydrateEmbeddedMember(String? guildId, GuildMemberResponse? member) {
+    if (guildId != null && member != null) {
+      unawaited(_hydrateMemberIfMissing(guildId, member));
+    }
   }
 
   // Hydrate the typer's member only when absent, mirroring the web client.
   // Avoids clobbering fresher rows and re-emitting member streams each event.
-  Future<void> _hydrateTypingMemberIfMissing(
+  Future<void> _hydrateMemberIfMissing(
     String guildId,
     GuildMemberResponse member,
   ) async {
@@ -2959,6 +2963,7 @@ class GatewayEventHandler {
   }
 
   Future<void> _handleReactionAdd(MessageReactionAddEvent event) async {
+    _hydrateEmbeddedMember(event.guildId, event.member);
     await _enqueueReactionChange(
       messageId: event.messageId,
       channelId: event.channelId,
@@ -2974,6 +2979,7 @@ class GatewayEventHandler {
   }
 
   Future<void> _handleReactionRemove(MessageReactionRemoveEvent event) async {
+    _hydrateEmbeddedMember(event.guildId, event.member);
     await _enqueueReactionChange(
       messageId: event.messageId,
       channelId: event.channelId,
