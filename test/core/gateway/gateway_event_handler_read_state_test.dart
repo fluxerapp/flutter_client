@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart' show Value;
@@ -6,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/gateway/channel_last_message_index.dart';
 import 'package:fluxer_app/core/gateway/gateway_event_handler.dart';
+import 'package:fluxer_app/features/channels/data/ack_batcher.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/data/read_state_write_batcher.dart';
@@ -15,6 +17,53 @@ import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
 
 import '../../helpers/open_test_database.dart';
+
+class _ReadStateAckAdapter implements HttpClientAdapter {
+  final List<Map<String, Object?>> ackedReadStates = <Map<String, Object?>>[];
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) async {
+    expect(options.method, 'POST');
+    expect(options.uri.path, '/v1/read-states/ack');
+    final BytesBuilder builder = BytesBuilder();
+    if (requestStream != null) {
+      await for (final Uint8List chunk in requestStream) {
+        builder.add(chunk);
+      }
+    }
+    final Map<String, Object?> body =
+        jsonDecode(utf8.decode(builder.takeBytes())) as Map<String, Object?>;
+    for (final Object? entry in body['read_states']! as List<Object?>) {
+      ackedReadStates.add(Map<String, Object?>.from(entry! as Map));
+    }
+    return ResponseBody.fromString(
+      '{"read_states":[]}',
+      200,
+      statusMessage: 'OK',
+      headers: {
+        Headers.contentTypeHeader: [Headers.jsonContentType],
+      },
+    );
+  }
+
+  @override
+  void close({bool force = false}) {}
+}
+
+AckBatcher _ackBatcher(_ReadStateAckAdapter adapter) {
+  final AckBatcher batcher = AckBatcher(
+    client: FluxerClient(
+      Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+        ..httpClientAdapter = adapter,
+    ),
+  );
+  addTearDown(batcher.dispose);
+  return batcher;
+}
 
 GatewayEventHandler _handlerWithReadState(FluxerDatabase db) {
   return GatewayEventHandler(
@@ -327,6 +376,129 @@ void main() {
     expect(readState?.lastMessageId, messageId);
     expect(readState?.mentionCount, 0);
     expect(readState?.manual, isFalse);
+  });
+
+  test('an auto-acked incoming message is acked on the server', () async {
+    final db = openTestDatabase();
+    final messageId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: 'channel-1',
+        guildId: 'guild-1',
+        name: 'general',
+      ),
+    );
+    final adapter = _ReadStateAckAdapter();
+    final AckBatcher batcher = _ackBatcher(adapter);
+    final handler = GatewayEventHandler(
+      database: db,
+      currentUserId: 'me',
+      ackBatcher: batcher,
+      isAutoAckActive: (String channelId) => channelId == 'channel-1',
+    );
+
+    await handler.handle(
+      MessageCreateEvent(
+        message: _message(
+          id: messageId,
+          channelId: 'channel-1',
+          authorId: 'other',
+        ),
+      ),
+    );
+    await batcher.flushPending(force: true);
+
+    final readState = await db.readStateDao.getReadState('channel-1');
+    expect(readState?.lastMessageId, messageId);
+    expect(adapter.ackedReadStates, [
+      <String, Object?>{'channel_id': 'channel-1', 'message_id': messageId},
+    ]);
+  });
+
+  test(
+    'a blocked author message in a read channel is acked on the server',
+    () async {
+      final db = openTestDatabase();
+      final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+      final messageId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          lastMessageId: Value(ackId),
+        ),
+      );
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('channel-1'),
+          lastMessageId: Value(ackId),
+        ),
+      );
+      await db.relationshipDao.upsertRelationships([
+        RelationshipsCompanion.insert(userId: 'other', type: 2),
+      ]);
+      final adapter = _ReadStateAckAdapter();
+      final AckBatcher batcher = _ackBatcher(adapter);
+      final handler = GatewayEventHandler(
+        database: db,
+        currentUserId: 'me',
+        ackBatcher: batcher,
+      );
+
+      await handler.handle(
+        MessageCreateEvent(
+          message: _message(
+            id: messageId,
+            channelId: 'channel-1',
+            authorId: 'other',
+          ),
+        ),
+      );
+      await batcher.flushPending(force: true);
+
+      expect(adapter.ackedReadStates, [
+        <String, Object?>{'channel_id': 'channel-1', 'message_id': messageId},
+      ]);
+    },
+  );
+
+  test('own and unread incoming messages queue no server ack', () async {
+    final db = openTestDatabase();
+    final ownId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+    final otherId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 13));
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: 'channel-1',
+        guildId: 'guild-1',
+        name: 'general',
+      ),
+    );
+    final adapter = _ReadStateAckAdapter();
+    final AckBatcher batcher = _ackBatcher(adapter);
+    final handler = GatewayEventHandler(
+      database: db,
+      currentUserId: 'me',
+      ackBatcher: batcher,
+    );
+
+    await handler.handle(
+      MessageCreateEvent(
+        message: _message(id: ownId, channelId: 'channel-1', authorId: 'me'),
+      ),
+    );
+    await handler.handle(
+      MessageCreateEvent(
+        message: _message(
+          id: otherId,
+          channelId: 'channel-1',
+          authorId: 'other',
+        ),
+      ),
+    );
+    await batcher.flushPending(force: true);
+
+    expect(adapter.ackedReadStates, isEmpty);
   });
 
   test(

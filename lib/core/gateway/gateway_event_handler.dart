@@ -12,6 +12,7 @@ import 'package:fluxer_app/core/permissions/thread_permissions.dart';
 import 'package:fluxer_app/core/push/push_notification_clear.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
+import 'package:fluxer_app/features/channels/data/ack_batcher.dart';
 import 'package:fluxer_app/features/channels/data/read_state_decisions.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
@@ -131,6 +132,7 @@ class GatewayEventHandler {
     required this.database,
     this.readStateRepository,
     this.readStateWriteBatcher,
+    this.ackBatcher,
     this.messageMentionContextCache,
     this.messageWriteBatcher,
     this.channelLastMessageIndex,
@@ -206,6 +208,7 @@ class GatewayEventHandler {
   final db.FluxerDatabase database;
   final ReadStateRepository? readStateRepository;
   final ReadStateWriteBatcher? readStateWriteBatcher;
+  final AckBatcher? ackBatcher;
   final MessageMentionContextCache? messageMentionContextCache;
   final MessageWriteBatcher? messageWriteBatcher;
   final ChannelLastMessageIndex? channelLastMessageIndex;
@@ -1963,6 +1966,12 @@ class GatewayEventHandler {
           isDm: isDm,
           clearSticky: false,
           markDmRead: isDm,
+        );
+        ackBatcher?.queue(
+          channelId: msg.channelId,
+          messageId: msg.id,
+          immediate: false,
+          hadMentions: false,
         );
         return;
       case ReadStateIncomingMessageKind.ignoreBlockedMessage:
