@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 
 import 'package:drift/drift.dart' show Value;
@@ -106,6 +105,41 @@ void main() {
         ))?.muted,
         isFalse,
       );
+    });
+  });
+
+  group('current member timeout', () {
+    Future<void> storeTimeout(DateTime until) =>
+        database.memberDao.upsertMember(
+          db.MembersCompanion.insert(
+            userId: 'me',
+            guildId: 'g1',
+            communicationDisabledUntil: Value(until),
+          ),
+        );
+
+    test('a timeout ends once communication_disabled_until passes', () async {
+      await storeTimeout(DateTime.now().add(const Duration(seconds: 2)));
+      final ProviderSubscription<AsyncValue<bool>> sub = container.listen(
+        currentMemberTimedOutProvider('g1'),
+        (_, _) {},
+      );
+      addTearDown(sub.close);
+
+      expect(await settle(currentMemberTimedOutProvider('g1')), isTrue);
+      await Future<void>.delayed(const Duration(milliseconds: 2500));
+      expect(await settle(currentMemberTimedOutProvider('g1')), isFalse);
+    });
+
+    test('a past timeout is not timed out', () async {
+      await storeTimeout(DateTime.now().subtract(const Duration(minutes: 1)));
+      final ProviderSubscription<AsyncValue<bool>> sub = container.listen(
+        currentMemberTimedOutProvider('g1'),
+        (_, _) {},
+      );
+      addTearDown(sub.close);
+
+      expect(await settle(currentMemberTimedOutProvider('g1')), isFalse);
     });
   });
 }

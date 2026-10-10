@@ -129,13 +129,21 @@ Stream<bool> currentMemberTimedOut(Ref ref, String guildId) {
   if (userId == null || guildId.isEmpty) {
     return Stream<bool>.value(false);
   }
+  Timer? expiry;
+  ref.onDispose(() => expiry?.cancel());
   return ref
       .watch(fluxerDatabaseProvider)
       .memberDao
       .watchMemberByUserId(userId, guildId)
       .map((db.Member? member) {
+        expiry?.cancel();
         final DateTime? until = member?.communicationDisabledUntil;
-        return until != null && until.isAfter(DateTime.now());
+        final DateTime now = DateTime.now();
+        if (until == null || !until.isAfter(now)) {
+          return false;
+        }
+        expiry = Timer(until.difference(now), ref.invalidateSelf);
+        return true;
       })
       .distinct();
 }
