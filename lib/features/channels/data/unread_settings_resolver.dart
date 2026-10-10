@@ -151,14 +151,17 @@ bool isThreadMemberMuted(db.ThreadMember? member, DateTime now) {
   if (member == null || !member.muted) {
     return false;
   }
+  return _isMuteActive(threadMemberMuteEndTime(member), now);
+}
+
+String? threadMemberMuteEndTime(db.ThreadMember member) {
   final String? raw = member.muteConfigJson;
   if (raw == null || raw.isEmpty) {
-    return true;
+    return null;
   }
   final Object? decoded = jsonDecode(raw);
-  return _isMuteActive(
-    _muteEndTime(decoded is Map<String, dynamic> ? decoded['end_time'] : null),
-    now,
+  return _muteEndTime(
+    decoded is Map<String, dynamic> ? decoded['end_time'] : null,
   );
 }
 

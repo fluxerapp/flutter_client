@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/thread_permissions.dart';
@@ -5,6 +7,7 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
+import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
@@ -25,16 +28,25 @@ Stream<Set<String>> joinedThreadIds(Ref ref) =>
     ref.watch(fluxerDatabaseProvider).threadDao.watchJoinedThreadIds();
 
 @riverpod
-Stream<ThreadMembership?> threadMembership(Ref ref, String threadId) => ref
-    .watch(fluxerDatabaseProvider)
-    .threadDao
-    .watchMember(threadId)
-    .map(
-      (db.ThreadMember? row) => row == null
-          ? null
-          : ThreadMembership(flags: row.flags, muted: row.muted),
-    )
-    .distinct();
+Stream<ThreadMembership?> threadMembership(Ref ref, String threadId) {
+  Timer? expiry;
+  ref.onDispose(() => expiry?.cancel());
+  return ref.watch(fluxerDatabaseProvider).threadDao.watchMember(threadId).map((
+    db.ThreadMember? row,
+  ) {
+    expiry?.cancel();
+    if (row == null) {
+      return null;
+    }
+    final DateTime now = DateTime.now();
+    final bool muted = isThreadMemberMuted(row, now);
+    final DateTime? end = DateTime.tryParse(threadMemberMuteEndTime(row) ?? '');
+    if (muted && end != null) {
+      expiry = Timer(end.difference(now), ref.invalidateSelf);
+    }
+    return ThreadMembership(flags: row.flags, muted: muted);
+  }).distinct();
+}
 
 @riverpod
 Stream<List<Channel>> activeGuildThreads(Ref ref, String guildId) {
