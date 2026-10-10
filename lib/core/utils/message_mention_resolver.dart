@@ -112,14 +112,10 @@ bool messageMentionsUser(
   if (!ctx.channelExists) {
     return mentionEveryone;
   }
-  final bool everyone = mentionEveryone && !ctx.threadNonMember;
-  if (!everyone && mentionRoleIds.isEmpty) {
-    return false;
+  if (mentionEveryone && !ctx.threadNonMember && !ctx.suppressEveryone) {
+    return true;
   }
-  if (everyone) {
-    return !ctx.suppressEveryone;
-  }
-  if (mentionRoleIds.isEmpty || ctx.suppressRoles) {
+  if (ctx.suppressRoles) {
     return false;
   }
   return mentionRoleIds.any(ctx.currentUserRoleIds.contains);

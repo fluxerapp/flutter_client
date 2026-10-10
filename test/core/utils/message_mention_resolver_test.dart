@@ -181,6 +181,33 @@ void main() {
       expect(await resolve(db, mentionEveryone: true), isFalse);
     });
 
+    test('suppressed @everyone still counts a held role mention', () async {
+      final db = await seededGuildDb(suppressEveryone: true);
+      expect(
+        await resolve(
+          db,
+          mentionEveryone: true,
+          mentionRoleIds: const ['role-1'],
+        ),
+        isTrue,
+      );
+    });
+
+    test('suppressed @everyone and suppressed roles do not mention', () async {
+      final db = await seededGuildDb(
+        suppressEveryone: true,
+        suppressRoles: true,
+      );
+      expect(
+        await resolve(
+          db,
+          mentionEveryone: true,
+          mentionRoleIds: const ['role-1'],
+        ),
+        isFalse,
+      );
+    });
+
     test('blocked author suppresses an @everyone mention', () async {
       final db = await seededGuildDb(blockedUserIds: const ['other']);
       expect(await resolve(db, mentionEveryone: true), isFalse);
