@@ -13,6 +13,7 @@ import 'package:fluxer_app/core/synced_preferences/fields/local_spam_overrides_s
 import 'package:fluxer_app/core/synced_preferences/fields/member_list_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/nagbar_dismissals_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/privacy_synced_field.dart';
+import 'package:fluxer_app/core/synced_preferences/fields/recent_mentions_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/search_engines_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/sidebar_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/sound_synced_field.dart';
@@ -34,6 +35,7 @@ void registerDefaultSyncedFieldAdapters({
   registerAdapter(SearchEnginesSyncedField(ref));
   registerAdapter(SidebarSyncedField(ref));
   registerAdapter(PrivacySyncedField(ref));
+  registerAdapter(RecentMentionsSyncedField(ref));
   registerAdapter(MemberListSyncedField(ref));
   registerAdapter(UnreadChannelsSyncedField(ref));
   registerAdapter(VoicePromptsSyncedField(ref));

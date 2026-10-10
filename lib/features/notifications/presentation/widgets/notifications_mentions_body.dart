@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/notifications/presentation/widgets/mention_f
 import 'package:fluxer_app/features/notifications/presentation/widgets/mention_inbox_card.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/mentions_empty_state.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/mentions_end_footer.dart';
+import 'package:fluxer_app/features/notifications/providers/mention_filters_provider.dart';
 import 'package:fluxer_app/features/notifications/providers/notification_stream_providers.dart';
 import 'package:fluxer_app/features/notifications/providers/notifications_providers.dart';
 import 'package:fluxer_app/features/ui/refresh/fluxer_refresh_scroll_view.dart';
@@ -74,6 +75,11 @@ class _NotificationsMentionsBodyState
         },
         fireImmediately: true,
       )
+      ..listenManual<MentionFilters>(mentionFiltersPreferencesProvider, (_, _) {
+        if (mounted) {
+          setState(_resetCachesLocal);
+        }
+      })
       ..listenManual<MentionFeedUiState>(mentionFeedCoordinatorProvider, (
         MentionFeedUiState? previous,
         MentionFeedUiState next,
@@ -102,17 +108,8 @@ class _NotificationsMentionsBodyState
     super.dispose();
   }
 
-  Future<void> _openMentionFilters() async {
-    final bool applied = await showMentionFiltersSheet(context, ref);
-    if (!applied || !mounted) {
-      return;
-    }
-    _resetCachesLocal();
-    setState(() {});
-  }
-
-  Future<drift_db.NotificationMentionPref?> _readPrefs() {
-    return ref.read(fluxerDatabaseProvider).notificationDao.getMentionPrefs();
+  Future<void> _openMentionFilters() {
+    return showMentionFiltersSheet(context, ref);
   }
 
   Future<void> _bootstrapFromPrefsIfUnfetched() async {
@@ -128,28 +125,14 @@ class _NotificationsMentionsBodyState
       _resetCachesLocal();
       setState(() {});
     }
-    final drift_db.NotificationMentionPref? prefs = await _readPrefs();
-    await ref
-        .read(mentionFeedCoordinatorProvider.notifier)
-        .refreshWithFilters(
-          includeEveryone: prefs?.includeEveryone ?? true,
-          includeRoles: prefs?.includeRoles ?? true,
-          includeGuilds: prefs?.includeGuilds ?? true,
-        );
+    await ref.read(mentionFeedCoordinatorProvider.notifier).refresh();
     if (mounted) {
       setState(() {});
     }
   }
 
-  Future<void> _retryCoordinatorFetch() async {
-    final drift_db.NotificationMentionPref? prefs = await _readPrefs();
-    await ref
-        .read(mentionFeedCoordinatorProvider.notifier)
-        .refreshWithFilters(
-          includeEveryone: prefs?.includeEveryone ?? true,
-          includeRoles: prefs?.includeRoles ?? true,
-          includeGuilds: prefs?.includeGuilds ?? true,
-        );
+  Future<void> _retryCoordinatorFetch() {
+    return ref.read(mentionFeedCoordinatorProvider.notifier).refresh();
   }
 
   void _resetCachesLocal() {
@@ -281,19 +264,11 @@ class _NotificationsMentionsBodyState
     if (rows == null || rows.isEmpty) {
       return;
     }
-    unawaited(_loadMoreWithPrefs(rows.last.messageId));
-  }
-
-  Future<void> _loadMoreWithPrefs(String beforeMessageId) async {
-    final drift_db.NotificationMentionPref? prefs = await _readPrefs();
-    await ref
-        .read(mentionFeedCoordinatorProvider.notifier)
-        .loadMorePage(
-          includeEveryone: prefs?.includeEveryone ?? true,
-          includeRoles: prefs?.includeRoles ?? true,
-          includeGuilds: prefs?.includeGuilds ?? true,
-          beforeMessageId: beforeMessageId,
-        );
+    unawaited(
+      ref
+          .read(mentionFeedCoordinatorProvider.notifier)
+          .loadMorePage(beforeMessageId: rows.last.messageId),
+    );
   }
 
   Future<void> _removeMention(String messageId) async {

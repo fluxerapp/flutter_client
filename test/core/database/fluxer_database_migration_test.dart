@@ -7,7 +7,7 @@ import 'package:sqlite3/sqlite3.dart';
 /// Last schema version known to the test suite. Bump this when adding a new
 /// migration and extend the tests below if the new step introduces guarded
 /// columns or tables.
-const int _expectedSchemaVersion = 93;
+const int _expectedSchemaVersion = 94;
 
 /// First version whose migration steps are written to be re-entrant against
 /// the current schema. Stamp the current schema at each version in this
@@ -222,6 +222,24 @@ void main() {
         }
       },
     );
+
+    test('upgrade drops the local mention filter table', () async {
+      final Database raw = sqlite3.openInMemory();
+      addTearDown(raw.close);
+      await _stampCurrentSchemaAsVersion(raw, 93);
+      raw.execute(
+        'CREATE TABLE notification_mention_prefs (id INTEGER PRIMARY KEY)',
+      );
+
+      final FluxerDatabase db = FluxerDatabase.forTesting(
+        NativeDatabase.opened(raw, closeUnderlyingOnClose: false),
+      );
+      addTearDown(db.close);
+      await db.notificationDao.getMentionFeedOrdered();
+
+      expect(_userVersion(raw), db.schemaVersion);
+      expect(_schemaTables(raw), isNot(contains('notification_mention_prefs')));
+    });
 
     test('upgrade from guarded baseline adds columns when missing', () async {
       final Database raw = sqlite3.openInMemory();

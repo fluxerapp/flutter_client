@@ -3,18 +3,11 @@ import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/database/tables/notification_mention_feed.dart';
-import 'package:fluxer_app/core/database/tables/notification_mention_prefs.dart';
 import 'package:fluxer_app/core/database/tables/notification_unread_collapsed.dart';
 
 part 'notification_dao.g.dart';
 
-@DriftAccessor(
-  tables: [
-    NotificationUnreadCollapsed,
-    NotificationMentionFeed,
-    NotificationMentionPrefs,
-  ],
-)
+@DriftAccessor(tables: [NotificationUnreadCollapsed, NotificationMentionFeed])
 class NotificationDao extends DatabaseAccessor<FluxerDatabase>
     with _$NotificationDaoMixin {
   NotificationDao(super.attachedDatabase);
@@ -116,32 +109,8 @@ class NotificationDao extends DatabaseAccessor<FluxerDatabase>
     return q?.ordinal;
   }
 
-  Future<NotificationMentionPref?> getMentionPrefs() => (select(
-    notificationMentionPrefs,
-  )..where((t) => t.id.equals(1))).getSingleOrNull();
-
-  Future<void> upsertMentionPrefs({
-    required bool includeEveryone,
-    required bool includeRoles,
-    required bool includeGuilds,
-  }) async {
-    await into(notificationMentionPrefs).insertOnConflictUpdate(
-      NotificationMentionPrefsCompanion.insert(
-        id: const Value(1),
-        includeEveryone: Value(includeEveryone),
-        includeRoles: Value(includeRoles),
-        includeGuilds: Value(includeGuilds),
-      ),
-    );
-  }
-
   Future<void> clearAllUserData() async {
     await delete(notificationUnreadCollapsed).go();
     await delete(notificationMentionFeed).go();
-    await upsertMentionPrefs(
-      includeEveryone: true,
-      includeRoles: true,
-      includeGuilds: true,
-    );
   }
 }

@@ -46,6 +46,7 @@ import 'package:fluxer_app/features/members/providers/guild_member_chunk_waiter.
 import 'package:fluxer_app/features/members/providers/guild_roles_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_list_desired_ranges_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_list_viewport_provider.dart';
+import 'package:fluxer_app/features/notifications/providers/mention_filters_provider.dart';
 import 'package:fluxer_app/features/settings/providers/connections_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/guild/known_guild_bans_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/webhook_live_refresh_provider.dart';
@@ -180,6 +181,7 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     messageWriteBatcher: ref.read(messageWriteBatcherProvider),
     channelLastMessageIndex: ref.read(channelLastMessageIndexProvider),
     mentionFeedWriteBatcher: ref.read(mentionFeedWriteBatcherProvider),
+    resolveMentionFilters: () => ref.read(mentionFiltersPreferencesProvider),
     reactionWriteBatcher: ref.read(reactionWriteBatcherProvider),
     currentUserId: currentUserId,
     isAutoAckActive: (channelId) {

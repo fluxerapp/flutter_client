@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/notifications/data/merge_void_streams.dart';
 import 'package:fluxer_app/features/notifications/data/notifications_repository.dart';
 import 'package:fluxer_app/features/notifications/data/unread_inbox_calculator.dart';
 import 'package:fluxer_app/features/notifications/domain/unread_inbox_entry.dart';
+import 'package:fluxer_app/features/notifications/providers/mention_filters_provider.dart';
 import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -105,20 +106,24 @@ class MentionFeedUiState {
 @Riverpod(keepAlive: true)
 class MentionFeedCoordinator extends _$MentionFeedCoordinator {
   @override
-  MentionFeedUiState build() => MentionFeedUiState();
+  MentionFeedUiState build() {
+    ref.listen<MentionFilters>(mentionFiltersPreferencesProvider, (_, _) {
+      if (state.fetched) {
+        unawaited(refresh());
+      }
+    });
+    return MentionFeedUiState();
+  }
 
-  Future<void> refreshWithFilters({
-    required bool includeEveryone,
-    required bool includeRoles,
-    required bool includeGuilds,
-  }) async {
+  Future<void> refresh() async {
+    final MentionFilters filters = ref.read(mentionFiltersPreferencesProvider);
     state = state.copyWith(busy: true, resetError: true);
     try {
       final repo = ref.read(notificationsRepositoryProvider);
       final bool hasMore = await repo.replaceMentionsFromApi(
-        includeEveryone: includeEveryone,
-        includeRoles: includeRoles,
-        includeGuilds: includeGuilds,
+        includeEveryone: filters.includeEveryone,
+        includeRoles: filters.includeRoles,
+        includeGuilds: filters.includeGuilds,
       );
       state = MentionFeedUiState(fetched: true, hasMore: hasMore);
     } on Object catch (e) {
@@ -126,24 +131,20 @@ class MentionFeedCoordinator extends _$MentionFeedCoordinator {
     }
   }
 
-  Future<void> loadMorePage({
-    required bool includeEveryone,
-    required bool includeRoles,
-    required bool includeGuilds,
-    required String beforeMessageId,
-  }) async {
+  Future<void> loadMorePage({required String beforeMessageId}) async {
     if (state.busy || !state.hasMore) {
       return;
     }
+    final MentionFilters filters = ref.read(mentionFiltersPreferencesProvider);
     state = state.copyWith(busy: true);
     try {
       final NotificationsRepository repo = ref.read(
         notificationsRepositoryProvider,
       );
       final bool hasMore = await repo.loadMoreMentions(
-        includeEveryone: includeEveryone,
-        includeRoles: includeRoles,
-        includeGuilds: includeGuilds,
+        includeEveryone: filters.includeEveryone,
+        includeRoles: filters.includeRoles,
+        includeGuilds: filters.includeGuilds,
         beforeMessageId: beforeMessageId,
       );
       state = state.copyWith(busy: false, hasMore: hasMore);

@@ -26,6 +26,7 @@ void main() {
       SyncedPreferenceField.sidebar,
       SyncedPreferenceField.privacy,
       SyncedPreferenceField.memberList,
+      SyncedPreferenceField.recentMentions,
       SyncedPreferenceField.unreadChannels,
       SyncedPreferenceField.voicePrompts,
       SyncedPreferenceField.sound,

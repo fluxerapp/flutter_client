@@ -33,6 +33,7 @@ import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/guilds/data/guild_local_cleanup.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_notification_resolution.dart';
 import 'package:fluxer_app/features/notifications/data/mention_feed_write_batcher.dart';
+import 'package:fluxer_app/features/notifications/providers/mention_filters_provider.dart';
 import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
 import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
@@ -148,6 +149,7 @@ class GatewayEventHandler {
     this.messageWriteBatcher,
     this.channelLastMessageIndex,
     this.mentionFeedWriteBatcher,
+    this.resolveMentionFilters,
     this.reactionWriteBatcher,
     this.currentUserId,
     this.isAutoAckActive,
@@ -227,6 +229,7 @@ class GatewayEventHandler {
   final MessageWriteBatcher? messageWriteBatcher;
   final ChannelLastMessageIndex? channelLastMessageIndex;
   final MentionFeedWriteBatcher? mentionFeedWriteBatcher;
+  final MentionFilters Function()? resolveMentionFilters;
   final ReactionWriteBatcher? reactionWriteBatcher;
   final String? currentUserId;
   final bool Function(String channelId)? isAutoAckActive;
@@ -1758,7 +1761,12 @@ class GatewayEventHandler {
     if (mentionsCurrentUser &&
         !isDm &&
         !acknowledgedByGateway &&
-        !mentionCtx.blockedUserIds.contains(msg.authorId)) {
+        !mentionCtx.blockedUserIds.contains(msg.authorId) &&
+        (resolveMentionFilters?.call() ?? const MentionFilters()).includes(
+          inGuild: channelResolution.isGuild,
+          mentionsEveryone: event.message.mentionEveryone,
+          mentionsRoles: event.message.mentionRoles.isNotEmpty,
+        )) {
       if (mentionFeedWriteBatcher != null) {
         mentionFeedWriteBatcher!.enqueue(
           messageId: msg.id,

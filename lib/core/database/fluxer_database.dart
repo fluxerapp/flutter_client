@@ -49,7 +49,6 @@ import 'package:fluxer_app/core/database/tables/members.dart';
 import 'package:fluxer_app/core/database/tables/messages.dart';
 import 'package:fluxer_app/core/database/tables/mobile_push_registrations.dart';
 import 'package:fluxer_app/core/database/tables/notification_mention_feed.dart';
-import 'package:fluxer_app/core/database/tables/notification_mention_prefs.dart';
 import 'package:fluxer_app/core/database/tables/notification_unread_collapsed.dart';
 import 'package:fluxer_app/core/database/tables/pinned_dms.dart';
 import 'package:fluxer_app/core/database/tables/read_states.dart';
@@ -96,7 +95,6 @@ part 'fluxer_database.g.dart';
     DmFolderSettingsTable,
     NotificationUnreadCollapsed,
     NotificationMentionFeed,
-    NotificationMentionPrefs,
     FavoriteChannels,
     FavoriteCategories,
     FavoriteSettings,
@@ -145,7 +143,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 93;
+  int get schemaVersion => 94;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -414,10 +412,6 @@ class FluxerDatabase extends _$FluxerDatabase {
         await m.addColumn(messages, messages.stickersJson);
         await m.createTable(notificationUnreadCollapsed);
         await m.createTable(notificationMentionFeed);
-        await m.createTable(notificationMentionPrefs);
-        await into(
-          notificationMentionPrefs,
-        ).insert(NotificationMentionPrefsCompanion.insert(id: const Value(1)));
       }
       if (from < 33) {
         final List<QueryRow> messageColumns = await customSelect(
@@ -1564,6 +1558,11 @@ class FluxerDatabase extends _$FluxerDatabase {
         )) {
           await m.addColumn(channels, channels.rtcP2p);
         }
+      }
+      if (from < 94) {
+        await customStatement(
+          'DROP TABLE IF EXISTS notification_mention_prefs',
+        );
       }
     },
   );
