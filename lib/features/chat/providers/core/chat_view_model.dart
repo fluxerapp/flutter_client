@@ -103,7 +103,10 @@ const _kJumpHighlightDuration = Duration(milliseconds: 2000);
 const int _kMaxAutomaticSendRetries = 2;
 const int _kMaxAutomaticSendRetryDelayMs = 30000;
 
-Future<Message> _sendWithRateLimitRetry(Future<Message> Function() send) async {
+Future<Message> _sendWithRateLimitRetry(
+  Future<Message> Function() send, {
+  bool Function()? isStillSending,
+}) async {
   int retries = 0;
   while (true) {
     try {
@@ -125,6 +128,9 @@ Future<Message> _sendWithRateLimitRetry(Future<Message> Function() send) async {
       }
       retries++;
       await Future<void>.delayed(Duration(milliseconds: delayMs));
+      if (isStillSending != null && !isStillSending()) {
+        throw const MessageUploadSendCancelledException();
+      }
     }
   }
 }
@@ -5365,6 +5371,7 @@ class ChatViewModel extends _$ChatViewModel {
               messageFlags: messageFlags,
               tts: tts,
             ),
+        isStillSending: () => _isMessageUploadSessionActive(clientNonce),
       );
       _retrySendOptions.remove(optimisticMessageId);
       _finishAttachmentUploadSession(clientNonce, uploadNotifier);

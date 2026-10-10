@@ -670,6 +670,62 @@ void main() {
     expect(state.messages.single.hasFailed, isTrue);
   });
 
+  test(
+    'an attachment send cancelled during a rate limit wait is not resent',
+    () async {
+      final _SendAdapter adapter =
+          _SendAdapter(
+              serverMessageId: _snowflakeForUtc(DateTime.utc(2026, 6, 16, 12)),
+            )
+            ..rateLimitedSends = 1
+            ..rateLimitRetryAfterSeconds = 0.2;
+      final (container, _, _) = await setUpChannel(
+        adapter: adapter,
+        overrides: <Override>[
+          maxAttachmentFileBytesProvider.overrideWithValue(25 * 1024 * 1024),
+          attachmentUploadClientProvider.overrideWithValue(
+            _ImmediateUploadClient(
+              channelsApi: ChannelsApi(Dio()),
+              uploadDio: Dio(),
+            ),
+          ),
+        ],
+      );
+      final notifier = container.read(chatViewModelProvider.notifier);
+      final validation = await container
+          .read(cloudUploadControllerProvider('channel-1').notifier)
+          .addFiles(<ComposerUploadFile>[
+            composerUploadFile(
+              XFile.fromData(Uint8List.fromList(<int>[1, 2, 3]), name: 'a.png'),
+            ),
+          ]);
+      expect(validation.isValid, isTrue);
+
+      unawaited(notifier.sendMessage(text: 'pic'));
+      await _flushAsync();
+      expect(adapter.messagePostCount, 1);
+      final Message optimistic = container
+          .read(chatViewModelProvider)
+          .messages
+          .lastWhere(
+            (Message m) => m.deliveryState == MessageDeliveryState.sending,
+          );
+
+      notifier.cancelSendingMessage(optimistic.id);
+      await Future<void>.delayed(const Duration(milliseconds: 400));
+      await _flushAsync();
+
+      expect(adapter.messagePostCount, 1);
+      expect(
+        container
+            .read(chatViewModelProvider)
+            .messages
+            .any((Message m) => m.id == optimistic.id),
+        isFalse,
+      );
+    },
+  );
+
   test('no-op edit warning uses app locale', () async {
     final FluxerLocalizations l10n = lookupFluxerLocalizations(
       const ui.Locale('fr'),
