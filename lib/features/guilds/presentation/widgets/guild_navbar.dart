@@ -71,7 +71,6 @@ import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provid
 import 'package:fluxer_app/features/guilds/providers/visible_unavailable_guild_count_provider.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_folder_icon.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_folder_menu_actions.dart';
-import 'package:fluxer_app/features/guilds/utils/guild_outage_availability.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_settings_actions.dart';
 import 'package:fluxer_app/features/guilds/utils/invite_people_actions.dart';
 import 'package:fluxer_app/features/guilds/utils/invite_people_recipients.dart';
@@ -349,12 +348,8 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
   Widget build(BuildContext context) {
     _scrollStore = ref.read(guildNavbarScrollStoreProvider);
     final organizedItems = ref.watch(organizedGuildListProvider);
-    final guilds = ref.watch(
-      guildListViewModelProvider.select((s) => s.guilds),
-    );
-    final unavailableCount = unavailableGuildCount(
-      trackedUnavailableGuildIds: ref.watch(guildAvailabilityProvider),
-      guilds: guilds,
+    final unavailableCount = ref.watch(
+      guildAvailabilityProvider.select((Set<String> ids) => ids.length),
     );
     final pendingUnavailableCount = ref.watch(
       visibleUnavailableGuildCountProvider,

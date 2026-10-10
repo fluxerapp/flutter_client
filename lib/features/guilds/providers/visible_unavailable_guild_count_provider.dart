@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:fluxer_app/features/guilds/providers/guild_availability_provider.dart';
-import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
-import 'package:fluxer_app/features/guilds/utils/guild_outage_availability.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'visible_unavailable_guild_count_provider.g.dart';
@@ -19,25 +17,9 @@ class VisibleUnavailableGuildCount extends _$VisibleUnavailableGuildCount {
       _hideTimer?.cancel();
     });
     ref.listen(guildAvailabilityProvider, (_, Set<String> next) {
-      _applyCount(
-        unavailableGuildCount(
-          trackedUnavailableGuildIds: next,
-          guilds: ref.read(guildListViewModelProvider).guilds,
-        ),
-      );
+      _applyCount(next.length);
     });
-    ref.listen(guildListViewModelProvider, (_, GuildListViewState next) {
-      _applyCount(
-        unavailableGuildCount(
-          trackedUnavailableGuildIds: ref.read(guildAvailabilityProvider),
-          guilds: next.guilds,
-        ),
-      );
-    });
-    return unavailableGuildCount(
-      trackedUnavailableGuildIds: ref.read(guildAvailabilityProvider),
-      guilds: ref.read(guildListViewModelProvider).guilds,
-    );
+    return ref.read(guildAvailabilityProvider).length;
   }
 
   void _applyCount(int count) {

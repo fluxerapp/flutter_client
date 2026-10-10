@@ -79,19 +79,6 @@ void main() {
       expect(isGuildStaffOnlyAccessible(guild), isTrue);
     });
 
-    test('unavailableGuildCount unions provider and db flags', () {
-      expect(
-        unavailableGuildCount(
-          trackedUnavailableGuildIds: {'g1'},
-          guilds: [
-            _guild(id: 'g2', unavailable: true),
-            _guild(id: 'g3'),
-          ],
-        ),
-        2,
-      );
-    });
-
     test('isGuildConfirmedMissingForRoute waits while loading', () {
       expect(
         isGuildConfirmedMissingForRoute(

@@ -55,14 +55,3 @@ bool isGuildConfirmedMissingForRoute({
 bool isGuildStaffOnlyAccessible(Guild? guild) {
   return guild?.features.contains(kStaffOnlyGuildFeature) ?? false;
 }
-
-int unavailableGuildCount({
-  required Set<String> trackedUnavailableGuildIds,
-  required List<Guild> guilds,
-}) {
-  final Set<String> ids = {
-    ...trackedUnavailableGuildIds,
-    ...guilds.where((guild) => guild.unavailable).map((guild) => guild.id),
-  };
-  return ids.length;
-}
