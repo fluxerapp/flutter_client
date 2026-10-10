@@ -90,5 +90,13 @@ class UserDao extends DatabaseAccessor<FluxerDatabase> with _$UserDaoMixin {
     });
   }
 
+  Future<void> resetPresences() => update(users).write(
+    const UsersCompanion(
+      status: Value('offline'),
+      customStatus: Value(null),
+      mobile: Value(false),
+    ),
+  );
+
   Future<void> clearAll() => delete(users).go();
 }

@@ -884,6 +884,8 @@ class GatewayEventHandler {
         await database.guildStickerDao.clearAll();
         await database.messageDao.clearAll();
         await database.threadDao.clearAll();
+      } else {
+        await database.userDao.resetPresences();
       }
       for (final ParsedReadyGuild parsed in processedGuilds) {
         final String guildId = parsed.guildData.guild.id;
