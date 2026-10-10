@@ -623,6 +623,53 @@ void main() {
     },
   );
 
+  test('a short send rate limit is retried automatically', () async {
+    final (container, adapter, serverMessageId) = await setUpChannel();
+    adapter.rateLimitedSends = 1;
+    final notifier = container.read(chatViewModelProvider.notifier);
+
+    await notifier.sendMessage(text: 'burst');
+    await _flushAsync();
+    await Future<void>.delayed(const Duration(milliseconds: 150));
+    await _flushAsync();
+
+    final ChatViewState state = container.read(chatViewModelProvider);
+    expect(adapter.messagePostCount, 2);
+    expect(state.errorMessage, isNull);
+    expect(state.messages.single.id, serverMessageId);
+    expect(state.messages.single.hasFailed, isFalse);
+  });
+
+  test('a send rate limit fails after two automatic retries', () async {
+    final (container, adapter, _) = await setUpChannel();
+    adapter.rateLimitedSends = 3;
+    final notifier = container.read(chatViewModelProvider.notifier);
+
+    await notifier.sendMessage(text: 'burst');
+    await _flushAsync();
+    await Future<void>.delayed(const Duration(milliseconds: 300));
+    await _flushAsync();
+
+    final ChatViewState state = container.read(chatViewModelProvider);
+    expect(adapter.messagePostCount, 3);
+    expect(state.messages.single.hasFailed, isTrue);
+  });
+
+  test('a long send rate limit is not retried automatically', () async {
+    final (container, adapter, _) = await setUpChannel();
+    adapter
+      ..rateLimitedSends = 1
+      ..rateLimitRetryAfterSeconds = 60;
+    final notifier = container.read(chatViewModelProvider.notifier);
+
+    await notifier.sendMessage(text: 'burst');
+    await _flushAsync();
+
+    final ChatViewState state = container.read(chatViewModelProvider);
+    expect(adapter.messagePostCount, 1);
+    expect(state.messages.single.hasFailed, isTrue);
+  });
+
   test('no-op edit warning uses app locale', () async {
     final FluxerLocalizations l10n = lookupFluxerLocalizations(
       const ui.Locale('fr'),
@@ -1050,6 +1097,8 @@ class _SendAdapter implements HttpClientAdapter {
   String? failureCode;
   int failureStatus;
   String failureMessage;
+  int rateLimitedSends = 0;
+  double rateLimitRetryAfterSeconds = 0.05;
   final List<Map<String, Object?>> aroundMessages;
   final List<Map<String, Object?>> latestMessages;
   final List<String> ackedMessageIds = <String>[];
@@ -1110,6 +1159,23 @@ class _SendAdapter implements HttpClientAdapter {
           : jsonDecode(raw) as Map<String, dynamic>;
       lastSentNonce = body['nonce'] as String?;
       lastBody = body;
+      if (rateLimitedSends > 0) {
+        rateLimitedSends--;
+        return ResponseBody.fromString(
+          jsonEncode(<String, Object?>{
+            'code': 'RATE_LIMITED',
+            'message': 'You are being rate limited.',
+            'global': false,
+            'retry_after': rateLimitRetryAfterSeconds,
+          }),
+          429,
+          headers: {
+            Headers.contentTypeHeader: ['application/json'],
+            'retry-after': ['${rateLimitRetryAfterSeconds.ceil()}'],
+            'x-ratelimit-reset-after': ['$rateLimitRetryAfterSeconds'],
+          },
+        );
+      }
       if (failureCode != null) {
         return ResponseBody.fromString(
           jsonEncode(<String, Object?>{

@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/api/retry_after.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
@@ -99,6 +100,34 @@ const Duration _kChannelNetworkRefreshTtl = Duration(seconds: 30);
 const _kReadAckMinInterval = Duration(seconds: 1);
 const _kDraftSaveDebounce = Duration(milliseconds: 400);
 const _kJumpHighlightDuration = Duration(milliseconds: 2000);
+const int _kMaxAutomaticSendRetries = 2;
+const int _kMaxAutomaticSendRetryDelayMs = 30000;
+
+Future<Message> _sendWithRateLimitRetry(Future<Message> Function() send) async {
+  int retries = 0;
+  while (true) {
+    try {
+      return await send();
+    } on DioException catch (error) {
+      final Response<dynamic>? response = error.response;
+      if (response?.statusCode != 429 ||
+          isSlowmodeRateLimitedError(error) ||
+          retryAfterMsFromDioException(error) == null) {
+        rethrow;
+      }
+      final int delayMs = transportRateLimitDelayMs(
+        headers: response?.headers,
+        data: response?.data,
+      );
+      if (delayMs > _kMaxAutomaticSendRetryDelayMs ||
+          retries >= _kMaxAutomaticSendRetries) {
+        rethrow;
+      }
+      retries++;
+      await Future<void>.delayed(Duration(milliseconds: delayMs));
+    }
+  }
+}
 
 enum _SendBlockReason {
   empty,
@@ -5260,19 +5289,21 @@ class ChatViewModel extends _$ChatViewModel {
     bool tts = false,
   }) async {
     try {
-      final Message sent = await ref
-          .read(messageRepositoryProvider)
-          .sendMessage(
-            channelId: channelId,
-            content: outgoingText,
-            replyToId: replyToId,
-            replyMention: replyMention,
-            clientNonce: clientNonce,
-            stickerIds: stickerIds,
-            favoriteMemeId: favoriteMemeId,
-            messageFlags: messageFlags,
-            tts: tts,
-          );
+      final Message sent = await _sendWithRateLimitRetry(
+        () => ref
+            .read(messageRepositoryProvider)
+            .sendMessage(
+              channelId: channelId,
+              content: outgoingText,
+              replyToId: replyToId,
+              replyMention: replyMention,
+              clientNonce: clientNonce,
+              stickerIds: stickerIds,
+              favoriteMemeId: favoriteMemeId,
+              messageFlags: messageFlags,
+              tts: tts,
+            ),
+      );
       _retrySendOptions.remove(optimisticMessageId);
       unawaited(_recordSlowmodeSendOnSuccess(channelId));
       _commitDeliveredOptimisticSend(
@@ -5318,21 +5349,23 @@ class ChatViewModel extends _$ChatViewModel {
         _finishAttachmentUploadSession(clientNonce, uploadNotifier);
         return;
       }
-      final Message sent = await ref
-          .read(messageRepositoryProvider)
-          .sendMessage(
-            channelId: channelId,
-            content: outgoingText,
-            replyToId: replyToId,
-            replyMention: replyMention,
-            clientNonce: clientNonce,
-            stickerIds: stickerIds,
-            favoriteMemeId: favoriteMemeId,
-            attachmentMetadata: prepared.attachmentMetadata,
-            attachmentFiles: prepared.attachmentFiles,
-            messageFlags: messageFlags,
-            tts: tts,
-          );
+      final Message sent = await _sendWithRateLimitRetry(
+        () => ref
+            .read(messageRepositoryProvider)
+            .sendMessage(
+              channelId: channelId,
+              content: outgoingText,
+              replyToId: replyToId,
+              replyMention: replyMention,
+              clientNonce: clientNonce,
+              stickerIds: stickerIds,
+              favoriteMemeId: favoriteMemeId,
+              attachmentMetadata: prepared.attachmentMetadata,
+              attachmentFiles: prepared.attachmentFiles,
+              messageFlags: messageFlags,
+              tts: tts,
+            ),
+      );
       _retrySendOptions.remove(optimisticMessageId);
       _finishAttachmentUploadSession(clientNonce, uploadNotifier);
       unawaited(_recordSlowmodeSendOnSuccess(channelId));
@@ -5612,21 +5645,25 @@ class ChatViewModel extends _$ChatViewModel {
     );
     final _RetrySendOptions? options = _retrySendOptions[message.id];
     try {
-      final Message sent = await ref
-          .read(messageRepositoryProvider)
-          .sendMessage(
-            channelId: message.channelId,
-            content: message.content,
-            replyToId: message.replyToId,
-            replyMention: options?.replyMention ?? true,
-            clientNonce: message.clientNonce ?? clientNonceGenerator.next(),
-            stickerIds: message.stickers
-                .map((MessageSticker s) => s.id)
-                .toList(),
-            favoriteMemeId: options?.favoriteMemeId,
-            messageFlags: message.flags,
-            tts: options?.tts ?? false,
-          );
+      final String clientNonce =
+          message.clientNonce ?? clientNonceGenerator.next();
+      final Message sent = await _sendWithRateLimitRetry(
+        () => ref
+            .read(messageRepositoryProvider)
+            .sendMessage(
+              channelId: message.channelId,
+              content: message.content,
+              replyToId: message.replyToId,
+              replyMention: options?.replyMention ?? true,
+              clientNonce: clientNonce,
+              stickerIds: message.stickers
+                  .map((MessageSticker s) => s.id)
+                  .toList(),
+              favoriteMemeId: options?.favoriteMemeId,
+              messageFlags: message.flags,
+              tts: options?.tts ?? false,
+            ),
+      );
       _retrySendOptions.remove(message.id);
       final List<Message> nextMessages = _replaceOptimisticWithDelivered(
         messages: state.messages,
