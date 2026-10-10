@@ -55,6 +55,36 @@ class _RenderUnlaidOutChildHost extends RenderBox
   void visitChildrenForSemantics(RenderObjectVisitor visitor) {}
 }
 
+void _expectShowing(GuildScrollIndicatorState state, String targetId) {
+  expect(state.show, isTrue);
+  expect(state.severity, GuildScrollIndicatorSeverity.unread);
+  expect(state.targetId, targetId);
+}
+
+Widget _buildLazyList({
+  required ScrollController scrollController,
+  required Map<String, GlobalKey> itemKeys,
+  required int count,
+}) {
+  return MaterialApp(
+    home: Center(
+      child: SizedBox(
+        width: 240,
+        height: 120,
+        child: ListView.builder(
+          controller: scrollController,
+          scrollCacheExtent: const ScrollCacheExtent.pixels(0),
+          itemCount: count,
+          itemBuilder: (BuildContext context, int index) => SizedBox(
+            key: itemKeys.putIfAbsent('item-$index', GlobalKey.new),
+            height: 40,
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
 void main() {
   group('GuildScrollIndicatorController', () {
     testWidgets('scheduleUpdate skips an attached keyed item before layout', (
@@ -175,11 +205,7 @@ void main() {
         indicatorController.update();
 
         expect(indicatorController.topIndicator.value.show, isFalse);
-        expect(indicatorController.bottomIndicator.value, (
-          show: true,
-          severity: GuildScrollIndicatorSeverity.unread,
-          targetId: 'below',
-        ));
+        _expectShowing(indicatorController.bottomIndicator.value, 'below');
 
         scrollController.jumpTo(scrollController.position.maxScrollExtent);
         await tester.pump();
@@ -190,11 +216,7 @@ void main() {
         );
         indicatorController.update();
 
-        expect(indicatorController.topIndicator.value, (
-          show: true,
-          severity: GuildScrollIndicatorSeverity.unread,
-          targetId: 'above',
-        ));
+        _expectShowing(indicatorController.topIndicator.value, 'above');
         expect(indicatorController.bottomIndicator.value.show, isFalse);
       },
     );
@@ -235,6 +257,115 @@ void main() {
 
       expect(indicatorController.topIndicator.value.show, isFalse);
       expect(indicatorController.bottomIndicator.value.show, isFalse);
+    });
+
+    testWidgets('an unread item far below the viewport shows the bottom pill '
+        'even though the lazy list never built it', (
+      WidgetTester tester,
+    ) async {
+      final scrollController = ScrollController();
+      final itemKeys = <String, GlobalKey>{};
+      final List<String> order = <String>[
+        for (var i = 0; i < 50; i++) 'item-$i',
+      ];
+      final indicatorController = GuildScrollIndicatorController(
+        scrollController: scrollController,
+        itemKeys: itemKeys,
+        resolveSeverity: (String id) =>
+            id == 'item-45' ? GuildScrollIndicatorSeverity.unread : null,
+        orderedIds: () => order,
+      );
+      addTearDown(() {
+        indicatorController.detach();
+        scrollController.dispose();
+      });
+
+      await tester.pumpWidget(
+        _buildLazyList(
+          scrollController: scrollController,
+          itemKeys: itemKeys,
+          count: order.length,
+        ),
+      );
+      expect(itemKeys['item-45']?.currentContext, isNull);
+      indicatorController.update();
+
+      _expectShowing(indicatorController.bottomIndicator.value, 'item-45');
+      expect(indicatorController.topIndicator.value.show, isFalse);
+    });
+
+    testWidgets('an unchanged indicator does not notify listeners again', (
+      WidgetTester tester,
+    ) async {
+      final scrollController = ScrollController();
+      final itemKeys = <String, GlobalKey>{'below': GlobalKey()};
+      final indicatorController = _createController(
+        scrollController: scrollController,
+        itemKeys: itemKeys,
+      );
+      addTearDown(() {
+        indicatorController.detach();
+        scrollController.dispose();
+      });
+      await tester.pumpWidget(
+        _buildScrollable(
+          scrollController: scrollController,
+          children: <Widget>[
+            const SizedBox(height: 260),
+            SizedBox(key: itemKeys['below'], height: 40),
+          ],
+        ),
+      );
+      indicatorController.update();
+      var notifications = 0;
+      indicatorController.bottomIndicator.addListener(() => notifications++);
+      indicatorController.topIndicator.addListener(() => notifications++);
+
+      indicatorController
+        ..update()
+        ..update();
+
+      expect(notifications, 0);
+    });
+
+    testWidgets('the first evaluation lands without animating, later changes '
+        'animate, and resetAnimation lands the next one again', (
+      WidgetTester tester,
+    ) async {
+      final scrollController = ScrollController();
+      final itemKeys = <String, GlobalKey>{'below': GlobalKey()};
+      final indicatorController = _createController(
+        scrollController: scrollController,
+        itemKeys: itemKeys,
+      );
+      addTearDown(() {
+        indicatorController.detach();
+        scrollController.dispose();
+      });
+      Widget list({required bool withItem}) => _buildScrollable(
+        scrollController: scrollController,
+        children: <Widget>[
+          const SizedBox(height: 260),
+          if (withItem) SizedBox(key: itemKeys['below'], height: 40),
+        ],
+      );
+
+      await tester.pumpWidget(list(withItem: true));
+      indicatorController.update();
+      expect(indicatorController.bottomIndicator.value.show, isTrue);
+      expect(indicatorController.bottomIndicator.value.animate, isFalse);
+
+      await tester.pumpWidget(list(withItem: false));
+      indicatorController.update();
+      expect(indicatorController.bottomIndicator.value.show, isFalse);
+      expect(indicatorController.bottomIndicator.value.animate, isTrue);
+
+      await tester.pumpWidget(list(withItem: true));
+      indicatorController
+        ..resetAnimation()
+        ..update();
+      expect(indicatorController.bottomIndicator.value.show, isTrue);
+      expect(indicatorController.bottomIndicator.value.animate, isFalse);
     });
   });
 }

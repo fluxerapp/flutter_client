@@ -9,8 +9,8 @@ GuildScrollIndicatorSeverity? channelScrollIndicatorSeverity({
   required WidgetRef ref,
   required String guildId,
   required String channelId,
+  required UnreadState? unread,
 }) {
-  final UnreadState? unread = ref.read(channelUnreadProvider(channelId)).value;
   if (unread == null) {
     return null;
   }

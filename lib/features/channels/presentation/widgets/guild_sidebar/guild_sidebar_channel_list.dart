@@ -81,6 +81,7 @@ class _GuildSidebarChannelListState
   late final ScrollController _scrollController;
   late final GuildScrollIndicatorController _scrollIndicator;
   final Map<String, GlobalKey> _channelKeys = <String, GlobalKey>{};
+  List<String> _indicatorOrder = const <String>[];
   bool _restoring = false;
   bool _needsScrollClamp = false;
   bool _deferChannelList = false;
@@ -114,6 +115,7 @@ class _GuildSidebarChannelListState
       itemKeys: _channelKeys,
       resolveSeverity: _resolveChannelScrollSeverity,
       isMounted: () => mounted,
+      orderedIds: () => _indicatorOrder,
     )..attach();
     if (widget.isActive) {
       _refreshGuildPermissions();
@@ -125,6 +127,7 @@ class _GuildSidebarChannelListState
   void didUpdateWidget(_GuildSidebarChannelList oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (!oldWidget.isActive && widget.isActive) {
+      _scrollIndicator.resetAnimation();
       _refreshGuildPermissions();
       _syncScrollRestoreState();
       _scheduleScrollRestore();
@@ -181,6 +184,11 @@ class _GuildSidebarChannelListState
       ref: ref,
       guildId: widget.guildId,
       channelId: channelId,
+      unread:
+          ref.read(
+            guildChannelUnreadSnapshotProvider(widget.guildId),
+          )[channelId] ??
+          ref.read(channelUnreadOrLastKnownProvider(channelId)),
     );
   }
 
@@ -248,8 +256,28 @@ class _GuildSidebarChannelListState
     final List<GuildSidebarEntry> sidebarEntries = ref.watch(
       guildSidebarEntriesProvider,
     );
+    final List<String> indicatorOrder = <String>[
+      for (final GuildSidebarEntry entry in sidebarEntries)
+        if (entry.kind == GuildSidebarEntryKind.channel ||
+            entry.kind == GuildSidebarEntryKind.thread)
+          entry.channel!.id,
+    ];
+    if (!listEquals(indicatorOrder, _indicatorOrder)) {
+      _indicatorOrder = indicatorOrder;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted || !widget.isActive) {
+          return;
+        }
+        ref
+            .read(recentGuildUnreadRetentionProvider.notifier)
+            .retain(widget.guildId, _indicatorOrder);
+      });
+    }
     ref
       ..listen(guildReadStateProvider.select((s) => s[widget.guildId]), (_, _) {
+        _scrollIndicator.scheduleUpdate();
+      })
+      ..listen(guildChannelUnreadSnapshotProvider(widget.guildId), (_, _) {
         _scrollIndicator.scheduleUpdate();
       })
       ..listen<List<GuildSidebarEntry>>(guildSidebarEntriesProvider, (

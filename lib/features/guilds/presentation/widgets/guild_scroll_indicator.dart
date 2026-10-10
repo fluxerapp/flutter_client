@@ -10,13 +10,21 @@ typedef GuildScrollIndicatorState = ({
   bool show,
   GuildScrollIndicatorSeverity severity,
   String? targetId,
+  bool animate,
 });
 
 const GuildScrollIndicatorState _hiddenGuildScrollIndicatorState = (
   show: false,
   severity: GuildScrollIndicatorSeverity.unread,
   targetId: null,
+  animate: false,
 );
+
+bool _sameIndicator(GuildScrollIndicatorState a, GuildScrollIndicatorState b) {
+  return a.show == b.show &&
+      a.severity == b.severity &&
+      a.targetId == b.targetId;
+}
 
 class GuildScrollIndicatorController {
   GuildScrollIndicatorController({
@@ -25,6 +33,7 @@ class GuildScrollIndicatorController {
     required this._resolveSeverity,
     this._isMounted,
     this._hideTopWhen,
+    this._orderedIds,
   });
 
   static const double _scrollDirectionEpsilon = 0.5;
@@ -35,6 +44,8 @@ class GuildScrollIndicatorController {
   final bool Function()? _isMounted;
   final bool Function(double scrollOffset)? _hideTopWhen;
 
+  final List<String> Function()? _orderedIds;
+
   final ValueNotifier<GuildScrollIndicatorState> topIndicator = ValueNotifier(
     _hiddenGuildScrollIndicatorState,
   );
@@ -42,6 +53,7 @@ class GuildScrollIndicatorController {
       ValueNotifier(_hiddenGuildScrollIndicatorState);
 
   bool _updateScheduled = false;
+  bool _settled = false;
   double _lastScrollOffset = 0;
   GuildScrollIndicatorEdge? _preferredEdge;
   GuildScrollIndicatorEdge? _lastEdge;
@@ -54,6 +66,10 @@ class GuildScrollIndicatorController {
     _scrollController.removeListener(_onScroll);
     topIndicator.dispose();
     bottomIndicator.dispose();
+  }
+
+  void resetAnimation() {
+    _settled = false;
   }
 
   void _onScroll() {
@@ -100,48 +116,89 @@ class GuildScrollIndicatorController {
         .dy;
     final double scrollableBottom =
         scrollableTop + scrollPosition.viewportDimension;
+    final List<String> ids =
+        _orderedIds?.call() ?? _itemKeys.keys.toList(growable: false);
+
+    final List<({double top, double bottom})?> boxes =
+        List<({double top, double bottom})?>.filled(ids.length, null);
+    int firstLaidOut = -1;
+    int lastLaidOut = -1;
+    double heightSum = 0;
+    for (var i = 0; i < ids.length; i++) {
+      final RenderBox? itemBox = _laidOutBox(_itemKeys[ids[i]]?.currentContext);
+      if (itemBox == null) {
+        continue;
+      }
+      final double top = itemBox.localToGlobal(Offset.zero).dy;
+      boxes[i] = (top: top, bottom: top + itemBox.size.height);
+      heightSum += itemBox.size.height;
+      if (firstLaidOut < 0) {
+        firstLaidOut = i;
+      }
+      lastLaidOut = i;
+    }
+    final bool placeUnbuilt = _orderedIds != null && firstLaidOut >= 0;
+    final double averageHeight = firstLaidOut < 0
+        ? 0
+        : heightSum /
+              boxes
+                  .where((({double top, double bottom})? b) => b != null)
+                  .length;
+
     GuildScrollIndicatorCandidate? topCandidate;
     GuildScrollIndicatorCandidate? bottomCandidate;
-    var order = 0;
-    for (final MapEntry<String, GlobalKey> entry in _itemKeys.entries) {
-      final GuildScrollIndicatorSeverity? severity = _resolveSeverity(
-        entry.key,
-      );
+    for (var i = 0; i < ids.length; i++) {
+      final ({double top, double bottom})? box = boxes[i];
+      final double distance;
+      final bool above;
+      if (box != null) {
+        if (box.bottom <=
+            scrollableTop + kGuildScrollIndicatorVisibilityEpsilon) {
+          above = true;
+          distance = scrollableTop - box.bottom;
+        } else if (box.top >=
+            scrollableBottom - kGuildScrollIndicatorVisibilityEpsilon) {
+          above = false;
+          distance = box.top - scrollableBottom;
+        } else {
+          continue;
+        }
+      } else if (placeUnbuilt && i < firstLaidOut) {
+        above = true;
+        distance =
+            (scrollableTop - boxes[firstLaidOut]!.top).clamp(
+              0,
+              double.infinity,
+            ) +
+            (firstLaidOut - i) * averageHeight;
+      } else if (placeUnbuilt && i > lastLaidOut) {
+        above = false;
+        distance =
+            (boxes[lastLaidOut]!.bottom - scrollableBottom).clamp(
+              0,
+              double.infinity,
+            ) +
+            (i - lastLaidOut) * averageHeight;
+      } else {
+        continue;
+      }
+      final GuildScrollIndicatorSeverity? severity = _resolveSeverity(ids[i]);
       if (severity == null) {
-        order++;
         continue;
       }
-      final RenderBox? itemBox = _laidOutBox(entry.value.currentContext);
-      if (itemBox == null) {
-        order++;
-        continue;
-      }
-      final double itemTop = itemBox.localToGlobal(Offset.zero).dy;
-      final double itemBottom = itemTop + itemBox.size.height;
-      if (itemBottom <=
-          scrollableTop + kGuildScrollIndicatorVisibilityEpsilon) {
-        final GuildScrollIndicatorCandidate candidate = (
-          id: entry.key,
-          severity: severity,
-          distance: (scrollableTop - itemBottom).clamp(0, double.infinity),
-          order: order,
-        );
+      final GuildScrollIndicatorCandidate candidate = (
+        id: ids[i],
+        severity: severity,
+        distance: distance.clamp(0, double.infinity),
+        order: i,
+      );
+      if (above) {
         if (_isBetterCandidate(candidate, topCandidate)) {
           topCandidate = candidate;
         }
-      } else if (itemTop >=
-          scrollableBottom - kGuildScrollIndicatorVisibilityEpsilon) {
-        final GuildScrollIndicatorCandidate candidate = (
-          id: entry.key,
-          severity: severity,
-          distance: (itemTop - scrollableBottom).clamp(0, double.infinity),
-          order: order,
-        );
-        if (_isBetterCandidate(candidate, bottomCandidate)) {
-          bottomCandidate = candidate;
-        }
+      } else if (_isBetterCandidate(candidate, bottomCandidate)) {
+        bottomCandidate = candidate;
       }
-      order++;
     }
     GuildScrollIndicatorSelection? selection = selectGuildScrollIndicator(
       topCandidate: topCandidate,
@@ -155,21 +212,40 @@ class GuildScrollIndicatorController {
           ? (edge: GuildScrollIndicatorEdge.bottom, candidate: bottomCandidate)
           : null;
     }
-    topIndicator.value = _hiddenGuildScrollIndicatorState;
-    bottomIndicator.value = _hiddenGuildScrollIndicatorState;
-    if (selection != null) {
-      final GuildScrollIndicatorState state = (
+    final bool animate = _settled;
+    GuildScrollIndicatorState stateFor(GuildScrollIndicatorEdge edge) {
+      if (selection == null || selection.edge != edge) {
+        return (
+          show: false,
+          severity: GuildScrollIndicatorSeverity.unread,
+          targetId: null,
+          animate: animate,
+        );
+      }
+      return (
         show: true,
         severity: selection.candidate.severity,
         targetId: selection.candidate.id,
+        animate: animate,
       );
-      if (selection.edge == GuildScrollIndicatorEdge.top) {
-        topIndicator.value = state;
-      } else {
-        bottomIndicator.value = state;
-      }
+    }
+
+    _assign(topIndicator, stateFor(GuildScrollIndicatorEdge.top));
+    _assign(bottomIndicator, stateFor(GuildScrollIndicatorEdge.bottom));
+    if (selection != null) {
       _lastEdge = selection.edge;
     }
+    _settled = true;
+  }
+
+  static void _assign(
+    ValueNotifier<GuildScrollIndicatorState> notifier,
+    GuildScrollIndicatorState next,
+  ) {
+    if (_sameIndicator(notifier.value, next)) {
+      return;
+    }
+    notifier.value = next;
   }
 
   void scrollTo(String? itemId) {
@@ -304,11 +380,11 @@ class _GuildScrollIndicatorPill extends StatelessWidget {
           ignoring: !state.show,
           child: AnimatedSlide(
             offset: Offset(0, state.show ? 0 : (slideUp ? -1 : 1)),
-            duration: context.motion.normal,
+            duration: state.animate ? context.motion.normal : Duration.zero,
             curve: Curves.easeOut,
             child: AnimatedOpacity(
               opacity: state.show ? 1.0 : 0.0,
-              duration: context.motion.normal,
+              duration: state.animate ? context.motion.normal : Duration.zero,
               child: GuildScrollIndicator(
                 severity: state.severity,
                 label: label,
