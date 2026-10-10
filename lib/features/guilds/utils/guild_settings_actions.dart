@@ -261,9 +261,7 @@ Future<void> updateGuildNotificationSetting({
 
     if (muted != null) {
       data['muted'] = muted;
-      if (!muted) {
-        data.remove('mute_config');
-      }
+      data.remove('mute_config');
     }
     if (messageNotifications != null) {
       data['message_notifications'] = messageNotifications.json;
@@ -306,6 +304,9 @@ Future<void> updateGuildNotificationSetting({
           guildId: guildId,
           body: UserGuildSettingsUpdateRequest(
             muted: pending.muted,
+            muteConfig: pending.muted == null
+                ? const JsonNullable.undefined()
+                : const JsonNullable.of(null),
             messageNotifications: pending.messageNotifications == null
                 ? null
                 : UserNotificationSettingsInput.fromJson(
@@ -358,12 +359,18 @@ Future<void> updateGuildUserSettings(
     case GuildAction.unmute:
       currentData['muted'] = false;
       currentData.remove('mute_config');
-      request = UserGuildSettingsUpdateRequest(muted: false);
+      request = UserGuildSettingsUpdateRequest(
+        muted: false,
+        muteConfig: const JsonNullable.of(null),
+      );
 
     case GuildAction.muteForever:
       currentData['muted'] = true;
       currentData.remove('mute_config');
-      request = UserGuildSettingsUpdateRequest(muted: true);
+      request = UserGuildSettingsUpdateRequest(
+        muted: true,
+        muteConfig: const JsonNullable.of(null),
+      );
 
     case GuildAction.mute15Min:
     case GuildAction.mute30Min:
@@ -473,7 +480,10 @@ Future<void> muteGuildForDuration({
   if (durationMs == null) {
     currentData['muted'] = true;
     currentData.remove('mute_config');
-    request = UserGuildSettingsUpdateRequest(muted: true);
+    request = UserGuildSettingsUpdateRequest(
+      muted: true,
+      muteConfig: const JsonNullable.of(null),
+    );
   } else {
     final endTime = DateTime.now().add(Duration(milliseconds: durationMs));
     final endTimeIso = endTime.toUtc().toIso8601String();
@@ -527,7 +537,10 @@ Future<void> unmuteGuild({
   unawaited(
     client.users.updateGuildSettingsForUser(
       guildId: guildId,
-      body: UserGuildSettingsUpdateRequest(muted: false),
+      body: UserGuildSettingsUpdateRequest(
+        muted: false,
+        muteConfig: const JsonNullable.of(null),
+      ),
     ),
   );
 }
