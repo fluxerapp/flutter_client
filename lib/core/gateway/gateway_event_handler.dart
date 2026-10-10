@@ -1174,6 +1174,16 @@ class GatewayEventHandler {
       await database.dmChannelDao.upsertDmChannels([
         buildPersonalNotesDmCompanion(userId: event.user.id),
       ]);
+      if (isSameUserReconnect) {
+        final List<String> closedDmIds = await database.dmChannelDao
+            .deleteDmChannelsNotIn(<String>{
+              event.user.id,
+              for (final ChannelResponse ch in event.privateChannels) ch.id,
+            });
+        await database.messageDao.deleteMessagesForChannels(closedDmIds);
+        await database.readStateDao.deleteReadStatesForChannels(closedDmIds);
+        prunedChannelIds.addAll(closedDmIds);
+      }
 
       if (event.relationships.isNotEmpty) {
         final relUsers = <db.UsersCompanion>[];

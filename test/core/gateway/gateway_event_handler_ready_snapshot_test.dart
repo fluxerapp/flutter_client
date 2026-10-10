@@ -12,6 +12,7 @@ void main() {
     GatewayEventHandler handler, {
     required String sessionId,
     List<Map<String, dynamic>> rawGuilds = const <Map<String, dynamic>>[],
+    List<ChannelResponse> privateChannels = const <ChannelResponse>[],
     List<Map<String, dynamic>> presences = const <Map<String, dynamic>>[],
     List<Map<String, dynamic>>? users,
     Map<String, String>? notes,
@@ -22,7 +23,7 @@ void main() {
         user: _user(),
         guilds: const [],
         rawGuilds: rawGuilds,
-        privateChannels: const [],
+        privateChannels: privateChannels,
         relationships: const [],
         readStates: const [],
         presences: presences,
@@ -256,6 +257,52 @@ void main() {
 
       expect(await database.userNotesDao.getNote('u1'), isNull);
     });
+
+    test('DMs missing from READY private_channels are removed', () async {
+      final FluxerDatabase database = openTestDatabase();
+      final List<String> deletedChannelIds = <String>[];
+      final GatewayEventHandler handler = GatewayEventHandler(
+        database: database,
+        onChannelDelete: deletedChannelIds.add,
+      );
+      await sendReady(
+        handler,
+        sessionId: 'session-1',
+        privateChannels: <ChannelResponse>[
+          _dmChannel('dm-kept', recipientId: 'u1'),
+          _dmChannel('dm-closed', recipientId: 'u2'),
+        ],
+      );
+      await database.readStateDao.upsertReadStates(<ReadStatesCompanion>[
+        ReadStatesCompanion.insert(channelId: 'dm-closed'),
+      ]);
+
+      await sendReady(
+        handler,
+        sessionId: 'session-2',
+        privateChannels: <ChannelResponse>[
+          _dmChannel('dm-kept', recipientId: 'u1'),
+        ],
+      );
+
+      expect(
+        (await database.dmChannelDao.getDmChannels())
+            .map((DmChannel channel) => channel.id)
+            .toSet(),
+        <String>{'dm-kept', '100'},
+      );
+      expect(await database.readStateDao.getReadState('dm-closed'), isNull);
+      expect(deletedChannelIds, <String>['dm-closed']);
+
+      await sendReady(handler, sessionId: 'session-3');
+
+      expect(
+        (await database.dmChannelDao.getDmChannels())
+            .map((DmChannel channel) => channel.id)
+            .toSet(),
+        <String>{'100'},
+      );
+    });
   });
 }
 
@@ -280,6 +327,14 @@ Map<String, dynamic> _presence(
   'afk': false,
   'custom_status': <String, dynamic>{'text': 'busy'},
 };
+
+ChannelResponse _dmChannel(String id, {required String recipientId}) =>
+    ChannelResponse.fromJson(<String, Object?>{
+      'id': id,
+      'type': 1,
+      'last_message_id': null,
+      'recipients': <Map<String, dynamic>>[_userPartial(recipientId)],
+    });
 
 Map<String, dynamic> _guild({
   required List<String> channelIds,
