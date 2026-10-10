@@ -904,15 +904,18 @@ void main() {
           mentionCount: const Value(1),
         ),
       );
+      final repository = ReadStateRepository(FluxerClient(dio), db);
+      final int deletedMentionCount = await repository.countMentionsAmong(
+        channelId: 'channel-1',
+        messageIds: [mentionId],
+        currentUserId: 'me',
+      );
       await db.messageDao.deleteMessages([mentionId]);
 
-      await ReadStateRepository(
-        FluxerClient(dio),
-        db,
-      ).reconcileAfterMessageDelete(
+      await repository.reconcileAfterMessageDelete(
         channelId: 'channel-1',
         deletedMessageIds: [mentionId],
-        currentUserId: 'me',
+        deletedMentionCount: deletedMentionCount,
       );
 
       final channel = await db.channelDao.getChannelById('channel-1');

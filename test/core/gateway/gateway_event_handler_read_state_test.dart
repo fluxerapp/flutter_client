@@ -970,6 +970,126 @@ void main() {
     },
   );
 
+  test(
+    'a tail delete leaves a channel alone when its mentions are not cached',
+    () async {
+      final db = openTestDatabase();
+      final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
+      final liveId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          lastMessageId: Value(liveId),
+        ),
+      );
+      await db.messageDao.upsertMessages([
+        _cachedMessage(id: ackId, channelId: 'channel-1', authorId: 'other'),
+        _cachedMessage(id: liveId, channelId: 'channel-1', authorId: 'other'),
+      ]);
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('channel-1'),
+          lastMessageId: Value(ackId),
+          mentionCount: const Value(2),
+        ),
+      );
+      final handler = _handlerWithReadState(db);
+
+      await handler.handle(
+        MessageDeleteEvent(channelId: 'channel-1', messageId: liveId),
+      );
+      await pumpEventQueue();
+
+      final readState = await db.readStateDao.getReadState('channel-1');
+      final channel = await db.channelDao.getChannelById('channel-1');
+      expect(readState?.mentionCount, 2);
+      expect(readState?.lastMessageId, ackId);
+      expect(channel?.lastMessageId, liveId);
+    },
+  );
+
+  test(
+    'deleting an older message keeps mentions that are not cached',
+    () async {
+      final db = openTestDatabase();
+      final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
+      final cachedId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+      final pointerId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          lastMessageId: Value(pointerId),
+        ),
+      );
+      await db.messageDao.upsertMessages([
+        _cachedMessage(id: ackId, channelId: 'channel-1', authorId: 'other'),
+        _cachedMessage(id: cachedId, channelId: 'channel-1', authorId: 'other'),
+      ]);
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('channel-1'),
+          lastMessageId: Value(ackId),
+          mentionCount: const Value(3),
+        ),
+      );
+      final handler = _handlerWithReadState(db);
+
+      await handler.handle(
+        MessageDeleteEvent(channelId: 'channel-1', messageId: cachedId),
+      );
+      await pumpEventQueue();
+
+      final readState = await db.readStateDao.getReadState('channel-1');
+      expect(readState?.mentionCount, 3);
+    },
+  );
+
+  test('a bulk delete drops only the cached mentions it removed', () async {
+    final db = openTestDatabase();
+    final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
+    final mentionId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+    final plainId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11, 30));
+    final pointerId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: 'channel-1',
+        guildId: 'guild-1',
+        name: 'general',
+        lastMessageId: Value(pointerId),
+      ),
+    );
+    await db.messageDao.upsertMessages([
+      _cachedMessage(id: ackId, channelId: 'channel-1', authorId: 'other'),
+      _cachedMessage(
+        id: mentionId,
+        channelId: 'channel-1',
+        authorId: 'other',
+        isMentioned: true,
+      ),
+      _cachedMessage(id: plainId, channelId: 'channel-1', authorId: 'other'),
+    ]);
+    await db.readStateDao.upsertReadState(
+      ReadStatesCompanion(
+        channelId: const Value('channel-1'),
+        lastMessageId: Value(ackId),
+        mentionCount: const Value(3),
+      ),
+    );
+    final handler = _handlerWithReadState(db);
+
+    await handler.handle(
+      MessageDeleteBulkEvent(channelId: 'channel-1', ids: [mentionId, plainId]),
+    );
+    await pumpEventQueue();
+
+    final readState = await db.readStateDao.getReadState('channel-1');
+    expect(readState?.mentionCount, 2);
+  });
+
   test('bulk message delete walks tail back and drops mention count', () async {
     final db = openTestDatabase();
     final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
