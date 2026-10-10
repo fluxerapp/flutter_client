@@ -55,7 +55,7 @@ void main() {
     expect(limits.stickerMaxSizeBytes, 512 * 1024);
   });
 
-  test('guild limits fall back to defaults when overrides are lower', () {
+  test('guild limits follow well-known overrides below defaults', () {
     final GuildExpressionLimits limits = resolveGuildExpressionLimits(
       guild: baseGuild,
       limits: buildLimits(
@@ -65,8 +65,8 @@ void main() {
         },
       ),
     );
-    expect(limits.maxEmojis, 500);
-    expect(limits.maxStickers, 50);
+    expect(limits.maxEmojis, 120);
+    expect(limits.maxStickers, 45);
   });
 
   test('formatExpressionSlotCount handles unlimited slots', () {

@@ -121,6 +121,10 @@ void _applyRuleToResolvedLimits(
     )) {
       continue;
     }
+    if (!hasTraitFilters && !hasGuildFilters) {
+      resolved[key] = value;
+      continue;
+    }
     final int currentValue = resolved[key] ?? 0;
     if (value > currentValue) {
       resolved[key] = value;

@@ -13,7 +13,7 @@ const int kAvatarMaxSizeBytes = 10 * 1024 * 1024;
 const int kEmojiMaxSizeBytes = 512 * 1024;
 const int kStickerMaxSizeBytes = 512 * 1024;
 const int kMaxGuildEmojisDefault = 500;
-const int kMaxGuildStickersDefault = 50;
+const int kMaxGuildStickersDefault = 500;
 
 const Map<String, int> kDefaultFreeLimits = <String, int>{
   LimitKeys.avatarMaxSize: kAvatarMaxSizeBytes,
@@ -24,6 +24,7 @@ const Map<String, int> kDefaultFreeLimits = <String, int>{
   LimitKeys.featureCustomNotificationSounds: 1,
   LimitKeys.featureEarlyAccess: 0,
   LimitKeys.featureGlobalExpressions: 0,
+  LimitKeys.featureGuildCreate: 0,
   LimitKeys.featureHigherVideoQuality: 0,
   LimitKeys.featurePerGuildProfiles: 0,
   LimitKeys.featureVoiceEntranceSounds: 0,
@@ -32,28 +33,25 @@ const Map<String, int> kDefaultFreeLimits = <String, int>{
   LimitKeys.maxBioLength: 320,
   LimitKeys.maxBookmarks: kMaxBookmarksNonPremium,
   LimitKeys.maxChannelsPerCategory: 50,
-  LimitKeys.maxCreatedPacks: 0,
   LimitKeys.maxCustomBackgrounds: 1,
   LimitKeys.maxEmbedsPerMessage: 10,
   LimitKeys.maxFavoriteMemeTags: 10,
   LimitKeys.maxFavoriteMemes: kMaxFavoriteMemesNonPremium,
-  LimitKeys.maxGroupDmRecipients: 49,
+  LimitKeys.maxGroupDmRecipients: 50,
   LimitKeys.maxGroupDmsPerUser: 150,
   LimitKeys.maxGuildChannels: 500,
   LimitKeys.maxGuildEmojis: kMaxGuildEmojisDefault,
-  LimitKeys.maxGuildEmojisAnimatedMore: 250,
-  LimitKeys.maxGuildEmojisAnimated: 50,
-  LimitKeys.maxGuildEmojisStaticMore: 250,
-  LimitKeys.maxGuildEmojisStatic: 50,
+  LimitKeys.maxGuildEmojisAnimatedMore: 500,
+  LimitKeys.maxGuildEmojisAnimated: 500,
+  LimitKeys.maxGuildEmojisStaticMore: 500,
+  LimitKeys.maxGuildEmojisStatic: 500,
   LimitKeys.maxGuildInvites: 1000,
   LimitKeys.maxGuildMembers: 1000000,
   LimitKeys.maxGuildRoles: 250,
-  LimitKeys.maxGuildStickersMore: 250,
+  LimitKeys.maxGuildStickersMore: 500,
   LimitKeys.maxGuildStickers: kMaxGuildStickersDefault,
   LimitKeys.maxGuilds: kMaxGuildsNonPremium,
-  LimitKeys.maxInstalledPacks: 0,
   LimitKeys.maxMessageLength: kMaxMessageLengthNonPremium,
-  LimitKeys.maxPackExpressions: 200,
   LimitKeys.maxPrivateChannelsPerUser: 250,
   LimitKeys.maxReactionsPerMessage: 30,
   LimitKeys.maxRelationships: 1000,

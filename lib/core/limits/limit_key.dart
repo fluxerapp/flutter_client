@@ -9,6 +9,7 @@ abstract final class LimitKeys {
       'feature_custom_notification_sounds';
   static const String featureEarlyAccess = 'feature_early_access';
   static const String featureGlobalExpressions = 'feature_global_expressions';
+  static const String featureGuildCreate = 'feature_guild_create';
   static const String featureHigherVideoQuality =
       'feature_higher_video_quality';
   static const String featurePerGuildProfiles = 'feature_per_guild_profiles';
@@ -19,7 +20,6 @@ abstract final class LimitKeys {
   static const String maxBioLength = 'max_bio_length';
   static const String maxBookmarks = 'max_bookmarks';
   static const String maxChannelsPerCategory = 'max_channels_per_category';
-  static const String maxCreatedPacks = 'max_created_packs';
   static const String maxCustomBackgrounds = 'max_custom_backgrounds';
   static const String maxEmbedsPerMessage = 'max_embeds_per_message';
   static const String maxFavoriteMemeTags = 'max_favorite_meme_tags';
@@ -39,9 +39,7 @@ abstract final class LimitKeys {
   static const String maxGuildStickersMore = 'max_guild_stickers_more';
   static const String maxGuildStickers = 'max_guild_stickers';
   static const String maxGuilds = 'max_guilds';
-  static const String maxInstalledPacks = 'max_installed_packs';
   static const String maxMessageLength = 'max_message_length';
-  static const String maxPackExpressions = 'max_pack_expressions';
   static const String maxPrivateChannelsPerUser =
       'max_private_channels_per_user';
   static const String maxReactionsPerMessage = 'max_reactions_per_message';
@@ -65,6 +63,7 @@ const Map<String, LimitScope> kLimitKeyScopes = <String, LimitScope>{
   LimitKeys.featureCustomNotificationSounds: LimitScope.user,
   LimitKeys.featureEarlyAccess: LimitScope.user,
   LimitKeys.featureGlobalExpressions: LimitScope.user,
+  LimitKeys.featureGuildCreate: LimitScope.user,
   LimitKeys.featureHigherVideoQuality: LimitScope.user,
   LimitKeys.featurePerGuildProfiles: LimitScope.user,
   LimitKeys.featureVoiceEntranceSounds: LimitScope.user,
@@ -72,7 +71,6 @@ const Map<String, LimitScope> kLimitKeyScopes = <String, LimitScope>{
   LimitKeys.maxBioLength: LimitScope.user,
   LimitKeys.maxBookmarks: LimitScope.user,
   LimitKeys.maxChannelsPerCategory: LimitScope.guild,
-  LimitKeys.maxCreatedPacks: LimitScope.user,
   LimitKeys.maxCustomBackgrounds: LimitScope.user,
   LimitKeys.maxEmbedsPerMessage: LimitScope.both,
   LimitKeys.maxFavoriteMemeTags: LimitScope.user,
@@ -91,10 +89,8 @@ const Map<String, LimitScope> kLimitKeyScopes = <String, LimitScope>{
   LimitKeys.maxGuildStickersMore: LimitScope.guild,
   LimitKeys.maxGuildStickers: LimitScope.guild,
   LimitKeys.maxGuilds: LimitScope.user,
-  LimitKeys.maxInstalledPacks: LimitScope.user,
   LimitKeys.maxAttachmentFileSize: LimitScope.both,
   LimitKeys.maxMessageLength: LimitScope.both,
-  LimitKeys.maxPackExpressions: LimitScope.guild,
   LimitKeys.maxPrivateChannelsPerUser: LimitScope.user,
   LimitKeys.maxReactionsPerMessage: LimitScope.guild,
   LimitKeys.maxRelationships: LimitScope.user,
@@ -114,6 +110,7 @@ const List<String> kAllLimitKeys = <String>[
   LimitKeys.featureCustomNotificationSounds,
   LimitKeys.featureEarlyAccess,
   LimitKeys.featureGlobalExpressions,
+  LimitKeys.featureGuildCreate,
   LimitKeys.featureHigherVideoQuality,
   LimitKeys.featurePerGuildProfiles,
   LimitKeys.featureVoiceEntranceSounds,
@@ -122,7 +119,6 @@ const List<String> kAllLimitKeys = <String>[
   LimitKeys.maxBioLength,
   LimitKeys.maxBookmarks,
   LimitKeys.maxChannelsPerCategory,
-  LimitKeys.maxCreatedPacks,
   LimitKeys.maxCustomBackgrounds,
   LimitKeys.maxEmbedsPerMessage,
   LimitKeys.maxFavoriteMemeTags,
@@ -141,9 +137,7 @@ const List<String> kAllLimitKeys = <String>[
   LimitKeys.maxGuildStickersMore,
   LimitKeys.maxGuildStickers,
   LimitKeys.maxGuilds,
-  LimitKeys.maxInstalledPacks,
   LimitKeys.maxMessageLength,
-  LimitKeys.maxPackExpressions,
   LimitKeys.maxPrivateChannelsPerUser,
   LimitKeys.maxReactionsPerMessage,
   LimitKeys.maxRelationships,
