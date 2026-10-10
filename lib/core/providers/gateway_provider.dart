@@ -366,9 +366,12 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
         MessageCreated(event: dispatch.event, snapshot: dispatch.snapshot),
       );
     }),
-    onMessageUpdate: (event) => ifMounted(() {
-      messageBus.emit(MessageUpdated(event));
-    }),
+    onMessageUpdate: (event, {required bool mentionsCurrentUser}) =>
+        ifMounted(() {
+          messageBus.emit(
+            MessageUpdated(event, mentionsCurrentUser: mentionsCurrentUser),
+          );
+        }),
     onMessageDelete: (event) => ifMounted(() {
       messageBus.emit(MessageDeleted(event));
     }),

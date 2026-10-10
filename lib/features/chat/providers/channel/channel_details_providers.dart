@@ -88,7 +88,7 @@ class ChannelPins extends _$ChannelPins {
       return;
     }
     switch (event) {
-      case MessageUpdated(:final event):
+      case MessageUpdated(:final event, :final mentionsCurrentUser):
         if (event.message.channelId != channelId) {
           return;
         }
@@ -101,7 +101,7 @@ class ChannelPins extends _$ChannelPins {
         }
         final Message merged = current.items[idx].message.applyGatewayUpdate(
           event.message,
-          currentUserId: ref.read(currentUserIdProvider),
+          isMentioned: mentionsCurrentUser,
         );
         final List<PinnedMessageEntry> items = List<PinnedMessageEntry>.from(
           current.items,

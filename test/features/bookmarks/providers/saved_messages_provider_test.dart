@@ -244,6 +244,7 @@ void main() {
                 content: 'edited on desktop',
               ),
             ),
+            mentionsCurrentUser: false,
           ),
         );
     await Future<void>.delayed(Duration.zero);

@@ -35,6 +35,37 @@ Message _message({
   );
 }
 
+MessageResponseSchema _broadcastUpdate({
+  String content = 'body',
+  bool mentionEveryone = false,
+}) {
+  return MessageResponseSchema.fromJson(<String, Object?>{
+    'id': '0001',
+    'channel_id': 'channel-1',
+    'author': <String, Object?>{
+      'id': 'author-1',
+      'username': 'Author',
+      'discriminator': '0001',
+      'global_name': null,
+      'avatar': null,
+      'avatar_color': null,
+      'flags': 0,
+    },
+    'type': 0,
+    'flags': 0,
+    'content': content,
+    'timestamp': DateTime.utc(2026).toIso8601String(),
+    'pinned': false,
+    'mention_everyone': mentionEveryone,
+    'tts': false,
+    'mentions': <Object?>[],
+    'mention_roles': <Object?>[],
+    'embeds': <Object?>[],
+    'attachments': <Object?>[],
+    'stickers': <Object?>[],
+  });
+}
+
 db.Message _emptyRow() {
   return db.Message(
     id: '0001',
@@ -485,28 +516,8 @@ void main() {
         translation: translation,
       );
       final Message updated = existing.applyGatewayUpdate(
-        MessageResponseSchema(
-          id: '0001',
-          channelId: 'channel-1',
-          author: const UserPartialResponse(
-            id: 'author-1',
-            username: 'Author',
-            discriminator: '0001',
-            globalName: null,
-            avatar: null,
-            avatarColor: null,
-            flags: 0,
-          ),
-          type: MessageType.valueDefault,
-          flags: 0,
-          content: 'Hallo Welt!',
-          timestamp: DateTime.utc(2026),
-          pinned: false,
-          mentionEveryone: false,
-          tts: false,
-          mentions: const [],
-          mentionRoles: const [],
-        ),
+        _broadcastUpdate(content: 'Hallo Welt!'),
+        isMentioned: false,
       );
       expect(updated.content, 'Hallo Welt!');
       expect(updated.translation, isNull);
@@ -518,31 +529,80 @@ void main() {
         translation: translation,
       );
       final Message updated = existing.applyGatewayUpdate(
-        MessageResponseSchema(
-          id: '0001',
-          channelId: 'channel-1',
-          author: const UserPartialResponse(
-            id: 'author-1',
-            username: 'Author',
-            discriminator: '0001',
-            globalName: null,
-            avatar: null,
-            avatarColor: null,
-            flags: 0,
-          ),
-          type: MessageType.valueDefault,
-          flags: 0,
-          content: 'Hallo Welt',
-          timestamp: DateTime.utc(2026),
-          pinned: false,
-          mentionEveryone: false,
-          tts: false,
-          mentions: const [],
-          mentionRoles: const [],
-        ),
+        _broadcastUpdate(content: 'Hallo Welt'),
+        isMentioned: false,
       );
       expect(updated.translation, isNotNull);
       expect(updated.translation!.translatedContent, 'Hello world');
+    });
+  });
+
+  group('Message.applyGatewayUpdate', () {
+    test('empty arrays remove embeds, attachments and stickers', () {
+      final Message existing =
+          _message(
+            embeds: [const Embed(type: EmbedType.image, url: 'https://x/y')],
+            attachments: [_attachmentA],
+          ).copyWith(
+            stickers: [
+              const MessageSticker(id: 's1', name: 'wave', animated: false),
+            ],
+          );
+      final Message updated = existing.applyGatewayUpdate(
+        _broadcastUpdate(),
+        isMentioned: false,
+      );
+      expect(updated.embeds, isEmpty);
+      expect(updated.attachments, isEmpty);
+      expect(updated.stickers, isEmpty);
+    });
+
+    test('absent optional keys clear snapshots, channels and users', () {
+      final Message existing = _message().copyWith(
+        messageSnapshots: [MessageSnapshot(timestamp: DateTime.utc(2026))],
+        mentionChannels: [
+          const MessageChannelMention(id: 'c2', name: 'general', type: 0),
+        ],
+        supplementalUserIds: ['u2'],
+      );
+      final Message updated = existing.applyGatewayUpdate(
+        _broadcastUpdate(),
+        isMentioned: false,
+      );
+      expect(updated.messageSnapshots, isEmpty);
+      expect(updated.mentionChannels, isEmpty);
+      expect(updated.supplementalUserIds, isEmpty);
+    });
+
+    test('uses the resolved mention state, not the raw payload', () {
+      final Message roleMentioned = _message().copyWith(isMentioned: true);
+      expect(
+        roleMentioned
+            .applyGatewayUpdate(_broadcastUpdate(), isMentioned: true)
+            .isMentioned,
+        isTrue,
+      );
+      expect(
+        _message()
+            .applyGatewayUpdate(
+              _broadcastUpdate(mentionEveryone: true),
+              isMentioned: false,
+            )
+            .isMentioned,
+        isFalse,
+      );
+    });
+
+    test('keeps reactions because broadcasts never include them', () {
+      final Message existing = _message(
+        reactions: [const Reaction(emoji: '👍', count: 2)],
+      );
+      final Message updated = existing.applyGatewayUpdate(
+        _broadcastUpdate(),
+        isMentioned: false,
+      );
+      expect(updated.reactions, hasLength(1));
+      expect(updated.reactions.single.count, 2);
     });
   });
 

@@ -106,7 +106,10 @@ class SavedMessagesNotifier extends Notifier<SavedMessagesState> {
     state = state.copyWith(messages: messages, missing: missing);
   }
 
-  void handleMessageUpdate(MessageResponseSchema schema) {
+  void handleMessageUpdate(
+    MessageResponseSchema schema, {
+    required bool isMentioned,
+  }) {
     final int index = state.messages.indexWhere(
       (Message message) => message.id == schema.id,
     );
@@ -116,7 +119,7 @@ class SavedMessagesNotifier extends Notifier<SavedMessagesState> {
     final List<Message> messages = List<Message>.from(state.messages);
     messages[index] = messages[index].applyGatewayUpdate(
       schema,
-      currentUserId: ref.read(currentUserIdProvider),
+      isMentioned: isMentioned,
     );
     state = state.copyWith(messages: messages);
   }
@@ -195,8 +198,8 @@ class SavedMessagesNotifier extends Notifier<SavedMessagesState> {
 
   void _onRealtimeEvent(MessageRealtimeEvent event) {
     switch (event) {
-      case MessageUpdated(event: final update):
-        handleMessageUpdate(update.message);
+      case MessageUpdated(event: final update, :final mentionsCurrentUser):
+        handleMessageUpdate(update.message, isMentioned: mentionsCurrentUser);
       case MessageDeleted(event: final deleted):
         handleMessageDelete(deleted.messageId);
       case MessagesDeletedBulk(event: final deleted):

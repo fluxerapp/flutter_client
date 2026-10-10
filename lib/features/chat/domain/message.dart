@@ -1586,9 +1586,9 @@ class Message {
   /// Merges a gateway `MESSAGE_UPDATE` payload into this message.
   Message applyGatewayUpdate(
     MessageResponseSchema sdk, {
-    String? currentUserId,
+    required bool isMentioned,
   }) {
-    final Message incoming = Message.fromSdk(sdk, currentUserId: currentUserId);
+    final Message incoming = Message.fromSdk(sdk);
     final bool contentChanged = incoming.content != content;
     return copyWith(
       authorId: incoming.authorId,
@@ -1601,28 +1601,19 @@ class Message {
       webhookId: incoming.webhookId,
       content: incoming.content,
       editedTimestamp: incoming.editedTimestamp ?? editedTimestamp,
-      embeds: incoming.embeds.isNotEmpty ? incoming.embeds : embeds,
-      attachments: incoming.attachments.isNotEmpty
-          ? incoming.attachments
-          : attachments,
-      stickers: incoming.stickers.isNotEmpty ? incoming.stickers : stickers,
-      reactions: incoming.reactions.isNotEmpty ? incoming.reactions : reactions,
+      embeds: incoming.embeds,
+      attachments: incoming.attachments,
+      stickers: incoming.stickers,
       replyToId: incoming.replyToId ?? replyToId,
       messageReference: incoming.messageReference ?? messageReference,
-      messageSnapshots: incoming.messageSnapshots.isNotEmpty
-          ? incoming.messageSnapshots
-          : messageSnapshots,
+      messageSnapshots: incoming.messageSnapshots,
       isPinned: incoming.isPinned,
-      isMentioned: incoming.isMentioned,
+      isMentioned: isMentioned,
       mentionEveryone: incoming.mentionEveryone,
       mentionedUserIds: incoming.mentionedUserIds,
       mentionRoles: incoming.mentionRoles,
-      supplementalUserIds: incoming.supplementalUserIds.isNotEmpty
-          ? incoming.supplementalUserIds
-          : supplementalUserIds,
-      mentionChannels: incoming.mentionChannels.isNotEmpty
-          ? incoming.mentionChannels
-          : mentionChannels,
+      supplementalUserIds: incoming.supplementalUserIds,
+      mentionChannels: incoming.mentionChannels,
       type: incoming.type,
       flags: incoming.flags,
       call: incoming.call ?? call,

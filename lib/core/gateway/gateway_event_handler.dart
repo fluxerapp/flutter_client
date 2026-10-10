@@ -61,7 +61,11 @@ typedef InviteDeleteCallback = void Function(String code);
 typedef ReadyCallback = void Function();
 typedef GuildCallback = void Function(String guildId);
 typedef MessageCreateCallback = void Function(MessageCreateDispatch dispatch);
-typedef MessageUpdateCallback = void Function(MessageUpdateEvent event);
+typedef MessageUpdateCallback =
+    void Function(
+      MessageUpdateEvent event, {
+      required bool mentionsCurrentUser,
+    });
 typedef MessageDeleteCallback = void Function(MessageDeleteEvent event);
 typedef MessageDeleteBulkCallback = void Function(MessageDeleteBulkEvent event);
 typedef MessageReactionChangeCallback =
@@ -2157,7 +2161,12 @@ class GatewayEventHandler {
         msg.timestamp,
       );
     }
-    _emit(() => onMessageUpdate?.call(event));
+    _emit(
+      () => onMessageUpdate?.call(
+        event,
+        mentionsCurrentUser: mentionsCurrentUser,
+      ),
+    );
   }
 
   Future<void> _lowerThreadMessageCount({

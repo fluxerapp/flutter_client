@@ -1731,7 +1731,7 @@ class ChatViewModel extends _$ChatViewModel {
         }
         _contiguity.extendNewer(state.channelId, msg.id);
         return <Message>[...messages, msg];
-      case MessageUpdated(:final event):
+      case MessageUpdated(:final event, :final mentionsCurrentUser):
         if (event.message.channelId != state.channelId) {
           return null;
         }
@@ -1740,7 +1740,7 @@ class ChatViewModel extends _$ChatViewModel {
         if (idx != -1) {
           final Message merged = messages[idx].applyGatewayUpdate(
             event.message,
-            currentUserId: ref.read(currentUserIdProvider),
+            isMentioned: mentionsCurrentUser,
           );
           return _replaceById(messages, merged);
         }

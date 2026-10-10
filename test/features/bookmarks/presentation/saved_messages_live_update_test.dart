@@ -241,6 +241,7 @@ void main() {
                 editedTimestamp: DateTime.utc(2026, 1, 3),
               ),
             ),
+            mentionsCurrentUser: false,
           ),
         );
     await tester.pump();

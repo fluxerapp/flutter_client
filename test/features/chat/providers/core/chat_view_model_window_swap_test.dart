@@ -121,6 +121,7 @@ void _emitUpdatedMessage(
       .emit(
         MessageUpdated(
           MessageUpdateEvent(message: MessageResponseSchema.fromJson(json)),
+          mentionsCurrentUser: false,
         ),
       );
 }

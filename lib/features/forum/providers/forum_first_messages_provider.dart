@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
-import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
@@ -32,13 +31,13 @@ class ForumFirstMessages extends Notifier<Map<String, Message?>> {
 
   void _onRealtimeEvent(MessageRealtimeEvent event) {
     switch (event) {
-      case MessageUpdated(:final event):
+      case MessageUpdated(:final event, :final mentionsCurrentUser):
         final Message? current = state[event.message.id];
         if (current != null && event.message.id == event.message.channelId) {
           put(
             current.applyGatewayUpdate(
               event.message,
-              currentUserId: ref.read(currentUserIdProvider),
+              isMentioned: mentionsCurrentUser,
             ),
           );
         }

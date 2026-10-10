@@ -37,8 +37,9 @@ class MessageCreated extends MessageRealtimeEvent {
 
 class MessageUpdated extends MessageRealtimeEvent {
   final MessageUpdateEvent event;
+  final bool mentionsCurrentUser;
 
-  const MessageUpdated(this.event);
+  const MessageUpdated(this.event, {required this.mentionsCurrentUser});
 }
 
 class MessageDeleted extends MessageRealtimeEvent {

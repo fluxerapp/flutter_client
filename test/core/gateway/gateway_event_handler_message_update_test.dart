@@ -31,7 +31,7 @@ Map<String, Object?> _broadcastMessageJson({
   'type': 0,
   'flags': 0,
   'content': content,
-  'timestamp': DateTime.utc(2026, 10, 1).toIso8601String(),
+  'timestamp': DateTime.utc(2026, 10).toIso8601String(),
   'edited_timestamp': DateTime.utc(2026, 10, 2).toIso8601String(),
   'pinned': true,
   'mention_everyone': false,
@@ -59,7 +59,7 @@ void main() {
           channelId: 'c1',
           authorId: 'author-1',
           content: 'before',
-          timestamp: DateTime.utc(2026, 10, 1),
+          timestamp: DateTime.utc(2026, 10),
           reactionsJson: const Value(_storedReactions),
         ),
       );
