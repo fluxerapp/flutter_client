@@ -774,7 +774,41 @@ class VoiceSession extends _$VoiceSession {
     return resolvedChannelId;
   }
 
+  void _adoptServerVoiceMove(String channelId) {
+    talker.info(
+      '[Voice] VOICE_SERVER_UPDATE: server moved this connection '
+      '(from=${state.channelId}, to=$channelId).',
+    );
+    _connectGeneration++;
+    _voiceMovePreviousChannelId = state.channelId;
+    _expectedChannelId = channelId;
+    state = state.copyWith(
+      isConnecting: true,
+      isConnected: false,
+      clearError: true,
+      channelId: channelId,
+    );
+    prefetchVoiceParticipantsForChannel(
+      ref,
+      guildId: _expectedGuildId,
+      channelId: channelId,
+    );
+  }
+
   void handleVoiceServerUpdate(VoiceServerUpdateEvent event) {
+    final String? moveChannelId = event.channelId;
+    if (moveChannelId != null &&
+        event.token.isNotEmpty &&
+        event.endpoint.isNotEmpty &&
+        isServerInitiatedVoiceMove(
+          state: state,
+          expectedGuildId: _normalizeVoiceGuildId(_expectedGuildId),
+          expectedChannelId: _expectedChannelId,
+          incomingGuildId: _normalizeVoiceGuildId(event.guildId),
+          incomingChannelId: moveChannelId,
+        )) {
+      _adoptServerVoiceMove(moveChannelId);
+    }
     final String? resolvedChannelId = _acceptedVoiceServerChannelId(
       guildId: event.guildId,
       channelId: event.channelId,

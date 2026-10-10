@@ -1,6 +1,28 @@
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_channel_join_guard.dart';
 
+bool isServerInitiatedVoiceMove({
+  required VoiceSessionState state,
+  required String? expectedGuildId,
+  required String? expectedChannelId,
+  required String? incomingGuildId,
+  required String? incomingChannelId,
+}) {
+  if (expectedChannelId == null || incomingChannelId == null) {
+    return false;
+  }
+  if (incomingChannelId == expectedChannelId) {
+    return false;
+  }
+  if (expectedGuildId == null || incomingGuildId != expectedGuildId) {
+    return false;
+  }
+  if (!state.isConnected || state.isConnecting) {
+    return false;
+  }
+  return state.channelId == expectedChannelId;
+}
+
 /// LiveKit endpoint change while already connected on the same channel.
 bool isVoiceServerRegionChange({
   required VoiceSessionState state,

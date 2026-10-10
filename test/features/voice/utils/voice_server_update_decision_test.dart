@@ -11,6 +11,98 @@ void main() {
     activeConnectionId: 'conn-1',
   );
 
+  group('isServerInitiatedVoiceMove', () {
+    const VoiceSessionState connectedInGuild = VoiceSessionState(
+      isConnected: true,
+      guildId: 'guild-1',
+      channelId: channelId,
+      voiceServerEndpoint: 'wss://old.example',
+      activeConnectionId: 'conn-1',
+    );
+
+    test('accepts a moderator move to another channel of the same guild', () {
+      expect(
+        isServerInitiatedVoiceMove(
+          state: connectedInGuild,
+          expectedGuildId: 'guild-1',
+          expectedChannelId: channelId,
+          incomingGuildId: 'guild-1',
+          incomingChannelId: 'voice-2',
+        ),
+        isTrue,
+      );
+    });
+
+    test('is not a move when the update targets the current channel', () {
+      expect(
+        isServerInitiatedVoiceMove(
+          state: connectedInGuild,
+          expectedGuildId: 'guild-1',
+          expectedChannelId: channelId,
+          incomingGuildId: 'guild-1',
+          incomingChannelId: channelId,
+        ),
+        isFalse,
+      );
+    });
+
+    test('ignores another channel while a user join is still connecting', () {
+      expect(
+        isServerInitiatedVoiceMove(
+          state: const VoiceSessionState(
+            isConnecting: true,
+            guildId: 'guild-1',
+            channelId: channelId,
+          ),
+          expectedGuildId: 'guild-1',
+          expectedChannelId: channelId,
+          incomingGuildId: 'guild-1',
+          incomingChannelId: 'voice-2',
+        ),
+        isFalse,
+      );
+    });
+
+    test('ignores another channel when the guild differs', () {
+      expect(
+        isServerInitiatedVoiceMove(
+          state: connectedInGuild,
+          expectedGuildId: 'guild-1',
+          expectedChannelId: channelId,
+          incomingGuildId: 'guild-2',
+          incomingChannelId: 'voice-2',
+        ),
+        isFalse,
+      );
+    });
+
+    test('ignores another channel when not in voice', () {
+      expect(
+        isServerInitiatedVoiceMove(
+          state: const VoiceSessionState(),
+          expectedGuildId: null,
+          expectedChannelId: null,
+          incomingGuildId: 'guild-1',
+          incomingChannelId: 'voice-2',
+        ),
+        isFalse,
+      );
+    });
+
+    test('ignores another channel during a direct call', () {
+      expect(
+        isServerInitiatedVoiceMove(
+          state: liveConnected,
+          expectedGuildId: null,
+          expectedChannelId: channelId,
+          incomingGuildId: null,
+          incomingChannelId: 'voice-2',
+        ),
+        isFalse,
+      );
+    });
+  });
+
   group('isVoiceServerRegionChange', () {
     test('detects endpoint change on a live plaintext session', () {
       expect(
