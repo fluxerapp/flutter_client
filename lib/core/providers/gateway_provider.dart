@@ -50,7 +50,6 @@ import 'package:fluxer_app/features/settings/providers/connections_view_model.da
 import 'package:fluxer_app/features/settings/providers/guild/known_guild_bans_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/webhook_live_refresh_provider.dart';
 import 'package:fluxer_app/features/settings/providers/premium_settings_state_provider.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/webauthn_credentials_view_model.dart';
 import 'package:fluxer_app/features/shell/providers/current_user_private_provider.dart';
 import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
@@ -530,9 +529,6 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     onEntranceSoundPlay: (event) => ifMounted(() {
       ref.read(voiceSessionProvider.notifier).handleEntranceSoundPlay(event);
     }),
-    resolveDefaultHideMutedChannels: () =>
-        ref.mounted &&
-        ref.read(userSettingsViewModelProvider).defaultHideMutedChannels,
     threadsGate: ref.read(threadsGateProvider),
     resolveParentThreadActor: (String guildId, String parentId) => ref.mounted
         // One-off snapshot; read does not retain the autoDispose family.

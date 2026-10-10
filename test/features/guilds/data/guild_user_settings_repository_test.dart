@@ -10,6 +10,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/channels/providers/guild_collapsed_categories_provider.dart';
 import 'package:fluxer_app/features/guilds/data/guild_user_settings_repository.dart';
+import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_dart/export.dart';
 
 import '../../../helpers/open_test_database.dart';
@@ -72,6 +73,24 @@ class _FakeClient extends FluxerClient {
 
   @override
   UsersApi get users => _usersApi;
+}
+
+class _HideMutedByDefaultSettings extends UserSettingsViewModel {
+  @override
+  UserSettingsViewState build() => const UserSettingsViewState(
+    userId: 'user-1',
+    username: 'user',
+    displayName: 'user',
+    discriminator: '0001',
+    avatar: null,
+    avatarColor: null,
+    memberSince: null,
+    status: 'online',
+    messageDisplayCompact: false,
+    developerMode: false,
+    trustedDomains: <String>[],
+    defaultHideMutedChannels: true,
+  );
 }
 
 ProviderContainer _createContainer({
@@ -591,6 +610,41 @@ void main() {
       expect(stored.channelOverrides?[channelB]?.muted, isTrue);
       expect(stored.channelOverrides?[channelC]?.muted, isTrue);
     });
+
+    test(
+      'a guild without a settings row starts with hide_muted_channels false',
+      () async {
+        const guildId = 'guild-1';
+        const channelId = 'channel-1';
+        container.dispose();
+        container = ProviderContainer(
+          overrides: [
+            fluxerDatabaseProvider.overrideWithValue(database),
+            fluxerClientProvider.overrideWithValue(_FakeClient(usersApi)),
+            userSettingsViewModelProvider.overrideWith(
+              _HideMutedByDefaultSettings.new,
+            ),
+          ],
+        );
+        final GuildUserSettingsRepository repo = container.read(
+          guildUserSettingsRepositoryProvider,
+        );
+
+        await repo.updateChannelOverride(
+          guildId: guildId,
+          channelId: channelId,
+          muted: true,
+        );
+
+        expect(usersApi.patchCount, 0);
+        final row = await database.userGuildSettingsDao.getByGuildId(guildId);
+        final stored = UserGuildSettingsResponse.fromJson(
+          jsonDecode(row!.data) as Map<String, dynamic>,
+        );
+        expect(stored.hideMutedChannels, isFalse);
+        expect(stored.channelOverrides?[channelId]?.muted, isTrue);
+      },
+    );
 
     test('keeps optimistic local mute when immediate PATCH fails', () async {
       const guildId = 'guild-1';

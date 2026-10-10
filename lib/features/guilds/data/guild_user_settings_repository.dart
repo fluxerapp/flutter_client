@@ -8,7 +8,6 @@ import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
-import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -367,9 +366,6 @@ class GuildUserSettingsRepository {
   }
 
   Map<String, dynamic> _defaultUserGuildSettingsData(String guildId) {
-    final bool hideMutedChannels = _ref
-        .read(userSettingsViewModelProvider)
-        .defaultHideMutedChannels;
     return UserGuildSettingsResponse(
       guildId: guildId == '@me' ? null : guildId,
       messageNotifications: guildId == '@me'
@@ -380,7 +376,7 @@ class GuildUserSettingsRepository {
       mobilePush: true,
       suppressEveryone: false,
       suppressRoles: false,
-      hideMutedChannels: hideMutedChannels,
+      hideMutedChannels: false,
       channelOverrides: null,
       version: -1,
     ).toJson();

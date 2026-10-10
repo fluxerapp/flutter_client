@@ -113,7 +113,6 @@ typedef VoiceServerUpdateCallback = void Function(VoiceServerUpdateEvent event);
 typedef VoiceServerP2pUpdateCallback =
     void Function(VoiceServerP2pUpdateEvent event);
 typedef VoiceSignalCallback = void Function(VoiceSignalEvent event);
-typedef DefaultHideMutedChannelsResolver = bool Function();
 typedef GatewayErrorCallback = void Function(GatewayErrorEvent event);
 typedef ThreadGateChangedCallback =
     void Function(String guildId, {required bool active});
@@ -192,7 +191,6 @@ class GatewayEventHandler {
     this.onGuildBanRemove,
     this.onWebhooksUpdate,
     this.onEntranceSoundPlay,
-    this.resolveDefaultHideMutedChannels,
     this.threadsGate,
     this.resolveParentThreadActor,
     this.onThreadGateChanged,
@@ -271,7 +269,6 @@ class GatewayEventHandler {
   final GuildBanCallback? onGuildBanRemove;
   final WebhooksUpdateCallback? onWebhooksUpdate;
   final EntranceSoundPlayCallback? onEntranceSoundPlay;
-  final DefaultHideMutedChannelsResolver? resolveDefaultHideMutedChannels;
   final ThreadsGate? threadsGate;
   final ThreadActor? Function(String guildId, String parentId)?
   resolveParentThreadActor;
@@ -1550,8 +1547,7 @@ class GatewayEventHandler {
       mobilePush: true,
       suppressEveryone: false,
       suppressRoles: false,
-      hideMutedChannels:
-          !_disposed && (resolveDefaultHideMutedChannels?.call() ?? false),
+      hideMutedChannels: false,
       channelOverrides: null,
       version: -1,
     ).toJson();
