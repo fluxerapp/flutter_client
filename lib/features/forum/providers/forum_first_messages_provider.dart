@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
@@ -202,6 +203,17 @@ class ForumFirstMessages extends Notifier<Map<String, Message?>> {
       ...state,
       postId: message.copyWith(reactions: reactions),
     };
+    unawaited(
+      ref
+          .read(fluxerDatabaseProvider)
+          .messageDao
+          .updateReactions(
+            postId,
+            jsonEncode(
+              reactions.map((Reaction reaction) => reaction.toJson()).toList(),
+            ),
+          ),
+    );
   }
 
   void clear() {

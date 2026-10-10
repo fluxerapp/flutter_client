@@ -61,7 +61,9 @@ Future<void> toggleForumDefaultReaction(
   void apply({required bool value}) => firstMessages.applyOwnReaction(
     postId: data.post.id,
     emojiId: reaction.emojiId,
-    emojiName: reaction.emojiName ?? '',
+    emojiName: <String?>[reaction.emojiName, current?.emoji, storedName]
+        .whereType<String>()
+        .firstWhere((String name) => name.isNotEmpty, orElse: () => ''),
     add: value,
   );
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
