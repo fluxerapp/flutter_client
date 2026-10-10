@@ -193,6 +193,7 @@ class GatewayEventHandler {
     this.onEntranceSoundPlay,
     this.threadsGate,
     this.resolveParentThreadActor,
+    this.openChannelId,
     this.onThreadGateChanged,
     this.onThreadMemberListUpdate,
     this.onForumUnreads,
@@ -272,6 +273,7 @@ class GatewayEventHandler {
   final ThreadsGate? threadsGate;
   final ThreadActor? Function(String guildId, String parentId)?
   resolveParentThreadActor;
+  final String? Function()? openChannelId;
   final ThreadGateChangedCallback? onThreadGateChanged;
   final ThreadMemberListUpdateCallback? onThreadMemberListUpdate;
   final ForumUnreadsCallback? onForumUnreads;
@@ -2436,9 +2438,11 @@ class GatewayEventHandler {
       return;
     }
     final String? selfUserId = _selfUserId;
+    final String? openId = openChannelId?.call();
     await database.threadDao.replaceActiveForParents(
       guildId: guildId,
       parentIds: event.channelIds,
+      keepIds: <String>{?openId},
       threads: <db.ChannelsCompanion>[
         for (final ChannelResponse thread in event.threads)
           if (isThreadChannelType(thread.type.json ?? -1))

@@ -535,6 +535,7 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
         // ignore: riverpod_lint/only_use_keep_alive_inside_keep_alive
         ? ref.read(parentThreadActorProvider(guildId, parentId))
         : null,
+    openChannelId: () => ref.mounted ? ref.read(activeChannelIdProvider) : null,
     onThreadGateChanged: (guildId, {required active}) => ifMounted(() {
       if (!active) {
         ref.read(threadMemberListsProvider.notifier).clearGuild(guildId);

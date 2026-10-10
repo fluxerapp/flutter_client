@@ -38,6 +38,7 @@ _Harness _build({
   MessageCreateCallback? onMessageCreate,
   ThreadActor? Function(String guildId, String parentId)?
   resolveParentThreadActor,
+  String? Function()? openChannelId,
 }) {
   final FluxerDatabase database = openTestDatabase();
   final ThreadsGate gate = ThreadsGate();
@@ -48,6 +49,7 @@ _Harness _build({
     currentUserId: '100',
     threadsGate: gate,
     resolveParentThreadActor: resolveParentThreadActor,
+    openChannelId: openChannelId,
     onMessageCreate: onMessageCreate,
     onThreadGateChanged: (String guildId, {required bool active}) =>
         flips.add((guildId: guildId, active: active)),
@@ -95,6 +97,15 @@ Map<String, Object?> _thread(
       'flags': 2,
     },
   if (newlyCreated) 'newly_created': true,
+};
+
+Map<String, Object?> _syncMember(String threadId) => <String, Object?>{
+  'id': threadId,
+  'user_id': '100',
+  'join_timestamp': '2026-09-27T09:00:00.000Z',
+  'flags': 2,
+  'muted': false,
+  'mute_config': null,
 };
 
 Map<String, dynamic> _guildRaw({
@@ -737,32 +748,84 @@ void main() {
       );
     });
 
-    test('THREAD_LIST_SYNC replaces unjoined active threads only', () async {
-      final _Harness h = _build();
-      await _ready(h.handler, withThreads: true);
-      await h.handler.handle(
-        ThreadCreateEvent(
-          channel: ChannelResponse.fromJson(
-            _thread(_otherThreadId, joined: false),
+    test(
+      'THREAD_LIST_SYNC drops every in-scope thread it does not list',
+      () async {
+        final _Harness h = _build();
+        await _ready(h.handler, withThreads: true);
+        await h.handler.handle(
+          ThreadCreateEvent(
+            channel: ChannelResponse.fromJson(
+              _thread(_otherThreadId, joined: false),
+            ),
           ),
-        ),
-      );
+        );
+        await h.handler.handle(
+          ThreadCreateEvent(
+            channel: ChannelResponse.fromJson(
+              _thread('2002', parentId: _forumId),
+            ),
+          ),
+        );
+
+        await h.handler.handle(
+          const ThreadListSyncEvent(
+            guildId: _guildId,
+            channelIds: <String>[_textId],
+            threads: <ChannelResponse>[],
+            members: <ThreadMemberResponse>[],
+          ),
+        );
+
+        expect(await h.database.channelDao.getChannelById(_threadId), isNull);
+        expect(await h.database.threadDao.getMember(_threadId), isNull);
+        expect(
+          await h.database.channelDao.getChannelById(_otherThreadId),
+          isNull,
+        );
+        expect(await h.database.channelDao.getChannelById('2002'), isNotNull);
+      },
+    );
+
+    test('THREAD_LIST_SYNC keeps the open thread it does not list', () async {
+      final _Harness h = _build(openChannelId: () => _threadId);
+      await _ready(h.handler, withThreads: true);
 
       await h.handler.handle(
         const ThreadListSyncEvent(
           guildId: _guildId,
-          channelIds: <String>[_textId],
           threads: <ChannelResponse>[],
           members: <ThreadMemberResponse>[],
         ),
       );
 
       expect(await h.database.channelDao.getChannelById(_threadId), isNotNull);
-      expect(
-        await h.database.channelDao.getChannelById(_otherThreadId),
-        isNull,
-      );
     });
+
+    test(
+      'THREAD_LIST_SYNC drops the membership of a listed thread without one',
+      () async {
+        final _Harness h = _build();
+        await _ready(h.handler, withThreads: true);
+        expect(await h.database.threadDao.getMember(_threadId), isNotNull);
+
+        await h.handler.handle(
+          ThreadListSyncEvent(
+            guildId: _guildId,
+            threads: <ChannelResponse>[
+              ChannelResponse.fromJson(_thread(_threadId, joined: false)),
+            ],
+            members: const <ThreadMemberResponse>[],
+          ),
+        );
+
+        expect(
+          await h.database.channelDao.getChannelById(_threadId),
+          isNotNull,
+        );
+        expect(await h.database.threadDao.getMember(_threadId), isNull);
+      },
+    );
 
     test(
       'a full THREAD_LIST_SYNC after a reconnect drops stale posts',
@@ -784,10 +847,14 @@ void main() {
         );
 
         await h.handler.handle(
-          const ThreadListSyncEvent(
+          ThreadListSyncEvent(
             guildId: _guildId,
-            threads: <ChannelResponse>[],
-            members: <ThreadMemberResponse>[],
+            threads: <ChannelResponse>[
+              ChannelResponse.fromJson(_thread(_threadId, joined: false)),
+            ],
+            members: <ThreadMemberResponse>[
+              ThreadMemberResponse.fromJson(_syncMember(_threadId)),
+            ],
           ),
         );
 
@@ -795,6 +862,7 @@ void main() {
           await h.database.channelDao.getChannelById(_threadId),
           isNotNull,
         );
+        expect(await h.database.threadDao.getMember(_threadId), isNotNull);
         expect(
           await h.database.channelDao.getChannelById(_otherThreadId),
           isNull,

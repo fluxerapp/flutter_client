@@ -116,14 +116,29 @@ class ThreadDao extends DatabaseAccessor<FluxerDatabase> with _$ThreadDaoMixin {
     required List<String>? parentIds,
     required List<ChannelsCompanion> threads,
     required List<ThreadMembersCompanion> members,
+    Set<String> keepIds = const <String>{},
   }) => transaction(() async {
+    final Set<String> listedIds = <String>{
+      for (final ChannelsCompanion thread in threads) thread.id.value,
+    };
     await pruneActiveThreads(
       guildId: guildId,
       parentIds: parentIds,
-      keepIds: <String>{
-        for (final ChannelsCompanion thread in threads) thread.id.value,
-      },
+      keepIds: <String>{...listedIds, ...keepIds},
     );
+    final Set<String> memberIds = <String>{
+      for (final ThreadMembersCompanion member in members)
+        member.threadId.value,
+    };
+    final List<String> leftIds = <String>[
+      for (final String id in listedIds)
+        if (!memberIds.contains(id)) id,
+    ];
+    if (leftIds.isNotEmpty) {
+      await (delete(
+        threadMembers,
+      )..where((m) => m.threadId.isIn(leftIds))).go();
+    }
     await batch((Batch b) {
       for (final ChannelsCompanion thread in threads) {
         b.insert(channels, thread, onConflict: DoUpdate((_) => thread));
@@ -148,13 +163,9 @@ class ThreadDao extends DatabaseAccessor<FluxerDatabase> with _$ThreadDaoMixin {
                     c.parentId.isIn(parentIds),
               ))
               .get();
-    final Set<String> joined = await getJoinedThreadIds();
     final List<String> dropIds = <String>[
       for (final Channel row in existing)
-        if (!keepIds.contains(row.id) &&
-            !joined.contains(row.id) &&
-            row.threadArchived != true)
-          row.id,
+        if (!keepIds.contains(row.id) && row.threadArchived != true) row.id,
     ];
     await _deleteThreadRows(dropIds);
   });
