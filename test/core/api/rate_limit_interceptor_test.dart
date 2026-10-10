@@ -103,6 +103,28 @@ void main() {
     expect(adapter.fetches, 2);
   });
 
+  test('route 429 does not block another method on the same path', () async {
+    adapter
+      ..statusCode = 429
+      ..responseHeaders = <String, List<String>>{
+        'retry-after': <String>['5'],
+      }
+      ..body = '{"message":"slow down","retry_after":5,"global":false}';
+
+    await expectLater(
+      dio.post<dynamic>('/channels/1/messages', data: <String, dynamic>{}),
+      throwsA(isA<DioException>()),
+    );
+    adapter.statusCode = 200;
+    await getPath('/channels/1/messages');
+    expect(adapter.fetches, 2);
+    await expectLater(
+      dio.post<dynamic>('/channels/1/messages', data: <String, dynamic>{}),
+      throwsA(isA<DioException>()),
+    );
+    expect(adapter.fetches, 2);
+  });
+
   test('path pacing is per origin', () async {
     adapter
       ..statusCode = 429

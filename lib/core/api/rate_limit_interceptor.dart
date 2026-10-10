@@ -86,7 +86,7 @@ class RateLimitPacer {
   }
 
   String _pathKey(RequestOptions options) =>
-      '${_origin(options)}${options.path}';
+      '${options.method} ${_origin(options)}${options.path}';
 
   String _globalKey(RequestOptions options) => 'global:${_origin(options)}';
 
