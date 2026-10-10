@@ -125,9 +125,9 @@ class _CategoryHeader extends ConsumerWidget {
         await ref.read(
           effectiveGuildChannelPermissionBitsProvider(category.id).future,
         );
-    final Set<String> collapsedCategoryIds = await ref.read(
-      guildCollapsedCategoriesProvider(guildId).future,
-    );
+    final Set<String> collapsedCategoryIds =
+        ref.read(guildCollapsedCategoriesProvider(guildId)).value ??
+        const <String>{};
     final bool allCategoriesCollapsed =
         allCategoryIds.isNotEmpty &&
         allCategoryIds.every(collapsedCategoryIds.contains);

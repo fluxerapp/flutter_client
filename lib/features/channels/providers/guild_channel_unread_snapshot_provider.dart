@@ -20,7 +20,7 @@ Map<String, UnreadState> guildChannelUnreadSnapshot(Ref ref, String guildId) {
     for (final ChannelCategory category in categories)
       for (final Channel channel in category.channels)
         channel.id:
-            ref.watch(channelUnreadProvider(channel.id)).value ??
+            ref.watch(channelUnreadOrLastKnownProvider(channel.id)) ??
             const UnreadState(),
   };
   return Map<String, UnreadState>.unmodifiable(snapshot);

@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/gateway/gateway_event_handler.dart';
+import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_performance_providers.dart';
@@ -272,6 +273,117 @@ ProviderContainer _container({
 }
 
 void main() {
+  test('unread follows VIEW_CHANNEL from the permission cache', () async {
+    final db = openTestDatabase();
+    const guildId = 'guild-1';
+    const channelId = 'channel-1';
+    const userId = 'me';
+    final lastMessageId = _snowflakeForUtc(
+      DateTime.now().toUtc().subtract(const Duration(hours: 1)),
+    );
+    await _seedUnreadChannel(
+      db: db,
+      guildId: guildId,
+      channelId: channelId,
+      userId: userId,
+      lastMessageId: lastMessageId,
+      ackId: snowflakeAtPreviousMillisecond(lastMessageId),
+      memberRoleIds: const <String>[],
+    );
+    final container = _container(db: db, userId: userId, guildId: guildId);
+    addTearDown(container.dispose);
+    container.read(gatewayReadyProvider.notifier).setReady();
+    final sub = container.listen(
+      channelUnreadProvider(channelId),
+      (_, _) {},
+      fireImmediately: true,
+    );
+    addTearDown(sub.close);
+
+    await _waitFor(
+      () =>
+          container.read(channelPermissionCacheProvider)[channelId] != null &&
+          container.read(channelUnreadProvider(channelId)).value?.hasUnread ==
+              false,
+    );
+
+    await db.memberDao.upsertMember(
+      MembersCompanion.insert(
+        userId: userId,
+        guildId: guildId,
+        roleIdsJson: const Value('["role-view"]'),
+        joinedAt: Value(DateTime.utc(2020)),
+      ),
+    );
+    await container
+        .read(channelPermissionCacheProvider.notifier)
+        .rebuildGuild(guildId);
+
+    await _waitFor(
+      () =>
+          container.read(channelUnreadProvider(channelId)).value?.hasUnread ??
+          false,
+    );
+  });
+
+  test('a recently visited guild keeps its unread streams warm', () async {
+    final watched = await _watchTwoChannels();
+    watched.container.read(recentGuildUnreadRetentionProvider.notifier).retain(
+      'guild-1',
+      <String>['channel-a', 'channel-b'],
+    );
+    final int readsBefore = watched.log.completed.length;
+    final UnreadState? before = watched.container
+        .read(channelUnreadProvider('channel-a'))
+        .value;
+
+    watched.container
+        .listen(channelUnreadProvider('channel-a'), (_, _) {})
+        .close();
+    await Future<void>.delayed(const Duration(milliseconds: 50));
+    final revisit = watched.container.listen(
+      channelUnreadProvider('channel-a'),
+      (_, _) {},
+      fireImmediately: true,
+    );
+    addTearDown(revisit.close);
+    await _waitForQuiet(watched.log);
+
+    expect(
+      watched.container.read(channelUnreadProvider('channel-a')).value,
+      before,
+    );
+    expect(watched.log.completed.length, readsBefore);
+  });
+
+  test('retention is bounded to the most recent guilds', () async {
+    final watched = await _watchTwoChannels();
+    final RecentGuildUnreadRetention retention = watched.container.read(
+      recentGuildUnreadRetentionProvider.notifier,
+    )..retain('guild-x', <String>['channel-x']);
+    await Future<void>.delayed(const Duration(milliseconds: 50));
+    expect(
+      watched.container.exists(channelUnreadProvider('channel-x')),
+      isTrue,
+    );
+
+    for (var i = 0; i < kRetainedGuildUnreadSets - 1; i++) {
+      retention.retain('other-$i', const <String>[]);
+    }
+    await Future<void>.delayed(const Duration(milliseconds: 50));
+    expect(
+      watched.container.exists(channelUnreadProvider('channel-x')),
+      isTrue,
+    );
+
+    retention.retain('one-more', const <String>[]);
+    await Future<void>.delayed(const Duration(milliseconds: 50));
+    expect(
+      watched.container.exists(channelUnreadProvider('channel-x')),
+      isFalse,
+    );
+  });
+
   test(
     'channelUnreadProvider shows unread before member row is loaded',
     () async {

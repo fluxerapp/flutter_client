@@ -19,7 +19,7 @@ class _ChannelTile extends ConsumerWidget {
     final bool isSelected = ref.watch(
       activeChannelIdProvider.select((String? id) => id == channel.id),
     );
-    final unread = ref.watch(channelUnreadProvider(channel.id)).value;
+    final unread = ref.watch(channelUnreadOrLastKnownProvider(channel.id));
     final bool hasUnread = unread?.hasUnread ?? false;
     final int mentionCount = unread?.mentionCount ?? 0;
     final bool hasUnreadMessages = unread?.hasUnreadMessages ?? false;

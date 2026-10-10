@@ -1,18 +1,20 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
+import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
-import 'package:fluxer_app/features/channels/data/unread_permission_utils.dart';
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart'
     show isThreadChannelType, isThreadOnlyChannelType;
 import 'package:fluxer_app/features/forum/domain/forum_channel.dart'
     show forumNewPostsUnreadEnabled;
+import 'package:fluxer_app/features/guilds/providers/user_guild_settings_data_provider.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -53,20 +55,99 @@ class UnreadState {
   );
 }
 
+@Riverpod(keepAlive: true)
+Map<String, UnreadState> channelUnreadLastKnown(Ref ref) {
+  ref.watch(currentUserIdProvider);
+  return <String, UnreadState>{};
+}
+
+@riverpod
+UnreadState? channelUnreadOrLastKnown(Ref ref, String channelId) {
+  return ref.watch(channelUnreadProvider(channelId)).value ??
+      ref.watch(channelUnreadLastKnownProvider)[channelId];
+}
+
+const int kRetainedGuildUnreadSets = 3;
+
+@Riverpod(keepAlive: true)
+class RecentGuildUnreadRetention extends _$RecentGuildUnreadRetention {
+  final List<({String guildId, List<ProviderSubscription<Object?>> subs})>
+  _retained = <({String guildId, List<ProviderSubscription<Object?>> subs})>[];
+
+  @override
+  void build() {
+    ref.onDispose(_releaseAll);
+  }
+
+  void retain(String guildId, Iterable<String> channelIds) {
+    final int existing = _retained.indexWhere(
+      (entry) => entry.guildId == guildId,
+    );
+    if (existing >= 0) {
+      _release(_retained.removeAt(existing).subs);
+    }
+    _retained.insert(0, (
+      guildId: guildId,
+      subs: <ProviderSubscription<Object?>>[
+        for (final String channelId in channelIds)
+          ref.container.listen<Object?>(
+            channelUnreadProvider(channelId),
+            (_, _) {},
+          ),
+      ],
+    ));
+    while (_retained.length > kRetainedGuildUnreadSets) {
+      _release(_retained.removeLast().subs);
+    }
+  }
+
+  void _release(List<ProviderSubscription<Object?>> subs) {
+    for (final ProviderSubscription<Object?> sub in subs) {
+      sub.close();
+    }
+  }
+
+  void _releaseAll() {
+    for (final entry in _retained) {
+      _release(entry.subs);
+    }
+    _retained.clear();
+  }
+}
+
+@riverpod
+bool? channelUnreadCanView(Ref ref, String channelId) {
+  final int? bits = ref.watch(
+    channelPermissionCacheProvider.select(
+      (ChannelPermissionCaches caches) => caches[channelId],
+    ),
+  );
+  if (bits == null) {
+    unawaited(
+      ref
+          .read(channelPermissionCacheProvider.notifier)
+          .rebuildChannel(channelId),
+    );
+    return null;
+  }
+  return hasPermission(bits, Permission.viewChannel);
+}
+
 @riverpod
 Stream<UnreadState> channelUnread(Ref ref, String channelId) {
   final db = ref.watch(fluxerDatabaseProvider);
-  final currentUserId = ref.watch(currentUserIdProvider);
-  ref
-    ..watch(gatewayReadyProvider)
-    ..watch(effectiveGuildChannelPermissionBitsProvider(channelId));
+  final Map<String, UnreadState> lastKnown = ref.watch(
+    channelUnreadLastKnownProvider,
+  );
+  ref.watch(gatewayReadyProvider);
+  final bool? canView = ref.watch(channelUnreadCanViewProvider(channelId));
+
   final controller = StreamController<UnreadState>();
   var disposed = false;
-  var recomputeScheduled = false;
-  StreamSubscription<Object?>? memberSub;
-  String? watchedMemberGuildId;
-  StreamSubscription<Object?>? settingsSub;
+  var recomputeRunning = false;
+  var recomputeAgain = false;
   String? watchedSettingsGuildId;
+  ProviderSubscription<AsyncValue<String?>>? settingsSub;
   StreamSubscription<Object?>? threadMemberSub;
   UnreadState? lastEmitted;
 
@@ -75,6 +156,7 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
       return;
     }
     lastEmitted = next;
+    lastKnown[channelId] = next;
     controller.add(next);
   }
 
@@ -86,6 +168,10 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
     }
 
     final channel = await db.channelDao.getChannelById(channelId);
+    if (canView == false) {
+      emit(const UnreadState());
+      return;
+    }
     final readState = await db.readStateDao.getReadState(channelId);
     final mentionCount = readState?.mentionCount ?? 0;
     final latestMessageId = await resolveLatestMessageIdForUnreadDisplay(
@@ -95,43 +181,30 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
       ackLastMessageId: readState?.lastMessageId,
       mentionCount: mentionCount,
     );
-    if (channel != null) {
-      final permissionOutcome = await evaluateChannelUnreadPermission(
-        database: db,
-        channel: channel,
-        currentUserId: currentUserId,
+    if (disposed) {
+      return;
+    }
+    if (channel != null &&
+        channel.guildId.isNotEmpty &&
+        watchedSettingsGuildId != channel.guildId) {
+      settingsSub?.close();
+      watchedSettingsGuildId = channel.guildId;
+      settingsSub = ref.container.listen<AsyncValue<String?>>(
+        userGuildSettingsDataProvider.select(
+          (AsyncValue<Map<String, String>> all) => all.whenData(
+            (Map<String, String> byGuild) => byGuild[channel.guildId],
+          ),
+        ),
+        (_, _) => scheduleRecompute(),
       );
-      if (permissionOutcome.isDefinitive && !permissionOutcome.canRead) {
-        emit(const UnreadState());
-        return;
-      }
-      if (currentUserId != null &&
-          currentUserId.isNotEmpty &&
-          watchedMemberGuildId != channel.guildId) {
-        unawaited(memberSub?.cancel());
-        watchedMemberGuildId = channel.guildId;
-        memberSub = db.memberDao
-            .watchMemberByUserId(currentUserId, channel.guildId)
-            .distinct()
-            .listen((_) => scheduleRecompute());
-      }
-      if (channel.guildId.isNotEmpty &&
-          watchedSettingsGuildId != channel.guildId) {
-        unawaited(settingsSub?.cancel());
-        watchedSettingsGuildId = channel.guildId;
-        settingsSub = db.userGuildSettingsDao
-            .watchByGuildId(channel.guildId)
-            .distinct()
-            .listen((_) => scheduleRecompute());
-      }
     }
 
-    final guildSettings = channel == null
+    final String? guildSettingsData = channel == null
         ? null
-        : await db.userGuildSettingsDao.getByGuildId(channel.guildId);
-    final decodedGuildSettings = guildSettings == null
+        : settingsSub?.read().value;
+    final decodedGuildSettings = guildSettingsData == null
         ? null
-        : decodeUserGuildSettings(guildSettings.data);
+        : decodeUserGuildSettings(guildSettingsData);
     final unreadBadgesLevel = channel == null
         ? null
         : resolveUnreadBadgesLevel(
@@ -182,17 +255,27 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
     );
   }
 
+  Future<void> runRecompute() async {
+    recomputeRunning = true;
+    try {
+      do {
+        recomputeAgain = false;
+        await recompute();
+      } while (recomputeAgain && !disposed);
+    } finally {
+      recomputeRunning = false;
+    }
+  }
+
   scheduleRecompute = () {
-    if (disposed || recomputeScheduled) {
+    if (disposed) {
       return;
     }
-    recomputeScheduled = true;
-    scheduleMicrotask(() {
-      recomputeScheduled = false;
-      if (!disposed) {
-        unawaited(recompute());
-      }
-    });
+    if (recomputeRunning) {
+      recomputeAgain = true;
+      return;
+    }
+    unawaited(runRecompute());
   };
 
   final channelSub = db.channelDao
@@ -222,8 +305,7 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
     unawaited(readStateSub.cancel());
     unawaited(messageSub.cancel());
     unawaited(indexSub.cancel());
-    unawaited(settingsSub?.cancel());
-    unawaited(memberSub?.cancel());
+    settingsSub?.close();
     unawaited(threadMemberSub?.cancel());
     unawaited(controller.close());
   });

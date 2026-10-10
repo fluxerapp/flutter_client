@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:fluxer_app/core/database/fluxer_database.dart';
-
 Set<String> parseCollapsedCategoryIdsFromGuildSettingsJson(
   Map<String, dynamic> data,
 ) {
@@ -19,12 +17,11 @@ Set<String> parseCollapsedCategoryIdsFromGuildSettingsJson(
   return collapsed;
 }
 
-Set<String> parseCollapsedCategoryIdsFromGuildSettingsRow(
-  UserGuildSettingsTableData? row,
-) {
-  if (row == null) {
+Set<String> parseCollapsedCategoryIdsFromGuildSettingsData(String? data) {
+  if (data == null) {
     return {};
   }
-  final data = jsonDecode(row.data) as Map<String, dynamic>;
-  return parseCollapsedCategoryIdsFromGuildSettingsJson(data);
+  return parseCollapsedCategoryIdsFromGuildSettingsJson(
+    jsonDecode(data) as Map<String, dynamic>,
+  );
 }

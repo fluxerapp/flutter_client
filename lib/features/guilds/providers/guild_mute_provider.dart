@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/features/guilds/providers/user_guild_settings_data_provider.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -19,39 +19,37 @@ class GuildMuteState {
 }
 
 @riverpod
-Stream<GuildMuteState> guildMute(Ref ref, String guildId) async* {
-  final db = ref.watch(fluxerDatabaseProvider);
-
-  await for (final settings in db.userGuildSettingsDao.watchByGuildId(
+AsyncValue<GuildMuteState> guildMute(Ref ref, String guildId) {
+  return watchUserGuildSettingsData(
+    ref,
     guildId,
-  )) {
-    if (settings == null) {
-      yield const GuildMuteState();
-      continue;
-    }
+  ).whenData(guildMuteStateFromData);
+}
 
-    final data = jsonDecode(settings.data) as Map<String, dynamic>;
-    final gs = UserGuildSettingsResponse.fromJson(data);
-
-    if (!gs.muted) {
-      yield GuildMuteState(hideMutedChannels: gs.hideMutedChannels);
-      continue;
-    }
-
-    final endTimeStr = gs.muteConfig?.endTime;
-    DateTime? endTime;
-    if (endTimeStr != null) {
-      endTime = DateTime.tryParse(endTimeStr);
-      if (endTime != null && endTime.isBefore(DateTime.now())) {
-        yield GuildMuteState(hideMutedChannels: gs.hideMutedChannels);
-        continue;
-      }
-    }
-
-    yield GuildMuteState(
-      isMuted: true,
-      muteEndTime: endTime,
-      hideMutedChannels: gs.hideMutedChannels,
-    );
+GuildMuteState guildMuteStateFromData(String? settings) {
+  if (settings == null) {
+    return const GuildMuteState();
   }
+
+  final data = jsonDecode(settings) as Map<String, dynamic>;
+  final gs = UserGuildSettingsResponse.fromJson(data);
+
+  if (!gs.muted) {
+    return GuildMuteState(hideMutedChannels: gs.hideMutedChannels);
+  }
+
+  final endTimeStr = gs.muteConfig?.endTime;
+  DateTime? endTime;
+  if (endTimeStr != null) {
+    endTime = DateTime.tryParse(endTimeStr);
+    if (endTime != null && endTime.isBefore(DateTime.now())) {
+      return GuildMuteState(hideMutedChannels: gs.hideMutedChannels);
+    }
+  }
+
+  return GuildMuteState(
+    isMuted: true,
+    muteEndTime: endTime,
+    hideMutedChannels: gs.hideMutedChannels,
+  );
 }

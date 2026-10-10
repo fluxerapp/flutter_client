@@ -1000,15 +1000,15 @@ void main() {
           channelListViewModelFactory: () =>
               _HarnessChannelListViewModel(harness),
         ),
-        guildMuteProvider(_otherGuildId).overrideWith(
-          (Ref ref) => Stream<GuildMuteState>.value(const GuildMuteState()),
-        ),
-        mutedChannelIdsProvider(_otherGuildId).overrideWith(
-          (Ref ref) => Stream<Set<String>>.value(const <String>{}),
-        ),
-        guildCollapsedCategoriesProvider(_otherGuildId).overrideWith(
-          (Ref ref) => Stream<Set<String>>.value(const <String>{}),
-        ),
+        guildMuteProvider(
+          _otherGuildId,
+        ).overrideWithValue(const AsyncData<GuildMuteState>(GuildMuteState())),
+        mutedChannelIdsProvider(
+          _otherGuildId,
+        ).overrideWithValue(const AsyncData<Set<String>>(<String>{})),
+        guildCollapsedCategoriesProvider(
+          _otherGuildId,
+        ).overrideWithValue(const AsyncData<Set<String>>(<String>{})),
         for (final Channel channel in guildBChannels)
           channelUnreadProvider(channel.id).overrideWith(
             (Ref ref) => Stream<UnreadState>.value(const UnreadState()),
@@ -1248,15 +1248,15 @@ List<Override> _buildOverrides({
     ),
     sensitiveContentProvider.overrideWith(_FakeSensitiveContent.new),
     matureContentAgreementsProvider.overrideWith(_FakeMatureAgreements.new),
-    guildMuteProvider(_guildId).overrideWith(
-      (ref) => Stream.value(GuildMuteState(hideMutedChannels: hideMuted)),
+    guildMuteProvider(_guildId).overrideWithValue(
+      AsyncData<GuildMuteState>(GuildMuteState(hideMutedChannels: hideMuted)),
     ),
     mutedChannelIdsProvider(
       _guildId,
-    ).overrideWith((ref) => Stream.value(muted)),
+    ).overrideWithValue(AsyncData<Set<String>>(muted)),
     guildCollapsedCategoriesProvider(
       _guildId,
-    ).overrideWith((ref) => Stream.value(collapsed)),
+    ).overrideWithValue(AsyncData<Set<String>>(collapsed)),
     for (final Channel channel in channelListState.categories.expand<Channel>(
       (ChannelCategory category) => category.channels,
     )) ...[
