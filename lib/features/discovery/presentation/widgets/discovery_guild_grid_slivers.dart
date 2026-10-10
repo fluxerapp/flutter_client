@@ -1,4 +1,5 @@
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:fluxer_app/core/platform/system_navigation_bar.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/discovery/presentation/widgets/discovery_guild_card.dart';
 import 'package:fluxer_app/features/discovery/providers/discovery_controller.dart';
@@ -47,7 +48,15 @@ List<Widget> buildDiscoveryGuildGridSlivers({
   }
   return <Widget>[
     SliverPadding(
-      padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+      padding: EdgeInsets.fromLTRB(
+        layout.s4,
+        0,
+        layout.s4,
+        layout.s4 +
+            cachedSystemNavigationBarHeight(
+              devicePixelRatio: MediaQuery.devicePixelRatioOf(context),
+            ),
+      ),
       sliver: isMobile
           ? SliverList.separated(
               itemCount: state.guilds.length,
