@@ -3,7 +3,10 @@ import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 
 final Provider<Map<String, User>> userPresenceCacheProvider =
-    Provider<Map<String, User>>((Ref ref) => <String, User>{});
+    Provider<Map<String, User>>((Ref ref) {
+      ref.watch(fluxerDatabaseProvider);
+      return <String, User>{};
+    });
 
 // `StreamProviderFamily` is not exposed by the public API; the explicit type
 // would require a `package:riverpod/src/...` import. Type is obvious from the
