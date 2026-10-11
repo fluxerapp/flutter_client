@@ -1,12 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/badge/app_icon_badge.dart';
+import 'package:fluxer_app/core/badge/app_icon_badge_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/accessibility/domain/text_scale.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/profile_tab_menu_sheet.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
+import 'package:fluxer_app/features/ui/badge/fluxer_badge.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -24,7 +27,11 @@ class AppBottomNavBar extends ConsumerWidget {
   final ValueChanged<int> onBranchSelected;
 
   List<_NavItemConfig> _items(FluxerLocalizations l10n) => <_NavItemConfig>[
-    _NavItemConfig(icon: PhosphorIconsFill.house, label: l10n.navHome),
+    _NavItemConfig(
+      icon: PhosphorIconsFill.house,
+      label: l10n.navHome,
+      showsUnreadBadge: true,
+    ),
     _NavItemConfig(icon: PhosphorIconsFill.bell, label: l10n.navNotifications),
     _NavItemConfig(label: l10n.navYou, isProfile: true),
   ];
@@ -88,11 +95,13 @@ class _NavItemConfig {
     required this.label,
     this.icon,
     this.isProfile = false,
+    this.showsUnreadBadge = false,
   });
 
   final IconData? icon;
   final String label;
   final bool isProfile;
+  final bool showsUnreadBadge;
 }
 
 class _AppBottomNavItem extends StatefulWidget {
@@ -140,19 +149,26 @@ class _AppBottomNavItemState extends State<_AppBottomNavItem> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (widget.config.isProfile)
-              AnimatedOpacity(
-                duration: context.motion.panel,
-                opacity: widget.isSelected ? 1 : 0.5,
-                child: FluxerAvatar.userPresence(
-                  fallbackText: widget.user.displayName,
-                  userId: widget.user.userId,
-                  imageUrl: widget.user.avatarUrl,
-                  avatarColor: widget.user.avatarColor,
-                  size: _kNavAvatarSize,
-                ),
+              FluxerAvatar.userPresence(
+                fallbackText: widget.user.displayName,
+                userId: widget.user.userId,
+                imageUrl: widget.user.avatarUrl,
+                avatarColor: widget.user.avatarColor,
+                size: _kNavAvatarSize,
               )
             else
-              PhosphorIcon(widget.config.icon!, color: itemColor, size: 24),
+              Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  PhosphorIcon(widget.config.icon!, color: itemColor, size: 24),
+                  if (widget.config.showsUnreadBadge)
+                    const PositionedDirectional(
+                      top: -6,
+                      start: 14,
+                      child: _AppBottomNavUnreadBadge(),
+                    ),
+                ],
+              ),
             const SizedBox(height: 4),
             Text(
               widget.config.label,
@@ -164,6 +180,30 @@ class _AppBottomNavItemState extends State<_AppBottomNavItem> {
           ],
         );
       },
+    );
+  }
+}
+
+class _AppBottomNavUnreadBadge extends ConsumerWidget {
+  const _AppBottomNavUnreadBadge();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final int count =
+        ref.watch(
+          appIconBadgeProvider.select(
+            (AppIconBadgeValue? badge) => badge?.count,
+          ),
+        ) ??
+        0;
+    if (count <= 0) {
+      return const SizedBox.shrink();
+    }
+    return FluxerBadgeEntrance(
+      child: FluxerBadge.count(
+        count: count,
+        cutoutColor: context.colors.backgroundSecondary,
+      ),
     );
   }
 }

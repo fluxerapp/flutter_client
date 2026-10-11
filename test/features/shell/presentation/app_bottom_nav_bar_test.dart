@@ -1,11 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/badge/app_icon_badge.dart';
+import 'package:fluxer_app/core/badge/app_icon_badge_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' show User;
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/app_bottom_nav_bar.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
+import 'package:fluxer_app/features/ui/badge/fluxer_badge.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
@@ -15,8 +19,9 @@ import '../../../helpers/test_l10n.dart';
 const Size _kCompactWideSize = Size(984, 800);
 const Size _kPhoneSize = Size(390, 844);
 
-List<Override> _navOverrides() {
+List<Override> _navOverrides({AppIconBadgeValue? badge}) {
   return <Override>[
+    appIconBadgeProvider.overrideWithValue(badge),
     userSettingsViewModelProvider.overrideWithValue(
       const UserSettingsViewState(
         userId: 'u1',
@@ -43,6 +48,7 @@ _pumpNav(
   WidgetTester tester, {
   required Size size,
   bool constrainToPeekWidth = false,
+  AppIconBadgeValue? badge,
 }) async {
   await tester.binding.setSurfaceSize(size);
   addTearDown(() => tester.binding.setSurfaceSize(null));
@@ -74,7 +80,7 @@ _pumpNav(
           },
         ),
       ),
-      overrides: _navOverrides(),
+      overrides: _navOverrides(badge: badge),
     ),
   );
   await tester.pump();
@@ -126,5 +132,53 @@ void main() {
         await _pumpNav(tester, size: _kPhoneSize);
 
     expect(you.right, greaterThan(_kPhoneSize.width * 0.7));
+  });
+
+  testWidgets('home tab carries the unread count above its icon', (
+    WidgetTester tester,
+  ) async {
+    final (
+      :home,
+      you: _,
+      peekWidth: _,
+      barSize: _,
+      divider: _,
+    ) = await _pumpNav(
+      tester,
+      size: _kPhoneSize,
+      badge: const AppIconBadgeValue(count: 120),
+    );
+    await tester.pumpAndSettle();
+
+    final Finder badge = find.byType(FluxerBadge);
+    expect(badge, findsOneWidget);
+    expect(find.text('99+'), findsOneWidget);
+    final Rect badgeRect = tester.getRect(badge);
+    expect(badgeRect.bottom, lessThan(home.top));
+    expect(badgeRect.height, FluxerBadge.height);
+  });
+
+  testWidgets('no badge without unread state', (WidgetTester tester) async {
+    await _pumpNav(tester, size: _kPhoneSize);
+
+    expect(find.byType(FluxerBadge), findsNothing);
+  });
+
+  testWidgets('the You avatar keeps full opacity when not selected', (
+    WidgetTester tester,
+  ) async {
+    await _pumpNav(tester, size: _kPhoneSize);
+
+    expect(
+      find.ancestor(
+        of: find.byType(FluxerAvatar),
+        matching: find.byWidgetPredicate(
+          (Widget widget) =>
+              (widget is Opacity && widget.opacity < 1) ||
+              (widget is AnimatedOpacity && widget.opacity < 1),
+        ),
+      ),
+      findsNothing,
+    );
   });
 }
