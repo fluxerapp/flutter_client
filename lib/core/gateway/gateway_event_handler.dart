@@ -400,7 +400,7 @@ class GatewayEventHandler {
         unawaited(_handleChannelUpsert(event.channel));
       case ChannelDeleteEvent():
         _logGatewayDebug(
-          () => talker.debug('[Gateway] CHANNEL_DELETE: ${event.channel.id}'),
+          () => talker.debug('[Gateway] CHANNEL_DELETE: ${event.channelId}'),
         );
         _handleChannelDelete(event);
       case MessageReactionAddEvent():
@@ -2363,17 +2363,15 @@ class GatewayEventHandler {
   }
 
   void _handleChannelDelete(ChannelDeleteEvent event) {
-    _invalidateMentionCacheForChannel(
-      event.channel.id,
-      guildId: event.channel.guildId,
-    );
-    _emit(() => onChannelDelete?.call(event.channel.id));
-    unawaited(database.messageDao.deleteMessagesForChannel(event.channel.id));
-    unawaited(database.channelDao.deleteChannel(event.channel.id));
-    unawaited(database.dmChannelDao.deleteDmChannel(event.channel.id));
-    readStateWriteBatcher?.discard(event.channel.id);
-    unawaited(database.readStateDao.deleteReadState(event.channel.id));
-    unawaited(_deleteThreadsForParent(event.channel.id));
+    final String channelId = event.channelId;
+    _invalidateMentionCacheForChannel(channelId, guildId: event.guildId);
+    _emit(() => onChannelDelete?.call(channelId));
+    unawaited(database.messageDao.deleteMessagesForChannel(channelId));
+    unawaited(database.channelDao.deleteChannel(channelId));
+    unawaited(database.dmChannelDao.deleteDmChannel(channelId));
+    readStateWriteBatcher?.discard(channelId);
+    unawaited(database.readStateDao.deleteReadState(channelId));
+    unawaited(_deleteThreadsForParent(channelId));
   }
 
   Future<void> _deleteThreadsForParent(String parentId) async {

@@ -1084,9 +1084,7 @@ void main() {
       await _ready(h.handler, withThreads: true);
 
       await h.handler.handle(
-        ChannelDeleteEvent(
-          channel: ChannelResponse.fromJson(_channel(_textId, 0)),
-        ),
+        const ChannelDeleteEvent(channelId: _textId, guildId: _guildId),
       );
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
@@ -1199,9 +1197,7 @@ void main() {
       );
 
       await h.handler.handle(
-        ChannelDeleteEvent(
-          channel: ChannelResponse.fromJson(_channel(_announcementId, 5)),
-        ),
+        const ChannelDeleteEvent(channelId: _announcementId, guildId: _guildId),
       );
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
