@@ -812,9 +812,26 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
         },
       );
     }
-    final AsyncValue<UserProfileFullResponse?> profileAsync = ref.watch(
+    final String? cachedGuildId = widget.guildId;
+    final AsyncValue<db.Member?> cachedMemberAsync = cachedGuildId == null
+        ? const AsyncValue<db.Member?>.data(null)
+        : ref.watch(memberRowByGuildProvider((widget.userId, cachedGuildId)));
+    final db.User? cachedUser = presenceAsync.value;
+    final AsyncValue<UserProfileFullResponse?> fetchedProfileAsync = ref.watch(
       userProfileProvider(userId: widget.userId, guildId: widget.guildId),
     );
+    final AsyncValue<UserProfileFullResponse?> profileAsync =
+        fetchedProfileAsync.isLoading &&
+            !fetchedProfileAsync.hasValue &&
+            cachedUser != null &&
+            cachedMemberAsync.hasValue
+        ? AsyncValue<UserProfileFullResponse?>.data(
+            userProfileFromCachedUser(
+              cachedUser,
+              member: cachedMemberAsync.value,
+            ),
+          )
+        : fetchedProfileAsync;
     return profileAsync.when(
       loading: () => UserProfileLoadingSkeleton(
         scrollController: widget.scrollController,

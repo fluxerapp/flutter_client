@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -67,29 +68,48 @@ Future<UserProfileFullResponse?> userProfile(
     return profile;
   } on Object {
     if (cachedUser != null) {
-      return _userProfileFromCachedUser(cachedUser);
+      return userProfileFromCachedUser(cachedUser);
     }
     return null;
   }
 }
 
-UserProfileFullResponse _userProfileFromCachedUser(User user) {
+UserProfileFullResponse userProfileFromCachedUser(User user, {Member? member}) {
+  final UserPartialResponse partialUser = UserPartialResponse(
+    id: user.id,
+    username: user.username,
+    discriminator: user.discriminator,
+    globalName: user.globalName,
+    avatar: user.avatar,
+    avatarColor: user.avatarColor,
+    flags: 0,
+    bot: user.bot,
+    system: user.system,
+  );
+  final DateTime? joinedAt = member?.joinedAt;
   return UserProfileFullResponse(
-    user: UserPartialResponse(
-      id: user.id,
-      username: user.username,
-      discriminator: user.discriminator,
-      globalName: user.globalName,
-      avatar: user.avatar,
-      avatarColor: user.avatarColor,
-      flags: 0,
-    ),
+    user: partialUser,
     userProfile: UserProfileFullResponseUserProfile(
       bio: user.bio,
       pronouns: user.pronouns,
       banner: user.banner,
       accentColor: user.accentColor,
     ),
+    guildMember: member == null || joinedAt == null
+        ? null
+        : GuildMemberResponse(
+            user: partialUser,
+            nick: member.nick,
+            avatar: member.serverAvatar,
+            roles: List<String>.from(
+              jsonDecode(member.roleIdsJson) as List<dynamic>,
+            ),
+            joinedAt: joinedAt,
+            mute: false,
+            deaf: false,
+            communicationDisabledUntil: member.communicationDisabledUntil,
+            profileFlags: member.profileFlags,
+          ),
     timezoneOffset: null,
   );
 }

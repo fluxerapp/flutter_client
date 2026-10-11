@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/database/fluxer_database.dart' show User;
+import 'package:fluxer_app/core/database/fluxer_database.dart'
+    show Member, User;
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -10,10 +13,14 @@ import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart
 import 'package:fluxer_app/features/friends/data/friend_repository.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
+import 'package:fluxer_app/features/members/domain/member.dart' show MemberRole;
+import 'package:fluxer_app/features/members/providers/member_providers.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/profile_tab_menu_sheet.dart';
+import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_loading_skeleton.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_view.dart';
 import 'package:fluxer_app/features/profile/providers/user_note_view_model.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
+import 'package:fluxer_app/features/profile/providers/user_profile_guild_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_status_indicator.dart';
@@ -28,6 +35,8 @@ import '../../../../helpers/instance_runtime_config_override.dart';
 import '../../../../helpers/test_l10n.dart';
 
 const String _kUserId = '1';
+const String _kOtherUserId = '2';
+const String _kGuildId = '10';
 
 class _FakeUserSettings extends UserSettingsViewModel {
   _FakeUserSettings({
@@ -168,6 +177,108 @@ Widget _buildApp(
   );
 }
 
+User _cachedOtherUser() {
+  return const User(
+    id: _kOtherUserId,
+    username: 'ptnick',
+    discriminator: '0002',
+    globalName: 'PT Nick',
+    bot: false,
+    system: false,
+    status: 'online',
+    mobile: false,
+  );
+}
+
+UserProfileFullResponse _fetchedOtherProfile() {
+  return const UserProfileFullResponse(
+    user: UserPartialResponse(
+      id: _kOtherUserId,
+      username: 'ptnick',
+      discriminator: '0002',
+      globalName: 'PT Nick Fetched',
+      avatar: null,
+      avatarColor: null,
+      flags: 0,
+    ),
+    userProfile: UserProfileFullResponseUserProfile(
+      bio: null,
+      pronouns: null,
+      banner: null,
+      accentColor: null,
+    ),
+    timezoneOffset: null,
+  );
+}
+
+List<Override> _otherUserOverrides(
+  Future<UserProfileFullResponse?> profile,
+  String? guildId,
+) {
+  return <Override>[
+    ..._overrides(),
+    userPresenceProvider(
+      _kOtherUserId,
+    ).overrideWith((Ref ref) => Stream<User?>.value(_cachedOtherUser())),
+    userNoteViewModelProvider(
+      userId: _kOtherUserId,
+    ).overrideWith(_FakeUserNoteViewModel.new),
+    userProfileProvider(
+      userId: _kOtherUserId,
+      guildId: guildId,
+    ).overrideWith((Ref ref) => profile),
+    memberRowByGuildProvider((_kOtherUserId, _kGuildId)).overrideWith(
+      (Ref ref) => Stream<Member?>.value(
+        Member(
+          userId: _kOtherUserId,
+          guildId: _kGuildId,
+          nick: 'Guild Nick',
+          roleIdsJson: '[]',
+          joinedAt: DateTime.utc(2026),
+        ),
+      ),
+    ),
+    userProfileGuildInfoProvider(_kGuildId).overrideWith((Ref ref) => null),
+    userProfileGuildRolesProvider(
+      _kGuildId,
+    ).overrideWith((Ref ref) => const <MemberRole>[]),
+    currentUserMemberIdentityProvider(
+      _kGuildId,
+    ).overrideWith((Ref ref) => Stream<CurrentUserMemberIdentity?>.value(null)),
+  ];
+}
+
+Widget _buildOtherUserApp(
+  ScrollController scrollController,
+  Future<UserProfileFullResponse?> profile, {
+  String? guildId,
+}) {
+  final colorTheme = buildDarkColorTheme();
+  return ProviderScope(
+    overrides: _otherUserOverrides(profile, guildId),
+    child: MaterialApp(
+      locale: kTestLocale,
+      localizationsDelegates: fluxerLocalizationsDelegates,
+      supportedLocales: FluxerLocalizations.supportedLocales,
+      theme: buildFluxerTheme(
+        colorTheme: colorTheme,
+        textTheme: FluxerTextTheme.fromColors(colorTheme),
+        layoutTheme: FluxerLayoutTheme.scaled(),
+      ),
+      home: FluxerToastOverlay(
+        child: Scaffold(
+          body: UserProfileView(
+            userId: _kOtherUserId,
+            guildId: guildId,
+            autoFocusNote: false,
+            scrollController: scrollController,
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -274,6 +385,50 @@ void main() {
 
       expect(find.text('Fluxer Visionary'), findsOneWidget);
       expect(find.textContaining('Visionary since'), findsNothing);
+    },
+  );
+  testWidgets('shows the cached user while the profile fetch is pending', (
+    tester,
+  ) async {
+    final ScrollController scrollController = ScrollController();
+    addTearDown(scrollController.dispose);
+    final Completer<UserProfileFullResponse?> profile =
+        Completer<UserProfileFullResponse?>();
+
+    await tester.pumpWidget(
+      _buildOtherUserApp(scrollController, profile.future),
+    );
+    await tester.pump();
+
+    expect(find.byType(UserProfileLoadingSkeleton), findsNothing);
+    expect(find.text('PT Nick'), findsWidgets);
+
+    profile.complete(_fetchedOtherProfile());
+    await tester.pump();
+
+    expect(find.byType(UserProfileLoadingSkeleton), findsNothing);
+    expect(find.text('PT Nick Fetched'), findsWidgets);
+  });
+
+  testWidgets(
+    'shows the cached guild nickname while the profile fetch is pending',
+    (tester) async {
+      final ScrollController scrollController = ScrollController();
+      addTearDown(scrollController.dispose);
+      final Completer<UserProfileFullResponse?> profile =
+          Completer<UserProfileFullResponse?>();
+
+      await tester.pumpWidget(
+        _buildOtherUserApp(
+          scrollController,
+          profile.future,
+          guildId: _kGuildId,
+        ),
+      );
+      await tester.pump();
+
+      expect(find.byType(UserProfileLoadingSkeleton), findsNothing);
+      expect(find.text('Guild Nick'), findsWidgets);
     },
   );
 }
