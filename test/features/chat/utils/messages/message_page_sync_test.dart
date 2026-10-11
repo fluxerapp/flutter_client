@@ -4,6 +4,7 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/messages/client_system_message.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_page_sync.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
+import 'package:fluxer_dart/export.dart';
 
 String _snowflakeForUtc(DateTime utc) {
   final int internal = (utc.millisecondsSinceEpoch - kSnowflakeEpochMs) << 22;
@@ -115,6 +116,45 @@ void main() {
     );
     expect(actual.map((Message m) => m.id), [deliveredId]);
   });
+
+  test(
+    'does not match a forward to a delivered forward of another message',
+    () {
+      final DateTime t0 = DateTime.utc(2026, 5, 10, 10);
+      MessageReference forwardOf(String messageId) => MessageReference(
+        channelId: 'channel-2',
+        messageId: messageId,
+        type: MessageReferenceType.forward,
+      );
+      final Message sending = _message(
+        _snowflakeForUtc(t0),
+        content: '',
+        deliveryState: MessageDeliveryState.failed,
+        clientNonce: 'nonce-1',
+      ).copyWith(messageReference: forwardOf('src-b'));
+      final Message deliveredOther = _message(
+        _snowflakeForUtc(t0.add(const Duration(seconds: 2))),
+        content: '',
+      ).copyWith(messageReference: forwardOf('src-a'));
+      final Message deliveredPlain = _message(
+        _snowflakeForUtc(t0.add(const Duration(seconds: 3))),
+        content: '',
+      );
+      final Message deliveredSame = _message(
+        _snowflakeForUtc(t0.add(const Duration(seconds: 4))),
+        content: '',
+      ).copyWith(messageReference: forwardOf('src-b'));
+
+      expect(
+        deliveredMatchForLocalSend([deliveredOther, deliveredPlain], sending),
+        isNull,
+      );
+      expect(
+        deliveredMatchForLocalSend([deliveredOther, deliveredSame], sending),
+        deliveredSame,
+      );
+    },
+  );
 
   test('keeps a second in-flight hi when only one delivered hi is present', () {
     final DateTime t0 = DateTime.utc(2026, 5, 10, 10);

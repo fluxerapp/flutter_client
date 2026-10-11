@@ -1912,6 +1912,52 @@ void main() {
       },
     );
 
+    test('a cancelled forward stays gone when its send later fails', () async {
+      final (container, adapter, notifier) = await setUpForward(
+        adapter: _SendAdapter(
+          serverMessageId: _snowflakeForUtc(DateTime.utc(2026, 6, 16, 12)),
+          failureCode: 'UNKNOWN_CHANNEL',
+        )..holdSend = true,
+      );
+
+      await notifier.forwardMessage(
+        sourceChannelId: 'channel-1',
+        sourceMessageId: 'src-1',
+        destinationChannelIds: <String>['channel-1'],
+      );
+      await _flushAsync();
+      notifier.cancelSendingMessage(localSends(container).single.id);
+      adapter.releaseSend();
+      await _flushAsync();
+      await notifier.switchChannel('channel-2');
+      await _flushAsync();
+      await notifier.switchChannel('channel-1');
+      await _flushAsync();
+
+      expect(localSends(container), isEmpty);
+    });
+
+    test('a cancelled comment is not sent after its forward lands', () async {
+      final (container, adapter, notifier) = await setUpForward(
+        adapter: _SendAdapter(
+          serverMessageId: _snowflakeForUtc(DateTime.utc(2026, 6, 16, 12)),
+        )..holdSend = true,
+      );
+
+      await notifier.forwardMessage(
+        sourceChannelId: 'channel-1',
+        sourceMessageId: 'src-1',
+        destinationChannelIds: <String>['channel-1'],
+        comment: 'look at this',
+      );
+      await _flushAsync();
+      notifier.cancelSendingMessage(localSends(container).last.id);
+      adapter.releaseSend();
+      await _flushAsync();
+
+      expect(adapter.messagePostCount, 1);
+    });
+
     test(
       'a failed forward fails its comment and retries with the forward reference',
       () async {

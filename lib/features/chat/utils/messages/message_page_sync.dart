@@ -221,6 +221,14 @@ bool _localSendMatchesDeliveredHeuristic(Message local, Message delivered) {
   if (local.flags != delivered.flags) {
     return false;
   }
+  final MessageReference? localReference = local.messageReference;
+  final MessageReference? deliveredReference = delivered.messageReference;
+  if ((localReference?.isForward ?? false) !=
+          (deliveredReference?.isForward ?? false) ||
+      ((localReference?.isForward ?? false) &&
+          localReference?.messageId != deliveredReference?.messageId)) {
+    return false;
+  }
   return delivered.timestamp.difference(local.timestamp).abs() <=
       _kOptimisticSendMatchWindow;
 }

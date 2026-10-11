@@ -5177,7 +5177,7 @@ class ChatViewModel extends _$ChatViewModel {
       }
       return;
     }
-    if (comment == null) {
+    if (comment == null || !_forwardSends.containsKey(comment.clientNonce)) {
       return;
     }
     try {
@@ -5219,6 +5219,9 @@ class ChatViewModel extends _$ChatViewModel {
   }
 
   void _failForwardSend(Message local, Object error) {
+    if (!_forwardSends.containsKey(local.clientNonce)) {
+      return;
+    }
     if (state.channelId != local.channelId) {
       _markForwardSendFailed(local);
       _syncSlowmodeFromSendError(error, local.channelId);
@@ -5239,6 +5242,9 @@ class ChatViewModel extends _$ChatViewModel {
   }
 
   void _markForwardSendFailed(Message local) {
+    if (!_forwardSends.containsKey(local.clientNonce)) {
+      return;
+    }
     final Message failed = _failedLocalSend(local);
     _forwardSends[local.clientNonce!] = failed;
     if (state.channelId != local.channelId) {
