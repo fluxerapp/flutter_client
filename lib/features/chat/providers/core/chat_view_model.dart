@@ -2024,9 +2024,10 @@ class ChatViewModel extends _$ChatViewModel {
     return _defaultReplyMentionFor(message: reply, channelId: channelId);
   }
 
-  Future<void> _restoreComposerDraftFromDb() async {
+  Future<void> _endEditRestoringDraft() async {
     final String channelId = state.channelId;
     if (channelId.isEmpty) {
+      state = state.copyWith(editingMessage: null, messageText: '');
       return;
     }
     final draft = await _loadComposerDraft(channelId);
@@ -2036,6 +2037,7 @@ class ChatViewModel extends _$ChatViewModel {
       channelId: channelId,
     );
     state = state.copyWith(
+      editingMessage: null,
       messageText: draft.text,
       replyingTo: draft.reply,
       replyMentioning: replyMentioning,
@@ -6023,8 +6025,7 @@ class ChatViewModel extends _$ChatViewModel {
   Future<void> _startReply(Message message) async {
     if (state.editingMessage != null) {
       // Abandon the in-progress edit and restore the prior draft first.
-      state = state.copyWith(editingMessage: null, messageText: '');
-      await _restoreComposerDraftFromDb();
+      await _endEditRestoringDraft();
     }
     final String channelId = state.channelId;
     final bool replyMentioning = await _defaultReplyMentionFor(
@@ -6443,8 +6444,7 @@ class ChatViewModel extends _$ChatViewModel {
   }
 
   void cancelEdit() {
-    state = state.copyWith(editingMessage: null, messageText: '');
-    unawaited(_restoreComposerDraftFromDb());
+    unawaited(_endEditRestoringDraft());
   }
 
   Future<void> saveEditedMessage({String? text}) async {
@@ -6460,7 +6460,6 @@ class ChatViewModel extends _$ChatViewModel {
       talker.debug(
         '[ChatViewModel] edit save noop messageId=${editingMessage.id}',
       );
-      state = state.copyWith(editingMessage: null);
       final FluxerLocalizations l10n = ref.read(appLocalizationsProvider);
       ref
           .read(toastProvider.notifier)
@@ -6470,7 +6469,7 @@ class ChatViewModel extends _$ChatViewModel {
               variant: FluxerToastVariant.warning,
             ),
           );
-      await _restoreComposerDraftFromDb();
+      await _endEditRestoringDraft();
       return;
     }
     final int maxMessageLength = ref.read(maxMessageLengthProvider);
@@ -6504,10 +6503,9 @@ class ChatViewModel extends _$ChatViewModel {
           messages: nextMessages ?? state.messages,
           origin: MessagesOrigin.localMutation,
         ),
-        editingMessage: null,
         errorMessage: null,
       );
-      await _restoreComposerDraftFromDb();
+      await _endEditRestoringDraft();
     } on DioException catch (error) {
       if (apiErrorCodeFromDioException(error) ==
           kPublishedMessageEditRateLimited) {

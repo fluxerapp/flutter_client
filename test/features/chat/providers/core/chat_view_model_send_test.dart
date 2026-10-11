@@ -479,6 +479,33 @@ void main() {
   );
 
   test(
+    'cancelling an edit restores the draft in the same state change',
+    () async {
+      final (container, _, _) = await setUpChannel();
+      final notifier = container.read(chatViewModelProvider.notifier)
+        ..updateMessageText('typed draft')
+        ..startEdit(_msg(id: 'm-edit', authorId: 'me', content: 'Test'));
+      await _flushAsync();
+
+      final List<ChatViewState> transitions = <ChatViewState>[];
+      final subscription = container.listen<ChatViewState>(
+        chatViewModelProvider,
+        (_, ChatViewState next) => transitions.add(next),
+      );
+      addTearDown(subscription.close);
+
+      notifier.cancelEdit();
+      await _flushAsync();
+
+      final List<String> textsAfterEdit = <String>[
+        for (final ChatViewState state in transitions)
+          if (state.editingMessage == null) state.messageText,
+      ];
+      expect(textsAfterEdit, <String>['typed draft']);
+    },
+  );
+
+  test(
     'switching channels mid-edit abandons the edit and keeps the draft',
     () async {
       final (container, _, _) = await setUpChannel();
