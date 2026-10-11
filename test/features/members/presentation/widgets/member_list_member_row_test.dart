@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -32,8 +33,11 @@ GuildMemberResponse _member(String userId) => GuildMemberResponse(
 
 Widget _app(Widget child) {
   final colorTheme = buildDarkColorTheme();
+  final overrides = <Override>[
+    fluxerDatabaseProvider.overrideWithValue(openTestDatabase()),
+  ];
   return ProviderScope(
-    overrides: [fluxerDatabaseProvider.overrideWithValue(openTestDatabase())],
+    overrides: overrides,
     child: MaterialApp(
       theme: buildFluxerTheme(
         colorTheme: colorTheme,
