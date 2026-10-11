@@ -77,19 +77,25 @@ class _SuspendTrackingGatewayConnection extends _TestGatewayConnection {
 }
 
 class _NudgeGatewayConnection extends GatewayConnection {
-  _NudgeGatewayConnection({this.suspended = false, this.likelyStale = false})
+  _NudgeGatewayConnection({this.suspended = false, this.alive = true})
     : super(token: 'test', dio: Dio());
 
   final bool suspended;
-  final bool likelyStale;
+  final bool alive;
   int reconnectNowCalls = 0;
+  int livenessChecks = 0;
   GatewayState current = GatewayState.disconnected;
 
   @override
   bool get isReconnectSuspended => suspended;
 
   @override
-  bool get isLikelyStale => likelyStale;
+  Future<bool> verifyLiveness({
+    Duration timeout = kGatewayLivenessTimeout,
+  }) async {
+    livenessChecks++;
+    return alive;
+  }
 
   @override
   GatewayState get state => current;
@@ -515,33 +521,43 @@ void main() {
       });
     });
 
-    test('reconnects a stale socket still marked connected', () {
-      fakeAsync((FakeAsync async) {
-        final connection = _NudgeGatewayConnection(likelyStale: true)
-          ..current = GatewayState.connected;
-        unawaited(
-          nudgeGatewayReconnectAfterResume(
-            connection,
-            hasConnectivity: () async => true,
-          ),
-        );
-        async.flushMicrotasks();
-        expect(connection.reconnectNowCalls, 1);
-      });
-    });
-
-    test('leaves a healthy connected socket alone', () {
+    test('keeps a connected socket that answers the liveness probe', () {
       fakeAsync((FakeAsync async) {
         final connection = _NudgeGatewayConnection()
           ..current = GatewayState.connected;
+        final List<bool> inFlightLog = <bool>[];
         unawaited(
           nudgeGatewayReconnectAfterResume(
             connection,
+            onResumeReconnectInFlight: ({required bool inFlight}) =>
+                inFlightLog.add(inFlight),
             hasConnectivity: () async => true,
           ),
         );
         async.flushMicrotasks();
+        expect(connection.livenessChecks, 1);
         expect(connection.reconnectNowCalls, 0);
+        expect(inFlightLog, [true, false]);
+      });
+    });
+
+    test('holds the resume flag while a silent socket resumes', () {
+      fakeAsync((FakeAsync async) {
+        final connection = _NudgeGatewayConnection(alive: false)
+          ..current = GatewayState.connected;
+        final List<bool> inFlightLog = <bool>[];
+        unawaited(
+          nudgeGatewayReconnectAfterResume(
+            connection,
+            onResumeReconnectInFlight: ({required bool inFlight}) =>
+                inFlightLog.add(inFlight),
+            hasConnectivity: () async => true,
+          ),
+        );
+        async.flushMicrotasks();
+        expect(connection.livenessChecks, 1);
+        expect(connection.reconnectNowCalls, 0);
+        expect(inFlightLog, [true]);
       });
     });
 
