@@ -137,7 +137,6 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
                 duration: context.motion.panel,
                 curve: const Cubic(0.25, 0.1, 0.25, 1),
                 alignment: Alignment.topCenter,
-                clipBehavior: Clip.none,
                 child: visuallyExpanded
                     ? Padding(
                         padding: const EdgeInsets.only(bottom: 4),
