@@ -5355,6 +5355,10 @@
     "@chatMessageFailedToSend": {
         "description": "Status label shown under a failed outgoing chat message."
     },
+    "chatMessageFailedToSendTapForOptions": "Αποτυχία αποστολής μηνύματος. Πατήστε για επιλογές.",
+    "@chatMessageFailedToSendTapForOptions": {
+        "description": "Status label shown under a failed outgoing chat message on touch layouts, where tapping the message opens Retry and Delete."
+    },
     "chatSendFailureDmRestricted": "Το μήνυμά σας δεν μπόρεσε να παραδοθεί. Αυτό συμβαίνει συνήθως επειδή δεν μοιράζεστε κοινότητα με τον παραλήπτη ή ο παραλήπτης δέχεται απευθείας μηνύματα μόνο από φίλους. Μπορεί επίσης να χρειαστεί να προσαρμόσετε τις δικές σας ρυθμίσεις απορρήτου απευθείας μηνυμάτων στο {settingsPath}.",
     "@chatSendFailureDmRestricted": {
         "description": "Fluxerbot system message when a DM cannot be delivered due to privacy restrictions.",

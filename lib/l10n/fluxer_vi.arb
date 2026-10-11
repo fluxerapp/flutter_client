@@ -7257,6 +7257,10 @@
     "@chatMessageFailedToSend": {
         "description": "Status label shown under a failed outgoing chat message."
     },
+    "chatMessageFailedToSendTapForOptions": "Không gửi được tin nhắn. Nhấn để xem tùy chọn.",
+    "@chatMessageFailedToSendTapForOptions": {
+        "description": "Status label shown under a failed outgoing chat message on touch layouts, where tapping the message opens Retry and Delete."
+    },
     "chatSendFailureDmRestricted": "Tin nhắn của bạn không thể được gửi. Điều này thường xảy ra vì bạn không chung cộng đồng với người nhận hoặc người nhận chỉ chấp nhận tin nhắn trực tiếp từ bạn bè. Bạn cũng có thể cần điều chỉnh cài đặt quyền riêng tư tin nhắn trực tiếp của mình trong {settingsPath}.",
     "@chatSendFailureDmRestricted": {
         "description": "Fluxerbot system message when a DM cannot be delivered due to privacy restrictions.",

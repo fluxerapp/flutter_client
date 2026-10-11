@@ -6033,7 +6033,7 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
 
   @override
   String get chatMessageFailedToSendTapForOptions =>
-      'Failed to send message. Tap for options.';
+      'הודעה נכשלה בשליחה. הקש לאפשרויות.';
 
   @override
   String chatSendFailureDmRestricted(String settingsPath) {

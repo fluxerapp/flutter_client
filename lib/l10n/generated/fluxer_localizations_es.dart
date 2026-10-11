@@ -6169,7 +6169,7 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
 
   @override
   String get chatMessageFailedToSendTapForOptions =>
-      'Failed to send message. Tap for options.';
+      'No se pudo enviar el mensaje. Toca para ver las opciones.';
 
   @override
   String chatSendFailureDmRestricted(String settingsPath) {
@@ -21391,6 +21391,10 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String get chatMessageFailedToSend => 'Error al enviar el mensaje';
+
+  @override
+  String get chatMessageFailedToSendTapForOptions =>
+      'No se pudo enviar el mensaje. Toca para ver opciones.';
 
   @override
   String chatSendFailureDmRestricted(String settingsPath) {

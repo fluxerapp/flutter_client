@@ -6113,7 +6113,7 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get chatMessageFailedToSendTapForOptions =>
-      'Failed to send message. Tap for options.';
+      'Kunde inte skicka meddelande. Tryck för alternativ.';
 
   @override
   String chatSendFailureDmRestricted(String settingsPath) {

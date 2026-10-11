@@ -6099,7 +6099,7 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
 
   @override
   String get chatMessageFailedToSendTapForOptions =>
-      'Failed to send message. Tap for options.';
+      'Kunne ikke sende besked. Tryk for indstillinger.';
 
   @override
   String chatSendFailureDmRestricted(String settingsPath) {

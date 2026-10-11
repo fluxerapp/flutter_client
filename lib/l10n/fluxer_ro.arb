@@ -7257,6 +7257,10 @@
     "@chatMessageFailedToSend": {
         "description": "Status label shown under a failed outgoing chat message."
     },
+    "chatMessageFailedToSendTapForOptions": "Nu am putut trimite mesajul. Atingeți pentru opțiuni.",
+    "@chatMessageFailedToSendTapForOptions": {
+        "description": "Status label shown under a failed outgoing chat message on touch layouts, where tapping the message opens Retry and Delete."
+    },
     "chatSendFailureDmRestricted": "Mesajul tău nu a putut fi livrat. Acest lucru se întâmplă de obicei deoarece nu împărtășiți o comunitate cu destinatarul sau destinatarul acceptă mesaje directe doar de la prieteni. De asemenea, este posibil să fie necesar să ajustezi propriile setări de confidențialitate pentru mesajele directe în {settingsPath}.",
     "@chatSendFailureDmRestricted": {
         "description": "Fluxerbot system message when a DM cannot be delivered due to privacy restrictions.",

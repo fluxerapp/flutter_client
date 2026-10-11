@@ -5875,7 +5875,7 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get chatMessageFailedToSendTapForOptions =>
-      'Failed to send message. Tap for options.';
+      '메시지를 보내지 못했습니다. 옵션을 보려면 탭하세요.';
 
   @override
   String chatSendFailureDmRestricted(String settingsPath) {

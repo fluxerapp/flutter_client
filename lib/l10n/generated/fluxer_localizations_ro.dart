@@ -6140,7 +6140,7 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
 
   @override
   String get chatMessageFailedToSendTapForOptions =>
-      'Failed to send message. Tap for options.';
+      'Nu am putut trimite mesajul. Atingeți pentru opțiuni.';
 
   @override
   String chatSendFailureDmRestricted(String settingsPath) {

@@ -6153,7 +6153,7 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
 
   @override
   String get chatMessageFailedToSendTapForOptions =>
-      'Failed to send message. Tap for options.';
+      'Неуспешно изпращане на съобщение. Докоснете за опции.';
 
   @override
   String chatSendFailureDmRestricted(String settingsPath) {

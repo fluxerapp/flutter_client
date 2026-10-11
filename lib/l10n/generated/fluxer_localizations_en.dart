@@ -21052,6 +21052,10 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get chatMessageFailedToSend => 'Failed to send message';
 
   @override
+  String get chatMessageFailedToSendTapForOptions =>
+      'Failed to send message. Tap for options.';
+
+  @override
   String chatSendFailureDmRestricted(String settingsPath) {
     return 'Your message could not be delivered. This is usually because you don\'t share a community with the recipient or the recipient is only accepting direct messages from friends. You may also need to adjust your own direct message privacy settings in $settingsPath.';
   }
@@ -34709,6 +34713,10 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get chatMessageFailedToSend => 'Failed to send message';
+
+  @override
+  String get chatMessageFailedToSendTapForOptions =>
+      'Failed to send message. Tap for options.';
 
   @override
   String chatSendFailureDmRestricted(String settingsPath) {

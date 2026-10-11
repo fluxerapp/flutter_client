@@ -6192,7 +6192,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get chatMessageFailedToSendTapForOptions =>
-      'Failed to send message. Tap for options.';
+      'Échec de l\'envoi du message. Appuyez pour voir les options.';
 
   @override
   String chatSendFailureDmRestricted(String settingsPath) {

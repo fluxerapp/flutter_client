@@ -6153,7 +6153,7 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
 
   @override
   String get chatMessageFailedToSendTapForOptions =>
-      'Failed to send message. Tap for options.';
+      'Nem sikerült elküldeni az üzenetet. Érintsd meg a lehetőségekért.';
 
   @override
   String chatSendFailureDmRestricted(String settingsPath) {

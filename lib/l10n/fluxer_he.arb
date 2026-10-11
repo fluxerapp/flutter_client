@@ -7257,6 +7257,10 @@
     "@chatMessageFailedToSend": {
         "description": "Status label shown under a failed outgoing chat message."
     },
+    "chatMessageFailedToSendTapForOptions": "הודעה נכשלה בשליחה. הקש לאפשרויות.",
+    "@chatMessageFailedToSendTapForOptions": {
+        "description": "Status label shown under a failed outgoing chat message on touch layouts, where tapping the message opens Retry and Delete."
+    },
     "chatSendFailureDmRestricted": "ההודעה שלך לא נמסרה. בדרך כלל זה קורה מכיוון שאתה לא חולק קהילה עם הנמען או שהנמען מקבל הודעות ישירות רק מחברים. ייתכן שתצטרך גם להתאים את הגדרות הפרטיות שלך להודעות ישירות ב- {settingsPath}.",
     "@chatSendFailureDmRestricted": {
         "description": "Fluxerbot system message when a DM cannot be delivered due to privacy restrictions.",

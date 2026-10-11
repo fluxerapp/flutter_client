@@ -5764,8 +5764,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get chatMessageFailedToSend => '消息发送失败';
 
   @override
-  String get chatMessageFailedToSendTapForOptions =>
-      'Failed to send message. Tap for options.';
+  String get chatMessageFailedToSendTapForOptions => '发送消息失败。轻触以查看选项。';
 
   @override
   String chatSendFailureDmRestricted(String settingsPath) {
@@ -19931,6 +19930,9 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get chatMessageFailedToSend => '訊息傳送失敗';
+
+  @override
+  String get chatMessageFailedToSendTapForOptions => '無法傳送訊息。輕觸以選擇選項。';
 
   @override
   String chatSendFailureDmRestricted(String settingsPath) {

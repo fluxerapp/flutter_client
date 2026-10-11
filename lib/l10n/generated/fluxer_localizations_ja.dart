@@ -5875,7 +5875,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
 
   @override
   String get chatMessageFailedToSendTapForOptions =>
-      'Failed to send message. Tap for options.';
+      'メッセージの送信に失敗しました。オプションを表示するにはタップしてください。';
 
   @override
   String chatSendFailureDmRestricted(String settingsPath) {

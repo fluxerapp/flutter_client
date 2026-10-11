@@ -5355,6 +5355,10 @@
     "@chatMessageFailedToSend": {
         "description": "Status label shown under a failed outgoing chat message."
     },
+    "chatMessageFailedToSendTapForOptions": "Nie udało się wysłać wiadomości. Stuknij, aby zobaczyć opcje.",
+    "@chatMessageFailedToSendTapForOptions": {
+        "description": "Status label shown under a failed outgoing chat message on touch layouts, where tapping the message opens Retry and Delete."
+    },
     "chatSendFailureDmRestricted": "Twoja wiadomość nie mogła zostać dostarczona. Zazwyczaj dzieje się tak, ponieważ nie dzielisz społeczności z odbiorcą lub odbiorca akceptuje wiadomości bezpośrednie tylko od znajomych. Może być również konieczne dostosowanie własnych ustawień prywatności wiadomości bezpośrednich w {settingsPath}.",
     "@chatSendFailureDmRestricted": {
         "description": "Fluxerbot system message when a DM cannot be delivered due to privacy restrictions.",
