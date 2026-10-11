@@ -243,6 +243,62 @@ void main() {
     },
   );
 
+  test('guildUserDisplayProvider resolves on the first read after the '
+      'provider was disposed', () async {
+    final FluxerDatabase db = openTestDatabase();
+    await db.userDao.upsertUser(
+      UsersCompanion.insert(
+        id: 'user-1',
+        username: 'alice',
+        globalName: const Value('Global Alice'),
+      ),
+    );
+    await db.memberDao.upsertMember(
+      MembersCompanion.insert(
+        userId: 'user-1',
+        guildId: 'guild-1',
+        nick: const Value('Guild Alice'),
+        roleIdsJson: const Value('[]'),
+      ),
+    );
+
+    final ProviderContainer container = ProviderContainer(
+      overrides: [
+        fluxerDatabaseProvider.overrideWithValue(db),
+        guildMemberHydrationServiceProvider.overrideWithValue(
+          _NoopHydrationService(database: db),
+        ),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    final ProviderSubscription<AsyncValue<GuildUserDisplay?>> first = container
+        .listen(guildUserDisplayProvider(('user-1', 'guild-1')), (_, _) {});
+    await pumpEventQueue();
+    expect(first.read().value?.displayName, 'Guild Alice');
+    first.close();
+    await pumpEventQueue();
+    expect(
+      container.exists(guildUserDisplayProvider(('user-1', 'guild-1'))),
+      isFalse,
+    );
+
+    final List<String?> names = <String?>[];
+    final ProviderSubscription<AsyncValue<GuildUserDisplay?>> second = container
+        .listen(
+          guildUserDisplayProvider(('user-1', 'guild-1')),
+          (
+            AsyncValue<GuildUserDisplay?>? previous,
+            AsyncValue<GuildUserDisplay?> next,
+          ) => names.add(next.value?.displayName),
+          fireImmediately: true,
+        );
+    addTearDown(second.close);
+    await pumpEventQueue();
+
+    expect(names, everyElement('Guild Alice'));
+  });
+
   test('guildUserDisplayProvider re-emits when the watched user row '
       'changes', () async {
     final FluxerDatabase db = openTestDatabase();

@@ -107,6 +107,18 @@ _dmChannelNicksProvider = StreamProvider.autoDispose
           .map((String? json) => parseDmChannelNicksJson(json ?? '')),
     );
 
+const int _lastResolvedDisplayLimit = 2048;
+
+final Provider<Map<(String, String?), GuildUserDisplay>>
+_lastResolvedDisplayProvider =
+    Provider<Map<(String, String?), GuildUserDisplay>>((ref) {
+      ref.watch(fluxerDatabaseProvider);
+      return <(String, String?), GuildUserDisplay>{};
+    });
+
+bool _isSettling(AsyncValue<Object?> value) =>
+    value.isLoading && !value.hasValue;
+
 AsyncValue<GuildUserDisplay?> _combine(
   Ref ref,
   (String, String?) args, {
@@ -118,9 +130,13 @@ AsyncValue<GuildUserDisplay?> _combine(
       guildId != null && guildId.isNotEmpty
       ? ref.watch(memberRowByGuildProvider((userId, guildId)))
       : const AsyncValue<db.Member?>.data(null);
-  final String? friendNickname = ref
-      .watch(friendNicknameProvider(userId))
-      .value;
+  final AsyncValue<String?> friendNicknameAsync = ref.watch(
+    friendNicknameProvider(userId),
+  );
+  final String? friendNickname = friendNicknameAsync.value;
+  final Map<(String, String?), GuildUserDisplay> lastResolved = ref.watch(
+    _lastResolvedDisplayProvider,
+  );
   final db.User? user = userAsync.value;
   if (fetchOnMiss &&
       guildId != null &&
@@ -137,19 +153,32 @@ AsyncValue<GuildUserDisplay?> _combine(
       );
     }
   }
-  if (userAsync.isLoading && !userAsync.hasValue) {
+  final GuildUserDisplay? previous = lastResolved[args];
+  if (previous != null &&
+      (_isSettling(userAsync) ||
+          _isSettling(memberAsync) ||
+          _isSettling(friendNicknameAsync))) {
+    return AsyncValue<GuildUserDisplay?>.data(previous);
+  }
+  if (_isSettling(userAsync)) {
     return const AsyncValue<GuildUserDisplay?>.loading();
   }
-  return AsyncValue<GuildUserDisplay?>.data(
-    user == null
-        ? null
-        : resolveGuildUserDisplayFromRows(
-            user: user,
-            member: memberAsync.value,
-            guildId: guildId,
-            friendNickname: friendNickname,
-          ),
+  if (user == null) {
+    lastResolved.remove(args);
+    return const AsyncValue<GuildUserDisplay?>.data(null);
+  }
+  final GuildUserDisplay display = resolveGuildUserDisplayFromRows(
+    user: user,
+    member: memberAsync.value,
+    guildId: guildId,
+    friendNickname: friendNickname,
   );
+  lastResolved.remove(args);
+  if (lastResolved.length >= _lastResolvedDisplayLimit) {
+    lastResolved.remove(lastResolved.keys.first);
+  }
+  lastResolved[args] = display;
+  return AsyncValue<GuildUserDisplay?>.data(display);
 }
 
 final ProviderFamily<AsyncValue<GuildUserDisplay?>, (String, String?)>
