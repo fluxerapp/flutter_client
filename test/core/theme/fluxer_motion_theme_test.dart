@@ -12,8 +12,33 @@ void main() {
       expect(theme.normal, const Duration(milliseconds: 150));
       expect(theme.panel, const Duration(milliseconds: 200));
       expect(theme.slow, const Duration(milliseconds: 300));
+      expect(theme.push, const Duration(milliseconds: 230));
+      expect(theme.pop, const Duration(milliseconds: 180));
+      expect(theme.sheet, const Duration(milliseconds: 270));
       expect(theme.curve, Curves.easeOut);
       expect(theme.emphasizedCurve, Curves.easeInOut);
+    });
+
+    test('push curve follows the measured Discord push samples', () {
+      const theme = FluxerMotionTheme.standard();
+      const List<(double, double)> samples = <(double, double)>[
+        (1 / 7, 0.30),
+        (2 / 7, 0.62),
+        (3 / 7, 0.82),
+        (4 / 7, 0.93),
+        (5 / 7, 0.98),
+      ];
+      for (final (double t, double progress) in samples) {
+        expect(theme.pushCurve.transform(t), closeTo(progress, 0.03));
+      }
+    });
+
+    test('sheet curve settles without overshooting', () {
+      const theme = FluxerMotionTheme.standard();
+      for (int i = 0; i <= 100; i++) {
+        expect(theme.sheetCurve.transform(i / 100), lessThanOrEqualTo(1));
+      }
+      expect(theme.sheetCurve.transform(0.5), greaterThan(0.9));
     });
 
     test('reduced zeroes all durations', () {
@@ -23,6 +48,9 @@ void main() {
       expect(theme.normal, Duration.zero);
       expect(theme.panel, Duration.zero);
       expect(theme.slow, Duration.zero);
+      expect(theme.push, Duration.zero);
+      expect(theme.pop, Duration.zero);
+      expect(theme.sheet, Duration.zero);
     });
 
     test('copyWith preserves unchanged values', () {
