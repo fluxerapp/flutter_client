@@ -11,7 +11,9 @@ GuildReadStateEntry _readState({required int mentionCount}) {
     hasUnread: true,
     hasPlainUnread: mentionCount == 0,
     mentionCount: mentionCount,
-    mentionChannels: mentionCount > 0 ? const <String>{'c1'} : const <String>{},
+    mentionCountByChannel: mentionCount > 0
+        ? <String, int>{'c1': mentionCount}
+        : const <String, int>{},
     unreadChannelId: 'c1',
     sentinel: 0,
   );

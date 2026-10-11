@@ -718,7 +718,7 @@ void main() {
       expect(incremental.hasPlainUnread, full.hasPlainUnread);
       expect(incremental.mentionCount, full.mentionCount);
       expect(incremental.unreadChannelId, full.unreadChannelId);
-      expect(incremental.mentionChannels, full.mentionChannels);
+      expect(incremental.mentionCountByChannel, full.mentionCountByChannel);
     },
   );
 

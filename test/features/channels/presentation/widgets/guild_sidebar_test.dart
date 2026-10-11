@@ -58,7 +58,7 @@ const GuildReadStateEntry _unreadGuildReadState = GuildReadStateEntry(
   hasUnread: true,
   hasPlainUnread: false,
   mentionCount: 0,
-  mentionChannels: <String>{},
+  mentionCountByChannel: <String, int>{},
   unreadChannelId: null,
   sentinel: 0,
 );

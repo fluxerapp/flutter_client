@@ -34,7 +34,7 @@ class GuildReadStateEntry {
     required this.hasUnread,
     required this.hasPlainUnread,
     required this.mentionCount,
-    required this.mentionChannels,
+    required this.mentionCountByChannel,
     required this.unreadChannelId,
     required this.sentinel,
   });
@@ -42,7 +42,7 @@ class GuildReadStateEntry {
   final bool hasUnread;
   final bool hasPlainUnread;
   final int mentionCount;
-  final Set<String> mentionChannels;
+  final Map<String, int> mentionCountByChannel;
   final String? unreadChannelId;
   final int sentinel;
 
@@ -59,24 +59,21 @@ class GuildReadStateEntry {
     if (unreadChannelId != other.unreadChannelId) {
       return false;
     }
-    if (mentionChannels.length != other.mentionChannels.length) {
-      return false;
-    }
-    return mentionChannels.containsAll(other.mentionChannels);
+    return mapEquals(mentionCountByChannel, other.mentionCountByChannel);
   }
 
   GuildReadStateEntry copyWith({
     bool? hasUnread,
     bool? hasPlainUnread,
     int? mentionCount,
-    Set<String>? mentionChannels,
+    Map<String, int>? mentionCountByChannel,
     Object? unreadChannelId = _sentinel,
     int? sentinel,
   }) => GuildReadStateEntry(
     hasUnread: hasUnread ?? this.hasUnread,
     hasPlainUnread: hasPlainUnread ?? this.hasPlainUnread,
     mentionCount: mentionCount ?? this.mentionCount,
-    mentionChannels: mentionChannels ?? this.mentionChannels,
+    mentionCountByChannel: mentionCountByChannel ?? this.mentionCountByChannel,
     unreadChannelId: identical(unreadChannelId, _sentinel)
         ? this.unreadChannelId
         : unreadChannelId as String?,
@@ -543,7 +540,7 @@ class GuildReadState extends _$GuildReadState {
     var totalMentions = 0;
     String? firstUnreadChannelId;
     var firstUnreadPosition = 0;
-    final mentionChannels = <String>{};
+    final mentionCountByChannel = <String, int>{};
     final bool threadsActive = ref.read(threadsGateProvider).isActive(guildId);
     for (final channel in _channelSnapshot.values) {
       if (channel.guildId != guildId ||
@@ -556,7 +553,7 @@ class GuildReadState extends _$GuildReadState {
         continue;
       }
       if (contribution.mentions > 0) {
-        mentionChannels.add(channel.id);
+        mentionCountByChannel[channel.id] = contribution.mentions;
         totalMentions += contribution.mentions;
       }
       if (contribution.unreadEligible) {
@@ -576,7 +573,7 @@ class GuildReadState extends _$GuildReadState {
       hasUnread: anyUnread,
       hasPlainUnread: anyPlainUnread,
       mentionCount: totalMentions,
-      mentionChannels: mentionChannels,
+      mentionCountByChannel: mentionCountByChannel,
       unreadChannelId: firstUnreadChannelId,
       sentinel: 0,
     );

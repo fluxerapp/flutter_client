@@ -22,8 +22,11 @@ class AppIconBadgeCoordinator extends _$AppIconBadgeCoordinator {
   @override
   void build() {
     ref
-      ..listen(appIconBadgeProvider, (AppIconBadgeValue? previous, next) {
-        if (previous?.count == next.count) {
+      ..listen<AppIconBadgeValue?>(appIconBadgeProvider, (
+        AppIconBadgeValue? previous,
+        AppIconBadgeValue? next,
+      ) {
+        if (next == null || previous?.count == next.count) {
           return;
         }
         unawaited(AppIconBadgeService.update(next.count));
@@ -39,11 +42,10 @@ class AppIconBadgeCoordinator extends _$AppIconBadgeCoordinator {
           unawaited(AppIconBadgeService.clear());
         }
       });
-    final String? userId = ref.watch(currentUserIdProvider);
-    if (userId == null) {
+    if (ref.read(currentUserIdProvider) == null) {
       unawaited(AppIconBadgeService.clear());
-    } else {
-      final AppIconBadgeValue badge = ref.watch(appIconBadgeProvider);
+    } else if (ref.read(appIconBadgeProvider)
+        case final AppIconBadgeValue badge) {
       unawaited(AppIconBadgeService.update(badge.count));
     }
     if (Platform.isAndroid) {
