@@ -569,6 +569,36 @@ void main() {
     });
   });
 
+  group('comment typing', () {
+    testWidgets('keeps typing when a hardware keyboard hides the soft one', (
+      WidgetTester tester,
+    ) async {
+      final FluxerDatabase db = await _seedDb();
+      await _openSheet(tester, db);
+      final Finder field = find.byType(TextField).last;
+      await tester.showKeyboard(field);
+      tester.view.viewInsets = const FakeViewPadding(bottom: 300);
+      addTearDown(tester.view.resetViewInsets);
+      await tester.pumpAndSettle();
+
+      tester.view.viewInsets = FakeViewPadding.zero;
+      await tester.pumpAndSettle();
+      final EditableText editable = tester.widget<EditableText>(
+        find.descendant(of: field, matching: find.byType(EditableText)),
+      );
+      expect(editable.focusNode.hasFocus, isTrue);
+
+      tester.testTextInput.updateEditingValue(
+        const TextEditingValue(
+          text: 'abc',
+          selection: TextSelection.collapsed(offset: 3),
+        ),
+      );
+      await tester.pump();
+      expect(editable.controller.text, 'abc');
+    });
+  });
+
   group('comment mention context', () {
     testWidgets(
       'uses the selected destination channel, not the source channel',

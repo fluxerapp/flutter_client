@@ -6,6 +6,8 @@ void main() {
   testWidgets('system back unfocuses a text field before onBack', (
     tester,
   ) async {
+    tester.view.viewInsets = const FakeViewPadding(bottom: 960);
+    addTearDown(tester.view.resetViewInsets);
     var backCount = 0;
     final FocusNode focusNode = FocusNode();
     addTearDown(focusNode.dispose);
@@ -42,6 +44,8 @@ void main() {
   testWidgets('system back unfocuses a text field before dismissing', (
     tester,
   ) async {
+    tester.view.viewInsets = const FakeViewPadding(bottom: 960);
+    addTearDown(tester.view.resetViewInsets);
     final FocusNode focusNode = FocusNode();
     addTearDown(focusNode.dispose);
 
@@ -76,99 +80,62 @@ void main() {
     expect(dismissed, isTrue);
   });
 
-  testWidgets('hides text focus when the keyboard inset collapses', (
-    tester,
-  ) async {
+  testWidgets('keeps text focus when the soft keyboard hides', (tester) async {
     final FocusNode focusNode = FocusNode();
     addTearDown(focusNode.dispose);
-    var keyboardInset = 320.0;
+    var dismissed = false;
+    tester.view.viewInsets = const FakeViewPadding(bottom: 960);
+    addTearDown(tester.view.resetViewInsets);
 
     await tester.pumpWidget(
       MaterialApp(
-        home: StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
-            return MediaQuery(
-              data: MediaQuery.of(
-                context,
-              ).copyWith(viewInsets: EdgeInsets.only(bottom: keyboardInset)),
-              child: wrapFluxerOverlayBackHandler(
-                canDismiss: true,
-                onBack: null,
-                onDismiss: null,
-                child: Scaffold(
-                  body: Column(
-                    children: <Widget>[
-                      TextField(focusNode: focusNode),
-                      ElevatedButton(
-                        onPressed: () => setState(() => keyboardInset = 0),
-                        child: const Text('Hide keyboard'),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          },
+        home: wrapFluxerOverlayBackHandler(
+          canDismiss: true,
+          onBack: null,
+          onDismiss: () => dismissed = true,
+          child: Scaffold(body: TextField(focusNode: focusNode)),
         ),
       ),
     );
 
     focusNode.requestFocus();
     await tester.pump();
+    tester.view.viewInsets = FakeViewPadding.zero;
+    await tester.pump();
+    await tester.pump();
     expect(focusNode.hasFocus, isTrue);
 
-    await tester.tap(find.text('Hide keyboard'));
-    await tester.pump();
+    final bool back = await tester.binding.handlePopRoute();
     await tester.pump();
 
-    expect(focusNode.hasFocus, isFalse);
+    expect(back, isTrue);
+    expect(dismissed, isTrue);
   });
 
-  testWidgets('keyboard inset collapse ignores fields outside the overlay', (
+  testWidgets('desktop back unfocuses a text field without a soft keyboard', (
     tester,
   ) async {
-    final FocusNode outsideFocus = FocusNode();
-    addTearDown(outsideFocus.dispose);
-    var keyboardInset = 320.0;
+    final FocusNode focusNode = FocusNode();
+    addTearDown(focusNode.dispose);
+    var dismissed = false;
 
     await tester.pumpWidget(
       MaterialApp(
-        home: StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
-            return Scaffold(
-              body: Column(
-                children: <Widget>[
-                  TextField(focusNode: outsideFocus),
-                  MediaQuery(
-                    data: MediaQuery.of(context).copyWith(
-                      viewInsets: EdgeInsets.only(bottom: keyboardInset),
-                    ),
-                    child: wrapFluxerOverlayBackHandler(
-                      canDismiss: true,
-                      onBack: null,
-                      onDismiss: null,
-                      child: ElevatedButton(
-                        onPressed: () => setState(() => keyboardInset = 0),
-                        child: const Text('Hide keyboard'),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
+        home: wrapFluxerOverlayBackHandler(
+          canDismiss: true,
+          onBack: null,
+          onDismiss: () => dismissed = true,
+          child: Scaffold(body: TextField(focusNode: focusNode)),
         ),
       ),
     );
 
-    outsideFocus.requestFocus();
+    focusNode.requestFocus();
     await tester.pump();
-    expect(outsideFocus.hasFocus, isTrue);
-
-    await tester.tap(find.text('Hide keyboard'));
-    await tester.pump();
+    await tester.binding.handlePopRoute();
     await tester.pump();
 
-    expect(outsideFocus.hasFocus, isTrue);
-  });
+    expect(focusNode.hasFocus, isFalse);
+    expect(dismissed, isFalse);
+  }, variant: TargetPlatformVariant.only(TargetPlatform.macOS));
 }
