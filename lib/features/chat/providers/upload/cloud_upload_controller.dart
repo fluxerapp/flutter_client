@@ -33,17 +33,28 @@ part 'cloud_upload_controller.g.dart';
 @Riverpod(keepAlive: true)
 class CloudUploadController extends _$CloudUploadController {
   int _nextAttachmentId = 1;
-  final Map<int, CancelToken> _activeUploadControllers = <int, CancelToken>{};
+  final Map<int, _AttachmentUpload> _uploads = <int, _AttachmentUpload>{};
+  final Map<int, int> _progressPatchedAtMs = <int, int>{};
+  final Map<String, int> _sendProgressAtMs = <String, int>{};
+  final Map<String, CancelToken> _sendTokens = <String, CancelToken>{};
+  final Set<String> _stagedPaths = <String>{};
   String _channelId = '';
 
   @override
   CloudComposerAttachments build(String channelId) {
     _channelId = channelId;
     ref.onDispose(() {
-      for (final CancelToken c in _activeUploadControllers.values) {
-        c.cancel();
+      for (final _AttachmentUpload upload in _uploads.values) {
+        upload.token.cancel();
       }
-      _activeUploadControllers.clear();
+      _uploads.clear();
+      for (final CancelToken token in _sendTokens.values) {
+        token.cancel();
+      }
+      _sendTokens.clear();
+      for (final String path in _stagedPaths.toList()) {
+        _deleteStagedPath(path);
+      }
     });
     return CloudComposerAttachments.empty;
   }
@@ -62,11 +73,16 @@ class CloudUploadController extends _$CloudUploadController {
       maxFileBytes: maxFileBytes,
       maxMultipartRequestBytes: maxFileBytes,
     );
+    final bool directUploads = ref
+        .read(instanceRuntimeConfigProvider)
+        .presignedAttachmentUploads;
     final FileUploadValidationResult validation = await validator
         .validateAddFiles(
           currentCount: state.items.length,
           newFiles: files.map((ComposerUploadFile f) => f.file).toList(),
-          multipartPayloadPreview: const <String, dynamic>{'content': ''},
+          multipartPayloadPreview: directUploads
+              ? null
+              : const <String, dynamic>{'content': ''},
         );
     if (!validation.isValid) {
       return validation;
@@ -101,9 +117,10 @@ class CloudUploadController extends _$CloudUploadController {
       ...state.items,
       ...created,
     ]);
-    if (ref.read(advancedPreferencesProvider).preuploadMessageAttachments) {
+    if (directUploads &&
+        ref.read(advancedPreferencesProvider).preuploadMessageAttachments) {
       for (final PendingAttachment attachment in created) {
-        unawaited(_ensureComposerAttachmentUploaded(attachment.id));
+        unawaited(_startUpload(attachment));
       }
     }
     return const FileUploadValidationResult.success();
@@ -145,7 +162,27 @@ class CloudUploadController extends _$CloudUploadController {
     final Directory dir = await Directory.systemTemp.createTemp('upload_');
     final File dest = File('${dir.path}/$safeName');
     await write(dest);
+    _stagedPaths.add(dest.path);
     return XFile(dest.path, mimeType: mimeType, name: safeName);
+  }
+
+  void _discardFiles(Iterable<PendingAttachment> attachments) {
+    for (final PendingAttachment attachment in attachments) {
+      _uploads.remove(attachment.id)?.token.cancel();
+      _progressPatchedAtMs.remove(attachment.id);
+      if (_stagedPaths.contains(attachment.file.path)) {
+        _deleteStagedPath(attachment.file.path);
+      }
+    }
+  }
+
+  void _deleteStagedPath(String path) {
+    _stagedPaths.remove(path);
+    try {
+      File(path).parent.deleteSync(recursive: true);
+    } on FileSystemException catch (e) {
+      talker.warning('[CloudUpload] staged file cleanup failed: $e');
+    }
   }
 
   List<PendingAttachment> claimForMessage(String nonce) {
@@ -166,29 +203,37 @@ class CloudUploadController extends _$CloudUploadController {
     return claimed;
   }
 
-  void cancelMessageUpload(String nonce) {
-    final MessageUploadSession? session = ref.read(
-      messageUploadSessionsProvider,
-    )[nonce];
-    if (session == null) {
+  CancelToken sendCancelToken(String nonce) =>
+      _sendTokens.putIfAbsent(nonce, CancelToken.new);
+
+  void reportSendProgress(String nonce, int sentBytes, int totalBytes) {
+    if (totalBytes <= 0) {
       return;
     }
-    for (final PendingAttachment attachment in session.attachments) {
-      _activeUploadControllers.remove(attachment.id)?.cancel();
+    final double progress = sentBytes / totalBytes;
+    if (!_shouldPatchProgress(_sendProgressAtMs, nonce, progress)) {
+      return;
     }
-    ref.read(messageUploadSessionsProvider.notifier).removeSession(nonce);
+    ref
+        .read(messageUploadSessionsProvider.notifier)
+        .updateSendingProgress(nonce, progress * 100);
+  }
+
+  void cancelMessageUpload(String nonce) {
+    _sendTokens.remove(nonce)?.cancel();
+    removeMessageUpload(nonce);
   }
 
   void removeMessageUpload(String nonce) {
+    _sendTokens.remove(nonce);
+    _sendProgressAtMs.remove(nonce);
     final MessageUploadSession? session = ref.read(
       messageUploadSessionsProvider,
     )[nonce];
     if (session == null) {
       return;
     }
-    for (final PendingAttachment attachment in session.attachments) {
-      _activeUploadControllers.remove(attachment.id)?.cancel();
-    }
+    _discardFiles(session.attachments);
     ref.read(messageUploadSessionsProvider.notifier).removeSession(nonce);
   }
 
@@ -224,7 +269,11 @@ class CloudUploadController extends _$CloudUploadController {
     try {
       ref
           .read(messageUploadSessionsProvider.notifier)
-          .updateSendingProgress(nonce, 0);
+          .updateSessionAttachments(
+            nonce,
+            session.attachments,
+            recomputeSendingProgress: true,
+          );
       await Future.wait<void>(
         session.attachments.map(
           (PendingAttachment a) =>
@@ -263,132 +312,14 @@ class CloudUploadController extends _$CloudUploadController {
     }
   }
 
-  MessageUploadSession _requireSession(String nonce) {
+  List<PendingAttachment> _requireSessionAttachments(String nonce) {
     final MessageUploadSession? session = ref.read(
       messageUploadSessionsProvider,
     )[nonce];
     if (session == null) {
       throw const MessageUploadSendCancelledException();
     }
-    return session;
-  }
-
-  List<PendingAttachment> _requireSessionAttachments(String nonce) {
-    return _requireSession(nonce).attachments;
-  }
-
-  Future<void> _ensureComposerAttachmentUploaded(int attachmentId) async {
-    if (!ref.mounted) {
-      return;
-    }
-    final int index = state.items.indexWhere(
-      (PendingAttachment e) => e.id == attachmentId,
-    );
-    if (index == -1) {
-      return;
-    }
-    final PendingAttachment attachment = state.items[index];
-    if (attachment.status == PendingAttachmentStatus.sending &&
-        attachment.uploadFilename != null &&
-        attachment.multipartUploadId == null) {
-      return;
-    }
-    final CancelToken? existing = _activeUploadControllers[attachmentId];
-    existing?.cancel();
-    final CancelToken token = CancelToken();
-    _activeUploadControllers[attachmentId] = token;
-    _patchAttachment(
-      attachmentId,
-      (PendingAttachment a) => a.copyWith(
-        status: PendingAttachmentStatus.uploading,
-        uploadProgress: 0,
-      ),
-    );
-    try {
-      final AttachmentUploadClient client = ref.read(
-        attachmentUploadClientProvider,
-      );
-      final AttachmentUploadPlan plan = await client
-          .requestAttachmentUploadPlan(
-            channelId: _channelId,
-            attachmentId: attachment.id,
-            filename: attachment.filename,
-            fileSize: attachment.size,
-            contentType: attachment.contentType,
-            cancelToken: token,
-          );
-      if (!ref.mounted ||
-          !state.items.any((PendingAttachment e) => e.id == attachmentId)) {
-        return;
-      }
-      await client.uploadAttachmentPlan(
-        UploadAttachmentPlanParams(
-          channelId: _channelId,
-          file: attachment.file,
-          plan: plan,
-          cancelToken: token,
-          onPlanReady:
-              ({
-                required String uploadFilename,
-                required int fileSize,
-                required String contentType,
-                String? uploadId,
-              }) {
-                _patchAttachment(
-                  attachmentId,
-                  (PendingAttachment a) => a.copyWith(
-                    uploadFilename: uploadFilename,
-                    fileSizePlan: fileSize,
-                    contentTypePlan: contentType,
-                    multipartUploadId: uploadId,
-                  ),
-                );
-              },
-          onProgress: (int uploadedBytes, int totalBytes) {
-            final int effectiveTotal = totalBytes > 0
-                ? totalBytes
-                : attachment.size;
-            final double p = effectiveTotal > 0
-                ? (uploadedBytes / effectiveTotal).clamp(0.0, 1.0)
-                : 0;
-            _patchAttachment(
-              attachmentId,
-              (PendingAttachment a) => a.copyWith(
-                status: PendingAttachmentStatus.uploading,
-                uploadProgress: p,
-              ),
-            );
-          },
-        ),
-      );
-      if (!ref.mounted ||
-          !state.items.any((PendingAttachment e) => e.id == attachmentId)) {
-        return;
-      }
-      _patchAttachment(
-        attachmentId,
-        (PendingAttachment a) => a.copyWith(
-          status: PendingAttachmentStatus.sending,
-          uploadProgress: 1,
-          multipartUploadId: null,
-        ),
-      );
-    } on Object catch (e, st) {
-      if (!ref.mounted ||
-          !state.items.any((PendingAttachment e) => e.id == attachmentId)) {
-        return;
-      }
-      talker.warning('[CloudUpload] composer upload failed: $e\n$st');
-      _patchAttachment(
-        attachmentId,
-        (PendingAttachment a) => a.copyWith(
-          status: PendingAttachmentStatus.failed,
-          uploadProgress: 0,
-        ),
-      );
-    } finally {
-      _activeUploadControllers.remove(attachmentId);
-    }
+    return session.attachments;
   }
 
   Future<void> _ensureSessionAttachmentUploaded(
@@ -401,24 +332,47 @@ class CloudUploadController extends _$CloudUploadController {
     if (session == null) {
       return;
     }
-    final int index = session.attachments.indexWhere(
-      (PendingAttachment e) => e.id == attachmentId,
-    );
-    if (index == -1) {
-      return;
+    for (final PendingAttachment attachment in session.attachments) {
+      if (attachment.id == attachmentId) {
+        return _startUpload(attachment);
+      }
     }
-    final PendingAttachment attachment = session.attachments[index];
-    if (attachment.status == PendingAttachmentStatus.sending &&
-        attachment.uploadFilename != null &&
-        attachment.multipartUploadId == null) {
-      return;
+  }
+
+  static bool _isUploaded(PendingAttachment attachment) =>
+      attachment.status == PendingAttachmentStatus.sending &&
+      attachment.uploadFilename != null &&
+      attachment.multipartUploadId == null;
+
+  Future<void> _startUpload(PendingAttachment attachment) {
+    final _AttachmentUpload? running = _uploads[attachment.id];
+    if (running != null) {
+      return running.done;
     }
-    final CancelToken? existing = _activeUploadControllers[attachmentId];
-    existing?.cancel();
+    if (_isUploaded(attachment)) {
+      return Future<void>.value();
+    }
     final CancelToken token = CancelToken();
-    _activeUploadControllers[attachmentId] = token;
-    _patchSessionAttachment(
-      nonce,
+    late final _AttachmentUpload upload;
+    upload = _AttachmentUpload(
+      token,
+      _runUpload(attachment, token).whenComplete(() {
+        if (identical(_uploads[attachment.id], upload)) {
+          _uploads.remove(attachment.id);
+        }
+      }),
+    );
+    _uploads[attachment.id] = upload;
+    return upload.done;
+  }
+
+  Future<void> _runUpload(
+    PendingAttachment attachment,
+    CancelToken token,
+  ) async {
+    final int attachmentId = attachment.id;
+    bool live() => !token.isCancelled && _isHeld(attachmentId);
+    _patchUpload(
       attachmentId,
       (PendingAttachment a) => a.copyWith(
         status: PendingAttachmentStatus.uploading,
@@ -438,7 +392,7 @@ class CloudUploadController extends _$CloudUploadController {
             contentType: attachment.contentType,
             cancelToken: token,
           );
-      if (ref.read(messageUploadSessionsProvider)[nonce] == null) {
+      if (!live()) {
         return;
       }
       await client.uploadAttachmentPlan(
@@ -454,8 +408,7 @@ class CloudUploadController extends _$CloudUploadController {
                 required String contentType,
                 String? uploadId,
               }) {
-                _patchSessionAttachment(
-                  nonce,
+                _patchUpload(
                   attachmentId,
                   (PendingAttachment a) => a.copyWith(
                     uploadFilename: uploadFilename,
@@ -472,8 +425,10 @@ class CloudUploadController extends _$CloudUploadController {
             final double p = effectiveTotal > 0
                 ? (uploadedBytes / effectiveTotal).clamp(0.0, 1.0)
                 : 0;
-            _patchSessionAttachment(
-              nonce,
+            if (!_shouldPatchProgress(_progressPatchedAtMs, attachmentId, p)) {
+              return;
+            }
+            _patchUpload(
               attachmentId,
               (PendingAttachment a) => a.copyWith(
                 status: PendingAttachmentStatus.uploading,
@@ -483,11 +438,10 @@ class CloudUploadController extends _$CloudUploadController {
           },
         ),
       );
-      if (ref.read(messageUploadSessionsProvider)[nonce] == null) {
+      if (!live()) {
         return;
       }
-      _patchSessionAttachment(
-        nonce,
+      _patchUpload(
         attachmentId,
         (PendingAttachment a) => a.copyWith(
           status: PendingAttachmentStatus.sending,
@@ -496,12 +450,11 @@ class CloudUploadController extends _$CloudUploadController {
         ),
       );
     } on Object catch (e, st) {
-      if (ref.read(messageUploadSessionsProvider)[nonce] == null) {
+      if (!live()) {
         return;
       }
-      talker.warning('[CloudUpload] session upload failed: $e\n$st');
-      _patchSessionAttachment(
-        nonce,
+      talker.warning('[CloudUpload] upload failed: $e\n$st');
+      _patchUpload(
         attachmentId,
         (PendingAttachment a) => a.copyWith(
           status: PendingAttachmentStatus.failed,
@@ -509,27 +462,68 @@ class CloudUploadController extends _$CloudUploadController {
         ),
       );
     } finally {
-      _activeUploadControllers.remove(attachmentId);
+      _progressPatchedAtMs.remove(attachmentId);
     }
   }
 
-  void _patchSessionAttachment(
-    String nonce,
+  bool _shouldPatchProgress<K>(Map<K, int> marks, K key, double progress) {
+    final int now = DateTime.now().millisecondsSinceEpoch;
+    final int? last = marks[key];
+    if (progress < 1 &&
+        last != null &&
+        now - last < _kProgressPatchIntervalMs) {
+      return false;
+    }
+    marks[key] = now;
+    return true;
+  }
+
+  bool _inComposer(int attachmentId) =>
+      state.items.any((PendingAttachment e) => e.id == attachmentId);
+
+  MessageUploadSession? _sessionHolding(int attachmentId) {
+    for (final MessageUploadSession session
+        in ref.read(messageUploadSessionsProvider).values) {
+      if (session.channelId == _channelId &&
+          session.attachments.any(
+            (PendingAttachment e) => e.id == attachmentId,
+          )) {
+        return session;
+      }
+    }
+    return null;
+  }
+
+  bool _isHeld(int attachmentId) =>
+      ref.mounted &&
+      (_inComposer(attachmentId) || _sessionHolding(attachmentId) != null);
+
+  void _patchUpload(
     int attachmentId,
     PendingAttachment Function(PendingAttachment) updater,
   ) {
-    final MessageUploadSession? session = ref.read(
-      messageUploadSessionsProvider,
-    )[nonce];
+    if (!ref.mounted) {
+      return;
+    }
+    if (_inComposer(attachmentId)) {
+      _patchAttachment(attachmentId, updater);
+      return;
+    }
+    final MessageUploadSession? session = _sessionHolding(attachmentId);
     if (session == null) {
       return;
     }
-    final List<PendingAttachment> next = session.attachments
-        .map((PendingAttachment e) => e.id == attachmentId ? updater(e) : e)
-        .toList();
     ref
         .read(messageUploadSessionsProvider.notifier)
-        .updateSessionAttachments(nonce, next, recomputeSendingProgress: true);
+        .updateSessionAttachments(
+          session.nonce,
+          session.attachments
+              .map(
+                (PendingAttachment e) => e.id == attachmentId ? updater(e) : e,
+              )
+              .toList(),
+          recomputeSendingProgress: true,
+        );
   }
 
   void _fallbackResetSessionUploadsForMultipartSend(String nonce) {
@@ -555,6 +549,7 @@ class CloudUploadController extends _$CloudUploadController {
                 ),
               )
               .toList(),
+          recomputeSendingProgress: true,
         );
   }
 
@@ -583,11 +578,10 @@ class CloudUploadController extends _$CloudUploadController {
     if (att == null) {
       return;
     }
-    final CancelToken? c = _activeUploadControllers.remove(attachmentId);
-    c?.cancel();
     state = CloudComposerAttachments(
       state.items.where((PendingAttachment e) => e.id != attachmentId).toList(),
     );
+    _discardFiles(<PendingAttachment>[att]);
   }
 
   void updateAttachment(
@@ -685,10 +679,17 @@ class CloudUploadController extends _$CloudUploadController {
   }
 
   void clearComposerAttachments() {
-    for (final CancelToken c in _activeUploadControllers.values) {
-      c.cancel();
-    }
-    _activeUploadControllers.clear();
+    final List<PendingAttachment> discarded = state.items;
     state = CloudComposerAttachments.empty;
+    _discardFiles(discarded);
   }
+}
+
+const int _kProgressPatchIntervalMs = 100;
+
+class _AttachmentUpload {
+  _AttachmentUpload(this.token, this.done);
+
+  final CancelToken token;
+  final Future<void> done;
 }
