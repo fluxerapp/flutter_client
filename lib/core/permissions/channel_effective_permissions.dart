@@ -9,7 +9,6 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart'
     show isThreadChannelType;
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
-import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:riverpod/misc.dart' show FutureProviderFamily;
@@ -27,16 +26,9 @@ bool bypassesChannelSlowmode(ChannelPermissionBitsOutcome? outcome) {
 }
 
 Future<Guild?> _guildForPermissionResolution({
-  required Ref ref,
   required FluxerDatabase db,
   required String guildId,
 }) async {
-  final List<Guild> guilds = ref.read(guildListViewModelProvider).guilds;
-  for (final Guild g in guilds) {
-    if (g.id == guildId) {
-      return g;
-    }
-  }
   final Server? row = await db.guildDao.getServerById(guildId);
   if (row == null) {
     return null;
@@ -63,7 +55,6 @@ computeEffectiveGuildChannelPermissionBitsOutcome({
   }
   final String guildId = channelRow.guildId;
   final Guild? guild = await _guildForPermissionResolution(
-    ref: ref,
     db: db,
     guildId: guildId,
   );
@@ -167,7 +158,6 @@ computeEffectiveGuildChannelPermissionBitsOutcomesForGuild({
     return const <String, ChannelPermissionBitsOutcome>{};
   }
   final Guild? guild = await _guildForPermissionResolution(
-    ref: ref,
     db: db,
     guildId: guildId,
   );
@@ -280,7 +270,6 @@ computeChannelLocalGuildChannelPermissionBitsOutcome({
     return (value: allPermissions, shouldCache: true);
   }
   final Guild? guild = await _guildForPermissionResolution(
-    ref: ref,
     db: db,
     guildId: guildId,
   );

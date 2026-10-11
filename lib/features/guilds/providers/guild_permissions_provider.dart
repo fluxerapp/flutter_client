@@ -1,10 +1,9 @@
 import 'dart:convert';
 
+import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/permissions/permission_resolver.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
-import 'package:fluxer_app/features/guilds/domain/guild.dart';
-import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -67,8 +66,7 @@ class GuildPermissions extends _$GuildPermissions {
     final db = ref.read(fluxerDatabaseProvider);
     final String currentUserId = ref.read(userSettingsViewModelProvider).userId;
 
-    final guilds = ref.read(guildListViewModelProvider).guilds;
-    final Guild? guild = guilds.where((g) => g.id == guildId).firstOrNull;
+    final Server? guild = await db.guildDao.getServerById(guildId);
     if (guild == null) {
       return (value: 0, shouldCache: false);
     }

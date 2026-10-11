@@ -6,8 +6,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
-import 'package:fluxer_app/features/guilds/domain/guild.dart';
-import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 
@@ -42,26 +40,19 @@ class _FixedUserSettingsViewModel extends UserSettingsViewModel {
   UserSettingsViewState build() => _testUserSettings(userId: _userId);
 }
 
-class _FixedGuildListViewModel extends GuildListViewModel {
-  _FixedGuildListViewModel(this._guilds);
-
-  final List<Guild> _guilds;
-
-  @override
-  GuildListViewState build() => GuildListViewState(guilds: _guilds);
-}
-
-ProviderContainer _container(FluxerDatabase db) {
+Future<ProviderContainer> _container(FluxerDatabase db) async {
+  await db.guildDao.upsertServer(
+    ServersCompanion.insert(
+      id: _guildId,
+      name: 'Guild',
+      ownerId: const Value(_ownerId),
+    ),
+  );
   return ProviderContainer(
     overrides: [
       fluxerDatabaseProvider.overrideWithValue(db),
       userSettingsViewModelProvider.overrideWith(
         () => _FixedUserSettingsViewModel(_userId),
-      ),
-      guildListViewModelProvider.overrideWith(
-        () => _FixedGuildListViewModel(const [
-          Guild(id: _guildId, name: 'Guild', ownerId: _ownerId),
-        ]),
       ),
     ],
   );
@@ -102,7 +93,7 @@ void main() {
       final db = openTestDatabase();
       await _seedEveryoneRole(db, permissions: Permission.viewChannel.value);
 
-      final container = _container(db);
+      final container = await _container(db);
       addTearDown(container.dispose);
       final notifier = container.read(guildPermissionsProvider.notifier);
 
@@ -125,7 +116,7 @@ void main() {
       final db = openTestDatabase();
       await _seedEveryoneRole(db, permissions: Permission.viewChannel.value);
 
-      final container = _container(db);
+      final container = await _container(db);
       addTearDown(container.dispose);
       final notifier = container.read(guildPermissionsProvider.notifier);
 
@@ -149,7 +140,7 @@ void main() {
     await _seedEveryoneRole(db, permissions: 0);
     await _seedMember(db);
 
-    final container = _container(db);
+    final container = await _container(db);
     addTearDown(container.dispose);
     final notifier = container.read(guildPermissionsProvider.notifier);
 
@@ -165,7 +156,7 @@ void main() {
   test('does not cache an unknown guild so it can resolve later', () async {
     final db = openTestDatabase();
 
-    final container = _container(db);
+    final container = await _container(db);
     addTearDown(container.dispose);
     final notifier = container.read(guildPermissionsProvider.notifier);
 

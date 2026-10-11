@@ -7,21 +7,12 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' hide Channel;
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
-import 'package:fluxer_app/features/guilds/domain/guild.dart';
-import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 
 import '../../helpers/open_test_database.dart';
 
 const String _guildId = 'guild-1';
 const String _userId = 'me';
-
-class _Guilds extends GuildListViewModel {
-  @override
-  GuildListViewState build() => const GuildListViewState(
-    guilds: <Guild>[Guild(id: _guildId, name: 'Guild', ownerId: 'owner')],
-  );
-}
 
 class _Settings extends UserSettingsViewModel {
   @override
@@ -73,7 +64,6 @@ Future<ChannelPermissionCache> _cacheFor(FluxerDatabase db) async {
   final ProviderContainer container = ProviderContainer(
     overrides: [
       fluxerDatabaseProvider.overrideWithValue(db),
-      guildListViewModelProvider.overrideWith(_Guilds.new),
       userSettingsViewModelProvider.overrideWith(_Settings.new),
     ],
   );

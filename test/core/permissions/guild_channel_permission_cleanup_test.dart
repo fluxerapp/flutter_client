@@ -4,20 +4,9 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' hide Channel;
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/guild_channel_permission_cleanup.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
-import 'package:fluxer_app/features/guilds/domain/guild.dart';
-import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 
 import '../../helpers/open_test_database.dart';
-
-class _GuildListViewModelWithGuilds extends GuildListViewModel {
-  _GuildListViewModelWithGuilds(this._guilds);
-
-  final List<Guild> _guilds;
-
-  @override
-  GuildListViewState build() => GuildListViewState(guilds: _guilds);
-}
 
 class _FixedUserSettingsViewModel extends UserSettingsViewModel {
   _FixedUserSettingsViewModel(this._userId);
@@ -81,11 +70,6 @@ void main() {
       final ProviderContainer container = ProviderContainer(
         overrides: [
           fluxerDatabaseProvider.overrideWithValue(db),
-          guildListViewModelProvider.overrideWith(
-            () => _GuildListViewModelWithGuilds(<Guild>[
-              const Guild(id: guildId, name: 'Guild A'),
-            ]),
-          ),
           userSettingsViewModelProvider.overrideWith(
             () => _FixedUserSettingsViewModel(userId),
           ),
@@ -134,12 +118,6 @@ void main() {
       final ProviderContainer container = ProviderContainer(
         overrides: [
           fluxerDatabaseProvider.overrideWithValue(db),
-          guildListViewModelProvider.overrideWith(
-            () => _GuildListViewModelWithGuilds(<Guild>[
-              const Guild(id: guildA, name: 'Guild A'),
-              const Guild(id: guildB, name: 'Guild B'),
-            ]),
-          ),
           userSettingsViewModelProvider.overrideWith(
             () => _FixedUserSettingsViewModel(userId),
           ),
@@ -183,11 +161,6 @@ void main() {
       final ProviderContainer container = ProviderContainer(
         overrides: [
           fluxerDatabaseProvider.overrideWithValue(db),
-          guildListViewModelProvider.overrideWith(
-            () => _GuildListViewModelWithGuilds(<Guild>[
-              const Guild(id: guildId, name: 'Guild A'),
-            ]),
-          ),
           userSettingsViewModelProvider.overrideWith(
             () => _FixedUserSettingsViewModel(userId),
           ),
