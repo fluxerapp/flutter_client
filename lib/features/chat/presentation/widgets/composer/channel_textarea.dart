@@ -834,6 +834,14 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         (Message? previous, Message? next) {
           if (next != null && previous == null) {
             _focusComposerAfterReplyOrEdit(forEdit: true);
+          } else if (next == null && previous != null) {
+            unawaited(
+              _textSession.applyWireTextForEdit(
+                stripPrivateUseCharacters(
+                  ref.read(chatViewModelProvider).messageText,
+                ),
+              ),
+            );
           }
         },
       );

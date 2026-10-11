@@ -62,6 +62,10 @@ class MutableChatViewModel extends ChatViewModel {
     state = state.copyWith(messageText: messageText);
   }
 
+  void setEditing({required Message? message, required String messageText}) {
+    state = state.copyWith(editingMessage: message, messageText: messageText);
+  }
+
   @override
   void updateMessageText(String text) {
     state = state.copyWith(messageText: text);
