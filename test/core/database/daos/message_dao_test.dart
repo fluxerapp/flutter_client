@@ -243,4 +243,33 @@ void main() {
     );
     expect(parsed.clientNonce, 'nonce-1');
   });
+
+  test(
+    'watchServerMessageCountAfter counts sent rows after the cursor',
+    () async {
+      final db = await seed([idA, idB, idC]);
+      await db.messageDao.upsertMessage(
+        _msg(idD, deliveryState: MessageDeliveryState.sending).toCompanion(),
+      );
+      await db.messageDao.upsertMessage(
+        Message(
+          id: _snowflakeForUtc(DateTime.utc(2026, 5, 10, 14)),
+          channelId: 'other',
+          authorId: 'author',
+          authorName: 'Author',
+          content: 'body',
+          timestamp: DateTime.utc(2026, 5, 10, 14),
+        ).toCompanion(),
+      );
+
+      expect(
+        await db.messageDao.watchServerMessageCountAfter('ch', idA).first,
+        2,
+      );
+      expect(
+        await db.messageDao.watchServerMessageCountAfter('ch', idC).first,
+        0,
+      );
+    },
+  );
 }

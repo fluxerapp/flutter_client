@@ -32,6 +32,7 @@ ChatUnreadSummary computeChatUnreadSummary({
   required String? channelLastMessageId,
   required bool hasMoreNewerMessages,
   required bool hasMoreOlderMessages,
+  required int cachedUnreadCount,
 }) {
   if (ackLastMessageId == null || ackLastMessageId.isEmpty) {
     return const ChatUnreadSummary(
@@ -57,8 +58,12 @@ ChatUnreadSummary computeChatUnreadSummary({
     loadedUnreadCount++;
   }
 
-  final displayUnreadCount = loadedUnreadCount > mentionCount
-      ? loadedUnreadCount
+  final int unreadCount =
+      hasMoreNewerMessages && cachedUnreadCount > loadedUnreadCount
+      ? cachedUnreadCount
+      : loadedUnreadCount;
+  final displayUnreadCount = unreadCount > mentionCount
+      ? unreadCount
       : mentionCount;
   // Web parity: the ack boundary is "known" when a loaded message is at or
   // before the ack, or when the window reaches the channel start. Without it

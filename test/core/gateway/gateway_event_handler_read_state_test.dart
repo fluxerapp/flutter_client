@@ -1745,6 +1745,7 @@ void main() {
         channelLastMessageId: index.lastMessageIdFor('channel-1'),
         hasMoreNewerMessages: false,
         hasMoreOlderMessages: false,
+        cachedUnreadCount: 0,
       );
       expect(summary.displayUnreadCount, 1);
       expect(summary.isEstimated, isFalse);

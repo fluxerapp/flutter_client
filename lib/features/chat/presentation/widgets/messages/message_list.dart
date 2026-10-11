@@ -111,6 +111,7 @@ import 'package:fluxer_app/shared/gestures/defer_horizontal_drag_while_coasting.
 import 'package:fluxer_app/shared/markdown/message_markdown_settings.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
+import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -153,6 +154,17 @@ final _channelLastMessageIdProvider = StreamProvider.autoDispose
       return db.channelDao
           .watchChannelById(channelId)
           .map((drift_db.Channel? row) => row?.lastMessageId);
+    });
+
+// Riverpod does not export the concrete auto-dispose family type.
+// ignore: specify_nonobvious_property_types
+final _cachedUnreadCountProvider = StreamProvider.autoDispose
+    .family<int, ({String channelId, String ackId})>((ref, key) {
+      final db = ref.watch(fluxerDatabaseProvider);
+      return db.messageDao.watchServerMessageCountAfter(
+        key.channelId,
+        key.ackId,
+      );
     });
 
 const _kMonthNames = [
@@ -708,6 +720,21 @@ class _MessageListState extends ConsumerState<MessageList>
         : compareSnowflakeIds(pendingAutoAckId, readState?.lastMessageId) > 0
         ? pendingAutoAckId
         : readState?.lastMessageId;
+    final int cachedUnreadCount =
+        hasMoreNewerMessages &&
+            effectiveAckId != null &&
+            effectiveAckId.isNotEmpty
+        ? ref
+                  .watch(
+                    _cachedUnreadCountProvider((
+                      channelId: channelId,
+                      ackId: effectiveAckId,
+                    )),
+                  )
+                  .asData
+                  ?.value ??
+              0
+        : 0;
     final ChatUnreadSummary unreadSummary = _unreadSummaryFor(
       messages: messages,
       ackLastMessageId: effectiveAckId,
@@ -715,6 +742,7 @@ class _MessageListState extends ConsumerState<MessageList>
       channelLastMessageId: _channelLastMessageIdFor(channelId),
       hasMoreNewerMessages: hasMoreNewerMessages,
       hasMoreOlderMessages: hasMoreMessages,
+      cachedUnreadCount: cachedUnreadCount,
     );
     final String? oldestUnreadId = unreadSummary.oldestUnreadMessageId;
     final String? visualUnreadId = resolveVisualUnreadId(
@@ -853,7 +881,11 @@ class _MessageListState extends ConsumerState<MessageList>
       hasMoreNewerMessages: hasMoreNewerMessages,
       isManualReadState: readState?.manual ?? false,
     );
-    final DateTime? unreadSince = _messageTimestamp(messages, visualUnreadId);
+    final DateTime? unreadSince =
+        _messageTimestamp(messages, visualUnreadId) ??
+        (effectiveAckId == null
+            ? null
+            : dateTimeFromUserSnowflakeOrNull(effectiveAckId));
     final int chatFontSize = ref.watch(
       themePreferenceProvider.select(
         (ThemePreferenceState s) => s.chatFontSize,
@@ -3083,6 +3115,7 @@ class _MessageListState extends ConsumerState<MessageList>
     required String? channelLastMessageId,
     required bool hasMoreNewerMessages,
     required bool hasMoreOlderMessages,
+    required int cachedUnreadCount,
   }) {
     final Object key = (
       messages,
@@ -3091,6 +3124,7 @@ class _MessageListState extends ConsumerState<MessageList>
       channelLastMessageId,
       hasMoreNewerMessages,
       hasMoreOlderMessages,
+      cachedUnreadCount,
     );
     final ChatUnreadSummary? cached = _cachedUnreadSummary;
     if (cached != null && _unreadSummaryKey == key) {
@@ -3105,6 +3139,7 @@ class _MessageListState extends ConsumerState<MessageList>
       channelLastMessageId: channelLastMessageId,
       hasMoreNewerMessages: hasMoreNewerMessages,
       hasMoreOlderMessages: hasMoreOlderMessages,
+      cachedUnreadCount: cachedUnreadCount,
     );
     _unreadSummaryKey = key;
     _cachedUnreadSummary = summary;

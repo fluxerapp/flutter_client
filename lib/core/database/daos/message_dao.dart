@@ -264,6 +264,21 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
           .watchSingleOrNull()
           .suppressDriftCancellation;
 
+  Stream<int> watchServerMessageCountAfter(String channelId, String afterId) {
+    final Expression<int> count = messages.id.count();
+    final query = selectOnly(messages)
+      ..addColumns([count])
+      ..where(
+        messages.channelId.equals(channelId) &
+            messages.deliveryState.equals(MessageDeliveryState.sent.index) &
+            messages.id.cast<int>().isBiggerThanValue(int.parse(afterId)),
+      );
+    return query
+        .map((TypedResult row) => row.read(count) ?? 0)
+        .watchSingle()
+        .suppressDriftCancellation;
+  }
+
   Future<List<Message>> getMessagesAfter(
     String channelId,
     String afterId, {

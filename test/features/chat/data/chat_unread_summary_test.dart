@@ -15,6 +15,7 @@ void main() {
       channelLastMessageId: '120',
       hasMoreNewerMessages: false,
       hasMoreOlderMessages: false,
+      cachedUnreadCount: 0,
     );
 
     expect(summary.oldestUnreadMessageId, '100');
@@ -34,6 +35,7 @@ void main() {
       channelLastMessageId: '110',
       hasMoreNewerMessages: false,
       hasMoreOlderMessages: false,
+      cachedUnreadCount: 0,
     );
 
     expect(summary.oldestUnreadMessageId, '100');
@@ -54,6 +56,7 @@ void main() {
       channelLastMessageId: '120',
       hasMoreNewerMessages: false,
       hasMoreOlderMessages: false,
+      cachedUnreadCount: 0,
     );
 
     expect(summary.oldestUnreadMessageId, '110');
@@ -72,6 +75,7 @@ void main() {
       channelLastMessageId: '210',
       hasMoreNewerMessages: false,
       hasMoreOlderMessages: true,
+      cachedUnreadCount: 0,
     );
 
     expect(summary.oldestUnreadMessageId, isNull);
@@ -90,6 +94,7 @@ void main() {
       channelLastMessageId: '210',
       hasMoreNewerMessages: false,
       hasMoreOlderMessages: false,
+      cachedUnreadCount: 0,
     );
 
     expect(summary.oldestUnreadMessageId, '200');
@@ -105,6 +110,7 @@ void main() {
       channelLastMessageId: '200',
       hasMoreNewerMessages: false,
       hasMoreOlderMessages: true,
+      cachedUnreadCount: 0,
     );
     expect(summary.displayUnreadCount, 5);
     expect(summary.isEstimated, isTrue);
@@ -118,6 +124,7 @@ void main() {
       channelLastMessageId: '200',
       hasMoreNewerMessages: false,
       hasMoreOlderMessages: false,
+      cachedUnreadCount: 0,
     );
 
     expect(summary.oldestUnreadMessageId, isNull);
@@ -146,12 +153,69 @@ void main() {
         channelLastMessageId: '200',
         hasMoreNewerMessages: false,
         hasMoreOlderMessages: false,
+        cachedUnreadCount: 0,
       );
 
       expect(summary.displayUnreadCount, 2);
       expect(summary.isEstimated, isTrue);
     },
   );
+
+  test('counts cached unread arrivals beyond a detached window', () {
+    final summary = computeChatUnreadSummary(
+      messages: const [
+        ChatUnreadMessageRef(id: '20'),
+        ChatUnreadMessageRef(id: '21'),
+      ],
+      ackLastMessageId: '300',
+      mentionCount: 0,
+      channelLastMessageId: '303',
+      hasMoreNewerMessages: true,
+      hasMoreOlderMessages: true,
+      cachedUnreadCount: 3,
+    );
+
+    expect(summary.oldestUnreadMessageId, isNull);
+    expect(summary.displayUnreadCount, 3);
+    expect(summary.isEstimated, isTrue);
+  });
+
+  test('cached unread count includes the loaded unread messages', () {
+    final summary = computeChatUnreadSummary(
+      messages: const [
+        ChatUnreadMessageRef(id: '90'),
+        ChatUnreadMessageRef(id: '100'),
+      ],
+      ackLastMessageId: '90',
+      mentionCount: 0,
+      channelLastMessageId: '300',
+      hasMoreNewerMessages: true,
+      hasMoreOlderMessages: true,
+      cachedUnreadCount: 3,
+    );
+
+    expect(summary.oldestUnreadMessageId, '100');
+    expect(summary.displayUnreadCount, 3);
+    expect(summary.isEstimated, isTrue);
+  });
+
+  test('ignores the cached count once the window reaches the tail', () {
+    final summary = computeChatUnreadSummary(
+      messages: const [
+        ChatUnreadMessageRef(id: '90'),
+        ChatUnreadMessageRef(id: '100'),
+      ],
+      ackLastMessageId: '100',
+      mentionCount: 0,
+      channelLastMessageId: '100',
+      hasMoreNewerMessages: false,
+      hasMoreOlderMessages: true,
+      cachedUnreadCount: 2,
+    );
+
+    expect(summary.displayUnreadCount, 0);
+    expect(summary.isEstimated, isFalse);
+  });
 
   group('resolveVisualUnreadId', () {
     const messages = [
