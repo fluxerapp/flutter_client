@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/gateway/gateway_event_handler.dart';
@@ -24,6 +25,9 @@ void main() {
       discriminator: '0001',
       avatar: 'old-hash',
     );
+    await (database.update(database.authSessions)
+          ..where((t) => t.userId.equals('100')))
+        .write(AuthSessionsCompanion(lastActive: Value(DateTime.utc(2020))));
     await database.authSessionDao.saveSessionMetadata(userId: '200');
     await database.authSessionDao.touchSession('200');
 
