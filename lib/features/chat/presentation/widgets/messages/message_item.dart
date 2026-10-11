@@ -270,7 +270,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   final _pressHighlight = ValueNotifier<bool>(false);
   final _reactionPickerKey = GlobalKey<FluxerEmojiPickerPopoutState>();
   final _reactionPickerOpen = ValueNotifier<bool>(false);
-  int? _reactionsBarPointer;
+  int? _doubleTapExemptPointer;
   bool _animateJumpHighlight = false;
   Message? _semanticLabelMessage;
   FluxerLocalizations? _semanticLabelL10n;
@@ -926,7 +926,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
               >(
                 () => _MessageDoubleTapGestureRecognizer(
                   ignoresPointer: (int pointer) =>
-                      pointer == _reactionsBarPointer,
+                      pointer == _doubleTapExemptPointer,
                   debugOwner: this,
                 ),
                 (_MessageDoubleTapGestureRecognizer recognizer) {
@@ -1338,7 +1338,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
             padding: const EdgeInsets.only(top: 4),
             child: Listener(
               onPointerDown: (PointerDownEvent event) =>
-                  _reactionsBarPointer = event.pointer,
+                  _doubleTapExemptPointer = event.pointer,
               child: MessageReactionsBar(
                 reactions: msg.reactions,
                 channelId: msg.channelId,
@@ -1596,8 +1596,8 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       children: [
         ..._authorTags(context, msg),
         if (showAvatar)
-          FluxerGestureDetector(
-            behavior: HitTestBehavior.opaque,
+          _AuthorProfileTapTarget(
+            onPointerDown: (int pointer) => _doubleTapExemptPointer = pointer,
             onTap: _canOpenAuthorProfile(msg)
                 ? () => _openAuthorProfile(context, msg)
                 : null,
@@ -1616,8 +1616,8 @@ class _MessageItemState extends ConsumerState<MessageItem> {
               ),
             ),
           ),
-        FluxerGestureDetector(
-          behavior: HitTestBehavior.opaque,
+        _AuthorProfileTapTarget(
+          onPointerDown: (int pointer) => _doubleTapExemptPointer = pointer,
           onTap: _canOpenAuthorProfile(msg)
               ? () => _openAuthorProfile(context, msg)
               : null,
@@ -1777,8 +1777,8 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     children: [
       _wrapMessageSendingDim(
         dim: dimMessagePartsExceptAttachments,
-        child: FluxerGestureDetector(
-          behavior: HitTestBehavior.opaque,
+        child: _AuthorProfileTapTarget(
+          onPointerDown: (int pointer) => _doubleTapExemptPointer = pointer,
           onTap: _canOpenAuthorProfile(msg)
               ? () => _openAuthorProfile(context, msg)
               : null,
@@ -1884,8 +1884,8 @@ class _MessageItemState extends ConsumerState<MessageItem> {
               ? FluxerLocalizations.of(context).voiceParticipantMenuViewProfile
               : null,
           image: true,
-          child: FluxerGestureDetector(
-            behavior: HitTestBehavior.opaque,
+          child: _AuthorProfileTapTarget(
+            onPointerDown: (int pointer) => _doubleTapExemptPointer = pointer,
             onTap: _canOpenAuthorProfile(msg)
                 ? () => _openAuthorProfile(context, msg)
                 : null,
@@ -1921,8 +1921,9 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Flexible(
-                          child: FluxerGestureDetector(
-                            behavior: HitTestBehavior.opaque,
+                          child: _AuthorProfileTapTarget(
+                            onPointerDown: (int pointer) =>
+                                _doubleTapExemptPointer = pointer,
                             onTap: _canOpenAuthorProfile(msg)
                                 ? () => _openAuthorProfile(context, msg)
                                 : null,
@@ -2286,6 +2287,33 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       ),
     ),
   );
+}
+
+class _AuthorProfileTapTarget extends StatelessWidget {
+  const _AuthorProfileTapTarget({
+    required this.onPointerDown,
+    required this.onTap,
+    required this.child,
+  });
+
+  final ValueChanged<int> onPointerDown;
+  final VoidCallback? onTap;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final VoidCallback? onTap = this.onTap;
+    return Listener(
+      onPointerDown: onTap == null
+          ? null
+          : (PointerDownEvent event) => onPointerDown(event.pointer),
+      child: FluxerGestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: child,
+      ),
+    );
+  }
 }
 
 class _MessageDoubleTapGestureRecognizer extends DoubleTapGestureRecognizer {

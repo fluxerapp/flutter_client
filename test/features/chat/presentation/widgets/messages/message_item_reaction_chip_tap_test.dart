@@ -55,7 +55,16 @@ const MessageRenderSettings _settings = MessageRenderSettings(
   messageGroupSpacing: 16,
 );
 
-Widget _app(Widget child) {
+class _PushObserver extends NavigatorObserver {
+  final List<Route<dynamic>> pushed = <Route<dynamic>>[];
+
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    pushed.add(route);
+  }
+}
+
+Widget _app(Widget child, {NavigatorObserver? observer}) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
     overrides: [
@@ -81,6 +90,7 @@ Widget _app(Widget child) {
       locale: kTestLocale,
       localizationsDelegates: fluxerLocalizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,
+      navigatorObservers: <NavigatorObserver>[?observer],
       theme: buildFluxerTheme(
         colorTheme: colorTheme,
         textTheme: FluxerTextTheme.fromColors(colorTheme),
@@ -141,6 +151,30 @@ void main() {
     await tester.pump(const Duration(seconds: 1));
 
     expect(reacted, <String>[kDefaultDoubleTapReactionName]);
+    await releaseTestWidgetTree(tester);
+  });
+
+  testWidgets('tapping the author opens the profile without the double '
+      'tap wait', (tester) async {
+    final _PushObserver observer = _PushObserver();
+    await tester.pumpWidget(
+      _app(
+        MessageItem(
+          message: _message(),
+          renderSettings: _settings,
+          onReaction:
+              (String emoji, {String? emojiId, bool animated = false}) {},
+        ),
+        observer: observer,
+      ),
+    );
+    await tester.pump();
+    final int before = observer.pushed.length;
+
+    await tester.tap(find.text('Alice'));
+    await tester.pump();
+
+    expect(observer.pushed.length, before + 1);
     await releaseTestWidgetTree(tester);
   });
 }
