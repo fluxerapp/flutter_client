@@ -38,12 +38,14 @@ class ChatBackButton extends StatelessWidget {
           ),
           if (unreadCount > 0)
             Positioned(
-              bottom: -4,
-              right: 3,
+              bottom: -6,
+              left: 16,
               child: ExcludeSemantics(
-                child: FluxerBadge.compactCount(
-                  count: unreadCount,
-                  cutoutColor: context.colors.chatInputBackground,
+                child: FluxerBadgeEntrance(
+                  child: FluxerBadge.count(
+                    count: unreadCount,
+                    cutoutColor: context.colors.chatInputBackground,
+                  ),
                 ),
               ),
             ),
