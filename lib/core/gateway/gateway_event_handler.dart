@@ -857,6 +857,9 @@ class GatewayEventHandler {
       }
     }
 
+    final bool keepCachedMessages =
+        shouldFullWipe &&
+        await database.userSettingsDao.getSettings(event.user.id) != null;
     final Set<String> localGuildIdsBeforeReady = isSameUserReconnect
         ? (await database.guildDao.getServers()).map((row) => row.id).toSet()
         : const <String>{};
@@ -908,7 +911,9 @@ class GatewayEventHandler {
         await database.rtcRegionsDao.clearAll();
         await database.guildEmojiDao.clearAll();
         await database.guildStickerDao.clearAll();
-        await database.messageDao.clearAll();
+        if (!keepCachedMessages) {
+          await database.messageDao.clearAll();
+        }
         await database.threadDao.clearAll();
       } else {
         await database.userDao.resetPresences();
@@ -1392,6 +1397,10 @@ class GatewayEventHandler {
                 mode: InsertMode.insertOrReplace,
               );
         }
+      }
+
+      if (keepCachedMessages) {
+        await database.messageDao.deleteMessagesOutsideKnownChannels();
       }
 
       settingsMs = phase.elapsedMilliseconds;

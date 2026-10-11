@@ -391,6 +391,23 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
     return (delete(messages)..where((m) => m.channelId.isIn(channelIds))).go();
   }
 
+  Future<void> deleteMessagesOutsideKnownChannels() {
+    final $ChannelsTable channels = attachedDatabase.channels;
+    final $DmChannelsTable dmChannels = attachedDatabase.dmChannels;
+    return (delete(messages)..where(
+          (m) =>
+              m.channelId.isNotInQuery(
+                selectOnly(channels)
+                  ..addColumns(<Expression<Object>>[channels.id]),
+              ) &
+              m.channelId.isNotInQuery(
+                selectOnly(dmChannels)
+                  ..addColumns(<Expression<Object>>[dmChannels.id]),
+              ),
+        ))
+        .go();
+  }
+
   Future<Map<String, Message>> getLastMessageForChannels(
     List<String> channelIds,
   ) async {

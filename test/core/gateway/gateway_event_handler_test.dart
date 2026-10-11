@@ -237,6 +237,70 @@ void main() {
     expect(await database.relationshipDao.getRelationships(), isEmpty);
   });
 
+  group('READY message cache across launches', () {
+    Future<void> seedMessage(
+      FluxerDatabase database, {
+      required String id,
+      required String channelId,
+    }) => database.messageDao.upsertMessage(
+      domain.Message(
+        id: id,
+        channelId: channelId,
+        authorId: '300',
+        authorName: 'author',
+        content: 'hello',
+        timestamp: DateTime.utc(2026, 1, 2),
+      ).toCompanion(),
+    );
+
+    Future<void> seedOwner(FluxerDatabase database, String userId) =>
+        database.userSettingsDao.upsertSettings(
+          UserSettingsTableCompanion(
+            userId: Value(userId),
+            data: const Value('{}'),
+          ),
+        );
+
+    ReadyEvent readyWithChannel() => ReadyEvent(
+      sessionId: 'session-id',
+      user: _user(),
+      guilds: const [],
+      rawGuilds: [
+        _guildWithChannelAndMember(
+          guildId: '200',
+          channelId: '210',
+          memberUserId: '100',
+        ),
+      ],
+      privateChannels: const [],
+      relationships: const [],
+      readStates: const [],
+      presences: const [],
+    );
+
+    test('first READY of a launch keeps the same account messages', () async {
+      final database = openTestDatabase();
+      await seedOwner(database, '100');
+      await seedMessage(database, id: '501', channelId: '210');
+      await seedMessage(database, id: '502', channelId: '999');
+
+      await GatewayEventHandler(database: database).handle(readyWithChannel());
+
+      expect(await database.messageDao.getMessage('501'), isNotNull);
+      expect(await database.messageDao.getMessage('502'), isNull);
+    });
+
+    test('first READY of a launch drops another account messages', () async {
+      final database = openTestDatabase();
+      await seedOwner(database, '777');
+      await seedMessage(database, id: '501', channelId: '210');
+
+      await GatewayEventHandler(database: database).handle(readyWithChannel());
+
+      expect(await database.messageDao.getMessage('501'), isNull);
+    });
+  });
+
   test('READY replaces stored relationships with the payload', () async {
     final database = openTestDatabase();
     final handler = GatewayEventHandler(database: database);
