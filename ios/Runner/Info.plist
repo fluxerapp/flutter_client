@@ -261,6 +261,8 @@
 	</array>
 	<key>NSVoIPUsageDescription</key>
 	<string>Support for receiving calls in the background</string>
+	<key>PHPhotoLibraryPreventAutomaticLimitedAccessAlert</key>
+	<true/>
 	<key>RTCAppGroupIdentifier</key>
 	<string>group.com.fluxer</string>
 	<key>RTCScreenSharingExtension</key>
