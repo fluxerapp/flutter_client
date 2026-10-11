@@ -6800,9 +6800,6 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get forwardSuccessToast => 'Mesaj redirecționat';
 
   @override
-  String get forwardFailed => 'Nu s-a putut redirecționa mesajul';
-
-  @override
   String get forwardCommentSlowmodeDisabled =>
       'Comentariile nu sunt disponibile, deoarece un canal selectat are activată funcția de încetinire.';
 

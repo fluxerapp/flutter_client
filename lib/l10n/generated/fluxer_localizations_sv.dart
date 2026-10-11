@@ -6768,9 +6768,6 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get forwardSuccessToast => 'Meddelande vidarebefordrat';
 
   @override
-  String get forwardFailed => 'Kunde inte vidarebefordra meddelandet';
-
-  @override
   String get forwardCommentSlowmodeDisabled =>
       'Kommentarer är otillgängliga eftersom en vald kanal har långsamt läge aktiverat.';
 

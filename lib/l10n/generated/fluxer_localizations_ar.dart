@@ -6721,9 +6721,6 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get forwardSuccessToast => 'تمت إعادة توجيه الرسالة';
 
   @override
-  String get forwardFailed => 'تعذّر إعادة توجيه الرسالة';
-
-  @override
   String get forwardCommentSlowmodeDisabled =>
       'التعليقات غير متاحة لأن قناة محددة لديها وضع بطيء مفعل.';
 

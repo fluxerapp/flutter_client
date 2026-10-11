@@ -19,7 +19,6 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/slowmode_
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/forward_destination_avatar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
-import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/forward_destinations_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_length_limits_provider.dart';
@@ -405,7 +404,7 @@ class _ForwardMessageSheetBodyState
     return null;
   }
 
-  Future<void> _forward(bool commentDisabled) async {
+  void _forward(bool commentDisabled) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final List<String> destinations = _selected.toList();
     if (destinations.isEmpty) {
@@ -415,7 +414,6 @@ class _ForwardMessageSheetBodyState
     final String? comment = (commentDisabled || wireComment.isEmpty)
         ? null
         : wireComment;
-    final String? sourceGuildId = _sourceGuildId();
     final _ForwardNavigationTarget? navigationTarget =
         shouldNavigateAfterForward(destinations.length)
         ? _ForwardNavigationTarget(
@@ -423,60 +421,28 @@ class _ForwardMessageSheetBodyState
             guildId: _guildIdForSelectedDestination(destinations.first),
           )
         : null;
-    final DateTime forwardStartedAt = DateTime.now();
-    try {
-      await ref
-          .read(messageRepositoryProvider)
+    unawaited(
+      ref
+          .read(chatViewModelProvider.notifier)
           .forwardMessage(
             sourceChannelId: widget.sourceChannelId,
             sourceMessageId: widget.sourceMessageId,
             attachmentIds: widget.attachmentIds,
             embedIndices: widget.embedIndices,
-            sourceGuildId: sourceGuildId,
+            sourceGuildId: _sourceGuildId(),
             destinationChannelIds: destinations,
             comment: comment,
-          );
-      final SlowmodeTracker tracker = ref.read(
-        slowmodeTrackerProvider.notifier,
-      );
-      for (final String id in destinations) {
-        tracker.updateSendTimestamp(id, forwardStartedAt);
-      }
-      if (!mounted) {
-        return;
-      }
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: l10n.forwardSuccessToast,
-              variant: FluxerToastVariant.success,
-            ),
-          );
-      Navigator.of(context).pop(navigationTarget);
-    } on Object catch (error) {
-      final SlowmodeTracker tracker = ref.read(
-        slowmodeTrackerProvider.notifier,
-      );
-      for (final String channelId in destinations) {
-        applySlowmodeRateLimitError(
-          tracker: tracker,
-          channelId: channelId,
-          error: error,
+          ),
+    );
+    ref
+        .read(toastProvider.notifier)
+        .show(
+          FluxerToast(
+            message: l10n.forwardSuccessToast,
+            variant: FluxerToastVariant.success,
+          ),
         );
-      }
-      if (!mounted) {
-        return;
-      }
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: l10n.forwardFailed,
-              variant: FluxerToastVariant.danger,
-            ),
-          );
-    }
+    Navigator.of(context).pop(navigationTarget);
   }
 
   @override
@@ -707,9 +673,7 @@ class _ForwardMessageSheetBodyState
                   _selected.length,
                   kForwardSelectionLimit,
                 ),
-                onPressedAsync: canSend
-                    ? () => _forward(commentDisabled)
-                    : null,
+                onPressed: canSend ? () => _forward(commentDisabled) : null,
               ),
             ],
           ),

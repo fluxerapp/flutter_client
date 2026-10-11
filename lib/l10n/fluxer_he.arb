@@ -7926,10 +7926,6 @@
     "@forwardSuccessToast": {
         "description": "Toast shown after a message is successfully forwarded."
     },
-    "forwardFailed": "העברת ההודעה נכשלה",
-    "@forwardFailed": {
-        "description": "Toast shown when forwarding a message fails."
-    },
     "forwardCommentSlowmodeDisabled": "הערות אינן זמינות מכיוון שערוץ נבחר מפעיל מצב איטי.",
     "@forwardCommentSlowmodeDisabled": {
         "description": "Notice shown in the forward sheet when the optional comment is disabled due to slowmode on a selected destination."

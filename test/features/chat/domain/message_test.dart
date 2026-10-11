@@ -691,4 +691,79 @@ void main() {
       }
     });
   });
+
+  group('toForwardSnapshot', () {
+    const Attachment first = Attachment(
+      id: 'att-1',
+      filename: 'a.png',
+      url: 'https://cdn/a.png',
+    );
+    const Attachment second = Attachment(
+      id: 'att-2',
+      filename: 'b.png',
+      url: 'https://cdn/b.png',
+    );
+    const Embed linkEmbed = Embed(type: EmbedType.link, title: 'link');
+    const Embed imageEmbed = Embed(type: EmbedType.image, title: 'image');
+
+    test('copies the whole message when nothing is selected', () {
+      final MessageSnapshot snapshot = _message(
+        content: 'hello',
+        editedTimestamp: DateTime.utc(2026, 2),
+        attachments: const <Attachment>[first],
+        embeds: const <Embed>[linkEmbed],
+        mentionedUserIds: const <String>['user-1'],
+      ).toForwardSnapshot();
+
+      expect(snapshot.content, 'hello');
+      expect(snapshot.timestamp, DateTime.utc(2026));
+      expect(snapshot.editedTimestamp, DateTime.utc(2026, 2));
+      expect(snapshot.mentions, <String>['user-1']);
+      expect(snapshot.attachments, <Attachment>[first]);
+      expect(snapshot.embeds, <Embed>[linkEmbed]);
+    });
+
+    test('keeps only the selected media and drops the text', () {
+      final MessageSnapshot snapshot =
+          _message(
+            content: 'hello',
+            editedTimestamp: DateTime.utc(2026, 2),
+            attachments: const <Attachment>[first, second],
+            embeds: const <Embed>[linkEmbed, imageEmbed],
+            mentionedUserIds: const <String>['user-1'],
+          ).toForwardSnapshot(
+            attachmentIds: <String>['att-2'],
+            embedIndices: <int>[1],
+          );
+
+      expect(snapshot.content, isEmpty);
+      expect(snapshot.editedTimestamp, isNull);
+      expect(snapshot.mentions, isEmpty);
+      expect(snapshot.attachments, <Attachment>[second]);
+      expect(snapshot.embeds, <Embed>[imageEmbed]);
+    });
+
+    test('forwards the snapshot of an already forwarded message', () {
+      final MessageSnapshot inner = MessageSnapshot(
+        content: 'inner',
+        timestamp: DateTime.utc(2025),
+        attachments: const <Attachment>[first],
+      );
+      final Message forwarded = Message(
+        id: '0002',
+        channelId: 'channel-1',
+        authorId: 'author-1',
+        authorName: 'Author',
+        content: '',
+        timestamp: DateTime.utc(2026),
+        messageSnapshots: <MessageSnapshot>[inner],
+      );
+
+      final MessageSnapshot snapshot = forwarded.toForwardSnapshot();
+
+      expect(snapshot.content, 'inner');
+      expect(snapshot.timestamp, DateTime.utc(2025));
+      expect(snapshot.attachments, <Attachment>[first]);
+    });
+  });
 }

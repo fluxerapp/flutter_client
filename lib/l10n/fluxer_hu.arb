@@ -5464,10 +5464,6 @@
     "@forwardSuccessToast": {
         "description": "Toast shown after a message is successfully forwarded."
     },
-    "forwardFailed": "Az üzenet továbbítása sikertelen",
-    "@forwardFailed": {
-        "description": "Toast shown when forwarding a message fails."
-    },
     "forwardCommentSlowmodeDisabled": "Megjegyzések nem érhetők el, mert a kiválasztott csatornán be van kapcsolva a lassú mód.",
     "@forwardCommentSlowmodeDisabled": {
         "description": "Notice shown in the forward sheet when the optional comment is disabled due to slowmode on a selected destination."

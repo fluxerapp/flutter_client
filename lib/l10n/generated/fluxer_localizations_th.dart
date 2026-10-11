@@ -6718,9 +6718,6 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get forwardSuccessToast => 'ส่งต่อข้อความแล้ว';
 
   @override
-  String get forwardFailed => 'ส่งต่อข้อความไม่สำเร็จ';
-
-  @override
   String get forwardCommentSlowmodeDisabled =>
       'ไม่สามารถแสดงความคิดเห็นได้เนื่องจากช่องที่เลือกเปิดใช้งานโหมดหน่วงเวลา';
 

@@ -6757,9 +6757,6 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get forwardSuccessToast => 'Pesan diteruskan';
 
   @override
-  String get forwardFailed => 'Gagal meneruskan pesan';
-
-  @override
   String get forwardCommentSlowmodeDisabled =>
       'Komentar tidak tersedia karena saluran yang dipilih mengaktifkan mode lambat.';
 

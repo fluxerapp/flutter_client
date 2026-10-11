@@ -7926,10 +7926,6 @@
     "@forwardSuccessToast": {
         "description": "Toast shown after a message is successfully forwarded."
     },
-    "forwardFailed": "Неуспешно препращане на съобщението",
-    "@forwardFailed": {
-        "description": "Toast shown when forwarding a message fails."
-    },
     "forwardCommentSlowmodeDisabled": "Коментарите са недостъпни, защото избраният канал има активиран режим на забавяне.",
     "@forwardCommentSlowmodeDisabled": {
         "description": "Notice shown in the forward sheet when the optional comment is disabled due to slowmode on a selected destination."

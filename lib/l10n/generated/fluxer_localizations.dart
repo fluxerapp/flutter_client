@@ -11029,12 +11029,6 @@ abstract class FluxerLocalizations {
   /// **'Message forwarded'**
   String get forwardSuccessToast;
 
-  /// Toast shown when forwarding a message fails.
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to forward message'**
-  String get forwardFailed;
-
   /// Notice shown in the forward sheet when the optional comment is disabled due to slowmode on a selected destination.
   ///
   /// In en, this message translates to:

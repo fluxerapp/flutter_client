@@ -6783,9 +6783,6 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get forwardSuccessToast => 'Bericht doorgestuurd';
 
   @override
-  String get forwardFailed => 'Bericht doorsturen mislukt';
-
-  @override
   String get forwardCommentSlowmodeDisabled =>
       'Opmerkingen zijn niet beschikbaar omdat een geselecteerd kanaal slowmode heeft ingeschakeld.';
 

@@ -6784,9 +6784,6 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get forwardSuccessToast => 'Zpráva přeposlána';
 
   @override
-  String get forwardFailed => 'Zprávu se nepodařilo přeposlat';
-
-  @override
   String get forwardCommentSlowmodeDisabled =>
       'Komentáře nejsou k dispozici, protože vybraný kanál má povolený režim zpomalení.';
 

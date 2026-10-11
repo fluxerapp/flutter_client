@@ -5464,10 +5464,6 @@
     "@forwardSuccessToast": {
         "description": "Toast shown after a message is successfully forwarded."
     },
-    "forwardFailed": "訊息轉傳失敗",
-    "@forwardFailed": {
-        "description": "Toast shown when forwarding a message fails."
-    },
     "forwardCommentSlowmodeDisabled": "由於選取的頻道已啟用慢速模式，備註功能無法使用。",
     "@forwardCommentSlowmodeDisabled": {
         "description": "Notice shown in the forward sheet when the optional comment is disabled due to slowmode on a selected destination."

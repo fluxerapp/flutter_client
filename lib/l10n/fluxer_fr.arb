@@ -5464,10 +5464,6 @@
     "@forwardSuccessToast": {
         "description": "Toast shown after a message is successfully forwarded."
     },
-    "forwardFailed": "Échec du transfert du message",
-    "@forwardFailed": {
-        "description": "Toast shown when forwarding a message fails."
-    },
     "forwardCommentSlowmodeDisabled": "Les commentaires sont indisponibles car un salon sélectionné a le mode lent activé.",
     "@forwardCommentSlowmodeDisabled": {
         "description": "Notice shown in the forward sheet when the optional comment is disabled due to slowmode on a selected destination."

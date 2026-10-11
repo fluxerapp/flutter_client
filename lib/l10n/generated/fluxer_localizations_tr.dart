@@ -6760,9 +6760,6 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get forwardSuccessToast => 'Mesaj iletildi';
 
   @override
-  String get forwardFailed => 'Mesaj iletilemedi';
-
-  @override
   String get forwardCommentSlowmodeDisabled =>
       'Seçilen bir kanalda yavaş mod etkin olduğundan yorumlar kullanılamıyor.';
 

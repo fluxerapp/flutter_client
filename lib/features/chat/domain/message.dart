@@ -1656,6 +1656,44 @@ class Message {
   }
 
   bool get hasForwardSnapshots => messageSnapshots.isNotEmpty;
+
+  MessageSnapshot toForwardSnapshot({
+    List<String>? attachmentIds,
+    List<int>? embedIndices,
+  }) {
+    final MessageSnapshot source = messageSnapshots.isNotEmpty
+        ? messageSnapshots.first
+        : MessageSnapshot(
+            content: content,
+            timestamp: timestamp,
+            editedTimestamp: editedTimestamp,
+            mentions: mentionedUserIds,
+            mentionRoles: mentionRoles,
+            mentionChannels: mentionChannels,
+            embeds: embeds,
+            attachments: attachments,
+            stickers: stickers,
+            flags: flags,
+          );
+    final List<String> selectedAttachments = attachmentIds ?? const <String>[];
+    final List<int> selectedEmbeds = embedIndices ?? const <int>[];
+    if (selectedAttachments.isEmpty && selectedEmbeds.isEmpty) {
+      return source;
+    }
+    return MessageSnapshot(
+      timestamp: source.timestamp,
+      flags: source.flags,
+      attachments: <Attachment>[
+        for (final Attachment attachment in source.attachments)
+          if (selectedAttachments.contains(attachment.id)) attachment,
+      ],
+      embeds: <Embed>[
+        for (final int index in selectedEmbeds)
+          if (index >= 0 && index < source.embeds.length) source.embeds[index],
+      ],
+    );
+  }
+
   bool get suppressEmbeds => (flags & messageFlagSuppressEmbeds) != 0;
   bool get isCrossposted => (flags & messageFlagCrossposted) != 0;
   bool get isCrosspostCopy => (flags & messageFlagIsCrosspost) != 0;

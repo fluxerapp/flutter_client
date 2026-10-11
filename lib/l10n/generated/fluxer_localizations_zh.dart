@@ -6366,9 +6366,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get forwardSuccessToast => '消息已转发';
 
   @override
-  String get forwardFailed => '消息转发失败';
-
-  @override
   String get forwardCommentSlowmodeDisabled => '由于所选频道启用了慢速模式，评论不可用。';
 
   @override
@@ -20478,9 +20475,6 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String get forwardSuccessToast => '訊息已轉傳';
-
-  @override
-  String get forwardFailed => '訊息轉傳失敗';
 
   @override
   String get forwardCommentSlowmodeDisabled => '由於選取的頻道已啟用慢速模式，備註功能無法使用。';

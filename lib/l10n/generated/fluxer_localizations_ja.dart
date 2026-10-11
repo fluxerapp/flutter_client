@@ -6503,9 +6503,6 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get forwardSuccessToast => 'メッセージを転送しました';
 
   @override
-  String get forwardFailed => 'メッセージの転送に失敗しました';
-
-  @override
   String get forwardCommentSlowmodeDisabled =>
       '選択したチャンネルでスローモードが有効になっているため、コメントは利用できません。';
 

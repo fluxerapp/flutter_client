@@ -15,7 +15,6 @@ import 'package:fluxer_app/features/chat/domain/api_attachment_metadata.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/message_attachment_update.dart';
 import 'package:fluxer_app/features/chat/domain/message_translation.dart';
-import 'package:fluxer_app/features/chat/utils/messages/client_nonce.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_page_sync.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
@@ -88,6 +87,7 @@ Map<String, dynamic> buildForwardMessageBody({
   List<String>? attachmentIds,
   List<int>? embedIndices,
   String? clientNonce,
+  int? messageFlags,
 }) {
   final reference = <String, dynamic>{
     'type': 1, // MessageReferenceType.forward
@@ -104,6 +104,9 @@ Map<String, dynamic> buildForwardMessageBody({
     reference['embed_indices'] = embedIndices;
   }
   final body = <String, dynamic>{'message_reference': reference};
+  if (messageFlags != null && messageFlags != 0) {
+    body['flags'] = messageFlags;
+  }
   if (clientNonce != null && clientNonce.isNotEmpty) {
     body['nonce'] = clientNonce;
   }
@@ -770,48 +773,28 @@ class MessageRepository {
     return _upsertKeepingTranslation(message);
   }
 
-  /// Forwards [sourceMessageId] from [sourceChannelId] to each channel in
-  /// [destinationChannelIds]. When [comment] is non-empty a separate message is
-  /// sent after each forward so it renders below the forwarded snapshot. Sends
-  /// are sequential per destination (matching the web client) and throw on the
-  /// first failed request.
-  Future<void> forwardMessage({
+  Future<Message> sendForward({
+    required String channelId,
     required String sourceChannelId,
     required String sourceMessageId,
-    required List<String> destinationChannelIds,
+    required String clientNonce,
     String? sourceGuildId,
     List<String>? attachmentIds,
     List<int>? embedIndices,
-    String? comment,
-  }) async {
-    final String? trimmedComment = comment?.trim();
-    final bool hasComment = trimmedComment != null && trimmedComment.isNotEmpty;
-    try {
-      for (final String destinationId in destinationChannelIds) {
-        await _postMessage(
-          destinationId,
-          buildForwardMessageBody(
-            sourceChannelId: sourceChannelId,
-            sourceMessageId: sourceMessageId,
-            sourceGuildId: sourceGuildId,
-            attachmentIds: attachmentIds,
-            embedIndices: embedIndices,
-            clientNonce: clientNonceGenerator.next(),
-          ),
-        );
-        if (hasComment) {
-          await _postMessage(
-            destinationId,
-            buildMessageCreateBody(
-              content: comment!,
-              clientNonce: clientNonceGenerator.next(),
-            ),
-          );
-        }
-      }
-    } on DioException catch (e) {
-      throw Exception(userFacingErrorMessage(e, 'Failed to forward message'));
-    }
+    int? messageFlags,
+  }) {
+    return _postMessage(
+      channelId,
+      buildForwardMessageBody(
+        sourceChannelId: sourceChannelId,
+        sourceMessageId: sourceMessageId,
+        sourceGuildId: sourceGuildId,
+        attachmentIds: attachmentIds,
+        embedIndices: embedIndices,
+        clientNonce: clientNonce,
+        messageFlags: messageFlags,
+      ),
+    );
   }
 
   Future<Message> editMessage({

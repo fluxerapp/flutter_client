@@ -6815,9 +6815,6 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get forwardSuccessToast => 'Üzenet továbbítva';
 
   @override
-  String get forwardFailed => 'Az üzenet továbbítása sikertelen';
-
-  @override
   String get forwardCommentSlowmodeDisabled =>
       'Megjegyzések nem érhetők el, mert a kiválasztott csatornán be van kapcsolva a lassú mód.';
 

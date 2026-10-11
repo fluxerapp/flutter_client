@@ -6499,9 +6499,6 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get forwardSuccessToast => '메시지 전달됨';
 
   @override
-  String get forwardFailed => '메시지 전달 실패';
-
-  @override
   String get forwardCommentSlowmodeDisabled =>
       '선택한 채널에 슬로우 모드가 활성화되어 댓글을 사용할 수 없습니다.';
 

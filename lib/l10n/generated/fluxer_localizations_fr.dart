@@ -6855,9 +6855,6 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get forwardSuccessToast => 'Message transféré';
 
   @override
-  String get forwardFailed => 'Échec du transfert du message';
-
-  @override
   String get forwardCommentSlowmodeDisabled =>
       'Les commentaires sont indisponibles car un salon sélectionné a le mode lent activé.';
 

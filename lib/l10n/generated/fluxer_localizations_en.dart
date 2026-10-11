@@ -6735,9 +6735,6 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get forwardSuccessToast => 'Message forwarded';
 
   @override
-  String get forwardFailed => 'Failed to forward message';
-
-  @override
   String get forwardCommentSlowmodeDisabled =>
       'Comments are unavailable because a selected channel has slowmode enabled.';
 
@@ -21644,9 +21641,6 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get forwardSuccessToast => 'Message forwarded';
 
   @override
-  String get forwardFailed => 'Failed to forward message';
-
-  @override
   String get forwardCommentSlowmodeDisabled =>
       'Comments are unavailable because a selected channel has slowmode enabled.';
 
@@ -35286,9 +35280,6 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get forwardSuccessToast => 'Message forwarded';
-
-  @override
-  String get forwardFailed => 'Failed to forward message';
 
   @override
   String get forwardCommentSlowmodeDisabled =>

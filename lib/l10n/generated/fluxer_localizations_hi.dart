@@ -6757,9 +6757,6 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get forwardSuccessToast => 'मैसेज फ़ॉरवर्ड किया गया';
 
   @override
-  String get forwardFailed => 'मैसेज फ़ॉरवर्ड नहीं हो पाया';
-
-  @override
   String get forwardCommentSlowmodeDisabled =>
       'टिप्पणियाँ उपलब्ध नहीं हैं क्योंकि चयनित चैनल में स्लोमोड सक्षम है।';
 

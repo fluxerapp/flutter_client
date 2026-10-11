@@ -6780,9 +6780,6 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get forwardSuccessToast => 'Poruka proslijeđena';
 
   @override
-  String get forwardFailed => 'Prosljeđivanje poruke nije uspjelo';
-
-  @override
   String get forwardCommentSlowmodeDisabled =>
       'Komentari nisu dostupni jer odabrani kanal ima omogućen usporeni način rada.';
 

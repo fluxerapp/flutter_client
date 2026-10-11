@@ -6829,9 +6829,6 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   String get forwardSuccessToast => 'Wiadomość przesłana dalej';
 
   @override
-  String get forwardFailed => 'Nie udało się przekazać wiadomości dalej';
-
-  @override
   String get forwardCommentSlowmodeDisabled =>
       'Komentarze są niedostępne, ponieważ wybrany kanał ma włączony tryb wolny.';
 

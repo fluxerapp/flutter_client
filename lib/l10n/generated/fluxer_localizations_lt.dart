@@ -6831,9 +6831,6 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get forwardSuccessToast => 'Žinutė persiųsta';
 
   @override
-  String get forwardFailed => 'Nepavyko persiųsti žinutės';
-
-  @override
   String get forwardCommentSlowmodeDisabled =>
       'Komentarai nepasiekiami, nes pasirinktame kanale įjungtas lėtasis režimas.';
 

@@ -486,11 +486,29 @@ class _RetrySendOptions {
     required this.replyMention,
     this.favoriteMemeId,
     this.tts = false,
+    this.forward,
   });
 
   final bool replyMention;
   final String? favoriteMemeId;
   final bool tts;
+  final _ForwardSource? forward;
+}
+
+class _ForwardSource {
+  const _ForwardSource({
+    required this.channelId,
+    required this.messageId,
+    this.guildId,
+    this.attachmentIds,
+    this.embedIndices,
+  });
+
+  final String channelId;
+  final String messageId;
+  final String? guildId;
+  final List<String>? attachmentIds;
+  final List<int>? embedIndices;
 }
 
 enum _LocalMutationKind {
@@ -693,6 +711,7 @@ class ChatViewModel extends _$ChatViewModel {
       <String, List<_LocalMutation>>{};
   final Map<String, Message> _inFlightOptimisticMessages = <String, Message>{};
   final Map<String, int> _sendsAwaitingReconnect = <String, int>{};
+  final Map<String, Message> _forwardSends = <String, Message>{};
   final Map<String, _RetrySendOptions> _retrySendOptions =
       <String, _RetrySendOptions>{};
   final Map<String, Future<void>> _pendingDeleteFutures =
@@ -714,6 +733,7 @@ class ChatViewModel extends _$ChatViewModel {
     _lastNetworkRefreshByChannel.clear();
     _localMutations.clear();
     _inFlightOptimisticMessages.clear();
+    _forwardSends.clear();
     _retrySendOptions.clear();
     _sendsAwaitingReconnect.clear();
     _pendingDeleteFutures.clear();
@@ -1355,7 +1375,7 @@ class ChatViewModel extends _$ChatViewModel {
   }
 
   List<Message> _mergeInFlightSends(String channelId, List<Message> messages) {
-    if (_inFlightOptimisticMessages.isEmpty) {
+    if (_inFlightOptimisticMessages.isEmpty && _forwardSends.isEmpty) {
       return messages;
     }
     final Set<String> existingIds = messages.map((Message m) => m.id).toSet();
@@ -1382,6 +1402,21 @@ class ChatViewModel extends _$ChatViewModel {
     }
     for (final String nonce in staleNonces) {
       _inFlightOptimisticMessages.remove(nonce);
+    }
+    final List<String> deliveredForwards = <String>[];
+    for (final MapEntry<String, Message> entry in _forwardSends.entries) {
+      final Message message = entry.value;
+      if (message.channelId != channelId || existingIds.contains(message.id)) {
+        continue;
+      }
+      if (deliveredMatchForLocalSend(messages, message) != null) {
+        deliveredForwards.add(entry.key);
+        continue;
+      }
+      inFlight.add(message);
+    }
+    for (final String nonce in deliveredForwards) {
+      _forwardSends.remove(nonce);
     }
     if (inFlight.isEmpty) {
       return messages;
@@ -4976,6 +5011,257 @@ class ChatViewModel extends _$ChatViewModel {
   Future<void> sendStandaloneMessage(String content) =>
       _sendContent(content.trim(), clearMessageText: false);
 
+  Future<void> forwardMessage({
+    required String sourceChannelId,
+    required String sourceMessageId,
+    required List<String> destinationChannelIds,
+    String? sourceGuildId,
+    List<String>? attachmentIds,
+    List<int>? embedIndices,
+    String? comment,
+  }) async {
+    final _ForwardSource source = _ForwardSource(
+      channelId: sourceChannelId,
+      messageId: sourceMessageId,
+      guildId: sourceGuildId,
+      attachmentIds: attachmentIds,
+      embedIndices: embedIndices,
+    );
+    final ({String content, int flags})? normalizedComment = comment == null
+        ? null
+        : _normalizeOutgoing(comment);
+    final int flags = normalizedComment?.flags ?? 0;
+    final Message? sourceMessage = await _loadForwardSource(sourceMessageId);
+    final MessageSnapshot? snapshot = sourceMessage?.toForwardSnapshot(
+      attachmentIds: attachmentIds,
+      embedIndices: embedIndices,
+    );
+    final String? currentUserId = ref.read(currentUserIdProvider);
+    final db.User? currentUser = currentUserId == null
+        ? null
+        : await ref
+              .read(fluxerDatabaseProvider)
+              .userDao
+              .getUserById(currentUserId);
+    if (!ref.mounted) {
+      return;
+    }
+    final bool hasGlobalName =
+        currentUser?.globalName?.trim().isNotEmpty ?? false;
+    final String authorName = hasGlobalName
+        ? currentUser!.globalName!
+        : currentUser?.username ?? 'You';
+    Message optimistic(String channelId, String content) =>
+        _buildOptimisticMessage(
+          channelId: channelId,
+          content: content,
+          replyToId: null,
+          stickerIds: const <String>[],
+          currentUserId: currentUserId,
+          authorName: authorName,
+          authorAvatar: currentUser?.avatar,
+          authorAvatarColor: currentUser?.avatarColor,
+          authorIsBot: currentUser?.bot ?? false,
+          authorIsSystem: currentUser?.system ?? false,
+          clientNonce: clientNonceGenerator.next(),
+          flags: flags,
+        );
+    final List<Message> shownHere = <Message>[];
+    for (final String channelId in destinationChannelIds) {
+      final Message forward = optimistic(channelId, '').copyWith(
+        messageReference: MessageReference(
+          channelId: sourceChannelId,
+          messageId: sourceMessageId,
+          guildId: sourceGuildId,
+          type: MessageReferenceType.forward,
+        ),
+        messageSnapshots: snapshot == null
+            ? const <MessageSnapshot>[]
+            : <MessageSnapshot>[snapshot],
+      );
+      final String commentText = normalizedComment?.content ?? '';
+      final Message? commentMessage = commentText.isEmpty
+          ? null
+          : optimistic(channelId, commentText);
+      _retrySendOptions[forward.id] = _RetrySendOptions(
+        replyMention: false,
+        forward: source,
+      );
+      for (final Message local in <Message>[forward, ?commentMessage]) {
+        _forwardSends[local.clientNonce!] = local;
+        if (state.channelId == channelId) {
+          shownHere.add(local);
+        }
+      }
+      unawaited(
+        _deliverForward(
+          forward: forward,
+          comment: commentMessage,
+          source: source,
+        ),
+      );
+    }
+    if (shownHere.isEmpty) {
+      return;
+    }
+    state = state.copyWith(
+      write: (
+        messages: [...state.messages, ...shownHere],
+        origin: MessagesOrigin.ownSend,
+      ),
+      errorMessage: null,
+      scrollToBottomSignal: _scrollToBottomSignalAfterSend(),
+      stickyUnreadMessageId: null,
+      pendingAutoAckMessageId: _pendingAutoAckCovering(shownHere.last.id),
+    );
+  }
+
+  Future<Message?> _loadForwardSource(String messageId) async {
+    for (final Message message in state.messages) {
+      if (message.id == messageId) {
+        return message;
+      }
+    }
+    final db.Message? row = await ref
+        .read(fluxerDatabaseProvider)
+        .messageDao
+        .getMessage(messageId);
+    return row == null ? null : Message.fromRow(row);
+  }
+
+  Future<Message> _sendForward(Message forward, _ForwardSource source) {
+    return _sendWithRateLimitRetry(
+      () => ref
+          .read(messageRepositoryProvider)
+          .sendForward(
+            channelId: forward.channelId,
+            sourceChannelId: source.channelId,
+            sourceMessageId: source.messageId,
+            sourceGuildId: source.guildId,
+            attachmentIds: source.attachmentIds,
+            embedIndices: source.embedIndices,
+            clientNonce: forward.clientNonce!,
+            messageFlags: forward.flags,
+          ),
+    );
+  }
+
+  Future<void> _deliverForward({
+    required Message forward,
+    required Message? comment,
+    required _ForwardSource source,
+  }) async {
+    final String channelId = forward.channelId;
+    final DateTime sendStartedAt = DateTime.now();
+    try {
+      final Message sent = await _sendForward(forward, source);
+      if (!ref.mounted) {
+        return;
+      }
+      _settleForwardSend(forward, sent);
+      unawaited(
+        _recordSlowmodeSendOnSuccess(channelId, sent.timestamp, sendStartedAt),
+      );
+    } on Object catch (error, st) {
+      talker.error(
+        '[ChatViewModel] forward api_error channelId=$channelId',
+        error,
+        st,
+      );
+      if (!ref.mounted) {
+        return;
+      }
+      _failForwardSend(forward, error);
+      if (comment != null) {
+        _markForwardSendFailed(comment);
+      }
+      return;
+    }
+    if (comment == null) {
+      return;
+    }
+    try {
+      final Message sent = await _sendWithRateLimitRetry(
+        () => ref
+            .read(messageRepositoryProvider)
+            .sendMessage(
+              channelId: channelId,
+              content: comment.content,
+              clientNonce: comment.clientNonce,
+              messageFlags: comment.flags,
+            ),
+      );
+      if (!ref.mounted) {
+        return;
+      }
+      _settleForwardSend(comment, sent);
+    } on Object catch (error, st) {
+      talker.error(
+        '[ChatViewModel] forward comment api_error channelId=$channelId',
+        error,
+        st,
+      );
+      if (!ref.mounted) {
+        return;
+      }
+      _failForwardSend(comment, error);
+    }
+  }
+
+  void _settleForwardSend(Message local, Message sent) {
+    _forwardSends.remove(local.clientNonce);
+    _retrySendOptions.remove(local.id);
+    _commitDeliveredOptimisticSend(
+      channelId: local.channelId,
+      optimisticMessageId: local.id,
+      sent: sent,
+    );
+  }
+
+  void _failForwardSend(Message local, Object error) {
+    if (state.channelId != local.channelId) {
+      _markForwardSendFailed(local);
+      _syncSlowmodeFromSendError(error, local.channelId);
+      _showUnexpectedSendError();
+      return;
+    }
+    _handleSendFailure(local.id, error);
+    _recordForwardFailure(local);
+  }
+
+  void _recordForwardFailure(Message local) {
+    final int index = state.messages.indexWhere(
+      (Message m) => m.id == local.id,
+    );
+    _forwardSends[local.clientNonce!] = index == -1
+        ? _failedLocalSend(local)
+        : state.messages[index];
+  }
+
+  void _markForwardSendFailed(Message local) {
+    final Message failed = _failedLocalSend(local);
+    _forwardSends[local.clientNonce!] = failed;
+    if (state.channelId != local.channelId) {
+      return;
+    }
+    final int index = state.messages.indexWhere(
+      (Message m) => m.id == local.id,
+    );
+    if (index == -1) {
+      return;
+    }
+    final List<Message> nextMessages = List<Message>.from(state.messages);
+    nextMessages[index] = failed;
+    state = state.copyWith(
+      write: (messages: nextMessages, origin: MessagesOrigin.localMutation),
+    );
+  }
+
+  Message _failedLocalSend(Message local) => local.copyWith(
+    deliveryState: MessageDeliveryState.failed,
+    sendError: ref.read(appLocalizationsProvider).chatMessageFailedToSend,
+  );
+
   Future<void> sendVoiceMessage({
     required String filePath,
     required int duration,
@@ -5767,6 +6053,7 @@ class ChatViewModel extends _$ChatViewModel {
     final String? nonce = message.clientNonce;
     if (nonce != null) {
       _clearInFlightOptimisticSend(nonce);
+      _forwardSends.remove(nonce);
       ref
           .read(cloudUploadControllerProvider(message.channelId).notifier)
           .cancelMessageUpload(nonce);
@@ -5814,6 +6101,7 @@ class ChatViewModel extends _$ChatViewModel {
       return false;
     }
     _retrySendOptions.remove(message.id);
+    _forwardSends.remove(message.clientNonce);
     state = state.copyWith(
       write: (
         messages: _replaceOptimisticWithDelivered(
@@ -5830,28 +6118,41 @@ class ChatViewModel extends _$ChatViewModel {
 
   Future<void> _resendLocalMessage(Message message) async {
     final _RetrySendOptions? options = _retrySendOptions[message.id];
+    final String? forwardNonce = _forwardSends.containsKey(message.clientNonce)
+        ? message.clientNonce
+        : null;
+    if (forwardNonce != null) {
+      _forwardSends[forwardNonce] = message.copyWith(
+        deliveryState: MessageDeliveryState.sending,
+        sendError: null,
+      );
+    }
     try {
       final String clientNonce =
           message.clientNonce ?? clientNonceGenerator.next();
       final DateTime sendStartedAt = DateTime.now();
-      final Message sent = await _sendWithRateLimitRetry(
-        () => ref
-            .read(messageRepositoryProvider)
-            .sendMessage(
-              channelId: message.channelId,
-              content: message.content,
-              replyToId: message.replyToId,
-              replyMention: options?.replyMention ?? true,
-              clientNonce: clientNonce,
-              stickerIds: message.stickers
-                  .map((MessageSticker s) => s.id)
-                  .toList(),
-              favoriteMemeId: options?.favoriteMemeId,
-              messageFlags: message.flags,
-              tts: options?.tts ?? false,
-            ),
-      );
+      final _ForwardSource? forward = options?.forward;
+      final Message sent = forward != null
+          ? await _sendForward(message, forward)
+          : await _sendWithRateLimitRetry(
+              () => ref
+                  .read(messageRepositoryProvider)
+                  .sendMessage(
+                    channelId: message.channelId,
+                    content: message.content,
+                    replyToId: message.replyToId,
+                    replyMention: options?.replyMention ?? true,
+                    clientNonce: clientNonce,
+                    stickerIds: message.stickers
+                        .map((MessageSticker s) => s.id)
+                        .toList(),
+                    favoriteMemeId: options?.favoriteMemeId,
+                    messageFlags: message.flags,
+                    tts: options?.tts ?? false,
+                  ),
+            );
       _retrySendOptions.remove(message.id);
+      _forwardSends.remove(forwardNonce);
       _commitDeliveredOptimisticSend(
         channelId: message.channelId,
         optimisticMessageId: message.id,
@@ -5867,6 +6168,9 @@ class ChatViewModel extends _$ChatViewModel {
     } on Object catch (e) {
       debugPrint('[ChatViewModel] Retry failed: $e');
       _handleSendFailure(message.id, e);
+      if (forwardNonce != null) {
+        _recordForwardFailure(message);
+      }
     }
   }
 
@@ -5878,6 +6182,7 @@ class ChatViewModel extends _$ChatViewModel {
       return;
     }
     _retrySendOptions.remove(messageId);
+    _forwardSends.remove(state.messages[messageIndex].clientNonce);
     final List<Message>? next = _removeIds(state.messages, {messageId});
     if (next == null) {
       return;

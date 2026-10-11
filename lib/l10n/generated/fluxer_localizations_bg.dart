@@ -6815,9 +6815,6 @@ class FluxerLocalizationsBg extends FluxerLocalizations {
   String get forwardSuccessToast => 'Съобщението е препратено';
 
   @override
-  String get forwardFailed => 'Неуспешно препращане на съобщението';
-
-  @override
   String get forwardCommentSlowmodeDisabled =>
       'Коментарите са недостъпни, защото избраният канал има активиран режим на забавяне.';
 

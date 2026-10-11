@@ -6679,9 +6679,6 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get forwardSuccessToast => 'ההודעה הועברה';
 
   @override
-  String get forwardFailed => 'העברת ההודעה נכשלה';
-
-  @override
   String get forwardCommentSlowmodeDisabled =>
       'הערות אינן זמינות מכיוון שערוץ נבחר מפעיל מצב איטי.';
 

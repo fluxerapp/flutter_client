@@ -58,6 +58,16 @@ void main() {
       expect(reference['embed_indices'], <int>[0, 2]);
       expect(body['nonce'], 'nonce_1');
     });
+
+    test('sends the comment flags with the forward', () {
+      final Map<String, dynamic> body = buildForwardMessageBody(
+        sourceChannelId: 'chan_1',
+        sourceMessageId: 'msg_1',
+        messageFlags: 4096,
+      );
+
+      expect(body['flags'], 4096);
+    });
   });
 
   group('forward comment body (buildMessageCreateBody)', () {

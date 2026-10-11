@@ -6760,9 +6760,6 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get forwardSuccessToast => 'Đã chuyển tiếp tin nhắn';
 
   @override
-  String get forwardFailed => 'Không thể chuyển tiếp tin nhắn';
-
-  @override
   String get forwardCommentSlowmodeDisabled =>
       'Không thể gửi bình luận vì kênh đã chọn đã bật chế độ chậm.';
 

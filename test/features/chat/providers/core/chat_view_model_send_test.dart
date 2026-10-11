@@ -1787,6 +1787,173 @@ void main() {
       );
     },
   );
+
+  group('forward', () {
+    Future<(ProviderContainer, _SendAdapter, ChatViewModel)> setUpForward({
+      _SendAdapter? adapter,
+    }) async {
+      final db = openTestDatabase();
+      for (final String id in <String>['channel-1', 'channel-2']) {
+        await db.channelDao.upsertChannel(
+          ChannelsCompanion.insert(id: id, guildId: '', name: id),
+        );
+      }
+      await db.messageDao.upsertMessage(
+        MessagesCompanion.insert(
+          id: 'src-1',
+          channelId: 'channel-1',
+          authorId: 'other',
+          content: 'original',
+          timestamp: DateTime.utc(2026, 6, 15, 12),
+        ),
+      );
+      final _SendAdapter sendAdapter =
+          adapter ??
+          _SendAdapter(
+            serverMessageId: _snowflakeForUtc(DateTime.utc(2026, 6, 16, 12)),
+          );
+      final container = _container(db, sendAdapter);
+      addTearDown(() {
+        sendAdapter.releaseSend();
+        container.dispose();
+      });
+      final notifier = container.read(chatViewModelProvider.notifier);
+      await notifier.switchChannel('channel-1');
+      await _flushAsync();
+      return (container, sendAdapter, notifier);
+    }
+
+    List<Message> localSends(ProviderContainer container) => container
+        .read(chatViewModelProvider)
+        .messages
+        .where(isLocalSendPlaceholder)
+        .toList();
+
+    test(
+      'shows the forward and its comment while they are still sending',
+      () async {
+        final (container, _, notifier) = await setUpForward(
+          adapter: _SendAdapter(
+            serverMessageId: _snowflakeForUtc(DateTime.utc(2026, 6, 16, 12)),
+          )..holdSend = true,
+        );
+
+        await notifier
+            .forwardMessage(
+              sourceChannelId: 'channel-1',
+              sourceMessageId: 'src-1',
+              destinationChannelIds: <String>['channel-1'],
+              comment: 'look at this',
+            )
+            .timeout(const Duration(seconds: 1));
+        await _flushAsync();
+
+        final List<Message> sending = localSends(container);
+        expect(sending, hasLength(2));
+        expect(sending.first.isSending, isTrue);
+        expect(sending.first.messageReference?.isForward, isTrue);
+        expect(sending.first.messageReference?.messageId, 'src-1');
+        expect(sending.first.messageSnapshots.single.content, 'original');
+        expect(sending.last.isSending, isTrue);
+        expect(sending.last.content, 'look at this');
+      },
+    );
+
+    test('shows a forward still sending when its destination opens', () async {
+      final (container, _, notifier) = await setUpForward(
+        adapter: _SendAdapter(
+          serverMessageId: _snowflakeForUtc(DateTime.utc(2026, 6, 16, 12)),
+        )..holdSend = true,
+      );
+
+      await notifier.forwardMessage(
+        sourceChannelId: 'channel-1',
+        sourceMessageId: 'src-1',
+        destinationChannelIds: <String>['channel-2'],
+      );
+      await notifier.switchChannel('channel-2');
+      await _flushAsync();
+
+      final Message forward = localSends(container).single;
+      expect(forward.channelId, 'channel-2');
+      expect(forward.isSending, isTrue);
+      expect(forward.messageReference?.isForward, isTrue);
+    });
+
+    test(
+      'keeps a forward that failed elsewhere failed when its destination opens',
+      () async {
+        final (container, _, notifier) = await setUpForward(
+          adapter: _SendAdapter(
+            serverMessageId: _snowflakeForUtc(DateTime.utc(2026, 6, 16, 12)),
+            failureCode: 'UNKNOWN_CHANNEL',
+          ),
+        );
+
+        await notifier.forwardMessage(
+          sourceChannelId: 'channel-1',
+          sourceMessageId: 'src-1',
+          destinationChannelIds: <String>['channel-2'],
+        );
+        await _flushAsync();
+
+        expect(
+          container.read(toastProvider).single.toast.message,
+          container.read(appLocalizationsProvider).chatMessageFailedToSend,
+        );
+
+        await notifier.switchChannel('channel-2');
+        await _flushAsync();
+
+        final Message forward = localSends(container).single;
+        expect(forward.channelId, 'channel-2');
+        expect(forward.hasFailed, isTrue);
+        expect(forward.messageReference?.isForward, isTrue);
+      },
+    );
+
+    test(
+      'a failed forward fails its comment and retries with the forward reference',
+      () async {
+        final (container, adapter, notifier) = await setUpForward(
+          adapter: _SendAdapter(
+            serverMessageId: _snowflakeForUtc(DateTime.utc(2026, 6, 16, 12)),
+            failureCode: 'UNKNOWN_CHANNEL',
+          ),
+        );
+
+        await notifier.forwardMessage(
+          sourceChannelId: 'channel-1',
+          sourceMessageId: 'src-1',
+          sourceGuildId: 'guild-1',
+          destinationChannelIds: <String>['channel-1'],
+          attachmentIds: <String>['att-1'],
+          comment: 'look at this',
+        );
+        await _flushAsync();
+
+        final List<Message> failed = localSends(container);
+        expect(failed, hasLength(2));
+        expect(failed.every((Message m) => m.hasFailed), isTrue);
+        expect(adapter.messagePostCount, 1);
+
+        adapter
+          ..failureCode = null
+          ..lastBody = null;
+        await notifier.retryMessageSend(failed.first.id);
+        await _flushAsync();
+
+        expect(adapter.lastBody?['nonce'], failed.first.clientNonce);
+        expect(adapter.lastBody?['message_reference'], <String, dynamic>{
+          'type': 1,
+          'channel_id': 'channel-1',
+          'message_id': 'src-1',
+          'guild_id': 'guild-1',
+          'attachment_ids': <String>['att-1'],
+        });
+      },
+    );
+  });
 }
 
 ProviderContainer _container(

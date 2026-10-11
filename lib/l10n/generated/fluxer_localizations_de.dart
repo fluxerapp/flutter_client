@@ -6826,9 +6826,6 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get forwardSuccessToast => 'Nachricht weitergeleitet';
 
   @override
-  String get forwardFailed => 'Nachricht konnte nicht weitergeleitet werden';
-
-  @override
   String get forwardCommentSlowmodeDisabled =>
       'Kommentare sind nicht verfügbar, da in einem ausgewählten Kanal der Zeitlimit-Modus aktiviert ist.';
 

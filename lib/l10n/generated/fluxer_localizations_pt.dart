@@ -6761,9 +6761,6 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get forwardSuccessToast => 'Mensagem encaminhada';
 
   @override
-  String get forwardFailed => 'Falha ao encaminhar mensagem';
-
-  @override
   String get forwardCommentSlowmodeDisabled =>
       'Comentários indisponíveis porque um canal selecionado tem o modo lento ativado.';
 
@@ -21755,9 +21752,6 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
 
   @override
   String get forwardSuccessToast => 'Mensagem encaminhada';
-
-  @override
-  String get forwardFailed => 'Não foi possível encaminhar a mensagem';
 
   @override
   String get forwardCommentSlowmodeDisabled =>

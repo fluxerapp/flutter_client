@@ -6772,9 +6772,6 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get forwardSuccessToast => 'Viesti välitetty';
 
   @override
-  String get forwardFailed => 'Viestin välittäminen epäonnistui';
-
-  @override
   String get forwardCommentSlowmodeDisabled =>
       'Kommentit eivät ole käytettävissä, koska valitussa kanavassa on hidastila käytössä.';
 

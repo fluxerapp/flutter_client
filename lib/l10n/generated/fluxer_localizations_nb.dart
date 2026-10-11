@@ -6759,9 +6759,6 @@ class FluxerLocalizationsNb extends FluxerLocalizations {
   String get forwardSuccessToast => 'Melding videresendt';
 
   @override
-  String get forwardFailed => 'Kunne ikke videresende melding';
-
-  @override
   String get forwardCommentSlowmodeDisabled =>
       'Kommentarer er utilgjengelige fordi en valgt kanal har sakte modus aktivert.';
 

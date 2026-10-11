@@ -6829,9 +6829,6 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get forwardSuccessToast => 'Το μήνυμα προωθήθηκε';
 
   @override
-  String get forwardFailed => 'Αποτυχία προώθησης μηνύματος';
-
-  @override
   String get forwardCommentSlowmodeDisabled =>
       'Τα σχόλια δεν είναι διαθέσιμα επειδή ένα επιλεγμένο κανάλι έχει ενεργοποιημένη τη λειτουργία αργής αποστολής.';
 

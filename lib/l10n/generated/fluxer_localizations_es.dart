@@ -6832,9 +6832,6 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get forwardSuccessToast => 'Mensaje reenviado';
 
   @override
-  String get forwardFailed => 'No se pudo reenviar el mensaje';
-
-  @override
   String get forwardCommentSlowmodeDisabled =>
       'Los comentarios no están disponibles porque un canal seleccionado tiene el modo lento activado.';
 
@@ -21995,9 +21992,6 @@ class FluxerLocalizationsEs419 extends FluxerLocalizationsEs {
 
   @override
   String get forwardSuccessToast => 'Mensaje reenviado';
-
-  @override
-  String get forwardFailed => 'No se pudo reenviar el mensaje';
 
   @override
   String get forwardCommentSlowmodeDisabled =>

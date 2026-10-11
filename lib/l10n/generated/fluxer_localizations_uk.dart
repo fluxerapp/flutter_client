@@ -6811,9 +6811,6 @@ class FluxerLocalizationsUk extends FluxerLocalizations {
   String get forwardSuccessToast => 'Повідомлення переслано';
 
   @override
-  String get forwardFailed => 'Не вдалося переслати повідомлення';
-
-  @override
   String get forwardCommentSlowmodeDisabled =>
       'Коментарі недоступні, оскільки в вибраному каналі увімкнено повільний режим.';
 
