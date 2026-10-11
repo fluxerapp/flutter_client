@@ -6,6 +6,7 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/retry_interceptor.dart';
+import 'package:fluxer_app/core/api/session_auth_interceptor.dart';
 
 DioException _dio({
   int? statusCode,
@@ -24,9 +25,10 @@ DioException _dio({
 }
 
 class _ScriptedAdapter implements HttpClientAdapter {
-  _ScriptedAdapter(this._outcomes);
+  _ScriptedAdapter(this._outcomes, {this.onFetch});
 
   final List<Object> _outcomes;
+  final void Function()? onFetch;
   int calls = 0;
 
   @override
@@ -37,6 +39,7 @@ class _ScriptedAdapter implements HttpClientAdapter {
   ) async {
     final Object outcome = _outcomes[min(calls, _outcomes.length - 1)];
     calls += 1;
+    onFetch?.call();
     if (outcome is int) {
       return ResponseBody.fromString('{}', outcome);
     }
@@ -47,10 +50,15 @@ class _ScriptedAdapter implements HttpClientAdapter {
   void close({bool force = false}) {}
 }
 
-Dio _retryingDio(_ScriptedAdapter adapter) {
+Dio _retryingDio(_ScriptedAdapter adapter, {String? Function()? readToken}) {
   final Dio dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
     ..httpClientAdapter = adapter;
-  dio.interceptors.add(RetryInterceptor(dio: dio, random: Random(1)));
+  if (readToken != null) {
+    dio.interceptors.add(SessionAuthInterceptor(readToken: readToken));
+  }
+  dio.interceptors.add(
+    RetryInterceptor(dio: dio, random: Random(1), readToken: readToken),
+  );
   return dio;
 }
 
@@ -207,6 +215,26 @@ void main() {
 
       await expectLater(
         _retryingDio(adapter).post<dynamic>('/channels/1/messages'),
+        throwsA(isA<DioException>()),
+      );
+      expect(adapter.calls, 1);
+    });
+
+    test('does not replay a request after the session changed', () async {
+      String token = 'account-a';
+      final _ScriptedAdapter adapter = _ScriptedAdapter(<Object>[
+        const HandshakeException(
+          'Handshake error in client',
+          OSError('TLSV1_ALERT_INTERNAL_ERROR'),
+        ),
+        200,
+      ], onFetch: () => token = 'account-b');
+
+      await expectLater(
+        _retryingDio(
+          adapter,
+          readToken: () => token,
+        ).put<dynamic>('/users/@me/guilds/1/settings'),
         throwsA(isA<DioException>()),
       );
       expect(adapter.calls, 1);

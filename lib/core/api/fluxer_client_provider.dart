@@ -72,11 +72,10 @@ Dio _buildFluxerDio({required Ref ref, required String baseUrl}) {
       readLocale: () => container.read(effectiveAppLocaleProvider),
     ),
   );
-  dio.interceptors.add(
-    SessionAuthInterceptor(readToken: () => ref.read(fluxerAuthTokenProvider)),
-  );
+  String? readToken() => ref.read(fluxerAuthTokenProvider);
+  dio.interceptors.add(SessionAuthInterceptor(readToken: readToken));
   dio.interceptors.add(SkipAuthInterceptor());
-  dio.interceptors.add(RetryInterceptor(dio: dio));
+  dio.interceptors.add(RetryInterceptor(dio: dio, readToken: readToken));
   final RateLimitPacer rateLimitPacer = RateLimitPacer();
   ref.listen<String?>(
     fluxerAuthTokenProvider,

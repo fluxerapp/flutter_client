@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/api/service_unavailable.dart';
+import 'package:fluxer_app/core/api/session_authorization_header.dart';
 
 /// Key used in [RequestOptions.extra] to track retry attempts.
 const _kRetryCountKey = '_retryCount';
@@ -99,11 +100,16 @@ int connectionRetryDelayMs({required int attempt, required Random random}) {
 /// so each failure re-enters [onError] rather than being caught by
 /// the caller.
 class RetryInterceptor extends Interceptor {
-  RetryInterceptor({required this.dio, this.maxRetries = 3, Random? random})
-    : _random = random ?? Random();
+  RetryInterceptor({
+    required this.dio,
+    this.maxRetries = 3,
+    this.readToken,
+    Random? random,
+  }) : _random = random ?? Random();
 
   final Dio dio;
   final int maxRetries;
+  final String? Function()? readToken;
   final Random _random;
 
   @override
@@ -143,6 +149,11 @@ class RetryInterceptor extends Interceptor {
 
     await Future<void>.delayed(delay);
 
+    if (_sessionChanged(err.requestOptions)) {
+      handler.next(err);
+      return;
+    }
+
     err.requestOptions.extra[_kRetryCountKey] = attempt;
 
     try {
@@ -151,5 +162,17 @@ class RetryInterceptor extends Interceptor {
     } on DioException catch (retryErr) {
       handler.next(retryErr);
     }
+  }
+
+  bool _sessionChanged(RequestOptions options) {
+    final String? Function()? readToken = this.readToken;
+    final Object? sentAuthorization = options.headers['Authorization'];
+    if (readToken == null || sentAuthorization == null) {
+      return false;
+    }
+    final String? token = readToken();
+    return token == null ||
+        token.isEmpty ||
+        sentAuthorization != formatSessionAuthorizationHeader(token);
   }
 }
