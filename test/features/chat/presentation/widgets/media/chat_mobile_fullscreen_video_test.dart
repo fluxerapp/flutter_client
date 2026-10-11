@@ -8,7 +8,9 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
+import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_mobile_fullscreen_video.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provider.dart';
 import 'package:fluxer_app/features/ui/media_viewer/media_viewer_dismissible.dart';
 import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -17,6 +19,11 @@ import 'package:fluxer_app/material_ui.dart';
 Widget _wrap(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
+    overrides: [
+      favoriteMemesProvider.overrideWith(
+        (Ref ref) => Stream<List<FavoriteMeme>>.value(const <FavoriteMeme>[]),
+      ),
+    ],
     child: MaterialApp(
       theme: buildFluxerTheme(
         colorTheme: colorTheme,
@@ -79,5 +86,52 @@ void main() {
 
     expect(find.byType(MediaViewerDismissible), findsNothing);
     expect(find.text('open'), findsOneWidget);
+  });
+
+  testWidgets('long-pressing the video opens the options sheet', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(400, 800);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.reset);
+
+    const ChatVideoSource source = ChatVideoSource(
+      directMediaUrl: 'https://fluxerusercontent.com/attachments/1/2/clip.mp4',
+      fallbackUrl: 'https://fluxerusercontent.com/attachments/1/2/clip.mp4',
+    );
+
+    await tester.pumpWidget(
+      _wrap(
+        Builder(
+          builder: (BuildContext context) {
+            return Center(
+              child: TextButton(
+                onPressed: () {
+                  unawaited(
+                    showChatMobileFullscreenVideo(
+                      context,
+                      launchContext: const ChatFullscreenVideoLaunchContext(
+                        source: source,
+                      ),
+                    ),
+                  );
+                },
+                child: const Text('open'),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+    await tester.tap(find.text('open'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 50));
+    expect(find.text('Copy link'), findsNothing);
+
+    await tester.longPress(find.byType(MediaViewerDismissible));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 500));
+
+    expect(find.text('Copy link'), findsOneWidget);
   });
 }

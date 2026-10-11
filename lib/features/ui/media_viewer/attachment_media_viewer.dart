@@ -307,6 +307,12 @@ class _AttachmentMediaViewerShellState
     });
   }
 
+  bool _hasOptionsMenu(AttachmentMediaViewerItem item) =>
+      MediaOptionsLaunchContext.fromImageViewerItem(
+        item,
+        actionScope: widget.actionScope,
+      ).hasOptionsMenu;
+
   Future<void> _openOptions() async {
     final AttachmentMediaViewerItem currentItem = widget.items[_currentIndex];
     await showMobileMediaOptionsSheet(
@@ -573,11 +579,6 @@ class _AttachmentMediaViewerShellState
     );
     final bool canGoPrevious = _currentIndex > 0;
     final bool canGoNext = _currentIndex < widget.items.length - 1;
-    final MediaOptionsLaunchContext optionsContext =
-        MediaOptionsLaunchContext.fromImageViewerItem(
-          currentItem,
-          actionScope: widget.actionScope,
-        );
     final Attachment? resolvedAttachment = widget.actionScope == null
         ? null
         : resolveMessageAttachment(
@@ -594,7 +595,7 @@ class _AttachmentMediaViewerShellState
           attachment: resolvedAttachment,
           forMediaViewerToolbar: true,
         );
-    final bool showOptionsButton = optionsContext.hasOptionsMenu;
+    final bool showOptionsButton = _hasOptionsMenu(currentItem);
     final double backdropBaseOpacity = isMobile ? 0.85 : 0.6;
     final double backdropOpacity = useTouchGestures
         ? mediaViewerDismissBackdropOpacity(
@@ -781,6 +782,7 @@ class _AttachmentMediaViewerShellState
         onDismissProgress: _handleTouchDismissProgress,
         onClose: _executeClose,
         onZoomChanged: _handleTouchZoomChanged,
+        onLongPress: _hasOptionsMenu(item) ? _openOptions : null,
         child: media,
       );
     }

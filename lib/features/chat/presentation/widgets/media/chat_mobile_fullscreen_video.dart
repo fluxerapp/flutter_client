@@ -24,6 +24,7 @@ import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart' as mkv;
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -376,6 +377,11 @@ class _ChatMobileFullscreenVideoPageState
     });
   }
 
+  void _handleLongPress() {
+    FluxerHaptics.medium();
+    unawaited(_openOptions());
+  }
+
   Future<void> _openOptions() async {
     _keepHudVisible();
     await showMobileMediaOptionsSheet(
@@ -438,74 +444,78 @@ class _ChatMobileFullscreenVideoPageState
           MediaViewerDismissible(
             onDismissProgress: _handleDismissProgress,
             onClose: _executeClose,
-            child: Stack(
-              fit: StackFit.expand,
-              clipBehavior: Clip.none,
-              children: <Widget>[
-                if (controller != null && !_playbackFailed && !_isOpening)
-                  Positioned.fill(
-                    child: mkv.Video(controller: controller, controls: null),
-                  ),
-                if ((_isOpening || controller == null) && !_playbackFailed)
-                  const IgnorePointer(
-                    child: ColoredBox(
-                      color: Colors.black,
-                      child: Center(child: FluxerLoadingSpinner()),
+            child: FluxerGestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onLongPress: showOptionsButton ? _handleLongPress : null,
+              child: Stack(
+                fit: StackFit.expand,
+                clipBehavior: Clip.none,
+                children: <Widget>[
+                  if (controller != null && !_playbackFailed && !_isOpening)
+                    Positioned.fill(
+                      child: mkv.Video(controller: controller, controls: null),
                     ),
-                  ),
-                if (_isBuffering && !_isOpening && !_playbackFailed)
-                  IgnorePointer(
-                    child: ColoredBox(
-                      color: Colors.black.withValues(alpha: 0.22),
-                      child: const Center(child: FluxerLoadingSpinner()),
+                  if ((_isOpening || controller == null) && !_playbackFailed)
+                    const IgnorePointer(
+                      child: ColoredBox(
+                        color: Colors.black,
+                        child: Center(child: FluxerLoadingSpinner()),
+                      ),
                     ),
-                  ),
-                if (controller != null && !_playbackFailed && !_isOpening)
-                  Positioned.fill(
-                    child: _hudVisible
-                        ? FluxerGestureDetector(
-                            behavior: HitTestBehavior.translucent,
-                            onTap: _toggleHudVisibility,
-                            child: const SizedBox.expand(),
-                          )
-                        : Semantics(
-                            label: l10n.chatAttachmentVideoToggleControls,
-                            button: true,
-                            child: FluxerGestureDetector(
+                  if (_isBuffering && !_isOpening && !_playbackFailed)
+                    IgnorePointer(
+                      child: ColoredBox(
+                        color: Colors.black.withValues(alpha: 0.22),
+                        child: const Center(child: FluxerLoadingSpinner()),
+                      ),
+                    ),
+                  if (controller != null && !_playbackFailed && !_isOpening)
+                    Positioned.fill(
+                      child: _hudVisible
+                          ? FluxerGestureDetector(
                               behavior: HitTestBehavior.translucent,
                               onTap: _toggleHudVisibility,
                               child: const SizedBox.expand(),
+                            )
+                          : Semantics(
+                              label: l10n.chatAttachmentVideoToggleControls,
+                              button: true,
+                              child: FluxerGestureDetector(
+                                behavior: HitTestBehavior.translucent,
+                                onTap: _toggleHudVisibility,
+                                child: const SizedBox.expand(),
+                              ),
                             ),
-                          ),
-                  ),
-                if (_hudVisible && !_playbackFailed)
-                  Opacity(
-                    opacity: chromeOpacity,
-                    child: _MobileVideoHud(
-                      l10n: l10n,
-                      onClose: _executeClose,
-                      onOpenOptions: showOptionsButton ? _openOptions : null,
-                      favoriteButton: _buildFavoriteButton(),
-                      isMuted: _isMuted,
-                      onMute: _toggleMute,
-                      isPlaying: _isPlaying,
-                      onPlayPause: _togglePlayPause,
-                      position: _position,
-                      duration: _duration,
-                      onSeekFromGlobalDx: _seekFromGlobalDx,
                     ),
-                  ),
-                if (_playbackFailed)
-                  Opacity(
-                    opacity: chromeOpacity,
-                    child: ChatVideoPlaybackFailureOverlay(
-                      fallbackUrl: _source.fallbackUrl,
-                      useRootNavigator: true,
-                      onClose: _executeClose,
-                      onOpenOptions: showOptionsButton ? _openOptions : null,
+                  if (_hudVisible && !_playbackFailed)
+                    Opacity(
+                      opacity: chromeOpacity,
+                      child: _MobileVideoHud(
+                        l10n: l10n,
+                        onClose: _executeClose,
+                        onOpenOptions: showOptionsButton ? _openOptions : null,
+                        favoriteButton: _buildFavoriteButton(),
+                        isMuted: _isMuted,
+                        onMute: _toggleMute,
+                        isPlaying: _isPlaying,
+                        onPlayPause: _togglePlayPause,
+                        position: _position,
+                        duration: _duration,
+                        onSeekFromGlobalDx: _seekFromGlobalDx,
+                      ),
                     ),
-                  ),
-              ],
+                  if (_playbackFailed)
+                    Opacity(
+                      opacity: chromeOpacity,
+                      child: ChatVideoPlaybackFailureOverlay(
+                        fallbackUrl: _source.fallbackUrl,
+                        useRootNavigator: true,
+                        onClose: _executeClose,
+                        onOpenOptions: showOptionsButton ? _openOptions : null,
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
         ],

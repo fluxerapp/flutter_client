@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:fluxer_app/features/ui/media_viewer/media_viewer_dismissible.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_gesture_detector.dart';
 import 'package:fluxer_app/material_ui.dart';
+import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 
 class TouchMediaViewerPage extends StatefulWidget {
   const TouchMediaViewerPage({
@@ -13,6 +14,7 @@ class TouchMediaViewerPage extends StatefulWidget {
     required this.onDismissProgress,
     required this.onClose,
     required this.onZoomChanged,
+    this.onLongPress,
     this.maxScale = 5,
     super.key,
   });
@@ -23,6 +25,7 @@ class TouchMediaViewerPage extends StatefulWidget {
   final ValueChanged<double> onDismissProgress;
   final VoidCallback onClose;
   final ValueChanged<bool> onZoomChanged;
+  final VoidCallback? onLongPress;
   final double maxScale;
 
   @override
@@ -125,6 +128,15 @@ class _TouchMediaViewerPageState extends State<TouchMediaViewerPage>
     unawaited(_animateToMatrix(targetMatrix));
   }
 
+  void _handleLongPress() {
+    final VoidCallback? onLongPress = widget.onLongPress;
+    if (onLongPress == null || _isDismissAnimating) {
+      return;
+    }
+    FluxerHaptics.medium();
+    onLongPress();
+  }
+
   Future<void> _animateToMatrix(Matrix4 targetMatrix) async {
     _stopMatrixAnimation();
     final Matrix4 begin = widget.transformationController.value;
@@ -172,6 +184,7 @@ class _TouchMediaViewerPageState extends State<TouchMediaViewerPage>
     return FluxerGestureDetector(
       behavior: HitTestBehavior.translucent,
       onDoubleTapDown: _handleDoubleTapDown,
+      onLongPress: widget.onLongPress == null ? null : _handleLongPress,
       child: MediaViewerDismissible(
         enabled: widget.isCurrentPage && !_isZoomed,
         onDismissProgress: _handleDismissProgress,

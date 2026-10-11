@@ -65,6 +65,18 @@ Widget _mouseApp(Widget child) {
   );
 }
 
+Widget _touchAppWithFavorites(Widget child) {
+  return ProviderScope(
+    overrides: [
+      inputModalityProvider.overrideWith(_TouchPrimaryModality.new),
+      favoriteMemesProvider.overrideWith(
+        (Ref ref) => Stream<List<FavoriteMeme>>.value(const <FavoriteMeme>[]),
+      ),
+    ],
+    child: _materialApp(child),
+  );
+}
+
 Widget _mouseAppWithFavorites(Widget child) {
   return ProviderScope(
     overrides: [
@@ -321,6 +333,35 @@ void main() {
       await tester.pump();
 
       expect(find.byType(TouchMediaViewerPage), findsOneWidget);
+    });
+
+    testWidgets('long-pressing the media opens the options sheet', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(400, 800);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+
+      await tester.pumpWidget(
+        _touchAppWithFavorites(
+          const AttachmentMediaViewerShell(
+            items: [
+              AttachmentMediaViewerItem(
+                url: _testAttachmentImageUrl,
+                filename: _testAttachmentImageFilename,
+              ),
+            ],
+            initialIndex: 0,
+          ),
+        ),
+      );
+      await tester.pump();
+      expect(find.text('Copy link'), findsNothing);
+
+      await tester.longPress(find.byType(TouchMediaViewerPage));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Copy link'), findsOneWidget);
     });
 
     testWidgets(
