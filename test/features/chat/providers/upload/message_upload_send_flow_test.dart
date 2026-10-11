@@ -259,6 +259,40 @@ void main() {
     expect(h.localRows.single.deliveryState, MessageDeliveryState.failed);
   });
 
+  test(
+    'a reload between MESSAGE_CREATE and the response leaves one row',
+    () async {
+      final _Harness h = await _Harness.create();
+      h.adapter.holdPost = true;
+      await h.stageFile();
+
+      unawaited(h.notifier.sendMessage(text: 'pic'));
+      await _flushAsync();
+      final String nonce = h.localRows.single.clientNonce!;
+      h.emitCreate(nonce: nonce, content: 'pic');
+      await _flushAsync();
+      h.adapter.history = <Object?>[
+        _messageJson(
+          id: h.adapter.serverMessageId,
+          content: 'pic',
+          nonce: nonce,
+        ),
+        h.earlierMessage(),
+      ];
+      await h.notifier.reloadCurrentChannel();
+      await _flushAsync();
+      h.adapter.releasePost();
+      await _flushAsync();
+
+      expect(h.localRows, isEmpty);
+      expect(
+        h.deliveredRows.where((Message m) => m.clientNonce == nonce),
+        hasLength(1),
+      );
+      expect(h.sessions, isEmpty);
+    },
+  );
+
   test('retrying a failed attachment message resends its files', () async {
     final _Harness h = await _Harness.create();
     h.adapter.outcomes.add(_PostOutcome.serverError);
@@ -438,6 +472,14 @@ class _Harness {
     await _flushAsync();
   }
 
+  Map<String, Object?> earlierMessage() => _messageJson(
+    id: _snowflakeForUtc(
+      DateTime.now().toUtc().subtract(const Duration(minutes: 5)),
+    ),
+    content: 'earlier',
+    nonce: null,
+  );
+
   void emitCreate({required String nonce, required String content}) {
     container
         .read(messageRealtimeBusProvider)
@@ -505,6 +547,7 @@ class _PostAdapter implements HttpClientAdapter {
   bool lastMultipart = false;
   bool postCancelled = false;
   bool holdPost = false;
+  List<Object?> history = const <Object?>[];
   Completer<void>? _postGate;
 
   void releasePost() {
@@ -527,7 +570,7 @@ class _PostAdapter implements HttpClientAdapter {
       r'/channels/([^/]+)/messages$',
     ).hasMatch(path);
     if (options.method == 'GET' && isMessages) {
-      return _json(const <Object?>[]);
+      return _json(history);
     }
     if (options.method == 'POST' && isMessages) {
       messagePostCount++;
