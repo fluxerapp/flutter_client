@@ -18,6 +18,28 @@ void main() {
     expect(find.byType(SizedBox), findsOneWidget);
   });
 
+  testWidgets('MessageListLiveRemoval drops the row at once when motion off', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: MediaQuery(
+          data: MediaQueryData(disableAnimations: true),
+          child: Scaffold(
+            body: Align(
+              alignment: Alignment.topLeft,
+              child: MessageListLiveRemoval(
+                child: SizedBox(height: 80, width: 200, child: Text('gone')),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+    expect(find.text('gone'), findsNothing);
+    expect(tester.getSize(find.byType(MessageListLiveRemoval)), Size.zero);
+  });
+
   testWidgets('MessageListRowResize passes child through when motion off', (
     tester,
   ) async {

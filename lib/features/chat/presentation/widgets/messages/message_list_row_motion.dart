@@ -86,7 +86,7 @@ class _MessageListLiveRemovalState extends State<MessageListLiveRemoval>
   @override
   Widget build(BuildContext context) {
     if (MediaQuery.disableAnimationsOf(context)) {
-      return widget.child;
+      return const SizedBox.shrink();
     }
     return RepaintBoundary(
       child: ClipRect(
