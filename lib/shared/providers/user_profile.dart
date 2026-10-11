@@ -1,11 +1,11 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/features/members/domain/member_list_group_names.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -101,9 +101,7 @@ UserProfileFullResponse userProfileFromCachedUser(User user, {Member? member}) {
             user: partialUser,
             nick: member.nick,
             avatar: member.serverAvatar,
-            roles: List<String>.from(
-              jsonDecode(member.roleIdsJson) as List<dynamic>,
-            ),
+            roles: parseMemberRoleIds(member.roleIdsJson),
             joinedAt: joinedAt,
             mute: false,
             deaf: false,
