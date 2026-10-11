@@ -22,8 +22,10 @@ class MessageListScrollPosition extends ScrollPositionWithSingleContext {
     super.keepScrollOffset,
     super.oldPosition,
     super.debugLabel,
+    this.holdTrailingEdge,
   });
 
+  final bool Function()? holdTrailingEdge;
   Timer? _settleTimer;
   Ticker? _ticker;
   Duration? _elapsed;
@@ -164,6 +166,28 @@ class MessageListScrollPosition extends ScrollPositionWithSingleContext {
     } finally {
       _applyingNewDimensions = false;
     }
+  }
+
+  @override
+  bool correctForNewDimensions(
+    ScrollMetrics oldPosition,
+    ScrollMetrics newPosition,
+  ) {
+    final bool Function()? hold = holdTrailingEdge;
+    if (hold == null ||
+        _tailFollowActive ||
+        activity!.isScrolling ||
+        userScrollDirection != ScrollDirection.idle ||
+        oldPosition.pixels < oldPosition.maxScrollExtent - _kSnapEpsilon ||
+        newPosition.maxScrollExtent == oldPosition.maxScrollExtent ||
+        !hold()) {
+      return super.correctForNewDimensions(oldPosition, newPosition);
+    }
+    if (pixels == newPosition.maxScrollExtent) {
+      return true;
+    }
+    correctPixels(newPosition.maxScrollExtent);
+    return false;
   }
 
   @override

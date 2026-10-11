@@ -98,6 +98,58 @@ void main() {
   });
 
   group('MessageList tail glue', () {
+    testWidgets('an edit growing a row above the newest keeps the newest row '
+        'at the bottom on every frame', (WidgetTester tester) async {
+      final InstrumentedChatViewModel chatViewModel = await pumpBottomList(
+        tester,
+        hasMoreNewer: false,
+        disableMessageListAnimations: false,
+      );
+      injectLiveCreates(
+        chatViewModel,
+        chatViewModel.testState.messages,
+        count: 5,
+        label: 'burst',
+      );
+      await pumpFluxerFrames(tester);
+      final ScrollPosition position = messageListScrollPosition(tester);
+      expect(position.maxScrollExtent - position.pixels, lessThanOrEqualTo(1));
+
+      final List<Message> current = List<Message>.of(
+        chatViewModel.testState.messages,
+      );
+      final String newestId = current.last.id;
+      final double newestBottom = tester
+          .getRect(messageItemFor(newestId))
+          .bottom;
+      final int edited = current.length - 4;
+      current[edited] = current[edited].copyWith(
+        content: List<String>.generate(
+          4,
+          (int line) => 'grown line $line',
+        ).join('\n'),
+      );
+      chatViewModel.testState = chatViewModel.testState.copyWith(
+        write: (messages: current, origin: MessagesOrigin.realtimeEvent),
+      );
+
+      for (int frame = 0; frame < 16; frame += 1) {
+        await tester.pump(const Duration(milliseconds: 16));
+        expect(
+          messageItemFor(newestId),
+          findsOneWidget,
+          reason: 'frame $frame',
+        );
+        expect(
+          tester.getRect(messageItemFor(newestId)).bottom,
+          moreOrLessEquals(newestBottom, epsilon: 1),
+          reason: 'frame $frame',
+        );
+      }
+
+      await disposeMessageList(tester);
+    });
+
     testWidgets('a live row with a nested scrollable does not move a reader '
         'who dragged off the tail', (WidgetTester tester) async {
       final AroundAckMessageListHarness harness = await _pumpTailList(tester);

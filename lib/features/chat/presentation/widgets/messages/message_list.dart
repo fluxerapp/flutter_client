@@ -230,8 +230,8 @@ const int _kMaxSimultaneousDeleteCollapses = 3;
 
 class _MessageListState extends ConsumerState<MessageList>
     with SingleTickerProviderStateMixin {
-  final _LiveTailScrollController _scrollController =
-      _LiveTailScrollController();
+  late final _LiveTailScrollController _scrollController =
+      _LiveTailScrollController(holdTrailingEdge: _holdsLiveTailEdge);
   final GlobalKey _unreadCenterKey = GlobalKey();
   late final MessageListDemandSource _demandSource;
 
@@ -323,6 +323,7 @@ class _MessageListState extends ConsumerState<MessageList>
   bool _pinnedTailGlueScheduled = false;
   String? _tailGlueRowId;
   bool _pinnedTailGlueIgnorePin = false;
+  bool _tailEdgeHoldSuspended = false;
   final Set<String> _liveTailEntranceMessageIds = <String>{};
   AnimationController? _liveTailEntranceController;
   Animation<double>? _liveTailEntranceFade;
@@ -475,6 +476,9 @@ class _MessageListState extends ConsumerState<MessageList>
               .read(chatViewModelProvider)
               .writeOriginFor(previous: previous, next: next);
           _armSuppressPinnedTailReconcile(origin);
+          if (_advancesNewestRow(previous, next)) {
+            _suspendTailEdgeHoldForFrame();
+          }
           if (previous != null) {
             final bool motionStateChanged = _applyMessageMotionTransitions(
               previous: previous,
@@ -3371,6 +3375,33 @@ class _MessageListState extends ConsumerState<MessageList>
     });
   }
 
+  bool _advancesNewestRow(List<Message>? previous, List<Message> next) =>
+      previous != null &&
+      previous.isNotEmpty &&
+      next.isNotEmpty &&
+      compareSnowflakeIds(next.last.id, previous.last.id) > 0;
+
+  void _suspendTailEdgeHoldForFrame() {
+    if (_tailEdgeHoldSuspended) {
+      return;
+    }
+    _tailEdgeHoldSuspended = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _tailEdgeHoldSuspended = false;
+    });
+  }
+
+  bool _holdsLiveTailEdge() =>
+      mounted &&
+      _anchorResolved &&
+      _pin.pinned &&
+      _parkedAtLiveTail &&
+      !_followDisarmed &&
+      !_userDragActive &&
+      !_tailEdgeHoldSuspended &&
+      !_isJumpOwningViewport() &&
+      !ref.read(chatViewModelProvider).hasMoreNewerMessages;
+
   bool get _parkedAtLiveTail =>
       !_unreadOpenLayout &&
       _anchorFraction >= 1.0 &&
@@ -4196,6 +4227,9 @@ class _LiveDouble extends ChangeNotifier implements ValueListenable<double> {
 }
 
 class _LiveTailScrollController extends ScrollController {
+  _LiveTailScrollController({required this.holdTrailingEdge});
+
+  final bool Function() holdTrailingEdge;
   double armedInitialOffset = 0;
 
   @override
@@ -4213,6 +4247,7 @@ class _LiveTailScrollController extends ScrollController {
       keepScrollOffset: keepScrollOffset,
       oldPosition: oldPosition,
       debugLabel: debugLabel,
+      holdTrailingEdge: holdTrailingEdge,
     );
   }
 }
