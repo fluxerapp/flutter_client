@@ -99,7 +99,7 @@ class _AttachmentAreaBody extends ConsumerWidget {
                 },
             itemBuilder: (BuildContext context, int index) {
               final PendingAttachment att = attachments[index];
-              return ReorderableDragStartListener(
+              return ReorderableDelayedDragStartListener(
                 key: ValueKey<int>(att.id),
                 index: index,
                 child: Padding(

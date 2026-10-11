@@ -60,11 +60,50 @@ void main() {
 
     expect(find.byKey(ChannelAttachmentArea.uploadProgressKey), findsNothing);
   });
+
+  testWidgets('a horizontal drag scrolls the chips instead of reordering', (
+    WidgetTester tester,
+  ) async {
+    final List<PendingAttachment> items = List<PendingAttachment>.generate(
+      10,
+      (int i) => _attachment(PendingAttachmentStatus.sending, 1, id: i),
+    );
+    final _StaticUploads uploads = _StaticUploads(items);
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          cloudUploadControllerProvider(
+            'channel-1',
+          ).overrideWith(() => uploads),
+        ],
+        child: _buildTestApp(
+          child: const ChannelAttachmentArea(channelId: 'channel-1'),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.drag(
+      find.byType(ChannelAttachmentArea),
+      const Offset(-400, 0),
+    );
+    await tester.pumpAndSettle();
+
+    final ScrollableState state = tester.state<ScrollableState>(
+      find.byType(Scrollable).first,
+    );
+    expect(state.position.pixels, greaterThan(0));
+    expect(uploads.reorders, isEmpty);
+  });
 }
 
-PendingAttachment _attachment(PendingAttachmentStatus status, double progress) {
+PendingAttachment _attachment(
+  PendingAttachmentStatus status,
+  double progress, {
+  int id = 1,
+}) {
   return PendingAttachment(
-    id: 1,
+    id: id,
     channelId: 'channel-1',
     file: XFile('/nowhere/notes.txt'),
     filename: 'notes.txt',
@@ -80,9 +119,16 @@ class _StaticUploads extends CloudUploadController {
 
   final List<PendingAttachment> _items;
 
+  final List<(int, int)> reorders = <(int, int)>[];
+
   @override
   CloudComposerAttachments build(String channelId) =>
       CloudComposerAttachments(_items);
+
+  @override
+  void reorderAttachments(int oldIndex, int newIndex) {
+    reorders.add((oldIndex, newIndex));
+  }
 }
 
 Widget _buildTestApp({required Widget child}) {
