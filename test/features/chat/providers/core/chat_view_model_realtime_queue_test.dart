@@ -1509,6 +1509,55 @@ void main() {
     );
   });
 
+  test('m10c-text: a saved text edit still beats an older page in the '
+      'lane', () async {
+    final _GatedDatabase database = await seedChannel();
+    final adapter = _MessageApiAdapter(messages: _channelMessages(400));
+    final container = _container(database, adapter);
+    addTearDown(container.dispose);
+
+    final notifier = container.read(chatViewModelProvider.notifier);
+    await notifier.switchChannel(_channelId);
+    await _flushAsync();
+
+    final String editedId = _snowflakeForIndex(352);
+    final Message original = container
+        .read(chatViewModelProvider)
+        .messages
+        .firstWhere((Message m) => m.id == editedId);
+    final String parked = container
+        .read(chatViewModelProvider)
+        .messages
+        .last
+        .id;
+    gate.hold(parked, content: 'reacted');
+    _emitReactions(container, id: parked);
+    await _flushAsync();
+
+    final Future<void> jump = notifier.goToRepliedMessage(
+      messageId: _snowflakeForIndex(340),
+      channelId: _channelId,
+    );
+    await _flushAsync();
+
+    notifier.startEdit(original);
+    await notifier.saveEditedMessage(text: 'a local edit');
+    await _flushAsync();
+
+    gate.releaseAll();
+    await jump;
+    await _flushAsync();
+
+    expect(
+      container
+          .read(chatViewModelProvider)
+          .messages
+          .firstWhere((Message m) => m.id == editedId)
+          .content,
+      'a local edit',
+    );
+  });
+
   test('m10g: an overlay operation leaves fields it never touched '
       'alone', () async {
     // The page row carries a NEWER remote text edit AND the pre-delete

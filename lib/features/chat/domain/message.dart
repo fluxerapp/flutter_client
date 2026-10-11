@@ -1506,7 +1506,7 @@ class Message {
     Object? webhookId = _unset,
     String? content,
     DateTime? timestamp,
-    DateTime? editedTimestamp,
+    Object? editedTimestamp = _unset,
     List<Embed>? embeds,
     List<Attachment>? attachments,
     List<MessageSticker>? stickers,
@@ -1545,7 +1545,9 @@ class Message {
       webhookId: webhookId == _unset ? this.webhookId : webhookId as String?,
       content: content ?? this.content,
       timestamp: timestamp ?? this.timestamp,
-      editedTimestamp: editedTimestamp ?? this.editedTimestamp,
+      editedTimestamp: editedTimestamp == _unset
+          ? this.editedTimestamp
+          : editedTimestamp as DateTime?,
       embeds: embeds ?? this.embeds,
       attachments: attachments ?? this.attachments,
       stickers: stickers ?? this.stickers,

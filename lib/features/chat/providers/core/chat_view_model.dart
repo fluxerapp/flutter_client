@@ -492,7 +492,12 @@ class _RetrySendOptions {
   final bool tts;
 }
 
-enum _LocalMutationKind { deleteMessage, removeAttachment, setAttachmentAlt }
+enum _LocalMutationKind {
+  deleteMessage,
+  removeAttachment,
+  setAttachmentAlt,
+  editContent,
+}
 
 class _LocalMutation {
   _LocalMutation({
@@ -500,12 +505,16 @@ class _LocalMutation {
     required this.startOrdinal,
     this.attachmentId,
     this.description,
+    this.content,
+    this.editedTimestamp,
   });
 
   final _LocalMutationKind kind;
   final int startOrdinal;
   final String? attachmentId;
   final String? description;
+  final String? content;
+  final DateTime? editedTimestamp;
 
   /// Ordinal stamped when the server acknowledged. Every fetch that BEGAN
   /// before this may still be serving pre-mutation content.
@@ -1090,6 +1099,8 @@ class ChatViewModel extends _$ChatViewModel {
     _LocalMutationKind kind, {
     String? attachmentId,
     String? description,
+    String? content,
+    DateTime? editedTimestamp,
   }) {
     final int ordinal = ++_pageFetchOrdinal;
     _localMutations
@@ -1100,6 +1111,8 @@ class ChatViewModel extends _$ChatViewModel {
             startOrdinal: ordinal,
             attachmentId: attachmentId,
             description: description,
+            content: content,
+            editedTimestamp: editedTimestamp,
           ),
         );
     return ordinal;
@@ -1204,9 +1217,6 @@ class ChatViewModel extends _$ChatViewModel {
   /// arbitrate. The operation shape confines that to the one field instead of
   /// the whole message.
   ///
-  /// Only the two attachment paths are optimistic. The content edit paths
-  /// (saveEditedMessage, applyComposerReplace) await the server and write the
-  /// confirmed row, so they have nothing local to protect.
   List<Message> _applyPendingLocalMutations(
     List<Message> messages,
     int fetchOrdinal,
@@ -1245,6 +1255,11 @@ class ChatViewModel extends _$ChatViewModel {
                   else
                     a,
               ],
+            );
+          case _LocalMutationKind.editContent:
+            current = current.copyWith(
+              content: op.content,
+              editedTimestamp: op.editedTimestamp,
             );
         }
       }
@@ -6056,6 +6071,7 @@ class ChatViewModel extends _$ChatViewModel {
                 );
             _confirmedAttachmentRows[messageId] = acked;
           case _LocalMutationKind.deleteMessage:
+          case _LocalMutationKind.editContent:
             break;
         }
         _acknowledgeLocalMutation(messageId, op.overlayOrdinal);
@@ -6099,6 +6115,7 @@ class ChatViewModel extends _$ChatViewModel {
           ],
         );
       case _LocalMutationKind.deleteMessage:
+      case _LocalMutationKind.editContent:
         return row;
     }
   }
@@ -6609,14 +6626,46 @@ class ChatViewModel extends _$ChatViewModel {
         return;
       }
     }
+    final String channelId = editingMessage.channelId;
+    final String messageId = editingMessage.id;
+    final Message? original = state.messages
+        .where((Message m) => m.id == messageId)
+        .firstOrNull;
+    final DateTime optimisticEditedAt = DateTime.now().toUtc();
+    final int mutationOrdinal = _recordLocalMutation(
+      messageId,
+      _LocalMutationKind.editContent,
+      content: editedContent,
+      editedTimestamp: optimisticEditedAt,
+    );
+    if (original != null) {
+      state = state.copyWith(
+        write: (
+          messages: _replaceById(
+            state.messages,
+            original.copyWith(
+              content: editedContent,
+              editedTimestamp: optimisticEditedAt,
+            ),
+          )!,
+          origin: MessagesOrigin.localMutation,
+        ),
+      );
+    }
+    unawaited(_endEditRestoringDraft(editingMessage));
     try {
       final Message updatedMessage = await ref
           .read(messageRepositoryProvider)
           .editMessage(
-            channelId: editingMessage.channelId,
-            messageId: editingMessage.id,
+            channelId: channelId,
+            messageId: messageId,
             content: editedContent,
           );
+      _acknowledgeLocalMutation(messageId, mutationOrdinal);
+      if (state.channelId != channelId ||
+          _hasNewerContentEdit(messageId, mutationOrdinal)) {
+        return;
+      }
       final List<Message>? nextMessages = _replaceById(
         state.messages,
         updatedMessage,
@@ -6628,8 +6677,13 @@ class ChatViewModel extends _$ChatViewModel {
         ),
         errorMessage: null,
       );
-      await _endEditRestoringDraft(editingMessage);
     } on DioException catch (error) {
+      _revertOptimisticEdit(
+        messageId: messageId,
+        original: original,
+        mutationOrdinal: mutationOrdinal,
+        editedContent: editedContent,
+      );
       if (apiErrorCodeFromDioException(error) ==
           kPublishedMessageEditRateLimited) {
         final BuildContext? sheetContext = rootNavigatorKey.currentContext;
@@ -6646,9 +6700,54 @@ class ChatViewModel extends _$ChatViewModel {
       debugPrint('[ChatViewModel] Failed to edit message: $error');
       state = state.copyWith(errorMessage: 'Failed to edit message');
     } on Exception catch (e) {
+      _revertOptimisticEdit(
+        messageId: messageId,
+        original: original,
+        mutationOrdinal: mutationOrdinal,
+        editedContent: editedContent,
+      );
       debugPrint('[ChatViewModel] Failed to edit message: $e');
       state = state.copyWith(errorMessage: 'Failed to edit message');
     }
+  }
+
+  bool _hasNewerContentEdit(String messageId, int startOrdinal) =>
+      (_localMutations[messageId] ?? const <_LocalMutation>[]).any(
+        (_LocalMutation op) =>
+            op.kind == _LocalMutationKind.editContent &&
+            op.startOrdinal > startOrdinal,
+      );
+
+  void _revertOptimisticEdit({
+    required String messageId,
+    required Message? original,
+    required int mutationOrdinal,
+    required String editedContent,
+  }) {
+    _withdrawLocalMutation(messageId, mutationOrdinal);
+    if (original == null ||
+        state.channelId != original.channelId ||
+        _hasNewerContentEdit(messageId, mutationOrdinal)) {
+      return;
+    }
+    final Message? current = state.messages
+        .where((Message m) => m.id == messageId)
+        .firstOrNull;
+    if (current == null || current.content != editedContent) {
+      return;
+    }
+    state = state.copyWith(
+      write: (
+        messages: _replaceById(
+          state.messages,
+          current.copyWith(
+            content: original.content,
+            editedTimestamp: original.editedTimestamp,
+          ),
+        )!,
+        origin: MessagesOrigin.localMutation,
+      ),
+    );
   }
 
   Future<void> applyComposerReplace({

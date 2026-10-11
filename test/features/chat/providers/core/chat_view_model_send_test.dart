@@ -559,6 +559,97 @@ void main() {
     },
   );
 
+  Future<(ProviderContainer, _SendAdapter, ChatViewModel, String)>
+  setUpPendingEdit({int? editFailureStatus}) async {
+    final String editedId = _snowflakeForUtc(DateTime.utc(2026, 6, 16, 11));
+    final _SendAdapter adapter =
+        _SendAdapter(
+            serverMessageId: _snowflakeForUtc(DateTime.utc(2026, 6, 17, 12)),
+            latestMessages: <Map<String, Object?>>[
+              _messageJson(
+                id: editedId,
+                channelId: 'channel-1',
+                authorId: 'me',
+                content: 'Test',
+              ),
+            ],
+          )
+          ..holdEdit = true
+          ..editFailureStatus = editFailureStatus;
+    final (container, _, _) = await setUpChannel(adapter: adapter);
+    addTearDown(adapter.releaseEdit);
+    final ChatViewModel notifier = container.read(
+      chatViewModelProvider.notifier,
+    )..updateMessageText('typed draft');
+    final Message original = container
+        .read(chatViewModelProvider)
+        .messages
+        .firstWhere((Message m) => m.id == editedId);
+    notifier.startEdit(original);
+    await _flushAsync();
+    return (container, adapter, notifier, editedId);
+  }
+
+  test(
+    'saving an edit leaves edit mode and shows the new text before the server answers',
+    () async {
+      final (container, adapter, notifier, editedId) = await setUpPendingEdit();
+
+      final Future<void> save = notifier.saveEditedMessage(text: 'Test 2');
+      await _flushAsync();
+
+      final ChatViewState pending = container.read(chatViewModelProvider);
+      expect(pending.editingMessage, isNull);
+      expect(pending.messageText, 'typed draft');
+      final Message optimistic = pending.messages.firstWhere(
+        (Message m) => m.id == editedId,
+      );
+      expect(optimistic.content, 'Test 2');
+      expect(optimistic.editedTimestamp, isNotNull);
+
+      adapter.releaseEdit();
+      await save;
+      await _flushAsync();
+
+      final ChatViewState settled = container.read(chatViewModelProvider);
+      expect(adapter.lastEditContent, 'Test 2');
+      expect(
+        settled.messages.firstWhere((Message m) => m.id == editedId).content,
+        'Test 2',
+      );
+      expect(settled.messageText, 'typed draft');
+    },
+  );
+
+  test('a failed edit restores the original message text', () async {
+    final (container, adapter, notifier, editedId) = await setUpPendingEdit(
+      editFailureStatus: 500,
+    );
+
+    final Future<void> save = notifier.saveEditedMessage(text: 'Test 2');
+    await _flushAsync();
+    expect(
+      container
+          .read(chatViewModelProvider)
+          .messages
+          .firstWhere((Message m) => m.id == editedId)
+          .content,
+      'Test 2',
+    );
+
+    adapter.releaseEdit();
+    await save;
+    await _flushAsync();
+
+    final ChatViewState settled = container.read(chatViewModelProvider);
+    final Message restored = settled.messages.firstWhere(
+      (Message m) => m.id == editedId,
+    );
+    expect(restored.content, 'Test');
+    expect(restored.editedTimestamp, isNull);
+    expect(settled.errorMessage, 'Failed to edit message');
+  });
+
   test(
     'starting another edit while a cancel restores the draft keeps it',
     () async {
@@ -1641,8 +1732,20 @@ class _SendAdapter implements HttpClientAdapter {
   String? lastEditContent;
   bool holdSend = false;
   bool holdLatestFetch = false;
+  bool holdEdit = false;
+  int? editFailureStatus;
   Completer<void>? _sendCompleter;
   Completer<void>? _latestFetchCompleter;
+  Completer<void>? _editCompleter;
+
+  void releaseEdit() {
+    holdEdit = false;
+    final Completer<void>? completer = _editCompleter;
+    _editCompleter = null;
+    if (completer != null && !completer.isCompleted) {
+      completer.complete();
+    }
+  }
 
   void releaseSend() {
     holdSend = false;
@@ -1786,6 +1889,23 @@ class _SendAdapter implements HttpClientAdapter {
                 r'name="content"\r?\n\r?\n([\s\S]*?)\r?\n--',
               ).firstMatch(raw);
         lastEditContent = contentMatch?.group(1);
+        if (holdEdit) {
+          _editCompleter ??= Completer<void>();
+          await _editCompleter!.future;
+        }
+        final int? failureStatus = editFailureStatus;
+        if (failureStatus != null) {
+          return ResponseBody.fromString(
+            jsonEncode(<String, Object?>{
+              'code': 'INTERNAL_SERVER_ERROR',
+              'message': 'Internal server error',
+            }),
+            failureStatus,
+            headers: {
+              Headers.contentTypeHeader: ['application/json'],
+            },
+          );
+        }
         return _json(
           _messageJson(
             id: editMatch.group(1)!,
