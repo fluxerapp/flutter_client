@@ -107,6 +107,9 @@ import flutter_callkit_incoming
     VoiceSpeakerRouteBridge.shared.register(
       messenger: engineBridge.applicationRegistrar.messenger()
     )
+    UploadKeepAliveBridge.shared.register(
+      messenger: engineBridge.applicationRegistrar.messenger()
+    )
   }
 
   func onAccept(_ call: Call, _ action: CXAnswerCallAction) {
@@ -132,4 +135,52 @@ import flutter_callkit_incoming
   }
 
   func providerDidReset() {}
+}
+
+final class UploadKeepAliveBridge {
+  static let shared = UploadKeepAliveBridge()
+
+  private var channel: FlutterMethodChannel?
+  private var task: UIBackgroundTaskIdentifier = .invalid
+
+  func register(messenger: FlutterBinaryMessenger) {
+    if channel != nil {
+      return
+    }
+    let channel = FlutterMethodChannel(
+      name: "fluxer_app/upload_keep_alive",
+      binaryMessenger: messenger
+    )
+    channel.setMethodCallHandler { [weak self] call, result in
+      switch call.method {
+      case "start":
+        self?.begin()
+        result(nil)
+      case "stop":
+        self?.end()
+        result(nil)
+      default:
+        result(FlutterMethodNotImplemented)
+      }
+    }
+    self.channel = channel
+  }
+
+  private func begin() {
+    if task != .invalid {
+      return
+    }
+    task = UIApplication.shared.beginBackgroundTask(withName: "fluxer.upload") {
+      [weak self] in
+      self?.end()
+    }
+  }
+
+  private func end() {
+    if task == .invalid {
+      return
+    }
+    UIApplication.shared.endBackgroundTask(task)
+    task = .invalid
+  }
 }

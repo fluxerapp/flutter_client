@@ -63,6 +63,7 @@ import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_indicator_s
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_rate_limited_alert_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
+import 'package:fluxer_app/features/chat/services/upload_keep_alive.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/file_upload_validator.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/uploading_attachment_utils.dart';
 import 'package:fluxer_app/features/chat/utils/attachments/voice_message_constants.dart';
@@ -669,6 +670,7 @@ class ChatViewModel extends _$ChatViewModel {
   final Map<String, int> _lastReconciledConnectivityGapGenerationByChannel =
       <String, int>{};
   Future<void> _sendPreparation = Future<void>.value();
+  final UploadKeepAlive _uploadKeepAlive = UploadKeepAlive();
   final Set<String> _preparingSendKeys = <String>{};
   // Monotonically increasing token identifying the most recent switchChannel
   // call.
@@ -5860,6 +5862,17 @@ class ChatViewModel extends _$ChatViewModel {
     int? messageFlags,
     bool tts = false,
   }) async {
+    final int fileCount =
+        ref
+            .read(messageUploadSessionsProvider)[clientNonce]
+            ?.attachments
+            .length ??
+        1;
+    _uploadKeepAlive.begin(
+      notificationTitle: ref
+          .read(appLocalizationsProvider)
+          .chatUploadingAttachmentsSummary(fileCount),
+    );
     try {
       final prepared = await uploadNotifier.prepareSessionForSend(
         nonce: clientNonce,
@@ -5923,6 +5936,8 @@ class ChatViewModel extends _$ChatViewModel {
       );
       _handleSendFailure(optimisticMessageId, error);
       _parkFailedLocalSend(optimisticMessageId, clientNonce);
+    } finally {
+      _uploadKeepAlive.end();
     }
   }
 

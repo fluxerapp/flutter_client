@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
@@ -78,6 +79,38 @@ void main() {
 
     expect(h.composerItems, hasLength(1));
     expect(h.adapter.messagePostCount, 1);
+  });
+
+  test('the app is kept alive only while an upload is sending', () async {
+    final _Harness h = await _Harness.create();
+    final List<String> calls = <String>[];
+    debugDefaultTargetPlatformOverride = TargetPlatform.android;
+    addTearDown(() => debugDefaultTargetPlatformOverride = null);
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+          const MethodChannel('fluxer_app/upload_keep_alive'),
+          (MethodCall call) async {
+            calls.add(call.method);
+            return null;
+          },
+        );
+    addTearDown(
+      () => TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(
+            const MethodChannel('fluxer_app/upload_keep_alive'),
+            null,
+          ),
+    );
+    h.adapter.holdPost = true;
+    await h.stageFile();
+
+    unawaited(h.notifier.sendMessage(text: 'pic'));
+    await _flushAsync();
+    expect(calls, <String>['start']);
+
+    h.adapter.releasePost();
+    await _flushAsync();
+    expect(calls, <String>['start', 'stop']);
   });
 
   test('a lost response settles when MESSAGE_CREATE arrives later', () async {

@@ -44,6 +44,7 @@ class MainActivity : AudioServiceActivity() {
         NotificationReplyBridge(applicationContext).register(flutterEngine)
         VoiceSpeakerRouteBridge(applicationContext).register(flutterEngine)
         AppRestartBridge(this).register(flutterEngine)
+        UploadKeepAliveBridge(applicationContext).register(flutterEngine)
     }
 
     private fun deferOAuthDeepLinkToBrowser(intent: Intent?): Boolean {
