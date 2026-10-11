@@ -154,24 +154,23 @@ class ComposerKeyboardSession {
 
   void handleFocusChange({required bool focused}) {
     if (focused) {
-      maybeReserveUnmeasuredKeyboard();
-    } else {
-      cancelPendingFocusRestore();
-      if (_isMounted() &&
-          !isComposerPanelOpen(
-            expressionPanelOpen: _ref.read(expressionPanelProvider),
-            attachmentPanelOpen: _ref.read(attachmentPanelProvider),
-          )) {
-        _ref
-            .read(mobileKeyboardMetricsProvider.notifier)
-            .onComposerEntryFocusLost();
-        _ref
-            .read(mobileKeyboardMetricsProvider.notifier)
-            .clearUnmeasuredKeyboardReservation();
-      }
-      _keyboardState = _resolveIdleKeyboardState();
-      _recordDebugBreadcrumb();
+      return;
     }
+    cancelPendingFocusRestore();
+    if (_isMounted() &&
+        !isComposerPanelOpen(
+          expressionPanelOpen: _ref.read(expressionPanelProvider),
+          attachmentPanelOpen: _ref.read(attachmentPanelProvider),
+        )) {
+      _ref
+          .read(mobileKeyboardMetricsProvider.notifier)
+          .onComposerEntryFocusLost();
+      _ref
+          .read(mobileKeyboardMetricsProvider.notifier)
+          .clearUnmeasuredKeyboardReservation();
+    }
+    _keyboardState = _resolveIdleKeyboardState();
+    _recordDebugBreadcrumb();
   }
 
   void onComposerFieldTap(BuildContext context) {

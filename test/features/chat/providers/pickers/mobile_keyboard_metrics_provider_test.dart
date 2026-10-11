@@ -105,7 +105,7 @@ void main() {
     });
 
     test(
-      'native full height followed by hidden viewInsets keeps IME height until both clear',
+      'hidden viewInsets closes the keyboard while native still reports it',
       () async {
         final ProviderContainer container = ProviderContainer();
         addTearDown(container.dispose);
@@ -134,12 +134,10 @@ void main() {
           302,
         );
 
-        // viewInsets dropped first. Keep IME-only native height until the
-        // plugin also reports hidden.
         notifier.syncViewInsets(0, safeAreaBottom: 34);
         expect(
           container.read(mobileKeyboardMetricsProvider).liveKeyboardHeight,
-          302,
+          0,
         );
 
         notifier.debugApplyNativeMetrics(
@@ -155,7 +153,7 @@ void main() {
       },
     );
 
-    test('stale native height drops after viewInsets closes', () async {
+    test('stale native height drops as soon as viewInsets closes', () async {
       final ProviderContainer container = ProviderContainer();
       addTearDown(container.dispose);
       container.listen(
@@ -174,14 +172,6 @@ void main() {
             )
             ..syncViewInsets(302, safeAreaBottom: 0)
             ..syncViewInsets(0, safeAreaBottom: 0);
-      expect(
-        container.read(mobileKeyboardMetricsProvider).liveKeyboardHeight,
-        302,
-      );
-
-      await Future<void>.delayed(kUnmeasuredKeyboardReservationTimeout);
-      await Future<void>.value();
-
       expect(
         container.read(mobileKeyboardMetricsProvider).liveKeyboardHeight,
         0,

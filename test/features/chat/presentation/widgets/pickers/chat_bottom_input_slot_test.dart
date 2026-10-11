@@ -164,7 +164,7 @@ void main() {
   });
 
   testWidgets(
-    'BottomInputSpacer keeps slot height when viewInsets clear before native',
+    'BottomInputSpacer collapses when viewInsets clear before native',
     (tester) async {
       final ProviderContainer container = ProviderContainer();
       addTearDown(container.dispose);
@@ -189,9 +189,9 @@ void main() {
       await tester.pump();
       expect(
         container.read(mobileKeyboardMetricsProvider).liveKeyboardHeight,
-        302,
+        0,
       );
-      expect(_spacerBodyHeight(tester), 302);
+      expect(tester.getSize(find.byType(BottomInputSpacer)).height, 0);
 
       notifier.debugApplyNativeMetrics(
         keyboardHeight: 0,

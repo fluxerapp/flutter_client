@@ -91,12 +91,10 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
 
   bool _hadKeyboardInsetWhileReserved = false;
   bool _sawViewInsets = false;
-  bool _ignoreNativeUntilHidden = false;
   bool _preferNativeIme = false;
   double _sessionPeak = 0;
   double _lastPersistedAnchor = 0;
   Timer? _unmeasuredReservationTimer;
-  Timer? _nativeOnlyTimer;
   Timer? _shortInsetTimer;
   Timer? _focusedDismissTimer;
   bool _focusedDismissPending = false;
@@ -141,7 +139,6 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
     }
     _persistDebounce?.cancel();
     _unmeasuredReservationTimer?.cancel();
-    _nativeOnlyTimer?.cancel();
     _shortInsetTimer?.cancel();
     _cancelFocusedDismissHold();
   }
@@ -217,7 +214,6 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
     _viewInsetsKeyboardHeight = bottomInset > 0 ? bottomInset : 0;
     if (_viewInsetsKeyboardHeight > 0) {
       _sawViewInsets = true;
-      _ignoreNativeUntilHidden = false;
       _acceptVisibleNativeSamples = true;
     }
     _commitMergedHeights(safeAreaBottom: safeAreaBottom);
@@ -254,7 +250,7 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
     double mergedHeight = _preferNativeIme && nativeImeOnly > mergedFromSources
         ? nativeImeOnly
         : mergedFromSources;
-    if (_viewInsetsKeyboardHeight <= 0 && !_nativeKeyboardVisible) {
+    if (_viewInsetsKeyboardHeight <= 0 && !_nativeKeyboardHoldsOpen) {
       mergedHeight = 0;
     }
     final bool composerEntryFocused = ref
@@ -285,7 +281,7 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
           mergedHeight: mergedHeight,
           hadKeyboardInsetWhileReserved: _hadKeyboardInsetWhileReserved,
           composerEntryFocused: composerEntryFocused,
-          nativeKeyboardVisible: _nativeKeyboardVisible,
+          nativeKeyboardVisible: _nativeKeyboardHoldsOpen,
         );
     if (clearUnmeasuredReservation) {
       _unmeasuredReservationTimer?.cancel();
@@ -307,7 +303,6 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
         state = state.copyWith(unmeasuredKeyboardReserved: false);
       }
       _applyAnchorSample(anchorSample, nextVisible: nextVisible);
-      _syncNativeOnlyHold();
       _syncShortInsetCorrection(nativeImeOnly);
       return;
     }
@@ -327,7 +322,6 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
     if (nextAnchored != null && nextAnchored != previousAnchored) {
       _schedulePersistAnchor(nextAnchored);
     }
-    _syncNativeOnlyHold();
     _syncShortInsetCorrection(nativeImeOnly);
   }
 
@@ -338,8 +332,11 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
     if (!isImeKeyboardHeight(state.liveKeyboardHeight)) {
       return false;
     }
-    return _viewInsetsKeyboardHeight <= 0 && !_nativeKeyboardVisible;
+    return _viewInsetsKeyboardHeight <= 0 && !_nativeKeyboardHoldsOpen;
   }
+
+  bool get _nativeKeyboardHoldsOpen =>
+      _nativeKeyboardVisible && !_sawViewInsets;
 
   void _armFocusedDismissHold() {
     if (_focusedDismissTimer != null) {
@@ -350,7 +347,7 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
       if (!ref.mounted) {
         return;
       }
-      if (_viewInsetsKeyboardHeight > 0 || _nativeKeyboardVisible) {
+      if (_viewInsetsKeyboardHeight > 0 || _nativeKeyboardHoldsOpen) {
         _focusedDismissPending = false;
         return;
       }
@@ -371,7 +368,7 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
     if (!ref.mounted) {
       return;
     }
-    if (_viewInsetsKeyboardHeight <= 0 && !_nativeKeyboardVisible) {
+    if (_viewInsetsKeyboardHeight <= 0 && !_nativeKeyboardHoldsOpen) {
       _commitMergedHeights();
     }
   }
@@ -414,15 +411,10 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
     }
     _nativeKeyboardVisible = visible && height > 0;
     if (!visible || height <= 0) {
-      _ignoreNativeUntilHidden = false;
       _nativeKeyboardHeight = 0;
       if (_viewInsetsKeyboardHeight <= 0) {
         _sawViewInsets = false;
       }
-      return;
-    }
-    if (_ignoreNativeUntilHidden) {
-      _nativeKeyboardHeight = 0;
       return;
     }
     _nativeKeyboardHeight = height;
@@ -462,37 +454,10 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
     });
   }
 
-  void _syncNativeOnlyHold() {
-    final bool nativeOnly =
-        _sawViewInsets &&
-        _viewInsetsKeyboardHeight <= 0 &&
-        _nativeKeyboardHeight > 0;
-    if (!nativeOnly) {
-      _nativeOnlyTimer?.cancel();
-      _nativeOnlyTimer = null;
-      return;
-    }
-    if (ref.read(composerFocusCoordinatorProvider).composerHasFocus()) {
-      _nativeOnlyTimer?.cancel();
-      _nativeOnlyTimer = null;
-      return;
-    }
-    _nativeOnlyTimer ??= Timer(kUnmeasuredKeyboardReservationTimeout, () {
-      _nativeOnlyTimer = null;
-      if (!ref.mounted || _viewInsetsKeyboardHeight > 0) {
-        return;
-      }
-      _ignoreNativeUntilHidden = true;
-      _nativeKeyboardHeight = 0;
-      _commitMergedHeights();
-    });
-  }
-
   void reserveUnmeasuredKeyboard() {
     if (!ref.mounted || state.liveKeyboardHeight > 0) {
       return;
     }
-    _ignoreNativeUntilHidden = false;
     if (state.unmeasuredKeyboardReserved) {
       return;
     }
@@ -542,8 +507,6 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
     _cancelFocusedDismissHold();
     _unmeasuredReservationTimer?.cancel();
     _unmeasuredReservationTimer = null;
-    _nativeOnlyTimer?.cancel();
-    _nativeOnlyTimer = null;
     _shortInsetTimer?.cancel();
     _shortInsetTimer = null;
     _hadKeyboardInsetWhileReserved = false;
@@ -559,7 +522,6 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
       state = state.copyWith(unmeasuredKeyboardReserved: false);
       return;
     }
-    _ignoreNativeUntilHidden = false;
     _preferNativeIme = false;
     _sessionPeak = 0;
     _viewInsetsKeyboardHeight = 0;
