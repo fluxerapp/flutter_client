@@ -3,6 +3,13 @@ part of 'guild_navbar.dart';
 class _GuildListItemState extends State<_GuildListItem>
     with AutomaticKeepAliveClientMixin {
   var _isHovered = false;
+  var _isPressed = false;
+
+  void _setPressed(bool value) {
+    if (_isPressed != value) {
+      setState(() => _isPressed = value);
+    }
+  }
 
   @override
   bool get wantKeepAlive => true;
@@ -97,8 +104,8 @@ class _GuildListItemState extends State<_GuildListItem>
   Widget build(BuildContext context) {
     super.build(context);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final isActive = widget.isSelected || _isHovered;
-    final activeAnimatedIconUrl = isActive
+    final isActive = widget.isSelected || _isHovered || _isPressed;
+    final activeAnimatedIconUrl = widget.isSelected || _isHovered
         ? widget.guild?.animatedIconUrl
         : null;
     final iconUrl = activeAnimatedIconUrl ?? widget.iconUrl;
@@ -157,6 +164,9 @@ class _GuildListItemState extends State<_GuildListItem>
                       ? HitTestBehavior.opaque
                       : null,
                   onTap: widget.onTap,
+                  onTapDown: (_) => _setPressed(true),
+                  onTapUp: (_) => _setPressed(false),
+                  onTapCancel: () => _setPressed(false),
                   onSecondaryTapUp: widget.guild != null
                       ? (details) => unawaited(
                           _showContextMenu(context, details.globalPosition),

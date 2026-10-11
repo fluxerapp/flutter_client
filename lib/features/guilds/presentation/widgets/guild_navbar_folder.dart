@@ -90,7 +90,7 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
                   decoration: BoxDecoration(
                     color: folderSurface,
                     borderRadius: BorderRadius.circular(
-                      GuildNavbarIconShape.radius,
+                      GuildNavbarIconShape.activeRadius,
                     ),
                   ),
                 ),
@@ -244,7 +244,7 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget> {
                                   decoration: BoxDecoration(
                                     color: folderSurface,
                                     borderRadius: BorderRadius.circular(
-                                      GuildNavbarIconShape.radius,
+                                      GuildNavbarIconShape.activeRadius,
                                     ),
                                   ),
                                   child: _buildFolderContent(

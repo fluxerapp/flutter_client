@@ -34,7 +34,8 @@ Widget _host(FluxerColorTheme colors, Widget child) {
 void main() {
   for (final MapEntry<String, FluxerColorTheme Function()> theme
       in _themes.entries) {
-    testWidgets('${theme.key}: icon is a fixed 48pt squircle', (tester) async {
+    testWidgets('${theme.key}: icon is a circle that morphs to a rounded '
+        'square when active', (tester) async {
       final FluxerColorTheme colors = theme.value();
       for (final bool isActive in <bool>[false, true]) {
         await tester.pumpWidget(
@@ -46,6 +47,7 @@ void main() {
             ),
           ),
         );
+        await tester.pumpAndSettle();
 
         expect(
           tester.getSize(find.byType(GuildNavbarIconShape)),
@@ -54,7 +56,11 @@ void main() {
         final ClipRRect clip = tester.widget<ClipRRect>(find.byType(ClipRRect));
         expect(
           clip.borderRadius,
-          BorderRadius.circular(GuildNavbarIconShape.radius),
+          BorderRadius.circular(
+            isActive
+                ? GuildNavbarIconShape.activeRadius
+                : GuildNavbarIconShape.idleRadius,
+          ),
         );
         final ColoredBox fill = tester.widget<ColoredBox>(
           find.descendant(
@@ -65,17 +71,6 @@ void main() {
         expect(
           fill.color,
           isActive ? colors.brandPrimary : colors.serverIconBackground,
-        );
-        expect(
-          find.descendant(
-            of: find.byType(GuildNavbarIconShape),
-            matching: find.byWidgetPredicate(
-              (Widget widget) =>
-                  widget is ImplicitlyAnimatedWidget ||
-                  widget is TweenAnimationBuilder,
-            ),
-          ),
-          findsNothing,
         );
       }
     });

@@ -155,7 +155,11 @@ class _PreviewGuildNavIcon extends StatelessWidget {
         : colors.serverIconBackground;
 
     return ClipRRect(
-      borderRadius: BorderRadius.circular(GuildNavbarIconShape.radius),
+      borderRadius: BorderRadius.circular(
+        isActive
+            ? GuildNavbarIconShape.activeRadius
+            : GuildNavbarIconShape.idleRadius,
+      ),
       child: ColoredBox(
         color: background,
         child: SizedBox(

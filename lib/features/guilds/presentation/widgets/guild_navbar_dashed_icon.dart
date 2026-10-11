@@ -81,7 +81,7 @@ class _DashedGuildIconState extends State<_DashedGuildIcon>
                       child: CustomPaint(
                         painter: DashedBorderPainter(
                           shape: DashedBorderShape.roundedRectangle,
-                          borderRadius: GuildNavbarIconShape.radius,
+                          borderRadius: GuildNavbarIconShape.idleRadius,
                           color: activeColor,
                           isSolid: widget.isSelected,
                         ),

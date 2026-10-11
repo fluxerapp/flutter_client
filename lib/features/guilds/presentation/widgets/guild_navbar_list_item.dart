@@ -23,7 +23,8 @@ class GuildNavbarIconShape extends StatelessWidget {
   });
 
   static const double size = 48;
-  static const double radius = 16;
+  static const double idleRadius = size * 0.5;
+  static const double activeRadius = size * 0.3;
   static const double itemSpacing = 12;
 
   final bool isActive;
@@ -34,28 +35,40 @@ class GuildNavbarIconShape extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final Color background = isUnavailable
+    final double target = isActive ? 1 : 0;
+    final Color idleBackground = isUnavailable
         ? colors.statusDanger
         : hasImage
         ? Colors.transparent
-        : isActive
-        ? colors.brandPrimary
         : colors.serverIconBackground;
-    final Color foreground = isUnavailable || isActive
+    final Color activeBackground = isUnavailable || hasImage
+        ? idleBackground
+        : colors.brandPrimary;
+    final Color idleForeground = isUnavailable
         ? colors.textOnBrandPrimary
         : colors.textPrimary;
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(radius),
-      child: ColoredBox(
-        color: background,
-        child: SizedBox.square(
-          dimension: size,
-          child: IconTheme.merge(
-            data: IconThemeData(color: foreground),
-            child: child,
+    return TweenAnimationBuilder<double>(
+      duration: context.motion.hover,
+      curve: Curves.easeOut,
+      tween: Tween<double>(begin: target, end: target),
+      builder: (BuildContext context, double t, Widget? child) => ClipRRect(
+        borderRadius: BorderRadius.circular(
+          idleRadius + (activeRadius - idleRadius) * t,
+        ),
+        child: ColoredBox(
+          color: Color.lerp(idleBackground, activeBackground, t)!,
+          child: SizedBox.square(
+            dimension: size,
+            child: IconTheme.merge(
+              data: IconThemeData(
+                color: Color.lerp(idleForeground, colors.textOnBrandPrimary, t),
+              ),
+              child: child!,
+            ),
           ),
         ),
       ),
+      child: child,
     );
   }
 }
