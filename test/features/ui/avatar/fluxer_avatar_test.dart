@@ -381,19 +381,14 @@ void main() {
         AvatarClusterMember(userId: '2'),
       ];
       await tester.pumpWidget(
-        buildTestApp(
-          const FluxerAvatarCluster(members: members),
-        ),
+        buildTestApp(const FluxerAvatarCluster(members: members)),
       );
       expect(find.byType(FluxerStatusIndicator), findsNothing);
       expect(find.byType(FluxerTypingStatusIndicator), findsNothing);
 
       await tester.pumpWidget(
         buildTestApp(
-          const FluxerAvatarCluster(
-            members: members,
-            isTyping: true,
-          ),
+          const FluxerAvatarCluster(members: members, isTyping: true),
         ),
       );
       await tester.pump(kAvatarStatusTransitionDuration);

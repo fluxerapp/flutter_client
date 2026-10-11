@@ -52,14 +52,16 @@ void main() {
     await tester.pump(FluxerMotionTheme.fastDuration ~/ 2);
     expect(_opacity(tester), inExclusiveRange(0, 1));
     expect(
-      tester.widget<IgnorePointer>(
-        find
-            .ancestor(
-              of: find.byType(AnimatedOpacity),
-              matching: find.byType(IgnorePointer),
-            )
-            .first,
-      ).ignoring,
+      tester
+          .widget<IgnorePointer>(
+            find
+                .ancestor(
+                  of: find.byType(AnimatedOpacity),
+                  matching: find.byType(IgnorePointer),
+                )
+                .first,
+          )
+          .ignoring,
       isTrue,
     );
 

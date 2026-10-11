@@ -46,7 +46,7 @@ class GroupDmAvatar extends ConsumerWidget {
     this.isTyping = false,
     super.key,
   }) : iconUrl = FluxerMediaUrl.guildIcon(guildId: dm.id, hash: dm.icon),
-      members = dm.groupMembers;
+       members = dm.groupMembers;
 
   final String? iconUrl;
   final List<GroupMemberInfo> members;
