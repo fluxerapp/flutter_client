@@ -28,7 +28,10 @@ class _RecordingAccountManager extends AccountManager {
   }
 
   @override
-  Future<void> switchToAccount(String userId) async {
+  Future<void> switchToAccount(
+    String userId, {
+    bool ignoreIfPending = false,
+  }) async {
     switched.add(userId);
   }
 }

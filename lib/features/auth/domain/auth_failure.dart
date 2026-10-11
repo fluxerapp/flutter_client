@@ -19,3 +19,7 @@ class AuthFailure implements Exception {
 class SessionExpiredFailure implements Exception {
   const SessionExpiredFailure();
 }
+
+class AccountSwitchSupersededFailure implements Exception {
+  const AccountSwitchSupersededFailure();
+}

@@ -181,7 +181,7 @@ class _AccountPickerOverlayBodyState
     try {
       await ref
           .read(accountManagerProvider.notifier)
-          .switchToAccount(account.userId);
+          .switchToAccount(account.userId, ignoreIfPending: true);
     } on SessionExpiredFailure {
       if (mounted) {
         widget.onClose();

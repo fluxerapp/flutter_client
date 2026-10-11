@@ -34,7 +34,7 @@ class LoginScreen extends ConsumerWidget {
             unawaited(
               ref
                   .read(accountManagerProvider.notifier)
-                  .switchToAccount(account.userId)
+                  .switchToAccount(account.userId, ignoreIfPending: true)
                   .catchError((Object e) {
                     if (e is SessionExpiredFailure) {
                       notifier.setError(

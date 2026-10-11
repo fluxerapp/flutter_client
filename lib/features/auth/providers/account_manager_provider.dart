@@ -48,6 +48,10 @@ class AccountManagerState {
 
 @Riverpod(keepAlive: true)
 class AccountManager extends _$AccountManager {
+  Future<void>? _pendingSwitch;
+  String? _pendingUserId;
+  String? _requestedUserId;
+
   @override
   AccountManagerState build() {
     return const AccountManagerState(accounts: [], isSwitching: false);
@@ -66,11 +70,45 @@ class AccountManager extends _$AccountManager {
   /// account's instance). If the token is expired or invalid, the account is
   /// marked invalid and a [SessionExpiredFailure] is thrown so the UI can
   /// prompt re-login.
-  Future<void> switchToAccount(String userId) async {
-    if (state.isSwitchPending) {
+  Future<void> switchToAccount(
+    String userId, {
+    bool ignoreIfPending = false,
+  }) async {
+    if (_pendingSwitch != null && ignoreIfPending) {
       return;
     }
+    _requestedUserId = userId;
+    for (
+      Future<void>? pending = _pendingSwitch;
+      pending != null;
+      pending = _pendingSwitch
+    ) {
+      if (_pendingUserId == userId) {
+        return pending;
+      }
+      try {
+        await pending;
+      } on Object {
+        talker.debug('[AccountManager] Pending switch ended before $userId');
+      }
+      if (_requestedUserId != userId) {
+        throw const AccountSwitchSupersededFailure();
+      }
+    }
+    final Future<void> pending = _switchTo(userId);
+    _pendingSwitch = pending;
+    _pendingUserId = userId;
     state = state.copyWith(isSwitchPending: true);
+    try {
+      await pending;
+    } finally {
+      _pendingSwitch = null;
+      _pendingUserId = null;
+      state = state.copyWith(isSwitchPending: false);
+    }
+  }
+
+  Future<void> _switchTo(String userId) async {
     try {
       final db = ref.read(fluxerDatabaseProvider);
       final authRepository = ref.read(authRepositoryProvider);
@@ -123,8 +161,6 @@ class AccountManager extends _$AccountManager {
       talker.error('[AccountManager] Switch failed: $e');
       state = state.copyWith(isSwitching: false);
       rethrow;
-    } finally {
-      state = state.copyWith(isSwitchPending: false);
     }
   }
 

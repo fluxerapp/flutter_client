@@ -92,7 +92,7 @@ class AccountSwitcherSheetBody extends ConsumerWidget {
     try {
       await ref
           .read(accountManagerProvider.notifier)
-          .switchToAccount(account.userId);
+          .switchToAccount(account.userId, ignoreIfPending: true);
     } on SessionExpiredFailure {
       final BuildContext? rootContext = rootNavigatorKey.currentContext;
       if (rootContext == null || !rootContext.mounted) {

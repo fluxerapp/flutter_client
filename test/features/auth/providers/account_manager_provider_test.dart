@@ -118,6 +118,41 @@ Future<void> _signIn(ProviderContainer container, FluxerDatabase db) async {
   container.read(currentUserIdProvider.notifier).set(_userId);
 }
 
+Future<
+  ({
+    _FakeApiServer server,
+    ProviderContainer container,
+    AccountManager manager,
+    Future<void> first,
+  })
+>
+_heldSwitchToUser2() async {
+  final server = await _FakeApiServer.start();
+  addTearDown(server.close);
+  server
+    ..statusCode = HttpStatus.unauthorized
+    ..hold = Completer<void>();
+  final (:container, :db) = _harness(baseUrl: server.baseUrl);
+  await _signIn(container, db);
+  for (final String userId in <String>['user-2', 'user-3', 'user-4']) {
+    await db.authSessionDao.saveSessionMetadata(userId: userId);
+  }
+  await db.authSessionDao.touchSession(_userId);
+  final AccountManager manager = container.read(
+    accountManagerProvider.notifier,
+  );
+  final Future<void> first = manager.switchToAccount(
+    'user-2',
+    ignoreIfPending: true,
+  );
+  unawaited(first.then((_) {}, onError: (Object _) {}));
+  while (server.requests.isEmpty) {
+    await Future<void>.delayed(const Duration(milliseconds: 5));
+  }
+  expect(container.read(accountManagerProvider).isSwitchPending, isTrue);
+  return (server: server, container: container, manager: manager, first: first);
+}
+
 void main() {
   test(
     '401 on /users/@me expires the session and signs the user out',
@@ -214,33 +249,58 @@ void main() {
     expect((await db.authSessionDao.getSession('user-2'))!.isValid, isFalse);
   });
 
-  test('a second switch is ignored while the token check runs', () async {
-    final server = await _FakeApiServer.start();
-    addTearDown(server.close);
-    server
-      ..statusCode = HttpStatus.unauthorized
-      ..hold = Completer<void>();
-    final (:container, :db) = _harness(baseUrl: server.baseUrl);
-    await _signIn(container, db);
-    await db.authSessionDao.saveSessionMetadata(userId: 'user-2');
-    await db.authSessionDao.saveSessionMetadata(userId: 'user-3');
-    await db.authSessionDao.touchSession(_userId);
-    final AccountManager manager = container.read(
-      accountManagerProvider.notifier,
+  test('a second tap is ignored while the token check runs', () async {
+    final pending = await _heldSwitchToUser2();
+
+    await pending.manager.switchToAccount('user-3', ignoreIfPending: true);
+    pending.server.hold!.complete();
+    await expectLater(pending.first, throwsA(isA<SessionExpiredFailure>()));
+
+    expect(pending.server.authHeaders, ['token-user-2']);
+    expect(
+      pending.container.read(accountManagerProvider).isSwitchPending,
+      isFalse,
     );
+  });
 
-    final Future<void> first = manager.switchToAccount('user-2');
-    while (server.requests.isEmpty) {
-      await Future<void>.delayed(const Duration(milliseconds: 5));
-    }
-    expect(container.read(accountManagerProvider).isSwitchPending, isTrue);
-    await manager.switchToAccount('user-3');
-    server.hold!.complete();
-    await expectLater(first, throwsA(isA<SessionExpiredFailure>()));
+  test('a programmatic switch waits for the pending one, then runs', () async {
+    final pending = await _heldSwitchToUser2();
 
-    expect(server.authHeaders, ['token-user-2']);
-    expect(container.read(accountManagerProvider).isSwitchPending, isFalse);
-    expect((await db.authSessionDao.getSession('user-3'))!.isValid, isTrue);
+    final Future<void> second = pending.manager.switchToAccount('user-3');
+    await pumpEventQueue();
+    expect(pending.server.requests, hasLength(1));
+    pending.server.hold!.complete();
+
+    await expectLater(pending.first, throwsA(isA<SessionExpiredFailure>()));
+    await expectLater(second, throwsA(isA<SessionExpiredFailure>()));
+    expect(pending.server.authHeaders, ['token-user-2', 'token-user-3']);
+  });
+
+  test('a programmatic switch to the pending target awaits it', () async {
+    final pending = await _heldSwitchToUser2();
+
+    final Future<void> second = pending.manager.switchToAccount('user-2');
+    pending.server.hold!.complete();
+
+    await expectLater(pending.first, throwsA(isA<SessionExpiredFailure>()));
+    await expectLater(second, throwsA(isA<SessionExpiredFailure>()));
+    expect(pending.server.authHeaders, ['token-user-2']);
+  });
+
+  test('the latest programmatic switch wins over earlier waiters', () async {
+    final pending = await _heldSwitchToUser2();
+
+    final Future<void> superseded = pending.manager.switchToAccount('user-3');
+    final Future<void> latest = pending.manager.switchToAccount('user-4');
+    pending.server.hold!.complete();
+
+    await expectLater(pending.first, throwsA(isA<SessionExpiredFailure>()));
+    await expectLater(
+      superseded,
+      throwsA(isA<AccountSwitchSupersededFailure>()),
+    );
+    await expectLater(latest, throwsA(isA<SessionExpiredFailure>()));
+    expect(pending.server.authHeaders, ['token-user-2', 'token-user-4']);
   });
 
   for (final String? token in <String?>[null, '']) {
