@@ -48,7 +48,7 @@ class _DashedGuildIconState extends State<_DashedGuildIcon> {
     final _DashedGuildIconVisual target = (
       fill: widget.isSelected ? 1 : 0,
       shape: widget.isSelected || isEngaged ? 1 : 0,
-      border: isEngaged && !widget.isSelected ? 1 : 0,
+      border: isEngaged ? 1 : 0,
     );
     return Padding(
       padding: const EdgeInsets.symmetric(
