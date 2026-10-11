@@ -9,11 +9,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' show User;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/channels/presentation/widgets/channel_unread_indicator.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
@@ -500,6 +502,38 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(MessageMarkdown), findsOneWidget);
+    });
+
+    testWidgets('keeps the unread dot on the selected unread DM', (
+      tester,
+    ) async {
+      _setMobileSurface(tester);
+
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: [
+            ..._buildOverrides(
+              conversations: [
+                DmConversation(
+                  id: '100',
+                  type: 1,
+                  recipientId: '200',
+                  recipientName: 'Monty',
+                  lastMessage: 'Unread while hidden',
+                  lastMessageAuthorId: '200',
+                  lastMessageAuthorName: 'Monty',
+                  lastMessageTime: _recentTime(),
+                  unreadCount: 2,
+                ),
+              ],
+            ),
+            activeChannelIdProvider.overrideWithValue('100'),
+          ],
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byType(ChannelUnreadIndicator), findsOneWidget);
     });
 
     testWidgets('shows attachment fallback text', (tester) async {

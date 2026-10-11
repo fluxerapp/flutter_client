@@ -3,9 +3,10 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
-    show FluxerDatabase;
+    show DmChannel, FluxerDatabase;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -21,6 +22,7 @@ import 'package:fluxer_app/features/mature_content/providers/mature_content_agre
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar_cluster.dart';
+import 'package:fluxer_app/features/ui/badge/fluxer_badge.dart';
 import 'package:fluxer_app/l10n/fluxer_localizations_delegates.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
@@ -129,6 +131,47 @@ void main() {
       await releaseTestWidgetTree(tester);
     });
 
+    testWidgets('keeps the mention badge on the selected DM', (tester) async {
+      final router = _buildRouter(
+        home: const DmNavbarItem(
+          channelId: '1000000000000000001',
+          recipientId: '1000000000000000002',
+          displayName: 'Alpha',
+          type: 1,
+        ),
+      );
+      addTearDown(router.dispose);
+
+      await tester.pumpWidget(
+        _buildTestApp(
+          router: router,
+          activeChannelId: '1000000000000000001',
+          unreadState: UnreadDmState(
+            channels: [
+              DmChannel(
+                id: '1000000000000000001',
+                type: 1,
+                recipientId: '1000000000000000002',
+                recipientCount: 1,
+                recipientIds: '["1000000000000000002"]',
+                nicksJson: '{}',
+                lastMessage: '',
+                lastMessageTime: DateTime.fromMillisecondsSinceEpoch(0),
+                unreadCount: 2,
+              ),
+            ],
+            unreadChannelIds: const {'1000000000000000001'},
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byType(FluxerBadge), findsOneWidget);
+      expect(find.text('2'), findsOneWidget);
+
+      await releaseTestWidgetTree(tester);
+    });
+
     testWidgets('group DM without uploaded icon renders member cluster', (
       tester,
     ) async {
@@ -203,7 +246,12 @@ GoRouter _buildRouter({required Widget home}) {
   );
 }
 
-Widget _buildTestApp({required GoRouter router, DmViewState? dmViewState}) {
+Widget _buildTestApp({
+  required GoRouter router,
+  DmViewState? dmViewState,
+  String? activeChannelId,
+  UnreadDmState? unreadState,
+}) {
   final colorTheme = buildDarkColorTheme();
   final overrides = <Override>[
     fluxerDatabaseProvider.overrideWithValue(_database),
@@ -252,16 +300,19 @@ Widget _buildTestApp({required GoRouter router, DmViewState? dmViewState}) {
     ).overrideWith((ref) => MatureContentGateReason.none),
     unreadDmChannelsProvider.overrideWith(
       () => _FakeUnreadDmChannels(
-        const UnreadDmState(
-          unreadChannelIds: {
-            '1000000000000000001',
-            '1000000000000000003',
-            '1000000000000000005',
-            '1000000000000000007',
-          },
-        ),
+        unreadState ??
+            const UnreadDmState(
+              unreadChannelIds: {
+                '1000000000000000001',
+                '1000000000000000003',
+                '1000000000000000005',
+                '1000000000000000007',
+              },
+            ),
       ),
     ),
+    if (activeChannelId != null)
+      activeChannelIdProvider.overrideWithValue(activeChannelId),
   ];
 
   return ProviderScope(

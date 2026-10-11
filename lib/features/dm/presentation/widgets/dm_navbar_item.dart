@@ -136,7 +136,7 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
       name: displayName,
       isSelected: isSelected,
       hasUnread: unreadState.show && mentionCount == 0,
-      mentionCount: !isSelected && unreadState.show ? mentionCount : 0,
+      mentionCount: unreadState.show ? mentionCount : 0,
       isMuted: isMuted,
     );
 
@@ -223,9 +223,7 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
                                         ),
                                 ),
                               ),
-                              if (mentionCount > 0 &&
-                                  !isSelected &&
-                                  unreadState.show)
+                              if (mentionCount > 0 && unreadState.show)
                                 Positioned(
                                   bottom: -4,
                                   right: -4,

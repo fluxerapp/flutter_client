@@ -803,8 +803,7 @@ class _DMListState extends ConsumerState<DMList> {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        if (hasUnread && !isSelected)
-          ChannelUnreadIndicator.positioned(faded: isMuted),
+        if (hasUnread) ChannelUnreadIndicator.positioned(faded: isMuted),
         _selectableRow(
           context,
           isSelected: isSelected,
@@ -818,7 +817,7 @@ class _DMListState extends ConsumerState<DMList> {
             l10n: l10n,
             name: displayName,
             isSelected: isSelected,
-            hasUnread: hasUnread && !isSelected,
+            hasUnread: hasUnread,
             isMuted: isMuted,
           ),
           onTap: () {
