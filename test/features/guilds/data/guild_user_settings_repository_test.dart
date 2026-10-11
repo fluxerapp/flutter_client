@@ -603,6 +603,78 @@ void main() {
       );
     });
 
+    test('a failing PATCH is not re-sent after the session changes', () async {
+      usersApi = _FakeUsersApi(
+        onPatch: (String guildId, UserGuildSettingsUpdateRequest body) {
+          throw DioException.connectionError(
+            requestOptions: RequestOptions(path: '/users/@me/guilds'),
+            reason: 'Connection reset by peer',
+          );
+        },
+      );
+      container.dispose();
+      container = _createContainer(
+        database: database,
+        usersApi: usersApi,
+        patchDebounce: const Duration(milliseconds: 10),
+        patchRetryBaseDelay: const Duration(milliseconds: 50),
+      );
+      container.read(fluxerAuthTokenProvider.notifier).setToken('account-a');
+      final GuildUserSettingsRepository repo = container.read(
+        guildUserSettingsRepositoryProvider,
+      );
+
+      await repo.updateChannelOverride(
+        guildId: 'guild-1',
+        channelId: 'channel-1',
+        muted: true,
+      );
+      await repo.flushPendingPatches(guildId: 'guild-1');
+      expect(usersApi.patchCount, 1);
+
+      container.read(fluxerAuthTokenProvider.notifier).setToken('account-b');
+      await Future<void>.delayed(const Duration(milliseconds: 400));
+
+      expect(usersApi.patchCount, 1);
+    });
+
+    test('a PATCH that fails after the session changed is dropped', () async {
+      late final ProviderContainer sessionContainer;
+      usersApi = _FakeUsersApi(
+        onPatch: (String guildId, UserGuildSettingsUpdateRequest body) {
+          sessionContainer
+              .read(fluxerAuthTokenProvider.notifier)
+              .setToken('account-b');
+          throw DioException.connectionError(
+            requestOptions: RequestOptions(path: '/users/@me/guilds'),
+            reason: 'Connection reset by peer',
+          );
+        },
+      );
+      container.dispose();
+      container = _createContainer(
+        database: database,
+        usersApi: usersApi,
+        patchDebounce: const Duration(milliseconds: 10),
+        patchRetryBaseDelay: const Duration(milliseconds: 50),
+      );
+      sessionContainer = container;
+      container.read(fluxerAuthTokenProvider.notifier).setToken('account-a');
+      final GuildUserSettingsRepository repo = container.read(
+        guildUserSettingsRepositoryProvider,
+      );
+
+      await repo.updateChannelOverride(
+        guildId: 'guild-1',
+        channelId: 'channel-1',
+        muted: true,
+      );
+      await repo.flushPendingPatches(guildId: 'guild-1');
+      await Future<void>.delayed(const Duration(milliseconds: 400));
+
+      expect(usersApi.patchCount, 1);
+    });
+
     test('concurrent mutes include every channel in final PATCH', () async {
       const guildId = 'guild-1';
       const channelA = 'channel-a';

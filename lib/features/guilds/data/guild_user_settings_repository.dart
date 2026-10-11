@@ -51,7 +51,16 @@ class GuildUserSettingsRepository {
     this._ref, {
     this._patchDebounce = kGuildUserSettingsPatchDebounce,
     this._patchRetryBaseDelay = kGuildUserSettingsPatchRetryBaseDelay,
-  });
+  }) {
+    _ref.listen<String?>(fluxerAuthTokenProvider, (
+      String? previous,
+      String? next,
+    ) {
+      if (previous != next) {
+        _cancelPatchRetries();
+      }
+    });
+  }
 
   final Ref _ref;
   final Duration _patchDebounce;
@@ -80,6 +89,13 @@ class GuildUserSettingsRepository {
       timer.cancel();
     }
     _patchTimers.clear();
+  }
+
+  void _cancelPatchRetries() {
+    for (final String guildId in _patchRetryAttempts.keys) {
+      _cancelPatchTimer(guildId);
+    }
+    _patchRetryAttempts.clear();
   }
 
   Future<void> flushPendingPatches({String? guildId}) async {
@@ -330,6 +346,7 @@ class GuildUserSettingsRepository {
     required Map<String, ChannelOverrides> channelOverrides,
     bool rethrowOnFailure = false,
   }) async {
+    final String? sessionToken = _ref.read(fluxerAuthTokenProvider);
     try {
       final FluxerClient client = _ref.read(fluxerClientProvider);
       final FluxerDatabase db = _ref.read(fluxerDatabaseProvider);
@@ -372,7 +389,7 @@ class GuildUserSettingsRepository {
       if (rethrowOnFailure) {
         rethrow;
       }
-      if (transient) {
+      if (transient && _ref.read(fluxerAuthTokenProvider) == sessionToken) {
         _scheduleChannelOverridesPatchRetry(guildId);
       }
     }
