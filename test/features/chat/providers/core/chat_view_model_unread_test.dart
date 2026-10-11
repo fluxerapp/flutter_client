@@ -1449,6 +1449,163 @@ void main() {
     },
   );
 
+  group('transient message sync failures', () {
+    Future<
+      ({
+        FluxerDatabase db,
+        _ChatAdapter adapter,
+        String anchorId,
+        String keptId,
+      })
+    >
+    cachedChannel() async {
+      final db = openTestDatabase();
+      final anchorId = _snowflakeForUtc(DateTime.utc(2026, 5, 16, 10));
+      final keptId = _snowflakeForUtc(DateTime.utc(2026, 5, 16, 12));
+      await db.messageDao.upsertMessages([
+        _cachedMessage(id: anchorId, channelId: 'channel-1', authorId: 'other'),
+        _cachedMessage(id: keptId, channelId: 'channel-1', authorId: 'other'),
+      ]);
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          lastMessageId: Value(keptId),
+        ),
+      );
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('channel-1'),
+          lastMessageId: Value(keptId),
+          mentionCount: const Value(0),
+        ),
+      );
+      final adapter = _ChatAdapter(
+        initialMessages: [
+          _messageJson(id: keptId, channelId: 'channel-1', authorId: 'other'),
+          _messageJson(id: anchorId, channelId: 'channel-1', authorId: 'other'),
+        ],
+      );
+      return (db: db, adapter: adapter, anchorId: anchorId, keptId: keptId);
+    }
+
+    Future<void> settle(ProviderContainer container) async {
+      for (var i = 0; i < 30; i++) {
+        await _flushAsync();
+        final current = container.read(chatViewModelProvider);
+        if (!current.isLoading && !current.isSyncingMessages) {
+          return;
+        }
+      }
+    }
+
+    Future<void> settleAfterFailure(
+      ProviderContainer container,
+      _ChatAdapter adapter,
+    ) async {
+      while (adapter.transientMessageFetchFailures > 0 ||
+          container.read(chatViewModelProvider).isSyncingMessages) {
+        await pumpEventQueue();
+      }
+    }
+
+    Future<void> waitForRequests(_ChatAdapter adapter, int count) async {
+      for (
+        var i = 0;
+        i < 60 && adapter.messageRequestUris.length < count;
+        i++
+      ) {
+        await Future<void>.delayed(const Duration(milliseconds: 50));
+      }
+    }
+
+    test('keeps the cached window without a toast and retries', () async {
+      final fixture = await cachedChannel();
+      fixture.adapter.transientMessageFetchFailures = 1;
+      final container = _container(fixture.db, fixture.adapter);
+      addTearDown(container.dispose);
+
+      await container
+          .read(chatViewModelProvider.notifier)
+          .switchChannel('channel-1');
+      await settleAfterFailure(container, fixture.adapter);
+
+      final afterFailure = container.read(chatViewModelProvider);
+      expect(afterFailure.messages, hasLength(2));
+      expect(afterFailure.messageLoadFailed, isFalse);
+      expect(afterFailure.errorMessage, null);
+      final int requestsAfterFailure =
+          fixture.adapter.messageRequestUris.length;
+
+      await waitForRequests(fixture.adapter, requestsAfterFailure + 1);
+      await settle(container);
+
+      final recovered = container.read(chatViewModelProvider);
+      expect(
+        fixture.adapter.messageRequestUris,
+        hasLength(requestsAfterFailure + 1),
+      );
+      expect(recovered.errorMessage, null);
+      expect(recovered.messages.map((message) => message.id), [
+        fixture.anchorId,
+        fixture.keptId,
+      ]);
+    });
+
+    test('re-runs immediately when the gateway session recovers', () async {
+      final fixture = await cachedChannel();
+      fixture.adapter.transientMessageFetchFailures = 1;
+      final container = _container(fixture.db, fixture.adapter);
+      addTearDown(container.dispose);
+
+      await container
+          .read(chatViewModelProvider.notifier)
+          .switchChannel('channel-1');
+      await settleAfterFailure(container, fixture.adapter);
+      final int requestsAfterFailure =
+          fixture.adapter.messageRequestUris.length;
+
+      container.read(gatewaySessionRecoveryProvider.notifier).bump();
+      await settle(container);
+
+      expect(
+        fixture.adapter.messageRequestUris,
+        hasLength(requestsAfterFailure + 1),
+      );
+      expect(container.read(chatViewModelProvider).errorMessage, null);
+    });
+
+    test('an empty channel recovers on its own after the retry', () async {
+      final db = openTestDatabase();
+      final messageId = _snowflakeForUtc(DateTime.utc(2026, 5, 16, 12));
+      final adapter = _ChatAdapter(
+        initialMessages: [
+          _messageJson(
+            id: messageId,
+            channelId: 'channel-1',
+            authorId: 'other',
+          ),
+        ],
+      )..transientMessageFetchFailures = 1;
+      final container = _container(db, adapter);
+      addTearDown(container.dispose);
+
+      await container
+          .read(chatViewModelProvider.notifier)
+          .switchChannel('channel-1');
+      expect(container.read(chatViewModelProvider).messageLoadFailed, isTrue);
+      expect(container.read(chatViewModelProvider).errorMessage, null);
+
+      await waitForRequests(adapter, 2);
+      await settle(container);
+
+      final recovered = container.read(chatViewModelProvider);
+      expect(recovered.messageLoadFailed, isFalse);
+      expect(recovered.messages.map((message) => message.id), [messageId]);
+    });
+  });
+
   test(
     'app foreground resume removes deleted message from open channel',
     () async {
@@ -5305,6 +5462,7 @@ class _ChatAdapter implements HttpClientAdapter {
   final List<String> ackedMessageIds = [];
   bool holdMessageFetch = false;
   bool failMessageFetch = false;
+  int transientMessageFetchFailures = 0;
   bool holdAck = false;
   Completer<void>? _messageFetchCompleter;
   Completer<int>? _ackCompleter;
@@ -5357,6 +5515,10 @@ class _ChatAdapter implements HttpClientAdapter {
       }
       if (failMessageFetch) {
         return ResponseBody.fromString('failed', 500);
+      }
+      if (transientMessageFetchFailures > 0) {
+        transientMessageFetchFailures -= 1;
+        return ResponseBody.fromString('unavailable', 503);
       }
       final List<Map<String, Object?>> messages;
       if (around != null) {

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
@@ -101,6 +102,8 @@ const _kInitialPageSize = 50;
 const _kMaxParkedWindows = 4;
 const _kJumpToPresentPageSize = 50;
 const Duration _kChannelNetworkRefreshTtl = Duration(seconds: 30);
+const Duration _kSyncRetryBaseDelay = Duration(seconds: 1);
+const Duration _kSyncRetryMaxDelay = Duration(seconds: 30);
 const _kReadAckMinInterval = Duration(seconds: 1);
 const _kDraftSaveDebounce = Duration(milliseconds: 400);
 const _kJumpHighlightDuration = Duration(milliseconds: 2000);
@@ -640,6 +643,9 @@ class ChatViewModel extends _$ChatViewModel {
     minInterval: _kReadAckMinInterval,
   );
   Timer? _readAckRetryTimer;
+  Timer? _syncRetryTimer;
+  int _syncRetryAttempt = 0;
+  final Random _syncRetryRandom = Random();
   bool _stickySnapshotArmed = false;
   bool _viewportWasAtTail = false;
   Timer? _draftSaveTimer;
@@ -745,6 +751,7 @@ class ChatViewModel extends _$ChatViewModel {
     _switchInFlightFuture = null;
     _pendingSessionResync = false;
     _contiguityTrusted = false;
+    _clearSyncRetry();
   }
 
   @override
@@ -786,6 +793,7 @@ class ChatViewModel extends _$ChatViewModel {
       ..listen<int>(gatewaySessionRecoveryProvider, (int? previous, int next) {
         if (previous != next) {
           _resendSendsAwaitingReconnect();
+          _resumePendingSyncRetry();
         }
       })
       ..listen<int>(gatewayFullRecoveryProvider, (int? previous, int next) {
@@ -798,6 +806,7 @@ class ChatViewModel extends _$ChatViewModel {
       ..listen<bool>(appUiForegroundProvider, (bool? previous, bool next) {
         if (previous == false && next) {
           if (!_shouldResyncAfterForegroundReturn()) {
+            _resumePendingSyncRetry();
             return;
           }
           _foregroundResyncGeneration++;
@@ -807,6 +816,7 @@ class ChatViewModel extends _$ChatViewModel {
       })
       ..onDispose(() {
         _readAckRetryTimer?.cancel();
+        _syncRetryTimer?.cancel();
         _draftSaveTimer?.cancel();
         _jumpHighlightTimer?.cancel();
         _frameBatcher?.dispose();
@@ -2464,6 +2474,7 @@ class ChatViewModel extends _$ChatViewModel {
           _draftSaveTimer?.cancel();
           _draftSaveTimer = null;
           _readAckRetryTimer?.cancel();
+          _clearSyncRetry();
           _clearManualUnread(previousChannelId);
           _clearLoadedUnreadBoundaryKeys(previousChannelId);
           if (state.editingMessage == null) {
@@ -2913,6 +2924,41 @@ class ChatViewModel extends _$ChatViewModel {
     unawaited(_reconcileCurrentChannelFromNetwork());
   }
 
+  void _scheduleSyncRetry(String channelId) {
+    _syncRetryTimer?.cancel();
+    _syncRetryAttempt += 1;
+    _syncRetryTimer = Timer(
+      jitteredBackoff(
+        attempt: _syncRetryAttempt,
+        base: _kSyncRetryBaseDelay,
+        cap: _kSyncRetryMaxDelay,
+        random: _syncRetryRandom,
+      ),
+      () {
+        _syncRetryTimer = null;
+        if (ref.mounted && state.channelId == channelId) {
+          _onSessionNeedsMessageResync();
+        }
+      },
+    );
+  }
+
+  void _resumePendingSyncRetry() {
+    final Timer? timer = _syncRetryTimer;
+    if (timer == null) {
+      return;
+    }
+    timer.cancel();
+    _syncRetryTimer = null;
+    _onSessionNeedsMessageResync();
+  }
+
+  void _clearSyncRetry() {
+    _syncRetryTimer?.cancel();
+    _syncRetryTimer = null;
+    _syncRetryAttempt = 0;
+  }
+
   bool _shouldResyncAfterForegroundReturn() {
     try {
       final GatewayConnection connection = ref.read(gatewayConnectionProvider);
@@ -3315,6 +3361,7 @@ class ChatViewModel extends _$ChatViewModel {
       if (!applied || !stillCurrent()) {
         return;
       }
+      _clearSyncRetry();
       onApplied?.call();
       unawaited(
         _onMessageBatchLoaded(
@@ -3344,7 +3391,13 @@ class ChatViewModel extends _$ChatViewModel {
         }
       }
     } on Exception catch (e) {
-      debugPrint('[ChatViewModel] Failed to load messages: $e');
+      final bool retryQuietly =
+          targetMessageId == null && isTransientNetworkError(e);
+      if (retryQuietly) {
+        talker.warning('[ChatViewModel] Message sync failed, will retry: $e');
+      } else {
+        debugPrint('[ChatViewModel] Failed to load messages: $e');
+      }
       // The failure belongs to THIS refresh; the state may already belong to
       // whoever superseded it. Writing a banner and clearing busy flags over a
       // successor that did not fail is the same ownership bug as the finally.
@@ -3353,11 +3406,16 @@ class ChatViewModel extends _$ChatViewModel {
         return;
       }
       final bool hasCachedMessages = state.messages.isNotEmpty;
+      if (retryQuietly) {
+        _scheduleSyncRetry(channelId);
+      }
       state = state.copyWith(
         isLoading: false,
         isSyncingMessages: false,
         messageLoadFailed: !hasCachedMessages,
-        errorMessage: hasCachedMessages ? 'Failed to sync messages' : null,
+        errorMessage: hasCachedMessages && !retryQuietly
+            ? 'Failed to sync messages'
+            : null,
       );
     } finally {
       // A failed or superseded load must still not swallow realtime events.

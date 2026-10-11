@@ -373,9 +373,7 @@ class MessageRepository {
         );
         return MessageListLoadResult(messages: messages);
       }
-      throw Exception(
-        e.error?.toString() ?? e.message ?? 'Failed to fetch messages',
-      );
+      rethrow;
     }
   }
 
