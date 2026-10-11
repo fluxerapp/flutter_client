@@ -1,13 +1,18 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cross_file/cross_file.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/data/attachment_gallery_source.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/attachment_gallery_grid.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/attachment_panel_content.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
+import 'package:fluxer_app/features/settings/providers/advanced_preferences_provider.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 import '../../../../../helpers/pump_fluxer_app.dart';
@@ -78,6 +83,49 @@ void main() {
     expect(source.loadCalls, 3);
     expect(find.byKey(const ValueKey<String>('photo-0')), findsOneWidget);
   });
+
+  testWidgets('a photo shows as picked while it resolves and taps queue', (
+    tester,
+  ) async {
+    final Directory dir = Directory.systemTemp.createTempSync('gallery_pick');
+    addTearDown(() => dir.deleteSync(recursive: true));
+    final _FakeAttachmentGallerySource source = _FakeAttachmentGallerySource()
+      ..resolveGate = Completer<void>()
+      ..resolveDir = dir;
+    await _pumpGallery(tester, source);
+    final ProviderContainer container = ProviderScope.containerOf(
+      tester.element(find.byType(AttachmentPanelContent)),
+    );
+
+    await tester.tap(find.byKey(const ValueKey<String>('photo-0')));
+    await tester.pump();
+    await tester.tap(find.byKey(const ValueKey<String>('photo-1')));
+    await tester.pump();
+
+    expect(
+      tester
+          .widget<AttachmentGalleryGrid>(find.byType(AttachmentGalleryGrid))
+          .selectedAssetIds,
+      <String>{'photo-0', 'photo-1'},
+    );
+
+    source.resolveGate!.complete();
+    for (int i = 0; i < 10; i++) {
+      await tester.runAsync(
+        () => Future<void>.delayed(const Duration(milliseconds: 10)),
+      );
+      await tester.pump();
+    }
+
+    expect(
+      container
+          .read(cloudUploadControllerProvider('channel-1'))
+          .items
+          .map((PendingAttachment a) => a.galleryAssetId),
+      <String>['photo-0', 'photo-1'],
+    );
+    await tester.pump(const Duration(seconds: 30));
+  });
 }
 
 Future<ScrollController> _pumpGallery(
@@ -93,6 +141,7 @@ Future<ScrollController> _pumpGallery(
       overrides: [
         chatViewModelProvider.overrideWithValue(_chatState()),
         attachmentGallerySourceProvider.overrideWithValue(source),
+        advancedPreferencesProvider.overrideWith(_NoPreuploadPreferences.new),
       ],
       child: MediaQuery(
         data: const MediaQueryData(
@@ -133,6 +182,8 @@ class _FakeAttachmentGallerySource implements AttachmentGallerySource {
   static const int _pageCount = 3;
   final List<VoidCallback> _listeners = <VoidCallback>[];
   Completer<void>? pageGate;
+  Completer<void>? resolveGate;
+  Directory? resolveDir;
   int loadCalls = 0;
 
   void emitChange() {
@@ -174,7 +225,13 @@ class _FakeAttachmentGallerySource implements AttachmentGallerySource {
 
   @override
   Future<XFile?> resolveFile(String id) async {
-    return null;
+    final Directory? dir = resolveDir;
+    if (dir == null) {
+      return null;
+    }
+    await resolveGate?.future;
+    final File file = File('${dir.path}/$id.jpg')..writeAsBytesSync(<int>[1]);
+    return XFile(file.path);
   }
 
   @override
@@ -185,5 +242,12 @@ class _FakeAttachmentGallerySource implements AttachmentGallerySource {
   @override
   void removeChangeListener(VoidCallback listener) {
     _listeners.remove(listener);
+  }
+}
+
+class _NoPreuploadPreferences extends AdvancedPreferences {
+  @override
+  AdvancedPreferencesState build() {
+    return const AdvancedPreferencesState(preuploadMessageAttachments: false);
   }
 }

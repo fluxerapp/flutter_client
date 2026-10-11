@@ -50,7 +50,8 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
   bool _loading = true;
   bool _loadingMore = false;
   bool _hasMore = true;
-  bool _isResolvingAsset = false;
+  final Set<String> _resolvingAssetIds = <String>{};
+  Future<void> _assetAdds = Future<void>.value();
   int _page = 0;
   int _loadGeneration = 0;
   bool _galleryNeedsRefresh = false;
@@ -224,12 +225,15 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
     }
   }
 
-  Future<void> _addUploads(List<ComposerUploadFile> files) async {
+  Future<void> _addUploads(
+    List<ComposerUploadFile> files, {
+    String? channelId,
+  }) async {
     if (files.isEmpty) {
       return;
     }
     final FileUploadValidationResult result = await ref
-        .read(cloudUploadControllerProvider(_channelId).notifier)
+        .read(cloudUploadControllerProvider(channelId ?? _channelId).notifier)
         .addFiles(files);
     if (mounted) {
       _toastValidation(result);
@@ -255,23 +259,26 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
   }
 
   Future<void> _onAssetPressed(AttachmentGalleryItem item) async {
-    if (_isResolvingAsset) {
+    if (_resolvingAssetIds.contains(item.id)) {
       return;
     }
+    final String channelId = _channelId;
+    final CloudUploadController uploads = ref.read(
+      cloudUploadControllerProvider(channelId).notifier,
+    );
     final List<PendingAttachment> attachments = ref
-        .read(cloudUploadControllerProvider(_channelId))
+        .read(cloudUploadControllerProvider(channelId))
         .items;
     final PendingAttachment? existing = pendingAttachmentForGalleryAsset(
       attachments: attachments,
       galleryAssetId: item.id,
     );
     if (existing != null) {
-      await ref
-          .read(cloudUploadControllerProvider(_channelId).notifier)
-          .removeAttachment(existing.id);
+      await uploads.removeAttachment(existing.id);
       return;
     }
-    if (attachments.length >= kMaxAttachmentsPerMessage) {
+    if (attachments.length + _resolvingAssetIds.length >=
+        kMaxAttachmentsPerMessage) {
       _toastValidation(
         const FileUploadValidationResult.failure(
           FileUploadValidationError.tooManyAttachments,
@@ -279,29 +286,24 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
       );
       return;
     }
-    _isResolvingAsset = true;
+    setState(() => _resolvingAssetIds.add(item.id));
+    final Future<void> earlierAdds = _assetAdds;
+    final Completer<void> added = Completer<void>();
+    _assetAdds = added.future;
     try {
       final XFile? file = await _gallerySource.resolveFile(item.id);
-      if (!mounted) {
-        return;
-      }
-      if (file == null) {
-        return;
-      }
-      if (ref.read(cloudUploadControllerProvider(_channelId)).items.length >=
-          kMaxAttachmentsPerMessage) {
-        _toastValidation(
-          const FileUploadValidationResult.failure(
-            FileUploadValidationError.tooManyAttachments,
-          ),
-        );
+      await earlierAdds;
+      if (!mounted || file == null) {
         return;
       }
       await _addUploads(<ComposerUploadFile>[
         composerUploadFile(file, galleryAssetId: item.id),
-      ]);
+      ], channelId: channelId);
     } finally {
-      _isResolvingAsset = false;
+      added.complete();
+      if (mounted) {
+        setState(() => _resolvingAssetIds.remove(item.id));
+      }
     }
   }
 
@@ -366,12 +368,15 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
 
   @override
   Widget build(BuildContext context) {
-    final Set<String> selectedIds = ref.watch(
-      cloudUploadControllerProvider(_channelId).select(
-        (CloudComposerAttachments attachments) =>
-            selectedGalleryAssetIds(attachments.items),
+    final Set<String> selectedIds = <String>{
+      ...ref.watch(
+        cloudUploadControllerProvider(_channelId).select(
+          (CloudComposerAttachments attachments) =>
+              selectedGalleryAssetIds(attachments.items),
+        ),
       ),
-    );
+      ..._resolvingAssetIds,
+    };
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
 
     return ColoredBox(
