@@ -83,6 +83,76 @@ class MessageReferencesNotifier extends _$MessageReferencesNotifier {
         changed = true;
       }
     }
+    final missing = _missingReferences(
+      channelId: channelId,
+      messages: messages,
+      cachedMessages: nextCached,
+    );
+    if (changed) {
+      state = state.copyWith(
+        cachedMessages: nextCached,
+        version: state.version + 1,
+      );
+    }
+    if (missing.isNotEmpty) {
+      _fetchMissingMessages(missing);
+    }
+  }
+
+  Future<void> preload({
+    required String channelId,
+    required List<Message> messages,
+    List<Message> embeddedReplyParents = const [],
+  }) async {
+    final embedded = <String, Message>{
+      for (final parent in embeddedReplyParents)
+        MessageReferencesState.key(parent.channelId, parent.id): parent,
+    };
+    final missing = _missingReferences(
+      channelId: channelId,
+      messages: messages,
+      cachedMessages: {...state.cachedMessages, ...embedded},
+    );
+    final messageDao = ref.read(fluxerDatabaseProvider).messageDao;
+    final rows = await Future.wait(
+      missing.map((refEntry) => messageDao.getMessage(refEntry.messageId)),
+    );
+    if (!ref.mounted) {
+      return;
+    }
+    var changed = false;
+    final nextCached = Map<String, Message>.from(state.cachedMessages);
+    for (final parent in embeddedReplyParents) {
+      if (_cacheMessage(nextCached, parent.channelId, parent.id, parent)) {
+        changed = true;
+      }
+    }
+    for (var i = 0; i < missing.length; i++) {
+      final row = rows[i];
+      if (row != null &&
+          row.channelId == missing[i].channelId &&
+          _cacheMessage(
+            nextCached,
+            row.channelId,
+            row.id,
+            Message.fromRow(row),
+          )) {
+        changed = true;
+      }
+    }
+    if (changed) {
+      state = state.copyWith(
+        cachedMessages: nextCached,
+        version: state.version + 1,
+      );
+    }
+  }
+
+  List<({String channelId, String messageId})> _missingReferences({
+    required String channelId,
+    required List<Message> messages,
+    required Map<String, Message> cachedMessages,
+  }) {
     final missing = <({String channelId, String messageId})>[];
     for (final message in messages) {
       final reference = message.messageReference;
@@ -101,21 +171,13 @@ class MessageReferencesNotifier extends _$MessageReferencesNotifier {
         refMessageId: refMessageId,
         channelId: channelId,
         channelMessages: messages,
-        cachedMessages: nextCached,
+        cachedMessages: cachedMessages,
       )) {
         continue;
       }
       missing.add((channelId: refChannelId, messageId: refMessageId));
     }
-    if (changed) {
-      state = state.copyWith(
-        cachedMessages: nextCached,
-        version: state.version + 1,
-      );
-    }
-    if (missing.isNotEmpty) {
-      _fetchMissingMessages(missing);
-    }
+    return missing;
   }
 
   void onMessageCreated(MessageResponseSchema schema) {

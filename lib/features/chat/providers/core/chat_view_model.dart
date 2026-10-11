@@ -83,8 +83,10 @@ import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/guild_member_prefetch.dart';
+import 'package:fluxer_app/shared/utils/message_member_load_utils.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
@@ -685,11 +687,13 @@ class ChatViewModel extends _$ChatViewModel {
   final Map<String, DateTime> _lastNetworkRefreshByChannel =
       <String, DateTime>{};
   MessageRealtimeFrameBatcher? _frameBatcher;
+  final GuildUserDisplayWarmer _displayWarmer = GuildUserDisplayWarmer();
 
   void _resetAccountLocalState() {
     _channelSwitchGeneration++;
     _windowGeneration++;
     _parkedWindows.clear();
+    _displayWarmer.releaseAll();
     _pendingTrimAround = null;
     _lastReconciledGatewayGenerationByChannel.clear();
     _lastReconciledForegroundGenerationByChannel.clear();
@@ -1633,6 +1637,55 @@ class ChatViewModel extends _$ChatViewModel {
     );
   }
 
+  Future<void> _warmWindowDisplay(
+    String channelId,
+    List<Message> messages, {
+    List<Message> embeddedReplyParents = const <Message>[],
+  }) async {
+    if (messages.isEmpty) {
+      return;
+    }
+    try {
+      final (db.Channel? channel, _) = await (
+        ref.read(fluxerDatabaseProvider).channelDao.getChannelById(channelId),
+        ref
+            .read(messageReferencesProvider.notifier)
+            .preload(
+              channelId: channelId,
+              messages: messages,
+              embeddedReplyParents: embeddedReplyParents,
+            ),
+      ).wait;
+      if (!ref.mounted) {
+        return;
+      }
+      final Map<String, Message> cachedReferences = ref
+          .read(messageReferencesProvider)
+          .cachedMessages;
+      final List<Message> replyParents = <Message>[
+        for (final Message message in messages)
+          if (message.replyParentMessageId case final String parentId)
+            if (cachedReferences[MessageReferencesState.key(
+                  message.replyParentChannelId,
+                  parentId,
+                )]
+                case final Message parent)
+              parent,
+      ];
+      await _displayWarmer.warm(
+        ref,
+        channelId: channelId,
+        guildId: channel?.guildId,
+        userIds: collectMessageMemberUserIds(
+          messages,
+          embeddedReplyParents: replyParents,
+        ),
+      );
+    } on Exception catch (e) {
+      debugPrint('[ChatViewModel] Failed to warm message display: $e');
+    }
+  }
+
   Future<void> _onMessageBatchLoaded({
     required String channelId,
     required List<Message> messages,
@@ -1686,7 +1739,7 @@ class ChatViewModel extends _$ChatViewModel {
       return;
     }
     if (remaining.isEmpty) {
-      _parkedWindows.remove(channelId);
+      _dropParkedWindow(channelId);
       return;
     }
     _parkedWindows[channelId] = _ParkedChannelWindow(
@@ -1957,8 +2010,14 @@ class ChatViewModel extends _$ChatViewModel {
       hasMoreNewerMessages: state.hasMoreNewerMessages || trim.droppedNewer,
     );
     while (_parkedWindows.length > _kMaxParkedWindows) {
-      _parkedWindows.remove(_parkedWindows.keys.first);
+      _dropParkedWindow(_parkedWindows.keys.first);
     }
+  }
+
+  void _dropParkedWindow(String channelId) {
+    _parkedWindows.remove(channelId);
+    _displayWarmer.release(channelId);
+    ref.read(messageReferencesProvider.notifier).clearChannel(channelId);
   }
 
   Future<void> _applyReadComposerDraft({
@@ -2343,9 +2402,6 @@ class ChatViewModel extends _$ChatViewModel {
           _readAckRetryTimer?.cancel();
           _clearManualUnread(previousChannelId);
           _clearLoadedUnreadBoundaryKeys(previousChannelId);
-          ref
-              .read(messageReferencesProvider.notifier)
-              .clearChannel(previousChannelId);
           if (state.editingMessage == null) {
             unawaited(
               _persistComposerDraftForChannel(
@@ -2510,6 +2566,10 @@ class ChatViewModel extends _$ChatViewModel {
             return;
           }
           if (restoreParked) {
+            await _warmWindowDisplay(channelId, parked.messages);
+            if (!isCurrentSwitch()) {
+              return;
+            }
             final bool willRefresh = _shouldRefreshChannelFromNetwork(
               channelId,
             );
@@ -2577,6 +2637,10 @@ class ChatViewModel extends _$ChatViewModel {
           return;
         }
         if (cachePresent) {
+          await _warmWindowDisplay(channelId, cached);
+          if (!isCurrentSwitch() || state.channelId != channelId) {
+            return;
+          }
           final bool incompleteCache = cached.length < _kPageSize;
           // Server never rewinds last_message_id, so only an anchorless latest
           // page can refute a tail deleted while we were offline (#474).
@@ -3035,6 +3099,11 @@ class ChatViewModel extends _$ChatViewModel {
       }
 
       final List<Message> merged = reduceAgainst(state.messages);
+      await _warmWindowDisplay(
+        channelId,
+        merged,
+        embeddedReplyParents: page.embeddedReplyParents,
+      );
       final String? mergedServerTailId = newestServerBackedMessageId(merged);
       // A DIRECT latest load PROVES its own newer edge, and the row count has
       // nothing to do with the proof. `get_latest` scans DESCENDING from the

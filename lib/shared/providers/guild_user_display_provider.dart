@@ -119,6 +119,60 @@ _lastResolvedDisplayProvider =
 bool _isSettling(AsyncValue<Object?> value) =>
     value.isLoading && !value.hasValue;
 
+class GuildUserDisplayWarmer {
+  final Map<String, List<ProviderSubscription<Future<Object?>>>> _held =
+      <String, List<ProviderSubscription<Future<Object?>>>>{};
+
+  Future<void> warm(
+    Ref ref, {
+    required String channelId,
+    required String? guildId,
+    required Iterable<String> userIds,
+  }) async {
+    final bool inGuild = guildId != null && guildId.isNotEmpty;
+    final List<ProviderSubscription<Future<Object?>>> next =
+        <ProviderSubscription<Future<Object?>>>[
+          for (final String userId in userIds.toSet()) ...[
+            ref.listen(_userRowProvider(userId).future, _ignoreChange),
+            ref.listen(friendNicknameProvider(userId).future, _ignoreChange),
+            if (inGuild)
+              ref.listen(
+                memberRowByGuildProvider((userId, guildId)).future,
+                _ignoreChange,
+              ),
+          ],
+        ];
+    try {
+      await Future.wait(
+        next.map(
+          (ProviderSubscription<Future<Object?>> subscription) =>
+              subscription.read().then<void>((_) {}, onError: (Object _) {}),
+        ),
+      );
+    } finally {
+      _close(_held[channelId]);
+      _held[channelId] = next;
+    }
+  }
+
+  void release(String channelId) => _close(_held.remove(channelId));
+
+  void releaseAll() {
+    for (final String channelId in _held.keys.toList()) {
+      release(channelId);
+    }
+  }
+
+  void _close(List<ProviderSubscription<Future<Object?>>>? subscriptions) {
+    for (final ProviderSubscription<Future<Object?>> subscription
+        in subscriptions ?? const <ProviderSubscription<Future<Object?>>>[]) {
+      subscription.close();
+    }
+  }
+}
+
+void _ignoreChange(Object? previous, Object? next) {}
+
 AsyncValue<GuildUserDisplay?> _combine(
   Ref ref,
   (String, String?) args, {
