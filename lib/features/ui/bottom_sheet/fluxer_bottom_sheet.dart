@@ -58,6 +58,16 @@ class FluxerBottomSheetScope extends InheritedWidget {
 ///
 /// The sheet builder receives a `close` callback so children can dismiss the
 /// sheet without needing their own `Navigator.pop` call.
+AnimationStyle fluxerBottomSheetAnimationStyle(BuildContext context) {
+  final FluxerMotionTheme motion = context.motion;
+  return AnimationStyle(
+    duration: motion.sheet,
+    curve: motion.sheetCurve,
+    reverseDuration: motion.pop,
+    reverseCurve: motion.pushCurve.flipped,
+  );
+}
+
 class FluxerBottomSheet {
   FluxerBottomSheet._();
 
@@ -143,6 +153,8 @@ class FluxerBottomSheet {
         isDismissible: isDismissible,
         elevation: 0,
         backgroundColor: Colors.transparent,
+        barrierColor: context.colors.modalScrim,
+        sheetAnimationStyle: fluxerBottomSheetAnimationStyle(context),
         useSafeArea: reserveBottomInset,
         builder: (sheetContext) {
           void close() =>
@@ -272,6 +284,8 @@ class FluxerBottomSheet {
         isDismissible: isDismissible,
         elevation: 0,
         backgroundColor: Colors.transparent,
+        barrierColor: context.colors.modalScrim,
+        sheetAnimationStyle: fluxerBottomSheetAnimationStyle(context),
         useSafeArea: reserveBottomInset,
         builder: (sheetContext) {
           void close() =>
@@ -984,7 +998,7 @@ class FluxerBottomSheetDragHandle extends StatelessWidget {
           padding: EdgeInsets.only(top: topPadding, bottom: layout.s2),
           child: Center(
             child: Container(
-              width: 32,
+              width: 36,
               height: 4,
               decoration: BoxDecoration(
                 color: context.colors.backgroundModifierAccent,

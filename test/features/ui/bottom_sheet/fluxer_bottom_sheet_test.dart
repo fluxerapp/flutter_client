@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
+import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
@@ -156,6 +157,56 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(FluxerBottomSheetDragHandle), findsOneWidget);
+    });
+
+    testWidgets('opens with Discord sheet motion over the theme scrim', (
+      tester,
+    ) async {
+      ModalRoute<dynamic>? route;
+      await tester.pumpWidget(
+        buildTestApp(
+          Builder(
+            builder: (context) {
+              return ElevatedButton(
+                onPressed: () {
+                  unawaited(
+                    FluxerBottomSheet.show(
+                      context,
+                      builder: (context, close) {
+                        route = ModalRoute.of(context);
+                        return const SizedBox(height: 100);
+                      },
+                    ),
+                  );
+                },
+                child: const Text('Open'),
+              );
+            },
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+
+      expect(route!.transitionDuration, FluxerMotionTheme.sheetDuration);
+      expect(route!.reverseTransitionDuration, FluxerMotionTheme.popDuration);
+      final Iterable<ModalBarrier> barriers = tester
+          .widgetList<ModalBarrier>(find.byType(ModalBarrier))
+          .where((ModalBarrier barrier) => barrier.color != null);
+      expect(
+        barriers.map((ModalBarrier barrier) => barrier.color),
+        contains(buildDarkColorTheme().modalScrim),
+      );
+      expect(
+        tester.getSize(
+          find.descendant(
+            of: find.byType(FluxerBottomSheetDragHandle),
+            matching: find.byType(Container),
+          ),
+        ),
+        const Size(36, 4),
+      );
     });
 
     testWidgets('drag handle has expanded hit target', (tester) async {
