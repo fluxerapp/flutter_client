@@ -43,19 +43,28 @@ class MessageListOverlay extends StatelessWidget {
       fit: StackFit.expand,
       children: <Widget>[
         body,
-        if (showUnreadBar)
-          Positioned(
-            top: 8,
-            left: 12,
-            right: 12,
-            child: MessageListNewMessagesBar(
-              count: unreadCount,
-              isEstimated: isEstimated,
-              since: unreadSince,
-              onJumpToUnread: onJumpToUnread,
-              onMarkRead: onMarkRead,
-            ),
+        Positioned(
+          top: 8,
+          left: 12,
+          right: 12,
+          child: AnimatedSwitcher(
+            duration: context.motion.normal,
+            switchInCurve: context.motion.curve,
+            switchOutCurve: context.motion.curve,
+            transitionBuilder: _unreadBarTransition,
+            layoutBuilder: _unreadBarLayout,
+            child: showUnreadBar
+                ? MessageListNewMessagesBar(
+                    key: const ValueKey<String>('message-list-unread-bar'),
+                    count: unreadCount,
+                    isEstimated: isEstimated,
+                    since: unreadSince,
+                    onJumpToUnread: onJumpToUnread,
+                    onMarkRead: onMarkRead,
+                  )
+                : const SizedBox.shrink(),
           ),
+        ),
         if (showLoadErrorBar)
           Positioned(
             left: 12,
@@ -69,6 +78,32 @@ class MessageListOverlay extends StatelessWidget {
       ],
     );
     return _ChatTextScale(scaleRatio: scaleRatio, child: scaledBody);
+  }
+
+  static Widget _unreadBarTransition(
+    Widget child,
+    Animation<double> animation,
+  ) {
+    return FadeTransition(
+      opacity: animation,
+      child: SlideTransition(
+        position: Tween<Offset>(
+          begin: const Offset(0, -kUnreadBarHiddenOffset),
+          end: Offset.zero,
+        ).animate(animation),
+        child: child,
+      ),
+    );
+  }
+
+  static Widget _unreadBarLayout(
+    Widget? currentChild,
+    List<Widget> previousChildren,
+  ) {
+    return Stack(
+      alignment: Alignment.topCenter,
+      children: <Widget>[...previousChildren, ?currentChild],
+    );
   }
 }
 
@@ -136,6 +171,8 @@ class MessageListLoadErrorBar extends StatelessWidget {
     );
   }
 }
+
+const double kUnreadBarHiddenOffset = 0.5;
 
 class MessageListNewMessagesBar extends ConsumerWidget {
   const MessageListNewMessagesBar({

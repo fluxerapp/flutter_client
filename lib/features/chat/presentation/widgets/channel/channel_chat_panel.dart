@@ -426,25 +426,49 @@ class _ChannelChatScrollOverlay extends ConsumerWidget {
               ),
             ),
           if (loadMessages)
-            IgnorePointer(
-              ignoring: !showJumpToBottom,
-              child: Opacity(
-                opacity: showJumpToBottom ? 1 : 0,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: FluxerJumpToBottomButton(
-                    // Never disabled by pagination: this is the only escape hatch
-                    // out of a detached window, and the view model preempts
-                    // in-flight pages rather than refusing the jump.
-                    isLoading: isSyncingMessages,
-                    onTap: () => ref
-                        .read(chatViewModelProvider.notifier)
-                        .scrollToBottom(),
-                  ),
+            ChannelChatJumpToBottomReveal(
+              visible: showJumpToBottom,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: FluxerJumpToBottomButton(
+                  isLoading: isSyncingMessages,
+                  onTap: () =>
+                      ref.read(chatViewModelProvider.notifier).scrollToBottom(),
                 ),
               ),
             ),
         ],
+      ),
+    );
+  }
+}
+
+const double kJumpToBottomHiddenScale = 0.8;
+
+class ChannelChatJumpToBottomReveal extends StatelessWidget {
+  const ChannelChatJumpToBottomReveal({
+    required this.visible,
+    required this.child,
+    super.key,
+  });
+
+  final bool visible;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return IgnorePointer(
+      ignoring: !visible,
+      child: AnimatedOpacity(
+        opacity: visible ? 1 : 0,
+        duration: context.motion.fast,
+        curve: context.motion.curve,
+        child: AnimatedScale(
+          scale: visible ? 1 : kJumpToBottomHiddenScale,
+          duration: context.motion.fast,
+          curve: context.motion.curve,
+          child: child,
+        ),
       ),
     );
   }
