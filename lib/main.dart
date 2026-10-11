@@ -47,12 +47,7 @@ void _configureImagePicker() {
 
 void _runFluxerApp(ProviderContainer container) {
   runApp(
-    ProviderScope(
-      child: UncontrolledProviderScope(
-        container: container,
-        child: const FluxerApp(),
-      ),
-    ),
+    UncontrolledProviderScope(container: container, child: const FluxerApp()),
   );
 }
 
