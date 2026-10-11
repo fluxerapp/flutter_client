@@ -117,9 +117,12 @@ class _ChannelTile extends ConsumerWidget {
         FluxerSelectableRow(
           isSelected: isSelected,
           selectedColor: context.colors.backgroundModifierSelected,
-          borderRadius: BorderRadius.circular(4),
-          margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+          borderRadius: context.layout.radiusLg,
+          margin: EdgeInsets.symmetric(
+            horizontal: context.layout.s2,
+            vertical: 1,
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 9),
           semanticLabel: navigationItemSemanticLabel(
             l10n: FluxerLocalizations.of(context),
             name: channel.name,
@@ -171,8 +174,12 @@ class _ChannelTile extends ConsumerWidget {
                   channel.name,
                   style: context.textStyles.channelName.copyWith(
                     color: textColor,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: channelUnreadState.isHighlight && !isSelected
+                        ? FontWeight.w600
+                        : FontWeight.w500,
+                    height: 20 / 16,
                   ),
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),

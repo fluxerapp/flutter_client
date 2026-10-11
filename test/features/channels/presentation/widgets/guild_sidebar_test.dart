@@ -44,6 +44,7 @@ import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../helpers/open_test_database.dart';
 import '../../../../helpers/pump_fluxer_app.dart';
+import '../../../../helpers/rendered_text_test_helpers.dart';
 import '../../../../helpers/test_l10n.dart';
 import '../../../../helpers/wide_layout_test_sizes.dart';
 
@@ -161,6 +162,46 @@ void main() {
 
       expect(find.byType(ChannelUnreadIndicator), findsOneWidget);
       expect(find.byType(FluxerBadge), findsOneWidget);
+    });
+
+    testWidgets('selected row is a 38pt box inset 8pt with an 8pt radius', (
+      tester,
+    ) async {
+      _setMobileSurface(tester);
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            channelListState: _state(selectedChannelId: 'c1'),
+            selectedChannelId: 'c1',
+            unread: const {
+              'c1': UnreadState(),
+              'c2': UnreadState(hasUnread: true, hasUnreadMessages: true),
+            },
+          ),
+        ),
+      );
+      await _pumpSidebar(tester);
+      FontWeight? weightOf(String name) =>
+          tester.widget<Text>(findAppText(name)).style?.fontWeight;
+
+      final Finder selected = find.ancestor(
+        of: find.text('general'),
+        matching: find.byType(FluxerSelectableRow),
+      );
+      final FluxerSelectableRow row = tester.widget<FluxerSelectableRow>(
+        selected,
+      );
+      expect(row.borderRadius, BorderRadius.circular(8));
+      expect(
+        row.selectedColor,
+        buildDarkColorTheme().backgroundModifierSelected,
+      );
+      final Rect box = tester.getRect(
+        find.descendant(of: selected, matching: find.byType(Container)).first,
+      );
+      expect(box.height, 38);
+      expect(weightOf('random'), FontWeight.w600);
+      expect(weightOf('general'), FontWeight.w500);
     });
 
     testWidgets('hides unread and mention indicators on wide layout', (
