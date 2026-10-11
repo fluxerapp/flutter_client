@@ -27,6 +27,7 @@ import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dar
 import 'package:fluxer_app/features/chat/providers/upload/attachment_upload_client_provider.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/chat/providers/upload/user_upload_limits_provider.dart';
+import 'package:fluxer_app/features/chat/utils/composer/composer_command.dart';
 import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_page_sync.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_send_failure_messages.dart';
@@ -190,6 +191,82 @@ void main() {
     await _flushAsync();
     return (container, adapter, notifier);
   }
+
+  group('reaction shorthand', () {
+    Future<(ProviderContainer, _SendAdapter, String, String)>
+    setUpWithHistory() async {
+      final String olderId = _snowflakeForUtc(DateTime.utc(2026, 6, 15, 12));
+      final String latestId = _snowflakeForUtc(DateTime.utc(2026, 6, 16, 12));
+      final _SendAdapter adapter = _SendAdapter(
+        serverMessageId: _snowflakeForUtc(DateTime.utc(2026, 6, 17, 12)),
+        latestMessages: <Map<String, Object?>>[
+          _messageJson(id: latestId, channelId: 'channel-1', authorId: 'other'),
+          _messageJson(id: olderId, channelId: 'channel-1', authorId: 'other'),
+        ],
+      );
+      final (container, _, _) = await setUpChannel(adapter: adapter);
+      return (container, adapter, olderId, latestId);
+    }
+
+    test('reacts to the latest message without sending one', () async {
+      final (container, adapter, _, latestId) = await setUpWithHistory();
+      final bool reacted = await container
+          .read(chatViewModelProvider.notifier)
+          .reactWithShorthand(const ReactionShorthandEmoji(emoji: '👍'));
+      await _flushAsync();
+
+      expect(reacted, isTrue);
+      expect(adapter.messagePostCount, 0);
+      expect(adapter.reactionPuts, <String>[
+        '/v1/channels/channel-1/messages/$latestId/reactions/👍/@me',
+      ]);
+    });
+
+    test('reacts to the message being replied to and ends the reply', () async {
+      final (container, adapter, olderId, _) = await setUpWithHistory();
+      final ChatViewModel notifier = container.read(
+        chatViewModelProvider.notifier,
+      );
+      final Message older = container
+          .read(chatViewModelProvider)
+          .messages
+          .firstWhere((Message m) => m.id == olderId);
+      notifier.startReply(older);
+      await _flushAsync();
+
+      await notifier.reactWithShorthand(
+        const ReactionShorthandEmoji(emoji: 'blobcat', emojiId: '123'),
+      );
+      await _flushAsync();
+
+      expect(adapter.reactionPuts, <String>[
+        '/v1/channels/channel-1/messages/$olderId/reactions/blobcat:123/@me',
+      ]);
+      expect(container.read(chatViewModelProvider).replyingTo, isNull);
+    });
+
+    test('repeating the shorthand keeps the reaction', () async {
+      final (container, adapter, _, _) = await setUpWithHistory();
+      final ChatViewModel notifier = container.read(
+        chatViewModelProvider.notifier,
+      );
+      await notifier.reactWithShorthand(
+        const ReactionShorthandEmoji(emoji: '👍'),
+      );
+      await _flushAsync();
+      await notifier.reactWithShorthand(
+        const ReactionShorthandEmoji(emoji: '👍'),
+      );
+      await _flushAsync();
+
+      expect(adapter.reactionPuts, hasLength(1));
+      final Message latest = container
+          .read(chatViewModelProvider)
+          .messages
+          .last;
+      expect(latest.reactions.single.hasReacted, isTrue);
+    });
+  });
 
   test(
     'own send scrolls once on optimistic insert, not again on delivery',
@@ -1161,6 +1238,7 @@ class _SendAdapter implements HttpClientAdapter {
   String? lastSentNonce;
   Map<String, dynamic>? lastBody;
   int messagePostCount = 0;
+  final List<String> reactionPuts = <String>[];
   String? lastEditContent;
   bool holdSend = false;
   bool holdLatestFetch = false;
@@ -1253,6 +1331,10 @@ class _SendAdapter implements HttpClientAdapter {
           nonce: lastSentNonce,
         ),
       );
+    }
+    if (options.method == 'PUT' && path.contains('/reactions/')) {
+      reactionPuts.add(Uri.decodeComponent(path));
+      return ResponseBody.fromString('', 204);
     }
     if (options.method == 'POST' && path.endsWith('/read-states/ack')) {
       final String? raw = await _readRequestBody(requestStream, options.data);

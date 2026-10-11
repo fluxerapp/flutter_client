@@ -154,4 +154,58 @@ void main() {
       expect(result.flags, 0);
     });
   });
+
+  group('reaction shorthand', () {
+    ReactionShorthandEmoji? resolve(String text) {
+      final ComposerCommand cmd = parseComposerCommand(text);
+      if (cmd is! ComposerReactionShorthand) {
+        return null;
+      }
+      return resolveReactionShorthand(
+        cmd.token,
+        unicodeByName: (String name) => const <String, String>{
+          '+1': '👍',
+          'smiley': '😃',
+          'thumbsup::skin-tone-2': '👍🏼',
+        }[name],
+        unicodeBySurrogates: (String surrogates) =>
+            const <String>{'👍', '😃'}.contains(surrogates) ? surrogates : null,
+        customEmojiMarkdown: (String nameLower) => const <String, String>{
+          'blobcat': '<:blobcat:123>',
+          'party': '<a:party:456>',
+        }[nameLower],
+      );
+    }
+
+    test('+:+1: reacts with the unicode emoji', () {
+      expect(resolve('+:+1:')?.emoji, '👍');
+    });
+
+    test('+ followed by a unicode emoji reacts with it', () {
+      final ReactionShorthandEmoji? reaction = resolve(' +😃 ');
+      expect(reaction?.emoji, '😃');
+      expect(reaction?.emojiId, isNull);
+    });
+
+    test('skin tone shortcodes resolve', () {
+      expect(resolve('+:thumbsup::skin-tone-2:')?.emoji, '👍🏼');
+    });
+
+    test('custom emoji by shortcode and by markdown', () {
+      final ReactionShorthandEmoji? byName = resolve('+:BlobCat:');
+      expect(byName?.emoji, 'blobcat');
+      expect(byName?.emojiId, '123');
+      final ReactionShorthandEmoji? byMarkdown = resolve('+<a:party:456>');
+      expect(byMarkdown?.emoji, 'party');
+      expect(byMarkdown?.emojiId, '456');
+      expect(byMarkdown?.animated, isTrue);
+    });
+
+    test('plain text after + stays a message', () {
+      expect(resolve('+1'), isNull);
+      expect(resolve('+:unknown:'), isNull);
+      expect(parseComposerCommand('+1 agreed'), isA<ComposerContentSend>());
+      expect(parseComposerCommand('a +:+1:'), isA<ComposerContentSend>());
+    });
+  });
 }

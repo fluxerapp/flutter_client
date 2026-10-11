@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
@@ -91,6 +92,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
+import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/fluxer_haptics.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -1975,6 +1977,12 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       return;
     }
 
+    if (command is ComposerReactionShorthand) {
+      if (await _tryReactionShorthand(channelId, command) || !mounted) {
+        return;
+      }
+    }
+
     if (command is! ComposerReplaceCommand) {
       final Duration? slowmodeRemaining = _activeSlowmodeRemainingForSend(
         channelId,
@@ -2025,6 +2033,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       ComposerSpoilerCommand(:final content) => content,
       ComposerTtsCommand(:final content) => content,
       ComposerContentSend(:final content) => content,
+      ComposerReactionShorthand() => wireText,
       ComposerReplaceCommand() => wireText,
       ComposerNickCommand() ||
       ComposerKickCommand() ||
@@ -2041,6 +2050,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
       ComposerSpoilerCommand() => wrapSpoiler(resolved),
       ComposerTtsCommand() => resolved,
       ComposerContentSend() => resolved,
+      ComposerReactionShorthand() => resolved,
       ComposerReplaceCommand() => resolved,
       ComposerNickCommand() ||
       ComposerKickCommand() ||
@@ -2072,6 +2082,40 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
 
     _resetComposerInputAfterSend();
     unawaited(vm.sendMessage(text: baseContent.trim(), tts: tts));
+  }
+
+  Future<bool> _tryReactionShorthand(
+    String channelId,
+    ComposerReactionShorthand command,
+  ) async {
+    if (ref.read(cloudUploadControllerProvider(channelId)).items.isNotEmpty) {
+      return false;
+    }
+    final _CustomEmojiSendContext emojiContext = _readCustomEmojiSendContext(
+      channelId,
+    );
+    final ReactionShorthandEmoji? reaction = resolveReactionShorthand(
+      command.token,
+      unicodeByName: EmojiRegistry.resolveSync,
+      unicodeBySurrogates: (String surrogates) =>
+          EmojiRegistry.entryBySurrogates(surrogates) == null
+          ? null
+          : surrogates,
+      customEmojiMarkdown: emojiContext.lookupMarkdown,
+    );
+    if (reaction == null) {
+      return false;
+    }
+    final bool reacted = await ref
+        .read(chatViewModelProvider.notifier)
+        .reactWithShorthand(reaction);
+    if (!reacted || !mounted) {
+      return reacted;
+    }
+    _clearSlashSession();
+    _controller.clear();
+    ref.read(chatViewModelProvider.notifier).updateMessageText('');
+    return true;
   }
 
   _CustomEmojiSendContext _readCustomEmojiSendContext(String channelId) {

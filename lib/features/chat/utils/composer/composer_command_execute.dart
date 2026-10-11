@@ -23,6 +23,7 @@ ComposerCommandDispatch composerCommandDispatchKind(ComposerCommand command) {
     ComposerSpoilerCommand() ||
     ComposerTtsCommand() ||
     ComposerContentSend() ||
+    ComposerReactionShorthand() ||
     ComposerReplaceCommand() => ComposerCommandDispatch.sendChannel,
     ComposerMediaSearchCommand() => ComposerCommandDispatch.blocked,
     ComposerNickCommand() ||

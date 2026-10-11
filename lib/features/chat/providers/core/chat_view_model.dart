@@ -6594,6 +6594,40 @@ class ChatViewModel extends _$ChatViewModel {
     }
   }
 
+  Future<bool> reactWithShorthand(ReactionShorthandEmoji reaction) async {
+    Message? target = state.replyingTo;
+    if (target == null) {
+      for (final Message message in state.messages.reversed) {
+        if (message.deliveryState == MessageDeliveryState.sent &&
+            !message.isClientSystemMessage) {
+          target = message;
+          break;
+        }
+      }
+    }
+    if (target == null) {
+      return false;
+    }
+    if (state.replyingTo != null) {
+      cancelReply();
+    }
+    final bool alreadyReacted = target.reactions.any(
+      (Reaction r) =>
+          r.hasReacted &&
+          r.emoji == reaction.emoji &&
+          r.emojiId == reaction.emojiId,
+    );
+    if (!alreadyReacted) {
+      await toggleReaction(
+        target.id,
+        reaction.emoji,
+        emojiId: reaction.emojiId,
+        animated: reaction.animated,
+      );
+    }
+    return true;
+  }
+
   Future<void> toggleReaction(
     String messageId,
     String emoji, {

@@ -96,6 +96,70 @@ class ComposerReplaceCommand extends ComposerCommand {
   final bool global;
 }
 
+class ComposerReactionShorthand extends ComposerCommand {
+  const ComposerReactionShorthand(this.token);
+
+  final String token;
+}
+
+class ReactionShorthandEmoji {
+  const ReactionShorthandEmoji({
+    required this.emoji,
+    this.emojiId,
+    this.animated = false,
+  });
+
+  final String emoji;
+  final String? emojiId;
+  final bool animated;
+}
+
+final RegExp _reactionShorthandRegex = RegExp(r'^\+(\S+)$');
+final RegExp _reactionShortcodeRegex = RegExp(
+  r'^:([^\s:]+(?:::skin-tone-[1-5])?):$',
+);
+final RegExp _customEmojiMarkdownRegex = RegExp(
+  r'^<(a)?:([A-Za-z0-9_+-]{2,}):(\d+)>$',
+);
+
+ReactionShorthandEmoji? resolveReactionShorthand(
+  String token, {
+  required String? Function(String name) unicodeByName,
+  required String? Function(String surrogates) unicodeBySurrogates,
+  required String? Function(String nameLower) customEmojiMarkdown,
+}) {
+  final RegExpMatch? shortcode = _reactionShortcodeRegex.firstMatch(token);
+  if (shortcode != null) {
+    final String name = shortcode.group(1)!;
+    final String? surrogates = unicodeByName(name);
+    if (surrogates != null) {
+      return ReactionShorthandEmoji(emoji: surrogates);
+    }
+    final String? markdown = customEmojiMarkdown(
+      name.replaceFirst(RegExp(r'~\d+$'), '').toLowerCase(),
+    );
+    return markdown == null ? null : _customFromMarkdown(markdown);
+  }
+  final ReactionShorthandEmoji? custom = _customFromMarkdown(token);
+  if (custom != null) {
+    return custom;
+  }
+  final String? surrogates = unicodeBySurrogates(token);
+  return surrogates == null ? null : ReactionShorthandEmoji(emoji: surrogates);
+}
+
+ReactionShorthandEmoji? _customFromMarkdown(String markdown) {
+  final RegExpMatch? match = _customEmojiMarkdownRegex.firstMatch(markdown);
+  if (match == null) {
+    return null;
+  }
+  return ReactionShorthandEmoji(
+    emoji: match.group(2)!,
+    emojiId: match.group(3),
+    animated: match.group(1) != null,
+  );
+}
+
 final RegExp _replaceCommandRegex = RegExp(r'^s/(.+?)/(.*?)(?:/(g)?)?$');
 final RegExp _userMentionWire = RegExp(r'<@!?(\d+)>');
 
@@ -103,6 +167,11 @@ final RegExp _userMentionWire = RegExp(r'<@!?(\d+)>');
 /// [ComposerCommand]. Pure; intended to be called exactly once per send.
 ComposerCommand parseComposerCommand(String wireText) {
   final String trimmed = wireText.trim();
+
+  final RegExpMatch? reaction = _reactionShorthandRegex.firstMatch(trimmed);
+  if (reaction != null) {
+    return ComposerReactionShorthand(reaction.group(1)!);
+  }
 
   final RegExpMatch? replace = _replaceCommandRegex.firstMatch(trimmed);
   if (replace != null) {
