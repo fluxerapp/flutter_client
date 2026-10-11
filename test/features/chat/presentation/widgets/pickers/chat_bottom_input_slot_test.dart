@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -20,19 +22,13 @@ const MediaQueryData _mobileMediaQuery = MediaQueryData(
   viewPadding: EdgeInsets.only(bottom: _homeInset),
 );
 
-Finder _spacerAnimatedContainerFinder() {
+Finder _spacerSizedBoxFinder() {
   return find.descendant(
     of: find.byType(BottomInputSpacer),
-    matching: find.byType(AnimatedContainer),
+    matching: find.byWidgetPredicate(
+      (Widget widget) => widget is SizedBox && widget.height != null,
+    ),
   );
-}
-
-double _spacerBodyHeight(WidgetTester tester) {
-  return tester.getSize(_spacerAnimatedContainerFinder()).height;
-}
-
-double _spacerTotalHeight(WidgetTester tester) {
-  return tester.getSize(find.byType(BottomInputSpacer)).height;
 }
 
 Widget _buildSpacerHarness(ProviderContainer container) {
@@ -135,8 +131,14 @@ void main() {
       await tester.pump();
 
       expect(container.read(bottomInputSlotProvider).slotHeight, 336);
-      expect(_spacerTotalHeight(tester), 336);
-      expect(_spacerBodyHeight(tester), 336);
+      expect(
+        find.descendant(
+          of: find.byType(BottomInputSpacer),
+          matching: find.byType(AnimatedContainer),
+        ),
+        findsNothing,
+      );
+      expect(tester.getSize(_spacerSizedBoxFinder()).height, 336);
 
       await tester.pump(const Duration(milliseconds: 500));
     },
@@ -157,7 +159,7 @@ void main() {
     for (final double height in <double>[300, 310, 302]) {
       notifier.syncViewInsets(height, safeAreaBottom: 0);
       await tester.pump();
-      expect(_spacerBodyHeight(tester), height);
+      expect(tester.getSize(_spacerSizedBoxFinder()).height, height);
     }
 
     await tester.pump(const Duration(milliseconds: 500));
@@ -183,7 +185,7 @@ void main() {
         )
         ..syncViewInsets(302, safeAreaBottom: 0);
       await tester.pump();
-      expect(_spacerBodyHeight(tester), 302);
+      expect(tester.getSize(_spacerSizedBoxFinder()).height, 302);
 
       notifier.syncViewInsets(0, safeAreaBottom: 34);
       await tester.pump();
@@ -223,8 +225,8 @@ void main() {
       notifier.syncViewInsets(height, safeAreaBottom: 0);
       await tester.pump();
       expect(
-        _spacerTotalHeight(tester),
-        height > _homeInset ? height : _homeInset,
+        tester.getSize(_spacerSizedBoxFinder()).height,
+        math.max(height, _homeInset - kMobileComposerBottomGap),
       );
     }
 
@@ -326,9 +328,8 @@ void main() {
               ),
             )
             .height,
-        kIosFallbackKeyboardHeight - _homeInset,
+        kIosFallbackKeyboardHeight,
       );
-      expect(_spacerTotalHeight(tester), kIosFallbackKeyboardHeight);
     },
   );
 }

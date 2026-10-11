@@ -1,0 +1,312 @@
+import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/wide_composer_layout.dart';
+import 'package:fluxer_app/features/chat/utils/composer/bottom_input_slot_layout.dart';
+import 'package:fluxer_app/material_ui.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
+
+abstract final class MobileComposerLayout {
+  const MobileComposerLayout._();
+  static const double sideInset = 16;
+  static const double topInset = 4;
+  static const double bottomGap = kMobileComposerBottomGap;
+  static const double radius = 16;
+  static const double minHeight = 58;
+  static const double buttonExtent = 32;
+  static const double sendExtent = 36;
+  static const double sendRadius = 10;
+  static const double iconSize = 20;
+  static const double sendIconSize = 18;
+  static const double rowPaddingStart = 12;
+  static const double rowPaddingEnd = 10;
+  static const double rowPaddingVertical = 10;
+  static const double attachGap = 2;
+  static const double trailingGap = 8;
+  static const double textInsetX = 6;
+  static const double textInsetY = 7;
+  static const int maxLines = 9;
+  static const double headerHeight = 32;
+  static const double headerInsetStart = 13;
+  static const double headerInsetEnd = 10;
+  static const double pressedOpacity = 0.3;
+  static const double attachOpenTurns = 0.125;
+  static const double sendPopFromScale = 0.7;
+  static const Duration resize = Duration(milliseconds: 120);
+  static const Duration attachRotation = Duration(milliseconds: 130);
+  static const Duration sendPop = Duration(milliseconds: 180);
+  static const Duration pressFade = Duration(milliseconds: 60);
+}
+
+class MobileComposerBar extends StatelessWidget {
+  const MobileComposerBar({
+    required this.focused,
+    required this.child,
+    this.header,
+    super.key,
+  });
+
+  final bool focused;
+  final Widget? header;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: WideComposerLayout.ringTransition,
+      curve: Curves.easeInOut,
+      constraints: const BoxConstraints(
+        minHeight: MobileComposerLayout.minHeight,
+      ),
+      decoration: ShapeDecoration(
+        color: context.colors.backgroundTextarea,
+        shape: RoundedSuperellipseBorder(
+          borderRadius: BorderRadius.circular(MobileComposerLayout.radius),
+          side: BorderSide(
+            color: wideComposerRingColor(context, focused: focused),
+          ),
+        ),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: AnimatedSize(
+        duration: MobileComposerLayout.resize,
+        curve: Curves.easeOut,
+        alignment: Alignment.bottomCenter,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[?header, child],
+        ),
+      ),
+    );
+  }
+}
+
+class MobileComposerHeader extends StatelessWidget {
+  const MobileComposerHeader({
+    required this.title,
+    required this.closeLabel,
+    required this.onClose,
+    this.leading,
+    this.trailing,
+    super.key,
+  });
+
+  final Widget title;
+  final String closeLabel;
+  final VoidCallback onClose;
+  final Widget? leading;
+  final Widget? trailing;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: MobileComposerLayout.headerHeight,
+      child: Padding(
+        padding: const EdgeInsetsDirectional.only(
+          start: MobileComposerLayout.headerInsetStart,
+          end: MobileComposerLayout.headerInsetEnd,
+          top: 4,
+        ),
+        child: Row(
+          children: <Widget>[
+            if (leading != null) ...<Widget>[
+              leading!,
+              const SizedBox(width: 6),
+            ],
+            Expanded(child: title),
+            if (trailing != null) ...<Widget>[
+              trailing!,
+              const SizedBox(width: 6),
+              SizedBox(
+                height: 18,
+                child: VerticalDivider(
+                  width: 1,
+                  thickness: 1,
+                  color: context.colors.backgroundModifierAccent,
+                ),
+              ),
+            ],
+            Semantics(
+              button: true,
+              label: closeLabel,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: onClose,
+                child: SizedBox(
+                  width: 32,
+                  height: 26,
+                  child: Center(
+                    child: PhosphorIcon(
+                      PhosphorIconsFill.xCircle,
+                      size: 16,
+                      color: context.colors.interactiveNormal,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class MobileComposerIconButton extends StatefulWidget {
+  const MobileComposerIconButton({
+    required this.icon,
+    required this.semanticLabel,
+    required this.onPressed,
+    this.turns = 0,
+    super.key,
+  });
+
+  final IconData icon;
+  final String semanticLabel;
+  final VoidCallback? onPressed;
+  final double turns;
+
+  @override
+  State<MobileComposerIconButton> createState() =>
+      _MobileComposerIconButtonState();
+}
+
+class _MobileComposerIconButtonState extends State<MobileComposerIconButton> {
+  bool _pressed = false;
+
+  void _setPressed(bool pressed) {
+    if (_pressed != pressed) {
+      setState(() => _pressed = pressed);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final bool enabled = widget.onPressed != null;
+    return Semantics(
+      button: true,
+      enabled: enabled,
+      label: widget.semanticLabel,
+      excludeSemantics: true,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTapDown: enabled ? (_) => _setPressed(true) : null,
+        onTapUp: enabled ? (_) => _setPressed(false) : null,
+        onTapCancel: enabled ? () => _setPressed(false) : null,
+        onTap: widget.onPressed,
+        child: SizedBox.square(
+          dimension: MobileComposerLayout.buttonExtent,
+          child: AnimatedOpacity(
+            opacity: _pressed ? MobileComposerLayout.pressedOpacity : 1,
+            duration: MobileComposerLayout.pressFade,
+            child: AnimatedRotation(
+              turns: widget.turns,
+              duration: MobileComposerLayout.attachRotation,
+              curve: Curves.easeOut,
+              child: MobileComposerGlyph(icon: widget.icon),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class MobileComposerGlyph extends StatelessWidget {
+  const MobileComposerGlyph({required this.icon, super.key});
+
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.square(
+      dimension: MobileComposerLayout.buttonExtent,
+      child: Center(
+        child: PhosphorIcon(
+          icon,
+          size: MobileComposerLayout.iconSize,
+          color: context.colors.interactiveNormal,
+        ),
+      ),
+    );
+  }
+}
+
+class MobileComposerSendButton extends StatelessWidget {
+  const MobileComposerSendButton({
+    required this.semanticLabel,
+    required this.onPressed,
+    super.key,
+  });
+
+  final String semanticLabel;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      button: true,
+      enabled: onPressed != null,
+      label: semanticLabel,
+      excludeSemantics: true,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onPressed,
+        child: DecoratedBox(
+          key: const ValueKey<String>('mobile-composer-send'),
+          decoration: ShapeDecoration(
+            color: context.colors.brandPrimary,
+            shape: RoundedSuperellipseBorder(
+              borderRadius: BorderRadius.circular(
+                MobileComposerLayout.sendRadius,
+              ),
+            ),
+          ),
+          child: SizedBox.square(
+            dimension: MobileComposerLayout.sendExtent,
+            child: Center(
+              child: PhosphorIcon(
+                PhosphorIconsFill.paperPlaneRight,
+                size: MobileComposerLayout.sendIconSize,
+                color: context.colors.brandPrimaryFill,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class MobileComposerPopSwitcher extends StatelessWidget {
+  const MobileComposerPopSwitcher({required this.child, super.key});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedSwitcher(
+      duration: MobileComposerLayout.sendPop,
+      layoutBuilder: (Widget? currentChild, List<Widget> previousChildren) {
+        return Center(child: currentChild);
+      },
+      transitionBuilder: (Widget child, Animation<double> animation) {
+        return FadeTransition(
+          opacity: CurvedAnimation(
+            parent: animation,
+            curve: const Interval(0, 0.5, curve: Curves.easeOut),
+          ),
+          child: ScaleTransition(
+            scale:
+                Tween<double>(
+                  begin: MobileComposerLayout.sendPopFromScale,
+                  end: 1,
+                ).animate(
+                  CurvedAnimation(parent: animation, curve: Curves.easeOutBack),
+                ),
+            child: child,
+          ),
+        );
+      },
+      child: child,
+    );
+  }
+}

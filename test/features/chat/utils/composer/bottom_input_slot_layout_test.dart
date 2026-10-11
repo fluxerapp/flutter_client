@@ -778,10 +778,10 @@ void main() {
   });
 
   group('bottomInputKeyboardSpacerHeight', () {
-    test('clamps slot height to home indicator inset', () {
+    test('keeps the composer gap above the home indicator inset', () {
       expect(
         bottomInputKeyboardSpacerHeight(slotHeight: 20, homeIndicatorInset: 34),
-        34,
+        24,
       );
       expect(
         bottomInputKeyboardSpacerHeight(
@@ -792,10 +792,14 @@ void main() {
       );
       expect(
         bottomInputKeyboardSpacerHeight(slotHeight: 0, homeIndicatorInset: 34),
-        34,
+        24,
       );
       expect(
         bottomInputKeyboardSpacerHeight(slotHeight: 0, homeIndicatorInset: 0),
+        0,
+      );
+      expect(
+        bottomInputKeyboardSpacerHeight(slotHeight: 0, homeIndicatorInset: 6),
         0,
       );
     });

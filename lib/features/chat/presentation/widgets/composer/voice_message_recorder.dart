@@ -14,6 +14,7 @@ class VoiceMessageRecorder extends StatefulWidget {
     required this.controller,
     this.holdToRecord = true,
     this.buttonSize = FluxerButtonSize.compact,
+    this.restingChild,
     super.key,
   });
 
@@ -22,6 +23,7 @@ class VoiceMessageRecorder extends StatefulWidget {
   final VoiceMessageRecordingController controller;
   final bool holdToRecord;
   final FluxerButtonSize buttonSize;
+  final Widget? restingChild;
 
   @override
   State<VoiceMessageRecorder> createState() => _VoiceMessageRecorderState();
@@ -86,12 +88,13 @@ class _VoiceMessageRecorderState extends State<VoiceMessageRecorder> {
                         iconSize: 20,
                         onPressed: widget.disabled ? null : () {},
                       )
-                    : FluxerButton.circleAlt(
-                        icon: PhosphorIconsFill.microphone,
-                        semanticLabel: l10n.voiceMessageTitle,
-                        size: widget.buttonSize,
-                        onPressed: widget.disabled ? null : () {},
-                      ),
+                    : widget.restingChild ??
+                          FluxerButton.circleAlt(
+                            icon: PhosphorIconsFill.microphone,
+                            semanticLabel: l10n.voiceMessageTitle,
+                            size: widget.buttonSize,
+                            onPressed: widget.disabled ? null : () {},
+                          ),
               ),
             ),
           ),

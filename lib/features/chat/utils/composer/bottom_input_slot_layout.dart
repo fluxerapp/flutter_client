@@ -17,6 +17,8 @@ const double kInlineExpressionPanelDismissHeightFraction = 0.55;
 const double kInlineExpressionPanelExpandedSnapMidpointFraction =
     kExpandableSheetSnapMidpointFraction;
 
+const double kMobileComposerBottomGap = 10;
+
 const double kIosFallbackKeyboardHeight = 291;
 const double kAndroidFallbackKeyboardHeightFraction = 0.38;
 
@@ -315,7 +317,10 @@ double bottomInputKeyboardSpacerHeight({
   required double slotHeight,
   required double homeIndicatorInset,
 }) {
-  return math.max(slotHeight, homeIndicatorInset);
+  return math.max(
+    slotHeight,
+    math.max(0, homeIndicatorInset - kMobileComposerBottomGap),
+  );
 }
 
 bool shouldSplitBottomInputSpacerHomeIndicator({

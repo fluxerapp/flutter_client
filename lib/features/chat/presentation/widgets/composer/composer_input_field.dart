@@ -42,6 +42,7 @@ class ComposerInputField extends ConsumerWidget {
     required this.onValidationResult,
     required this.onUpgradePressed,
     this.textAlignVertical,
+    this.cursorColor,
     super.key,
   });
 
@@ -68,6 +69,7 @@ class ComposerInputField extends ConsumerWidget {
   final void Function(FileUploadValidationResult result) onValidationResult;
   final VoidCallback onUpgradePressed;
   final TextAlignVertical? textAlignVertical;
+  final Color? cursorColor;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -150,6 +152,7 @@ class ComposerInputField extends ConsumerWidget {
                                           : basePadding,
                                     ),
                                     textAlignVertical: textAlignVertical,
+                                    cursorColor: cursorColor,
                                     textCapitalization:
                                         TextCapitalization.sentences,
                                     autocorrect: true,

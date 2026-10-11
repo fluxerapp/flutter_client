@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/mobile_composer_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_recorder.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_recording_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_recording_controller.dart';
@@ -135,6 +136,9 @@ class ComposerSendAndVoiceButton extends ConsumerWidget {
         controller: voiceRecording,
         holdToRecord: useHoldToRecord,
         buttonSize: voiceSize,
+        restingChild: useHoldToRecord
+            ? const MobileComposerGlyph(icon: PhosphorIconsFill.microphone)
+            : null,
       ),
     );
     if (!useHoldToRecord) {
@@ -194,19 +198,13 @@ class ComposerSendAndVoiceButton extends ConsumerWidget {
         ),
       );
     }
-    return AnimatedSwitcher(
-      duration: context.motion.panel,
-      transitionBuilder: (Widget child, Animation<double> animation) =>
-          FadeTransition(opacity: animation, child: child),
+    return MobileComposerPopSwitcher(
       child: showSendButton
           ? _opacity(
               context: context,
               key: const ValueKey<String>('send'),
               enabled: sendVisuallyEnabled,
-              child: FluxerButton.circle(
-                icon: PhosphorIconsBold.arrowUp,
-                iconSize: 20,
-                size: size,
+              child: MobileComposerSendButton(
                 semanticLabel: l10n.permissionSendMessages,
                 onPressed: sendOnPressed,
               ),

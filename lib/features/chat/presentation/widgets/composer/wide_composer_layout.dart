@@ -35,7 +35,7 @@ abstract final class WideComposerLayout {
 
 Color composerStatusSurfaceColor(BuildContext context) {
   return isMobileLayout(context)
-      ? context.colors.chatInputBackground
+      ? context.colors.chatBackground
       : context.colors.backgroundSecondaryLighter;
 }
 
