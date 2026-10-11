@@ -8,9 +8,12 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
+import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/threads/providers/thread_guild_gate_provider.dart';
+import 'package:fluxer_app/l10n/app_locale_provider.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'forward_destinations_provider.g.dart';
@@ -109,9 +112,12 @@ Future<List<ForwardDestination>> forwardDestinations(
 }) async {
   final List<Channel> allChannels = await ref.watch(allChannelsProvider.future);
   final List<Guild> guilds = ref.watch(guildListViewModelProvider).guilds;
-  final List<DmConversation> conversations = ref
-      .watch(dmViewModelProvider)
-      .conversations;
+  final DmViewState dmState = ref.watch(dmViewModelProvider);
+  final List<DmConversation> conversations = dmState.conversations;
+  final Map<String, String?> friendNicknameById = friendNicknamesById(
+    dmState.friendsList,
+  );
+  final FluxerLocalizations l10n = ref.watch(appLocalizationsProvider);
 
   final Map<String, Guild> guildsById = <String, Guild>{
     for (final Guild g in guilds) g.id: g,
@@ -131,7 +137,13 @@ Future<List<ForwardDestination>> forwardDestinations(
     destinations.add(
       ForwardDestination(
         channelId: dm.id,
-        displayName: dm.displayName,
+        displayName: dm.isPersonalNotes
+            ? l10n.personalNotesTitle
+            : dm.displayNameWith(
+                dm.isGroup ? null : friendNicknameById[dm.recipientId],
+                l10n: l10n,
+                currentUserId: currentUserId,
+              ),
         kind: kind,
         avatarUserId: isOneToOne ? dm.recipientId : null,
         avatarImageUrl: isOneToOne

@@ -47,12 +47,13 @@ class _FakeUser extends UserSettingsViewModel {
 }
 
 class _FakeDms extends DmViewModel {
-  _FakeDms(this._conversations);
+  _FakeDms(this._conversations, {this.friends = const <Friend>[]});
   final List<DmConversation> _conversations;
+  final List<Friend> friends;
   @override
   DmViewState build() => DmViewState(
     conversations: _conversations,
-    friendsList: const <Friend>[],
+    friendsList: friends,
     activeTab: FriendsTab.online,
     searchQuery: '',
   );
@@ -339,6 +340,70 @@ void main() {
     expect(byId['dm_1']!.slowmodeEnabled, isFalse);
     expect(byId['group_1']!.kind, ForwardDestinationKind.group);
     expect(byId['notes_1']!.kind, ForwardDestinationKind.personalNotes);
+  });
+
+  test('names DMs the same way the DM list does', () async {
+    final FluxerDatabase db = await _seedDb();
+    final ProviderContainer container = ProviderContainer(
+      overrides: [
+        fluxerDatabaseProvider.overrideWithValue(db),
+        guildListViewModelProvider.overrideWith(
+          () => _FakeGuilds(const <Guild>[]),
+        ),
+        userSettingsViewModelProvider.overrideWith(_FakeUser.new),
+        dmViewModelProvider.overrideWith(
+          () => _FakeDms(
+            <DmConversation>[
+              DmConversation(
+                id: 'dm_1',
+                type: 1,
+                recipientId: 'friend_1',
+                recipientName: 'phonetest',
+                lastMessage: '',
+                lastMessageTime: DateTime(2020),
+              ),
+              DmConversation(
+                id: 'group_empty',
+                type: 3,
+                recipientId: '',
+                recipientName: '',
+                lastMessage: '',
+                lastMessageTime: DateTime(2020),
+              ),
+              DmConversation(
+                id: 'group_members',
+                type: 3,
+                recipientId: '',
+                recipientName: '',
+                groupMembers: const <GroupMemberInfo>[
+                  GroupMemberInfo(id: '100', name: 'phonetest'),
+                  GroupMemberInfo(id: '200', name: 'Sim Third'),
+                ],
+                lastMessage: '',
+                lastMessageTime: DateTime(2020),
+              ),
+              _dm('notes_1', type: 999),
+            ],
+            friends: const <Friend>[
+              Friend(
+                id: 'friend_1',
+                username: 'phonetest',
+                friendStatus: FriendStatus.accepted,
+                nickname: 'PT Nick',
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    final Map<String, ForwardDestination> byId = await _resolve(container);
+
+    expect(byId['dm_1']!.displayName, 'PT Nick');
+    expect(byId['group_empty']!.displayName, 'Unnamed group');
+    expect(byId['group_members']!.displayName, 'Sim Third, phonetest');
+    expect(byId['notes_1']!.displayName, 'Personal notes');
   });
 
   test('includes a DM that is itself the forward source', () async {
