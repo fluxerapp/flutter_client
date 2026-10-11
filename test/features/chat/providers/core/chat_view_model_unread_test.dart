@@ -2287,6 +2287,118 @@ void main() {
     },
   );
 
+  Future<
+    ({FluxerDatabase db, ProviderContainer container, _ChatAdapter adapter})
+  >
+  openReadChannelAtTail(String tailId) async {
+    final db = openTestDatabase();
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: 'channel-1',
+        guildId: 'guild-1',
+        name: 'general',
+        lastMessageId: Value(tailId),
+      ),
+    );
+    await db.readStateDao.upsertReadState(
+      ReadStatesCompanion(
+        channelId: const Value('channel-1'),
+        lastMessageId: Value(tailId),
+        mentionCount: const Value(0),
+      ),
+    );
+    final adapter = _ChatAdapter(
+      initialMessages: <Map<String, Object?>>[
+        _messageJson(id: tailId, channelId: 'channel-1', authorId: 'other'),
+      ],
+    );
+    final container = _container(db, adapter);
+    addTearDown(container.dispose);
+    await container
+        .read(chatViewModelProvider.notifier)
+        .switchChannel('channel-1');
+    _setViewportActive(container, channelId: 'channel-1');
+    await _flushAsync();
+    _updateViewport(container, nearLoadedTail: true);
+    await _flushAsync();
+    await container
+        .read(chatViewModelProvider.notifier)
+        .flushScheduledReadAckRetryForTest();
+    await _flushAsync();
+    expect(container.read(chatViewModelProvider).stickyUnreadMessageId, null);
+    return (db: db, container: container, adapter: adapter);
+  }
+
+  void emitLiveMessage(ProviderContainer container, String id) {
+    container
+        .read(messageRealtimeBusProvider)
+        .emit(
+          testMessageCreated(
+            MessageCreateEvent(
+              message: MessageResponseSchema.fromJson(
+                _messageJson(id: id, channelId: 'channel-1', authorId: 'other'),
+              ),
+            ),
+          ),
+        );
+  }
+
+  test('returning to the tail after messages arrived while scrolled away sets '
+      'the sticky divider on the first of them', () async {
+    final String tailId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+    final String firstAwayId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+    final String secondAwayId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 13));
+    final opened = await openReadChannelAtTail(tailId);
+    final ProviderContainer container = opened.container;
+
+    _updateViewport(
+      container,
+      nearLoadedTail: false,
+      distanceFromBottom: 4000,
+      viewportHeight: 800,
+    );
+    await _flushAsync();
+    emitLiveMessage(container, firstAwayId);
+    emitLiveMessage(container, secondAwayId);
+    await _flushAsync();
+    expect(container.read(chatViewModelProvider).stickyUnreadMessageId, null);
+
+    _updateViewport(container, nearLoadedTail: true);
+    await _flushAsync();
+    await container
+        .read(chatViewModelProvider.notifier)
+        .flushScheduledReadAckRetryForTest();
+    await _flushAsync();
+
+    final readState = await opened.db.readStateDao.getReadState('channel-1');
+    expect(readState?.lastMessageId, secondAwayId);
+    expect(
+      container.read(chatViewModelProvider).stickyUnreadMessageId,
+      firstAwayId,
+    );
+  });
+
+  test('a message acked at the tail without leaving it sets no sticky '
+      'divider', () async {
+    final String tailId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+    final String liveId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+    final opened = await openReadChannelAtTail(tailId);
+    final ProviderContainer container = opened.container;
+
+    emitLiveMessage(container, liveId);
+    await _flushAsync();
+    _updateViewport(container, nearLoadedTail: true);
+    await _flushAsync();
+    await container
+        .read(chatViewModelProvider.notifier)
+        .flushScheduledReadAckRetryForTest();
+    await _flushAsync();
+
+    final readState = await opened.db.readStateDao.getReadState('channel-1');
+    expect(readState?.lastMessageId, liveId);
+    expect(container.read(chatViewModelProvider).stickyUnreadMessageId, null);
+  });
+
   test('unread channel loads a page around the ack', () async {
     final db = openTestDatabase();
     final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));

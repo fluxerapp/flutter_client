@@ -610,6 +610,7 @@ class ChatViewModel extends _$ChatViewModel {
   );
   Timer? _readAckRetryTimer;
   bool _stickySnapshotArmed = false;
+  bool _viewportWasAtTail = false;
   Timer? _draftSaveTimer;
   final Map<String, Future<void>> _pendingDraftWrites =
       <String, Future<void>>{};
@@ -772,6 +773,14 @@ class ChatViewModel extends _$ChatViewModel {
   }
 
   void _syncReadAckEligibility(ChatReadViewportState viewport) {
+    final bool viewportAtTail =
+        viewport.channelId == state.channelId &&
+        viewport.nearLoadedTail &&
+        !state.hasMoreNewerMessages;
+    if (_viewportWasAtTail && !viewportAtTail) {
+      _stickySnapshotArmed = true;
+    }
+    _viewportWasAtTail = viewportAtTail;
     final bool nextEligible =
         !state.isLoading &&
         !state.isSyncingMessages &&
@@ -4483,8 +4492,6 @@ class ChatViewModel extends _$ChatViewModel {
       if (!force) {
         await _ensureUnreadBoundaryLoaded(channelId, readState: readState);
       }
-      // Web parity (ackWithStickyUnread): once per channel open, snapshot the
-      // first unread as the sticky divider before the ack erases the boundary.
       if (_stickySnapshotArmed && state.channelId == channelId) {
         _stickySnapshotArmed = false;
         if (!force && state.stickyUnreadMessageId == null) {
