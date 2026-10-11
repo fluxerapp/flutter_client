@@ -25,6 +25,24 @@ void main() {
 
     expect(renamed, isNot(first));
   });
+
+  test('a friend nickname names the DM recipient in the composer', () {
+    final ComposerWatch? watch = composerWatchFor(
+      _conversation(lastMessage: 'one', unreadCount: 0),
+      friendNickname: 'Countess',
+    );
+
+    expect(watch?.recipientDisplayName, 'Countess');
+    expect(watch?.recipientName, 'Ada');
+  });
+
+  test('without a friend nickname the recipient name is used', () {
+    final ComposerWatch? watch = composerWatchFor(
+      _conversation(lastMessage: 'one', unreadCount: 0),
+    );
+
+    expect(watch?.recipientDisplayName, 'Ada');
+  });
 }
 
 DmConversation _conversation({

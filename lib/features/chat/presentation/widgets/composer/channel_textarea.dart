@@ -1216,7 +1216,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
         }
         return l10n.groupDmComposerHint;
       }
-      return l10n.dmComposerHint(dm.recipientName);
+      return l10n.dmComposerHint(dm.recipientDisplayName);
     }
     final String? currentUserId = ref.read(currentUserIdProvider);
     if (currentUserId != null && channelId == currentUserId) {
