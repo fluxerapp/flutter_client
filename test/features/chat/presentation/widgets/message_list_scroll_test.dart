@@ -1221,6 +1221,61 @@ void main() {
     );
 
     testWidgets(
+      'short unread open paints NEW and the unread bar only once packed',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(420, 640);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+
+        final AroundAckMessageListHarness harness =
+            await createAroundAckMessageListHarness(
+              ackIndex: 48,
+              hasMoreNewerMessages: false,
+            );
+
+        await tester.pumpWidget(
+          messageListApp(
+            database: harness.database,
+            chatViewModel: harness.chatViewModel,
+          ),
+        );
+
+        final List<double> paintedNewCenters = <double>[];
+        final List<bool> barPainted = <bool>[];
+        for (int i = 0; i < 6; i += 1) {
+          final Finder newDivider = find.text('NEW');
+          if (_isPainted(tester, newDivider)) {
+            paintedNewCenters.add(tester.getRect(newDivider).center.dy);
+          }
+          barPainted.add(
+            _isPainted(tester, find.byType(MessageListNewMessagesBar)),
+          );
+          await tester.pump();
+        }
+
+        expect(paintedNewCenters, isNotEmpty);
+        for (final double center in paintedNewCenters) {
+          expect(
+            center,
+            moreOrLessEquals(paintedNewCenters.last, epsilon: 2),
+            reason: 'NEW was painted before the pack; $paintedNewCenters',
+          );
+        }
+        final int firstShown = barPainted.indexOf(true);
+        if (firstShown != -1) {
+          expect(
+            barPainted.skip(firstShown),
+            everyElement(isTrue),
+            reason: 'the unread bar flashed during the open; $barPainted',
+          );
+        }
+
+        await disposeMessageList(tester);
+      },
+    );
+
+    testWidgets(
       'short channel with one unread packs the message near the composer',
       (WidgetTester tester) async {
         tester.view.physicalSize = const Size(420, 640);
@@ -6000,6 +6055,17 @@ class _UnreadOpenFrameSample {
     return 'new=$hasNew y=$newCenterY unreadTop=$firstUnreadTop '
         'px=$pixels epoch=$epoch pad=$leadingPad';
   }
+}
+
+bool _isPainted(WidgetTester tester, Finder finder) {
+  if (finder.evaluate().isEmpty) {
+    return false;
+  }
+  return !tester
+      .widgetList<Opacity>(
+        find.ancestor(of: finder.first, matching: find.byType(Opacity)),
+      )
+      .any((Opacity opacity) => opacity.opacity == 0);
 }
 
 _UnreadOpenFrameSample _sampleUnreadOpenFrame(

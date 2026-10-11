@@ -192,6 +192,8 @@ const double _kUnreadOpenTopInset = 32;
 /// Trailing unreads this close to filling the lower half stay at mid.
 const double _kUnreadOpenFillSlop = 32;
 
+const int _kUnreadOpenSettleMaxPasses = 4;
+
 /// How long a parked jump target may hold off edge pagination before it is
 /// retired. The page that would contain it may never arrive - a deleted target
 /// comes back as a neighbour window with no error - so the wait is bounded.
@@ -267,6 +269,8 @@ class _MessageListState extends ConsumerState<MessageList>
   // True while the open anchor is the unread divider; underfill must not
   // bottom-pin short trailing blocks.
   bool _unreadOpenLayout = false;
+  bool _unreadOpenSettling = false;
+  int _unreadOpenSettlePasses = 0;
   final MessageListPin _pin = MessageListPin();
   final AnimatedImagePlaybackController _animatedImagePlaybackController =
       AnimatedImagePlaybackController(
@@ -838,6 +842,8 @@ class _MessageListState extends ConsumerState<MessageList>
           // the fraction. A short trailing block is packed to the composer
           // after layout so NEW is not stuck at mid-viewport over a void.
           _unreadOpenLayout = true;
+          _unreadOpenSettling = true;
+          _unreadOpenSettlePasses = 0;
           _setUnreadLeadingPad(0);
           _anchorId = unreadAnchorId;
           _anchorFraction = _kUnreadOpenAnchor;
@@ -1010,6 +1016,8 @@ class _MessageListState extends ConsumerState<MessageList>
             })
             channelActions,
           }) {
+            final bool unreadOpenSettling =
+                _unreadOpenSettling && _unreadOpenLayout;
             final Widget body;
             if (messages.isEmpty &&
                 (isLoading || (!_anchorResolved && hasJumpTarget))) {
@@ -1116,7 +1124,7 @@ class _MessageListState extends ConsumerState<MessageList>
                   : null;
               _leadingFillerExtent = leadingFiller?.specs.totalHeight ?? 0;
               _trailingFillerExtent = trailingFiller?.specs.totalHeight ?? 0;
-              body = AnimatedImagePlaybackScope(
+              final Widget list = AnimatedImagePlaybackScope(
                 controller: _animatedImagePlaybackController,
                 child: ListenableBuilder(
                   listenable: _deferHorizontalWhileCoasting,
@@ -1190,11 +1198,22 @@ class _MessageListState extends ConsumerState<MessageList>
                   ),
                 ),
               );
+              body = Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  Opacity(opacity: unreadOpenSettling ? 0 : 1, child: list),
+                  if (unreadOpenSettling)
+                    MessageListSkeleton(channelId: channelId),
+                ],
+              );
             }
 
             final double scaleRatio = chatFontSize / 16.0;
             final bool showUnreadBar =
-                !isLoading && messages.isNotEmpty && showUnreadBarEligible;
+                !isLoading &&
+                messages.isNotEmpty &&
+                showUnreadBarEligible &&
+                !unreadOpenSettling;
             final bool showLoadErrorBar =
                 messageLoadFailed && messages.isNotEmpty;
             final bool loadErrorRetryInFlight =
@@ -1680,15 +1699,29 @@ class _MessageListState extends ConsumerState<MessageList>
   void _scheduleUnreadOpenLayoutPass() {
     final int epoch = _uiEpoch;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _runIfSameEpoch(epoch, _applyUnreadOpenLayout);
+      if (!mounted) {
+        return;
+      }
+      final bool rescheduled = epoch == _uiEpoch && _applyUnreadOpenLayout();
+      _unreadOpenSettlePasses++;
+      if (!rescheduled ||
+          _unreadOpenSettlePasses >= _kUnreadOpenSettleMaxPasses) {
+        _finishUnreadOpenSettle();
+      }
     });
   }
 
-  void _applyUnreadOpenLayout() {
+  void _finishUnreadOpenSettle() {
+    if (_unreadOpenSettling) {
+      setState(() => _unreadOpenSettling = false);
+    }
+  }
+
+  bool _applyUnreadOpenLayout() {
     if (!_unreadOpenLayout ||
         _anchorId == null ||
         !_scrollController.hasClients) {
-      return;
+      return false;
     }
     final ChatViewState state = ref.read(chatViewModelProvider);
     final String firstUnreadId = _anchorId!;
@@ -1701,12 +1734,12 @@ class _MessageListState extends ConsumerState<MessageList>
     ]);
     final RenderBox? firstUnread = tiles[firstUnreadId];
     if (firstUnread == null) {
-      return;
+      return false;
     }
     final RenderAbstractViewport? abstractViewport =
         RenderAbstractViewport.maybeOf(firstUnread);
     if (abstractViewport is! RenderViewport || !abstractViewport.hasSize) {
-      return;
+      return false;
     }
     final RenderViewport viewport = abstractViewport;
     final RenderBox? newest = newestId == null || newestId == firstUnreadId
@@ -1732,7 +1765,7 @@ class _MessageListState extends ConsumerState<MessageList>
       _anchorFraction = nextFraction;
       viewport.anchor = nextFraction;
       _scheduleUnreadOpenLayoutPass();
-      return;
+      return true;
     }
     final double currentPad = _openPad.value;
     final double nextLeadingPad = _unreadOpenLeadingPad(
@@ -1743,10 +1776,11 @@ class _MessageListState extends ConsumerState<MessageList>
       viewportHeight: viewportHeight,
     );
     if ((nextLeadingPad - currentPad).abs() <= 0.5) {
-      return;
+      return false;
     }
     _setUnreadLeadingPad(nextLeadingPad, notify: true);
     _scheduleUnreadOpenLayoutPass();
+    return true;
   }
 
   double _unreadOpenFraction({
