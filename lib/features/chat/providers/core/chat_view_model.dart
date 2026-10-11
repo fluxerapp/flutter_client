@@ -1495,6 +1495,7 @@ class ChatViewModel extends _$ChatViewModel {
       if (event is! MessageCreated) {
         continue;
       }
+      _settleDeliveredLocalSend(event);
       final List<Message>? next = _nextMessagesForSync(
         event,
         messages: workingMessages!,
@@ -1574,6 +1575,7 @@ class ChatViewModel extends _$ChatViewModel {
     db.Message? prefetchedRow,
   ) {
     _dropDeletedFromParkedWindow(ev);
+    _settleDeliveredLocalSend(ev);
     final List<Message>? next = _nextMessagesForSync(
       ev,
       messages: state.messages,
@@ -5817,6 +5819,7 @@ class ChatViewModel extends _$ChatViewModel {
         favoriteMemePayload: favoriteMemeId != null,
       );
       if (!_isMessageUploadSessionActive(clientNonce)) {
+        _dropLocalSend(optimisticMessageId, clientNonce);
         return;
       }
       if (prepared.isEmpty &&
@@ -5856,18 +5859,60 @@ class ChatViewModel extends _$ChatViewModel {
         sent: sent,
       );
     } on MessageUploadSendCancelledException {
-      _clearInFlightOptimisticSend(clientNonce);
-      return;
+      _dropLocalSend(optimisticMessageId, clientNonce);
     } on Object catch (error, st) {
       talker.error(
         '[ChatViewModel] send api_error channelId=$channelId',
         error,
         st,
       );
-      uploadNotifier.restoreToComposer(clientNonce);
-      _clearInFlightOptimisticSend(clientNonce);
       _handleSendFailure(optimisticMessageId, error);
+      _parkFailedLocalSend(optimisticMessageId, clientNonce);
     }
+  }
+
+  void _dropLocalSend(String optimisticMessageId, String clientNonce) {
+    _clearInFlightOptimisticSend(clientNonce);
+    _retrySendOptions.remove(optimisticMessageId);
+    final List<Message>? next = _removeIds(state.messages, {
+      optimisticMessageId,
+    });
+    if (next == null) {
+      return;
+    }
+    state = state.copyWith(
+      write: (messages: next, origin: MessagesOrigin.localMutation),
+    );
+  }
+
+  void _parkFailedLocalSend(String optimisticMessageId, String clientNonce) {
+    final Message? inFlight = _inFlightOptimisticMessages[clientNonce];
+    if (inFlight == null) {
+      return;
+    }
+    _inFlightOptimisticMessages[clientNonce] = inFlight.copyWith(
+      deliveryState: MessageDeliveryState.failed,
+      sendError: ref.read(appLocalizationsProvider).chatMessageFailedToSend,
+    );
+  }
+
+  void _settleDeliveredLocalSend(MessageRealtimeEvent ev) {
+    if (ev is! MessageCreated) {
+      return;
+    }
+    final String? nonce = ev.event.message.nonce;
+    if (nonce == null ||
+        ev.event.message.author.id != ref.read(currentUserIdProvider)) {
+      return;
+    }
+    final Message? local = _inFlightOptimisticMessages.remove(nonce);
+    if (local == null) {
+      return;
+    }
+    _retrySendOptions.remove(local.id);
+    ref
+        .read(cloudUploadControllerProvider(local.channelId).notifier)
+        .removeMessageUpload(nonce);
   }
 
   void _syncSlowmodeFromSendError(Object error, String channelId) {
@@ -6111,9 +6156,13 @@ class ChatViewModel extends _$ChatViewModel {
       return;
     }
     final Message message = state.messages[messageIndex];
-    if (!message.isSending) {
+    if (!message.isSending && !message.hasFailed) {
       return;
     }
+    _discardLocalSend(message);
+  }
+
+  void _discardLocalSend(Message message) {
     final String? nonce = message.clientNonce;
     if (nonce != null) {
       _clearInFlightOptimisticSend(nonce);
@@ -6122,9 +6171,9 @@ class ChatViewModel extends _$ChatViewModel {
           .read(cloudUploadControllerProvider(message.channelId).notifier)
           .cancelMessageUpload(nonce);
     }
-    _retrySendOptions.remove(messageId);
-    _sendsAwaitingReconnect.remove(messageId);
-    final List<Message>? next = _removeIds(state.messages, {messageId});
+    _retrySendOptions.remove(message.id);
+    _sendsAwaitingReconnect.remove(message.id);
+    final List<Message>? next = _removeIds(state.messages, {message.id});
     if (next == null) {
       return;
     }
@@ -6144,11 +6193,12 @@ class ChatViewModel extends _$ChatViewModel {
     if (!message.hasFailed || _adoptDeliveredMatch(message)) {
       return;
     }
-    final List<Message> pendingMessages = List<Message>.from(state.messages);
-    pendingMessages[messageIndex] = message.copyWith(
+    final Message pending = message.copyWith(
       deliveryState: MessageDeliveryState.sending,
       sendError: null,
     );
+    final List<Message> pendingMessages = List<Message>.from(state.messages);
+    pendingMessages[messageIndex] = pending;
     state = state.copyWith(
       write: (messages: pendingMessages, origin: MessagesOrigin.localMutation),
       errorMessage: null,
@@ -6182,6 +6232,31 @@ class ChatViewModel extends _$ChatViewModel {
 
   Future<void> _resendLocalMessage(Message message) async {
     final _RetrySendOptions? options = _retrySendOptions[message.id];
+    final String? uploadNonce = message.clientNonce;
+    if (uploadNonce != null && _isMessageUploadSessionActive(uploadNonce)) {
+      _registerInFlightOptimisticSend(
+        message.copyWith(
+          deliveryState: MessageDeliveryState.sending,
+          sendError: null,
+        ),
+      );
+      await _completeSendWithAttachments(
+        channelId: message.channelId,
+        outgoingText: message.content,
+        replyToId: message.replyToId,
+        replyMention: options?.replyMention ?? true,
+        clientNonce: uploadNonce,
+        stickerIds: message.stickers.map((MessageSticker s) => s.id).toList(),
+        favoriteMemeId: options?.favoriteMemeId,
+        optimisticMessageId: message.id,
+        uploadNotifier: ref.read(
+          cloudUploadControllerProvider(message.channelId).notifier,
+        ),
+        messageFlags: message.flags,
+        tts: options?.tts ?? false,
+      );
+      return;
+    }
     final String? forwardNonce = _forwardSends.containsKey(message.clientNonce)
         ? message.clientNonce
         : null;
@@ -6245,15 +6320,7 @@ class ChatViewModel extends _$ChatViewModel {
     if (messageIndex == -1 || !state.messages[messageIndex].hasFailed) {
       return;
     }
-    _retrySendOptions.remove(messageId);
-    _forwardSends.remove(state.messages[messageIndex].clientNonce);
-    final List<Message>? next = _removeIds(state.messages, {messageId});
-    if (next == null) {
-      return;
-    }
-    state = state.copyWith(
-      write: (messages: next, origin: MessagesOrigin.localMutation),
-    );
+    _discardLocalSend(state.messages[messageIndex]);
   }
 
   Future<void> deleteMessage(String messageId) async {

@@ -166,34 +166,6 @@ class CloudUploadController extends _$CloudUploadController {
     return claimed;
   }
 
-  void restoreToComposer(String nonce) {
-    final MessageUploadSession? session = ref.read(
-      messageUploadSessionsProvider,
-    )[nonce];
-    if (session == null) {
-      return;
-    }
-    for (final int attachmentId in session.attachments.map(
-      (PendingAttachment a) => a.id,
-    )) {
-      _activeUploadControllers.remove(attachmentId)?.cancel();
-    }
-    state = CloudComposerAttachments(<PendingAttachment>[
-      ...state.items,
-      ...session.attachments.map(
-        (PendingAttachment a) => a.copyWith(
-          status: PendingAttachmentStatus.pending,
-          uploadProgress: 0,
-          uploadFilename: null,
-          multipartUploadId: null,
-          fileSizePlan: null,
-          contentTypePlan: null,
-        ),
-      ),
-    ]);
-    ref.read(messageUploadSessionsProvider.notifier).removeSession(nonce);
-  }
-
   void cancelMessageUpload(String nonce) {
     final MessageUploadSession? session = ref.read(
       messageUploadSessionsProvider,
