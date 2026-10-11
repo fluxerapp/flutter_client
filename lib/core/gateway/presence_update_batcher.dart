@@ -29,6 +29,8 @@ class PresenceUpdateBatcher {
 
   final Map<String, PresenceUpdateRecord> _pending =
       <String, PresenceUpdateRecord>{};
+  final Map<String, db.UsersCompanion> _pendingUsers =
+      <String, db.UsersCompanion>{};
   Timer? _flushTimer;
   bool _disposed = false;
 
@@ -37,20 +39,27 @@ class PresenceUpdateBatcher {
     required String status,
     String? customStatus,
     bool mobile = false,
+    db.UsersCompanion? user,
   }) {
     if (_disposed) {
       return;
     }
     if (userId == _currentUserId) {
-      unawaited(
-        _database.userDao.updateUserPresence(
+      unawaited(() async {
+        if (user != null) {
+          await _database.userDao.upsertUser(user);
+        }
+        await _database.userDao.updateUserPresence(
           userId,
           status: status,
           customStatus: customStatus,
           mobile: isFluxerMobileClient,
-        ),
-      );
+        );
+      }());
       return;
+    }
+    if (user != null) {
+      _pendingUsers[userId] = user;
     }
     _pending[userId] = (
       userId: userId,
@@ -66,9 +75,12 @@ class PresenceUpdateBatcher {
       return;
     }
     final List<PresenceUpdateRecord> updates = _pending.values.toList();
+    final List<db.UsersCompanion> users = _pendingUsers.values.toList();
     _pending.clear();
+    _pendingUsers.clear();
     _flushTimer?.cancel();
     _flushTimer = null;
+    await _database.userDao.upsertUsers(users);
     await _database.userDao.updateUserPresencesBatch(updates);
   }
 
@@ -77,6 +89,7 @@ class PresenceUpdateBatcher {
     _flushTimer?.cancel();
     _flushTimer = null;
     _pending.clear();
+    _pendingUsers.clear();
   }
 
   void _scheduleFlush() {

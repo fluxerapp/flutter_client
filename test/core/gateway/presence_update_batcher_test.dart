@@ -61,4 +61,23 @@ void main() {
     final User? user = await database.userDao.getUserById('u1');
     expect(user?.mobile, isTrue);
   });
+
+  test('PresenceUpdateBatcher stores a user that had no row', () async {
+    final FluxerDatabase database = openTestDatabase();
+    final PresenceUpdateBatcher batcher = PresenceUpdateBatcher(
+      database: database,
+      currentUserId: 'self',
+      batchDelay: const Duration(milliseconds: 50),
+    );
+    addTearDown(batcher.dispose);
+    batcher.enqueue(
+      userId: 'u1',
+      status: 'dnd',
+      user: UsersCompanion.insert(id: 'u1', username: 'friend'),
+    );
+    await Future<void>.delayed(const Duration(milliseconds: 80));
+    final User? user = await database.userDao.getUserById('u1');
+    expect(user?.username, 'friend');
+    expect(user?.status, 'dnd');
+  });
 }

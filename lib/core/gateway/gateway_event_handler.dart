@@ -126,6 +126,18 @@ String? _presenceCustomStatusFromMap(Map<String, dynamic> presence) {
   return serializeCustomStatusMap(customStatusMap);
 }
 
+UserPartialResponse? _presenceUserFromMap(Map<String, dynamic> presence) {
+  final Map<String, dynamic>? user = presence['user'] as Map<String, dynamic>?;
+  if (user == null || user['username'] == null) {
+    return null;
+  }
+  try {
+    return UserPartialResponse.fromJson(user);
+  } on Object {
+    return null;
+  }
+}
+
 class GatewayEventHandler {
   GatewayEventHandler({
     required this.database,
@@ -2280,11 +2292,13 @@ class GatewayEventHandler {
   }
 
   void _handlePresenceUpdate(PresenceUpdateEvent event) {
+    final UserPartialResponse? user = event.user;
     _presenceUpdateBatcher.enqueue(
       userId: event.userId,
       status: event.status,
       customStatus: event.customStatus,
       mobile: event.mobile,
+      user: user == null ? null : userFromPartialSdk(user),
     );
   }
 
@@ -2663,12 +2677,17 @@ class GatewayEventHandler {
   }
 
   void _handlePresenceUpdateBulk(PresenceUpdateBulkEvent event) {
+    final users = <db.UsersCompanion>[];
     final updates =
         <({String userId, String status, String? customStatus, bool mobile})>[];
     for (final p in event.presences) {
       final userId = (p['user'] as Map<String, dynamic>?)?['id'] as String?;
       final status = p['status'] as String?;
       if (userId != null && status != null) {
+        final UserPartialResponse? user = _presenceUserFromMap(p);
+        if (user != null) {
+          users.add(userFromPartialSdk(user));
+        }
         updates.add((
           userId: userId,
           status: status,
@@ -2677,7 +2696,10 @@ class GatewayEventHandler {
         ));
       }
     }
-    unawaited(database.userDao.updateUserPresencesBatch(updates));
+    unawaited(() async {
+      await database.userDao.upsertUsers(users);
+      await database.userDao.updateUserPresencesBatch(updates);
+    }());
   }
 
   void _handleGuildCreate(GuildCreateEvent event) {

@@ -4,6 +4,7 @@ import 'package:drift/drift.dart' show Value;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/gateway/gateway_event_handler.dart';
+import 'package:fluxer_app/core/gateway/presence_update_batcher.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart' as domain;
 import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
@@ -513,6 +514,48 @@ void main() {
     });
   });
 
+  group('presence update', () {
+    test('applies the user profile sent with the presence', () async {
+      final database = openTestDatabase();
+      await database.userDao.upsertUser(
+        UsersCompanion.insert(
+          id: 'u1',
+          username: 'old',
+          globalName: const Value('Old'),
+        ),
+      );
+
+      final handler = GatewayEventHandler(
+        database: database,
+        currentUserId: '100',
+      );
+      await handler.handle(
+        PresenceUpdateEvent(
+          userId: 'u1',
+          status: 'online',
+          user: UserPartialResponse.fromJson(<String, Object?>{
+            'id': 'u1',
+            'username': 'new',
+            'discriminator': '0001',
+            'global_name': 'New',
+            'avatar': 'avatar-hash',
+            'avatar_color': null,
+            'flags': 0,
+          }),
+        ),
+      );
+      await Future<void>.delayed(
+        kPresenceUpdateBatchDelay + const Duration(milliseconds: 100),
+      );
+
+      final u1 = await database.userDao.getUserById('u1');
+      expect(u1?.username, 'new');
+      expect(u1?.globalName, 'New');
+      expect(u1?.avatar, 'avatar-hash');
+      expect(u1?.status, 'online');
+    });
+  });
+
   group('presence update bulk', () {
     test('writes status and custom status for every presence', () async {
       final database = openTestDatabase();
@@ -550,6 +593,64 @@ void main() {
       expect(u1?.customStatus, 'busy');
       expect(u2?.status, 'dnd');
       expect(u2?.customStatus, isNull);
+    });
+
+    test('stores the users sent with the presences', () async {
+      final database = openTestDatabase();
+      await database.userDao.upsertUser(
+        UsersCompanion.insert(id: 'u4', username: 'old'),
+      );
+
+      final handler = GatewayEventHandler(
+        database: database,
+        currentUserId: '100',
+      );
+      await handler.handle(
+        const PresenceUpdateBulkEvent(
+          guildId: 'guild-1',
+          presences: <Map<String, dynamic>>[
+            <String, dynamic>{
+              'user': <String, dynamic>{
+                'id': 'u4',
+                'username': 'renamed',
+                'discriminator': '0004',
+                'global_name': null,
+                'avatar': null,
+                'avatar_color': null,
+                'flags': 0,
+              },
+              'status': 'idle',
+              'mobile': false,
+              'afk': false,
+              'custom_status': null,
+            },
+            <String, dynamic>{
+              'user': <String, dynamic>{
+                'id': 'u5',
+                'username': 'five',
+                'discriminator': '0005',
+                'global_name': 'Five',
+                'avatar': null,
+                'avatar_color': null,
+                'flags': 0,
+              },
+              'status': 'dnd',
+              'mobile': true,
+              'afk': false,
+              'custom_status': null,
+            },
+          ],
+        ),
+      );
+      await pumpEventQueue();
+
+      final u4 = await database.userDao.getUserById('u4');
+      final u5 = await database.userDao.getUserById('u5');
+      expect(u4?.username, 'renamed');
+      expect(u4?.status, 'idle');
+      expect(u5?.globalName, 'Five');
+      expect(u5?.status, 'dnd');
+      expect(u5?.mobile, isTrue);
     });
 
     test('stores custom emoji custom status as json', () async {
