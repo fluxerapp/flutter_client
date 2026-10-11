@@ -1,3 +1,4 @@
+import AVFoundation
 import Flutter
 import ImageIO
 import PhotosUI
@@ -24,6 +25,8 @@ final class AttachmentMediaBridge: NSObject, PHPickerViewControllerDelegate {
       switch call.method {
       case "pick":
         self?.pick(arguments: arguments, result: result)
+      case "videoThumbnail":
+        Self.videoThumbnail(arguments: arguments, result: result)
       default:
         result(FlutterMethodNotImplemented)
       }
@@ -155,6 +158,24 @@ final class AttachmentMediaBridge: NSObject, PHPickerViewControllerDelegate {
     let options = [kCGImageDestinationLossyCompressionQuality: 0.9] as CFDictionary
     CGImageDestinationAddImageFromSource(target, image, 0, options)
     return CGImageDestinationFinalize(target)
+  }
+
+  private static func videoThumbnail(arguments: [String: Any], result: @escaping FlutterResult) {
+    guard let path = arguments["path"] as? String else {
+      result(nil)
+      return
+    }
+    let size = arguments["size"] as? Int ?? 300
+    let generator = AVAssetImageGenerator(asset: AVURLAsset(url: URL(fileURLWithPath: path)))
+    generator.appliesPreferredTrackTransform = true
+    generator.maximumSize = CGSize(width: size, height: size)
+    generator.generateCGImageAsynchronously(for: .zero) { image, _, _ in
+      withExtendedLifetime(generator) {}
+      let data = image.flatMap { UIImage(cgImage: $0).jpegData(compressionQuality: 0.8) }
+      DispatchQueue.main.async {
+        result(data.map { FlutterStandardTypedData(bytes: $0) })
+      }
+    }
   }
 
   private static func topViewController() -> UIViewController? {

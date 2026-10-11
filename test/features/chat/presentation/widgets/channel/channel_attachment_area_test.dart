@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:cross_file/cross_file.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -7,11 +10,20 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/domain/cloud_composer_attachments.dart';
 import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/attachments/pending_attachment_preview.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_attachment_area.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/material_ui.dart';
 
 import '../../../../../helpers/test_l10n.dart';
+
+const MethodChannel _attachmentMediaChannel = MethodChannel(
+  'fluxer_app/attachment_media',
+);
+
+final Uint8List _transparentPng = base64Decode(
+  'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==',
+);
 
 void main() {
   testWidgets('a file that is pre-uploading shows its progress', (
@@ -59,6 +71,56 @@ void main() {
     await tester.pump();
 
     expect(find.byKey(ChannelAttachmentArea.uploadProgressKey), findsNothing);
+  });
+
+  testWidgets('a video from Files shows a frame from the file', (
+    WidgetTester tester,
+  ) async {
+    final List<MethodCall> calls = <MethodCall>[];
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(_attachmentMediaChannel, (
+          MethodCall call,
+        ) async {
+          calls.add(call);
+          return _transparentPng;
+        });
+    addTearDown(
+      () => TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(_attachmentMediaChannel, null),
+    );
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          cloudUploadControllerProvider('channel-1').overrideWith(
+            () => _StaticUploads(<PendingAttachment>[
+              PendingAttachment(
+                id: 1,
+                channelId: 'channel-1',
+                file: XFile('/picked/clip.mov'),
+                filename: 'clip.mov',
+                size: 2048,
+                contentType: 'video/quicktime',
+                status: PendingAttachmentStatus.pending,
+                uploadProgress: 0,
+              ),
+            ]),
+          ),
+        ],
+        child: _buildTestApp(
+          child: const ChannelAttachmentArea(channelId: 'channel-1'),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.pump();
+
+    expect(calls.single.method, 'videoThumbnail');
+    expect(
+      (calls.single.arguments as Map<Object?, Object?>)['path'],
+      '/picked/clip.mov',
+    );
+    expect(find.byKey(PendingAttachmentPreview.thumbnailKey), findsOneWidget);
+    expect(find.byKey(PendingAttachmentPreview.playBadgeKey), findsOneWidget);
   });
 
   testWidgets('a horizontal drag scrolls the chips instead of reordering', (
