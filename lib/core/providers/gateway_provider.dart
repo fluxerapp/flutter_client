@@ -28,6 +28,7 @@ import 'package:fluxer_app/features/channels/providers/ack_batcher_provider.dart
 import 'package:fluxer_app/features/channels/providers/read_state_write_batcher_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/providers/messages/abandoned_message_sends_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_sync_provider.dart';
@@ -392,6 +393,11 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
         ..invalidate(channelLocalGuildChannelPermissionBitsProvider);
     }),
     onMessageCreate: (MessageCreateDispatch dispatch) => ifMounted(() {
+      if (ref
+          .read(abandonedMessageSendsProvider.notifier)
+          .reclaim(dispatch.event.message)) {
+        return;
+      }
       messageBus.emit(
         MessageCreated(event: dispatch.event, snapshot: dispatch.snapshot),
       );

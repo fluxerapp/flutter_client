@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/chat/domain/cloud_composer_attachments.dart'
 import 'package:fluxer_app/features/chat/domain/message_upload_send_cancelled_exception.dart';
 import 'package:fluxer_app/features/chat/domain/message_upload_session.dart';
 import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
+import 'package:fluxer_app/features/chat/providers/messages/abandoned_message_sends_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_upload_sessions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/upload/attachment_upload_client_provider.dart';
 import 'package:fluxer_app/features/chat/providers/upload/user_upload_limits_provider.dart';
@@ -234,7 +235,11 @@ class CloudUploadController extends _$CloudUploadController {
   }
 
   void cancelMessageUpload(String nonce) {
-    _sendTokens.remove(nonce)?.cancel();
+    final CancelToken? sendToken = _sendTokens.remove(nonce);
+    if (sendToken != null) {
+      sendToken.cancel();
+      ref.read(abandonedMessageSendsProvider.notifier).abandon(nonce);
+    }
     removeMessageUpload(nonce);
   }
 
