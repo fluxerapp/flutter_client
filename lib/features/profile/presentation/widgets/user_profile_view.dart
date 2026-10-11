@@ -668,7 +668,6 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     }
     final GuildUserDisplay display = resolveMessageAuthorDisplay(
       message: message,
-      guildId: widget.guildId,
     );
     const AsyncValue<db.User?> emptyPresence = AsyncValue<db.User?>.data(null);
     return _buildLoadedView(

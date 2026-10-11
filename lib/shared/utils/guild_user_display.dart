@@ -213,7 +213,6 @@ bool messagePrefersPersistedAuthorDisplay(Message message) {
 
 GuildUserDisplay resolveMessageAuthorDisplay({
   required Message message,
-  required String? guildId,
   GuildUserDisplay? guildDisplay,
   String productName = InstanceConstants.defaultProductName,
 }) {
@@ -234,10 +233,7 @@ GuildUserDisplay resolveMessageAuthorDisplay({
   if (webhookId != null && webhookId.isNotEmpty) {
     return messageDisplay;
   }
-  if (guildId == null || guildDisplay == null) {
-    return messageDisplay;
-  }
-  return guildDisplay;
+  return guildDisplay ?? messageDisplay;
 }
 
 GuildUserDisplay resolveGuildUserDisplayFromProfile({

@@ -73,7 +73,6 @@ GuildUserDisplay watchMessageAuthorDisplay({
   }
   return resolveMessageAuthorDisplay(
     message: message,
-    guildId: guildId,
     guildDisplay: guildDisplay,
     productName: ref.watch(
       instanceRuntimeConfigProvider.select((config) => config.productName),
