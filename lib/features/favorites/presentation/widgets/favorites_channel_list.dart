@@ -458,13 +458,15 @@ class _FavoriteLeadingIcon extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final dm = entry.dm;
-    if (dm != null && dm.isGroup) {
-      return GroupDmAvatar.conversation(dm, size: _avatarSize);
-    }
     if (dm != null) {
-      final bool isTyping = ref.watch(
-        isUserTypingInChannelProvider(dm.id, dm.recipientId),
-      );
+      final bool isTyping = ref.watch(dmAvatarIsTypingProvider(dm));
+      if (dm.isGroup) {
+        return GroupDmAvatar.conversation(
+          dm,
+          size: _avatarSize,
+          isTyping: isTyping,
+        );
+      }
       return FluxerAvatar.userPresence(
         fallbackText: dm.displayName,
         userId: dm.recipientId,

@@ -2,105 +2,113 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/preview/fluxer_widget_preview.dart';
 import 'package:fluxer_app/material_ui.dart';
 
+const double _kIdleBiteCenter = 0.25;
+const double _kIdleBiteRadius = 0.375;
+const double _kDndBarWidth = 0.73;
+const double _kDndBarHeight = 0.23;
+const double _kOfflineHoleDiameter = 0.47;
+
+Color resolveStatusColor(BuildContext context, String status) {
+  final colors = context.colors;
+  return switch (status) {
+    'online' => colors.statusOnline,
+    'idle' => colors.statusIdle,
+    'dnd' => colors.statusDnd,
+    _ => colors.statusOffline,
+  };
+}
+
 class FluxerStatusIndicator extends StatelessWidget {
   const FluxerStatusIndicator({
     required this.status,
     this.size = 15,
-    this.borderColor,
+    this.color,
     super.key,
   });
 
-  static const double _idleCutoutCenter = 0.25;
-  static const double _idleCutoutRadius = 0.375;
-
   final String status;
   final double size;
-  final Color? borderColor;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
-    final border = borderColor ?? colors.backgroundSecondary;
-    final borderWidth = size * 0.05;
-
     return ExcludeSemantics(
-      child: SizedBox(
-        width: size,
-        height: size,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: _statusColor(context),
-            shape: BoxShape.circle,
-            border: Border.all(color: border, width: borderWidth),
-          ),
-          child: _buildInner(context),
+      child: CustomPaint(
+        size: Size.square(size),
+        painter: FluxerStatusPainter(
+          status: status,
+          color: color ?? resolveStatusColor(context, status),
         ),
       ),
     );
   }
+}
 
-  Widget? _buildInner(BuildContext context) {
-    final cutoutColor = borderColor ?? context.colors.backgroundSecondary;
+class FluxerStatusPainter extends CustomPainter {
+  const FluxerStatusPainter({required this.status, required this.color});
 
-    if (status == 'dnd') {
-      final barHeight = size * 0.2;
-      return Center(
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: cutoutColor,
-            borderRadius: BorderRadius.circular(barHeight / 2),
+  final String status;
+  final Color color;
+
+  static Path glyphPath(String status, Rect bounds) {
+    final double side = bounds.shortestSide;
+    final Rect square = Rect.fromCenter(
+      center: bounds.center,
+      width: side,
+      height: side,
+    );
+    final Path shape = Path()
+      ..addRRect(RRect.fromRectAndRadius(bounds, Radius.circular(side / 2)));
+    final Path? hole = switch (status) {
+      'idle' =>
+        Path()..addOval(
+          Rect.fromCircle(
+            center: square.topLeft + Offset(side, side) * _kIdleBiteCenter,
+            radius: side * _kIdleBiteRadius,
           ),
-          child: SizedBox(width: size * 0.55, height: barHeight),
         ),
-      );
-    }
-
-    if (status == 'idle') {
-      final cutoutSize = size * _idleCutoutRadius * 2;
-      final cutoutInset = size * (_idleCutoutCenter - _idleCutoutRadius);
-      return ClipOval(
-        child: Stack(
-          fit: StackFit.expand,
-          clipBehavior: Clip.none,
-          children: [
-            Positioned(
-              left: cutoutInset,
-              top: cutoutInset,
-              width: cutoutSize,
-              height: cutoutSize,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: cutoutColor,
-                  shape: BoxShape.circle,
-                ),
-              ),
+      'dnd' =>
+        Path()..addRRect(
+          RRect.fromRectAndRadius(
+            Rect.fromCenter(
+              center: square.center,
+              width: side * _kDndBarWidth,
+              height: side * _kDndBarHeight,
             ),
-          ],
+            Radius.circular(side * _kDndBarHeight / 2),
+          ),
         ),
-      );
-    }
-
-    if (status == 'offline' || status == 'invisible') {
-      return Center(
-        child: DecoratedBox(
-          decoration: BoxDecoration(color: cutoutColor, shape: BoxShape.circle),
-          child: SizedBox(width: size * 0.4, height: size * 0.4),
+      'offline' || 'invisible' =>
+        Path()..addOval(
+          Rect.fromCircle(
+            center: square.center,
+            radius: side * _kOfflineHoleDiameter / 2,
+          ),
         ),
-      );
-    }
-
-    return null;
-  }
-
-  Color _statusColor(BuildContext context) {
-    final colors = context.colors;
-    return switch (status) {
-      'online' => colors.statusOnline,
-      'idle' => colors.statusIdle,
-      'dnd' => colors.statusDnd,
-      _ => colors.statusOffline,
+      _ => null,
     };
+    if (hole == null) {
+      return shape;
+    }
+    return Path.combine(PathOperation.difference, shape, hole);
   }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (size.isEmpty) {
+      return;
+    }
+    canvas.drawPath(
+      glyphPath(status, Offset.zero & size),
+      Paint()
+        ..color = color
+        ..isAntiAlias = true,
+    );
+  }
+
+  @override
+  bool shouldRepaint(FluxerStatusPainter oldDelegate) =>
+      status != oldDelegate.status || color != oldDelegate.color;
 }
 
 @FluxerWidgetPreview(name: 'Online', group: 'FluxerStatusIndicator')

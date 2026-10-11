@@ -871,12 +871,16 @@ class _DMListState extends ConsumerState<DMList> {
               children: [
                 Consumer(
                   builder: (context, ref, _) {
-                    if (c.isGroup) {
-                      return GroupDmAvatar.conversation(c, size: avatarSize);
-                    }
                     final bool isTyping = ref.watch(
-                      isUserTypingInChannelProvider(c.id, c.recipientId),
+                      dmAvatarIsTypingProvider(c),
                     );
+                    if (c.isGroup) {
+                      return GroupDmAvatar.conversation(
+                        c,
+                        size: avatarSize,
+                        isTyping: isTyping,
+                      );
+                    }
                     final bool showPresence = shouldShowDmRecipientPresence(c);
                     return FluxerAvatar.userPresence(
                       fallbackText: displayName,

@@ -6,80 +6,70 @@ void main() {
     test('typing pill is 1.8x wider than status dot', () {
       final AvatarStatusLayout layout = AvatarStatusLayout.forAvatarSize(40);
       expect(
-        layout.typingWidth,
+        layout.typingRect.width,
         (layout.statusDotSize * kTypingWidthMultiplier).roundToDouble(),
       );
     });
 
-    test('typing pill shifts right edge toward avatar via bridge ratio', () {
+    test('typing pill grows right of the dot by the bridge ratio', () {
       final AvatarStatusLayout layout = AvatarStatusLayout.forAvatarSize(40);
-      final double extension = layout.typingWidth - layout.statusDotSize;
-      expect(layout.typingRight, -(extension * kTypingBridgeRightShiftRatio));
+      final double extension = layout.typingRect.width - layout.statusDotSize;
+      expect(
+        layout.typingRect.right,
+        layout.dotRect.right + extension * kTypingBridgeRightShiftRatio,
+      );
+      expect(layout.typingRect.center.dy, layout.dotRect.center.dy);
     });
 
     test('status dot size scales with avatar size', () {
       expect(AvatarStatusLayout.forAvatarSize(32).statusDotSize, 10);
       expect(AvatarStatusLayout.forAvatarSize(40).statusDotSize, 12);
       expect(AvatarStatusLayout.forAvatarSize(48).statusDotSize, 14);
+      expect(AvatarStatusLayout.forAvatarSize(80).statusDotSize, 16);
+    });
+
+    test('dot sits flush with the avatar corner like Discord', () {
+      for (final double avatarSize in <double>[32, 40, 80, 120]) {
+        final AvatarStatusLayout layout = AvatarStatusLayout.forAvatarSize(
+          avatarSize,
+        );
+        expect(layout.dotRect.right, avatarSize, reason: 'size $avatarSize');
+        expect(layout.dotRect.bottom, avatarSize, reason: 'size $avatarSize');
+      }
+    });
+
+    test('32pt avatar keeps a 3pt transparent ring around a 10pt dot', () {
+      final AvatarStatusLayout layout = AvatarStatusLayout.forAvatarSize(32);
+      expect(layout.statusGap, 3);
+      expect(layout.dotRect.width, 10);
     });
 
     test('mobile phone height uses web aspect ratio', () {
       final AvatarStatusLayout layout = AvatarStatusLayout.forAvatarSize(40);
       final double phoneWidth = mobilePhoneWidth(layout.statusDotSize);
-      final double borderWidth = mobileStatusBorderWidth(
-        statusDotSize: layout.statusDotSize,
-        cutoutRadius: layout.cutoutRadius,
-      );
+      expect(layout.phoneRect.width, phoneWidth);
       expect(
-        layout.phoneCutoutRect.height,
+        layout.phoneRect.height,
         (phoneWidth / kMobileAspectRatio).roundToDouble() +
-            kMobilePhoneExtraHeight +
-            borderWidth * 2,
+            kMobilePhoneExtraHeight,
       );
     });
 
-    test('phone badge is centered on web cutout anchor', () {
-      const double avatarSize = 36;
-      final AvatarStatusLayout layout = AvatarStatusLayout.forAvatarSize(
-        avatarSize,
-      );
-      expect(layout.phoneCutoutRect.center, layout.statusCutoutCenter);
+    test('phone and dot share the cutout anchor', () {
+      final AvatarStatusLayout layout = AvatarStatusLayout.forAvatarSize(36);
+      expect(layout.phoneRect.center, layout.statusCutoutCenter);
+      expect(layout.dotRect.center, layout.statusCutoutCenter);
     });
 
-    test('phone cutout includes status border padding', () {
-      const double avatarSize = 36;
-      final AvatarStatusLayout layout = AvatarStatusLayout.forAvatarSize(
-        avatarSize,
-      );
-      final double borderWidth = mobileStatusBorderWidth(
-        statusDotSize: layout.statusDotSize,
-        cutoutRadius: layout.cutoutRadius,
-      );
-      final double phoneWidth = mobilePhoneWidth(layout.statusDotSize);
-      expect(layout.phoneCutoutRect.width, phoneWidth + borderWidth * 2);
+    test('gap equals cutout radius minus dot radius', () {
+      final AvatarStatusLayout layout = AvatarStatusLayout.forAvatarSize(36);
       expect(
-        layout.phoneCutoutRect.height,
-        mobilePhoneHeight(phoneWidth) + borderWidth * 2,
+        layout.statusGap,
+        statusCutoutGap(
+          statusDotSize: layout.statusDotSize,
+          cutoutRadius: layout.cutoutRadius,
+        ),
       );
-    });
-
-    test('round status dot is centered on web cutout anchor', () {
-      for (final double avatarSize in <double>[36, 80, 120]) {
-        final AvatarStatusLayout layout = AvatarStatusLayout.forAvatarSize(
-          avatarSize,
-        );
-        final double cutoutCenter = layout.statusCutoutCenter.dx;
-        expect(
-          layout.statusRight,
-          avatarSize - cutoutCenter - layout.statusDotSize / 2,
-          reason: 'statusRight should center dot for size $avatarSize',
-        );
-        expect(
-          layout.statusBottom,
-          avatarSize - cutoutCenter - layout.statusDotSize / 2,
-          reason: 'statusBottom should center dot for size $avatarSize',
-        );
-      }
     });
   });
 

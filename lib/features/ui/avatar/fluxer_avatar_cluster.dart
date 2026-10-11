@@ -1,6 +1,7 @@
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
+import 'package:fluxer_app/features/ui/avatar/fluxer_avatar_status_badge.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -25,33 +26,36 @@ class AvatarClusterMember {
 class FluxerAvatarCluster extends StatelessWidget {
   const FluxerAvatarCluster({
     this.iconUrl,
+    this.isTyping = false,
     this.members = const [],
     this.size = 32,
     super.key,
   });
 
   final String? iconUrl;
+  final bool isTyping;
   final List<AvatarClusterMember> members;
   final double size;
 
   @override
   Widget build(BuildContext context) {
+    final Widget avatar;
     if (iconUrl != null) {
-      return SizedBox(
-        width: size,
-        height: size,
-        child: buildFluxerNetworkAvatarImage(
-          context: context,
-          size: size,
-          imageUrl: iconUrl!,
-          onFinalError: () => _buildFallback(context),
-        ),
+      avatar = FluxerNetworkAvatarImage(
+        size: size,
+        imageUrl: iconUrl,
+        errorBuilder: () => _buildFallback(context),
       );
+    } else if (members.length >= 2) {
+      avatar = _buildStack();
+    } else {
+      avatar = _buildFallback(context);
     }
-    if (members.length >= 2) {
-      return _buildStack(context);
-    }
-    return _buildFallback(context);
+    return FluxerAvatarStatusBadge(
+      size: size,
+      isTyping: isTyping,
+      child: avatar,
+    );
   }
 
   Widget _buildFallback(BuildContext context) {
@@ -71,7 +75,7 @@ class FluxerAvatarCluster extends StatelessWidget {
     );
   }
 
-  Widget _buildStack(BuildContext context) {
+  Widget _buildStack() {
     final double memberSize = size * kAvatarClusterMemberScale;
     final double frontOffset = size - memberSize;
     final Rect frontCutout = Rect.fromCircle(
@@ -95,35 +99,24 @@ class FluxerAvatarCluster extends StatelessWidget {
                 memberSize: memberSize,
                 frontCutout: frontCutout,
               ),
-              child: _buildMemberCircle(context, members[0], memberSize),
+              child: _buildMemberCircle(members[0], memberSize),
             ),
           ),
           Positioned(
             top: frontOffset,
             left: frontOffset,
-            child: _buildMemberCircle(context, members[1], memberSize),
+            child: _buildMemberCircle(members[1], memberSize),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildMemberCircle(
-    BuildContext context,
-    AvatarClusterMember member,
-    double memberSize,
-  ) {
-    final String? imageUrl = member.resolvedImageUrl;
-    if (imageUrl == null) {
-      return SizedBox(width: memberSize, height: memberSize);
-    }
-
-    return buildFluxerNetworkAvatarImage(
-      context: context,
+  Widget _buildMemberCircle(AvatarClusterMember member, double memberSize) {
+    return FluxerNetworkAvatarImage(
       size: memberSize,
-      imageUrl: imageUrl,
-      customImageUrl: member.imageUrl,
-      defaultImageUrl: FluxerMediaUrl.defaultAvatar(userId: member.userId),
+      imageUrl: member.resolvedImageUrl,
+      fallbackImageUrl: FluxerMediaUrl.defaultAvatar(userId: member.userId),
     );
   }
 }

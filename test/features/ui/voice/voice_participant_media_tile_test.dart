@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/features/ui/voice/voice_call_avatar.dart';
@@ -13,6 +12,8 @@ import 'package:fluxer_dart/gateway.dart';
 import 'package:livekit_client/livekit_client.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 import 'package:visibility_detector/visibility_detector.dart';
+
+import '../../../helpers/pump_fluxer_app.dart';
 
 class _PreviewBytesAdapter implements HttpClientAdapter {
   _PreviewBytesAdapter(this.bytes);
@@ -55,11 +56,9 @@ Future<void> _pumpTile(
   List<Override> overrides = const <Override>[],
 }) async {
   await tester.pumpWidget(
-    ProviderScope(
+    pumpFluxerApp(
       overrides: overrides,
-      child: MaterialApp(
-        home: Scaffold(body: SizedBox(width: 160, height: 160, child: tile)),
-      ),
+      child: Scaffold(body: SizedBox(width: 160, height: 160, child: tile)),
     ),
   );
   await tester.pump();

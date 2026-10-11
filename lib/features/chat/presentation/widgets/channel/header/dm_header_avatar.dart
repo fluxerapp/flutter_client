@@ -36,14 +36,16 @@ class DmHeaderAvatar extends ConsumerWidget {
       connectedVoiceGuildId: voice.guildId,
       connectedVoiceChannelId: voice.channelId,
     );
-    final bool isTyping =
-        !dm.isGroup &&
-        ref.watch(isUserTypingInChannelProvider(dm.id, dm.recipientId));
+    final bool isTyping = ref.watch(dmAvatarIsTypingProvider(dm));
     return Stack(
       clipBehavior: Clip.none,
       children: <Widget>[
         if (dm.isGroup)
-          GroupDmAvatar.conversation(dm, size: kDmHeaderAvatarSize)
+          GroupDmAvatar.conversation(
+            dm,
+            size: kDmHeaderAvatarSize,
+            isTyping: isTyping,
+          )
         else
           FluxerAvatar.userPresence(
             fallbackText: dm.recipientName,

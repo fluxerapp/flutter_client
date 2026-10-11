@@ -1,11 +1,15 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar_cluster.dart';
+import 'package:fluxer_app/features/ui/avatar/fluxer_avatar_status_badge.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_mobile_online_status_indicator.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_status_indicator.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_typing_status_indicator.dart';
@@ -211,6 +215,192 @@ void main() {
       expect(image.memCacheHeight, isNull);
     });
 
+    testWidgets('hides status when showStatus is false', (tester) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          const FluxerAvatar.user(
+            userId: '7',
+            fallbackText: 'Bob',
+            status: 'online',
+            showStatus: false,
+          ),
+        ),
+      );
+
+      expect(find.byType(FluxerStatusIndicator), findsNothing);
+    });
+
+    testWidgets('never draws status on avatars of 16pt or smaller', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          const FluxerAvatar.user(
+            userId: '8',
+            fallbackText: 'Bob',
+            status: 'online',
+            size: 16,
+          ),
+        ),
+      );
+
+      expect(find.byType(FluxerStatusIndicator), findsNothing);
+    });
+
+    testWidgets('keeps the image element when status arrives', (tester) async {
+      Widget avatar(String? status) => buildTestApp(
+        FluxerAvatar.user(
+          userId: '9',
+          imageUrl: 'https://cdn.example/avatar.webp',
+          fallbackText: 'Bob',
+          status: status,
+          size: 32,
+        ),
+      );
+
+      await tester.pumpWidget(avatar(null));
+      final Element before = tester.element(find.byType(CachedNetworkImage));
+
+      await tester.pumpWidget(avatar('online'));
+      await tester.pumpAndSettle();
+
+      expect(tester.element(find.byType(CachedNetworkImage)), same(before));
+      expect(find.byType(FluxerStatusIndicator), findsOneWidget);
+    });
+
+    testWidgets('status dot grows in instead of popping', (tester) async {
+      Widget avatar(String? status) => buildTestApp(
+        Center(
+          child: FluxerAvatar.user(
+            userId: '10',
+            fallbackText: 'Bob',
+            status: status,
+            size: 32,
+          ),
+        ),
+      );
+
+      await tester.pumpWidget(avatar(null));
+      await tester.pumpWidget(avatar('online'));
+      await tester.pump(kAvatarStatusTransitionDuration ~/ 4);
+      final double mid = tester
+          .getSize(find.byType(FluxerStatusIndicator))
+          .width;
+      await tester.pumpAndSettle();
+      final double end = tester
+          .getSize(find.byType(FluxerStatusIndicator))
+          .width;
+
+      expect(mid, greaterThan(0));
+      expect(mid, lessThan(end));
+      expect(end, 10);
+    });
+
+    testWidgets('dot sits flush with the bottom-right corner', (tester) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          const Center(
+            child: FluxerAvatar.user(
+              userId: '11',
+              fallbackText: 'Bob',
+              status: 'online',
+              size: 32,
+            ),
+          ),
+        ),
+      );
+
+      final Rect avatar = tester.getRect(find.byType(FluxerAvatar));
+      final Rect dot = tester.getRect(find.byType(FluxerStatusIndicator));
+      expect(dot.size, const Size(10, 10));
+      expect(dot.bottomRight, avatar.bottomRight);
+    });
+
+    testWidgets('loading avatars show a placeholder and keep the old image', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          const FluxerAvatar.user(
+            userId: '12',
+            imageUrl: 'https://cdn.example/avatar.webp',
+            fallbackText: 'Bob',
+            avatarColor: 0xFF123456,
+          ),
+        ),
+      );
+
+      final CachedNetworkImage image = tester.widget<CachedNetworkImage>(
+        find.byType(CachedNetworkImage),
+      );
+      expect(image.useOldImageOnUrlChange, isTrue);
+      expect(image.fadeInDuration, Duration.zero);
+      expect(image.placeholder, isNotNull);
+    });
+
+    testWidgets('presence avatar shows the last known status while loading', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            userPresenceProvider(
+              '13',
+            ).overrideWith((Ref ref) => const Stream<db.User?>.empty()),
+            userPresenceCacheProvider.overrideWithValue(<String, db.User>{
+              '13': const db.User(
+                id: '13',
+                username: 'bob',
+                discriminator: '0001',
+                bot: false,
+                system: false,
+                status: 'idle',
+                mobile: false,
+              ),
+            }),
+          ],
+          child: buildTestApp(
+            FluxerAvatar.userPresence(userId: '13', fallbackText: 'Bob'),
+          ),
+        ),
+      );
+
+      expect(
+        tester
+            .widget<FluxerStatusIndicator>(find.byType(FluxerStatusIndicator))
+            .status,
+        'idle',
+      );
+    });
+
+    testWidgets('group clusters never show presence, only typing', (
+      tester,
+    ) async {
+      const List<AvatarClusterMember> members = [
+        AvatarClusterMember(userId: '1'),
+        AvatarClusterMember(userId: '2'),
+      ];
+      await tester.pumpWidget(
+        buildTestApp(
+          const FluxerAvatarCluster(members: members),
+        ),
+      );
+      expect(find.byType(FluxerStatusIndicator), findsNothing);
+      expect(find.byType(FluxerTypingStatusIndicator), findsNothing);
+
+      await tester.pumpWidget(
+        buildTestApp(
+          const FluxerAvatarCluster(
+            members: members,
+            isTyping: true,
+          ),
+        ),
+      );
+      await tester.pump(kAvatarStatusTransitionDuration);
+      expect(find.byType(FluxerTypingStatusIndicator), findsOneWidget);
+      expect(find.byType(FluxerStatusIndicator), findsNothing);
+    });
+
     testWidgets('avatar cluster tolerates non-numeric member ids', (
       tester,
     ) async {
@@ -262,7 +452,7 @@ void main() {
       ]);
     });
 
-    testWidgets('never shows a status dot or typing pill', (tester) async {
+    testWidgets('never shows a status dot', (tester) async {
       await tester.pumpWidget(
         buildTestApp(
           const FluxerAvatarCluster(
@@ -295,7 +485,12 @@ void main() {
         ),
       );
 
-      final ClipPath clip = tester.widget<ClipPath>(find.byType(ClipPath));
+      final ClipPath clip = tester.widget<ClipPath>(
+        find.descendant(
+          of: find.byType(Positioned).first,
+          matching: find.byType(ClipPath),
+        ),
+      );
       final Path path = clip.clipper!.getClip(const Size(20, 20));
       expect(path.contains(const Offset(4, 4)), isTrue);
       expect(path.contains(const Offset(12.5, 12.5)), isTrue);
@@ -351,6 +546,34 @@ void main() {
     });
   });
 
+  group('FluxerStatusPainter', () {
+    const Rect bounds = Rect.fromLTWH(0, 0, 10, 10);
+
+    test('online is a solid disc', () {
+      final Path path = FluxerStatusPainter.glyphPath('online', bounds);
+      expect(path.contains(bounds.center), isTrue);
+    });
+
+    test('offline punches a transparent hole about 4.7pt wide', () {
+      final Path path = FluxerStatusPainter.glyphPath('offline', bounds);
+      expect(path.contains(bounds.center), isFalse);
+      expect(path.contains(bounds.center + const Offset(2.2, 0)), isFalse);
+      expect(path.contains(bounds.center + const Offset(3.6, 0)), isTrue);
+    });
+
+    test('idle bites the top-left out of the disc', () {
+      final Path path = FluxerStatusPainter.glyphPath('idle', bounds);
+      expect(path.contains(const Offset(3, 3)), isFalse);
+      expect(path.contains(const Offset(7, 7)), isTrue);
+    });
+
+    test('dnd cuts a transparent bar through the centre', () {
+      final Path path = FluxerStatusPainter.glyphPath('dnd', bounds);
+      expect(path.contains(bounds.center), isFalse);
+      expect(path.contains(const Offset(5, 2)), isTrue);
+    });
+  });
+
   group('FluxerStatusIndicator', () {
     testWidgets('shows correct color for online status', (tester) async {
       await tester.pumpWidget(
@@ -362,9 +585,10 @@ void main() {
       );
       expect(indicator.status, 'online');
 
-      final sizedBox = tester.widget<SizedBox>(find.byType(SizedBox).first);
-      expect(sizedBox.width, 15);
-      expect(sizedBox.height, 15);
+      expect(
+        tester.getSize(find.byType(FluxerStatusIndicator)),
+        const Size(15, 15),
+      );
     });
 
     testWidgets('renders all status variants without error', (tester) async {

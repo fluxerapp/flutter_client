@@ -36,16 +36,22 @@ class GroupDmAvatar extends ConsumerWidget {
     required this.iconUrl,
     required this.members,
     required this.size,
+    this.isTyping = false,
     super.key,
   });
 
-  GroupDmAvatar.conversation(DmConversation dm, {required this.size, super.key})
-    : iconUrl = FluxerMediaUrl.guildIcon(guildId: dm.id, hash: dm.icon),
+  GroupDmAvatar.conversation(
+    DmConversation dm, {
+    required this.size,
+    this.isTyping = false,
+    super.key,
+  }) : iconUrl = FluxerMediaUrl.guildIcon(guildId: dm.id, hash: dm.icon),
       members = dm.groupMembers;
 
   final String? iconUrl;
   final List<GroupMemberInfo> members;
   final double size;
+  final bool isTyping;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -61,6 +67,7 @@ class GroupDmAvatar extends ConsumerWidget {
           );
     return FluxerAvatarCluster(
       iconUrl: iconUrl,
+      isTyping: isTyping,
       members: groupDmStackMembers(
         members: members,
         currentUserId: currentUserId,

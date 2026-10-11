@@ -74,9 +74,10 @@ class _MemberListSidebarMemberRowState
       guildId: widget.guildId,
       member: member,
     );
-    final db.User? presenceUser = ref
-        .watch(userPresenceProvider(widget.userId))
-        .value;
+    final db.User? presenceUser = watchLastKnownUserPresence(
+      ref,
+      widget.userId,
+    );
     final String status =
         presenceUser?.status ?? listMember.status ?? 'offline';
     final String? customStatus =
@@ -142,11 +143,13 @@ class _MemberListSidebarMemberRowState
               ),
               child: Row(
                 children: <Widget>[
-                  FluxerAvatar.userPresence(
+                  FluxerAvatar.user(
                     fallbackText: displayName,
                     userId: widget.userId,
                     imageUrl: avatarUrl,
                     avatarColor: member.user.avatarColor,
+                    status: status,
+                    isMobileStatus: presenceUser?.mobile ?? false,
                     showStatus:
                         isCurrentUser ||
                         isTyping ||
@@ -239,7 +242,7 @@ class MemberListDetailsMemberRow extends ConsumerWidget {
       guildId: guildId,
       member: member,
     );
-    final db.User? presenceUser = ref.watch(userPresenceProvider(userId)).value;
+    final db.User? presenceUser = watchLastKnownUserPresence(ref, userId);
     final String? customStatus =
         presenceUser?.customStatus ?? listMember.customStatus;
     final int? roleColor = resolveMemberHighestRoleColor(
@@ -283,11 +286,13 @@ class MemberListDetailsMemberRow extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Row(
             children: <Widget>[
-              FluxerAvatar.userPresence(
+              FluxerAvatar.user(
                 fallbackText: displayName,
                 userId: userId,
                 imageUrl: avatarUrl,
                 avatarColor: member.user.avatarColor,
+                status: presenceUser?.status ?? listMember.status ?? 'offline',
+                isMobileStatus: presenceUser?.mobile ?? false,
                 size: 32,
               ),
               const SizedBox(width: 12),
