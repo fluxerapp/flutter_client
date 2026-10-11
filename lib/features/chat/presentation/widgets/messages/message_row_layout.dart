@@ -9,7 +9,7 @@ import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 
 /// Horizontal layout shared by [MessageItem] and [SystemMessage].
 const double kMessageAvatarSize = 40;
-const double kMessageAvatarTextGap = 16;
+const double kMessageAvatarTextGap = 12;
 const double kMessageAvatarColumnWidth =
     kMessageAvatarSize + kMessageAvatarTextGap;
 

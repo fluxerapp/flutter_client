@@ -1611,6 +1611,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                 userId: msg.authorId,
                 imageUrl: authorDisplay.avatarUrl,
                 avatarColor: authorDisplay.avatarColor,
+                showStatus: false,
                 size: kCompactAvatarSize,
               ),
             ),
@@ -1899,6 +1900,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                   userId: msg.authorId,
                   imageUrl: authorDisplay.avatarUrl,
                   avatarColor: authorDisplay.avatarColor,
+                  showStatus: false,
                 ),
               ),
             ),
@@ -2017,6 +2019,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                 child: FluxerAvatar.user(
                   fallbackText: msg.authorName,
                   userId: msg.authorId,
+                  showStatus: false,
                 ),
               ),
             if (!isGrouped) const SizedBox(width: kMessageAvatarTextGap),

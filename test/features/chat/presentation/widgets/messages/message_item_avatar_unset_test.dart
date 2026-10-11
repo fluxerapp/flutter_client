@@ -16,8 +16,11 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_row_layout.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
+import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
+import 'package:fluxer_app/features/ui/status_indicator/fluxer_status_indicator.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
@@ -145,6 +148,24 @@ late FluxerDatabase _database;
 void main() {
   setUp(() {
     _database = openTestDatabase();
+  });
+
+  group('MessageItem author avatar', () {
+    messageItemTestWidgets('never shows presence on the author avatar', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _app(authorDisplay: _shownDisplay, message: _message()),
+      );
+      await tester.pump();
+
+      final FluxerAvatar avatar = tester.widget<FluxerAvatar>(
+        find.byType(FluxerAvatar),
+      );
+      expect(avatar.showStatus, isFalse);
+      expect(avatar.size, kMessageAvatarSize);
+      expect(find.byType(FluxerStatusIndicator), findsNothing);
+    });
   });
 
   group('MessageItem avatar AVATAR_UNSET', () {
