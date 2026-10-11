@@ -12,9 +12,7 @@ class UploadKeepAlive {
 
   void begin({required String notificationTitle}) {
     _active += 1;
-    if (_active == 1) {
-      _invoke('start', <String, Object>{'title': notificationTitle});
-    }
+    _invoke('start', <String, Object>{'title': notificationTitle});
   }
 
   void end() {

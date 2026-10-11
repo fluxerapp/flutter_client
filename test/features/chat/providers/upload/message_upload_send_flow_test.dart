@@ -113,6 +113,40 @@ void main() {
     expect(calls, <String>['start', 'stop']);
   });
 
+  test('each upload asks again to keep the app alive', () async {
+    final _Harness h = await _Harness.create();
+    final List<String> calls = <String>[];
+    debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+    addTearDown(() => debugDefaultTargetPlatformOverride = null);
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+          const MethodChannel('fluxer_app/upload_keep_alive'),
+          (MethodCall call) async {
+            calls.add(call.method);
+            return null;
+          },
+        );
+    addTearDown(
+      () => TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(
+            const MethodChannel('fluxer_app/upload_keep_alive'),
+            null,
+          ),
+    );
+    h.adapter.holdPost = true;
+    await h.stageFile();
+    unawaited(h.notifier.sendMessage(text: 'first'));
+    await _flushAsync();
+    await h.stageFile();
+    unawaited(h.notifier.sendMessage(text: 'second'));
+    await _flushAsync();
+    expect(calls, <String>['start', 'start']);
+
+    h.adapter.releasePost();
+    await _flushAsync();
+    expect(calls, <String>['start', 'start', 'stop']);
+  });
+
   test('a lost response settles when MESSAGE_CREATE arrives later', () async {
     final _Harness h = await _Harness.create();
     h.adapter.outcomes.add(_PostOutcome.createdThenConnectionLost);
