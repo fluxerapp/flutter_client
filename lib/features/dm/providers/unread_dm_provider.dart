@@ -60,6 +60,7 @@ class UnreadDmChannels extends _$UnreadDmChannels {
   StreamSubscription<List<ReadState>>? _readStateSubscription;
   List<DmChannel> _latestRows = const [];
   Map<String, ReadState> _dmReadStateSnapshot = const {};
+  int _reconcileGeneration = 0;
 
   @override
   UnreadDmState build() {
@@ -68,6 +69,7 @@ class UnreadDmChannels extends _$UnreadDmChannels {
 
     unawaited(_dmSubscription?.cancel());
     unawaited(_readStateSubscription?.cancel());
+    _reconcileGeneration++;
     _dmReadStateSnapshot = const {};
     _dmSubscription = db.dmChannelDao.watchDmChannels().listen(
       (rows) => unawaited(_reconcile(rows)),
@@ -86,6 +88,7 @@ class UnreadDmChannels extends _$UnreadDmChannels {
     });
 
     ref.onDispose(() {
+      _reconcileGeneration++;
       unawaited(_dmSubscription?.cancel());
       unawaited(_readStateSubscription?.cancel());
       for (final timer in _removalTimers.values) {
@@ -132,6 +135,7 @@ class UnreadDmChannels extends _$UnreadDmChannels {
     if (rows != null) {
       _latestRows = rows;
     }
+    final int generation = ++_reconcileGeneration;
     final db = ref.read(fluxerDatabaseProvider);
     final channelIds = _latestRows.map((row) => row.id).toList();
     final lastMessages = await db.messageDao.getLastMessageForChannels(
@@ -140,6 +144,9 @@ class UnreadDmChannels extends _$UnreadDmChannels {
     final readStates = channelIds.isEmpty
         ? <ReadState>[]
         : await db.readStateDao.watchReadStatesForChannels(channelIds).first;
+    if (generation != _reconcileGeneration) {
+      return;
+    }
     final readStateMap = {for (final rs in readStates) rs.channelId: rs};
     _dmReadStateSnapshot = readStateMap;
     final allChannels = _latestRows.map((channel) {
