@@ -45,9 +45,6 @@ class BottomInputSpacer extends ConsumerWidget {
         grossAnchorHeight: anchorHeight,
         useExactSlotHeight: slotState.slotHeightHeld,
       );
-      if (reservedHeight <= 0) {
-        return const SizedBox.shrink();
-      }
       return _animatedSpacer(context, reservedHeight);
     }
 

@@ -332,4 +332,34 @@ void main() {
       );
     },
   );
+
+  testWidgets(
+    'BottomInputSpacer animates down when a closing panel releases its slot',
+    (tester) async {
+      final ProviderContainer container = ProviderContainer();
+      addTearDown(container.dispose);
+      container.read(mobileKeyboardMetricsProvider.notifier)
+        ..updateLayout(screenHeight: 800, isPortrait: true, isIos: true)
+        ..syncViewInsets(0, safeAreaBottom: 0);
+      container.read(expressionPanelProvider.notifier).open();
+
+      await tester.pumpWidget(_buildSpacerHarness(container));
+      await tester.pumpAndSettle();
+
+      final Finder spacer = find.byType(BottomInputSpacer);
+      final double openHeight = tester.getSize(spacer).height;
+      expect(openHeight, greaterThan(200));
+
+      container.read(bottomInputSlotProvider.notifier)
+        ..holdSlotHeight(openHeight)
+        ..holdSlotHeight(0);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 16));
+
+      expect(tester.getSize(spacer).height, greaterThan(openHeight / 2));
+
+      await tester.pumpAndSettle();
+      expect(tester.getSize(spacer).height, 0);
+    },
+  );
 }
