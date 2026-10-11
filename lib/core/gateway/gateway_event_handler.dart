@@ -437,7 +437,7 @@ class GatewayEventHandler {
         _logGatewayDebug(
           () => talker.debug('[Gateway] GUILD_UPDATE: ${event.guild.guild.id}'),
         );
-        _handleGuildUpdate(event);
+        unawaited(_handleGuildUpdate(event));
       case GuildDeleteEvent():
         _logGatewayDebug(
           () => talker.debug('[Gateway] GUILD_DELETE: ${event.guildId}'),
@@ -2923,8 +2923,9 @@ class GatewayEventHandler {
     }
   }
 
-  void _handleGuildUpdate(GuildUpdateEvent event) {
-    unawaited(database.guildDao.upsertServer(guildFromSdk(event.guild.guild)));
+  Future<void> _handleGuildUpdate(GuildUpdateEvent event) async {
+    await database.guildDao.upsertServer(guildFromSdk(event.guild.guild));
+    _emit(() => onGuildPermissionsChanged?.call(event.guild.guild.id));
   }
 
   Future<void> _handleRoleDelete(GuildRoleDeleteEvent event) async {
