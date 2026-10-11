@@ -650,6 +650,7 @@ void main() {
 
         expect(avatarFor('Alice').status, 'online');
         expect(avatarFor('Bob').status, 'online');
+        expect(avatarFor('Alice').size, 32);
 
         // Sibling widgets that MUST be reused (not recreated) when only
         // Alice's presence changes — proof the parent list did not rebuild.

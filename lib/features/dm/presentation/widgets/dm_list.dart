@@ -1838,13 +1838,11 @@ class _DmContextMenuLeading extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final bool isTyping = ref.watch(dmAvatarIsTypingProvider(convo));
     if (convo.isGroup) {
-      return GroupDmAvatar.conversation(convo, size: 48);
+      return GroupDmAvatar.conversation(convo, size: 48, isTyping: isTyping);
     }
     ref.watch(dmListRecipientRowDataProvider);
-    final bool isTyping = ref.watch(
-      isUserTypingInChannelProvider(convo.id, convo.recipientId),
-    );
 
     return FluxerAvatar.userPresence(
       fallbackText: displayName,
