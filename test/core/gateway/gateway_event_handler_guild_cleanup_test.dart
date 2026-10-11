@@ -250,6 +250,38 @@ void main() {
       },
     );
 
+    test(
+      'GUILD_DELETE during a GUILD_CREATE write keeps the guild unavailable',
+      () async {
+        final database = openTestDatabase();
+        final availability = <String>[];
+        final handler = GatewayEventHandler(
+          database: database,
+          currentUserId: '100',
+          onGuildAvailable: (String guildId) => availability.add('available'),
+          onGuildAvailabilityChanged:
+              (
+                String guildId, {
+                required bool unavailable,
+                bool unavailableHidden = false,
+              }) => availability.add(unavailable ? 'unavailable' : 'removed'),
+        );
+
+        final created = handler.handle(
+          GuildCreateEvent(
+            guild: GuildCreateData.fromJson(_guildRaw(id: 'g1')),
+          ),
+        );
+        final deleted = handler.handle(
+          const GuildDeleteEvent(guildId: 'g1', unavailable: true),
+        );
+        await Future.wait(<Future<void>>[created, deleted]);
+        await Future<void>.delayed(const Duration(milliseconds: 50));
+
+        expect(availability, <String>['unavailable']);
+      },
+    );
+
     test('incomplete GUILD_CREATE marks guild unavailable', () async {
       final ctx = await buildHandler();
       await ctx.database.guildDao.upsertServer(

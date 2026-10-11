@@ -302,6 +302,7 @@ class GatewayEventHandler {
   bool _hasCommittedReady = false;
   bool _disposed = false;
   Set<String>? _persistedThreadGuildIds;
+  final Map<String, int> _guildAvailabilityGenerations = <String, int>{};
 
   String? get _selfUserId => _currentUserId ?? currentUserId;
 
@@ -2737,6 +2738,7 @@ class GatewayEventHandler {
       );
       return;
     }
+    final int availabilityGeneration = _bumpGuildAvailability(guildId);
 
     final List<ChannelResponse>? threads = threadsGate == null
         ? null
@@ -2879,7 +2881,9 @@ class GatewayEventHandler {
         );
         return pruned;
       });
-      _emit(() => onGuildAvailable?.call(guildId));
+      if (_guildAvailabilityGenerations[guildId] == availabilityGeneration) {
+        _emit(() => onGuildAvailable?.call(guildId));
+      }
       _forgetPrunedChannels(pruned.channelIds);
       if (pruned.channelIds.isNotEmpty) {
         messageMentionContextCache?.invalidateGuild(guildId);
@@ -2986,7 +2990,12 @@ class GatewayEventHandler {
     _emit(() => onGuildCountsUpdate?.call(event));
   }
 
+  int _bumpGuildAvailability(String guildId) =>
+      _guildAvailabilityGenerations[guildId] =
+          (_guildAvailabilityGenerations[guildId] ?? 0) + 1;
+
   Future<void> _handleGuildDelete(GuildDeleteEvent event) async {
+    _bumpGuildAvailability(event.guildId);
     _emit(
       () => onGuildAvailabilityChanged?.call(
         event.guildId,
