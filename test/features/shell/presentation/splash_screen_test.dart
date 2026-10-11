@@ -7,8 +7,10 @@ import 'package:fluxer_app/core/database/fluxer_database.dart'
     show FluxerDatabase;
 import 'package:fluxer_app/core/providers/app_startup_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/splash_exit_allowed_provider.dart';
 import 'package:fluxer_app/core/providers/well_known_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/auth/domain/stored_account.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/shell/domain/service_status_incident.dart';
@@ -37,6 +39,28 @@ class _UnavailableAppStartup extends AppStartup {
 class _GenericFailAppStartup extends AppStartup {
   @override
   Future<void> build() => Future<void>.error(Exception('boot failure'));
+}
+
+class _ReadyAppStartup extends AppStartup {
+  @override
+  Future<void> build() async {}
+}
+
+class _ReadyGateway extends GatewayReady {
+  @override
+  bool build() => true;
+}
+
+class _Authenticated extends AuthState {
+  @override
+  bool build() => true;
+}
+
+class _Switching extends AccountManager {
+  @override
+  AccountManagerState build() {
+    return const AccountManagerState(accounts: [], isSwitching: true);
+  }
 }
 
 class _NoopIncidentRead extends ServiceStatusIncidentRead {
@@ -76,6 +100,41 @@ List<Override> _splashOverrides(List<Override> overrides) {
   ];
 }
 
+Future<bool> _revealCompleteAfter(
+  WidgetTester tester, {
+  required bool switching,
+}) async {
+  await tester.pumpWidget(
+    pumpFluxerApp(
+      overrides: _splashOverrides(<Override>[
+        fluxerDatabaseProvider.overrideWithValue(_database),
+        appStartupProvider.overrideWith(_ReadyAppStartup.new),
+        gatewayReadyProvider.overrideWith(_ReadyGateway.new),
+        authStateProvider.overrideWith(_Authenticated.new),
+        if (switching) accountManagerProvider.overrideWith(_Switching.new),
+      ]),
+      child: const SplashScreen(),
+    ),
+  );
+  await tester.pump();
+  await tester.pump();
+  await tester.pump();
+  final ProviderContainer container = ProviderScope.containerOf(
+    tester.element(find.byType(SplashScreen)),
+  );
+  expect(container.read(splashExitAllowedProvider), isTrue);
+  expect(container.read(splashRevealZoomProvider), !switching);
+  for (var i = 0; i < 20; i++) {
+    await tester.pump(const Duration(milliseconds: 25));
+  }
+  final bool completeEarly = container.read(splashRevealCompleteProvider);
+  for (var i = 0; i < 40; i++) {
+    await tester.pump(const Duration(milliseconds: 25));
+  }
+  expect(container.read(splashRevealCompleteProvider), isTrue);
+  return completeEarly;
+}
+
 void main() {
   setUp(() {
     _database = openTestDatabase();
@@ -105,6 +164,14 @@ void main() {
 
     expect(tester.takeException(), isNull);
     expect(container.read(splashRevealCompleteProvider), isTrue);
+  });
+
+  testWidgets('cold launch reveal plays the logo zoom', (tester) async {
+    expect(await _revealCompleteAfter(tester, switching: false), isFalse);
+  });
+
+  testWidgets('account switch reveal skips the logo zoom', (tester) async {
+    expect(await _revealCompleteAfter(tester, switching: true), isTrue);
   });
 
   testWidgets('503 startup shows outage copy and status links', (tester) async {

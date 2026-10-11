@@ -17,6 +17,7 @@ import 'package:fluxer_app/core/theme/color_utils.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/instance_domain_icon.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/offline_account_switcher_link.dart';
+import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/domain/service_status_incident.dart';
 import 'package:fluxer_app/features/shell/presentation/splash_reveal_overlay.dart';
@@ -65,6 +66,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   bool _timersStarted = false;
   bool _serviceUnavailableOutage = false;
   bool _exitRevealStarted = false;
+  bool _enteredForAccountSwitch = false;
   SplashRevealComplete? _revealComplete;
   final GlobalKey _logoKey = GlobalKey();
   ServiceStatusIncident? _frozenIncident;
@@ -83,6 +85,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
         return;
       }
       ref.read(splashExitAllowedProvider.notifier).reset();
+      _enteredForAccountSwitch = ref.read(accountManagerProvider).isSwitching;
       final SplashRevealComplete revealComplete = ref.read(
         splashRevealCompleteProvider.notifier,
       );
@@ -147,6 +150,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
   void _prepareForRelaunch() {
     _exitRevealStarted = false;
+    _enteredForAccountSwitch = ref.read(accountManagerProvider).isSwitching;
     _revealComplete ??= ref.read(splashRevealCompleteProvider.notifier);
     _revealComplete?.reset();
     ref.read(splashExitAllowedProvider.notifier).reset();
@@ -190,6 +194,17 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     _cancelSplashTimers();
     _pulseController.stop();
 
+    final bool useLogoZoomTransition =
+        !_enteredForAccountSwitch &&
+        ref.read(
+          appearancePreferencesProvider.select(
+            (AppearancePreferencesState state) =>
+                state.mobileSplashZoomAnimation,
+          ),
+        );
+    ref
+        .read(splashRevealZoomProvider.notifier)
+        .setZoom(value: useLogoZoomTransition);
     final Color brand = context.colors.brandPrimary;
     SplashRevealOverlay.show(
       context: context,
@@ -198,11 +213,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
       logoBrandSymbolColor: ColorUtils.bestContrastColor(brand.toARGB32()),
       logoCenterGlobal:
           _logoCenterGlobal() ?? MediaQuery.sizeOf(context).center(Offset.zero),
-      useLogoZoomTransition: ref.read(
-        appearancePreferencesProvider.select(
-          (AppearancePreferencesState state) => state.mobileSplashZoomAnimation,
-        ),
-      ),
+      useLogoZoomTransition: useLogoZoomTransition,
       animationsEnabled: !MediaQuery.disableAnimationsOf(context),
       onComplete: _revealComplete?.complete,
     );
@@ -336,6 +347,16 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     final bool isGatewayReady = ref.watch(gatewayReadyProvider);
     final bool isReady = isStartupComplete && isGatewayReady;
     ref
+      ..listen<bool>(
+        accountManagerProvider.select(
+          (AccountManagerState state) => state.isSwitching,
+        ),
+        (bool? previous, bool switching) {
+          if (switching) {
+            _enteredForAccountSwitch = true;
+          }
+        },
+      )
       ..listen<bool>(gatewayReadyProvider, (bool? previous, bool _) {
         _cancelSplashIfReady();
         _scheduleExitReveal();

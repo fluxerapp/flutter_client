@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/splash_exit_allowed_provider.dart';
-import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/splash_reveal_overlay.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -53,12 +52,7 @@ class _SplashShellSettleState extends ConsumerState<SplashShellSettle>
     }
     _started = true;
     if (MediaQuery.disableAnimationsOf(context) ||
-        !ref.read(
-          appearancePreferencesProvider.select(
-            (AppearancePreferencesState state) =>
-                state.mobileSplashZoomAnimation,
-          ),
-        )) {
+        !ref.read(splashRevealZoomProvider)) {
       _controller.value = 1;
       return;
     }
@@ -80,11 +74,7 @@ class _SplashShellSettleState extends ConsumerState<SplashShellSettle>
       }
     });
 
-    final bool useLogoZoomTransition = ref.watch(
-      appearancePreferencesProvider.select(
-        (AppearancePreferencesState state) => state.mobileSplashZoomAnimation,
-      ),
-    );
+    final bool useLogoZoomTransition = ref.watch(splashRevealZoomProvider);
 
     return AnimatedBuilder(
       animation: _controller,

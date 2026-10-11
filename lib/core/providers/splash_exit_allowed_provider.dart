@@ -33,3 +33,16 @@ class SplashRevealComplete extends _$SplashRevealComplete {
     state = false;
   }
 }
+
+@Riverpod(keepAlive: true)
+class SplashRevealZoom extends _$SplashRevealZoom {
+  @override
+  bool build() => false;
+
+  void setZoom({required bool value}) {
+    if (state == value) {
+      return;
+    }
+    state = value;
+  }
+}
