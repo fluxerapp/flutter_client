@@ -19,6 +19,9 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get gatewayReconnectingToast => 'Yeniden bağlanılıyor…';
 
   @override
+  String get gatewayReconnectTryAgain => 'Try again';
+
+  @override
   String get gatewayConnectedToast => 'Bağlandı';
 
   @override

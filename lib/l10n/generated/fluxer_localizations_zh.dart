@@ -18,6 +18,9 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get gatewayReconnectingToast => '正在重新连接…';
 
   @override
+  String get gatewayReconnectTryAgain => 'Try again';
+
+  @override
   String get gatewayConnectedToast => '已连接';
 
   @override

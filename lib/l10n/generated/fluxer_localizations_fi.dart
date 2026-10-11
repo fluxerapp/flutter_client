@@ -19,6 +19,9 @@ class FluxerLocalizationsFi extends FluxerLocalizations {
   String get gatewayReconnectingToast => 'Yhdistetään uudelleen…';
 
   @override
+  String get gatewayReconnectTryAgain => 'Try again';
+
+  @override
   String get gatewayConnectedToast => 'Yhdistetty';
 
   @override

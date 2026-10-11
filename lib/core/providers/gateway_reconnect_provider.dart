@@ -48,8 +48,6 @@ class GatewayResumeReconnectInFlight extends _$GatewayResumeReconnectInFlight {
 /// Nudges the gateway socket after resume, giving the network stack one
 /// [kResumeReconnectDelay] beat to wake when connectivity is not up yet.
 ///
-/// When [forceReconnect] is true (failure screen), stuck connecting states
-/// get [GatewayConnection.reconnectNow] instead of waiting on backoff.
 Future<void> nudgeGatewayConnectionReconnect(
   GatewayConnection connection, {
   void Function({required bool inFlight})? onResumeReconnectInFlight,
@@ -83,19 +81,12 @@ Future<void> nudgeGatewayConnectionReconnect(
       }
       return;
     }
-    if (state == GatewayState.failed ||
-        (forceReconnect &&
-            (state == GatewayState.connecting ||
-                state == GatewayState.reconnecting))) {
-      await connection.reconnectNow();
+    if (state == GatewayState.connecting && !forceReconnect) {
       return;
     }
-    if (state == GatewayState.connecting ||
-        state == GatewayState.reconnecting) {
-      return;
-    }
-    await connection.nudgeReconnect();
-    holdInFlightUntilOnline = onResumeReconnectInFlight != null;
+    await connection.reconnectNow();
+    holdInFlightUntilOnline =
+        onResumeReconnectInFlight != null && state == GatewayState.disconnected;
   } finally {
     if (!holdInFlightUntilOnline) {
       onResumeReconnectInFlight?.call(inFlight: false);
@@ -620,11 +611,11 @@ Raw<StreamSubscription<List<ConnectivityResult>>?> connectivityListener(
       final GatewayState state = connection.state;
       if (state == GatewayState.connected ||
           state == GatewayState.connecting ||
-          state == GatewayState.reconnecting) {
+          state == GatewayState.failed) {
         return;
       }
       talker.info('[Gateway] Network restored, reconnecting');
-      unawaited(connection.nudgeReconnect());
+      unawaited(connection.reconnectNow());
     });
   });
 

@@ -19,6 +19,9 @@ class FluxerLocalizationsPl extends FluxerLocalizations {
   String get gatewayReconnectingToast => 'Ponowne łączenie…';
 
   @override
+  String get gatewayReconnectTryAgain => 'Try again';
+
+  @override
   String get gatewayConnectedToast => 'Połączono';
 
   @override

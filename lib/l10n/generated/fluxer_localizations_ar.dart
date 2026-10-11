@@ -19,6 +19,9 @@ class FluxerLocalizationsAr extends FluxerLocalizations {
   String get gatewayReconnectingToast => 'جارٍ إعادة الاتصال…';
 
   @override
+  String get gatewayReconnectTryAgain => 'Try again';
+
+  @override
   String get gatewayConnectedToast => 'متصل';
 
   @override

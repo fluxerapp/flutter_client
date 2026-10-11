@@ -19,6 +19,9 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get gatewayReconnectingToast => 'Újracsatlakozás…';
 
   @override
+  String get gatewayReconnectTryAgain => 'Try again';
+
+  @override
   String get gatewayConnectedToast => 'Csatlakoztatva';
 
   @override

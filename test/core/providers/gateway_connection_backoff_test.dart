@@ -42,41 +42,60 @@ void main() {
       kGatewayMinReconnect,
     );
     expect(
-      gatewayReconnectDelay(attempt: 6, jitterUnit: 0.5),
+      gatewayReconnectDelay(attempt: 3, jitterUnit: 0.5),
+      const Duration(seconds: 8),
+    );
+    expect(
+      gatewayReconnectDelay(attempt: 4, jitterUnit: 0.5),
+      const Duration(seconds: 10),
+    );
+    expect(
+      gatewayReconnectDelay(attempt: 4, jitterUnit: 0),
+      const Duration(milliseconds: 7500),
+    );
+    expect(
+      gatewayReconnectDelay(attempt: 30, jitterUnit: 1),
       kGatewayMaxReconnect,
     );
+    expect(kGatewayMaxReconnect, const Duration(seconds: 10));
     expect(
       gatewayReconnectSpreadDelay(spreadUnit: 0.5),
       const Duration(seconds: 2),
     );
   });
 
-  test('a second nudge does not open another socket', () {
+  test('reconnectNow skips the pending backoff', () {
     fakeAsync((FakeAsync async) {
       final List<int> opens = <int>[];
       final GatewayConnection connection = _connection(opens);
       unawaited(connection.connect());
-      async.flushMicrotasks();
-      expect(opens, <int>[1]);
-
-      unawaited(connection.nudgeReconnect());
-      async.flushMicrotasks();
-      expect(opens, <int>[1]);
-
       async
-        ..elapse(const Duration(milliseconds: 999))
+        ..flushMicrotasks()
+        ..elapse(const Duration(milliseconds: 500))
         ..flushMicrotasks();
       expect(opens, <int>[1]);
+      expect(connection.state, GatewayState.reconnecting);
 
-      async
-        ..elapse(const Duration(milliseconds: 1))
-        ..flushMicrotasks();
+      unawaited(connection.reconnectNow());
+      async.flushMicrotasks();
       expect(opens, <int>[1, 2]);
       unawaited(connection.dispose());
     });
   });
 
-  test('close 4008 uses the same backoff and ignores nudges', () {
+  test('a second reconnectNow reuses the attempt in flight', () {
+    fakeAsync((FakeAsync async) {
+      final List<int> opens = <int>[];
+      final GatewayConnection connection = _connection(opens);
+      unawaited(connection.reconnectNow());
+      unawaited(connection.reconnectNow());
+      async.flushMicrotasks();
+      expect(opens, <int>[1]);
+      unawaited(connection.dispose());
+    });
+  });
+
+  test('close 4008 keeps its backoff through reconnectNow', () {
     fakeAsync((FakeAsync async) {
       final List<int> opens = <int>[];
       final GatewayConnection connection = _connection(opens)
@@ -84,7 +103,7 @@ void main() {
       expect(connection.state, GatewayState.reconnecting);
       expect(opens, isEmpty);
 
-      unawaited(connection.nudgeReconnect());
+      unawaited(connection.reconnectNow());
       async
         ..elapse(const Duration(milliseconds: 999))
         ..flushMicrotasks();
@@ -94,6 +113,10 @@ void main() {
         ..elapse(const Duration(milliseconds: 1))
         ..flushMicrotasks();
       expect(opens, <int>[1]);
+
+      unawaited(connection.reconnectNow());
+      async.flushMicrotasks();
+      expect(opens, <int>[1, 2]);
       unawaited(connection.dispose());
     });
   });

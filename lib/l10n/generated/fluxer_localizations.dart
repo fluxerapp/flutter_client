@@ -179,6 +179,12 @@ abstract class FluxerLocalizations {
   /// **'Reconnecting…'**
   String get gatewayReconnectingToast;
 
+  /// Screen reader hint on the reconnecting banner. Tapping the banner retries the connection right away.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get gatewayReconnectTryAgain;
+
   /// Banner shown when the gateway connection is restored.
   ///
   /// In en, this message translates to:

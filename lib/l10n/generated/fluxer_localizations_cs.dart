@@ -19,6 +19,9 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get gatewayReconnectingToast => 'Opětovné připojování…';
 
   @override
+  String get gatewayReconnectTryAgain => 'Try again';
+
+  @override
   String get gatewayConnectedToast => 'Připojeno';
 
   @override

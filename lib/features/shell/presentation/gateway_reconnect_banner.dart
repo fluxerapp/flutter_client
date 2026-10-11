@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:ui' show lerpDouble;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -47,9 +49,7 @@ class GatewayReconnectBannerOverlay extends StatelessWidget {
           left: layout.s4,
           right: layout.s4,
           top: mediaQuery.padding.top + layout.s4,
-          child: const IgnorePointer(
-            child: Center(child: _GatewayReconnectBanner()),
-          ),
+          child: const Center(child: _GatewayReconnectBanner()),
         ),
       ],
     );
@@ -211,6 +211,10 @@ class _GatewayReconnectBannerState
     );
   }
 
+  void _retryNow() {
+    unawaited(ref.read(gatewayConnectionProvider).reconnectNow());
+  }
+
   @override
   Widget build(BuildContext context) {
     final GatewayReconnectBannerPhase phase = ref.watch(
@@ -237,6 +241,7 @@ class _GatewayReconnectBannerState
     final String connectedMessage = l10n.gatewayConnectedToast;
     final bool connected =
         _contentPhase == GatewayReconnectBannerPhase.connected;
+    final bool retryable = phase == GatewayReconnectBannerPhase.reconnecting;
     final BorderRadius pillRadius = layout.radiusFull;
     final TextStyle reconnectingStyle = context.textStyles.bodyMedium.copyWith(
       fontWeight: FontWeight.w600,
@@ -252,84 +257,94 @@ class _GatewayReconnectBannerState
         opacity: _fadeAnimation,
         child: Semantics(
           liveRegion: true,
+          button: retryable,
           label: connected ? connectedMessage : reconnectingMessage,
+          onTap: retryable ? _retryNow : null,
+          onTapHint: retryable ? l10n.gatewayReconnectTryAgain : null,
           child: ExcludeSemantics(
-            child: Material(
-              type: MaterialType.transparency,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  borderRadius: pillRadius,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.28),
-                      blurRadius: 18,
-                      offset: const Offset(0, 8),
-                    ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: pillRadius,
-                  child: Stack(
-                    children: [
-                      const Positioned.fill(
-                        child: RepaintBoundary(
-                          child: ClipRect(child: StarfieldBackground()),
+            child: IgnorePointer(
+              ignoring: !retryable,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: _retryNow,
+                child: Material(
+                  type: MaterialType.transparency,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      borderRadius: pillRadius,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.28),
+                          blurRadius: 18,
+                          offset: const Offset(0, 8),
                         ),
-                      ),
-                      const Positioned.fill(
-                        child: ColoredBox(color: _scrimColor),
-                      ),
-                      Positioned.fill(
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            borderRadius: pillRadius,
-                            border: Border.all(
-                              color: Colors.white.withValues(alpha: 0.1),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: pillRadius,
+                      child: Stack(
+                        children: [
+                          const Positioned.fill(
+                            child: RepaintBoundary(
+                              child: ClipRect(child: StarfieldBackground()),
                             ),
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: layout.s4,
-                          vertical: layout.s2,
-                        ),
-                        child: AnimatedBuilder(
-                          animation: _labelController,
-                          builder: (BuildContext context, Widget? mark) {
-                            return Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                ?mark,
-                                SizedBox(width: layout.s3),
-                                _PhaseLabel(
-                                  progress: _labelController.value,
-                                  reconnectingMessage: reconnectingMessage,
-                                  connectedMessage: connectedMessage,
-                                  reconnectingStyle: reconnectingStyle,
-                                  connectedStyle: connectedStyle,
-                                  reconnectingSize: _measureLabel(
-                                    context,
-                                    reconnectingMessage,
-                                    reconnectingStyle,
-                                  ),
-                                  connectedSize: _measureLabel(
-                                    context,
-                                    connectedMessage,
-                                    connectedStyle,
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                          child: _ReconnectBrandMark(
-                            size: _markSize,
-                            pulse: _pulseController,
-                            celebrate: _celebrateController,
+                          const Positioned.fill(
+                            child: ColoredBox(color: _scrimColor),
                           ),
-                        ),
+                          Positioned.fill(
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                borderRadius: pillRadius,
+                                border: Border.all(
+                                  color: Colors.white.withValues(alpha: 0.1),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: layout.s4,
+                              vertical: layout.s2,
+                            ),
+                            child: AnimatedBuilder(
+                              animation: _labelController,
+                              builder: (BuildContext context, Widget? mark) {
+                                return Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    ?mark,
+                                    SizedBox(width: layout.s3),
+                                    _PhaseLabel(
+                                      progress: _labelController.value,
+                                      reconnectingMessage: reconnectingMessage,
+                                      connectedMessage: connectedMessage,
+                                      reconnectingStyle: reconnectingStyle,
+                                      connectedStyle: connectedStyle,
+                                      reconnectingSize: _measureLabel(
+                                        context,
+                                        reconnectingMessage,
+                                        reconnectingStyle,
+                                      ),
+                                      connectedSize: _measureLabel(
+                                        context,
+                                        connectedMessage,
+                                        connectedStyle,
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                              child: _ReconnectBrandMark(
+                                size: _markSize,
+                                pulse: _pulseController,
+                                celebrate: _celebrateController,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),

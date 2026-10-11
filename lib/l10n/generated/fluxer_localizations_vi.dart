@@ -19,6 +19,9 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get gatewayReconnectingToast => 'Đang kết nối lại…';
 
   @override
+  String get gatewayReconnectTryAgain => 'Try again';
+
+  @override
   String get gatewayConnectedToast => 'Đã kết nối';
 
   @override
