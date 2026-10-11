@@ -117,5 +117,8 @@ String? deletedChannelExitPath({
   if (location.startsWith('${RoutePaths.me}/')) {
     return RoutePaths.me;
   }
+  if (location.startsWith('${RoutePaths.favoritesBase}/')) {
+    return RoutePaths.favoritesBase;
+  }
   return null;
 }

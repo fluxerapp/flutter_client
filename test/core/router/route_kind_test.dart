@@ -61,6 +61,16 @@ void main() {
       );
     });
 
+    test('sends an open favorite back to the favorites list', () {
+      expect(
+        deletedChannelExitPath(
+          location: '/channels/@favorites/chan-1',
+          channelId: 'chan-1',
+        ),
+        '/channels/@favorites',
+      );
+    });
+
     test('leaves the route alone when another channel is open', () {
       expect(
         deletedChannelExitPath(
