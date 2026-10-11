@@ -11725,6 +11725,18 @@ abstract class FluxerLocalizations {
   /// **'No changes to save'**
   String get chatEditNoChanges;
 
+  /// Toast when saving an edit to a message fails and the message reverts.
+  ///
+  /// In en, this message translates to:
+  /// **'Your message didn\'t update'**
+  String get chatEditFailed;
+
+  /// Action on the failed edit toast that reopens the editor with the unsaved text.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit again'**
+  String get chatEditFailedEditAgain;
+
   /// Toast when send is attempted before the channel has finished loading.
   ///
   /// In en, this message translates to:

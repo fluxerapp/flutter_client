@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
@@ -6660,7 +6661,7 @@ class ChatViewModel extends _$ChatViewModel {
         ),
       );
     }
-    unawaited(_endEditRestoringDraft(editingMessage));
+    final Future<bool> editEnded = _endEditRestoringDraft(editingMessage);
     try {
       final Message updatedMessage = await ref
           .read(messageRepositoryProvider)
@@ -6692,6 +6693,7 @@ class ChatViewModel extends _$ChatViewModel {
         mutationOrdinal: mutationOrdinal,
         editedContent: editedContent,
       );
+      debugPrint('[ChatViewModel] Failed to edit message: $error');
       if (apiErrorCodeFromDioException(error) ==
           kPublishedMessageEditRateLimited) {
         final BuildContext? sheetContext = rootNavigatorKey.currentContext;
@@ -6703,10 +6705,13 @@ class ChatViewModel extends _$ChatViewModel {
             ),
           );
         }
-        return;
       }
-      debugPrint('[ChatViewModel] Failed to edit message: $error');
-      state = state.copyWith(errorMessage: 'Failed to edit message');
+      await editEnded;
+      _recoverFailedEdit(
+        channelId: channelId,
+        messageId: messageId,
+        editedContent: editedContent,
+      );
     } on Exception catch (e) {
       _revertOptimisticEdit(
         messageId: messageId,
@@ -6715,8 +6720,83 @@ class ChatViewModel extends _$ChatViewModel {
         editedContent: editedContent,
       );
       debugPrint('[ChatViewModel] Failed to edit message: $e');
-      state = state.copyWith(errorMessage: 'Failed to edit message');
+      await editEnded;
+      _recoverFailedEdit(
+        channelId: channelId,
+        messageId: messageId,
+        editedContent: editedContent,
+      );
     }
+  }
+
+  void _recoverFailedEdit({
+    required String channelId,
+    required String messageId,
+    required String editedContent,
+  }) {
+    final FluxerLocalizations l10n = ref.read(appLocalizationsProvider);
+    final bool inChannel =
+        state.channelId == channelId &&
+        state.messages.any((Message m) => m.id == messageId);
+    final bool composerEmpty =
+        state.editingMessage == null &&
+        state.replyingTo == null &&
+        state.messageText.trim().isEmpty;
+    final FluxerToastAction? action;
+    if (!inChannel) {
+      action = FluxerToastAction(
+        label: l10n.chatMessageCopyText,
+        onPressed: () => unawaited(_copyFailedEdit(editedContent)),
+      );
+    } else if (composerEmpty) {
+      _resumeFailedEdit(channelId, messageId, editedContent);
+      action = null;
+    } else {
+      action = FluxerToastAction(
+        label: l10n.chatEditFailedEditAgain,
+        onPressed: () => _resumeFailedEdit(channelId, messageId, editedContent),
+      );
+    }
+    ref
+        .read(toastProvider.notifier)
+        .show(
+          FluxerToast(
+            message: l10n.chatEditFailed,
+            variant: FluxerToastVariant.danger,
+            action: action,
+          ),
+        );
+  }
+
+  void _resumeFailedEdit(
+    String channelId,
+    String messageId,
+    String editedContent,
+  ) {
+    if (state.channelId != channelId) {
+      return;
+    }
+    final Message? message = state.messages
+        .where((Message m) => m.id == messageId)
+        .firstOrNull;
+    if (message == null) {
+      return;
+    }
+    startEdit(message);
+    state = state.copyWith(messageText: editedContent);
+  }
+
+  Future<void> _copyFailedEdit(String editedContent) async {
+    await Clipboard.setData(ClipboardData(text: editedContent));
+    final FluxerLocalizations l10n = ref.read(appLocalizationsProvider);
+    ref
+        .read(toastProvider.notifier)
+        .show(
+          FluxerToast(
+            message: l10n.copiedToClipboard,
+            variant: FluxerToastVariant.success,
+          ),
+        );
   }
 
   bool _hasNewerContentEdit(String messageId, int startOrdinal) =>

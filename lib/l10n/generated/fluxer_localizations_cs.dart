@@ -7197,6 +7197,12 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get chatEditNoChanges => 'Žádné změny k uložení';
 
   @override
+  String get chatEditFailed => 'Your message didn\'t update';
+
+  @override
+  String get chatEditFailedEditAgain => 'Edit again';
+
+  @override
   String get chatChannelNotReady =>
       'Tento kanál ještě není připraven. Zkuste to za chvíli znovu.';
 

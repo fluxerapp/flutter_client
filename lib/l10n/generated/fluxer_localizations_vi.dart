@@ -7171,6 +7171,12 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get chatEditNoChanges => 'Không có thay đổi nào để lưu';
 
   @override
+  String get chatEditFailed => 'Your message didn\'t update';
+
+  @override
+  String get chatEditFailedEditAgain => 'Edit again';
+
+  @override
   String get chatChannelNotReady =>
       'Kênh này chưa sẵn sàng. Vui lòng thử lại sau.';
 

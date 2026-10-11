@@ -7170,6 +7170,12 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get chatEditNoChanges => 'Kaydedilecek değişiklik yok';
 
   @override
+  String get chatEditFailed => 'Your message didn\'t update';
+
+  @override
+  String get chatEditFailedEditAgain => 'Edit again';
+
+  @override
   String get chatChannelNotReady =>
       'Bu kanal henüz hazır değil. Bir süre sonra tekrar deneyin.';
 

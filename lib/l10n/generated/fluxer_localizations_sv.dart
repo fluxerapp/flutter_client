@@ -7181,6 +7181,12 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
   String get chatEditNoChanges => 'Inga ändringar att spara';
 
   @override
+  String get chatEditFailed => 'Your message didn\'t update';
+
+  @override
+  String get chatEditFailedEditAgain => 'Edit again';
+
+  @override
   String get chatChannelNotReady =>
       'Den här kanalen är inte redo än. Försök igen om en stund.';
 

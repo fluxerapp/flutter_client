@@ -6897,6 +6897,12 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get chatEditNoChanges => '保存する変更はありません';
 
   @override
+  String get chatEditFailed => 'Your message didn\'t update';
+
+  @override
+  String get chatEditFailedEditAgain => 'Edit again';
+
+  @override
   String get chatChannelNotReady => 'このチャンネルはまだ準備ができていません。しばらくしてからもう一度お試しください。';
 
   @override

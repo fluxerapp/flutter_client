@@ -7193,6 +7193,12 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get chatEditNoChanges => 'Nema promjena za spremanje';
 
   @override
+  String get chatEditFailed => 'Your message didn\'t update';
+
+  @override
+  String get chatEditFailedEditAgain => 'Edit again';
+
+  @override
   String get chatChannelNotReady =>
       'Ovaj kanal još nije spreman. Pokušajte ponovno za trenutak.';
 

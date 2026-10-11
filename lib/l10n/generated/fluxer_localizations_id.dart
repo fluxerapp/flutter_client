@@ -7167,6 +7167,12 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get chatEditNoChanges => 'Tidak ada perubahan untuk disimpan';
 
   @override
+  String get chatEditFailed => 'Your message didn\'t update';
+
+  @override
+  String get chatEditFailedEditAgain => 'Edit again';
+
+  @override
   String get chatChannelNotReady =>
       'Saluran ini belum siap. Coba lagi sebentar lagi.';
 

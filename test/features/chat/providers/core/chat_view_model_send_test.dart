@@ -37,6 +37,7 @@ import 'package:fluxer_app/features/chat/utils/composer/composer_upload_file.dar
 import 'package:fluxer_app/features/chat/utils/messages/message_page_sync.dart';
 import 'package:fluxer_app/features/chat/utils/messages/message_send_failure_messages.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
+import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -560,7 +561,10 @@ void main() {
   );
 
   Future<(ProviderContainer, _SendAdapter, ChatViewModel, String)>
-  setUpPendingEdit({int? editFailureStatus}) async {
+  setUpPendingEdit({
+    int? editFailureStatus,
+    String draft = 'typed draft',
+  }) async {
     final String editedId = _snowflakeForUtc(DateTime.utc(2026, 6, 16, 11));
     final _SendAdapter adapter =
         _SendAdapter(
@@ -580,7 +584,7 @@ void main() {
     addTearDown(adapter.releaseEdit);
     final ChatViewModel notifier = container.read(
       chatViewModelProvider.notifier,
-    )..updateMessageText('typed draft');
+    )..updateMessageText(draft);
     final Message original = container
         .read(chatViewModelProvider)
         .messages
@@ -646,7 +650,8 @@ void main() {
     expect(adapter.lastEditContent, 'Test 2');
   });
 
-  test('a failed edit restores the original message text', () async {
+  test('a failed edit restores the original message text and offers to '
+      'edit again', () async {
     final (container, adapter, notifier, editedId) = await setUpPendingEdit(
       editFailureStatus: 500,
     );
@@ -666,14 +671,91 @@ void main() {
     await save;
     await _flushAsync();
 
+    final FluxerLocalizations l10n = container.read(appLocalizationsProvider);
     final ChatViewState settled = container.read(chatViewModelProvider);
     final Message restored = settled.messages.firstWhere(
       (Message m) => m.id == editedId,
     );
     expect(restored.content, 'Test');
     expect(restored.editedTimestamp, isNull);
-    expect(settled.errorMessage, 'Failed to edit message');
+    expect(settled.editingMessage, isNull);
+    expect(settled.messageText, 'typed draft');
+    final FluxerToast toast = container.read(toastProvider).single.toast;
+    expect(toast.message, l10n.chatEditFailed);
+    expect(toast.variant, FluxerToastVariant.danger);
+    expect(toast.action?.label, l10n.chatEditFailedEditAgain);
+
+    toast.action!.onPressed();
+    await _flushAsync();
+    final ChatViewState reopened = container.read(chatViewModelProvider);
+    expect(reopened.editingMessage?.id, editedId);
+    expect(reopened.messageText, 'Test 2');
+
+    notifier.cancelEdit();
+    await _flushAsync();
+    expect(container.read(chatViewModelProvider).messageText, 'typed draft');
   });
+
+  test('a failed edit reopens the editor with the edited text when the '
+      'composer is empty', () async {
+    final (container, adapter, notifier, editedId) = await setUpPendingEdit(
+      editFailureStatus: 500,
+      draft: '',
+    );
+
+    final Future<void> save = notifier.saveEditedMessage(text: 'Test 2');
+    await _flushAsync();
+    expect(container.read(chatViewModelProvider).editingMessage, isNull);
+
+    adapter.releaseEdit();
+    await save;
+    await _flushAsync();
+
+    final ChatViewState settled = container.read(chatViewModelProvider);
+    expect(
+      settled.messages.firstWhere((Message m) => m.id == editedId).content,
+      'Test',
+    );
+    expect(settled.editingMessage?.id, editedId);
+    expect(settled.messageText, 'Test 2');
+    final FluxerToast toast = container.read(toastProvider).single.toast;
+    expect(
+      toast.message,
+      container.read(appLocalizationsProvider).chatEditFailed,
+    );
+    expect(toast.action, isNull);
+  });
+
+  test(
+    'a failed edit after leaving the channel offers to copy the text',
+    () async {
+      final (container, adapter, notifier, _) = await setUpPendingEdit(
+        editFailureStatus: 500,
+        draft: '',
+      );
+      await container
+          .read(fluxerDatabaseProvider)
+          .channelDao
+          .upsertChannel(
+            ChannelsCompanion.insert(id: 'channel-2', guildId: '', name: 'dm2'),
+          );
+
+      final Future<void> save = notifier.saveEditedMessage(text: 'Test 2');
+      await _flushAsync();
+      await notifier.switchChannel('channel-2');
+      await _flushAsync();
+
+      adapter.releaseEdit();
+      await save;
+      await _flushAsync();
+
+      final FluxerLocalizations l10n = container.read(appLocalizationsProvider);
+      expect(container.read(chatViewModelProvider).editingMessage, isNull);
+      final FluxerToast toast = container.read(toastProvider).single.toast;
+      expect(toast.message, l10n.chatEditFailed);
+      expect(toast.action?.label, l10n.chatMessageCopyText);
+    },
+  );
 
   test('saving again while the draft reloads sends one edit', () async {
     final (container, adapter, notifier, _) = await setUpPendingEdit();

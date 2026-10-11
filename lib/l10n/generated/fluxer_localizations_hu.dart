@@ -7232,6 +7232,12 @@ class FluxerLocalizationsHu extends FluxerLocalizations {
   String get chatEditNoChanges => 'Nincs menthető változás';
 
   @override
+  String get chatEditFailed => 'Your message didn\'t update';
+
+  @override
+  String get chatEditFailedEditAgain => 'Edit again';
+
+  @override
   String get chatChannelNotReady =>
       'Ez a csatorna még nem áll készen. Próbáld meg később.';
 

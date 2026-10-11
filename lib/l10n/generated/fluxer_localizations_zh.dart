@@ -6751,6 +6751,12 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get chatEditNoChanges => '没有要保存的更改';
 
   @override
+  String get chatEditFailed => 'Your message didn\'t update';
+
+  @override
+  String get chatEditFailedEditAgain => 'Edit again';
+
+  @override
   String get chatChannelNotReady => '此频道尚未准备就绪。请稍后再试。';
 
   @override

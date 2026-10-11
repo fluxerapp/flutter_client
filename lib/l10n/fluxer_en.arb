@@ -9070,6 +9070,14 @@
     "@chatEditNoChanges": {
         "description": "Toast when the user tries to save an edit without changing the message."
     },
+    "chatEditFailed": "Your message didn't update",
+    "@chatEditFailed": {
+        "description": "Toast when saving an edit to a message fails and the message reverts."
+    },
+    "chatEditFailedEditAgain": "Edit again",
+    "@chatEditFailedEditAgain": {
+        "description": "Action on the failed edit toast that reopens the editor with the unsaved text."
+    },
     "chatChannelNotReady": "This channel is not ready yet. Try again in a moment.",
     "@chatChannelNotReady": {
         "description": "Toast when send is attempted before the channel has finished loading."
