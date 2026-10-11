@@ -877,6 +877,55 @@ void main() {
     expect(find.byKey(kDrawerPeekInactiveScrimKey), findsNothing);
   });
 
+  testWidgets('marks the chat off screen while the channel list is open', (
+    tester,
+  ) async {
+    final router = _routerFor('/channels/guild/channel');
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+
+    await tester.pumpWidget(
+      _buildDrawerApp(container: container, router: router),
+    );
+    await tester.pump();
+
+    expect(_chatOnScreen(tester), isTrue);
+
+    container.read(currentRevealSideProvider.notifier).set(RevealSide.left);
+    await tester.pump();
+
+    expect(_chatOnScreen(tester), isFalse);
+
+    await tester.pumpAndSettle();
+    container.read(currentRevealSideProvider.notifier).set(RevealSide.main);
+    await tester.pump();
+
+    expect(_chatOnScreen(tester), isTrue);
+    await tester.pumpAndSettle();
+  });
+
+  testWidgets('keeps the peeked chat on screen on compact-wide mobile', (
+    tester,
+  ) async {
+    final router = _routerFor('/channels/guild/channel');
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+
+    await tester.pumpWidget(
+      _buildDrawerApp(
+        container: container,
+        router: router,
+        size: const Size(984, 800),
+      ),
+    );
+    await tester.pump();
+
+    container.read(currentRevealSideProvider.notifier).set(RevealSide.left);
+    await tester.pumpAndSettle();
+
+    expect(_chatOnScreen(tester), isTrue);
+  });
+
   testWidgets('wraps drawer layers in repaint boundaries', (tester) async {
     final router = _routerFor('/channels/guild/channel');
     addTearDown(router.dispose);
@@ -1585,3 +1634,6 @@ double _sliderScrimOpacity(WidgetTester tester) {
       .color
       .a;
 }
+
+bool _chatOnScreen(WidgetTester tester) =>
+    tester.widget<ChatOnScreenScope>(find.byType(ChatOnScreenScope)).onScreen;

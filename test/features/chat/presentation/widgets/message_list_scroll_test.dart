@@ -27,6 +27,7 @@ import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_pro
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/mobile_keyboard_metrics_provider.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
+import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/material_ui.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
@@ -1981,6 +1982,89 @@ void main() {
       await tester.pump();
 
       expect(find.byType(MessageList), findsOneWidget);
+      expect(container.read(chatReadViewportProvider).viewportActive, isTrue);
+
+      await disposeMessageList(tester);
+    });
+  });
+
+  group('chat on-screen scope', () {
+    Widget onScreenHost(ValueNotifier<bool> onScreen) {
+      return ValueListenableBuilder<bool>(
+        valueListenable: onScreen,
+        builder: (BuildContext context, bool value, Widget? child) =>
+            ChatOnScreenScope(onScreen: value, child: child!),
+        child: const MessageList(expectedChannelId: messageListChannelId),
+      );
+    }
+
+    testWidgets('chat pushed off screen deactivates the read viewport', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(420, 640);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      final ValueNotifier<bool> onScreen = ValueNotifier<bool>(true);
+      addTearDown(onScreen.dispose);
+
+      final AroundAckMessageListHarness harness =
+          await createBottomMessageListHarness();
+
+      await tester.pumpWidget(
+        messageListApp(
+          database: harness.database,
+          chatViewModel: harness.chatViewModel,
+          body: onScreenHost(onScreen),
+        ),
+      );
+      await tester.pump();
+      final ProviderContainer container = ProviderScope.containerOf(
+        tester.element(find.byType(MessageList)),
+      );
+
+      expect(container.read(chatReadViewportProvider).viewportActive, isTrue);
+
+      onScreen.value = false;
+      await tester.pump();
+      expect(container.read(chatReadViewportProvider).viewportActive, isFalse);
+
+      onScreen.value = true;
+      await tester.pump();
+      expect(container.read(chatReadViewportProvider).viewportActive, isTrue);
+
+      await disposeMessageList(tester);
+    });
+
+    testWidgets('chat mounted off screen keeps the read viewport inactive', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(420, 640);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      final ValueNotifier<bool> onScreen = ValueNotifier<bool>(false);
+      addTearDown(onScreen.dispose);
+
+      final AroundAckMessageListHarness harness =
+          await createBottomMessageListHarness();
+
+      await tester.pumpWidget(
+        messageListApp(
+          database: harness.database,
+          chatViewModel: harness.chatViewModel,
+          body: onScreenHost(onScreen),
+        ),
+      );
+      await tester.pump();
+      final ProviderContainer container = ProviderScope.containerOf(
+        tester.element(find.byType(MessageList)),
+      );
+
+      expect(container.read(chatReadViewportProvider).viewportActive, isFalse);
+
+      onScreen.value = true;
+      await tester.pump();
       expect(container.read(chatReadViewportProvider).viewportActive, isTrue);
 
       await disposeMessageList(tester);

@@ -101,6 +101,7 @@ import 'package:fluxer_app/features/settings/providers/chat_preferences_provider
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_browser_sheet.dart';
 import 'package:fluxer_app/features/threads/presentation/thread_messages.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
@@ -276,6 +277,7 @@ class _MessageListState extends ConsumerState<MessageList>
   late final ChatViewModel _chatViewModel;
   late final ChatReadViewport _readViewport;
   late String _viewportChannelId;
+  bool? _viewportVisible;
   String? _pendingScrollTarget;
   // The channel the parked target belongs to, plus the deadline that retires
   // it. An `around=<id>` fetch whose target was deleted or filtered returns the
@@ -399,11 +401,28 @@ class _MessageListState extends ConsumerState<MessageList>
       }
       _readViewport.setViewportActive(
         channelId: _viewportChannelId,
-        isActive: widget.visible,
+        isActive: _viewportVisible ?? false,
       );
       _onScroll();
     });
   }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final bool? previousVisible = _viewportVisible;
+    final bool nextVisible = _isViewportVisible();
+    _viewportVisible = nextVisible;
+    if (previousVisible != null && previousVisible != nextVisible) {
+      _readViewport.setViewportActive(
+        channelId: _viewportChannelId,
+        isActive: nextVisible,
+      );
+    }
+  }
+
+  bool _isViewportVisible() =>
+      widget.visible && ChatOnScreenScope.onScreenOf(context);
 
   @override
   void didUpdateWidget(MessageList oldWidget) {
@@ -414,26 +433,29 @@ class _MessageListState extends ConsumerState<MessageList>
     }
     final String nextViewportChannelId =
         widget.expectedChannelId ?? ref.read(chatViewModelProvider).channelId;
+    final bool previousVisible = _viewportVisible ?? false;
+    final bool nextVisible = _isViewportVisible();
+    _viewportVisible = nextVisible;
     if (nextViewportChannelId != _viewportChannelId) {
       final String previousViewportChannelId = _viewportChannelId;
       _viewportChannelId = nextViewportChannelId;
       _cancelDetachedTrim();
-      if (oldWidget.visible) {
+      if (previousVisible) {
         _readViewport.setViewportActive(
           channelId: previousViewportChannelId,
           isActive: false,
         );
       }
-      if (widget.visible) {
+      if (nextVisible) {
         _readViewport.setViewportActive(
           channelId: _viewportChannelId,
           isActive: true,
         );
       }
-    } else if (widget.visible != oldWidget.visible) {
+    } else if (nextVisible != previousVisible) {
       _readViewport.setViewportActive(
         channelId: _viewportChannelId,
-        isActive: widget.visible,
+        isActive: nextVisible,
       );
     }
   }

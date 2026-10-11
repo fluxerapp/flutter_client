@@ -407,16 +407,20 @@ class _DrawerSliderLayer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final RevealSide revealSide = ref.watch(currentRevealSideProvider);
     final bool peek = isCompactWideDrawerPeekMode(
       context,
       shellLocation: ref.watch(shellLocationProvider),
-      revealSide: ref.watch(currentRevealSideProvider),
+      revealSide: revealSide,
     );
-    return ChatSwipeToReplyScope(
-      enabled: !peek,
-      child: IgnorePointer(
-        ignoring: peek,
-        child: RepaintBoundary(child: slider),
+    return ChatOnScreenScope(
+      onScreen: peek || revealSide == RevealSide.main,
+      child: ChatSwipeToReplyScope(
+        enabled: !peek,
+        child: IgnorePointer(
+          ignoring: peek,
+          child: RepaintBoundary(child: slider),
+        ),
       ),
     );
   }
@@ -456,6 +460,28 @@ class ChatSwipeToReplyScope extends InheritedWidget {
   @override
   bool updateShouldNotify(ChatSwipeToReplyScope oldWidget) {
     return enabled != oldWidget.enabled;
+  }
+}
+
+class ChatOnScreenScope extends InheritedWidget {
+  const ChatOnScreenScope({
+    required this.onScreen,
+    required super.child,
+    super.key,
+  });
+
+  final bool onScreen;
+
+  static bool onScreenOf(BuildContext context) {
+    return context
+            .dependOnInheritedWidgetOfExactType<ChatOnScreenScope>()
+            ?.onScreen ??
+        true;
+  }
+
+  @override
+  bool updateShouldNotify(ChatOnScreenScope oldWidget) {
+    return onScreen != oldWidget.onScreen;
   }
 }
 
