@@ -621,6 +621,31 @@ void main() {
     },
   );
 
+  test('a message sent while an edit is in flight still goes out', () async {
+    final (container, adapter, notifier, _) = await setUpPendingEdit();
+
+    final Future<void> save = notifier.sendMessage(text: 'Test 2');
+    await _flushAsync();
+    expect(container.read(chatViewModelProvider).editingMessage, isNull);
+
+    await notifier.sendMessage(text: 'next message');
+    await _flushAsync();
+
+    expect(adapter.messagePostCount, 1);
+    expect(
+      container
+          .read(chatViewModelProvider)
+          .messages
+          .where((Message m) => m.content == 'next message'),
+      hasLength(1),
+    );
+
+    adapter.releaseEdit();
+    await save;
+    await _flushAsync();
+    expect(adapter.lastEditContent, 'Test 2');
+  });
+
   test('a failed edit restores the original message text', () async {
     final (container, adapter, notifier, editedId) = await setUpPendingEdit(
       editFailureStatus: 500,

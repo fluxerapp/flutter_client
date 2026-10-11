@@ -5016,6 +5016,15 @@ class ChatViewModel extends _$ChatViewModel {
     String? favoriteMemeId,
     bool tts = false,
   }) async {
+    if (state.editingMessage != null) {
+      try {
+        await saveEditedMessage(text: text);
+      } on Object catch (error, st) {
+        talker.error('[ChatViewModel] edit failed unexpectedly', error, st);
+        _showUnexpectedSendError();
+      }
+      return;
+    }
     if (_isPreparingSend) {
       return;
     }
@@ -5185,10 +5194,6 @@ class ChatViewModel extends _$ChatViewModel {
     if (channelId.isEmpty) {
       talker.debug('[ChatViewModel] send blocked: channel_not_ready');
       _notifySendBlocked(_SendBlockReason.channelNotReady);
-      return;
-    }
-    if (state.editingMessage != null) {
-      await saveEditedMessage(text: text);
       return;
     }
     final GuildComposerAccess? guildBlock = await _resolveGuildComposerBlock(
