@@ -1495,8 +1495,6 @@ class ChatViewModel extends _$ChatViewModel {
       prefetchedRow: prefetchedRow,
     );
     final Set<String> deletedIds = _deletedMessageIdsFor(ev);
-    final bool clearEditing =
-        ev is MessageUpdated && state.editingMessage?.id == ev.event.message.id;
     final bool clearComposerForDelete =
         deletedIds.isNotEmpty &&
         ((state.replyingTo != null &&
@@ -1527,12 +1525,8 @@ class ChatViewModel extends _$ChatViewModel {
               ? MessagesOrigin.liveCreate
               : MessagesOrigin.realtimeEvent,
         ),
-        editingMessage: clearEditing || clearComposerForDelete
-            ? null
-            : state.editingMessage,
-        messageText: clearEditing || clearComposerForDelete
-            ? ''
-            : state.messageText,
+        editingMessage: clearComposerForDelete ? null : state.editingMessage,
+        messageText: clearComposerForDelete ? '' : state.messageText,
         replyingTo: clearComposerForDelete ? null : state.replyingTo,
         replyMentioning: !clearComposerForDelete && state.replyMentioning,
         hasMoreMessages: droppedOlder || state.hasMoreMessages,
@@ -1557,16 +1551,14 @@ class ChatViewModel extends _$ChatViewModel {
           unawaited(ackCurrentChannel());
         }
       }
-    } else if (clearEditing || clearComposerForDelete) {
+    } else if (clearComposerForDelete) {
       state = state.copyWith(
         editingMessage: null,
         messageText: '',
-        replyingTo: clearComposerForDelete ? null : state.replyingTo,
-        replyMentioning: !clearComposerForDelete && state.replyMentioning,
+        replyingTo: null,
+        replyMentioning: false,
       );
-      if (clearComposerForDelete) {
-        unawaited(_flushComposerDraftSave());
-      }
+      unawaited(_flushComposerDraftSave());
     }
   }
 

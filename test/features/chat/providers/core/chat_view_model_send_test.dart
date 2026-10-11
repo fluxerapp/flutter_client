@@ -21,6 +21,7 @@ import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_immunity_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
@@ -502,6 +503,55 @@ void main() {
           if (state.editingMessage == null) state.messageText,
       ];
       expect(textsAfterEdit, <String>['typed draft']);
+    },
+  );
+
+  test(
+    'the gateway echo of a saved edit does not blank the restored draft',
+    () async {
+      final (container, adapter, _) = await setUpChannel();
+      final String editedId = _snowflakeForUtc(DateTime.utc(2026, 6, 16, 11));
+      final notifier = container.read(chatViewModelProvider.notifier)
+        ..updateMessageText('typed draft')
+        ..startEdit(_msg(id: editedId, authorId: 'me', content: 'Test'));
+      await _flushAsync();
+
+      final List<ChatViewState> transitions = <ChatViewState>[];
+      final subscription = container.listen<ChatViewState>(
+        chatViewModelProvider,
+        (_, ChatViewState next) => transitions.add(next),
+      );
+      addTearDown(subscription.close);
+
+      final Future<void> save = notifier.saveEditedMessage(text: 'Test 2');
+      container
+          .read(messageRealtimeBusProvider)
+          .emit(
+            MessageUpdated(
+              MessageUpdateEvent(
+                message: MessageResponseSchema.fromJson(
+                  _messageJson(
+                    id: editedId,
+                    channelId: 'channel-1',
+                    authorId: 'me',
+                    content: 'Test 2',
+                  ),
+                ),
+              ),
+              mentionsCurrentUser: false,
+            ),
+          );
+      await save;
+      await _flushAsync();
+
+      expect(adapter.lastEditContent, 'Test 2');
+      final List<String> textsAfterEdit = <String>[
+        for (final ChatViewState state in transitions)
+          if (state.editingMessage == null) state.messageText,
+      ];
+      expect(textsAfterEdit, everyElement('typed draft'));
+      expect(container.read(chatViewModelProvider).editingMessage, isNull);
+      expect(container.read(chatViewModelProvider).messageText, 'typed draft');
     },
   );
 
