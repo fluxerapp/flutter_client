@@ -255,6 +255,7 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
     required String? previous,
     required String? next,
   }) {
+    final bool available = next != null && _loadActiveGuildChannels(next);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) {
         return;
@@ -263,14 +264,20 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
       if (previous != null && previous != activeGuildId) {
         unawaited(evictInactiveGuildPermissionState(ref.container, previous));
       }
-      if (next == null || activeGuildId != next) {
+      if (!available || activeGuildId != next) {
         return;
       }
-      _applyActiveGuildEffects(next);
+      ref.read(guildSyncProvider.notifier).syncIfNeeded(next);
     });
   }
 
   void _applyActiveGuildEffects(String guildId) {
+    if (_loadActiveGuildChannels(guildId)) {
+      ref.read(guildSyncProvider.notifier).syncIfNeeded(guildId);
+    }
+  }
+
+  bool _loadActiveGuildChannels(String guildId) {
     final guilds = ref.read(guildListViewModelProvider).guilds;
     final guild = guilds.where((g) => g.id == guildId).firstOrNull;
     if (isGuildOutageUnavailable(
@@ -278,12 +285,12 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
       trackedUnavailableGuildIds: ref.read(guildAvailabilityProvider),
       guild: guild,
     )) {
-      return;
+      return false;
     }
     ref
         .read(channelListViewModelProvider.notifier)
         .loadChannels(guildId, guild: guild);
-    ref.read(guildSyncProvider.notifier).syncIfNeeded(guildId);
+    return true;
   }
 
   void _scheduleDistributorPicker() {

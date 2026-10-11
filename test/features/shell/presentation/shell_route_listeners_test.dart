@@ -147,6 +147,82 @@ void main() {
     expect(container.read(channelListViewModelProvider).guild?.id, 'guild-1');
   });
 
+  testWidgets('switching guild never builds with the previous guild loaded', (
+    WidgetTester tester,
+  ) async {
+    final _RouteStateSource routeStateSource = _RouteStateSource(
+      location: '/channels/guild-2/channel-2',
+    );
+    final _RecordingChannelRepository channelRepository =
+        _RecordingChannelRepository();
+    final GatewayConnection gatewayConnection = GatewayConnection(
+      token: 'test-token',
+      dio: Dio(),
+    );
+    addTearDown(gatewayConnection.dispose);
+
+    final ProviderContainer container = ProviderContainer(
+      overrides: [
+        fluxerDatabaseProvider.overrideWithValue(_database),
+        routeStateProvider.overrideWith(
+          () => _TestRouteStateNotifier(routeStateSource),
+        ),
+        guildListViewModelProvider.overrideWithValue(
+          const GuildListViewState(
+            guilds: <Guild>[
+              Guild(id: 'guild-1', name: 'Sim Lab'),
+              Guild(id: 'guild-2', name: 'Owner Only'),
+            ],
+          ),
+        ),
+        channelRepositoryProvider.overrideWithValue(channelRepository),
+        gatewayConnectionProvider.overrideWithValue(gatewayConnection),
+        pushNotificationsCoordinatorProvider.overrideWithValue(false),
+        appIconBadgeCoordinatorProvider.overrideWithValue(null),
+        instanceRuntimeConfigProvider.overrideWithValue(
+          InstanceRuntimeConfig.defaults,
+        ),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    final List<(String?, String?)> frames = <(String?, String?)>[];
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: Directionality(
+          textDirection: TextDirection.ltr,
+          child: ShellRouteListeners(child: _ActiveGuildFrameRecorder(frames)),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.pump();
+    expect(container.read(channelListViewModelProvider).guild?.id, 'guild-2');
+
+    frames.clear();
+    for (final String location in <String>[
+      '/channels/@me',
+      '/channels/guild-1',
+    ]) {
+      routeStateSource.location = location;
+      container.invalidate(routeStateProvider);
+      await tester.pump();
+      await tester.pump();
+    }
+    await tester.pump(const Duration(seconds: 1));
+
+    expect(tester.takeException(), isNull);
+    expect(container.read(channelListViewModelProvider).guild?.id, 'guild-1');
+    expect(frames.last, ('guild-1', 'guild-1'));
+    expect(
+      frames.where(
+        ((String?, String?) frame) => frame.$1 != null && frame.$1 != frame.$2,
+      ),
+      isEmpty,
+    );
+  });
+
   testWidgets('relay consent requested before shell mount shows once', (
     WidgetTester tester,
   ) async {
@@ -209,6 +285,21 @@ void main() {
     container.read(pushRelayConsentPromptProvider.notifier).requestPrompt();
     expect(container.read(pushRelayConsentPromptProvider), isFalse);
   });
+}
+
+class _ActiveGuildFrameRecorder extends ConsumerWidget {
+  const _ActiveGuildFrameRecorder(this.frames);
+
+  final List<(String?, String?)> frames;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    frames.add((
+      ref.watch(activeGuildIdProvider),
+      ref.watch(channelListViewModelProvider.select((s) => s.guild?.id)),
+    ));
+    return const SizedBox.shrink();
+  }
 }
 
 class _InvalidateRouteStateAfterBuild extends ConsumerWidget {
