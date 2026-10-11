@@ -39,7 +39,6 @@ import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/channels/providers/ack_batcher_gateway_listener_provider.dart';
 import 'package:fluxer_app/features/chat/providers/chat_wallpaper_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_sync_provider.dart';
-import 'package:fluxer_app/features/friends/providers/friend_relationships_sync_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_availability_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_sync_provider.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
@@ -83,7 +82,6 @@ void authenticatedSessionBindings(Ref ref) {
     ..read(fluxerTtsBindingProvider)
     ..read(voiceCallKitCoordinatorProvider)
     ..read(gatewayPresenceCoordinatorProvider)
-    ..read(friendRelationshipsSyncProvider)
     ..read(guildListSyncProvider)
     ..read(slowmodeSyncProvider)
     ..read(statusExpiryBindingProvider)
