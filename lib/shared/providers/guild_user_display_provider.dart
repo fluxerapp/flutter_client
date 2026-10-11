@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart'
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
 import 'package:fluxer_app/shared/services/guild_member_hydration_service.dart';
@@ -71,9 +72,18 @@ GuildUserDisplay watchMessageAuthorDisplay({
           .value;
     }
   }
+  final String? channelNickname = guildId == null || guildId.isEmpty
+      ? ref.watch(
+          _dmChannelNicksProvider(message.channelId).select(
+            (AsyncValue<Map<String, String>> nicks) =>
+                nicks.value?[message.authorId],
+          ),
+        )
+      : null;
   return resolveMessageAuthorDisplay(
     message: message,
     guildDisplay: guildDisplay,
+    channelNickname: channelNickname,
     productName: ref.watch(
       instanceRuntimeConfigProvider.select((config) => config.productName),
     ),
@@ -85,6 +95,16 @@ final StreamProviderFamily<db.User?, String> _userRowProvider = StreamProvider
     .family<db.User?, String>(
       (ref, userId) =>
           ref.watch(fluxerDatabaseProvider).userDao.watchUserById(userId),
+    );
+
+final StreamProviderFamily<Map<String, String>, String>
+_dmChannelNicksProvider = StreamProvider.autoDispose
+    .family<Map<String, String>, String>(
+      (ref, channelId) => ref
+          .watch(fluxerDatabaseProvider)
+          .dmChannelDao
+          .watchNicksJson(channelId)
+          .map((String? json) => parseDmChannelNicksJson(json ?? '')),
     );
 
 AsyncValue<GuildUserDisplay?> _combine(

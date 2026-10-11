@@ -42,6 +42,21 @@ class GuildUserDisplay {
   final bool hasGuildProfile;
   final bool isShowingGlobalProfile;
 
+  GuildUserDisplay withDisplayName(String displayName) => GuildUserDisplay(
+    displayName: displayName,
+    accountDisplayName: accountDisplayName,
+    isBot: isBot,
+    avatarUrl: avatarUrl,
+    avatarHash: avatarHash,
+    avatarColor: avatarColor,
+    bannerUrl: bannerUrl,
+    bannerColor: bannerColor,
+    bio: bio,
+    pronouns: pronouns,
+    hasGuildProfile: hasGuildProfile,
+    isShowingGlobalProfile: isShowingGlobalProfile,
+  );
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -214,6 +229,7 @@ bool messagePrefersPersistedAuthorDisplay(Message message) {
 GuildUserDisplay resolveMessageAuthorDisplay({
   required Message message,
   GuildUserDisplay? guildDisplay,
+  String? channelNickname,
   String productName = InstanceConstants.defaultProductName,
 }) {
   final GuildUserDisplay messageDisplay = resolveGuildUserDisplayFromMessage(
@@ -233,7 +249,12 @@ GuildUserDisplay resolveMessageAuthorDisplay({
   if (webhookId != null && webhookId.isNotEmpty) {
     return messageDisplay;
   }
-  return guildDisplay ?? messageDisplay;
+  final GuildUserDisplay display = guildDisplay ?? messageDisplay;
+  final String? nickname = channelNickname?.trim();
+  if (nickname == null || nickname.isEmpty) {
+    return display;
+  }
+  return display.withDisplayName(nickname);
 }
 
 GuildUserDisplay resolveGuildUserDisplayFromProfile({

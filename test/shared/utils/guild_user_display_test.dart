@@ -418,6 +418,38 @@ void main() {
       expect(actual.displayName, 'KC');
     });
 
+    test('prefers group DM channel nick over friend nickname', () {
+      final GuildUserDisplay actual = resolveMessageAuthorDisplay(
+        message: _message(
+          authorName: 'Global Name',
+          authorAvatar: 'user_avatar',
+          authorIsBot: false,
+        ),
+        guildDisplay: resolveGuildUserDisplayFromRows(
+          user: _dbUser(),
+          member: null,
+          guildId: null,
+          friendNickname: 'KC',
+        ),
+        channelNickname: ' Group Nick ',
+      );
+      expect(actual.displayName, 'Group Nick');
+      expect(actual.accountDisplayName, 'Global Name');
+    });
+
+    test('keeps webhook display over a channel nick', () {
+      final GuildUserDisplay actual = resolveMessageAuthorDisplay(
+        message: _message(
+          authorName: 'Proxy One',
+          authorAvatar: 'proxy_one',
+          authorIsBot: true,
+          webhookId: 'webhook-1',
+        ),
+        channelNickname: 'Group Nick',
+      );
+      expect(actual.displayName, 'Proxy One');
+    });
+
     test('uses message display when guild display is null', () {
       final Message message = _message(
         authorName: 'Proxy One',

@@ -1,13 +1,18 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
-import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
+import 'package:fluxer_app/core/instance/instance_runtime_config.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/instance_runtime_config_provider.dart';
+import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/members/providers/guild_member_chunk_waiter.dart';
+import 'package:fluxer_app/material_ui.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/services/guild_member_hydration_service.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
@@ -31,6 +36,71 @@ class _NoopHydrationService extends GuildMemberHydrationService {
     required Iterable<String> userIds,
     void Function(String userId)? onMemberFetched,
   }) {}
+}
+
+Future<String> _pumpAuthorName(
+  WidgetTester tester, {
+  required Map<String, String> channelNicks,
+  required String? guildId,
+}) async {
+  final Message message = Message(
+    id: 'message-1',
+    channelId: 'group-dm-1',
+    authorId: 'user-1',
+    authorName: 'Global Alice',
+    content: 'hello',
+    timestamp: DateTime.utc(2026),
+  );
+  final FluxerDatabase database = openTestDatabase();
+  await tester.runAsync(
+    () => database.dmChannelDao.upsertDmChannels(<DmChannelsCompanion>[
+      DmChannelsCompanion.insert(
+        id: 'group-dm-1',
+        recipientId: 'user-1',
+        type: const Value(3),
+        recipientIds: const Value('["user-1"]'),
+        nicksJson: Value(jsonEncode(channelNicks)),
+      ),
+    ]),
+  );
+  await tester.pumpWidget(
+    ProviderScope(
+      overrides: [
+        instanceRuntimeConfigProvider.overrideWithValue(
+          InstanceRuntimeConfig.defaults,
+        ),
+        guildUserDisplayProvider(('user-1', guildId)).overrideWith(
+          (ref) => const AsyncValue<GuildUserDisplay?>.data(
+            GuildUserDisplay(
+              displayName: 'Friend Alice',
+              accountDisplayName: 'Global Alice',
+              avatarUrl: null,
+              avatarColor: null,
+            ),
+          ),
+        ),
+        fluxerDatabaseProvider.overrideWithValue(database),
+      ],
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: Consumer(
+          builder: (BuildContext context, WidgetRef ref, Widget? child) => Text(
+            watchMessageAuthorDisplay(
+              ref: ref,
+              message: message,
+              guildId: guildId,
+              currentUserId: 'viewer',
+            ).displayName,
+          ),
+        ),
+      ),
+    ),
+  );
+  await tester.runAsync(pumpEventQueue);
+  await tester.pump();
+  final String name = tester.widget<Text>(find.byType(Text)).data!;
+  await releaseTestWidgetTree(tester);
+  return name;
 }
 
 class _RecordingAdapter implements HttpClientAdapter {
@@ -307,4 +377,45 @@ void main() {
       expect(names.last, 'Guild Alice');
     },
   );
+
+  testWidgets('watchMessageAuthorDisplay prefers the group DM channel nick', (
+    WidgetTester tester,
+  ) async {
+    expect(
+      await _pumpAuthorName(
+        tester,
+        channelNicks: <String, String>{'user-1': 'Channel Alice'},
+        guildId: null,
+      ),
+      'Channel Alice',
+    );
+  });
+
+  testWidgets(
+    'watchMessageAuthorDisplay falls back to the friend nick without a '
+    'channel nick',
+    (WidgetTester tester) async {
+      expect(
+        await _pumpAuthorName(
+          tester,
+          channelNicks: const <String, String>{},
+          guildId: null,
+        ),
+        'Friend Alice',
+      );
+    },
+  );
+
+  testWidgets('watchMessageAuthorDisplay ignores channel nicks in a guild', (
+    WidgetTester tester,
+  ) async {
+    expect(
+      await _pumpAuthorName(
+        tester,
+        channelNicks: <String, String>{'user-1': 'Channel Alice'},
+        guildId: 'guild-1',
+      ),
+      'Friend Alice',
+    );
+  });
 }
