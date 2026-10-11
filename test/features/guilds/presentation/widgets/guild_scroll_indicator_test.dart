@@ -1,5 +1,6 @@
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/theme/fluxer_motion_theme.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_scroll_indicator.dart';
 import 'package:fluxer_app/material_ui.dart';
 
@@ -67,6 +68,9 @@ Widget _buildLazyList({
   required int count,
 }) {
   return MaterialApp(
+    theme: ThemeData(
+      extensions: const <ThemeExtension<dynamic>>[FluxerMotionTheme.standard()],
+    ),
     home: Center(
       child: SizedBox(
         width: 240,
@@ -292,6 +296,55 @@ void main() {
 
       _expectShowing(indicatorController.bottomIndicator.value, 'item-45');
       expect(indicatorController.topIndicator.value.show, isFalse);
+    });
+
+    testWidgets('tapping a pill for an item the lazy list never built '
+        'scrolls it into view', (WidgetTester tester) async {
+      final scrollController = ScrollController();
+      final itemKeys = <String, GlobalKey>{};
+      final List<String> order = <String>[
+        for (var i = 0; i < 50; i++) 'item-$i',
+      ];
+      final indicatorController = GuildScrollIndicatorController(
+        scrollController: scrollController,
+        itemKeys: itemKeys,
+        resolveSeverity: (String id) =>
+            id == 'item-45' ? GuildScrollIndicatorSeverity.mention : null,
+        orderedIds: () => order,
+      );
+      addTearDown(() {
+        indicatorController.detach();
+        scrollController.dispose();
+      });
+
+      await tester.pumpWidget(
+        _buildLazyList(
+          scrollController: scrollController,
+          itemKeys: itemKeys,
+          count: order.length,
+        ),
+      );
+      expect(itemKeys['item-45']?.currentContext, isNull);
+      indicatorController.update();
+
+      indicatorController.scrollTo(
+        indicatorController.bottomIndicator.value.targetId,
+      );
+      await tester.pumpAndSettle();
+
+      final BuildContext? target = itemKeys['item-45']?.currentContext;
+      expect(target, isNotNull);
+      final RenderBox targetBox = target!.findRenderObject()! as RenderBox;
+      final RenderBox viewport =
+          scrollController.position.context.storageContext.findRenderObject()!
+              as RenderBox;
+      final double viewportTop = viewport.localToGlobal(Offset.zero).dy;
+      final double targetTop = targetBox.localToGlobal(Offset.zero).dy;
+      expect(targetTop, greaterThanOrEqualTo(viewportTop));
+      expect(
+        targetTop + targetBox.size.height,
+        lessThanOrEqualTo(viewportTop + viewport.size.height),
+      );
     });
 
     testWidgets('an unchanged indicator does not notify listeners again', (

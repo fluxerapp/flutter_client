@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_scroll_indicator_selection.dart';
@@ -26,6 +28,18 @@ bool _sameIndicator(GuildScrollIndicatorState a, GuildScrollIndicatorState b) {
       a.targetId == b.targetId;
 }
 
+typedef _GuildScrollIndicatorBox = ({double top, double bottom});
+
+typedef _GuildScrollIndicatorLayout = ({
+  double scrollableTop,
+  double scrollableBottom,
+  List<String> ids,
+  List<_GuildScrollIndicatorBox?> boxes,
+  int firstLaidOut,
+  int lastLaidOut,
+  double averageHeight,
+});
+
 class GuildScrollIndicatorController {
   GuildScrollIndicatorController({
     required this._scrollController,
@@ -37,6 +51,7 @@ class GuildScrollIndicatorController {
   });
 
   static const double _scrollDirectionEpsilon = 0.5;
+  static const int _maxScrollToUnbuiltAttempts = 3;
 
   final ScrollController _scrollController;
   final Map<String, GlobalKey> _itemKeys;
@@ -96,33 +111,32 @@ class GuildScrollIndicatorController {
     });
   }
 
-  void update() {
+  bool get _canMeasure {
     final bool Function()? isMounted = _isMounted;
     if (isMounted != null && !isMounted()) {
-      return;
+      return false;
     }
-    if (!_scrollController.hasClients) {
-      return;
-    }
+    return _scrollController.hasClients;
+  }
+
+  _GuildScrollIndicatorLayout? _measure() {
     final ScrollPosition scrollPosition = _scrollController.position;
     final RenderBox? scrollableRenderObject = _laidOutBox(
       scrollPosition.context.storageContext,
     );
     if (scrollableRenderObject == null) {
-      return;
+      return null;
     }
     final double scrollableTop = scrollableRenderObject
         .localToGlobal(Offset.zero)
         .dy;
-    final double scrollableBottom =
-        scrollableTop + scrollPosition.viewportDimension;
     final List<String> ids =
         _orderedIds?.call() ?? _itemKeys.keys.toList(growable: false);
-
-    final List<({double top, double bottom})?> boxes =
-        List<({double top, double bottom})?>.filled(ids.length, null);
+    final List<_GuildScrollIndicatorBox?> boxes =
+        List<_GuildScrollIndicatorBox?>.filled(ids.length, null);
     int firstLaidOut = -1;
     int lastLaidOut = -1;
+    int laidOutCount = 0;
     double heightSum = 0;
     for (var i = 0; i < ids.length; i++) {
       final RenderBox? itemBox = _laidOutBox(_itemKeys[ids[i]]?.currentContext);
@@ -132,23 +146,47 @@ class GuildScrollIndicatorController {
       final double top = itemBox.localToGlobal(Offset.zero).dy;
       boxes[i] = (top: top, bottom: top + itemBox.size.height);
       heightSum += itemBox.size.height;
+      laidOutCount++;
       if (firstLaidOut < 0) {
         firstLaidOut = i;
       }
       lastLaidOut = i;
     }
+    return (
+      scrollableTop: scrollableTop,
+      scrollableBottom: scrollableTop + scrollPosition.viewportDimension,
+      ids: ids,
+      boxes: boxes,
+      firstLaidOut: firstLaidOut,
+      lastLaidOut: lastLaidOut,
+      averageHeight: laidOutCount == 0 ? 0 : heightSum / laidOutCount,
+    );
+  }
+
+  void update() {
+    if (!_canMeasure) {
+      return;
+    }
+    final _GuildScrollIndicatorLayout? layout = _measure();
+    if (layout == null) {
+      return;
+    }
+    final ScrollPosition scrollPosition = _scrollController.position;
+    final (
+      :double scrollableTop,
+      :double scrollableBottom,
+      :List<String> ids,
+      :List<_GuildScrollIndicatorBox?> boxes,
+      :int firstLaidOut,
+      :int lastLaidOut,
+      :double averageHeight,
+    ) = layout;
     final bool placeUnbuilt = _orderedIds != null && firstLaidOut >= 0;
-    final double averageHeight = firstLaidOut < 0
-        ? 0
-        : heightSum /
-              boxes
-                  .where((({double top, double bottom})? b) => b != null)
-                  .length;
 
     GuildScrollIndicatorCandidate? topCandidate;
     GuildScrollIndicatorCandidate? bottomCandidate;
     for (var i = 0; i < ids.length; i++) {
-      final ({double top, double bottom})? box = boxes[i];
+      final _GuildScrollIndicatorBox? box = boxes[i];
       final double distance;
       final bool above;
       if (box != null) {
@@ -252,15 +290,67 @@ class GuildScrollIndicatorController {
     if (itemId == null) {
       return;
     }
+    unawaited(_scrollToward(itemId, _maxScrollToUnbuiltAttempts));
+  }
+
+  Future<void> _scrollToward(String itemId, int attemptsLeft) async {
     final BuildContext? context = _itemKeys[itemId]?.currentContext;
-    if (context == null) {
+    if (context != null) {
+      await Scrollable.ensureVisible(
+        context,
+        duration: context.motion.panel,
+        curve: Curves.easeOut,
+      );
       return;
     }
-    Scrollable.ensureVisible(
-      context,
-      duration: context.motion.panel,
+    if (attemptsLeft == 0 || !_canMeasure) {
+      return;
+    }
+    final double? offset = _estimatedOffsetOf(itemId);
+    if (offset == null) {
+      return;
+    }
+    final ScrollPosition position = _scrollController.position;
+    await position.animateTo(
+      offset,
+      duration: position.context.storageContext.motion.panel,
       curve: Curves.easeOut,
     );
+    await WidgetsBinding.instance.endOfFrame;
+    if (!_canMeasure) {
+      return;
+    }
+    await _scrollToward(itemId, attemptsLeft - 1);
+  }
+
+  double? _estimatedOffsetOf(String itemId) {
+    final _GuildScrollIndicatorLayout? layout = _measure();
+    if (layout == null || layout.firstLaidOut < 0) {
+      return null;
+    }
+    final int index = layout.ids.indexOf(itemId);
+    final double estimatedTop;
+    if (index > layout.lastLaidOut) {
+      estimatedTop =
+          layout.boxes[layout.lastLaidOut]!.bottom +
+          (index - layout.lastLaidOut - 1) * layout.averageHeight;
+    } else if (index >= 0 && index < layout.firstLaidOut) {
+      estimatedTop =
+          layout.boxes[layout.firstLaidOut]!.top -
+          (layout.firstLaidOut - index) * layout.averageHeight;
+    } else {
+      return null;
+    }
+    final ScrollPosition position = _scrollController.position;
+    final double offset =
+        (position.pixels + estimatedTop - layout.scrollableTop).clamp(
+          position.minScrollExtent,
+          position.maxScrollExtent,
+        );
+    if ((offset - position.pixels).abs() < _scrollDirectionEpsilon) {
+      return null;
+    }
+    return offset;
   }
 
   static RenderBox? _laidOutBox(BuildContext? context) {
