@@ -95,6 +95,12 @@ class AckBatcher {
     _rescheduleTimer();
   }
 
+  void clear() {
+    _pending.clear();
+    _flushTimer?.cancel();
+    _flushTimer = null;
+  }
+
   void cancel(String channelId) {
     _pending.remove(channelId);
     if (_pending.isEmpty) {
@@ -191,18 +197,17 @@ class AckBatcher {
       );
       try {
         final response = await _client.readStates.ackReadStates(body: body);
-        for (final entry in chunk) {
-          final current = _pending[entry.key];
-          if (current != null && current.messageId == entry.value.messageId) {
-            _pending.remove(entry.key);
-          }
-        }
+        _removeSent(chunk);
         final onResponse = this.onResponse;
         if (onResponse != null) {
           await onResponse(response);
         }
       } on Object catch (e, s) {
         _logFailure('bulk ack chunk failed', e, s);
+        if (_isRejected(e)) {
+          _removeSent(chunk);
+          continue;
+        }
         final int retryAfterMs = e is DioException
             ? retryAfterMsFromDioException(e) ?? 0
             : 0;
@@ -220,6 +225,23 @@ class AckBatcher {
       }
     }
     _rescheduleTimer();
+  }
+
+  void _removeSent(List<MapEntry<String, _PendingAck>> chunk) {
+    for (final entry in chunk) {
+      final current = _pending[entry.key];
+      if (current != null && current.messageId == entry.value.messageId) {
+        _pending.remove(entry.key);
+      }
+    }
+  }
+
+  bool _isRejected(Object error) {
+    if (error is! DioException) {
+      return false;
+    }
+    final int? status = error.response?.statusCode;
+    return status != null && status >= 400 && status < 500 && status != 429;
   }
 
   Duration _retryDelay(int attempt) => jitteredBackoff(

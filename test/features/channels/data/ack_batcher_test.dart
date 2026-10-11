@@ -336,6 +336,20 @@ void main() {
       });
     });
 
+    test('a rejected ack is dropped instead of re-sent', () {
+      fakeAsync((FakeAsync async) {
+        final adapter = _BulkAckAdapter()
+          ..scriptedFailures.add(ResponseBody.fromString('{}', 400));
+        final batcher = retryingBatcher(adapter, const Duration(seconds: 10));
+        queueImmediate(batcher, 'm-1');
+
+        async.elapse(const Duration(minutes: 5));
+        expect(adapter.requestCount, 1);
+        unawaited(batcher.dispose());
+        async.flushMicrotasks();
+      });
+    });
+
     test('a newer ack queued during the backoff is the one re-sent', () {
       fakeAsync((FakeAsync async) {
         final adapter = _BulkAckAdapter()..handshakeFailures = 1;

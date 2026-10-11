@@ -107,4 +107,24 @@ void main() {
       {'channel_id': 'c-2', 'message_id': 'm-2'},
     ]);
   });
+
+  test('drops acks queued by the previous session', () async {
+    final adapter = _BulkAdapter();
+    final container = _makeContainer(adapter);
+    addTearDown(container.dispose);
+
+    container.read(fluxerAuthTokenProvider.notifier).setToken('account-a');
+    final batcher = container.read(ackBatcherProvider)
+      ..queue(
+        channelId: 'c-3',
+        messageId: 'm-3',
+        immediate: false,
+        hadMentions: false,
+      );
+
+    container.read(fluxerAuthTokenProvider.notifier).setToken('account-b');
+    await batcher.flushPending(force: true);
+
+    expect(adapter.recordedBatches, isEmpty);
+  });
 }

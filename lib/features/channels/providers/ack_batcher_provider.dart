@@ -33,6 +33,11 @@ AckBatcher ackBatcher(Ref ref) {
         unawaited(batcher.flushPending(force: true));
       }
     })
+    ..listen<String?>(fluxerAuthTokenProvider, (prev, next) {
+      if (prev != next) {
+        batcher.clear();
+      }
+    })
     ..onDispose(() {
       unawaited(batcher.dispose());
     });
