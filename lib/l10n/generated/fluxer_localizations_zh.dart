@@ -5764,6 +5764,10 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get chatMessageFailedToSend => '消息发送失败';
 
   @override
+  String get chatMessageFailedToSendTapForOptions =>
+      'Failed to send message. Tap for options.';
+
+  @override
   String chatSendFailureDmRestricted(String settingsPath) {
     return '无法送达你的消息。这通常是因为你与收件人未共享同一社群，或者收件人仅接受好友的直接消息。你可能还需要在 $settingsPath 中调整你自己的直接消息隐私设置。';
   }

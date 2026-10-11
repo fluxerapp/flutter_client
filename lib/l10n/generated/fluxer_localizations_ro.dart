@@ -6139,6 +6139,10 @@ class FluxerLocalizationsRo extends FluxerLocalizations {
   String get chatMessageFailedToSend => 'Mesaj netrimis';
 
   @override
+  String get chatMessageFailedToSendTapForOptions =>
+      'Failed to send message. Tap for options.';
+
+  @override
   String chatSendFailureDmRestricted(String settingsPath) {
     return 'Mesajul tău nu a putut fi livrat. Acest lucru se întâmplă de obicei deoarece nu împărtășiți o comunitate cu destinatarul sau destinatarul acceptă mesaje directe doar de la prieteni. De asemenea, este posibil să fie necesar să ajustezi propriile setări de confidențialitate pentru mesajele directe în $settingsPath.';
   }

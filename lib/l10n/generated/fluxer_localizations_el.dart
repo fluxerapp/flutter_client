@@ -6166,6 +6166,10 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get chatMessageFailedToSend => 'Αποτυχία αποστολής μηνύματος';
 
   @override
+  String get chatMessageFailedToSendTapForOptions =>
+      'Failed to send message. Tap for options.';
+
+  @override
   String chatSendFailureDmRestricted(String settingsPath) {
     return 'Το μήνυμά σας δεν μπόρεσε να παραδοθεί. Αυτό συμβαίνει συνήθως επειδή δεν μοιράζεστε κοινότητα με τον παραλήπτη ή ο παραλήπτης δέχεται απευθείας μηνύματα μόνο από φίλους. Μπορεί επίσης να χρειαστεί να προσαρμόσετε τις δικές σας ρυθμίσεις απορρήτου απευθείας μηνυμάτων στο $settingsPath.';
   }

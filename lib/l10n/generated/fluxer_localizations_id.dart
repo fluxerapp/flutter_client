@@ -6099,6 +6099,10 @@ class FluxerLocalizationsId extends FluxerLocalizations {
   String get chatMessageFailedToSend => 'Gagal mengirim pesan';
 
   @override
+  String get chatMessageFailedToSendTapForOptions =>
+      'Failed to send message. Tap for options.';
+
+  @override
   String chatSendFailureDmRestricted(String settingsPath) {
     return 'Pesan Anda tidak dapat terkirim. Ini biasanya karena Anda tidak berbagi komunitas dengan penerima atau penerima hanya menerima pesan langsung dari teman. Anda mungkin juga perlu menyesuaikan pengaturan privasi pesan langsung Anda sendiri di $settingsPath.';
   }

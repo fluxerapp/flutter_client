@@ -6100,6 +6100,10 @@ class FluxerLocalizationsVi extends FluxerLocalizations {
   String get chatMessageFailedToSend => 'Không gửi được tin nhắn';
 
   @override
+  String get chatMessageFailedToSendTapForOptions =>
+      'Failed to send message. Tap for options.';
+
+  @override
   String chatSendFailureDmRestricted(String settingsPath) {
     return 'Tin nhắn của bạn không thể được gửi. Điều này thường xảy ra vì bạn không chung cộng đồng với người nhận hoặc người nhận chỉ chấp nhận tin nhắn trực tiếp từ bạn bè. Bạn cũng có thể cần điều chỉnh cài đặt quyền riêng tư tin nhắn trực tiếp của mình trong $settingsPath.';
   }

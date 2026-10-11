@@ -6098,6 +6098,10 @@ class FluxerLocalizationsDa extends FluxerLocalizations {
   String get chatMessageFailedToSend => 'Besked kunne ikke sendes';
 
   @override
+  String get chatMessageFailedToSendTapForOptions =>
+      'Failed to send message. Tap for options.';
+
+  @override
   String chatSendFailureDmRestricted(String settingsPath) {
     return 'Din besked kunne ikke leveres. Dette skyldes normalt, at du ikke deler et fællesskab med modtageren, eller at modtageren kun accepterer direkte beskeder fra venner. Du skal muligvis også justere dine egne indstillinger for direkte beskeders privatliv i $settingsPath.';
   }

@@ -6121,6 +6121,10 @@ class FluxerLocalizationsHr extends FluxerLocalizations {
   String get chatMessageFailedToSend => 'Poruka nije poslana';
 
   @override
+  String get chatMessageFailedToSendTapForOptions =>
+      'Failed to send message. Tap for options.';
+
+  @override
   String chatSendFailureDmRestricted(String settingsPath) {
     return 'Vaša poruka nije mogla biti isporučena. To je obično zato što ne dijelite zajednicu s primateljem ili primatelj prihvaća izravne poruke samo od prijatelja. Možda ćete također morati prilagoditi vlastite postavke privatnosti izravnih poruka u $settingsPath.';
   }

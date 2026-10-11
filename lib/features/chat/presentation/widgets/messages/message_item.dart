@@ -607,8 +607,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     }
     final isGrouped = widget.isGrouped;
     final isMobile = isMobileLayout(context);
-    final bool touchPrimary = isTouchPrimaryInput(ref);
-    final bool useTouchMessageActions = isMobile || touchPrimary;
+    final bool useTouchMessageActions = _usesTouchMessageActions(context);
     final isTouch =
         layoutModeOfSize(MediaQuery.sizeOf(context)) != LayoutMode.desktop;
     final MessageRenderSettings? settings = widget.renderSettings;
@@ -728,6 +727,10 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           onEdit: widget.onEdit,
         );
     final rowGestures = FluxerGestureDetector(
+      onTapUp: isFailed && useTouchMessageActions && !widget.inboxPreviewMode
+          ? (details) =>
+                unawaited(_showActions(context, details.globalPosition))
+          : null,
       onLongPressStart: useTouchMessageActions && !widget.inboxPreviewMode
           ? (details) {
               _pressHighlight.value = true;
@@ -864,6 +867,20 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                     ),
                 ],
               ),
+              if (!isMobile && isFailed && !widget.inboxPreviewMode)
+                ListenableBuilder(
+                  listenable: _actionBarVisibility,
+                  builder: (context, _) {
+                    if (!_hovered.value) {
+                      return const SizedBox.shrink();
+                    }
+                    return Positioned(
+                      top: 0,
+                      right: 0,
+                      child: _buildFailedActions(context),
+                    );
+                  },
+                ),
               if (!isMobile && !isFailed && !widget.inboxPreviewMode)
                 Consumer(
                   builder: (context, ref, _) {
@@ -1387,29 +1404,31 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     ];
   }
 
+  bool _usesTouchMessageActions(BuildContext context) =>
+      isMobileLayout(context) || isTouchPrimaryInput(ref);
+
   Widget _buildDeliveryStatus(BuildContext context, Message msg) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.only(top: 4),
-      child: Wrap(
-        spacing: 8,
-        crossAxisAlignment: WrapCrossAlignment.center,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              PhosphorIcon(
-                PhosphorIconsBold.warningCircle,
-                size: 14,
+          PhosphorIcon(
+            PhosphorIconsBold.warningCircle,
+            size: 14,
+            color: context.colors.textDanger,
+          ),
+          const SizedBox(width: 4),
+          Flexible(
+            child: Text(
+              _usesTouchMessageActions(context)
+                  ? l10n.chatMessageFailedToSendTapForOptions
+                  : l10n.chatMessageFailedToSend,
+              style: context.textStyles.smallText.copyWith(
                 color: context.colors.textDanger,
               ),
-              const SizedBox(width: 4),
-              Text(
-                FluxerLocalizations.of(context).chatMessageFailedToSend,
-                style: context.textStyles.smallText.copyWith(
-                  color: context.colors.textDanger,
-                ),
-              ),
-            ],
+            ),
           ),
         ],
       ),
@@ -2268,12 +2287,45 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     );
   }
 
+  Widget _buildFailedActions(BuildContext context) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    return Material(
+      color: context.colors.backgroundPrimary,
+      borderRadius: BorderRadius.circular(4),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          border: Border.all(color: context.colors.borderColor),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _actionButton(
+              context,
+              PhosphorIconsBold.arrowClockwise,
+              l10n.retry,
+              widget.onRetry,
+            ),
+            _actionButton(
+              context,
+              PhosphorIconsFill.trash,
+              l10n.chatMessageDeleteFailed,
+              widget.onDeleteFailed,
+              color: context.colors.textDanger,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _actionButton(
     BuildContext context,
     IconData icon,
     String tooltip,
-    VoidCallback? onTap,
-  ) => Tooltip(
+    VoidCallback? onTap, {
+    Color? color,
+  }) => Tooltip(
     message: tooltip,
     child: InkWell(
       onTap: onTap,
@@ -2282,7 +2334,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         child: PhosphorIcon(
           icon,
           size: 18,
-          color: context.colors.interactiveNormal,
+          color: color ?? context.colors.interactiveNormal,
         ),
       ),
     ),

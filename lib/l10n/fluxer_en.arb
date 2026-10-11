@@ -7801,6 +7801,10 @@
     "@chatMessageFailedToSend": {
         "description": "Status label shown under a failed outgoing chat message."
     },
+    "chatMessageFailedToSendTapForOptions": "Failed to send message. Tap for options.",
+    "@chatMessageFailedToSendTapForOptions": {
+        "description": "Status label shown under a failed outgoing chat message on touch layouts, where tapping the message opens Retry and Delete."
+    },
     "chatSendFailureDmRestricted": "Your message could not be delivered. This is usually because you don't share a community with the recipient or the recipient is only accepting direct messages from friends. You may also need to adjust your own direct message privacy settings in {settingsPath}.",
     "@chatSendFailureDmRestricted": {
         "description": "Fluxerbot system message when a DM cannot be delivered due to privacy restrictions.",

@@ -6168,6 +6168,10 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get chatMessageFailedToSend => 'Nepavyko išsiųsti žinutės';
 
   @override
+  String get chatMessageFailedToSendTapForOptions =>
+      'Failed to send message. Tap for options.';
+
+  @override
   String chatSendFailureDmRestricted(String settingsPath) {
     return 'Jūsų žinutė negalėjo būti pristatyta. Paprastai taip nutinka, jei nesidalinate bendruomene su gavėju arba gavėjas priima tiesioginius pranešimus tik iš draugų. Taip pat gali tekti pakoreguoti savo tiesioginių pranešimų privatumo nustatymus skiltyje $settingsPath.';
   }

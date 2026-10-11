@@ -6123,6 +6123,10 @@ class FluxerLocalizationsNl extends FluxerLocalizations {
   String get chatMessageFailedToSend => 'Bericht kon niet worden verzonden';
 
   @override
+  String get chatMessageFailedToSendTapForOptions =>
+      'Failed to send message. Tap for options.';
+
+  @override
   String chatSendFailureDmRestricted(String settingsPath) {
     return 'Je bericht kon niet worden bezorgd. Dit komt meestal doordat je geen community deelt met de ontvanger of omdat de ontvanger alleen directe berichten van vrienden accepteert. Mogelijk moet je ook je eigen privacy-instellingen voor directe berichten aanpassen in $settingsPath.';
   }

@@ -5874,6 +5874,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get chatMessageFailedToSend => '메시지 전송 실패';
 
   @override
+  String get chatMessageFailedToSendTapForOptions =>
+      'Failed to send message. Tap for options.';
+
+  @override
   String chatSendFailureDmRestricted(String settingsPath) {
     return '메시지를 전달할 수 없습니다. 일반적으로 수신자와 커뮤니티를 공유하지 않거나 수신자가 친구의 직접 메시지만 허용하기 때문입니다. 또한 $settingsPath에서 직접 메시지 개인 정보 설정을 조정해야 할 수 있습니다.';
   }

@@ -6101,6 +6101,10 @@ class FluxerLocalizationsHi extends FluxerLocalizations {
   String get chatMessageFailedToSend => 'संदेश भेजने में विफल';
 
   @override
+  String get chatMessageFailedToSendTapForOptions =>
+      'Failed to send message. Tap for options.';
+
+  @override
   String chatSendFailureDmRestricted(String settingsPath) {
     return 'आपका संदेश डिलीवर नहीं हो सका। ऐसा आमतौर पर इसलिए होता है क्योंकि आप प्राप्तकर्ता के साथ कोई समुदाय साझा नहीं करते हैं या प्राप्तकर्ता केवल दोस्तों से डायरेक्ट मैसेज स्वीकार कर रहा है। आपको अपने डायरेक्ट मैसेज की गोपनीयता सेटिंग्स को $settingsPath में भी एडजस्ट करने की आवश्यकता हो सकती है।';
   }

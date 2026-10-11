@@ -6032,6 +6032,10 @@ class FluxerLocalizationsHe extends FluxerLocalizations {
   String get chatMessageFailedToSend => 'הודעה נכשלה בשליחה';
 
   @override
+  String get chatMessageFailedToSendTapForOptions =>
+      'Failed to send message. Tap for options.';
+
+  @override
   String chatSendFailureDmRestricted(String settingsPath) {
     return 'ההודעה שלך לא נמסרה. בדרך כלל זה קורה מכיוון שאתה לא חולק קהילה עם הנמען או שהנמען מקבל הודעות ישירות רק מחברים. ייתכן שתצטרך גם להתאים את הגדרות הפרטיות שלך להודעות ישירות ב- $settingsPath.';
   }

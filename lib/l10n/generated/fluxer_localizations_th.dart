@@ -6063,6 +6063,10 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get chatMessageFailedToSend => 'ส่งข้อความไม่สำเร็จ';
 
   @override
+  String get chatMessageFailedToSendTapForOptions =>
+      'Failed to send message. Tap for options.';
+
+  @override
   String chatSendFailureDmRestricted(String settingsPath) {
     return 'ไม่สามารถส่งข้อความของคุณได้ โดยปกติจะเป็นเพราะคุณไม่ได้อยู่ในชุมชนเดียวกับผู้รับ หรือผู้รับยอมรับเฉพาะข้อความส่วนตัวจากเพื่อนเท่านั้น คุณอาจต้องปรับการตั้งค่าความเป็นส่วนตัวข้อความส่วนตัวของคุณใน $settingsPath';
   }

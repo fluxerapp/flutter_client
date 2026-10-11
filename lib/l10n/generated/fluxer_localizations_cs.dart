@@ -6114,6 +6114,10 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get chatMessageFailedToSend => 'Zprávu se nepodařilo odeslat';
 
   @override
+  String get chatMessageFailedToSendTapForOptions =>
+      'Failed to send message. Tap for options.';
+
+  @override
   String chatSendFailureDmRestricted(String settingsPath) {
     return 'Vaši zprávu nebylo možné doručit. Obvykle je to proto, že nesdílíte komunitu s příjemcem nebo příjemce přijímá přímé zprávy pouze od přátel. Možná budete muset také upravit svá vlastní nastavení soukromí pro přímé zprávy v části $settingsPath.';
   }
