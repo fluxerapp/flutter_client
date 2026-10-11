@@ -4,11 +4,15 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
-import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart'
+    show FluxerDatabase;
+import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
 import 'package:fluxer_app/features/auth/data/auth_repository.dart';
+import 'package:fluxer_app/features/auth/domain/auth_failure.dart';
+import 'package:fluxer_app/features/auth/domain/auth_session.dart';
 import 'package:fluxer_app/features/auth/domain/stored_account.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
@@ -56,9 +60,26 @@ class _FakeApiServer {
 /// [AccountManager.loadAccounts] only needs [getStoredAccounts]. Everything
 /// else throws via [noSuchMethod], so an unexpected repository call fails loud.
 class _FakeAuthRepository implements AuthRepository {
+  _FakeAuthRepository({this.targetBaseUrl = ''});
+
+  final String targetBaseUrl;
+
   @override
   Future<List<StoredAccount>> getStoredAccounts() async =>
       const <StoredAccount>[];
+
+  @override
+  Future<AuthSession?> getSession(String userId) async =>
+      AuthSession(token: 'token-$userId', userId: userId);
+
+  @override
+  Future<InstanceConfigSnapshot> resolveInstanceSnapshotForUser(
+    String userId,
+  ) async => InstanceConfigSnapshot(
+    apiBaseUrl: targetBaseUrl,
+    gatewayUrl: '',
+    displayDomain: '127.0.0.1',
+  );
 
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
@@ -72,7 +93,9 @@ class _FakeAuthRepository implements AuthRepository {
     overrides: [
       fluxerDatabaseProvider.overrideWithValue(db),
       fluxerBaseUrlProvider.overrideWithValue(baseUrl),
-      authRepositoryProvider.overrideWithValue(_FakeAuthRepository()),
+      authRepositoryProvider.overrideWithValue(
+        _FakeAuthRepository(targetBaseUrl: baseUrl),
+      ),
       syncedPreferencesStoreProvider.overrideWith(SyncedPreferencesStore.new),
     ],
   );
@@ -159,6 +182,33 @@ void main() {
     expect(container.read(fluxerAuthTokenProvider), _token);
     final session = await db.authSessionDao.getSession(_userId);
     expect(session!.isValid, isTrue);
+  });
+
+  test('an expired target account never leaves the current UI', () async {
+    final server = await _FakeApiServer.start();
+    addTearDown(server.close);
+    server.statusCode = HttpStatus.unauthorized;
+    final (:container, :db) = _harness(baseUrl: server.baseUrl);
+    await _signIn(container, db);
+    await db.authSessionDao.saveSessionMetadata(userId: 'user-2');
+    await db.authSessionDao.touchSession(_userId);
+    final List<bool> switching = <bool>[];
+    container.listen<bool>(
+      accountManagerProvider.select(
+        (AccountManagerState state) => state.isSwitching,
+      ),
+      (bool? previous, bool next) => switching.add(next),
+    );
+
+    await expectLater(
+      container.read(accountManagerProvider.notifier).switchToAccount('user-2'),
+      throwsA(isA<SessionExpiredFailure>()),
+    );
+
+    expect(server.requests, ['GET /users/@me']);
+    expect(switching, isNot(contains(true)));
+    expect(container.read(currentUserIdProvider), _userId);
+    expect((await db.authSessionDao.getSession('user-2'))!.isValid, isFalse);
   });
 
   for (final String? token in <String?>[null, '']) {

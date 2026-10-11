@@ -63,8 +63,6 @@ class AccountManager extends _$AccountManager {
   /// marked invalid and a [SessionExpiredFailure] is thrown so the UI can
   /// prompt re-login.
   Future<void> switchToAccount(String userId) async {
-    state = state.copyWith(isSwitching: true);
-
     try {
       final db = ref.read(fluxerDatabaseProvider);
       final authRepository = ref.read(authRepositoryProvider);
@@ -86,10 +84,10 @@ class AccountManager extends _$AccountManager {
       if (!isValid) {
         await db.authSessionDao.markInvalid(userId);
         await loadAccounts();
-        state = state.copyWith(isSwitching: false);
         throw const SessionExpiredFailure();
       }
 
+      state = state.copyWith(isSwitching: true);
       await db.authSessionDao.touchSession(userId);
       ref.read(activeInstanceProvider.notifier).applySnapshot(instanceSnapshot);
 

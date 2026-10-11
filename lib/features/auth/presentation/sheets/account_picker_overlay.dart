@@ -156,9 +156,6 @@ class _AccountPickerOverlayBodyState
   }
 
   double _visibility() {
-    if (_switchAccount != null) {
-      return 1 - Curves.easeOutCubic.transform(_switchExitController.value);
-    }
     return 1 - Curves.easeInCubic.transform(_exitController.value);
   }
 
@@ -179,18 +176,16 @@ class _AccountPickerOverlayBodyState
       _switchStartCenter = avatarCenter;
     });
 
-    final Future<void> switchFuture = ref
-        .read(accountManagerProvider.notifier)
-        .switchToAccount(account.userId);
-
-    await _switchExitController.forward(from: 0);
-    if (mounted) {
-      widget.onClose();
-    }
+    _switchExitController.forward(from: 0);
 
     try {
-      await switchFuture;
+      await ref
+          .read(accountManagerProvider.notifier)
+          .switchToAccount(account.userId);
     } on SessionExpiredFailure {
+      if (mounted) {
+        widget.onClose();
+      }
       final BuildContext? rootContext = rootNavigatorKey.currentContext;
       if (rootContext == null || !rootContext.mounted) {
         return;
@@ -213,13 +208,18 @@ class _AccountPickerOverlayBodyState
               variant: FluxerToastVariant.danger,
             ),
           );
+      widget.onClose();
+      return;
+    }
+    if (mounted) {
+      widget.onClose();
     }
   }
 
-  Widget _buildSwitchingAvatar(double visibility) {
+  Widget _buildSwitchingAvatar() {
     final StoredAccount? account = _switchAccount;
     final Offset? startCenter = _switchStartCenter;
-    if (account == null || startCenter == null || visibility <= 0) {
+    if (account == null || startCenter == null) {
       return const SizedBox.shrink();
     }
     final Size screen = MediaQuery.sizeOf(context);
@@ -238,12 +238,9 @@ class _AccountPickerOverlayBodyState
       width: layoutSize,
       height: layoutSize,
       child: IgnorePointer(
-        child: Opacity(
-          opacity: visibility,
-          child: FittedBox(
-            fit: BoxFit.cover,
-            child: _SwitchingAvatarBadge(account: account),
-          ),
+        child: FittedBox(
+          fit: BoxFit.cover,
+          child: _SwitchingAvatarBadge(account: account),
         ),
       ),
     );
@@ -322,7 +319,7 @@ class _AccountPickerOverlayBodyState
                     ),
                   ),
                 ),
-              if (switching) _buildSwitchingAvatar(visibility),
+              if (switching) _buildSwitchingAvatar(),
             ],
           );
         },
