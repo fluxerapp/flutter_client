@@ -259,21 +259,24 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
       if (!hostContext.mounted) {
         return;
       }
+      final bool closesViewer =
+          action != MessageAction.delete &&
+          shouldCloseMediaViewerForMessageAction(action) &&
+          onCloseViewer != null;
+      final BuildContext dispatchContext = closesViewer
+          ? Navigator.of(hostContext, rootNavigator: true).context
+          : hostContext;
+      if (closesViewer) {
+        onCloseViewer!.call();
+      }
       await dispatchMessageAction(
         ref: hostRef,
-        context: hostContext,
+        context: dispatchContext,
         message: actionScope.message,
         action: action,
         callbacks: actionScope.callbacks,
         previewRoleGuildId: actionScope.previewRoleGuildId,
       );
-      if (action == MessageAction.delete ||
-          !shouldCloseMediaViewerForMessageAction(action)) {
-        return;
-      }
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        onCloseViewer?.call();
-      });
     });
   }
 

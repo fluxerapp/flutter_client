@@ -366,4 +366,120 @@ void main() {
     expect(viewerClosed, isTrue);
     expect(find.text('options'), findsNothing);
   });
+
+  testWidgets('forward closes the media viewer and keeps the forward sheet', (
+    tester,
+  ) async {
+    const Attachment attachment = Attachment(
+      id: 'attachment-id',
+      filename: 'image.png',
+      url: _testImageUrl,
+      contentType: 'image/png',
+    );
+    final Message message = Message(
+      id: 'message-id',
+      channelId: 'channel-id',
+      authorId: 'author-id',
+      authorName: 'Author',
+      content: '',
+      timestamp: DateTime(2026),
+      attachments: const <Attachment>[attachment],
+    );
+    var forwardOpened = 0;
+
+    await tester.pumpWidget(
+      _wrap(
+        overrides: <Override>[
+          appearancePreferencesProvider.overrideWithValue(
+            const AppearancePreferencesState(),
+          ),
+          isMessageSavedProvider(
+            message.id,
+          ).overrideWith((Ref ref) => Stream<bool>.value(false)),
+        ],
+        Consumer(
+          builder: (BuildContext context, WidgetRef ref, Widget? child) {
+            return Scaffold(
+              body: Center(
+                child: TextButton(
+                  onPressed: () {
+                    showGeneralDialog<void>(
+                      context: context,
+                      pageBuilder: (BuildContext dialogContext, _, _) {
+                        return Scaffold(
+                          body: Center(
+                            child: TextButton(
+                              onPressed: () {
+                                unawaited(
+                                  showMobileMediaOptionsSheet(
+                                    context: dialogContext,
+                                    ref: ref,
+                                    launchContext: MediaOptionsLaunchContext(
+                                      fallbackUrl: _testImageUrl,
+                                      attachmentId: attachment.id,
+                                      filename: attachment.filename,
+                                      actionScope: MessageMediaActionScope(
+                                        message: message,
+                                        permissions:
+                                            const MessageActionPermissions(
+                                              isOwnMessage: false,
+                                              isDmChannel: false,
+                                              canDelete: false,
+                                              canReport: false,
+                                              canAddReactions: false,
+                                              canPinMessage: false,
+                                              canManageMessages: false,
+                                              canSendMessages: true,
+                                              developerMode: false,
+                                            ),
+                                        callbacks: MessageActionCallbacks(
+                                          onForward: () {
+                                            forwardOpened++;
+                                            showModalBottomSheet<void>(
+                                              context: rootNavigatorKey
+                                                  .currentContext!,
+                                              useRootNavigator: true,
+                                              builder: (_) =>
+                                                  const Text('forward picker'),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    onCloseViewer: () =>
+                                        Navigator.of(dialogContext).pop(),
+                                  ),
+                                );
+                              },
+                              child: const Text('options'),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: const Text('open viewer'),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+
+    await tester.tap(find.text('open viewer'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('options'));
+    await tester.pumpAndSettle();
+
+    final Finder forward = find.text('Forward');
+    await tester.ensureVisible(forward);
+    await tester.pumpAndSettle();
+    await tester.tap(forward);
+    await tester.pumpAndSettle();
+
+    expect(forwardOpened, 1);
+    expect(find.text('options'), findsNothing);
+    expect(find.text('forward picker'), findsOneWidget);
+  });
 }
