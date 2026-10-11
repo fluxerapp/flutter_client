@@ -110,6 +110,9 @@ import flutter_callkit_incoming
     UploadKeepAliveBridge.shared.register(
       messenger: engineBridge.applicationRegistrar.messenger()
     )
+    AttachmentMediaBridge.shared.register(
+      messenger: engineBridge.applicationRegistrar.messenger()
+    )
   }
 
   func onAccept(_ call: Call, _ action: CXAnswerCallAction) {

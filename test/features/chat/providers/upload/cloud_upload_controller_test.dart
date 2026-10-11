@@ -103,6 +103,34 @@ void main() {
     expect(result.isValid, isTrue);
   });
 
+  test(
+    'a photo picker selection swaps unchecked photos for new ones',
+    () async {
+      final _Fixture f = await _Fixture.create();
+      await f.controller.addFiles(<ComposerUploadFile>[
+        composerUploadFile(f.writeFile('a.jpg', 1), galleryAssetId: 'asset-a'),
+        composerUploadFile(f.writeFile('b.jpg', 1), galleryAssetId: 'asset-b'),
+      ]);
+
+      final FileUploadValidationResult result = await f.controller
+          .applyGallerySelection((
+            added: <ComposerUploadFile>[
+              composerUploadFile(
+                f.writeFile('c.jpg', 1),
+                galleryAssetId: 'asset-c',
+              ),
+            ],
+            removedAssetIds: <String>{'asset-a'},
+          ));
+
+      expect(result.isValid, isTrue);
+      expect(
+        f.composerItems.map((PendingAttachment a) => a.galleryAssetId),
+        <String>['asset-b', 'asset-c'],
+      );
+    },
+  );
+
   test('staged copies are deleted when the upload is discarded', () async {
     final _Fixture f = await _Fixture.create();
     await f.controller.addFiles(<ComposerUploadFile>[

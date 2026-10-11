@@ -8,6 +8,11 @@ typedef ComposerUploadFile = ({
   String? galleryAssetId,
 });
 
+typedef GallerySelectionChange = ({
+  List<ComposerUploadFile> added,
+  Set<String> removedAssetIds,
+});
+
 ComposerUploadFile composerUploadFile(
   XFile file, {
   String? displayFilename,

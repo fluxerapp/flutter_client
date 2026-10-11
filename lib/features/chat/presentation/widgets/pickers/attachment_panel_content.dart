@@ -351,7 +351,14 @@ class _AttachmentPanelContentState extends ConsumerState<AttachmentPanelContent>
       );
       return;
     }
-    await _addUploads(await pickNativeGalleryUploads(limit: limit));
+    final String channelId = _channelId;
+    final GallerySelectionChange change = await pickNativeGallerySelection(
+      attachments: ref.read(cloudUploadControllerProvider(channelId)).items,
+    );
+    final FileUploadValidationResult result = await ref
+        .read(cloudUploadControllerProvider(channelId).notifier)
+        .applyGallerySelection(change);
+    _toastValidation(result);
   }
 
   Future<void> _onFilesPressed() async {

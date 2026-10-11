@@ -581,6 +581,21 @@ class CloudUploadController extends _$CloudUploadController {
     );
   }
 
+  Future<FileUploadValidationResult> applyGallerySelection(
+    GallerySelectionChange change,
+  ) async {
+    final List<PendingAttachment> removed = state.items
+        .where(
+          (PendingAttachment a) =>
+              change.removedAssetIds.contains(a.galleryAssetId),
+        )
+        .toList();
+    for (final PendingAttachment attachment in removed) {
+      await removeAttachment(attachment.id);
+    }
+    return addFiles(change.added);
+  }
+
   Future<void> removeAttachment(int attachmentId) async {
     PendingAttachment? att;
     for (final PendingAttachment e in state.items) {

@@ -2406,17 +2406,21 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea>
   }
 
   Future<void> _pickAttachments({required ComposerAttachSource source}) async {
-    final String channelId = ref.read(chatViewModelProvider).channelId;
-    final int limit = remainingAttachmentPickLimit(
-      ref.read(cloudUploadControllerProvider(channelId)).items.length,
-    );
-    final List<ComposerUploadFile> files = switch (source) {
-      ComposerAttachSource.gallery => await pickNativeGalleryUploads(
-        limit: limit,
-      ),
-      ComposerAttachSource.files => await pickNativeFileUploads(),
-    };
-    await _addPickedFiles(files);
+    switch (source) {
+      case ComposerAttachSource.gallery:
+        final String channelId = ref.read(chatViewModelProvider).channelId;
+        final GallerySelectionChange change = await pickNativeGallerySelection(
+          attachments: ref.read(cloudUploadControllerProvider(channelId)).items,
+        );
+        final FileUploadValidationResult result = await ref
+            .read(cloudUploadControllerProvider(channelId).notifier)
+            .applyGallerySelection(change);
+        if (mounted) {
+          _toastUploadValidation(result);
+        }
+      case ComposerAttachSource.files:
+        await _addPickedFiles(await pickNativeFileUploads());
+    }
   }
 
   void _toastUploadValidation(FileUploadValidationResult result) {
