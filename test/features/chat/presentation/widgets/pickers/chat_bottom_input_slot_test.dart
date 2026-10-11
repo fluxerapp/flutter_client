@@ -31,7 +31,10 @@ Finder _spacerSizedBoxFinder() {
   );
 }
 
-Widget _buildSpacerHarness(ProviderContainer container) {
+Widget _buildSpacerHarness(
+  ProviderContainer container, {
+  MediaQueryData mediaQuery = _mobileMediaQuery,
+}) {
   final colorTheme = buildDarkColorTheme();
   return UncontrolledProviderScope(
     container: container,
@@ -44,10 +47,10 @@ Widget _buildSpacerHarness(ProviderContainer container) {
         textTheme: FluxerTextTheme.fromColors(colorTheme),
         layoutTheme: FluxerLayoutTheme.scaled(),
       ),
-      home: const Scaffold(
+      home: Scaffold(
         body: MediaQuery(
-          data: _mobileMediaQuery,
-          child: Column(
+          data: mediaQuery,
+          child: const Column(
             children: <Widget>[
               Expanded(child: SizedBox()),
               BottomInputSpacer(),
@@ -223,6 +226,44 @@ void main() {
 
     await tester.pump(const Duration(milliseconds: 500));
   });
+
+  testWidgets(
+    'BottomInputSpacer follows a shrinking inset before the provider syncs',
+    (tester) async {
+      final ProviderContainer container = ProviderContainer();
+      addTearDown(container.dispose);
+      container.read(mobileKeyboardMetricsProvider.notifier)
+        ..updateLayout(screenHeight: 800, isPortrait: true, isIos: true)
+        ..syncViewInsets(336, safeAreaBottom: 0);
+
+      await tester.pumpWidget(
+        _buildSpacerHarness(
+          container,
+          mediaQuery: _mobileMediaQuery.copyWith(
+            viewInsets: const EdgeInsets.only(bottom: 336),
+          ),
+        ),
+      );
+      await tester.pump();
+      expect(tester.getSize(_spacerSizedBoxFinder()).height, 336);
+
+      await tester.pumpWidget(
+        _buildSpacerHarness(
+          container,
+          mediaQuery: _mobileMediaQuery.copyWith(
+            viewInsets: const EdgeInsets.only(bottom: 270),
+          ),
+        ),
+      );
+      expect(
+        container.read(mobileKeyboardMetricsProvider).liveKeyboardHeight,
+        336,
+      );
+      expect(tester.getSize(_spacerSizedBoxFinder()).height, 270);
+
+      await tester.pump(const Duration(milliseconds: 500));
+    },
+  );
 
   testWidgets(
     'BottomInputSpacer collapses when viewInsets clear before native',

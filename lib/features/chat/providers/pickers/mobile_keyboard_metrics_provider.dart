@@ -31,6 +31,7 @@ class MobileKeyboardMetricsState {
     required this.isPortrait,
     this.anchoredKeyboardHeight,
     this.unmeasuredKeyboardReserved = false,
+    this.viewInsetsKeyboardHeight = 0,
   });
 
   final double liveKeyboardHeight;
@@ -40,6 +41,7 @@ class MobileKeyboardMetricsState {
   final double fallbackKeyboardHeight;
   final bool isPortrait;
   final bool unmeasuredKeyboardReserved;
+  final double viewInsetsKeyboardHeight;
 
   double resolveAnchorHeight() => inlineExpressionPanelAnchorHeight(
     anchoredKeyboardHeight: anchoredKeyboardHeight,
@@ -55,6 +57,7 @@ class MobileKeyboardMetricsState {
     double? fallbackKeyboardHeight,
     bool? isPortrait,
     bool? unmeasuredKeyboardReserved,
+    double? viewInsetsKeyboardHeight,
   }) {
     return MobileKeyboardMetricsState(
       liveKeyboardHeight: liveKeyboardHeight ?? this.liveKeyboardHeight,
@@ -68,6 +71,8 @@ class MobileKeyboardMetricsState {
       isPortrait: isPortrait ?? this.isPortrait,
       unmeasuredKeyboardReserved:
           unmeasuredKeyboardReserved ?? this.unmeasuredKeyboardReserved,
+      viewInsetsKeyboardHeight:
+          viewInsetsKeyboardHeight ?? this.viewInsetsKeyboardHeight,
     );
   }
 }
@@ -296,6 +301,11 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
     final double resolvedSafeAreaBottom =
         safeAreaBottom ?? state.safeAreaBottom;
     if (!shouldEmit) {
+      if (_viewInsetsKeyboardHeight != state.viewInsetsKeyboardHeight) {
+        state = state.copyWith(
+          viewInsetsKeyboardHeight: _viewInsetsKeyboardHeight,
+        );
+      }
       if (safeAreaBottom != null && safeAreaBottom != state.safeAreaBottom) {
         state = state.copyWith(safeAreaBottom: safeAreaBottom);
       }
@@ -318,6 +328,7 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
       anchoredKeyboardHeight: nextAnchored,
       unmeasuredKeyboardReserved:
           !clearUnmeasuredReservation && state.unmeasuredKeyboardReserved,
+      viewInsetsKeyboardHeight: _viewInsetsKeyboardHeight,
     );
     if (nextAnchored != null && nextAnchored != previousAnchored) {
       _schedulePersistAnchor(nextAnchored);
@@ -533,6 +544,7 @@ class MobileKeyboardMetrics extends _$MobileKeyboardMetrics {
       unmeasuredKeyboardReserved: false,
       liveKeyboardHeight: 0,
       isKeyboardVisible: false,
+      viewInsetsKeyboardHeight: 0,
     );
     _commitMergedHeights();
   }

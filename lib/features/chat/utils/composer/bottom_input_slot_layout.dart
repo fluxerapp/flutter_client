@@ -252,6 +252,7 @@ double resolveKeyboardSpacerRawHeight({
   required double viewInsetBottom,
   required double slotHeight,
   required bool keyboardLayoutActive,
+  double syncedViewInsetBottom = 0,
 }) {
   if (!keyboardLayoutActive) {
     if (viewInsetBottom <= 0) {
@@ -259,7 +260,10 @@ double resolveKeyboardSpacerRawHeight({
     }
     return viewInsetBottom;
   }
-  final double resolved = math.max(viewInsetBottom, slotHeight);
+  final double pendingShrink = viewInsetBottom > 0
+      ? math.max(0, syncedViewInsetBottom - viewInsetBottom)
+      : 0;
+  final double resolved = math.max(viewInsetBottom, slotHeight - pendingShrink);
   return resolved > 0 ? resolved : 0;
 }
 

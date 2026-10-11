@@ -50,12 +50,17 @@ class BottomInputSpacer extends ConsumerWidget {
       return _PanelSpacer(height: reservedHeight);
     }
 
-    final ({double liveKeyboardHeight, bool unmeasuredKeyboardReserved})
+    final ({
+      double liveKeyboardHeight,
+      bool unmeasuredKeyboardReserved,
+      double viewInsetsKeyboardHeight,
+    })
     metrics = ref.watch(
       mobileKeyboardMetricsProvider.select(
         (MobileKeyboardMetricsState state) => (
           liveKeyboardHeight: state.liveKeyboardHeight,
           unmeasuredKeyboardReserved: state.unmeasuredKeyboardReserved,
+          viewInsetsKeyboardHeight: state.viewInsetsKeyboardHeight,
         ),
       ),
     );
@@ -64,10 +69,16 @@ class BottomInputSpacer extends ConsumerWidget {
         metrics.unmeasuredKeyboardReserved ||
         slotState.transition != BottomInputTransition.idle ||
         slotState.slotHeightHeld;
+    final bool slotTracksKeyboard =
+        slotState.transition == BottomInputTransition.idle &&
+        !slotState.slotHeightHeld;
     final double spacerHeight = _keyboardSpacerHeight(
       context,
       slotHeight,
       keyboardLayoutActive: keyboardLayoutActive,
+      syncedViewInsetBottom: slotTracksKeyboard
+          ? metrics.viewInsetsKeyboardHeight
+          : 0,
     );
     if (spacerHeight <= 0) {
       return const SizedBox.shrink();
@@ -79,12 +90,14 @@ class BottomInputSpacer extends ConsumerWidget {
     BuildContext context,
     double slotHeight, {
     required bool keyboardLayoutActive,
+    required double syncedViewInsetBottom,
   }) {
     final double inset = resolvedKeyboardInsetBottom(context);
     final double resolved = resolveKeyboardSpacerRawHeight(
       viewInsetBottom: inset,
       slotHeight: slotHeight,
       keyboardLayoutActive: keyboardLayoutActive,
+      syncedViewInsetBottom: syncedViewInsetBottom,
     );
     if (resolved <= 0) {
       return 0;

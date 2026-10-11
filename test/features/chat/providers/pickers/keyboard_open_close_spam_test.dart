@@ -418,5 +418,35 @@ void main() {
         302,
       );
     });
+
+    test('drops the slot by an inset shrink the provider has not seen', () {
+      expect(
+        resolveKeyboardSpacerRawHeight(
+          viewInsetBottom: 270,
+          slotHeight: 336,
+          keyboardLayoutActive: true,
+          syncedViewInsetBottom: 336,
+        ),
+        270,
+      );
+      expect(
+        resolveKeyboardSpacerRawHeight(
+          viewInsetBottom: 250,
+          slotHeight: 336,
+          keyboardLayoutActive: true,
+          syncedViewInsetBottom: 300,
+        ),
+        286,
+      );
+      expect(
+        resolveKeyboardSpacerRawHeight(
+          viewInsetBottom: 0,
+          slotHeight: 336,
+          keyboardLayoutActive: true,
+          syncedViewInsetBottom: 302,
+        ),
+        336,
+      );
+    });
   });
 }
