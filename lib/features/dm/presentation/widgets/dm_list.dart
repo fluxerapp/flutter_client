@@ -940,19 +940,23 @@ class _DMListState extends ConsumerState<DMList> {
                   ),
                 ),
                 const SizedBox(width: 8),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    if (lastMessageId != null)
-                      DmRowTimestamp(
-                        time: c.lastMessageTime,
-                        style: secondaryStyle.copyWith(
-                          fontWeight: FontWeight.w400,
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerRight,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      if (lastMessageId != null)
+                        DmRowTimestamp(
+                          time: c.lastMessageTime,
+                          style: secondaryStyle.copyWith(
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                    if (!isMuted) _DmListMentionBadge(channelId: c.id),
-                  ],
+                      if (!isMuted) _DmListMentionBadge(channelId: c.id),
+                    ],
+                  ),
                 ),
               ],
             ),

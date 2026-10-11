@@ -123,6 +123,31 @@ void main() {
 
       expect(router.routeInformationProvider.value.uri.path, '/channels/@me');
     });
+
+    testWidgets('Friends row shows the pending request count', (tester) async {
+      tester.view.physicalSize = kWideTestViewportSize;
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            conversations: const <DmConversation>[],
+            pendingFriendRequests: 4,
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final Finder badge = find.byType(FluxerBadge);
+      expect(badge, findsOneWidget);
+      expect(
+        find.descendant(of: badge, matching: find.text('4')),
+        findsOneWidget,
+      );
+      expect(tester.widget<FluxerBadge>(badge).cutoutColor, isNull);
+    });
   });
 
   group('DMList mobile', () {
@@ -208,6 +233,32 @@ void main() {
 
       expect(find.text('Add friend'), findsOneWidget);
       expect(find.text("Friend's username"), findsOneWidget);
+    });
+
+    testWidgets('Add friends badge is a capped pill cut out of the sidebar', (
+      tester,
+    ) async {
+      _setMobileSurface(tester);
+
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            conversations: const [],
+            pendingFriendRequests: 120,
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final Finder badge = find.byType(FluxerBadge);
+      expect(badge, findsOneWidget);
+      expect(find.text('99+'), findsOneWidget);
+      expect(
+        tester.widget<FluxerBadge>(badge).cutoutColor,
+        buildDarkColorTheme().channelSidebarBackground,
+      );
+      expect(tester.getSize(badge).height, FluxerBadge.height);
+      expect(tester.takeException(), isNull);
     });
 
     testWidgets('places the pin icon before the DM title on mobile rows', (
@@ -877,6 +928,64 @@ void main() {
       expect(tester.widget<FluxerBadge>(badge).cutoutColor, isNull);
     });
 
+    testWidgets('mention badge fits a desktop row at large text', (
+      tester,
+    ) async {
+      tester.view.physicalSize = kWideTestViewportSize;
+      tester.view.devicePixelRatio = 1;
+      tester.platformDispatcher.textScaleFactorTestValue = 1.5;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+      final DmChannel unreadRow = DmChannel(
+        id: '100',
+        type: 1,
+        recipientId: '200',
+        recipientCount: 1,
+        recipientIds: '["200"]',
+        nicksJson: '{}',
+        lastMessage: 'ping',
+        lastMessageTime: DateTime.utc(2026),
+        unreadCount: 12,
+      );
+
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            unreadDms: UnreadDmState(
+              channels: [unreadRow],
+              unreadChannelIds: const {'100'},
+            ),
+            conversations: [
+              DmConversation(
+                id: '100',
+                type: 1,
+                recipientId: '200',
+                recipientName: 'Monty',
+                lastMessage: 'ping',
+                lastMessageTime: _recentTime(),
+                unreadCount: 12,
+              ),
+            ],
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+      final Rect row = tester.getRect(
+        find
+            .ancestor(
+              of: find.byType(FluxerBadge),
+              matching: find.byType(FluxerSelectableRow),
+            )
+            .first,
+      );
+      final Rect badge = tester.getRect(find.byType(FluxerBadge));
+      expect(badge.top, greaterThanOrEqualTo(row.top));
+      expect(badge.bottom, lessThanOrEqualTo(row.bottom));
+    });
+
     testWidgets('shows attachment fallback text', (tester) async {
       _setMobileSurface(tester);
 
@@ -1131,6 +1240,7 @@ List<Override> _buildOverrides({
   Set<String> mutedIds = const <String>{},
   FluxerDatabase? database,
   UnreadDmState unreadDms = const UnreadDmState(),
+  int pendingFriendRequests = 0,
 }) {
   final db = database ?? openTestDatabase();
   return [
@@ -1168,7 +1278,9 @@ List<Override> _buildOverrides({
     mutedDmChannelIdsProvider.overrideWith((ref) => Stream.value(mutedIds)),
     if (selectedChannelId != null)
       activeChannelIdProvider.overrideWithValue(selectedChannelId),
-    pendingFriendRequestCountProvider.overrideWith((ref) => Stream.value(0)),
+    pendingFriendRequestCountProvider.overrideWith(
+      (ref) => Stream.value(pendingFriendRequests),
+    ),
     friendsListProvider.overrideWith((ref) => Stream.value(friendsList)),
     friendNicknameProvider.overrideWith((ref, userId) => Stream.value(null)),
     allChannelsProvider.overrideWith(
