@@ -15,6 +15,10 @@ void main() {
       expect(extractChannelId('/channels/guild-1/chan-1/msg-1'), 'chan-1');
     });
 
+    test('resolves favorites channel from message jump path', () {
+      expect(extractChannelId('/channels/@favorites/fav-1/msg-2'), 'fav-1');
+    });
+
     test('returns null for guild members route', () {
       expect(extractChannelId('/channels/guild-1/members'), isNull);
     });

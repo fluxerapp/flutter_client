@@ -128,7 +128,7 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
       );
       return false;
     }
-    if (activeChannelId != null && activeChannelId != widget.channelId) {
+    if (activeChannelId != widget.channelId) {
       talker.debug(
         '[ChannelChatContent] skip sync channel=${widget.channelId} '
         'active=$activeChannelId',

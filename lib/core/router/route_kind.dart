@@ -71,7 +71,7 @@ String? extractGuildId(String location) {
 
 final _dmChannelIdPattern = RegExp(r'^/channels/@me/([^/]+)$');
 final _dmChannelMessageIdPattern = RegExp('^/channels/@me/([^/]+)/');
-final _favoritesChannelIdPattern = RegExp(r'^/channels/@favorites/([^/]+)$');
+final _favoritesChannelIdPattern = RegExp('^/channels/@favorites/([^/]+)');
 final _guildChannelIdPattern = RegExp('^/channels/[^@/][^/]*/([^/]+)');
 
 /// Returns the channel ID embedded in [location], or null for routes

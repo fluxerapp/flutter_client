@@ -47,6 +47,7 @@ import '../../../../../helpers/open_test_database.dart';
 import '../../../../../helpers/test_l10n.dart';
 
 const String _channelId = 'mobile-chat-channel';
+const String _otherChannelId = 'mobile-chat-other-channel';
 const String _currentUserId = '111111111111111111';
 const String _authorUserId = '222222222222222222';
 
@@ -838,6 +839,53 @@ void main() {
       await _disposeWidgetTree(tester);
     });
 
+    testWidgets(
+      'hidden chat contents stay inert when the route has no channel',
+      (WidgetTester tester) async {
+        final _SwitchingChatViewModel recorder = _SwitchingChatViewModel();
+        final ProviderContainer container = ProviderContainer(
+          overrides: <Override>[
+            ..._contentOverrides(recorder: recorder, activeChannelId: null),
+            channelMessagePermissionsProvider(
+              _otherChannelId,
+            ).overrideWith((ref) => ChannelMessagePermissions.all),
+            messageListReadStateProvider(
+              _otherChannelId,
+            ).overrideWith((ref) => Stream<db.ReadState?>.value(null)),
+          ],
+        );
+        addTearDown(container.dispose);
+
+        await tester.pumpWidget(
+          _contentApp(
+            container: container,
+            child: const Column(
+              children: <Widget>[
+                Expanded(
+                  child: ChannelChatContent(
+                    channelId: _channelId,
+                    showTopBar: false,
+                  ),
+                ),
+                Expanded(
+                  child: ChannelChatContent(
+                    channelId: _otherChannelId,
+                    showTopBar: false,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+        for (var i = 0; i < 10; i++) {
+          await tester.pump();
+        }
+
+        expect(recorder.switchChannelCalls, isEmpty);
+        await _disposeWidgetTree(tester);
+      },
+    );
+
     // Regression: any channels-table write rebuilt ChannelLayout, and the old
     // unconditional didUpdateWidget hook re-fired switchChannel mid-load.
     testWidgets(
@@ -1042,10 +1090,13 @@ List<Override> _jumpContentOverrides({required ChatViewModel recorder}) {
   ];
 }
 
-List<Override> _contentOverrides({required _RetryingChatViewModel recorder}) {
+List<Override> _contentOverrides({
+  required ChatViewModel recorder,
+  String? activeChannelId = _channelId,
+}) {
   final db.FluxerDatabase database = openTestDatabase();
   return <Override>[
-    activeChannelIdProvider.overrideWithValue(_channelId),
+    activeChannelIdProvider.overrideWithValue(activeChannelId),
     shellHasPopupOverlayProvider.overrideWithValue(false),
     currentRevealSideProvider.overrideWithValue(RevealSide.main),
     chatViewModelProvider.overrideWith(() => recorder),
@@ -1245,8 +1296,46 @@ class _RetryingChatViewModel extends ChatViewModel {
   void clearStickyUnreadAfterBuildForCurrentChannel() {}
 }
 
-/// Models the first channel load still in flight, where the dedup policy
-/// lets an unchanged request through and only the identity guard blocks it.
+class _SwitchingChatViewModel extends ChatViewModel {
+  final List<String> switchChannelCalls = <String>[];
+
+  @override
+  ChatViewState build() {
+    ref.read(chatReadViewportProvider.notifier).setActiveChannel(_channelId);
+    return _loadedState(
+      channelId: _channelId,
+      messages: <Message>[
+        _message(id: '777777777777777777', content: 'Loaded hello'),
+      ],
+    );
+  }
+
+  @override
+  Future<void> switchChannel(
+    String channelId, {
+    String? targetMessageId,
+    bool loadMessages = true,
+  }) async {
+    switchChannelCalls.add(channelId);
+    state = _loadedState(
+      channelId: channelId,
+      messages: <Message>[
+        Message(
+          id: '888888888888888888',
+          channelId: channelId,
+          authorId: _authorUserId,
+          authorName: 'Hampus',
+          content: 'Switched hello',
+          timestamp: DateTime.utc(2026, 7, 25, 12),
+        ),
+      ],
+    );
+  }
+
+  @override
+  void clearStickyUnreadAfterBuildForCurrentChannel() {}
+}
+
 class _InFlightChatViewModel extends ChatViewModel {
   final List<String> switchChannelCalls = <String>[];
 
